@@ -261,9 +261,14 @@ public class LanguageIdentifier {
           //System.out.println(cleanText + " ->" + result.getValue().floatValue() + " " + result.getKey());
           CommonWords commonWords = new CommonWords();
           Map<Language, Integer> lang2Count = commonWords.getKnownWordsPerLanguage(cleanText);
-          //System.out.println("-> "+ lang2Count);
+          Set<String> baseLangAlreadyHandled = new HashSet<>();
           for (Map.Entry<Language, Integer> entry : lang2Count.entrySet()) {
             String langCode = entry.getKey().getShortCode();
+            if (baseLangAlreadyHandled.contains(langCode)) {
+              // quick hack to fix #5772
+              continue;
+            }
+            baseLangAlreadyHandled.add(langCode);
             if (scores.containsKey(langCode)) {
               // this looks arbitrary, but gave best results with evaluation (LanguageDetectionMinLengthEval):
               scores.put(langCode, scores.get(langCode) + Double.valueOf(entry.getValue()));

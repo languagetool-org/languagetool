@@ -419,7 +419,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
       }
       
       String marker = origBadSentence.substring(expectedMatchStart+"<marker>".length(), origBadSentence.indexOf("</marker>"));
-      if (marker.startsWith(", ") && origBadExample.getCorrections().stream().anyMatch(k -> !k.startsWith(" ") && !k.startsWith(",") && !k.startsWith(".") && !k.startsWith(";") && !k.startsWith("…"))) {
+      if (marker.startsWith(", ") && origBadExample.getCorrections().stream().anyMatch(k -> !k.startsWith(" ") && !k.startsWith(",") && !k.startsWith("?") && !k.startsWith(".") && !k.startsWith(";") && !k.startsWith("…"))) {
         System.err.println("*** WARNING: " + lang.getName() + " rule " + rule.getFullId() + " removes ', ' but " +
           "doesn't have a space, comma, semicolon, or dot at the start of the suggestion: " + origBadSentence + " => " + origBadExample.getCorrections());
       }

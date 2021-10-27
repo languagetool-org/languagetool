@@ -18,6 +18,8 @@
  */
 package org.languagetool.rules.fr;
 
+import org.languagetool.Language;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
 import org.languagetool.tagging.fr.FrenchTagger;
 
@@ -32,8 +34,8 @@ public class CompoundRule extends AbstractCompoundRule {
 
   private static volatile CompoundRuleData compoundData;
 
-  public CompoundRule(ResourceBundle messages) throws IOException {
-    super(messages,
+  public CompoundRule(ResourceBundle messages, Language lang, UserConfig userConfig) throws IOException {
+    super(messages, lang, userConfig,
             "Écrivez avec un trait d’union.",
             "Écrivez avec un mot seul sans espace ni trait d’union.",
             "Écrivez avec un mot seul ou avec trait d’union.",

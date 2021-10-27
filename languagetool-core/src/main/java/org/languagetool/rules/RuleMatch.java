@@ -32,7 +32,6 @@ import org.languagetool.tools.StringTools;
 import java.net.URL;
 import java.util.*;
 import java.util.function.Supplier;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -56,6 +55,9 @@ public class RuleMatch implements Comparable<RuleMatch> {
   private LinePosition linePosition = new LinePosition(-1, -1);
   private ColumnPosition columnPosition = new ColumnPosition(-1, -1);
   private Supplier<List<SuggestedReplacement>> suggestedReplacements;
+  // track if more work needs to be done to compute suggestions;
+  // allows enforcement of timeouts to return partial results without spending more time
+  private boolean suggestionsComputed = true;
   private URL url;
   private Type type = Type.Other;
   private SortedMap<String, Float> features = Collections.emptySortedMap();
@@ -150,12 +152,18 @@ public class RuleMatch implements Comparable<RuleMatch> {
     this.message = Objects.requireNonNull(message);
     this.shortMessage = shortMessage;
     // extract suggestion from <suggestion>...</suggestion> in message:
-    Matcher matcher = SUGGESTION_PATTERN.matcher(message + suggestionsOutMsg);
-    int pos = 0;
     LinkedHashSet<SuggestedReplacement> replacements = new LinkedHashSet<>();
-    while (matcher.find(pos)) {
-      pos = matcher.end();
-      String replacement = matcher.group(1);
+    String startTag = "<suggestion>";
+    String endTag = "</suggestion>";
+    String suggestion = message + (suggestionsOutMsg != null ? suggestionsOutMsg : "");
+    int pos = suggestion.indexOf(startTag);
+    while (pos != -1) {
+      int end = suggestion.indexOf(endTag, pos);
+      if (end == -1) {
+        break;
+      }
+      String replacement = suggestion.substring(pos + startTag.length(), end);
+      pos = end + endTag.length();
       if (replacement.contains(PatternRuleMatcher.MISTAKE)) {
         continue;
       }
@@ -163,15 +171,9 @@ public class RuleMatch implements Comparable<RuleMatch> {
         replacement = StringTools.uppercaseFirstChar(replacement);
       }
       replacements.add(new SuggestedReplacement(replacement));
-      /*if (getRule() instanceof AbstractPatternRule) {
-        String covered = sentence.getText().substring(fromPos, toPos);
-        if (covered.equals(repl.getReplacement()) && ((AbstractPatternRule) getRule()).getFilter() == null) {
-          // only for development:
-          //System.out.println("WARN: suggestion == covered text for rule " + getRule().getFullId() + ", covered: " + covered + ", " + sentence.getText());
-          System.out.println("WARN: suggestion == covered text for rule " + getRule().getFullId());
-        }
-      }*/
+      pos = suggestion.indexOf(startTag, pos);
     }
+
     this.sentence = sentence;
 
     suggestedReplacements = Suppliers.ofInstance(new ArrayList<>(replacements));
@@ -389,6 +391,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
    */
   public void setSuggestedReplacements(List<String> replacements) {
     Objects.requireNonNull(replacements, "replacements may be empty but not null");
+    suggestionsComputed = true;
     suggestedReplacements = Suppliers.ofInstance(
       replacements.stream().map(SuggestedReplacement::new).collect(Collectors.toList())
     );
@@ -404,6 +407,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
   public void setSuggestedReplacementObjects(List<SuggestedReplacement> replacements) {
     Objects.requireNonNull(replacements, "replacements may be empty but not null");
     suggestedReplacements = Suppliers.ofInstance(replacements);
+    suggestionsComputed = true;
   }
 
   /**
@@ -416,6 +420,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
   public void setLazySuggestedReplacements(@NotNull Supplier<List<SuggestedReplacement>> replacements) {
     Objects.requireNonNull(replacements, "replacements may not be null");
     suggestedReplacements = Suppliers.memoize(replacements::get);
+    suggestionsComputed = false;
   }
 
   /**
@@ -424,6 +429,17 @@ public class RuleMatch implements Comparable<RuleMatch> {
    */
   public void computeLazySuggestedReplacements() {
     suggestedReplacements = Suppliers.ofInstance(suggestedReplacements.get());
+    suggestionsComputed = true;
+  }
+
+  /**
+   * Discard lazy suggested replacements, but keep other suggestions
+   * Useful to enforce time limits on result computation
+   */
+  public void discardLazySuggestedReplacements() {
+    if (!suggestionsComputed) {
+      setSuggestedReplacementObjects(Collections.emptyList());
+    }
   }
 
   /**

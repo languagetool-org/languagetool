@@ -19,6 +19,7 @@
 package org.languagetool.rules;
 
 import org.languagetool.Language;
+import org.languagetool.Premium;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,9 +35,11 @@ public class CleanOverlappingFilter implements RuleMatchFilter {
   private static final int negativeConstant = Integer.MIN_VALUE + 10000;
   
   private final Language language;
-  
-  public CleanOverlappingFilter(Language lang) {
+  private final boolean hidePremiumMatches;
+
+  public CleanOverlappingFilter(Language lang, boolean hidePremiumMatches) {
     this.language = lang;
+    this.hidePremiumMatches = hidePremiumMatches;
   }
   
   @Override
@@ -60,6 +63,11 @@ public class CleanOverlappingFilter implements RuleMatchFilter {
       }
       // overlapping
       int currentPriority = language.getRulePriority(ruleMatch.getRule());
+      if (Premium.get().isPremiumRule(ruleMatch.getRule()) && hidePremiumMatches) {
+        // non-premium match should win, so the premium match does *not* become a hidden match
+        // (we'd show hidden matches for errors covered by an Open Source match)
+        currentPriority = Integer.MIN_VALUE;
+      }
       if (ruleMatch.getRule().getTags().toString().contains("picky")) {
         currentPriority += negativeConstant;
       }

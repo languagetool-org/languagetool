@@ -42,7 +42,7 @@ import java.util.List;
 public class EnglishHybridDisambiguator extends AbstractDisambiguator {
 
   private final Disambiguator chunker = new MultiWordChunker("/en/multiwords.txt", true, true);
-  private final Disambiguator disambiguator = new XmlRuleDisambiguator(new English());
+  private final Disambiguator disambiguator = new XmlRuleDisambiguator(new English(), true);
 
   @Override
   public AnalyzedSentence disambiguate(AnalyzedSentence input) throws IOException {

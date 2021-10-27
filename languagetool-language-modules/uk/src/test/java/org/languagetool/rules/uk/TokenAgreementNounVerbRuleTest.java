@@ -53,7 +53,9 @@ public class TokenAgreementNounVerbRuleTest {
     assertMatches(1, "вони швидко прибіг");
 
     assertMatches(1, "та з інших питань перевірка проведено не повно");
-    
+
+    assertMatches(1, "з часом пара вирішили узаконити");
+
     assertMatches(0, "На честь Джудіт Резнік названо кратер");
     
     //TODO:
@@ -63,6 +65,10 @@ public class TokenAgreementNounVerbRuleTest {
     assertEmptyMatch("чи зуміє наша держава забезпечити власні потреби");
     assertEmptyMatch("так навчила мене бабуся місити пухке дріжджове тісто");
     assertEmptyMatch("чи можуть російськомовні громадяни вважатися українцями");
+    
+    // predic + inf
+    assertEmptyMatch("не шкода віддати життя");
+    assertEmptyMatch("не шкода було віддати життя");
 
     // correct sentences:
     assertEmptyMatch("чоловік прибіг");

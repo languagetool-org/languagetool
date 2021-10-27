@@ -32,7 +32,7 @@ public class CompoundRuleTest extends AbstractCompoundRuleTest {
   @Before
   public void setUp() throws Exception {
     lt = new JLanguageTool(new Slovak());
-    rule = new CompoundRule(TestTools.getEnglishMessages());
+    rule = new CompoundRule(TestTools.getEnglishMessages(), new Slovak(), null);
   }
 
   @Test

@@ -129,7 +129,8 @@ public class Spanish extends Language implements AutoCloseable {
             new SimpleReplaceRule(messages),
             new SimpleReplaceVerbsRule(messages, this),
             new SpanishWordRepeatBeginningRule(messages, this),
-            new CompoundRule(messages)
+            new CompoundRule(messages, this, userConfig),
+            new SpanishRepeatedWordsRule(messages)
     );
   }
 
@@ -194,6 +195,9 @@ public class Spanish extends Language implements AutoCloseable {
   
   @Override
   protected int getPriorityForId(String id) {
+    if (id.startsWith("ES_SIMPLE_REPLACE")) {
+      id = "ES_SIMPLE_REPLACE";
+    }
     switch (id) {
       case "ES_COMPOUNDS": return 50;
       case "CONFUSIONS2": return 50; // greater than CONFUSIONS

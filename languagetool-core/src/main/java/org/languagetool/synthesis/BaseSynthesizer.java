@@ -50,6 +50,7 @@ public class BaseSynthesizer implements Synthesizer {
   private final IStemmer stemmer;
   private final ManualSynthesizer manualSynthesizer;
   private final ManualSynthesizer removalSynthesizer;
+  private final ManualSynthesizer removalSynthesizer2;
   private final String sorosFileName;
   private final Soros numberSpeller;
   
@@ -81,6 +82,14 @@ public class BaseSynthesizer implements Synthesizer {
         }
       } else {
         this.removalSynthesizer = null;
+      }
+      String removalPath2 = "/" + lang.getShortCode() + "/do-not-synthesize.txt";
+      if (JLanguageTool.getDataBroker().resourceExists(removalPath2)) {
+        try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(removalPath2)) {
+          this.removalSynthesizer2 = new ManualSynthesizer(stream);
+        }
+      } else {
+        this.removalSynthesizer2 = null;
       }
       
     } catch (IOException e) {
@@ -166,6 +175,12 @@ public class BaseSynthesizer implements Synthesizer {
         results.removeAll(removeForms);
       }
     }
+    if (removalSynthesizer2 != null) {
+      List<String> removeForms = removalSynthesizer2.lookup(lemma, posTag);
+      if (removeForms != null) {
+        results.removeAll(removeForms);
+      }
+    }
     return results;
   }
 
@@ -188,15 +203,13 @@ public class BaseSynthesizer implements Synthesizer {
   @Override
   public String[] synthesize(AnalyzedToken token, String posTag, boolean posTagRegExp) throws IOException {
     if (posTagRegExp) {
-      Pattern p;
       try {
-        p = Pattern.compile(posTag);
+        Pattern p = Pattern.compile(posTag);
+        return synthesizeForPosTags(token.getLemma(), tag -> p.matcher(tag).matches());
       } catch (PatternSyntaxException e) {
         throw new RuntimeException("Error trying to synthesize POS tag " + posTag +
                 " (posTagRegExp: " + posTagRegExp + ") from token " + token.getToken(), e);
       }
-
-      return synthesizeForPosTags(token.getLemma(), tag -> p.matcher(tag).matches());
     }
     return removeExceptions(synthesize(token, posTag));
   }

@@ -74,6 +74,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     "nigga",
     "niggas",
     "niggaz",
+    "negro",
     "nigger",
     "niggers",
     "shit",
@@ -343,6 +344,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("al ") &&
                    !k.getReplacement().toLowerCase().startsWith("mu ") &&
                    !k.getReplacement().toLowerCase().startsWith("ma ") &&
+                   !k.getReplacement().toLowerCase().startsWith("la ") &&
                    !k.getReplacement().toLowerCase().startsWith("bis ") &&
                    !k.getReplacement().toLowerCase().startsWith("f ") &&
                    !k.getReplacement().toLowerCase().startsWith("k ") &&
@@ -380,6 +382,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().endsWith(" like") && // "ribbonlike"
                    !k.getReplacement().endsWith(" full") && // do not suggest "use full" for "useful"
                    !k.getReplacement().endsWith(" en") && // "Antwerpen" suggests "Antwerp en"
+                   !k.getReplacement().endsWith(" ne") &&
                    !k.getReplacement().endsWith(" ed") &&
                    !k.getReplacement().endsWith(" al") &&
                    !k.getReplacement().endsWith(" ans") &&
@@ -395,6 +398,9 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().endsWith(" um") &&
                    !k.getReplacement().endsWith(" er") &&
                    !k.getReplacement().endsWith(" na") &&
+                   !k.getReplacement().endsWith(" don") &&
+                   !k.getReplacement().endsWith(" dons") &&
+                   !k.getReplacement().endsWith(" la") &&
                    !k.getReplacement().endsWith(" ma"))
       .collect(Collectors.toList());
   }
@@ -523,7 +529,27 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
 
   protected static Map<String, List<String>> getTopSuggestions() {
     Map<String, List<String>> s = new HashMap<>();
+    s.put("downie", Arrays.asList("downy"));
+    s.put("Downie", Arrays.asList("Downy"));
+    s.put("happing", Arrays.asList("happening"));
+    s.put("Happing", Arrays.asList("Happening"));
     s.put("se", Arrays.asList("see"));
+    s.put("maam", Arrays.asList("ma'am", "madam"));
+    s.put("Maam", Arrays.asList("Ma'am", "Madam"));
+    s.put("mam", Arrays.asList("ma'am"));
+    s.put("Mam", Arrays.asList("Ma'am"));
+    s.put("evidents", Arrays.asList("evidence"));
+    s.put("Evidents", Arrays.asList("Evidence"));
+    s.put("greatfull", Arrays.asList("grateful"));
+    s.put("Greatfull", Arrays.asList("Grateful"));
+    s.put("verticle", Arrays.asList("vertical"));
+    s.put("Verticle", Arrays.asList("Vertical"));
+    s.put("definaly", Arrays.asList("definitely"));
+    s.put("Definaly", Arrays.asList("Definitely"));
+    s.put("definally", Arrays.asList("definitely"));
+    s.put("Definally", Arrays.asList("Definitely"));
+    s.put("handable", Arrays.asList("handleable"));
+    s.put("Handable", Arrays.asList("Handleable"));
     s.put("Tuffed", Arrays.asList("Toughed"));
     s.put("tuffed", Arrays.asList("toughed"));
     s.put("Tuffest", Arrays.asList("Toughest"));

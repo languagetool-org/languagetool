@@ -97,7 +97,7 @@ public class Irish extends Language implements AutoCloseable {
       new LogainmRule(messages),
       new PeopleRule(messages),
       new SpacesRule(messages),
-      new CompoundRule(messages),
+      new CompoundRule(messages, this, userConfig),
       new PrestandardReplaceRule(messages),
       new IrishReplaceRule(messages),
       new IrishFGBEqReplaceRule(messages),

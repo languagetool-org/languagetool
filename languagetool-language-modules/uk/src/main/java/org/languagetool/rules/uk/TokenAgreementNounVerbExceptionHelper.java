@@ -74,6 +74,13 @@ public final class TokenAgreementNounVerbExceptionHelper {
       }
     }
 
+    // шкода було, годі буде
+    if( PosTagHelper.hasPosTagPart(tokens[nounPos], "predic") 
+        && Arrays.asList("було", "буде").contains(tokens[verbPos].getCleanToken()) ) {
+      logException();
+      return true;
+    }
+
     if( Arrays.asList("правда").contains(tokens[nounPos].getToken().toLowerCase()) ) {
       logException();
       return true;

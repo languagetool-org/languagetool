@@ -384,4 +384,9 @@ class DatabaseAccessOpenSource extends DatabaseAccess {
     }
   }
 
+  @Override
+  public List<String> getWords(UserLimits limits, List<String> groups, int offset, int limit) {
+    return getWords(limits.getPremiumUid(), groups, offset, limit);
+  }
+
 }

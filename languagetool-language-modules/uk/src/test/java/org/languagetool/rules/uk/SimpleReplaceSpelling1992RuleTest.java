@@ -53,6 +53,9 @@ public class SimpleReplaceSpelling1992RuleTest {
 //    assertEquals(Arrays.asList("проєкт"), matches[0].getSuggestedReplacements());
 //    assertEquals(Arrays.asList("фоє"), matches[1].getSuggestedReplacements());
 
+    matches = rule.match(lt.getAnalyzedSentence("Це — бізнес-проект."));
+    assertEquals(1, matches.length);
+
     matches = rule.match(lt.getAnalyzedSentence("Топменеджер."));
     assertEquals(0, matches.length);
 

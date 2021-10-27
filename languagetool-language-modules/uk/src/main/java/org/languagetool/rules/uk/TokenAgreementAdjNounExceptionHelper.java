@@ -62,6 +62,17 @@ final class TokenAgreementAdjNounExceptionHelper {
       return true;
     }
 
+    // по Підвальній трамваї можуть
+    // TODO: забагато FN
+//    if( adjPos > 1
+//        && PosTagHelper.hasPosTagStart(tokens[adjPos-1], "prep")
+//        && LemmaHelper.isCapitalized(tokens[adjPos].getCleanToken())
+//        && ! LemmaHelper.isCapitalized(tokens[nounPos].getCleanToken())
+//        && PosTagHelper.hasPosTagPart(tokens[adjPos], "v_mis") ) {
+//      logException();
+//      return true;
+//    }
+
     if( LemmaHelper.hasLemma(tokens[adjPos], "північний")
         && LemmaHelper.hasLemma(tokens[nounPos], "Рейн-Вестфалія") ) {
       logException();
@@ -366,6 +377,17 @@ final class TokenAgreementAdjNounExceptionHelper {
       return true;
     }
 
+    Pattern afterPredicVerbTags = Pattern.compile(".*(inf|past:n|futr:s:3).*");
+    if( nounPos < tokens.length - 1 
+        && PosTagHelper.hasPosTagPart(tokens[nounPos], "predic")
+        && (PosTagHelper.hasPosTag(tokens[nounPos+1], afterPredicVerbTags)
+           || nounPos < tokens.length - 2
+                && PosTagHelper.hasPosTagStart(tokens[nounPos+1], "adv")
+                && PosTagHelper.hasPosTag(tokens[nounPos+2], afterPredicVerbTags)) ) {
+      logException();
+      return true;
+    }
+    
     // на проурядову і, здається, пропрезидентську частини
     if( adjPos > 5
         && PosTagHelper.hasPosTag(tokens[nounPos], "noun:.*:p:.*")
@@ -833,9 +855,10 @@ final class TokenAgreementAdjNounExceptionHelper {
             // відрізнялася (б) від нинішньої ситуація
             // відрізнялося від російського способом
             // поряд з енергетичними Москва висувала
-            // а відміну від європейських санкції США
+            // на відміну від європейських санкції США
             // can't just ignore noun: ігнорує "асоціюється в нас із сучасною цивілізацію"
-            if( (PosTagHelper.hasPosTag(tokens[adjPos-2], "(verb|part).*")
+            // TODO: search verb backwards ignore "бЄ
+            if( ((PosTagHelper.hasPosTagStart(tokens[adjPos-2], "verb") || LemmaHelper.hasLemma(tokens[adjPos-2], Arrays.asList("би", "б")))
                   || Arrays.asList("поряд", "відміну", "порівнянні").contains(tokens[adjPos-2].getToken().toLowerCase()) )
                 && PosTagHelper.hasPosTag(tokens[nounPos], "noun.*v_(naz|zna|oru).*") ) {
               //TODO: check noun case agreement with verb

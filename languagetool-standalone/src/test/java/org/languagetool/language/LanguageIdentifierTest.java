@@ -36,8 +36,8 @@ import static org.junit.Assert.fail;
 
 public class LanguageIdentifierTest {
 
-  private final static String fastTextBinary = "/prg/fastText-0.1.0/fasttext";
-  private final static String fastTextModel = "/prg/fastText-0.1.0/data/lid.176.bin";
+  private final static String fastTextBinary = "/home/languagetool/fasttext/fasttext";
+  private final static String fastTextModel = "/home/languagetool/fasttext/lid.176.bin";
   private final static String ngramData = "/home/languagetool/model_ml50_new.zip";
   private final static String czech = "V současné době je označením Linux míněno nejen jádro operačního systému, " +
           "ale zahrnuje do něj též veškeré programové vybavení";

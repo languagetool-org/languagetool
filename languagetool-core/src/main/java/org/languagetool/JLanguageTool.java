@@ -72,7 +72,7 @@ public class JLanguageTool {
   private static final Logger logger = LoggerFactory.getLogger(JLanguageTool.class);
 
   /** LanguageTool version as a string like {@code 2.3} or {@code 2.4-SNAPSHOT}. */
-  public static final String VERSION = "5.5-SNAPSHOT";
+  public static final String VERSION = "5.6-SNAPSHOT";
   /** LanguageTool build date and time like {@code 2013-10-17 16:10} or {@code null} if not run from JAR. */
   @Nullable public static final String BUILD_DATE = getBuildDate();
   /**
@@ -993,7 +993,7 @@ public class JLanguageTool {
     ruleMatches = new SameRuleGroupFilter().filter(ruleMatches);
     // no sorting: SameRuleGroupFilter sorts rule matches already
     if (cleanOverlappingMatches) {
-      ruleMatches = new CleanOverlappingFilter(language).filter(ruleMatches);
+      ruleMatches = new CleanOverlappingFilter(language, userConfig.getHidePremiumMatches()).filter(ruleMatches);
     }
     ruleMatches = new LanguageDependentFilter(language, rules).filter(ruleMatches);
 
@@ -1053,10 +1053,13 @@ public class JLanguageTool {
             }
             remoteMatches.addAll(adjustedMatches);
           }
-        } catch (InterruptedException | CancellationException e) {
-          logger.warn("Failed to fetch result from remote rule.", e);
+        } catch (InterruptedException e) {
+          logger.warn("Failed to fetch result from remote rule - interrupted (request timed out).", e);
+          break;
+        } catch (CancellationException e) {
+          logger.warn("Failed to fetch result from remote rule - cancelled (rule marked as down).", e);
         } catch (ExecutionException e) {
-          logger.error("Failed to fetch result from remote rule.", e);
+          logger.error("Failed to fetch result from remote rule - error while executing rule.", e);
         }
       }
 
@@ -1074,6 +1077,9 @@ public class JLanguageTool {
       for (RuleMatch match : remoteMatches) {
         match.setSuggestedReplacementObjects(extendSuggestions(match.getSuggestedReplacementObjects()));
       }
+
+      // cancel any remaining tasks (e.g. after interrupt because request timed out)
+      remoteRuleTasks.forEach(t -> t.cancel(true));
     }
   }
 

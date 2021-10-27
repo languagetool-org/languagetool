@@ -146,7 +146,7 @@ public final class Languages {
   }
 
   private static boolean hasPremium(String className) {
-    return className.matches("org\\.languagetool\\.language\\.(German|GermanyGerman|AustrianGerman|SwisssGerman|Dutch|French|Spanish|English|AmericanEnglish|BritishEnglish|CanadianEnglish|NewZealandEnglish|SouthAfricanEnglish)");
+    return className.matches("org\\.languagetool\\.language\\.(German|GermanyGerman|AustrianGerman|SwissGerman|Dutch|French|Spanish|English|AustralianEnglish|AmericanEnglish|BritishEnglish|CanadianEnglish|NewZealandEnglish|SouthAfricanEnglish)");
   }
 
   /**
@@ -302,6 +302,11 @@ public final class Languages {
       }
     } else {
       for (Language element : getStaticAndDynamicLanguages()) {
+        if (langCode.equals("global")) {
+          // for disambiguation-global.xml take any language
+          result = element;
+          break;
+        }
         if (langCode.equalsIgnoreCase(element.getShortCode())) {
           result = element;
             /* TODO: It should return the DefaultLanguageVariant,

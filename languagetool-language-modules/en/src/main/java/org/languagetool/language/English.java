@@ -61,7 +61,7 @@ import java.util.function.Function;
  */
 public class English extends Language implements AutoCloseable {
 
-  private static final LoadingCache<String, List<Rule>> cache = CacheBuilder.newBuilder()
+  protected static final LoadingCache<String, List<Rule>> cache = CacheBuilder.newBuilder()
       .expireAfterWrite(30, TimeUnit.MINUTES)
       .build(new CacheLoader<String, List<Rule>>() {
         @Override
@@ -195,7 +195,7 @@ public class English extends Language implements AutoCloseable {
         new EnglishWordRepeatRule(messages, this),
         new AvsAnRule(messages),
         new EnglishWordRepeatBeginningRule(messages, this),
-        new CompoundRule(messages),
+        new CompoundRule(messages, this, userConfig),
         new ContractionSpellingRule(messages),
         new EnglishWrongWordInContextRule(messages),
         new EnglishDashRule(messages),
@@ -205,7 +205,8 @@ public class English extends Language implements AutoCloseable {
         new EnglishRedundancyRule(messages),
         new SimpleReplaceRule(messages, this),
         new ReadabilityRule(messages, this, userConfig, false),
-        new ReadabilityRule(messages, this, userConfig, true)
+        new ReadabilityRule(messages, this, userConfig, true), 
+        new EnglishRepeatedWordsRule(messages)
     ));
     return allRules;
   }
@@ -313,10 +314,15 @@ public class English extends Language implements AutoCloseable {
       case "MISSING_HYPHEN":            return 5;
       case "TRANSLATION_RULE":          return 5;   // Premium
       case "WRONG_APOSTROPHE":          return 5;
+      case "YOU_GOOD":                  return 3;   // prefer over AI_HYDRA_LEO_CP (YOU_YOURE etc.) // prefer over PRP_PAST_PART
       case "DOS_AND_DONTS":             return 3;
       case "EN_COMPOUNDS":              return 2;
       case "ABBREVIATION_PUNCTUATION":  return 2;
       case "FEDEX":                     return 2;   // higher prio than many verb rules (e.g. MD_BASEFORM)
+      case "DROP_DEAD_HYPHEN":          return 1;   // higher prio than agreement rules (e.g. I_AM_VB)
+      case "HEAR_HERE":                 return 1;   // higher prio than agreement rules (e.g. I_AM_VB)
+      case "THE_FRENCH":                return 1;   // higher prio than agreement rules (e.g. I_AM_VB)
+      case "A_HEADS_UP":                return 1;   // higher prio than some plural agreement rules (e.g. THERE_S_MANY)
       case "THIS_MISSING_VERB":         return 1;   // higher priority than A_MY
       case "YOURE":                     return 1;   // prefer over EN_CONTRACTION_SPELLING
       case "LIFE_COMPOUNDS":            return 1;
@@ -327,6 +333,7 @@ public class English extends Language implements AutoCloseable {
       case "COVID_19":                  return 1;
       case "OTHER_WISE_COMPOUND":       return 1;
       case "ON_EXCEL":                  return 1;
+      case "ALL_NN":                    return 1;   // higher prio than MASS_AGREEMENT
       case "PRP_AREA":                  return 1;   // higher prio than you/your confusion rules
       case "IF_VB_PCT":                 return 1;   // higher prio than IF_VB
       case "CAUSE_BECAUSE":             return 1;   // higher prio than MISSING_TO_BETWEEN_BE_AND_VB
@@ -397,7 +404,6 @@ public class English extends Language implements AutoCloseable {
       case "NON_STANDARD_COMMA":        return 1;   // prefer over spell checker
       case "NON_STANDARD_ALPHABETIC_CHARACTERS": return 1;  // prefer over spell checker
       case "WONT_CONTRACTION":          return 1;   // prefer over WONT_WANT
-      case "YOU_GOOD":                  return 1;   // prefer over PRP_PAST_PART
       case "THAN_THANK":                return 1;   // prefer over THAN_THEN
       case "CD_NN_APOSTROPHE_S":        return 1;   // prefer over CD_NN and LOWERCASE_NAME_APOSTROPHE_S
       case "IT_IF":                     return 1;   // needs higher prio than PRP_COMMA and IF_YOU_ANY
@@ -414,6 +420,7 @@ public class English extends Language implements AutoCloseable {
       case "WANNA":                     return 1;   // prefer over spell checker
       case "LOOK_FORWARD_TO":           return 1;   // prefer over LOOK_FORWARD_NOT_FOLLOWED_BY_TO
       case "LOOK_SLIKE":                return 1;   // higher prio than prem:SINGULAR_NOUN_VERB_AGREEMENT
+      case "FASTLY":                    return -1;   // higher prio than spell checker
       case "ANYWAYS":                   return -1;   // higher prio than spell checker
       case "MISSING_GENITIVE":          return -1;  // prefer over spell checker (like EN_SPECIFIC_CASE)
       case "EN_UNPAIRED_BRACKETS":      return -1;  // less priority than rules that suggest the correct brackets

@@ -44,7 +44,7 @@ import java.util.List;
 public class FrenchHybridDisambiguator extends AbstractDisambiguator {
 
   private final Disambiguator chunker = new MultiWordChunker("/fr/multiwords.txt", true, true);
-  private final Disambiguator disambiguator = new XmlRuleDisambiguator(new French());
+  private final Disambiguator disambiguator = new XmlRuleDisambiguator(new French(), true);
 
   @Override
   public AnalyzedSentence disambiguate(AnalyzedSentence input) throws IOException {

@@ -284,6 +284,8 @@ public class German extends Language implements AutoCloseable {
       case "DE_PROHIBITED_PHRASE": return 11;
       case "WRONG_SPELLING_PREMIUM_INTERNAL": return 10;
       case "OLD_SPELLING_INTERNAL": return 10;
+      case "DA_DURCH": return 2; // prefer over SUBSTANTIVIERUNG_NACH_DURCH and DURCH_SCHAUEN and DURCH_WACHSEN
+      case "NULL_KOMMA_NICHTS" : return 1;   // prefer over agreement rules
       case "ZUCCHINIS" : return 1;   // overwrite spell checker
       case "ANGL_PA_ED_UNANGEMESSEN" : return 1;   // overwrite spell checker
       case "DE_COMPOUNDS": return 10;
@@ -300,6 +302,9 @@ public class German extends Language implements AutoCloseable {
       case "WERT_SEIN": return 1; // prefer over DE_AGREEMENT
       case "EBEN_FALLS": return 1;
       case "UST_ID": return 1;
+      case "SEIT_VS_SEID": return 1; // prefer over some agreement rules (HABE_BIN from premium)
+      case "ZU_KOMMEN_LASSEN": return 1; // prefer over INFINITIVGRP_VERMOD_PKT
+      case "ZU_SCHICKEN_LASSEN": return 1; // prefer over INFINITIVGRP_VERMOD_PKT
       case "IM_UM": return 1; // prefer over MIT_MIR and IM_ERSCHEINUNG (premium)
       case "EINEN_VERSUCH_WERT": return 1; // prefer over DE_AGREEMENT
       case "DASS_DAS_PA2_DAS_PROIND": return 1; // prefer over HILFSVERB_HABEN_SEIN, DE_AGREEMENT
@@ -326,7 +331,6 @@ public class German extends Language implements AutoCloseable {
       case "DE_PROHIBITED_COMPOUNDS_PREMIUM": return -1; // prefer other rules (e.g. AUS_MITTEL)
       case "SAGT_RUFT": return -1; // prefer case rules
       case "VER_INF_VER_INF": return -1; // prefer case rules
-      case "BEI_VERB": return -1; // prefer case rules
       case "DE_COMPOUND_COHERENCY": return -1;  // prefer EMAIL
       case "GEFEATURED": return -1; // prefer over spell checker
       case "NUMBER_SUB": return -1; // prefer over spell checker
@@ -341,6 +345,7 @@ public class German extends Language implements AutoCloseable {
       case "MODALVERB_FLEKT_VERB": return -1;
       case "FALSCHES_RELATIVPRONOMEN": return -1; // prefer dass/das rules
       case "AKZENT_STATT_APOSTROPH": return -1;  // lower prio than PLURAL_APOSTROPH
+      case "IM_IHM": return -1;  // lower prio than IM_SITZEN
       case "ICH_INF_PREMIUM": return -2; // prefer more specific rules that offer a suggestion (e.g. SUBJECT_VERB_AGREEMENT)
       case "MEHRERE_WOCHE_PREMIUM": return -2;  // less prio than DE_AGREEMENT
       case "DOPPELTER_NOMINATIV": return -2;  // give precedence to wie-wir-wird confusion rules
@@ -352,9 +357,11 @@ public class German extends Language implements AutoCloseable {
       case "AERZTEN_INNEN": return -2;  // overwrite speller ("Ärzte/-innen")
       case "ANGLIZISMEN" : return -2;   // overwrite spell checker
       case "ANGLIZISMUS_PA_MIT_ED" : return -2;   // overwrite spell checker
+      case "ZAHL_IM_WORT": return -2; //should not override rules like H2O
       case "GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
       case "AUSTRIAN_GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
       case "SWISS_GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
+      case "BEI_VERB": return -4; // prefer case and spelling rules
       case "PUNCTUATION_PARAGRAPH_END": return -4;  // don't hide spelling mistakes
       case "TEST_F_ANSTATT_PH": return -4;  // don't hide spelling mistakes
       case "PUNKT_ENDE_ABSATZ": return -10;  // should never hide other errors, as chance for a false alarm is quite high
@@ -366,6 +373,7 @@ public class German extends Language implements AutoCloseable {
       case "COLLOQUIALISMS": return -15;
       case "STYLE": return -15;
       case "REDUNDANCY": return -15;
+      case "VER_DOPPELUNG": return -15; // prefer comma rules (including AI)
       case "GENDER_NEUTRALITY": return -15;
       case "TYPOGRAPHY": return -15;
       case "ALL_UPPERCASE": return -15;

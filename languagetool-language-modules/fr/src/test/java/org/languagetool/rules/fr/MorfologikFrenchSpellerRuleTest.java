@@ -62,6 +62,7 @@ public class MorfologikFrenchSpellerRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Le Déconfinement")).length); // Should be only lower-case??
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Cesse de t'autoflageller.")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("L'iPhone")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Une #sprache @mentioned mywebsite.org ereredd.7z, domaine .com, NH₄OH")).length);
     
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Un test simple.")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Le cœur, la sœur.")).length);
@@ -178,11 +179,21 @@ public class MorfologikFrenchSpellerRuleTest {
     assertSuggestion(rule, lt, "saperçoit", "sa perçoit", "s'aperçoit");
     assertSuggestion(rule, lt, "saperçu", "sa perçu", "aperçu");
     
-    
     // don't split prefixes 
     matches = rule.match(lt.getAnalyzedSentence("macrodiscipline"));
     assertEquals(1, matches.length);
     assertEquals(0, matches[0].getSuggestedReplacements().size());
+    
+    // digits
+    matches = rule.match(lt.getAnalyzedSentence("windows1"));
+    assertEquals(1, matches.length);
+    assertEquals("Windows 1", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("Windows", matches[0].getSuggestedReplacements().get(1));
+    
+    matches = rule.match(lt.getAnalyzedSentence("windows10"));
+    assertEquals(1, matches.length);
+    assertEquals("Windows 10", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("Windows", matches[0].getSuggestedReplacements().get(1));
 
   }
   

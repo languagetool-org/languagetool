@@ -1134,6 +1134,14 @@
 <beforebreak>\bU\.</beforebreak>
 <afterbreak>[SK]\b</afterbreak>
 </rule>
+<rule break="no"><!-- I.S (no dot at end) -->
+<beforebreak>\bI\.</beforebreak>
+<afterbreak>S\b</afterbreak>
+</rule>
+<rule break="no"><!-- M.Z (no dot at end) -->
+<beforebreak>\bM\.</beforebreak>
+<afterbreak>Z\b</afterbreak>
+</rule>
 <rule break="no"><!-- URLs without "www."-->
 <beforebreak>\b(https?|ftp|file|chrome|chromium|android|(chrome|moz)\-extension):///?[A-Za-z0-9\-]+\.</beforebreak>
 <afterbreak>[A-Za-z0-9\-]+(\.|\b)</afterbreak>
@@ -5444,6 +5452,10 @@
 <beforebreak>\bCo\.[\s\u00A0]</beforebreak>
 <afterbreak></afterbreak>
 </rule>
+<rule break="no">
+<beforebreak>\bE\.[\s\u00A0]</beforebreak>
+<afterbreak>\b[Cc]oli\b</afterbreak>
+</rule>
 <!-- Break rules -->
 <rule break="yes">
 <beforebreak>[\.!?…][\u0002|'|"|«|\)|\]|\}¹²³]?[\s\u00A0]+</beforebreak>
@@ -5602,10 +5614,14 @@
 </rule>
 <!-- abbreviation with proper noun: проф. Грицько, о. Лісове -->
 <rule break="no">
-<beforebreak>\b([Аа]кад|[Пп]роф|[Дд]оц|[Аа]сист|[Рр]еж|[Аа]рх|[Сс]вв?|о|ім|упоряд|чл\.-кор)\.[\h\v]*</beforebreak>
+<beforebreak>\b([Аа]кад|[Пп]роф|[Дд]оц|[Аа]сист|[Рр]еж|[Аа]рх|[Сс]вв?|о|ім|упоряд|чл\.-кор|[Пп]реп)\.[\h\v]*</beforebreak>
 <afterbreak>[\h\v]*[А-ЯІЇЄҐA-Z]</afterbreak>
 </rule>
-<!-- смерть гр. Болтаровича -->
+<rule break="no">
+<beforebreak>\bМан\.[\h\v]*</beforebreak>
+<afterbreak>[\h\v]*([Сс]іті|[Юю]н)</afterbreak>
+</rule>
+<!-- смерть гр. Болтаровича, but not "9 гр." -->
 <rule break="no">
 <beforebreak>[^0-9][\h\v]+[Гг]р\.[\h\v]*</beforebreak>
 <afterbreak>[\h\v]*[А-ЯІЇЄҐA-Z]</afterbreak>
@@ -5613,7 +5629,7 @@
 <!-- арт. - артикул -->
 <!-- TODO: арт. - артист -->
 <rule break="no">
-<beforebreak>\bарт\.[\h\v]*</beforebreak>
+<beforebreak>\b([Аа]рт|[Мм]ал|[Рр]ис)\.[\h\v]*</beforebreak>
 <afterbreak>[\h\v]*[0-9]</afterbreak>
 </rule>
 <!-- ХІІ р., 3-6 арт. -->

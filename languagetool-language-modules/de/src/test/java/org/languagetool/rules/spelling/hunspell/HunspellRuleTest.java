@@ -83,6 +83,8 @@ public class HunspellRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("компьютерная")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("中文維基百科 中文维基百科")).length);
     
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Blu-ray-Brenner")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Stand-by-Betrieb")).length);
     
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("- Teex"));
     assertEquals(1, matches.length); 

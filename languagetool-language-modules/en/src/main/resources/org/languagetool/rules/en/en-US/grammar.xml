@@ -329,119 +329,72 @@ USA
             <example correction="2011,">The meeting scheduled for July 10, <marker>2011</marker> was canceled.</example>
             <example>My birthday is October 8, <marker>1983,</marker> but I usually do not celebrate.</example>
         </rule>
-        <rulegroup id="US_ONE_ENTITY" name="the United States are (is) 245 years old" default="temp_off">
-            <antipattern>
-                <token postag="IN|RB|TO|V.*|J.*" postag_regexp="yes" />
-                <token min="0">that</token>
-                <token>the</token>
-                <token min="0" postag="J.*" postag_regexp="yes" />
-                <token min="0" case_sensitive="yes">United</token>
-                <token regexp="yes" case_sensitive="yes">States|US</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes" case_sensitive="yes">States|US</token>
-                <token chunk_re="[IE]-NP.*">
-                    <exception>need</exception>
-                </token>
-            </antipattern>
-            <antipattern>
-                <token postag="NNP|NNPS|NNS|UNKNOWN" postag_regexp="yes"/>
-                <token min="0">)</token>
-                <token min="0">,</token>
-                <token>and</token>
-                <token min="0">the</token>
-                <token min="0" postag="J.*" postag_regexp="yes" />
-                <token min="0" case_sensitive="yes">United</token>
-                <token regexp="yes" case_sensitive="yes">States|US</token>
-            </antipattern>
-            <antipattern>
-                <token postag="MD|WRB" postag_regexp="yes" />
-                <token min="0" postag="V.*" postag_regexp="yes" />
-                <token min="0" inflected="yes">not</token>
-                <token>the</token>
-                <token min="0" case_sensitive="yes">United</token>
-                <token regexp="yes" case_sensitive="yes">States|US</token>
-            </antipattern>
-            <antipattern>
-                <token>the</token>
-                <token>states</token>
-                <token postag="VBP" />
-            </antipattern>
-            <antipattern>
-                <token regexp="yes" case_sensitive="yes">States|US</token>
-                <token>are</token>
-                <token min="0" inflected="yes">not</token>
-                <token min="0" chunk="B-ADVP" />
-                <token chunk="B-NP-plural">
-                    <exception postag="CD" />
-                </token>
-            </antipattern>
-            <rule tags="picky">
-                <pattern>
-                    <token>the</token>
-                    <token min="0" case_sensitive="yes">United</token>
-                    <token regexp="yes" case_sensitive="yes">States|US</token>
-                    <marker>
-                        <token postag="VBP">
-                            <exception postag="VBD" />
-                            <exception regexp="yes">must|should|will|would</exception>
-                        </token>
-                    </marker>
-                </pattern>
-                <message>Possible verb agreement error.</message>
-                <suggestion><match no="4" postag="VBZ" /></suggestion>
-                <example correction="is">The United States <marker>are</marker> 245 years old.</example>
-                <example correction="does">The United States <marker>do</marker> not need another Trump.</example>
-                <example correction="needs">What the United States <marker>need</marker> is a more competent Congress.</example>
-                <example correction="is">The US <marker>are</marker> 245 years old.</example>
-                <example correction="does">The US <marker>do</marker> not need another Trump.</example>
-                <example>United States Copyright Office</example>
-                <example>People in the United States speak English.</example>
-                <example>...offered to help the United States avoid an energy crisis.</example>
-                <example>Germany and the United States are close political allies.</example>
-                <example>The United States fell 6 places to a ranking of only 22...</example>
-                <example>The United States will no longer be able to be the police for the world.</example>
-                <example>Kennedy proposed that the United States accelerate its space program.</example>
-                <example>Should the United States have gotten involved there, too?</example>
-                <example>Why didn't the United States protect the Kurds in Afrin?</example>
-                <example>Caribbean countries and the United States have collaborated to create tsunami warning systems</example>
-                <example>Many police and fire services in Scotland, Canada, Australia, New Zealand, Hong Kong, and the United States have also adopted the tradition of fielding pipe bands.</example>
-                <example>Austria, Belgium, Germany, Israel, the Netherlands, Northern Ireland, Russia, Taiwan, Ontario (Canada), and the United States have adopted commitment criteria</example>
-                <example>...lest the United States be forgotten.</example>
-                <example>It is imperative that the United States take a firm stance on gun control.</example>
-                <example>US Copyright Office</example>
-                <example>People in the US speak English.</example>
-                <example>...offered to help the US avoid an energy crisis.</example>
-                <example>Germany and the US are close political allies.</example>
-                <example>The US fell 6 places to a ranking of only 22...</example>
-                <example>The US will no longer be able to be the police for the world.</example>
-                <example>Kennedy proposed that the US accelerate its space program.</example>
-                <example>Should the US have gotten involved there, too?</example>
-                <example>Why didn't the US protect the Kurds in Afrin?</example>
-                <example>...lest the US be forgotten.</example>
-                <example>It is imperative that the US take a firm stance on gun control.</example>
-                <example>The States know full well that the Central power utilities dare not cut supply and the worst they can do is to threaten the errant States.</example>
-                <example>The United States are not currently the only cultural imperialists.</example>
-            </rule>
-            <rule>
+        <rulegroup id="US_ONE_ENTITY" name="The United States are (is) 245 years old" default="temp_off">
+            <rule>  <!-- 'United States', SENT_START -->
                 <antipattern>
-                    <token>the</token>
+                    <token>united</token>
                     <token>states</token>
-                    <token>have</token>
+                    <token postag="VBD" chunk="B-VP">
+                        <exception>broadcast</exception>
+                    </token>
                 </antipattern>
                 <pattern>
-                    <token>the</token>
-                    <token min="0">United</token>
-                    <token regexp="yes">States|US</token>
+                    <token postag="SENT_START" />
+                    <token min="0">the</token>
+                    <token>united</token>
+                    <token>states</token>
                     <marker>
-                        <token>have</token>
+                        <token postag="VBP?" postag_regexp="yes" chunk="B-VP" />
                     </marker>
                 </pattern>
-                <message>Possible agreement error.</message>
-                <suggestion>has</suggestion>
-                <example correction="has">The United States <marker>have</marker> never had a female president.</example>
-                <example correction="has">The US <marker>have</marker> never had a female president.</example>
-                <example>It is imperative that the United States have a firm stance on gun control.</example>
+                <message>In American English, '\2 \3 \4' is a singular entity and therefore requires a third-person verb form.</message>
+                <suggestion><match no="5" postag="VBZ" /></suggestion>
+                <example correction="is">The United States <marker>are</marker> 245 years old.</example>
+                <example correction="broadcasts">The United States <marker>broadcast</marker> a new radio message announcing a $25 million cash reward for information leading to Osama bin Laden's location or capture.</example>
+                <example>The United States fell 6 places to a ranking of only 22 in Transparency International's‘s list of countries by corruption.</example>
+                <example>The United States saw the Chinese theater as a means to tie up a large number of Japanese troops, as well as being a location for American airbases from which to strike the Japanese home islands.</example>
+            </rule>
+            <rule>  <!-- 'the US', SENT_START -->
+                <antipattern>
+                    <token case_sensitive="yes">US</token>
+                    <token postag="VBD" chunk="B-VP">
+                        <exception>broadcast</exception>
+                    </token>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START" />
+                    <token>the</token>
+                    <token case_sensitive="yes">US</token>
+                    <marker>
+                        <token postag="VBP?" postag_regexp="yes" chunk="B-VP" />
+                    </marker>
+                </pattern>
+                <message>In American English, '\2 \3' is a singular entity and therefore requires a third-person verb form.</message>
+                <suggestion><match no="4" postag="VBZ" /></suggestion>
+                <example correction="is">The US <marker>are</marker> 245 years old.</example>
+            </rule>
+            <rule>  <!-- 'the U.S.', SENT_START -->
+                <antipattern>
+                    <token case_sensitive="yes">S</token>
+                    <token>.</token>
+                    <token postag="VBD" chunk="B-VP">
+                        <exception>broadcast</exception>
+                    </token>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START" />
+                    <token>the</token>
+                    <token case_sensitive="yes">U</token>
+                    <token>.</token>
+                    <token case_sensitive="yes">S</token>
+                    <token>.</token>
+                    <marker>
+                        <token postag="VBP?" postag_regexp="yes" chunk="B-VP" />
+                    </marker>
+                </pattern>
+                <message>In American English, 'The U.S.' is a singular entity and therefore requires a third-person verb form.</message>
+                <suggestion><match no="7" postag="VBZ" /></suggestion>
+                <example correction="is">The U.S. <marker>are</marker> 245 years old.</example>
             </rule>
         </rulegroup>
 

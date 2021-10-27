@@ -111,8 +111,8 @@ class SingleDocument {
       isImpress = true;
     }
     this.xComponent = xComponent;
-    setDokumentListener(xComponent);
     this.mDocHandler = mDH;
+    setDokumentListener(getNoneGoneComponent());
     this.paragraphsCache = new ArrayList<>();
     for (int i = 0; i < OfficeTools.NUMBER_TEXTLEVEL_CACHE; i++) {
       paragraphsCache.add(new ResultCache());
@@ -126,7 +126,7 @@ class SingleDocument {
       readCaches();
     }
     if (xComponent != null) {
-      setFlatParagraphTools(xComponent);
+      setFlatParagraphTools(getNoneGoneComponent());
     }
   }
   
@@ -241,7 +241,7 @@ class SingleDocument {
       ltMenus.setConfigValues(config);
     }
     if (config.noBackgroundCheck() || numParasToCheck == 0) {
-      setFlatParagraphTools(xComponent);
+      setFlatParagraphTools(getNoneGoneComponent());
     }
   }
 
@@ -321,12 +321,21 @@ class SingleDocument {
   void setXComponent(XComponentContext xContext, XComponent xComponent) {
     this.xContext = xContext;
     this.xComponent = xComponent;
-    setDokumentListener(xComponent);
+    setDokumentListener(getNoneGoneComponent());
   }
   
   /** Get xComponent of the document
    */
   XComponent getXComponent() {
+    return xComponent;
+  }
+  
+  /** Get xComponent of the document or null if component is gone
+   */
+  private XComponent getNoneGoneComponent() {
+    if (mDocHandler.getGoneComponent() != null && mDocHandler.getGoneComponent().equals(xComponent)) {
+      return null;
+    }
     return xComponent;
   }
   
@@ -405,7 +414,7 @@ class SingleDocument {
    */
   void readCaches() {
     if (numParasToCheck != 0) {
-      cacheIO = new CacheIO(xComponent);
+      cacheIO = new CacheIO(getNoneGoneComponent());
       boolean cacheExist = cacheIO.readAllCaches(config, mDocHandler);
       if (cacheExist) {
         docCache = cacheIO.getDocumentCache();
@@ -421,7 +430,7 @@ class SingleDocument {
    */
   void writeCaches() {
     if (numParasToCheck != 0) {
-      cacheIO.saveCaches(xComponent, docCache, paragraphsCache, ignoredMatches, config, mDocHandler);
+      cacheIO.saveCaches(docCache, paragraphsCache, ignoredMatches, config, mDocHandler);
     }
   }
   
@@ -448,13 +457,16 @@ class SingleDocument {
    */
   public FlatParagraphTools setFlatParagraphTools(XComponent xComponent) {
     if (flatPara == null) {
-      flatPara = new FlatParagraphTools(xComponent);
+//      MessageHandler.printToLogFile("new FlatParagraphTools"); 
+      flatPara = new FlatParagraphTools(getNoneGoneComponent());
       if (!flatPara.isValid()) {
         flatPara = null;
       }
     } else {
+//      MessageHandler.printToLogFile("flatPara.init()"); 
       flatPara.init();
     }
+//    MessageHandler.printToLogFile("return flatPara"); 
     return flatPara;
   }
   
@@ -558,7 +570,7 @@ class SingleDocument {
   private void remarkChangedParagraphs(List<Integer> changedParas) {
     SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, docCursor, flatPara, docLanguage, ignoredMatches, numParasToCheck, false);
     if (docCursor == null) {
-      docCursor = new DocumentCursorTools(xComponent);
+      docCursor = new DocumentCursorTools(getNoneGoneComponent());
     }
     singleCheck.remarkChangedParagraphs(changedParas, docCursor.getParagraphCursor(), flatPara, mDocHandler.getLanguageTool(), true);
   }
@@ -908,6 +920,10 @@ class SingleDocument {
     public void documentEventOccured(DocumentEvent event) {
 //      MessageHandler.printToLogFile("Document Event: " + event.EventName);
       if (event.EventName.equals("OnSave") && config.saveLoCache()) {
+        writeCaches();
+      } else if(event.EventName.equals("OnSaveAsDone") && config.saveLoCache()) {
+        writeCaches();
+        cacheIO.setDocumentPath(xComponent);
         writeCaches();
       }
     }

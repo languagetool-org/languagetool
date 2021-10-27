@@ -34,6 +34,7 @@ import org.languagetool.rules.LongSentenceRule;
 import org.languagetool.rules.MultipleWhitespaceRule;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.UppercaseSentenceStartRule;
+import org.languagetool.rules.ca.CatalanRepeatedWordsRule;
 import org.languagetool.rules.ca.CatalanUnpairedBracketsRule;
 import org.languagetool.rules.ca.CatalanUnpairedExclamationMarksRule;
 import org.languagetool.rules.ca.CatalanUnpairedQuestionMarksRule;
@@ -104,7 +105,7 @@ public class ValencianCatalan extends Catalan {
             new SimpleReplaceRule(messages),
             new ReplaceOperationNamesRule(messages, this),
             new CheckCaseRule(messages, this),
-            new CompoundRule(messages),
+            new CompoundRule(messages, this, userConfig),
             // Valencian DNV
             new SimpleReplaceDNVRule(messages, this),
             new SimpleReplaceDNVColloquialRule(messages, this),
@@ -113,7 +114,8 @@ public class ValencianCatalan extends Catalan {
             new SimpleReplaceAnglicism(messages),
             new PronomFebleDuplicateRule(messages),
             new SimpleReplaceAdverbsMent(messages),
-            new CatalanWordRepeatBeginningRule(messages, this)
+            new CatalanWordRepeatBeginningRule(messages, this),
+            new CatalanRepeatedWordsRule(messages)
     );
   }
 

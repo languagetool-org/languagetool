@@ -107,16 +107,32 @@ title="Easy editing stylesheet" ?>
 
     <rule id="ZERO_MEDIDA_SINGULAR" name="Concordância de número: 'zero grau'">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-09-23 -->
+<!-- MARCOAGPINTO 2021-10-21 (25-JUN-2021+) *START* -->
+<!--
+O Jogo da Vida de John Conway é também conhecido por “zero player game”.
+-->
+      <antipattern>
+		<token>zero</token>
+		<token>player</token>
+		<token>game</token>
+      </antipattern>
+<!-- MARCOAGPINTO 2021-10-21 (25-JUN-2021+) *END* -->	
       <pattern>
           <token>zero</token>
           <token postag='(?:N..|A...)S.+' postag_regexp='yes'>
-            <exception postag='(?:N..|A...)S.+' postag_regexp='yes' negate_pos='yes'/></token>
+            <exception postag='(?:N..|A...)S.+' postag_regexp='yes' negate_pos='yes'/>
+			<exception regexp="yes">absoluto|kelvin</exception> <!-- "perto do zero ABSOLUTO/KELVIN" MARCOAGPINTO 2021-10-21 (25-JUN-2021+) -->
+		  </token>
       </pattern>
       <message>Em Português Europeu medidas com zero escrevem-se no plural.</message>
         <suggestion>\1 <match no="2" postag="(N..|A...)S(.+)" postag_replace='$1P$2' postag_regexp="yes"/></suggestion>
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/zero-graus--zero-grau/15274</url>
       <short>Brasileirismo</short>
       <example correction="zero graus">Lá fora estão <marker>zero grau</marker>.</example>
+	  <example>Assim, com a divisão de valores mais próximos do zero, o resultado será o zero absoluto.</example>
+	  <example>Teoricamente, ao cessar a agitação térmica das moléculas a pressão é nula, e atinge-se o zero absoluto.</example>
+	  
+	  <example>O Jogo da Vida de John Conway é também conhecido por “zero player game”.</example>
     </rule>
 
     <rule id='TODOS_FOLLOWED_BY_NOUN_SINGULAR' name="Expressão: Todo + 'nome sem artigo'">

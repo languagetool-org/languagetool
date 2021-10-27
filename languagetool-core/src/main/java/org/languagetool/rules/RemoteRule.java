@@ -170,12 +170,12 @@ public abstract class RemoteRule extends Rule {
       }
       if (System.nanoTime() - timeoutIntervalStart.get(ruleId) >
           TimeUnit.MILLISECONDS.toNanos(serviceConfiguration.getTimeoutLimitIntervalMilliseconds())) {
-        System.out.printf("Resetting timeoutTotal; was %d%n", timeoutTotal.get(ruleId).intValue());
+        //System.out.printf("Resetting timeoutTotal; was %d%n", timeoutTotal.get(ruleId).intValue());
         timeoutTotal.get(ruleId).set(0L);
         timeoutIntervalStart.put(ruleId, System.nanoTime());
       } else if (serviceConfiguration.getTimeoutLimitTotalMilliseconds() > 0L &&
                  timeoutTotal.get(ruleId).get() > serviceConfiguration.getTimeoutLimitTotalMilliseconds()) {
-        System.out.printf("Down because of timeoutTotal; was %d%n", timeoutTotal.get(ruleId).intValue());
+        //System.out.printf("Down because of timeoutTotal; was %d%n", timeoutTotal.get(ruleId).intValue());
         RemoteRuleMetrics.request(ruleId, 0, 0, characters, RemoteRuleMetrics.RequestResult.DOWN);
         result = fallbackResults(req);
         return result;
@@ -371,7 +371,7 @@ public abstract class RemoteRule extends Rule {
    * based on offsetByCodePoints since codePointCount can be confusing,
    * e.g. "👪".codePointCount(0,2) == 1, but length is 2
    *
-   * Java substring methods use this length (which can be >1 for a single character)
+   * Java substring methods use this length (which can be &gt;1 for a single character)
    * whereas Python 3 indexing/slicing and len() in strings treat them as a single character
    * so "😁foo".length() == 5, but len("😁foo") == 4;
    * "😁foo".substring(2,5) == "foo" but "😁foo"[1:4] == 'foo'

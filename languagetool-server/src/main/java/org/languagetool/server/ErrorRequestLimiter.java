@@ -31,7 +31,7 @@ import java.util.Map;
  */
 class ErrorRequestLimiter extends RequestLimiter {
 
-  private static final Logger log = LoggerFactory.getLogger(ErrorRequestLimiter.class);
+  private static final Logger logger = LoggerFactory.getLogger(ErrorRequestLimiter.class);
 
   /**
    * @param requestLimit the maximum number of request per <tt>requestLimitPeriodInSeconds</tt>
@@ -50,7 +50,7 @@ class ErrorRequestLimiter extends RequestLimiter {
       checkLimit(ipAddress, parameters, httpHeader);
       return true;
     } catch (TooManyRequestsException e) {
-      log.info("wouldAccessBeOkay -> false: " + e.getMessage());
+      logger.info("wouldAccessBeOkay -> false: " + e.getMessage());
       return false;
     }
   }

@@ -1002,6 +1002,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="Ігорю">Агов, <marker>Ігоре</marker>!</example>
     </rule>
 
+    <rule id="na_trebe" name="На треба">
+      <pattern>
+        <token>на</token>
+        <token>треба</token>
+      </pattern>
+      <message>Правильно: <suggestion>не треба</suggestion></message>
+      <example correction="не треба">Агов, <marker>на треба</marker> цього!</example>
+    </rule>
+
 
     <rulegroup id="LATIN_LETTERS_IN_SENTENCE" name="Латинські літери в реченні">
       <rule>
@@ -1251,17 +1260,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="чимдуж"><marker>чим дуж</marker>.</example>
     </rule>
 
-    <rule id="ne_syla" name="Не сила">
-      <pattern>
-        <marker>
-          <token>не</token>
-          <token>сила</token>
-        </marker>
-        <token postag_regexp="yes" postag="verb.*?inf.*"/>
-      </pattern>
-      <message><suggestion>несила</suggestion> перед іфінітивом пишеться разом</message>
-      <example correction="несила">і <marker>не сила</marker> терпіти</example>
-    </rule>
+    <rulegroup id="ne_syla" name="Не сила">
+      <rule>
+        <pattern>
+          <marker>
+            <token>не</token>
+            <token>сила</token>
+          </marker>
+          <token postag_regexp="yes" postag="verb.*?inf.*"/>
+        </pattern>
+        <message><suggestion>несила</suggestion> перед іфінітивом пишеться разом</message>
+        <example correction="несила">і <marker>не сила</marker> терпіти</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token>не</token>
+            <token>сила</token>
+          </marker>
+          <token regexp="yes">було|буде</token>
+        </pattern>
+        <message><suggestion>несила</suggestion> перед іфінітивом пишеться разом</message>
+        <example correction="несила">і <marker>не сила</marker> було терпіти</example>
+      </rule>
+    </rulegroup>
 
     <rule id="v_odnochas" name="В одночас">
       <pattern>

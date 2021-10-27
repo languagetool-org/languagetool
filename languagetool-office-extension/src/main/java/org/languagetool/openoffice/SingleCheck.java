@@ -121,6 +121,9 @@ class SingleCheck {
   public SingleProofreadingError[] getCheckResults(String paraText, int[] footnotePositions, Locale locale, SwJLanguageTool lt, 
       int paraNum, int startOfSentence, boolean textIsChanged, int changeFrom, int changeTo, String lastSinglePara, 
       int lastChangedPara, boolean isIntern) {
+    if (mDocHandler.getGoneComponent() != null && mDocHandler.getGoneComponent().equals(xComponent)) {
+      return new SingleProofreadingError[0];
+    }
     if (!isImpress && lastChangedPara >= 0) {
       if (docCursor == null) {
         docCursor = new DocumentCursorTools(xComponent);
@@ -176,6 +179,9 @@ class SingleCheck {
     MultiDocumentsHandler mDH = mDocHandler;
     DocumentCursorTools docCursor = this.docCursor;
     DocumentCache docCache = this.docCache;
+    if (mDocHandler.getGoneComponent() != null && mDocHandler.getGoneComponent().equals(xComponent)) {
+      return;
+    }
     if (docCache == null || nFPara < 0 || nFPara >= docCache.size()) {
       return;
     }
@@ -258,6 +264,9 @@ class SingleCheck {
       }
       if (!isImpress && useQueue && !isDialogRequest) {
         if (mDH.getTextLevelCheckQueue() == null || mDH.getTextLevelCheckQueue().isInterrupted()) {
+          return;
+        }
+        if (mDocHandler.getGoneComponent() != null && mDocHandler.getGoneComponent().equals(xComponent)) {
           return;
         }
         if (docCursor == null) {

@@ -9,6 +9,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <!ENTITY zal_adj "(?-i)(\d+-|(ein|zw(ei|an)|dreiß?|vier|fünf|s(echs?|ieb(en)?)|acht|neun)(zehn|zig)?)(jähr|bänd|seit|monat|täg|köpf)">
     <!ENTITY apostrophe "['’`´‘]">
     <!ENTITY genderzeichen "[:_*]">
+    <!ENTITY anfauf "„|&quot;|»|›|‚|'">
+    <!ENTITY anf "&anfauf;|'|'|‹|«">
 ]>
 
 <rules lang="de" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
@@ -773,6 +775,27 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         Die Erkennung von Fehlern *innerhalb* von Nominalphrasen (z.B. "der Auto") liegt bei der
         Java-Regel AgreementRule.
         -->
+        <antipattern>
+            <token postag="SENT_START"/>
+            <token spacebefore="yes" case_sensitive="yes">Sein</token>
+        </antipattern>
+        <antipattern>
+            <token>:</token>
+            <token spacebefore="yes" case_sensitive="yes">Sein</token>
+        </antipattern>
+        <antipattern>
+            <token regexp="yes">&anf;</token>
+            <token spacebefore="no" case_sensitive="yes">Sein</token>
+        </antipattern>
+        <antipattern>
+            <token max="2" regexp="yes">[^\p{L}]</token>
+            <token case_sensitive="yes">Sein</token>
+        </antipattern>
+        <antipattern>
+            <token regexp="yes">[a-z]</token>
+            <token regexp="yes">[^\p{L}]</token>
+            <token case_sensitive="yes">Sein</token>
+        </antipattern>
         <pattern>
             <unify>
                 <feature id="number"/><feature id="case"/><feature id="gender"/>
@@ -783,6 +806,15 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             </unify>
         </pattern>
         <disambig action="unify"/>
+        <example type="untouched"> Sein Wissen wurde ihm zum Verhängnis.</example>
+        <example type="untouched">"Sein Wissen wurde ihm zum Verhängnis."</example>
+        <example type="untouched">Es war zu spät: Sein Wissen wurde ihm zum Verhängnis.</example>
+        <example type="untouched">- Sein Wissen wurde ihm zum Verhängnis</example>
+        <example type="untouched">*Sein Wissen wurde ihm zum Verhängnis</example>
+        <example type="untouched">• Sein Wissen wurde ihm zum Verhängnis</example>
+        <example type="untouched">1) Sein Wissen wurde ihm zum Verhängnis</example>
+        <example type="untouched">2. Sein Wissen wurde ihm zum Verhängnis</example>
+        <example type="untouched">c) Sein Wissen wurde ihm zum Verhängnis.</example>
     </rule>
     <rule name="NP unify 1b" id="UNIFY_DET_SUB2">
         <antipattern>
@@ -4598,7 +4630,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </rule>
         <rule>
             <pattern case_sensitive="yes">
-                <token regexp="yes">Advanced|United|Active|Electronic|Scientific|Electric|Dynamic|Black|White|Blue|Green|Big|Little|World|Travel|Director|Social|My|Deep|Dead|Dark|European|American|Australian|English|Asian|Austrian|Swiss|German|Central|Medical|Custom|Consumer|Energy|Dragon|Child|Technology|Intelligence|Conference|Communication|Freedom|Magic|Direct|Autonomous|Californian?|Climate|Managed</token>
+                <token regexp="yes">Advanced|Astronomical|United|Active|Electronic|Scientific|Electric|Dynamic|Black|White|Blue|Green|Big|Little|World|Travel|Director|Social|My|Deep|Dead|Dark|European|American|Australian|English|Asian|Austrian|Swiss|German|Central|Medical|Custom|Consumer|Energy|Dragon|Child|Technology|Intelligence|Conference|Communication|Freedom|Magic|Direct|Autonomous|Californian?|Climate|Managed|Sponsored|Independent|Technical|Extended|Educational|Deluxe</token>
                 <token postag="UNKNOWN|SUB:.+" postag_regexp="yes" regexp="yes" min="0">[A-Z][a-z]+|[A-Z]+</token>
                 <token postag="UNKNOWN|SUB:.+" postag_regexp="yes" regexp="yes">[A-Z][a-z]+|[A-Z]+</token>
             </pattern>
@@ -4612,7 +4644,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <pattern case_sensitive="yes">
                 <token postag="UNKNOWN|SUB:.+" postag_regexp="yes" regexp="yes">[A-Z][a-z]+|[A-Z]+</token>
                 <token postag="UNKNOWN|SUB:.+" postag_regexp="yes" regexp="yes" min="0">[A-Z][a-z]+|[A-Z]+</token>
-                <token regexp="yes">Day|School|Card|One|Room|Black|Green|Blue|White|World|Kitchen|Society|Council|Advanced|Air|Dark|Health|Desk|Deluxe|Director|Agency|Energy|Care|Connect|Custom|Factory|Buildings?|Consumer|Connectors?|Dragon|Electronics|Technology|Intelligence|Convention|America|Authority|Conference|Culture|University|Corporation|Committee|Commands?|Relations|Communication|Group|Project|Gallery|Cathedral|Foundation|Life|Specialists?|Agents?|Records|Study|Advisor|Campaigns?|Partnerships?|Squad</token>
+                <token regexp="yes">Day|School|Card|One|Room|Black|Green|Blue|White|World|Kitchen|Society|Council|Advanced|Air|Dark|Health|Desk|Deluxe|Director|Agency|Energy|Care|Connect|Custom|Factory|Buildings?|Consumer|Connectors?|Dragon|Electronics|Technology|Intelligence|Convention|America|Authority|Conference|Culture|University|Corporation|Committee|Commands?|Relations|Communication|Group|Project|Gallery|Cathedral|Foundation|Life|Specialists?|Agents?|Records|Study|Advisor|Campaigns?|Partnerships?|Squad|Overviews?|Assistants?|Alliance|Pictures?|Journey|Dynamics|Hill|Rights?|Certificates?|Mountains?|Library</token>
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>
@@ -4663,13 +4695,12 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
 
     <rule id="SOG_KEIN_VERB" name="Abkürzung 'sog.'"><!-- abk "sog." -->
         <pattern>
-            <token postag="PRO:"/>
             <marker>
                 <token>sog</token>
             </marker>
             <token spacebefore="no">.</token>
-            <token regexp="yes" min="0">„|&quot;|“|‹|«</token>
-            <token postag="(ADJ|SUB):.*|UNKNOWN" postag_regexp="yes" regexp="yes">.*[a-z].*</token>
+            <token regexp="yes" min="0" spacebefore="yes">„|&quot;|“|‹|«</token>
+            <token postag="(ADJ|SUB|EIG):.*|UNKNOWN|VER:INF.*" postag_regexp="yes" regexp="yes">.*[a-z].*</token>
         </pattern>
         <disambig action="remove" postag="VER:.+" />
     </rule>
@@ -4682,6 +4713,16 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <token postag="EIG:.*|UNKNOWN" postag_regexp="yes" regexp="yes" case_sensitive="yes">[A-Z].*</token>
         </pattern>
         <disambig action="remove" postag="VER:.+" />
+    </rule>
+
+    <rule id="LIKE_A_PRAYER" name="'Like' kein Substantiv in 'Like a Prayer'">
+        <pattern><!-- -->
+            <marker>
+                <token>Like</token>
+            </marker>
+            <token regexp="yes">an?|the|my|y?our|me</token>
+        </pattern>
+        <disambig action="remove" postag="SUB:.+" />
     </rule>
 
     <rule id="IGNORE_SUBDOMAIN_SPELLING" name="Ignore spelling of subdomains">
@@ -4737,4 +4778,284 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
+
+    <rule id="POWERED_BY_IGNORE_SPELLING" name="powered by">
+        <pattern case_sensitive="yes">
+            <token regexp="yes">[Pp]owered|POWERED</token>
+            <token regexp="yes">by|BY</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="GEMEIND_EIN" name="Wir gemeinden ein">
+        <!-- https://de.wiktionary.org/wiki/eingemeinden -->
+        <pattern case_sensitive="yes">
+            <marker>
+                <token regexp="yes" skip="1">[Gg]emeinden?</token>
+            </marker>
+            <token>ein</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rulegroup id="BZW_KONJUNKTION" name="'bzw.' als Konjunktion">
+        <!-- "beziehungsweise" is already KON:NEB -->
+        <rule>
+            <pattern>
+                <marker>
+                    <token case_sensitive="yes">bzw</token>
+                    <token spacebefore="no">.</token>
+                </marker>
+                <token spacebefore="yes" />
+            </pattern>
+            <disambig action="add">
+                <wd pos="KON:NEB"/>
+                <wd pos="KON:NEB"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token case_sensitive="yes">bzw</token>
+                </marker>
+                <token spacebefore="yes" />
+            </pattern>
+            <disambig action="add">
+                <wd pos="KON:NEB"/>
+            </disambig>
+        </rule>
+    </rulegroup>
+
+    <rulegroup id="JOINT_VENTURE" name="Joint Venture als Kompositum">
+        <rule>
+            <pattern>
+                <token>joint</token>
+                <token>venture</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:NOM:SIN:NEU"/>
+                <wd pos="SUB:NOM:SIN:NEU"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>joint</token>
+                <token>venture</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:DAT:SIN:NEU"/>
+                <wd pos="SUB:DAT:SIN:NEU"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>joint</token>
+                <token>venture</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:AKK:SIN:NEU"/>
+                <wd pos="SUB:AKK:SIN:NEU"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>joint</token>
+                <token>ventures</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:GEN:SIN:NEU"/>
+                <wd pos="SUB:GEN:SIN:NEU"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>joint</token>
+                <token>ventures</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:NOM:PLU:NEU"/>
+                <wd pos="SUB:NOM:PLU:NEU"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>joint</token>
+                <token>ventures</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:GEN:PLU:NEU"/>
+                <wd pos="SUB:GEN:PLU:NEU"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>joint</token>
+                <token>ventures</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:DAT:PLU:NEU"/>
+                <wd pos="SUB:DAT:PLU:NEU"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>joint</token>
+                <token>ventures</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:AKK:PLU:NEU"/>
+                <wd pos="SUB:AKK:PLU:NEU"/>
+            </disambig>
+        </rule>
+    </rulegroup>
+
+    <rulegroup id="CUSTOMER_JOURNEY" name="Customer Journey als Kompositum">
+        <rule>
+            <pattern>
+                <token regexp="yes">customer|user</token>
+                <token>journey</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:NOM:SIN:FEM"/>
+                <wd pos="SUB:NOM:SIN:FEM"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">customer|user</token>
+                <token>journey</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:GEN:SIN:FEM"/>
+                <wd pos="SUB:GEN:SIN:FEM"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">customer|user</token>
+                <token>journey</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:DAT:SIN:FEM"/>
+                <wd pos="SUB:DAT:SIN:FEM"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">customer|user</token>
+                <token>journey</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:AKK:SIN:FEM"/>
+                <wd pos="SUB:AKK:SIN:FEM"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">customer|user</token>
+                <token>journey</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:NOM:PLU:FEM"/>
+                <wd pos="SUB:NOM:PLU:FEM"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">customer|user</token>
+                <token>journey</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:GEN:PLU:FEM"/>
+                <wd pos="SUB:GEN:PLU:FEM"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">customer|user</token>
+                <token>journey</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:DAT:PLU:FEM"/>
+                <wd pos="SUB:DAT:PLU:FEM"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">customer|user</token>
+                <token>journey</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:AKK:PLU:FEM"/>
+                <wd pos="SUB:AKK:PLU:FEM"/>
+            </disambig>
+        </rule>
+    </rulegroup>    
+
+    <!-- TODO: (ohne meine neue ..., durch eine alte ...)-->
+    <!-- <rulegroup id="EINE_ARTIKEL" name="eine/meine als Artikel">
+        <rule>
+            <pattern>
+                <token postag="VER.*|SENT_START|KON:NEB" postag_regexp="yes" />
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">m?eine</token>
+                </marker>
+                <token postag="ADJ:.*:FEM.*" postag_regexp="yes" />
+            </pattern>
+            <disambig action="remove" postag="VER.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="VER.*|SENT_START|KON:NEB" postag_regexp="yes" />
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">m?eine</token>
+                </marker>
+                <token postag="UNKNOWN" regexp="yes" case_sensitive="yes">[a-zäöüß]+e</token>
+                <token postag="SUB:.*:FEM.*" postag_regexp="yes" />
+            </pattern>
+            <disambig action="remove" postag="VER.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="VER.*|SENT_START|KON:NEB" postag_regexp="yes" />
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">m?ein</token>
+                </marker>
+                <token postag="ADJ:.*:NEU.*" postag_regexp="yes" />
+            </pattern>
+            <disambig action="remove" postag="VER.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="VER.*|SENT_START|KON:NEB" postag_regexp="yes" />
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">m?ein</token>
+                </marker>
+                <token postag="UNKNOWN" regexp="yes" case_sensitive="yes">[a-zäöüß]+es</token>
+                <token postag="SUB:.*:NEU.*" postag_regexp="yes" />
+            </pattern>
+            <disambig action="remove" postag="VER.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="VER.*|SENT_START|KON:NEB" postag_regexp="yes" />
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">m?einen</token>
+                </marker>
+                <token postag="ADJ:.*:MAS.*" postag_regexp="yes" />
+            </pattern>
+            <disambig action="remove" postag="VER.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="VER.*|SENT_START|KON:NEB" postag_regexp="yes" />
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">m?einen</token>
+                </marker>
+                <token postag="UNKNOWN" regexp="yes" case_sensitive="yes">[a-zäöüß]+en</token>
+                <token postag="SUB:.*:MAS.*" postag_regexp="yes" />
+            </pattern>
+            <disambig action="remove" postag="VER.*"/>
+        </rule>
+    </rulegroup> -->
 </rules>

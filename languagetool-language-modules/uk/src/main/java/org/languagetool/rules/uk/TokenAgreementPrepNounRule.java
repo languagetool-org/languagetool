@@ -157,7 +157,7 @@ public class TokenAgreementPrepNounRule extends Rule {
           prepTokenReadings = null;
           continue;
         }
-
+        
         prepTokenReadings = tokenReadings;
         continue;
       }

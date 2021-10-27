@@ -40,6 +40,18 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+	<rule name="Ignore spelling of .*ige?" id="_IGE">
+        <pattern>
+            <token regexp="yes">^[0-9]+[-](jar|ur|del|ass|voud|cijfer|pol|snar|kopp|zijd|lobb|blad|led|waard|lag|ei|rij|hoek|tal|regel|vleugel|wiel|tall|cel|stemm|arm|ader|vinger|spor|motor|kleur|fas|slacht|kant|puntig|pot|ton|hand|hokk|huiz|cell|splet|nerv|ben|tand|mal|lipp)(ig|ige)$</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+	<rule name="Ignore spelling of .*voud" id="_VOUD">
+        <pattern>
+            <token regexp="yes">^[0-9]+[-](voud|maal)$</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
 
 	<!-- ROMEINSE GETALLEN -->
 	<rule name="ignore roman numbers" id="IGNORE_SPELLER_ROMAN_NUMBERS">
@@ -70,7 +82,7 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 	<!-- rangtelnummers -->
 	<rule name="ignore -ste" id="SPELLER_NUMBERS_RANKING">
 		<pattern>
-			<token regexp="yes">[0-9]{1,10}(ste|de|e)</token>
+			<token regexp="yes">^[0-9]+e$|^([1-9]0)?[2345679]de$|^([1-9]0)?[18]ste$|^([1-9])?[1][0-9]de$|^([0-9]+)?[2-9][0-9]ste$|^000ste$</token>
 		</pattern>
 		<disambig action="ignore_spelling"/>  
 	</rule>
@@ -472,7 +484,11 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 		<pattern><token postag_regexp="yes" postag="BNW:.*:VRB"/></pattern>
 		<disambig action="add" postag="ZNW:EKV"/>
 	</rule>	
-	
+	<rule id="WKW-INF-ZNW-HET" name="">
+		<pattern><token postag="WKW:INF:ZNW:HET"/></pattern>
+		<disambig action="add" postag="ZNW:EKV:HET"/>
+	</rule>
+
     <!-- REAL DISAMBIGUATION -->
 	<rule id="ZNW_ZELDZAAM" name="niet, bij etc">
 		<!-- verwijdert ook tags bij 'te paard', 'te vuur' etc. -->

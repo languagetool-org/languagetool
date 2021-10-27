@@ -144,14 +144,16 @@ public final class RuleOverview {
       System.out.print("<td valign=\"top\" align=\"right\">" + countConfusionPairs(lang) + "</td>");
 
       // activity:
-      int commits = activity.getActivityFor(lang, 365/2);
-      int width = (int) Math.max(commits * 0.5, 1);
+      int commits = activity.getActivityFor(lang, 365/4);
+      int width = (int) Math.max(commits * 0.25, 1);
       String images = "";
       if (width > 50) {
-        images += "<img title='" + commits + " commits in the last 6 months' src='images/bar-end.png' width='22' height='10'/>";
+        images += "<img title='" + commits + " commits in the last 3 months' src='images/bar-end.png' width='22' height='10'/>";
         width = 50;
+      } else if (width == 1 && commits > 0) {
+        width = 3;
       }
-      images += "<img title='" + commits + " commits in the last 6 months' src='images/bar.png' width='" + width + "' height='10'/>";
+      images += "<img title='" + commits + " commits in the last 3 months' src='images/bar.png' width='" + width + "' height='10'/>";
       System.out.print("<td valign=\"top\" align=\"right\"><span style='display:none'>" + commits + "</span>" + images + "</td>");
       
       // maintainer information:

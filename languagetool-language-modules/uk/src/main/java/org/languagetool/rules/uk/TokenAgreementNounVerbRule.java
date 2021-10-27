@@ -146,6 +146,9 @@ public class TokenAgreementNounVerbRule extends Rule {
           else if( nounPosTag.startsWith("noun") && nounPosTag.contains("v_kly") ) {
             // ignore
           }
+          else if( PosTagHelper.isPredictOrInsert(token) ) {
+            // ignore
+          }
           else if( token.getPOSTag().matches("adj:.:(v_naz|v_kly).*")
               || (token.getPOSTag().startsWith("adj:m:v_zna:rinanim") 
                   && ! PosTagHelper.hasPosTagStart(tokens[i-1], "prep"))
@@ -191,6 +194,9 @@ public class TokenAgreementNounVerbRule extends Rule {
         if( verbPosTag.startsWith("verb") ) {
 
           verbTokenReadings.add(token);
+        }
+        else if( PosTagHelper.isPredictOrInsert(token) ) {
+          // ignore
         }
         else {
           verbTokenReadings.clear();

@@ -42,7 +42,7 @@ public class PortugalPortuguese extends Portuguese {
   public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     List<Rule> rules = new ArrayList<>();
     rules.addAll(super.getRelevantRules(messages, userConfig, motherTongue, altLanguages));
-    rules.add(new PostReformPortugueseCompoundRule(messages));
+    rules.add(new PostReformPortugueseCompoundRule(messages, this, userConfig));
     rules.add(new PostReformPortugueseDashRule(messages));
     rules.add(new PortugalPortugueseReplaceRule(messages, "/pt/pt-PT/replace.txt"));
     rules.add(new PortugueseAgreementReplaceRule(messages));

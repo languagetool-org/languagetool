@@ -329,6 +329,99 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Remember when this was all about <marker>Jack</marker> Ma?</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="PCT|SENT_START" postag_regexp="yes" />
+                    <marker>
+                        <token>attached</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">be|please</token>
+                </pattern>
+                <example correction="">Mark, <marker>attached</marker> is a file.</example> 
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">.*[a-z].*</token>
+                    </marker>
+                    <token spacebefore="no" regexp="yes">["“”’]</token>
+                </pattern>
+                <example correction="">“It is the pickup <marker>stop</marker>” he explained.</example> 
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">.*[a-z].*</token>
+                    </marker>
+                    <token>LLC</token>
+                </pattern>
+                <example correction="">He works for the Learning <marker>Company</marker> LLC.</example> 
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>what</token>
+                    </marker>
+                    <token>exactly</token>
+                </pattern>
+                <example correction="">I do not know <marker>what</marker> exactly, …</example> 
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">.*[a-z].*</token>
+                    </marker>
+                    <token regexp="yes">[js]r</token>
+                </pattern>
+                <example correction="">He is Martin Luther <marker>King</marker> Jr.</example> 
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="SENT_END" regexp="yes">.*[a-z0-9].*</token>
+                    </marker>
+                </pattern>
+                <example correction="">Please call <marker>911</marker></example> 
+            </rule>
+            <rule>
+                <!-- non-independent clauses with no subject -->
+                <pattern>
+                    <marker>
+                        <token/>
+                    </marker>
+                    <token>but</token>
+                    <token postag="VB[PZD]|MD" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">Boxers are not designed for <marker>support</marker> but excel in breathability.</example>
+            </rule>
+            <rule>
+                <!-- non-independent clauses with no predicate -->
+                <antipattern>
+                    <token>but</token>
+                    <token>no</token>
+                    <token min="0">such</token>
+                    <token>luck</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token/>
+                    </marker>
+                    <token skip="-1">but<exception scope="next" postag="VB[PZD]|MD" postag_regexp="yes"/></token>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <example correction="">Bikinis make you feel like you are at the <marker>beach</marker> but without the sand.</example>
+                <example>I tried using promises but no luck.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>University</token>
+                    <marker>
+                        <token>College</token>
+                    </marker>
+                    <token>London</token>
+                </pattern>
+                <example correction="">2010; University <marker>College</marker> London, UK.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_EN_G_REPLACE_ORTH" name="">
             <rule>

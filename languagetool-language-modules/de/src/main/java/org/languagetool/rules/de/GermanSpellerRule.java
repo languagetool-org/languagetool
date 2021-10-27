@@ -329,6 +329,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Präsen", "Präsentationen");
     put("Orga", "Organisation");
     put("Orgas", "Organisationen");
+    put("Reorga", "Reorganisation");
+    put("Reorgas", "Reorganisationen");
     put("instande?zusetzen", "instand zu setzen");
     put("Lia(si|is)onen", "Liaisons");
     put("[cC]asemana?ge?ment", "Case Management");
@@ -949,6 +951,23 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Treibel", "Tribal");
     put("vorort", "vor Ort");
     put("Brotwürfelcro[uû]tons", "Croûtons");
+    put("bess?tetigung", "Bestätigung");
+    put("[mM]ayonaisse", "Mayonnaise");
+    put("misverstaendnis", "Missverständnis");
+    put("[vV]erlu(ss|ß)t", "Verlust");
+    put("glückigerweise", "glücklicherweise");
+    put("[sS]tandtart", "Standard");
+    put("Mainzerstrasse", "Mainzer Straße");
+    put("Genehmigerablauf", "Genehmigungsablauf");
+    put("Bestellerurkunde", "Bestellungsurkunde");
+    put("Selbstmitleidigkeit", "Selbstmitleid");
+    put("[iI]ntuion", "Intuition");
+    put("[cCkK]ontener", "Container");
+    put("Barcadi", "Bacardi");
+    put("Unnanehmigkeit", "Unannehmlichkeit");
+    put("[wW]ischmöppen?", "Wischmopps");
+    putRepl("[oO]rdnungswiedrichkeit(en)?", "[oO]rdnungswiedrich", "Ordnungswidrig");
+    putRepl("Mauntenbiker[ns]?", "^Maunten", "Mountain");
     putRepl("Mauntenbikes?", "Maunten", "Mountain");
     putRepl("[nN]euhichkeit(en)?", "[nN]euhich", "Neuig");
     putRepl("Prokopfverbrauchs?", "Prokopfv", "Pro-Kopf-V"); // Duden
@@ -1174,6 +1193,14 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("[Ss]chalge", "schlage");
     put("Deutschsprache", "deutsche Sprache");
     put("eigl", "eigtl");
+    put("ma", "mal");
+    put("leidete", "litt");
+    put("leidetest", "littest");
+    put("leideten", "litten");
+    put("Hoody", "Hoodie");
+    put("Hoodys", "Hoodies");
+    put("Exam", "Examen");
+    put("strang", w -> Arrays.asList("Strang", "strengte"));
   }
 
   private static void putRepl(String wordPattern, String pattern, String replacement) {
@@ -1256,7 +1283,14 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     }
     List<String> candidates = new ArrayList<>();
     for (List<String> parts : partList) {
-      candidates.addAll(super.getCandidates(parts));
+      List<String> tmp = super.getCandidates(parts);
+      tmp = tmp.stream().filter(k -> !k.matches("[A-ZÖÄÜ][a-zöäüß]+-[\\-\\s]?[a-zöäüß]+") &&
+                                     !k.matches("[a-zöäüß]+-[\\-\\s][A-ZÖÄÜa-zöäüß]+")).collect(Collectors.toList());  // avoid e.g. "Direkt-weg"
+      tmp = tmp.stream().filter(k -> !k.contains("-s-")).collect(Collectors.toList());  // avoid e.g. "Geheimnis-s-voll"
+      if (!word.endsWith("-")) {
+        tmp = tmp.stream().filter(k -> !k.endsWith("-")).collect(Collectors.toList());  // avoid "xyz-" unless the input word ends in "-"
+      }
+      candidates.addAll(tmp);
       if (parts.size() == 2) {
         // e.g. "inneremedizin" -> "innere Medizin", "gleichgroß" -> "gleich groß"
         candidates.add(parts.get(0) + " " + parts.get(1));

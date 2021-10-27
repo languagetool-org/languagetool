@@ -68,6 +68,8 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern HYPHEN_ILS = Pattern.compile("^([\\p{L}]+)[’']?(ils|elles)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  private static final Pattern SPLIT_SUGGESTIONS = Pattern.compile("^(..+\\p{L})(\\d+)$",
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   
   private static final Pattern IMPERATIVE_HYPHEN = Pattern.compile(
       "^([\\p{L}]+)[’']?(moi|toi|le|la|lui|nous|vous|les|leur|y|en)$", //|vs|y
@@ -83,6 +85,7 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
   private static final Pattern NOM_PLURAL = Pattern.compile("[NJZ] .* (p|sp)|V .*ppa.* p");
   //private static final Pattern VERB_INFGERIMP = Pattern.compile("V.[NGM].*");
   //private static final Pattern VERB_INF = Pattern.compile("V.N.*");
+  private static final Pattern ANY_TAG = Pattern.compile("[NAZJPD].*");
   
   private static final Pattern VERB_1S = Pattern.compile("V .*(ind).* 1 s");
   private static final Pattern VERB_2S = Pattern.compile("V .*(ind).* 2 s");
@@ -204,6 +207,7 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
      * if (word.length() < 5) { return Collections.emptyList(); }
      */
     List<String> newSuggestions = new ArrayList<>();
+    newSuggestions.addAll(findSuggestion(word, SPLIT_SUGGESTIONS, ANY_TAG, 1, " ", true));
     newSuggestions.addAll(findSuggestion(word, APOSTROF_INICI_VERBS, VERB_INDSUBJ, 2, "'", true));
     newSuggestions.addAll(findSuggestion(word, APOSTROF_INICI_VERBS_M, VERB_INDSUBJ_M, 2, "'", true));
     newSuggestions.addAll(findSuggestion(word, APOSTROF_INICI_VERBS_C, VERB_INDSUBJ_C, 2, "'", true));
@@ -221,6 +225,7 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
     newSuggestions.addAll(findSuggestion(word, HYPHEN_NOUS, VERB_1P, 1, "-", true));
     newSuggestions.addAll(findSuggestion(word, HYPHEN_VOUS, VERB_2P, 1, "-", true));
     newSuggestions.addAll(findSuggestion(word, HYPHEN_ILS, VERB_3P, 1, "-", true));
+    
     
     if (!newSuggestions.isEmpty()) {
       return newSuggestions;
@@ -245,7 +250,7 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
           for (int i = 0; i < moreSugg.size(); i++) {
             String newWord;
             if (suggestionPosition == 1) {
-              newWord = moreSugg.get(i).toLowerCase() + matcher.group(2);
+              newWord = moreSugg.get(i) + matcher.group(2); //.toLowerCase()
             } else {
               newWord = matcher.group(1) + moreSugg.get(i);
             }

@@ -121,8 +121,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Herren,">Sehr geehrte Damen und <marker>Herren</marker></example>
             </rule>
         </rulegroup>
-        <rulegroup id="ANREDE_KOMMA_2" name="Fehlendes Komma nach Begrüßungsformeln (Hallo, Guten Tag)" default="on">
+        <rulegroup id="ANREDE_KOMMA_2" name="Fehlendes Komma nach Begrüßungsformeln (Hallo, Guten Tag)">
             <rule>
+                <antipattern>
+                    <token skip="3" regexp="yes">Hallo|Hi|Hey|Moin|Servus|Tschüss?
+                        <exception scope="next" postag=".*INR.*|VER.*:[123]:.*" postag_regexp="yes"/>
+                        </token>
+                    <token>,</token>
+                </antipattern>
                 <antipattern case_sensitive="yes">
                     <token postag="SENT_START"/>
                     <token min="0" regexp="yes">&anfauf;</token>
@@ -151,7 +157,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example><marker>"Moin"</marker> ist Norddeutsch.</example>
                 <example correction="Hallo,">„<marker>Hallo</marker> da seid ihr ja endlich!“</example>
                 <example correction="Hallo,"><marker>Hallo</marker> wie geht es euch?</example>
+                <example correction="Hallo,"><marker>Hallo</marker> ich bin Kira, wo ist die Bibliothek?</example>
                 <example>Moin herr Müller.</example><!-- "herr" muss großgeschrieben werden, trotzdem sollte kein Komma vorgeschlagen werden -->
+                <example>Hallo an alle, habe am Montag vormittag einen Brief aus Polen abgeschickt nach Hamburg.</example>
             </rule>
             <!--<rule>
                 <pattern case_sensitive="yes">

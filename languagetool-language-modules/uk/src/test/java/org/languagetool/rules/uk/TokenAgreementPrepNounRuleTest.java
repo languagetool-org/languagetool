@@ -223,6 +223,9 @@ public class TokenAgreementPrepNounRuleTest {
     matches = ruleMatch("зацікавлених у ви користанні");
     assertEquals(1, matches.length);
 
+    matches = ruleMatch("без правда");
+    assertEquals(1, matches.length);
+
     // TODO: ignored due to adj:v_zna "мінський"
 //    matches = ruleMatch("колега з Мінську");
 //    assertEquals(1, matches.length);

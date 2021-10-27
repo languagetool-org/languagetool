@@ -18,6 +18,8 @@
  */
 package org.languagetool.rules.de;
 
+import org.languagetool.Language;
+import org.languagetool.UserConfig;
 import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.*;
 import org.languagetool.tagging.de.GermanTagger;
@@ -38,8 +40,8 @@ public class GermanCompoundRule extends AbstractCompoundRule {
   
   private static GermanSpellerRule germanSpellerRule;
  
-  public GermanCompoundRule(ResourceBundle messages) throws IOException {
-    super(messages,
+  public GermanCompoundRule(ResourceBundle messages, Language lang, UserConfig userConfig) throws IOException {
+    super(messages, lang, userConfig,
             "Dieses Wort wird mit Bindestrich geschrieben.",
             "Dieses Wort wird zusammengeschrieben.",
             "Diese Wörter werden zusammengeschrieben oder mit Bindestrich getrennt.",

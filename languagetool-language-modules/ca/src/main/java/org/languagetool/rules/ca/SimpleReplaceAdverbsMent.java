@@ -53,7 +53,7 @@ public class SimpleReplaceAdverbsMent extends AbstractSimpleReplaceRule {
     super(messages);
     super.setCategory(new Category(new CategoryId("PICKY_STYLE"), "regles d'estil, mode perfeccionaista"));
     super.setLocQualityIssueType(ITSIssueType.Style);
-    super.setDefaultOn();
+    super.setDefaultOff();
     this.setCheckLemmas(false);
     setTags(Arrays.asList(Tag.picky));
     super.setUrl(new URL("https://esadir.cat/gramatica/sintaxi/advermanera"));

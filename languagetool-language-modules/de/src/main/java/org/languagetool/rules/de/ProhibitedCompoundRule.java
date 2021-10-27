@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2018 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -49,6 +49,8 @@ public class ProhibitedCompoundRule extends Rule {
   private static final List<Pair> lowercasePairs = Arrays.asList(
           // NOTE: words here must be all-lowercase
           // NOTE: no need to add words from confusion_sets.txt, they will be used automatically (if starting with uppercase char)
+          new Pair("hüte", "Kopfbedeckungen", "häute", "Plural von 'Haut'"),
+          new Pair("bach", "kleiner Fluss", "bauch", "Teil des menschlichen Körpers"),
           new Pair("werbereich", null, "erbereich", null),
           new Pair("lage", "Position", "alge", "im Wasser lebende Organismen"),
           new Pair("sphäre", "Kugel", "spähreh", null),
@@ -120,6 +122,105 @@ public class ProhibitedCompoundRule extends Rule {
     "Gra(ph|f)it"   // Grafit/Graphit
   );
   private static final Set<String> blacklist = new HashSet<>(Arrays.asList(
+          "Testerinnen",  // vs text
+          "Wirtschaftspreises",  // vs kreises
+          "Schlüsselkreise",  // vs preisen
+          "Bundespreisen",  // vs kreisen
+          "Terminsuche",  // vs sache
+          "Suchposition",  // vs sach
+          "Mietersache",  // vs suche
+          "Textprüfungen",  // vs test
+          "Abteilungszahlen",  // vs wahlen
+          "Batteriewahl",  // vs zahl
+          "Zahlrhythmus",  // vs wahl
+          "Zahldatum",  // vs wahl
+          "Auszahlphase",  // vs wahl
+          "Auszahlmethode",  // vs wahl
+          "Zahlprozess",  // vs wahl
+          "Protestzahlen",  // vs wahlen
+          "Leserwahlen",  // vs zahlen
+          "Publikumswahl",  // vs zahl
+          "Händlerwahl",  // vs zahl
+          "Wettbetrag",  // vs wert
+          "Wettguthaben",  // vs wert
+          "Wettannahme",  // vs wert
+          "Wettkonto",  // vs wert
+          "Wettguthaben",  // vs wert
+          "Wettguthabens",  // vs wert
+          "Wettsteuern",  // vs wert
+          "Wettoptionen",  // vs wert
+          "Testhaushalt",  // vs rest
+          "Testkapazität",  // vs rest
+          "Testfamilie",  // vs rest
+          "Testkapazitäten",  // vs rest
+          "Testbeobachtung",  // vs text
+          "Testproduktionen",  // vs text
+          "Produkttest",  // vs rest
+          "Produkttesten",  // vs rest
+          "Produkttext",  // vs test
+          "Textkampagnen",  // vs test
+          "Texting",  // vs testing
+          "Testfelds",  // vs text
+          "Testnachweis",  // vs text
+          "Testbeiträge",  // vs text
+          "Testbeiträgen",  // vs text
+          "Verkaufstext",  // vs test
+          "Bewerbungsfrage",  // vs bewertung
+          "Bewerbungstag",  // vs bewertung
+          "Bestätigungstext",  // vs test
+          "Bewerbungsprozess",  // vs bewertung
+          "Bewerbungsprozesse",  // vs bewertung
+          "Bewertungsmanagement",  // vs bewerbung
+          "Bewertungsdossier",  // vs bewerbung
+          "Bewerbungsnote",  // vs bewertung
+          "Bewerbungskennziffer",  // vs bewertung
+          "Online-Bewertung",  // vs bewerbung
+          "Schuhmodell",  // vs schul
+          "Schuhmodells",  // vs schul
+          "Bürgertest",  // vs fest
+          "Testzelt",  // vs fest
+          "Testgelegenheit",  // vs fest
+          "Testbestellung",  // vs fest
+          "Aufklärungsseiten",  // vs zeiten
+          "Verkaufsseiten",  // vs zeiten
+          "Morgenseiten",  // vs zeiten
+          "Bedürfnisseiten",  // vs zeiten
+          "Kehrzeiten",  // vs seiten
+          "Lernseiten",  // vs zeiten
+          "Suchstatistik",  // vs buch
+          "Kassenlösung",  // vs klasse
+          "Kassenchef",  // vs klasse
+          "Kassenmanagement",  // vs klasse
+          "Kassenbesetzung",  // vs klasse
+          "Stundenkonten",  // vs kosten
+          "Werbekonten",  // vs kosten
+          "Kontensicherung",  // vs kosten
+          "Extrakonten",  // vs kosten
+          "Servicekonten",  // vs kosten
+          "Lichtmodi",  // vs sicht
+          "Frontlicht",  // vs sicht
+          "sichtgeschützter",  // vs licht
+          "Sichtproben",  // vs licht
+          "Mietschein",  // vs mit
+          "Miethilfen",  // vs mit
+          "Mietberater",  // vs mit
+          "Mietstrom",  // vs mit
+          "Fitnessmarke",  // vs markt
+          "Kameramarke",  // vs markt
+          "Gewürzmarke",  // vs markt
+          "Paketmarke",  // vs markt
+          "Standregal",  // vs strand
+          "Standordnung",  // vs strand
+          "Zahnkorrekturen",  // vs bahn
+          "Infektionslage",  // vs tage
+          "Strandtage",  // vs lage
+          "Schweinebach",  // vs Schweinebauch
+          "Schweinebaches",  // vs Schweinebauches
+          "Wellenbach",  // vs Wellenbauch
+          "Kesselbauches",  // vs Kesselbaches
+          "Froschbach",  // vs Froschbauch
+          "Bachregion",  // vs Bauchregion
+          "Bachregionen",  // vs Bauchregionen
           "Flugtaxen",  // vs Flugtagen
           "Fahrerkanzel",  // vs Führerkanzel
           "Wehrchef",  // vs Lehrchef
@@ -721,14 +822,33 @@ public class ProhibitedCompoundRule extends Rule {
           "Feuchtmann", //name
           "Fachlektüre",
           "Fachlektüren",
+          "Lustkugel",
+          "Lustkugeln",
+          "Tankbeleg", // vs Bankbeleg
+          "Tankbelegs", // vs Bankbelegs
+          "Tankbeleges", // vs Bankbeleges
+          "Tankbelege", // vs Bankbelege
+          "Tankbelegen", // vs Bankbelegen
           "Kamelart", // vs. Kabelart
           "Kamelarten", // vs. Kabelarten
           "Bayern-Präsident", // vs Bauernpräsident
           "Bayern-Präsidenten", // vs Bauernpräsident
           "Bundessprechern", // vs Bundessprecherin
           "Netzsuche", // vs Netztuche (?)
+          "Beileger", // vs Beilager
+          "Beilegers", // vs Beilagers
+          "Beilegern", // vs Beilagern
           "Sexangelegenheit", // vs Seeangelegenheit
-          "Sexangelegenheiten" // vs Seeangelegenheiten
+          "Sexangelegenheiten", // vs Seeangelegenheiten
+          "Mobilfunkmarke", // vs Mobilfunkmarkt
+          "Schulball", // vs Schulfall
+          "Schulballs", // vs Schulfalls
+          "marktdurchdringend", // vs markdurchdringend
+          "marktdurchdringende",
+          "marktdurchdringendes",
+          "marktdurchdringender",
+          "marktdurchdringenden",
+          "marktdurchdringendem"
   ));
 
   // have per-class static list of these and reference that in instance
@@ -864,7 +984,7 @@ public class ProhibitedCompoundRule extends Rule {
   private boolean isMisspelled (String word) {
     return (linguServices == null ? spellerRule.isMisspelled(word) : !linguServices.isCorrectSpell(word, german));
   }
-  
+
   private int getMatches(AnalyzedSentence sentence, List<RuleMatch> ruleMatches, AnalyzedTokenReadings readings, int partsStartPos, String wordPart, int toPosCorrection) {
     /* optimizations:
      only nouns can be compounds
@@ -917,7 +1037,7 @@ public class ProhibitedCompoundRule extends Rule {
         int fromPos = readings.getStartPos() + partsStartPos;
         int toPos = fromPos + wordPart.length() + toPosCorrection;
         String id = getId() + "_" + cleanId(pair.part1) + "_" + cleanId(pair.part2);
-        RuleMatch match = new RuleMatch(new SpecificIdRule(id, pair.part1, pair.part2, messages), sentence, fromPos, toPos, msg);
+        RuleMatch match = new RuleMatch(new SpecificIdRule(id, pair.part1, pair.part2, messages, isPremium()), sentence, fromPos, toPos, msg);
         match.setSuggestedReplacement(variant);
         weightedMatches.add(new WeightedRuleMatch(variantCount, match));
       }
@@ -995,7 +1115,8 @@ public class ProhibitedCompoundRule extends Rule {
   static private class SpecificIdRule extends Rule {  // don't extend ProhibitedCompoundRule for performance reasons (speller would get re-initialized a lot)
     private final String id;
     private final String desc;
-    SpecificIdRule(String id, String part1, String part2, ResourceBundle messages) {
+    SpecificIdRule(String id, String part1, String part2, ResourceBundle messages, boolean isPremium) {
+      this.setPremium(isPremium);
       this.id = Objects.requireNonNull(id);
       this.desc = "Markiert wahrscheinlich falsche Komposita mit Teilwort '" + uppercaseFirstChar(part1) + "' statt '" + uppercaseFirstChar(part2) + "' und umgekehrt";
       setCategory(Categories.TYPOS.getCategory(messages));

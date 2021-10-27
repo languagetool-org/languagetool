@@ -43,7 +43,7 @@ import java.util.List;
 public class SpanishHybridDisambiguator extends AbstractDisambiguator {
 
   private final Disambiguator chunker = new MultiWordChunker("/es/multiwords.txt", true, true);
-  private final Disambiguator disambiguator = new XmlRuleDisambiguator(new Spanish());
+  private final Disambiguator disambiguator = new XmlRuleDisambiguator(new Spanish(), true);
 
   @Override
   public AnalyzedSentence disambiguate(AnalyzedSentence input) throws IOException {

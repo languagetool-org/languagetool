@@ -20,14 +20,17 @@ package org.languagetool.rules.en;
 
 import org.languagetool.Language;
 import org.languagetool.Languages;
+import org.languagetool.UserConfig;
 import org.languagetool.language.AmericanEnglish;
 import org.languagetool.rules.*;
 import org.languagetool.rules.patterns.PatternTokenBuilder;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tagging.en.EnglishTagger;
+import org.languagetool.tools.Tools;
 
 import java.io.IOException;
 import java.util.*;
+import java.net.URL;
 
 /**
  * Checks that compounds (if in the list) are not written as separate words.
@@ -111,14 +114,15 @@ public class CompoundRule extends AbstractCompoundRule {
       )
   ), AMERICAN_ENGLISH);
 
-  public CompoundRule(ResourceBundle messages) throws IOException {    
-    super(messages,
+  public CompoundRule(ResourceBundle messages, Language lang, UserConfig userConfig) throws IOException {    
+    super(messages, lang, userConfig,
             "This word is normally spelled with a hyphen.",
             "This word is normally spelled as one.", 
             "This expression is normally spelled as one or with a hyphen.",
             "Compound");
     addExamplePair(Example.wrong("I now have a <marker>part time</marker> job."),
                    Example.fixed("I now have a <marker>part-time</marker> job."));
+    setUrl(Tools.getUrl("https://insights.languagetool.com/post/hyphen/"));
     if (englishSpellerRule == null) {
       englishSpellerRule = new MorfologikAmericanSpellerRule(messages, new AmericanEnglish());
     }

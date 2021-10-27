@@ -25,7 +25,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 /**
-  Used via Jackson-databind + myBatis -> return info from DB via JSON in /users/me route
+  Used via Jackson-databind + myBatis -&gt; return info from DB via JSON in /users/me route
  @see ApiV2
  */
 public class ExtendedUserInfo {

@@ -91,6 +91,7 @@ public class AgreementRule2 extends Rule {
     asList(token("ausschliesslich")),
     asList(token("bloß")),       // "Bloß Anhängerkupplung und solche Dinge..."
     asList(token("einfach")),    // "Einfach Bescheid sagen ..."
+    asList(token("egal")),
     asList(token("endlich")),    // "Endlich Mittagspause!"
     asList(token("unbemerkt")),    // "Unbemerkt Süßigkeiten essen"
     asList(token("Typisch"), tokenRegex("Mann|Frau")),    // "Einfach Bescheid sagen ..."

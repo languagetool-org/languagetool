@@ -343,6 +343,11 @@ public final class PosTagHelper {
         && WORD_PATTERN.matcher(analyzedTokenReadings.getToken()).matches();
   }
 
+  private static Pattern PREDICT_INSERT_PATTERN = Pattern.compile("noninfl:&(predic|insert).*");
+  public static boolean isPredictOrInsert(AnalyzedToken token) {
+    return PREDICT_INSERT_PATTERN.matcher(token.getPOSTag()).matches();
+  }
+
 //private static String getNumAndConj(String posTag) {
 //  Matcher pos4matcher = GENDER_CONJ_REGEX.matcher(posTag);
 //  if( pos4matcher.matches() ) {

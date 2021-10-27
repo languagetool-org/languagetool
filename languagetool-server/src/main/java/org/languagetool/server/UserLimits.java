@@ -64,7 +64,7 @@ class UserLimits {
     UserInfoEntry entry = DatabaseAccess.getInstance().getUserInfoWithPassword(username, password);
     if (entry == null) { // transparent fallback to anonymous user if DB down
       return getDefaultLimits(config);
-    } if (entry.hasPremium()) {
+    } if (entry.hasPremium() || config.isPremiumAlways()) {
       logger.info("Access via username/password for " + username);
       return new UserLimits(config.getMaxTextLengthPremium(), config.getMaxCheckTimeMillisPremium(), entry.getUserId(), true, entry.getUserDictCacheSize(), entry.getRequestsPerDay(), entry.getLimitEnforcement(), entry);
     } else {
@@ -91,8 +91,11 @@ class UserLimits {
     }
     Claim maxTextLengthClaim = decodedToken.getClaim("maxTextLength");
     Claim premiumClaim = decodedToken.getClaim("premium");
-    boolean hasPremium = !premiumClaim.isNull() && premiumClaim.asBoolean();
-    Claim uidClaim = decodedToken.getClaim("uid");
+    boolean hasPremium = config.isPremiumAlways() || (!premiumClaim.isNull() && premiumClaim.asBoolean());
+    Long uid = decodedToken.getClaim("uid").asLong();
+    if (config.isPremiumAlways() && uid == null) {
+      uid = 1L; // need uid to be recognized as premium
+    }
     // START PREMIUM MODIFICATIONS
     Claim dictCacheSizeClaim = decodedToken.getClaim("dictCacheSize");
     Long dictCacheSize = dictCacheSizeClaim.asLong();
@@ -102,7 +105,7 @@ class UserLimits {
     LimitEnforcementMode limitEnforcementMode = LimitEnforcementMode.parse(limitEnforcementClaim.asInt());
     int maxTextLength = maxTextLengthClaim.isNull() ? hasPremium ? config.getMaxTextLengthPremium() : config.getMaxTextLengthLoggedIn() : maxTextLengthClaim.asInt();
     long maxCheckTime = hasPremium ? config.getMaxCheckTimeMillisPremium() : config.getMaxCheckTimeMillisLoggedIn();
-    UserLimits userLimits = new UserLimits(maxTextLength, maxCheckTime, uidClaim.asLong(), hasPremium,
+    UserLimits userLimits = new UserLimits(maxTextLength, maxCheckTime, uid, hasPremium,
       (dictCacheSize == null || dictCacheSize <= 0) ? null : dictCacheSize,
       requestsPerDay, limitEnforcementMode);
     userLimits.skipLimits = decodedToken.getClaim("skipLimits").isNull() ? false : decodedToken.getClaim("skipLimits").asBoolean();
@@ -117,7 +120,7 @@ class UserLimits {
     UserInfoEntry data = db.getUserInfoWithApiKey(username, apiKey);
     if (data == null) { // transparent fallback to anonymous user if DB down
       return getDefaultLimits(config);
-    } else if (data.hasPremium()) {
+    } else if (data.hasPremium() || config.isPremiumAlways()) {
       return new UserLimits(config.getMaxTextLengthPremium(), config.getMaxCheckTimeMillisPremium(), data.getUserId(), true, data.getUserDictCacheSize(), data.getRequestsPerDay(), data.getLimitEnforcement(), data);
     } else {
       return new UserLimits(config.getMaxTextLengthLoggedIn(), config.getMaxCheckTimeMillisLoggedIn(), data.getUserId(), false, data.getUserDictCacheSize(), data.getRequestsPerDay(), data.getLimitEnforcement(), data);
@@ -132,7 +135,7 @@ class UserLimits {
     UserInfoEntry data = db.getUserInfoWithAddonToken(username, addonToken);
     if (data == null) { // transparent fallback to anonymous user if DB down
       return getDefaultLimits(config);
-    } if (data.hasPremium()) {
+    } if (data.hasPremium() || config.isPremiumAlways()) {
       return new UserLimits(config.getMaxTextLengthPremium(), config.getMaxCheckTimeMillisPremium(), data.getUserId(), true, data.getUserDictCacheSize(), data.getRequestsPerDay(), data.getLimitEnforcement(), data);
     } else {
       return new UserLimits(config.getMaxTextLengthLoggedIn(), config.getMaxCheckTimeMillisLoggedIn(), data.getUserId(), false, data.getUserDictCacheSize(), data.getRequestsPerDay(), data.getLimitEnforcement(), data);

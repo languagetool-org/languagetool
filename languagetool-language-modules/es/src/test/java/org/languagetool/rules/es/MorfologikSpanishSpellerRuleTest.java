@@ -100,6 +100,20 @@ public class MorfologikSpanishSpellerRuleTest {
     matches = rule.match(lt.getAnalyzedSentence("esque"));
     assertEquals("es que", matches[0].getSuggestedReplacements().get(0));
     
+    matches = rule.match(lt.getAnalyzedSentence("hicistes"));
+    assertEquals("[hiciste, hicisteis]", matches[0].getSuggestedReplacements().toString());
+    
+    matches = rule.match(lt.getAnalyzedSentence("Windows10"));
+    assertEquals("Windows 10", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("Windows", matches[0].getSuggestedReplacements().get(1));
+    
+    matches = rule.match(lt.getAnalyzedSentence("windows10"));
+    assertEquals("Windows 10", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("Windows", matches[0].getSuggestedReplacements().get(1));
+    
+    matches = rule.match(lt.getAnalyzedSentence("windows1995"));
+    assertEquals("Windows 1995", matches[0].getSuggestedReplacements().get(0));
+    
     //currencies
     matches = rule.match(lt.getAnalyzedSentence("$100"));
     assertEquals(0, matches.length);
@@ -148,6 +162,13 @@ public class MorfologikSpanishSpellerRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("33° 5′ 40″ N; 32° 59′ 0″ E.")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("33°5′40″N i 32°59′0″E.")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("5·10-³ metros.")).length);
+    
+    // hashtags, domain names, mentions
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Una #mecion de @algunamigo en es.wikipedia.org")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("documentos publicados en ADSLZone.net")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Europa-Agricola.es es una página web dedicada a los anuncios")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("LANGUAGETOOL.ORG")).length);
+    
     
   }
 

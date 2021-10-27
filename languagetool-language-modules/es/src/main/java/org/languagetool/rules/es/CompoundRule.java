@@ -18,6 +18,8 @@
  */
 package org.languagetool.rules.es;
 
+import org.languagetool.Language;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
 import org.languagetool.tagging.es.SpanishTagger;
 
@@ -32,8 +34,8 @@ public class CompoundRule extends AbstractCompoundRule {
 
   private static volatile CompoundRuleData compoundData;
 
-  public CompoundRule(ResourceBundle messages) throws IOException {
-    super(messages,
+  public CompoundRule(ResourceBundle messages, Language lang, UserConfig userConfig) throws IOException {
+    super(messages, lang, userConfig,
             "Se escribe con un guion.",
             "Se escribe junto sin espacio ni guion.",
             "Se escribe junto o con un guion.",

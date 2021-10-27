@@ -53,6 +53,7 @@ public class XMLRuleHandler extends DefaultHandler {
   public static final String NAME = "name";
 
   /** Definitions of values in XML files. */
+  protected static final String PREMIUM = "premium";
   protected static final String YES = "yes";
   protected static final String OFF = "off";
   protected static final String TEMP_OFF = "temp_off";
@@ -139,6 +140,10 @@ public class XMLRuleHandler extends DefaultHandler {
   protected boolean regExpression;
   protected boolean tokenNegated;
   protected boolean tokenInflected;
+  protected boolean isPremiumFile;
+  protected boolean isPremiumCategory;
+  protected boolean isPremiumRuleGroup;
+  protected boolean isPremiumRule;
 
   protected boolean tokenLevelCaseSensitive;
   protected boolean tokenLevelCaseSet;

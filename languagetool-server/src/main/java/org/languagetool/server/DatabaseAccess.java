@@ -207,4 +207,6 @@ abstract class DatabaseAccess {
       }
     }
   }
+
+  public abstract List<String> getWords(UserLimits limits, List<String> groups, int offset, int limit);
 }

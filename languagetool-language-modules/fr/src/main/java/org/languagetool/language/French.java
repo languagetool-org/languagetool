@@ -117,7 +117,7 @@ public class French extends Language implements AutoCloseable {
             new LongSentenceRule(messages, userConfig, 40),
             new LongParagraphRule(messages, this, userConfig),
             // specific to French:
-            new CompoundRule(messages),
+            new CompoundRule(messages, this, userConfig),
             new QuestionWhitespaceStrictRule(messages, this),
             new QuestionWhitespaceRule(messages, this),
             new SimpleReplaceRule(messages),
@@ -274,12 +274,14 @@ public class French extends Language implements AutoCloseable {
       //case "ACCORD_COULEUR": return 1; // needs to have higher priority than agreement postponed adj
       case "R_VAVOIR_VINF": return 10; // needs higher priority than A_INFINITIF
       case "AN_EN": return 10; // needs higher priority than AN_ANNEE
+      case "PAS_DE_SOUCIS": return 10; // needs higher priority than PAS_DE_PB_SOUCIS (premium)
       //case "PRONSUJ_NONVERBE": return 10; // needs higher priority than AUXILIAIRE_MANQUANT
       //case "AUXILIAIRE_MANQUANT": return 5; // needs higher priority than ACCORD_NOM_VERBE
       case "CONFUSION_PAR_PART": return -5;  // turn off completely when PART_OU_PAR is activated
       case "SONT_SON": return -5; // less than ETRE_VPPA_OU_ADJ
       case "FR_SIMPLE_REPLACE": return -10;
       case "TE_NV": return -10; // less than SE_CE, SE_SA and SE_SES
+      case "PLURIEL_AL": return -10; // less than AGREEMENT_POSTPONED_ADJ
       case "IMP_PRON": return -10; // less than D_N
       case "TOO_LONG_PARAGRAPH": return -15;
       case "PREP_VERBECONJUGUE": return -20;

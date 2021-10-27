@@ -29,7 +29,7 @@ Copyright (C) 2009-2021 Yakov Reztsov
     <rule name="NOUN_V" id="NOUN_V">
         <pattern>		   
             <!-- Здесь нет больниц, нам нужно поехать в ближайший город.  "Город" только NN:.*:.*:.*:V  -->
-            <token regexp="yes" skip="1">в|на|сквозь|через<exception scope="next" postag="Num.*" postag_regexp="yes"></exception></token>
+            <token regexp="yes" skip="1">в|на|сквозь|через<exception scope="next" postag="Num.*" postag_regexp="yes"></exception><exception scope="next" postag="NN:.*" postag_regexp="yes"></exception></token>
             <marker>
                 <and>
                     <token postag="NN:.*:.*:.*:Nom" postag_regexp="yes"></token>
@@ -41,7 +41,7 @@ Copyright (C) 2009-2021 Yakov Reztsov
     </rule>
     <rule name="NOUN_V2" id="NOUN_V2">
         <pattern>
-            <token  skip="1">под</token>
+            <token  skip="1">под<exception scope="next" postag="NN:.*" postag_regexp="yes"></exception></token>
             <marker>
                 <and>
                     <token postag="NN:.*:.*:.*:Nom" postag_regexp="yes"></token>
@@ -57,7 +57,7 @@ Copyright (C) 2009-2021 Yakov Reztsov
             <!-- Add exception for : "Что за + NN:.*:.*:.*:Nom" -->
             <!-- Однако дворец был возрождён за два года.  за + два + NN:.*:.*:.*:R" -->
             <token  negate="yes">что</token>
-            <token  skip="1">за</token>
+            <token  skip="1">за<exception scope="next" postag="NN:.*" postag_regexp="yes"></exception></token>
             <marker>
                 <and>
                     <token postag="NN:.*:.*:.*:Nom" postag_regexp="yes"></token>
@@ -85,7 +85,7 @@ Copyright (C) 2009-2021 Yakov Reztsov
     <rule name="NOUN_R" id="NOUN_R">
         <pattern>
             <!-- без  - родительный  -->
-            <token skip="1" regexp="yes">без|безо|вместо|для|до|из|изо|из-за|из-под|кроме|около|от|против|среди|у</token>
+            <token skip="1" regexp="yes">без|безо|вместо|для|до|из|изо|из-за|из-под|кроме|около|от|против|среди|у<exception scope="next" postag="NN:.*" postag_regexp="yes"></exception></token>
             <marker>
                 <and>
                     <token postag="NN:.*:.*:.*:V" postag_regexp="yes"></token>
@@ -97,7 +97,7 @@ Copyright (C) 2009-2021 Yakov Reztsov
     </rule>
     <rule name="NOUN_D" id="NOUN_D">
         <pattern>
-            <token regexp="yes" skip="1">к|ко</token>
+            <token regexp="yes" skip="1">к|ко<exception scope="next" postag="NN:.*" postag_regexp="yes"></exception></token>
             <!-- по  - дательный, винительный, предложный -->
             <!-- к  - дательный  -->
             <marker>
@@ -112,7 +112,7 @@ Copyright (C) 2009-2021 Yakov Reztsov
     <rule name="NOUN_P" id="NOUN_P">
         <pattern>
             <!-- о  - винительный, предложный  -->
-            <token regexp="yes" skip="1">о|при</token>
+            <token regexp="yes" skip="1">о|при<exception scope="next" postag="NN:.*" postag_regexp="yes"></exception></token>
             <marker>
                 <and>
                     <token postag="NN:.*:.*:.*:D" postag_regexp="yes"></token>
@@ -616,7 +616,113 @@ Copyright (C) 2009-2021 Yakov Reztsov
         </rule>
 
     </rulegroup>
+    <rulegroup id="Word-zade" name="Word-zade">
+        <rule>
+            <pattern>
+                <token regexp="yes">([А-ЯЁа-яё]+)-заде</token>
+            </pattern>
+            <filter class="org.languagetool.rules.ru.NoDisambiguationRussianPartialPosTagFilter"
+                    args="no:1 regexp:([А-ЯЁа-яё]+)-заде postag_regexp:NN:.*"/><!-- The filter is case-sensitive -->
+            <disambig action="ignore_spelling"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">([А-ЯЁа-яё]+)-паша</token>
+            </pattern>
+            <filter class="org.languagetool.rules.ru.NoDisambiguationRussianPartialPosTagFilter"
+                    args="no:1 regexp:([А-ЯЁа-яё]+)-паша postag_regexp:NN:.*"/><!-- The filter is case-sensitive -->
+            <disambig action="ignore_spelling"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">([А-ЯЁа-яё]+)-беи</token>
+            </pattern>
+            <filter class="org.languagetool.rules.ru.NoDisambiguationRussianPartialPosTagFilter"
+                    args="no:1 regexp:([А-ЯЁа-яё]+)-беи postag_regexp:NN:.*"/><!-- The filter is case-sensitive -->
+            <disambig action="ignore_spelling"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">([А-ЯЁа-яё]+)-оглы</token>
+            </pattern>
+            <filter class="org.languagetool.rules.ru.NoDisambiguationRussianPartialPosTagFilter"
+                    args="no:1 regexp:([А-ЯЁа-яё]+)-оглы postag_regexp:NN:.*"/><!-- The filter is case-sensitive -->
+            <disambig action="ignore_spelling"></disambig>
+        </rule>
+    </rulegroup>
     
+    <rulegroup id="pol-Word" name="pol-Word">
+        <rule>
+            <pattern>
+                <token regexp="yes">[Пп]ол-([АаЕеЁёИиОоУуЭэЮюЯялЛ][а-яё]+)</token>
+            </pattern>
+            <filter class="org.languagetool.rules.ru.NoDisambiguationRussianPartialPosTagFilter"
+                    args="no:1 regexp:[Пп]ол-([АаЕеЁёИиОоУуЭэЮюЯялЛ][а-яё]+) postag_regexp:NN:.*:R"/><!-- The filter is case-sensitive -->
+            <disambig action="ignore_spelling"></disambig>
+        </rule>
+    </rulegroup>
+    <!-- обер-, унтер-, лейб-, штаб-, вице-, экс-, -->
+    <rulegroup id="pol1-Word" name="pol1-Word">
+        <rule>
+            <pattern>
+                <token regexp="yes">[Оо]бер-([а-яё]+)</token>
+            </pattern>
+            <filter class="org.languagetool.rules.ru.NoDisambiguationRussianPartialPosTagFilter"
+                    args="no:1 regexp:[Оо]бер-([а-яё]+) postag_regexp:NN:.*"/><!-- The filter is case-sensitive -->
+            <disambig action="ignore_spelling"></disambig>
+        </rule>
+    </rulegroup>
+   <rulegroup id="pol5-Word" name="pol5-Word">
+        <rule>
+            <pattern>
+                <token regexp="yes">[Уу]нтер-([а-яё]+)</token>
+            </pattern>
+            <filter class="org.languagetool.rules.ru.NoDisambiguationRussianPartialPosTagFilter"
+                    args="no:1 regexp:[Уу]нтер-([а-яё]+) postag_regexp:NN:.*"/><!-- The filter is case-sensitive -->
+            <disambig action="ignore_spelling"></disambig>
+        </rule>
+    </rulegroup>
+    <rulegroup id="pol6-Word" name="pol6-Word">
+        <rule>
+            <pattern>
+                <token regexp="yes">[Лл]ейб-([а-яё]+)</token>
+            </pattern>
+            <filter class="org.languagetool.rules.ru.NoDisambiguationRussianPartialPosTagFilter"
+                    args="no:1 regexp:[Лл]ейб-([а-яё]+) postag_regexp:NN:.*"/><!-- The filter is case-sensitive -->
+            <disambig action="ignore_spelling"></disambig>
+        </rule>
+    </rulegroup>
+    <rulegroup id="pol2-Word" name="pol2-Word">
+        <rule>
+            <pattern>
+                <token regexp="yes">[Шш]таб-([а-яё]+)</token>
+            </pattern>
+            <filter class="org.languagetool.rules.ru.NoDisambiguationRussianPartialPosTagFilter"
+                    args="no:1 regexp:[Шш]таб-([а-яё]+) postag_regexp:NN:.*"/><!-- The filter is case-sensitive -->
+            <disambig action="ignore_spelling"></disambig>
+        </rule>
+    </rulegroup>
+    <rulegroup id="pol3-Word" name="pol3-Word">
+        <rule>
+            <pattern>
+                <token regexp="yes">[Вв]ице-([а-яё]+)</token>
+            </pattern>
+            <filter class="org.languagetool.rules.ru.NoDisambiguationRussianPartialPosTagFilter"
+                    args="no:1 regexp:[Вв]ице-([а-яё]+) postag_regexp:NN:.*"/><!-- The filter is case-sensitive -->
+            <disambig action="ignore_spelling"></disambig>
+        </rule>
+    </rulegroup>
+    <rulegroup id="pol4-Word" name="pol4-Word">
+        <rule>
+            <pattern>
+                <token regexp="yes">[Ээ]кс-([а-яё]+)</token>
+            </pattern>
+            <filter class="org.languagetool.rules.ru.NoDisambiguationRussianPartialPosTagFilter"
+                    args="no:1 regexp:[Ээ]кс-([а-яё]+) postag_regexp:NN:.*"/><!-- The filter is case-sensitive -->
+            <disambig action="ignore_spelling"></disambig>
+        </rule>
+    </rulegroup>
+   
     <rule name="VERB_NOUN1" id="VERB_NOUN">
         <pattern>		   
             <!-- По какому случаю Вы так нарядились?   "случаю" только NN:Inanim:Masc:Sin:D, а не VB:Real:TRANS:IMPFV:Sin:P1 -->

@@ -41,6 +41,8 @@ public class EnglishSRXSentenceTokenizerTest {
   @Test
   public void testTokenize() {
     // incomplete sentences, need to work for on-thy-fly checking of texts:
+    testSplit("What is the I.S?");
+    testSplit("Where are the I.S and the M.Z notes? ");
     testSplit("Here's a");
     testSplit("Here's a sentence. ", "And here's one that's not comp");
     testSplit("Or did you install it (i.e. MS Word) yourself?");

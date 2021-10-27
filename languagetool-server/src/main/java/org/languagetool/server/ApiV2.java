@@ -35,11 +35,16 @@ import org.languagetool.rules.CorrectExample;
 import org.languagetool.rules.IncorrectExample;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.TextLevelRule;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
+import java.net.InetSocketAddress;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import static org.languagetool.server.LanguageToolHttpHandler.API_DOC_URL;
 
@@ -48,6 +53,8 @@ import static org.languagetool.server.LanguageToolHttpHandler.API_DOC_URL;
  * @since 3.4
  */
 class ApiV2 {
+
+  private static final Logger logger = LoggerFactory.getLogger(ApiV2.class);
 
   private static final String JSON_CONTENT_TYPE = "application/json";
   private static final String TEXT_CONTENT_TYPE = "text/plain";
@@ -73,7 +80,7 @@ class ApiV2 {
     } else if (path.equals("info")) {
       handleSoftwareInfoRequest(httpExchange);
     } else if (path.equals("check")) {
-      handleCheckRequest(httpExchange, parameters, errorRequestLimiter, remoteAddress);
+      handleCheckRequest(httpExchange, parameters, errorRequestLimiter, remoteAddress, config);
     } else if (path.equals("words")) {
       handleWordsRequest(httpExchange, parameters, config);
     } else if (path.equals("words/add")) {
@@ -111,9 +118,6 @@ class ApiV2 {
   }
 
   private void handleGetConfigurationInfoRequest(HttpExchange httpExchange, Map<String, String> parameters, HTTPServerConfig config) throws IOException {
-    if (Premium.isPremiumVersion()) {
-      throw new BadRequestException("Not supported in premium mode");
-    }
     if (parameters.get("language") == null) {
       throw new BadRequestException("'language' parameter missing");
     }
@@ -133,7 +137,7 @@ class ApiV2 {
     ServerMetricsCollector.getInstance().logResponse(HttpURLConnection.HTTP_OK);
   }
 
-  private void handleCheckRequest(HttpExchange httpExchange, Map<String, String> parameters, ErrorRequestLimiter errorRequestLimiter, String remoteAddress) throws Exception {
+  private void handleCheckRequest(HttpExchange httpExchange, Map<String, String> parameters, ErrorRequestLimiter errorRequestLimiter, String remoteAddress, HTTPServerConfig config) throws Exception {
     AnnotatedText aText;
     if (parameters.containsKey("text") && parameters.containsKey("data")) {
       throw new BadRequestException("Set only 'text' or 'data' parameter, not both");
@@ -159,7 +163,19 @@ class ApiV2 {
     } else {
       throw new BadRequestException("Missing 'text' or 'data' parameter");
     }
+    //get from config
+    if (config.logIp && aText.getPlainText().equals(config.logIpMatchingPattern)) {
+      handleIpLogMatch(httpExchange, remoteAddress);
+      //no need to check text again rules
+      return;
+    }
     textChecker.checkText(aText, httpExchange, parameters, errorRequestLimiter, remoteAddress);
+  }
+
+  private void handleIpLogMatch(HttpExchange httpExchange, String remoteAddress) {
+    Logger logger = LoggerFactory.getLogger(ApiV2.class);
+    InetSocketAddress localAddress = httpExchange.getLocalAddress();
+    logger.info(String.format("Found log-my-IP text in request from: %s to: %s", remoteAddress, localAddress.toString()));
   }
 
   private void handleWordsRequest(HttpExchange httpExchange, Map<String, String> params, HTTPServerConfig config) throws Exception {
@@ -168,6 +184,9 @@ class ApiV2 {
     DatabaseAccess db = DatabaseAccess.getInstance();
     int offset = params.get("offset") != null ? Integer.parseInt(params.get("offset")) : 0;
     int limit = params.get("limit") != null ? Integer.parseInt(params.get("limit")) : 10;
+    logger.info("Started reading dictionary for user: {}, offset: {}, limit: {}, dict_cache: {}, dict: {}",
+      limits.getPremiumUid(), offset, limit, limits.getDictCacheSize(), params.get("dict"));
+
 
     if (params.containsKey("dict")) {
       throw new IllegalArgumentException("Use parameter 'dicts', not 'dict' in GET /words API method.");
@@ -178,7 +197,12 @@ class ApiV2 {
     if (params.containsKey("dicts")) {
       groups = Arrays.asList(params.get("dicts").split(","));
     }
-    List<String> words = db.getWords(limits.getPremiumUid(), groups, offset, limit);
+    long start = System.nanoTime();
+    List<String> words = db.getWords(limits, groups, offset, limit);
+    //List<String> words = db.getWords(limits.getPremiumUid(), groups, offset, limit);
+    long durationMilliseconds = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - start);
+    logger.info("Finished reading dictionary for user: {}, offset: {}, limit: {}, dict_cache: {}, dict: {} in {}ms",
+      limits.getPremiumUid(), offset, limit, limits.getDictCacheSize(), params.get("dict"), durationMilliseconds);
     writeListResponse("words", words, httpExchange);
   }
   
@@ -475,6 +499,7 @@ class ApiV2 {
       lt.activateWord2VecModelRules(textChecker.config.word2vecModelDir);
     }
     List<Rule> rules = lt.getAllRules();
+    rules = rules.stream().filter(rule -> !Premium.get().isPremiumRule(rule)).collect(Collectors.toList());
     try (JsonGenerator g = factory.createGenerator(sw)) {
       g.writeStartObject();
 
