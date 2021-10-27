@@ -2976,7 +2976,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="лучше, чем">Они <marker>лучше чем</marker> у тебя.</example>
           </rule>
         </rulegroup>
-        <rule id="Nesmotrja_na_to_chto2" name="Выражение «несмотря на то, что ..., ...»" default="on" > <!-- #1118 -->
+        <rulegroup id="Nesmotrja_na_to_chto2" name="Выражение «несмотря на то, что ..., ...»" default="on" > <!-- #1118 -->
+          <rule>
             <pattern> 
                 <token negate="yes" regexp="yes">&pnct;</token>
                 <token>несмотря</token>
@@ -2986,7 +2987,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token skip="-1">что<exception scope="next">,</exception></token>
                 <marker>
                     <token postag="VB:.*" postag_regexp="yes" ><exception postag="VB:.*" postag_regexp="yes" negate_pos="yes"></exception><exception inflected="yes">быть</exception></token>
-                    <token skip="-1"><exception scope="next">,</exception><exception>,</exception></token>
+                    <token skip="-1"><exception scope="next">,</exception><exception scope="next">(</exception><exception>,</exception></token>
                     <token postag="VB:.*" postag_regexp="yes" skip="-1"><exception scope="next">,</exception></token>
                     <token regexp="yes">[.!?]</token>
                 </marker>
@@ -2996,8 +2997,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Нужна запятая</short>
             <example>Несмотря на то, что я поел, мне было голодно.</example>
             <example>Несмотря на то, что окружающие будут пытаться испортить вам настроение.</example>
+            <example>Несмотря на то, что на момент написания диссертации поддерживался только самый простой вариант параллелизации (количество используемых вычислительных ядер определяет число независимых запусков оптимизатора, выполняемых одновременно) подобная совместимость с суперкомпьютерными кластерами оказалась удобной: на одном кластере можно запускать несколько разных задач оптимизации.</example>
             <example correction="поел, мне было голодно.">Несмотря на то, что я <marker>поел мне было голодно.</marker></example>
-          </rule>                                         
+          </rule>
+          <rule>   <!-- for    <example>Несмотря на то, что на момент написания диссертации поддерживался только самый простой вариант параллелизации (количество используемых вычислительных ядер определяет число независимых запусков оптимизатора, выполняемых одновременно) подобная совместимость с суперкомпьютерными кластерами оказалась удобной: на одном кластере можно запускать несколько разных задач оптимизации.</example> -->
+            <pattern> 
+                <token negate="yes" regexp="yes">&pnct;</token>
+                <token>несмотря</token>
+                <token>на</token>
+                <token>то</token>
+                <token>,</token>
+                <token skip="-1">что<exception scope="next">,</exception></token>
+                <marker>
+                    <token postag="VB:.*" postag_regexp="yes" ><exception postag="VB:.*" postag_regexp="yes" negate_pos="yes"></exception><exception inflected="yes">быть</exception></token>
+                    <token skip="-1"><exception>,</exception></token>
+                    <token skip="-1">)<exception scope="next">,</exception><exception>,</exception></token>
+                    <token postag="VB:.*" postag_regexp="yes" skip="-1"><exception scope="next">,</exception>                    </token>
+                    <token regexp="yes">[.!?]</token>
+                </marker>
+            </pattern>  <!-- TODO: need correct comma position or remove suggestion -->         
+            <message>Нужна запятая до конца предложения.</message>
+            <url>http://new.gramota.ru/spravka/punctum?layout=item&amp;id=58_483</url>
+            <short>Нужна запятая</short>
+            <example>Несмотря на то, что я поел, мне было голодно.</example>
+            <example>Несмотря на то, что окружающие будут пытаться испортить вам настроение.</example>
+      
+            <example correction="">Несмотря на то, что я <marker>поел мне () было голодно.</marker></example>
+         
+             </rule>
+        </rulegroup>                                         
         <rule default="on" id="ABREV_DOT" name="Точка после сокращений">
             <pattern case_sensitive="yes">
                 <marker>
@@ -4232,7 +4260,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Вероятно, слово <suggestion>\3</suggestion> выступает в роли союза «но», не является вводным, и запятая после него не нужна.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
                 <short>Проверьте запятую</short>
-                <example>Такое решение было получено, однако после реализации появилась его плохая численная устойчивость, поэтому оно не используется.</example>
+                <example>Такое решение было получено, 
+                    однако после реализации появилась его плохая численная устойчивость, поэтому оно не используется.</example>
                 <example correction="однако">Такое решение было получено, <marker>однако,</marker> после реализации появилась его плохая численная устойчивость, поэтому оно не используется.</example>
             </rule>
         </rulegroup>
