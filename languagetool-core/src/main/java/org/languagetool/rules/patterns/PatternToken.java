@@ -32,7 +32,6 @@ import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.function.Function;
 
 /**
  * A part of a pattern, represents the 'token' element of the {@code grammar.xml}.
@@ -787,7 +786,7 @@ public class PatternToken implements Cloneable {
     private final boolean posUnknown;
 
     public PosToken(String posTag, boolean regExp, boolean negation) {
-      this(posTag, negation, regExp ? StringMatcher.create(posTag, true, true) : null);
+      this(posTag, negation, regExp ? StringMatcher.regexp(posTag) : null);
     }
 
     PosToken(String posTag, boolean negation, StringMatcher matcher) {

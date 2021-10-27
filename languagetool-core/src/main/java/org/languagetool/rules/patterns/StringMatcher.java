@@ -20,7 +20,6 @@ package org.languagetool.rules.patterns;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Sets;
-import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.tools.InterruptibleCharSequence;
@@ -34,8 +33,8 @@ import java.util.stream.Stream;
 /**
  * An object encapsulating a text pattern and the way it's matched (case-sensitivity / regular expression),
  * plus some optimizations over standard regular expression matching.
+ * @since 5.3
  */
-@ApiStatus.Internal
 public abstract class StringMatcher {
   
   final String pattern;
@@ -61,6 +60,14 @@ public abstract class StringMatcher {
    * @return whether the given string is accepted by this matcher.
    */
   public abstract boolean matches(String s);
+
+  /**
+   * Create a case-sensitive regexp matcher.
+   * @since 5.6
+   */
+  public static StringMatcher regexp(String pattern) {
+    return create(pattern, true, true);
+  }
 
   public static StringMatcher create(String pattern, boolean isRegExp, boolean caseSensitive) {
     return create(pattern, isRegExp, caseSensitive, Function.identity());
