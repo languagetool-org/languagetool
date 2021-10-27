@@ -561,6 +561,13 @@ public class English extends Language implements AutoCloseable {
     // no description needed - matches based on automatically created rules with descriptions provided by remote server
     rules.addAll(GRPCRule.createAll(this, configs, inputLogging,
       "AI_EN_", "INTERNAL - dynamically loaded rule supported by remote server"));
+
+    if (getCountries().length == 1) {
+      // automatically load any existing AI spelling models for all variants
+      String country = getCountries()[0];
+      rules.addAll(GRPCRule.createAll(this, configs, inputLogging,
+        "AI_SPELLING_EN_" + country, "INTERNAL - dynamically loaded rule supported by remote server"));
+    }
     return rules;
   }
 }
