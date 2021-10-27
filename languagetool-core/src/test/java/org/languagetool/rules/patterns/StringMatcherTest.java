@@ -35,7 +35,7 @@ public class StringMatcherTest {
 
   @Test(expected = PatternSyntaxException.class)
   public void syntaxIsValidated() {
-    StringMatcher.create("tú|?", true, true);
+    StringMatcher.regexp("tú|?");
   }
 
   @Test
@@ -92,7 +92,7 @@ public class StringMatcherTest {
   }
 
   private static void assertStringMatcherConsistentWithPattern(String regexp, String s) {
-    assertEquals(StringMatcher.create(regexp, true, true).matches(s),
+    assertEquals(StringMatcher.regexp(regexp).matches(s),
       s.matches(regexp));
     assertEquals(StringMatcher.create(regexp, true, false).matches(s),
       Pattern.compile(regexp, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE).matcher(s).matches());
