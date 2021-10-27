@@ -4212,13 +4212,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         
-       <rulegroup default="on" id="NO_KAK_VVODNOE1" name="Слово «однако» в роли союза «но»"  tags="picky">  <!-- #1096 -->
+       <rulegroup default="on" id="NO_KAK_VVODNOE1" name="Слово «однако» в роли союза «но»"  tags="picky">  <!-- #1096, #1071 -->
             <rule>
                    <!--  Слово "однако" в роли союза "но" -->
                 <pattern case_sensitive="no">
                     <token postag="VB:.*|PT_Short:.*" postag_regexp="yes" skip="-1">
                         <exception postag="VB:.*|PT_Short:.*" postag_regexp="yes" negate_pos="yes" ></exception>
-                        <exception regexp="yes" inflected="yes">оказаться|установить|есть|следовать|существовать|признавать|признаваться|выяснять|выясняться|выясниться</exception>
+                        <exception regexp="yes" inflected="yes">оказаться|установить|есть|следовать|признавать|признаваться|выяснять|выясняться|выясниться</exception> <!-- removed существовать -->
                     </token>
                     <token>,<exception scope="previous" regexp="yes">&start_vvodnoe;</exception></token>
                     <marker>
@@ -4229,7 +4229,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="VB:.*|PT_Short:.*" postag_regexp="yes" skip="-1"><exception postag="VB:.*|PT_Short:.*" postag_regexp="yes" negate_pos="yes" ></exception></token>
                     <token regexp="yes">[,.;?!]<exception scope="next">а</exception></token>
                 </pattern>
-                <message>Возможно, слово <suggestion>\3</suggestion> выступает в роли союза «но», не является вводным, и запятая после него не нужна.</message>
+                <message>Вероятно, слово <suggestion>\3</suggestion> выступает в роли союза «но», не является вводным, и запятая после него не нужна.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
                 <short>Проверьте запятую</short>
                 <example>Такое решение было получено, однако после реализации появилась его плохая численная устойчивость, поэтому оно не используется.</example>
