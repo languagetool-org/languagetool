@@ -44,7 +44,7 @@ import java.util.stream.Collectors;
 public class RuleMatch implements Comparable<RuleMatch> {
   public static final RuleMatch[] EMPTY_ARRAY = new RuleMatch[0];
 
-  private static final Pattern SUGGESTION_PATTERN = Pattern.compile("<suggestion>(.*?)</suggestion>");
+  //private static final Pattern SUGGESTION_PATTERN = Pattern.compile("<suggestion>(.*?)</suggestion>");
   private final Rule rule;
   private final String message;
   private final String shortMessage;   // used e.g. for OOo/LO context menu
@@ -579,15 +579,28 @@ public class RuleMatch implements Comparable<RuleMatch> {
     }
   }
   
+  /**
+   * Set a new specific rule ID in the RuleMatch to replace getRule().getId() in
+   * the output. Used for statistical purposes.
+   *
+   * @param new Rule ID
+   * @since 5.6
+   */
   public void setSpecificRuleId(String s) {
     specificRuleId = s;
   }
-  
+
+  /**
+   * Get the specific rule ID from the RuleMatch to replace getRule().getId() in
+   * the output. Used for statistical purposes.
+   *
+   * @since 5.6
+   */
   public String getSpecificRuleId() {
     if (specificRuleId.isEmpty()) {
       return this.getRule().getId();
     } else {
-      return specificRuleId;  
+      return specificRuleId;
     }
   }
   
