@@ -103,7 +103,7 @@ public abstract class AbstractCheckCaseRule extends AbstractSimpleReplaceRule2 {
           }
           if (subRuleSpecificIds) {
             String id = StringTools.toId(getId() + "_" + correctPhrase);
-            ruleMatch = new RuleMatch(new SpecificIdRule(id, getDescription(), messages), sentence, startPos, endPos,
+            ruleMatch = new RuleMatch(new SpecificIdRule(id, getDescription(), messages, isPremium()), sentence, startPos, endPos,
                 msg, getShort());
           } else {
             ruleMatch = new RuleMatch(this, sentence, startPos, endPos, msg, getShort());

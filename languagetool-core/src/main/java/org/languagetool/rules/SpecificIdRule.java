@@ -11,10 +11,11 @@ public class SpecificIdRule extends Rule {
   private final String id;
   private final String desc;
   
-  public SpecificIdRule(String id, String desc, ResourceBundle messages) {
+  public SpecificIdRule(String id, String desc, ResourceBundle messages, boolean isPremium) {
     super(messages);
     this.id = Objects.requireNonNull(id);
     this.desc = desc;
+    this.setPremium(isPremium);
   }
   
   @Override

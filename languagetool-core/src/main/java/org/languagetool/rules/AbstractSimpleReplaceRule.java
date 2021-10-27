@@ -221,7 +221,7 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
     RuleMatch potentialRuleMatch = null;
     if (subRuleSpecificIds) {
       String id = StringTools.toId(getId() + "_" + originalTokenStr);
-      potentialRuleMatch = new RuleMatch(new SpecificIdRule(id, this.getDescription(), messages), sentence, pos, pos
+      potentialRuleMatch = new RuleMatch(new SpecificIdRule(id, this.getDescription(), messages, isPremium()), sentence, pos, pos
           + tokenString.length(), getMessage(tokenString, replacements), getShort());   
     } else {
       potentialRuleMatch = new RuleMatch(this, sentence, pos, pos
