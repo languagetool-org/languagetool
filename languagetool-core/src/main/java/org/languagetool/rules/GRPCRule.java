@@ -90,7 +90,11 @@ public abstract class GRPCRule extends RemoteRule {
     private final String description;
 
     GRPCSubRule(String ruleId, String subId, @Nullable String description) {
-      this.matchId = cleanID(ruleId) + "_" + cleanID(subId);
+      if (subId != null && !subId.trim().isEmpty()) {
+        this.matchId = cleanID(ruleId) + "_" + cleanID(subId);
+      } else {
+        this.matchId = cleanID(ruleId);
+      }
       if (description == null || description.isEmpty()) {
         this.description = GRPCRule.this.getDescription();
         if (this.description == null || this.description.isEmpty()) {
