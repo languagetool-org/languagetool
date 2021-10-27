@@ -1204,15 +1204,15 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   }
 
   private static void putRepl(String wordPattern, String pattern, String replacement) {
-    ADDITIONAL_SUGGESTIONS.put(StringMatcher.create(wordPattern, true, true), w -> Collections.singletonList(w.replaceFirst(pattern, replacement)));
+    ADDITIONAL_SUGGESTIONS.put(StringMatcher.regexp(wordPattern), w -> Collections.singletonList(w.replaceFirst(pattern, replacement)));
   }
 
   private static void put(String pattern, String replacement) {
-    ADDITIONAL_SUGGESTIONS.put(StringMatcher.create(pattern, true, true), w -> Collections.singletonList(replacement));
+    ADDITIONAL_SUGGESTIONS.put(StringMatcher.regexp(pattern), w -> Collections.singletonList(replacement));
   }
 
   private static void put(String pattern, Function<String, List<String>> f) {
-    ADDITIONAL_SUGGESTIONS.put(StringMatcher.create(pattern, true, true), f);
+    ADDITIONAL_SUGGESTIONS.put(StringMatcher.regexp(pattern), f);
   }
 
   private static final GermanWordSplitter splitter = getSplitter();

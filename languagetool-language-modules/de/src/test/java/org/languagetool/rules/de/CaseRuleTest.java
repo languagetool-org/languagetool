@@ -30,6 +30,7 @@ import org.languagetool.rules.patterns.StringMatcher;
 import java.io.IOException;
 
 import static org.junit.Assert.*;
+import static org.languagetool.rules.patterns.StringMatcher.regexp;
 
 public class CaseRuleTest {
 
@@ -504,9 +505,5 @@ public class CaseRuleTest {
     AnalyzedSentence sentence2 = lt.getAnalyzedSentence("das Heilige Römische Reich");
     assertTrue(CaseRule.compareLists(sentence2.getTokensWithoutWhitespace(), 0, 4, regexp(""), regexp("das"), regexp("Heilige"), regexp("Römische"), regexp("Reich")));
     assertFalse(CaseRule.compareLists(sentence2.getTokensWithoutWhitespace(), 8, 11, regexp(""), regexp("das"), regexp("Heilige"), regexp("Römische"), regexp("Reich")));
-  }
-
-  private static StringMatcher regexp(String s) {
-    return StringMatcher.create(s, true, true);
   }
 }

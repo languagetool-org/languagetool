@@ -101,12 +101,9 @@ public abstract class AbstractCheckCaseRule extends AbstractSimpleReplaceRule2 {
           if (msg == null) {
             msg = getMessage();
           }
+          ruleMatch = new RuleMatch(this, sentence, startPos, endPos, msg, getShort());
           if (subRuleSpecificIds) {
-            String id = StringTools.toId(getId() + "_" + correctPhrase);
-            ruleMatch = new RuleMatch(new SpecificIdRule(id, getDescription(), messages), sentence, startPos, endPos,
-                msg, getShort());
-          } else {
-            ruleMatch = new RuleMatch(this, sentence, startPos, endPos, msg, getShort());
+            ruleMatch.setSpecificRuleId(StringTools.toId(getId() + "_" + correctPhrase));
           }
           if (crtWordCount + sentStart == i) {
             // Capitalize suggestion at the sentence start

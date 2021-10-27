@@ -51,7 +51,7 @@ final class CaseRuleExceptions {
       String[] parts = StringUtils.split(phrase, ' ');
       StringMatcher[] patterns = new StringMatcher[parts.length];
       for (int j = 0; j < parts.length; j++) {
-        patterns[j] = StringMatcher.create(parts[j], true, true);
+        patterns[j] = StringMatcher.regexp(parts[j]);
       }
       exceptionPatterns.add(patterns);
     }
