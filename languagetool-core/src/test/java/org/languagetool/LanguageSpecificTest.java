@@ -218,7 +218,8 @@ public class LanguageSpecificTest {
     int i = 0;
     List<String> actualRuleIds = new ArrayList<>();
     for (RuleMatch match : matches) {
-      actualRuleIds.add(match.getRule().getId());
+      //actualRuleIds.add(match.getRule().getId());
+      actualRuleIds.add(match.getSpecificRuleId());
     }
     if (expectedMatchIds.size() != actualRuleIds.size()) {
       failTest(lang, text, expectedMatchIds, actualRuleIds);

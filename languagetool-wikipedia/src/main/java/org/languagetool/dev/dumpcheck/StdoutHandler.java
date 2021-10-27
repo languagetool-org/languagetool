@@ -52,7 +52,7 @@ class StdoutHandler extends ResultHandler {
       System.out.println("\nTitle: " + sentence.getTitle());
       for (RuleMatch match : ruleMatches) {
         String output = i + ".) Line " + (match.getLine() + 1) + ", column "
-                + match.getColumn() + ", Rule ID: " + match.getRule().getId();
+                + match.getColumn() + ", Rule ID: " + match.getSpecificRuleId(); //match.getRule().getId();
         if (match.getRule() instanceof AbstractPatternRule) {
           AbstractPatternRule pRule = (AbstractPatternRule) match.getRule();
           output += "[" + pRule.getSubId() + "]";
