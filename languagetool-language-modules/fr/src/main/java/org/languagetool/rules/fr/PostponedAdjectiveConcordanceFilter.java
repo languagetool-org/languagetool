@@ -129,7 +129,7 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
     
-//    if (match.getSentence().getText().toString().contains("d'environ")) {
+//    if (match.getSentence().getText().toString().contains("manifestement fausses")) {
 //      int i = 0;
 //      i++;
 //    }
@@ -434,22 +434,22 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
     at = getAnalyzedToken(tokens[patternTokenPos], ADJECTIU);
     if (at != null && suggestions.isEmpty()) {
       if (canBeMS && !isPlural) {
-        suggestions.addAll(Arrays.asList(synth.synthesize(at, "J m s|V ppa m s", true)));
+        suggestions.addAll(Arrays.asList(synth.synthesize(at, "J [me] sp?|V ppa m s", true)));
       }
       if (canBeFS && !isPlural) {
-        suggestions.addAll(Arrays.asList(synth.synthesize(at, "J f s|V ppa f s", true)));
+        suggestions.addAll(Arrays.asList(synth.synthesize(at, "J [fe] sp?|V ppa f s", true)));
       }
       if (canBeMP) {
-        suggestions.addAll(Arrays.asList(synth.synthesize(at, "J m p|V ppa m p", true)));
+        suggestions.addAll(Arrays.asList(synth.synthesize(at, "J [me] s?p|V ppa m p", true)));
       }
       if (canBeFP) {
-        suggestions.addAll(Arrays.asList(synth.synthesize(at, "J f p|V ppa f p", true)));
+        suggestions.addAll(Arrays.asList(synth.synthesize(at, "J [fe] s?p|V ppa f p", true)));
       }
       if (canBeMS && (isPlural || canBeP)) {
-        suggestions.addAll(Arrays.asList(synth.synthesize(at, "J m p|V ppa m p", true)));
+        suggestions.addAll(Arrays.asList(synth.synthesize(at, "J [me] s?p|V ppa m p", true)));
       }
       if (canBeFS && !canBeMS && (isPlural || canBeP)) {
-        suggestions.addAll(Arrays.asList(synth.synthesize(at, "J f p|V ppa f p", true)));
+        suggestions.addAll(Arrays.asList(synth.synthesize(at, "J [fe] s?p|V ppa f p", true)));
       }
     }
     
