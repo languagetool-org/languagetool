@@ -207,7 +207,7 @@ public class HunspellRule extends SpellingCheckRule {
               // "thanky ou" -> "thank you"
               String sugg1a = prevWord.substring(0, prevWord.length()-1);
               String sugg1b = cutOffDot(prevWord.substring(prevWord.length()-1) + word);
-              if (!isMisspelled(sugg1a) && !isMisspelled(sugg1b)) {
+              if (!isMisspelled(sugg1a) && !isMisspelled(sugg1b) && acceptSuggestion(sugg1a + " " + sugg1b)) {
                 RuleMatch rm = createWrongSplitMatch(sentence, ruleMatches, len, cleanWord, sugg1a, sugg1b, prevStartPos);
                 if (rm != null) {
                   ruleMatches.add(rm);
@@ -216,7 +216,7 @@ public class HunspellRule extends SpellingCheckRule {
               // "than kyou" -> "thank you"
               String sugg2a = prevWord + word.charAt(0);
               String sugg2b = cutOffDot(word.substring(1));
-              if (!isMisspelled(sugg2a) && !isMisspelled(sugg2b)) {
+              if (!isMisspelled(sugg2a) && !isMisspelled(sugg2b) && acceptSuggestion(sugg2a + " " + sugg2b)) {
                 RuleMatch rm = createWrongSplitMatch(sentence, ruleMatches, len, cleanWord, sugg2a, sugg2b, prevStartPos);
                 if (rm != null) {
                   ruleMatches.add(rm);
@@ -290,6 +290,10 @@ public class HunspellRule extends SpellingCheckRule {
       }
     }*/
     return toRuleMatchArray(ruleMatches);
+  }
+
+  protected boolean acceptSuggestion(String suggestion) {
+    return true;
   }
 
   boolean isFirstItemHighConfidenceSuggestion(String word, List<SuggestedReplacement> sugg) {

@@ -1387,6 +1387,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     return suggestions;
   }
 
+  @Override
+  protected boolean acceptSuggestion(String suggestion) {
+    return !suggestion.matches("[a-zöäüß] .+") && !suggestion.matches(".+ [a-zöäüß]");  // z.B. nicht "rauchen e" für "rauche ne" vorschlagen
+  }
+
   @NotNull
   protected static List<String> getSpellingFilePaths(String langCode) {
     List<String> paths = new ArrayList<>(CompoundAwareHunspellRule.getSpellingFilePaths(langCode));

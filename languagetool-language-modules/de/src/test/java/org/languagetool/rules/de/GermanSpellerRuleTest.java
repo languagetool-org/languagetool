@@ -109,6 +109,14 @@ public class GermanSpellerRuleTest {
   }
 
   @Test
+  public void testFilterBadSuggestions() throws Exception {
+    GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    JLanguageTool lt = new JLanguageTool(GERMAN_DE);
+    assertNotSuggestion("nicht in euerer", "i neuerer", rule, lt);
+    assertNotSuggestion("Ich rauche ne Zigarette", "rauchen e", rule, lt);
+  }
+
+  @Test
   public void testGetAdditionalTopSuggestions() throws Exception {
     GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     JLanguageTool lt = new JLanguageTool(GERMAN_DE);
@@ -505,7 +513,6 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("desinfektionierst", "desinfizierst", rule, lt);
     assertFirstSuggestion("Neuhichkeit", "Neuigkeit", rule, lt);
     assertFirstSuggestion("neuhichkeiten", "Neuigkeiten", rule, lt);
-    
   }
 
   @Test
@@ -538,6 +545,13 @@ public class GermanSpellerRuleTest {
     } else {
       assertThat("Matches: " + matches.length + ", Suggestions of first match: " +
         matches[0].getSuggestedReplacements(), matches[0].getSuggestedReplacements().get(0), is(expected));
+    }
+  }
+
+  private void assertNotSuggestion(String input, String notExpected, GermanSpellerRule rule, JLanguageTool lt) throws IOException {
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
+    for (RuleMatch match : matches) {
+      assertFalse("Found unexpected suggestion '" + notExpected + "' for input '" + input + "'", match.getSuggestedReplacements().contains(notExpected));
     }
   }
 
