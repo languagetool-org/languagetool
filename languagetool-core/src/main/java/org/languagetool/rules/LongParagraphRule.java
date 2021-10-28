@@ -44,9 +44,7 @@ public class LongParagraphRule extends TextLevelRule {
     super(messages);
     super.setCategory(Categories.STYLE.getCategory(messages));
     this.lang = lang;
-    if (!defaultActive) {
-      setDefaultOff();
-    }
+    setDefaultOff();
     if (defaultWords > 0) {
       this.maxWords = defaultWords;
     }
