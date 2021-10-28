@@ -5796,6 +5796,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Verwechslungen -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
+        <rulegroup id="SICH_SICHT" name="aus Sich (Sicht)" default="temp_off">
+            <antipattern>
+                <token>aus</token>
+                <token>der</token>
+                <token case_sensitive="yes">sich</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token>aus</token>
+                    <token min="0">der</token>
+                    <marker>
+                        <token>sich</token>
+                    </marker>
+                    <token regexp="yes">vo[mn]|de[sr]|[dms]?eine[sr]|ihrer|eurer|unse?rer</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>Sicht</suggestion>?</message>
+                <example correction="Sicht">Aus <marker>Sich</marker> von Google ist deine Website besser geworden.</example>
+                <example>1694 hatte Herbsen eine Mühle, aus der sich der heutige Mühlenhof entwickelte.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>aus</token>
+                    <token regexp="yes">[dms]?eine[sr]|ihrer|eurer|unse?rer</token>
+                    <marker>
+                        <token>sich</token>
+                    </marker>
+                    <token postag="VER.*" postag_regexp="yes" />
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>Sicht</suggestion>?</message>
+                <example correction="Sicht">Aus meiner <marker>Sich</marker> spricht da nichts dagegen.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="GUENTER_GUENTHER" name="Günther vs Günter">
             <rule>
                 <pattern>
@@ -11161,7 +11193,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion><match no="1" case_conversion="startupper" />-<match no="2" case_conversion="startupper" /></suggestion>
             <example correction="Content-Marketing">Wir bloggen jetzt, um besseres <marker>Content Marketing</marker> zu machen.</example>
         </rule>
-        <rule id="NULL_KOMMA_NICHTS" name="Nullkommanichts" default="temp_off">
+        <rule id="NULL_KOMMA_NICHTS" name="Nullkommanichts">
             <pattern>
                 <token regexp="yes">null|0</token>
                 <token regexp="yes">kom?ma</token>
@@ -55711,7 +55743,7 @@ Andere Projekte</example>
                 <token>Swing</token>
             </antipattern>
             <pattern>
-                <token case_sensitive="yes" regexp="yes">[Aa]ngeteasered|[Gg]eteasered|[Gg]eouted|[Gg]eskyped|[Gg]ezapped|[Gg]ekited|[Gg]etaped|[Gg]edated|[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]etagged|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched|[Gg]etuned|[Gg]ecrashed|[Gg]ecat?ched|[Cc]hecked|[Ee]ntertained</token>
+                <token case_sensitive="yes" regexp="yes">[Gg]ematched|[Aa]ngeteasered|[Gg]eteasered|[Gg]eouted|[Gg]eskyped|[Gg]ezapped|[Gg]ekited|[Gg]etaped|[Gg]edated|[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]etagged|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched|[Gg]etuned|[Gg]ecrashed|[Gg]ecat?ched|[Cc]hecked|[Ee]ntertained</token>
             </pattern>
             <message>Die empfohlene Schreibweise für diesen Anglizismus ist <suggestion><match no="1" regexp_match="ed$" regexp_replace="t" /></suggestion>.</message>
             <url>https://www.duden.de/sprachwissen/sprachratgeber/Das-Verb-liken</url>
