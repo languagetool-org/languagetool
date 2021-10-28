@@ -46,7 +46,7 @@ public class JLanguageToolTest {
     List<RuleMatch> matches = tool.check(annotatedText, true, ParagraphHandling.NORMAL, listener, Mode.ALL,
         Level.PICKY);
     assertEquals(1, matches.size());
-    assertEquals("[D’homme]", matches.get(0).getSuggestedReplacements().toString());
+    assertEquals("[D'homme]", matches.get(0).getSuggestedReplacements().toString());
 
     // normal mode: suggestions with straight apostrophes
     analyzedSentence = tool.getAnalyzedSentence("De homme");
