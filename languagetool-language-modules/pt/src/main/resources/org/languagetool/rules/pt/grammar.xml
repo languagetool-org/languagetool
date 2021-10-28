@@ -7199,10 +7199,9 @@ Há coisas mais importantes em que pensar. → Há prioridades.
 	 </rule> 		 
     </rulegroup>
 
-
     <!-- 	TELEFONO PARA TI telefono-te -->	
-	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-10-27 (25-JUN-2021+)      -->	
-    <rulegroup id='VERBO_PARA_PRONOME_PESSOAL' name="Verbo + para + pronome pessoal → Verbo + -me/te/lhe/nos/vos/lhes" type="style" default="temp_off">
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-10-27/28 (25-JUN-2021+)      -->	
+    <rulegroup id='VERBO_PARA_PRONOME_PESSOAL' name="Verbo + para + pronome pessoal → Verbo + -me/te/lhe/nos/vos/lhes" type="style">
 <!--
 Telefonei para si. → Telefonei-lhe.
 -->		
@@ -7249,13 +7248,14 @@ Telefonei para si. → Telefonei-lhe.
 					<token>mim</token>
 				</marker>
 				<and>
-					<token regexp='yes' negate="yes">lhe|me|mesmos?|se</token>
+					<token regexp='yes' negate="yes">lhe|me|mesmos?|se|quando</token>
 					<token negate_pos="yes" postag='V.+|AQ0.+|NC.+|RN' postag_regexp='yes'/>
 				</and>
 			</pattern>		
 			<message>Esta perífrase poderá ser simplificada.</message>
 			<suggestion>\2-me</suggestion>
 			<example correction="Telefona-me"><marker>Telefona para mim</marker>.</example>  
+			<example>Olhe para mim quando eu falar com você!</example>
 			
 			<example>O que você disse não faz absolutamente nenhum sentido para mim.</example>
 			<example>Seu cachorro sempre late para mim.</example>
@@ -7273,7 +7273,7 @@ Telefonei para si. → Telefonei-lhe.
 					<token regexp='yes'>tu|ti|si|você</token>
 				</marker>
 				<and>
-					<token regexp='yes' negate="yes">lhe|me|mesmos?|se</token>
+					<token regexp='yes' negate="yes">lhe|me|mesmos?|se|quando</token>
 					<token negate_pos="yes" postag='V.+|AQ0.+|NC.+|RN' postag_regexp='yes'/>
 				</and>
 			</pattern>		
@@ -7293,14 +7293,15 @@ Telefonei para si. → Telefonei-lhe.
 					<token regexp='yes'>el[ae]</token>
 				</marker>				
 				<and>
-					<token regexp='yes' negate="yes">lhe|me|mesmos?|se</token>
+					<token regexp='yes' negate="yes">lhe|me|mesmos?|se|quando</token>
 					<token negate_pos="yes" postag='V.+|AQ0.+|NC.+|RN' postag_regexp='yes'/>
 				</and>
 			</pattern>		
 			<message>Esta perífrase poderá ser simplificada.</message>
 			<suggestion>\2-lhe</suggestion>
 			<example correction="Telefonei-lhe"><marker>Telefonei para ela</marker>.</example> 
-
+			<example>Todos ficaram olhando para ela quando começou a gargalhar.</example>
+			
 			<example>Ela pediu para ele se sentar.</example>
 			<example>"Devo dizer para ele te ligar quando chegar?" "Sim, por favor"</example>
 			<example>Eu expliquei a regra para ele.</example>
@@ -7318,7 +7319,7 @@ Telefonei para si. → Telefonei-lhe.
 					<token>nós</token>
 				</marker>
 				<and>
-					<token regexp='yes' negate="yes">lhe|me|mesmos?|se</token>
+					<token regexp='yes' negate="yes">lhe|me|mesmos?|se|quando</token>
 					<token negate_pos="yes" postag='V.+|AQ0.+|NC.+|RN' postag_regexp='yes'/>
 				</and>
 			</pattern>		
@@ -7340,7 +7341,7 @@ Telefonei para si. → Telefonei-lhe.
 					<token regexp='yes'>vocês|vós</token>
 				</marker>
 				<and>
-					<token regexp='yes' negate="yes">lhe|me|mesmos?|se</token>
+					<token regexp='yes' negate="yes">lhe|me|mesmos?|se|quando</token>
 					<token negate_pos="yes" postag='V.+|AQ0.+|NC.+|RN' postag_regexp='yes'/>
 				</and>
 			</pattern>		
@@ -7362,7 +7363,7 @@ Telefonei para si. → Telefonei-lhe.
 					<token regexp='yes'>el[ae]s</token>
 				</marker>
 				<and>
-					<token regexp='yes' negate="yes">lhe|me|mesmos?|se</token>
+					<token regexp='yes' negate="yes">lhe|me|mesmos?|se|quando</token>
 					<token negate_pos="yes" postag='V.+|AQ0.+|NC.+|RN' postag_regexp='yes'/>
 				</and>
 			</pattern>		
