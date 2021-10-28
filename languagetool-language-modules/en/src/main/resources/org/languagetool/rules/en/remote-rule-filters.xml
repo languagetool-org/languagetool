@@ -422,6 +422,11 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">2010; University <marker>College</marker> London, UK.</example>
             </rule>
+            <rule>
+                <!-- # No commas after twitter handles e.g. @jack -->
+                <regexp mark="1">@(\S+)</regexp>
+                <example correction="">@<marker>jack</marker> you are right.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_EN_G_REPLACE_ORTH" name="">
             <rule>
