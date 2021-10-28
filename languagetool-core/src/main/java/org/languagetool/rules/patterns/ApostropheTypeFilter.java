@@ -46,7 +46,7 @@ public class ApostropheTypeFilter extends RuleFilter {
             + match.getRule().getFullId() + ", wordFrom: " + posWord);
       }
       AnalyzedTokenReadings atrWord = patternTokens[posWord - 1];
-      if (hasTypographicalApostrophe && !atrWord.hasTypographicApostrophe()) {
+      if (hasTypographicalApostrophe == atrWord.hasTypographicApostrophe()) {
         return match;
       }
     }
