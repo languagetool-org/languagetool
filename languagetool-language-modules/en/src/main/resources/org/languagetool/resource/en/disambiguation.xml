@@ -1726,6 +1726,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         outputform="clothes[clothes/NNS]">Those <marker>clothes</marker> suit you well.</example>
     </rule>
     <rule id="THESE_NNS_VBP" name="these + vbz/nns => nns">
+        <antipattern>
+            <token inflected="yes">be</token>
+            <token min="0">n't</token>
+            <token regexp="yes">th[eo]se</token>
+            <token postag="NNS" />
+            <token postag="JJR?" postag_regexp="yes" />
+        </antipattern>
         <pattern>
             <token regexp="yes">th[eo]se</token>
             <token postag="NNS"/>
@@ -1738,6 +1745,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig postag="VBP"/>
         <example type="untouched">These includes a razor blade.</example>
+        <example type="untouched">Were those lines present in the logs?</example>
         <example type="ambiguous"
                  inputform="suit[suit/NN:UN,suit/VB,suit/VBP]"
                  outputform="suit[suit/VBP]">Those clothes <marker>suit</marker> you well.</example>
