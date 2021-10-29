@@ -48,11 +48,9 @@ public final class LtThreadPoolFactory {
   private static ThreadPoolExecutor getOrCreateFixedThreadPoolExecutor(@NotNull String identifier, @NotNull int maxThreads, @NotNull int maxTaskInQueue, @NotNull boolean isDaemon, @NotNull Thread.UncaughtExceptionHandler exceptionHandler) {
     if (executorServices.containsKey(identifier)) {
       log.info("ThreadPool with identifier: " + identifier + " already exists. Return this one");
-      System.out.println("ThreadPool with identifier: " + identifier + " already exists. Return this one");
       return executorServices.get(identifier);
     }
     log.info(String.format("Create new threadPool with maxThreads: %d maxTaskInQueue: %d identifier: %s daemon: %s exceptionHandler: %s", maxThreads, maxTaskInQueue, identifier, isDaemon, exceptionHandler));
-    System.out.println(String.format("Create new threadPool with maxThreads: %d maxTaskInQueue: %d identifier: %s daemon: %s exceptionHandler: %s", maxThreads, maxTaskInQueue, identifier, isDaemon, exceptionHandler));
     ArrayBlockingQueue<Runnable> boundedQueue = new ArrayBlockingQueue<>(maxTaskInQueue);
     ThreadFactory threadFactory = new ThreadFactoryBuilder()
       .setNameFormat(identifier + "-%d")
@@ -69,7 +67,6 @@ public final class LtThreadPoolFactory {
       return getOrCreateFixedThreadPoolExecutor(identifier, maxThreads, maxTaskInQueue, isDaemon, exceptionHandler);
     }
     log.info(String.format("Create new threadPool with maxThreads: %d maxTaskInQueue: %d identifier: %s daemon: %s exceptionHandler: %s", maxThreads, maxTaskInQueue, identifier, isDaemon, exceptionHandler));
-    System.out.println(String.format("Create new threadPool with maxThreads: %d maxTaskInQueue: %d identifier: %s daemon: %s exceptionHandler: %s", maxThreads, maxTaskInQueue, identifier, isDaemon, exceptionHandler));
     ArrayBlockingQueue<Runnable> boundedQueue = new ArrayBlockingQueue<>(maxTaskInQueue);
     ThreadFactory threadFactory = new ThreadFactoryBuilder()
       .setNameFormat(identifier + "-%d")
@@ -86,7 +83,6 @@ public final class LtThreadPoolFactory {
    */
   public static Optional<ThreadPoolExecutor> getFixedThreadPoolExecutor(@NotNull String identifier) {
     log.info("Request: " + identifier + " ThreadPoolExecutor");
-    System.out.println("Request: " + identifier + " ThreadPoolExecutor");
     return Optional.ofNullable(executorServices.get(identifier));
   }
 }
