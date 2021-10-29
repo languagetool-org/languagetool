@@ -46,7 +46,6 @@ import java.util.stream.Collectors;
 
 /**
  * Caches pre-configured JLanguageTool instances to avoid costly setup time of rules, etc.
- * TODO: reimplement using apache commons KeyedObjectPool
  */
 class PipelinePool implements KeyedPooledObjectFactory<PipelineSettings, Pipeline> {
 
@@ -70,10 +69,8 @@ class PipelinePool implements KeyedPooledObjectFactory<PipelineSettings, Pipelin
       poolConfig.setMaxIdlePerKey(maxPoolSize);
       poolConfig.setMaxTotalPerKey(maxPoolSize);
       poolConfig.setMinIdlePerKey(0);
-      // TODO: wait time
       poolConfig.setBlockWhenExhausted(false);
-      //poolConfig.setEvictionPolicy();
-      // TODO idle time, more settings
+      // could try setting wait time, idle time (from expireTime), use another eviction policy, ...
       this.pool = new GenericKeyedObjectPool<>(this, poolConfig);
     } else {
       this.pool = null;
@@ -85,9 +82,13 @@ class PipelinePool implements KeyedPooledObjectFactory<PipelineSettings, Pipelin
       return createPipeline(settings.lang, settings.motherTongue, settings.query, settings.globalConfig, settings.userConfig, config.getDisabledRuleIds());
     } else {
       try {
+        long time = System.currentTimeMillis();
         logger.info("Requesting pipeline for {}; pool has {} active objects, {} idle",
           settings, pool.getNumActive(), pool.getNumIdle());
-        return pool.borrowObject(settings);
+        Pipeline p = pool.borrowObject(settings);
+        logger.info("Fetching pipeline for {} took {}ms; pool has {} active objects, {} idle",
+          settings, System.currentTimeMillis() - time, pool.getNumActive(), pool.getNumIdle());
+        return p;
       } catch(NoSuchElementException ignored) {
         logger.info("Pipeline pool capacity reached: {} active objects, {} idle",
           pool.getNumActive(), pool.getNumIdle());
@@ -102,6 +103,9 @@ class PipelinePool implements KeyedPooledObjectFactory<PipelineSettings, Pipelin
     try {
       pool.returnObject(settings, pipeline);
     } catch(IllegalStateException e) {
+      // this might happen when pool capacity is reached and we return newly created objects that were never borrowed
+      logger.info("Exception while trying to return pipeline to pool;" +
+        " this is expected when pipeline capacity is reached", e);
     }
   }
 
