@@ -33,6 +33,7 @@ import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.*;
 import org.languagetool.rules.bitext.BitextRule;
 import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrdererConfig;
+import org.languagetool.tools.LtThreadPoolFactory;
 import org.languagetool.tools.Tools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -103,7 +104,15 @@ abstract class TextChecker {
       this.ngramIdentifier = new LanguageIdentifier();
       this.ngramIdentifier.enableNgrams(config.getNgramLangIdentData());
     }
-    this.executorService = Executors.newCachedThreadPool(new ThreadFactoryBuilder().setNameFormat("lt-textchecker-thread-%d").build());
+    this.executorService = LtThreadPoolFactory.createFixedThreadPoolExecutor(
+      "lt-textchecker-thread",
+      config.maxCheckThreads,
+      config.maxCheckThreads * 4,
+      false, (thread, throwable) -> {
+        logger.error("Thread: " + thread.getName() + " failed with: " + throwable.getMessage());
+      },
+      false);
+
     this.cache = config.getCacheSize() > 0 ? new ResultCache(
       config.getCacheSize(), config.getCacheTTLSeconds(), TimeUnit.SECONDS) : null;
     this.databaseLogger = DatabaseLogger.getInstance();
