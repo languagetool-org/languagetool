@@ -62,7 +62,6 @@ class PipelinePool implements KeyedPooledObjectFactory<PipelineSettings, Pipelin
     this.config = config;
     this.cache = cache;
     int maxPoolSize = config.getMaxPipelinePoolSize();
-    int expireTime = config.getPipelineExpireTime();
     if (config.isPipelineCachingEnabled()) {
       GenericKeyedObjectPoolConfig<Pipeline> poolConfig = new GenericKeyedObjectPoolConfig<>();
       poolConfig.setMaxTotal(maxPoolSize);
@@ -83,11 +82,11 @@ class PipelinePool implements KeyedPooledObjectFactory<PipelineSettings, Pipelin
     } else {
       try {
         long time = System.currentTimeMillis();
-        logger.info("Requesting pipeline for {}; pool has {} active objects, {} idle",
-          settings, pool.getNumActive(), pool.getNumIdle());
+        logger.info("Requesting pipeline; pool has {} active objects, {} idle; pipeline settings: {}",
+          pool.getNumActive(), pool.getNumIdle(), settings);
         Pipeline p = pool.borrowObject(settings);
-        logger.info("Fetching pipeline for {} took {}ms; pool has {} active objects, {} idle",
-          settings, System.currentTimeMillis() - time, pool.getNumActive(), pool.getNumIdle());
+        logger.info("Fetching pipeline took {}ms; pool has {} active objects, {} idle; pipeline settings: {}",
+          System.currentTimeMillis() - time, pool.getNumActive(), pool.getNumIdle(), settings);
         return p;
       } catch(NoSuchElementException ignored) {
         logger.info("Pipeline pool capacity reached: {} active objects, {} idle",
