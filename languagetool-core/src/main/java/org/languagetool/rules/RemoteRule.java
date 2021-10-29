@@ -21,12 +21,12 @@
 
 package org.languagetool.rules;
 
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.tools.LtThreadPoolFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -55,13 +55,18 @@ public abstract class RemoteRule extends Rule {
   private static final ConcurrentMap<String, AtomicInteger> consecutiveFailures = new ConcurrentHashMap<>();
   private static final ConcurrentMap<String, AtomicLong> timeoutTotal = new ConcurrentHashMap<>();
   private static final ConcurrentMap<String, ConcurrentLinkedQueue<Future>> runningTasks = new ConcurrentHashMap<>();
-  private static final ThreadFactory threadFactory = new ThreadFactoryBuilder()
-    .setNameFormat("remote-rule-pool-%d").setDaemon(true).build();
 
   protected static final List<Runnable> shutdownRoutines = new LinkedList<>();
 
   // needed to run callables with timeout
-  static final ExecutorService executor = Executors.newCachedThreadPool(threadFactory);
+  static final ExecutorService executor = LtThreadPoolFactory.createFixedThreadPoolExecutor(
+    "lt-textchecker-thread",
+    50,
+    200,
+    true, (thread, throwable) -> {
+      logger.error("Thread: " + thread.getName() + " failed with: " + throwable.getMessage());
+    },
+    false);
 
   protected final RemoteRuleConfig serviceConfiguration;
   protected final boolean inputLogging;
