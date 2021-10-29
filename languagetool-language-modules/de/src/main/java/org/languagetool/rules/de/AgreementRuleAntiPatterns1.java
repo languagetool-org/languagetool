@@ -119,7 +119,7 @@ class AgreementRuleAntiPatterns1 {
     Arrays.asList(
       // "Andere weniger bekannte Vorschläge", "Ich habe mir das gerade letzte Woche zugelegt."
       posRegex("ART:.*|PRO:(POS|DEM|PER|IND).*"),
-      tokenRegex("zunehmend|vorzugsweise|gekonnt|ausgeprägt|einige|solcher|solchen|typischerweise|hinreichend|nachgerade|vereinzelt|verheerend|hinreichend|zahlreiche|genauer|weiter|weniger|einzige|teilweise|anderen|sämtlicher|geringer|anderer|weniger|ausreichend|gerade|anhaltend|meisten"),
+      tokenRegex("anscheinend|zunehmend|vorzugsweise|gekonnt|ausgeprägt|einige|solcher|solchen|typischerweise|hinreichend|nachgerade|vereinzelt|verheerend|hinreichend|zahlreiche|genauer|weiter|weniger|einzige|teilweise|anderen|sämtlicher|geringer|anderer|weniger|ausreichend|gerade|anhaltend|meisten"),
       posRegex("ADJ:.*"),
       posRegex("SUB:.*")
     ),
