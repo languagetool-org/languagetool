@@ -22,7 +22,6 @@ package org.languagetool.tools;
 
 import org.junit.Test;
 
-import java.sql.SQLOutput;
 import java.util.Optional;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.ThreadPoolExecutor;
