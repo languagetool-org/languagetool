@@ -1526,6 +1526,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">tappen</token>
                 </antipattern>
                 <antipattern>
+                    <token>ihm</token>
+                    <token>im</token>
+                </antipattern>
+                <antipattern>
                     <token case_sensitive="yes" regexp="yes">.*[a-zäöü].*</token>
                     <token case_sensitive="yes">IM</token>
                 </antipattern>
@@ -1565,7 +1569,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token postag="VER:[123]:.*" postag_regexp="yes">
                         <exception postag="VER:.*" postag_regexp="yes" negate_pos="yes"/>
-                        <exception regexp="yes">regen|prallen|siebten|achten|web|wachen|trauten|ehelichen|Schweiße|Schweisse|stumpfen|.+bändigen|.+vergleich|durchschnitt|stockdunkeln|leben|sitzen|garten</exception>
+                        <exception regexp="yes">regen|prallen|siebten|achten|web|wachen|trauten|ehelichen|Schweiße|Schweisse|stumpfen|.+bändigen|.+vergleich|durchschnitt|stockdunkeln|leben|sitzen|garten|.*lauf|weg</exception>
                     </token>
                 </pattern>
                 <message>Möglicher Tippfehler: Meinten Sie <suggestion>ihm</suggestion>?</message>
@@ -1581,6 +1585,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token>im</token>
                     <token postag="SENT_END">voraus</token>
+                </antipattern>
+                <antipattern>
+                    <token>im</token>
+                    <token>weg</token>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -5796,18 +5804,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Verwechslungen -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
-        <rulegroup id="SICH_SICHT" name="aus Sich (Sicht)" default="temp_off">
-            <antipattern>
-                <token>aus</token>
-                <token>der</token>
-                <token case_sensitive="yes">sich</token>
-            </antipattern>
+        <rulegroup id="SICH_SICHT" name="aus Sich (Sicht)">
             <rule>
                 <pattern>
                     <token>aus</token>
                     <token min="0">der</token>
                     <marker>
-                        <token>sich</token>
+                        <token case_sensitive="yes">Sich</token>
                     </marker>
                     <token regexp="yes">vo[mn]|de[sr]|[dms]?eine[sr]|ihrer|eurer|unse?rer</token>
                 </pattern>
@@ -5820,7 +5823,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>aus</token>
                     <token regexp="yes">[dms]?eine[sr]|ihrer|eurer|unse?rer</token>
                     <marker>
-                        <token>sich</token>
+                        <token case_sensitive="yes">Sich</token>
                     </marker>
                     <token postag="VER.*" postag_regexp="yes" />
                 </pattern>
@@ -16594,6 +16597,47 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token spacebefore="no">.</token>
                     <token spacebefore="no" regexp="yes">[a-z]{2,8}</token>
                 </antipattern>
+                <antipattern>
+                    <token>unter</token>
+                    <token regexp="yes">kontrollierte[nr]|dampf|freunden|google|kohl|leuchtend|nachfolgend|stress</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">au(ß|ss)en</token>
+                    <token>vor</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" skip="6">beugen</token>
+                    <token>vor</token>
+                </antipattern>
+                <antipattern>
+                    <token>vor</token>
+                    <token>ende</token>
+                </antipattern>
+                <antipattern>
+                    <token>auf</token>
+                    <token regexp="yes">touren|kosten</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">weiter|weit</token>
+                    <token>weg</token>
+                </antipattern>
+                <antipattern>
+                    <token>weg</token>
+                    <token>stand</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">Lust|Bock</token>
+                    <token>auf</token>
+                </antipattern>
+                <antipattern>
+                    <token>an</token>
+                    <token>deck</token>
+                </antipattern>
+                <antipattern>
+                    <token>da</token>
+                    <token>vor</token>
+                    <token inflected="yes" regexp="yes">schützen|wappnen</token>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <token><exception>;</exception><exception>:</exception><exception>,</exception></token>
                     <marker>
@@ -16601,7 +16645,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="VER:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöüß]+
                             <exception inflected="yes" regexp="yes">fahren|meinen|sein|einen|sieben|achten|einigen|äußern|äussern|fernsehen|proben|maximieren|minimieren</exception>
                             <exception postag="AD[JV]:.*|VER:EIZ:.*" postag_regexp="yes"/>
-                            <exception regexp="yes">(a[bn]|au[fs]|nieder|be|los|unter|ein|ent|er|in|vor|über|um|zer|zwischen|ver|zurück|weiter|vorbei|wieder).*|null|genügend</exception>
+                            <exception regexp="yes">(a[bn]|au[fs]|nieder|be|los|unter|ein|ent|er|in|vor|über|um|zer|zwischen|ver|zurück|weiter|vorbei|wieder).*|null|genügend|.+suche|personalisierte[nsr]?|ästen?</exception>
                         </token>
                     </marker>
                 </pattern>
@@ -16620,6 +16664,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Das habe ich von Anfang an gesagt.</example>
                 <example>Los geht's!</example>
                 <example>Er ist nach wie vor beschäftigt.</example>
+                <example>Zu diesem Zweck werden sie in Gewächshäusern unter kontrollierten Bedingungen gezüchtet.</example>
+                <example>Sie beugt UV-bedingter Hautalterung vor dank Tahiti-Vanille.</example>
                 <example>Die meiste Angst hat der Mensch vor erdachten Gefahren.</example>
                 <example>Den ganzen Tag über freuten sie sich.</example>
                 <example>ie Welt braucht mehr an demütigen Genies.</example>
@@ -22912,14 +22958,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rulegroup id="IM_WEG_STEHEN" name="im weg (Weg) stehen" default="temp_off">
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="5">stehen</token>
+                    <token>im</token>
+                    <marker>
+                        <token case_sensitive="yes">weg</token>
+                    </marker>
+                </pattern>
+                <message>Das Nomen <suggestion>Weg</suggestion> sollte großgeschrieben werden.</message>
+                <example correction="Weg">Er steht mir im <marker>weg</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>im</token>
+                    <marker>
+                        <token case_sensitive="yes">weg</token>
+                    </marker>
+                    <token postag="ZUS" min="0" />
+                    <token inflected="yes">stehen</token>
+                </pattern>
+                <message>Das Nomen <suggestion>Weg</suggestion> sollte großgeschrieben werden.</message>
+                <example correction="Weg">Er wollte mir im <marker>weg</marker> stehen.</example>
+            </rule>
+        </rulegroup>
         <rule id="HAPPY_END" name="Happy End">
             <antipattern case_sensitive="yes">
                 <token>Happy</token>
-                <token regexp="yes">Ends?</token>
+                <token regexp="yes">Ends?|Birthday</token>
             </antipattern>
             <pattern case_sensitive="yes">
                 <token regexp="yes">[hH]appy</token>
-                <token regexp="yes">[eE]nds?</token>
+                <token regexp="yes">[eE]nds?|[Bb]irthday</token>
             </pattern>
             <message>Dieser Anglizismus wird in der Regel großgeschrieben.</message>
             <suggestion><match no="1" case_conversion="startupper" /> <match no="2" case_conversion="startupper" /></suggestion>
@@ -41540,6 +41611,30 @@ Andere Projekte</example>
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
+        <rulegroup id="PEU_A_PEU" name="peu à peu" default="temp_off">
+            <url>https://de.wiktionary.org/wiki/peu_%C3%A0_peu</url>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token regexp="yes">Peu|peu</token>
+                    <token>à</token>
+                    <token>peu</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">peuh?|pöh?</token>
+                    <token regexp="yes">[aáàâeèéêoóòô]</token>
+                    <token regexp="yes">peuh?|pöh?</token>
+                </pattern>
+                <message>Meinten Sie die französische Redewendung <suggestion>peu à peu</suggestion>?</message>
+                <example correction="peu à peu">Wir machen das <marker>peu a peu</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">(peu|pöh?)-[aáàâeèéêoóòô]-(peu|pöh?)</token>
+                </pattern>
+                <message>Meinten Sie die französische Redewendung <suggestion>peu à peu</suggestion>?</message>
+                <example correction="peu à peu">Wir machen das <marker>peu-a-peu</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="VER_DOPPELUNG" name="Doppelung von Verben">
             <antipattern>
                 <token regexp="yes">.+te</token>
@@ -52766,6 +52861,14 @@ Andere Projekte</example>
                 <short>Typografie</short>
                 <example correction="H₂O|Wasser">Hierbei entsteht <marker>H²O</marker>.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">CO2-.+</token>
+                </pattern>
+                <message>Möchten Sie die typografisch schönere Schreibweise "CO₂" verwenden?</message>
+                <suggestion><match no="1" regexp_match="CO2" regexp_replace="CO₂" /></suggestion>
+                <example correction="CO₂-neutral">Der Versand ist <marker>CO2-neutral</marker>.</example>
+            </rule>
         </rulegroup>
         <rule id="LEERZEICHEN_VOR_AUSRUFEZEICHEN_ETC" name="Falsches Leerzeichen vor Ausrufezeichen etc.">
             <regexp>(\w+) ([!?:])(?!(-?[()/DO]|\s\d|(?i)[a-z]{1,20}))</regexp>
@@ -55743,7 +55846,7 @@ Andere Projekte</example>
                 <token>Swing</token>
             </antipattern>
             <pattern>
-                <token case_sensitive="yes" regexp="yes">[Gg]ematched|[Aa]ngeteasered|[Gg]eteasered|[Gg]eouted|[Gg]eskyped|[Gg]ezapped|[Gg]ekited|[Gg]etaped|[Gg]edated|[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]etagged|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched|[Gg]etuned|[Gg]ecrashed|[Gg]ecat?ched|[Cc]hecked|[Ee]ntertained</token>
+                <token case_sensitive="yes" regexp="yes">[Gg]efracked|[Gg]ematched|[Aa]ngeteasered|[Gg]eteasered|[Gg]eouted|[Gg]eskyped|[Gg]ezapped|[Gg]ekited|[Gg]etaped|[Gg]edated|[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]etagged|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched|[Gg]etuned|[Gg]ecrashed|[Gg]ecat?ched|[Cc]hecked|[Ee]ntertained</token>
             </pattern>
             <message>Die empfohlene Schreibweise für diesen Anglizismus ist <suggestion><match no="1" regexp_match="ed$" regexp_replace="t" /></suggestion>.</message>
             <url>https://www.duden.de/sprachwissen/sprachratgeber/Das-Verb-liken</url>

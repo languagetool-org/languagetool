@@ -809,6 +809,11 @@ class AgreementRuleAntiPatterns1 {
       pos(JLanguageTool.SENTENCE_END_TAGNAME)
     ),
     Arrays.asList(
+      token("der"),
+      token("viele"),
+      tokenRegex("Schnee|Regen")
+    ),
+    Arrays.asList(
       token("Außenring"),
       token("Autobahn")
     ));

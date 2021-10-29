@@ -4716,11 +4716,21 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     </rule>
 
     <rule id="LIKE_A_PRAYER" name="'Like' kein Substantiv in 'Like a Prayer'">
-        <pattern><!-- -->
+        <pattern><!-- Like a Prayer (Lied von Madonna)-->
             <marker>
                 <token>Like</token>
             </marker>
             <token regexp="yes">an?|the|my|y?our|me</token>
+        </pattern>
+        <disambig action="remove" postag="SUB:.+" />
+    </rule>
+
+    <rule id="TAKE_THAT" name="'TAKE' kein Substantiv in 'Take That'">
+        <pattern><!-- -->
+            <marker>
+                <token>Take</token>
+            </marker>
+            <token>That</token>
         </pattern>
         <disambig action="remove" postag="SUB:.+" />
     </rule>
@@ -4953,7 +4963,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <rule>
             <pattern>
                 <token regexp="yes">customer|user</token>
-                <token>journey</token>
+                <token>journeys</token>
             </pattern>
             <disambig action="add">
                 <wd pos="SUB:NOM:PLU:FEM"/>
@@ -4963,7 +4973,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <rule>
             <pattern>
                 <token regexp="yes">customer|user</token>
-                <token>journey</token>
+                <token>journeys</token>
             </pattern>
             <disambig action="add">
                 <wd pos="SUB:GEN:PLU:FEM"/>
@@ -4973,7 +4983,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <rule>
             <pattern>
                 <token regexp="yes">customer|user</token>
-                <token>journey</token>
+                <token>journeys</token>
             </pattern>
             <disambig action="add">
                 <wd pos="SUB:DAT:PLU:FEM"/>
@@ -4983,14 +4993,113 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <rule>
             <pattern>
                 <token regexp="yes">customer|user</token>
-                <token>journey</token>
+                <token>journeys</token>
             </pattern>
             <disambig action="add">
                 <wd pos="SUB:AKK:PLU:FEM"/>
                 <wd pos="SUB:AKK:PLU:FEM"/>
             </disambig>
         </rule>
-    </rulegroup>    
+    </rulegroup>
+
+    <rulegroup id="USER_EXPERIENCE" name="Customer Experience als Kompositum">
+        <rule>
+            <pattern>
+                <token regexp="yes">customer|user</token>
+                <token>experience</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:NOM:SIN:FEM"/>
+                <wd pos="SUB:NOM:SIN:FEM"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">customer|user</token>
+                <token>experience</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:GEN:SIN:FEM"/>
+                <wd pos="SUB:GEN:SIN:FEM"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">customer|user</token>
+                <token>experience</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:DAT:SIN:FEM"/>
+                <wd pos="SUB:DAT:SIN:FEM"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">customer|user</token>
+                <token>experience</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:AKK:SIN:FEM"/>
+                <wd pos="SUB:AKK:SIN:FEM"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">customer|user</token>
+                <token>experiences</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:NOM:PLU:FEM"/>
+                <wd pos="SUB:NOM:PLU:FEM"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">customer|user</token>
+                <token>experiences</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:GEN:PLU:FEM"/>
+                <wd pos="SUB:GEN:PLU:FEM"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">customer|user</token>
+                <token>experiences</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:DAT:PLU:FEM"/>
+                <wd pos="SUB:DAT:PLU:FEM"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">customer|user</token>
+                <token>experiences</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:AKK:PLU:FEM"/>
+                <wd pos="SUB:AKK:PLU:FEM"/>
+            </disambig>
+        </rule>
+    </rulegroup>
+
+
+    <rule id="EINST_KEIN_VERB" name="'einst' kein Verb">
+        <antipattern>
+            <token skip="3">du</token>
+            <token>einst</token>
+        </antipattern>
+        <antipattern>
+            <token skip="3">einst</token>
+            <token>du</token>
+        </antipattern>
+        <pattern>
+            <token>einst</token>
+        </pattern>
+        <disambig action="remove" postag="VER.*"/>
+    </rule>
 
     <!-- TODO: (ohne meine neue ..., durch eine alte ...)-->
     <!-- <rulegroup id="EINE_ARTIKEL" name="eine/meine als Artikel">
