@@ -4,6 +4,7 @@
     Copyright (C) 2008 Marcin Miłkowski
 -->
 <!DOCTYPE rules [
+    <!ENTITY filename_extensions "ai|asp|aspx|avi|bak|bat|bmp|cab|cfg|cgi|com|css|csv|dat|db|dbf|dll|doc|docx|eps|exe|flv|gif|htm|html|ibooks|ico|ini|jar|jpeg|jpg|js|jsp|lnk|md|mdb|mid|mov|mp3|mp4|mpa|mpg|ods|pdf|php|pl|png|pps|ppt|pptx|ps|psd|py|rar|rss|scss|sh|shtml|sql|svg|sys|tar|tif|tiff|tmp|ts|txt|wav|wma|xhtml|xls|xlsx|xml|xsl|yaml|yml|zip|zipx|7z">
     <!ENTITY apostrophe "['’`´‘ʻ]">
     <!ENTITY months "January|February|March|April|May|Ju(ne|ly)|August|September|October|November|December">
     <!ENTITY abbrevMonths "Jan|Feb|Mar|Apr|Ju[ln]|Aug|Sept?|Oct|Nov|Dec">
@@ -15249,6 +15250,19 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token postag="NNP" chunk_re="[BE]-NP.*" />
             </pattern>
             <disambig action="replace"><wd lemma="be" pos="VBZ"/></disambig>
+        </rule>
+    </rulegroup>
+    <rulegroup id="REMOVE_POS_FROM_FILE_NAMES" name="Remove POS from file names">
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">.*[a-z0-9].*</token>
+                </marker>
+                <token spacebefore="no">.</token>
+                <token spacebefore="no" regexp="yes">&filename_extensions;</token>
+            </pattern>
+            <disambig action="remove" postag="VB.*"/>
+            <example type="ambiguous" inputform="index[index/NN,index/VB,index/VBP]" outputform="index[index/NN]">I have <marker>index</marker>.php modifications.</example>
         </rule>
     </rulegroup>
     <rulegroup id="IGNORE_SPELLING_OF_ABBREVIATIONS" name="Ignore spelling of some uppercase abbreviations">
