@@ -1698,6 +1698,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>-->
             <antipattern>
+                <token regexp="yes">passat|entrat|arribat|transcorregut|vençut|avançat</token>
+                <token>el</token>
+                <token postag="NCMS000" inflected="yes" regexp="yes">&unitats_temps;</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">passada|entrada|arribada|transcorreguda|vençuda|avançada</token>
+                <token>la</token>
+                <token postag="NCMS000" inflected="yes" regexp="yes">&unitats_temps;</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">passats|entrats|arribats|transcorreguts|vençuts|avançats</token>
+                <token>els</token>
+                <token postag="NCMP000" inflected="yes" regexp="yes">&unitats_temps;</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">passades|entrades|arribades|transcorregudes|vençudes|avançades</token>
+                <token>les</token>
+                <token postag="NCFP000" inflected="yes" regexp="yes">&unitats_temps;</token>
+            </antipattern>
+            <antipattern>
                 <token regexp="yes">passat|entrat|vist|arribat|transcorregut|vençut</token>
                 <token min="0" max="2" regexp="yes">més|menys|de|d'</token>
                 <token postag="D[AID].MS." postag_regexp="yes"/>
@@ -2059,6 +2079,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Són els elements distintius: tradició i història comunes.</example>
             <example>La dosi adequada de biaix ideològic.</example>
             <example>Les reformes foren de manera general molt bones.</example>
+            <example>Amb vida encara ben avançat el segle XX.</example>
             <!-- TODO: 
                 Els costats superior i laterals.
                 ambiguous: té una manera de jugar aquestes gires tan femenina
@@ -4768,24 +4789,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule id="CONCORDANCA_MIG_NOMBRE" name="concordança de nombre: mig ">
                 <antipattern>
-                    <marker>
-                        <token postag="D[NI].*" postag_regexp="yes"/>
-                        <token>i</token>
-                        <token>mig</token>
-                    </marker>
+                    <token postag="D[NI].*" postag_regexp="yes"/>
+                    <token>i</token>
+                    <token>mig</token>
                 </antipattern>
                 <antipattern>
-                    <marker>
-                        <token>mig</token>
-                        <token>fons</token>
-                    </marker>
+                    <token regexp="yes">quarts?</token>
+                    <token>i</token>
+                    <token>mig</token>
                 </antipattern>
                 <antipattern>
-                    <marker>
-                        <token regexp="yes">de|pe|a</token>
-                        <token>l</token>
-                        <token>mig</token>
-                    </marker>
+                    <token>mig</token>
+                    <token>fons</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">de|pe|a</token>
+                    <token>l</token>
+                    <token>mig</token>
                 </antipattern>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[Mm]ig<exception postag="_allow_mig"/></token>
@@ -4800,6 +4820,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>mig planys i mig compliments</example>
                 <example>mig planys mig compliments</example>
                 <example>Estaven mig obertes o mig tancades?</example>
+                <example>Tres quarts i mig passats de quatre.</example>
             </rule>
             <rule id="TITELLA" name="titella">
                 <pattern>
@@ -9867,6 +9888,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>No queda gens clar.</example>
             <example>No estava gens alerta.</example>
             <example>No sona gens segons el ritme.</example>
+            <example>No era gens amic d'expressar-se en públic.</example>
         </rule>
         <rulegroup id="QUANT_QUAN" name="quant/quan">
             <rule>
@@ -15958,8 +15980,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token postag="N.*" postag_regexp="yes" inflected="yes">adreça</token>
                     </marker>
-                    <token postag="SPS00|D.*" postag_regexp="yes" max="2" min="1"/>
-                    <token postag="NP.*" postag_regexp="yes"/>
+                    <token postag="SPS00"/>
+                    <token postag="D.*" postag_regexp="yes" min="0"/>
+                    <token regexp="yes">PP|PSOE|PSC|Compromís|ERC|Junts|Cup</token>
                 </pattern>
                 <message>Possible error de traducció automàtica.</message>
                 <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">direcció</match></suggestion>
@@ -15970,6 +15993,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>ADREÇA D'ENVIAMENT.</example>
                 <example>adreça IANA</example>
                 <example>Llibreta d'adreces de Google.</example>
+                <example>Això és una adreça de Barcelona.</example>
+                <example>És una adreça de Gmail.</example>
             </rule>
         </rulegroup>
         <!--<rule id="ENCARA_AIXI" name="*encara (i) així/així i tot" default="off">
@@ -16951,6 +16976,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="misspelling">
+        <rule id="HI_I" name="hi -> i">
+            <pattern>
+                <token>tot</token>
+                <marker>
+                    <token>hi</token>
+                </marker>
+                <token postag="V.N.*|[NDAC].*|SP.*" postag_regexp="yes"><exception postag="V...[123]..." postag_regexp="yes"/></token>
+            </pattern>
+            <message>Probablement cal usar la conjunció <suggestion>i</suggestion> i no el pronom "hi".</message>
+            <example correction="i">Tot <marker>hi</marker> ser valent, no gosà entrar-hi.</example>
+            <example correction="i">Tot <marker>hi</marker> que era valent, no gosà entrar-hi.</example>
+            <example>Tot hi conduïa.</example>
+            <example>Tot hi anava</example>
+        </rule>
         <rule id="VASER" name="vaser/va ser">
             <pattern>
                 <token>vaser</token>
@@ -26147,7 +26186,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <marker>
                     <token>en</token>
-                    <token regexp="yes">\p{Lu}.*</token>
+                    <token regexp="yes">\p{Lu}.*|@.*</token>
                 </marker>
             </antipattern>
             <rule id="AMB_EN_AMB_EL" name="amb *en/el">
@@ -32965,6 +33004,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Diguem-li-ho.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token postag="VMSP2P0." postag_regexp="yes"/>
+                    <token>on</token>
+                    <token postag="VMSP2P0." postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <marker>
@@ -32977,6 +33021,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Vegeu què passa</example>
                 <example>Sigueu bons.</example>
                 <example>Estigueu bons.</example>
+                <example>Escrigueu on escrigueu, useu sempre un corrector.</example>
             </rule>
         </rulegroup>
         <!-- Norma aplicada: 3a p refl. (se) +2a p (et, us) + 1a p (em, ens) + datiu (3a p: li, els) + acusatiu (3a p: el, la, els, les, ho) + en + hi -->
@@ -36717,7 +36762,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern case_sensitive="yes">
                 <token regexp="yes">&dies_setmana_maj;</token>
-                <token regexp="yes">Negre|Sant|Gras|Llarder</token>
+                <token regexp="yes">Negre|Sants?|Gras|Llarder</token>
             </antipattern>
             <antipattern case_sensitive="yes">
                 <token regexp="yes">&dies_setmana_maj;</token>
@@ -49259,6 +49304,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="RARE_WORDS" name="paraules molt infreqüents">
             <rule>
                 <pattern>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes">endarreriar</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">endarrerir</match></suggestion>? "Endarreriar" té el mateix significat, però és un arcaisme.</message>
+                <example correction="endarrerir">Es va <marker>endarreriar</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token>nomé</token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>només</suggestion>? "Nomé" és una forma poc freqüent del v. 'nómer'.</message>
@@ -58242,7 +58294,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token regexp="yes" inflected="yes">braç|cama|dit</token>
                 </pattern>
-                <message>Paraula preferible.</message>
+                <message>Paraula preferible en aquest context.</message>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">encreuar</match></suggestion>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">plegar</match></suggestion>
                 <example correction="encreuar|plegar">Va <marker>creuar</marker> els braços.</example>
@@ -58255,7 +58307,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token regexp="yes" inflected="yes">línia|meta|carrer|frontera|avinguda|riu|llac|estany|carretera|autopista|autovia|llindar|porta|entrada|portal</token>
                 </pattern>
-                <message>Paraula preferible.</message>
+                <message>Paraula preferible en aquest context.</message>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">travessar</match></suggestion>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">passar</match></suggestion>
                 <!--<url>http://esadir.cat/entrades/fitxa/node/creuar</url>-->
@@ -60814,6 +60866,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>La mona ens la mengem el dia de Pasqua.</example>
             </rule>
         </rulegroup>
+        <rule id="DESPENSA" name="despensa/rebost">
+            <pattern>
+                <token postag="N.*" postag_regexp="yes" inflected="yes">despensa</token>
+            </pattern>
+            <message>És preferible dir <suggestion><match no="1" postag="NCF(.*)" postag_regexp="yes" postag_replace="NCM$1">rebost</match></suggestion>.</message>
+            <short>Paraula preferible</short>
+            <example correction="rebost">La <marker>despensa</marker> era buida.</example>
+        </rule>
         <rule id="DESCEREBRAT" name="descerebrat">
             <pattern>
                 <token inflected="yes">descerebrat</token>
