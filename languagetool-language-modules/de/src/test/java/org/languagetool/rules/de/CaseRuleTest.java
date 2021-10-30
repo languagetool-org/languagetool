@@ -52,6 +52,7 @@ public class CaseRuleTest {
   public void testRule() throws IOException {
 
     // correct sentences:
+    assertGood("(Dauer, Raum, Anwesende)");
     assertGood("Es gibt wenige Befragte.");
     assertGood("Es gibt weniger Befragte, die das machen würden.");
     assertGood("Es gibt mehr Befragte, die das machen würden.");

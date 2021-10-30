@@ -323,7 +323,7 @@ public class CaseRule extends Rule {
     Arrays.asList(
       token(","),
       posRegex(".*ADJ.*|UNKNOWN"),
-      regex("[\\.?!]")
+      regex("[\\.?!)]")
     ),
     Arrays.asList(
       csToken(","),
