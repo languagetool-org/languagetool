@@ -92,7 +92,7 @@ public class ContextTools {
       endContent = contents.length();
     }
     return prefix +
-           contents.substring(startContent, endContent).replace('\n', ' ').replace('\r', ' ').replace('\t', ' ') +
+           contents.substring(startContent, endContent).replace('\n', (char)0x2588).replace('\r', ' ').replace('\t', ' ') +
            postfix + '\n' +
            getMarker(fromPos, toPos, startContent, endContent, prefix);
   }
