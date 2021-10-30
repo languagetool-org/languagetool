@@ -39,6 +39,8 @@ public class RuleMatchDiffFinder {
   private static final String MARKER_END = "</span>";
   private static final int IFRAME_MAX = -1;
 
+  private boolean fullMode;
+
   List<RuleMatchDiff> getDiffs(List<LightRuleMatch> l1, List<LightRuleMatch> l2) {
     System.out.println("Comparing result 1 (" + l1.size() + " matches) to result 2 (" + l2.size() + " matches), step 1");
     //debugList("List 1", l1);
@@ -137,7 +139,7 @@ public class RuleMatchDiffFinder {
     return map;
   }
 
-  private void printDiffs(List<RuleMatchDiff> diffs, FileWriter fw, String langCode, String date) throws IOException {
+  private void printDiffs(List<RuleMatchDiff> diffs, FileWriter fw, String langCode, String date, String filename) throws IOException {
     fw.write("Diffs found: " + diffs.size());
     if (diffs.size() > 0) {
       RuleMatchDiff diff1 = diffs.get(0);
@@ -146,6 +148,11 @@ public class RuleMatchDiffFinder {
       } else if (diff1.getNewMatch() != null) {
         fw.write(". Category: " + diff1.getNewMatch().getCategoryName());
       }
+    }
+    if (fullMode) {
+      fw.write(". <a href='../" + langCode + "/" + filename + "'>Today's list</a>");
+    } else {
+      fw.write(". <a href='../" + langCode + "_full/" + filename + "'>Full list</a>");
     }
     fw.write("<br>\n");
     printTableBegin(fw);
@@ -358,6 +365,9 @@ public class RuleMatchDiffFinder {
   }
 
   private void run(LightRuleMatchParser parser, File file1, File file2, File outputDir, String langCode, String date) throws IOException {
+    if (file1.getName().equals("empty.json")) {
+      fullMode = true;
+    }
     List<LightRuleMatch> l1 = parser.parseOutput(file1);
     List<LightRuleMatch> l2 = parser.parseOutput(file2);
     String title = "Comparing " + file1.getName() + " to "  + file2.getName();
@@ -380,14 +390,15 @@ public class RuleMatchDiffFinder {
     Map<String, List<RuleMatchDiff>> keyToDiffs = groupDiffs(diffs);
     List<OutputFile> outputFiles = new ArrayList<>();
     for (Map.Entry<String, List<RuleMatchDiff>> entry : keyToDiffs.entrySet()) {
-      File outputFile = new File(outputDir, "result_" + entry.getKey().replaceAll("/" , "_").replaceAll("[\\s_]+", "_") + ".html");
+      String filename = "result_" + entry.getKey().replaceAll("/", "_").replaceAll("[\\s_]+", "_") + ".html";
+      File outputFile = new File(outputDir, filename);
       if (entry.getValue().size() > 0) {
         outputFiles.add(new OutputFile(outputFile, entry.getValue()));
       }
       try (FileWriter fw = new FileWriter(outputFile)) {
         System.out.println("Writing result to " + outputFile);
         printHeader(title, fw);
-        printDiffs(entry.getValue(), fw, langCode, date);
+        printDiffs(entry.getValue(), fw, langCode, date, filename);
         printFooter(fw);
       }
     }
