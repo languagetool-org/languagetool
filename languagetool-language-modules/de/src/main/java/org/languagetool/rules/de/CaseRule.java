@@ -74,6 +74,10 @@ public class CaseRule extends Rule {
       regex("Blomens?")
     ),
     Arrays.asList(
+      token("des"),
+      csToken("Weiteren")
+    ),
+    Arrays.asList(
       // "Tom ist ein engagierter, gutaussehender Vierzigjähriger, der..."
       posRegex("(ADJ:|PA2).*"),
       token(","),
@@ -1082,7 +1086,7 @@ public class CaseRule extends Rule {
     nounIndicators.add("unser");
   }
 
-  private static final String[] sentenceStartExceptions = {"(", "\"", "'", "‘", "„", "«", "»", ".", "!", "?"};
+  private static final String[] SENTENCE_START_EXCEPTIONS = {"(", "\"", "'", "‘", "„", "«", "»", ".", "!", "?"};
 
   private static final String[] UNDEFINED_QUANTIFIERS = {"viel", "nichts", "nix", "wenig", "allerlei"};
 
@@ -1616,94 +1620,6 @@ public class CaseRule extends Rule {
     "Eures"
   };
   
-  private static final Set<String> languages = new HashSet<>();
-    static {
-    languages.add("Angelsächsisch");
-    languages.add("Afrikanisch");
-    languages.add("Albanisch");
-    languages.add("Altarabisch");
-    languages.add("Altchinesisch");
-    languages.add("Altgriechisch");
-    languages.add("Althochdeutsch");
-    languages.add("Altpersisch");
-    languages.add("Amerikanisch");
-    languages.add("Arabisch");
-    languages.add("Armenisch");
-    languages.add("Bairisch");
-    languages.add("Baskisch");
-    languages.add("Bengalisch");
-    languages.add("Bulgarisch");
-    languages.add("Chinesisch");
-    languages.add("Dänisch");
-    languages.add("Deutsch");
-    languages.add("Englisch");
-    languages.add("Estnisch");
-    languages.add("Finnisch");
-    languages.add("Französisch");
-    languages.add("Frühneuhochdeutsch");
-    languages.add("Germanisch");
-    languages.add("Georgisch");
-    languages.add("Griechisch");
-    languages.add("Hebräisch");
-    languages.add("Hocharabisch");
-    languages.add("Hochchinesisch");
-    languages.add("Hochdeutsch");
-    languages.add("Holländisch");
-    languages.add("Indonesisch");
-    languages.add("Irisch");
-    languages.add("Isländisch");
-    languages.add("Italienisch");
-    languages.add("Japanisch");
-    languages.add("Jiddisch");
-    languages.add("Jugoslawisch");
-    languages.add("Kantonesisch");
-    languages.add("Katalanisch");
-    languages.add("Klingonisch");
-    languages.add("Koreanisch");
-    languages.add("Kroatisch");
-    languages.add("Kurdisch");
-    languages.add("Lateinisch");
-    languages.add("Lettisch");
-    languages.add("Litauisch");
-    languages.add("Luxemburgisch");
-    languages.add("Mittelhochdeutsch");
-    languages.add("Mongolisch");
-    languages.add("Neuhochdeutsch");
-    languages.add("Niederländisch");
-    languages.add("Norwegisch");
-    languages.add("Persisch");
-    languages.add("Plattdeutsch");
-    languages.add("Polnisch");
-    languages.add("Portugiesisch");
-    languages.add("Rätoromanisch");
-    languages.add("Rumänisch");
-    languages.add("Russisch");
-    languages.add("Sächsisch");
-    languages.add("Schwäbisch");
-    languages.add("Schwedisch");
-    languages.add("Schweizerisch");
-    languages.add("Serbisch");
-    languages.add("Serbokroatisch");
-    languages.add("Slawisch");
-    languages.add("Slowakisch");
-    languages.add("Slowenisch");
-    languages.add("Spanisch");
-    languages.add("Syrisch");
-    languages.add("Tamilisch");
-    languages.add("Tibetisch");
-    languages.add("Tschechisch");
-    languages.add("Tschetschenisch");
-    languages.add("Türkisch");
-    languages.add("Turkmenisch");
-    languages.add("Uigurisch");
-    languages.add("Ukrainisch");
-    languages.add("Ungarisch");
-    languages.add("Usbekisch");
-    languages.add("Vietnamesisch");
-    languages.add("Walisisch");
-    languages.add("Weißrussisch");
-  }
-
   private static final Set<StringMatcher[]> exceptionPatterns = CaseRuleExceptions.getExceptionPatterns();
 
   private static final Set<String> substVerbenExceptions = new HashSet<>();
@@ -1977,7 +1893,7 @@ public class CaseRule extends Rule {
         token.length() > 1 &&     // length limit = ignore abbreviations
         !tokens[i].isIgnoredBySpeller() &&
         !tokens[i].isImmunized() &&
-        !StringUtils.equalsAny(tokens[i - 1].getToken(), sentenceStartExceptions) &&
+        !StringUtils.equalsAny(tokens[i - 1].getToken(), SENTENCE_START_EXCEPTIONS) &&
         !StringUtils.equalsAny(token, exceptions) &&
         !StringTools.isAllUppercase(token) &&
         !isLanguage(i, tokens, token) &&
@@ -2142,7 +2058,7 @@ public class CaseRule extends Rule {
     AnalyzedTokenReadings nextReadings = i < tokens.length-1 ? tokens[i+1] : null;
     AnalyzedTokenReadings prevLowercaseReadings = null;
 
-    if (i > 1 && StringUtils.equalsAny(tokens[i-2].getToken(), sentenceStartExceptions)) {
+    if (i > 1 && StringUtils.equalsAny(tokens[i-2].getToken(), SENTENCE_START_EXCEPTIONS)) {
       prevLowercaseReadings = lookup(prevToken.getToken().toLowerCase());
     }
 
@@ -2194,8 +2110,8 @@ public class CaseRule extends Rule {
   }
 
   private boolean isLanguage(int i, AnalyzedTokenReadings[] tokens, String token) {
-    boolean maybeLanguage = (token.endsWith("sch") && languages.contains(token)) ||
-                            languages.contains(StringUtils.removeEnd(StringUtils.removeEnd(token, "n"), "e"));   // z.B. "im Japanischen" / z.B. "ins Japanische übersetzt"
+    boolean maybeLanguage = (token.endsWith("sch") && LanguageNames.get().contains(token)) ||
+                            LanguageNames.get().contains(StringUtils.removeEnd(StringUtils.removeEnd(token, "n"), "e"));   // z.B. "im Japanischen" / z.B. "ins Japanische übersetzt"
     AnalyzedTokenReadings prevToken = i > 0 ? tokens[i-1] : null;
     AnalyzedTokenReadings nextReadings = i < tokens.length-1 ? tokens[i+1] : null;
     return maybeLanguage && (!hasNounReading(nextReadings) || (prevToken != null && prevToken.getToken().equals("auf")));
