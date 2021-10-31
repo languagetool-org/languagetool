@@ -40258,7 +40258,7 @@ Isto deve ser feito com precisão científica. → Isto deve ser feito com rigor
 
 	<!-- FEITA efetuada/realizada/conduzida/concretizada/elaborada -->
     <rulegroup id='FAZER_EFETUAR_REALIZAR_CONDUZIR_CONCRETIZAR_ELABORAR' name="Fazer → efetuar/realizar/conduzir/concretizar/elaborar" type="style" tags="picky">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-06-29 + 2021-06-30 + 2021-07-02 (25-JUN-2021+)      -->
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-06-29/30 + 2021-07-02 + 2021-10-31 (25-JUN-2021+)      -->
 <!--
 Ele a fez sua esposa.
 Ele me fez seu assistente.
@@ -40311,6 +40311,28 @@ Uma fagulha é suficiente para fazer explodir a pólvora.
 		</token>
 		<token postag='NP.+|SPS.+|DA.+|DI.+' postag_regexp='yes'/>
 	  </antipattern>
+<!-- MARCOAGPINTO 2021-10-31 (25-JUN-2021+) *START* -->
+<!--
+Isso faz-lhe admirar?
+Isso faz-se notar?
+Ela fez-se passar por outra pessoa.
+O telegrama foi um truque para fazê-la vir para casa.
+Sim, senhor, falo o italiano o bastante para fazer-me compreender.
+Um acaso fez descobrir a cilada e Vasco da Gama pôde continuar.
+-->
+      <antipattern>
+		<token postag='PD.+|PP.+|CC|RG' postag_regexp='yes'>
+			<exception>se</exception>
+		</token>
+		<token regexp='no' inflected='yes'>fazer</token>
+		<token min="0" max="1" regexp='yes' spacebefore='no'>&hifen;</token>
+		<token min="0" max="1" postag='PP.+' postag_regexp='yes'/>
+		<token postag='V.+' postag_regexp='yes'>
+			<exception regexp='yes'>partes?</exception>
+			<exception postag_regexp='yes' postag='CS|SPS.+|NC.+|AQ0.+|VMG0000'/>
+		</token>
+      </antipattern>
+<!-- MARCOAGPINTO 2021-10-31 (25-JUN-2021+) *END* -->
 	<rule>
 	<!--	
 Esta foi a pesquisa feita pela Ana. → Esta foi a pesquisa realizada pela Ana.
@@ -40360,6 +40382,13 @@ Esta foi a pesquisa feita pela Ana. → Esta foi a pesquisa realizada pela Ana.
 	  <example>A lei serve para fazer imperar os direitos sobre todas as pessoas.</example>
 	  <example>Na juventude, alterou alguns documentos, para fazer constar o ano de nascimento como 1883.</example>
 	  <example>Uma fagulha é suficiente para fazer explodir a pólvora.</example>
+	  
+	  <example>Isso faz-lhe admirar?</example>
+	  <example>Isso faz-se notar?</example>
+	  <example>Ela fez-se passar por outra pessoa.</example>
+	  <example>O telegrama foi um truque para fazê-la vir para casa.</example>
+	  <example>Sim, senhor, falo o italiano o bastante para fazer-me compreender.</example>
+	  <example>Um acaso fez descobrir a cilada e Vasco da Gama pôde continuar.</example>
 	</rule>
 	<rule>
 	<!--	
@@ -40405,6 +40434,13 @@ Vou fazer uma pesquisa. → Vou realizar uma pesquisa.
 	  <example>A lei serve para fazer imperar os direitos sobre todas as pessoas.</example>	  
 	  <example>Na juventude, alterou alguns documentos, para fazer constar o ano de nascimento como 1883.</example>
 	  <example>Uma fagulha é suficiente para fazer explodir a pólvora.</example>
+	  
+	  <example>Isso faz-lhe admirar?</example>
+	  <example>Isso faz-se notar?</example>
+	  <example>Ela fez-se passar por outra pessoa.</example>
+	  <example>O telegrama foi um truque para fazê-la vir para casa.</example>
+	  <example>Sim, senhor, falo o italiano o bastante para fazer-me compreender.</example>
+	  <example>Um acaso fez descobrir a cilada e Vasco da Gama pôde continuar.</example>
 	</rule>
     </rulegroup>
 
