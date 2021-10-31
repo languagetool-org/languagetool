@@ -5520,10 +5520,18 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="NN|NN:UN?" postag_regexp="yes" />
             <token postag="VBZ" />
         </antipattern>
+        <antipattern><!-- You sent me a picture with the head cut off. -->
+            <token postag="DT|PRP\$" postag_regexp="yes" />
+            <token postag="NN.*" postag_regexp="yes" />
+            <token chunk_re=".-VP" postag="VB.*" postag_regexp="yes" />
+            <token postag="IN" postag_regexp="yes">
+                <exception>by</exception><!-- see example -->
+            </token>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
-                    <token  postag="JJ.?|P?DT|PRP.?" postag_regexp="yes"><!-- #4885 To use chunk_re="[BI]-NP-.*" here, the rule must be re-written. Refer to the 'by' example. -->
+                    <token postag="JJ.?|P?DT|PRP.?" postag_regexp="yes"><!-- #4885 To use chunk_re="[BI]-NP-.*" here, the rule must be re-written. Refer to the 'by' example. -->
                         <exception case_sensitive="yes">US</exception>
                         <exception regexp="yes">woman|king|home|plane</exception>
                     </token>
@@ -5545,7 +5553,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="ambiguous" inputform="Canadian[Canadian/JJ,Canadian/NNP]" outputform="Canadian[Canadian/JJ]">The <marker>Canadian</marker> Badlands is nice.</example>
         <example type="ambiguous" inputform="red[red/JJ,red/NN:UN]" outputform="red[red/JJ]">I have a lot of <marker>red</marker> wine.</example>
         <example type="ambiguous" inputform="period[period/JJ,period/NN]" outputform="period[period/JJ]">This is a splendid collection of fine <marker>period</marker> furniture.</example>
-        <example type="ambiguous" inputform="by[by/IN,by/JJ,by/NN,by/RP]" outputform="by[by/IN,by/JJ,by/RP]">Were the boys see <marker>by</marker> security?</example><!-- #4885 incorrect grammar -->
+        <example type="ambiguous" inputform="by[by/IN,by/JJ,by/NN,by/RP]" outputform="by[by/IN,by/JJ,by/RP]">Were the boys see <marker>by</marker> security?</example>
         <example type="ambiguous" inputform="good[good/JJ,good/NN:U]" outputform="good[good/JJ]">A very <marker>good</marker> knowledge showed that she had studied carefully.</example><!-- #4885 -->
         <example type="untouched">This is a nice machine.</example>
         <example type="untouched">A king rules.</example>
@@ -10415,11 +10423,17 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="NN.*" postag_regexp="yes" chunk_re="E-NP-.*" />
             <token postag="VB[DZ]" postag_regexp="yes" chunk_re=".-VP" />
         </antipattern>
+        <antipattern>
+            <token postag="DT|PRP\$" postag_regexp="yes" />
+            <token postag="NN.*" postag_regexp="yes" chunk_re="E-NP.*" />
+            <token postag="VB.*" postag_regexp="yes" chunk_re=".-VP" />
+        </antipattern>
         <pattern>
             <marker>
                 <and>
                     <token postag="JJ.?" postag_regexp="yes">
                         <exception postag="JJ.?|NN.*" negate_pos="yes" postag_regexp="yes"/>
+                        <exception regexp="yes">woman|head|work|material|business</exception>
                     </token>
                     <token postag="NN.*" postag_regexp="yes">
                         <exception regexp="yes">\p{Lu}\p{Ll}+</exception>
@@ -10434,12 +10448,14 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig action="filter" postag="JJ.?"/>
         <example type="ambiguous" inputform="usual[usual/JJ,usual/NN:U]" outputform="usual[usual/JJ]">My <marker>usual</marker> advice to people is just...</example>
         <example type="ambiguous" inputform="superior[superior/JJ,superior/NN]" outputform="superior[superior/JJ]">The hierarchical <marker>superior</marker> tests, are as the name suggests, better than the regular tests.</example>
-        <example type="ambiguous" inputform="other[other/JJ,other/NN]" outputform="other[other/JJ]">I think the <marker>other</marker> tell that we saw was not as impressive as Mount Megiddo.</example><!-- chunker error: tell/B-VP -->
+        <!-- <example type="ambiguous" inputform="other[other/JJ,other/NN]" outputform="other[other/JJ]">I think the <marker>other</marker> tell that we saw was not as impressive as Mount Megiddo.</example> -->
         <example type="ambiguous" inputform="professional[professional/JJ,professional/NN]" outputform="professional[professional/JJ]">I know that if the <marker>professional</marker> want to enhance our reputation is not controlled, some professionals lose their moral compass.</example><!-- Premium #1564 -->
         <example type="ambiguous" inputform="professional[professional/JJ,professional/NN]" outputform="professional[professional/JJ]">If a <marker>professional</marker> want to know the truth is not controlled, we can lose our moral compass.</example><!-- Premium #1564 -->
         <example type="untouched">This is a nice machine.</example>
         <example type="untouched">A few catch all.</example>
         <example type="untouched">His unit saw 187 days of active battle.</example>
+        <example type="untouched">Mr. B. Lowery, First of all, you sent me a picture with the head cut off.</example>
+        <example type="untouched">This will provide an opportunity to see your work pay off.</example>
         <example type="untouched">Bashir's future remains uncertain as ever.</example>
         <!-- <example type="untouched">Here the road curves to the right.</example> -->
         <example type="untouched">Is much powerful and wondrous <marker>magic necessary for</marker> Harry Potter to fly?</example>

@@ -306,7 +306,6 @@ public class English extends Language implements AutoCloseable {
   protected int getPriorityForId(String id) {
     switch (id) {
       case "I_E":                       return 10;  // needs higher prio than EN_COMPOUNDS ("i.e learning")
-      case "EN_DIACRITICS_REPLACE":     return 9;   // prefer over spell checker (like PHRASE_REPETITION)
       case "CHILDISH_LANGUAGE":         return 8;   // prefer over spell checker
       case "RUDE_SARCASTIC":            return 6;   // prefer over spell checker
       case "FOR_NOUN_SAKE":             return 6;   // prefer over PROFANITY (e.g. "for fuck sake")
@@ -421,6 +420,7 @@ public class English extends Language implements AutoCloseable {
       case "WANNA":                     return 1;   // prefer over spell checker
       case "LOOK_FORWARD_TO":           return 1;   // prefer over LOOK_FORWARD_NOT_FOLLOWED_BY_TO
       case "LOOK_SLIKE":                return 1;   // higher prio than prem:SINGULAR_NOUN_VERB_AGREEMENT
+      case "EN_DIACRITICS_REPLACE":     return -1;   // prefer over spell checker
       case "FASTLY":                    return -1;   // higher prio than spell checker
       case "ANYWAYS":                   return -1;   // higher prio than spell checker
       case "MISSING_GENITIVE":          return -1;  // prefer over spell checker (like EN_SPECIFIC_CASE)
