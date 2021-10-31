@@ -1569,7 +1569,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token postag="VER:[123]:.*" postag_regexp="yes">
                         <exception postag="VER:.*" postag_regexp="yes" negate_pos="yes"/>
-                        <exception regexp="yes">regen|prallen|siebten|achten|web|wachen|trauten|ehelichen|Schweiße|Schweisse|stumpfen|.+bändigen|.+vergleich|durchschnitt|stockdunkeln|leben|sitzen|garten|.*lauf|weg</exception>
+                        <exception regexp="yes">regen|prallen|siebten|achten|web|wachen|trauten|ehelichen|Schweiße|Schweisse|stumpfen|.+bändigen|.+orientiert.*|.+vergleich|durchschnitt|stockdunkeln|leben|sitzen|garten|.*lauf|weg</exception>
                     </token>
                 </pattern>
                 <message>Möglicher Tippfehler: Meinten Sie <suggestion>ihm</suggestion>?</message>
@@ -23091,17 +23091,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="IM_STILLEN" name="im stillen (Stillen)">
             <antipattern>
-                <token>stillen</token>
+                <token regexp="yes">stillen|dunkeln</token>
                 <token postag="UNKNOWN|SUB.*" postag_regexp="yes" />
             </antipattern>
             <antipattern>
-                <token>stillen</token>
+                <token regexp="yes">stillen|dunkeln</token>
                 <token regexp="yes">oder|und|&amp;|bzw|,</token>
             </antipattern>
             <pattern>
                 <token regexp="yes" case_sensitive="yes">[Ii]m</token>
                 <marker>
-                    <token case_sensitive="yes">stillen</token>
+                    <token case_sensitive="yes" regexp="yes">stillen|dunkeln</token>
                 </marker>
             </pattern>
             <message>Bitte prüfen Sie die Groß- und Kleinschreibung.</message>
@@ -23210,7 +23210,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <pattern>
                 <token case_sensitive="yes" regexp="yes">[Ii]m</token>
-                <token regexp="yes" case_sensitive="yes">sitzen|garten|stehen|leben|web|abstand|wohlwollen|vorstand|sterben|(durch)?schnitt|sinne?|kopf|unterschied|herzen|laufe|liegen|betrieb|einklang|reisen|griff|vorbei(gehen|laufen|rennen)|falle|schlaf|vergleich|verlaufe?|beruf</token>
+                <token regexp="yes" case_sensitive="yes">sitzen|garten|stehen|leben|web|abstand|wohlwollen|vorstand|sterben|(durch)?schnitt|sinne?|kopf|unterschied|herzen|laufe?|liegen|betrieb|einklang|reisen|griff|vorbei(gehen|laufen|rennen)|falle|schlaf|vergleich|verlaufe?|beruf|rahmen</token>
             </pattern>
             <message>Bitte prüfen Sie die Groß- und Kleinschreibung.</message>
             <suggestion>\1 <match no="2" case_conversion="startupper" /></suggestion>
