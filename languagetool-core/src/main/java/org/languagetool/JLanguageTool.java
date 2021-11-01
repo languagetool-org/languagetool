@@ -33,6 +33,7 @@ import org.languagetool.rules.*;
 import org.languagetool.rules.neuralnetwork.Word2VecModel;
 import org.languagetool.rules.patterns.*;
 import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.tools.LtThreadPoolFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
@@ -866,24 +867,8 @@ public class JLanguageTool {
    * @since 4.3
    */
   public List<RuleMatch> check(AnnotatedText annotatedText, boolean tokenizeText, ParagraphHandling paraMode, RuleMatchListener listener, Mode mode, Level level) throws IOException {
-    return check(annotatedText, tokenizeText, paraMode, listener, mode, level, null);
+    return check(annotatedText, tokenizeText, paraMode, listener, mode, level);
   }
-
-  /**
-   * The main check method. Tokenizes the text into sentences and matches these
-   * sentences against all currently active rules depending on {@code mode}.
-   *
-   * @param remoteRulesThreadPool when given, starts evaluating remote rules asynchronously before checking other rules,
-   *                              then waits on result afterwards
-   * @since 4.6
-   */
-  public List<RuleMatch> check(AnnotatedText annotatedText, boolean tokenizeText, ParagraphHandling paraMode, RuleMatchListener listener,
-                               Mode mode, Level level, @Nullable ExecutorService remoteRulesThreadPool) throws IOException {
-    return check(annotatedText, tokenizeText, paraMode, listener, mode, level, remoteRulesThreadPool,
-      userConfig != null ? userConfig.getTextSessionId() : null);
-  }
-
-
 
   /**
    * The main check method. Tokenizes the text into sentences and matches these
@@ -893,19 +878,19 @@ public class JLanguageTool {
    * @since 5.2
    */
   public List<RuleMatch> check(AnnotatedText annotatedText, boolean tokenizeText, ParagraphHandling paraMode, RuleMatchListener listener,
-      Mode mode, Level level, @Nullable ExecutorService remoteRulesThreadPool, @Nullable Long textSessionID) throws IOException {
+                               Mode mode, Level level, @Nullable Long textSessionID) throws IOException {
     annotatedText = cleanText(annotatedText);
     List<String> sentences = getSentences(annotatedText, tokenizeText);
     List<AnalyzedSentence> analyzedSentences = analyzeSentences(sentences);
-    return checkInternal(annotatedText, paraMode, listener, mode, level, remoteRulesThreadPool, textSessionID, sentences, analyzedSentences).getRuleMatches();
+    return checkInternal(annotatedText, paraMode, listener, mode, level, textSessionID, sentences, analyzedSentences).getRuleMatches();
   }
 
   public CheckResults check2(AnnotatedText annotatedText, boolean tokenizeText, ParagraphHandling paraMode, RuleMatchListener listener,
-                             Mode mode, Level level, @Nullable ExecutorService remoteRulesThreadPool, @Nullable Long textSessionID) throws IOException {
+                             Mode mode, Level level, @Nullable Long textSessionID) throws IOException {
     annotatedText = cleanText(annotatedText);
     List<String> sentences = getSentences(annotatedText, tokenizeText);
     List<AnalyzedSentence> analyzedSentences = analyzeSentences(sentences);
-    return checkInternal(annotatedText, paraMode, listener, mode, level, remoteRulesThreadPool, textSessionID, sentences, analyzedSentences);
+    return checkInternal(annotatedText, paraMode, listener, mode, level, textSessionID, sentences, analyzedSentences);
   }
 
   private List<String> getSentences(AnnotatedText annotatedText, boolean tokenizeText) {
@@ -944,8 +929,8 @@ public class JLanguageTool {
   }
   
   private CheckResults checkInternal(AnnotatedText annotatedText, ParagraphHandling paraMode, RuleMatchListener listener,
-                                        Mode mode, Level level, @Nullable ExecutorService remoteRulesThreadPool,
-                                        @Nullable Long textSessionID, List<String> sentences, List<AnalyzedSentence> analyzedSentences) throws IOException {
+                                     Mode mode, Level level,
+                                     @Nullable Long textSessionID, List<String> sentences, List<AnalyzedSentence> analyzedSentences) throws IOException {
     RuleSet rules = getActiveRulesForLevel(level);
     if (printStream != null) {
       printIfVerbose(rules.allRules().size() + " rules activated for language " + language);
@@ -959,10 +944,11 @@ public class JLanguageTool {
     // -> need to distinguish offsets / matches
     Map<Integer, List<RuleMatch>> cachedResults = new HashMap<>();
     Map<Integer, Integer> matchOffset = new HashMap<>();
+    ExecutorService remoteRulesThreadPool = LtThreadPoolFactory.getFixedThreadPoolExecutor(LtThreadPoolFactory.REMOTE_RULE_WAITING_POOL).orElse(null);
     if (remoteRulesThreadPool != null && mode != Mode.TEXTLEVEL_ONLY) {
       // trigger remote rules to run on whole text at once, at the start, then we wait for the results
       remoteRuleTasks = new LinkedList<>();
-      checkRemoteRules(remoteRulesThreadPool, rules.allRules(), analyzedSentences, mode, level,
+      checkRemoteRules(rules.allRules(), analyzedSentences, mode, level,
         remoteRuleTasks, remoteRules, cachedResults, matchOffset, textSessionID);
     }
 
@@ -1096,8 +1082,7 @@ public class JLanguageTool {
     match.setOffsetPosition(fromPos, toPos);
   }
 
-  protected void checkRemoteRules(@NotNull ExecutorService remoteRulesThreadPool,
-                                  List<Rule> allRules, List<AnalyzedSentence> analyzedSentences, Mode mode, Level level,
+  protected void checkRemoteRules(List<Rule> allRules, List<AnalyzedSentence> analyzedSentences, Mode mode, Level level,
                                   List<FutureTask<RemoteRuleResult>> remoteRuleTasks, List<RemoteRule> remoteRules,
                                   Map<Integer, List<RuleMatch>> cachedResults, Map<Integer, Integer> matchOffset, Long textSessionID) {
     List<InputSentence> cacheKeys = new LinkedList<>();
@@ -1112,6 +1097,8 @@ public class JLanguageTool {
         userConfig, altLanguages, mode, level, textSessionID);
       cacheKeys.add(cacheKey);
     }
+    ExecutorService jLanguageToolPool = LtThreadPoolFactory.getFixedThreadPoolExecutor(
+      LtThreadPoolFactory.REMOTE_RULE_WAITING_POOL).orElseThrow(() -> new IllegalStateException("Thread pool not initialized"));
     for (Rule r : allRules) {
       if (r instanceof RemoteRule) {
         RemoteRule rule = (RemoteRule) r;
@@ -1150,7 +1137,7 @@ public class JLanguageTool {
           task = rule.run(analyzedSentences, textSessionID);
         }
         remoteRuleTasks.add(task);
-        remoteRulesThreadPool.submit(task);
+        jLanguageToolPool.submit(task);
       }
     }
   }

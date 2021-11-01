@@ -144,8 +144,7 @@ public class RemoteRuleTimeoutTest {
       for (int j = 0; j < batches; j++) {
         FutureTask<List<RuleMatch>> task = new FutureTask<>(() -> {
           List<RuleMatch> matches = lt.check(text, true,
-            JLanguageTool.ParagraphHandling.NORMAL, listener, JLanguageTool.Mode.ALL, JLanguageTool.Level.DEFAULT,
-            pool);
+            JLanguageTool.ParagraphHandling.NORMAL, listener, JLanguageTool.Mode.ALL, JLanguageTool.Level.DEFAULT);
           return matches;
         });
         pool.submit(task);
