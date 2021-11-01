@@ -114,6 +114,9 @@ class CheckRequestAnalysis {
    * Actualize document cache and result cache for given paragraph number
    */
   DocumentCache actualizeDocumentCache (int nPara) {
+    if (isDisposed()) {
+      return null;
+    }
     setFlatParagraphTools(xComponent);
     if (docCache == null) {
       docCursor = new DocumentCursorTools(xComponent);
@@ -178,7 +181,7 @@ class CheckRequestAnalysis {
   int changesInDocumentCache () {
     DocumentCache oldDocCache = this.docCache;
     //  Return -1, if there is no initialized docCache
-    if (oldDocCache == null) {
+    if (oldDocCache == null || isDisposed()) {
       return -1;
     }
     setFlatParagraphTools(xComponent);
@@ -360,6 +363,9 @@ class CheckRequestAnalysis {
    */
   private int getParaPos(int nPara, String chPara, Locale locale, int startPos, int[] footnotePositions) {
     
+    if (isDisposed()) {
+      return -1;
+    }
     if (isImpress && docCache == null) {
       docCache = new DocumentCache(docCursor, flatPara, defaultParaCheck,
           docLanguage != null ? LinguisticServices.getLocale(docLanguage) : null, xComponent, isImpress);
@@ -493,6 +499,13 @@ class CheckRequestAnalysis {
   }
   
   /**
+   *  Is document disposed?
+   */
+  private boolean isDisposed() {
+    return singleDocument.isDisposed();
+  }
+
+  /**
    * Get number of flat paragraph from document cache
    * start with a known paragraph
    * return -1 if fails
@@ -517,7 +530,7 @@ class CheckRequestAnalysis {
    */
   private int getParaFromViewCursorOrDialog(String chPara, Locale locale, int[] footnotePositions) {
     // try to get ViewCursor position (proof initiated by mouse click)
-    if (docCache == null) {
+    if (docCache == null || isDisposed()) {
       return -1;
     }
     if (viewCursor == null) {
@@ -570,7 +583,7 @@ class CheckRequestAnalysis {
   private int changesInNumberOfParagraph(boolean getCurNum) {
     // Test if Size of allParas is correct; Reset if not
     DocumentCache docCache = this.docCache;
-    if (docCache == null) {
+    if (docCache == null || isDisposed()) {
       return -1;
     }
     setFlatParagraphTools(xComponent);
@@ -698,7 +711,7 @@ class CheckRequestAnalysis {
    * find position from changed paragraph
    */
   private int getPosFromChangedPara(String chPara, Locale locale, int nPara, int[] footnotePos) {
-    if (docCache == null || nPara < 0) {
+    if (docCache == null || nPara < 0 || isDisposed()) {
       return -1;
     }
     if (!docCache.isEqual(nPara, chPara, locale)) {
@@ -741,7 +754,7 @@ class CheckRequestAnalysis {
    * Is paragraph same, next not empty after or before   
    */
   private int findNextParaPos(int startPara, String paraStr, Locale locale, int startPos) {
-    if (docCache == null || docCache.size() < 1) {
+    if (docCache == null || docCache.size() < 1 || isDisposed()) {
       return -1;
     }
     if (startPos > 0 && numLastFlPara >= 0) {

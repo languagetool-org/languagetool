@@ -456,7 +456,9 @@ class SingleDocument {
    * Open new flat paragraph tools or initialize them again
    */
   public FlatParagraphTools setFlatParagraphTools(XComponent xComponent) {
-    if (flatPara == null) {
+	  if (disposed) {
+      flatPara = null;
+	  } else if (flatPara == null) {
 //      MessageHandler.printToLogFile("new FlatParagraphTools"); 
       flatPara = new FlatParagraphTools(getNoneGoneComponent());
       if (!flatPara.isValid()) {
@@ -568,11 +570,13 @@ class SingleDocument {
   }
   
   private void remarkChangedParagraphs(List<Integer> changedParas) {
-    SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, docCursor, flatPara, docLanguage, ignoredMatches, numParasToCheck, false);
-    if (docCursor == null) {
-      docCursor = new DocumentCursorTools(getNoneGoneComponent());
+    if (!disposed) {
+      SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, docCursor, flatPara, docLanguage, ignoredMatches, numParasToCheck, false);
+      if (docCursor == null) {
+        docCursor = new DocumentCursorTools(getNoneGoneComponent());
+      }
+      singleCheck.remarkChangedParagraphs(changedParas, docCursor.getParagraphCursor(), flatPara, mDocHandler.getLanguageTool(), true);
     }
-    singleCheck.remarkChangedParagraphs(changedParas, docCursor.getParagraphCursor(), flatPara, mDocHandler.getLanguageTool(), true);
   }
 
   /**
@@ -593,6 +597,9 @@ class SingleDocument {
    * add a ignore once entry to queue and remove the mark
    */
   public String ignoreOnce() {
+    if (disposed) {
+      return null;
+    }
     ViewCursorTools viewCursor = new ViewCursorTools(xContext);
     int y = docCache.getFlatParagraphNumber(viewCursor.getViewCursorParagraph());
     int x = viewCursor.getViewCursorCharacter();
@@ -744,6 +751,9 @@ class SingleDocument {
    * get back the rule ID to deactivate a rule
    */
   public String deactivateRule() {
+    if (disposed) {
+      return null;
+    }
     ViewCursorTools viewCursor = new ViewCursorTools(xContext);
     int x = viewCursor.getViewCursorCharacter();
     if (numParasToCheck == 0) {

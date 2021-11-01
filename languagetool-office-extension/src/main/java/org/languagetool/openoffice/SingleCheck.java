@@ -121,7 +121,7 @@ class SingleCheck {
   public SingleProofreadingError[] getCheckResults(String paraText, int[] footnotePositions, Locale locale, SwJLanguageTool lt, 
       int paraNum, int startOfSentence, boolean textIsChanged, int changeFrom, int changeTo, String lastSinglePara, 
       int lastChangedPara, boolean isIntern) {
-    if (mDocHandler.getGoneComponent() != null && mDocHandler.getGoneComponent().equals(xComponent)) {
+    if (isDisposed() || (mDocHandler.getGoneComponent() != null && mDocHandler.getGoneComponent().equals(xComponent))) {
       return new SingleProofreadingError[0];
     }
     if (!isImpress && lastChangedPara >= 0) {
@@ -153,7 +153,7 @@ class SingleCheck {
     }
     if (!isImpress && textIsChanged && nextSentence >= paraText.length()) {
       if (numParasToCheck != 0 && paraNum >= 0) {
-        if (docCursor == null) {
+        if (docCursor == null && !isDisposed()) {
           docCursor = new DocumentCursorTools(xComponent);
         }
         if (useQueue || isDialogRequest) {
@@ -179,7 +179,7 @@ class SingleCheck {
     MultiDocumentsHandler mDH = mDocHandler;
     DocumentCursorTools docCursor = this.docCursor;
     DocumentCache docCache = this.docCache;
-    if (mDocHandler.getGoneComponent() != null && mDocHandler.getGoneComponent().equals(xComponent)) {
+    if (isDisposed() || (mDocHandler.getGoneComponent() != null && mDocHandler.getGoneComponent().equals(xComponent))) {
       return;
     }
     if (docCache == null || nFPara < 0 || nFPara >= docCache.size()) {
@@ -269,7 +269,7 @@ class SingleCheck {
         if (mDocHandler.getGoneComponent() != null && mDocHandler.getGoneComponent().equals(xComponent)) {
           return;
         }
-        if (docCursor == null) {
+        if (docCursor == null && !isDisposed()) {
           docCursor = new DocumentCursorTools(xComponent);
         }
         flatPara = singleDocument.setFlatParagraphTools(xComponent);
@@ -350,7 +350,7 @@ class SingleCheck {
    */
   public void remarkChangedParagraphs(List<Integer> changedParas, XParagraphCursor cursor, 
       FlatParagraphTools flatPara, SwJLanguageTool lt, boolean override) {
-    if (!mDocHandler.isSwitchedOff()) {
+    if (!isDisposed() && !mDocHandler.isSwitchedOff()) {
       Map <Integer, List<SentenceErrors>> changedParasMap = new HashMap<>();
       for (int i = 0; i < changedParas.size(); i++) {
         changedParasMap.put(changedParas.get(i), getSentenceErrosAsList(changedParas.get(i), lt));
@@ -364,6 +364,13 @@ class SingleCheck {
    */
   public String getLastSingleParagraph () {
     return lastSinglePara;
+  }
+
+  /**
+   *  Is document disposed?
+   */
+  private boolean isDisposed() {
+    return singleDocument.isDisposed();
   }
 
   /**
