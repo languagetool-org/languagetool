@@ -26,15 +26,16 @@ import org.junit.Test;
 import org.languagetool.language.Demo;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
-import org.languagetool.rules.*;
+import org.languagetool.rules.RemoteRule;
+import org.languagetool.rules.RemoteRuleConfig;
+import org.languagetool.rules.RemoteRuleResult;
+import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
 
@@ -47,7 +48,6 @@ public class RemoteRuleCacheTest {
   private JLanguageTool lt;
   private ResultCache cache;
   private RemoteRule rule;
-  private final ExecutorService remoteRulePool = Executors.newCachedThreadPool();
 
   static class TestRemoteRule extends RemoteRule {
     private static final RemoteRuleConfig testConfig = new RemoteRuleConfig(
