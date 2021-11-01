@@ -31,6 +31,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Supplier;
 
+import static java.util.Arrays.asList;
+
 /**
  * Split German nouns using the jWordSplitter library.
  * 
@@ -76,6 +78,8 @@ public class GermanCompoundTokenizer implements Tokenizer {
     // add exceptions here so we don't need to update JWordSplitter for every exception we find:  
     //wordSplitter.addException("Maskerade", Collections.singletonList("Maskerade"));
     //wordSplitter.addException("Sportshorts", asList("Sport", "shorts")); 
+    wordSplitter.addException("Reinigungstab", asList("Reinigungs", "tab"));
+    wordSplitter.addException("Reinigungstabs", asList("Reinigungs", "tabs"));
     wordSplitter.setStrictMode(strictMode);
     wordSplitter.setMinimumWordLength(3);
   }
