@@ -45,7 +45,7 @@ public class EnglishWordTokenizer extends WordTokenizer {
 
   @Override
   public String getTokenizingCharacters() {
-    return super.getTokenizingCharacters() + "–"; // n-dash
+    return super.getTokenizingCharacters() + "_\u2013"; // underscore, en dash
   }
 
 //  public EnglishWordTokenizer() {

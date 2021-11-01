@@ -25,7 +25,6 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.languagetool.language.Catalan;
 import org.languagetool.tagging.ca.CatalanTagger;
 import org.languagetool.tokenizers.WordTokenizer;
 
@@ -71,6 +70,8 @@ public class CatalanWordTokenizer extends WordTokenizer {
   // Sàsser-l'Alguer
   private static final Pattern HYPHEN_L= Pattern.compile("([\\p{L}]+)(-)([Ll]['’])([\\p{L}]+)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   
+  private final String CA_TOKENIZING_CHARACTERS;
+  
   public CatalanWordTokenizer() {
 
     // Apostrophe at the beginning of a word. Ex.: l'home, s'estima, n'omple, hivern, etc.
@@ -106,6 +107,9 @@ public class CatalanWordTokenizer extends WordTokenizer {
     //contraction: can
     patterns[10] = Pattern.compile("^(ca)(n)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
+    String chars = getTokenizingCharacters() + "\u2013";  // en dash
+    chars = chars.replace("·", ""); // remove middle dot,
+    CA_TOKENIZING_CHARACTERS = chars;
 
   }
 
@@ -147,19 +151,10 @@ public class CatalanWordTokenizer extends WordTokenizer {
     matcher=SPACE_DIGITS.matcher(auxText);
     auxText = matcher.replaceAll("$1\u0001\u0001CA_SPACE\u0001\u0001$2");
     auxText = auxText.replaceAll("\\u0001\\u0001CA_SPACE0\\u0001\\u0001", " ");
-    
-    final StringTokenizer st = new StringTokenizer(auxText, "\u0020\u00A0\u115f\u1160\u1680"
-        + "\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007" 
-        + "\u2008\u2009\u200A\u200B\u200c\u200d\u200e\u200f"
-        + "\u2012\u2013\u2014\u2015\u2022" 
-        + "\u2500\u3161\u2713" // other dashes
-        + "\u2028\u2029\u202a\u202b\u202c\u202d\u202e\u202f"
-        + "\u203C\u205F\u2060\u2061\u2062\u2063\u206A\u206b\u206c\u206d"
-        + "\u206E\u206F\u3000\u3164\ufeff\uffa0\ufff9\ufffa\ufffb" 
-        + "\u2B9A\u2265\u2192\u21FE\u21C9\u21D2\u21E8\u21DB" // arrows
-        + "¦‖∣|,.;()[]{}=*#∗+×÷<>!?:~/\\\"'«»„”“‘’`´…¿¡\t\n\r-™®\u203d"
-        + "\u00b9\u00b2\u00b3\u2070\u2071\u2074\u2075\u2076\u2077\u2078\u2079" // superscripts
-        , true); // Important: middle dot (·) not included!!
+
+    // Important: middle dot (·) not included!!
+    final StringTokenizer st = new StringTokenizer(auxText, CA_TOKENIZING_CHARACTERS, true); 
+
           
     String s;
     String groupStr;
