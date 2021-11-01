@@ -20,10 +20,18 @@ package org.languagetool.server;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.sun.net.httpserver.HttpServer;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
+import org.languagetool.rules.RemoteRuleConfig;
+import org.languagetool.tools.LtThreadPoolFactory;
 
-import java.util.*;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -35,6 +43,7 @@ import static org.languagetool.server.HTTPServerConfig.DEFAULT_PORT;
  *
  * @since 2.0
  */
+@Slf4j
 abstract class Server {
 
   protected abstract String getProtocol();
@@ -181,6 +190,41 @@ abstract class Server {
   protected ThreadPoolExecutor getExecutorService(LinkedBlockingQueue<Runnable> workQueue, HTTPServerConfig config) {
     int threadPoolSize = config.getMaxCheckThreads();
     ServerTools.print("Setting up thread pool with " + threadPoolSize + " threads");
+
+    // set up other pools used by text checker and remote rule
+    //Need to use own thread pool, otherwise the text-checker thread-pool will be full very soon
+    int remoteRuleCount = 0;
+    if (config.getRemoteRulesConfigFile() != null) {
+      try (FileInputStream fis = new FileInputStream(config.getRemoteRulesConfigFile())) {
+        remoteRuleCount = RemoteRuleConfig.parse(fis).size();
+      } catch (IOException e) {
+        log.error("Couldn't read RemoteRule configuration", e);
+      }
+    }
+    if (remoteRuleCount > 0) {
+      LtThreadPoolFactory.createFixedThreadPoolExecutor(
+        LtThreadPoolFactory.REMOTE_RULE_WAITING_POOL,
+        config.getMaxCheckThreads() * remoteRuleCount,
+        config.getMaxCheckThreads() * remoteRuleCount*4,
+        true,
+        (thread, throwable) -> {
+          log.error("Thread: " + thread.getName() + " failed with: " + throwable.getMessage());
+        },
+        true
+      );
+      LtThreadPoolFactory.createFixedThreadPoolExecutor(
+        LtThreadPoolFactory.REMOTE_RULE_EXECUTING_POOL,
+        config.getMaxCheckThreads() * remoteRuleCount,
+        config.getMaxCheckThreads() * remoteRuleCount*4,
+        true,
+        (thread, throwable) -> {
+          log.error("Thread: " + thread.getName() + " failed with: " + throwable.getMessage());
+        },
+        true
+      );
+    }
+
+
     return new StoppingThreadPoolExecutor(threadPoolSize, workQueue);
   }
 

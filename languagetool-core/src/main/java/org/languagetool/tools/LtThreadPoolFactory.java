@@ -31,6 +31,9 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 @Slf4j
 public final class LtThreadPoolFactory {
+  public static final String TEXT_CHECKER_POOL          = "text-checker-thread";
+  public static final String REMOTE_RULE_WAITING_POOL   = "remote-rule-waiting-thread";
+  public static final String REMOTE_RULE_EXECUTING_POOL = "remote-rule-executing-thread";
 
   private static final ConcurrentMap<String, ThreadPoolExecutor> executorServices = new ConcurrentHashMap<>();
 
@@ -48,10 +51,10 @@ public final class LtThreadPoolFactory {
    */
   public static ThreadPoolExecutor createFixedThreadPoolExecutor(@NotNull String identifier, @NotNull int maxThreads, @NotNull int maxTaskInQueue, @NotNull boolean isDaemon, @NotNull Thread.UncaughtExceptionHandler exceptionHandler, @NotNull boolean reuse) {
     if (reuse && executorServices.containsKey(identifier)) {
-      log.info("ThreadPool with identifier: " + identifier + " already exists. Return this one");
+      log.debug("ThreadPool with identifier: " + identifier + " already exists. Return this one");
       return executorServices.get(identifier);
     }
-    log.info(String.format("Create new threadPool with maxThreads: %d maxTaskInQueue: %d identifier: %s daemon: %s exceptionHandler: %s", maxThreads, maxTaskInQueue, identifier, isDaemon, exceptionHandler));
+    log.debug(String.format("Create new threadPool with maxThreads: %d maxTaskInQueue: %d identifier: %s daemon: %s exceptionHandler: %s", maxThreads, maxTaskInQueue, identifier, isDaemon, exceptionHandler));
     BlockingQueue<Runnable> boundedQueue = new ArrayBlockingQueue<>(maxTaskInQueue);
     ThreadFactory threadFactory = new ThreadFactoryBuilder()
       .setNameFormat(identifier + "-%d")
@@ -71,7 +74,15 @@ public final class LtThreadPoolFactory {
    * @return An optional of ThreadPoolExecutor (Null or Object)
    */
   public static Optional<ThreadPoolExecutor> getFixedThreadPoolExecutor(@NotNull String identifier) {
-    log.info("Request: " + identifier + " ThreadPoolExecutor");
-    return Optional.ofNullable(executorServices.get(identifier));
+    ThreadPoolExecutor value = executorServices.get(identifier);
+    if (value == null) {
+      log.debug("Request: " + identifier + " not found, returning default pool");
+      return Optional.of(defaultPool);
+    } else {
+      log.debug("Request: " + identifier + " ThreadPoolExecutor");
+      return Optional.of(value);
+    }
   }
+
+  private static final ThreadPoolExecutor defaultPool = new ThreadPoolExecutor(1, 64, 60, SECONDS, new LinkedBlockingQueue<>(), new ThreadFactoryBuilder().setNameFormat("default-lt-pool-%d").build(), new ThreadPoolExecutor.AbortPolicy());
 }

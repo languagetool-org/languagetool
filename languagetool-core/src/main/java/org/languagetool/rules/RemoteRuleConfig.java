@@ -30,7 +30,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import lombok.Getter;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -55,9 +54,6 @@ public class RemoteRuleConfig {
   private static final int DEFAULT_FALL = 1;
   private static final int DEFAULT_DOWN = 5000;
   
-  @Getter
-  private static int remoteRuleCount = 0;
-
   private static final LoadingCache<File, List<RemoteRuleConfig>> configCache = CacheBuilder.newBuilder()
     .expireAfterWrite(15, TimeUnit.MINUTES)
     .build(new CacheLoader<File, List<RemoteRuleConfig>>() {
@@ -228,10 +224,7 @@ public class RemoteRuleConfig {
 
   public static List<RemoteRuleConfig> parse(InputStream json) throws IOException {
     ObjectMapper mapper = new ObjectMapper(new JsonFactory().enable(JsonParser.Feature.ALLOW_COMMENTS));
-    List<RemoteRuleConfig> remoteRuleConfigs = mapper.readValue(json, new TypeReference<List<RemoteRuleConfig>>() {
-    });
-    remoteRuleCount = remoteRuleConfigs.size();
-    return remoteRuleConfigs;
+    return mapper.readValue(json, new TypeReference<List<RemoteRuleConfig>>() {});
   }
 
   public static List<RemoteRuleConfig> load(File configFile) throws ExecutionException {

@@ -108,7 +108,7 @@ public class RemoteRuleCacheTest {
 
     try {
       return lt.check(annotatedText, true, JLanguageTool.ParagraphHandling.NORMAL, null,
-        JLanguageTool.Mode.ALL, JLanguageTool.Level.DEFAULT, remoteRulePool);
+        JLanguageTool.Mode.ALL, JLanguageTool.Level.DEFAULT);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
