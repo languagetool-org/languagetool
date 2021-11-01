@@ -18,7 +18,6 @@
  */
 package org.languagetool.server;
 
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.sun.net.httpserver.HttpExchange;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -581,8 +580,8 @@ abstract class TextChecker {
             + ", r:" + reqCounter.getRequestCount()
             + ", m:" + ServerTools.getModeForLog(mode) + skipLimits
             + ", premium: " + (limits.getPremiumUid() != null && limits.hasPremium())
-            + ", temporaryPremiumDisabledRuleMatches: " + temporaryPremiumDisabledRuleMatch
-            + ", temporaryPremiumDisabledRuleMatchedIds: " + temporaryPremiumDisabledRuleMatchedIds
+            //+ ", temporaryPremiumDisabledRuleMatches: " + temporaryPremiumDisabledRuleMatch //TODO activate if used
+            //+ ", temporaryPremiumDisabledRuleMatchedIds: " + temporaryPremiumDisabledRuleMatchedIds //TODO activate if used
             + (limits.getPremiumUid() != null ? ", uid:" + limits.getPremiumUid() : ""));
     if (limits.getPremiumUid() != null && limits.getPremiumUid() == 1456) { // Fernando Moon, fernando.moon@eggbun-edu.com - allows logging text in exchange for free API access (see email 2018-05-31):
       logger.info("Eggbun input: " + aText.getPlainText().replace("\n", "\\n").replace("\r", "\\r"));
@@ -752,8 +751,19 @@ abstract class TextChecker {
       if (params.regressionTestMode) {
         textSessionId = -2L; // magic value for remote rule roll-out - includes all results, even from disabled models
       }
+      //Need to use own thread pool, otherwise the text-checker thread-pool will be full very soon 
+      ThreadPoolExecutor jLangExecutor = LtThreadPoolFactory.createFixedThreadPoolExecutor(
+        "JLanguageTool-thread",
+        RemoteRuleConfig.getRemoteRuleCount(),
+        RemoteRuleConfig.getRemoteRuleCount() * 4,
+        true,
+        (thread, throwable) -> {
+          logger.error("Thread: " + thread.getName() + " failed with: " + throwable.getMessage());
+        },
+        true
+      );
       res.add(lt.check2(aText, true, JLanguageTool.ParagraphHandling.NORMAL, listener,
-        params.mode, params.level, executorService, textSessionId));
+        params.mode, params.level, jLangExecutor, textSessionId));
     } finally {
       if (lt != null) {
         pipelinePool.returnPipeline(settings, lt);
