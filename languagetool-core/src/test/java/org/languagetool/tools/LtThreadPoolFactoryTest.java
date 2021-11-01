@@ -61,7 +61,7 @@ public class LtThreadPoolFactoryTest {
         System.out.println(throwable.getClass());
       },
       false);
-    assertFalse(LtThreadPoolFactory.getFixedThreadPoolExecutor("Test-Pool-notCached").isPresent());
+    assertEquals(LtThreadPoolFactory.defaultPool, LtThreadPoolFactory.getFixedThreadPoolExecutor("Test-Pool-notCached").get());
   }
 
   @Test

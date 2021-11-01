@@ -84,5 +84,5 @@ public final class LtThreadPoolFactory {
     }
   }
 
-  private static final ThreadPoolExecutor defaultPool = new ThreadPoolExecutor(1, 64, 60, SECONDS, new LinkedBlockingQueue<>(), new ThreadFactoryBuilder().setNameFormat("default-lt-pool-%d").build(), new ThreadPoolExecutor.AbortPolicy());
+  static final ThreadPoolExecutor defaultPool = new ThreadPoolExecutor(1, 64, 60, SECONDS, new LinkedBlockingQueue<>(), new ThreadFactoryBuilder().setNameFormat("default-lt-pool-%d").build(), new ThreadPoolExecutor.AbortPolicy());
 }

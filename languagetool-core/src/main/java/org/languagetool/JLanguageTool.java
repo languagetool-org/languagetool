@@ -867,7 +867,7 @@ public class JLanguageTool {
    * @since 4.3
    */
   public List<RuleMatch> check(AnnotatedText annotatedText, boolean tokenizeText, ParagraphHandling paraMode, RuleMatchListener listener, Mode mode, Level level) throws IOException {
-    return check(annotatedText, tokenizeText, paraMode, listener, mode, level);
+    return check(annotatedText, tokenizeText, paraMode, listener, mode, level, null);
   }
 
   /**
