@@ -751,17 +751,21 @@ abstract class TextChecker {
       if (params.regressionTestMode) {
         textSessionId = -2L; // magic value for remote rule roll-out - includes all results, even from disabled models
       }
-      //Need to use own thread pool, otherwise the text-checker thread-pool will be full very soon 
-      ThreadPoolExecutor jLangExecutor = LtThreadPoolFactory.createFixedThreadPoolExecutor(
-        "JLanguageTool-thread",
-        RemoteRuleConfig.getRemoteRuleCount(),
-        RemoteRuleConfig.getRemoteRuleCount() * 4,
-        true,
-        (thread, throwable) -> {
-          logger.error("Thread: " + thread.getName() + " failed with: " + throwable.getMessage());
-        },
-        true
-      );
+      //Need to use own thread pool, otherwise the text-checker thread-pool will be full very soon
+      int remoteRuleCount = RemoteRuleConfig.getRemoteRuleCount();
+      ThreadPoolExecutor jLangExecutor = null;
+      if (remoteRuleCount > 0) {
+        jLangExecutor = LtThreadPoolFactory.createFixedThreadPoolExecutor(
+          "JLanguageTool-thread",
+          remoteRuleCount,
+          remoteRuleCount*4,
+          true,
+          (thread, throwable) -> {
+            logger.error("Thread: " + thread.getName() + " failed with: " + throwable.getMessage());
+          },
+          true
+        );
+      }
       res.add(lt.check2(aText, true, JLanguageTool.ParagraphHandling.NORMAL, listener,
         params.mode, params.level, jLangExecutor, textSessionId));
     } finally {
