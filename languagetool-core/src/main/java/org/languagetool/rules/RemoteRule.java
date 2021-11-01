@@ -156,6 +156,7 @@ public abstract class RemoteRule extends Rule {
     }
     Map<String, String> context = MDC.getCopyOfContextMap();
     return new FutureTask<>(() -> {
+      MDC.clear();
       if (context != null) {
         MDC.setContextMap(context);
       }
