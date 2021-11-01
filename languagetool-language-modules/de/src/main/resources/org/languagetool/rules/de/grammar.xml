@@ -21918,9 +21918,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Stil -->
     <!-- ====================================================================== -->
     <category id="STYLE" name="Stil" type="style">
-        <rule id="DRUEBER" name="drüber (darüber)" default="temp_off">
+        <rule id="DRUEBER" name="drüber (darüber)">
             <antipattern>
-                <token skip="-1" regexp="yes">da|dort|Schwamm|drunter|drauf</token>
+                <token skip="-1" regexp="yes">da|hier|dort|Schwamm|drunter|drauf|oben</token>
                 <token>drüber</token>
             </antipattern>
             <pattern>
@@ -21930,6 +21930,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>darüber</suggestion>
             <example correction="darüber">Ich schaue später mal <marker>drüber</marker></example>
             <example>Ich schaue da später mal drüber</example>
+        </rule>
+        <rule id="DRUNTER" name="drunter (darunter)" default="temp_off">
+            <antipattern>
+                <token skip="-1" regexp="yes">da|hier|dort|Schwamm|drauf|unten|drüber</token>
+                <token>drunter</token>
+            </antipattern>
+            <antipattern>
+                <token skip="2">drunter</token>
+                <token>drüber</token>
+            </antipattern>
+            <pattern>
+                <token>drunter</token>
+            </pattern>
+            <message>Möchten Sie ein weniger umgangssprachliches Wort verwenden, um Ihren Schreibstil zu verbessern?</message>
+            <suggestion>darunter</suggestion>
+            <example correction="darunter">Ich schreib was <marker>drunter</marker>.</example>
+            <example>Alles geht drunter und drüber.</example>
+            <example>Der Benzintank war unten drunter.</example>
         </rule>
         <rule id="DADRAUS" name="dadraus">
             <pattern>
@@ -23067,17 +23085,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
-        <rule id="AUF_RATEN" name="auf raten (Raten)">
-            <pattern>
-                <token>auf</token>
-                <token postag="ADJ:.*:PLU:FEM:.*" postag_regexp="yes" min="0" />
-                <marker>
-                    <token case_sensitive="yes">raten</token>
-                </marker>
-            </pattern>
-            <message>Das Nomen <suggestion>Raten</suggestion> wird großgeschrieben.</message>
-            <example correction="Raten">Ich zahle das auf <marker>raten</marker>.</example>
-        </rule>
         <rule id="IN_FORM" name="in form (Form)">
             <pattern>
                 <token>in</token>
@@ -23091,17 +23098,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="IM_STILLEN" name="im stillen (Stillen)">
             <antipattern>
-                <token regexp="yes">stillen|dunkeln</token>
+                <token regexp="yes">stillen|dunkeln|hellen</token>
                 <token postag="UNKNOWN|SUB.*" postag_regexp="yes" />
             </antipattern>
             <antipattern>
-                <token regexp="yes">stillen|dunkeln</token>
+                <token regexp="yes">stillen|dunkeln|hellen</token>
                 <token regexp="yes">oder|und|&amp;|bzw|,</token>
             </antipattern>
             <pattern>
                 <token regexp="yes" case_sensitive="yes">[Ii]m</token>
                 <marker>
-                    <token case_sensitive="yes" regexp="yes">stillen|dunkeln</token>
+                    <token case_sensitive="yes" regexp="yes">stillen|dunkeln|hellen</token>
                 </marker>
             </pattern>
             <message>Bitte prüfen Sie die Groß- und Kleinschreibung.</message>
@@ -29075,15 +29082,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Rate">Wir ziehen besser einen Fachmann zu <marker>rate</marker>.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="yes">
-                    <token>auf</token>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">[Aa]uf|[Ii]n</token>
+                    <token postag="ADJ:.*:PLU:FEM:.*" postag_regexp="yes" min="0" />
                     <marker>
-                        <token>raten</token>
+                        <token case_sensitive="yes">raten</token>
                     </marker>
                 </pattern>
-                <message>&inwend;'auf Raten' wird <suggestion>Raten</suggestion> in der Regel großgeschrieben.</message>
-                <short>&prgk;.</short>
-                <example correction="Raten">Das war Selbstmord auf <marker>raten</marker>.</example>
+                <message>Das Nomen <suggestion>Raten</suggestion> wird großgeschrieben.</message>
+                <example correction="Raten">Ich zahle das auf <marker>raten</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ZU_GRABE_TRAGEN" name="'zu grabe (Grabe) tragen'">
@@ -41771,16 +41778,16 @@ Andere Projekte</example>
                     <token>peu</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">peuh?|pöh?</token>
+                    <token regexp="yes">peu[xh]?|pöh?</token>
                     <token regexp="yes">[aáàâeèéêoóòô]</token>
-                    <token regexp="yes">peuh?|pöh?</token>
+                    <token regexp="yes">peu[xh]?|pöh?</token>
                 </pattern>
                 <message>Meinten Sie die französische Redewendung <suggestion>peu à peu</suggestion>?</message>
                 <example correction="peu à peu">Wir machen das <marker>peu a peu</marker>.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">(peu|pöh?)-[aáàâeèéêoóòô]-(peu|pöh?)</token>
+                    <token regexp="yes">(peu[xh]?|pöh?)-[aáàâeèéêoóòô]-(peu[xh]?|pöh?)</token>
                 </pattern>
                 <message>Meinten Sie die französische Redewendung <suggestion>peu à peu</suggestion>?</message>
                 <example correction="peu à peu">Wir machen das <marker>peu-a-peu</marker>.</example>

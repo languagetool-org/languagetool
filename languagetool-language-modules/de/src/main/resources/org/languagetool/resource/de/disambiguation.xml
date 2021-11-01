@@ -5101,6 +5101,16 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="remove" postag="VER.*"/>
     </rule>
 
+    <rule id="LOS_KEIN_NOMEN" name="'Los' kein Verb">
+        <pattern>
+            <marker>
+                <token>Los</token>
+            </marker>
+            <token regexp="yes">Angel[oe]s|Zetas|Gatos</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+
     <rule id="IGNORE_SPELLING_OF_NUMBER_PERIOD_LETTER" name="ignore '2.a'">
         <pattern>
             <token regexp="yes">\d+</token>
