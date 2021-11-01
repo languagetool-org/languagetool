@@ -61,8 +61,8 @@ public abstract class RemoteRule extends Rule {
   // needed to run callables with timeout
   static final ExecutorService executor = LtThreadPoolFactory.createFixedThreadPoolExecutor(
     "remote-rule-thread",
-    RemoteRuleConfig.getRemoteRuleCount(),
-    RemoteRuleConfig.getRemoteRuleCount() * 4,
+    1+RemoteRuleConfig.getRemoteRuleCount(),
+    1+RemoteRuleConfig.getRemoteRuleCount() * 4,
     true, (thread, throwable) -> {
       logger.error("Thread: " + thread.getName() + " failed with: " + throwable.getMessage());
     },
