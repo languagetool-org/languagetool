@@ -59,14 +59,7 @@ public abstract class RemoteRule extends Rule {
   protected static final List<Runnable> shutdownRoutines = new LinkedList<>();
 
   // needed to run callables with timeout
-  static final ExecutorService executor = LtThreadPoolFactory.createFixedThreadPoolExecutor(
-    "remote-rule-thread",
-    1+RemoteRuleConfig.getRemoteRuleCount(),
-    1+RemoteRuleConfig.getRemoteRuleCount() * 4,
-    true, (thread, throwable) -> {
-      logger.error("Thread: " + thread.getName() + " failed with: " + throwable.getMessage());
-    },
-    false);
+  private final ExecutorService executor;
 
   protected final RemoteRuleConfig serviceConfiguration;
   protected final boolean inputLogging;
@@ -79,6 +72,14 @@ public abstract class RemoteRule extends Rule {
 
   public RemoteRule(Language language, ResourceBundle messages, RemoteRuleConfig config, boolean inputLogging, @Nullable String ruleId) {
     super(messages);
+    this.executor = LtThreadPoolFactory.createFixedThreadPoolExecutor(
+    "remote-rule-thread",
+    1+RemoteRuleConfig.getRemoteRuleCount(),
+    1+RemoteRuleConfig.getRemoteRuleCount() * 4,
+    true, (thread, throwable) -> {
+      logger.error("Thread: " + thread.getName() + " failed with: " + throwable.getMessage());
+    },
+    true);
     serviceConfiguration = config;
     this.ruleLanguage = language;
     this.lt = new JLanguageTool(ruleLanguage);
