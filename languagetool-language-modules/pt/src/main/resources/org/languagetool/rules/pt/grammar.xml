@@ -1915,7 +1915,46 @@ Basta colar uma lista de e-mails abaixo para enviar convites a todas elas.
     </rule>
 <!-- MARCOAGPINTO 2020-05-20 *END* -->
   </rulegroup>
+  
+    <!-- 	CUJA(S) FILHA(S) CUJO(S) FILHOS(S) -->	
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-11-01 (25-JUN-2021+)      -->	
+    <rulegroup id='CUJA_CUJO_MASCULINO_FEMININO' name="Cuj(ao)(s) + Nome: Concordância de género" type="style" default="temp_off">
+<!--
+A mãe cuja filho fez anos. → A mãe cujo filho fez anos.
+O pai cujo filha fez anos. → O pai cuja filha fez anos.
+-->			
+		<!-- CUJA(S) -->
+		<rule>
+			<pattern>
+				<marker>
+					<token regexp='yes'>cujas?</token>
+				</marker>
+				<token postag='NCM.+' postag_regexp='yes'>
+					<exception postag_regexp='yes' postag='AQ0C.+|NCF.+'/>
+				</token>
+			</pattern>
+			<message>&MSG_ECG;</message>
+			<suggestion><match no='1' postag="PR0F(.)000" postag_replace='PR0M$1000' postag_regexp="yes"/></suggestion>
+			<example correction="cujo">A mãe <marker>cuja</marker> filho fez anos.</example>  
+		</rule>
 
+		<!-- CUJO(S) -->
+		<rule>
+			<pattern>
+				<marker>
+					<token regexp='yes'>cujos?</token>
+				</marker>
+				<token postag='NCF.+' postag_regexp='yes'>
+					<exception postag_regexp='yes' postag='AQ0C.+|NCM.+'/>
+				</token>
+			</pattern>
+			<message>&MSG_ECG;</message>
+			<suggestion><match no='1' postag="PR0M(.)000" postag_replace='PR0F$1000' postag_regexp="yes"/></suggestion>
+			<example correction="cuja">O pai <marker>cujo</marker> filha fez anos.</example>  
+		</rule>	
+
+	</rulegroup>
+  
   <rulegroup id='ELE_ELA_PROPRIO_PROPRIA' name="Ele(s)/Ela(s) próprio(s)/própria(s)">
 		<!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-03-03   -->
 		<rule>
