@@ -79,7 +79,6 @@ public final class LtThreadPoolFactory {
       log.debug("Request: " + identifier + " not found, returning default pool");
       return Optional.of(defaultPool);
     } else {
-      log.debug("Request: " + identifier + " ThreadPoolExecutor");
       return Optional.of(value);
     }
   }
