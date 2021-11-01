@@ -29,6 +29,7 @@ import org.languagetool.Language;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 
 import java.io.IOException;
 import java.util.*;
@@ -153,7 +154,9 @@ public abstract class RemoteRule extends Rule {
     if (sentences.isEmpty()) {
       return new FutureTask<>(() -> new RemoteRuleResult(false, true, Collections.emptyList(), sentences));
     }
+    Map<String, String> context = MDC.getCopyOfContextMap();
     return new FutureTask<>(() -> {
+      MDC.setContextMap(context);
       long startTime = System.nanoTime();
       long characters = sentences.stream().mapToInt(sentence -> sentence.getText().length()).sum();
       String ruleId = getId();

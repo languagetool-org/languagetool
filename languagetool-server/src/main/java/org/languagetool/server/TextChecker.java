@@ -36,6 +36,7 @@ import org.languagetool.rules.spelling.morfologik.suggestions_ordering.Suggestio
 import org.languagetool.tools.Tools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -221,12 +222,13 @@ abstract class TextChecker {
       throw new AuthException("Anonymous access is prohibited on this server, please provide authentication.");
     }
 
-    if (aText.getPlainText().length() > limits.getMaxTextLength()) {
-      String msg = "limit: " + limits.getMaxTextLength() + ", size: " + aText.getPlainText().length();
+    int length = aText.getPlainText().length();
+    if (length > limits.getMaxTextLength()) {
+      String msg = "limit: " + limits.getMaxTextLength() + ", size: " + length;
       databaseLogger.log(new DatabaseAccessLimitLogEntry("MaxCharacterSizeExceeded", logServerId, agentId, userId, msg, referrer, userAgent));
       ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.MAX_TEXT_SIZE);
       throw new TextTooLongException("Your text exceeds the limit of " + limits.getMaxTextLength() +
-              " characters (it's " + aText.getPlainText().length() + " characters). Please submit a shorter text.");
+              " characters (it's " + length + " characters). Please submit a shorter text.");
     }
     // static because we can't rely on errorRequestLimiter, null when timeoutRequestLimit option not set
     try {
@@ -404,7 +406,7 @@ abstract class TextChecker {
       enabledCategories, disabledCategories, useEnabledOnly,
       useQuerySettings, allowIncompleteResults, enableHiddenRules, limits.getPremiumUid() != null && limits.hasPremium(), enableTempOffRules, mode, level, callback, inputLogging);
 
-    int textSize = aText.getPlainText().length();
+    int textSize = length;
 
     List<CheckResults> ruleMatchesSoFar = Collections.synchronizedList(new ArrayList<>());
 
@@ -415,11 +417,18 @@ abstract class TextChecker {
         /*if (Math.random() < 0.1) {
           throw new OutOfMemoryError();
         }*/
-        List<CheckResults> results = getRuleMatches(aText, lang, motherTongue, parameters, params, userConfig, detLang, preferredLangs,
-                preferredVariants, f -> ruleMatchesSoFar.add(new CheckResults(Collections.singletonList(f), Collections.emptyList())));
-        // generate suggestions, otherwise this is not part of the timeout logic and not properly measured in the metrics
-        results.stream().flatMap(r -> r.getRuleMatches().stream()).forEach(RuleMatch::computeLazySuggestedReplacements);
-        return results;
+        try (MDC.MDCCloseable c = MDC.putCloseable("rID", LanguageToolHttpHandler.getRequestId(httpExchange))){
+          logger.info("Starting text check on {} chars; params: {}", length, params);
+          long time = System.currentTimeMillis();
+          List<CheckResults> results = getRuleMatches(aText, lang, motherTongue, parameters, params, userConfig, detLang, preferredLangs,
+            preferredVariants, f -> ruleMatchesSoFar.add(new CheckResults(Collections.singletonList(f), Collections.emptyList())));
+          logger.info("Finished text check in {}ms. Starting suggestion generation.", System.currentTimeMillis() - time);
+          time = System.currentTimeMillis();
+          // generate suggestions, otherwise this is not part of the timeout logic and not properly measured in the metrics
+          results.stream().flatMap(r -> r.getRuleMatches().stream()).forEach(RuleMatch::computeLazySuggestedReplacements);
+          logger.info("Finished suggestion generation in {}ms, returning results.", System.currentTimeMillis() - time);
+          return results;
+        }
       }
     });
     String incompleteResultReason = null;
@@ -459,7 +468,7 @@ abstract class TextChecker {
                        ", lang: " + lang.getShortCodeWithCountryAndVariant() +
                        ", detected: " + detLang +
                        ", #" + count +
-                       ", " + aText.getPlainText().length() + " characters of text" +
+                       ", " + length + " characters of text" +
                        ", mode: " + mode.toString().toLowerCase() +
                        ", h: " + reqCounter.getHandleCount() +
                        ", r: " + reqCounter.getRequestCount() +
@@ -553,7 +562,7 @@ abstract class TextChecker {
 
     String version = parameters.get("v") != null ? ", version: " + parameters.get("v") : "";
     String skipLimits = limits.getSkipLimits() ? ", skipLimits" : "";
-    logger.info("Check done: " + aText.getPlainText().length() + " chars, " + languageMessage +
+    logger.info("Check done: " + length + " chars, " + languageMessage +
             ", requestId: " + requestId + ", #" + count + ", " + referrer + ", "
             + premiumMatchRuleIds.size() + "/"
             + matchCount + " matches, "

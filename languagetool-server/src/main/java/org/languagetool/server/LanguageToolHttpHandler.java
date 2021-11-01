@@ -28,6 +28,7 @@ import org.languagetool.ErrorRateTooHighException;
 import org.languagetool.tools.StringTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -42,8 +43,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeoutException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static java.net.HttpURLConnection.HTTP_UNAVAILABLE;
 import static org.languagetool.server.ServerTools.getHttpReferrer;
@@ -89,9 +88,12 @@ class LanguageToolHttpHandler implements HttpHandler {
     int reqId = reqCounter.incrementRequestCount();
     ServerMetricsCollector.getInstance().logRequest();
     boolean incrementHandleCount = false;
+    String requestId = getRequestId(httpExchange);
+    MDC.MDCCloseable mdcRequestID = MDC.putCloseable("rID", requestId);
     try {
       URI requestedUri = httpExchange.getRequestURI();
       String path = requestedUri.getRawPath();
+      logger.info("Handling {} {}", httpExchange.getRequestMethod(), path);
       if (config.getServerURL() != null) {
         path = config.getServerURL().relativize(new URI(requestedUri.getPath())).getRawPath();
         if (!path.startsWith("/")) {
@@ -237,11 +239,22 @@ class LanguageToolHttpHandler implements HttpHandler {
       sendError(httpExchange, errorCode, "Error: " + response);
 
     } finally {
+      logger.info("Handled request in {}ms; sending code {}", System.currentTimeMillis() - startTime, httpExchange.getResponseCode());
       httpExchange.close();
+      mdcRequestID.close();
       if (incrementHandleCount) {
         reqCounter.decrementHandleCount(reqId);
       }
     }
+  }
+
+  @NotNull
+  static String getRequestId(HttpExchange httpExchange) {
+    String requestId = httpExchange.getRequestHeaders().getFirst("X-Request-ID");
+    if (requestId == null) {
+      requestId = "-";
+    }
+    return requestId;
   }
 
   private boolean hasCause(Exception e, Class<AuthException> clazz) {
