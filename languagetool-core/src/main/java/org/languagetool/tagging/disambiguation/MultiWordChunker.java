@@ -106,10 +106,10 @@ public class MultiWordChunker extends AbstractDisambiguator {
     try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(filename)) {
       List<String> posTokens = loadWords(stream);
       for (String posToken : posTokens) {
-        String[] tokenAndTag = posToken.split("\t");
+        String[] tokenAndTag = posToken.split("[\t;]");
         if (tokenAndTag.length != 2) {
           throw new RuntimeException(
-              "Invalid format in " + filename + ": '" + posToken + "', expected two tab-separated parts");
+              "Invalid format in " + filename + ": '" + posToken + "', expected two tab-separated or semicolon-separated parts");
         }
         List<String> tokens = new ArrayList<>();
         String originalToken = interner.computeIfAbsent(tokenAndTag[0], Function.identity());

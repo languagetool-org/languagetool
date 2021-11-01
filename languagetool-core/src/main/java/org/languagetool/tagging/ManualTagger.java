@@ -68,9 +68,9 @@ public class ManualTagger implements WordTagger {
           throw new RuntimeException("Non-breaking space found in line '" + line + "', please remove it");
         }
         line = StringUtils.substringBefore(line, "#").trim();
-        String[] parts = line.split("\t");
+        String[] parts = line.split("[\t;]");
         if (parts.length != 3) {
-          throw new IOException("Unknown line format when loading manual tagger dictionary, expected three tab-separated fields: '" + line + "'");
+          throw new IOException("Unknown line format when loading manual tagger dictionary, expected three tab-separated or semicolon-separated fields: '" + line + "'");
         }
         String form = parts[0];
 

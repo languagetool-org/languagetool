@@ -85,9 +85,9 @@ public final class ManualSynthesizer {
           continue;
         }
         line = line.replaceFirst("#.*", "").trim();
-        String[] parts = line.split("\t");
+        String[] parts = line.split("[\t;]");
         if (parts.length != 3) {
-          throw new IOException("Unknown line format when loading manual synthesizer dictionary: " + line);
+          throw new IOException("Unknown line format when loading manual synthesizer dictionary, expected three tab-separated or semicolon-separated fields: : " + line);
         }
 
         String form = parts[0];
