@@ -156,7 +156,9 @@ public abstract class RemoteRule extends Rule {
     }
     Map<String, String> context = MDC.getCopyOfContextMap();
     return new FutureTask<>(() -> {
-      MDC.setContextMap(context);
+      if (context != null) {
+        MDC.setContextMap(context);
+      }
       long startTime = System.nanoTime();
       long characters = sentences.stream().mapToInt(sentence -> sentence.getText().length()).sum();
       String ruleId = getId();
