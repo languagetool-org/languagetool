@@ -131,6 +131,7 @@ public class WordListValidatorTest {
           "Ørsted",
           "Mirotić",
           "Pÿur",
+          "Subašić",
           "celebrytę", // for PL
           "antybiotykoterapię", // for PL
           "kryptowalutę", // for PL
