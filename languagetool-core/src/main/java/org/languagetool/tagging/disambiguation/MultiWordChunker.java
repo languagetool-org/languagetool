@@ -20,6 +20,8 @@
 package org.languagetool.tagging.disambiguation;
 
 import gnu.trove.THashMap;
+
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
@@ -52,6 +54,9 @@ public class MultiWordChunker extends AbstractDisambiguator {
   private Map<String, AnalyzedToken> mFull;
   
   private final static int MAX_TOKENS_IN_MULTIWORD = 20;
+  
+  private final static String DEFAULT_SEPARATOR = "\t";
+  private String separator = DEFAULT_SEPARATOR;
 
   /**
    * @param filename file text with multiwords and tags
@@ -106,7 +111,7 @@ public class MultiWordChunker extends AbstractDisambiguator {
     try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(filename)) {
       List<String> posTokens = loadWords(stream);
       for (String posToken : posTokens) {
-        String[] tokenAndTag = posToken.split("\t");
+        String[] tokenAndTag = posToken.split(separator);
         if (tokenAndTag.length != 2) {
           throw new RuntimeException(
               "Invalid format in " + filename + ": '" + posToken + "', expected two tab-separated parts");
@@ -266,10 +271,14 @@ public class MultiWordChunker extends AbstractDisambiguator {
       String line;
       while ((line = reader.readLine()) != null) {
         line = line.trim();
+        if (line.startsWith("#separatorRegExp=")) {
+          separator = line.replace("#separatorRegExp=", "");
+        }
         if (line.isEmpty() || line.charAt(0) == '#') { // ignore comments
           continue;
         }
-        lines.add(line.replaceFirst("#.*", "").trim());
+        line = StringUtils.substringBefore(line, "#").trim();
+        lines.add(line);
       }
     } catch (IOException e) {
       throw new RuntimeException(e);
