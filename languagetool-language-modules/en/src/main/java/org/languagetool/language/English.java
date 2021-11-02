@@ -515,7 +515,7 @@ public class English extends Language implements AutoCloseable {
     if (id.startsWith("CONFUSION_RULE_")) {
       return -20;
     }
-    if (id.startsWith("AI_SPELLING")) {
+    if (id.startsWith("AI_SPELLING_RULE")) {
       return -9; // higher than MORFOLOGIK_*, for testing
     }
     if (id.startsWith("AI_HYDRA_LEO")) { // prefer more specific rules (also speller)
@@ -567,7 +567,7 @@ public class English extends Language implements AutoCloseable {
       // automatically load any existing AI spelling models for all variants
       String country = getCountries()[0];
       rules.addAll(GRPCRule.createAll(this, configs, inputLogging,
-        "AI_SPELLING_EN_" + country, "INTERNAL - dynamically loaded rule supported by remote server"));
+        "AI_SPELLING_RULE_EN_" + country, "INTERNAL - dynamically loaded rule supported by remote server"));
     }
     return rules;
   }
