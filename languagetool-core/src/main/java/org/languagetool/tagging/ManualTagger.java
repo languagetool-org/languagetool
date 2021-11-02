@@ -44,7 +44,7 @@ import java.util.function.Function;
 public class ManualTagger implements WordTagger {
   private final MostlySingularMultiMap<String, TaggedWord> mapping;
   private final static String DEFAULT_SEPARATOR = "\t";
-  private static String separator = DEFAULT_SEPARATOR;
+  private static String separator;
 
   public ManualTagger(InputStream inputStream) throws IOException {
     this(inputStream, false);
@@ -62,6 +62,7 @@ public class ManualTagger implements WordTagger {
       BufferedReader br = new BufferedReader(reader)
     ) {
       String line;
+      separator = DEFAULT_SEPARATOR;
       while ((line = br.readLine()) != null) {
         line = line.trim();
         if (line.startsWith("#separatorRegExp=")) {

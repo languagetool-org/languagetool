@@ -56,7 +56,7 @@ public class MultiWordChunker extends AbstractDisambiguator {
   private final static int MAX_TOKENS_IN_MULTIWORD = 20;
   
   private final static String DEFAULT_SEPARATOR = "\t";
-  private String separator = DEFAULT_SEPARATOR;
+  private String separator;
 
   /**
    * @param filename file text with multiwords and tags
@@ -269,6 +269,7 @@ public class MultiWordChunker extends AbstractDisambiguator {
     List<String> lines = new ArrayList<>();
     try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8))) {
       String line;
+      separator = DEFAULT_SEPARATOR;
       while ((line = reader.readLine()) != null) {
         line = line.trim();
         if (line.startsWith("#separatorRegExp=")) {
