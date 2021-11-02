@@ -13647,6 +13647,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="A.*|V.P.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
+                <!-- MISSING_COMMA -->
+                <token>un</token>
+                <token regexp="yes">saludo|beso|besito</token>
+                <token postag="A.*|V.P.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
                 <!-- re bonita TODO: other rule is needed-->
                 <token>re</token>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
@@ -20856,7 +20862,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes" regexp="yes">estar|ser</token>
                     <token>?</token>
                 </pattern>
-                <message>Probablemente falta una coma.</message>
+                <message>En este contexto es necesaria una coma.</message>
                 <suggestion>\1,</suggestion>
                 <example correction="amigo,">Hola <marker>amigo</marker> cómo estás?</example>
                 <example>¿Cómo estás?</example>
@@ -20867,6 +20873,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token regexp="yes">saludos|besos|besitos</token>
                     <token postag="A..[MC][PN].|V.P..PM" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">saludo|beso|besito</token>
+                    <token postag="A..[MC][SN].|V.P..SM" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
@@ -20879,7 +20889,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="UNKNOWN" regexp="yes">\p{Lu}.+</token>
                     </or>
                 </pattern>
-                <message>Probablemente falta una coma después de "<match no="3" case_conversion="alllower"/>" (ej. "<match no="3" case_conversion="startupper"/>, Ana.").</message>
+                <message>En este contexto es necesaria una coma después de "<match no="3" case_conversion="alllower"/>" (ej. "<match no="3" case_conversion="startupper"/>, Ana").</message>
                 <suggestion>\3,</suggestion>
                 <example correction="Hola,">¡<marker>Hola</marker> amigo!</example>
                 <example correction="Hola,">¡<marker>Hola</marker> mi querido amigo!</example>
@@ -20888,6 +20898,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Felicidades por la victoria.</example>
                 <example>Saludos cordiales.</example>
                 <example>¡Enhorabuena una vez más, chicos!</example>
+                <example>Beso grande.</example>
             </rule>
             <rule>
                 <pattern>
@@ -20900,7 +20911,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="[ANV].*|_possible_NP" postag_regexp="yes"><exception postag="_PUNCT.*|SPS00|C.*" postag_regexp="yes"/><exception inflected="yes">tener</exception></token>
                     </marker>
                 </pattern>
-                <message>Probablemente falta una coma después de "<match no="4" case_conversion="alllower"/> \5" (ej. "<match no="4" case_conversion="startupper"/> \5, Ana.").</message>
+                <message>En este contexto es necesaria una coma después de "<match no="4" case_conversion="alllower"/> \5" (ej. "<match no="4" case_conversion="startupper"/> \5, Ana").</message>
                 <suggestion>, \6</suggestion>
                 <example correction=", amigo">¡Buenos días<marker> amigo</marker> .</example>
                 <example correction=", estimados">Muy buen día<marker> estimados</marker>.</example>
@@ -20919,7 +20930,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="[ANV].*|_possible_NP" postag_regexp="yes"><exception postag="_PUNCT.*|SPS00|C.*" postag_regexp="yes"/><exception inflected="yes">tener</exception></token>
                     </marker>
                 </pattern>
-                <message>Probablemente falta una coma después de "<match no="3" case_conversion="alllower"/> \4" (ej. "<match no="3" case_conversion="startupper"/> \4, Ana.").</message>
+                <message>En este contexto es necesaria una coma después de "<match no="3" case_conversion="alllower"/> \4" (ej. "<match no="3" case_conversion="startupper"/> \4, Ana").</message>
                 <suggestion>, \6</suggestion>
                 <example correction=", amigo">¡Te deseo buenos días<marker> amigo</marker> .</example>
                 <example correction=", estimados">Os deseo muy buen día<marker> estimados</marker>.</example>
@@ -20944,7 +20955,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </unify>
                     <token postag="_PUNCT.*|CC" postag_regexp="yes"/>
                 </pattern>
-                <message>Probablemente falta una coma.</message>
+                <message>en este contexto es necesaria una coma.</message>
                 <suggestion>, \2</suggestion>
                 <example correction=", guapo">Felices fiestas<marker> guapo</marker>.</example>
                 <example correction=", guapa">¡Muchos besos<marker> guapa</marker>!</example>
@@ -20965,7 +20976,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="A.*" postag_regexp="yes"/>
                     </unify>
                 </pattern>
-                <message>Probablemente falta una coma.</message>
+                <message>En este contexto es necesaria una coma.</message>
                 <suggestion>\2,</suggestion>
                 <example correction="días,">¡Buenos <marker>días</marker> chicas!</example>
             </rule>
@@ -20980,7 +20991,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="A.*" postag_regexp="yes"/>
                     </unify>
                 </pattern>
-                <message>Probablemente falta una coma.</message>
+                <message>En este contexto es necesaria una coma.</message>
                 <suggestion>\1,</suggestion>
                 <example correction="Adiós,"><marker>Adiós</marker> chicos.</example>
             </rule>
@@ -20996,10 +21007,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </marker>
                     </unify>
                 </pattern>
-                <message>Probablemente falta una coma.</message>
+                <message>En este contexto es necesaria una coma.</message>
                 <suggestion>, \3</suggestion>
                 <example correction=", preciosa">¡Muchos besos<marker> preciosa</marker>!</example>
                 <example>Una hoja de cálculo preciosa.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token regexp="yes">saludo|beso|besito</token>
+                    <token postag="A..[MC][SN].|V.P..SM" postag_regexp="yes"><exception>amigo</exception></token>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" max="3" postag="_PUNCT.*" postag_regexp="yes"/>
+                    <token>un</token>
+                    <marker>
+                        <token regexp="yes">saludo|beso|besito</token>
+                    </marker>
+                    <or>
+                        <token postag="[ANVD].*|_possible_NP" postag_regexp="yes"><exception postag="_PUNCT.*|SPS00|C.*" postag_regexp="yes"/></token>
+                        <token postag="UNKNOWN" regexp="yes">\p{Lu}.+</token>
+                    </or>
+                </pattern>
+                <message>En este contexto es necesaria una coma después de "<match no="4" case_conversion="alllower"/>" (ej. "<match no="3" case_conversion="startupper"/> <match no="4"/>, Ana").</message>
+                <suggestion>\4,</suggestion>
+                <example correction="beso,">¡Un <marker>beso</marker> amigo!</example>
+                <example correction="beso,">¡Un <marker>beso</marker> amigos!</example>
+                <example>¡Hola a todos!</example>
+                <example>Felicidades por la victoria.</example>
+                <example>Saludos cordiales.</example>
+                <example>¡Enhorabuena una vez más, chicos!</example>
+                <example>Beso grande.</example>
+                <example>Un beso grande</example>
             </rule>
         </rulegroup>
         <rule id="MUCHO_NF" name="mucho + nombre femenino">
@@ -21433,15 +21472,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://www.fundeu.es/recomendacion/puntos-suspensivos-claves-para-un-uso-adecuado/</url>
             <example correction="...|…">Eran<marker>....</marker></example>
             <example>.......</example>
-        </rule>
-        <rule id="TRESPUNTOS_PUNTO" name="tres puntos + punto">
-            <pattern>
-                <token>…</token>
-                <token min="1" max="3">.</token>
-            </pattern>
-            <message>Error de puntuación.</message>
-            <suggestion>…</suggestion>
-            <example correction="…">Motos, coches, camiones<marker>….</marker></example>
         </rule>
         <rulegroup id="ESPACIO_DESPUES_DE_PUNTO" name="comprueba que hay espacio después de punto">
             <antipattern>
