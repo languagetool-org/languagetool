@@ -776,9 +776,8 @@ class AgreementRuleAntiPatterns1 {
       tokenRegex("(Kilo|Zenti|Milli)?meter|Jahre|Monate|Wochen|Tage|Stunden|Minuten|Sekunden")
     ),
     Arrays.asList(
-      token("Van"), // https://de.wikipedia.org/wiki/Alexander_Van_der_Bellen
-      token("der"),
-      tokenRegex("Bellens?")
+      token("van"), // https://de.wikipedia.org/wiki/Alexander_Van_der_Bellen
+      token("der")
     ),
     Arrays.asList(
       token("mehrere"), // "mehrere Verwundete" http://forum.languagetool.org/t/de-false-positives-and-false-false/1516

@@ -848,6 +848,10 @@ public class ProhibitedCompoundRule extends Rule {
           "Mobilfunkmarke", // vs Mobilfunkmarkt
           "Schulball", // vs Schulfall
           "Schulballs", // vs Schulfalls
+          "Aluminiumzölle", // vs Aluminiumzelle
+          "Aluminiumzöllen", // vs Aluminiumzellen
+          "Herz-Ass", // vs Herzast
+          "Herzass", // vs Herzast
           "marktdurchdringend", // vs markdurchdringend
           "marktdurchdringende",
           "marktdurchdringendes",

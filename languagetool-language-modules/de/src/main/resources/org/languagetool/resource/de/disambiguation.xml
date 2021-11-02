@@ -5101,14 +5101,14 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="remove" postag="VER.*"/>
     </rule>
 
-    <rule id="LOS_KEIN_NOMEN" name="'Los' kein Verb">
+    <rule id="LOS_KEIN_NOMEN" name="'Los' kein Nomen">
         <pattern>
             <marker>
                 <token>Los</token>
             </marker>
             <token regexp="yes">Angel[oe]s|Zetas|Gatos</token>
         </pattern>
-        <disambig action="remove" postag="SUB.*"/>
+        <disambig action="remove" postag="(SUB|VER|ADV).*"/>
     </rule>
 
     <rule id="IGNORE_SPELLING_OF_NUMBER_PERIOD_LETTER" name="ignore '2.a'">
@@ -5117,6 +5117,16 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <marker>
                 <token spacebefore="no">.</token>
                 <token spacebefore="no" regexp="yes">[a-z]</token>
+            </marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="IGNORE_SPELLING_OF_ON_TOUR" name="ignore 'on tour'">
+        <pattern>
+            <marker>
+                <token regexp="yes" case_sensitive="yes">[Oo]n</token>
+                <token regexp="yes">[Tt]our</token>
             </marker>
         </pattern>
         <disambig action="ignore_spelling"/>
