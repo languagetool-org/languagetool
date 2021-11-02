@@ -20560,6 +20560,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="BRAUCHEN_ZU" name="brauchen mit Infinitiv mit 'zu">
             <antipattern>
+                <token skip="-1" inflected='yes'>brauchen</token>
+                <token postag='VER.*INF.*' postag_regexp='yes'/>
+                <token>zu</token>
+                <token postag='VER.*INF.*' postag_regexp='yes'/>                				
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" skip="-1">brauchen</token>
+                <token skip="-1" postag="VER:(AUX:|MOD:)?[123].*" postag_regexp="yes"/>
+                <token postag="VER:INF:.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" skip="-1">brauchen</token>
+                <token postag="VER:(AUX:|MOD:)?PA2.*" postag_regexp="yes"/>
+                <token postag="VER:INF:.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" skip="-1">brauchen</token>
+                <token postag="VER:INF:.*" postag_regexp="yes"/>
+                <token postag="VER:(AUX|MOD).*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" skip="-1">brauchen</token>
+                <token postag="VER:INF:.*" postag_regexp="yes"/>
+                <token inflected="yes" regexp="yes">gehen|hassen|hören|kommen|lassen|legen|lernen|liegen|scheinen|sehen</token>
+            </antipattern>
+            <antipattern>
                 <token regexp="yes">gebraucht|brauchen</token>
                 <token regexp="yes">w[uü]rde(n|st)?|w[eo]rden|ist|sind|w[aäi]r(en|st)</token>
             </antipattern>
@@ -20589,16 +20615,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">können|lassen</token>
             </antipattern>
             <pattern>
-                <token inflected="yes" skip="-1">brauchen</token>
+                <token inflected="yes" skip="-1">brauchen
+                  <exception>gebraucht</exception>
+                  <exception scope="next" postag="UNKNOWN" regexp="yes">\p{Ll}.+n</exception><!-- unknown infinitive -->     
+                </token>
                 <marker><token postag="VER:INF:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-z]+<exception regexp="yes">m?einen</exception><exception scope="previous">zu</exception></token></marker>
             </pattern>
             <message>Die Verwendung von 'brauchen + Infinitiv' (ohne 'zu') ist umgangssprachlich. Standardsprachlich sollte ein erweiterter Infinitiv mit 'zu' verwendet werden.</message>
             <suggestion>zu \2</suggestion>
-            <suggestion><match no="2" postag="VER:EIZ:.*" postag_regexp="yes"/></suggestion>
+            <suggestion suppress_misspelled="yes"><match no="2" postag="VER:EIZ:.*" postag_regexp="yes"/></suggestion>
             <url>https://www.duden.de/rechtschreibung/brauchen</url>
             <short>Umgangssprache</short>
-            <example correction="zu kommen|(kommen)">Du brauchst nicht <marker>kommen</marker>.</example>
-            <example correction="zu machen|(machen)">Darüber brauchst du dir keine Sorgen <marker>machen</marker>.</example>
+            <example correction="zu kommen">Du brauchst nicht <marker>kommen</marker>.</example>
+            <example correction="zu machen">Darüber brauchst du dir keine Sorgen <marker>machen</marker>.</example>
             <example correction="zu nachkommen|nachzukommen">“Du brauchst nicht <marker>nachkommen</marker>.”</example>
             <example>Er kaufte die Schuhe, obwohl sie gebraucht waren.</example>
             <example>Ich brauche bald <marker>einen</marker> neuen Fernseher.</example>
@@ -20690,21 +20719,49 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Sätze des Thales">Die <marker>Sätze von Thales</marker> gelten als fundamental.</example>
             <example correction="Höhensatz des Euklid">Der <marker>Höhensatz von Euklid</marker> gilt als fundamental.</example>
         </rule>
-        <rule id="BRAUCHEN_OHNE_ZU" name="fehlendes zu">
-            <pattern>
+        <rulegroup id="BRAUCHEN_OHNE_ZU" name="fehlendes zu">
+            <antipattern>
                 <token inflected='yes'>brauchen</token>
                 <token postag='NEG' />
-                <marker>
-                    <token postag='VER:.+' postag_regexp='yes'>
-                        <exception postag='VER:EIZ:.*' postag_regexp='yes'/>
-                        <exception postag='PA2:.*' postag_regexp='yes'/>
-                        <exception>mal</exception>
-                    </token>
-                </marker>
-            </pattern>
-            <message>Meinten Sie <suggestion>zu \3</suggestion>? Brauchen ohne 'zu' ist umgangssprachlich.</message>
-            <example correction='zu kommen'>Du brauchst nicht <marker>kommen</marker>.</example>
-        </rule>
+                <token min="0"/>
+                <token postag='VER.*INF.*' postag_regexp='yes'/>
+                <token>zu</token>
+                <token postag='VER.*INF.*' postag_regexp='yes'/>                				
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token inflected='yes'>brauchen</token>
+                    <token postag='NEG' />
+                    <token min="0" postag="(ADJ:PRD.*|PA[12]:PRD:GRU:VER)" postag_regexp="yes"/>
+                    <marker>
+                        <token postag='VER.*INF.*' postag_regexp='yes'>
+                            <exception postag='VER:EIZ:.*' postag_regexp='yes'/>
+                            <exception postag='PA2:.*' postag_regexp='yes'/>
+                            <exception>mal</exception>
+                        </token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>zu \4</suggestion>? Brauchen ohne 'zu' ist umgangssprachlich.</message>
+                <example correction='zu kommen'>Du brauchst nicht <marker>kommen</marker>.</example>
+                <example correction='zu kommen'>Du brauchst nicht zwingend <marker>kommen</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected='yes'>brauchen</token>
+                    <token postag='NEG' />
+                    <token regexp="yes">gerade|lange|öde|solche|solide|teilweise</token>
+                    <marker>
+                        <token postag='VER.*INF.*' postag_regexp='yes'>
+                            <exception postag='VER:EIZ:.*' postag_regexp='yes'/>
+                            <exception postag='PA2:.*' postag_regexp='yes'/>
+                            <exception>mal</exception>
+                        </token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>zu \4</suggestion>? Brauchen ohne 'zu' ist umgangssprachlich.</message>
+                <example correction='zu bleiben'>Du brauchst nicht lange <marker>bleiben</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="BAUCHWEH" name="'Bauchweh (Bauchschmerz)'">
             <regexp>(Bauch|Kopf|Hals|Zahn)(wehs?)\b</regexp>
             <message>'\0' ist umgangssprachlich.</message>
