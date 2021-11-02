@@ -1371,7 +1371,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     }*/
     List<String> suggestions = super.getSuggestions(word);
     suggestions = suggestions.stream().filter(k -> !PREVENT_SUGGESTION.matcher(k).matches()
+            && !k.contains("--")
             && !k.endsWith("roulett")
+            && !k.matches("[\\wöäüÖÄÜß]+ [a-zöäüß]-[\\wöäüÖÄÜß]+")   // e.g. "Mediation s-Background"
+            && !k.matches("[\\wöäüÖÄÜß]+- [\\wöäüÖÄÜß]+")   // e.g. "Pseudo- Rebellentum"
             && !k.matches("[\\wöäüÖÄÜß]+ -[\\wöäüÖÄÜß]+")   // e.g. "ALT -TARIF"
             && !k.endsWith("-s")   // https://github.com/languagetool-org/languagetool/issues/4042
     ).collect(Collectors.toList());

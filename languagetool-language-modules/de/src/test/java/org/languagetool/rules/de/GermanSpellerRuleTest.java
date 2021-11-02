@@ -867,6 +867,9 @@ public class GermanSpellerRuleTest {
     // commas are actually not part of the word, so the suggestion doesn't include them:
     assertFirstSuggestion("informationnen,", "Informationen", rule, lt);
     assertFirstSuggestion("ALT-TARIF,", null, rule, lt);
+    assertNotSuggestion("Pseudo-Rebellentum", "Pseudo- Rebellentum", rule, lt);
+    assertNotSuggestion("Pseudo-Rebellentum", "Pseudo--Rebellentum", rule, lt);
+    assertNotSuggestion("Mediations-Background", "Mediation s-Background", rule, lt);
     assertFirstSuggestion("ALT-ÜBERSICHT,", null, rule, lt);
     assertFirstSuggestion("Sakralkultur,", null, rule, lt);
     assertFirstSuggestion("Auschwitzmythxs,", null, rule, lt);  // correction prevented by lcDoNotSuggestWords
