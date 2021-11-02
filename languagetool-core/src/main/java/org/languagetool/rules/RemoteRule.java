@@ -250,11 +250,11 @@ public abstract class RemoteRule extends Rule {
           if (e instanceof TimeoutException || e instanceof InterruptedException || e instanceof CancellationException ||
             (e.getCause() != null && e.getCause() instanceof TimeoutException)) {
             status = RemoteRuleMetrics.RequestResult.TIMEOUT;
-            logger.warn("Timed out while fetching results for remote rule " + ruleId + ", tried " + (i + 1) + " times, timeout: " + timeout + "ms" , e);
+            logger.info("Timed out while fetching results for remote rule " + ruleId + ", tried " + (i + 1) + " times, timeout: " + timeout + "ms" , e);
             timeoutTotal.get(ruleId).addAndGet(timeout);
           } else {
             status = RemoteRuleMetrics.RequestResult.ERROR;
-            logger.error("Error while fetching results for remote rule " + ruleId + ", tried " + (i + 1) + " times, timeout: " + timeout + "ms" , e);
+            logger.warn("Error while fetching results for remote rule " + ruleId + ", tried " + (i + 1) + " times, timeout: " + timeout + "ms" , e);
           }
 
           RemoteRuleMetrics.request(ruleId, i, System.nanoTime() - startTime, characters, status);
@@ -266,15 +266,15 @@ public abstract class RemoteRule extends Rule {
         }
       }
       RemoteRuleMetrics.failures(ruleId, consecutiveFailures.get(ruleId).incrementAndGet());
-      logger.warn("Fetching results for remote rule " + ruleId + " failed.");
+      logger.info("Fetching results for remote rule " + ruleId + " failed.");
       if (consecutiveFailures.get(ruleId).get() >= serviceConfiguration.getFall() ||
           serviceConfiguration.getTimeoutLimitTotalMilliseconds() > 0 &&
           timeoutTotal.get(ruleId).get() > serviceConfiguration.getTimeoutLimitTotalMilliseconds()) {
         lastFailure.put(ruleId, System.currentTimeMillis());
-        logger.warn("Remote rule " + ruleId + " marked as DOWN.");
+        logger.info("Remote rule " + ruleId + " marked as DOWN.");
         RemoteRuleMetrics.downtime(ruleId, serviceConfiguration.getDownMilliseconds());
         RemoteRuleMetrics.up(ruleId, false);
-        System.out.printf("Aborting %d tasks.%n", runningTasks.get(ruleId).size());
+        logger.info("Aborting {} tasks.", runningTasks.get(ruleId).size());
         runningTasks.get(ruleId).forEach(task -> task.cancel(true));
       }
       result = fallbackResults(req);
@@ -331,7 +331,7 @@ public abstract class RemoteRule extends Rule {
     try {
       return task.get().getMatches().toArray(RuleMatch.EMPTY_ARRAY);
     } catch (InterruptedException | ExecutionException e) {
-      logger.warn("Fetching results for remote rule " + getId() + " failed.", e);
+      logger.info("Fetching results for remote rule " + getId() + " failed.", e);
       return RuleMatch.EMPTY_ARRAY;
     }
   }
