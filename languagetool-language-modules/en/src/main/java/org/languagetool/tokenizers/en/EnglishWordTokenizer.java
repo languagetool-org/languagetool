@@ -42,11 +42,9 @@ public class EnglishWordTokenizer extends WordTokenizer {
       Pattern.compile("^(.+)(['’]m|['’]re|['’]ll|['’]ve|['’]d|['’]s)(['’-]?)$",
           Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE),
       Pattern.compile("^(['’]t)(was)$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE));
-
-  @Override
-  public String getTokenizingCharacters() {
-    return super.getTokenizingCharacters() + "_\u2013"; // underscore, en dash
-  }
+  
+  //the string used to tokenize characters
+  private final String enTokenizingChars = super.getTokenizingCharacters() + "_"; // underscore;
 
 //  public EnglishWordTokenizer() {
 //
@@ -75,7 +73,7 @@ public class EnglishWordTokenizer extends WordTokenizer {
     String s;
     String groupStr;
 
-    final StringTokenizer st = new StringTokenizer(auxText, getTokenizingCharacters(), true);
+    final StringTokenizer st = new StringTokenizer(auxText, enTokenizingChars, true);
 
     while (st.hasMoreElements()) {
       s = st.nextToken()

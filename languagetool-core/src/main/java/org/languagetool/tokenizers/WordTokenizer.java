@@ -50,7 +50,7 @@ public class WordTokenizer implements Tokenizer {
    * \u00ad soft hyphen (not included) 
    * \u002d hyphen (-) (not included): needs special processing in different languages
    * \u2011 non-breaking hyphen (not included): similar to hyphen 
-   * \u2013 en dash (not included): used as hyphen sometimes. But included in English, French, Spanish, Catalan...
+   * \u2013 en dash (included): it can be used sometimes as hyphen (not included) and rules need changes in some languages 
    * \u00b7 middle dot (·) (included): excluded in Catalan because it is a word character
    * \u005f underscore, low line (_) (not included): included in English, Dutch
    */
@@ -62,7 +62,7 @@ public class WordTokenizer implements Tokenizer {
       + "\u205F\u2060\u2061\u2062\u2063\u206A\u206b\u206c\u206d"
       + "\u206E\u206F\u3000\u3164\ufeff\uffa0\ufff9\ufffa\ufffb"
       + "¦‖∣|,.;()[]{}=*#∗+×·÷<>!?:~/\\\"'«»„”“‘’`´‛′›‹…¿¡‼⁇⁈⁉™®\u203d"
-      + "\u2012\u2014\u2015" // dashes, not included: \u2013 (en dash)
+      + "\u2012\u2013\u2014\u2015" // dashes
       + "\u2500\u3161\u2713" // other dashes
       + "\u25CF\u25CB\u25C6\u27A2\u25A0\u25A1\u2605\u274F\u2794\u21B5\u2756\u25AA\u2751\u2022" // bullet points
       + "\u2B9A\u2265\u2192\u21FE\u21C9\u21D2\u21E8\u21DB" // arrows

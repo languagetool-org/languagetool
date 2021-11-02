@@ -71,6 +71,10 @@ public class FrenchWordTokenizer extends WordTokenizer {
   private static final List<String> doNotSplit = Arrays.asList("mers-cov", "mcgraw-hill", "sars-cov-2", "sars-cov",
       "ph-metre", "ph-metres", "anti-ivg", "anti-uv", "anti-vih", "al-qaïda", "c'est-à-dire", "add-on", "add-ons",
       "rendez-vous", "garde-à-vous", "chez-eux", "chez-moi", "chez-nous", "chez-soi", "chez-toi", "chez-vous", "m'as-tu-vu");
+  
+  //the string used to tokenize characters
+  private final String frTokenizingChars = super.getTokenizingCharacters() + "-"; // hyphen
+
 
   public FrenchWordTokenizer() {
 
@@ -103,11 +107,6 @@ public class FrenchWordTokenizer extends WordTokenizer {
     patterns[3] = Pattern.compile("^(a)(ux)$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);*/
 
   }  
-  
-  @Override
-  public String getTokenizingCharacters() {
-    return super.getTokenizingCharacters() + "-\u2013"; // hyphen, en dash
-  }
 
   /**
    * @param text Text to tokenize
@@ -140,7 +139,7 @@ public class FrenchWordTokenizer extends WordTokenizer {
     auxText = matcher.replaceAll("$1\u0001\u0001FR_SPACE\u0001\u0001$2");
     auxText = auxText.replaceAll("\\u0001\\u0001FR_SPACE0\\u0001\\u0001", " ");
 
-    final StringTokenizer st = new StringTokenizer(auxText, getTokenizingCharacters(), true);
+    final StringTokenizer st = new StringTokenizer(auxText, frTokenizingChars, true);
     String s;
     String groupStr;
 

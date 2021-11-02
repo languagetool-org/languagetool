@@ -68,11 +68,6 @@ public class SpanishWordTokenizer extends WordTokenizer {
     }
     return joinEMailsAndUrls(l);
   }
-  
-  @Override
-  public String getTokenizingCharacters() {
-    return super.getTokenizingCharacters() + "\u2013"; // en dash
-  }
 
   /* Splits a word containing hyphen(-) if it doesn't exist in the dictionary. */
   private List<String> wordsToAdd(String s) {
