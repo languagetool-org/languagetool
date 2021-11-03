@@ -38972,7 +38972,6 @@ steenwijk;Steenwijk
 				<short>–</short>
 				<example correction="–">Dit is geen <marker>-</marker> gedachtestreep.</example>
 			</rule>
-			<!---
 			<rule>
 				<pattern>
 					<marker>
@@ -38983,7 +38982,7 @@ steenwijk;Steenwijk
 				<message>Om een gedachtestreepje horen spaties: <suggestion>– </suggestion>.</message>
 				<url>https://taaladvies.net/taal/advies/vraag/312/gedachtestreepje</url>
 				<short>–</short>
-				<example correction="– ">Dit is geen <marker>-</marker>gedachtestreep.</example>
+				<example correction="– ">Dit is geen <marker>–</marker>gedachtestreep.</example>
 			</rule>
 			<rule>
 				<pattern>
@@ -38995,9 +38994,20 @@ steenwijk;Steenwijk
 				<message>Om een gedachtestreepje horen spaties: <suggestion> –</suggestion>.</message>
 				<url>https://taaladvies.net/taal/advies/vraag/312/gedachtestreepje</url>
 				<short>–</short>
-				<example correction="– ">Dit is geen<marker>-</marker> gedachtestreep.</example>
+				<example correction=" –">Dit is geen<marker>–</marker> gedachtestreep.</example>
 			</rule>
-			-->
+			<rule>
+				<pattern>
+					<marker>
+						<token spacebefore="yes">-</token>
+					</marker>
+					<token spacebefore="yes"><exception regexp="yes">en|of</exception></token>
+				</pattern>
+				<message>Om een gedachtestreepje horen spaties: <suggestion> – </suggestion>.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/312/gedachtestreepje</url>
+				<short>–</short>
+				<example correction=" – ">Dit is geen <marker>-</marker> gedachtestreep.</example>
+			</rule>
 		</rulegroup>
 
 		<rulegroup id="STREEPJE_TUSSEN_SPATIES_WEGLATING" name="lees - of → lees- of" >
@@ -39009,10 +39019,11 @@ steenwijk;Steenwijk
 					<token spacebefore="yes" regexp="yes">en|of</token>
 					<token/>
 				</pattern>
-				<message>Bij het weglate/n van een deel van een woord hoort het koppelteken vast aan het woord.</message>
+				<message>Bij het weglaten van een deel van een woord hoort het koppelteken vast aan het woord. In andere gevallen wordt een ander streepje aangeraden.</message>
 				<suggestion>\1\2 \3 \4</suggestion>
-				<short>– en</short>
-				<example correction="lees- en schrijfopdracht">Dit is geen <marker>lees - en schrijfopdracht</marker>.</example>
+				<suggestion>\1 – \3 \4</suggestion>
+				<short>- en</short>
+				<example correction="lees- en schrijfopdracht|lees – en schrijfopdracht">Dit is geen <marker>lees - en schrijfopdracht</marker>.</example>
 				<example>De landbouwproductie is beperkt — slechts 2% van het land is bebouwbaar — en het meeste voedsel moet worden geïmporteerd.</example>
 			</rule>
 		</rulegroup>
