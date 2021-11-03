@@ -23207,12 +23207,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token regexp="yes" case_sensitive="yes">[Ii]m</token>
                 <marker>
-                    <token case_sensitive="yes" regexp="yes">stillen|dunkeln|hellen|wesentlichen</token>
+                    <token case_sensitive="yes" regexp="yes">stillen|dunk(el|le)n|hellen|wesentlichen</token>
                 </marker>
             </pattern>
             <message>Bitte prüfen Sie die Groß- und Kleinschreibung.</message>
-            <suggestion>Stillen</suggestion>
+            <suggestion><match no="2" case_conversion="startupper"/></suggestion>
             <example correction="Stillen">Ich sitze hier im <marker>stillen</marker>.</example>
+            <example correction="Wesentlichen">Das ist im <marker>wesentlichen</marker> richtig so.</example>
+            <example correction="Dunklen">Ich gehe gerne im <marker>dunklen</marker> spazieren.</example>
         </rule>
         <rulegroup id="IM_WEG_STEHEN" name="im weg (Weg) stehen">
             <rule>
