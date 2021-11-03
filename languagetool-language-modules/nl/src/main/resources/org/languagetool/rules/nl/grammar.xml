@@ -38957,9 +38957,10 @@ steenwijk;Steenwijk
 		</rulegroup>
 
 		<rulegroup id="GEDACHTESTREEPJE" name="- → –" tags="picky">
+			<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token spacebefore="yes">-</token></antipattern>
+			<antipattern><token spacebefore="yes">-</token><token regexp="yes" spacebefore="yes">en|of</token></antipattern>
+			<antipattern><token regexp="yes" spacebefore="yes">en|of</token><token spacebefore="yes">-</token></antipattern>
 			<rule>
-				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token spacebefore="yes">-</token></antipattern>
-				<antipattern><token spacebefore="yes">-</token><token regexp="yes" spacebefore="yes">en|of</token></antipattern>
 				<pattern>
 					<marker>
 						<token spacebefore="yes" regexp="yes">[-—]</token>
@@ -38971,6 +38972,31 @@ steenwijk;Steenwijk
 				<short>–</short>
 				<example correction="–">Dit is geen <marker>-</marker> gedachtestreep.</example>
 			</rule>
+			<rule>
+				<pattern>
+					<marker>
+						<token>–</token>
+					</marker>
+					<token spacebefore="no"/>
+				</pattern>
+				<message>Om een gedachtestreepje horen spaties: <suggestion>– </suggestion>.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/312/gedachtestreepje</url>
+				<short>–</short>
+				<example correction="– ">Dit is geen <marker>-</marker>gedachtestreep.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token/>
+					<marker>
+						<token spacebefore="no">–</token>
+					</marker>
+				</pattern>
+				<message>Om een gedachtestreepje horen spaties: <suggestion> –</suggestion>.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/312/gedachtestreepje</url>
+				<short>–</short>
+				<example correction="– ">Dit is geen<marker>-</marker> gedachtestreep.</example>
+			</rule>
+
 		</rulegroup>
 
 		<rulegroup id="STREEPJE_TUSSEN_SPATIES_WEGLATING" name="lees - of → lees- of" >
@@ -38982,7 +39008,7 @@ steenwijk;Steenwijk
 					<token spacebefore="yes" regexp="yes">en|of</token>
 					<token/>
 				</pattern>
-				<message>Bij het weglaten van een deel van een woord hoort het koppelteken vast aan het woord.</message>
+				<message>Bij het weglate/n van een deel van een woord hoort het koppelteken vast aan het woord.</message>
 				<suggestion>\1\2 \3 \4</suggestion>
 				<short>– en</short>
 				<example correction="lees- en schrijfopdracht">Dit is geen <marker>lees - en schrijfopdracht</marker>.</example>
