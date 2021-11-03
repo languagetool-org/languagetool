@@ -56266,6 +56266,9 @@ Andere Projekte</example>
                 <token spacebefore="no">Telegraph</token>
                 <token regexp="yes" spacebefore="no">&anfzu;</token>
             </antipattern>
+            <antipattern><!-- do not correct "Phantasialand" or "chromatography" -->
+                <token regexp="yes">.*y|Phantasia.*</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes" case_sensitive="yes">Phantas.*</token>
@@ -56286,7 +56289,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <antipattern>
-                    <token regexp="yes">GraphQL|.*pho[nt]ograph.*|biography|monograph|palaeontograph.*|graphe(mi(sch|k)|mati(sch|k)|ologi(sch|e)).*|Graph(e[nm]|ic(s|al))?</token>
+                    <token regexp="yes">GraphQL|.*pho[nt]ograph.*|biograph|monograph|palaeontograph.*|graphe(mi(sch|k)|mati(sch|k)|ologi(sch|e)).*|Graph(e[nm]|ic(s|al))?</token>
                 </antipattern>
                 <pattern>
                     <token regexp="yes" case_sensitive="yes">[\wäöüÄÖÜß-]*[gG]raph[\wäöüÄÖÜß-]*</token>
@@ -56301,6 +56304,8 @@ Andere Projekte</example>
                 <example>http://www.graphical-illustration.com</example>
                 <example correction="Paragraf">Der <marker>Paragraph</marker> ganz unten!</example>
                 <example>Der "Telegraph" zitierte eine nicht näher genannte Regierungsquelle mit den Worten: "Alles steht auf Messers Schneide."</example>
+                <example>Sein Buch heißt 'everyday  chromatography'.</example>
+                <example>Wir fahren ins Phantasialand.</example>
             </rule>
             <rule>
                 <antipattern>
