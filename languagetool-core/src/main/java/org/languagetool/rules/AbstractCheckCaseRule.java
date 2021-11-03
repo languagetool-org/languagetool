@@ -90,7 +90,8 @@ public abstract class AbstractCheckCaseRule extends AbstractSimpleReplaceRule2 {
               ruleMatches.remove(ruleMatches.size() - 1);
             }
           }
-          continue;
+          // The phrase is correct. Don't look into shorter phrases inside this phrase.
+          break;
         }
         if (originalPhrase.equals(originalPhrase.toUpperCase())) {
           continue;

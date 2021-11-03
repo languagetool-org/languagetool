@@ -57,6 +57,10 @@ public class CheckCaseRuleTest {
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Educació Secundària obligatòria")).length);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("d'educació secundària obligatòria")).length);
     
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Els drets humans")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Declaració Universal dels Drets Humans")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("Declaració Universal dels drets humans")).length);
+    
     // incorrect sentences:
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("Joan pau"));
     assertEquals(1, matches.length);
