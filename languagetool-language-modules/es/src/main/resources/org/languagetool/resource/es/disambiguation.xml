@@ -138,7 +138,7 @@ Copyright (C) 2011 Juan Martorell
             <pattern>
                 <token><exception regexp="yes">,|;</exception></token>
                 <marker>
-                    <token>entonces</token>    
+                    <token>entonces</token>
                 </marker>
             </pattern>
             <disambig action="remove" postag="CS"/>
@@ -1061,7 +1061,9 @@ Copyright (C) 2011 Juan Martorell
                     <token regexp="yes" inflected="yes">millón|billón|trillón|coma|cero|uno|una</token>
                 </marker>
             </pattern>
-            <disambig action="add"><wd pos="K"/></disambig>    
+            <disambig action="add">
+                <wd pos="K"/>
+            </disambig>
         </rule>
         <rule>
             <pattern>
@@ -1070,7 +1072,9 @@ Copyright (C) 2011 Juan Martorell
                 </marker>
                 <token postag="DN..P." postag_regexp="yes"/>
             </pattern>
-            <disambig action="add"><wd pos="K"/></disambig>    
+            <disambig action="add">
+                <wd pos="K"/>
+            </disambig>
         </rule>
     </rulegroup>
     <rulegroup id="romans_exceptions" name="excepciones números romanos">
@@ -1799,7 +1803,7 @@ Copyright (C) 2011 Juan Martorell
         <pattern>
             <token><exception regexp="yes" inflected="yes">higo|uva</exception></token>
             <marker>
-                <token inflected="yes">paso</token>    
+                <token inflected="yes">paso</token>
             </marker>
         </pattern>
         <disambig action="remove" postag="A.*"/>
@@ -5412,7 +5416,7 @@ Copyright (C) 2011 Juan Martorell
                 <token regexp="yes">.+o</token>
                 <token spacebefore="no">/</token>
                 <marker>
-                    <token spacebefore="no">a</token>    
+                    <token spacebefore="no">a</token>
                 </marker>
             </pattern>
             <disambig action="add">
@@ -5423,7 +5427,7 @@ Copyright (C) 2011 Juan Martorell
             <pattern>
                 <marker>
                     <token spacebefore="no">.</token>
-                    <token spacebefore="no" regexp="yes" case_sensitive="yes">es|ES</token>    
+                    <token spacebefore="no" regexp="yes" case_sensitive="yes">es|ES</token>
                 </marker>
                 <token>es</token>
             </pattern>
@@ -6221,7 +6225,9 @@ Copyright (C) 2011 Juan Martorell
                 <token spacebefore="no">.</token>
                 <token regexp="yes">\d+</token>
             </pattern>
-            <disambig action="add"><wd lemma="página" pos="NCFS000"/></disambig>
+            <disambig action="add">
+                <wd lemma="página" pos="NCFS000"/>
+            </disambig>
         </rule>
         <rule>
             <pattern>
@@ -6231,7 +6237,9 @@ Copyright (C) 2011 Juan Martorell
                 <token spacebefore="no">.</token>
                 <token regexp="yes">\d+</token>
             </pattern>
-            <disambig action="add"><wd lemma="página" pos="NCFP000"/></disambig>
+            <disambig action="add">
+                <wd lemma="página" pos="NCFP000"/>
+            </disambig>
         </rule>
         <rule>
             <pattern>
@@ -6241,7 +6249,9 @@ Copyright (C) 2011 Juan Martorell
                 </marker>
                 <token spacebefore="no">.</token>
             </pattern>
-            <disambig action="add"><wd lemma="página" pos="NCFP000"/></disambig>
+            <disambig action="add">
+                <wd lemma="página" pos="NCFP000"/>
+            </disambig>
         </rule>
         <rule>
             <pattern case_sensitive="yes">
@@ -6273,6 +6283,19 @@ Copyright (C) 2011 Juan Martorell
             </pattern>
             <disambig action="add">
                 <wd lemma="locución" pos="NCFS000"/>
+            </disambig>
+        </rule>
+    </rulegroup>
+    <rulegroup id="SEMANTIC" name="desambiguación semántica">
+        <rule id="CREER_CREAR" name="creer/crear">
+            <pattern>
+                <marker>
+                    <token inflected="yes">creer</token>
+                </marker>
+                <token>que</token>
+            </pattern>
+            <disambig action="remove">
+                <wd lemma="crear"/>
             </disambig>
         </rule>
     </rulegroup>
@@ -6498,7 +6521,8 @@ Copyright (C) 2011 Juan Martorell
         </rule>
     </rulegroup>
     <rulegroup id="IGNORE_SPELLING_OF_ABBREVIATIONS" name="Ignore spelling of some uppercase abbreviations">
-        <rule><!-- lowercase word + abbreviation with no vowels -->
+        <rule>
+            <!-- lowercase word + abbreviation with no vowels -->
             <pattern case_sensitive="yes">
                 <token regexp="yes">.*[a-z].*</token>
                 <token min="0">(</token>
@@ -6508,7 +6532,8 @@ Copyright (C) 2011 Juan Martorell
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>
-        <rule><!-- abbreviation with no vowels + lowercase word -->
+        <rule>
+            <!-- abbreviation with no vowels + lowercase word -->
             <pattern case_sensitive="yes">
                 <marker>
                     <token regexp="yes">[BCDFGHJKLMNPQRSTVWXZ]{3,6}</token>
