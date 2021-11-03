@@ -852,6 +852,7 @@ public class ProhibitedCompoundRule extends Rule {
           "Aluminiumzöllen", // vs Aluminiumzellen
           "Herz-Ass", // vs Herzast
           "Herzass", // vs Herzast
+          "Fleischmagen", // vs Fleischtagen
           "marktdurchdringend", // vs markdurchdringend
           "marktdurchdringende",
           "marktdurchdringendes",

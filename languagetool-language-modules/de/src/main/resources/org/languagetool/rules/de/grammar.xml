@@ -23149,11 +23149,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
-        <rule id="RELEASE_SUBST" name="das release (Release)" default="temp_off">
+        <rule id="NACH_JETZIGEN_STAND" name="nach heutigem stand (Stand)" default="temp_off">
+            <pattern>
+                <token>nach</token>
+                <token regexp="yes">jetzige[mn]|heutige[nm]|aktuelle[nm]</token>
+                <marker>
+                    <token case_sensitive="yes">stand</token>
+                </marker>
+            </pattern>
+            <message>Das Wort <suggestion>Stand</suggestion> wird in diesem Kontext als Nomen verwendet und sollte daher großgeschrieben werden.</message>
+            <example correction="Stand">Das ist nach heutigem <marker>stand</marker> nicht möglich.</example>
+        </rule>
+        <rule id="RELEASE_SUBST" name="das release (Release)">
             <antipattern>
                 <token skip="1" regexp="yes">das|dieses|jedes</token>
                 <token skip="1" regexp="yes">release|update</token>
-                <token skip="1">ich</token>
+                <token skip="1" regexp="yes">s?ich</token>
             </antipattern>
             <antipattern>
                 <token skip="2">ich</token>
@@ -23171,6 +23182,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Release">Das <marker>release</marker> wurde freigegeben.</example>
             <example>Das release ich später.</example>
             <example>Wenn ich nun endlich das release, werden unsere Nutzer staunen!</example>
+            <example>Er meinte dieses update sich von alleine.</example>
         </rule>
         <rule id="IN_FORM" name="in form (Form)">
             <pattern>
@@ -41856,6 +41868,39 @@ Andere Projekte</example>
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
+        <rulegroup id="DA_VOR" name="da vor (davor)" default="temp_off">
+            <antipattern>
+                <token>da</token>
+                <token>vor</token>
+                <token regexp="yes" inflected="yes">führen|enthalten|nehmen|tragen|werfen</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">haben|sein|werden|müssen|können|sollen</token>
+                    <token postag="PRO:REF.*|ADV.*" postag_regexp="yes" min="0" />
+                    <marker>
+                        <token>da</token>
+                        <token>vor</token>
+                    </marker>
+                    <token postag="VER.*" postag_regexp="yes" />
+                </pattern>
+                <message>Das Adverb <suggestion>davor</suggestion> wird zusammengeschrieben.</message>
+                <example correction="davor">Er hat uns <marker>da vor</marker> bewahrt.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|KON:NEB|PKT" postag_regexp="yes" />
+                    <token postag="ADV.*" postag_regexp="yes" min="0" />
+                    <marker>
+                        <token>da</token>
+                        <token>vor</token>
+                    </marker>
+                    <token postag="VER.*" postag_regexp="yes" />
+                </pattern>
+                <message>Das Adverb <suggestion>davor</suggestion> wird zusammengeschrieben.</message>
+                <example correction="Davor"><marker>Da vor</marker> ist niemand geschützt.</example>
+            </rule>
+        </rulegroup>
         <rule id="FUER_ALLEM" name="für (vor) allem">
             <pattern>
                 <token>für</token>
@@ -42784,12 +42829,26 @@ Andere Projekte</example>
                 <example>Wir könnten um 14:00 oder 16:30 mal einen Zoom-Call machen..</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>-</token>
+                    <token regexp="yes">\d+mal</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">\d+mal</token>
                 </pattern>
                 <message>Hier fehlt in der Regel ein Bindestrich. Alternativ kann man "mal" auch großschreiben, wenn man es hervorheben möchte.</message>
                 <suggestion><match no="1" regexp_match="^(\d+).+" regexp_replace="$1" />-mal</suggestion>
                 <example correction="10-mal">Noch <marker>10mal</marker> schlafen, dann kommt das Christkind.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d+</token>
+                    <token regexp="yes">-|bis</token>
+                    <token regexp="yes">\d+-?mal</token>
+                </pattern>
+                <message>Hier sollte "mal" sollte großgeschrieben werden.</message>
+                <suggestion><match no="1" /> bis <match no="3" regexp_match="^(\d+).+" regexp_replace="$1" /> Mal</suggestion>
+                <example correction="4 bis 5 Mal">Noch <marker>4 - 5mal</marker> schlafen, dann kommt das Christkind.</example>
             </rule>
         </rulegroup>
         <rule id="DU_MEINS_DAS" name="Du meins (meinst) das.">
@@ -55600,7 +55659,8 @@ Andere Projekte</example>
                         <token postag="VER.*:[1-3]:.*|VER:.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes" skip="-1">
                             <exception postag="VER:INF:.*|VER:AUX:.*:KJ[12]|PA[12]:.*|SUB:.*|EIG:.*|PR[OP]:.*|AD[JV]:.*|ART:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                             <exception  inflected="yes" regexp="yes">bleiben|lassen|gelingen</exception>
-                            <exception regexp="yes" scope="next">,|\.|:|\?|!|;|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
+                            <exception regexp="yes" scope="next">,|\.|\/|…:|\?|!|;|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
+                            <exception scope="next" regexp="yes">beziehungsweise|bzw</exception>
                         </token>
                     </marker>
                     <token postag="VER.*:[1-3]:.*|VER:.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes">
@@ -55620,6 +55680,8 @@ Andere Projekte</example>
                 <example>Wie konnten die Bakterien in die Milch gelangen?</example>
                 <example>Jetzt bin ich offen für viele Dinge, allerdings interessiere ich mich nun schon seit geraumer Zeit für die Ergreifung eines Sozialberufs.</example>
                 <example>Da, finde ich, kann auch noch was passieren.</example>
+                <example>Damit man diese effektiv beseitigen kann beziehungsweise die Bildung neuer undichten Stellen vermeidet, ist eine regelmäßige Überprüfung notwendig.</example>
+                <example>Wie groß darf/muss sie sein?</example>
             </rule>
             <rule><!-- KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ[6] -->
                 <antipattern>

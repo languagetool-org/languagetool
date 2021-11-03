@@ -313,6 +313,7 @@ public class German extends Language implements AutoCloseable {
       case "MEINET_WEGEN": return 1; // prefer over AUF_DEM_WEG
       case "FUER_INBESONDERE": return 1; // prefer over KOMMA_VOR_ERLAEUTERUNG
       case "COVID_19": return 1; // prefer over PRAEP_GEN and DE_AGREEMENT
+      case "DA_VOR": return 1; // prefer over ZUSAMMENGESETZTE_VERBEN
       case "KLEINSCHREIBUNG_MAL": return 1; // prefer over DE_AGREEMENT
       case "VERINF_DAS_DASS_SUB": return 1; // prefer over DE_AGREEMENT
       case "IM_ALTER": return 1; // prefer over ART_ADJ_SOL
