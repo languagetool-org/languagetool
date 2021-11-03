@@ -368,6 +368,7 @@ public class HunspellRule extends SpellingCheckRule {
         suggestions.addAll(additionalSuggestions);
       }
     }
+    suggestions = suggestions.stream().filter(k -> acceptSuggestion(k.getReplacement())).collect(Collectors.toList());
     suggestions = filterDupes(filterSuggestions(suggestions));
     // Find potentially missing compounds with privacy-friendly logging: we only log a single unknown word with no
     // meta data and only if it's made up of two valid words, similar to the "UNKNOWN" logging in

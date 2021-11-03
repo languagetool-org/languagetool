@@ -869,6 +869,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("ALT-TARIF,", null, rule, lt);
     assertNotSuggestion("Pseudo-Rebellentum", "Pseudo- Rebellentum", rule, lt);
     assertNotSuggestion("Pseudo-Rebellentum", "Pseudo--Rebellentum", rule, lt);
+    assertNotSuggestion("Virtualisierungs-Layer", "Virtualisierungs--Layer", rule, lt);
     assertNotSuggestion("Mediations-Background", "Mediation s-Background", rule, lt);
     assertFirstSuggestion("ALT-ÜBERSICHT,", null, rule, lt);
     assertFirstSuggestion("Sakralkultur,", null, rule, lt);

@@ -1370,14 +1370,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       }
     }*/
     List<String> suggestions = super.getSuggestions(word);
-    suggestions = suggestions.stream().filter(k -> !PREVENT_SUGGESTION.matcher(k).matches()
-            && !k.contains("--")
-            && !k.endsWith("roulett")
-            && !k.matches("[\\wöäüÖÄÜß]+ [a-zöäüß]-[\\wöäüÖÄÜß]+")   // e.g. "Mediation s-Background"
-            && !k.matches("[\\wöäüÖÄÜß]+- [\\wöäüÖÄÜß]+")   // e.g. "Pseudo- Rebellentum"
-            && !k.matches("[\\wöäüÖÄÜß]+ -[\\wöäüÖÄÜß]+")   // e.g. "ALT -TARIF"
-            && !k.endsWith("-s")   // https://github.com/languagetool-org/languagetool/issues/4042
-    ).collect(Collectors.toList());
+    suggestions = suggestions.stream().filter(this::acceptSuggestion).collect(Collectors.toList());
     if (word.endsWith(".")) {
       // To avoid losing the "." of "word" if it is at the end of a sentence.
       suggestions.replaceAll(s -> s.endsWith(".") ? s : s + ".");
@@ -1391,8 +1384,16 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   }
 
   @Override
-  protected boolean acceptSuggestion(String suggestion) {
-    return !suggestion.matches("[a-zöäüß] .+") && !suggestion.matches(".+ [a-zöäüß]");  // z.B. nicht "rauchen e" für "rauche ne" vorschlagen
+  protected boolean acceptSuggestion(String s) {
+      return !PREVENT_SUGGESTION.matcher(s).matches()
+        && !s.contains("--")
+        && !s.endsWith("roulett")
+        && !s.matches("[\\wöäüÖÄÜß]+ [a-zöäüß]-[\\wöäüÖÄÜß]+")   // e.g. "Mediation s-Background"
+        && !s.matches("[\\wöäüÖÄÜß]+- [\\wöäüÖÄÜß]+")   // e.g. "Pseudo- Rebellentum"
+        && !s.matches("[\\wöäüÖÄÜß]+ -[\\wöäüÖÄÜß]+")   // e.g. "ALT -TARIF"
+        && !s.endsWith("-s")   // https://github.com/languagetool-org/languagetool/issues/4042
+        && !s.matches("[a-zöäüß] .+")
+        && !s.matches(".+ [a-zöäüß]");  // z.B. nicht "rauchen e" für "rauche ne" vorschlagen
   }
 
   @NotNull
