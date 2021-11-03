@@ -130,6 +130,7 @@ public class WordListValidatorTest {
           "Łódź",
           "Ørsted",
           "Mirotić",
+          "Subotić",
           "Pÿur",
           "Subašić",
           "celebrytę", // for PL
