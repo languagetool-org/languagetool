@@ -404,12 +404,12 @@ class LORemoteLanguageTool {
       minConfigurableValue = 0;
       maxConfigurableValue = 100;
       configureText = "";
-      String categoryId = remoteMatch.getCategoryId().isEmpty() ? null : remoteMatch.getCategoryId().get();
-      String categoryName = remoteMatch.getCategory().isEmpty() ? null : remoteMatch.getCategory().get();
+      String categoryId = remoteMatch.getCategoryId().orElse(null);
+      String categoryName = remoteMatch.getCategory().orElse(null);
       if (categoryId != null && categoryName != null) {
         setCategory(new Category(new CategoryId(categoryId), categoryName));
       }
-      String locQualityIssueType = remoteMatch.getLocQualityIssueType().isEmpty() ? null : remoteMatch.getLocQualityIssueType().get();
+      String locQualityIssueType = remoteMatch.getLocQualityIssueType().orElse(null);
       if (locQualityIssueType != null) {
         setLocQualityIssueType(ITSIssueType.getIssueType(locQualityIssueType));
       }
