@@ -203,6 +203,9 @@ public class CaseRuleTest {
     assertGood("..., die ins Nichts griff.");
     assertGood("Er fragte, was sie über das denken und zwinkerte ihnen zu.");
     assertGood("dem Ägyptischen, Berberischen, Semitischen, Kuschitischen, Omotischen und dem Tschadischen");
+    assertGood("mit S-Bahn-ähnlichen Verkehrsmitteln");
+    assertGood("mit S-Bahn-ähnlichen und günstigen Verkehrsmitteln");
+    assertGood("mit S-Bahn-ähnlichen, schnellen Verkehrsmitteln");
 
     //assertBad("Sie sind nicht Verständlich");
     assertBad("Das machen der Töne ist schwierig.");

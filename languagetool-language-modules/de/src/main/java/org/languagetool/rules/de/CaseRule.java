@@ -1077,6 +1077,12 @@ public class CaseRule extends Rule {
     Arrays.asList(
       regex("[\\ud83c\\udc00-\\ud83c\\udfff]+|[\\ud83d\\udc00-\\ud83d\\udfff]+|[\\u2600-\\u27ff]+"),
       csRegex("[A-ZÄÖÜ].+")
+    ),
+    Arrays.asList(
+      // Es gibt S-Bahn-ähnliche(, günstige) Verkehrsmittel
+      csRegex("S-Bahn-.*"),
+      new PatternTokenBuilder().posRegex("PKT|KON:NEB|ADJ.*").min(0).max(2).build(),
+      posRegex("SUB.*")
     )
   );
 
