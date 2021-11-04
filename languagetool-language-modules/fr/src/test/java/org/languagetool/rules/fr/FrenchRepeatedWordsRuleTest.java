@@ -54,7 +54,7 @@ public class FrenchRepeatedWordsRuleTest {
     
     matches = getRuleMatches("Elle est maintenant phénoménale. Les choses sont maintenant compliquées");
     assertEquals(1, matches.length);
-    assertEquals("[présentement, ce jour-ci, désormais]", matches[0].getSuggestedReplacements().toString());
+    assertEquals("[présentement, ce jour-ci, désormais, à présent]", matches[0].getSuggestedReplacements().toString());
     
     
   }
