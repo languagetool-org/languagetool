@@ -1308,7 +1308,7 @@ public class JLanguageTool {
             " the hole text contains " + wordCounter + " words " +
             " this sentence has " + sentenceMatches.size() + " matches");
           throw new ErrorRateTooHighException("ErrorRateTooHigh is reached by a single sentence after rule: " + rule.getFullId() +
-            " the hole text contains " + wordCounter + " words" +
+            " the whole text contains " + wordCounter + " words" +
             " this sentence has " + sentenceMatches.size() + " matches");
         }
       }
