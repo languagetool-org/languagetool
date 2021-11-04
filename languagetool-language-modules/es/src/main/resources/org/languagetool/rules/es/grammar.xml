@@ -17089,6 +17089,62 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS2" name="Confusiones (2)">
+        <rulegroup id="AUNQUE" name="aun que/aunque" default="temp_off">
+            <antipattern>
+                <token>más|menos</token>
+                <token min="0" postag="A.*|V.P.*" postag_regexp="yes"/>
+                <token>aún</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
+                    <token regexp="yes" min="0" max="3">\p{P}</token>
+                    <marker>
+                        <token regexp="yes">aun|aún</token>
+                        <token>que</token>
+                    </marker>
+                </pattern>
+                <message>Se escribe junto.</message>
+                <suggestion>aunque</suggestion>
+                <example correction="Aunque"><marker>Aún que</marker> no vengas, hablaremos de ello.</example>
+                <example correction="aunque">Me gusta mucho esta, <marker>aún que</marker> la otra también.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token>aún</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">aun|aún</token>
+                        <token>que</token>
+                    </marker>
+                </pattern>
+                <message>Se escribe junto.</message>
+                <suggestion>aunque</suggestion>
+                <example correction="aunque">Me gusta mucho esta, <marker>aún que</marker> la otra también.</example>
+                <example correction="aunque">Me gusta <marker>aun que</marker> la otra también.</example>
+                <example>Este me gusta más aún que el otro.</example>
+                <example>Esta banda es más efímera aún que Rigor Mortis.</example>
+                <example>¿Pensáis aún que yo estoy loco?</example>
+            </rule>
+            <rule>
+                <!-- Many FPs expected! -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes">aun|aún</token>
+                        <token>que</token>
+                    </marker>
+                </pattern>
+                <message>Se escribe junto.</message>
+                <suggestion>aunque</suggestion>
+                <example correction="aunque">Me gusta mucho esta, <marker>aún que</marker> la otra también.</example>
+                <example correction="aunque">Me gusta <marker>aun que</marker> la otra también.</example>
+                <example>Este me gusta más aún que el otro.</example>
+                <example>Esta banda es más efímera aún que Rigor Mortis.</example>
+                <example type="triggers_error">¿Pensáis aún que yo estoy loco?</example>
+            </rule>
+        </rulegroup>
         <rule id="PLURALS" name="establecimiento s -> establecimientos" default="temp_off">
             <pattern>
                 <token postag="D...P." postag_regexp="yes"/>

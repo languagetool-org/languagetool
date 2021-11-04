@@ -59,6 +59,7 @@ public class CheckCaseRuleTest {
     
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Els drets humans")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Declaració Universal dels Drets Humans")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("El codi Da Vinci")).length);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Declaració Universal dels drets humans")).length);
     
     // incorrect sentences:
