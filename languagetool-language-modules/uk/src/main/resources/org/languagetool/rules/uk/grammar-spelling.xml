@@ -1011,6 +1011,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="не треба">Агов, <marker>на треба</marker> цього!</example>
     </rule>
 
+    <rule id="za_te" name="«За те» і «зате»">
+      <pattern>
+        <token negate="yes">,</token>
+        <marker>
+          <token>зате
+            <exception case_sensitive="yes">Зате</exception>
+          </token>
+        </marker>
+        <token>,</token>
+        <token>що</token>
+      </pattern>
+      <message>Можливо треба: <suggestion>за те</suggestion>?</message>
+      <example correction="за те">А не <marker>зате</marker>, що вони скоїли</example>
+      <example>Цікаво, зате, що вони</example>
+      <example>— Зате, щоправда,</example>
+    </rule>
+
 
     <rulegroup id="LATIN_LETTERS_IN_SENTENCE" name="Латинські літери в реченні">
       <rule>
