@@ -736,5 +736,50 @@ Copyright (C) 2009-2021 Yakov Reztsov
         </pattern>
         <disambig action="remove" postag="VB:.*:.*:.*:.*"></disambig>
     </rule>
-       
+     
+<!--  fast fix! -->
+    <rule name="NN_Inanim_Neut" id="NN_Inanim_Neut">
+        <pattern>
+            <marker>
+                <and>
+                    <token postag="NN:Inanim:Neut" ></token>
+                    <token postag="NN:Inanim:Neut:Sin:V" ></token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="add" > 
+            <wd pos="NN:Inanim:Neut:Sin:Nom" />
+        </disambig>
+
+    </rule>
+        <rule name="NN_Inanim_Masc" id="NN_Inanim_Masc">
+        <pattern>
+            <marker>
+                <and>
+                    <token postag="NN:Inanim:Masc" ></token>
+                    <token postag="NN:Inanim:Masc:Sin:V" ></token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="add" > 
+            <wd pos="NN:Inanim:Masc:Sin:Nom" />
+        </disambig>
+
+    </rule>
+        <rule name="NN_Inanim_Fem" id="NN_Inanim_Fem">
+        <pattern>
+            <marker>
+                <and>
+                    <token postag="NN:Inanim:Fem" ></token>
+                    <token postag="NN:Inanim:Fem:Sin:V" ></token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="add" > 
+            <wd pos="NN:Inanim:Fem:Sin:Nom" />
+        </disambig>
+
+    </rule>   
+            
+           
 </rules>
