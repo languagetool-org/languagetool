@@ -67,7 +67,7 @@ public class GermanRepeatedWordsRule extends AbstractRepeatedWordsRule{
   @Override
   protected boolean isException(AnalyzedTokenReadings[] tokens, int i, boolean sentStart, boolean isCapitalized,
       boolean isAllUppercase) {
-    if (isAllUppercase | (isCapitalized && !sentStart)) {
+    if (isAllUppercase || (isCapitalized && !sentStart)) {
       return true;
     }
     if (tokens[i].hasPosTagStartingWith("EIG:")) {
