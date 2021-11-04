@@ -5864,7 +5864,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">einen|den|der|diesen|[msdk]einen|ihren</token>
-                    <token postag="ADJ.*" postag_regexp="yes" case_sensitive="yes" min="0">[a-zäöüß]+n</token>
+                    <token postag="ADJ.*" postag_regexp="yes" case_sensitive="yes" min="0" regexp="yes">[a-zäöüß]+n</token>
                     <marker>
                         <token regexp="yes">Caff?[èéêe]</token>
                     </marker>
@@ -5877,7 +5877,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes" regexp="yes">trinken|machen|mögen</token>
                     <token postag="ADV.*" postag_regexp="yes" min="0" />
                     <token regexp="yes">[mkd]?ein</token>
-                    <token postag="ADJ.*" postag_regexp="yes" case_sensitive="yes" min="0">[a-zäöüß]+n</token>
+                    <token postag="ADJ.*" postag_regexp="yes" case_sensitive="yes" min="0" regexp="yes">[a-zäöüß]+n</token>
                     <marker>
                         <token regexp="yes">Caff?[èéêe]</token>
                     </marker>
@@ -19228,7 +19228,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <!-- Redundanz -->
     <!-- ====================================================================== -->
-    <category id="REDUNDANCY" name="Redundanz">
+    <category id="REDUNDANCY" name="Redundanz" type="style">
         <rule id="WELTWEIT_DER_WELT" name="weltweit ... der Welt">
             <pattern>
                 <token skip="-1">weltweit
@@ -19312,68 +19312,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Sankt|hl.">Die <marker>hl. Sankt</marker> Johanna der Schlachthöfe.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="DE_PHRASE_REPETITION" name="Wiederholung von Wortgruppen (z.B. 'auf der auf der Straße')">
-            <antipattern>
-                <token>von</token>
-                <token postag="SUB:.+" postag_regexp="yes"/>
-                <token>zu</token>
-                <token><match no="1"/></token>
-                <token>zu</token>
-            </antipattern>
-            <antipattern>
-                <token>Arm</token>
-                <token>in</token>
-                <token>Arm</token>
-                <token>in</token>
-            </antipattern>
-            <rule>
-                <pattern>
-                    <token negate_pos="yes" postag="SENT_START" regexp="yes"><exception>und</exception>\p{L}+</token>
-                    <token regexp="yes"><exception>und</exception>\p{L}+</token>
-                    <token><match no="0"/></token>
-                    <token><match no="1"/></token>
-                </pattern>
-                <message>Hier werden zwei Wörter wiederholt. Meinten Sie <suggestion>\1 \2</suggestion>?</message>
-                <short>Wiederholung von zwei Wörtern</short>
-                <example correction="auf der">Wir standen <marker>auf der auf der</marker> Brücke.</example>
-                <example>Es gab sicher unangenehmere Jobs, als von Strand zu Strand zu fahren.</example>
-            </rule>
-            <!--<rule>
-                <pattern>
-                    <token negate_pos="yes" postag="SENT_START" regexp="yes"><exception>und</exception>\p{L}+</token>
-                    <token regexp="yes"><exception>und</exception>\p{L}+</token>
-                    <token><exception regexp="yes">und|oder|,|-|–|—</exception></token>
-                    <token><match no="0"/></token>
-                    <token><match no="1"/></token>
-                </pattern>
-                <message>Hier werden zwei Wörter wiederholt.</message>
-                <short>Wiederholung von zwei Wörtern</short>
-                <example correction="">Er hat sie <marker>im Stich dann im Stich</marker> gelassen.</example>
-                <example>Er hat sie <marker>dann im Stich</marker> gelassen.</example>
-            </rule>-->
-        </rulegroup>
-        <rule id="DOPPELUNG_MODALVERB" name="Wiederholung von Modalverben">
-            <antipattern>
-                <token>können</token>
-                <token inflected="yes" regexp="yes">sollen|müssen</token>
-            </antipattern>
-            <antipattern>
-                <token>wollen</token>
-                <token inflected="yes">können</token>
-            </antipattern>
-            <pattern>
-                <token postag_regexp="yes" postag="VER:MOD:.*"><exception inflected="yes" regexp="yes">[a-z]*lassen</exception></token>
-                <token postag_regexp="yes" postag="VER:MOD:.*"/>
-            </pattern>
-            <message>Möglicher Tippfehler: zwei Modalverben hintereinander</message>
-            <suggestion>\1, \2</suggestion>
-            <suggestion>\1</suggestion>
-            <suggestion>\2</suggestion>
-            <example correction="muss, kann|muss|kann">Das <marker>muss kann</marker> nicht sein.</example>
-            <example>Ein Roboter, zu dem man eine emotionale Bindung eingehen <marker>können soll</marker>.</example>
-            <example>Drachen steigen <marker>lassen kann</marker> gefährlich sein.</example>
-            <example>Sie sagte, dass er die Tiere <marker>hinauslassen darf</marker>.</example>
-        </rule>
         <rulegroup id="CA_ETWA" name="'ca. etwa'">
             <rule>
                 <pattern>
@@ -19745,8 +19683,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Es ist <marker>nur</marker> gerecht.</example>
                 <example correction="ausschließlich|bloß|nur">Das ist <marker>ausschließlich nur</marker> dein Problem.</example>
             </rule>
-            <rule>
-                <regexp>(bloß|bloss|nur) ausschlie(ß|ss)lich</regexp>
+            <rule><!-- Ein Netzwerkadministrator wird auch dadurch definiert, wenn ein Systemadministrator sich nicht nur ausschließlich um einzeln stehende Rechner kümmert ... -->
+                <antipattern>
+                    <token>nicht</token>
+                    <token>nur</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">bloß|bloss|nur</token>
+                    <token regexp="yes">ausschlie(ß|ss)lich</token>
+                </pattern>
                 <message>&redundanz; Meinten Sie <suggestion>ausschließlich</suggestion>, <suggestion>bloß</suggestion> oder <suggestion>nur</suggestion>?</message>
                 <short>&redundanz;</short>
                 <example>Das Gebäude ist <marker>ausschließlich</marker> für die Lagerung bestimmt.</example>
@@ -19801,7 +19746,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">kleine[ns]?</token>
                     <token regexp="yes" postag="SUB:[A-Z]{3}:SIN:NEU" postag_regexp="yes">[A-ZÄÖÜ][a-zäöüß]+chen
                         <exception postag="(SUB:.+:NEU)|NPP|NPP-E" postag_regexp="yes" negate_pos="yes"/>
-                        <exception regexp="yes">Mädchen|.+mädchen|Veilchen|Brötchen|Kaninchen|Radieschen|München|Zeichen|Anzeichen|Kennzeichen|Eichhörnchen|Gummibärchen</exception>
+                        <exception regexp="yes">Mädchen|.+mädchen|Veilchen|Brötchen|Kaninchen|Radieschen|München|Zeichen|Anzeichen|Kennzeichen|Eichhörnchen|Gummibärchen|.+zeichen</exception>
                     </token>
                 </pattern>
                 <message>Die Endung '-chen' beinhaltet bereits das Merkmal 'klein'. In manchen Kontexten kann diese Formulierung deswegen redundant (oder übermäßig verniedlichend) erscheinen.</message>
@@ -19809,6 +19754,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>&redundanz;</short>
                 <example correction="Mäuschen">Mein <marker>kleines Mäuschen</marker> ist so süß.</example>
                 <example>Meine <marker>kleine Maus</marker> ist so süß.</example>
+                <example>Ich hab ein kleines Lebenszeichen gesehen.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SELTENE_RARITAET" name="seltene Rarität" type="style">
@@ -23193,6 +23139,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="REDE_UND_ANTWORT" name="Rede und Antwort" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">Rede|REDE</token>
+                <token regexp="yes">und|UND|&amp;</token>
+                <token regexp="yes">Antwort|ANTWORT</token>
+            </antipattern>
+            <pattern>
+                <token>rede</token>
+                <token regexp="yes">und|&amp;</token>
+                <token>antwort</token>
+            </pattern>
+            <message>Die beiden Nomen <suggestion>Rede und Antwort</suggestion> werden großgeschrieben.</message>
+            <example correction="Rede und Antwort">Ich stehe dir <marker>rede und antwort</marker>.</example>
+        </rule>
         <rulegroup id="MIT_ERSTAUNEN" name="mit erstaunen (Erstaunen)" default="temp_off">
             <rule>
                 <pattern>
@@ -27423,7 +27383,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>absage</token>
                     </marker>
                     <token min="0">zu</token>
-                    <token inflected="yes">erteilen</token>
+                    <token inflected="yes" regexp="yes">erteilen|bekommen|erhalten</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Absage</suggestion>&subende;</message>
                 <short>&prgk;.</short>
@@ -27431,7 +27391,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token inflected="yes" skip="2">erteilen<exception scope="next" postag="SENT_END"/></token>
+                    <token inflected="yes" skip="2" regexp="yes">erteilen|bekommen|erhalten<exception scope="next" postag="SENT_END"/></token>
                     <token skip="1">eine<exception scope="next" postag="SENT_END"/></token>
                     <marker>
                         <token>absage</token>
@@ -41985,6 +41945,122 @@ Andere Projekte</example>
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
+        <rulegroup id="DE_PHRASE_REPETITION" name="Wiederholung von Wortgruppen (z.B. 'auf der auf der Straße')">
+            <antipattern>
+                <token>von</token>
+                <token postag="SUB:.+" postag_regexp="yes"/>
+                <token>zu</token>
+                <token><match no="1"/></token>
+                <token>zu</token>
+            </antipattern>
+            <antipattern>
+                <token>Arm</token>
+                <token>in</token>
+                <token>Arm</token>
+                <token>in</token>
+            </antipattern>
+            <antipattern>
+                <token>Hand</token>
+                <token>in</token>
+                <token>Hand</token>
+                <token>in</token>
+            </antipattern>
+            <antipattern>
+                <token>Kopf</token>
+                <token>an</token>
+                <token>Kopf</token>
+                <token>an</token>
+            </antipattern>
+            <antipattern>
+                <token>Schulter</token>
+                <token>an</token>
+                <token>Schulter</token>
+                <token>an</token>
+            </antipattern>
+            <antipattern>
+                <token>Angesicht</token>
+                <token>zu</token>
+                <token>Angesicht</token>
+                <token>zu</token>
+            </antipattern>
+            <antipattern>
+                <token>Fragen</token>
+                <token>über</token>
+                <token>Fragen</token>
+            </antipattern>
+            <antipattern>
+                <token>ganz</token>
+                <token>ganz</token>
+            </antipattern>
+            <antipattern>
+                <token>sehr</token>
+                <token>sehr</token>
+            </antipattern>
+            <antipattern>
+                <token>oh</token>
+                <token regexp="yes">ja|nein</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">[a-zäöüß]</token>
+                <token regexp="yes">[a-zäöüß]</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token negate_pos="yes" postag="SENT_START" regexp="yes"><exception>und</exception>\p{L}+</token>
+                    <token regexp="yes"><exception>und</exception>\p{L}+</token>
+                    <token><match no="0"/></token>
+                    <token><match no="1"/></token>
+                </pattern>
+                <message>Hier werden zwei Wörter wiederholt. Meinten Sie <suggestion>\1 \2</suggestion>?</message>
+                <short>Wiederholung von zwei Wörtern</short>
+                <example correction="auf der">Wir standen <marker>auf der auf der</marker> Brücke.</example>
+                <example>Es gab sicher unangenehmere Jobs, als von Strand zu Strand zu fahren.</example>
+            </rule>
+            <!--<rule>
+                <pattern>
+                    <token negate_pos="yes" postag="SENT_START" regexp="yes"><exception>und</exception>\p{L}+</token>
+                    <token regexp="yes"><exception>und</exception>\p{L}+</token>
+                    <token><exception regexp="yes">und|oder|,|-|–|—</exception></token>
+                    <token><match no="0"/></token>
+                    <token><match no="1"/></token>
+                </pattern>
+                <message>Hier werden zwei Wörter wiederholt.</message>
+                <short>Wiederholung von zwei Wörtern</short>
+                <example correction="">Er hat sie <marker>im Stich dann im Stich</marker> gelassen.</example>
+                <example>Er hat sie <marker>dann im Stich</marker> gelassen.</example>
+            </rule>-->
+        </rulegroup>
+        <rule id="DOPPELUNG_MODALVERB" name="Wiederholung von Modalverben">
+            <antipattern>
+                <token>können</token>
+                <token inflected="yes" regexp="yes">sollen|müssen</token>
+            </antipattern>
+            <antipattern>
+                <token>wollen</token>
+                <token inflected="yes">können</token>
+            </antipattern>
+            <antipattern>
+                <token case_sensitive="yes">Wolle</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">mögen</token>
+            </antipattern>
+            <pattern>
+                <token postag_regexp="yes" postag="VER:MOD:.*"><exception inflected="yes" regexp="yes">[a-z]*lassen</exception></token>
+                <token postag_regexp="yes" postag="VER:MOD:.*" />
+            </pattern>
+            <message>Möglicher Tippfehler: zwei Modalverben hintereinander</message>
+            <suggestion>\1, \2</suggestion>
+            <suggestion>\1</suggestion>
+            <suggestion>\2</suggestion>
+            <example correction="muss, kann|muss|kann">Das <marker>muss kann</marker> nicht sein.</example>
+            <example>Ein Roboter, zu dem man eine emotionale Bindung eingehen <marker>können soll</marker>.</example>
+            <example>Drachen steigen <marker>lassen kann</marker> gefährlich sein.</example>
+            <example>Sie sagte, dass er die Tiere <marker>hinauslassen darf</marker>.</example>
+            <example>Wolle kann man mit ihrer Wurzel, nach Vorbeizen mit Alaun, wachsgelb färben.</example>
+            <example>Tom wollte gemocht werden.</example>
+            <example>Und dass sie den Mann jetzt nicht besonders mögen muss.</example>
+        </rule>
         <rulegroup id="DA_VOR" name="da vor (davor)">
             <antipattern>
                 <token>da</token>
@@ -53150,6 +53226,16 @@ Andere Projekte</example>
     <!-- Typografie -->
     <!-- ====================================================================== -->
     <category id="TYPOGRAPHY" name="Typografie">
+        <rule id="SPACE_BEFORE_OG" name="Im 2.OG (2. OG)" default="temp_off">
+            <pattern>
+                <token regexp="yes">\d+</token>
+                <token spacebefore="no">.</token>
+                <token spacebefore="no" regexp="yes">OG|Stocks?|Obergeschoss(es)?|Geschoss(es)?|Punkt(es)?|Schritts?</token>
+            </pattern>
+            <message>Hier empfiehlt es sich ein geschütztes Leerzeichen nach der Zahl einzufügen.</message>
+            <suggestion>\1.&nbsp;\3</suggestion>
+            <example correction="2.&nbsp;OG">Die Party steigt im <marker>2.OG</marker>.</example>
+        </rule>
         <rule id="WRONG_UPPER_QUOTE" name="Schließendes Anführungszeichen" default="temp_off">
             <antipattern>
                 <token spacebefore="no" regexp="yes">.*[a-z].*</token>
@@ -55806,6 +55892,7 @@ Andere Projekte</example>
                 <example>Da, finde ich, kann auch noch was passieren.</example>
                 <example>Damit man diese effektiv beseitigen kann beziehungsweise die Bildung neuer undichten Stellen vermeidet, ist eine regelmäßige Überprüfung notwendig.</example>
                 <example>Wie groß darf/muss sie sein?</example>
+                <example>Falls du Hilfe gesucht hast: Sie ist unterwegs.</example>
             </rule>
             <rule><!-- KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ[6] -->
                 <antipattern>

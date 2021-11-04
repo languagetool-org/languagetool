@@ -425,6 +425,7 @@ public class CaseRuleTest {
     assertGood("Ich hatte das vergessen oder nicht ganz verstanden.");
     assertGood("Das ist ein zwingendes Muss.");
     assertGood("Er hält eine Handbreit Abstand.");
+    assertGood("Das ist das Debakel und Aus für Podolski.");
   }
 
   private void assertGood(String input) throws IOException {

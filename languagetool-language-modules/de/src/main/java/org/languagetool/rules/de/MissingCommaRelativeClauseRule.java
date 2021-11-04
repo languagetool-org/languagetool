@@ -45,7 +45,7 @@ import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
  */
 public class MissingCommaRelativeClauseRule extends Rule {
 
-  private static final Pattern MARKS_REGEX = Pattern.compile("[,;.:?!-–—’'\"„“”»«‚‘›‹()\\[\\]]");
+  private static final Pattern MARKS_REGEX = Pattern.compile("[,;.:?•!-–—’'\"„“”»«‚‘›‹()\\/\\[\\]]");
 
   private final boolean behind;
 

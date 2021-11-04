@@ -5138,7 +5138,29 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <token regexp="yes">(Weiter|Fort|Aus)-</token>
             </marker>
             <token regexp="yes">und|oder|&amp;|\/</token>
-            <token regexp="yes">(Weiter|Fort|Aus)bildung</token>
+            <token regexp="yes">(Weiter|Fort|Aus)bildung.*</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="IGNORE_SPELLING_OF_ENT_UND_VERSORGUNG" name="ignore 'Ent- und Versorgung'">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token regexp="yes">(Ent|Ver)-</token>
+            </marker>
+            <token regexp="yes">und|oder|&amp;|\/</token>
+            <token regexp="yes">(Ent|Ver)sorgung.*</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="IGNORE_SPELLING_OF_HARD_UND_SOFTWARE" name="ignore 'Hard- und Software'">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token regexp="yes">(Hard|Soft)-</token>
+            </marker>
+            <token regexp="yes">und|oder|&amp;|\/</token>
+            <token regexp="yes">(Hard|Soft)ware.*</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>

@@ -1072,7 +1072,7 @@ public class CaseRule extends Rule {
     ),
     Arrays.asList(
       regex("im"),
-      csRegex("Stillen|Dunkeln|Hellen|Wesentlichen")
+      csRegex("Stillen|Dunkeln|Hellen|Wesentlichen|Trüben")
     ),
     Arrays.asList(
       regex("[\\ud83c\\udc00-\\ud83c\\udfff]+|[\\ud83d\\udc00-\\ud83d\\udfff]+|[\\u2600-\\u27ff]+"),
@@ -1083,6 +1083,10 @@ public class CaseRule extends Rule {
       csRegex("S-Bahn-.*"),
       new PatternTokenBuilder().posRegex("PKT|KON:NEB|ADJ.*").min(0).max(2).build(),
       posRegex("SUB.*")
+    ),
+    Arrays.asList( // Das ist das Debakel und Aus für Podolski
+      csToken("Aus"),
+      csToken("für")
     )
   );
 
