@@ -1071,6 +1071,10 @@ public class CaseRule extends Rule {
       csRegex("[a-zäöü…\\.!\\?].*")
     ),
     Arrays.asList(
+      regex("im"),
+      csRegex("Stillen|Dunkeln|Hellen|Wesentlichen")
+    ),
+    Arrays.asList(
       regex("[\\ud83c\\udc00-\\ud83c\\udfff]+|[\\ud83d\\udc00-\\ud83d\\udfff]+|[\\u2600-\\u27ff]+"),
       csRegex("[A-ZÄÖÜ].+")
     )
