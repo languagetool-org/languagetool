@@ -14658,6 +14658,23 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </pattern>
             <disambig action="remove"><wd pos="MD"/></disambig>
         </rule>
+        <rule><!-- "need/needs to be" (only verb) -->
+            <antipattern>
+                <token postag="PRP\$|DT" postag_regexp="yes" />
+                <token postag="JJ.*" postag_regexp="yes" min="0" />
+                <token regexp="yes">needs?</token>
+            </antipattern>
+            <pattern>
+                <token chunk_re="E-NP.*" />
+                <marker>
+                    <token regexp="yes" chunk="B-VP">needs?</token>
+                </marker>
+                <token>to</token>
+                <token postag="RB" min="0" />
+                <token postag="VB" chunk_re=".-VP" />
+            </pattern>
+            <disambig action="filter" postag="VB.*" />
+        </rule>
     </rulegroup>
 
     <rule id="WILL_I_AM" name="Will.I.am (musician name)">
