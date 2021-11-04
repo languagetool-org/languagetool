@@ -169,7 +169,8 @@ public class German extends Language implements AutoCloseable {
             new GermanReadabilityRule(messages, this, userConfig, false),
             new CompoundInfinitivRule(messages, this, userConfig),
             new StyleRepeatedVeryShortSentences(messages, this),
-            new StyleRepeatedSentenceBeginning(messages)
+            new StyleRepeatedSentenceBeginning(messages), 
+            new GermanRepeatedWordsRule(messages)
     );
   }
 
