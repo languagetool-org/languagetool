@@ -114,24 +114,47 @@ public class BERTSuggestionRanking extends RemoteRule {
     return suggestions.subList(0, Math.min(suggestions.size(), suggestionLimit));
   }
 
+  private static final int MIN_WORDS = 8;
+  private static final double MAX_ERROR_RATE = 0.5;
+
   @Override
   protected RemoteRequest prepareRequest(List<AnalyzedSentence> sentences, Long textSessionId) {
     List<RuleMatch> matches = new LinkedList<>();
-    List<RemoteLanguageModel.Request> requests = new LinkedList<>();
+    int totalWords = 0;
     try {
       for (AnalyzedSentence sentence : sentences) {
         RuleMatch[] sentenceMatches = wrappedRule.match(sentence);
-        for (RuleMatch match : sentenceMatches) {
-          match.setSuggestedReplacementObjects(prepareSuggestions(match.getSuggestedReplacementObjects()));
-          requests.add(buildRequest(match));
-        }
         Collections.addAll(matches, sentenceMatches);
+
+        // computing many suggestions (e.g. for requests with the language incorrectly set, or with garbled input) is very expensive
+        // having this as a RemoteRule circumvents the normal ErrorRateTooHighException
+        // so build this logic again here
+        int words = sentence.getTokensWithoutWhitespace().length;
+        totalWords += words;
+        if (words > MIN_WORDS && (double) sentenceMatches.length / words > MAX_ERROR_RATE) {
+          for (RuleMatch m : sentenceMatches) {
+            m.discardLazySuggestedReplacements();
+          }
+          logger.info("Skipping suggestion generation for sentence, too many matches ({} matches in {} words)",
+            sentenceMatches.length, words);
+        }
       }
-      return new MatchesForReordering(sentences, matches, requests);
     } catch (IOException e) {
       logger.error("Error while executing rule " + wrappedRule.getId(), e);
       return new MatchesForReordering(sentences, Collections.emptyList(), Collections.emptyList());
     }
+    if (totalWords > MIN_WORDS && (double) matches.size() / totalWords > MAX_ERROR_RATE) {
+      logger.info("Skipping suggestion generation for request, too many matches ({} matches in {} words)",
+        matches.size(), totalWords);
+      matches.forEach(RuleMatch::discardLazySuggestedReplacements);
+      return new MatchesForReordering(sentences, matches, Collections.emptyList());
+    }
+    List<RemoteLanguageModel.Request> requests = new LinkedList<>();
+    for (RuleMatch match : matches) {
+      match.setSuggestedReplacementObjects(prepareSuggestions(match.getSuggestedReplacementObjects()));
+      requests.add(buildRequest(match));
+    }
+    return new MatchesForReordering(sentences, matches, requests);
   }
 
   @Override
