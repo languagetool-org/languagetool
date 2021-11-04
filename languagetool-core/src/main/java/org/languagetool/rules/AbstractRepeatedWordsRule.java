@@ -135,6 +135,10 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
               for (String replacementLemma : replacementLemmas) {
                 String[] replacements = getSynthesizer().synthesize(
                     new AnalyzedToken(token, atr.getPOSTag(), replacementLemma), adjustPostag(atr.getPOSTag()), true);
+                // if there is no result from the synthesizer, use the lemma as it is (it can be a multiword)
+                if (replacements.length == 0) {
+                  replacements =  new String[]{replacementLemma};
+                }
                 for (String r : replacements) {
                   if (isAllUppercase) {
                     r = r.toUpperCase();

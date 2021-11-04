@@ -50,9 +50,12 @@ public class FrenchRepeatedWordsRuleTest {
 
     RuleMatch[] matches = getRuleMatches("Elle est notamment phénoménale. Les choses sont notamment compliquées");
     assertEquals(1, matches.length);
-    assertEquals("particulièrement", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("spécialement", matches[0].getSuggestedReplacements().get(1));
-    assertEquals("singulièrement", matches[0].getSuggestedReplacements().get(2));
+    assertEquals("[particulièrement, spécialement, singulièrement, surtout, spécifiquement]", matches[0].getSuggestedReplacements().toString());
+    
+    matches = getRuleMatches("Elle est maintenant phénoménale. Les choses sont maintenant compliquées");
+    assertEquals(1, matches.length);
+    assertEquals("[présentement, ce jour-ci, désormais]", matches[0].getSuggestedReplacements().toString());
+    
     
   }
 
