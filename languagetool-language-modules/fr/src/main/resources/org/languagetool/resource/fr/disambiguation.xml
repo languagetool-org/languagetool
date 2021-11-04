@@ -869,15 +869,27 @@ RB => Règles Brutes
             <disambig action="filterall"/>
         </rule>
     </rulegroup>
-    <rule name="verbe dire" id="VERBE_DIRE">
-        <pattern>
-            <token postag="V.*" postag_regexp="yes"/>
-            <marker>
-                <token postag="V.*" postag_regexp="yes">dire</token>
-            </marker>
-        </pattern>
-        <disambig action="filter" postag="V.*"/>
-    </rule>
+    <rulegroup name="verbe dire" id="VERBE_DIRE">
+        <rule>
+            <pattern>
+                <token postag="V.*" postag_regexp="yes"/>
+                <marker>
+                    <token postag="V.*" postag_regexp="yes">dire</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="V.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="SENT_START"/>
+                <token regexp="yes" min="0" max="1">["«]</token>
+                <marker>
+                    <token postag="V.*" postag_regexp="yes">dis</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="V ind psim.*"/>
+        </rule>
+    </rulegroup>
     <rulegroup name="RP : Infinitif ambigu" id="RP-INFINITIF">
         <rule name="Infinitif être">
             <pattern>
