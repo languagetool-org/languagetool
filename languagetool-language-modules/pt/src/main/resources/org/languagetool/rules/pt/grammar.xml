@@ -1918,7 +1918,7 @@ Basta colar uma lista de e-mails abaixo para enviar convites a todas elas.
   
   
     <!-- 	CUJA(S) FILHA(S) CUJO(S) FILHOS(S) -->	
-	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-11-01/02 (25-JUN-2021+)      -->	
+	<!--      Created by Ricardo Joseh Lima and improved by Marco A.G.Pinto, Portuguese rule 2021-11-01/02 (25-JUN-2021+)      -->	
     <rulegroup id='CUJA_CUJO_MASCULINO_FEMININO' name="Cuj(ao)(s) + Nome: Concordância de género" type="style">
 <!--
 A mãe cuja filho fez anos. → A mãe cujo filho fez anos.
@@ -7147,7 +7147,7 @@ No seu conjunto existem cinco capelas e uma igreja.
 
 	<!-- CUJO , cujo -->
     <rule id='CUJO_EM_INICIO_DE_FRASE' name="'cujo' em início de frase">
-    <!--      Created by Ricardo Joseh Lima and improved by Marco A.G.Pinto, Portuguese 2021-10-20 (25-JUN-2021+)      -->
+    <!--      Created by Ricardo Joseh Lima and improved by Marco A.G.Pinto, Portuguese rule 2021-10-20 (25-JUN-2021+)      -->
 	<!--
 Cujo pai chegou. → Foi a Ana, cujo pai chegou.
 	-->
@@ -7161,6 +7161,32 @@ Cujo pai chegou. → Foi a Ana, cujo pai chegou.
       <message>O pronome relativo 'cujo' liga dois substantivos, portanto não pode estar em começo de frase.</message>
       <example type='incorrect'><marker>Cujo</marker> pai chegou.</example>
       <example type='correct'>Foi a Ana<marker>, cujo</marker> pai chegou.</example>	  
+    </rule>
+
+	<!-- CUJO NOME/ADJETIVO/NUMERAL -->
+    <rule id='CUJO_LIGACAO_NOME_ADJETIVO_NUMERAL' name="'Cujo' estar ligado a Nome/Adj/Numeral" type="style" default="temp_off">
+    <!--      Created by Ricardo Joseh Lima and improved by Marco A.G.Pinto, Portuguese rule 2021-11-04 (25-JUN-2021+)      -->
+	<!--
+Ela é a mãe cujo o filho é professor. → Ela é a mãe cujo filho é professor.
+	-->
+      <pattern>
+		  <token regexp='yes'>cuj[oa]s?</token>
+		  <marker>
+			<token negate_pos="yes" postag='NC.+|AQ.+|Z0.+' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='V.+|RG|NP.+|AO.+'/>
+			<exception regexp='yes'>um|uns|umas?</exception>
+		  </token>
+		  </marker>
+      </pattern>
+      <message>O pronome relativo 'cujo' tem de estar ligado a nome/adj/numeral.</message>
+      <example type='incorrect'>Ela é a mãe cujo <marker>o</marker> filho é professor.</example>
+	  <example>Onde foram abrigadas as pessoas cujas casas desmoronaram?</example>
+	  <example>A Europa Ocidental ou Oeste Europeu é uma parte da Europa cujas fronteiras dependem da definição.</example>
+	  <example>Nesse arquivo de áudio havia instruções para uma gincana, cujo objetivo era encontrar uma outra pessoa.</example>
+	  <example>Tenho um amigo cujo apelido é "lápis".</example>
+	  <example>Encontrei um pássaro cuja asa estava severamente machucada.</example>
+	  <example>A estrutura social básica era a família monogâmica, cujo poder absoluto era confiado ao pai.</example>
+	  <example>Os seres vivos são todos máquinas cujo programa é crescer e se reproduzir.</example>
     </rule>
 
 	<!-- TER/HAVER COISAS MAIS IMPORTANTES A FAZER/PENSAR ter/haver prioridades -->
@@ -7417,7 +7443,7 @@ Telefonei para si. → Telefonei-lhe.
 
 	<!-- MOSTRAM mostra -->
     <rulegroup id='CONCORDANCIA_COM_NUCLEO_DO_SUJEITO_V2' name='Concordância com núcleo do sujeito'>
-    <!--      Created by Ricardo Joseh Lima and improved by Marco A.G.Pinto, Portuguese 2021-10-13/14/15/19/20 (25-JUN-2021+)      -->
+    <!--      Created by Ricardo Joseh Lima and improved by Marco A.G.Pinto, Portuguese rule 2021-10-13/14/15/19/20 (25-JUN-2021+)      -->
 	<!--
 A realidade das pessoas mostram. → A realidade das pessoas mostra.
 	-->
@@ -12667,16 +12693,6 @@ Eu comprei-a quando fui à loja.
       <message>Substitua por <suggestion>contra\2</suggestion>.</message>
       <example correction="contracapa">O livro é composto por: capa, <marker>contra capa</marker> e lombada.</example>
       <example correction="contrapartida">A <marker>contra partida</marker> é grande.</example>
-    </rule>
-
-    <rule id='CUJO_O' name="Cujo">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-      <pattern>
-          <token>cujo</token>
-          <token regexp='yes'>[ao]s?</token>
-      </pattern>
-      <message>Substitua por <suggestion>cuj\2</suggestion>.</message>
-      <example correction="cujo">O autor <marker>cujo o</marker> livro foi um best-seller.</example>
     </rule>
 
     <rule id='DA' name="Dá" default='off'>
