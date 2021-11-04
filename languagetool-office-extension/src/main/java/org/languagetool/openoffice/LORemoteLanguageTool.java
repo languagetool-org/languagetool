@@ -63,10 +63,10 @@ class LORemoteLanguageTool {
   private final List<Rule> allRules = new ArrayList<>();
   private final List<Rule> spellingRules = new ArrayList<>();
   private final List<String> ruleValues = new ArrayList<>();
+  private final Language language;
+  private final Language motherTongue;
+  private final RemoteLanguageTool remoteLanguageTool;
 
-  private Language language;
-  private Language motherTongue;
-  private RemoteLanguageTool remoteLanguageTool;
   private int maxTextLength;
   private boolean remoteRun;
   
@@ -169,7 +169,7 @@ class LORemoteLanguageTool {
         subText = text.substring(nStart, nEnd);
         limit = nEnd;
       }
-      RemoteResult remoteResult = null;
+      RemoteResult remoteResult;
       try {
         remoteResult = remoteLanguageTool.check(subText, remoteConfig);
       } catch (Throwable t) {
@@ -320,9 +320,7 @@ class LORemoteLanguageTool {
     }
     for (RemoteRuleMatch remoteMatch : remoteRulematches) {
       RuleMatch ruleMatch = toRuleMatch(remoteMatch, nOffset);
-      if (ruleMatch != null) {
-        ruleMatches.add(ruleMatch);
-      }
+      ruleMatches.add(ruleMatch);
     }
     return ruleMatches;
   }
@@ -373,11 +371,7 @@ class LORemoteLanguageTool {
       if (ruleMap.containsKey("isOfficeDefaultOff")) {
         setOfficeDefaultOff();
       }
-      if (ruleMap.containsKey("isDictionaryBasedSpellingRule")) {
-        isDictionaryBasedSpellingRule = true;
-      } else {
-        isDictionaryBasedSpellingRule = false;
-      }
+      isDictionaryBasedSpellingRule = ruleMap.containsKey("isDictionaryBasedSpellingRule");
       if (ruleMap.containsKey("hasConfigurableValue")) {
         hasConfigurableValue = true;
         defaultValue = Integer.parseInt(ruleMap.get("defaultValue"));
@@ -456,7 +450,7 @@ class LORemoteLanguageTool {
     }
 
     @Override
-    public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+    public RuleMatch[] match(AnalyzedSentence sentence) {
       return null;
     }
     
@@ -489,11 +483,7 @@ class LORemoteLanguageTool {
       if (ruleMap.containsKey("isOfficeDefaultOff")) {
         setOfficeDefaultOff();
       }
-      if (ruleMap.containsKey("isDictionaryBasedSpellingRule")) {
-        isDictionaryBasedSpellingRule = true;
-      } else {
-        isDictionaryBasedSpellingRule = false;
-      }
+      isDictionaryBasedSpellingRule = ruleMap.containsKey("isDictionaryBasedSpellingRule");
       if (ruleMap.containsKey("hasConfigurableValue")) {
         hasConfigurableValue = true;
         defaultValue = Integer.parseInt(ruleMap.get("defaultValue"));
@@ -553,7 +543,7 @@ class LORemoteLanguageTool {
     }
 
     @Override
-    public RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException {
+    public RuleMatch[] match(List<AnalyzedSentence> sentences) {
       return null;
     }
 
