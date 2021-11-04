@@ -1274,11 +1274,18 @@ public class JLanguageTool {
    */
   public List<RuleMatch> checkAnalyzedSentence(ParagraphHandling paraMode,
                                                List<Rule> rules, AnalyzedSentence analyzedSentence, boolean checkRemoteRules) throws IOException {
+    return checkAnalyzedSentence(paraMode, rules, analyzedSentence, checkRemoteRules, -1);
+  }
+
+  private List<RuleMatch> checkAnalyzedSentence(ParagraphHandling paraMode, List<Rule> rules, AnalyzedSentence analyzedSentence, boolean checkRemoteRules, int wordCounter) throws IOException {
     if (paraMode == ParagraphHandling.ONLYPARA) {
       return Collections.emptyList();
     }
     List<RuleMatch> sentenceMatches = new ArrayList<>();
-    for (Rule rule : rules) {
+    List<String> errorRateLog = new ArrayList<>();
+    float tmpErrorsPerWord = 0.0f;
+    for (int i = 0, rulesSize = rules.size(); i < rulesSize; i++) {
+      Rule rule = rules.get(i);
       if (rule instanceof TextLevelRule || !checkRemoteRules && rule instanceof RemoteRule) {
         continue;
       }
@@ -1287,6 +1294,24 @@ public class JLanguageTool {
       }
       RuleMatch[] thisMatches = rule.match(analyzedSentence);
       Collections.addAll(sentenceMatches, thisMatches);
+      if (wordCounter > 0) {
+        //check if the maxErrorsPerWordRate is already reached for the full text with this sentence and rule  
+        float errorsPerWord = sentenceMatches.size() / (float) wordCounter;
+        if (tmpErrorsPerWord < errorsPerWord) {
+          errorRateLog.add("With rule: " + rule.getFullId() + " " + (i+1) + "/" + rulesSize + " the sentence error rate increased by: " + (errorsPerWord - tmpErrorsPerWord) + " from: " + tmpErrorsPerWord + " to total: " + errorsPerWord);
+          //logger.info("With rule: " + rule.getFullId() + " the sentence error rate increased by: " + (errorsPerWord - tmpErrorsPerWord) + " from: " + tmpErrorsPerWord + " to total: " + errorsPerWord);
+          tmpErrorsPerWord = errorsPerWord;
+        }
+        if (maxErrorsPerWordRate > 0 && errorsPerWord > maxErrorsPerWordRate && wordCounter > 25) {
+          errorRateLog.forEach(logger::error);
+          logger.error("ErrorRateTooHigh is reached by a single sentence after rule: " + rule.getFullId() +
+            " the hole text contains " + wordCounter + " words " +
+            " this sentence has " + sentenceMatches.size() + " matches");
+          throw new ErrorRateTooHighException("ErrorRateTooHigh is reached by a single sentence after rule: " + rule.getFullId() +
+            " the hole text contains " + wordCounter + " words" +
+            " this sentence has " + sentenceMatches.size() + " matches");
+        }
+      }
     }
     if (sentenceMatches.isEmpty()) {
       return sentenceMatches;
@@ -1819,8 +1844,12 @@ public class JLanguageTool {
     private CheckResults getOtherRuleMatches() {
       List<RuleMatch> ruleMatches = new ArrayList<>();
       List<Range> ignoreRanges = new ArrayList<>();
+      int textWordCounter = sentences.stream().map(sentenceData -> sentenceData.wordCount).reduce(0, Integer::sum);
       int wordCounter = 0;
-      for (SentenceData sentence : sentences) {
+      float tmpErrorsPerWord = 0.0f;
+      List<String> errorRateLog = new ArrayList<>();
+      for (int i = 0, sentencesSize = sentences.size(); i < sentencesSize; i++) {
+        SentenceData sentence = sentences.get(i);
         wordCounter += sentence.wordCount;
         try {
           //comment in to trigger an exception via input text:
@@ -1836,7 +1865,7 @@ public class JLanguageTool {
             sentenceMatches = cache.getIfPresent(cacheKey);
           }
           if (sentenceMatches == null) {
-            sentenceMatches = checkAnalyzedSentence(paraMode, rules.rulesForSentence(sentence.analyzed), sentence.analyzed, checkRemoteRules);
+            sentenceMatches = checkAnalyzedSentence(paraMode, rules.rulesForSentence(sentence.analyzed), sentence.analyzed, checkRemoteRules, textWordCounter);
           }
           if (cache != null) {
             cache.put(cacheKey, sentenceMatches);
@@ -1858,11 +1887,16 @@ public class JLanguageTool {
           }
           float errorsPerWord = ruleMatches.size() / (float) wordCounter;
           //System.out.println("errorPerWord " + errorsPerWord + " (matches: " + ruleMatches.size() + " / " + wordCounter + ")");
+          if (tmpErrorsPerWord < errorsPerWord) {
+            errorRateLog.add("With sentence: " + (i + 1) + " (of " + sentencesSize + ") the text error rate increased by: " + (errorsPerWord - tmpErrorsPerWord) + " from: " + tmpErrorsPerWord  + " to total: " + errorsPerWord);
+            //logger.info("With sentence: " + (i + 1) + " (of " + sentencesSize + ") the text error rate increased by: " + (errorsPerWord - tmpErrorsPerWord) + " from: " + tmpErrorsPerWord  + " to total: " + errorsPerWord);
+            tmpErrorsPerWord = errorsPerWord;
+          }
           if (maxErrorsPerWordRate > 0 && errorsPerWord > maxErrorsPerWordRate && wordCounter > 25) {
-            //CommonWords commonWords = new CommonWords();
-            throw new ErrorRateTooHighException("Text checking was stopped due to too many errors (more than " + String.format("%.0f", maxErrorsPerWordRate*100) +
-                    "% of words seem to have an error). Are you sure you have set the correct text language? Language set: " + JLanguageTool.this.language.getName() +
-                    ", text length: " + annotatedText.getPlainText().length());
+            errorRateLog.forEach(logger::error);
+            throw new ErrorRateTooHighException("Text checking was stopped due to too many errors (more than " + String.format("%.0f", maxErrorsPerWordRate * 100) +
+              "% of words seem to have an error). Are you sure you have set the correct text language? Language set: " + JLanguageTool.this.language.getName() +
+              ", text length: " + annotatedText.getPlainText().length());
             //        ", text length: " + annotatedText.getPlainText().length() + ", common word count: " + commonWords.getKnownWordsPerLanguage(annotatedText.getPlainText()));
           }
         } catch (ErrorRateTooHighException e) {
