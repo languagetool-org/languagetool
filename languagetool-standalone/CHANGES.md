@@ -100,6 +100,7 @@
   * The sentence length rule is now a text-level rule
     and it underlines the whole sentence, not just the position where the threshold
     is reached.
+  * Added new value `firstupper` for `case_conversion` attribute in grammar.xml (see issue #3241).
 
 
 
