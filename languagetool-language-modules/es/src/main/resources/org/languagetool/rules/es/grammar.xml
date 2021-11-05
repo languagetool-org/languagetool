@@ -17089,7 +17089,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS2" name="Confusiones (2)">
-        <rulegroup id="AUNQUE" name="aun que/aunque" default="temp_off">
+        <rulegroup id="AUNQUE" name="aun que/aunque">
             <antipattern>
                 <token regexp="yes">más|menos</token>
                 <token min="0" postag="A.*|V.P.*" postag_regexp="yes"/>
@@ -17104,7 +17104,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>que</token>
                     </marker>
                 </pattern>
-                <message>Se escribe junto.</message>
+                <message>"Aunque" se escribe junto cuando es una conjunción concesiva o adversativa.</message>
                 <suggestion>aunque</suggestion>
                 <example correction="Aunque"><marker>Aún que</marker> no vengas, hablaremos de ello.</example>
                 <example correction="aunque">Me gusta mucho esta, <marker>aún que</marker> la otra también.</example>
@@ -17120,29 +17120,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>que</token>
                     </marker>
                 </pattern>
-                <message>Se escribe junto.</message>
+                <message>"Aunque" se escribe junto cuando es una conjunción concesiva o adversativa.</message>
                 <suggestion>aunque</suggestion>
                 <example correction="aunque">Me gusta mucho esta, <marker>aún que</marker> la otra también.</example>
                 <example correction="aunque">Me gusta <marker>aun que</marker> la otra también.</example>
                 <example>Este me gusta más aún que el otro.</example>
                 <example>Esta banda es más efímera aún que Rigor Mortis.</example>
                 <example>¿Pensáis aún que yo estoy loco?</example>
-            </rule>
-            <rule>
-                <!-- Many FPs expected! -->
-                <pattern>
-                    <marker>
-                        <token regexp="yes">aun|aún</token>
-                        <token>que</token>
-                    </marker>
-                </pattern>
-                <message>Se escribe junto.</message>
-                <suggestion>aunque</suggestion>
-                <example correction="aunque">Me gusta mucho esta, <marker>aún que</marker> la otra también.</example>
-                <example correction="aunque">Me gusta <marker>aun que</marker> la otra también.</example>
-                <example>Este me gusta más aún que el otro.</example>
-                <example>Esta banda es más efímera aún que Rigor Mortis.</example>
-                <example type="triggers_error">¿Pensáis aún que yo estoy loco?</example>
             </rule>
         </rulegroup>
         <rule id="PLURALS" name="establecimiento s -> establecimientos" default="temp_off">
