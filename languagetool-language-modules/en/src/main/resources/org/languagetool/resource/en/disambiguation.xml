@@ -1612,13 +1612,15 @@
     </rulegroup>
     <rule name="verb + well => well = RB" id="WELL_VB_RB">
       <pattern>
-        <token postag="VB[PGZ]?" postag_regexp="yes"/>
+        <token postag="VB[PGZ]?" postag_regexp="yes">
+            <exception inflected="yes">be</exception>
+        </token>
         <marker><token>well</token></marker>
       </pattern>
       <disambig postag="RB"/>
       <example type="ambiguous" inputform="well[well/JJ,well/NN,well/RB,well/UH,well/VB,well/VBP]" outputform="well[well/RB]">It does integrate <marker>well</marker>.</example>
       <example type="untouched">I have a well.</example>
-      <example type="ambiguous" inputform="well[well/JJ,well/NN,well/RB,well/UH,well/VB,well/VBP]" outputform="well[well/RB]">It is <marker>well</marker> for us to remember.</example><!-- TODO: isn't "well" an adjective here?-->
+      <example type="untouched">It is <marker>well</marker> for us to remember.</example>
     </rule>
     <rulegroup name="in as noun -&gt; in as preposition" id="IN_NN_IN">
         <rule name="in as noun/preposition + the -&gt; in as preposition" id="IN_IN">
@@ -14636,7 +14638,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig action="add"><wd pos="NNP"/></disambig>
     </rule>
 
-    <rulegroup id="NEED_VB" name="NEED_VB">
+    <rulegroup id="NEED_VB" name="'need' as verb">
         <rule>
             <pattern>
                 <marker>
@@ -14668,6 +14670,26 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token chunk_re="E-NP.*" />
                 <marker>
                     <token regexp="yes" chunk="B-VP">needs?</token>
+                </marker>
+                <token>to</token>
+                <token postag="RB" min="0" />
+                <token postag="VB" chunk_re=".-VP" />
+            </pattern>
+            <disambig action="filter" postag="VB.*" />
+        </rule>
+    </rulegroup>
+
+    <rulegroup id="WANT_VB" name="'want' as verb">
+        <rule><!-- "want/wants to be" (only verb) -->
+            <antipattern>
+                <token postag="PRP\$|DT" postag_regexp="yes" />
+                <token postag="JJ.*" postag_regexp="yes" min="0" />
+                <token regexp="yes">wants?</token>
+            </antipattern>
+            <pattern>
+                <token chunk_re="E-NP.*" />
+                <marker>
+                    <token regexp="yes" chunk="B-VP">wants?</token>
                 </marker>
                 <token>to</token>
                 <token postag="RB" min="0" />
@@ -14816,6 +14838,27 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token postag="VBN" chunk_re=".-VP" />
             </pattern>
             <disambig action="remove" postag="NN"/>
+        </rule>
+        <rule><!-- "have to be" (only verb) -->
+            <antipattern>
+                <token postag="PRP\$|DT" postag_regexp="yes" />
+                <token postag="JJ.*" postag_regexp="yes" min="0" />
+                <token regexp="yes">have</token>
+            </antipattern>
+            <antipattern><!-- a must have -->
+                <token>must</token>
+                <token regexp="yes">have</token>
+            </antipattern>
+            <pattern>
+                <token chunk_re="E-NP.*" />
+                <marker>
+                    <token chunk="B-VP">have</token>
+                </marker>
+                <token>to</token>
+                <token postag="RB" min="0" />
+                <token postag="VB" chunk_re=".-VP" />
+            </pattern>
+            <disambig action="filter" postag="VB.*" />
         </rule>
     </rulegroup>
 
