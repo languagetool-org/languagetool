@@ -7164,18 +7164,21 @@ Cujo pai chegou. → Foi a Ana, cujo pai chegou.
     </rule>
 
 	<!-- CUJO NOME/ADJETIVO/NUMERAL -->
-    <rule id='CUJO_LIGACAO_NOME_ADJETIVO_NUMERAL' name="'Cujo' estar ligado a Nome/Adj/Numeral" type="style" default="temp_off">
-    <!--      Created by Ricardo Joseh Lima and improved by Marco A.G.Pinto, Portuguese rule 2021-11-04 (25-JUN-2021+)      -->
+    <rule id='CUJO_LIGACAO_NOME_ADJETIVO_NUMERAL' name="'Cujo' estar ligado a Nome/Adj/Numeral" type="style">
+    <!--      Created by Ricardo Joseh Lima and improved by Marco A.G.Pinto, Portuguese rule 2021-11-04/5 (25-JUN-2021+)      -->
 	<!--
 Ela é a mãe cujo o filho é professor. → Ela é a mãe cujo filho é professor.
 	-->
       <pattern>
 		  <token regexp='yes'>cuj[oa]s?</token>
 		  <marker>
-			<token negate_pos="yes" postag='NC.+|AQ.+|Z0.+' postag_regexp='yes'>
-            <exception postag_regexp='yes' postag='V.+|RG|NP.+|AO.+'/>
-			<exception regexp='yes'>um|uns|umas?</exception>
-		  </token>
+			<or>
+				<token negate_pos="yes" postag='NC.+|AQ.+|Z0.+' postag_regexp='yes'>
+					<exception postag_regexp='yes' postag='V.+|RG|NP.+|AO.+|I'/>
+					<exception regexp='yes'>um|uns|umas?</exception>
+				</token>
+				<token regexp='yes'>qual|quais</token>
+			</or>
 		  </marker>
       </pattern>
       <message>O pronome relativo 'cujo' tem de estar ligado a nome/adj/numeral.</message>
