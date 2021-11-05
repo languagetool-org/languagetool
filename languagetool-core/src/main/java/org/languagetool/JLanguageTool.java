@@ -1304,7 +1304,7 @@ public class JLanguageTool {
         }
         if (maxErrorsPerWordRate > 0 && errorsPerWord > maxErrorsPerWordRate && wordCounter > 25) {
           errorRateLog.forEach(logger::error);
-          logger.error("ErrorRateTooHigh is reached by a single sentence after rule: " + rule.getFullId() +
+          logger.info("ErrorRateTooHigh is reached by a single sentence after rule: " + rule.getFullId() +
             " the hole text contains " + wordCounter + " words " +
             " this sentence has " + sentenceMatches.size() + " matches");
           throw new ErrorRateTooHighException("ErrorRateTooHigh is reached by a single sentence after rule: " + rule.getFullId() +
