@@ -16984,7 +16984,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
                 <token>val</token>
             </pattern>
-            <message>¿Volíeu dir <suggestion>s'hi</suggestion></message>
+            <message>¿Volíeu dir <suggestion>s'hi</suggestion>?</message>
             <example correction="s'hi">Es pensa que tot <marker>si</marker> val.</example>
         </rule>
         <rule id="CANADA" name="canada/Canadà">
@@ -48856,7 +48856,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
-        <rule id ="TERMINIS" name="terminis -> termes">
+        <rule id="TERMINIS" name="terminis -> termes">
             <pattern>
                 <marker>
                     <token>terminis</token>
@@ -56559,6 +56559,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="PREFERABLE_EXPRESSIONS" name="C7) Expressions preferibles" default="on" type="style">
+        <rule id="MON_SACABA" name="*com si no hi hagués un demà" default="temp_off">
+            <pattern>
+                <token>com</token>
+                <token>si</token>
+                <token>no</token>
+                <token>hi</token>
+                <token regexp="yes">hagués|haguera</token>
+                <token min="0">un</token>
+                <token>demà</token>
+            </pattern>
+            <message>Aquesta expressió és un calc de l'anglès. Considereu una solució alternativa.</message>
+            <suggestion>com si s'\5 d'acabar el món</suggestion>
+            <example correction="com si s'hagués d'acabar el món">Ballaven <marker>com si no hi hagués un demà</marker>.</example>
+        </rule>
         <rulegroup id="DONAR_PRESSA" name="donar-se pressa">
             <rule>
                 <pattern>
@@ -58056,6 +58070,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>per acabar-ho d'adobar</suggestion>
             <suggestion>per si no fos prou</suggestion>
             <example correction="per si no n'hi hagués prou|per si no n'hi haguera prou|per acabar-ho d'adobar|per si no fos prou">I <marker>per si fos poc</marker>, va arribar tard.</example>
+        </rule>
+        <rule id="DE_BEN_SEGUR" name="de ben segur" default="temp_off">
+            <pattern>
+                <token>de</token>
+                <token>ben</token>
+                <token>segur</token>
+            </pattern>
+            <message>És preferible usar <suggestion>ben segur</suggestion> o <suggestion>de segur</suggestion>.</message>
+            <suggestion>segur</suggestion>
+            <example correction="Ben segur|De segur|Segur"><marker>De ben segur</marker> que vindrà.</example>
         </rule>
         <rule id="TOT_I_AIXI" name="tot i així">
             <pattern>
