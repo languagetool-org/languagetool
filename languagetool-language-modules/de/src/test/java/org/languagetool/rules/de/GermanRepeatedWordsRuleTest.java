@@ -50,7 +50,7 @@ public class GermanRepeatedWordsRuleTest {
         
     RuleMatch[] matches=getRuleMatches("Lauf so schnell wie möglich. Ein anderes Amazonien ist möglich");
     assertEquals(1, matches.length);
-    assertEquals("[denkbar, machbar, realistisch, ausführbar, erreichbar]", matches[0].getSuggestedReplacements().toString());
+    assertEquals("[denkbar, machbar, zulässig, ausführbar, erreichbar]", matches[0].getSuggestedReplacements().toString());
             
   }
   
