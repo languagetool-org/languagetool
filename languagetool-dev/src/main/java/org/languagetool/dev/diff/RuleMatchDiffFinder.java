@@ -264,7 +264,7 @@ public class RuleMatchDiffFinder {
       message = newMatch.getMessage();
       canOverlap = canOverlap(newMatch);
     }
-    fw.write("  <br><span class='sentence'>" + escapeSentence(oldMatch.getContext()) + "</span>");
+    fw.write("  <br><span class='sentence'>" + showTrimSpace(escapeSentence(oldMatch.getContext())) + "</span>");
     boolean withIframe = false;
     if (status == RuleMatchDiff.Status.ADDED || status == RuleMatchDiff.Status.MODIFIED) {
       int markerFrom = oldMatch.getContext().indexOf(MARKER_START);
@@ -338,6 +338,7 @@ public class RuleMatchDiffFinder {
   }
 
   private String showTrimSpace(String s) {
+    s = s.replaceFirst("\n", "<span class='whitespace'>\\\\n</span>");
     s = s.replaceFirst("^\\s", "<span class='whitespace'>&nbsp;</span>");
     s = s.replaceFirst("\\s$", "<span class='whitespace'>&nbsp;</span>");
     s = s.replaceAll("\u00A0", "<span class='nbsp' title='non-breaking space'>&nbsp;</span>");
