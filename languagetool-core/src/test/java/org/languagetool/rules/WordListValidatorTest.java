@@ -104,6 +104,8 @@ public class WordListValidatorTest {
           "Hidschāb/S",
           "Dvořák/S",
           "Erdoğan/S",
+          "Jørgensen/S",
+          "Jørgensen",
           "Ångström",
           "ångström",
           "ångströms",
