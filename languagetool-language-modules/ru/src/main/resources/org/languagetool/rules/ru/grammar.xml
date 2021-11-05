@@ -12455,15 +12455,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START" negate_pos="yes"></token>
                     <marker>
-                        <token regexp="yes">([А-ЯЁ]{5,5})[А-ЯЁ].*<exception postag_regexp="yes" postag="ABR:.*" /></token>
+                        <token regexp="yes">([А-ЯЁ]{5,5})[А-ЯЁ].*<exception postag_regexp="yes" postag="ABR:.*" /><exception postag_regexp="yes" postag="NN:(Patr|Name):.*" /></token>
                     </marker>
                 </pattern>
                 <message>Не выделяйте слова ЗАГЛАВНЫМИ буквами: <suggestion><match no="2" case_conversion="alllower"></match></suggestion>.</message>
                 <short>Выделение текста ЗАГЛАВНЫМИ буквами</short>
                 <example>Не выделяйте текст заглавными буквами.</example>
+                <example>Его зовут АЛЁША.</example>
                 <example correction="заглавными">Не выделяйте текст <marker>ЗАГЛАВНЫМИ</marker> буквами.</example>
             </rule>
-<!--    TODO: need right case conversion  alllower+startupper   
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START" negate_pos="yes"></token>  <!-- TO DO: add NN:Fam  -->
+                    <marker>
+                        <token  postag_regexp="yes" postag="NN:(Patr|Name):.*"  regexp="yes">([А-ЯЁ]{3,3})[А-ЯЁ].*<exception postag_regexp="yes" postag="ABR:.*" /></token>
+                    </marker>
+                </pattern>
+                <message>Не выделяйте слова ЗАГЛАВНЫМИ буквами: <suggestion><match no="2" case_conversion="firstupper"></match></suggestion>.</message>
+                <short>Выделение текста ЗАГЛАВНЫМИ буквами</short>
+                <example>Не выделяйте текст заглавными буквами.</example>
+                <example correction="Алёша">Его зовут <marker>АЛЁША</marker>.</example>
+            </rule>
+<!--    TODO: need right case conversion  alllower+startupper -> fixed!   --> 
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"></token>
@@ -12471,11 +12484,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                        <token regexp="yes">([А-ЯЁ]{4,4})[А-ЯЁ].*<exception postag_regexp="yes" postag="ABR:.*" /></token>
                     </marker>
                 </pattern>
-                <message>Не выделяйте слова ЗАГЛАВНЫМИ буквами: <suggestion><match no="2" case_conversion="startupper"></match></suggestion>.</message>
+                <message>Не выделяйте слова ЗАГЛАВНЫМИ буквами: <suggestion><match no="2" case_conversion="firstupper"></match></suggestion>.</message>
                 <short>Выделение текста ЗАГЛАВНЫМИ буквами</short>
                 <example>Заглавными буквами не выделяйте текст.</example>
                 <example correction="Заглавными"><marker>ЗАГЛАВНЫМИ</marker> буквами не выделяйте текст.</example>
-            </rule>  -->
+            </rule>  
         </rulegroup>
         <rule id="DotOrCase" name="Точка или заглавная буква" >
             <pattern>
