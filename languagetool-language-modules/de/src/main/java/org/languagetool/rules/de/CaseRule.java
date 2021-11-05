@@ -1080,7 +1080,7 @@ public class CaseRule extends Rule {
     ),
     Arrays.asList(
       // Es gibt S-Bahn-ähnliche(, günstige) Verkehrsmittel
-      csRegex("S-Bahn-.*"),
+      csRegex("[A-ZÄÖÜ]-[A-ZÄÖÜ].*-.*"),
       new PatternTokenBuilder().posRegex("PKT|KON:NEB|ADJ.*").min(0).max(2).build(),
       posRegex("SUB.*")
     ),
