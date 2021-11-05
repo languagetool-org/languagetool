@@ -45,7 +45,7 @@ import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
  */
 public class MissingCommaRelativeClauseRule extends Rule {
 
-  private static final Pattern MARKS_REGEX = Pattern.compile("[,;.:?•!-–—’'\"„“”»«‚‘›‹()\\/\\[\\]]");
+  private static final Pattern MARKS_REGEX = Pattern.compile("[,;.:?•!-–—’'\"„“”…»«‚‘›‹()\\/\\[\\]]");
 
   private final boolean behind;
 
@@ -66,6 +66,30 @@ public class MissingCommaRelativeClauseRule extends Rule {
         regex("de[mrs]"),
         posRegex("SUB:.+"),
         csToken("verbindet")
+      ),
+      Arrays.asList(
+        regex("eine"),
+        csToken("menge"),
+        posRegex("SUB:.+")
+      ),
+      Arrays.asList( // dass sich wie folgt formulieren lässt
+        regex("wie"),
+        csToken("folgt"),
+        posRegex("VER:.+")
+      ),
+      Arrays.asList( // das sollte gut überlegt sein
+        regex("gut"),
+        csToken("überlegt"),
+        csToken("sein")
+      ),
+      Arrays.asList( // samt Auftraggeber
+        csToken("samt"),
+        posRegex("SUB:DAT.*")
+      ),
+      Arrays.asList( // ... denen sie ausgesetzt sind.
+        posRegex("PA2:PRD:GRU:VER"),
+        csToken("sind"),
+        posRegex("PKT")
       ),
       Arrays.asList(
         csToken("am"),

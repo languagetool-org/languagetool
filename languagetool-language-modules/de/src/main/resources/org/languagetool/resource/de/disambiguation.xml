@@ -5111,6 +5111,19 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="remove" postag="(SUB|VER|ADV).*"/>
     </rule>
 
+    <rule id="BIN_KEIN_VERB" name="'bin' kein Verb">
+        <pattern>
+            <token>
+                <exception>ich</exception>
+            </token>
+            <marker>
+                <token>bin</token>
+            </marker>
+            <token regexp="yes" case_sensitive="yes">Ladens?|Salmans?|Scharifas?|Schamlans?|Abduls?|Dauds?|Mohammeds?|Hafiz|Salims?|Dschawads?</token>
+        </pattern>
+        <disambig action="remove" postag=".*"/>
+    </rule>
+
     <rule id="IGNORE_SPELLING_OF_NUMBER_PERIOD_LETTER" name="ignore '2.a'">
         <pattern>
             <token regexp="yes">\d+</token>

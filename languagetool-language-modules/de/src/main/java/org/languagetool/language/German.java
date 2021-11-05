@@ -364,23 +364,24 @@ public class German extends Language implements AutoCloseable {
       case "AUSTRIAN_GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
       case "SWISS_GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
       case "IM_IHM": return -4;  // lower prio than spell checker
+      case "DE_PHRASE_REPETITION": return -4;  // lower prio than spell checker
       case "BEI_VERB": return -4; // prefer case and spelling rules
       case "PUNCTUATION_PARAGRAPH_END": return -4;  // don't hide spelling mistakes
       case "TEST_F_ANSTATT_PH": return -4;  // don't hide spelling mistakes
       case "PUNKT_ENDE_ABSATZ": return -10;  // should never hide other errors, as chance for a false alarm is quite high
       case "KOMMA_VOR_RELATIVSATZ": return -10;
       case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2": return -10;
-      case "COMMA_BEHIND_RELATIVE_CLAUSE": return -10;
       case "TOO_LONG_PARAGRAPH": return -15;
       // Category ids - make sure style issues don't hide overlapping "real" errors:
       case "COLLOQUIALISMS": return -15;
       case "STYLE": return -15;
       case "REDUNDANCY": return -15;
-      case "VER_DOPPELUNG": return -15; // prefer comma rules (including AI)
       case "GENDER_NEUTRALITY": return -15;
       case "TYPOGRAPHY": return -15;
       case "ALL_UPPERCASE": return -15;
       case "AI_HYDRA_LEO_MISSING_COMMA": return -51; // prefer comma style rules.
+      case "COMMA_BEHIND_RELATIVE_CLAUSE": return -52; // less prio than AI_HYDRA_LEO
+      case "VER_DOPPELUNG": return -52; // prefer comma rules (including AI)
       case "VERB_FEM_SUBST": return -52; // prefer comma rules (including AI)
       case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ": return -53;
       case "SUBJUNKTION_KOMMA_2": return -54; // lower prio than KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ and KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2
