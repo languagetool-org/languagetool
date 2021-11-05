@@ -293,6 +293,19 @@ Copyright (C) 2011 Juan Martorell
         </rule>
     </rulegroup>
     <rulegroup id="LOC_ADV" name="locuciones adverbiales">
+        <rule id="en_efecto" name="en efecto (locución adverbial)">
+        <pattern>
+            <marker>
+                <token>en</token>
+                <token>efecto</token>
+            </marker>
+            <token><exception postag="A..[MC][SN].*|V.P..SM" postag_regexp="yes"/></token>
+        </pattern>
+        <disambig action="replace">
+            <wd lemma="en efecto" pos="LOC_ADV"/>
+            <wd lemma="en efecto" pos="LOC_ADV"/>
+        </disambig>
+        </rule>
         <rule id="en_realidad" name="en realidad (locución adverbial)">
             <pattern>
                 <marker>
