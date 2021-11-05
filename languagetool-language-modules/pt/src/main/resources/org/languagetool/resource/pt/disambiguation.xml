@@ -1548,7 +1548,6 @@
       </pattern>
       <disambig action="remove" postag="V.N.+"/>
     </rule>
-
     <rule id="PUNCT" name="Pontuação">
     <!-- 		l18n from Spanish disambiguation.xml by Tiago F. Santos		-->
       <pattern>
@@ -1628,6 +1627,14 @@
       <example type="ambiguous" inputform="&quot;[&quot;/'',&quot;/``]" outputform="&quot;[&quot;/``]">Um (<marker>&quot;</marker>teste&quot;.</example>
     </rule>
   </rulegroup>
+  
+  <rule id="QUOTATION_MARCOAGPINTO" name="Aspas MARCOAGPINTO">
+    <!--      Created by Marco A.G.Pinto, Portuguese 2021-11-05 (25-JUN-2021+)      -->
+    <pattern>
+      <token regexp="yes">[»«"”‘‹›']</token>
+    </pattern>
+    <disambig action="add"><wd pos="_QUOT"/></disambig>
+  </rule>
 
   <rulegroup id="VERBOS_COMPOSTOS" name="Verbos compostos">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2018-07-08  	-->
