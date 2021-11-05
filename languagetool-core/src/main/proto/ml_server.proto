@@ -27,9 +27,20 @@ message Match {
     uint32 length = 2; // length of matched area; >0
     string id = 3; // prefix for rule ids; should use a common value for one model/server
     string sub_id = 4; // more specific suffix for rule ids; i.e. one model/server can return multiple values to distinguish between mach types
-    repeated string suggestions = 5;
+    repeated string suggestions = 5; // legacy; use suggestedReplacements
     // added later, optional (can be substituted by Java)
     string ruleDescription = 6; // description of the rule; can be specific to rule_id + sub_id or shared for all sub_ids of one rule_id
     string matchDescription = 7; // description of the match; displayed in e.g. the add-on pop-up
     string matchShortDescription = 8; // shortened description of the match; displayed in e.g. LibreOffice context menu
+    string url = 9; // to show a link, e.g. with further explanations for this error
+    repeated SuggestedReplacement suggestedReplacements = 10; // new and extended suggestions; overwrite any values set in suggestions
+    bool autoCorrect = 11; // is this correction eligible for auto-correction?
+}
+
+
+message SuggestedReplacement {
+    string replacement = 1;
+    string description = 2;
+    string suffix = 3; // Value shown in the UI after the replacement (but not part of it).
+    float confidence = 4; // from 0 (lowest) to 1 (highest)
 }
