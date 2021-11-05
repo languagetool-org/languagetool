@@ -26,7 +26,6 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Streams;
 import com.google.common.util.concurrent.ListenableFuture;
-
 import io.grpc.ManagedChannel;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
@@ -39,8 +38,8 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.ml.MLServerGrpc;
-import org.languagetool.rules.ml.MLServerProto;
 import org.languagetool.rules.ml.MLServerGrpc.MLServerFutureStub;
+import org.languagetool.rules.ml.MLServerProto;
 import org.languagetool.rules.ml.MLServerProto.MatchResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,6 +47,8 @@ import org.slf4j.LoggerFactory;
 import javax.net.ssl.SSLException;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -233,6 +234,14 @@ public abstract class GRPCRule extends RemoteRule {
     return new MLRuleRequest(requests, sentences);
   }
 
+  @Nullable
+  private static String nonEmpty(String s) {
+    if (s.isEmpty()) {
+      return null;
+    }
+    return s;
+  }
+
   @Override
   protected Callable<RemoteRuleResult> executeRequest(RemoteRequest requestArg, long timeoutMilliseconds) throws TimeoutException {
     return () -> {
@@ -281,7 +290,27 @@ public abstract class GRPCRule extends RemoteRule {
             RuleMatch m = new RuleMatch(subRule, sentence,
                                         start, end,
                                         message, shortMessage);
-            m.setSuggestedReplacements(match.getSuggestionsList());
+            if (!match.getUrl().isEmpty()) {
+              try {
+                m.setUrl(new URL(match.getUrl()));
+              } catch (MalformedURLException e) {
+                logger.warn("Got invalid URL from GRPC rule {}: {}", this, e);
+              }
+            }
+            m.setAutoCorrect(match.getAutoCorrect());
+            // suggestedReplacements should override suggestions
+            if (match.getSuggestedReplacementsList().isEmpty()) {
+              m.setSuggestedReplacements(match.getSuggestionsList());
+            } else {
+             m.setSuggestedReplacementObjects(match.getSuggestedReplacementsList().stream().map(s -> {
+               SuggestedReplacement repl = new SuggestedReplacement(
+                 s.getReplacement(), nonEmpty(s.getDescription()), nonEmpty(s.getSuffix()));
+               if (s.getConfidence() > 0.0) {
+                 repl.setConfidence(s.getConfidence());
+               }
+               return repl;
+             }).collect(Collectors.toList()));
+            }
             return m;
           }
         )
