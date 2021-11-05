@@ -381,6 +381,7 @@ public class German extends Language implements AutoCloseable {
       case "ALL_UPPERCASE": return -15;
       case "AI_HYDRA_LEO_MISSING_COMMA": return -51; // prefer comma style rules.
       case "COMMA_BEHIND_RELATIVE_CLAUSE": return -52; // less prio than AI_HYDRA_LEO
+      case "DOPPELUNG_MODALVERB": return -52; // prefer comma rules (including AI)
       case "VER_DOPPELUNG": return -52; // prefer comma rules (including AI)
       case "VERB_FEM_SUBST": return -52; // prefer comma rules (including AI)
       case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ": return -53;

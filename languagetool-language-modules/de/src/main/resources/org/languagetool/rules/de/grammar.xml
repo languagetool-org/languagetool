@@ -11278,6 +11278,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rule id="SCHEISS_EGAL" name="scheißegal" default="temp_off">
+            <antipattern>
+                <token postag="PRO.*" postag_regexp="yes">
+                    <exception regexp="yes">das|die|es|dieses?</exception>
+                </token>
+                <token postag="ADJ.*|PA[12].*" postag_regexp="yes" min="0" />
+                <token regexp="yes">schei(ß|ss)</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">schei(ß|ss)</token>
+                <token>egal</token>
+            </pattern>
+            <message>Das Adjektiv <suggestion><match no="1" /><match no="2" /></suggestion> wird zusammengeschrieben.</message>
+            <example correction="scheißegal">Mir ist das <marker>scheiß egal</marker>.</example>
+            <example>Mir ist der Scheiß egal.</example>
+        </rule>
         <rule id="CONTENT_HYPHEN" name="Fehlender Bindestrich in 'Content-Marketing'">
             <antipattern><!-- job title -->
                 <token>Content</token>
@@ -23510,7 +23526,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token>das</token>
                 <marker>
-                    <token regexp="yes" case_sensitive="yes">schlimmste|schönste|beste|gröbste</token>
+                    <token regexp="yes" case_sensitive="yes">schlimmste|schönste|beste|gröbste|heftigste</token>
                 </marker>
                 <token postag="ADV.*" postag_regexp="yes" min="0" />
                 <token regexp="yes">vor|hinter</token>
@@ -23526,7 +23542,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="ADJ.*" postag_regexp="yes" min="0" />
                 <token>Menge</token>
                 <marker>
-                    <token regexp="yes" case_sensitive="yes">gutes|schlechtes|tolles|böses|schlimmes</token>
+                    <token regexp="yes" case_sensitive="yes">gutes|schlechtes|tolles|böses|schlimmes|positives|negatives|neues|altes</token>
                 </marker>
                 <token regexp="yes" case_sensitive="yes">[a-zäöüß].*|\.|\,|\!|:|;|&anf;</token>
             </pattern>
@@ -40027,7 +40043,7 @@ Andere Projekte</example>
                     <token><exception regexp="yes">[eE]in</exception></token>
                     <token regexp="yes" case_sensitive="no">irgend(et)?was|(et)?was|nichts|nix|alles|viel|wenig|genug</token>
                     <marker>
-                        <token postag="(ADJ:NOM:SIN:NEU:(GRU|KOM):IND)|(PA[12]:AKK:.*)" postag_regexp="yes" regexp="yes">[a-zäöü].+es<exception regexp="yes">anderes|einiges</exception></token>
+                        <token postag="(ADJ:NOM:SIN:NEU:(GRU|KOM):IND)|(PA[12]:AKK:.*)" postag_regexp="yes" regexp="yes">[a-zäöü].+es<exception regexp="yes">anderes|einiges|weniges</exception></token>
                     </marker>
                 </pattern>
                 <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion> hier großgeschrieben werden muss.</message>
@@ -40052,12 +40068,12 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <antipattern>
-                    <token regexp="yes">positives|schlechtes|gutes|negatives|folgendes|neues|altes|schlimmes</token>
+                    <token regexp="yes">positives|schlechtes|gutes|böses|neues|altes|schlimmes|letzteres|ersteres</token>
                     <token regexp="yes" min="0">&anf;</token>
                     <token postag="UNKNOWN|SUB:NOM:SIN:NEU|SUB:NOM:SIN:NEU:INF|ADJ:.*|EIG:AKK:SIN:NEU:ART:.*" postag_regexp="yes" regexp="yes">.*[a-zäöüß].*</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">positives|schlechtes|gutes|negatives|folgendes|neues|altes|schlimmes</token>
+                    <token regexp="yes">positives|schlechtes|gutes|böses|negatives|folgendes|neues|altes|schlimmes|letzteres|ersteres</token>
                     <token regexp="yes">und|oder|&amp;|\/|bzw|beziehungsweise|,|aber|respektive|sondern</token>
                     <token min="0" regexp="yes">eben|halt</token>
                     <token regexp="yes" min="0">auch|\.</token>
@@ -40068,13 +40084,13 @@ Andere Projekte</example>
                     <token postag="UNKNOWN|(SUB|ADJ|EIG):.*" postag_regexp="yes" regexp="yes">.*[a-zäöüß].*</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes" skip="10">positives|schlechtes|gutes|negatives|folgendes|neues|altes|schlimmes</token>
+                    <token regexp="yes" skip="10">positives|schlechtes|gutes|böses|negatives|folgendes|neues|altes|schlimmes|letzteres|ersteres</token>
                     <token regexp="yes">[a-zäöü].+es</token>
                     <token postag="SUB.*NEU.*" postag_regexp="yes" />
                 </antipattern>
                 <antipattern>
                     <token>nur</token>
-                    <token regexp="yes">positives|schlechtes|gutes|negatives|folgendes|neues|altes|schlimmes</token>
+                    <token regexp="yes">positives|schlechtes|gutes|böses|negatives|folgendes|neues|altes|schlimmes|letzteres|ersteres</token>
                     <token postag="VER:INF.*" postag_regexp="yes" />
                 </antipattern>
                 <pattern case_sensitive="yes">
@@ -40082,7 +40098,7 @@ Andere Projekte</example>
                     <token>nur</token>
                     <marker>
                         <token postag="(ADJ:NOM:SIN:NEU:(GRU|KOM):IND)|(PA[12]:AKK:.*)" postag_regexp="yes" regexp="yes">
-                            positives|schlechtes|gutes|negatives|folgendes|neues|altes|schlimmes
+                            positives|schlechtes|gutes|böses|negatives|folgendes|neues|altes|schlimmes|letzteres|ersteres
                         </token>
                     </marker>
                 </pattern>
@@ -40106,7 +40122,7 @@ Andere Projekte</example>
                     <token regexp="yes">irgend(et)?was|(et)?was|nichts|nix|alles|viel|wenig|genug</token>
                     <token regexp="yes">sehr|besonders|allzu|ziemlich|wirklich|r?echt|komplett|ganz|total|richtig|einigerma(ß|ss)en|fast|relativ|au(ß|ss)erordentlich|überaus|äu(ß|ss)erst|ungemein|au(ß|ss)ergewöhnlich|bitter|denkbar|bemerkenswert|ausgesprochen|unendlich|ungeheuer|voll|wahnsinnig|verdammt|entsetzlich|höllisch|furchtbar|fürchterlich|enorm|ungewöhnlich</token>
                     <marker>
-                        <token postag="(ADJ:NOM:SIN:NEU:(GRU|KOM):IND)|(PA1:AKK:.*)" postag_regexp="yes" regexp="yes">[a-zäöü].+es<exception regexp="yes">anderes|einiges</exception></token>
+                        <token postag="(ADJ:NOM:SIN:NEU:(GRU|KOM):IND)|(PA1:AKK:.*)" postag_regexp="yes" regexp="yes">[a-zäöü].+es<exception regexp="yes">anderes|einiges|weniges</exception></token>
                     </marker>
                 </pattern>
                 <message>&subanfang;<suggestion><match no="4" case_conversion="startupper"/></suggestion> hier großgeschrieben werden muss.</message>
@@ -40131,7 +40147,7 @@ Andere Projekte</example>
                     <token>ganz</token>
                     <token>schön</token>
                     <marker>
-                        <token postag="(ADJ:NOM:SIN:NEU:(GRU|KOM):IND)|(PA1:AKK:.*)" postag_regexp="yes" regexp="yes">[a-zäöü].+es<exception regexp="yes">anderes|einiges</exception></token>
+                        <token postag="(ADJ:NOM:SIN:NEU:(GRU|KOM):IND)|(PA1:AKK:.*)" postag_regexp="yes" regexp="yes">[a-zäöü].+es<exception regexp="yes">anderes|einiges|weniges</exception></token>
                     </marker>
                 </pattern>
                 <message>&subanfang;<suggestion><match no="5" case_conversion="startupper"/></suggestion> hier großgeschrieben werden muss.</message>
@@ -42079,7 +42095,13 @@ Andere Projekte</example>
                 <token case_sensitive="yes">Wolle</token>
             </antipattern>
             <antipattern>
-                <token inflected="yes">mögen</token>
+                <token>gemocht</token>
+                <token>werden</token>
+            </antipattern>
+            <antipattern>
+                <token>mögen</token>
+                <token regexp="yes">muss|kann|müssen</token>
+                <token postag="PKT|KON:NEB" postag_regexp="yes" />
             </antipattern>
             <pattern>
                 <token postag_regexp="yes" postag="VER:MOD:.*"><exception inflected="yes" regexp="yes">[a-z]*lassen</exception></token>
@@ -42090,6 +42112,7 @@ Andere Projekte</example>
             <suggestion>\1</suggestion>
             <suggestion>\2</suggestion>
             <example correction="muss, kann|muss|kann">Das <marker>muss kann</marker> nicht sein.</example>
+            <example correction="möchte, sollte|möchte|sollte">Wer mitfahren <marker>möchte sollte</marker> sich auf jeden Fall vorher melden, hier auf HFS.</example>
             <example>Ein Roboter, zu dem man eine emotionale Bindung eingehen <marker>können soll</marker>.</example>
             <example>Drachen steigen <marker>lassen kann</marker> gefährlich sein.</example>
             <example>Sie sagte, dass er die Tiere <marker>hinauslassen darf</marker>.</example>
@@ -56463,7 +56486,7 @@ Andere Projekte</example>
                 <token>Swing</token>
             </antipattern>
             <pattern>
-                <token case_sensitive="yes" regexp="yes">[Gg]efracked|[Gg]espoilered|[Gg]ematched|[Aa]ngeteasered|[Gg]eteasered|[Gg]eouted|[Gg]eskyped|[Gg]ezapped|[Gg]ekited|[Gg]etaped|[Gg]edated|[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]etagged|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched|[Gg]etuned|[Gg]ecrashed|[Gg]ecat?ched|[Cc]hecked|[Ee]ntertained</token>
+                <token case_sensitive="yes" regexp="yes">[Gg]efracked|[Gg]espoilered|[Gg]ematched|[Aa]ngeteasered|[Gg]eteasered|[Gg]eouted|[Gg]eskyped|[Gg]ezapped|[Gg]ekited|[Gg]etaped|[Gg]edated|[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]etagged|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched|[Gg]etuned|[Gg]ecrashed|[Gg]ecat?ched|[Cc]hecked|[Ee]ntertained|[Gg]egoogled</token>
             </pattern>
             <message>Die empfohlene Schreibweise für diesen Anglizismus ist <suggestion><match no="1" regexp_match="ed$" regexp_replace="t" /></suggestion>.</message>
             <url>https://www.duden.de/sprachwissen/sprachratgeber/Das-Verb-liken</url>
