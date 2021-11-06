@@ -4273,6 +4273,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         
+        <rulegroup id="skoree_vsego" name="Слова, которые могут выступать в роли вводных: «скорее всего»" default="temp_off">
+            <rule>
+                <!-- Вводные слова:   скорее всего -->
+                <pattern case_sensitive="no">
+                    <token negate="yes" regexp="yes">&pnct;|а|и|но|сказать|совсем|говорить|говоря<exception postag="SENT_START"></exception><exception postag="VB:.*" postag_regexp="yes"></exception></token>
+                    <token>скорее</token>
+                    <token>всего</token>
+                    <token negate="yes">,</token>
+                </pattern>
+                <message>Пропущена запятая: <suggestion>\1, \2 \3,</suggestion>.</message>
+                <url>http://new.gramota.ru/spravka/punctum?layout=item&amp;id=58_672</url>
+                <short>Пропущена запятая</short>
+                <example>Эта работа, скорее всего, представляет огромную научную ценность.</example>
+                <example correction="работа, скорее всего,">Эта <marker>работа скорее всего представляет</marker> огромную научную ценность.</example>
+            </rule>
+            <rule>
+                     <!-- Вводные слова:   скорее всего -->
+                <pattern case_sensitive="no">
+                    <token negate="yes" regexp="yes">&pnct;|а|и|но|сказать|совсем|говорить|говоря<exception postag="SENT_START"></exception><exception postag="VB:.*" postag_regexp="yes"></exception></token>
+                    <token>скорее</token>
+                    <token>всего</token>
+                    <token>,</token>
+                </pattern>
+                <message>Пропущена запятая: <suggestion>\1, \2 \3\4</suggestion>.</message>
+                <url>http://new.gramota.ru/spravka/punctum?layout=item&amp;id=58_672</url>
+                <short>Пропущена запятая</short>
+                <example>Эта работа, скорее всего, представляет огромную научную ценность.</example>
+                <example correction="работа, скорее всего,">Эта <marker>работа скорее всего,</marker> представляет огромную научную ценность.</example>
+            </rule>
+        </rulegroup>
+        
        <rulegroup default="on" id="NO_KAK_VVODNOE1" name="Слово «однако» в роли союза «но»"  tags="picky">  <!-- #1096, #1071 -->
             <rule>
                    <!--  Слово "однако" в роли союза "но" -->
