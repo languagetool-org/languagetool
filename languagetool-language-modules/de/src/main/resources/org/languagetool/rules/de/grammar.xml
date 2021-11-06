@@ -1892,6 +1892,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="zu">Wir kommen <marker>zur</marker> der Abschlussveranstaltung.</example>
         </rule>
         <rule id="UM_UM" name="'um gestern um 12 Uhr'">
+            <antipattern>
+                <token></token>
+                <token></token>
+                <token><match no="0"/></token>
+                <token><match no="1"/></token>
+            </antipattern>
             <pattern>
                 <token postag="VER.*" postag_regexp="yes" skip="1"><exception scope="next" regexp="yes">,|oder|und</exception></token>
                 <marker>
@@ -1903,6 +1909,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="morgen um">Sie kommt <marker>um morgen um</marker> 12 Uhr.</example>
             <example><marker>Um morgen um</marker> 12 Uhr pünktlich anzukommen, musst du früh aufstehen.</example>
             <example>Er stieg auf das Auto <marker>um, um</marker> schneller in der Schule zu sein.</example>
+            <example>Geschwind, geschwind, geschwind kommt Kind um Kind um Kind.</example>
         </rule>
         <rule id="SONDERN_KEIN_NICHT" name="fehlende Verneinung bei sondern-Konstruktion">
             <pattern>
@@ -11278,7 +11285,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
-        <rule id="SCHEISS_EGAL" name="scheißegal" default="temp_off">
+        <rule id="SCHEISS_EGAL" name="scheißegal">
             <antipattern>
                 <token postag="PRO.*" postag_regexp="yes">
                     <exception regexp="yes">das|die|es|dieses?</exception>
@@ -12043,6 +12050,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 * grob Vorstellung
                 * geistig Behinderte
                 * zentral Lager
+                * kalt akquise
                 * lokal Partner
                 * maximal Zulassung/Begrenzung
                 * exklusiv Kunde
@@ -47102,7 +47110,7 @@ Andere Projekte</example>
                 <suggestion>\2 \3-\4</suggestion>
                 <example correction="neuen LED-Schweinwerfern">Mit <marker>neuen LED Schweinwerfern</marker> kann ich mehr anfangen.</example>
             </rule>
-            <rule>
+            <rule><!-- 16 -->
                 <antipattern>
                     <token postag_regexp="yes" postag="ADJ:.+" regexp="yes">.+en</token>
                     <token postag="SUB:DAT:SIN:.+" postag_regexp="yes" />
@@ -47114,14 +47122,15 @@ Andere Projekte</example>
                     <token postag_regexp="yes" postag="SUB:DAT:SIN:...">
                         <exception postag_regexp="yes" postag="SUB:.*PLU.+"/>
                         <exception regexp="yes">\w*[gG]ramm</exception>
-                        <exception scope="next" postag="SUB:DAT:PLU:.+" postag_regexp="yes" />
+                        <exception postag="SUB:.+:MAS" postag_regexp="yes"/>
                         <exception scope="next" postag="UNKNOWN" regexp="yes" case_sensitive="yes">[A-ZÄÖÜ].*</exception>
                     </token>
                 </pattern>
                 <message>Die Präposition '\1' erfordert in der Regel den Dativ.</message>
-                <suggestion><match no="2" regexp_match="n$" regexp_replace="m"/></suggestion>
-                <example correction="ernstem">Mit <marker>ernsten</marker> Blick starrte er sie an.</example>
-                <example>Er hatte ein Gewicht von <marker>wenigen</marker> Kilogramm.</example>
+                <suggestion><match no="2" regexp_match="n$" regexp_replace="r"/></suggestion>
+                <example correction="voller">Mit <marker>vollen</marker> Absicht zerstörte er ihr Gewächshaus.</example>
+                <example>Obwohl das Lichtspektrum bei neuen LED Growlampen schon sehr gut für den kompletten Lebenszyklus einer Cannabis Pflanze geeignet ist, sind gewisse NDL Lampen noch etwas besser.</example>
+                <!--<example>Das mit leckeren Hafermilch Getränken bestückte Tablett balancierten sie zum Tisch.</example>-->
             </rule>
             <rule><!-- 17 -->
                 <antipattern>
@@ -47145,7 +47154,7 @@ Andere Projekte</example>
                 <example>Er hatte ein Gewicht von <marker>wenigen</marker> Kilogramm.</example>
                 <example>Solche Girls werden mit brutalen Sadomaso Spielchen und Bondage zu Sklavinnen erzogen.</example>
             </rule>
-            <rule default="temp_off"><!-- 18 -->
+            <rule><!-- 18 -->
                 <antipattern>
                     <token>Grad</token>
                     <token regexp="yes">Celsius|Fahrenheit</token>
@@ -53307,7 +53316,7 @@ Andere Projekte</example>
     <!-- Typografie -->
     <!-- ====================================================================== -->
     <category id="TYPOGRAPHY" name="Typografie">
-        <rule id="SPACE_BEFORE_OG" name="Im 2.OG (2. OG)" default="temp_off">
+        <rule id="SPACE_BEFORE_OG" name="Im 2.OG (2. OG)">
             <pattern>
                 <token regexp="yes">\d+</token>
                 <token spacebefore="no">.</token>
