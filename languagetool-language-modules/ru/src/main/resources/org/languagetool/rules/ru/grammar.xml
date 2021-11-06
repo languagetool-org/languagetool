@@ -3246,7 +3246,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          </rulegroup>
         <rulegroup default="on" id="KAK_PRAVILO" name="Вводное сочетание: «как обычно», «как всегда», ...">
             <!--Вводное сочетание как обычно, как всегда, как правило, как исключение, как сейчас, как нарочно
--->
+-->                        
             <rule>
                 <pattern case_sensitive="no">
                     <marker>
@@ -3282,6 +3282,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             
             <rule>
+                <antipattern>
+                    <marker>
+                        <token>как</token>
+                        <token>сейчас</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="VB:.*"></token>
+                </antipattern>                
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[:;,—–(-]<exception postag="SENT_START"></exception><exception scope="previous">так</exception></token>  <!-- , -->
                     <marker>
@@ -3294,6 +3301,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
                 <short>Пропущена запятая</short>
                 <example correction="как правило,">Мы, <marker>как правило</marker> ходим в походы летом.</example>
+                <example>Однако, как сейчас стало известно, в эту платформу войдет новейший мобильный чипсет AMD.</example>
                 <example>Правило правого винта, известное также из курса физики как правило буравчика.</example>
             </rule>
             
