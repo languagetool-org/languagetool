@@ -16238,7 +16238,8 @@ steenwijk;Steenwijk
 				<example correction="maakte">2020 <marker>Maakte</marker> het erg bont.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="HOOFDLETTERS_OVERBODIG" name="Woorden die ook klein geschreven mogen worden." type="misspelling" tags="picky">
+		<rulegroup id="HOOFDLETTERS_OVERBODIG_A" name="Woorden die ook klein geschreven mogen worden." type="misspelling" tags="picky">
+			<antipattern><token postag="SENT_START"/><token/></antipattern><!-- other conversion at sentence start -->
 			<rule>
 				<pattern>
 					<token case_sensitive="yes" regexp="yes">BTW|LED|CV|CD|DVD|TV|IC</token>
@@ -16289,92 +16290,164 @@ steenwijk;Steenwijk
 				<example correction="led-display">Het <marker>LED-display</marker> werkt op 8 D-batterijen (niet inbegrepen).</example>
 				<example correction="led-achtergrond">Direct <marker>LED-achtergrond</marker> voor een nog betere contrastverhouding.</example>
 			</rule>
-                <rule>
-                    <pattern>
+			<rule>
+				<pattern>
+					<token case_sensitive="yes" regexp="yes">CV-.*</token>
+				</pattern>
+				<message>CV hoeft niet met hoofdletters: <suggestion><match no="1" case_conversion="alllower"/></suggestion>.</message>
+				<example correction="cv-boeking">Ik doe de <marker>CV-boeking</marker>.</example>
+				<example correction="cv-ketel">De <marker>CV-ketel</marker> moet aangepast zijn.</example>
+				<example correction="cv-toestel">Deze badkamer is idealiter niet te ver geplaatst van het <marker>CV-toestel</marker>.</example>
+				<example correction="cv-installaties">Thermostaten en <marker>CV-installaties</marker> bij uitbreiding zijn des duivels.</example>
+				<example correction="cv-circuit">Hierbij komt ongeveer 2,4 KW warmte vrij, bestemd voor het <marker>CV-circuit</marker>.</example>
+				<example correction="cv-screening">Na het aflopen van de publicatietermijn vindt de <marker>CV-screening</marker> plaats.</example>
+				<example correction="cv-water">Het lauwe <marker>CV-water</marker> stroomt door de warmtewisselaar en neemt de warmte van de rookgassen op.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token case_sensitive="yes" regexp="yes">CD-.*</token>
+				</pattern>
+				<message>CD hoeft niet met hoofdletters: <suggestion><match no="1" case_conversion="alllower"/></suggestion>.</message>
+				<example correction="cd-boeking">Ik doe de <marker>CD-boeking</marker>.</example>
+				<example correction="cd-rom">Althans de <marker>CD-rom</marker>.</example>
+				<example correction="cd-rom">Langs de voorkant is er een <marker>CD-ROM</marker> schuif.</example>
+				<example correction="cd-prijs">Dat is volgens Heymans de minimum <marker>CD-prijs</marker>.</example>
+				<example correction="cd-speler">Prompt begon de <marker>CD-speler</marker> deze af te spelen.</example>
+				<example correction="cd-transportkoffer">Zwarte <marker>CD-transportkoffer</marker>, bijna niet gebruikt.</example>
+				<example correction="cd-exclusieve">De eerste oplage bevat een <marker>CD-exclusieve</marker> bonustrack.</example>
+				<example correction="cd-i">Het belangrijkste kenmerk van de <marker>CD-I</marker> is zijn interactiviteit.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token case_sensitive="yes" regexp="yes">TV-.*</token>
+				</pattern>
+				<message>TV hoeft niet met hoofdletters: <suggestion><match no="1" case_conversion="alllower"/></suggestion>.</message>
+				<example correction="tv-boeking">Ik doe de <marker>TV-boeking</marker>.</example>
+				<example correction="tv-kijken">Het gaat niet om eventjes <marker>TV-kijken</marker>.</example>
+				<example correction="tv-set">Het gewicht van de <marker>TV-set</marker>, voet inbegrepen.</example>
+				<example correction="tv-kijkers"><marker>TV-kijkers</marker> zijn snel ergens op uitgekeken.</example>
+				<example correction="tv-programma">Een filmpje of een <marker>TV-programma</marker>, dat kan al.</example>
+				<example correction="tv-wereld">Begeleidt u feilloos door de digitale <marker>TV-wereld</marker>.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token case_sensitive="yes" regexp="yes">IC-.*</token>
+				</pattern>
+				<message>IC hoeft niet met hoofdletters: <suggestion><match no="1" case_conversion="alllower"/></suggestion>.</message>
+				<example correction="ic-boeking">Ik doe de <marker>IC-boeking</marker>.</example>
+				<example correction="ic-treinen">Alle <marker>IC-treinen</marker> van Brussel naar Halle zijn gewoon te kort…</example>
+				<example correction="ic-verantwoordelijke">Enerzijds moet je als <marker>IC-verantwoordelijke</marker> een aantal factoren onder controle krijgen.</example>
+				<example correction="ic-verbinding">Er zijn momenteel geen onderhandelingen aan de gang met de NS over de <marker>IC-verbinding</marker> Brussel-Maastricht.</example>
+				<example correction="ic-trein">Vanaf 14 december rijdt er opnieuw een <marker>IC-trein</marker> tussen Brussel en Amsterdam, en dit a rato van 16 treinen per dag.</example>
+				<example correction="ic-kappen">Door losse, geïsoleerde <marker>IC-kappen</marker> is het mogelijk dicht opeen liggende draden te controleren en te voldoen aan GS38.</example>
+				<example correction="ic-patronen">Lithografie of het ‘printen’ van <marker>IC-patronen</marker> op siliciumschijfjes (wafers) is één van de meest cruciale processen bij de fabricage van chips.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="HOOFDLETTERS_OVERBODIG_B" name="Woorden die ook klein geschreven mogen worden." type="misspelling" tags="picky">
+			<rule>
+				<pattern>
+					<token postag="SENT_START"/>
+					<marker>
+						<token case_sensitive="yes" regexp="yes">BTW|LED|CV|CD|DVD|TV|IC</token>
+					</marker>
+				</pattern>
+				<message>Dit woord hoeft niet met hoofdletters: <suggestion><match no="2" case_conversion="firstupper"/></suggestion>.</message>
+				<example correction="Btw"><marker>BTW</marker> moet met kleine letters.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token postag="SENT_START"/>
+					<marker>
+						<token case_sensitive="yes" regexp="yes">BTW-.*</token>
+					</marker>
+				</pattern>
+				<message>BTW hoeft niet met hoofdletters: <suggestion><match no="2" case_conversion="firstupper"/></suggestion>.</message>
+				<example correction="Btw-boekingen"><marker>BTW-boekingen</marker> doe ik zelf.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token postag="SENT_START"/>
+					<marker>
+						<token case_sensitive="yes" regexp="yes">LED-.*</token>
+					</marker>
+				</pattern>
+				<message>LED hoeft niet met hoofdletters: <suggestion><match no="1" case_conversion="firstupper"/></suggestion>.</message>
+				<example correction="Led-tv’s"><marker>LED-TV’s</marker> zijn standaard.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token postag="SENT_START"/>
+					<marker>
                         <token case_sensitive="yes" regexp="yes">CV-.*</token>
-                    </pattern>
-                    <message>CV hoeft niet met hoofdletters: <suggestion><match no="1" case_conversion="alllower"/></suggestion>.</message>
-                    <example correction="cv-boeking">Ik doe de <marker>CV-boeking</marker>.</example>
-                    <example correction="cv-ketel">De <marker>CV-ketel</marker> moet aangepast zijn.</example>
-                    <example correction="cv-toestel">Deze badkamer is idealiter niet te ver geplaatst van het <marker>CV-toestel</marker>.</example>
-                    <example correction="cv-installaties">Thermostaten en <marker>CV-installaties</marker> bij uitbreiding zijn des duivels.</example>
-                    <example correction="cv-circuit">Hierbij komt ongeveer 2,4 KW warmte vrij, bestemd voor het <marker>CV-circuit</marker>.</example>
-                    <example correction="cv-screening">Na het aflopen van de publicatietermijn vindt de <marker>CV-screening</marker> plaats.</example>
-                    <example correction="cv-water">Het lauwe <marker>CV-water</marker> stroomt door de warmtewisselaar en neemt de warmte van de rookgassen op.</example>
-                </rule>
-                <rule>
-                    <pattern>
+					</marker>
+				</pattern>
+				<message>CV hoeft niet met hoofdletters: <suggestion><match no="1" case_conversion="firstupper"/></suggestion>.</message>
+				<example correction="Cv-toestellen"><marker>CV-toestellen</marker> falen soms.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token postag="SENT_START"/>
+					<marker>
                         <token case_sensitive="yes" regexp="yes">CD-.*</token>
-                    </pattern>
-                    <message>CD hoeft niet met hoofdletters: <suggestion><match no="1" case_conversion="alllower"/></suggestion>.</message>
-                    <example correction="cd-boeking">Ik doe de <marker>CD-boeking</marker>.</example>
-                    <example correction="cd-rom">Althans de <marker>CD-rom</marker>.</example>
-                    <example correction="cd-rom">Langs de voorkant is er een <marker>CD-ROM</marker> schuif.</example>
-                    <example correction="cd-prijs">Dat is volgens Heymans de minimum <marker>CD-prijs</marker>.</example>
-                    <example correction="cd-speler">Prompt begon de <marker>CD-speler</marker> deze af te spelen.</example>
-                    <example correction="cd-transportkoffer">Zwarte <marker>CD-transportkoffer</marker>, bijna niet gebruikt.</example>
-                    <example correction="cd-exclusieve">De eerste oplage bevat een <marker>CD-exclusieve</marker> bonustrack.</example>
-                    <example correction="cd-i">Het belangrijkste kenmerk van de <marker>CD-I</marker> is zijn interactiviteit.</example>
-                </rule>
-                <rule>
-                    <pattern>
+					</marker>
+				</pattern>
+				<message>CD hoeft niet met hoofdletters: <suggestion><match no="1" case_conversion="firstupper"/></suggestion>.</message>
+				<example correction="Cd-boekingen"><marker>CD-boekingen</marker> bestaan niet.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token postag="SENT_START"/>
+					<marker>
                         <token case_sensitive="yes" regexp="yes">TV-.*</token>
-                    </pattern>
-                    <message>TV hoeft niet met hoofdletters: <suggestion><match no="1" case_conversion="alllower"/></suggestion>.</message>
-                    <example correction="tv-boeking">Ik doe de <marker>TV-boeking</marker>.</example>
-                    <example correction="tv-kijken">Het gaat niet om eventjes <marker>TV-kijken</marker>.</example>
-                    <example correction="tv-set">Het gewicht van de <marker>TV-set</marker>, voet inbegrepen.</example>
-                    <example correction="tv-kijkers"><marker>TV-kijkers</marker> zijn snel ergens op uitgekeken.</example>
-                    <example correction="tv-programma">Een filmpje of een <marker>TV-programma</marker>, dat kan al.</example>
-                    <example correction="tv-wereld">Begeleidt u feilloos door de digitale <marker>TV-wereld</marker>.</example>
-                </rule>
-                <rule>
-                    <pattern>
-                        <token case_sensitive="yes" regexp="yes">IC-.*</token>
-                    </pattern>
-                    <message>IC hoeft niet met hoofdletters: <suggestion><match no="1" case_conversion="alllower"/></suggestion>.</message>
-                    <example correction="ic-boeking">Ik doe de <marker>IC-boeking</marker>.</example>
-                    <example correction="ic-treinen">Alle <marker>IC-treinen</marker> van Brussel naar Halle zijn gewoon te kort…</example>
-                    <example correction="ic-verantwoordelijke">Enerzijds moet je als <marker>IC-verantwoordelijke</marker> een aantal factoren onder controle krijgen.</example>
-                    <example correction="ic-verbinding">Er zijn momenteel geen onderhandelingen aan de gang met de NS over de <marker>IC-verbinding</marker> Brussel-Maastricht.</example>
-                    <example correction="ic-trein">Vanaf 14 december rijdt er opnieuw een <marker>IC-trein</marker> tussen Brussel en Amsterdam, en dit a rato van 16 treinen per dag.</example>
-                    <example correction="ic-kappen">Door losse, geïsoleerde <marker>IC-kappen</marker> is het mogelijk dicht opeen liggende draden te controleren en te voldoen aan GS38.</example>
-                    <example correction="ic-patronen">Lithografie of het ‘printen’ van <marker>IC-patronen</marker> op siliciumschijfjes (wafers) is één van de meest cruciale processen bij de fabricage van chips.</example>
-                </rule>
-            </rulegroup>
-            <rulegroup id="KOMMA_HOOFDLETTER" name=", Hoofdletter" type="misspelling" tags="picky">
-				<rule>
-					<antipattern case_sensitive="yes"><token>Landbouw</token><token>,</token><token>Natuur</token><token>en</token><token>Voedselkwaliteit</token></antipattern>
-					<antipattern case_sensitive="yes"><token>Transport</token><token>,</token><token>Communicatie</token><token>en</token><token>Toerisme</token></antipattern>
-					<antipattern case_sensitive="yes"><token>Onderwijs</token><token>,</token><token>Cultuur</token><token>en</token><token>Wetenschap</token></antipattern>
-					<antipattern case_sensitive="yes"><token>Volksgezondheid</token><token>,</token><token>Welzijn</token><token>en</token><token>Sport</token></antipattern>
-					<antipattern><token regexp="yes">[,;]</token><token postag_regexp="yes" postag="ENM.*|VLG:BHL|UNKNOWN"></token></antipattern>
-					<antipattern><token regexp="yes">[,;]</token><token regexp="yes">San|St|Ch|Th|Ph</token></antipattern>
-					<antipattern><token regexp="yes">[,;]</token><token/><token>,</token></antipattern>
-					<antipattern><token regexp="yes">[,;]</token><token regexp="yes" case_sensitive="yes" postag_regexp="yes" postag="ENM.*">[A-Z].*</token></antipattern>
-					<antipattern><token regexp="yes">[,;]</token><token regexp="yes" case_sensitive="yes" >^[A-Z][a-z].*(s|se|isch|ische|talife?)$</token></antipattern>
-					<antipattern><token regexp="yes">[,;]</token><token regexp="yes">[A-Z][a-z].*</token><token regexp="yes" case_sensitive="yes">[A-Z][a-z].*</token></antipattern>
-					<antipattern><token regexp="yes">[,;]</token><token regexp="yes">[A-Z][a-z].*(straat|plein|dreef|steeg|laan|park|talige?)</token></antipattern>
-					<antipattern>
-						<!-- taal -->
-						<token regexp="yes">[,;]</token>
-						<and>
-							<token regexp="yes" postag="ZNW:EKV:HET">[A-Z][a-z].*</token>
-							<token regexp="yes" postag="BNW:STL:ONV">[A-Z][a-z].*</token>
-						</and>
-					</antipattern>
-					<pattern case_sensitive="yes">
-						<token regexp="yes">[,;]</token>
-						<marker>
-							<token regexp="yes" case_sensitive="yes">[A-Z][a-z].*<exception case_sensitive="yes" regexp="yes">Kamer.*</exception><exception>Jan</exception></token>
-						</marker>
-					</pattern>
-					<message>Na een (punt)komma hoeft geen hoofdletter (behalve bij een eigennaam, taal of gebied).</message>
-					<suggestion suppress_misspelled="yes"><match no="2" case_conversion="startlower"/></suggestion>
-					<example correction="is">Dit, <marker>Is</marker> een fout.</example>
-					<example>Dit <marker>is</marker> wel goed.</example>
-				</rule>
-			</rulegroup>
+					</marker>
+				</pattern>
+				<message>TV hoeft niet met hoofdletters: <suggestion><match no="1" case_conversion="firstupper"/></suggestion>.</message>
+				<example correction="Tv-kijken"><marker>TV-kijken</marker> verveelt me snel.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token postag="SENT_START"/>
+					<marker>
+						<token case_sensitive="yes" regexp="yes">IC-.*</token>
+					</marker>
+				</pattern>
+				<message>IC hoeft niet met hoofdletters: <suggestion><match no="1" case_conversion="firstupper"/></suggestion>.</message>
+				<example correction="Ic-treinen"><marker>IC-treinen</marker> zijn snel.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="KOMMA_HOOFDLETTER" name=", Hoofdletter" type="misspelling" tags="picky">
+			<rule>
+				<antipattern case_sensitive="yes"><token>Landbouw</token><token>,</token><token>Natuur</token><token>en</token><token>Voedselkwaliteit</token></antipattern>
+				<antipattern case_sensitive="yes"><token>Transport</token><token>,</token><token>Communicatie</token><token>en</token><token>Toerisme</token></antipattern>
+				<antipattern case_sensitive="yes"><token>Onderwijs</token><token>,</token><token>Cultuur</token><token>en</token><token>Wetenschap</token></antipattern>
+				<antipattern case_sensitive="yes"><token>Volksgezondheid</token><token>,</token><token>Welzijn</token><token>en</token><token>Sport</token></antipattern>
+				<antipattern><token regexp="yes">[,;]</token><token postag_regexp="yes" postag="ENM.*|VLG:BHL|UNKNOWN"></token></antipattern>
+				<antipattern><token regexp="yes">[,;]</token><token regexp="yes">San|St|Ch|Th|Ph</token></antipattern>
+				<antipattern><token regexp="yes">[,;]</token><token/><token>,</token></antipattern>
+				<antipattern><token regexp="yes">[,;]</token><token regexp="yes" case_sensitive="yes" postag_regexp="yes" postag="ENM.*">[A-Z].*</token></antipattern>
+				<antipattern><token regexp="yes">[,;]</token><token regexp="yes" case_sensitive="yes" >^[A-Z][a-z].*(s|se|isch|ische|talife?)$</token></antipattern>
+				<antipattern><token regexp="yes">[,;]</token><token regexp="yes">[A-Z][a-z].*</token><token regexp="yes" case_sensitive="yes">[A-Z][a-z].*</token></antipattern>
+				<antipattern><token regexp="yes">[,;]</token><token regexp="yes">[A-Z][a-z].*(straat|plein|dreef|steeg|laan|park|talige?)</token></antipattern>
+				<antipattern>
+					<!-- taal -->
+					<token regexp="yes">[,;]</token>
+					<and>
+						<token regexp="yes" postag="ZNW:EKV:HET">[A-Z][a-z].*</token>
+						<token regexp="yes" postag="BNW:STL:ONV">[A-Z][a-z].*</token>
+					</and>
+				</antipattern>
+				<pattern case_sensitive="yes">
+					<token regexp="yes">[,;]</token>
+					<marker>
+						<token regexp="yes" case_sensitive="yes">[A-Z][a-z].*<exception case_sensitive="yes" regexp="yes">Kamer.*</exception><exception>Jan</exception></token>
+					</marker>
+				</pattern>
+				<message>Na een (punt)komma hoeft geen hoofdletter (behalve bij een eigennaam, taal of gebied).</message>
+				<suggestion suppress_misspelled="yes"><match no="2" case_conversion="startlower"/></suggestion>
+				<example correction="is">Dit, <marker>Is</marker> een fout.</example>
+				<example>Dit <marker>is</marker> wel goed.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="DUBBELOP" name="Voorlopig concept" tags="picky">
 			<rule>
 				<pattern><token>voorlopig</token><token>concept</token></pattern>
