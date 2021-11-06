@@ -127,9 +127,11 @@ Copyright (C) 2009-2021 Yakov Reztsov
         </pattern>
         <disambig action="remove" postag="NN:.*:.*:.*:Nom"></disambig>
     </rule>
+    <!-- где телефон? где телефоны? где Оля? -->
+    <!--
     <rule name="NOUN_V5" id="NOUN_V5">
         <pattern>	 
-            <token skip="1">где</token>  <!-- где телефон? где телефоны? где Оля? -->
+            <token skip="1">где</token>  
             <marker>
                 <and>
                     <token postag="NN:.*:.*:.*:Nom" postag_regexp="yes"></token>
@@ -141,7 +143,7 @@ Copyright (C) 2009-2021 Yakov Reztsov
         <example type="ambiguous" inputform="телефон[телефон/NN:Inanim:Masc:Sin:Nom,телефон/NN:Inanim:Masc:Sin:V]" outputform="телефон[телефон/NN:Inanim:Masc:Sin:Nom]">Где <marker>телефон</marker>?</example>
         <example type="ambiguous" inputform="телефон[телефон/NN:Inanim:Masc:Sin:Nom,телефон/NN:Inanim:Masc:Sin:V]" outputform="телефон[телефон/NN:Inanim:Masc:Sin:Nom]">Где наш <marker>телефон</marker>?</example>
     </rule>
-
+    --> 
     <rule name="NOUN_R" id="NOUN_R">
         <pattern>
             <!-- без  - родительный  -->
@@ -365,11 +367,11 @@ Copyright (C) 2009-2021 Yakov Reztsov
         </pattern>
        <disambig action="remove" postag="PT:.*:.*:Nom"></disambig>
     </rule>
+    <!-- где наша Оля? -->
+    <!-- Где наш телефон? -->
+    <!--
      <rule name="ADJ_V5" id="ADJ_V5">
         <pattern>
-            <!-- где наша Оля? -->
-            <!-- Где наш телефон? -->
-            <!-- -->
             <token>где</token>
             <marker>
                 <and>
@@ -393,6 +395,7 @@ Copyright (C) 2009-2021 Yakov Reztsov
         </pattern>
        <disambig action="remove" postag="PT:.*:.*:V"></disambig>
     </rule>
+    -->
     <rule name="ADJ_R" id="ADJ_R">
         <pattern>
             <token regexp="yes">без|безо|вместо|для|до|из|изо|из-за|из-под|кроме|около|от|против|среди|у</token>
