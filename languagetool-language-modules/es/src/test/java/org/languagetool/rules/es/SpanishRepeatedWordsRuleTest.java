@@ -47,6 +47,7 @@ public class SpanishRepeatedWordsRuleTest {
   @Test
   public void testRule() throws IOException {
 
+    assertCorrectText("Emplearon la fuerza. Pero los empleados se resistieron.");
     assertCorrectText("Propuse aquello. Pero la propuesta no fue acceptada.");
     assertCorrectText("Creó cosas interesantes. Pero creo que no eran útiles.");
     assertCorrectText(
