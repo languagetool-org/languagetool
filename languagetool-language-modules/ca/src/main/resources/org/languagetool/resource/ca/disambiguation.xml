@@ -1142,6 +1142,52 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <wd lemma="mans lliures" pos="AQ0MN0"/>
         </disambig>
     </rule>
+    <rulegroup id="ALTRA_VEGADA" name="altra vegada (loc. adverbial)">
+        <rule>
+            <pattern>
+                <token>altre</token>
+                <token regexp="yes">cop|pic|colp</token>
+            </pattern>
+            <disambig action="replace">
+                <wd lemma="altra vegada" pos="LOC_ADV"/>
+                <wd lemma="altra vegada" pos="LOC_ADV"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>altra</token>
+                <token regexp="yes">vegada|volta</token>
+            </pattern>
+            <disambig action="replace">
+                <wd lemma="altra vegada" pos="LOC_ADV"/>
+                <wd lemma="altra vegada" pos="LOC_ADV"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>un</token>
+                <token>altre</token>
+                <token regexp="yes">cop|pic|colp</token>
+            </pattern>
+            <disambig action="replace">
+                <wd lemma="altra vegada" pos="LOC_ADV"/>
+                <wd lemma="altra vegada" pos="LOC_ADV"/>
+                <wd lemma="altra vegada" pos="LOC_ADV"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>una</token>
+                <token>altra</token>
+                <token regexp="yes">vegada|volta</token>
+            </pattern>
+            <disambig action="replace">
+                <wd lemma="altra vegada" pos="LOC_ADV"/>
+                <wd lemma="altra vegada" pos="LOC_ADV"/>
+                <wd lemma="altra vegada" pos="LOC_ADV"/>
+            </disambig>
+        </rule>
+    </rulegroup>
     <rulegroup id="LOCUCIONS" name="locucions adverbials, preposicionals, conjuntives">
         <!-- locucions concretes-->
         <rule id="duna_banda" name="d'una banda (locució conj.)">
@@ -3113,11 +3159,11 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token><exception regexp="yes">em|et|li|ens|us|vos|els|el|a</exception></token>
+                <token><exception regexp="yes">em|et|li|ens|us|vos|els|el|a|de|per</exception></token>
                 <marker>
-                    <token>sobre</token>
+                    <token postag="SPS00">sobre</token>
                 </marker>
-                <token postag="D.*|NP.*|NC.[PN].*" postag_regexp="yes"/>
+                <token postag="D.*|NP.*|NC.[PN].*" postag_regexp="yes"><exception>s'</exception></token>
             </pattern>
             <disambig action="filter" postag="SPS00"/>
             <example type="untouched">Que no li <marker>sobre</marker> res.</example>
@@ -3382,12 +3428,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule id="improbable_verb_balear" name="verb balear improbable">
             <pattern>
                 <marker>
-                    <token postag="VMIP1S0B" regexp="yes">subsol|pis|xiv|plaç|estàs|après|test|remei|estiu</token>
+                    <token postag="V.*B" postag_regexp="yes" regexp="yes">subsol|pis|xiv|plaç|estàs|après|test|remei|estiu|feren|fem</token>
                 </marker>
             </pattern>
-            <disambig action="remove">
-                <wd pos="VMIP1S0B"/>
-            </disambig>
+            <disambig action="filter" postag=".*[^B]"/>
         </rule>
         <rule id="improbable_verb_balear2" name="verb balear improbable">
             <pattern>
@@ -15129,7 +15173,30 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="filter" postag="PT.*"/>
         </rule>
     </rulegroup>
+    <rule id="US_FEU_AMB" name="feu 2P/3S">
+        <pattern>
+            <token regexp="yes">us|vos</token>
+            <marker>
+                <token skip="3">feu</token>
+            </marker>
+            <token>amb</token>
+        </pattern>
+        <disambig action="remove" postag="VMIS3S00"/>
+    </rule>
     <rulegroup id="SUBJUNTIU_IMPERATIU" name="subjuntiu/imperatiu">
+        <rule>
+            <pattern>
+                <token postag="SENT_START"/>
+                <token postag="&pronom_feble;" postag_regexp="yes"/>
+                <marker>
+                    <and>
+                        <token postag="V.S.*" postag_regexp="yes"/>
+                        <token postag="V.I.*" postag_regexp="yes"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="V.S.*"/>
+        </rule>
         <rule id="subj_imp_valencia" name="verb subjuntiu (valencià) i imperatiu (general): digues, sigues">
             <pattern>
                 <token postag="PR.*" postag_regexp="yes" skip="2"><exception scope="next" postag="&pronom_feble;|SENT_END|V.*|_GV_" postag_regexp="yes" negate_pos="yes"/></token>
