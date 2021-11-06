@@ -34,7 +34,7 @@ public class EnglishRepeatedWordsRule extends AbstractRepeatedWordsRule{
 
   public EnglishRepeatedWordsRule(ResourceBundle messages) {
     super(messages, new AmericanEnglish());
-    super.setDefaultTempOff();
+    //super.setDefaultTempOff();
   }
   
   private static final Map<String, SynonymsData> wordsToCheck = loadWords("/en/synonyms.txt");

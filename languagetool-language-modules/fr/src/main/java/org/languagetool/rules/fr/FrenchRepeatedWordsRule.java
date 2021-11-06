@@ -35,7 +35,7 @@ public class FrenchRepeatedWordsRule extends AbstractRepeatedWordsRule{
   
   public FrenchRepeatedWordsRule(ResourceBundle messages) {
     super(messages, new French());
-    super.setDefaultTempOff();
+    //super.setDefaultTempOff();
   }
   
   private static final Map<String, SynonymsData> wordsToCheck = loadWords("/fr/synonyms.txt");
