@@ -2492,6 +2492,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="шёл улыбаясь.">Он <marker>шёл, улыбаясь.</marker></example>
             </rule>
         </rulegroup>
+        <!--   -->
+        <rulegroup id="COMMA_PARTICIPLE" name="Запятые при причастии и причастном обороте" default="temp_off">
+            <!-- TO DO: experimental rule -->
+            <rule> 
+                <pattern>
+                    <unify negate="no">
+                        <feature id="gender"/>
+                        <feature id="number"/> 
+
+                        <token postag="NN:.*:V" postag_regexp="yes">
+                            <exception postag="NN:.*:V" postag_regexp="yes" negate_pos="yes"></exception>
+                        </token>
+                        <token postag="PT:.*:V" postag_regexp="yes">
+                            <exception postag="PT:.*:V" postag_regexp="yes" negate_pos="yes"></exception>
+                        </token>
+                    </unify>
+                </pattern>
+                <message>Пропущена запятая в причастном обороте: <suggestion>\1, \2</suggestion></message>
+                <url>https://ru.wikipedia.org/wiki/%D0%9F%D1%80%D0%B8%D1%87%D0%B0%D1%81%D1%82%D0%B8%D0%B5_(%D0%BB%D0%B8%D0%BD%D0%B3%D0%B2%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0)#%D0%9F%D1%80%D0%B8%D1%87%D0%B0%D1%81%D1%82%D0%BD%D1%8B%D0%B9_%D0%BE%D0%B1%D0%BE%D1%80%D0%BE%D1%82</url>
+                <short>Пропущена запятая</short>
+                <example correction="собаку, хромавшую">Он увидел <marker>собаку хромавшую</marker> на задние лапы.</example>
+                <example>Он увидел собаку, хромавшую на задние лапы.</example>
+            </rule>
+        </rulegroup>
+        
         <rulegroup id="PUNCT_VB_INF_OBOROT" name="Запятые при обстоятельственном обороте">
             <rule>
             <!-- Оборот с неопределенной формой глагола со всеми относящимися к ней словами,
