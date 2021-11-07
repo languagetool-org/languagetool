@@ -45,7 +45,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY ne_pril_short_double "богата|богат|богато|богаты|бедна|беден|бедны|бедно|красива|красив|красиво|красивы|известен|известна|известно|известны|велика|велик|велико|велики|нужен|нужна|нужно|нужны|прав|права|право|правы|согласен|согласна|согласно|согласны|способен|способна|способно|способны">
 <!ENTITY verb "должен|должна|должно|должны|обязана|обязано|обязаны|обязан|необходимо"> <!-- TODO:check in dict -->
 <!ENTITY rost "количество|количественный|качество|качественный|показатель|показательный|экономика|экономический|преступность|преступный|смертность|безработица|безработный|численность|рождаемость|выработка|прибыль|стоимость|долг|госдолг|доход|расход|протяжённость|продолжительность|ассигнование|урожайность|популярность|напряжённость|ВВП|коралл|темп|продукт|возможность|замедление|результат|десятилетие|сравнение|объём|автомобилизация|вид|сбыт|цена|противоречие|мера|урожай|инвестиция|производство|сила|потребность|точка|процесс|тело|концентрация|время|стимулятор|регулятор|благосостояние|причина|предпосылка|сезон|политика|период|тенденция|ожидание|национализм|зарплата|микроорганизм|бактерия|потенциал|система|поощрение|производительность|самосознание|сознательность|импорт|экспорт|добыча|запас|спрос|путь">
-<!ENTITY zagl "тема|глава|книга|икеа|медиа|важно|внимание|примечание">
+<!ENTITY zagl "ТЕМА|ГЛАВА|КНИГА|ИКЕА|МЕДИА|ВАЖНО|ВНИМАНИЕ|ПРИМЕЧАНИЕ">
 <!ENTITY defis_libo "какая|какие|какое|какой|какому|кому|кто|такому|такая|такое|такой|вообще|всего|где|зачем|когда|куда|откуда|отчего|почему|сколько|тогда|так|туда|чего|что">
 ]>
 <!-- «» -->
@@ -2533,6 +2533,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag_regexp="yes" postag="VB:INF:.*"></token>
                 </antipattern>
                 <antipattern>
+                    <token>не</token> 
+                    <token regexp="yes">для|с|вместо</token>
+                    <token regexp="yes">того|тем</token>
+                    <token regexp="yes">чтобы|чтоб</token>
+                    <token postag_regexp="yes" postag="VB:INF:.*"></token>
+                </antipattern>
+                <antipattern>
                     <token regexp="yes">только|а|но|и</token>
                     <token regexp="yes">чтобы|чтоб</token>
                     <token postag_regexp="yes" postag="VB:INF:.*"></token>
@@ -2548,6 +2555,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="крыльцо, чтобы освежиться">Я вышел на <marker>крыльцо чтобы освежиться</marker>.</example>
                 <example>Я вышел на крыльцо, чтобы освежиться.</example>
                 <example>Я здесь, в том числе и чтобы помочь вам.</example>
+                <example>Я вышел на крыльцо не для того чтобы освежиться.</example> <!-- Incorrect example, but another rule must detect it  -->
+                <example>Я вышел на крыльцо не для того, чтобы освежиться.</example>
                 <example>Врагам понадобилось почти 10 месяцев, только чтобы захватить город.</example>
             </rule>
             <rule>
@@ -2562,11 +2571,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Запятые при обстоятельственном обороте</short>
                 <example correction="крыльцо, только чтобы освежиться">Я вышел на <marker>крыльцо только чтобы освежиться</marker>.</example>
                 <example>Я вышел на крыльцо, только чтобы освежиться.</example>
+                <example>Я вышел на крыльцо не для того чтобы освежиться.</example> <!-- Incorrect example, but another rule must detect it  -->
+                <example>Я вышел на крыльцо не для того, чтобы освежиться.</example>
                 <example>Врагам понадобилось почти 10 месяцев, только чтобы захватить город.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token><exception regexp="yes">&pnct;</exception><exception postag="SENT_START"></exception></token>
+                    <token><exception regexp="yes">&pnct;|не</exception><exception postag="SENT_START"></exception></token>
                     <token regexp="yes">для|с|вместо</token>
                     <token regexp="yes">того|тем</token>
                     <token regexp="yes">чтобы|чтоб</token>
@@ -2576,6 +2587,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <url>http://new.gramota.ru/spravka/rules/151-zap-19-32</url>
                 <short>Запятые при обстоятельственном обороте</short>
                 <example correction="крыльцо, для того чтобы освежиться">Я вышел на <marker>крыльцо для того чтобы освежиться</marker>.</example>
+                <example>Я вышел на крыльцо не для того чтобы освежиться.</example> <!-- Incorrect example, but another rule must detect it  -->
+                <example>Я вышел на крыльцо не для того, чтобы освежиться.</example>
                 <example>Я вышел на крыльцо, для того чтобы освежиться.</example>
             </rule>         
         </rulegroup>
