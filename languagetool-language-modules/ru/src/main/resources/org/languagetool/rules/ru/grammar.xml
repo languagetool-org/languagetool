@@ -45,6 +45,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY ne_pril_short_double "богата|богат|богато|богаты|бедна|беден|бедны|бедно|красива|красив|красиво|красивы|известен|известна|известно|известны|велика|велик|велико|велики|нужен|нужна|нужно|нужны|прав|права|право|правы|согласен|согласна|согласно|согласны|способен|способна|способно|способны">
 <!ENTITY verb "должен|должна|должно|должны|обязана|обязано|обязаны|обязан|необходимо"> <!-- TODO:check in dict -->
 <!ENTITY rost "количество|количественный|качество|качественный|показатель|показательный|экономика|экономический|преступность|преступный|смертность|безработица|безработный|численность|рождаемость|выработка|прибыль|стоимость|долг|госдолг|доход|расход|протяжённость|продолжительность|ассигнование|урожайность|популярность|напряжённость|ВВП|коралл|темп|продукт|возможность|замедление|результат|десятилетие|сравнение|объём|автомобилизация|вид|сбыт|цена|противоречие|мера|урожай|инвестиция|производство|сила|потребность|точка|процесс|тело|концентрация|время|стимулятор|регулятор|благосостояние|причина|предпосылка|сезон|политика|период|тенденция|ожидание|национализм|зарплата|микроорганизм|бактерия|потенциал|система|поощрение|производительность|самосознание|сознательность|импорт|экспорт|добыча|запас|спрос|путь">
+<!ENTITY zagl "тема|глава|книга|икеа|медиа|важно|внимание|примечание">
 <!ENTITY defis_libo "какая|какие|какое|какой|какому|кому|кто|такому|такая|такое|такой|вообще|всего|где|зачем|когда|куда|откуда|отчего|почему|сколько|тогда|так|туда|чего|что">
 ]>
 <!-- «» -->
@@ -2493,8 +2494,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <!--   -->
-        <rulegroup id="COMMA_PARTICIPLE" name="Запятые при причастии и причастном обороте" default="temp_off">
-            <!-- TO DO: experimental rule, need improve! -->
+        <rulegroup id="COMMA_PARTICIPLE" name="Запятые при причастии и причастном обороте" >
+            <!-- TO DO: experimental rule, need improve! --> <!-- default="temp_off" -->
             <rule> 
                 <pattern>
                     <unify negate="no">
@@ -12523,7 +12524,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START" negate_pos="yes"></token>
                     <marker>
-                        <token regexp="yes">([А-ЯЁ]{5,5})[А-ЯЁ].*<exception postag_regexp="yes" postag="ABR:.*" /><exception postag_regexp="yes" postag="NN:(Patr|Name):.*" /></token>
+                        <token regexp="yes">([А-ЯЁ]{5,5})[А-ЯЁ].*<exception postag_regexp="yes" postag="ABR:.*" />
+                            <exception postag_regexp="yes" postag="NN:(Patr|Name):.*" />
+                            <exception regexp="yes" >&zagl;</exception>
+                        </token>
                     </marker>
                 </pattern>
                 <message>Не выделяйте слова ЗАГЛАВНЫМИ буквами: <suggestion><match no="2" case_conversion="alllower"></match></suggestion>.</message>
@@ -12536,7 +12540,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START" negate_pos="yes"></token>  <!-- TO DO: add NN:Fam  -->
                     <marker>
-                        <token  postag_regexp="yes" postag="NN:(Patr|Name):.*"  regexp="yes">([А-ЯЁ]{3,3})[А-ЯЁ].*<exception postag_regexp="yes" postag="ABR:.*" /></token>
+                        <token  postag_regexp="yes" postag="NN:(Patr|Name):.*"  regexp="yes">([А-ЯЁ]{3,3})[А-ЯЁ].*<exception postag_regexp="yes" postag="ABR:.*" />
+                            <exception regexp="yes" >&zagl;</exception>
+                        </token>
                     </marker>
                 </pattern>
                 <message>Не выделяйте слова ЗАГЛАВНЫМИ буквами: <suggestion><match no="2" case_conversion="firstupper"></match></suggestion>.</message>
@@ -12544,12 +12550,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Не выделяйте текст заглавными буквами.</example>
                 <example correction="Алёша">Его зовут <marker>АЛЁША</marker>.</example>
             </rule>
-<!--    TODO: need right case conversion  alllower+startupper -> fixed!   --> 
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"></token>
                     <marker>
-                       <token regexp="yes">([А-ЯЁ]{4,4})[А-ЯЁ].*<exception postag_regexp="yes" postag="ABR:.*" /></token>
+                       <token regexp="yes">([А-ЯЁ]{4,4})[А-ЯЁ].*<exception postag_regexp="yes" postag="ABR:.*" />
+                       <exception regexp="yes" >&zagl;</exception>
+                       </token>
                     </marker>
                 </pattern>
                 <message>Не выделяйте слова ЗАГЛАВНЫМИ буквами: <suggestion><match no="2" case_conversion="firstupper"></match></suggestion>.</message>
