@@ -828,6 +828,15 @@ Copyright (C) 2009-2021 Yakov Reztsov
         <disambig action="remove" postag="VB:.*:.*:.*:.*"></disambig>
     </rule>
      
-
+  <rulegroup id="po-ADJ" name="po-ADJ">  <!-- по-мышиному -->
+        <rule>
+            <pattern>
+                <token regexp="yes">[Пп]о-([а-яё]+)</token> 
+            </pattern>
+            <filter class="org.languagetool.rules.ru.NoDisambiguationRussianPartialPosTagFilter"
+                    args="no:1 regexp:[Пп]о-([а-яё]+) postag_regexp:ADJ:Posit:(.*:D|PL:V) "/><!-- The filter is case-sensitive -->
+            <disambig action="ignore_spelling"></disambig>
+        </rule>
+    </rulegroup>
            
 </rules>
