@@ -5872,6 +5872,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">Caf[èéêe]</token>
                 <token regexp="yes">con|sin|del?|au|Frapp[eéè]?|torrefacto|et|Cr[èéeê]m[aèéeê]</token>
             </antipattern>
+            <antipattern>
+                <token regexp="yes">Caf[èéêe]</token>
+                <token min="0">und</token>
+                <token>Pension</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes">einen|den|der|diesen|[msdk]einen|ihren</token>
@@ -23285,7 +23290,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="IM_STILLEN" name="im stillen (Stillen)">
             <antipattern>
                 <token regexp="yes">stillen|dunk(el|le)n|hellen|wesentlichen|trüben</token>
-                <token postag="UNKNOWN|SUB.*" postag_regexp="yes" />
+                <token postag="UNKNOWN|SUB.*SIN:(MAS|NEU)" postag_regexp="yes" />
             </antipattern>
             <antipattern>
                 <token regexp="yes">stillen|dunk(el|le)n|hellen|wesentlichen|trüben</token>
@@ -23302,6 +23307,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Stillen">Ich sitze hier im <marker>stillen</marker>.</example>
             <example correction="Wesentlichen">Das ist im <marker>wesentlichen</marker> richtig so.</example>
             <example correction="Dunklen">Ich gehe gerne im <marker>dunklen</marker> spazieren.</example>
+            <example correction="Wesentlichen">Das ist im <marker>wesentlichen</marker> Geschmackssache.</example>
             <example>Er verlor seinen Orientierungssinn im <marker>dunklen</marker> Wald.</example>
         </rule>
         <rulegroup id="IM_WEG_STEHEN" name="im weg (Weg) stehen">
@@ -42093,7 +42099,7 @@ Andere Projekte</example>
         <rule id="DOPPELUNG_MODALVERB" name="Wiederholung von Modalverben">
             <antipattern>
                 <token>können</token>
-                <token inflected="yes" regexp="yes">sollen|müssen</token>
+                <token inflected="yes" regexp="yes">sollen|müssen|mögen|wollen</token>
             </antipattern>
             <antipattern>
                 <token>wollen</token>
@@ -42127,6 +42133,7 @@ Andere Projekte</example>
             <example>Wolle kann man mit ihrer Wurzel, nach Vorbeizen mit Alaun, wachsgelb färben.</example>
             <example>Tom wollte gemocht werden.</example>
             <example>Und dass sie den Mann jetzt nicht besonders mögen muss.</example>
+            <example>Wir haben großes Verständnis, wenn ein neuer Mitarbeiter seine Arbeitszeit frei einteilen können möchte.</example>
         </rule>
         <rulegroup id="DA_VOR" name="da vor (davor)">
             <antipattern>
