@@ -1201,7 +1201,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Hoodys", "Hoodies");
     put("Exam", "Examen");
     put("Exams", "Examens");
-    put("baldmöglich", "baldmöglichst");
+    put("[Bb]aldmöglich", "baldmöglichst");
+    put("[Bb]rudi", "Bruder");
     put("strang", w -> Arrays.asList("Strang", "strengte"));
     put("Gym", w -> Arrays.asList("Fitnessstudio", "Gymnasium"));
     put("Gyms", w -> Arrays.asList("Fitnessstudios", "Gymnasiums"));

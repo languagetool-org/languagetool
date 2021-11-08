@@ -290,6 +290,7 @@ public class German extends Language implements AutoCloseable {
       case "DA_DURCH": return 2; // prefer over SUBSTANTIVIERUNG_NACH_DURCH and DURCH_SCHAUEN and DURCH_WACHSEN
       case "NULL_KOMMA_NICHTS" : return 1;   // prefer over agreement rules
       case "SICH_SICHT" : return 1;   // prefer over agreement rules
+      case "VOR_LACHEN" : return 1;   // prefer over ZUSAMMENGESETZTE_VERBEN
       case "ZUCCHINIS" : return 1;   // overwrite spell checker
       case "ANGL_PA_ED_UNANGEMESSEN" : return 1;   // overwrite spell checker
       case "WRONG_UPPER_QUOTE": return 1; // higher prio than UNPAIRED_QUOTES

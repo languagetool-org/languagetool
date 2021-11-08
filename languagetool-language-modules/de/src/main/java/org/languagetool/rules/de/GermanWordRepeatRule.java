@@ -231,6 +231,13 @@ public class GermanWordRepeatRule extends WordRepeatRule {
       new PatternTokenBuilder().csToken("die").build(),
       new PatternTokenBuilder().csToken("die").build()
     ),
+    Arrays.asList(// "Haben die die Elemente ..."
+      posRegex("PKT|SENT_START|KON:NEB"),
+      tokenRegex("haben|hatten"),
+      new PatternTokenBuilder().csToken("die").build(),
+      new PatternTokenBuilder().csToken("die").build(),
+      posRegex(".*SUB.*PLU.*|UNKNOWN")
+    ),
     Arrays.asList(// "Das Haus, in das das Kind läuft."
       csToken(","),
       posRegex("PRP:.+"),

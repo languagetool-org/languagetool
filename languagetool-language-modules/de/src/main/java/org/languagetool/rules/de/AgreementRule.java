@@ -173,6 +173,7 @@ public class AgreementRule extends Rule {
     "Chief", // Chief Executive Officer
     "Carina", // Name
     "Wüstenrot", // Name
+    "Impflicht", // found by speller
     "Rückgrad", // found by speller
     "Rückgrads", // found by speller
     "Meter", // Das Meter (Objekt zum Messen)

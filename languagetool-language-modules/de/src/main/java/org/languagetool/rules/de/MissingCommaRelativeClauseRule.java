@@ -96,6 +96,11 @@ public class MissingCommaRelativeClauseRule extends Rule {
         pos("ADJ:PRD:SUP"),
         posRegex("PRP:.+"),
         regex("d(e[mnr]|ie|as|e([nr]|ss)en)")
+      ),
+      Arrays.asList( // Aber denen etwas beibringen zu müssen, die sich sträuben, das ist die wahre Hölle.
+        pos("SENT_START"),
+        token("Aber"),
+        regex("der|die|denen|das|jenen|einigen|anderen|vielen|manchen|allen")
       )
   ), GERMAN);
 
