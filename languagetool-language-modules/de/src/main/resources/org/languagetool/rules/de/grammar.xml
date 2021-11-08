@@ -47295,8 +47295,23 @@ Andere Projekte</example>
             <!-- Please note that 'um' is omitted intentionally because it generates false positives. -->
             <rule>
                 <antipattern>
+                    <token>was</token>
+                    <token>für</token>
+                    <token>einer</token>
+                </antipattern>
+                <antipattern><!-- Ohne der Chefin zu widersprechen -->
+                    <token skip="-1">ohne</token>
                     <token>zu</token>
-                    <token postag="VER:INF:SFT"/>
+                    <token postag="VER:INF.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern><!-- Ohne der Chefin reinzureden -->
+                    <token skip="-1">ohne</token>
+                    <token postag="VER:EIZ.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern><!-- ohne dem alten Gesetz widersprechende Passagen -->
+                    <token regexp="yes">betreffend|durch|für|gegen|kontra|ohne|via|wider|um</token>
+                    <token skip="-1" regexp="yes">de[rm]|allem|[dm]ir|ihm</token>
+                    <token postag="PA1.*AKK.*" postag_regexp="yes"/>
                 </antipattern>
                 <!-- FEM -->
                 <pattern case_sensitive="yes">
@@ -47316,6 +47331,10 @@ Andere Projekte</example>
                 <example correction="">Das ist wider <marker>aller Vernunft</marker>.</example>
                 <example correction="">Das ist für <marker>deiner Frau</marker>.</example>
                 <example>Er macht es, ohne <marker>seiner Gruppe</marker> zu schaden.</example>
+                <example>Die beiden Sportredakteure hatten mich eingestellt, ohne der Chefin etwas zu sagen und mich vorzustellen.</example>
+                <example>Ausnahmen gibt es nur für der Forschung (vor allem Risikoforschung) dienende kleine Anbauflächen.</example>
+                <example>Was für einer Arbeit gehst du nach?</example>
+                <example>Er stelle Aufgaben, ohne seinen Schülern vorzugeben, wie sie sie zu lösen hatten.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
