@@ -27,6 +27,15 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
 -->
 <rules lang="en" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/remote-rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <category name="Machine learning rules" id="AI_RULES">
+        <rule id="AI_HYDRA_LEO_CPT_ARE_IS" name="">
+            <pattern>
+                <token>thou</token>
+                <marker>
+                    <token>are</token>
+                </marker>
+            </pattern>
+            <example correction="">Some scholars rely on John 8:57: "thou <marker>are</marker> not yet fifty years old", making the earliest possible year for Jesus's birth c. 18 BC.</example>
+        </rule>
         <rulegroup id="AI_HYDRA_LEO_CP_YOU_YOUR" name="">
             <rule>
                 <pattern>
