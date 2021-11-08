@@ -34,7 +34,7 @@ public class CatalanRepeatedWordsRule extends AbstractRepeatedWordsRule {
 
   public CatalanRepeatedWordsRule(ResourceBundle messages) {
     super(messages, new Catalan());
-    super.setDefaultTempOff();
+    // super.setDefaultTempOff();
   }
 
   private static final Map<String, SynonymsData> wordsToCheck = loadWords("/ca/synonyms.txt");
