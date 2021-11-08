@@ -23071,6 +23071,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="2014">Es de <marker>20014</marker>.</example>
             <example>Es del 2015.</example>
         </rule>
+        <rulegroup id="INVIERNO_DDDDD" name="invierno 20211 (2021)" default="temp_off">
+            <rule>
+                <antipattern>
+                    <token>por</token>
+                    <token>año</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">&meses_ano;|&meses_ano_abrv;|&estaciones_ano;|temporadas?|cursos?|años?</token>
+                    <token postag="A.*|V.P.*" postag_regexp="yes" min="0"/>
+                    <token regexp="yes" min="0">de|del</token>
+                    <marker>
+                        <token regexp="yes">\d\d\d\d\d</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir un año de cuatro dígitos?</message>
+                <example correction="">En el verano de <marker>20211</marker> no habrá nieve.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">&meses_ano_abrv;</token>
+                    <token>.</token>
+                    <token regexp="yes" min="0">de|del</token>
+                    <marker>
+                        <token regexp="yes">\d\d\d\d\d</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir un año de cuatro dígitos?</message>
+                <example correction="">En Oct. <marker>20211</marker> no habrá nieve.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="DATE_NEW_YEAR" name="Año nuevo">
             <antipattern>
                 <token regexp="yes">\d\d\d\d</token>
