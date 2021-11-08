@@ -47271,7 +47271,7 @@ Andere Projekte</example>
         <rulegroup id="PRAEP_AKK" name="Präposition mit Akkusativ (ohne, für etc.)">
             <url>https://dict.leo.org/grammatik/deutsch/Wort/Praeposition/Kasus/Akkusativ.html</url>
             <short>'\1' erfordert den Akkusativ</short>
-            <rule>
+            <rule default="off">
                 <antipattern case_sensitive="yes">
                     <token>,</token>
                     <token skip="-1">ohne</token>
@@ -47322,7 +47322,7 @@ Andere Projekte</example>
                     </marker>
                     <token><exception postag="ADJ:AKK:.+|PA1:.+" postag_regexp="yes"/><exception>nach</exception></token>
                 </pattern>
-                <filter class="org.languagetool.rules.de.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:(ART|PRO).* postagFrom:3 postagSelect:(ADJ|SUB)(:DAT:(SIN|PLU):FEM.*) postagReplace:.*\a2"/>
+                <filter class="org.languagetool.rules.de.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:(ART|PRO):(...):.* postagFrom:3 postagSelect:(ADJ|SUB):DAT:((SIN|PLU):FEM.*) postagReplace:(ART|PRO):\a2:AKK:\b2"/>
                 <message>Die Präposition '\1' erfordert in der Regel den Akkusativ.</message>
                 <suggestion>{suggestion} \3</suggestion>
                 <example>Das ist wider <marker>die Vernunft</marker>.</example>
