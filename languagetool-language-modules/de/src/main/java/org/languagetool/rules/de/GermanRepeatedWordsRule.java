@@ -41,7 +41,7 @@ public class GermanRepeatedWordsRule extends AbstractRepeatedWordsRule{
   
   @Override
   protected String getMessage() {
-    return "Dieses Wort kommt im Text bereits vor. Verwenden Sie ein Synonym, um Ihren Text abwechslungsreicher zu gestalten, außer die Wiederholung ist beabsichtigt.";
+    return "Dieses Wort kommt in einem nahe gelegenen vorherigen Satz bereits vor. Verwenden Sie ein Synonym, um Ihren Text abwechslungsreicher zu gestalten, außer die Wiederholung ist beabsichtigt.";
   }
 
   @Override
