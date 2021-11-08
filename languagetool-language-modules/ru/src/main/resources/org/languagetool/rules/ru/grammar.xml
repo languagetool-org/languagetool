@@ -7280,6 +7280,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example correction="">Они думали о <marker>родного доме</marker>.</example>
                 </rule>               
         </rulegroup>
+        
+        
+        <rule default="temp_off" id="Soglasovanie_NN_PT" name="Согласование существительного с причастием">
+            <!-- Experimental rule, issue #1069, #1062 -->  
+            <pattern>
+                <token><exception postag="NN:.*" postag_regexp="yes" /></token>
+                <unify negate="yes">
+                    <feature id="gender"/>
+                      
+                    <marker>
+                        <token postag="NN:.*:V" postag_regexp="yes"><exception postag="NN:.*:V" postag_regexp="yes" negate_pos="yes"></exception></token>
+                        <unify-ignore>
+                            <token>,</token>
+                        </unify-ignore>
+                        <token postag="PT:.*" postag_regexp="yes" ><exception postag="PT:.*" postag_regexp="yes" negate_pos="yes"></exception></token>
+                    </marker>
+                </unify>
+               <token><exception postag="NN:.*" postag_regexp="yes" /></token>
+            </pattern>
+            <message>Ошибка в согласовании причастия по роду!</message>
+            <short>Ошибка в согласовании</short>
+            <example correction="">Он увидел <marker>собаку, хромавшего</marker> на задние лапы.</example>
+    
+            <example>Он увидел собаку, хромавшую на задние лапы.</example>
+        </rule>
+        
+        
+        
         <rule  id="Adj_NN_number_Software" name="«Программное обеспечение»"> 
             <pattern> <!-- Need more unification -->
                 <marker>
