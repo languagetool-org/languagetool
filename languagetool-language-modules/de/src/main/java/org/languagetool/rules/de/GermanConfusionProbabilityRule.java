@@ -130,4 +130,8 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
     return false;
   }
 
+  protected boolean isCommonWord(String token) {
+    return token.matches("[\\wöäüßÖÄÜ]+");
+  }
+
 }
