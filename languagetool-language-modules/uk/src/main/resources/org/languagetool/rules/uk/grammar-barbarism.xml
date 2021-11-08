@@ -510,19 +510,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </marker>
         </pattern>
         <message>Правильно: <suggestion><match no="1" postag_regexp="yes" postag="(verb|advp).*">вважатися</match> за <match
-          no="2" postag_regexp="yes" postag="(.*)v_oru(.*)" postag_replace="$1v_zna:(rinanim|ranim)?$2"/> <match
+          no="2" postag_regexp="yes" postag="(.*)v_oru(.*)" postag_replace="$1v_zna(:rinanim|:ranim)?$2"/> <match
           no="3" postag_regexp="yes" postag="(.*)v_oru(.*)" postag_replace="$1v_zna$2"/></suggestion></message>
 
         <url>http://kurylo.wikidot.com/23-deiaki-khybno-vzhyvani-slova</url>
         <example correction="Вважатись за депутата|Вважатися за депутата"><marker>Рахуватися депутатом</marker></example>
-        <example correction="Вважатись за народний депутата|Вважатись за народного (депутатом)|Вважатися за народне (депутатом)"><marker>Рахуватися народним депутатом</marker></example>
+        <example correction="Вважатись за народне депутата|Вважатись за народний депутата|Вважатись за народного депутата|Вважатися за народне депутата|Вважатися за народний депутата|Вважатися за народного депутата"><marker>Рахуватися народним депутатом</marker></example>
         <example correction="Вважатись за директрису|Вважатися за директрису"><marker>Рахуватися директрисою</marker></example>
         <example correction="(Вважатися) за директрису"><marker>Рахуючись директрисою</marker></example>
-        <!--
-            <example correction="вважавсь за торгівельний осередок|вважався за торгівельний осередок"><marker>рахувався торгівельним осередком</marker></example>
-            <example correction="вважавсь за торгівельне осередок|вважавсь за торгівельний осередок|вважавсь за торгівельного осередок|вважався за торгівельне осередок|вважався за торгівельний осередок|вважався за торгівельного осередок"><marker>рахувався торгівельним осередком</marker></example>
-        -->
-        <example correction="вважавсь за торгівельний осередок|вважавсь за торгівельного (осередком)|вважався за торгівельне (осередком)"><marker>рахувався торгівельним осередком</marker></example>
+        <example correction="вважавсь за торгівельне осередок|вважавсь за торгівельний осередок|вважавсь за торгівельного осередок|вважався за торгівельне осередок|вважався за торгівельний осередок|вважався за торгівельного осередок"><marker>рахувався торгівельним осередком</marker></example>
         <example>рахувалися разом</example>
         <example>витрати рахувалися мільйонами</example>
         <example>Але чи рахувалася ФРН із позицією</example>
@@ -5701,10 +5697,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token inflected="yes">масло</token>
           </unify>
         </pattern>
-        <message>Правильно: <suggestion><match no="1" postag_regexp="yes" postag="(adj)(:n)(.*)" postag_replace="$1(:f)(?!:v_zna:ranim)$3.*"/> <match no="2" postag="(noun:inanim):n:(.*)" postag_replace="$1:f:$2.*">олія</match></suggestion></message>
-        <example correction="рослинною олією">полити <marker>рослинним маслом</marker>.</example>
+        <message>Правильно: <suggestion><match no="1" postag_regexp="yes" postag="(adj)(:n)?(:p)?(:v_...)(.*)" postag_replace="$1(:f)?$3$4$5"/> <match no="2" postag="(noun:inanim):n:(.*)" postag_replace="$1:f:$2.*">олія</match></suggestion></message>
+        <example correction="рослинним олією|рослинною олією">полити <marker>рослинним маслом</marker>.</example>
         <example correction="пальмова олію|пальмову олію">взяти <marker>пальмове масло</marker>.</example>
         <example correction="оливкової олії">проти <marker>оливкового масла</marker>.</example>
+        <example correction="ефірні олії">про <marker>ефірні масла</marker>.</example>
         <!-- 
         <example correction="рослинних олій">з <marker>рослинних масел</marker>.</example>
          -->

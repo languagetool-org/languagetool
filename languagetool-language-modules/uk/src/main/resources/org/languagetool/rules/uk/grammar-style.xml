@@ -1696,13 +1696,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token min="0" postag_regexp="yes" postag="adj.*"/>
           <token postag_regexp="yes" postag="noun.*"><exception regexp="yes">країни|ціноутворення</exception></token>
         </pattern>
-        <message>Правильно: <suggestion>економний</suggestion></message>
+        <message>Правильно: <suggestion><match no="1" postag_regexp="yes" postag="adj.*" postag_replace="$0.*">економний</match></suggestion></message>
         <example correction="економний"><marker>економічний</marker> двигун цієї машини</example>
         <example>економічну політику</example>
         <example>став економічним двигуном ціноутворення</example>
         <example>став економічним двигуном великого ціноутворення</example>
         <example>став економічним двигуном всієї країни</example>
       </rule>
+
       <rule>
         <pattern>
           <marker>
@@ -1710,7 +1711,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </marker>
           <token inflected="yes" regexp="yes">двигун|технологія</token>
         </pattern>
-        <message>Правильно: <suggestion>економний</suggestion></message>
+        <message>Правильно: <suggestion><match no="1" postag_regexp="yes" postag="adj.*" postag_replace="$0.*">економний</match></suggestion></message>
         <example correction="економний">поставили <marker>економічний</marker> двигун</example>
         <example>поставили економний двигун</example>
       </rule>
@@ -1721,12 +1722,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <marker>
             <token inflected="yes">громадянський</token>
-            <token inflected="yes">транспорт</token>
           </marker>
+          <token inflected="yes">транспорт</token>
         </pattern>
-        <message>Близькі за звучанням, але різні за значенням слова. Ви мали на увазі <suggestion>громадський транспорт</suggestion>?</message>
+        <message>Близькі за звучанням, але різні за значенням слова. Ви мали на увазі <suggestion><match no="1" postag_regexp="yes" postag="adj.*">громадський</match></suggestion> транспорт?</message>
         <short>Правильно «громадський транспорт»</short>
-        <example correction="Громадський транспорт"><marker>Громадянський транспорт</marker> став через снігопад.</example>
+        <example correction="Громадський"><marker>Громадянський</marker> транспорт став через снігопад.</example>
         <example>Громадський транспорт став через снігопад.</example>
       </rule>
 
@@ -1752,12 +1753,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </marker>
           <token inflected="yes" regexp="yes">конструкція|опалубка|руда|сітка|спіраль|стружка|термопара|гроші|відходи|порошок|покрив|виробництво|підшипник</token>
         </pattern>
-        <message>Правильно: <suggestion>металевий</suggestion></message>
+        <message>Правильно: <suggestion><match no="1" postag_regexp="yes" postag="adj.*">металевий</match></suggestion></message>
         <url>http://msu.kharkov.ua/tc/cons/metal.html</url>
-        <example correction="металевий"><marker>металічної</marker> руди</example>
+        <example correction="металевої"><marker>металічної</marker> руди</example>
         <example>металевої руди</example>
         <example>металічного присмаку</example>
       </rule>
+
       <rule>
         <pattern>
           <marker>
@@ -1765,9 +1767,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </marker>
           <token inflected="yes" regexp="yes">провідність|зв'язок|блиск|водень|кристал|присмак</token>
         </pattern>
-        <message>Правильно: <suggestion>металічний</suggestion></message>
+        <message>Правильно: <suggestion><match no="1" postag_regexp="yes" postag="adj.*">металічний</match></suggestion></message>
         <url>http://msu.kharkov.ua/tc/cons/metal.html</url>
-        <example correction="металічний"><marker>металевого</marker> блиску</example>
+        <example correction="металічного"><marker>металевого</marker> блиску</example>
         <example>металічного блиску</example>
         <example>металевої руди</example>
       </rule>
@@ -1781,9 +1783,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </marker>
           <token inflected="yes" regexp="yes">слух|здібність</token>
         </pattern>
-        <message>Правильно: <suggestion>музикальний</suggestion></message>
+        <message>Правильно: <suggestion><match no="1" postag_regexp="yes" postag="adj.*">музикальний</match></suggestion></message>
         <example correction="Музикальний"><marker>Музичний</marker> слух</example>
       </rule>
+
       <rule>
         <pattern>
           <marker>
@@ -1791,8 +1794,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </marker>
           <token inflected="yes" regexp="yes">вечір|гурт|училище|інструмент|нота|установка|автомат|форма</token>
         </pattern>
-        <message>Правильно: <suggestion>музичний</suggestion></message>
-        <example correction="Музичний"><marker>Музикального</marker> вечора</example>
+        <message>Правильно: <suggestion><match no="1" postag_regexp="yes" postag="adj.*">музичний</match></suggestion></message>
+        <example correction="Музичного"><marker>Музикального</marker> вечора</example>
       </rule>
     </rulegroup>
 
@@ -1804,10 +1807,72 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </marker>
           <token inflected="yes" regexp="yes">будівництво|фонд</token>
         </pattern>
-        <message>Близькі за звучанням, але різні за значенням слова. Ви мали на увазі <suggestion>житловий</suggestion>?</message>
+        <message>Близькі за звучанням, але різні за значенням слова. Ви мали на увазі <suggestion><match no="1" postag_regexp="yes" postag="adj.*">житловий</match></suggestion>?</message>
         <short>Правильно «житловий»</short>
-        <example correction="житловий">Постанова про індивідуальне <marker>жиле</marker> будівництво.</example>
+        <example correction="житлове">Постанова про індивідуальне <marker>жиле</marker> будівництво.</example>
         <example>Постанова про індивідуальне жилий будинок.</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="shkirnyi_shkiryanyi" name="Шкірний і шкіряний">
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">шкірний</token>
+          </marker>
+          <token inflected="yes" regexp="yes">завод|гаман(ець)?|міх|торб(инк)?а|пояс|пальто|диван|одяг|чобіт|меблі|виріб|річ|куртка|взуття|промисловість</token>
+        </pattern>
+        <message>Правильно: <suggestion><match no="1" postag_regexp="yes" postag="adj.*">шкіряний</match></suggestion></message>
+        <example correction="шкіряний"><marker>шкірний</marker> гаман</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">шкіряний</token>
+          </marker>
+          <token inflected="yes" regexp="yes">хвороба|захворювання|біль|висип|пігмент|покрив|жир|сало|порушення|чутливість|подразнення|диспансер</token>
+        </pattern>
+        <message>Правильно: <suggestion><match no="1" postag_regexp="yes" postag="adj.*">шкірний</match></suggestion></message>
+        <example correction="шкірна"><marker>шкіряна</marker> хвороба</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">шкіряний</token>
+          </marker>
+          <token postag="conj:coord"/>
+          <token postag_regexp="yes" postag="adj.*"/>
+          <token inflected="yes" regexp="yes">хвороба|захворювання|ускладнення|порушення</token>
+        </pattern>
+        <message>Правильно: <suggestion><match no="1" postag_regexp="yes" postag="adj.*">шкірний</match></suggestion></message>
+        <example correction="шкірні"><marker>шкіряні</marker> та інфекційні хвороби</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="richnyi_richkovyi" name="Річний і річковий">
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">річний</token>
+          </marker>
+          <token inflected="yes" regexp="yes">порт|вокзал|течія|стік|піщаник|пісок|черепниця|пароплав|пляж|повітря</token>
+        </pattern>
+        <message>Краще: <suggestion><match no="1" postag_regexp="yes" postag="adj.*">річковий</match></suggestion></message>
+        <example correction="річкового"><marker>річного</marker> вокзалу</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">річний</token>
+          </marker>
+          <token postag="conj:coord"/>
+          <token inflected="yes" regexp="yes">морський|озерний</token>
+        </pattern>
+        <message>Краще: <suggestion><match no="1" postag_regexp="yes" postag="adj.*">річковий</match></suggestion></message>
+        <example correction="річковим"><marker>річним</marker> та морським</example>
       </rule>
     </rulegroup>
 
