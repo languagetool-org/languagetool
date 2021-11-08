@@ -35,7 +35,7 @@ public class SpanishRepeatedWordsRule extends AbstractRepeatedWordsRule{
   
   public SpanishRepeatedWordsRule(ResourceBundle messages) {
     super(messages, new Spanish());
-    //super.setDefaultTempOff();
+    super.setDefaultTempOff();
   }
   
   private static final Map<String, SynonymsData> wordsToCheck = loadWords("/es/synonyms.txt");
