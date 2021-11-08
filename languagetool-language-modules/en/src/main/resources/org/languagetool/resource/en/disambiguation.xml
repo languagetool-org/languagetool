@@ -15405,4 +15405,38 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+
+    <rule id="NUMBER_PERIOD_A" name="remove 'DT' from '3.a'">
+        <pattern>
+            <token regexp="yes">\d+</token>
+            <token spacebefore="no">.</token>
+            <marker>
+                <token spacebefore="no">a</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="DT"/>
+    </rule>
+
+    <rulegroup id="MICHAELS_IGNORE_SPELLING" name="ignore spelling of 'Michaels'">
+        <!-- popular surname -->
+        <rule>
+            <pattern>
+                <token postag="NNP|UNKNOWN" postag_regexp="yes" case_sensitive="yes">[A-Z].+</token>
+                <marker>
+                    <token case_sensitive="yes" regexp="yes">Michaels|MICHAELS</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token case_sensitive="yes" regexp="yes">[A-Z]|[Mm]rs?|[Dd]r|[Tt]he</token>
+                <token min="0">.</token>
+                <marker>
+                    <token case_sensitive="yes" regexp="yes">Michaels|MICHAELS</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
 </rules>
