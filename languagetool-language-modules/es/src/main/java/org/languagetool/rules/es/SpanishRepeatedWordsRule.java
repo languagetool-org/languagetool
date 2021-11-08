@@ -42,7 +42,7 @@ public class SpanishRepeatedWordsRule extends AbstractRepeatedWordsRule{
   
   @Override
   protected String getMessage() {
-    return "Esta palabra ya ha aparecido antes. Puede usar un sinónimo para hacer más interesante el texto, excepto si la repetición es intencionada.";
+    return "Esta palabra ya ha aparecido en una de las frases inmediatamente anteriores. Puede usar un sinónimo para hacer más interesante el texto, excepto si la repetición es intencionada.";
   }
 
   @Override

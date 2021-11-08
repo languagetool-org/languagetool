@@ -42,7 +42,7 @@ public class FrenchRepeatedWordsRule extends AbstractRepeatedWordsRule{
   
   @Override
   protected String getMessage() {
-    return "Ce mot est déjà apparu. Utilisez un synonyme pour apporter plus de variété à votre texte, excepté si la répétition est intentionnelle.";
+    return "Ce mot apparaît déjà dans une phrase précédente voisine. Utilisez un synonyme pour apporter plus de variété à votre texte, excepté si la répétition est intentionnelle.";
   }
 
   @Override

@@ -41,7 +41,7 @@ public class EnglishRepeatedWordsRule extends AbstractRepeatedWordsRule{
   
   @Override
   protected String getMessage() {
-    return "You have used this word before. Using a synonym could make your text more interesting to read, unless the repetition is intentional.";
+    return "This word has been used in one of the immediately preceding sentences. Using a synonym could make your text more interesting to read, unless the repetition is intentional.";
   }
 
   @Override
