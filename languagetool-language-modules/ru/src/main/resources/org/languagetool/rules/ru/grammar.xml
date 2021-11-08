@@ -4307,18 +4307,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         
-        <rulegroup id="skoree_vsego" name="Слова, которые могут выступать в роли вводных: «скорее всего»" default="temp_off">
+        <rulegroup id="skoree_vsego" name="Словосочетания, которые могут выступать в роли вводных: «скорее всего»" default="on" tags="picky" >  <!--default="temp_off"  -->
             <rule>
                 <!-- Вводные слова:   скорее всего -->
                 <pattern case_sensitive="no">
                     <token negate="yes" regexp="yes">&pnct;|а|и|но|сказать|совсем|говорить|говоря<exception postag="SENT_START"></exception><exception postag="VB:.*" postag_regexp="yes"></exception></token>
                     <token>скорее</token>
                     <token>всего</token>
-                    <token negate="yes">,</token>
+                    <token><exception regexp="yes">&pnct;</exception></token>
                 </pattern>
-                <message>Пропущена запятая: <suggestion>\1, \2 \3,</suggestion>.</message>
+                <message>Словосочетание обычно является вводным, и только в этом контексте выделяется запятыми: <suggestion>\1, \2 \3,</suggestion>. Если употребляется в роли членов предложения (в значении «быстрее всего»), то запятая не нужна.</message>
                 <url>http://new.gramota.ru/spravka/punctum?layout=item&amp;id=58_672</url>
-                <short>Пропущена запятая</short>
+                <short>Пропущена запятая, проверьте</short>
                 <example>Эта работа, скорее всего, представляет огромную научную ценность.</example>
                 <example correction="работа, скорее всего,">Эта <marker>работа скорее всего представляет</marker> огромную научную ценность.</example>
             </rule>
@@ -4330,9 +4330,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>всего</token>
                     <token>,</token>
                 </pattern>
-                <message>Пропущена запятая: <suggestion>\1, \2 \3\4</suggestion>.</message>
+                <message>Словосочетание обычно является вводным, и только в этом контексте выделяется запятыми: <suggestion>\1, \2 \3\4</suggestion>. Если употребляется в роли членов предложения (в значении «быстрее всего»), то запятая не нужна.</message>
                 <url>http://new.gramota.ru/spravka/punctum?layout=item&amp;id=58_672</url>
-                <short>Пропущена запятая</short>
+                <short>Пропущена запятая, проверьте</short>
                 <example>Эта работа, скорее всего, представляет огромную научную ценность.</example>
                 <example correction="работа, скорее всего,">Эта <marker>работа скорее всего,</marker> представляет огромную научную ценность.</example>
             </rule>
@@ -12553,7 +12553,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START" negate_pos="yes"></token>
                     <marker>
-                        <token regexp="yes">([А-ЯЁ]{5,5})[А-ЯЁ].*<exception postag_regexp="yes" postag="ABR:.*" />
+                        <token regexp="yes">([А-ЯЁ]{4,4})[А-ЯЁ].*<exception postag_regexp="yes" postag="ABR:.*" />
                             <exception postag_regexp="yes" postag="NN:(Patr|Name):.*" />
                             <exception regexp="yes" >&zagl;</exception>
                         </token>
