@@ -20,6 +20,7 @@ package org.languagetool.rules;
 
 import org.languagetool.Language;
 import org.languagetool.Premium;
+import org.languagetool.Tag;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,11 +69,11 @@ public class CleanOverlappingFilter implements RuleMatchFilter {
         // (we'd show hidden matches for errors covered by an Open Source match)
         currentPriority = Integer.MIN_VALUE;
       }
-      if (ruleMatch.getRule().getTags().toString().contains("picky") && currentPriority != Integer.MIN_VALUE) {
+      if (ruleMatch.getRule().getTags().contains(Tag.picky) && currentPriority != Integer.MIN_VALUE) {
         currentPriority += negativeConstant;
       }
       int prevPriority = language.getRulePriority(prevRuleMatch.getRule());
-      if (prevRuleMatch.getRule().getTags().toString().contains("picky") && prevPriority != Integer.MIN_VALUE) {
+      if (prevRuleMatch.getRule().getTags().contains(Tag.picky) && prevPriority != Integer.MIN_VALUE) {
         prevPriority += negativeConstant;
       }
       if (currentPriority == prevPriority) {
