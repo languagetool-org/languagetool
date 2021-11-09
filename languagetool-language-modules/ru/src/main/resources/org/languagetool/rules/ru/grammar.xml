@@ -6778,10 +6778,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="NN:.*" postag_regexp="yes"></token>
             </antipattern>        
             <pattern>
-                <marker>
+
                     <unify negate="yes">
                         <feature id="case"/>
+                        <marker>
                         <token postag="ADJ:MPR:.*" postag_regexp="yes"><exception  negate_pos="yes"   postag="ADJ:MPR:.*" postag_regexp="yes" /><exception scope="previous" regexp="yes">,|–|-|—</exception><exception inflected="yes" regexp="yes" >который|такой|сам|самый|каждый|свой|другой</exception><exception scope="previous"  postag="NN:.*" postag_regexp="yes" ></exception></token>
+                        </marker>
                         <token postag="NN:.*" postag_regexp="yes">
                             <exception regexp="yes">друг|уже|уж|при|после|весь|мировой|молодой|куплю|байке|лажа|лазанью</exception>
                             <exception postag="VB:.*|CONJ|PREP|ADV|ADJ:.*" postag_regexp="yes" />
@@ -6791,8 +6793,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <exception case_sensitive="yes">Tом</exception>
                         </token>
                     </unify>				        
-                </marker>
+                
             </pattern>
+            <filter class="org.languagetool.rules.ru.AdvancedSynthesizerFilter" args="lemmaFrom:1 lemmaSelect:ADJ:MPR:.*:.* postagFrom:2 postagSelect:NN:.*:(.*):.*:(.*) postagReplace:ADJ:MPR:\b1:\b2"/>
+
             <message>Притяжательное прилагательное (местоимение) не согласуется с существительным по падежу.</message>
             <short>Не согласуются по падежу</short>
             <example>моё отношение</example>
@@ -6800,7 +6804,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Тем самым предложение обособляется.</example>
             <example>В простом курятнике моём Пшена мы с вами поклюём.</example>
             <example>Положив тем самым основы коалиции.</example>
-            <example correction=""><marker>моему отношение</marker></example>
+            <example correction="моё"><marker>моему</marker>  отношение</example>
         </rule>
         <rule  id="Unify_PADJ_NN_gender" name="Согласование притяжательного прилагательного (местоимения) с существительным по роду">
             <!-- TODO remove свой + все формы from exception -->                 
@@ -7288,8 +7292,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token><exception postag="NN:.*" postag_regexp="yes" /></token>
                 <unify negate="yes">
-                    <feature id="gender"/>
-                      
+                    <feature id="gender"/>        
                     <marker>
                         <token postag="NN:.*:V" postag_regexp="yes"><exception postag="NN:.*:V" postag_regexp="yes" negate_pos="yes"></exception></token>
                         <unify-ignore>
@@ -7303,7 +7306,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Ошибка в согласовании причастия по роду!</message>
             <short>Ошибка в согласовании</short>
             <example correction="">Он увидел <marker>собаку, хромавшего</marker> на задние лапы.</example>
-    
             <example>Он увидел собаку, хромавшую на задние лапы.</example>
         </rule>
         
