@@ -48,9 +48,9 @@ public class GermanRepeatedWordsRuleTest {
     
     assertCorrectText("Lauf so schnell wie möglich. Das ist MÖGLICH!");
         
-    RuleMatch[] matches=getRuleMatches("Lauf so schnell wie möglich. Ein anderes Amazonien ist möglich");
+    /*RuleMatch[] matches=getRuleMatches("Lauf so schnell wie möglich. Ein anderes Amazonien ist möglich");
     assertEquals(1, matches.length);
-    assertEquals("[denkbar, machbar, zulässig, ausführbar, erreichbar]", matches[0].getSuggestedReplacements().toString());
+    assertEquals("[denkbar, machbar, zulässig, ausführbar, erreichbar]", matches[0].getSuggestedReplacements().toString());*/
             
   }
   
