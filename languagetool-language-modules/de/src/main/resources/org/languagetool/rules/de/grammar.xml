@@ -2807,6 +2807,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>&typo;</short>
             <example correction="Dank">Vielen <marker>Dan</marker> für die Blumen.</example>
         </rule>
+        <rule id="ZIEGEN_ZEIGEN" name="Ziegen/Zeigen" default="off">
+            <pattern>
+                <token postag="SENT_START"/>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">Ziegen?</token>
+                    </marker>
+                    <token postag="PRO:PER.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="2" regexp_match="ie" regexp_replace="ei"/></suggestion>?</message>
+                <short>&typo;</short>
+                <example correction="Zeigen"><marker>Ziegen</marker> Sie mir den Pass.</example>
+        </rule>
         <rulegroup id="ALS_OHNE_KOMPARATIV" name="'schnelle (schneller) als' etc.">
             <short>&typo;</short>
             <rule>
@@ -9116,7 +9128,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>&verw;Meinten Sie <suggestion><match no="1" regexp_match="leb" regexp_replace="lieb"/></suggestion>?</message>
                 <short>&verw;</short>
-                <example correction="">Ich <marker>lebe</marker> dich.</example>
+                <example correction="liebe">Ich <marker>lebe</marker> dich.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AUFGEWASCHEN" name="aufgewaschen (aufgewachsen)">
@@ -41960,6 +41972,26 @@ Andere Projekte</example>
                 <short>&prgk;.</short>
                 <example correction="schwarz auf weiß">Es steht hier <marker>Schwarz auf Weiß</marker>.</example>
                 <example><marker>Schwarz auf weiß</marker> steht es hier.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ROT_GEFAERBT" name="Rot gefärbt (rot gefärbt)" default="temp_off">
+            <rule>
+                <antipattern>
+                    <token regexp="yes">in|auf|mit|Farbe</token>
+                    <token case_sensitive="yes" regexp="yes" skip="-1">Gr(au|ün)|Wei(ß|ss)|Schwarz|Rot|Gelb|Blau|Lila|Orange|Beige|Rosa|Braun</token>
+                </antipattern>
+                <pattern>
+                    <token postag_regexp="yes" postag="VER:.*[123].*" skip="3"></token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes" skip="-1">Gr(au|ün)|Wei(ß|ss)|Schwarz|Rot|Gelb|Blau|Lila|Orange|Beige|Rosa|Braun</token>
+                    </marker>
+                    <token regexp="yes">unterstrichen(e[rsn]?)?|ge(färbt|malt)(e[rsn]?)?</token>
+                </pattern>
+                <message>In dieser Wendung scheint der Farbname als Adverb gebraucht zu werden und ist deshalb kleinzuschreiben.</message>
+                <suggestion><match case_conversion="startlower" no="2"/></suggestion>
+                <short>&prgk;.</short>
+                <example correction="weiß">Sie ist <marker>Weiß</marker> gefärbt.</example>
+                <example correction="rot">Sie wird doch nicht <marker>Rot</marker> unterstrichen.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SANITAER" name="sanitär (Sanitär)">
