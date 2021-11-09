@@ -1040,12 +1040,12 @@ public class JLanguageTool {
             remoteMatches.addAll(adjustedMatches);
           }
         } catch (InterruptedException e) {
-          logger.warn("Failed to fetch result from remote rule - interrupted (request timed out).", e);
+          logger.info("Failed to fetch result from remote rule - interrupted (request timed out).", e);
           break;
         } catch (CancellationException e) {
-          logger.warn("Failed to fetch result from remote rule - cancelled (rule marked as down).", e);
+          logger.info("Failed to fetch result from remote rule - cancelled (rule marked as down).", e);
         } catch (ExecutionException e) {
-          logger.error("Failed to fetch result from remote rule - error while executing rule.", e);
+          logger.warn("Failed to fetch result from remote rule - error while executing rule.", e);
         }
       }
 
@@ -1303,7 +1303,7 @@ public class JLanguageTool {
           tmpErrorsPerWord = errorsPerWord;
         }
         if (maxErrorsPerWordRate > 0 && errorsPerWord > maxErrorsPerWordRate && wordCounter > 25) {
-          errorRateLog.forEach(logger::error);
+          errorRateLog.forEach(logger::info);
           logger.info("ErrorRateTooHigh is reached by a single sentence after rule: " + rule.getFullId() +
             " the hole text contains " + wordCounter + " words " +
             " this sentence has " + sentenceMatches.size() + " matches");
@@ -1893,7 +1893,7 @@ public class JLanguageTool {
             tmpErrorsPerWord = errorsPerWord;
           }
           if (maxErrorsPerWordRate > 0 && errorsPerWord > maxErrorsPerWordRate && wordCounter > 25) {
-            errorRateLog.forEach(logger::error);
+            errorRateLog.forEach(logger::info);
             throw new ErrorRateTooHighException("Text checking was stopped due to too many errors (more than " + String.format("%.0f", maxErrorsPerWordRate * 100) +
               "% of words seem to have an error). Are you sure you have set the correct text language? Language set: " + JLanguageTool.this.language.getName() +
               ", text length: " + annotatedText.getPlainText().length());
