@@ -2597,7 +2597,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- issue #1097 не|лишь -->
             <rule>
                 <pattern>
-                    <token postag_regexp="yes" postag="ADV|PARTICLE"><exception>только</exception></token>
+                    <token postag_regexp="yes" postag="ADV|PARTICLE"><exception>только</exception><exception scope="previous" postag="SENT_START"></exception></token>
                     <token>для</token>
                     <token>того</token>
                     <token>чтобы</token>
@@ -2606,6 +2606,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <url>https://russkiiyazyk.ru/punktuatsiya/dlia-togo-chtoby-zapyataya.html</url>
                 <short>Пропущена запятая</short>
                 <example correction="не для того, чтобы">Он зашел к нам вовсе <marker>не для того чтобы</marker> сообщить эту новость.</example>
+                <example>Ведь для того чтобы пламя непрерывно горело, необходим приток свежего кислорода.</example>
                 <example>Он зашел к нам вовсе не для того, чтобы сообщить эту новость.</example>
             </rule>
         </rulegroup>
