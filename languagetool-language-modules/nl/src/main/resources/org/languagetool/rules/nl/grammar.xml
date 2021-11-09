@@ -17721,6 +17721,39 @@ steenwijk;Steenwijk
 		<example>900 <marker>is</marker> een goed begin.</example>
 		</rule>
 		-->
+		<rulegroup id="SINT_X" name="Sint Anna/Sint-Anna">
+			<rule>
+				<pattern>
+					<token>sint</token>
+					<token regexp="yes">[A-Z].*</token>
+				</pattern>
+				<message>De heilige krijgt altijd een koppelteken; een plaatsnaam meestal.</message>
+				<suggestion><match no="1" case_conversion="firstupper"/>-\2</suggestion>
+				<url>https://onzetaal.nl/taaladvies/sint-anna-sint-anna</url>
+				<example correction="Sint-Anna">Ik aanbid <marker>sint Anna</marker>.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token>st</token>
+					<token regexp="yes">[A-Z].*</token>
+				</pattern>
+				<message>De heilige krijgt altijd een koppelteken; een plaatsnaam meestal.</message>
+				<suggestion>St.-\2</suggestion>
+				<url>https://onzetaal.nl/taaladvies/sint-anna-sint-anna</url>
+				<example correction="St.-Anna">Ik aanbid <marker>st Anna</marker>.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token>st</token>
+					<token>.</token>
+					<token regexp="yes">[A-Z].*</token>
+				</pattern>
+				<message>De heilige krijgt altijd een koppelteken; een plaatsnaam meestal.</message>
+				<suggestion>St.-\3</suggestion>
+				<url>https://onzetaal.nl/taaladvies/sint-anna-sint-anna</url>
+				<example correction="St.-Anna">Ik aanbid <marker>st. Anna</marker>.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="AANHALINMG_Z_SPATIE" name="-- / -">
 			<rule>
 				<pattern>
