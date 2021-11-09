@@ -40264,6 +40264,25 @@ Observe os polícias que estão na rua. → Observe os polícias na rua.
 	  <example>Tom acha que está com a perna quebrada.</example>
     </rule>	
 	
+	<!-- CERT(A)(O) dad(a)(o) -->
+    <rule id='CERTA_CERTO_DADA_DADO' name="Cert(a)(o)/Dad(a)(o)" type="style" tags="picky" default="temp_off">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-11-09 (25-JUN-2021+)      -->
+	<!--
+Isto aconteceu a certa altura do projeto. → Isto aconteceu a dada altura do projeto.
+	-->
+      <pattern>
+		  <token>a</token>
+		  <marker>
+			<token regexp="yes">cert[ao]</token>
+		  </marker>
+		  <token postag='NC.S.+' postag_regexp='yes'/>
+      </pattern>
+      <message>Num contexto formal ou académico, é preferível escrever:</message>
+      <suggestion><match no='3' postag='NC(.)S.+' postag_replace='NC$1S000'>dado</match></suggestion>
+	  <example correction="dada">Isto aconteceu a <marker>certa</marker> altura do projeto.</example>
+	  <example>A dada altura, elas sofrem uma metamorfose e transformam-se em adultos.</example>
+    </rule>
+	
 	<!-- PRECISÃO CIENTÍFICA rigor científico -->
     <rule id='PRECISAO_RIGOR_CIENTIFICO' name="Precisão/rigor científico" type="style" tags="picky">
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-10-22 (25-JUN-2021+)      -->
