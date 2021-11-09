@@ -8664,6 +8664,15 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="VB" />
             <token postag="IN|PCT|DT|PRP\$" postag_regexp="yes" />
         </antipattern>
+        <antipattern><!-- incorrect grammar: "It's works without problems" -->
+            <token>it</token><!-- TODO add 'he/she'-->
+            <token>'s</token><!-- TODO add 'is/was' -->
+            <token postag="VBZ">
+                <exception>companies</exception>
+            </token>
+            <token postag="RB" min="0" />
+            <token postag="IN|PRP\$|DT" postag_regexp="yes" chunk_re=".-(NP|PP)" /><!-- TODO add 'PCT' -->
+        </antipattern>
         <pattern>
             <token regexp="yes" postag="VB[ZPG]?" postag_regexp="yes" inflected="yes">be|have</token>
             <marker>
@@ -8684,6 +8693,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Incorrect grammar. It is need for review.</example>
         <example type="untouched">Incorrect grammar. It's need for review.</example>
         <example type="untouched">Incorrect grammar. It's goes there.</example>
+        <example type="untouched">Incorrect grammar. It's works without problems.</example>
         <example type="untouched">Incorrect grammar. The technician has <marker>make</marker> about 20 errors this year.</example>
         <example type="untouched">I have <marker>notice</marker> LanguageTool doesn't find all errors.</example><!-- Possibly a noun (=somebody has told me (that)), but possibly incorrect verb form (should be 'noticed') -->
         <example type="untouched">Incorrect grammar. I have <marker>start</marker> he tomorrow.</example>
