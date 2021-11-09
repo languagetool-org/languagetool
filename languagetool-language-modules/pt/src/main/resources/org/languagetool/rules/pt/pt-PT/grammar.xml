@@ -910,6 +910,21 @@ Este é o pai cujo seu filho foi à escola.
           <token>em</token>
           <token regexp="yes">["“]</token>
       </antipattern>
+<!-- MARCOAGPINTO 2021-11-09 (25-JUN-2021+) *START* -->
+<!--
+Todavia, estive lá eu em sua representação.
+Ele é superior a mim em seu conhecimento de inglês.
+-->
+      <antipattern>
+		<token postag='RG' postag_regexp='no'>
+			<exception postag_regexp='yes' postag='SPS.+'/>
+		</token>
+		<token postag='PP.+' postag_regexp='yes'/>
+		<token>em</token>
+		<token postag='DP.+' postag_regexp='yes'/>
+		<token postag='NC.+|AQ.+' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2021-11-09 (25-JUN-2021+) *END* -->
       <pattern>
           <token>em</token>
           <token postag='DP.*' postag_regexp='yes'/>
@@ -917,6 +932,9 @@ Este é o pai cujo seu filho foi à escola.
       <message>Será que quis dizer:</message>
         <suggestion>n<match no='2' postag='DP.(..).' postag_regexp='yes' postag_replace='DA.$1.'>o</match> <match no='2' case_conversion="alllower"/></suggestion>
       <example correction='na sua'>Leve <marker>em sua</marker> cesta.</example>
+	  
+	  <example>Todavia, estive lá eu em sua representação.</example>
+	  <example>Ele é superior a mim em seu conhecimento de inglês.</example>
     </rule>
   </rulegroup>
 
