@@ -2796,6 +2796,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>&typo;</short>
             <example correction="danke">Ich <marker>dank</marker> schön!</example>
         </rule>
+        <rule id="DANK_DAN" name="Dank/Dan" default="off">
+            <pattern>
+                <token>vielen</token>
+                <marker>
+                    <token case_sensitive="yes">Dan</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion>Dank</suggestion>?</message>
+            <short>&typo;</short>
+            <example correction="Dank">Vielen <marker>Dan</marker> für die Blumen.</example>
+        </rule>
         <rulegroup id="ALS_OHNE_KOMPARATIV" name="'schnelle (schneller) als' etc.">
             <short>&typo;</short>
             <rule>
@@ -9093,6 +9104,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>&verw;Meinten Sie <suggestion>Lied</suggestion>? (Lid = Augenlid)</message>
                 <short>&verw;</short>
                 <example correction="Lied">Das war das Ende vom <marker>Lid</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="LEBEN_LIEBEN" name="leben/lieben"  default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes" inflected="yes">leben</token>
+                    </marker>
+                    <token regexp="yes" case_sensitive="yes">[md]ich|ihn</token>
+                </pattern>
+                <message>&verw;Meinten Sie <suggestion><match no="1" regexp_match="leb" regexp_replace="lieb"/></suggestion>?</message>
+                <short>&verw;</short>
+                <example correction="">Ich <marker>lebe</marker> dich.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AUFGEWASCHEN" name="aufgewaschen (aufgewachsen)">
