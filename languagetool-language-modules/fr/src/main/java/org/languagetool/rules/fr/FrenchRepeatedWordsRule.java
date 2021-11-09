@@ -57,7 +57,7 @@ public class FrenchRepeatedWordsRule extends AbstractRepeatedWordsRule{
 
   @Override
   protected String getShortMessage() {
-    return "Style: mot répété";
+    return "Style : Mot répété";
   }
   
   @Override
