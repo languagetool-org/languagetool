@@ -27,15 +27,52 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
 -->
 <rules lang="en" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/remote-rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <category name="Machine learning rules" id="AI_RULES">
-        <rule id="AI_HYDRA_LEO_CPT_ARE_IS" name="">
-            <pattern>
-                <token>thou</token>
-                <marker>
-                    <token>are</token>
-                </marker>
-            </pattern>
-            <example correction="">Some scholars rely on John 8:57: "thou <marker>are</marker> not yet fifty years old", making the earliest possible year for Jesus's birth c. 18 BC.</example>
-        </rule>
+        <rulegroup id="AI_HYDRA_LEO_CPT_ARE_IS" name="">
+            <rule>  <!-- acronyms -->
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">[A-Z]{2,4}+s?</token>
+                    <marker>
+                        <token>are</token>
+                    </marker>
+                </pattern>
+                <example correction="">The move on the cost cut comes even as the FIs <marker>are</marker> busy negotiating with various prospective buyers of how the Enron stake could be bought by another company.</example>
+                <example correction="">The BVI <marker>are</marker> known as one of the world's greatest sailing destinations, and charter sailboats are a very popular way to visit less accessible islands.</example>
+                <example correction="">SLNG <marker>are</marker> to provide Enron and BG a copy of the Savannah Pilots Association working procedures for river traffic.</example>
+            </rule>
+            <rule>  <!-- here/there/that/what/which/who are -->
+                <pattern>
+                    <token regexp="yes">t?here|that|what|which|who</token>
+                    <marker>
+                        <token>are</token>
+                    </marker>
+                </pattern>
+                <example correction="">Even larger molecules are treated by classical mechanics methods that employ what <marker>are</marker> called molecular mechanics.</example>
+                <example correction="">One of the stars is a flare star, which <marker>are</marker> prone to sudden, random outbursts that last several minutes; these increase the pair's apparent brightness significantly - as high as magnitude 7.</example>
+            </rule>
+            <rule>  <!-- United States -->
+                <pattern>
+                    <token case_sensitive="yes">United</token>
+                    <token case_sensitive="yes">States</token>
+                    <marker>
+                        <token>are</token>
+                    </marker>
+                </pattern>
+                <example correction="">The United States <marker>are</marker> a rogue state.</example>
+            </rule>
+            <rule>  <!-- British English / miscellaneous exceptions -->
+                <pattern>
+                    <token regexp="yes">army|com|fish|government|measles|org|parliament|thou</token>
+                    <marker>
+                        <token>are</token>
+                    </marker>
+                </pattern>
+                <example correction="">In late December 2010, the Armenian Defense Minister, Seyran Ohanyan, officially acknowledged that the army <marker>are</marker> equipped with the Russian-made S-300 surface-to-air missiles.</example>
+                <example correction="">Urbanfetch.com <marker>are</marker> talking a Kozmo buyout again, according to The New York Times.</example>
+                <example correction="">The government <marker>are</marker> being criticised from all sides.</example>
+                <example correction="">The measles <marker>are</marker> highly contagious.</example>
+                <example correction="">Some scholars rely on John 8:57: "thou <marker>are</marker> not yet fifty years old", making the earliest possible year for Jesus's birth c. 18 BC.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AI_HYDRA_LEO_CP_YOU_YOUR" name="">
             <rule>
                 <pattern>
