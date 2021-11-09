@@ -47311,6 +47311,25 @@ Andere Projekte</example>
         <rulegroup id="PRAEP_AKK" name="Präposition mit Akkusativ (ohne, für etc.)">
             <url>https://dict.leo.org/grammatik/deutsch/Wort/Praeposition/Kasus/Akkusativ.html</url>
             <short>'\1' erfordert den Akkusativ</short>
+                <antipattern>
+                    <token>was</token>
+                    <token>für</token>
+                    <token postag="ART.*" postag_regexp="yes" inflected="yes">ein</token>
+                </antipattern>
+                <antipattern><!-- Ohne der Chefin zu widersprechen -->
+                    <token skip="-1">ohne</token>
+                    <token>zu</token>
+                    <token postag="VER:INF.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern><!-- Ohne der Chefin reinzureden -->
+                    <token skip="-1">ohne</token>
+                    <token postag="VER:EIZ.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern><!-- ohne dem alten Gesetz widersprechende Passagen -->
+                    <token regexp="yes">betreffend|durch|für|gegen|kontra|ohne|via|wider|um</token>
+                    <token skip="-1" regexp="yes">de[rm]|allem|[dm]ir|ihm</token>
+                    <token postag="PA1.*AKK.*" postag_regexp="yes"/>
+                </antipattern>
             <rule>
                 <antipattern case_sensitive="yes">
                     <token>,</token>
@@ -47334,25 +47353,6 @@ Andere Projekte</example>
             </rule>
             <!-- Please note that 'um' is omitted intentionally because it generates false positives. -->
             <rule>
-                <antipattern>
-                    <token>was</token>
-                    <token>für</token>
-                    <token>einer</token>
-                </antipattern>
-                <antipattern><!-- Ohne der Chefin zu widersprechen -->
-                    <token skip="-1">ohne</token>
-                    <token>zu</token>
-                    <token postag="VER:INF.*" postag_regexp="yes"/>
-                </antipattern>
-                <antipattern><!-- Ohne der Chefin reinzureden -->
-                    <token skip="-1">ohne</token>
-                    <token postag="VER:EIZ.*" postag_regexp="yes"/>
-                </antipattern>
-                <antipattern><!-- ohne dem alten Gesetz widersprechende Passagen -->
-                    <token regexp="yes">betreffend|durch|für|gegen|kontra|ohne|via|wider|um</token>
-                    <token skip="-1" regexp="yes">de[rm]|allem|[dm]ir|ihm</token>
-                    <token postag="PA1.*AKK.*" postag_regexp="yes"/>
-                </antipattern>
                 <!-- FEM -->
                 <pattern case_sensitive="yes">
                     <token regexp="yes">betreffend|durch|für|gegen|kontra|ohne|via|wider</token>
