@@ -352,7 +352,6 @@ public class German extends Language implements AutoCloseable {
       case "ICH_INF_PREMIUM": return -2; // prefer more specific rules that offer a suggestion (e.g. SUBJECT_VERB_AGREEMENT)
       case "MEHRERE_WOCHE_PREMIUM": return -2;  // less prio than DE_AGREEMENT
       case "DOPPELTER_NOMINATIV": return -2;  // give precedence to wie-wir-wird confusion rules
-      case "GERMAN_WORD_REPEAT_RULE": return -3; // prefer other more specific rules
       case "EINZELBUCHSTABE_PREMIUM": return -1;  // lower prio than "A_LA_CARTE"
       case "ALTERNATIVEN_FUER_ANGLIZISMEN" : return -2;   // overwrite spell checker
       case "ANGLIZISMUS_INTERNAL" : return -2;   // overwrite spell checker
@@ -365,6 +364,7 @@ public class German extends Language implements AutoCloseable {
       case "AUSTRIAN_GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
       case "SWISS_GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
       case "IM_IHM": return -4;  // lower prio than spell checker
+      case "SEHR_GEEHRTER_NAME": return -4;  // lower prio than spell checker
       case "DE_PHRASE_REPETITION": return -4;  // lower prio than spell checker
       case "BEI_VERB": return -4; // prefer case and spelling rules
       case "PUNCTUATION_PARAGRAPH_END": return -4;  // don't hide spelling mistakes
@@ -387,6 +387,7 @@ public class German extends Language implements AutoCloseable {
       case "VERB_FEM_SUBST": return -52; // prefer comma rules (including AI)
       case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ": return -53;
       case "SUBJUNKTION_KOMMA_2": return -54; // lower prio than KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ and KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2
+      case "GERMAN_WORD_REPEAT_RULE": return -55; // prefer other more specific rules
     }
     if (id.startsWith("CONFUSION_RULE_")) {
       return -1;
