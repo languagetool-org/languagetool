@@ -251,6 +251,10 @@ class AgreementSuggestor2 {
         if (adjReading.getToken().equals("meisten") && num.equals("SIN")) {
           continue;
         }
+        if (adjReading.getPOSTag().startsWith("ADV:")) {  // adverb, nothing to synthesize
+          adjSynthesized.add(adjReading.getToken());
+          continue;
+        }
         boolean detIsDef = detReading.getPOSTag().contains(":DEF:") || detReading.getToken().equals("ins");
         String template = adjReading.getPOSTag().startsWith("PA2") ? pa2Template : adjTemplate;
         if (adjReading.getPOSTag().contains(":KOM:")) {
