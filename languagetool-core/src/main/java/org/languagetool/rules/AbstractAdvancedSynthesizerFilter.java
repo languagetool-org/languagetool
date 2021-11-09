@@ -49,10 +49,10 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
     
-    if (match.getSentence().getText().contains("Das ist für deiner Frau")) {
-      int ii=0;
-      ii++;
-    }
+    //if (match.getSentence().getText().contains("Das ist wider der Vernunft")) {
+    //  int ii=0;
+    //  ii++;
+    //}
 
     String postagSelect = getRequired("postagSelect", arguments);
     String lemmaSelect = getRequired("lemmaSelect", arguments);
