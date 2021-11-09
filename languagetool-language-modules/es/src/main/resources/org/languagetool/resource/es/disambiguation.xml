@@ -294,17 +294,17 @@ Copyright (C) 2011 Juan Martorell
     </rulegroup>
     <rulegroup id="LOC_ADV" name="locuciones adverbiales">
         <rule id="en_efecto" name="en efecto (locución adverbial)">
-        <pattern>
-            <marker>
-                <token>en</token>
-                <token>efecto</token>
-            </marker>
-            <token><exception postag="A..[MC][SN].*|V.P..SM" postag_regexp="yes"/></token>
-        </pattern>
-        <disambig action="replace">
-            <wd lemma="en efecto" pos="LOC_ADV"/>
-            <wd lemma="en efecto" pos="LOC_ADV"/>
-        </disambig>
+            <pattern>
+                <marker>
+                    <token>en</token>
+                    <token>efecto</token>
+                </marker>
+                <token><exception postag="A..[MC][SN].*|V.P..SM" postag_regexp="yes"/></token>
+            </pattern>
+            <disambig action="replace">
+                <wd lemma="en efecto" pos="LOC_ADV"/>
+                <wd lemma="en efecto" pos="LOC_ADV"/>
+            </disambig>
         </rule>
         <rule id="en_realidad" name="en realidad (locución adverbial)">
             <pattern>
@@ -5418,8 +5418,10 @@ Copyright (C) 2011 Juan Martorell
     </rule>
     <rule id="not_imperative" name="no imperativo">
         <pattern>
-            <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
-            <token postag="V.[SI].*" postag_regexp="yes"/>
+            <token postag="&pronombre_personal_atono_POS;|RN" postag_regexp="yes"/>
+            <marker>
+                <token postag="V.[SI].*" postag_regexp="yes"/>
+            </marker>
         </pattern>
         <disambig action="remove" postag="V.M.*"/>
     </rule>
