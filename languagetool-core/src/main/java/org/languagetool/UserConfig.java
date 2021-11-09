@@ -211,7 +211,7 @@ public class UserConfig {
   @Override
   public String toString() {
     return "UserConfig{" +
-      "userSpecificSpellerWords=" + userSpecificSpellerWords +
+      "dictionarySize=" + userSpecificSpellerWords.size() +
       ", maxSpellingSuggestions=" + maxSpellingSuggestions +
       ", userDictName='" + userDictName + '\'' +
       ", configurableRuleValues=" + configurableRuleValues +
