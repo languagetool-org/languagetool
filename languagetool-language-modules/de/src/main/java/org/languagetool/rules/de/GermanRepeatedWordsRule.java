@@ -56,7 +56,7 @@ public class GermanRepeatedWordsRule extends AbstractRepeatedWordsRule{
 
   @Override
   protected String getShortMessage() {
-    return "Wiederholtes Wort";
+    return "Stil: wiederholtes Wort";
   }
 
   @Override

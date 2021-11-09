@@ -57,7 +57,7 @@ public class SpanishRepeatedWordsRule extends AbstractRepeatedWordsRule{
 
   @Override
   protected String getShortMessage() {
-    return "Palabra repetida";
+    return "Estilo: palabra repetida";
   }
   
   @Override

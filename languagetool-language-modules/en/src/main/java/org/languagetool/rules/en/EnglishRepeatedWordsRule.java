@@ -56,7 +56,7 @@ public class EnglishRepeatedWordsRule extends AbstractRepeatedWordsRule{
 
   @Override
   protected String getShortMessage() {
-    return "Repeated word";
+    return "Style: repeated word";
   }
 
   @Override

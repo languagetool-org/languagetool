@@ -56,7 +56,7 @@ public class CatalanRepeatedWordsRule extends AbstractRepeatedWordsRule {
 
   @Override
   protected String getShortMessage() {
-    return "Paraula repetida";
+    return "Estil: paraula repetida";
   }
 
   @Override
