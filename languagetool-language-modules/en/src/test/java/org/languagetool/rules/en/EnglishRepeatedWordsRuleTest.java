@@ -71,9 +71,9 @@ public class EnglishRepeatedWordsRuleTest {
     assertEquals("proposes", matches[0].getSuggestedReplacements().get(0));
     assertEquals("proposed", matches[1].getSuggestedReplacements().get(0));
     
-    matches=getRuleMatches ("The problem was global. And the solutions needed to be global.");
+    matches=getRuleMatches ("The problem was weird. And the solutions needed to be weird.");
     assertEquals(1, matches.length);
-    assertEquals("comprehensive", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("odd", matches[0].getSuggestedReplacements().get(0));
     
     matches=getRuleMatches("It needs to be done. That needs to be done.");
     assertEquals(1, matches.length);
