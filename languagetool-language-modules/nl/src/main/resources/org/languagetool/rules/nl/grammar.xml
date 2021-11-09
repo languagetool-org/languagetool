@@ -63,8 +63,8 @@ regexp case-insensitive maken : (?i)
 <!ENTITY ROMAN_NUM "(?:M*(?:D?C{0,3}|C[DM])(?:L?X{0,3}|X[LC])(?:V?I{0,3}|I[VX]))">
 <!-- definieer macro voor gespelde afkortingen als cd -->
 <!ENTITY gespeld "abc|adv|aed|apk|b2b|bh|bhv|bso|btw|bv|cao|cd|cfk|ckv|cv|dc|dj|dtp|dvd|fte|ftp|gft|ggo|ggz|gm|gmo|gps|gsm|hbo|hd|hiv|hr|hrm|hst|ic|ivf|kmo|lcd|lp|lpg|lsd|mbo|mdf|mkb|mms|msn|mt|ngo|nv|ob|ok|ov|ozb|p2p|pc|pcb|pdf|pk|pps|pr|pvc|roc|rvs|sms|tbc|tbs|tl|tv|uv|vbo|vj|vmbo|vsbo|vwo|wc|wo|xtc|zzp|km|mm|cm|soa|bbl">
-<!ENTITY apostrof "[`'‘’]">
-<!ENTITY quote "[&quot;“]">
+<!ENTITY APOSTROPH  "[`'‘’]">
+<!ENTITY DBLQUOTE "[&quot;“]">
 
 <!ENTITY taaladvies "Er zijn taaladviezen over deze tekst. Raadpleeg www.onzetaal.nl en www.taalaadvies.net, of google de tekst met daar taaladvies aan toegevoegd.">
 <!ENTITY leenwoord_mess "Mogelijk kunt u beter een Nederlands woord gebruiken.">
@@ -12467,7 +12467,7 @@ onwaarschijnlijk
 				<pattern>
 					<marker>
 						<token postag="ZNW:EKV.*" postag_regexp="yes" regexp="yes">.*[aiouy]<exception regexp="yes">nu|.*(aa|ai|au|ee|ei|eu|oe|oi|oo|ou|ui|uu|ey)$</exception></token>
-						<token spacebefore="yes" regexp="yes">&apostrof;|&quote;</token>
+						<token spacebefore="yes" regexp="yes">&APOSTROPH;|&DBLQUOTE;</token>
 						<token spacebefore="no">s</token>
 					</marker>
 					<token><exception regexp="yes">morgens|ochtends|middags|avonds|nachts</exception></token>
@@ -12607,7 +12607,7 @@ onwaarschijnlijk
 				<pattern>
 					<marker>
 						<token>jaren</token>
-						<token regexp="yes">&apostrof;</token>
+						<token regexp="yes">&APOSTROPH;</token>
 						<token regexp="yes">[2-9]0</token>
 					</marker>
 				</pattern>
@@ -13472,7 +13472,7 @@ onwaarschijnlijk
 				<antipattern case_sensitive="yes"><token>Witte</token><token>Donderdag</token></antipattern>
 				<antipattern case_sensitive="yes"><token>Zondag</token><token>met</token><token>Lubach</token></antipattern>
 				<antipattern><token postag_regexp="yes" postag="SENT_START|START" skip="-1"/><token skip="-1" regexp="yes">keizer|fort|villa|imperator|Caesar|.*ianus|Constantijns?|.*ius|Nero</token><token postag="SENT_END"/></antipattern>
-				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token regexp="yes">&apostrof;|&quot;</token><token case_sensitive="yes" regexp="yes">[A-Z].*</token></antipattern>
+				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token regexp="yes">&APOSTROPH;|&DBLQUOTE;</token><token case_sensitive="yes" regexp="yes">[A-Z].*</token></antipattern>
 				<pattern>
 					<token><exception postag_regexp="yes" postag="SENT_START|START"/></token>
 					<marker>
@@ -17721,11 +17721,35 @@ steenwijk;Steenwijk
 		<example>900 <marker>is</marker> een goed begin.</example>
 		</rule>
 		-->
+		<rulegroup id="AANHALINMG_Z_SPATIE" name="-- / -">
+			<rule>
+				<pattern>
+					<token/>
+					<marker>
+						<token spacebefore="no" regexp="yes">[«»]</token>
+					</marker>
+					<token spacebefore="no"/>
+				</pattern>
+				<message>Voor of na dit (ongebruikelijke) aanhalingsteken hoort een spatie. Of het is een tekstcoderingsfout.</message>
+				<suggestion> \2</suggestion>
+				<suggestion>\2 </suggestion>
+				<example correction=" »|» ">Ik denk<marker>»</marker>dus ik ben.</example>
+			</rule>
+		</rulegroup>
 
+		<rulegroup id="MINMIN" name="-- / -">
+			<rule>
+				<pattern>
+					<token>--</token>
+				</pattern>
+				<message>Meestal wordt maar een streepje gebruikt.</message>
+				<suggestion>-</suggestion>
+				<example correction="-">Ik denk <marker>--</marker> dus ik ben.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="KOMMA_APO" name="oma,s/oma's">
 			<rule>
 				<pattern>
-
 					<token regexp="yes">.*[aeiouy]</token>
 					<token spacebefore="no">,</token>
 					<token spacebefore="no">s</token>
@@ -17925,7 +17949,7 @@ steenwijk;Steenwijk
 				<antipattern><token>maar</token><token>deels</token><token postag_regexp="yes" postag=".*ONV"/></antipattern>
 				<antipattern><token postag="WKW:TGW:1EP"/><token regexp="yes">je|jij</token><token>het</token><token>maar</token><token postag="VRZ"/></antipattern>
 				<antipattern><token>maar</token><token>te</token><token>pas</token></antipattern>
-				<antipattern><token>maar</token><token postag="WKW:TGW:INF"/><token regexp="yes">[.,;:&quot;]</token></antipattern>
+				<antipattern><token>maar</token><token postag="WKW:TGW:INF"/><token regexp="yes">[.,;:&DBLQUOTE;]</token></antipattern>
 				<antipattern><token postag_regexp="yes" postag="WKW:(TGW|VLT):INF"/><token>de</token><token postag_regexp="yes" postag=".*MRV.*"/><token>maar</token><token postag="WKW:TGW:INF"/></antipattern>
 				<antipattern><token>maar</token><token>en</token></antipattern>
 				<antipattern><token>dat</token><token>dat</token><token>maar</token></antipattern>
@@ -19077,7 +19101,7 @@ steenwijk;Steenwijk
 				
 				<pattern>
 					<marker>
-						<token><exception postag_regexp="yes" postag="SENT_START|START"/><exception regexp="yes">&apostrof;|&quote;</exception></token>
+						<token><exception postag_regexp="yes" postag="SENT_START|START"/><exception regexp="yes">&APOSTROPH;|&DBLQUOTE;</exception></token>
 						<token case_sensitive="yes" skip="-1">maar</token>
 					</marker>
 					<token skip="-1" postag_regexp="yes" postag="WKW.*"/>
@@ -32345,7 +32369,7 @@ steenwijk;Steenwijk
 			</antipattern>
 			<antipattern>
 				<token postag_regexp="yes" postag="SENT_START|START"/>
-				<token min="0" regexp="yes">&quote;|&apostrof;</token>
+				<token min="0" regexp="yes">&DBLQUOTE;|&APOSTROPH;</token>
 				<token regexp="yes">hij|zij|ze|men</token>
 				<token postag_regexp="yes" postag="ZNW:EKV.*"/>
 				<token>kan</token>
@@ -39161,8 +39185,8 @@ steenwijk;Steenwijk
 		<rulegroup id="_2_AANH_B" name="twee keer een ' i.p.v. dubbele">
 			<rule>
 				<pattern>
-					<token regexp="yes">&apostrof;</token>
-					<token spacebefore="no" regexp="yes">&apostrof;</token>
+					<token regexp="yes">&APOSTROPH;</token>
+					<token spacebefore="no" regexp="yes">&APOSTROPH;</token>
 				</pattern>
 				<message>Gebruik niet twee keer ', maar <suggestion>"</suggestion>.</message>
 				<example correction="&quot;">Ik lees een <marker>''</marker>lekker.</example>
