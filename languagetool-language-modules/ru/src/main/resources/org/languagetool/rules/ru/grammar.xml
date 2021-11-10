@@ -7290,7 +7290,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule default="temp_off" id="Soglasovanie_NN_PT" name="Согласование существительного с причастием">
             <!-- Experimental rule, issue #1069, #1062 -->  
             <pattern>
-                <token><exception postag="NN:.*" postag_regexp="yes" /></token>
+                <token>
+                    <exception postag="NN:.*|PNN:.*" postag_regexp="yes" />
+                    <exception regexp="yes">на|в</exception>
+                </token>
                 <unify negate="yes">
                     <feature id="gender"/>        
                     <marker>
@@ -7301,7 +7304,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="PT:.*" postag_regexp="yes" ><exception postag="PT:.*" postag_regexp="yes" negate_pos="yes"></exception></token>
                     </marker>
                 </unify>
-               <token><exception postag="NN:.*" postag_regexp="yes" /></token>
+               <token><exception postag="NN:.*|PNN:.*" postag_regexp="yes" /></token>
             </pattern>
             <message>Ошибка в согласовании причастия по роду!</message>
             <short>Ошибка в согласовании</short>
