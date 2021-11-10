@@ -792,6 +792,12 @@ class AgreementRuleAntiPatterns1 {
       token("Top"),
       tokenRegex("\\d+")
     ),
+    Arrays.asList(
+      tokenRegex("d(ie|e[nr])|[md]eine[nr]?|(eure|unsere)[nr]?|diese[nr]?"),
+      posRegex("(ADJ|PA[12]).+"),
+      token("Top"),
+      tokenRegex("\\d+")
+    ),
     Arrays.asList( //"Unter diesen rief das großen Unmut hervor."
       posRegex("VER:3:SIN:.*"),
       token("das"),
