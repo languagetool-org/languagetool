@@ -7,6 +7,8 @@
     </encoder>
   </appender>
 
+  <appender name="METRICS" class="org.languagetool.server.InstrumentedAppender" />
+
   <logger name="org.languagetool" level="INFO"/>
   <logger name="org.languagetool.tools.LtThreadPoolFactory" level="DEBUG" />
   <!-- for debugging purposes only: log queries / responses -->
@@ -15,5 +17,6 @@
 
   <root level="info">
     <appender-ref ref="STDOUT" />
+    <appender-ref ref="METRICS" />
   </root>
 </configuration>

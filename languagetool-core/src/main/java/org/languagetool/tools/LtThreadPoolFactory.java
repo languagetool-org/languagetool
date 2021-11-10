@@ -74,10 +74,10 @@ public final class LtThreadPoolFactory {
           threadGauge.labels(name, "waiting").set(waiting.count());
           threadGauge.labels(name, "timed-waiting").set(waiting_timed.count());
           threadGauge.labels(name, "running").set(running.count());
-          log.trace("{} blockingThreads: {}", name, threadGauge.labels(name, "blocking").get());
-          log.trace("{} waitingThreads: {}", name, threadGauge.labels(name, "waiting").get());
-          log.trace("{} timedWaitingThreads: {}", name, threadGauge.labels(name, "timed-waiting").get());
-          log.trace("{} runningThreads: {}", name, threadGauge.labels(name, "running").get());
+          log.trace(LoggingTools.SYSTEM, "{} blockingThreads: {}", name, threadGauge.labels(name, "blocking").get());
+          log.trace(LoggingTools.SYSTEM, "{} waitingThreads: {}", name, threadGauge.labels(name, "waiting").get());
+          log.trace(LoggingTools.SYSTEM, "{} timedWaitingThreads: {}", name, threadGauge.labels(name, "timed-waiting").get());
+          log.trace(LoggingTools.SYSTEM, "{} runningThreads: {}", name, threadGauge.labels(name, "running").get());
         });
       }
     };
@@ -123,7 +123,7 @@ public final class LtThreadPoolFactory {
     public void rejectedExecution(Runnable runnable, ThreadPoolExecutor threadPoolExecutor) {
       String pool = ((LtThreadPoolExecutor) threadPoolExecutor).getName();
       rejectedTasks.labels(pool).inc();
-      log.warn("Task rejected from pool '{}' (queue full, all threads exhausted)", pool);
+      log.warn(LoggingTools.SYSTEM, "Task rejected from pool '{}' (queue full, all threads exhausted)", pool);
       super.rejectedExecution(runnable, threadPoolExecutor);
     }
   }
@@ -132,7 +132,7 @@ public final class LtThreadPoolFactory {
 
   @NotNull
   private static ThreadPoolExecutor getNewThreadPoolExecutor(@NotNull String identifier, int corePool, int maxThreads, int maxTaskInQueue, long keepAliveTimeSeconds, boolean isDaemon, @NotNull Thread.UncaughtExceptionHandler exceptionHandler) {
-    log.debug(String.format("Create new threadPool with maxThreads: %d maxTaskInQueue: %d identifier: %s daemon: %s exceptionHandler: %s", maxThreads, maxTaskInQueue, identifier, isDaemon, exceptionHandler));
+    log.debug(LoggingTools.SYSTEM, String.format("Create new threadPool with maxThreads: %d maxTaskInQueue: %d identifier: %s daemon: %s exceptionHandler: %s", maxThreads, maxTaskInQueue, identifier, isDaemon, exceptionHandler));
     BlockingQueue<Runnable> boundedQueue;
     if (maxTaskInQueue <= 0) {
       boundedQueue = new LinkedBlockingQueue<>();
@@ -155,7 +155,7 @@ public final class LtThreadPoolFactory {
   public static Optional<ThreadPoolExecutor> getFixedThreadPoolExecutor(@NotNull String identifier) {
     ThreadPoolExecutor value = executorServices.get(identifier);
     if (value == null) {
-      log.debug("Request: " + identifier + " not found, returning default pool");
+      log.debug(LoggingTools.SYSTEM, "Request: " + identifier + " not found, returning default pool");
       return Optional.of(defaultPool);
     } else {
       return Optional.of(value);

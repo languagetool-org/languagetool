@@ -33,6 +33,7 @@ import org.languagetool.rules.*;
 import org.languagetool.rules.neuralnetwork.Word2VecModel;
 import org.languagetool.rules.patterns.*;
 import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.tools.LoggingTools;
 import org.languagetool.tools.LtThreadPoolFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -1317,9 +1318,9 @@ public class JLanguageTool {
           tmpErrorsPerWord = errorsPerWord;
         }
         if (maxErrorsPerWordRate > 0 && errorsPerWord > maxErrorsPerWordRate && wordCounter > 25) {
-          errorRateLog.forEach(logger::info);
-          logger.info("ErrorRateTooHigh is reached by a single sentence after rule: " + rule.getFullId() +
-            " the hole text contains " + wordCounter + " words " +
+          errorRateLog.forEach(e -> logger.info(LoggingTools.BAD_REQUEST, e));
+          logger.info(LoggingTools.BAD_REQUEST, "ErrorRateTooHigh is reached by a single sentence after rule: " + rule.getFullId() +
+            " the whole text contains " + wordCounter + " words " +
             " this sentence has " + sentenceMatches.size() + " matches");
           throw new ErrorRateTooHighException("ErrorRateTooHigh is reached by a single sentence after rule: " + rule.getFullId() +
             " the whole text contains " + wordCounter + " words" +
@@ -1907,7 +1908,7 @@ public class JLanguageTool {
             tmpErrorsPerWord = errorsPerWord;
           }
           if (maxErrorsPerWordRate > 0 && errorsPerWord > maxErrorsPerWordRate && wordCounter > 25) {
-            errorRateLog.forEach(logger::info);
+            errorRateLog.forEach(e -> logger.info(LoggingTools.BAD_REQUEST, e));
             throw new ErrorRateTooHighException("Text checking was stopped due to too many errors (more than " + String.format("%.0f", maxErrorsPerWordRate * 100) +
               "% of words seem to have an error). Are you sure you have set the correct text language? Language set: " + JLanguageTool.this.language.getName() +
               ", text length: " + annotatedText.getPlainText().length());
