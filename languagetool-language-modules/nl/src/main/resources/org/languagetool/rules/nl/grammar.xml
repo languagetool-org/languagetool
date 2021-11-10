@@ -12073,6 +12073,25 @@ onwaarschijnlijk
 				<example correction="ca. 15%">Vergoeding van de buitengerechtelijke kosten is <marker>c. 15%</marker> van de hoofdsom.</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="B_V_" name="B.V. → BV of bv">
+			<rule>
+				<antipattern case_sensitive="yes">
+					<token spacebefore="yes" regexp="yes">[A-Z][a-z].*</token>
+					<token spacebefore="yes">B</token>
+					<token spacebefore="no">.</token>
+					<token spacebefore="no">V</token>
+					<token spacebefore="no">.</token>
+				</antipattern>
+				<pattern case_sensitive="yes">
+					<token spacebefore="yes">b</token>
+					<token spacebefore="no">.</token>
+					<token spacebefore="no">v</token>
+					<token spacebefore="no">.</token>
+				</pattern>
+				<message>Eeen besloten vennootschap is een <suggestion>bv</suggestion>. Een Bekende Vlaming een <suggestion>BV</suggestion>, bijvoorbeeld is <suggestion>bv.</suggestion> of <suggestion>bijv.</suggestion>. Maar het kan ook zijn dat B.V. zo door het bedrijf is vastgesteld als deel van de naam, en dan mag het wel.</message>
+				<example correction="bv|BV|bv.|bijv.">Elke <marker>b.v.</marker> draagt belastingen af.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="AD" name="ad. → ad">
 			<rule>
 				<pattern case_sensitive="yes">
