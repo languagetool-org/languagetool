@@ -12174,7 +12174,7 @@ onwaarschijnlijk
 					</marker>
 					<token negate="yes">.</token>
 				</pattern>
-				<message>Vergeet de punt niet als het een afkorting is: <suggestion>\1.</suggestion> Of schrijf het voluit.</message>
+				<message>Vergeet de punt niet als het een afkorting is: <suggestion>\1.</suggestion> Schrijf het liever voluit.</message>
 				<short>punt</short>
 				<example correction="afb.">Het was een enorm domein van 6 hectaren omgeven door een 8 meter hoge dikke muur, (<marker>afb</marker> 1).</example>
 				<example correction="art.">Wanneer we <marker>art</marker> 20 bestellen, gaat het mis.</example>				 
@@ -12212,6 +12212,17 @@ onwaarschijnlijk
 				<example correction="vgl.">Wanneer de lucht verwarmt, zet de lucht uit (<marker>vgl</marker> ballon).</example>
 				<example correction="vnl.">Zoals al snel duidelijk wordt is mails lezen de grootste verdienste, gevolgd door <marker>vnl</marker> aanmeldingen.</example>
 				<example correction="zgn.">Door juist inzaaien van deze <marker>zgn</marker> vette kruidachtigen weer een kans om te bloeien en zich te vermeerderen.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="NL_PUNT" name="nl. → namelijk">
+			<antipattern><token>.</token><token spacebefore="no">nl</token></antipattern> <!-- tegen html-klets -->
+			<rule>
+				<pattern>
+					<token case_sensitive="yes">nl</token>
+					<token spacebefore="no">.</token>
+				</pattern>
+				<message>Schrijf liever <suggestion>namelijk</suggestion>, dat is duidelijker.</message>
+				<example correction="namelijk">Het is <marker>nl.</marker> niet fout.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="T" name="t → het">
@@ -17754,14 +17765,14 @@ steenwijk;Steenwijk
 				<example correction="St.-Anna">Ik aanbid <marker>st. Anna</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="AANHALINMG_Z_SPATIE" name="-- / -">
+		<rulegroup id="AANHALINMG_Z_SPATIE" name="«»">
 			<rule>
 				<pattern>
 					<token/>
 					<marker>
 						<token spacebefore="no" regexp="yes">[«»]</token>
 					</marker>
-					<token spacebefore="no"/>
+					<token spacebefore="no"><exception>,</exception></token>
 				</pattern>
 				<message>Voor of na dit (ongebruikelijke) aanhalingsteken hoort een spatie. Of het is een tekstcoderingsfout.</message>
 				<suggestion> \2</suggestion>
