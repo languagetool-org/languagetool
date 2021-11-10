@@ -73,6 +73,9 @@ public class CleanOverlappingFilter implements RuleMatchFilter {
         currentPriority += negativeConstant;
       }
       int prevPriority = language.getRulePriority(prevRuleMatch.getRule());
+      if (isPremiumRule(prevRuleMatch) && hidePremiumMatches) {
+        prevPriority = Integer.MIN_VALUE;
+      }
       if (prevRuleMatch.getRule().getTags().contains(Tag.picky) && prevPriority != Integer.MIN_VALUE) {
         prevPriority += negativeConstant;
       }

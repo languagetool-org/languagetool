@@ -91,6 +91,13 @@ public class CleanOverlappingFilterTest {
     assertThat(matches8.size(), is(1));
     assertThat(matches8.get(0).getRule().getId(), is("P1_RULE"));  // P2 has higher priority but premium rules are hidden
 
+    List<RuleMatch> matches8b = Arrays.asList(
+      new RuleMatch(new FakeRule("P1_RULE"), sentence, 0, 10, "msg2"),
+      new RuleMatch(new FakeRule("P2_PREMIUM_RULE"), sentence, 9, 20, "msg1"));
+    matches8b = filter.filter(matches8b);
+    assertThat(matches8b.size(), is(1));
+    assertThat(matches8b.get(0).getRule().getId(), is("P1_RULE"));  // P2 has higher priority but premium rules are hidden
+
     List<RuleMatch> matches9 = Arrays.asList(
       new RuleMatch(new FakeRule("P2_PREMIUM_RULE", Tag.picky), sentence, 0, 10, "msg1"),
       new RuleMatch(new FakeRule("P1_RULE"), sentence, 9, 20, "msg2"));
@@ -144,12 +151,15 @@ public class CleanOverlappingFilterTest {
     protected int getPriorityForId(String id) {
       switch (id) {
         case "P3_RULE": return 3;
-        case "P2_RULE": return 2;
+        case "P2_RULE":
+        case "P2_PREMIUM_RULE":
+                        return 2;
         case "P1_RULE":
         case "P1_RULE_B":
-          return 1;
+                        return 1;
+        case "MISC":    return 0;
+        default: throw new RuntimeException("No priority defined for " + id);
       }
-      return 0;
     }
   }
 
