@@ -22,7 +22,6 @@ import org.languagetool.Language;
 import org.languagetool.rules.patterns.RuleSet;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -44,10 +43,7 @@ public class LanguageDependentFilter implements RuleMatchFilter {
 
   public LanguageDependentFilter(Language lang, RuleSet rules) {
     language = lang;
-    enabledRules = new HashSet<String>();
-    for (Rule r : rules.allRules()) {
-      enabledRules.add(r.getId());
-    }
+    enabledRules = rules.allRuleIds();
   }
 
   @Override
