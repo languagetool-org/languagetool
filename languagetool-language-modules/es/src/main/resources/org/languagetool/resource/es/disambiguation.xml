@@ -5416,15 +5416,25 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="filterall"/>
     </rule>
-    <rule id="not_imperative" name="no imperativo">
-        <pattern>
-            <token postag="&pronombre_personal_atono_POS;|RN" postag_regexp="yes"/>
-            <marker>
-                <token postag="V.[SI].*" postag_regexp="yes"/>
-            </marker>
-        </pattern>
-        <disambig action="remove" postag="V.M.*"/>
-    </rule>
+    <rulegroup id="not_imperative" name="no imperativo">
+        <rule>
+            <pattern>
+                <token postag="&pronombre_personal_atono_POS;|RN" postag_regexp="yes"/>
+                <marker>
+                    <token postag="V.[SI].*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="V.M.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="N.*" postag_regexp="yes" regexp="yes">velas?</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="V.M.*"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="allowed_repetitions" name="allowed repetitions">
         <rule>
             <pattern>
