@@ -99,6 +99,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY gefuehladj "böse|erzürnt|sauer|verärgert|wütend|ärgerlich|enttäuscht|genervt|empört|entrüstet|erbost">
     <!ENTITY fragewoerter "inwie(fern|weit)|wa(nn|rum|s)|we[mnr]|wes(halb|sen|wegen)|wie(so)?|wo(durch|für|gegen|h(er|in)|mit|nach|ran|rauf|raus|rüber|runter|von|zu)?"><!-- TODO: why is "welche/welcher/welches" missing? -->
     <!ENTITY farbadj "gr(au|ün)|wei(ß|ss)|schwarz|rot|gelb|blau|lila|orange|beige|rosa|braun">
+    <!ENTITY possessiv_lemma "dein|euer|Ihr|ihr|mein|sein|unser">
     <!ENTITY bivalent "achten|amüsieren|analysieren|ändern|antworten|arbeiten|ärgern|atmen|backen|baden|bauen|beachten|beantragen|bedeuten|bedienen|beeinflussen|befassen|befinden|befolgen|beginnen|begründen|begrü(ß|ss)en|behalten|behandeln|behaupten|behindern|beleidigen|bemerken|benutzen|beobachten|beraten|berichten|berücksichtigen|beruhigen|beschädigen|beschäftigen|beschlie(ß|ss)en|beschreiben|besichtigen|besitzen|besorgen|bestätigen|bestehen|bestellen|bestimmen|bestrafen|besuchen|betrügen|bezeichnen|bilden|brauchen|bremsen|brennen|buchstabieren|bürsten|differenzieren|diskutieren|ehren|empfehlen|entdecken|enthalten|entlassen|entscheiden|entschuldigen|enttäuschen|entwickeln|erfahren|erfinden|erhalten|erhöhen|erinnern|erkennen|erleben|erledigen|ernähren|eröffnen|erreichen|erwarten|erziehen|essen|feiern|finden|fliegen|folgern|fordern|fotografieren|fragen|fressen|frisieren|frühstücken|fühlen|führen|fürchten|gebären|gebrauchen|gewinnen|gewöhnen|gliedern|gründen|grü(ß|ss)en|hassen|heben|heiraten|hindern|holen|hören|husten|informieren|interessieren|kämmen|kennen|klappen|kriegen|leben|leisten|leiten|lernen|lieben|loben|lösen|markieren|meinen|merken|messen|mieten|missverstehen|nutzen|operieren|organisieren|parken|passen|pflegen|planen|probieren|produzieren|prüfen|rauchen|regeln|regieren|retten|riechen|sammeln|schalten|scheiden|schieben|schimpfen|schlussfolgern|schmecken|schreien|schützen|schwimmen|schwitzen|sehen|sparen|sprechen|springen|spülen|stoppen|stören|studieren|suchen|tanken|tanzen|telefonieren|töten|trainieren|transportieren|träumen|treffen|trennen|trinken|turnen|überfahren|überholen|überlegen|übernehmen|überqueren|überraschen|überreden|überzeugen|umtauschen|unterrichten|unterscheiden|unterschreiben|unterstützen|untersuchen|verändern|verbessern|verbrauchen|verbringen|verdienen|vergessen|vergleichen|verhaften|verhindern|verlangen|verlängern|verlassen|verletzen|verlieren|vermuten|veröffentlichen|verschlechtern|versichern|verstehen|versuchen|verteilen|vertreten|verwechseln|verwenden|verwickeln|verzollen|wählen|warnen|wecken|werfen|wiederholen|wiegen|wissen|zählen|zerstören|zwingen">
     <!ENTITY sinnmachen "Der Ausdruck 'Sinn machen' kann umgangssprachlich wirken. Möchten Sie eine alternative Formulierung verwenden?">
     <!--
@@ -6584,7 +6585,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token skip="-1" inflected="yes">stellen
                         <exception scope="next">,</exception>
-                        <exception scope="next" inflected="yes">sein</exception>
+                        <exception scope="next" inflected="yes" postag="VER:.*" postag_regexp="yes">sein</exception>
                     </token>
                     <marker>
                         <token>da</token>
@@ -7884,7 +7885,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>ohne</token>
-                    <token min="0" inflected="yes" regexp="yes">mein|eigen</token>
+                    <token min="0" inflected="yes" regexp="yes" case_sensitive="yes">&possessiv_lemma;|eigen</token>
                     <marker>
                         <token>zu</token>
                         <token>tun</token>
@@ -7897,7 +7898,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>ohne</token>
-                    <token min="0" inflected="yes" regexp="yes">mein|eigen</token>
+                    <token min="0" inflected="yes" regexp="yes" case_sensitive="yes">&possessiv_lemma;|eigen</token>
                     <marker><token case_sensitive="yes">zutun</token></marker>
                 </pattern>
                 <message>&subanfang;<suggestion>Zutun</suggestion>&subende;</message>
@@ -46313,7 +46314,7 @@ Andere Projekte</example>
                     <token>sicher</token>
                 </antipattern>
                 <pattern>
-                    <token inflected="yes" regexp="yes">m?ein
+                    <token inflected="yes" regexp="yes" case_sensitive="yes">ein|&possessiv_lemma;
                         <exception>ihr</exception>
                     </token>
                     <token min="0" postag="ADV:MOD"/>
@@ -47346,7 +47347,7 @@ Andere Projekte</example>
                 </pattern>
                 <message>Die Präposition '\1' erfordert in der Regel den Dativ.</message>
                 <suggestion><match no="2" postag="(.+)AKK(.*)" postag_regexp="yes" postag_replace="$1DAT$2"/></suggestion>
-                <example correction="deiner|ihrer|meiner|seiner|unserer">Sie ist seit <marker>ihre</marker> Kindheit sehr schüchtern.</example>
+                <example correction="ihrer">Sie ist seit <marker>ihre</marker> Kindheit sehr schüchtern.</example>
                 <example>Er ist sehr glücklich, seit <marker>seine</marker> Mutter zurück ist.</example>
             </rule>
             <rule>
@@ -47422,7 +47423,26 @@ Andere Projekte</example>
                 <example>Er unterstützte sie, ohne der Partei anzugehören.</example>
             </rule>
             <!-- Please note that 'um' is omitted intentionally because it generates false positives. -->
-            <rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>was</token>
+                    <token>für</token>
+                    <token>einer</token>
+                </antipattern>
+                <antipattern><!-- Ohne der Chefin zu widersprechen -->
+                    <token skip="-1">ohne</token>
+                    <token>zu</token>
+                    <token postag="VER:INF.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern><!-- Ohne der Chefin reinzureden -->
+                    <token skip="-1">ohne</token>
+                    <token postag="VER:EIZ.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern><!-- ohne dem alten Gesetz widersprechende Passagen -->
+                    <token regexp="yes">betreffend|durch|für|gegen|kontra|ohne|via|wider|um</token>
+                    <token skip="-1" regexp="yes">de[rm]|allem|[dm]ir|ihm</token>
+                    <token postag="PA1.*AKK.*" postag_regexp="yes"/>
+                </antipattern>
                 <!-- FEM -->
                 <pattern case_sensitive="yes">
                     <token regexp="yes">betreffend|durch|für|gegen|kontra|ohne|via|wider</token>
@@ -47432,14 +47452,16 @@ Andere Projekte</example>
                     </marker>
                     <token><exception postag="ADJ:AKK:.+|PA1:.+" postag_regexp="yes"/><exception>nach</exception></token>
                 </pattern>
+                <filter class="org.languagetool.rules.de.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:(ART|PRO):(...):...:...:...((:.*)?) postagFrom:3 postagSelect:(ADJ|SUB):DAT:((SIN|PLU):FEM).* postagReplace:(ART|PRO):\a2:AKK:\b2\a3"/>
                 <message>Die Präposition '\1' erfordert in der Regel den Akkusativ.</message>
+                <suggestion>{suggestion} \3</suggestion>
                 <example>Das ist wider <marker>die Vernunft</marker>.</example>
                 <example>Das ist wider <marker>alle Vernunft</marker>.</example>
                 <example>Das ist für <marker>deine Frau</marker>.</example>
                 <example>Erzeugung von Fossilien durch der Natur innewohnende Formungskräfte</example>
-                <example correction="">Das ist wider <marker>der Vernunft</marker>.</example>
-                <example correction="">Das ist wider <marker>aller Vernunft</marker>.</example>
-                <example correction="">Das ist für <marker>deiner Frau</marker>.</example>
+                <example correction="die Vernunft">Das ist wider <marker>der Vernunft</marker>.</example>
+                <example correction="alle Vernunft">Das ist wider <marker>aller Vernunft</marker>.</example>
+                <example correction="deine Frau">Das ist für <marker>deiner Frau</marker>.</example>
                 <example>Er macht es, ohne <marker>seiner Gruppe</marker> zu schaden.</example>
                 <example>Die beiden Sportredakteure hatten mich eingestellt, ohne der Chefin etwas zu sagen und mich vorzustellen.</example>
                 <example>Ausnahmen gibt es nur für der Forschung (vor allem Risikoforschung) dienende kleine Anbauflächen.</example>
@@ -47462,7 +47484,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <antipattern>
-                    <token regexp="yes">in|auf|bei|mit</token>
+                    <token regexp="yes">in|auf|bei|mit|von</token>
                     <token>was</token>
                     <token>für</token>
                     <token>einem</token>

@@ -48,6 +48,11 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
+    
+    //if (match.getSentence().getText().contains("Das ist wider der Vernunft")) {
+    //  int ii=0;
+    //  ii++;
+    //}
 
     String postagSelect = getRequired("postagSelect", arguments);
     String lemmaSelect = getRequired("lemmaSelect", arguments);
