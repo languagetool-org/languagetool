@@ -150,6 +150,10 @@ abstract class Server {
     System.out.println("                 'blockedReferrers' - a comma-separated list of HTTP referrers (and 'Origin' headers) that are blocked and will not be served (optional)");
     System.out.println("                 'premiumOnly' - activate only the premium rules (optional)");
     System.out.println("                 'disabledRuleIds' - a comma-separated list of rule ids that are turned off for this server (optional)");
+    System.out.println("                 'pipelineCaching' - set to 'true' to enable caching of internal pipelines to improve performance");
+    System.out.println("                 'maxPipelinePoolSize' - cache size if 'pipelineCaching' is set");
+    System.out.println("                 'pipelineExpireTimeInSeconds' - time after which pipeline cache items expire");
+    System.out.println("                 'pipelinePrewarming' - set to 'true' to fill pipeline cache on start (can slow down start a lot)");
     System.out.println("                 Spellcheck-only languages: You can add simple spellcheck-only support for languages that LT doesn't");
     System.out.println("                                            support by defining two optional properties:");
     System.out.println("                   'lang-xx' - set name of the language, use language code instead of 'xx', e.g. lang-tr=Turkish");
