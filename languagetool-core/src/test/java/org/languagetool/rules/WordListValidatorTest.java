@@ -139,6 +139,7 @@ public class WordListValidatorTest {
           "Subašić",
           "celebrytę", // for PL
           "antybiotykoterapię", // for PL
+          "elektromobilność", // for PL
           "kryptowalutę", // for PL
           "fotowoltaikę", // for PL
           "insulinooporność", // for PL
