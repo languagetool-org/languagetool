@@ -3,9 +3,6 @@ parameters:
   run_on_pull:
     default: true
     type: boolean
-  run_on_post:
-    default: false
-    type: boolean
 orbs:
   shallow-checkout: expo/shallow-checkout@1.0.2
 workflows:
@@ -15,7 +12,8 @@ workflows:
     jobs:
       - test-modules-job
   run_on_post_request:
-    when: << pipeline.parameters.run_on_post >>
+    when:
+      not: << pipeline.parameters.run_on_pull >>
     jobs:
       - test-scheduled-job
   run_daily:
