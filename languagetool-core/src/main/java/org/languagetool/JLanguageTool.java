@@ -971,6 +971,11 @@ public class JLanguageTool {
 
     ruleMatches.addAll(remoteMatches);
 
+    return ruleMatches.isEmpty() ? res :
+           new CheckResults(filterMatches(annotatedText, rules, ruleMatches), res.getIgnoredRanges());
+  }
+
+  private List<RuleMatch> filterMatches(AnnotatedText annotatedText, RuleSet rules, List<RuleMatch> ruleMatches) {
     // rules can create matches with rule IDs different from the original rule (see e.g. RemoteRules)
     // so while we can't avoid execution of these rules, we still want disabling them to work
     // so do another pass with ignoreRule here
@@ -983,9 +988,7 @@ public class JLanguageTool {
     }
     ruleMatches = new LanguageDependentFilter(language, rules).filter(ruleMatches);
 
-    ruleMatches = applyCustomFilters(ruleMatches, annotatedText);
-
-    return new CheckResults(ruleMatches, res.getIgnoredRanges());
+    return applyCustomFilters(ruleMatches, annotatedText);
   }
 
   private final Map<Level, RuleSet> ruleSetCache = new ConcurrentHashMap<>();
