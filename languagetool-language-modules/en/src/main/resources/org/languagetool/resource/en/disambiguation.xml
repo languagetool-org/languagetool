@@ -8665,10 +8665,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="IN|PCT|DT|PRP\$" postag_regexp="yes" />
         </antipattern>
         <antipattern><!-- incorrect grammar: "It's works without problems" -->
-            <token>it</token><!-- TODO add 'he/she'-->
+            <token regexp="yes">it|s?he|that</token>
             <token>'s</token><!-- TODO add 'is/was' -->
             <token postag="VBZ">
-                <exception>companies</exception>
+                <exception regexp="yes">companies|friends|fruits|beans|horses|headquarters</exception>
             </token>
             <token postag="RB" min="0" />
             <token postag="IN|PRP\$|DT" postag_regexp="yes" chunk_re=".-(NP|PP)" /><!-- TODO add 'PCT' -->
@@ -15431,7 +15431,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <!-- popular surname -->
         <rule>
             <pattern>
-                <token postag="NNP|UNKNOWN" postag_regexp="yes" case_sensitive="yes">[A-Z].+</token>
+                <token postag="NNP|UNKNOWN" postag_regexp="yes" case_sensitive="yes" regexp="yes">[A-Z].+</token>
                 <marker>
                     <token case_sensitive="yes" regexp="yes">Michaels|MICHAELS</token>
                 </marker>
