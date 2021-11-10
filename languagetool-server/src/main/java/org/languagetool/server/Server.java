@@ -137,13 +137,13 @@ abstract class Server {
     System.out.println("                 'timeoutRequestLimit' - maximum number of timeout request (optional)");
     System.out.println("                 'requestLimitPeriodInSeconds' - time period to which requestLimit and timeoutRequestLimit applies (optional)");
     System.out.println("                 'languageModel' - a directory with '1grams', '2grams', '3grams' sub directories which contain a Lucene index");
-    System.out.println("                  each with ngram occurrence counts; activates the confusion rule if supported (optional)");
+    System.out.println("                                   each with ngram occurrence counts; activates the confusion rule if supported (optional)");
     System.out.println("                 'word2vecModel' - a directory with word2vec data (optional), see");
     System.out.println("                  https://github.com/languagetool-org/languagetool/blob/master/languagetool-standalone/CHANGES.md#word2vec");
     System.out.println("                 'fasttextModel' - a model file for better language detection (optional), see");
-    System.out.println("                  https://fasttext.cc/docs/en/language-identification.html");
+    System.out.println("                                   https://fasttext.cc/docs/en/language-identification.html");
     System.out.println("                 'fasttextBinary' - compiled fasttext executable for language detection (optional), see");
-    System.out.println("                  https://fasttext.cc/docs/en/support.html");
+    System.out.println("                                    https://fasttext.cc/docs/en/support.html");
     System.out.println("                 'maxWorkQueueSize' - reject request if request queue gets larger than this (optional)");
     System.out.println("                 'rulesFile' - a file containing rules configuration, such as .langugagetool.cfg (optional)");
     System.out.println("                 'warmUp' - set to 'true' to warm up server at start, i.e. run a short check with all languages (optional)");
@@ -151,7 +151,7 @@ abstract class Server {
     System.out.println("                 'premiumOnly' - activate only the premium rules (optional)");
     System.out.println("                 'disabledRuleIds' - a comma-separated list of rule ids that are turned off for this server (optional)");
     System.out.println("                 Spellcheck-only languages: You can add simple spellcheck-only support for languages that LT doesn't");
-    System.out.println("                 support by defining two optional properties:");
+    System.out.println("                                            support by defining two optional properties:");
     System.out.println("                   'lang-xx' - set name of the language, use language code instead of 'xx', e.g. lang-tr=Turkish");
     System.out.println("                   'lang-xx-dictPath' - absolute path to the hunspell .dic file, use language code instead of 'xx', e.g.");
     System.out.println("                                        lang-tr-dictPath=/path/to/tr.dic. Note that the same directory also needs to");
