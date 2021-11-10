@@ -12088,8 +12088,27 @@ onwaarschijnlijk
 					<token spacebefore="no">v</token>
 					<token spacebefore="no">.</token>
 				</pattern>
-				<message>Eeen besloten vennootschap is een <suggestion>bv</suggestion>. Een Bekende Vlaming een <suggestion>BV</suggestion>, bijvoorbeeld is <suggestion>bv.</suggestion> of <suggestion>bijv.</suggestion>. Maar het kan ook zijn dat B.V. zo door het bedrijf is vastgesteld als deel van de naam, en dan mag het wel.</message>
+				<message>Een besloten vennootschap is een <suggestion>bv</suggestion>. Een Bekende Vlaming een <suggestion>BV</suggestion>, bijvoorbeeld is <suggestion>bv.</suggestion> of <suggestion>bijv.</suggestion>. Maar het kan ook zijn dat B.V. zo door het bedrijf is vastgesteld als deel van de naam, en dan mag het wel.</message>
 				<example correction="bv|BV|bv.|bijv.">Elke <marker>b.v.</marker> draagt belastingen af.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="N_V_" name="N.V. → nv">
+			<rule>
+				<antipattern case_sensitive="yes">
+					<token spacebefore="yes" regexp="yes">[A-Z][a-z].*</token>
+					<token spacebefore="yes">N</token>
+					<token spacebefore="no">.</token>
+					<token spacebefore="no">V</token>
+					<token spacebefore="no">.</token>
+				</antipattern>
+				<pattern case_sensitive="yes">
+					<token spacebefore="yes">n</token>
+					<token spacebefore="no">.</token>
+					<token spacebefore="no">v</token>
+					<token spacebefore="no">.</token>
+				</pattern>
+				<message>Een naamloze vennootschap is een <suggestion>nv</suggestion>. Maar het kan ook zijn dat N.V. zo door het bedrijf is vastgesteld als deel van de naam, en dan mag het wel.</message>
+				<example correction="nv">Elke <marker>n.v.</marker> draagt belastingen af.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="AD" name="ad. → ad">
@@ -33979,6 +33998,8 @@ steenwijk;Steenwijk
 				<antipattern><token>te</token><token>gronde</token></antipattern>
 				<antipattern><token>beiderlei</token><token>kunne</token></antipattern>
 				<antipattern><token>van</token><token>node</token></antipattern>
+				<antipattern><token>moge</token><token>duidelijk</token></antipattern>
+				<antipattern><token>moge</token><token>Allah</token></antipattern>
 				<pattern case_sensitive="yes">
 					<token regexp="yes">danse|machte|nachte|moge|node|passe|erve|wade|heffe|kruide|stapele|denke|laaie|rekke|bedenke|beruste|melde|schrobbe|motte|rille|wonde|krabbe|wikke|stalle|vergelijke|helpe|huwelijke|plante|diene|gebruike|klokke|lakke|morse|kante|hoppe|voege|wrake|neme|proeve|schouwe|belope|pare|rouwe|krimpe|spreke|geve|stele|glundere|rijde|bonze|grieve|volharde|geniete|raadplege|sloffe|breide|gerieve|dele|bedrage|dage|grave|lande|gronde|perse|bewijze|strijde|eigene|lijve|kunne|leve|ruste|vreze</token>
 				</pattern>
