@@ -11519,6 +11519,53 @@ Por isso é denominada como sendo a resiliência.
       <example correction="a morar em">Foram bons os 20 anos <marker>em que moro em</marker> Lisboa.</example>
     </rule>
 
+	<!-- À PROCURA DE a procurar -->
+    <rule id='À_VERBO_DE' name="À + Verbo + De → A + Verbo Infinitivo" type="style" default="temp_off">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-11-11 (25-JUN-2021+)      -->
+	<!--
+O Rui anda à procura de material científico. → O Rui anda a procurar material científico.
+	-->
+	  <!--
+Em maio de 1863, submeteu-se à prova de admissão para o ingresso na Faculdade de Direito do Recife sendo reprovado.
+E, ao se referir-se à visita de Lula, informou que "Lula honra Berlim e Hamburgo" com sua visita.
+Em 25 de março de 1509, o papa Júlio II alia-se à Liga de Cambrai.
+	  -->
+      <antipattern>
+		<token>se</token>
+		<token>à</token>
+		<token postag='VMIP3S0' postag_regexp='no'/>
+		<token>de</token>
+		<token/>
+      </antipattern>	
+      <pattern>	
+		  <token negate="yes">se</token>
+		  <or>
+			<token postag='V.+|RG' postag_regexp='yes'>
+				<exception postag_regexp='yes' postag='SPS.+|AQ..S.+|VMI[MS]3P.+|I'/>
+			</token>
+			<token regexp='yes'>[,]</token>
+		  </or>
+		  <marker>
+			<token>à</token>
+			<token postag='VMIP3S0' postag_regexp='no'/>
+			<token>de</token>
+		  </marker>
+		  <token negate_pos="yes" postag='DI.+' postag_regexp='yes'/>
+      </pattern>
+      <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+      <suggestion>a <match no='4' postag='VMN0000' postag_regexp="no" postag_replace='VMIP3S0'/></suggestion>
+	  <example correction="a procurar">O Rui anda <marker>à procura de</marker> material científico.</example>
+	  <example>Lista dos viajantes que aportaram à ilha de Santa Catarina nos séculos XVIII e XIX</example>
+	  <example>Já a multimidialidade se refere à mistura de diferentes mídias tradicionais (imagem, texto e som) para narrar um facto.</example>
+	  <example>Ele se agarrou à esperança de que iria vê-la novamente algum dia.</example>
+	  <example>Talvez esta noite eu vá à casa de minha irmã caçula.</example>
+	  <example>Vamos à casa de chá!</example>
+	  
+	  <example>Em maio de 1863, submeteu-se à prova de admissão para o ingresso na Faculdade de Direito do Recife sendo reprovado.</example>
+	  <example>E, ao se referir-se à visita de Lula, informou que "Lula honra Berlim e Hamburgo" com sua visita.</example>
+	  <example>Em 25 de março de 1509, o papa Júlio II alia-se à Liga de Cambrai.</example>
+    </rule>
+
     <!-- 	EM SIM em si -->	
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-25 (21-OCT-2020+)     -->
     <rule id='EM_SIM_em_si' name="Confusão: sim/si">
