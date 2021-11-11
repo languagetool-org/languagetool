@@ -91,11 +91,14 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
     int pos = 0;
     for (AnalyzedSentence sentence : sentences) {
       // sentenceNumber++;
-      AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
+      AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();;
       boolean sentStart = true;
       List<String> lemmasInSentece = new ArrayList<>();
       int i = -1;
       for (AnalyzedTokenReadings atrs : tokens) {
+        if (atrs.isImmunized()) {
+          continue;
+        }
         String token = atrs.getToken();
         if (!token.isEmpty()) {
           wordNumber++;
