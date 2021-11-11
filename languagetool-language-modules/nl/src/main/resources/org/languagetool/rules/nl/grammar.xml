@@ -12101,6 +12101,7 @@ onwaarschijnlijk
 					<token spacebefore="no">V</token>
 					<token spacebefore="no">.</token>
 				</antipattern>
+				<antipattern><token>n</token><token>.</token><token>v</token><token>.</token><token>t</token></antipattern>
 				<pattern case_sensitive="yes">
 					<token spacebefore="yes">n</token>
 					<token spacebefore="no">.</token>
@@ -12256,8 +12257,11 @@ onwaarschijnlijk
 			<antipattern><token>.</token><token spacebefore="no">nl</token></antipattern> <!-- tegen html-klets -->
 			<rule>
 				<pattern>
-					<token case_sensitive="yes">nl</token>
-					<token spacebefore="no">.</token>
+					<marker>
+						<token case_sensitive="yes">nl</token>
+						<token spacebefore="no">.</token>
+					</marker>
+					<token spacebefore="yes"/>
 				</pattern>
 				<message>Schrijf liever <suggestion>namelijk</suggestion>, dat is duidelijker.</message>
 				<example correction="namelijk">Het is <marker>nl.</marker> niet fout.</example>
@@ -23060,6 +23064,17 @@ steenwijk;Steenwijk
 				<example correction="rubriek">Met voor elke <marker>categorie</marker> specifieke verplichtingen.</example>
 				<example correction="rubrieken">Stel vervolgens de <marker>categorieën</marker> in voor je site.</example>
 				<example correction="rubriek">Per <marker>categorie</marker> zijn er telkens vier oefenbladen.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="MET_GEEN" name="met geen/ zonder">
+			<rule>
+				<antipattern><token>met</token><token>geen</token><token regexp="yes">mogelijkheid|enkele?|of|pen|woord|woorden</token></antipattern>
+				<pattern>
+					<token>met</token>
+					<token>geen</token>
+				</pattern>
+				<message>Misschien is <suggestion>zonder</suggestion> hier beter?</message>
+				<example correction="zonder">Een frietje <marker>met geen</marker> mayonaise.</example>
 			</rule>
 		</rulegroup>
 		<!--
