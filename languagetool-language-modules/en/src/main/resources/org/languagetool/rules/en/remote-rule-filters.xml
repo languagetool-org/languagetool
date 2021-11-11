@@ -39,15 +39,27 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">The BVI <marker>are</marker> known as one of the world's greatest sailing destinations, and charter sailboats are a very popular way to visit less accessible islands.</example>
                 <example correction="">SLNG <marker>are</marker> to provide Enron and BG a copy of the Savannah Pilots Association working procedures for river traffic.</example>
             </rule>
-            <rule>  <!-- here/there/that/what/which/who are -->
+            <rule>  <!-- which are -->
                 <pattern>
-                    <token regexp="yes">t?here|that|what|which|who</token>
+                    <token chunk="E-NP-plural" />
+                    <token skip="8">are</token>
+                    <token>which</token>
                     <marker>
                         <token>are</token>
                     </marker>
                 </pattern>
+                <example correction="">In other deregulated markets such as New York and New England, prices are capped at $1000 per megawatt hour, which <marker>are</marker> intended to be low enough to prevent market abuse but high enough to give generators incentive to build new plants.</example>
+                <example correction="">In addition, the adjacent lands are of the same habitat types as that which <marker>are</marker> contained within the facility and therefore, would not be an issue of habitat loss.</example>
+            </rule>
+            <rule>  <!-- who/what are VBN -->
+                <pattern>
+                    <token regexp="yes">who|what</token>
+                    <marker>
+                        <token>are</token>
+                    </marker>
+                    <token postag="VBN" />
+                </pattern>
                 <example correction="">Even larger molecules are treated by classical mechanics methods that employ what <marker>are</marker> called molecular mechanics.</example>
-                <example correction="">One of the stars is a flare star, which <marker>are</marker> prone to sudden, random outbursts that last several minutes; these increase the pair's apparent brightness significantly - as high as magnitude 7.</example>
             </rule>
             <rule>  <!-- United States -->
                 <pattern>
