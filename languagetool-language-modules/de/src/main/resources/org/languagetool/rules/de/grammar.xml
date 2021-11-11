@@ -17213,12 +17213,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="HOCH_ADJ" name="'hoch + Adjektiv' zusammenschreiben">
+            <antipattern><!-- see EMPFOHLENE_GETRENNTSCHREIBUNG[7] -->
+                <token>hoch</token>
+                <token regexp="yes">((technis|dot|motiv|industralis|spezialis|qualifiz|kompliz|dos)iert|acht|schätz|besteuert|bezahlt|verschuldet|radioaktiv|spannend|liegend|gespannt|aufgeschossen|entwickelt|beansprucht|gelegen|angesehen|konzentriert)(e[mnrs]?)?</token>
+            </antipattern>
             <pattern case_sensitive='yes'><marker>
                 <token>hoch</token>
                 <token postag='ADJ:.*' postag_regexp='yes'>
                     <exception postag='VER:.*' postag_regexp='yes'/>
-                    <exception inflected="yes">radioaktiv</exception>
-                    <exception inflected="yes">spezialisiert</exception>
                     <exception inflected="yes">detailliert</exception>
                 </token></marker>
             </pattern>
@@ -17229,6 +17231,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="hocheffizientes">Er hat ein <marker>hoch effizientes</marker> Heilmittel entwickelt.</example>
             <example>Dieser Monitor erlaubt eine hoch detaillierte Darstellung.</example>
             <example type="triggers_error">Das war eine hoch angenehme Begegnung.</example>
+            <example>Dort wird dann hoch qualifiziertes Personal benötigt.</example>
+            <example>Wir arbeiten mit hoch radioaktiven Substanzen.</example>
+            <example>Hier forschen hoch spezialisierte Wissenschaftler*innen.</example>
         </rule>
         <rule id="HOCH_ZUSAMMENSCHREIBUNG" name="'hoch + bestimmte Verben, Partizipien (und Adjektive, die nicht erkannt werden)' zusammenschreiben">
             <antipattern>
