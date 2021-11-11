@@ -26620,13 +26620,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="PLEITE_SEIN" name="Pleite (pleite) sein">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token inflected="yes">sein</token>
+                    <token postag="VER.*" postag_regexp="yes" inflected="yes">sein</token>
                     <token min="0">nicht</token>
                     <marker><token regexp="yes">Pleite|Klasse|Spitze</token></marker>
                  </pattern>
                  <message>In der Wendung '<suggestion><match no="3" case_conversion="startlower"/></suggestion> sein' gilt '<match no="3" case_conversion="startlower"/>' als Adjektiv und wird kleingeschrieben.</message>
                  <example correction="pleite">Ich bin nicht <marker>Pleite</marker>.</example>
                  <example correction="klasse">Dein Spiel ist <marker>Klasse</marker>.</example>
+                 <example>Er ist der beste Schüler seiner Klasse.</example>
+                 <example>An seiner Spitze befindet sich eine Sendeantenne.</example>
              </rule>
         </rulegroup>
         <rule id="ALS_ERSTES" name="'als erstes (Erstes)' etc.">
@@ -36878,7 +36880,7 @@ Andere Projekte</example>
         <rulegroup id="SCHULD_SEIN" name="'Schuld (schuld) sein'">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token inflected="yes">sein</token>
+                    <token postag="VER.*" postag_regexp="yes" inflected="yes">sein</token>
                     <token min="0" max="4" postag="ADV.*|PRO:PER:NOM:(SIN|PLU):ALG.*" postag_regexp="yes"/>
                     <marker>
                         <token>Schuld</token>
@@ -36893,6 +36895,8 @@ Andere Projekte</example>
                 <example correction="schuld">Daran sind wir doch ganz allein <marker>Schuld</marker>!</example>
                 <example correction="schuld">Ich bin <marker>Schuld</marker>!</example>
                 <example>Das ist die <marker>Schuld</marker> von Tom.</example>
+                <example>Es war ganz und gar seine Schuld.</example>
+                <example>Es gibt keine Zweifel an seiner Schuld.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MEINE_SCHULD" name="'jemandes schuld (Schuld) etc.'">
@@ -46410,8 +46414,15 @@ Andere Projekte</example>
                     <token>meinen</token>
                     <token>sicher</token>
                 </antipattern>
+                <antipattern>
+                    <token postag="VER.*" postag_regexp="yes" inflected="yes">sein
+                        <exception>sein</exception>
+                    </token>
+                    <token min="0" postag="ADV:MOD"/>
+                    <token postag="ADJ:PRD:GRU"/>
+                </antipattern>
                 <pattern>
-                    <token inflected="yes" regexp="yes" case_sensitive="yes">ein|&possessiv_lemma;
+                    <token inflected="yes" regexp="yes" postag="(ART|PRO).*" postag_regexp="yes" case_sensitive="yes">ein|&possessiv_lemma;
                         <exception>ihr</exception>
                     </token>
                     <token min="0" postag="ADV:MOD"/>
@@ -46426,6 +46437,7 @@ Andere Projekte</example>
                 <example correction="">Er ging zu <marker>ihren gemeinsam Vater</marker>.</example>
                 <example correction="">Wir haben deshalb <marker>eine genau Vorstellung</marker> von den Feierlichkeiten.</example>
                 <example correction="">Wir haben deshalb <marker>eine ziemlich genau Vorstellung</marker> von den Feierlichkeiten.</example>
+                <example correction="">Ich habe gestern <marker>sein sehr schön Frau</marker> getroffen.</example>
                 <example>Er brauchte <marker>ein wenig Geld</marker>.</example>
                 <example>Er ist <marker>ein völlig Fremder</marker> für mich.</example>
                 <example>Habt <marker>ihr kurz Zeit</marker>?</example>
@@ -46434,6 +46446,8 @@ Andere Projekte</example>
                 <example>Er war Schüler einer Berliner Schule.</example>
                 <example>Das bereitet einem auch echt Bauchschmerzen.</example><!-- ugs. -->
                 <example>Sie meinen sicher Ironie.</example>
+                <example>Aber ich bin allgemein Fan von Buchhandlungen.</example>
+                <example>Du bist einfach Mensch.</example>
             </rule>
             <rule>
                 <antipattern>
