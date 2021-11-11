@@ -7143,6 +7143,31 @@ No seu conjunto existem cinco capelas e uma igreja.
       <example correction='fui'>Quem deu a cara <marker>foi</marker> eu.</example>
     </rule>
 	
+	<!-- PRECISAM-SE/TRATAM-SE precisa-se/trata-se -->    
+    <!--      Created by Ricardo Joseh Lima and improved by Marco A.G.Pinto, Portuguese rule 2021-11-11 (25-JUN-2021+)      -->
+	<!--
+Precisam-se de trabalhadores. → Precisa-se de trabalhadores.
+Tratam-se de pessoas estudiosas. → Trata-se de pessoas estudiosas.
+	-->
+	<rule>
+      <pattern>	  
+		  <marker>
+			<and>
+				<token inflected='yes' regexp="yes">precisar|tratar</token>
+				<token postag='VMIP3P0' postag_regexp='no'/>
+			</and>
+		  </marker>
+		  <token regexp="yes" spacebefore='no'>[-]</token>
+		  <token spacebefore='no'>se</token>
+		  <token>de</token>
+		  <token postag='AQ..P.+|NC.P.+|[AD]...P.+|Z..P.+' postag_regexp='yes'/>
+      </pattern>
+      <message>Os verbos 'precisar'/'tratar' seguidos de '-se' não podem estar no plural devido à preposição 'de':</message>
+      <suggestion><match no='1' postag='VMIP3S0' postag_regexp="no" postag_replace='VMIP3P0'/></suggestion>
+	  <example correction="Precisa"><marker>Precisam</marker>-se de trabalhadores.</example>
+	  <example correction="Trata"><marker>Tratam</marker>-se de pessoas estudiosas.</example>
+    </rule>
+	
   </rulegroup>
 
 	<!-- CUJO , cujo -->
