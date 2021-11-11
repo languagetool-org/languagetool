@@ -8665,13 +8665,32 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="IN|PCT|DT|PRP\$" postag_regexp="yes" />
         </antipattern>
         <antipattern><!-- incorrect grammar: "It's works without problems" -->
-            <token regexp="yes">it|s?he|that</token>
-            <token>'s</token><!-- TODO add 'is/was' -->
+            <token regexp="yes">it|that</token>
+            <token regexp="yes">'s|is</token><!-- TODO add 'was' -->
             <token postag="VBZ">
-                <exception regexp="yes">companies|friends|fruits|beans|horses|headquarters</exception>
+                <exception regexp="yes">companies|friends|fruits|beans|horses|headquarters|bruises|wives</exception>
             </token>
             <token postag="RB" min="0" />
-            <token postag="IN|PRP\$|DT" postag_regexp="yes" chunk_re=".-(NP|PP)" /><!-- TODO add 'PCT' -->
+            <token postag="IN|PRP\$|DT" postag_regexp="yes" chunk_re=".-(NP.*|PP)" /><!-- TODO add 'PCT' -->
+        </antipattern>
+        <antipattern><!-- incorrect grammar: "It's works without problems" -->
+            <token regexp="yes">s?he</token>
+            <token>'s</token>
+            <token postag="VBZ" regexp="yes">
+                <!-- verbs that are also plural nouns but more likely used as verbs -->
+                works|goes|moves|puts|needs|gets|comes|uses|gives|makes|sees|watches|approaches|tries|wants|says|mentions|knows|hopes|gives|looks|finds|tells|means|turns|leaves|feels|asks|attempts|keeps|follows|helps|runs|reads|plays|pays
+            </token>
+            <token postag="RB" min="0" />
+            <token postag="IN|PRP\$|DT" postag_regexp="yes" chunk_re=".-(NP.*|PP)" /><!-- TODO add 'PCT' -->
+        </antipattern>
+        <antipattern><!-- incorrect grammar: "It's works without problems" -->
+            <token regexp="yes">s?he</token>
+            <token>is</token><!-- TODO add 'was' -->
+            <token postag="VBZ">
+                <exception regexp="yes">companies|friends|fruits|beans|horses|headquarters|bruises|wives</exception>
+            </token>
+            <token postag="RB" min="0" />
+            <token postag="IN|PRP\$|DT" postag_regexp="yes" chunk_re=".-(NP.*|PP)" /><!-- TODO add 'PCT' -->
         </antipattern>
         <pattern>
             <token regexp="yes" postag="VB[ZPG]?" postag_regexp="yes" inflected="yes">be|have</token>
@@ -14678,6 +14697,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </antipattern>
             <pattern>
                 <token chunk_re="E-NP.*" />
+                <token postag="RB" chunk="B-ADVP" min="0" />
                 <marker>
                     <token regexp="yes" chunk="B-VP">needs?</token>
                 </marker>
@@ -14698,12 +14718,74 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </antipattern>
             <pattern>
                 <token chunk_re="E-NP.*" />
+                <token postag="RB" chunk="B-ADVP" min="0" />
                 <marker>
                     <token regexp="yes" chunk="B-VP">wants?</token>
                 </marker>
                 <token>to</token>
                 <token postag="RB" min="0" />
                 <token postag="VB" chunk_re=".-VP" />
+            </pattern>
+            <disambig action="filter" postag="VB.*" />
+        </rule>
+    </rulegroup>
+
+    <rulegroup id="TRY_VB" name="'try' as verb">
+        <rule><!-- "try/tries to be" (only verb) -->
+            <antipattern>
+                <token postag="PRP\$|DT" postag_regexp="yes" />
+                <token postag="JJ.*" postag_regexp="yes" min="0" />
+                <token regexp="yes">try|tries</token>
+            </antipattern>
+            <pattern>
+                <token chunk_re="E-NP.*" />
+                <token postag="RB" chunk="B-ADVP" min="0" />
+                <marker>
+                    <token regexp="yes" chunk="B-VP">try|tries</token>
+                </marker>
+                <token>to</token>
+                <token postag="RB" min="0" />
+                <token postag="VB" chunk_re=".-VP" />
+            </pattern>
+            <disambig action="filter" postag="VB.*" />
+        </rule>
+    </rulegroup>
+
+    <rulegroup id="HOPE_VB" name="'hope' as verb">
+        <antipattern>
+            <token postag="PRP\$|DT" postag_regexp="yes" />
+            <token postag="JJ.*" postag_regexp="yes" min="0" />
+            <token regexp="yes">hopes?</token>
+        </antipattern>
+        <antipattern>
+            <token>high</token>
+            <token>hopes</token>
+        </antipattern>
+        <rule><!-- "hope/hopes to be" (only verb) -->
+            <pattern>
+                <token chunk_re="E-NP.*" />
+                <token postag="RB" chunk="B-ADVP" min="0" />
+                <marker>
+                    <token regexp="yes" chunk="B-VP">hopes?</token>
+                </marker>
+                <token>to</token>
+                <token postag="RB" min="0" />
+                <token postag="VB" chunk_re=".-VP" />
+            </pattern>
+            <disambig action="filter" postag="VB.*" />
+        </rule>
+        <rule><!-- "hope/hopes that they will ... " (only verb) -->
+            <pattern>
+                <token chunk_re="E-NP.*" />
+                <token postag="RB" chunk="B-ADVP" min="0" />
+                <marker>
+                    <token regexp="yes" chunk="B-VP">hopes?</token>
+                </marker>
+                <token>that</token>
+                <token chunk_re="B-NP.*" min="0" />
+                <token chunk_re="E-NP.*" />
+                <token postag="RB" min="0" />
+                <token chunk_re=".-VP" />
             </pattern>
             <disambig action="filter" postag="VB.*" />
         </rule>
