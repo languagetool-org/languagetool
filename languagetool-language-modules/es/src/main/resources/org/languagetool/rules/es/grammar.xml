@@ -21096,7 +21096,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="MUCHO_NF" name="mucho + nombre femenino">
             <pattern>
                 <token regexp="yes">mucho|muchísimo</token>
-                <token regexp="yes">tías?|señoras?|señoritas?|hermanas?|amigas?</token>
+                <token regexp="yes">tías?|señoras?|señoritas?|hermanas?|amigas?|queridas?</token>
             </pattern>
             <message>Probablemente falta una coma o hay un error de concordancia.</message>
             <suggestion>\1, \2</suggestion>
@@ -21488,6 +21488,51 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Es bonito pero barato, y lo demás no importa.</example>
         </rule>
         <!--TODO: idem with ", pues"-->
+        <rule id="COMMA_ADVERB" name="coma en adverbio al principio de frase" default="temp_off">
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token regexp="yes" min="0" max="3">\p{P}<exception>¿</exception></token>
+                <token regexp="yes" postag="RG">.*mente</token>
+                <token regexp="yes">de|del|y|o|e|u|que</token>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token regexp="yes" min="0" max="3">\p{P}</token>
+                <token regexp="yes" postag="RG">.*mente</token>
+                <token postag="A.*|V.P.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">concretamente|paralelamente|contrariamente|posteriormente|previamente</token>
+                <token>a</token>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token regexp="yes" min="0" max="3">\p{P}</token>
+                <token regexp="yes" postag="RG">.*mente<exception>actualmente</exception></token>
+                <token regexp="yes">en|con</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">inmediatamente|mayoritariamente</token>
+                <token postag="RG|RN" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+                <token postag="SENT_START"/>
+                <token regexp="yes" min="0" max="3">\p{P}</token>
+                <marker>
+                    <token regexp="yes" postag="RG">.*mente<exception regexp="yes">aproximadamente|difícilmente|habitualmente|justamente|precisamente|realmente|únicamente|solamente|exclusivamente</exception></token>    
+                </marker>
+            </pattern>
+            <filter class="org.languagetool.rules.AddCommasFilter" args="none:none"/>
+            <message>Si el adverbio "<match no="3" case_conversion="alllower"/>" se refiere a toda la frase, y no solo al verbo, es necesaria una coma.</message>
+            <example correction="Efectivamente,"><marker>Efectivamente</marker> dijo que sí.</example>
+            <example>Absolutamente de acuerdo con vuestra opinón.</example>
+            <example>Antiguamente sujetas al abad del monasterio.</example>
+            <example>Completamente amueblado.</example>
+            <example>Concretamente en Espanya, la Reforma fiscal de 2015 modificó las condiciones.</example>
+            <example>Contrariament a Dinamarca, en Alemania no sucedió.</example>
+            <example>Conjuntamente con ellos, hicieron todo el trabajo.</example>
+            <example correction="Contrariamente,">-- <marker>Contrariamente</marker> allí no pasó nada.</example>
+        </rule>
         <rule id="COMMA_REPETITION" name="coma en repeticiones">
             <antipattern>
                 <token>no</token>
