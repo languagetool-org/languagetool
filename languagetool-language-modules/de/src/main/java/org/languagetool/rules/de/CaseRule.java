@@ -1075,12 +1075,17 @@ public class CaseRule extends Rule {
     ),
     Arrays.asList(
       regex("nur"),
-      csRegex("Positives|Schlechtes|Gutes|Böses|Negatives|Folgendes|Neues|Altes|Schlimmes|Letzteres|Ersteres|Blödes|Schreckliches|Wesentliches"),
+      csRegex("Positives|Schlechtes|Gutes|Böses|Negatives|Folgendes|Neues|Altes|Schlimmes|Letzteres|Ersteres|Blödes|Schreckliches|Wesentliches|Falsches|Richtiges"),
       csRegex("[a-zäöü…\\.!\\?…].*")
     ),
     Arrays.asList(
       regex("im"),
-      csRegex("Stillen|Dunkeln|Hellen|Wesentlichen|Trüben|Kalten|Warmen")
+      csRegex("Wesentlichen")
+    ),
+    Arrays.asList(
+      regex("im"),
+      csRegex("Stillen|Dunkeln|Hellen|Trüben|Kalten|Warmen"),
+      csRegex("[a-zäöü…\\.!\\?…].*")
     ),
     Arrays.asList(
       regex("[\\ud83c\\udc00-\\ud83c\\udfff]+|[\\ud83d\\udc00-\\ud83d\\udfff]+|[\\u2600-\\u27ff]+"),

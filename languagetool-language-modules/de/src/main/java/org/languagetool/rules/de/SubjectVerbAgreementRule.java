@@ -184,6 +184,15 @@ public class SubjectVerbAgreementRule extends Rule {
       pos("SUB:DAT:PLU:NOG"),
       tokenRegex("ist|war"),
       posRegex(".+:NOM:.+")
+    ),
+    Arrays.asList( // Das Gestell, sowie der komplette Tisch sind leicht zu montieren.
+      posRegex("SUB:.+"),
+      new PatternTokenBuilder().pos("PKT").min(0).build(),
+      token("sowie"),
+      posRegex("ART.*"),
+      new PatternTokenBuilder().posRegex("(ADJ|PA[12]).*").min(0).build(),
+      posRegex("SUB:.+"),
+      tokenRegex("sind|waren")
     )
   );
 

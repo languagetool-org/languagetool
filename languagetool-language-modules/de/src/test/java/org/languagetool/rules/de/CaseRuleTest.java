@@ -407,6 +407,7 @@ public class CaseRuleTest {
     assertBad("Das ist Ein Mann.");
 
     assertBad("Sie erhalten bald unsere Neuesten Insights.");
+    assertBad("Auf eine Carvingschiene sollte die Kette schon im Kalten Zustand weit durchhängen.");
 
     assertGood("Du Ärmste!");
     assertGood("Ich habe nur Schlechtes über den Laden gehört.");
@@ -427,6 +428,7 @@ public class CaseRuleTest {
     assertGood("Das ist ein zwingendes Muss.");
     assertGood("Er hält eine Handbreit Abstand.");
     assertGood("Das ist das Debakel und Aus für Podolski.");
+    assertGood("Der schwedische Psychologe Dan Katz, Autor von 'Angst kocht auch nur mit Wasser', sieht in der Corona-Krise dennoch nicht nur Negatives.");
   }
 
   private void assertGood(String input) throws IOException {
