@@ -21575,6 +21575,91 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Totalmente online.</example>
             <example>* Temporalmente no disponible.</example>
         </rule>
+        <rulegroup id="COMMA_MARCADOR_DISCURSIVO" name="coma después de marcador discursivo" default="temp_off">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" max="3" postag="_PUNCT.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>en</token>
+                        <token postag="AO.*" postag_regexp="yes"/>
+                        <token>lugar</token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.AddCommasFilter" args="none:none"/>
+                <message>Escribimos coma después de los marcadores discursivos.</message>
+                <example correction="lugar,">En primer <marker>lugar</marker> hablaremos de un tema importante.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" max="3" postag="_PUNCT.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>por</token>
+                        <token min="0">lo</token>
+                        <token>tanto</token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.AddCommasFilter" args="none:none"/>
+                <message>Escribimos coma después de los marcadores discursivos.</message>
+                <example correction="tanto,">Por lo <marker>tanto</marker> hablaremos de un tema importante.</example>
+                <example correction="tanto,">Por <marker>tanto</marker> hablaremos de un tema importante.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>por</token>
+                        <token>lo</token>
+                        <token>tanto</token>
+                    </marker>
+                    <token><exception>,</exception></token>
+                </pattern>
+                <filter class="org.languagetool.rules.AddCommasFilter" args="none:none"/>
+                <message>Escribimos coma después de los marcadores discursivos.</message>
+                <example correction=", por lo tanto,">Es<marker> por lo tanto</marker> lo que hay que hacer.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>sin</token>
+                    <token>embargo</token>
+                </pattern>
+                <filter class="org.languagetool.rules.AddCommasFilter" args="none:none"/>
+                <message>Esta locución se escribe normalmente entre comas.</message>
+                <example correction="embargo,">Sin <marker>embargo</marker> no logró ganar.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" max="3" postag="_PUNCT.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>además</token>
+                    </marker>
+                    <token><exception regexp="yes">de|del</exception><exception postag="_PUNCT.*" postag_regexp="yes"/></token>
+                </pattern>
+                <filter class="org.languagetool.rules.AddCommasFilter" args="none:none"/>
+                <message>En este contexto es recomendable usar una coma.</message>
+                <example correction="Además,"><marker>Además</marker> se trata de un caso único.</example>
+                <example>Además —añadió—, ¿en cuántos lugares está?</example>
+                <example>Además de este, ¿en qué otros lugares está?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" max="3" postag="_PUNCT.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>en</token>
+                        <token regexp="yes" inflected="yes">un|el</token>
+                        <token postag="AO.*" postag_regexp="yes"/>
+                        <token postag="N.*" postag_regexp="yes"/>
+                        <!--momento|instante|caso</token>-->
+                    </marker>
+                    <token><exception regexp="yes">de|del|que</exception><exception postag="_PUNCT.*" postag_regexp="yes"/></token>
+                </pattern>
+                <filter class="org.languagetool.rules.AddCommasFilter" args="none:none"/>
+                <message>En este contexto es recomendable usar una coma.</message>
+                <example correction="instantes,">En los primeros <marker>instantes</marker> hablaremos de un tema importante.</example>
+            </rule>
+        </rulegroup>
         <rule id="COMMA_REPETITION" name="coma en repeticiones">
             <antipattern>
                 <token>no</token>
