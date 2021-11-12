@@ -21523,18 +21523,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Es bonito pero barato, y lo demás no importa.</example>
         </rule>
         <!--TODO: idem with ", pues"-->
-        <rule id="COMMA_ADVERB" name="coma en adverbio al principio de frase" default="temp_off">
+        <rule id="COMMA_ADVERB" name="coma en adverbio al principio de frase">
             <antipattern>
                 <token postag="SENT_START"/>
-                <token regexp="yes" min="0" max="3">\p{P}<exception>¿</exception></token>
+                <token regexp="yes" min="0" max="3">\p{P}</token>
                 <token regexp="yes" postag="RG">.*mente</token>
-                <token regexp="yes">de|del|y|o|e|u|que</token>
+                <token regexp="yes">de|del|y|o|e|u|que|por</token>
             </antipattern>
             <antipattern>
                 <token postag="SENT_START"/>
                 <token regexp="yes" min="0" max="3">\p{P}</token>
                 <token regexp="yes" postag="RG">.*mente</token>
-                <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                <token postag="A.*|V.P.*|V.G.*|LOC_ADV|LOC_ADJ" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
                 <token regexp="yes">concretamente|paralelamente|contrariamente|posteriormente|previamente</token>
@@ -21547,18 +21547,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">en|con</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">inmediatamente|mayoritariamente</token>
+                <token regexp="yes">inmediatamente|mayoritariamente|totalmente|temporalmente</token>
                 <token postag="RG|RN" postag_regexp="yes"/>
             </antipattern>
             <pattern>
                 <token postag="SENT_START"/>
-                <token regexp="yes" min="0" max="3">\p{P}</token>
+                <token regexp="yes" min="0" max="3">\p{P}<exception>¿</exception></token>
                 <marker>
-                    <token regexp="yes" postag="RG">.*mente<exception regexp="yes">aproximadamente|difícilmente|habitualmente|justamente|precisamente|realmente|únicamente|solamente|exclusivamente</exception></token>
+                    <token regexp="yes" postag="RG">.*mente<exception regexp="yes">seguramente|especialmente|específicamente|particularmente|constantemente|continuamente|comúnmente|aproximadamente|difícilmente|habitualmente|justamente|precisamente|realmente|únicamente|solamente|exclusivamente</exception></token>
                 </marker>
             </pattern>
             <filter class="org.languagetool.rules.AddCommasFilter" args="none:none"/>
-            <message>Si el adverbio "<match no="3" case_conversion="alllower"/>" se refiere a toda la frase, y no solo al verbo, es necesaria una coma.</message>
+            <message>Si el adverbio "<match no="3" case_conversion="alllower"/>" se refiere a toda la frase, y no solo al verbo, es recomendable usar una coma.</message>
             <example correction="Efectivamente,"><marker>Efectivamente</marker> dijo que sí.</example>
             <example>Absolutamente de acuerdo con vuestra opinón.</example>
             <example>Antiguamente sujetas al abad del monasterio.</example>
@@ -21567,6 +21567,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Contrariament a Dinamarca, en Alemania no sucedió.</example>
             <example>Conjuntamente con ellos, hicieron todo el trabajo.</example>
             <example correction="Contrariamente,">-- <marker>Contrariamente</marker> allí no pasó nada.</example>
+            <example>¿Comúnmente viajas solo?</example>
+            <example>¿Exactamente cómo lo hiciste?</example>
+            <example>Estrictamente hablando, la Tierra no es redonda.</example>
+            <example>Exactamente por la razón que he dicho. </example>
+            <example>Seguramente el casco le salvó la vida.</example>
+            <example>Totalmente online.</example>
+            <example>* Temporalmente no disponible.</example>
         </rule>
         <rule id="COMMA_REPETITION" name="coma en repeticiones">
             <antipattern>
