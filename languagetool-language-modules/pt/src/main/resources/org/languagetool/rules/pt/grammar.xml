@@ -11520,8 +11520,8 @@ Por isso é denominada como sendo a resiliência.
     </rule>
 
 	<!-- À PROCURA DE a procurar -->
-    <rule id='À_VERBO_DE' name="À + Verbo + De → A + Verbo Infinitivo" type="style" default="temp_off">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-11-11 (25-JUN-2021+)      -->
+    <rule id='À_VERBO_DE' name="À + Verbo + De → A + Verbo Infinitivo" type="style">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-11-11/12 (25-JUN-2021+)      -->
 	<!--
 O Rui anda à procura de material científico. → O Rui anda a procurar material científico.
 	-->
@@ -11536,7 +11536,31 @@ Em 25 de março de 1509, o papa Júlio II alia-se à Liga de Cambrai.
 		<token postag='VMIP3S0' postag_regexp='no'/>
 		<token>de</token>
 		<token/>
-      </antipattern>	
+      </antipattern>
+	  <!--
+Estes dias estão ligados à vida de Jesus Cristo ou à história dos primórdios do movimento cristão.
+Existe alguma possibilidade de que Tom tenha ido à casa de Mary ontem à noite?
+Os problemas da educação da Bolívia não são necessariamente atribuídos à falta de fundos.
+"Ele foi enviado à zona de operações onde foi seriamente ferido pela explosão de uma granada."
+O homem está sujeito à pena de morte.
+Tom não foi à casa de Marie?
+Ele veio à procura de esclarecimentos.
+Tom foi à casa de massagem.
+Certa vez fomos à casa de tia Elisabete e encontramos a linda senhora desolada.
+Fomos à praia assistir à queima de fogos de artifício.
+Manuel, ateu, recusou-se a assistir à missa de sétimo dia do amigo que falecera.
+Com um PIB per capita aproximado em 7.300 dólares americanos, o país pertence à faixa de renda média-baixa.
+	  -->
+      <antipattern>
+			<token postag='VMP00.+|VMIS.+|VMIP3.+|VMN0000' postag_regexp='yes'>
+				<exception postag_regexp='yes' postag='AQ.+|NC.'/>
+				<exception regexp='yes' inflected='yes'>estar|andar</exception>
+			</token>
+		<token>à</token>
+		<token postag='VMIP3S0' postag_regexp='no'/>
+		<token>de</token>
+		<token postag='RG|NP.+|AQ.+|NC.+|PI.+' postag_regexp='yes'/>
+      </antipattern>	  
       <pattern>	
 		  <token negate="yes">se</token>
 		  <or>
@@ -11564,6 +11588,19 @@ Em 25 de março de 1509, o papa Júlio II alia-se à Liga de Cambrai.
 	  <example>Em maio de 1863, submeteu-se à prova de admissão para o ingresso na Faculdade de Direito do Recife sendo reprovado.</example>
 	  <example>E, ao se referir-se à visita de Lula, informou que "Lula honra Berlim e Hamburgo" com sua visita.</example>
 	  <example>Em 25 de março de 1509, o papa Júlio II alia-se à Liga de Cambrai.</example>
+	  
+	  <example>Estes dias estão ligados à vida de Jesus Cristo ou à história dos primórdios do movimento cristão.</example>
+	  <example>Existe alguma possibilidade de que Tom tenha ido à casa de Mary ontem à noite?</example>
+	  <example>Os problemas da educação da Bolívia não são necessariamente atribuídos à falta de fundos.</example>
+	  <example>"Ele foi enviado à zona de operações onde foi seriamente ferido pela explosão de uma granada."</example>
+	  <example>O homem está sujeito à pena de morte.</example>
+	  <example>Tom não foi à casa de Marie?</example>
+	  <example>Ele veio à procura de esclarecimentos.</example>
+	  <example>Tom foi à casa de massagem.</example>
+	  <example>Certa vez fomos à casa de tia Elisabete e encontramos a linda senhora desolada.</example>
+	  <example>Fomos à praia assistir à queima de fogos de artifício.</example>
+	  <example>Manuel, ateu, recusou-se a assistir à missa de sétimo dia do amigo que falecera.</example>
+	  <example>Com um PIB per capita aproximado em 7.300 dólares americanos, o país pertence à faixa de renda média-baixa.</example>
     </rule>
 
     <!-- 	EM SIM em si -->	
