@@ -160,6 +160,7 @@ public class AgreementRule extends Rule {
     "diejenigen",
     "irgendjemand", "irgendjemandes",
     "jemand", "jemandes",
+    "irgendjemand", "irgendjemandes",
     "niemand", "niemandes"
   ));
 

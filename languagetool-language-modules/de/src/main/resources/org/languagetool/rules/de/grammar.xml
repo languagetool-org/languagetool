@@ -2797,7 +2797,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>&typo;</short>
             <example correction="danke">Ich <marker>dank</marker> schön!</example>
         </rule>
-        <rule id="DANK_DAN" name="Dank/Dan" default="temp_off">
+        <rule id="DANK_DAN" name="Dank/Dan">
             <pattern>
                 <token regexp="yes">vielen|herzlichen|besten|liebsten</token>
                 <marker>
@@ -9481,6 +9481,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category id="PROPER_NOUNS" name="Prominente/geographische Eigennamen">
         <!-- geographische Namen u. ä. -->
+        <rule id="CHILI_CON_CARNE" name="Chili con Carne" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">Chili|CHILI</token>
+                <token regexp="yes">con|CON</token>
+                <token regexp="yes">Carne|CARNE</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">chill?(ie?|y)</token>
+                <token regexp="yes">[ck]on</token>
+                <token regexp="yes">[ck]arne?</token>
+            </pattern>
+            <message>Meinten Sie das Gericht <suggestion>Chili con Carne</suggestion>?</message>
+            <example correction="Chili con Carne">Ich mag <marker>Chilli Con Carne</marker>.</example>
+        </rule>
+        <rule id="CHILI_SIN_CARNE" name="Chili sin Carne" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">Chili|CHILI</token>
+                <token regexp="yes">sin|SIN</token>
+                <token regexp="yes">Carne|CARNE</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">chill?(ie?|y)</token>
+                <token>sin</token>
+                <token regexp="yes">[ck]arne?</token>
+            </pattern>
+            <message>Meinten Sie das Gericht <suggestion>Chili sin Carne</suggestion>?</message>
+            <example correction="Chili sin Carne">Ich mag <marker>Chilly Sin Carne</marker>.</example>
+        </rule>
         <rule id="ENGEL_UND_VOLKERS" name="Engel &amp; Völkers">
             <antipattern>
                 <token case_sensitive="yes" regexp="yes">Engel|ENGEL</token>
@@ -12132,6 +12160,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 * lokal Partner
                 * maximal Zulassung/Begrenzung
                 * exklusiv Kunde
+                * allgemein Mediziner
             -->
             <rule>
                 <antipattern>
@@ -16874,7 +16903,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token>auf</token>
-                    <token regexp="yes">touren|kosten</token>
+                    <token regexp="yes">touren|kosten|fundierte.*|durchreise|platz|schutzstreifen|reisen</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">strahlende?</token>
+                    <token regexp="yes">wei(ss|ß).*</token>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">weiter|weit</token>
@@ -16921,6 +16954,69 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>an</token>
                     <token regexp="yes">importiert.+</token>
                 </antipattern>
+                <antipattern>
+                    <token>seit</token>
+                    <token>dem</token>
+                    <token>Tag</token>
+                    <token>an</token>
+                </antipattern>
+                <antipattern>
+                    <token>angst</token>
+                    <token>vor</token>
+                    <token regexp="yes">spritzen|fliegen</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">(viel|an)zahl|palette|menge|auswahl</token>
+                    <token>an</token>
+                    <token postag="PA[12].*" postag_regexp="yes" /> 
+                </antipattern>
+                <antipattern>
+                    <token>Fokus</token>
+                    <token>auf</token>
+                    <token postag="PA[12].*" postag_regexp="yes" /> 
+                </antipattern>
+                <antipattern>
+                    <token>auf</token>
+                    <token />
+                    <token regexp="yes">gesetzt|geändert</token>
+                </antipattern>
+                <antipattern>
+                    <token>los</token>
+                    <token>ruf</token>
+                    <token>die</token>
+                </antipattern>
+                <antipattern>
+                    <token>sag</token>
+                    <token>mal</token>
+                </antipattern>
+                <antipattern>
+                    <token>ab</token>
+                    <token>da</token>
+                    <token>an</token>
+                    <token inflected="yes">haben</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="2">auf</token>
+                    <token inflected="yes">zugreifen</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="5">vor</token>
+                    <token inflected="yes">schützen</token>
+                </antipattern>
+                <antipattern>
+                    <token>trotz</token>
+                    <token regexp="yes">der|dem</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="2" inflected="yes">achten</token>
+                    <token />
+                    <token>auf</token>
+                    <token postag="PA[12].*" postag_regexp="yes" />
+                </antipattern>
+                <antipattern>
+                    <token>her</token>
+                    <token inflected="yes">werden</token>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <token><exception>;</exception><exception>:</exception><exception>,</exception></token>
                     <marker>
@@ -16928,6 +17024,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="VER:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöüß]+
                             <exception inflected="yes" regexp="yes">fahren|meinen|sein|einen|sieben|achten|einigen|äußern|äussern|fernsehen|proben|maximieren|minimieren</exception>
                             <exception postag="AD[JV]:.*|VER:EIZ:.*" postag_regexp="yes"/>
+                            <exception regexp="yes">whatsapp|langenweile|herzversagen|herz</exception>
                             <exception regexp="yes">(a[bn]|au[fs]|nieder|be|los|unter|ein|ent|er|in|vor|über|um|zer|zwischen|ver|zurück|weiter|vorbei|wieder).*|null|genügend|.+suche|personalisierte[nsr]?|ästen?|gefährdet.*|klassenfahrt|.+verwandt.*|.+berechtigt.*|.*weihnachten|.*streifen</exception>
                         </token>
                     </marker>
@@ -16990,12 +17087,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token>auf</token>
-                    <token>und</token>
+                    <token regexp="yes">und|&amp;</token>
                     <token>ab</token>
                 </antipattern>
                 <antipattern>
                     <token>ab</token>
-                    <token>und</token>
+                    <token regexp="yes">und|&amp;</token>
                     <token>an</token>
                 </antipattern>
                 <antipattern>
@@ -17006,7 +17103,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token>hin</token>
-                    <token>und</token>
+                    <token regexp="yes">und|&amp;</token>
                     <token>her</token>
                 </antipattern>
                 <antipattern>
@@ -17021,6 +17118,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token skip="3">von<exception scope="next" postag="VER:.+" postag_regexp="yes"/></token>
                     <token>her</token>
+                </antipattern>
+                <antipattern><!-- hinter dir her -->
+                    <token>hinter</token>
+                    <token />
+                    <token>her</token>
+                </antipattern>
+                <antipattern><!-- das ist der weg zu regieren -->
+                    <token regexp="yes">der|dieser|ein</token>
+                    <token>weg</token>
+                    <token>zu</token>
                 </antipattern>
                 <pattern case_sensitive="yes">
                     <marker>
@@ -17064,6 +17171,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="bereitzustellen">Es ist wichtig, alle Unterlagen <marker>bereit zu stellen</marker>.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>ab</token>
+                    <token regexp="yes">und|&amp;</token>
+                    <token>zu</token>
+                </antipattern>
                 <pattern>
                     <token>zu</token>
                     <token inflected="yes" regexp="yes">geben|lassen<exception regexp="yes">geben|lassen</exception></token>
@@ -18106,10 +18218,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">[,;:—–-]</token>
                 </antipattern>
                 <antipattern>
-                    <token postag="PRP.*" postag_regexp="yes"/>
                     <token regexp="yes">((vor)?vor)?gestern|vorhin</token>
                     <token>tut</token>
                     <token regexp="yes">mir|uns|ihr|ihm</token>
+                    <token postag="ADV.*" postag_regexp="yes" min="0" />
                     <token>leid</token>
                 </antipattern>
                 <antipattern>
@@ -18151,6 +18263,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Das Telefonat von vorhin darf niemand mitbekommen.</example>
                 <example>Wenn aus dem Morgen ich ins Gestern blicke, bin ich auch schlau.</example>
                 <example>Gestern bestellt, heute da.</example>
+                <example>Das mit gestern tut mir so leid.</example>
+                <example>Das gestern tut mir leid.</example>
                 <example>Wir möchten heute das Gestern feiern.</example>
                 <example>Das mit gestern tut mir Leid.</example>
                 <example>Gestern willst du sechzehn Stunden am Stück gearbeitet haben?</example>
@@ -18194,9 +18308,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception>(</exception>
                     </token>
                 </pattern>
-                <message>Falsche Zeitform? Meinten Sie <suggestion><match no="2"/> <match no="3"/> <match no="4" postag_regexp="yes" postag="(.*):PRÄ:(.*)" postag_replace="$1:PRT:$2"/></suggestion>?</message>
-                <short>Falsche Zeitform</short>
+                <message>Falsche Zeitform? Meinten Sie <suggestion><match no="2"/> <match no="3"/> <match no="4" postag_regexp="yes" postag="(.*):PRÄ(.*)" postag_replace="$1:PRT$2"/></suggestion>?</message>                <short>Falsche Zeitform</short>
                 <example correction="Letzten Montag schneite|Letzten Montag schneitet"><marker>Letzten Montag schneit</marker> es ein wenig.</example>
+                <example correction="letzten Freitag sollte">Am <marker>letzten Freitag soll</marker> es schneien.</example>
                 <example>Ich habe mein Rad <marker>letzte Woche</marker> repariert.</example>
                 <example>Ich musste mein Rad <marker>letztes Wochenende</marker> reparieren.</example>
                 <example>Rate mal, wer mich <marker>letzten Mittwoch besucht</marker> hat.</example>
@@ -23348,14 +23462,55 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
-        <rule id="AUF_ZACK" name="auf zack (Zack)" default="temp_off">
+        <rule id="TUTEN_UND_BLASEN" name="Tuten und Blasen" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token>Tuten</token>
+                <token>und</token>
+                <token>Blasen</token>
+            </antipattern>
+            <pattern case_sensitive="yes">
+                <token regexp="yes">[Vv]o[nm]</token>
+                <marker>
+                    <token regexp="yes">[Tt]uten</token>
+                    <token regexp="yes">[Uu]nd</token>
+                    <token regexp="yes">[Bb]lasen</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie die Redewendung <suggestion>Tuten und Blasen</suggestion>?</message>
+            <example correction="Tuten und Blasen">Er hat von <marker>tuten und blasen</marker> keine Ahnung.</example>
+        </rule>
+        <rule id="UNTERM_STRICH" name="unterm strich (Strich)" default="temp_off">
+            <pattern>
+                <token regexp="yes">unterm|aufm</token>
+                <marker>
+                    <token case_sensitive="yes">strich</token>
+                </marker>
+            </pattern>
+            <message>Das Nomen <suggestion>Strich</suggestion> wird großgeschrieben.</message>
+            <example correction="Strich">Unterm <marker>strich</marker> ist jetzt alles besser als vorher.</example>
+        </rule>
+        <rule id="LUG_UND_TRUG" name="Lug und Trug">
+            <antipattern case_sensitive="yes">
+                <token>Lug</token>
+                <token>und</token>
+                <token>Trug</token>
+            </antipattern>
+            <pattern case_sensitive="yes">
+                <token regexp="yes">[Ll]ug</token>
+                <token>und</token>
+                <token regexp="yes">[Tt]rug</token>
+            </pattern>
+            <message>Meinten Sie die Redewendung <suggestion>Lug und Trug</suggestion>.</message>
+            <example correction="Lug und Trug">Das ist doch alles <marker>lug und trug</marker>.</example>
+        </rule>
+        <rule id="AUF_ZACK" name="auf zack (Zack)">
             <pattern>
                 <token>auf</token>
                 <marker>
-                    <token case_sensitive="yes">zack</token>
+                    <token case_sensitive="yes" regexp="yes">zack|trapp</token>
                 </marker>
             </pattern>
-            <message>In der Redewendung "auf Zack sein" wird <suggestion>Zack</suggestion> großgeschrieben.</message>
+            <message>In dieser Redewendung wird <suggestion><match no="2" case_conversion="startupper" /></suggestion> großgeschrieben.</message>
             <url>https://de.wiktionary.org/wiki/auf_Zack_sein</url>
             <example correction="Zack">Er ist ganz schön auf <marker>zack</marker>.</example>
         </rule>
@@ -23375,6 +23530,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Die Redewendung <suggestion><match no="2" case_conversion="alllower" /> zu <match no="4" case_conversion="alllower" /></suggestion> wird in der Regel kleingeschrieben.</message>
             <example correction="eins zu eins">Wir werden das <marker>Eins zu Eins</marker> so übernehmen.</example>
+        </rule>
+        <rule id="PAR_EXCELLENCE" name="par Excellence (par excellence)" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">par|PAR</token>
+                <token regexp="yes">excellence|EXCELLENCE</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">.*[a-z,0-9].*</token>
+                <marker>
+                    <token regexp="yes">paa?r</token>
+                    <token regexp="yes">exc?ell?[oe]nce|exzellenz</token>
+                </marker>
+            </pattern>
+            <message>Die Redewendung <suggestion>par excellence</suggestion> wird in der Regel kleingeschrieben.</message>
+            <example correction="par excellence">Er machte das <marker>par Excellence</marker>.</example>
         </rule>
         <rule id="SUESSES_ODER_SAURES" name="süßes oder saures (Süßes oder Saures)">
             <antipattern case_sensitive="yes">
@@ -23638,7 +23808,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <pattern>
                 <token case_sensitive="yes" regexp="yes">[Ii]m</token>
-                <token regexp="yes" case_sensitive="yes">sitzen|garten|stehen|leben|web|abstand|wohlwollen|vorstand|sterben|(durch)?schnitt|sinne?|kopf|unterschied|herzen|laufe?|liegen|betrieb|einklang|reisen|griff|vorbei(gehen|laufen|rennen)|falle|schlaf|vergleich|verlaufe?|beruf|rahmen</token>
+                <token regexp="yes" case_sensitive="yes">sitzen|singen|vertrauen|garten|stehen|leben|web|abstand|wohlwollen|vorstand|sterben|(durch)?schnitt|sinne?|kopf|unterschied|herzen|laufe?|liegen|betrieb|einklang|reisen|griff|vorbei(gehen|laufen|rennen)|falle|schlaf|vergleich|verlaufe?|beruf|rahmen</token>
             </pattern>
             <message>Bitte prüfen Sie die Groß- und Kleinschreibung.</message>
             <suggestion>\1 <match no="2" case_conversion="startupper" /></suggestion>
@@ -25080,6 +25250,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">Straßen|Strassen</token>
                 <token>.</token>
                 <token>NRW</token>
+            </antipattern>
+            <antipattern>
+                <token>notion</token>
+                <token>.</token>
+                <token>so</token>
             </antipattern>
             <antipattern><!-- JS code -->
                 <token case_sensitive="yes" regexp="yes">window|location|history</token>
@@ -28718,18 +28893,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>&prgk;.</short>
             <example correction="Lüfte">Frühling lässt sein blaues Band wieder flattern durch die <marker>lüfte</marker>.</example>
         </rule>
-        <rule id="LUG_UND_TRUG" name="'Lug und trug (Trug)'">
-            <pattern case_sensitive="yes">
-                <token>Lug</token>
-                <token>und</token>
-                <marker>
-                    <token>trug</token>
-                </marker>
-            </pattern>
-            <message>In dieser Wendung wird <suggestion>Trug</suggestion> als Nomen großgeschrieben.</message>
-            <short>&prgk;.</short>
-            <example correction="Trug">Lug und <marker>trug</marker> in der City.</example>
-        </rule>
         <rulegroup id="BAND_SUBST" name="'auf das band (Band) legen' etc.">
             <rule>
                 <pattern case_sensitive="yes">
@@ -31111,6 +31274,18 @@ Andere Projekte</example>
                 <example correction="Verstand">Verlierst du jetzt den <marker>verstand</marker>?</example>
                 <example correction="Verstand">Ich verliere gleich den <marker>verstand</marker>.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">mit|i[mn]|unter</token>
+                    <token regexp="yes" case_sensitive="yes">klare[nm]</token>
+                    <marker>
+                        <token case_sensitive="yes">verstand</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Verstand</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Verstand">Mit klarem <marker>verstand</marker> lässt sich einiges besser lösen.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="TREUE_SCHWOEREN" name="'treue (Treue) schwören'">
             <rule>
@@ -31118,6 +31293,7 @@ Andere Projekte</example>
                     <marker>
                         <token>treue</token>
                     </marker>
+                    <token min="0">zu</token>
                     <token regexp="yes" inflected="yes">schwören|halten|versprechen</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Treue</suggestion>&subende;</message>
@@ -31188,6 +31364,7 @@ Andere Projekte</example>
                     <marker>
                         <token>schrecken</token>
                     </marker>
+                    <token min="0">zu</token>
                     <token regexp="yes">versetz(en|e|t|ten?)</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Schrecken</suggestion>&subende;</message>
@@ -31202,6 +31379,7 @@ Andere Projekte</example>
                     <marker>
                         <token>schrecken</token>
                     </marker>
+                    <token min="0">zu</token>
                     <token regexp="yes">versetz(en|e|t|ten?)</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Schrecken</suggestion>&subende;</message>
@@ -42330,7 +42508,19 @@ Andere Projekte</example>
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
-        <rulegroup id="EIS_ZU_EINS" name="1-zu-1 (eins zu eins)">
+        <rule id="SO_WIES_IST" name="so wies (wie es) ist" default="temp_off">
+            <pattern>
+                <token regexp="yes">(genau)?so</token>
+                <marker>
+                    <token case_sensitive="yes">wies</token>
+                </marker>
+                <token postag="ADJ.*|ADV.*" postag_regexp="yes" min="0" />
+                <token regexp="yes">war|ist|funktionierte?</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>wie es</suggestion>?</message>
+            <example correction="wie es">Ich bin zufrieden, so <marker>wies</marker> ist.</example>
+        </rule>
+        <rulegroup id="EINS_ZU_EINS" name="1-zu-1 (eins zu eins)">
             <rule>
                 <pattern>
                     <token regexp="yes">(eins|1)-zu-(eins|1)</token>
@@ -42361,6 +42551,24 @@ Andere Projekte</example>
                 <token>in</token>
             </antipattern>
             <antipattern>
+                <token>Woche</token>
+                <token>für</token>
+                <token>Woche</token>
+                <token>für</token>
+            </antipattern>
+            <antipattern>
+                <token>Tag</token>
+                <token>für</token>
+                <token>Tag</token>
+                <token>für</token>
+            </antipattern>
+            <antipattern>
+                <token>Jahr</token>
+                <token>für</token>
+                <token>Jahr</token>
+                <token>für</token>
+            </antipattern>
+            <antipattern>
                 <token>Kopf</token>
                 <token>an</token>
                 <token>Kopf</token>
@@ -42371,6 +42579,12 @@ Andere Projekte</example>
                 <token>an</token>
                 <token>Schulter</token>
                 <token>an</token>
+            </antipattern>
+            <antipattern>
+                <token>Schlag</token>
+                <token>auf</token>
+                <token>Schlag</token>
+                <token>auf</token>
             </antipattern>
             <antipattern>
                 <token>Angesicht</token>
@@ -42402,6 +42616,10 @@ Andere Projekte</example>
             <antipattern>
                 <token regexp="yes">[a-zäöüß]</token>
                 <token regexp="yes">[a-zäöüß]</token>
+            </antipattern>
+            <antipattern>
+                <token>peng</token>
+                <token>peng</token>
             </antipattern>
             <rule>
                 <pattern>
@@ -42538,6 +42756,11 @@ Andere Projekte</example>
                 <token regexp="yes">.+te</token>
                 <token postag="SUB.*|UNKNOWN" postag_regexp="yes" regexp="yes" case_sensitive="yes">[A-ZÄÖÜ].+</token>
             </antipattern>
+            <antipattern><!-- er sagte Frau Böge spreche mit ... -->
+                <token case_sensitive="yes" regexp="yes">[A-ZÄÖÜ].+</token>
+                <token postag="VER:1:SIN:.+" postag_regexp="yes" case_sensitive="yes" regexp="yes">[A-ZÄÖÜ].+</token>
+                <token postag="VER:1:SIN:.+" postag_regexp="yes" case_sensitive="yes" regexp="yes">[a-zäöü].+</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token postag="VER:1:SIN:.+" postag_regexp="yes">
@@ -42564,6 +42787,7 @@ Andere Projekte</example>
             <example>In der ersten Gruppe zeigte sich eine reduzierte Prävalenz von Depressionen</example>
             <example>Er verschränkte seine Arme und nahm anstelle seiner Hände die Füße zum Lenken.</example>
             <example>Er forderte bezahlte Elternzeit.</example>
+            <example>Er sagte Frau Böge sprecge mit Peter.</example>
         </rule>
         <rule id="IM_AUFTRAG_VON" name="im Auftrag von">
             <pattern>
@@ -45338,14 +45562,39 @@ Andere Projekte</example>
             <example>Die wenige Kilometer langen Gräben gehen in einer Umgebung, die etwa 90 Meter Wassertiefe hat, auf 230 Meter hinunter.</example>
         </rule>
         <rule id="VERB_IST" name="Verb 1./3. Person (statt Partizip) + 'ist'">
+            <antipattern>
+                <token>unterm</token>
+                <token>strich</token>
+            </antipattern>
+            <antipattern>
+                <token case_sensitive="yes" regexp="yes">[A-Z]+</token>
+                <token>ist</token>
+            </antipattern>
+            <antipattern><!-- fehlendes Komma -->
+                <token postag="VER:PA2.*" postag_regexp="yes" />
+                <token>wurde</token>
+                <token>ist</token>
+                <token />
+                <token />
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">der|das|die</token>
+                <token />
+                <token>ist</token>
+            </antipattern>
             <pattern>
                 <marker>
-                    <token postag="VER:[13]:SIN:PRT:NON" postag_regexp="yes"><exception postag_regexp="yes" postag="SUB:.*"/></token>
+                    <token postag="VER:[13]:SIN:PRT:NON" postag_regexp="yes">
+                        <exception postag_regexp="yes" postag="SUB:.*|ADJ.*"/>
+                    </token>
                 </marker>
                 <token>ist</token>
             </pattern>
             <message>Bitte prüfen, ob hier ein Partizip verwendet werden muss.</message>
             <example correction="">Unklar ist, wie der Hund ins Wasser <marker>gelang</marker> ist.</example>
+            <example>Ich weiß, dass es nicht erblich ist.</example>
+            <example>Lüge und Trug ist der Welt Acker und Pflug.</example>
+            <example>Ich stimme Ihnen zu, der BAT ist in der Tat reformbedürftig.</example>
         </rule>
         <rule id="LTD_ABK" name="Ltd">
             <antipattern case_sensitive="yes">
