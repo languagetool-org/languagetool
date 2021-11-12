@@ -208,6 +208,7 @@ public class Catalan extends Language {
       case "DET_GN": return 5; // greater than DE_EL_S_APOSTROFEN
       case "VENIR_NO_REFLEXIU": return 5;
       case "PEL_QUE": return -10; // lesser than PEL_QUE_FA
+      case "COMMA_LOCUTION": return -10;
       case "REGIONAL_VERBS": return -10;
       case "PRONOMS_FEBLES_SOLTS": return -10; //lesser than SPELLING
       case "AGREEMENT_POSTPONED_ADJ": return -15;

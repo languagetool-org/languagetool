@@ -43,7 +43,7 @@ public class AddCommasFilter extends RuleFilter {
     }
     boolean beforeOK = (postagFrom == 1) || StringTools.isPunctuationMark(tokens[postagFrom - 1].getToken());
     boolean afterOK = !(postagTo + 1 > tokens.length - 1)
-        && StringTools.isPunctuationMark(tokens[postagTo + 1].getToken());
+        && (StringTools.isPunctuationMark(tokens[postagTo + 1].getToken()) && !tokens[postagTo + 1].isWhitespaceBefore());
     if (beforeOK && afterOK) {
       return null;
     }
