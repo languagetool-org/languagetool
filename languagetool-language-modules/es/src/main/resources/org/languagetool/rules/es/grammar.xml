@@ -21612,7 +21612,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Totalmente online.</example>
             <example>* Temporalmente no disponible.</example>
         </rule>
-        <rulegroup id="COMMA_MARCADOR_DISCURSIVO" name="coma después de marcador discursivo" default="temp_off">
+        <rulegroup id="COMMA_MARCADOR_DISCURSIVO" name="coma después de marcador discursivo">
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
@@ -21649,11 +21649,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>lo</token>
                         <token>tanto</token>
                     </marker>
-                    <token><exception>,</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.AddCommasFilter" args="none:none"/>
                 <message>Escribimos coma después de los marcadores discursivos.</message>
                 <example correction=", por lo tanto,">Es<marker> por lo tanto</marker> lo que hay que hacer.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>tanto</token>
+                    <token postag="NC[MC][SN].*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>gracias</token>
+                    <token>por</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>por</token>
+                        <token>tanto</token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.AddCommasFilter" args="none:none"/>
+                <message>Escribimos coma después de los marcadores discursivos.</message>
+                <example correction=", por tanto,">Es<marker> por tanto</marker> lo que hay que hacer.</example>
+                <example>Gracias por tanto.</example>
+                <example>Estoy cansado por tanto homenaje.</example>
             </rule>
             <rule>
                 <pattern>
@@ -21687,14 +21707,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>en</token>
                         <token regexp="yes" inflected="yes">un|el</token>
                         <token postag="AO.*" postag_regexp="yes"/>
-                        <token postag="N.*" postag_regexp="yes"/>
-                        <!--momento|instante|caso</token>-->
+                        <token postag="N.*" postag_regexp="yes">&unidades_tiempo;|momento|instante|caso</token>
                     </marker>
-                    <token><exception regexp="yes">de|del|que</exception><exception postag="_PUNCT.*" postag_regexp="yes"/></token>
+                    <token><exception regexp="yes">de|del|que</exception><exception postag="_PUNCT.*|A.*|V.P.*" postag_regexp="yes"/></token>
                 </pattern>
                 <filter class="org.languagetool.rules.AddCommasFilter" args="none:none"/>
                 <message>En este contexto es recomendable usar una coma.</message>
                 <example correction="instantes,">En los primeros <marker>instantes</marker> hablaremos de un tema importante.</example>
+                <example>En el I Encuentro Nacional de Jóvenes Periodistas.</example>
+                <example>En el 2000 Google presentó AdWords.</example>
             </rule>
         </rulegroup>
         <rule id="COMMA_REPETITION" name="coma en repeticiones">
