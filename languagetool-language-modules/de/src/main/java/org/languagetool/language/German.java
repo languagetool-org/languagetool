@@ -388,7 +388,8 @@ public class German extends Language implements AutoCloseable {
       case "VER_DOPPELUNG": return -52; // prefer comma rules (including AI)
       case "VERB_FEM_SUBST": return -52; // prefer comma rules (including AI)
       case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ": return -53;
-      case "VERB_IST": return -53; // less prio than comma rule and spell checker
+      case "VERB_IST": return -53; // less prio than comma rules and spell checker
+      case "WAR_WERDEN": return -53; // less prio than comma rules
       case "SUBJUNKTION_KOMMA_2": return -54; // lower prio than KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ and KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2
     }
     if (id.startsWith("CONFUSION_RULE_")) {
