@@ -21,13 +21,18 @@ package org.languagetool.rules;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.tools.StringTools;
 
-public class AddCommasFilter extends RuleFilter {
 
+public class AddCommasFilter extends RuleFilter {
+  
+  private static final Pattern OPENING_QUOTES = Pattern.compile("[«“\"‘'„]", Pattern.DOTALL);
+  
+  
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
@@ -43,8 +48,8 @@ public class AddCommasFilter extends RuleFilter {
     }
     boolean beforeOK = (postagFrom == 1) || StringTools.isPunctuationMark(tokens[postagFrom - 1].getToken());
     boolean afterOK = !(postagTo + 1 > tokens.length - 1)
-        && ((StringTools.isPunctuationMark(tokens[postagTo + 1].getToken()) && !tokens[postagTo + 1].isWhitespaceBefore())
-        || tokens[postagTo + 1].getToken().equals(",") || tokens[postagTo + 1].getToken().equals("(")); // white space + comma
+        && StringTools.isPunctuationMark(tokens[postagTo + 1].getToken())
+        && !(tokens[postagTo + 1].isWhitespaceBefore() && OPENING_QUOTES.matcher(tokens[postagTo + 1].getToken()).matches());
     if (beforeOK && afterOK) {
       return null;
     }

@@ -21581,17 +21581,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="SENT_START"/>
                 <token regexp="yes" min="0" max="3">\p{P}</token>
                 <token regexp="yes" postag="RG">.*mente<exception>actualmente</exception></token>
-                <token regexp="yes">en|con</token>
+                <token regexp="yes">en|con|como</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">inmediatamente|mayoritariamente|totalmente|temporalmente</token>
                 <token postag="RG|RN" postag_regexp="yes"/>
             </antipattern>
+            <antipattern>
+                <token regexp="yes">.*mente</token>
+                <token regexp="yes">[=/]</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">.*mente</token>
+                <token>no</token>
+                <token regexp="yes">\p{P}</token>
+            </antipattern>
+            <antipattern>
+                <token>relativamente</token>
+                <token regexp="yes" inflected="yes">poco|mucho</token>
+            </antipattern>
             <pattern>
                 <token postag="SENT_START"/>
                 <token regexp="yes" min="0" max="3">\p{P}<exception>¿</exception></token>
                 <marker>
-                    <token regexp="yes" postag="RG">.*mente<exception regexp="yes">literalmente|seguramente|especialmente|específicamente|particularmente|constantemente|continuamente|comúnmente|aproximadamente|difícilmente|habitualmente|justamente|precisamente|realmente|únicamente|solamente|exclusivamente</exception></token>
+                    <token regexp="yes" postag="RG">.*mente<exception regexp="yes">literalmente|seguramente|especialmente|específicamente|particularmente|constantemente|continuamente|comúnmente|aproximadamente|difícilmente|habitualmente|justamente|precisamente|realmente|únicamente|solamente|exclusivamente</exception><exception postag="SENT_END"/></token>
                 </marker>
             </pattern>
             <filter class="org.languagetool.rules.AddCommasFilter" args="none:none"/>
@@ -21611,6 +21624,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Seguramente el casco le salvó la vida.</example>
             <example>Totalmente online.</example>
             <example>* Temporalmente no disponible.</example>
+            <example>Absolutamente no.</example>
+            <example>¡Absolutamente no!</example>
+            <example>Relativamente pocos casos.</example>
+            <example>Principalmente como actor.</example>
+            <example>Atentamente</example>
+            <example>Igualmente = adverbio</example>
+            <example>Igualmente -dijo él.</example>
+            <example>Igualmente —dijo él.</example>
         </rule>
         <rulegroup id="COMMA_MARCADOR_DISCURSIVO" name="coma después de marcador discursivo">
             <rule>
@@ -21651,10 +21672,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.AddCommasFilter" args="none:none"/>
-                <message>Escribimos coma después de los marcadores discursivos.</message>
+                <message>Los marcadores discursivos se escriben preferiblemente entre comas.</message>
                 <example correction=", por lo tanto,">Es<marker> por lo tanto</marker> lo que hay que hacer.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>tanto</token>
                     <token postag="NC[MC][SN].*" postag_regexp="yes"/>
@@ -21663,6 +21684,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>gracias</token>
                     <token>por</token>
                 </antipattern>
+               <!-- <antipattern>
+                    <token>tanto</token>
+                    <token>?</token>
+                </antipattern>-->
                 <pattern>
                     <marker>
                         <token>por</token>
@@ -21670,7 +21695,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.AddCommasFilter" args="none:none"/>
-                <message>Escribimos coma después de los marcadores discursivos.</message>
+                <message>Los marcadores discursivos se escriben preferiblemente entre comas.</message>
                 <example correction=", por tanto,">Es<marker> por tanto</marker> lo que hay que hacer.</example>
                 <example>Gracias por tanto.</example>
                 <example>Estoy cansado por tanto homenaje.</example>
