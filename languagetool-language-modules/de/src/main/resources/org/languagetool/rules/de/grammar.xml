@@ -47493,6 +47493,18 @@ Andere Projekte</example>
                 <token postag="SUB.*|UNKNOWN|EIG.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[A-ZÄÖÜ].*</token>
                 <token>zufolge</token>
             </antipattern>
+            <antipattern>
+                <token inflected="yes">lassen</token>
+                <token regexp="yes">es|das</token>
+                <token skip="-1">zu</token>
+                <token postag="VER.*" postag_regexp="yes" />
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">lä(ß|ss)t</token><!-- alte Rechtschreibung -->
+                <token regexp="yes">es|das</token>
+                <token skip="-1">zu</token>
+                <token postag="VER.*" postag_regexp="yes" />
+            </antipattern>
             <rule>
                 <pattern>
                     <token>wo</token>
@@ -47586,6 +47598,11 @@ Andere Projekte</example>
                     <token regexp="yes">&apostrophe;</token>
                     <token>s</token>
                 </antipattern>
+                <antipattern>
+                    <token postag="SUB:(AKK|DAT|NOM):SIN:MAS.*" postag_regexp="yes" />
+                    <token regexp="yes" skip="4">und|oder|&amp;|/|,</token>
+                    <token postag="SUB.*PLU.*" postag_regexp="yes" />
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">gemä(ß|ss)|von|zu|bei|nahe|nebst|mit(samt)?|samt</token>
@@ -47607,6 +47624,9 @@ Andere Projekte</example>
                 <example>1883 kam er als Leutnant zu den Grenadier Guards.</example>
                 <example>Das O1 repräsentiert Terbuyken zufolge den Anspruch, den die ANWR-Gruppe damit verbindet.</example>
                 <example>Die Entscheidung der Richterin in Detroit stellt Beobachtern zufolge einen großen Rückschlag für Bush in dessen Kampf gegen den Terrorismus dar.</example>
+                <example>Mit den coolen Pop &amp; Jazz Grooves entspannt die wichtigsten Vokabeln, Redewendungen sowie smarte Sprüche für die Reise lernen.</example>
+                <example>Dein DJ-Mix Webradio mit den besten Hip-Hop, Rap und RnB Tracks!</example>
+                <example>… doch der persönliche Eindruck lässt es zu diesen Ort als untersuchenswert einzustufen.</example>
             </rule>
             <rule>
                 <antipattern>
