@@ -3793,6 +3793,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>best</token>
             <token postag="IN" />
         </antipattern>
+        <antipattern><!-- It will next return to the starship -->
+            <token postag="DT">next</token>
+            <token postag="VB.*" postag_regexp="yes" chunk_re=".-VP" />
+            <token postag="IN" />
+        </antipattern>
         <pattern>
             <token postag="DT"><exception postag="PDT"/><exception regexp="yes">th[eo]se|one|much</exception></token>
             <marker>
@@ -3817,6 +3822,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Incorrect grammar. It's not a large sheep, it's <marker>a small as</marker>!</example>
         <example type="untouched">You can either pay via credit card or via PayPal.</example>
         <example type="untouched">He brought out the very best in people.</example>
+        <example type="untouched">It will next return to the starship.</example>
         <example type="untouched">We can say that <marker>all</marker> in some way belong to a kind of ethnic category...</example><!-- 'That' comes before a relative clause in which 'all' is a pronoun (https://www.lexico.com/en/definition/all) -->
         <example type="untouched">Whether the effects will be that extreme for most people is yet to be seen.</example><!-- #2755 -->
     </rule>
