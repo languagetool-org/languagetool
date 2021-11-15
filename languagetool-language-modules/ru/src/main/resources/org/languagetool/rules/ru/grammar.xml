@@ -6778,12 +6778,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="NN:.*" postag_regexp="yes"></token>
             </antipattern>        
             <pattern>
-
+                <marker>
                     <unify negate="yes">
                         <feature id="case"/>
-                        <marker>
-                        <token postag="ADJ:MPR:.*" postag_regexp="yes"><exception  negate_pos="yes"   postag="ADJ:MPR:.*" postag_regexp="yes" /><exception scope="previous" regexp="yes">,|–|-|—</exception><exception inflected="yes" regexp="yes" >который|такой|сам|самый|каждый|свой|другой</exception><exception scope="previous"  postag="NN:.*" postag_regexp="yes" ></exception></token>
-                        </marker>
+                        <token postag="ADJ:MPR:.*" postag_regexp="yes"><exception  negate_pos="yes"   postag="ADJ:MPR:.*" postag_regexp="yes" /><exception scope="previous" regexp="yes">,|–|-|—</exception><exception inflected="yes" regexp="yes" >который|такой|сам|самый|каждый|свой|другой|оба|обе</exception><exception scope="previous"  postag="NN:.*" postag_regexp="yes" ></exception></token>                        
                         <token postag="NN:.*" postag_regexp="yes">
                             <exception regexp="yes">друг|уже|уж|при|после|весь|мировой|молодой|куплю|байке|лажа|лазанью</exception>
                             <exception postag="VB:.*|CONJ|PREP|ADV|ADJ:.*" postag_regexp="yes" />
@@ -6793,18 +6791,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <exception case_sensitive="yes">Tом</exception>
                         </token>
                     </unify>				        
-                
+                </marker>
             </pattern>
             <filter class="org.languagetool.rules.ru.AdvancedSynthesizerFilter" args="lemmaFrom:1 lemmaSelect:ADJ:MPR:.*:.* postagFrom:2 postagSelect:NN:.*:(.*):.*:(.*) postagReplace:ADJ:MPR:\b1:\b2"/>
-
             <message>Притяжательное прилагательное (местоимение) не согласуется с существительным по падежу.</message>
+            <suggestion>{suggestion} \2</suggestion>
             <short>Не согласуются по падежу</short>
             <example>моё отношение</example>
             <example>Сама кашу заварила, сама и расхлёбывай.</example>
             <example>Тем самым предложение обособляется.</example>
             <example>В простом курятнике моём Пшена мы с вами поклюём.</example>
             <example>Положив тем самым основы коалиции.</example>
-            <example correction="моё"><marker>моему</marker>  отношение</example>
+            <example correction="моё отношение"><marker>моему отношение</marker></example>
         </rule>
         <rule  id="Unify_PADJ_NN_gender" name="Согласование притяжательного прилагательного (местоимения) с существительным по роду">
             <!-- TODO remove свой + все формы from exception -->                 
@@ -6812,7 +6810,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <unify negate="yes">
                         <feature id="gender"/>
-                        <token postag="ADJ:MPR:.*" postag_regexp="yes"><exception  negate_pos="yes"   postag="ADJ:MPR:.*" postag_regexp="yes" /><exception  postag="ADJ:MPR:PL.*" postag_regexp="yes" /><exception scope="previous" regexp="yes">,|–|-|—|при</exception><exception inflected="yes" regexp="yes" >который|такой|сам|самый|каждый|свой|другой</exception><exception scope="previous"  postag="NN:.*" postag_regexp="yes" ></exception></token>
+                        <token postag="ADJ:MPR:.*" postag_regexp="yes"><exception  negate_pos="yes"   postag="ADJ:MPR:.*" postag_regexp="yes" /><exception  postag="ADJ:MPR:PL.*" postag_regexp="yes" /><exception scope="previous" regexp="yes">,|–|-|—|при</exception><exception inflected="yes" regexp="yes" >который|такой|сам|самый|каждый|свой|другой|оба|обе</exception><exception scope="previous"  postag="NN:.*" postag_regexp="yes" ></exception></token>
                         <token postag="NN:.*" postag_regexp="yes">
                             <exception regexp="yes">друг|уже|уж|при|после|весь|мировой|молодой|куплю|байке|лажа|лазанью</exception>
                             <exception postag="VB:.*|CONJ|PREP|ADV|ADJ:.*" postag_regexp="yes" />
@@ -6826,14 +6824,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </unify>				        
                 </marker>
             </pattern>
+            <filter class="org.languagetool.rules.ru.AdvancedSynthesizerFilter" args="lemmaFrom:1 lemmaSelect:ADJ:MPR:.*:.* postagFrom:2 postagSelect:NN:.*:(.*):.*:(.*) postagReplace:ADJ:MPR:\b1:\b2"/>
             <message>Притяжательное прилагательное (местоимение) не согласуется с существительным по роду.</message>
+            <suggestion>{suggestion} \2</suggestion>
             <short>Не согласуются по роду</short>
             <example>моё отношение</example>
             <example>Сама кашу заварила, сама и расхлёбывай.</example>
             <example>Тем самым предложение обособляется.</example>
             <example>Он каждые полчаса бежит в лабораторию.</example>
             <example>Ваш второй ребёнок — мальчик?</example> 
-            <example correction=""><marker>моей отношение</marker></example>
+            <example correction="моё отношение"><marker>моей отношение</marker></example>
         </rule>
         <rule  id="Unify_PADJ_NN_number" name="Согласование притяжательного прилагательного (местоимения) с существительным по числу">
             <!-- TODO remove свой + все формы from exception -->
@@ -6860,7 +6860,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <unify negate="yes">
                         <feature id="number"/>
-                        <token postag="ADJ:MPR:.*" postag_regexp="yes"><exception  negate_pos="yes"   postag="ADJ:MPR:.*" postag_regexp="yes" /><exception scope="previous" regexp="yes">,|–|-|—|при|два|три</exception><exception inflected="yes" regexp="yes" >который|такой|сам|самый|каждый|свой|другой</exception><exception scope="previous"  postag="NN:.*" postag_regexp="yes" ></exception></token>
+                        <token postag="ADJ:MPR:.*" postag_regexp="yes"><exception  negate_pos="yes"   postag="ADJ:MPR:.*" postag_regexp="yes" /><exception scope="previous" regexp="yes">,|–|-|—|при|два|три</exception><exception inflected="yes" regexp="yes" >который|такой|сам|самый|каждый|свой|другой|оба|обе</exception><exception scope="previous"  postag="NN:.*" postag_regexp="yes" ></exception></token>
                         <token postag="NN:.*" postag_regexp="yes">
                             <exception regexp="yes">друг|уже|уж|при|после|весь|мировой|молодой|куплю|байке|лажа|лазанью</exception>
                             <exception postag="VB:.*|CONJ|PREP|ADV|ADJ:.*" postag_regexp="yes" />
@@ -6874,7 +6874,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </unify>				        
                 </marker>
             </pattern>
+            <filter class="org.languagetool.rules.ru.AdvancedSynthesizerFilter" args="lemmaFrom:1 lemmaSelect:ADJ:MPR:.*:.* postagFrom:2 postagSelect:NN:.*:(.*):.*:(.*) postagReplace:ADJ:MPR:\b1:\b2"/>
             <message>Притяжательное прилагательное (местоимение) не согласуется с существительным по числу.</message>
+            <suggestion>{suggestion} \2</suggestion>
             <short>Не согласуются по числу</short>
             <example>это отношение</example>
             <example>Он путешествовал каких-нибудь месяца два.</example>
@@ -6883,7 +6885,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Сама кашу заварила, сама и расхлёбывай.</example>
             <example>Тем самым предложение обособляется.</example>
             <example>Унёс <marker>свои тело</marker> и душу.</example>
-            <example correction=""><marker>эти отношение</marker></example>
+            <example correction="это отношение"><marker>эти отношение</marker></example>
         </rule>
         <!--
         <rule  id="Unify_PNN_NN_number" name="Согласование местоимения с существительным по числу" default="off">  -->
@@ -7290,7 +7292,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule default="temp_off" id="Soglasovanie_NN_PT" name="Согласование существительного с причастием">
             <!-- Experimental rule, issue #1069, #1062 -->  
             <pattern>
-                <token><exception postag="NN:.*" postag_regexp="yes" /></token>
+                <token>
+                    <exception postag="NN:.*|PNN:.*" postag_regexp="yes" />
+                    <exception regexp="yes">на|в</exception>
+                </token>
                 <unify negate="yes">
                     <feature id="gender"/>        
                     <marker>
@@ -7301,7 +7306,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="PT:.*" postag_regexp="yes" ><exception postag="PT:.*" postag_regexp="yes" negate_pos="yes"></exception></token>
                     </marker>
                 </unify>
-               <token><exception postag="NN:.*" postag_regexp="yes" /></token>
+               <token><exception postag="NN:.*|PNN:.*" postag_regexp="yes" /></token>
             </pattern>
             <message>Ошибка в согласовании причастия по роду!</message>
             <short>Ошибка в согласовании</short>

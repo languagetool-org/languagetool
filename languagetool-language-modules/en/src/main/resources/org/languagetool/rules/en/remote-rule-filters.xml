@@ -27,6 +27,110 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
 -->
 <rules lang="en" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/remote-rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <category name="Machine learning rules" id="AI_RULES">
+        <rulegroup id="AI_HYDRA_LEO_CPT_IS_ARE" name="">
+            <rule> <!-- how much is X and how mich is [plural] -->
+                <pattern>
+                    <token>how</token>
+                    <token>much</token>
+                    <token skip="2">is</token>
+                    <token regexp="yes">and|or</token>
+                    <token>how</token>
+                    <token>much</token>
+                    <marker>
+                        <token>is</token>
+                    </marker>
+                    <token postag="NN.*" postag_regexp="yes"/>
+                    <token postag="VB.*" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">It's not clear "how much is bad debt and how much <marker>is</marker> marketers taking advantage of the situation," said state Consumer Utility Counsel Kristy Holley.</example>
+            </rule>
+            <rule> <!-- The [plural] rating is -->
+                <pattern>
+                    <token skip="2" postag="DT" chunk="B-NP-singular"/>
+                    <token chunk="E-NP-singular">rating</token>
+                    <marker>
+                        <token>is</token>
+                    </marker>
+                </pattern>
+                <example correction="">The Baa2 rating <marker>is</marker> just two notches above what is commonly called "junk bonds."</example>
+            </rule>
+            <rule> <!-- Burghers of Calais (sound delicious) -->
+                <pattern>
+                    <token>Burghers</token>
+                    <token>of</token>
+                    <token skip="4">Calais</token>
+                    <marker>
+                        <token>is</token>
+                    </marker>
+                </pattern>
+                <example correction="">The Burghers of Calais, for example, <marker>is</marker> found in fourteen cities.</example>
+            </rule>
+            <rule>  <!-- acronyms -->
+                <antipattern>
+                    <token chunk="E-NP-plural"/>
+                    <token chunk="B-PP"/>
+                    <token regexp="yes" case_sensitive="yes">[A-Z&amp;]{2,4}</token>
+                    <token>is</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" case_sensitive="yes" chunk_re="E-NP.*">[A-Z&amp;]{2,4}</token>
+                    <token postag="NN.*" postag_regexp="yes" chunk_re="E-NP.*"/>
+                    <token>is</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">[A-Z&amp;]{2,4}</token>
+                    <token min="0" postag="NN.*" postag_regexp="yes" chunk_re="E-NP.*"/>
+                    <marker>
+                        <token>is</token>
+                    </marker>
+                </pattern>
+                <example correction="">CB&amp;I <marker>is</marker> very interested in working with Enron on such projects, in particular the Jose, Venezuela, and Bahamas projects, as well as others you are considering.</example>
+                <example correction="">Given the relatively short lead time until LGS operations <marker>is</marker> sold, Citizens has requested expedited consideration.</example>
+                <example>The facilities in CP&amp;L is rated 2 due to excess mw levels and location.</example>
+            </rule>
+            <rule> <!-- [Unknown Singular] is -->
+                <antipattern>
+                    <token skip="-1" postag="NNP?S" postag_regexp="yes"/>
+                    <token chunk_re="[BI]-NP-singular"/>
+                    <token postag="UNKNOWN" chunk="E-NP-singular"/>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1" chunk_re=".+-NP-plural"/>
+                    <token chunk_re="[BI]-NP-singular"/>
+                    <token postag="UNKNOWN" chunk="E-NP-singular"/>
+                </antipattern>
+                <pattern>
+                    <token chunk_re="[BI]-NP-singular"/>
+                    <token postag="UNKNOWN" chunk="E-NP-singular"/>
+                    <marker>
+                        <token>is</token>
+                    </marker>
+                </pattern>
+                <example correction="">Some morphological evidence suggests the Neopterygii <marker>is</marker> paraphyletic; however, recent work, based on taxon orders, is arranged in what has been suggested to represent the evolutionary sequence down to the level of order, based primarily on the long history of morphological studies.</example>
+            </rule>
+            <rule> <!-- JJ [JJ+NNP] is -->
+                <pattern>
+                    <token postag="SENT_START" skip="1"/>
+                    <token postag="JJ" chunk_re="[BI]-NP-singular"/>
+                    <token postag="NNP" chunk="E-NP-singular"/>
+                    <marker>
+                        <token>is</token>
+                    </marker>
+                </pattern>
+                <example correction="">Scottish English <marker>is</marker> now increasingly replacing Scots.</example>
+            </rule>
+            <rule> <!-- I is ... (shouldn't be caught here)-->
+                <pattern>
+                    <token postag="SENT_START|PCT|CC" postag_regexp="yes"/>
+                    <token case_sensitive="yes">I</token>
+                    <marker>
+                        <token>is</token>
+                    </marker>
+                </pattern>
+                <example correction="">I <marker>is</marker> at present very credit risk focussed.</example>
+                <example correction="">Yes'em, I <marker>is</marker> here.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AI_HYDRA_LEO_CPT_ARE_IS" name="">
             <rule>  <!-- acronyms -->
                 <pattern>
@@ -39,15 +143,27 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">The BVI <marker>are</marker> known as one of the world's greatest sailing destinations, and charter sailboats are a very popular way to visit less accessible islands.</example>
                 <example correction="">SLNG <marker>are</marker> to provide Enron and BG a copy of the Savannah Pilots Association working procedures for river traffic.</example>
             </rule>
-            <rule>  <!-- here/there/that/what/which/who are -->
+            <rule>  <!-- which are -->
                 <pattern>
-                    <token regexp="yes">t?here|that|what|which|who</token>
+                    <token chunk="E-NP-plural" />
+                    <token skip="8">are</token>
+                    <token>which</token>
                     <marker>
                         <token>are</token>
                     </marker>
                 </pattern>
+                <example correction="">In other deregulated markets such as New York and New England, prices are capped at $1000 per megawatt hour, which <marker>are</marker> intended to be low enough to prevent market abuse but high enough to give generators incentive to build new plants.</example>
+                <example correction="">In addition, the adjacent lands are of the same habitat types as that which <marker>are</marker> contained within the facility and therefore, would not be an issue of habitat loss.</example>
+            </rule>
+            <rule>  <!-- who/what are VBN -->
+                <pattern>
+                    <token regexp="yes">who|what</token>
+                    <marker>
+                        <token>are</token>
+                    </marker>
+                    <token postag="VBN" />
+                </pattern>
                 <example correction="">Even larger molecules are treated by classical mechanics methods that employ what <marker>are</marker> called molecular mechanics.</example>
-                <example correction="">One of the stars is a flare star, which <marker>are</marker> prone to sudden, random outbursts that last several minutes; these increase the pair's apparent brightness significantly - as high as magnitude 7.</example>
             </rule>
             <rule>  <!-- United States -->
                 <pattern>

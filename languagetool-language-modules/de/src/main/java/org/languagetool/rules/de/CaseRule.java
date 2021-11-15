@@ -939,6 +939,14 @@ public class CaseRule extends Rule {
         csToken("Kopf")
     ),
     Arrays.asList(
+        // "Der Platz auf dem die Ahnungslosen Schulter and Schulter stehen.""
+        posRegex("ART:.*|PRO:POS:.*"),
+        new PatternTokenBuilder().posRegex("SUB:.*:ADJ").csTokenRegex("[A-ZÖÜÄ].+").build(),
+        csToken("Schulter"),
+        csToken("an"),
+        csToken("Schulter")
+    ),
+    Arrays.asList(
         // "Der Platz auf dem die Ahnungslosen Stück für Stück ...""
         posRegex("ART:.*|PRO:POS:.*"),
         new PatternTokenBuilder().posRegex("SUB:.*:ADJ").csTokenRegex("[A-ZÖÜÄ].+").build(),
@@ -1067,12 +1075,17 @@ public class CaseRule extends Rule {
     ),
     Arrays.asList(
       regex("nur"),
-      csRegex("Schlechtes|Gutes|Böses"),
-      csRegex("[a-zäöü…\\.!\\?].*")
+      csRegex("Positives|Schlechtes|Gutes|Böses|Negatives|Folgendes|Neues|Altes|Schlimmes|Letzteres|Ersteres|Blödes|Schreckliches|Wesentliches|Falsches|Richtiges"),
+      csRegex("[a-zäöü…\\.!\\?…].*")
     ),
     Arrays.asList(
       regex("im"),
-      csRegex("Stillen|Dunkeln|Hellen|Wesentlichen|Trüben")
+      csRegex("Wesentlichen")
+    ),
+    Arrays.asList(
+      regex("im"),
+      csRegex("Stillen|Dunkeln|Hellen|Trüben|Kalten|Warmen"),
+      csRegex("[a-zäöü…\\.!\\?…].*")
     ),
     Arrays.asList(
       regex("[\\ud83c\\udc00-\\ud83c\\udfff]+|[\\ud83d\\udc00-\\ud83d\\udfff]+|[\\u2600-\\u27ff]+"),

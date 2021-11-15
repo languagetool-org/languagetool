@@ -7143,6 +7143,31 @@ No seu conjunto existem cinco capelas e uma igreja.
       <example correction='fui'>Quem deu a cara <marker>foi</marker> eu.</example>
     </rule>
 	
+	<!-- PRECISAM-SE/TRATAM-SE precisa-se/trata-se -->    
+    <!--      Created by Ricardo Joseh Lima and improved by Marco A.G.Pinto, Portuguese rule 2021-11-11 (25-JUN-2021+)      -->
+	<!--
+Precisam-se de trabalhadores. → Precisa-se de trabalhadores.
+Tratam-se de pessoas estudiosas. → Trata-se de pessoas estudiosas.
+	-->
+	<rule>
+      <pattern>	  
+		  <marker>
+			<and>
+				<token inflected='yes' regexp="yes">precisar|tratar</token>
+				<token postag='VMIP3P0' postag_regexp='no'/>
+			</and>
+		  </marker>
+		  <token regexp="yes" spacebefore='no'>[-]</token>
+		  <token spacebefore='no'>se</token>
+		  <token>de</token>
+		  <token postag='AQ..P.+|NC.P.+|[AD]...P.+|Z..P.+' postag_regexp='yes'/>
+      </pattern>
+      <message>Os verbos 'precisar'/'tratar' seguidos de '-se' não podem estar no plural devido à preposição 'de':</message>
+      <suggestion><match no='1' postag='VMIP3S0' postag_regexp="no" postag_replace='VMIP3P0'/></suggestion>
+	  <example correction="Precisa"><marker>Precisam</marker>-se de trabalhadores.</example>
+	  <example correction="Trata"><marker>Tratam</marker>-se de pessoas estudiosas.</example>
+    </rule>
+	
   </rulegroup>
 
 	<!-- CUJO , cujo -->
@@ -11492,6 +11517,90 @@ Por isso é denominada como sendo a resiliência.
       <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
 	  <suggestion>a <match no='4' postag='VMIP1S0' postag_regexp="yes" postag_replace='VMN0000'/> em</suggestion>
       <example correction="a morar em">Foram bons os 20 anos <marker>em que moro em</marker> Lisboa.</example>
+    </rule>
+
+	<!-- À PROCURA DE a procurar -->
+    <rule id='À_VERBO_DE' name="À + Verbo + De → A + Verbo Infinitivo" type="style">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-11-11/12 (25-JUN-2021+)      -->
+	<!--
+O Rui anda à procura de material científico. → O Rui anda a procurar material científico.
+	-->
+	  <!--
+Em maio de 1863, submeteu-se à prova de admissão para o ingresso na Faculdade de Direito do Recife sendo reprovado.
+E, ao se referir-se à visita de Lula, informou que "Lula honra Berlim e Hamburgo" com sua visita.
+Em 25 de março de 1509, o papa Júlio II alia-se à Liga de Cambrai.
+	  -->
+      <antipattern>
+		<token>se</token>
+		<token>à</token>
+		<token postag='VMIP3S0' postag_regexp='no'/>
+		<token>de</token>
+		<token/>
+      </antipattern>
+	  <!--
+Estes dias estão ligados à vida de Jesus Cristo ou à história dos primórdios do movimento cristão.
+Existe alguma possibilidade de que Tom tenha ido à casa de Mary ontem à noite?
+Os problemas da educação da Bolívia não são necessariamente atribuídos à falta de fundos.
+"Ele foi enviado à zona de operações onde foi seriamente ferido pela explosão de uma granada."
+O homem está sujeito à pena de morte.
+Tom não foi à casa de Marie?
+Ele veio à procura de esclarecimentos.
+Tom foi à casa de massagem.
+Certa vez fomos à casa de tia Elisabete e encontramos a linda senhora desolada.
+Fomos à praia assistir à queima de fogos de artifício.
+Manuel, ateu, recusou-se a assistir à missa de sétimo dia do amigo que falecera.
+Com um PIB per capita aproximado em 7.300 dólares americanos, o país pertence à faixa de renda média-baixa.
+	  -->
+      <antipattern>
+			<token postag='VMP00.+|VMIS.+|VMIP3.+|VMN0000' postag_regexp='yes'>
+				<exception postag_regexp='yes' postag='AQ.+|NC.'/>
+				<exception regexp='yes' inflected='yes'>estar|andar</exception>
+			</token>
+		<token>à</token>
+		<token postag='VMIP3S0' postag_regexp='no'/>
+		<token>de</token>
+		<token postag='RG|NP.+|AQ.+|NC.+|PI.+' postag_regexp='yes'/>
+      </antipattern>	  
+      <pattern>	
+		  <token negate="yes">se</token>
+		  <or>
+			<token postag='V.+|RG' postag_regexp='yes'>
+				<exception postag_regexp='yes' postag='SPS.+|AQ..S.+|VMI[MS]3P.+|I'/>
+			</token>
+			<token regexp='yes'>[,]</token>
+		  </or>
+		  <marker>
+			<token>à</token>
+			<token postag='VMIP3S0' postag_regexp='no'/>
+			<token>de</token>
+		  </marker>
+		  <token negate_pos="yes" postag='DI.+' postag_regexp='yes'/>
+      </pattern>
+      <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+      <suggestion>a <match no='4' postag='VMN0000' postag_regexp="no" postag_replace='VMIP3S0'/></suggestion>
+	  <example correction="a procurar">O Rui anda <marker>à procura de</marker> material científico.</example>
+	  <example>Lista dos viajantes que aportaram à ilha de Santa Catarina nos séculos XVIII e XIX</example>
+	  <example>Já a multimidialidade se refere à mistura de diferentes mídias tradicionais (imagem, texto e som) para narrar um facto.</example>
+	  <example>Ele se agarrou à esperança de que iria vê-la novamente algum dia.</example>
+	  <example>Talvez esta noite eu vá à casa de minha irmã caçula.</example>
+	  <example>Vamos à casa de chá!</example>
+	  
+	  <example>Em maio de 1863, submeteu-se à prova de admissão para o ingresso na Faculdade de Direito do Recife sendo reprovado.</example>
+	  <example>E, ao se referir-se à visita de Lula, informou que "Lula honra Berlim e Hamburgo" com sua visita.</example>
+	  <example>Em 25 de março de 1509, o papa Júlio II alia-se à Liga de Cambrai.</example>
+	  
+	  <example>Estes dias estão ligados à vida de Jesus Cristo ou à história dos primórdios do movimento cristão.</example>
+	  <example>Existe alguma possibilidade de que Tom tenha ido à casa de Mary ontem à noite?</example>
+	  <example>Os problemas da educação da Bolívia não são necessariamente atribuídos à falta de fundos.</example>
+	  <example>"Ele foi enviado à zona de operações onde foi seriamente ferido pela explosão de uma granada."</example>
+	  <example>O homem está sujeito à pena de morte.</example>
+	  <example>Tom não foi à casa de Marie?</example>
+	  <example>Ele veio à procura de esclarecimentos.</example>
+	  <example>Tom foi à casa de massagem.</example>
+	  <example>Certa vez fomos à casa de tia Elisabete e encontramos a linda senhora desolada.</example>
+	  <example>Fomos à praia assistir à queima de fogos de artifício.</example>
+	  <example>Manuel, ateu, recusou-se a assistir à missa de sétimo dia do amigo que falecera.</example>
+	  <example>Com um PIB per capita aproximado em 7.300 dólares americanos, o país pertence à faixa de renda média-baixa.</example>
     </rule>
 
     <!-- 	EM SIM em si -->	
@@ -37305,7 +37414,7 @@ Ele é Português. → Ele é português.
       </antipattern>
       <pattern>
           <token regexp="yes">(?:&informal;)s?
-            <exception regexp='yes' case_sensitive='yes'>Vós|vós|Times?|XI|Xi</exception></token> <!-- "Vós|vós" added by MARCOAGPINTO suggested by Ricardo Joseh Lima 2021-11-09 -->
+            <exception regexp='yes' case_sensitive='yes'>[Vv]ós|Times?|X[Ii]</exception></token> <!-- "[Vv]ós" added by MARCOAGPINTO suggested by Ricardo Joseh Lima 2021-11-09 -->
       </pattern>
       <message>Linguagem informal. Considere as alternativas.</message>
       <example type="incorrect">Passei o dia a <marker>anhar</marker>.</example>
@@ -40266,7 +40375,7 @@ Observe os polícias que estão na rua. → Observe os polícias na rua.
     </rule>	
 	
 	<!-- CERT(A)(O) dad(a)(o) -->
-    <rule id='CERTA_CERTO_DADA_DADO' name="Cert(a)(o)/Dad(a)(o)" type="style" tags="picky" default="temp_off">
+    <rule id='CERTA_CERTO_DADA_DADO' name="Cert(a)(o)/Dad(a)(o)" type="style" tags="picky">
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-11-09 (25-JUN-2021+)      -->
 	<!--
 Isto aconteceu a certa altura do projeto. → Isto aconteceu a dada altura do projeto.

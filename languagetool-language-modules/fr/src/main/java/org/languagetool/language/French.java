@@ -286,6 +286,7 @@ public class French extends Language implements AutoCloseable {
       case "TE_NV2": return -10; // less than SE_CE, SE_SA and SE_SES
       case "PLURIEL_AL": return -10; // less than AGREEMENT_POSTPONED_ADJ
       case "INTERROGATIVE_DIRECTE": return -10; // less than OU
+      case "D_J_N": return -10; // less than J_N
       case "IMP_PRON": return -10; // less than D_N
       case "TOO_LONG_PARAGRAPH": return -15;
       case "PREP_VERBECONJUGUE": return -20;

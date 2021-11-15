@@ -1857,7 +1857,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token inflected="yes">річний</token>
           </marker>
-          <token inflected="yes" regexp="yes">порт|вокзал|течія|стік|піщаник|пісок|черепниця|пароплав|пляж|повітря</token>
+          <token inflected="yes" regexp="yes">порт|вокзал|течія|піщаник|пісок|черепниця|пароплав|пляж|повітря</token>
         </pattern>
         <message>Краще: <suggestion><match no="1" postag_regexp="yes" postag="adj.*">річковий</match></suggestion></message>
         <example correction="річкового"><marker>річного</marker> вокзалу</example>
@@ -2034,7 +2034,43 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="їда">Випиту склянку 30 хвилин до <marker>їжі</marker>.</example>
         <example>Взявся до їжи.</example>
       </rule>
+    </rulegroup>
 
+    <rulegroup id="ceglovyi_ceglyanyi" name="Цегловий і цегляний">
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes" inflected="yes">цегляний|цегловий</token>
+          </marker>
+          <token regexp="yes" inflected="yes">завод|глина|виробництво|майстер</token>
+        </pattern>
+        <message>Для «призначений для виробництва цегли» краще: <suggestion><match no="1" postag_regexp="yes" postag="adj.*">цегельний</match></suggestion></message>
+        <example correction="цегельного">до <marker>цегляного</marker> заводу.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">цегельний</token>
+          </marker>
+          <token regexp="yes" inflected="yes">будинок|будівля|кладка|стінк?а|споруда|паркан</token>
+        </pattern>
+        <message>Для «зроблений з цегли» краще: <suggestion><match no="1" postag_regexp="yes" postag="adj.*">цегляний</match></suggestion></message>
+        <suggestion><match no="1" postag_regexp="yes" postag="adj.*">цегловий</match></suggestion>
+        <example correction="цегляної|цеглової">до <marker>цегельної</marker> стіни.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes" inflected="yes">цегельний|цегляний|цегловий</token>
+          </marker>
+          <token regexp="yes" inflected="yes">колір|барва|відтінок</token>
+        </pattern>
+        <message>Для кольору краще: <suggestion><match no="1" postag_regexp="yes" postag="adj.*">цеглястий</match></suggestion></message>
+        <suggestion><match no="1" postag_regexp="yes" postag="adj.*">цеглистий</match></suggestion>
+        <example correction="цеглястого|цеглистого">до <marker>цегляного</marker> кольору.</example>
+      </rule>
     </rulegroup>
 
     <rulegroup id="VIRNYI" name="Вірний">
@@ -2488,11 +2524,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <pattern>
         <marker>
           <token regexp="yes">давай(те)?</token>
-          <token postag_regexp="yes" postag="verb(:rev)?:imperf:inf.*|verb(:rev)?:perf:futr:p:1.*"/>
+          <token min="0">не</token>
+          <token postag_regexp="yes" postag="verb(:rev)?:imperf:inf(?!:arch:short).*|verb(:rev)?:perf:futr:p:1.*"/>
         </marker>
       </pattern>
-      <message>Щоб висловити заклик до спільної дії, варто вживати наказову форму: <suggestion><match no="2" postag_regexp="yes" postag="(verb.*?):(?:futr:p:1(?::subst)?|inf)(.*?)" postag_replace="$1:impr:p:1$2(?!.*:(coll|bad)).*"/></suggestion></message>
-      <suggestion>нумо <match no="2" postag_regexp="yes" postag="(verb.*?):(?:futr:p:1(?::subst)?|inf)(.*)" postag_replace="$1:impr:p:1$2(?!.*:(coll|bad)).*"/></suggestion>
+      <message>Щоб висловити заклик до спільної дії, варто вживати наказову форму дієслова</message>
+      <suggestion><match no="2"/> <match no="3" postag_regexp="yes" postag="(verb.*?):(?:futr:p:1(?::subst)?|inf(?::&amp;insert)?)(.*?)" postag_replace="$1:impr:p:1$2(?!.*:(coll|bad)).*"/></suggestion>
+      <suggestion>нумо <match no="2"/> <match no="3" postag_regexp="yes" postag="(verb.*?):(?:futr:p:1(?::subst)?|inf(?::&amp;insert)?)(.*)" postag_replace="$1:impr:p:1$2(?!.*:(coll|bad)).*"/></suggestion>
       <url>http://r2u.org.ua/node/216</url>
       <example correction="Заспіваймо|Нумо заспіваймо"><marker>Давайте заспіваємо</marker></example>
       <example correction="Скажім|Скажімо|Нумо скажім|Нумо скажімо">«<marker>Давайте скажемо</marker> чесно, що сьогодні ми в Україні не можемо</example>
@@ -2501,6 +2539,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="вчімось|вчімося|вчімся|нумо вчімось|нумо вчімося|нумо вчімся">Тому <marker>давайте вчитися</marker> разом</example>
       <example correction="скажім|скажімо|нумо скажім|нумо скажімо">Тому <marker>давайте скажем</marker> так</example>
       <example correction="оформмо|нумо оформмо">Тому <marker>давай оформимо</marker> стосунки</example>
+      <example correction="знаймо|нумо знаймо"><marker>давайте знати</marker> про свої права</example>
+      <example correction="Не граймо|Нумо не граймо"><marker>Давай не грати</marker> чесно...</example>
       <!--
       <example correction="катаймось|катаймося|катайсь|катайся|катайтесь|катайтеся|нумо катаймось|нумо катаймося|нумо катайсь|нумо катайся|нумо катайтесь|нумо катайтеся"><marker>давайте кататися</marker></example>
       <example correction="Дивись|Дивися|Дивімось|Дивімося|Дивімся|Дивіться|Нумо диви|Нумо дивись|Нумо дивися|Нумо дивімось|Нумо дивімося|Нумо дивімся|Нумо дивіться"><marker>Давайте дивитися</marker>.</example>
@@ -2509,6 +2549,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>Давайте будем знов сміятись</example>
       <example>Давай оброблятиму тобі землю</example>
       <example>накидав зверху каміння та давай носити воду</example>
+      <!-- перев. рос. слова -->
+      <example>давайте ронять слова</example>
     </rule>
 
 

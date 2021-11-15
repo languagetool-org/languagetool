@@ -289,6 +289,7 @@ public class German extends Language implements AutoCloseable {
       case "IRGEND_COMPOUND": return 10;
       case "DA_DURCH": return 2; // prefer over SUBSTANTIVIERUNG_NACH_DURCH and DURCH_SCHAUEN and DURCH_WACHSEN
       case "NULL_KOMMA_NICHTS" : return 1;   // prefer over agreement rules
+      case "SO_WIES_IST" : return 1;   // prefer over agreement rules
       case "SICH_SICHT" : return 1;   // prefer over agreement rules
       case "VOR_LACHEN" : return 1;   // prefer over ZUSAMMENGESETZTE_VERBEN
       case "ZUCCHINIS" : return 1;   // overwrite spell checker
@@ -366,6 +367,7 @@ public class German extends Language implements AutoCloseable {
       case "IM_IHM": return -4;  // lower prio than spell checker
       case "SEHR_GEEHRTER_NAME": return -4;  // lower prio than spell checker
       case "DE_PHRASE_REPETITION": return -4;  // lower prio than spell checker
+      case "GERMAN_WORD_REPEAT_RULE": return -4; // prefer other more specific rules but prefer over DOPPELUNG_MODALVERB
       case "BEI_VERB": return -4; // prefer case and spelling rules
       case "PUNCTUATION_PARAGRAPH_END": return -4;  // don't hide spelling mistakes
       case "TEST_F_ANSTATT_PH": return -4;  // don't hide spelling mistakes
@@ -382,12 +384,13 @@ public class German extends Language implements AutoCloseable {
       case "ALL_UPPERCASE": return -15;
       case "AI_HYDRA_LEO_MISSING_COMMA": return -51; // prefer comma style rules.
       case "COMMA_BEHIND_RELATIVE_CLAUSE": return -52; // less prio than AI_HYDRA_LEO
-      case "DOPPELUNG_MODALVERB": return -52; // prefer comma rules (including AI)
+      case "DOPPELUNG_MODALVERB": return -52; // prefer comma rules (DOPPELUNG_MODALVERB, AI)
       case "VER_DOPPELUNG": return -52; // prefer comma rules (including AI)
       case "VERB_FEM_SUBST": return -52; // prefer comma rules (including AI)
       case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ": return -53;
+      case "VERB_IST": return -53; // less prio than comma rules and spell checker
+      case "WAR_WERDEN": return -53; // less prio than comma rules
       case "SUBJUNKTION_KOMMA_2": return -54; // lower prio than KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ and KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2
-      case "GERMAN_WORD_REPEAT_RULE": return -55; // prefer other more specific rules
     }
     if (id.startsWith("CONFUSION_RULE_")) {
       return -1;

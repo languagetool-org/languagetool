@@ -485,6 +485,9 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "there may be a god", // vs good
       "bond with god", // vs good
       "the powers that be", // vs we
+      "passed out", // vs past
+      "passed vs failed", // vs past
+      "passed vs. failed", // vs past
       "people from there" // vs their
     );
 

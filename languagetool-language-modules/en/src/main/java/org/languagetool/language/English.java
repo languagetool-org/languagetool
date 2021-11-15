@@ -331,6 +331,7 @@ public class English extends Language implements AutoCloseable {
       case "CAUSE_COURSE":              return 1;   // higher prio than CAUSE_BECAUSE
       case "AN_AND":                    return 1;   // higher prio than A_MY and DT_PRP
       case "HER_S":                     return 1;   // higher prio than THEIR_S
+      case "ONE_TO_MANY_HYPHEN":        return 1;   // higher prio than TO_TOO
       case "COVID_19":                  return 1;
       case "OTHER_WISE_COMPOUND":       return 1;
       case "ON_EXCEL":                  return 1;
@@ -421,6 +422,7 @@ public class English extends Language implements AutoCloseable {
       case "WANNA":                     return 1;   // prefer over spell checker
       case "LOOK_FORWARD_TO":           return 1;   // prefer over LOOK_FORWARD_NOT_FOLLOWED_BY_TO
       case "LOOK_SLIKE":                return 1;   // higher prio than prem:SINGULAR_NOUN_VERB_AGREEMENT
+      case "PRP_VB_IMPROVE":            return 1;   // higher prio than PRP_VB
       case "EN_DIACRITICS_REPLACE":     return -1;   // prefer over spell checker
       case "MISSING_COMMA_BETWEEN_DAY_AND_YEAR":     return -1;   // less priority than DATE_WEEKDAY
       case "FASTLY":                    return -1;   // higher prio than spell checker
@@ -446,7 +448,6 @@ public class English extends Language implements AutoCloseable {
       case "BE_RB_BE":                  return -1;  // prefer other more specific rules
       case "IT_ITS":                    return -1;  // prefer other more specific rules
       case "ENGLISH_WORD_REPEAT_RULE":  return -1;  // prefer other more specific rules (e.g. IT_IT)
-      case "PRP_MD_NN":                 return -1;  // prefer other more specific rules (e.g. MD_ABLE, WONT_WANT)
       case "NON_ANTI_PRE_JJ":           return -1;  // prefer other more specific rules
       case "DT_JJ_NO_NOUN":             return -1;  // prefer other more specific rules (e.g. THIRD_PARTY)
       case "AGREEMENT_SENT_START":      return -1;  // prefer other more specific rules
@@ -495,6 +496,7 @@ public class English extends Language implements AutoCloseable {
       case "MORFOLOGIK_RULE_EN_ZA":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "MORFOLOGIK_RULE_EN_NZ":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "MORFOLOGIK_RULE_EN_AU":     return -10;  // more specific rules (e.g. L2 rules) have priority
+      case "PRP_MD_NN":                 return -12;  // prefer other more specific rules (e.g. MD_ABLE, WONT_WANT)
       case "TWO_CONNECTED_MODAL_VERBS": return -15;
       case "WANT_TO_NN":                return -25;  // prefer more specific rules that give a suggestion
       case "QUESTION_WITHOUT_VERB":     return -25;  // prefer more specific rules that give a suggestion

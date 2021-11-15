@@ -1797,6 +1797,36 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="filter" postag="NC.*"/>
     </rule>
+    <rulegroup id="CABEZAS" name="cabeza (género)">
+        <!-- original POS tag: NCC -->
+        <antipattern>
+            <token inflected="yes">cabeza</token>
+            <token>de</token>
+            <token regexp="yes">chorlito|turco</token>
+        </antipattern>
+        <antipattern>
+            <token inflected="yes">cabeza</token>
+            <token regexp="yes">huecas?|locas?|oficial|oficiales|pensantes?|rapadas?|supremos?</token>
+        </antipattern>
+        <antipattern>
+            <token inflected="yes">cabeza</token>
+            <token regexp="yes">de|del</token>
+            <token postag="[DA].*|V.P.*|RG" postag_regexp="yes" max="4" min="0"/>
+            <token regexp="yes" inflected="yes">familia|tribu|clan|religión|orden|rama|grupo|lista|linaje|fiel|gremio|sindicato|partido|organización|saga</token>
+        </antipattern>
+        <rule>
+            <pattern>
+                <token>cabeza</token>
+            </pattern>
+            <disambig action="replace"><wd lemma="cabeza" pos="NCFS000"></wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>cabezas</token>
+            </pattern>
+            <disambig action="replace"><wd lemma="cabeza" pos="NCFP000"></wd></disambig>
+        </rule>
+    </rulegroup>
     <rule id="VAN" name="van (n f)">
         <antipattern>
             <token postag="&pronombre_personal_atono;" postag_regexp="yes"/>

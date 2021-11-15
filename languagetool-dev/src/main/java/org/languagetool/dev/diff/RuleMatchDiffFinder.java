@@ -139,7 +139,7 @@ public class RuleMatchDiffFinder {
     return map;
   }
 
-  private void printDiffs(List<RuleMatchDiff> diffs, FileWriter fw, String langCode, String date, String filename) throws IOException {
+  private void printDiffs(List<RuleMatchDiff> diffs, FileWriter fw, String langCode, String date, String filename, String ruleId) throws IOException {
     fw.write("Diffs found: " + diffs.size());
     if (diffs.size() > 0) {
       RuleMatchDiff diff1 = diffs.get(0);
@@ -154,6 +154,8 @@ public class RuleMatchDiffFinder {
     } else {
       fw.write(". <a href='../" + langCode + "_full/" + filename + "'>Full list</a>");
     }
+    fw.write(".  <a href='https://internal1.languagetool.org/grafana/d/BY_CNDHGz/rule-events-analysis?orgId=1&var-rule_id=" +
+      ruleId.replaceFirst("^.* / ", "").replaceFirst("\\[[0-9]+\\]", "") + "&from=now-30d&var-language=" + langCode.replaceFirst("-.*", "") + "' target='grafana'>[g]</a>");
     fw.write("<br>\n");
     printTableBegin(fw);
     int iframeCount = 0;
@@ -399,7 +401,7 @@ public class RuleMatchDiffFinder {
       try (FileWriter fw = new FileWriter(outputFile)) {
         System.out.println("Writing result to " + outputFile);
         printHeader(title, fw);
-        printDiffs(entry.getValue(), fw, langCode, date, filename);
+        printDiffs(entry.getValue(), fw, langCode, date, filename, entry.getKey());
         printFooter(fw);
       }
     }
@@ -440,7 +442,7 @@ public class RuleMatchDiffFinder {
         String id = file.replaceFirst("result_.*?_", "").replace(".html", "");
         fw.write("  <a href='" + file + "'>" + id + "</a>");
         fw.write("  <a href='https://internal1.languagetool.org/grafana/d/BY_CNDHGz/rule-events-analysis?orgId=1&var-rule_id=" +
-          id.replaceFirst("\\[[0-9]+\\]", "") + "&var-language=" + langCode.replaceFirst("-.*", "") + "'>[g]</a>");
+          id.replaceFirst("\\[[0-9]+\\]", "") + "&from=now-30d&var-language=" + langCode.replaceFirst("-.*", "") + "'>[g]</a>");
         fw.write("</td>");
         if (outputFile.items.size() > 0 && outputFile.items.get(0).getNewMatch() != null) {
           fw.write("<td class='msg'>" + escapeSentence(outputFile.items.get(0).getNewMatch().getMessage()) + "</td>");

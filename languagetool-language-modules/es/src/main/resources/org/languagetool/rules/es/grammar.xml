@@ -12358,6 +12358,43 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>Vedas</suggestion>
                 <example correction="Vedas">En los <marker>vedas</marker></example>
             </rule>
+                <rule>
+                    <pattern>
+                        <marker>
+                            <unify negate="yes">
+                                <feature id="numero"/>
+                                <feature id="genero"/>
+                                <token postag="D[^RN].*" postag_regexp="yes"><exception postag="DA0NS0|_allow_tanto|_DD_after_noun" postag_regexp="yes"/></token>
+                                <token postag="N.F.*" postag_regexp="yes" inflected="yes">cabeza</token>
+                            </unify>
+                        </marker>
+                    </pattern>
+                    <message>Error de concordancia. "Cabeza" puede ser masculino, más raramente, en algunos casos particulares (p. ej. el cabeza de familia).</message>
+                    <suggestion suppress_misspelled="yes"><match no="1" postag="D..[FC][SN]." postag_regexp="yes" case_conversion="preserve"/> <match no="2" postag="N.CS.*" postag_regexp="yes" case_conversion="preserve"/></suggestion>
+                    <suggestion suppress_misspelled="yes"><match no="1" postag="D..[FC][PN]." postag_regexp="yes" case_conversion="preserve"/> <match no="2" postag="N.CP.*" postag_regexp="yes" case_conversion="preserve"/></suggestion>
+                    <example correction="una cabeza|unas cabezas">Tiene <marker>un cabeza</marker> grande</example>
+                    <example>Es el cabeza de familia.</example>
+                    <example>Es un cabeza de chorlito</example>
+                    <example>Es un cabeza rapada.</example>
+                    <example>El cabeza de cada familia tenía la responsabilidad.</example>
+                    <example>El cabeza de dicha organización.</example>
+                </rule>
+                <rule>
+                    <pattern>
+                        <marker>
+                            <unify negate="yes">
+                                <feature id="numero"/>
+                                <feature id="genero"/>
+                                <token postag="SP:DA" regexp="yes">del|al<exception postag="(&lt;)?NP.*" postag_regexp="yes"/></token>
+                                <token postag="N.[MF][SP].*" postag_regexp="yes" inflected="yes">cabeza<exception postag="(A.|N).[CM][NS].*|_GV_" postag_regexp="yes"/><exception postag="V.*" postag_regexp="yes"/></token>
+                            </unify>
+                        </marker>
+                    </pattern>
+                    <message>Error de concordancia. "Cabeza" puede ser masculino, más raramente, en algunos casos particulares (p. ej. el cabeza de familia).</message>
+                    <suggestion><match no="1" regexp_match="(?iu)(de|a)l" regexp_replace="$1"/> <match no="2" postag="N.(..).*" postag_regexp="yes" postag_replace="DA0$10">el</match> \3</suggestion>
+                    <example correction="de la cabeza">Sácalo <marker>del cabeza</marker>.</example>
+                    <example>Era responsabilidad del cabeza de familia.</example>
+                </rule>
         </rulegroup>
         <rulegroup id="AGREEMENT_DET_NOUN" name="Concordancias determinante y sustantivo" default="on">
             <antipattern>
@@ -13288,6 +13325,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="toda">No uses <marker>todo</marker> el agua.</example>
             <example>Casi todo el arte románico.</example>
         </rule>
+        <rulegroup id="AGREEMENT_TODO" name="concordancias: todo + sustantivo" default="temp_off">
+            <!-- TODO: exceptions needed -->
+            <rule>
+                <pattern>
+                    <unify negate="yes">
+                        <feature id="numero"/>
+                        <feature id="genero"/>
+                        <token inflected="yes">todo</token>
+                        <token postag="NC.*" postag_regexp="yes"/>
+                    </unify>
+                </pattern>
+                <message>Posible error de concordancia.</message>
+                <suggestion suppress_misspelled="yes">todo <match no="2" postag="NC.*" postag_regexp="yes" postag_replace="NC[MC][SN].*"/></suggestion>
+                <suggestion suppress_misspelled="yes">todos <match no="2" postag="NC.*" postag_regexp="yes" postag_replace="NC[MC][PN].*"/></suggestion>
+                <suggestion suppress_misspelled="yes">toda <match no="2" postag="NC.*" postag_regexp="yes" postag_replace="NC[FC][SN].*"/></suggestion>
+                <suggestion suppress_misspelled="yes">todas <match no="2" postag="NC.*" postag_regexp="yes" postag_replace="NC[FC][PN].*"/></suggestion>
+                <example correction="todo modo|todos modos">De <marker>todas modos</marker>, no me interesa.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <unify negate="yes">
+                        <feature id="numero"/>
+                        <feature id="genero"/>
+                        <marker>
+                            <token inflected="yes">todo</token>
+                            <token postag="D.*" postag_regexp="yes" inflected="yes">el</token>
+                        </marker>
+                        <token postag="NC.*" postag_regexp="yes"/>
+                    </unify>
+                </pattern>
+                <message>Posible error de concordancia.</message>
+                <suggestion><match no="2" postag="D..(..)." postag_regexp="yes" postag_replace="DI0$10">todo</match> \2</suggestion>
+                <example correction="todas las">De <marker>todos las</marker> cosas que han pasado.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AGREEMENT_PARTICULAR_CASES" name="otros casos de concordancia">
             <rule id="LAS_NUMBER_MALE" name="'las tres preceptos' etcétera">
                 <pattern>
@@ -20933,7 +21005,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SENT_START"/>
                     <token min="0" max="3" postag="_PUNCT.*" postag_regexp="yes"/>
                     <marker>
-                        <token regexp="yes">hola|felicidades|saludos|enhorabuena|besos|beso|besito|besitos</token>
+                        <token regexp="yes">felicidades|saludos|enhorabuena|besos|beso|besito|besitos</token>
+                        <!-- hola -->
                     </marker>
                     <or>
                         <token postag="[ANVD].*|_possible_NP" postag_regexp="yes"><exception postag="_PUNCT.*|SPS00|C.*" postag_regexp="yes"/></token>
@@ -20942,9 +21015,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>En este contexto es necesaria una coma después de "<match no="3" case_conversion="alllower"/>" (ej. "<match no="3" case_conversion="startupper"/>, Ana").</message>
                 <suggestion>\3,</suggestion>
-                <example correction="Hola,">¡<marker>Hola</marker> amigo!</example>
-                <example correction="Hola,">¡<marker>Hola</marker> mi querido amigo!</example>
-                <example correction="Hola,">¡<marker>Hola</marker> Meg!</example>
+                <example correction="Felicidades,">¡<marker>Felicidades</marker> amigo!</example>
+                <example correction="Felicidades,">¡<marker>Felicidades</marker> mi querido amigo!</example>
+                <example correction="Felicidades,">¡<marker>Felicidades</marker> Meg!</example>
                 <example>¡Hola a todos!</example>
                 <example>Felicidades por la victoria.</example>
                 <example>Saludos cordiales.</example>
@@ -21095,7 +21168,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="MUCHO_NF" name="mucho + nombre femenino">
             <pattern>
                 <token regexp="yes">mucho|muchísimo</token>
-                <token regexp="yes">tías?|señoras?|señoritas?|hermanas?|amigas?</token>
+                <token regexp="yes">tías?|señoras?|señoritas?|hermanas?|amigas?|queridas?</token>
             </pattern>
             <message>Probablemente falta una coma o hay un error de concordancia.</message>
             <suggestion>\1, \2</suggestion>
@@ -21487,6 +21560,164 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Es bonito pero barato, y lo demás no importa.</example>
         </rule>
         <!--TODO: idem with ", pues"-->
+        <rule id="COMMA_ADVERB" name="coma en adverbio al principio de frase">
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token regexp="yes" min="0" max="3">\p{P}</token>
+                <token regexp="yes" postag="RG">.*mente</token>
+                <token regexp="yes">de|del|y|o|e|u|que|por</token>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token regexp="yes" min="0" max="3">\p{P}</token>
+                <token regexp="yes" postag="RG">.*mente</token>
+                <token postag="A.*|V.P.*|V.G.*|LOC_ADV|LOC_ADJ" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">concretamente|paralelamente|contrariamente|posteriormente|previamente</token>
+                <token>a</token>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token regexp="yes" min="0" max="3">\p{P}</token>
+                <token regexp="yes" postag="RG">.*mente<exception>actualmente</exception></token>
+                <token regexp="yes">en|con</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">inmediatamente|mayoritariamente|totalmente|temporalmente</token>
+                <token postag="RG|RN" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+                <token postag="SENT_START"/>
+                <token regexp="yes" min="0" max="3">\p{P}<exception>¿</exception></token>
+                <marker>
+                    <token regexp="yes" postag="RG">.*mente<exception regexp="yes">literalmente|seguramente|especialmente|específicamente|particularmente|constantemente|continuamente|comúnmente|aproximadamente|difícilmente|habitualmente|justamente|precisamente|realmente|únicamente|solamente|exclusivamente</exception></token>
+                </marker>
+            </pattern>
+            <filter class="org.languagetool.rules.AddCommasFilter" args="none:none"/>
+            <message>Si el adverbio "<match no="3" case_conversion="alllower"/>" se refiere a toda la frase, y no solo al verbo, es recomendable usar una coma.</message>
+            <example correction="Efectivamente,"><marker>Efectivamente</marker> dijo que sí.</example>
+            <example>Absolutamente de acuerdo con vuestra opinón.</example>
+            <example>Antiguamente sujetas al abad del monasterio.</example>
+            <example>Completamente amueblado.</example>
+            <example>Concretamente en Espanya, la Reforma fiscal de 2015 modificó las condiciones.</example>
+            <example>Contrariament a Dinamarca, en Alemania no sucedió.</example>
+            <example>Conjuntamente con ellos, hicieron todo el trabajo.</example>
+            <example correction="Contrariamente,">-- <marker>Contrariamente</marker> allí no pasó nada.</example>
+            <example>¿Comúnmente viajas solo?</example>
+            <example>¿Exactamente cómo lo hiciste?</example>
+            <example>Estrictamente hablando, la Tierra no es redonda.</example>
+            <example>Exactamente por la razón que he dicho. </example>
+            <example>Seguramente el casco le salvó la vida.</example>
+            <example>Totalmente online.</example>
+            <example>* Temporalmente no disponible.</example>
+        </rule>
+        <rulegroup id="COMMA_MARCADOR_DISCURSIVO" name="coma después de marcador discursivo">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" max="3" postag="_PUNCT.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>en</token>
+                        <token postag="AO.*" postag_regexp="yes"/>
+                        <token>lugar</token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.AddCommasFilter" args="none:none"/>
+                <message>Escribimos coma después de los marcadores discursivos.</message>
+                <example correction="lugar,">En primer <marker>lugar</marker> hablaremos de un tema importante.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" max="3" postag="_PUNCT.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>por</token>
+                        <token min="0">lo</token>
+                        <token>tanto</token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.AddCommasFilter" args="none:none"/>
+                <message>Escribimos coma después de los marcadores discursivos.</message>
+                <example correction="tanto,">Por lo <marker>tanto</marker> hablaremos de un tema importante.</example>
+                <example correction="tanto,">Por <marker>tanto</marker> hablaremos de un tema importante.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>por</token>
+                        <token>lo</token>
+                        <token>tanto</token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.AddCommasFilter" args="none:none"/>
+                <message>Escribimos coma después de los marcadores discursivos.</message>
+                <example correction=", por lo tanto,">Es<marker> por lo tanto</marker> lo que hay que hacer.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>tanto</token>
+                    <token postag="NC[MC][SN].*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>gracias</token>
+                    <token>por</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>por</token>
+                        <token>tanto</token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.AddCommasFilter" args="none:none"/>
+                <message>Escribimos coma después de los marcadores discursivos.</message>
+                <example correction=", por tanto,">Es<marker> por tanto</marker> lo que hay que hacer.</example>
+                <example>Gracias por tanto.</example>
+                <example>Estoy cansado por tanto homenaje.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>sin</token>
+                    <token>embargo</token>
+                </pattern>
+                <filter class="org.languagetool.rules.AddCommasFilter" args="none:none"/>
+                <message>Esta locución se escribe normalmente entre comas.</message>
+                <example correction="embargo,">Sin <marker>embargo</marker> no logró ganar.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" max="3" postag="_PUNCT.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>además</token>
+                    </marker>
+                    <token><exception regexp="yes">de|del</exception><exception postag="_PUNCT.*" postag_regexp="yes"/></token>
+                </pattern>
+                <filter class="org.languagetool.rules.AddCommasFilter" args="none:none"/>
+                <message>En este contexto es recomendable usar una coma.</message>
+                <example correction="Además,"><marker>Además</marker> se trata de un caso único.</example>
+                <example>Además —añadió—, ¿en cuántos lugares está?</example>
+                <example>Además de este, ¿en qué otros lugares está?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" max="3" postag="_PUNCT.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>en</token>
+                        <token regexp="yes" inflected="yes">un|el</token>
+                        <token postag="AO.*" postag_regexp="yes"/>
+                        <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">&unidades_tiempo;|momento|instante|caso</token>
+                    </marker>
+                    <token><exception regexp="yes">de|del|que</exception><exception postag="_PUNCT.*|A.*|V.P.*" postag_regexp="yes"/></token>
+                </pattern>
+                <filter class="org.languagetool.rules.AddCommasFilter" args="none:none"/>
+                <message>En este contexto es recomendable usar una coma.</message>
+                <example correction="instantes,">En los primeros <marker>instantes</marker> hablaremos de un tema importante.</example>
+                <example>En el I Encuentro Nacional de Jóvenes Periodistas.</example>
+                <example>En el 2000 Google presentó AdWords.</example>
+            </rule>
+        </rulegroup>
         <rule id="COMMA_REPETITION" name="coma en repeticiones">
             <antipattern>
                 <token>no</token>
