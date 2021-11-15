@@ -3496,6 +3496,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="se ha dado">Lo que <marker>se dado</marker> en llamar educación.</example>
             </rule>
             <rule>
+                <pattern>
+                    <marker>
+                        <token>se</token>
+                    </marker>
+                    <token regexp="yes">mi|ti|él|ella|nosotros|nosotras|vosotros|vosotras|ellos|ellas</token>
+                </pattern>
+                <message>¿Quería decir <suggestion>de</suggestion>? Si es del v. 'saber' o 'ser' se escribe con tilde.</message>
+                <suggestion>sé</suggestion>
+                <example correction="de|sé">Hoy es el día <marker>se</marker> mi cumpleaños.</example>
+            </rule>
+            <rule>
                 <antipattern>
                     <token>se</token>
                     <token regexp="yes" min="0">["«“‘']</token>
