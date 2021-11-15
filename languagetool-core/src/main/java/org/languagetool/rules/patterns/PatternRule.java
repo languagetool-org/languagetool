@@ -210,14 +210,8 @@ public class PatternRule extends AbstractTokenBasedRule {
   public final RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     if (canBeIgnoredFor(sentence)) return RuleMatch.EMPTY_ARRAY;
 
-    try {
-      RuleMatcher matcher = new PatternRuleMatcher(this, useList);
-      return checkForAntiPatterns(sentence, matcher, matcher.match(sentence));
-    } catch (IOException e) {
-      throw new IOException("Error analyzing sentence: '" + sentence + "'", e);
-    } catch (Exception e) {
-      throw new RuntimeException("Error analyzing sentence: '" + sentence + "' with rule " + getFullId(), e);
-    }
+    RuleMatcher matcher = new PatternRuleMatcher(this, useList);
+    return checkForAntiPatterns(sentence, matcher, matcher.match(sentence));
   }
 
   private RuleMatch[] checkForAntiPatterns(AnalyzedSentence sentence, RuleMatcher matcher, RuleMatch[] matches) throws IOException {

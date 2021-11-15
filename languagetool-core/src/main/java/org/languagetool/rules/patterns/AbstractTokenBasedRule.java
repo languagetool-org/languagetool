@@ -80,7 +80,8 @@ public abstract class AbstractTokenBasedRule extends AbstractPatternRule {
    * A fast check whether this rule can be ignored for the given sentence
    * because it can never match. Used for performance optimization.
    */
-  protected boolean canBeIgnoredFor(AnalyzedSentence sentence) {
+  @ApiStatus.Internal
+  public boolean canBeIgnoredFor(AnalyzedSentence sentence) {
     if (tokenHints == null) return false;
     for (TokenHint th : tokenHints) {
       if (th.canBeIgnoredFor(sentence)) {

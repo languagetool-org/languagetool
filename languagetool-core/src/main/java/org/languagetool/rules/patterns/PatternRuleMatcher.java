@@ -19,6 +19,7 @@
 package org.languagetool.rules.patterns;
 
 import com.google.common.primitives.Ints;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.rules.*;
@@ -56,7 +57,8 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
   //private final Integer slowMatchThreshold;
   private static final boolean monitorRules = System.getProperty("monitorActiveRules") != null;
 
-  PatternRuleMatcher(PatternRule rule, boolean useList) {
+  @ApiStatus.Internal
+  public PatternRuleMatcher(AbstractTokenBasedRule rule, boolean useList) {
     super(rule, rule.getLanguage().getUnifier());
     this.useList = useList;
     //String slowMatchThresholdStr = System.getProperty("slowMatchThreshold");
@@ -94,6 +96,10 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
         }
       }*/
       return filteredMatches.toArray(RuleMatch.EMPTY_ARRAY);
+    } catch (IOException e) {
+      throw new IOException("Error analyzing sentence: '" + sentence + "'", e);
+    } catch (Exception e) {
+      throw new RuntimeException("Error analyzing sentence: '" + sentence + "' with rule " + rule.getFullId(), e);
     } finally {
       if (key != null) {
         currentlyActiveRules.computeIfPresent(key, (k, v) -> v - 1 > 0 ? v - 1 : null);
@@ -113,7 +119,6 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
                                     AnalyzedTokenReadings[] tokens, int firstMatchToken,
                                     int lastMatchToken, int firstMarkerMatchToken, int lastMarkerMatchToken,
                                     AnalyzedSentence sentence) throws IOException {
-    PatternRule rule = (PatternRule) this.rule;
     String errMessage = formatMatches(tokens, tokenPositions,
             firstMatchToken, rule.getMessage(), rule.getSuggestionMatches());
     String shortErrMessage = formatMatches(tokens, tokenPositions,
