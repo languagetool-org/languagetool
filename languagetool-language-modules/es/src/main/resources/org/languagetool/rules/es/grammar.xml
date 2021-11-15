@@ -12369,43 +12369,43 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>Vedas</suggestion>
                 <example correction="Vedas">En los <marker>vedas</marker></example>
             </rule>
-                <rule>
-                    <pattern>
-                        <marker>
-                            <unify negate="yes">
-                                <feature id="numero"/>
-                                <feature id="genero"/>
-                                <token postag="D[^RN].*" postag_regexp="yes"><exception postag="DA0NS0|_allow_tanto|_DD_after_noun" postag_regexp="yes"/></token>
-                                <token postag="N.F.*" postag_regexp="yes" inflected="yes">cabeza</token>
-                            </unify>
-                        </marker>
-                    </pattern>
-                    <message>Error de concordancia. "Cabeza" puede ser masculino, más raramente, en algunos casos particulares (p. ej. el cabeza de familia).</message>
-                    <suggestion suppress_misspelled="yes"><match no="1" postag="D..[FC][SN]." postag_regexp="yes" case_conversion="preserve"/> <match no="2" postag="N.CS.*" postag_regexp="yes" case_conversion="preserve"/></suggestion>
-                    <suggestion suppress_misspelled="yes"><match no="1" postag="D..[FC][PN]." postag_regexp="yes" case_conversion="preserve"/> <match no="2" postag="N.CP.*" postag_regexp="yes" case_conversion="preserve"/></suggestion>
-                    <example correction="una cabeza|unas cabezas">Tiene <marker>un cabeza</marker> grande</example>
-                    <example>Es el cabeza de familia.</example>
-                    <example>Es un cabeza de chorlito</example>
-                    <example>Es un cabeza rapada.</example>
-                    <example>El cabeza de cada familia tenía la responsabilidad.</example>
-                    <example>El cabeza de dicha organización.</example>
-                </rule>
-                <rule>
-                    <pattern>
-                        <marker>
-                            <unify negate="yes">
-                                <feature id="numero"/>
-                                <feature id="genero"/>
-                                <token postag="SP:DA" regexp="yes">del|al<exception postag="(&lt;)?NP.*" postag_regexp="yes"/></token>
-                                <token postag="N.[MF][SP].*" postag_regexp="yes" inflected="yes">cabeza<exception postag="(A.|N).[CM][NS].*|_GV_" postag_regexp="yes"/><exception postag="V.*" postag_regexp="yes"/></token>
-                            </unify>
-                        </marker>
-                    </pattern>
-                    <message>Error de concordancia. "Cabeza" puede ser masculino, más raramente, en algunos casos particulares (p. ej. el cabeza de familia).</message>
-                    <suggestion><match no="1" regexp_match="(?iu)(de|a)l" regexp_replace="$1"/> <match no="2" postag="N.(..).*" postag_regexp="yes" postag_replace="DA0$10">el</match> \3</suggestion>
-                    <example correction="de la cabeza">Sácalo <marker>del cabeza</marker>.</example>
-                    <example>Era responsabilidad del cabeza de familia.</example>
-                </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <unify negate="yes">
+                            <feature id="numero"/>
+                            <feature id="genero"/>
+                            <token postag="D[^RN].*" postag_regexp="yes"><exception postag="DA0NS0|_allow_tanto|_DD_after_noun" postag_regexp="yes"/></token>
+                            <token postag="N.F.*" postag_regexp="yes" inflected="yes">cabeza</token>
+                        </unify>
+                    </marker>
+                </pattern>
+                <message>Error de concordancia. "Cabeza" puede ser masculino, más raramente, en algunos casos particulares (p. ej. el cabeza de familia).</message>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="D..[FC][SN]." postag_regexp="yes" case_conversion="preserve"/> <match no="2" postag="N.CS.*" postag_regexp="yes" case_conversion="preserve"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="D..[FC][PN]." postag_regexp="yes" case_conversion="preserve"/> <match no="2" postag="N.CP.*" postag_regexp="yes" case_conversion="preserve"/></suggestion>
+                <example correction="una cabeza|unas cabezas">Tiene <marker>un cabeza</marker> grande</example>
+                <example>Es el cabeza de familia.</example>
+                <example>Es un cabeza de chorlito</example>
+                <example>Es un cabeza rapada.</example>
+                <example>El cabeza de cada familia tenía la responsabilidad.</example>
+                <example>El cabeza de dicha organización.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <unify negate="yes">
+                            <feature id="numero"/>
+                            <feature id="genero"/>
+                            <token postag="SP:DA" regexp="yes">del|al<exception postag="(&lt;)?NP.*" postag_regexp="yes"/></token>
+                            <token postag="N.[MF][SP].*" postag_regexp="yes" inflected="yes">cabeza<exception postag="(A.|N).[CM][NS].*|_GV_" postag_regexp="yes"/><exception postag="V.*" postag_regexp="yes"/></token>
+                        </unify>
+                    </marker>
+                </pattern>
+                <message>Error de concordancia. "Cabeza" puede ser masculino, más raramente, en algunos casos particulares (p. ej. el cabeza de familia).</message>
+                <suggestion><match no="1" regexp_match="(?iu)(de|a)l" regexp_replace="$1"/> <match no="2" postag="N.(..).*" postag_regexp="yes" postag_replace="DA0$10">el</match> \3</suggestion>
+                <example correction="de la cabeza">Sácalo <marker>del cabeza</marker>.</example>
+                <example>Era responsabilidad del cabeza de familia.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AGREEMENT_DET_NOUN" name="Concordancias determinante y sustantivo" default="on">
             <antipattern>
@@ -13337,14 +13337,75 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Casi todo el arte románico.</example>
         </rule>
         <rulegroup id="AGREEMENT_TODO" name="concordancias: todo + sustantivo" default="temp_off">
-            <!-- TODO: exceptions needed -->
+            <antipattern>
+                <token>sobre</token>
+                <token>todo</token>
+            </antipattern>
             <rule>
+                <antipattern>
+                    <token>todos</token>
+                    <token>y</token>
+                    <token>todas</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">todo|toda</token>
+                    <token postag="V...3S." postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">todos|todas</token>
+                    <token postag="V...3P." postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>lo</token>
+                    <token postag="V.*" postag_regexp="yes" max="3"/>
+                    <token>todo</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="VS..3S." postag_regexp="yes"/>
+                    <token>todo</token>
+                    <token postag="NC.[SN].*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="VS..3P." postag_regexp="yes"/>
+                    <token>todo</token>
+                    <token postag="NC.[PN].*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>todo</token>
+                    <token postag="A..[MC][SN].*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>toda</token>
+                    <token postag="A..[FC][SN].*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>todos</token>
+                    <token postag="A..[MC][PN].*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>todas</token>
+                    <token postag="A..[FC][PN].*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">de|por</token>
+                    <token regexp="yes">todos|todas</token>
+                    <token regexp="yes">conocido|sabido</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">estudiar</token>
+                    <token regexp="yes">todos|todas</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">desear</token>
+                    <token>a</token>
+                    <token regexp="yes">todos|todas</token>
+                </antipattern>
                 <pattern>
                     <unify negate="yes">
                         <feature id="numero"/>
                         <feature id="genero"/>
-                        <token inflected="yes">todo</token>
-                        <token postag="NC.*" postag_regexp="yes"/>
+                        <token inflected="yes">todo<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                        <token postag="NC.*" postag_regexp="yes"><exception postag="_IS_URL"/></token>
                     </unify>
                 </pattern>
                 <message>Posible error de concordancia.</message>
@@ -13353,6 +13414,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion suppress_misspelled="yes">toda <match no="2" postag="NC.*" postag_regexp="yes" postag_replace="NC[FC][SN].*"/></suggestion>
                 <suggestion suppress_misspelled="yes">todas <match no="2" postag="NC.*" postag_regexp="yes" postag_replace="NC[FC][PN].*"/></suggestion>
                 <example correction="todo modo|todos modos">De <marker>todas modos</marker>, no me interesa.</example>
+                <example>Con el permiso de todos y todas deseo desahogar mi inquietud.</example>
+                <example>¿Son todas iguales?</example>
+                <example>Todo deporte.com</example>
+                <example>Todo marcha sobre ruedas.</example>
+                <example>Todo suma.</example>
+                <example>Todo vertical.</example>
+                <example>Se pone toda marrón.</example>
+                <example>Son todas iguales.</example>
+                <example>Y sobre todo ambición.</example>
+                <example>La vida no es todo cerveza y bolos.</example>
+                <example>Fue todo culpa suya.</example>
+                <example>Era todo falsedad.</example>
+                <example>Tom come sobre todo fruta y verdura.</example>
+                <example>No hagas caso, son todo pamplinas.</example>
+                <example>Mary os lo contará todo tarde o temprano.</example>
+                <example>¡Cambiar a nuestros Servidores WordPress son todo ventajas para tus proyectos!</example>
+                <example>Es de todos conocido su hábito.</example>
+                <example>Esos estudiantes están estudiando todos inglés.</example>
+                <example>Os deseamos a todos suerte en vuestro contacto.</example>
             </rule>
             <rule>
                 <pattern>
@@ -21695,7 +21775,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>gracias</token>
                     <token>por</token>
                 </antipattern>
-               <!-- <antipattern>
+                <!-- <antipattern>
                     <token>tanto</token>
                     <token>?</token>
                 </antipattern>-->

@@ -86,6 +86,14 @@ Copyright (C) 2021 Jaume Ortolà
             <disambig action="ignore_spelling"/>
         </rule>
         <rule>
+            <pattern>
+                <token regexp="yes">[a-z0-9\-]+</token>
+                <token spacebefore="no">.</token>
+                <token spacebefore="no" regexp="yes">&domain_names;</token>
+            </pattern>
+            <disambig action="add"><wd pos="_IS_URL"/></disambig>
+        </rule>
+        <rule>
             <!--  subdomains -->
             <pattern>
                 <token regexp="yes">[a-z0-9\-]+</token>
