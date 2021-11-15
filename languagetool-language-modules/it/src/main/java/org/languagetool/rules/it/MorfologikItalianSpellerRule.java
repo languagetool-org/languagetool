@@ -20,19 +20,22 @@
 package org.languagetool.rules.it;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
+import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
+import org.languagetool.tools.StringTools;
 
 public final class MorfologikItalianSpellerRule extends MorfologikSpellerRule {
 
   private static final String RESOURCE_FILENAME = "/it/hunspell/it_IT.dict";
 
-  public MorfologikItalianSpellerRule(ResourceBundle messages,
-                                      Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
+  public MorfologikItalianSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig,
+      List<Language> altLanguages) throws IOException {
     super(messages, language, userConfig, altLanguages);
   }
 
@@ -44,6 +47,26 @@ public final class MorfologikItalianSpellerRule extends MorfologikSpellerRule {
   @Override
   public String getId() {
     return "MORFOLOGIK_RULE_IT_IT";
+  }
+
+  protected List<SuggestedReplacement> orderSuggestions(List<SuggestedReplacement> suggestions, String word) {
+    List<SuggestedReplacement> newSuggestions = new ArrayList<>();
+    List<String> originalSuggestionsStr = new ArrayList<>();
+    for (SuggestedReplacement suggestion : suggestions) {
+      originalSuggestionsStr.add(suggestion.getReplacement());
+    }
+    for (SuggestedReplacement suggestion : suggestions) {
+      String suggestionStr = suggestion.getReplacement();
+      // original word is not capitalized, suggestion is capitalized,
+      // and lowercase suggestion also exists
+      if (!StringTools.isCapitalizedWord(word) && StringTools.isCapitalizedWord(suggestionStr)
+          && (originalSuggestionsStr.contains(suggestionStr.toLowerCase()))) {
+        continue;
+      }
+      newSuggestions.add(suggestion);
+    }
+    return newSuggestions;
+
   }
 
 }

@@ -44,8 +44,8 @@ public class MorfologikItalianSpellerRuleTest {
         
         matches = rule.match(lt.getAnalyzedSentence("esmpio"));
         assertEquals(1, matches.length);
-        // TODO: remove capitalized words from the speller dictionary
-        assertEquals("[Empio, Esempio, Espio, Espiò, empio, esempio, espio, espiò]", matches[0].getSuggestedReplacements().toString());
+        // TODO: another solution: remove capitalized words from the speller binary dictionary
+        assertEquals("[empio, esempio, espio, espiò]", matches[0].getSuggestedReplacements().toString());
         
     }
 }

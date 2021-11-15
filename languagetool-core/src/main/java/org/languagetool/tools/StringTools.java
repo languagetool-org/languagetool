@@ -140,7 +140,7 @@ public final class StringTools {
   }
 
   /**
-   * Returns true if <code>str</code> is made up of all-lowercase characters
+   * Returns true if <code>str</code> is not made up of all-lowercase characters
    * (ignoring characters for which no upper-/lowercase distinction exists).
    * @since 2.5
    */
