@@ -5773,8 +5773,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="KON:UNT"/>
                 <token>dies</token>
                 <token min="0"/>
-                <token postag_regexp="yes" postag="SUB:(NOM|AKK|DAT):(PLU|(SIN:FEM)).*"/>
-                <token inflected="yes" regexp="yes">bedeuten|sein</token>
+                <token postag_regexp="yes" postag="SUB:(NOM|AKK|DAT):PLU.*"/>
+                <token inflected="yes" postag="VER.*PLU.*" postag_regexp="yes" regexp="yes">bedeuten|sein</token>
+            </antipattern>
+            <antipattern>
+                <token postag="KON:UNT"/>
+                <token min="0">all</token>
+                <token>dies</token>
+                <token min="0"/>
+                <token skip="-1" postag_regexp="yes" postag="SUB:(NOM|AKK|DAT):(PLU|(SIN:FEM)).*"/>
+                <token min="0" postag="VER:(AUX:|MOD:)?[123]:PLU.*" postag_regexp="yes">
+                  <exception scope="previous" postag="VER:(AUX:|MOD:)?[123]:PLU.*" postag_regexp="yes"/>
+                </token>
+                <token postag="VER:(AUX:|MOD:)?[123]:SIN.*" postag_regexp="yes"/>
             </antipattern>
             <pattern>
                 <token>
@@ -5787,12 +5798,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag_regexp="yes" postag="SUB:(NOM|AKK|DAT):(PLU|(SIN:FEM)).*"/>
             </pattern>
             <message>Meinten Sie <suggestion>die</suggestion> oder <suggestion>diese</suggestion>?</message>
+            <example correction="Die|Diese"><marker>Dies</marker> ersten beiden Zuweisungen sind korrekt.</example>
             <example>Als er die Kritik äußerte, rief <marker>dies</marker> Kritik hervor.</example>
             <example>Zum großen Teil waren <marker>dies</marker> Krebsvorstufen.</example>
-            <example correction="Die|Diese"><marker>Dies</marker> ersten beiden Zuweisungen sind korrekt.</example>
             <example>Sie sagt, dass dies Rache bedeutet.</example>
             <example>Erik sagt, dass dies Erpressung sei.</example>
             <example>Erik sagt, dass dies gute Nachrichten seien.</example>
+            <example>Maria war sich nicht sicher, ob sie träumte, oder ob all dies Realität war.</example>
+            <example>Es ist durchaus möglich, dass dies unerwünschte Nebenwirkungen haben wird.</example>
         </rule>
         <rule id="ZU_NEIGE" name="zu Neige (zur Neige)">
             <regexp>\bzu Neige\b</regexp>
