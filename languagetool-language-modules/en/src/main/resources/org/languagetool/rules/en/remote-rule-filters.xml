@@ -143,17 +143,43 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">The BVI <marker>are</marker> known as one of the world's greatest sailing destinations, and charter sailboats are a very popular way to visit less accessible islands.</example>
                 <example correction="">SLNG <marker>are</marker> to provide Enron and BG a copy of the Savannah Pilots Association working procedures for river traffic.</example>
             </rule>
+            <rule>  <!-- quotes, inside or out -->
+                <pattern>
+                    <token skip="-1" regexp="yes">["“”„]</token>
+                    <marker>
+                        <token>are</token>
+                    </marker>
+                </pattern>
+                <example correction="">By threatening private property rights and undermining the rule of law, the U.S. government's shakedown of Bayer, Reksulak and Shughart conclude, "<marker>are</marker> far more damaging than any single terrorist attack has ever been."</example>
+                <example correction="">"Where <marker>are</marker> their grandpa from?"</example>
+            </rule>
+            <rule>  <!-- here/there are + compound subject -->
+                <pattern>
+                    <token regexp="yes">t?here</token>
+                    <marker>
+                        <token>are</token>
+                    </marker>
+                    <token min="0" postag="RB" />
+                    <token chunk_re="B-NP.*" />
+                    <token min="0" max="2" chunk_re="I-NP.*" />
+                    <token chunk_re="E-NP.*" />
+                    <token>and</token>
+                    <token chunk_re="B-NP.*" />
+                </pattern>
+                <example correction="">There <marker>are</marker> also a All Star Cheerleader and We Cheer for the Wii in which one does routines at competitions with the Wiimote and Nunchuck.</example>
+            </rule>
             <rule>  <!-- which are -->
                 <pattern>
-                    <token chunk="E-NP-plural" />
-                    <token skip="8">are</token>
                     <token>which</token>
+                    <token min="0" postag="RB" />
                     <marker>
                         <token>are</token>
                     </marker>
                 </pattern>
                 <example correction="">In other deregulated markets such as New York and New England, prices are capped at $1000 per megawatt hour, which <marker>are</marker> intended to be low enough to prevent market abuse but high enough to give generators incentive to build new plants.</example>
                 <example correction="">In addition, the adjacent lands are of the same habitat types as that which <marker>are</marker> contained within the facility and therefore, would not be an issue of habitat loss.</example>
+                <example correction="">One of the stars is a flare star, which <marker>are</marker> prone to sudden, random outbursts that last several minutes; these increase the pair's apparent brightness significantly - as high as magnitude 7.</example>
+                <example correction="">The only larger species of raptor-like bird is the California Condor (Gymnogyps californianus), a New World vulture which today <marker>are</marker> not generally considered a taxonomic ally of true accipitrids.</example>
             </rule>
             <rule>  <!-- who/what are VBN -->
                 <pattern>
@@ -165,15 +191,26 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Even larger molecules are treated by classical mechanics methods that employ what <marker>are</marker> called molecular mechanics.</example>
             </rule>
-            <rule>  <!-- United States -->
+            <rule>  <!-- NNP are (could be ambiguous) -->
                 <pattern>
-                    <token case_sensitive="yes">United</token>
-                    <token case_sensitive="yes">States</token>
+                    <token postag="NNPS?" postag_regexp="yes" />
                     <marker>
                         <token>are</token>
                     </marker>
                 </pattern>
+                <example correction="">The Wu Xing <marker>are</marker> chiefly an ancient mnemonic device for systems with five stages; hence the preferred translation of "movements", "phases" or "steps" over "elements."</example>
+                <example correction="">Miss. White and Miss. Gardner <marker>are</marker> in charge of the decorating. </example>
                 <example correction="">The United States <marker>are</marker> a rogue state.</example>
+            </rule>
+            <rule>  <!-- the + capitalized -->
+                <pattern>
+                    <token>the</token>
+                    <token regexp="yes" case_sensitive="yes">[A-Z].*</token>
+                    <marker>
+                        <token>are</token>
+                    </marker>
+                </pattern>
+                <example correction="">I was open in saying that the Resolution <marker>are</marker> weak from a legal standpoint.</example>
             </rule>
             <rule>  <!-- British English / miscellaneous exceptions -->
                 <pattern>
@@ -187,6 +224,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">The government <marker>are</marker> being criticised from all sides.</example>
                 <example correction="">The measles <marker>are</marker> highly contagious.</example>
                 <example correction="">Some scholars rely on John 8:57: "thou <marker>are</marker> not yet fifty years old", making the earliest possible year for Jesus's birth c. 18 BC.</example>
+            </rule>
+            <rule>  <!-- following period or 'and' -->
+                <pattern>
+                    <token regexp="yes">\.|and</token>
+                    <marker>
+                        <token>are</token>
+                    </marker>
+                </pattern>
+                <example correction="">Inc. <marker>are</marker> higher on news that it saw an 86% increase in sales at its shopping site during the holiday season.</example>
+                <example correction="">Price said the new FASB rule applies to entities that report to the Securities Exchange Commission and <marker>are</marker> effective for fiscal years beginning after June 15, 2000, and Jan. 1, 2001, for companies reporting on a calendar year.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AI_HYDRA_LEO_CP_YOU_YOUR" name="">
