@@ -127,6 +127,7 @@ public class MorfologikMultiSpeller {
   private final Long userDictCacheSize;
   private final String userDictName;
   private final UserDictCacheKey userDictCacheKey;
+  private static final int MAX_SUGGESTIONS = 20;
 
   public MorfologikMultiSpeller(String binaryDictPath, List<String> plainTextPaths, String languageVariantPlainTextPath, int maxEditDistance) throws IOException {
     this(binaryDictPath, plainTextPaths, languageVariantPlainTextPath, null, maxEditDistance);
@@ -370,7 +371,7 @@ public class MorfologikMultiSpeller {
     for (WeightedSuggestion weightedSuggestion : result) {
       wordResults.add(weightedSuggestion.getWord());
     }
-    return wordResults;
+    return wordResults.subList(0, Math.min(MAX_SUGGESTIONS, result.size()));
   }
 
   /**
