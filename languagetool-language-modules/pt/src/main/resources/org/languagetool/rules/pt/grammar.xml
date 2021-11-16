@@ -2454,6 +2454,75 @@ Os que já vieram estão no salão.
     </rule>
   </rulegroup>
 
+	<!-- COME comer-->
+    <rule id='VERBO_INFINITIVO' name="Usar verbo no infinitivo" type="style" default="temp_off">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-11-16 (25-JUN-2021+)      -->
+	<!--
+Para reescreve o código levará mais tempo. → Para reescrever o código levará mais tempo.
+Quero come a fruta. → Quero comer a fruta.
+Para ele come a fruta. → Para ele comer a fruta.
+	-->
+      <pattern>
+		  <token negate_pos="yes" postag='SPS.+|PD.+|PP.+|DA.+|V.+|AQ.+|NC.+|I|PE.+|PR.+|PT.+|RG|CC|RN|CS' postag_regexp='yes'/>
+	      <or>
+			<token postag='VMIP.+' postag_regexp='yes'>
+				<exception postag_regexp='yes' postag='AQ.+|NC.+|RG|CS|DP.+'/>
+			</token>
+			<token regexp='no'>para</token>
+		  </or>
+		  <token min="0" max="1" regexp='yes'>el[ae]</token>
+		  <marker>
+			<token postag='VMM02S0' postag_regexp='no'>
+				<exception postag_regexp='yes' postag='RN|AQ.+|NC.+|NP.+|SPS.+|Z0.+|RG'/>
+			</token>
+		  </marker>
+		  <token negate_pos="yes" postag='Z0.+|DI.+' postag_regexp='yes'/>
+      </pattern>
+      <message>Use a forma verbal no infinitivo.</message>
+      <suggestion><match no='4' postag='VMN0000' postag_regexp="no" postag_replace='VMM02S0'/></suggestion>
+	  <example correction="comer">Quero <marker>come</marker> a fruta.</example>	  
+	  <example>Ele não é nada além de um tolo.</example>
+	  <example>Nós não podemos perguntar nada sobre idade ou problemas físicos.</example>
+	  <example>Bom dia, como vai?</example>
+	  <example>Eu não sei como ela suporta este barulho de jato.</example>
+	  <example>Aprendemos pela experiência que homens nunca aprendem nada pela experiência.</example>
+	  <example>O trabalho está pela metade.</example>
+	  <example>Não o vejo há anos.</example>
+	  <example>Quem o conhece gosta dele.</example>
+	  <example>Sua completa ignorância em relação ao acidente me surpreendeu. </example>
+	  <example>Esta bicicleta é minha. A sua está lá.</example>
+	  <example>Até mesmo cirurgia plástica não adiantaria para sua feiura.</example>
+	  <example>Esta máquina de escrever é sua?</example>
+	  <example>O clube tem trinta membros.</example>
+	  <example>Finja que a casa é sua.</example>
+	  <example>A praça está deserta.</example>	
+	  <example>Quem procura encontra.</example>
+	  <example>Quem cala consente.</example>
+	  <example>Além disto existe desde a independência a Universidade Católica de Angola , em Luanda.</example>
+	  <example>O topônimo Ceará tem vários significados, porém o mais conhecido e aceito significa, literalmente, canto da jandaia.</example>
+	  <example>Portanto, os gastos em produção sempre vêm antes dos gastos em consumo.</example>
+	  <example>Uma memória somente de leitura propriamente dita vem com seu conteúdo gravado durante a fabricação.</example>
+	  <example>Aquela bicicleta não é sua.</example>
+	  <example>Não fumo há muito tempo.</example>
+	  <example>Zoologia e botânica, sobre o enfoque filogenético, ganharam um dinamismo jamais visto antes.</example>
+	  <example>Não há duvida de que Tom envenenou Mary.</example>
+	  <example>Ele não come há três dias.</example>	  
+	  <example>Há quarenta alunos na nossa classe.</example>
+	  <example>Acontece quarenta dias após o Domingo de Páscoa.</example>
+	  <example>Tenho trinta anos.</example>
+	  <example>Faz trinta minutos que ela está esperando.</example>
+	  <example>Quarta-feira que vem começa a Semana Santa.</example>
+	  <example>A flor que Rosa tem no cabelo é natural.</example>
+	  <example>Aquilo que se usa ocorre no caso ablativo.</example>
+	  <example>O conceito intuitivo de massa que desenvolvemos encontra-se intimamente ligado a eles.</example> 
+	  <example>O "A" vem antes do "B" no alfabeto.</example>
+	  <example>Sara tem trinta e uma canetas.</example>
+	  <example>Paris fica antes de Berlin.</example>
+	  <example>O zero vem antes do um.</example>  
+	  <example>Aparentemente, o iPod nano tem um bom som.</example>
+	  <example>Paris tem um lugar privilegiado no âmbito artístico e cultural a nível mundial nos últimos séculos.</example>
+    </rule>
+
   <rulegroup id='A_APRENDIZ' name="Concordância de género: Variação de Género (p.ex. juiz/juíza)">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
     <rule>
