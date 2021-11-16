@@ -13330,6 +13330,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Vamos a emborracharnos todos esta noche.</example>
             <example>Queremos emborracharnos todos esta noche.</example>
         </rule>
+        <rule id="TODO_LO" name="concordancia: todo lo" default="temp_off">
+            <pattern>
+                <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
+                <token min="0" postag="SPS00"/>
+                <marker>
+                    <token regexp="yes">toda|todas|todos</token>
+                </marker>
+                <token>lo</token>
+                <token postag="NC.*|A.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Posible error de concordancia.</message>
+            <suggestion>todo</suggestion>
+            <example correction="todo">De <marker>toda</marker> lo grande que ha pasado.</example>
+            <example correction="Todo"><marker>Todos</marker> lo dulce me gusta.</example>
+        </rule>
         <rule id="TODA_EL_AGUA" name="toda el agua">
             <antipattern>
                 <token postag="SPS00"/>
@@ -13347,124 +13362,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="toda">No uses <marker>todo</marker> el agua.</example>
             <example>Casi todo el arte románico.</example>
         </rule>
-        <rulegroup id="AGREEMENT_TODO" name="concordancias: todo + sustantivo">
+        <rule id="TODO_MODO" name="concordancias: todo + sustantivo">
             <antipattern>
                 <token>sobre</token>
                 <token>todo</token>
             </antipattern>
-            <rule>
-                <!--<antipattern>
-                    <token>todos</token>
-                    <token>y</token>
-                    <token>todas</token>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">todo|toda</token>
-                    <token postag="V...3S." postag_regexp="yes"/>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">todos|todas</token>
-                    <token postag="V...3P." postag_regexp="yes"/>
-                </antipattern>
-                <antipattern>
-                    <token>lo</token>
-                    <token postag="V.*" postag_regexp="yes" max="3"/>
-                    <token>todo</token>
-                </antipattern>
-                <antipattern>
-                    <token postag="VS..3S." postag_regexp="yes"/>
-                    <token>todo</token>
-                    <token postag="NC.[SN].*" postag_regexp="yes"/>
-                </antipattern>
-                <antipattern>
-                    <token postag="VS..3P." postag_regexp="yes"/>
-                    <token>todo</token>
-                    <token postag="NC.[PN].*" postag_regexp="yes"/>
-                </antipattern>
-                <antipattern>
-                    <token>todo</token>
-                    <token postag="A..[MC][SN].*" postag_regexp="yes"/>
-                </antipattern>
-                <antipattern>
-                    <token>toda</token>
-                    <token postag="A..[FC][SN].*" postag_regexp="yes"/>
-                </antipattern>
-                <antipattern>
-                    <token>todos</token>
-                    <token postag="A..[MC][PN].*" postag_regexp="yes"/>
-                </antipattern>
-                <antipattern>
-                    <token>todas</token>
-                    <token postag="A..[FC][PN].*" postag_regexp="yes"/>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">de|por</token>
-                    <token regexp="yes">todos|todas</token>
-                    <token regexp="yes">conocido|sabido</token>
-                </antipattern>
-                <antipattern>
-                    <token inflected="yes">estudiar</token>
-                    <token regexp="yes">todos|todas</token>
-                </antipattern>
-                <antipattern>
-                    <token inflected="yes">desear</token>
-                    <token>a</token>
-                    <token regexp="yes">todos|todas</token>
-                </antipattern>-->
-                <pattern>
-                    <unify negate="yes">
-                        <feature id="numero"/>
-                        <feature id="genero"/>
-                        <token inflected="yes">todo<exception postag="_GN_.*" postag_regexp="yes"/></token>
-                        <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">modo|manera|forma|clase|tipo<exception postag="_IS_URL"/></token>
-                    </unify>
-                </pattern>
-                <message>Posible error de concordancia.</message>
-                <suggestion suppress_misspelled="yes">todo <match no="2" postag="NC.*" postag_regexp="yes" postag_replace="NC[MC][SN].*"/></suggestion>
-                <suggestion suppress_misspelled="yes">todos <match no="2" postag="NC.*" postag_regexp="yes" postag_replace="NC[MC][PN].*"/></suggestion>
-                <suggestion suppress_misspelled="yes">toda <match no="2" postag="NC.*" postag_regexp="yes" postag_replace="NC[FC][SN].*"/></suggestion>
-                <suggestion suppress_misspelled="yes">todas <match no="2" postag="NC.*" postag_regexp="yes" postag_replace="NC[FC][PN].*"/></suggestion>
-                <example correction="todo modo|todos modos">De <marker>todas modos</marker>, no me interesa.</example>
-                <example>Con el permiso de todos y todas deseo desahogar mi inquietud.</example>
-                <example>¿Son todas iguales?</example>
-                <example>Todo deporte.com</example>
-                <example>Todo marcha sobre ruedas.</example>
-                <example>Todo suma.</example>
-                <example>Todo vertical.</example>
-                <example>Se pone toda marrón.</example>
-                <example>Son todas iguales.</example>
-                <example>Y sobre todo ambición.</example>
-                <example>La vida no es todo cerveza y bolos.</example>
-                <example>Fue todo culpa suya.</example>
-                <example>Era todo falsedad.</example>
-                <example>Tom come sobre todo fruta y verdura.</example>
-                <example>No hagas caso, son todo pamplinas.</example>
-                <example>Mary os lo contará todo tarde o temprano.</example>
-                <example>¡Cambiar a nuestros Servidores WordPress son todo ventajas para tus proyectos!</example>
-                <example>Es de todos conocido su hábito.</example>
-                <example>Esos estudiantes están estudiando todos inglés.</example>
-                <example>Os deseamos a todos suerte en vuestro contacto.</example>
-            </rule>
-            <rule default="temp_off">
-                <pattern>
-                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
-                    <token min="0" postag="SPS00"/>
-                    <unify negate="yes">
-                        <feature id="numero"/>
-                        <feature id="genero"/>
-                        <marker>
-                            <token inflected="yes">todo</token>
-                        </marker>
-                        <token postag="D.*" postag_regexp="yes" inflected="yes">el</token>
-                        <token postag="NC.*" postag_regexp="yes"/>
-                    </unify>
-                </pattern>
-                <message>Posible error de concordancia.</message>
-                <suggestion><match no="4" postag="D..(..)." postag_regexp="yes" postag_replace="DI0$10">todo</match></suggestion>
-                <example correction="todas">De <marker>todos</marker> las cosas que han pasado.</example>
-                <example correction="Todas"><marker>Todos</marker> las cosas que han pasado.</example>
-            </rule>
-        </rulegroup>
+            <pattern>
+                <unify negate="yes">
+                    <feature id="numero"/>
+                    <feature id="genero"/>
+                    <token inflected="yes">todo<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                    <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">modo|manera|forma|clase|tipo<exception postag="_IS_URL"/></token>
+                </unify>
+            </pattern>
+            <message>Posible error de concordancia.</message>
+            <suggestion suppress_misspelled="yes">todo <match no="2" postag="NC.*" postag_regexp="yes" postag_replace="NC[MC][SN].*"/></suggestion>
+            <suggestion suppress_misspelled="yes">todos <match no="2" postag="NC.*" postag_regexp="yes" postag_replace="NC[MC][PN].*"/></suggestion>
+            <suggestion suppress_misspelled="yes">toda <match no="2" postag="NC.*" postag_regexp="yes" postag_replace="NC[FC][SN].*"/></suggestion>
+            <suggestion suppress_misspelled="yes">todas <match no="2" postag="NC.*" postag_regexp="yes" postag_replace="NC[FC][PN].*"/></suggestion>
+            <example correction="todo modo|todos modos">De <marker>todas modos</marker>, no me interesa.</example>
+            <example>Con el permiso de todos y todas deseo desahogar mi inquietud.</example>
+            <example>¿Son todas iguales?</example>
+            <example>Todo deporte.com</example>
+            <example>Todo marcha sobre ruedas.</example>
+            <example>Todo suma.</example>
+            <example>Todo vertical.</example>
+            <example>Se pone toda marrón.</example>
+            <example>Son todas iguales.</example>
+            <example>Y sobre todo ambición.</example>
+            <example>La vida no es todo cerveza y bolos.</example>
+            <example>Fue todo culpa suya.</example>
+            <example>Era todo falsedad.</example>
+            <example>Tom come sobre todo fruta y verdura.</example>
+            <example>No hagas caso, son todo pamplinas.</example>
+            <example>Mary os lo contará todo tarde o temprano.</example>
+            <example>¡Cambiar a nuestros Servidores WordPress son todo ventajas para tus proyectos!</example>
+            <example>Es de todos conocido su hábito.</example>
+            <example>Esos estudiantes están estudiando todos inglés.</example>
+            <example>Os deseamos a todos suerte en vuestro contacto.</example>
+        </rule>
         <rulegroup id="AGREEMENT_PARTICULAR_CASES" name="otros casos de concordancia">
             <rule id="LAS_NUMBER_MALE" name="'las tres preceptos' etcétera">
                 <pattern>
