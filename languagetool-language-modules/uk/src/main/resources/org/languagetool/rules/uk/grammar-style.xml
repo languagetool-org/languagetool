@@ -2515,43 +2515,72 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rulegroup>
 
 
-    <rule id="DAVAITE_VERB" name="Давайте замість нумо">
-      <antipattern>
-        <token regexp="yes">та|й|і</token>
-        <token>давай</token>
-        <token postag_regexp="yes" postag="verb(:rev)?:imperf:inf.*"/>
-      </antipattern>
-      <pattern>
-        <marker>
-          <token regexp="yes">давай(те)?</token>
-          <token min="0">не</token>
-          <token postag_regexp="yes" postag="verb(:rev)?:imperf:inf(?!:arch:short).*|verb(:rev)?:perf:futr:p:1.*"/>
-        </marker>
-      </pattern>
-      <message>Щоб висловити заклик до спільної дії, варто вживати наказову форму дієслова</message>
-      <suggestion><match no="2"/> <match no="3" postag_regexp="yes" postag="(verb.*?):(?:futr:p:1(?::subst)?|inf(?::&amp;insert)?)(.*?)" postag_replace="$1:impr:p:1$2(?!.*:(coll|bad)).*"/></suggestion>
-      <suggestion>нумо <match no="2"/> <match no="3" postag_regexp="yes" postag="(verb.*?):(?:futr:p:1(?::subst)?|inf(?::&amp;insert)?)(.*)" postag_replace="$1:impr:p:1$2(?!.*:(coll|bad)).*"/></suggestion>
-      <url>http://r2u.org.ua/node/216</url>
-      <example correction="Заспіваймо|Нумо заспіваймо"><marker>Давайте заспіваємо</marker></example>
-      <example correction="Скажім|Скажімо|Нумо скажім|Нумо скажімо">«<marker>Давайте скажемо</marker> чесно, що сьогодні ми в Україні не можемо</example>
-      <example correction="Граймо|Нумо граймо"><marker>Давай грати</marker> чесно...</example>
-      <example correction="Пройдімось|Пройдімося|Пройдімся|Нумо пройдімось|Нумо пройдімося|Нумо пройдімся"><marker>Давайте пройдемося</marker></example>
-      <example correction="вчімось|вчімося|вчімся|нумо вчімось|нумо вчімося|нумо вчімся">Тому <marker>давайте вчитися</marker> разом</example>
-      <example correction="скажім|скажімо|нумо скажім|нумо скажімо">Тому <marker>давайте скажем</marker> так</example>
-      <example correction="оформмо|нумо оформмо">Тому <marker>давай оформимо</marker> стосунки</example>
-      <example correction="знаймо|нумо знаймо"><marker>давайте знати</marker> про свої права</example>
-      <example correction="Не граймо|Нумо не граймо"><marker>Давай не грати</marker> чесно...</example>
-      <!--
-      <example correction="катаймось|катаймося|катайсь|катайся|катайтесь|катайтеся|нумо катаймось|нумо катаймося|нумо катайсь|нумо катайся|нумо катайтесь|нумо катайтеся"><marker>давайте кататися</marker></example>
-      <example correction="Дивись|Дивися|Дивімось|Дивімося|Дивімся|Дивіться|Нумо диви|Нумо дивись|Нумо дивися|Нумо дивімось|Нумо дивімося|Нумо дивімся|Нумо дивіться"><marker>Давайте дивитися</marker>.</example>
-      -->
-      <example>Давайте горілку</example>
-      <example>Давайте будем знов сміятись</example>
-      <example>Давай оброблятиму тобі землю</example>
-      <example>накидав зверху каміння та давай носити воду</example>
-      <!-- перев. рос. слова -->
-      <example>давайте ронять слова</example>
-    </rule>
+    <rulegroup id="DAVAITE_VERB" name="Давайте замість нумо">
+      <rule>
+        <antipattern>
+          <token regexp="yes">та|й|і</token>
+          <token>давай</token>
+          <token postag_regexp="yes" postag="verb(:rev)?:imperf:inf.*"/>
+        </antipattern>
+        <pattern>
+          <marker>
+            <token regexp="yes">давай(те)?</token>
+            <token postag_regexp="yes" postag="verb(:rev)?:imperf:inf(?!:arch:short).*"/>
+          </marker>
+        </pattern>
+        <message>Щоб висловити заклик до спільної дії, рекомендують вживати наказову форму дієслова</message>
+        <suggestion><match no="2" postag_regexp="yes" postag="(verb.*?):inf(?::&amp;insert)?(.*?)" postag_replace="$1:impr:p:1$2(?!.*:(coll|bad)).*"/></suggestion>
+        <suggestion>нумо <match no="3"/></suggestion>
+        <url>http://r2u.org.ua/node/216</url>
+        <example correction="Граймо|Нумо грати"><marker>Давай грати</marker> чесно...</example>
+        <example correction="вчімось|вчімося|вчімся|нумо вчитися">Тому <marker>давайте вчитися</marker> разом</example>
+        <example correction="знаймо|нумо знати"><marker>давайте знати</marker> про свої права</example>
+        <example correction="катаймось|катаймося|нумо кататися"><marker>давайте кататися</marker></example>
+        <example correction="Дивімось|Дивімося|Дивімся|Нумо дивитися"><marker>Давайте дивитися</marker>.</example>
+        <example>Давайте горілку</example>
+        <example>Давайте будем знов сміятись</example>
+        <example>Давай оброблятиму тобі землю</example>
+        <example>накидав зверху каміння та давай носити воду</example>
+        <!-- перев. рос. слова -->
+        <example>давайте ронять слова</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">давай(те)?</token>
+            <token postag_regexp="yes" postag="verb(:rev)?:perf:futr:p:1.*"/>
+          </marker>
+        </pattern>
+        <message>Щоб висловити заклик до спільної дії, рекомендують вживати наказову форму дієслова</message>
+        <suggestion><match no="2" postag_regexp="yes" postag="(verb.*?):futr:p:1(?::subst)?(.*?)" postag_replace="$1:impr:p:1$2(?!.*:(coll|bad)).*"/></suggestion>
+        <url>http://r2u.org.ua/node/216</url>
+        <example correction="Заспіваймо"><marker>Давайте заспіваємо</marker></example>
+        <example correction="Скажім|Скажімо">«<marker>Давайте скажемо</marker> чесно, що сьогодні ми в Україні не можемо</example>
+        <example correction="Пройдімось|Пройдімося|Пройдімся"><marker>Давайте пройдемося</marker></example>
+        <example correction="скажім|скажімо">Тому <marker>давайте скажем</marker> так</example>
+        <example correction="оформмо">Тому <marker>давай оформимо</marker> стосунки</example>
+        <example>Давайте горілку</example>
+        <example>Давайте будем знов сміятись</example>
+        <example>Давай оброблятиму тобі землю</example>
+        <example>накидав зверху каміння та давай носити воду</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">давай(те)?</token>
+            <token>не</token>
+            <token postag_regexp="yes" postag="verb(:rev)?:(imperf:inf(?!:arch:short)|perf:futr:p:1).*"/>
+          </marker>
+        </pattern>
+        <message>Щоб висловити заклик до спільної дії, рекомендують вживати наказову форму дієслова</message>
+        <suggestion><match no="2"/> <match no="3" postag_regexp="yes" postag="(verb.*?):(?:inf(?!:arch:short)|futr:p:1)(.*?)" postag_replace="$1:impr:p:1$2(?!.*:(coll|bad)).*"/></suggestion>
+        <url>http://r2u.org.ua/node/216</url>
+        <example correction="Не граймо"><marker>Давай не грати</marker> нечесно...</example>
+        <example correction="Не пустім|Не пустімо"><marker>Давай не пустимо</marker> їх...</example>
+      </rule>
+    </rulegroup>
 
 
     <rule id="verb_short" name="Вкорочені форми дієслів">
