@@ -30,7 +30,7 @@ import org.languagetool.tools.StringTools;
 
 public class AddCommasFilter extends RuleFilter {
   
-  private static final Pattern OPENING_QUOTES = Pattern.compile("[«“\"‘'„]", Pattern.DOTALL);
+  private static final Pattern OPENING_QUOTES = Pattern.compile("[«“\"‘'„¿¡]", Pattern.DOTALL);
   
   
   @Override
