@@ -471,6 +471,7 @@ public class English extends Language implements AutoCloseable {
       case "COMMA_COMPOUND_SENTENCE":   return -1;  // prefer other rules
       case "COMMA_COMPOUND_SENTENCE_2": return -1;  // prefer other rules
       case "REPEATED_VERBS":            return -1;  // prefer other rules
+      case "THE_CC":                    return -2;  // prefer other more specific rules (with suggestions)
       case "PRP_RB_NO_VB":              return -2;  // prefer other more specific rules (with suggestions)
       case "PRP_VBG":                   return -2;  // prefer other more specific rules (with suggestions, prefer over HE_VERB_AGR)
       case "PRP_VBZ":                   return -2;  // prefer other more specific rules (with suggestions)

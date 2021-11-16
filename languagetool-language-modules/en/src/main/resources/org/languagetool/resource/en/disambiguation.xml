@@ -6909,6 +6909,14 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token regexp="yes">me|it|them|us|you|her|him</token>
             <token postag="NN:UN" postag_regexp="yes" chunk_re=".-NP.*" />
         </antipattern>
+        <antipattern>
+            <token postag="CC|W.*|SENT_START|PCT" postag_regexp="yes" />
+            <token inflected="yes">be</token>
+            <token postag="PRP" />
+            <token postag="NN:UN" postag_regexp="yes" />
+            <token postag="RB" min="0" />
+            <token postag="VB[GN]" postag_regexp="yes" />
+        </antipattern>
         <pattern>
             <token postag="PRP">
                 <exception postag="RB|PRP\$" postag_regexp="yes"/>
@@ -6935,6 +6943,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Incorrect grammar. I have added that to <marker>me list</marker>.</example>
         <example type="untouched">Incorrect grammar. She is thee <marker>mother</marker> of them.</example>
         <example type="untouched">Incorrect grammar. You can give me doctor's number.</example>
+        <example type="untouched">Incorrect grammar. Is you question perhaps related to this one?</example>
         <example type="untouched">For the US company's reporting.</example>
         <example type="untouched">Spacing the plants three feet apart allows them room to grow.</example><!-- #2919 -->
         <example type="untouched">IT lead for PIMS is David Rae.</example><!-- #3900 lead/B-VP -->
@@ -7661,6 +7670,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="MD" />
             <token postag="VB" />
         </antipattern>
+        <antipattern>
+            <token postag="SENT_START" />
+            <token postag="VB" />
+            <token regexp="yes" case_sensitive="yes">[Ii]t|[Mm]e|[Tt]hem|[Hh]im|[Uu]s|[Hh]er</token>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -7762,6 +7776,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">... and usually, the sick hope to become well.</example><!-- #2528 -->
         <example type="untouched">Play it smart.</example><!-- #2522 -->
         <example type="untouched">Play it cool.</example>
+        <example type="untouched">Use It Act.</example>
         <example type="untouched">We further wish to do it again.</example>
         <example type="untouched">Currently we email and share the stuff.</example><!-- #2539 -->
         <example type="untouched">Incorrect grammar: It sound's good.</example><!-- needed for VERB_APOSTROPHE_S -->
