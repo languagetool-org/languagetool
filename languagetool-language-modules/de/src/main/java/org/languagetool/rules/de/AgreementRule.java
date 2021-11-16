@@ -278,6 +278,10 @@ public class AgreementRule extends Rule {
 
       if ((hasReadingOfType(tokenReadings, POSType.DETERMINER) || relevantPronoun) && !ignore) {
         int tokenPosAfterModifier = getPosAfterModifier(i+1, tokens);
+        String skippedStr = null;
+        if (tokenPosAfterModifier > i+1) {
+          skippedStr = sentence.getText().substring(tokens[i+1].getStartPos(), tokens[tokenPosAfterModifier-1].getEndPos());
+        }
         int tokenPos = tokenPosAfterModifier;
         if (tokenPos >= tokens.length) {
           break;
@@ -303,7 +307,7 @@ public class AgreementRule extends Rule {
             }
             boolean allowSuggestion = tokenPos == i + 2;  // prevent incomplete suggestion for e.g. "einen 142 Meter hoher Obelisken" (-> "einen hohen Obelisken")
             RuleMatch ruleMatch = checkDetAdjNounAgreement(maybePreposition, tokens[i],
-                nextToken, tokens[tokenPos], sentence, i, allowSuggestion ? replMap : null);
+                nextToken, tokens[tokenPos], sentence, i, allowSuggestion ? replMap : null, skippedStr);
             if (ruleMatch != null) {
               ruleMatches.add(ruleMatch);
             }
@@ -560,7 +564,8 @@ public class AgreementRule extends Rule {
   }
 
   private RuleMatch checkDetAdjNounAgreement(AnalyzedTokenReadings maybePreposition, AnalyzedTokenReadings token1,
-                                             AnalyzedTokenReadings token2, AnalyzedTokenReadings token3, AnalyzedSentence sentence, int tokenPos, Map<Integer, ReplacementType> replMap) {
+                                             AnalyzedTokenReadings token2, AnalyzedTokenReadings token3, AnalyzedSentence sentence,
+                                             int tokenPos, Map<Integer, ReplacementType> replMap, String skippedStr) {
     // TODO: remove (token3 == null || token3.getToken().length() < 2)
     // see Daniel's comment from 20.12.2016 at https://github.com/languagetool-org/languagetool/issues/635
     if (token3 == null || token3.getToken().length() < 2) {
@@ -593,9 +598,10 @@ public class AgreementRule extends Rule {
         return null;
       }
       ruleMatch = new RuleMatch(this, sentence, token1.getStartPos(), token3.getEndPos(), MSG, SHORT_MSG);
-      if (returnSuggestions && replMap != null) {
-        AgreementSuggestor2 suggestor = new AgreementSuggestor2(language.getSynthesizer(), token1, token2, token3, replMap.get(tokenPos));
+      if (returnSuggestions) {
+        AgreementSuggestor2 suggestor = new AgreementSuggestor2(language.getSynthesizer(), token1, token2, token3, replMap != null ? replMap.get(tokenPos) : null);
         suggestor.setPreposition(maybePreposition);
+        suggestor.setSkipped(skippedStr);
         ruleMatch.setSuggestedReplacements(suggestor.getSuggestions(true));
       }
     }

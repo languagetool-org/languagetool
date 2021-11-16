@@ -64,6 +64,7 @@ class AgreementSuggestor2 {
   private final String origPhrase;
 
   private AnalyzedTokenReadings prepositionToken;
+  private String skippedStr;
 
   AgreementSuggestor2(Synthesizer synthesizer, AnalyzedTokenReadings determinerToken, AnalyzedTokenReadings nounToken,
                       AgreementRule.ReplacementType replacementType) {
@@ -91,6 +92,10 @@ class AgreementSuggestor2 {
 
   void setPreposition(AnalyzedTokenReadings prep) {
     this.prepositionToken = prep;
+  }
+
+  public void setSkipped(String skippedStr) {
+    this.skippedStr = skippedStr;
   }
 
   List<String> getSuggestions() {
@@ -307,6 +312,9 @@ class AgreementSuggestor2 {
         for (String adj2SynthesizedElem : adj2Synthesized) {
           for (String nounSynthesizedElem : nounSynthesized) {
             String elem = detSynthesizedElem;
+            if (skippedStr != null) {
+              elem += " " + skippedStr;
+            }
             if (!adj1SynthesizedElem.isEmpty()) {
               elem += " " + adj1SynthesizedElem;
             }

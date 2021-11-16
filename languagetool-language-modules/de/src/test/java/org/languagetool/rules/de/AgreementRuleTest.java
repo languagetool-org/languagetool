@@ -459,7 +459,7 @@ public class AgreementRuleTest {
     assertBad("Ich gebe dir das kleinen Kaninchen.");
     assertBad("Ich gebe dir das kleinem Kaninchen.");
     assertBad("Ich gebe dir das kleiner Kaninchen.");
-    assertBadWithNoSuggestion("Geprägt ist der Platz durch einen 142 Meter hoher Obelisken");
+    assertBad("Geprägt ist der Platz durch einen 142 Meter hoher Obelisken", "einen 142 Meter hohen Obelisken");
     //assertBad("Ich gebe dir das kleines Kaninchen.");  // already detected by ART_ADJ_SOL
     //assertBad("Ich gebe dir das klein Kaninchen.");  // already detected by MEIN_KLEIN_HAUS
     assertGood("Ich gebe dir das kleine Kaninchen.");
@@ -628,8 +628,8 @@ public class AgreementRuleTest {
     assertBad("An der rote Ampel.");
     assertBad("An der rotes Ampel.");
     assertBad("An der rotem Ampel.");
-    assertBad("Er hatte ihn aus dem 1,4 Meter tiefem Wasser gezogen.");
-    assertBad("Er hatte ihn aus dem 1,4 Meter tiefem Wasser gezogen.");
+    assertBad("Er hatte ihn aus dem 1,4 Meter tiefem Wasser gezogen.", "dem 1,4 Meter tiefen Wasser");
+    assertBad("Das ist ein sehr schönes Tisch.", "ein sehr schöner Tisch");
     assertBad("Er hatte eine sehr schweren Infektion.");
     assertBad("Ein fast 5 Meter hohem Haus.");
     assertBad("Ein fünf Meter hohem Haus.");
