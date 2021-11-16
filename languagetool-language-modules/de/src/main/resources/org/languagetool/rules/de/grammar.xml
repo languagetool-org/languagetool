@@ -2853,7 +2853,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>&typo;</short>
             <example correction="Dank">Vielen <marker>Dan</marker> für die Blumen.</example>
         </rule>
-        <rule id="ZIEGEN_ZEIGEN" name="Ziegen/Zeigen" default="temp_off">
+        <rule id="ZIEGEN_ZEIGEN" name="Ziegen/Zeigen">
             <pattern>
                 <token postag="SENT_START"/>
                     <marker>
@@ -9205,8 +9205,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Lied">Das war das Ende vom <marker>Lid</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="LEBEN_LIEBEN" name="leben/lieben"  default="temp_off">
+        <rulegroup id="LEBEN_LIEBEN" name="leben/lieben">
             <rule>
+                <antipattern>
+                    <token postag="PKT"/>
+                    <token case_sensitive="yes">lebt</token>
+                    <token case_sensitive="yes">ihn</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token case_sensitive="yes" inflected="yes">leben</token>
@@ -9216,6 +9221,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>&verw;Meinten Sie <suggestion><match no="1" regexp_match="leb" regexp_replace="lieb"/></suggestion>?</message>
                 <short>&verw;</short>
                 <example correction="liebe">Ich <marker>lebe</marker> dich.</example>
+                <example>Wer in diesem Überfluss aufwächst, lebt ihn ziemlich sicher auch den eigenen Kindern vor.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AUFGEWASCHEN" name="aufgewaschen (aufgewachsen)">
@@ -42385,7 +42391,7 @@ Andere Projekte</example>
                 <example><marker>Schwarz auf weiß</marker> steht es hier.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ROT_GEFAERBT" name="Rot gefärbt (rot gefärbt)" default="temp_off">
+        <rulegroup id="ROT_GEFAERBT" name="Rot gefärbt (rot gefärbt)">
             <rule>
                 <antipattern>
                     <token regexp="yes">in|auf|mit|Farbe</token>
