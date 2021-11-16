@@ -67,7 +67,6 @@ public class AgreementRule extends Rule {
   private final Supplier<List<DisambiguationPatternRule>> antiPatterns;
 
   private JLanguageTool lt;
-  private boolean returnSuggestions = true;
 
   enum GrammarCategory {
     KASUS("Kasus (Fall: Wer/Was, Wessen, Wem, Wen/Was - Beispiel: 'das Fahrrads' statt 'des Fahrrads')"),
@@ -231,10 +230,6 @@ public class AgreementRule extends Rule {
     return map;
   }
 
-  void disableSuggestions() {
-    returnSuggestions = false;
-  }
-  
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
@@ -448,11 +443,9 @@ public class AgreementRule extends Rule {
       } catch (MalformedURLException e) {
         throw new RuntimeException(e);
       }*/
-      if (returnSuggestions) {
-        AgreementSuggestor2 suggestor = new AgreementSuggestor2(language.getSynthesizer(), token1, token2, replMap.get(tokenPos));
-        suggestor.setPreposition(maybePreposition);
-        ruleMatch.setSuggestedReplacements(suggestor.getSuggestions(true));
-      }
+      AgreementSuggestor2 suggestor = new AgreementSuggestor2(language.getSynthesizer(), token1, token2, replMap.get(tokenPos));
+      suggestor.setPreposition(maybePreposition);
+      ruleMatch.setSuggestedReplacements(suggestor.getSuggestions(true));
     }
     return ruleMatch;
   }
@@ -598,12 +591,10 @@ public class AgreementRule extends Rule {
         return null;
       }
       ruleMatch = new RuleMatch(this, sentence, token1.getStartPos(), token3.getEndPos(), MSG, SHORT_MSG);
-      if (returnSuggestions) {
-        AgreementSuggestor2 suggestor = new AgreementSuggestor2(language.getSynthesizer(), token1, token2, token3, replMap != null ? replMap.get(tokenPos) : null);
-        suggestor.setPreposition(maybePreposition);
-        suggestor.setSkipped(skippedStr);
-        ruleMatch.setSuggestedReplacements(suggestor.getSuggestions(true));
-      }
+      AgreementSuggestor2 suggestor = new AgreementSuggestor2(language.getSynthesizer(), token1, token2, token3, replMap != null ? replMap.get(tokenPos) : null);
+      suggestor.setPreposition(maybePreposition);
+      suggestor.setSkipped(skippedStr);
+      ruleMatch.setSuggestedReplacements(suggestor.getSuggestions(true));
     }
     return ruleMatch;
   }
@@ -623,7 +614,7 @@ public class AgreementRule extends Rule {
         return null;
       }
       ruleMatch = new RuleMatch(this, sentence, token1.getStartPos(), token4.getEndPos(), MSG2, SHORT_MSG);
-      if (returnSuggestions && replMap != null) {
+      if (replMap != null) {
         AgreementSuggestor2 suggestor = new AgreementSuggestor2(language.getSynthesizer(), token1, token2, token3, token4, replMap.get(tokenPos));
         suggestor.setPreposition(maybePreposition);
         ruleMatch.setSuggestedReplacements(suggestor.getSuggestions(true));
