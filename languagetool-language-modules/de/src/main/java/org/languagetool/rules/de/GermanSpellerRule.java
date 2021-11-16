@@ -1398,6 +1398,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         && !s.matches("[\\wöäüÖÄÜß]+- [\\wöäüÖÄÜß]+")   // e.g. "Pseudo- Rebellentum"
         && !s.matches("[\\wöäüÖÄÜß]+ -[\\wöäüÖÄÜß]+")   // e.g. "ALT -TARIF"
         && !s.endsWith("-s")   // https://github.com/languagetool-org/languagetool/issues/4042
+        && !s.endsWith(" de")   // https://github.com/languagetool-org/languagetool/issues/4042
         && !s.matches("[a-zöäüß] .+")
         && !s.matches(".+ [a-zöäüß]");  // z.B. nicht "rauchen e" für "rauche ne" vorschlagen
   }

@@ -106,6 +106,10 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
     "würdest du dich vorstellen", // vs dir
     "daten wir über", // "welche Daten wir über unsere Nutzer erfassen"
     "anders seht", // falls ihr das anders seht (weht)
+    "weit fallendem", // vs weiht
+    "weit fallenden", // vs weiht
+    "weit fallendes", // vs weiht
+    "weit fallende", // vs weiht
     "wir ja." // vs wie
   );
 
