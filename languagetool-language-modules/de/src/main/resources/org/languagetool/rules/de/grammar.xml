@@ -55757,6 +55757,55 @@ Andere Projekte</example>
                 <example><marker>Um sich umzuziehen,</marker> ging sie nach Hause.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="KOMMA_INFINITIVGRUPPE_II" name="Komma nach Adjektiv oder Partizip" default="temp_off">
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">machen|stimmen</token>
+                    <token postag="PRO:REF:.+" postag_regexp="yes"/>
+                    <marker><token postag="ADJ:PRD:GRU"><exception postag="ADV.*" postag_regexp="yes"/></token></marker>
+                    <token skip="5" postag="PRO:.+" postag_regexp="yes"></token>
+                    <token>zu</token>
+                    <token postag="VER:INF:.+" postag_regexp="yes"/>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>Wenn eine Infinitivgruppe mit '\1 \2 \3' eingeleitet wird, muss ein Komma gesetzt werden.</message>
+                <suggestion>\3,</suggestion>
+                <example correction="traurig,">Es machte mich <marker>traurig</marker> ihn so zu sehen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">sein</token>
+                    <token>es</token>
+                    <token min="0">nicht</token>
+                    <marker><token>gewohnt</token></marker>
+                    <token skip="5"><exception>,</exception></token>
+                    <token>zu</token>
+                    <token postag="VER:INF:.+" postag_regexp="yes"/>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>Wenn eine Infinitivgruppe mit '\4' eingeleitet wird, muss ein Komma gesetzt werden.</message>
+                <suggestion>\4,</suggestion>
+                <example correction="gewohnt,">Er ist es nicht <marker>gewohnt</marker> hart zu arbeiten.</example>
+                <example correction="gewohnt,">Wir sind es <marker>gewohnt</marker> hart zu arbeiten.</example>
+                <example>Er ist es nicht <marker>gewohnt,</marker> hart zu arbeiten.</example>
+                <example>Wir sind es <marker>gewohnt,</marker> hart zu arbeiten.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">sein</token>
+                    <token>es</token>
+                    <token min="0">nicht</token>
+                    <marker><token>gewohnt</token></marker>
+                    <token skip="5"><exception>,</exception></token>
+                    <token postag="VER:EIZ:.+" postag_regexp="yes"/>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>Wenn eine Infinitivgruppe mit '\4' eingeleitet wird, muss ein Komma gesetzt werden.</message>
+                <suggestion>\4,</suggestion>
+                <example correction="gewohnt,">Er ist es nicht <marker>gewohnt</marker> hungrig einzuschlafen.</example>
+                <example>Er ist es nicht <marker>gewohnt,</marker> hungrig einzuschlafen.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="KOMMAFEHLER" name="Fehler in der Kommasetzung">
             <url>https://www.duden.de/sprachwissen/rechtschreibregeln/komma</url>
             <rule id="KOMMA_VOR_SONDERN" name="Komma vor 'sondern'">
