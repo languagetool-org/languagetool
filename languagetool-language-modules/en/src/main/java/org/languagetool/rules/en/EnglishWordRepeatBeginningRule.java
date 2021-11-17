@@ -22,14 +22,13 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.WordRepeatBeginningRule;
-import org.languagetool.tools.StringTools;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 /**
  * Adds a list English adverbs to {@link WordRepeatBeginningRule}.
- * 
+ *
  * @author Markus Brenneis
  */
 public class EnglishWordRepeatBeginningRule extends WordRepeatBeginningRule {
@@ -45,7 +44,7 @@ public class EnglishWordRepeatBeginningRule extends WordRepeatBeginningRule {
     return "ENGLISH_WORD_REPEAT_BEGINNING_RULE";
   }
   
-  	//==================== ADVERBS ======================
+  //==================== ADVERBS ======================
   
 	// adverbs used to add to what the previous sentence mentioned
 	private static final Set<String> ADD_ADVERBS = new HashSet<>();
@@ -84,11 +83,10 @@ public class EnglishWordRepeatBeginningRule extends WordRepeatBeginningRule {
 		EMPHASIS_ADVERBS.add("Clearly");
 		EMPHASIS_ADVERBS.add("Importantly");
 		EMPHASIS_ADVERBS.add("Absolutely");
-		EMPHASIS_ADVERBS.add("Definetely");
+		EMPHASIS_ADVERBS.add("Definitely");
 		EXPLAIN_ADVERBS.add("Particularly");
 		EXPLAIN_ADVERBS.add("Especially");
 		EXPLAIN_ADVERBS.add("Specifically");
-
 	}
 
 	@Override
