@@ -169,6 +169,13 @@ class AgreementRuleAntiPatterns1 {
       posRegex("SUB:.*SIN:.*"),
       token("sind|seien|waren")
     ),
+    // Die Gattungen der früher eigenständigen Familie Damasoniaceae Nakai 
+    Arrays.asList(
+      tokenRegex("die|der|den"),
+      tokenRegex("früher"),
+      tokenRegex("[a-zäöüß]+en"),
+      posRegex("SUB.+(FEM|PLU).*")
+    ),
     Arrays.asList(
       tokenRegex("die|der|den"),  // "die späten 50er Jahre"
       tokenRegex("frühen|späten"),  // "die späten 50er Jahre"
@@ -827,6 +834,27 @@ class AgreementRuleAntiPatterns1 {
     Arrays.asList(
       token("Außenring"),
       token("Autobahn")
+    ),
+    Arrays.asList(
+      tokenRegex("Senior|Junior"),
+      tokenRegex("Leaders?"),
+      tokenRegex("Days?")
+    ),
+    Arrays.asList(
+      // ich habe meine Projektidee (die riesiges finanzielles Potenzial hat) an einen Unternehmenspräsidenten geschickt
+      posRegex("SUB.*(FEM|PLU).*|EIG.*FEM.*|UNKNOWN"),
+      token("("),
+      token("die")
+    ),
+    Arrays.asList(
+      posRegex("SUB.*MAS.*|EIG.*MAS.*|UNKNOWN"),
+      token("("),
+      token("de[rm]")
+    ),
+    Arrays.asList(
+      posRegex("SUB.*NEU.*|EIG.*NEU.*|UNKNOWN"),
+      token("("),
+      token("das")
     ));
 
 }

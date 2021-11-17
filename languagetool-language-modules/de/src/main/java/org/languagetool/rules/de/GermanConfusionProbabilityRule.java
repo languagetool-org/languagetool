@@ -110,6 +110,7 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
     "weit fallenden", // vs weiht
     "weit fallendes", // vs weiht
     "weit fallende", // vs weiht
+    "weit fallender", // vs weiht
     "wir ja." // vs wie
   );
 

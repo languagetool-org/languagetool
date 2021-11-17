@@ -170,6 +170,7 @@ public class AgreementRule extends Rule {
     "Piepen", // Die Piepen
     "Badlands",
     "Visual", // englisch
+    "Special", // englisch
     "Chief", // Chief Executive Officer
     "Carina", // Name
     "Wüstenrot", // Name
