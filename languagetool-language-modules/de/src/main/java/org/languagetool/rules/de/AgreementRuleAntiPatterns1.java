@@ -36,6 +36,13 @@ class AgreementRuleAntiPatterns1 {
       posRegex("SUB:.*")
     ),
     Arrays.asList(
+      tokenRegex("der|die|das"),   // "die [daraus] jedem zukommende Freiheit", "im Lichte der diesem zukommenden Repräsentationsaufgabe"
+      new PatternTokenBuilder().posRegex("ADV:.*").min(0).build(),
+      tokenRegex("jedem|diesem"),
+      posRegex("PA1:.*"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(
       tokenRegex("spendet|macht"),  // "Macht dir das Hoffnung?"
       tokenRegex("mir|euch|dir|uns|ihnen"),
       token("das"),

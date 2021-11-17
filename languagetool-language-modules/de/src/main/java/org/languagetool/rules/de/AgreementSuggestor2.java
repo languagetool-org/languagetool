@@ -46,6 +46,7 @@ class AgreementSuggestor2 {
     "PRO:IND:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU:B/S"
   );
   private final static String adjTemplate = "ADJ:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU:GRU:IND/DEF";
+  private final static String pa1Template = "PA1:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU:GRU:IND/DEF:VER";
   private final static String pa2Template = "PA2:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU:GRU:IND/DEF:VER";
   private final static List<String> nounTemplates = Arrays.asList(
     "SUB:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU",
@@ -261,7 +262,14 @@ class AgreementSuggestor2 {
           continue;
         }
         boolean detIsDef = detReading.getPOSTag().contains(":DEF:") || detReading.getToken().equals("ins");
-        String template = adjReading.getPOSTag().startsWith("PA2") ? pa2Template : adjTemplate;
+        String template;
+        if (adjReading.getPOSTag().startsWith("PA1")) {
+          template = pa1Template;
+        } else if (adjReading.getPOSTag().startsWith("PA2")) {
+          template = pa2Template;
+        } else {
+          template = adjTemplate;
+        }
         if (adjReading.getPOSTag().contains(":KOM:")) {
           template = template.replace(":GRU:", ":KOM:");
         } else if (adjReading.getPOSTag().contains(":SUP:")) {

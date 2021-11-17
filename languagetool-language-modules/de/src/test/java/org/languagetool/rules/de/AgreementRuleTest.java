@@ -620,8 +620,12 @@ public class AgreementRuleTest {
     assertGood("Ich besitze ein Modell aus der 300er Reihe.");
     assertGood("Aber ansonsten ist das erste Sahne");
     assertGood("...damit diese ausreichend Sauerstoff geben.");
+    assertGood("...als auch die jedem zukommende Freiheit.");
+    assertGood("...als auch die daraus jedem zukommende Freiheit.");
 
     // incorrect sentences:
+    assertBad("Er hatte ein anstrengenden Tag",
+      "ein anstrengender Tag", "ein anstrengendes Tag", "einen anstrengenden Tag", "einem anstrengenden Tag");
     assertBad("Es sind die riesigen Tisch.");
     //assertBad("Dort, die riesigen Tischs!");    // TODO: error not detected because of comma
     assertBad("Als die riesigen Tischs kamen.");
