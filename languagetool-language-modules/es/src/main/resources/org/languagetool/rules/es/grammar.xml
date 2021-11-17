@@ -12240,6 +12240,262 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>10 millones de forma semestral.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="NOUN_PLURAL" name="nombre en plural" default="temp_off">
+            <rule>
+                <pattern>
+                    <token inflected="yes">encoger</token>
+                    <token>de</token>
+                    <marker>
+                        <token>hombro</token>
+                    </marker>
+                </pattern>
+                <message>En este contexto, probablemente es más adecuado el nombre en plural.</message>
+                <suggestion><match no="3" postag_regexp="yes" postag="(NC.)S.*" postag_replace="$1P.*"/></suggestion>
+                <example correction="hombros">Se encogió de <marker>hombro</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">caer|estar|poner</token>
+                    <token>de</token>
+                    <marker>
+                        <token>rodilla</token>
+                    </marker>
+                </pattern>
+                <message>En este contexto, probablemente es más adecuado el nombre en plural.</message>
+                <suggestion><match no="3" postag_regexp="yes" postag="(NC.)S.*" postag_replace="$1P.*"/></suggestion>
+                <example correction="rodillas">Cayó de <marker>rodilla</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">ninguno|ninguna|muchos|muchas|algunos|algunas|pocos|pocas</token>
+                    <token>de</token>
+                    <marker>
+                        <token regexp="yes">ello|ella</token>
+                    </marker>
+                </pattern>
+                <message>En este contexto parece más adecuado el plural.</message>
+                <suggestion>\3s</suggestion>
+                <example correction="ellos">Ninguno de <marker>ello</marker> tenía razón.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">silla</token>
+                    <token>de</token>
+                    <marker>
+                        <token>rueda</token>
+                    </marker>
+                </pattern>
+                <message>En este contexto, probablemente es más adecuado el nombre en plural.</message>
+                <suggestion><match no="3" postag_regexp="yes" postag="(NC.)S.*" postag_replace="$1P.*"/></suggestion>
+                <example correction="ruedas">Iba en silla de <marker>rueda</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">cerrar</token>
+                    <token>de</token>
+                    <marker>
+                        <token>ojo</token>
+                    </marker>
+                </pattern>
+                <message>En este contexto, probablemente es más adecuado el nombre en plural.</message>
+                <suggestion><match no="3" postag_regexp="yes" postag="(NC.)S.*" postag_replace="$1P.*"/></suggestion>
+                <example correction="ojos">Lo hizo en un abrir y cerrar de <marker>ojo</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="NOUN_SINGULAR" name="nombre en singular" default="temp_off">
+            <rule>
+                <pattern>
+                    <token inflected="yes">estar</token>
+                    <token>de</token>
+                    <marker>
+                        <token>acuerdos</token>
+                    </marker>
+                </pattern>
+                <message>En este contexto, probablemente es más adecuado el nombre en plural.</message>
+                <suggestion><match no="3" postag_regexp="yes" postag="(NC.)P.*" postag_replace="$1S.*"/></suggestion>
+                <example correction="acuerdo">No estaba de <marker>acuerdos</marker> con la propuesta.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">punto</token>
+                    <token>de</token>
+                    <marker>
+                        <token regexp="yes">vistas|partidas</token>
+                    </marker>
+                </pattern>
+                <message>En este contexto, probablemente es más adecuado el nombre en singular.</message>
+                <suggestion><match no="3" postag_regexp="yes" postag="(NC.)P.*" postag_replace="$1S.*"/></suggestion>
+                <example correction="vista">Tenían puntos de <marker>vistas</marker> enfrentados.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">cuarto</token>
+                    <token>de</token>
+                    <marker>
+                        <token>baños</token>
+                    </marker>
+                </pattern>
+                <message>En este contexto, probablemente es más adecuado el nombre en singular.</message>
+                <suggestion><match no="3" postag_regexp="yes" postag="(NC.)P.*" postag_replace="$1S.*"/></suggestion>
+                <example correction="baño">Tenían cuartos de <marker>baños</marker> modernos.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">campo</token>
+                    <token>de</token>
+                    <marker>
+                        <token>batallas</token>
+                    </marker>
+                </pattern>
+                <message>En este contexto, probablemente es más adecuado el nombre en singular.</message>
+                <suggestion><match no="3" postag_regexp="yes" postag="(NC.)P.*" postag_replace="$1S.*"/></suggestion>
+                <example correction="batalla">Ocurriós en los antiguos campos de <marker>batallas</marker> antiguos.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">taza</token>
+                    <token>de</token>
+                    <marker>
+                        <token>cafés</token>
+                    </marker>
+                </pattern>
+                <message>En este contexto, probablemente es más adecuado el nombre en singular.</message>
+                <suggestion><match no="3" postag_regexp="yes" postag="(NC.)P.*" postag_replace="$1S.*"/></suggestion>
+                <example correction="café">Tenían tazas de <marker>cafés</marker> modernos.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">estado</token>
+                    <token>de</token>
+                    <marker>
+                        <token>ánimos</token>
+                    </marker>
+                </pattern>
+                <message>En este contexto, probablemente es más adecuado el nombre en singular.</message>
+                <suggestion><match no="3" postag_regexp="yes" postag="(NC.)P.*" postag_replace="$1S.*"/></suggestion>
+                <example correction="ánimo">Tenían estados de <marker>ánimos</marker> cambiantes.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">.*metro|mila</token>
+                    <token>de</token>
+                    <marker>
+                        <token regexp="yes">distancias|alturas</token>
+                    </marker>
+                </pattern>
+                <message>En este contexto, probablemente es más adecuado el nombre en singular.</message>
+                <suggestion><match no="3" postag_regexp="yes" postag="(NC.)P.*" postag_replace="$1S.*"/></suggestion>
+                <example correction="distancia">Estaban a cien metros de <marker>distancias</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">hijo</token>
+                    <token>de</token>
+                    <marker>
+                        <token>putas</token>
+                    </marker>
+                </pattern>
+                <message>En este contexto, probablemente es más adecuado el nombre en singular.</message>
+                <suggestion><match no="3" postag_regexp="yes" postag="(NC.)P.*" postag_replace="$1S.*"/></suggestion>
+                <example correction="puta">Era unos hijos de <marker>putas</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">dolor</token>
+                    <token>de</token>
+                    <marker>
+                        <token>cabezas</token>
+                    </marker>
+                </pattern>
+                <message>En este contexto, probablemente es más adecuado el nombre en singular.</message>
+                <suggestion><match no="3" postag_regexp="yes" postag="(NC.)P.*" postag_replace="NC.S.*"/></suggestion>
+                <example correction="cabeza">Tenía unos dolores de <marker>cabezas</marker> terribles.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">cuarto</token>
+                    <token>de</token>
+                    <marker>
+                        <token>horas</token>
+                    </marker>
+                </pattern>
+                <message>En este contexto, probablemente es más adecuado el nombre en singular.</message>
+                <suggestion><match no="3" postag_regexp="yes" postag="(NC.)P.*" postag_replace="$1S.*"/></suggestion>
+                <example correction="hora">Tenía unos cuartos de <marker>horas</marker> terribles.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">pérdida</token>
+                    <token>de</token>
+                    <marker>
+                        <token>tiempos</token>
+                    </marker>
+                </pattern>
+                <message>En este contexto, probablemente es más adecuado el nombre en singular.</message>
+                <suggestion><match no="3" postag_regexp="yes" postag="(NC.)P.*" postag_replace="$1S.*"/></suggestion>
+                <example correction="tiempo">Pérdidas de <marker>tiempos</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">copa|vaso</token>
+                    <token>de</token>
+                    <marker>
+                        <token regexp="yes">vinos|aguas|cervezas</token>
+                    </marker>
+                </pattern>
+                <message>En este contexto, probablemente es más adecuado el nombre en singular.</message>
+                <suggestion><match no="3" postag_regexp="yes" postag="(NC.)P.*" postag_replace="$1S.*"/></suggestion>
+                <example correction="vino">Se tomó unas copas de <marker>vinos</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">fracción</token>
+                    <token>de</token>
+                    <marker>
+                        <token regexp="yes" inflected="yes" postag="NC.P.*" postag_regexp="yes">&unidades_tiempo;</token>
+                    </marker>
+                </pattern>
+                <message>En este contexto, probablemente es más adecuado el nombre en singular.</message>
+                <suggestion><match no="3" postag_regexp="yes" postag="(NC.)P.*" postag_replace="$1S.*"/></suggestion>
+                <example correction="segundo">Ocurrió en fracciones de <marker>segundos</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">puerta</token>
+                    <token>de</token>
+                    <marker>
+                        <token regexp="yes">entradas|salidas</token>
+                    </marker>
+                </pattern>
+                <message>En este contexto, probablemente es más adecuado el nombre en singular.</message>
+                <suggestion><match no="3" postag_regexp="yes" postag="(NC.)P.*" postag_replace="$1S.*"/></suggestion>
+                <example correction="salida">En las puertas de <marker>salidas</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">sala</token>
+                    <token>de</token>
+                    <marker>
+                        <token>esperas</token>
+                    </marker>
+                </pattern>
+                <message>En este contexto, probablemente es más adecuado el nombre en singular.</message>
+                <suggestion><match no="3" postag_regexp="yes" postag="(NC.)P.*" postag_replace="$1S.*"/></suggestion>
+                <example correction="espera">En las salas de <marker>esperas</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">fin</token>
+                    <token>de</token>
+                    <marker>
+                        <token>semanas</token>
+                    </marker>
+                </pattern>
+                <message>En este contexto, probablemente es más adecuado el nombre en singular.</message>
+                <suggestion><match no="3" postag_regexp="yes" postag="(NC.)P.*" postag_replace="$1S.*"/></suggestion>
+                <example correction="semana">En los fines de <marker>semanas</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AGREEMENT_ORDINALS" name="concordancias ordinales: vigésima segunda / vigesimosegunda">
             <rule>
                 <pattern>
