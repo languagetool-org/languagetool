@@ -530,9 +530,6 @@ public class AgreementRuleTest {
     assertGood("Na ja, einige nennen das Freundschaft plus, aber das machen wir besser nicht.");
     assertGood("Vogue, eigentlich als B-Seite der letzten Like A Prayer-Auskopplung Keep It Together gedacht, wurde kurzfristig als eigenständige Single herausgebracht");
 
-    assertGood("Die Gattungen der früher eigenständigen Familie Damasoniaceae Nakai");
-    assertGood("Der nautische Strich hängt mit der früher üblichen Einteilung der Kompassrose zusammen.");
-    assertGood("Seit der Übernahme der früher selbständigen Heliopolis-Gesellschaft im Jahre 1991 unterstehen alle Strecken der CTA.");
     assertGood("Ich habe meine Projektidee (die riesiges finanzielles Potenzial hat) an einen Unternehmenspräsidenten geschickt.");
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");

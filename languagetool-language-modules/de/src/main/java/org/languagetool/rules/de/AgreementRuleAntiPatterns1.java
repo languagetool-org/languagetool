@@ -169,13 +169,6 @@ class AgreementRuleAntiPatterns1 {
       posRegex("SUB:.*SIN:.*"),
       token("sind|seien|waren")
     ),
-    // Die Gattungen der früher eigenständigen Familie Damasoniaceae Nakai 
-    Arrays.asList(
-      tokenRegex("die|der|den"),
-      tokenRegex("früher"),
-      tokenRegex("[a-zäöüß]+en"),
-      posRegex("SUB.+(FEM|PLU).*")
-    ),
     Arrays.asList(
       tokenRegex("die|der|den"),  // "die späten 50er Jahre"
       tokenRegex("frühen|späten"),  // "die späten 50er Jahre"
