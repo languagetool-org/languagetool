@@ -30,6 +30,12 @@ class AgreementRuleAntiPatterns1 {
 
   static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
+      tokenRegex("der|des"),   // "Übernahme der früher selbständigen Gesellschaft"
+      token("früher"),
+      posRegex("ADJ:.*"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(
       tokenRegex("spendet|macht"),  // "Macht dir das Hoffnung?"
       tokenRegex("mir|euch|dir|uns|ihnen"),
       token("das"),
