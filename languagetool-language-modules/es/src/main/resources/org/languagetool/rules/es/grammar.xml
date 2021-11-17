@@ -12302,6 +12302,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="ojos">Lo hizo en un abrir y cerrar de <marker>ojo</marker>.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="NOUN_PLURAL2" name="nombre en plural" default="temp_off">
+            <antipattern>
+                <token>de</token>
+                <token regexp="yes">forma|manera</token>
+                <token postag="A.*|V.P.*" postag_regexp="yes"/>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">billón|centenar|ciento|cincuentena|decena|docena|mil|millar|millón|treintena|trillón|veintena|cuarentena<exception>ciento</exception></token>
+                    <token>de</token>
+                    <marker>
+                        <token postag="NC.S.*" postag_regexp="yes"><exception postag="NC.[PN].*" postag_regexp="yes"/><exception regexp="yes">&meses_ano;|alto|ancho|anticipo|antigüedad|arco|audiencia|aumento|base|bien|capital|capitalización|compensación|consolidación|contribución|coste|crédito|depósito|diferencia|dinero|distancia|dote|edad|entrada|facturación|fianza|financiación|ganancia|gasto|gente|indemnización|infantería|intensidad|inversión|jubilación|largo|longitud|líquido|maquinaria|mierda|munición|nadir|oro|patrimonio|patrocinio|personal|plata|población|porcentaje|prejubilación|presión|probabilidad|profundidad|propina|pérdida|recompensa|regalo|renta|repuesto|rescate|reserva|riqueza|secano|subsidio|tierra|tipo|utilidad|voltaje|volumen</exception></token>
+                    </marker>
+                </pattern>
+                <message>En este contexto, probablemente es más adecuado el nombre en plural.</message>
+                <suggestion><match no="3" postag_regexp="yes" postag="(NC.)S.*" postag_replace="$1[PN].*"/></suggestion>
+                <example correction="personas">Llegaron millones de <marker>persona</marker>.</example>
+                <example>Dos docenas de cada.</example>
+                <example>Declaró siete millones de renta.</example>
+                <example>Veintenas de años-luz.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="NOUN_SINGULAR" name="nombre en singular" default="temp_off">
             <rule>
                 <pattern>
