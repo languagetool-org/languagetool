@@ -2455,31 +2455,60 @@ Os que já vieram estão no salão.
   </rulegroup>
 
 	<!-- COME comer-->
-    <rule id='VERBO_INFINITIVO' name="Usar verbo no infinitivo" type="style" default="temp_off">
+    <rule id='VERBO_INFINITIVO' name="Usar verbo no infinitivo" type="style">
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-11-16 (25-JUN-2021+)      -->
 	<!--
 Para reescreve o código levará mais tempo. → Para reescrever o código levará mais tempo.
 Quero come a fruta. → Quero comer a fruta.
 Para ele come a fruta. → Para ele comer a fruta.
 	-->
+<!-- MARCOAGPINTO 2021-11-17 (25-JUN-2021+) *START* -->
+<!--
+Espero revê-lo brevemente!
+Quero revê-lo.
+Quero revê-la.
+-->
+      <antipattern>
+		<token negate_pos="yes" postag='CC|SPS.+' postag_regexp='yes'/>
+		<token postag='VMM02S0|VMIP3S0' postag_regexp='yes'/>
+		<token regexp='yes' spacebefore='no'>&hifen;</token>
+		<token regexp='yes' spacebefore='no'>[ao]s?|l[ao]s?|lh[ae]s?|nos?|me|se|te|vos</token>
+      </antipattern>
+<!--
+Dizem que uma família que come junta, fica junta.
+O último período da Pré-Historia demarca o conjunto de transformações que dão início às primeiras civilizações.
+-->
+      <antipattern>
+		<token negate_pos="yes" postag='SPS.+|PD.+|PP.+|DA.+|V.+|AQ.+|NC.+|I|PE.+|PR.+|PT.+|RG|CC|RN|CS' postag_regexp='yes'/>
+		<token postag='VMM02S0|VMIP3S0' postag_regexp='yes'/>
+		<token postag='V.+|DA.+' postag_regexp='yes'/>
+      </antipattern>	  
+<!-- MARCOAGPINTO 2021-11-17 (25-JUN-2021+) *END* -->
       <pattern>
-		  <token negate_pos="yes" postag='SPS.+|PD.+|PP.+|DA.+|V.+|AQ.+|NC.+|I|PE.+|PR.+|PT.+|RG|CC|RN|CS' postag_regexp='yes'/>
-	      <or>
+		  <token negate_pos="yes" postag='SPS.+|PD.+|PP.+|DA.+|V.+|AQ.+|NC.+|I|PE.+|PR.+|PT.+|RG|CC|RN|CS|RM|PI.+|AP.+|DP.+' postag_regexp='yes'/>
+		  <or>
 			<token postag='VMIP.+' postag_regexp='yes'>
-				<exception postag_regexp='yes' postag='AQ.+|NC.+|RG|CS|DP.+'/>
+				<exception postag_regexp='yes' postag='AQ.+|NC.+|NP.+|RG|CS|DP.+|AO.+'/>
 			</token>
 			<token regexp='no'>para</token>
 		  </or>
-		  <token min="0" max="1" regexp='yes'>el[ae]</token>
+		  <token min="0" max="1" postag='PD.+' postag_regexp='yes'>
+			<exception regexp='yes'>[ao]s?|quem</exception>
+		  </token>
+		  <token min="0" max="1" regexp='yes'>eu|el[ae]|para</token>
 		  <marker>
 			<token postag='VMM02S0' postag_regexp='no'>
-				<exception postag_regexp='yes' postag='RN|AQ.+|NC.+|NP.+|SPS.+|Z0.+|RG'/>
+				<exception postag_regexp='yes' postag='RN|AQ.+|NC.+|NP.+|SPS.+|Z0.+|RG|CC'/>
+				<exception regexp='yes'>há|existe</exception>
 			</token>
 		  </marker>
-		  <token negate_pos="yes" postag='Z0.+|DI.+' postag_regexp='yes'/>
+		  <or>
+			<token negate_pos="yes" postag='Z0.+|DI.+|SPS.+|CC|I|RG' postag_regexp='yes'/>
+			<token regexp='yes'>[ao]s?</token>
+		  </or>
       </pattern>
       <message>Use a forma verbal no infinitivo.</message>
-      <suggestion><match no='4' postag='VMN0000' postag_regexp="no" postag_replace='VMM02S0'/></suggestion>
+      <suggestion><match no='5' postag='VMN0000' postag_regexp="no" postag_replace='VMM02S0'/></suggestion>
 	  <example correction="comer">Quero <marker>come</marker> a fruta.</example>	  
 	  <example>Ele não é nada além de um tolo.</example>
 	  <example>Nós não podemos perguntar nada sobre idade ou problemas físicos.</example>
@@ -2521,6 +2550,34 @@ Para ele come a fruta. → Para ele comer a fruta.
 	  <example>O zero vem antes do um.</example>  
 	  <example>Aparentemente, o iPod nano tem um bom som.</example>
 	  <example>Paris tem um lugar privilegiado no âmbito artístico e cultural a nível mundial nos últimos séculos.</example>
+	  <example>O distrito de Faro corresponde quer à tradicional quer à moderna região do Algarve.</example>
+	  <example>A formação que o ADN adopta depende de vários fatores da própria sequência de ADN.</example>
+	  <example>Frege adiciona à lógica de orações.</example>
+	  <example>Paris dispõe de uma rede hoteleira muito diversificada.</example>
+	  <example>Pedro quer que eu leiloe as pérolas que me deu.</example>
+	  <example>Paris está longe?</example>
+	  <example>Paris abriga também a École Nationale Supérieure d'Arts et Métiers perto da Praça da Itália desde 1912.</example>
+	  <example>Dois guerreiam - um terceiro lucra.</example>
+	  <example>Estou há dois dias sem comer.</example>
+	  <example>A cultura armênia remete há milênios antes do nascimento de Cristo.</example>
+	  <example>O Papado, existe há quase dois milénios.</example>
+	  <example>O planeta Terra existe há aproximadamente 4,6 bilhões de anos.</example>
+	  <example>Acusado de envolvimento no crime, Nano renuncia e é substituído como premiê por Pandeli Majko (PSSh).</example>
+	  <example>Vejo Dana e Corina.</example>
+	  <example>Estruturalmente o MS, além da logística completa, é referencia também na área da educação e pesquisa.</example>
+	  <example>Segundo a Seção II da mesma lei, execuções simplesmente instrumentais devem ser tocadas sem repetição.</example>
+	  <example>Oficialmente Palmas tem duas Cidades-irmãs.</example>
+	  <example>Nesse mesmo sitio encontra a cachoeira de São Félix com mais de 18 metros de altitude.</example>
+	  <example>Para isso existe a figura do conservador-restaurador, profissional responsável pela sobrevivência de documentos.</example>
+	  <example>Um exame detalhado mostra que a padronagem de seu pelo apresenta diferenças significativas em relação à do leopardo.</example>
+	  <example>Para isso existe o sistema de Telemetria, Rastreamento e Controle, que funciona como o cérebro do satélite.</example>
+	  
+	  <example>Espero revê-lo brevemente!</example>
+	  <example>Quero revê-lo.</example>
+	  <example>Quero revê-la.</example>
+	  
+	  <example>Dizem que uma família que come junta, fica junta.</example>
+	  <example>O último período da Pré-Historia demarca o conjunto de transformações que dão início às primeiras civilizações.</example>
     </rule>
 
   <rulegroup id='A_APRENDIZ' name="Concordância de género: Variação de Género (p.ex. juiz/juíza)">
