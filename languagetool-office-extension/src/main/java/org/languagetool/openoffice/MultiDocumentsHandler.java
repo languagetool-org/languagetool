@@ -195,12 +195,12 @@ public class MultiDocumentsHandler {
           this.locale = locale;
           extraRemoteRules.clear();
         }
-//        MessageHandler.printToLogFile("Start initLanguageTool!");
+        if (lt == null) {
+          testFootnotes(propertyValues);
+        }
         lt = initLanguageTool(!isSameLanguage);
-//        MessageHandler.printToLogFile("Start initCheck!");
         initCheck(lt, locale);
         if (initDocs) {
-//          MessageHandler.printToLogFile("Start initDocuments!");
           initDocuments();
         }
       }
@@ -321,6 +321,13 @@ public class MultiDocumentsHandler {
    */
   public void setLtDialogIsRunning(boolean running) {
     this.dialogIsRunning = running;
+  }
+  
+  /**
+   *  Set Information LT spell and grammar check dialog was started
+   */
+  public void setConfigFileName(String name) {
+    configFile = name;
   }
   
   /**
@@ -683,7 +690,7 @@ public class MultiDocumentsHandler {
     }
     SingleDocument newDocument = new SingleDocument(xContext, config, docID, xComponent, this);
     documents.add(newDocument);
-    testFootnotes(propertyValues);
+//    testFootnotes(propertyValues);
     if (!testMode) {              //  xComponent == null for test cases 
       newDocument.setLanguage(docLanguage);
     }
@@ -756,7 +763,7 @@ public class MultiDocumentsHandler {
   SwJLanguageTool initLanguageTool(Language currentLanguage, boolean setService) {
     SwJLanguageTool lt = null;
     try {
-      config = new Configuration(configDir, configFile, oldConfigFile, docLanguage);
+      config = new Configuration(configDir, configFile, oldConfigFile, docLanguage, true);
       noBackgroundCheck = config.noBackgroundCheck();
       if (linguServices == null) {
         linguServices = new LinguisticServices(xContext);
@@ -776,7 +783,7 @@ public class MultiDocumentsHandler {
       // not using MultiThreadedSwJLanguageTool here fixes "osl::Thread::Create failed", see https://bugs.documentfoundation.org/show_bug.cgi?id=90740:
 //      lt = new SwJLanguageTool(currentLanguage, config.getMotherTongue(),
 //          new UserConfig(config.getConfigurableValues(), linguServices), config, extraRemoteRules, testMode);
-      lt = new SwJLanguageTool(currentLanguage, null,
+      lt = new SwJLanguageTool(currentLanguage, config.getMotherTongue(),
           new UserConfig(config.getConfigurableValues(), linguServices), config, extraRemoteRules, testMode);
       config.initStyleCategories(lt.getAllRules());
       /* The next row is only for a single line break marks a paragraph
@@ -927,7 +934,7 @@ public class MultiDocumentsHandler {
       docLanguage = getLanguage();
     }
     if (config == null) {
-      config = new Configuration(configDir, configFile, oldConfigFile, docLanguage);
+      config = new Configuration(configDir, configFile, oldConfigFile, docLanguage, true);
     }
     noBackgroundCheck = !noBackgroundCheck;
     if (!noBackgroundCheck && textLevelQueue != null) {
@@ -972,7 +979,27 @@ public class MultiDocumentsHandler {
         return;
       }
     }
-    this.useOrginalCheckDialog = true;
+    //  OO and LO < 4.3 do not support 'FootnotePositions' property and other advanced features
+    //  switch back to single paragraph check mode
+    //  use OOO configuration file - save existing settings if not already done
+    useOrginalCheckDialog = true;
+    File ooConfigFile = new File(configDir, OfficeTools.OOO_CONFIG_FILE);
+    if (!ooConfigFile.exists()) {
+      File loConfigFile = new File(configDir, configFile);
+      if (loConfigFile.exists()) {
+        try {
+          Configuration tmpConfig = new Configuration(configDir, configFile, oldConfigFile, docLanguage, true);
+          tmpConfig.setConfigFile(ooConfigFile);
+          tmpConfig.setNumParasToCheck(0);
+          tmpConfig.setUseTextLevelQueue(false);
+          tmpConfig.saveConfiguration(docLanguage);
+        } catch (IOException e) {
+          MessageHandler.showError(e);
+        }
+      }
+    }
+    configFile = OfficeTools.OOO_CONFIG_FILE;
+    MessageHandler.printToLogFile("No support of Footnotes: Open Office assumed - Single paragraph check mode set!");
   }
 
   /**
@@ -1025,7 +1052,7 @@ public class MultiDocumentsHandler {
   public void deactivateRule(String ruleId, boolean reactivate) {
     if (ruleId != null) {
       try {
-        Configuration confg = new Configuration(configDir, configFile, oldConfigFile, docLanguage);
+        Configuration confg = new Configuration(configDir, configFile, oldConfigFile, docLanguage, true);
         Set<String> ruleIds = new HashSet<>();
         ruleIds.add(ruleId);
         if (reactivate) {
