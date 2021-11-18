@@ -590,10 +590,10 @@ public class ConfigurationDialog implements ActionListener {
     boolean useTextLevelQueue = config.useTextLevelQueue();
     JRadioButton[] radioButtons = new JRadioButton[3];
     ButtonGroup numParaGroup = new ButtonGroup();
-    radioButtons[0] = new JRadioButton(Tools.getLabel(messages.getString("guiCheckFullText")));
+    radioButtons[0] = new JRadioButton(Tools.getLabel(messages.getString("guiTextCheckMode")));
     radioButtons[0].setActionCommand("FullTextCheck");
     
-    radioButtons[1] = new JRadioButton(Tools.getLabel(messages.getString("guiCheckOnlyParagraph")));
+    radioButtons[1] = new JRadioButton(Tools.getLabel(messages.getString("guiParagraphCheckMode")));
     radioButtons[1].setActionCommand("ParagraphCheck");
 
     radioButtons[2] = new JRadioButton(Tools.getLabel(messages.getString("guiDeveloperModeCheck")));

@@ -1439,10 +1439,8 @@ public class Configuration {
     Properties props = new Properties();
     String qualifier = getQualifier(lang);
 
-    if (ltVersion != null) {
-      String[] versionParts = ltVersion.split("-");
-      props.setProperty(LT_VERSION_KEY, versionParts[0]);
-    }
+    String[] versionParts = JLanguageTool.VERSION.split("-");
+    props.setProperty(LT_VERSION_KEY, versionParts[0]);
 
     if (currentProfile != null && !currentProfile.isEmpty()) {
       props.setProperty(CURRENT_PROFILE_KEY, currentProfile);
