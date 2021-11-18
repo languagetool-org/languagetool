@@ -21782,7 +21782,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>machte</token>
                     <token>für</token>
                     <token regexp="yes">mich|ihn|dich|sie|die|den|das|uns|euch</token>
-                    <token min="0" regexp="yes">vielleicht|womöglich|natürlich|gar|durchaus|allerdings|jetzt|nun|eigentlich</token>
+                    <token min="0" regexp="yes">vielleicht|womöglich|natürlich|gar|durchaus|allerdings|jetzt|nun|eigentlich|wirklich|echt</token>
                     <token regexp="yes">nicht|wenig|keinen|kaum</token>
                     <token>Sinn</token>
                 </pattern>
@@ -21792,6 +21792,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>stiftete für \3 \4 \5 \6</suggestion>
                 <short>'Sinn machen' ist umgangssprachlich.</short>
                 <example correction="ergab für mich wenig Sinn|war für mich nicht sinnvoll|stiftete für mich wenig Sinn">Das <marker>machte für mich wenig Sinn</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>macht</token>
+                    <token min="0" regexp="yes">vielleicht|womöglich|natürlich|gar|durchaus|allerdings|jetzt|nun|eigentlich|wirklich|überhaupt|echt|einfach</token>
+                    <token>keinen</token>
+                    <token>Sinn</token>
+                </pattern>
+                <message>&sinnmachen;</message>
+                <suggestion>ergibt \2 \3 \4</suggestion>
+                <suggestion>stiftet \2 \3 \4</suggestion>
+                <suggestion>ist \2 sinnlos</suggestion>
+                <suggestion>ist \2 nicht sinnvoll</suggestion>
+                <short>'Sinn machen' ist umgangssprachlich.</short>
+                <example correction="ergibt keinen Sinn|stiftet keinen Sinn|ist sinnlos|ist nicht sinnvoll">Es <marker>macht keinen Sinn</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>machte</token>
+                    <token min="0" regexp="yes">vielleicht|womöglich|natürlich|gar|durchaus|allerdings|jetzt|nun|eigentlich|wirklich|überhaupt|echt|einfach</token>
+                    <token>keinen</token>
+                    <token>Sinn</token>
+                </pattern>
+                <message>&sinnmachen;</message>
+                <suggestion>ergab \2 \3 \4</suggestion>
+                <suggestion>stiftete \2 \3 \4</suggestion>
+                <suggestion>war \2 sinnlos</suggestion>
+                <suggestion>war \2 nicht sinnvoll</suggestion>
+                <short>'Sinn machen' ist umgangssprachlich.</short>
+                <example correction="ergab keinen Sinn|stiftete keinen Sinn|war sinnlos|war nicht sinnvoll">Es <marker>machte keinen Sinn</marker>.</example>
             </rule>
             <rule tags="picky">
                 <pattern>
@@ -23688,7 +23718,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token case_sensitive="yes">Schade</token>
                     </marker>
                 </pattern>
-                <message>Hier wird <suggestion><match no="3" case_conversion="alllower" /></suggestion> als Adjektiv verwendet und sollte deshalb kleingeschrieben werden.</message>
+                <message>Hier wird <suggestion><match no="2" case_conversion="alllower" /></suggestion> als Adjektiv verwendet und sollte deshalb kleingeschrieben werden.</message>
                 <example correction="schade">Er ist sich für nichts zu <marker>Schade</marker>.</example>
             </rule>
             <rule>
@@ -57660,7 +57690,7 @@ Andere Projekte</example>
                 <token>Swing</token>
             </antipattern>
             <pattern>
-                <token case_sensitive="yes" regexp="yes">[Gg]ecrawled|[Gg]efracked|[Gg]espoilered|[Gg]ematched|[Aa]ngeteasered|[Gg]eteasered|[Gg]eouted|[Gg]eskyped|[Gg]ezapped|[Gg]ekited|[Gg]etaped|[Gg]edated|[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]etagged|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched|[Gg]etuned|[Gg]ecrashed|[Gg]ecat?ched|[Cc]hecked|[Ee]ntertained|[Gg]egoogled</token>
+                <token case_sensitive="yes" regexp="yes">[Gg]eboostered|[Gg]ecrawled|[Gg]efracked|[Gg]espoilered|[Gg]ematched|[Aa]ngeteasered|[Gg]eteasered|[Gg]eouted|[Gg]eskyped|[Gg]ezapped|[Gg]ekited|[Gg]etaped|[Gg]edated|[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]etagged|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched|[Gg]etuned|[Gg]ecrashed|[Gg]ecat?ched|[Cc]hecked|[Ee]ntertained|[Gg]egoogled</token>
             </pattern>
             <message>Die empfohlene Schreibweise für diesen Anglizismus ist <suggestion><match no="1" regexp_match="ed$" regexp_replace="t" /></suggestion>.</message>
             <url>https://www.duden.de/sprachwissen/sprachratgeber/Das-Verb-liken</url>
