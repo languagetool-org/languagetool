@@ -77,9 +77,18 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token postag="NN.*" postag_regexp="yes" chunk_re="E-NP.*"/>
                     <token>is</token>
                 </antipattern>
-                <pattern>
+                <antipattern>
+                    <token regexp="yes" case_sensitive="yes">[A-Z&amp;]{2,4}</token>
+                    <token>and</token>
                     <token regexp="yes" case_sensitive="yes">[A-Z&amp;]{2,4}</token>
                     <token min="0" postag="NN.*" postag_regexp="yes" chunk_re="E-NP.*"/>
+                    <token>is</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">[A-Z&amp;]{2,4}</token>
+                    <token min="0" postag="NN.*" postag_regexp="yes" chunk_re="E-NP.*">
+                        <exception>)</exception>
+                    </token>
                     <marker>
                         <token>is</token>
                     </marker>
@@ -87,6 +96,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">CB&amp;I <marker>is</marker> very interested in working with Enron on such projects, in particular the Jose, Venezuela, and Bahamas projects, as well as others you are considering.</example>
                 <example correction="">Given the relatively short lead time until LGS operations <marker>is</marker> sold, Citizens has requested expedited consideration.</example>
                 <example>The facilities in CP&amp;L is rated 2 due to excess mw levels and location.</example>
+                <example>As you are aware, PG&amp;E and EESI is currently in dispute regarding the PX credits and resulting payments from PG&amp;E to EESI.</example>
             </rule>
             <rule> <!-- [Unknown Singular] is -->
                 <antipattern>
@@ -101,12 +111,15 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </antipattern>
                 <pattern>
                     <token chunk_re="[BI]-NP-singular"/>
-                    <token postag="UNKNOWN" chunk="E-NP-singular"/>
+                    <token postag="UNKNOWN" chunk="E-NP-singular">
+                        <exception>)</exception>
+                    </token>
                     <marker>
                         <token>is</token>
                     </marker>
                 </pattern>
                 <example correction="">Some morphological evidence suggests the Neopterygii <marker>is</marker> paraphyletic; however, recent work, based on taxon orders, is arranged in what has been suggested to represent the evolutionary sequence down to the level of order, based primarily on the long history of morphological studies.</example>
+                <example>Descriptions and numeric grades for coins (from highest to lowest) is as follows: In early 2001 Lockyer served subpoenas for documents on Reliant and Mirant under Government Code sections 11180, et seq.</example>
             </rule>
             <rule> <!-- JJ [JJ+NNP] is -->
                 <pattern>
