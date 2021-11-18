@@ -593,5 +593,9 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals(0, rule.match(lt.getAnalyzedSentence("En el domini .org hi ha fitxers d'extensió .txt.")).length);
         assertEquals(0, rule.match(lt.getAnalyzedSentence("En el domini .live hi ha fitxers d'extensió .7z.")).length);
         
+        matches = rule.match(lt.getAnalyzedSentence("En1993"));
+        assertEquals(1, matches.length);
+        assertEquals("En 1993", matches[0].getSuggestedReplacements().get(0));
+        
     }
 }

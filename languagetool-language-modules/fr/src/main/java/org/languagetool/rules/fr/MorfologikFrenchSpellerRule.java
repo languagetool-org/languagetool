@@ -68,7 +68,7 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern HYPHEN_ILS = Pattern.compile("^([\\p{L}]+)[’']?(ils|elles)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern SPLIT_SUGGESTIONS = Pattern.compile("^(..+\\p{L})(\\d+)$",
+  private static final Pattern SPLIT_SUGGESTIONS = Pattern.compile("^(..+\\p{L}|et|ou|de|en|à|aux|des)(\\d+)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   
   private static final Pattern IMPERATIVE_HYPHEN = Pattern.compile(

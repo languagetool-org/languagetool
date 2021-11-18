@@ -194,6 +194,11 @@ public class MorfologikFrenchSpellerRuleTest {
     assertEquals(1, matches.length);
     assertEquals("Windows 10", matches[0].getSuggestedReplacements().get(0));
     assertEquals("Windows", matches[0].getSuggestedReplacements().get(1));
+    
+    matches = rule.match(lt.getAnalyzedSentence("à1930"));
+    assertEquals(1, matches.length);
+    assertEquals("à 1930", matches[0].getSuggestedReplacements().get(0));
+      
 
   }
   
