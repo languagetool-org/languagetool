@@ -7954,6 +7954,23 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token regexp="yes">so|too</token>
             <token postag="JJ" />
         </antipattern>
+        <antipattern><!-- Are your hands clean? -->
+            <token postag="CC|PCT|SENT_START|W.*" postag_regexp="yes" />
+            <token inflected="yes">be</token>
+            <token postag="DT|PRP\$" postag_regexp="yes" min="0" />
+            <token chunk_re="E-NP.*" />
+            <token postag="RB" min="0" />
+            <token postag="JJ" />
+        </antipattern>
+        <antipattern><!-- Aren't your hands clean? -->
+            <token postag="CC|PCT|SENT_START|W.*" postag_regexp="yes" />
+            <token inflected="yes">be</token>
+            <token>n't</token>
+            <token postag="DT|PRP\$" postag_regexp="yes" min="0" />
+            <token chunk_re="E-NP.*" />
+            <token postag="RB" min="0" />
+            <token postag="JJ" />
+        </antipattern>
         <pattern>
             <and>
                 <token chunk="E-NP-plural"/>
@@ -7970,7 +7987,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                         <exception postag="IN"/>
                     </token>
                     <token postag="NN(:UN)?" postag_regexp="yes">
-                        <exception regexp="yes">people|company</exception>
+                        <exception regexp="yes">people|company|dry|shy|clean</exception>
                     </token>
                 </and>
             </marker>
@@ -8005,6 +8022,9 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">It is estimated that by 2050, a 3 feet rise in sea levels will inundate some 20 percent of the land and displace more than 30 million people.</example>
         <example type="untouched">... has become a 68 matches grind with a 38% loss rate ...</example>
         <example type="untouched">This is not a five minutes task to solve.</example>
+        <example type="untouched">Are my clothes already dry?</example>
+        <example type="untouched">Why are some people shy?</example>
+        <example type="untouched">Are your hands clean?</example>
         <example type="untouched">Which options can I instrumentalize to pay?</example>
         <example type="untouched">Which options can our customers instrumentalize to pay?</example>
         <example type="untouched">.. and there is an auto parts store close by call them ask if they test charging systems.</example>
