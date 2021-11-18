@@ -28,6 +28,57 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
 <rules lang="en" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/remote-rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <category name="Machine learning rules" id="AI_RULES">
         <rulegroup id="AI_HYDRA_LEO_CPT_IS_ARE" name="">
+            <rule> <!-- VBG NNP?S is -->
+                <pattern>
+                    <token skip="1" postag="VBG"/>
+                    <token postag="NNP?S" postag_regexp="yes"/>
+                    <marker>
+                        <token>is</token>
+                    </marker>
+                </pattern>
+                <example correction="">Loving crimes <marker>is</marker> not recommended</example>
+            </rule>
+            <rule>  <!-- who/what is NNP? -->
+                <pattern>
+                    <token regexp="yes">who|what</token>
+                    <marker>
+                        <token>is</token>
+                    </marker>
+                    <token postag="NNP?" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">B. What <marker>is</marker> Washington known for?</example>
+            </rule>
+            <rule>  <!-- the + capitalized -->
+                <pattern>
+                    <token>the</token>
+                    <token regexp="yes" case_sensitive="yes">[A-Z].*</token>
+                    <token min="0" regexp="yes" case_sensitive="yes">[A-Z].*</token>
+                    <marker>
+                        <token>is</token>
+                    </marker>
+                </pattern>
+                <example correction="">War against the United States <marker>is</marker> always justified from a legal standpoint.</example>
+            </rule>
+            <rule> <!-- is/are -->
+                <pattern>
+                    <marker>
+                        <token>is</token>
+                    </marker>
+                    <token>/</token>
+                    <token>are</token>
+                </pattern>
+                <example correction="">If the person(s) <marker>is</marker>/are not available all day.</example>
+            </rule>
+            <rule> <!-- are/is -->
+                <pattern>
+                    <token>are</token>
+                    <token>/</token>
+                    <marker>
+                        <token>is</token>
+                    </marker>
+                </pattern>
+                <example correction="">If the person(s) are/<marker>is</marker> not available all day.</example>
+            </rule>
             <rule> <!-- how much is X and how mich is [plural] -->
                 <pattern>
                     <token>how</token>
