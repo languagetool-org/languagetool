@@ -18,22 +18,44 @@
  */
 package org.languagetool.rules.en;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.function.Supplier;
 
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.language.AmericanEnglish;
 import org.languagetool.rules.AbstractRepeatedWordsRule;
 import org.languagetool.rules.SynonymsData;
+import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.en.EnglishSynthesizer;
+import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
+
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.token;
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.tokenRegex;
 
 public class EnglishRepeatedWordsRule extends AbstractRepeatedWordsRule{
   
   private static final EnglishSynthesizer synth = new EnglishSynthesizer(new AmericanEnglish());
 
+  private final Supplier<List<DisambiguationPatternRule>> antiPatterns;
+
+  private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
+    Arrays.asList(
+      token("need"),   // "I still need -> require to sign-in"
+      token("to")
+    ));
+
+  @Override
+  public List<DisambiguationPatternRule> getAntiPatterns() {
+    return antiPatterns.get();
+  }
+
   public EnglishRepeatedWordsRule(ResourceBundle messages) {
     super(messages, new AmericanEnglish());
+    antiPatterns = cacheAntiPatterns(new AmericanEnglish(), ANTI_PATTERNS);
     //super.setDefaultTempOff();
   }
   
