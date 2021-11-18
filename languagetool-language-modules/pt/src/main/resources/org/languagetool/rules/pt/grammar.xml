@@ -35,7 +35,7 @@ title="Easy editing stylesheet" ?>
     <!ENTITY dias_semana_abrev "(?:[Ss](?:e[gx]|áb)|[Tt]er|[Qq]u[ai]|[Dd]om)">
     <!ENTITY dias_semana "(?:[Ss](?:e(?:gunda|xta)|ábado)|[Tt]erça|[Qq]u(?:arta|inta)|[Dd]omingo)">
     <!ENTITY partes_do_dia "(?:m(?:anhã|atina)|tarde|noite)">
-    <!ENTITY expressoes_de_tempo "(?:minuto|hora|dia|se(?:gundo|mana|mestre)|(?:bi|tri|quadri)mestre|ano|d(?:écada|ecénio)|mil[éê]nio|temp(?:o|orada)|época)s?|m(?:ês|eses)">
+    <!ENTITY expressoes_de_tempo "(?:minuto|hora|dia|se(?:gundo|mana|mestre)|(?:bi|tri|quadri)mestre|ano|d(?:écada|ecénio)|mil[éê]nio|temp(?:o|orada)s?|época)s?|m(?:ês|eses)|alturas?|datas?|eras?|idades?|instantes?|momentos?|ocasião|ocasiões|períodos?|quinzenas?|séculos?|vez|vezes">
 
     <!ENTITY pontos_cardeais "(?:n(?:ascente|or(?:te|[do]este))|su(?:l|[do]este)|este|o(?:este|cidente|riente)|poente)">
     <!ENTITY adverbios_de_intensidade "assaz|b(?:astante|em)|dema(?:is|siado)?|imenso|m(?:ais|enos|esmo)|muit[ao]|n(ada|ão)|pouc[ao]|qu(?:anto|ão|ase)|t(?:anto|ão|odo|udo)|.+mente|vári[ao]s">
@@ -7594,6 +7594,43 @@ Telefonei para si. → Telefonei-lhe.
 		
 	</rulegroup>
 
+	<!-- EM QUE [AO]? onde [ao]s? -->
+    <rule id='EM_QUE_O_OS_A_AS_ONDE' name="Em que a(s)/o(s) → Onde a(s)/o(s)" type="style" default="temp_off">
+    <!--      Created by Ricardo Joseh Lima and improved by Marco A.G.Pinto, Portuguese rule 2021-11-18 (25-JUN-2021+)      -->
+	<!--
+Esta é a cidade em que o evento acontece. → Esta é a cidade onde o evento acontece.
+	-->
+      <pattern>
+		  <and>
+			<token negate="yes" regexp='yes'>&meses_ano_abrev;|&meses_ano;|&dias_semana_abrev;|&dias_semana;|&partes_do_dia;|&expressoes_de_tempo;</token>
+			<token negate_pos="yes" postag='Z0.+' postag_regexp='yes'/>
+		  </and>
+		  <token min="0" max="1" postag='_QUOT' postag_regexp='no'/>		  
+		  <token min="0" max="1" regexp='yes'>[,]</token>
+		  <marker>
+			<token>em</token>
+			<token>que</token>
+		  </marker>
+		  <token regexp='yes'>[ao]s?</token>
+      </pattern>
+      <message>Simplifique a parafrase se estiver a referir-se a um local.</message>
+      <suggestion>onde</suggestion>
+	  <example correction="onde">Esta é a cidade <marker>em que</marker> o evento acontece.</example>
+	  <example>H.G. Wells escreve A Guerra dos Mundos em 1898 em que a Terra seria invadida por marcianos que usavam armas poderosas.</example>
+	  <example>Uma entrevista com o Henry Ford dado em 1926 em que o fabricante de automóvel explica seu impacto econômico provável.</example>
+	  <example>Presenciei o incrível momento em que o filhote quebrara o ovo.</example>
+	  <example>Há ocasiões em que os gastos superam os ganhos e outras em que maiores ganhos provocam maior poupança.</example>
+	  <example>No período em que o Brasil foi colônia de Portugal, o estado de Goiás pertencia à capitania de São Paulo.</example>
+	  <example>Fez parte da diocese de Elvas até 1882, data em que a mesma foi extinta.</example>
+	  <example>Foi a primeira vez em que o Brasil sediou uma conferência mórmon.</example>
+	  <example>No entanto, foram várias as vezes em que as suas pinturas feriam as susceptibilidades dos seus clientes.</example>
+	  <example>Este fenómeno acentuou-se desde o Renascimento, altura em que a cultura clássica foi revalorizada.</example>
+	  <example>O Brunei foi visitado por Fernão de Magalhães em 1521, numa altura em que o sultão dominava toda a ilha.</example>
+	  <example>Entre os séculos II e III, séculos em que o Cristianismo ganhou cada vez mais adeptos entre os Romanos.</example>
+	  <example>Quase morri de susto no instante em que o vi.</example>
+	  <example>A idade em que os heróis viveram na mitologia grega é conhecida como Era (ou Idade) Heróica.</example>
+	  <example>É um remanescente histórico da era em que as garrafas eram feitas artesanalmente, sopradas através de um cano.</example>	  
+    </rule>
 
 	<!-- MOSTRAM mostra -->
     <rulegroup id='CONCORDANCIA_COM_NUCLEO_DO_SUJEITO_V2' name='Concordância com núcleo do sujeito'>
