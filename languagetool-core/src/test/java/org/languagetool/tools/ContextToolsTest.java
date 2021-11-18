@@ -52,6 +52,15 @@ public class ContextToolsTest {
   }
 
   @Test
+  public void testPlainTextContextWithMultiLineBreaks() throws Exception {
+    ContextTools contextTools = new ContextTools();
+    contextTools.setContextSize(5);
+    String input = "\n\n       Preamble\n\n  The licenses for most";
+    String result = contextTools.getPlainTextContext(19, 21, input);
+    assertEquals("...ble██  The l...\n        ^^     ", result);
+  }
+
+  @Test
   public void testPlainTextContextWithDosLineBreaks() throws Exception {
     ContextTools contextTools = new ContextTools();
     contextTools.setContextSize(5);
