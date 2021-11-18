@@ -7194,27 +7194,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Er predigt gerne vom <marker>Katheder</marker> herab.</example>
             <example>Er verkündet vom <marker>Katheder</marker> allerhand.</example>
         </rule>
-        <rulegroup id="FROHES_SCHAFFEN" name="'rohes (frohes) Schaffen'">
-            <short>&verw;</short>
+        <rulegroup id="ROHES_FROHES" name="'rohes (frohes)'" default="temp_off">
             <rule>
-                <pattern>
+                <pattern case_sensitive="yes">
                     <marker>
-                        <token>rohes</token>
+                        <token regexp="yes">rohes?</token>
                     </marker>
-                    <token case_sensitive="yes">Schaffen</token>
+                    <token regexp="yes">Schaffen|Fest|Weihnachtsfest|Osterfest|Weihnachten|Kunde|Nachricht</token>
                 </pattern>
-                <message>Meinten Sie <suggestion><match no="1" regexp_match="[rR]" regexp_replace="fr"/></suggestion>?</message>
+                <message>Meinten Sie <suggestion><match no="1" regexp_match="r" regexp_replace="fr"/></suggestion>?</message>
+                <short>&verw;</short>
                 <example correction="frohes">Noch ein <marker>rohes</marker> Schaffen!</example>
             </rule>
             <rule>
-                <pattern>
-                    <token>frohes</token>
+                <pattern case_sensitive="yes">
                     <marker>
-                        <token case_sensitive="yes">schaffen</token>
+                        <token regexp="yes">Rohes?</token>
                     </marker>
+                    <token regexp="yes">Schaffen|Fest|Weihnachtsfest|Osterfest|Weihnachten</token>
                 </pattern>
-                <message>Meinten Sie das Substantiv <suggestion><match no="2" case_conversion="startupper"/></suggestion> (= Arbeiten)?</message>
-                <example correction="Schaffen">Noch ein frohes <marker>schaffen</marker>!</example>
+                <message>Meinten Sie <suggestion><match no="1" regexp_match="R" regexp_replace="Fr"/></suggestion>?</message>
+                <short>&verw;</short>
+                <example correction="Frohes"><marker>Rohes</marker> Schaffen!</example>
             </rule>
         </rulegroup>
         <rule id="GEISEL_DER_MENSCHHEIT" name="Geisel (Geißel) der Menschheit">
@@ -8006,6 +8007,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>&subanfang;<suggestion>Zutun</suggestion>&subende;</message>
 				<short>&prgk;.</short>
                 <example correction="Zutun">Ohne sein <marker>zutun</marker> hätte ich es nicht geschafft.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="FROHES_SCHAFFEN" name="frohes schaffen (Schaffen)">
+            <rule>
+                <pattern>
+                    <token>frohes</token>
+                    <marker>
+                        <token case_sensitive="yes">schaffen</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Schaffen">Noch ein frohes <marker>schaffen</marker>!</example>
             </rule>
         </rulegroup>
         <rulegroup id="ZUPASSKOMMEN" name="zu Pass kommen (zupasskomen)">
@@ -25884,6 +25898,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Meinten Sie <suggestion><match no="2" case_conversion="startlower"/></suggestion> (feststellen)?</message>
             <short>&prgk;.</short>
             <example correction="fest">Später stellte man <marker>Fest</marker>, dass er krank war.</example>
+        </rule>
+        <rule id="FEST" name="fest (Fest)">
+            <pattern>
+                <token regexp="yes">(besinnlich|froh|groß|schön)es?</token>
+                <marker>
+                    <token case_sensitive="yes">fest</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="2" case_conversion="startupper"/></suggestion> (= Feier)?</message>
+            <short>&prgk;.</short>
+            <example correction="Fest">Frohes <marker>fest</marker>!</example>
         </rule>
         <rulegroup id="DAS_KLEINES_SUBST_ADJEKTIV" name="kleingeschriebenes nominalisiertes Adjektiv am Satzanfang">
             <rule>
