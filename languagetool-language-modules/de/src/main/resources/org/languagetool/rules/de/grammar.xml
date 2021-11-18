@@ -7194,6 +7194,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Er predigt gerne vom <marker>Katheder</marker> herab.</example>
             <example>Er verkündet vom <marker>Katheder</marker> allerhand.</example>
         </rule>
+        <rulegroup id="FROHES_SCHAFFEN" name="'rohes (frohes) Schaffen'">
+            <short>&verw;</short>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>rohes</token>
+                    </marker>
+                    <token case_sensitive="yes">Schaffen</token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="1" regexp_match="[rR]" regexp_replace="fr"/></suggestion>?</message>
+                <example correction="frohes">Noch ein <marker>rohes</marker> Schaffen!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>frohes</token>
+                    <marker>
+                        <token case_sensitive="yes">schaffen</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie das Substantiv <suggestion><match no="2" case_conversion="startupper"/></suggestion> (= Arbeiten)?</message>
+                <example correction="Schaffen">Noch ein frohes <marker>schaffen</marker>!</example>
+            </rule>
+        </rulegroup>
         <rule id="GEISEL_DER_MENSCHHEIT" name="Geisel (Geißel) der Menschheit">
             <pattern>
                 <marker>
