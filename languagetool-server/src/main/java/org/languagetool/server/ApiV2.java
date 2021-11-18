@@ -110,7 +110,7 @@ class ApiV2 {
   }
 
   private void handleMaxTextLengthRequest(HttpExchange httpExchange, HTTPServerConfig config) throws IOException {
-    String response = Integer.toString(UserLimits.getDefaultLimits(config).getMaxTextLength());
+    String response = Integer.toString(config.getMaxTextLengthAnonymous());
     ServerTools.setCommonHeaders(httpExchange, TEXT_CONTENT_TYPE, allowOriginUrl);
     httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
     httpExchange.getResponseBody().write(response.getBytes(ENCODING));
