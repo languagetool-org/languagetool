@@ -510,13 +510,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="ENTSCHEIDEN_ENTSCHEIDEND" name="entscheiden(d)">
             <pattern case_sensitive="yes">
-                <token inflected="yes" skip="1">sein<exception scope="next">zu</exception><exception postag="PKT" scope="next"/></token>
+                <token postag="VER:.*" postag_regexp="yes" inflected="yes" skip="1">sein
+                    <exception scope="next">zu</exception>
+                    <exception postag="PKT" scope="next"/>
+                    <exception>sein</exception>
+                </token>
                 <marker><token>entscheiden</token></marker>
             </pattern>
             <message>Meinten Sie <suggestion>entschieden</suggestion> oder <suggestion>entscheidend</suggestion>?</message>
             <short>&typo;</short>
             <example correction="entschieden|entscheidend">Für ihn war es <marker>entscheiden</marker>, dass sie kommt.</example>
             <example>Zuerst entscheiden wir, was notwendig ist zu entscheiden.</example>
+            <example>Es wird spannend, weil der Trainer erst am Freitag über sein Antreten entscheiden kann.</example>
+            <example>Nur der Mensch kann über seinen Weg entscheiden.</example>
         </rule>
         <rulegroup id="BELEIBT_BELIEBT" name="beliebt (beleibt)">
             <rule>
