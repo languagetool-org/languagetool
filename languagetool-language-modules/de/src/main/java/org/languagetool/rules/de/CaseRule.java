@@ -1084,7 +1084,7 @@ public class CaseRule extends Rule {
     ),
     Arrays.asList(
       regex("im"),
-      csRegex("Stillen|Dunkeln|Hellen|Trüben|Kalten|Warmen"),
+      csRegex("Stillen|Dunkeln|Hellen|Trüben|Kalten|Warmen|Geringsten|Entferntesten"),
       csRegex("[a-zäöü…\\.!\\?…].*")
     ),
     Arrays.asList(

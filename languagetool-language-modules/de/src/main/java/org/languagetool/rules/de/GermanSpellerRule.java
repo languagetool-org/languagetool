@@ -1191,7 +1191,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Sachs?en-Anhal?t", "Sachsen-Anhalt");
     put("[Ss]chalgen", "schlagen");
     put("[Ss]chalge", "schlage");
-    put("Deutschsprache", "deutsche Sprache");
+    put("[dD]eutsche?sprache", "deutsche Sprache");
     put("eigl", "eigtl");
     put("ma", "mal");
     put("leidete", "litt");
@@ -1204,6 +1204,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("[Rr]eviewing", "Review");
     put("[Bb]aldmöglich", "baldmöglichst");
     put("[Bb]rudi", "Bruder");
+    put("ih", w -> Arrays.asList("ich", "in", "im", "ah"));
+    put("Ih", w -> Arrays.asList("Ich", "In", "Im", "Ah"));
     put("[qQ]uicky", "Quickie");
     put("[qQ]uickys", "Quickies");
     put("strang", w -> Arrays.asList("Strang", "strengte"));

@@ -215,13 +215,8 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction=""><marker>Auflage</marker> München 2010, S. 17</example>
             </rule>
             <rule>
-                <pattern>
-                    <token postag="SENT_START" />
-                    <marker>
-                        <token regexp="yes">@.+</token>
-                    </marker>
-                </pattern>
-                <example correction=""><marker>@Christian</marker> die Milch ist schlecht.</example>
+                <regexp mark="1">^@(\S+)</regexp>
+                <example correction="">@<marker>Christian</marker> wir beabsichtigen ...</example>
             </rule>
         </rulegroup>
         <rulegroup id="AI_HYDRA_LEO_CP_WIE_WIR" name="">
