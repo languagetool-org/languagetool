@@ -46,6 +46,7 @@ public class EnglishRepeatedWordsRuleTest {
   @Test
   public void testRule() throws IOException {   
     
+    assertCorrectText("It needs to be done. That needs to be done.");
     assertCorrectText("This is a new experience. Happy New Year!");
     assertCorrectText("This was needed. There is a need to do it.");
     assertCorrectText("It needs to be done. That also needed to be done.");
@@ -76,9 +77,9 @@ public class EnglishRepeatedWordsRuleTest {
     assertEquals(1, matches.length);
     assertEquals("odd", matches[0].getSuggestedReplacements().get(0));
     
-    matches=getRuleMatches("It needs to be done. That needs to be done.");
-    assertEquals(1, matches.length);
-    assertEquals("requires", matches[0].getSuggestedReplacements().get(0));
+    //matches=getRuleMatches("It needs to be done. That needs to be done.");
+    //assertEquals(1, matches.length);
+    //assertEquals("requires", matches[0].getSuggestedReplacements().get(0));
     
   }
   
