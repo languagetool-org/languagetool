@@ -130,6 +130,7 @@ public class AgreementRule extends Rule {
     "d",
     "er", "sie", "es",
     "wir",
+    "mich",
     "mir",
     "uns",
     "ihnen",
