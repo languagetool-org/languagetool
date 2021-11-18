@@ -46,7 +46,7 @@ public class MorfologikSpanishSpellerRule extends MorfologikSpellerRule {
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern PARTICULA_FINAL = Pattern.compile("^(..+) (que|cual)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern SPLIT_SUGGESTIONS = Pattern.compile("^(..+\\p{L}|en|de|del|al|y|o|con)(\\d+)$",
+  private static final Pattern SPLIT_SUGGESTIONS = Pattern.compile("^(..+\\p{L}|en|de|del|al|a|y|o|con)(\\d+)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern ANY_TAG = Pattern.compile("[NVACPDRS].*");
   private static final SpanishTagger tagger = SpanishTagger.INSTANCE;
