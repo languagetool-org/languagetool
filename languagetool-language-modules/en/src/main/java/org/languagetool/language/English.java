@@ -411,7 +411,7 @@ public class English extends Language implements AutoCloseable {
       case "IT_IF":                     return 1;   // needs higher prio than PRP_COMMA and IF_YOU_ANY
       case "FINE_TUNE_COMPOUNDS":       return 1;   // prefer over less specific rules
       case "WHAT_IS_YOU":               return 1;   // prefer over HOW_DO_I_VB, NON3PRS_VERB
-      case "SUPPOSE_TO":                return 1;   // prefer over HOW_DO_I_VB and I_AM_VB
+      case "SUPPOSE_TO":                return 1;   // prefer over HOW_DO_I_VB and I_AM_VB and ARE_WE_HAVE
       case "CONFUSION_GONG_GOING":      return 1;   // prefer over I_AM_VB
       case "SEEN_SEEM":                 return 1;   // prefer over PRP_PAST_PART
       case "PROFANITY":                 return 1;   // prefer over spell checker (less prio than EN_COMPOUNDS)
@@ -422,7 +422,6 @@ public class English extends Language implements AutoCloseable {
       case "WANNA":                     return 1;   // prefer over spell checker
       case "LOOK_FORWARD_TO":           return 1;   // prefer over LOOK_FORWARD_NOT_FOLLOWED_BY_TO
       case "LOOK_SLIKE":                return 1;   // higher prio than prem:SINGULAR_NOUN_VERB_AGREEMENT
-      case "PRP_VB_IMPROVE":            return 1;   // higher prio than PRP_VB
       case "A3FT":                      return 1;   // higher prio than NUMBERS_IN_WORDS
       case "EN_DIACRITICS_REPLACE":     return -1;   // prefer over spell checker
       case "MISSING_COMMA_BETWEEN_DAY_AND_YEAR":     return -1;   // less priority than DATE_WEEKDAY
@@ -500,6 +499,7 @@ public class English extends Language implements AutoCloseable {
       case "MORFOLOGIK_RULE_EN_AU":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "PRP_MD_NN":                 return -12;  // prefer other more specific rules (e.g. MD_ABLE, WONT_WANT)
       case "TWO_CONNECTED_MODAL_VERBS": return -15;
+      case "PRP_VB_IMPROVE":            return -24;  // higher prio than PRP_VB but prefer other rules (with suggestions, e.g. confusion rules)
       case "WANT_TO_NN":                return -25;  // prefer more specific rules that give a suggestion
       case "QUESTION_WITHOUT_VERB":     return -25;  // prefer more specific rules that give a suggestion
       case "PRP_VB":                    return -25;  // prefer other rules (with suggestions, e.g. confusion rules)

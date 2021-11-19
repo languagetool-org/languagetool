@@ -7960,7 +7960,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="DT|PRP\$" postag_regexp="yes" min="0" />
             <token chunk_re="E-NP.*" />
             <token postag="RB" min="0" />
-            <token postag="JJ" />
+            <token postag="JJ|VBG" postag_regexp="yes" />
         </antipattern>
         <antipattern><!-- Aren't your hands clean? -->
             <token postag="CC|PCT|SENT_START|W.*" postag_regexp="yes" />
@@ -7969,7 +7969,24 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="DT|PRP\$" postag_regexp="yes" min="0" />
             <token chunk_re="E-NP.*" />
             <token postag="RB" min="0" />
-            <token postag="JJ" />
+            <token postag="JJ|VBG" postag_regexp="yes" />
+        </antipattern>
+        <antipattern><!-- What isn't Synthetics monitor doing differently? -->
+            <token postag="CC|PCT|SENT_START|W.*" postag_regexp="yes" />
+            <token inflected="yes">be</token>
+            <token>n't</token>
+            <token postag="DT|PRP\$" postag_regexp="yes" min="0" />
+            <token chunk_re="E-NP.*" />
+            <token postag="NN.*" postag_regexp="yes" chunk="B-VP" /><!-- incorrect chunk -->
+            <token postag="VBG" postag_regexp="yes" chunk_re=".-VP" />
+        </antipattern>
+        <antipattern><!-- What isn't Synthetics monitor doing differently? -->
+            <token postag="CC|PCT|SENT_START|W.*" postag_regexp="yes" />
+            <token inflected="yes">be</token>
+            <token postag="DT|PRP\$" postag_regexp="yes" min="0" />
+            <token chunk_re="E-NP.*" />
+            <token postag="NN.*" postag_regexp="yes" chunk="B-VP" /><!-- incorrect chunk -->
+            <token postag="VBG" postag_regexp="yes" chunk_re=".-VP" />
         </antipattern>
         <pattern>
             <and>
@@ -8024,6 +8041,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">This is not a five minutes task to solve.</example>
         <example type="untouched">Are my clothes already dry?</example>
         <example type="untouched">Why are some people shy?</example>
+        <example type="untouched">What is Synthetics monitor doing differently?</example>
         <example type="untouched">Are your hands clean?</example>
         <example type="untouched">Which options can I instrumentalize to pay?</example>
         <example type="untouched">Which options can our customers instrumentalize to pay?</example>
@@ -8714,7 +8732,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token regexp="yes">it|that</token>
             <token regexp="yes">'s|is</token><!-- TODO add 'was' -->
             <token postag="VBZ">
-                <exception regexp="yes">companies|friends|buddies|twins|guys|fruits|beans|horses|headquarters|bruises|wives</exception>
+                <exception regexp="yes">companies|friends|guts|buddies|twins|guys|fruits|beans|horses|headquarters|bruises|wives</exception>
             </token>
             <token postag="RB" min="0" />
             <token postag="IN|PRP\$|DT" postag_regexp="yes" chunk_re=".-(NP.*|PP)" /><!-- TODO add 'PCT' -->
@@ -8733,7 +8751,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token regexp="yes">s?he</token>
             <token>is</token><!-- TODO add 'was' -->
             <token postag="VBZ">
-                <exception regexp="yes">companies|friends|buddies|twins|guys||fruits|beans|horses|headquarters|bruises|wives</exception>
+                <exception regexp="yes">companies|friends|guts|buddies|twins|guys||fruits|beans|horses|headquarters|bruises|wives</exception>
             </token>
             <token postag="RB" min="0" />
             <token postag="IN|PRP\$|DT" postag_regexp="yes" chunk_re=".-(NP.*|PP)" /><!-- TODO add 'PCT' -->
