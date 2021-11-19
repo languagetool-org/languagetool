@@ -51,6 +51,7 @@ import static org.languagetool.tools.StringTools.startsWithUppercase;
  * <ul>
  *  <li>DET/PRO NOUN: e.g. "mein Auto", "der Mann", "die Frau" (correct), "die Haus" (incorrect)</li>
  *  <li>DET/PRO ADJ NOUN: e.g. "der riesige Tisch" (correct), "die riesigen Tisch" (incorrect)</li>
+ *  <li>DET/PRO ADJ ADJ NOUN: e.g. "der große riesige Tisch" (correct), "die große riesige Tisch" (incorrect)</li>
  * </ul>
  *
  * Note that this rule only checks agreement inside the noun phrase, not whether
@@ -92,16 +93,16 @@ public class AgreementRule extends Rule {
   private static final String SHORT_MSG = "Evtl. keine Übereinstimmung von Kasus, Numerus oder Genus";
 
   private static final Set<String> MODIFIERS = new HashSet<>(Arrays.asList(
-      "dringend",
-      "laufend",
-      "besonders",
-      "fast",
-      "ganz",
-      "geradezu",
-      "sehr",
-      "überaus",
-      "ziemlich"
-    ));
+    "dringend",
+    "laufend",
+    "besonders",
+    "fast",
+    "ganz",
+    "geradezu",
+    "sehr",
+    "überaus",
+    "ziemlich"
+  ));
 
   private static final Set<String> VIELE_WENIGE_LOWERCASE = new HashSet<>(Arrays.asList(
     "jegliche",
@@ -125,6 +126,7 @@ public class AgreementRule extends Rule {
   private static final String[] REL_PRONOUN_LEMMAS = {"der", "welch"};
 
   private static final Set<String> PRONOUNS_TO_BE_IGNORED = new HashSet<>(Arrays.asList(
+    "dies",
     "ich",
     "dir",
     "dich",
@@ -242,9 +244,7 @@ public class AgreementRule extends Rule {
     AnalyzedTokenReadings[] origTokens = Arrays.copyOf(tokens, tokens.length);
     Map<Integer, ReplacementType> replMap = replacePrepositionsByArticle(tokens);
     for (int i = 0; i < tokens.length; i++) {
-      //defaulting to the first reading
-      //TODO: check for all readings
-      String posToken = tokens[i].getAnalyzedToken(0).getPOSTag();
+      String posToken = tokens[i].getAnalyzedToken(0).getPOSTag();  //TODO: check for all readings?
       if (JLanguageTool.SENTENCE_START_TAGNAME.equals(posToken) || tokens[i].isImmunized() || origTokens[i].isImmunized()) {
         continue;
       }
@@ -261,9 +261,6 @@ public class AgreementRule extends Rule {
       }
       // avoid false alarm on "nichts Gutes" and "alles Gute"
       AnalyzedTokenReadings tokenReadings = tokens[i];
-      if (StringUtils.equalsAny(tokenReadings.getToken(), "nichts", "Nichts", "alles", "Alles", "dies", "Dies")) {
-        continue;
-      }
       // avoid false alarm on "Art. 1" and "bisherigen Art. 1" (Art. = Artikel):
       boolean detAbbrev = i < tokens.length-2 && tokens[i+1].getToken().equals("Art") && tokens[i+2].getToken().equals(".");
       boolean detAdjAbbrev = i < tokens.length-3 && tokens[i+2].getToken().equals("Art") && tokens[i+3].getToken().equals(".");
@@ -433,15 +430,12 @@ public class AgreementRule extends Rule {
       List<String> errorCategories = getCategoriesCausingError(token1, token2);
       String errorDetails = errorCategories.isEmpty() ?
             "Kasus, Genus oder Numerus" : String.join(" und ", errorCategories);
-      String msg = "Möglicherweise fehlende grammatische Übereinstimmung " +
-            "des " + errorDetails + ".";
+      String msg = "Möglicherweise fehlende grammatische Übereinstimmung des " + errorDetails + ".";
       String shortMsg = "Evtl. keine Übereinstimmung von Kasus, Genus oder Numerus";
       ruleMatch = new RuleMatch(this, sentence, token1.getStartPos(),
               token2.getEndPos(), msg, shortMsg);
-      /*
       // this will not give a match for compounds that are not in the dictionary...
-      ruleMatch.setUrl(new URL("https://www.korrekturen.de/flexion/deklination/" + token2.getToken() + "/"));
-      }*/
+      //ruleMatch.setUrl(Tools.getUrl("https://www.korrekturen.de/flexion/deklination/" + token2.getToken() + "/"));
       AgreementSuggestor2 suggestor = new AgreementSuggestor2(language.getSynthesizer(), token1, token2, replMap.get(tokenPos));
       suggestor.setPreposition(maybePreposition);
       ruleMatch.setSuggestedReplacements(suggestor.getSuggestions(true));
@@ -598,7 +592,6 @@ public class AgreementRule extends Rule {
     return ruleMatch;
   }
 
-  // TODO: partially duplicates checkDetAdjNounAgreement
   private RuleMatch checkDetAdjAdjNounAgreement(AnalyzedTokenReadings maybePreposition, AnalyzedTokenReadings token1,
                                              AnalyzedTokenReadings token2, AnalyzedTokenReadings token3, AnalyzedTokenReadings token4,
                                              AnalyzedSentence sentence, int tokenPos, Map<Integer, ReplacementType> replMap) {
