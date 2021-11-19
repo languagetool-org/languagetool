@@ -1987,15 +1987,29 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig postag="CC"/>
     </rule>
-    <rule name="if (noun/adv) + determiner -&gt; if (conj)" id="IF_NN_CC">
-        <pattern>
-            <marker>
-                <token>if</token>
-            </marker>
-            <token postag_regexp="yes" postag="DT|PRP"/>
-        </pattern>
-        <disambig postag="CC"/>
-    </rule>
+    <rulegroup name="if (noun/adv) + determiner -&gt; if (conj)" id="IF_NN_CC">
+        <rule>
+            <pattern>
+                <marker>
+                    <token>if</token>
+                </marker>
+                <token postag_regexp="yes" postag="DT|PRP.*|EX"/>
+            </pattern>
+            <disambig postag="CC"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>if</token>
+                </marker>
+                <token postag="NN.*|JJ" postag_regexp="yes" chunk_re="B-NP.*" min="0" />
+                <token postag="NNPS?|NN:UN?|NNS" postag_regexp="yes" chunk_re="E-NP.*" />
+                <token postag="RB" min="0" />
+                <token postag="VB.*|MD" postag_regexp="yes" chunk_re=".-VP" />
+            </pattern>
+            <disambig postag="CC"/>
+        </rule>
+    </rulegroup>
     <rule name="los + proper name -&gt; los (proper name)" id="LOS_NNP">
         <pattern>
             <marker>
