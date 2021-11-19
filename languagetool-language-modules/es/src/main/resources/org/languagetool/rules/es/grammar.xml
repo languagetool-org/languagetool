@@ -13713,12 +13713,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>sobre</token>
                 <token>todo</token>
             </antipattern>
+            <antipattern>
+                <token>a</token>
+                <token regexp="yes">todos|todas</token>
+                <token>suerte</token>
+            </antipattern>
             <pattern>
                 <unify negate="yes">
                     <feature id="numero"/>
                     <feature id="genero"/>
                     <token inflected="yes">todo<exception postag="_GN_.*" postag_regexp="yes"/></token>
-                    <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">modo|manera|forma|clase|tipo<exception postag="_IS_URL"/></token>
+                    <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">modo|manera|forma|clase|tipo|estilo|género|moda|suerte|corte|casta|categoría|condición|especie|estilo|familia|grupo|orden<exception postag="_IS_URL"/></token>
                 </unify>
             </pattern>
             <message>Posible error de concordancia.</message>
@@ -13746,6 +13751,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Es de todos conocido su hábito.</example>
             <example>Esos estudiantes están estudiando todos inglés.</example>
             <example>Os deseamos a todos suerte en vuestro contacto.</example>
+            <example>Ejemplos de todo orden.</example>
+            <example>Toda orden debe ser obedecida.</example>
         </rule>
         <rulegroup id="AGREEMENT_PARTICULAR_CASES" name="otros casos de concordancia">
             <rule id="LAS_NUMBER_MALE" name="'las tres preceptos' etcétera">
