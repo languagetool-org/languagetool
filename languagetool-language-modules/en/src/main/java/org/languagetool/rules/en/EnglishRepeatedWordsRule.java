@@ -44,7 +44,7 @@ public class EnglishRepeatedWordsRule extends AbstractRepeatedWordsRule{
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
-      token("need"),   // "I still need -> require to sign-in"
+      tokenRegex("need(s|ed|ing)?"),   // "I still need -> require to sign-in"
       token("to")
     ));
 
