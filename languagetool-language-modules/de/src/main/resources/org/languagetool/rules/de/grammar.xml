@@ -21807,7 +21807,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>'Sinn machen' ist umgangssprachlich.</short>
                 <example correction="ergab für mich wenig Sinn|war für mich nicht sinnvoll|stiftete für mich wenig Sinn">Das <marker>machte für mich wenig Sinn</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>macht</token>
                     <token min="0" regexp="yes">vielleicht|womöglich|natürlich|gar|durchaus|allerdings|jetzt|nun|eigentlich|wirklich|überhaupt|echt|einfach</token>
@@ -21822,7 +21822,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>'Sinn machen' ist umgangssprachlich.</short>
                 <example correction="ergibt keinen Sinn|stiftet keinen Sinn|ist sinnlos|ist nicht sinnvoll">Es <marker>macht keinen Sinn</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>machte</token>
                     <token min="0" regexp="yes">vielleicht|womöglich|natürlich|gar|durchaus|allerdings|jetzt|nun|eigentlich|wirklich|überhaupt|echt|einfach</token>
@@ -23694,7 +23694,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
-        <rulegroup id="BEI_GOOGLE" name="bei google (Google)" default="temp_off">
+        <rule id="GENAUERES_SAGEN" name="genaueres (Genaueres) sagen" default="temp_off">
+            <pattern>
+                <marker>
+                    <token case_sensitive="yes" skip="5">
+                        genaueres
+                        <exception postag=".*:NEU.*|UNKNOWN|PKT" postag_regexp="yes" scope="next" />
+                        <exception regexp="yes">und|sowie|oder|aber|weil</exception>
+                    </token>
+                </marker>
+                <token inflected="yes" regexp="yes">sagen|wissen</token>
+            </pattern>
+            <message>Nominalisierte Adjektive sollten in der Regel großgeschrieben werden.</message>
+            <suggestion><match no="1" case_conversion="startupper" /></suggestion>
+            <example correction="Genaueres">Ich melde mich, wenn ich <marker>genaueres</marker> weiß.</example>
+            <example correction="Genaueres">... aber <marker>genaueres</marker> kann ich dazu noch nicht sagen.</example>
+        </rule>
+        <rulegroup id="BEI_GOOGLE" name="bei google (Google)">
             <antipattern>
                 <token />
                 <token spacebefore="no" regexp="yes">[\._]</token>
@@ -23724,7 +23740,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="WhatsApp">Ich schreibe dir bei <marker>whatsapp</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="NICHTS_ZU_SCHADE" name="zu Schade (schade)" default="temp_off">
+        <rulegroup id="NICHTS_ZU_SCHADE" name="zu Schade (schade)">
             <rule>
                 <pattern>
                     <token>zu</token>
@@ -26030,7 +26046,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="FEST" name="fest (Fest)">
             <pattern>
-                <token regexp="yes">(besinnlich|froh|groß|schön)es?</token>
+                <token regexp="yes">(besinnlich|froh|gro(ß|ss)|schön)es?</token>
                 <marker>
                     <token case_sensitive="yes">fest</token>
                 </marker>
@@ -41261,7 +41277,7 @@ Andere Projekte</example>
                 <short>&prgk;.</short>
                 <example correction="Nachfrage">Angebot und <marker>nachfrage</marker> bestimmen den Preis.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[Aa]uf</token>
                     <marker>
@@ -41272,7 +41288,7 @@ Andere Projekte</example>
                 <short>&prgk;.</short>
                 <example correction="Nachfrage">Auf <marker>nachfrage</marker> hieß es, dass es nicht geht.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">wegen|aufgrund</token>
                     <token>der</token>
@@ -41453,7 +41469,7 @@ Andere Projekte</example>
                 </antipattern>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[zZ]um|[bB]eim|im|ins</token>
-                    <token postag="(ADJ|PA2):DAT:SIN:NEU:GRU:.*" postag_regexp="yes" min="0"><exception>anderen</exception></token>
+                    <token postag="(ADJ|PA[12]):DAT:SIN:NEU:GRU:.*" postag_regexp="yes" min="0"><exception>anderen</exception></token>
                     <marker>
                         <token postag="VER:INF.*" postag_regexp="yes" regexp="yes">[a-zäöü].+
                             <exception postag_regexp="yes" postag="ADJ:.*"/>
