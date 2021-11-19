@@ -47,8 +47,6 @@ public class EnglishRepeatedWordsRuleTest {
   public void testRule() throws IOException {   
     
     assertCorrectText("This is a new experience. Happy New Year!");
-    assertCorrectText("This was needed. There is a need to do it.");
-    assertCorrectText("It needs to be done. That also needed to be done.");
     assertCorrectText("I still need to sign-in somewhere. You need to sign-in too.");
     
     assertCorrectText("Asia Global Crossing Ltd. Global Crossing and Asia Global Crossing.");
