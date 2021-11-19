@@ -122,7 +122,7 @@ public class CompoundRule extends AbstractCompoundRule {
             "Compound");
     addExamplePair(Example.wrong("I now have a <marker>part time</marker> job."),
                    Example.fixed("I now have a <marker>part-time</marker> job."));
-    setUrl(Tools.getUrl("https://insights.languagetool.com/post/hyphen/"));
+    setUrl(Tools.getUrl("https://languagetool.org/insights/post/hyphen/"));
     if (englishSpellerRule == null) {
       englishSpellerRule = new MorfologikAmericanSpellerRule(messages, new AmericanEnglish());
     }
