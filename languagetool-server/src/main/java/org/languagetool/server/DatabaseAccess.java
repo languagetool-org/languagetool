@@ -22,7 +22,6 @@ import com.google.common.cache.Cache;
 import org.apache.ibatis.jdbc.SQL;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Premium;
 
@@ -86,10 +85,6 @@ abstract class DatabaseAccess {
   abstract void invalidateCaches();
 
   abstract Cache<String, List<String>> getCache(Long userId, Long cacheSize);
-  abstract List<String> getUserDictWords(Long userId, @Nullable Long dictCacheSize, List<String> groups);
-  abstract List<String> getWordsFromDictionaries(UserLimits limits, List<String> groups);
-
-  abstract List<String> getWords(Long userId, List<String> groupNames, int offset, int limit);
 
   abstract boolean addWord(String word, Long userId, String groupName);
 
@@ -208,5 +203,12 @@ abstract class DatabaseAccess {
     }
   }
 
+  /**
+   * @param limits user account and settings for e.g. caching
+   * @param groups names of dictionaries to be fetched, or null for default dictionary
+   * @param offset use offset with limit for an ordered list of words in the dictionary, or RowBounds.NO_ROW_OFFSET
+   * @param limit use limit with offset for an ordered list of words in the dictionary, or use RowBounds.NO_ROW_LIMIT
+   * @return a list of words from the user's dictionary (complete, or from the given range)
+   */
   public abstract List<String> getWords(UserLimits limits, List<String> groups, int offset, int limit);
 }
