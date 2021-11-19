@@ -4391,7 +4391,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Peleó porque llegara la luz.</example>
             </rule>
         </rulegroup>
-        <rule id="SUBJUNTIVO_PASADO" name="confusión cante/canté">
+        <rulegroup id="SUBJUNTIVO_PASADO" name="confusión cante/canté">
             <!-- Needs much better disambiguation -->
             <antipattern>
                 <token regexp="yes">él|ella|usted</token>
@@ -4537,116 +4537,158 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="CC|_PUNCT.*" postag_regexp="yes" min="1" max="2"/>
                 <token postag="VMSP[13]S0" postag_regexp="yes"/>
             </antipattern>
-            <pattern>
-                <and>
-                    <token inflected="yes" regexp="yes">.*ar<exception postag="_GN_.*|RG|[NA].*|V.I.*|V.N.*" postag_regexp="yes"/><exception scope="previous">se</exception></token>
-                    <token postag="VMSP[13]S0" postag_regexp="yes" regexp="yes" case_sensitive="yes">\p{Ll}.*e<exception postag="_possible_NP"/><exception regexp="yes">.+[ui]e.+e</exception></token>
-                </and>
-            </pattern>
-            <message>Si es pasado, se escribe con tilde. Si es imperativo, puede que falte una coma.</message>
-            <suggestion> <match no="1" postag="VMSP[13]S0" postag_regexp="yes" postag_replace="VMIS1S0"/></suggestion>
-            <suggestion>, \1</suggestion>
-            <example correction=" analicé|, analice">Yo lo<marker> analice</marker> ayer.</example>
-            <example correction=" canté|, cante">Yo<marker> cante</marker> esto.</example>
-            <example correction=" limité|, limite">Me<marker> limite</marker> a archivar las fichas.</example>
-            <example correction=" presioné|, presione">Disculpa, sin darme cuenta<marker> presione</marker> el botón de envío.</example>
-            <example correction=" tomé|, tome">Ayer<marker> tome</marker> el día libre.</example>
-            <example correction=" enfadé|, enfade">Me<marker> enfade</marker>.</example>
-            <example correction=" usé|, use">En este caso<marker> use</marker> referencias a entidades HTML.</example>
-            <!-- better suggestion: célebre -->
-            <example correction=" celebré|, celebre">dando origen al tristemente<marker> celebre</marker> episodio</example>
-            <example>Cante usted esto.</example>
-            <example>No cante tan alto.</example>
-            <example>No nos lo cante tan alto.</example>
-            <example>No lo analice así.</example>
-            <!-- TODO: with mark of past: ayer -->
-            <example>Cuando lo analice mañana.</example>
-            <example>El cante jondo.</example>
-            <example>Que cante bien, no implica nada.</example>
-            <example>Hable como hable no importa.</example>
-            <example>Cuando hable con él, explíqueselo.</example>
-            <example>Piense lo que piense.</example>
-            <example>Más tarde, empezó a escribir.</example>
-            <example>Además, suele ser colaborador.</example>
-            <example>pero se vende equipamiento</example>
-            <example>En caso de que un mismo equipo dispute las dos finales del año y no llegue a ganar ninguna.</example>
-            <example>Aún pueden verse hoy en día.</example>
-            <example>Se cree que las lenguas.</example>
-            <example>No importa a quién vote el pueblo.</example>
-            <example>sin importar qué sistema de unidades de medida se utilice</example>
-            <example>"Disculpe", me dijo.</example>
-            <example>Estamos de acuerdo se publique.</example>
-            <example>Aunque se considere ya gótica.</example>
-            <example>Aunque lo considere extraño.</example>
-            <example>Y pese a ello fue un éxito.</example>
-            <example>siempre y cuando respete las preferencias</example>
-            <example>Dios te salve, María.</example>
-            <example>Por favor rellene este formulario.</example>
-            <example>Por favor, rellene este formulario.</example>
-            <example>Por favor, señor, rellene este formulario.</example>
-            <example>¿Le diste las gracias?</example>
-            <example>Te llamaré tan pronto llegue al aeropuerto.</example>
-            <example>Te llamaré tan pronto se lo lleve.</example>
-            <example>Te llamaré tan pronto como llegue al aeropuerto.</example>
-            <example>Te guste o no, tienes que hacer tu tarea.</example>
-            <example>Recoge tus cosas y vete.</example>
-            <example>Probablemente gane el partido.</example>
-            <example>Usted aceptó el desafío, ahora encare las consecuencias.</example>
-            <example>A partir de hoy, intente usted ser puntual.</example>
-            <example>A partir de hoy, intente ser puntual.</example>
-            <example>No tengo más tiempo,¡ date un poco de prisa!</example>
-            <example>Por favor siéntese y espere hasta que digan su nombre.</example>
-            <example>Bien, ahora trate de cerrarla.</example>
-            <example>Él tiene mucho pegue.</example>
-            <example>De casualidad estaba yo libre el domingo pasado.</example>
-            <example>Seguramente gane las próximas elecciones.</example>
-            <example>Devolveré este libro a la escuela apenas acabe de leerlo.</example>
-            <example>Por favor, siéntese aquí y espere.</example>
-            <example>Apenas me entere, te lo digo.</example>
-            <example>John cantó "Imagine" en el escenario.</example>
-            <example>Tal vez nunca me entere del porqué.</example>
-            <example>Oh, disculpe.</example>
-            <example>Tal vez algún día logre amarla de verdad.</example>
-            <example>a la luz del sol (use en un entorno donde las temperaturas varíen</example>
-            <example>En caso de incendio, use las escaleras.</example>
-            <example>¡Le suplico, llame a un doctor!</example>
-            <example>En adelante, trate de llegar a tiempo a la oficina.</example>
-            <example>En caso de peligro, presione este botón.</example>
-            <example>Estoy tratando de leer, ¡apague el televisor!</example>
-            <example>Un momento, espere un minuto.</example>
-            <example>Antes de ingerirla, cocine bien la carne.</example>
-            <example>En caso de emergencia, llame al 119.</example>
-            <example>En caso de emergencia, marque 119.</example>
-            <example>Después del semáforo, gire a la derecha.</example>
-            <example>Por favor, en caso de emergencia presione este botón al instante.</example>
-            <example>Antes de salir de casa, consulte el servicio meteorológico.</example>
-            <example>Deberías escribir "maneje con cuidado" en el paquete</example>
-            <example>Haga cuantas copias desee.</example>
-            <example>Segunda actividad: realice un mapa.</example>
-            <example>Espero me perdone.</example>
-            <example>Espero tome a bien mi petición.</example>
-            <example>Una vez termine de cargar, pulse Enter.</example>
-            <example>Le guste a uno la expresión o no.</example>
-            <example>En tanto el planteamiento ocasione más ineficacia.</example>
-            <example>Entre en el menú y seleccione el segundo apartado.</example>
-            <example>Muchas gracias y disculpe las molestias.</example>
-            <example>Ni siquiera sabe escribir su propio nombre.</example>
-            <example>El hombre llevaba un revólver calibre 38 largo por si acaso.</example>
-            <example>Las plantas del género Securinega produce alcaloides con el esqueleto base.</example>
-            <example>Servicio de cercanías con trenes serie 2500.</example>
-            <example>Los hechos son axiomas base que se consideran como verdaderos.</example>
-            <example>Cambios en el Consejo General y aprobación del texto base del estatuto de autonomía.</example>
-            <example>asociación cobre-indio-selenio</example>
-            <example>Puerto serie RS232C</example>
-            <example>se añade directamente al número base de la CDU.</example>
-            <example>configuró la pantalla en modo deporte</example>
-            <example>Ruego se le consulte a la empresa.</example>
-            <example>Se hará cuantas veces lo determine la ley.</example>
-            <example>Tomar parte en cuantas actividades organice la asociación.</example>
-            <example>O revise la puntuación.</example>
-            <!--<example>Cada uno exprese su opinión.</example>
+            <rule default="temp_off">
+                <pattern>
+                    <token>nos</token>
+                    <and>
+                        <token inflected="yes" regexp="yes">.*ar<exception postag="_GN_.*|RG|[NA].*|V.I.*|V.N.*" postag_regexp="yes"/></token>
+                        <token postag="VMSP1S0" postag_regexp="yes" regexp="yes" case_sensitive="yes">\p{Ll}.*e<exception postag="_possible_NP"/><exception regexp="yes">.+[ui]e.+e</exception></token>
+                    </and>
+                </pattern>
+                <message>Si es imperativo, el pronombre va detrás del verbo.</message>
+                <suggestion><match no="2" postag="VMSP1S0" postag_regexp="yes" postag_replace="VMM03S0:PP1CP000"/></suggestion>
+                <example correction="Avísenos"><marker>Nos avise</marker> cuanto antes.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>nos</token>
+                    <and>
+                        <token inflected="yes" regexp="yes">.*ar<exception postag="_GN_.*|RG|[NA].*|V.I.*|V.N.*" postag_regexp="yes"/></token>
+                        <token postag="VMSP1S0" postag_regexp="yes" regexp="yes" case_sensitive="yes">\p{Ll}.*e<exception postag="_possible_NP"/><exception regexp="yes">.+[ui]e.+e</exception></token>
+                    </and>
+                </pattern>
+                <message>Si es un imperativo, el pronombre va detrás del verbo.</message>
+                <suggestion><match no="2" postag="VMSP1S0" postag_regexp="yes" postag_replace="VMM03S0:PP1CP000"/></suggestion>
+                <example correction="Avísenos"><marker>Nos avise</marker> cuanto antes.</example>
+            </rule>
+            <!--<rule default="temp_off">
+                <pattern>
+                    <token>me</token>
+                    <and>
+                        <token inflected="yes" regexp="yes">.*ar<exception postag="_GN_.*|RG|[NA].*|V.I.*|V.N.*" postag_regexp="yes"/></token>
+                        <token postag="VMSP1S0" postag_regexp="yes" regexp="yes" case_sensitive="yes">\p{Ll}.*e<exception postag="_possible_NP"/><exception regexp="yes">.+[ui]e.+e</exception></token>
+                    </and>
+                </pattern>
+                <message>Si es un imperativo, el pronombre va detrás del verbo.</message>
+                <suggestion><match no="2" postag="VMSP1S0" postag_regexp="yes" postag_replace="VMM03S0:PP1CS000"/></suggestion>
+                <example correction="Avíseme"><marker>Me avise</marker> cuanto antes.</example>
+            </rule>-->
+            <rule>
+                <antipattern>
+                    <token>nos</token>
+                    <token postag="VMSP1S0"/>
+                </antipattern>
+                <pattern>
+                    <and>
+                        <token inflected="yes" regexp="yes">.*ar<exception postag="_GN_.*|RG|[NA].*|V.I.*|V.N.*" postag_regexp="yes"/><exception scope="previous">se</exception></token>
+                        <token postag="VMSP[13]S0" postag_regexp="yes" regexp="yes" case_sensitive="yes">\p{Ll}.*e<exception postag="_possible_NP"/><exception regexp="yes">.+[ui]e.+e</exception></token>
+                    </and>
+                </pattern>
+                <message>Si es pasado, se escribe con tilde. Si es imperativo, puede que falte una coma.</message>
+                <suggestion> <match no="1" postag="VMSP[13]S0" postag_regexp="yes" postag_replace="VMIS1S0"/></suggestion>
+                <suggestion>, \1</suggestion>
+                <example correction=" analicé|, analice">Yo lo<marker> analice</marker> ayer.</example>
+                <example correction=" canté|, cante">Yo<marker> cante</marker> esto.</example>
+                <example correction=" limité|, limite">Me<marker> limite</marker> a archivar las fichas.</example>
+                <example correction=" presioné|, presione">Disculpa, sin darme cuenta<marker> presione</marker> el botón de envío.</example>
+                <example correction=" tomé|, tome">Ayer<marker> tome</marker> el día libre.</example>
+                <example correction=" enfadé|, enfade">Me<marker> enfade</marker>.</example>
+                <example correction=" usé|, use">En este caso<marker> use</marker> referencias a entidades HTML.</example>
+                <!-- better suggestion: célebre -->
+                <example correction=" celebré|, celebre">dando origen al tristemente<marker> celebre</marker> episodio</example>
+                <example>Cante usted esto.</example>
+                <example>No cante tan alto.</example>
+                <example>No nos lo cante tan alto.</example>
+                <example>No lo analice así.</example>
+                <!-- TODO: with mark of past: ayer -->
+                <example>Cuando lo analice mañana.</example>
+                <example>El cante jondo.</example>
+                <example>Que cante bien, no implica nada.</example>
+                <example>Hable como hable no importa.</example>
+                <example>Cuando hable con él, explíqueselo.</example>
+                <example>Piense lo que piense.</example>
+                <example>Más tarde, empezó a escribir.</example>
+                <example>Además, suele ser colaborador.</example>
+                <example>pero se vende equipamiento</example>
+                <example>En caso de que un mismo equipo dispute las dos finales del año y no llegue a ganar ninguna.</example>
+                <example>Aún pueden verse hoy en día.</example>
+                <example>Se cree que las lenguas.</example>
+                <example>No importa a quién vote el pueblo.</example>
+                <example>sin importar qué sistema de unidades de medida se utilice</example>
+                <example>"Disculpe", me dijo.</example>
+                <example>Estamos de acuerdo se publique.</example>
+                <example>Aunque se considere ya gótica.</example>
+                <example>Aunque lo considere extraño.</example>
+                <example>Y pese a ello fue un éxito.</example>
+                <example>siempre y cuando respete las preferencias</example>
+                <example>Dios te salve, María.</example>
+                <example>Por favor rellene este formulario.</example>
+                <example>Por favor, rellene este formulario.</example>
+                <example>Por favor, señor, rellene este formulario.</example>
+                <example>¿Le diste las gracias?</example>
+                <example>Te llamaré tan pronto llegue al aeropuerto.</example>
+                <example>Te llamaré tan pronto se lo lleve.</example>
+                <example>Te llamaré tan pronto como llegue al aeropuerto.</example>
+                <example>Te guste o no, tienes que hacer tu tarea.</example>
+                <example>Recoge tus cosas y vete.</example>
+                <example>Probablemente gane el partido.</example>
+                <example>Usted aceptó el desafío, ahora encare las consecuencias.</example>
+                <example>A partir de hoy, intente usted ser puntual.</example>
+                <example>A partir de hoy, intente ser puntual.</example>
+                <example>No tengo más tiempo,¡ date un poco de prisa!</example>
+                <example>Por favor siéntese y espere hasta que digan su nombre.</example>
+                <example>Bien, ahora trate de cerrarla.</example>
+                <example>Él tiene mucho pegue.</example>
+                <example>De casualidad estaba yo libre el domingo pasado.</example>
+                <example>Seguramente gane las próximas elecciones.</example>
+                <example>Devolveré este libro a la escuela apenas acabe de leerlo.</example>
+                <example>Por favor, siéntese aquí y espere.</example>
+                <example>Apenas me entere, te lo digo.</example>
+                <example>John cantó "Imagine" en el escenario.</example>
+                <example>Tal vez nunca me entere del porqué.</example>
+                <example>Oh, disculpe.</example>
+                <example>Tal vez algún día logre amarla de verdad.</example>
+                <example>a la luz del sol (use en un entorno donde las temperaturas varíen</example>
+                <example>En caso de incendio, use las escaleras.</example>
+                <example>¡Le suplico, llame a un doctor!</example>
+                <example>En adelante, trate de llegar a tiempo a la oficina.</example>
+                <example>En caso de peligro, presione este botón.</example>
+                <example>Estoy tratando de leer, ¡apague el televisor!</example>
+                <example>Un momento, espere un minuto.</example>
+                <example>Antes de ingerirla, cocine bien la carne.</example>
+                <example>En caso de emergencia, llame al 119.</example>
+                <example>En caso de emergencia, marque 119.</example>
+                <example>Después del semáforo, gire a la derecha.</example>
+                <example>Por favor, en caso de emergencia presione este botón al instante.</example>
+                <example>Antes de salir de casa, consulte el servicio meteorológico.</example>
+                <example>Deberías escribir "maneje con cuidado" en el paquete</example>
+                <example>Haga cuantas copias desee.</example>
+                <example>Segunda actividad: realice un mapa.</example>
+                <example>Espero me perdone.</example>
+                <example>Espero tome a bien mi petición.</example>
+                <example>Una vez termine de cargar, pulse Enter.</example>
+                <example>Le guste a uno la expresión o no.</example>
+                <example>En tanto el planteamiento ocasione más ineficacia.</example>
+                <example>Entre en el menú y seleccione el segundo apartado.</example>
+                <example>Muchas gracias y disculpe las molestias.</example>
+                <example>Ni siquiera sabe escribir su propio nombre.</example>
+                <example>El hombre llevaba un revólver calibre 38 largo por si acaso.</example>
+                <example>Las plantas del género Securinega produce alcaloides con el esqueleto base.</example>
+                <example>Servicio de cercanías con trenes serie 2500.</example>
+                <example>Los hechos son axiomas base que se consideran como verdaderos.</example>
+                <example>Cambios en el Consejo General y aprobación del texto base del estatuto de autonomía.</example>
+                <example>asociación cobre-indio-selenio</example>
+                <example>Puerto serie RS232C</example>
+                <example>se añade directamente al número base de la CDU.</example>
+                <example>configuró la pantalla en modo deporte</example>
+                <example>Ruego se le consulte a la empresa.</example>
+                <example>Se hará cuantas veces lo determine la ley.</example>
+                <example>Tomar parte en cuantas actividades organice la asociación.</example>
+                <example>O revise la puntuación.</example>
+                <!--<example>Cada uno exprese su opinión.</example>
                 ambigous: ¡Sí! ¡Gane dos veces seguidas! -->
-        </rule>
+            </rule>
+        </rulegroup>
         <rulegroup id="SUBJUNTIVO_PASADO2" name="analice/analicé ayer">
             <antipattern>
                 <token regexp="yes">el|del</token>
