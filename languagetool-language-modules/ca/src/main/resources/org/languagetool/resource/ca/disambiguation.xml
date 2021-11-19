@@ -7608,6 +7608,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="V.G.*"/>
     </rule>
+    <rule id="tecnicament_parlant" name="tècnicament parlant">
+        <pattern>
+            <token postag="RG_anteposat|.*LOC_ADV.*" postag_regexp="yes"/>
+            <marker>
+                <token postag="V.G.*" postag_regexp="yes">parlant</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="V.G.*"/>
+    </rule>
     <rule id="adv_adjgerund" name="adverbi + adjectiu/gerundi">
         <!-- tan important -->
         <pattern>
@@ -7615,7 +7624,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <marker>
                 <and>
                     <token postag="V.G.*" postag_regexp="yes"/>
-                    <token postag="A.*" postag_regexp="yes"><exception>portant</exception></token>
+                    <token postag="A.*" postag_regexp="yes"><exception regexp="yes">portant</exception></token>
                 </and>
             </marker>
         </pattern>
