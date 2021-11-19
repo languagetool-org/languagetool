@@ -528,7 +528,7 @@ class CheckRequestAnalysis {
    * Get the Position of Paragraph if result is ordered by right mouse click or spelling dialog
    * returns -1 if it fails
    */
-  private int getParaFromViewCursorOrDialog(String chPara, Locale locale, int[] footnotePositions) {
+  private int getParaFromViewCursorOrDialog(String chParaWithFootnotes, Locale locale, int[] footnotePositions) {
     // try to get ViewCursor position (proof initiated by mouse click)
     if (docCache == null || isDisposed()) {
       return -1;
@@ -538,14 +538,21 @@ class CheckRequestAnalysis {
     }
     int nPara;
     String vcText = SingleCheck.removeFootnotes(viewCursor.getViewCursorParagraphText(), footnotePositions);
-    chPara = SingleCheck.removeFootnotes(chPara, footnotePositions);
+    String chPara = SingleCheck.removeFootnotes(chParaWithFootnotes, footnotePositions);
     if (chPara.equals(vcText)) {
       nPara = viewCursor.getViewCursorParagraph();
       if (nPara >= 0 && nPara < docCache.textSize()) {
         nPara = docCache.getFlatParagraphNumber(nPara);
         numLastVCPara = nPara;
-        if(!docCache.isEqual(nPara, chPara, locale)) {
+        if(!docCache.isEqual(nPara, chParaWithFootnotes, locale)) {
           actualizeDocumentCache(nPara);
+          String dcText = SingleCheck.removeFootnotes(docCache.getFlatParagraph(nPara), footnotePositions);
+          if (!dcText.equals(chPara)) {
+            if (debugMode > 0) {
+              MessageHandler.printToLogFile("From View Cursor: Is Table, Footnote, etc): Number of Paragraph: " + nPara);
+            }
+            return -1;
+          }
           textIsChanged = true;
         }
       } else {
