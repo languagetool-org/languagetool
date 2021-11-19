@@ -250,19 +250,21 @@ public class AgreementRule extends Rule {
       AnalyzedTokenReadings tokenReadings = tokens[i];
       boolean relevantPronoun = isRelevantPronoun(tokens, i);
 
-      boolean ignore = couldBeRelativeOrDependentClause(tokens, i);
+      if (couldBeRelativeOrDependentClause(tokens, i)) {
+        continue;
+      }
       if (i > 0) {
         String prevToken = tokens[i-1].getToken().toLowerCase();
         if (StringUtils.equalsAny(tokens[i].getToken(), "eine", "einen")
             && StringUtils.equalsAny(prevToken, "der", "die", "das", "des", "dieses")) {
           // TODO: "der eine Polizist" -> nicht ignorieren, sondern "der polizist" checken; "auf der einen Seite"
-          ignore = true;
+          continue;
         }
       }
 
       // avoid false alarm on "nichts Gutes" and "alles Gute"
       if (StringUtils.equalsAny(tokenReadings.getToken(), "nichts", "Nichts", "alles", "Alles", "dies", "Dies")) {
-        ignore = true;
+        continue;
       }
 
       // avoid false alarm on "Art. 1" and "bisherigen Art. 1" (Art. = Artikel):
@@ -271,10 +273,10 @@ public class AgreementRule extends Rule {
       // "einen Hochwasser führenden Fluss", "die Gott zugeschriebenen Eigenschaften":
       boolean followingParticiple = i < tokens.length-3 && (tokens[i+2].hasPartialPosTag("PA1") || tokens[i+2].getToken().matches("zugeschriebenen?|genannten?"));
       if (detAbbrev || detAdjAbbrev || followingParticiple) {
-        ignore = true;
+        continue;
       }
 
-      if ((hasReadingOfType(tokenReadings, POSType.DETERMINER) || relevantPronoun) && !ignore) {
+      if (hasReadingOfType(tokenReadings, POSType.DETERMINER) || relevantPronoun) {
         int tokenPosAfterModifier = getPosAfterModifier(i+1, tokens);
         String skippedStr = null;
         if (tokenPosAfterModifier > i+1) {
