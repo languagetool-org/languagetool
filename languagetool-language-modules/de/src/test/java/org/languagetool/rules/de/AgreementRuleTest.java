@@ -531,6 +531,8 @@ public class AgreementRuleTest {
     assertGood("Die Multiple Sklerose hat 1000 Gesichter.");
     assertGood("Na ja, einige nennen das Freundschaft plus, aber das machen wir besser nicht.");
     assertGood("Vogue, eigentlich als B-Seite der letzten Like A Prayer-Auskopplung Keep It Together gedacht, wurde kurzfristig als eigenständige Single herausgebracht");
+    assertGood("..., die laufend Gewaltsituationen ausgeliefert sind");
+    assertGood("Dann folgte die Festnahme der dringend Tatverdächtigen.");
 
     assertGood("Ich habe meine Projektidee (die riesiges finanzielles Potenzial hat) an einen Unternehmenspräsidenten geschickt.");
     // TODO: not yet detected:
