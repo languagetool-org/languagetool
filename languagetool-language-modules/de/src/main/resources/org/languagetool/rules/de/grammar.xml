@@ -5960,12 +5960,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>am</token>
                 <token>eigenen</token>
                 <marker>
-                    <token regexp="yes">L(ai|ie)b</token>
+                    <token>Laib</token>
                 </marker>
             </pattern>
             <message>Meinten Sie die Wendung "am eigenen <suggestion>Leib</suggestion>"?</message>
             <example correction="Leib">Ich musste das am eigenen <marker>Laib</marker> erfahren.</example>
         </rule>
+        <rulegroup id="LEIB_LIEB" name="Leib vs Lieb" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">ganzen|eigenen|kranke[nr]?|abgemagerte[nr]|ausgemergelte[nr]?|jugendliche[nr]?</token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">L(ie|ai)b</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie den <suggestion>Leib</suggestion> (= Körper)?</message>
+                <example correction="Leib">Er zitterte am ganzen <marker>Lieb</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">L(ie|ai)b</token>
+                    </marker>
+                    <token>Christi</token>
+                </pattern>
+                <message>Meinten Sie den <suggestion>Leib</suggestion> (= Körper)?</message>
+                <example correction="Leib">Der <marker>Lieb</marker> Christi</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">L(ie|ai)b</token>
+                    </marker>
+                    <token>und</token>
+                    <token>Seele</token>
+                </pattern>
+                <message>Meinten Sie den <suggestion>Leib</suggestion> (= Körper)?</message>
+                <example correction="Leib"><marker>Lieb</marker> und Seele</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="CAFE_KAFFEE" name="Café vs Kaffee">
             <antipattern>
                 <token regexp="yes">Caf[èéêe]</token>
