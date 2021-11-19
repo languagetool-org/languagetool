@@ -248,10 +248,6 @@ public class AgreementRule extends Rule {
       if (JLanguageTool.SENTENCE_START_TAGNAME.equals(posToken) || tokens[i].isImmunized() || origTokens[i].isImmunized()) {
         continue;
       }
-
-      AnalyzedTokenReadings tokenReadings = tokens[i];
-      boolean relevantPronoun = isRelevantPronoun(tokens, i);
-
       if (couldBeRelativeOrDependentClause(tokens, i)) {
         continue;
       }
@@ -263,12 +259,11 @@ public class AgreementRule extends Rule {
           continue;
         }
       }
-
       // avoid false alarm on "nichts Gutes" and "alles Gute"
+      AnalyzedTokenReadings tokenReadings = tokens[i];
       if (StringUtils.equalsAny(tokenReadings.getToken(), "nichts", "Nichts", "alles", "Alles", "dies", "Dies")) {
         continue;
       }
-
       // avoid false alarm on "Art. 1" and "bisherigen Art. 1" (Art. = Artikel):
       boolean detAbbrev = i < tokens.length-2 && tokens[i+1].getToken().equals("Art") && tokens[i+2].getToken().equals(".");
       boolean detAdjAbbrev = i < tokens.length-3 && tokens[i+2].getToken().equals("Art") && tokens[i+3].getToken().equals(".");
@@ -277,8 +272,7 @@ public class AgreementRule extends Rule {
       if (detAbbrev || detAdjAbbrev || followingParticiple) {
         continue;
       }
-
-      if (hasReadingOfType(tokenReadings, POSType.DETERMINER) || relevantPronoun) {
+      if (hasReadingOfType(tokenReadings, POSType.DETERMINER) || isRelevantPronoun(tokens, i)) {
         int tokenPosAfterModifier = getPosAfterModifier(i+1, tokens);
         String skippedStr = null;
         if (tokenPosAfterModifier > i+1) {
@@ -444,11 +438,9 @@ public class AgreementRule extends Rule {
       String shortMsg = "Evtl. keine Übereinstimmung von Kasus, Genus oder Numerus";
       ruleMatch = new RuleMatch(this, sentence, token1.getStartPos(),
               token2.getEndPos(), msg, shortMsg);
-      /*try {
-        // this will not give a match for compounds that are not in the dictionary...
-        ruleMatch.setUrl(new URL("https://www.korrekturen.de/flexion/deklination/" + token2.getToken() + "/"));
-      } catch (MalformedURLException e) {
-        throw new RuntimeException(e);
+      /*
+      // this will not give a match for compounds that are not in the dictionary...
+      ruleMatch.setUrl(new URL("https://www.korrekturen.de/flexion/deklination/" + token2.getToken() + "/"));
       }*/
       AgreementSuggestor2 suggestor = new AgreementSuggestor2(language.getSynthesizer(), token1, token2, replMap.get(tokenPos));
       suggestor.setPreposition(maybePreposition);
