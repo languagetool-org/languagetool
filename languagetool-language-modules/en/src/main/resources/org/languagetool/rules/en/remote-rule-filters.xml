@@ -29,6 +29,11 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
     <category name="Machine learning rules" id="AI_RULES">
         <rulegroup id="AI_HYDRA_LEO_CPT_IS_ARE" name="">
             <rule> <!-- VBG NNP?S is -->
+                <antipattern>
+                    <token skip="1" postag="VBG" chunk_re="I-NP.+"/>
+                    <token postag="NNP?S" postag_regexp="yes"/>
+                    <token>is</token>
+                </antipattern>
                 <pattern>
                     <token skip="1" postag="VBG"/>
                     <token postag="NNP?S" postag_regexp="yes"/>
@@ -37,6 +42,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     </marker>
                 </pattern>
                 <example correction="">Loving crimes <marker>is</marker> not recommended</example>
+                <example>The two prevailing theories is that in 1635, they were either the survivors of two recorded shipwrecks, or somehow took over the ship they came on.</example>
             </rule>
             <rule>  <!-- who/what is NNP? -->
                 <pattern>
