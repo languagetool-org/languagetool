@@ -19,6 +19,7 @@
 package org.languagetool.tools;
 
 import org.languagetool.*;
+import org.languagetool.markup.*;
 import org.languagetool.rules.*;
 import org.languagetool.rules.bitext.BitextRule;
 import org.languagetool.rules.patterns.PasswordAuthenticator;
@@ -207,6 +208,67 @@ public final class Tools {
       return contents;  
     }    
     return correctTextFromMatches(contents, ruleMatches);    
+  }
+
+  /**
+   * Rechecks the contents and returns valid and invalid suggestions
+   * by checking the corrected text and evaluating the new rule matchs.
+   * Can be slow if 
+   * 
+   * @param contents String to be checked
+   * @param lt Initialized Language Tool object
+   * @param level Level of the check (sentence, paragraph, etc)
+   * @return Map containing the valid and invalid rule matches
+   * @throws IOException
+   */
+  public static Map<String, List<RuleMatch>> recheck(String contents, JLanguageTool lt, JLanguageTool.Level level) throws IOException {
+    List<RuleMatch> ruleMatches = lt.check(new AnnotatedTextBuilder().addText(contents).build(), true, JLanguageTool.ParagraphHandling.NORMAL,
+      null, JLanguageTool.Mode.ALL, level);
+    Map<String, List<RuleMatch>> resultMap = new HashMap<String, List<RuleMatch>>();
+    resultMap.put("valid", new ArrayList<RuleMatch>());
+    resultMap.put("invalid", new ArrayList<RuleMatch>());
+    if (ruleMatches.isEmpty()) {
+      return resultMap;
+    }
+    for (RuleMatch match : ruleMatches) {
+      List<RuleMatch> matchList = Collections.singletonList(match);
+      String corrected = correctTextFromMatches(contents, matchList);
+      List<RuleMatch> correctedRuleMatchs = lt.check(corrected);
+
+      // offset adjusment is inspired by correctTextFromMatches() below
+      List<String> replacements = match.getSuggestedReplacements();
+      Integer offset = match.getToPos() - match.getFromPos() - replacements.get(0).length();
+      Set<Integer[]> otherMatchPosSet = new HashSet<Integer[]>();
+      boolean beforeMatch = true;
+      for (RuleMatch rm : ruleMatches) {
+        if (rm == match) {
+          beforeMatch = false;
+          continue;
+        }
+        Integer[] offsetPos = beforeMatch ? new Integer[]{rm.getFromPos(), rm.getToPos()} :
+          new Integer[]{rm.getFromPos() - offset, rm.getToPos() - offset};
+        otherMatchPosSet.add(offsetPos);
+      }
+      
+      // If the corrected text 1) remove the current match; 2) doesn't raise any new match,
+      // then the current match is valid, i.e. matches of corrected text are all in the otherMatchSet.
+      boolean valid = true;
+      for (RuleMatch crm : correctedRuleMatchs) {
+        if (!otherMatchPosSet.contains(new Integer[]{crm.getFromPos(), crm.getToPos()})) {
+          List<RuleMatch> tmp = resultMap.get("invalid");
+          tmp.add(match);
+          resultMap.put("invalid", tmp);
+          valid = false;
+          break;
+        }
+      }
+      if (valid) {
+        List<RuleMatch> tmp = resultMap.get("valid");
+        tmp.add(match);
+        resultMap.put("valid", tmp);
+      }
+    }
+    return resultMap;
   }
 
   /**

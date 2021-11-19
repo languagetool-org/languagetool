@@ -20,6 +20,7 @@ package org.languagetool.commandline;
 
 import org.apache.commons.io.ByteOrderMark;
 import org.apache.commons.io.input.BOMInputStream;
+import org.checkerframework.checker.units.qual.s;
 import org.languagetool.*;
 import org.languagetool.bitext.TabBitextReader;
 import org.languagetool.language.AmericanEnglish;
@@ -278,6 +279,9 @@ class Main {
       System.out.print(Tools.correctText(s, lt));
     } else if (profileRules) {
       Tools.profileRulesOnLine(s, lt, currentRule);
+    } else if (options.isRecheck()) {
+      CommandLineTools.recheckText(s, lt, options.isXmlFormat(), options.isJsonFormat(), -1,
+          lineOffset, matches, mode, options.isListUnknown(), level, Collections.emptyList())
     } else if (!options.isTaggerOnly()) {
       CommandLineTools.checkText(s, lt, options.isXmlFormat(), options.isJsonFormat(), -1, 
           lineOffset, matches, mode, options.isListUnknown(), level, Collections.emptyList());

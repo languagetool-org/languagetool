@@ -39,6 +39,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
@@ -107,6 +108,57 @@ public final class CommandLineTools {
     long startTime = System.currentTimeMillis();
     List<RuleMatch> ruleMatches = lt.check(new AnnotatedTextBuilder().addText(contents).build(), true, JLanguageTool.ParagraphHandling.NORMAL,
       null, JLanguageTool.Mode.ALL, level);
+    ruleMatches.parallelStream().forEach(r -> {
+      // adjust line numbers
+      r.setLine(r.getLine() + lineOffset);
+      r.setEndLine(r.getEndLine() + lineOffset);
+
+      // calculate lazy suggestions in parallel and cache them
+      r.getSuggestedReplacementObjects();
+    });
+    if (isXmlFormat) {
+      if (listUnknownWords && apiMode == StringTools.ApiPrintMode.NORMAL_API) {
+        unknownWords = lt.getUnknownWords();
+      }
+      RuleMatchAsXmlSerializer serializer = new RuleMatchAsXmlSerializer();
+      String xml = serializer.ruleMatchesToXml(ruleMatches, contents,
+              contextSize, apiMode, lt.getLanguage(), unknownWords);
+      PrintStream out = new PrintStream(System.out, true, "UTF-8");
+      out.print(xml);
+    } else if (isJsonFormat) {
+      RuleMatchesAsJsonSerializer serializer = new RuleMatchesAsJsonSerializer();
+      String json = serializer.ruleMatchesToJson(ruleMatches, contents, contextSize,
+        new DetectedLanguage(lt.getLanguage(), lt.getLanguage()));
+      PrintStream out = new PrintStream(System.out, true, "UTF-8");
+      out.print(json);
+    } else {
+      printMatches(ruleMatches, prevMatches, contents, contextSize, lt.getLanguage());
+    }
+
+    //display stats if it's not in a buffered mode
+    if (apiMode == StringTools.ApiPrintMode.NORMAL_API && !isJsonFormat) {
+      SentenceTokenizer sentenceTokenizer = lt.getLanguage().getSentenceTokenizer();
+      int sentenceCount = sentenceTokenizer.tokenize(contents).size();
+      displayTimeStats(startTime, sentenceCount, isXmlFormat);
+    }
+    return ruleMatches.size();
+  }
+
+  /**
+   * Same as checkText except double checking the suggestions. Only returns
+   * the valid suggestions.
+   */
+  public static int recheckText(String contents, JLanguageTool lt,
+                                boolean isXmlFormat, boolean isJsonFormat, int contextSize, int lineOffset,
+                                int prevMatches, StringTools.ApiPrintMode apiMode,
+                                boolean listUnknownWords, JLanguageTool.Level level, List<String> unknownWords) throws IOException {
+    if (contextSize == -1) {
+      contextSize = DEFAULT_CONTEXT_SIZE;
+    }
+    long startTime = System.currentTimeMillis();    
+    Map<String, List<RuleMatch>> map = Tools.recheck(contents, lt, level);
+    List<RuleMatch> ruleMatches = map.get("valid");
+
     ruleMatches.parallelStream().forEach(r -> {
       // adjust line numbers
       r.setLine(r.getLine() + lineOffset);
