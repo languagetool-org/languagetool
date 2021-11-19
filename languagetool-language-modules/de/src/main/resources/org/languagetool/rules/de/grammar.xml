@@ -15820,6 +15820,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>&getrennt;.</short>
                 <example correction="Probefahren">Beim <marker>Probe fahren</marker> habe ich einen Unfall gebaut.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">zum|beim</token>
+                    <marker>
+                        <token regexp="yes">Kaffee|Caf[eèé]</token>
+                        <token>trinken</token>
+                    </marker>
+                    <token postag="VER.*|PKT|PRP.*" postag_regexp="yes" />
+                </pattern>
+                <message>Meinten Sie <suggestion>Kaffee<match case_conversion="alllower" no="3"/></suggestion>? Sie können alternativ auch eine Genitivkonstruktion ('zum Schneiden der Haare') o.ä. verwenden.</message>
+                <short>&getrennt;.</short>
+                <example correction="Kaffeetrinken">Wir treffen uns zum <marker>Kaffee trinken</marker>.</example>
+            </rule>
         </rulegroup>
         <rule id="EINST_WEILEN" name="'einst weilen (einstweilen)'">
             <regexp>\beinst weilen\b</regexp>
@@ -57675,10 +57688,11 @@ Andere Projekte</example>
         </rulegroup>
     </category>
     <category id="EMPFOHLENE_RECHTSCHREIBUNG" name="Empfohlene/Modernere Rechtschreibung" type="style">
-        <rule id="GEFEATURED" name="gefeatured -> gefeaturt">
-            <antipattern>
+        <rulegroup id="GEFEATURED" name="gefeatured -> gefeaturt">
+            <url>https://www.duden.de/sprachwissen/sprachratgeber/Das-Verb-liken</url>
+            <antipattern><!-- Englische Sätze -->
                 <token regexp="yes">.+ed</token>
-                <token>by</token>
+                <token regexp="yes">by|from|with|off?|the|an?|my|y?our|his|her|their</token>
             </antipattern>
             <antipattern>
                 <token>designed</token>
@@ -57689,13 +57703,26 @@ Andere Projekte</example>
                 <token>Checked</token>
                 <token>Swing</token>
             </antipattern>
-            <pattern>
-                <token case_sensitive="yes" regexp="yes">[Gg]eboostered|[Gg]ecrawled|[Gg]efracked|[Gg]espoilered|[Gg]ematched|[Aa]ngeteasered|[Gg]eteasered|[Gg]eouted|[Gg]eskyped|[Gg]ezapped|[Gg]ekited|[Gg]etaped|[Gg]edated|[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]etagged|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched|[Gg]etuned|[Gg]ecrashed|[Gg]ecat?ched|[Cc]hecked|[Ee]ntertained|[Gg]egoogled</token>
-            </pattern>
-            <message>Die empfohlene Schreibweise für diesen Anglizismus ist <suggestion><match no="1" regexp_match="ed$" regexp_replace="t" /></suggestion>.</message>
-            <url>https://www.duden.de/sprachwissen/sprachratgeber/Das-Verb-liken</url>
-            <example correction="gefeaturt">Wir wurden auf der Startseite des App Stores <marker>gefeatured</marker>.</example>
-        </rule>
+            <antipattern><!-- Englische Sätze -->
+                <token regexp="yes">was|were|is|are|be|been|s?he|it|you|they|I</token>
+                <token regexp="yes" min="0">.+ly</token>
+                <token regexp="yes">.+ed</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">[Gg]eboostered|[Gg]ecrawled|[Gg]efracked|[Gg]espoilered|[Gg]ematched|[Aa]ngeteasered|[Gg]eteasered|[Gg]eskyped|[Gg]ezapped|[Gg]etaped|[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]etagged|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched|[Gg]etuned|[Gg]ecrashed|[Gg]ecat?ched|[Cc]hecked|[Ee]ntertained|[Gg]egoogled</token>
+                </pattern>
+                <message>Die empfohlene Schreibweise für diesen Anglizismus ist <suggestion><match no="1" regexp_match="ed$" regexp_replace="t" /></suggestion>.</message>
+                <example correction="gefeaturt">Wir wurden auf der Startseite des App Stores <marker>gefeatured</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">[Gg]eouted|[Gg]ekited|[Gg]edated</token>
+                </pattern>
+                <message>Die empfohlene Schreibweise für diesen Anglizismus ist <suggestion><match no="1" regexp_match="ed$" regexp_replace="et" /></suggestion>.</message>
+                <example correction="gedatet">Sie haben sich 2 Wochen lang <marker>gedated</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="BZGL_ABK" name="Schreibweise der Abkürzung 'bzgl.'">
             <rule>
                 <pattern>

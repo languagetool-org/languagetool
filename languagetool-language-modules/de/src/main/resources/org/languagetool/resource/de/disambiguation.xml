@@ -4644,7 +4644,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <pattern case_sensitive="yes">
                 <token postag="UNKNOWN|SUB:.+" postag_regexp="yes" regexp="yes">[A-Z][a-z]+|[A-Z]+</token>
                 <token postag="UNKNOWN|SUB:.+" postag_regexp="yes" regexp="yes" min="0">[A-Z][a-z]+|[A-Z]+</token>
-                <token regexp="yes">Day|School|Card|One|Room|Black|Green|Blue|White|World|Kitchen|Society|Council|Advanced|Air|Dark|Health|Desk|Deluxe|Director|Agency|Energy|Care|Connect|Custom|Factory|Buildings?|Consumer|Connectors?|Dragon|Electronics|Technology|Intelligence|Convention|America|Authority|Conference|Culture|University|Corporation|Committee|Commands?|Relations|Communication|Group|Project|Gallery|Cathedral|Foundation|Life|Specialists?|Agents?|Records|Study|Advisor|Campaigns?|Partnerships?|Squad|Overviews?|Assistants?|Alliance|Pictures?|Journey|Dynamics|Hill|Rights?|Certificates?|Mountains?|Library|Manufacturers?|Commission</token>
+                <token regexp="yes">Day|School|Card|One|Room|Black|Green|Blue|White|World|Kitchen|Society|Council|Advanced|Air|Dark|Health|Desk|Deluxe|Director|Agency|Energy|Care|Connect|Custom|Factory|Buildings?|Consumer|Connectors?|Dragon|Electronics|Technology|Intelligence|Convention|America|Authority|Conference|Culture|University|Corporation|Committee|Commands?|Relations|Communication|Group|Project|Gallery|Cathedral|Foundation|Life|Specialists?|Agents?|Records|Study|Advisor|Campaigns?|Partnerships?|Squad|Overviews?|Assistants?|Alliance|Pictures?|Journey|Dynamics|Hill|Rights?|Certificates?|Mountains?|Library|Manufacturers?|Commission|Protections?</token>
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>
@@ -4791,7 +4791,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
 
     <rule id="POWERED_BY_IGNORE_SPELLING" name="powered by">
         <pattern case_sensitive="yes">
-            <token regexp="yes">[Pp]owered|POWERED</token>
+            <token regexp="yes">[Pp]owered|POWERED|[Dd]esigned|DESIGNED</token>
             <token regexp="yes">by|BY</token>
         </pattern>
         <disambig action="ignore_spelling"/>
@@ -5196,6 +5196,15 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             </marker>
             <token regexp="yes">und|oder|&amp;|\/|sowie</token>
             <token regexp="yes">(Aus|Ein).+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="IGNORE_MADE_IN_GERMANY" name="ignore 'made in Germany'">
+        <pattern case_sensitive="yes">
+            <token regexp="yes">[Mm]ade|MADE|[Dd]esigned|DESIGNED</token>
+            <token regexp="yes">in|IN</token>
+            <token regexp="yes">Europe|EUROPE|Switzerland|SWITZERLAND|Austria|AUSTRIA|Germany|GERMANY|Italy|ITALY|China|CHINA|USA|Thailand|THAILAND|India|INDIA|France|FRANCE</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>

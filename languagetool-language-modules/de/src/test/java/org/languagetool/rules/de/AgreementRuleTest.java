@@ -528,6 +528,7 @@ public class AgreementRuleTest {
     assertGood("Eine Lösung die Spaß macht");
     assertGood("Mir machte das Spaß.");
     assertGood("Wir möchten nicht, dass irgendjemand Fragen stellt.");
+    assertGood("Die Multiple Sklerose hat 1000 Gesichter.");
     assertGood("Na ja, einige nennen das Freundschaft plus, aber das machen wir besser nicht.");
     assertGood("Vogue, eigentlich als B-Seite der letzten Like A Prayer-Auskopplung Keep It Together gedacht, wurde kurzfristig als eigenständige Single herausgebracht");
 

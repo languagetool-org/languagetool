@@ -172,6 +172,7 @@ public class AgreementRule extends Rule {
     "Badlands",
     "Visual", // englisch
     "Special", // englisch
+    "Multiple", // englisch
     "Chief", // Chief Executive Officer
     "Carina", // Name
     "Wüstenrot", // Name
