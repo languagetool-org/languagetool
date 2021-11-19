@@ -468,7 +468,7 @@ public class AgreementRule extends Rule {
         String testPhrase = origToken1 + " " + potentialCompound;
         String hyphenPotentialCompound = token2.getToken() + "-" + nextToken.getToken();
         String hyphenTestPhrase = origToken1 + " " + hyphenPotentialCompound;
-        return getRuleMatch(token1, sentence, nextToken, testPhrase, hyphenTestPhrase);
+        return getRuleMatch(token1, nextToken, sentence, testPhrase, hyphenTestPhrase);
       }
     }
     return null;
@@ -486,7 +486,7 @@ public class AgreementRule extends Rule {
         String testPhrase = origToken1 + " " + token2.getToken() + " " + potentialCompound;
         String hyphenPotentialCompound = token3.getToken() + "-" + nextToken.getToken();
         String hyphenTestPhrase = origToken1 + " " + token2.getToken() + " " + hyphenPotentialCompound;
-        return getRuleMatch(token1, sentence, nextToken, testPhrase, hyphenTestPhrase);
+        return getRuleMatch(token1, nextToken, sentence, testPhrase, hyphenTestPhrase);
       }
     }
     return null;
@@ -504,29 +504,29 @@ public class AgreementRule extends Rule {
         String testPhrase = origToken1 + " " + token2.getToken() + " " + token3.getToken() + " " + potentialCompound;
         String hyphenPotentialCompound = token4.getToken() + "-" + nextToken.getToken();
         String hyphenTestPhrase = origToken1 + " " + token2.getToken() + " " + token3.getToken() + " " + hyphenPotentialCompound;
-        return getRuleMatch(token1, sentence, nextToken, testPhrase, hyphenTestPhrase);
+        return getRuleMatch(token1, nextToken, sentence, testPhrase, hyphenTestPhrase);
       }
     }
     return null;
   }
 
   @Nullable
-  private RuleMatch getRuleMatch(AnalyzedTokenReadings token1, AnalyzedSentence sentence, AnalyzedTokenReadings nextToken, String testPhrase, String hyphenTestPhrase) {
+  private RuleMatch getRuleMatch(AnalyzedTokenReadings token, AnalyzedTokenReadings token2, AnalyzedSentence sentence, String testPhrase, String hyphenTestPhrase) {
     try {
       initLt();
-      if (nextToken.getReadings().stream().allMatch(k -> k.getPOSTag() != null && !k.getPOSTag().startsWith("SUB"))) {
+      if (token2.getReadings().stream().allMatch(k -> k.getPOSTag() != null && !k.getPOSTag().startsWith("SUB"))) {
         return null;
       }
       List<String> replacements = new ArrayList<>();
-      if (lt.check(testPhrase).isEmpty() && nextToken.isTagged()) {
+      if (lt.check(testPhrase).isEmpty() && token2.isTagged()) {
         replacements.add(testPhrase);
       }
-      if (lt.check(hyphenTestPhrase).isEmpty() && nextToken.isTagged()) {
+      if (lt.check(hyphenTestPhrase).isEmpty() && token2.isTagged()) {
         replacements.add(hyphenTestPhrase);
       }
       if (replacements.size() > 0) {
         String message = "Wenn es sich um ein zusammengesetztes Nomen handelt, wird es zusammengeschrieben.";
-        RuleMatch ruleMatch = new RuleMatch(this, sentence, token1.getStartPos(), nextToken.getEndPos(), message);
+        RuleMatch ruleMatch = new RuleMatch(this, sentence, token.getStartPos(), token2.getEndPos(), message);
         ruleMatch.addSuggestedReplacements(replacements);
         ruleMatch.setUrl(Tools.getUrl("https://dict.leo.org/grammatik/deutsch/Rechtschreibung/Regeln/Getrennt-zusammen/Nomen.html#grammarAnchor-Nomen-49575"));
         return ruleMatch;
