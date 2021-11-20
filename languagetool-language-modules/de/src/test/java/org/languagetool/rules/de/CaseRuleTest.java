@@ -25,7 +25,6 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
 import org.languagetool.language.German;
-import org.languagetool.rules.patterns.StringMatcher;
 
 import java.io.IOException;
 
@@ -185,6 +184,7 @@ public class CaseRuleTest {
     assertGood("Hans Pries GmbH");
     assertGood(":D Auf dieses Frl.");
     assertGood("Das Gedicht “Der Panther”.");  // quotes are not correct, but leave that to the quotes rule
+    assertGood("Klar, dass wir das brauchen.");
 
     assertGood("Ist das eine Frage ? Müsste das nicht anders sein?");
     assertGood("Das ist ein Satz !!! Das auch.");
