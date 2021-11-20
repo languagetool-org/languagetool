@@ -290,7 +290,6 @@ public class CaseRuleTest {
     assertGood("Ich habe nicht viel von einem Reisenden.");
     assertGood("Die Vereinigten Staaten");
     assertGood("Der Satz vom ausgeschlossenen Dritten.");
-    assertGood("Übersetzer für Polnisch - so sind die Preise.");
     //TODO:
     assertGood("Die Ausgewählten werden gut betreut.");
     assertGood("Die ausgewählten Leute werden gut betreut.");

@@ -2141,7 +2141,7 @@ public class CaseRule extends Rule {
                             LanguageNames.get().contains(StringUtils.removeEnd(StringUtils.removeEnd(token, "n"), "e"));   // z.B. "im Japanischen" / z.B. "ins Japanische übersetzt"
     AnalyzedTokenReadings prevToken = i > 0 ? tokens[i-1] : null;
     AnalyzedTokenReadings nextReadings = i < tokens.length-1 ? tokens[i+1] : null;
-    return maybeLanguage && (!hasNounReading(nextReadings) || (prevToken != null && prevToken.getToken().matches("auf|für")));
+    return maybeLanguage && (!hasNounReading(nextReadings) || (prevToken != null && prevToken.getToken().equals("auf")));
   }
 
   private boolean isProbablyCity(int i, AnalyzedTokenReadings[] tokens, String token) {
