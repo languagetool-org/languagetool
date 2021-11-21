@@ -2609,6 +2609,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ведь для того чтобы пламя непрерывно горело, необходим приток свежего кислорода.</example>
                 <example>Он зашел к нам вовсе не для того, чтобы сообщить эту новость.</example>
             </rule>
+            <!--
+            <rule>
+                <pattern>
+                    <token postag_regexp="yes" postag="SENT_START"></token>
+                    <marker>
+                    <token>для</token>
+                    <token>того</token>
+                    <token>,</token>
+                    <token>чтобы</token>
+                    </marker>
+                </pattern>
+                <message>Лишняя запятая: <suggestion>\2 \3 \5</suggestion></message>
+                <url>https://russkiiyazyk.ru/punktuatsiya/dlia-togo-chtoby-zapyataya.html</url>
+                <short>Лишняя запятая</short>
+                <example correction="Для того чтобы"><marker>Для того, чтобы</marker>  капуста оставалась хрустящей, не стоит слишком сильно перетирать её с солью.</example>
+                <example>Для того чтобы капуста оставалась хрустящей, не стоит слишком сильно перетирать её с солью.</example>
+                <example>Он зашел к нам вовсе не для того, чтобы сообщить эту новость.</example>
+            </rule>  -->
         </rulegroup>
         <rulegroup default="on" id="Verb_comma_Verb" name="Глаголы как однородные члены предложения">
             <!-- TODO Another example: "Он шёл по улице говорил по телефону" Correction: "Он шёл по улице и говорил по телефону" or "Он шёл по улице, говорил по телефону".  -->
@@ -7290,8 +7308,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         
         
-        <rule default="temp_off" id="Soglasovanie_NN_PT" name="Согласование существительного с причастием">
-            <!-- Experimental rule, issue #1069, #1062 -->  
+        <rule default="temp_off" id="Soglasovanie_NN_PT_gender" name="Согласование существительного с причастием (род)">
+            <!-- Experimental rule, issue #1069, #1062 default="temp_off"-->  
             <pattern>
                 <token>
                     <exception postag="NN:.*|PNN:.*" postag_regexp="yes" />
@@ -7314,7 +7332,55 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="">Он увидел <marker>собаку, хромавшего</marker> на задние лапы.</example>
             <example>Он увидел собаку, хромавшую на задние лапы.</example>
         </rule>
-        
+        <rule default="temp_off" id="Soglasovanie_NN_PT_number" name="Согласование существительного с причастием (число)">
+            <!-- Experimental rule, issue #1069, #1062 -->  
+            <pattern>
+                <token>
+                    <exception postag="NN:.*|PNN:.*" postag_regexp="yes" />
+                    <exception regexp="yes">на|в</exception>
+                </token>
+                <unify negate="yes">
+                    <feature id="number"/>        
+                    <marker>
+                        <token postag="NN:.*:V" postag_regexp="yes"><exception postag="NN:.*:V" postag_regexp="yes" negate_pos="yes"></exception></token>
+                        <unify-ignore>
+                            <token>,</token>
+                        </unify-ignore>
+                        <token postag="PT:.*" postag_regexp="yes" ><exception postag="PT:.*" postag_regexp="yes" negate_pos="yes"></exception></token>
+                    </marker>
+                </unify>
+               <token><exception postag="NN:.*|PNN:.*" postag_regexp="yes" /></token>
+            </pattern>
+            <message>Ошибка в согласовании причастия по числу!</message>
+            <short>Ошибка в согласовании</short>
+            <example correction="">Он увидел <marker>собаку, хромавших</marker> на задние лапы.</example>
+            <example>Он увидел собаку, хромавшую на задние лапы.</example>
+        </rule>
+        <rule default="temp_off" id="Soglasovanie_NN_PT_case" name="Согласование существительного с причастием (падеж)">
+            <!-- Experimental rule, issue #1069, #1062 -->  
+            <pattern>
+                <token>
+                    <exception postag="NN:.*|PNN:.*" postag_regexp="yes" />
+                    <exception regexp="yes">на|в</exception>
+                </token>
+                <unify negate="yes">
+                    <feature id="case"/>        
+                    <marker>
+                        <token postag="NN:.*:V" postag_regexp="yes"><exception postag="NN:.*:V" postag_regexp="yes" negate_pos="yes"></exception></token>
+                        <unify-ignore>
+                            <token>,</token>
+                        </unify-ignore>
+                        <token postag="PT:.*" postag_regexp="yes" ><exception postag="PT:.*" postag_regexp="yes" negate_pos="yes"></exception></token>
+                    </marker>
+                </unify>
+               <token><exception postag="NN:.*|PNN:.*" postag_regexp="yes" /></token>
+            </pattern>
+            <message>Ошибка в согласовании причастия по падежу!</message>
+            <short>Ошибка в согласовании</short>
+            <example correction="">Он увидел <marker>собаку, хромавшая</marker> на задние лапы.</example>
+            <example>Он увидел собаку, хромавшую на задние лапы.</example>
+        </rule>
+               
         
         
         <rule  id="Adj_NN_number_Software" name="«Программное обеспечение»"> 
