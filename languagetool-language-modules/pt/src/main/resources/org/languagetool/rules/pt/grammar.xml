@@ -5128,30 +5128,6 @@ As crianças se aquietam mais frequentemente quando a gente as deita.
 		  <token postag='DA0MS0' postag_regexp='no'/>		  	  
       </antipattern>
 <!-- MARCOAGPINTO 2020-06-06 *END* -->
-<!-- MARCOAGPINTO 2020-12-08 (21-OCT-2020+) *START* -->
-<!--
-Basta colar uma lista de e-mails abaixo para enviar convites a todos nós.
-Basta colar uma lista de e-mails abaixo para enviar convites a todos vocês.
-Basta colar uma lista de e-mails abaixo para enviar convites a todos vós.
-Basta colar uma lista de e-mails abaixo para enviar convites a todos eles.
--->
-      <antipattern>
-	    <token regexp='no'>a</token>
-		<token postag='DI0MP0' postag_regexp='no'/>
-		<token postag='PP1CP000|PP2CP000|PP3CS000|PP3CP000|PP3MP000' postag_regexp='yes'/>
-      </antipattern>
-<!--
-Basta colar uma lista de e-mails abaixo para enviar convites a todas nós.
-Basta colar uma lista de e-mails abaixo para enviar convites a todas vocês.
-Basta colar uma lista de e-mails abaixo para enviar convites a todas vós.
-Basta colar uma lista de e-mails abaixo para enviar convites a todas elas.
--->
-      <antipattern>
-	    <token regexp='no'>a</token>
-		<token postag='DI0FP0' postag_regexp='no'/>
-		<token postag='PP1CP000|PP2CP000|PP3CS000|PP3CP000|PP3FP000' postag_regexp='yes'/>
-      </antipattern>
-<!-- MARCOAGPINTO 2020-12-08 (21-OCT-2020+) *END* -->
 <!-- MARCOAGPINTO 2021-02-09 (1-JAN-2021+) *START* -->
 <!--
 As folhas de louro dão um sabor especial ao feijão e a outros cozidos.
@@ -5187,6 +5163,22 @@ Estas instruções basearam-se nas várias a que tive acesso.
 		<token regexp='no'></token>
       </antipattern> 	  
 <!-- MARCOAGPINTO 2021-03-05 (1-JAN-2021+) *END* -->
+<!-- MARCOAGPINTO 2021-11-21 (25-JUN-2021+) *START* -->
+<!--
+A TOD[AO]S fix.
+Estou grato a todos aqueles que contribuíram para o meu desenvolvimento técnico.
+Basta colar uma lista de e-mails abaixo para enviar convites a todos nós.
+Basta colar uma lista de e-mails abaixo para enviar convites a todas nós.
+A todos os apelido e canais numa rede era atribuído uma marca temporal – a data e tempo da sua criação.
+O Commons é um banco de imagens, sons e mídia em geral comum a todas as Wikipédias.
+Mas a todos quantos o receberam deu-lhes o poder de serem feitos filhos de Deus.
+-->
+      <antipattern>
+		<token postag='DA..S.+' postag_regexp='yes'/>
+		<token postag='DI..P.+' postag_regexp='yes'/>
+		<token postag='DA..P.+|DD..P.+|CS|RG|PI..P.+|PP..P.+' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2021-11-21 (25-JUN-2021+) *END* -->
       <pattern>
           <unify negate="yes">
             <feature id="number"/>
@@ -5209,7 +5201,15 @@ Estas instruções basearam-se nas várias a que tive acesso.
 	  <example>A campanha de vendas levou eles a perdas de mais de 95%.</example>
 	  <example>A campanha de vendas levou estes a perdas de mais de 95%.</example>
 	  <example>Outras proteínas evoluíram de modo a ligar-se a sequências de ADN específicas.</example>
-	  <example>Estas instruções basearam-se nas várias a que tive acesso.</example>	  
+	  <example>Estas instruções basearam-se nas várias a que tive acesso.</example>
+
+
+	  <example>Estou grato a todos aqueles que contribuíram para o meu desenvolvimento técnico.</example>
+	  <example>Basta colar uma lista de e-mails abaixo para enviar convites a todos nós.</example>
+	  <example>Basta colar uma lista de e-mails abaixo para enviar convites a todas nós.</example>
+	  <example>A todos os apelido e canais numa rede era atribuído uma marca temporal – a data e tempo da sua criação.</example>
+	  <example>O Commons é um banco de imagens, sons e mídia em geral comum a todas as Wikipédias.</example>
+	  <example>Mas a todos quantos o receberam deu-lhes o poder de serem feitos filhos de Deus.</example>
     </rule>
   </rulegroup>
 
