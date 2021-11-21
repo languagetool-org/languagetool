@@ -12112,6 +12112,46 @@ onwaarschijnlijk
 				<example correction="nv">Elke <marker>n.v.</marker> draagt belastingen af.</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="PP_PUNT" name="pp. 20-33 → pagina's 20-33">
+			<rule>
+				<pattern>
+					<marker>
+						<token spacebefore="yes">pp</token>
+						<token spacebefore="no">.</token>
+					</marker>
+					<token regexp="yes">[0-9]+[-][0-9]+</token>
+				</pattern>
+				<message>Deze afkorting voor pagina's is alleen in bepaalde organisatie gewoon. Het advies is om voluit te schrijven.</message>
+				<suggestion>pagina's</suggestion>
+				<url>https://www.vlaanderen.be/taaladvies/pagina-paginas-afkorting</url>
+				<example correction="pagina's">Het staat op <marker>pp.</marker> 100-110.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token regexp="yes">[0-9]+</token>
+					<marker>
+						<token spacebefore="yes">pp</token>
+						<token spacebefore="no">.</token>
+					</marker>
+				</pattern>
+				<message>De afkorting voor pagina's is alleen in bepaalde organisatie gewoon. De afkorting voor per persoon is met punten.</message>
+				<suggestion>pagina's</suggestion>
+				<suggestion>p.p.</suggestion>
+				<suggestion>per persoon</suggestion>
+				<url>https://www.vlaanderen.be/taaladvies/pagina-paginas-afkorting</url>
+				<example correction="pagina's|p.p.|per persoon">Het is 50 <marker>pp.</marker> dik</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="PP" name="pp → p.p.">
+			<rule>
+				<pattern>
+					<token spacebefore="yes">pp</token>
+				</pattern>
+				<message>De juiste afkorting voor 'per persoon' is met punten.</message>
+				<suggestion>p.p.</suggestion>
+				<example correction="p.p.">Het staat op € 15 <marker>pp</marker>.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="AD" name="ad. → ad">
 			<rule>
 				<pattern case_sensitive="yes">
