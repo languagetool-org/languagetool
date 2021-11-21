@@ -41,10 +41,6 @@ class AgreementRuleAntiPatterns1 {
       token("Hinsicht")
     ),
     Arrays.asList(
-      tokenRegex("nichts|alles"),
-      tokenRegex("Gutes?")
-    ),
-    Arrays.asList(
       tokenRegex("der|die|das"),   // "die [daraus] jedem zukommende Freiheit", "im Lichte der diesem zukommenden Repräsentationsaufgabe"
       new PatternTokenBuilder().posRegex("ADV:.*").min(0).build(),
       tokenRegex("jedem|diesem"),

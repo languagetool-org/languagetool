@@ -126,6 +126,8 @@ public class AgreementRule extends Rule {
   private static final String[] REL_PRONOUN_LEMMAS = {"der", "welch"};
 
   private static final Set<String> PRONOUNS_TO_BE_IGNORED = new HashSet<>(Arrays.asList(
+    "nichts",
+    "alles",   // "Ruhe vor dem alles verheerenden Sturm", "Alles Große und Edle ist einfacher Art."
     "dies",
     "ich",
     "dir",
