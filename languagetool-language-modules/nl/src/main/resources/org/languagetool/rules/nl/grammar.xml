@@ -32099,6 +32099,39 @@ steenwijk;Steenwijk
 		</rule>
 		</rulegroup>
 		-->
+        <rule id="CIJFERS_IN_WOORD" name="Getal in woord" default="temp_off">
+            <antipattern><!-- Short words, abbreviations and proper nouns such as t3n, k3b etc.  -->
+                <token regexp="yes">\p{L}\d\p{L}</token>
+            </antipattern>
+            <antipattern><!-- Hashtags -->
+                <token>#</token>
+                <token spacebefore="no" />
+            </antipattern>
+            <antipattern>
+				<token regexp="yes">^[0-9]-.*</token>
+            </antipattern>
+            <antipattern>
+				<token regexp="yes">.+[0-9]-.+</token>
+            </antipattern>
+            <antipattern>
+				<token regexp="yes">.+-[0-9].+</token>
+            </antipattern>
+			<!--
+            <antipattern>
+                <token>.</token>
+                <token spacebefore="no" regexp="yes" case_sensitive="yes">[\p{Ll}\p{Lu}]\p{Ll}*[0-9]\p{Ll}+</token>
+            </antipattern>
+			-->
+            <pattern>
+                <token regexp="yes" postag="UNKNOWN" case_sensitive="yes">[\p{Ll}\p{Lu}]\p{Ll}*[0-9]\p{Ll}+</token>
+            </pattern>
+            <filter class="org.languagetool.rules.nl.DutchNumberInWordFilter" args="word:\1"/>
+            <message>Mogelijke tikfout.</message>
+            <example correction="Goede|Gede"><marker>G0ede</marker> morgen!</example>
+            <example>Hij is <marker>F16-piloot</marker>.</example>
+            <example>De kar is <marker>2-assig</marker>.</example>
+        </rule>
+
 		<rulegroup id="_2ASSIG" name="2assig/2-assig" >
 			<rule>
 				<pattern>
