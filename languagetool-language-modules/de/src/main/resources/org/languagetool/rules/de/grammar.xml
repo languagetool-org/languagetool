@@ -15853,7 +15853,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>&getrennt;.</short>
                 <example correction="Probefahren">Beim <marker>Probe fahren</marker> habe ich einen Unfall gebaut.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">zum|beim</token>
                     <marker>
@@ -23727,7 +23727,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
-        <rule id="GENAUERES_SAGEN" name="genaueres (Genaueres) sagen" default="temp_off">
+        <rulegroup id="DER_KLUEGERE_GIBT_NACH" name="Der klügere (Klügere) gibt nach" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">der|die</token>
+                    <marker>
+                        <token case_sensitive="yes">klügere</token>
+                    </marker>
+                    <token regexp="yes">gibt|gab</token>
+                    <token>nach</token>
+                </pattern>
+                <message>In dieser Redewendung wird <suggestion><match no="2" case_conversion="startupper" /></suggestion> großgeschrieben.</message>
+                <example correction="Klügere">Der <marker>klügere</marker> gibt nach.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">der|die</token>
+                    <marker>
+                        <token case_sensitive="yes">klügere</token>
+                    </marker>
+                    <token regexp="yes" inflected="yes">nachgeben</token>
+                </pattern>
+                <message>In dieser Redewendung wird <suggestion><match no="2" case_conversion="startupper" /></suggestion> großgeschrieben.</message>
+                <example correction="Klügere">Das passiert, wenn die <marker>klügere</marker> nachgibt.</example>
+            </rule>
+        </rulegroup>
+        <rule id="GENAUERES_SAGEN" name="genaueres (Genaueres) sagen">
             <pattern>
                 <marker>
                     <token case_sensitive="yes" skip="5">
@@ -23736,7 +23761,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception regexp="yes">und|sowie|oder|aber|weil</exception>
                     </token>
                 </marker>
-                <token inflected="yes" regexp="yes">sagen|wissen</token>
+                <token inflected="yes" regexp="yes">sagen|wissen|erfahren|erzählen|hören|verraten</token>
             </pattern>
             <message>Nominalisierte Adjektive sollten in der Regel großgeschrieben werden.</message>
             <suggestion><match no="1" case_conversion="startupper" /></suggestion>
