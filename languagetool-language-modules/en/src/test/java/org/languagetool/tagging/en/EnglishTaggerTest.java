@@ -65,6 +65,13 @@ public class EnglishTaggerTest {
       "You/[you]PRP|You/[you]PRP_O2P|You/[you]PRP_O2S|You/[you]PRP_S2P|You/[you]PRP_S2S -- have/[have]NN|have/[have]VB|have/[have]VBP -- n't/[not]RB", tokenizer, tagger);
     TestTools.myAssert("You haven’t.",
       "You/[you]PRP|You/[you]PRP_O2P|You/[you]PRP_O2S|You/[you]PRP_S2P|You/[you]PRP_S2S -- have/[have]NN|have/[have]VB|have/[have]VBP -- n't/[not]RB", tokenizer, tagger);
+    TestTools.myAssert("how long have you been working?",
+      "how/[how]NN|how/[how]WRB -- long/[long]JJ|long/[long]NN:UN|long/[long]RB|long/[long]VB|long/[long]VBP -- have/[have]NN|have/[have]VB|have/[have]VBP -- you/[you]PRP|you/[you]PRP_O2P|you/[you]PRP_O2S|you/[you]PRP_S2P|you/[you]PRP_S2S -- been/[be]VBN -- working/[work]VBG|working/[working]JJ|working/[working]NN:UN", tokenizer, tagger);
+    TestTools.myAssert("what's the longest jump you have made?",
+      "what/[what]UH|what/[what]WDT|what/[what]WP -- 's/['s]POS|'s/[be]VBZ -- the/[the]DT -- longest/[long]JJS|longest/[longe]JJS|longest/[longest]RBR -- jump/[jump]NN|jump/[jump]VB|jump/[jump]VBP -- you/[you]PRP|you/[you]PRP_O2P|you/[you]PRP_O2S|you/[you]PRP_S2P|you/[you]PRP_S2S -- have/[have]NN|have/[have]VB|have/[have]VBP -- made/[make]VBD|made/[make]VBN", tokenizer, tagger);
+    TestTools.myAssert("he couldn't wait any longer",
+      "he/[he]PRP|he/[he]PRP_S3SM -- could/[can]MD -- n't/[not]RB -- wait/[wait]NN:UN|wait/[wait]VB|wait/[wait]VBP -- any/[any]DT -- longer/[long]JJR|longer/[longe]JJR|longer/[longer]NN|longer/[longer]RBS", tokenizer, tagger);
+
   }
 
   @Test
