@@ -11439,6 +11439,27 @@ Vamos minorar a dor.
 	  
     </rulegroup>
 	
+	<!-- CHEGAR AO FIM findar/terminar -->
+    <rule id='CHEGAR_AO_FIM_FINDAR_TERMINAR' name="Chegar ao fim → findar/terminar " type="style" default="temp_off">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-11-21 (25-JUN-2021+)      -->
+	<!--
+Outro ano que chega ao fim. → Outro ano que finda/termina.
+	-->
+      <pattern>	
+		<token/>
+		<token>que</token>
+			<marker>
+				<token inflected='yes'>chegar</token>
+				<token>ao</token>
+				<token>fim</token>
+			</marker>
+      </pattern>
+      <message>Substitua por:</message>
+	  <suggestion><match no='3' postag='V.+' postag_regexp='yes'>findar</match></suggestion>
+	  <suggestion><match no='3' postag='V.+' postag_regexp='yes'>terminar</match></suggestion>
+	  <example correction="finda|findes|termina|termines">Outro ano que <marker>chega ao fim</marker>.</example>
+    </rule>	
+	
     <!-- COM A MAIOR DAS CALMAS com a maior naturalidade -->
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-04 (2-JUL-2020+)     -->
     <rule id='COM_A_MAIOR_DAS_CALMAS' name="Com a maior naturalidade">
