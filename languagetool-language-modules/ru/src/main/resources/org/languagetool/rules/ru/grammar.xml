@@ -2609,7 +2609,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ведь для того чтобы пламя непрерывно горело, необходим приток свежего кислорода.</example>
                 <example>Он зашел к нам вовсе не для того, чтобы сообщить эту новость.</example>
             </rule>
-            <!--
+            <!-- duplicate, see: COMPLEX_SOUZ_PUNCT
             <rule>
                 <pattern>
                     <token postag_regexp="yes" postag="SENT_START"></token>
@@ -2628,17 +2628,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Он зашел к нам вовсе не для того, чтобы сообщить эту новость.</example>
             </rule>  -->
         </rulegroup>
-        <rule id="Not_Comma_eto" name="Избыточная запятая" default="temp_off">
-            <pattern> <!-- Лишняя запятая #1098 -->
+        <rule id="Not_Comma_eto" name="Избыточная запятая" tags="picky" >
+            <pattern> <!-- Лишняя запятая #1098   default="temp_off" -->
                 <token postag="SENT_START"></token>
                 <token skip="-1">В<exception scope="next" postag="VB:.*" postag_regexp="yes"></exception></token>
                 <token>,</token>
                 <token>это</token>
                 <token postag="VB:.*" postag_regexp="yes"></token>
             </pattern>
-            <message>Лишняя запятая.</message>
-            <short>Лишняя запятая</short>
-            <example correction=""><marker>В случае рассмотрения резонансных структур, это приводит</marker> к существенным ошибкам в вычислении поля на границе раздела между слоями.</example>
+            <message>Избыточная запятая: <suggestion><match no="1"/> <match no="2" include_skipped="all" /> <match no="4"/> <match no="5"/></suggestion></message>
+            <short>Избыточная запятая</short>
+            <example correction="В случае рассмотрения резонансных структур это приводит"><marker>В случае рассмотрения резонансных структур, это приводит</marker> к существенным ошибкам в вычислении поля на границе раздела между слоями.</example>
             <example>В случае рассмотрения резонансных структур это приводит к существенным ошибкам в вычислении поля на границе раздела между слоями.</example>
         </rule>
         <rulegroup default="on" id="Verb_comma_Verb" name="Глаголы как однородные члены предложения">
