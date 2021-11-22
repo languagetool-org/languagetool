@@ -105,7 +105,7 @@ abstract class TextChecker {
       this.ngramIdentifier.enableNgrams(config.getNgramLangIdentData());
     }
     this.executorService = LtThreadPoolFactory.createFixedThreadPoolExecutor(
-      "lt-textchecker-thread",
+      LtThreadPoolFactory.TEXT_CHECKER_POOL,
       config.maxCheckThreads,
       config.maxCheckThreads * 4,
       false, (thread, throwable) -> {
