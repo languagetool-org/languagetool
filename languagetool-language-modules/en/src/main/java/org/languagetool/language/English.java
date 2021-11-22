@@ -336,6 +336,7 @@ public class English extends Language implements AutoCloseable {
       case "OTHER_WISE_COMPOUND":       return 1;
       case "ON_EXCEL":                  return 1;
       case "ALL_NN":                    return 1;   // higher prio than MASS_AGREEMENT
+      case "SHOW_COMPOUNDS":            return 1;   // higher prio than agreement rules
       case "PRP_AREA":                  return 1;   // higher prio than you/your confusion rules
       case "IF_VB_PCT":                 return 1;   // higher prio than IF_VB
       case "CAUSE_BECAUSE":             return 1;   // higher prio than MISSING_TO_BETWEEN_BE_AND_VB

@@ -200,6 +200,7 @@ public class AgreementRuleTest {
     assertGood("Können Sie das nächsten Monat erledigen?");
     assertGood("Können Sie das auch nächsten Monat erledigen?");
     assertGood("War das Absicht?");
+    assertGood("Alles Große und Edle ist einfacher Art.");
 
     assertGood("Das Dach meines Autos.");
     assertGood("Das Dach meiner Autos.");

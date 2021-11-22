@@ -62,6 +62,31 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">I've just read <marker>now</marker> that he was released.</example>
                 <example correction=""><marker>Now</marker> that you are here we might as well start.</example>
             </rule>
+        </rulegroup>              
+        <rulegroup id="AI_HYDRA_LEO_CPT_WERE_WEARE" name="">
+            <rule>
+                <pattern>
+                    <token regexp="yes">who|which|that</token>
+                    <marker>
+                        <token>were</token>
+                    </marker>
+                    <token min="0" postag="RB"/>
+                    <token postag="JJ"/>
+                </pattern>
+                <example correction="">...that come from there, which <marker>were</marker> highly debatable.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token chunk_re="[BIE]-NP-plural"/>
+                    <token min="0" regexp="yes">who|which|that</token>
+                    <marker>
+                        <token>were</token>
+                    </marker>
+                    <token postag="VBN"/>
+                </pattern>
+                <example correction="">The cities that <marker>were</marker> chosen are all quite big.</example>
+                <example correction="">The cities <marker>were</marker> chosen and now it's time to move on.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_HYDRA_LEO_CPT_IS_ARE" name="">
             <rule> <!-- VBG NNP?S is -->

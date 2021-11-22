@@ -12112,6 +12112,47 @@ onwaarschijnlijk
 				<example correction="nv">Elke <marker>n.v.</marker> draagt belastingen af.</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="PP_PUNT" name="pp. 20-33 → pagina's 20-33">
+			<rule>
+				<pattern>
+					<marker>
+						<token spacebefore="yes">pp</token>
+						<token spacebefore="no">.</token>
+					</marker>
+					<token regexp="yes">[0-9]+[-][0-9]+</token>
+				</pattern>
+				<message>Deze afkorting voor pagina's is alleen in bepaalde organisatie gewoon. Het advies is om voluit te schrijven.</message>
+				<suggestion>pagina's</suggestion>
+				<url>https://www.vlaanderen.be/taaladvies/pagina-paginas-afkorting</url>
+				<example correction="pagina's">Het staat op <marker>pp.</marker> 100-110.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token regexp="yes">[0-9]+</token>
+					<marker>
+						<token spacebefore="yes">pp</token>
+						<token spacebefore="no">.</token>
+					</marker>
+				</pattern>
+				<message>De afkorting voor pagina's is alleen in bepaalde organisatie gewoon. De afkorting voor per persoon is met punten.</message>
+				<suggestion>pagina's</suggestion>
+				<suggestion>p.p.</suggestion>
+				<suggestion>per persoon</suggestion>
+				<url>https://www.vlaanderen.be/taaladvies/pagina-paginas-afkorting</url>
+				<example correction="pagina's|p.p.|per persoon">Het is 50 <marker>pp.</marker> dik</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="PP" name="pp → p.p.">
+			<rule>
+				<antipattern><token>pp</token><token regexp="yes">[0-9]+([-][0-9+])?</token><token>pp</token></antipattern>
+				<pattern>
+					<token spacebefore="yes">pp</token>
+				</pattern>
+				<message>De juiste afkorting voor 'per persoon' is met punten.</message>
+				<suggestion>p.p.</suggestion>
+				<example correction="p.p.">Het staat op € 15 <marker>pp</marker>.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="AD" name="ad. → ad">
 			<rule>
 				<pattern case_sensitive="yes">
@@ -32047,18 +32088,40 @@ steenwijk;Steenwijk
 
 	</category>
 	<category id="TYPOS" name="Spellingcontrole" type="misspelling">
-		<!--
-		<rulegroup id="TYPEFOUT" name="Grote kans op typefout">
-		<rule>
-		<pattern case_sensitive="yes">
-		<token regexp="yes">asem|beden|beried|beschikker|bissers|bogey|bombarde|brammen|brandwonde|casseerde|censoren|codificaties|complets|conus|daarzonder|doordien|dopers|doteren|dreg|eest|eindde|exclave|exclusies|factoor|fantaste|flatus|forst|franke|gagel|galon|gameten|gecasseerd|gegeeld|gejijd|gemierd|genaakt|geradeerd|gereld|gerokte|geruid|getopt|gewerd|gieken|gording|grazer|groende|gronding|hevels|hinten|hippen|hommer|huif|inclusies|ingeland|ingelanden|jukken|kabaai|kali|keggen|kemels|keuters|kina|kissen|kliefde|kof|koteren|krakken|kregel|krikkel|krimi|lala|leis|leper|lij|loding|loefde|lota|lues|luien|mandement|mandementen|marches|mata|maté|morzel|moveren|munter|nadir|neet|nevens|officie|ontroofd|ooitje|opalen|optrede|ouwel|paapse|paas|pakker|pander|patente|pimpel|prefs|raffia|raio|rakel|ratte|regale|rekel|rekkers|rekwest|responsie|robber|rost|royaliteit|rune|sater|schamp|schoenmaken|schoring|secessie|sloor|sofist|solde|spijl|spore|stag|stagen|steef|stevens|stilten|stoefen|stolpen|stommen|stonde|tactiel|talon|teerder|tergen|testeren|testes|tets|tonale|tonder|topte|treeft|trens|uitmalen|universale|vadem|vake|valer|vees|velling|verenen|verklaarder|verschotten|verwachter|verweking|verzwonden|vlaken|vleten|volte|voord|voteren|vroed|wartels|weger|wegers|weggen|wem|wetering|woeling|worgen|zaling|zeetje|zieden|zijg|zinker|zoele|zoor|zorglijk|zwartte</token>
-		</pattern>
-		<message>Hoewel het woord '<match no="1"/>' correct is, is er een grote kans op een fout omdat er slechts weinig verschil is met een veelgebruikt woord.</message>
-		<example type="incorrect">Ik lust geen <marker>vees</marker>.</example>
-		<example>Ik lust geen <marker>vlees</marker>.</example>
-		</rule>
-		</rulegroup>
-		-->
+
+		<rule id="CIJFERS_IN_WOORD" name="Getal in woord" default="temp_off">
+            <antipattern><!-- Short words, abbreviations and proper nouns such as t3n, k3b etc.  -->
+                <token regexp="yes">\p{L}\d\p{L}</token>
+            </antipattern>
+            <antipattern><!-- Hashtags -->
+                <token>#</token>
+                <token spacebefore="no" />
+            </antipattern>
+            <antipattern>
+				<token regexp="yes">^[0-9]-.*</token>
+            </antipattern>
+            <antipattern>
+				<token regexp="yes">.+[0-9]-.+</token>
+            </antipattern>
+            <antipattern>
+				<token regexp="yes">.+-[0-9].+</token>
+            </antipattern>
+			<!--
+            <antipattern>
+                <token>.</token>
+                <token spacebefore="no" regexp="yes" case_sensitive="yes">[\p{Ll}\p{Lu}]\p{Ll}*[0-9]\p{Ll}+</token>
+            </antipattern>
+			-->
+            <pattern>
+                <token regexp="yes" postag="UNKNOWN" case_sensitive="yes">[\p{Ll}\p{Lu}]\p{Ll}*[0-9]\p{Ll}+</token>
+            </pattern>
+            <filter class="org.languagetool.rules.nl.DutchNumberInWordFilter" args="word:\1"/>
+            <message>Mogelijke tikfout.</message>
+            <example correction="Goede|Gede"><marker>G0ede</marker> morgen!</example>
+            <example>Hij is <marker>F16-piloot</marker>.</example>
+            <example>De kar is <marker>2-assig</marker>.</example>
+        </rule>
+
 		<rulegroup id="_2ASSIG" name="2assig/2-assig" >
 			<rule>
 				<pattern>
@@ -32590,7 +32653,7 @@ steenwijk;Steenwijk
 			<rule>
 				<pattern>
 					<marker>
-						<token>Er</token>
+						<token regexp="yes">er|hier|daar</token>
 						<token regexp="yes">mist|miste|missen|misten</token>
 					</marker>
 					<token><exception postag="WKW:TGW:INF"/></token>

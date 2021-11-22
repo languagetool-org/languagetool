@@ -5128,30 +5128,6 @@ As crianças se aquietam mais frequentemente quando a gente as deita.
 		  <token postag='DA0MS0' postag_regexp='no'/>		  	  
       </antipattern>
 <!-- MARCOAGPINTO 2020-06-06 *END* -->
-<!-- MARCOAGPINTO 2020-12-08 (21-OCT-2020+) *START* -->
-<!--
-Basta colar uma lista de e-mails abaixo para enviar convites a todos nós.
-Basta colar uma lista de e-mails abaixo para enviar convites a todos vocês.
-Basta colar uma lista de e-mails abaixo para enviar convites a todos vós.
-Basta colar uma lista de e-mails abaixo para enviar convites a todos eles.
--->
-      <antipattern>
-	    <token regexp='no'>a</token>
-		<token postag='DI0MP0' postag_regexp='no'/>
-		<token postag='PP1CP000|PP2CP000|PP3CS000|PP3CP000|PP3MP000' postag_regexp='yes'/>
-      </antipattern>
-<!--
-Basta colar uma lista de e-mails abaixo para enviar convites a todas nós.
-Basta colar uma lista de e-mails abaixo para enviar convites a todas vocês.
-Basta colar uma lista de e-mails abaixo para enviar convites a todas vós.
-Basta colar uma lista de e-mails abaixo para enviar convites a todas elas.
--->
-      <antipattern>
-	    <token regexp='no'>a</token>
-		<token postag='DI0FP0' postag_regexp='no'/>
-		<token postag='PP1CP000|PP2CP000|PP3CS000|PP3CP000|PP3FP000' postag_regexp='yes'/>
-      </antipattern>
-<!-- MARCOAGPINTO 2020-12-08 (21-OCT-2020+) *END* -->
 <!-- MARCOAGPINTO 2021-02-09 (1-JAN-2021+) *START* -->
 <!--
 As folhas de louro dão um sabor especial ao feijão e a outros cozidos.
@@ -5187,6 +5163,22 @@ Estas instruções basearam-se nas várias a que tive acesso.
 		<token regexp='no'></token>
       </antipattern> 	  
 <!-- MARCOAGPINTO 2021-03-05 (1-JAN-2021+) *END* -->
+<!-- MARCOAGPINTO 2021-11-21 (25-JUN-2021+) *START* -->
+<!--
+A TOD[AO]S fix.
+Estou grato a todos aqueles que contribuíram para o meu desenvolvimento técnico.
+Basta colar uma lista de e-mails abaixo para enviar convites a todos nós.
+Basta colar uma lista de e-mails abaixo para enviar convites a todas nós.
+A todos os apelido e canais numa rede era atribuído uma marca temporal – a data e tempo da sua criação.
+O Commons é um banco de imagens, sons e mídia em geral comum a todas as Wikipédias.
+Mas a todos quantos o receberam deu-lhes o poder de serem feitos filhos de Deus.
+-->
+      <antipattern>
+		<token postag='DA..S.+' postag_regexp='yes'/>
+		<token postag='DI..P.+' postag_regexp='yes'/>
+		<token postag='DA..P.+|DD..P.+|CS|RG|PI..P.+|PP..P.+' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2021-11-21 (25-JUN-2021+) *END* -->
       <pattern>
           <unify negate="yes">
             <feature id="number"/>
@@ -5209,7 +5201,15 @@ Estas instruções basearam-se nas várias a que tive acesso.
 	  <example>A campanha de vendas levou eles a perdas de mais de 95%.</example>
 	  <example>A campanha de vendas levou estes a perdas de mais de 95%.</example>
 	  <example>Outras proteínas evoluíram de modo a ligar-se a sequências de ADN específicas.</example>
-	  <example>Estas instruções basearam-se nas várias a que tive acesso.</example>	  
+	  <example>Estas instruções basearam-se nas várias a que tive acesso.</example>
+
+
+	  <example>Estou grato a todos aqueles que contribuíram para o meu desenvolvimento técnico.</example>
+	  <example>Basta colar uma lista de e-mails abaixo para enviar convites a todos nós.</example>
+	  <example>Basta colar uma lista de e-mails abaixo para enviar convites a todas nós.</example>
+	  <example>A todos os apelido e canais numa rede era atribuído uma marca temporal – a data e tempo da sua criação.</example>
+	  <example>O Commons é um banco de imagens, sons e mídia em geral comum a todas as Wikipédias.</example>
+	  <example>Mas a todos quantos o receberam deu-lhes o poder de serem feitos filhos de Deus.</example>
     </rule>
   </rulegroup>
 
@@ -7595,7 +7595,7 @@ Telefonei para si. → Telefonei-lhe.
 	</rulegroup>
 
 	<!-- EM QUE [AO]? onde [ao]s? -->
-    <rule id='EM_QUE_O_OS_A_AS_ONDE' name="Em que a(s)/o(s) → Onde a(s)/o(s)" type="style" tags="picky" default="temp_off">
+    <rule id='EM_QUE_O_OS_A_AS_ONDE' name="Em que a(s)/o(s) → Onde a(s)/o(s)" type="style" tags="picky">
     <!--      Created by Ricardo Joseh Lima and improved by Marco A.G.Pinto, Portuguese rule 2021-11-18 (25-JUN-2021+)      -->
 	<!--
 Esta é a cidade em que o evento acontece. → Esta é a cidade onde o evento acontece.
@@ -11438,6 +11438,27 @@ Vamos minorar a dor.
 	  </rule>
 	  
     </rulegroup>
+	
+	<!-- CHEGAR AO FIM findar/terminar -->
+    <rule id='CHEGAR_AO_FIM_FINDAR_TERMINAR' name="Chegar ao fim → findar/terminar " type="style" default="temp_off">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-11-21 (25-JUN-2021+)      -->
+	<!--
+Outro ano que chega ao fim. → Outro ano que finda/termina.
+	-->
+      <pattern>	
+		<token/>
+		<token>que</token>
+			<marker>
+				<token inflected='yes'>chegar</token>
+				<token>ao</token>
+				<token>fim</token>
+			</marker>
+      </pattern>
+      <message>Substitua por:</message>
+	  <suggestion><match no='3' postag='V.+' postag_regexp='yes'>findar</match></suggestion>
+	  <suggestion><match no='3' postag='V.+' postag_regexp='yes'>terminar</match></suggestion>
+	  <example correction="finda|findes|termina|termines">Outro ano que <marker>chega ao fim</marker>.</example>
+    </rule>	
 	
     <!-- COM A MAIOR DAS CALMAS com a maior naturalidade -->
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-04 (2-JUL-2020+)     -->
@@ -33625,6 +33646,22 @@ Queríamos comprar unas rosas. → Queríamos comprar umas rosas.
       <example correction="umas">Queríamos comprar <marker>unas</marker> rosas.</example>
     </rule>
   </rulegroup>
+
+	<!-- VEZ vês -->
+    <rule id='VEZ_VES' name="Confusão: vez/vês" type="style" default="temp_off">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-11-21 (25-JUN-2021+)      -->
+	<!--
+Descreve o que vez. → Descreve o que vês.
+	-->
+      <pattern>
+		  <token regexp='yes'>não|nunca|que</token>
+		  <marker>
+			<token>vez</token>			
+		  </marker>
+      </pattern>
+      <message>Substitua por <suggestion>vês</suggestion>.</message>
+	  <example correction="vês">Descreve o que <marker>vez</marker>.</example>
+    </rule>
 
  </category>
 

@@ -2009,6 +2009,19 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </pattern>
             <disambig postag="CC"/>
         </rule>
+        <rule>
+            <antipattern>
+                <token postag="PRP\$|DT" postag_regexp="yes" />
+                <token>if</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>if</token>
+                </marker>
+                <token regexp="yes">yes|so|not|possible|any</token>
+            </pattern>
+            <disambig postag="CC"/>
+        </rule>
     </rulegroup>
     <rule name="los + proper name -&gt; los (proper name)" id="LOS_NNP">
         <pattern>
@@ -8746,7 +8759,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token regexp="yes">it|that</token>
             <token regexp="yes">'s|is</token><!-- TODO add 'was' -->
             <token postag="VBZ">
-                <exception regexp="yes">companies|friends|guts|buddies|twins|guys|fruits|beans|horses|headquarters|bruises|wives</exception>
+                <exception regexp="yes">companies|friends|guts|eggs|eyes|buddies|twins|guys|fruits|beans|horses|headquarters|bruises|wives</exception>
             </token>
             <token postag="RB" min="0" />
             <token postag="IN|PRP\$|DT" postag_regexp="yes" chunk_re=".-(NP.*|PP)" /><!-- TODO add 'PCT' -->
@@ -8765,7 +8778,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token regexp="yes">s?he</token>
             <token>is</token><!-- TODO add 'was' -->
             <token postag="VBZ">
-                <exception regexp="yes">companies|friends|guts|buddies|twins|guys||fruits|beans|horses|headquarters|bruises|wives</exception>
+                <exception regexp="yes">companies|friends|guts|eggs|eyes|buddies|twins|guys||fruits|beans|horses|headquarters|bruises|wives</exception>
             </token>
             <token postag="RB" min="0" />
             <token postag="IN|PRP\$|DT" postag_regexp="yes" chunk_re=".-(NP.*|PP)" /><!-- TODO add 'PCT' -->

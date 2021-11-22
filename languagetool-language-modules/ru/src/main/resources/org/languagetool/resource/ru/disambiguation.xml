@@ -184,7 +184,26 @@ Copyright (C) 2009-2021 Yakov Reztsov
         </pattern>
         <disambig action="remove" postag="NN:.*:.*:.*:(Nom|D|R|T)"></disambig>
     </rule>
-    
+    <rule name="NOUN_Letter" id="NOUN_Letter">
+        <pattern>
+            <marker>
+                <token postag="NN:.*:.*" postag_regexp="yes" regexp="yes">[А-ЯЁ]</token>
+            </marker>
+            <token>.</token>
+        </pattern>
+        <disambig action="remove" postag="NN:.*:.*"></disambig>
+    </rule>
+    <rule name="NOUN_ABR_OS" id="NOUN_ABR_OS">
+        <pattern>
+            <marker>
+                <and>
+                    <token postag="NN:.*:.*:.*:.*" postag_regexp="yes"></token>
+                    <token case_sensitive="yes" >ОС</token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="NN:.*:.*:.*:.*"></disambig>
+    </rule>   
     <rule name="INTERJECTION_OR_PREP_O" id="INTERJECTION_O">
         <pattern>
             <!-- о  -->
