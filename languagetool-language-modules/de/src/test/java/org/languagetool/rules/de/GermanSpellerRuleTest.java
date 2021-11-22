@@ -884,7 +884,7 @@ public class GermanSpellerRuleTest {
     assertCorrectionsByOrder(rule, "heisst", "heißt");  // "heißt" should be first
     assertCorrectionsByOrder(rule, "heissen", "heißen");
     assertCorrectionsByOrder(rule, "müßte", "musste", "müsste");
-    assertCorrectionsByOrder(rule, "schmohren", "schmoren", "Lehmohren");
+    assertCorrectionsByOrder(rule, "schmohren", "schmoren");
     assertCorrectionsByOrder(rule, "Fänomen", "Phänomen");
     assertCorrectionsByOrder(rule, "homofob", "homophob");
     assertCorrectionsByOrder(rule, "ueber", "über");
