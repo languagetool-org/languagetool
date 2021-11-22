@@ -12144,6 +12144,7 @@ onwaarschijnlijk
 		</rulegroup>
 		<rulegroup id="PP" name="pp → p.p.">
 			<rule>
+				<antipattern><token>pp</token><token regexp="yes">[0-9]+([-][0-9+])?</token><token>pp</token></antipattern>
 				<pattern>
 					<token spacebefore="yes">pp</token>
 				</pattern>
@@ -32087,19 +32088,8 @@ steenwijk;Steenwijk
 
 	</category>
 	<category id="TYPOS" name="Spellingcontrole" type="misspelling">
-		<!--
-		<rulegroup id="TYPEFOUT" name="Grote kans op typefout">
-		<rule>
-		<pattern case_sensitive="yes">
-		<token regexp="yes">asem|beden|beried|beschikker|bissers|bogey|bombarde|brammen|brandwonde|casseerde|censoren|codificaties|complets|conus|daarzonder|doordien|dopers|doteren|dreg|eest|eindde|exclave|exclusies|factoor|fantaste|flatus|forst|franke|gagel|galon|gameten|gecasseerd|gegeeld|gejijd|gemierd|genaakt|geradeerd|gereld|gerokte|geruid|getopt|gewerd|gieken|gording|grazer|groende|gronding|hevels|hinten|hippen|hommer|huif|inclusies|ingeland|ingelanden|jukken|kabaai|kali|keggen|kemels|keuters|kina|kissen|kliefde|kof|koteren|krakken|kregel|krikkel|krimi|lala|leis|leper|lij|loding|loefde|lota|lues|luien|mandement|mandementen|marches|mata|maté|morzel|moveren|munter|nadir|neet|nevens|officie|ontroofd|ooitje|opalen|optrede|ouwel|paapse|paas|pakker|pander|patente|pimpel|prefs|raffia|raio|rakel|ratte|regale|rekel|rekkers|rekwest|responsie|robber|rost|royaliteit|rune|sater|schamp|schoenmaken|schoring|secessie|sloor|sofist|solde|spijl|spore|stag|stagen|steef|stevens|stilten|stoefen|stolpen|stommen|stonde|tactiel|talon|teerder|tergen|testeren|testes|tets|tonale|tonder|topte|treeft|trens|uitmalen|universale|vadem|vake|valer|vees|velling|verenen|verklaarder|verschotten|verwachter|verweking|verzwonden|vlaken|vleten|volte|voord|voteren|vroed|wartels|weger|wegers|weggen|wem|wetering|woeling|worgen|zaling|zeetje|zieden|zijg|zinker|zoele|zoor|zorglijk|zwartte</token>
-		</pattern>
-		<message>Hoewel het woord '<match no="1"/>' correct is, is er een grote kans op een fout omdat er slechts weinig verschil is met een veelgebruikt woord.</message>
-		<example type="incorrect">Ik lust geen <marker>vees</marker>.</example>
-		<example>Ik lust geen <marker>vlees</marker>.</example>
-		</rule>
-		</rulegroup>
-		-->
-        <rule id="CIJFERS_IN_WOORD" name="Getal in woord" default="temp_off">
+
+		<rule id="CIJFERS_IN_WOORD" name="Getal in woord" default="temp_off">
             <antipattern><!-- Short words, abbreviations and proper nouns such as t3n, k3b etc.  -->
                 <token regexp="yes">\p{L}\d\p{L}</token>
             </antipattern>
@@ -32663,7 +32653,7 @@ steenwijk;Steenwijk
 			<rule>
 				<pattern>
 					<marker>
-						<token>Er</token>
+						<token regexp="yes">er|hier|daar</token>
 						<token regexp="yes">mist|miste|missen|misten</token>
 					</marker>
 					<token><exception postag="WKW:TGW:INF"/></token>
