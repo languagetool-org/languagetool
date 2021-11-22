@@ -11534,6 +11534,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rule id="TIPP_TOPP" name="tip top (tipptopp)" default="temp_off">
+            <pattern>
+                <token regexp="yes">tipp?</token>
+                <token regexp="yes">topp?</token>
+            </pattern>
+            <message>Das Adjektiv <suggestion>tipptopp</suggestion> (= einwandfrei) wird als ein Wort zusammengeschrieben.</message>
+            <url>https://de.wiktionary.org/wiki/tipptopp</url>
+            <example correction="tipptopp"> Der neue Fernseher ist <marker>tip top</marker>.</example>
+        </rule>
         <rule id="WAS_MIR_ZU_STEHT" name="was mir zu steht (zusteht)">
             <pattern>
                 <token regexp="yes">was|das|nichts|(irgend)?(et)?was</token>
@@ -23727,7 +23736,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
-        <rulegroup id="DER_KLUEGERE_GIBT_NACH" name="Der klügere (Klügere) gibt nach" default="temp_off">
+        <rulegroup id="DER_KLUEGERE_GIBT_NACH" name="Der klügere (Klügere) gibt nach">
             <rule>
                 <pattern>
                     <token regexp="yes">der|die</token>
@@ -29113,7 +29122,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="BEDARF_SUBST" name="'bei bedarf (Bedarf)'">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">[bB]ei|[kKsSmMdD]ein(en)?|nach|[uU]nser(en)?|[iI]hr(en)?</token>
+                    <token regexp="yes">[bB]ei|[kKsSmMdD]ein(en)?|nach|[uU]nser(en)?|[iI]hr(en)?|viel</token>
                     <marker>
                         <token>bedarf</token>
                     </marker>
@@ -29126,6 +29135,76 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Bedarf">Kein <marker>bedarf</marker>, danke.</example>
                 <example correction="Bedarf">Wir haben keinen <marker>bedarf</marker>, danke.</example>
                 <example correction="Bedarf">Anwendung: je nach <marker>bedarf</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>bedarf</token>
+                    </marker>
+                    <token min="0" regexp="yes">zu|daran</token>
+                    <token inflected="yes">haben</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Bedarf</suggestion>&subende;</message>
+                <url>https://de.wiktionary.org/wiki/Bedarf</url>
+                <short>&prgk;.</short>
+                <example>Das <marker>bedarf</marker> noch der Klärung.</example>
+                <example correction="Bedarf">Wir melden uns, sollten wir noch <marker>bedarf</marker> daran haben.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>bedarf</token>
+                    </marker>
+                    <token>an</token>
+                    <token postag="(ADJ|PA[12]|EIG|SUB|UNKNOWN).*" postag_regexp="yes" min="0" max="4" />
+                    <token inflected="yes" regexp="yes">haben|steigen|sinken|decken</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Bedarf</suggestion>&subende;</message>
+                <url>https://de.wiktionary.org/wiki/Bedarf</url>
+                <short>&prgk;.</short>
+                <example>Das <marker>bedarf</marker> noch der Klärung.</example>
+                <example correction="Bedarf">Wir melden uns, sollten wir noch <marker>bedarf</marker> an neuen Produkten haben.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[Dd]e[rmn]</token>
+                    <marker>
+                        <token>bedarf</token>
+                    </marker>
+                    <token postag="VER.*|PKT" postag_regexp="yes" />
+                </pattern>
+                <message>&subanfang;<suggestion>Bedarf</suggestion>&subende;</message>
+                <url>https://de.wiktionary.org/wiki/Bedarf</url>
+                <short>&prgk;.</short>
+                <example>Das <marker>bedarf</marker> noch der Klärung.</example>
+                <example correction="Bedarf">Der <marker>bedarf</marker> steigt stetig.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[Dd]e[rmn]</token>
+                    <marker>
+                        <token>bedarf</token>
+                    </marker>
+                    <token>an</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Bedarf</suggestion>&subende;</message>
+                <url>https://de.wiktionary.org/wiki/Bedarf</url>
+                <short>&prgk;.</short>
+                <example correction="Bedarf">Eine Ladung deckt den <marker>bedarf</marker> an Vitamin C.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern case_sensitive="yes">
+                    <token>haben</token>
+                    <token postag="(ADV|ADJ|PA[12]).*" postag_regexp="yes" min="0" max="2" />
+                    <marker>
+                        <token>bedarf</token>
+                    </marker>
+                    <token regexp="yes">an|daran|für|,|\.</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Bedarf</suggestion>&subende;</message>
+                <url>https://de.wiktionary.org/wiki/Bedarf</url>
+                <short>&prgk;.</short>
+                <example correction="Bedarf">Wir haben <marker>bedarf</marker> an einer besseren Lösung.</example>
             </rule>
             <rule>
                 <antipattern>
