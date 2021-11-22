@@ -31,7 +31,8 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 @Slf4j
 public final class LtThreadPoolFactory {
-  public static final String TEXT_CHECKER_POOL          = "text-checker-thread";
+  public static final String SERVER_POOL                = "lt-server-thread";
+  public static final String TEXT_CHECKER_POOL          = "lt-text-checker-thread";
   public static final String REMOTE_RULE_WAITING_POOL   = "remote-rule-waiting-thread";
   public static final String REMOTE_RULE_EXECUTING_POOL = "remote-rule-executing-thread";
 
@@ -49,23 +50,45 @@ public final class LtThreadPoolFactory {
    * @param reuse            True if thread-pool should be reused
    * @return a Fixed ThreadPoolExecutor
    */
-  public static ThreadPoolExecutor createFixedThreadPoolExecutor(@NotNull String identifier, @NotNull int maxThreads, @NotNull int maxTaskInQueue, @NotNull boolean isDaemon, @NotNull Thread.UncaughtExceptionHandler exceptionHandler, @NotNull boolean reuse) {
-    if (reuse && executorServices.containsKey(identifier)) {
-      log.debug("ThreadPool with identifier: " + identifier + " already exists. Return this one");
-      return executorServices.get(identifier);
+  public static ThreadPoolExecutor createFixedThreadPoolExecutor(@NotNull String identifier, int maxThreads, int maxTaskInQueue, boolean isDaemon, @NotNull Thread.UncaughtExceptionHandler exceptionHandler, boolean reuse) {
+    return createFixedThreadPoolExecutor(identifier, maxThreads / 2, maxThreads, maxTaskInQueue, 60, isDaemon, exceptionHandler, reuse);
+  }
+
+
+  /**
+   * @param identifier       Name of the thread-pool, will be used as name of the threads in the threadPool
+   * @param corePool          Number of core pool threads
+   * @param maxThreads       Maximum number of parallel threads running in this pool
+   * @param maxTaskInQueue   Number of maximum Task in the pool queue
+   * @param keepAliveTimeSeconds keep-alive time for idle threads
+   * @param isDaemon         Run the threads as daemon threads
+   * @param exceptionHandler Handler for exceptions in Thread
+   * @param reuse            True if thread-pool should be reused
+   * @return a Fixed ThreadPoolExecutor
+   */
+  public static ThreadPoolExecutor createFixedThreadPoolExecutor(@NotNull String identifier, int corePool, int maxThreads, int maxTaskInQueue, long keepAliveTimeSeconds, boolean isDaemon, @NotNull Thread.UncaughtExceptionHandler exceptionHandler, boolean reuse) {
+    if (reuse) {
+      return executorServices.computeIfAbsent(identifier, id -> getNewThreadPoolExecutor(identifier, corePool, maxThreads, maxTaskInQueue, keepAliveTimeSeconds, isDaemon, exceptionHandler));
+    } else {
+      return getNewThreadPoolExecutor(identifier, corePool, maxThreads, maxTaskInQueue, keepAliveTimeSeconds, isDaemon, exceptionHandler);
     }
+  }
+
+  @NotNull
+  private static ThreadPoolExecutor getNewThreadPoolExecutor(@NotNull String identifier, int corePool, int maxThreads, int maxTaskInQueue, long keepAliveTimeSeconds, boolean isDaemon, @NotNull Thread.UncaughtExceptionHandler exceptionHandler) {
     log.debug(String.format("Create new threadPool with maxThreads: %d maxTaskInQueue: %d identifier: %s daemon: %s exceptionHandler: %s", maxThreads, maxTaskInQueue, identifier, isDaemon, exceptionHandler));
-    BlockingQueue<Runnable> boundedQueue = new ArrayBlockingQueue<>(maxTaskInQueue);
+    BlockingQueue<Runnable> boundedQueue;
+    if (maxTaskInQueue <= 0) {
+      boundedQueue = new LinkedBlockingQueue<>();
+    } else {
+      boundedQueue = new ArrayBlockingQueue<>(maxTaskInQueue);
+    }
     ThreadFactory threadFactory = new ThreadFactoryBuilder()
       .setNameFormat(identifier + "-%d")
       .setDaemon(isDaemon)
       .setUncaughtExceptionHandler(exceptionHandler)
       .build();
-    ThreadPoolExecutor newThreadPoolExecutor = new ThreadPoolExecutor(maxThreads / 2, maxThreads, 60, SECONDS, boundedQueue, threadFactory, new ThreadPoolExecutor.AbortPolicy());
-    if (reuse) {
-      executorServices.put(identifier, newThreadPoolExecutor);
-
-    }
+    ThreadPoolExecutor newThreadPoolExecutor = new LtThreadPoolExecutor(identifier, corePool, maxThreads, keepAliveTimeSeconds, SECONDS, boundedQueue, threadFactory, new ThreadPoolExecutor.AbortPolicy());
     return newThreadPoolExecutor;
   }
 
