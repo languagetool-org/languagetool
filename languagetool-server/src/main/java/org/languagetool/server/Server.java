@@ -189,8 +189,9 @@ abstract class Server {
     int threadPoolSize = config.getMaxCheckThreads();
     ServerTools.print("Setting up thread pool with " + threadPoolSize + " threads");
 
+    // reuse = false -> this should only be called once in production, needs to be false for tests
     return LtThreadPoolFactory.createFixedThreadPoolExecutor(LtThreadPoolFactory.SERVER_POOL,
       threadPoolSize, threadPoolSize, 0,0L, false,
-      (thread, throwable) -> log.error("Thread: " + thread.getName() + " failed with: " + throwable.getMessage()), true);
+      (thread, throwable) -> log.error("Thread: " + thread.getName() + " failed with: " + throwable.getMessage()), false);
   }
 }
