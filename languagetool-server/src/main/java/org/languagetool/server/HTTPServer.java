@@ -111,7 +111,7 @@ public class HTTPServer extends Server {
       server.setExecutor(executorService);
 
       if (config.isPrometheusMonitoring()) {
-        ServerMetricsCollector.init(config.getPrometheusPort());
+        ServerMetricsCollector.init(config);
       }
     } catch (Exception e) {
       ResourceBundle messages = JLanguageTool.getMessageBundle();
