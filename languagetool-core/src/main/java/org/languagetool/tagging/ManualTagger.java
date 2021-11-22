@@ -62,9 +62,11 @@ public class ManualTagger implements WordTagger {
       BufferedReader br = new BufferedReader(reader)
     ) {
       String line;
+      int lineCount = 0;
       separator = DEFAULT_SEPARATOR;
       while ((line = br.readLine()) != null) {
         line = line.trim();
+        lineCount++;
         if (line.startsWith("#separatorRegExp=")) {
           separator = line.replace("#separatorRegExp=", "");
         }
@@ -72,12 +74,13 @@ public class ManualTagger implements WordTagger {
           continue;
         }
         if (line.contains("\u00A0")) {
-          throw new RuntimeException("Non-breaking space found in line '" + line + "', please remove it");
+          throw new RuntimeException("Non-breaking space found in line #" + lineCount + ": '" + line + "', please remove it");
         }
         line = StringUtils.substringBefore(line, "#").trim();
         String[] parts = line.split(separator);
         if (parts.length != 3) {
-          throw new IOException("Unknown line format when loading manual tagger dictionary, expected three tab-separated fields: '" + line + "'");
+          throw new IOException("Unknown line format in line " + lineCount + " when loading manual tagger dictionary, " +
+            "expected three tab-separated fields: '" + line + "'");
         }
         String form = parts[0];
 
