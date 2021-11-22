@@ -10125,18 +10125,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
                     <token>a</token>
-                        <unify negate="yes">
-                            <feature id="numero"/>
-                            <feature id="genero"/>
-                            <feature id="persona"/>
-                            <token postag="PP.*" postag_regexp="yes">mí</token>
-                            <unify-ignore>
-                                <token min="0">no</token>
-                            </unify-ignore>
-                            <marker>
-                                <token postag="P[P0].*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/><exception>se</exception></token>
-                            </marker>
-                        </unify>
+                    <unify negate="yes">
+                        <feature id="numero"/>
+                        <feature id="genero"/>
+                        <feature id="persona"/>
+                        <token postag="PP.*" postag_regexp="yes">mí</token>
+                        <unify-ignore>
+                            <token min="0">no</token>
+                        </unify-ignore>
+                        <marker>
+                            <token postag="P[P0].*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/><exception>se</exception></token>
+                        </marker>
+                    </unify>
                     <token postag="V...[123].." postag_regexp="yes"/>
                 </pattern>
                 <message>Posible error de concordancia.</message>
@@ -12723,6 +12723,48 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>En este contexto, probablemente es más adecuado el nombre en singular.</message>
                 <suggestion><match no="3" postag_regexp="yes" postag="(NC.)P.*" postag_replace="$1S.*"/></suggestion>
                 <example correction="semana">En los fines de <marker>semanas</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="SG_PL_NUMERO_DE" name="número de + singular/plural" default="temp_off">
+            <rule>
+                <pattern>
+                    <token inflected="yes">número</token>
+                    <token>de</token>
+                    <marker>
+                        <token postag="NC.P.*" postag_regexp="yes" inflected="yes" regexp="yes">&meses_ano;|teléfono|matrícula|móvil|registro|memoria|serie|pasaporte|identificación|identidad|catálogo|seguridad|prestidigitación|masa|marcación|magia|lotería|ilusionismo|febrero|contrato|cola|circo|carné|calzado|cabaret|baile|apartado</token>
+                    </marker>
+                </pattern>
+                <message>En este contexto, probablemente es más adecuado el nombre en singular.</message>
+                <suggestion><match no="3" postag_regexp="yes" postag="(NC.)P.*" postag_replace="$1S.*"/></suggestion>
+                <example correction="teléfono">En los números de <marker>teléfonos</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">número</token>
+                    <token>de</token>
+                    <marker>
+                        <token postag="NC.S.*" postag_regexp="yes" inflected="yes" regexp="yes"
+                            >persona|hombre|vez|soldado|víctima|baja|muerto|mujer|año|habitante|miembro|día|hora|enemigo|efectivo|cosa|individuo|hijo|nave|especie|tropa|herido|libro|animal|niño|palabra|guerrero|muerte|barco|voto|cadáver|esclavo|ejemplar|familia|pequeño|estrella|trabajador|punto|guardia|ser|seguidor|pieza|partícula|visitante|oficial|objeto|estudiante|amigo|paso|cuerpo|invitado|lector|caballero|asistente|judío|vehículo|joven|caballo|obra|arma|paciente|espectador|electrón|posibilidad|cabeza|carta|átomo|agente|vida|protón|pasajero|tripulante|coche|pregunta|participante|problema|molécula|alumno|usuario|letra|combatiente|asesinato|variedad|dimensión|criatura|árbol|elemento|chico|visita|planeta|voluntario|funcionario|ocasión|delito|criado|artículo|sacerdote|obrero|sirviente|refugiado|gen|detalle|dedo|ciudad|agujero|enfermo|moneda|mes|golpe|repetición|misión|grande|edificio|cromosoma|atacante|adepto|vecino|dato|comensal|vuelta|muchacho|célula|crimen|acción|ventana|vela|sistema|segundo|novela|hermano|diente|curioso|copia|cañón|viajero|turista|personaje|peregrino|país|neurona|mundo|marinero|mano|grano|fiel|candidato|avión|senador|mago|testigo|perro|negro|estado|científico|alma|accidente|superviviente|sospechoso|monje|ley|embarcación|ejecución|cara|caja|voz|parado|noble|indio|hoja|defensor|carro|brazada|pareja|grupo|error|dama|zombi|respuesta|razón|neutrón|mancha|kilómetro|inmigrante|factor|diputado|ave|alemán|relato|plaza|pez|parte|oveja|ojo|nueva|máquina|lugar|figura|escuela|empleo|componente|bala|votante|varón|pájaro|piedra|minuto|jinete|fotografía|descendiente|cristiano|cambio|boca|tienda|producto|partidario|nombre|noche|lanza|compañero|botella|aparato|vampiro|tema|rata|plato|periodista|esposo|centinela|campesino|brazo|tribu|sílaba|revolución|pato|milla|integrante|humano|hueso|francés|extranjero|civilización|cigarrillo|caloría|buque|bola|bestia|rollo|relación|pulsación|matrimonio|lámpara|huevo|glóbulo|gato|flecha|experimento|elfo|disparo|ciclo|vivienda|vaca|tipo|resultado|pueblo|par|operación|metro|imagen|historia|hembra|establecimiento|divorcio|defunción|asunto|acto|universo|transeúnte|suicidio|semana|res|ocupante|monstruo|incidente|flor|estatua|estación|escritor|enfermedad|dragón|dirección|copa|comerciante|colono|cardenal|bote|alto|variable|sombra|señor|religioso|regla|recluta|pensamiento|músico|marca|latigazo|jefe|fotón|experto|estambre|enano|ejemplo|dios|cuadro|comprador|compañía|combinación|cicatriz|cazador|causa|batalla|autor|ataque|antorcha|actividad|ángel|viejo|viaje|vaso|título|sociedad|residente|pie|pelea|organismo|opción|navío|jarra|investigador|hilo|función|fenómeno|experiencia|deserción|cámara|colonia|civil|cautivo|característica|bebé|barca|arquero|anillo|verso|teoría|servidor|rostro|representante|queja|pétalo|profesor|peldaño|paquete|oyente|luz|legión|intelectual|instrumento|idea|estudio|demonio|cuerda|crítico|crío|camión|bárbaro|aspirante|asesino|adversario</token>
+                    </marker>
+                </pattern>
+                <message>En este contexto, probablemente es más adecuado el nombre en plural.</message>
+                <suggestion><match no="3" postag_regexp="yes" postag="(NC.)S.*" postag_replace="$1P.*"/></suggestion>
+                <example correction="latigazos">El números de <marker>latigazo</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">número</token>
+                    <token>de</token>
+                    <marker>
+                        <token postag="NC.S.*" postag_regexp="yes" inflected="yes" regexp="yes"><exception regexp="yes"
+                            >página|emergencia|empleado|casa|habitación|gente|urgencia|tarjeta|teléfono|documento|zapato|cuenta|socio|población|revista|referencia|matrícula|ficha|expediente|vuelo|manera|puente|móvil|modelo|asiento|ruta|pedido|entrada|venta|servicio|orden|oficina|información|recluso|proyecto|piso|clase|archivo|verdad|patente|pase|licencia|inscripción|desaparición|código|cuadrado|control|conductor|cargo|capítulo|vendedor|registro|placa|metal|lanzamiento|expedición|dicha|contacto|clave|celda|butaca|versión|taxi|poder|permiso|malo|destino|color|bien|acceso|zona|sitio|sesión|sector|reclamación|puerto|portal|lote|litera|distrito|dispositivo|combate|canto|autopsia|autobús|tubo|teatro|sección|reserva|puesta|modo|memoria|mañana|larga|ganado|funámbulo|departamento|danza|confirmación|ciento|carnet|caballería|aula|admisión|turno|tejido|sombrero|serie|ruleta|rigor|recepción|póliza|pelotón|pasaporte|inventario|identificación|identidad|feria|factura|estante|equilibrio|despedida|despacho|comedia|catálogo|camarote|base|apartamento|acrobacia|índice|vodevil|videófono|verano|ventrílocuo|ventriloquia|valentía|travestismo|trapecio|transformismo|tiza|telepatía|tamaño|suerte|socorro|setiembre|septiembre|seguro|seguridad|rifa|relleno|rareza|público|propina|promoción|prioridad|primavera|previsión|prestidigitación|prepago|precesión|plata|personal|otoño|origen|operador|octubre|noviembre|neón|música|mímica|muñeca|music-hall|motor|mierda|mayo|masa|marzo|marcación|mamá|malabarismo|magia|lotería|localización|levitación|latón|junio|julio|jazz|ilusionismo|funambulismo|fondo|foja|febrero|fabricación|extensión|exhibición|este|escapismo|equilibrista|equilibrismo|envío|enrutamiento|enrollamiento|enero|embarque|dorsal|distancia|diciembre|contrato|contorsionismo|comprobante|comisaría|comic|colegiado|cola|cobre|clasificación|claqué|circo|chapa|centralita|catalogación|cartilla|carné|cancán|calzado|cabaré|cabaret|buzón|busca|bastidor|barracón|ballet|baile|ayer|autorización|autocompasión|atención|apertura|apartado|aniversario|andén|amarradero|agosto|afiliación|abril|abonado</exception></token>
+                    </marker>
+                </pattern>
+                <message>En este contexto, probablemente es más adecuado el nombre en plural.</message>
+                <suggestion><match no="3" postag_regexp="yes" postag="(NC.)S.*" postag_replace="$1P.*"/></suggestion>
+                <example correction="latigazos">El número de <marker>latigazo</marker>.</example>
+                <example correction="hombres">El número de <marker>hombre</marker>.</example>
+                <example>Los números de abonado.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AGREEMENT_ORDINALS" name="concordancias ordinales: vigésima segunda / vigesimosegunda">
