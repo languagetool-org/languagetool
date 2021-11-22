@@ -7241,9 +7241,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <exception>щеткой</exception>
                         </token>
                     </pattern>
+                    <filter class="org.languagetool.rules.ru.AdvancedSynthesizerFilter" args="lemmaFrom:1 lemmaSelect:ADJ:Posit:.*:.* postagFrom:2 postagSelect:NN:.*:(.*):.*:(.*) postagReplace:ADJ:Posit:\b1:\b2"/>
                     <message>Прилагательное не согласуется с существительным по падежу.</message>
+                    <suggestion>{suggestion} \2</suggestion>
                     <example>Ставшие хрестоматийными слова «Природой здесь нам суждено в Европу прорубить окно», которые А. С. Пушкин вкладывает в уста Петра I — лишь риторически эффектная фраза.</example>
-                    <example correction="">Я терпеть не могу эту <marker>глупою женщину</marker>.</example>
+                    <example correction="глупую женщину">Я терпеть не могу эту <marker>глупою женщину</marker>.</example>
                     <example>Временными правительства называли журналисты.</example>
                     <example>Эти добрые полчаса.</example>
                     <example>Временной заплату считали недолго.</example>
@@ -7275,9 +7277,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>Корзина была полная ягод.</example>
                     <example>Воспользуемся средним чисел а и б.</example>
                     <example>После выходных работник смотрелся не важно.</example>
-                    <example correction=""><marker>Железная кроватью</marker>.</example>
+                    <example correction="Железною кроватью|Железной кроватью"><marker>Железная кроватью</marker>.</example>
                     <example>Вдали виднелись красивые сосны.</example>
-                    <example correction="">Вдали виднелись <marker>красивой ёлка</marker>.</example>
+                    <example correction="красивая ёлка">Вдали виднелись <marker>красивой ёлка</marker>.</example>
                     <example>Мебель сделана из красивой сосны.</example>
                     <example>При императрице Екатерине Великой Россия успешно воевала с Турцией</example>
                     <example>При Ярославе Мудром митрополит впервые был избран из числа русских священников</example>
@@ -7285,31 +7287,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <!-- <example correction="">Столы сделаны из <marker>красивых куски</marker> древесины.</example> -->
                     <!-- <example correction="">Столы сделаны из <marker>красивых деревья</marker>.</example> -->
                     <example>Был построен добротный дом.</example>
-                    <example correction="">Был построен <marker>добротный дому</marker>.</example>
+                <!--    <example correction="">Был построен <marker>добротный дому</marker>.</example>  --> <!-- коррекцию падежа надо применить к существительному, а не к прилагательному!!! --> 
                     <example>Пушистая кошка грелась на солнышке.</example>
-                    <example correction="">Эта <marker>пушистая кошкой</marker> грелась.</example>
+                    <example correction="пушистою кошкой|пушистой кошкой">Эта <marker>пушистая кошкой</marker> грелась.</example>
                     <example>Вдали виднелось синее небо.</example>
                     <example>Оно смотрелось синее неба.</example>
                     <example>Быть в неоплатном долгу.</example>
                     <example>Добротная усадьба.</example>
-                    <example correction=""><marker>Добротная усадьбе</marker>.</example>
+                    <example correction="Добротной усадьбе"><marker>Добротная усадьбе</marker>.</example>
                     <example>Нет крепкого сна.</example>
-                    <example correction="">Нет <marker>крепкому сна</marker>.</example>
+                    <example correction="крепкого сна">Нет <marker>крепкому сна</marker>.</example>
                     <example>Вода стекала по мягкому жёлобу.</example>
-                    <example correction="">Вода стекала по <marker>мягкого жёлобу</marker>.</example>
+                    <example correction="мягкому жёлобу">Вода стекала по <marker>мягкого жёлобу</marker>.</example>
                     <example>Мы увидели бурной реку и стремительными рыб, идущих против течения.</example>
                     <example>Они справились с бурной рекой</example>
-                    <example correction="">Они справились с <marker>бурную рекой</marker>.</example>
+                    <example correction="бурною рекой|бурной рекой">Они справились с <marker>бурную рекой</marker>.</example>
                     <example>Они думали о родном доме.</example>
                     <example>Традиционно первым Германским государством принято считать восточно-франкское государство.</example>
                     <example>Он каждые полчаса бежит в лабораторию.</example>
-                    <example correction="">Они думали о <marker>родного доме</marker>.</example>
+                    <example correction="родном доме">Они думали о <marker>родного доме</marker>.</example>
                 </rule>               
         </rulegroup>
         
         
-        <rule default="temp_off" id="Soglasovanie_NN_PT_gender" name="Согласование существительного с причастием (род)">
-            <!-- Experimental rule, issue #1069, #1062 default="temp_off"-->  
+        <rulegroup default="on" id="Soglasovanie_NN_PT" name="Согласование существительного с причастием" tags="picky">
+        <rule>
+            <!-- Experimental rule, issue #1069, #1062 default="temp_off"  (род)-->  
             <pattern>
                 <token>
                     <exception postag="NN:.*|PNN:.*" postag_regexp="yes" />
@@ -7332,8 +7335,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="">Он увидел <marker>собаку, хромавшего</marker> на задние лапы.</example>
             <example>Он увидел собаку, хромавшую на задние лапы.</example>
         </rule>
-        <rule default="temp_off" id="Soglasovanie_NN_PT_number" name="Согласование существительного с причастием (число)">
-            <!-- Experimental rule, issue #1069, #1062 -->  
+        <rule>
+            <!-- Experimental rule, issue #1069, #1062 (число) -->  
             <pattern>
                 <token>
                     <exception postag="NN:.*|PNN:.*" postag_regexp="yes" />
@@ -7356,8 +7359,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="">Он увидел <marker>собаку, хромавших</marker> на задние лапы.</example>
             <example>Он увидел собаку, хромавшую на задние лапы.</example>
         </rule>
-        <rule default="temp_off" id="Soglasovanie_NN_PT_case" name="Согласование существительного с причастием (падеж)">
-            <!-- Experimental rule, issue #1069, #1062 -->  
+        <rule>
+            <!-- Experimental rule, issue #1069, #1062 (падеж) -->  
             <pattern>
                 <token>
                     <exception postag="NN:.*|PNN:.*" postag_regexp="yes" />
@@ -7380,7 +7383,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="">Он увидел <marker>собаку, хромавшая</marker> на задние лапы.</example>
             <example>Он увидел собаку, хромавшую на задние лапы.</example>
         </rule>
-               
+        </rulegroup>       
         
         
         <rule  id="Adj_NN_number_Software" name="«Программное обеспечение»"> 
