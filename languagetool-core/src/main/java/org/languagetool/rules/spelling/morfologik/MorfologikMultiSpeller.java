@@ -357,13 +357,9 @@ public class MorfologikMultiSpeller {
   private List<String> getSuggestionsFromSpellers(String word, List<MorfologikSpeller> spellerList) {
     List<WeightedSuggestion> result = new ArrayList<>();
     Set<String> seenWords = new HashSet<>();
-    List<String> splitWordResults = new ArrayList<>();
     for (MorfologikSpeller speller : spellerList) {
       List<WeightedSuggestion> suggestions = speller.getSuggestions(word);
       for (WeightedSuggestion suggestion : suggestions) {
-        if (suggestion.getWord().contains(" ")) {
-          splitWordResults.add(suggestion.getWord());
-        }
         if (!seenWords.contains(suggestion.getWord()) && !suggestion.getWord().equals(word)) {
           result.add(suggestion);
         }
@@ -372,14 +368,8 @@ public class MorfologikMultiSpeller {
     }
     Collections.sort(result);
     List<String> wordResults = new ArrayList<>();
-    for (int i = 0 ; i < Math.min(MAX_SUGGESTIONS, result.size()); i++) {
-      wordResults.add(result.get(i).getWord());
-    }
-    //make sure that split suggestions are not removed
-    for (String splitWordSuggestion: splitWordResults) {
-      if (!wordResults.contains(splitWordSuggestion)) {
-        wordResults.add(splitWordSuggestion);
-      }
+    for (WeightedSuggestion weightedSuggestion : result) {
+      wordResults.add(weightedSuggestion.getWord());
     }
     return wordResults;
   }
