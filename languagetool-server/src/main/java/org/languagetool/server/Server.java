@@ -18,19 +18,17 @@
  */
 package org.languagetool.server;
 
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.sun.net.httpserver.HttpServer;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
+import org.languagetool.tools.LtThreadPoolFactory;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 import static org.languagetool.server.HTTPServerConfig.DEFAULT_PORT;
 
@@ -187,30 +185,12 @@ abstract class Server {
     }
   }
   
-  protected ThreadPoolExecutor getExecutorService(LinkedBlockingQueue<Runnable> workQueue, HTTPServerConfig config) {
+  protected ThreadPoolExecutor getExecutorService(HTTPServerConfig config) {
     int threadPoolSize = config.getMaxCheckThreads();
     ServerTools.print("Setting up thread pool with " + threadPoolSize + " threads");
 
-    return new StoppingThreadPoolExecutor(threadPoolSize, workQueue);
+    return LtThreadPoolFactory.createFixedThreadPoolExecutor(LtThreadPoolFactory.SERVER_POOL,
+      threadPoolSize, threadPoolSize, 0,0L, false,
+      (thread, throwable) -> log.error("Thread: " + thread.getName() + " failed with: " + throwable.getMessage()), true);
   }
-
-  static class StoppingThreadPoolExecutor extends ThreadPoolExecutor {
-  
-    StoppingThreadPoolExecutor(int threadPoolSize, LinkedBlockingQueue<Runnable> workQueue) {
-      super(threadPoolSize, threadPoolSize, 0L, TimeUnit.MILLISECONDS, workQueue,
-            new ThreadFactoryBuilder().setNameFormat("lt-server-thread-%d").build());
-    }
-
-    @Override
-    protected void afterExecute(Runnable r, Throwable t) {
-      super.afterExecute(r, t);
-      if (t != null && t instanceof OutOfMemoryError) {
-        // we prefer to stop instead of being in an unstable state:
-        //noinspection CallToPrintStackTrace
-        t.printStackTrace();
-        System.exit(1);
-      }
-    }
-  }
-
 }

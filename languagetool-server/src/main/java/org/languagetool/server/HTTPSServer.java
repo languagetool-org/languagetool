@@ -47,7 +47,7 @@ import static org.languagetool.server.HTTPServerConfig.DEFAULT_HOST;
  */
 public class HTTPSServer extends Server {
 
-  private final ExecutorService executorService;
+  private final ThreadPoolExecutor executorService;
 
   /**
    * Prepare a server on the given host and port - use run() to start it.
@@ -70,10 +70,10 @@ public class HTTPSServer extends Server {
       ((HttpsServer)server).setHttpsConfigurator(configurator);
       RequestLimiter limiter = getRequestLimiterOrNull(config);
       ErrorRequestLimiter errorLimiter = getErrorRequestLimiterOrNull(config);
-      LinkedBlockingQueue<Runnable> workQueue = new LinkedBlockingQueue<>();
+      executorService = getExecutorService(config);
+      BlockingQueue<Runnable> workQueue = executorService.getQueue();
       httpHandler = new LanguageToolHttpHandler(config, allowedIps, runInternally, limiter, errorLimiter, workQueue, this);
       server.createContext("/", httpHandler);
-      executorService = getExecutorService(workQueue, config);
       server.setExecutor(executorService);
     } catch (BindException e) {
       ResourceBundle messages = JLanguageTool.getMessageBundle();
