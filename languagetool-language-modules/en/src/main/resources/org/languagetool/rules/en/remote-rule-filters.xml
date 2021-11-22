@@ -27,6 +27,42 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
 -->
 <rules lang="en" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/remote-rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <category name="Machine learning rules" id="AI_RULES">
+        <rulegroup id="AI_HYDRA_LEO_CPT_NOW_KNOW" name="">
+            <rule>
+                <pattern>
+                    <token postag="PRP|NN.*" postag_regexp="yes"/>
+                    <token inflected="yes">have</token>
+                    <marker>
+                        <token>now</token>
+                    </marker>
+                    <token postag="VB.*|JJ" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">I have <marker>now</marker> acquired all the ingredients.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="PRP|NN.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>now</token>
+                    </marker>
+                    <token regexp="yes" inflected="yes">have|can|shall|do</token>
+                </pattern>
+                <example correction="">It's great that's fixed, but we <marker>now</marker> have other problems.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|VB[DN]?" postag_regexp="yes">
+                        <exception postag="MD"/>
+                    </token>
+                    <marker>
+                        <token>now</token>
+                    </marker>
+                    <token>that</token>
+                </pattern>
+                <example correction="">I've just read <marker>now</marker> that he was released.</example>
+                <example correction=""><marker>Now</marker> that you are here we might as well start.</example>
+            </rule>
+        </rulegroup>              
         <rulegroup id="AI_HYDRA_LEO_CPT_WERE_WEARE" name="">
             <rule>
                 <pattern>
