@@ -371,7 +371,7 @@ public class MorfologikMultiSpeller {
     for (WeightedSuggestion weightedSuggestion : result) {
       wordResults.add(weightedSuggestion.getWord());
     }
-    return wordResults.subList(0, Math.min(MAX_SUGGESTIONS, result.size()));
+    return wordResults; //.subList(0, Math.min(MAX_SUGGESTIONS, result.size()));
   }
 
   /**

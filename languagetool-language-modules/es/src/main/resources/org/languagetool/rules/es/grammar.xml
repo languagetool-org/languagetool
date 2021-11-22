@@ -4537,7 +4537,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="CC|_PUNCT.*" postag_regexp="yes" min="1" max="2"/>
                 <token postag="VMSP[13]S0" postag_regexp="yes"/>
             </antipattern>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>nos</token>
                     <and>
@@ -4549,30 +4549,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="2" postag="VMSP1S0" postag_regexp="yes" postag_replace="VMM03S0:PP1CP000"/></suggestion>
                 <example correction="Avísenos"><marker>Nos avise</marker> cuanto antes.</example>
             </rule>
-            <rule default="temp_off">
-                <pattern>
-                    <token>nos</token>
-                    <and>
-                        <token inflected="yes" regexp="yes">.*ar<exception postag="_GN_.*|RG|[NA].*|V.I.*|V.N.*" postag_regexp="yes"/></token>
-                        <token postag="VMSP1S0" postag_regexp="yes" regexp="yes" case_sensitive="yes">\p{Ll}.*e<exception postag="_possible_NP"/><exception regexp="yes">.+[ui]e.+e</exception></token>
-                    </and>
-                </pattern>
-                <message>Si es un imperativo, el pronombre va detrás del verbo.</message>
-                <suggestion><match no="2" postag="VMSP1S0" postag_regexp="yes" postag_replace="VMM03S0:PP1CP000"/></suggestion>
-                <example correction="Avísenos"><marker>Nos avise</marker> cuanto antes.</example>
-            </rule>
-            <!--<rule default="temp_off">
-                <pattern>
-                    <token>me</token>
-                    <and>
-                        <token inflected="yes" regexp="yes">.*ar<exception postag="_GN_.*|RG|[NA].*|V.I.*|V.N.*" postag_regexp="yes"/></token>
-                        <token postag="VMSP1S0" postag_regexp="yes" regexp="yes" case_sensitive="yes">\p{Ll}.*e<exception postag="_possible_NP"/><exception regexp="yes">.+[ui]e.+e</exception></token>
-                    </and>
-                </pattern>
-                <message>Si es un imperativo, el pronombre va detrás del verbo.</message>
-                <suggestion><match no="2" postag="VMSP1S0" postag_regexp="yes" postag_replace="VMM03S0:PP1CS000"/></suggestion>
-                <example correction="Avíseme"><marker>Me avise</marker> cuanto antes.</example>
-            </rule>-->
             <rule>
                 <antipattern>
                     <token>nos</token>
@@ -10137,7 +10113,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="GRAMMAR" name="Gramática" type="grammar">
-        <rulegroup id="CONCORDANCIA_PRONOMBRE" name="concordancia pronombres" default="temp_off">
+        <rulegroup id="CONCORDANCIA_PRONOMBRE" name="concordancia pronombres">
             <antipattern>
                 <token skip="5">a</token>
                 <token>y</token>
@@ -10147,35 +10123,190 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <rule>
                 <pattern>
+                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
                     <token>a</token>
-                    <marker>
                         <unify negate="yes">
                             <feature id="numero"/>
                             <feature id="genero"/>
                             <feature id="persona"/>
-                            <token postag="PP.*" postag_regexp="yes"><exception regexp="yes">ello|usted|ustedes</exception></token>
+                            <token postag="PP.*" postag_regexp="yes">mí</token>
                             <unify-ignore>
                                 <token min="0">no</token>
                             </unify-ignore>
-                            <token postag="P[P0].*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/><exception>se</exception></token>
+                            <marker>
+                                <token postag="P[P0].*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/><exception>se</exception></token>
+                            </marker>
                         </unify>
-                    </marker>
                     <token postag="V...[123].." postag_regexp="yes"/>
                 </pattern>
                 <message>Posible error de concordancia.</message>
-                <example correction="">A <marker>mí no te</marker> gusta esto.</example>
-                <example correction="">A <marker>él te</marker> gusta esto.</example>
-                <example correction="">A <marker>ellos le</marker> gusta esto.</example>
-                <example correction="">A <marker>nosotros os</marker> gusta esto.</example>
-                <example correction="">A <marker>vosotros nos</marker> gusta esto.</example>
-                <example correction="">A <marker>ella les</marker> gusta esto.</example>
-                <example correction="">A <marker>nosotras me</marker> gusta esto.</example>
+                <suggestion>me</suggestion>
+                <example correction="me">A mí no <marker>te</marker> gusta esto.</example>
                 <example>A ello se oponen varios obstáculos.</example>
                 <example>Luego no me eches a mí la culpa.</example>
                 <example>A mi hermano y a mí nos gusta la misma comida.</example>
                 <example>En lo que a mí se refiere.</example>
                 <example>A ustedes les conocen.</example>
                 <example>A usted no lo he encontrado nunca en persona.</example>
+                <example>La socarronería con la que Mary se dirige a ellos me hace mucha gracia.</example>
+                <example>A Tom y a mí no nos gustan las mismas clases de películas.</example>
+                <example>Lo que te ha sucedido a ti le sucede a mucha gente.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
+                    <token>a</token>
+                    <unify negate="yes">
+                        <feature id="numero"/>
+                        <feature id="genero"/>
+                        <feature id="persona"/>
+                        <token postag="PP.*" postag_regexp="yes">ti</token>
+                        <unify-ignore>
+                            <token min="0">no</token>
+                        </unify-ignore>
+                        <marker>
+                            <token postag="P[P0].*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/><exception>se</exception></token>
+                        </marker>
+                    </unify>
+                    <token postag="V...[123].." postag_regexp="yes"/>
+                </pattern>
+                <message>Posible error de concordancia.</message>
+                <suggestion>te</suggestion>
+                <example correction="te">A ti no <marker>me</marker> gusta esto.</example>
+                <example>A ello se oponen varios obstáculos.</example>
+                <example>Luego no me eches a mí la culpa.</example>
+                <example>A mi hermano y a mí nos gusta la misma comida.</example>
+                <example>En lo que a mí se refiere.</example>
+                <example>A ustedes les conocen.</example>
+                <example>A usted no lo he encontrado nunca en persona.</example>
+                <example>La socarronería con la que Mary se dirige a ellos me hace mucha gracia.</example>
+                <example>A Tom y a mí no nos gustan las mismas clases de películas.</example>
+                <example>Lo que te ha sucedido a ti le sucede a mucha gente.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
+                    <token>a</token>
+                    <unify negate="yes">
+                        <feature id="numero"/>
+                        <feature id="genero"/>
+                        <feature id="persona"/>
+                        <token postag="PP.*" postag_regexp="yes" regexp="yes">él|ella</token>
+                        <unify-ignore>
+                            <token min="0">no</token>
+                        </unify-ignore>
+                        <marker>
+                            <token postag="P[P0].*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/><exception>se</exception></token>
+                        </marker>
+                    </unify>
+                    <token postag="V...[123].." postag_regexp="yes"/>
+                </pattern>
+                <message>Posible error de concordancia.</message>
+                <suggestion>le</suggestion>
+                <example correction="le">A él <marker>te</marker> gusta esto.</example>
+                <example>A ello se oponen varios obstáculos.</example>
+                <example>Luego no me eches a mí la culpa.</example>
+                <example>A mi hermano y a mí nos gusta la misma comida.</example>
+                <example>En lo que a mí se refiere.</example>
+                <example>A ustedes les conocen.</example>
+                <example>A usted no lo he encontrado nunca en persona.</example>
+                <example>La socarronería con la que Mary se dirige a ellos me hace mucha gracia.</example>
+                <example>A Tom y a mí no nos gustan las mismas clases de películas.</example>
+                <example>Lo que te ha sucedido a ti le sucede a mucha gente.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
+                    <token>a</token>
+                    <unify negate="yes">
+                        <feature id="numero"/>
+                        <feature id="genero"/>
+                        <feature id="persona"/>
+                        <token postag="PP.*" postag_regexp="yes" regexp="yes">nosotros|nosotras</token>
+                        <unify-ignore>
+                            <token min="0">no</token>
+                        </unify-ignore>
+                        <marker>
+                            <token postag="P[P0].*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/><exception>se</exception></token>
+                        </marker>
+                    </unify>
+                    <token postag="V...[123].." postag_regexp="yes"/>
+                </pattern>
+                <message>Posible error de concordancia.</message>
+                <suggestion>nos</suggestion>
+                <example correction="nos">A nosotros <marker>os</marker> gusta esto.</example>
+                <example correction="nos">A nosotras <marker>me</marker> gusta esto.</example>
+                <example>A ello se oponen varios obstáculos.</example>
+                <example>Luego no me eches a mí la culpa.</example>
+                <example>A mi hermano y a mí nos gusta la misma comida.</example>
+                <example>En lo que a mí se refiere.</example>
+                <example>A ustedes les conocen.</example>
+                <example>A usted no lo he encontrado nunca en persona.</example>
+                <example>La socarronería con la que Mary se dirige a ellos me hace mucha gracia.</example>
+                <example>A Tom y a mí no nos gustan las mismas clases de películas.</example>
+                <example>Lo que te ha sucedido a ti le sucede a mucha gente.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
+                    <token>a</token>
+                    <unify negate="yes">
+                        <feature id="numero"/>
+                        <feature id="genero"/>
+                        <feature id="persona"/>
+                        <token postag="PP.*" postag_regexp="yes" regexp="yes">vosotros|vosotras</token>
+                        <unify-ignore>
+                            <token min="0">no</token>
+                        </unify-ignore>
+                        <marker>
+                            <token postag="P[P0].*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/><exception>se</exception></token>
+                        </marker>
+                    </unify>
+                    <token postag="V...[123].." postag_regexp="yes"/>
+                </pattern>
+                <message>Posible error de concordancia.</message>
+                <suggestion>os</suggestion>
+                <example correction="os">A vosotras <marker>nos</marker> gusta esto.</example>
+                <example>A ello se oponen varios obstáculos.</example>
+                <example>Luego no me eches a mí la culpa.</example>
+                <example>A mi hermano y a mí nos gusta la misma comida.</example>
+                <example>En lo que a mí se refiere.</example>
+                <example>A ustedes les conocen.</example>
+                <example>A usted no lo he encontrado nunca en persona.</example>
+                <example>La socarronería con la que Mary se dirige a ellos me hace mucha gracia.</example>
+                <example>A Tom y a mí no nos gustan las mismas clases de películas.</example>
+                <example>Lo que te ha sucedido a ti le sucede a mucha gente.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
+                    <token>a</token>
+                    <unify negate="yes">
+                        <feature id="numero"/>
+                        <feature id="genero"/>
+                        <feature id="persona"/>
+                        <token postag="PP.*" postag_regexp="yes" regexp="yes">ellos|ellas</token>
+                        <unify-ignore>
+                            <token min="0">no</token>
+                        </unify-ignore>
+                        <marker>
+                            <token postag="P[P0].*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/><exception>se</exception></token>
+                        </marker>
+                    </unify>
+                    <token postag="V...[123].." postag_regexp="yes"/>
+                </pattern>
+                <message>Posible error de concordancia.</message>
+                <suggestion>les</suggestion>
+                <example correction="les">A ellas <marker>le</marker> gusta esto.</example>
+                <example>A ello se oponen varios obstáculos.</example>
+                <example>Luego no me eches a mí la culpa.</example>
+                <example>A mi hermano y a mí nos gusta la misma comida.</example>
+                <example>En lo que a mí se refiere.</example>
+                <example>A ustedes les conocen.</example>
+                <example>A usted no lo he encontrado nunca en persona.</example>
+                <example>La socarronería con la que Mary se dirige a ellos me hace mucha gracia.</example>
+                <example>A Tom y a mí no nos gustan las mismas clases de películas.</example>
+                <example>Lo que te ha sucedido a ti le sucede a mucha gente.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PERMITIR_QUE_A" name="permitir que/a">
@@ -13723,7 +13854,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <feature id="numero"/>
                     <feature id="genero"/>
                     <token inflected="yes">todo<exception postag="_GN_.*" postag_regexp="yes"/></token>
-                    <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">modo|manera|forma|clase|tipo|estilo|género|moda|suerte|corte|casta|categoría|condición|especie|estilo|familia|grupo|orden<exception postag="_IS_URL"/></token>
+                    <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">modo|manera|forma|clase|tipo|estilo|género|moda|suerte|corte|casta|categoría|condición|especie|familia|grupo|orden<exception postag="_IS_URL"/></token>
                 </unify>
             </pattern>
             <message>Posible error de concordancia.</message>
@@ -17606,7 +17737,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¿Pensáis aún que yo estoy loco?</example>
             </rule>
         </rulegroup>
-        <rule id="PLURALS" name="establecimiento s -> establecimientos" default="temp_off">
+        <rule id="PLURALS" name="establecimiento s -> establecimientos">
             <pattern>
                 <token postag="D...P." postag_regexp="yes"/>
                 <marker>
@@ -17614,7 +17745,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>s</token>
                 </marker>
             </pattern>
-            <message>¿Quería decir <suggestion>\2\3</suggestion>?</message>
+            <message suppress_misspelled="yes">¿Quería decir <suggestion><match no="2" postag_regexp="yes" postag="(NC.)S.*" postag_replace="$1P.*"/></suggestion>?</message>
             <example correction="establecimientos">Verifica los <marker>establecimiento s</marker> de la compra.</example>
         </rule>
         <rule id="LA_A" name="la a -> la">
