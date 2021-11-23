@@ -39,7 +39,8 @@
             <handlerName>file-aggregator</handlerName>
             <configuration>
                 <filePattern>META-INF/org/languagetool/language-module.properties</filePattern>
-                <outputPath>LanguageTool-${project.version}/META-INF/org/languagetool/language-module.properties</outputPath>
+                <outputPath>LanguageTool-${project.version}/META-INF/org/languagetool/language-module.properties
+                </outputPath>
             </configuration>
         </containerDescriptorHandler>
     </containerDescriptorHandlers>
@@ -47,7 +48,9 @@
         <dependencySet>
             <unpack>false</unpack>
             <outputDirectory>libs</outputDirectory>
-            <outputFileNameMapping>${artifact.artifactId}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
+<!--            <scope>compile</scope>-->
+            <outputFileNameMapping>${artifact.artifactId}${dashClassifier?}.${artifact.extension}
+            </outputFileNameMapping>
             <excludes>
                 <exclude>org.languagetool:language-*</exclude>
                 <!-- these are what the user calls, so put them in the top directory: -->
@@ -67,7 +70,8 @@
         <dependencySet>
             <unpack>false</unpack>
             <outputDirectory></outputDirectory>
-            <outputFileNameMapping>${artifact.artifactId}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
+            <outputFileNameMapping>${artifact.artifactId}${dashClassifier?}.${artifact.extension}
+            </outputFileNameMapping>
             <includes>
                 <include>org.languagetool:languagetool-commandline</include>
                 <include>org.languagetool:languagetool-server</include>

@@ -1,17 +1,19 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    
+
     <parent>
         <groupId>org.languagetool</groupId>
         <artifactId>languagetool-parent</artifactId>
-        <version>5.6-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
+        <version>${revision}</version>
     </parent>
-    
+
     <artifactId>languagetool-http-client</artifactId>
-    <url>https://www.languagetool.org</url>
+    <packaging>jar</packaging>
     <name>LanguageTool HTTP API client</name>
     <description>Access to LanguageTool via its HTTP API</description>
+    <url>https://www.languagetool.org</url>
 
     <licenses>
         <license>
@@ -20,36 +22,27 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
-    
-    <packaging>jar</packaging>
 
     <developers>
         <developer>
             <name>Daniel Naber</name>
-            <roles><role>Maintainer</role></roles>
+            <roles>
+                <role>Maintainer</role>
+            </roles>
         </developer>
         <developer>
             <name>Marcin Miłkowski</name>
-            <roles><role>Maintainer</role></roles>
+            <roles>
+                <role>Maintainer</role>
+            </roles>
         </developer>
     </developers>
-    
-    <build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <artifactId>maven-surefire-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 
     <dependencies>
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
-            <version>20.1.0</version>
+            <version>${org.jetbrains.annotations.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -60,7 +53,7 @@
         <dependency>
             <groupId>org.languagetool</groupId>
             <artifactId>languagetool-server</artifactId>
-            <version>${languagetool.version}</version>
+            <version>${revision}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -71,4 +64,22 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>${maven-deploy-plugin.version}</version>
+                <configuration>
+                    <skip>true</skip>
+                    <!-- TODO: decide if this should published to a maven-repo as well. -->
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
