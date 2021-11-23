@@ -2015,8 +2015,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     String word = words.get(idx);
     String nextWord = getWordAfterEnumerationOrNull(words, idx+1);
     nextWord = StringUtils.removeEnd(nextWord, ".");
-
-    boolean isCompound = nextWord != null && (compoundTokenizer.tokenize(nextWord).size() > 1 || nextWord.indexOf('-') > 0);
+    boolean isCompound = nextWord != null &&
+      (compoundTokenizer.tokenize(nextWord).size() > 1 ||
+       nextWord.indexOf('-') > 0 ||
+       nextWord.matches("[A-ZÖÄÜ][a-zöäüß]{2,}(ei|öl)$"));  // compound tokenizer will only split compounds where each part is >= 3 characters...
     if (isCompound) {
       word = StringUtils.removeEnd(word, "-");
       boolean isMisspelled = !hunspell.spell(word);  // "Stil- und Grammatikprüfung" or "Stil-, Text- und Grammatikprüfung"
