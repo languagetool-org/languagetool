@@ -2628,10 +2628,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Он зашел к нам вовсе не для того, чтобы сообщить эту новость.</example>
             </rule>  -->
         </rulegroup>
-        <rule id="Not_Comma_eto" name="Избыточная запятая" tags="picky" >
-            <pattern> <!-- Лишняя запятая #1098   default="temp_off" -->
+        <rule id="Not_Comma_eto" name="Избыточная запятая перед «это»"  >
+            <pattern> <!-- Лишняя запятая #1098   default="temp_off" tags="picky" -->
                 <token postag="SENT_START"></token>
-                <token skip="-1">В<exception scope="next" postag="VB:.*" postag_regexp="yes"></exception></token>
+                <token skip="-1">В<exception scope="next" postag="VB:.*" postag_regexp="yes"></exception><exception scope="next" regexp="yes">частности|конце|целом</exception></token> <!-- Исключения для вводных выражений, TODO -->
                 <token>,</token>
                 <token>это</token>
                 <token postag="VB:.*" postag_regexp="yes"></token>
