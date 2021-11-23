@@ -106,9 +106,9 @@ abstract class TextChecker {
     }
     this.executorService = LtThreadPoolFactory.createFixedThreadPoolExecutor(
       LtThreadPoolFactory.TEXT_CHECKER_POOL,
-      config.maxCheckThreads,
-      config.maxCheckThreads * 4,
-      false, (thread, throwable) -> {
+      config.getMaxTextCheckerThreads(), config.getMaxTextCheckerThreads(),
+      config.getTextCheckerQueueSize(),
+      60L, false, (thread, throwable) -> {
         log.error("Thread: " + thread.getName() + " failed with: " + throwable.getMessage());
       },
       false);
@@ -126,20 +126,16 @@ abstract class TextChecker {
     if (remoteRuleCount > 0) {
       LtThreadPoolFactory.createFixedThreadPoolExecutor(
         LtThreadPoolFactory.REMOTE_RULE_WAITING_POOL,
-        config.getMaxCheckThreads() * remoteRuleCount,
-        config.getMaxCheckThreads() * remoteRuleCount*4,
-        true,
-        (thread, throwable) -> {
+        config.getMaxCheckThreads(), config.getMaxCheckThreads() * remoteRuleCount, 1,
+        60L, true, (thread, throwable) -> {
           log.error("Thread: " + thread.getName() + " failed with: " + throwable.getMessage());
         },
         true
       );
       LtThreadPoolFactory.createFixedThreadPoolExecutor(
         LtThreadPoolFactory.REMOTE_RULE_EXECUTING_POOL,
-        config.getMaxCheckThreads() * remoteRuleCount,
-        config.getMaxCheckThreads() * remoteRuleCount*4,
-        true,
-        (thread, throwable) -> {
+        config.getMaxCheckThreads(), config.getMaxCheckThreads() * remoteRuleCount, 1,
+        60L, true, (thread, throwable) -> {
           log.error("Thread: " + thread.getName() + " failed with: " + throwable.getMessage());
         },
         true

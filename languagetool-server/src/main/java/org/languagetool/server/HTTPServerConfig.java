@@ -70,6 +70,8 @@ public class HTTPServerConfig {
   protected long maxCheckTimeMillisLoggedIn = -1;
   protected long maxCheckTimeMillisPremium = -1;
   protected int maxCheckThreads = 10;
+  protected int maxTextCheckerThreads; // default to same value as maxCheckThreads
+  protected int textCheckerQueueSize = 8;
   protected Mode mode;
   protected File languageModelDir = null;
   protected File word2vecModelDir = null;
@@ -173,7 +175,7 @@ public class HTTPServerConfig {
   private static final List<String> KNOWN_OPTION_KEYS = Arrays.asList("abTest", "abTestClients", "abTestRollout",
     "beolingusFile", "blockedReferrers", "cacheSize", "cacheTTLSeconds",
     "dbDriver", "dbPassword", "dbUrl", "dbUsername", "disabledRuleIds", "fasttextBinary", "fasttextModel", "grammalectePassword",
-    "grammalecteServer", "grammalecteUser", "ipFingerprintFactor", "languageModel", "maxCheckThreads", "maxCheckTimeMillis",
+    "grammalecteServer", "grammalecteUser", "ipFingerprintFactor", "languageModel", "maxCheckThreads", "maxTextCheckerThreads", "textCheckerQueueSize", "maxCheckTimeMillis",
     "maxCheckTimeWithApiKeyMillis", "maxErrorsPerWordRate", "maxPipelinePoolSize", "maxSpellingSuggestions", "maxTextHardLength",
     "maxTextLength", "maxTextLengthWithApiKey", "maxWorkQueueSize", "neuralNetworkModel", "pipelineCaching",
     "pipelineExpireTimeInSeconds", "pipelinePrewarming", "prometheusMonitoring", "prometheusPort", "remoteRulesFile",
@@ -347,6 +349,16 @@ public class HTTPServerConfig {
         if (maxCheckThreads < 1) {
           throw new IllegalArgumentException("Invalid value for maxCheckThreads, must be >= 1: " + maxCheckThreads);
         }
+        // default value 0 = use maxCheckThreads setting (for compatibility)
+        maxTextCheckerThreads = Integer.parseInt(getOptionalProperty(props, "maxTextCheckerThreads", "0"));
+        if (maxTextCheckerThreads < 0) {
+          throw new IllegalArgumentException("Invalid value for maxTextCheckerThreads, must be >= 1: " + maxTextCheckerThreads);
+        }
+        textCheckerQueueSize = Integer.parseInt(getOptionalProperty(props, "textCheckerQueueSize", "8"));
+        if (textCheckerQueueSize < 0) {
+          throw new IllegalArgumentException("Invalid value for textCheckerQueueSize, must be >= 1: " + textCheckerQueueSize);
+        }
+
         boolean atdMode = getOptionalProperty(props, "mode", "LanguageTool").equalsIgnoreCase("AfterTheDeadline");
         if (atdMode) {
           throw new IllegalArgumentException("The AfterTheDeadline mode is not supported anymore in LanguageTool 3.8 or later");
@@ -832,6 +844,28 @@ public class HTTPServerConfig {
   /** @since 2.7 */
   int getMaxCheckThreads() {
     return maxCheckThreads;
+  }
+
+  /**
+   * @param maxTextCheckerThreads The maximum number of threads in the worker pool processing text checks running at the same time.
+   * @since 5.6
+   */
+  void setMaxTextCheckerThreads(int maxTextCheckerThreads) {
+    this.maxTextCheckerThreads = maxTextCheckerThreads;
+  }
+
+  /** @since 5.6 */
+  int getMaxTextCheckerThreads() {
+    // unset - use maxCheckThreads
+    return maxTextCheckerThreads != 0 ? maxTextCheckerThreads : maxCheckThreads;
+  }
+
+  public int getTextCheckerQueueSize() {
+    return textCheckerQueueSize;
+  }
+
+  public void setTextCheckerQueueSize(int textCheckerQueueSize) {
+    this.textCheckerQueueSize = textCheckerQueueSize;
   }
 
   /**
