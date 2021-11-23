@@ -22313,6 +22313,50 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>En el I Encuentro Nacional de Jóvenes Periodistas.</example>
                 <example>En el 2000 Google presentó AdWords.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>en</token>
+                    <token>cambio</token>
+                </pattern>
+                <filter class="org.languagetool.rules.AddCommasFilter" args="none:none"/>
+                <message>Esta locución se escribe normalmente entre comas.</message>
+                <example correction="cambio,">En <marker>cambio</marker> no logró ganar.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>por</token>
+                    <token regexp="yes">el|lo</token>
+                    <token>contrario</token>
+                </pattern>
+                <filter class="org.languagetool.rules.AddCommasFilter" args="none:none"/>
+                <message>Esta locución se escribe normalmente entre comas.</message>
+                <example correction="contrario,">Por el <marker>contrario</marker> no logró ganar.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>al</token>
+                        <token>contrario</token>
+                    </marker>
+                    <token><exception regexp="yes">de|del|que</exception></token>
+                </pattern>
+                <filter class="org.languagetool.rules.AddCommasFilter" args="none:none"/>
+                <message>Esta locución se escribe normalmente entre comas.</message>
+                <example correction="contrario,">Al <marker>contrario</marker> no logró ganar.</example>
+                <example>Al contrario de los otros.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>por</token>
+                        <token regexp="yes">un|una|otro|otra</token>
+                        <token regexp="yes">lado|parte</token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.AddCommasFilter" args="none:none"/>
+                <message>Esta locución se escribe normalmente entre comas.</message>
+                <example correction="lado,">Por otro <marker>lado</marker> no logró ganar.</example>
+            </rule>
         </rulegroup>
         <rule id="COMMA_REPETITION" name="coma en repeticiones">
             <antipattern>
