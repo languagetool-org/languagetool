@@ -35002,7 +35002,7 @@ steenwijk;Steenwijk
 			<rule>
 				<pattern>
 					<token regexp="yes">pro-forma|anti-.*|aan-uit|breedspectrum|zero-tolerance|licht-donker|oog-hand|deur-tot-deur|wildwest|start-stop|hoog-laag|bruto-netto|kip-ei|dag-nacht|ad-interim|warmte-koude|lumpsum|zij-aan-zij<exception postag_regexp="yes" postag="BNW.*|UNKOWN"/></token>
-					<token postag_regexp="yes" postag="ZNW.*"/>
+					<token postag_regexp="yes" postag="ZNW.*"><exception>’</exception></token>
 				</pattern>
 				<filter class="org.languagetool.rules.nl.CompoundFilter" args="word1:\1 word2:\2"/>
 				<!-- <filter class="org.languagetool.rules.nl.CompoundFilter" args="words:\1|\2"/> -->
@@ -42122,7 +42122,7 @@ steenwijk;Steenwijk
 				</pattern>
 				<message>Bij gisteren past meestal de verleden tijd beter.</message>
 				<suggestion><match no="2" postag_regexp="yes" postag="WKW:VLT.*"/></suggestion>
-				<example correction="maakte|maakten">Gisteren <marker>maak</marker> ik het weer.</example>
+				<example correction="maakte|maakten|maaktet">Gisteren <marker>maak</marker> ik het weer.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="DAT_IK_HOUD_NIET_VAN" name="verkeerde woordvolgorde" >
