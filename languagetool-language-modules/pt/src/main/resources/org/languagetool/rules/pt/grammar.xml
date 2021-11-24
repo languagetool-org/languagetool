@@ -13588,13 +13588,21 @@ Eu comprei-a quando fui à loja.
 
     <!-- NOS + VERB - nós + verb -->
     <rule id='NOS_VERBO' name="Confusão: nos/nós + VERBO">
+	<!--      Created by Tiago F. Santos and improved by Marco A.G.Pinto, Portuguese rule 2021-11-24 (25-JUN-2021+)      -->
       <pattern>
-          <token case_sensitive="yes">Nos</token>
-          <token postag_regexp='yes' postag="V.+">
-            <exception negate_pos='yes' postag_regexp='yes' postag='V.+'/></token>
+		  <marker>
+			<token case_sensitive="yes">Nos</token>
+          </marker>
+		  <token postag_regexp='yes' postag="VM...P.+">
+            <exception postag_regexp='yes' postag='NC.+|AQ.+'/>
+		  </token>
+		  <token postag_regexp='yes' postag="SPS.+|RG|CS|DD.+|PD.+|CC|VMN0000"/>
       </pattern>
-      <message>Substitua por <suggestion>Nós \2</suggestion>.</message>
-      <example correction="Nós sabemos"><marker>Nos sabemos</marker> a resposta.</example>
+      <message>Baseado no contexto pode utilizar 'Nós' ou 'Nos'.</message>
+	  <suggestion>Nós</suggestion>
+      <example correction="Nós"><marker>Nos</marker> sabemos a resposta.</example>
+	  <example>Nos cuidava como um pai.</example>
+	  <example>Nos dizeres de Edison Carneiro, no clássico “Candomblés da Bahia”.</example>
     </rule>
 
     <!-- NUM não -->
