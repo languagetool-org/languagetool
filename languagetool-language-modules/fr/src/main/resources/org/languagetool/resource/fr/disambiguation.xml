@@ -1175,6 +1175,28 @@ RB => Règles Brutes
             </pattern>
             <disambig action="filterall"/>
         </rule>
+        <rule>
+            <pattern>
+                <token postag="SENT_START"/>
+                <token postag="A|C coor" postag_regexp="yes" min="0" max="1"/>
+                <marker>
+                        <token>bon</token>
+                </marker>
+                <token postag="[DPZR].*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="remove" postag="[JN] m s"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="SENT_START"/>
+                <token postag="A|C coor" postag_regexp="yes" min="0" max="1"/>
+                <marker>
+                    <token>bon</token>
+                </marker>
+                <token postag="[DPZR].*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="add" postag="A"/>
+        </rule>
     </rulegroup>
     <!-- END: périphrases verbe + noms -->
     <!-- CATEGORY: appositions -->
