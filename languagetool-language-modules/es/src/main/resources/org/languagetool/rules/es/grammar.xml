@@ -14257,6 +14257,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="AGREEMENT_POSTPONED_ADJ" name="concordancia de adjetivo pospuesto a sustantivos">
             <antipattern>
+                <token regexp="yes">sera|seras</token>
+                <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
                 <token>incluidos</token>
                 <token postag="NCM.*|A..M.." postag_regexp="yes"/>
                 <token regexp="yes">y|e|o|u|,</token>
