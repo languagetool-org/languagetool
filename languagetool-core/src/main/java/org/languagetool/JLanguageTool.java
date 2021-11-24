@@ -1073,7 +1073,7 @@ public class JLanguageTool {
       }
 
       // cancel any remaining tasks (e.g. after interrupt because request timed out)
-      remoteRuleTasks.forEach(t -> t.cancel(true));
+      remoteRuleTasks.stream().filter(Objects::nonNull).forEach(t -> t.cancel(true));
     }
   }
 
