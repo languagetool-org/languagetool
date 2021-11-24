@@ -947,7 +947,7 @@ public class JLanguageTool {
     ExecutorService remoteRulesThreadPool = LtThreadPoolFactory.getFixedThreadPoolExecutor(LtThreadPoolFactory.REMOTE_RULE_WAITING_POOL).orElse(null);
     if (remoteRulesThreadPool != null && mode != Mode.TEXTLEVEL_ONLY) {
       // trigger remote rules to run on whole text at once, at the start, then we wait for the results
-      remoteRuleTasks = new LinkedList<>();
+      remoteRuleTasks = new ArrayList<>();
       checkRemoteRules(rules.allRules(), analyzedSentences, mode, level,
         remoteRuleTasks, remoteRules, cachedResults, matchOffset, textSessionID);
     }
@@ -1011,6 +1011,9 @@ public class JLanguageTool {
       // fetch results from remote rules
       for (int taskIndex = 0; taskIndex < remoteRuleTasks.size(); taskIndex++) {
         FutureTask<RemoteRuleResult> task = remoteRuleTasks.get(taskIndex);
+        if (task == null) { // task rejected or other error, no results
+          continue;
+        }
         RemoteRule rule = remoteRules.get(taskIndex);
         String ruleKey = rule.getId();
         try {
@@ -1146,6 +1149,8 @@ public class JLanguageTool {
           jLanguageToolPool.submit(task);
           remoteRuleTasks.add(task);
         } catch (RejectedExecutionException ignored) {
+          // remoteRuleTasks and remoteRules lists are expected to be aligned
+          remoteRuleTasks.add(null);
         }
       }
     }
