@@ -41364,29 +41364,29 @@ Era visto nas mãos de todos os japoneses em paradas.
  
 	<!-- PODERIAM-SE poder-se-ia -->
     <rulegroup id='PODERIAM-SE' name="Formas verbais: poderiam-se → poder-se-iam">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-03-20 (17-MAR-2021+)      -->
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-11-24 (Enhanced) (25-JUN-2021+)      -->
 	<!--
 Assim poderia-se escrever à Ana. → Assim poder-se-ia escrever à Ana.
 Assim poderiam-se escrever livros sobre o assunto. → Assim poder-se-iam escrever livros sobre o assunto.
 	-->
 		<rule>
 			<pattern>
-				<token postag='VMIC[13]S0' postag_regexp='yes'/>	
+				<token postag='VMI[CF][13]S.+' postag_regexp='yes'/>	
 				<token regexp='yes' spacebefore='no'>&hifen;</token>
-				<token regexp='yes' spacebefore='no'>se|lhes?|me</token>
+				<token regexp='yes' spacebefore='no'>se|lhes?|me|te|nos|vos</token>
 			</pattern>
 			<message>Esta forma verbal não existe.</message>
-			<suggestion><match no='1' postag="VMIC[13]S0" postag_replace='VMN0000' postag_regexp="yes"/>-\3-ia</suggestion>
+			<suggestion><match no='1' postag="V.+" postag_replace='VMN0000' postag_regexp="yes"/>-\3-ia</suggestion>
 			<example correction="poder-se-ia">Assim <marker>poderia-se</marker> escrever à Ana.</example>
 		</rule>
 		<rule>
 			<pattern>
-				<token postag='VMIC3P0' postag_regexp='no'/>	
+				<token postag='VMI[CF]3P.+' postag_regexp='yes'/>	
 				<token regexp='yes' spacebefore='no'>&hifen;</token>
-				<token regexp='yes' spacebefore='no'>se|lhes?|me</token>
+				<token regexp='yes' spacebefore='no'>se|lhes?|me|te|nos|vos</token>
 			</pattern>
 			<message>Esta forma verbal não existe.</message>
-			<suggestion><match no='1' postag="VMIC3P0" postag_replace='VMN0000' postag_regexp="yes"/>-\3-iam</suggestion>
+			<suggestion><match no='1' postag="V.+" postag_replace='VMN0000' postag_regexp="yes"/>-\3-iam</suggestion>
 			<example correction="poder-se-iam">Assim <marker>poderiam-se</marker> escrever livros sobre o assunto.</example>
 		</rule>
     </rulegroup>
