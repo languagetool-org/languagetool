@@ -229,6 +229,9 @@ class LanguageToolHttpHandler implements HttpHandler {
         } else {
           response = "Checking took longer than " + config.getMaxCheckTimeMillisAnonymous() / 1000.0f + " seconds, which is this server's limit. Please make sure you have selected the proper language or consider submitting a shorter text.";
         }
+      } else if (e instanceof UnavailableException) {
+        errorCode = HTTP_UNAVAILABLE;
+        response = e.getMessage();
       } else {
         response = "Internal Error: " + e.getMessage();
         errorCode = HttpURLConnection.HTTP_INTERNAL_ERROR;

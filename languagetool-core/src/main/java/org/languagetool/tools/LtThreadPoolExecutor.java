@@ -22,6 +22,7 @@
 package org.languagetool.tools;
 
 import io.prometheus.client.Gauge;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Queue;
@@ -38,6 +39,7 @@ class LtThreadPoolExecutor extends ThreadPoolExecutor {
   private static final Gauge queueSize = Gauge.build("languagetool_threadpool_queue_size", "Queue size by threadpool").labelNames("pool").register();
   private static final Gauge maxQueueSize = Gauge.build("languagetool_threadpool_max_queue_size", "Queue capacity by threadpool").labelNames("pool").register();
 
+  @Getter
   private final String name;
   private final Queue<Runnable> queue;
 

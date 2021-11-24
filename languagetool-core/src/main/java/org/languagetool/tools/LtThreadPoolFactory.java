@@ -21,6 +21,7 @@
 package org.languagetool.tools;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import io.prometheus.client.Counter;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 
@@ -37,6 +38,9 @@ public final class LtThreadPoolFactory {
   public static final String REMOTE_RULE_EXECUTING_POOL = "remote-rule-executing-thread";
 
   private static final ConcurrentMap<String, ThreadPoolExecutor> executorServices = new ConcurrentHashMap<>();
+
+  private static final Counter rejectedTasks = Counter.build("languagetool_threadpool_rejected_tasks",
+    "Rejected tasks by threadpool").labelNames("pool").register();
 
   private LtThreadPoolFactory() {
   }
@@ -74,6 +78,18 @@ public final class LtThreadPoolFactory {
     }
   }
 
+  private static class LtRejectedExecutionHandler extends ThreadPoolExecutor.AbortPolicy {
+
+    @Override
+    public void rejectedExecution(Runnable runnable, ThreadPoolExecutor threadPoolExecutor) {
+      String pool = ((LtThreadPoolExecutor) threadPoolExecutor).getName();
+      rejectedTasks.labels(pool).inc();
+      log.warn("Task rejected from pool '{}' (queue full, all threads exhausted)", pool);
+      super.rejectedExecution(runnable, threadPoolExecutor);
+    }
+  }
+  private static final LtRejectedExecutionHandler handler = new LtRejectedExecutionHandler();
+
   @NotNull
   private static ThreadPoolExecutor getNewThreadPoolExecutor(@NotNull String identifier, int corePool, int maxThreads, int maxTaskInQueue, long keepAliveTimeSeconds, boolean isDaemon, @NotNull Thread.UncaughtExceptionHandler exceptionHandler) {
     log.debug(String.format("Create new threadPool with maxThreads: %d maxTaskInQueue: %d identifier: %s daemon: %s exceptionHandler: %s", maxThreads, maxTaskInQueue, identifier, isDaemon, exceptionHandler));
@@ -88,7 +104,7 @@ public final class LtThreadPoolFactory {
       .setDaemon(isDaemon)
       .setUncaughtExceptionHandler(exceptionHandler)
       .build();
-    ThreadPoolExecutor newThreadPoolExecutor = new LtThreadPoolExecutor(identifier, corePool, maxThreads, keepAliveTimeSeconds, SECONDS, boundedQueue, threadFactory, new ThreadPoolExecutor.AbortPolicy());
+    ThreadPoolExecutor newThreadPoolExecutor = new LtThreadPoolExecutor(identifier, corePool, maxThreads, keepAliveTimeSeconds, SECONDS, boundedQueue, threadFactory, handler);
     return newThreadPoolExecutor;
   }
 
