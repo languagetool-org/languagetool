@@ -47,6 +47,8 @@ public class CatalanTagger extends BaseTagger {
   private static final Pattern VERB = Pattern.compile("V.+");
   //private static final Pattern NOUN = Pattern.compile("NC.+");
   private String variant;
+  
+  private boolean warningChunk = false;
 
   private static final Pattern PREFIXES_FOR_VERBS = Pattern.compile("(auto)(.*[aeiouàéèíòóïü].+[aeiouàéèíòóïü].*)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final Pattern PREFIXES_FOR_N_ADJ = Pattern.compile("(super)(.*[aeiouàéèíòóïü].+[aeiouàéèíòóïü].*)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
@@ -73,6 +75,7 @@ public class CatalanTagger extends BaseTagger {
       // typewriter apostrophe
       boolean containsTypewriterApostrophe = false;
       boolean containsTypographicApostrophe = false;
+      warningChunk = false;
       if (word.length() > 1) {
         if (word.contains("'")) {
           containsTypewriterApostrophe = true;
@@ -123,6 +126,11 @@ public class CatalanTagger extends BaseTagger {
       if (containsTypographicApostrophe) {
         List<ChunkTag> listChunkTags = new ArrayList<>();
         listChunkTags.add(new ChunkTag("containsTypographicApostrophe"));
+        atr.setChunkTags(listChunkTags);
+      }
+      if (warningChunk) {
+        List<ChunkTag> listChunkTags = new ArrayList<>();
+        listChunkTags.add(new ChunkTag("_WARNING_NOT_IN_DICT_"));
         atr.setChunkTags(listChunkTags);
       }
 
@@ -184,7 +192,7 @@ public class CatalanTagger extends BaseTagger {
           if (m.matches()) {
             String lemma = matcherSuper.group(1).toLowerCase().concat(taggerToken.getLemma());
             additionalTaggedTokens.add(new AnalyzedToken(word, posTag, lemma));
-            additionalTaggedTokens.add(new AnalyzedToken(word, "_WARNING_", lemma));
+            warningChunk = true;
           }
         }
       }
