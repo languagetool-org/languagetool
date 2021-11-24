@@ -447,14 +447,10 @@ abstract class TextChecker {
 
     List<CheckResults> ruleMatchesSoFar = Collections.synchronizedList(new ArrayList<>());
 
-    Future<List<CheckResults>> future = executorService.submit(new Callable<List<CheckResults>>() {
-      @Override
-      public List<CheckResults> call() throws Exception {
-        // use to fake OOM in thread for testing:
-        /*if (Math.random() < 0.1) {
-          throw new OutOfMemoryError();
-        }*/
-        try (MDC.MDCCloseable c = MDC.putCloseable("rID", LanguageToolHttpHandler.getRequestId(httpExchange))){
+    Future<List<CheckResults>> future;
+    try {
+      future = executorService.submit(() -> {
+        try (MDC.MDCCloseable c = MDC.putCloseable("rID", LanguageToolHttpHandler.getRequestId(httpExchange))) {
           log.info("Starting text check on {} chars; params: {}", length, params);
           long time = System.currentTimeMillis();
           List<CheckResults> results = getRuleMatches(aText, lang, motherTongue, parameters, params, userConfig, detLang, preferredLangs,
@@ -466,8 +462,10 @@ abstract class TextChecker {
           log.info("Finished suggestion generation in {}ms, returning results.", System.currentTimeMillis() - time);
           return results;
         }
-      }
-    });
+      });
+    } catch (RejectedExecutionException e) {
+      throw new UnavailableException("Server overloaded, please try again later", e);
+    }
     String incompleteResultReason = null;
     List<CheckResults> res;
     try {

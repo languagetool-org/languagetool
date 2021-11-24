@@ -1141,8 +1141,12 @@ public class JLanguageTool {
         } else {
           task = rule.run(analyzedSentences, textSessionID);
         }
-        remoteRuleTasks.add(task);
-        jLanguageToolPool.submit(task);
+
+        try {
+          jLanguageToolPool.submit(task);
+          remoteRuleTasks.add(task);
+        } catch (RejectedExecutionException ignored) {
+        }
       }
     }
   }
