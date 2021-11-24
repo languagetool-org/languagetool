@@ -2493,6 +2493,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="шёл улыбаясь.">Он <marker>шёл, улыбаясь.</marker></example>
             </rule>
         </rulegroup>
+        <!-- issue #1119  -->
+        <rule id="Multiple_missing_commas_VB" name="Пропущенные запятые" default="temp_off" >
+            <pattern>     <!-- TO DO: experimental rule, need improve! --> <!-- default="temp_off" tags="picky" -->
+                <unify negate="no">
+                        <feature id="tense"/>
+                        <feature id="aspect"/>
+                        <feature id="transitivity"/>
+                <token postag="VB:.*" postag_regexp="yes" skip="-1">
+                    <exception regexp="yes" scope="next">и|или|,|;|а|но</exception>
+                    <exception postag="VB:.*" postag_regexp="yes" negate_pos="yes"></exception>
+                    <exception inflected="yes">быть</exception>
+                    <exception regexp="yes">&verb;</exception>
+                </token>
+                <token postag="VB:.*" postag_regexp="yes">
+                    <exception postag="VB:.*" postag_regexp="yes" negate_pos="yes"></exception>
+                    <exception inflected="yes">быть</exception>
+                    <exception regexp="yes">&verb;</exception>
+                </token>
+                </unify>
+            </pattern>
+            <message>Пропущена запятая</message>
+            <example correction="">Свиньи все <marker>подохли остался</marker> один баран.</example>
+            <example>Свиньи все подохли, остался один баран.</example>
+        </rule>
+        
         <!--   -->
         <rulegroup id="COMMA_PARTICIPLE" name="Запятые при причастии и причастном обороте" >
             <!-- TO DO: experimental rule, need improve! --> <!-- default="temp_off" -->
