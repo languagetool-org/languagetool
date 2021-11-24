@@ -11534,7 +11534,55 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
-        <rule id="TIPP_TOPP" name="tip top (tipptopp)" default="temp_off">
+        <rulegroup id="HEAD_UP_DISPLAY" name="Head-up-Display" default="temp_off">
+            <url>https://de.wikipedia.org/wiki/Head-up-Display</url>
+            <rule>
+                <pattern>
+                    <token>head</token>
+                    <token>up</token>
+                    <token regexp="yes">displays?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>Head-up-<match no="3" case_conversion="startupper" /></suggestion>?</message>
+                <example correction="Head-up-Display">Der BMW hatte ein <marker>Head up Display</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">head-?up</token>
+                    <token regexp="yes">displays?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>Head-up-<match no="2" case_conversion="startupper" /></suggestion>?</message>
+                <example correction="Head-up-Display">Der BMW hatte ein <marker>Head-up Display</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">Head-?Up-Display</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>Head-up-Display</suggestion>?</message>
+                <example correction="Head-up-Display">Der BMW hatte ein <marker>Head-Up-Display</marker>.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="MAKE_UP_ARTIST" name="Make-up-Artist" default="temp_off">
+            <url>https://de.wikipedia.org/wiki/Head-up-Display</url>
+            <rule>
+                <pattern>
+                    <token>Make</token>
+                    <token>up</token>
+                    <token regexp="yes">Artist(en|in(nen)?)?|Stylist(en|in(nen)?)?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>Make-up-<match no="3" case_conversion="startupper" /></suggestion>?</message>
+                <example correction="Make-up-Artistin">Ihr Traumberuf ist <marker>Make up Artistin</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">make-?up</token>
+                    <token regexp="yes">Artist(en|in(nen)?)?|Stylist(en|in(nen)?)?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>Make-up-<match no="2" case_conversion="startupper" /></suggestion>?</message>
+                <example correction="Make-up-Artistin">Ihr Traumberuf ist <marker>Make-up Artistin</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rule id="TIPP_TOPP" name="tip top (tipptopp)">
             <pattern>
                 <token regexp="yes">tipp?</token>
                 <token regexp="yes">topp?</token>
@@ -17852,6 +17900,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>rein</token>
                 <token>machen</token>
             </antipattern>
+            <antipattern>
+                <token regexp="yes">da|dort</token>
+                <token>rein</token>
+            </antipattern>
             <pattern>
                 <token>
                     <exception regexp="yes">;|:</exception>
@@ -23736,7 +23788,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="EIN_GEBEN_UND_NEHMEN" name="ein geben (Geben) und nehmen (Nehmen)" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token>Geben</token>
+                <token regexp="yes">und|&amp;</token>
+                <token>Nehmen</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">ein|das</token>
+                <token postag="(ADJ|PA[12]).*" postag_regexp="yes" min="0" />
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">[Gg]eben</token>
+                    <token regexp="yes">und|&amp;</token>
+                    <token regexp="yes" case_sensitive="yes">[Nn]ehmen</token>
+                </marker>
+            </pattern>
+            <message>In dieser Redewendung werden beide Verben großgeschrieben.</message>
+            <suggestion>Geben und Nehmen</suggestion>
+            <example correction="Geben und Nehmen">Es ist ein <marker>geben und nehmen</marker>.</example>
+        </rule>
+        <rule id="UM_GROESSERES_ZU" name="um schlimmeres (Schlimmeres) zu vermeiden" default="temp_off">
+            <pattern case_sensitive="yes">
+                <token regexp="yes">[Uu]m</token>
+                <token regexp="yes" min="0">sehr|besonders|weniger|so|eher|mehr|weitaus|halbwegs|allzu|ziemlich|wirklich|r?echt|komplett|ganz|total|richtig|einigerma(ß|ss)en|fast|relativ|au(ß|ss)erordentlich|überaus|äu(ß|ss)erst|ungemein|au(ß|ss)ergewöhnlich|bitter|denkbar|bemerkenswert|ausgesprochen|(un)?endlich|ungeheuer|voll|wahnsinnig|verdammt|entsetzlich|höllisch|furchtbar|fürchterlich|enorm|ungewöhnlich|vollkommen|völlig|echt|deutlich</token>
+                <marker>
+                    <token postag="(ADJ:NOM:SIN:NEU:(GRU|KOM):IND)|(PA[12]:AKK:.*)" postag_regexp="yes" regexp="yes">[a-zäöü].+es<exception regexp="yes">anderes|einiges|weniges</exception></token>
+                </marker>
+                <token>zu</token>
+                <token postag="VER.*" postag_regexp="yes" />
+            </pattern>
+            <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion> hier großgeschrieben werden muss.</message>
+            <example correction="Schlimmeres">Er tat dies, um <marker>schlimmeres</marker> zu vermeiden.</example>
+        </rule>
         <rulegroup id="DER_KLUEGERE_GIBT_NACH" name="Der klügere (Klügere) gibt nach">
+            <url>http://www.sprichwort-plattform.org/sp/Der%20Kl%C3%BCgere%20gibt%20nach</url>
             <rule>
                 <pattern>
                     <token regexp="yes">der|die</token>
@@ -24241,7 +24326,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <pattern>
                 <token case_sensitive="yes" regexp="yes">[Ii]m</token>
-                <token regexp="yes" case_sensitive="yes">sitzen|singen|vertrauen|garten|stehen|leben|web|abstand|wohlwollen|vorstand|sterben|(durch)?schnitt|sinne?|kopf|unterschied|herzen|laufe?|liegen|betrieb|einklang|reisen|griff|vorbei(gehen|laufen|rennen)|falle|schlaf|vergleich|verlaufe?|beruf|rahmen</token>
+                <token regexp="yes" case_sensitive="yes">sitzen|singen|vertrauen|garten|stehen|leben|web|abstand|wohlwollen|vorstand|sterben|(durch)?schnitt|sinne?|kopf|unterschied|herzen|laufe?|liegen|betrieb|einklang|reisen|griff|vorbei(gehen|laufen|rennen)|falle|(tief)?schlaf|vergleich|verlaufe?|beruf|rahmen</token>
             </pattern>
             <message>Bitte prüfen Sie die Groß- und Kleinschreibung.</message>
             <suggestion>\1 <match no="2" case_conversion="startupper" /></suggestion>
@@ -29122,7 +29207,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="BEDARF_SUBST" name="'bei bedarf (Bedarf)'">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">[bB]ei|[kKsSmMdD]ein(en)?|nach|[uU]nser(en)?|[iI]hr(en)?|viel</token>
+                    <token regexp="yes">[bB]ei|[kKsSmMdD]ein(en)?|nach|[uU]nser(en)?|[iI]hr(en)?</token>
                     <marker>
                         <token>bedarf</token>
                     </marker>
@@ -29135,8 +29220,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Bedarf">Kein <marker>bedarf</marker>, danke.</example>
                 <example correction="Bedarf">Wir haben keinen <marker>bedarf</marker>, danke.</example>
                 <example correction="Bedarf">Anwendung: je nach <marker>bedarf</marker>.</example>
+                <example>Arm ist nicht, wer wenig hat, sondern wer viel bedarf.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern case_sensitive="yes">
                     <marker>
                         <token>bedarf</token>
@@ -29150,7 +29236,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Das <marker>bedarf</marker> noch der Klärung.</example>
                 <example correction="Bedarf">Wir melden uns, sollten wir noch <marker>bedarf</marker> daran haben.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern case_sensitive="yes">
                     <marker>
                         <token>bedarf</token>
@@ -29165,7 +29251,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Das <marker>bedarf</marker> noch der Klärung.</example>
                 <example correction="Bedarf">Wir melden uns, sollten wir noch <marker>bedarf</marker> an neuen Produkten haben.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[Dd]e[rmn]</token>
                     <marker>
@@ -29179,7 +29265,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Das <marker>bedarf</marker> noch der Klärung.</example>
                 <example correction="Bedarf">Der <marker>bedarf</marker> steigt stetig.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[Dd]e[rmn]</token>
                     <marker>
@@ -29192,7 +29278,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>&prgk;.</short>
                 <example correction="Bedarf">Eine Ladung deckt den <marker>bedarf</marker> an Vitamin C.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern case_sensitive="yes">
                     <token>haben</token>
                     <token postag="(ADV|ADJ|PA[12]).*" postag_regexp="yes" min="0" max="2" />
@@ -41143,7 +41229,7 @@ Andere Projekte</example>
                 <pattern case_sensitive="yes">
                     <token><exception regexp="yes">[eE]in</exception></token>
                     <token regexp="yes">irgend(et)?was|(et)?was|nichts|nix|alles|viel|wenig|genug</token>
-                    <token regexp="yes">sehr|besonders|weniger|so|eher|mehr|weitaus|halbwegs|allzu|ziemlich|wirklich|r?echt|komplett|ganz|total|richtig|einigerma(ß|ss)en|fast|relativ|au(ß|ss)erordentlich|überaus|äu(ß|ss)erst|ungemein|au(ß|ss)ergewöhnlich|bitter|denkbar|bemerkenswert|ausgesprochen|unendlich|ungeheuer|voll|wahnsinnig|verdammt|entsetzlich|höllisch|furchtbar|fürchterlich|enorm|ungewöhnlich|vollkommen|völlig|echt</token>
+                    <token regexp="yes">sehr|besonders|weniger|so|eher|mehr|weitaus|halbwegs|allzu|ziemlich|wirklich|r?echt|komplett|ganz|total|richtig|einigerma(ß|ss)en|fast|relativ|au(ß|ss)erordentlich|überaus|äu(ß|ss)erst|ungemein|au(ß|ss)ergewöhnlich|bitter|denkbar|bemerkenswert|ausgesprochen|unendlich|ungeheuer|voll|wahnsinnig|verdammt|entsetzlich|höllisch|furchtbar|fürchterlich|enorm|ungewöhnlich|vollkommen|völlig|echt|deutlich</token>
                     <marker>
                         <token postag="(ADJ:NOM:SIN:NEU:(GRU|KOM):IND)|(PA1:AKK:.*)" postag_regexp="yes" regexp="yes">[a-zäöü].+es<exception regexp="yes">anderes|einiges|weniges</exception></token>
                     </marker>
@@ -41237,7 +41323,7 @@ Andere Projekte</example>
                 </antipattern>
                 <pattern case_sensitive="yes">
                     <token regexp="yes" case_sensitive="no">irgend(et)?was|(et)?was|nichts|nix|alles|viel|wenig|genug</token>
-                    <token regexp="yes" min="0">sehr|besonders|weniger|so|eher|mehr|weitaus|halbwegs|allzu|ziemlich|wirklich|r?echt|komplett|ganz|total|richtig|einigerma(ß|ss)en|fast|relativ|au(ß|ss)erordentlich|überaus|äu(ß|ss)erst|ungemein|au(ß|ss)ergewöhnlich|bitter|denkbar|bemerkenswert|ausgesprochen|unendlich|ungeheuer|voll|wahnsinnig|verdammt|entsetzlich|höllisch|furchtbar|fürchterlich|enorm|ungewöhnlich|vollkommen|völlig|echt</token>
+                    <token regexp="yes" min="0">sehr|besonders|weniger|so|eher|mehr|weitaus|halbwegs|allzu|ziemlich|wirklich|r?echt|komplett|ganz|total|richtig|einigerma(ß|ss)en|fast|relativ|au(ß|ss)erordentlich|überaus|äu(ß|ss)erst|ungemein|au(ß|ss)ergewöhnlich|bitter|denkbar|bemerkenswert|ausgesprochen|unendlich|ungeheuer|voll|wahnsinnig|verdammt|entsetzlich|höllisch|furchtbar|fürchterlich|enorm|ungewöhnlich|vollkommen|völlig|echt|deutlich</token>
                     <marker>
                         <token postag="ADJ:DAT:SIN:.*|PA[12]:DAT.*" postag_regexp="yes" regexp="yes">[a-zäöü].+em<exception regexp="yes">anderem|eigenem|wenigem</exception></token>
                     </marker>

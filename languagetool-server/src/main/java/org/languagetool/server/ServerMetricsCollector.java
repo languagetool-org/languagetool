@@ -21,8 +21,8 @@ package org.languagetool.server;
 import com.google.common.cache.Cache;
 import io.prometheus.client.Counter;
 import io.prometheus.client.Gauge;
-import io.prometheus.client.Info;
 import io.prometheus.client.Histogram;
+import io.prometheus.client.Info;
 import io.prometheus.client.exporter.HTTPServer;
 import io.prometheus.client.guava.cache.CacheMetricsCollector;
 import io.prometheus.client.hotspot.DefaultExports;
@@ -108,12 +108,31 @@ public class ServerMetricsCollector {
   private final Info buildInfo = Info
     .build("languagetool_build", "Build information").register();
 
+  private final Gauge configValues = Gauge
+    .build("languagetool_configuration_values", "Configuration settings").labelNames("name").register();
+
+
   private final CacheMetricsCollector cacheMetrics = new CacheMetricsCollector().register();
 
 
-  public static void init(int port) throws IOException {
+  public static void init(HTTPServerConfig config) throws IOException {
     DefaultExports.initialize();
-    server = new HTTPServer(port, true);
+    server = new HTTPServer(config.getPrometheusPort(), true);
+    Gauge c = getInstance().configValues;
+    exposeConfigurationValues(config, c);
+  }
+
+  private static void exposeConfigurationValues(HTTPServerConfig config, Gauge c) {
+    c.labels("maxCheckThreads").set(config.getMaxCheckThreads());
+    c.labels("maxWorkQueueSize").set(config.getMaxWorkQueueSize());
+    c.labels("cacheSize").set(config.getCacheSize());
+    c.labels("cacheTTLSeconds").set(config.getCacheTTLSeconds());
+    c.labels("maxCheckTimeMillisAnonymous").set(config.getMaxCheckTimeMillisAnonymous());
+    c.labels("maxCheckTimeMillisLoggedIn").set(config.getMaxCheckTimeMillisLoggedIn());
+    c.labels("maxCheckTimeMillisPremium").set(config.getMaxCheckTimeMillisPremium());
+    c.labels("maxTextLengthAnonymous").set(config.getMaxTextLengthAnonymous());
+    c.labels("maxTextLengthLoggedIn").set(config.getMaxTextLengthLoggedIn());
+    c.labels("maxTextLengthPremium").set(config.getMaxTextLengthPremium());
   }
 
   public static void stop() {
