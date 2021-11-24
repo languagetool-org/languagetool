@@ -2631,12 +2631,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="Not_Comma_eto" name="Избыточная запятая перед «это»"  >
             <pattern> <!-- Лишняя запятая #1098   default="temp_off" tags="picky" -->
                 <token postag="SENT_START"></token>
-                <token skip="-1">В<exception scope="next" postag="VB:.*" postag_regexp="yes"></exception><exception scope="next" regexp="yes">частности|конце|целом</exception></token> <!-- Исключения для вводных выражений, TODO -->
-                <token>,</token>
-                <token>это</token>
-                <token postag="VB:.*" postag_regexp="yes"></token>
+                <marker>
+                    <token skip="-1">В<exception scope="next" postag="VB:.*" postag_regexp="yes"></exception>
+                        <exception scope="next" regexp="yes">частности|конце|целом</exception>
+                    </token> <!-- Исключения для вводных выражений, TODO -->
+                    <token>,</token>
+                    <token>это</token>
+                    <token postag="VB:.*" postag_regexp="yes"></token>
+                </marker>
             </pattern>
-            <message>Избыточная запятая: <suggestion><match no="1"/> <match no="2" include_skipped="all" /> <match no="4"/> <match no="5"/></suggestion></message>
+            <message>Избыточная запятая: <suggestion><match no="2" include_skipped="all" /> <match no="4"/> <match no="5"/></suggestion></message>
             <short>Избыточная запятая</short>
             <example correction="В случае рассмотрения резонансных структур это приводит"><marker>В случае рассмотрения резонансных структур, это приводит</marker> к существенным ошибкам в вычислении поля на границе раздела между слоями.</example>
             <example>В случае рассмотрения резонансных структур это приводит к существенным ошибкам в вычислении поля на границе раздела между слоями.</example>
@@ -7323,9 +7327,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         
         
-        <rulegroup default="on" id="Soglasovanie_NN_PT" name="Согласование существительного с причастием" tags="picky">
+        <rulegroup default="on" id="Soglasovanie_NN_PT" name="Согласование существительного с причастием" >
         <rule>
-            <!-- Experimental rule, issue #1069, #1062 default="temp_off"  (род)-->  
+            <!-- Experimental rule, issue #1069, #1062 default="temp_off"  (род)  tags="picky"-->  
             <pattern>
                 <token>
                     <exception postag="NN:.*|PNN:.*" postag_regexp="yes" />
@@ -7398,6 +7402,80 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         </rulegroup>       
         
+        <rulegroup default="temp_off" id="Soglasovanie_NN_PT_2" name="Согласование существительного с причастием (2)" >
+        <rule>
+            <!-- Experimental rule, issue #1069, #1062 default="temp_off"  (род)-->  
+            <pattern>
+                <token>
+                    <exception postag="NN:.*|PNN:.*" postag_regexp="yes" />
+                    <exception regexp="yes">на|в|и|или|,</exception>
+                </token>
+                <unify negate="yes">
+                    <feature id="gender"/>        
+                    <marker>
+                        <token postag="NN:.*:D" postag_regexp="yes"><exception postag="NN:.*:D" postag_regexp="yes" negate_pos="yes"></exception></token>
+                        <unify-ignore>
+                            <token>,</token>
+                        </unify-ignore>
+                        <token postag="PT:.*" postag_regexp="yes" ><exception postag="PT:.*" postag_regexp="yes" negate_pos="yes"></exception></token>
+                    </marker>
+                </unify>
+               <token><exception postag="PNN:.*" postag_regexp="yes" /></token>
+            </pattern>
+            <message>Ошибка в согласовании причастия по роду!</message>
+            <short>Ошибка в согласовании</short>
+            <example correction="">Довольно часто авторы таких работ предоставляют доступ к своим <marker>программам, реализующее</marker> новые разработки в этой области.</example>
+            <example>Довольно часто авторы таких работ предоставляют доступ к своим программам, реализующим новые разработки в этой области.</example>
+        </rule>
+        <rule>
+            <!-- Experimental rule, issue #1069, #1062 (число) -->  
+            <pattern>
+                <token>
+                    <exception postag="NN:.*|PNN:.*" postag_regexp="yes" />
+                    <exception regexp="yes">на|в|и|или|,</exception>
+                </token>
+                <unify negate="yes">
+                    <feature id="number"/>        
+                    <marker>
+                        <token postag="NN:.*:D" postag_regexp="yes"><exception postag="NN:.*:D" postag_regexp="yes" negate_pos="yes"></exception></token>
+                        <unify-ignore>
+                            <token>,</token>
+                        </unify-ignore>
+                        <token postag="PT:.*" postag_regexp="yes" ><exception postag="PT:.*" postag_regexp="yes" negate_pos="yes"></exception></token>
+                    </marker>
+                </unify>
+               <token><exception postag="PNN:.*" postag_regexp="yes" /></token>
+            </pattern>
+            <message>Ошибка в согласовании причастия по числу!</message>
+            <short>Ошибка в согласовании</short>
+            <example correction="">Довольно часто авторы таких работ предоставляют доступ к своим <marker>программам, реализующего</marker> новые разработки в этой области.</example>
+            <example>Довольно часто авторы таких работ предоставляют доступ к своим программам, реализующим новые разработки в этой области.</example>
+        </rule>
+        <rule>
+            <!-- Experimental rule, issue #1069, #1062 (падеж) -->  
+            <pattern>
+                <token>
+                    <exception postag="NN:.*|PNN:.*" postag_regexp="yes" />
+                    <exception regexp="yes">на|в|и|или|,</exception>
+                </token>
+                <unify negate="yes">
+                    <feature id="case"/>        
+                    <marker>
+                        <token postag="NN:.*:D" postag_regexp="yes"><exception postag="NN:.*:D" postag_regexp="yes" negate_pos="yes"></exception></token>
+                        <unify-ignore>
+                            <token>,</token>
+                        </unify-ignore>
+                        <token postag="PT:.*" postag_regexp="yes" ><exception postag="PT:.*" postag_regexp="yes" negate_pos="yes"></exception></token>
+                    </marker>
+                </unify>
+               <token><exception postag="PNN:.*" postag_regexp="yes" /></token>
+            </pattern>
+            <message>Ошибка в согласовании причастия по падежу!</message>
+            <short>Ошибка в согласовании</short>
+            <example correction="">Довольно часто авторы таких работ предоставляют доступ к своим <marker>программам, реализующих</marker> новые разработки в этой области.</example>
+            <example>Довольно часто авторы таких работ предоставляют доступ к своим программам, реализующим новые разработки в этой области.</example>
+        </rule>
+        </rulegroup> 
         
         <rule  id="Adj_NN_number_Software" name="«Программное обеспечение»"> 
             <pattern> <!-- Need more unification -->
