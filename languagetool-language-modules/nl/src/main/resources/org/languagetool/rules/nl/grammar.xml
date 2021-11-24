@@ -319,6 +319,38 @@ regexp case-insensitive maken : (?i)
 				<example>Er was <marker>honderd</marker> man aanwezig.</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="SPATIE_GETALLEN" name="Spatie tussen getal en meeteenheid" tags="picky">
+			<rule>
+				<pattern>
+					<token regexp="yes">[1-9][0-9]+(m|v|V|kV|A|W|g|l|ml|cc|km|mm|cm)</token>
+				</pattern>
+				<message>Tussen het getal en de meeteenheid hoort een spatie (behalve in samenstellingen).</message>
+				<suggestion><match no="1" regexp_match="(^[0-9]+)(m|v|V|kV|A|W|g|l|ml|cc|km|mm|cm|km)" regexp_replace="$1 $2"/></suggestion>
+				<url>https://taaladvies.net/wel-of-geen-spaties-voor-en-na-leestekens-en-symbolen-algemeen/</url>
+				<short>Spatie</short>
+				<example correction="100 cm">De lengte is <marker>100cm</marker>.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token regexp="yes">[1-9][0-9]+(m|km|cm)2</token>
+				</pattern>
+				<message>Tussen het getal en de meeteenheid hoort een spatie (behalve in samenstellingen).</message>
+				<suggestion><match no="1" regexp_match="(^[0-9]+)(m|km|cm)2" regexp_replace="$1 $2²"/></suggestion>
+				<url>https://taaladvies.net/wel-of-geen-spaties-voor-en-na-leestekens-en-symbolen-algemeen/</url>
+				<short>Spatie</short>
+				<example correction="100 cm²">De oppervlakte is <marker>100cm2</marker>.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token regexp="yes">[1-9][0-9]+(m|km|cm)3</token>
+				</pattern>
+				<message>Tussen het getal en de meeteenheid hoort een spatie (behalve in samenstellingen).</message>
+				<suggestion><match no="1" regexp_match="(^[0-9]+)(m|km|cm)3" regexp_replace="$1 $2³"/></suggestion>
+				<url>https://taaladvies.net/wel-of-geen-spaties-voor-en-na-leestekens-en-symbolen-algemeen/</url>
+				<short>Spatie</short>
+				<example correction="100 cm³">De inhoud is <marker>100cm3</marker>.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="INSPECIFIEK" name="vage aanduiding hoeveelheid" tags="picky">
 			<rule>
 				<antipattern><token>zoveel</token><token>mogelijk</token></antipattern>
@@ -17914,6 +17946,11 @@ steenwijk;Steenwijk
 
 		<rulegroup id="PUNT_GEEN_HL" name="Geen spatie en hoofdletter na punt">
 			<rule>
+				<antipattern>
+					<token postag="SENT_START"/><!-- sp.a -->
+					<token regexp="yes">.</token>
+					<token spacebefore="no">a</token>
+				</antipattern>
 				<antipattern>
 					<token regexp="yes">.</token>
 					<token spacebefore="no">.</token>
