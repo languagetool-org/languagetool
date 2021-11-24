@@ -22190,6 +22190,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>relativamente</token>
                 <token regexp="yes" inflected="yes">poco|mucho</token>
             </antipattern>
+            <antipattern>
+                <!-- sentences without verb -->
+                <token postag="SENT_START"/>
+                <token regexp="yes" min="0" max="3">\p{P}</token>
+                <token regexp="yes" skip="-1">.*mente<exception scope="next" postag="V.*" postag_regexp="yes"/><exception scope="next">¿</exception></token>
+                <token postag="SENT_END"/>
+            </antipattern>
+            <antipattern>
+                <!-- short sentences-->
+                <token postag="SENT_START"/>
+                <token regexp="yes" min="0" max="3">\p{P}</token>
+                <token regexp="yes">.*mente<exception regexp="yes">contrariamente</exception></token>
+                <token min="0" max="3"><exception postag="SENT_END"/> </token>
+                <token postag="SENT_END"/>
+            </antipattern>
             <pattern>
                 <token postag="SENT_START"/>
                 <token regexp="yes" min="0" max="3">\p{P}<exception>¿</exception></token>
@@ -22199,7 +22214,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <filter class="org.languagetool.rules.AddCommasFilter" args="none:none"/>
             <message>Si el adverbio "<match no="3" case_conversion="alllower"/>" se refiere a toda la frase, y no solo al verbo, es recomendable usar una coma.</message>
-            <example correction="Efectivamente,"><marker>Efectivamente</marker> dijo que sí.</example>
+            <example correction="Efectivamente,"><marker>Efectivamente</marker> dijo que sí depués de haber escuchado todas las opiniones.</example>
             <example correction="Últimamente,"><marker>Últimamente</marker> ¿te encuentras bien?</example>
             <example>Absolutamente de acuerdo con vuestra opinón.</example>
             <example>Antiguamente sujetas al abad del monasterio.</example>
@@ -22223,6 +22238,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Igualmente = adverbio</example>
             <example>Igualmente -dijo él.</example>
             <example>Igualmente —dijo él.</example>
+            <example>Probablemente el mejor del mundo.</example>
+            <example>Probablemente es el mejor.</example>
         </rule>
         <rulegroup id="COMMA_MARCADOR_DISCURSIVO" name="coma después de marcador discursivo">
             <rule>
