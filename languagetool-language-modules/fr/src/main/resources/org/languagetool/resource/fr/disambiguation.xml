@@ -2262,6 +2262,18 @@ RB => Règles Brutes
     </rule>
     <!-- END: nouns, nominal groups -->
     <!-- CATEGORY: adverbs -->
+    <rule name="au fait" id="AU_FAIT">
+        <pattern>
+            <token postag="SENT_START"/>
+            <token>au</token>
+            <token>fait</token>
+            <token>,</token>
+        </pattern>
+        <disambig action="add">
+            <wd pos="A"/>
+            <wd pos="A"/>
+        </disambig>
+    </rule>
     <rule id="DE_MANIERE_ADJ" name="de manière + adj">
         <pattern>
             <token postag="P">de</token>
@@ -4981,6 +4993,39 @@ RB => Règles Brutes
             </pattern>
             <disambig action="filter" postag="V.* (imp|ppr).*"/>
         </rule>
+        <rule>
+            <pattern>
+                <token postag="SENT_START"/>
+                <token inflected="yes">ne</token>
+                <token postag_regexp="yes" postag="R pers obj.*" min="0" max="3"/>
+                <marker>
+                    <token postag_regexp="yes" postag="V.*"/>
+                </marker>
+                <token regexp="yes">pas|plus</token>
+            </pattern>
+            <disambig action="remove" postag="V.* ppa.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag_regexp="yes" postag="V.* [12] s"/>
+                </marker>
+                <token regexp="yes">-[mt]oi|-[nv]ous|-lui|-leur</token>
+            </pattern>
+            <disambig action="remove" postag="V.* ind.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="SENT_START"/>
+                <token inflected="yes">ne</token>
+                <token postag_regexp="yes" postag="R pers obj.*" min="0" max="3"/>
+                <marker>
+                    <token>dis</token>
+                </marker>
+                <token><exception regexp="yes">-je|-tu|-ils?|-elles?|-[nv]ous</exception></token>
+            </pattern>
+            <disambig action="remove" postag="V.* ind.* [12] s"/>
+        </rule>
     </rulegroup>
     <rulegroup id="not_imperative" name="not imperative">
         <rule>
@@ -5020,6 +5065,17 @@ RB => Règles Brutes
                 <token regexp="yes">[\.;,:!\?]</token>
             </pattern>
             <disambig action="filter" postag="C sub"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes">je</token>
+                <token inflected="yes" min="0" max="1">ne</token>
+                <token postag_regexp="yes" postag="R pers obj.*" min="0" max="3"/>
+                <marker>
+                    <token postag_regexp="yes" postag="V ind.*"/>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="V ind.* 2 s"/>
         </rule>
         <rule>
             <pattern>
