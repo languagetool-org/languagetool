@@ -11534,7 +11534,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
-        <rulegroup id="HEAD_UP_DISPLAY" name="Head-up-Display" default="temp_off">
+        <rulegroup id="HEAD_UP_DISPLAY" name="Head-up-Display">
             <url>https://de.wikipedia.org/wiki/Head-up-Display</url>
             <rule>
                 <pattern>
@@ -11562,13 +11562,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
 
-        <rulegroup id="MAKE_UP_ARTIST" name="Make-up-Artist" default="temp_off">
-            <url>https://de.wikipedia.org/wiki/Head-up-Display</url>
+        <rulegroup id="MAKE_UP_ARTIST" name="Make-up-Artist">
+            <url>https://de.wikipedia.org/wiki/Make-up-Artist</url>
             <rule>
                 <pattern>
                     <token>Make</token>
                     <token>up</token>
-                    <token regexp="yes">Artist(en|in(nen)?)?|Stylist(en|in(nen)?)?</token>
+                    <token regexp="yes">Artist(en|in(nen)?)?|Stylist(en|in(nen)?)?|Entferner[sn]?</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Make-up-<match no="3" case_conversion="startupper" /></suggestion>?</message>
                 <example correction="Make-up-Artistin">Ihr Traumberuf ist <marker>Make up Artistin</marker>.</example>
@@ -11576,7 +11576,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">make-?up</token>
-                    <token regexp="yes">Artist(en|in(nen)?)?|Stylist(en|in(nen)?)?</token>
+                    <token regexp="yes">Artist(en|in(nen)?)?|Stylist(en|in(nen)?)?|Entferner[sn]?</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Make-up-<match no="2" case_conversion="startupper" /></suggestion>?</message>
                 <example correction="Make-up-Artistin">Ihr Traumberuf ist <marker>Make-up Artistin</marker>.</example>
@@ -23789,7 +23789,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
-        <rule id="EIN_GEBEN_UND_NEHMEN" name="ein geben (Geben) und nehmen (Nehmen)" default="temp_off">
+        <rule id="EIN_GEBEN_UND_NEHMEN" name="ein geben (Geben) und nehmen (Nehmen)">
             <antipattern case_sensitive="yes">
                 <token>Geben</token>
                 <token regexp="yes">und|&amp;</token>
@@ -23808,7 +23808,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>Geben und Nehmen</suggestion>
             <example correction="Geben und Nehmen">Es ist ein <marker>geben und nehmen</marker>.</example>
         </rule>
-        <rule id="UM_GROESSERES_ZU" name="um schlimmeres (Schlimmeres) zu vermeiden" default="temp_off">
+        <rule id="UM_GROESSERES_ZU" name="um schlimmeres (Schlimmeres) zu vermeiden">
             <pattern case_sensitive="yes">
                 <token regexp="yes">[Uu]m</token>
                 <token regexp="yes" min="0">sehr|besonders|weniger|so|eher|mehr|weitaus|halbwegs|allzu|ziemlich|wirklich|r?echt|komplett|ganz|total|richtig|einigerma(ß|ss)en|fast|relativ|au(ß|ss)erordentlich|überaus|äu(ß|ss)erst|ungemein|au(ß|ss)ergewöhnlich|bitter|denkbar|bemerkenswert|ausgesprochen|(un)?endlich|ungeheuer|voll|wahnsinnig|verdammt|entsetzlich|höllisch|furchtbar|fürchterlich|enorm|ungewöhnlich|vollkommen|völlig|echt|deutlich</token>
@@ -29207,8 +29207,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="BEDARF_SUBST" name="'bei bedarf (Bedarf)'">
             <rule>
+                <antipattern>
+                    <token regexp="yes">zum|das</token>
+                    <token case_sensitive="yes">Sein</token>
+                    <token>bedarf</token>
+                </antipattern>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">[bB]ei|[kKsSmMdD]ein(en)?|nach|[uU]nser(en)?|[iI]hr(en)?</token>
+                    <token regexp="yes">
+                        [bB]ei|[kKsSmMdD]ein(en)?|nach|[uU]nser(en)?|[iI]hr(en)?
+                    </token>
                     <marker>
                         <token>bedarf</token>
                     </marker>
@@ -29222,6 +29229,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Bedarf">Wir haben keinen <marker>bedarf</marker>, danke.</example>
                 <example correction="Bedarf">Anwendung: je nach <marker>bedarf</marker>.</example>
                 <example>Arm ist nicht, wer wenig hat, sondern wer viel bedarf.</example>
+                <example>Zum Sein bedarf es Mut.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -29244,7 +29252,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token>an</token>
                     <token postag="(ADJ|PA[12]|EIG|SUB|UNKNOWN).*" postag_regexp="yes" min="0" max="4" />
-                    <token inflected="yes" regexp="yes">haben|steigen|sinken|decken</token>
+                    <token inflected="yes" regexp="yes">haben|steigen|sinken|decken|bestehen</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Bedarf</suggestion>&subende;</message>
                 <url>https://de.wiktionary.org/wiki/Bedarf</url>
@@ -29281,7 +29289,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token>haben</token>
+                    <token regexp="yes" inflected="yes">haben|bestehen</token>
                     <token postag="(ADV|ADJ|PA[12]).*" postag_regexp="yes" min="0" max="2" />
                     <marker>
                         <token>bedarf</token>
@@ -29295,8 +29303,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <antipattern>
-                    <token case_sensitive="yes" skip="3">Bedarf</token>
+                    <token case_sensitive="yes" skip="7">Bedarf</token>
                     <token inflected="yes" regexp="yes">geben|bestehen|haben</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" regexp="yes">geben|bestehen|haben</token>
+                    <token>es</token>
+                    <token case_sensitive="yes">Bedarf</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">melden</token>
+                    <token regexp="yes">ich|wir</token>
+                    <token case_sensitive="yes">Bedarf</token>
                 </antipattern>
                 <pattern case_sensitive="yes">
                     <token postag="(SUB|PRO:PER).+NOM.+" postag_regexp="yes"><exception postag="ART.+" postag_regexp="yes"/></token>
@@ -29309,6 +29327,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>&prgk;.</short>
                 <example correction="bedarf">Der Text <marker>Bedarf</marker> noch einer Kürzung</example>
                 <example>Der Bedarf ist sehr hoch.</example>
+                <example>Ja, da gibt es Bedarf.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AUSREDE_SUBST" name="'faule ausrede (Ausrede)'">
@@ -43276,6 +43295,11 @@ Andere Projekte</example>
                 <token>peng</token>
                 <token>peng</token>
             </antipattern>
+            <antipattern>
+                <token>viel</token>
+                <token>zu</token>
+                <token>viel</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token negate_pos="yes" postag="SENT_START" regexp="yes"><exception>und</exception>\p{L}+</token>
@@ -43287,6 +43311,7 @@ Andere Projekte</example>
                 <short>Wiederholung von zwei Wörtern</short>
                 <example correction="auf der">Wir standen <marker>auf der auf der</marker> Brücke.</example>
                 <example>Es gab sicher unangenehmere Jobs, als von Strand zu Strand zu fahren.</example>
+                <example>Ich traue dir viel zu viel zu.</example>
             </rule>
             <!--<rule>
                 <pattern>
