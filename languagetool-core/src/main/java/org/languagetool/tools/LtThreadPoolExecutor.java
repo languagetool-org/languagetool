@@ -35,7 +35,7 @@ import java.util.stream.Stream;
  */
 class LtThreadPoolExecutor extends ThreadPoolExecutor {
 
-//  private static final Gauge activeThreads = Gauge.build("languagetool_threadpool_active_threads", "Running threads by threadpool")
+  //  private static final Gauge activeThreads = Gauge.build("languagetool_threadpool_active_threads", "Running threads by threadpool")
 //    .labelNames("pool").register();
   private static final Gauge queueSize = Gauge.build("languagetool_threadpool_queue_size", "Queue size by threadpool")
     .labelNames("pool").register();
@@ -123,10 +123,13 @@ class LtThreadPoolExecutor extends ThreadPoolExecutor {
 
   private void updateThreadGauges() {
     Set<Thread> threads = Thread.getAllStackTraces().keySet();
-    Stream<Thread> filtered = threads.stream().filter(thread -> thread.getName().startsWith(name));
-    blockingThreads.labels(name).set(filtered.filter(thread -> thread.getState() == Thread.State.BLOCKED).count());
-    waitingThreads.labels(name).set(filtered.filter(thread -> thread.getState() == Thread.State.WAITING).count());
-    timedWaitingThreads.labels(name).set(filtered.filter(thread -> thread.getState() == Thread.State.TIMED_WAITING).count());
-    runningThreads.labels(name).set(filtered.filter(thread -> thread.getState() == Thread.State.RUNNABLE).count());
+    Stream<Thread> blocked = threads.stream().filter(thread -> thread.getName().startsWith(name) && thread.getState() == Thread.State.BLOCKED);
+    Stream<Thread> waiting = threads.stream().filter(thread -> thread.getName().startsWith(name) && thread.getState() == Thread.State.WAITING);
+    Stream<Thread> waiting_timed = threads.stream().filter(thread -> thread.getName().startsWith(name) && thread.getState() == Thread.State.TIMED_WAITING);
+    Stream<Thread> running = threads.stream().filter(thread -> thread.getName().startsWith(name) && thread.getState() == Thread.State.RUNNABLE);
+    blockingThreads.labels(name).set(blocked.count());
+    waitingThreads.labels(name).set(waiting.count());
+    timedWaitingThreads.labels(name).set(waiting_timed.count());
+    runningThreads.labels(name).set(running.count());
   }
 }
