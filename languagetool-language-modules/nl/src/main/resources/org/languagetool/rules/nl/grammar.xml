@@ -12593,10 +12593,10 @@ onwaarschijnlijk
 				<pattern>
 					<marker>
 						<token postag="ZNW:EKV.*" postag_regexp="yes" regexp="yes">.*[aiouy]<exception regexp="yes">nu|.*(aa|ai|au|ee|ei|eu|oe|oi|oo|ou|ui|uu|ey)$</exception></token>
-						<token spacebefore="yes" regexp="yes">&APOSTROPH;|&DBLQUOTE;</token>
+						<token spacebefore="yes" regexp="yes">&APOSTROPH;</token>
 						<token spacebefore="no">s</token>
 					</marker>
-					<token><exception regexp="yes">morgens|ochtends|middags|avonds|nachts</exception></token>
+					<token><exception regexp="yes">morgens|ochtends|middags|avonds|nachts|werelds|konings</exception></token>
 				</pattern>
 				<message>Die spatie hoort er vast niet: <suggestion>\1'\3</suggestion>.</message>
 				<example correction="foto's">Zie <marker>foto 's</marker> !</example>
@@ -20065,6 +20065,7 @@ steenwijk;Steenwijk
 
 		<rulegroup id="HET_ZNW_DE_ZNW_HET" name="het deur verhaal" >
 			<rule>
+				<antipattern><token>nummer</token><token regexp="yes">[0-9]+</token></antipattern>
 				<antipattern><token regexp="yes">het|dit|dat</token><token postag="WKW:TGW:INF"/><token postag="WKW:VLT:1EP"/></antipattern>
 				<antipattern><token>code</token><token regexp="yes">rood|geel|oranje|zwart</token></antipattern>
 				<antipattern><token>het</token><token case_sensitive="yes" regexp="yes">[A-Z].*</token><token case_sensitive="yes" regexp="yes">[A-Z].*</token></antipattern>
@@ -32451,16 +32452,18 @@ steenwijk;Steenwijk
 		<rulegroup id="S_AVONDS" name="s avonds">
 			<rule>
 				<pattern>
-					<token><exception regexp="yes">'|‘|’</exception></token>
+					<token><exception regexp="yes">&APOSTROPH;</exception></token>
 					<marker>
 						<token>s</token>
-						<token regexp="yes">avonds|middags|nachts|ochtends|anderendaags</token>
+						<token regexp="yes">avonds|middags|nachts|ochtends|anderendaags|werelds</token>
 					</marker>
 				</pattern>
 				<message>Vergeet de apostrof niet: <suggestion>'s <match no="3"/></suggestion>.</message>
 				<example correction="'s middags">Wij aten ,<marker>s middags</marker> warm.</example>
 				<example correction="'s ochtends">Na een nacht varen <marker>s ochtends</marker> lekker uitgeslapen in Hull.</example>
 				<example correction="'s avonds">Als ik naar het feestje van mijn nichtjes ga weet ik dat het taart is en <marker>s avonds</marker> nog eens pistolekes.</example>
+				<example correction="'s werelds">Hij heeft <marker>s werelds</marker> grootste mond.</example>
+				<example>Hij heeft 's werelds grootste mond.</example>
 			</rule>
 		</rulegroup>
 		<!--
