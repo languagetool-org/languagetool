@@ -58,6 +58,9 @@ public class EnglishRepeatedWordsRuleTest {
     assertCorrectText("It was great. The Tomahawks were shipped from Great Britain.");
     assertCorrectText("It was a global effort. Announcing the participation of Enron Global Markets.");
     
+    // ignore sentences without period at the end
+    assertCorrectText("I suggested this. She suggests that");
+    
     RuleMatch[] matches=getRuleMatches("I suggested this. She suggests that.");
     assertEquals(1, matches.length);
     assertEquals(22, matches[0].getFromPos());

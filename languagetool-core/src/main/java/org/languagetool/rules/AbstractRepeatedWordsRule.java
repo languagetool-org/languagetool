@@ -91,7 +91,12 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
     int pos = 0;
     for (AnalyzedSentence sentence : sentences) {
       // sentenceNumber++;
-      AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();;
+      AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();
+      // ignore sentences not ending in period
+      String lastToken = tokens[tokens.length-1].getToken();
+      if (!lastToken.equals(".") && !lastToken.equals("!") && !lastToken.equals("?")) {
+        continue;
+      }
       boolean sentStart = true;
       List<String> lemmasInSentece = new ArrayList<>();
       int i = -1;
