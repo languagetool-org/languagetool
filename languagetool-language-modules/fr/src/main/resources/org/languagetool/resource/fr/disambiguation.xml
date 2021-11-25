@@ -1205,7 +1205,9 @@ RB => Règles Brutes
                 </marker>
                 <token postag="[DPZR].*" postag_regexp="yes"/>
             </pattern>
-            <disambig action="add" postag="A"/>
+            <disambig action="add">
+                <wd pos="A"/>
+            </disambig>
         </rule>
     </rulegroup>
     <!-- END: périphrases verbe + noms -->
@@ -5082,7 +5084,7 @@ RB => Règles Brutes
                 <token inflected="yes" min="0" max="1">ne</token>
                 <token postag_regexp="yes" postag="R pers obj.*" min="0" max="3"/>
                 <marker>
-                    <token postag_regexp="yes" postag="V ind.*"/>
+                    <token postag_regexp="yes" postag="V ind.*" regexp="yes">.*is</token>
                 </marker>
             </pattern>
             <disambig action="remove" postag="V ind.* 2 s"/>
