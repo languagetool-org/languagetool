@@ -22,27 +22,68 @@ package org.languagetool.tools;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.prometheus.client.Counter;
+import io.prometheus.client.Gauge;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
+import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.*;
+import java.util.stream.Stream;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 @Slf4j
 public final class LtThreadPoolFactory {
-  public static final String SERVER_POOL                = "lt-server-thread";
-  public static final String TEXT_CHECKER_POOL          = "lt-text-checker-thread";
-  public static final String REMOTE_RULE_WAITING_POOL   = "remote-rule-waiting-thread";
+  public static final String SERVER_POOL = "lt-server-thread";
+  public static final String TEXT_CHECKER_POOL = "lt-text-checker-thread";
+  public static final String REMOTE_RULE_WAITING_POOL = "remote-rule-waiting-thread";
   public static final String REMOTE_RULE_EXECUTING_POOL = "remote-rule-executing-thread";
 
   private static final ConcurrentMap<String, ThreadPoolExecutor> executorServices = new ConcurrentHashMap<>();
 
   private static final Counter rejectedTasks = Counter.build("languagetool_threadpool_rejected_tasks",
     "Rejected tasks by threadpool").labelNames("pool").register();
+  private static final Gauge waitingThreads = Gauge.build("languagetool_threadpool_waiting_threads", "Waiting threads by threadpool")
+    .labelNames("pool").register();
+  private static final Gauge timedWaitingThreads = Gauge.build("languagetool_threadpool_timed_waiting_threads", "Timed_Waiting threads by threadpool")
+    .labelNames("pool").register();
+  private static final Gauge blockingThreads = Gauge.build("languagetool_threadpool_blocking_threads", "Blocking threads by threadpool")
+    .labelNames("pool").register();
+  private static final Gauge runningThreads = Gauge.build("languagetool_threadpool_running_threads", "Running threads by threadpool")
+    .labelNames("pool").register();
+  private static final Gauge queueSize = Gauge.build("languagetool_threadpool_queue_size", "Queue size by threadpool")
+    .labelNames("pool").register();
+  private static final Gauge largestPoolSize = Gauge.build("languagetool_threadpool_largest_queue_size", "The largest number of threads that have ever simultaneously been in the pool")
+    .labelNames("pool").register();
 
   private LtThreadPoolFactory() {
+  }
+
+  static {
+    Timer timer = new Timer();
+    TimerTask timedAction = new TimerTask() {
+      @Override
+      public void run() {
+        Set<Thread> threads = Thread.getAllStackTraces().keySet();
+        executorServices.keySet().forEach(name -> {
+          Stream<Thread> blocked = threads.stream().filter(thread -> thread.getName().startsWith(name) && thread.getState() == Thread.State.BLOCKED);
+          Stream<Thread> waiting = threads.stream().filter(thread -> thread.getName().startsWith(name) && thread.getState() == Thread.State.WAITING);
+          Stream<Thread> waiting_timed = threads.stream().filter(thread -> thread.getName().startsWith(name) && thread.getState() == Thread.State.TIMED_WAITING);
+          Stream<Thread> running = threads.stream().filter(thread -> thread.getName().startsWith(name) && thread.getState() == Thread.State.RUNNABLE);
+          blockingThreads.labels(name).set(blocked.count());
+          waitingThreads.labels(name).set(waiting.count());
+          timedWaitingThreads.labels(name).set(waiting_timed.count());
+          runningThreads.labels(name).set(running.count());
+          ThreadPoolExecutor threadPoolExecutor = executorServices.get(name);
+          queueSize.labels(name).set(threadPoolExecutor.getQueue().size());
+          largestPoolSize.labels(name).set(threadPoolExecutor.getLargestPoolSize());
+        });
+      }
+    };
+    timer.scheduleAtFixedRate(timedAction, 0, 5000);
   }
 
   /**
@@ -60,14 +101,14 @@ public final class LtThreadPoolFactory {
 
 
   /**
-   * @param identifier       Name of the thread-pool, will be used as name of the threads in the threadPool
-   * @param corePool          Number of core pool threads
-   * @param maxThreads       Maximum number of parallel threads running in this pool
-   * @param maxTaskInQueue   Number of maximum Task in the pool queue
+   * @param identifier           Name of the thread-pool, will be used as name of the threads in the threadPool
+   * @param corePool             Number of core pool threads
+   * @param maxThreads           Maximum number of parallel threads running in this pool
+   * @param maxTaskInQueue       Number of maximum Task in the pool queue
    * @param keepAliveTimeSeconds keep-alive time for idle threads
-   * @param isDaemon         Run the threads as daemon threads
-   * @param exceptionHandler Handler for exceptions in Thread
-   * @param reuse            True if thread-pool should be reused
+   * @param isDaemon             Run the threads as daemon threads
+   * @param exceptionHandler     Handler for exceptions in Thread
+   * @param reuse                True if thread-pool should be reused
    * @return a Fixed ThreadPoolExecutor
    */
   public static ThreadPoolExecutor createFixedThreadPoolExecutor(@NotNull String identifier, int corePool, int maxThreads, int maxTaskInQueue, long keepAliveTimeSeconds, boolean isDaemon, @NotNull Thread.UncaughtExceptionHandler exceptionHandler, boolean reuse) {
@@ -88,6 +129,7 @@ public final class LtThreadPoolFactory {
       super.rejectedExecution(runnable, threadPoolExecutor);
     }
   }
+
   private static final LtRejectedExecutionHandler handler = new LtRejectedExecutionHandler();
 
   @NotNull
