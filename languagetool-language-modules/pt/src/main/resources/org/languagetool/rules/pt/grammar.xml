@@ -7296,6 +7296,68 @@ Tratam-se de pessoas estudiosas. → Trata-se de pessoas estudiosas.
 	
   </rulegroup>
 
+
+	<!-- ME DISSE Disse-me / ME DISSERAM Disseram-me / TE PODERIA Poder-te-ia / NOS PODERIAM Poder-nos-iam -->
+    <rulegroup id='PROCLISE_COMECO_FRASE' name="Proclise começo frase" default="temp_off">
+    <!--      Created by Ricardo Joseh Lima and improved by Marco A.G.Pinto, Portuguese rule 2021-11-25 (25-JUN-2021+)      -->
+	<!--
+Me disse que ele veio. → Disse-me que ele veio.
+Me disseram que ele veio. → Disseram-me que ele veio.
+Te poderia escrever uma carta? → Poder-te-ia escrever uma carta?
+Nos poderiam escrever uma carta? → Poder-nos-iam escrever uma carta?
+	-->
+<!--
+To prevent suggesting some invalid verbal forms, such as: "Se admitimos" → "Admitimos-se" and "Se irei" → "Irei-se".
+Se comemos muito, engordamos.
+Se irei ou não, ainda não resolvi.
+Se houve ou não qualquer correspondência entre eles é algo que nunca será conhecido.
+-->
+      <antipattern>
+		<token postag='SENT_START' postag_regexp='no'/>
+		<token>se</token>
+		<token postag='VMI[SP]1P0|VMI[FS]1S0' postag_regexp='yes'/>	
+      </antipattern>
+		<rule>
+			<pattern>
+				<token postag='SENT_START' postag_regexp='no'/>
+				<marker>
+					<token regexp='yes' spacebefore='no'>se|lhes?|me|te|nos|vos</token>
+					<token postag='VMI[MS][13].+' postag_regexp='yes'/>
+				</marker>
+			</pattern>
+			<message>No registro formal escrito, não se começa frase com pronome átono. Coloque o pronome após o verbo.</message>
+			<suggestion><match no='3' case_conversion='startupper'/>-<match no='2' case_conversion='startlower'/></suggestion>
+			<example correction="Disse-me"><marker>Me disse</marker> que ele veio.</example>
+			<example correction="Disseram-me"><marker>Me disseram</marker> que ele veio.</example>
+		</rule>	
+		<rule>
+			<pattern>
+				<token postag='SENT_START' postag_regexp='no'/>
+				<marker>
+					<token regexp='yes' spacebefore='no'>se|lhes?|me|te|nos|vos</token>
+					<token postag='VMI[CF].S.+' postag_regexp='yes'/>
+				</marker>
+			</pattern>
+			<message>No registro formal escrito, não se começa frase com pronome átono. Coloque o pronome após o verbo.</message>
+			<suggestion><match no='3' postag="V.+" postag_replace='VMN0000' postag_regexp="yes" case_conversion='startupper'/>-<match no='2' case_conversion='startlower'/>-ia</suggestion>
+			<example correction="Poder-te-ia"><marker>Te poderia</marker> escrever uma carta?</example>
+		</rule>
+		<rule>
+			<pattern>
+				<token postag='SENT_START' postag_regexp='no'/>
+				<marker>
+					<token regexp='yes' spacebefore='no'>se|lhes?|me|te|nos|vos</token>
+					<token postag='VMI[CF].P.+' postag_regexp='yes'/>
+				</marker>
+			</pattern>
+			<message>No registro formal escrito, não se começa frase com pronome átono. Coloque o pronome após o verbo.</message>
+			<suggestion><match no='3' postag="V.+" postag_replace='VMN0000' postag_regexp="yes" case_conversion='startupper'/>-<match no='2' case_conversion='startlower'/>-iam</suggestion>
+			<example correction="Poder-nos-iam"><marker>Nos poderiam</marker> escrever uma carta?</example>
+		</rule>
+    </rulegroup>
+
+
+
 	<!-- CUJO , cujo -->
     <rule id='CUJO_EM_INICIO_DE_FRASE' name="'cujo' em início de frase">
     <!--      Created by Ricardo Joseh Lima and improved by Marco A.G.Pinto, Portuguese rule 2021-10-20 (25-JUN-2021+)      -->
