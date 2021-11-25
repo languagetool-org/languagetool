@@ -64,6 +64,14 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
         </rulegroup>              
         <rulegroup id="AI_HYDRA_LEO_CPT_WERE_WEARE" name="">
+            <antipattern>
+                <token regexp="yes">who|which|that</token>
+                <token>were</token>
+                <token min="0" postag="RB"/>
+                <token postag="JJ"/>
+                <token skip="1" postag="IN"/>
+                <token postag="SENT_END"/>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes">who|which|that</token>
@@ -74,8 +82,15 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token postag="JJ"/>
                 </pattern>
                 <example correction="">...that come from there, which <marker>were</marker> highly debatable.</example>
+                <example>I sent Sanjeev some Asian Option Pricing last week; I get the sense he wants to pursue the original stream flow structure (one which were not comfortable with).</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token skip="1" postag="IN"/>
+                    <token chunk="E-NP-plural"/>
+                    <token min="0" regexp="yes">who|which|that</token>
+                    <token>were</token>
+                </antipattern>
                 <pattern>
                     <token chunk_re="[BIE]-NP-plural"/>
                     <token min="0" regexp="yes">who|which|that</token>
@@ -86,6 +101,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">The cities that <marker>were</marker> chosen are all quite big.</example>
                 <example correction="">The cities <marker>were</marker> chosen and now it's time to move on.</example>
+                <example>From good sources were told that ABC had no interest in Bocimar's offer and therefore we are planning on meeting ABC to continue to express our interest in acquiring their fleet and more importantly to continue to frustrate Bocimars'attempt to control the cape fleet.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AI_HYDRA_LEO_CPT_IS_ARE" name="">
