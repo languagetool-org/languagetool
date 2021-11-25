@@ -15045,12 +15045,37 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </antipattern>
             <pattern>
                 <token chunk_re="E-NP.*" />
+                <token postag="RB" min="0" />
                 <marker>
                     <token chunk="B-VP">have</token>
                 </marker>
                 <token>to</token>
                 <token postag="RB" min="0" />
                 <token postag="VB" chunk_re=".-VP" />
+            </pattern>
+            <disambig action="filter" postag="VB.*" />
+        </rule>
+        <rule>
+            <pattern>
+                <token chunk_re="E-NP.*" />
+                <token postag="RB" min="0" />
+                <marker>
+                    <token chunk="B-VP">have</token>
+                </marker>
+                <token postag="RB" min="0" />
+                <token postag="VBN" />
+            </pattern>
+            <disambig action="filter" postag="VB.*" />
+        </rule>
+        <rule>
+            <pattern>
+                <token chunk_re="E-NP.*" />
+                <token postag="RB" min="0" />
+                <marker>
+                    <token chunk="B-VP">have</token>
+                </marker>
+                <token postag="JJ" min="0" chunk_re="B-NP.*" />
+                <token postag="NN:UN?|NNS" postag_regexp="yes" chunk_re="E-NP.*" />
             </pattern>
             <disambig action="filter" postag="VB.*" />
         </rule>
