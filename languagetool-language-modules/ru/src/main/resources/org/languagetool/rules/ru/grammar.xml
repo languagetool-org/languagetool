@@ -4084,14 +4084,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <!-- Вводные слова: конечно, несомненно, вероятно, может быть, кажется, однако ...-->
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">&pnct;|наиболее|наименее|более|менее|очень|а|и|но|что<exception postag="SENT_START|PNN:.*" postag_regexp="yes"></exception></token>
-                    <token regexp="yes">конечно|несомненно|вероятно|кажется|наверно|наверное</token>   <!-- temp remove однако -->           
-                    <and>
-                        <token negate="yes">,</token>
-                        <token negate="yes">же</token>
-                        <token negate="yes">ж</token>                           
-                        <token postag_regexp="yes" postag="VB:.*"></token> 
-                    </and>            
+                    <token><exception regexp="yes">&pnct;|наиболее|наименее|более|менее|очень|а|и|но|что</exception><exception postag="SENT_START|PNN:.*" postag_regexp="yes"></exception></token>
+                    <token regexp="yes">конечно|несомненно|вероятно|кажется|наверно|наверное</token>   <!-- temp remove однако -->                                    
+                    <token postag_regexp="yes" postag="VB:.*"><exception regexp="yes">же|ж|,</exception></token>           
                 </pattern>
                 <message>Пропущена запятая: <suggestion>\1, \2, \3</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
