@@ -78,6 +78,10 @@ commands:
     steps:
       - run: cd $CIRCLE_WORKING_DIRECTORY && mvn -pl '!languagetool-rpm-package' clean install -DskipTests
       - run: cd $CIRCLE_WORKING_DIRECTORY && mvn dependency:go-offline
+  create-diff-file-for-scheduled:
+    description: Create the difffile to work with scheduled tasks
+    steps:
+      - run: echo "scheduledTask" > /home/circleci/git_diffs.txt
   run-tests:
     parameters:
       path_to_check:
@@ -124,9 +128,10 @@ jobs:
       MAVEN_OPTS: -Xmx3200m
     steps:
       - custom-checkout
+      - create-diff-file-for-scheduled
       - install-project
       - run-tests:
-          path_to_check: ""
+          path_to_check: "scheduledTask"
           ignore_diff: true
       - save_cache:
           paths:
