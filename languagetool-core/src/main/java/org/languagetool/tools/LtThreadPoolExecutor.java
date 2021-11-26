@@ -23,19 +23,24 @@ package org.languagetool.tools;
 
 import io.prometheus.client.Gauge;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Queue;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.*;
 import java.util.stream.Stream;
 
 /**
  * ThreadPoolExecutor with some stopping logic for OOM and metrics tracking
  */
+@Slf4j
 class LtThreadPoolExecutor extends ThreadPoolExecutor {
 
   private static final Gauge maxQueueSize = Gauge.build("languagetool_threadpool_max_queue_size", "Queue capacity by threadpool")
+    .labelNames("pool").register();
+  private static final Gauge queueSize = Gauge.build("languagetool_threadpool_queue_size", "Queue size by threadpool")
+    .labelNames("pool").register();
+  private static final Gauge largestPoolSize = Gauge.build("languagetool_threadpool_largest_queue_size", "The largest number of threads that have ever simultaneously been in the pool")
     .labelNames("pool").register();
 
   @Getter
@@ -45,6 +50,20 @@ class LtThreadPoolExecutor extends ThreadPoolExecutor {
     super(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, threadFactory, handler);
     this.name = name;
     maxQueueSize.labels(name).set(workQueue.remainingCapacity());
+  }
+
+  {
+    Timer timer = new Timer();
+    TimerTask timedAction = new TimerTask() {
+      @Override
+      public void run() {
+        queueSize.labels(name).set(getQueue().size());
+        largestPoolSize.labels(name).set(getLargestPoolSize());
+        log.trace("{} queueSize: {}", name, queueSize.labels(name).get());
+        log.trace("{} largestPoolSize: {}", name, largestPoolSize.labels(name).get());
+      }
+    };
+    timer.scheduleAtFixedRate(timedAction, 0, 1000);
   }
 
   @Override
@@ -60,6 +79,7 @@ class LtThreadPoolExecutor extends ThreadPoolExecutor {
   @Override
   protected void afterExecute(Runnable r, Throwable t) {
     super.afterExecute(r, t);
+
     // inherited from removed StoppingThreadPoolExecutor in org.languagetool.server.Server
     if (t != null && t instanceof OutOfMemoryError) {
       // we prefer to stop instead of being in an unstable state:

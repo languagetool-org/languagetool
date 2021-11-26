@@ -26,10 +26,7 @@ import io.prometheus.client.Gauge;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Optional;
-import java.util.Set;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 import java.util.concurrent.*;
 import java.util.stream.Stream;
 
@@ -46,44 +43,45 @@ public final class LtThreadPoolFactory {
 
   private static final Counter rejectedTasks = Counter.build("languagetool_threadpool_rejected_tasks",
     "Rejected tasks by threadpool").labelNames("pool").register();
-  private static final Gauge waitingThreads = Gauge.build("languagetool_threadpool_waiting_threads", "Waiting threads by threadpool")
-    .labelNames("pool").register();
-  private static final Gauge timedWaitingThreads = Gauge.build("languagetool_threadpool_timed_waiting_threads", "Timed_Waiting threads by threadpool")
-    .labelNames("pool").register();
-  private static final Gauge blockingThreads = Gauge.build("languagetool_threadpool_blocking_threads", "Blocking threads by threadpool")
-    .labelNames("pool").register();
-  private static final Gauge runningThreads = Gauge.build("languagetool_threadpool_running_threads", "Running threads by threadpool")
-    .labelNames("pool").register();
-  private static final Gauge queueSize = Gauge.build("languagetool_threadpool_queue_size", "Queue size by threadpool")
-    .labelNames("pool").register();
-  private static final Gauge largestPoolSize = Gauge.build("languagetool_threadpool_largest_queue_size", "The largest number of threads that have ever simultaneously been in the pool")
-    .labelNames("pool").register();
-
+  private static final Gauge threadGauge = Gauge.build("languagetool_threadpool_thread_states", "Threads by states and threadpool")
+    .labelNames("pool", "state").register();
+//  private static final Gauge waitingThreads = Gauge.build("languagetool_threadpool_waiting_threads", "Waiting threads by threadpool")
+//    .labelNames("pool", "state").register();
+//  private static final Gauge timedWaitingThreads = Gauge.build("languagetool_threadpool_timed_waiting_threads", "Timed_Waiting threads by threadpool")
+//    .labelNames("pool", "state").register();
+//  private static final Gauge blockingThreads = Gauge.build("languagetool_threadpool_blocking_threads", "Blocking threads by threadpool")
+//    .labelNames("pool", "state").register();
+//  private static final Gauge runningThreads = Gauge.build("languagetool_threadpool_running_threads", "Running threads by threadpool")
+//    .labelNames("pool", "state").register();
+  
   private LtThreadPoolFactory() {
   }
 
   static {
     Timer timer = new Timer();
     TimerTask timedAction = new TimerTask() {
+      final String[] poolNames = new String[]{SERVER_POOL, TEXT_CHECKER_POOL, REMOTE_RULE_WAITING_POOL, REMOTE_RULE_EXECUTING_POOL};
+
       @Override
       public void run() {
         Set<Thread> threads = Thread.getAllStackTraces().keySet();
-        executorServices.keySet().forEach(name -> {
+        Arrays.stream(poolNames).forEach(name -> {
           Stream<Thread> blocked = threads.stream().filter(thread -> thread.getName().startsWith(name) && thread.getState() == Thread.State.BLOCKED);
           Stream<Thread> waiting = threads.stream().filter(thread -> thread.getName().startsWith(name) && thread.getState() == Thread.State.WAITING);
           Stream<Thread> waiting_timed = threads.stream().filter(thread -> thread.getName().startsWith(name) && thread.getState() == Thread.State.TIMED_WAITING);
           Stream<Thread> running = threads.stream().filter(thread -> thread.getName().startsWith(name) && thread.getState() == Thread.State.RUNNABLE);
-          blockingThreads.labels(name).set(blocked.count());
-          waitingThreads.labels(name).set(waiting.count());
-          timedWaitingThreads.labels(name).set(waiting_timed.count());
-          runningThreads.labels(name).set(running.count());
-          ThreadPoolExecutor threadPoolExecutor = executorServices.get(name);
-          queueSize.labels(name).set(threadPoolExecutor.getQueue().size());
-          largestPoolSize.labels(name).set(threadPoolExecutor.getLargestPoolSize());
+          threadGauge.labels(name, "blocking").set(blocked.count());
+          threadGauge.labels(name, "waiting").set(waiting.count());
+          threadGauge.labels(name, "timed-waiting").set(waiting_timed.count());
+          threadGauge.labels(name, "running").set(running.count());
+          log.trace("{} blockingThreads: {}", name, threadGauge.labels(name, "blocking").get());
+          log.trace("{} waitingThreads: {}", name, threadGauge.labels(name, "waiting").get());
+          log.trace("{} timedWaitingThreads: {}", name, threadGauge.labels(name, "timed-waiting").get());
+          log.trace("{} runningThreads: {}", name, threadGauge.labels(name, "running").get());
         });
       }
     };
-    timer.scheduleAtFixedRate(timedAction, 0, 5000);
+    timer.scheduleAtFixedRate(timedAction, 0, 1000);
   }
 
   /**
