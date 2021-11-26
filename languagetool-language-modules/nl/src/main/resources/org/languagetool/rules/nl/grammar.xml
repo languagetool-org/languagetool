@@ -17519,6 +17519,21 @@ steenwijk;Steenwijk
 		</rulegroup>
 	</category>
 	<category id="COLLOQUIALISMS" name="Informeel" type="style">
+		<rulegroup id="EN_ZO" name="Enzo / en zo/ en zo meer">
+			<rule>
+				<pattern>
+					<marker>
+						<token>en</token>
+						<token>zo</token>
+					</marker>
+					<token postag="SENT_END"/>
+				</pattern>
+				<message>Dit is spreektaal, niet zo geschikt voor zakelijk verkeer. Ook is het nogal vaag.</message>
+				<suggestion>en zo meer</suggestion>
+				<suggestion>en dergelijke</suggestion>
+				<example correction="en zo meer|en dergelijke">We maken fouten <marker>en zo</marker>.</example>
+			</rule>
+		</rulegroup>
 		<rule id="DOUWEN" name="Douwen/duwen">
 			<antipattern><token>Douw</token><token>&amp;</token></antipattern> <!-- firma -->
 			<antipattern case_sensitive="yes"><token>Douwe</token></antipattern> <!-- firma -->
