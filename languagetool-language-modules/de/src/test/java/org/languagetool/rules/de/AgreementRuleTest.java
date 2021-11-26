@@ -281,6 +281,7 @@ public class AgreementRuleTest {
     assertGood("Die meisten Lebensmittel enthalten das.");  // Lebensmittel has NOG as gender in Morphy
     // TODO: Find agreement errors in relative clauses
     assertBad("Gutenberg, die Genie.");
+    assertBad("Wahrlich ein äußerst kritische Jury.", "eine äußerst kritische Jury");
     //assertBad("Gutenberg, die größte Genie.");
     //assertBad("Gutenberg, die größte Genie aller Zeiten.");
     assertGood("Die wärmsten Monate sind August und September, die kältesten Januar und Februar.");

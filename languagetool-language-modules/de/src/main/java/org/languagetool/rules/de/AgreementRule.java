@@ -100,7 +100,19 @@ public class AgreementRule extends Rule {
     "ganz",
     "geradezu",
     "sehr",
+    "höchst",
+    "extrem",
+    "total",
+    "ausgesprochen",
+    "unglaublich",
+    "echt",
+    "wirklich",
+    "äußerst",
     "überaus",
+    "recht",
+    "relativ",
+    "halbwegs",
+    "einigermaßen",
     "ziemlich"
   ));
 
