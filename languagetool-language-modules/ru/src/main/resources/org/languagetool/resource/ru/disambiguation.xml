@@ -569,6 +569,16 @@ Copyright (C) 2009-2021 Yakov Reztsov
         <disambig><match no="2" postag="ADV"></match></disambig>
     </rule>
 
+    <rule name="ADV_PARTICLE" id="ADV_PARTICLE">
+        <pattern>  
+            <marker>
+                <token regexp="yes">еще|ещё</token>
+            </marker>
+            <token>не</token>
+        </pattern>
+        <disambig action="remove" postag="PARTICLE"></disambig>
+    </rule>
+
     <!-- disambiguation for prounouns' -->
     <rule name="Nee_nejo" id="Nee_nejo">
         <pattern>
