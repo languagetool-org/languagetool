@@ -83,6 +83,8 @@ public class GermanCompoundTokenizer implements Tokenizer {
     wordSplitter.addException("Tauschwerte", asList("Tausch", "werte"));
     wordSplitter.addException("Tauschwertes", asList("Tausch", "wertes"));
     wordSplitter.addException("Kinderspielen", asList("Kinder", "spielen"));
+    wordSplitter.addException("Buchhaltungstrick", asList("Buchhaltungs", "trick"));
+    wordSplitter.addException("Buchhaltungstricks", asList("Buchhaltungs", "tricks"));
     wordSplitter.setStrictMode(strictMode);
     wordSplitter.setMinimumWordLength(3);
   }
