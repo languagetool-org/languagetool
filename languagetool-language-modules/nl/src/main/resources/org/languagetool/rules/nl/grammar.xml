@@ -32511,6 +32511,23 @@ steenwijk;Steenwijk
 		</rulegroup>
 	</category>
 	<category id="STYLE" name="Stijl" type="style">
+		<rulegroup id="ZOVEEL_DAN" name="In/over" tags="picky">
+			<rule>
+				<antipattern><token skip="-1">zoveel</token><token>,</token></antipattern>
+				<antipattern><token skip="-1" postag_regexp="yes" postag="BNW:VGR.*"/><token>dan</token></antipattern>
+				<pattern>
+					<token>nog</token>
+					<token regexp="yes">nooit|niet</token>
+					<token skip="-1">zoveel</token>
+					<marker>
+						<token>dan</token>
+					</marker>
+				</pattern>
+				<message>Gebruikelijker is zoveel.. als.</message>
+				<suggestion>als</suggestion>
+				<example correction="als">Er waren nog nooit zoveel besmettingen per dag geteld zijn <marker>dan</marker> vandaag.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="IN_X_MINUTEN" name="In/over" tags="picky">
 			<rule>
 				<pattern>
