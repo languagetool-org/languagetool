@@ -204,7 +204,7 @@ class SingleCheck {
       int nTPara = docCache.getNumberOfTextParagraph(nFPara);
       String textToCheck = docCache.getDocAsString(nTPara, parasToCheck, checkOnlyParagraph, useQueue, hasFootnotes);
       List<RuleMatch> paragraphMatches = null;
-      if (mDocHandler.isSortedRuleForIndex(cacheNum)) {
+      if (lt != null && mDocHandler.isSortedRuleForIndex(cacheNum)) {
         paragraphMatches = lt.check(textToCheck, true, JLanguageTool.ParagraphHandling.ONLYPARA);
       }
       

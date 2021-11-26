@@ -543,15 +543,16 @@ public class TextLevelCheckQueue {
                 if (lastLanguage == null || !lastLanguage.equals(entryLanguage)) {
                   lastLanguage = entryLanguage;
                   initLangtool(lastLanguage);
+                  sortedTextRules.activateTextRulesByIndex(queueEntry.nCache, lt);
                 } else if (lastCache != queueEntry.nCache) {
                   sortedTextRules.activateTextRulesByIndex(queueEntry.nCache, lt);
                 }
-                lastDocId = queueEntry.docId;
-                lastStart = queueEntry.nStart;
-                lastEnd = queueEntry.nEnd;
-                lastCache = queueEntry.nCache;
-                queueEntry.runQueueEntry(multiDocHandler, lt);
               }
+              lastDocId = queueEntry.docId;
+	            lastStart = queueEntry.nStart;
+	            lastEnd = queueEntry.nEnd;
+	            lastCache = queueEntry.nCache;
+	            queueEntry.runQueueEntry(multiDocHandler, entryLanguage == null ? null : lt);
               queueEntry = null;
             }
           }
