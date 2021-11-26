@@ -89,9 +89,12 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
     int wordNumber = 0;
     Map<String, Integer> wordsLastSeen = new HashMap<>();
     int pos = 0;
+    int prevSentenceLength = 0;
     for (AnalyzedSentence sentence : sentences) {
       // sentenceNumber++;
       AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();
+      pos += prevSentenceLength;
+      prevSentenceLength = sentence.getText().length();
       // ignore sentences not ending in period
       String lastToken = tokens[tokens.length-1].getToken();
       if (!lastToken.equals(".") && !lastToken.equals("!") && !lastToken.equals("?")) {
@@ -169,7 +172,6 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
           }
         }
       }
-      pos += sentence.getText().length();
     }
     return toRuleMatchArray(matches);
   }
