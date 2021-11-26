@@ -104,12 +104,14 @@ public class GermanCompoundTokenizer implements Tokenizer {
   }
 
   public static void main(String[] args) throws IOException {
-    if (args.length != 1) {
-      System.out.println("Usage: " + GermanCompoundTokenizer.class.getSimpleName() + " <wordToSplit>");
+    if (args.length == 0) {
+      System.out.println("Usage: " + GermanCompoundTokenizer.class.getSimpleName() + " <wordsToSplit..>");
       System.exit(1);
     }
     GermanCompoundTokenizer tokenizer = new GermanCompoundTokenizer();
-    System.out.println(tokenizer.tokenize(args[0]));
+    for (String arg : args) {
+      System.out.println(tokenizer.tokenize(arg));
+    }
   }
 
 }
