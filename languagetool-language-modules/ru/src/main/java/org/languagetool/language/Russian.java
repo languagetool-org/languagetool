@@ -21,6 +21,8 @@ package org.languagetool.language;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
+import org.languagetool.chunking.Chunker;
+import org.languagetool.chunking.RussianChunker;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.ru.*;
@@ -72,6 +74,14 @@ public class Russian extends Language implements AutoCloseable {
   public Disambiguator createDefaultDisambiguator() {
     return RussianHybridDisambiguator.INSTANCE;
   }
+
+
+  @Nullable
+  @Override
+  public Chunker createDefaultPostDisambiguationChunker() {
+    return new RussianChunker();
+  }
+
 
   @Nullable
   @Override
