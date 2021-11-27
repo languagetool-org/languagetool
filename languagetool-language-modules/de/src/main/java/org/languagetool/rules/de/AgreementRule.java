@@ -93,25 +93,34 @@ public class AgreementRule extends Rule {
   private static final String SHORT_MSG = "Evtl. keine Übereinstimmung von Kasus, Numerus oder Genus";
 
   private static final Set<String> MODIFIERS = new HashSet<>(Arrays.asList(
+    "absolut",
     "ausgesprochen",
+    "außergewöhnlich",
+    "außerordentlich",
     "äußerst",
     "besonders",
     "dringend",
     "echt",
     "einigermaßen",
+    "enorm",
     "extrem",
     "fast",
     "ganz",
     "geradezu",
     "halbwegs",
     "höchst",
+    "komplett",
     "laufend",
     "recht",
     "relativ",
     "sehr",
     "total",
     "überaus",
+    "ungewöhnlich",
     "unglaublich",
+    //"viel",    // "xxx, die viel Platz..."
+    "völlig",
+    "weit",
     "wirklich",
     "ziemlich"
   ));
