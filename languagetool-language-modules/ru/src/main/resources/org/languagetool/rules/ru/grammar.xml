@@ -4085,10 +4085,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             
             <rule>
                 <!-- Вводные слова: конечно, несомненно, вероятно, может быть, кажется, однако ...-->
+                <antipattern>
+                    <token><exception regexp="yes">&pnct;|наиболее|наименее|более|менее|очень|а|и|но|что|не</exception><exception postag="SENT_START" ></exception></token>
+                    <token regexp="yes">конечно|несомненно|вероятно|кажется|наверно|наверное</token>   <!-- temp remove однако -->                                    
+                    <token postag="ADV" skip="-1"><exception negate_pos="yes" postag="ADV" /><exception scope="next" postag_regexp="yes" postag="VB:.*" /><exception regexp="yes">же|ж|,</exception></token>
+                    <token regexp="yes" >&pnct;</token>  
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <token><exception regexp="yes">&pnct;|наиболее|наименее|более|менее|очень|а|и|но|что|не</exception><exception postag="SENT_START" ></exception></token>
                     <token regexp="yes">конечно|несомненно|вероятно|кажется|наверно|наверное</token>   <!-- temp remove однако -->                                    
-                    <token postag_regexp="yes" postag="VB:.*|ADV"><exception negate_pos="yes" postag_regexp="yes" postag="VB:.*|ADV" /><exception regexp="yes">же|ж|,</exception></token>           
+                    <token postag_regexp="yes" postag="VB:.*|ADV"><exception negate_pos="yes" postag_regexp="yes" postag="VB:.*|ADV" /><exception regexp="yes">же|ж|,</exception></token>
                 </pattern>
                 <message>Пропущена запятая: <suggestion>\1, \2, \3</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
@@ -4096,6 +4102,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Эта работа, несомненно, представляет огромную научную ценность.</example>
                 <example>Мне кажется, твой ответ правилен.</example>
                 <example>Звук кажется выше на октаву.</example>
+                <example>Кот кажется очень довольным.</example>
                 <example>Я поеду в город, однако если будут пробки, то я заночую в мотеле.</example>
                 <example correction="Она, наверно, по-прежнему"><marker>Она наверно по-прежнему</marker> пьёт утром кофе с печеньем.</example>
                 <example correction="Жизнь, кажется, ещё"><marker>Жизнь кажется ещё</marker> не начиналась.</example>
@@ -8568,7 +8575,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
             
-        <rule default="temp_off" id="Ne_pril_prich1" name="«Не» с прилагательными и причастиями (краткая форма)"> 
+        <rule default="off" id="Ne_pril_prich1" name="«Не» с прилагательными и причастиями (краткая форма)"> 
                 <!-- Его походка медлительна, неуверенна. Это краткое прилагательное, слитное написание НЕ, две буквы НН, зависимых слов нет   default="temp_off" -->
              <antipattern>   
                     <marker>
@@ -10116,7 +10123,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 	    <example correction="относится">Проблема может возникнуть при наличии собственных резонансов в модели, что <marker>относиться</marker> и к нашему случаю, где частота падающей волны приходится на максимум дипольного отклика частицы.</example>
         </rule>        
         </rulegroup>                
-        <rule id="Verb_INF_OR_3P_2" default="temp_off" name="Инфинитив вместо личной формы глагола" > <!-- set temp off -->  <!-- tags="picky" -->
+        <rule id="Verb_INF_OR_3P_2" default="off" name="Инфинитив вместо личной формы глагола" > <!-- set temp off -->  <!-- tags="picky" -->
             <antipattern>
                  <token postag="SENT_START" skip="-1" />
                  <token postag="VB:.*" skip="-1" postag_regexp="yes" ><exception   postag="VB:.*"  postag_regexp="yes"  negate_pos="yes"    /></token>
