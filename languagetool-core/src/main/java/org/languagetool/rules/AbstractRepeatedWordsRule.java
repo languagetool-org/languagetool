@@ -25,7 +25,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
@@ -62,8 +61,7 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
   }
 
   private String ruleId;
-  private Language lang;
-
+  
   @Override
   public abstract String getDescription();
 
@@ -72,7 +70,6 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
     super.setCategory(Categories.STYLE.getCategory(messages));
     super.setLocQualityIssueType(ITSIssueType.Style);
     ruleId = language.getShortCode().toUpperCase() + "_" + "REPEATEDWORDS";
-    lang = language;
   }
 
   protected String adjustPostag(String postag) {
