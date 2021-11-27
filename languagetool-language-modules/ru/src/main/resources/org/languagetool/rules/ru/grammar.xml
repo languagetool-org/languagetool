@@ -2494,7 +2494,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <!-- issue #1119  -->
-        <rule id="Multiple_missing_commas_VB" name="Пропущенные запятые между глаголами" >
+        <rule id="Multiple_missing_commas_VB" name="Пропущенные запятые между глаголами"  default="temp_off" >
             <pattern>     <!-- TO DO: experimental rule, need improve! --> <!-- default="temp_off" tags="picky" -->
                 <unify negate="no">
                         <feature id="tense"/>
@@ -2505,6 +2505,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <exception postag="VB:.*" postag_regexp="yes" negate_pos="yes"></exception>
                     <exception inflected="yes" regexp="yes">быть|идти|мешать|делать|сделать|пойти|просить|попросить|пытаться|помогать|побудить|заставить|иметься</exception>
                     <exception regexp="yes">&verb;</exception>
+                    <exception postag="VB:INF:.*" postag_regexp="yes" ></exception>
                 </token>
                 <token postag="VB:.*" postag_regexp="yes">
                     <exception postag="VB:.*" postag_regexp="yes" negate_pos="yes"></exception>
@@ -4085,7 +4086,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <!-- Вводные слова: конечно, несомненно, вероятно, может быть, кажется, однако ...-->
                 <pattern case_sensitive="yes">
-                    <token><exception regexp="yes">&pnct;|наиболее|наименее|более|менее|очень|а|и|но|что|не</exception><exception postag="SENT_START" postag_regexp="yes"></exception></token>
+                    <token><exception regexp="yes">&pnct;|наиболее|наименее|более|менее|очень|а|и|но|что|не</exception><exception postag="SENT_START" ></exception></token>
                     <token regexp="yes">конечно|несомненно|вероятно|кажется|наверно|наверное</token>   <!-- temp remove однако -->                                    
                     <token postag_regexp="yes" postag="VB:.*|ADV"><exception negate_pos="yes" postag_regexp="yes" postag="VB:.*|ADV" /><exception regexp="yes">же|ж|,</exception></token>           
                 </pattern>
