@@ -213,7 +213,9 @@ public final class Tools {
   /**
    * Rechecks the contents and returns valid and invalid suggestions
    * by checking the corrected text and evaluating the new rule matchs.
-   * Can be slow if 
+   * Can be slow if the number of original rule matchs are too large,
+   * as they are iterated to check if each replacement is valid, i.e. 
+   * doesn't raise any new rule matches.
    * 
    * @param contents String to be checked
    * @param lt Initialized Language Tool object
@@ -238,15 +240,15 @@ public final class Tools {
       // offset adjusment is inspired by correctTextFromMatches() below
       List<String> replacements = match.getSuggestedReplacements();
       Integer offset = match.getToPos() - match.getFromPos() - replacements.get(0).length();
-      Set<Integer[]> otherMatchPosSet = new HashSet<Integer[]>();
+      Set<List<Integer>> otherMatchPosSet = new HashSet<List<Integer>>();
       boolean beforeMatch = true;
       for (RuleMatch rm : ruleMatches) {
         if (rm == match) {
           beforeMatch = false;
           continue;
         }
-        Integer[] offsetPos = beforeMatch ? new Integer[]{rm.getFromPos(), rm.getToPos()} :
-          new Integer[]{rm.getFromPos() - offset, rm.getToPos() - offset};
+        List<Integer> offsetPos = beforeMatch ? Arrays.asList(rm.getFromPos(), rm.getToPos()) :
+          Arrays.asList(rm.getFromPos() - offset, rm.getToPos() - offset);
         otherMatchPosSet.add(offsetPos);
       }
       
@@ -254,7 +256,8 @@ public final class Tools {
       // then the current match is valid, i.e. matches of corrected text are all in the otherMatchSet.
       boolean valid = true;
       for (RuleMatch crm : correctedRuleMatchs) {
-        if (!otherMatchPosSet.contains(new Integer[]{crm.getFromPos(), crm.getToPos()})) {
+        // System.out.println("Corrected RM pos: (" + crm.getFromPos() + ", " + crm.getToPos() + ") ");
+        if (!otherMatchPosSet.contains(Arrays.asList(crm.getFromPos(), crm.getToPos()))) {
           List<RuleMatch> tmp = resultMap.get("invalid");
           tmp.add(match);
           resultMap.put("invalid", tmp);

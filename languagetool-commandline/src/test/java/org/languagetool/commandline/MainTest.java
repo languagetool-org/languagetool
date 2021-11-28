@@ -654,6 +654,15 @@ public class MainTest extends AbstractSecurityTestCase {
     assertFalse(output.contains("ENGLISH_WORD_REPEAT_RULE"));
   }
 
+  @Test
+  public void testRecheck() throws Exception {
+    File input = writeToTempFile("This were good for her.");
+    String[] args = {"--line-by-line", "--recheck", input.getAbsolutePath()};
+    Main.main(args);
+    String output = new String(this.out.toByteArray());
+    assertTrue(!output.contains("Invalid"));
+  }
+
   private File writeToTempFile(String content) throws IOException {
     File tempFile = createTempFile();
     try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(tempFile), StandardCharsets.UTF_8))) {

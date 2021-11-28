@@ -281,7 +281,7 @@ class Main {
       Tools.profileRulesOnLine(s, lt, currentRule);
     } else if (options.isRecheck()) {
       CommandLineTools.recheckText(s, lt, options.isXmlFormat(), options.isJsonFormat(), -1,
-          lineOffset, matches, mode, options.isListUnknown(), level, Collections.emptyList())
+          lineOffset, matches, mode, options.isListUnknown(), level, Collections.emptyList());
     } else if (!options.isTaggerOnly()) {
       CommandLineTools.checkText(s, lt, options.isXmlFormat(), options.isJsonFormat(), -1, 
           lineOffset, matches, mode, options.isListUnknown(), level, Collections.emptyList());

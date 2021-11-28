@@ -75,6 +75,10 @@ public final class CommandLineTools {
     return checkText(contents, lt, false, false, -1, 0, 0, StringTools.ApiPrintMode.NORMAL_API, false, DEFAULT, emptyList());
   }
 
+  public static int recheckText(String contents, JLanguageTool lt) throws IOException {
+    return recheckText(contents, lt, false, false, -1, 0, 0, StringTools.ApiPrintMode.NORMAL_API, false, DEFAULT, emptyList());
+  }
+
   public static int checkText(String contents, JLanguageTool lt,
                               boolean isXmlFormat, boolean isJsonFormat, int lineOffset) throws IOException {
     return checkText(contents, lt, isXmlFormat, isJsonFormat, -1, lineOffset, 0, StringTools.ApiPrintMode.NORMAL_API, false, DEFAULT, emptyList());
@@ -158,6 +162,7 @@ public final class CommandLineTools {
     long startTime = System.currentTimeMillis();    
     Map<String, List<RuleMatch>> map = Tools.recheck(contents, lt, level);
     List<RuleMatch> ruleMatches = map.get("valid");
+    List<RuleMatch> invalidMatches = map.get("invalid");
 
     ruleMatches.parallelStream().forEach(r -> {
       // adjust line numbers
@@ -183,7 +188,15 @@ public final class CommandLineTools {
       PrintStream out = new PrintStream(System.out, true, "UTF-8");
       out.print(json);
     } else {
-      printMatches(ruleMatches, prevMatches, contents, contextSize, lt.getLanguage());
+      if (!ruleMatches.isEmpty()) {
+        System.out.println("Valid matches:");
+        printMatches(ruleMatches, prevMatches, contents, contextSize, lt.getLanguage());
+      }
+      if (!invalidMatches.isEmpty()) {
+        // shows the invalid rule matches for debugging
+        System.out.println("Invalid matches:");
+        printMatches(invalidMatches, prevMatches, contents, contextSize, lt.getLanguage());
+      }
     }
 
     //display stats if it's not in a buffered mode
