@@ -5999,6 +5999,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Leib"><marker>Lieb</marker> und Seele</example>
             </rule>
         </rulegroup>
+        <rulegroup id="RATE_RATTE" name="Rate vs Ratte" default="temp_off">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes" inflected="yes">Fledermaus|Floh|Hund|Kakerlak|Kanalisation|Katze|Maus|Milbe|Pest|Seuche|Taube|Tierversuch|Versuch|Vogel|Überträger</token>
+                    <token/>
+                    <marker>
+                        <token inflected="yes">Rate</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie den <suggestion><match no="3" regexp_match="ate" regexp_replace="atte"/></suggestion> (= Nagetier)?</message>
+                <example correction="Ratten">Flöhe und <marker>Raten</marker> breiteten sich dort aus.</example>
+                <example correction="Ratte">Maus und <marker>Rate</marker> stehen auf der Katzen Speisekarte.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token inflected="yes">Rate</token>
+                    </marker>
+                    <token/>
+                    <token regexp="yes" inflected="yes">Fledermaus|Floh|Hund|Kakerlak|Kanalisation|Katze|Maus|Milbe|Pest|Seuche|Taube|Tierversuch|Versuch|Vogel|Überträger</token>
+                </pattern>
+                <message>Meinten Sie den <suggestion><match no="1" regexp_match="ate" regexp_replace="atte"/></suggestion> (= Nagetier)?</message>
+                <example correction="Ratten"><marker>Raten</marker> und Milben breiteten sich dort aus.</example>
+                <example correction="Ratte"><marker>Rate</marker> und Maus stehen auf der Katzen Speisekarte.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="CAFE_KAFFEE" name="Café vs Kaffee">
             <antipattern>
                 <token regexp="yes">Caf[èéêe]</token>
@@ -6015,7 +6041,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <rule>
                 <pattern>
-                    <token regexp="yes">einen|den|der|diesen|[msdk]einen|ihren</token>
+                    <token regexp="yes">einen|de[nr]|diesen|[msdk]einen|ihren</token>
                     <token postag="ADJ.*" postag_regexp="yes" case_sensitive="yes" min="0" regexp="yes">[a-zäöüß]+n</token>
                     <marker>
                         <token regexp="yes">Caff?[èéêe]</token>
