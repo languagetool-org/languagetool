@@ -36,6 +36,12 @@ class AgreementRuleAntiPatterns1 {
       posRegex("SUB:.*")
     ),
     Arrays.asList(
+      token("Ehre"),  // "Ehre, wem Ehre gebührt"
+      token(","),
+      token("wem"),
+      token("Ehre")
+    ),
+    Arrays.asList(
       token("in"),
       token("mehrerer"),
       token("Hinsicht")
