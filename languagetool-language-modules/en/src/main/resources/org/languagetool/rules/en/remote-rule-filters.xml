@@ -281,7 +281,8 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <rulegroup id="AI_HYDRA_LEO_CPT_ARE_IS" name="">
             <rule>  <!-- acronyms -->
                 <pattern>
-                    <token regexp="yes" case_sensitive="yes">[A-Z]{2,4}+s?</token>
+                    <token regexp="yes" case_sensitive="yes">[A-Z&amp;]{2,4}s?</token>
+                    <token min="0" max="2" chunk_re=".-NP.*" />
                     <marker>
                         <token>are</token>
                     </marker>
@@ -289,6 +290,15 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">The move on the cost cut comes even as the FIs <marker>are</marker> busy negotiating with various prospective buyers of how the Enron stake could be bought by another company.</example>
                 <example correction="">The BVI <marker>are</marker> known as one of the world's greatest sailing destinations, and charter sailboats are a very popular way to visit less accessible islands.</example>
                 <example correction="">SLNG <marker>are</marker> to provide Enron and BG a copy of the Savannah Pilots Association working procedures for river traffic.</example>
+            </rule>
+            <rule>  <!-- unknown postag -->
+                <pattern>
+                    <token postag="UNKNOWN" chunk_re=".-NP.*" />
+                    <marker>
+                        <token>are</token>
+                    </marker>
+                </pattern>
+                <example correction="">Homeserve <marker>are</marker> not to reimburse anyone.</example>
             </rule>
             <rule>  <!-- quotes, inside or out -->
                 <pattern>
@@ -353,6 +363,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <pattern>
                     <token>the</token>
                     <token regexp="yes" case_sensitive="yes">[A-Z].*</token>
+                    <token min="0" regexp="yes" case_sensitive="yes">[A-Z].*</token>
                     <marker>
                         <token>are</token>
                     </marker>
