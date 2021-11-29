@@ -92,8 +92,13 @@ public class RussianChunker implements Chunker {
    */
   
   private static final List<RegularExpressionWithPhraseType> REGEXES1 = Arrays.asList(
-      build("<posre='NN:(Name|Fam|Patr):.*'>*  ", NP),
       // Иванов Иван Иванович
+      build("<posre='NN:(Name|Fam|Patr):.*'> <posre='NN:(Name|Fam|Patr):.*'>+ " , NP, true),
+      // Иванов И.И.
+      build("<posre='NN:Fam:.*'> <regexCS=[А-ЯЁ]> <.> <regexCS=[А-ЯЁ]> <.> ", NP, true),
+      // И.И. Иванов
+      build("<regexCS=[А-ЯЁ]> <.> <regexCS=[А-ЯЁ]> <.> <posre='NN:Fam:.*'> ", NP, true),
+      //
       build("<тов>", NP)  // simulate OpenNLP?!
   );
 
