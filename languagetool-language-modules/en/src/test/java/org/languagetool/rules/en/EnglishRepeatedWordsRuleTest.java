@@ -44,23 +44,37 @@ public class EnglishRepeatedWordsRuleTest {
   }
 
   @Test
-  public void testRule() throws IOException {   
-    
-    assertCorrectText("It needs to be done. That needs to be done.");
-    assertCorrectText("This is a new experience. Happy New Year!");
-    assertCorrectText("This was needed. There is a need to do it.");
-    assertCorrectText("It needs to be done. That also needed to be done.");
-    assertCorrectText("I still need to sign-in somewhere. You need to sign-in too.");
-    
+  public void testRule() throws IOException {
+
+    // global
     assertCorrectText("Asia Global Crossing Ltd. Global Crossing and Asia Global Crossing.");
-    assertCorrectText("I suggested that, but he also suggests that.");
+    assertCorrectText("It was a global effort. Announcing the participation of Enron Global Markets.");
+
+    // great
     assertCorrectText("Matthew S. Anderson, Peter the Great. The Tomahawks were shipped from Great Britain.");
     assertCorrectText("It was great. The Tomahawks were shipped from Great Britain.");
-    assertCorrectText("It was a global effort. Announcing the participation of Enron Global Markets.");
-    
+
+    // need
+    assertCorrectText("It needs to be done. That needs to be done.");
+    assertCorrectText("This was needed. There is a need to do it.");
+    assertCorrectText("It needs to be done. That also needed to be done.");
+    assertCorrectText("I still need to sign in somewhere. You need to sign in too.");
+
+    //new
+    assertCorrectText("This is a new experience. Happy New Year!");
+
+    // problem
+    assertCorrectText("The students were given some problems. They needed help to solve the problems.");
+    assertCorrectText("Then, there were numerous problems after that. His initial interest lay in an attempt to solve Hilbert's fifth problem.");
+    assertCorrectText("There were some problems with the tests. No problem, I'm not in a rush.");
+    assertCorrectText("The students were given some problems. They were math problems.");
+
+    // suggest
+    assertCorrectText("I suggested that, but he also suggests that.");
+
     // ignore sentences without period at the end
     assertCorrectText("I suggested this. She suggests that");
-    
+
     RuleMatch[] matches=getRuleMatches("I suggested this. She suggests that.");
     assertEquals(1, matches.length);
     assertEquals(22, matches[0].getFromPos());
