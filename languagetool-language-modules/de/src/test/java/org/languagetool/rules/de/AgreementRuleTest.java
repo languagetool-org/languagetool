@@ -687,6 +687,15 @@ public class AgreementRuleTest {
     assertBad("Die deutsche Kommasetzung bedarf einiger guter technische Ausarbeitung.");
   }
 
+  @Test
+  public void testDeAgreement() throws IOException {
+    // correct:
+    assertGood("Wieso verstehst du nicht, dass das komplett verschiedene Dinge sind?");
+    assertGood("Ich frage mich sehr, ob die wirklich zusätzliche Gebühren abdrücken wollen");
+    // incorrect:
+    assertBad("Dies wurde durchgeführt um das moderne Charakter zu betonen.", "den modernen Charakter");
+  }
+
   private void assertGood(String s) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(s));
     assertEquals("Found unexpected match in sentence '" + s + "': " + Arrays.toString(matches), 0, matches.length);
