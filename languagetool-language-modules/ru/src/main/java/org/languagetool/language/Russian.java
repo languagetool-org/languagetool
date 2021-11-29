@@ -207,7 +207,17 @@ public class Russian extends Language implements AutoCloseable {
   @Override
   protected int getPriorityForId(String id) {
     switch (id) {
-      case "TOO_LONG_PARAGRAPH": return -15;
+      case "RU_DASH_RULE":                  return 12;   // higher prio than RU_COMPOUNDS
+      case "RU_COMPOUNDS":                  return 11;
+      case "RUSSIAN_SIMPLE_REPLACE_RULE":   return 10;   // higher prio than spell checker
+      case "RUSSIAN_SPECIFIC_CASE":         return 9;   // higher prio than spell checker
+      case "MORFOLOGIC_RULE_RU_RU_YO":      return 2;   //  spell checker yo
+      case "MORFOLOGIC_RULE_RU_RU":         return 1;   //  standard spell checker yo+ie
+
+
+      case "Word_root_repeat":              return -1;
+
+      case "TOO_LONG_PARAGRAPH":            return -15;
     }
     return super.getPriorityForId(id);
   }
