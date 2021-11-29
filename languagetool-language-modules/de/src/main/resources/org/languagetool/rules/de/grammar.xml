@@ -11560,6 +11560,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rule id="RECHNUNGS_NR" name="Rechnungs-Nr." default="temp_off">
+            <pattern>
+                <marker>
+                    <token regexp="yes">rechnungs|angebots|lieferanten|bestell|tracking|termin|vertrags</token>
+                    <token>nr</token>
+                    <token spacebefore="no">.</token>
+                </marker>
+            </pattern>
+            <message>Dieses Wort wird in der Regel mit Bindestrich geschrieben.</message>
+            <suggestion><match no="1" case_conversion="startupper" />-Nr.</suggestion>
+            <example correction="Lieferanten-Nr.">Welche <marker>Lieferanten Nr.</marker> hat der Kunde?</example>
+        </rule>
         <rulegroup id="HEAD_UP_DISPLAY" name="Head-up-Display">
             <url>https://de.wikipedia.org/wiki/Head-up-Display</url>
             <rule>
@@ -23815,6 +23827,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="IN_FLAGRANTI" name="in Flagranti (flagranti)" default="temp_off">
+            <pattern>
+                <token>in</token>
+                <token case_sensitive="yes">Flagranti</token>
+            </pattern>
+            <message>In der Redensart <suggestion>\1 <match no="2" case_conversion="alllower" /></suggestion> wird "flagranti" kleingeschrieben.</message>
+            <example correction="in flagranti">Sie wurden <marker>in Flagranti</marker> erwischt.</example>
+        </rule>
         <rule id="EIN_GEBEN_UND_NEHMEN" name="ein geben (Geben) und nehmen (Nehmen)">
             <antipattern case_sensitive="yes">
                 <token>Geben</token>
@@ -57799,6 +57819,16 @@ Andere Projekte</example>
                     <token skip="10">einst</token>
                     <token>,</token>
                 </antipattern>
+                <antipattern>
+                    <token>zwei</token>
+                    <token>,</token>
+                    <token>drei</token>
+                </antipattern>
+                <antipattern>
+                    <token>ein</token>
+                    <token>,</token>
+                    <token>drei</token>
+                </antipattern>
                 <pattern>
                     <token skip="-1" postag="SENT_START">
                         <exception scope="next" postag="VER:.*|UNKNOWN" postag_regexp="yes"/>
@@ -57840,6 +57870,7 @@ Andere Projekte</example>
                 <example>Und wenn nicht, ist es natürlich auch nicht schlimm.</example>
                 <example>Aber genug von mir, erzähl mir mal von dir.</example>
                 <example>Hallo Herr Köhler, erstmal danke dafür.</example>
+                <example>Wenn er zwei, drei verlässliche Leute findet für die Firma.</example>
             </rule>
         </rulegroup>
         <rulegroup id="KOMMA_VOR_INFINITIVGRUPPEN_OPT" name="Optional: Komma vor Infinitivgruppen" default="off">
@@ -58002,7 +58033,7 @@ Andere Projekte</example>
             </antipattern>
             <rule>
                 <pattern>
-                    <token case_sensitive="yes" regexp="yes">[Gg]eboostered|[Gg]ecrawled|[Gg]efracked|[Gg]espoilered|[Gg]ematched|[Aa]ngeteasered|[Gg]eteasered|[Gg]eskyped|[Gg]ezapped|[Gg]etaped|[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]etagged|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched|[Gg]etuned|[Gg]ecrashed|[Gg]ecat?ched|[Cc]hecked|[Ee]ntertained|[Gg]egoogled</token>
+                    <token case_sensitive="yes" regexp="yes">[Gg]ereviewed|[Gg]eshuffeled|[Gg]eboostered|[Gg]ecrawled|[Gg]efracked|[Gg]espoilered|[Gg]ematched|[Aa]ngeteasered|[Gg]eteasered|[Gg]eskyped|[Gg]ezapped|[Gg]etaped|[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]etagged|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched|[Gg]etuned|[Gg]ecrashed|[Gg]ecat?ched|[Cc]hecked|[Ee]ntertained|[Gg]egoogled</token>
                 </pattern>
                 <message>Die empfohlene Schreibweise für diesen Anglizismus ist <suggestion><match no="1" regexp_match="ed$" regexp_replace="t" /></suggestion>.</message>
                 <example correction="gefeaturt">Wir wurden auf der Startseite des App Stores <marker>gefeatured</marker>.</example>
