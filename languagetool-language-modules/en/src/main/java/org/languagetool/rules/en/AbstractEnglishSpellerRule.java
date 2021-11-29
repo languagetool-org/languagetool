@@ -403,6 +403,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().endsWith(" don") &&
                    !k.getReplacement().endsWith(" dons") &&
                    !k.getReplacement().endsWith(" la") &&
+                   !k.getReplacement().endsWith(" ism") &&
                    !k.getReplacement().endsWith(" ma"))
       .collect(Collectors.toList());
   }
