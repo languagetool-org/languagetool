@@ -236,6 +236,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Опечатка</short>
             <example correction="предложить тест"><marker>задать тест</marker></example>
         </rule>
+        <rule id="razvevatsja_razvivatsja" name="Опечатка: «развеваться» или «развиваться»">
+            <pattern>
+		<token skip="2" inflected="yes">развеваться</token>
+                <token regexp="yes">болезнь</token>
+            </pattern>
+            <message>Опечатка: <suggestion><match no="1"  regexp_match="разве(.*)" regexp_replace="разви$1" include_skipped="all" /> <match no="2"/></suggestion></message>
+            <short>Опечатка</short>
+            <example>развевался флаг</example>
+            <example correction="развивалась болезнь"><marker>развевалась болезнь</marker></example>
+        </rule>
         <rule id="perehodny_peshehod" name="Опечатка: «пешеходный переход»">
             <pattern>
 		<token>переходный</token>
