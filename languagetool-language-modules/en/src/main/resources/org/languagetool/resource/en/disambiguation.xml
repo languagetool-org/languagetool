@@ -4218,6 +4218,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="VB" />
             <token>Radical</token>
         </antipattern>
+        <antipattern>
+            <token>Who</token>
+            <token>Won</token>
+        </antipattern>
         <pattern case_sensitive="yes">
             <and>
                 <token regexp="yes">\p{Lu}\p{Ll}+
@@ -7707,6 +7711,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="VB" />
             <token regexp="yes" case_sensitive="yes">[Ii]t|[Mm]e|[Tt]hem|[Hh]im|[Uu]s|[Hh]er</token>
         </antipattern>
+        <antipattern>
+            <token>who</token>
+            <token>to</token>
+            <token regexp="yes">blame|call|talk</token>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -9750,6 +9759,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token chunk="B-VP" postag="VBZ"/>
             <token chunk="E-NP-singular" regexp="yes">&object_pronouns;</token>
         </antipattern>
+        <antipattern><!-- Who most benefits from this? -->
+            <token>who</token>
+            <token>most</token>
+            <token postag="VBZ" />
+        </antipattern>
         <pattern>
             <token regexp="yes">both|some|fewer|many|whose|th[eo]se|most</token>
             <marker>
@@ -9763,6 +9777,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="ambiguous" inputform="hands[hand/NNS,hand/VBZ]" outputform="hands[hand/NNS]">It depends whose <marker>hands</marker> it's in.</example>
         <example type="untouched">He hands it over.</example>
         <example type="untouched">Too many makes it clunky?</example><!-- #2427 -->
+        <example type="untouched">Who most benefits from this?</example><!-- #2427 -->
         <example type="untouched">... and her attitude towards both makes her into a demon, according to the press.</example>
     </rule>
 

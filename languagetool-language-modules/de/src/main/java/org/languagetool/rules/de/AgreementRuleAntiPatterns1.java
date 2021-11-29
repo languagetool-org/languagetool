@@ -36,6 +36,12 @@ class AgreementRuleAntiPatterns1 {
       posRegex("SUB:.*")
     ),
     Arrays.asList(
+      token("Ehre"),  // "Ehre, wem Ehre gebührt"
+      token(","),
+      token("wem"),
+      token("Ehre")
+    ),
+    Arrays.asList(
       token("in"),
       token("mehrerer"),
       token("Hinsicht")
@@ -860,6 +866,13 @@ class AgreementRuleAntiPatterns1 {
       posRegex("SUB.*NEU.*|EIG.*NEU.*|UNKNOWN"),
       token("("),
       token("das")
+    ),
+    Arrays.asList(
+      pos("KON:UNT"), // "dass das komplett verschiedene Dinge"
+      tokenRegex("der|die|das|dies"),
+      new PatternTokenBuilder().pos("ADJ:PRD:GRU").min(0).build(),
+      posRegex("ADJ.*PLU.*SOL|PA2.*PLU.*SOL:VER"),
+      posRegex("SUB.*PLU.*")
     ));
 
 }

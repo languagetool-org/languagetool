@@ -17762,6 +17762,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS2" name="Confusiones (2)">
+        <rulegroup id="ARA" name="ara/hora/para" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">ara<exception scope="previous" postag="D.*|SP:DA" postag_regexp="yes"/></token>    
+                    </marker>
+                    <token postag="V.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Posible confusión. ¿Quería decir <suggestion>ahora</suggestion>? "Ara" significa "altar".</message>
+                <example correction="ahora">El programa <marker>ara</marker> ofrece más prestaciones.</example>
+                <example>Se observa el baldaquino y el retablo de plata, así como el ara románica.</example>
+                <example>A derecha e izquierda del conjunto sendos cipreses y sobre la cara anterior del ara, tres cruces.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <marker>
+                        <token case_sensitive="yes">ara<exception scope="previous" postag="D.*|SP:DA" postag_regexp="yes"/></token>    
+                    </marker>
+                </pattern>
+                <message>Posible confusión. ¿Quería decir <suggestion>ahora</suggestion>? "Ara" significa "altar".</message>
+                <suggestion>para</suggestion>
+                <example correction="ahora|para">El programa ofrece <marker>ara</marker> más prestaciones.</example>
+                <example>Se observa el baldaquino y el retablo de plata, así como el ara románica.</example>
+                <example>A derecha e izquierda del conjunto sendos cipreses y sobre la cara anterior del ara, tres cruces.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AUNQUE" name="aun que/aunque">
             <antipattern>
                 <token regexp="yes">más|menos</token>
@@ -22201,7 +22228,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- short sentences-->
                 <token postag="SENT_START"/>
                 <token regexp="yes" min="0" max="3">\p{P}</token>
-                <token regexp="yes">.*mente<exception regexp="yes">contrariamente</exception></token>
+                <token regexp="yes">.*mente<exception>contrariamente</exception></token>
                 <token min="0" max="3"><exception postag="SENT_END"/> </token>
                 <token postag="SENT_END"/>
             </antipattern>
