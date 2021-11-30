@@ -144,6 +144,17 @@ RB => Règles Brutes
         </pattern>
         <disambig action="replace" postag="N.*"/>
     </rule>
+    <rule name="il entre" id="IL_ENTRE">
+        <pattern>
+            <token postag="R pers suj.*" postag_regexp="yes"/>
+            <token inflected="yes">ne</token>
+            <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+            <marker>
+                <token postag="P">entre</token>
+            </marker>
+        </pattern>
+        <disambig action="replace" postag="V ind pres [13] s"/>
+    </rule>
     <rule name="moi seul vis" id="MOI_SEUL_VIS">
         <pattern>
             <token regexp="yes">[mt]oi|lui|elle|[nv]ous|eux</token>
@@ -302,6 +313,15 @@ RB => Règles Brutes
         <disambig action="filterall"/>
     </rule>
     <!-- CATEGORY: not nouns -->
+    <rule id="SE_CHALLENGER" name="se challenger">
+        <pattern>
+            <token postag="R pers.*" postag_regexp="yes"/>
+            <marker>
+                <token postag="V.*" postag_regexp="yes">challenger</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="N.*"/>
+    </rule>
     <rule id="V_PPR_NOT_NOUN" name="V ppr not noun">
         <pattern>
             <token postag="SENT_START|M nonfin|UNKNOWN|N.*|A" postag_regexp="yes"/>
@@ -3167,6 +3187,16 @@ RB => Règles Brutes
             </marker>
         </pattern>
         <disambig action="remove" postag="J.*"/>
+    </rule>
+    <rule id="ON_LEUR_DONNE" name="on leur donne">
+        <pattern>
+            <token regexp="yes">je|il|elle|on</token>
+            <token>leur</token>
+            <marker>
+                    <token postag="N . s" postag_regexp="yes"/>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="V.*"/>
     </rule>
     <rule id="QUI_VERBE" name="qui verbe (not imperative)">
         <pattern>
