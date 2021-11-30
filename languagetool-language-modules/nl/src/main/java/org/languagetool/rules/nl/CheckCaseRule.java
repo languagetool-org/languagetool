@@ -49,17 +49,17 @@ public class CheckCaseRule  extends AbstractCheckCaseRule {
 
   @Override
   public String getDescription() {
-    return "Check casing";
+    return "Controle op hoofd- en kleine letters";
   }
 
   @Override
   public String getShort() {
-    return "Check casing";
+    return "Schrijfwijze";
   }
 
   @Override
   public String getMessage() {
-    return "Recommended case";
+    return "Aanbevolen schrijfwijze";
   }
   
   @Override
