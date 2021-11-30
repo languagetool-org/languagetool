@@ -41424,16 +41424,18 @@ Era visto nas mãos de todos os japoneses em paradas.
 
  <category id='MISSPELLING' name="Erros Ortográficos" type="misspelling">
  
-	<!-- PODERIAM-SE poder-se-ia -->
+ 	<!-- PODERIAM-SE poder-se-ia -->
     <rulegroup id='PODERIAM-SE' name="Formas verbais: poderiam-se → poder-se-iam">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-11-24 (Enhanced) (25-JUN-2021+)      -->
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-11-24/30 (Enhanced) (25-JUN-2021+)      -->
 	<!--
 Assim poderia-se escrever à Ana. → Assim poder-se-ia escrever à Ana.
 Assim poderiam-se escrever livros sobre o assunto. → Assim poder-se-iam escrever livros sobre o assunto.
+Assim encontrarei-te amanhã. → Assim encontrar-te-ei amanhã.
+Assim encontraremos-nos amanhã. → Assim encontrar-nos-emos amanhã.
 	-->
 		<rule>
 			<pattern>
-				<token postag='VMI[CF].S.+' postag_regexp='yes'/>	
+				<token postag='VMI[CF][^1]S.+' postag_regexp='yes'/>		
 				<token regexp='yes' spacebefore='no'>&hifen;</token>
 				<token regexp='yes' spacebefore='no'>se|lhes?|me|te|nos|vos</token>
 			</pattern>
@@ -41443,14 +41445,34 @@ Assim poderiam-se escrever livros sobre o assunto. → Assim poder-se-iam escrev
 		</rule>
 		<rule>
 			<pattern>
-				<token postag='VMI[CF].P.+' postag_regexp='yes'/>	
+				<token postag='VMI[CF][^1]P.+' postag_regexp='yes'/>	
 				<token regexp='yes' spacebefore='no'>&hifen;</token>
 				<token regexp='yes' spacebefore='no'>se|lhes?|me|te|nos|vos</token>
 			</pattern>
 			<message>Esta forma verbal não existe.</message>
 			<suggestion><match no='1' postag="V.+" postag_replace='VMN0000' postag_regexp="yes"/>-\3-iam</suggestion>
 			<example correction="poder-se-iam">Assim <marker>poderiam-se</marker> escrever livros sobre o assunto.</example>
+		</rule>		
+		<rule>
+			<pattern>
+				<token postag='VMI[CF]1S.+' postag_regexp='yes'/>
+				<token regexp='yes' spacebefore='no'>&hifen;</token>
+				<token regexp='yes' spacebefore='no'>se|lhes?|me|te|nos|vos</token>
+			</pattern>
+			<message>Esta forma verbal não existe.</message>
+			<suggestion><match no='1' postag="V.+" postag_replace='VMN0000' postag_regexp="yes"/>-\3-ei</suggestion>
+			<example correction="encontrar-te-ei">Assim <marker>encontrarei-te</marker> amanhã.</example>
 		</rule>
+		<rule>
+			<pattern>
+				<token postag='VMI[CF]1P.+' postag_regexp='yes'/>	
+				<token regexp='yes' spacebefore='no'>&hifen;</token>
+				<token regexp='yes' spacebefore='no'>se|lhes?|me|te|nos|vos</token>
+			</pattern>
+			<message>Esta forma verbal não existe.</message>
+			<suggestion><match no='1' postag="V.+" postag_replace='VMN0000' postag_regexp="yes"/>-\3-emos</suggestion>
+			<example correction="encontrar-nos-emos">Assim <marker>encontraremos-nos</marker> amanhã.</example>
+		</rule>		
     </rulegroup>
  
     <rulegroup id="WHATSAPP" name="WhatsApp">
