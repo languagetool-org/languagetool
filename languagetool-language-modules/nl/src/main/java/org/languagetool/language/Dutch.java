@@ -123,7 +123,7 @@ public class Dutch extends Language {
             new PreferredWordRule(messages),
             new SpaceInCompoundRule(messages),
             new SentenceWhitespaceRule(messages),
-            new SimpleReplaceCaseInsensitiveRule(messages)
+            new CheckCaseRule(messages, this)
     );
   }
 
