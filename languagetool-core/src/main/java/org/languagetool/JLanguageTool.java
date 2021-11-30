@@ -987,6 +987,8 @@ public class JLanguageTool {
       ruleMatches = new CleanOverlappingFilter(language, userConfig.getHidePremiumMatches()).filter(ruleMatches);
     }
     ruleMatches = new LanguageDependentFilter(language, rules).filter(ruleMatches);
+    
+    ruleMatches = new RepetitionMatchFilter(language, rules).filter(ruleMatches);
 
     return applyCustomFilters(ruleMatches, annotatedText);
   }

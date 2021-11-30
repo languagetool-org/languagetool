@@ -41429,50 +41429,102 @@ Era visto nas mãos de todos os japoneses em paradas.
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-11-24/30 (Enhanced) (25-JUN-2021+)      -->
 	<!--
 Assim poderia-se escrever à Ana. → Assim poder-se-ia escrever à Ana.
+Assim poderias-te declarar à Ana. → Assim poder-te-ias declarar à Ana.
 Assim poderiam-se escrever livros sobre o assunto. → Assim poder-se-iam escrever livros sobre o assunto.
 Assim encontrarei-te amanhã. → Assim encontrar-te-ei amanhã.
 Assim encontraremos-nos amanhã. → Assim encontrar-nos-emos amanhã.
+Assim fará-me o trabalho. → Assim fazer-me-á o trabalho.
+Assim farás-me o trabalho. → Assim fazer-me-ás o trabalho.
+Assim farão-me o trabalho. → Assim fazer-me-ão o trabalho.
 	-->
+	    <!-- ia/ias/iam -->
 		<rule>
 			<pattern>
-				<token postag='VMI[CF][^1]S.+' postag_regexp='yes'/>		
+				<token postag='VMI[C][13]S.+' postag_regexp='yes'/>		
 				<token regexp='yes' spacebefore='no'>&hifen;</token>
 				<token regexp='yes' spacebefore='no'>se|lhes?|me|te|nos|vos</token>
 			</pattern>
-			<message>Esta forma verbal não existe.</message>
+			<message>Forma verbal não existente.</message>
 			<suggestion><match no='1' postag="V.+" postag_replace='VMN0000' postag_regexp="yes"/>-\3-ia</suggestion>
 			<example correction="poder-se-ia">Assim <marker>poderia-se</marker> escrever à Ana.</example>
 		</rule>
 		<rule>
 			<pattern>
-				<token postag='VMI[CF][^1]P.+' postag_regexp='yes'/>	
+				<token postag='VMI[C]2S.+' postag_regexp='yes'/>		
 				<token regexp='yes' spacebefore='no'>&hifen;</token>
 				<token regexp='yes' spacebefore='no'>se|lhes?|me|te|nos|vos</token>
 			</pattern>
-			<message>Esta forma verbal não existe.</message>
-			<suggestion><match no='1' postag="V.+" postag_replace='VMN0000' postag_regexp="yes"/>-\3-iam</suggestion>
-			<example correction="poder-se-iam">Assim <marker>poderiam-se</marker> escrever livros sobre o assunto.</example>
+			<message>Forma verbal não existente.</message>
+			<suggestion><match no='1' postag="V.+" postag_replace='VMN0000' postag_regexp="yes"/>-\3-ias</suggestion>
+			<example correction="poder-te-ias">Assim <marker>poderias-te</marker> declarar à Ana.</example>
 		</rule>		
 		<rule>
 			<pattern>
-				<token postag='VMI[CF]1S.+' postag_regexp='yes'/>
+				<token postag='VMI[C]3P.+' postag_regexp='yes'/>	
 				<token regexp='yes' spacebefore='no'>&hifen;</token>
 				<token regexp='yes' spacebefore='no'>se|lhes?|me|te|nos|vos</token>
 			</pattern>
-			<message>Esta forma verbal não existe.</message>
+			<message>Forma verbal não existente.</message>
+			<suggestion><match no='1' postag="V.+" postag_replace='VMN0000' postag_regexp="yes"/>-\3-iam</suggestion>
+			<example correction="poder-se-iam">Assim <marker>poderiam-se</marker> escrever livros sobre o assunto.</example>
+		</rule>		
+		
+		<!-- ei/emos -->
+		<rule>
+			<pattern>
+				<token postag='VMI[F]1S.+' postag_regexp='yes'/>
+				<token regexp='yes' spacebefore='no'>&hifen;</token>
+				<token regexp='yes' spacebefore='no'>se|lhes?|me|te|nos|vos</token>
+			</pattern>
+			<message>Forma verbal não existente.</message>
 			<suggestion><match no='1' postag="V.+" postag_replace='VMN0000' postag_regexp="yes"/>-\3-ei</suggestion>
 			<example correction="encontrar-te-ei">Assim <marker>encontrarei-te</marker> amanhã.</example>
 		</rule>
 		<rule>
 			<pattern>
-				<token postag='VMI[CF]1P.+' postag_regexp='yes'/>	
+				<token postag='VMI[F]1P.+' postag_regexp='yes'/>	
 				<token regexp='yes' spacebefore='no'>&hifen;</token>
 				<token regexp='yes' spacebefore='no'>se|lhes?|me|te|nos|vos</token>
 			</pattern>
-			<message>Esta forma verbal não existe.</message>
+			<message>Forma verbal não existente.</message>
 			<suggestion><match no='1' postag="V.+" postag_replace='VMN0000' postag_regexp="yes"/>-\3-emos</suggestion>
 			<example correction="encontrar-nos-emos">Assim <marker>encontraremos-nos</marker> amanhã.</example>
 		</rule>		
+	
+		<!-- á/ás -->
+		<rule>
+			<pattern>
+				<token postag='VMI[F]3S.+' postag_regexp='yes'/>
+				<token regexp='yes' spacebefore='no'>&hifen;</token>
+				<token regexp='yes' spacebefore='no'>se|lhes?|me|te|nos|vos</token>
+			</pattern>
+			<message>Forma verbal não existente.</message>
+			<suggestion><match no='1' postag="V.+" postag_replace='VMN0000' postag_regexp="yes"/>-\3-á</suggestion>
+			<example correction="farar-me-á|fazer-me-á">Assim <marker>fará-me</marker> o trabalho.</example>
+		</rule>
+		<rule>
+			<pattern>
+				<token postag='VMI[F]2S.+' postag_regexp='yes'/>	
+				<token regexp='yes' spacebefore='no'>&hifen;</token>
+				<token regexp='yes' spacebefore='no'>se|lhes?|me|te|nos|vos</token>
+			</pattern>
+			<message>Forma verbal não existente.</message>
+			<suggestion><match no='1' postag="V.+" postag_replace='VMN0000' postag_regexp="yes"/>-\3-ás</suggestion>
+			<example correction="fazer-me-ás">Assim <marker>farás-me</marker> o trabalho.</example>
+		</rule>	
+		
+		<!-- ão -->
+		<rule>
+			<pattern>
+				<token postag='VMI[F]3P.+' postag_regexp='yes'/>
+				<token regexp='yes' spacebefore='no'>&hifen;</token>
+				<token regexp='yes' spacebefore='no'>se|lhes?|me|te|nos|vos</token>
+			</pattern>
+			<message>Forma verbal não existente.</message>
+			<suggestion><match no='1' postag="V.+" postag_replace='VMN0000' postag_regexp="yes"/>-\3-ão</suggestion>
+			<example correction="fazer-me-ão">Assim <marker>farão-me</marker> o trabalho.</example>
+		</rule>		
+		
     </rulegroup>
  
     <rulegroup id="WHATSAPP" name="WhatsApp">

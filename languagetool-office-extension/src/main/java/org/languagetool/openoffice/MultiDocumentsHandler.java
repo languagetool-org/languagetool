@@ -1333,6 +1333,7 @@ public class MultiDocumentsHandler {
             }
           }
           resetIgnoredMatches();
+          resetCheck();
         }
         if (debugMode) {
           MessageHandler.printToLogFile("Start Spell And Grammar Check Dialog");

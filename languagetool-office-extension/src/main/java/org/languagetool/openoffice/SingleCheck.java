@@ -124,7 +124,7 @@ class SingleCheck {
     if (isDisposed() || (mDocHandler.getGoneComponent() != null && mDocHandler.getGoneComponent().equals(xComponent))) {
       return new SingleProofreadingError[0];
     }
-    if (!isImpress && lastChangedPara >= 0) {
+    if (!isImpress && !isIntern && lastChangedPara >= 0) {
       if (docCursor == null) {
         docCursor = new DocumentCursorTools(xComponent);
       }
@@ -151,19 +151,16 @@ class SingleCheck {
     if (debugMode > 1) {
       MessageHandler.printToLogFile("paRes.aErrors.length: " + errors.length + "; docID: " + singleDocument.getDocID() + OfficeTools.LOG_LINE_BREAK);
     }
-    if (!isImpress && textIsChanged && nextSentence >= paraText.length()) {
-      if (numParasToCheck != 0 && paraNum >= 0) {
-        if (docCursor == null && !isDisposed()) {
-          docCursor = new DocumentCursorTools(xComponent);
-        }
-        if (useQueue || isDialogRequest) {
-//        if (isDialogRequest && textIsChanged) {
-          List<Integer> changedParas = new ArrayList<Integer>();
-          changedParas.add(paraNum);
-          remarkChangedParagraphs(changedParas, docCursor.getParagraphCursor(), flatPara, lt, true);
-        } else if (!useQueue || isDialogRequest) {
-          remarkChangedParagraphs(changedParas, docCursor.getParagraphCursor(), flatPara, lt, true);
-        }
+    if (!isImpress && numParasToCheck != 0 && paraNum >= 0 && ((textIsChanged && nextSentence >= paraText.length()) || isDialogRequest)) {
+      if (docCursor == null && !isDisposed()) {
+        docCursor = new DocumentCursorTools(xComponent);
+      }
+      if (!isIntern && ((isDialogRequest && !textIsChanged) || (useQueue && !isDialogRequest))) {
+        List<Integer> changedParas = new ArrayList<Integer>();
+        changedParas.add(paraNum);
+        remarkChangedParagraphs(changedParas, docCursor.getParagraphCursor(), flatPara, lt, true);
+      } else if (textIsChanged && (!useQueue || isDialogRequest)) {
+        remarkChangedParagraphs(changedParas, docCursor.getParagraphCursor(), flatPara, lt, true);
       }
     }
     return errors;
@@ -353,7 +350,12 @@ class SingleCheck {
     if (!isDisposed() && !mDocHandler.isSwitchedOff()) {
       Map <Integer, List<SentenceErrors>> changedParasMap = new HashMap<>();
       for (int i = 0; i < changedParas.size(); i++) {
-        changedParasMap.put(changedParas.get(i), getSentenceErrosAsList(changedParas.get(i), lt));
+        List<SentenceErrors> sentenceErrors = getSentenceErrosAsList(changedParas.get(i), lt);
+        changedParasMap.put(changedParas.get(i), sentenceErrors);
+        if (debugMode > 1) {
+          MessageHandler.printToLogFile("Mark errors: Paragraph: " + changedParas.get(i) + "; Number of sentence: " + sentenceErrors.size()
+            + "; Number of errors: " + sentenceErrors.get(0).sentenceErrors.length);
+        }
       }
       flatPara.markParagraphs(changedParasMap, docCache, override, cursor);
     }
@@ -416,7 +418,7 @@ class SingleCheck {
    * Filter ignored errors (from ignore once)
    */
   private SingleProofreadingError[] filterIgnoredMatches (SingleProofreadingError[] unFilteredErrors, int nPara) {
-    if (!ignoredMatches.isEmpty() && ignoredMatches.containsKey(nPara)) {
+    if (!ignoredMatches.isEmpty() && ignoredMatches.containsParagraph(nPara)) {
       List<SingleProofreadingError> filteredErrors = new ArrayList<>();
       for (SingleProofreadingError error : unFilteredErrors) {
         if (!ignoredMatches.isIgnored(error.nErrorStart, error.nErrorStart + error.nErrorLength, nPara, error.aRuleIdentifier)) {
@@ -776,14 +778,15 @@ class SingleCheck {
         errorList.add(cacheEntry == null ? null : cacheEntry.getErrorArray());
       }
       sentenceErrors.add(new SentenceErrors(startPosition, nextSentencePositions.get(0), mergeErrors(errorList, numberOfParagraph)));
-    }
-    for (int nextPosition : nextSentencePositions) {
-      List<SingleProofreadingError[]> errorList = new ArrayList<SingleProofreadingError[]>();
-      for (ResultCache cache : paragraphsCache) {
-        errorList.add(cache.getFromPara(numberOfParagraph, startPosition, nextPosition));
+    } else {
+      for (int nextPosition : nextSentencePositions) {
+        List<SingleProofreadingError[]> errorList = new ArrayList<SingleProofreadingError[]>();
+        for (ResultCache cache : paragraphsCache) {
+          errorList.add(cache.getFromPara(numberOfParagraph, startPosition, nextPosition));
+        }
+        sentenceErrors.add(new SentenceErrors(startPosition, nextPosition, mergeErrors(errorList, numberOfParagraph)));
+        startPosition = nextPosition;
       }
-      sentenceErrors.add(new SentenceErrors(startPosition, nextPosition, mergeErrors(errorList, numberOfParagraph)));
-      startPosition = nextPosition;
     }
     return sentenceErrors;
   }

@@ -313,5 +313,9 @@ public class French extends Language implements AutoCloseable {
     }
     return super.getPriorityForId(id);
   }
+  
+  public boolean hasMinMatchesRules() {
+    return true;
+  }
 
 }

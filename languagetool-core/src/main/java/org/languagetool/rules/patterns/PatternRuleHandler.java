@@ -79,6 +79,8 @@ public class PatternRuleHandler extends XMLRuleHandler {
   private boolean isRuleSuppressMisspelled;
   private boolean isSuggestionSuppressMisspelled;
 
+  private int minPrevMatches = 0;
+  
   private String idPrefix;
 
   public PatternRuleHandler() {
@@ -144,6 +146,10 @@ public class PatternRuleHandler extends XMLRuleHandler {
         id = attrs.getValue(ID);
         name = attrs.getValue(NAME);
         String premiumRule = attrs.getValue(PREMIUM);
+        String minPrevMatchesStr = attrs.getValue(MINPREVMATCHES);
+        if (minPrevMatchesStr != null) {
+          minPrevMatches = Integer.parseInt(minPrevMatchesStr);  
+        }
         //check if this rule is premium
         if (premiumRule != null) { //if flag is set on rule it overrides everything before
           isPremiumRule = YES.equals(attrs.getValue(PREMIUM));
@@ -410,6 +416,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         inRule = false;
         filterClassName = null;
         filterArgs = null;
+        minPrevMatches = 0;
         ruleTags.clear();
         break;
       case EXCEPTION:
@@ -617,6 +624,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         rule.addTags(categoryTags);
         rule.setSourceFile(sourceFile);
         rule.setPremium(isPremiumRule);
+        rule.setMinPrevMatches(minPrevMatches);
       } else if (regex.length() > 0) {
         int flags = regexCaseSensitive ? 0 : Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE;
         String regexStr = regex.toString();

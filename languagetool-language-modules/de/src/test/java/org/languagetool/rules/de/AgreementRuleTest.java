@@ -688,12 +688,14 @@ public class AgreementRuleTest {
   }
 
   @Test
-  public void testDeAgreement() throws IOException {
+  public void testKonUntArtDefSub() throws IOException {
     // correct:
     assertGood("Wieso verstehst du nicht, dass das komplett verschiedene Dinge sind?");
     assertGood("Ich frage mich sehr, ob die wirklich zusätzliche Gebühren abdrücken wollen");
     // incorrect:
     assertBad("Dies wurde durchgeführt um das moderne Charakter zu betonen.", "den modernen Charakter");
+    assertBad("Nur bei Topfpflanzung ist eine regelmäßige Düngung wichtig, da die normalen Bodenbildungsprozessen nicht stattfinden.", "die normalen Bodenbildungsprozesse", "den normalen Bodenbildungsprozessen");
+    assertBad("Die Höhe kommt oft darauf an, ob die richtigen Leuten gut mit einen können oder nicht.");
   }
 
   private void assertGood(String s) throws IOException {

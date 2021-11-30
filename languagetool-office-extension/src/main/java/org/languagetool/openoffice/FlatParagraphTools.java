@@ -573,7 +573,7 @@ public class FlatParagraphTools {
         MessageHandler.printToLogFile("Mark Para " + n + ": " + s);
       }
 */
-      while (tmpFlatPara != null && nMarked < changedParas.size() && num < docCache.textSize()) {
+      while (tmpFlatPara != null && nMarked < changedParas.size() && num < docCache.size()) {
         int nTextPara = docCache.getNumberOfTextParagraph(num);
         if (changedParas.containsKey(num)) {
           addMarksToOneParagraph(tmpFlatPara, changedParas.get(num), nTextPara < 0 ? null : cursor, override);
@@ -616,6 +616,10 @@ public class FlatParagraphTools {
    */
   private void addMarksToOneParagraph(XFlatParagraph flatPara, List<SentenceErrors> errorList, XParagraphCursor cursor, boolean override) {
     boolean isChecked = flatPara.isChecked(TextMarkupType.PROOFREADING);
+    if (debugMode) {
+      MessageHandler.printToLogFile("xMarkingAccess: overrride = " + override + "; cursor " + (cursor == null ? "==" : "!=") + " null"
+          + "; isChecked = " + isChecked);
+    }
     if (override && cursor != null) {
       XMarkingAccess xMarkingAccess = UnoRuntime.queryInterface(XMarkingAccess.class, cursor);
       if (xMarkingAccess == null) {
