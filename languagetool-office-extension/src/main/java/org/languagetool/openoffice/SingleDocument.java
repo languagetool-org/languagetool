@@ -97,6 +97,7 @@ class SingleDocument {
   private boolean disposed = false;               //  true: document with this docId is disposed - SingleDocument shall be removed
   private boolean resetDocCache = false;          //  true: the cache of the document should be reseted before the next check
   private boolean hasFootnotes = true;            //  true: Footnotes are supported by LO/OO
+  private boolean isLastIntern = false;           //  true: last check was intern
   private String lastSinglePara = null;           //  stores the last paragraph which is checked as single paragraph
   private Language docLanguage = null;            //  Language used for check
   private LanguageToolMenus ltMenus = null;       //  LT menus (tools menu and context menu)
@@ -205,7 +206,11 @@ class SingleDocument {
       CheckRequestAnalysis requestAnalysis = new CheckRequestAnalysis(numLastVCPara, numLastFlPara, defaultParaCheck, 
           proofInfo, numParasToCheck, this, paragraphsCache, viewCursor);
       int paraNum = requestAnalysis.getNumberOfParagraph(nPara, paraText, locale, paRes.nStartOfSentencePosition, footnotePositions);
+      if (paraNum == -2) {
+        paraNum = isLastIntern ? this.paraNum : -1;
+      }
       this.paraNum = paraNum;
+      isLastIntern = isIntern;
       flatPara = requestAnalysis.getFlatParagraphTools();
       docCursor = requestAnalysis.getDocumentCursorTools();
       viewCursor = requestAnalysis.getViewCursorTools();
@@ -571,7 +576,7 @@ class SingleDocument {
   
   private void remarkChangedParagraphs(List<Integer> changedParas) {
     if (!disposed) {
-      SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, docCursor, flatPara, docLanguage, ignoredMatches, numParasToCheck, false);
+      SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, docCursor, flatPara, docLanguage, ignoredMatches, numParasToCheck, true);
       if (docCursor == null) {
         docCursor = new DocumentCursorTools(getNoneGoneComponent());
       }
@@ -613,6 +618,9 @@ class SingleDocument {
    */
   public void setIgnoredMatch(int x, int y, String ruleId) {
     ignoredMatches.setIgnoredMatch(x, y, ruleId);
+    if (debugMode > 1) {
+      MessageHandler.printToLogFile("Ignore Match: isImpress = " + isImpress + "; numParasToCheck = " + numParasToCheck);
+    }
     if (!isImpress && numParasToCheck != 0) {
       List<Integer> changedParas = new ArrayList<>();
       changedParas.add(y);
@@ -630,13 +638,13 @@ class SingleDocument {
     if (!ignoredMatches.isEmpty()) {
       IgnoredMatches tmpIgnoredMatches = new IgnoredMatches();
       for (int i = 0; i < from; i++) {
-        if (ignoredMatches.containsKey(i)) {
+        if (ignoredMatches.containsParagraph(i)) {
           tmpIgnoredMatches.put(i, ignoredMatches.get(i));
         }
       }
       for (int i = to + 1; i < oldSize; i++) {
         int n = i + newSize - oldSize;
-        if (ignoredMatches.containsKey(i)) {
+        if (ignoredMatches.containsParagraph(i)) {
           tmpIgnoredMatches.put(n, ignoredMatches.get(i));
         }
       }
@@ -868,7 +876,7 @@ class SingleDocument {
     /**
      * Contains a paragraph ignored matches
      */
-    public boolean containsKey(int y) {
+    public boolean containsParagraph(int y) {
       return ignoredMatches.containsKey(y);
     }
 
