@@ -891,4 +891,11 @@ public abstract class Language {
   public int hashCode() {
     return getShortCodeWithCountryAndVariant().hashCode();
   }
+  
+  /*
+   * Some rules contain the field min_matches to check repeated patterns 
+   */
+  public boolean hasMinMatchesRules() {
+    return false;
+  }
 }
