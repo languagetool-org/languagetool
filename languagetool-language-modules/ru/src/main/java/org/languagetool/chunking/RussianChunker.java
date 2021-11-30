@@ -37,12 +37,13 @@ import static org.languagetool.chunking.RussianChunker.PhraseType.*;
  */
 public class RussianChunker implements Chunker {
 
-  private static final Set<String> FILTER_TAGS = new HashSet<>(Arrays.asList("PP", "NPP", "NPS","MayMissingYO"));
+  private static final Set<String> FILTER_TAGS = new HashSet<>(Arrays.asList("PP", "NPP", "NPS", "MayMissingYO", "VP"));
   private static final TokenExpressionFactory FACTORY = new TokenExpressionFactory(false);
 
   private static final Map<String,String> SYNTAX_EXPANSION = new HashMap<>();
   static {
     SYNTAX_EXPANSION.put("<NP>", "<chunk=B-NP> <chunk=I-NP>*");
+    SYNTAX_EXPANSION.put("<VP>", "<chunk=B-VP> <chunk=I-VP>*");
   }
 
   enum PhraseType {
@@ -50,7 +51,8 @@ public class RussianChunker implements Chunker {
     NPS,  // "noun phrase singular"
     NPP,  // "noun phrase plural"
     PP,    // "prepositional phrase" and similar
-    MayMissingYO
+    MayMissingYO,
+    VP     // verb phrase
   }
 
   /** @deprecated for internal use only */
@@ -98,6 +100,8 @@ public class RussianChunker implements Chunker {
       build("<posre='NN:Fam:.*'> <regexCS=[А-ЯЁ]> <.> <regexCS=[А-ЯЁ]> <.> ", NP, true),
       // И.И. Иванов
       build("<regexCS=[А-ЯЁ]> <.> <regexCS=[А-ЯЁ]> <.> <posre='NN:Fam:.*'> ", NP, true),
+      // verb+verb
+      build("<posre='VB:.*:.*'>* " , VP),
       //
       build("<тов>", NP)  // simulate OpenNLP?!
   );
@@ -212,7 +216,14 @@ public class RussianChunker implements Chunker {
       } else {
         newTag = new ChunkTag("I-NP");
       }
-    } else {
+    } else if (regex.phraseType == VP) {
+      // we assign the same tags as the OpenNLP chunker
+      if (i == match.startIndex()) {
+        newTag = new ChunkTag("B-VP");
+      } else {
+        newTag = new ChunkTag("I-VP");
+      }
+    }   else {
       newTag = new ChunkTag(regex.phraseType.name());
     }
     return newTag;
