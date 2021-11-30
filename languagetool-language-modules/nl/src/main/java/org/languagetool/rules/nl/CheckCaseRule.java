@@ -54,7 +54,7 @@ public class CheckCaseRule  extends AbstractCheckCaseRule {
 
   @Override
   public String getShort() {
-    return "\"Check casing";
+    return "Check casing";
   }
 
   @Override
