@@ -868,11 +868,18 @@ class AgreementRuleAntiPatterns1 {
       token("das")
     ),
     Arrays.asList(
-      pos("KON:UNT"), // "dass das komplett verschiedene Dinge"
-      tokenRegex("der|die|das|dies"),
+      pos("KON:UNT"), // "dass das komplett verschiedene Dinge sind"
+      tokenRegex("der|das|dies"),
       new PatternTokenBuilder().pos("ADJ:PRD:GRU").min(0).build(),
       posRegex("ADJ.*PLU.*SOL|PA2.*PLU.*SOL:VER"),
       posRegex("SUB.*PLU.*")
+    ),
+    Arrays.asList(
+      pos("KON:UNT"), // "ob die wirklich zusätzliche Gebühren abdrücken"
+      token("die"),
+      new PatternTokenBuilder().pos("ADJ:PRD:GRU").min(0).build(),
+      posRegex("ADJ.*(NOM|AKK):PLU.*SOL|PA2.*(NOM|AKK):PLU.*SOL:VER"),
+      posRegex("SUB.*(NOM|AKK):PLU.*")
     ));
 
 }
