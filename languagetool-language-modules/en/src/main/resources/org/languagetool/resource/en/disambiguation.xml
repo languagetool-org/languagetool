@@ -1357,12 +1357,12 @@
 
     <rule name="Modal verb + verb/noun -&gt; modal verb + verb" id="MD_VB">
         <antipattern><!-- #3283 your May bill -->
-            <token postag="PRP$"/>
+            <token postag="PRP\$|DT" postag_regexp="yes" />
             <token postag="MD"/>
-            <token chunk="E-NP-singular" postag="NN(:UN?)?" postag_regexp="yes"/>
         </antipattern>
         <pattern>
-            <token postag="MD"><exception>need</exception><exception scope="previous" postag="DT"/></token>
+            <token postag="MD"><exception>need</exception></token>
+            <token inflected="yes" min="0">not</token>
             <marker>
                 <and>
                     <token postag="VB"/>
