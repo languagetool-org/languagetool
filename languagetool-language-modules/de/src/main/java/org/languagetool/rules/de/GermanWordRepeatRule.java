@@ -267,6 +267,10 @@ public class GermanWordRepeatRule extends WordRepeatRule {
     Arrays.asList(// "Er muss sein Essen essen"
       csToken("Essen"),
       csToken("essen")
+    ),
+    Arrays.asList(
+      tokenRegex("^[_]+$"),
+      tokenRegex("^[_]+$")
     )
   );
   private final Supplier<List<DisambiguationPatternRule>> antiPatterns;
