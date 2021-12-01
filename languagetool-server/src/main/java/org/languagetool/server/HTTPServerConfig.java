@@ -156,6 +156,7 @@ public class HTTPServerConfig {
   protected String redisPassword = null;
   protected long redisDictTTL = 600; // in seconds
   protected long redisTimeout = 100; // in milliseconds
+  protected long redisConnectionTimeout = 5000; // in milliseconds
   protected boolean redisUseSentinel = false;
   protected String sentinelHost;
   protected int sentinelPort = 26379;
@@ -185,7 +186,7 @@ public class HTTPServerConfig {
     "keystore", "password", "maxTextLengthPremium", "maxTextLengthAnonymous", "maxTextLengthLoggedIn", "gracefulDatabaseFailure",
     "ngramLangIdentData",
     "dbTimeoutSeconds", "dbErrorRateThreshold", "dbTimeoutRateThreshold", "dbDownIntervalSeconds",
-    "redisUseSSL",
+    "redisUseSSL", "redisTimeoutMilliseconds", "redisConnectionTimeoutMilliseconds",
     "anonymousAccessAllowed",
     "premiumAlways",
     "redisPassword", "redisHost", "redisCertificate", "redisKey", "redisKeyPassword",
@@ -417,12 +418,13 @@ public class HTTPServerConfig {
         redisPassword = getOptionalProperty(props, "redisPassword", null);
         redisDictTTL = Integer.parseInt(getOptionalProperty(props, "redisDictTTLSeconds", "600"));
         redisTimeout = Integer.parseInt(getOptionalProperty(props, "redisTimeoutMilliseconds", "100"));
+        redisConnectionTimeout = Integer.parseInt(getOptionalProperty(props, "redisConnectionTimeoutMilliseconds", "5000"));
 
         redisCertificate = getOptionalProperty(props, "redisCertificate", null);
         redisKey = getOptionalProperty(props, "redisKey", null);
         redisKeyPassword = getOptionalProperty(props, "redisKeyPassword", null);
 
-        redisUseSentinel = Boolean.valueOf(getOptionalProperty(props, "redisUseSentinel", "false").trim());
+        redisUseSentinel = Boolean.parseBoolean(getOptionalProperty(props, "redisUseSentinel", "false").trim());
         sentinelHost = getOptionalProperty(props, "sentinelHost", null);
         sentinelPort = Integer.parseInt(getOptionalProperty(props, "sentinelPort", "26379"));
         sentinelPassword = getOptionalProperty(props, "sentinelPassword", null);
@@ -1224,8 +1226,20 @@ public class HTTPServerConfig {
     return redisDictTTL;
   }
 
+  /**
+   * Timeout for regular commands
+   * @return
+   */
   public long getRedisTimeoutMilliseconds() {
     return redisTimeout;
+  }
+
+  /**
+   * Timeout for establishing the initial connection, including e.g. SSL handshake
+   * and commands like SENTINEL, ...
+   */
+  public long getRedisConnectionMilliseconds() {
+    return redisConnectionTimeout;
   }
   // TODO could introduce 'expire after access' logic, i.e. refresh expire when reading
 
