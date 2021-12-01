@@ -248,6 +248,8 @@ public abstract class RemoteRule extends Rule {
             status = RemoteRuleMetrics.RequestResult.TIMEOUT;
             logger.info("Timed out while fetching results for remote rule " + ruleId + ", tried " + (i + 1) + " times, timeout: " + timeout + "ms" , e);
             timeoutTotal.get(ruleId).addAndGet(timeout);
+          } else if (e instanceof RejectedExecutionException) {
+            status = RemoteRuleMetrics.RequestResult.ERROR;
           } else {
             status = RemoteRuleMetrics.RequestResult.ERROR;
             logger.warn("Error while fetching results for remote rule " + ruleId + ", tried " + (i + 1) + " times, timeout: " + timeout + "ms" , e);

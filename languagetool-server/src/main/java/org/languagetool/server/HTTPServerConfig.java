@@ -70,6 +70,8 @@ public class HTTPServerConfig {
   protected long maxCheckTimeMillisLoggedIn = -1;
   protected long maxCheckTimeMillisPremium = -1;
   protected int maxCheckThreads = 10;
+  protected int maxTextCheckerThreads; // default to same value as maxCheckThreads
+  protected int textCheckerQueueSize = 8;
   protected Mode mode;
   protected File languageModelDir = null;
   protected File word2vecModelDir = null;
@@ -154,6 +156,7 @@ public class HTTPServerConfig {
   protected String redisPassword = null;
   protected long redisDictTTL = 600; // in seconds
   protected long redisTimeout = 100; // in milliseconds
+  protected long redisConnectionTimeout = 5000; // in milliseconds
   protected boolean redisUseSentinel = false;
   protected String sentinelHost;
   protected int sentinelPort = 26379;
@@ -173,7 +176,7 @@ public class HTTPServerConfig {
   private static final List<String> KNOWN_OPTION_KEYS = Arrays.asList("abTest", "abTestClients", "abTestRollout",
     "beolingusFile", "blockedReferrers", "cacheSize", "cacheTTLSeconds",
     "dbDriver", "dbPassword", "dbUrl", "dbUsername", "disabledRuleIds", "fasttextBinary", "fasttextModel", "grammalectePassword",
-    "grammalecteServer", "grammalecteUser", "ipFingerprintFactor", "languageModel", "maxCheckThreads", "maxCheckTimeMillis",
+    "grammalecteServer", "grammalecteUser", "ipFingerprintFactor", "languageModel", "maxCheckThreads", "maxTextCheckerThreads", "textCheckerQueueSize", "maxCheckTimeMillis",
     "maxCheckTimeWithApiKeyMillis", "maxErrorsPerWordRate", "maxPipelinePoolSize", "maxSpellingSuggestions", "maxTextHardLength",
     "maxTextLength", "maxTextLengthWithApiKey", "maxWorkQueueSize", "neuralNetworkModel", "pipelineCaching",
     "pipelineExpireTimeInSeconds", "pipelinePrewarming", "prometheusMonitoring", "prometheusPort", "remoteRulesFile",
@@ -183,7 +186,7 @@ public class HTTPServerConfig {
     "keystore", "password", "maxTextLengthPremium", "maxTextLengthAnonymous", "maxTextLengthLoggedIn", "gracefulDatabaseFailure",
     "ngramLangIdentData",
     "dbTimeoutSeconds", "dbErrorRateThreshold", "dbTimeoutRateThreshold", "dbDownIntervalSeconds",
-    "redisUseSSL",
+    "redisUseSSL", "redisTimeoutMilliseconds", "redisConnectionTimeoutMilliseconds",
     "anonymousAccessAllowed",
     "premiumAlways",
     "redisPassword", "redisHost", "redisCertificate", "redisKey", "redisKeyPassword",
@@ -347,6 +350,16 @@ public class HTTPServerConfig {
         if (maxCheckThreads < 1) {
           throw new IllegalArgumentException("Invalid value for maxCheckThreads, must be >= 1: " + maxCheckThreads);
         }
+        // default value 0 = use maxCheckThreads setting (for compatibility)
+        maxTextCheckerThreads = Integer.parseInt(getOptionalProperty(props, "maxTextCheckerThreads", "0"));
+        if (maxTextCheckerThreads < 0) {
+          throw new IllegalArgumentException("Invalid value for maxTextCheckerThreads, must be >= 1: " + maxTextCheckerThreads);
+        }
+        textCheckerQueueSize = Integer.parseInt(getOptionalProperty(props, "textCheckerQueueSize", "8"));
+        if (textCheckerQueueSize < 0) {
+          throw new IllegalArgumentException("Invalid value for textCheckerQueueSize, must be >= 1: " + textCheckerQueueSize);
+        }
+
         boolean atdMode = getOptionalProperty(props, "mode", "LanguageTool").equalsIgnoreCase("AfterTheDeadline");
         if (atdMode) {
           throw new IllegalArgumentException("The AfterTheDeadline mode is not supported anymore in LanguageTool 3.8 or later");
@@ -405,12 +418,13 @@ public class HTTPServerConfig {
         redisPassword = getOptionalProperty(props, "redisPassword", null);
         redisDictTTL = Integer.parseInt(getOptionalProperty(props, "redisDictTTLSeconds", "600"));
         redisTimeout = Integer.parseInt(getOptionalProperty(props, "redisTimeoutMilliseconds", "100"));
+        redisConnectionTimeout = Integer.parseInt(getOptionalProperty(props, "redisConnectionTimeoutMilliseconds", "5000"));
 
         redisCertificate = getOptionalProperty(props, "redisCertificate", null);
         redisKey = getOptionalProperty(props, "redisKey", null);
         redisKeyPassword = getOptionalProperty(props, "redisKeyPassword", null);
 
-        redisUseSentinel = Boolean.valueOf(getOptionalProperty(props, "redisUseSentinel", "false").trim());
+        redisUseSentinel = Boolean.parseBoolean(getOptionalProperty(props, "redisUseSentinel", "false").trim());
         sentinelHost = getOptionalProperty(props, "sentinelHost", null);
         sentinelPort = Integer.parseInt(getOptionalProperty(props, "sentinelPort", "26379"));
         sentinelPassword = getOptionalProperty(props, "sentinelPassword", null);
@@ -835,6 +849,28 @@ public class HTTPServerConfig {
   }
 
   /**
+   * @param maxTextCheckerThreads The maximum number of threads in the worker pool processing text checks running at the same time.
+   * @since 5.6
+   */
+  void setMaxTextCheckerThreads(int maxTextCheckerThreads) {
+    this.maxTextCheckerThreads = maxTextCheckerThreads;
+  }
+
+  /** @since 5.6 */
+  int getMaxTextCheckerThreads() {
+    // unset - use maxCheckThreads
+    return maxTextCheckerThreads != 0 ? maxTextCheckerThreads : maxCheckThreads;
+  }
+
+  public int getTextCheckerQueueSize() {
+    return textCheckerQueueSize;
+  }
+
+  public void setTextCheckerQueueSize(int textCheckerQueueSize) {
+    this.textCheckerQueueSize = textCheckerQueueSize;
+  }
+
+  /**
    * Set to {@code true} if this is running behind a (reverse) proxy which
    * sets the {@code X-forwarded-for} HTTP header. The last IP address (but not local IP addresses)
    * in that header will then be used for enforcing a request limitation.
@@ -1190,8 +1226,20 @@ public class HTTPServerConfig {
     return redisDictTTL;
   }
 
+  /**
+   * Timeout for regular commands
+   * @return
+   */
   public long getRedisTimeoutMilliseconds() {
     return redisTimeout;
+  }
+
+  /**
+   * Timeout for establishing the initial connection, including e.g. SSL handshake
+   * and commands like SENTINEL, ...
+   */
+  public long getRedisConnectionMilliseconds() {
+    return redisConnectionTimeout;
   }
   // TODO could introduce 'expire after access' logic, i.e. refresh expire when reading
 

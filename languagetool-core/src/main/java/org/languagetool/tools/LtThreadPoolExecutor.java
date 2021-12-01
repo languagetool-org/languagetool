@@ -22,50 +22,64 @@
 package org.languagetool.tools;
 
 import io.prometheus.client.Gauge;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Queue;
+import java.util.*;
 import java.util.concurrent.*;
+import java.util.stream.Stream;
 
 /**
  * ThreadPoolExecutor with some stopping logic for OOM and metrics tracking
- *
  */
+@Slf4j
 class LtThreadPoolExecutor extends ThreadPoolExecutor {
 
-  private static final Gauge activeThreads = Gauge.build("languagetool_threadpool_active_threads", "Running threads by threadpool")
-      .labelNames("pool").register();
-  private static final Gauge queueSize = Gauge.build("languagetool_threadpool_queue_size", "Queue size by threadpool").labelNames("pool").register();
-  private static final Gauge maxQueueSize = Gauge.build("languagetool_threadpool_max_queue_size", "Queue capacity by threadpool").labelNames("pool").register();
+  private static final Gauge maxQueueSize = Gauge.build("languagetool_threadpool_max_queue_size", "Queue capacity by threadpool")
+    .labelNames("pool").register();
+  private static final Gauge queueSize = Gauge.build("languagetool_threadpool_queue_size", "Queue size by threadpool")
+    .labelNames("pool").register();
+  private static final Gauge largestPoolSize = Gauge.build("languagetool_threadpool_largest_queue_size", "The largest number of threads that have ever simultaneously been in the pool")
+    .labelNames("pool").register();
 
+  @Getter
   private final String name;
-  private final Queue<Runnable> queue;
 
   LtThreadPoolExecutor(String name, int corePoolSize, int maximumPoolSize, long keepAliveTime, @NotNull TimeUnit unit, @NotNull BlockingQueue<Runnable> workQueue, @NotNull ThreadFactory threadFactory, @NotNull RejectedExecutionHandler handler) {
     super(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, threadFactory, handler);
     this.name = name;
-    this.queue = getQueue();
     maxQueueSize.labels(name).set(workQueue.remainingCapacity());
+  }
+
+  {
+    Timer timer = new Timer();
+    TimerTask timedAction = new TimerTask() {
+      @Override
+      public void run() {
+        queueSize.labels(name).set(getQueue().size());
+        largestPoolSize.labels(name).set(getLargestPoolSize());
+        log.trace("{} queueSize: {}", name, queueSize.labels(name).get());
+        log.trace("{} largestPoolSize: {}", name, largestPoolSize.labels(name).get());
+      }
+    };
+    timer.scheduleAtFixedRate(timedAction, 0, 1000);
   }
 
   @Override
   public void execute(@NotNull Runnable command) {
     super.execute(command);
-    queueSize.labels(name).set(queue.size());
   }
 
   @Override
   public boolean remove(Runnable task) {
-    boolean status = super.remove(task);
-    queueSize.labels(name).set(queue.size());
-    return status;
+    return super.remove(task);
   }
 
   @Override
   protected void afterExecute(Runnable r, Throwable t) {
     super.afterExecute(r, t);
-    activeThreads.labels(name).dec();
-    queueSize.labels(name).set(queue.size());
+
     // inherited from removed StoppingThreadPoolExecutor in org.languagetool.server.Server
     if (t != null && t instanceof OutOfMemoryError) {
       // we prefer to stop instead of being in an unstable state:
@@ -78,7 +92,5 @@ class LtThreadPoolExecutor extends ThreadPoolExecutor {
   @Override
   protected void beforeExecute(Thread t, Runnable r) {
     super.beforeExecute(t, r);
-    activeThreads.labels(name).inc();
-    queueSize.labels(name).set(queue.size());
   }
 }

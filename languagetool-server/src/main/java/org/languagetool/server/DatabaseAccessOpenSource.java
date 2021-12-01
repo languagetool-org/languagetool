@@ -21,14 +21,12 @@ package org.languagetool.server;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import org.apache.commons.lang3.NotImplementedException;
-import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.ibatis.datasource.pooled.PooledDataSource;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import org.jetbrains.annotations.Nullable;
 import org.languagetool.Premium;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -95,26 +93,6 @@ class DatabaseAccessOpenSource extends DatabaseAccess {
   }
 
   @Override
-  Cache<String, List<String>> getCache(Long userId, Long cacheSize) {
-    throw new NotImplementedException(NON_PREMIUM_MSG);
-  }
-
-  @Override
-  List<String> getUserDictWords(Long userId, @Nullable Long dictCacheSize, List<String> groups) {
-    return getUserDictWords(userId);
-  }
-
-  @Override
-  List<String> getWordsFromDictionaries(UserLimits limits, List<String> groups) {
-    return getUserDictWords(limits.getPremiumUid(), limits.getDictCacheSize(), groups);
-  }
-
-  @Override
-  List<String> getWords(Long userId, List<String> groupNames, int offset, int limit) {
-    return getWords(userId, offset, limit);
-  }
-
-  @Override
   boolean addWord(String word, Long userId, String groupName) {
     return addWord(word, userId);
   }
@@ -175,21 +153,6 @@ class DatabaseAccessOpenSource extends DatabaseAccess {
   @Override
   Long getUserRequestCount(Long userId) {
     return null;
-  }
-
-  List<String> getUserDictWords(Long userId) {
-    if (sqlSessionFactory == null) {
-      return Collections.emptyList();
-    }
-    try (SqlSession session = sqlSessionFactory.openSession()) {
-      try {
-        List<String> dict = session.selectList("org.languagetool.server.UserDictMapper.selectWordList", userId);
-        return dict;
-      } catch (Exception e) {
-          logger.error("ERROR: Could not get words from database for user " + userId + ": " + e.getMessage() + " - also, could not use version from cache, user id not found in cache, will use empty dict. Full stack trace follows:" + ExceptionUtils.getStackTrace(e));
-      }
-    }
-    return Collections.emptyList();
   }
 
   List<String> getWords(Long userId, int offset, int limit) {
@@ -386,7 +349,7 @@ class DatabaseAccessOpenSource extends DatabaseAccess {
 
   @Override
   public List<String> getWords(UserLimits limits, List<String> groups, int offset, int limit) {
-    return getWords(limits.getPremiumUid(), groups, offset, limit);
+    return getWords(limits.getPremiumUid(), offset, limit);
   }
 
 }

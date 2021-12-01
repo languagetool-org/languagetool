@@ -27,9 +27,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.language.GermanyGerman;
 
+@Ignore
 public class WikipediaQuickCheckTest {
 
   // only for interactive use, as it accesses a remote API

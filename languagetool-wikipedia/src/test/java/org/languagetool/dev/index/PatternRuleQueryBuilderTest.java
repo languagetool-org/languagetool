@@ -31,6 +31,7 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.RAMDirectory;
 import org.apache.lucene.util.LuceneTestCase;
+import org.junit.Ignore;
 import org.languagetool.Language;
 import org.languagetool.language.English;
 import org.languagetool.rules.patterns.AbstractPatternRule;
@@ -44,6 +45,7 @@ import java.util.List;
 import static org.languagetool.dev.index.Lucene.FIELD_NAME;
 import static org.languagetool.dev.index.Lucene.FIELD_NAME_LOWERCASE;
 
+@Ignore
 public class PatternRuleQueryBuilderTest extends LuceneTestCase {
 
   private IndexSearcher searcher;

@@ -47,6 +47,7 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.PatternToken;
 
+@Ignore
 public class IndexerSearcherTest extends LuceneTestCase {
 
   private Searcher errorSearcher;

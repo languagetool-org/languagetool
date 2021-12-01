@@ -111,7 +111,7 @@ commands:
                 command: |
                   if grep -q -e << parameters.path_to_check >>/.* /home/circleci/git_diffs.txt 
                   then
-                    cd $CIRCLE_WORKING_DIRECTORY && mvn --projects << parameters.path_to_check >> test -fae
+                    cd $CIRCLE_WORKING_DIRECTORY && mvn --projects << parameters.path_to_check >> --also-make test -fae
                   else
                     echo "No changes detected in <<parameters.path_to_check>>"
                   fi
