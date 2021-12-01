@@ -41,6 +41,11 @@ class CaseRuleAntiPatterns {
       regex("Blomens?")
     ),
     Arrays.asList(
+      csRegex("Private[snm]"),
+      csRegex("und"),
+      csRegex("Berufliche[snm]")
+    ),
+    Arrays.asList(
       token("des"),
       csToken("Weiteren")
     ),
