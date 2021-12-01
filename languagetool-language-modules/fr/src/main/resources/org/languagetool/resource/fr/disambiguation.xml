@@ -132,6 +132,49 @@ RB => Règles Brutes
     </rule>
     <!-- END: numerals -->
     <!-- CATEGORY: remove unusual tags -->
+    <rulegroup name="découverte" id="DECOUVERTE">
+        <rule>
+        <pattern>
+            <token postag="SENT_START|M nonfin|C coor" postag_regexp="yes"/>
+            <marker>
+                <token>découverte</token>
+            </marker>
+            <token postag="J.*" postag_regexp="yes" min="0" max="1"/>
+            <token regexp="yes">des?|du</token>
+        </pattern>
+        <disambig action="remove" postag="V ppa f s"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token>de</token>
+                <marker>
+                    <token>découverte</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="V ppa f s"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token><exception postag="[AZNJ].*" postag_regexp="yes"/></token>
+                <token postag="D f s"/>
+                <marker>
+                    <token>découverte</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="V ppa f s"/>
+        </rule>
+    </rulegroup>
+    <rule name="étudiant" id="ETUDIANT">
+        <pattern>
+            <token postag="SENT_START"/>
+            <marker>
+                <token>étudiant</token>
+            </marker>
+            <token regexp="yes">des?|en</token>
+        </pattern>
+        <disambig action="remove" postag="V ppr"/>
+    </rule>
     <rule name="avoir envie" id="AVOIR_ENVIE">
         <pattern>
             <token postag="V avoir.*" postag_regexp="yes"/>
@@ -3209,7 +3252,7 @@ RB => Règles Brutes
                     <token postag="N . s" postag_regexp="yes"/>
             </marker>
         </pattern>
-        <disambig action="remove" postag="V.*"/>
+        <disambig action="replace" postag="V.*"/>
     </rule>
     <rule id="QUI_VERBE" name="qui verbe (not imperative)">
         <pattern>
@@ -6422,6 +6465,17 @@ RB => Règles Brutes
         <rule>
             <pattern>
                 <token postag="V (ind|sub|con).*" postag_regexp="yes">
+                    <exception postag="N.*" postag_regexp="yes"/></token>
+                <token>pas</token>
+                <marker>
+                    <token>cher</token>
+                </marker>
+            </pattern>
+            <disambig action="replace" postag="A"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="V.* inf" postag_regexp="yes" skip="1">
                     <exception postag="N.*" postag_regexp="yes"/></token>
                 <token>pas</token>
                 <marker>
