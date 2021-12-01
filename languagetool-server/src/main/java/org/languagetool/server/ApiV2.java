@@ -201,8 +201,8 @@ class ApiV2 {
     List<String> words = db.getWords(limits, groups, offset, limit);
     //List<String> words = db.getWords(limits.getPremiumUid(), groups, offset, limit);
     long durationMilliseconds = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - start);
-    logger.info("Finished reading dictionary for user: {}, offset: {}, limit: {}, dict_cache: {}, dict: {} in {}ms",
-      limits.getPremiumUid(), offset, limit, limits.getDictCacheSize(), params.get("dict"), durationMilliseconds);
+    logger.info("Finished reading dictionary for user: {}, offset: {}, limit: {}, dict_cache: {}, dict: {}, size: {} in {}ms",
+      limits.getPremiumUid(), offset, limit, limits.getDictCacheSize(), params.get("dict"), words.size(), durationMilliseconds);
     writeListResponse("words", words, httpExchange);
   }
   
