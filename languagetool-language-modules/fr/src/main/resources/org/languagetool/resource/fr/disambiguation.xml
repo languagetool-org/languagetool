@@ -139,22 +139,35 @@ RB => Règles Brutes
             <token min="0" max="1">du</token>
             <token>tout</token>
             <marker>
-                    <token postag="V.*" postag_regexp="yes"/>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes">envie|avantage</token>
             </marker>
         </pattern>
         <disambig action="replace" postag="N.*"/>
     </rule>
-    <rule name="il entre" id="IL_ENTRE">
+    <rulegroup name="il entre" id="IL_ENTRE">
+        <rule>
         <pattern>
-            <token postag="R pers suj.*" postag_regexp="yes"/>
+            <token postag="R pers suj 1 s"/>
             <token inflected="yes">ne</token>
             <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
             <marker>
                 <token postag="P">entre</token>
             </marker>
         </pattern>
-        <disambig action="replace" postag="V ind pres [13] s"/>
-    </rule>
+        <disambig action="replace" postag="V ind pres 1 s"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="R pers suj 3 s"/>
+                <token inflected="yes">ne</token>
+                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                <marker>
+                    <token postag="P">entre</token>
+                </marker>
+            </pattern>
+            <disambig action="replace" postag="V ind pres 3 s"/>
+        </rule>
+    </rulegroup>
     <rule name="moi seul vis" id="MOI_SEUL_VIS">
         <pattern>
             <token regexp="yes">[mt]oi|lui|elle|[nv]ous|eux</token>
@@ -6408,7 +6421,8 @@ RB => Règles Brutes
         </rule>
         <rule>
             <pattern>
-                <token postag="V (ind|sub|con).*" postag_regexp="yes"/>
+                <token postag="V (ind|sub|con).*" postag_regexp="yes">
+                    <exception postag="N.*" postag_regexp="yes"/></token>
                 <token>pas</token>
                 <marker>
                     <token>cher</token>
