@@ -25,7 +25,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
@@ -62,8 +61,7 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
   }
 
   private String ruleId;
-  private Language lang;
-
+  
   @Override
   public abstract String getDescription();
 
@@ -72,7 +70,6 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
     super.setCategory(Categories.STYLE.getCategory(messages));
     super.setLocQualityIssueType(ITSIssueType.Style);
     ruleId = language.getShortCode().toUpperCase() + "_" + "REPEATEDWORDS";
-    lang = language;
   }
 
   protected String adjustPostag(String postag) {
@@ -89,9 +86,17 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
     int wordNumber = 0;
     Map<String, Integer> wordsLastSeen = new HashMap<>();
     int pos = 0;
+    int prevSentenceLength = 0;
     for (AnalyzedSentence sentence : sentences) {
       // sentenceNumber++;
-      AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();;
+      AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();
+      pos += prevSentenceLength;
+      prevSentenceLength = sentence.getText().length();
+      // ignore sentences not ending in period
+      String lastToken = tokens[tokens.length-1].getToken();
+      if (!lastToken.equals(".") && !lastToken.equals("!") && !lastToken.equals("?")) {
+        continue;
+      }
       boolean sentStart = true;
       List<String> lemmasInSentece = new ArrayList<>();
       int i = -1;
@@ -164,7 +169,6 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
           }
         }
       }
-      pos += sentence.getText().length();
     }
     return toRuleMatchArray(matches);
   }

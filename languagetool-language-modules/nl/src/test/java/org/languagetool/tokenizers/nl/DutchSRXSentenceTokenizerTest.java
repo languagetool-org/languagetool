@@ -119,6 +119,9 @@ public class DutchSRXSentenceTokenizerTest {
     
     testSplit("Het is een .Net programma. ", "Of een .NEt programma.");
     testSplit("Het is een .Net-programma. ", "Of een .NEt-programma.");
+    
+    testSplit("SP werd in 2001 de sp.a (Socialistische Partij Anders) en heet sinds 2021 Vooruit.");
+    testSplit("SP.A grijpt terug naar naam met geschiedenis: VOORUIT.");
   }
 
   private void testSplit(String... sentences) {

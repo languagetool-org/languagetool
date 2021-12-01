@@ -236,6 +236,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Опечатка</short>
             <example correction="предложить тест"><marker>задать тест</marker></example>
         </rule>
+        <rule id="razvevatsja_razvivatsja" name="Опечатка: «развеваться» или «развиваться»">
+            <pattern>
+		<token skip="2" regexp="yes" inflected="yes">развеваться|развестись</token>
+                <token regexp="yes">болезнь|недуг|заболевание|опухоль</token>
+            </pattern>
+            <message>Опечатка: <suggestion><match no="1"  regexp_match="разве(.*)" regexp_replace="разви$1" include_skipped="all" /> <match no="2"/></suggestion></message>
+            <short>Опечатка</short>
+            <example>развевался флаг</example>
+            <example correction="развивалась болезнь"><marker>развевалась болезнь</marker></example>
+        </rule>
         <rule id="perehodny_peshehod" name="Опечатка: «пешеходный переход»">
             <pattern>
 		<token>переходный</token>
@@ -2493,6 +2503,47 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="шёл улыбаясь.">Он <marker>шёл, улыбаясь.</marker></example>
             </rule>
         </rulegroup>
+        <!-- issue #1119  -->
+        <rule id="Multiple_missing_commas_VB" name="Пропущенные запятые между глаголами"  default="temp_off" >
+            <antipattern>
+               <token postag="VB:.*" postag_regexp="yes" skip="-1">
+                    <exception regexp="yes" scope="next">и|или|а|но|&pnct;|да|/|либо|что|прежде|когда|как|что|-|пока</exception>
+                    <exception postag="VB:.*" postag_regexp="yes" negate_pos="yes"></exception>                    
+                </token>
+                <token postag="VB:.*" postag_regexp="yes"><match no="0"/>
+                    <exception postag="VB:.*" postag_regexp="yes" negate_pos="yes"></exception>
+                </token> 
+            </antipattern>
+            
+            <pattern>     <!-- TO DO: experimental rule, need improve! --> <!-- default="temp_off" tags="picky" -->
+                <unify negate="no">
+                        <feature id="tense"/>
+                        <feature id="aspect"/>
+                        <feature id="transitivity"/>
+                <token postag="VB:.*" postag_regexp="yes" skip="-1">
+                    <exception regexp="yes" scope="next">и|или|а|но|&pnct;|да|/|либо|что|прежде|когда|как|что|--|пока|[+]</exception>
+                    <exception postag="VB:.*" postag_regexp="yes" negate_pos="yes"></exception>
+                    <exception inflected="yes" regexp="yes">быть|идти|мешать|делать|сделать|пойти|просить|попросить|пытаться|помогать|побудить|заставить|иметься|мочь|сходить|смотреть|хотеть|брать|давать</exception>
+                    <exception regexp="yes">&verb;</exception>
+                    <exception postag="VB:INF:.*" postag_regexp="yes" ></exception>
+                </token>
+                <token postag="VB:.*" postag_regexp="yes">
+                    <exception postag="VB:.*" postag_regexp="yes" negate_pos="yes"></exception>
+                    <exception inflected="yes" regexp="yes">быть|идти|мешать|делать|сделать|пойти|просить|попросить|пытаться|помогать|побудить|заставить|иметься|мочь|сходить|смотреть|хотеть|брать|давать</exception>
+                    <exception regexp="yes">&verb;</exception>
+                    <exception scope="previous">ни</exception>
+                </token>
+                </unify>
+            </pattern>
+            <message>Пропущена запятая или иной знак между глаголами, или глагол стоит в неправильной форме.</message>
+            <short>Пропущена запятая</short>
+            <example>Я ни курю ни пью.</example>
+            <example>Дал другу в долг -- потерял друга.</example>
+            <example>Думай не думай - ничего не изменишь.</example>
+            <example correction="">Свиньи все <marker>подохли остался</marker> один баран.</example>
+            <example>Свиньи все подохли, остался один баран.</example>
+        </rule>
+        
         <!--   -->
         <rulegroup id="COMMA_PARTICIPLE" name="Запятые при причастии и причастном обороте" >
             <!-- TO DO: experimental rule, need improve! --> <!-- default="temp_off" -->
@@ -2631,12 +2682,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="Not_Comma_eto" name="Избыточная запятая перед «это»"  >
             <pattern> <!-- Лишняя запятая #1098   default="temp_off" tags="picky" -->
                 <token postag="SENT_START"></token>
-                <token skip="-1">В<exception scope="next" postag="VB:.*" postag_regexp="yes"></exception><exception scope="next" regexp="yes">частности|конце|целом</exception></token> <!-- Исключения для вводных выражений, TODO -->
-                <token>,</token>
-                <token>это</token>
-                <token postag="VB:.*" postag_regexp="yes"></token>
+                <marker>
+                    <token skip="-1">В<exception scope="next" postag="VB:.*" postag_regexp="yes"></exception>
+                        <exception scope="next" regexp="yes">частности|конце|целом</exception>
+                    </token> <!-- Исключения для вводных выражений, TODO -->
+                    <token>,</token>
+                    <token>это</token>
+                    <token postag="VB:.*" postag_regexp="yes"></token>
+                </marker>
             </pattern>
-            <message>Избыточная запятая: <suggestion><match no="1"/> <match no="2" include_skipped="all" /> <match no="4"/> <match no="5"/></suggestion></message>
+            <message>Избыточная запятая: <suggestion><match no="2" include_skipped="all" /> <match no="4"/> <match no="5"/></suggestion></message>
             <short>Избыточная запятая</short>
             <example correction="В случае рассмотрения резонансных структур это приводит"><marker>В случае рассмотрения резонансных структур, это приводит</marker> к существенным ошибкам в вычислении поля на границе раздела между слоями.</example>
             <example>В случае рассмотрения резонансных структур это приводит к существенным ошибкам в вычислении поля на границе раздела между слоями.</example>
@@ -4054,15 +4109,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             
             <rule>
                 <!-- Вводные слова: конечно, несомненно, вероятно, может быть, кажется, однако ...-->
+                <antipattern>
+                    <token><exception regexp="yes">&pnct;|наиболее|наименее|более|менее|очень|а|и|но|что|не</exception><exception postag="SENT_START" ></exception></token>
+                    <token regexp="yes">конечно|несомненно|вероятно|кажется|наверно|наверное</token>   <!-- temp remove однако -->                                    
+                    <token postag="ADV" skip="-1"><exception negate_pos="yes" postag="ADV" /><exception scope="next" postag_regexp="yes" postag="VB:.*" /><exception regexp="yes">же|ж|,</exception></token>
+                    <token regexp="yes" >&pnct;</token>  
+                </antipattern>
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">&pnct;|наиболее|наименее|более|менее|очень|а|и|но|что<exception postag="SENT_START|PNN:.*" postag_regexp="yes"></exception></token>
-                    <token regexp="yes">конечно|несомненно|вероятно|кажется|наверно|наверное</token>   <!-- temp remove однако -->           
-                    <and>
-                        <token negate="yes">,</token>
-                        <token negate="yes">же</token>
-                        <token negate="yes">ж</token>                           
-                        <token postag_regexp="yes" postag="VB:.*"></token> 
-                    </and>            
+                    <token><exception regexp="yes">&pnct;|наиболее|наименее|более|менее|очень|а|и|но|что|не</exception><exception postag="SENT_START" ></exception></token>
+                    <token regexp="yes">конечно|несомненно|вероятно|кажется|наверно|наверное</token>   <!-- temp remove однако -->                                    
+                    <token postag_regexp="yes" postag="VB:.*|ADV"><exception negate_pos="yes" postag_regexp="yes" postag="VB:.*|ADV" /><exception regexp="yes">же|ж|,</exception></token>
                 </pattern>
                 <message>Пропущена запятая: <suggestion>\1, \2, \3</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
@@ -4070,7 +4126,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Эта работа, несомненно, представляет огромную научную ценность.</example>
                 <example>Мне кажется, твой ответ правилен.</example>
                 <example>Звук кажется выше на октаву.</example>
+                <example>Кот кажется очень довольным.</example>
                 <example>Я поеду в город, однако если будут пробки, то я заночую в мотеле.</example>
+                <example correction="Она, наверно, по-прежнему"><marker>Она наверно по-прежнему</marker> пьёт утром кофе с печеньем.</example>
+                <example correction="Жизнь, кажется, ещё"><marker>Жизнь кажется ещё</marker> не начиналась.</example>
                 <example correction="работа, несомненно, представляет">Эта <marker>работа несомненно представляет</marker> огромную научную ценность.</example>
             </rule>
             <rule>
@@ -7254,7 +7313,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <exception>щеткой</exception>
                         </token>
                     </pattern>
-                    <filter class="org.languagetool.rules.ru.AdvancedSynthesizerFilter" args="lemmaFrom:1 lemmaSelect:ADJ:Posit:.*:.* postagFrom:2 postagSelect:NN:.*:(.*):.*:(.*) postagReplace:ADJ:Posit:\b1:\b2"/>
+                    <filter class="org.languagetool.rules.ru.AdvancedSynthesizerFilter" args="lemmaFrom:1 lemmaSelect:ADJ:(Posit|Sup):.*:.* postagFrom:2 postagSelect:NN:.*:(.*):.*:(.*) postagReplace:ADJ:\a1:\b1:\b2"/>
                     <message>Прилагательное не согласуется с существительным по падежу.</message>
                     <suggestion>{suggestion} \2</suggestion>
                     <example>Ставшие хрестоматийными слова «Природой здесь нам суждено в Европу прорубить окно», которые А. С. Пушкин вкладывает в уста Петра I — лишь риторически эффектная фраза.</example>
@@ -7323,13 +7382,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         
         
-        <rulegroup default="on" id="Soglasovanie_NN_PT" name="Согласование существительного с причастием" tags="picky">
+        <rulegroup default="on" id="Soglasovanie_NN_PT" name="Согласование существительного с причастием" >
         <rule>
-            <!-- Experimental rule, issue #1069, #1062 default="temp_off"  (род)-->  
+            <!-- Experimental rule, issue #1069, #1062 default="temp_off"  (род)  tags="picky"-->  
             <pattern>
                 <token>
                     <exception postag="NN:.*|PNN:.*" postag_regexp="yes" />
-                    <exception regexp="yes">на|в</exception>
+                    <exception regexp="yes">на|в|и|или|,</exception>
                 </token>
                 <unify negate="yes">
                     <feature id="gender"/>        
@@ -7353,7 +7412,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token>
                     <exception postag="NN:.*|PNN:.*" postag_regexp="yes" />
-                    <exception regexp="yes">на|в</exception>
+                    <exception regexp="yes">на|в|и|или|,</exception>
                 </token>
                 <unify negate="yes">
                     <feature id="number"/>        
@@ -7377,7 +7436,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token>
                     <exception postag="NN:.*|PNN:.*" postag_regexp="yes" />
-                    <exception regexp="yes">на|в</exception>
+                    <exception regexp="yes">на|в|и|или|,</exception>
                 </token>
                 <unify negate="yes">
                     <feature id="case"/>        
@@ -7398,6 +7457,80 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         </rulegroup>       
         
+        <rulegroup default="on" id="Soglasovanie_NN_PT_2" name="Согласование существительного с причастием (2)" tags="picky" >
+        <rule>
+            <!-- Experimental rule, issue #1069, #1062 default="temp_off"  (род)-->  
+            <pattern>
+                <token>
+                    <exception postag="NN:.*|PNN:.*" postag_regexp="yes" />
+                    <exception regexp="yes">на|в|и|или|,</exception>
+                </token>
+                <unify negate="yes">
+                    <feature id="gender"/>        
+                    <marker>
+                        <token postag="NN:.*:D" postag_regexp="yes"><exception postag="NN:.*:D" postag_regexp="yes" negate_pos="yes"></exception></token>
+                        <unify-ignore>
+                            <token>,</token>
+                        </unify-ignore>
+                        <token postag="PT:.*" postag_regexp="yes" ><exception postag="PT:.*" postag_regexp="yes" negate_pos="yes"></exception></token>
+                    </marker>
+                </unify>
+               <token><exception postag="PNN:.*" postag_regexp="yes" /></token>
+            </pattern>
+            <message>Ошибка в согласовании причастия по роду!</message>
+            <short>Ошибка в согласовании</short>
+            <example correction="">Довольно часто авторы таких работ предоставляют доступ к своим <marker>программам, реализующее</marker> новые разработки в этой области.</example>
+            <example>Довольно часто авторы таких работ предоставляют доступ к своим программам, реализующим новые разработки в этой области.</example>
+        </rule>
+        <rule>
+            <!-- Experimental rule, issue #1069, #1062 (число) -->  
+            <pattern>
+                <token>
+                    <exception postag="NN:.*|PNN:.*" postag_regexp="yes" />
+                    <exception regexp="yes">на|в|и|или|,</exception>
+                </token>
+                <unify negate="yes">
+                    <feature id="number"/>        
+                    <marker>
+                        <token postag="NN:.*:D" postag_regexp="yes"><exception postag="NN:.*:D" postag_regexp="yes" negate_pos="yes"></exception></token>
+                        <unify-ignore>
+                            <token>,</token>
+                        </unify-ignore>
+                        <token postag="PT:.*" postag_regexp="yes" ><exception postag="PT:.*" postag_regexp="yes" negate_pos="yes"></exception></token>
+                    </marker>
+                </unify>
+               <token><exception postag="PNN:.*" postag_regexp="yes" /></token>
+            </pattern>
+            <message>Ошибка в согласовании причастия по числу!</message>
+            <short>Ошибка в согласовании</short>
+            <example correction="">Довольно часто авторы таких работ предоставляют доступ к своим <marker>программам, реализующего</marker> новые разработки в этой области.</example>
+            <example>Довольно часто авторы таких работ предоставляют доступ к своим программам, реализующим новые разработки в этой области.</example>
+        </rule>
+        <rule>
+            <!-- Experimental rule, issue #1069, #1062 (падеж) -->  
+            <pattern>
+                <token>
+                    <exception postag="NN:.*|PNN:.*" postag_regexp="yes" />
+                    <exception regexp="yes">на|в|и|или|,</exception>
+                </token>
+                <unify negate="yes">
+                    <feature id="case"/>        
+                    <marker>
+                        <token postag="NN:.*:D" postag_regexp="yes"><exception postag="NN:.*:D" postag_regexp="yes" negate_pos="yes"></exception></token>
+                        <unify-ignore>
+                            <token>,</token>
+                        </unify-ignore>
+                        <token postag="PT:.*" postag_regexp="yes" ><exception postag="PT:.*" postag_regexp="yes" negate_pos="yes"></exception></token>
+                    </marker>
+                </unify>
+               <token><exception postag="PNN:.*" postag_regexp="yes" /></token>
+            </pattern>
+            <message>Ошибка в согласовании причастия по падежу!</message>
+            <short>Ошибка в согласовании</short>
+            <example correction="">Довольно часто авторы таких работ предоставляют доступ к своим <marker>программам, реализующих</marker> новые разработки в этой области.</example>
+            <example>Довольно часто авторы таких работ предоставляют доступ к своим программам, реализующим новые разработки в этой области.</example>
+        </rule>
+        </rulegroup> 
         
         <rule  id="Adj_NN_number_Software" name="«Программное обеспечение»"> 
             <pattern> <!-- Need more unification -->
@@ -7687,14 +7820,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
      <!--          Оба + существительное + глагол  -->
            <rule>                  
                 <pattern>
-                    <token  regexp="yes">Об[ае]</token>
-		    <token  postag="NN:.*:Sin:R" postag_regexp="yes"></token>
-                    <token  postag="VB:Past:.*"  postag_regexp="yes"><exception postag_regexp="yes" postag="VB:Past:.*:.*:PL" /><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:.*"  /></token>               
+                   <marker>
+                       <token  regexp="yes">Об[ае]</token>
+                       <token  postag="NN:.*:Sin:R" postag_regexp="yes"></token>
+                       <token  postag="VB:Past:.*"  postag_regexp="yes" skip="-1"><exception postag_regexp="yes" postag="VB:Past:.*:.*:PL" /><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:.*"  /><exception scope="next" postag_regexp="yes" postag="VB:.*:.*" /></token>               
+                   </marker>
+                   <token postag="SENT_END"/>               
                 </pattern>
-                <message>Существительное не согласуется с глаголом по числу: <suggestion><match no="1"></match> <match no="2"></match> <match no="3" postag="VB:Past:.*" postag_regexp="yes" postag_replace="VB:Past:.*:.*:PL"></match></suggestion></message>
-                
+                <message>Существительное не согласуется с глаголом по числу: <suggestion><match no="1"></match> <match no="2"></match> <match no="3" postag="VB:Past:.*" postag_regexp="yes" postag_replace="VB:Past:.*:.*:PL"></match></suggestion></message>                
                 <short>Ошибка в согласовании по числу</short>
-                
+                <example>И тогда я оба раза решил сходить в кино.</example>
+                <example>А неожиданно для себя я их посмотрел потому, что оба раза хотел на самом деле в тот день посмотреть совсем другой мюзикл.</example>                
                 <example correction="Оба друга загорали"><marker>Оба друга загорало</marker> на солнышке.</example>
             </rule>
 
@@ -8466,7 +8602,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
             
-        <rule default="temp_off" id="Ne_pril_prich1" name="«Не» с прилагательными и причастиями (краткая форма)"> 
+        <rule default="off" id="Ne_pril_prich1" name="«Не» с прилагательными и причастиями (краткая форма)"> 
                 <!-- Его походка медлительна, неуверенна. Это краткое прилагательное, слитное написание НЕ, две буквы НН, зависимых слов нет   default="temp_off" -->
              <antipattern>   
                     <marker>
@@ -10014,7 +10150,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 	    <example correction="относится">Проблема может возникнуть при наличии собственных резонансов в модели, что <marker>относиться</marker> и к нашему случаю, где частота падающей волны приходится на максимум дипольного отклика частицы.</example>
         </rule>        
         </rulegroup>                
-        <rule id="Verb_INF_OR_3P_2" default="temp_off" name="Инфинитив вместо личной формы глагола" > <!-- set temp off -->  <!-- tags="picky" -->
+        <rule id="Verb_INF_OR_3P_2" default="off" name="Инфинитив вместо личной формы глагола" > <!-- set temp off -->  <!-- tags="picky" -->
             <antipattern>
                  <token postag="SENT_START" skip="-1" />
                  <token postag="VB:.*" skip="-1" postag_regexp="yes" ><exception   postag="VB:.*"  postag_regexp="yes"  negate_pos="yes"    /></token>
@@ -11785,7 +11921,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>
                         <exception postag="NN:.*|ADV|ADJ:Comp|PNN:.*|PREP|SENT_START" postag_regexp="yes"></exception>
                         <exception inflected="yes" regexp="yes">являться|быть|такой</exception>
-                        <exception regexp="yes">–|-|—|очень|совсем|крайне</exception>
+                        <exception regexp="yes">–|-|—|очень|совсем|крайне|самый|самая|самое|самые|и|или</exception>
                     </token>
                     <marker>  
                         <token postag="ADJ:Posit:.*" postag_regexp="yes">

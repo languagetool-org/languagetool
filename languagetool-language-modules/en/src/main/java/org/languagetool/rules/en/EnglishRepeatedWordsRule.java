@@ -29,12 +29,12 @@ import org.languagetool.language.AmericanEnglish;
 import org.languagetool.rules.AbstractRepeatedWordsRule;
 import org.languagetool.rules.SynonymsData;
 import org.languagetool.rules.patterns.PatternToken;
+import org.languagetool.rules.patterns.PatternTokenBuilder;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.en.EnglishSynthesizer;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 
-import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.token;
-import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.tokenRegex;
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
 
 public class EnglishRepeatedWordsRule extends AbstractRepeatedWordsRule{
   
@@ -44,9 +44,46 @@ public class EnglishRepeatedWordsRule extends AbstractRepeatedWordsRule{
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
-      tokenRegex("need|needs|needed|needing"),   // "I still need -> require to sign-in"
+      new PatternTokenBuilder().csToken("need").matchInflectedForms().build(),   // "I still need -> require to sign in"
       token("to")
-    ));
+    ),
+
+    Arrays.asList(
+      new PatternTokenBuilder().tokenRegex("solve(s|d|ing)?").setSkip(3).build(),   // "solve the problem" is a unique collocation
+      tokenRegex("problems?")                                                    // "solve the issue|concern|difficulty" sounds bizarre
+    ),                                                                             // lots of disables in Matomo
+
+    Arrays.asList(
+      posRegex("SENT_START|PCT"),       // "No problem, I'm not in a rush."
+      token("no"),
+      token("problem"),
+      pos("PCT")
+    ),
+
+    Arrays.asList(
+      tokenRegex("math|word"),       // "math/word problem"
+      tokenRegex("problems?")
+    ),
+
+    Arrays.asList(
+      token("more"),
+      token("often"),
+      token("than"),
+      token("not")
+    ),
+
+    Arrays.asList(
+      token("often"),
+      token("times")
+    ),
+
+    Arrays.asList(        // context where 'imply' would be more appropriate
+      tokenRegex("this|that|these|those|which"),
+      new PatternTokenBuilder().pos("RB").min(0).build(),
+      new PatternTokenBuilder().csToken("suggest").matchInflectedForms().build()
+    )
+
+  );
 
   @Override
   public List<DisambiguationPatternRule> getAntiPatterns() {

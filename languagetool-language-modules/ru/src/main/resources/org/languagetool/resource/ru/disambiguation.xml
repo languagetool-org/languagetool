@@ -203,7 +203,18 @@ Copyright (C) 2009-2021 Yakov Reztsov
             </marker>
         </pattern>
         <disambig action="remove" postag="NN:.*:.*:.*:.*"></disambig>
-    </rule>   
+    </rule>
+    <rule name="NOUN_ABR_VRU" id="NOUN_ABR_VRU">
+        <pattern>
+            <marker>
+                <and>
+                    <token postag="ABR:.*" postag_regexp="yes"></token>
+                    <token case_sensitive="yes" >ВРУ</token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="VB:Real:TRANS:IMPFV:Sin:P1"></disambig>
+    </rule>     
     <rule name="INTERJECTION_OR_PREP_O" id="INTERJECTION_O">
         <pattern>
             <!-- о  -->
@@ -567,6 +578,16 @@ Copyright (C) 2009-2021 Yakov Reztsov
             </marker>
         </pattern>
         <disambig><match no="2" postag="ADV"></match></disambig>
+    </rule>
+
+    <rule name="ADV_PARTICLE" id="ADV_PARTICLE">
+        <pattern>  
+            <marker>
+                <token regexp="yes">еще|ещё</token>
+            </marker>
+            <token>не</token>
+        </pattern>
+        <disambig action="remove" postag="PARTICLE"></disambig>
     </rule>
 
     <!-- disambiguation for prounouns' -->

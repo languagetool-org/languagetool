@@ -1273,6 +1273,21 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <wd lemma="en va" pos="LOC_ADV"/>
             </disambig>
         </rule>
+        <rule id="com_a_minim" name="com a mínim (locució adverbial)">
+            <pattern>
+                <marker>
+                    <token>com</token>
+                    <token>a</token>
+                    <token regexp="yes">màxim|mínim</token>
+                </marker>
+                <token><exception postag="AQ.[MC][SN].|V.P..SM." postag_regexp="yes"/></token>
+            </pattern>
+            <disambig action="replace">
+                <wd lemma="com a mínim" pos="LOC_ADV"/>
+                <wd lemma="com a mínim" pos="LOC_ADV"/>
+                <wd lemma="com a mínim" pos="LOC_ADV"/>
+            </disambig>
+        </rule>
         <rule id="un_punt" name="un punt (locució adverbial)">
             <!-- caldria concordança-->
             <pattern>
@@ -2172,7 +2187,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                    <token regexp="yes">v|adj|adv</token>
+                    <token regexp="yes">v|adj|adv|f</token>
                 </marker>
                 <token spacebefore="no">.</token>
             </pattern>
@@ -7571,6 +7586,13 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="filter" postag="[^R].*"/>
         </rule>
     </rulegroup>
+    <rule id="BASTANT" name="bastant (no gerundi)">
+        <pattern>
+            <!-- TODO: exceptions -->
+            <token>bastant</token>
+        </pattern>
+        <disambig action="remove" postag="V.G.*"/>
+    </rule>
     <!-- dos adverbis junts: una molt ben nodrida; molt més assolellada -->
     <rule id="adv_adv" name="adverbis junts">
         <pattern>
@@ -10788,7 +10810,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     </and>
                 </marker>
                 <token regexp="yes">de|d'</token>
-                <token postag="N.[MC][SN].*" postag_regexp="yes"><exception regexp="yes">fons|si</exception></token>
+                <token postag="N.[MC][SN].*" postag_regexp="yes"><exception regexp="yes">fons|si|acord</exception></token>
             </pattern>
             <disambig action="filter" postag="[^R].*"/>
         </rule>

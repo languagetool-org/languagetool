@@ -8814,7 +8814,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">super|súper</token>
                     <token min="0">-</token>
-                    <token postag="A.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">super .*</exception></token>
+                    <token postag="A.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">super .*</exception><exception>cercano</exception></token>
                 </pattern>
                 <message suppress_misspelled="yes">Se escribe junto.</message>
                 <suggestion><match no="3" regexp_match="(?iu)(.+)" regexp_replace="super$1" case_conversion="alllower"/></suggestion>
@@ -9060,15 +9060,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <rule>
                 <pattern>
+                    <token>super</token>
+                    <token regexp="yes">cercano|próximo</token>
+                </pattern>
+                <message>En referencia a un "supermercado" se escribe con tilde. Si es un adjetivo, se escribe en una palabra.</message>
+                <suggestion>súper \2</suggestion>
+                <suggestion>super\2</suggestion>
+                <example correction="súper cercano|supercercano">Vamos a un <marker>super cercano</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token regexp="yes">super|súper</token>
                     <token min="0">-</token>
-                    <token regexp="yes">...+</token>
+                    <token regexp="yes">...+<exception>cercano</exception></token>
                 </pattern>
                 <message suppress_misspelled="yes">El prefijo 'super-' se escribe junto.</message>
                 <suggestion><match no="3" regexp_match="(.+)" regexp_replace="super$1" case_conversion="alllower"/></suggestion>
                 <example correction="superbuenas">Son <marker>súper buenas</marker></example>
                 <example correction="superintendente">Él es el <marker>super-intendente</marker></example>
                 <example>Lo pasamos súper en la fiesta.</example>
+                <example>Vamos a un súper cercano.</example>
             </rule>
             <rule>
                 <pattern>
@@ -9081,14 +9092,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="superbién">Lo ha hecho <marker>súper-bien</marker>.</example>
             </rule>
             <rule>
-                <antipattern>
-                    <token>súper</token>
-                    <token>cercano</token>
-                </antipattern>
                 <pattern>
                     <token regexp="yes">super|súper</token>
                     <token min="0">-</token>
-                    <token postag="A.*|V.P.*" postag_regexp="yes"><exception regexp="yes">super|súper</exception></token>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"><exception regexp="yes">super|súper|cercano</exception></token>
                 </pattern>
                 <message>Como prefijo de un adjetivo, 'super-' se escribe junto, aunque la palabra resultante no esté en el diccionario.</message>
                 <suggestion><match no="3" regexp_match="(.+)" regexp_replace="super$1" case_conversion="alllower"/></suggestion>
@@ -9157,9 +9164,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="_WARNING_" regexp="yes">super.+</token>
+                    <token chunk="_WARNING_NOT_IN_DICT_" regexp="yes">super.+</token>
                 </pattern>
-                <message>Esta palabra no está en el diccionario, pero puede ser correcta como combinación del prefijo "super-" con "\1".</message>
+                <message>Esta palabra no está en el diccionario, pero puede ser correcta como combinación del prefijo "super-" con "<match no="1" regexp_match="(?iu)super" regexp_replace=""/>".</message>
                 <example correction="">Esto es <marker>superestable</marker>.</example>
             </rule>
         </rulegroup>
@@ -12495,7 +12502,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes" regexp="yes">billón|centenar|ciento|cincuentena|decena|docena|mil|millar|millón|treintena|trillón|veintena|cuarentena<exception>ciento</exception></token>
                     <token>de</token>
                     <marker>
-                        <token postag="NC.S.*" postag_regexp="yes"><exception postag="NC.[PN].*" postag_regexp="yes"/><exception regexp="yes">&meses_ano;|alto|ancho|anticipo|antigüedad|arco|audiencia|aumento|base|bien|capital|capitalización|compensación|consolidación|contribución|coste|crédito|depósito|diferencia|dinero|distancia|dote|edad|entrada|facturación|fianza|financiación|ganancia|gasto|gente|indemnización|infantería|intensidad|inversión|jubilación|largo|longitud|líquido|maquinaria|mierda|munición|nadir|oro|patrimonio|patrocinio|personal|plata|población|porcentaje|prejubilación|presión|probabilidad|profundidad|propina|pérdida|recompensa|regalo|renta|repuesto|rescate|reserva|riqueza|secano|subsidio|tierra|tipo|utilidad|voltaje|volumen|uso|ganado|telefonía|carbón|yeso|fondo|deuda</exception></token>
+                        <token postag="NC.S.*" postag_regexp="yes"><exception postag="NC.[PN].*" postag_regexp="yes"/><exception regexp="yes">&meses_ano;|alto|ancho|anticipo|antigüedad|arco|audiencia|aumento|base|bien|capital|capitalización|compensación|consolidación|contribución|coste|crédito|depósito|diferencia|dinero|distancia|dote|edad|entrada|facturación|fianza|financiación|ganancia|gasto|gente|indemnización|infantería|intensidad|inversión|jubilación|largo|longitud|líquido|maquinaria|mierda|munición|nadir|oro|patrimonio|patrocinio|personal|plata|población|porcentaje|prejubilación|presión|probabilidad|profundidad|propina|pérdida|recompensa|regalo|renta|repuesto|rescate|reserva|riqueza|secano|subsidio|tierra|tipo|utilidad|voltaje|volumen|uso|ganado|telefonía|carbón|yeso|fondo|deuda|presupuesto|responsabilidad|valor|agua</exception></token>
                     </marker>
                 </pattern>
                 <message>En este contexto, probablemente es más adecuado el nombre en plural.</message>
@@ -12755,8 +12762,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>de</token>
                     <marker>
                         <token postag="NC.S.*" postag_regexp="yes"><exception regexp="yes"
-                            >abonado|abril|accesión|acceso|aceptación|acrobacia|acuerdo|acuse|adivinación|admisión|afiliación|agosto|alerta|alrededor|aluminio|alumnado|amarradero|andén|animación|aniversario|anotación|apartado|apartamento|apertura|arcano|archivo|armamento|armónico|asentimiento|astillero|atención|atracción|audición|audiencia|aumento|auto|autocompasión|autopsia|autorización|ayer|ayuda|baile|ballet|banderín|barracón|base|bastidor|bienvenida|busca|butaca|buzón|caballería|cabaret|cabaré|calificación|calzado|camarote|camiseta|campo|cancán|cantata|canto|capilaridad|capítulo|carnet|carné|carretero|cartilla|cartón|casa|casco|catalogación|catálogo|celda|centralita|certificación|certificado|cetano|chapa|cheque|ciencia|ciento|cierre|circo|circulación|claqué|clase|clasificación|clave|cobre|codificación|cola|colección|colegiado|coma|comedia|comediante|comic|comisaría|compilación|comprobación|comprobante|comunicación|condición|confirmación|conjunto|consistencia|construcción|constructor|contacto|contenido|contorsionismo|contrato|control|coordinación|correspondencia|cruce|cruzamiento|cuadrante|cubierta|cuenta|cultivo|cumbre|cédula|código|danza|debut|declamación|densidad|departamento|depósito|desaparición|desarrollo|designación|despacho|despedida|despertar|devanado|devolución|diario|dicha|diciembre|dificultad|dinero|distancia|doble|documento|doma|dominación|dominio|donante|dorsal|duración|edición|embarque|emergencia|emisión|enero|enrollamiento|enrutamiento|entrada|entrega|envío|equilibrio|equilibrismo|equilibrista|equivalencia|escalera|escapismo|escuadra|ese|eslabón|esperanto|esperma|espécimen|espín|estante|estantería|este|estilo|existencia|expedición|expediente|extensión|extracción|fabricación|factura|fauna|fax|febrero|feria|ficha|fin|flauta|flora|flota|flujo|foja|folio|formato|funambulismo|funámbulo|fuselaje|fábrica|gallardete|ganado|gente|gravedad|greco|guaraní|guía|habitación|historial|homenaje|hoy|humor|identidad|identificación|identificador|igual|ilusionismo|importancia|incidencia|independencia|infantería|información|inicio|inmigración|inscripción|insignia|intersección|inventario|invierno|jazz|julio|junio|ka|kanji|la|larga|largo|latón|legajo|levitación|licencia|lista|litera|localización|localizador|lote|lotería|lucimiento|línea|magia|magnitud|mal|malabarismo|malo|mamá|manera|marcación|marcador|marzo|masa|material|matriz|matrícula|mayo|mayor|media|membresía|memoria|metal|mi|mierda|mil|militancia|modelo|modo|mol|motor|munición|mímica|móvil|música|natación|neón|no|norma|noviembre|octano|octubre|ocupación|oficio|onda|orden|origen|oro|osculación|oxidación|pasaporte|patente|patrullero|pelotón|periodicidad|personal|peso|pie|placa|planificación|plasticidad|plata|plástico|población|podcast|poder|pop|portal|potencia|pre|precesión|precisión|preferencia|prepago|presidiario|prestidigitación|previsión|primavera|prioridad|prisión|proa|producción|programación|promoción|prontuario|pronóstico|propina|protocolo|psi|puerto|puesta|página|párrafo|póliza|público|rango|rareza|rastreo|rating|recambio|recaudación|recepción|reclamación|recluso|reclutamiento|reconocimiento|recorrido|recuperación|referencia|registro|reintegro|relleno|reloj|rendimiento|reproducción|requerimiento|reserva|resolución|revisión|rifa|rigor|ritmo|roca|rock|ropa|ruleta|ruta|salida|salsa|saponificación|sección|secuencia|seguimiento|seguridad|seguro|septiembre|serie|servicio|set|setiembre|sillón|simetría|sintonía|socorro|solvatación|sombrero|suerte|sufijo|talón|tango|taquilla|tarificación|tarjeta|teatro|tejido|telefonía|telepatía|teléfono|temática|test|tiempo|tiraje|tiza|torreta|total|trama|transformismo|transporte|trapecio|travestismo|triangulación|trozo|tráfico|turno|tío|uniforme|urgencia|valencia|valentía|vela|velocidad|ventriloquia|ventrílocuo|verano|verdad|versión|versículo|videófono|vodevil|votación|vuelo|yarda|zapato|índice</exception><exception
-                            postag_regexp="yes" postag="NC.[PN].*"/><exception regexp="yes">\p{Lu}+</exception></token>
+                            >autobús|pedido|sesión|luz|par|abonado|abril|accesión|acceso|aceptación|acrobacia|acuerdo|acuse|adivinación|admisión|afiliación|agosto|alerta|alrededor|aluminio|alumnado|amarradero|andén|animación|aniversario|anotación|apartado|apartamento|apertura|arcano|archivo|armamento|armónico|asentimiento|astillero|atención|atracción|audición|audiencia|aumento|auto|autocompasión|autopsia|autorización|ayer|ayuda|baile|ballet|banderín|barracón|base|bastidor|bienvenida|busca|butaca|buzón|caballería|cabaret|cabaré|calificación|calzado|camarote|camiseta|campo|cancán|cantata|canto|capilaridad|capítulo|carnet|carné|carretero|cartilla|cartón|casa|casco|catalogación|catálogo|celda|centralita|certificación|certificado|cetano|chapa|cheque|ciencia|ciento|cierre|circo|circulación|claqué|clase|clasificación|clave|cobre|codificación|cola|colección|colegiado|coma|comedia|comediante|comic|comisaría|compilación|comprobación|comprobante|comunicación|condición|confirmación|conjunto|consistencia|construcción|constructor|contacto|contenido|contorsionismo|contrato|control|coordinación|correspondencia|cruce|cruzamiento|cuadrante|cubierta|cuenta|cultivo|cumbre|cédula|código|danza|debut|declamación|densidad|departamento|depósito|desaparición|desarrollo|designación|despacho|despedida|despertar|devanado|devolución|diario|dicha|diciembre|dificultad|dinero|distancia|doble|documento|doma|dominación|dominio|donante|dorsal|duración|edición|embarque|emergencia|emisión|enero|enrollamiento|enrutamiento|entrada|entrega|envío|equilibrio|equilibrismo|equilibrista|equivalencia|escalera|escapismo|escuadra|ese|eslabón|esperanto|esperma|espécimen|espín|estante|estantería|este|estilo|existencia|expedición|expediente|extensión|extracción|fabricación|factura|fauna|fax|febrero|feria|ficha|fin|flauta|flora|flota|flujo|foja|folio|formato|funambulismo|funámbulo|fuselaje|fábrica|gallardete|ganado|gente|gravedad|greco|guaraní|guía|habitación|historial|homenaje|hoy|humor|identidad|identificación|identificador|igual|ilusionismo|importancia|incidencia|independencia|infantería|información|inicio|inmigración|inscripción|insignia|intersección|inventario|invierno|jazz|julio|junio|ka|kanji|la|larga|largo|latón|legajo|levitación|licencia|lista|litera|localización|localizador|lote|lotería|lucimiento|línea|magia|magnitud|mal|malabarismo|malo|mamá|manera|marcación|marcador|marzo|masa|material|matriz|matrícula|mayo|mayor|media|membresía|memoria|metal|mi|mierda|mil|militancia|modelo|modo|mol|motor|munición|mímica|móvil|música|natación|neón|no|norma|noviembre|octano|octubre|ocupación|oficio|onda|orden|origen|oro|osculación|oxidación|pasaporte|patente|patrullero|pelotón|periodicidad|personal|peso|pie|placa|planificación|plasticidad|plata|plástico|población|podcast|poder|pop|portal|potencia|pre|precesión|precisión|preferencia|prepago|presidiario|prestidigitación|previsión|primavera|prioridad|prisión|proa|producción|programación|promoción|prontuario|pronóstico|propina|protocolo|psi|puerto|puesta|página|párrafo|póliza|público|rango|rareza|rastreo|rating|recambio|recaudación|recepción|reclamación|recluso|reclutamiento|reconocimiento|recorrido|recuperación|referencia|registro|reintegro|relleno|reloj|rendimiento|reproducción|requerimiento|reserva|resolución|revisión|rifa|rigor|ritmo|roca|rock|ropa|ruleta|ruta|salida|salsa|saponificación|sección|secuencia|seguimiento|seguridad|seguro|septiembre|serie|servicio|set|setiembre|sillón|simetría|sintonía|socorro|solvatación|sombrero|suerte|sufijo|talón|tango|taquilla|tarificación|tarjeta|teatro|tejido|telefonía|telepatía|teléfono|temática|test|tiempo|tiraje|tiza|torreta|total|trama|transformismo|transporte|trapecio|travestismo|triangulación|trozo|tráfico|turno|tío|uniforme|urgencia|valencia|valentía|vela|velocidad|ventriloquia|ventrílocuo|verano|verdad|versión|versículo|videófono|vodevil|votación|vuelo|yarda|zapato|índice</exception><exception
+                            postag_regexp="yes" postag="NC.[PN].*|_GN_.*"/><exception regexp="yes">\p{Lu}+</exception></token>
                     </marker>
                 </pattern>
                 <message>En este contexto, probablemente es más adecuado el nombre en plural.</message>
@@ -12767,6 +12774,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Número de coma flotante</example>
                 <example>Los números de línea del programa.</example>
                 <example>Números de punto flotante.</example>
+                <example>Cuatro es un número de mala suerte en japonés.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AGREEMENT_ORDINALS" name="concordancias ordinales: vigésima segunda / vigesimosegunda">
@@ -14256,6 +14264,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="AGREEMENT_POSTPONED_ADJ" name="concordancia de adjetivo pospuesto a sustantivos">
+            <antipattern>
+                <token regexp="yes">sera|seras|esta|estas</token>
+                <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+            </antipattern>
             <antipattern>
                 <token>incluidos</token>
                 <token postag="NCM.*|A..M.." postag_regexp="yes"/>
@@ -17749,6 +17762,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS2" name="Confusiones (2)">
+        <rulegroup id="ARA" name="ara/hora/para" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">ara<exception scope="previous" postag="D.*|SP:DA" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="V.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Posible confusión. ¿Quería decir <suggestion>ahora</suggestion>? "Ara" significa "altar".</message>
+                <example correction="ahora">El programa <marker>ara</marker> ofrece más prestaciones.</example>
+                <example>Se observa el baldaquino y el retablo de plata, así como el ara románica.</example>
+                <example>A derecha e izquierda del conjunto sendos cipreses y sobre la cara anterior del ara, tres cruces.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <marker>
+                        <token case_sensitive="yes">ara<exception scope="previous" postag="D.*|SP:DA" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Posible confusión. ¿Quería decir <suggestion>ahora</suggestion>? "Ara" significa "altar".</message>
+                <suggestion>para</suggestion>
+                <example correction="ahora|para">El programa ofrece <marker>ara</marker> más prestaciones.</example>
+                <example>Se observa el baldaquino y el retablo de plata, así como el ara románica.</example>
+                <example>A derecha e izquierda del conjunto sendos cipreses y sobre la cara anterior del ara, tres cruces.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AUNQUE" name="aun que/aunque">
             <antipattern>
                 <token regexp="yes">más|menos</token>
@@ -22177,6 +22217,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>relativamente</token>
                 <token regexp="yes" inflected="yes">poco|mucho</token>
             </antipattern>
+            <antipattern>
+                <!-- sentences without verb -->
+                <token postag="SENT_START"/>
+                <token regexp="yes" min="0" max="3">\p{P}</token>
+                <token regexp="yes" skip="-1">.*mente<exception scope="next" postag="V.*" postag_regexp="yes"/><exception scope="next">¿</exception></token>
+                <token postag="SENT_END"/>
+            </antipattern>
+            <antipattern>
+                <!-- short sentences-->
+                <token postag="SENT_START"/>
+                <token regexp="yes" min="0" max="3">\p{P}</token>
+                <token regexp="yes">.*mente<exception>contrariamente</exception></token>
+                <token min="0" max="3"><exception postag="SENT_END"/> </token>
+                <token postag="SENT_END"/>
+            </antipattern>
             <pattern>
                 <token postag="SENT_START"/>
                 <token regexp="yes" min="0" max="3">\p{P}<exception>¿</exception></token>
@@ -22186,7 +22241,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <filter class="org.languagetool.rules.AddCommasFilter" args="none:none"/>
             <message>Si el adverbio "<match no="3" case_conversion="alllower"/>" se refiere a toda la frase, y no solo al verbo, es recomendable usar una coma.</message>
-            <example correction="Efectivamente,"><marker>Efectivamente</marker> dijo que sí.</example>
+            <example correction="Efectivamente,"><marker>Efectivamente</marker> dijo que sí depués de haber escuchado todas las opiniones.</example>
             <example correction="Últimamente,"><marker>Últimamente</marker> ¿te encuentras bien?</example>
             <example>Absolutamente de acuerdo con vuestra opinón.</example>
             <example>Antiguamente sujetas al abad del monasterio.</example>
@@ -22210,6 +22265,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Igualmente = adverbio</example>
             <example>Igualmente -dijo él.</example>
             <example>Igualmente —dijo él.</example>
+            <example>Probablemente el mejor del mundo.</example>
+            <example>Probablemente es el mejor.</example>
         </rule>
         <rulegroup id="COMMA_MARCADOR_DISCURSIVO" name="coma después de marcador discursivo">
             <rule>
@@ -22320,7 +22377,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>En el I Encuentro Nacional de Jóvenes Periodistas.</example>
                 <example>En el 2000 Google presentó AdWords.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>en</token>
                     <token>cambio</token>
@@ -22330,6 +22387,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="cambio,">En <marker>cambio</marker> no logró ganar.</example>
             </rule>
             <rule default="temp_off">
+                <antipattern>
+                    <token>tal</token>
+                    <token>vez</token>
+                    <token>por</token>
+                    <token>lo</token>
+                </antipattern>
+                <antipattern>
+                    <token>muy</token>
+                    <token>por</token>
+                </antipattern>
                 <pattern>
                     <token>por</token>
                     <token regexp="yes">el|lo</token>
@@ -22338,8 +22405,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <filter class="org.languagetool.rules.AddCommasFilter" args="none:none"/>
                 <message>Esta locución se escribe normalmente entre comas.</message>
                 <example correction="contrario,">Por el <marker>contrario</marker> no logró ganar.</example>
+                <example>Tal vez por lo contrario.</example>
+                <example>Muy por el contrario</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
                     <marker>
@@ -22354,7 +22423,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Al contrario de los otros.</example>
                 <example>El piensa al contrario.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>por</token>
@@ -22365,6 +22434,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <filter class="org.languagetool.rules.AddCommasFilter" args="none:none"/>
                 <message>Esta locución se escribe normalmente entre comas.</message>
                 <example correction="lado,">Por otro <marker>lado</marker> no logró ganar.</example>
+                <!-- doubtfull -->
+                <example correction=", por otro lado,">Y<marker> por otro lado</marker> no logró ganar.</example>
             </rule>
         </rulegroup>
         <rule id="COMMA_REPETITION" name="coma en repeticiones">
@@ -22906,6 +22977,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Carácter incorrecto para indicar grados.</message>
                 <suggestion><match no="1" regexp_match="º" regexp_replace="°"/></suggestion>
                 <example correction="°C">1 <marker>ºC</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[\d\.,]+º[\d\.,]+</token>
+                    </marker>
+                </pattern>
+                <message>Carácter incorrecto para indicar grados.</message>
+                <suggestion><match no="1" regexp_match="º" regexp_replace="°"/></suggestion>
+                <example correction="22°23"><marker>22º23</marker>'</example>
             </rule>
         </rulegroup>
         <rulegroup id="SUPERINDEX" name="superíndices en unidades: m2/m²" default="on">

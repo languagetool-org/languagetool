@@ -281,6 +281,8 @@ public class AgreementRuleTest {
     assertGood("Die meisten Lebensmittel enthalten das.");  // Lebensmittel has NOG as gender in Morphy
     // TODO: Find agreement errors in relative clauses
     assertBad("Gutenberg, die Genie.");
+    assertBad("Wahrlich ein äußerst kritische Jury.", "eine äußerst kritische Jury");
+    assertBad("Das ist ein enorm großer Auto.", "ein enorm großes Auto");
     //assertBad("Gutenberg, die größte Genie.");
     //assertBad("Gutenberg, die größte Genie aller Zeiten.");
     assertGood("Die wärmsten Monate sind August und September, die kältesten Januar und Februar.");
@@ -683,6 +685,17 @@ public class AgreementRuleTest {
     assertBad("Das ist ein solides strategisches Fundaments", "ein solides strategisches Fundament");
     assertBad("Die deutsche Kommasetzung bedarf einiger technisches Ausarbeitung.");
     assertBad("Die deutsche Kommasetzung bedarf einiger guter technische Ausarbeitung.");
+  }
+
+  @Test
+  public void testKonUntArtDefSub() throws IOException {
+    // correct:
+    assertGood("Wieso verstehst du nicht, dass das komplett verschiedene Dinge sind?");
+    assertGood("Ich frage mich sehr, ob die wirklich zusätzliche Gebühren abdrücken wollen");
+    // incorrect:
+    assertBad("Dies wurde durchgeführt um das moderne Charakter zu betonen.", "den modernen Charakter");
+    assertBad("Nur bei Topfpflanzung ist eine regelmäßige Düngung wichtig, da die normalen Bodenbildungsprozessen nicht stattfinden.", "die normalen Bodenbildungsprozesse", "den normalen Bodenbildungsprozessen");
+    assertBad("Die Höhe kommt oft darauf an, ob die richtigen Leuten gut mit einen können oder nicht.");
   }
 
   private void assertGood(String s) throws IOException {

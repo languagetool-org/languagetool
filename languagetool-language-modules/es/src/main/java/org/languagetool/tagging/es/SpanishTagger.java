@@ -23,6 +23,7 @@ import morfologik.stemming.IStemmer;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.chunking.ChunkTag;
 import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tools.StringTools;
 
@@ -55,6 +56,8 @@ public class SpanishTagger extends BaseTagger {
   private static final Pattern ADJ_NOUN = Pattern.compile("AQ.*|NC.*|RG");
   private static final Pattern PREFIXES_FOR_N_ADJ = Pattern.compile("(super)(.*[aeiouàéèíòóïü].+[aeiouàéèíòóïü].*)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   
+  private boolean warningChunk = false;
+  
   public SpanishTagger() {
     super("/es/es-ES.dict", new Locale("es"));
   }
@@ -73,7 +76,8 @@ public class SpanishTagger extends BaseTagger {
       final boolean isMixedCase = StringTools.isMixedCase(word);
       final boolean isAllUpper = StringTools.isAllUppercase(word);
       List<AnalyzedToken> taggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(word));
-
+      warningChunk = false;
+      
       // normal case:
       addTokens(taggerTokens, l);
       // tag non-lowercase (alluppercase or startuppercase), but not mixedcase
@@ -100,6 +104,12 @@ public class SpanishTagger extends BaseTagger {
       }
 
       AnalyzedTokenReadings atr = new AnalyzedTokenReadings(l, pos);
+      
+      if (warningChunk) {
+        List<ChunkTag> listChunkTags = new ArrayList<>();
+        listChunkTags.add(new ChunkTag("_WARNING_NOT_IN_DICT_"));
+        atr.setChunkTags(listChunkTags);
+      }
 
       tokenReadings.add(atr);
       pos += word.length();
@@ -161,7 +171,7 @@ public class SpanishTagger extends BaseTagger {
           if (m.matches()) {
             String lemma = matcherSuper.group(1).toLowerCase().concat(taggerToken.getLemma());
             additionalTaggedTokens.add(new AnalyzedToken(word, posTag, lemma));
-            additionalTaggedTokens.add(new AnalyzedToken(word, "_WARNING_", lemma));
+            warningChunk = true;
           }
         }
       }

@@ -257,6 +257,38 @@ Eu não sei se entraria em contacto com ela.
 		<token negate_pos="yes" postag='VMG.+' postag_regexp='yes'/>	
       </antipattern>
 <!-- MARCOAGPINTO 2021-08-13 (25-JUN-2021+) *END* -->
+<!-- MARCOAGPINTO 2021-11-24 (25-JUN-2021+) *START* -->
+<!--
+; Notice that his rule is just to remove false suggestions such as: "te darei" to "darei-te" (instead of "dar-te-ei").
+  "dar-te-ei" and alike is suggested by other rule.
+
+  This antipattern removes hundreds of hits, thus it must be better checked on 1-JAN-2022+ with a smaller number
+  of sentences, since it was checked against 600 000.
+
+Eu a farei vir aqui.  
+Se houver qualquer coisa virtuosa, amável, de boa fama ou louvável, nós a procuraremos.
+Se ele tem proficiência em inglês, eu o contratarei.
+Eu os telefonarei quando voltar amanhã.
+Eu me lembrarei disso.
+Nós nos casaremos no final de março.
+Te darei o céu.
+Te daremos o céu.
+Eu te darei esse livro.
+Eu lhe emprestarei uma caneta.
+Se eu tivesse que escolher, seguramente te descartaria.
+Você me daria a receita da sua salada?
+Se ele tivesse me dito a verdade, eu o teria perdoado.
+Se um estranho me desse um tapa no rosto em plena rua, eu o mataria sem pestanejar.
+Ela o fará em 24 horas.
+Cedo ou tarde ele me contará tudo.
+No primeiro caso, o Governo receberá o menor e lhe dará destino, em conformidade da presente lei.
+Ajuda-te a ti mesmo e Deus te ajudará.
+-->
+      <antipattern>
+		<token postag='PP.+' postag_regexp='yes'/>
+		<token postag='VMI[CF][13].+' postag_regexp='yes'/>	
+      </antipattern>
+<!-- MARCOAGPINTO 2021-11-24 (25-JUN-2021+) *END* -->
       <antipattern>
           <token>de</token>
           <token regexp='yes'>forma|jeito|modo</token>
@@ -404,7 +436,6 @@ Eu não sei se entraria em contacto com ela.
         <suggestion>\2-<match no='1' case_conversion="startlower"/></suggestion>
       <example correction='dou-te'>Eu <marker>te dou</marker> um laptop.</example>
       <example correction='dou-te'><marker>Te dou</marker> um laptop.</example><!-- XXX changing the behaviour of the second token effects also the first token. This is Ok, since this error is caught by a second rule. -->
-      <example correction='emprestaria-me'>Você <marker>me emprestaria</marker> o seu dicionário?</example>
       <example correction='ver-te'>Foi muito bom <marker>te ver</marker> de novo.</example>
       <example>Ela pode ter-me visto na festa.</example>
       <example>Todos se admiram da sua perseverança.</example>

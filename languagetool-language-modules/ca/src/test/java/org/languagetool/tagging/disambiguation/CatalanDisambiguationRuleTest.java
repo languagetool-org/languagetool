@@ -136,7 +136,7 @@ public class CatalanDisambiguationRuleTest {
     TestTools
     .myAssert(
         "superacció",
-        "/[null]SENT_START superacció/[superacció]NCFS000|superacció/[superacció]_WARNING_",
+        "/[null]SENT_START superacció/[superacció]NCFS000",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
 
   }
