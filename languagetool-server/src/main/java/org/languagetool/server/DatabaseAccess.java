@@ -84,8 +84,6 @@ abstract class DatabaseAccess {
    */
   abstract void invalidateCaches();
 
-  abstract Cache<String, List<String>> getCache(Long userId, Long cacheSize);
-
   abstract boolean addWord(String word, Long userId, String groupName);
 
   abstract boolean deleteWord(String word, Long userId, String groupName);

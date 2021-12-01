@@ -93,11 +93,6 @@ class DatabaseAccessOpenSource extends DatabaseAccess {
   }
 
   @Override
-  Cache<String, List<String>> getCache(Long userId, Long cacheSize) {
-    throw new NotImplementedException(NON_PREMIUM_MSG);
-  }
-
-  @Override
   boolean addWord(String word, Long userId, String groupName) {
     return addWord(word, userId);
   }
