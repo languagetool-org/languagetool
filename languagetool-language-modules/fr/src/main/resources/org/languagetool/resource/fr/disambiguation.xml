@@ -175,6 +175,26 @@ RB => Règles Brutes
         </pattern>
         <disambig action="remove" postag="V ppr"/>
     </rule>
+    <rulegroup name="tu" id="TU">
+        <rule>
+        <pattern>
+            <token>que</token>
+            <marker>
+                <token>tu</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="J m s"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token>que</token>
+                <marker>
+                    <token>tu</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="V ppa m s"/>
+        </rule>
+    </rulegroup>
     <rule name="avoir envie" id="AVOIR_ENVIE">
         <pattern>
             <token postag="V avoir.*" postag_regexp="yes"/>
@@ -392,16 +412,9 @@ RB => Règles Brutes
         </pattern>
         <disambig action="remove" postag="N.*"/>
     </rule>
-    <rule id="DIVERS_GAUCHE" name="divers gauche">
-        <pattern>
-            <token regexp="yes">(?-i)Divers</token>
-            <token regexp="yes">gauche|droite</token>
-        </pattern>
-        <disambig action="filterall"/>
-    </rule>
     <rule id="PUTAIN_DE" name="putain de">
         <pattern>
-            <token postag="D m s"/>
+            <token postag="D . s" postag_regexp="yes"/>
             <marker>
             <token postag="N f s">putain</token>
             </marker>
@@ -409,26 +422,6 @@ RB => Règles Brutes
             <token postag="N m s"/>
         </pattern>
         <disambig action="replace" postag="I"/>
-    </rule>
-    <rule id="LE_MANS" name="le mans">
-        <pattern>
-            <token>le</token>
-            <marker>
-            <token>mans</token>
-            </marker>
-        </pattern>
-        <disambig action="remove" postag="N m p"/>
-    </rule>
-    <rule id="LE_MANS1" name="le mans">
-        <pattern>
-            <token>le</token>
-            <marker>
-            <token>mans</token>
-            </marker>
-        </pattern>
-        <disambig action="add">
-            <wd pos="Z e sp"/>
-        </disambig>
     </rule>
     <rule id="BLACK" name="black">
         <pattern>
@@ -471,17 +464,6 @@ RB => Règles Brutes
             <wd pos="Z e sp"/>
         </disambig>
     </rule>
-    <rule id="UNE_EXCLU" name="une exclu">
-        <pattern>
-            <token>une</token>
-            <marker>
-                <token>exclu</token>
-            </marker>
-        </pattern>
-        <disambig action="add">
-            <wd pos="N f s"/>
-        </disambig>
-    </rule>
     <rule id="BASCULE" name="bascule">
         <pattern>
             <token>tout</token>
@@ -504,26 +486,6 @@ RB => Règles Brutes
             <token postag="V.* inf" postag_regexp="yes"/>
         </pattern>
         <disambig action="remove" postag="N.*"/>
-    </rule>
-    <rule id="FOCUS" name="une Focus">
-        <pattern>
-            <token postag="D f s"/>
-            <marker>
-                <token regexp="yes" case_sensitive="yes">Golf|Focus</token>
-            </marker>
-        </pattern>
-        <disambig action="add">
-            <wd pos="Z f s"/>
-        </disambig>
-    </rule>
-    <rule id="ANTI_COVID" name="anti-Covid">
-        <pattern>
-            <marker>
-                <token>tous</token>
-            </marker>
-            <token>anti-covid</token>
-        </pattern>
-        <disambig action="remove" postag="D m p"/>
     </rule>
     <rule id="MILLE" name="mille">
         <pattern>
@@ -575,17 +537,6 @@ RB => Règles Brutes
             </marker>
         </pattern>
         <disambig action="remove" postag="N.*"/>
-    </rule>
-    <rule id="A_LA_CON" name="à la con">
-        <pattern>
-            <token postag="N.*" postag_regexp="yes"/>
-            <marker>
-                <token regexp="yes">[aà]</token>
-            <token>la</token>
-            <token>con</token>
-            </marker>
-        </pattern>
-        <disambig action="filterall"/>
     </rule>
     <rule id="BUSINESS" name="business">
         <pattern>
@@ -2053,13 +2004,6 @@ RB => Règles Brutes
             <wd pos="Z m sp"/>
         </disambig>
     </rule>
-    <rule id="WINDOWS1" name="windows">
-        <pattern>
-            <token>Windows</token>
-            <token regexp="yes">\d+</token>
-        </pattern>
-        <disambig action="filterall"/>
-    </rule>
     <rulegroup id="VAN_GOGH" name="van Gogh">
         <rule>
             <pattern>
@@ -2174,35 +2118,6 @@ RB => Règles Brutes
     </rule>
     <!-- END: proper nouns -->
     <!-- CATEGORY: nouns, nominal groups (particular cases) -->
-    <rule id="STREAMING" name="streaming">
-        <pattern>
-            <marker>
-                <token>streaming</token>
-            </marker>
-        </pattern>
-        <disambig action="filterall"/>
-    </rule>
-    <rule id="COURS" name="cours">
-        <pattern>
-            <token postag="D e .*" postag_regexp="yes"/>
-            <marker>
-                <token>cours</token>
-            </marker>
-        </pattern>
-        <disambig action="add">
-            <wd pos="N m sp"/>
-        </disambig>
-    </rule>
-    <rule id="GOUTTE_A_GOUTTE" name="goutte à goutte">
-        <pattern>
-            <marker>
-                <token>goutte</token>
-                <token regexp="yes">[àa]</token>
-                <token>goutte</token>
-        </marker>
-        </pattern>
-        <disambig action="filterall"/>
-    </rule>
     <rule id="NOM_INCLUSIF" name="participant.e.s (noun)">
         <pattern>
             <token postag="[DP].*" postag_regexp="yes"/>
