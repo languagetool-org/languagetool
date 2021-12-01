@@ -352,7 +352,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     }
     if (errorCode < 500) {
       logger.info(LoggingTools.BAD_REQUEST, message);
-    } else if (e.getMessage().contains("took longer than")) {
+    } else if (e.getMessage() != null && e.getMessage().contains("took longer than")) {
       logger.warn(LoggingTools.REQUEST, message);
     } else {
       logger.error(LoggingTools.REQUEST, message);
