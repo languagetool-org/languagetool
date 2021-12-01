@@ -428,17 +428,6 @@ RB => Règles Brutes
             <wd pos="Z e sp"/>
         </disambig>
     </rule>
-    <rule id="GOLF" name="golf">
-        <pattern>
-            <token postag="D f s"/>
-            <marker>
-                <token regexp="yes">(?-i)Golf</token>
-            </marker>
-        </pattern>
-        <disambig action="add">
-            <wd pos="Z f s"/>
-        </disambig>
-    </rule>
     <rule id="UNE_EXCLU" name="une exclu">
         <pattern>
             <token>une</token>
@@ -477,7 +466,7 @@ RB => Règles Brutes
         <pattern>
             <token postag="D f s"/>
             <marker>
-                <token regexp="yes">(?-i)Golf|(?-i)Focus</token>
+                <token regexp="yes" case_sensitive="yes">Golf|Focus</token>
             </marker>
         </pattern>
         <disambig action="add">
