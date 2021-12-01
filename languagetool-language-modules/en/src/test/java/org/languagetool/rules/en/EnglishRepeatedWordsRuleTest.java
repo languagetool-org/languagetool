@@ -60,8 +60,12 @@ public class EnglishRepeatedWordsRuleTest {
     assertCorrectText("It needs to be done. That also needed to be done.");
     assertCorrectText("I still need to sign in somewhere. You need to sign in too.");
 
-    //new
+    // new
     assertCorrectText("This is a new experience. Happy New Year!");
+
+    // often
+    assertCorrectText("It's often gloomy outside. More often than not, it's raining.");
+    assertCorrectText("We have bad weather here often. Often times, it's raining.");
 
     // problem
     assertCorrectText("The students were given some problems. They needed help to solve the problems.");
@@ -71,6 +75,8 @@ public class EnglishRepeatedWordsRuleTest {
 
     // suggest
     assertCorrectText("I suggested that, but he also suggests that.");
+    assertCorrectText("They suggested that we should audit them again. What does that suggest about the store's transactions?");
+    assertCorrectText("I suggested he look it over again. This strongly suggests that Mr. Batt is guilty.");
 
     // ignore sentences without period at the end
     assertCorrectText("I suggested this. She suggests that");

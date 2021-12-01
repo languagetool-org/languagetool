@@ -63,7 +63,26 @@ public class EnglishRepeatedWordsRule extends AbstractRepeatedWordsRule{
     Arrays.asList(
       tokenRegex("math|word"),       // "math/word problem"
       tokenRegex("problems?")
+    ),
+
+    Arrays.asList(
+      token("more"),
+      token("often"),
+      token("than"),
+      token("not")
+    ),
+
+    Arrays.asList(
+      token("often"),
+      token("times")
+    ),
+
+    Arrays.asList(        // context where 'imply' would be more appropriate
+      tokenRegex("this|that|these|those|which"),
+      new PatternTokenBuilder().pos("RB").min(0).build(),
+      new PatternTokenBuilder().csToken("suggest").matchInflectedForms().build()
     )
+
   );
 
   @Override
