@@ -133,18 +133,20 @@ public final class LtThreadPoolFactory {
   @NotNull
   private static ThreadPoolExecutor getNewThreadPoolExecutor(@NotNull String identifier, int corePool, int maxThreads, int maxTaskInQueue, long keepAliveTimeSeconds, boolean isDaemon, @NotNull Thread.UncaughtExceptionHandler exceptionHandler) {
     log.debug(LoggingTools.SYSTEM, String.format("Create new threadPool with maxThreads: %d maxTaskInQueue: %d identifier: %s daemon: %s exceptionHandler: %s", maxThreads, maxTaskInQueue, identifier, isDaemon, exceptionHandler));
-    BlockingQueue<Runnable> boundedQueue;
-    if (maxTaskInQueue <= 0) {
-      boundedQueue = new LinkedBlockingQueue<>();
+    BlockingQueue<Runnable> queue;
+    if (maxTaskInQueue == 0) {
+      queue = new LinkedBlockingQueue<>();
+    } else if (maxTaskInQueue < 0) {
+      queue = new SynchronousQueue<>();
     } else {
-      boundedQueue = new ArrayBlockingQueue<>(maxTaskInQueue);
+      queue = new ArrayBlockingQueue<>(maxTaskInQueue);
     }
     ThreadFactory threadFactory = new ThreadFactoryBuilder()
       .setNameFormat(identifier + "-%d")
       .setDaemon(isDaemon)
       .setUncaughtExceptionHandler(exceptionHandler)
       .build();
-    ThreadPoolExecutor newThreadPoolExecutor = new LtThreadPoolExecutor(identifier, corePool, maxThreads, keepAliveTimeSeconds, SECONDS, boundedQueue, threadFactory, handler);
+    ThreadPoolExecutor newThreadPoolExecutor = new LtThreadPoolExecutor(identifier, corePool, maxThreads, keepAliveTimeSeconds, SECONDS, queue, threadFactory, handler);
     return newThreadPoolExecutor;
   }
 
