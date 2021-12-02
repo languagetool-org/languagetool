@@ -7298,47 +7298,50 @@ Tratam-se de pessoas estudiosas. → Trata-se de pessoas estudiosas.
 
 
 	<!-- ME DISSE Disse-me / ME DISSERAM Disseram-me / TE PODERIA Poder-te-ia / NOS PODERIAM Poder-nos-iam -->
-    <rulegroup id='PROCLISE_COMECO_FRASE' name="Proclise começo frase" default="temp_off">
-    <!--      Created by Ricardo Joseh Lima and improved by Marco A.G.Pinto, Portuguese rule 2021-11-25 (25-JUN-2021+)      -->
+    <rulegroup id='PROCLISE_COMECO_FRASE' name="Proclise começo frase">
+    <!--      Created by Ricardo Joseh Lima and improved by Marco A.G.Pinto, Portuguese rule 2021-11-25 + 2021-12-02 (25-JUN-2021+)      -->
 	<!--
 Me disse que ele veio. → Disse-me que ele veio.
 Me disseram que ele veio. → Disseram-me que ele veio.
 Te poderia escrever uma carta? → Poder-te-ia escrever uma carta?
 Nos poderiam escrever uma carta? → Poder-nos-iam escrever uma carta?
+
+; I have removed "se" at the start of sentences since it produced too many false positives.
+
+; Notice that there are exceptions for the verbs 'dizer' and 'fazer' ('dir-me-ás' and 'far-me-ás')
+  as I see no easy way of coding them.
+  Also, there is this verb 'farar' which has forms in "fazer".
 	-->
-<!--
-To prevent suggesting some invalid verbal forms, such as: "Se admitimos" → "Admitimos-se" and "Se irei" → "Irei-se".
-Se comemos muito, engordamos.
-Se irei ou não, ainda não resolvi.
-Se houve ou não qualquer correspondência entre eles é algo que nunca será conhecido.
--->
-      <antipattern>
-		<token postag='SENT_START' postag_regexp='no'/>
-		<token>se</token>
-		<token postag='VMI[SP]1P0|VMI[FS]1S0' postag_regexp='yes'/>	
-      </antipattern>
+	
+	    <!-- simple verbs -->
 		<rule>
 			<pattern>
 				<token postag='SENT_START' postag_regexp='no'/>
 				<marker>
-					<token regexp='yes' spacebefore='no'>se|lhes?|me|te|nos|vos</token>
-					<token postag='VMI[MS][13].+' postag_regexp='yes'/>
+					<token regexp='yes' spacebefore='no'>lhes?|me|te|nos|vos</token>
+					<token postag='VMI[MS][13].+' postag_regexp='yes'>
+						<exception postag_regexp='no' postag='VMIF1S0'/>
+					</token>
 				</marker>
 			</pattern>
-			<message>No registro formal escrito, não se começa frase com pronome átono. Coloque o pronome após o verbo.</message>
+			<message>Em escrita formal não se começa uma frase com pronome átono. Coloque o pronome após o verbo.</message>
 			<suggestion><match no='3' case_conversion='startupper'/>-<match no='2' case_conversion='startlower'/></suggestion>
 			<example correction="Disse-me"><marker>Me disse</marker> que ele veio.</example>
 			<example correction="Disseram-me"><marker>Me disseram</marker> que ele veio.</example>
-		</rule>	
+		</rule>
+
+	    <!-- ia/ias/iam -->
 		<rule>
 			<pattern>
 				<token postag='SENT_START' postag_regexp='no'/>
 				<marker>
-					<token regexp='yes' spacebefore='no'>se|lhes?|me|te|nos|vos</token>
-					<token postag='VMI[CF].S.+' postag_regexp='yes'/>
+					<token regexp='yes' spacebefore='no'>lhes?|me|te|nos|vos</token>
+					<token postag='VMI[C][13]S.+' postag_regexp='yes'>
+						<exception regexp='yes' inflected='yes'>dizer|fazer|farar</exception>
+					</token>
 				</marker>
 			</pattern>
-			<message>No registro formal escrito, não se começa frase com pronome átono. Coloque o pronome após o verbo.</message>
+			<message>Em escrita formal não se começa uma frase com pronome átono. Coloque o pronome após o verbo.</message>
 			<suggestion><match no='3' postag="V.+" postag_replace='VMN0000' postag_regexp="yes" case_conversion='startupper'/>-<match no='2' case_conversion='startlower'/>-ia</suggestion>
 			<example correction="Poder-te-ia"><marker>Te poderia</marker> escrever uma carta?</example>
 		</rule>
@@ -7346,14 +7349,107 @@ Se houve ou não qualquer correspondência entre eles é algo que nunca será co
 			<pattern>
 				<token postag='SENT_START' postag_regexp='no'/>
 				<marker>
-					<token regexp='yes' spacebefore='no'>se|lhes?|me|te|nos|vos</token>
-					<token postag='VMI[CF].P.+' postag_regexp='yes'/>
+					<token regexp='yes' spacebefore='no'>lhes?|me|te|nos|vos</token>
+					<token postag='VMI[C]2S.+' postag_regexp='yes'>
+						<exception regexp='yes' inflected='yes'>dizer|fazer|farar</exception>
+					</token>
 				</marker>
 			</pattern>
-			<message>No registro formal escrito, não se começa frase com pronome átono. Coloque o pronome após o verbo.</message>
+			<message>Em escrita formal não se começa uma frase com pronome átono. Coloque o pronome após o verbo.</message>
+			<suggestion><match no='3' postag="V.+" postag_replace='VMN0000' postag_regexp="yes" case_conversion='startupper'/>-<match no='2' case_conversion='startlower'/>-ias</suggestion>
+			<example correction="Poder-nos-ias"><marker>Nos poderias</marker> escrever uma carta?</example>
+		</rule>		
+		<rule>
+			<pattern>
+				<token postag='SENT_START' postag_regexp='no'/>
+				<marker>
+					<token regexp='yes' spacebefore='no'>lhes?|me|te|nos|vos</token>
+					<token postag='VMI[C]3P.+' postag_regexp='yes'>
+						<exception regexp='yes' inflected='yes'>dizer|fazer|farar</exception>
+					</token>	
+				</marker>
+			</pattern>
+			<message>Em escrita formal não se começa uma frase com pronome átono. Coloque o pronome após o verbo.</message>
 			<suggestion><match no='3' postag="V.+" postag_replace='VMN0000' postag_regexp="yes" case_conversion='startupper'/>-<match no='2' case_conversion='startlower'/>-iam</suggestion>
 			<example correction="Poder-nos-iam"><marker>Nos poderiam</marker> escrever uma carta?</example>
+		</rule>		
+
+		<!-- ei/emos -->
+		<rule>
+			<pattern>
+				<token postag='SENT_START' postag_regexp='no'/>				
+				<marker>
+					<token regexp='yes' spacebefore='no'>lhes?|me|te|nos|vos</token>
+					<token postag='VMI[F]1S.+' postag_regexp='yes'>
+						<exception regexp='yes' inflected='yes'>dizer|fazer|farar</exception>
+					</token>
+				</marker>
+			</pattern>
+			<message>Em escrita formal não se começa uma frase com pronome átono. Coloque o pronome após o verbo.</message>
+			<suggestion><match no='3' postag="V.+" postag_replace='VMN0000' postag_regexp="yes" case_conversion='startupper'/>-<match no='2' case_conversion='startlower'/>-ei</suggestion>
+			<example correction="Encontrar-te-ei"><marker>Te encontrarei</marker> amanhã.</example>
 		</rule>
+		<rule>
+			<pattern>
+				<token postag='SENT_START' postag_regexp='no'/>
+				<marker>
+					<token regexp='yes' spacebefore='no'>lhes?|me|te|nos|vos</token>
+					<token postag='VMI[F]1P.+' postag_regexp='yes'>
+						<exception regexp='yes' inflected='yes'>dizer|fazer|farar</exception>
+					</token>	
+				</marker>
+			</pattern>
+			<message>Em escrita formal não se começa uma frase com pronome átono. Coloque o pronome após o verbo.</message>
+			<suggestion><match no='3' postag="V.+" postag_replace='VMN0000' postag_regexp="yes" case_conversion='startupper'/>-<match no='2' case_conversion='startlower'/>-emos</suggestion>
+			<example correction="Encontrar-nos-emos"><marker>Nos encontraremos</marker> amanhã.</example>
+		</rule>		
+
+		<!-- á/ás -->
+		<rule>
+			<pattern>
+				<token postag='SENT_START' postag_regexp='no'/>
+				<marker>
+					<token regexp='yes' spacebefore='no'>lhes?|me|te|nos|vos</token>
+					<token postag='VMI[F]3S.+' postag_regexp='yes'>
+						<exception regexp='yes' inflected='yes'>dizer|fazer|farar</exception>
+					</token>
+				</marker>
+			</pattern>
+			<message>Em escrita formal não se começa uma frase com pronome átono. Coloque o pronome após o verbo.</message>
+			<suggestion><match no='3' postag="V.+" postag_replace='VMN0000' postag_regexp="yes" case_conversion='startupper'/>-<match no='2' case_conversion='startlower'/>-á</suggestion>
+			<example correction="Comer-me-á"><marker>Me comerá</marker> o pão.</example>
+		</rule>
+		<rule>
+			<pattern>
+				<token postag='SENT_START' postag_regexp='no'/>
+				<marker>
+					<token regexp='yes' spacebefore='no'>lhes?|me|te|nos|vos</token>
+					<token postag='VMI[F]2S.+' postag_regexp='yes'>
+						<exception regexp='yes' inflected='yes'>dizer|fazer|farar</exception>
+					</token>	
+				</marker>
+			</pattern>
+			<message>Em escrita formal não se começa uma frase com pronome átono. Coloque o pronome após o verbo.</message>
+			<suggestion><match no='3' postag="V.+" postag_replace='VMN0000' postag_regexp="yes" case_conversion='startupper'/>-<match no='2' case_conversion='startlower'/>-ás</suggestion>
+			<example correction="Comer-me-ás"><marker>Me comerás</marker> o pão.</example>
+		</rule>	
+
+		<!-- ão -->
+		<rule>
+			<pattern>
+				<token postag='SENT_START' postag_regexp='no'/>
+				<marker>
+					<token regexp='yes' spacebefore='no'>lhes?|me|te|nos|vos</token>
+					<token postag='VMI[F]3P.+' postag_regexp='yes'>
+						<exception regexp='yes' inflected='yes'>dizer|fazer|farar</exception>
+					</token>
+				</marker>
+			</pattern>
+			<message>Em escrita formal não se começa uma frase com pronome átono. Coloque o pronome após o verbo.</message>
+			<suggestion><match no='3' postag="V.+" postag_replace='VMN0000' postag_regexp="yes" case_conversion='startupper'/>-<match no='2' case_conversion='startlower'/>-ão</suggestion>
+			<example correction="Comer-me-ão"><marker>Me comerão</marker> o pão.</example>
+		</rule>		
+
     </rulegroup>
 
 
