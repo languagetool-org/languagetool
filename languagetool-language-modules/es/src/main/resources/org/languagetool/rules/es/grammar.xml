@@ -18048,6 +18048,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
+        <rule id="DEL_LA" name="confusión: del la -> de la" default="temp_off">
+            <antipattern>
+                <token skip="-1">la</token>
+                <token regexp="yes">sostenido|bemol|natural|mayor|menor|becuadro|violín|piano|flauta</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1" regexp="yes">sostenido|bemol|natural|mayor|menor|becuadro|violín|piano|flauta</token>
+                <token>la</token>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token>la</token>
+                </marker>
+                <token min="0" regexp="yes">a|de</token>
+                <token regexp="yes">44[0-9](Hz)?|agudo|sobreagudo|grave|sobregrave|diapasón</token>
+            </antipattern>
+            <pattern>
+                <token>del</token>
+                <token>la</token>
+            </pattern>
+            <message>Posible confusión. ¿Quería decir <suggestion>de la</suggestion>? Puede ser correcto si se refieren a la nota musical "la".</message>
+            <example correction="de la">Vivía en el centro <marker>del la</marker> ciudad.</example>
+            <example>bajaban del la hasta el fa sostenido</example>
+            <example>la cuerda del la del violín</example>
+        </rule>
         <rule id="ESTABAMOS" name="está vamos/estábamos">
             <pattern>
                 <token>está</token>
