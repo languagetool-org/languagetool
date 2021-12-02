@@ -6616,4 +6616,28 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
+    <rulegroup id="nombres_persona" name="nombres de persona abreviados">
+        <rule>
+            <pattern case_sensitive="yes">
+                <marker>
+                    <token regexp="yes">[A-Z]</token>
+                </marker>
+                <token spacebefore="no">.</token>
+                <token regexp="yes">\p{Lu}.*</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern case_sensitive="yes">
+                <marker>
+                    <token regexp="yes">[A-Z]</token>
+                </marker>
+                <token spacebefore="no">.</token>
+                <token regexp="yes">[A-Z]</token>
+                <token spacebefore="no">.</token>
+                <token regexp="yes">\p{Lu}.*</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
 </rules>
