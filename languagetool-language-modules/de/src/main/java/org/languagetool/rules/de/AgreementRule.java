@@ -561,7 +561,7 @@ public class AgreementRule extends Rule {
     return "allen".equals(token1.getToken()) && "Grund".equals(token2.getToken());
   }
 
-  private List<String> getCategoriesCausingError(AnalyzedTokenReadings token1, AnalyzedTokenReadings token2) {
+  List<String> getCategoriesCausingError(AnalyzedTokenReadings token1, AnalyzedTokenReadings token2) {
     List<String> categories = new ArrayList<>();
     List<GrammarCategory> categoriesToCheck = Arrays.asList(GrammarCategory.KASUS, GrammarCategory.GENUS, GrammarCategory.NUMERUS);
     for (GrammarCategory category : categoriesToCheck) {

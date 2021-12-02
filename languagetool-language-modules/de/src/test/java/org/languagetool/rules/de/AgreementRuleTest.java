@@ -20,9 +20,7 @@ package org.languagetool.rules.de;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Languages;
-import org.languagetool.TestTools;
+import org.languagetool.*;
 import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.RuleMatch;
 
@@ -43,6 +41,33 @@ public class AgreementRuleTest {
   public void setUp() {
     rule = new AgreementRule(TestTools.getMessages("de"), (GermanyGerman)Languages.getLanguageForShortCode("de-DE"));
     lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
+  }
+
+  @Test
+  public void testGetCategoriesCausingError() {
+    AnalyzedTokenReadings tokenDetMasSin = new AnalyzedTokenReadings(new AnalyzedToken("der", "ART:DEF:NOM:SIN:MAS", "der"));
+    AnalyzedTokenReadings tokenDetFemSin = new AnalyzedTokenReadings(new AnalyzedToken("die", "ART:DEF:NOM:SIN:FEM", "der"));
+    AnalyzedTokenReadings tokenDetFemPlu = new AnalyzedTokenReadings(new AnalyzedToken("die", "ART:DEF:NOM:PLU:FEM", "der"));
+    AnalyzedTokenReadings tokenSubNeuSin = new AnalyzedTokenReadings(new AnalyzedToken("Haus", "SUB:NOM:SIN:NEU", "Haus"));
+    AnalyzedTokenReadings tokenSubFemPlu = new AnalyzedTokenReadings(new AnalyzedToken("Frauen", "SUB:NOM:PLU:FEM", "Frau"));
+    AnalyzedTokenReadings tokenSubGenFemPlu = new AnalyzedTokenReadings(new AnalyzedToken("Frauen", "SUB:GEN:PLU:FEM", "Frau"));
+
+    List<String> res1 = rule.getCategoriesCausingError(tokenDetFemPlu, tokenSubGenFemPlu);
+    assertThat(res1.size(), is(1));
+    assertTrue(res1.get(0).contains("Kasus"));
+
+    List<String> res2 = rule.getCategoriesCausingError(tokenDetMasSin, tokenSubNeuSin);
+    assertThat(res2.size(), is(1));
+    assertTrue(res2.get(0).contains("Genus"));
+
+    List<String> res3 = rule.getCategoriesCausingError(tokenDetFemSin, tokenSubFemPlu);
+    assertThat(res3.size(), is(1));
+    assertTrue(res3.get(0).contains("Numerus"));
+
+    //List<String> res4 = rule.getCategoriesCausingError(tokenDetFemSin, tokenSubGenFemPlu);
+    //assertThat(res4.size(), is(2));
+    //assertTrue(res4.get(0).contains("Numerus"));
+    //assertTrue(res4.get(1).contains("Kasus"));
   }
 
   @Test
