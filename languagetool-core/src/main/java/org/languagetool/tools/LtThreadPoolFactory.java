@@ -36,8 +36,9 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 public final class LtThreadPoolFactory {
   public static final String SERVER_POOL = "lt-server-thread";
   public static final String TEXT_CHECKER_POOL = "lt-text-checker-thread";
-  public static final String REMOTE_RULE_WAITING_POOL = "remote-rule-waiting-thread";
   public static final String REMOTE_RULE_EXECUTING_POOL = "remote-rule-executing-thread";
+  public static final int REMOTE_RULE_POOL_SIZE_FACTOR = 4;
+  // we need more maximum threads for timed out requests that haven't been interrupted/cancelled (or reacted to that) yet
 
   private static final ConcurrentMap<String, ThreadPoolExecutor> executorServices = new ConcurrentHashMap<>();
 
@@ -60,7 +61,7 @@ public final class LtThreadPoolFactory {
   static {
     Timer timer = new Timer("LtThreadPoolMonitor", true);
     TimerTask timedAction = new TimerTask() {
-      final String[] poolNames = new String[]{SERVER_POOL, TEXT_CHECKER_POOL, REMOTE_RULE_WAITING_POOL, REMOTE_RULE_EXECUTING_POOL};
+      final String[] poolNames = new String[]{SERVER_POOL, TEXT_CHECKER_POOL, REMOTE_RULE_EXECUTING_POOL};
 
       @Override
       public void run() {
