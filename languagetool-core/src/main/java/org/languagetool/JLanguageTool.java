@@ -969,7 +969,7 @@ public class JLanguageTool {
     // -> need to distinguish offsets / matches
     Map<Integer, List<RuleMatch>> cachedResults = new HashMap<>();
     Map<Integer, Integer> matchOffset = new HashMap<>();
-    ExecutorService remoteRulesThreadPool = LtThreadPoolFactory.getFixedThreadPoolExecutor(LtThreadPoolFactory.REMOTE_RULE_WAITING_POOL).orElse(null);
+    ExecutorService remoteRulesThreadPool = LtThreadPoolFactory.getFixedThreadPoolExecutor(LtThreadPoolFactory.REMOTE_RULE_EXECUTING_POOL).orElse(null);
     if (remoteRulesThreadPool != null && mode != Mode.TEXTLEVEL_ONLY) {
       // trigger remote rules to run on whole text at once, at the start, then we wait for the results
       remoteRuleTasks = new ArrayList<>();
@@ -982,7 +982,7 @@ public class JLanguageTool {
             paraMode, annotatedText, listener, mode, level, remoteRulesThreadPool == null);
     long textCheckEnd = System.currentTimeMillis();
 
-    fetchRemoteRuleResults(mode, level, analyzedSentences, remoteMatches, remoteRuleTasks, remoteRules,
+    fetchRemoteRuleResults(textCheckStart, mode, level, analyzedSentences, remoteMatches, remoteRuleTasks, remoteRules,
       cachedResults, matchOffset, annotatedText, textSessionID);
     long remoteRuleCheckEnd = System.currentTimeMillis();
     if (remoteRules.size() > 0) {
@@ -1027,12 +1027,21 @@ public class JLanguageTool {
     });
   }
 
-  protected void fetchRemoteRuleResults(Mode mode, Level level, List<AnalyzedSentence> analyzedSentences, List<RuleMatch> remoteMatches,
+  protected void fetchRemoteRuleResults(long textCheckStart, Mode mode, Level level, List<AnalyzedSentence> analyzedSentences, List<RuleMatch> remoteMatches,
                                         List<FutureTask<RemoteRuleResult>> remoteRuleTasks, List<RemoteRule> remoteRules,
                                         Map<Integer, List<RuleMatch>> cachedResults,
                                         Map<Integer, Integer> matchOffset,
                                         AnnotatedText annotatedText, Long textSessionID) {
-    if (remoteRuleTasks != null) {
+    if (remoteRuleTasks != null && !remoteRuleTasks.isEmpty()) {
+      long chars = annotatedText.getPlainText().length();
+      long
+      long timeout = remoteRules.stream().map(r -> r.getTimeout(chars)).max(Comparator.naturalOrder()).get();
+      long deadline;
+      if (timeout <= 0) {
+        deadline = 0;
+      } else {
+        deadline = textCheckStart + timeout;
+      }
       // fetch results from remote rules
       for (int taskIndex = 0; taskIndex < remoteRuleTasks.size(); taskIndex++) {
         FutureTask<RemoteRuleResult> task = remoteRuleTasks.get(taskIndex);
@@ -1040,9 +1049,17 @@ public class JLanguageTool {
           continue;
         }
         RemoteRule rule = remoteRules.get(taskIndex);
+        logger.info("Fetching result for rule {}", rule.getId());
         String ruleKey = rule.getId();
         try {
-          RemoteRuleResult result = task.get(); // can wait without timeout here, implemented in RemoteRule and TextChecker
+          RemoteRuleResult result;
+          if (rule.getTimeout(chars) <= 0) {
+            result = task.get();
+          } else {
+            long waitTime = Math.max(0, deadline - System.currentTimeMillis());
+            result = task.get(waitTime, TimeUnit.MILLISECONDS);
+          }
+          logger.info("Got result for rule {}", rule.getId());
           for (int sentenceIndex = 0; sentenceIndex < analyzedSentences.size(); sentenceIndex++) {
             AnalyzedSentence sentence = analyzedSentences.get(sentenceIndex);
             List<RuleMatch> matches = result.matchesForSentence(sentence);
@@ -1071,14 +1088,21 @@ public class JLanguageTool {
               adjustOffset(annotatedText, offset, match);
             }
             remoteMatches.addAll(adjustedMatches);
+            RemoteRuleMetrics.request(ruleKey, textCheckStart, chars, RemoteRuleMetrics.RequestResult.SUCCESS);
           }
         } catch (InterruptedException e) {
-          logger.info("Failed to fetch result from remote rule - interrupted (request timed out).", e);
+          logger.info("Failed to fetch result from remote rule - interrupted.", e);
+          RemoteRuleMetrics.request(ruleKey, textCheckStart, chars, RemoteRuleMetrics.RequestResult.INTERRUPTED);
           break;
         } catch (CancellationException e) {
-          logger.info("Failed to fetch result from remote rule - cancelled (rule marked as down).", e);
+          logger.info("Failed to fetch result from remote rule - cancelled.", e);
+          RemoteRuleMetrics.request(ruleKey, textCheckStart, chars, RemoteRuleMetrics.RequestResult.INTERRUPTED);
         } catch (ExecutionException e) {
           logger.warn("Failed to fetch result from remote rule - error while executing rule.", e);
+          RemoteRuleMetrics.request(ruleKey, textCheckStart, chars, RemoteRuleMetrics.RequestResult.ERROR);
+        } catch (TimeoutException e) {
+          logger.info("Failed to fetch result from remote rule - request timed out.", e);
+          RemoteRuleMetrics.request(ruleKey, textCheckStart, chars, RemoteRuleMetrics.RequestResult.TIMEOUT);
         }
       }
 
@@ -1131,7 +1155,7 @@ public class JLanguageTool {
       cacheKeys.add(cacheKey);
     }
     ExecutorService jLanguageToolPool = LtThreadPoolFactory.getFixedThreadPoolExecutor(
-      LtThreadPoolFactory.REMOTE_RULE_WAITING_POOL).orElseThrow(() -> new IllegalStateException("Thread pool not initialized"));
+      LtThreadPoolFactory.REMOTE_RULE_EXECUTING_POOL).orElseThrow(() -> new IllegalStateException("Thread pool not initialized"));
     for (Rule r : allRules) {
       if (r instanceof RemoteRule) {
         RemoteRule rule = (RemoteRule) r;
