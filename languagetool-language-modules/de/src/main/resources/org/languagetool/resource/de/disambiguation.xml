@@ -5209,6 +5209,17 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="ignore_spelling"/>
     </rule>
 
+    <rule id="IGNORE_SPELLING_OF_EIN_UND_AUSREISE" name="ignore 'Ein- und Ausreise'">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token regexp="yes">(Aus|Ein|Durch)-</token>
+            </marker>
+            <token regexp="yes">und|oder|&amp;|\/|sowie</token>
+            <token regexp="yes">(Aus|Ein|Durch).+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
     <rule id="IGNORE_MADE_IN_GERMANY" name="ignore 'made in Germany'">
         <pattern case_sensitive="yes">
             <token regexp="yes">[Mm]ade|MADE|[Dd]esigned|DESIGNED</token>
