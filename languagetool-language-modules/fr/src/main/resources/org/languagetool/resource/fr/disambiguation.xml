@@ -211,7 +211,7 @@ RB => Règles Brutes
         <rule>
         <pattern>
             <token postag="R pers suj 1 s"/>
-            <token inflected="yes">ne</token>
+            <token inflected="yes" min="0" max="1">ne</token>
             <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
             <marker>
                 <token postag="P">entre</token>
@@ -221,8 +221,8 @@ RB => Règles Brutes
         </rule>
         <rule>
             <pattern>
-                <token postag="R pers suj 3 s"/>
-                <token inflected="yes">ne</token>
+                <token postag="R pers suj 3 . s" postag_regexp="yes"/>
+                <token inflected="yes" min="0" max="1">ne</token>
                 <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
                 <marker>
                     <token postag="P">entre</token>
@@ -411,6 +411,26 @@ RB => Règles Brutes
             <token><exception postag="J.*" postag_regexp="yes"/></token>
         </pattern>
         <disambig action="remove" postag="N.*"/>
+    </rule>
+    <rule id="LE_MANS" name="le mans">
+        <pattern>
+            <token>le</token>
+            <marker>
+                <token>mans</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="N m p"/>
+    </rule>
+    <rule id="LE_MANS1" name="le mans">
+        <pattern>
+            <token>le</token>
+            <marker>
+                <token>mans</token>
+            </marker>
+        </pattern>
+        <disambig action="add">
+            <wd pos="Z e sp"/>
+        </disambig>
     </rule>
     <rule id="PUTAIN_DE" name="putain de">
         <pattern>
@@ -3156,7 +3176,7 @@ RB => Règles Brutes
                     <token postag="N . s" postag_regexp="yes"/>
             </marker>
         </pattern>
-        <disambig action="replace" postag="V.*"/>
+        <disambig action="remove" postag="N . s"/>
     </rule>
     <rule id="QUI_VERBE" name="qui verbe (not imperative)">
         <pattern>
@@ -6388,7 +6408,26 @@ RB => Règles Brutes
             </pattern>
             <disambig action="replace" postag="A"/>
         </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <token postag="A"/>
+                    <token postag="J.*" postag_regexp="yes" regexp="yes">cher?|chères?</token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
     </rulegroup>
+    <rule id="FAIRE_CAMPAGNE" name="faire campagne">
+        <pattern>
+            <marker>
+                <token postag="V.*" postag_regexp="yes" inflected="yes">faire</token>
+                <token postag="N f s" regexp="yes">connaissance|campagne</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
     <rule id="N_COMMUNISTE" name="nom et adjectif communiste">
         <pattern>
             <token postag="N.*" postag_regexp="yes"/>
