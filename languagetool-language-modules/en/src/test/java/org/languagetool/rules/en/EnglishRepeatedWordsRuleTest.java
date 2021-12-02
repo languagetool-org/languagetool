@@ -75,7 +75,7 @@ public class EnglishRepeatedWordsRuleTest {
 
     // suggest
     assertCorrectText("I suggested that, but he also suggests that.");
-    assertCorrectText("They suggested that we should audit them again. What does that suggest about the store's transactions?");
+    assertCorrectText("He suggested that we review them again. What do these suggest about the transaction history?");
     assertCorrectText("I suggested he look it over again. This strongly suggests that Mr. Batt is guilty.");
 
     // ignore sentences without period at the end
