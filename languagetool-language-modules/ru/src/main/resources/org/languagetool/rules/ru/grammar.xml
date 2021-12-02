@@ -8602,20 +8602,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
             
-        <rule default="off" id="Ne_pril_prich1" name="«Не» с прилагательными и причастиями (краткая форма)"> 
+        <rule default="temp_off" id="Ne_pril_prich1" name="«Не» с прилагательными и причастиями (краткая форма)"> 
                 <!-- Его походка медлительна, неуверенна. Это краткое прилагательное, слитное написание НЕ, две буквы НН, зависимых слов нет   default="temp_off" -->
-             <antipattern>   
+            <antipattern>   
                     <marker>
                         <token>не</token>
-                        <token postag="ADJ:Short:.*" postag_regexp="yes"><exception negate_pos="yes"  postag="ADJ:Short:.*" postag_regexp="yes"/></token>
+                        <token skip="1" postag="ADJ:Short:.*" postag_regexp="yes"><exception negate_pos="yes"  postag="ADJ:Short:.*" postag_regexp="yes"/></token>
                     </marker>
                     <token>,</token>
-                    <token>а</token>               
+                    <token regexp="yes">а|хотя|как</token>               
             </antipattern>
-    <!--     Ne_pril_prich -->
+            <antipattern>   
+                    <marker>
+                        <token>не</token>
+                        <token  postag="ADJ:Short:.*" postag_regexp="yes"><exception negate_pos="yes"  postag="ADJ:Short:.*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token>,</token>
+                    <token>не</token>
+                    <token>так</token>
+                    <token>ли</token>               
+            </antipattern>
+
+            <!--     Ne_pril_prich -->
     
             <antipattern>
-                <token regexp="yes">очень|весьма|крайне|совершенно|вполне|почти|отчасти|совсем|чрезвычайно|далеко|отнюдь|вовсе|ничуть|нисколько|вообще</token>   <!-- + вообще-->
+                <token regexp="yes">уже|очень|весьма|крайне|совершенно|вполне|почти|отчасти|совсем|чрезвычайно|далеко|отнюдь|вовсе|ничуть|нисколько|вообще</token>   <!-- + вообще,   уже -->
                 <marker>
                     <token>не</token>
                     <token postag="ADJ:Short:.*" postag_regexp="yes">
@@ -8646,8 +8657,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
                 <token regexp="yes">[.!?:]</token>
             </antipattern> 
-                  
-            
+                              
             <pattern>   
                     <marker>
                         <token>не</token>
@@ -8658,7 +8668,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </token>   <!-- <exception  postag="PT_Short:.*|VB:.*" postag_regexp="yes"/> -->
                     </marker>
                     <token><exception  postag="PREP" /><exception>ли</exception><exception  postag="NN:.*:.*:.*:(T|D)|ADV" postag_regexp="yes" /><exception regexp="yes">[А-ЯЁ]</exception></token>                
-                </pattern>
+            </pattern>
         <!--    <filter class="org.languagetool.rules.ru.RussianPartialPosTagFilter" 
                 args="no:2 regexp:(.*) postag_regexp:(ADJ:Short:.*) prefix:не suffix:  "/>    -->    <!--   Test if word with "не" exist! -->
                 <message>Возможно пишется слитно, проверьте контекст: <suggestion>\1\2</suggestion>.</message>
@@ -8668,6 +8678,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Река не глубока, а мелка.</example>  <!-- противопоставление с отрицанием, раздельно-->
                 <example>Река неглубокая, но холодная.</example>   <!-- противопоставление без отрицания, слитно -->
                 <example>Река неглубока, но холодна.</example>   <!-- противопоставление без отрицания, слитно -->
+                <example>Вы не женаты, не так ли?</example>
+                <example>Они не аналогичны ей, хотя и близки к этому.</example>
+                <example>Ничто так не ценно, как здоровье.</example>
+                <example>Эта община уже не жизненна.</example>
                 <example>Мы с ней не знакомы.</example>
                 <example>Человек не виновен в вымирании мамонтов.</example>
                 <example>Эта доставка либо слишком дорога, либо вообще не доступна.</example>
