@@ -21,6 +21,8 @@
 
 package org.languagetool.rules.en;
 
+import org.languagetool.tools.Tools;
+
 import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -35,6 +37,7 @@ public class UnitConversionRuleUS extends UnitConversionRule {
 
   public UnitConversionRuleUS(ResourceBundle messages) {
     super(messages);
+    setUrl(Tools.getUrl("https://languagetool.org/insights/post/imperial-metric-system/"));
 
     format = NumberFormat.getNumberInstance(Locale.US);
     format.setMaximumFractionDigits(2);
