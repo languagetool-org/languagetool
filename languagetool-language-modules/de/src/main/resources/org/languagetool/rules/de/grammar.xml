@@ -11560,6 +11560,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rule id="MIT_VERANTWORTLICH" name="mit verantwortlich (mitverantwortlich)" default="temp_off">
+            <pattern>
+                <token case_sensitive="yes" regexp="yes">[Mm]it</token>
+                <token case_sensitive="yes" regexp="yes">verantwortlich|schuldig</token>
+            </pattern>
+            <message>Das Adjektiv <suggestion>mit<match no="2" case_conversion="alllower" /></suggestion> wird als ein Wort geschrieben.</message>
+            <example correction="mitverantwortlich">Er ist <marker>mit verantwortlich</marker> für diese Krise.</example>
+        </rule>
         <rule id="RECHNUNGS_NR" name="Rechnungs-Nr.">
             <pattern>
                 <marker>
