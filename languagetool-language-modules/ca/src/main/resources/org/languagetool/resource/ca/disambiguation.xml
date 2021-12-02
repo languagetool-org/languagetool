@@ -2196,6 +2196,30 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </disambig>
         </rule>
     </rulegroup>
+    <rulegroup id="noms_persona" name="noms de persona abreviats">
+        <rule>
+            <pattern case_sensitive="yes">
+                <marker>
+                    <token regexp="yes">[A-Z]</token>
+                </marker>
+                <token spacebefore="no">.</token>
+                <token regexp="yes">\p{Lu}.*</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern case_sensitive="yes">
+                <marker>
+                    <token regexp="yes">[A-Z]</token>
+                </marker>
+                <token spacebefore="no">.</token>
+                <token regexp="yes">[A-Z]</token>
+                <token spacebefore="no">.</token>
+                <token regexp="yes">\p{Lu}.*</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
     <rule id="prefixos_amb_guionet" name="prefixos amb guionet: micro-, mini-">
         <pattern>
             <marker>
