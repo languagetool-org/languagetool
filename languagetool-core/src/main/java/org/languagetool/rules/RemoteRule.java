@@ -28,12 +28,14 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.tools.CircuitBreakers;
 import org.languagetool.tools.LtThreadPoolFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.function.Predicate;
@@ -128,11 +130,15 @@ public abstract class RemoteRule extends Rule {
    */
   protected abstract RemoteRuleResult fallbackResults(RemoteRequest request);
 
-  protected CircuitBreaker circuitBreaker(String id) {
-    CircuitBreakerConfig config = CircuitBreakerConfig.custom()
-      .failureRateThreshold(serviceConfiguration.)
-      .waitDurationInOpenState(waitDurationOpen)
+  protected CircuitBreaker createCircuitBreaker(String id) {
+    CircuitBreakerConfig config = CircuitBreakerConfig
+      .custom()
+      //.slidingWindowType(CircuitBreakerConfig.SlidingWindowType.COUNT_BASED)
+      //.failureRateThreshold()
+      .minimumNumberOfCalls(10) // TODO: TESTING
+      .waitDurationInOpenState(Duration.ofMillis(Math.max(1, serviceConfiguration.getDownMilliseconds())))
       .build();
+    return CircuitBreakers.registry().circuitBreaker("remote-rule-" + id, config);
   }
 
   /**
@@ -201,6 +207,10 @@ public abstract class RemoteRule extends Rule {
     long timeout = serviceConfiguration.getBaseTimeoutMilliseconds() +
       Math.round(characters * serviceConfiguration.getTimeoutPerCharacterMilliseconds());
     return timeout;
+  }
+
+  public CircuitBreaker circuitBreaker() {
+    return circuitBreakers.computeIfAbsent(getId(), this::createCircuitBreaker);
   }
 
   private List<RuleMatch> suppressMisspelled(List<RuleMatch> sentenceMatches) {
