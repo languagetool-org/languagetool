@@ -26,9 +26,9 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.*;
-import java.util.stream.Stream;
 
 /**
  * ThreadPoolExecutor with some stopping logic for OOM and metrics tracking
@@ -53,7 +53,7 @@ class LtThreadPoolExecutor extends ThreadPoolExecutor {
   }
 
   {
-    Timer timer = new Timer();
+    Timer timer = new Timer("LtThreadPoolExecutorMonitor", true);
     TimerTask timedAction = new TimerTask() {
       @Override
       public void run() {

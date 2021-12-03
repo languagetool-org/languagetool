@@ -58,7 +58,7 @@ public final class LtThreadPoolFactory {
   }
 
   static {
-    Timer timer = new Timer();
+    Timer timer = new Timer("LtThreadPoolMonitor", true);
     TimerTask timedAction = new TimerTask() {
       final String[] poolNames = new String[]{SERVER_POOL, TEXT_CHECKER_POOL, REMOTE_RULE_WAITING_POOL, REMOTE_RULE_EXECUTING_POOL};
 
