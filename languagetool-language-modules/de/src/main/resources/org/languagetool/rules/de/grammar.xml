@@ -11565,7 +11565,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
-        <rule id="MIT_VERANTWORTLICH" name="mit verantwortlich (mitverantwortlich)" default="temp_off">
+        <rule id="MIT_VERANTWORTLICH" name="mit verantwortlich (mitverantwortlich)">
             <pattern>
                 <token case_sensitive="yes" regexp="yes">[Mm]it</token>
                 <token case_sensitive="yes" regexp="yes">verantwortlich|schuldig</token>
@@ -22635,6 +22635,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Stil -->
     <!-- ====================================================================== -->
     <category id="STYLE" name="Stil" type="style">
+        <rule id="OEFTESTEN" name="öftesten (häufigsten)">
+            <pattern>
+                <token>öftesten</token>
+            </pattern>
+            <message>Hier empfiehlt sich ein gebräuchlicheres Adjektiv zu wählen.</message>
+            <suggestion>häufigsten</suggestion>
+            <url>http://mediawiki.ids-mannheim.de/VarGra/index.php/Am_h%C3%A4ufigsten_/_am_%C3%B6ftesten</url>
+            <example correction="häufigsten">Ich habe am <marker>öftesten</marker> das Ziel getroffen.</example>
+        </rule>
         <rulegroup id="AUF_ARBEIT" name="Auf (der) Arbeit">
             <antipattern>
                 <token regexp="yes" skip="3">.*Recht[es]?|Anspruchs?|Ansprüche|Chancen?|Lust|Bock</token>
@@ -58061,7 +58070,7 @@ Andere Projekte</example>
             </antipattern>
             <rule>
                 <pattern>
-                    <token case_sensitive="yes" regexp="yes">[Gg]ereviewed|[Gg]eshuffeled|[Gg]eboostered|[Gg]ecrawled|[Gg]efracked|[Gg]espoilered|[Gg]ematched|[Aa]ngeteasered|[Gg]eteasered|[Gg]eskyped|[Gg]ezapped|[Gg]etaped|[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]etagged|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched|[Gg]etuned|[Gg]ecrashed|[Gg]ecat?ched|[Cc]hecked|[Ee]ntertained|[Gg]egoogled</token>
+                    <token case_sensitive="yes" regexp="yes">[Gg]eteased|[Gg]ereviewed|[Gg]eshuffeled|[Gg]eboostered|[Gg]ecrawled|[Gg]efracked|[Gg]espoilered|[Gg]ematched|[Aa]ngeteasered|[Gg]eteasered|[Gg]eskyped|[Gg]ezapped|[Gg]etaped|[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]etagged|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched|[Gg]etuned|[Gg]ecrashed|[Gg]ecat?ched|[Cc]hecked|[Ee]ntertained|[Gg]egoogled</token>
                 </pattern>
                 <message>Die empfohlene Schreibweise für diesen Anglizismus ist <suggestion><match no="1" regexp_match="ed$" regexp_replace="t" /></suggestion>.</message>
                 <example correction="gefeaturt">Wir wurden auf der Startseite des App Stores <marker>gefeatured</marker>.</example>

@@ -291,6 +291,7 @@ public class German extends Language implements AutoCloseable {
       case "NULL_KOMMA_NICHTS" : return 1;   // prefer over agreement rules
       case "SO_WIES_IST" : return 1;   // prefer over agreement rules
       case "SICH_SICHT" : return 1;   // prefer over agreement rules
+      case "MIT_VERANTWORTLICH" : return 1;   // prefer over agreement rules
       case "VOR_LACHEN" : return 1;   // prefer over ZUSAMMENGESETZTE_VERBEN
       case "ZUCCHINIS" : return 1;   // overwrite spell checker
       case "BEI_GOOGLE" : return 1;   // prefer over agreement rules
