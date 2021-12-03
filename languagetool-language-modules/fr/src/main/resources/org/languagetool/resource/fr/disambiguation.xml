@@ -132,6 +132,46 @@ RB => Règles Brutes
     </rule>
     <!-- END: numerals -->
     <!-- CATEGORY: remove unusual tags -->
+    <rulegroup name="pensées" id="PENSEES">
+    <rule>
+        <pattern>
+            <token postag="N.*" postag_regexp="yes"/>
+            <token>de</token>
+            <marker>
+                <token>pensée</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="V ppa f s"/>
+    </rule>
+        <rule>
+            <pattern>
+                <token postag="D.*" postag_regexp="yes"/>
+                <marker>
+                    <token>pensée</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="V ppa f s"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token>de</token>
+                <marker>
+                    <token>pensées</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="V ppa f p"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="D.*" postag_regexp="yes"/>
+                <marker>
+                    <token>pensées</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="V ppa f p"/>
+        </rule>
+    </rulegroup>
     <rulegroup name="découverte" id="DECOUVERTE">
         <rule>
         <pattern>
@@ -210,6 +250,7 @@ RB => Règles Brutes
     <rulegroup name="il entre" id="IL_ENTRE">
         <rule>
         <pattern>
+            <token><exception postag="V.* (ind|con|sub).*" postag_regexp="yes"/></token>
             <token postag="R pers suj 1 s"/>
             <token inflected="yes" min="0" max="1">ne</token>
             <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
@@ -221,7 +262,20 @@ RB => Règles Brutes
         </rule>
         <rule>
             <pattern>
-                <token postag="R pers suj 3 . s" postag_regexp="yes"/>
+                <token><exception postag="V.* (ind|con|sub).*" postag_regexp="yes"/></token>
+                <token postag="R pers suj 1 s"/>
+                <token inflected="yes" min="0" max="1">ne</token>
+                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                <marker>
+                    <token postag="P">entre</token>
+                </marker>
+            </pattern>
+            <disambig action="replace" postag="V sub pres 1 s"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token><exception postag="V.* (ind|con|sub).*" postag_regexp="yes"/></token>
+                <token postag="R pers suj 3 . s" postag_regexp="yes"><exception>-t-il</exception></token>
                 <token inflected="yes" min="0" max="1">ne</token>
                 <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
                 <marker>
@@ -3170,7 +3224,7 @@ RB => Règles Brutes
     </rule>
     <rule id="ON_LEUR_DONNE" name="on leur donne">
         <pattern>
-            <token regexp="yes">je|il|elle|on</token>
+            <token regexp="yes">je|il|elle</token>
             <token>leur</token>
             <marker>
                     <token postag="N . s" postag_regexp="yes"/>
@@ -6411,7 +6465,7 @@ RB => Règles Brutes
         <rule>
             <pattern>
                 <marker>
-                    <token postag="N.*" postag_regexp="yes"/>
+                    <token postag="N.*" postag_regexp="yes"><exception postag="V.*" postag_regexp="yes"/></token>
                     <token postag="A"/>
                     <token postag="J.*" postag_regexp="yes" regexp="yes">cher?|chères?</token>
                 </marker>
