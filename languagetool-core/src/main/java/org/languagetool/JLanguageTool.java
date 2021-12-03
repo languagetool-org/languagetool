@@ -1049,22 +1049,21 @@ public class JLanguageTool {
           continue;
         }
         RemoteRule rule = remoteRules.get(taskIndex);
-        logger.info("Fetching result for rule {}", rule.getId());
         String ruleKey = rule.getId();
         try {
           rule.circuitBreaker().executeCallable(() -> fetchResults(textCheckStart, mode, level, analyzedSentences, remoteMatches, matchOffset, annotatedText, textSessionID, chars, deadline, task, rule, ruleKey));
         } catch (InterruptedException e) {
-          logger.info("Failed to fetch result from remote rule - interrupted.", e);
+          logger.info("Failed to fetch result from remote rule - interrupted.");
           RemoteRuleMetrics.request(ruleKey, textCheckStart, chars, RemoteRuleMetrics.RequestResult.INTERRUPTED);
           break;
         } catch (CancellationException e) {
-          logger.info("Failed to fetch result from remote rule - cancelled.", e);
+          logger.info("Failed to fetch result from remote rule - cancelled.");
           RemoteRuleMetrics.request(ruleKey, textCheckStart, chars, RemoteRuleMetrics.RequestResult.INTERRUPTED);
         } catch (TimeoutException e) {
-          logger.info("Failed to fetch result from remote rule - request timed out.", e);
+          logger.info("Failed to fetch result from remote rule - request timed out.");
           RemoteRuleMetrics.request(ruleKey, textCheckStart, chars, RemoteRuleMetrics.RequestResult.TIMEOUT);
         } catch (CallNotPermittedException e) {
-          logger.info("Failed to fetch result from remote rule - circuitbreaker active, rule marked as down.", e);
+          logger.info("Failed to fetch result from remote rule - circuitbreaker active, rule marked as down.");
           RemoteRuleMetrics.request(ruleKey, textCheckStart, chars, RemoteRuleMetrics.RequestResult.DOWN);
         } catch (Exception e) {
           logger.warn("Failed to fetch result from remote rule - error while executing rule.", e);
@@ -1100,7 +1099,6 @@ public class JLanguageTool {
       long waitTime = Math.max(0, deadline - System.currentTimeMillis());
       result = task.get(waitTime, TimeUnit.MILLISECONDS);
     }
-    logger.info("Got result for rule {}", rule.getId());
     for (int sentenceIndex = 0; sentenceIndex < analyzedSentences.size(); sentenceIndex++) {
       AnalyzedSentence sentence = analyzedSentences.get(sentenceIndex);
       List<RuleMatch> matches = result.matchesForSentence(sentence);
@@ -1113,11 +1111,7 @@ public class JLanguageTool {
           sentence.getText(), language, motherTongue, disabledRules, disabledRuleCategories,
           enabledRules, enabledRuleCategories, userConfig, altLanguages, mode, level, textSessionID);
         Map<String, List<RuleMatch>> cacheEntry = cache.getRemoteMatchesCache().get(cacheKey, HashMap::new);
-        // TODO check if result is from fallback, don't cache?
-        //logger.info("Caching: Remote rule '{}'", ruleKey);
         cacheEntry.put(ruleKey, matches);
-      } else if (cache != null) {
-        //logger.info("Not caching, fallback results: Remote rule '{}'", ruleKey);
       }
       // adjust rule match position
       // rules check all sentences batched, but should keep position adjustment logic out of rule
@@ -1188,10 +1182,8 @@ public class JLanguageTool {
             List<RuleMatch> cachedMatches = cacheEntry.get(ruleKey);
             // mark for check or retrieve from cache
             if (cachedMatches == null) {
-              //logger.info("Checking: Remote rule '{}'", ruleKey);
               nonCachedSentences.add(sentence);
             } else {
-              //logger.info("Cached: Remote rule '{}'", ruleKey);
               cachedResults.putIfAbsent(sentenceIndex, new LinkedList<>());
               cachedResults.get(sentenceIndex).addAll(cachedMatches);
             }
@@ -1370,7 +1362,6 @@ public class JLanguageTool {
         float errorsPerWord = sentenceMatches.size() / (float) wordCounter;
         if (tmpErrorsPerWord < errorsPerWord) {
           errorRateLog.add("With rule: " + rule.getFullId() + " " + (i+1) + "/" + rulesSize + " the sentence error rate increased by: " + (errorsPerWord - tmpErrorsPerWord) + " from: " + tmpErrorsPerWord + " to total: " + errorsPerWord);
-          //logger.info("With rule: " + rule.getFullId() + " the sentence error rate increased by: " + (errorsPerWord - tmpErrorsPerWord) + " from: " + tmpErrorsPerWord + " to total: " + errorsPerWord);
           tmpErrorsPerWord = errorsPerWord;
         }
         if (maxErrorsPerWordRate > 0 && errorsPerWord > maxErrorsPerWordRate && wordCounter > 25) {
@@ -1957,10 +1948,8 @@ public class JLanguageTool {
             }
           }
           float errorsPerWord = ruleMatches.size() / (float) wordCounter;
-          //System.out.println("errorPerWord " + errorsPerWord + " (matches: " + ruleMatches.size() + " / " + wordCounter + ")");
           if (tmpErrorsPerWord < errorsPerWord) {
             errorRateLog.add("With sentence: " + (i + 1) + " (of " + sentencesSize + ") the text error rate increased by: " + (errorsPerWord - tmpErrorsPerWord) + " from: " + tmpErrorsPerWord  + " to total: " + errorsPerWord);
-            //logger.info("With sentence: " + (i + 1) + " (of " + sentencesSize + ") the text error rate increased by: " + (errorsPerWord - tmpErrorsPerWord) + " from: " + tmpErrorsPerWord  + " to total: " + errorsPerWord);
             tmpErrorsPerWord = errorsPerWord;
           }
           if (maxErrorsPerWordRate > 0 && errorsPerWord > maxErrorsPerWordRate && wordCounter > 25) {
