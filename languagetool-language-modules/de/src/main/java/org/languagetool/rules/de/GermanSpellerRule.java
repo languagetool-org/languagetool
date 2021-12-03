@@ -1216,6 +1216,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("strang", w -> Arrays.asList("Strang", "strengte"));
     put("Gym", w -> Arrays.asList("Fitnessstudio", "Gymnasium"));
     put("Gyms", w -> Arrays.asList("Fitnessstudios", "Gymnasiums"));
+    put("mußt", "musst");
+    put("müßtest", "müsstest");
+    put("müßten", "müssten");
   }
 
   private static void putRepl(String wordPattern, String pattern, String replacement) {

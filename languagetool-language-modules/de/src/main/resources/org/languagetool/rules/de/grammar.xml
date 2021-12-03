@@ -2359,12 +2359,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>du</token>
                 <token>fröhliche</token>
             </antipattern>
+            <antipattern>
+                <token>du</token>
+                <token regexp="yes">Flachpfeife|Vollpfosten</token>
+            </antipattern>
             <pattern>
                 <token><exception postag="VER.*:2:SIN.*" postag_regexp="yes"/><exception postag="UNKNOWN"/></token>
                 <marker>
                     <token>du</token>
                 </marker>
-                <token skip="-1" postag="SUB:(NOM:SIN:FEM|AKK:SIN:FEM|NOM:PLU|AKK:PLU).*" postag_regexp="yes"><exception scope="next" postag="VER.*2:SIN.*" postag_regexp="yes"/><!--<exception scope="next" postag="UNKNOWN"/>TODO not working--><exception>Schlampe</exception></token>
+                <token skip="-1" postag="SUB:(NOM:SIN:FEM|AKK:SIN:FEM|NOM:PLU|AKK:PLU).*" postag_regexp="yes">
+                    <exception scope="next" postag="VER.*2:SIN.*" postag_regexp="yes"/>
+                    <exception regexp="yes">mußt|müßtest</exception>
+                    <!--<exception scope="next" postag="UNKNOWN"/>TODO not working-->
+                    <exception>Schlampe</exception>
+                </token>
                 <token postag="SENT_END"/>
             </pattern>
             <message>Meinten Sie <suggestion>die</suggestion>?</message>
@@ -42606,6 +42615,19 @@ Andere Projekte</example>
                 <example correction="zeit">Ich war <marker>Zeit</marker> meines Lebens ein armer Schlucker.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>zeit</token>
+                    <token spacebefore="no">.</token>
+                    <token spacebefore="no" />
+                </antipattern>
+                <antipattern>
+                    <token>zeit</token>
+                    <token spacebefore="no">_</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">[#\)\.]</token>
+                    <token spacebefore="no">zeit</token>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <marker>
                         <token>zeit</token>
@@ -42616,6 +42638,7 @@ Andere Projekte</example>
                 <short>&prgk;.</short>
                 <example correction="Zeit">Er war eine <marker>zeit</marker> lang damit beschäftigt-</example>
                 <example>Ich war <marker>zeit</marker> meines Lebens ein armer Schlucker.</example>
+                <example>Er liest Nachrichten auf zeit.de</example>
             </rule>
         </rulegroup>
         <rulegroup id="TONARTEN" name="Groß-/Kleinschreibung bei Tonarten: 'A-Moll (a-Moll)/c-Dur (C-Dur)' etc.">
@@ -51461,6 +51484,21 @@ Andere Projekte</example>
     <!-- Zeichensetzung -->
     <!-- ====================================================================== -->
     <category id="PUNCTUATION" name="Zeichensetzung">
+        <rule id="ALL_DAS_WAS_KOMMA" name="All das(,) was"><!-- higher prio than COMMA_IN_FRONT_RELATIVE_CLAUSE -->
+            <antipattern><!-- All das WAS und WIESO nervt! -->
+                <token>das</token>
+                <token>was</token>
+                <token>und</token>
+            </antipattern>
+            <pattern>
+                <token>all</token>
+                <token regexp="yes">das|dies</token>
+                <token regexp="yes">was|wovon|worüber|weswegen</token>
+            </pattern>
+            <message>Hier scheint ein Komma zu fehlen.</message>
+            <suggestion>\1 \2, \3</suggestion>
+            <example correction="All das, was"><marker>All das was</marker> du gemacht hast, hat niemanden geholfen.</example>
+        </rule>
         <rule id="GESAGT_GETAN" name="gesagt(,) getan">
             <antipattern>
                 <token>getan</token>
@@ -58070,7 +58108,7 @@ Andere Projekte</example>
             </antipattern>
             <rule>
                 <pattern>
-                    <token case_sensitive="yes" regexp="yes">[Gg]eteased|[Gg]ereviewed|[Gg]eshuffeled|[Gg]eboostered|[Gg]ecrawled|[Gg]efracked|[Gg]espoilered|[Gg]ematched|[Aa]ngeteasered|[Gg]eteasered|[Gg]eskyped|[Gg]ezapped|[Gg]etaped|[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]etagged|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched|[Gg]etuned|[Gg]ecrashed|[Gg]ecat?ched|[Cc]hecked|[Ee]ntertained|[Gg]egoogled</token>
+                    <token case_sensitive="yes" regexp="yes">[Gg]etracked|[Gg]eteased|[Gg]ereviewed|[Gg]eshuffeled|[Gg]eboostered|[Gg]ecrawled|[Gg]efracked|[Gg]espoilered|[Gg]ematched|[Aa]ngeteasered|[Gg]eteasered|[Gg]eskyped|[Gg]ezapped|[Gg]etaped|[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]etagged|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched|[Gg]etuned|[Gg]ecrashed|[Gg]ecat?ched|[Cc]hecked|[Ee]ntertained|[Gg]egoogled</token>
                 </pattern>
                 <message>Die empfohlene Schreibweise für diesen Anglizismus ist <suggestion><match no="1" regexp_match="ed$" regexp_replace="t" /></suggestion>.</message>
                 <example correction="gefeaturt">Wir wurden auf der Startseite des App Stores <marker>gefeatured</marker>.</example>
