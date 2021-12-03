@@ -131,12 +131,21 @@ public abstract class RemoteRule extends Rule {
   protected abstract RemoteRuleResult fallbackResults(RemoteRequest request);
 
   protected CircuitBreaker createCircuitBreaker(String id) {
+    CircuitBreakerConfig.SlidingWindowType type;
+    RemoteRuleConfig c = serviceConfiguration;
+    try {
+      type = CircuitBreakerConfig.SlidingWindowType.valueOf(serviceConfiguration.getSlidingWindowType());
+    } catch (IllegalArgumentException e) {
+      type = CircuitBreakerConfig.SlidingWindowType.COUNT_BASED;
+      logger.warn("Couldn't parse slidingWindowType value '{}' for rule '{}', use one of {}; defaulting to '{}'", serviceConfiguration.getSlidingWindowType(), id, Arrays.asList(CircuitBreakerConfig.SlidingWindowType.values()), type);
+    }
+
     CircuitBreakerConfig config = CircuitBreakerConfig
       .custom()
-      //.slidingWindowType(CircuitBreakerConfig.SlidingWindowType.COUNT_BASED)
-      //.failureRateThreshold()
-      .minimumNumberOfCalls(10) // TODO: TESTING
-      .waitDurationInOpenState(Duration.ofMillis(Math.max(1, serviceConfiguration.getDownMilliseconds())))
+      .failureRateThreshold(c.getFailureRateThreshold())
+      .slidingWindow(
+        c.getSlidingWindowSize(), c.getMinimumNumberOfCalls(), type)
+      .waitDurationInOpenState(Duration.ofMillis(Math.max(1, c.getDownMilliseconds())))
       .build();
     return CircuitBreakers.registry().circuitBreaker("remote-rule-" + id, config);
   }

@@ -93,7 +93,9 @@ public class EnglishRemoteRuleSuppressMisspelledTest {
     for (int i = 0; i < valStrings.length; i+=2) {
       options.put(valStrings[i], valStrings[i+1]);
     }
-    RemoteRuleConfig c = new RemoteRuleConfig(TEST_RULE, "", null, null, null, null, null, null, null, null, options);
+    RemoteRuleConfig c = new RemoteRuleConfig();
+    c.ruleId = TEST_RULE;
+    c.options = options;
     return c;
   }
 

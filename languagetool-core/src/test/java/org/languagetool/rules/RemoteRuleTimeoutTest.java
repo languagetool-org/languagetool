@@ -49,8 +49,10 @@ public class RemoteRuleTimeoutTest {
   private static final long TIMEOUT = 50L;
 
   static class TestRemoteRule extends RemoteRule {
-    private static final RemoteRuleConfig testConfig = new RemoteRuleConfig(
-      "TEST_REMOTE_RULE", "example.com", 1234, 0, TIMEOUT, 0.0f, Integer.MAX_VALUE, 0L, 0L, 0L, Collections.emptyMap());
+    private static final RemoteRuleConfig testConfig = new RemoteRuleConfig();
+    static {
+      testConfig.ruleId = "TEST_REMOTE_RULE";
+    }
 
     TestRemoteRule() {
       super(new Demo(), JLanguageTool.getMessageBundle(), testConfig, false);
