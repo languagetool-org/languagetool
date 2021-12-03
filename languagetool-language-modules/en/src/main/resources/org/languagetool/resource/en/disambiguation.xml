@@ -14986,6 +14986,17 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </pattern>
             <disambig action="remove" postag="RB"/>
         </rule>
+        <rule>
+            <pattern>
+                <token postag="PRP|MD|TO" postag_regexp="yes" />
+                <token postag="RB" chunk_re=".-VP|B-ADVP" min="0" />
+                <marker>
+                    <token chunk_re=".-VP">supply</token>
+                </marker>
+                <token chunk_re="[BE]-NP.*" />
+            </pattern>
+            <disambig action="remove" postag="RB"/>
+        </rule>
     </rulegroup>
 
     <rule id="A_PRIORI_SPELLING" name="ignore spelling of 'a priori'">
