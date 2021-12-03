@@ -2504,7 +2504,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <!-- issue #1119  -->
-        <rule id="Multiple_missing_commas_VB" name="Пропущенные запятые между глаголами"  default="temp_off" >
+        <rule id="Multiple_missing_commas_VB" name="Пропущенные запятые между глаголами"  default="off" >
             <antipattern>
                <token postag="VB:.*" postag_regexp="yes" skip="-1">
                     <exception regexp="yes" scope="next">и|или|а|но|&pnct;|да|/|либо|что|прежде|когда|как|что|-|пока</exception>
@@ -10164,7 +10164,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 	    <example correction="относится">Проблема может возникнуть при наличии собственных резонансов в модели, что <marker>относиться</marker> и к нашему случаю, где частота падающей волны приходится на максимум дипольного отклика частицы.</example>
         </rule>        
         </rulegroup>                
-        <rule id="Verb_INF_OR_3P_2" default="off" name="Инфинитив вместо личной формы глагола" > <!-- set temp off -->  <!-- tags="picky" -->
+        <rule id="Verb_INF_OR_3P_2" default="temp_off" name="Инфинитив вместо личной формы глагола" > <!-- set temp off -->  <!-- tags="picky" -->
             <antipattern>
                  <token postag="SENT_START" skip="-1" />
                  <token postag="VB:.*" skip="-1" postag_regexp="yes" ><exception   postag="VB:.*"  postag_regexp="yes"  negate_pos="yes"    /></token>
@@ -10216,7 +10216,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="VB:INF:.*" postag_regexp="yes" regexp="yes" >[а-яё]*ться<exception negate_pos="yes" postag="VB:INF:.*" postag_regexp="yes"/>
                         <exception postag_regexp="yes" scope="next" postag="VB:.*|DPT:.*"></exception>
                         <exception postag_regexp="yes" scope="previous" postag="VB:.*|NN:.*:Nom|PNN:.*:Nom:.*|DPT:.*|SENT_START" />
-                        <exception regexp="yes" scope="previous" >было|стало|можно|сложно|нужно|трудно|надо|нелегко|легко|лучше|хуже|невозможно|успешно|чтобы|сильно|слабо|непросто|небрежно|вовремя|разрешено</exception> <!-- check word, maybe set POStag? -->
+                        <exception regexp="yes" scope="previous" >было|стало|можно|сложно|нужно|трудно|надо|нелегко|легко|лучше|хуже|невозможно|успешно|чтобы|сильно|слабо|непросто|небрежно|вовремя|разрешено|приятно|рад</exception> <!-- check word, maybe set POStag? -->
                     </token>
                 </marker>
                 <token postag="PREP" skip="-1"></token>    
