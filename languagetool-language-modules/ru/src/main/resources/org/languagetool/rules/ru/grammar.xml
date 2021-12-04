@@ -10057,7 +10057,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <rule>        
             <pattern>
                 <!--     VB:.*         -->
-                <token skip="-1" regexp="yes">нужно|надо|необходимо<exception  scope="next" regexp="yes">[,:;]|и|или</exception><exception postag="PNN:.*" postag_regexp="yes" scope="next" /></token>
+                <token skip="-1" regexp="yes">нужно|надо|необходимо<exception  scope="next" regexp="yes">&pnct;|и|или</exception><exception postag="PNN:.*" postag_regexp="yes" scope="next" /></token>
                 <marker>
                   <token postag="VB:.*" postag_regexp="yes" skip="-1"><exception postag_regexp="yes"  postag="VB:INF:.*"></exception><exception postag_regexp="yes" negate_pos="yes" postag="VB:.*"></exception><exception>трём</exception><exception postag_regexp="yes" scope="next" postag="VB:.*"></exception></token>
                 </marker>
@@ -10068,6 +10068,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Глагол должен быть в неопределённой форме</short>
             <example>Нужно, чтобы мы готовились к худшему.</example>
             <example>Не надо суетиться!</example>
+            <example>Нужно решить транспортную проблему – заявил губернатор Московской области Борис Громов.</example>
             <example>Спрашивайте, что вам надо и оставьте меня в покое.</example> <!-- Incorrect example, correct: Спрашивайте, что вам надо, и оставьте меня в покое. -->
             <example correction="суетиться">Не надо <marker>суетится</marker>!</example>
             <example correction="перепрыгнуть">Толику необходимо <marker>перепрыгнул</marker> через барьер.</example>
