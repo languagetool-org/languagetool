@@ -18,15 +18,11 @@
  */
 package org.languagetool.rules;
 
-import org.apache.commons.io.FileUtils;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.language.Demo;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
