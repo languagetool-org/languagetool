@@ -18,21 +18,55 @@
  */
 package org.languagetool.rules;
 
+import org.apache.commons.io.FileUtils;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.language.Demo;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
+import static org.languagetool.rules.AbstractSimpleReplaceRule2.simpleReplaceCaseSensitive;
 
 public class AbstractSimpleReplaceRule2Test {
+
+  // Testing methods created for https://github.com/languagetool-org/languagetool/issues/2288
+  /**
+   * This test aims to ensure that simpleReplaceCaseSensitive works as according to the linked issue above.
+   * This is a standard case, which should not throw any Exceptions.
+   * @throws IOException  In case of errors writing to tempFile
+   */
+  @Test
+  public void caseSensitiveSimpleReplaceNoExceptions() throws IOException {
+    Demo lang = new Demo();
+    JLanguageTool lt = new JLanguageTool(lang);
+    String uppercaseSentence = "UpperCase = Test. Tokens here";
+    String lowercaseSentence = "lowercase = Test tokens here?";
+    List<Map<String, SuggestionWithMessage>> uppercase = simpleReplaceCaseSensitive(uppercaseSentence, lt.getAnalyzedSentence(uppercaseSentence));
+    List<Map<String, SuggestionWithMessage>> lowercase = simpleReplaceCaseSensitive(lowercaseSentence, lt.getAnalyzedSentence(lowercaseSentence));
+    assertEquals(uppercase.size(), 2);
+    assertEquals(lowercase.size(), 2);
+  }
+
+  /**
+   * This simply tests if a sentence of the wrong format is added (no = is present)
+   * @throws IOException  If no = is present in sentence string
+   */
+  @Test
+  public void caseSensitiveSimpleReplaceException() throws IOException {
+    Demo lang = new Demo();
+    JLanguageTool lt = new JLanguageTool(lang);
+    String wrongFormat = "rkjghkrj";
+    assertThrows(IOException.class, () -> {
+      List<Map<String, SuggestionWithMessage>> uppercase = simpleReplaceCaseSensitive(wrongFormat, lt.getAnalyzedSentence(wrongFormat));
+    });
+  }
   
   @Test
   public void testRule() throws IOException {
