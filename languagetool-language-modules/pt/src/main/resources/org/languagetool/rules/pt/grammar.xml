@@ -25436,21 +25436,23 @@ A rais da árvore está podre. → A raiz da árvore está podre.
       <short>Esta palavra não é um verbo</short>
     <rule>
       <pattern>
+	      <token negate="yes" regexp='yes'>[ao]s?</token> <!-- MARCOAGPINTO 2021-12-04 (25-JUN-2021+) - Ricardo Joseh Lima "O eu lírico da narrativa está oculto." -->
           <token regexp='yes'>&pronomes_retos;</token>
           <token regexp='yes'>(&adj_nomes_paronimos_i;|&adj_nomes_paronimos_i_2;)s?</token>
       </pattern>
       <message>Se pretende utilizar o verbo, não deve acentuar a palavra.</message>
-        <suggestion>\1 <match no='2' regexp_match="[Íí]" regexp_replace="i"/></suggestion>
+        <suggestion>\2 <match no='3' regexp_match="[Íí]" regexp_replace="i"/></suggestion>
       <example correction='Ele dizima'><marker>Ele dízima</marker> os adversários.</example>
     </rule>
     <rule>
       <pattern>
+		  <token negate="yes" regexp='yes'>[ao]s?</token> <!-- MARCOAGPINTO 2021-12-04 (25-JUN-2021+) - Ricardo Joseh Lima "O eu lírico da narrativa está oculto." -->
           <token regexp='yes'>(&adj_nomes_paronimos_i;|&adj_nomes_paronimos_i_2;)s?</token>
           <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
           <token postag_regexp='yes' postag='PP.+' spacebefore='no'/>
       </pattern>
       <message>Se pretende utilizar o verbo, não deve acentuar a palavra.</message>
-        <suggestion><match no='1' regexp_match="[Íí]" regexp_replace="i"/>-\3</suggestion>
+        <suggestion><match no='2' regexp_match="[Íí]" regexp_replace="i"/>-\4</suggestion>
       <example correction='Indico-lhe'><marker>Índico-lhe</marker> a direção a tomar.</example>
     </rule>
   </rulegroup>
