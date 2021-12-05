@@ -92,7 +92,7 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
     String originalPostag = getAnalyzedToken(patternTokens[lemmaFrom - 1], lemmaSelect).getPOSTag();
     String desiredPostag = getAnalyzedToken(patternTokens[postagFrom - 1], postagSelect).getPOSTag();
     
-    if (desiredPostag==null) {
+    if (desiredPostag == null) {
       throw new IllegalArgumentException("AdvancedSynthesizerFilter: undefined POS tag");
     }
 
@@ -110,7 +110,7 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
       RuleMatch newMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(),
           match.getMessage(), match.getShortMessage());
       newMatch.setType(match.getType());
-      List<String> replacementsList = new ArrayList<String>();
+      List<String> replacementsList = new ArrayList<>();
 
       boolean suggestionUsed = false;
       for (String r : match.getSuggestedReplacements()) {
@@ -151,12 +151,12 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
     if (aMatcher.matches() && bMatcher.matches()) {
       for (int i = 1; i <= aMatcher.groupCount(); i++) {
         String groupStr = aMatcher.group(i);
-        String toReplace = "\\\\a" + String.valueOf(i);
+        String toReplace = "\\\\a" + i;
         result = result.replaceAll(toReplace, groupStr);
       }
       for (int i = 1; i <= bMatcher.groupCount(); i++) {
         String groupStr = bMatcher.group(i);
-        String toReplace = "\\\\b" + String.valueOf(i);
+        String toReplace = "\\\\b" + i;
         result = result.replaceAll(toReplace, groupStr);
       }
     }
