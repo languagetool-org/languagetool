@@ -3969,18 +3969,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Flamme">Die lodernde <marker>Flame</marker> der Reinigung sei unser Zeichen.</example>
             </rule>
         </rulegroup>
-        <rule id="BEREIST_BEREITS" name="'bereist (bereits) etwas vor'">
-            <pattern>
-                <marker>
-                    <token regexp="yes">bereist|bereit</token>
-                </marker>
-                <token regexp="yes">etwas|was</token>
-                <token>vor</token>
-            </pattern>
-            <message>Meinten Sie <suggestion>bereits</suggestion> (schon) oder <suggestion>bereite</suggestion> (vorbereiten)?</message>
-            <example>Ich <marker>bereite</marker> etwas vor.</example>
-            <example correction="bereits|bereite">Da habe ich <marker>bereist</marker> etwas vor.</example>
-        </rule>
+        <rulegroup id="BEREIST_BEREITS" name="'bereist (bereits) etwas vor'">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">bereis?t</token>
+                    </marker>
+                    <token regexp="yes">etwas|was</token>
+                    <token>vor</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>bereits</suggestion> (=schon) oder <suggestion>bereite</suggestion> (=vorbereiten)?</message>
+                <example>Ich <marker>bereite</marker> etwas vor.</example>
+                <example correction="bereits|bereite">Da habe ich <marker>bereist</marker> etwas vor.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token inflected="yes">sein</token>
+                    <marker>
+                        <token regexp="yes">bereis?t</token>
+                    </marker>
+                    <token postag="PA2.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Meinten Sie <suggestion>bereits</suggestion> (=schon)?</message>
+                <example correction="bereits">Ich war <marker>bereist</marker> eingeschlafen.</example>
+            </rule>
+        </rulegroup>
         <rule id="BAFF_ERSTAUNT" name="'baff (bass) erstaunt'">
             <pattern>
                 <marker>
