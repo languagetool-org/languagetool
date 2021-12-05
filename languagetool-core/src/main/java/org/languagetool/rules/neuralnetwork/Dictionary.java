@@ -82,6 +82,20 @@ public class Dictionary extends HashMap<String, Integer> {
   }
 
   /**
+   * Getter method for retrieving a list of flags for each unique word.
+   * @return  The list of flags for specified String key
+   */
+  public ArrayList<String> getAdvancedDictFlags(String key) {
+    // Issue here: https://github.com/languagetool-org/languagetool/issues/5609
+    ArrayList<String> flags = new ArrayList<>();
+    for (Integer flagKey : advancedDict.get(key).keySet()) {
+      String[] split = advancedDict.get(key).get(flagKey).split(", ");
+      Collections.addAll(flags, split);
+    }
+    return flags;
+  }
+  
+  /**
    * Same logic as fromString void statement, only this time for advanced dictionary
    * @param maps  List of words and their frequency in dictionary format
    * @return  A HashMap of Strings and their frequency converted from String parameter
