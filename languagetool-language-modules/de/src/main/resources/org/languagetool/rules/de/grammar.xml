@@ -51134,6 +51134,27 @@ Andere Projekte</example>
                 <example>Er kam mit dem <marker>Rad und tat</marker> sportlich.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="INNERE_WERTE" name="'innere werte (Werte)'"  default="temp_off">
+            <rule>
+                <antipattern>
+                    <token postag_regexp="yes" postag="ADV:INR|KON:UNT" skip="-1"></token>
+                    <marker>
+                        <token case_sensitive="yes">werte</token>
+                    </marker>
+                    <token postag="PKT"/>
+                </antipattern>
+                <pattern>
+                    <token postag_regexp="yes" postag="ADJ.*"><exception  postag_regexp="yes" postag="ADJ.*" negate="yes"/></token>
+                    <marker>
+                        <token case_sensitive="yes">werte</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>Werte</suggestion>?</message>
+                <short>&prgk;.</short>
+                <example correction="Werte">Er sind hohe <marker>werte</marker>, die alarmieren.</example>
+                <example>Er erläuterte ihr, weshalb er dies so negativ werte.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AM_NOETIGSTEN_FEHLEN" name="'am nötigsten (Nötigsten) fehlen'">
             <rule>
                 <pattern>
