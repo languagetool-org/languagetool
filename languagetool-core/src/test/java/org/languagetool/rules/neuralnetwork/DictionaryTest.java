@@ -58,6 +58,7 @@ public class DictionaryTest {
     assertEquals(dict.getAdvancedDict().size(), 3);
     assertEquals(dict.getAdvancedDictInfo("a"), tempMap);
     assertNull(dict.getAdvancedDictInfo("skdjhk"));
+    assertEquals(dict.getAdvancedDictFlags("UNK").size(), 2);
   }
 
   /**
