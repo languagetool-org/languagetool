@@ -40598,6 +40598,52 @@ Elas têm umas sextas de vime. → Elas têm umas cestas de vime.
 
  <category id='REDACTION_TIPS' name='Dicas de redação' type='style'>
 
+	<!-- ATRAVÉS DE por -->
+    <rule id='ATRAVES_DE_POR' name="Através de → por" type="style" default="temp_off">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-12-05 (25-JUN-2021+)      -->
+	<!--
+O FBI soube disso através de carta. → O FBI soube disso por carta.
+	-->
+<!--
+A bactéria do carbúnculo mata através de uma toxina.
+Em fábricas de cerveja modernas isto é conseguido através de um trocador de calor de placas.
+O mosto é bombeado para dentro do trocador de calor, e passa através de cada dois intervalos entre as placas.
+É calculado através de uma soma vetorial, que ajudará a chegar ao campo resultante.
+Antes da divisão celular os cromossomas são duplicados através de um processo chamado replicação.
+O envio e recebimento de uma mensagem de e-mail é realizada através de um sistema de correio eletrônico.
+-->
+	  <antipattern>
+		<token postag='V.+' postag_regexp='yes'/>
+		<token>através</token>
+		<token>de</token>			
+		<token postag='DI.+|Z0.+' postag_regexp='yes'/>
+	  </antipattern>
+      <pattern>
+		  <or>
+			<token negate_pos="yes" postag='NP.+|NC.+|AQ.+|PP.+|VMIP3P0|SENT_START|PD.+' postag_regexp='yes'/>
+			<token postag='PP3CN000|PP3..A.+' postag_regexp='yes'/>
+		  </or>
+		  <marker>
+			<token>através</token>
+			<token>de</token>			
+		  </marker>
+		  <token negate_pos="yes" postag='DP.+' postag_regexp='yes'/>
+      </pattern>
+      <message>Pode simplificar a parafrase empregando: <suggestion>por</suggestion>.</message>
+	  <example correction="por">O FBI soube disso <marker>através de</marker> carta.</example>
+	  <example>Os reis do Épiro alegavam descendência de Aquiles através de seu filho, Neoptólemo.</example>
+	  <example>A conexão do fruto com o talo da planta é feita através de um pedúnculo.</example>
+	  <example>É claro que eu concordo que você deva avançar na vida através de seus próprios esforços.</example>
+	  <example>Também é permitida a participação popular nas decisões do governo através de referendos e plebiscitos.</example>
+	  
+	  <example>A bactéria do carbúnculo mata através de uma toxina.</example>
+	  <example>Em fábricas de cerveja modernas isto é conseguido através de um trocador de calor de placas.</example>
+	  <example>O mosto é bombeado para dentro do trocador de calor, e passa através de cada dois intervalos entre as placas.</example>
+	  <example>É calculado através de uma soma vetorial, que ajudará a chegar ao campo resultante.</example>
+	  <example>Antes da divisão celular os cromossomas são duplicados através de um processo chamado replicação.</example>
+	  <example>O envio e recebimento de uma mensagem de e-mail é realizada através de um sistema de correio eletrônico.</example>
+    </rule>
+
 	<!-- CORRER O RISCO arriscar-->
     <rule id='CORRER_RISCO_ARRISCAR' name="Correr o risco → Arriscar" type='style'>
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-09-01 (25-JUN-2021+)      -->
