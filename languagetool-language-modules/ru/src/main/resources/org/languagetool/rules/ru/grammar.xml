@@ -2531,7 +2531,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <exception postag="VB:.*" postag_regexp="yes" negate_pos="yes"></exception>
                     <exception inflected="yes" regexp="yes">быть|идти|мешать|делать|сделать|пойти|просить|попросить|пытаться|помогать|побудить|заставить|иметься|мочь|сходить|смотреть|хотеть|брать|давать</exception>
                     <exception regexp="yes">&verb;</exception>
-                    <exception scope="previous">ни</exception>
+                    <exception scope="previous" regexp="yes" >ни|черт|чёрт</exception>
                 </token>
                 </unify>
             </pattern>
@@ -2539,6 +2539,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Пропущена запятая</short>
             <example>Я ни курю ни пью.</example>
             <example>Дал другу в долг -- потерял друга.</example>
+            <example>Он приводит черт знает к чему.</example>
             <example>Думай не думай - ничего не изменишь.</example>
             <example correction="">Свиньи все <marker>подохли остался</marker> один баран.</example>
             <example>Свиньи все подохли, остался один баран.</example>
@@ -2702,11 +2703,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern case_sensitive="yes">
                     <unify negate="no">
                         <feature id="gender"/>
-                        <feature id="tense"/> 
+                        <feature id="tense"/>
+                        <marker> 
                         <token postag="VB:Past:.*" postag_regexp="yes"  skip="2" >
                             <exception negate_pos="yes" postag="VB:Past:.*" postag_regexp="yes" />
                             <exception regexp="yes">Бил|МОК</exception>
-                            <exception scope="next" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|—|не|и|или|«|--|если|чего|как</exception>
+                            <exception scope="next" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|—|не|и|или|«|--|если|чего|как|быть</exception>
                             <exception scope="next"  postag="INTERJECTION"></exception>
                         </token>
                         <token postag="VB:Past:.*" postag_regexp="yes">
@@ -2715,12 +2717,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <exception scope="previous" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|—|«|не|и|или|если|как</exception>
                             <exception scope="previous" postag_regexp="yes" postag="PREP|INTERJECTION"></exception>
                         </token>
+                        </marker>
                     </unify>
+                    <token><exception>быть</exception></token>
                 </pattern>      
                 <message>Глаголы – однородные члены предложения: <suggestion><match no="1" include_skipped="all" />, <match no="2" /></suggestion> или <suggestion><match no="1" include_skipped="all" /> и <match no="2" /></suggestion>.</message>
                 <url>https://ru.wikipedia.org/wiki/%D0%9E%D0%B4%D0%BD%D0%BE%D1%80%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%87%D0%BB%D0%B5%D0%BD%D1%8B_%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F</url>
                 <short>Однородные члены предложения</short>
                 <example>Он смеялся и радовался жизни.</example>
+                <example>Задело стало быть за живое.</example>
+                <example>Он приводит черт знает к чему.</example>
                 <example>Он шёл по улице, говорил по телефону.</example>
                 <example>Он идёт по улице, говорит по телефону.</example>
                 <example correction="смеялся, радовался|смеялся и радовался">Он <marker>смеялся радовался</marker> жизни.</example>
@@ -2735,7 +2741,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <unify negate="no">
                         <feature id="person"/>
                         <feature id="number"/>
-                        <feature id="tense"/>        
+                        <feature id="tense"/>
+                        <marker>        
                         <token postag="VB:(Real|IMP|Fut):.*:.*" postag_regexp="yes"  skip="2" >
                             <exception negate_pos="yes" postag="VB:(Real|IMP|Fut):.*:.*" postag_regexp="yes" />
                             <exception regexp="yes">Бил|МОК</exception>
@@ -2746,10 +2753,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="VB:(Real|IMP|Fut):.*:.*" postag_regexp="yes">
                             <exception negate_pos="yes" postag="VB:(Real|IMP|Fut):.*:.*" postag_regexp="yes" />
                             <exception regexp="yes">Бил|МОК</exception>
-                            <exception scope="previous" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|—|«|не|и|или|если|что|как</exception>
+                            <exception scope="previous" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|—|«|не|и|или|если|что|как|черт|чёрт</exception>
                             <exception scope="previous" postag_regexp="yes" postag="PREP|INTERJECTION|VB:INF:.*"></exception>
                         </token>
-                    </unify>
+                        </marker>
+                    </unify>            
                 </pattern>      
                 <message>Глаголы – однородные члены предложения: <suggestion><match no="1" include_skipped="all" />, <match no="2" /></suggestion> или <suggestion><match no="1" include_skipped="all" /> и <match no="2" /></suggestion>.</message>
                 <url>https://ru.wikipedia.org/wiki/%D0%9E%D0%B4%D0%BD%D0%BE%D1%80%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%87%D0%BB%D0%B5%D0%BD%D1%8B_%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F</url>
@@ -2758,6 +2766,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Пока живу — надеюсь.</example>
                 <example>Ты можешь сожалеть сколько хочешь.</example>
                 <example>Покрась и побели забор.</example>
+                <example>Задело стало быть за живое.</example>
+                <example>Он приводит черт знает к чему.</example>
                 <example>Я, может, скоро сдамся и вместо этого пойду вздремну.</example>
                 <example>Я сделаю всё что могу.</example>
                 <example>Надеюсь однажды я перестану торчать здесь.</example>
