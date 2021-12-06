@@ -139,7 +139,8 @@ public class HTTPServerConfig {
   protected GlobalConfig globalConfig = new GlobalConfig();
   protected List<String> disabledRuleIds = new ArrayList<>();
   protected boolean stoppable = false;
-
+  
+  protected String passwortLoginAccessListPath = "";
   /**
    * caching to avoid database hits for e.g. dictionaries
    * null -&gt; disabled
@@ -440,6 +441,7 @@ public class HTTPServerConfig {
         databaseTimeoutRateThreshold = Integer.parseInt(getOptionalProperty(props, "dbTimeoutRateThreshold", "100"));
         databaseDownIntervalSeconds = Integer.parseInt(getOptionalProperty(props, "dbDownIntervalSeconds", "10"));
         dbLogging = Boolean.valueOf(getOptionalProperty(props, "dbLogging", "false").trim());
+        passwortLoginAccessListPath = getOptionalProperty(props, "passwortLoginAccessListPath", "");
         prometheusMonitoring = Boolean.valueOf(getOptionalProperty(props, "prometheusMonitoring", "false").trim());
         prometheusPort = Integer.parseInt(getOptionalProperty(props, "prometheusPort", "9301"));
         skipLoggingRuleMatches = Boolean.valueOf(getOptionalProperty(props, "skipLoggingRuleMatches", "false").trim());
@@ -1450,5 +1452,6 @@ public class HTTPServerConfig {
   public void setRedisKeyPassword(String redisKeyPassword) {
     this.redisKeyPassword = redisKeyPassword;
   }
-
+  
+  public String getPasswortLoginAccessListPath() { return passwortLoginAccessListPath; }
 }
