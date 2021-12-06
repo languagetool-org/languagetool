@@ -77,9 +77,9 @@ public class CatalanRepeatedWordsRule extends AbstractRepeatedWordsRule {
     } else if (postag.contains("FP")) {
       return postag.replaceFirst("FP", "[FC][PN]");
     } else if (postag.contains("CS")) {
-      return postag.replaceFirst("CS", "[MC][SN]"); // also F ?
+      return postag.replaceFirst("CS", "[MFC][SN]"); // also F ?
     } else if (postag.contains("CP")) {
-      return postag.replaceFirst("CP", "[MC][PN]"); // also F ?
+      return postag.replaceFirst("CP", "[MFC][PN]"); // also F ?
     } else if (postag.contains("MN")) {
       return postag.replaceFirst("MN", "[MC][SPN]");
     } else if (postag.contains("FN")) {

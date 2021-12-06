@@ -228,4 +228,8 @@ public class Catalan extends Language {
     }
     return super.getPriorityForId(id);
   }
+  
+  public boolean hasMinMatchesRules() {
+    return true;
+  }
 }
