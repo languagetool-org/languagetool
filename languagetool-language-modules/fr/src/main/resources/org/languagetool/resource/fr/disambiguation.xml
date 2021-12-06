@@ -2192,6 +2192,57 @@ RB => Règles Brutes
     </rule>
     <!-- END: proper nouns -->
     <!-- CATEGORY: nouns, nominal groups (particular cases) -->
+    <rule id="L_ETRE_HUMAIN" name="l'être humain">
+        <!-- with agreement error -->
+        <pattern>
+            <token postag="D e s">l'</token>
+            <token postag="N m s">être</token>
+            <token postag="J m s">humain</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rule id="UNE_AURA" name="une aura">
+        <!-- with agreement error -->
+        <pattern>
+            <token postag="D . s" postag_regexp="yes"/>
+            <token postag="J.*" postag_regexp="yes"/>
+            <marker>
+            <token>aura</token>
+            </marker>
+            <token inflected="yes" min="0" max="1">ne</token>
+            <token postag="R pers obj.*" postag_regexp="yes"  min="0" max="3"/>
+            <token postag="V.* 3 s" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="remove" postag="V avoir ind futu 3 s"/>
+    </rule>
+    <rule id="COULEURS_VIVES" name="couleurs vives">
+        <!-- with agreement error -->
+        <pattern>
+            <token postag="N . p" postag_regexp="yes"/>
+            <marker>
+            <token>vives</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="V sub pres 2 s"/>
+    </rule>
+    <rule id="DROIT" name="droit des femmes">
+        <!-- with agreement error -->
+        <pattern>
+            <token postag="N m s">droit</token>
+            <token>des</token>
+            <token postag="N.*" postag_regexp="yes" regexp="yes">femmes|hommes|enfants|familles</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rule id="MOBILIER_ET_ACCESSOIRES" name="mobilier et accessoires">
+        <!-- with agreement error -->
+        <pattern>
+            <token postag="N m s">mobilier</token>
+            <token postag="C coor">et</token>
+            <token postag="N m p">accessoires</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
     <rule id="NOM_INCLUSIF" name="participant.e.s (noun)">
         <pattern>
             <token postag="[DP].*" postag_regexp="yes"/>
