@@ -49,12 +49,9 @@ public class EnglishRepeatedWordsRule extends AbstractRepeatedWordsRule{
     ),
 
     Arrays.asList(
-      new PatternTokenBuilder().csToken("solve").matchInflectedForms().build(),   // "solve the problem" is a unique collocation
-      new PatternTokenBuilder().posRegex("P?DT|PRP$.*|NNPS?").min(0).build(),     // "solve the issue|concern|difficulty" sounds bizarre
-      new PatternTokenBuilder().pos("POS").min(0).build(),                        // lots of disables in Matomo
-      new PatternTokenBuilder().posRegex("J.*|ORD").min(0).build(),
-      tokenRegex("problems?")
-    ),
+      new PatternTokenBuilder().tokenRegex("solve(s|d|ing)?").setSkip(3).build(),   // "solve the problem" is a unique collocation
+      tokenRegex("problems?")                                                    // "solve the issue|concern|difficulty" sounds bizarre
+    ),                                                                             // lots of disables in Matomo
 
     Arrays.asList(
       posRegex("SENT_START|PCT"),       // "No problem, I'm not in a rush."
