@@ -12769,7 +12769,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token inflected="yes">número</token>
                     <token>de</token>
-                    <token></token>
+                    <token/>
                     <token regexp="yes">\d[\d,\. ]*</token>
                 </antipattern>
                 <pattern>
@@ -23894,6 +23894,47 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category name="repeticiones" id="REPETITIONS">
+        <rulegroup name="expresiones repetidas" id="REPETITION_STYLE_RULE">
+            <rule min_prev_matches="1">
+                <pattern>
+                    <token>por</token>
+                    <token min="0">lo</token>
+                    <token>tanto</token>
+                </pattern>
+                <message>Esta expresión aparece en una frase anterior. Puede sustituirla por otra para hacer más variado el texto.</message>
+                <suggestion>en consecuencia</suggestion>
+                <suggestion>pues</suggestion>
+                <suggestion>como resultado</suggestion>
+                <example correction="En consecuencia|Pues|Como resultado"><marker>Por lo tanto</marker>, ganó el partido.</example>
+            </rule>
+            <rule min_prev_matches="1">
+                <pattern>
+                    <token>ya</token>
+                    <token>que</token>
+                </pattern>
+                <message>Esta expresión aparece en una frase anterior. Puede sustituirla por otra para hacer más variado el texto.</message>
+                <suggestion>porque</suggestion>
+                <suggestion>puesto que</suggestion>
+                <suggestion>por el hecho de que</suggestion>
+                <suggestion>pues</suggestion>
+                <example correction="porque|puesto que|por el hecho que|pues">La solución era buena, <marker>ya que</marker> gustaba a todos.</example>
+            </rule>
+            <rule min_prev_matches="1">
+                <antipattern>
+                    <token>después</token>
+                    <token inflected="yes" regexp="yes">de|que</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>después</token>
+                    </marker>
+                </pattern>
+                <message>Esta expresión aparece en una frase anterior. Puede sustituirla por otra para hacer más variado el texto.</message>
+                <suggestion>posteriormente</suggestion>
+                <suggestion>más tarde</suggestion>
+                <example correction="Posteriormente|Más tarde"><marker>Después</marker> lo arreglaremos.</example>
+            </rule>
+        </rulegroup>
         <rule id="QUE_QUE" name="que y que">
             <pattern>
                 <token>que</token>
