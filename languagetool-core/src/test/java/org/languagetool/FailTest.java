@@ -20,6 +20,7 @@
 
 package org.languagetool;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static junit.framework.Assert.assertTrue;
@@ -27,6 +28,7 @@ import static junit.framework.Assert.assertTrue;
 public class FailTest {
   
   @Test
+  @Ignore //just for circleci tests
   public void fail() {
     assertTrue(false);
   }
