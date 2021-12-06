@@ -1232,6 +1232,22 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <wd lemma="a espai" pos="LOC_ADV"/>
             </disambig>
         </rule>
+        <rule id="de_prop" name="de prop (locució adverbial)">
+            <antipattern>
+                <token>prop</token>
+                <token postag="PX.*" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>de</token>
+                    <token>prop</token>
+                </marker>
+            </pattern>
+            <disambig action="replace">
+                <wd lemma="de prop" pos="LOC_ADV"/>
+                <wd lemma="de prop" pos="LOC_ADV"/>
+            </disambig>
+        </rule>
         <rule id="venir_de_gust" name="venir de gust (locució adverbial)">
             <pattern>
                 <token inflected="yes">venir</token>
@@ -7463,6 +7479,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rule>
     <rule id="prep_art_nomverb" name="preposició + article + nom/verb">
         <!-- pels projectes, malgrat una llista -->
+        <antipattern>
+            <token>tot</token>
+            <token>sou</token>
+        </antipattern>
         <pattern>
             <token postag="SPS00|.*LOC_PREP.*" postag_regexp="yes"><exception postag="RG"/></token>
             <token postag="D[AIP].*" postag_regexp="yes"><exception regexp="yes">es|s'|altres?|altra</exception></token>
@@ -10620,7 +10640,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="som" name="què som">
         <rule>
             <pattern>
-                <token regexp="yes">qui|quins|què|quant|quants|com|nosaltres|pocs|poques</token>
+                <token regexp="yes">qui|quins|què|quant|quants|com|nosaltres|pocs|poques|ja</token>
                 <marker>
                     <token postag="VSIP1P00">som</token>
                 </marker>
@@ -12921,15 +12941,38 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="[^V].*"/>
     </rule>
-    <rule id="baixa" name="baixa (adj o verb)">
-        <pattern>
-            <token postag="SENT_START|_PUNCT|CC" postag_regexp="yes"/>
-            <marker>
-                <token postag="V.*" postag_regexp="yes">baixa<exception postag="_GN_FS"/></token>
-            </marker>
-        </pattern>
-        <disambig action="remove" postag="A.*"/>
-    </rule>
+    <rulegroup id="baixa" name="baixa (adj o verb)">
+        <rule>
+            <pattern>
+                <token postag="SENT_START|_PUNCT|CC" postag_regexp="yes"/>
+                <marker>
+                    <token postag="V.*" postag_regexp="yes">baixa<exception postag="_GN_FS"/></token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="A.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token>ja</token>
+                <marker>
+                    <token postag="V.*" postag_regexp="yes">baixa<exception postag="_GN_FS"/></token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="A.*"/>
+        </rule>
+    </rulegroup>
+    <rulegroup id="viu" name="viu (adj o verb)">
+        <rule>
+            <pattern>
+                <token postag="_GN_FS|NC[FC][SN].*" postag_regexp="yes"/>
+                <marker>
+                    <token postag="V.*" postag_regexp="yes">viu<exception postag="_GN_MS"/></token>
+                </marker>
+                <token postag="A..[FC][SN].|V.P..SF." postag_regexp="yes"/>
+            </pattern>
+            <disambig action="remove" postag="A.*"/>
+        </rule>
+    </rulegroup>
     <rule id="dura" name="dura">
         <pattern>
             <token>encara</token>
