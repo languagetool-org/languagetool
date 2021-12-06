@@ -381,7 +381,6 @@ class CheckRequestAnalysis {
     }
 
     // Initialization 
-    
     docCursor = null;
     setFlatParagraphTools(xComponent);
 

@@ -121,7 +121,7 @@ class SingleCheck {
   public SingleProofreadingError[] getCheckResults(String paraText, int[] footnotePositions, Locale locale, SwJLanguageTool lt, 
       int paraNum, int startOfSentence, boolean textIsChanged, int changeFrom, int changeTo, String lastSinglePara, 
       int lastChangedPara, boolean isIntern) {
-    if (isDisposed() || (mDocHandler.getGoneComponent() != null && mDocHandler.getGoneComponent().equals(xComponent))) {
+    if (isDisposed()) {
       return new SingleProofreadingError[0];
     }
     if (!isImpress && !isIntern && lastChangedPara >= 0) {
@@ -176,7 +176,7 @@ class SingleCheck {
     MultiDocumentsHandler mDH = mDocHandler;
     DocumentCursorTools docCursor = this.docCursor;
     DocumentCache docCache = this.docCache;
-    if (isDisposed() || (mDocHandler.getGoneComponent() != null && mDocHandler.getGoneComponent().equals(xComponent))) {
+    if (isDisposed()) {
       return;
     }
     if (docCache == null || nFPara < 0 || nFPara >= docCache.size()) {
@@ -263,13 +263,13 @@ class SingleCheck {
         if (mDH.getTextLevelCheckQueue() == null || mDH.getTextLevelCheckQueue().isInterrupted()) {
           return;
         }
-        if (mDocHandler.getGoneComponent() != null && mDocHandler.getGoneComponent().equals(xComponent)) {
+        if (isDisposed()) {
           return;
         }
         if (docCursor == null && !isDisposed()) {
           docCursor = new DocumentCursorTools(xComponent);
         }
-        flatPara = singleDocument.setFlatParagraphTools(xComponent);
+        flatPara = singleDocument.setFlatParagraphTools();
         
         List<Integer> changedParas = new ArrayList<>();
         if (oldCache != null) {

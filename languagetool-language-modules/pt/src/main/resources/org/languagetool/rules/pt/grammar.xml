@@ -25117,7 +25117,27 @@ Sinto frio mesmo com dois pares de meias.
 
 	<!-- ESTA está -->
     <rulegroup id='ESTA_ESTÁ' name="Confusão: esta/está">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-27 + 2021-07-28 (25-JUN-2021+)      -->
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-27/28 + 2021-12-06 (25-JUN-2021+)      -->
+	<!--
+A posição dos cestos agora é está. → A posição dos cestos agora é esta.
+A grande maioria dos gregos são cristãos sendo está fé seguida por 92% da população. → A grande maioria dos gregos são cristãos sendo esta fé seguida por 92% da população.
+	-->
+	<rule>
+      <pattern>
+		<token negate_pos="yes" postag='DA.+' postag_regexp='yes'/>
+	    <token min="1" max="2" postag='RG|NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+		<token postag='V.+' postag_regexp='yes'>
+			<exception postag_regexp='yes' postag='RG|I|NC.+|AQ.+|SPS.+'/>
+		</token>
+		<marker>
+			<token>está</token>
+		</marker>
+		<token negate_pos="yes" postag='V.+|SPS.+|RM|RG' postag_regexp='yes'/>
+      </pattern>
+	  <message>Substitua por <suggestion>esta</suggestion>.</message>
+      <example correction="esta">A posição dos cestos agora é <marker>está</marker>.</example>
+	  <example>A grande maioria dos gregos são cristãos sendo esta fé seguida por 92% da população.</example>
+    </rule>
 	<!--
 A raiz da árvore esta podre. → A raiz da árvore está podre.
 	-->

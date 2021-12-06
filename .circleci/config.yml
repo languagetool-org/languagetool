@@ -115,6 +115,18 @@ commands:
                   else
                     echo "No changes detected in <<parameters.path_to_check>>"
                   fi
+  save-test-results:
+    steps:
+      - run:
+          name: Save test results
+          command: |
+            mkdir -p ~/test-results/junit/
+            find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} ~/test-results/junit/ \;
+          when: always
+      - store_test_results: 
+          path: ~/test-results
+#      - store_artifacts: 
+#          path: ~test-results/junit
 executors:
   docker-openjdk8:
     docker:
@@ -133,6 +145,7 @@ jobs:
       - run-tests:
           path_to_check: "scheduledTask"
           ignore_diff: true
+      - save-test-results
       - save_cache:
           paths:
             - ~/.m2
@@ -234,6 +247,7 @@ jobs:
           path_to_check: "languagetool-tools"
       - run-tests:
           path_to_check: "languagetool-wikipedia"
+      - save-test-results
       - save_cache:
           paths:
             - ~/.m2
