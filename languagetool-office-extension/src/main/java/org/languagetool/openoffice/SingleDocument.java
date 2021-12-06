@@ -103,7 +103,7 @@ class SingleDocument {
   private LanguageToolMenus ltMenus = null;       //  LT menus (tools menu and context menu)
 
   SingleDocument(XComponentContext xContext, Configuration config, String docID, 
-      XComponent xComponent, MultiDocumentsHandler mDH) {
+      XComponent xComp, MultiDocumentsHandler mDH) {
     debugMode = OfficeTools.DEBUG_MODE_SD;
     this.xContext = xContext;
     this.config = config;
@@ -111,9 +111,9 @@ class SingleDocument {
     if (docID.charAt(0) == 'I') {
       isImpress = true;
     }
-    this.xComponent = xComponent;
+    xComponent = xComp;
     this.mDocHandler = mDH;
-    setDokumentListener(getNoneGoneComponent());
+    setDokumentListener(this.xComponent);
     this.paragraphsCache = new ArrayList<>();
     for (int i = 0; i < OfficeTools.NUMBER_TEXTLEVEL_CACHE; i++) {
       paragraphsCache.add(new ResultCache());
@@ -127,7 +127,7 @@ class SingleDocument {
       readCaches();
     }
     if (xComponent != null) {
-      setFlatParagraphTools(getNoneGoneComponent());
+      setFlatParagraphTools();
     }
   }
   
@@ -191,6 +191,9 @@ class SingleDocument {
     if (docLanguage == null) {
       docLanguage = lt.getLanguage();
     }
+    if (disposed) {
+      return paRes;
+    }
     if (!isImpress && ltMenus == null) {
       ltMenus = new LanguageToolMenus(xContext, this, config);
     }
@@ -246,7 +249,7 @@ class SingleDocument {
       ltMenus.setConfigValues(config);
     }
     if (config.noBackgroundCheck() || numParasToCheck == 0) {
-      setFlatParagraphTools(getNoneGoneComponent());
+      setFlatParagraphTools();
     }
   }
 
@@ -260,12 +263,6 @@ class SingleDocument {
     mDocHandler.resetSortedTextRules();
   }
   
-  /** Set LanguageTool menu
-   *//*
-  void setLtMenus(LanguageToolMenus ltMenus) {
-    this.ltMenus = ltMenus;
-  }
-  
   /** Get LanguageTool menu
    */
   LanguageToolMenus getLtMenu() {
@@ -275,8 +272,8 @@ class SingleDocument {
   /**
    * set menu ID to MultiDocumentsHandler
    */
-  void dispose() {
-    disposed = true;
+  void dispose(boolean disposed) {
+    this.disposed = disposed;
   }
   
   /**
@@ -326,21 +323,18 @@ class SingleDocument {
   void setXComponent(XComponentContext xContext, XComponent xComponent) {
     this.xContext = xContext;
     this.xComponent = xComponent;
-    setDokumentListener(getNoneGoneComponent());
+    if (xComponent == null) {
+      docCursor = null;
+      viewCursor = null;
+      flatPara = null;
+    } else {
+      setDokumentListener(xComponent);
+    }
   }
   
   /** Get xComponent of the document
    */
   XComponent getXComponent() {
-    return xComponent;
-  }
-  
-  /** Get xComponent of the document or null if component is gone
-   */
-  private XComponent getNoneGoneComponent() {
-    if (mDocHandler.getGoneComponent() != null && mDocHandler.getGoneComponent().equals(xComponent)) {
-      return null;
-    }
     return xComponent;
   }
   
@@ -419,7 +413,7 @@ class SingleDocument {
    */
   void readCaches() {
     if (numParasToCheck != 0) {
-      cacheIO = new CacheIO(getNoneGoneComponent());
+      cacheIO = new CacheIO(xComponent);
       boolean cacheExist = cacheIO.readAllCaches(config, mDocHandler);
       if (cacheExist) {
         docCache = cacheIO.getDocumentCache();
@@ -460,12 +454,12 @@ class SingleDocument {
   /** 
    * Open new flat paragraph tools or initialize them again
    */
-  public FlatParagraphTools setFlatParagraphTools(XComponent xComponent) {
+  public FlatParagraphTools setFlatParagraphTools() {
 	  if (disposed) {
       flatPara = null;
 	  } else if (flatPara == null) {
 //      MessageHandler.printToLogFile("new FlatParagraphTools"); 
-      flatPara = new FlatParagraphTools(getNoneGoneComponent());
+      flatPara = new FlatParagraphTools(xComponent);
       if (!flatPara.isValid()) {
         flatPara = null;
       }
@@ -578,7 +572,7 @@ class SingleDocument {
     if (!disposed) {
       SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, docCursor, flatPara, docLanguage, ignoredMatches, numParasToCheck, true);
       if (docCursor == null) {
-        docCursor = new DocumentCursorTools(getNoneGoneComponent());
+        docCursor = new DocumentCursorTools(xComponent);
       }
       singleCheck.remarkChangedParagraphs(changedParas, docCursor.getParagraphCursor(), flatPara, mDocHandler.getLanguageTool(), true);
     }

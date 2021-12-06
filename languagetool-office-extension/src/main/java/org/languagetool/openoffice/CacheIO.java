@@ -61,7 +61,7 @@ public class CacheIO implements Serializable {
   private static final String CACHEFILE_EXTENSION = "lcz";            //  extension of the files name (Note: cache files are in zip format)
   private static final int MIN_CHARACTERS_TO_SAVE_CACHE = 25000;      //  Minimum characters of document for saving cache 
   
-  private String documentPath;
+  private String documentPath = null;
   private AllCaches allCaches;
   
   CacheIO(XComponent xComponent) {
@@ -69,7 +69,9 @@ public class CacheIO implements Serializable {
   }
   
   void setDocumentPath(XComponent xComponent) {
-    documentPath = getDocumentPath(xComponent);
+    if (xComponent != null) {
+      documentPath = getDocumentPath(xComponent);
+    }
   }
   
   /** 
