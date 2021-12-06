@@ -55,13 +55,13 @@ public class GermanDisambiguationTest {
 
     tokens = lt.analyzeText("für Ihrer Sicherheit.");
     assertEquals(
-        "[<S> für[für/PRP:TMP+MOD+CAU:AKK,für/PRP:TMP+MOD+CAU:AKK,PP] Ihrer[ihr/PRO:POS:DAT:SIN:FEM:BEG,ihr/PRO:POS:DAT:SIN:FEM:STV,ihr/PRO:POS:GEN:SIN:FEM:BEG,ihr/PRO:POS:GEN:SIN:FEM:STV,ich/PRO:PER:GEN:SIN:FEM,sich/PRO:REF:GEN:SIN:FEM,B-NP|NPS|PP] Sicherheit[Sicherheit/SUB:DAT:SIN:FEM,Sicherheit/SUB:GEN:SIN:FEM,I-NP|NPS|PP].[</S>./PKT,<P/>,O]]",
+        "[<S> für[für/PRP:TMP+MOD+CAU:AKK,für/PRP:TMP+MOD+CAU:AKK,PP] Ihrer[Ihr/PRO:POS:DAT:SIN:FEM:BEG,Ihr/PRO:POS:DAT:SIN:FEM:STV,Ihr/PRO:POS:GEN:SIN:FEM:BEG,Ihr/PRO:POS:GEN:SIN:FEM:STV,B-NP|NPS|PP] Sicherheit[Sicherheit/SUB:DAT:SIN:FEM,Sicherheit/SUB:GEN:SIN:FEM,I-NP|NPS|PP].[</S>./PKT,<P/>,O]]",
         tokens.toString());
 
     // FIXME: missing tags for "Ihrer"
     tokens = lt.analyzeText("Wir entwickeln ein Konzept für Ihrer Sicherheit.");
     assertEquals(
-        "[<S> Wir[ich/PRO:PER:NOM:PLU:ALG,O] entwickeln[entwickeln/VER:1:PLU:KJ1:SFT,entwickeln/VER:1:PLU:PRÄ:SFT,entwickeln/VER:3:PLU:KJ1:SFT,entwickeln/VER:3:PLU:PRÄ:SFT,entwickeln/VER:INF:SFT,O] ein[ein/ART:IND:AKK:SIN:NEU,ein/ART:IND:NOM:SIN:NEU,B-NP|NPS] Konzept[Konzept/SUB:AKK:SIN:NEU,Konzept/SUB:NOM:SIN:NEU,I-NP|NPS] für[für/PRP:TMP+MOD+CAU:AKK,O] Ihrer[Ihrer/null,O] Sicherheit[Sicherheit/SUB:AKK:SIN:FEM,Sicherheit/SUB:DAT:SIN:FEM,Sicherheit/SUB:GEN:SIN:FEM,Sicherheit/SUB:NOM:SIN:FEM,B-NP|NPS].[</S>./PKT,<P/>,O]]",
+        "[<S> Wir[ich/PRO:PER:NOM:PLU:ALG,O] entwickeln[entwickeln/VER:1:PLU:KJ1:SFT,entwickeln/VER:1:PLU:PRÄ:SFT,entwickeln/VER:3:PLU:KJ1:SFT,entwickeln/VER:3:PLU:PRÄ:SFT,entwickeln/VER:INF:SFT,O] ein[ein/ART:IND:AKK:SIN:NEU,ein/ART:IND:NOM:SIN:NEU,B-NP|NPS] Konzept[Konzept/SUB:AKK:SIN:NEU,Konzept/SUB:NOM:SIN:NEU,I-NP|NPS] für[für/PRP:TMP+MOD+CAU:AKK,PP] Ihrer[Ihr/PRO:POS:DAT:SIN:FEM:BEG,Ihr/PRO:POS:DAT:SIN:FEM:STV,Ihr/PRO:POS:GEN:SIN:FEM:BEG,Ihr/PRO:POS:GEN:SIN:FEM:STV,B-NP|NPS|PP] Sicherheit[Sicherheit/SUB:DAT:SIN:FEM,Sicherheit/SUB:GEN:SIN:FEM,I-NP|NPS|PP].[</S>./PKT,<P/>,O]]",
         tokens.toString());
 
   }
