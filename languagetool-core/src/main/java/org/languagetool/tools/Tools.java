@@ -18,6 +18,12 @@
  */
 package org.languagetool.tools;
 
+import java.io.*;
+import java.lang.reflect.Constructor;
+import java.net.*;
+import java.text.MessageFormat;
+import java.util.*;
+import javax.xml.parsers.ParserConfigurationException;
 import org.languagetool.*;
 import org.languagetool.markup.*;
 import org.languagetool.rules.*;
@@ -26,12 +32,6 @@ import org.languagetool.rules.patterns.PasswordAuthenticator;
 import org.languagetool.rules.patterns.bitext.*;
 import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.*;
-import java.lang.reflect.Constructor;
-import java.net.*;
-import java.text.MessageFormat;
-import java.util.*;
 
 public final class Tools {
 
@@ -214,9 +214,9 @@ public final class Tools {
    * Rechecks the contents and returns valid and invalid suggestions
    * by checking the corrected text and evaluating the new rule matchs.
    * Can be slow if the number of original rule matchs are too large,
-   * as they are iterated to check if each replacement is valid, i.e. 
+   * as they are iterated to check if each replacement is valid, i.e.
    * doesn't raise any new rule matches.
-   * 
+   *
    * @param contents String to be checked
    * @param lt Initialized Language Tool object
    * @param level Level of the check (sentence, paragraph, etc)
@@ -251,7 +251,7 @@ public final class Tools {
           Arrays.asList(rm.getFromPos() - offset, rm.getToPos() - offset);
         otherMatchPosSet.add(offsetPos);
       }
-      
+
       // If the corrected text 1) remove the current match; 2) doesn't raise any new match,
       // then the current match is valid, i.e. matches of corrected text are all in the otherMatchSet.
       boolean valid = true;

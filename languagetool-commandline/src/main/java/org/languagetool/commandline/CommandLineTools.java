@@ -18,6 +18,14 @@
  */
 package org.languagetool.commandline;
 
+import java.io.IOException;
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.stream.Collectors;
 import org.languagetool.*;
 import org.languagetool.bitext.BitextReader;
 import org.languagetool.bitext.StringPair;
@@ -34,14 +42,6 @@ import org.languagetool.tools.RuleMatchesAsJsonSerializer;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
 
-import java.io.IOException;
-import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Locale;
-import java.util.stream.Collectors;
 
 import static java.util.Collections.emptyList;
 import static org.languagetool.JLanguageTool.Level.*;
@@ -148,9 +148,19 @@ public final class CommandLineTools {
     return ruleMatches.size();
   }
 
+  // CS427 Issue link: https://github.com/languagetool-org/languagetool/issues/5231
   /**
-   * Same as checkText except double checking the suggestions. Only returns
-   * the valid suggestions.
+   * Recheck the given text and print both valid and invalid results.
+   *
+   * @param contents a text to check (may be more than one sentence)
+   * @param lt Initialized LanguageTool
+   * @param isXmlFormat whether to print the result in XML format
+   * @param isJsonFormat whether to print the result in JSON format
+   * @param contextSize error text context size: -1 for default
+   * @param lineOffset line number offset to be added to line numbers in matches
+   * @param prevMatches number of previously matched rules
+   * @param apiMode mode of xml/json printout for simple xml/json output
+   * @return Number of rule matches to the input text.
    */
   public static int recheckText(String contents, JLanguageTool lt,
                                 boolean isXmlFormat, boolean isJsonFormat, int contextSize, int lineOffset,
@@ -159,7 +169,7 @@ public final class CommandLineTools {
     if (contextSize == -1) {
       contextSize = DEFAULT_CONTEXT_SIZE;
     }
-    long startTime = System.currentTimeMillis();    
+    long startTime = System.currentTimeMillis(); 
     Map<String, List<RuleMatch>> map = Tools.recheck(contents, lt, level);
     List<RuleMatch> ruleMatches = map.get("valid");
     List<RuleMatch> invalidMatches = map.get("invalid");
