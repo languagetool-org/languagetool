@@ -25,7 +25,7 @@ import java.text.MessageFormat;
 import java.util.*;
 import javax.xml.parsers.ParserConfigurationException;
 import org.languagetool.*;
-import org.languagetool.markup.*;
+import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.*;
 import org.languagetool.rules.bitext.BitextRule;
 import org.languagetool.rules.patterns.PasswordAuthenticator;

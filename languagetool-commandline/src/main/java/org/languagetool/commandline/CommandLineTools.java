@@ -191,12 +191,14 @@ public final class CommandLineTools {
               contextSize, apiMode, lt.getLanguage(), unknownWords);
       PrintStream out = new PrintStream(System.out, true, "UTF-8");
       out.print(xml);
+      out.close();
     } else if (isJsonFormat) {
       RuleMatchesAsJsonSerializer serializer = new RuleMatchesAsJsonSerializer();
       String json = serializer.ruleMatchesToJson(ruleMatches, contents, contextSize,
         new DetectedLanguage(lt.getLanguage(), lt.getLanguage()));
       PrintStream out = new PrintStream(System.out, true, "UTF-8");
       out.print(json);
+      out.close();
     } else {
       if (!ruleMatches.isEmpty()) {
         System.out.println("Valid matches:");

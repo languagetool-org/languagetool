@@ -662,7 +662,7 @@ public class MainTest extends AbstractSecurityTestCase {
     String[] args = {"--line-by-line", "--recheck", input.getAbsolutePath()};
     Main.main(args);
     String output = new String(this.out.toByteArray());
-    assertTrue(!output.contains("Invalid"));
+    assertFalse(output.contains("Invalid"));
   }
 
   private File writeToTempFile(String content) throws IOException {
