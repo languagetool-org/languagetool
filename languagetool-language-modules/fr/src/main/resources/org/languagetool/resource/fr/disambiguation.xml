@@ -258,7 +258,7 @@ RB => Règles Brutes
                 <token postag="P">entre</token>
             </marker>
         </pattern>
-        <disambig action="replace" postag="V ind pres 1 s"/>
+        <disambig action="replace" postag="V ind pres 1 s|V sub pres 1 s"/>
         </rule>
         <rule>
             <pattern>
@@ -493,7 +493,7 @@ RB => Règles Brutes
             <token postag="N f s">putain</token>
             </marker>
             <token>de</token>
-            <token postag="N m s"/>
+            <token postag="N m s|UNKNOWN|[YK]" postag_regexp="yes"/>
         </pattern>
         <disambig action="replace" postag="I"/>
     </rule>
@@ -2192,6 +2192,17 @@ RB => Règles Brutes
     </rule>
     <!-- END: proper nouns -->
     <!-- CATEGORY: nouns, nominal groups (particular cases) -->
+    <rule id="SOUVENIR_D_ETE" name="souvenirs d'été">
+        <!-- with agreement error -->
+        <pattern>
+            <token postag="N.*" postag_regexp="yes"/>
+            <token>d'</token>
+            <marker>
+                <token>été</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="N m s"/>
+    </rule>
     <rule id="L_ETRE_HUMAIN" name="l'être humain">
         <!-- with agreement error -->
         <pattern>
@@ -3272,6 +3283,22 @@ RB => Règles Brutes
             </marker>
         </pattern>
         <disambig action="remove" postag="J.*"/>
+    </rule>
+    <rule id="QUI_PLUS_EST" name="qui plus est">
+        <pattern>
+            <token postag="V.* (ind|sub|con).*" postag_regexp="yes"/>
+            <marker>
+                <token>qui</token>
+                <token>plus</token>
+                <token>est</token>
+            </marker>
+            <token postag="V.* inf" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="add">
+            <wd pos="A"/>
+            <wd pos="A"/>
+            <wd pos="A"/>
+        </disambig>
     </rule>
     <rule id="ON_LEUR_DONNE" name="on leur donne">
         <pattern>
@@ -7024,7 +7051,7 @@ RB => Règles Brutes
                 <marker>
                     <token postag="V (ind|sub) pres 3 ." postag_regexp="yes">
                         <exception scope="previous" regexp="yes">&prefixes;</exception>
-                        <exception>fait</exception>
+                        <exception regexp="yes">politique|adjoint|externe|fait</exception>
                         <exception postag="_GN_.*" postag_regexp="yes"/></token>
                 </marker>
                 <token postag="A" min="0"/>
