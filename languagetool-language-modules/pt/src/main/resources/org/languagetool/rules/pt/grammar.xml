@@ -33776,6 +33776,56 @@ TODO Write better examples
     <!--          Tiago F. Santos Rules End             ****END**** -->
     <!-- ********************************************************** -->
 
+  <!-- SE si -->
+  <rulegroup id='SE_SI' name='Confusão: Se/Si' default="temp_off">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-12-07 (25-JUN-2021+)      -->
+	<!--
+No fim não conseguiu salvar a se mesmo. → No fim não conseguiu salvar a si mesmo.
+No fim não conseguiu salvar a se próprio. → No fim não conseguiu salvar a si próprio.
+No fim não conseguiu salvar-se a se mesmo. → No fim não conseguiu salvar-se a si mesmo.
+No fim não conseguiu salvar-se a se próprio. → No fim não conseguiu salvar-se a si próprio.
+	-->
+	
+    <rule>
+      <pattern>
+		  <token postag='V.+' postag_regexp='yes'/>
+		  <token>a</token>
+		  <marker>
+			<token>se</token>			
+		  </marker>
+		  <token postag='NC.+|AQ.+|DD.+|RG|PI.+' postag_regexp='yes'>
+			<exception>auto</exception>
+            <exception postag_regexp='yes' postag='V.+'/>
+		  </token>
+      </pattern>
+      <message>Possível confusão de termos.</message>
+	  <suggestion>si</suggestion>
+	  <example correction="si">No fim não conseguiu salvar a <marker>se</marker> mesmo.</example>
+	  <example>Tenho certeza de que eles acabarão voltando a se falar.</example>
+	  <example>Quando a gente começa a se parecer com a foto do passaporte, deve sair de férias.</example>
+	  <example>Acredite, depois de alguns dias você já vai começar a se sentir outra pessoa.</example>
+	</rule>
+	
+    <rule>
+      <pattern>
+		  <token postag='V.+' postag_regexp='yes'/>
+	      <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
+		  <token regexp='yes' spacebefore='no'>[ao]s?|l[ao]s?|lh[ae]s?|n[ao]s?|me|se|te|vos</token>
+		  <token>a</token>
+		  <marker>
+			<token>se</token>			
+		  </marker>
+		  <token postag='NC.+|AQ.+|DD.+|RG|PI.+' postag_regexp='yes'>
+			<exception>auto</exception>
+            <exception postag_regexp='yes' postag='V.+'/>
+		  </token>
+      </pattern>
+      <message>Possível confusão de termos.</message>
+	  <suggestion>si</suggestion>
+	  <example correction="si">No fim não conseguiu salvar-se a <marker>se</marker> mesmo.</example>
+	</rule>
+  </rulegroup>
+
   <rulegroup id='CONFUSION_POR' name="Confusão: por/pôr">
     <!--      Created by Marco A.G.Pinto, 2017-07-08      -->
     <rule>
