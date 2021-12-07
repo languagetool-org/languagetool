@@ -51,6 +51,7 @@ public class ContextToolsTest {
     assertEquals("...is a test sent...\n        ^^^^     ", result);
   }
 
+  // CS427 Issue link: https://github.com/languagetool-org/languagetool/issues/4752
   @Test
   public void testPlainTextContextWithMultiLineBreaks() throws Exception {
     ContextTools contextTools = new ContextTools();
