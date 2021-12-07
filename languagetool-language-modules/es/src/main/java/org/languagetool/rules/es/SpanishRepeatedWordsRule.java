@@ -41,6 +41,7 @@ public class SpanishRepeatedWordsRule extends AbstractRepeatedWordsRule {
       .asList(Arrays.asList(token("también"), csRegex(".+")), 
           Arrays.asList(csRegex(".+"), token("también")),
           Arrays.asList(csRegex("[Aa]ntes|[Dd]espués"), csRegex("de|del")),
+          Arrays.asList(csRegex("[Tt]ema|TEMA"), csRegex("\\d+|[IXVC]+")),
           Arrays.asList(csRegex("[Aa]sí"), token("que")));
   
   @Override
