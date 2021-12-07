@@ -215,6 +215,7 @@ public class Catalan extends Language {
       case "AGREEMENT_POSTPONED_ADJ": return -15;
       case "FALTA_COMA_FRASE_CONDICIONAL": return -20;
       case "ESPAIS_QUE_FALTEN_PUNTUACIO": return -20;
+      case "REPETITIONS_STYLE": return -50;
       case "MUNDAR": return -50;
       case "NOMBRES_ROMANS": return -90;
       case "MORFOLOGIK_RULE_CA_ES": return -100;

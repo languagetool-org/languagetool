@@ -22,6 +22,7 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
 <!DOCTYPE rules [
+    <!ENTITY msg_repeated_pattern "Esta expresión ya aparece antes. Puede sustituirla por otra para hacer más variado el texto.">
     <!ENTITY sometlds "com|de|net|edu|uk|org|info|nl|eu|cn|biz|at|ch|fr|tv|to|fm|es|it|gov|mil|mx|pt|dev|us|sg|me|io|app|shop|club|games|in|co|cloud|no|se|dk|ie|cc|tk|ai|au|nz|za|cm|ng|tw|jp|kg|ag|site|int|my|ir|pk|mobi|asia|hk|mz|xyz|design|ventures|services|cat|ly|name|world|online|consulting|digital|be|is|sex|web|lab|local|bio|live|ngo">
     <!ENTITY exceptions_unidadestiempo_adj "siguiente|próximo|futuro|venidero|anterior|pasado|precedente|subsiguiente|previo|último|primero">
 <!ENTITY apostrophe "['’´`]">
@@ -12770,14 +12771,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">número</token>
                     <token>de</token>
                     <token/>
-                    <token regexp="yes">\d[\d,\. ]*</token>
+                    <token regexp="yes">\d[\d,\. ]*|:</token>
                 </antipattern>
                 <pattern>
                     <token inflected="yes">número</token>
                     <token>de</token>
                     <marker>
                         <token postag="NC.S.*" postag_regexp="yes"><exception regexp="yes"
-                            >abonado|abril|accesión|acceso|aceptación|aclaración|acrobacia|acuerdo|acuse|adivinación|admisión|afiliación|agente|agosto|alcance|alerta|alrededor|aluminio|alumnado|amarradero|andén|animación|aniversario|anotación|apartado|apartamento|apertura|aprobación|apuesta|arcano|archivo|armamento|armónico|asentimiento|asesoría|asiento|asistencia|astillero|atención|atracción|audición|audiencia|aumento|auto|autobús|autocompasión|autopsia|autorización|aviso|ayer|ayuda|baile|ballet|banderín|barracón|base|bastidor|beneficio|bienvenida|boleta|boleto|boletín|busca|butaca|buzón|caballería|cabaret|cabaré|caja|calificación|calle|calzado|cama|camarote|camiseta|campaña|campo|cancán|candidato|cantata|canto|capilaridad|capítulo|carnet|carné|carpeta|carretero|carta|cartilla|cartón|casa|casco|caso|catalogación|catastro|catálogo|celda|centralita|certificación|certificado|cetano|chapa|chat|cheque|chofer|ciclo|ciencia|ciento|cierre|circo|circulación|claqué|clase|clasificación|clave|cliente|club|cobre|cobro|codificación|cola|colaborador|colección|colecta|colegiado|coma|comanda|comedia|comediante|comic|comisaría|compilación|compra|comprobación|comprobante|comunicación|condición|conductor|confirmación|conjunto|conmutador|consistencia|constancia|construcción|constructor|consulta|contacto|contador|contenedor|contenido|contorsionismo|contrato|control|convenio|convocatoria|coordinación|corredor|correlación|correspondencia|cotización|credencial|cruce|cruzamiento|crédito|cuadrante|cubierta|cuenta|cultivo|cumbre|cuota|cupón|cédula|código|danza|debut|decimal|declamación|delincuencia|densidad|departamento|depósito|desaparición|desarrollo|desempleo|designación|despacho|despedida|despertar|devanado|devolución|diapositiva|diario|dicha|diciembre|dificultad|dinero|distancia|doble|documento|doma|dominación|dominio|donante|dorsal|duración|eco|edición|embarque|emergencia|emisión|emisora|empleado|enero|enrollamiento|enrutamiento|entrada|entrega|envío|equilibrio|equilibrismo|equilibrista|equipo|equivalencia|escalera|escapismo|escritura|escuadra|ese|eslabón|esperanto|esperma|espécimen|espín|estante|estantería|este|estilo|estudiante|evento|existencia|expedición|expediente|extensión|extracción|fabricación|factura|fauna|fax|febrero|fecha|feria|ficha|fila|fin|flauta|flora|flota|flujo|foja|folio|formato|fragmento|funambulismo|funámbulo|fuselaje|fábrica|gallardete|ganado|generación|gente|gestión|grabación|gravedad|greco|grupo|guaraní|guía|habitación|historial|hoja|homenaje|hoy|humor|identidad|identificación|identificador|igual|ilusionismo|importancia|incidencia|incidente|independencia|infantería|información|informe|inicio|inmigración|inmueble|inscripción|insignia|inspección|instancia|intersección|inventario|invierno|jazz|juicio|julio|junio|ka|kanji|la|larga|largo|latón|legajo|letra|levitación|ley|licencia|lija|lista|litera|litigio|localización|localizador|lote|lotería|lucimiento|luz|línea|magia|magnitud|mal|malabarismo|malo|mamá|manera|marcación|marcador|marco|marzo|masa|material|matriz|matrícula|mayo|mayor|media|medidor|membresía|memoria|menor|mesa|metal|metro|mi|mierda|mil|militancia|modelo|modo|mol|motor|muestra|munición|mímica|móvil|música|natación|neón|no|nodo|norma|nota|novedad|noviembre|nómina|oblea|octano|octubre|ocupación|oficina|oficio|onda|operación|orden|origen|oro|osculación|oxidación|pagaré|pago|pantalla|par|parte|pasajero|pasaporte|patente|patrullero|pedido|pedimento|pelotón|perdido|periodicidad|personal|peso|pie|pieza|piso|placa|planificación|plano|plasticidad|plata|plato|plástico|población|podcast|poder|pop|portal|posición|potencia|pre|precesión|precisión|preferencia|pregunta|prepago|presidiario|prestidigitación|previsión|primavera|prioridad|prisión|proa|producción|producto|programación|promoción|prontuario|pronóstico|propina|protocolo|proveedor|proyección|prueba|préstamo|psi|publicación|puerta|puerto|puesta|página|párrafo|pérdida|póliza|público|queja|radicación|rango|rareza|rastreo|rating|recambio|recaudación|recepción|recibo|reclamación|reclamo|recluso|reclutamiento|recogida|reconocimiento|recorrido|recuperación|referencia|registro|reintegro|relación|relleno|reloj|rendimiento|repetición|reporte|reproducción|requerimiento|rescate|reserva|reservación|resolución|resolutivo|retiro|revisión|rifa|rigor|rima|ritmo|roca|rock|ronda|ropa|router|ruleta|ruta|salida|salsa|saponificación|sección|secuencia|seguimiento|seguridad|seguro|septiembre|serial|serie|servicio|sesión|set|setiembre|sillón|simetría|siniestro|sintonía|socio|socorro|solicitud|solvatación|sombrero|soporte|stock|suerte|sufijo|suscripción|suscriptor|talón|tango|taquilla|tarificación|tarjeta|teatro|tejido|tele|telefonía|telepatía|teléfono|temática|test|ticket|tiempo|tienda|tiquete|tiraje|tiza|torre|torreta|total|trama|tramitación|transaccción|transacción|transferencia|transformismo|transición|transporte|trapecio|travestismo|triangulación|trozo|tráfico|trámite|turno|tío|uniforme|urgencia|usuario|vagón|valencia|valentía|vela|velocidad|venta|ventriloquia|ventrílocuo|verano|verdad|verificación|versión|versículo|viaje|vida|videófono|vodevil|votación|vuelo|vía|yarda|zapato|zona|índice</exception><exception
+                            >empresa|participación|sala|garantía|experimento|abonado|abril|accesión|acceso|aceptación|aclaración|acrobacia|acuerdo|acuse|adivinación|admisión|afiliación|agente|agosto|alcance|alerta|alrededor|aluminio|alumnado|amarradero|andén|animación|aniversario|anotación|apartado|apartamento|apertura|aprobación|apuesta|arcano|archivo|armamento|armónico|asentimiento|asesoría|asiento|asistencia|astillero|atención|atracción|audición|audiencia|aumento|auto|autobús|autocompasión|autopsia|autorización|aviso|ayer|ayuda|baile|ballet|banderín|barracón|base|bastidor|beneficio|bienvenida|boleta|boleto|boletín|busca|butaca|buzón|caballería|cabaret|cabaré|caja|calificación|calle|calzado|cama|camarote|camiseta|campaña|campo|cancán|candidato|cantata|canto|capilaridad|capítulo|carnet|carné|carpeta|carretero|carta|cartilla|cartón|casa|casco|caso|catalogación|catastro|catálogo|celda|centralita|certificación|certificado|cetano|chapa|chat|cheque|chofer|ciclo|ciencia|ciento|cierre|circo|circulación|claqué|clase|clasificación|clave|cliente|club|cobre|cobro|codificación|cola|colaborador|colección|colecta|colegiado|coma|comanda|comedia|comediante|comic|comisaría|compilación|compra|comprobación|comprobante|comunicación|condición|conductor|confirmación|conjunto|conmutador|consistencia|constancia|construcción|constructor|consulta|contacto|contador|contenedor|contenido|contorsionismo|contrato|control|convenio|convocatoria|coordinación|corredor|correlación|correspondencia|cotización|credencial|cruce|cruzamiento|crédito|cuadrante|cubierta|cuenta|cultivo|cumbre|cuota|cupón|cédula|código|danza|debut|decimal|declamación|delincuencia|densidad|departamento|depósito|desaparición|desarrollo|desempleo|designación|despacho|despedida|despertar|devanado|devolución|diapositiva|diario|dicha|diciembre|dificultad|dinero|distancia|doble|documento|doma|dominación|dominio|donante|dorsal|duración|eco|edición|embarque|emergencia|emisión|emisora|empleado|enero|enrollamiento|enrutamiento|entrada|entrega|envío|equilibrio|equilibrismo|equilibrista|equipo|equivalencia|escalera|escapismo|escritura|escuadra|ese|eslabón|esperanto|esperma|espécimen|espín|estante|estantería|este|estilo|estudiante|evento|existencia|expedición|expediente|extensión|extracción|fabricación|factura|fauna|fax|febrero|fecha|feria|ficha|fila|fin|flauta|flora|flota|flujo|foja|folio|formato|fragmento|funambulismo|funámbulo|fuselaje|fábrica|gallardete|ganado|generación|gente|gestión|grabación|gravedad|greco|grupo|guaraní|guía|habitación|historial|hoja|homenaje|hoy|humor|identidad|identificación|identificador|igual|ilusionismo|importancia|incidencia|incidente|independencia|infantería|información|informe|inicio|inmigración|inmueble|inscripción|insignia|inspección|instancia|intersección|inventario|invierno|jazz|juicio|julio|junio|ka|kanji|la|larga|largo|latón|legajo|letra|levitación|ley|licencia|lija|lista|litera|litigio|localización|localizador|lote|lotería|lucimiento|luz|línea|magia|magnitud|mal|malabarismo|malo|mamá|manera|marcación|marcador|marco|marzo|masa|material|matriz|matrícula|mayo|mayor|media|medidor|membresía|memoria|menor|mesa|metal|metro|mi|mierda|mil|militancia|modelo|modo|mol|motor|muestra|munición|mímica|móvil|música|natación|neón|no|nodo|norma|nota|novedad|noviembre|nómina|oblea|octano|octubre|ocupación|oficina|oficio|onda|operación|orden|origen|oro|osculación|oxidación|pagaré|pago|pantalla|par|parte|pasajero|pasaporte|patente|patrullero|pedido|pedimento|pelotón|perdido|periodicidad|personal|peso|pie|pieza|piso|placa|planificación|plano|plasticidad|plata|plato|plástico|población|podcast|poder|pop|portal|posición|potencia|pre|precesión|precisión|preferencia|pregunta|prepago|presidiario|prestidigitación|previsión|primavera|prioridad|prisión|proa|producción|producto|programación|promoción|prontuario|pronóstico|propina|protocolo|proveedor|proyección|prueba|préstamo|psi|publicación|puerta|puerto|puesta|página|párrafo|pérdida|póliza|público|queja|radicación|rango|rareza|rastreo|rating|recambio|recaudación|recepción|recibo|reclamación|reclamo|recluso|reclutamiento|recogida|reconocimiento|recorrido|recuperación|referencia|registro|reintegro|relación|relleno|reloj|rendimiento|repetición|reporte|reproducción|requerimiento|rescate|reserva|reservación|resolución|resolutivo|retiro|revisión|rifa|rigor|rima|ritmo|roca|rock|ronda|ropa|router|ruleta|ruta|salida|salsa|saponificación|sección|secuencia|seguimiento|seguridad|seguro|septiembre|serial|serie|servicio|sesión|set|setiembre|sillón|simetría|siniestro|sintonía|socio|socorro|solicitud|solvatación|sombrero|soporte|stock|suerte|sufijo|suscripción|suscriptor|talón|tango|taquilla|tarificación|tarjeta|teatro|tejido|tele|telefonía|telepatía|teléfono|temática|test|ticket|tiempo|tienda|tiquete|tiraje|tiza|torre|torreta|total|trama|tramitación|transaccción|transacción|transferencia|transformismo|transición|transporte|trapecio|travestismo|triangulación|trozo|tráfico|trámite|turno|tío|uniforme|urgencia|usuario|vagón|valencia|valentía|vela|velocidad|venta|ventriloquia|ventrílocuo|verano|verdad|verificación|versión|versículo|viaje|vida|videófono|vodevil|votación|vuelo|vía|yarda|zapato|zona|índice</exception><exception
                             postag_regexp="yes" postag="NC.[PN].*|_GN_.*"/><exception regexp="yes">\p{Lu}.*</exception></token>
                     </marker>
                 </pattern>
@@ -12790,6 +12791,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Los números de línea del programa.</example>
                 <example>Números de punto flotante.</example>
                 <example>Cuatro es un número de mala suerte en japonés.</example>
+                <!-- ambiguous -->
+                <example>Número de empresa</example>
+                <example>Número de equipo</example>
+                <example>Número de sala</example>
+                <example>Número de experimento</example>
             </rule>
             <rule default="temp_off">
                 <antipattern>
@@ -23893,48 +23899,48 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
-    <category name="repeticiones" id="REPETITIONS">
-        <rulegroup name="expresiones repetidas" id="REPETITION_STYLE_RULE">
-            <rule min_prev_matches="1">
-                <pattern>
-                    <token>por</token>
-                    <token min="0">lo</token>
-                    <token>tanto</token>
-                </pattern>
-                <message>Esta expresión aparece en una frase anterior. Puede sustituirla por otra para hacer más variado el texto.</message>
-                <suggestion>en consecuencia</suggestion>
-                <suggestion>pues</suggestion>
-                <suggestion>como resultado</suggestion>
-                <example correction="En consecuencia|Pues|Como resultado"><marker>Por lo tanto</marker>, ganó el partido.</example>
-            </rule>
-            <rule min_prev_matches="1">
-                <pattern>
-                    <token>ya</token>
-                    <token>que</token>
-                </pattern>
-                <message>Esta expresión aparece en una frase anterior. Puede sustituirla por otra para hacer más variado el texto.</message>
-                <suggestion>porque</suggestion>
-                <suggestion>puesto que</suggestion>
-                <suggestion>por el hecho de que</suggestion>
-                <suggestion>pues</suggestion>
-                <example correction="porque|puesto que|por el hecho de que|pues">La solución era buena, <marker>ya que</marker> gustaba a todos.</example>
-            </rule>
-            <rule min_prev_matches="1">
-                <antipattern>
+    <category name="Repeticiones (estilo)" id="REPETITIONS_STYLE" type="style">
+        <rule id="REP_POR_LO_TANTO" name="repetición: por lo tanto" min_prev_matches="1">
+            <pattern>
+                <token>por</token>
+                <token min="0">lo</token>
+                <token>tanto</token>
+            </pattern>
+            <message>&msg_repeated_pattern;</message>
+            <suggestion>en consecuencia</suggestion>
+            <suggestion>pues</suggestion>
+            <suggestion>como resultado</suggestion>
+            <example correction="En consecuencia|Pues|Como resultado"><marker>Por lo tanto</marker>, ganó el partido.</example>
+        </rule>
+        <rule id="REP_YA_QUE" name="repetición: ya que" min_prev_matches="1">
+            <pattern>
+                <token>ya</token>
+                <token>que</token>
+            </pattern>
+            <message>&msg_repeated_pattern;</message>
+            <suggestion>porque</suggestion>
+            <suggestion>puesto que</suggestion>
+            <suggestion>por el hecho de que</suggestion>
+            <suggestion>pues</suggestion>
+            <example correction="porque|puesto que|por el hecho de que|pues">La solución era buena, <marker>ya que</marker> gustaba a todos.</example>
+        </rule>
+        <rule id="REP_DESPUES" name="repetición: después" min_prev_matches="1">
+            <antipattern>
+                <token>después</token>
+                <token inflected="yes" regexp="yes">de|que</token>
+            </antipattern>
+            <pattern>
+                <marker>
                     <token>después</token>
-                    <token inflected="yes" regexp="yes">de|que</token>
-                </antipattern>
-                <pattern>
-                    <marker>
-                        <token>después</token>
-                    </marker>
-                </pattern>
-                <message>Esta expresión aparece en una frase anterior. Puede sustituirla por otra para hacer más variado el texto.</message>
-                <suggestion>posteriormente</suggestion>
-                <suggestion>más tarde</suggestion>
-                <example correction="Posteriormente|Más tarde"><marker>Después</marker> lo arreglaremos.</example>
-            </rule>
-        </rulegroup>
+                </marker>
+            </pattern>
+            <message>&msg_repeated_pattern;</message>
+            <suggestion>posteriormente</suggestion>
+            <suggestion>más tarde</suggestion>
+            <example correction="Posteriormente|Más tarde"><marker>Después</marker> lo arreglaremos.</example>
+        </rule>
+    </category>
+    <category name="repeticiones" id="REPETITIONS" type="duplication">
         <rule id="QUE_QUE" name="que y que">
             <pattern>
                 <token>que</token>
