@@ -32,7 +32,8 @@ import static org.languagetool.rules.AbstractSimpleReplaceRule2.simpleReplaceCas
 
 public class AbstractSimpleReplaceRule2Test {
 
-  // Testing methods created for https://github.com/languagetool-org/languagetool/issues/2288
+  // CS427 Issue Link: https://github.com/languagetool-org/languagetool/issues/2288
+  // Two tests below correspond to issue linked above
   /**
    * This test aims to ensure that simpleReplaceCaseSensitive works as according to the linked issue above.
    * This is a standard case, which should not throw any Exceptions.
