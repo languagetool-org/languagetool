@@ -9630,13 +9630,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token case_sensitive="yes">tv</token>
             </pattern>
-            <message>Error ortográfico.</message>
+            <message>La abreviación de "televisión" de escribe con mayúscula.</message>
             <suggestion>TV</suggestion>
             <example correction="TV">A veces se abrevia como <marker>tv</marker>.</example>
         </rule>
         <rule id="TOMAS" name="tomas/Tomás">
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token regexp="yes" min="0" max="3">\p{P}</token>
+                <token>Tomas</token>
+            </antipattern>
             <pattern case_sensitive="yes">
-                <token>Tomas<exception scope="previous" regexp="yes">[¿¡"]</exception><exception scope="previous" postag="SENT_START"/></token>
+                <token>Tomas<exception scope="previous" regexp="yes">[¿¡]</exception><exception scope="previous" postag="SENT_START|_QM_OPEN" postag_regexp="yes"/></token>
             </pattern>
             <message>Si es un nombre de persona, se escribe <suggestion>Tomás</suggestion>.</message>
             <example correction="Tomás">Voy a ver a <marker>Tomas</marker>.</example>

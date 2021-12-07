@@ -1142,6 +1142,35 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <wd lemma="mans lliures" pos="AQ0MN0"/>
         </disambig>
     </rule>
+    <rule id="CARA" name="cara (adj/nom)">
+        <pattern>
+            <marker>
+                <token postag="NCFS000">cara</token>
+            </marker>
+            <token regexp="yes">amunt|avall|enfora|endins</token>
+        </pattern>
+        <disambig action="filter" postag="NCFS000"/>
+    </rule>
+    <rulegroup id="FRONTERA" name="frontera (adj/nom)">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="NCF.*" postag_regexp="yes" inflected="yes">frontera</token>
+                </marker>
+                <token>enllà</token>
+            </pattern>
+            <disambig action="filter" postag="NCF.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes" regexp="yes">travessar|creuar</token>
+                <marker>
+                    <token postag="NCF.*" postag_regexp="yes" inflected="yes">frontera</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="NCF.*"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="ALTRA_VEGADA" name="altra vegada (loc. adverbial)">
         <rule>
             <pattern>
