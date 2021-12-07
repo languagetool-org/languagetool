@@ -45,7 +45,7 @@ public class Dictionary extends HashMap<String, Integer> {
    *              The reason it is a comma-d list is that a word can have more than one flag.
    */
   public Dictionary(String dict, List<String> flags) throws Exception {
-    // Issue here: https://github.com/languagetool-org/languagetool/issues/5609
+    // CS427 Issue Link: https://github.com/languagetool-org/languagetool/issues/5609
     // word, (frequency, flags)
     advancedDict = new HashMap<>();
     HashMap<String, Integer> innerMap = advancedFromString(dict);
@@ -69,7 +69,7 @@ public class Dictionary extends HashMap<String, Integer> {
    * @return  The contents of advancedDict
    */
   public HashMap<String, HashMap<Integer, String>> getAdvancedDict() {
-    // Issue here: https://github.com/languagetool-org/languagetool/issues/5609
+    // CS427 Issue Link: https://github.com/languagetool-org/languagetool/issues/5609
     return advancedDict;
   }
 
@@ -78,7 +78,7 @@ public class Dictionary extends HashMap<String, Integer> {
    * @return  The values for specified String key
    */
   public HashMap<Integer, String> getAdvancedDictInfo(String key) {
-    // Issue here: https://github.com/languagetool-org/languagetool/issues/5609
+    // CS427 Issue Link: https://github.com/languagetool-org/languagetool/issues/5609
     return advancedDict.get(key);
   }
 
@@ -87,7 +87,7 @@ public class Dictionary extends HashMap<String, Integer> {
    * @return  The list of flags for specified String key
    */
   public ArrayList<String> getAdvancedDictFlags(String key) {
-    // Issue here: https://github.com/languagetool-org/languagetool/issues/5609
+    // CS427 Issue Link: https://github.com/languagetool-org/languagetool/issues/5609
     ArrayList<String> flags = new ArrayList<>();
     for (Integer flagKey : advancedDict.get(key).keySet()) {
       String[] split = advancedDict.get(key).get(flagKey).split(", ");
