@@ -23927,7 +23927,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="REP_DESPUES" name="repetición: después" min_prev_matches="1">
             <antipattern>
                 <token>después</token>
-                <token inflected="yes" regexp="yes">de|que</token>
+                <token regexp="yes">de|del|que</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" inflected="yes">&unidades_tiempo;|tiempo|instante|momento|rato</token>
+                <token>después</token>
             </antipattern>
             <pattern>
                 <marker>
@@ -23938,6 +23942,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>posteriormente</suggestion>
             <suggestion>más tarde</suggestion>
             <example correction="Posteriormente|Más tarde"><marker>Después</marker> lo arreglaremos.</example>
+            <example>Pocos días después, todo estaba resuelto.</example>
+            <example>Después del descanso, siguió la reunión.</example>
         </rule>
     </category>
     <category name="repeticiones" id="REPETITIONS" type="duplication">
