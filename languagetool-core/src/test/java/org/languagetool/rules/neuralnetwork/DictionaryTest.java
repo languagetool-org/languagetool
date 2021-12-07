@@ -42,7 +42,7 @@ public class DictionaryTest {
    * This is a standard test case, so no Exceptions should be thrown.
    * @throws  Exception Any unhandled exceptions unrelated to constructor
    */
-  // Issue this test is addressing here: https://github.com/languagetool-org/languagetool/issues/5609
+  // CS427 Issue Link: https://github.com/languagetool-org/languagetool/issues/5609
   @Test
   public void extraDictionaryFieldsNoExceptionsTest() throws Exception {
     String dictionary = "{'a': 3, 'asa': 1, 'UNK': 42}";
@@ -65,7 +65,7 @@ public class DictionaryTest {
    * This test verifies the validity of the new advanced Dictionary constructor
    * This case tests specifically that an Exception should be thrown if flags list < # of unique words
    */
-  // Issue this test is addressing here: https://github.com/languagetool-org/languagetool/issues/5609
+  // CS427 Issue Link: https://github.com/languagetool-org/languagetool/issues/5609
   @Test
   public void extraDictionaryFieldsExceptionsTest() {
     String dictionary = "{'a': 3, 'asa': 1, 'UNK': 42}";
