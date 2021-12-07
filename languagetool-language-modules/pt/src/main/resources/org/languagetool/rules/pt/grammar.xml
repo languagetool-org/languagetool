@@ -40619,11 +40619,13 @@ Elas têm umas sextas de vime. → Elas têm umas cestas de vime.
  <category id='REDACTION_TIPS' name='Dicas de redação' type='style'>
 
 	<!-- ATRAVÉS DE por -->
-    <rule id='ATRAVES_DE_POR' name="Através de → por" type="style">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-12-05 (25-JUN-2021+)      -->
+    <rulegroup id='ATRAVES_DE_POR' name="Através de → por" type="style">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-12-05/6 (25-JUN-2021+)      -->
 	<!--
 O FBI soube disso através de carta. → O FBI soube disso por carta.
-	-->
+O FBI respondeu-lhe através de carta. → O FBI respondeu-lhe por carta.
+	--> 
+	<rule>
 <!--
 A bactéria do carbúnculo mata através de uma toxina.
 Em fábricas de cerveja modernas isto é conseguido através de um trocador de calor de placas.
@@ -40635,7 +40637,7 @@ O envio e recebimento de uma mensagem de e-mail é realizada através de um sist
 	  <antipattern>
 		<token postag='V.+' postag_regexp='yes'/>
 		<token>através</token>
-		<token>de</token>			
+		<token>de</token>
 		<token postag='DI.+|Z0.+' postag_regexp='yes'/>
 	  </antipattern>
       <pattern>
@@ -40645,7 +40647,7 @@ O envio e recebimento de uma mensagem de e-mail é realizada através de um sist
 		  </or>
 		  <marker>
 			<token>através</token>
-			<token>de</token>			
+			<token>de</token>
 		  </marker>
 		  <token negate_pos="yes" postag='DP.+' postag_regexp='yes'/>
       </pattern>
@@ -40663,6 +40665,40 @@ O envio e recebimento de uma mensagem de e-mail é realizada através de um sist
 	  <example>Antes da divisão celular os cromossomas são duplicados através de um processo chamado replicação.</example>
 	  <example>O envio e recebimento de uma mensagem de e-mail é realizada através de um sistema de correio eletrônico.</example>
     </rule>
+	
+<!--
+	; Below "Verb + [-] + PP.+" for usage such as:
+	O FBI respondeu-lhe através de carta.
+-->
+	<rule>	
+<!--
+A bactéria do carbúnculo mata-os através de uma toxina.
+-->
+	  <antipattern>
+		<token postag='V.+' postag_regexp='yes'/>
+        <token min="0" max="1" regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
+		<token regexp='yes'>[ao]s?|l[ao]s?|lh[ae]s?|n[ao]s?|me|se|te|vos</token>
+		<token>através</token>
+		<token>de</token>
+		<token postag='DI.+|Z0.+' postag_regexp='yes'/>
+	  </antipattern>
+      <pattern>
+	      <token postag='V.+' postag_regexp='yes'/>
+          <token min="0" max="1" regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
+          <token regexp='yes'>[ao]s?|l[ao]s?|lh[ae]s?|n[ao]s?|me|se|te|vos</token>
+		  <marker>
+			<token>através</token>
+			<token>de</token>
+		  </marker>
+		  <token negate_pos="yes" postag='DP.+' postag_regexp='yes'/>
+      </pattern>
+      <message>Pode simplificar a parafrase empregando: <suggestion>por</suggestion>.</message>
+	  <example correction="por">O FBI respondeu-lhe <marker>através de</marker> carta.</example>
+
+	  <example>A bactéria do carbúnculo mata-os através de uma toxina.</example>
+    </rule>	
+	
+	</rulegroup>
 
 	<!-- CORRER O RISCO arriscar-->
     <rule id='CORRER_RISCO_ARRISCAR' name="Correr o risco → Arriscar" type='style'>
