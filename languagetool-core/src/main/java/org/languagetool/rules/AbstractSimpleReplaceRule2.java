@@ -160,7 +160,7 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
    */
   public static List<Map<String, SuggestionWithMessage>> simpleReplaceCaseSensitive(String sentence, AnalyzedSentence analyzedSentence)
     throws IOException {
-    // Case sensitive Simple Replace issue link: https://github.com/languagetool-org/languagetool/issues/2288
+    // CS427 Issue Link: https://github.com/languagetool-org/languagetool/issues/2288
 
     List<Map<String, SuggestionWithMessage>> caseSensitiveList = new ArrayList<>();
     // We skip checkingCase check, as we plan to suggest left part before "=" case sensitively if uppercase.
