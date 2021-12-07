@@ -239,6 +239,12 @@ public final class Tools {
 
       // offset adjusment is inspired by correctTextFromMatches() below
       List<String> replacements = match.getSuggestedReplacements();
+      if (replacements.isEmpty()) {
+        List<RuleMatch> tmp = resultMap.get("valid");
+        tmp.add(match);
+        resultMap.put("valid", tmp);
+        continue;
+      }
       Integer offset = match.getToPos() - match.getFromPos() - replacements.get(0).length();
       Set<List<Integer>> otherMatchPosSet = new HashSet<List<Integer>>();
       boolean beforeMatch = true;

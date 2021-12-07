@@ -32,7 +32,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
@@ -658,11 +657,11 @@ public class MainTest extends AbstractSecurityTestCase {
   // CS427 Issue link: https://github.com/languagetool-org/languagetool/issues/5231
   @Test
   public void testRecheck() throws Exception {
-    File input = writeToTempFile("This were good for her.");
+    File input = writeToTempFile("We want ten lines or less in length.");
     String[] args = {"--line-by-line", "--recheck", input.getAbsolutePath()};
     Main.main(args);
     String output = new String(this.out.toByteArray());
-    assertFalse(output.contains("Invalid"));
+    assertTrue(output.contains("Invalid"));
   }
 
   private File writeToTempFile(String content) throws IOException {
