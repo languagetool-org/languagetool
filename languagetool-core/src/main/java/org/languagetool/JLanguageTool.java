@@ -1057,9 +1057,9 @@ public class JLanguageTool {
           if (task == null && chars == 0) { // everything cached
             //logger.info("Results for remote rule already cached");
             continue;
-          } else if (task == null) { // task rejected or other error, no results
-            RemoteRuleMetrics.request(ruleKey, textCheckStart, chars, RemoteRuleMetrics.RequestResult.ERROR);
-            //logger.info("no task submitted for remote rule");
+          } else if (task == null) { // circuitbreaker open or task rejected from pool
+            // rejected tasks are already logged/tracked in LtThreadPoolFactory
+            RemoteRuleMetrics.request(ruleKey, textCheckStart, chars, RemoteRuleMetrics.RequestResult.DOWN);
             continue;
           }
           //logger.info("Fetching results for remote rule for {} chars", chars);
@@ -1176,6 +1176,7 @@ public class JLanguageTool {
         RemoteRule rule = (RemoteRule) r;
         remoteRules.add(rule);
         FutureTask<RemoteRuleResult> task;
+        List<AnalyzedSentence> input;
         int size;
         if (cache != null) {
           List<AnalyzedSentence> nonCachedSentences = new ArrayList<>();
@@ -1204,16 +1205,16 @@ public class JLanguageTool {
           }
           // userConfig is cached by pipeline pool,
           // logger.info("Checking {} not cached sentences out of {}", nonCachedSentences.size(), analyzedSentences.size());
-          size = nonCachedSentences.stream().map(s -> s.getText().length()).reduce(0, Integer::sum);
-          task = rule.run(nonCachedSentences, textSessionID);
+          input = nonCachedSentences;
         } else {
-          size = analyzedSentences.stream().map(s -> s.getText().length()).reduce(0, Integer::sum);
-          task = rule.run(analyzedSentences, textSessionID);
+          input = analyzedSentences;
         }
+        size = input.stream().map(s -> s.getText().length()).reduce(0, Integer::sum);
+        task = rule.run(input, textSessionID);
         requestSize.add(size);
 
         try {
-          if (size == 0) {
+          if (size == 0 || !rule.circuitBreaker().tryAcquirePermission()) {
             task = null;
           } else {
             jLanguageToolPool.submit(task);
