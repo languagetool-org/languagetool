@@ -2022,6 +2022,18 @@ RB => Règles Brutes
         </rule>
         <rule>
             <pattern>
+                <token postag="SENT_START|M nonfin" postag_regexp="yes"/>
+                <token postag="A" min="0" max="1"/>
+                <marker>
+                    <token postag="V ppr|J.*" postag_regexp="yes"/>
+                </marker>
+                <token regexp="yes">de|à</token>
+                <token postag="V.* inf" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="V ppr"/>
+        </rule>
+        <rule>
+            <pattern>
                 <token postag="P.*" postag_regexp="yes"/>
                 <marker>
                     <and>
@@ -3281,6 +3293,16 @@ RB => Règles Brutes
                     <token postag="J.*" postag_regexp="yes"/>
                 </and>
             </marker>
+        </pattern>
+        <disambig action="remove" postag="J.*"/>
+    </rule>
+    <rule id="PRECISE_VERBE" name="précise + verbe">
+        <pattern>
+            <marker>
+                <token>précise</token>
+            </marker>
+            <token regexp="yes">être|avoir</token>
+            <token postag="V.* ppa.*" postag_regexp="yes"/>
         </pattern>
         <disambig action="remove" postag="J.*"/>
     </rule>
