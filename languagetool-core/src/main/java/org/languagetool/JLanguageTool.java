@@ -166,6 +166,8 @@ public class JLanguageTool {
   private static ResourceDataBroker dataBroker = new DefaultResourceDataBroker();
   private static ClassBroker classBroker = new DefaultClassBroker();
 
+  private static volatile boolean useCustomPasswordAuthenticator = true;
+
   private final List<Rule> builtinRules;
   private final List<Rule> userRules = new ArrayList<>(); // rules added via addRule() method
   // rules fetched via getRelevantLanguageModelCapableRules()
@@ -402,6 +404,28 @@ public class JLanguageTool {
    */
   public static synchronized void setClassBrokerBroker(ClassBroker broker) {
     JLanguageTool.classBroker = broker;
+  }
+
+  /**
+   * Whether the {@code Tools.setPasswordAuthenticator()} should be called when loading rules
+   * in rule loader to use {@code PasswordAuthenticator} as default one.
+   *
+   * @return true if {@code PasswordAuthenticator} should be used
+   * @since 5.6
+   */
+  public static boolean isCustomPasswordAuthenticatorUsed() {
+    return JLanguageTool.useCustomPasswordAuthenticator;
+  }
+
+  /**
+   * Whether the {@code Tools.setPasswordAuthenticator()} should be called when loading rules
+   * in rule loader to use {@code PasswordAuthenticator} as default one.
+   *
+   * @param use true if {@code PasswordAuthenticator} should be used
+   * @since 5.6
+   */
+  public static void useCustomPasswordAuthenticator(boolean use) {
+    JLanguageTool.useCustomPasswordAuthenticator = use;
   }
 
   /**
