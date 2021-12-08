@@ -132,6 +132,17 @@ RB => Règles Brutes
     </rule>
     <!-- END: numerals -->
     <!-- CATEGORY: remove unusual tags -->
+        <rule name="google" id="GOOGLE">
+            <pattern>
+                <marker>
+                    <token>google</token>
+                </marker>
+                <token inflected="yes" min="0" max="1">ne</token>
+                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                <token postag="V.* (ind|con|sub).*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="replace" postag="Z e sp"/>
+        </rule>
     <rulegroup name="pensées" id="PENSEES">
     <rule>
         <pattern>
