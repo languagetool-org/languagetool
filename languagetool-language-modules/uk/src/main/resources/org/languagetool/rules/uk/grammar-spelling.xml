@@ -1252,6 +1252,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
 -->
 
+    <rule id="z_velykoiy" name="Назви з великої">
+      <pattern>
+        <and>
+          <token case_sensitive="yes" regexp="yes">[а-яіїєґ].*</token>
+          <token regexp="yes" inflected="yes">богородиця|господь|благовіщення|великдень|різдво|покрова|євангеліє
+            <exception regexp="yes" inflected="yes">покров|господа|великодній</exception>
+          </token>
+        </and>
+      </pattern>
+      <message>За чинним правописом назви свят, культових книг тощо пишемо з великої літери</message>
+      <suggestion><match no="1" case_conversion ="startupper"/></suggestion>
+      <example correction="Різдва">готувався до <marker>різдва</marker></example>
+      <example>по тонкому покрову</example>
+      <example>така затишна господа</example>
+    </rule>
+
     <rule id="vid_teper" name="Від тепер">
       <pattern>
         <token>від</token>

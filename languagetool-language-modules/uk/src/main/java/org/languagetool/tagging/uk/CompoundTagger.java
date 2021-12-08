@@ -76,7 +76,7 @@ class CompoundTagger {
   private static final Set<String> leftMasterSet;
   private static final Map<String, List<String>> numberedEntities;
   private static final Map<String, Pattern> rightPartsWithLeftTagMap = new HashMap<>();
-  private static final Set<String> slaveSet;
+  private static final Set<String> followerSet;
   private static final Set<String> dashPrefixesInvalid;
   private static final Set<String> noDashPrefixes2019;
   private static final Set<String> noDashPrefixes;
@@ -135,7 +135,7 @@ class CompoundTagger {
     
     leftMasterSet = ExtraDictionaryLoader.loadSet("/uk/dash_left_master.txt");
     // TODO: "бабуся", "лялька", "рятівник" - not quite slaves, could be masters too
-    slaveSet = ExtraDictionaryLoader.loadSet("/uk/dash_slaves.txt");
+    followerSet = ExtraDictionaryLoader.loadSet("/uk/dash_follower.txt");
     numberedEntities = ExtraDictionaryLoader.loadSpacedLists("/uk/entities.txt");
   }
 
@@ -1243,7 +1243,7 @@ class CompoundTagger {
       
     }
     // сонях-красень
-    else if ( slaveSet.contains(rightLemma) ) {
+    else if ( followerSet.contains(rightLemma) ) {
       rightPosTag = rightPosTag.replace(":anim", ":inanim");
       agreedPosTag = getAgreedPosTag(leftPosTag, rightPosTag, false, word);
       if( agreedPosTag == null ) {
@@ -1257,7 +1257,7 @@ class CompoundTagger {
       }
     }
     // красень-сонях
-    else if ( slaveSet.contains(leftLemma) ) {
+    else if ( followerSet.contains(leftLemma) ) {
       leftPosTag = leftPosTag.replace(":anim", ":inanim");
       agreedPosTag = getAgreedPosTag(rightPosTag, leftPosTag, false, word);
       if( agreedPosTag == null ) {
@@ -1302,7 +1302,7 @@ class CompoundTagger {
       if( taggedWords.isEmpty() ) {
         taggedWords = tagBothCases(oToYj(leftWord), Pattern.compile("^adj.*"));  // кричущий для кричуще-яскравий
       }
-      if( taggedWords.isEmpty() ) {
+      if( taggedWords.isEmpty() && leftWord.length() > 4 ) {
         taggedWords = tagBothCases(leftBase, Pattern.compile("^noun.*"));         // паталог для паталого-анатомічний
       }
       if( taggedWords.isEmpty() ) {

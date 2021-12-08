@@ -399,14 +399,16 @@ public class UkrainianTaggerTest {
     TestTools.myAssert("вчинок-приклад", "вчинок-приклад/[вчинок-приклад]noun:inanim:m:v_naz|вчинок-приклад/[вчинок-приклад]noun:inanim:m:v_zna", tokenizer, tagger);
     TestTools.myAssert("міста-фортеці", "міста-фортеці/[місто-фортеця]noun:inanim:n:v_rod|міста-фортеці/[місто-фортеця]noun:inanim:p:v_naz|міста-фортеці/[місто-фортеця]noun:inanim:p:v_zna", tokenizer, tagger);
 
+    //TODO: :p:ns -> lemma with :p
+//    TestTools.myAssert("батьки-шляхтичі", "батьки-шляхтичі", tokenizer, tagger);
 
     // TODO: unanim
     TestTools.myAssert("ворог-стафілокок", "ворог-стафілокок/[null]null", tokenizer, tagger);
     TestTools.myAssert("стафілокок-реагент", "стафілокок-реагент/[null]null", tokenizer, tagger);
     
-    //TODO: бек, бег, ага, паша, бей, хан
-//    TestTools.myAssert("капуджі-ага", "два-чотири/[два-чотири]numr:v_naz|два-чотири/[два-чотири]numr:v_naz", tokenizer, tagger);
-//    TestTools.myAssert("Каладжі-бей", "два-чотири/[два-чотири]numr:v_naz|два-чотири/[два-чотири]numr:v_naz", tokenizer, tagger);
+    //TODO: бек, бег, ага, паша, хан
+//    TestTools.myAssert("Каладжі-ага", "", tokenizer, tagger);
+    TestTools.myAssert("Каладжі-бей", "Каладжі-бей/[Каладжі-бей]noun:anim:m:v_naz:prop:fname", tokenizer, tagger);
 //    TestTools.myAssert("капудан-паша", "два-чотири/[два-чотири]numr:v_naz|два-чотири/[два-чотири]numr:v_naz", tokenizer, tagger);
 //    TestTools.myAssert("кальфа-ефенді", "два-чотири/[два-чотири]numr:v_naz|два-чотири/[два-чотири]numr:v_naz", tokenizer, tagger);
 
@@ -416,8 +418,7 @@ public class UkrainianTaggerTest {
 
     TestTools.myAssert("RPM-пакунок", "RPM-пакунок/[RPM-пакунок]noun:inanim:m:v_naz|RPM-пакунок/[RPM-пакунок]noun:inanim:m:v_zna", tokenizer, tagger);
 
-    //TODO:
-//    TestTools.myAssert("ненависть-шоу", "", tokenizer, tagger);
+    TestTools.myAssert("ненависть-шоу", "ненависть-шоу/[ненависть-шоу]noun:inanim:f:v_naz|ненависть-шоу/[ненависть-шоу]noun:inanim:f:v_zna", tokenizer, tagger);
 
     // handled by different logic
 //    assertNotTagged("напів-люкс");
@@ -430,6 +431,7 @@ public class UkrainianTaggerTest {
     assertNotTagged("кохання-найщиріше"); // - мало би бути тире
     assertNotTagged("Донець-кий");
     assertNotTagged("мас-штаби");
+    assertNotTagged("підо-пічні");
     assertNotTagged("рибо-полювання");
     assertNotTagged("вовіки-вічні");
     assertNotTagged("юре-юре");
@@ -618,8 +620,7 @@ public class UkrainianTaggerTest {
     
 //    TestTools.myAssert("американо-блакитний", "американо-блакитний/[null]null", tokenizer, tagger);
 
-//  assertNotTagged("льотно-посадкова"); - загубилося початкове "з". Але це не спинило тегувальника - чому?
-
+//    assertNotTagged("льотно-посадкова"); - загубилося початкове "з". Але це не спинило тегувальника - чому?
 
 //    TestTools.myAssert("дітей-сиріт", "дітей-сиріт/[діти-сироти]noun:anim:p:v_rod", tokenizer, tagger);
 //    TestTools.myAssert("курей-бройлерів", "кури-бройлери", tokenizer, tagger);
@@ -638,8 +639,8 @@ public class UkrainianTaggerTest {
     TestTools.myAssert("поселення-гігант", "поселення-гігант/[поселення-гігант]noun:inanim:n:v_naz|поселення-гігант/[поселення-гігант]noun:inanim:n:v_zna", tokenizer, tagger);
     TestTools.myAssert("бот-учитель", "бот-учитель/[бот-учитель]noun:inanim:m:v_naz|бот-учитель/[бот-учитель]noun:inanim:m:v_zna", tokenizer, tagger);
     
-    TestTools.myAssert("сонях-красень", "сонях-красень/[сонях-красень]noun:inanim:m:v_naz|сонях-красень/[сонях-красень]noun:inanim:m:v_naz|сонях-красень/[сонях-красень]noun:inanim:m:v_zna|сонях-красень/[сонях-красень]noun:inanim:m:v_zna", tokenizer, tagger);
-    TestTools.myAssert("красень-сонях", "красень-сонях/[красень-сонях]noun:inanim:m:v_naz|красень-сонях/[красень-сонях]noun:inanim:m:v_naz|красень-сонях/[красень-сонях]noun:inanim:m:v_zna|красень-сонях/[красень-сонях]noun:inanim:m:v_zna", tokenizer, tagger);
+    TestTools.myAssert("сонях-красень", "сонях-красень/[сонях-красень]noun:inanim:m:v_naz|сонях-красень/[сонях-красень]noun:inanim:m:v_zna", tokenizer, tagger);
+    TestTools.myAssert("красень-сонях", "красень-сонях/[красень-сонях]noun:inanim:m:v_naz|красень-сонях/[красень-сонях]noun:inanim:m:v_zna", tokenizer, tagger);
     TestTools.myAssert("депутатів-привидів", "депутатів-привидів/[депутат-привид]noun:anim:p:v_rod|депутатів-привидів/[депутат-привид]noun:anim:p:v_zna", tokenizer, tagger);
     TestTools.myAssert("дівчата-зірочки", "дівчата-зірочки/[дівчина-зірочка]noun:anim:p:v_naz", tokenizer, tagger);
 
