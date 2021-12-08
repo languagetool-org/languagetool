@@ -77,10 +77,62 @@ public class EnglishRepeatedWordsRule extends AbstractRepeatedWordsRule{
       token("times")
     ),
 
-    Arrays.asList(        // context where 'imply' would be more appropriate
-      tokenRegex("this|these|those|which"),
+    Arrays.asList(
+      tokenRegex("details?|facts?|it|journals?|questions?|research|results?|study|studies|this|these|those|which"),
       new PatternTokenBuilder().pos("RB").min(0).build(),
       new PatternTokenBuilder().csToken("suggest").matchInflectedForms().build()
+    ),
+
+    Arrays.asList(
+      new PatternTokenBuilder().csToken("form").matchInflectedForms().build(),   // "form in the bloodstream"
+      posRegex("IN|RP|TO")
+    ),
+
+    Arrays.asList(
+      token("interesting"),
+      tokenRegex("facts?|things?")
+    ),
+
+    Arrays.asList(
+      token("several"),
+      tokenRegex("hundreds?|thousands?|millions?")
+    ),
+
+    Arrays.asList(
+      token("must"),
+      token("be"),
+      token("nice")
+    ),
+
+    Arrays.asList(
+      token("nice"),
+      token("day")
+    ),
+
+    Arrays.asList(
+      token("nice"),
+      token("to"),
+      new PatternTokenBuilder().token("meet").min(0).build(),
+      posRegex("PRP_O.*")
+    ),
+
+    Arrays.asList(
+      new PatternTokenBuilder().csToken("be").matchInflectedForms().build(),
+      token("nice"),
+      token("and"),
+      pos("JJ"),
+      posRegex("PCT|SENT_END")
+    ),
+
+    Arrays.asList(
+      posRegex("P?DT|PRP$.*"),
+      token("proposed"),
+      posRegex("N.*")
+    ),
+
+    Arrays.asList(
+      new PatternTokenBuilder().csToken("propose").matchInflectedForms().build(),
+      tokenRegex("to|marriage")
     )
 
   );

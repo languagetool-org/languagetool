@@ -46,6 +46,9 @@ public class EnglishRepeatedWordsRuleTest {
   @Test
   public void testRule() throws IOException {
 
+    // form
+    assertCorrectText("They went on to form a new group. The bacteria causes a blood clot to form in the jugular vein.");
+
     // global
     assertCorrectText("Asia Global Crossing Ltd. Global Crossing and Asia Global Crossing.");
     assertCorrectText("It was a global effort. Announcing the participation of Enron Global Markets.");
@@ -53,6 +56,9 @@ public class EnglishRepeatedWordsRuleTest {
     // great
     assertCorrectText("Matthew S. Anderson, Peter the Great. The Tomahawks were shipped from Great Britain.");
     assertCorrectText("It was great. The Tomahawks were shipped from Great Britain.");
+
+    // interesting
+    assertCorrectText("I found it very interesting. An interesting fact about me is that I have a twin.");
 
     // need
     assertCorrectText("It needs to be done. That needs to be done.");
@@ -72,6 +78,9 @@ public class EnglishRepeatedWordsRuleTest {
     assertCorrectText("Then, there were numerous problems after that. His initial interest lay in an attempt to solve Hilbert's fifth problem.");
     assertCorrectText("There were some problems with the tests. No problem, I'm not in a rush.");
     assertCorrectText("The students were given some problems. They were math problems.");
+
+    // several
+    assertCorrectText("We noticed them several times. Several thousand people stormed the gate.");
 
     // suggest
     assertCorrectText("I suggested that, but he also suggests that.");
