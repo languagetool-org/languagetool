@@ -46,7 +46,8 @@ public class AddCommasFilter extends RuleFilter {
     while (postagTo < tokens.length && tokens[postagTo].getEndPos() < match.getToPos()) {
       postagTo++;
     }
-    boolean beforeOK = (postagFrom == 1) || StringTools.isPunctuationMark(tokens[postagFrom - 1].getToken());
+    boolean beforeOK = (postagFrom == 1) || StringTools.isPunctuationMark(tokens[postagFrom - 1].getToken())
+        || StringTools.isCapitalizedWord(tokens[postagFrom].getToken());
     boolean afterOK = !(postagTo + 1 > tokens.length - 1)
         && StringTools.isPunctuationMark(tokens[postagTo + 1].getToken())
         && !(tokens[postagTo + 1].isWhitespaceBefore() && OPENING_QUOTES.matcher(tokens[postagTo + 1].getToken()).matches());

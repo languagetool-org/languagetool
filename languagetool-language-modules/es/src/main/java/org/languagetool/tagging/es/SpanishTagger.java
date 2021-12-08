@@ -56,6 +56,8 @@ public class SpanishTagger extends BaseTagger {
   private static final Pattern ADJ_NOUN = Pattern.compile("AQ.*|NC.*|RG");
   private static final Pattern PREFIXES_FOR_N_ADJ = Pattern.compile("(super)(.*[aeiouàéèíòóïü].+[aeiouàéèíòóïü].*)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   
+  private static final List<String> exceptionsSuper =  Arrays.asList("fice", "fices", "aria", "arias");
+  
   private boolean warningChunk = false;
   
   public SpanishTagger() {
@@ -163,19 +165,21 @@ public class SpanishTagger extends BaseTagger {
     Matcher matcherSuper = PREFIXES_FOR_N_ADJ.matcher(word);
     if (matcherSuper.matches()) {
       final String possibleNAdj = matcherSuper.group(2).toLowerCase();
-      List<AnalyzedToken> taggerTokens = asAnalyzedTokenList(possibleNAdj, dictLookup.lookup(possibleNAdj));
-      for (AnalyzedToken taggerToken : taggerTokens ) {
-        final String posTag = taggerToken.getPOSTag();
-        if (posTag != null) {
-          final Matcher m = ADJ_NOUN.matcher(posTag);
-          if (m.matches()) {
-            String lemma = matcherSuper.group(1).toLowerCase().concat(taggerToken.getLemma());
-            additionalTaggedTokens.add(new AnalyzedToken(word, posTag, lemma));
-            warningChunk = true;
+      if (!exceptionsSuper.contains(possibleNAdj)) {
+        List<AnalyzedToken> taggerTokens = asAnalyzedTokenList(possibleNAdj, dictLookup.lookup(possibleNAdj));
+        for (AnalyzedToken taggerToken : taggerTokens ) {
+          final String posTag = taggerToken.getPOSTag();
+          if (posTag != null) {
+            final Matcher m = ADJ_NOUN.matcher(posTag);
+            if (m.matches()) {
+              String lemma = matcherSuper.group(1).toLowerCase().concat(taggerToken.getLemma());
+              additionalTaggedTokens.add(new AnalyzedToken(word, posTag, lemma));
+              warningChunk = true;
+            }
           }
         }
+        return additionalTaggedTokens;  
       }
-      return additionalTaggedTokens;
     }
     
     matcher = PREFIXES_FOR_VERBS2.matcher(word);
