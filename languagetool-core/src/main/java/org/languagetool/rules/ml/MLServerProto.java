@@ -101,7 +101,7 @@ public final class MLServerProto {
   /**
    * Protobuf type {@code lt_ml_server.MatchRequest}
    */
-  public  static final class MatchRequest extends
+  public static final class MatchRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:lt_ml_server.MatchRequest)
       MatchRequestOrBuilder {
@@ -280,6 +280,7 @@ public final class MLServerProto {
      * <code>bool inputLogging = 2;</code>
      * @return The inputLogging.
      */
+    @java.lang.Override
     public boolean getInputLogging() {
       return inputLogging_;
     }
@@ -294,6 +295,7 @@ public final class MLServerProto {
      * <code>repeated int64 textSessionID = 3;</code>
      * @return A list containing the textSessionID.
      */
+    @java.lang.Override
     public java.util.List<java.lang.Long>
         getTextSessionIDList() {
       return textSessionID_;
@@ -862,6 +864,7 @@ public final class MLServerProto {
        * <code>bool inputLogging = 2;</code>
        * @return The inputLogging.
        */
+      @java.lang.Override
       public boolean getInputLogging() {
         return inputLogging_;
       }
@@ -1105,7 +1108,7 @@ public final class MLServerProto {
   /**
    * Protobuf type {@code lt_ml_server.MatchResponse}
    */
-  public  static final class MatchResponse extends
+  public static final class MatchResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:lt_ml_server.MatchResponse)
       MatchResponseOrBuilder {
@@ -1202,6 +1205,7 @@ public final class MLServerProto {
      *
      * <code>repeated .lt_ml_server.MatchList sentenceMatches = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<org.languagetool.rules.ml.MLServerProto.MatchList> getSentenceMatchesList() {
       return sentenceMatches_;
     }
@@ -1212,6 +1216,7 @@ public final class MLServerProto {
      *
      * <code>repeated .lt_ml_server.MatchList sentenceMatches = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends org.languagetool.rules.ml.MLServerProto.MatchListOrBuilder> 
         getSentenceMatchesOrBuilderList() {
       return sentenceMatches_;
@@ -1223,6 +1228,7 @@ public final class MLServerProto {
      *
      * <code>repeated .lt_ml_server.MatchList sentenceMatches = 1;</code>
      */
+    @java.lang.Override
     public int getSentenceMatchesCount() {
       return sentenceMatches_.size();
     }
@@ -1233,6 +1239,7 @@ public final class MLServerProto {
      *
      * <code>repeated .lt_ml_server.MatchList sentenceMatches = 1;</code>
      */
+    @java.lang.Override
     public org.languagetool.rules.ml.MLServerProto.MatchList getSentenceMatches(int index) {
       return sentenceMatches_.get(index);
     }
@@ -1243,6 +1250,7 @@ public final class MLServerProto {
      *
      * <code>repeated .lt_ml_server.MatchList sentenceMatches = 1;</code>
      */
+    @java.lang.Override
     public org.languagetool.rules.ml.MLServerProto.MatchListOrBuilder getSentenceMatchesOrBuilder(
         int index) {
       return sentenceMatches_.get(index);
@@ -2005,7 +2013,7 @@ public final class MLServerProto {
   /**
    * Protobuf type {@code lt_ml_server.MatchList}
    */
-  public  static final class MatchList extends
+  public static final class MatchList extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:lt_ml_server.MatchList)
       MatchListOrBuilder {
@@ -2102,6 +2110,7 @@ public final class MLServerProto {
      *
      * <code>repeated .lt_ml_server.Match matches = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<org.languagetool.rules.ml.MLServerProto.Match> getMatchesList() {
       return matches_;
     }
@@ -2112,6 +2121,7 @@ public final class MLServerProto {
      *
      * <code>repeated .lt_ml_server.Match matches = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends org.languagetool.rules.ml.MLServerProto.MatchOrBuilder> 
         getMatchesOrBuilderList() {
       return matches_;
@@ -2123,6 +2133,7 @@ public final class MLServerProto {
      *
      * <code>repeated .lt_ml_server.Match matches = 1;</code>
      */
+    @java.lang.Override
     public int getMatchesCount() {
       return matches_.size();
     }
@@ -2133,6 +2144,7 @@ public final class MLServerProto {
      *
      * <code>repeated .lt_ml_server.Match matches = 1;</code>
      */
+    @java.lang.Override
     public org.languagetool.rules.ml.MLServerProto.Match getMatches(int index) {
       return matches_.get(index);
     }
@@ -2143,6 +2155,7 @@ public final class MLServerProto {
      *
      * <code>repeated .lt_ml_server.Match matches = 1;</code>
      */
+    @java.lang.Override
     public org.languagetool.rules.ml.MLServerProto.MatchOrBuilder getMatchesOrBuilder(
         int index) {
       return matches_.get(index);
@@ -3096,7 +3109,7 @@ public final class MLServerProto {
   /**
    * Protobuf type {@code lt_ml_server.Match}
    */
-  public  static final class Match extends
+  public static final class Match extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:lt_ml_server.Match)
       MatchOrBuilder {
@@ -3264,6 +3277,7 @@ public final class MLServerProto {
      * <code>uint32 offset = 1;</code>
      * @return The offset.
      */
+    @java.lang.Override
     public int getOffset() {
       return offset_;
     }
@@ -3278,6 +3292,7 @@ public final class MLServerProto {
      * <code>uint32 length = 2;</code>
      * @return The length.
      */
+    @java.lang.Override
     public int getLength() {
       return length_;
     }
@@ -3292,6 +3307,7 @@ public final class MLServerProto {
      * <code>string id = 3;</code>
      * @return The id.
      */
+    @java.lang.Override
     public java.lang.String getId() {
       java.lang.Object ref = id_;
       if (ref instanceof java.lang.String) {
@@ -3312,6 +3328,7 @@ public final class MLServerProto {
      * <code>string id = 3;</code>
      * @return The bytes for id.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getIdBytes() {
       java.lang.Object ref = id_;
@@ -3336,6 +3353,7 @@ public final class MLServerProto {
      * <code>string sub_id = 4;</code>
      * @return The subId.
      */
+    @java.lang.Override
     public java.lang.String getSubId() {
       java.lang.Object ref = subId_;
       if (ref instanceof java.lang.String) {
@@ -3356,6 +3374,7 @@ public final class MLServerProto {
      * <code>string sub_id = 4;</code>
      * @return The bytes for subId.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getSubIdBytes() {
       java.lang.Object ref = subId_;
@@ -3431,6 +3450,7 @@ public final class MLServerProto {
      * <code>string ruleDescription = 6;</code>
      * @return The ruleDescription.
      */
+    @java.lang.Override
     public java.lang.String getRuleDescription() {
       java.lang.Object ref = ruleDescription_;
       if (ref instanceof java.lang.String) {
@@ -3451,6 +3471,7 @@ public final class MLServerProto {
      * <code>string ruleDescription = 6;</code>
      * @return The bytes for ruleDescription.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getRuleDescriptionBytes() {
       java.lang.Object ref = ruleDescription_;
@@ -3475,6 +3496,7 @@ public final class MLServerProto {
      * <code>string matchDescription = 7;</code>
      * @return The matchDescription.
      */
+    @java.lang.Override
     public java.lang.String getMatchDescription() {
       java.lang.Object ref = matchDescription_;
       if (ref instanceof java.lang.String) {
@@ -3495,6 +3517,7 @@ public final class MLServerProto {
      * <code>string matchDescription = 7;</code>
      * @return The bytes for matchDescription.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getMatchDescriptionBytes() {
       java.lang.Object ref = matchDescription_;
@@ -3519,6 +3542,7 @@ public final class MLServerProto {
      * <code>string matchShortDescription = 8;</code>
      * @return The matchShortDescription.
      */
+    @java.lang.Override
     public java.lang.String getMatchShortDescription() {
       java.lang.Object ref = matchShortDescription_;
       if (ref instanceof java.lang.String) {
@@ -3539,6 +3563,7 @@ public final class MLServerProto {
      * <code>string matchShortDescription = 8;</code>
      * @return The bytes for matchShortDescription.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getMatchShortDescriptionBytes() {
       java.lang.Object ref = matchShortDescription_;
@@ -3563,6 +3588,7 @@ public final class MLServerProto {
      * <code>string url = 9;</code>
      * @return The url.
      */
+    @java.lang.Override
     public java.lang.String getUrl() {
       java.lang.Object ref = url_;
       if (ref instanceof java.lang.String) {
@@ -3583,6 +3609,7 @@ public final class MLServerProto {
      * <code>string url = 9;</code>
      * @return The bytes for url.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getUrlBytes() {
       java.lang.Object ref = url_;
@@ -3606,6 +3633,7 @@ public final class MLServerProto {
      *
      * <code>repeated .lt_ml_server.SuggestedReplacement suggestedReplacements = 10;</code>
      */
+    @java.lang.Override
     public java.util.List<org.languagetool.rules.ml.MLServerProto.SuggestedReplacement> getSuggestedReplacementsList() {
       return suggestedReplacements_;
     }
@@ -3616,6 +3644,7 @@ public final class MLServerProto {
      *
      * <code>repeated .lt_ml_server.SuggestedReplacement suggestedReplacements = 10;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends org.languagetool.rules.ml.MLServerProto.SuggestedReplacementOrBuilder> 
         getSuggestedReplacementsOrBuilderList() {
       return suggestedReplacements_;
@@ -3627,6 +3656,7 @@ public final class MLServerProto {
      *
      * <code>repeated .lt_ml_server.SuggestedReplacement suggestedReplacements = 10;</code>
      */
+    @java.lang.Override
     public int getSuggestedReplacementsCount() {
       return suggestedReplacements_.size();
     }
@@ -3637,6 +3667,7 @@ public final class MLServerProto {
      *
      * <code>repeated .lt_ml_server.SuggestedReplacement suggestedReplacements = 10;</code>
      */
+    @java.lang.Override
     public org.languagetool.rules.ml.MLServerProto.SuggestedReplacement getSuggestedReplacements(int index) {
       return suggestedReplacements_.get(index);
     }
@@ -3647,6 +3678,7 @@ public final class MLServerProto {
      *
      * <code>repeated .lt_ml_server.SuggestedReplacement suggestedReplacements = 10;</code>
      */
+    @java.lang.Override
     public org.languagetool.rules.ml.MLServerProto.SuggestedReplacementOrBuilder getSuggestedReplacementsOrBuilder(
         int index) {
       return suggestedReplacements_.get(index);
@@ -3662,6 +3694,7 @@ public final class MLServerProto {
      * <code>bool autoCorrect = 11;</code>
      * @return The autoCorrect.
      */
+    @java.lang.Override
     public boolean getAutoCorrect() {
       return autoCorrect_;
     }
@@ -4205,6 +4238,7 @@ public final class MLServerProto {
        * <code>uint32 offset = 1;</code>
        * @return The offset.
        */
+      @java.lang.Override
       public int getOffset() {
         return offset_;
       }
@@ -4247,6 +4281,7 @@ public final class MLServerProto {
        * <code>uint32 length = 2;</code>
        * @return The length.
        */
+      @java.lang.Override
       public int getLength() {
         return length_;
       }
@@ -5323,6 +5358,7 @@ public final class MLServerProto {
        * <code>bool autoCorrect = 11;</code>
        * @return The autoCorrect.
        */
+      @java.lang.Override
       public boolean getAutoCorrect() {
         return autoCorrect_;
       }
@@ -5469,7 +5505,7 @@ public final class MLServerProto {
   /**
    * Protobuf type {@code lt_ml_server.SuggestedReplacement}
    */
-  public  static final class SuggestedReplacement extends
+  public static final class SuggestedReplacement extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:lt_ml_server.SuggestedReplacement)
       SuggestedReplacementOrBuilder {
@@ -5575,6 +5611,7 @@ public final class MLServerProto {
      * <code>string replacement = 1;</code>
      * @return The replacement.
      */
+    @java.lang.Override
     public java.lang.String getReplacement() {
       java.lang.Object ref = replacement_;
       if (ref instanceof java.lang.String) {
@@ -5591,6 +5628,7 @@ public final class MLServerProto {
      * <code>string replacement = 1;</code>
      * @return The bytes for replacement.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getReplacementBytes() {
       java.lang.Object ref = replacement_;
@@ -5611,6 +5649,7 @@ public final class MLServerProto {
      * <code>string description = 2;</code>
      * @return The description.
      */
+    @java.lang.Override
     public java.lang.String getDescription() {
       java.lang.Object ref = description_;
       if (ref instanceof java.lang.String) {
@@ -5627,6 +5666,7 @@ public final class MLServerProto {
      * <code>string description = 2;</code>
      * @return The bytes for description.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getDescriptionBytes() {
       java.lang.Object ref = description_;
@@ -5651,6 +5691,7 @@ public final class MLServerProto {
      * <code>string suffix = 3;</code>
      * @return The suffix.
      */
+    @java.lang.Override
     public java.lang.String getSuffix() {
       java.lang.Object ref = suffix_;
       if (ref instanceof java.lang.String) {
@@ -5671,6 +5712,7 @@ public final class MLServerProto {
      * <code>string suffix = 3;</code>
      * @return The bytes for suffix.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getSuffixBytes() {
       java.lang.Object ref = suffix_;
@@ -5695,6 +5737,7 @@ public final class MLServerProto {
      * <code>float confidence = 4;</code>
      * @return The confidence.
      */
+    @java.lang.Override
     public float getConfidence() {
       return confidence_;
     }
@@ -6311,6 +6354,7 @@ public final class MLServerProto {
        * <code>float confidence = 4;</code>
        * @return The confidence.
        */
+      @java.lang.Override
       public float getConfidence() {
         return confidence_;
       }
