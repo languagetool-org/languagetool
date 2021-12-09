@@ -7797,7 +7797,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                     <unify negate="yes">
                         <feature id="number"/>          
-                        <token  postag="NN:.*:Nom" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="NN:.*"></exception><exception scope="previous" postag_regexp="yes" postag="NumD_P|NumC:Nom"></exception></token>
+                        <token  postag="NN:.*:Nom" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="NN:.*"></exception><exception scope="previous" postag_regexp="yes" postag="NumD_P|NumC:Nom|Num:.*"></exception></token>
                         <token  postag="VB:(Past|Real):.*"  postag_regexp="yes">
                             <exception negate_pos="yes" postag_regexp="yes" postag="VB:(Past|Real):.*" />
                             <exception  postag_regexp="yes" postag="VB:(Past|Real):TRANS:.*|VB:(Past|Real):bezl:IMPFV" />
@@ -7819,6 +7819,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Учащиеся всё время сидели неподвижно.</example>
                 <example>Эти легенды следует передать нашим потомкам.</example> 
                 <example>Вода превращается в лёд.</example>
+                <example>Сайт в последние два года считается достоверным источником.</example>
                 <example>Для работы программы требуется Java.</example>
                 <example>Эти письма может напечатать любой секретарь.</example>
                 <example>До конца года остаётся 298 дней.</example>
@@ -7938,7 +7939,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="Verb_number" name="Число глагола при однородных членах">
           <rule>
             <pattern>
-                <token postag="NN:.*:Nom" postag_regexp="yes"><exception postag="NN:.*:Nom|NN:.*:.*:PL:T" postag_regexp="yes" scope="previous"></exception></token>
+                <token postag="NN:.*:Sin:Nom" postag_regexp="yes"><exception postag="NN:.*:Nom|NN:.*:.*:PL:T" postag_regexp="yes" scope="previous"></exception></token>
                 <token>и</token>
                 <token postag="NN:.*:Nom" postag_regexp="yes">
                     <exception regexp="yes"   inflected="yes">день|ночь|вечер|утро|час|минута|время</exception>
@@ -7949,11 +7950,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Требуется множественное число</short>
             <example correction=""><marker>Мальчик и девочка играла</marker> в шахматы.</example>
             <example>Мальчик и девочка играли в шахматы.</example>
+            <example>Комитет по вопросам культуры и духовности решил вернуть законопроект.</example>
             <example>Она день и ночь караулила нас.</example>
           </rule>
           <rule>
             <pattern>
-                <token postag="NN:.*:Nom" postag_regexp="yes"><exception postag="NN:.*:Nom|NN:.*:.*:PL:T" postag_regexp="yes" scope="previous"></exception></token>
+                <token postag="NN:Anim:.*:Nom" postag_regexp="yes"><exception postag="NN:Anim:.*:Nom|NN:.*:.*:PL:T" postag_regexp="yes" scope="previous"></exception></token>
                 <token skip="1">с<exception postag="&lt;ADV&gt;" ></exception></token>    
                 <token postag="NN:Anim:.*:T" postag_regexp="yes"></token>  <!-- TODO добавить варианты с неодушевлёнными существительными, отделив от наречных выражений  -->
                 <token postag="VB:.*:(Masc|Fem|Neut)" postag_regexp="yes"><exception inflected="yes">быть</exception><exception postag="NN:.*:.*" postag_regexp="yes"></exception></token>
