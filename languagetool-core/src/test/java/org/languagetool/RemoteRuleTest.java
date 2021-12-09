@@ -23,6 +23,7 @@ package org.languagetool;
 
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.language.Demo;
 import org.languagetool.rules.RemoteRule;
@@ -123,6 +124,7 @@ public class RemoteRuleTest {
 
 
   @Test
+  @Ignore("Unstable in CI because of reliance on timings, for local testing only")
   public void testCircuitbreaker() throws IOException, InterruptedException {
     assertMatches("no matches before - sanity check", 0);
     lt.addRule(rule);
