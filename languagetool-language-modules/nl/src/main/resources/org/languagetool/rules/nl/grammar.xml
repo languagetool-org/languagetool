@@ -32137,7 +32137,7 @@ steenwijk;Steenwijk
 	</category>
 	<category id="TYPOS" name="Spellingcontrole" type="misspelling">
 
-		<rule id="CIJFERS_IN_WOORD" name="Getal in woord" default="temp_off">
+		<rule id="CIJFERS_IN_WOORD" name="Getal in woord" >
             <antipattern><!-- Short words, abbreviations and proper nouns such as t3n, k3b etc.  -->
                 <token regexp="yes">\p{L}\d\p{L}</token>
             </antipattern>
@@ -32154,6 +32154,9 @@ steenwijk;Steenwijk
             <antipattern>
 				<token regexp="yes">.+-[0-9].+</token>
             </antipattern>
+            <antipattern>
+				<token case_sensitive="yes" regexp="yes">^[A-Z].+</token>
+            </antipattern>
 			<!--
             <antipattern>
                 <token>.</token>
@@ -32165,7 +32168,7 @@ steenwijk;Steenwijk
             </pattern>
             <filter class="org.languagetool.rules.nl.DutchNumberInWordFilter" args="word:\1"/>
             <message>Mogelijke tikfout.</message>
-            <example correction="Goede|Gede"><marker>G0ede</marker> morgen!</example>
+            <example correction="goede">Een <marker>g0ede</marker> morgen!</example>
             <example>Hij is <marker>F16-piloot</marker>.</example>
             <example>De kar is <marker>2-assig</marker>.</example>
         </rule>
