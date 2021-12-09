@@ -23,6 +23,7 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.rules.*;
 import org.languagetool.rules.ca.*;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.ca.CatalanSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -232,5 +233,10 @@ public class Catalan extends Language {
   
   public boolean hasMinMatchesRules() {
     return true;
+  }
+  
+  @Override
+  public SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
+      return new MorfologikCatalanSpellerRule(messages, this, null, Collections.emptyList());
   }
 }
