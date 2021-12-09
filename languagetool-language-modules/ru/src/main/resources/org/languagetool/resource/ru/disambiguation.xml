@@ -49,7 +49,16 @@ Copyright (C) 2009-2021 Yakov Reztsov
         </disambig>
 
     </rule>   
-            
+   
+    <rule name="i_Co" id="i_Co">
+        <pattern>
+            <token>и</token>
+            <marker>
+                <token case_sensitive="yes">Ко</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="PREP"></disambig>
+    </rule>                 
 
     <!-- prepositions 
    R:   
@@ -203,7 +212,18 @@ Copyright (C) 2009-2021 Yakov Reztsov
             </marker>
         </pattern>
         <disambig action="remove" postag="NN:.*:.*:.*:.*"></disambig>
-    </rule>   
+    </rule>
+    <rule name="NOUN_ABR_VRU" id="NOUN_ABR_VRU">
+        <pattern>
+            <marker>
+                <and>
+                    <token postag="ABR:.*" postag_regexp="yes"></token>
+                    <token case_sensitive="yes" >ВРУ</token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="VB:Real:TRANS:IMPFV:Sin:P1"></disambig>
+    </rule>     
     <rule name="INTERJECTION_OR_PREP_O" id="INTERJECTION_O">
         <pattern>
             <!-- о  -->
@@ -251,8 +271,9 @@ Copyright (C) 2009-2021 Yakov Reztsov
             <!-- Что за головная боль!    "Что за" - междометие -->
             <!-- Add exception for : "Что за + NN:.*:.*:Nom" -->
             <!-- Add exception for : "в невесты" -->
+            <!-- Add exception for : "за лучший фильм"  remove "за", must sync with rule "ADJ_V" !-->
             <token  negate="yes">что</token>
-            <token regexp="yes">за|без|вместо|для|до|из|из-за|изо|из-под|к|ко|кроме|на|над|о|около|от|перед|по|под|при|против|с|сквозь|со|среди|у|через</token>
+            <token regexp="yes">без|вместо|для|до|из|из-за|изо|из-под|к|ко|кроме|на|над|о|около|от|перед|по|под|при|против|с|сквозь|со|среди|у|через</token>
             <token postag="ADJ:.*" postag_regexp="yes"></token>
             <marker>
                 <and>
@@ -567,6 +588,16 @@ Copyright (C) 2009-2021 Yakov Reztsov
             </marker>
         </pattern>
         <disambig><match no="2" postag="ADV"></match></disambig>
+    </rule>
+
+    <rule name="ADV_PARTICLE" id="ADV_PARTICLE">
+        <pattern>  
+            <marker>
+                <token regexp="yes">еще|ещё</token>
+            </marker>
+            <token>не</token>
+        </pattern>
+        <disambig action="remove" postag="PARTICLE"></disambig>
     </rule>
 
     <!-- disambiguation for prounouns' -->

@@ -48,6 +48,7 @@ public class SpanishRepeatedWordsRuleTest {
   public void testRule() throws IOException {
 
     assertCorrectText("Emplearon la fuerza. Pero los empleados se resistieron.");
+    assertCorrectText("Antes dije esto. Antes de venir.");
     assertCorrectText("Propuse aquello. Pero la propuesta no fue acceptada.");
     assertCorrectText("Creó cosas interesantes. Pero creo que no eran útiles.");
     assertCorrectText(
@@ -73,6 +74,13 @@ public class SpanishRepeatedWordsRuleTest {
     assertEquals(1, matches.length);
     assertEquals("Sugieres", matches[0].getSuggestedReplacements().get(0));
     assertEquals("Recomiendas", matches[0].getSuggestedReplacements().get(1));
+    
+    matches = getRuleMatches("Inicia el debate. Inicia la conversación.");
+    assertEquals(1, matches.length);
+    assertEquals("Comienza", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("Empieza", matches[0].getSuggestedReplacements().get(1));
+    assertEquals("Pone en marcha", matches[0].getSuggestedReplacements().get(2));
+
   }
 
   private RuleMatch[] getRuleMatches(String sentences) throws IOException {

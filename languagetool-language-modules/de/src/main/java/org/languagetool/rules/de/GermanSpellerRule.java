@@ -47,6 +47,8 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.apache.commons.lang3.StringUtils.removeEnd;
+import static org.languagetool.tools.StringTools.startsWithUppercase;
 import static org.languagetool.tools.StringTools.uppercaseFirstChar;
 
 public class GermanSpellerRule extends CompoundAwareHunspellRule {
@@ -1208,9 +1210,15 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Ih", w -> Arrays.asList("Ich", "In", "Im", "Ah"));
     put("[qQ]uicky", "Quickie");
     put("[qQ]uickys", "Quickies");
+    put("Keywort", w -> Arrays.asList("Keyword", "Stichwort"));
+    put("Keyworts", w -> Arrays.asList("Keywords", "Stichworts"));
+    put("Keywörter", w -> Arrays.asList("Keywords", "Stichwörter"));
     put("strang", w -> Arrays.asList("Strang", "strengte"));
     put("Gym", w -> Arrays.asList("Fitnessstudio", "Gymnasium"));
     put("Gyms", w -> Arrays.asList("Fitnessstudios", "Gymnasiums"));
+    put("mußt", "musst");
+    put("müßtest", "müsstest");
+    put("müßten", "müssten");
   }
 
   private static void putRepl(String wordPattern, String pattern, String replacement) {
@@ -1503,7 +1511,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     for (String wordOrPhrase : wordsOrPhrases) {
       String[] words = tokenizeText(wordOrPhrase);
       if (words.length >= 2 && isAdjOrNounOrUnknown(words[0]) && isNounOrUnknown(words[1]) &&
-              StringTools.startsWithUppercase(words[0]) && StringTools.startsWithUppercase(words[1])) {
+              startsWithUppercase(words[0]) && startsWithUppercase(words[1])) {
         // ignore, seems to be in the form "Release Prozess" which is *probably* wrong
       } else {
         result.add(wordOrPhrase);
@@ -1575,7 +1583,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       // happens e.g. with list items in Google Docs, which introduce \uFEFF, which here appears as
       // an empty token:
       ignoreBulletPointCase = !ignore && idx == 1 && words.get(0).isEmpty() 
-        && StringTools.startsWithUppercase(words.get(idx)) 
+        && startsWithUppercase(words.get(idx))
         && isMisspelled(words.get(idx))
         && !isMisspelled(words.get(idx).toLowerCase());
     }
@@ -1867,7 +1875,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         }
       }
     }
-    if (!StringTools.startsWithUppercase(word)) {
+    if (!startsWithUppercase(word)) {
       String ucWord = uppercaseFirstChar(word);
       if (!suggestions.contains(ucWord) && hunspell.spell(ucWord) && !ucWord.endsWith(".")) {
         // Hunspell doesn't always automatically offer the most obvious suggestion for compounds:
@@ -2011,17 +2019,19 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private boolean ignoreByHangingHyphen(List<String> words, int idx) throws IOException {
     String word = words.get(idx);
     String nextWord = getWordAfterEnumerationOrNull(words, idx+1);
-    nextWord = StringUtils.removeEnd(nextWord, ".");
-
-    boolean isCompound = nextWord != null && (compoundTokenizer.tokenize(nextWord).size() > 1 || nextWord.indexOf('-') > 0);
+    nextWord = removeEnd(nextWord, ".");
+    boolean isCompound = nextWord != null &&
+      (compoundTokenizer.tokenize(nextWord).size() > 1 ||
+       nextWord.indexOf('-') > 0 ||
+       nextWord.matches("[A-ZÖÄÜ][a-zöäüß]{2,}(ei|öl)$"));  // compound tokenizer will only split compounds where each part is >= 3 characters...
     if (isCompound) {
-      word = StringUtils.removeEnd(word, "-");
+      word = removeEnd(word, "-");
       boolean isMisspelled = !hunspell.spell(word);  // "Stil- und Grammatikprüfung" or "Stil-, Text- und Grammatikprüfung"
       if (isMisspelled && (super.ignoreWord(word) || wordsToBeIgnoredInCompounds.contains(word))) {
         isMisspelled = false;
-      } else if (isMisspelled && word.endsWith("s") && isNeedingFugenS(StringUtils.removeEnd(word, "s"))) {
+      } else if (isMisspelled && word.endsWith("s") && isNeedingFugenS(removeEnd(word, "s"))) {
         // Vertuschungs- und Bespitzelungsmaßnahmen: remove trailing "s" before checking "Vertuschungs" so that the spell checker finds it
-        isMisspelled = !hunspell.spell(StringUtils.removeEnd(word, "s"));
+        isMisspelled = !hunspell.spell(removeEnd(word, "s"));
       }
       return !isMisspelled;
     }
@@ -2048,7 +2058,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   // check whether a <code>word<code> is a valid compound (e.g., "Feynmandiagramm" or "Feynman-Diagramm")
   // that contains an ignored word from spelling.txt (e.g., "Feynman")
   private boolean ignoreCompoundWithIgnoredWord(String word) throws IOException {
-    if (!StringTools.startsWithUppercase(word) && !StringUtils.startsWithAny(word, "nord", "west", "ost", "süd")) {
+    if (!startsWithUppercase(word) && !StringUtils.startsWithAny(word, "nord", "west", "ost", "süd")) {
       // otherwise stuff like "rumfangreichen" gets accepted
       return false;
     }
@@ -2140,7 +2150,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   }
 
   @Override
-  protected boolean isQuotedCompound (AnalyzedSentence analyzedSentence, int idx, String token) {
+  protected boolean isQuotedCompound(AnalyzedSentence analyzedSentence, int idx, String token) {
     if (idx > 3 && token.startsWith("-")) {
       return StringUtils.equalsAny(analyzedSentence.getTokens()[idx-1].getToken(), "“", "\"") &&
           StringUtils.equalsAny(analyzedSentence.getTokens()[idx-3].getToken(), "„", "\"");

@@ -4,6 +4,10 @@
 
 ...
 
+#### English
+  * added and improved rules
+  * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2021.12.01, v. 3.0.3)
+
 #### Russian
   * added and improved rules
 

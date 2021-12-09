@@ -122,7 +122,8 @@ public class Dutch extends Language {
             new LongParagraphRule(messages, this, userConfig),
             new PreferredWordRule(messages),
             new SpaceInCompoundRule(messages),
-            new SentenceWhitespaceRule(messages)
+            new SentenceWhitespaceRule(messages),
+            new CheckCaseRule(messages, this)
     );
   }
 

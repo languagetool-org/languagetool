@@ -18,7 +18,6 @@
  */
 package org.languagetool.dev.diff;
 
-import joptsimple.internal.Strings;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.tools.StringTools;
@@ -52,10 +51,10 @@ public class RuleMatchDiffFinder {
       LightRuleMatch oldMatch = oldMatches.get(key);
       if (oldMatch != null) {
         if (!oldMatch.getSuggestions().equals(match.getSuggestions()) ||
-            !oldMatch.getMessage().equals(match.getMessage()) ||
-            oldMatch.getStatus() != match.getStatus() ||
-            //!Objects.equals(oldMatch.getSubId(), match.getSubId()) ||   -- sub id change = other sub-rule added or removed, this is usually not relevant
-            !oldMatch.getCoveredText().equals(match.getCoveredText())) {
+          !oldMatch.getMessage().equals(match.getMessage()) ||
+          oldMatch.getStatus() != match.getStatus() ||
+          //!Objects.equals(oldMatch.getSubId(), match.getSubId()) ||   -- sub id change = other sub-rule added or removed, this is usually not relevant
+          !oldMatch.getCoveredText().equals(match.getCoveredText())) {
           result.add(RuleMatchDiff.modified(oldMatch, match));
         }
       } else {
@@ -77,7 +76,7 @@ public class RuleMatchDiffFinder {
           for (RuleMatchDiff addedMatch : addedMatches) {
             LightRuleMatch tmp = addedMatch.getNewMatch();
             boolean overlaps = tmp.getColumn() < match.getColumn() + match.getCoveredText().length() &&
-                               tmp.getColumn() + tmp.getCoveredText().length() > match.getColumn();
+              tmp.getColumn() + tmp.getCoveredText().length() > match.getColumn();
             if (overlaps && !tmp.getFullRuleId().equals(match.getFullRuleId())) {
               /*System.out.println(tmp + "\noverlaps\n" + match);
               System.out.println("tmp " + tmp.getTitle());
@@ -244,8 +243,8 @@ public class RuleMatchDiffFinder {
   }
 
   private int printMessage(FileWriter fw, LightRuleMatch oldMatch, LightRuleMatch newMatch,
-                            LightRuleMatch replaces, LightRuleMatch replacedBy, String langCode, String date,
-                            RuleMatchDiff.Status status, int iframeCount) throws IOException {
+                           LightRuleMatch replaces, LightRuleMatch replacedBy, String langCode, String date,
+                           RuleMatchDiff.Status status, int iframeCount) throws IOException {
     fw.write("  <td>");
     String message;
     boolean canOverlap;
@@ -262,7 +261,7 @@ public class RuleMatchDiffFinder {
       //System.out.println("new: " + newMatch.getMessage());
       fw.write(
         "<tt>old:</tt> " + showTrimSpace(oldMatch.getMessage()) + "<br>\n" +
-        "<tt>new:</tt> " + showTrimSpace(newMatch.getMessage()));
+          "<tt>new:</tt> " + showTrimSpace(newMatch.getMessage()));
       message = newMatch.getMessage();
       canOverlap = canOverlap(newMatch);
     }
@@ -272,22 +271,22 @@ public class RuleMatchDiffFinder {
       int markerFrom = oldMatch.getContext().indexOf(MARKER_START);
       int markerTo = oldMatch.getContext().replace(MARKER_START, "").indexOf(MARKER_END);
       String params = "sentence=" + enc(oldMatch.getContext().replace(MARKER_START, "").replace(MARKER_END, ""), 300) +
-              "&rule_id=" + enc(oldMatch.getFullRuleId()) +
-              "&filename=" + enc(cleanSource(oldMatch.getRuleSource())) +
-              "&message=" + enc(message, 300) +
-              "&suggestions=" + enc(Strings.join(oldMatch.getSuggestions(), ", "), 300) +
-              "&marker_from=" + markerFrom +
-              "&marker_to=" + markerTo +
-              "&language=" + enc(langCode) +
-              "&day=" + enc(date);
+        "&rule_id=" + enc(oldMatch.getFullRuleId()) +
+        "&filename=" + enc(cleanSource(oldMatch.getRuleSource())) +
+        "&message=" + enc(message, 300) +
+        "&suggestions=" + enc(String.join(", ", oldMatch.getSuggestions()), 300) +
+        "&marker_from=" + markerFrom +
+        "&marker_to=" + markerTo +
+        "&language=" + enc(langCode) +
+        "&day=" + enc(date);
       if (iframeCount > IFRAME_MAX) {
         // rendering 2000 iframes into a page isn't fun...
         fw.write("    <a target='regression_feedback' href=\"https://languagetoolplus.com/regression/button?" + params + "\">FA?</a>\n\n");
       } else {
         fw.write("    <iframe scrolling=\"no\" style=\"border: none; width: 165px; height: 30px\"\n" +
-                "src=\"https://languagetoolplus.com/regression/button?" +
-                //"src=\"http://127.0.0.1:8000/regression/button" +
-                params + "\"></iframe>\n\n");
+          "src=\"https://languagetoolplus.com/regression/button?" +
+          //"src=\"http://127.0.0.1:8000/regression/button" +
+          params + "\"></iframe>\n\n");
         withIframe = true;
       }
     }
@@ -321,17 +320,17 @@ public class RuleMatchDiffFinder {
     return match.getRuleId().equals("TOO_LONG_SENTENCE") || match.getRuleId().equals("TOO_LONG_SENTENCE_DE");
   }
 
-  private String escapeSentence(String s)  {
+  private String escapeSentence(String s) {
     return StringTools.escapeHTML(s).
-            replace("&lt;span class='marker'&gt;", "<span class='marker'>").
-            replace("&lt;/span&gt;", "</span>");
+      replace("&lt;span class='marker'&gt;", "<span class='marker'>").
+      replace("&lt;/span&gt;", "</span>");
   }
 
-  private String enc(String s)  {
+  private String enc(String s) {
     return enc(s, Integer.MAX_VALUE);
   }
 
-  private String enc(String s, int maxLen)  {
+  private String enc(String s, int maxLen) {
     try {
       return URLEncoder.encode(StringUtils.abbreviate(s, maxLen), "utf-8");
     } catch (UnsupportedEncodingException e) {
@@ -373,7 +372,7 @@ public class RuleMatchDiffFinder {
     }
     List<LightRuleMatch> l1 = parser.parseOutput(file1);
     List<LightRuleMatch> l2 = parser.parseOutput(file2);
-    String title = "Comparing " + file1.getName() + " to "  + file2.getName();
+    String title = "Comparing " + file1.getName() + " to " + file2.getName();
     System.out.println(title);
     List<RuleMatchDiff> diffs = getDiffs(l1, l2);
     diffs.sort((k, j) -> {
@@ -462,6 +461,7 @@ public class RuleMatchDiffFinder {
   static class OutputFile {
     File file;
     List<RuleMatchDiff> items;
+
     OutputFile(File file, List<RuleMatchDiff> items) {
       this.file = file;
       this.items = items;
@@ -541,6 +541,7 @@ public class RuleMatchDiffFinder {
       "    col_2: 'none',\n" +
       "    col_3: 'none',\n" +
       "    col_4: 'select',\n" +
+      "    col_5: 'none',\n" +
       "    grid_layout: false,\n" +
       "    col_types: ['number', 'number', 'number', 'number', 'string', 'string'],\n" +
       "    extensions: [{ name: 'sort' }]\n" +
@@ -589,7 +590,7 @@ public class RuleMatchDiffFinder {
         if (file.length() >= varPos + 1) {
           StringBuilder tempName = new StringBuilder(file).replace(varPos, varPos + 2, "XX");
           if (tempName.toString().equals(templateName)) {
-            String langCode = file.substring(varPos, varPos+2);
+            String langCode = file.substring(varPos, varPos + 2);
             String tempNameNew = file.replace(".old", ".new");
             File newFile = new File(dir, tempNameNew);
             if (!newFile.exists()) {

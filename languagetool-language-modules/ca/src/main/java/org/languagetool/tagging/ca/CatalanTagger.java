@@ -43,11 +43,15 @@ public class CatalanTagger extends BaseTagger {
   public static final CatalanTagger INSTANCE_CAT = new CatalanTagger(new Catalan());
   
   private static final Pattern ADJ_PART_FS = Pattern.compile("VMP00SF.|A[QO].[FC]S.");
+  private static final Pattern ADJ_NOUN = Pattern.compile("AQ.*|NC.*|RG");
   private static final Pattern VERB = Pattern.compile("V.+");
   //private static final Pattern NOUN = Pattern.compile("NC.+");
   private String variant;
+  
+  private boolean warningChunk = false;
 
   private static final Pattern PREFIXES_FOR_VERBS = Pattern.compile("(auto)(.*[aeiouàéèíòóïü].+[aeiouàéèíòóïü].*)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern PREFIXES_FOR_N_ADJ = Pattern.compile("(super)(.*[aeiouàéèíòóïü].+[aeiouàéèíòóïü].*)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
   public CatalanTagger(Language language) {
     super("/ca/" + language.getShortCodeWithCountryAndVariant() + JLanguageTool.DICTIONARY_FILENAME_EXTENSION,  new Locale("ca"), false);
@@ -71,6 +75,7 @@ public class CatalanTagger extends BaseTagger {
       // typewriter apostrophe
       boolean containsTypewriterApostrophe = false;
       boolean containsTypographicApostrophe = false;
+      warningChunk = false;
       if (word.length() > 1) {
         if (word.contains("'")) {
           containsTypewriterApostrophe = true;
@@ -123,6 +128,11 @@ public class CatalanTagger extends BaseTagger {
         listChunkTags.add(new ChunkTag("containsTypographicApostrophe"));
         atr.setChunkTags(listChunkTags);
       }
+      if (warningChunk) {
+        List<ChunkTag> listChunkTags = new ArrayList<>();
+        listChunkTags.add(new ChunkTag("_WARNING_NOT_IN_DICT_"));
+        atr.setChunkTags(listChunkTags);
+      }
 
       tokenReadings.add(atr);
       pos += word.length();
@@ -165,6 +175,24 @@ public class CatalanTagger extends BaseTagger {
           if (m.matches()) {
             String lemma = matcher.group(1).toLowerCase().concat(taggerToken.getLemma());
             additionalTaggedTokens.add(new AnalyzedToken(word, posTag, lemma));
+          }
+        }
+      }
+      return additionalTaggedTokens;
+    }
+    //Any well-formed noun/adj with prefixes is tagged copying the original tags
+    Matcher matcherSuper = PREFIXES_FOR_N_ADJ.matcher(word);
+    if (matcherSuper.matches()) {
+      final String possibleNAdj = matcherSuper.group(2).toLowerCase();
+      List<AnalyzedToken> taggerTokens = asAnalyzedTokenList(possibleNAdj, dictLookup.lookup(possibleNAdj));
+      for (AnalyzedToken taggerToken : taggerTokens ) {
+        final String posTag = taggerToken.getPOSTag();
+        if (posTag != null) {
+          final Matcher m = ADJ_NOUN.matcher(posTag);
+          if (m.matches()) {
+            String lemma = matcherSuper.group(1).toLowerCase().concat(taggerToken.getLemma());
+            additionalTaggedTokens.add(new AnalyzedToken(word, posTag, lemma));
+            warningChunk = true;
           }
         }
       }

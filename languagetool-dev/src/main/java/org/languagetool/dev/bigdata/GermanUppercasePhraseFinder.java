@@ -18,7 +18,6 @@
  */
 package org.languagetool.dev.bigdata;
 
-import joptsimple.internal.Strings;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.*;
 import org.apache.lucene.search.IndexSearcher;
@@ -85,7 +84,7 @@ final class GermanUppercasePhraseFinder {
       if (!useful || lcCount == 0 || lcCount == 2) {
         continue;
       }
-      String uppercase = Strings.join(ucParts, " ");
+      String uppercase = String.join(" ", ucParts);
       if (term.equals(uppercase)){
         continue;
       }

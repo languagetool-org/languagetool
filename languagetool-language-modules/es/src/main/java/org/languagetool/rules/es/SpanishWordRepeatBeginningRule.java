@@ -74,7 +74,7 @@ public class SpanishWordRepeatBeginningRule extends WordRepeatBeginningRule {
   private static final List<String> CONTRAST_EXPRESSIONS = Arrays.asList("Aun así", "Por otra parte", "Sin embargo");
   
   private static final List<String> EXCEPCIONS_START = Arrays.asList("el", "la", "los", "las", "punto", "artículo",
-      "módulo", "parte", "sesión", "unidad", "tema");
+      "módulo", "parte", "sesión", "unidad", "tema", "n");
   
   static {
     // based on https://www.pinterest.com/pin/229542912245527548/

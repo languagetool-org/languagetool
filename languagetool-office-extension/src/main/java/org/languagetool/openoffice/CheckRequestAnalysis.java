@@ -381,7 +381,6 @@ class CheckRequestAnalysis {
     }
 
     // Initialization 
-    
     docCursor = null;
     setFlatParagraphTools(xComponent);
 
@@ -446,7 +445,7 @@ class CheckRequestAnalysis {
         //  problem with automatic iteration - try to get ViewCursor position
         return getParaFromViewCursorOrDialog(chPara, locale, footnotePositions);
       } else {
-        return -1;
+        return nPara;
       }
     }
     int nTPara = docCache.getNumberOfTextParagraph(nPara); 
@@ -598,7 +597,7 @@ class CheckRequestAnalysis {
     if (getCurNum) {
       nPara = flatPara.getCurNumFlatParagraph();
       if (nPara < 0) {
-        return -1;
+        return -2;
       }
     }
     int nFParas = flatPara.getNumberOfAllFlatPara();

@@ -24,6 +24,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.apache.ibatis.session.RowBounds;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
@@ -105,10 +106,10 @@ abstract class TextChecker {
       this.ngramIdentifier.enableNgrams(config.getNgramLangIdentData());
     }
     this.executorService = LtThreadPoolFactory.createFixedThreadPoolExecutor(
-      "lt-textchecker-thread",
-      config.maxCheckThreads,
-      config.maxCheckThreads * 4,
-      false, (thread, throwable) -> {
+      LtThreadPoolFactory.TEXT_CHECKER_POOL,
+      config.getMaxTextCheckerThreads(), config.getMaxTextCheckerThreads(),
+      config.getTextCheckerQueueSize(),
+      60L, false, (thread, throwable) -> {
         log.error("Thread: " + thread.getName() + " failed with: " + throwable.getMessage());
       },
       false);
@@ -126,20 +127,16 @@ abstract class TextChecker {
     if (remoteRuleCount > 0) {
       LtThreadPoolFactory.createFixedThreadPoolExecutor(
         LtThreadPoolFactory.REMOTE_RULE_WAITING_POOL,
-        config.getMaxCheckThreads() * remoteRuleCount,
-        config.getMaxCheckThreads() * remoteRuleCount*4,
-        true,
-        (thread, throwable) -> {
+        config.getMaxCheckThreads(), Integer.MAX_VALUE, -1,
+        60L, true, (thread, throwable) -> {
           log.error("Thread: " + thread.getName() + " failed with: " + throwable.getMessage());
         },
         true
       );
       LtThreadPoolFactory.createFixedThreadPoolExecutor(
         LtThreadPoolFactory.REMOTE_RULE_EXECUTING_POOL,
-        config.getMaxCheckThreads() * remoteRuleCount,
-        config.getMaxCheckThreads() * remoteRuleCount*4,
-        true,
-        (thread, throwable) -> {
+        config.getMaxCheckThreads(), Integer.MAX_VALUE, -1,
+        60L, true, (thread, throwable) -> {
           log.error("Thread: " + thread.getName() + " failed with: " + throwable.getMessage());
         },
         true
@@ -451,14 +448,10 @@ abstract class TextChecker {
 
     List<CheckResults> ruleMatchesSoFar = Collections.synchronizedList(new ArrayList<>());
 
-    Future<List<CheckResults>> future = executorService.submit(new Callable<List<CheckResults>>() {
-      @Override
-      public List<CheckResults> call() throws Exception {
-        // use to fake OOM in thread for testing:
-        /*if (Math.random() < 0.1) {
-          throw new OutOfMemoryError();
-        }*/
-        try (MDC.MDCCloseable c = MDC.putCloseable("rID", LanguageToolHttpHandler.getRequestId(httpExchange))){
+    Future<List<CheckResults>> future;
+    try {
+      future = executorService.submit(() -> {
+        try (MDC.MDCCloseable c = MDC.putCloseable("rID", LanguageToolHttpHandler.getRequestId(httpExchange))) {
           log.info("Starting text check on {} chars; params: {}", length, params);
           long time = System.currentTimeMillis();
           List<CheckResults> results = getRuleMatches(aText, lang, motherTongue, parameters, params, userConfig, detLang, preferredLangs,
@@ -470,8 +463,10 @@ abstract class TextChecker {
           log.info("Finished suggestion generation in {}ms, returning results.", System.currentTimeMillis() - time);
           return results;
         }
-      }
-    });
+      });
+    } catch (RejectedExecutionException e) {
+      throw new UnavailableException("Server overloaded, please try again later", e);
+    }
     String incompleteResultReason = null;
     List<CheckResults> res;
     try {
@@ -693,7 +688,7 @@ abstract class TextChecker {
 
   private List<String> getUserDictWords(UserLimits limits, List<String> groups) {
     DatabaseAccess db = DatabaseAccess.getInstance();
-    return db.getWordsFromDictionaries(limits, groups);
+    return db.getWords(limits, groups, RowBounds.NO_ROW_OFFSET, RowBounds.NO_ROW_LIMIT);
   }
 
   protected void checkParams(Map<String, String> parameters) {

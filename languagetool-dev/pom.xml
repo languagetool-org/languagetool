@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    
+
     <parent>
-        <artifactId>languagetool-parent</artifactId>
         <groupId>org.languagetool</groupId>
-        <version>5.6-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
+        <artifactId>languagetool-parent</artifactId>
+        <version>${revision}</version>
     </parent>
 
     <artifactId>languagetool-dev</artifactId>
-    <url>https://www.languagetool.org</url>
+    <packaging>jar</packaging>
     <name>LanguageTool development tools</name>
     <description>Developer tools for working with and evaluating LanguageTool</description>
+    <url>https://www.languagetool.org</url>
 
     <licenses>
         <license>
@@ -22,78 +23,54 @@
         </license>
     </licenses>
 
-    <packaging>jar</packaging>
-
-    <build>
-        <plugins>
-            <plugin>
-                <!-- call with: mvn clean compile assembly:single -->
-                <!-- may need to call `mvn install` in parent folder for this to work -->
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>${maven.assembly.plugin}</version>
-                <configuration>
-                    <descriptor>src/main/assembly/zip.xml</descriptor>
-                </configuration>
-            </plugin>
-            <plugin>
-                <!-- build one big JAR named languagetool-dev-x.y-SNAPSHOT-shaded.jar -->
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.4</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <shadedArtifactAttached>true</shadedArtifactAttached>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>        
-        </plugins>
-    </build>
-    
     <developers>
         <developer>
             <name>Daniel Naber</name>
-            <roles><role>Maintainer</role></roles>
+            <roles>
+                <role>Maintainer</role>
+            </roles>
         </developer>
         <developer>
             <name>Marcin Miłkowski</name>
-            <roles><role>Maintainer</role></roles>
+            <roles>
+                <role>Maintainer</role>
+            </roles>
         </developer>
     </developers>
-    
+
     <dependencies>
         <dependency>
             <groupId>org.languagetool</groupId>
             <artifactId>language-all</artifactId>
-            <version>${languagetool.version}</version>
+            <version>${revision}</version>
         </dependency>
         <dependency>
             <groupId>org.languagetool</groupId>
             <artifactId>languagetool-commandline</artifactId>
-            <version>${languagetool.version}</version>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${org.apache.commons.lang3.version}</version>
         </dependency>
         <dependency>
             <groupId>org.languagetool</groupId>
             <artifactId>languagetool-wikipedia</artifactId>
-            <version>${languagetool.version}</version>
+            <version>${revision}</version>
         </dependency>
         <!-- premium -->
         <dependency>
             <groupId>org.mariadb.jdbc</groupId>
             <artifactId>mariadb-java-client</artifactId>
-            <version>2.2.3</version>
+            <version>${org.mariadb.jdbc.version}</version>
         </dependency>
         <!-- /premium -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-csv</artifactId>
-            <version>1.8</version>
+            <version>${org.apache.commons.commons-csv.version}</version>
         </dependency>
-
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -111,4 +88,42 @@
         -->
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <!-- call with: mvn clean compile assembly:single -->
+                <!-- may need to call `mvn install` in parent folder for this to work -->
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>${maven-assembly-plugin.version}</version>
+                <configuration>
+                    <descriptors>
+                        <descriptor>src/main/assembly/zip.xml</descriptor>
+                    </descriptors>
+                </configuration>
+            </plugin>
+            <plugin>
+                <!-- build one big JAR named languagetool-dev-x.y-SNAPSHOT-shaded.jar -->
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>${maven-shade-plugin}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <shadedArtifactAttached>true</shadedArtifactAttached>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>${maven-deploy-plugin.version}</version>
+                <configuration>
+                    <skip>false</skip>
+                    <!-- TODO: decide if this should published to a maven-repo as well. -->
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

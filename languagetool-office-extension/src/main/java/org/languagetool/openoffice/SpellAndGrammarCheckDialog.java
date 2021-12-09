@@ -32,11 +32,9 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -51,8 +49,10 @@ import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.ToolTipManager;
+import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.plaf.ColorUIResource;
 import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
@@ -235,6 +235,9 @@ public class SpellAndGrammarCheckDialog extends Thread {
       if (documents.isNotTextDocument()) {
         return null;
       }
+      if (nWait > 400) {
+        return null;
+      }
       MessageHandler.printToLogFile("Wait: " + ((nWait + 1) * 5));
       nWait++;
       try {
@@ -365,6 +368,9 @@ public class SpellAndGrammarCheckDialog extends Thread {
    * x = number of character in flat paragraph
    */
   private boolean setFlatViewCursor(int xFlat, int yFlat, ViewCursorTools viewCursor, DocumentCache docCache, DocumentCursorTools docCursor)  {
+    if (yFlat < 0) {
+      return false;
+    }
     int y = docCache.getNumberOfTextParagraph(yFlat);
     if (y >= 0) {
       setTextViewCursor(xFlat, y, viewCursor, docCursor);
@@ -973,7 +979,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
     private final static int dialogWidth = 640;
     private final static int dialogHeight = 525;
 
-    private final Color defaultForeground;
+    private Color defaultForeground;
 
     private final JDialog dialog;
     private final JLabel languageLabel;
@@ -1120,6 +1126,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
       errorDescription.setLineWrap(true);
       errorDescription.setWrapStyleWord(true);
       errorDescription.setBackground(dialog.getContentPane().getBackground());
+      errorDescription.setForeground(defaultForeground);
       Font descriptionFont = dialogFont.deriveFont(Font.BOLD);
       errorDescription.setFont(descriptionFont);
       errorDescription.setToolTipText(formatToolTipText(matchDescriptionHelp));
@@ -1422,6 +1429,11 @@ public class SpellAndGrammarCheckDialog extends Thread {
       setInitialButtonState();
       dialog.setAutoRequestFocus(true);
       dialog.setVisible(true);
+      try {
+        Thread.sleep(500);
+      } catch (InterruptedException e) {
+        MessageHandler.printException(e);
+      }
       dialog.toFront();
       initCursor();
       runCheckForNextError(false);
@@ -1506,11 +1518,11 @@ public class SpellAndGrammarCheckDialog extends Thread {
         }
       }
       if (isNum == 0) {
-        toolTipText = "<html><p width=\"" + toolTipWidth + "\">" + toolTipText + "</p></html>";
+        toolTipText = "<html><div style='color:black;'><p width=\"" + toolTipWidth + "\">" + toolTipText + "</p></html>";
       } else if (isNum == 1) {
-        toolTipText = "<html><p width=\"" + toolTipWidth + "\">" + toolTipText + "</ul></html>";
+        toolTipText = "<html><div style='color:black;'><p width=\"" + toolTipWidth + "\">" + toolTipText + "</ul></html>";
       } else {
-        toolTipText = "<html><p width=\"" + toolTipWidth + "\">" + toolTipText + "</ol></html>";
+        toolTipText = "<html><div style='color:black;'><p width=\"" + toolTipWidth + "\">" + toolTipText + "</ol></html>";
       }
       return toolTipText;
     }
@@ -1558,7 +1570,13 @@ public class SpellAndGrammarCheckDialog extends Thread {
               closeDialog();
               return;
             }
+            if (debugMode) {
+              MessageHandler.printToLogFile("Spell Dialog: Wait for wakeup");
+            }
             checkWakeup.wait();
+            if (debugMode) {
+              MessageHandler.printToLogFile("Spell Dialog: Run Check");
+            }
             if (!isRunning) {
               return;
             }
@@ -1592,6 +1610,9 @@ public class SpellAndGrammarCheckDialog extends Thread {
       }
       setInitialButtonState();
       CheckError checkError = getNextError(startAtBegin);
+      if (debugMode) {
+        MessageHandler.printToLogFile("Spell Dialog: Error checked: Error is " + (error == null ? "Null" : "NOT Null"));
+      }
       error = checkError == null ? null : checkError.error;
       locale = checkError == null ? null : checkError.locale;
       help.setEnabled(true);
@@ -1618,7 +1639,9 @@ public class SpellAndGrammarCheckDialog extends Thread {
         setAttributesForErrorText(error);
 
         errorDescription.setText(error.aFullComment);
-        
+        if (debugMode) {
+          MessageHandler.printToLogFile("Spell Dialog: Error Text set");
+        }
         if (error.aSuggestions != null && error.aSuggestions.length > 0) {
           suggestions.setListData(error.aSuggestions);
           suggestions.setSelectedIndex(0);
@@ -1630,7 +1653,9 @@ public class SpellAndGrammarCheckDialog extends Thread {
           change.setEnabled(false);
           changeAll.setEnabled(false);
         }
-        
+        if (debugMode) {
+          MessageHandler.printToLogFile("Spell Dialog: Suggestions set");
+        }
         Language lang = locale == null ? lt.getLanguage() : documents.getLanguage(locale);
         if (debugMode && lt.getLanguage() == null) {
           MessageHandler.printToLogFile("LT language == null");
@@ -1638,7 +1663,9 @@ public class SpellAndGrammarCheckDialog extends Thread {
         lastLang = lang.getTranslatedName(messages);
         language.setEnabled(true);
         language.setSelectedItem(lang.getTranslatedName(messages));
-        
+        if (debugMode) {
+          MessageHandler.printToLogFile("Spell Dialog: Language set");
+        }
         Map<String, String> deactivatedRulesMap = documents.getDisabledRulesMap();
         if (!deactivatedRulesMap.isEmpty()) {
           activateRule.removeAllItems();
@@ -1667,6 +1694,9 @@ public class SpellAndGrammarCheckDialog extends Thread {
         more.setVisible(informationUrl != null);
         more.setEnabled(informationUrl != null);
         undo.setEnabled(undoList != null && !undoList.isEmpty());
+        if (debugMode) {
+          MessageHandler.printToLogFile("Spell Dialog: All set");
+        }
       } else {
         ignoreOnce.setEnabled(false);
         ignoreAll.setEnabled(false);
@@ -1848,6 +1878,9 @@ public class SpellAndGrammarCheckDialog extends Thread {
             MessageHandler.printToLogFile("x: " + x + "; y: " + y);
           }
           setTextViewCursor(nextError.error.nErrorStart, y, viewCursor, docCursor);
+          if (debugMode) {
+            MessageHandler.printToLogFile("TextViewCursor set");
+          }
           return nextError;
         }
       }

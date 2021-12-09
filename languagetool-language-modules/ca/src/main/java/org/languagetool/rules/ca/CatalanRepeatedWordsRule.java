@@ -18,22 +18,42 @@
  */
 package org.languagetool.rules.ca;
 
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.csRegex;
+
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.function.Supplier;
 
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.language.Catalan;
 import org.languagetool.rules.AbstractRepeatedWordsRule;
 import org.languagetool.rules.SynonymsData;
+import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.ca.CatalanSynthesizer;
+import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 
 public class CatalanRepeatedWordsRule extends AbstractRepeatedWordsRule {
 
   private static final CatalanSynthesizer synth = new CatalanSynthesizer(new Catalan());
+  
+private final Supplier<List<DisambiguationPatternRule>> antiPatterns;
+  
+  private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays
+      .asList(
+          Arrays.asList(csRegex("[Tt]ema|TEMA"), csRegex("\\d+|[IXVC]+"))
+          );
+  
+  @Override
+  public List<DisambiguationPatternRule> getAntiPatterns() {
+    return antiPatterns.get();
+  }
 
   public CatalanRepeatedWordsRule(ResourceBundle messages) {
     super(messages, new Catalan());
+    antiPatterns = cacheAntiPatterns(new Catalan(), ANTI_PATTERNS);
     // super.setDefaultTempOff();
   }
 
@@ -77,9 +97,9 @@ public class CatalanRepeatedWordsRule extends AbstractRepeatedWordsRule {
     } else if (postag.contains("FP")) {
       return postag.replaceFirst("FP", "[FC][PN]");
     } else if (postag.contains("CS")) {
-      return postag.replaceFirst("CS", "[MC][SN]"); // also F ?
+      return postag.replaceFirst("CS", "[MFC][SN]"); // also F ?
     } else if (postag.contains("CP")) {
-      return postag.replaceFirst("CP", "[MC][PN]"); // also F ?
+      return postag.replaceFirst("CP", "[MFC][PN]"); // also F ?
     } else if (postag.contains("MN")) {
       return postag.replaceFirst("MN", "[MC][SPN]");
     } else if (postag.contains("FN")) {

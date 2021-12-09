@@ -20,9 +20,7 @@ package org.languagetool.rules.de;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Languages;
-import org.languagetool.TestTools;
+import org.languagetool.*;
 import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.RuleMatch;
 
@@ -43,6 +41,33 @@ public class AgreementRuleTest {
   public void setUp() {
     rule = new AgreementRule(TestTools.getMessages("de"), (GermanyGerman)Languages.getLanguageForShortCode("de-DE"));
     lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
+  }
+
+  @Test
+  public void testGetCategoriesCausingError() {
+    AnalyzedTokenReadings tokenDetMasSin = new AnalyzedTokenReadings(new AnalyzedToken("der", "ART:DEF:NOM:SIN:MAS", "der"));
+    AnalyzedTokenReadings tokenDetFemSin = new AnalyzedTokenReadings(new AnalyzedToken("die", "ART:DEF:NOM:SIN:FEM", "der"));
+    AnalyzedTokenReadings tokenDetFemPlu = new AnalyzedTokenReadings(new AnalyzedToken("die", "ART:DEF:NOM:PLU:FEM", "der"));
+    AnalyzedTokenReadings tokenSubNeuSin = new AnalyzedTokenReadings(new AnalyzedToken("Haus", "SUB:NOM:SIN:NEU", "Haus"));
+    AnalyzedTokenReadings tokenSubFemPlu = new AnalyzedTokenReadings(new AnalyzedToken("Frauen", "SUB:NOM:PLU:FEM", "Frau"));
+    AnalyzedTokenReadings tokenSubGenFemPlu = new AnalyzedTokenReadings(new AnalyzedToken("Frauen", "SUB:GEN:PLU:FEM", "Frau"));
+
+    List<String> res1 = rule.getCategoriesCausingError(tokenDetFemPlu, tokenSubGenFemPlu);
+    assertThat(res1.size(), is(1));
+    assertTrue(res1.get(0).contains("Kasus"));
+
+    List<String> res2 = rule.getCategoriesCausingError(tokenDetMasSin, tokenSubNeuSin);
+    assertThat(res2.size(), is(1));
+    assertTrue(res2.get(0).contains("Genus"));
+
+    List<String> res3 = rule.getCategoriesCausingError(tokenDetFemSin, tokenSubFemPlu);
+    assertThat(res3.size(), is(1));
+    assertTrue(res3.get(0).contains("Numerus"));
+
+    //List<String> res4 = rule.getCategoriesCausingError(tokenDetFemSin, tokenSubGenFemPlu);
+    //assertThat(res4.size(), is(2));
+    //assertTrue(res4.get(0).contains("Numerus"));
+    //assertTrue(res4.get(1).contains("Kasus"));
   }
 
   @Test
@@ -200,6 +225,7 @@ public class AgreementRuleTest {
     assertGood("Können Sie das nächsten Monat erledigen?");
     assertGood("Können Sie das auch nächsten Monat erledigen?");
     assertGood("War das Absicht?");
+    assertGood("Alles Große und Edle ist einfacher Art.");
 
     assertGood("Das Dach meines Autos.");
     assertGood("Das Dach meiner Autos.");
@@ -280,6 +306,8 @@ public class AgreementRuleTest {
     assertGood("Die meisten Lebensmittel enthalten das.");  // Lebensmittel has NOG as gender in Morphy
     // TODO: Find agreement errors in relative clauses
     assertBad("Gutenberg, die Genie.");
+    assertBad("Wahrlich ein äußerst kritische Jury.", "eine äußerst kritische Jury");
+    assertBad("Das ist ein enorm großer Auto.", "ein enorm großes Auto");
     //assertBad("Gutenberg, die größte Genie.");
     //assertBad("Gutenberg, die größte Genie aller Zeiten.");
     assertGood("Die wärmsten Monate sind August und September, die kältesten Januar und Februar.");
@@ -682,6 +710,17 @@ public class AgreementRuleTest {
     assertBad("Das ist ein solides strategisches Fundaments", "ein solides strategisches Fundament");
     assertBad("Die deutsche Kommasetzung bedarf einiger technisches Ausarbeitung.");
     assertBad("Die deutsche Kommasetzung bedarf einiger guter technische Ausarbeitung.");
+  }
+
+  @Test
+  public void testKonUntArtDefSub() throws IOException {
+    // correct:
+    assertGood("Wieso verstehst du nicht, dass das komplett verschiedene Dinge sind?");
+    assertGood("Ich frage mich sehr, ob die wirklich zusätzliche Gebühren abdrücken wollen");
+    // incorrect:
+    assertBad("Dies wurde durchgeführt um das moderne Charakter zu betonen.", "den modernen Charakter");
+    assertBad("Nur bei Topfpflanzung ist eine regelmäßige Düngung wichtig, da die normalen Bodenbildungsprozessen nicht stattfinden.", "die normalen Bodenbildungsprozesse", "den normalen Bodenbildungsprozessen");
+    assertBad("Die Höhe kommt oft darauf an, ob die richtigen Leuten gut mit einen können oder nicht.");
   }
 
   private void assertGood(String s) throws IOException {

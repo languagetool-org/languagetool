@@ -27,6 +27,19 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
 -->
 <rules lang="de" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/remote-rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <category name="Machine learning rules" id="AI_RULES">
+        <rule id="AI_HYDRA_LEO_CPT_MIT_MIR" name="">
+            <pattern>
+                <token skip="-1" inflected="yes" regexp="yes">arbeiten|bekommen|benutzen|benützen|bestimmen|bieten|bringen|denken|dürfen|empfinden|erleben|essen|fahren|finanzieren|fliegen|fühlen|führen|geben|gehen|gestalten|haben|halten|helfen|hören|kämpfen|klingen|kommen|können|kriegen|lassen|laufen|leiden|lesen|liefern|machen|marschieren|mischen|müssen|nehmen|pfeifen|rauchen|rechnen|reden|regieren|reisen|reißen|reissen|schicken|schleifen|schleppen|schneiden|schreiben|schwimmen|schwingen|singen|sollen|spielen|sprechen|teilen|tun|verdienen|wirken|wollen|zählen|ziehen
+                    <exception scope="next" negate="yes" inflected="yes" postag="VER(:AUX|:MOD)?(INF|[123]).*" postag_regexp="yes" regexp="yes">arbeiten|bekommen|benutzen|benützen|bestimmen|bieten|bringen|denken|dürfen|empfinden|erleben|essen|fahren|finanzieren|fliegen|fühlen|führen|geben|gehen|gestalten|haben|halten|helfen|hören|kämpfen|klingen|kommen|können|kriegen|lassen|laufen|leiden|lesen|liefern|machen|marschieren|mischen|müssen|nehmen|pfeifen|rauchen|rechnen|reden|regieren|reisen|reißen|reissen|schicken|schleifen|schleppen|schneiden|schreiben|schwimmen|schwingen|singen|sollen|spielen|sprechen|teilen|tun|verdienen|wirken|wollen|zählen|ziehen</exception>
+                </token>
+                <marker>
+                    <token>mit</token>
+                </marker>
+                <token postag="(KON|PKT).*" postag_regexp="yes"/>
+            </pattern>
+            <example correction="">Bitte hilf <marker>mit</marker>, die fehlenden Informationen zu recherchieren und einzufügen</example>
+            <example correction="">Schreiben Sie das bitte <marker>mit</marker>.</example>
+        </rule>
         <rule id="AI_HYDRA_LEO_CASE_UPPER" name="">
             <!-- no upper for mRNA, iPhone etc. -->
             <pattern>
@@ -68,10 +81,11 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <rule>
                 <pattern>
                     <marker>
-                        <token case_sensitive="yes" regexp="yes">Du|Dir|Dich|Euch|Ihr|Ihnen</token>
+                        <token case_sensitive="yes" regexp="yes">Du|Dir|Dich|Euch|Euer|Eure[nmsr]?|Ihr|Ihre[nmsr]?|Ihnen</token>
                     </marker>
                 </pattern>
                 <example correction="">Ich danke <marker>Dir</marker> von ganzem Herzen.</example>
+                <example correction="">Das Handelsblatt hat <marker>Ihren</marker> als geheim eingestuften Bericht veröffentlicht.</example><!-- Frage in einem Interview -->
             </rule>
             <rule>
                 <pattern>
@@ -276,6 +290,18 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token postag="VER.*[123].*" postag_regexp="yes"/>
                 </pattern>
                 <example correction="">In der Fabrik <marker>da</marker> wohnt ein Hobbit.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_HYDRA_LEO_CP_DAS_DASS" name="">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>das</token>
+                    </marker>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <example correction="">Manche Katzen weigern Würmer sonnik gesehen jedoch, Essen zu sich zu nehmen, <marker>das</marker> .</example>
+                <example correction="">Einer beziehung zerstörst, was sie bequem für lust statt bars zu versuchen sie mag, <marker>das</marker>.</example>
             </rule>
         </rulegroup>
     </category>

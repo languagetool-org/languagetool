@@ -436,7 +436,7 @@ public class MainTest extends AbstractSecurityTestCase {
         "&apos;a university&apos;.\" " +
         "shortmsg=\"Wrong article\" " +
         "replacements=\"a\" context=\"This is an test.  This is a test of of language tool.  ...\" " +
-        "contextoffset=\"8\" offset=\"8\" errorlength=\"2\" category=\"Miscellaneous\" categoryid=\"MISC\" locqualityissuetype=\"misspelling\"/>"));
+        "contextoffset=\"8\" offset=\"8\" errorlength=\"2\" url=\"https://languagetool.org/insights/post/indefinite-articles/\" category=\"Miscellaneous\" categoryid=\"MISC\" locqualityissuetype=\"misspelling\"/>"));
   }
 
   @Test

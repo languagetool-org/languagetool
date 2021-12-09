@@ -244,6 +244,7 @@ public class Spanish extends Language implements AutoCloseable {
       case "MULTI_ADJ": return -30;
       case "COMMA_SINO": return -40;
       case "VOSEO": return -40;
+      case "REPETITIONS_STYLE": return -50;
       case "MORFOLOGIK_RULE_ES": return -100;
       case "PHRASE_REPETITION": return -150;
       case "SPANISH_WORD_REPEAT_RULE": return -150;
@@ -253,4 +254,7 @@ public class Spanish extends Language implements AutoCloseable {
     return super.getPriorityForId(id);
   }
 
+  public boolean hasMinMatchesRules() {
+    return true;
+  }
 }

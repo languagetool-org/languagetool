@@ -93,14 +93,35 @@ public class AgreementRule extends Rule {
   private static final String SHORT_MSG = "Evtl. keine Übereinstimmung von Kasus, Numerus oder Genus";
 
   private static final Set<String> MODIFIERS = new HashSet<>(Arrays.asList(
-    "dringend",
-    "laufend",
+    "absolut",
+    "ausgesprochen",
+    "außergewöhnlich",
+    "außerordentlich",
+    "äußerst",
     "besonders",
+    "dringend",
+    "echt",
+    "einigermaßen",
+    "enorm",
+    "extrem",
     "fast",
     "ganz",
     "geradezu",
+    "halbwegs",
+    "höchst",
+    "komplett",
+    "laufend",
+    "recht",
+    "relativ",
     "sehr",
+    "total",
     "überaus",
+    "ungewöhnlich",
+    "unglaublich",
+    //"viel",    // "xxx, die viel Platz..."
+    "völlig",
+    "weit",
+    "wirklich",
     "ziemlich"
   ));
 
@@ -126,6 +147,8 @@ public class AgreementRule extends Rule {
   private static final String[] REL_PRONOUN_LEMMAS = {"der", "welch"};
 
   private static final Set<String> PRONOUNS_TO_BE_IGNORED = new HashSet<>(Arrays.asList(
+    "nichts",
+    "alles",   // "Ruhe vor dem alles verheerenden Sturm", "Alles Große und Edle ist einfacher Art."
     "dies",
     "ich",
     "dir",
@@ -538,7 +561,7 @@ public class AgreementRule extends Rule {
     return "allen".equals(token1.getToken()) && "Grund".equals(token2.getToken());
   }
 
-  private List<String> getCategoriesCausingError(AnalyzedTokenReadings token1, AnalyzedTokenReadings token2) {
+  List<String> getCategoriesCausingError(AnalyzedTokenReadings token1, AnalyzedTokenReadings token2) {
     List<String> categories = new ArrayList<>();
     List<GrammarCategory> categoriesToCheck = Arrays.asList(GrammarCategory.KASUS, GrammarCategory.GENUS, GrammarCategory.NUMERUS);
     for (GrammarCategory category : categoriesToCheck) {

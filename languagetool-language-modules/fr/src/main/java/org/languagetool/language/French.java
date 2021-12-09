@@ -266,6 +266,8 @@ public class French extends Language implements AutoCloseable {
       case "ESPACE_UNITES": return 10; // needs to have higher priority than spell checker
       case "BYTES": return 10; // needs to be higher than spell checker for 10MB style matches
       case "Y_A": return 10; // needs to be higher than spell checker for style suggestion
+      case "COTE": return 10; // needs to be higher than D_N
+      case "PEUTETRE": return 10; // needs to be higher than AUX_ETRE_VCONJ
       case "A_A_ACCENT": return 10; // triggers false alarms for IL_FAUT_INF if there is no a/à correction 
       case "A_ACCENT_A": return 10; // greater than PRONSUJ_NONVERBE
       case "JE_M_APPEL": return 10;  // override NON_V
@@ -276,13 +278,14 @@ public class French extends Language implements AutoCloseable {
       case "R_VAVOIR_VINF": return 10; // needs higher priority than A_INFINITIF
       case "AN_EN": return 10; // needs higher priority than AN_ANNEE
       case "SE_CE": return -10; // needs higher priority than ELISION
+      case "SYNONYMS": return -10; // less than ELISION
       case "PAS_DE_SOUCIS": return 10; // needs higher priority than PAS_DE_PB_SOUCIS (premium)
       //case "PRONSUJ_NONVERBE": return 10; // needs higher priority than AUXILIAIRE_MANQUANT
       //case "AUXILIAIRE_MANQUANT": return 5; // needs higher priority than ACCORD_NOM_VERBE
       case "CONFUSION_PAR_PART": return -5;  // turn off completely when PART_OU_PAR is activated
       case "SONT_SON": return -5; // less than ETRE_VPPA_OU_ADJ
       case "FR_SIMPLE_REPLACE": return -10;
-      case "TE_NV": return -10; // less than SE_CE, SE_SA and SE_SES
+      case "TE_NV": return -20; // less than SE_CE, SE_SA and SE_SES
       case "TE_NV2": return -10; // less than SE_CE, SE_SA and SE_SES
       case "PLURIEL_AL": return -10; // less than AGREEMENT_POSTPONED_ADJ
       case "INTERROGATIVE_DIRECTE": return -10; // less than OU
@@ -312,6 +315,10 @@ public class French extends Language implements AutoCloseable {
       return -150;
     }
     return super.getPriorityForId(id);
+  }
+  
+  public boolean hasMinMatchesRules() {
+    return true;
   }
 
 }
