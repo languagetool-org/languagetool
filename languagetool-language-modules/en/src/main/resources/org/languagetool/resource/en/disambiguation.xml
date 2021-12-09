@@ -28,13 +28,22 @@
         </equivalence>
     </unification>
 
+        <rule name="or" id="ADD_RB_FOR_LONG">
+            <!-- work around strange dict entry -->
+            <pattern case_sensitive="no">
+                <token>long</token>
+            </pattern>
+            <disambig action="add"><wd pos="RB"/></disambig>
+        </rule>
+
+
        <rule name="or" id="REMOVE_JJ_FOR_OR">
           <!-- work around strange dict entry -->
           <pattern case_sensitive="yes">
             <token>or</token>
           </pattern>
           <disambig action="remove"><wd pos="JJ"/></disambig>
-          <example type="ambiguous" inputform="or[or/CC,or/JJ,or/NN:U]" outputform="or[or/CC,or/NN:U]">Let's choose A <marker>or</marker> B.</example>
+           <example type="ambiguous" inputform="or[or/CC,or/JJ,or/NN:U]" outputform="or[or/CC,or/NN:U]">Let's choose A <marker>or</marker> B.</example>
         </rule>
 
         <rule name="or" id="REMOVE_NN_FOR_OR">
@@ -2951,6 +2960,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <example type="ambiguous" inputform="Let[Let/NNP,let/NN,let/VB,let/VBD,let/VBN,let/VBP]" outputform="Let[let/VB,let/VBD,let/VBN,let/VBP]"><marker>Let</marker> go!</example>
     </rule>
 
+
     <rule id="BE_OUT" name="OUT as RB">
           <pattern>
           <token inflected="yes" regexp="yes">be|go|get|come</token>
@@ -5098,65 +5108,6 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token><exception postag="DT|RB?" postag_regexp="yes"/><exception spacebefore="no" regexp="yes">&apostrophe;.*</exception></token><!-- Cannot use postag POS because that is added in POS_ADD after this rule -->
         </pattern>
         <disambig action="filter" postag="NN.*"/>
-        <example type="untouched">His friend is now in England.</example>
-        <example type="untouched">The first few are:</example>
-        <example type="untouched">... and all being <marker>hit</marker>, along with the ...</example>
-        <example type="untouched">His party <marker>may</marker> have brought the disease with them from Egypt.</example>
-        <example type="untouched">Its meaning <marker>may</marker>, on occasion, differ a little from the...</example>
-        <example type="untouched">Incorrect grammar. The air get's colder.</example><!-- https://github.com/languagetool-org/languagetool/issues/1395 -->
-        <example type="untouched">Incorrect grammar. The air filter's on the machine are dirty.</example>
-        <example type="untouched">Incorrect grammar. The air filter's operate correctly.</example>
-        <example type="untouched">His unit saw 187 days of active battle.</example>
-        <example type="untouched">Adjective. ... sites may have housed up to 600 individuals in a few <marker>separate</marker> but closely spaced settlement clusters.</example>
-        <example type="untouched">Verb. ... and although a few <marker>separate</marker>, many do not.</example>
-        <example type="untouched">Verb. Most strands remain together, but a few <marker>separate</marker>.</example>
-        <example type="untouched">Verb. Its stable economy together with its education services and level of social safety <marker>make</marker> it attractive for locals and visitors alike.</example><!-- #2433 -->
-        <example type="untouched">Verb. ... that Ian brought to this work <marker>make</marker> it one of the masterpieces of Berkeley scholarship.</example><!-- #2462 -->
-        <example type="untouched">Verb. ... that she brought to this work <marker>make</marker> her the master worker of the genre.</example>
-        <example type="untouched">Verb. ... that she brought to her work <marker>make</marker> the challenge of the genre seem overwhelming.</example>
-        <example type="untouched">Adjective. One of the most <marker>stable</marker> and prosperous of the post-Communist states is the Czech Republic.</example>
-        <example type="untouched">Verb. ... and then at each switch <marker>turn</marker> it on/off until the mobile app says it excluded a device.</example><!-- #2427 -->
-        <example type="untouched">Verb. I can no longer <marker>control</marker> it through Smartthings.</example><!-- #2427 -->
-        <example type="untouched">Verb. I mean like <marker>make</marker> it able to be similar to...</example><!-- #2427 -->
-        <example type="untouched">The angry know it all.</example><!-- #2526 -->
-        <example type="untouched">The poor drink to drown their sorrows.</example><!-- #2526 drink/E-NP-singular -->
-        <example type="untouched">... and usually, the sick hope to become well.</example><!-- #2526 hope/E-NP-singular -->
-        <example type="untouched">... regional units, out of which the first four <marker>form</marker> 'Greater Athens', while the Piraeus...</example><!-- #2556 -->
-        <example type="untouched">... since the first four <marker>form</marker> "a magnificent spectacle."</example>
-        <example type="untouched">Verb: ... and the other two <marker>chase</marker> her.</example><!-- #2652 chase/E-NP-singular -->
-        <example type="untouched">Verb: ... out of which the first four <marker>form</marker> Greater Athens, while the regional unit...</example><!-- #2815 form/I-NP-singular -->
-        <example type="untouched">Verb: ... which occurs occasionally if only three leave.</example><!-- Premium #1423 -->
-        <example type="untouched">This makes my skin crawl.</example><!-- #3092 -->
-        <example type="untouched">His center fielder let very few get by.</example><!-- #3258 -->
-        <example type="untouched">His goalie skills let very few into the goal.</example><!-- #3258 -->
-        <example type="untouched">I am still feeling sick.</example><!-- #3372 -->
-        <example type="untouched">A few go to Brasília.</example><!-- #3330 -->
-        <example type="untouched">A few go to happily Brasília.</example><!-- #3330 -->
-        <example type="untouched">... known collectively as silicones, are much more stable.</example><!-- #3377 -->
-        <example type="untouched">If Scott and you are intent on moving forward, we'll do as you see fit.</example><!-- #3377 -->
-        <example type="untouched">The media want to know about their customers.</example><!-- Premium #1564 -->
-        <example type="untouched">If any professional want to know the new practices of their field...</example><!-- Premium #1564 -->
-        <example type="untouched">Some state want to go slow.</example><!-- Premium #1564 -->
-        <example type="untouched">About a third are women.</example><!-- #3293 -->
-        <example type="untouched">We no longer call it the cockpit.</example><!-- #3302 -->
-        <example type="untouched">... party are typically even more stable, as long as their...</example><!-- #3302 -->
-        <example type="untouched">What will losing the war mean to us?</example><!-- #3527 -->
-        <example type="untouched">What might winning the next war mean to the enemy?</example><!-- #3527 -->
-        <example type="untouched">I told you that a few affect my rules!</example><!-- #3276 -->
-        <example type="untouched">So how many more need to be replaced and do I need both the bottom and top mattresses?</example><!-- #3565 -->
-        <example type="untouched">Some more need to be replaced.</example><!-- #3565 -->
-        <example type="untouched">I got a few more wrong.</example><!-- #3590 -->
-        <example type="untouched">A few more wrong answers are not a problem.</example><!-- #3590 -->
-        <example type="untouched">Some people hurt other people out of fear; a few more wrong people because they are bullies.</example><!-- #3590 wrong/B-NP-plural -->
-        <example type="untouched">I wonder whose these beautiful flowers on the counter are.</example><!-- #3668 are/B-VP -->
-        <example type="untouched">This plant is not nice, but those beautiful flowers on the counter are.</example><!-- #3668 are/B-VP -->
-        <example type="untouched">I wonder why these beautiful flowers on the counter lie askew.</example><!-- #3668 lie/E-NP-singular -->
-        <example type="untouched">These beautiful flowers on the counter show you what you can expect from our floral...</example><!-- #3668 show/E-NP-singular -->
-        <example type="untouched">You can easily get stunning displays, as these beautiful flowers on the counter show.</example><!-- #3668 show/E-NP-singular -->
-        <example type="untouched">Many other have been hiding from the police.</example><!-- #4814 -->
-        <example type="untouched">We all ready have purchased it.</example><!-- #4814 -->
-        <example type="untouched">Many remain curiosities — only a few have remained in use:</example><!-- have/E-NP-singular -->
-        <example type="ambiguous" inputform="nose[nose/NN,nose/VB,nose/VBP]" outputform="nose[nose/NN]">The elephant swings its long <marker>nose</marker>.</example>
         <example type="ambiguous" inputform="stone[stone/JJ,stone/NN:UN,stone/NNS,stone/VB,stone/VBP]" outputform="stone[stone/NN:UN,stone/NNS]">A rolling <marker>stone</marker> gathers no moss.</example>
         <example type="ambiguous" inputform="stone[stone/JJ,stone/NN:UN,stone/NNS,stone/VB,stone/VBP]" outputform="stone[stone/NN:UN,stone/NNS]">A rolling <marker>stone</marker> pot damaged my greenhouse.</example><!-- #5196 -->
         <example type="ambiguous" inputform="make[make/NN:UN,make/VB,make/VBP]" outputform="make[make/NN:UN]">No, I mean like <marker>make</marker> or brand name, in which case no further actions are necessary.</example>
@@ -10111,8 +10062,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
           </pattern>
           <disambig postag="JJ"/>
           <example type="untouched">I long for you.</example>
-          <example type="ambiguous" inputform="long[long/JJ,long/NN:UN,long/VB,long/VBP]" outputform="long[long/JJ]">You should have completed it <marker>long</marker> ago.</example>
-          <example type="ambiguous" inputform="long[long/JJ,long/NN:UN,long/VB,long/VBP]" outputform="long[long/JJ]">You should have completed it <marker>long</marker> time ago.</example>
+          <example type="ambiguous" inputform="long[long/JJ,long/NN:UN,long/RB,long/RB,long/VB,long/VBP]" outputform="long[long/JJ]">You should have completed it <marker>long</marker> ago.</example>
+          <example type="ambiguous" inputform="long[long/RB]" outputform="long[long/JJ]">You should have completed it <marker>long</marker> time ago.</example>
         </rule>
 
         <rule id="LIVE_IN_NNP" name="live as RB">
