@@ -24,7 +24,6 @@ jsonic.jar: Apache License 2.0, http://jsonic.sourceforge.jp/
 junit.jar: Common Public License v 1.0, CPL.txt, http://www.junit.org
 jwordsplitter.jar: Apache License 2.0, http://www.danielnaber.de/jwordsplitter/
 language-detector.jar: Apache License 2.0, https://github.com/optimaize/language-detector
-log4j.jar: Apache License 2.0, http://logging.apache.org/log4j/1.2/
 lucene-analyzers-common|core|queries|sandbox|test-framework.jar: Apache License 2.0, http://lucene.apache.org
 lucene-gosen-ipadic.jar: LGPL v2.1, http://code.google.com/p/lucene-gosen/
 morfologik-*.jar: Morfologik-license.txt, http://morfologik.blogspot.com, http://www.cs.put.poznan.pl/dweiss
