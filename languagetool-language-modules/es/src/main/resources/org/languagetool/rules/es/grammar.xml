@@ -22,6 +22,7 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
 <!DOCTYPE rules [
+    <!ENTITY dashes "[–—―‒-]"> 
     <!ENTITY msg_repeated_pattern "Esta expresión ya aparece antes. Puede sustituirla por otra para hacer más variado el texto.">
     <!ENTITY sometlds "com|de|net|edu|uk|org|info|nl|eu|cn|biz|at|ch|fr|tv|to|fm|es|it|gov|mil|mx|pt|dev|us|sg|me|io|app|shop|club|games|in|co|cloud|no|se|dk|ie|cc|tk|ai|au|nz|za|cm|ng|tw|jp|kg|ag|site|int|my|ir|pk|mobi|asia|hk|mz|xyz|design|ventures|services|cat|ly|name|world|online|consulting|digital|be|is|sex|web|lab|local|bio|live|ngo">
     <!ENTITY exceptions_unidadestiempo_adj "siguiente|próximo|futuro|venidero|anterior|pasado|precedente|subsiguiente|previo|último|primero">
@@ -17815,18 +17816,64 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS2" name="Confusiones (2)">
-        <rule id="ES_SPLIT_WORDS" name="palabras partidas con guión" default="temp_off">
-            <pattern>
-                <token regexp="yes">\p{L}+</token>
+        <rulegroup id="ES_SPLIT_WORDS_HYPHEN" name="palabras partidas con guión" default="temp_off">
+            <antipattern>
+                <token inflected="yes">prefijo</token>
+                <token/>
                 <token spacebefore="no">-</token>
-                <token regexp="yes" spacebefore="yes">\p{L}+</token>
-            </pattern>
-            <filter class="org.languagetool.rules.es.SpanishSuppressMisspelledSuggestionsFilter" args="none:none"/>
-            <message>Posible palabra mal partida.</message>
-            <suggestion>\1\3</suggestion>
-            <example correction="pianista">La <marker>pia- nista</marker> canceló el concierto.</example>
-            <example>Esto -dicho de otra manera- es lo que hay.</example>
-        </rule>
+            </antipattern>
+            <antipattern>
+                <token>-</token>
+                <token spacebefore="no"/>
+                <token spacebefore="no">-</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token postag="UNKNOWN" regexp="yes">[\p{L}·]+</token>
+                    <token spacebefore="no">-</token>
+                    <token regexp="yes" spacebefore="yes">[\p{L}·]+</token>
+                </pattern>
+                <filter class="org.languagetool.rules.es.SpanishSuppressMisspelledSuggestionsFilter" args="none:none"/>
+                <message>Posible palabra mal partida.</message>
+                <suggestion>\1\3</suggestion>
+                <example correction="pianista">La <marker>pianis- ta</marker> canceló el concierto.</example>
+                <example>Esto -dicho de otra manera- es lo que hay.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[\p{L}·]+</token>
+                    <token spacebefore="no">-</token>
+                    <token postag="UNKNOWN" regexp="yes" spacebefore="yes">[\p{L}·]+</token>
+                </pattern>
+                <filter class="org.languagetool.rules.es.SpanishSuppressMisspelledSuggestionsFilter" args="none:none"/>
+                <message>Posible palabra mal partida.</message>
+                <suggestion>\1\3</suggestion>
+                <example correction="pianista">La <marker>pia- nista</marker> canceló el concierto.</example>
+                <example>Esto -dicho de otra manera- es lo que hay.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">&dashes;</token>
+                    <token spacebefore="no" skip="30"/>
+                    <token spacebefore="no">-</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">[\p{L}·]+</token>
+                    <token spacebefore="no">-</token>
+                    <token regexp="yes" spacebefore="yes">[\p{L}·]+<exception regexp="yes">[yoa]|es</exception></token>
+                </pattern>
+                <filter class="org.languagetool.rules.es.SpanishSuppressMisspelledSuggestionsFilter" args="none:none"/>
+                <message>Posible palabra mal partida.</message>
+                <suggestion>\1\3</suggestion>
+                <example correction="pianista">La <marker>pia- nista</marker> canceló el concierto.</example>
+                <example>Esto -dicho de otra manera- es lo que hay.</example>
+                <example>Que ya otros "vándalos desagradecidos" -como debo parecerle yo- la 'destrozarán' con su mejor voluntad dentro de otros dos lustros.</example>
+                <example>Explore nuestro hermoso planeta hogar –único en nuestro sistema solar- a través de los enlaces de esta sección.</example>
+                <example>intentan brindar -haciendo una analogía en potencia- las posibilidades que ocultan</example>
+                <example>Lo más barato -e ideal- es operar a un paciente y que no le pase nada</example>
+                <example>El costo de la inscripción –incluye el chip- es de $160.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ARA" name="ara/hora/para">
             <rule>
                 <pattern>

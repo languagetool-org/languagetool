@@ -273,7 +273,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">и|ни</token>
                 <token postag_regexp="yes" postag="NN:.*:.*:Sin:V"><exception postag_regexp="yes" postag="NN:.*:.*:Sin:R"></exception></token>
             </pattern>
-            <message>Опечатка: <suggestion><match no="1" /> <match no="2" /> ни <match no="4" postag="NN:(.*):(.*):Sin:V" postag_regexp="yes" postag_replace="NN:$1:$2:Sin:R"></match></suggestion></message>
+            <message suppress_misspelled="yes">Опечатка: <suggestion><match no="1" /> <match no="2" /> ни <match no="4" postag="NN:(.*):(.*):Sin:V" postag_regexp="yes" postag_replace="NN:$1:$2:Sin:R"></match></suggestion></message>
             <short>Опечатка</short>
             <example correction="не проронила ни слова">За весь вечер она <marker>не проронила и слово</marker>.</example>
           </rule>
@@ -569,7 +569,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                    <token inflected="yes">жилой</token>
                    <token inflected="yes" regexp="yes">кодекс|комиссия|отдел|кооперация|законодательство</token>
                 </pattern>
-                <message>Имелось в виду: <suggestion><match no="1"  postag="ADJ:(.*):(.*)" postag_regexp="yes" postag_replace="ADJ:$1:$2" setpos="yes">жилищный</match> <match no="2" /></suggestion>?</message>
+                <message suppress_misspelled="yes">Имелось в виду: <suggestion><match no="1"  postag="ADJ:(.*):(.*)" postag_regexp="yes" postag_replace="ADJ:$1:$2" setpos="yes">жилищный</match> <match no="2" /></suggestion>?</message>
                 <short>Логическая ошибка</short>
                 <example correction="жилищное законодательство">Изменения были внесены в <marker>жилое законодательство</marker>.</example>
                 <example>жилищный кодекс</example>
@@ -616,7 +616,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                    <token inflected="yes" >экономический</token>
                    <token regexp="yes" inflected="yes">автомобиль|дизайн-проект|двигатель</token>
                 </pattern>
-                <message>Имелось в виду: <suggestion><match no="1" postag="ADJ:(.*):(.*)" postag_regexp="yes" postag_replace="ADJ:$1:$2" setpos="yes">экономичный</match> <match no="2" /></suggestion>?</message>
+                <message suppress_misspelled="yes">Имелось в виду: <suggestion><match no="1" postag="ADJ:(.*):(.*)" postag_regexp="yes" postag_replace="ADJ:$1:$2" setpos="yes">экономичный</match> <match no="2" /></suggestion>?</message>
                 <short>Логическая ошибка</short>
                 <example correction="экономичного автомобиль|экономичный автомобиль"><marker>экономический автомобиль</marker></example>
                 <example>Этот экономичный автомобиль расходует только 5 литров топлива на 100 километров.</example>
@@ -626,7 +626,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                    <token inflected="yes">экономичный</token>
                    <token regexp="yes" inflected="yes">форум|саммит|сотрудничество|факультет</token>
                 </pattern>
-                <message>Имелось в виду: <suggestion><match no="1" postag="ADJ:(.*):(.*)" postag_regexp="yes" postag_replace="ADJ:$1:$2" setpos="yes">экономический</match> <match no="2" /></suggestion>?</message>
+                <message suppress_misspelled="yes">Имелось в виду: <suggestion><match no="1" postag="ADJ:(.*):(.*)" postag_regexp="yes" postag_replace="ADJ:$1:$2" setpos="yes">экономический</match> <match no="2" /></suggestion>?</message>
                 <short>Логическая ошибка</short>
                 <example correction="экономическом саммите">На <marker>экономичном саммите</marker> обсуждались злободневные темы.</example>
                 <example>На экономическом саммите обсуждались злободневные темы.</example>
@@ -6236,7 +6236,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="NumC:Nom" ><exception regexp="yes">одни|один|одно|одна|две|два|три|четыре|столько|сколько|несколько|много|немного|немножко|немало|мало|сто|тысяча|двое|трое|четверо|пятеро</exception></token>
                     <token postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"/><exception postag="NN:.*:PL:R"  postag_regexp="yes"/><exception regexp="yes" >утра|вечера|дня|ночи|минимум|максимум</exception></token>
             </pattern>
-            <message>Числительное не согласуется с существительным по падежу: <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="NN:(.*):.*:.*" postag_replace="NN:$1:PL:R" /></suggestion>.</message>
+            <message suppress_misspelled="yes">Числительное не согласуется с существительным по падежу: <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="NN:(.*):.*:.*" postag_replace="NN:$1:PL:R" /></suggestion>.</message>
             <url>https://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5#.D0.A1.D0.BA.D0.BB.D0.BE.D0.BD.D0.B5.D0.BD.D0.B8.D0.B5_.D0.B8.D0.BC.D1.91.D0.BD_.D1.87.D0.B8.D1.81.D0.BB.D0.B8.D1.82.D0.B5.D0.BB.D1.8C.D0.BD.D1.8B.D1.85</url>
             <short>Неверное склонение</short>
             <example correction="пять карандашей" >В коробке лежало <marker>пять карандаша</marker>.</example>
@@ -6258,7 +6258,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>один</token>
                     <token postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"/><exception postag="NN:.*:Sin:Nom"  postag_regexp="yes"/><exception postag="NN:.*:Sin:V"  postag_regexp="yes"/></token>
             </pattern>
-            <message>Числительное не согласуется с существительным по падежу: <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="NN:(.*):.*:.*" postag_replace="NN:$1:Sin:Nom" /></suggestion>.</message>
+            <message suppress_misspelled="yes">Числительное не согласуется с существительным по падежу: <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="NN:(.*):.*:.*" postag_replace="NN:$1:Sin:Nom" /></suggestion>.</message>
             <url>https://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5#.D0.A1.D0.BA.D0.BB.D0.BE.D0.BD.D0.B5.D0.BD.D0.B8.D0.B5_.D0.B8.D0.BC.D1.91.D0.BD_.D1.87.D0.B8.D1.81.D0.BB.D0.B8.D1.82.D0.B5.D0.BB.D1.8C.D0.BD.D1.8B.D1.85</url>
             <short>Неверное склонение</short>
             <example correction="один карандаш" >В коробке лежал <marker>один карандаша</marker>.</example>
@@ -6271,7 +6271,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">два|три|четыре<exception scope="previous" postag="NN:.*:Sin:R"  postag_regexp="yes"/></token>
                     <token postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"/><exception postag="NN:.*:Sin:R"  postag_regexp="yes"/><exception regexp="yes" >минимум|максимум</exception></token>
             </pattern>
-            <message>Числительное не согласуется с существительным по падежу: <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="NN:(.*):.*:.*" postag_replace="NN:$1:Sin:R" /></suggestion>.</message>
+            <message suppress_misspelled="yes">Числительное не согласуется с существительным по падежу: <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="NN:(.*):.*:.*" postag_replace="NN:$1:Sin:R" /></suggestion>.</message>
             <url>https://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5#.D0.A1.D0.BA.D0.BB.D0.BE.D0.BD.D0.B5.D0.BD.D0.B8.D0.B5_.D0.B8.D0.BC.D1.91.D0.BD_.D1.87.D0.B8.D1.81.D0.BB.D0.B8.D1.82.D0.B5.D0.BB.D1.8C.D0.BD.D1.8B.D1.85</url>
             <short>Неверное склонение</short>
             <example correction="три карандаша" >В коробке лежало <marker>три карандаш</marker>.</example>
@@ -6290,7 +6290,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag='NumC:.*' postag_regexp='yes'><exception postag='NumC:T'></exception></token>
                 <token postag='NumC:T' ><exception  negate_pos="yes" postag='NumC:T'></exception></token>
             </pattern>
-            <message>При склонении количественных имён числительных изменяются все слова и все части сложных слов: <suggestion><match no="1" postag_regexp="yes" postag="NumC:.*" postag_replace="NumC:T" /> <match no="2" postag_regexp="yes" postag="NumC:.*" postag_replace="NumC:T" /> <match no="3"/></suggestion>.</message>
+            <message suppress_misspelled="yes">При склонении количественных имён числительных изменяются все слова и все части сложных слов: <suggestion><match no="1" postag_regexp="yes" postag="NumC:.*" postag_replace="NumC:T" /> <match no="2" postag_regexp="yes" postag="NumC:.*" postag_replace="NumC:T" /> <match no="3"/></suggestion>.</message>
             <url>https://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5#.D0.A1.D0.BA.D0.BB.D0.BE.D0.BD.D0.B5.D0.BD.D0.B8.D0.B5_.D0.B8.D0.BC.D1.91.D0.BD_.D1.87.D0.B8.D1.81.D0.BB.D0.B8.D1.82.D0.B5.D0.BB.D1.8C.D0.BD.D1.8B.D1.85</url>
             <short>Склоняются все слова</short>
             <example correction='ста двадцатью пятью'>Склонять числительные можно <marker>сто двадцать пятью</marker> способами, но только один из них правильный.</example>
@@ -6302,7 +6302,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag='NumC:T' ></token>
                 <token postag='NumC:T' ><exception  negate_pos="yes" postag='NumC:T'></exception></token>
             </pattern>
-            <message>При склонении количественных имён числительных изменяются все слова и все части сложных слов: <suggestion><match no="1" postag_regexp="yes" postag="NumC:.*" postag_replace="NumC:T" /> <match no="2" /> <match no="3"/></suggestion>.</message>
+            <message suppress_misspelled="yes">При склонении количественных имён числительных изменяются все слова и все части сложных слов: <suggestion><match no="1" postag_regexp="yes" postag="NumC:.*" postag_replace="NumC:T" /> <match no="2" /> <match no="3"/></suggestion>.</message>
             <url>https://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5#.D0.A1.D0.BA.D0.BB.D0.BE.D0.BD.D0.B5.D0.BD.D0.B8.D0.B5_.D0.B8.D0.BC.D1.91.D0.BD_.D1.87.D0.B8.D1.81.D0.BB.D0.B8.D1.82.D0.B5.D0.BB.D1.8C.D0.BD.D1.8B.D1.85</url>
             <short>Склоняются все слова</short>
             <example correction='ста двадцатью пятью'>Склонять числительные можно <marker>сто двадцатью пятью</marker> способами, но только один из них правильный.</example>
@@ -6314,7 +6314,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag='NumC:.*' postag_regexp='yes'><exception postag='NumC:T'></exception></token>
                 <token postag='NumC:T' ><exception  negate_pos="yes" postag='NumC:T'></exception></token>
             </pattern>
-            <message>При склонении количественных имён числительных изменяются все слова и все части сложных слов: <suggestion><match no="1"  /> <match no="2" postag_regexp="yes" postag="NumC:.*" postag_replace="NumC:T" /> <match no="3"/></suggestion>.</message>
+            <message suppress_misspelled="yes">При склонении количественных имён числительных изменяются все слова и все части сложных слов: <suggestion><match no="1"  /> <match no="2" postag_regexp="yes" postag="NumC:.*" postag_replace="NumC:T" /> <match no="3"/></suggestion>.</message>
             <url>https://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5#.D0.A1.D0.BA.D0.BB.D0.BE.D0.BD.D0.B5.D0.BD.D0.B8.D0.B5_.D0.B8.D0.BC.D1.91.D0.BD_.D1.87.D0.B8.D1.81.D0.BB.D0.B8.D1.82.D0.B5.D0.BB.D1.8C.D0.BD.D1.8B.D1.85</url>
             <short>Склоняются все слова</short>
             <example correction='ста двадцатью пятью'>Склонять числительные можно <marker>ста двадцать пятью</marker> способами, но только один из них правильный.</example>
@@ -6328,7 +6328,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token skip="1" postag='NumC:T' ><exception negate_pos="yes" postag='NumC:T'></exception><exception  scope="next" postag_regexp="yes" postag='NumC:.*'></exception></token>             
                </marker>
             </pattern>
-            <message>При склонении количественных имён числительных изменяются все слова и все части сложных слов: <suggestion><match no="2" postag_regexp="yes" postag="NumC:.*" postag_replace="NumC:T" /> <match no="3"/></suggestion>.</message>
+            <message suppress_misspelled="yes">При склонении количественных имён числительных изменяются все слова и все части сложных слов: <suggestion><match no="2" postag_regexp="yes" postag="NumC:.*" postag_replace="NumC:T" /> <match no="3"/></suggestion>.</message>
             <url>https://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5#.D0.A1.D0.BA.D0.BB.D0.BE.D0.BD.D0.B5.D0.BD.D0.B8.D0.B5_.D0.B8.D0.BC.D1.91.D0.BD_.D1.87.D0.B8.D1.81.D0.BB.D0.B8.D1.82.D0.B5.D0.BB.D1.8C.D0.BD.D1.8B.D1.85</url>
             <short>Склоняются все слова</short>
             <example correction='двадцатью пятью'>Склонять числительные можно <marker>двадцать пятью</marker> способами, но только один из них правильный.</example>
@@ -6341,7 +6341,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag='NumC:.*' postag_regexp='yes'><exception postag='NumC:Nom'></exception></token>
                 <token postag='NumC:Nom'></token>
             </pattern>
-            <message>При склонении количественных имён числительных изменяются все слова и все части сложных слов: <suggestion><match no="1" postag_regexp="yes" postag="NumC:.*" postag_replace="NumC:Nom" /> <match no="2" postag_regexp="yes" postag="NumC:.*" postag_replace="NumC:Nom" /> <match no="3"/></suggestion>.</message>
+            <message suppress_misspelled="yes">При склонении количественных имён числительных изменяются все слова и все части сложных слов: <suggestion><match no="1" postag_regexp="yes" postag="NumC:.*" postag_replace="NumC:Nom" /> <match no="2" postag_regexp="yes" postag="NumC:.*" postag_replace="NumC:Nom" /> <match no="3"/></suggestion>.</message>
             <url>https://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5#.D0.A1.D0.BA.D0.BB.D0.BE.D0.BD.D0.B5.D0.BD.D0.B8.D0.B5_.D0.B8.D0.BC.D1.91.D0.BD_.D1.87.D0.B8.D1.81.D0.BB.D0.B8.D1.82.D0.B5.D0.BB.D1.8C.D0.BD.D1.8B.D1.85</url>
             <short>Склоняются все слова</short>
             <example correction='сто двадцать пять'>Способ номер <marker>ста двадцати пять</marker>.</example>
@@ -6353,7 +6353,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag='NumC:.*' postag_regexp='yes'><exception postag='NumC:Nom'></exception></token>
                 <token postag='NumC:Nom'></token>
             </pattern>
-            <message>При склонении количественных имён числительных изменяются все слова и все части сложных слов: <suggestion><match no="1" /> <match no="2" postag_regexp="yes" postag="NumC:.*" postag_replace="NumC:Nom" /> <match no="3"/></suggestion>.</message>
+            <message suppress_misspelled="yes">При склонении количественных имён числительных изменяются все слова и все части сложных слов: <suggestion><match no="1" /> <match no="2" postag_regexp="yes" postag="NumC:.*" postag_replace="NumC:Nom" /> <match no="3"/></suggestion>.</message>
             <url>https://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5#.D0.A1.D0.BA.D0.BB.D0.BE.D0.BD.D0.B5.D0.BD.D0.B8.D0.B5_.D0.B8.D0.BC.D1.91.D0.BD_.D1.87.D0.B8.D1.81.D0.BB.D0.B8.D1.82.D0.B5.D0.BB.D1.8C.D0.BD.D1.8B.D1.85</url>
             <short>Склоняются все слова</short>
             <example correction='сто двадцать пять'>Способ номер <marker>сто двадцати пять</marker>.</example>
@@ -6365,7 +6365,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag='NumC:Nom' ></token>
                 <token postag='NumC:Nom'></token>
             </pattern>
-            <message>При склонении количественных имён числительных изменяются все слова и все части сложных слов: <suggestion><match no="1" postag_regexp="yes" postag="NumC:.*" postag_replace="NumC:Nom" /> <match no="2" /> <match no="3"/></suggestion>.</message>
+            <message suppress_misspelled="yes">При склонении количественных имён числительных изменяются все слова и все части сложных слов: <suggestion><match no="1" postag_regexp="yes" postag="NumC:.*" postag_replace="NumC:Nom" /> <match no="2" /> <match no="3"/></suggestion>.</message>
             <url>https://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5#.D0.A1.D0.BA.D0.BB.D0.BE.D0.BD.D0.B5.D0.BD.D0.B8.D0.B5_.D0.B8.D0.BC.D1.91.D0.BD_.D1.87.D0.B8.D1.81.D0.BB.D0.B8.D1.82.D0.B5.D0.BB.D1.8C.D0.BD.D1.8B.D1.85</url>
             <short>Склоняются все слова</short>
             <example correction='сто двадцать пять'>Способ номер <marker>ста двадцать пять</marker>.</example>
@@ -6379,7 +6379,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token skip="1" postag='NumC:Nom'><exception  scope="next" postag_regexp="yes" postag='NumC:.*'></exception></token>
                 </marker>
             </pattern>
-            <message>При склонении количественных имён числительных изменяются все слова и все части сложных слов: <suggestion><match no="2" postag_regexp="yes" postag="NumC:.*" postag_replace="NumC:Nom" /> <match no="3"/></suggestion>.</message>
+            <message suppress_misspelled="yes">При склонении количественных имён числительных изменяются все слова и все части сложных слов: <suggestion><match no="2" postag_regexp="yes" postag="NumC:.*" postag_replace="NumC:Nom" /> <match no="3"/></suggestion>.</message>
             <url>https://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5#.D0.A1.D0.BA.D0.BB.D0.BE.D0.BD.D0.B5.D0.BD.D0.B8.D0.B5_.D0.B8.D0.BC.D1.91.D0.BD_.D1.87.D0.B8.D1.81.D0.BB.D0.B8.D1.82.D0.B5.D0.BB.D1.8C.D0.BD.D1.8B.D1.85</url>
             <short>Склоняются все слова</short>
             <example correction='двадцать пять'>Способ номер <marker>двадцатью пять</marker>.</example>
@@ -6392,7 +6392,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag='NumC:.*' postag_regexp='yes'><exception postag='NumC:R'></exception></token>
                 <token postag='NumC:R'></token>
             </pattern>
-            <message>При склонении количественных имён числительных изменяются все слова и все части сложных слов: <suggestion><match no="1" postag_regexp="yes" postag="NumC:.*" postag_replace="NumC:R" /> <match no="2" postag_regexp="yes" postag="NumC:.*" postag_replace="NumC:R" /> <match no="3"/></suggestion>.</message>
+            <message suppress_misspelled="yes">При склонении количественных имён числительных изменяются все слова и все части сложных слов: <suggestion><match no="1" postag_regexp="yes" postag="NumC:.*" postag_replace="NumC:R" /> <match no="2" postag_regexp="yes" postag="NumC:.*" postag_replace="NumC:R" /> <match no="3"/></suggestion>.</message>
             <url>https://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5#.D0.A1.D0.BA.D0.BB.D0.BE.D0.BD.D0.B5.D0.BD.D0.B8.D0.B5_.D0.B8.D0.BC.D1.91.D0.BD_.D1.87.D0.B8.D1.81.D0.BB.D0.B8.D1.82.D0.B5.D0.BB.D1.8C.D0.BD.D1.8B.D1.85</url>
             <short>Склоняются все слова</short>
             <example correction='ста двадцати пяти'>Скорость машины составляла около <marker>сто двадцать пяти</marker> километров в час.</example>
@@ -6404,7 +6404,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag='NumC:.*' postag_regexp='yes'><exception postag='NumC:R'></exception></token>
                 <token postag='NumC:R'></token>
             </pattern>
-            <message>При склонении количественных имён числительных изменяются все слова и все части сложных слов: <suggestion><match no="1" /> <match no="2" postag_regexp="yes" postag="NumC:.*" postag_replace="NumC:R" /> <match no="3"/></suggestion>.</message>
+            <message suppress_misspelled="yes">При склонении количественных имён числительных изменяются все слова и все части сложных слов: <suggestion><match no="1" /> <match no="2" postag_regexp="yes" postag="NumC:.*" postag_replace="NumC:R" /> <match no="3"/></suggestion>.</message>
             <url>https://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5#.D0.A1.D0.BA.D0.BB.D0.BE.D0.BD.D0.B5.D0.BD.D0.B8.D0.B5_.D0.B8.D0.BC.D1.91.D0.BD_.D1.87.D0.B8.D1.81.D0.BB.D0.B8.D1.82.D0.B5.D0.BB.D1.8C.D0.BD.D1.8B.D1.85</url>
             <short>Склоняются все слова</short>
             <example correction='ста двадцати пяти'>Скорость машины составляла около <marker>ста двадцать пяти</marker> километров в час.</example>
@@ -6416,7 +6416,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag='NumC:R' ></token>
                 <token postag='NumC:R'></token>
             </pattern>
-            <message>При склонении количественных имён числительных изменяются все слова и все части сложных слов: <suggestion><match no="1" postag_regexp="yes" postag="NumC:.*" postag_replace="NumC:R" /> <match no="2" /> <match no="3"/></suggestion>.</message>
+            <message suppress_misspelled="yes">При склонении количественных имён числительных изменяются все слова и все части сложных слов: <suggestion><match no="1" postag_regexp="yes" postag="NumC:.*" postag_replace="NumC:R" /> <match no="2" /> <match no="3"/></suggestion>.</message>
             <url>https://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5#.D0.A1.D0.BA.D0.BB.D0.BE.D0.BD.D0.B5.D0.BD.D0.B8.D0.B5_.D0.B8.D0.BC.D1.91.D0.BD_.D1.87.D0.B8.D1.81.D0.BB.D0.B8.D1.82.D0.B5.D0.BB.D1.8C.D0.BD.D1.8B.D1.85</url>
             <short>Склоняются все слова</short>
             <example correction='ста двадцати пяти'>Скорость машины составляла около <marker>сто двадцати пяти</marker> километров в час.</example>
@@ -6430,7 +6430,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token skip="1" postag='NumC:R'><exception  scope="next" postag_regexp="yes" postag='NumC:.*'></exception></token>
                 </marker>
             </pattern>
-            <message>При склонении количественных имён числительных изменяются все слова и все части сложных слов: <suggestion><match no="2" postag_regexp="yes" postag="NumC:.*" postag_replace="NumC:R" /> <match no="3"/></suggestion>.</message>
+            <message suppress_misspelled="yes">При склонении количественных имён числительных изменяются все слова и все части сложных слов: <suggestion><match no="2" postag_regexp="yes" postag="NumC:.*" postag_replace="NumC:R" /> <match no="3"/></suggestion>.</message>
             <url>https://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5#.D0.A1.D0.BA.D0.BB.D0.BE.D0.BD.D0.B5.D0.BD.D0.B8.D0.B5_.D0.B8.D0.BC.D1.91.D0.BD_.D1.87.D0.B8.D1.81.D0.BB.D0.B8.D1.82.D0.B5.D0.BB.D1.8C.D0.BD.D1.8B.D1.85</url>
             <short>Склоняются все слова</short>
            <example correction='двадцати пяти'>Скорость машины составляла около <marker>двадцать пяти</marker> километров в час.</example>
@@ -6493,7 +6493,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>ли</token>
                 <token postag="NN:.*:.*:Sin:.*" postag_regexp="yes"><exception  postag="NN:.*:.*:PL:Nom" postag_regexp="yes"/><exception negate_pos="yes"  postag="NN:.*:.*:Sin:.*" postag_regexp="yes"/></token>
             </pattern>
-            <message>Грамматическая ошибка, требуется множественное число: <suggestion><match no="1" /> <match no="2" /> <match no="3" postag_regexp="yes" postag="NN:(.*):(.*):Sin:.*" postag_replace="NN:$1:$2:PL:Nom" /></suggestion>.</message>
+            <message suppress_misspelled="yes">Грамматическая ошибка, требуется множественное число: <suggestion><match no="1" /> <match no="2" /> <match no="3" postag_regexp="yes" postag="NN:(.*):(.*):Sin:.*" postag_replace="NN:$1:$2:PL:Nom" /></suggestion>.</message>
             
             <short>Требуется множественное число</short>
             <example correction="все ли ошибки">А <marker>все ли ошибка</marker> найдены?</example>
@@ -6505,7 +6505,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">более|менее</token>
                 <token postag="ADJ:Comp"><exception  postag="ADJ:.*:.*" postag_regexp="yes"></exception><exception>уже</exception></token>
             </pattern>
-            <message>Грамматическая ошибка: <suggestion><match no="1" /> <match no="2" postag_regexp="yes" postag="ADJ" postag_replace="ADJ:Posit:.*:Nom" /></suggestion>.</message>
+            <message suppress_misspelled="yes">Грамматическая ошибка: <suggestion><match no="1" /> <match no="2" postag_regexp="yes" postag="ADJ" postag_replace="ADJ:Posit:.*:Nom" /></suggestion>.</message>
             
             <short>Грамматическая ошибка</short>
             <example correction="более умная|более умное|более умные|более умный"><marker>более умнее</marker></example>
@@ -6544,7 +6544,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">с|со</token>
                 <token postag_regexp="yes" postag="NN:.*"><exception  postag_regexp="yes" postag="NN:.*:.*:T" /><exception  postag_regexp="yes" postag="NN:.*" negate_pos="yes" /></token>
             </pattern>
-            <message>После словосочетания: «в связи с» необходим творительный падеж: <suggestion><match no="1"/> <match no="2"/> <match no="3"/> <match no="4" postag_regexp="yes" postag="NN:(.*):(.*):(.*):.*"  postag_replace="NN:$1:$2:$3:T"/></suggestion></message>         
+            <message suppress_misspelled="yes">После словосочетания: «в связи с» необходим творительный падеж: <suggestion><match no="1"/> <match no="2"/> <match no="3"/> <match no="4" postag_regexp="yes" postag="NN:(.*):(.*):(.*):.*"  postag_replace="NN:$1:$2:$3:T"/></suggestion></message>         
             <short>Требуется творительный падеж</short>
             <example correction="В связи с событием|В связи с событьем"><marker>В связи с событие</marker>.</example>
             <example>В связи с событием.</example>
@@ -6570,7 +6570,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">с|со</token>
                 <token postag_regexp="yes" postag="NN:.*|SENT_END|PARA_END"><exception  postag_regexp="yes" postag="NN:.*:.*:T" /><exception  postag_regexp="yes" postag="NN:.*|SENT_END|PARA_END" negate_pos="yes" /></token>
             </pattern>
-            <message>После словосочетания: «в контакте с» необходим творительный падеж: <suggestion><match no="1"/> <match no="2"/> <match no="3"/> <match no="4" postag_regexp="yes" postag="NN:(.*):(.*):(.*):.*"  postag_replace="NN:$1:$2:$3:T"/></suggestion></message>         
+            <message suppress_misspelled="yes">После словосочетания: «в контакте с» необходим творительный падеж: <suggestion><match no="1"/> <match no="2"/> <match no="3"/> <match no="4" postag_regexp="yes" postag="NN:(.*):(.*):(.*):.*"  postag_replace="NN:$1:$2:$3:T"/></suggestion></message>         
             <short>Требуется творительный падеж</short>
             <example correction="в контакте с разработчиком">Он постоянно находился <marker>в контакте с разработчик</marker>.</example>
             <example>Он постоянно находился в контакте с разработчиком.</example>
@@ -6584,7 +6584,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">с|со</token>
                 <token postag_regexp="yes" postag="NN:.*"><exception  postag_regexp="yes" postag="NN:.*:.*:T" /><exception  postag_regexp="yes" postag="NN:.*" negate_pos="yes" /></token>
             </pattern>
-            <message>После словосочетания: «в сочетании с» необходим творительный падеж: <suggestion><match no="1"/> <match no="2"/> <match no="3"/> <match no="4" postag_regexp="yes" postag="NN:(.*):(.*):(.*):.*"  postag_replace="NN:$1:$2:$3:T"/></suggestion></message>         
+            <message suppress_misspelled="yes">После словосочетания: «в сочетании с» необходим творительный падеж: <suggestion><match no="1"/> <match no="2"/> <match no="3"/> <match no="4" postag_regexp="yes" postag="NN:(.*):(.*):(.*):.*"  postag_replace="NN:$1:$2:$3:T"/></suggestion></message>         
             <short>Требуется творительный падеж</short>
             <example correction="в сочетании с молоком">Дыню нельзя употреблять <marker>в сочетании с молока</marker>.</example>
             <example>Дыню нельзя употреблять в сочетании с молоком.</example>
@@ -6598,7 +6598,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">с|со</token>
                 <token postag_regexp="yes" postag="NN:.*"><exception  postag_regexp="yes" postag="NN:.*:.*:T" /><exception  postag_regexp="yes" postag="NN:.*" negate_pos="yes" /></token>
             </pattern>
-            <message>После словосочетания: «в контакте с» необходим творительный падеж: <suggestion><match no="1"/> <match no="2"/> <match no="3"/> <match no="4" postag_regexp="yes" postag="NN:(.*):(.*):(.*):.*"  postag_replace="NN:$1:$2:$3:T"/></suggestion></message>         
+            <message suppress_misspelled="yes">После словосочетания: «в контакте с» необходим творительный падеж: <suggestion><match no="1"/> <match no="2"/> <match no="3"/> <match no="4" postag_regexp="yes" postag="NN:(.*):(.*):(.*):.*"  postag_replace="NN:$1:$2:$3:T"/></suggestion></message>         
             <short>Требуется творительный падеж</short>
             <example correction="в сравнении со скоростью">Но <marker>в сравнении со скорость</marker> света, скорость: «Пионера» выглядит просто черепашьей.</example>
             <example>Но в сравнении со скоростью света, скорость: «Пионера» выглядит просто черепашьей.</example>
@@ -6611,7 +6611,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">с|со</token>
                 <token postag_regexp="yes" postag="NN:.*"><exception  postag_regexp="yes" postag="NN:.*:.*:T" /><exception  postag_regexp="yes" postag="NN:.*" negate_pos="yes" /></token>
             </pattern>
-            <message>После словосочетания: «наравне с» необходим творительный падеж: <suggestion><match no="1"/> <match no="2"/> <match no="3" postag_regexp="yes" postag="NN:(.*):(.*):(.*):.*"  postag_replace="NN:$1:$2:$3:T"/></suggestion></message>         
+            <message suppress_misspelled="yes">После словосочетания: «наравне с» необходим творительный падеж: <suggestion><match no="1"/> <match no="2"/> <match no="3" postag_regexp="yes" postag="NN:(.*):(.*):(.*):.*"  postag_replace="NN:$1:$2:$3:T"/></suggestion></message>         
             <short>Требуется творительный падеж</short>
             <example correction="наравне с облаками">Лететь <marker>наравне с облаках</marker>.</example>
             <example>Лететь наравне с облаками.</example>
@@ -6624,7 +6624,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>с</token>
                 <token postag_regexp="yes"  postag="NN:.*:.*:.*"><exception  postag="NN:.*:.*:.*:T" postag_regexp="yes"></exception></token>
             </pattern>
-            <message>Грамматическая ошибка: <suggestion><match no="1"/> <match no="2"/> <match no="3"/> <match no="4" postag_regexp="yes" postag="NN:(.*):(.*):(.*):.*" postag_replace="NN:$1:$2:$3:T" /></suggestion>.</message>     
+            <message suppress_misspelled="yes">Грамматическая ошибка: <suggestion><match no="1"/> <match no="2"/> <match no="3"/> <match no="4" postag_regexp="yes" postag="NN:(.*):(.*):(.*):.*" postag_replace="NN:$1:$2:$3:T" /></suggestion>.</message>     
             <short>Грамматическая ошибка</short>
             <example correction="в противоречие с правилами">Это вступает <marker>в противоречие с правил</marker>.</example>
             <example>Это вступает в противоречие с правилами.</example>
@@ -6659,7 +6659,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="PREP">по</token>
                 <token postag="NN:.*:.*:D" postag_regexp="yes"></token>  
             </pattern>
-            <message>Предлог не нужен: <suggestion><match no="1"/> <match no="3" postag_regexp="yes" postag="NN:(.*):(.*):(.*):D"  postag_replace="NN:$1:$2:$3:T"/></suggestion></message>         
+            <message suppress_misspelled="yes">Предлог не нужен: <suggestion><match no="1"/> <match no="3" postag_regexp="yes" postag="NN:(.*):(.*):(.*):D"  postag_replace="NN:$1:$2:$3:T"/></suggestion></message>         
             <short>Лишний предлог</short>
             <example correction="Оплатить картой|Оплатить картою"><marker>Оплатить по карте</marker>.</example>
             <example>Оплачивать картой.</example>
@@ -6747,7 +6747,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>цену</token>
                 <token postag_regexp="yes" postag="NN:.*:.*:R"></token>
             </pattern>
-            <message>Грамматическая ошибка: <suggestion><match no="1" /> <match no="2" /> <match no="3" postag_regexp="yes" postag="NN:(.*):(.*):(.*):R" postag_replace="NN:$1:$2:$3:D" /></suggestion>.</message>
+            <message suppress_misspelled="yes">Грамматическая ошибка: <suggestion><match no="1" /> <match no="2" /> <match no="3" postag_regexp="yes" postag="NN:(.*):(.*):(.*):R" postag_replace="NN:$1:$2:$3:D" /></suggestion>.</message>
             
             <short>Грамматическая ошибка</short>
             <example correction="знал цену слову">Он <marker>знал цену слова</marker>.</example>
@@ -6760,7 +6760,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag_regexp="yes" postag="ADJ:MPR:.*:.*|ADJ:.*:.*"></token>
                 <token postag_regexp="yes" postag="NN:.*:.*:R"></token>
             </pattern>
-            <message>Грамматическая ошибка: <suggestion><match no="1" /> <match no="2" /> <match no="3" /> <match no="4" postag_regexp="yes" postag="NN:(.*):(.*):(.*):R" postag_replace="NN:$1:$2:$3:D" /></suggestion>.</message>
+            <message suppress_misspelled="yes">Грамматическая ошибка: <suggestion><match no="1" /> <match no="2" /> <match no="3" /> <match no="4" postag_regexp="yes" postag="NN:(.*):(.*):(.*):R" postag_replace="NN:$1:$2:$3:D" /></suggestion>.</message>
             
             <short>Грамматическая ошибка</short>
             <example correction="знала цену своей красоте">Она <marker>знала цену своей красоты</marker>.</example>
@@ -6788,7 +6788,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>благодаря</token>
                 <token postag_regexp="yes"  postag="NN:.*:.*:.*:R"><exception  postag="NN:.*:.*:.*:D" postag_regexp="yes"></exception></token>
             </pattern>
-            <message>Требуется дательный падеж: <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="NN:(.*):(.*):(.*):R" postag_replace="NN:$1:$2:$3:D" /></suggestion>.</message>
+            <message suppress_misspelled="yes">Требуется дательный падеж: <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="NN:(.*):(.*):(.*):R" postag_replace="NN:$1:$2:$3:D" /></suggestion>.</message>
             
             <short>Дательный падеж</short>
             <example correction="Благодаря предупреждению|Благодаря предупрежденью"><marker>Благодаря предупреждения</marker> мы избежали неприятностей.</example>
@@ -6800,7 +6800,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>сообразно</token>
                 <token postag_regexp="yes"  postag="NN:.*:.*:.*:R"><exception  postag="NN:.*:.*:.*:D" postag_regexp="yes"></exception></token>
             </pattern>
-            <message>Требуется дательный падеж: <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="NN:(.*):(.*):(.*):R" postag_replace="NN:$1:$2:$3:D" /></suggestion>.</message>
+            <message suppress_misspelled="yes">Требуется дательный падеж: <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="NN:(.*):(.*):(.*):R" postag_replace="NN:$1:$2:$3:D" /></suggestion>.</message>
             
             <short>Дательный падеж</short>
             <example correction="сообразно взглядам">Он ведёт себя <marker>сообразно взглядов</marker> общества.</example>
@@ -6813,7 +6813,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>соответствии</token>
                 <token postag_regexp="yes"  postag="NN:.*:.*:D"><exception  postag="NN:.*:.*:T" postag_regexp="yes"></exception></token>
             </pattern>
-            <message>Грамматическая ошибка: <suggestion><match no="1"/> <match no="2"/> с <match no="3" postag_regexp="yes" postag="NN:(.*):(.*):(.*):D" postag_replace="NN:$1:$2:$3:T" /></suggestion>.</message>     
+            <message suppress_misspelled="yes">Грамматическая ошибка: <suggestion><match no="1"/> <match no="2"/> с <match no="3" postag_regexp="yes" postag="NN:(.*):(.*):(.*):D" postag_replace="NN:$1:$2:$3:T" /></suggestion>.</message>     
             <short>Грамматическая ошибка</short>
             <example correction="в соответствии с графиком">Отпуск предоставляется <marker>в соответствии графику</marker>.</example>
             <example>Отпуск предоставляется в соответствии с графиком.</example>
@@ -6824,7 +6824,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>в</token>
                 <token postag_regexp="yes"  postag="NN:.*:.*:V"><exception  postag="NN:.*:.*:P" postag_regexp="yes"></exception><exception>том</exception></token>
             </pattern>
-            <message>Грамматическая ошибка: <suggestion><match no="1"/> <match no="2"/> <match no="3" postag_regexp="yes" postag="NN:(.*):(.*):(.*):V" postag_replace="NN:$1:$2:$3:P" /></suggestion>.</message>     
+            <message suppress_misspelled="yes">Грамматическая ошибка: <suggestion><match no="1"/> <match no="2"/> <match no="3" postag_regexp="yes" postag="NN:(.*):(.*):(.*):V" postag_replace="NN:$1:$2:$3:P" /></suggestion>.</message>     
             <short>Грамматическая ошибка</short>
             <example correction="уверенность в силах"><marker>уверенность в силы</marker>.</example>
             <example>уверенность в силах</example>
@@ -6837,7 +6837,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>по</token>
                 <token postag_regexp="yes"  postag="NN:.*:.*:P"><exception  postag="NN:.*:.*:D" postag_regexp="yes"></exception></token>
             </pattern>
-            <message>Грамматическая ошибка: <suggestion><match no="1"/> <match no="2"/> <match no="3" postag_regexp="yes" postag="NN:(.*):(.*):(.*):P" postag_replace="NN:$1:$2:$3:D" /></suggestion>.</message>     
+            <message suppress_misspelled="yes">Грамматическая ошибка: <suggestion><match no="1"/> <match no="2"/> <match no="3" postag_regexp="yes" postag="NN:(.*):(.*):(.*):P" postag_replace="NN:$1:$2:$3:D" /></suggestion>.</message>     
             <short>Грамматическая ошибка</short>
             <example correction="Тоска по дому"><marker>Тоска по доме</marker>.</example>
             <example>Тоска по дому.</example>
@@ -6848,7 +6848,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>по</token>
                 <token postag_regexp="yes"  postag="NN:.*:.*:P"><exception  postag="NN:.*:.*:D" postag_regexp="yes"></exception></token>
             </pattern>
-            <message>Грамматическая ошибка: <suggestion><match no="1"/> <match no="2"/> <match no="3" postag_regexp="yes" postag="NN:(.*):(.*):(.*):P" postag_replace="NN:$1:$2:$3:D" /></suggestion>.</message>     
+            <message suppress_misspelled="yes">Грамматическая ошибка: <suggestion><match no="1"/> <match no="2"/> <match no="3" postag_regexp="yes" postag="NN:(.*):(.*):(.*):P" postag_replace="NN:$1:$2:$3:D" /></suggestion>.</message>     
             <short>Грамматическая ошибка</short>
             <example correction="Тосковать по дому"><marker>Тосковать по доме</marker>.</example>
             <example>Тосковать по дому.</example>
@@ -7577,7 +7577,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <exception postag="NN:.*" postag_regexp="yes"/>
                         </token>
                     </pattern>
-                    <message>Определение, находящееся между числительным 2,3,4 и существительным мужского или среднего рода, ставится в форме родительного падежа множественного числа: <suggestion><match no="2" postag="ADJ:(.*):(Masc|Fem|Neut):(.*)" postag_regexp="yes" postag_replace="ADJ:$1:PL:R"></match> <match no="3"></match></suggestion></message>
+                    <message suppress_misspelled="yes">Определение, находящееся между числительным 2,3,4 и существительным мужского или среднего рода, ставится в форме родительного падежа множественного числа: <suggestion><match no="2" postag="ADJ:(.*):(Masc|Fem|Neut):(.*)" postag_regexp="yes" postag_replace="ADJ:$1:PL:R"></match> <match no="3"></match></suggestion></message>
                     <short>Грамматическая ошибка в согласовании</short>
                     <example>Два дружных брата.</example>
                     <example>3 бурых медведя.</example>
@@ -7603,7 +7603,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <exception postag="NN:.*" postag_regexp="yes"/>
                         </token>
                     </pattern>
-                    <message>Определение, находящееся между числительным 2,3,4 и существительным женского рода, ставится в форме именительного падежа множественного числа (в случае наличия предлога возможна форма родительного падежа множественного числа): <suggestion><match no="2" postag="ADJ:(.*):(Masc|Fem|Neut):(.*)" postag_regexp="yes" postag_replace="ADJ:$1:PL:Nom"></match> <match no="3"></match></suggestion></message>
+                    <message suppress_misspelled="yes">Определение, находящееся между числительным 2,3,4 и существительным женского рода, ставится в форме именительного падежа множественного числа (в случае наличия предлога возможна форма родительного падежа множественного числа): <suggestion><match no="2" postag="ADJ:(.*):(Masc|Fem|Neut):(.*)" postag_regexp="yes" postag_replace="ADJ:$1:PL:Nom"></match> <match no="3"></match></suggestion></message>
                     <short>Грамматическая ошибка в согласовании</short>
                     <example>Две дружные сестры.</example>
                     <example>Разделить на две равные части.</example>
@@ -7631,7 +7631,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <exception postag="NN:.*" postag_regexp="yes"/>
                         </token>
                     </pattern>
-                    <message>Грамматическая ошибка в согласовании числа: <suggestion><match no="2"></match> <match no="3" postag="NN:Anim:(.*):PL:(.*)" postag_regexp="yes" postag_replace="NN:Anim:$1:Sin:R"></match></suggestion></message>
+                    <message suppress_misspelled="yes">Грамматическая ошибка в согласовании числа: <suggestion><match no="2"></match> <match no="3" postag="NN:Anim:(.*):PL:(.*)" postag_regexp="yes" postag_replace="NN:Anim:$1:Sin:R"></match></suggestion></message>
                     <short>Грамматическая ошибка в согласовании</short>
                     <example>Два дружных брата.</example>
                     <example>Две больших тени.</example>
@@ -7652,7 +7652,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">он|этот|тот</token>
                     <token postag="VB:Past:.*" postag_regexp="yes"><exception postag_regexp="yes" postag="VB:Past:.*:.*:Masc"></exception><exception regexp="yes">был|была|было</exception><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:.*"></exception></token>
                 </pattern>
-                <message>Местоимение не согласуется с глаголом по роду: <suggestion><match no="1"></match> <match no="2" postag="VB:Past:(.*):(.*):.*" postag_regexp="yes" postag_replace="VB:Past:$1:$2:Masc"></match></suggestion></message>
+                <message suppress_misspelled="yes">Местоимение не согласуется с глаголом по роду: <suggestion><match no="1"></match> <match no="2" postag="VB:Past:(.*):(.*):.*" postag_regexp="yes" postag_replace="VB:Past:$1:$2:Masc"></match></suggestion></message>
                 <url>http://ru.wikipedia.org/wiki/%D0%9C%D0%B5%D1%81%D1%82%D0%BE%D0%B8%D0%BC%D0%B5%D0%BD%D0%B8%D0%B5_%D0%B2_%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE%D0%BC_%D1%8F%D0%B7%D1%8B%D0%BA%D0%B5</url>
                 <short>Ошибка в согласовании по роду</short>
                 <example>Во дворе он грелся на солнышке.</example>
@@ -7667,7 +7667,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token  regexp="yes">она|эта|та</token>
                     <token postag="VB:Past:.*" postag_regexp="yes"><exception postag_regexp="yes" postag="VB:Past:.*:.*:Fem"></exception><exception regexp="yes">был|была|было</exception><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:.*"></exception></token>
                 </pattern>   
-                <message>Местоимение не согласуется с глаголом по роду: <suggestion><match no="1"></match> <match no="2" postag="VB:Past:(.*):(.*):.*" postag_regexp="yes" postag_replace="VB:Past:$1:$2:Fem"></match></suggestion></message>
+                <message suppress_misspelled="yes">Местоимение не согласуется с глаголом по роду: <suggestion><match no="1"></match> <match no="2" postag="VB:Past:(.*):(.*):.*" postag_regexp="yes" postag_replace="VB:Past:$1:$2:Fem"></match></suggestion></message>
                 <url>http://ru.wikipedia.org/wiki/%D0%9C%D0%B5%D1%81%D1%82%D0%BE%D0%B8%D0%BC%D0%B5%D0%BD%D0%B8%D0%B5_%D0%B2_%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE%D0%BC_%D1%8F%D0%B7%D1%8B%D0%BA%D0%B5</url>
                 <short>Ошибка в согласовании по роду</short>
                 <example>Она грелась на солнышке.</example>
@@ -7681,7 +7681,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>оно</token>
                     <token postag="VB:Past:.*" postag_regexp="yes"><exception postag_regexp="yes" postag="VB:Past:.*:.*:Neut"></exception><exception regexp="yes">был|была|было</exception><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:.*"></exception></token>
                 </pattern>              
-                <message>Местоимение не согласуется с глаголом по роду: <suggestion><match no="1"></match> <match no="2" postag="VB:Past:(.*):(.*):.*" postag_regexp="yes" postag_replace="VB:Past:$1:$2:Neut"></match></suggestion></message>
+                <message suppress_misspelled="yes">Местоимение не согласуется с глаголом по роду: <suggestion><match no="1"></match> <match no="2" postag="VB:Past:(.*):(.*):.*" postag_regexp="yes" postag_replace="VB:Past:$1:$2:Neut"></match></suggestion></message>
                 <url>http://ru.wikipedia.org/wiki/%D0%9C%D0%B5%D1%81%D1%82%D0%BE%D0%B8%D0%BC%D0%B5%D0%BD%D0%B8%D0%B5_%D0%B2_%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE%D0%BC_%D1%8F%D0%B7%D1%8B%D0%BA%D0%B5</url>
                 <short>Ошибка в согласовании по роду</short>
                 <example>Оно готовилось на сковородке.</example>
@@ -7696,7 +7696,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token  regexp="yes">они|эти</token>
                     <token postag="VB:Past:.*" postag_regexp="yes"><exception postag_regexp="yes" postag="VB:Past:.*:.*:PL"></exception><exception regexp="yes">был|была|было</exception><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:.*"></exception></token>
                 </pattern>       
-                <message>Местоимение не согласуется с глаголом по числу: <suggestion><match no="1"></match> <match no="2" postag="VB:Past:(.*):(.*):.*" postag_regexp="yes" postag_replace="VB:Past:$1:$2:PL"></match></suggestion></message>
+                <message suppress_misspelled="yes">Местоимение не согласуется с глаголом по числу: <suggestion><match no="1"></match> <match no="2" postag="VB:Past:(.*):(.*):.*" postag_regexp="yes" postag_replace="VB:Past:$1:$2:PL"></match></suggestion></message>
                 <url>http://ru.wikipedia.org/wiki/%D0%9C%D0%B5%D1%81%D1%82%D0%BE%D0%B8%D0%BC%D0%B5%D0%BD%D0%B8%D0%B5_%D0%B2_%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE%D0%BC_%D1%8F%D0%B7%D1%8B%D0%BA%D0%B5</url>
                 <short>Ошибка в согласовании по числу</short>
                 <example>Они готовились на сковородке.</example>
@@ -7716,7 +7716,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token regexp="yes">[.;]</token>
                 </pattern>         
-                <message>Существительное не согласуется с глаголом по роду: <suggestion><match no="2"></match> <match no="3" postag="VB:Past:.*" postag_regexp="yes" postag_replace="VB:Past:.*:.*:Masc"></match></suggestion></message>
+                <message suppress_misspelled="yes">Существительное не согласуется с глаголом по роду: <suggestion><match no="2"></match> <match no="3" postag="VB:Past:.*" postag_regexp="yes" postag_replace="VB:Past:.*:.*:Masc"></match></suggestion></message>
                 <url>http://ru.wikipedia.org/wiki/%D0%93%D0%BB%D0%B0%D0%B3%D0%BE%D0%BB_%D0%B2_%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE%D0%BC_%D1%8F%D0%B7%D1%8B%D0%BA%D0%B5</url>
                 <short>Ошибка в согласовании по роду</short>
                 <example>Во дворе кот грелся на солнышке.</example>
@@ -7734,7 +7734,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token regexp="yes">[.;]</token>
                 </pattern>                
-                <message>Существительное не согласуется с глаголом по роду: <suggestion><match no="2"></match> <match no="3" postag="VB:Past:.*" postag_regexp="yes" postag_replace="VB:Past:.*:.*:Fem"></match></suggestion></message>
+                <message suppress_misspelled="yes">Существительное не согласуется с глаголом по роду: <suggestion><match no="2"></match> <match no="3" postag="VB:Past:.*" postag_regexp="yes" postag_replace="VB:Past:.*:.*:Fem"></match></suggestion></message>
                 <url>http://ru.wikipedia.org/wiki/%D0%93%D0%BB%D0%B0%D0%B3%D0%BE%D0%BB_%D0%B2_%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE%D0%BC_%D1%8F%D0%B7%D1%8B%D0%BA%D0%B5</url>
                 <short>Ошибка в согласовании по роду</short>
                 <example>Кошка грелась на солнышке.</example>
@@ -7844,7 +7844,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                    </marker>
                    <token postag="SENT_END"/>               
                 </pattern>
-                <message>Существительное не согласуется с глаголом по числу: <suggestion><match no="1"></match> <match no="2"></match> <match no="3" postag="VB:Past:.*" postag_regexp="yes" postag_replace="VB:Past:.*:.*:PL"></match></suggestion></message>                
+                <message suppress_misspelled="yes">Существительное не согласуется с глаголом по числу: <suggestion><match no="1"></match> <match no="2"></match> <match no="3" postag="VB:Past:.*" postag_regexp="yes" postag_replace="VB:Past:.*:.*:PL"></match></suggestion></message>                
                 <short>Ошибка в согласовании по числу</short>
                 <example>И тогда я оба раза решил сходить в кино.</example>
                 <example>А неожиданно для себя я их посмотрел потому, что оба раза хотел на самом деле в тот день посмотреть совсем другой мюзикл.</example>                
@@ -7911,7 +7911,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token regexp="yes">[.;]</token>
                 </pattern>    
-                <message>Существительное не согласуется с глаголом по числу: <suggestion><match no="2"></match> <match no="3" postag="VB:Past:.*:.*:PL" postag_regexp="yes" postag_replace="VB:Past:.*:.*:Masc"></match></suggestion></message>
+                <message suppress_misspelled="yes">Существительное не согласуется с глаголом по числу: <suggestion><match no="2"></match> <match no="3" postag="VB:Past:.*:.*:PL" postag_regexp="yes" postag_replace="VB:Past:.*:.*:Masc"></match></suggestion></message>
                 <url>http://ru.wikipedia.org/wiki/%D0%93%D0%BB%D0%B0%D0%B3%D0%BE%D0%BB_%D0%B2_%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE%D0%BC_%D1%8F%D0%B7%D1%8B%D0%BA%D0%B5</url>
                 <short>Ошибка в согласовании по числу</short>
                 <example>Кот грелся на солнышке.</example>
@@ -7928,7 +7928,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token regexp="yes">[.;]</token>
                 </pattern>     
-                <message>Существительное не согласуется с глаголом по числу: <suggestion><match no="2"></match> <match no="3" postag="VB:Past:.*:.*:PL" postag_regexp="yes" postag_replace="VB:Past:.*:.*:Fem"></match></suggestion></message>
+                <message suppress_misspelled="yes">Существительное не согласуется с глаголом по числу: <suggestion><match no="2"></match> <match no="3" postag="VB:Past:.*:.*:PL" postag_regexp="yes" postag_replace="VB:Past:.*:.*:Fem"></match></suggestion></message>
                 <url>http://ru.wikipedia.org/wiki/%D0%93%D0%BB%D0%B0%D0%B3%D0%BE%D0%BB_%D0%B2_%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE%D0%BC_%D1%8F%D0%B7%D1%8B%D0%BA%D0%B5</url>
                 <short>Ошибка в согласовании по числу</short>
                 <example>Кошка грелась на солнышке.</example>
@@ -8047,7 +8047,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         
         <rulegroup default="off" id="Obobchajuchee_slovo" name="Согласование с обобщающим словом">
             
-            <!--TO DO: добавить остальные падежи       -->
+            <!--TO DO: добавить остальные падежи  и добавить suppress_misspelled="yes"     -->
 
             <rule>
                 <pattern>
@@ -8081,7 +8081,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     
                 </pattern>
-                <message>Однородные члены не согласуется с обобщающим существительным по падежу: <suggestion><match no="3" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:D"></match> <match no="4"></match> <match no="5" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:D"></match></suggestion></message>
+                <message suppress_misspelled="yes">Однородные члены не согласуется с обобщающим существительным по падежу: <suggestion><match no="3" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:D"></match> <match no="4"></match> <match no="5" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:D"></match></suggestion></message>
                 <url>http://ru.wikipedia.org/wiki/%D0%9E%D0%B1%D0%BE%D0%B1%D1%89%D0%B0%D1%8E%D1%89%D0%B5%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%BE</url>
                 <short>Ошибка в согласовании падежей</short>
                 <example>На конференции работали советы по секциям: физике и математике.</example>
@@ -8239,7 +8239,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>двое</token>
                     <token regexp="yes" >волков|медведей|котов|кабанов</token>
                 </pattern>
-                <message>Собирательные числительные (двое, трое, четверо, пятеро, шестеро, семеро) не употребляются с названиями взрослых особей животных: <suggestion>два <match no="2" postag="NN:(.*):(.*):PL:R" postag_regexp="yes" postag_replace="NN:$1:$2:Sin:R"></match></suggestion></message>
+                <message suppress_misspelled="yes">Собирательные числительные (двое, трое, четверо, пятеро, шестеро, семеро) не употребляются с названиями взрослых особей животных: <suggestion>два <match no="2" postag="NN:(.*):(.*):PL:R" postag_regexp="yes" postag_replace="NN:$1:$2:Sin:R"></match></suggestion></message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A1%D0%BE%D0%B1%D0%B8%D1%80%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5</url>
                 <short>Грамматическая ошибка</short>
                 <example>В зоопарке находились два волка.</example>
@@ -8250,7 +8250,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>трое</token>
                     <token regexp="yes" >волков|медведей|котов|кабанов</token>
                 </pattern>
-                <message>Собирательные числительные (двое, трое, четверо, пятеро, шестеро, семеро) не употребляются с названиями взрослых особей животных: <suggestion>три <match no="2" postag="NN:(.*):(.*):PL:R" postag_regexp="yes" postag_replace="NN:$1:$2:Sin:R"></match></suggestion></message>
+                <message suppress_misspelled="yes">Собирательные числительные (двое, трое, четверо, пятеро, шестеро, семеро) не употребляются с названиями взрослых особей животных: <suggestion>три <match no="2" postag="NN:(.*):(.*):PL:R" postag_regexp="yes" postag_replace="NN:$1:$2:Sin:R"></match></suggestion></message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A1%D0%BE%D0%B1%D0%B8%D1%80%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5</url>
                 <short>Грамматическая ошибка</short>
                 <example>В зоопарке находились три волка.</example>
@@ -8261,7 +8261,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>четверо</token>
                     <token regexp="yes" >волков|медведей|котов|кабанов</token>
                 </pattern>
-                <message>Собирательные числительные (двое, трое, четверо, пятеро, шестеро, семеро) не употребляются с названиями взрослых особей животных: <suggestion>четыре <match no="2" postag="NN:(.*):(.*):PL:R" postag_regexp="yes" postag_replace="NN:$1:$2:Sin:R"></match></suggestion></message>
+                <message suppress_misspelled="yes">Собирательные числительные (двое, трое, четверо, пятеро, шестеро, семеро) не употребляются с названиями взрослых особей животных: <suggestion>четыре <match no="2" postag="NN:(.*):(.*):PL:R" postag_regexp="yes" postag_replace="NN:$1:$2:Sin:R"></match></suggestion></message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A1%D0%BE%D0%B1%D0%B8%D1%80%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5</url>
                 <short>Грамматическая ошибка</short>
                 <example>В зоопарке находились четыре волка.</example>
@@ -8301,7 +8301,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>более</token>
                     <token postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:Sin:R" postag_regexp="yes"></exception></token>
                 </pattern>
-                <message>В сочетаниях «два и более» + существительное управляемое существительное ставится в родительном падеже единственного числа: <suggestion><match no="1"></match> <match no="2"></match> <match no="3"></match> <match no="4" postag="NN:(.*):.*:.*" postag_regexp="yes" postag_replace="NN:$1:Sin:R"></match></suggestion>.</message>
+                <message suppress_misspelled="yes">В сочетаниях «два и более» + существительное управляемое существительное ставится в родительном падеже единственного числа: <suggestion><match no="1"></match> <match no="2"></match> <match no="3"></match> <match no="4" postag="NN:(.*):.*:.*" postag_regexp="yes" postag_replace="NN:$1:Sin:R"></match></suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A1%D0%BE%D0%B1%D0%B8%D1%80%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5</url>
                 <short>Грамматическая ошибка</short>
                 <example>В задании может быть два и более варианта.</example>
@@ -8315,7 +8315,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">оба|обоих|обоим|обоими</token>
                     <token postag="NN:.*:Fem:.*" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:Fem:.*" postag_regexp="yes"></exception></token>
                 </pattern>
-                <message>Числительное «оба» (обоих, обоим, обоими) употребляется только с существительными мужского рода: <suggestion><match no="1" postag="Num:.*:(.*)" postag_regexp="yes" postag_replace="Num:Fem:$1"></match> <match no="2"></match></suggestion>.</message>
+                <message suppress_misspelled="yes">Числительное «оба» (обоих, обоим, обоими) употребляется только с существительными мужского рода: <suggestion><match no="1" postag="Num:.*:(.*)" postag_regexp="yes" postag_replace="Num:Fem:$1"></match> <match no="2"></match></suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A1%D0%BE%D0%B1%D0%B8%D1%80%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5</url>
                 <short>Грамматическая ошибка</short>
                 <example>По обеим сторонам.</example>
@@ -8340,7 +8340,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">обе|обеих|обеим|обеими</token>
                     <token postag="NN:.*:Masc:.*" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:Masc:.*" postag_regexp="yes"></exception></token>
                 </pattern>
-                <message>Числительное «обе» (обеих, обеим, обеими) употребляется только с существительными женского рода: <suggestion><match no="1" postag="Num:.*:(.*)" postag_regexp="yes" postag_replace="Num:Masc:$1"></match> <match no="2"></match></suggestion>.</message>
+                <message suppress_misspelled="yes">Числительное «обе» (обеих, обеим, обеими) употребляется только с существительными женского рода: <suggestion><match no="1" postag="Num:.*:(.*)" postag_regexp="yes" postag_replace="Num:Masc:$1"></match> <match no="2"></match></suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A1%D0%BE%D0%B1%D0%B8%D1%80%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5</url>
                 <short>Грамматическая ошибка</short>
                 <example>На обоих столах.</example>
@@ -9838,7 +9838,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="VB:IMP:TRANS:IMPFV:.*:.*" postag_regexp="yes"><exception postag="VB:IMP:TRANS:IMPFV:.*:.*" postag_regexp="yes" negate_pos="yes"></exception></token>
                 </marker>
             </pattern>
-            <message>Глагол в настоящем времени не может быть в повелительном наклонении: <suggestion><match no="3" postag="VB:IMP:(.*)" postag_regexp="yes" postag_replace="VB:Real:$1"></match></suggestion></message>
+            <message suppress_misspelled="yes">Глагол в настоящем времени не может быть в повелительном наклонении: <suggestion><match no="3" postag="VB:IMP:(.*)" postag_regexp="yes" postag_replace="VB:Real:$1"></match></suggestion></message>
             <example correction="ищете">Если вы <marker>ищите</marker> в этом месте.</example>
             <example>Если вы ищете в этом месте.</example>
         </rule>        
@@ -9988,7 +9988,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 	                <exception postag_regexp="yes" negate_pos="yes" postag="(VB|PT|DPT):.*"/>
                 </token>
             </pattern>
-            <message>Два глагола в личной форме подряд. Второй глагол должен быть в неопределённой форме: <suggestion><match no="1"></match> <match no="2" postag="VB:.*" postag_regexp="yes" postag_replace="VB:INF:.*"></match></suggestion></message>
+            <message suppress_misspelled="yes">Два глагола в личной форме подряд. Второй глагол должен быть в неопределённой форме: <suggestion><match no="1"></match> <match no="2" postag="VB:.*" postag_regexp="yes" postag_replace="VB:INF:.*"></match></suggestion></message>
             <url>http://ru.wikipedia.org/wiki/%D0%A1%D0%BA%D0%B0%D0%B7%D1%83%D0%B5%D0%BC%D0%BE%D0%B5#.D0.A1.D0.BE.D1.81.D1.82.D0.B0.D0.B2.D0.BD.D0.BE.D0.B5_.D0.B3.D0.BB.D0.B0.D0.B3.D0.BE.D0.BB.D1.8C.D0.BD.D0.BE.D0.B5_.D1.81.D0.BA.D0.B0.D0.B7.D1.83.D0.B5.D0.BC.D0.BE.D0.B5</url>
             <short>Ошибка в примыкании</short>
             <example>Здесь будет строиться всё больше жилья.</example>
@@ -10068,7 +10068,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="PT:.*|PT_Short:.*" postag_regexp="yes"><exception postag="ADJ:.*" postag_regexp="yes"></exception></token>
             </pattern>
   
-        <message>Глагол и причастие подряд. Вероятно, опечатка: <suggestion><match no="1"></match> <match no="2" postag="PT:.*" postag_regexp="yes" postag_replace="VB:INF:.*"></match></suggestion></message>
+        <message suppress_misspelled="yes">Глагол и причастие подряд. Вероятно, опечатка: <suggestion><match no="1"></match> <match no="2" postag="PT:.*" postag_regexp="yes" postag_replace="VB:INF:.*"></match></suggestion></message>
             <short>Вероятно, опечатка</short>
             <example correction="получится найти">Применение численных методов оптимизации никогда не может гарантировать, что <marker>получится найден</marker> глобальный экстремум.</example>
             <example>Применение численных методов оптимизации никогда не может гарантировать, что получится найти глобальный экстремум.</example>
@@ -10084,7 +10084,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
                 <token regexp="yes">[.;,!?]</token>
             </pattern>
-            <message>Глагол должен быть в неопределённой форме: <suggestion><match no="2" postag="VB:.*" postag_regexp="yes" postag_replace="VB:INF:.*"></match></suggestion></message>
+            <message suppress_misspelled="yes">Глагол должен быть в неопределённой форме: <suggestion><match no="2" postag="VB:.*" postag_regexp="yes" postag_replace="VB:INF:.*"></match></suggestion></message>
             <url>http://tsya.ru/</url>
             <short>Глагол должен быть в неопределённой форме</short>
             <example>Нужно, чтобы мы готовились к худшему.</example>
@@ -10107,7 +10107,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
              <filter class="org.languagetool.rules.ru.RussianPartialPosTagFilter" 
                 args="no:4 regexp:(.*)ься postag_regexp:UNKNOWN   negate_pos:yes"/>     <!-- Test if word without "ь" exist -->
-            <message>Глагол должен быть в личной форме, мягкий знак не нужен: <suggestion><match no="4" postag="VB:INF:.*" postag_regexp="yes" postag_replace="VB:.*:.*:Sin:P3"/></suggestion></message>
+            <message suppress_misspelled="yes">Глагол должен быть в личной форме, мягкий знак не нужен: <suggestion><match no="4" postag="VB:INF:.*" postag_regexp="yes" postag_replace="VB:.*:.*:Sin:P3"/></suggestion></message>
             <url>http://tsya.ru/</url>
             <short>Мягкий знак не нужен</short>
             <example>Парень же не справится.</example>
@@ -10150,7 +10150,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
                 <token postag="SENT_END"></token>
             </pattern>
-            <message>Инфинитив вместо личной формы глагола: <suggestion><match no="2" postag_regexp="yes" postag="VB:INF:(.*):(.*)"  postag_replace="VB:Real:$1:$2:Sin:P3"></match></suggestion></message>
+            <message suppress_misspelled="yes">Инфинитив вместо личной формы глагола: <suggestion><match no="2" postag_regexp="yes" postag="VB:INF:(.*):(.*)"  postag_replace="VB:Real:$1:$2:Sin:P3"></match></suggestion></message>
             <url>http://tsya.ru/</url>
             <short>Глагол должен быть в личной форме</short>
             <example correction="приходится">Он мне <marker>приходиться</marker> племенником.</example>
@@ -10179,7 +10179,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <filter class="org.languagetool.rules.ru.RussianPartialPosTagFilter" 
                 args="no:2 regexp:(.*)ься postag_regexp:UNKNOWN   negate_pos:yes"/>     <!-- Test if word without "ь" exist -->
-            <message>Глагол должен быть в личной форме, мягкий знак не нужен: <suggestion><match no="2" postag="VB:INF:.*" postag_regexp="yes" postag_replace="VB:.*:.*:Sin:P3"/></suggestion></message>
+            <message suppress_misspelled="yes">Глагол должен быть в личной форме, мягкий знак не нужен: <suggestion><match no="2" postag="VB:INF:.*" postag_regexp="yes" postag_replace="VB:.*:.*:Sin:P3"/></suggestion></message>
             <url>http://tsya.ru/</url>
             <short>Мягкий знак не нужен</short>
             <example>Проблема может возникнуть при наличии собственных резонансов в модели, что относится и к нашему случаю, где частота падающей волны приходится на максимум дипольного отклика частицы.</example>
@@ -10252,7 +10252,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <filter class="org.languagetool.rules.ru.RussianPartialPosTagFilter" 
                 args="no:1 regexp:(.*)ься postag_regexp:UNKNOWN   negate_pos:yes"/>     <!-- Test if word without "ь" exist --> 
-            <message>Глагол должен быть в личной форме, мягкий знак не нужен: <suggestion><match no="1" postag="VB:INF:.*" postag_regexp="yes" postag_replace="VB:.*:.*:Sin:P3"/></suggestion></message>
+            <message suppress_misspelled="yes">Глагол должен быть в личной форме, мягкий знак не нужен: <suggestion><match no="1" postag="VB:INF:.*" postag_regexp="yes" postag_replace="VB:.*:.*:Sin:P3"/></suggestion></message>
             <url>http://tsya.ru/</url>
             <short>Глагол должен быть в личной форме</short>
             <example>Но вот мой друг очень положительно относится к спорту.</example>
@@ -10278,13 +10278,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
                 <token postag="NN:.*:.*:.*:.*" postag_regexp="yes"><exception postag_regexp="yes" postag="NN:.*:.*:.*:Nom"></exception><exception negate_pos="yes" postag_regexp="yes" postag="NN:.*:.*:.*:.*"></exception></token>
             </pattern>
-            <message>Оба глагола должны быть в личной форме: <suggestion><match no="3" postag_regexp="yes" postag="VB:INF:(.*):(.*)"  postag_replace="VB:Real:$1:$2:Sin:P3"></match></suggestion></message>
+            <message suppress_misspelled="yes">Оба глагола должны быть в личной форме: <suggestion><match no="3" postag_regexp="yes" postag="VB:INF:(.*):(.*)"  postag_replace="VB:Real:$1:$2:Sin:P3"></match></suggestion></message>
             <url>http://tsya.ru/</url>
             <short>Глагол должен быть в личной форме</short>
             <example>Она сидит и кормит ребёнка.</example>
             <example correction="кормит">Она сидит и <marker>кормить</marker> ребёнка.</example>
           </rule>
-          <rule>        
+          <rule>         
               <pattern>
                   <!--     VB:.* (-т) и    VB:INF: (-ть)      -->
                   <marker>
@@ -10299,7 +10299,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                       <exception postag_regexp="yes"  postag="VB:INF:.*"></exception>
                   </token>
               </pattern>
-              <message>Оба глагола должны быть в личной форме: <suggestion><match no="1" postag_regexp="yes" postag="VB:INF:(.*):(.*)"  postag_replace="VB:Real:$1:$2:Sin:P3"></match></suggestion></message>
+              <message suppress_misspelled="yes">Оба глагола должны быть в личной форме: <suggestion><match no="1" postag_regexp="yes" postag="VB:INF:(.*):(.*)"  postag_replace="VB:Real:$1:$2:Sin:P3"></match></suggestion></message>
               <url>http://tsya.ru/</url>
               <short>Глагол должен быть в личной форме</short>
               <example>Она кормит ребёнка и смотрит телевизор.</example>
@@ -10316,7 +10316,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag_regexp="yes"  postag="VB:.*:Sin:P3" ><exception postag_regexp="yes"  postag="VB:INF:.*"></exception></token>
                 </marker>                
             </pattern>
-            <message>Оба глагола должны быть в неопределённой форме. <suggestion><match no="2"/> <match no="3"/> <match no="4" postag_regexp="yes" postag="VB:(.*):(.*):(.*):Sin:P3"  postag_replace="VB:INF:$2:$3"></match></suggestion></message>
+            <message suppress_misspelled="yes">Оба глагола должны быть в неопределённой форме. <suggestion><match no="2"/> <match no="3"/> <match no="4" postag_regexp="yes" postag="VB:(.*):(.*):(.*):Sin:P3"  postag_replace="VB:INF:$2:$3"></match></suggestion></message>
             <short>Оба глагола должны быть в неопределённой форме</short>
             <example>Вы должны прочитать и согласиться с правилами.</example>
             <example correction="прочитать и согласиться">Вы должны <marker>прочитать и согласится</marker> с правилами.</example>
@@ -10331,7 +10331,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="VB:INF:.*" postag_regexp="yes"><exception postag_regexp="yes"  postag="VB:.*:Sin:P3"></exception></token>
                 </marker>                
             </pattern>
-            <message>Оба глагола должны быть в неопределённой форме. <suggestion><match no="2" postag_regexp="yes" postag="VB:(.*):(.*):(.*):Sin:P3"  postag_replace="VB:INF:$2:$3"></match> <match no="3"/> <match no="4"/></suggestion></message>
+            <message suppress_misspelled="yes">Оба глагола должны быть в неопределённой форме. <suggestion><match no="2" postag_regexp="yes" postag="VB:(.*):(.*):(.*):Sin:P3"  postag_replace="VB:INF:$2:$3"></match> <match no="3"/> <match no="4"/></suggestion></message>
             <short>Оба глагола должны быть в неопределённой форме</short>
             <example>Вы должны прочитать и согласиться с правилами.</example>
             <example correction="согласиться и прочитать">Вы должны <marker>согласится и прочитать</marker> правила.</example>
@@ -10391,7 +10391,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">решение|постановление|определение</token> <!-- <token postag="NN:.*:Sin:V" postag_regexp="yes"><exception postag="NN:.*:Sin:R" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*" postag_regexp="yes" negate_pos="yes"></exception></token> -->
                 <token postag="NN:.*:Sin:R" postag_regexp="yes"></token>
             </pattern>
-            <message>Требуется родительный падеж: <suggestion><match no="1"/> <match no="2"/> <match no="3" postag="NN:(.*):Sin:V" postag_regexp="yes" postag_replace="NN:$1:Sin:R"></match> <match no="4"/></suggestion></message>
+            <message suppress_misspelled="yes">Требуется родительный падеж: <suggestion><match no="1"/> <match no="2"/> <match no="3" postag="NN:(.*):Sin:V" postag_regexp="yes" postag_replace="NN:$1:Sin:R"></match> <match no="4"/></suggestion></message>
             <short>Требуется родительный падеж</short>
             <example correction="не дождались решения комиссии|не дождались решенья комиссии">Мы <marker>не дождались решение комиссии</marker>.</example>
             <example>Мы не дождались решения комиссии.</example>
@@ -10403,7 +10403,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="ABR:Masc"><exception scope="previous" postag="PREP|ABR:.*|NN:.*|CONJ" postag_regexp="yes"/><exception scope="previous" regexp="yes">([0-9,.]+)|—|-|–</exception></token>                  
                     <token postag="VB:Past:.*:.*:Fem|VB:Past:.*:.*:Neut" postag_regexp="yes"/>
                 </pattern>
-                <message>Род аббревиатуры определяется по опорному слову: <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="VB:Past:.*" postag_replace="VB:Past:.*:.*:Masc" /></suggestion> — мужской род.</message>
+                <message suppress_misspelled="yes">Род аббревиатуры определяется по опорному слову: <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="VB:Past:.*" postag_replace="VB:Past:.*:.*:Masc" /></suggestion> — мужской род.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A0%D0%BE%D0%B4_%28%D0%BB%D0%B8%D0%BD%D0%B3%D0%B2%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%29</url>
                 <short>Мужской род</short>
                 <example correction="УЕФА объявил"><marker>УЕФА объявила</marker> о реформе.</example>
@@ -10416,7 +10416,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="ABR:Fem"><exception scope="previous" postag="PREP|ABR:.*|NN:.*|CONJ" postag_regexp="yes"/><exception scope="previous" regexp="yes">совет|безопасности</exception><exception scope="previous" regexp="yes">([0-9,.]+)|—|-|–</exception></token>                  
                     <token postag="VB:Past:.*:.*:Neut|VB:Past:.*:.*:Masc" postag_regexp="yes"/>
                 </pattern>
-                <message>Род аббревиатуры определяется по опорному слову: <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="VB:Past:.*" postag_replace="VB:Past:.*:.*:Fem" /></suggestion> — женский род.</message>
+                <message suppress_misspelled="yes">Род аббревиатуры определяется по опорному слову: <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="VB:Past:.*" postag_replace="VB:Past:.*:.*:Fem" /></suggestion> — женский род.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A0%D0%BE%D0%B4_%28%D0%BB%D0%B8%D0%BD%D0%B3%D0%B2%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%29</url>
                 <short>Женский род</short>
                 <example>Сегодня ВДНХ открылась в 10-00.</example>
@@ -10430,7 +10430,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="ABR:Neut"><exception scope="previous" postag="PREP|ABR:.*|NN:.*|CONJ" postag_regexp="yes"/><exception scope="previous" regexp="yes">([0-9,.]+)|—|-|–</exception></token>                  
                     <token postag="VB:Past:.*:.*:Fem|VB:Past:.*:.*:Masc" postag_regexp="yes"/>
                 </pattern>
-                <message>Род аббревиатуры определяется по опорному слову: <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="VB:Past:.*" postag_replace="VB:Past:.*:.*:Neut" /></suggestion> — средний род.</message>
+                <message suppress_misspelled="yes">Род аббревиатуры определяется по опорному слову: <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="VB:Past:.*" postag_replace="VB:Past:.*:.*:Neut" /></suggestion> — средний род.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A0%D0%BE%D0%B4_%28%D0%BB%D0%B8%D0%BD%D0%B3%D0%B2%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%29</url>
                 <short>Средний род</short>
                 <example>СНГ образовалось в 1991 году.</example>   
@@ -10484,7 +10484,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
                 <token postag="NN:.*" postag_regexp="yes"  negate_pos="yes"/>
             </pattern>
-            <message>Глагол «\1» предполагает после себя существительное в родительном падеже: <suggestion><match no="1"></match> <match no="2" postag_regexp="yes" postag="NN:(.*):(.*):(.*):V" postag_replace="NN:$1:$2:$3:R"  ></match></suggestion></message>
+            <message suppress_misspelled="yes">Глагол «\1» предполагает после себя существительное в родительном падеже: <suggestion><match no="1"></match> <match no="2" postag_regexp="yes" postag="NN:(.*):(.*):(.*):V" postag_replace="NN:$1:$2:$3:R"  ></match></suggestion></message>
             <short>Требуется родительный падеж</short>
             <example correction="избежал встречи">Он <marker>избежал встречу</marker>.</example>
             <example>Вы ещё на какое-то время избежите той же участи.</example>
@@ -11431,7 +11431,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                 </marker>
             </pattern>
-            <message>После слов: «движение» существительные употребляются в родительном или творительном падеже: <suggestion><match no="2"></match> <match no="3" postag_regexp="yes" postag="NN:(.*):(.*)"  postag_replace="NN:$1:(T|R)"></match></suggestion></message>
+            <message suppress_misspelled="yes">После слов: «движение» существительные употребляются в родительном или творительном падеже: <suggestion><match no="2"></match> <match no="3" postag_regexp="yes" postag="NN:(.*):(.*)"  postag_replace="NN:$1:(T|R)"></match></suggestion></message>
             <short>Требуется родительный или творительный падеж</short>
             <example correction="движение руки|движение рукой|движение рукою">А теперь совершаем <marker>движение руке</marker> по часовой стрелке.</example>
             <example>А теперь совершаем движение рукой по часовой стрелке.</example>
@@ -11746,7 +11746,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>кто</token>
                 <token postag="VB:.*:PL" postag_regexp="yes"><exception postag_regexp="yes" negate_pos="yes" postag="VB:.*:PL"></exception></token>
             </pattern>
-            <message>Местоимение «кто» употребляется только с глаголами в форме единственного числа: <suggestion><match no="1"></match> <match no="2" postag_regexp="yes" postag="VB:(.*):PL" postag_replace="VB:Past:.*:.*:Masc" ></match></suggestion></message>
+            <message suppress_misspelled="yes">Местоимение «кто» употребляется только с глаголами в форме единственного числа: <suggestion><match no="1"></match> <match no="2" postag_regexp="yes" postag="VB:(.*):PL" postag_replace="VB:Past:.*:.*:Masc" ></match></suggestion></message>
             <short>Глагол употребляется в ед. числе</short>
             <example correction="кто ходил">Все, <marker>кто ходили</marker> в лес, остались довольны походом.</example>
             <example>Все, кто ходил в лес, остались довольны походом.</example>
@@ -12041,7 +12041,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">манкировать</token>
                     <token postag="NN:.*:V" postag_regexp="yes"></token>
                 </pattern>
-                <message>Существительное должно быть в творительном падеже: <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):(.*):V" postag_regexp="yes" postag_replace="NN:$1:$2:$3:T"></match></suggestion>.</message>
+                <message suppress_misspelled="yes">Существительное должно быть в творительном падеже: <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):(.*):V" postag_regexp="yes" postag_replace="NN:$1:$2:$3:T"></match></suggestion>.</message>
                 <short>Требуется творительный падеж</short>
                 <example>манкировать обязанностями</example>
                 <example correction="манкировать обязанностями"><marker>манкировать обязанности</marker></example>
@@ -12052,7 +12052,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="ADJ:MPR:.*:V" postag_regexp="yes"></token>
                     <token postag="NN:.*:V" postag_regexp="yes"></token>
                 </pattern>
-                <message>Существительное должно быть в творительном падеже: <suggestion><match no="1"></match> <match no="2" postag="ADJ:MPR:(.*):V" postag_regexp="yes" postag_replace="ADJ:MPR:$1:T"></match> <match no="3" postag="NN:(.*):(.*):(.*):V" postag_regexp="yes" postag_replace="NN:$1:$2:$3:T"></match></suggestion>.</message>
+                <message suppress_misspelled="yes">Существительное должно быть в творительном падеже: <suggestion><match no="1"></match> <match no="2" postag="ADJ:MPR:(.*):V" postag_regexp="yes" postag_replace="ADJ:MPR:$1:T"></match> <match no="3" postag="NN:(.*):(.*):(.*):V" postag_regexp="yes" postag_replace="NN:$1:$2:$3:T"></match></suggestion>.</message>
                 <short>Требуется творительный падеж</short>
                 <example>манкировать своими обязанностями</example>
                 <example correction="манкировать своими обязанностями"><marker>манкировать свои обязанности</marker></example>
@@ -12065,7 +12065,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>о</token>
                     <token postag="NN:.*:P" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="NN:.*:P" /></token>
                 </pattern>
-                <message>Рецензия пишется на какое-либо произведение: <suggestion><match no="1"></match> на <match no="3" postag="NN:(.*):(.*):(.*):P" postag_regexp="yes" postag_replace="NN:$1:$2:$3:V"></match></suggestion>.</message>
+                <message suppress_misspelled="yes">Рецензия пишется на какое-либо произведение: <suggestion><match no="1"></match> на <match no="3" postag="NN:(.*):(.*):(.*):P" postag_regexp="yes" postag_replace="NN:$1:$2:$3:V"></match></suggestion>.</message>
                 <short>Требуется предлог «на»</short>
                 <example>рецензия на произведение</example>
                 <example correction="рецензия на произведение|рецензия на произведенье">Это <marker>рецензия о произведении</marker>.</example>
@@ -12081,7 +12081,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>на</token>
                     <token postag="NN:.*:V" postag_regexp="yes"></token>
                 </pattern>
-                <message>Нужен предлог «к»: <suggestion><match no="1"></match> к <match no="3" postag="NN:(.*):(.*):(.*):V" postag_regexp="yes" postag_replace="NN:$1:$2:$3:D"></match></suggestion>.</message>
+                <message suppress_misspelled="yes">Нужен предлог «к»: <suggestion><match no="1"></match> к <match no="3" postag="NN:(.*):(.*):(.*):V" postag_regexp="yes" postag_replace="NN:$1:$2:$3:D"></match></suggestion>.</message>
                 <short>Требуется творительный падеж</short>
                 <example>Пришла претензия к качеству товара.</example>
                 <example correction="претензия к качеству">Пришла <marker>претензия на качество</marker> товара.</example>
@@ -12216,7 +12216,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes" >опубликовано|напечатано|обнародовано|издано</token>
                     <token>воспоминание</token>
                 </pattern>
-                <message>Требуется множественное число: <suggestion><match no="1" postag="PT_Short:(.*):.*" postag_regexp="yes" postag_replace="PT_Short:$1:PL" /> воспоминания</suggestion>.</message>
+                <message suppress_misspelled="yes">Требуется множественное число: <suggestion><match no="1" postag="PT_Short:(.*):.*" postag_regexp="yes" postag_replace="PT_Short:$1:PL" /> воспоминания</suggestion>.</message>
                 <short>Требуется множественное число</short>
 
                 <example correction="опубликованы воспоминания">В книге <marker>опубликовано воспоминание</marker> известного политика.</example>
@@ -12286,7 +12286,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception postag="NN:.*:.*:D" postag_regexp="yes"></exception>
                     </token>
                 </pattern>
-                <message>Этот предлог должен употребляться с дательным падежом (<match no="1"></match> чему), а не с родительным (<match no="1"></match> чего): <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):(.*):R" postag_regexp="yes" postag_replace="NN:$1:$2:$3:D"></match></suggestion></message>
+                <message suppress_misspelled="yes">Этот предлог должен употребляться с дательным падежом (<match no="1"></match> чему), а не с родительным (<match no="1"></match> чего): <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):(.*):R" postag_regexp="yes" postag_replace="NN:$1:$2:$3:D"></match></suggestion></message>
                 <short>Требуется дательный падеж</short>
                 <example>Отправление поезда согласно расписанию.</example>
                 <example>Скорость марсоходов увеличится благодаря системе автономной навигации.</example>
@@ -12334,7 +12334,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">о|об</token>
                     <token postag="NN:.*:.*:.*" postag_regexp="yes"></token>
                 </pattern>
-                <message>Глагол «\1» с предлогом «о» не употребляется. Возможная замена: <suggestion><match no="1"></match> на <match no="3" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:V"></match></suggestion></message>
+                <message suppress_misspelled="yes">Глагол «\1» с предлогом «о» не употребляется. Возможная замена: <suggestion><match no="1"></match> на <match no="3" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:V"></match></suggestion></message>
                 <short>С предлогом «о» не употребляется</short>
                 <example>Указать на ошибку.</example>
                 <example correction="Указать на ошибку"><marker>Указать об ошибке</marker>.</example>
@@ -12356,7 +12356,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">о|об</token>
                     <token postag="NN:.*:.*:.*" postag_regexp="yes"></token>
                 </pattern>
-                <message>Глагол «\1» с предлогом «о» не употребляется. Возможная замена: <suggestion><match no="1"></match> <match no="3" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:V"></match></suggestion></message>
+                <message suppress_misspelled="yes">Глагол «\1» с предлогом «о» не употребляется. Возможная замена: <suggestion><match no="1"></match> <match no="3" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:V"></match></suggestion></message>
                 <short>С предлогом «о» не употребляется</short>
                 <example>Он советовал покупку.</example>
                 <example correction="советовал покупку">Он <marker>советовал о покупке</marker>.</example>
@@ -12368,7 +12368,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">о|об</token>
                     <token postag="NN:.*:.*:.*" postag_regexp="yes"></token>
                 </pattern>
-                <message>Глагол «\1» с предлогом «о» не употребляется. Возможная замена: <suggestion><match no="1"></match> на <match no="3" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:V"></match></suggestion></message>
+                <message suppress_misspelled="yes">Глагол «\1» с предлогом «о» не употребляется. Возможная замена: <suggestion><match no="1"></match> на <match no="3" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:V"></match></suggestion></message>
                 <short>С предлогом «о» не употребляется</short>
                 <example>Он надеялся на удачу.</example>
                 <example correction="надеялся на удачу">Он <marker>надеялся об удаче</marker>.</example>
@@ -12380,7 +12380,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">о|об</token>
                     <token postag="NN:.*:.*:.*" postag_regexp="yes"></token>
                 </pattern>
-                <message>Глагол «\1» с предлогом «о» не употребляется. Возможная замена: <suggestion><match no="1"></match> в <match no="3" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:V"></match></suggestion></message>
+                <message suppress_misspelled="yes">Глагол «\1» с предлогом «о» не употребляется. Возможная замена: <suggestion><match no="1"></match> в <match no="3" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:V"></match></suggestion></message>
                 <short>С предлогом «о» не употребляется</short>
                 <example>Он убедился в надёжности системы.</example>
                 <example correction="убедился в надёжности|убедился в надёжность">Он <marker>убедился о надёжности</marker> системы.</example>
@@ -12393,7 +12393,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">о|об</token>
                     <token postag="NN:.*:.*:.*" postag_regexp="yes"></token>
                 </pattern>
-                <message>Глагол «\1» с предлогом «о» не употребляется. Возможная замена: <suggestion><match no="1"></match> <match no="2"></match> для <match no="4" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:R"></match></suggestion></message>
+                <message suppress_misspelled="yes">Глагол «\1» с предлогом «о» не употребляется. Возможная замена: <suggestion><match no="1"></match> <match no="2"></match> для <match no="4" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:R"></match></suggestion></message>
                 <short>С предлогом «о» не употребляется</short>
                 <example>Он принял меры для безопасности.</example>
                 <example correction="принял меры для безопасностей|принял меры для безопасности">Он <marker>принял меры о безопасности</marker>.</example>
@@ -13358,7 +13358,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>самый</token>               
                         <token postag="ADJ:Sup:.*" postag_regexp="yes"><exception regexp="yes">большой|малый|хороший|плохой|лучший</exception></token>                    
                 </pattern>
-                <message>Сложная превосходная степень образуется с полной формой положительной степени прилагательного: <suggestion><match no="1"></match> <match no="2" postag="ADJ:Sup:(.*):(.*)" postag_regexp="yes" postag_replace="ADJ:Posit:$1:$2"></match></suggestion></message>
+                <message suppress_misspelled="yes">Сложная превосходная степень образуется с полной формой положительной степени прилагательного: <suggestion><match no="1"></match> <match no="2" postag="ADJ:Sup:(.*):(.*)" postag_regexp="yes" postag_replace="ADJ:Posit:$1:$2"></match></suggestion></message>
                 <short>Сложная превосходная степень</short>
                 <example correction="самый талантливый">Это <marker>самый талантливейший</marker> художник 19-го века.</example>
                 <example>Это самый талантливый художник 19-го века.</example>
@@ -13369,7 +13369,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>самая</token>               
                         <token postag="ADJ:Sup:.*" postag_regexp="yes"><exception regexp="yes">большая|малая|хорошая|плохая|лучшая</exception></token>                    
                 </pattern>
-                <message>Сложная превосходная степень образуется с полной формой положительной степени прилагательного: <suggestion><match no="1"></match> <match no="2" postag="ADJ:Sup:(.*):(.*)" postag_regexp="yes" postag_replace="ADJ:Posit:$1:$2"></match></suggestion></message>
+                <message suppress_misspelled="yes">Сложная превосходная степень образуется с полной формой положительной степени прилагательного: <suggestion><match no="1"></match> <match no="2" postag="ADJ:Sup:(.*):(.*)" postag_regexp="yes" postag_replace="ADJ:Posit:$1:$2"></match></suggestion></message>
                 <short>Сложная превосходная степень</short>
                 <example correction="самая красивая">Это <marker>самая красивейшая</marker> девочка в классе.</example>
                 <example>Это самая красивая девочка в классе.</example>
@@ -13380,7 +13380,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>более</token>               
                         <token postag="ADJ:Sup:.*" postag_regexp="yes"/>                    
                 </pattern>
-                <message>Сложная сравнительная степень образуется с полной формой положительной степени прилагательного: <suggestion><match no="1"></match> <match no="2" postag="ADJ:Sup:(.*):(.*)" postag_regexp="yes" postag_replace="ADJ:Posit:$1:$2"></match></suggestion></message>
+                <message suppress_misspelled="yes">Сложная сравнительная степень образуется с полной формой положительной степени прилагательного: <suggestion><match no="1"></match> <match no="2" postag="ADJ:Sup:(.*):(.*)" postag_regexp="yes" postag_replace="ADJ:Posit:$1:$2"></match></suggestion></message>
                 <short>Сложная сравнительная степень</short>
                 <example correction="более вкусный">Это <marker>более вкуснейший</marker> салат.</example>
                 <example>Это более вкусный салат.</example>
@@ -13391,7 +13391,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>менее</token>               
                         <token postag="ADJ:Sup:.*"  postag_regexp="yes"/>                    
                 </pattern>
-                <message>Сложная сравнительная степень образуется с полной формой положительной степени прилагательного: <suggestion><match no="1"></match> <match no="2" postag="ADJ:Sup:(.*):(.*)" postag_regexp="yes" postag_replace="ADJ:Posit:$1:$2"></match></suggestion></message>
+                <message suppress_misspelled="yes">Сложная сравнительная степень образуется с полной формой положительной степени прилагательного: <suggestion><match no="1"></match> <match no="2" postag="ADJ:Sup:(.*):(.*)" postag_regexp="yes" postag_replace="ADJ:Posit:$1:$2"></match></suggestion></message>
                 <short>Сложная сравнительная степень</short>
                 <example correction="менее сложная">Это <marker>менее сложнейшая</marker> задача.</example>
                 <example>Это менее сложная задача.</example>
