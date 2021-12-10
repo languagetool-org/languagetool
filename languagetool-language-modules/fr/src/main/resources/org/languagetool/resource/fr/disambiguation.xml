@@ -2226,6 +2226,24 @@ RB => Règles Brutes
         </pattern>
         <disambig action="filter" postag="N m s"/>
     </rule>
+    <rule id="ENTREPRISE" name="entreprise">
+        <pattern>
+            <token postag="D [ef] s" postag_regexp="yes"/>
+            <marker>
+                <token>entreprise</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="V ppa f s"/>
+    </rule>
+    <rule id="SORTIE" name="sortie">
+        <pattern>
+            <token postag="D [ef] s" postag_regexp="yes"/>
+            <marker>
+                <token>sortie</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="V ppa f s"/>
+    </rule>
     <rule id="L_ETRE_HUMAIN" name="l'être humain">
         <!-- with agreement error -->
         <pattern>
