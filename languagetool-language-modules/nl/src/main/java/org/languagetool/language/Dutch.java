@@ -24,6 +24,7 @@ import org.languagetool.*;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.nl.*;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.nl.DutchSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -198,6 +199,11 @@ public class Dutch extends Language {
     ruleFileNames.add(dirBase + "nl-NL/grammar.xml");
     //ruleFileNames.add(dirBase + "grammar-test.xml");
     return ruleFileNames;
+  }
+  
+  @Override
+  public SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
+      return new MorfologikDutchSpellerRule(messages, this, null, Collections.emptyList());
   }
 
 }
