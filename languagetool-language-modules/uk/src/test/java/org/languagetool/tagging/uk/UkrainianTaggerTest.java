@@ -542,6 +542,8 @@ public class UkrainianTaggerTest {
     TestTools.myAssert("Напівсправедливий", "Напівсправедливий/[напівсправедливий]adj:m:v_kly|Напівсправедливий/[напівсправедливий]adj:m:v_naz|Напівсправедливий/[напівсправедливий]adj:m:v_zna:rinanim", tokenizer, tagger);
     TestTools.myAssert("напіврозслабленого", "напіврозслабленого/[напіврозслаблений]adj:m:v_rod|напіврозслабленого/[напіврозслаблений]adj:m:v_zna:ranim|напіврозслабленого/[напіврозслаблений]adj:n:v_rod", tokenizer, tagger);
 
+    TestTools.myAssert("північноазіатський", "північноазіатський/[північноазіатський]adj:m:v_kly|північноазіатський/[північноазіатський]adj:m:v_naz|північноазіатський/[північноазіатський]adj:m:v_zna:rinanim", tokenizer, tagger);
+
     assertNotTagged("авіамені");
     assertNotTagged("антиЄвропа");
     assertNotTagged("напіврозслабеному");   // typo
@@ -685,6 +687,11 @@ public class UkrainianTaggerTest {
     TestTools.myAssert("Я-вор-рова", "Я-вор-рова/[Яворів]noun:inanim:m:v_rod:prop:geo:alt|Я-вор-рова/[яворовий]adj:f:v_kly:alt|Я-вор-рова/[яворовий]adj:f:v_naz:alt", tokenizer, tagger);
     // мілі- (з дефісом) є помилковим префіксом
     TestTools.myAssert("мілі-ціо-нерів", "мілі-ціо-нерів/[null]null", tokenizer, tagger);
+    
+    TestTools.myAssert("Тааак", "Тааак/[так]adv:&pron:dem:alt|Тааак/[так]conj:coord:alt|Тааак/[так]conj:subord:alt|Тааак/[так]part:alt", tokenizer, tagger);
+    TestTools.myAssert("загубииилася", "загубииилася/[загубитися]verb:rev:perf:past:f:alt", tokenizer, tagger);
+
+    assertNotTagged("ііі");
     //TODO:
 //    TestTools.myAssert("та-ак", "", tokenizer, tagger);
 //      "Що-о"
@@ -695,7 +702,9 @@ public class UkrainianTaggerTest {
     //TODO: should technically tag both lowercase and uppercase to get :fname as well
 //    TestTools.myAssert("Да-а-ри", "", tokenizer, tagger);
     TestTools.myAssert("т-то", "т-то/[null]null", tokenizer, tagger);
+
     assertNotTagged("відео-конференц-зв'язком");
+    assertNotTagged("Шаабан");
   }
 
 
@@ -744,6 +753,12 @@ public class UkrainianTaggerTest {
     TestTools.myAssert("км2", "км2/[км2]noninfl", tokenizer, tagger);
     TestTools.myAssert("мм²", "мм²/[мм²]noninfl", tokenizer, tagger);
 //    TestTools.myAssert("7а", "7а/[7а]noninfl", tokenizer, tagger);
+  }
+
+  @Test
+  public void testBracketedWord() throws IOException {
+    TestTools.myAssert("д[окто]р[ом]", "д[окто]р[ом]/[доктор]noun:anim:m:v_oru:alt", tokenizer, tagger);
+    TestTools.myAssert("Акад[емія]", "Акад[емія]/[академія]noun:inanim:f:v_naz:alt", tokenizer, tagger);
   }
   
 //  @Test

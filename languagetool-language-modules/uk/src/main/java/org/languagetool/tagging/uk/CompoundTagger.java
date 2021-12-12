@@ -86,14 +86,16 @@ class CompoundTagger {
 
   // додаткові вкорочені прикметникові ліві частини, що не мають відповідного прикметника
   private static final List<String> LEFT_O_ADJ = Arrays.asList(
-    "австро", "адиго", "американо", "англо", "афро", "еко", "іспано", "італо", "історико", 
+    "австро", "адиго", "американо", "англо", "афро", "еко", "індо", "іспано", "італо", "історико", 
     "києво", "марокано", "угро", "японо", "румуно"
   );
 
-  private static final List<String> LEFT_O_ADJ_INVALID = Arrays.asList(
-    "багато", "мало", "високо", "низько", "старо", "важко", "зовнішньо", "внутрішньо", "ново", 
+  static final List<String> LEFT_O_ADJ_INVALID = Arrays.asList(
+    "багато", "мало", "високо", "низько", "старо", "важко", "зовнішньо", "внутрішньо", "ново", "середньо",
     "південно", "північно", "західно", "східно", "центрально"
   );
+
+  static final Pattern LEFT_O_ADJ_INVALID_PATTERN = Pattern.compile("^(" + StringUtils.join(LEFT_O_ADJ_INVALID, "|") + ")(.+)");
 
   // TODO: чемпіонат світу-2014, людина року-2018, Червона рута-2011, Нова хвиля-2012, Фабрика зірок-2
   private static final List<String> WORDS_WITH_YEAR = Arrays.asList(
@@ -134,7 +136,7 @@ class CompoundTagger {
     noDashPrefixes.remove("прес");
     
     leftMasterSet = ExtraDictionaryLoader.loadSet("/uk/dash_left_master.txt");
-    // TODO: "бабуся", "лялька", "рятівник" - not quite slaves, could be masters too
+    // TODO: "бабуся", "лялька", "рятівник" - not quite followers, could be masters too
     followerSet = ExtraDictionaryLoader.loadSet("/uk/dash_follower.txt");
     numberedEntities = ExtraDictionaryLoader.loadSpacedLists("/uk/entities.txt");
   }

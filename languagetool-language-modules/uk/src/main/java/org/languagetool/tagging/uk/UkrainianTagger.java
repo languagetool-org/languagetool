@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.function.UnaryOperator;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
@@ -31,6 +32,7 @@ import org.languagetool.rules.uk.LemmaHelper;
 import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tagging.TaggedWord;
 import org.languagetool.tagging.WordTagger;
+import org.languagetool.tokenizers.uk.UkrainianWordTokenizer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -182,6 +184,45 @@ public class UkrainianTagger extends BaseTagger {
         }
         else if( word.contains("ьск") && ! word.endsWith("ская") && ! word.equals("Комсомольском")) {
           tokens = convertTokens(tokens, word, "ьск", "ьськ", ":bad");
+        }
+
+        if( tokens.get(0).hasNoTag() ) {
+          if ( word.length() >= 3 ) {
+            if ( word.length() >= 9 ) {
+              Matcher matcher2 = CompoundTagger.LEFT_O_ADJ_INVALID_PATTERN.matcher(word);
+              if (matcher2.matches()) {
+                String prefix = matcher2.group(1);
+                String adjustedWord = matcher2.group(2);
+                List<AnalyzedToken> newTokens = getAdjustedAnalyzedTokens(word, adjustedWord, Pattern.compile("^adj.*"), null,
+                    (lemma) -> prefix + lemma);
+                if( ! newTokens.isEmpty() ) {
+                  tokens = newTokens;
+                }
+              }
+            }
+            if( tokens.get(0).hasNoTag()
+                && ! word.equalsIgnoreCase("ііі") ) {// often stands for Latin number
+              Matcher matcher = Pattern.compile("([аеєиіїоуюя])\\1{2,}", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE).matcher(word);
+              if( matcher.find() ) {
+                String adjustedWord = matcher.replaceAll("$1");
+                List<AnalyzedToken> newTokens = getAdjustedAnalyzedTokens(word, adjustedWord, Pattern.compile("(?!noun.*:prop).*"), ":alt",
+                    (lemma) -> lemma);
+                if( ! newTokens.isEmpty() ) {
+                  tokens = newTokens;
+                }
+              }
+            }
+            if( tokens.get(0).hasNoTag() 
+                && word.indexOf("[") != -1 && word.indexOf("]") != -1 
+                && UkrainianWordTokenizer.WORDS_WITH_BRACKETS_PATTERN.matcher(word).find() ) {
+              String adjustedWord = word.replace("[", "").replace("]", "");
+              List<AnalyzedToken> newTokens = getAdjustedAnalyzedTokens(word, adjustedWord, null, ":alt",
+                  (lemma) -> lemma);
+              if( ! newTokens.isEmpty() ) {
+                tokens = newTokens;
+              }
+            }
+          }
         }
       }
     }
