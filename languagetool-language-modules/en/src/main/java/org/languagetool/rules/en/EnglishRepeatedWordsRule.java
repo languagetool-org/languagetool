@@ -85,7 +85,17 @@ public class EnglishRepeatedWordsRule extends AbstractRepeatedWordsRule{
 
     Arrays.asList(
       new PatternTokenBuilder().csToken("form").matchInflectedForms().build(),   // "form in the bloodstream"
-      posRegex("IN|RP|TO")
+      posRegex("IN|PCT|RP|TO|SENT_END")
+    ),
+
+    Arrays.asList(
+      new PatternTokenBuilder().tokenRegex("bonds?|crystals?|ions?|rocks?|.*valence").setSkip(10).build(),
+      new PatternTokenBuilder().csToken("form").matchInflectedForms().build()
+    ),
+
+    Arrays.asList(
+      new PatternTokenBuilder().tokenRegex("form(s|ed|ing)?").setSkip(10).build(),
+      tokenRegex("bonds?|crystals?|ions?|rocks?|.*valence")
     ),
 
     Arrays.asList(
@@ -117,7 +127,7 @@ public class EnglishRepeatedWordsRule extends AbstractRepeatedWordsRule{
     ),
 
     Arrays.asList(
-      new PatternTokenBuilder().csToken("be").matchInflectedForms().build(),
+      new PatternTokenBuilder().csToken("be").matchInflectedForms().build(),  // nice and plump
       token("nice"),
       token("and"),
       pos("JJ"),
@@ -125,7 +135,7 @@ public class EnglishRepeatedWordsRule extends AbstractRepeatedWordsRule{
     ),
 
     Arrays.asList(
-      posRegex("P?DT|PRP$.*"),
+      posRegex("P?DT|PRP$.*"),  // the proposed agreement
       token("proposed"),
       posRegex("N.*")
     ),
@@ -133,6 +143,27 @@ public class EnglishRepeatedWordsRule extends AbstractRepeatedWordsRule{
     Arrays.asList(
       new PatternTokenBuilder().csToken("propose").matchInflectedForms().build(),
       tokenRegex("to|marriage")
+    ),
+
+    Arrays.asList(
+      token("too"),
+      token("literally")
+    ),
+
+    Arrays.asList(
+      token("literally"),
+      token("and"),
+      token("figuratively")
+    ),
+
+    Arrays.asList(
+      token("literally"),
+      token("everything")
+    ),
+
+    Arrays.asList(
+      token("literally"),
+      posRegex("PCT|SENT_END")
     )
 
   );
