@@ -2582,6 +2582,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rulegroup id="zvertaty_uvagu" name="Звертати увагу">
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">звертати|звернути</token>
+          <token postag_regexp="yes" postag="adj:.:v_rod.*pron.*" min="0"/>
+          <token>увагу</token>
+          <token>на</token>
+          <token>себе</token>
+        </pattern>
+        <message>У значенні «зацікавлювати собою» краще вживати дієслово «привертати».</message>
+        <suggestion><match no="1">привертати</match> \2 \3 до \5</suggestion>
+        <example correction="привертати увагу до себе">Хотів <marker>звернути увагу на себе</marker>.</example>
+        <example correction="привертати її увагу до себе">Хотів <marker>звернути її увагу на себе</marker>.</example>
+        <example>звертати увагу на щось</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">звертати|звернути</token>
+          <token>на</token>
+          <token>себе</token>
+          <token postag_regexp="yes" postag="adj:.:v_rod.*pron.*" min="0"/>
+          <token>увагу</token>
+        </pattern>
+        <message>У значенні «зацікавлювати собою» краще вживати дієслово «привертати».</message>
+        <suggestion><match no="1">привертати</match> до \3 \4 \5</suggestion>
+        <example correction="привертати до себе увагу">Хотів <marker>звернути на себе увагу</marker>.</example>
+        <example correction="привертати до себе її увагу">Хотів <marker>звернути на себе її увагу</marker>.</example>
+        <example>звертати на щось увагу</example>
+      </rule>
+    </rulegroup>
 
     <rule id="verb_short" name="Вкорочені форми дієслів">
       <antipattern>
@@ -2608,6 +2639,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>поясніть</example>
       <!-- handled (as adv) by simple replace -->
       <example>чуть</example>
+    </rule>
+
+    <rule id="ne_v_stani" name="Не в стані - не в змозі">
+      <pattern>
+        <marker>
+        <token>не</token>
+        <token regexp="yes">[ву]</token>
+        <token>стані</token>
+        </marker>
+        <token postag_regexp="yes" postag="verb.*inf.*">
+          <exception postag_regexp="yes" postag="noun:[mfn]:v_rod.*"/>
+        </token>
+      </pattern>
+      <message>Краще: <suggestion>не могти</suggestion></message>
+      <suggestion>неспроможний</suggestion>
+      <suggestion>не мати сили</suggestion>
+      <suggestion>не мати змоги</suggestion>
+      <example correction="не могти|неспроможний|не мати сили|не мати змоги">і він був <marker>не в стані</marker> пояснити</example>
+      <example>він був у стані війни</example>
     </rule>
 
     <rule id="verb_impr_long" name="Варіативні форми наказового способу">

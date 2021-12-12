@@ -2240,6 +2240,82 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rulegroup id="comma_with_yak" name="Коми перед підрядним сполучником або сполучним словом" tags="picky">
+      <rule>
+        <pattern>
+          <token>не</token>
+          <token>хто</token>
+          <marker>
+            <token>інший</token>
+            <token>як</token>
+          </marker>
+        </pattern>
+        <message>Кому ставимо перед як у зворотах не хто інший, як...; не що інше, як... (правопис §158, ІІ, п. 3, прим. 4)</message>
+        <suggestion>\3, \4</suggestion>
+        <example correction="інший, як">і не хто <marker>інший як</marker> директор.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token>не</token>
+          <token>що</token>
+          <marker>
+            <token>інше</token>
+            <token>як</token>
+          </marker>
+        </pattern>
+        <message>Кому ставимо перед як у зворотах не хто інший, як...; не що інше, як... (правопис §158, ІІ, п. 3, прим. 4)</message>
+        <suggestion>\3, \4</suggestion>
+        <example correction="інше, як">і не що <marker>інше як</marker> вино.</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="no_comma_with_ne_te" name="Без коми перед підрядним сполучником або сполучним словом" tags="picky">
+      <rule>
+        <pattern>
+          <token>не</token>
+          <marker>
+            <token>інакше</token>
+            <token>,</token>
+            <token>як</token>
+          </marker>
+        </pattern>
+        <message>Коми не ставимо в конструкціях на зразок не інакше як, не те що, не те щоб, тільки й розмов що, тільки й того що і под.</message>
+        <suggestion>\2 \4</suggestion>
+        <example correction="інакше як">і не <marker>інакше, як</marker> шедеврами</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token>не</token>
+          <marker>
+            <token>те</token>
+            <token>,</token>
+            <token regexp="yes">щоб?</token>
+          </marker>
+        </pattern>
+        <message>Коми не ставимо в конструкціях на зразок не інакше як, не те що, не те щоб, тільки й розмов що, тільки й того що і под.</message>
+        <suggestion>\2 \4</suggestion>
+        <example correction="те що">і не <marker>те, що</marker> дуже далеко</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token>тільки</token>
+          <token regexp="yes">[ій]</token>
+          <marker>
+            <token regexp="yes">розмов|того</token>
+            <token>,</token>
+            <token>що</token>
+          </marker>
+        </pattern>
+        <message>Коми не ставимо в конструкціях на зразок не інакше як, не те що, не те щоб, тільки й розмов що, тільки й того що і под.</message>
+        <suggestion>\3 \5</suggestion>
+        <example correction="розмов що">тільки й <marker>розмов, що</marker> дуже далеко</example>
+        <example correction="того що">тільки й <marker>того, що</marker> дуже далеко</example>
+      </rule>
+    </rulegroup>
+
     <rulegroup id="jakscho_to" name="Кома: якщо ... то">
       <antipattern>
         <token>то</token>
