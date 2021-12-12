@@ -7802,6 +7802,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <exception negate_pos="yes" postag_regexp="yes" postag="VB:(Past|Real):.*" />
                             <exception  postag_regexp="yes" postag="VB:(Past|Real):TRANS:.*|VB:(Past|Real):bezl:IMPFV" />
                             <exception scope="next" postag_regexp="yes" postag="NN:.*:Nom|UNKNOWN|NumD_[SDP]|PNN:.*:Nom"></exception>
+                            <exception scope="next" regexp="yes">более|менее|около|почти</exception>
                             <exception>может</exception>
                             <exception>должен</exception>
                             <exception>можешь</exception>
@@ -7821,6 +7822,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Вода превращается в лёд.</example>
                 <example>Сайт в последние два года считается достоверным источником.</example>
                 <example>Для работы программы требуется Java.</example>
+                <example>В российском павильоне после открытия Всемирной универсальной выставки побывало более 6,1 миллиона туристов.</example>
                 <example>Эти письма может напечатать любой секретарь.</example>
                 <example>До конца года остаётся 298 дней.</example>
                 <example>За последнее предложение высказались все.</example> 
@@ -7907,7 +7909,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SENT_START" skip="-1"><exception scope="next" postag_regexp="yes" postag="NN:.*:.*:PL:Nom"></exception><exception scope="next" postag_regexp="yes" postag="PNN:.*"></exception><exception scope="next" regexp = "yes" >и|или</exception></token>
                     <marker>
                         <token postag="NN:.*:Masc:Sin:Nom" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:Masc:Sin:Nom" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">и|,</exception></token>
-                        <token postag="VB:Past:.*:.*:PL" skip="-1" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:.*:.*:PL"></exception><exception scope="next" postag_regexp="yes" postag="NN:.*:.*:PL:Nom||PNN:PL:Nom"></exception></token>
+                        <token postag="VB:Past:.*:.*:PL" skip="-1" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:.*:.*:PL"></exception><exception scope="next" postag_regexp="yes" postag="NN:.*:.*:PL:Nom|PNN:PL:Nom"></exception></token>
                     </marker>
                     <token regexp="yes">[.;]</token>
                 </pattern>    
@@ -7924,7 +7926,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SENT_START" skip="-1"><exception scope="next" postag_regexp="yes" postag="NN:.*:PL:Nom"></exception><exception scope="next" postag_regexp="yes" postag="PNN:.*"></exception><exception scope="next" regexp = "yes" >и|или</exception></token>
                     <marker>
                         <token postag="NN:.*:Fem:Sin:Nom" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:Fem:Sin:Nom" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">и|,</exception></token>
-                        <token postag="VB:Past:.*:.*:PL" skip="-1" postag_regexp="yes"><exception negate_pos="yes" postag="VB:Past:.*:.*:PL" postag_regexp="yes"></exception><exception scope="next" postag_regexp="yes" postag="NN:.*:PL:Nom||PNN:PL:Nom"></exception></token>
+                        <token postag="VB:Past:.*:.*:PL" skip="-1" postag_regexp="yes"><exception negate_pos="yes" postag="VB:Past:.*:.*:PL" postag_regexp="yes"></exception><exception scope="next" postag_regexp="yes" postag="NN:.*:PL:Nom|PNN:PL:Nom"></exception></token>
                     </marker>
                     <token regexp="yes">[.;]</token>
                 </pattern>     
