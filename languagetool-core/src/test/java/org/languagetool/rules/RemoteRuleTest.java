@@ -19,17 +19,16 @@
  *
  */
 
-package org.languagetool;
+package org.languagetool.rules;
 
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
-import org.junit.Before;
+import org.junit.After;
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.JLanguageTool;
 import org.languagetool.language.Demo;
-import org.languagetool.rules.RemoteRule;
-import org.languagetool.rules.RemoteRuleConfig;
-import org.languagetool.rules.RemoteRuleResult;
-import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -42,13 +41,14 @@ import static org.junit.Assert.assertEquals;
 
 public class RemoteRuleTest {
 
-  protected String sentence;
-  private JLanguageTool lt;
-  private RemoteRule rule;
+  protected static String sentence;
+  private static JLanguageTool lt;
+  private static RemoteRule rule;
   private static final RemoteRuleConfig config;
 
-  private long waitTime;
-  private int calls;
+  private static long waitTime;
+  private static boolean fail = false;
+  private static int calls;
 
   static {
     config = new RemoteRuleConfig();
@@ -61,7 +61,7 @@ public class RemoteRuleTest {
     config.slidingWindowType = CircuitBreakerConfig.SlidingWindowType.COUNT_BASED.name();
   }
 
-  class TestRemoteRule extends RemoteRule {
+  static class TestRemoteRule extends RemoteRule {
     static final String ID =  "TEST_REMOTE_RULE";
 
     TestRemoteRule(RemoteRuleConfig config) {
@@ -89,6 +89,9 @@ public class RemoteRuleTest {
     protected Callable<RemoteRuleResult> executeRequest(RemoteRequest request, long timeoutMilliseconds) throws TimeoutException {
       return () -> {
         calls++;
+        if (fail) {
+          throw new RuntimeException("Failing for testing purposes");
+        }
         TestRemoteRequest req = (TestRemoteRequest) request;
         long deadline = System.currentTimeMillis() + waitTime;
         while (System.currentTimeMillis() < deadline);
@@ -100,6 +103,7 @@ public class RemoteRuleTest {
     @Override
     protected RemoteRuleResult fallbackResults(RemoteRequest request) {
       TestRemoteRequest req = (TestRemoteRequest) request;
+      System.out.println("Fallback matches");
       return new RemoteRuleResult(false, false, Collections.emptyList(), req.sentences);
     }
 
@@ -109,28 +113,46 @@ public class RemoteRuleTest {
     }
   }
 
-  @Before
-  public void setUp() throws IOException {
+  @BeforeClass
+  public static void setUp() throws IOException {
     lt = new JLanguageTool(new Demo());
     lt.getAllActiveRules().forEach(r -> lt.disableRule(r.getId()));
     rule = new TestRemoteRule(config);
     sentence = "This is a test.";
+    lt.addRule(rule);
   }
+
+  @After
+  public void tearDown() {
+    rule.circuitBreaker().reset();
+    waitTime = 0;
+    calls = 0;
+    fail = false;
+  }
+
 
   private void assertMatches(String msg, int expected) throws IOException {
     List<RuleMatch> matches = lt.check(sentence);
     assertEquals(msg, expected, matches.size());
   }
 
+  @Test
+  public void testMatch() throws IOException {
+    lt.disableRule(rule.getId());
+    assertMatches("no matches before - sanity check", 0);
+    lt.enableRule(rule.getId());
+    assertMatches("test rule creates match", 1);
+  }
+
+  @Test
+  public void testTimeout() throws IOException, InterruptedException {
+    waitTime = config.baseTimeoutMilliseconds * 2;
+    assertMatches("timeouts work", 0);
+  }
 
   @Test
   @Ignore("Unstable in CI because of reliance on timings, for local testing only")
   public void testCircuitbreaker() throws IOException, InterruptedException {
-    assertMatches("no matches before - sanity check", 0);
-    lt.addRule(rule);
-
-    assertMatches("test rule creates match", 1);
-
     waitTime = config.baseTimeoutMilliseconds * 2;
     assertMatches("timeouts work", 0);
     assertMatches("timeouts work", 0);
@@ -143,6 +165,12 @@ public class RemoteRuleTest {
     Thread.sleep(config.downMilliseconds);
     assertMatches("matches when circuitbreaker half-open", 1);
     assertEquals("calls when circuitbreaker half-open", callsBefore+1, calls);
+  }
+
+  @Test
+  public void testFailedRequests() throws IOException {
+    fail = true;
+    assertMatches("no matches for failing requests", 0);
   }
 
 }

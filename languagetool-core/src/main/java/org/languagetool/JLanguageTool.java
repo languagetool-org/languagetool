@@ -20,6 +20,7 @@ package org.languagetool;
 
 import io.github.resilience4j.circuitbreaker.CallNotPermittedException;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.broker.ClassBroker;
@@ -1078,8 +1079,13 @@ public class JLanguageTool {
           logger.info("Failed to fetch result from remote rule - circuitbreaker active, rule marked as down.");
           RemoteRuleMetrics.request(ruleKey, textCheckStart, chars, RemoteRuleMetrics.RequestResult.DOWN);
         } catch (Exception e) {
-          logger.warn("Failed to fetch result from remote rule - error while executing rule.", e);
-          RemoteRuleMetrics.request(ruleKey, textCheckStart, chars, RemoteRuleMetrics.RequestResult.ERROR);
+          if (ExceptionUtils.indexOfThrowable(e, TimeoutException.class) != -1) {
+            logger.info("Failed to fetch result from remote rule - request timed out.");
+            RemoteRuleMetrics.request(ruleKey, textCheckStart, chars, RemoteRuleMetrics.RequestResult.TIMEOUT);
+          } else {
+            logger.warn("Failed to fetch result from remote rule - error while executing rule.", e);
+            RemoteRuleMetrics.request(ruleKey, textCheckStart, chars, RemoteRuleMetrics.RequestResult.ERROR);
+          }
         }
       }
 
@@ -1135,7 +1141,9 @@ public class JLanguageTool {
         adjustOffset(annotatedText, offset, match);
       }
       remoteMatches.addAll(adjustedMatches);
-      RemoteRuleMetrics.request(ruleKey, textCheckStart, chars, RemoteRuleMetrics.RequestResult.SUCCESS);
+      RemoteRuleMetrics.RequestResult loggedResult = result.isSuccess() ?
+        RemoteRuleMetrics.RequestResult.SUCCESS : RemoteRuleMetrics.RequestResult.ERROR;
+      RemoteRuleMetrics.request(ruleKey, textCheckStart, chars, loggedResult);
     }
     return result;
   }
