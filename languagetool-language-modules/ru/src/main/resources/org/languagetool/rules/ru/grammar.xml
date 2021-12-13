@@ -10038,7 +10038,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </token>
                 <!-- "Глагол в неопределённой форме." -->
                 <marker>
-                    <token postag_regexp="yes" postag="VB:INF:.*"><exception postag="VB:INF:.*" negate_pos="yes" postag_regexp="yes"></exception><exception postag="NN:Anim:.*:Nom|NN:Fam:.*:Nom|NN:Name:.*:Nom|NN:Patr:.*:Nom|PNN:.*:Nom:.*" negate_pos="yes"  postag_regexp="yes" scope="previous" ></exception><exception postag="ADJ:Short:.*|CONJ" postag_regexp="yes" scope="previous"></exception></token>
+                    <token postag_regexp="yes" postag="VB:INF:.*">
+                        <exception postag="VB:INF:.*" negate_pos="yes" postag_regexp="yes"></exception>
+                        <exception postag="NN:Anim:.*:Nom|NN:Fam:.*:Nom|NN:Name:.*:Nom|NN:Patr:.*:Nom|PNN:.*:Nom:.*" negate_pos="yes"  postag_regexp="yes" scope="previous" ></exception>
+                        <exception postag="ADJ:Short:.*|CONJ" postag_regexp="yes" scope="previous"></exception>
+                        <exception scope="previous">любитель</exception>
+                    </token>
                 </marker>
             </pattern>
             <message>Перед глаголом в неопределённой форме должен быть модальный глагол (хочет, будет, должен, может, ...)</message>
@@ -10046,6 +10051,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example type="incorrect">Денис <marker>носить</marker> грязные носки.</example>
             <example>Денис носит грязные носки.</example>
             <example>Денис будет носить грязные носки.</example>
+            <example>Денис большой любитель поесть.</example>
             <example type="incorrect">Маша <marker>любить</marker> мягкие игрушки.</example>
             <example>Маша будет любить мягкие игрушки.</example>
 	    <example>Он взял за правило никогда не говорить дурно о других.</example>
