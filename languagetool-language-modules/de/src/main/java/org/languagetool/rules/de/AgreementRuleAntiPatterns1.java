@@ -515,6 +515,10 @@ class AgreementRuleAntiPatterns1 {
       tokenRegex("App|Play"),
       token("Store")
     ),
+    Arrays.asList(
+      token("Knecht"),
+      token("Ruprecht")
+    ),
     Arrays.asList(  // "in dem einen Jahr"
       token("dem"),
       token("einen"),

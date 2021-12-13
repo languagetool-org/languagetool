@@ -19894,6 +19894,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Redundanz -->
     <!-- ====================================================================== -->
     <category id="REDUNDANCY" name="Redundanz" type="style">
+        <rule id="TAEGLICHER_ALLTAG" name="täglicher Alltag" default="temp_off">
+            <pattern>
+                <token inflected="yes" regexp="yes">(all)?täglich</token>
+                <token>Alltag</token>
+            </pattern>
+            <message>Mögliche Dopelling "\1" und "\2".</message>
+            <suggestion>\2</suggestion>
+            <example correction="Alltag">Im <marker>täglichen Alltag</marker> kommt es häufig vor.</example>
+        </rule>
         <rule id="WELTWEIT_DER_WELT" name="weltweit ... der Welt">
             <pattern>
                 <token skip="-1">weltweit
@@ -23890,6 +23899,75 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rulegroup id="DAS_RICHTIGE_TUN" name="das richtige (Richtige) tun" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>das</token>
+                    <token regexp="yes" min="0">absolut|einzig</token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">richtige|falsche</token>
+                    </marker>
+                    <token min="0">zu</token>
+                    <token inflected="yes" regexp="yes">tun|machen</token>
+                </pattern>
+                <message>Nominalisierte Adjektive sollten in der Regel großgeschrieben werden.</message>
+                <suggestion><match no="3" case_conversion="startupper" /></suggestion>
+                <example correction="Richtige">Ich werde das <marker>richtige</marker> tun und mich stellen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">tun</token>
+                    <token postag="ADV.*" postag_regexp="yes" min="0" />
+                    <token>das</token>
+                    <token regexp="yes" min="0">absolut|einzig</token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">richtige|falsche</token>
+                    </marker>
+                    <token>
+                        <exception postag="SUB.*|UNKNOWN" postag_regexp="yes" />
+                    </token>
+                </pattern>
+                <message>Nominalisierte Adjektive sollten in der Regel großgeschrieben werden.</message>
+                <suggestion><match no="5" case_conversion="startupper" /></suggestion>
+                <example correction="Richtige">Ich tue nun das einzig <marker>richtige</marker> und stelle mich.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="PRIVATES_UND_BERUFLICHES" name="privates und berufliches (Privates und Berufliches)" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">[PB].+</token>
+                <token regexp="yes">und|UND|oder|ODER|sowie|SOWIE&amp;</token>
+                <token regexp="yes">[PB].+</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">[pb].+</token>
+                <token regexp="yes">und|oder|sowie|&amp;</token>
+                <token regexp="yes">[pb].+</token>
+                <token postag="SUB.*|UNKNOWN|EIG.*" postag_regexp="yes" regexp="yes">.*[a-z].*</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">private[snm]</token>
+                    <token regexp="yes">und|oder|sowie|&amp;</token>
+                    <token regexp="yes">berufliche[snm]</token>
+                </pattern>
+                <message>Nominalisierte Adjektive sollten in der Regel großgeschrieben werden.</message>
+                <suggestion><match no="1" case_conversion="startupper" /> \2 <match no="3" case_conversion="startupper" /></suggestion>
+                <example correction="Privates und Berufliches">Ich trenne <marker>privates und berufliches</marker>.</example>
+                <example>Bei Konflikten im privaten und beruflichen Bereich möchte ich Sie unterstützen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">berufliche[snm]</token>
+                    <token regexp="yes">und|oder|sowie|&amp;</token>
+                    <token regexp="yes">private[snm]</token>
+                </pattern>
+                <message>Nominalisierte Adjektive sollten in der Regel großgeschrieben werden.</message>
+                <suggestion><match no="1" case_conversion="startupper" /> \2 <match no="3" case_conversion="startupper" /></suggestion>
+                <example correction="Berufliches und Privates">Ich trenne <marker>berufliches und privates</marker>.</example>
+                <example>Es bedeutet für mich auch, dass Berufliches und Privates miteinander verschmelzen.</example>
+                <example>Wir kümmern uns um die bestmögliche Absicherung Ihrer beruflichen und privaten Risiken.</example>
+            </rule>
+        </rulegroup>
         <rule id="IN_FLAGRANTI" name="in Flagranti (flagranti)">
             <pattern>
                 <token>in</token>
@@ -23922,13 +24000,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">[Uu]m</token>
                 <token regexp="yes" min="0">sehr|besonders|weniger|so|eher|mehr|weitaus|halbwegs|allzu|ziemlich|wirklich|r?echt|komplett|ganz|total|richtig|einigerma(ß|ss)en|fast|relativ|au(ß|ss)erordentlich|überaus|äu(ß|ss)erst|ungemein|au(ß|ss)ergewöhnlich|bitter|denkbar|bemerkenswert|ausgesprochen|(un)?endlich|ungeheuer|voll|wahnsinnig|verdammt|entsetzlich|höllisch|furchtbar|fürchterlich|enorm|ungewöhnlich|vollkommen|völlig|echt|deutlich</token>
                 <marker>
-                    <token postag="(ADJ:NOM:SIN:NEU:(GRU|KOM):IND)|(PA[12]:AKK:.*)" postag_regexp="yes" regexp="yes">[a-zäöü].+es<exception regexp="yes">anderes|einiges|weniges</exception></token>
+                    <token postag="(ADJ:.+:SIN:NEU:(GRU|KOM):IND)|(PA[12]:AKK:.*)" postag_regexp="yes" regexp="yes">[a-zäöü].+es<exception regexp="yes">anderes|einiges|weniges|solches</exception></token>
                 </marker>
-                <token>zu</token>
-                <token postag="VER.*" postag_regexp="yes" />
+                <token min="0">zu</token>
+                <token postag="VER:(INF|EIZ).*" postag_regexp="yes" />
             </pattern>
             <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion> hier großgeschrieben werden muss.</message>
             <example correction="Schlimmeres">Er tat dies, um <marker>schlimmeres</marker> zu vermeiden.</example>
+            <example correction="Schlimmeres">Er tat dies, um <marker>schlimmeres</marker> abzuwenden.</example>
         </rule>
         <rulegroup id="DER_KLUEGERE_GIBT_NACH" name="Der klügere (Klügere) gibt nach">
             <url>http://www.sprichwort-plattform.org/sp/Der%20Kl%C3%BCgere%20gibt%20nach</url>
@@ -42750,6 +42829,16 @@ Andere Projekte</example>
                     <token case_sensitive="yes">mal</token>
                     <token postag="ZAL"/>
                 </antipattern>
+                <antipattern>
+                    <token>vor</token>
+                    <token regexp="yes">kurze[nm]</token>
+                    <token>mal</token>
+                </antipattern>
+                <antipattern>
+                    <token>seit</token>
+                    <token regexp="yes">lange[nm]</token>
+                    <token>mal</token>
+                </antipattern>
                 <pattern>
                     <token postag="PRO:.*:SIN:NEU:.*|ADJ:(AKK|DAT):...:NEU:.*|ZAL" postag_regexp="yes">
                         <exception regexp="yes">gerade|ungerade|jedem</exception>
@@ -42767,6 +42856,7 @@ Andere Projekte</example>
                 <example>Sie hatte es ihm einige <marker>Mal</marker> gezeigt.</example>
                 <example correction="Mal">Beim nächsten <marker>mal</marker> werde ich ihn schlagen.</example>
                 <example>Achte mal darauf, wie der Spieler seine Ellbogen einsetzt.</example>
+                <example>Ich habe seit langem mal wieder Fußball gespielt.</example>
                 <example>Wir treffen uns nächste Woche und ich versuche ihr mal ein paar Sachen zu zeigen.</example>
             </rule>
             <rule>
@@ -43303,15 +43393,16 @@ Andere Projekte</example>
     <category id="GRAMMAR" name="Grammatik">
         <rule id="SO_WIES_IST" name="so wies (wie es) ist">
             <pattern>
-                <token regexp="yes">(genau)?so</token>
+                <token regexp="yes">(genau)?so|nichts|nix</token>
                 <marker>
                     <token case_sensitive="yes">wies</token>
                 </marker>
                 <token postag="ADJ.*|ADV.*" postag_regexp="yes" min="0" />
-                <token regexp="yes">war|ist|funktionierte?</token>
+                <token regexp="yes">w[äa]r|ist|gewesen|funktionierte?</token>
             </pattern>
             <message>Meinten Sie <suggestion>wie es</suggestion>?</message>
             <example correction="wie es">Ich bin zufrieden, so <marker>wies</marker> ist.</example>
+            <example correction="wie es">Es bleibt nix <marker>wies</marker> mal war.</example>
         </rule>
         <rulegroup id="EINS_ZU_EINS" name="1-zu-1 (eins zu eins)">
             <rule>
@@ -51528,6 +51619,56 @@ Andere Projekte</example>
     <!-- Zeichensetzung -->
     <!-- ====================================================================== -->
     <category id="PUNCTUATION" name="Zeichensetzung">
+        <rule id="GEMACHT_HABE_IST_KOMMA" name="… gemacht habe(,) ist …" default="temp_off"><!-- higher prio than COMMA_BEHIND_RELATIVE_CLAUSE -->
+            <antipattern>
+                <token regexp="yes">hätten?</token>
+                <token>werden</token>
+                <token regexp="yes">müsst?en?|könnt?en?|sollt?en?|lassen</token>
+            </antipattern>
+            <pattern>
+                <token postag="PA2:PRD:GRU:VER" />
+                <marker>
+                    <token inflected="yes">haben</token>
+                    <token regexp="yes" case_sensitive="yes">ist|wart?|wird|sind|waren|wären?|werden?|lassen?|lässt|lie(ß|ss)en?|lie(ß|ss)</token>
+                    <!-- maybe add müsst?en?|[ws]ollt?en?|könnt?en?|kann|konnten? -->
+                </marker>
+                <token regexp="yes">.*[a-z].*</token>
+            </pattern>
+            <message>Hier scheint ein Komma zu fehlen.</message>
+            <suggestion>\2, \3</suggestion>
+            <example correction="habe, ist">Die letzte Feedback-Mail, die ich beantwortet <marker>habe ist</marker> von 18:32 (Freitag).</example>
+            <example correction="hat, ist">Was er getan <marker>hat ist</marker> nicht falsch.</example>
+            <example correction="hatte, wird">Nachdem ich es nun deaktiviert <marker>hatte wird</marker> nun auch Firefox mit protokolliert.</example>
+            <example correction="habt, lässt">Das, was ihr bisher erreicht <marker>habt lässt</marker> sich jedenfalls sehen!</example>
+            <example>Bitte beachten Sie, dass Sie Cookies aktiviert haben müssen damit wir Ihnen alle Funktionalitäten unseres Shops gewährleisten können.</example>
+            <example>Btw. zum Podcastpreis gäbe es auch schon bestehende Threads, die ergänzt hätten werden können:</example>
+            <example>Wieviel der Trader dafür bekommen haben könnte steht dann in der Killmail</example>
+        </rule>
+        <rule id="ALLE_DIE_DIE" name="alle die(,) die ..." default="temp_off"><!-- needed to overwrite some incorrect suggestions from AI_HYDRA_LEO_CPT_DIE_CDIE -->
+            <pattern>
+                <token>alle</token>
+                <marker>
+                    <token>die</token>
+                    <token regexp="yes">die|denen</token>
+                </marker>
+            </pattern>
+            <message>Hier scheint ein Komma zu fehlen.</message>
+            <suggestion>\2, \3</suggestion>
+            <example correction="die, die">Doch alle <marker>die die</marker> man nicht mit der Kampagne nicht erreicht, sollten sich nicht wundern.</example>
+        </rule>
+        <rule id="WAS_WENN" name="Was(,) wenn ..." default="temp_off"><!-- catches issues that SUBJUNKTION_KOMMA doesn't catch -->
+            <pattern>
+                <token regexp="yes" case_sensitive="yes">[Ww]as</token>
+                <marker>
+                    <token case_sensitive="yes">wenn</token>
+                </marker>
+                <token regexp="yes">.*[a-z].*</token>
+            </pattern>
+            <message>Hier scheint ein Komma zu fehlen.</message>
+            <suggestion>, \2</suggestion>
+            <example correction=", wenn">Was<marker> wenn</marker> morgen die Sonne nicht scheint?</example>
+            <example correction=", wenn">Die eigentliche Frage ist also, was<marker> wenn</marker> diese Lizenz nicht rechtmäßig erteilt wurde.</example>
+        </rule>
         <rule id="ALL_DAS_WAS_KOMMA" name="All das(,) was"><!-- higher prio than COMMA_IN_FRONT_RELATIVE_CLAUSE -->
             <antipattern><!-- All das WAS und WIESO nervt! -->
                 <token>das</token>
@@ -51535,7 +51676,7 @@ Andere Projekte</example>
                 <token>und</token>
             </antipattern>
             <pattern>
-                <token>all</token>
+                <token regexp="yes">all(es)?</token>
                 <token regexp="yes">das|dies</token>
                 <token regexp="yes">was|wovon|worüber|weswegen</token>
             </pattern>
