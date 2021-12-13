@@ -170,12 +170,7 @@ public abstract class RemoteRule extends Rule {
       RemoteRequest req = prepareRequest(sentences, textSessionId);
       RemoteRuleResult result;
 
-      try {
-        result = executeRequest(req, timeout).call();
-      } catch (TimeoutException | ExecutionException | InterruptedException e) {
-        logger.info("Remote rule execution failed because of {}", e.toString());
-        return fallbackResults(req);
-      }
+      result = executeRequest(req, timeout).call();
 
       if (fixOffsets) {
         for (AnalyzedSentence sentence : sentences) {
