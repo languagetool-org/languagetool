@@ -153,8 +153,8 @@ public class RuleMatchDiffFinder {
     } else {
       fw.write(". <a href='../" + langCode + "_full/" + filename + "'>Full list</a>");
     }
-    fw.write(".  <a href='https://internal1.languagetool.org/grafana/d/BY_CNDHGz/rule-events-analysis?orgId=1&var-rule_id=" +
-      ruleId.replaceFirst("^.* / ", "").replaceFirst("\\[[0-9]+\\]", "") + "&from=now-30d&var-language=" + langCode.replaceFirst("-.*", "") + "' target='grafana'>[g]</a>");
+    String shortRuleId = ruleId.replaceFirst("^.* / ", "").replaceFirst("\\[[0-9]+\\]", "");
+    fw.write(".  " + getAnalyticsLink(shortRuleId, langCode));
     fw.write("<br>\n");
     printTableBegin(fw);
     int iframeCount = 0;
@@ -203,6 +203,15 @@ public class RuleMatchDiffFinder {
       fw.write("</tr>\n");
     }
     printTableEnd(fw);
+  }
+
+  private String getAnalyticsLink(String ruleId, String langCode) {
+    String shortId = ruleId.replaceFirst("\\[[0-9]+\\]", "");
+    String shortLangCode = langCode.replaceFirst("-.*", "");
+    return "[<a href='https://internal1.languagetool.org/grafana/d/BY_CNDHGz/rule-events-analysis?orgId=1&var-rule_id=" +
+      shortId + "&from=now-30d&var-language=" + shortLangCode + "' target='grafana' title='Grafana'>g</a>/" +
+      "<a href='https://analytics.languagetoolplus.com/matomo/index.php?module=Widgetize&action=iframe&secondaryDimension=eventName&moduleToWidgetize=Events&actionToWidgetize=getAction&idSite=18&period=day&date=yesterday&flat=1&filter_column=label&show_dimensions=1&filter_pattern=" +
+      shortId + "' target='disables' title='disables in Matomo'>m</a>]";
   }
 
   private String cleanSource(String ruleSource) {
@@ -440,8 +449,7 @@ public class RuleMatchDiffFinder {
         fw.write("<td>");
         String id = file.replaceFirst("result_.*?_", "").replace(".html", "");
         fw.write("  <a href='" + file + "'>" + id + "</a>");
-        fw.write("  <a href='https://internal1.languagetool.org/grafana/d/BY_CNDHGz/rule-events-analysis?orgId=1&var-rule_id=" +
-          id.replaceFirst("\\[[0-9]+\\]", "") + "&from=now-30d&var-language=" + langCode.replaceFirst("-.*", "") + "'>[g]</a>");
+        fw.write("  " + getAnalyticsLink(id, langCode));
         fw.write("</td>");
         if (outputFile.items.size() > 0 && outputFile.items.get(0).getNewMatch() != null) {
           fw.write("<td class='msg'>" + escapeSentence(outputFile.items.get(0).getNewMatch().getMessage()) + "</td>");
