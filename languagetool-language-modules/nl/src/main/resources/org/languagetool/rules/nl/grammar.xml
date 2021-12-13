@@ -18043,10 +18043,10 @@ steenwijk;Steenwijk
 				<antipattern><token>[</token><token spacebefore="no">…</token><token spacebefore="no">]</token></antipattern>
 				<antipattern><token regexp="yes">[^a-z]+</token><token spacebefore="no">…</token></antipattern>
 				<pattern>
-					<token/>
+					<token><exception postag="UNKNOWN"/></token>
 					<token spacebefore="no">…</token>
 				</pattern>
-				<message>Voor '\2' hoort een spatie: <suggestion>\1 \2</suggestion>.</message>
+				<message>Voor '\2' adviseert men een spatie, behalve als het om het afbreken van een woord gaat: <suggestion>\1 \2</suggestion>.</message>
 				<url>https://taaladvies.net/taal/advies/tekst/90/beletselteken_algemeen/</url>
 				<example correction="verder …">Zo gaat het <marker>verder…</marker></example>
 			</rule>
@@ -32248,6 +32248,7 @@ steenwijk;Steenwijk
 						<token postag_regexp="yes" postag="WKW:VLT:1EP.*" case_sensitive="yes" regexp="yes">[a-z].*te<exception postag_regexp="yes" postag="ZNW.*|BNW.*|BYW.*|WKW:VTD:VRB|WKW:ODW:VRB|GET:RNG"/><exception>laste</exception></token>
 					</marker>
 				</pattern>
+				<filter class="org.languagetool.rules.nl.DutchSuppressMisspelledSuggestionsFilter" args="none:none"/>
 				<message>De kans is groot dat u een andere vorm van het werkwoord bedoelt.</message>
 				<suggestion><match no="2" postag_regexp="yes" postag="WKW:VTD:VRB"/></suggestion>
 				<suggestion><match no="2" regexp_match="te$" regexp_replace=" te"/></suggestion>
@@ -33359,6 +33360,7 @@ steenwijk;Steenwijk
 					</marker>
 					<token postag=".*ZNW.*" postag_regexp="yes"><exception regexp="yes">ons|niet|voor|wel</exception></token>
 				</pattern>
+				<filter class="org.languagetool.rules.nl.DutchSuppressMisspelledSuggestionsFilter" args="none:none"/>
 				<message>Hier hoort niet de verleden tijd te staan<suggestion><match no="2" regexp_match="..$" regexp_replace="e"/></suggestion>.</message>
 				<example correction="verrichte">Op de <marker>verrichtte</marker> arbeid heb ik niks aan te merken.</example>
 			</rule>
@@ -34988,6 +34990,7 @@ steenwijk;Steenwijk
 				<pattern>
 					<token regexp="yes">.*veras.*</token>
 				</pattern>
+				<filter class="org.languagetool.rules.nl.DutchSuppressMisspelledSuggestionsFilter" args="none:none"/>
 				<message>Wanneer u 'verwonderen' bedoelt, dan is een dubbele r op zijn plaats.</message>
 				<suggestion><match no="1" regexp_match="veras" regexp_replace="verras"/></suggestion>
 				<example correction="verrassing">Toch een <marker>verassing</marker>.</example>
@@ -37439,6 +37442,7 @@ steenwijk;Steenwijk
 					</marker>
 					<token regexp="yes">dat|niet|toch|wel</token>
 				</pattern>
+				<filter class="org.languagetool.rules.nl.DutchSuppressMisspelledSuggestionsFilter" args="none:none"/>
 				<message>U bedoelt vast: <suggestion><match no="2" regexp_match="d$" regexp_replace="t"/></suggestion>.</message>
 				<example correction="betekent">Dit <marker>betekend</marker> niet dat het fout is</example>
 			</rule>
