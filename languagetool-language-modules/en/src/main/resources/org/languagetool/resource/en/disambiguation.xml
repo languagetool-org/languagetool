@@ -28,13 +28,22 @@
         </equivalence>
     </unification>
 
+        <rule name="or" id="ADD_RB_FOR_LONG">
+            <!-- work around strange dict entry -->
+            <pattern case_sensitive="no">
+                <token>long</token>
+            </pattern>
+            <disambig action="add"><wd pos="RB"/></disambig>
+        </rule>
+
+
        <rule name="or" id="REMOVE_JJ_FOR_OR">
           <!-- work around strange dict entry -->
           <pattern case_sensitive="yes">
             <token>or</token>
           </pattern>
           <disambig action="remove"><wd pos="JJ"/></disambig>
-          <example type="ambiguous" inputform="or[or/CC,or/JJ,or/NN:U]" outputform="or[or/CC,or/NN:U]">Let's choose A <marker>or</marker> B.</example>
+           <example type="ambiguous" inputform="or[or/CC,or/JJ,or/NN:U]" outputform="or[or/CC,or/NN:U]">Let's choose A <marker>or</marker> B.</example>
         </rule>
 
         <rule name="or" id="REMOVE_NN_FOR_OR">
@@ -2964,6 +2973,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <example type="ambiguous" inputform="Let[Let/NNP,let/NN,let/VB,let/VBD,let/VBN,let/VBP]" outputform="Let[let/VB,let/VBD,let/VBN,let/VBP]"><marker>Let</marker> go!</example>
     </rule>
 
+
     <rule id="BE_OUT" name="OUT as RB">
           <pattern>
           <token inflected="yes" regexp="yes">be|go|get|come</token>
@@ -5173,7 +5183,6 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Many other have been hiding from the police.</example><!-- #4814 -->
         <example type="untouched">We all ready have purchased it.</example><!-- #4814 -->
         <example type="untouched">Many remain curiosities — only a few have remained in use:</example><!-- have/E-NP-singular -->
-        <example type="ambiguous" inputform="nose[nose/NN,nose/VB,nose/VBP]" outputform="nose[nose/NN]">The elephant swings its long <marker>nose</marker>.</example>
         <example type="ambiguous" inputform="stone[stone/JJ,stone/NN:UN,stone/NNS,stone/VB,stone/VBP]" outputform="stone[stone/NN:UN,stone/NNS]">A rolling <marker>stone</marker> gathers no moss.</example>
         <example type="ambiguous" inputform="stone[stone/JJ,stone/NN:UN,stone/NNS,stone/VB,stone/VBP]" outputform="stone[stone/NN:UN,stone/NNS]">A rolling <marker>stone</marker> pot damaged my greenhouse.</example><!-- #5196 -->
         <example type="ambiguous" inputform="make[make/NN:UN,make/VB,make/VBP]" outputform="make[make/NN:UN]">No, I mean like <marker>make</marker> or brand name, in which case no further actions are necessary.</example>
@@ -10150,8 +10159,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
           </pattern>
           <disambig postag="JJ"/>
           <example type="untouched">I long for you.</example>
-          <example type="ambiguous" inputform="long[long/JJ,long/NN:UN,long/VB,long/VBP]" outputform="long[long/JJ]">You should have completed it <marker>long</marker> ago.</example>
-          <example type="ambiguous" inputform="long[long/JJ,long/NN:UN,long/VB,long/VBP]" outputform="long[long/JJ]">You should have completed it <marker>long</marker> time ago.</example>
+          <example type="ambiguous" inputform="long[long/JJ,long/NN:UN,long/RB,long/RB,long/VB,long/VBP]" outputform="long[long/JJ]">You should have completed it <marker>long</marker> ago.</example>
+          <example type="ambiguous" inputform="long[long/RB]" outputform="long[long/JJ]">You should have completed it <marker>long</marker> time ago.</example>
         </rule>
 
         <rule id="LIVE_IN_NNP" name="live as RB">
