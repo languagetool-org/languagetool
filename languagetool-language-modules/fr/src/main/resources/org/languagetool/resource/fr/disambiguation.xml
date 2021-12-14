@@ -3325,6 +3325,16 @@ RB => Règles Brutes
         </pattern>
         <disambig action="remove" postag="J.*"/>
     </rule>
+    <rule id="FAIT_ENVIE" name="fait envie">
+        <pattern>
+            <token regexp="yes">cela|ça</token>
+            <marker>
+                    <token postag="V.* 3 s" postag_regexp="yes"/>
+            </marker>
+            <token></token>
+        </pattern>
+        <disambig action="remove" postag="V ppa m s"/>
+    </rule>
     <rule id="PRECISE_VERBE" name="précise + verbe">
         <pattern>
             <marker>
