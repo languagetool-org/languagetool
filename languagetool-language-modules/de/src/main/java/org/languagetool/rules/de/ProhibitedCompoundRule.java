@@ -49,6 +49,7 @@ public class ProhibitedCompoundRule extends Rule {
   private static final List<Pair> lowercasePairs = Arrays.asList(
           // NOTE: words here must be all-lowercase
           // NOTE: no need to add words from confusion_sets.txt, they will be used automatically (if starting with uppercase char)
+          new Pair("gase", "Plural von 'Gas' (Aggregatzustand)", "gasse", "kleine Straße"),
           new Pair("ekel", "Abscheu", "enkel", "Kind eines eigenen Kindes"),
           new Pair("reis", "Nahrungsmittel", "reise", "Ausflug/Fahrt"),
           new Pair("speichel", "Körperflüssigkeit", "speicher", "Lager, Depot, Ablage"),

@@ -18,7 +18,7 @@
  */
 package org.languagetool.rules.ru;
 
-import org.languagetool.Experimental;
+
 import org.languagetool.rules.AbstractWordCoherencyRule;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.WordCoherencyDataLoader;

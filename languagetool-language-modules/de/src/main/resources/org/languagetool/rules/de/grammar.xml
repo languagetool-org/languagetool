@@ -272,7 +272,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">\p{L}\d\p{L}</token>
                 </antipattern>
                 <antipattern><!-- Eigennamen -->
-                    <token regexp="yes">d3con|b2match|ed2k|co2e|md5sums|log4php|planet3dnow|up4distribution|people4project|brands4friends|md5sum|video2brain|log4j|ext2fs|ext3fs|win2k|blender3d|ogre4j|ogre3d|exchange4linux|dom4j|gpg4win|linux4afrika|log4net|fax2mail|mp3tag|neo4j|ip6tables|win9x|train4you|.+2(go|work)|.+4(all|ever|you|u)|cat5e|unity3d|.+2order|seq2seq</token>
+                    <token regexp="yes">d3con|b2match|ed2k|co2e|md5sums|log4php|planet3dnow|up4distribution|people4project|brands4friends|md5sum|video2brain|log4j|Log4Shell|ext2fs|ext3fs|win2k|blender3d|ogre4j|ogre3d|exchange4linux|dom4j|gpg4win|linux4afrika|log4net|fax2mail|mp3tag|neo4j|ip6tables|win9x|train4you|.+2(go|work)|.+4(all|ever|you|u)|cat5e|unity3d|.+2order|seq2seq</token>
                 </antipattern>
                 <antipattern>
                     <token />
@@ -2774,7 +2774,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <antipattern>
-                    <token regexp="yes">hätte|hatte</token>
+                    <token regexp="yes">hätte|hatte|habe</token>
                     <token>werden</token>
                     <token postag="VER:MOD:.*" postag_regexp="yes"/>
                 </antipattern>
@@ -19894,7 +19894,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Redundanz -->
     <!-- ====================================================================== -->
     <category id="REDUNDANCY" name="Redundanz" type="style">
-        <rule id="TAEGLICHER_ALLTAG" name="täglicher Alltag" default="temp_off">
+        <rule id="TAEGLICHER_ALLTAG" name="täglicher Alltag">
             <pattern>
                 <token inflected="yes" regexp="yes">(all)?täglich</token>
                 <token>Alltag</token>
@@ -23899,7 +23899,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
-        <rulegroup id="DAS_RICHTIGE_TUN" name="das richtige (Richtige) tun" default="temp_off">
+        <rulegroup id="DAS_RICHTIGE_TUN" name="das richtige (Richtige) tun">
             <rule>
                 <pattern>
                     <token>das</token>
@@ -51258,7 +51258,7 @@ Andere Projekte</example>
                     <token postag="PKT"/>
                 </antipattern>
                 <pattern>
-                    <token postag_regexp="yes" postag="ADJ.*"><exception  postag_regexp="yes" postag="ADJ.*" negate="yes"/></token>
+                    <token postag_regexp="yes" postag="ADJ.*"><exception postag_regexp="yes" postag="ADJ.*" negate_pos="yes"/></token>
                     <marker>
                         <token case_sensitive="yes">werte</token>
                     </marker>
@@ -51619,11 +51619,15 @@ Andere Projekte</example>
     <!-- Zeichensetzung -->
     <!-- ====================================================================== -->
     <category id="PUNCTUATION" name="Zeichensetzung">
-        <rule id="GEMACHT_HABE_IST_KOMMA" name="… gemacht habe(,) ist …" default="temp_off"><!-- higher prio than COMMA_BEHIND_RELATIVE_CLAUSE -->
+        <rule id="GEMACHT_HABE_IST_KOMMA" name="… gemacht habe(,) ist …"><!-- higher prio than COMMA_BEHIND_RELATIVE_CLAUSE -->
             <antipattern>
-                <token regexp="yes">hätten?</token>
-                <token>werden</token>
-                <token regexp="yes">müsst?en?|könnt?en?|sollt?en?|lassen</token>
+                <token regexp="yes">hätten?|haben?</token>
+                <token regexp="yes">werden|lassen</token>
+                <token regexp="yes">müsst?en?|könnt?en?|sollt?en?|soll|kann|muss|lässt|lassen</token>
+            </antipattern>
+            <antipattern>
+                <token>haben</token>
+                <token regexp="yes">werden|lassen</token>
             </antipattern>
             <pattern>
                 <token postag="PA2:PRD:GRU:VER" />
@@ -51643,10 +51647,13 @@ Andere Projekte</example>
             <example>Bitte beachten Sie, dass Sie Cookies aktiviert haben müssen damit wir Ihnen alle Funktionalitäten unseres Shops gewährleisten können.</example>
             <example>Btw. zum Podcastpreis gäbe es auch schon bestehende Threads, die ergänzt hätten werden können:</example>
             <example>Wieviel der Trader dafür bekommen haben könnte steht dann in der Killmail</example>
+            <example>… so dass er beim Umzug der Kanzlei im Juni und Juli 2010 nicht eingesetzt habe werden können, obwohl er die „Schlüsselfigur“ für den Umzug der Bibliothek gewesen sei.</example>
+            <example>Den Senat brachte Domitian nicht lange nach seinem Herrschaftsantritt gegen sich auf, weil er ihn kaum noch zu Rate zog und sich von seinem Umfeld als dominus et deus angeredet haben lassen soll.</example>
+            <example>Wenn wir bedenken, dass laut UNESCO in den nächsten 30 Jahren mehr Menschen eine Schule absolviert haben werden als in all den Jahren der bisherigen Geschichte der Menschheit, dann ist es geradezu ein Gebot der Stunde, die richtigen Schlüsse aus den Thesen von Andreas Salcher zu ziehen.</example>
         </rule>
-        <rule id="ALLE_DIE_DIE" name="alle die(,) die ..." default="temp_off"><!-- needed to overwrite some incorrect suggestions from AI_HYDRA_LEO_CPT_DIE_CDIE -->
+        <rule id="ALLE_DIE_DIE" name="alle die(,) die ..."><!-- needed to overwrite some incorrect suggestions from AI_HYDRA_LEO_CPT_DIE_CDIE -->
             <pattern>
-                <token>alle</token>
+                <token regexp="yes">alle|jene</token>
                 <marker>
                     <token>die</token>
                     <token regexp="yes">die|denen</token>
@@ -51656,7 +51663,7 @@ Andere Projekte</example>
             <suggestion>\2, \3</suggestion>
             <example correction="die, die">Doch alle <marker>die die</marker> man nicht mit der Kampagne nicht erreicht, sollten sich nicht wundern.</example>
         </rule>
-        <rule id="WAS_WENN" name="Was(,) wenn ..." default="temp_off"><!-- catches issues that SUBJUNKTION_KOMMA doesn't catch -->
+        <rule id="WAS_WENN" name="Was(,) wenn ..."><!-- catches issues that SUBJUNKTION_KOMMA doesn't catch -->
             <pattern>
                 <token regexp="yes" case_sensitive="yes">[Ww]as</token>
                 <marker>
@@ -58271,6 +58278,17 @@ Andere Projekte</example>
         </rulegroup>
     </category>
     <category id="EMPFOHLENE_RECHTSCHREIBUNG" name="Empfohlene/Modernere Rechtschreibung" type="style">
+        <rulegroup id="EVTL_ABK" name="Schreibweise der Abkürzung 'evtl.'">
+            <url>https://www.duden.de/rechtschreibung/evtl_</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">[Ee]vt</token>
+                    <token spacebefore="no">.</token>
+                </pattern>
+                <message>Die korrekte Abkürzung für "eventuell" ist <suggestion>evtl.</suggestion>.</message>
+                <example correction="evtl.">Er wollte nichts sagen <marker>evt.</marker> weil er Angst hatte.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="GEFEATURED" name="gefeatured -> gefeaturt">
             <url>https://www.duden.de/sprachwissen/sprachratgeber/Das-Verb-liken</url>
             <antipattern><!-- Englische Sätze -->
