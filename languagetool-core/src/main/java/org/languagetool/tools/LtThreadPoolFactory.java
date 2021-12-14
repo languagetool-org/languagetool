@@ -133,14 +133,15 @@ public final class LtThreadPoolFactory {
 
   @NotNull
   private static ThreadPoolExecutor getNewThreadPoolExecutor(@NotNull String identifier, int corePool, int maxThreads, int maxTaskInQueue, long keepAliveTimeSeconds, boolean isDaemon, @NotNull Thread.UncaughtExceptionHandler exceptionHandler) {
-    log.debug(LoggingTools.SYSTEM, String.format("Create new threadPool with maxThreads: %d maxTaskInQueue: %d identifier: %s daemon: %s exceptionHandler: %s", maxThreads, maxTaskInQueue, identifier, isDaemon, exceptionHandler));
+    log.debug(LoggingTools.SYSTEM, String.format("Create new threadPool with corePool: %d maxThreads: %d maxTaskInQueue: %d identifier: %s daemon: %s exceptionHandler: %s", corePool, maxThreads, maxTaskInQueue, identifier, isDaemon, exceptionHandler));
     BlockingQueue<Runnable> queue;
     if (maxTaskInQueue == 0) {
       queue = new LinkedBlockingQueue<>();
     } else if (maxTaskInQueue < 0) {
       queue = new SynchronousQueue<>();
     } else {
-      queue = new ArrayBlockingQueue<>(maxTaskInQueue);
+      // fair = true helps with respecting keep-alive time
+      queue = new ArrayBlockingQueue<>(maxTaskInQueue, true);
     }
     ThreadFactory threadFactory = new ThreadFactoryBuilder()
       .setNameFormat(identifier + "-%d")
