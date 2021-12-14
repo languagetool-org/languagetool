@@ -1201,6 +1201,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("leideten", "litten");
     put("Hoody", "Hoodie");
     put("Hoodys", "Hoodies");
+    put("Staatsexam", "Staatsexamen");
+    put("Staatsexams", "Staatsexamens");
     put("Exam", "Examen");
     put("Exams", "Examens");
     put("[Rr]eviewing", "Review");
