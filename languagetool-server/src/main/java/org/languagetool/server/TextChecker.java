@@ -127,10 +127,10 @@ abstract class TextChecker {
     if (remoteRuleCount > 0) {
       LtThreadPoolFactory.createFixedThreadPoolExecutor(
         LtThreadPoolFactory.REMOTE_RULE_EXECUTING_POOL,
-        config.getMaxCheckThreads(), Integer.MAX_VALUE,
-        //config.getMaxCheckThreads() * remoteRuleCount * LtThreadPoolFactory.REMOTE_RULE_POOL_SIZE_FACTOR,
-        1,
-        60L, true, (thread, throwable) -> {
+        config.getMaxCheckThreads(),
+        config.getMaxCheckThreads() * remoteRuleCount * LtThreadPoolFactory.REMOTE_RULE_POOL_SIZE_FACTOR,
+        -1,
+        5L, true, (thread, throwable) -> {
           log.error("Thread: " + thread.getName() + " failed with: " + throwable.getMessage());
         },
         true
