@@ -269,7 +269,19 @@ RB => Règles Brutes
                 <token postag="P">entre</token>
             </marker>
         </pattern>
-        <disambig action="replace" postag="V ind pres 1 s|V sub pres 1 s"/>
+        <disambig action="add" postag="V ind pres 1 s"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token><exception postag="V.* (ind|con|sub).*" postag_regexp="yes"/></token>
+                <token postag="R pers suj 1 s"/>
+                <token inflected="yes" min="0" max="1">ne</token>
+                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                <marker>
+                    <token postag="P">entre</token>
+                </marker>
+            </pattern>
+            <disambig action="add" postag="V ind sub 1 s"/>
         </rule>
         <rule>
             <pattern>
@@ -3331,7 +3343,7 @@ RB => Règles Brutes
             <marker>
                     <token postag="V.* 3 s" postag_regexp="yes"/>
             </marker>
-            <token></token>
+            <token>envie</token>
         </pattern>
         <disambig action="remove" postag="V ppa m s"/>
     </rule>
