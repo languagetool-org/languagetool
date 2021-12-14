@@ -18,6 +18,7 @@
  */
 package org.languagetool.chunking;
 
+import org.languagetool.Experimental;
 import edu.washington.cs.knowitall.regex.Match;
 import edu.washington.cs.knowitall.regex.RegularExpression;
 import org.languagetool.AnalyzedTokenReadings;
@@ -35,9 +36,10 @@ import static org.languagetool.chunking.RussianChunker.PhraseType.*;
  * Based on idea of German LanguageTool Сhunker.
  * @since 5.6
  */
+@Experimental
 public class RussianChunker implements Chunker {
 
-  private static final Set<String> FILTER_TAGS = new HashSet<>(Arrays.asList("PP", "NPP", "NPS", "MayMissingYO", "VP"));
+  private static final Set<String> FILTER_TAGS = new HashSet<>(Arrays.asList("PP", "NPP", "NPS", "MayMissingYO", "VP", "SBAR"));
   private static final TokenExpressionFactory FACTORY = new TokenExpressionFactory(false);
 
   private static final Map<String,String> SYNTAX_EXPANSION = new HashMap<>();
@@ -52,7 +54,8 @@ public class RussianChunker implements Chunker {
     NPP,  // "noun phrase plural"
     PP,    // "prepositional phrase" and similar
     MayMissingYO,
-    VP     // verb phrase
+    VP,     // verb phrase
+    SBAR
   }
 
   /** @deprecated for internal use only */
@@ -102,6 +105,9 @@ public class RussianChunker implements Chunker {
       build("<regexCS=[А-ЯЁ]> <.> <regexCS=[А-ЯЁ]> <.> <posre='NN:Fam:.*'> ", NP, true),
       // verb+verb
       build("<posre='VB:.*:.*'>* " , VP),
+      build("<если>", SBAR),  //
+      build("<поэтому>", SBAR),  //
+      
       //
       build("<тов>", NP)  // simulate OpenNLP?!
   );
