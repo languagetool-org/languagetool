@@ -578,4 +578,9 @@ public class English extends Language implements AutoCloseable {
     }
     return rules;
   }
+  
+  public boolean hasMinMatchesRules() {
+    return true;
+  }
+
 }

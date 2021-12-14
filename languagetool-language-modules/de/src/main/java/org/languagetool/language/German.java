@@ -420,5 +420,10 @@ public class German extends Language implements AutoCloseable {
             "AI_DE_", "INTERNAL - dynamically loaded rule supported by remote server"));
     return rules;
   }
+  
+  public boolean hasMinMatchesRules() {
+    return true;
+  }
+
 
 }
