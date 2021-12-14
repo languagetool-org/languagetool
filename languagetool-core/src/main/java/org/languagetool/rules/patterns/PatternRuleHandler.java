@@ -80,6 +80,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
   private boolean isSuggestionSuppressMisspelled;
 
   private int minPrevMatches = 0;
+  private int ruleGroupMinPrevMatches = 0;
   
   private String idPrefix;
 
@@ -145,11 +146,17 @@ public class PatternRuleHandler extends XMLRuleHandler {
         url = new StringBuilder();
         id = attrs.getValue(ID);
         name = attrs.getValue(NAME);
-        String premiumRule = attrs.getValue(PREMIUM);
         String minPrevMatchesStr = attrs.getValue(MINPREVMATCHES);
         if (minPrevMatchesStr != null) {
+          if (inRuleGroup && ruleGroupMinPrevMatches > 0) {
+            throw new RuntimeException("Rule group " + ruleGroupId + " has " + MINPREVMATCHES + "=" + ruleGroupMinPrevMatches
+                + ", thus rule " + id + " cannot specify " + MINPREVMATCHES);
+          }
           minPrevMatches = Integer.parseInt(minPrevMatchesStr);  
+        } else {
+          minPrevMatches = ruleGroupMinPrevMatches;
         }
+        String premiumRule = attrs.getValue(PREMIUM);
         //check if this rule is premium
         if (premiumRule != null) { //if flag is set on rule it overrides everything before
           isPremiumRule = YES.equals(attrs.getValue(PREMIUM));
@@ -322,6 +329,10 @@ public class PatternRuleHandler extends XMLRuleHandler {
         }
         if (attrs.getValue("tags") != null) {
           ruleGroupTags.addAll(Arrays.asList(attrs.getValue("tags").split(" ")));
+        }
+        String minPrevMatchesStr2 = attrs.getValue(MINPREVMATCHES);
+        if (minPrevMatchesStr2 != null) {
+          ruleGroupMinPrevMatches = Integer.parseInt(minPrevMatchesStr2);  
         }
         break;
       case MATCH:
@@ -545,6 +556,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         ruleGroupDefaultTempOff = false;
         defaultOff = false;
         defaultTempOff = false;
+        ruleGroupMinPrevMatches = 0;
         ruleGroupTags.clear();
         break;
       case MARKER:
