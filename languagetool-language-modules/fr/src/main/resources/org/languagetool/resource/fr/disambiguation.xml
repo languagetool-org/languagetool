@@ -2238,6 +2238,16 @@ RB => Règles Brutes
         </pattern>
         <disambig action="filter" postag="N m s"/>
     </rule>
+    <rule id="UN_AVOIR" name="un avoir">
+        <!-- with agreement error -->
+        <pattern>
+            <token postag="D.*" postag_regexp="yes"/>
+            <marker>
+                <token>avoir</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="N m s"/>
+    </rule>
     <rule id="ENTREPRISE" name="entreprise">
         <pattern>
             <token postag="D [ef] s" postag_regexp="yes"/>
@@ -3719,6 +3729,7 @@ RB => Règles Brutes
                 <exception postag="V inf"/></token>
         </antipattern>
         <pattern>
+            <token><exception regexp="yes">[cmts]es|[mt]on|[mts]a|[nv]otre|[nv]os|leurs|cette|celles?|quelque|une?</exception></token>
             <marker>
                 <token skip="-1" postag="V ind pres 3 s">conduit</token>
             </marker>
@@ -4267,7 +4278,7 @@ RB => Règles Brutes
     <rulegroup name="été (nom)" id="ETE">
         <rule>
             <pattern>
-                <token regexp="yes">cet|en|un</token>
+                <token regexp="yes">cet|en|un|[tsm]on|[nv]otre</token>
                 <marker>
                     <token>été</token>
                 </marker>
