@@ -35778,6 +35778,39 @@ As forças estão organizadas numa hierarquia C2.
     <!-- Localized by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <!-- Localization of rules from the English grammar.xml - END  -->
 
+	<!-- 2013– 2021 / 2013 –2021 → 2013–2021 -->
+    <rulegroup id='SPACE_GAMA_TEMPORAL' name="Espaço gama temporal" default="temp_off">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-12-14 (25-JUN-2021+)      -->
+	<!--
+O Rui esteve lá no período 2013– 2021. → O Rui esteve lá no período 2013–2021.
+O Rui esteve lá no período 2013 –2021. → O Rui esteve lá no período 2013–2021.
+	-->
+	<rule>
+      <pattern>
+		<marker>
+			<token postag='Z0.+' postag_regexp='yes'/>
+			<token regexp='yes' spacebefore='no'>[–]</token>
+			<token spacebefore='yes' postag='Z0.+' postag_regexp='yes'/>
+		</marker>
+      </pattern>
+      <message>Remova o espaço na gama temporal.</message>
+	  <suggestion>\1–\3</suggestion>
+      <example correction="2013–2021">O Rui esteve lá no período <marker>2013– 2021</marker>.</example>
+    </rule>
+	<rule>
+      <pattern>
+		<marker>
+			<token postag='Z0.+' postag_regexp='yes'/>
+			<token regexp='yes' spacebefore='yes'>[–]</token>
+			<token spacebefore='no' postag='Z0.+' postag_regexp='yes'/>
+		</marker>
+      </pattern>
+      <message>Remova o espaço na gama temporal.</message>
+	  <suggestion>\1–\3</suggestion>
+      <example correction="2013–2021">O Rui esteve lá no período <marker>2013 –2021</marker>.</example>
+    </rule>	
+	</rulegroup>
+
   <rulegroup id='SPACE_AFTER_PUNCTUATION' name='Espaços após pontuação'>
     <!--   Created by Tiago F. Santos, Portuguese rule, 2017-01-01 -->
     <rule>
@@ -37961,7 +37994,7 @@ Ele é Português. → Ele é português.
           <token>gente</token>
         </marker>
       </pattern>
-      <message>O uso de "a gente" pode ser interpretado como desrespeitoso. Considere remover ou substituí-lo pelo pronome de tratamente mais adequado.</message>
+      <message>O uso de "a gente" pode ser interpretado como desrespeitoso. Considere remover ou substituí-lo pelo pronome de tratamento mais adequado.</message>
         <suggestion>nós</suggestion>
         <suggestion/>
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/connosco-com-a-gente-e-com-nos-no-portugues-europeu/26842</url>
@@ -37980,7 +38013,7 @@ Ele é Português. → Ele é português.
         </marker>
           <token postag="V.+" postag_regexp='yes'/>
       </pattern>
-      <message>O uso de "a gente" pode ser interpretado como desrespeitoso. Considere remover ou substituí-lo pelo pronome de tratamente mais adequado.</message>
+      <message>O uso de "a gente" pode ser interpretado como desrespeitoso. Considere remover ou substituí-lo pelo pronome de tratamento mais adequado.</message>
         <suggestion/>
         <suggestion>nós</suggestion>
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/connosco-com-a-gente-e-com-nos-no-portugues-europeu/26842</url>
