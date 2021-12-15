@@ -538,10 +538,10 @@ class CheckRequestAnalysis {
     int nPara;
     String vcText = SingleCheck.removeFootnotes(viewCursor.getViewCursorParagraphText(), footnotePositions);
     String chPara = SingleCheck.removeFootnotes(chParaWithFootnotes, footnotePositions);
-//    if (debugMode > 1) {
+    if (debugMode > 1) {
       MessageHandler.printToLogFile("CheckRequestAnalysis: getParaFromViewCursorOrDialog:" + OfficeTools.LOG_LINE_BREAK
           + "chPara: '" + chPara + "'" + OfficeTools.LOG_LINE_BREAK + "vcText: '" + vcText + "'");
-//    }
+    }
     if (chPara.equals(vcText)) {
       nPara = viewCursor.getViewCursorParagraph();
       if (nPara >= 0 && nPara < docCache.textSize()) {
@@ -559,14 +559,14 @@ class CheckRequestAnalysis {
           textIsChanged = true;
         }
       } else {
-//        if (debugMode > 0) {
+        if (debugMode > 0) {
           MessageHandler.printToLogFile("From Dialog: Paragraph not found: return -1" + OfficeTools.LOG_LINE_BREAK);
-//        }
+        }
         nPara = -1;
       }
-//      if (debugMode > 0) {
+      if (debugMode > 0) {
         MessageHandler.printToLogFile("From View Cursor: Number of Paragraph: " + nPara + OfficeTools.LOG_LINE_BREAK);
-//      }
+      }
       numLastVCPara = nPara;
       return nPara;
     }
@@ -577,15 +577,15 @@ class CheckRequestAnalysis {
     nPara = getParaFromDocCache(chPara, locale, numLastVCPara);
     if (nPara >= 0) {
       numLastVCPara = nPara;
-//      if (debugMode > 0) {
+      if (debugMode > 0) {
         MessageHandler.printToLogFile("From Dialog: Number of Paragraph: " + nPara + OfficeTools.LOG_LINE_BREAK);
-//      }
+      }
 //    isDialogRequest.add(nParas);
     return nPara;
     }
-//    if (debugMode > 0) {
+    if (debugMode > 0) {
       MessageHandler.printToLogFile("From Dialog: Paragraph not found: return -1" + OfficeTools.LOG_LINE_BREAK);
-//    }
+    }
     return -1;
   }
   

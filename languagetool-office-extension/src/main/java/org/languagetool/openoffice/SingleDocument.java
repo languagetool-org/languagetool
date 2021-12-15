@@ -232,14 +232,14 @@ class SingleDocument {
       paRes.nStartOfNextSentencePosition = paragraphsCache.get(0).getNextSentencePosition(paraNum, paRes.nStartOfSentencePosition);
       paRes.nBehindEndOfSentencePosition = paRes.nStartOfNextSentencePosition;
       lastChangedPara = (textIsChanged && numParasToCheck != 0) ? paraNum : -1;
-//      if (debugMode > 2) {
+      if (debugMode > 2) {
         MessageHandler.printToLogFile("SingleDocument: getCheckResults: " + OfficeTools.LOG_LINE_BREAK
             + "Para: '" + paraText + "'" + OfficeTools.LOG_LINE_BREAK + "paraNum: " + paraNum + ", aErrors.length: " + paRes.aErrors.length
             + ", nStartOfSentencePosition: " + paRes.nStartOfSentencePosition + ", nStartOfNextSentencePosition: " + paRes.nStartOfNextSentencePosition);
         if (paRes.aErrors.length > 0) {
           MessageHandler.printToLogFile("paRes.aErrors[0].nErrorStart: " + paRes.aErrors[0].nErrorStart + "paRes.aErrors[0].nErrorLength: " + paRes.aErrors[0].nErrorLength);
         }
-//      }
+      }
     } catch (Throwable t) {
       MessageHandler.showError(t);
     }
