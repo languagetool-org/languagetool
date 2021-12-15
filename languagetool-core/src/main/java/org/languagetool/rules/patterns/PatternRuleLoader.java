@@ -18,18 +18,17 @@
  */
 package org.languagetool.rules.patterns;
 
+import org.languagetool.JLanguageTool;
+import org.languagetool.tools.Tools;
+import org.xml.sax.helpers.DefaultHandler;
+
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
-import org.languagetool.JLanguageTool;
-import org.languagetool.tools.Tools;
-import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * Loads {@link PatternRule}s from an XML file.

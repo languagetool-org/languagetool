@@ -671,7 +671,34 @@ public class JLanguageTool {
         }
       }
     }
-    userRules.addAll(patternRules);
+    List<Rule> transformed = transformPatternRules(patternRules);
+    userRules.addAll(transformed);
+  }
+
+  private List<Rule> transformPatternRules(List<AbstractPatternRule> patternRules) {
+    List<AbstractPatternRule> rules = new ArrayList<>(patternRules);
+    List<PatternRuleTransformer> transforms = Arrays.asList(new RepeatedPatternRuleTransformer(language));
+
+    // PatternRuleTransformer could want to indicate if transformed rules
+    // should be removed from the pool for further transform or not
+    // what to do if multiple transforms would apply? priorities, first wins, ...?
+    List<Rule> transformed = new ArrayList<>();
+    for (PatternRuleTransformer op : transforms) {
+      for (int i = 0; i < rules.size(); i++) {
+        AbstractPatternRule input = rules.get(i);
+        if (input == null) {
+          continue;
+        }
+        Optional<Rule> result = op.apply(input);
+        if (result.isPresent()) {
+          transformed.add(result.get());
+          // allow only one transform for now
+          rules.set(i, null);
+        }
+      }
+    }
+    rules.stream().filter(Objects::nonNull).forEach(transformed::add);
+    return transformed;
   }
 
   /**
@@ -1017,8 +1044,6 @@ public class JLanguageTool {
       ruleMatches = new CleanOverlappingFilter(language, userConfig.getHidePremiumMatches()).filter(ruleMatches);
     }
     ruleMatches = new LanguageDependentFilter(language, rules).filter(ruleMatches);
-    
-    ruleMatches = new RepetitionMatchFilter(language, rules).filter(ruleMatches);
 
     return applyCustomFilters(ruleMatches, annotatedText);
   }

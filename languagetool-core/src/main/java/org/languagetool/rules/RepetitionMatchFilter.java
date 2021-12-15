@@ -18,20 +18,19 @@
  */
 package org.languagetool.rules;
 
+import org.languagetool.Language;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.languagetool.Language;
-import org.languagetool.rules.patterns.RuleSet;
 
 public class RepetitionMatchFilter implements RuleMatchFilter {
 
   protected boolean toBeChecked;
   protected int distance; // numer of tokens
 
-  public RepetitionMatchFilter(Language lang, RuleSet rules) {
+  public RepetitionMatchFilter(Language lang) {
     toBeChecked = lang.hasMinMatchesRules();
     distance = 350; // characters
   }
