@@ -565,6 +565,8 @@ public class AgreementRuleTest {
     assertGood("Dann folgte die Festnahme der dringend Tatverdächtigen.");
 
     assertGood("Ich habe meine Projektidee (die riesiges finanzielles Potenzial hat) an einen Unternehmenspräsidenten geschickt.");
+    assertGood("Als weitere Rechtsquelle gelten gelegentlich noch immer der Londoner Court of Appeal und das britische House of Lords.");
+    assertGood("Die Evangelische Kirche befindet sich in der Bad Sodener Altstadt direkt neben dem Quellenpark.");
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");
     //assertBad("Erst recht ich fleißiges Arbeiter.");

@@ -23932,7 +23932,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Richtige">Ich tue nun das einzig <marker>richtige</marker> und stelle mich.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="PRIVATES_UND_BERUFLICHES" name="privates und berufliches (Privates und Berufliches)" default="temp_off">
+        <rulegroup id="PRIVATES_UND_BERUFLICHES" name="privates und berufliches (Privates und Berufliches)">
             <antipattern case_sensitive="yes">
                 <token regexp="yes">[PB].+</token>
                 <token regexp="yes">und|UND|oder|ODER|sowie|SOWIE&amp;</token>
@@ -51267,6 +51267,7 @@ Andere Projekte</example>
                 <short>&prgk;.</short>
                 <example correction="Werte">Es sind hohe <marker>werte</marker>, die alarmieren.</example>
                 <example>Er erläuterte ihr, weshalb er dies so negativ werte.</example>
+                <example>Das Schweigen der anderen werte ich ebenfalls als Zustimmung.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AM_NOETIGSTEN_FEHLEN" name="'am nötigsten (Nötigsten) fehlen'">
@@ -51627,7 +51628,10 @@ Andere Projekte</example>
             </antipattern>
             <antipattern>
                 <token>haben</token>
-                <token regexp="yes">werden|lassen</token>
+                <token regexp="yes">
+                    werden|lassen
+                    <exception scope="next" regexp="yes">sie|sich|uns|(da|hier)für</exception>
+                </token>
             </antipattern>
             <pattern>
                 <token postag="PA2:PRD:GRU:VER" />
@@ -51644,6 +51648,7 @@ Andere Projekte</example>
             <example correction="hat, ist">Was er getan <marker>hat ist</marker> nicht falsch.</example>
             <example correction="hatte, wird">Nachdem ich es nun deaktiviert <marker>hatte wird</marker> nun auch Firefox mit protokolliert.</example>
             <example correction="habt, lässt">Das, was ihr bisher erreicht <marker>habt lässt</marker> sich jedenfalls sehen!</example>
+            <example correction="haben, lassen">Sollten wir Ihren Standort hier unerwarteterweise nicht gelistet <marker>haben lassen</marker> Sie es uns wissen.</example>
             <example>Bitte beachten Sie, dass Sie Cookies aktiviert haben müssen damit wir Ihnen alle Funktionalitäten unseres Shops gewährleisten können.</example>
             <example>Btw. zum Podcastpreis gäbe es auch schon bestehende Threads, die ergänzt hätten werden können:</example>
             <example>Wieviel der Trader dafür bekommen haben könnte steht dann in der Killmail</example>
@@ -52061,6 +52066,7 @@ Andere Projekte</example>
                 <example>1858 wurde im Palast das Warschauer Konservatorium eingerichtet.</example>
                 <example>Mitte 1965 gründete die NASA das Apollo Site Selection Board, dessen Aufgabe es war, nach der Abwägung von wissenschaftlichen und flugbetrieblichen Aspekten Vorschläge für mögliche Landeplätze zu machen.</example>
                 <example>1899 wurde als erster eigener Betriebshof der Frankfurter Straßenbahn das Sachsenhäuser Depot errichtet.</example>
+                <example>Nachdem das Gesetz das House of Commons passiert hatte, verweigerte das House of Lords am 8. Oktober 1831 seine Zustimmung.</example>
             </rule>
         </rulegroup>
         <rulegroup id="KOMMA_VOR_UND_ODER" name="Fehlerhaftes Komma vor 'und' oder 'oder'">
