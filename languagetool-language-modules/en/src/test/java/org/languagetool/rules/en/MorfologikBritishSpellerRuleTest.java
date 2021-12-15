@@ -117,6 +117,11 @@ public class MorfologikBritishSpellerRuleTest extends AbstractEnglishSpellerRule
     Assert.assertThat(matches3[0].getFromPos(), is(4));
     Assert.assertThat(matches3[0].getToPos(), is(10));
     
+    // custom URLs
+    RuleMatch[] matches4 = rule.match(lt.getAnalyzedSentence("archeological"));
+    assertEquals("https://languagetool.org/insights/post/our-or/#likeable-vs-likable-judgement-vs-judgment-oestrogen-vs-estrogen",
+        matches4[0].getUrl().toString());
+    
     
   }
 
