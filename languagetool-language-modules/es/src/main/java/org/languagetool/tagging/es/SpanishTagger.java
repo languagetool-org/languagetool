@@ -23,7 +23,6 @@ import morfologik.stemming.IStemmer;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.chunking.ChunkTag;
 import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tools.StringTools;
 
@@ -52,14 +51,7 @@ public class SpanishTagger extends BaseTagger {
   private static final Pattern ADJ_MS = Pattern.compile("AQ.MS.|AQ.CS.|AQ.MN.");
   private static final Pattern NO_PREFIXES_FOR_ADJ = Pattern.compile("(anti|pre|ex|pro|afro|ultra|super|súper)",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  
-  private static final Pattern ADJ_NOUN = Pattern.compile("AQ.*|NC.*|RG");
-  private static final Pattern PREFIXES_FOR_N_ADJ = Pattern.compile("(super)(.*[aeiouàéèíòóïü].+[aeiouàéèíòóïü].*)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-  
-  private static final List<String> exceptionsSuper =  Arrays.asList("fice", "fices", "aria", "arias");
-  
-  private boolean warningChunk = false;
-  
+    
   public SpanishTagger() {
     super("/es/es-ES.dict", new Locale("es"));
   }
@@ -78,7 +70,6 @@ public class SpanishTagger extends BaseTagger {
       final boolean isMixedCase = StringTools.isMixedCase(word);
       final boolean isAllUpper = StringTools.isAllUppercase(word);
       List<AnalyzedToken> taggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(word));
-      warningChunk = false;
       
       // normal case:
       addTokens(taggerTokens, l);
@@ -100,19 +91,10 @@ public class SpanishTagger extends BaseTagger {
       if (l.isEmpty() && !isMixedCase) {
         addTokens(additionalTags(word, dictLookup), l);
       }
-
       if (l.isEmpty()) {
         l.add(new AnalyzedToken(word, null, null));
       }
-
       AnalyzedTokenReadings atr = new AnalyzedTokenReadings(l, pos);
-      
-      if (warningChunk) {
-        List<ChunkTag> listChunkTags = new ArrayList<>();
-        listChunkTags.add(new ChunkTag("_WARNING_NOT_IN_DICT_"));
-        atr.setChunkTags(listChunkTags);
-      }
-
       tokenReadings.add(atr);
       pos += word.length();
     }
@@ -160,28 +142,7 @@ public class SpanishTagger extends BaseTagger {
       }
       return additionalTaggedTokens;
     }
-
-    //Any well-formed noun/adj with prefixes is tagged copying the original tags
-    Matcher matcherSuper = PREFIXES_FOR_N_ADJ.matcher(word);
-    if (matcherSuper.matches()) {
-      final String possibleNAdj = matcherSuper.group(2).toLowerCase();
-      if (!exceptionsSuper.contains(possibleNAdj)) {
-        List<AnalyzedToken> taggerTokens = asAnalyzedTokenList(possibleNAdj, dictLookup.lookup(possibleNAdj));
-        for (AnalyzedToken taggerToken : taggerTokens ) {
-          final String posTag = taggerToken.getPOSTag();
-          if (posTag != null) {
-            final Matcher m = ADJ_NOUN.matcher(posTag);
-            if (m.matches()) {
-              String lemma = matcherSuper.group(1).toLowerCase().concat(taggerToken.getLemma());
-              additionalTaggedTokens.add(new AnalyzedToken(word, posTag, lemma));
-              warningChunk = true;
-            }
-          }
-        }
-        return additionalTaggedTokens;  
-      }
-    }
-    
+   
     matcher = PREFIXES_FOR_VERBS2.matcher(word);
     if (matcher.matches()) {
       final String possibleVerb = matcher.group(2).toLowerCase();

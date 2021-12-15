@@ -1212,6 +1212,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Ih", w -> Arrays.asList("Ich", "In", "Im", "Ah"));
     put("[qQ]uicky", "Quickie");
     put("[qQ]uickys", "Quickies");
+    put("bissl", w -> Arrays.asList("bissel", "bisserl"));
     put("Keywort", w -> Arrays.asList("Keyword", "Stichwort"));
     put("Keyworts", w -> Arrays.asList("Keywords", "Stichworts"));
     put("Keywörter", w -> Arrays.asList("Keywords", "Stichwörter"));

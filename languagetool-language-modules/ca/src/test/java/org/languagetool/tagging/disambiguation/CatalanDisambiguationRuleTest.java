@@ -133,11 +133,6 @@ public class CatalanDisambiguationRuleTest {
         "La crème de la crème",
         "/[null]SENT_START La/[La]_GN_FS|La/[La]_GN_FS|La/[el]DA0FS0  /[null]null crème/[crème de la crème]NCFS000|crème/[crème]_GN_FS|crème/[crème]_GN_FS|crème/[crème]_GN_FS  /[null]null de/[crème de la crème]AQ0FS0|de/[de]_GN_FS|de/[de]_GN_FS|de/[de]ignore_concordance  /[null]null la/[crème de la crème]AQ0FS0|la/[la]_GN_FS|la/[la]ignore_concordance  /[null]null crème/[crème de la crème]AQ0FS0|crème/[crème]_GN_FS",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
-    TestTools
-    .myAssert(
-        "superacció",
-        "/[null]SENT_START superacció/[superacció]NCFS000",
-        tokenizer, sentenceTokenizer, tagger, disambiguator);
 
   }
 }
