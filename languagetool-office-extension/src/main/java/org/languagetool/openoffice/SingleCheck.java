@@ -81,6 +81,7 @@ class SingleCheck {
   private final int numParasToCheck;                // current number of Paragraphs to be checked
   private final boolean isImpress;                  //  true: is an Impress document
   private final boolean isDialogRequest;            //  true: check was initiated by right mouse click or proofreading dialog
+  private final boolean isIntern;                         //  true: check was initiated by LT proofreading dialog
   private final boolean useQueue;                   //  true: use queue to check text level rules (will be overridden by config)
   private final Language docLanguage;               //  Language used for check
   private final IgnoredMatches ignoredMatches;      //  Map of matches (number of paragraph, number of character) that should be ignored after ignoreOnce was called
@@ -95,7 +96,7 @@ class SingleCheck {
   
   SingleCheck(SingleDocument singleDocument, List<ResultCache> paragraphsCache, DocumentCursorTools docCursor,
       FlatParagraphTools flatPara, Language docLanguage, IgnoredMatches ignoredMatches, 
-      int numParasToCheck, boolean isDialogRequest) {
+      int numParasToCheck, boolean isDialogRequest, boolean isIntern) {
     debugMode = OfficeTools.DEBUG_MODE_SD;
     this.singleDocument = singleDocument;
     this.paragraphsCache = paragraphsCache;
@@ -103,6 +104,7 @@ class SingleCheck {
     this.flatPara = flatPara;
     this.numParasToCheck = numParasToCheck;
     this.isDialogRequest = isDialogRequest;
+    this.isIntern = isIntern;
     this.docLanguage = docLanguage;
     this.ignoredMatches = ignoredMatches;
     mDocHandler = singleDocument.getMultiDocumentsHandler();
@@ -120,7 +122,7 @@ class SingleCheck {
    */
   public SingleProofreadingError[] getCheckResults(String paraText, int[] footnotePositions, Locale locale, SwJLanguageTool lt, 
       int paraNum, int startOfSentence, boolean textIsChanged, int changeFrom, int changeTo, String lastSinglePara, 
-      int lastChangedPara, boolean isIntern) {
+      int lastChangedPara) {
     if (isDisposed()) {
       return new SingleProofreadingError[0];
     }
@@ -347,7 +349,8 @@ class SingleCheck {
    */
   public void remarkChangedParagraphs(List<Integer> changedParas, XParagraphCursor cursor, 
       FlatParagraphTools flatPara, SwJLanguageTool lt, boolean override) {
-    if (!isDisposed() && !mDocHandler.isSwitchedOff()) {
+    if (!isDisposed() && !mDocHandler.isSwitchedOff() && (!isDialogRequest || isIntern)) {
+      //  NOTE: A remark of paragraphs must be excluded to keep LO dialog working, but is needed for LT dialog
       Map <Integer, List<SentenceErrors>> changedParasMap = new HashMap<>();
       for (int i = 0; i < changedParas.size(); i++) {
         List<SentenceErrors> sentenceErrors = getSentenceErrosAsList(changedParas.get(i), lt);
@@ -696,7 +699,7 @@ class SingleCheck {
    */
   private List<Integer> getNextSentencePositions (String paraText, SwJLanguageTool lt) {
     List<Integer> nextSentencePositions = new ArrayList<Integer>();
-    if (numParasToCheck != 0 || lt.isRemote()) {
+    if (lt.isRemote()) {
       nextSentencePositions.add(paraText.length());
     } else {
       List<String> tokenizedSentences = lt.sentenceTokenize(cleanFootnotes(paraText));

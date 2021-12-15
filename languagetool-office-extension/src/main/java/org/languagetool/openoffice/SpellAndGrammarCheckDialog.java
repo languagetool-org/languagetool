@@ -205,7 +205,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
    * Update the cache of the current document 
    */
   private DocumentCache updateDocumentCache(int nPara, XComponent xComponent, DocumentCursorTools docCursor, SingleDocument document) {
-    DocumentCache docCache = document.getUpdatedDocumentCache(nPara);
+    DocumentCache docCache = document.getUpdatedDocumentCache(nPara, true);
     if (docCache == null) {
       FlatParagraphTools flatPara = null;
       if (!isImpress) {
@@ -2005,7 +2005,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
       if (isSpellError && !isImpress) {
           removeSpellingMark(y);
       }
-      currentDocument.setIgnoredMatch(x, y, error.aRuleIdentifier);
+      currentDocument.setIgnoredMatch(x, y, error.aRuleIdentifier, true);
       addUndo(x, y, "ignoreOnce", error.aRuleIdentifier);
       gotoNextError();
     }
@@ -2107,7 +2107,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
         docCache.setFlatParagraph(y, dialogText);
         currentDocument.getDocumentCache().setFlatParagraph(y, dialogText);
         currentDocument.removeResultCache(y);
-        currentDocument.removeIgnoredMatch(y);
+        currentDocument.removeIgnoredMatch(y, true);
       } else if (lastFlatPara < 0) {
         orgText = docCache.getTextParagraph(y);
         XParagraphCursor pCursor = viewCursor.getParagraphCursorFromViewCursor();
@@ -2147,7 +2147,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
         docCache.setFlatParagraph(nFlat, dialogText);
         currentDocument.getDocumentCache().setFlatParagraph(nFlat, dialogText);
         currentDocument.removeResultCache(nFlat);
-        currentDocument.removeIgnoredMatch(nFlat);
+        currentDocument.removeIgnoredMatch(nFlat, true);
       } else {
         FlatParagraphTools flatPara = currentDocument.getFlatParagraphTools();
         orgText = docCache.getFlatParagraph(lastFlatPara);
@@ -2171,7 +2171,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
         docCache.setFlatParagraph(lastFlatPara, dialogText);
         currentDocument.getDocumentCache().setFlatParagraph(lastFlatPara, dialogText);
         currentDocument.removeResultCache(lastFlatPara);
-        currentDocument.removeIgnoredMatch(lastFlatPara);
+        currentDocument.removeIgnoredMatch(lastFlatPara, true);
       }
       if (debugMode) {
         MessageHandler.printToLogFile("Org: " + word + "\nDia: " + replace);
@@ -2278,7 +2278,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
           MessageHandler.printToLogFile("Undo: Action: " + action);
         }
         if (action.equals("ignoreOnce")) {
-          currentDocument.removeIgnoredMatch(xUndo, yUndo, lastUndo.ruleId);
+          currentDocument.removeIgnoredMatch(xUndo, yUndo, lastUndo.ruleId, true);
         } else if (action.equals("ignoreAll")) {
           if (lastUndo.ruleId.equals(spellRuleId)) {
             if (debugMode) {
