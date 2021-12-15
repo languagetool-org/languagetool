@@ -132,6 +132,15 @@ RB => Règles Brutes
     </rule>
     <!-- END: numerals -->
     <!-- CATEGORY: remove unusual tags -->
+    <rule id="MEME" name="même">
+        <pattern>
+            <token regexp="yes">certaine?s?|quelques|plusieurs</token>
+            <marker>
+                <token>même</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="J e s"/>
+    </rule>
         <rule name="google" id="GOOGLE">
             <pattern>
                 <marker>
@@ -2220,6 +2229,17 @@ RB => Règles Brutes
             <token postag="D m s"><exception regexp="yes">l'</exception></token>
             <marker>
                 <token>avoir</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="N m s"/>
+    </rule>
+    <rule id="DES_ETRES" name="des êtres">
+        <!-- with agreement error -->
+        <pattern>
+            <token postag="D.*" postag_regexp="yes">
+                <exception>d'</exception></token>
+            <marker>
+                <token>être</token>
             </marker>
         </pattern>
         <disambig action="filter" postag="N m s"/>
