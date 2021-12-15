@@ -40869,6 +40869,27 @@ O objetivo é alcançar a bandeira do inimigo. → O objetivo é alcançar a ban
 	  <example>No mês de Abril de 1945, durante a invasão aliada, a cidade foi tomada sem grande resistência pelos americanos.</example>
     </rule>
 
+	<!-- VÁRI[AO]S VEZES vári[ao]s -->
+    <rule id='VARIAS_VEZES_VARIAS' name="Simplificar: Vári[ao]s vezes → Vári[ao]s" type="style" default="temp_off">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-12-15 (25-JUN-2021+)      -->
+	<!--
+Apagaram várias vezes publicações minhas. → Apagaram várias publicações minhas.
+Apagaram várias vezes comentários meus. → Apagaram vários comentários meus.
+	-->
+      <pattern>
+		<token postag='V.+' postag_regexp='yes'/>
+		<marker>
+			<token regexp='yes'>vári[ao]s</token>
+			<token regexp='no'>vezes</token>
+		</marker>
+		<token postag='NC.P.+' postag_regexp='yes'/>
+		<token postag='DP.+' postag_regexp='yes'/>
+      </pattern>      
+	  <message>Esta perífrase poderá ser simplificada.</message>
+	  <suggestion><match no='4' postag='NC(.)P000' postag_replace='DI0$1P0'>vários</match></suggestion>
+      <example correction="várias">Apagaram <marker>várias vezes</marker> publicações minhas.</example>
+    </rule>
+
 	<!-- PARA SABER QUAL A para delinear/determinar a -->
     <rule id='DELINEAR_DETERMINAR' name="saber qual a → delinear/determinar a">
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-03-09 + 2021-03-10 + 2021-03-11 (1-JAN-2021+)      -->
