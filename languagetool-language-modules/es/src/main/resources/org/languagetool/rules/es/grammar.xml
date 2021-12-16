@@ -12325,9 +12325,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">\d+\.\d+</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">teléfono|telefono|tel|telf|tlf|fax|p|pag|pág|pags|págs|ps</token>
+                    <token regexp="yes">teléfono|telefono|tel|telf|tlf|fax|p|pag|pág|pags|págs|ps|páginas?</token>
                     <token min="0">.</token>
                     <token min="1" max="5" regexp="yes">\d+</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">teléfono|telefono|tel|telf|tlf|fax|p|pag|pág|pags|págs|ps|páginas?</token>
+                    <token min="0">.</token>
+                    <token regexp="yes">\d+</token>
+                    <token regexp="yes">y|o</token>
+                    <token regexp="yes">\d+</token>
                 </antipattern>
                 <antipattern>
                     <!--<token regexp="yes">[\d+\.]*</token>-->
@@ -12406,6 +12413,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>el número decimal 27 codificado en forma binaria en un octeto</example>
                 <example>uno de sus destinos top 10 mundial de 2006</example>
                 <example>Noventa porciento</example>
+                <example>página 245 o 248 anotada</example>
             </rule>
         </rulegroup>
         <rulegroup id="AGRREMENT_NUMBER" name="concordancia del número">
