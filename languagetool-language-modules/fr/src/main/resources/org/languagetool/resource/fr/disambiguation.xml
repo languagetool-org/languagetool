@@ -460,7 +460,8 @@ RB => Règles Brutes
         </pattern>
         <disambig action="remove" postag="N.*"/>
     </rule>
-    <rule id="V_PPR_NOT_NOUN" name="V ppr not noun">
+    <rulegroup id="V_PPR_NOT_NOUN" name="V ppr not noun">
+        <rule>
         <pattern>
             <token postag="SENT_START|M nonfin|UNKNOWN|N.*|A" postag_regexp="yes"/>
             <marker>
@@ -473,7 +474,22 @@ RB => Règles Brutes
             <token><exception postag="J.*" postag_regexp="yes"/></token>
         </pattern>
         <disambig action="remove" postag="N.*"/>
-    </rule>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="[PD].*" postag_regexp="yes"/>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">propre|sale|vrai|petit|bon|meilleur|mauvais|nouveau|grand|vieux|long|ancien|haut|seul|beau|superbe|important|gentil|méchant|parfait|grave|rare|énorme|lourd|futur|cher|majeur|simple|joli|mineur|meme|immense|minsucule|lointain|proche|infime|gigantesque|étrange|hideux|ravissant|magnifique|sombre|timide|sympathique|généreux|fidèle|loyal</token>
+                <marker>
+                    <and>
+                        <token postag="N m s" regexp="yes">.*ant</token>
+                        <token postag="V ppr"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="V ppr"/>
+        </rule>
+    </rulegroup>
     <rule id="LE_MANS" name="le mans">
         <pattern>
             <token>le</token>
@@ -2244,6 +2260,26 @@ RB => Règles Brutes
         </pattern>
         <disambig action="filter" postag="N m s"/>
     </rule>
+    <rule id="BENIN" name="bénin">
+        <!-- with agreement error -->
+        <pattern>
+            <token postag="(P\+)?D m s" postag_regexp="yes"/>
+            <marker>
+                <token case_sensitive="yes">Bénin</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="Z e sp"/>
+    </rule>
+    <rule id="AVENIR" name="l'avenir">
+        <!-- with agreement error -->
+        <pattern>
+            <token postag="D.*" postag_regexp="yes"/>
+            <marker>
+                <token>avenir</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="N m s"/>
+    </rule>
     <rule id="ENTREPRISE" name="entreprise">
         <pattern>
             <token postag="D [ef] s" postag_regexp="yes"/>
@@ -2787,6 +2823,33 @@ RB => Règles Brutes
             <wd pos="A"/>
             <wd pos="A"/>
         </disambig>
+    </rule>
+    <rule name="bon" id="BON">
+        <pattern>
+            <marker>
+            <token>bon</token>
+            </marker>
+            <token postag="Z.*|I" postag_regexp="yes"/>
+        </pattern>
+    <disambig action="filter" postag="A"/>
+    </rule>
+    <rule name="bon" id="BON1">
+        <pattern>
+            <marker>
+                <token>bon</token>
+            </marker>
+            <token regexp="yes">ba|ns|vs</token>
+        </pattern>
+        <disambig action="filter" postag="A"/>
+    </rule>
+    <rule name="vieilles" id="VIEILLES">
+        <pattern>
+            <marker>
+                <token regexp="yes">vieilles?|belles?</token>
+            </marker>
+            <token regexp="yes">sexe|sperme</token>
+        </pattern>
+        <disambig action="filter" postag="N.*"/>
     </rule>
     <rule id="DE_MANIERE_ADJ" name="de manière + adj">
         <pattern>
