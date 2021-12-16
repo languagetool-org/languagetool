@@ -294,7 +294,7 @@ regexp case-insensitive maken : (?i)
 	<category id="PICKY" name="Regels die meer voor een pietje-precies zijn." >
 		<rulegroup id="GETALLEN_0_20_OF_ROND" name="Getallen onder 20 en ronde getallen uitschrijven" tags="picky">
 			<rule>
-				<antipattern><token regexp="yes">[0-9]+</token><token regexp="yes">[+]|[-]|=|/|[*]|:|×|÷</token></antipattern>
+				<antipattern><token regexp="yes">[0-9]+</token><token regexp="yes">[+]|[-]|=|/|[*]|:|×|÷|[)]</token></antipattern>
 				<antipattern><token regexp="yes">[0-9]+</token><token postag_regexp="yes" postag="MEH.*"/></antipattern>
 				<antipattern><token regexp="yes">[0-9]+</token><token regexp="yes">&abbrevMonths;</token></antipattern>
 				<antipattern><token regexp="yes">[+]|[-]|=|/|[*]|:|×|÷</token><token regexp="yes">[0-9]+</token></antipattern>
@@ -13469,8 +13469,13 @@ onwaarschijnlijk
 				<pattern>
 					<token regexp="yes">.*(áá|áé|áí|áú|éé|éí|éú|íé|íí|óé|óí|óó|óú|úí|úú|((^|[^aeiou])[áéíóú]([^aeiou]|$))).*<exception regexp="yes">hé|á|^één.{3,50}|.*(café|éminence|tracé|comité|mémoire|appliqué|arrivé|associé|attaché|employé|barré|cliché|beauté|defilé|blasé|bouclé|canapé|carré|cloqué|communiqué|comprimé|confrérie|congé|consommé|conté|privé|coupé|craquelé|crémant|cultivé|decafeïné|decolleté|demasqué|deputé|djahé|djembé|doré|doublé|procedé|débouché|dégénéré|déjà|délégué|ecarté|evacué|exposé|fiancé|frivolité|glacé|habitué|introducé|invité|soufflé|saté|lamé|macramé|laqué|logé|marqué|masqué|maté|moiré|mopé|ménière|nouveauté|negligé|oké|maché|paté|passé|piqué|plissé|pointillé|preparé|prostitué|protegé|présence|psyché|quarté|rassé|refugié|resumé|rosé|régence|réussite|santé|spécialité|taboulé|taugé|tempé|tiercé|tjabé|tragédienne|variété|velouté|vidé|wengé|élégance|résistance|plié|karité|vélocipède|olé|azobé|éclat|éloge|étang|sémillon|cité|peigné|rapé|chiné|lancé|époque|décharge).*</exception><exception postag="ENM:.*|UNKNOWN" postag_regexp="yes"/></token>
 				</pattern>
+				<filter class="org.languagetool.rules.nl.DutchSuppressMisspelledSuggestionsFilter" args="none:none"/>
 				<message>Gebruik geen nadruktekens als het niet nodig is. Het staat lelijk.</message>
-				<suggestion suppress_misspelled="yes"><match no="1" regexp_match="é" regexp_replace="e"/></suggestion>
+				<suggestion><match no="1" regexp_match="é" regexp_replace="e"/></suggestion>
+				<suggestion><match no="1" regexp_match="á" regexp_replace="a"/></suggestion>
+				<suggestion><match no="1" regexp_match="ó" regexp_replace="o"/></suggestion>
+				<suggestion><match no="1" regexp_match="í" regexp_replace="i"/></suggestion>
+				<suggestion><match no="1" regexp_match="ú" regexp_replace="u"/></suggestion>
 				<example correction="een">Hij is <marker>één</marker> van de vreemden.</example>
 			</rule>
 			<rule>
@@ -13502,12 +13507,13 @@ onwaarschijnlijk
 				<antipattern><token regexp="yes">.*-(&gespeld;)$</token></antipattern>
 				<antipattern><token regexp="yes">.*-(&gespeld;)-.*</token></antipattern>
 				<antipattern><token regexp="yes">.*(a-[aeiou]|e-[eiu]|i-[eij]|o-[eiou]|u-[iu]).*</token></antipattern>
-				<antipattern><token regexp="yes">all-in|avant-garde|(back-up|amateur|interim|ex|oud|chef|meester|leerling|niet)-.*</token></antipattern>
+				<!-- <antipattern><token regexp="yes">zwart-wit|up-to-date|make-up|try-out|pop-up||time-out|all-in|avant-garde|(back-up|amateur|interim|ex|oud|chef|meester|leerling|niet)-.*</token></antipattern> -->
 				<pattern>
 					<marker>
 						<token regexp="yes" case_sensitive="yes" >.*[a-z]-[a-z].*</token>
 					</marker>
 				</pattern>
+				<filter class="org.languagetool.rules.nl.DutchSuppressMisspelledSuggestionsFilter" args="none:none"/>
 				<message>Een koppelteken toevoegen mag als het dan duidelijker is, maar dit woord kan ook zonder. Let er wel op dat u het consequent doet voor een woord.</message>
 				<suggestion suppress_misspelled="yes"><match no="1" regexp_match="[-]" regexp_replace=""/></suggestion>
 				<example correction="muziekindustrie">De <marker>muziek-industrie</marker> is overspannen.</example>
@@ -13517,6 +13523,7 @@ onwaarschijnlijk
 				<example type="correct"><marker>Sms-berichten</marker> gaan kapot.</example>
 				<example type="correct">De <marker>wc-deksel</marker> is kapot.</example>
 				<example type="correct">Het <marker>e-mailadres</marker> klopt.</example>
+				<example type="correct">De <marker>back-up</marker> is mislukt.</example>
 			</rule>
 		</rulegroup>
 	</category>
@@ -17544,7 +17551,7 @@ steenwijk;Steenwijk
 			<message>'Douwen' is spreektaal, in schrijftaal is <suggestion><match no="1" postag_regexp="yes" postag="WKW.*">duwen</match></suggestion> beter.</message>
 			<example correction="duwen">We <marker>douwen</marker> elkaar.</example> 
 		</rule>
-		<rule id="NOU" name="Nou/nu">
+		<rule id="NOU" name="Nou/nu" tags="picky">
 			<antipattern case_sensitive="yes"><token>Camp</token><token>Nou</token></antipattern>
 			<antipattern><token>nou</token><token>en</token><token>of</token></antipattern>
 			<pattern>
@@ -17863,22 +17870,11 @@ steenwijk;Steenwijk
 		</rule>
 		-->
 
-		<rule id="NL_AFGEBROKEN_WOORD" name="afgebroken woorden">
-           <pattern>
-               <token regexp="yes">\p{L}+[-]$</token>
-			   <token regexp="yes" spacebefore="yes">\p{L}+<exception regexp="yes">en|of</exception></token>
-           </pattern>
-			<filter class="org.languagetool.rules.nl.DutchSuppressMisspelledSuggestionsFilter" args="none:none"/>
-           <message >Mogelijk onterecht gesplitst woord.</message>
-		   <suggestion><match no="1" regexp_match="-$" regexp_replace=""/><match no="2"/></suggestion>
-           <example correction="pianist">De <marker>pia- nist</marker> speelt door.</example>
-		   <example correction="garantieperiode">Het is de <marker>garan- tieperiode</marker> die niet klopt.</example>
-       </rule>
 		<rulegroup id="SINT_X" name="Sint Anna/Sint-Anna">
 			<rule>
 				<pattern>
 					<token>sint</token>
-					<token regexp="yes">[A-Z].*</token>
+					<token case_sensitive="yes" regexp="yes">[A-Z].*</token>
 				</pattern>
 				<message>De heilige krijgt altijd een koppelteken; een plaatsnaam meestal.</message>
 				<suggestion><match no="1" case_conversion="firstupper"/>-\2</suggestion>
@@ -32149,7 +32145,31 @@ steenwijk;Steenwijk
 	</category>
 	<category id="TYPOS" name="Spellingcontrole" type="misspelling">
 
-		<rule id="CIJFERS_IN_WOORD" name="Getal in woord" >
+		<rule id="NL_AFGEBROKEN_WOORD" name="afgebroken woorden">
+           <pattern>
+               <token regexp="yes">\p{L}+[-]$</token>
+			   <token regexp="yes" spacebefore="yes">\p{L}+<exception regexp="yes">en|of</exception></token>
+           </pattern>
+			<filter class="org.languagetool.rules.nl.DutchSuppressMisspelledSuggestionsFilter" args="none:none"/>
+           <message >Mogelijk onterecht gesplitst woord.</message>
+		   <suggestion><match no="1" regexp_match="-$" regexp_replace=""/><match no="2"/></suggestion>
+           <example correction="pianist">De <marker>pia- nist</marker> speelt door.</example>
+		   <example correction="garantieperiode">Het is de <marker>garan- tieperiode</marker> die niet klopt.</example>
+       </rule>
+
+		<rule id="NL_WOORD_IN_3_STUKKEN" name="woord in drie stukken uiteen is gevallen" default="temp_off">
+           <pattern>
+               <token/>
+               <token/>
+               <token/>
+           </pattern>
+			<filter class="org.languagetool.rules.nl.DutchSuppressMisspelledSuggestionsFilter" args="none:none"/>
+           <message >Mogelijk onterecht gesplitst woord.</message>
+		   <suggestion>\\2\3</suggestion>
+           <example correction="concertgebouw concert pianist">De <marker>concertgebouw concert pianist</marker> speelt door.</example>
+       </rule>
+
+	   <rule id="CIJFERS_IN_WOORD" name="Getal in woord" >
             <antipattern><!-- Short words, abbreviations and proper nouns such as t3n, k3b etc.  -->
                 <token regexp="yes">\p{L}\d\p{L}</token>
             </antipattern>
@@ -32169,12 +32189,6 @@ steenwijk;Steenwijk
             <antipattern>
 				<token case_sensitive="yes" regexp="yes">^[A-Z].+</token>
             </antipattern>
-			<!--
-            <antipattern>
-                <token>.</token>
-                <token spacebefore="no" regexp="yes" case_sensitive="yes">[\p{Ll}\p{Lu}]\p{Ll}*[0-9]\p{Ll}+</token>
-            </antipattern>
-			-->
             <pattern>
                 <token regexp="yes" postag="UNKNOWN" case_sensitive="yes">[\p{Ll}\p{Lu}]\p{Ll}*[0-9]\p{Ll}+</token>
             </pattern>
@@ -32183,6 +32197,28 @@ steenwijk;Steenwijk
             <example correction="goede">Een <marker>g0ede</marker> morgen!</example>
             <example>Hij is <marker>F16-piloot</marker>.</example>
             <example>De kar is <marker>2-assig</marker>.</example>
+        </rule>
+
+		<rule id="CODERINGSFOUT" name="fout in tekencodering" >
+            <pattern>
+				<token case_sensitive="yes" regexp="yes">.*[a-z]$</token>
+				<token spacebefore="no">?</token>
+				<token case_sensitive="yes" spacebefore="no" regexp="yes">^[a-z].*</token>
+            </pattern>
+			<filter class="org.languagetool.rules.nl.DutchSuppressMisspelledSuggestionsFilter" args="none:none"/>
+            <message>Dit vraagteken moet vast een letter met leesteken zijn.</message>
+			<suggestion>\1ä\3</suggestion>
+			<suggestion>\1ë\3</suggestion>
+			<suggestion>\1ï\3</suggestion>
+			<suggestion>\1ö\3</suggestion>
+			<suggestion>\1ü\3</suggestion>
+			<suggestion>\1â\3</suggestion>
+			<suggestion>\1ê\3</suggestion>
+			<suggestion>\1î\3</suggestion>
+			<suggestion>\1ô\3</suggestion>
+			<suggestion>\1û\3</suggestion>
+			<example correction="geëerd">Een <marker>ge?erd</marker> persoon.</example>
+			<example correction="enquête">Een lastige <marker>enqu?te</marker>.</example>
         </rule>
 
 		<rulegroup id="_2ASSIG" name="2assig/2-assig" >
@@ -35253,7 +35289,7 @@ steenwijk;Steenwijk
 			<rule>
 				<antipattern><token>nooit</token><token>ofte</token><token>nimmer</token></antipattern>
 				<pattern>
-					<token regexp="yes" skip="5">evenmin|nimmer|niet|nooit|geen|nergens|niet-.+<exception scope="next" regexp="yes">;|,|en|of</exception></token>
+					<token regexp="yes" skip="5">evenmin|nimmer|niet|nooit|geen|nergens|niet-.+<exception scope="next" regexp="yes">;|,|en|of|:|omdat|maar|doordat</exception></token>
 					<token regexp="yes">evenmin|nimmer|niet|nooit|geen|nergens|niet-.+</token>
 				</pattern>
 				<message>Meerdere ontkenningen maken de tekst moeilijker te begrijpen.</message>
@@ -42015,6 +42051,7 @@ steenwijk;Steenwijk
 			<antipattern><token>in</token><token>de</token><token>war</token></antipattern>
 			<antipattern><token>in</token><token>de</token><token>maak</token></antipattern>
 			<antipattern><token>in</token><token>de</token><token>rats</token></antipattern>
+			<antipattern><token>in</token><token>de</token><token>voors</token></antipattern>
 
 			<antipattern><token>KU</token><token>Leuven</token></antipattern>
 			<antipattern><token>de</token><token case_sensitive="yes" regexp="yes">[A-Z].*</token></antipattern>
