@@ -294,7 +294,7 @@ regexp case-insensitive maken : (?i)
 	<category id="PICKY" name="Regels die meer voor een pietje-precies zijn." >
 		<rulegroup id="GETALLEN_0_20_OF_ROND" name="Getallen onder 20 en ronde getallen uitschrijven" tags="picky">
 			<rule>
-				<antipattern><token regexp="yes">[0-9]+</token><token regexp="yes">[+]|[-]|=|/|[*]|:|×|÷</token></antipattern>
+				<antipattern><token regexp="yes">[0-9]+</token><token regexp="yes">[+]|[-]|=|/|[*]|:|×|÷|[)]</token></antipattern>
 				<antipattern><token regexp="yes">[0-9]+</token><token postag_regexp="yes" postag="MEH.*"/></antipattern>
 				<antipattern><token regexp="yes">[0-9]+</token><token regexp="yes">&abbrevMonths;</token></antipattern>
 				<antipattern><token regexp="yes">[+]|[-]|=|/|[*]|:|×|÷</token><token regexp="yes">[0-9]+</token></antipattern>
@@ -13502,12 +13502,13 @@ onwaarschijnlijk
 				<antipattern><token regexp="yes">.*-(&gespeld;)$</token></antipattern>
 				<antipattern><token regexp="yes">.*-(&gespeld;)-.*</token></antipattern>
 				<antipattern><token regexp="yes">.*(a-[aeiou]|e-[eiu]|i-[eij]|o-[eiou]|u-[iu]).*</token></antipattern>
-				<antipattern><token regexp="yes">all-in|avant-garde|(back-up|amateur|interim|ex|oud|chef|meester|leerling|niet)-.*</token></antipattern>
+				<!-- <antipattern><token regexp="yes">zwart-wit|up-to-date|make-up|try-out|pop-up||time-out|all-in|avant-garde|(back-up|amateur|interim|ex|oud|chef|meester|leerling|niet)-.*</token></antipattern> -->
 				<pattern>
 					<marker>
 						<token regexp="yes" case_sensitive="yes" >.*[a-z]-[a-z].*</token>
 					</marker>
 				</pattern>
+				<filter class="org.languagetool.rules.nl.DutchSuppressMisspelledSuggestionsFilter" args="none:none"/>
 				<message>Een koppelteken toevoegen mag als het dan duidelijker is, maar dit woord kan ook zonder. Let er wel op dat u het consequent doet voor een woord.</message>
 				<suggestion suppress_misspelled="yes"><match no="1" regexp_match="[-]" regexp_replace=""/></suggestion>
 				<example correction="muziekindustrie">De <marker>muziek-industrie</marker> is overspannen.</example>
@@ -13517,6 +13518,7 @@ onwaarschijnlijk
 				<example type="correct"><marker>Sms-berichten</marker> gaan kapot.</example>
 				<example type="correct">De <marker>wc-deksel</marker> is kapot.</example>
 				<example type="correct">Het <marker>e-mailadres</marker> klopt.</example>
+				<example type="correct">De <marker>back-up</marker> is mislukt.</example>
 			</rule>
 		</rulegroup>
 	</category>
@@ -17544,7 +17546,7 @@ steenwijk;Steenwijk
 			<message>'Douwen' is spreektaal, in schrijftaal is <suggestion><match no="1" postag_regexp="yes" postag="WKW.*">duwen</match></suggestion> beter.</message>
 			<example correction="duwen">We <marker>douwen</marker> elkaar.</example> 
 		</rule>
-		<rule id="NOU" name="Nou/nu">
+		<rule id="NOU" name="Nou/nu" tags="picky">
 			<antipattern case_sensitive="yes"><token>Camp</token><token>Nou</token></antipattern>
 			<antipattern><token>nou</token><token>en</token><token>of</token></antipattern>
 			<pattern>
@@ -17878,7 +17880,7 @@ steenwijk;Steenwijk
 			<rule>
 				<pattern>
 					<token>sint</token>
-					<token regexp="yes">[A-Z].*</token>
+					<token case_sensitive="yes" regexp="yes">[A-Z].*</token>
 				</pattern>
 				<message>De heilige krijgt altijd een koppelteken; een plaatsnaam meestal.</message>
 				<suggestion><match no="1" case_conversion="firstupper"/>-\2</suggestion>
@@ -35253,7 +35255,7 @@ steenwijk;Steenwijk
 			<rule>
 				<antipattern><token>nooit</token><token>ofte</token><token>nimmer</token></antipattern>
 				<pattern>
-					<token regexp="yes" skip="5">evenmin|nimmer|niet|nooit|geen|nergens|niet-.+<exception scope="next" regexp="yes">;|,|en|of</exception></token>
+					<token regexp="yes" skip="5">evenmin|nimmer|niet|nooit|geen|nergens|niet-.+<exception scope="next" regexp="yes">;|,|en|of|:|omdat|maar|doordat</exception></token>
 					<token regexp="yes">evenmin|nimmer|niet|nooit|geen|nergens|niet-.+</token>
 				</pattern>
 				<message>Meerdere ontkenningen maken de tekst moeilijker te begrijpen.</message>
@@ -42015,6 +42017,7 @@ steenwijk;Steenwijk
 			<antipattern><token>in</token><token>de</token><token>war</token></antipattern>
 			<antipattern><token>in</token><token>de</token><token>maak</token></antipattern>
 			<antipattern><token>in</token><token>de</token><token>rats</token></antipattern>
+			<antipattern><token>in</token><token>de</token><token>voors</token></antipattern>
 
 			<antipattern><token>KU</token><token>Leuven</token></antipattern>
 			<antipattern><token>de</token><token case_sensitive="yes" regexp="yes">[A-Z].*</token></antipattern>
