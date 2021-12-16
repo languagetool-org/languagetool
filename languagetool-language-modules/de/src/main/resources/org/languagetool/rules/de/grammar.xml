@@ -9699,6 +9699,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category id="PROPER_NOUNS" name="Prominente/geographische Eigennamen">
         <!-- geographische Namen u. ä. -->
+        <rule id="DUE_DILIGENCE" name="Due Diligence" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">DUE|Due</token>
+                <token regexp="yes">DILIGENCE|Diligence</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">Due|Do</token>
+                <token regexp="yes">Dill?igen(ce|ze?)</token>
+            </pattern>
+            <message>Meinten Sie den Anglizismus <suggestion>Due Diligence</suggestion>?</message>
+            <url>https://de.wikipedia.org/wiki/Due-Diligence-Pr%C3%BCfung</url>
+            <example correction="Due Diligence">Das Unternehmen bestand die <marker>Due Dilligence</marker>.</example>
+        </rule>
         <rule id="CHILI_CON_CARNE" name="Chili con Carne">
             <antipattern case_sensitive="yes">
                 <token regexp="yes">Chili|CHILI</token>
@@ -11597,6 +11610,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rule id="AUF_DICH_ZU_KOMMEN" name="auf uns zu kommen (zukommen)" default="temp_off">
+            <pattern>
+                <token>auf</token>
+                <token regexp="yes">[dm]ich|sie|ihn|uns</token>
+                <marker>
+                    <token>zu</token>
+                    <token inflected="yes" regexp="yes">kommen|gehen|schneiden|laufen|rennen|fahren</token>
+                </marker>
+            </pattern>
+            <message>Das Verb <suggestion>zu\4</suggestion> wird in diesem Kontext zusammengeschrieben.</message>
+            <example correction="zukommen">Ich lasse das auf mich <marker>zu kommen</marker>.</example>
+        </rule>
         <rule id="MIT_VERANTWORTLICH" name="mit verantwortlich (mitverantwortlich)">
             <pattern>
                 <token case_sensitive="yes" regexp="yes">[Mm]it</token>
