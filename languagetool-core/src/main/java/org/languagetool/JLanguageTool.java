@@ -1117,6 +1117,9 @@ public class JLanguageTool {
       long waitTime = Math.max(0, deadline - System.currentTimeMillis());
       result = task.get(waitTime, TimeUnit.MILLISECONDS);
     }
+    RemoteRuleMetrics.RequestResult loggedResult = result.isSuccess() ?
+      RemoteRuleMetrics.RequestResult.SUCCESS : RemoteRuleMetrics.RequestResult.ERROR;
+    RemoteRuleMetrics.request(ruleKey, textCheckStart, chars, loggedResult);
     for (int sentenceIndex = 0; sentenceIndex < analyzedSentences.size(); sentenceIndex++) {
       AnalyzedSentence sentence = analyzedSentences.get(sentenceIndex);
       List<RuleMatch> matches = result.matchesForSentence(sentence);
@@ -1141,9 +1144,6 @@ public class JLanguageTool {
         adjustOffset(annotatedText, offset, match);
       }
       remoteMatches.addAll(adjustedMatches);
-      RemoteRuleMetrics.RequestResult loggedResult = result.isSuccess() ?
-        RemoteRuleMetrics.RequestResult.SUCCESS : RemoteRuleMetrics.RequestResult.ERROR;
-      RemoteRuleMetrics.request(ruleKey, textCheckStart, chars, loggedResult);
     }
     return result;
   }
