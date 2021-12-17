@@ -677,7 +677,7 @@ public class JLanguageTool {
 
   private List<Rule> transformPatternRules(List<AbstractPatternRule> patternRules) {
     List<AbstractPatternRule> rules = new ArrayList<>(patternRules);
-    List<PatternRuleTransformer> transforms = Arrays.asList(new RepeatedPatternRuleTransformer(language));
+    List<PatternRuleTransformer> transforms = Arrays.asList(new RepeatedPatternRuleTransformer());
 
     // PatternRuleTransformer could want to indicate if transformed rules
     // should be removed from the pool for further transform or not
