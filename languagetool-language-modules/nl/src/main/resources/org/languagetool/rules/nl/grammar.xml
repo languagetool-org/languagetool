@@ -33574,26 +33574,11 @@ steenwijk;Steenwijk
 					</marker>
 				</pattern>
 				<message>Mogelijke fout: \2 hoort bij 'gij' of 'ge'.</message>
-				<example type="incorrect">Toen je naar de deur <marker>liept</marker>, ging het mis."></example>
+				<suggestion><match no="2" postag_regexp="yes" postag="WKW:VLT:1EP"/></suggestion>
+				<example correction="liep">Toen je naar de deur <marker>liept</marker>, ging het mis."></example>
 			</rule>
 		</rulegroup>
-		<!--
-		<rule id="WORDT_BESCHULDIGT_VAN" name="beschuldigt → beschuldigd">
-		<antipattern>
-		<token inflected="yes">worden</token><token postag="WKW:VTD:ONV" regexp="yes">.*t</token><token regexp="yes">van|door</token></antipattern>
-		<pattern>
-		<token inflected="yes">worden</token>
-		<marker>
-		<token postag="WKW:TGW:3EP" regexp="yes">.*t</token>
-		</marker>
-		<token regexp="yes">van|door</token>
-		</pattern>
-		<message>U bedoelt vast <suggestion><match no="2" postag="WKW:VTD:ONV"/></suggestion>.</message>
-		<example correction="beschuldigd">Jij wordt <marker>beschuldigt</marker> van fouten.</example>
-		<example>Jij wordt <marker>beschuldigd</marker> van fouten.</example>
-		<example>Het wordt <marker>veroorzaakt</marker> door fouten.</example>
-		</rule>
-		-->
+
 		<rulegroup id="WIJ_LOOP" name="wij loopt">
 			<rule>
 				<pattern>
@@ -33609,21 +33594,7 @@ steenwijk;Steenwijk
 				<example correction="We gebruiken|We gebruikten"><marker>We gebruik</marker> nu zeezout bij het eten.</example>
 			</rule>
 		</rulegroup>
-		<!-- disambig haalt tag weg
-		<rulegroup id="ERKENT_BEDRIJF" name="een erkent bedrijf">
-			<rule>
-				<pattern>
-					<token>een</token>
-					<marker>
-						<token postag="WKW:TGW:3EP"><exception postag_regexp="yes" postag="WKW:VTD:ONV|BNW:STL:ONV"/><exception postag="ZNW.*" postag_regexp="yes"/><exception regexp="yes">koopt|wordt|wilt|reset|uit|is|heeft|kan</exception></token>
-						<token postag="ZNW:EKV:.*" postag_regexp="yes"/>
-					</marker>
-				</pattern>
-				<message>U bedoelt vast: <suggestion><match no="2" postag="WKW:VTD:ONV"/> \3</suggestion>. Er kan ook een spatiefout staan: <suggestion>\2\3</suggestion>.</message>
-				<example correction="erkend bedrijf|erkentbedrijf">Een <marker>erkent bedrijf</marker>.</example>
-			</rule>
-		</rulegroup>
-		-->
+
 	</category>
 	<category id="WOORDGROEPEN" name="Woordgroepen" type="misspelling">
 
@@ -42078,8 +42049,10 @@ steenwijk;Steenwijk
 					<token>de</token>
 					<token/>
 				</pattern>
-				<message>Het woord na 'de' is onverwacht. Kijk eens goed of er geen spatie te veel staat, 'de' 'te' of 'het' moet zijn, of nog iets anders.</message>
-				<example type="incorrect"><marker>de loopt</marker></example>
+				<message>Het woord na 'de' is onverwacht. Kijk eens goed of er geen spatie te veel staat, het niet 'de', maar 'te' of 'het' moet zijn, of nog iets anders.</message>
+				<suggestion>het \2</suggestion>
+				<suggestion>te \2</suggestion>
+				<example correction="het loopt"><marker>de loopt</marker></example>
 				<example>Bij de overheadpass zijn beide handen aan de bal.</example> <!-- false alarm 15-12-2019 -->
 				<example>Bij de opgestane Jezus.</example> <!-- false alarm-->
 				<example>Bij de kartuizers.</example> <!-- false alarm-->
