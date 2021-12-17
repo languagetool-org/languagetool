@@ -18177,7 +18177,20 @@ A alma mater!
 		<token>alma</token>
 		<token>mater</token>
       </antipattern> 
-<!-- MARCOAGPINTO 2021-03-18 (17-MAR-2021+) *END* -->	  
+<!-- MARCOAGPINTO 2021-03-18 (17-MAR-2021+) *END* -->
+<!-- MARCOAGPINTO 2021-12-17 (25-JUN-2021+) *START* -->
+<!--
+Acesso em: 10 set 2007.
+André 23:07, 14 nov 2004 (UTC).
+2 jul 1605.
+USED IN ABBREVIATIONS AND ALSO IN SENTENCES STARTING WITH A NUMBER.
+-->
+      <antipattern>
+		<token regexp='yes'>0?[1-9]|[12][0-9]|3[01]</token>
+		<token regexp='yes'>&meses_ano_abrev;</token>
+		<token postag='Z0.+' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2021-12-17 (25-JUN-2021+) *END* -->  
     <rule>
       <pattern case_sensitive="no">
         <marker>
@@ -18200,6 +18213,10 @@ A alma mater!
       <example>O CV segue anexo.</example>
 	  
 	  <example type='correct'>A <marker>alma mater</marker>!</example>
+	  
+      <example>Acesso em: 10 set 2007.</example>
+	  <example>André 23:07, 14 nov 2004 (UTC).</example>
+	  <example>2 jul 1605.</example>
     </rule>
     <rule>
       <antipattern>
@@ -37308,6 +37325,19 @@ O Rui esteve lá no período 2013 –2021. → O Rui esteve lá no período 2013
 		<token regexp='yes'>[.]</token>
 	  </antipattern>
 <!-- MARCOAGPINTO 2021-07-13 (25-JUN-2021+) *END* -->
+<!-- MARCOAGPINTO 2021-12-17 (25-JUN-2021+) *START* -->
+<!--
+Acesso em: 10 set 2007.
+André 23:07, 14 nov 2004 (UTC).
+2 jul 1605.
+USED IN ABBREVIATIONS AND ALSO IN SENTENCES STARTING WITH A NUMBER.
+-->
+      <antipattern>
+		<token regexp='yes'>0?[1-9]|[12][0-9]|3[01]</token>
+		<token regexp='yes'>&meses_ano_abrev;</token>
+		<token postag='Z0.+' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2021-12-17 (25-JUN-2021+) *END* -->
       <pattern>
           <phraseref idref="ALL_SENT_START"/>
         <marker>
@@ -37337,7 +37367,11 @@ O Rui esteve lá no período 2013 –2021. → O Rui esteve lá no período 2013
 	  <example>4 a.C.</example>
 	  <example>4 d.C.</example>
 	  
-	  <example>10 A.D.</example>	  
+	  <example>10 A.D.</example>
+
+      <example>Acesso em: 10 set 2007.</example>
+	  <example>André 23:07, 14 nov 2004 (UTC).</example>
+	  <example>2 jul 1605.</example>	  
     </rule>
 
   <rulegroup id='CERCA_DE_NR' name="Aproximação excessivamente precisa">

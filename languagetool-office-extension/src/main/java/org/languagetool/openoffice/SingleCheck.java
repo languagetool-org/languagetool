@@ -209,16 +209,15 @@ class SingleCheck {
       
       int startPara = docCache.getStartOfParaCheck(nTPara, parasToCheck, checkOnlyParagraph, useQueue, false);
       int endPara = docCache.getEndOfParaCheck(nTPara, parasToCheck, checkOnlyParagraph, useQueue, false);
-      int startPos = docCache.getStartOfParagraph(startPara, nTPara, parasToCheck, checkOnlyParagraph, useQueue);
+      int startPos = docCache.getStartOfParagraph(startPara, nTPara, parasToCheck, checkOnlyParagraph, useQueue, hasFootnotes);
       int endPos;
-      int footnotesBefore = 0;
       for (int i = startPara; i < endPara; i++) {
         if (useQueue && !isDialogRequest && (mDH.getTextLevelCheckQueue() == null || mDH.getTextLevelCheckQueue().isInterrupted())) {
           return;
         }
         int[] footnotePos = docCache.getTextParagraphFootnotes(i);
         if (i < endPara - 1) {
-          endPos = docCache.getStartOfParagraph(i + 1, nTPara, parasToCheck, checkOnlyParagraph, useQueue);
+          endPos = docCache.getStartOfParagraph(i + 1, nTPara, parasToCheck, checkOnlyParagraph, useQueue, hasFootnotes);
         } else {
           endPos = textToCheck.length();
         }
@@ -238,8 +237,7 @@ class SingleCheck {
               int toPos = docCache.getTextParagraph(i).length();
               if (toPos > 0) {
                 errorList.add(correctRuleMatchWithFootnotes(
-                    createOOoError(myRuleMatch, -textPos, toPos, isIntern ? ' ' : docCache.getTextParagraph(i).charAt(toPos-1)),
-                      footnotesBefore, footnotePos));
+                    createOOoError(myRuleMatch, -textPos, toPos, isIntern ? ' ' : docCache.getTextParagraph(i).charAt(toPos-1)), footnotePos));
               }
             }
           }
@@ -259,7 +257,6 @@ class SingleCheck {
           }
         }
         startPos = endPos;
-        footnotesBefore += footnotePos.length;
       }
       if (!isImpress && useQueue && !isDialogRequest) {
         if (mDH.getTextLevelCheckQueue() == null || mDH.getTextLevelCheckQueue().isInterrupted()) {
@@ -565,7 +562,7 @@ class SingleCheck {
               toPos = paraText.length();
             }
             errorList.add(correctRuleMatchWithFootnotes(
-                createOOoError(myRuleMatch, 0, toPos, isIntern ? ' ' : paraText.charAt(toPos-1)), 0, footnotePos));
+                createOOoError(myRuleMatch, 0, toPos, isIntern ? ' ' : paraText.charAt(toPos-1)), footnotePos));
           }
           if (!errorList.isEmpty()) {
             if (debugMode > 1) {
@@ -741,8 +738,8 @@ class SingleCheck {
    * Correct SingleProofreadingError by footnote positions
    * footnotes before is the sum of all footnotes before the checked paragraph
    */
-  private static SingleProofreadingError correctRuleMatchWithFootnotes(SingleProofreadingError pError, int footnotesBefore, int[] footnotes) {
-    if (footnotesBefore == 0 && (footnotes == null || footnotes.length == 0)) {
+  private static SingleProofreadingError correctRuleMatchWithFootnotes(SingleProofreadingError pError, int[] footnotes) {
+    if (footnotes == null || footnotes.length == 0) {
       return pError;
     }
     for (int i :footnotes) {
@@ -752,7 +749,6 @@ class SingleCheck {
         pError.nErrorLength++;
       }
     }
-    pError.nErrorStart += footnotesBefore;
     return pError;
   }
   
