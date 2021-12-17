@@ -42043,9 +42043,7 @@ steenwijk;Steenwijk
 				<example correction="Het surplus"><marker>De surplus</marker> die ik zag.</example>
 			</rule>
 
-            <!--
 			<rule>
-				- spatiefouten worden te vaak genegeerd, sluit die uit, en vang die in een andere regel op -
 				<antipattern><token>de</token><token postag="ZNW:EKV:HET"/><token postag="ZNW.*" postag_regexp="yes"/></antipattern>
 				<pattern>
 					<token>de</token>
@@ -42054,13 +42052,12 @@ steenwijk;Steenwijk
 				<message>Het woord na 'de' is onverwacht. Kijk eens goed of er geen spatie te veel staat, het niet 'de', maar 'te' of 'het' moet zijn, of nog iets anders.</message>
 				<suggestion>het \2</suggestion>
 				<suggestion>te \2</suggestion>
-				<example correction="het loopt"><marker>de loopt</marker></example>
-				<example>Bij de overheadpass zijn beide handen aan de bal.</example> - false alarm 15-12-2019 -
-				<example>Bij de opgestane Jezus.</example> - false alarm-
-				<example>Bij de kartuizers.</example> - false alarm-
-				<example>Bij de princeps.</example> - false alarm-
+				<example correction="het loopt|te loopt"><marker>de loopt</marker></example>
+				<example>Bij de overheadpass zijn beide handen aan de bal.</example> <!-- false alarm 15-12-2019 -->
+				<example>Bij de opgestane Jezus.</example> <!-- false alarm-->
+				<example>Bij de kartuizers.</example> <!-- false alarm-->
+				<example>Bij de princeps.</example> <!-- false alarm-->
 			</rule>
-        -->
 		</rulegroup>
 		
 		<rulegroup id="OP_ZIJN_ZACHTS" name="zachts => zachtst">
