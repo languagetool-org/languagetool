@@ -37,6 +37,8 @@ import org.languagetool.tokenizers.es.SpanishWordTokenizer;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Spanish extends Language implements AutoCloseable {
 
@@ -256,5 +258,24 @@ public class Spanish extends Language implements AutoCloseable {
 
   public boolean hasMinMatchesRules() {
     return true;
+  }
+  
+  private static final Pattern ES_CONTRACTIONS = Pattern.compile("\\b(a|de) e(l)\\b", Pattern.CASE_INSENSITIVE);
+  
+  @Override
+  public List<RuleMatch> adaptSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
+    List<RuleMatch> newRuleMatches = new ArrayList<>();
+    for (RuleMatch rm : ruleMatches) {
+      List<String> replacements = rm.getSuggestedReplacements();
+      List<String> newReplacements = new ArrayList<>();
+      for (String s : replacements) {
+        Matcher m = ES_CONTRACTIONS.matcher(s);
+        s= m.replaceAll("$1$2");
+        newReplacements.add(s);
+      }
+      RuleMatch newMatch = new RuleMatch(rm, newReplacements);
+      newRuleMatches.add(newMatch);
+    }
+    return newRuleMatches;
   }
 }

@@ -35,6 +35,8 @@ import org.languagetool.tokenizers.ca.CatalanWordTokenizer;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Catalan extends Language {
 
@@ -238,5 +240,34 @@ public class Catalan extends Language {
   @Override
   public SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
       return new MorfologikCatalanSpellerRule(messages, this, null, Collections.emptyList());
+  }
+  
+  
+  private static final Pattern CA_OLD_DIACRITICS = Pattern.compile(".*\\b(dóna|vénen|véns|fóra)\\b.*",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  
+  @Override
+  public List<RuleMatch> adaptSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
+    if (enabledRules.contains("APOSTROF_TIPOGRAFIC") || !enabledRules.contains("DIACRITICS_TRADITIONAL_RULES")) {
+      List<RuleMatch> newRuleMatches = new ArrayList<>();
+      for (RuleMatch rm : ruleMatches) {
+        List<String> replacements = rm.getSuggestedReplacements();
+        List<String> newReplacements = new ArrayList<>();
+        for (String s : replacements) {
+          if (enabledRules.contains("APOSTROF_TIPOGRAFIC") && s.length() > 1) {
+            s = s.replace("'", "’");
+          }
+          Matcher m = CA_OLD_DIACRITICS.matcher(s);
+          if (!enabledRules.contains("DIACRITICS_TRADITIONAL_RULES") && m.matches()) {
+            // skip this suggestion with traditional diacritics
+          } else {
+            newReplacements.add(s);
+          }
+        }
+        RuleMatch newMatch = new RuleMatch(rm, newReplacements);
+        newRuleMatches.add(newMatch);
+      }
+      return newRuleMatches;
+    }
+    return ruleMatches;
   }
 }

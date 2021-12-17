@@ -323,4 +323,25 @@ public class French extends Language implements AutoCloseable {
     return true;
   }
 
+  @Override
+  public List<RuleMatch> adaptSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
+    if (enabledRules.contains("APOS_TYP")) {
+      List<RuleMatch> newRuleMatches = new ArrayList<>();
+      for (RuleMatch rm : ruleMatches) {
+        List<String> replacements = rm.getSuggestedReplacements();
+        List<String> newReplacements = new ArrayList<>();
+        for (String s : replacements) {
+          if (s.length() > 1) {
+            s = s.replace("'", "’");
+          }
+          newReplacements.add(s);
+        }
+        RuleMatch newMatch = new RuleMatch(rm, newReplacements);
+        newRuleMatches.add(newMatch);
+      }
+      return newRuleMatches;
+    }
+    return ruleMatches;
+  }
+
 }
