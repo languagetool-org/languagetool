@@ -1465,6 +1465,23 @@ Com efeito, vinham-se acumulando estudos e testemunhos.
 
  <category id='FORMAL_SPEECH' name='Linguagem Formal' type='register'>
 
+	<!-- EDUCAÇÃO SUPERIOR Ensino Superior -->
+    <rule id='ENSINO_SUPERIOR' name="Educação Superior → Ensino Superior" type="style" default="temp_off">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-12-18 (25-JUN-2021+)      -->
+	<!--
+O ISCTE é uma instituição de Educação Superior. → O ISCTE é uma instituição de Ensino Superior.
+	-->
+      <pattern>
+		<marker>
+			<token case_sensitive="yes">Educação</token>
+			<token case_sensitive="yes">Superior</token>
+		</marker>
+      </pattern>      
+	  <message>Se estiver a referir-se a uma instituição/ramo universitário, opte por:</message>
+	  <suggestion>Ensino Superior</suggestion>
+      <example correction="Ensino Superior">O ISCTE é uma instituição de <marker>Educação Superior</marker>.</example>
+    </rule>
+
     <!-- TODO Add antipattern for dash and quotations -->
   <rulegroup id='T-V_DISTINCTION' name='Tratamento formal: Tu,Você; Vós,Vocês' default='on'>
     <!-- Created by Tiago F. Santos , Portuguese rule, 2016-12-28 -->
