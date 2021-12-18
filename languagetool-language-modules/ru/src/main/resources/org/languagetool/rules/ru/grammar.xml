@@ -227,7 +227,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Конференция состоится во <marker>вторник, 7.10.2014</marker> г.</example>
             </rule>
         </rulegroup>
-        <rule id="INVALID_TENSE_DATE" name="Дата находится в будущем, а глагол - в прошлом" default="temp_off">
+        <rulegroup id="INVALID_TENSE_DATE" name="Дата находится в будущем, а глагол – в прошлом" >  <!-- default="temp_off" -->
+          <rule>
                 <pattern>
                     <token postag="VB:Past:.*:.*:.*" postag_regexp="yes" skip="-1">
                         <exception postag="VB:Past:.*:.*:.*" postag_regexp="yes" negate_pos="yes"></exception>
@@ -241,9 +242,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <filter args="year:\4 month:\3 day:\2" class="org.languagetool.rules.ru.FutureDateFilter"/>
             <message>Данная дата находится в будущем, но глагол стоит в прошедшем времени.</message>
-            <example correction="">Мы посетили клиента <marker>17 июня 2039</marker> г.</example>
+            <short>Дата – в будущем</short>
+            <example correction="">Мы посетили клиента <marker>17 июня 2039</marker> г.</example>           
+     <!--   <example correction="">Мы посетили клиента <marker>17 июня 2039г</marker>.</example> -->
             <example>Мы посетили клиента 17 июня 1939 г.</example>
-        </rule>
+          </rule>
+          <rule>
+                <pattern>
+                    <token postag="VB:Past:.*:.*:.*" postag_regexp="yes" skip="-1">
+                        <exception postag="VB:Past:.*:.*:.*" postag_regexp="yes" negate_pos="yes"></exception>
+                        <exception scope="next">до</exception>
+                    </token>
+                    <marker>
+                        <token regexp="yes">\d\d?</token>
+                        <token>.</token>
+                        <token regexp="yes">[0-1]?[0-9]</token>
+                        <token>.</token>
+                        <token regexp="yes">\d\d\d\d</token>
+                    </marker>
+                </pattern>
+                <filter args="year:\6 month:\4 day:\2" class="org.languagetool.rules.ru.FutureDateFilter"/>
+            <message>Данная дата находится в будущем, но глагол стоит в прошедшем времени.</message>
+            <short>Дата – в будущем</short>
+            <example correction="">Мы посетили клиента <marker>17.06.2039</marker>.</example>
+            <example>Мы посетили клиента 17.06.1939.</example>
+          </rule>
+        </rulegroup>
         <rule id="zadat_test" name="Опечатка: «задать тест»">
             <pattern>
 		<token>задать</token>
