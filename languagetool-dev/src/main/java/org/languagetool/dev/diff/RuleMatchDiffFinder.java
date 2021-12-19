@@ -511,11 +511,11 @@ public class RuleMatchDiffFinder {
     fw.write("    td { vertical-align: top; }\n");
     fw.write("    .small { font-size: small }\n");
     fw.write("    .sentence { color: #666; }\n");
-    fw.write("    .marker { text-decoration: underline; }\n");
+    fw.write("    .marker { text-decoration: underline; background-color: rgba(200, 200, 200, 0.4) }\n");
     fw.write("    .source { color: #999; }\n");
     fw.write("    .status { color: #999; }\n");
-    fw.write("    .whitespace { background-color: #ccc; }\n");
-    fw.write("    .nbsp { background-color: #ccc; }\n");
+    fw.write("    .whitespace { background-color: rgba(200, 200, 200, 0.3) }\n");
+    fw.write("    .nbsp { background-color: rgba(200, 200, 200, 0.3) }\n");
     fw.write("    .id { color: #666; }\n");
     fw.write("    .msg { color: #666; }\n");
     fw.write("  </style>\n");
