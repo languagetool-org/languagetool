@@ -18183,14 +18183,14 @@ A alma mater!
 Acesso em: 10 set 2007.
 André 23:07, 14 nov 2004 (UTC).
 2 jul 1605.
-USED IN ABBREVIATIONS AND ALSO IN SENTENCES STARTING WITH A NUMBER.
+USED IN ABBREVIATIONS, BARBARISMS AND ALSO IN SENTENCES STARTING WITH A NUMBER.
 -->
       <antipattern>
 		<token regexp='yes'>0?[1-9]|[12][0-9]|3[01]</token>
 		<token regexp='yes'>&meses_ano_abrev;</token>
 		<token postag='Z0.+' postag_regexp='yes'/>
       </antipattern>
-<!-- MARCOAGPINTO 2021-12-17 (25-JUN-2021+) *END* -->  
+<!-- MARCOAGPINTO 2021-12-17 (25-JUN-2021+) *END* --> 
     <rule>
       <pattern case_sensitive="no">
         <marker>
@@ -37330,7 +37330,7 @@ O Rui esteve lá no período 2013 –2021. → O Rui esteve lá no período 2013
 Acesso em: 10 set 2007.
 André 23:07, 14 nov 2004 (UTC).
 2 jul 1605.
-USED IN ABBREVIATIONS AND ALSO IN SENTENCES STARTING WITH A NUMBER.
+USED IN ABBREVIATIONS, BARBARISMS AND ALSO IN SENTENCES STARTING WITH A NUMBER.
 -->
       <antipattern>
 		<token regexp='yes'>0?[1-9]|[12][0-9]|3[01]</token>
@@ -37809,6 +37809,19 @@ Ele nem sabe escrever o nome. → Ele nem o nome sabe escrever.
         <token>curriculum</token>
         <token>vitae</token>
       </antipattern>
+<!-- MARCOAGPINTO 2021-12-17 (25-JUN-2021+) *START* -->
+<!--
+Acesso em: 10 set 2007.
+André 23:07, 14 nov 2004 (UTC).
+2 jul 1605.
+USED IN ABBREVIATIONS, BARBARISMS AND ALSO IN SENTENCES STARTING WITH A NUMBER.
+-->
+      <antipattern>
+		<token regexp='yes'>0?[1-9]|[12][0-9]|3[01]</token>
+		<token regexp='yes'>&meses_ano_abrev;</token>
+		<token postag='Z0.+' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2021-12-17 (25-JUN-2021+) *END* -->
     <rule>
       <pattern case_sensitive='yes'>
           <token regexp='yes'>(?:&barbarismos;|&barbarismos2;|&barbarismos3;)s?
@@ -37821,6 +37834,10 @@ Ele nem sabe escrever o nome. → Ele nem o nome sabe escrever.
       <example correction='‘softwares’|“softwares”'>Os <marker>softwares</marker> de código aberto tem várias vantagens.</example>
       <example>Ainda estão a debater se adquirem ou não acesso à Internet.</example>
       <example>O "software" de código aberto tem várias vantagens.</example>
+	  
+      <example>Acesso em: 10 set 2007.</example>
+	  <example>André 23:07, 14 nov 2004 (UTC).</example>
+	  <example>2 jul 1605.</example>
     </rule>
     <rule>
       <pattern>
