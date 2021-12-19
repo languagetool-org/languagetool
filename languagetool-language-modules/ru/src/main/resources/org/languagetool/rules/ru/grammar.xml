@@ -8539,7 +8539,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="ADV"  regexp="yes">(не)(.*)[о]</token>
                         <token>,</token>
                         <token>а</token>
-                        <token postag="ADV"  ></token>
+                        <token postag="ADV" ><exception regexp="yes">потом|сейчас</exception>
+                        </token>
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.ru.RussianPartialPosTagFilter" 
@@ -8547,6 +8548,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Пишется раздельно с «не», имеется противопоставление с союзом «а»: <suggestion><match no="1" regexp_match="(не)(.*)" regexp_replace="$1 $2"></match><match no="2"></match> <match no="3"></match> <match no="4"></match></suggestion>.</message>
                 <short>Раздельно с «не»</short>
                 <example>Работа выполнена не плохо, а хорошо.</example>
+                <example>Он замолкает ненадолго, а потом поет печальную песню.</example>   <!-- issue #6165 , а=но -->             
                 <example correction="не плохо, а хорошо">Работа выполнена <marker>неплохо, а хорошо</marker>.</example>
             </rule>
             <rule>
