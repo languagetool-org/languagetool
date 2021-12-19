@@ -11610,7 +11610,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
-        <rulegroup id="RIESEN_DANK" name="riesen Dank (Riesendank)" default="temp_off">
+        <rulegroup id="RIESEN_DANK" name="riesen Dank (Riesendank)">
             <rule>
                 <pattern>
                     <token regexp="yes">[dmsk]?ein</token>
@@ -11620,8 +11620,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">Danke?</token>
                     </marker>
                 </pattern>
-                <message>Meinten Sie <suggestion>Riesen<match no="4" case_conversion="alllower" /></suggestion> oder <suggestion>riesengroßer Dank</suggestion>?</message>
-                <example correction="Riesendank|riesengroßer Dank">Ein <marker>riesen Dank</marker> an alle, die mitgemacht haben.</example>
+                <message>Dieses Wort wird als Nomen zusammengeschrieben, oder meinten Sie das Adjektiv "riesengroß"?</message>
+                <suggestion><match no="3" case_conversion="alllower" regexp_match="(?i)r" regexp_replace="r" />großer Dank</suggestion>
+                <suggestion>Riesendank</suggestion>
+                <example correction="riesengroßer Dank|Riesendank">Ein <marker>riesen Dank</marker> an alle, die mitgemacht haben.</example>
             </rule>
             <rule>
                 <pattern>
@@ -11632,8 +11634,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>Dank</token>
                     </marker>
                 </pattern>
-                <message>Meinten Sie <suggestion>Riesendank</suggestion> oder <suggestion>riesengroßen Dank</suggestion>?</message>
-                <example correction="Riesendank|riesengroßen Dank">Einen <marker>riesen Dank</marker> an alle, die mitgemacht haben.</example>
+                <message>Dieses Wort wird als Nomen zusammengeschrieben, oder meinten Sie das Adjektiv "riesengroß"?</message>
+                <suggestion><match no="3" case_conversion="alllower" regexp_match="(?i)r" regexp_replace="r" />großen Dank</suggestion>
+                <suggestion>Riesendank</suggestion>
+                <example correction="riesengroßen Dank|Riesendank">Einen <marker>riesen Dank</marker> an alle, die mitgemacht haben.</example>
             </rule>
             <rule>
                 <pattern>
@@ -11644,15 +11648,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>Dank</token>
                     </marker>
                 </pattern>
-                <message>Meinten Sie <suggestion>Riesendank</suggestion> oder <suggestion>riesengroße Dank</suggestion>?</message>
-                <example correction="Riesendank|riesengroße Dank">Dieser <marker>riesen Dank</marker> geht an alle, die mitgemacht haben.</example>
+                <message>Dieses Wort wird als Nomen zusammengeschrieben, oder meinten Sie das Adjektiv "riesengroß"?</message>
+                <suggestion><match no="3" case_conversion="alllower" regexp_match="(?i)r" regexp_replace="r" />große Dank</suggestion>
+                <suggestion>Riesendank</suggestion>
+                <example correction="riesengroße Dank|Riesendank">Dieser <marker>Riesen Dank</marker> geht an alle, die mitgemacht haben.</example>
             </rule>
             <rule>
                 <pattern>
                     <token>riesen</token>
                     <token>Dank</token>
                 </pattern>
-                <message>Meinten Sie <suggestion>Riesendank</suggestion>?</message>
+                <message>Dieses Wort wird als Nomen zusammengeschrieben.</message>
+                <suggestion>Riesendank</suggestion>
                 <example correction="Riesendank">Ein <marker>riesen Dank</marker> an alle, die mitgemacht haben.</example>
             </rule>
             <rule>
@@ -11664,24 +11671,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">Dankeschöns|Problems|Erlebnisses|Komplimente?s</token>
                     </marker>
                 </pattern>
-                <message>Meinten Sie <suggestion>Riesen-<match no="4" case_conversion="startupper" /></suggestion> oder <suggestion>riesengroßen <match no="4" case_conversion="startupper" /></suggestion>?</message>
-                <example correction="Riesen-Problems|riesengroßen Problems">Wir konnten kein Feierabend machen dank dieses <marker>riesen Problems</marker>.</example>
+                <message>Dieses Wort wird als Nomen zusammengeschrieben, oder meinten Sie das Adjektiv "riesengroß"?</message>
+                <suggestion><match no="3" case_conversion="alllower" regexp_match="(?i)r" regexp_replace="r" />großen <match no="4" case_conversion="startupper" /></suggestion>
+                <suggestion>Riesen-<match no="4" case_conversion="startupper" /></suggestion> 
+                <example correction="riesengroßen Problems|Riesen-Problems">Wir konnten kein Feierabend machen dank dieses <marker>riesen Problems</marker>.</example>
             </rule>
             <rule>
                 <pattern>
                     <token>riesen</token>
                     <token regexp="yes">Dankeschön|Problem|Erlebnis|Kompliment</token>
                 </pattern>
-                <message>Meinten Sie <suggestion>Riesen-<match no="2" case_conversion="startupper" /></suggestion> oder <suggestion>riesengroßes <match no="2" case_conversion="startupper" /></suggestion>?</message>
-                <example correction="Riesen-Dankeschön|riesengroßes Dankeschön">Ein <marker>riesen Dankeschön</marker> an alle, die mitgemacht haben.</example>
+                <message>Dieses Wort wird als Nomen zusammengeschrieben, oder meinten Sie das Adjektiv "riesengroß"?</message>
+                <suggestion><match no="1" case_conversion="alllower" regexp_match="(?i)r" regexp_replace="r" />großes <match no="2" case_conversion="startupper" /></suggestion>
+                <suggestion>Riesen-<match no="2" case_conversion="startupper" /></suggestion> 
+                <example correction="riesengroßes Dankeschön|Riesen-Dankeschön">Ein <marker>riesen Dankeschön</marker> an alle, die mitgemacht haben.</example>
             </rule>
             <rule>
                 <pattern>
                     <token>riesen</token>
                     <token regexp="yes">Probleme|Fans|Erfolge|Aufwände</token>
                 </pattern>
-                <message>Meinten Sie <suggestion>Riesen-<match no="2" case_conversion="startupper" /></suggestion> oder <suggestion>riesengroße <match no="2" case_conversion="startupper" /></suggestion>?</message>
-                <example correction="Riesen-Erfolge|riesengroße Erfolge">Die <marker>riesen Erfolge</marker> feierte er mit seinem neusten Hit.</example>
+                <message>Dieses Wort wird als Nomen zusammengeschrieben, oder meinten Sie das Adjektiv "riesengroß"?</message>
+                <suggestion><match no="1" case_conversion="alllower" regexp_match="(?i)r" regexp_replace="r" />große <match no="2" case_conversion="startupper" /></suggestion>
+                <suggestion>Riesen-<match no="2" case_conversion="startupper" /></suggestion>
+                <example correction="riesengroße Erfolge|Riesen-Erfolge">Die <marker>riesen Erfolge</marker> feierte er mit seinem neusten Hit.</example>
             </rule>
             <rule>
                 <pattern>
@@ -11692,16 +11705,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">Freude|Ehre|Chance|Auswahl|Hilfe|Portion</token>
                     </marker>
                 </pattern>
-                <message>Meinten Sie <suggestion>Riesen-<match no="4" case_conversion="startupper" /></suggestion> oder <suggestion>riesengroßen <match no="4" case_conversion="startupper" /></suggestion>?</message>
-                <example correction="Riesen-Auswahl|riesengroßen Auswahl">Das ist nur ein Teil unserer <marker>riesen Auswahl</marker>.</example>
+                <message>Dieses Wort wird als Nomen zusammengeschrieben, oder meinten Sie das Adjektiv "riesengroß"?</message>
+                <suggestion><match no="3" case_conversion="alllower" regexp_match="(?i)r" regexp_replace="r" />großen <match no="4" case_conversion="startupper" /></suggestion>
+                <suggestion>Riesen-<match no="4" case_conversion="startupper" /></suggestion>
+                <example correction="riesengroßen Auswahl|Riesen-Auswahl">Das ist nur ein Teil unserer <marker>Riesen Auswahl</marker>.</example>
             </rule>
             <rule>
                 <pattern>
                     <token>riesen</token>
                     <token regexp="yes">Freude|Ehre|Chance|Auswahl|Hilfe|Portion</token>
                 </pattern>
-                <message>Meinten Sie <suggestion>Riesen-<match no="2" case_conversion="startupper" /></suggestion> oder <suggestion>riesengroße <match no="2" case_conversion="startupper" /></suggestion>?</message>
-                <example correction="Riesen-Freude|riesengroße Freude">Es war eine <marker>riesen Freude</marker>, mit dir gearbeitet zu haben.</example>
+                <message>Dieses Wort wird als Nomen zusammengeschrieben, oder meinten Sie das Adjektiv "riesengroß"?</message>
+                <suggestion><match no="1" case_conversion="alllower" regexp_match="(?i)r" regexp_replace="r" />große <match no="2" case_conversion="startupper" /></suggestion>
+                <suggestion>Riesen-<match no="2" case_conversion="startupper" /></suggestion>
+                <example correction="riesengroße Freude|Riesen-Freude">Es war eine <marker>Riesen Freude</marker>, mit dir gearbeitet zu haben.</example>
             </rule>
             <rule>
                 <pattern>
@@ -11709,11 +11726,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="ADV.*" postag_regexp="yes" min="0" />
                     <marker>
                         <token>riesen</token>
-                        <token regexp="yes">(Vor|Nach)teils|Vorsprungs|Aufwands|Fans|Erfolge?s|Spa(ß|ss)es|Teils</token>
+                        <token regexp="yes">(Vor|Nach)teils|Vorsprungs|Aufwands|Fans|Erfolge?s|Spa(ß|ss)es|Teils|Gewinns|Verlusts</token>
                     </marker>
                 </pattern>
-                <message>Meinten Sie <suggestion>Riesen-<match no="4" case_conversion="startupper" /></suggestion> oder <suggestion>riesengroßen <match no="4" case_conversion="startupper" /></suggestion>?</message>
-                <example correction="Riesen-Erfolgs|riesengroßen Erfolgs">Das ist nur ein kleiner Faktor unseres <marker>riesen Erfolgs</marker>.</example>
+                <message>Dieses Wort wird als Nomen zusammengeschrieben, oder meinten Sie das Adjektiv "riesengroß"?</message>
+                <suggestion><match no="3" case_conversion="alllower" regexp_match="(?i)r" regexp_replace="r" />großen <match no="4" case_conversion="startupper" /></suggestion>
+                <suggestion>Riesen-<match no="4" case_conversion="startupper" /></suggestion>
+                <example correction="riesengroßen Erfolgs|Riesen-Erfolgs">Das ist nur ein kleiner Faktor unseres <marker>riesen Erfolgs</marker>.</example>
             </rule>
             <rule>
                 <pattern>
@@ -11721,11 +11740,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="ADV.*" postag_regexp="yes" min="0" />
                     <marker>
                         <token>riesen</token>
-                        <token regexp="yes">(Vor|Nach)teil|Vorsprung|Aufwand|Fan|Erfolg|Spa(ß|ss)|Teil</token>
+                        <token regexp="yes">(Vor|Nach)teil|Vorsprung|Aufwand|Fan|Erfolg|Spa(ß|ss)|Teil|Gewinn|Verlust</token>
                     </marker>
                 </pattern>
-                <message>Meinten Sie <suggestion>Riesen-<match no="4" case_conversion="startupper" /></suggestion> oder <suggestion>riesengroßer <match no="4" case_conversion="startupper" /></suggestion>?</message>
-                <example correction="Riesen-Aufwand|riesengroßer Aufwand">Das war ein <marker>riesen Aufwand</marker> für uns.</example>
+                <message>Dieses Wort wird als Nomen zusammengeschrieben, oder meinten Sie das Adjektiv "riesengroß"?</message>
+                <suggestion><match no="3" case_conversion="alllower" regexp_match="(?i)r" regexp_replace="r" />großer <match no="4" case_conversion="startupper" /></suggestion>
+                <suggestion>Riesen-<match no="4" case_conversion="startupper" /></suggestion>
+                <example correction="riesengroßer Aufwand|Riesen-Aufwand">Das war ein <marker>riesen Aufwand</marker> für uns.</example>
             </rule>
             <rule>
                 <pattern>
@@ -11733,11 +11754,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="ADV.*" postag_regexp="yes" min="0" />
                     <marker>
                         <token>riesen</token>
-                        <token regexp="yes">(Vor|Nach)teil|Vorsprung|Aufwand|Fan|Erfolg|Spa(ß|ss)|Teil</token>
+                        <token regexp="yes">(Vor|Nach)teil|Vorsprung|Aufwand|Fan|Erfolg|Spa(ß|ss)|Teil|Gewinn|Verlust</token>
                     </marker>
                 </pattern>
-                <message>Meinten Sie <suggestion>Riesen-<match no="4" case_conversion="startupper" /></suggestion> oder <suggestion>riesengroßen <match no="4" case_conversion="startupper" /></suggestion>?</message>
-                <example correction="Riesen-Erfolg|riesengroßen Erfolg">Er feierte einen <marker>riesen Erfolg</marker> mit seiner Single.</example>
+                <message>Dieses Wort wird als Nomen zusammengeschrieben, oder meinten Sie das Adjektiv "riesengroß"?</message>
+                <suggestion><match no="3" case_conversion="alllower" regexp_match="(?i)r" regexp_replace="r"  />großen <match no="4" case_conversion="startupper" /></suggestion>
+                <suggestion>Riesen-<match no="4" case_conversion="startupper" /></suggestion>
+                <example correction="riesengroßen Erfolg|Riesen-Erfolg">Er feierte einen <marker>riesen Erfolg</marker> mit seiner Single.</example>
             </rule>
             <rule>
                 <pattern>
@@ -11745,11 +11768,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="ADV.*" postag_regexp="yes" min="0" />
                     <marker>
                         <token>riesen</token>
-                        <token regexp="yes">(Vor|Nach)teil|Vorsprung|Aufwand|Fan|Erfolg|Spa(ß|ss)|Teil</token>
+                        <token regexp="yes">(Vor|Nach)teil|Vorsprung|Aufwand|Fan|Erfolg|Spa(ß|ss)|Teil|Gewinn|Verlust</token>
                     </marker>
                 </pattern>
-                <message>Meinten Sie <suggestion>Riesen-<match no="4" case_conversion="startupper" /></suggestion> oder <suggestion>riesengroße <match no="4" case_conversion="startupper" /></suggestion>?</message>
-                <example correction="Riesen-Erfolg|riesengroße Erfolg">Der <marker>riesen Erfolg</marker> war etwas einmaliges.</example>
+                <message>Dieses Wort wird als Nomen zusammengeschrieben, oder meinten Sie das Adjektiv "riesengroß"?</message>
+                <suggestion><match no="3" case_conversion="alllower" regexp_match="(?i)r" regexp_replace="r" />große <match no="4" case_conversion="startupper" /></suggestion>
+                <suggestion>Riesen-<match no="4" case_conversion="startupper" /></suggestion>
+                <example correction="riesengroße Erfolg|Riesen-Erfolg">Der <marker>riesen Erfolg</marker> war etwas einmaliges.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AUF_DICH_ZU_KOMMEN" name="auf uns zu kommen (zukommen)">
@@ -11780,7 +11805,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="zukommen">Ich lasse das auf mich <marker>zu kommen</marker>.</example>
                 <example>Sie werden Zeit brauchen um auf uns zu kommen.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>auf</token>
                     <token regexp="yes" min="0">Herrn?|Frau|Fräulein</token>
@@ -11793,7 +11818,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Das Verb <suggestion>zu\5</suggestion> wird in diesem Kontext normalerweise zusammengeschrieben.</message>
                 <example correction="zukommen">Wir wissen bereits, was auf Peter <marker>zu kommen</marker> wird.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token skip="2">auf</token>
                     <token inflected="yes" regexp="yes">Bedürfnis|Wunsch</token>
@@ -11802,7 +11827,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token inflected="yes">schneiden</token>
                     </marker>
                 </pattern>
-                <message>Das Verb <suggestion>zu\5</suggestion> wird in diesem Kontext normalerweise zusammengeschrieben.</message>
+                <message>Das Verb <suggestion>zu\4</suggestion> wird in diesem Kontext normalerweise zusammengeschrieben.</message>
                 <example correction="zugeschnitten">Wir haben das Produkt auf Ihre Wünsche <marker>zu geschnitten</marker>.</example>
             </rule>
         </rulegroup>
@@ -51830,7 +51855,7 @@ Andere Projekte</example>
     <!-- Zeichensetzung -->
     <!-- ====================================================================== -->
     <category id="PUNCTUATION" name="Zeichensetzung">
-        <rulegroup id="ICH_GLAUBE_FUER_EUCH" name="Ich glaube(,) für euch ist ..." default="temp_off">
+        <rulegroup id="ICH_GLAUBE_FUER_EUCH" name="Ich glaube(,) für euch ist ...">
             <!-- offers suggestions for cases where KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ does not-->
             <!-- TODO more here: https://github.com/languagetool-org/languagetool/issues/1196 -->
             <antipattern><!-- Tom weiß mit Lasttieren umzugehen. -->
@@ -51848,7 +51873,7 @@ Andere Projekte</example>
                     <token regexp="yes" min="0">Herrn?|Frau|Fräulein</token>
                     <token postag="PRO:PER:NOM.*|EIG.*" postag_regexp="yes" />
                     <token regexp="yes" inflected="yes">
-                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten
+                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden
                         <exception postag="SUB.*" postag_regexp="yes" />
                         <exception postag="PA2.*" postag_regexp="yes" />
                     </token>
@@ -51860,9 +51885,8 @@ Andere Projekte</example>
                     <token postag="EIG.*|PRO.*|SUB.*" postag_regexp="yes">
                         <exception postag="ART.*" postag_regexp="yes" />
                     </token>
-                    <token min="0" case_sensitive="yes">zu</token>
                     <token postag="VER.*" postag_regexp="yes">
-                        <exception regexp="yes">m?einen|mal|dank</exception>
+                        <exception regexp="yes">m?einen?|mal|gar|dank|recht</exception>
                     </token>
                 </pattern>
                 <message>Hier scheint ein Komma zu fehlen.</message>
@@ -51884,7 +51908,7 @@ Andere Projekte</example>
                     <token regexp="yes" min="0">Herrn?|Frau|Fräulein</token>
                     <token postag="PRO:PER:NOM.*|EIG.*" postag_regexp="yes" />
                     <token regexp="yes" inflected="yes">
-                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten
+                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden
                         <exception postag="SUB.*" postag_regexp="yes" />
                         <exception postag="PA2.*" postag_regexp="yes" />
                     </token>
@@ -51895,9 +51919,8 @@ Andere Projekte</example>
                     <token postag="EIG.*|SUB.*" postag_regexp="yes">
                         <exception postag="ART.*" postag_regexp="yes" />
                     </token>
-                    <token min="0" case_sensitive="yes">zu</token>
                     <token postag="VER.*" postag_regexp="yes">
-                        <exception regexp="yes">m?einen|mal|dank</exception>
+                        <exception regexp="yes">m?einen?|mal|gar|dank|recht</exception>
                     </token>
                 </pattern>
                 <message>Hier scheint ein Komma zu fehlen.</message>
@@ -51910,7 +51933,7 @@ Andere Projekte</example>
                     <token regexp="yes" min="0">Herrn?|Frau|Fräulein</token>
                     <token postag="PRO:PER:NOM.*|EIG.*" postag_regexp="yes" />
                     <token regexp="yes" inflected="yes">
-                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten
+                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden
                         <exception postag="SUB.*" postag_regexp="yes" />
                         <exception postag="PA2.*" postag_regexp="yes" />
                     </token>
@@ -51919,9 +51942,8 @@ Andere Projekte</example>
                     </marker>
                     <token postag="ADJ.*" postag_regexp="yes" min="0" max="3" />
                     <token postag="EIG.*|SUB.*" postag_regexp="yes" />
-                    <token min="0" case_sensitive="yes">zu</token>
                     <token postag="VER.*" postag_regexp="yes">
-                        <exception regexp="yes">m?einen|mal|dank</exception>
+                        <exception regexp="yes">m?einen?|mal|gar|dank|recht</exception>
                     </token>
                 </pattern>
                 <message>Hier scheint ein Komma zu fehlen.</message>
@@ -51940,16 +51962,15 @@ Andere Projekte</example>
                     <token regexp="yes" min="0">Herrn?|Frau|Fräulein</token>
                     <token postag="PRO:PER:NOM.*|EIG.*" postag_regexp="yes" />
                     <token regexp="yes" inflected="yes">
-                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten
+                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden
                         <exception postag="SUB.*" postag_regexp="yes" />
                         <exception postag="PA2.*" postag_regexp="yes" />
                     </token>
                     <marker>
                         <token postag="EIG.*|SUB.*" postag_regexp="yes" />
                     </marker>
-                    <token min="0" case_sensitive="yes">zu</token>
                     <token postag="VER.*" postag_regexp="yes">
-                        <exception regexp="yes">m?einen|mal|dank</exception>
+                        <exception regexp="yes">m?einen?|mal|gar|dank|recht</exception>
                     </token>
                 </pattern>
                 <message>Hier scheint ein Komma zu fehlen.</message>
@@ -51963,7 +51984,7 @@ Andere Projekte</example>
                     <token postag="PKT|SENT_START|KON.*" postag_regexp="yes" />
                     <token postag="PRO:PER:NOM.*|EIG.*" postag_regexp="yes" />
                     <token regexp="yes" inflected="yes">
-                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten
+                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden
                         <exception postag="SUB.*" postag_regexp="yes" />
                         <exception postag="PA2.*" postag_regexp="yes" />
                     </token>
@@ -51971,9 +51992,8 @@ Andere Projekte</example>
                         <token regexp="yes">Herrn?|Frau|Fräulein</token>
                     </marker>
                     <token postag="EIG.*|SUB.*" postag_regexp="yes" />
-                    <token min="0" case_sensitive="yes">zu</token>
                     <token postag="VER.*" postag_regexp="yes">
-                        <exception regexp="yes">m?einen|mal|dank</exception>
+                        <exception regexp="yes">m?einen?|mal|gar|dank|recht</exception>
                     </token>
                 </pattern>
                 <message>Hier scheint ein Komma zu fehlen.</message>
@@ -52138,7 +52158,7 @@ Andere Projekte</example>
                     </marker>
                     <token postag="VER:IMP.*|VER:(MOD|AUX).*|VER:.*:PRÄ:NON.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">
                         [a-zäöü].*
-                        <exception regexp="yes" case_sensitive="no">einen?|gar|mal|klar</exception>
+                        <exception regexp="yes" case_sensitive="no">m?einen?|gar|mal|klar|recht</exception>
                     </token>
                 </pattern>
                 <message>Hier scheint ein Komma zu fehlen.</message>

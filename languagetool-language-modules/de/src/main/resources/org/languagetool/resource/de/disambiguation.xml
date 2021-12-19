@@ -5165,6 +5165,20 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="remove" postag=".*"/>
     </rule>
 
+    <rule id="GAR_KEIN_VERB" name="'gar' kein Verb">
+        <antipattern>
+            <token regexp="yes">bitte|ich</token>
+            <token>gar</token>
+        </antipattern>
+        <pattern>
+            <marker>
+                <token>gar</token>
+            </marker>
+            <token regexp="yes" case_sensitive="yes">nichts?|nix|kein[se]?</token>
+        </pattern>
+        <disambig action="remove" postag="VER.*"/>
+    </rule>
+
     <rule id="IGNORE_SPELLING_OF_NUMBER_PERIOD_LETTER" name="ignore '2.a'">
         <pattern>
             <token regexp="yes">\d+</token>
