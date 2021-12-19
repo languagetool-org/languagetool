@@ -432,7 +432,7 @@ public class TextLevelCheckQueue {
       if (e == null || nCheck != e.nCheck || nCache != e.nCache || !docId.equals(e.docId)) {
         return false;
       }
-      if (nCheck < 1 || (nCheck == -1 && e.nStart >= nStart && e.nStart <= nEnd) 
+      if (nCheck < -1 || (nCheck == -1 && e.nStart >= nStart && e.nStart <= nEnd) 
           || (nCheck >= 0 && nStart == e.nStart && nEnd == e.nEnd)) {
         return true;
       }
