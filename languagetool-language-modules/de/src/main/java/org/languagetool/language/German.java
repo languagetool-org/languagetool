@@ -295,7 +295,7 @@ public class German extends Language implements AutoCloseable {
       case "MIT_VERANTWORTLICH" : return 1;   // prefer over agreement rules
       case "VOR_LACHEN" : return 1;   // prefer over ZUSAMMENGESETZTE_VERBEN
       case "ZUCCHINIS" : return 1;   // overwrite spell checker
-      case "BEI_GOOGLE" : return 1;   // prefer over agreement rules
+      case "BEI_GOOGLE" : return 1;   // prefer over agreement rules and VOR_BEI
       case "ANGL_PA_ED_UNANGEMESSEN" : return 1;   // overwrite spell checker
       case "WRONG_UPPER_QUOTE": return 1; // higher prio than UNPAIRED_QUOTES
       case "EMAIL": return 1;  // better suggestion than SIMPLE_AGREEMENT_*

@@ -1312,23 +1312,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Google">Ich habe das bei <marker>google</marker> gefunden.</example>
             </rule>
             <rule>
-                <pattern>
-                    <marker>
-                        <token>vor</token>
-                        <token>bei</token>
-                    </marker>
-                    <token postag='VER:.*' postag_regexp='yes' regexp="yes" case_sensitive="yes">
-                        [a-zöäü]+
-                        <exception postag='PA[12]:.*' postag_regexp='yes'/>
-                        <exception postag='ADJ:.*' postag_regexp='yes'/>
-                        <exception postag='ZAL' />
-                        <exception regexp="yes">m?ein|einen|meinen|gar|frühlingshaft.*|arte</exception>
-                    </token>
-                </pattern>
-                <message>Meinten Sie <suggestion>vorbei</suggestion>?</message>
-                <example correction="vorbei">Er wollte heute <marker>vor bei</marker> kommen.</example>
-            </rule>
-            <rule>
                 <antipattern>
                     <token>bei</token>
                     <token>sage</token>
@@ -11675,6 +11658,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rule id="VOR_BEI" name="vor bei (vorbei)" default="temp_off">
+            <antipattern>
+                <token>bei</token>
+                <token>sage</token>
+                <token regexp="yes">und|&amp;</token>
+                <token>schreibe</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>vor</token>
+                    <token>bei</token>
+                </marker>
+                <token postag='VER:.*|PKT' postag_regexp='yes' regexp="yes" case_sensitive="yes">
+                    [a-zöäü]+
+                    <exception postag='PA[12]:.*' postag_regexp='yes'/>
+                    <exception postag='ADJ:.*' postag_regexp='yes'/>
+                    <exception postag='ZAL' />
+                    <exception regexp="yes">m?ein|einen|meinen|gar|frühlingshaft.*|arte|recht|mal</exception>
+                </token>
+            </pattern>
+            <message>Meinten Sie <suggestion>vorbei</suggestion>?</message>
+            <example correction="vorbei">Er wollte heute <marker>vor bei</marker> kommen.</example>
+        </rule>
         <rulegroup id="RIESEN_DANK" name="riesen Dank (Riesendank)">
             <rule>
                 <pattern>
@@ -24383,8 +24389,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token case_sensitive="yes" regexp="yes">beginn|verkauf|vertrag|anfragen|einfahrt|angriff</token>
                 </marker>
             </pattern>
-            <message>Dieses Nomen wird in der Regel großgeschrieben.</message>
-            <suggestion><match no="2" case_conversion="startupper" /></suggestion>
+            <message>In diesem Kontext wird <suggestion><match no="2" case_conversion="startupper" /></suggestion> als Nomen verwendet und sollte großgeschrieben werden.</message>
             <example correction="Verkauf">Dieses Auto steht zum <marker>verkauf</marker>.</example>
         </rule>
         <rulegroup id="BEI_GOOGLE" name="bei google (Google)">
@@ -51957,6 +51962,20 @@ Andere Projekte</example>
     <!-- Zeichensetzung -->
     <!-- ====================================================================== -->
     <category id="PUNCTUATION" name="Zeichensetzung">
+        <rule id="SO_WIE_KEIN_KOMMA" name="Kein Komma in 'So, wie'" default="temp_off">
+            <pattern case_sensitive="yes">
+                <token postag="PKT|SENT_START" postag_regexp="yes" />
+                <marker>
+                    <token regexp="yes">[Ss]o</token>
+                    <token postag="ADJ:PRD:GRU" min="0" />
+                    <token>,</token>
+                    <token>wie</token>
+                </marker>
+            </pattern>
+            <message>In der Regel steht am Satzanfang zwischen "So" und "wie" kein Komma.</message>
+            <suggestion>\2 \3 \5</suggestion>
+            <example correction="So stark wie"><marker>So stark, wie</marker> gestern hat es lange nicht mehr geschneit.</example>
+        </rule>
         <rulegroup id="ICH_GLAUBE_FUER_EUCH" name="Ich glaube(,) für euch ist ...">
             <!-- offers suggestions for cases where KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ does not-->
             <!-- TODO more here: https://github.com/languagetool-org/languagetool/issues/1196 -->
