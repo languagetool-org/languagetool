@@ -671,13 +671,13 @@ public class JLanguageTool {
         }
       }
     }
-    List<Rule> transformed = transformPatternRules(patternRules);
+    List<Rule> transformed = transformPatternRules(patternRules, language);
     userRules.addAll(transformed);
   }
 
-  private List<Rule> transformPatternRules(List<AbstractPatternRule> patternRules) {
+  private List<Rule> transformPatternRules(List<AbstractPatternRule> patternRules, Language lang) {
     List<AbstractPatternRule> rules = new ArrayList<>(patternRules);
-    List<PatternRuleTransformer> transforms = Arrays.asList(new RepeatedPatternRuleTransformer());
+    List<PatternRuleTransformer> transforms = Arrays.asList(new RepeatedPatternRuleTransformer(lang));
 
     // PatternRuleTransformer could want to indicate if transformed rules
     // should be removed from the pool for further transform or not

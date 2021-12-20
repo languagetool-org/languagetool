@@ -33,14 +33,22 @@ import java.util.Optional;
 public class RepeatedPatternRuleTransformer implements PatternRuleTransformer {
   
   protected int maxDistance = 350; // numer of tokens
+  protected final Language transformerLanguage;
 
+  public RepeatedPatternRuleTransformer(Language lang) {
+    transformerLanguage = lang;
+  }
+  
   /**
    * Wrapper for loaded {@link AbstractPatternRule} instances to act as text-level rules
    */
   public class RepeatedPatternRule extends TextLevelRule {
 
-    RepeatedPatternRule(AbstractPatternRule rule) {
+    protected final Language ruleLanguage;
+    
+    RepeatedPatternRule(AbstractPatternRule rule, Language lang) {
       this.rule = rule;
+      this.ruleLanguage = lang;
     }
 
     private AbstractPatternRule rule;
@@ -58,6 +66,11 @@ public class RepeatedPatternRuleTransformer implements PatternRuleTransformer {
     public String getDescription() {
       return rule.getDescription();
     }
+    
+    @Override
+    public int getMinPrevMatches() {
+      return rule.getMinPrevMatches();
+    }
 
     @Override
     public RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException {
@@ -72,7 +85,7 @@ public class RepeatedPatternRuleTransformer implements PatternRuleTransformer {
           int fromPos = m.getFromPos() + offset;
           int toPos = m.getToPos() + offset;
           m.setOffsetPosition(fromPos, toPos);
-          if (fromPos - prevFromPos <= maxDistance && prevMatches > getMinPrevMatches()) {
+          if (fromPos - prevFromPos <= maxDistance && prevMatches >= getMinPrevMatches()) {
             matches.add(m);
           }
           prevFromPos = fromPos;
@@ -88,19 +101,21 @@ public class RepeatedPatternRuleTransformer implements PatternRuleTransformer {
       // TODO: what should we use here? calculate based on min_prev_matches?
       return 0;
     }
-
+    
     @Override
     public boolean supportsLanguage(Language language) {
-      return rule.supportsLanguage(language);
+      return language.equalsConsiderVariantsIfSpecified(this.ruleLanguage);
     }
+
   }
 
   @Override
   public Optional<Rule> apply(AbstractPatternRule abstractPatternRule) {
     if (abstractPatternRule.getMinPrevMatches() > 0) {
-      return Optional.of(new RepeatedPatternRule(abstractPatternRule));
+      return Optional.of(new RepeatedPatternRule(abstractPatternRule, transformerLanguage));
     } else {
       return Optional.empty();
     }
   }
+
 }
