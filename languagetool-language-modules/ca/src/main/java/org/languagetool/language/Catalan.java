@@ -97,8 +97,7 @@ public class Catalan extends Language {
             new SimpleReplaceAdverbsMent(messages),
             new CatalanWordRepeatBeginningRule(messages, this),
             new CompoundRule(messages, this, userConfig),
-            new CatalanRepeatedWordsRule(messages),
-            new SimpleReplaceDNVRule(messages, this) // can be removed here after updating dictionaries
+            new CatalanRepeatedWordsRule(messages)
     );
   }
 
