@@ -36,8 +36,9 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 public final class LtThreadPoolFactory {
   public static final String SERVER_POOL = "lt-server-thread";
   public static final String TEXT_CHECKER_POOL = "lt-text-checker-thread";
-  public static final String REMOTE_RULE_WAITING_POOL = "remote-rule-waiting-thread";
   public static final String REMOTE_RULE_EXECUTING_POOL = "remote-rule-executing-thread";
+  public static final int REMOTE_RULE_POOL_SIZE_FACTOR = 4;
+  // we need more maximum threads for timed out requests that haven't been interrupted/cancelled (or reacted to that) yet
 
   private static final ConcurrentMap<String, ThreadPoolExecutor> executorServices = new ConcurrentHashMap<>();
 
@@ -60,7 +61,7 @@ public final class LtThreadPoolFactory {
   static {
     Timer timer = new Timer("LtThreadPoolMonitor", true);
     TimerTask timedAction = new TimerTask() {
-      final String[] poolNames = new String[]{SERVER_POOL, TEXT_CHECKER_POOL, REMOTE_RULE_WAITING_POOL, REMOTE_RULE_EXECUTING_POOL};
+      final String[] poolNames = new String[]{SERVER_POOL, TEXT_CHECKER_POOL, REMOTE_RULE_EXECUTING_POOL};
 
       @Override
       public void run() {
@@ -132,14 +133,15 @@ public final class LtThreadPoolFactory {
 
   @NotNull
   private static ThreadPoolExecutor getNewThreadPoolExecutor(@NotNull String identifier, int corePool, int maxThreads, int maxTaskInQueue, long keepAliveTimeSeconds, boolean isDaemon, @NotNull Thread.UncaughtExceptionHandler exceptionHandler) {
-    log.debug(LoggingTools.SYSTEM, String.format("Create new threadPool with maxThreads: %d maxTaskInQueue: %d identifier: %s daemon: %s exceptionHandler: %s", maxThreads, maxTaskInQueue, identifier, isDaemon, exceptionHandler));
+    log.debug(LoggingTools.SYSTEM, String.format("Create new threadPool with corePool: %d maxThreads: %d maxTaskInQueue: %d identifier: %s daemon: %s exceptionHandler: %s", corePool, maxThreads, maxTaskInQueue, identifier, isDaemon, exceptionHandler));
     BlockingQueue<Runnable> queue;
     if (maxTaskInQueue == 0) {
       queue = new LinkedBlockingQueue<>();
     } else if (maxTaskInQueue < 0) {
       queue = new SynchronousQueue<>();
     } else {
-      queue = new ArrayBlockingQueue<>(maxTaskInQueue);
+      // fair = true helps with respecting keep-alive time
+      queue = new ArrayBlockingQueue<>(maxTaskInQueue, true);
     }
     ThreadFactory threadFactory = new ThreadFactoryBuilder()
       .setNameFormat(identifier + "-%d")

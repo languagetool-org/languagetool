@@ -7311,7 +7311,7 @@ onwaarschijnlijk
 				postag="SENT_END"/></antipattern>
 				<antipattern><token>broze</token><token>botten</token></antipattern>
 				<pattern>
-					<token case_sensitive="yes" regexp="yes">bot|botten|motorbotten|winterbotten|zomerbotjes</token>
+					<token case_sensitive="yes" regexp="yes">botten|motorbotten|winterbotten|zomerbotjes</token>
 				</pattern>
 				<message>In Vlaanderen betekent 'bot' (ook) 'laars'.</message>
 				<example type="incorrect">Ik trok mijn <marker>motorbotten</marker> aan.</example>
@@ -17869,7 +17869,50 @@ steenwijk;Steenwijk
 		<example>900 <marker>is</marker> een goed begin.</example>
 		</rule>
 		-->
-
+		<rulegroup id="KOMMA_AANHALING_1" name="Volgorde aanhalingsteken en komma.">
+			<rule>
+				<antipattern>
+					<token postag="SENT_START"/>
+					<token skip="-1" regexp="yes">['‘]</token>
+					<token skip="-1" regexp="yes">['’]</token>
+					<token skip="-1" regexp="yes">['‘]</token>
+					<token regexp="yes">['’]</token>
+				</antipattern>
+				<pattern>
+					<token postag="SENT_START"/>
+					<token skip="-1" regexp="yes">['‘]</token>
+					<marker>
+						<token>,</token>
+						<token regexp="yes">['’]</token>
+					</marker>
+				</pattern>
+				<message>Het is logischer om de komma buiten de aanhalingstekens te zetten, behalve als het aangehaalde deel verderop wordt vervolgd. In boeken is het vaak anders.</message>
+				<suggestion>',</suggestion>
+				<url>https://taaladvies.net/volgorde-komma-aanhalingsteken/</url>
+				<example correction="',">'Dat doe ik<marker>,'</marker> zei Jan.</example>
+			</rule>
+			<rule>
+				<antipattern>
+					<token postag="SENT_START"/>
+					<token skip="-1" regexp="yes">["“]</token>
+					<token skip="-1" regexp="yes">["”]</token>
+					<token skip="-1" regexp="yes">["“]</token>
+					<token>'</token>
+				</antipattern>
+				<pattern>
+					<token postag="SENT_START"/>
+					<token skip="-1" regexp="yes">["“]</token>
+					<marker>
+						<token>,</token>
+						<token regexp="yes">["”]</token>
+					</marker>
+				</pattern>
+				<message>Het is logischer om de komma buiten de aanhalingstekens te zetten, behalve als het aangehaalde deel verderop wordt vervolgd. In boeken is het vaak anders.</message>
+				<suggestion>",</suggestion>
+				<url>https://taaladvies.net/volgorde-komma-aanhalingsteken/</url>
+				<example correction='",'>"Dat doe ik<marker>,"</marker> zei Jan.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="SINT_X" name="Sint Anna/Sint-Anna">
 			<rule>
 				<pattern>
@@ -29117,7 +29160,7 @@ steenwijk;Steenwijk
 		<rulegroup id="QUASI" name="quasi">
 			<rule>
 				<pattern>
-					<token>quasi</token>
+					<token regexp="yes">quasi.*</token>
 				</pattern>
 				<message>&vlotter_mess; <suggestion>schijnbaar</suggestion> of 'net alsof'.</message>
 				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
@@ -32155,6 +32198,18 @@ steenwijk;Steenwijk
 		   <suggestion><match no="1" regexp_match="-$" regexp_replace=""/><match no="2"/></suggestion>
            <example correction="pianist">De <marker>pia- nist</marker> speelt door.</example>
 		   <example correction="garantieperiode">Het is de <marker>garan- tieperiode</marker> die niet klopt.</example>
+       </rule>
+
+	   <rule id="QUASI_LOS" name="Quasi aan woord vast">
+           <pattern>
+               <token>quasi</token>
+			   <token postag_regexp="yes" postag="BNW.*"/>
+           </pattern>
+			<filter class="org.languagetool.rules.nl.CompoundFilter" args="word1:\1 word2:\2"/>
+           <message >Quasi hoort aan een volgend bijvoeglijk naamwoord vast.</message>
+		   <suggestion>\1\2</suggestion>
+		   <example correction="quasinauwkeurig">Deze regel is <marker>quasi nauwkeurig</marker>.</example>
+		   <example correction="quasi-irritant">Deze regel is <marker>quasi irritant</marker>.</example>
        </rule>
 
 	   <rule id="CIJFERS_IN_WOORD" name="Getal in woord" >

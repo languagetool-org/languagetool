@@ -1600,8 +1600,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     if (CommonFileTypes.getSuffixPattern().matcher(words.get(idx)).matches()) {
       return true;
     }
-    if (idx+1 < words.size() && (words.get(idx).endsWith(".mp") || words.get(idx).endsWith(".woff")) && words.get(idx+1).equals("")) {
-      // e.g. ".mp3" - the check for the empty string is because digits were removed during
+    if ((idx+1 < words.size() && (words.get(idx).endsWith(".mp") || words.get(idx).endsWith(".woff")) && words.get(idx+1).equals("")) ||
+        (idx > 0 && "sat".equals(words.get(idx)) && "".equals(words.get(idx-1)))) {
+      // e.g. ".mp3" or "3sat" - the check for the empty string is because digits were removed during
       // hunspell-style tokenization before
       return true;
     }

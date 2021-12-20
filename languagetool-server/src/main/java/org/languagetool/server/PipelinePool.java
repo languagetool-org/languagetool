@@ -140,15 +140,16 @@ class PipelinePool implements KeyedPooledObjectFactory<PipelineSettings, Pipelin
       } catch (Exception e) {
         logger.error("Could not load remote rule configuration", e);
       }
-      // modify remote rule configuration: no timeouts, downtime, ...
+      // modify remote rule configuration to avoid timeouts
 
       // temporary workaround: don't run into check timeout, causes limit enforcement;
       // extend timeout as long as possible instead
       long timeout = Math.max(config.getMaxCheckTimeMillisAnonymous() - 1, 0);
       rules = rules.stream().map(c -> {
-        return new RemoteRuleConfig(c.getRuleId(), c.getUrl(), c.getPort(),
-          0, timeout, 0f,
-          0, 0L, 0L, 0L, c.getOptions());
+        RemoteRuleConfig config = new RemoteRuleConfig(c);
+        config.baseTimeoutMilliseconds = timeout;
+        config.timeoutPerCharacterMilliseconds = 0f;
+        return config;
       }).collect(Collectors.toList());
       lt.activateRemoteRules(rules);
     } else {

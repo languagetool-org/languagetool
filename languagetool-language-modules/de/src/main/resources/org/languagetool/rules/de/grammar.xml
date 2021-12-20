@@ -1312,6 +1312,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Google">Ich habe das bei <marker>google</marker> gefunden.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>bei</token>
+                    <token>sage</token>
+                    <token regexp="yes">und|&amp;</token>
+                    <token>schreibe</token>
+                </antipattern>
                 <pattern>
                     <token>bei</token>
                     <token min="0" postag="ADJ:DAT:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zöäü]+em
@@ -1321,7 +1327,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception postag='PA[12]:.*' postag_regexp='yes'/>
                         <exception postag='ADJ:.*' postag_regexp='yes'/>
                         <exception postag='ZAL' />
-                        <exception regexp="yes">m?ein|einen|meinen</exception>
+                        <exception regexp="yes">m?ein|einen|meinen|gar|frühlingshaft.*|arte</exception>
                     </token>
                 </pattern>
                 <message>Nach 'bei' folgt normalerweise kein Verb.</message>
@@ -1333,6 +1339,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Was ich mich nun frage ist, ob ich die Handbremse auch bei sagen wir mal 50 km/h betätigen kann und die dann voll reinkickt?</example>
                 <example>Ich hoffe, dass da was bei rumkommt.</example>
                 <example>Ich habe es bei web.de gefunden.</example>
+                <example>Barty sollte heute auch bei gar nichts recht behalten oder?</example>
             </rule>
         </rulegroup>
         <rulegroup id="WO_BIS" name="Wo bis (bist) du?">
@@ -6932,6 +6939,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Es war <marker>zur Zeit</marker>, als Columbus Amerika entdeckte.</example>
             <example>Sein Vater war <marker>zur Zeit</marker> von Max Geburt Professor in Berlin.</example>
         </rule>
+        <rulegroup id="JEDERZEIT" name="jeder Zeit (jederzeit)" default="temp_off">
+            <rule>
+                <antipattern>
+                    <token skip="1">zu</token>
+                    <token>jeder</token>
+                    <token>Zeit</token>
+                </antipattern>
+                <antipattern>
+                    <token>zu</token>
+                    <token>(</token>
+                    <token></token>
+                    <token>)</token>
+                    <token>jeder</token>
+                    <token>Zeit</token>
+                </antipattern>
+                <pattern>
+                    <token>jeder</token>
+                    <token>Zeit</token>
+                </pattern>
+                <message>Schreiben Sie das Adverb <suggestion>\1<match no="2" case_conversion="startlower"/></suggestion> zusammen.</message>
+                <example correction="jederzeit">Er kann <marker>jeder Zeit</marker> ins Krankenhaus müssen.</example>
+                <example>Er steht euch zu fast jeder Zeit zur Verfügung.</example>
+                <example>Er steht euch zu jeder Zeit zur Verfügung.</example>
+                <example>Er steht euch zu (fast) jeder Zeit zur Verfügung.</example>
+            </rule>
+        </rulegroup>
         <rule id="WIDER_MIT" name="'wider mit (wieder mit)'">
             <pattern>
                 <marker>
@@ -7673,6 +7706,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>&verw;</short>
                 <example correction="waren">Was <marker>wahren</marker> wir glücklich...</example>
                 <example correction="warst">Wo <marker>wahrst</marker> du gestern?</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="WENNSCHON_DENNSCHON" name="wenn schon, dann (denn) schon" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">(wenn)?schon</token>
+                    <token regexp="yes" min="0">,</token>
+                    <marker>
+                        <token>dann</token>
+                    </marker>
+                    <token>schon</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>denn</suggestion> (empfohlen: dennschon)?</message>
+                <short>&verw;</short>
+                <example correction="denn">Wenn schon, <marker>dann</marker> schon.</example>
             </rule>
         </rulegroup>
         <rule id="OSTEN_OSTERN" name="frohe Osten / Ostern">
@@ -11610,6 +11658,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rule id="VOR_BEI" name="vor bei (vorbei)" default="temp_off">
+            <antipattern>
+                <token>bei</token>
+                <token>sage</token>
+                <token regexp="yes">und|&amp;</token>
+                <token>schreibe</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>vor</token>
+                    <token>bei</token>
+                </marker>
+                <token postag='VER:.*|PKT' postag_regexp='yes' regexp="yes" case_sensitive="yes">
+                    [a-zöäü]+
+                    <exception postag='PA[12]:.*' postag_regexp='yes'/>
+                    <exception postag='ADJ:.*' postag_regexp='yes'/>
+                    <exception postag='ZAL' />
+                    <exception regexp="yes">m?ein|einen|meinen|gar|frühlingshaft.*|arte|recht|mal</exception>
+                </token>
+            </pattern>
+            <message>Meinten Sie <suggestion>vorbei</suggestion>?</message>
+            <example correction="vorbei">Er wollte heute <marker>vor bei</marker> kommen.</example>
+        </rule>
         <rulegroup id="RIESEN_DANK" name="riesen Dank (Riesendank)">
             <rule>
                 <pattern>
@@ -24133,6 +24204,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rulegroup id="BEI_GENAUEREM_HINSEHEN" name="bei genauerem hinsehen (Hinsehen)">
+            <rule>
+                <pattern>
+                    <token>bei</token>
+                    <marker>
+                        <token regexp="yes">genauere[nm]</token>
+                        <token case_sensitive="yes" regexp="yes">hinsehen|betrachten</token>
+                    </marker>
+                </pattern>
+                <message>Das Verb "hinsehen" scheint hier nominalisiert zu werden und sollte daher großgeschrieben werden.</message>
+                <suggestion>genauerem <match no="3" case_conversion="startupper" /></suggestion>
+                <example correction="genauerem Hinsehen">Bei <marker>genauerem hinsehen</marker> stellt sich heraus, dass es alles gar nicht so schlimm ist.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>beim</token>
+                    <marker>
+                        <token regexp="yes">genauere[nm]</token>
+                        <token case_sensitive="yes" regexp="yes">hinsehen|betrachten</token>
+                    </marker>
+                </pattern>
+                <message>Das Verb "hinsehen" scheint hier nominalisiert zu werden und sollte daher großgeschrieben werden.</message>
+                <suggestion>genaueren <match no="3" case_conversion="startupper" /></suggestion>
+                <example correction="genaueren Hinsehen">Beim <marker>genauerem hinsehen</marker> stellt sich heraus, dass es alles gar nicht so schlimm ist.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="DAS_RICHTIGE_TUN" name="das richtige (Richtige) tun">
             <rule>
                 <pattern>
@@ -24285,6 +24382,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Genaueres">Ich melde mich, wenn ich <marker>genaueres</marker> weiß.</example>
             <example correction="Genaueres">... aber <marker>genaueres</marker> kann ich dazu noch nicht sagen.</example>
         </rule>
+        <rule id="BEI_BEGINN" name="bei beginn (Beginn)" default="temp_off">
+            <pattern>
+                <token regexp="yes">zum?|bei|von</token>
+                <marker>
+                    <token case_sensitive="yes" regexp="yes">beginn|verkauf|vertrag|anfragen|einfahrt|angriff</token>
+                </marker>
+            </pattern>
+            <message>In diesem Kontext wird <suggestion><match no="2" case_conversion="startupper" /></suggestion> als Nomen verwendet und sollte großgeschrieben werden.</message>
+            <example correction="Verkauf">Dieses Auto steht zum <marker>verkauf</marker>.</example>
+        </rule>
         <rulegroup id="BEI_GOOGLE" name="bei google (Google)">
             <antipattern>
                 <token />
@@ -24295,7 +24402,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">bei|in|auf|von|zu</token>
                     <marker>
-                        <token case_sensitive="yes" regexp="yes">google|skype</token>
+                        <token case_sensitive="yes" regexp="yes">google|skype|twitter|arte</token>
                     </marker>
                 </pattern>
                 <message>Der Name dieses Unternehmens wird großgeschrieben.</message>
@@ -51855,6 +51962,20 @@ Andere Projekte</example>
     <!-- Zeichensetzung -->
     <!-- ====================================================================== -->
     <category id="PUNCTUATION" name="Zeichensetzung">
+        <rule id="SO_WIE_KEIN_KOMMA" name="Kein Komma in 'So, wie'" default="temp_off">
+            <pattern case_sensitive="yes">
+                <token postag="PKT|SENT_START" postag_regexp="yes" />
+                <marker>
+                    <token regexp="yes">[Ss]o</token>
+                    <token postag="ADJ:PRD:GRU" min="0" />
+                    <token>,</token>
+                    <token>wie</token>
+                </marker>
+            </pattern>
+            <message>In der Regel steht am Satzanfang zwischen "So" und "wie" kein Komma.</message>
+            <suggestion>\2 \3 \5</suggestion>
+            <example correction="So stark wie"><marker>So stark, wie</marker> gestern hat es lange nicht mehr geschneit.</example>
+        </rule>
         <rulegroup id="ICH_GLAUBE_FUER_EUCH" name="Ich glaube(,) für euch ist ...">
             <!-- offers suggestions for cases where KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ does not-->
             <!-- TODO more here: https://github.com/languagetool-org/languagetool/issues/1196 -->
@@ -51928,6 +52049,21 @@ Andere Projekte</example>
                 <example correction=", für">Ich glaube<marker> für</marker> Herrn Trump ist hier kein Platz.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token inflected="yes">finden</token>
+                    <token postag="ART.*|PRO:(POS|DEM).*" postag_regexp="yes" />
+                    <token postag="ADJ.*" postag_regexp="yes" min="0" max="3" />
+                    <token postag="EIG.*|SUB.*" postag_regexp="yes" />
+                    <token postag="ADJ.*|PA[12].*" postag_regexp="yes" />
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">finden</token>
+                    <token postag="ART.*|PRO:(POS|DEM).*" postag_regexp="yes" />
+                    <token postag="ADJ.*" postag_regexp="yes" min="0" max="3" />
+                    <token postag="EIG.*|SUB.*" postag_regexp="yes" />
+                    <token postag="VER.*" postag_regexp="yes" />
+                    <token>vor</token>
+                </antipattern>
                 <pattern>
                     <token postag="PKT|SENT_START|KON.*" postag_regexp="yes" />
                     <token regexp="yes" min="0">Herrn?|Frau|Fräulein</token>
@@ -51950,13 +52086,32 @@ Andere Projekte</example>
                 <suggestion>, \5</suggestion>
                 <example correction=", die">Ich denke<marker> die</marker> Zeit ist begrenzt.</example>
                 <example correction=", diese">Ich glaube<marker> diese</marker> große französische Konkurrenz sollten wir uns anschauen.</example>
+                <example correction=", die">Ich hoffe<marker> die</marker> AFD wird nicht so stark wie sie von einigen geredet ist.</example>
                 <example>Wenn du denkst, du denkst, dann denkst du nur, du denkst, denn das Denken der Gedanken ist gedankenloses Denken, und gedacht hast du noch nie.</example>
                 <example>Das Wissen der Menschheit wächst mit jedem Augenblick.</example>
                 <example>Wir sagen dem großen Zaren dank.</example>
                 <example>Wir sagen dem Peter mal Bescheid.</example>
                 <example>Über die Politik von John F. Kennedy wissen die Menschen recht wenig.</example>
+                <example>Ich fand die Disco leer vor.</example>
+                <example>Sie fand das Landleben öde.</example>
+                <example>Ich finde deinen Schreibstil toll.</example>
+                <example>Ich finde diese Zahlen alarmierend.</example>
+                <example>Er fand ihre Tochter süß.</example>
+                <example>Tom fand die Erfahrung erschreckend.</example>
+                <example>Ich finde die Idee supertoll!</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token inflected="yes">finden</token>
+                    <token postag="EIG.*|SUB.*" postag_regexp="yes" />
+                    <token postag="ADJ.*|PA[12].*" postag_regexp="yes" />
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">finden</token>
+                    <token postag="EIG.*|SUB.*" postag_regexp="yes" />
+                    <token postag="VER.*" postag_regexp="yes" />
+                    <token>vor</token>
+                </antipattern>
                 <pattern>
                     <token postag="PKT|SENT_START|KON.*" postag_regexp="yes" />
                     <token regexp="yes" min="0">Herrn?|Frau|Fräulein</token>
@@ -51977,7 +52132,12 @@ Andere Projekte</example>
                 <suggestion>, \5</suggestion>
                 <example correction=", Grammatik-Regeln">Ich denke<marker> Grammatik-Regeln</marker> sollten Vorrang haben.</example>
                 <example correction=", Tom">Ich glaube<marker> Tom</marker> gefällt es hier nicht.</example>
+                <example correction=", Vampire">Ich finde<marker> Vampire</marker> bereichern das Rollenspiel, doch nur wenn sie nach Lore gestaltet werden.</example>
                 <example>Eine in Osteuropa und Asien vermutete Gruppe pflasterte mit ihren Aussendungen vor einigen Monaten zwei Millionen Mailboxen zu.</example>
+                <example>Ich finde Esel süß.</example>
+                <example>Tom und Maria sagten Johannes, sie fänden Elke eingebildet.</example>
+                <example>Tom fand Maria weinend in ihrem Zimmer vor.</example>
+                <example>Ich find Spazierengehen toll...</example>
             </rule>
             <rule>
                 <pattern>
@@ -55271,6 +55431,24 @@ Andere Projekte</example>
                 <example>Er zitterte ob Marias Schlagfertigkeit.</example>
                 <example>Sie fragte: "Wer küsste wen?"</example>
                 <example>Auch wenn ich immer wieder schnell wen geheiratet habe, ist es nicht so einfach.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag='VER:.*' postag_regexp='yes'>
+                        <exception regexp="yes">mal|schnell|einen?</exception>
+                    </token>
+                    <token postag="ADV.*" postag_regexp="yes" min="0" />
+                    <token>gar</token>
+                    <token>nicht</token>
+                    <marker>
+                        <token regexp='yes' case_sensitive='yes'>inwiefern|inwieweit|ob|wann|warum|wem|wen|wer|weshalb|weswegen|wessen|wieso|wo|wodurch|woher|wohin|wofür|womit|woran|worauf|wovon|wozu</token>
+                    </marker>
+                    <token><exception postag="PKT"/></token>
+                </pattern>
+                <message>Indirekte Fragen werden mit Komma vom Hauptsatz abgetrennt.</message>
+                <suggestion>, \5</suggestion>
+                <short>Möglicherweise fehlendes Komma</short>
+                <example correction=', ob'>Ich weiß auch gar nicht<marker> ob</marker> das ginge.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -59313,6 +59491,36 @@ Andere Projekte</example>
                 <message>Empfehlung: Möchten Sie die Schreibweise <suggestion>\2\3</suggestion> verwenden?</message>
                 <short>&getrennt;.</short>
                 <example correction="Handvoll">Es kam nur eine <marker>Hand voll</marker> Schüler.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>wenn</token>
+                        <token>schon</token>
+                    </marker>
+                    <token>,</token>
+                    <token regexp="yes">denn(schon)?</token>
+                </pattern>
+                <message>In der Wendung 'Wennschon, dennschon!' wird die Zusammenschreibung empfohlen.</message>
+                <suggestion>\1<match no="2" case_conversion="startlower"/></suggestion>
+                <url>https://germanblogs.de/wenn-schon-denn-schon-oder-wennschon-dennschon/</url>
+                <short>&getrennt;.</short>
+                <example correction="Wennschon"><marker>Wenn schon</marker>, dennschon.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">(wenn)?schon</token>
+                    <token>,</token>
+                    <marker>
+                        <token>denn</token>
+                        <token>schon</token>
+                    </marker>
+                </pattern>
+                <message>In der Wendung 'Wennschon, dennschon!' wird die Zusammenschreibung empfohlen.</message>
+                <suggestion>\3\4</suggestion>
+                <url>https://germanblogs.de/wenn-schon-denn-schon-oder-wennschon-dennschon/</url>
+                <short>&getrennt;.</short>
+                <example correction="dennschon">Wennschon, <marker>denn schon</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="EMPFOHLENE_SCHREIBUNG_EIGENNAMEN" name="Empfohlene Schreibung von Eigennamen">

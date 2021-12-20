@@ -295,7 +295,7 @@ public class German extends Language implements AutoCloseable {
       case "MIT_VERANTWORTLICH" : return 1;   // prefer over agreement rules
       case "VOR_LACHEN" : return 1;   // prefer over ZUSAMMENGESETZTE_VERBEN
       case "ZUCCHINIS" : return 1;   // overwrite spell checker
-      case "BEI_GOOGLE" : return 1;   // prefer over agreement rules
+      case "BEI_GOOGLE" : return 1;   // prefer over agreement rules and VOR_BEI
       case "ANGL_PA_ED_UNANGEMESSEN" : return 1;   // overwrite spell checker
       case "WRONG_UPPER_QUOTE": return 1; // higher prio than UNPAIRED_QUOTES
       case "EMAIL": return 1;  // better suggestion than SIMPLE_AGREEMENT_*
@@ -372,12 +372,12 @@ public class German extends Language implements AutoCloseable {
       case "SEHR_GEEHRTER_NAME": return -4;  // lower prio than spell checker
       case "DE_PHRASE_REPETITION": return -4;  // lower prio than spell checker
       case "GERMAN_WORD_REPEAT_RULE": return -4; // prefer other more specific rules but prefer over DOPPELUNG_MODALVERB
-      case "BEI_VERB": return -4; // prefer case and spelling rules
       case "PUNCTUATION_PARAGRAPH_END": return -4;  // don't hide spelling mistakes
       case "TEST_F_ANSTATT_PH": return -4;  // don't hide spelling mistakes
       case "PUNKT_ENDE_ABSATZ": return -10;  // should never hide other errors, as chance for a false alarm is quite high
       case "KOMMA_VOR_RELATIVSATZ": return -10;
       case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2": return -10;
+      case "BEI_VERB": return -14; // prefer case, spelling and AI rules
       case "TOO_LONG_PARAGRAPH": return -15;
       // Category ids - make sure style issues don't hide overlapping "real" errors:
       case "COLLOQUIALISMS": return -15;

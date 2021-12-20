@@ -90,7 +90,6 @@ public class Catalan extends Language {
             new SimpleReplaceBalearicRule(messages),
             new SimpleReplaceRule(messages),
             new ReplaceOperationNamesRule(messages, this),
-            new SimpleReplaceDNVRule(messages, this), // can be removed here after updating dictionaries
             new SimpleReplaceDiacriticsIEC(messages),
             new SimpleReplaceAnglicism(messages), 
             new PronomFebleDuplicateRule(messages),
@@ -99,7 +98,6 @@ public class Catalan extends Language {
             new CatalanWordRepeatBeginningRule(messages, this),
             new CompoundRule(messages, this, userConfig),
             new CatalanRepeatedWordsRule(messages)
-            //REMEMBER TO ADD RULES TO ValencianCatalan!!
     );
   }
 
