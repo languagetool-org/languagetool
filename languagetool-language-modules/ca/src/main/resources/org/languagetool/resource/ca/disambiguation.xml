@@ -15471,6 +15471,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="remove" postag=".*V"/>
         </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">que|quals?</token>
+                <token min="0" postag="&pronom_feble;" postag_regexp="yes"/>
+                <marker>
+                    <token postag="V.I.*" postag_regexp="yes">té</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="V.I.*"/>
+        </rule>
     </rulegroup>
     <rulegroup id="primera_tercera_persona" name="verb primera o tercera persona">
         <rule>
