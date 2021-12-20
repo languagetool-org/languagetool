@@ -1792,9 +1792,14 @@ public class JLanguageTool {
     List<Rule> rules = getAllRules();
     List<AbstractPatternRule> rulesById = new ArrayList<>();
     for (Rule rule : rules) {
-      if (rule instanceof AbstractPatternRule &&
-        rule.getId().equals(id) && ((AbstractPatternRule) rule).getSubId().equals(subId)) {
-        rulesById.add((AbstractPatternRule) rule);
+      if (rule.getId().equals(id)) {
+        // test wrapped rules as normal in PatternRuleTest
+        if (rule instanceof RepeatedPatternRuleTransformer.RepeatedPatternRule) {
+          rule = ((RepeatedPatternRuleTransformer.RepeatedPatternRule) rule).getWrappedRule();
+        }
+        if (rule instanceof AbstractPatternRule &&((AbstractPatternRule) rule).getSubId().equals(subId)){
+          rulesById.add((AbstractPatternRule) rule);
+        }
       }
     }
     return rulesById;

@@ -36,13 +36,17 @@ public class RepeatedPatternRuleTransformer implements PatternRuleTransformer {
   /**
    * Wrapper for loaded {@link AbstractPatternRule} instances to act as text-level rules
    */
-  class RepeatedPatternRule extends TextLevelRule {
+  public class RepeatedPatternRule extends TextLevelRule {
 
     RepeatedPatternRule(AbstractPatternRule rule) {
       this.rule = rule;
     }
 
     private AbstractPatternRule rule;
+
+    public AbstractPatternRule getWrappedRule() {
+      return rule;
+    }
 
     @Override
     public String getId() {
