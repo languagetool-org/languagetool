@@ -2707,7 +2707,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <!-- may be duplicate, see: COMPLEX_SOUZ_PUNCT -->
         <rule id="dlya_togo_chtoby_2" name="Пунктуация в предложении с союзом «для того чтобы» (2)" default="temp_off">
                 <pattern>
-                    <token postag_regexp="yes" postag="SENT_START"></token>
+                    <token postag="SENT_START"></token>
                     <marker>
                     <token>для</token>
                     <token>того</token>
@@ -2842,8 +2842,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <exception regexp="yes">[,!;:.«(]</exception><exception scope="next" regexp="yes">что|чтобы|как</exception>
                 </token>
             </pattern>
-            <message>Пропущена запятая</message>
+            <message>Возможно пропущена запятая, если словосочетание «таким образом» выступает в качестве вводного.</message>
             <url>https://github.com/languagetool-org/languagetool/issues/1121</url>
+            <short>Пропущена запятая</short>
             <example correction="">И <marker>таким образом мы</marker></example>
             <example>И,таким образом, мы</example>
         </rule>
