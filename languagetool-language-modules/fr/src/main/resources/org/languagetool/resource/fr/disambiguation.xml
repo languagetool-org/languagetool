@@ -2228,6 +2228,27 @@ RB => Règles Brutes
     </rule>
     <!-- END: proper nouns -->
     <!-- CATEGORY: nouns, nominal groups (particular cases) -->
+    <rule id="BROSSE" name="brosse">
+        <!-- with agreement error -->
+        <pattern>
+            <marker>
+                <token>brosse</token>
+            </marker>
+            <token postag="P"/>
+            <token postag="V.* inf" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="remove" postag="V.*"/>
+    </rule>
+    <rule id="TOUCHE_BAS" name="touche bas">
+        <!-- with agreement error -->
+        <pattern>
+            <token regexp="yes">touche|direction|flèche|en</token>
+            <marker>
+                <token>bas</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="A"/>
+    </rule>
     <rule id="SOUVENIR_D_ETE" name="souvenirs d'été">
         <!-- with agreement error -->
         <pattern>
