@@ -20,6 +20,7 @@
 package org.languagetool.rules.patterns;
 
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.Language;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.TextLevelRule;
