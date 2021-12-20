@@ -6956,6 +6956,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Es war <marker>zur Zeit</marker>, als Columbus Amerika entdeckte.</example>
             <example>Sein Vater war <marker>zur Zeit</marker> von Max Geburt Professor in Berlin.</example>
         </rule>
+        <rulegroup id="JEDERZEIT" name="jeder Zeit (jederzeit)" default="temp_off">
+            <rule>
+                <antipattern>
+                    <token skip="1">zu</token>
+                    <token>jeder</token>
+                    <token>Zeit</token>
+                </antipattern>
+                <antipattern>
+                    <token>zu</token>
+                    <token>(</token>
+                    <token></token>
+                    <token>)</token>
+                    <token>jeder</token>
+                    <token>Zeit</token>
+                </antipattern>
+                <pattern>
+                    <token>jeder</token>
+                    <token>Zeit</token>
+                </pattern>
+                <message>Schreiben Sie das Adverb <suggestion>\1<match no="2" case_conversion="startlower"/></suggestion> zusammen.</message>
+                <example correction="jederzeit">Er kann <marker>jeder Zeit</marker> ins Krankenhaus müssen.</example>
+                <example>Er steht euch zu fast jeder Zeit zur Verfügung.</example>
+                <example>Er steht euch zu jeder Zeit zur Verfügung.</example>
+                <example>Er steht euch zu (fast) jeder Zeit zur Verfügung.</example>
+            </rule>
+        </rulegroup>
         <rule id="WIDER_MIT" name="'wider mit (wieder mit)'">
             <pattern>
                 <marker>
@@ -7697,6 +7723,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>&verw;</short>
                 <example correction="waren">Was <marker>wahren</marker> wir glücklich...</example>
                 <example correction="warst">Wo <marker>wahrst</marker> du gestern?</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="WENNSCHON_DENNSCHON" name="wenn schon, dann (denn) schon" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">(wenn)?schon</token>
+                    <token regexp="yes" min="0">,</token>
+                    <marker>
+                        <token>dann</token>
+                    </marker>
+                    <token>schon</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>denn</suggestion> (empfohlen: dennschon)?</message>
+                <short>&verw;</short>
+                <example correction="denn">Wenn schon, <marker>dann</marker> schon.</example>
             </rule>
         </rulegroup>
         <rule id="OSTEN_OSTERN" name="frohe Osten / Ostern">
@@ -59431,6 +59472,36 @@ Andere Projekte</example>
                 <message>Empfehlung: Möchten Sie die Schreibweise <suggestion>\2\3</suggestion> verwenden?</message>
                 <short>&getrennt;.</short>
                 <example correction="Handvoll">Es kam nur eine <marker>Hand voll</marker> Schüler.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>wenn</token>
+                        <token>schon</token>
+                    </marker>
+                    <token>,</token>
+                    <token regexp="yes">denn(schon)?</token>
+                </pattern>
+                <message>In der Wendung 'Wennschon, dennschon!' wird die Zusammenschreibung empfohlen.</message>
+                <suggestion>\1<match no="2" case_conversion="startlower"/></suggestion>
+                <url>https://germanblogs.de/wenn-schon-denn-schon-oder-wennschon-dennschon/</url>
+                <short>&getrennt;.</short>
+                <example correction="Wennschon"><marker>Wenn schon</marker>, dennschon.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">(wenn)?schon</token>
+                    <token>,</token>
+                    <marker>
+                        <token>denn</token>
+                        <token>schon</token>
+                    </marker>
+                </pattern>
+                <message>In der Wendung 'Wennschon, dennschon!' wird die Zusammenschreibung empfohlen.</message>
+                <suggestion>\3\4</suggestion>
+                <url>https://germanblogs.de/wenn-schon-denn-schon-oder-wennschon-dennschon/</url>
+                <short>&getrennt;.</short>
+                <example correction="dennschon">Wennschon, <marker>denn schon</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="EMPFOHLENE_SCHREIBUNG_EIGENNAMEN" name="Empfohlene Schreibung von Eigennamen">
