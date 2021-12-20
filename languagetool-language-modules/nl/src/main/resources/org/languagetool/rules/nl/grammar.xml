@@ -17869,7 +17869,29 @@ steenwijk;Steenwijk
 		<example>900 <marker>is</marker> een goed begin.</example>
 		</rule>
 		-->
-
+		<rulegroup id="KOMMA_AANHALING_1" name="Volgorde aanhalingsteken en komma.">
+			<rule>
+				<antipattern>
+					<token postag="SENT_START"/>
+					<token skip="-1">'</token>
+					<token skip="-1">'</token>
+					<token skip="-1">'</token>
+					<token>'</token>
+				</antipattern>
+				<pattern>
+					<token postag="SENT_START"/>
+					<token skip="-1">'</token>
+					<marker>
+						<token>,</token>
+						<token>'</token>
+					</marker>
+				</pattern>
+				<message>Het is logischer om de komma buiten de aanhalingstekens te zetten, behalve als het aangehaalde deel verderop wordt vervolgd.</message>
+				<suggestion>',</suggestion>
+				<url>https://taaladvies.net/volgorde-komma-aanhalingsteken/</url>
+				<example correction="',">'Dat doe ik<marker>,'</marker> zei Jan.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="SINT_X" name="Sint Anna/Sint-Anna">
 			<rule>
 				<pattern>
