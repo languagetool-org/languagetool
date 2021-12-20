@@ -87,6 +87,11 @@ public class RepeatedPatternRuleTransformer implements PatternRuleTransformer {
       // TODO: what should we use here? calculate based on min_prev_matches?
       return 0;
     }
+
+    @Override
+    public boolean supportsLanguage(Language language) {
+      return rule.supportsLanguage(language);
+    }
   }
 
   @Override
