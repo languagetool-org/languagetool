@@ -983,7 +983,7 @@ public class JLanguageTool {
     List<RuleMatch> remoteMatches = new LinkedList<>();
     List<FutureTask<RemoteRuleResult>> remoteRuleTasks = null;
     List<RemoteRule> remoteRules = new LinkedList<>();
-    long remoteRuleCheckStart = System.currentTimeMillis();
+    long remoteRuleCheckStart = System.nanoTime();
     // map by sentence index, as the same sentence can be repeated multiple times in a text
     // -> need to distinguish offsets / matches
     Map<Integer, List<RuleMatch>> cachedResults = new HashMap<>();
@@ -998,18 +998,19 @@ public class JLanguageTool {
         remoteRuleTasks, remoteRules, requestSize, cachedResults, matchOffset, textSessionID);
     }
 
-    long textCheckStart = System.currentTimeMillis();
+    long deadlineStartNanos = System.nanoTime();
     CheckResults res = performCheck(analyzedSentences, sentences, rules,
             paraMode, annotatedText, listener, mode, level, remoteRulesThreadPool == null);
-    long textCheckEnd = System.currentTimeMillis();
+    long textCheckEnd = System.nanoTime();
 
-    fetchRemoteRuleResults(textCheckStart, mode, level, analyzedSentences, remoteMatches, remoteRuleTasks, remoteRules, requestSize,
+    fetchRemoteRuleResults(deadlineStartNanos, mode, level, analyzedSentences, remoteMatches, remoteRuleTasks, remoteRules, requestSize,
       cachedResults, matchOffset, annotatedText, textSessionID);
-    long remoteRuleCheckEnd = System.currentTimeMillis();
+    long remoteRuleCheckEnd = System.nanoTime();
     if (remoteRules.size() > 0) {
-      long wait = remoteRuleCheckEnd - textCheckEnd;
+      long wait = TimeUnit.NANOSECONDS.toMillis(remoteRuleCheckEnd - textCheckEnd);
       logger.info("Local checks took {}ms, remote checks {}ms; waited {}ms on remote results",
-        textCheckEnd - textCheckStart, remoteRuleCheckEnd - remoteRuleCheckStart, wait);
+        TimeUnit.NANOSECONDS.toMillis(textCheckEnd - deadlineStartNanos),
+        TimeUnit.NANOSECONDS.toMillis(remoteRuleCheckEnd - remoteRuleCheckStart), wait);
       RemoteRuleMetrics.wait(language.getShortCode(), wait);
     }
 
@@ -1046,7 +1047,7 @@ public class JLanguageTool {
     });
   }
 
-  protected void fetchRemoteRuleResults(long textCheckStart, Mode mode, Level level, List<AnalyzedSentence> analyzedSentences, List<RuleMatch> remoteMatches,
+  protected void fetchRemoteRuleResults(long deadlineStartNanos, Mode mode, Level level, List<AnalyzedSentence> analyzedSentences, List<RuleMatch> remoteMatches,
                                         List<FutureTask<RemoteRuleResult>> remoteRuleTasks, List<RemoteRule> remoteRules,
                                         List<Integer> requestSize,
                                         Map<Integer, List<RuleMatch>> cachedResults,
@@ -1056,11 +1057,11 @@ public class JLanguageTool {
       int timeout = IntStream.range(0, requestSize.size()).map(i ->
         (int) remoteRules.get(i).getTimeout(requestSize.get(i))
       ).max().getAsInt();
-      long deadline;
+      long deadlineEndNanos;
       if (timeout <= 0) {
-        deadline = 0;
+        deadlineEndNanos = 0;
       } else {
-        deadline = textCheckStart + timeout;
+        deadlineEndNanos = deadlineStartNanos + TimeUnit.MILLISECONDS.toNanos(timeout);
       }
       // fetch results from remote rules
       for (int taskIndex = 0; taskIndex < remoteRuleTasks.size(); taskIndex++) {
@@ -1074,31 +1075,34 @@ public class JLanguageTool {
             continue;
           } else if (task == null) { // circuitbreaker open or task rejected from pool
             // rejected tasks are already logged/tracked in LtThreadPoolFactory
-            RemoteRuleMetrics.request(ruleKey, textCheckStart, chars, RemoteRuleMetrics.RequestResult.DOWN);
+            RemoteRuleMetrics.request(ruleKey, deadlineStartNanos, chars, RemoteRuleMetrics.RequestResult.DOWN);
             continue;
           }
           //logger.info("Fetching results for remote rule for {} chars", chars);
-          rule.circuitBreaker().executeCallable(() -> fetchResults(textCheckStart, mode, level, analyzedSentences, remoteMatches, matchOffset, annotatedText, textSessionID, chars, deadline, task, rule, ruleKey));
+          rule.circuitBreaker().executeCallable(() -> fetchResults(deadlineStartNanos, mode, level, analyzedSentences, remoteMatches, matchOffset, annotatedText, textSessionID, chars, deadlineEndNanos, task, rule, ruleKey));
         } catch (InterruptedException e) {
           logger.info("Failed to fetch result from remote rule '{}' - interrupted.", ruleKey);
-          RemoteRuleMetrics.request(ruleKey, textCheckStart, chars, RemoteRuleMetrics.RequestResult.INTERRUPTED);
+          RemoteRuleMetrics.request(ruleKey, deadlineStartNanos, chars, RemoteRuleMetrics.RequestResult.INTERRUPTED);
           break;
         } catch (CancellationException e) {
           logger.info("Failed to fetch result from remote rule '{}' - cancelled.", ruleKey);
-          RemoteRuleMetrics.request(ruleKey, textCheckStart, chars, RemoteRuleMetrics.RequestResult.INTERRUPTED);
+          RemoteRuleMetrics.request(ruleKey, deadlineStartNanos, chars, RemoteRuleMetrics.RequestResult.INTERRUPTED);
         } catch (TimeoutException e) {
-          logger.info("Failed to fetch result from remote rule '{}' - request timed out.", ruleKey);
-          RemoteRuleMetrics.request(ruleKey, textCheckStart, chars, RemoteRuleMetrics.RequestResult.TIMEOUT);
+          logger.info("Failed to fetch result from remote rule '{}' - timed out ({}ms, {} chars).", ruleKey,
+            System.nanoTime() - deadlineStartNanos, chars);
+          RemoteRuleMetrics.request(ruleKey, deadlineStartNanos, chars, RemoteRuleMetrics.RequestResult.TIMEOUT);
         } catch (CallNotPermittedException e) {
           logger.info("Failed to fetch result from remote rule '{}' - circuitbreaker active, rule marked as down.", ruleKey);
-          RemoteRuleMetrics.request(ruleKey, textCheckStart, chars, RemoteRuleMetrics.RequestResult.DOWN);
+          RemoteRuleMetrics.request(ruleKey, deadlineStartNanos, chars, RemoteRuleMetrics.RequestResult.DOWN);
         } catch (Exception e) {
           if (ExceptionUtils.indexOfThrowable(e, TimeoutException.class) != -1) {
-            logger.info("Failed to fetch result from remote rule '{}' - request timed out.", ruleKey);
-            RemoteRuleMetrics.request(ruleKey, textCheckStart, chars, RemoteRuleMetrics.RequestResult.TIMEOUT);
+            String msg = String.format("Failed to fetch result from remote rule '%s' - request timed out with other errors (%dms, %d chars).",
+              ruleKey, System.nanoTime() - deadlineStartNanos, chars);
+            logger.warn(msg, e);
+            RemoteRuleMetrics.request(ruleKey, deadlineStartNanos, chars, RemoteRuleMetrics.RequestResult.ERROR);
           } else {
             logger.warn("Failed to fetch result from remote rule '" + ruleKey + "' - error while executing rule.", e);
-            RemoteRuleMetrics.request(ruleKey, textCheckStart, chars, RemoteRuleMetrics.RequestResult.ERROR);
+            RemoteRuleMetrics.request(ruleKey, deadlineStartNanos, chars, RemoteRuleMetrics.RequestResult.ERROR);
           }
         }
       }
@@ -1123,17 +1127,19 @@ public class JLanguageTool {
     }
   }
 
-  private RemoteRuleResult fetchResults(long textCheckStart, Mode mode, Level level, List<AnalyzedSentence> analyzedSentences, List<RuleMatch> remoteMatches, Map<Integer, Integer> matchOffset, AnnotatedText annotatedText, Long textSessionID, long chars, long deadline, FutureTask<RemoteRuleResult> task, RemoteRule rule, String ruleKey) throws InterruptedException, ExecutionException, TimeoutException {
+  private RemoteRuleResult fetchResults(long deadlineStartNanos, Mode mode, Level level, List<AnalyzedSentence> analyzedSentences, List<RuleMatch> remoteMatches, Map<Integer, Integer> matchOffset, AnnotatedText annotatedText, Long textSessionID, long chars, long deadlineEndNanos, FutureTask<RemoteRuleResult> task, RemoteRule rule, String ruleKey) throws InterruptedException, ExecutionException, TimeoutException {
     RemoteRuleResult result;
     if (rule.getTimeout(chars) <= 0) {
       result = task.get();
     } else {
-      long waitTime = Math.max(0, deadline - System.currentTimeMillis());
-      result = task.get(waitTime, TimeUnit.MILLISECONDS);
+      long waitTime = Math.max(0, deadlineEndNanos - System.nanoTime());
+      logger.debug("Waiting for {}ms for check of {} ({} chars)",
+        TimeUnit.NANOSECONDS.toMillis(waitTime), ruleKey, chars);
+      result = task.get(waitTime, TimeUnit.NANOSECONDS);
     }
     RemoteRuleMetrics.RequestResult loggedResult = result.isSuccess() ?
       RemoteRuleMetrics.RequestResult.SUCCESS : RemoteRuleMetrics.RequestResult.ERROR;
-    RemoteRuleMetrics.request(ruleKey, textCheckStart, chars, loggedResult);
+    RemoteRuleMetrics.request(ruleKey, deadlineStartNanos, chars, loggedResult);
     for (int sentenceIndex = 0; sentenceIndex < analyzedSentences.size(); sentenceIndex++) {
       AnalyzedSentence sentence = analyzedSentences.get(sentenceIndex);
       List<RuleMatch> matches = result.matchesForSentence(sentence);

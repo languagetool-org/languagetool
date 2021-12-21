@@ -231,7 +231,7 @@ public abstract class GRPCRule extends RemoteRule {
       requests.add(req);
     }
     if (requests.size() > 1) {
-      logger.info("Split {} sentences into {} requests for {}", sentences.size(), requests.size(), getId());
+      logger.debug("Split {} sentences into {} requests for {}", sentences.size(), requests.size(), getId());
     }
     return new MLRuleRequest(requests, sentences);
   }
@@ -254,6 +254,7 @@ public abstract class GRPCRule extends RemoteRule {
       try {
         for (MLServerProto.MatchRequest req : reqData.requests) {
           if (timeoutMilliseconds > 0) {
+            logger.debug("Deadline for rule {}: {}ms", getId(), timeoutMilliseconds);
             futures.add(conn.stub
               .withDeadlineAfter(timeoutMilliseconds, TimeUnit.MILLISECONDS)
               .match(req));
