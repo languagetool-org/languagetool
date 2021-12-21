@@ -260,7 +260,7 @@ public class Spanish extends Language implements AutoCloseable {
     return true;
   }
   
-  private static final Pattern ES_CONTRACTIONS = Pattern.compile("\\b(a|de) e(l)\\b", Pattern.CASE_INSENSITIVE);
+  private static final Pattern ES_CONTRACTIONS = Pattern.compile("\\b([Aa]|[Dd]e) e(l)\\b");
   
   @Override
   public List<RuleMatch> adaptSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
