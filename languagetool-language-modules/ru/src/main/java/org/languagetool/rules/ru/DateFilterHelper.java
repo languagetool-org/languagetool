@@ -38,11 +38,15 @@ class DateFilterHelper {
     String day = StringTools.trimSpecialCharacters(dayStr).toLowerCase();  // quickfix for special characters like soft hyphens
     if (day.startsWith("суб")) return Calendar.SATURDAY;
     if (day.startsWith("вс")) return Calendar.SUNDAY;
+    if (day.startsWith("вос")) return Calendar.SUNDAY;
     if (day.startsWith("пн")) return Calendar.MONDAY;
+    if (day.startsWith("пон")) return Calendar.MONDAY;
     if (day.startsWith("вт")) return Calendar.TUESDAY;
     if (day.startsWith("ср")) return Calendar.WEDNESDAY;
     if (day.startsWith("чт")) return Calendar.THURSDAY;
+    if (day.startsWith("чет")) return Calendar.THURSDAY;
     if (day.startsWith("пт")) return Calendar.FRIDAY;
+    if (day.startsWith("пят")) return Calendar.FRIDAY;
     if (day.startsWith("сб")) return Calendar.SATURDAY;
     throw new RuntimeException("Could not find day of week for '" + dayStr + "'");
   }
@@ -59,6 +63,7 @@ class DateFilterHelper {
     if (mon.startsWith("мар")) return 3;
     if (mon.startsWith("апр")) return 4;
     if (mon.startsWith("май")) return 5;
+    if (mon.startsWith("мая")) return 5; //
     if (mon.startsWith("июн")) return 6;
     if (mon.startsWith("июл")) return 7;
     if (mon.startsWith("авг")) return 8;
