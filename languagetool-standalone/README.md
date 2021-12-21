@@ -1,7 +1,7 @@
 # LanguageTool
 
 **A proof-reading tool for English, Spanish, German,
-Polish, Chinese, French, Russian, Italian, Dutch
+Polish, Chinese, French, Russian, Italian, Dutch, Ukrainian
 and [more languages](https://dev.languagetool.org/languages)**
 
 Version 5.6-SNAPSHOT (2021-xx-xx)
