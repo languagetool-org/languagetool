@@ -18,20 +18,11 @@
  */
 package org.languagetool.language;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import org.jetbrains.annotations.NotNull;
-import org.languagetool.Language;
-import org.languagetool.UserConfig;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.ca.SimpleReplaceDNVColloquialRule;
-import org.languagetool.rules.ca.SimpleReplaceDNVRule;
-import org.languagetool.rules.ca.SimpleReplaceDNVSecondaryRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.ca.CatalanTagger;
 
@@ -56,17 +47,6 @@ public class ValencianCatalan extends Catalan {
   @Override
   public Tagger createDefaultTagger() {
     return CatalanTagger.INSTANCE_VAL;
-  }
-  
-  @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
-    List<Rule> rules = new ArrayList<>(super.getRelevantRules(messages, userConfig, motherTongue, altLanguages));
-    rules.addAll(Arrays.asList(
-            new SimpleReplaceDNVRule(messages, this),
-            new SimpleReplaceDNVColloquialRule(messages, this),
-            new SimpleReplaceDNVSecondaryRule(messages, this))
-    );
-    return rules;
   }
 
   @Override

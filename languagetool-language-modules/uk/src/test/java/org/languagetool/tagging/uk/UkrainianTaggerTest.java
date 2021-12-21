@@ -107,6 +107,8 @@ public class UkrainianTaggerTest {
 
     TestTools.myAssert("о 15.33", "о/[о]intj|о/[о]prep -- 15.33/[15.33]time", tokenizer, tagger);
     TestTools.myAssert("О 1:05", "О/[о]intj|О/[о]prep -- 1:05/[1:05]time", tokenizer, tagger);
+    
+    assertNotTagged("H1");
   }
 
   @Test

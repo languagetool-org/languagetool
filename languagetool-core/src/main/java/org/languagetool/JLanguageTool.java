@@ -19,6 +19,7 @@
 package org.languagetool;
 
 import io.github.resilience4j.circuitbreaker.CallNotPermittedException;
+import io.github.resilience4j.circuitbreaker.CircuitBreaker;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jetbrains.annotations.NotNull;
@@ -1091,24 +1092,24 @@ public class JLanguageTool {
           //logger.info("Fetching results for remote rule for {} chars", chars);
           rule.circuitBreaker().executeCallable(() -> fetchResults(textCheckStart, mode, level, analyzedSentences, remoteMatches, matchOffset, annotatedText, textSessionID, chars, deadline, task, rule, ruleKey));
         } catch (InterruptedException e) {
-          logger.info("Failed to fetch result from remote rule - interrupted.");
+          logger.info("Failed to fetch result from remote rule '{}' - interrupted.", ruleKey);
           RemoteRuleMetrics.request(ruleKey, textCheckStart, chars, RemoteRuleMetrics.RequestResult.INTERRUPTED);
           break;
         } catch (CancellationException e) {
-          logger.info("Failed to fetch result from remote rule - cancelled.");
+          logger.info("Failed to fetch result from remote rule '{}' - cancelled.", ruleKey);
           RemoteRuleMetrics.request(ruleKey, textCheckStart, chars, RemoteRuleMetrics.RequestResult.INTERRUPTED);
         } catch (TimeoutException e) {
-          logger.info("Failed to fetch result from remote rule - request timed out.");
+          logger.info("Failed to fetch result from remote rule '{}' - request timed out.", ruleKey);
           RemoteRuleMetrics.request(ruleKey, textCheckStart, chars, RemoteRuleMetrics.RequestResult.TIMEOUT);
         } catch (CallNotPermittedException e) {
-          logger.info("Failed to fetch result from remote rule - circuitbreaker active, rule marked as down.");
+          logger.info("Failed to fetch result from remote rule '{}' - circuitbreaker active, rule marked as down.", ruleKey);
           RemoteRuleMetrics.request(ruleKey, textCheckStart, chars, RemoteRuleMetrics.RequestResult.DOWN);
         } catch (Exception e) {
           if (ExceptionUtils.indexOfThrowable(e, TimeoutException.class) != -1) {
-            logger.info("Failed to fetch result from remote rule - request timed out.");
+            logger.info("Failed to fetch result from remote rule '{}' - request timed out.", ruleKey);
             RemoteRuleMetrics.request(ruleKey, textCheckStart, chars, RemoteRuleMetrics.RequestResult.TIMEOUT);
           } else {
-            logger.warn("Failed to fetch result from remote rule - error while executing rule.", e);
+            logger.warn("Failed to fetch result from remote rule '" + ruleKey + "' - error while executing rule.", e);
             RemoteRuleMetrics.request(ruleKey, textCheckStart, chars, RemoteRuleMetrics.RequestResult.ERROR);
           }
         }
@@ -1247,7 +1248,13 @@ public class JLanguageTool {
         requestSize.add(size);
 
         try {
-          if (size == 0 || !rule.circuitBreaker().tryAcquirePermission()) {
+          // skip calls (which send requests) if open/forced_open
+          // try calls if half_open
+          // would need manual tracking if we use tryAcquirePermission, this is easier
+          // does require automaticTransitionFromOpenToHalfOpenEnabled settting
+          if (size == 0 ||
+            rule.circuitBreaker().getState() == CircuitBreaker.State.OPEN ||
+            rule.circuitBreaker().getState() == CircuitBreaker.State.FORCED_OPEN) {
             task = null;
           } else {
             jLanguageToolPool.submit(task);

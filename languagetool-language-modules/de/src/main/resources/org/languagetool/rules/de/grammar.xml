@@ -524,6 +524,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Es wird spannend, weil der Trainer erst am Freitag über sein Antreten entscheiden kann.</example>
             <example>Nur der Mensch kann über seinen Weg entscheiden.</example>
         </rule>
+        <rulegroup id="SCHALTEN_UND_WALTEN" name="schalten und walten" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker><token inflected="yes">schalen<exception inflected="yes">schalten</exception></token></marker>
+                    <token>und</token>
+                    <token inflected="yes">walten</token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="1" regexp_match="schal" regexp_replace="schalt"/></suggestion>?</message>
+                <short>&typo;</short>
+                <example correction="schalten">Hier kannst du beliebig <marker>schalen</marker> und walten.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">schalten</token>
+                    <token>und</token>
+                    <marker><token inflected="yes">waten</token></marker>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="3" regexp_match="wat" regexp_replace="walt"/></suggestion>?</message>
+                <short>&typo;</short>
+                <example correction="walten">Hier kannst du beliebig schalten und <marker>waten</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="BELEIBT_BELIEBT" name="beliebt (beleibt)">
             <rule>
                 <pattern>
@@ -6939,7 +6961,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Es war <marker>zur Zeit</marker>, als Columbus Amerika entdeckte.</example>
             <example>Sein Vater war <marker>zur Zeit</marker> von Max Geburt Professor in Berlin.</example>
         </rule>
-        <rulegroup id="JEDERZEIT" name="jeder Zeit (jederzeit)" default="temp_off">
+        <rulegroup id="JEDERZEIT" name="jeder Zeit (jederzeit)">
             <rule>
                 <antipattern>
                     <token skip="1">zu</token>
@@ -7708,7 +7730,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="warst">Wo <marker>wahrst</marker> du gestern?</example>
             </rule>
         </rulegroup>
-        <rulegroup id="WENNSCHON_DENNSCHON" name="wenn schon, dann (denn) schon" default="temp_off">
+        <rulegroup id="WENNSCHON_DENNSCHON" name="wenn schon, dann (denn) schon">
             <rule>
                 <pattern>
                     <token regexp="yes">(wenn)?schon</token>
@@ -24402,7 +24424,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">bei|in|auf|von|zu</token>
                     <marker>
-                        <token case_sensitive="yes" regexp="yes">google|skype|twitter|arte</token>
+                        <token case_sensitive="yes" regexp="yes">google|skype|twitter</token>
                     </marker>
                 </pattern>
                 <message>Der Name dieses Unternehmens wird großgeschrieben.</message>
@@ -24420,6 +24442,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Der Name dieses Dienstes wird großgeschrieben.</message>
                 <suggestion>WhatsApp</suggestion>
                 <example correction="WhatsApp">Ich schreibe dir bei <marker>whatsapp</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">bei|in|auf|von|zu</token>
+                    <marker>
+                        <token case_sensitive="yes">arte</token>
+                    </marker>
+                </pattern>
+                <message>Es gibt zwar die Eigenschreibweisen 'ARTE' und 'arte', aber wir empfehlen die Schreibweise 'Arte'.</message>
+                <suggestion><match no="2" case_conversion="startupper" /></suggestion>
+                <example correction="Arte">Die Dokumentation war auf <marker>arte</marker> zu sehen.</example>
+                <example>Die Dokumentation findest du auf <marker>arte</marker>.tv</example>
             </rule>
         </rulegroup>
         <rulegroup id="NICHTS_ZU_SCHADE" name="zu Schade (schade)">
@@ -53754,6 +53788,13 @@ Andere Projekte</example>
                     <token skip="-1"/>
                     <token>.</token>
                 </antipattern>
+                <antipattern><!-- FPs for conditional sentences starting with "Bist du nicht sicher, dann..." -->
+                    <token postag="SENT_START"/>
+                    <token min="0" max="1" regexp="yes">„|»|«|"</token>
+                    <token skip="-1" regexp="yes">ist|bist</token>
+                    <token regexp="yes">dann|so</token>
+                    <token postag="VER.*:[123]:.*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token min="0" max="1" regexp="yes">„|»|«|"</token>
@@ -53780,6 +53821,9 @@ Andere Projekte</example>
                 <example>Ist die Lüge noch so schnell, die Wahrheit holt sie doch ein.</example>
                 <example>Ist die Hydroxygruppe an ein Kohlenstoffatom gebunden, werden die Verbindungen als Phenole bezeichnet.</example>
                 <example>Ist die Hydroxygruppe an ein Kohlenstoffatom gebunden, das Teil eines aromatischen Ringes ist, so werden die Verbindungen als Phenole bezeichnet.</example>
+                <example>Bist du unsicher, dann darfst du nicht vergessen, dass es sich bei dem Ort um eine ruhige Stadt handelt.</example>
+                <example>Ist sie in einem Hotel, dann stehen die Chancen gut, dass die Unterkunft über eigene Stellplätze verfügt.</example>
+                <example>Ist man nicht sicher, so kann es sich um einen Giftpilz handeln.</example>
             </rule>
             <rule><!-- 11 -->
                 <antipattern>
@@ -59492,7 +59536,7 @@ Andere Projekte</example>
                 <short>&getrennt;.</short>
                 <example correction="Handvoll">Es kam nur eine <marker>Hand voll</marker> Schüler.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>wenn</token>
@@ -59507,7 +59551,7 @@ Andere Projekte</example>
                 <short>&getrennt;.</short>
                 <example correction="Wennschon"><marker>Wenn schon</marker>, dennschon.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">(wenn)?schon</token>
                     <token>,</token>
