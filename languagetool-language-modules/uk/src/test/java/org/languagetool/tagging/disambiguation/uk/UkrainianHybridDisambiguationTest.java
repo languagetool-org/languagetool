@@ -171,6 +171,17 @@ public class UkrainianHybridDisambiguationTest {
         + "Харкові/[Харків]noun:inanim:m:v_mis:prop:geo",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
     
+    TestTools.myAssert("з початку",
+        "/[null]SENT_START "
+        + "з/[з]prep  /[null]null "
+        + "початку/[початок]noun:inanim:m:v_dav:xp1|початку/[початок]noun:inanim:m:v_dav:xp2|початку/[початок]noun:inanim:m:v_rod:xp2",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+
+    // technically not related to v_mis but we can't test DIS_PROPER_NOUN_INSIDE_SENTENCE in xml as markup is removed in tests
+    TestTools.myAssert("<b>Чомусь",
+        "/[null]SENT_START <b>/[null]null "
+        + "Чомусь/[чомусь]adv:&pron:ind|Чомусь/[щось]noun:inanim:n:v_dav:&pron:ind",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
   }
   
   @Test

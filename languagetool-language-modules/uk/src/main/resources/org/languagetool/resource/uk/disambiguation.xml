@@ -1588,6 +1588,19 @@
     <example type="untouched">ганяли Едгара по полю.</example>
   </rule>
 
+  <rule name="Поліна" id="POLINA">
+    <pattern case_sensitive="yes">
+      <marker>
+        <token regexp="yes">Полін[аиіу]</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun:anim.*?:fname.*"/>
+    <example type="ambiguous" 
+        inputform="Поліну[Поліна/noun:anim:f:v_zna:prop:fname,поліно/noun:inanim:n:v_dav]"
+        outputform="Поліну[Поліна/noun:anim:f:v_zna:prop:fname]">Знали <marker>Поліну</marker>.</example>
+    <example type="untouched">Поліном</example>
+  </rule>
+
 <!-- 
   <rule name="Однолітерні скорочення лише з малої" id="SINGLE_CHAR_ABBR_NO_CAPS">
     <pattern>
@@ -1816,7 +1829,7 @@
       <and>
         <token regexp="yes" postag_regexp="yes" postag="(noun|adj).*">[А-ЯІЇЄҐ][а-яіїєґ'-]+
           <exception scope="previous" postag="SENT_START"/>
-          <exception scope="previous" regexp="yes">[«„“"*•/\[\]:(—–-]</exception>
+          <exception scope="previous" regexp="yes">[«„“"*•/\[\]:(—–-]|.*&gt;</exception>
           <exception scope="previous" regexp="yes">.*\.</exception>
           <exception regexp="yes">Як|Серед</exception>
         </token>
@@ -1839,6 +1852,9 @@
     <!--  ст. is hard we can't reliably split sentences so need exceptions when we fail to split -->
     <example type="untouched">східної Галичини XV-XVIII ст. Серед них – привілеї</example>
     <example type="untouched">Взяти бодай XIII—XIX ст. Раніше п’єса була домінантою...</example>
+    <!-- Can't test: the test code cleans up all xml markups
+    <example type="untouched">і &lt;b&gt;Чомусь</example>
+     -->
   </rule>
 
   <!-- тимчасовий манівець для невідомих власних імен після прийменника, що збігаються з дієсловом -->

@@ -147,6 +147,7 @@ public class UkrainianSRXSentenceTokenizerTest {
     testSplit("Лі Куан Ю. ", "Наприклад");
     testSplit("король Георг V. ", "А нині");
     testSplit("цар Петро I. ", "Він ухвалив");
+    testSplit("група В. ", "Усі віруси");
   }
 
   @Test
