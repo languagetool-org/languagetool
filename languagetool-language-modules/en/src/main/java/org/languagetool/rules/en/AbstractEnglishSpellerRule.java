@@ -1111,6 +1111,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("yeld", Arrays.asList("yelled"));
     s.put("os", Arrays.asList("OS", "is", "so"));
     s.put("abel", Arrays.asList("able"));
+    s.put("param", Arrays.asList("parameter"));
+    s.put("params", Arrays.asList("parameters"));
+    s.put("Param", Arrays.asList("Parameter"));
+    s.put("Params", Arrays.asList("Parameters"));
 
     return s;
   }
