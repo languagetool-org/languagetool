@@ -24424,7 +24424,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">bei|in|auf|von|zu</token>
                     <marker>
-                        <token case_sensitive="yes" regexp="yes">google|skype|twitter|arte</token>
+                        <token case_sensitive="yes" regexp="yes">google|skype|twitter</token>
                     </marker>
                 </pattern>
                 <message>Der Name dieses Unternehmens wird großgeschrieben.</message>
@@ -24442,6 +24442,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Der Name dieses Dienstes wird großgeschrieben.</message>
                 <suggestion>WhatsApp</suggestion>
                 <example correction="WhatsApp">Ich schreibe dir bei <marker>whatsapp</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">bei|in|auf|von|zu</token>
+                    <marker>
+                        <token case_sensitive="yes">arte</token>
+                    </marker>
+                </pattern>
+                <message>Es gibt zwar die Eigenschreibweisen 'ARTE' und 'arte', aber wir empfehlen die Schreibweise 'Arte'.</message>
+                <suggestion><match no="2" case_conversion="startupper" /></suggestion>
+                <example correction="Arte">Die Dokumentation war auf <marker>arte</marker> zu sehen.</example>
+                <example>Die Dokumentation findest du auf <marker>arte</marker>.tv</example>
             </rule>
         </rulegroup>
         <rulegroup id="NICHTS_ZU_SCHADE" name="zu Schade (schade)">
