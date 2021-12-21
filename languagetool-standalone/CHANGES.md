@@ -8,6 +8,11 @@
   * added and improved rules
   * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2021.12.01, v. 3.0.3)
 
+#### Portuguese
+  * added and improved rules
+  * added words and POS data
+  * fixed tons of false positives
+
 #### Russian
   * added and improved rules
 
