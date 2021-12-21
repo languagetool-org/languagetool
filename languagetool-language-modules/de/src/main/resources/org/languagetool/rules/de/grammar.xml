@@ -1322,6 +1322,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>bei</token>
                 <token regexp="yes">rumkommt|rumkam|rumgekommen</token>
             </antipattern>
+            <antipattern>
+                <token>bei</token>
+                <token>arte</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token>bei</token>
@@ -1349,7 +1353,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception postag='PA[12]:.*' postag_regexp='yes'/>
                         <exception postag='ADJ:.*' postag_regexp='yes'/>
                         <exception postag='ZAL' />
-                        <exception regexp="yes">m?ein|einen|meinen|gar|frühlingshaft.*|arte</exception>
+                        <exception regexp="yes">m?ein|einen|meinen|gar|.+shaft.*|arte</exception>
                     </token>
                 </pattern>
                 <message>Nach 'bei' folgt normalerweise kein Verb.</message>
@@ -1362,6 +1366,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ich hoffe, dass da was bei rumkommt.</example>
                 <example>Ich habe es bei web.de gefunden.</example>
                 <example>Barty sollte heute auch bei gar nichts recht behalten oder?</example>
+                <example>Sie zeigten sich bei frühlingshaften Temperaturen in guter Form.</example>
             </rule>
         </rulegroup>
         <rulegroup id="WO_BIS" name="Wo bis (bist) du?">
@@ -11680,7 +11685,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
-        <rule id="VOR_BEI" name="vor bei (vorbei)" default="temp_off">
+        <rule id="VOR_BEI" name="vor bei (vorbei)">
             <antipattern>
                 <token>bei</token>
                 <token>sage</token>
@@ -17704,6 +17709,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes" skip="2">warnen</token>
                     <token>vor</token>
                     <token postag="VER:.*" postag_regexp="yes" />
+                </antipattern>
+                <antipattern>
+                    <token>auf</token>
+                    <token>arte</token>
                 </antipattern>
                 <pattern case_sensitive="yes">
                     <token><exception>;</exception><exception>:</exception><exception>,</exception></token>
@@ -24229,26 +24238,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="BEI_GENAUEREM_HINSEHEN" name="bei genauerem hinsehen (Hinsehen)">
             <rule>
                 <pattern>
-                    <token>bei</token>
+                    <token regexp="yes">bei|nach</token>
                     <marker>
-                        <token regexp="yes">genauere[nm]</token>
+                        <token regexp="yes">genauere[nm]|nähere[nm]|zweimalige[nm]|flüchtige[mn]|mehrmalige[mn]</token>
                         <token case_sensitive="yes" regexp="yes">hinsehen|betrachten</token>
                     </marker>
                 </pattern>
                 <message>Das Verb "hinsehen" scheint hier nominalisiert zu werden und sollte daher großgeschrieben werden.</message>
-                <suggestion>genauerem <match no="3" case_conversion="startupper" /></suggestion>
+                <suggestion><match no="2" regexp_match="n$" regexp_replace="m" case_conversion="alllower" /> <match no="3" case_conversion="startupper" /></suggestion>
                 <example correction="genauerem Hinsehen">Bei <marker>genauerem hinsehen</marker> stellt sich heraus, dass es alles gar nicht so schlimm ist.</example>
             </rule>
             <rule>
                 <pattern>
                     <token>beim</token>
                     <marker>
-                        <token regexp="yes">genauere[nm]</token>
+                        <token regexp="yes">genauere[nm]|nähere[nm]|zweimalige[nm]|flüchtige[mn]|mehrmalige[mn]</token>
                         <token case_sensitive="yes" regexp="yes">hinsehen|betrachten</token>
                     </marker>
                 </pattern>
                 <message>Das Verb "hinsehen" scheint hier nominalisiert zu werden und sollte daher großgeschrieben werden.</message>
-                <suggestion>genaueren <match no="3" case_conversion="startupper" /></suggestion>
+                <suggestion><match no="2" regexp_match="m$" regexp_replace="n" case_conversion="alllower" /> <match no="3" case_conversion="startupper" /></suggestion>
                 <example correction="genaueren Hinsehen">Beim <marker>genauerem hinsehen</marker> stellt sich heraus, dass es alles gar nicht so schlimm ist.</example>
             </rule>
         </rulegroup>
@@ -24404,7 +24413,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Genaueres">Ich melde mich, wenn ich <marker>genaueres</marker> weiß.</example>
             <example correction="Genaueres">... aber <marker>genaueres</marker> kann ich dazu noch nicht sagen.</example>
         </rule>
-        <rule id="BEI_BEGINN" name="bei beginn (Beginn)" default="temp_off">
+        <rule id="BEI_BEGINN" name="bei beginn (Beginn)">
             <pattern>
                 <token regexp="yes">zum?|bei|von</token>
                 <marker>
@@ -51996,9 +52005,10 @@ Andere Projekte</example>
     <!-- Zeichensetzung -->
     <!-- ====================================================================== -->
     <category id="PUNCTUATION" name="Zeichensetzung">
-        <rule id="SO_WIE_KEIN_KOMMA" name="Kein Komma in 'So, wie'" default="temp_off">
+        <rule id="SO_WIE_KEIN_KOMMA" name="Kein Komma in 'So, wie'">
             <pattern case_sensitive="yes">
                 <token postag="PKT|SENT_START" postag_regexp="yes" />
+                <token min="0">aber|doch</token>
                 <marker>
                     <token regexp="yes">[Ss]o</token>
                     <token postag="ADJ:PRD:GRU" min="0" />
@@ -52007,7 +52017,7 @@ Andere Projekte</example>
                 </marker>
             </pattern>
             <message>In der Regel steht am Satzanfang zwischen "So" und "wie" kein Komma.</message>
-            <suggestion>\2 \3 \5</suggestion>
+            <suggestion>\3 \4 \6</suggestion>
             <example correction="So stark wie"><marker>So stark, wie</marker> gestern hat es lange nicht mehr geschneit.</example>
         </rule>
         <rulegroup id="ICH_GLAUBE_FUER_EUCH" name="Ich glaube(,) für euch ist ...">
@@ -52033,7 +52043,7 @@ Andere Projekte</example>
                         <exception postag="PA2.*" postag_regexp="yes" />
                     </token>
                     <marker>
-                        <token regexp="yes" case_sensitive="yes">für|mit|gegen|bis|au(ß|ss)er|von|wegen|bei|ohne|auf|unter|neben|hinter|zwischen|vor</token>
+                        <token regexp="yes" case_sensitive="yes">für|mit|gegen|bis|au(ß|ss)er|vo[mn]|wegen|beim?|ohne|auf|unter|neben|hinter|zwischen|vor|an</token>
                     </marker>
                     <token postag="ART.*|PRO:(POS|DEM).*" postag_regexp="yes" min="0" />
                     <token postag="ADJ.*" postag_regexp="yes" min="0" max="2" />
@@ -55482,7 +55492,7 @@ Andere Projekte</example>
                         <exception regexp="yes">mal|schnell|einen?</exception>
                     </token>
                     <token postag="ADV.*" postag_regexp="yes" min="0" />
-                    <token>gar</token>
+                    <token regexp="yes">gar|überhaupt|wirklich</token>
                     <token>nicht</token>
                     <marker>
                         <token regexp='yes' case_sensitive='yes'>inwiefern|inwieweit|ob|wann|warum|wem|wen|wer|weshalb|weswegen|wessen|wieso|wo|wodurch|woher|wohin|wofür|womit|woran|worauf|wovon|wozu</token>

@@ -1222,6 +1222,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("mußt", "musst");
     put("müßtest", "müsstest");
     put("müßten", "müssten");
+    put("Bs", "Bis");
+    put("bs", "bis");
   }
 
   private static void putRepl(String wordPattern, String pattern, String replacement) {
