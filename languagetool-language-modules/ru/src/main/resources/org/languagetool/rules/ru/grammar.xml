@@ -2830,7 +2830,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     	    <example correction="таким образом, что">Это сделано <marker>таким образом что</marker> и не найти.</example>
     	    <example>Таким образом, что слово есть, что его нет - без разницы.</example>
     	</rule>
-        <rule id="takim_obrazom" name="Запятая после «таким образом» 2" >  <!-- tags="picky" -->
+        <rule id="takim_obrazom" name="Запятая после «таким образом» 2" default="temp_off" >  <!-- tags="picky" -->
             <pattern>
                 <token>таким<exception postag="VB:.*|DPT:.*|PT:.*|PT_Short:.*|PREP|PRDC|NN:.*" postag_regexp="yes" scope="previous"></exception>
                     <exception regexp="yes" scope="previous">[,.-;:—]</exception>
@@ -2839,7 +2839,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </token>
                 <token>образом</token>
                 <token postag="VB:.*|DPT:.*|PT:.*|PT_Short:.*|PREP" postag_regexp="yes" negate_pos="yes">
-                    <exception regexp="yes">[,!;:.«(]</exception><exception scope="next" regexp="yes">что|чтобы|как</exception>
+                    <exception regexp="yes">[?,!;:.«(]</exception><exception scope="next" regexp="yes">что|чтобы|как</exception>
                 </token>
             </pattern>
             <message>Возможно пропущена запятая, если словосочетание «таким образом» выступает в качестве вводного.</message>
@@ -2847,6 +2847,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Пропущена запятая</short>
             <example correction="">И <marker>таким образом мы</marker></example>
             <example>И,таким образом, мы</example>
+            <example>Можно сказать это и таким образом?</example>
         </rule>
         <rule default="on" id="comma_and_to_jest" name="Запятая перед «то есть»">
     	    <pattern case_sensitive="no">
