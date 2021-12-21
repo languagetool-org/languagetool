@@ -22,9 +22,9 @@ package org.languagetool.rules.ca;
 import java.io.IOException;
 
 import org.languagetool.language.ValencianCatalan;
-import org.languagetool.rules.AbastractSuppressMisspelledSuggestionsFilter;
+import org.languagetool.rules.AbstractSuppressMisspelledSuggestionsFilter;
 
-public class CatalanSuppressMisspelledSuggestionsFilter extends AbastractSuppressMisspelledSuggestionsFilter {
+public class CatalanSuppressMisspelledSuggestionsFilter extends AbstractSuppressMisspelledSuggestionsFilter {
 
   public CatalanSuppressMisspelledSuggestionsFilter() throws IOException {
     super(new ValencianCatalan());

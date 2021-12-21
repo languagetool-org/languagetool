@@ -31,12 +31,12 @@ import org.languagetool.Language;
 import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 
-public abstract class AbastractSuppressMisspelledSuggestionsFilter extends RuleFilter {
+public abstract class AbstractSuppressMisspelledSuggestionsFilter extends RuleFilter {
 
   protected final Language language;
   protected final ResourceBundle messages; 
 
-  protected AbastractSuppressMisspelledSuggestionsFilter(Language language) {
+  protected AbstractSuppressMisspelledSuggestionsFilter(Language language) {
     this.language = language;
     this.messages = JLanguageTool.getDataBroker().getResourceBundle(JLanguageTool.MESSAGE_BUNDLE,
         new Locale(language.getShortCode()));

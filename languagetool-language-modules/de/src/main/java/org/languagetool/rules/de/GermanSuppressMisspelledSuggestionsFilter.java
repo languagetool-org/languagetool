@@ -21,9 +21,9 @@ package org.languagetool.rules.de;
 
 import java.io.IOException;
 import org.languagetool.language.GermanyGerman;
-import org.languagetool.rules.AbastractSuppressMisspelledSuggestionsFilter;
+import org.languagetool.rules.AbstractSuppressMisspelledSuggestionsFilter;
 
-public class GermanSuppressMisspelledSuggestionsFilter extends AbastractSuppressMisspelledSuggestionsFilter {
+public class GermanSuppressMisspelledSuggestionsFilter extends AbstractSuppressMisspelledSuggestionsFilter {
 
   public GermanSuppressMisspelledSuggestionsFilter() throws IOException {
     super(new GermanyGerman());
