@@ -146,6 +146,7 @@ public abstract class RemoteRule extends Rule {
       .slidingWindow(
         c.getSlidingWindowSize(), c.getMinimumNumberOfCalls(), type)
       .waitDurationInOpenState(Duration.ofMillis(Math.max(1, c.getDownMilliseconds())))
+      .enableAutomaticTransitionFromOpenToHalfOpen()
       .build();
     return CircuitBreakers.registry().circuitBreaker("remote-rule-" + id, config);
   }
