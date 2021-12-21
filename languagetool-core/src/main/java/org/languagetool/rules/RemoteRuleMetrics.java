@@ -71,9 +71,9 @@ public final class RemoteRuleMetrics {
     .buckets(SIZE_BUCKETS)
     .register();
 
-  public static void request(String rule, long startMillis, long characters, RequestResult result) {
-    long delta = System.currentTimeMillis() - startMillis;
-    requestLatency.labels(rule, result.name().toLowerCase()).observe((double) delta / 1e3);
+  public static void request(String rule, long startNanos, long characters, RequestResult result) {
+    long delta = System.nanoTime() - startNanos;
+    requestLatency.labels(rule, result.name().toLowerCase()).observe((double) delta / 1e9);
     requestThroughput.labels(rule, result.name().toLowerCase()).observe(characters);
   }
 
