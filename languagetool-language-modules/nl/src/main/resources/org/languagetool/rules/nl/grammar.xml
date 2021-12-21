@@ -17869,8 +17869,12 @@ steenwijk;Steenwijk
 		<example>900 <marker>is</marker> een goed begin.</example>
 		</rule>
 		-->
-		<rulegroup id="KOMMA_AANHALING_1" name="Volgorde aanhalingsteken en komma.">
+		<rulegroup id="KOMMA_AANHALING" name="Volgorde aanhalingsteken en komma.">
 			<rule>
+				<antipattern>
+					<token regexp="yes">['‘]</token>
+					<token>s</token>
+				</antipattern>
 				<antipattern>
 					<token postag="SENT_START"/>
 					<token skip="-1" regexp="yes">['‘]</token>
@@ -17892,6 +17896,11 @@ steenwijk;Steenwijk
 				<example correction="',">'Dat doe ik<marker>,'</marker> zei Jan.</example>
 			</rule>
 			<rule>
+				<antipattern>
+					<token regexp="yes">["”]</token>
+					<token>,</token>
+					<token regexp="yes">["“]</token>
+				</antipattern>
 				<antipattern>
 					<token postag="SENT_START"/>
 					<token skip="-1" regexp="yes">["“]</token>
