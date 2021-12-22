@@ -460,6 +460,18 @@ RB => Règles Brutes
         </pattern>
         <disambig action="remove" postag="N.*"/>
     </rule>
+    <rule id="DONNE" name="donne">
+        <pattern>
+            <token regexp="yes">cela|ça</token>
+            <marker>
+                <and>
+                    <token postag="N f s"/>
+                    <token postag="V.*" postag_regexp="yes"/>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="N f s"/>
+    </rule>
     <rulegroup id="V_PPR_NOT_NOUN" name="V ppr not noun">
         <rule>
         <pattern>
