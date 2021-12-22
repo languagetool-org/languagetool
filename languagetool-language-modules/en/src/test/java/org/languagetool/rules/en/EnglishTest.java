@@ -23,11 +23,16 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.LanguageSpecificTest;
 import org.languagetool.Languages;
+import org.languagetool.language.English;
 import org.languagetool.rules.Rule;
+import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.AbstractPatternRule;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 public class EnglishTest extends LanguageSpecificTest {
   
@@ -40,6 +45,16 @@ public class EnglishTest extends LanguageSpecificTest {
       Arrays.asList("TOO_TO", "MORFOLOGIK_RULE_EN_US", "MORFOLOGIK_RULE_EN_US", "MORFOLOGIK_RULE_EN_US", "SENT_START_CONJUNCTIVE_LINKING_ADVERB_COMMA", "APOS_ARE", "IN_A_X_MANNER", "UPPERCASE_SENTENCE_START", "DOUBLE_HYPHEN", "IT_IS", "EN_A_VS_AN", "EN_CONTRACTION_SPELLING", "OVER_SEAS", "PM_IN_THE_EVENING", "DATE_WEEKDAY")
     );
     runTests(lang, null, "ÆæāýÅåøšùçıčćö");
+  }
+
+  @Test
+  public void testRepeatedPatternRules() throws IOException {
+    Language lang = new English();
+    JLanguageTool lt = new JLanguageTool(lang);
+
+    List<RuleMatch> matches = lt.check("Thank you for all your help. Thanks for all your help.");
+    assertEquals("Matches across rules in a rule group", 1, matches.size());
+    assertEquals("Match ID", "REP_THANK_YOU_FOR[2]", matches.get(0).getRule().getFullId());
   }
 
   @Test

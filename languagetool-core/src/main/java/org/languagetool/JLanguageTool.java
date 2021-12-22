@@ -680,25 +680,13 @@ public class JLanguageTool {
     List<AbstractPatternRule> rules = new ArrayList<>(patternRules);
     List<PatternRuleTransformer> transforms = Arrays.asList(new RepeatedPatternRuleTransformer(lang));
 
-    // PatternRuleTransformer could want to indicate if transformed rules
-    // should be removed from the pool for further transform or not
-    // what to do if multiple transforms would apply? priorities, first wins, ...?
     List<Rule> transformed = new ArrayList<>();
     for (PatternRuleTransformer op : transforms) {
-      for (int i = 0; i < rules.size(); i++) {
-        AbstractPatternRule input = rules.get(i);
-        if (input == null) {
-          continue;
-        }
-        Optional<Rule> result = op.apply(input);
-        if (result.isPresent()) {
-          transformed.add(result.get());
-          // allow only one transform for now
-          rules.set(i, null);
-        }
-      }
+      PatternRuleTransformer.TransformedRules result = op.apply(rules);
+      rules = result.getRemainingRules();
+      transformed.addAll(result.getTransformedRules());
     }
-    rules.stream().filter(Objects::nonNull).forEach(transformed::add);
+    transformed.addAll(rules);
     return transformed;
   }
 
@@ -1802,9 +1790,9 @@ public class JLanguageTool {
       if (rule.getId().equals(id)) {
         // test wrapped rules as normal in PatternRuleTest
         if (rule instanceof RepeatedPatternRuleTransformer.RepeatedPatternRule) {
-          rule = ((RepeatedPatternRuleTransformer.RepeatedPatternRule) rule).getWrappedRule();
-        }
-        if (rule instanceof AbstractPatternRule &&((AbstractPatternRule) rule).getSubId().equals(subId)){
+          List<AbstractPatternRule> wrappedRules = ((RepeatedPatternRuleTransformer.RepeatedPatternRule) rule).getWrappedRules();
+          rulesById.addAll(wrappedRules);
+        } else if (rule instanceof AbstractPatternRule &&((AbstractPatternRule) rule).getSubId().equals(subId)){
           rulesById.add((AbstractPatternRule) rule);
         }
       }
