@@ -136,7 +136,7 @@ public class German extends Language implements AutoCloseable {
             new LongParagraphRule(messages, this, userConfig),
             new PunctuationMarkAtParagraphEnd(messages, this),
             // specific to German:
-            new SimpleReplaceRule(messages),
+            new SimpleReplaceRule(messages, this),
             new OldSpellingRule(messages),
             new SentenceWhitespaceRule(messages),
             new GermanDoublePunctuationRule(messages),
