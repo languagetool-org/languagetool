@@ -4225,6 +4225,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <antipattern>
             <token case_sensitive="yes" regexp="yes" postag="NNP">Can</token>
         </antipattern>
+        <antipattern>
+            <token>will</token>
+            <token chunk_re="B-NP.*" min="0" />
+            <token chunk_re="E-NP.*" />
+            <token postag="RB" min="0" />
+            <token postag="VB" />
+        </antipattern>
         <pattern case_sensitive="yes">
             <and>
                 <token regexp="yes">\p{Lu}\p{Ll}+
@@ -4288,6 +4295,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token regexp="yes" postag="NN">
                     \p{Lu}\p{Ll}+
                     <exception>Why</exception>
+                    <exception case_sensitive="yes" regexp="yes">Can|Will</exception>
                 </token>
             </marker>
         </pattern>
