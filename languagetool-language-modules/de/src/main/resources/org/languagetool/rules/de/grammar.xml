@@ -52053,6 +52053,11 @@ Andere Projekte</example>
         <rulegroup id="ICH_GLAUBE_FUER_EUCH" name="Ich glaube(,) für euch ist ...">
             <!-- offers suggestions for cases where KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ does not-->
             <!-- TODO more here: https://github.com/languagetool-org/languagetool/issues/1196 -->
+            <!-- TODO:
+                 "Ich finde das Haus von Dieter sollte"
+                 "Ich finde bei den Autos von Dieter sollte ..."
+                 "Die Menschen glauben bei den Autos sind ..."
+                -->
             <antipattern><!-- Tom weiß mit Lasttieren umzugehen. -->
                 <token inflected="yes" skip="4">wissen</token>
                 <token postag="VER:EIZ.*" postag_regexp="yes" />
@@ -52076,7 +52081,7 @@ Andere Projekte</example>
                         <token regexp="yes" case_sensitive="yes">für|mit|gegen|bis|au(ß|ss)er|vo[mn]|wegen|beim?|ohne|auf|unter|neben|hinter|zwischen|vor|an</token>
                     </marker>
                     <token postag="ART.*|PRO:(POS|DEM).*" postag_regexp="yes" min="0" />
-                    <token postag="ADJ.*" postag_regexp="yes" min="0" max="2" />
+                    <token postag="(ADJ|PA[12]).*" postag_regexp="yes" min="0" max="2" />
                     <token postag="EIG.*|PRO.*|SUB.*" postag_regexp="yes">
                         <exception postag="ART.*" postag_regexp="yes" />
                     </token>
@@ -52128,7 +52133,7 @@ Andere Projekte</example>
                     <token postag="ART.*|PRO:(POS|DEM).*" postag_regexp="yes" />
                     <token postag="ADJ.*" postag_regexp="yes" min="0" max="3" />
                     <token postag="EIG.*|SUB.*" postag_regexp="yes" />
-                    <token postag="ADJ.*|PA[12].*" postag_regexp="yes" />
+                    <token postag="ADJ.*|PA[12].*|VER:PA[12].*" postag_regexp="yes" />
                 </antipattern>
                 <antipattern>
                     <token inflected="yes">finden</token>
@@ -52178,7 +52183,7 @@ Andere Projekte</example>
                 <antipattern>
                     <token inflected="yes">finden</token>
                     <token postag="EIG.*|SUB.*" postag_regexp="yes" />
-                    <token postag="ADJ.*|PA[12].*" postag_regexp="yes" />
+                    <token postag="ADJ.*|PA[12].*|VER:PA[12].*" postag_regexp="yes" />
                 </antipattern>
                 <antipattern>
                     <token inflected="yes">finden</token>
@@ -52212,6 +52217,50 @@ Andere Projekte</example>
                 <example>Tom und Maria sagten Johannes, sie fänden Elke eingebildet.</example>
                 <example>Tom fand Maria weinend in ihrem Zimmer vor.</example>
                 <example>Ich find Spazierengehen toll...</example>
+                <example>Wir finden Mathematik frustrierend.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token inflected="yes">finden</token>
+                    <token postag="(ADJ|PA[12]).*" postag_regexp="yes" />
+                    <token postag="EIG.*|SUB.*" postag_regexp="yes" />
+                    <token postag="ADJ.*|PA[12].*|VER:PA[12].*" postag_regexp="yes" />
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">finden</token>
+                    <token postag="(ADJ|PA[12]).*" postag_regexp="yes" />
+                    <token postag="EIG.*|SUB.*" postag_regexp="yes" />
+                    <token postag="VER.*" postag_regexp="yes" />
+                    <token>vor</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="PKT|SENT_START|KON.*" postag_regexp="yes" />
+                    <token postag="ART.*" postag_regexp="yes" />
+                    <token regexp="yes">wei(ß|ss)</token>
+                    <token postag="(ADJ|PA[12]).*" postag_regexp="yes" />
+                </antipattern>
+                <pattern>
+                    <token postag="PKT|SENT_START|KON.*" postag_regexp="yes" />
+                    <token regexp="yes" min="0">Herrn?|Frau|Fräulein</token>
+                    <token postag="PRO:PER:NOM.*|EIG.*" postag_regexp="yes" />
+                    <token regexp="yes" inflected="yes">
+                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden
+                        <exception postag="SUB.*" postag_regexp="yes" />
+                        <exception postag="PA2.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token postag="(ADJ|PA[12]).*" postag_regexp="yes" />
+                    </marker>
+                    <token postag="EIG.*|SUB.*" postag_regexp="yes" />
+                    <token postag="VER.*" postag_regexp="yes">
+                        <exception regexp="yes">m?einen?|mal|gar|dank|recht</exception>
+                    </token>
+                </pattern>
+                <message>Hier scheint ein Komma zu fehlen.</message>
+                <suggestion>, \5</suggestion>
+                <example correction=", neue">Ich denke<marker> neue</marker> Grammatik-Regeln sollten Vorrang haben.</example>
+                <example correction=", gute">Ich glaube<marker> gute</marker> Interviewführung lernt man größtenteils durchs machen.</example>
+                <example>Die weiß behaarten Nebenblätter sind 3 bis 7 mm lang.</example>
             </rule>
             <rule>
                 <pattern>
