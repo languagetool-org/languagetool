@@ -61,7 +61,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getMessage() {
-    return "Meiten Sie vielleicht $suggestions?";
+    return "Meinten Sie vielleicht $suggestions?";
     //return "Dieses Wort steht in der Liste der nicht erlaubten Wörter.";
   }
 
