@@ -7365,7 +7365,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 		        
                     <antipattern>
                         <token postag="ADJ:.*:.*:P" postag_regexp='yes'></token>
-                        <token postag="NN:.*:.*:.*:2R" postag_regexp='yes' />   <!-- второй родительный (в неоплатном долгу)-->
+                        <token postag="NN:.*:.*:.*:2P|NN:.*:.*:.*:2R" postag_regexp='yes' />   <!-- второй предложный (местный) (в неоплатном долгу)-->
                     </antipattern>    
                         
                     <antipattern>
@@ -11101,7 +11101,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern case_sensitive="no">
                 <!--  PREP у, без, вместо, для, до, из (изо), из-за, из-под, кроме, около, от, против, среди-> NN:.*:R   -->
                 <token regexp="yes">у|без|вместо|для|до|из|изо|из-за|из-под|кроме|около|от|против|среди</token>
-                <token postag="NN:.*:.*:.*|SENT_END|PARA_END" postag_regexp="yes" regexp="yes">[а-яё].*<exception postag="NN:.*:.*:R|NN:.*:.*:2P" postag_regexp="yes"></exception>
+                <token postag="NN:.*:.*:.*|SENT_END|PARA_END" postag_regexp="yes" regexp="yes">[а-яё].*<exception postag="NN:.*:.*:R|NN:.*:.*:2R|NN:.*:.*:2P" postag_regexp="yes"></exception>
                     <exception postag="NN:.*:.*:.*|SENT_END|PARA_END" negate_pos="yes" postag_regexp="yes"></exception>
                     <exception regexp="yes">нее|варяг|грек|роду|полсотни|власть</exception> 
                 </token>
