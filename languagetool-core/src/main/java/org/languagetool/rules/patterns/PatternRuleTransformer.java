@@ -23,7 +23,8 @@ package org.languagetool.rules.patterns;
 
 import org.languagetool.rules.Rule;
 
-import java.util.Optional;
+import java.util.Collections;
+import java.util.List;
 import java.util.function.Function;
 
 /**
@@ -32,5 +33,24 @@ import java.util.function.Function;
  * Return a value if a transform is applied, none otherwise
  * @since 5.6
  */
-public interface PatternRuleTransformer extends Function<AbstractPatternRule, Optional<Rule>> {
+public interface PatternRuleTransformer extends Function<List<AbstractPatternRule>, PatternRuleTransformer.TransformedRules> {
+
+  class TransformedRules {
+    private final List<AbstractPatternRule> remainingRules;
+    private final List<Rule> transformedRules;
+
+    public TransformedRules(List<AbstractPatternRule> remainingRules, List<Rule> transformedRules) {
+      this.remainingRules = Collections.unmodifiableList(remainingRules);
+      this.transformedRules = Collections.unmodifiableList(transformedRules);
+    }
+
+    public List<AbstractPatternRule> getRemainingRules() {
+      return remainingRules;
+    }
+
+    public List<Rule> getTransformedRules() {
+      return transformedRules;
+    }
+  }
+
 }

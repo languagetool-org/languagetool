@@ -26,9 +26,8 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.TextLevelRule;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class RepeatedPatternRuleTransformer implements PatternRuleTransformer {
   
@@ -38,7 +37,7 @@ public class RepeatedPatternRuleTransformer implements PatternRuleTransformer {
   public RepeatedPatternRuleTransformer(Language lang) {
     transformerLanguage = lang;
   }
-  
+
   /**
    * Wrapper for loaded {@link AbstractPatternRule} instances to act as text-level rules
    */
@@ -46,32 +45,27 @@ public class RepeatedPatternRuleTransformer implements PatternRuleTransformer {
 
     protected final Language ruleLanguage;
     
-    RepeatedPatternRule(AbstractPatternRule rule, Language lang) {
-      this.rule = rule;
+    RepeatedPatternRule(List<AbstractPatternRule> rules, Language lang) {
+      this.rules = Collections.unmodifiableList(rules);
       this.ruleLanguage = lang;
     }
 
-    private AbstractPatternRule rule;
+    private final List<AbstractPatternRule> rules;
 
-    public AbstractPatternRule getWrappedRule() {
-      return rule;
+    public List<AbstractPatternRule> getWrappedRules() {
+      return rules;
     }
 
     @Override
     public String getId() {
-      return rule.getId();
+      return rules.get(0).getId();
     }
 
     @Override
     public String getDescription() {
-      return rule.getDescription();
+      return rules.get(0).getDescription();
     }
     
-    @Override
-    public int getMinPrevMatches() {
-      return rule.getMinPrevMatches();
-    }
-
     @Override
     public RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException {
       List<RuleMatch> matches = new ArrayList<>();
@@ -80,12 +74,17 @@ public class RepeatedPatternRuleTransformer implements PatternRuleTransformer {
       int prevMatches = 0;
       // we need to adjust offsets since each pattern rule returns offsets relative to the sentence, not text
       for (AnalyzedSentence s : sentences) {
-        RuleMatch[] sentenceMatches = rule.match(s);
+        List<RuleMatch> sentenceMatches = new ArrayList<>();
+        for (AbstractPatternRule rule : rules) {
+          RuleMatch[] ruleMatches = rule.match(s);
+          sentenceMatches.addAll(Arrays.asList(ruleMatches));
+        }
+        sentenceMatches.sort(Comparator.naturalOrder());
         for (RuleMatch m : sentenceMatches) {
           int fromPos = m.getFromPos() + offset;
           int toPos = m.getToPos() + offset;
           m.setOffsetPosition(fromPos, toPos);
-          if (fromPos - prevFromPos <= maxDistance && prevMatches >= getMinPrevMatches()) {
+          if (fromPos - prevFromPos <= maxDistance && prevMatches >= m.getRule().getMinPrevMatches()) {
             matches.add(m);
           }
           prevFromPos = fromPos;
@@ -110,12 +109,28 @@ public class RepeatedPatternRuleTransformer implements PatternRuleTransformer {
   }
 
   @Override
-  public Optional<Rule> apply(AbstractPatternRule abstractPatternRule) {
-    if (abstractPatternRule.getMinPrevMatches() > 0) {
-      return Optional.of(new RepeatedPatternRule(abstractPatternRule, transformerLanguage));
-    } else {
-      return Optional.empty();
+  public TransformedRules apply(List<AbstractPatternRule> patternRules) {
+    List<AbstractPatternRule> remaining = new ArrayList<>();
+    Map<String, List<AbstractPatternRule>> toTransform = new HashMap<>();
+    // rules in a rule group / with the same ID should be combined so repetitions of similar patterns are matched
+    for (AbstractPatternRule abstractPatternRule : patternRules) {
+      if (abstractPatternRule.getMinPrevMatches() > 0) {
+        toTransform.compute(abstractPatternRule.getId(), (id, rules) -> {
+          if (rules == null) {
+            return new ArrayList<>(Collections.singletonList(abstractPatternRule));
+          } else {
+            rules.add(abstractPatternRule);
+            return rules;
+          }
+        });
+      } else {
+        remaining.add(abstractPatternRule);
+      }
     }
-  }
+    List<Rule> transformed = toTransform.values().stream()
+      .map(group -> new RepeatedPatternRule(group, transformerLanguage))
+      .collect(Collectors.toList());
 
-}
+    return new TransformedRules(remaining, transformed);
+  }
+ }
