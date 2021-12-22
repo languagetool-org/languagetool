@@ -884,6 +884,16 @@ class AgreementRuleAntiPatterns1 {
       new PatternTokenBuilder().pos("ADJ:PRD:GRU").min(0).build(),
       posRegex("ADJ.*(NOM|AKK):PLU.*SOL|PA2.*(NOM|AKK):PLU.*SOL:VER"),
       posRegex("SUB.*(NOM|AKK):PLU.*")
+    ),
+    Arrays.asList(
+      tokenRegex("Ende|Mitte|Anfang"), // "Ende 1923"
+      tokenRegex("1[0-9]{3}|20[0-9]{2}")
+    ),
+    Arrays.asList(
+      tokenRegex("Ende|Mitte|Anfang"), // "Ende letzten Jahres"
+      new PatternTokenBuilder().posRegex("ART:DEF:GEN:.*").min(0).build(),
+      new PatternTokenBuilder().posRegex("ADJ.*:GEN:.*").matchInflectedForms().tokenRegex("dieser|(vor)?letzter|[0-9]+er").build(),
+      tokenRegex("Woche|Monats|Jahr(es?|zehnts|hunderts|tausends)")
     ));
 
 }
