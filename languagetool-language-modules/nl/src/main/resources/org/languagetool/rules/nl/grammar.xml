@@ -32254,7 +32254,7 @@ steenwijk;Steenwijk
 		<rule id="CODERINGSFOUT" name="fout in tekencodering" >
             <pattern>
 				<token case_sensitive="yes" regexp="yes">.*[a-z]$</token>
-				<token spacebefore="no">?</token>
+				<token spacebefore="no" regexp="yes">[?!]</token>
 				<token case_sensitive="yes" spacebefore="no" regexp="yes">^[a-z].*</token>
             </pattern>
 			<filter class="org.languagetool.rules.nl.DutchSuppressMisspelledSuggestionsFilter" args="none:none"/>
@@ -32272,6 +32272,8 @@ steenwijk;Steenwijk
 			<suggestion>\1fl\3</suggestion>
 			<suggestion>\1fi\3</suggestion>
 			<suggestion>\1ff\3</suggestion>
+			<suggestion>\1i\3</suggestion>
+			<suggestion>\1l\3</suggestion>
 			<example correction="geëerd">Een <marker>ge?erd</marker> persoon.</example>
 			<example correction="enquête">Een lastige <marker>enqu?te</marker>.</example>
         </rule>
