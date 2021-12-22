@@ -52,9 +52,11 @@ public class EnglishTest extends LanguageSpecificTest {
     Language lang = new English();
     JLanguageTool lt = new JLanguageTool(lang);
 
-    List<RuleMatch> matches = lt.check("Thank you for all your help. Thanks for all your help.");
-    assertEquals("Matches across rules in a rule group", 1, matches.size());
-    assertEquals("Match ID", "REP_THANK_YOU_FOR[2]", matches.get(0).getRule().getFullId());
+    List<RuleMatch> matches = lt.check("Thank you for all your help. Here is another sentence. Thank you so much for all the fish.");
+    assertEquals("Matches when close together", 1, matches.size());
+
+    matches = lt.check("Thank you for all your help. This is filler. Here are more words. There needs to be a certain distance between sentences so that this doesn't match again. How long does it need to be? The default setting is 350 characters. That's quite a lot. Here are some more words to fill up this text. Here are some more words to fill up this text. Now here are some more words to fill up this text. Thank you so much for all the fish.");
+    assertEquals("No matches when further apart", 0, matches.size());
   }
 
   @Test
