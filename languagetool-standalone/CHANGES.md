@@ -27,6 +27,10 @@
   * added and improved rules
   * improved tagging and disambiguation
 
+#### Dutch
+  * more words in dictionary
+  * added many spoecial word groups
+  * added rules for accidentally split words
 
 ## 5.5 (2021-10-02)
 
