@@ -269,6 +269,10 @@ public class SpellAndGrammarCheckDialog extends Thread {
     }
     ViewCursorTools viewCursor = new ViewCursorTools(xContext);
     int yFlat = getCurrentFlatParagraphNumber(viewCursor, docCache);
+    if (yFlat < 0) {
+      MessageHandler.showClosingInformationDialog(messages.getString("loNextErrorUnsupported"));
+      return;
+    }
     int x = viewCursor.getViewCursorCharacter();
     while (yFlat < docCache.size()) {
       CheckError nextError = getNextErrorInParagraph (x, yFlat, document, docCursor);
@@ -287,6 +291,9 @@ public class SpellAndGrammarCheckDialog extends Thread {
    */
   private int getCurrentFlatParagraphNumber(ViewCursorTools viewCursor, DocumentCache docCache) {
     int y = viewCursor.getViewCursorParagraph();
+    if (y < 0) {
+      return -1;
+    }
     String paraText = viewCursor.getViewCursorParagraphText();
     if (y == 0 && !paraText.equals(docCache.getTextParagraph(y))) {
       for (int i = nLastFlat; i < docCache.size(); i++) {
@@ -1384,7 +1391,9 @@ public class SpellAndGrammarCheckDialog extends Thread {
               undoList = new ArrayList<UndoContainer>();
             }
             dialog.setEnabled(false);
-            initCursor();
+            if(!initCursor()) {
+              return;
+            }
             gotoNextError();
             dialog.setEnabled(true);
             focusLost = false;
@@ -1448,34 +1457,43 @@ public class SpellAndGrammarCheckDialog extends Thread {
         MessageHandler.printException(e);
       }
       dialog.toFront();
-      initCursor();
+      if(!initCursor()) {
+        return;
+      }
       runCheckForNextError(false);
     }
 
     /**
      * Initialize the cursor / define the range for check
      */
-    private void initCursor() {
+    private boolean initCursor() {
       if (!isImpress) {
         viewCursor = new ViewCursorTools(xContext);
         if (debugMode) {
           MessageHandler.printToLogFile("viewCursor initialized: docId: " + docId);
         }
         XTextCursor tCursor = viewCursor.getTextCursorBeginn();
-        tCursor.gotoStart(true);
-        int nBegin = tCursor.getString().length();
-        tCursor = viewCursor.getTextCursorEnd();
-        tCursor.gotoStart(true);
-        int nEnd = tCursor.getString().length();
-        if (nBegin < nEnd) {
-          endOfRange = nEnd;
+        if (tCursor != null) {
+          tCursor.gotoStart(true);
+          int nBegin = tCursor.getString().length();
+          tCursor = viewCursor.getTextCursorEnd();
+          tCursor.gotoStart(true);
+          int nEnd = tCursor.getString().length();
+          if (nBegin < nEnd) {
+            endOfRange = nEnd;
+          } else {
+            endOfRange = -1;
+          }
         } else {
-          endOfRange = -1;
+          MessageHandler.showClosingInformationDialog(messages.getString("loDialogUnsupported"));
+          closeDialog();
+          return false;
         }
       } else {
         endOfRange = -1;
       }
       lastFlatPara = -1;
+      return true;
     }
 
     /**
@@ -1849,6 +1867,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
         MessageHandler.printToLogFile("getNextError: y (= " + y + ") >= text size (= " + docCache.textSize() + "): Return null");
         endOfDokumentMessage = messages.getString("guiCheckComplete");
         return null;
+      } else if (y < 0) {
+        y = 0;
       }
       if (!isImpress) {
         x = viewCursor.getViewCursorCharacter();
