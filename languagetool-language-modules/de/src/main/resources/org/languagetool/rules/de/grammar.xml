@@ -11685,6 +11685,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rule id="BEI_BEHALTEN" name="bei behalten (beibehalten)" default="temp_off">
+            <pattern>
+                <token case_sensitive="yes" regexp="yes">[Bb]ei</token>
+                <token min="0" case_sensitive="yes">zu</token>
+                <token inflected="yes" regexp="yes">
+                    behalten|legen
+                    <exception case_sensitive="yes" regexp="yes">[A-Z].*</exception>
+                </token>
+            </pattern>
+            <message>Das Verb <suggestion>bei\2<match no="3" case_conversion="alllower" /></suggestion> wird zusammengeschrieben.</message>
+            <example correction="beibehalten">Wir werden uns die gute Laune <marker>bei behalten</marker>.</example>
+        </rule>
         <rule id="VOR_BEI" name="vor bei (vorbei)">
             <antipattern>
                 <token>bei</token>
@@ -19294,7 +19306,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 &date_allnumbers_skip;
             </antipattern>
             <antipattern>
-                <token regexp="yes">wird|werden</token>
+                <token regexp="yes">wird|werden|wurden?</token>
                 <token>verschoben</token>
             </antipattern>
             <rule> <!-- 1) haben am DD.MM.JJJJ -->
@@ -19554,7 +19566,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule><!-- 16) am 23. Februar VER:PRT -->
                 <antipattern>
                     <!-- Die Veranstaltung wird auf den 13. Oktober 2025 verschoben. -->
-                    <token inflected="yes" skip="8">werden</token>
+                    <token inflected="yes" skip="15">werden</token>
                     <token postag="PA2:.*" postag_regexp="yes"></token>
                 </antipattern>
                 <pattern>
@@ -19569,6 +19581,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Am 7. August 2025 bin ich im Urlaub.</example>
                 <example>Ich war gestern Kuchen essen.</example>
                 <example>Die Veranstaltung wird auf den 13. Oktober 2025 verschoben.</example>
+                <example>Im Zuge der COVID-19-Pandemie wurde der US-Starttermin allerdings zunächst auf den 1. April 2032 verschoben.</example>
             </rule>
             <rule><!-- 17) am 23. Februar 2020 haben -->
                 <pattern>
@@ -53725,6 +53738,14 @@ Andere Projekte</example>
                     <token>sein</token>
                     <token>,</token>
                 </antipattern>
+                <antipattern>
+                    <token postag="VER:MOD:.*" postag_regexp="yes"/>
+                    <token skip="-1" />
+                    <token postag="VER:INF:.+" postag_regexp="yes" skip="15"/>
+                    <token>,</token>
+                    <token regexp="yes">so|dann</token>
+                    <token postag="VER:.+" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token min="0" max="1" regexp="yes">„|»|«|"</token>
@@ -53760,6 +53781,7 @@ Andere Projekte</example>
                 <example>Kann ich jedenfalls von meinen Söhnen und Schwiegersöhnen behaupten.</example>
                 <example>Kann sich beinahe mühelos spontan und fließend ausdrücken</example>
                 <example>Kann sich mühelos spontan und fließend ausdrücken</example>
+                <example>Möchtest du zum Beispiel in 10 Jahren dein Traumhaus für 500.000 Euro kaufen und du benötigst dafür ca. 20 % Eigenkapital, so brauchst du in zehn Jahren 100.000 Euro.</example>
             </rule>
             <rule><!-- 10 -->
                 <antipattern>
@@ -55658,7 +55680,7 @@ Andere Projekte</example>
             <pattern>
                 <token regexp="yes">\d+</token>
                 <token spacebefore="no">.</token>
-                <token spacebefore="no" regexp="yes">OG|FC|Stocks?|Obergeschoss(es)?|Geschoss(es)?|Punkt(es)?|Schritts?</token>
+                <token spacebefore="no" regexp="yes">OG|FC|Stocks?|Obergeschoss(es)?|Geschoss(es)?|Punkt(es)?|Schritts?|Etage|Versuchs?</token>
             </pattern>
             <message>Hier empfiehlt es sich ein geschütztes Leerzeichen nach der Zahl einzufügen.</message>
             <suggestion>\1.&nbsp;\3</suggestion>
@@ -59769,7 +59791,7 @@ Andere Projekte</example>
                     <token case_sensitive="yes">Recht</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">das|m?ein|kein|sein|dieses|welchem|im|zu|als|(ebenso)?viel|mehr|weniger|gleiches</token>
+                    <token regexp="yes">das|m?ein|kein|sein|dieses|welchem|im|zu|als|(ebenso)?viel|mehr|weniger|gleiches|irgendein</token>
                     <token postag="(ADJ|PA1):.*" postag_regexp="yes" min="0"/>
                     <token case_sensitive="yes">Recht</token>
                 </antipattern>
@@ -59790,6 +59812,7 @@ Andere Projekte</example>
                 <example>Man hat <marker>Recht</marker> gesprochen.</example>
                 <example>Sie hat ihr <marker>Recht</marker> eingefordert.</example>
                 <example>Er behauptet, die Österreicher hätten ein schlampiges Verhältnis zum Recht.</example>
+                <example>Aber wer hat irgendein Recht, einen Menschen zu tadeln</example>
             </rule>
             <rule>
                 <antipattern>

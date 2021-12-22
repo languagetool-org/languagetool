@@ -45,10 +45,19 @@ public class GermanUnpairedBracketsRule extends GenericUnpairedBracketsRule {
 
   @Override
   protected List<String> getSuggestions(Supplier<String> text, int startPos, int endPos) {
-    if (startPos > 0 && endPos <= text.get().length()) {  // TODO: show suggestion also when quote is the first character
+    if (startPos > 0 && endPos <= text.get().length()) {
       String prevCh = text.get().substring(startPos-1, endPos-1);
       String ch = text.get().substring(startPos, endPos);
       if (prevCh.equals(" ") && ch.equals("“")) {
+        return Arrays.asList("„");
+      }
+      if (prevCh.equals("\u00a0") && ch.equals("“")) {
+        return Arrays.asList("„");
+      }
+    }
+    if (startPos == 0 && endPos <= text.get().length()) {
+      String ch = text.get().substring(startPos, endPos);
+      if (ch.equals("“")) {
         return Arrays.asList("„");
       }
     }

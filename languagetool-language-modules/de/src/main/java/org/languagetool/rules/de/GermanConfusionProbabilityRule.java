@@ -111,7 +111,11 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
     "weit fallendes", // vs weiht
     "weit fallende", // vs weiht
     "weit fallender", // vs weiht
-    "wir ja." // vs wie
+    "wir ja.", // vs wie
+    "weißt, wie", // vs weist
+    "weißt ja, wie", // vs weist
+    "weißt, dass", // vs weist
+    "weißt ja, dass" // vs weist
   );
 
   public GermanConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
