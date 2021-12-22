@@ -9774,6 +9774,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category id="PROPER_NOUNS" name="Prominente/geographische Eigennamen">
         <!-- geographische Namen u. ä. -->
+        <rule id="WARREN_BUFFETT" name="Warren Buffett">
+            <antipattern case_sensitive="yes">
+                <token>Warren</token>
+                <token regexp="yes">Buffetts?</token>
+            </antipattern>
+            <pattern case_sensitive="yes">
+                <token regexp="yes">Warr?en</token>
+                <token regexp="yes">Buff?et?ts?</token>
+            </pattern>
+            <message>Meinten Sie den amerikanischen Unternehmer "Warren Buffett"?</message>
+            <suggestion>Warren <match no="2" regexp_match="ff?et?t" regexp_replace="ffett" /></suggestion>
+            <url>https://de.wikipedia.org/wiki/Warren_Buffett</url>
+            <example correction="Warren Buffett"><marker>Waren Buffet</marker> ist einer der reichsten Menschen der Welt.</example>
+        </rule>
         <rule id="DUE_DILIGENCE" name="Due Diligence">
             <antipattern case_sensitive="yes">
                 <token regexp="yes">DUE|Due</token>
@@ -11686,11 +11700,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
         <rule id="BEI_BEHALTEN" name="bei behalten (beibehalten)" default="temp_off">
+            <antipattern>
+                <token>da</token>
+                <token>bei</token>
+            </antipattern>
             <pattern>
                 <token case_sensitive="yes" regexp="yes">[Bb]ei</token>
                 <token min="0" case_sensitive="yes">zu</token>
                 <token inflected="yes" regexp="yes">
-                    behalten|legen
+                    behalten|legen|pflichten|bringen|geben|setzen|springen|steuern|tragen|treten|wohnen
                     <exception case_sensitive="yes" regexp="yes">[A-Z].*</exception>
                 </token>
             </pattern>
@@ -52021,7 +52039,6 @@ Andere Projekte</example>
         <rule id="SO_WIE_KEIN_KOMMA" name="Kein Komma in 'So, wie'">
             <pattern case_sensitive="yes">
                 <token postag="PKT|SENT_START" postag_regexp="yes" />
-                <token min="0">aber|doch</token>
                 <marker>
                     <token regexp="yes">[Ss]o</token>
                     <token postag="ADJ:PRD:GRU" min="0" />
@@ -52030,7 +52047,7 @@ Andere Projekte</example>
                 </marker>
             </pattern>
             <message>In der Regel steht am Satzanfang zwischen "So" und "wie" kein Komma.</message>
-            <suggestion>\3 \4 \6</suggestion>
+            <suggestion>\2 \3 \5</suggestion>
             <example correction="So stark wie"><marker>So stark, wie</marker> gestern hat es lange nicht mehr geschneit.</example>
         </rule>
         <rulegroup id="ICH_GLAUBE_FUER_EUCH" name="Ich glaube(,) für euch ist ...">
