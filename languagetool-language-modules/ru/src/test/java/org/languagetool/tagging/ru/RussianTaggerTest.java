@@ -42,6 +42,8 @@ public class RussianTaggerTest {
         "Все/[весь]ADJ:MPR:PL:Nom|Все/[весь]ADJ:MPR:PL:V|Все/[все]PNN:PL:Nom|Все/[все]PNN:PL:V|Все/[все]PNN:Sin:Nom|Все/[все]PNN:Sin:V -- смешалось/[смешаться]VB:Past:INTR:PFV:Neut -- в/[в]PREP -- доме/[дом]NN:Inanim:Masc:Sin:P -- Облонских/[null]null", tokenizer, tagger);
     TestTools.myAssert("Абдуллаевы",
         "Абдуллаевы/[абдуллаев]NN:Fam:PL:Nom", tokenizer, tagger);
+    TestTools.myAssert("блукать",
+        "блукать/[блукать]VB:INF:", tokenizer, tagger);
 
   }
 
