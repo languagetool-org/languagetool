@@ -8,6 +8,11 @@
   * added and improved rules
   * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2021.12.01, v. 3.0.3)
 
+#### Dutch
+  * more words in dictionary
+  * added many special word groups
+  * added rules for accidentally split words
+
 #### Portuguese
   * added and improved rules
   * added words and POS data
@@ -15,6 +20,16 @@
 
 #### Russian
   * added and improved rules
+  * improved disambiguation
+  * added words and POS data
+  * fix POS data
+  * rebuild POS dictionary
+  * improved spell checking
+
+#### Ukrainian
+  * many new words in the POS dictionary
+  * added and improved rules
+  * improved tagging and disambiguation
 
 #### General
   * The `--allow-origin` option doesn't require a parameter anymore
@@ -22,15 +37,6 @@
     on Windows. Using `--allow-origin` without a parameter now implies `*`.
   * Added new value `firstupper` for `case_conversion` attribute in grammar.xml (see issue #3241).
 
-#### Ukrainian
-  * many new words in the POS dictionary
-  * added and improved rules
-  * improved tagging and disambiguation
-
-#### Dutch
-  * more words in dictionary
-  * added many spoecial word groups
-  * added rules for accidentally split words
 
 ## 5.5 (2021-10-02)
 
