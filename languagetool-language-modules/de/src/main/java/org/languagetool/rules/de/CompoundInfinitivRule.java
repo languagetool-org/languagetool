@@ -28,6 +28,7 @@ import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.tokenRegex;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -70,6 +71,12 @@ public class CompoundInfinitivRule extends Rule {
       token("dazu"),
       token("zu"),
       token("haben")
+    ),
+    Arrays.asList(
+      // "Er hatte nichts weiter zu sagen"
+      tokenRegex("deutlich|viel|Stück|nichts|nix|noch"),
+      token("weiter"),
+      token("zu")
     )
   );
   
