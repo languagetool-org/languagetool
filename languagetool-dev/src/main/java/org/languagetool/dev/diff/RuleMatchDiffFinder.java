@@ -348,7 +348,7 @@ public class RuleMatchDiffFinder {
   }
 
   private String showTrimSpace(String s) {
-    s = s.replaceFirst("\n", "<span class='whitespace'>\\\\n</span>");
+    s = s.replaceAll("\n", "<span class='whitespace'>\\\\n</span>");
     s = s.replaceFirst("^\\s", "<span class='whitespace'>&nbsp;</span>");
     s = s.replaceFirst("\\s$", "<span class='whitespace'>&nbsp;</span>");
     s = s.replaceAll("\u00A0", "<span class='nbsp' title='non-breaking space'>&nbsp;</span>");
