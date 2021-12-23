@@ -2267,6 +2267,16 @@ RB => Règles Brutes
         </pattern>
         <disambig action="remove" postag="V.*"/>
     </rule>
+    <rule id="CUITE" name="cuite">
+        <!-- with agreement error -->
+        <pattern>
+            <token><exception postag="R pers obj.*" postag_regexp="yes"/></token>
+            <marker>
+                <token>cuite</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="V.*"/>
+    </rule>
     <rule id="TOUCHE_BAS" name="touche bas">
         <!-- with agreement error -->
         <pattern>
@@ -2291,7 +2301,7 @@ RB => Règles Brutes
     <rule id="UN_AVOIR" name="un avoir">
         <!-- with agreement error -->
         <pattern>
-            <token postag="D m s"><exception regexp="yes">l'</exception></token>
+            <token postag="D m s"><exception>l'</exception></token>
             <marker>
                 <token>avoir</token>
             </marker>
