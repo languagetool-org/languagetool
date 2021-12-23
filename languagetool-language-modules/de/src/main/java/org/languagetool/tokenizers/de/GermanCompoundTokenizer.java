@@ -78,6 +78,8 @@ public class GermanCompoundTokenizer implements Tokenizer {
     // add exceptions here so we don't need to update JWordSplitter for every exception we find:  
     //wordSplitter.addException("Maskerade", Collections.singletonList("Maskerade"));
     //wordSplitter.addException("Sportshorts", asList("Sport", "shorts")); 
+    wordSplitter.addException("Hallesche", asList("Hallesche"));
+    wordSplitter.addException("Halleschen", asList("Halleschen"));
     wordSplitter.addException("Reinigungstab", asList("Reinigungs", "tab"));
     wordSplitter.addException("Reinigungstabs", asList("Reinigungs", "tabs"));
     wordSplitter.addException("Tauschwerte", asList("Tausch", "werte"));

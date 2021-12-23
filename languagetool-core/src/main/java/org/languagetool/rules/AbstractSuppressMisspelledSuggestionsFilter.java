@@ -34,7 +34,7 @@ import org.languagetool.rules.spelling.SpellingCheckRule;
 public abstract class AbstractSuppressMisspelledSuggestionsFilter extends RuleFilter {
 
   protected final Language language;
-  protected final ResourceBundle messages; 
+  protected final ResourceBundle messages;
 
   protected AbstractSuppressMisspelledSuggestionsFilter(Language language) {
     this.language = language;
@@ -53,7 +53,12 @@ public abstract class AbstractSuppressMisspelledSuggestionsFilter extends RuleFi
         newReplacements.add(r);
       }
     }
-    if (newReplacements.isEmpty()) {
+    String suppressMatch = getRequired("suppressMatch", arguments);
+    boolean bSuppressMatch = true;
+    if (suppressMatch != null && suppressMatch.equalsIgnoreCase("false")) {
+      bSuppressMatch = false;
+    }
+    if (newReplacements.isEmpty() && bSuppressMatch) {
       return null;
     } else {
       ruleMatch.setSuggestedReplacements(newReplacements);
