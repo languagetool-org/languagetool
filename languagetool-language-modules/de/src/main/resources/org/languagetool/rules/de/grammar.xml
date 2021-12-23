@@ -46976,19 +46976,41 @@ Andere Projekte</example>
                 <token>das</token>
             </antipattern>
             <antipattern><!-- Die Struktur ähnelt der anderer Städte -->
-            <token>der</token>
-            <token postag="ADJ:GEN.*" postag_regexp="yes"/>
-            <token postag="SUB:GEN.*" postag_regexp="yes"/>
+                <token>der</token>
+                <token postag="ADJ:GEN.*" postag_regexp="yes"/>
+                <token postag="SUB:GEN.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="SUB:.*(FEM|PLU).*" postag_regexp="yes" />
+                <token postag="VER.*" postag_regexp="yes" min="0" />
+                <token>die</token>
+                <token postag_regexp="yes" postag="(ADJ|PA1):.*:(IND|SOL).*" />
+            </antipattern>
+            <antipattern><!-- die legenderdäre Berliner Brücke -->
+                <token>die</token>
+                <token postag_regexp="yes" postag="(ADJ|PA1).*(PLU|FEM).*(IND|SOL).*" />
+                <token postag_regexp="yes" regexp="yes">.+er</token>
+                <token postag="SUB.*(FEM|PLU).*|UNKNOWN" postag_regexp="yes" regexp="yes">.*[a-z].*</token>
+            </antipattern>
+            <antipattern><!-- Die letzte Developer Preview zu Android Wear 2.0 -->
+                <token>die</token>
+                <token postag_regexp="yes" postag="(ADJ|PA1).*(PLU|FEM).*(IND|SOL).*" />
+                <token postag="SUB.*" postag_regexp="yes" />
+                <token postag="SUB.*(FEM|PLU).*|UNKNOWN" postag_regexp="yes" regexp="yes">.*[a-z].*</token>
+            </antipattern>
+            <antipattern><!-- dann bedarf das riesiger Anstrengungen -->
+                <token>bedarf</token>
+                <token>das</token>
             </antipattern>
             <pattern>
-                <token><exception>,</exception></token>
+                <token><exception regexp="yes">,|\(|\)</exception></token>
                 <token regexp="yes">d(er|ie|as)</token>
                 <marker>
                     <token postag_regexp="yes" postag="(ADJ|PA1):.*:(IND|SOL).*"><exception postag="(ADJ|PA1):.*:DEF.*" postag_regexp="yes"/>
                         <exception regexp="yes">früher|später|lieber|anderer|weniger?|lauter|einige</exception>
                     </token>
                 </marker>
-                <token postag_regexp="yes" postag="SUB:.*"/>
+                <token postag_regexp="yes" postag="SUB:.*" />
             </pattern>
             <message>Eventuell wird hier ein bestimmter Artikel mit einem unbestimmten Adjektiv kombiniert.</message>
             <suggestion><match no="3" postag_regexp="yes" postag="(ADJ|PA1):.*DEF.*"/></suggestion>
@@ -46996,6 +47018,7 @@ Andere Projekte</example>
             <example correction="passende|passenden|passendere|passenderen|passendste|passendsten">Er ist der <marker>passender</marker> Mann dazu.</example>
             <example>ROBOT ist ein <marker>kommerzielles</marker> System.</example>
             <example>Ist das <marker>japanisches</marker> Essen?</example>
+            <example>Für Computergehäuse die dickeres Metall verwenden.</example><!-- fehlendes Komma -->
             <example>Vorfälle, über die autistische Menschen berichten.</example>
             <example>Dabei hatte das fatale Konsequenzen.</example>
             <example>Ich fürchte, dass das lauter Lügen sind.</example>
@@ -47004,6 +47027,12 @@ Andere Projekte</example>
             <example>Seit 811 markierte die einige Kilometer südlich fließende Eider die Grenze zum Frankenreich, was die Bedeutung Haithabus noch vergrößerte.</example>
             <example>Sie arbeitete als Kellnerin, verkaufte Donuts und machte Nacktaufnahmen (die wenige Jahre später in Millionenauflage in den Magazinen Playboy und Penthouse erschienen).</example>
             <example>Die wenige Kilometer langen Gräben gehen in einer Umgebung, die etwa 90 Meter Wassertiefe hat, auf 230 Meter hinunter.</example>
+            <example>Mal ganz davon abgesehen, dass es dort draußen aktuell gerade Tausende von Menschen gibt die wirkliche Todesängste auf Grund des Corona Virus haben müssen.</example>
+            <example>Im Chanson bildet ihn die legendäre Berliner Diseuse Ada Hecht aus.</example>
+            <example>Sie ist die jüngste Düsseldorfer Rheinbrücke, sie wurde zwischen 1998 und 2002 gebaut.</example>
+            <example>Wenn man es nicht kann oder nicht will, sollte man sich eventuell an den Spaniern orientieren die zahlreiche Ecken kurz spielen um in Ballbesitz zu bleiben.</example>
+            <example>Zugleich stärkt es die renommierte Berliner Biodiversitätsforschung.</example>
+            <example>Die letzte Developer Preview zu Android Wear 2.0 gab es im Dezember 2016.</example>
         </rule>
         <rule id="VERB_IST" name="Verb 1./3. Person (statt Partizip) + 'ist'">
             <antipattern>
