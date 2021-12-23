@@ -13469,7 +13469,7 @@ onwaarschijnlijk
 				<pattern>
 					<token regexp="yes">.*(áá|áé|áí|áú|éé|éí|éú|íé|íí|óé|óí|óó|óú|úí|úú|((^|[^aeiou])[áéíóú]([^aeiou]|$))).*<exception regexp="yes">hé|á|^één.{3,50}|.*(café|éminence|tracé|comité|mémoire|appliqué|arrivé|associé|attaché|employé|barré|cliché|beauté|defilé|blasé|bouclé|canapé|carré|cloqué|communiqué|comprimé|confrérie|congé|consommé|conté|privé|coupé|craquelé|crémant|cultivé|decafeïné|decolleté|demasqué|deputé|djahé|djembé|doré|doublé|procedé|débouché|dégénéré|déjà|délégué|ecarté|evacué|exposé|fiancé|frivolité|glacé|habitué|introducé|invité|soufflé|saté|lamé|macramé|laqué|logé|marqué|masqué|maté|moiré|mopé|ménière|nouveauté|negligé|oké|maché|paté|passé|piqué|plissé|pointillé|preparé|prostitué|protegé|présence|psyché|quarté|rassé|refugié|resumé|rosé|régence|réussite|santé|spécialité|taboulé|taugé|tempé|tiercé|tjabé|tragédienne|variété|velouté|vidé|wengé|élégance|résistance|plié|karité|vélocipède|olé|azobé|éclat|éloge|étang|sémillon|cité|peigné|rapé|chiné|lancé|époque|décharge).*</exception><exception postag="ENM:.*|UNKNOWN" postag_regexp="yes"/></token>
 				</pattern>
-				<filter class="org.languagetool.rules.nl.DutchSuppressMisspelledSuggestionsFilter" args="none:none"/>
+			    <filter class="org.languagetool.rules.nl.DutchSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>
 				<message>Gebruik geen nadruktekens als het niet nodig is. Het staat lelijk.</message>
 				<suggestion><match no="1" regexp_match="é" regexp_replace="e"/></suggestion>
 				<suggestion><match no="1" regexp_match="á" regexp_replace="a"/></suggestion>
@@ -13513,7 +13513,7 @@ onwaarschijnlijk
 						<token regexp="yes" case_sensitive="yes" >.*[a-z]-[a-z].*</token>
 					</marker>
 				</pattern>
-				<filter class="org.languagetool.rules.nl.DutchSuppressMisspelledSuggestionsFilter" args="none:none"/>
+			    <filter class="org.languagetool.rules.nl.DutchSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>
 				<message>Een koppelteken toevoegen mag als het dan duidelijker is, maar dit woord kan ook zonder. Let er wel op dat u het consequent doet voor een woord.</message>
 				<suggestion suppress_misspelled="yes"><match no="1" regexp_match="[-]" regexp_replace=""/></suggestion>
 				<example correction="muziekindustrie">De <marker>muziek-industrie</marker> is overspannen.</example>
@@ -32202,7 +32202,7 @@ steenwijk;Steenwijk
                <token regexp="yes">\p{L}+[-]$</token>
 			   <token regexp="yes" spacebefore="yes">\p{L}+<exception regexp="yes">en|of</exception></token>
            </pattern>
-			<filter class="org.languagetool.rules.nl.DutchSuppressMisspelledSuggestionsFilter" args="none:none"/>
+			<filter class="org.languagetool.rules.nl.DutchSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>
            <message >Mogelijk onterecht gesplitst woord.</message>
 		   <suggestion><match no="1" regexp_match="-$" regexp_replace=""/><match no="2"/></suggestion>
            <example correction="pianist">De <marker>pia- nist</marker> speelt door.</example>
@@ -32257,7 +32257,7 @@ steenwijk;Steenwijk
 				<token spacebefore="no" regexp="yes">[?!]</token>
 				<token case_sensitive="yes" spacebefore="no" regexp="yes">^[a-z].*</token>
             </pattern>
-			<filter class="org.languagetool.rules.nl.DutchSuppressMisspelledSuggestionsFilter" args="none:none"/>
+			<filter class="org.languagetool.rules.nl.DutchSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>
             <message>Dit vraagteken moet vast een letter met leesteken zijn.</message>
 			<suggestion>\1ä\3</suggestion>
 			<suggestion>\1ë\3</suggestion>
@@ -32341,7 +32341,7 @@ steenwijk;Steenwijk
 						<token postag_regexp="yes" postag="WKW:VLT:1EP.*" case_sensitive="yes" regexp="yes">[a-z].*te<exception postag_regexp="yes" postag="ZNW.*|BNW.*|BYW.*|WKW:VTD:VRB|WKW:ODW:VRB|GET:RNG"/><exception>laste</exception></token>
 					</marker>
 				</pattern>
-				<filter class="org.languagetool.rules.nl.DutchSuppressMisspelledSuggestionsFilter" args="none:none"/>
+				<filter class="org.languagetool.rules.nl.DutchSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>
 				<message>De kans is groot dat u een andere vorm van het werkwoord bedoelt.</message>
 				<suggestion><match no="2" postag_regexp="yes" postag="WKW:VTD:VRB"/></suggestion>
 				<suggestion><match no="2" regexp_match="te$" regexp_replace=" te"/></suggestion>
@@ -33453,7 +33453,7 @@ steenwijk;Steenwijk
 					</marker>
 					<token postag=".*ZNW.*" postag_regexp="yes"><exception regexp="yes">ons|niet|voor|wel</exception></token>
 				</pattern>
-				<filter class="org.languagetool.rules.nl.DutchSuppressMisspelledSuggestionsFilter" args="none:none"/>
+				<filter class="org.languagetool.rules.nl.DutchSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>
 				<message>Hier hoort niet de verleden tijd te staan<suggestion><match no="2" regexp_match="..$" regexp_replace="e"/></suggestion>.</message>
 				<example correction="verrichte">Op de <marker>verrichtte</marker> arbeid heb ik niks aan te merken.</example>
 			</rule>
@@ -35054,7 +35054,7 @@ steenwijk;Steenwijk
 				<pattern>
 					<token regexp="yes">.*veras.*</token>
 				</pattern>
-				<filter class="org.languagetool.rules.nl.DutchSuppressMisspelledSuggestionsFilter" args="none:none"/>
+				<filter class="org.languagetool.rules.nl.DutchSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>
 				<message>Wanneer u 'verwonderen' bedoelt, dan is een dubbele r op zijn plaats.</message>
 				<suggestion><match no="1" regexp_match="veras" regexp_replace="verras"/></suggestion>
 				<example correction="verrassing">Toch een <marker>verassing</marker>.</example>
@@ -37509,7 +37509,7 @@ steenwijk;Steenwijk
 					</marker>
 					<token regexp="yes">dat|niet|toch|wel</token>
 				</pattern>
-				<filter class="org.languagetool.rules.nl.DutchSuppressMisspelledSuggestionsFilter" args="none:none"/>
+				<filter class="org.languagetool.rules.nl.DutchSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>
 				<message>U bedoelt vast: <suggestion><match no="2" regexp_match="d$" regexp_replace="t"/></suggestion>.</message>
 				<example correction="betekent">Dit <marker>betekend</marker> niet dat het fout is</example>
 			</rule>
