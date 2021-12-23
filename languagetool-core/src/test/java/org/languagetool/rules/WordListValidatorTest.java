@@ -103,6 +103,7 @@ public class WordListValidatorTest {
           "Djuvečreis",
           "Hidschāb/S",
           "Dvořák/S",
+          "Paul Erdős",
           "Erdoğan/S",
           "Sørensen/S",
           "Sørensen",
