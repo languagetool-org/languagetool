@@ -2,16 +2,20 @@
 
 ## 5.6-SNAPSHOT (release planned for 2021-12-29)
 
-...
+#### Dutch
+  * more words in dictionary
+  * added many special word groups
+  * added rules for accidentally split words
 
 #### English
   * added and improved rules
   * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2021.12.01, v. 3.0.3)
 
-#### Dutch
-  * more words in dictionary
-  * added many special word groups
-  * added rules for accidentally split words
+#### French
+  * added and improved rules
+
+#### German
+  * added and improved rules
 
 #### Portuguese
   * added and improved rules
@@ -25,6 +29,9 @@
   * fix POS data
   * rebuild POS dictionary
   * improved spell checking
+
+#### Spanish
+  * added and improved rules
 
 #### Ukrainian
   * many new words in the POS dictionary
