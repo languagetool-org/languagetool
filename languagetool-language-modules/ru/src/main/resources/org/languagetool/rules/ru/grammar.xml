@@ -227,7 +227,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Конференция состоится во <marker>вторник, 7.10.2014</marker> г.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="INVALID_TENSE_DATE" name="Дата находится в будущем, а глагол – в прошлом" >  <!-- default="temp_off" -->
+        <rulegroup id="INVALID_TENSE_DATE" name="Дата находится в будущем, а глагол – в прошлом" >
           <rule>
                 <pattern>
                     <token postag="VB:Past:.*:.*:.*" postag_regexp="yes" skip="-1">
@@ -2545,7 +2545,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <!-- issue #1119  -->
-        <rule id="Multiple_missing_commas_VB" name="Пропущенные запятые между глаголами"  default="off" >
+        <rule id="Multiple_missing_commas_VB" name="Пропущенные запятые между глаголами"  default="temp_off" >
             <antipattern>
                <token postag="VB:.*" postag_regexp="yes" skip="-1">
                     <exception regexp="yes" scope="next">и|или|а|но|&pnct;|да|/|либо|что|прежде|когда|как|что|-|пока</exception>
@@ -2705,7 +2705,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
            
         </rulegroup>
         <!-- may be duplicate, see: COMPLEX_SOUZ_PUNCT -->
-        <rule id="dlya_togo_chtoby_2" name="Пунктуация в предложении с союзом «для того чтобы» (2)" default="temp_off">
+        <rule id="dlya_togo_chtoby_2" name="Пунктуация в предложении с союзом «для того чтобы» (2)" >
                 <pattern>
                     <token postag="SENT_START"></token>
                     <marker>
@@ -10580,7 +10580,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Вы ещё на какое-то время избежите той же участи.</example>
         </rule>
         
-        <rule id="Verb_and_PNN_Nom" name="Глагольное управление (местоимение)" > <!-- default="temp_off   -->
+        <rule id="Verb_and_PNN_Nom" name="Глагольное управление (местоимение)" >
             <antipattern>
                 <token postag="VB:Real:TRANS:IMPFV:.*:P1"  postag_regexp="yes"></token>
                 <token postag="PNN:.*:Nom:P3|PNN:.*:Nom:P2" postag_regexp="yes" ></token>
