@@ -32,15 +32,12 @@
 
 #### Spanish
   * added and improved rules
+  * updated dictionary (spanish-pos-dict-1.5)
 
 #### Ukrainian
   * many new words in the POS dictionary
   * added and improved rules
   * improved tagging and disambiguation
-
-#### Spanish
-  * added and improved rules
-  * updated dictionary (spanish-pos-dict-1.5)
 
 #### General
   * The `--allow-origin` option doesn't require a parameter anymore
