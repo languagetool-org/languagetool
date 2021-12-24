@@ -267,6 +267,9 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
    * @since 2.4
    */
   protected boolean isMisspelled(MorfologikMultiSpeller speller, String word) {
+    if (speller == null) {  //  work around for LO/OO extension (speller is always null
+      return false;         //  some rules (e.g. RuleFilterEvaluator.runFilter will not work properly in extension
+    }                       //  TODO: implement the use of external speller for LO/OO extension
     if (!speller.isMisspelled(word)) {
       return false;
     }
