@@ -31,6 +31,10 @@
   * added and improved rules
   * improved tagging and disambiguation
 
+#### Spanish
+  * added and improved rules
+  * updated dictionary (spanish-pos-dict-1.5)
+
 #### General
   * The `--allow-origin` option doesn't require a parameter anymore
     in order to avoid confusion about whether `*` needs to be quoted
