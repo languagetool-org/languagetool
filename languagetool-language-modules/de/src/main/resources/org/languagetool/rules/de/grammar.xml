@@ -255,6 +255,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Mögliche Tippfehler">
+        <rule id="WIR_HABE" name="wir habe (haben)" default="temp_off">
+            <pattern>
+                <token>wir</token>
+                <marker>
+                    <token regexp="yes" postag_regexp="yes" postag="VER:.*">.+e
+                        <exception postag_regexp="yes" postag="PA2:.*"/>
+                        <exception regexp="yes">eine|lange|bitte|einige</exception>
+                        <exception regexp="yes" case_sensitive="yes">[A-ZÖÄÜ].+</exception>
+                    </token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion>\2n</suggestion>?</message>
+            <example correction="haben">Ich denke, wir <marker>habe</marker> einen guten Plan.</example>
+            <example correction="sollten">Wir <marker>sollte</marker> heute lieber nicht dort hingehen.</example>
+        </rule>
         <rule id="DOLLER_DOLLAR" name="Doller (Dollar)">
             <pattern>
                 <token regexp="yes">[0-9]+|hunderte?|tausende?|Million|Millionen|Milliarden?|Billion|Billionen|Billiarden?|Trillion|Trillionen</token>
