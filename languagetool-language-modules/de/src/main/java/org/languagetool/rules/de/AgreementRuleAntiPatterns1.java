@@ -890,6 +890,22 @@ class AgreementRuleAntiPatterns1 {
       tokenRegex("1[0-9]{3}|20[0-9]{2}")
     ),
     Arrays.asList(
+      tokenRegex("dann|so"),
+      token("bedarf"),
+      tokenRegex("das|dies")
+    ),
+    Arrays.asList(
+      posRegex("ART.*|PRO:POS.*"),
+      posRegex("ADJ.*|PA[12].*"),
+      token("Windows"),
+      tokenRegex("\\d+")
+    ),
+    Arrays.asList(
+      posRegex("ART.*|PRO:POS.*"),
+      token("Windows"),
+      tokenRegex("\\d+")
+    ),
+    Arrays.asList(
       tokenRegex("Ende|Mitte|Anfang"), // "Ende letzten Jahres"
       new PatternTokenBuilder().posRegex("ART:DEF:GEN:.*").min(0).build(),
       new PatternTokenBuilder().posRegex("ADJ.*:GEN:.*").matchInflectedForms().tokenRegex("dieser|(vor)?letzter|[0-9]+er").build(),

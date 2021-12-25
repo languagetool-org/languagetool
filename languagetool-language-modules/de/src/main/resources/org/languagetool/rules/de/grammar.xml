@@ -9270,7 +9270,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>,</token>
                     <marker>
                         <token skip="-1">dass
-                           <exception postag="SUB:.*|EIG:NOM.*|PRO:.*|UNKNOWN|PA2.+" postag_regexp="yes" scope="next"/>
+                           <exception postag="SUB:.*|EIG:NOM.*|PRO:.*|UNKNOWN|PA2.+|VER:PA2.*" postag_regexp="yes" scope="next"/>
                         </token>
                     </marker>
                     <token regexp="yes">,|\.|:|\?|!|;</token>
@@ -9285,6 +9285,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ich kann riechen, dass hier gekocht wird.</example>
                 <example>Unter Schülern kommt es oft vor, dass überhaupt nicht gelernt wird.</example>
                 <example>Das Ende hat für sie allerdings immerhin den Vorteil, dass nun ein unverstellterer, neutraler Blick auf die Antike möglich ist.</example>
+                <example>Man muss gar nicht zwei Mal hinsehen um zu bemerken, dass hier nur gepusht wird, obwohl der Content vielleicht gar nicht so toll ist.</example>
                 <!--<example correction="das">Hier stand einmal ein Hotel, <marker>dass</marker> behauptete, die frischsten Handtücher der Stadt zu haben.</example>-->
             </rule>
             <rule>
@@ -24353,7 +24354,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
-        <rule id="ALLEN_ERNSTES" name="allen ernstes (Ernstes)" default="temp_off">
+        <rule id="ALLEN_ERNSTES" name="allen ernstes (Ernstes)">
             <pattern>
                 <token>allen</token>
                 <token case_sensitive="yes">ernstes</token>
@@ -47001,6 +47002,12 @@ Andere Projekte</example>
                 <token>die</token>
                 <token postag_regexp="yes" postag="(ADJ|PA1):.*:(IND|SOL).*" />
             </antipattern>
+            <antipattern>
+                <token postag="UNKNOWN" case_sensitive="yes" regexp="yes">[A-ZÄÖÜ].+e[rn]</token>
+                <token postag="VER.*" postag_regexp="yes" min="0" />
+                <token>die</token>
+                <token postag_regexp="yes" postag="(ADJ|PA1):.*:(IND|SOL).*" />
+            </antipattern>
             <antipattern><!-- die legenderdäre Berliner Brücke -->
                 <token>die</token>
                 <token postag_regexp="yes" postag="(ADJ|PA1).*(PLU|FEM).*(IND|SOL).*" />
@@ -47016,6 +47023,12 @@ Andere Projekte</example>
             <antipattern><!-- dann bedarf das riesiger Anstrengungen -->
                 <token>bedarf</token>
                 <token>das</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">sein</token>
+                <token>das</token>
+                <token regexp="yes">nächstes|nächsten?</token>
+                <token regexp="yes">Monat|Jahr|Woche|Weihnachten</token>
             </antipattern>
             <pattern>
                 <token><exception regexp="yes">,|\(|\)</exception></token>
@@ -47048,6 +47061,7 @@ Andere Projekte</example>
             <example>Wenn man es nicht kann oder nicht will, sollte man sich eventuell an den Spaniern orientieren die zahlreiche Ecken kurz spielen um in Ballbesitz zu bleiben.</example>
             <example>Zugleich stärkt es die renommierte Berliner Biodiversitätsforschung.</example>
             <example>Die letzte Developer Preview zu Android Wear 2.0 gab es im Dezember 2016.</example>
+            <example>Wenn jemandes Eigentum aus hundert Häusern besteht, dann sind das nächstes Jahr 103 Häuser, ohne dass der Eigentümer einen Handschlag tut.</example>
         </rule>
         <rule id="VERB_IST" name="Verb 1./3. Person (statt Partizip) + 'ist'">
             <antipattern>
@@ -49444,6 +49458,11 @@ Andere Projekte</example>
                     <token skip="-1" regexp="yes">de[rm]|allem|[dm]ir|ihm</token>
                     <token postag="PA1.*AKK.*" postag_regexp="yes"/>
                 </antipattern>
+                <antipattern>
+                    <token>Windows</token>
+                    <token min="0">Internet</token>
+                    <token>Explorer</token>
+                </antipattern>
             <rule>
                 <antipattern case_sensitive="yes">
                     <token>,</token>
@@ -49570,7 +49589,9 @@ Andere Projekte</example>
                     <token regexp="yes">betreffend|durch|für|gegen|kontra|ohne|via|wider</token>
                     <marker>
                         <token regexp="yes">den(selben)?|[Ddksm]?einen|(eu|ih|Ih|unse)ren|(je[dn]e|diese|alle)n</token>
-                        <token postag="(ADJ|SUB):DAT:PLU:(MAS|NEU)" postag_regexp="yes"><exception postag="(ADJ|SUB):AKK:(SIN|PLU):(MAS|NEU).*" postag_regexp="yes"/></token>
+                        <token postag="(ADJ|SUB):DAT:PLU:(MAS|NEU)" postag_regexp="yes">
+                            <exception postag="(ADJ|SUB):AKK:(SIN|PLU):(MAS|NEU).*" postag_regexp="yes"/>
+                        </token>
                     </marker>
                     <token><exception postag="ADJ:AKK:.+" postag_regexp="yes"/><exception regexp="yes">nach|zu</exception></token>
                 </pattern>
@@ -49581,6 +49602,7 @@ Andere Projekte</example>
                 <example>Der Österreicher wurde durch einen Sieg gegen <marker>den Polen</marker> Schachweltmeister.</example>
                 <example correction="">Das ist für <marker>den Bildern</marker>.</example>
                 <example correction="">Das ist für <marker>den Männern</marker>.</example>
+                <example>Zumal für den Windows Internet Explorer genügt es nicht, dass auf dem Computer eine Schriftart mit Lautschrift-Zeichen installiert ist.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -52233,6 +52255,7 @@ Andere Projekte</example>
                  "Ich finde das Haus von Dieter sollte"
                  "Ich finde bei den Autos von Dieter sollte ..."
                  "Die Menschen glauben bei den Autos sind ..."
+                 "Niemand glaubt Herr Peters hat das getan."
                 -->
             <antipattern><!-- Tom weiß mit Lasttieren umzugehen. -->
                 <token inflected="yes" skip="4">wissen</token>
@@ -52249,7 +52272,7 @@ Andere Projekte</example>
                     <token regexp="yes" min="0">Herrn?|Frau|Fräulein</token>
                     <token postag="PRO:PER:NOM.*|EIG.*" postag_regexp="yes" />
                     <token regexp="yes" inflected="yes">
-                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden
+                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten
                         <exception postag="SUB.*" postag_regexp="yes" />
                         <exception postag="PA2.*" postag_regexp="yes" />
                     </token>
@@ -52284,7 +52307,7 @@ Andere Projekte</example>
                     <token regexp="yes" min="0">Herrn?|Frau|Fräulein</token>
                     <token postag="PRO:PER:NOM.*|EIG.*" postag_regexp="yes" />
                     <token regexp="yes" inflected="yes">
-                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden
+                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten
                         <exception postag="SUB.*" postag_regexp="yes" />
                         <exception postag="PA2.*" postag_regexp="yes" />
                     </token>
@@ -52324,7 +52347,7 @@ Andere Projekte</example>
                     <token regexp="yes" min="0">Herrn?|Frau|Fräulein</token>
                     <token postag="PRO:PER:NOM.*|EIG.*" postag_regexp="yes" />
                     <token regexp="yes" inflected="yes">
-                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden
+                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten
                         <exception postag="SUB.*" postag_regexp="yes" />
                         <exception postag="PA2.*" postag_regexp="yes" />
                     </token>
@@ -52372,7 +52395,7 @@ Andere Projekte</example>
                     <token regexp="yes" min="0">Herrn?|Frau|Fräulein</token>
                     <token postag="PRO:PER:NOM.*|EIG.*" postag_regexp="yes" />
                     <token regexp="yes" inflected="yes">
-                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden
+                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten
                         <exception postag="SUB.*" postag_regexp="yes" />
                         <exception postag="PA2.*" postag_regexp="yes" />
                     </token>
@@ -52420,7 +52443,7 @@ Andere Projekte</example>
                     <token regexp="yes" min="0">Herrn?|Frau|Fräulein</token>
                     <token postag="PRO:PER:NOM.*|EIG.*" postag_regexp="yes" />
                     <token regexp="yes" inflected="yes">
-                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden
+                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten
                         <exception postag="SUB.*" postag_regexp="yes" />
                         <exception postag="PA2.*" postag_regexp="yes" />
                     </token>
@@ -52443,7 +52466,7 @@ Andere Projekte</example>
                     <token postag="PKT|SENT_START|KON.*" postag_regexp="yes" />
                     <token postag="PRO:PER:NOM.*|EIG.*" postag_regexp="yes" />
                     <token regexp="yes" inflected="yes">
-                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden
+                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten
                         <exception postag="SUB.*" postag_regexp="yes" />
                         <exception postag="PA2.*" postag_regexp="yes" />
                     </token>

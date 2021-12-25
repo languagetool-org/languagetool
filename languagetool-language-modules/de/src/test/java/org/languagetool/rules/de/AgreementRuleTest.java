@@ -570,6 +570,10 @@ public class AgreementRuleTest {
     assertGood("Ich habe meine Projektidee (die riesiges finanzielles Potenzial hat) an einen Unternehmenspräsidenten geschickt.");
     assertGood("Als weitere Rechtsquelle gelten gelegentlich noch immer der Londoner Court of Appeal und das britische House of Lords.");
     assertGood("Die Evangelische Kirche befindet sich in der Bad Sodener Altstadt direkt neben dem Quellenpark.");
+    assertGood("Der volle Windows 10 Treibersupport");
+    assertGood("Zugleich stärkt es die renommierte Berliner Biodiversitätsforschung.");
+    assertGood("Der Windows 10 Treibersupport");
+    assertGood("Die südlichste Düsseldorfer Rheinbrücke ist die Fleher Brücke, eine Schrägseilbrücke mit dem höchsten Brückenpylon in Deutschland und einer Vielzahl von fächerförmig angeordneten Seilen.");
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");
     //assertBad("Erst recht ich fleißiges Arbeiter.");

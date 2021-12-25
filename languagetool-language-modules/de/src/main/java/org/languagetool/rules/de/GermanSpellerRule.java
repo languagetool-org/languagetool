@@ -1225,6 +1225,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Bs", "Bis");
     put("bs", "bis");
     put("zutun", "zu tun");
+    put("Müllhalte", "Müllhalde");
   }
 
   private static void putRepl(String wordPattern, String pattern, String replacement) {
