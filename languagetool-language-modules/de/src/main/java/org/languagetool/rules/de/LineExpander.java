@@ -55,6 +55,10 @@ public class LineExpander implements org.languagetool.rules.LineExpander {
           result.add(parts[0] + "*innen");
           result.add(parts[0] + ":in");
           result.add(parts[0] + ":innen");
+          //result.add(parts[0] + "in");   // see if we can comment in these cases, too
+          //result.add(parts[0] + "innen");
+          //result.add(parts[0] + "e");
+          //result.add(parts[0] + "en");
         } else {
           try {
             String[] forms = GermanSynthesizer.INSTANCE.synthesizeForPosTags(parts[1], s -> s.startsWith("VER:"));

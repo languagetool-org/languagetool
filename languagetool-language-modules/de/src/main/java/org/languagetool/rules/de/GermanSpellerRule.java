@@ -1409,6 +1409,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   @Override
   protected boolean acceptSuggestion(String s) {
       return !PREVENT_SUGGESTION.matcher(s).matches()
+        && !s.matches(".+[*_:]in")  // only suggested when using "..._in" in spelling.txt, so rather never offer this suggestion
+        && !s.matches(".+[*_:]innen")
         && !s.contains("--")
         && !s.endsWith("roulett")
         && !s.matches("[\\wöäüÖÄÜß]+ [a-zöäüß]-[\\wöäüÖÄÜß]+")   // e.g. "Mediation s-Background"
