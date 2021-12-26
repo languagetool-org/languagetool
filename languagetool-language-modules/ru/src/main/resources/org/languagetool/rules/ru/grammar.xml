@@ -5990,15 +5990,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             -->
             <rule>
                 <pattern>
-                    <token regexp="yes">неизвестно|непонятно</token>
-                    <token>,</token>
-                    <token regexp="yes">кто|что|какой|где|куда|откуда|чей<exception scope="next" postag="VB:.*"  postag_regexp="yes"  /><exception scope="next" >и</exception></token>
+            <!--  TODO:
+                    <or>
+                        <token postag="SENT_START"></token>
+                        <token regexp="yes">&pnct;</token>
+                    </or>
+            -->
+                <marker>
+                        <token regexp="yes">неизвестно|непонятно<exception scope="previous" regexp="yes">мне|тебе|ему|ей|тому|кому|сему|было</exception></token>
+                        <token>,</token>
+                        <token regexp="yes">кто|что|какой|где|куда|откуда|чей<exception scope="next" postag="VB:.*"  postag_regexp="yes"  />
+                            <exception scope="next" >и</exception>
+                        </token>
+                    </marker>
                 </pattern>
                 <message>Запятая не нужна: <suggestion>\1 \3</suggestion>.</message>
+                <url>http://old-punctum.ru/punctum.php?sid=476</url>
                 <short>Запятая не нужна</short>
                 <example>Ещё неизвестно, кто победил, совсем неивестно.</example>
                 <example>Неизвестно кто победил на соревнованиях, неизвестный спортсмен.</example>
                 <example>До сих пор неизвестно, кто организовал нападение.</example>
+                <example>Было непонятно, где всё это он раздобыл.</example>
                 <example>Совершенно непонятно, кто и зачем создал это.</example>
                 <example correction="неизвестно кто">На соревнованиях победил <marker>неизвестно, кто</marker>.</example>
             </rule>
