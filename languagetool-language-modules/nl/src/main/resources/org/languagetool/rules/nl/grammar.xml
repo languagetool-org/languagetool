@@ -12270,6 +12270,25 @@ onwaarschijnlijk
 				<example correction="dr.|d'r|daar|er|haar">Het is <marker>dr</marker> auto.</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="ZON_ZO_N" name="Zon/zo'n">
+			<rule>
+				<antipattern><token>zon</token><token>maan</token><token>en</token><token>sterren</token></antipattern>
+				<antipattern><token>zon</token><token>conjunct</token><token>zon</token></antipattern>
+				<antipattern><token>de</token><token>zon</token></antipattern>
+				<antipattern><token>de</token><token postag_regexp="yes" postag="BNW.*VRB"/><token>zon</token></antipattern>
+				<pattern>
+					<marker>
+						<token>zon</token>
+					</marker>
+					<token min="0" max="1" postag_regexp="yes" postag="BNW.*"><exception regexp="yes">naar|was</exception></token>
+					<token postag_regexp="yes" postag="ZNW:EKV.*|GET.*"><exception regexp="yes">voor|tegen|was|is</exception></token>
+				</pattern>
+				<message>U bent vast de apostrof vergeten. Zo'n is een inkorting van zo een.</message>
+				<suggestion><match no="1" regexp_match="n$" regexp_replace="'n"/></suggestion>
+				<example correction="zo'n">Het is <marker>zon</marker> vreemde fout.</example>
+				<example correction="Zo'n"><marker>Zon</marker> fout is het nu eenmaal.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="AFKO_PUNT" name="dhr → dhr.">
 			<!-- 2014-08-22 TaalTik -->
 			<rule>
