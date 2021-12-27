@@ -144,7 +144,9 @@ public class CaseRule extends Rule {
     "Genesene", // temporary fix
     "Genesenen", // temporary fix
     "Geimpfte", // temporary fix
+    "Ungeimpfte", // temporary fix
     "Geimpften", // temporary fix
+    "Ungeimpften", // temporary fix
     "Geflüchtete", // temporary fix
     "Geflüchteten", // temporary fix
     "Projektbeteiligte", // temporary fix
@@ -280,6 +282,9 @@ public class CaseRule extends Rule {
     "Steuerbevollmächtigter",
     "Steuerbevollmächtigten",
     "Steuerbevollmächtigtem",
+    "Suchtkranken",
+    "Suchtkranke",
+    "Suchtkranker",
     "Filmschaffende",
     "Filmschaffender",
     "Filmschaffenden",

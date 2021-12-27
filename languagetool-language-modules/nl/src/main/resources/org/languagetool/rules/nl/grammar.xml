@@ -7274,6 +7274,21 @@ onwaarschijnlijk
 	</category>
 
 	<category id="BE_NL" name="Verschil België en Nederland" type="style">
+		<rulegroup id="ZO_N_MEERVOUD" name="Zo'n vingers/zulke vingers">
+			<rule>
+				<antipattern><token>zo'n</token><token postag="BNW:STF"/><token postag_regexp="yes" postag="ZNW:EKV.*"/></antipattern>
+				<pattern>
+					<marker>
+						<token>zo'n</token>
+					</marker>
+					<token min="0" max="1" postag_regexp="yes" postag=".*VRB"/>
+					<token postag_regexp="yes" postag="ZNW.*MRV.*"><exception postag_regexp="yes" postag="ZNW:EKV.*"/></token>
+				</pattern>
+				<message>In België is 'zo'n dingen' acceptabel, in Nederland niet.</message>
+				<suggestion>zulke</suggestion>
+				<example correction="zulke">Ik heb <marker>zo'n</marker> dikke vingers.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="ZINS_ZINNENS" name="Verschil in gebruikelijkheid 'zins/zinnens">
 			<rule>
 				<pattern>

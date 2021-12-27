@@ -861,12 +861,6 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="unify"/>
     </rule>
     <rule name="NP unify 2b" id="UNIFY_DET_ADJ_UND_ADJ_SUB">
-        <antipattern><!-- "Die jüngste Düsseldorfer XXX "-->
-            <token regexp="yes">d(e[mnrs]|ie|as|iese[mnrs])|[dm]?ein(e[mns]?)?|sein(e[mnr]?)?|ihr(e[mnr]?)?</token>
-            <token postag="ADJ.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü].+</token>
-            <token postag="ADJ:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[A-ZÄÖÜ].+er</token>
-            <token postag="UNKNOWN" regexp="yes" case_sensitive="yes">[A-ZÄÖÜ].+</token>
-        </antipattern>
         <pattern>
             <unify>
                 <!-- "Der größte und schönste Tempel" -->
@@ -883,6 +877,12 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="unify"/>
     </rule>
     <rule name="NP unify 3" id="UNIFY_DET_ADJ_SUB">
+        <antipattern><!-- "Die jüngste Düsseldorfer XXX "-->
+            <token regexp="yes">d(e[mnrs]|ie|as|iese[mnrs])|[dm]?ein(e[mns]?)?|sein(e[mnr]?)?|ihr(e[mnr]?)?</token>
+            <token postag="ADJ.*|PA[12]:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü].+</token>
+            <token postag="ADJ.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[A-ZÄÖÜ].+er</token>
+            <token postag="UNKNOWN" regexp="yes" case_sensitive="yes">[A-ZÄÖÜ].+</token>
+        </antipattern>
         <pattern>
             <unify>
                 <feature id="number"/><feature id="case"/><feature id="gender"/>
@@ -5305,6 +5305,28 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
+
+    <rule id="USER_IN" name="'Hautärzt*in' keine Präposition">
+        <pattern>
+            <token regexp="yes">.*[a-z].*</token>
+            <token regexp="yes" spacebefore="no">[*:\/]</token>
+            <marker>
+                <token spacebefore="no">in</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="PRP.*"/>
+    </rule>
+
+    <rule id="USER_INNEN" name="'Hautärzt*innen' keine Adverb">
+        <pattern>
+            <token regexp="yes">.*[a-z].*</token>
+            <token regexp="yes" spacebefore="no">[*:\/]</token>
+            <marker>
+                <token spacebefore="no">innen</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="ADV.*"/>
+    </rule>
 
     <!-- TODO: (ohne meine neue ..., durch eine alte ...)-->
     <!-- <rulegroup id="EINE_ARTIKEL" name="eine/meine als Artikel">

@@ -304,5 +304,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Einer beziehung zerstörst, was sie bequem für lust statt bars zu versuchen sie mag, <marker>das</marker>.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="AI_HYDRA_LEO_NOUN_SPACE" name="">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="(ART|ADJ|PRO:(POS|IND)).*" postag_regexp="yes" negate_pos="yes"/>
+                    <marker>
+                        <token regexp="yes">Rechts|Links</token>
+                        <token regexp="yes">Au(ss|ß)en</token>
+                    </marker>
+                </pattern>
+                <example correction="">Er spielt halt oft die Pässe, die einen Angriff einleiten (was von <marker>Links Außen</marker> schwer ist).</example>
+            </rule>
+        </rulegroup>
     </category>
 </rules>
