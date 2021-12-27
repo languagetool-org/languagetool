@@ -253,7 +253,6 @@ public abstract class GRPCRule extends RemoteRule {
       List<MatchResponse> responses = new ArrayList();
       try {
         for (MLServerProto.MatchRequest req : reqData.requests) {
-          System.out.println("Sending request: " + req);
           if (timeoutMilliseconds > 0) {
             futures.add(conn.stub
               .withDeadlineAfter(timeoutMilliseconds, TimeUnit.MILLISECONDS)
