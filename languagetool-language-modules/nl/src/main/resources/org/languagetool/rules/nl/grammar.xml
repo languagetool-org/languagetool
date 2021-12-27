@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+﻿<!-- <?xml version="1.0" encoding="utf-8"?> -->
 <?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" title="Pretty print" ?>
 <?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet" ?>
 <!--
@@ -32231,7 +32231,15 @@ steenwijk;Steenwijk
 	</category>
 	<category id="TYPOS" name="Spellingcontrole" type="misspelling">
 
-		<rule id="NL_AFGEBROKEN_WOORD" name="afgebroken woorden">
+		<rule id="Oh_O" name="Oh/O">
+           <pattern>
+               <token>oh</token>
+           </pattern>
+		   <message>Meestal wordt diet als 'scherpe, ronde o' uitgesprokes, en dan is de correcte spelling <suggestion>o</suggestion>. Overigens verwacht je geen 'oh' of 'o' in zakelijke tekst.</message>
+           <example correction="O"><marker>Oh</marker>, dat is mooi!</example>
+       </rule>
+
+	   <rule id="NL_AFGEBROKEN_WOORD" name="afgebroken woorden">
            <pattern>
                <token regexp="yes">\p{L}+[-]$</token>
 			   <token regexp="yes" spacebefore="yes">\p{L}+<exception regexp="yes">en|of</exception></token>
