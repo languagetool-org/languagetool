@@ -2830,7 +2830,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     	    <example correction="таким образом, что">Это сделано <marker>таким образом что</marker> и не найти.</example>
     	    <example>Таким образом, что слово есть, что его нет - без разницы.</example>
     	</rule>
-        <rule id="takim_obrazom" name="Запятая после «таким образом» 2" default="temp_off" >  <!-- tags="picky" -->
+        <rule id="takim_obrazom" name="Запятая после «таким образом» (2)" default="temp_off" >  <!-- tags="picky" -->
             <pattern>
                 <token>таким<exception postag="VB:.*|DPT:.*|PT:.*|PT_Short:.*|PREP|PRDC|NN:.*" postag_regexp="yes" scope="previous"></exception>
                     <exception regexp="yes" scope="previous">[,.-;:—-]</exception>
@@ -5982,7 +5982,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
  		<example correction="Неужто"><marker>Не уж то</marker> ты побрился.</example>
  		<example>Неужто ты побрился.</example>
 	</rule>
-        <rulegroup default="on" id="NEIZVESTNO_KTO" name="Цельные выражения: «неизвестно кто», ...">
+        <rulegroup default="on" id="NEIZVESTNO_KTO" name="Цельные выражения: «неизвестно кто», ..." tags="picky"> <!-- TODO: need improve -->
             <!-- Запятая не ставится в цельных выражениях:
             неизвестно кто,
 	    ... ,
@@ -12343,7 +12343,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="35,5 процента"><marker>35,5 процентов</marker>.</example>
             </rule> 
         </rulegroup>
-        <rule  id="Num_plus_Noun1" default="off" name="Сочетание числительных с существительными 1">
+        <rule  id="Num_plus_Noun1" default="off" name="Сочетание числительных с существительными (2)">
                 <pattern>
                     <token postag="NumD_S" ><exception scope="previous" regexp="yes">по|–|—</exception><exception scope="previous" spacebefore="no">-</exception></token>
                     <token postag="NN:.*:.*:PL:.*" postag_regexp="yes">
