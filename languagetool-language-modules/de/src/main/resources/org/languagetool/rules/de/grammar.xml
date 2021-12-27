@@ -24382,6 +24382,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="GUTEN_RUTSCH" name="guten rutsch (Rutsch)">
+            <pattern>
+                <marker>
+                    <token regexp="yes">gute[rn]</token>
+                    <token case_sensitive="yes">rutsch</token>
+                </marker>
+            </pattern>
+            <message>In dieser Grußformel wird "Rutsch" als Nomen verwendet und sollte großgeschrieben werden.</message>
+            <suggestion>\1 <match no="2" case_conversion="startupper" /></suggestion>
+            <url>https://de.wiktionary.org/wiki/guten_Rutsch</url>
+            <example correction="guten Rutsch">Ich wünsche euch einen <marker>guten rutsch</marker>.</example>
+        </rule>
         <rule id="IN_DER_FRUEH" name="in der früh (Früh)" default="temp_off">
             <antipattern>
                 <token>frühe</token>
