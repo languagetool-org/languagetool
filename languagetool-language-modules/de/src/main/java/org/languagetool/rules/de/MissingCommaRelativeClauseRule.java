@@ -38,6 +38,7 @@ import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
+import org.languagetool.rules.patterns.PatternTokenBuilder;
 
 /**
  * A rule checks a sentence for a missing comma before or after a relative clause (only for German language).
@@ -101,6 +102,10 @@ public class MissingCommaRelativeClauseRule extends Rule {
         pos("SENT_START"),
         token("Aber"),
         regex("der|die|denen|das|jenen|einigen|anderen|vielen|manchen|allen")
+      ),
+      Arrays.asList( // Plan von Maßnahmen, mit denen das Ansteckungsrisiko während des Aufenthalts an einem Ort verringert werden soll
+        token("werden"),
+        new PatternTokenBuilder().posRegex("SENT_END").matchInflectedForms().tokenRegex("sollen|können|müssen").build()
       )
   ), GERMAN);
 

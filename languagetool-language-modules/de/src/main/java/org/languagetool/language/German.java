@@ -355,6 +355,7 @@ public class German extends Language implements AutoCloseable {
       case "MODALVERB_FLEKT_VERB": return -1;
       case "FALSCHES_RELATIVPRONOMEN": return -1; // prefer dass/das rules
       case "AKZENT_STATT_APOSTROPH": return -1;  // lower prio than PLURAL_APOSTROPH
+      case "ICH_GLAUBE_FUER_EUCH": return -2; // prefer agreement rules
       case "ICH_INF_PREMIUM": return -2; // prefer more specific rules that offer a suggestion (e.g. SUBJECT_VERB_AGREEMENT)
       case "MEHRERE_WOCHE_PREMIUM": return -2;  // less prio than DE_AGREEMENT
       case "DOPPELTER_NOMINATIV": return -2;  // give precedence to wie-wir-wird confusion rules
@@ -394,6 +395,7 @@ public class German extends Language implements AutoCloseable {
       case "VER_DOPPELUNG": return -52; // prefer comma rules (including AI)
       case "VERB_FEM_SUBST": return -52; // prefer comma rules (including AI)
       case "DEF_ARTIKEL_INDEF_ADJ": return -52; // less prio than DE_AGREMEENT and less prio than most comma rules
+      case "PRP_ADJ_AGREEMENT": return -52; // less prio than DE_AGREMEENT and less prio than most comma rules
       case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ": return -53;
       case "VERB_IST": return -53; // less prio than comma rules and spell checker
       case "WAR_WERDEN": return -53; // less prio than comma rules
