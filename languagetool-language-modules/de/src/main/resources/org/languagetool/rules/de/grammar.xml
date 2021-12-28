@@ -2568,6 +2568,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">und|&amp;</token>
                 <token>zu</token>
             </antipattern>
+            <antipattern><!-- gehn, (ver|be|ge|über)?stehn, sehn: not the same mistake, needs style rule -->
+                <token regexp="yes">.*ehn</token>
+            </antipattern>
             <rule>
                 <pattern case_sensitive="yes">
                     <token>zu</token>
@@ -2576,8 +2579,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token>,</token>
                 </pattern>
-                <message>Meinten Sie <suggestion>\2n</suggestion>?</message>
+                <message>Meinten Sie <suggestion><match no="2" regexp_match="(^.*[^e])(e?$)" regexp_replace="$1en"/></suggestion>?</message>
                 <example correction="können">Um die Frage beantworten zu <marker>könne</marker>, muss man schlau sein.</example>
+                <example correction="vergleichen">Das ist nicht mit deinem zu <marker>vergleich</marker>, aber allemal okay.</example>
+                <example>Hier gibt es nichts zu <marker>sehn</marker>, gehen Sie weiter.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -2587,8 +2592,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token postag="SENT_END"/>
                 </pattern>
-                <message>Meinten Sie <suggestion>\2n</suggestion>?</message>
+                <message>Meinten Sie <suggestion><match no="2" regexp_match="(^.*[^e])(e?$)" regexp_replace="$1en"/></suggestion>?</message>
                 <example correction="können">Man muss schlau sein, um die Frage beantworten zu <marker>könne</marker>.</example>
+                <example>Das ist momentan nicht zu sehn.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ANSTRENGEN_PHASE" name="'die anstrengen (anstrengende) Phase'" default="off">
