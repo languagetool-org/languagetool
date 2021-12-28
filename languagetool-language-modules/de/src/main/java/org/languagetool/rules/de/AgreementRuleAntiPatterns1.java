@@ -184,8 +184,8 @@ class AgreementRuleAntiPatterns1 {
       token("denen"),
       token("die"),
       tokenRegex("meisten|wenigsten"),
-      posRegex("SUB:.*SIN:.*"),
-      token("sind|seien|sein|waren|wären")
+      new PatternTokenBuilder().posRegex("SUB:.*SIN:.*").setSkip(-1).build(),
+      tokenRegex("sind|seien|sein|waren|wären")
     ),
     Arrays.asList(
       tokenRegex("die|der|den"),  // "die späten 50er Jahre"
