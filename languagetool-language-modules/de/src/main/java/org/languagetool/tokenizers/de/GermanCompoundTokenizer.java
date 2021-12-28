@@ -25,7 +25,10 @@ import de.danielnaber.jwordsplitter.InputTooLongException;
 import gnu.trove.THashSet;
 import org.languagetool.tokenizers.Tokenizer;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -110,12 +113,20 @@ public class GermanCompoundTokenizer implements Tokenizer {
 
   public static void main(String[] args) throws IOException {
     if (args.length == 0) {
-      System.out.println("Usage: " + GermanCompoundTokenizer.class.getSimpleName() + " <wordsToSplit..>");
+      System.out.println("Usage: " + GermanCompoundTokenizer.class.getSimpleName() + " <wordsToSplit... or file>");
       System.exit(1);
     }
     GermanCompoundTokenizer tokenizer = new GermanCompoundTokenizer();
-    for (String arg : args) {
-      System.out.println(tokenizer.tokenize(arg));
+    if (new File(args[0]).exists()) {
+      System.out.println("Working on lines from " + args[0] + ":");
+      List<String> lines = Files.readAllLines(Paths.get(args[0]));
+      for (String line : lines) {
+        System.out.println(tokenizer.tokenize(line));
+      }
+    } else {
+      for (String arg : args) {
+        System.out.println(tokenizer.tokenize(arg));
+      }
     }
   }
 
