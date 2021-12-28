@@ -1223,7 +1223,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("müßtest", "müsstest");
     put("müßten", "müssten");
     put("Bs", "Bis");
+    put("Biß", "Biss");
     put("bs", "bis");
+    put("sehn", "sehen");
     put("zutun", "zu tun");
     put("Müllhalte", "Müllhalde");
   }
