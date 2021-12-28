@@ -192,6 +192,7 @@ public class English extends Language implements AutoCloseable {
         new ConsistentApostrophesRule(messages),
         new EnglishSpecificCaseRule(messages),
         new EnglishUnpairedBracketsRule(messages, this),
+        new EnglishUnpairedQuotesRule(messages, this),
         new EnglishWordRepeatRule(messages, this),
         new AvsAnRule(messages),
         new EnglishWordRepeatBeginningRule(messages, this),
