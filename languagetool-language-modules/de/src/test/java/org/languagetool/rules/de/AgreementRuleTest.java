@@ -573,6 +573,7 @@ public class AgreementRuleTest {
     assertGood("Der volle Windows 10 Treibersupport");
     assertGood("Zugleich stärkt es die renommierte Berliner Biodiversitätsforschung.");
     assertGood("Der Windows 10 Treibersupport");
+    assertGood("… und von denen mehrere Gegenstand staatsanwaltlicher Ermittlungen waren.");
     assertGood("Die südlichste Düsseldorfer Rheinbrücke ist die Fleher Brücke, eine Schrägseilbrücke mit dem höchsten Brückenpylon in Deutschland und einer Vielzahl von fächerförmig angeordneten Seilen.");
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");

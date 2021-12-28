@@ -951,7 +951,9 @@ public class ProhibitedCompoundRule extends Rule {
           "marktdurchdringendem",
           "Zukunftsbaum", // vs raum
           "Zukunftsbaums", // vs raum
-          "Zukunftsbaumes" // vs raum
+          "Zukunftsbaumes", // vs raum
+          "Rasenwurzel", // vs nasen
+          "Rasenwurzeln" // vs nasen
   ));
 
   // have per-class static list of these and reference that in instance

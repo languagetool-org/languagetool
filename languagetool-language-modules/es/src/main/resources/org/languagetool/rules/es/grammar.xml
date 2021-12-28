@@ -5654,24 +5654,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Tuvimos una charla seria el uno con el otro.</example>
                 <example>Una institución lingüística seria jamás censuraría una traducción.</example>
             </rule>
-            <rule default="temp_off">
-                <!--<antipattern>
-                    <token>una</token>
-                    <token>persona</token>
-                    <token>seria</token>
-                </antipattern>
-                <antipattern>
-                    <token>poco</token>
-                    <token>seria</token>
-                </antipattern>
-                <antipattern>
-                    <token postag="V.[IS].*" postag_regexp="yes" skip="2"/>
-                    <token postag="_GN_FS">seria</token>
-                </antipattern>
-                <antipattern>
-                    <token postag="_GN_FS" skip="2">seria</token>
-                    <token postag="V.[IS].*" postag_regexp="yes"/>
-                </antipattern>-->
+            <rule>
                 <pattern>
                     <marker>
                         <token>seria</token>
@@ -7803,6 +7786,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="MISSPELLING" name="Ortografía" type="misspelling">
+        <rulegroup id="SUGERENCIAS_ANTE" name="error de ortografía: -ante" default="temp_off">
+            <!-- improving the speller suggestions for words: imporntate, interensate... -->
+            <rule>
+                <pattern>
+                    <token postag="UNKNOWN" regexp="yes">.*n[^aeiouáéíóú]ates?</token>
+                </pattern>
+                <filter class="org.languagetool.rules.es.SpanishSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>
+                <message>Se ha encontrado un posible error ortográfico.</message>
+                <suggestion><match no="1" regexp_match="(?iu)(.*)(n)([^aeiouáéíóú]a)(tes?)" regexp_replace="$1$3$2$4"/></suggestion>
+                <example correction="importante">Fue muy <marker>imporntate</marker></example>
+                <example correction="interesantes">Fueron muy <marker>interensates</marker></example>
+            </rule>
+        </rulegroup>
         <rule id="NUMBERS_IN_WORDS" name="Numbers in words">
             <antipattern>
                 <!-- Kurze Wörter, (Eigen )Namen oder Abkürzungen wie z.B. t3n, k3b usw.  -->

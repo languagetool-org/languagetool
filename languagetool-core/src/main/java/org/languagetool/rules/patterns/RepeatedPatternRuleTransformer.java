@@ -23,6 +23,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.Language;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.SameRuleGroupFilter;
 import org.languagetool.rules.TextLevelRule;
 
 import java.io.IOException;
@@ -79,7 +80,8 @@ public class RepeatedPatternRuleTransformer implements PatternRuleTransformer {
           RuleMatch[] ruleMatches = rule.match(s);
           sentenceMatches.addAll(Arrays.asList(ruleMatches));
         }
-        sentenceMatches.sort(Comparator.naturalOrder());
+        sentenceMatches = new SameRuleGroupFilter().filter(sentenceMatches);
+        // no sorting: SameRuleGroupFilter sorts rule matches already
         for (RuleMatch m : sentenceMatches) {
           int fromPos = m.getFromPos() + offset;
           int toPos = m.getToPos() + offset;

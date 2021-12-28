@@ -175,17 +175,17 @@ class AgreementRuleAntiPatterns1 {
     Arrays.asList(
       token("von"),  // "von denen viele Open-Source-Software sind"
       token("denen"),
-      tokenRegex("viele|alle|einige|manche"),
-      posRegex("SUB:.*SIN:.*"),
-      token("sind|seien|waren")
+      tokenRegex("viele|alle|einige|manche|mehrere|wenige"),
+      new PatternTokenBuilder().posRegex("SUB:.*SIN:.*").setSkip(-1).build(),
+      tokenRegex("sind|seien|sein|waren|wären")
     ),
     Arrays.asList(
       token("von"),  // "von denen die meisten Open-Source-Software sind"
       token("denen"),
       token("die"),
-      token("meisten"),
-      posRegex("SUB:.*SIN:.*"),
-      token("sind|seien|waren")
+      tokenRegex("meisten|wenigsten"),
+      new PatternTokenBuilder().posRegex("SUB:.*SIN:.*").setSkip(-1).build(),
+      tokenRegex("sind|seien|sein|waren|wären")
     ),
     Arrays.asList(
       tokenRegex("die|der|den"),  // "die späten 50er Jahre"
