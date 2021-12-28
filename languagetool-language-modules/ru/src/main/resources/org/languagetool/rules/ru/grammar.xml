@@ -2830,7 +2830,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     	    <example correction="таким образом, что">Это сделано <marker>таким образом что</marker> и не найти.</example>
     	    <example>Таким образом, что слово есть, что его нет - без разницы.</example>
     	</rule>
-        <rule id="takim_obrazom" name="Запятая после «таким образом» (2)" default="temp_off" >  <!-- tags="picky" -->
+        <rule id="takim_obrazom" name="Запятая после «таким образом» (2)"  tags="picky" >  <!--default="temp_off"  TODO: need improve! -->
+            <antipattern>
+                <token skip="4" postag="NN:.*:.*:.*:Nom" postag_regexp="yes"></token>
+                <token>таким</token>
+                <token>образом</token>
+            </antipattern>
+            <antipattern>
+                <token skip="1" postag="VB:.*:.*:.*" postag_regexp="yes"></token>
+                <token>таким</token>
+                <token>образом</token>
+            </antipattern>
             <pattern>
                 <token>таким<exception postag="VB:.*|DPT:.*|PT:.*|PT_Short:.*|PREP|PRDC|NN:.*" postag_regexp="yes" scope="previous"></exception>
                     <exception regexp="yes" scope="previous">[,.-;:—-]</exception>
@@ -2847,6 +2857,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Пропущена запятая</short>
             <example correction="">И <marker>таким образом мы</marker></example>
             <example>И,таким образом, мы</example>
+            <example>Продавец "экономит" таким образом 4000 рублей.</example>
+            <example>И сообщают им таким образом всю необходимую информацию.</example>
             <example>Можно сказать это и таким образом?</example>
         </rule>
         <rule default="on" id="comma_and_to_jest" name="Запятая перед «то есть»">
