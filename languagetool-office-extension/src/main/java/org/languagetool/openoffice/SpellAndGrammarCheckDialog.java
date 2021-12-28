@@ -579,41 +579,52 @@ public class SpellAndGrammarCheckDialog extends Thread {
         for (int i = 0; i < tokens.length; i++) {
           AnalyzedTokenReadings token = tokens[i];
           String sToken = token.getToken();
-          if (!token.isNonWord() && sToken.length() > 1) {
+          if (!token.isNonWord()) {
             int nStart = token.getStartPos();
             int nEnd = token.getEndPos();
-            if (i < tokens.length - 1 && tokens[i + 1].getToken().equals(".")) {
-              sToken += ".";
-            }
-            if ((sToken.charAt(0) == '’' || sToken.charAt(0) == '\'') && i > 0 && !tokens[i - 1].isNonWord()) {
-              sToken = tokens[i - 1].getToken() + sToken;
-              nStart = tokens[i - 1].getStartPos();
-            }
-            if (xFlatPara != null) {
-              locale = xFlatPara.getLanguageOfText(token.getStartPos(), token.getEndPos() - token.getStartPos());
-            }
-            if (locale == null) {
-              locale = lang;
-            }
-            if (!linguServices.isCorrectSpell(sToken, locale)) {
-              SingleProofreadingError aError = new SingleProofreadingError();
-              if (debugMode) {
-                MessageHandler.printToLogFile("Error: Word: " + sToken 
-                    + ", Start: " + nStart + ", End: " + nEnd);
+            if (i < tokens.length - 1) {
+              if (tokens[i + 1].getToken().equals(".")) {
+                sToken += ".";
+              } else { 
+                String nextToken = tokens[i + 1].getToken();
+                boolean shouldComposed = nextToken.length() > 1 
+                    && (nextToken.charAt(0) == '’' || nextToken.charAt(0) == '\''
+                    || nextToken.startsWith("n’") || nextToken.startsWith("n'"));
+                if (shouldComposed) {
+                  sToken += nextToken;
+                  nEnd = tokens[i + 1].getEndPos();
+                  i++;
+                }
               }
-              if (!document.isIgnoreOnce(nStart, nEnd, nPara, spellRuleId)) {
-                aError.nErrorType = TextMarkupType.SPELLCHECK;
-                aError.aFullComment = JLanguageTool.getMessageBundle().getString("desc_spelling");
-                aError.aShortComment = aError.aFullComment;
-                aError.nErrorStart = nStart;
-                aError.nErrorLength = nEnd - nStart;
-                aError.aRuleIdentifier = spellRuleId;
-                errorArray.add(new CheckError(locale, aError));
-                String[] alternatives = linguServices.getSpellAlternatives(token.getToken(), locale);
-                if (alternatives != null) {
-                  aError.aSuggestions = alternatives;
-                } else {
-                  aError.aSuggestions = new String[0];
+            }
+            if (sToken.length() > 1) {
+              if (xFlatPara != null) {
+                locale = xFlatPara.getLanguageOfText(nStart, nEnd - nStart);
+              }
+              if (locale == null) {
+                locale = lang;
+              }
+              if (!linguServices.isCorrectSpell(sToken, locale)) {
+                SingleProofreadingError aError = new SingleProofreadingError();
+                if (debugMode) {
+                  MessageHandler.printToLogFile("Error: Word: " + sToken 
+                      + ", Start: " + nStart + ", End: " + nEnd + "Token(" + i + "): " + tokens[i].getToken()
+                      + "Token(" + (i + 1) + "): " + tokens[i + 1].getToken() + "Token(" + (i + 2) + "): " + tokens[i + 2].getToken());
+                }
+                if (!document.isIgnoreOnce(nStart, nEnd, nPara, spellRuleId)) {
+                  aError.nErrorType = TextMarkupType.SPELLCHECK;
+                  aError.aFullComment = JLanguageTool.getMessageBundle().getString("desc_spelling");
+                  aError.aShortComment = aError.aFullComment;
+                  aError.nErrorStart = nStart;
+                  aError.nErrorLength = nEnd - nStart;
+                  aError.aRuleIdentifier = spellRuleId;
+                  errorArray.add(new CheckError(locale, aError));
+                  String[] alternatives = linguServices.getSpellAlternatives(token.getToken(), locale);
+                  if (alternatives != null) {
+                    aError.aSuggestions = alternatives;
+                  } else {
+                    aError.aSuggestions = new String[0];
+                  }
                 }
               }
             }
@@ -628,7 +639,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
 
     /**
      * get a list of all spelling errors of the (pure) text paragraph numPara
-     */
+     *//*
     public List<CheckError> getSpellErrors(int numPara, Locale lang, 
         DocumentCursorTools cursorTools, SingleDocument document) {
       try {
