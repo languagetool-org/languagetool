@@ -255,6 +255,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Mögliche Tippfehler">
+        <rule id="MOMENTANE" name="momentane (momentan)" default="temp_off">
+            <antipattern>
+                <token regexp="yes">die|eine</token>
+                <token>momentane</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>momentane</token>
+                </marker>
+                <token>
+                    <exception postag_regexp="yes" postag="SUB:.*"/>
+                    <exception postag_regexp="yes" postag="ADJ:.*"/>
+                    <exception postag="UNKNOWN"/>
+                </token>
+            </pattern>
+            <message>Meinten Sie <suggestion>momentan</suggestion>?</message>
+            <example correction="momentan">Was programmieren angeht befinde ich mich <marker>momentane</marker> noch in der Lernphase.</example>
+        </rule>
         <rule id="WIR_HABE" name="wir habe (haben)">
             <pattern>
                 <token>wir</token>
