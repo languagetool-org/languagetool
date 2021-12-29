@@ -296,6 +296,7 @@ public class French extends Language implements AutoCloseable {
       case "TOO_LONG_PARAGRAPH": return -15;
       case "PREP_VERBECONJUGUE": return -20;
       case "LA_LA2": return -20; // less than LA_LA
+      case "CROIRE": return -20; // less than JE_CROIS_QUE
       case "PAS_DE_VERBE_APRES_POSSESSIF_DEMONSTRATIF": return -20;
       case "VIRGULE_VERBE": return -20; // less than grammar rules
       case "VERBES_FAMILIERS": return -25;  // less than PREP_VERBECONJUGUE + PAS_DE_VERBE_APRES_POSSESSIF_DEMONSTRATIF
