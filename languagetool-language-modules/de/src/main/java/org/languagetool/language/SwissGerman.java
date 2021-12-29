@@ -84,7 +84,7 @@ public class SwissGerman extends German {
       List<String> replacements = rm.getSuggestedReplacements();
       List<String> newReplacements = new ArrayList<>();
       for (String s : replacements) {
-        s= s.replaceAll("ß", "ss");
+        s = s.replaceAll("ß", "ss");
         newReplacements.add(s);
       }
       RuleMatch newMatch = new RuleMatch(rm, newReplacements);
