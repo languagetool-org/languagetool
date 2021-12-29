@@ -582,18 +582,15 @@ public class RuleMatch implements Comparable<RuleMatch> {
   /**
    * Set a new specific rule ID in the RuleMatch to replace getRule().getId() in
    * the output. Used for statistical purposes.
-   *
-   * @param new Rule ID
    * @since 5.6
    */
-  public void setSpecificRuleId(String s) {
-    specificRuleId = s;
+  public void setSpecificRuleId(String ruleId) {
+    specificRuleId = ruleId;
   }
 
   /**
    * Get the specific rule ID from the RuleMatch to replace getRule().getId() in
    * the output. Used for statistical purposes.
-   *
    * @since 5.6
    */
   public String getSpecificRuleId() {
