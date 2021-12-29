@@ -1601,10 +1601,20 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <example type="untouched">Schade, dass er immer so leise sprich.</example><!-- literal tagging here is useful for finding this error -->
         </rule>
     </rulegroup>
+    <rulegroup id="KEIN_IMPERATIV_II" name="Entferne Imperativ von Verkürzungen wie 'ich geh', 'ich lauf'">
+         <rule>
+            <pattern>
+                <token postag_regexp="yes" postag="PRO:PER:NOM:.+">ich<exception postag_regexp="yes" postag="PRO:PER:NOM:.+" negate_pos="yes"/></token>
+                <marker><token postag_regexp="yes" postag="VER:IMP:SIN:.+"></token></marker>
+            </pattern>
+            <disambig action="remove" postag="VER:IMP.+"/>
+            <example type="ambiguous" inputform="geh[gehen/VER:1:SIN:PRÄ:NON,gehen/VER:IMP:SIN:NON]" outputform="geh[gehen/VER:1:SIN:PRÄ:NON]">Ich <marker>geh</marker> zu ihm.</example>
+        </rule>
+    </rulegroup>
     <rulegroup id="RETTUNGSWAGEN" name="Rettungswagen keine Verbform">
         <rule>
             <pattern case_sensitive="yes">
-                <token regexp="yes">(Rettungs|Kranken)wagen|[A-Z][a-zäöüß]{4,}(schmerzen|strecken)</token>
+                <token regexp="yes">(Rettungs|Kranken)wagen|[A-Z][a-zäöüß]{4,30}(schmerzen|strecken)</token>
             </pattern>
             <disambig action="remove" postag="SUB:.+:SIN:NEU.*"/>
         </rule>
