@@ -4,15 +4,14 @@
 Polish, Chinese, French, Russian, Italian, Dutch, Ukrainian
 and [more languages](https://dev.languagetool.org/languages)**
 
-Version 5.6-SNAPSHOT (2021-xx-xx)
-Copyright (C) 2005-2021 the LanguageTool community and Daniel Naber (www.danielnaber.de)  
+Version 5.7-SNAPSHOT (2021-xx-xx)
+Copyright (C) 2005-2022 the LanguageTool community and Daniel Naber (www.danielnaber.de)  
 https://www.languagetool.org
 
 
 ## Requirements
 
-* Java 8 to Java 14 (see https://github.com/languagetool-org/languagetool/issues/4061
-  for support of Java 15 or later)
+* Java 8 or later
 * For LibreOffice/OpenOffice.org integration:
     * LibreOffice 4.2.4 (or later) or
     * Apache OpenOffice 4.1.2 (or later)
@@ -24,12 +23,12 @@ https://www.languagetool.org
 
 To integrate LanguageTool into LibreOffice or OpenOffice.org, you can use two methods:
 
-* Double-click `LanguageTool-5.5.oxt`. The extension should
+* Double-click `LanguageTool-5.6.oxt`. The extension should
    start installing. Follow the on-screen instructions.
 
 * If the above method doesn't work, call `Tools > Extension
    Manager > Add...` in LibreOffice/OpenOffice.org and browse for the
-   `LanguageTool-5.5.oxt` file.
+   `LanguageTool-5.6.oxt` file.
 
 Close and restart LibreOffice/OpenOffice.org Writer. Remember to close
 the QuickStarter as well if you use it. Type text with

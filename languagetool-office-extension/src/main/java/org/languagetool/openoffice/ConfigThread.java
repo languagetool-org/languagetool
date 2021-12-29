@@ -66,7 +66,7 @@ class ConfigThread extends Thread {
       boolean configChanged = cfgDialog.show(allRules);
       if (configChanged) {
         Set<String> disabledRules = config.getDisabledRuleIds();
-        Set<String> tmpDisabledRules = new HashSet<String>(disabledRulesUI);
+        Set<String> tmpDisabledRules = new HashSet<>(disabledRulesUI);
         for (String ruleId : tmpDisabledRules) {
           if(!disabledRules.contains(ruleId)) {
             disabledRulesUI.remove(ruleId);

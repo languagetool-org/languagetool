@@ -23,7 +23,7 @@ import org.languagetool.tokenizers.WordTokenizer;
 /**
  * Specific to Belarusian: apostrophes (\u0027, \u2019, \u02BC) are part of the word.
  * 
- * @author Aleś Bułojčyk <alex73mail@gmail.com>
+ * @author Aleś Bułojčyk (alex73mail@gmail.com)
  */
 public class BelarusianWordTokenizer extends WordTokenizer {
     private final String tokenizingCharacters;
