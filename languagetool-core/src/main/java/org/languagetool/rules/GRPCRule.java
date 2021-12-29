@@ -212,7 +212,15 @@ public abstract class GRPCRule extends RemoteRule {
 
   @Override
   protected RemoteRule.RemoteRequest prepareRequest(List<AnalyzedSentence> sentences, @Nullable Long textSessionId) {
-    List<String> text = sentences.stream().map(AnalyzedSentence::getText).collect(Collectors.toList());
+    List<String> text = sentences.stream().map(AnalyzedSentence::getText).map(s -> {
+        System.out.println(s);
+        if (whitespaceNormalisation) {
+          // non-breaking space can be treated as normal space
+          return s.replaceAll("[\u00a0]", " ");
+        } else {
+          return s;
+        }
+    }).collect(Collectors.toList());
     List<Long> ids = Collections.emptyList();
     if (textSessionId != null) {
       ids = Collections.nCopies(text.size(), textSessionId);
