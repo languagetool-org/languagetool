@@ -206,6 +206,7 @@ public class AgreementRule extends Rule {
     "Impflicht", // found by speller
     "Rückgrad", // found by speller
     "Rückgrads", // found by speller
+    "Aalen", // Plural form of "Aal" but also large city in Germany
     "Meter", // Das Meter (Objekt zum Messen)
     "Boots", // "Die neuen Boots" (englisch Stiefel)
     "Taxameter", // Beides erlaubt "Das" und "Die"

@@ -183,7 +183,7 @@ class AgreementRuleAntiPatterns1 {
       token("von"),  // "von denen die meisten Open-Source-Software sind"
       token("denen"),
       token("die"),
-      tokenRegex("meisten|wenigsten"),
+      tokenRegex("meisten|wenigsten|besten"),
       new PatternTokenBuilder().posRegex("SUB:.*SIN:.*").setSkip(-1).build(),
       tokenRegex("sind|seien|sein|waren|wären")
     ),

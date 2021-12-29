@@ -1228,6 +1228,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("sehn", "sehen");
     put("zutun", "zu tun");
     put("Müllhalte", "Müllhalde");
+    put("Entäuschung", "Enttäuschung");
+    put("Entäuschungen", "Enttäuschungen");
   }
 
   private static void putRepl(String wordPattern, String pattern, String replacement) {

@@ -6,7 +6,8 @@ German Disambiguation Rules for LanguageTool
 Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
 -->
   <!DOCTYPE rules [
-    <!ENTITY zal_adj "(?-i)(\d+-|(ein|zw(ei|an)|dreiß?|vier|fünf|s(echs?|ieb(en)?)|acht|neun)(zehn|zig)?)(jähr|bänd|seit|monat|täg|köpf|tür|spur|geschoss)">
+    <!ENTITY zal_adj_ig "jähr|bänd|seit|monat|täg|köpf|tür|spur|geschoss|stöck|mal|teil|lag|stünd|minüt|sekünd|zeil|wöch|stell|räum|schicht|zähn|eck|arm">
+    <!ENTITY zal_adj "(?-i)(\d+-|(ein|zw(ei|an)|dreiß?|vier|fünf|s(echs?|ieb(en)?)|acht|neun|zehn|elf|zwölf)(zehn|zig)?)(&zal_adj_ig;)">
     <!ENTITY apostrophe "['’`´‘]">
     <!ENTITY genderzeichen "[:_*]">
     <!ENTITY anfauf "„|&quot;|»|›|‚|'">
@@ -884,7 +885,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <token postag="UNKNOWN" regexp="yes" case_sensitive="yes">[A-ZÄÖÜ].+</token>
         </antipattern>
         <antipattern><!-- Anna und Randolph, die ihre hübsche Berliner Bude zur Verfügung gestellt haben -->
-            <token regexp="yes">die|diese|[dm]?eine|seine|ihre</token>
+            <token regexp="yes">d(e[mnrs]|ie|as|iese[mnrs])|[dm]?ein(e[mns]?)?|sein(e[mnr]?)?|ihr(e[mnr]?)?</token>
             <token postag="ADJ.*|PA[12]:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü].+</token>
             <token postag="ADJ.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[A-ZÄÖÜ].+er</token>
             <token postag="SUB.*FEM.*" postag_regexp="yes" regexp="yes" />
@@ -3915,7 +3916,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     </rule>
     <rule name="-köpfig" id="KOEPFIG">
       <pattern case_sensitive="yes">
-        <token regexp="yes">\d+-(köpf|mal|zeil|lag|stünd|minüt|sekünd|geschoss|stöck|wöch|teil|räum|stell|spur|tür)ig(e[mnsr]?)?</token>
+        <token regexp="yes">\d+-(&zal_adj_ig;)ig(e[mnsr]?)?</token>
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
@@ -4734,6 +4735,16 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <token postag="EIG:.*|UNKNOWN" postag_regexp="yes" regexp="yes" case_sensitive="yes">[A-Z].*</token>
         </pattern>
         <disambig action="remove" postag="VER:.+" />
+    </rule>
+
+    <rule id="OPEL_KADETT" name="'Kadett' kein Substantiv in 'Opel Kadett'">
+        <pattern>
+            <token>Opel</token>
+            <marker>
+                <token regexp="yes">Kadetts?</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="SUB:.+" />
     </rule>
 
     <rule id="LIKE_A_PRAYER" name="'Like' kein Substantiv in 'Like a Prayer'">
