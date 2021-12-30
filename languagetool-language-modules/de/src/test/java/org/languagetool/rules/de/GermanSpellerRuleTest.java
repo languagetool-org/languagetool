@@ -58,6 +58,30 @@ public class GermanSpellerRuleTest {
   //
   
   @Test
+  @Ignore("accepting words is not active (yet?)")
+  public void testArtig() throws IOException {
+    GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    accept("zigarrenartig", rule);
+    accept("zigarrenartige", rule);
+    accept("zigarrenartiger", rule);
+    accept("zigarrenartiges", rule);
+    accept("zigarrenartigen", rule);
+    accept("zigarrenartigem", rule);
+    accept("handlungsartig", rule);
+    dontAccept("zigarrenartigex", rule);
+    dontAccept("handlungartig", rule);
+    dontAccept("arbeitartig", rule);
+  }
+
+  private void accept(String word, GermanSpellerRule rule) throws IOException {
+    assertTrue(rule.ignoreWord(Collections.singletonList(word), 0));
+  }
+
+  private void dontAccept(String word, GermanSpellerRule rule) throws IOException {
+    assertFalse(rule.ignoreWord(Collections.singletonList(word), 0));
+  }
+
+  @Test
   public void filterForLanguage() {
     GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     List<String> list1 = new ArrayList<>(Arrays.asList("Mafiosi s", "foo"));

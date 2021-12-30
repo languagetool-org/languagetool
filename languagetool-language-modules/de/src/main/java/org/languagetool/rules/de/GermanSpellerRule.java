@@ -57,6 +57,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   private static final int MAX_EDIT_DISTANCE = 2;
 
+  private static final String adjSuffix = "(basiert|konform|widrig|fähig|haltig|bedingt|gerecht|würdig|relevant|" +
+    "übergreifend|tauglich|artig|bezogen|orientiert|berechtigt|fremd|liebend|bildend|hemmend|abhängig|" +
+    "förmig|mäßig|pflichtig|ähnlich|spezifisch|technisch|typisch|frei|arm|freundlicher|gemäß)";
+  private static final Pattern missingAdjPattern =
+    Pattern.compile("[a-zöäüß]{3,25}" + adjSuffix + "(er|es|en|em|e)?");
+
   private final static Set<String> lcDoNotSuggestWords = new HashSet<>(Arrays.asList(
     // some of these are taken fom hunspell's dictionary where non-suggested words use tag "/n":
     "verjuden", "verjudet", "verjudeter", "verjudetes", "verjudeter", "verjudeten", "verjudetem",
@@ -1585,7 +1591,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   @Override
   protected boolean ignoreWord(List<String> words, int idx) throws IOException {
-    if (words.get(idx).length() > MAX_TOKEN_LENGTH) {
+    String word = words.get(idx);
+    if (word.length() > MAX_TOKEN_LENGTH) {
       return true;
     }
     boolean ignore = super.ignoreWord(words, idx);
@@ -1596,27 +1603,52 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       // happens e.g. with list items in Google Docs, which introduce \uFEFF, which here appears as
       // an empty token:
       ignoreBulletPointCase = !ignore && idx == 1 && words.get(0).isEmpty() 
-        && startsWithUppercase(words.get(idx))
-        && isMisspelled(words.get(idx))
-        && !isMisspelled(words.get(idx).toLowerCase());
+        && startsWithUppercase(word)
+        && isMisspelled(word)
+        && !isMisspelled(word.toLowerCase());
     }
     boolean ignoreHyphenatedCompound = false;
     if (!ignore && !ignoreUncapitalizedWord) {
-      if (words.get(idx).contains("-")) {
-        ignoreByHyphen = words.get(idx).endsWith("-") && ignoreByHangingHyphen(words, idx);
+      if (word.contains("-")) {
+        ignoreByHyphen = word.endsWith("-") && ignoreByHangingHyphen(words, idx);
       }
-      ignoreHyphenatedCompound = !ignoreByHyphen && ignoreCompoundWithIgnoredWord(words.get(idx));
+      ignoreHyphenatedCompound = !ignoreByHyphen && ignoreCompoundWithIgnoredWord(word);
     }
-    if (CommonFileTypes.getSuffixPattern().matcher(words.get(idx)).matches()) {
+    if (CommonFileTypes.getSuffixPattern().matcher(word).matches()) {
       return true;
     }
-    if ((idx+1 < words.size() && (words.get(idx).endsWith(".mp") || words.get(idx).endsWith(".woff")) && words.get(idx+1).equals("")) ||
-        (idx > 0 && "sat".equals(words.get(idx)) && "".equals(words.get(idx-1)))) {
+    if (missingAdjPattern.matcher(word).matches()) {
+      String firstPart = StringTools.uppercaseFirstChar(word.replaceFirst(adjSuffix + "(er|es|en|em|e)?", ""));
+      // We append "test" to see if the word plus "test" is accepted as a compound. This way, we get the
+      // infix 's" handled properly (e.g. "arbeitsartig" is okay, "arbeitartig" is not). It does not accept
+      // all compounds, though, as hunspell's compound detection is limited ("Zwiebacktest"):
+      // TODO: see isNeedingFugenS()
+      // https://www.sekada.de/korrespondenz/rechtschreibung/artikel/grammatik-in-diesen-faellen-steht-das-fugen-s/
+      /*if (!isMisspelled(firstPart) && !isMisspelled(firstPart + "test")) {
+        System.out.println("accept1: " + word + " [" + !isMisspelled(word) + "]");
+        //return true;
+      } else if (firstPart.endsWith("s") && !isMisspelled(firstPart.replaceFirst("s$", "")) && !isMisspelled(firstPart + "test")) { // "handlungsartig"
+        System.out.println("accept2: " + word + " [" + !isMisspelled(word) + "]");
+        //return true;
+      }*/
+      if (isMisspelled(word)) {
+        if (!isMisspelled(firstPart) && !firstPart.matches(".{3,25}(tum|ing|ling|heit|keit|schaft|ung|ion|tät|at|um)")) {
+          System.out.println("could accept 1: " + word);
+          //return true;
+        } else if (firstPart.endsWith("s") && !isMisspelled(firstPart.replaceFirst("s$", "")) &&
+                   firstPart.matches(".{3,25}(tum|ing|ling|heit|keit|schaft|ung|ion|tät|at|um)s")) { // "handlungsartig"
+          System.out.println("could accept 2: " + word);
+          //return true;
+        }
+      }
+    }
+    if ((idx+1 < words.size() && (word.endsWith(".mp") || word.endsWith(".woff")) && words.get(idx+1).equals("")) ||
+        (idx > 0 && "sat".equals(word) && "".equals(words.get(idx-1)))) {
       // e.g. ".mp3" or "3sat" - the check for the empty string is because digits were removed during
       // hunspell-style tokenization before
       return true;
     }
-    return ignore || ignoreUncapitalizedWord || ignoreBulletPointCase || ignoreByHyphen || ignoreHyphenatedCompound || ignoreElative(words.get(idx));
+    return ignore || ignoreUncapitalizedWord || ignoreBulletPointCase || ignoreByHyphen || ignoreHyphenatedCompound || ignoreElative(word);
   }
 
   @Override
