@@ -24505,15 +24505,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SUB.*|EIG.*|UNKNOWN" postag_regexp="yes" />
                 </antipattern>
                 <pattern case_sensitive="yes">
+                    <token inflected="yes" skip="4" regexp="yes">fehlen|mangeln</token>
                     <token regexp="yes">[Aa]m</token>
                     <marker>
                         <token>nötigsten</token>
                     </marker>
                 </pattern>
                 <message>Nominalisierte Adjektive sollten in der Regel großgeschrieben werden.</message>
-                <suggestion><match no="2" case_conversion="startupper" /></suggestion>
-                <example correction="Nötigsten">Wir brauchen das jetzt am <marker>nötigsten</marker>.</example>
+                <suggestion><match no="3" case_conversion="startupper" /></suggestion>
+                <example correction="Nötigsten">Es fehlt uns am <marker>nötigsten</marker>.</example>
+                <example>Wir brauchen das jetzt am <marker>nötigsten</marker>.</example>
                 <example>Wir müssen am nötigsten Ende sparen.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[Aa]m</token>
+                    <marker>
+                        <token skip="1">nötigsten</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">fehlen|mangeln</token>
+                </pattern>
+                <message>Nominalisierte Adjektive sollten in der Regel großgeschrieben werden.</message>
+                <suggestion><match no="2" case_conversion="startupper" /></suggestion>
+                <example correction="Nötigsten">Man sollte in die Länder spenden, bei denen es am <marker>nötigsten</marker> fehlt.</example>
             </rule>
             <rule>
                 <antipattern case_sensitive="yes">
@@ -44459,7 +44473,7 @@ Andere Projekte</example>
         </rule>
         <rule id="AM_NÄHESTEN" name="am nähesten (nächsten)" default="temp_off">
             <pattern>
-                <token>am</token>
+                <token regexp="yes">am|zum</token>
                 <token regexp="yes">nähe?sten</token>
             </pattern>
             <message>Die Steigerungsform von "nah" sind "näher" (Komparativ) und "nächsten" (Superlativ).</message>
