@@ -139,6 +139,9 @@ public class VerbAgreementRuleTest {
     assertGood("Bekommst sogar eine Sicherheitszulage");
     assertGood("Dallun sagte nur, dass er gleich kommen wird und legte wieder auf.");
     assertGood("Tinne, Elvis und auch ich werden gerne wiederkommen!");
+    assertGood("Die Frage lautet: Bist du bereit zu helfen?");
+    assertGood("Ich will nicht so wie er enden.");
+    assertGood("Das heißt, wir geben einander oft nach als gute Freunde, ob wir gleich nicht einer Meinung sind.");
     // incorrect sentences:
     assertBad("Als Borcarbid weißt es eine hohe Härte auf.");
     assertBad("Das greift auf Vorläuferinstitutionen bist auf die Zeit von 1234 zurück.");
@@ -255,7 +258,7 @@ public class VerbAgreementRuleTest {
 //     assertBad("Ich geht jetzt nach Hause und dort gehe ich sofort unter die Dusche."); TODO
     assertBad("Ich kannst heute leider nicht kommen.", 2);
     assertBad("Ich leben.");
-    assertBad("Ich leben.", "Ich lebe", "Ich lebte", "Wir leben", "Sie leben");
+    assertBad("Ich leben.", "Ich leb", "Ich lebe", "Ich lebte", "Wir leben", "Sie leben");
     assertBad("Lebe du?");
     assertBad("Lebe du?", "Lebest du", "Lebst du", "Lebtest du", "Lebe ich", "Lebe er", "Lebe sie", "Lebe es");
     assertBad("Leben du?");
@@ -271,8 +274,8 @@ public class VerbAgreementRuleTest {
     assertBad("Wünscht du dir mehr Zeit?", "Subjekt (du) und Prädikat (Wünscht)");
     assertBad("Wir lebst noch.", 2);
     assertBad("Wir lebst noch.", 2, "Wir leben", "Wir lebten", "Du lebst");
-    assertBad("Er sagte düster: „Ich brauchen mich nicht schuldig fühlen.“", 1, "Ich brauche", "Ich brauchte", "Ich bräuchte", "Wir brauchen", "Sie brauchen");
-    assertBad("Er sagte: „Ich brauchen mich nicht schuldig fühlen.“", 1, "Ich brauche", "Ich brauchte", "Ich bräuchte", "Wir brauchen", "Sie brauchen");
+    assertBad("Er sagte düster: „Ich brauchen mich nicht schuldig fühlen.“", 1, "Ich brauch", "Ich brauche", "Ich brauchte", "Ich bräuchte", "Wir brauchen", "Sie brauchen");
+    assertBad("Er sagte: „Ich brauchen mich nicht schuldig fühlen.“", 1, "Ich brauch", "Ich brauche", "Ich brauchte", "Ich bräuchte", "Wir brauchen", "Sie brauchen");
   }
 
   private void assertGood(String s) throws IOException {

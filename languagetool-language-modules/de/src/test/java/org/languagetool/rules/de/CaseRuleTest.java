@@ -155,6 +155,8 @@ public class CaseRuleTest {
     assertGood("Wahrscheinlich müssten sie das überarbeiten");
     assertGood("Assistenzsysteme warnen rechtzeitig vor Gefahren.");
     assertGood("Jeremy Schulte rannte um sein Leben.");
+    assertGood("Er arbeitet im Bereich Präsidiales.");
+    assertGood("Er sagte, Geradliniges und Krummliniges sei unvergleichbar.");
     assertGood("Das war Fiete Lang.");
     assertGood("Wenn du an das glaubst, was du tust, kannst du Großes erreichen.");
     assertGood("Dann hat er Großes erreicht.");
@@ -214,6 +216,8 @@ public class CaseRuleTest {
     assertBad("Sie Vertraute niemandem.");
     assertBad("Beten Lernt man in Nöten.");
     assertBad("Ich habe Heute keine Zeit.");
+    assertBad("Er sagte, Geradliniges und krummliniges sei unvergleichbar.");
+    assertBad("Er sagte, ein Geradliniges und Krummliniges Konzept ist nicht tragbar.");
     assertBad("Ä Was?");
     //assertBad("Ich gehe gerne Joggen.");
     assertBad("Er ist Groß.");

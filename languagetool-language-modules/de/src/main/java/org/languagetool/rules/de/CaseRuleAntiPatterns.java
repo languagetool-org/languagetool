@@ -36,14 +36,21 @@ class CaseRuleAntiPatterns {
   // also see case_rule_exceptions.txt:
   static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
-      token("Planten"),
-      token("un"),
-      regex("Blomens?")
-    ),
-    Arrays.asList(
       csRegex("Private[snm]"),
       csRegex("und|&"),
       csRegex("Berufliche[snm]")
+    ),
+    Arrays.asList(
+      // Er sagte, Geradliniges und Krummliniges sei unvergleichbar.
+      new PatternTokenBuilder().tokenRegex("(?i)[A-ZÄÖÜ].+es").posRegex("UNKNOWN").build(),
+      csRegex("und|oder|&"),
+      new PatternTokenBuilder().tokenRegex("(?i)[A-ZÄÖÜ].+es").posRegex("UNKNOWN").build(),
+      csRegex("[a-zäöüß\\-,\\.\\!\\?…;:]+")
+    ),
+    Arrays.asList(
+      // Er arbeitet im Bereich Präsidiales.
+      csRegex("Bereich"),
+      new PatternTokenBuilder().tokenRegex("(?i)[A-ZÄÖÜ].+es").posRegex("UNKNOWN").build()
     ),
     Arrays.asList(
       csRegex("Berufliche[snm]"),
@@ -1061,7 +1068,7 @@ class CaseRuleAntiPatterns {
     ),
     Arrays.asList(
       regex("im"),
-      csRegex("Stillen|Dunkeln|Hellen|Trüben|Kalten|Warmen|Geringsten|Entferntesten"),
+      csRegex("Stillen|Dunkeln|Dunklen|Trocke?nen|Hellen|Trüben|Kalten|Warmen|Geringsten|Entferntesten"),
       csRegex("[a-zäöü…\\.!\\?…].*")
     ),
     Arrays.asList(

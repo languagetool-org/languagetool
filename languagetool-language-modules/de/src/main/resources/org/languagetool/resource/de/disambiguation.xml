@@ -1594,11 +1594,12 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <token/>
                 <token/>
                 <token skip="-1"/>
-                <marker><token postag_regexp="yes" postag="VER:IMP.+"><exception scope="previous" postag="KON:NEB"/></token></marker>
+                <marker><token postag_regexp="yes" postag="VER:IMP.+"><exception scope="previous" postag="KON:NEB|PKT" postag_regexp="yes"/></token></marker>
                 <token postag="SENT_END"/>
             </pattern>
             <disambig action="remove" postag="VER:IMP.+"/>
             <example type="untouched">Schade, dass er immer so leise sprich.</example><!-- literal tagging here is useful for finding this error -->
+            <example type="untouched">Los, komm!</example><!-- literal tagging here is useful for finding this error -->
         </rule>
     </rulegroup>
     <rulegroup id="KEIN_IMPERATIV_II" name="Entferne Imperativ von Verkürzungen wie 'ich geh', 'ich lauf'">
@@ -4755,6 +4756,27 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             </marker>
         </pattern>
         <disambig action="remove" postag="SUB:.+" />
+    </rule>
+
+    <rule id="STAR_WARS" name="'Star' kein Substantiv in 'Star Wars'">
+        <pattern>
+            <marker>
+                <token>Star</token>
+            </marker>
+            <token regexp="yes">Wars|Gates?|Treks?|Games</token>
+        </pattern>
+        <disambig action="remove" postag="SUB:.+" />
+    </rule>
+
+    <rule id="PLANTEN_UN_BLOMEN" name="'Planten' kein Verb in 'Planten un Blomen'">
+            <pattern>
+                <marker>
+                    <token>Planten</token>
+                </marker>
+                <token regexp="yes">und?</token>
+                <token regexp="yes">Blomens?</token>
+            </pattern>
+        <disambig action="remove" postag="VER:.+" />
     </rule>
 
     <rule id="LIKE_A_PRAYER" name="'Like' kein Substantiv in 'Like a Prayer'">

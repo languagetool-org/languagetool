@@ -129,6 +129,13 @@ public class SubjectVerbAgreementRule extends Rule {
       tokenRegex("sind")
     ),
     Arrays.asList(
+      // Gründer und Leiter des Zentrums ist der Rabbiner Marvin Hier, sein Stellvertreter ist Rabbi Abraham Cooper.
+      tokenRegex("Gründer(in)?|Gesellschafter(in)?|Leiter(in)?|Geschäftsführer(in)?|Chef(in)?"),
+      tokenRegex("und|sowie|&"),
+      new PatternTokenBuilder().tokenRegex("Gründer(in)?|Gesellschafter(in)?|Leiter(in)?|Geschäftsführer(in)?|Chef(in)?").setSkip(4).build(),
+      tokenRegex("ist")
+    ),
+    Arrays.asList(
       tokenRegex("ist|war"),
       token("gemeinsam")
     ),

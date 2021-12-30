@@ -113,6 +113,7 @@ public class WordListValidatorTest {
           "Radosław/S",
           "Jarosław",
           "Jarosław/S",
+          "Władysław/S",
           "Şahin/S",
           "Uğur/S",
           "Jørgensen/S",
