@@ -93,6 +93,7 @@ public class CaseRule extends Rule {
     "Out", // eng
     "Packet", // misspelling of "Paket" (caught by spell checker)
     "Adult", // eng
+    "Apart", // eng
     "Viral", // eng
     "Tough", // eng
     "Resilient", // eng
