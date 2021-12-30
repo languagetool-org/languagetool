@@ -331,7 +331,7 @@ abstract class TextChecker {
         }
       }
     } catch (NumberFormatException ex) {
-      log.warn("Could not parse textSessionId '" + parameters.get("textSessionId") + "' as long: " + ex.getMessage());
+      log.info("Could not parse textSessionId '" + parameters.get("textSessionId") + "' as long: " + ex.getMessage());
     }
 
     String abTest = null;
@@ -446,15 +446,15 @@ abstract class TextChecker {
     try {
       future = executorService.submit(() -> {
         try (MDC.MDCCloseable c = MDC.putCloseable("rID", LanguageToolHttpHandler.getRequestId(httpExchange))) {
-          log.info("Starting text check on {} chars; params: {}", length, params);
+          log.debug("Starting text check on {} chars; params: {}", length, params);
           long time = System.currentTimeMillis();
           List<CheckResults> results = getRuleMatches(aText, lang, motherTongue, parameters, params, userConfig, detLang, preferredLangs,
             preferredVariants, f -> ruleMatchesSoFar.add(new CheckResults(Collections.singletonList(f), Collections.emptyList())));
-          log.info("Finished text check in {}ms. Starting suggestion generation.", System.currentTimeMillis() - time);
+          log.debug("Finished text check in {}ms. Starting suggestion generation.", System.currentTimeMillis() - time);
           time = System.currentTimeMillis();
           // generate suggestions, otherwise this is not part of the timeout logic and not properly measured in the metrics
           results.stream().flatMap(r -> r.getRuleMatches().stream()).forEach(RuleMatch::computeLazySuggestedReplacements);
-          log.info("Finished suggestion generation in {}ms, returning results.", System.currentTimeMillis() - time);
+          log.debug("Finished suggestion generation in {}ms, returning results.", System.currentTimeMillis() - time);
           return results;
         }
       });

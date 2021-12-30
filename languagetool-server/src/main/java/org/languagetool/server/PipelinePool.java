@@ -82,10 +82,10 @@ class PipelinePool implements KeyedPooledObjectFactory<PipelineSettings, Pipelin
     } else {
       try {
         long time = System.currentTimeMillis();
-        logger.info("Requesting pipeline; pool has {} active objects, {} idle; pipeline settings: {}",
+        logger.debug("Requesting pipeline; pool has {} active objects, {} idle; pipeline settings: {}",
           pool.getNumActive(), pool.getNumIdle(), settings);
         Pipeline p = pool.borrowObject(settings);
-        logger.info("Fetching pipeline took {}ms; pool has {} active objects, {} idle; pipeline settings: {}",
+        logger.debug("Fetching pipeline took {}ms; pool has {} active objects, {} idle; pipeline settings: {}",
           System.currentTimeMillis() - time, pool.getNumActive(), pool.getNumIdle(), settings);
         return p;
       } catch(NoSuchElementException ignored) {
