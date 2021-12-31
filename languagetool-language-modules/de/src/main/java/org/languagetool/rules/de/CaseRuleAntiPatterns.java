@@ -36,21 +36,72 @@ class CaseRuleAntiPatterns {
   // also see case_rule_exceptions.txt:
   static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
+      token("Planten"),
+      token("un"),
+      regex("Blomens?")
+    ),
+    Arrays.asList(
+      csRegex("im|ins|ans?"),
+      csRegex("Gestern|Vorgestern")
+    ),
+    Arrays.asList(
+      csRegex("im|ins|ans?"),
+      csRegex("Gestern|Vorgestern"),
+      csRegex("und|&"),
+      csRegex("Gestern|Vorgestern")
+    ),
+    Arrays.asList(
+      csRegex("im|ins"),
+      csRegex("Hier"),
+      csRegex("und|&"),
+      csRegex("Jetzt")
+    ),
+    Arrays.asList(
       csRegex("Private[snm]"),
       csRegex("und|&"),
       csRegex("Berufliche[snm]")
     ),
     Arrays.asList(
+      csRegex("Hin"),
+      csRegex("und|&"),
+      csRegex("Her")
+    ),
+    Arrays.asList(
+      csRegex("ein"),
+      csRegex("Richtig|Falsch"),
+      csRegex("und|&"),
+      csRegex("Richtig|Falsch")
+    ),
+    Arrays.asList(
+      csRegex("Tax"),
+      csRegex("[au]nd|&"),
+      csRegex("Legal")
+    ),
+    Arrays.asList(
       // Er sagte, Geradliniges und Krummliniges sei unvergleichbar.
-      new PatternTokenBuilder().tokenRegex("(?i)[A-ZÄÖÜ].+es").posRegex("UNKNOWN").build(),
+      csRegex("[A-ZÄÖÜ].+es"),
       csRegex("und|oder|&"),
-      new PatternTokenBuilder().tokenRegex("(?i)[A-ZÄÖÜ].+es").posRegex("UNKNOWN").build(),
+      csRegex("[A-ZÄÖÜ].+es"),
+      csRegex("[a-zäöüß\\-,\\.\\!\\?…;:]+")
+    ),
+    Arrays.asList(
+      // … in Ägyptisch, Berberisch und Semitisch erfolgte zuletzt.
+      csRegex("[A-ZÄÖÜ].+isch"),
+      csRegex("und|oder|&"),
+      csRegex("[A-ZÄÖÜ].+isch"),
+      csRegex("[a-zäöüß\\-,\\.\\!\\?…;:]+")
+    ),
+    Arrays.asList(
+      // … in Ägyptisch, Berberisch und Semitisch erfolgte zuletzt.
+      csRegex("[A-ZÄÖÜ].+em"),
+      csRegex("und|oder|&"),
+      csRegex("[A-ZÄÖÜ].+em"),
       csRegex("[a-zäöüß\\-,\\.\\!\\?…;:]+")
     ),
     Arrays.asList(
       // Er arbeitet im Bereich Präsidiales.
       csRegex("Bereich"),
-      new PatternTokenBuilder().tokenRegex("(?i)[A-ZÄÖÜ].+es").posRegex("UNKNOWN").build()
+      csRegex("[A-ZÄÖÜ].+es")
     ),
     Arrays.asList(
       csRegex("Berufliche[snm]"),
