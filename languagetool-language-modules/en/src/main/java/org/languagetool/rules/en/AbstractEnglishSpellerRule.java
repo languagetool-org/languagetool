@@ -1161,20 +1161,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     return translator;
   }
 
-  private static class IrregularForms {
-    final String baseform;
-    final String posName;
-    final String formName;
-    final List<String> forms;
-    private IrregularForms(String baseform, String posName, String formName, List<String> forms) {
-      this.baseform = baseform;
-      this.posName = posName;
-      this.formName = formName;
-      this.forms = forms;
-    }
-  }
-  
-  // Do not tokenize new words from spelling.txt... 
+  // Do not tokenize new words from spelling.txt...
   // Multi-token words should be in multiwords.txt
   protected boolean tokenizeNewWords() {
     return false;
@@ -1214,6 +1201,19 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return l;
     }
     return Collections.emptyList();
+  }
+
+  private static class IrregularForms {
+    final String baseform;
+    final String posName;
+    final String formName;
+    final List<String> forms;
+    private IrregularForms(String baseform, String posName, String formName, List<String> forms) {
+      this.baseform = baseform;
+      this.posName = posName;
+      this.formName = formName;
+      this.forms = forms;
+    }
   }
 
 }
