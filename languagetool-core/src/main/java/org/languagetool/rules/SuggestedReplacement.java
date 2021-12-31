@@ -20,12 +20,15 @@ package org.languagetool.rules;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.SortedMap;
 import java.util.stream.Collectors;
+
+import static java.util.Collections.singletonList;
 
 /**
  * @since 4.5
@@ -155,4 +158,11 @@ public class SuggestedReplacement {
   public static List<SuggestedReplacement> convert(List<String> suggestions) {
     return suggestions.stream().map(SuggestedReplacement::new).collect(Collectors.toList());
   }
+
+  public static List<SuggestedReplacement> topMatch(String word) {
+    SuggestedReplacement sugg = new SuggestedReplacement(word);
+    sugg.setConfidence(SpellingCheckRule.HIGH_CONFIDENCE);
+    return singletonList(sugg);
+  }
+
 }
