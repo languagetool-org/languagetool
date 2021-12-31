@@ -492,6 +492,10 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   }
 
   private List<SuggestedReplacement> calcSpellerSuggestions(String word, boolean fullResults) throws IOException {
+    List<SuggestedReplacement> onlySuggestions = getOnlySuggestions(word);
+    if (!onlySuggestions.isEmpty()) {
+      return onlySuggestions;
+    }
     List<SuggestedReplacement> defaultSuggestions = SuggestedReplacement.convert(speller1.getSuggestionsFromDefaultDicts(word));
     List<SuggestedReplacement> userSuggestions = SuggestedReplacement.convert(speller1.getSuggestionsFromUserDicts(word));
     //System.out.println("speller1: " + suggestions);

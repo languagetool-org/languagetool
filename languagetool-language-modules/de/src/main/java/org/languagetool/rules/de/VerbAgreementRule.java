@@ -72,44 +72,50 @@ public class VerbAgreementRule extends TextLevelRule {
       token("ich")
     ),
     Arrays.asList(
-      tokenRegex("muß|mußten?"), // alte rechtschreibung (andere fehler)
+      tokenRegex("muß|mußten?|müßt?en?"), // alte rechtschreibung (andere fehler)
       tokenRegex("ich|wir|sie|er|es")
     ),
     Arrays.asList(
       token("ich"),
-      token("würd|könnt|werd|wollt|sollt|müsst|fürcht"),
+      tokenRegex("würd|könnt|werd|wollt|sollt|müsst|fürcht"),
       tokenRegex("['’`´‘]")
     ),
     Arrays.asList(
+      tokenRegex("wir|sie"),
+      tokenRegex("seh|steh|geh"),
+      tokenRegex("['’`´‘]"),
+      token("n")
+    ),
+    Arrays.asList(
       token("ick"), // different error (berlinerisch)
-      tokenRegex("bin|war|wär")
-    ),
-    Arrays.asList(
-      token("Du"),
-      tokenRegex("bist|warst|wärst")
-    ),
-    Arrays.asList(
-      token("als"),
-      token("auch"),
-      tokenRegex("er|sie|wir|du|ich|ihr")
-    ),
-    Arrays.asList(
-      tokenRegex("so|wie|zu"),
-      token("lange"),
-      tokenRegex("er|sie|wir|du|ich|ihr")
+      tokenRegex("bin|war|wär|hab|hatte")
     ),
     Arrays.asList(
       // hash tag
       token("#"),
       posRegex("VER.*")
     ),
-    Arrays.asList(
-      // Ich will nicht so wie er enden.
-      new PatternTokenBuilder().tokenRegex("so|genauso|ähnlich").matchInflectedForms().setSkip(2).build(),
-      token("wie"),
-      tokenRegex("er|sie|du|ihr|ich"),
-      posRegex("VER.*")
-    ),
+    // Arrays.asList(
+    //   token("Du"),
+    //   tokenRegex("bist|warst|wärst")
+    // ),
+    // Arrays.asList(
+    //   token("als"),
+    //   token("auch"),
+    //   tokenRegex("er|sie|wir|du|ich|ihr")
+    // ),
+    // Arrays.asList(
+    //   tokenRegex("so|wie|zu"),
+    //   token("lange"),
+    //   tokenRegex("er|sie|wir|du|ich|ihr")
+    // ),
+    // Arrays.asList(
+    //   // Ich will nicht so wie er enden.
+    //   new PatternTokenBuilder().tokenRegex("so|genauso|ähnlich").matchInflectedForms().setSkip(2).build(),
+    //   token("wie"),
+    //   tokenRegex("er|sie|du|ihr|ich"),
+    //   posRegex("VER.*")
+    // ),
     Arrays.asList(
       // "Bekommst sogar eine Sicherheitszulage"
       pos("SENT_START"),
@@ -124,11 +130,11 @@ public class VerbAgreementRule extends TextLevelRule {
       token("auch"),
       token("ich")
     ),
-    Arrays.asList(
+    Arrays.asList( 
       // "Dallun sagte nur, dass er gleich kommen wird und legte wieder auf."
       // "Sie fragte, ob er bereit für die zweite Runde ist."
-      tokenRegex("er|sie|ich|wir|du|es|ihr"),
-      tokenRegex("gleich|bereit|lange|schnelle?")  // ist hier kein Verb
+      token("er"),
+      tokenRegex("gleich|bereit")
     ),
     Arrays.asList(
       // "Bringst nicht einmal so etwas Einfaches zustande!"

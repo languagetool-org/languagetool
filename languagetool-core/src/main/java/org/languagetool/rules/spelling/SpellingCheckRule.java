@@ -261,6 +261,15 @@ public abstract class SpellingCheckRule extends Rule {
   }
 
   /**
+   * Get suggestions that will replace all other suggestions.
+   * Only add suggestions here that you know are spelled correctly,
+   * they will not be checked again before being shown to the user.
+   */
+  protected List<SuggestedReplacement> getOnlySuggestions(String word) {
+    return Collections.emptyList();
+  }
+
+  /**
    * Get additional suggestions added after other suggestions (note the rule may choose to
    * re-order the suggestions anyway).
    */

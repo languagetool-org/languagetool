@@ -115,7 +115,8 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
     "weißt, wie", // vs weist
     "weißt ja, wie", // vs weist
     "weißt, dass", // vs weist
-    "weißt ja, dass" // vs weist
+    "weißt ja, dass", // vs weist
+    "Vorgestern und Gestern" // vs Gesten
   );
 
   public GermanConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {

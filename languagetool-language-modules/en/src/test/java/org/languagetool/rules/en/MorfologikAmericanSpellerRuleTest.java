@@ -379,6 +379,18 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     }
   }
 
+  @Test
+  public void testGetOnlySuggestions() throws IOException {
+    assertThat(rule.getOnlySuggestions("cemetary").size(), is(1));
+    assertThat(rule.getOnlySuggestions("cemetary").get(0).getReplacement(), is("cemetery"));
+    assertThat(rule.getOnlySuggestions("Cemetary").size(), is(1));
+    assertThat(rule.getOnlySuggestions("Cemetary").get(0).getReplacement(), is("Cemetery"));
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("cemetary"));
+    assertThat(matches.length, is(1));
+    assertThat(matches[0].getSuggestedReplacements().size(), is(1));
+    assertThat(matches[0].getSuggestedReplacements().get(0), is("cemetery"));
+  }
+
   private void assertSuggestion(String input, String... expectedSuggestions) throws IOException {
     assertSuggestion(input, rule, lt, expectedSuggestions);
   }

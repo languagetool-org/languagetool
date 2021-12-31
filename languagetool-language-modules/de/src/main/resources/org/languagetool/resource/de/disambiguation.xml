@@ -1599,7 +1599,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             </pattern>
             <disambig action="remove" postag="VER:IMP.+"/>
             <example type="untouched">Schade, dass er immer so leise sprich.</example><!-- literal tagging here is useful for finding this error -->
-            <example type="untouched">Los, komm!</example><!-- literal tagging here is useful for finding this error -->
+            <example type="untouched">Los, komm!</example>
         </rule>
     </rulegroup>
     <rulegroup id="KEIN_IMPERATIV_II" name="Entferne Imperativ von Verkürzungen wie 'ich geh', 'ich lauf'">
@@ -4769,13 +4769,13 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     </rule>
 
     <rule id="PLANTEN_UN_BLOMEN" name="'Planten' kein Verb in 'Planten un Blomen'">
-            <pattern>
-                <marker>
-                    <token>Planten</token>
-                </marker>
-                <token regexp="yes">und?</token>
-                <token regexp="yes">Blomens?</token>
-            </pattern>
+        <pattern>
+            <marker>
+                <token>Planten</token>
+            </marker>
+            <token regexp="yes">und?</token>
+            <token regexp="yes">Blomens?</token>
+        </pattern>
         <disambig action="remove" postag="VER:.+" />
     </rule>
 

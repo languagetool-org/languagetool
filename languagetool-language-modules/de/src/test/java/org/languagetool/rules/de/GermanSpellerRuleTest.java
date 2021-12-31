@@ -58,7 +58,47 @@ public class GermanSpellerRuleTest {
   //
   
   @Test
-  public void filterForLanguage() {
+  @Ignore("accepting words is not active (yet?)")
+  public void testArtig() throws IOException {
+    GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    accept("zigarrenartig", rule);
+    accept("zigarrenartige", rule);
+    accept("zigarrenartiger", rule);
+    accept("zigarrenartiges", rule);
+    accept("zigarrenartigen", rule);
+    accept("zigarrenartigem", rule);
+    accept("handlungsartig", rule);
+    dontAccept("zigarrenartigex", rule);
+    dontAccept("handlungartig", rule);
+    dontAccept("arbeitartig", rule);
+  }
+
+  private void accept(String word, GermanSpellerRule rule) throws IOException {
+    assertTrue(rule.ignoreWord(Collections.singletonList(word), 0));
+  }
+
+  private void dontAccept(String word, GermanSpellerRule rule) throws IOException {
+    assertFalse(rule.ignoreWord(Collections.singletonList(word), 0));
+  }
+
+  @Test
+  public void testGetOnlySuggestions() throws IOException {
+    GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    assertThat(rule.getOnlySuggestions("autentisch").size(), is(1));
+    assertThat(rule.getOnlySuggestions("autentisch").get(0).getReplacement(), is("authentisch"));
+    assertThat(rule.getOnlySuggestions("autentischeres").size(), is(1));
+    assertThat(rule.getOnlySuggestions("autentischeres").get(0).getReplacement(), is("authentischeres"));
+    assertThat(rule.getOnlySuggestions("Autentischere").size(), is(1));
+    assertThat(rule.getOnlySuggestions("Autentischere").get(0).getReplacement(), is("Authentischere"));
+    JLanguageTool lt = new JLanguageTool(GERMAN_DE);
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("Eine autentische Sache."));
+    assertThat(matches.length, is(1));
+    assertThat(matches[0].getSuggestedReplacements().size(), is(1));
+    assertThat(matches[0].getSuggestedReplacements().get(0), is("authentische"));
+  }
+
+  @Test
+  public void testFilterForLanguage() {
     GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     List<String> list1 = new ArrayList<>(Arrays.asList("Mafiosi s", "foo"));
     rule.filterForLanguage(list1);

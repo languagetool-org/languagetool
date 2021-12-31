@@ -1001,7 +1001,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token min="0" regexp="yes">doch|ja|total|wieder|ziemlich|absolut|eigentlich|nun|eh|auch|sowieso|aber|gerade|grad|schon|quasi|nicht|völlig</token>
                     <token min="0" regexp="yes">doch|ja|total|wieder|ziemlich|absolut|eigentlich|nun|eh|auch|sowieso|aber|gerade|grad|schon|quasi|nicht|völlig</token>
                     <marker>
-                        <token case_sensitive="yes" regexp="yes">Wurst|[Ww]urscht</token>
+                        <token case_sensitive="yes" regexp="yes">Wurst|Wurscht</token>
                     </marker>
                 </pattern>
                 <message>In der Redewendung "Das ist mir wurst" wird <suggestion><match no="6" case_conversion="alllower" regexp_match="ch" regexp_replace="" /></suggestion> kleingeschrieben.</message>
@@ -1016,7 +1016,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token min="0" regexp="yes">doch|ja|total|wieder|ziemlich|absolut|eigentlich|nun|eh|auch|sowieso|aber|gerade|grad|schon|quasi|nicht|völlig</token>
                     <token min="0" regexp="yes">doch|ja|total|wieder|ziemlich|absolut|eigentlich|nun|eh|auch|sowieso|aber|gerade|grad|schon|quasi|nicht|völlig</token>
                     <marker>
-                        <token case_sensitive="yes" regexp="yes">Wurst|[Ww]urscht</token>
+                        <token case_sensitive="yes" regexp="yes">Wurst|Wurscht</token>
                     </marker>
                 </pattern>
                 <message>In der Redewendung "Das ist mir wurst" wird <suggestion><match no="6" case_conversion="alllower" regexp_match="ch" regexp_replace="" /></suggestion> kleingeschrieben.</message>
@@ -1030,11 +1030,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token min="0" regexp="yes">doch|ja|total|wieder|ziemlich|absolut|eigentlich|nun|eh|auch|sowieso|aber|gerade|grad|schon|quasi|nicht|völlig</token>
                     <token min="0" regexp="yes">doch|ja|total|wieder|ziemlich|absolut|eigentlich|nun|eh|auch|sowieso|aber|gerade|grad|schon|quasi|nicht|völlig</token>
                     <marker>
-                        <token case_sensitive="yes" regexp="yes">Wurst|[Ww]urscht</token>
+                        <token case_sensitive="yes" regexp="yes">Wurst|Wurscht</token>
                     </marker>
                 </pattern>
                 <message>In der Redewendung "Das ist mir wurst" wird <suggestion><match no="6" case_conversion="alllower" regexp_match="ch" regexp_replace="" /></suggestion> kleingeschrieben.</message>
                 <example correction="wurst">Von daher ist das alles eh <marker>Wurst</marker>.</example>
+                <example correction="wurst">Von daher ist das alles eh <marker>Wurscht</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AUS_DEM_EFFEFF" name="Redewendung: aus dem Effeff">
@@ -1668,7 +1669,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token postag="VER:[123]:.*" postag_regexp="yes">
                         <exception postag="VER:.*" postag_regexp="yes" negate_pos="yes"/>
-                        <exception regexp="yes">regen|prallen|siebten|achten|web|wachen|trauten|ehelichen|Schweiße|Schweisse|stumpfen|.+bändigen|.+orientiert.*|.+vergleich|durchschnitt|stockdunkeln|leben|sitzen|garten|.*lauf|weg|dunkeln|dunklen|hellen|wegstehen|.+gebiet|Skype</exception>
+                        <exception regexp="yes">regen|prallen|siebten|achten|web|wachen|trauten|ehelichen|Schweiße|Schweisse|stumpfen|.+bändigen|.+orientiert.*|.+vergleich|durchschnitt|stockdunkeln|leben|sitzen|garten|.*lauf|.+blick|weg|dunkeln|dunklen|hellen|wegstehen|.+gebiet|Skype</exception>
                     </token>
                 </pattern>
                 <message>Möglicher Tippfehler: Meinten Sie <suggestion>ihm</suggestion>?</message>
@@ -6104,6 +6105,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Verwechslungen -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
+        <rule id="ZU_SO" name="zu (so) lange" default="temp_off">
+            <pattern>
+                <token postag="KON.*|SENT_START|PKT" postag_regexp="yes" />
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">[Zz]u</token>
+                </marker>
+                <token regexp="yes" case_sensitive="yes">weit|lange?</token>
+                <token regexp="yes" case_sensitive="yes">der|die|das|er|wir|[Dd]u|[Ss]ie|ich|keine[sr]?|[Ii]hr|[mdk]?eine?|sich|man|diese[sr]?|eure|unse?re</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>so</suggestion>?</message>
+            <example correction="So"><marker>Zu</marker> lange sich keiner beschwert, macht uns das nichts aus.</example>
+        </rule>
         <rule id="AM_EIGENEN_LAIB" name="am eigenen Laib (Leib)">
             <pattern>
                 <token>am</token>
@@ -8053,12 +8066,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <marker><token>Sei</token></marker>
                 <token postag="VER.*[1-3]:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöüß]+
-                    <exception postag="ADV.*|.*PA[12].*|ART:IND:.+" postag_regexp="yes"/>
+                    <exception postag="ADV.*|.*PA[12].*|ART:IND:.+|ADJ.*" postag_regexp="yes"/>
+                    <exception regexp="yes">bereit|lieb</exception>
                 </token>
             </pattern>
             <message>Meinten Sie <suggestion>Sie</suggestion>?</message>
             <example correction="Sie"><marker>Sei</marker> ließ sich scheiden.</example>
             <example>Sei bitte ruhig!</example>
+            <example>Sei bereit!</example>
+            <example>Sei lieb!</example>
         </rule>
         <rulegroup id="WAISE_WEISE" name="Waise/Weise/Wiese">
             <url>https://languagetool.org/insights/de/beitrag/ai-vs-ei/</url>
@@ -21875,6 +21891,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>sein</token>
                 <token postag="UNKNOWN|SUB.*|ADJ.*" postag_regexp="yes" />
             </antipattern>
+            <antipattern><!-- missing comma cases -->
+                <token inflected="yes" skip="-1">brauchen</token>
+                <token case_sensitive="yes" regexp="yes" skip="-1">wenn|bis|weil|bevor|damit|ehe|ohne|als|während</token>
+                <token postag="VER:INF:.*" postag_regexp="yes" />
+            </antipattern>
             <pattern>
                 <token inflected="yes" skip="-1">brauchen
                   <exception>gebraucht</exception>
@@ -21901,6 +21922,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Du warst nicht da, als sie dich am meisten gebraucht haben.</example>
             <example>Dafür braucht man sieben Farben.</example>
             <example>Ich brauche in dem Script kein automatisches anlegen von Domains.</example>
+            <example>… all so ein müll den keiner braucht wenn er einfach nur sein Fahrzeug anmelden möchte.</example>
         </rule>
         <rulegroup id="WEGEN_DIR" name="'wegen dir (deinetwegen)' etc.">
             <rule>
@@ -24491,7 +24513,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
-        <rulegroup id="AM_NOETIGSTEN" name="am nötigsten (Nötigsten)" default="temp_off">
+        <rulegroup id="AM_NOETIGSTEN" name="am nötigsten (Nötigsten)">
             <url>https://www.lernnetz24.de/regeln/0453.html</url>
             <rule>
                 <antipattern case_sensitive="yes">
@@ -25426,7 +25448,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <pattern>
                 <token case_sensitive="yes" regexp="yes">[Ii]m</token>
-                <token regexp="yes" case_sensitive="yes">sitzen|singen|vertrauen|garten|nachhinein|stehen|leben|web|abstand|wohlwollen|vorstand|sterben|(durch)?schnitt|sinne?|kopf|unterschied|herzen|laufe?|liegen|betrieb|einklang|reisen|griff|vorbei(gehen|laufen|rennen|fahren)|falle|(tief)?schlaf|vergleich|verlaufe?|beruf|rahmen|fernsehen|wochenende|streit|ende|kreise|bilde|laden</token>
+                <token regexp="yes" case_sensitive="yes">sitzen|singen|vertrauen|garten|nachhinein|stehen|leben|web|abstand|wohlwollen|vorstand|sterben|(durch)?schnitt|sinne?|kopf|unterschied|herzen|laufe?|liegen|betrieb|einklang|reisen|griff|vorbei(gehen|laufen|rennen|fahren)|falle|(tief)?schlaf|vergleich|verlaufe?|beruf|rahmen|fernsehen|wochenende|streit|ende|kreise|bilde|laden|(augen)?blick</token>
             </pattern>
             <message>Bitte prüfen Sie die Groß- und Kleinschreibung.</message>
             <suggestion>\1 <match no="2" case_conversion="startupper" /></suggestion>
@@ -44403,7 +44425,7 @@ Andere Projekte</example>
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
-        <rulegroup id="HAST_DICH" name="hast (du) dich" default="temp_off">
+        <rulegroup id="HAST_DICH" name="hast (du) dich">
             <antipattern>
                 <token skip="-1">du</token>
                 <token>dich</token>
@@ -44432,7 +44454,7 @@ Andere Projekte</example>
                 <example correction="Du hast dich"><marker>Hast dich</marker> lange nicht mehr gemeldet.</example>
             </rule>
         </rulegroup>
-        <rule id="HAT_DU" name="ha(s)t du" default="temp_off">
+        <rule id="HAT_DU" name="ha(s)t du">
             <antipattern>
                 <token regexp="yes">.*[a-z].*</token>
                 <token case_sensitive="yes">Hat</token>
@@ -44446,32 +44468,34 @@ Andere Projekte</example>
             <message>Die korrekte Verbform hier scheint <suggestion>hast</suggestion> zu sein.</message>
             <example correction="Hast"><marker>Hat</marker> du Zeit für mich?</example>
         </rule>
-        <rule id="ICH_KOENNT" name="ich könnt(e)" default="temp_off">
-            <antipattern>
-                <token>ich</token>
-                <token />
-                <token spacebefore="no" regexp="yes">&apostrophe;</token>
-            </antipattern>
-            <pattern>
-                <token>ich</token>
-                <marker>
-                    <token regexp="yes" case_sensitive="yes">könnt|müsst|[sw]ollt|würd|dacht|fürcht|befürcht</token>
-                </marker>
-            </pattern>
-            <message>Die korrekte Verbform scheint hier <suggestion>\2e</suggestion> zu sein.</message>
-            <example correction="würde">Ich <marker>würd</marker> das anders machen.</example>
-        </rule>
-        <rule id="KOENNT_ICH" name="könnt(e) ich" default="temp_off">
-            <pattern>
-                <marker>
-                    <token regexp="yes" case_sensitive="yes">[Kk]önnt|[Mm]üsst|[SsWw]ollt|[Ww]ürd|[Dd]acht|[Ff]ürcht|[Bb]efürcht</token>
-                </marker>
-                <token>ich</token>
-            </pattern>
-            <message>Die korrekte Verbform scheint hier <suggestion>\1e</suggestion> zu sein.</message>
-            <example correction="würde">Das <marker>würd</marker> ich anders machen.</example>
-        </rule>
-        <rule id="AM_NÄHESTEN" name="am nähesten (nächsten)" default="temp_off">
+        <rulegroup id="ICH_KOENNT" name="ich könnt(e)">
+            <rule>
+                <antipattern>
+                    <token>ich</token>
+                    <token />
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
+                </antipattern>
+                <pattern>
+                    <token>ich</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">könnt|müsst|[sw]ollt|würd|dacht|fürcht|befürcht</token>
+                    </marker>
+                </pattern>
+                <message>Die korrekte Verbform scheint hier <suggestion>\2e</suggestion> zu sein.</message>
+                <example correction="würde">Ich <marker>würd</marker> das anders machen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[Kk]önnt|[Mm]üsst|[SsWw]ollt|[Ww]ürd|[Dd]acht|[Ff]ürcht|[Bb]efürcht</token>
+                    </marker>
+                    <token>ich</token>
+                </pattern>
+                <message>Die korrekte Verbform scheint hier <suggestion>\1e</suggestion> zu sein.</message>
+                <example correction="würde">Das <marker>würd</marker> ich anders machen.</example>
+            </rule>
+        </rulegroup>
+        <rule id="AM_NÄHESTEN" name="am nähesten (nächsten)">
             <pattern>
                 <token regexp="yes">am|zum</token>
                 <token regexp="yes">nähe?sten</token>
@@ -47939,15 +47963,14 @@ Andere Projekte</example>
                         <token postag_regexp="yes" postag="VER:.+" regexp="yes" case_sensitive="yes">
                             [a-zöäüß]+
                             <exception postag="VER:PA[12].*" postag_regexp="yes"/>
-                            <exception postag="(PRP|VER:INF:|PA[12]:|VER:EIZ:.*).*" postag_regexp="yes"/>
+                            <exception postag="(PRP|VER:INF:|PA[12]:|VER:PA[12]:|VER:EIZ:).*" postag_regexp="yes"/>
                             <exception postag="ADJ:.*" postag_regexp="yes"/>
                             <exception postag="ADV:MOD.*" postag_regexp="yes"/>
                             <exception regexp="yes">los|eine?|trotz|siebte|achte|sog|mein|meine|äußerst|äusserst|gewesen|einst|lichte|bitte|samt</exception>
                         </token>
                     </marker>
                 </pattern>
-                <message>Möglicherweise muss hier die Grundform des Verbs benutzt werden.</message>
-                <suggestion><match no="5" postag="VER:INF:.*" postag_regexp="yes"/></suggestion>
+                <message suppress_misspelled="yes">Möglicherweise muss hier die Grundform des Verbs benutzt werden: <suggestion><match no="5" postag="VER:INF:.*" postag_regexp="yes"/></suggestion></message>
                 <example correction="kaufen">Ich will ein Auto <marker>kaufe</marker>.</example>
                 <example correction="kaufen">Ich werde ein Auto <marker>kaufe</marker>.</example>
                 <example correction="kaufen">Ich will ein kleines Auto <marker>kaufe</marker>.</example>
@@ -47971,17 +47994,21 @@ Andere Projekte</example>
                     <token postag_regexp="yes" postag="VER:.*"/>
                     <token postag_regexp="yes" postag="VER:(AUX|MOD):.+"/>
                 </antipattern>
+                <antipattern><!-- das seh ich auch so -->
+                    <token postag="VER:1:SIN:PRÄ.*" postag_regexp="yes" />
+                    <token>ich</token>
+                </antipattern>
                 <pattern>
                     <token postag_regexp="yes" postag="VER:(MOD|AUX):[13]:SIN:.*"/>
                     <token postag_regexp="yes" postag="ART:.*" />
                     <marker>
                         <token postag_regexp="yes" postag="VER:.*">
-                            <exception postag="(VER:INF:|PA[12]:).*" postag_regexp="yes"/>
+                            <exception postag="(VER:INF:|PA[12]:).*|VER:PA[12].*|VER:EIZ.*" postag_regexp="yes"/>
                             <exception postag="ADJ:.*" postag_regexp="yes"/>
                             <exception postag="ADV:MOD.*" postag_regexp="yes"/>
                             <exception postag="VER:MOD:.+" postag_regexp="yes" />
                             <exception regexp="yes" case_sensitive="yes">[A-ZÄÖÜß].+</exception>
-                            <exception regexp="yes">los|eine?|trotz|siebte|achte|sog|mein|meine|äußerst|äusserst|gewesen|einst|lichte|bitte|staufische|eindruck</exception>
+                            <exception regexp="yes">los|eine?|trotz|siebte|null.*|achte|sog|mein|meine|äußerst|äusserst|gewesen|einst|lichte|bitte|staufische|eindruck</exception>
                         </token>
                     </marker>
                 </pattern>
@@ -47992,6 +48019,9 @@ Andere Projekte</example>
                 <example>Wieso soll das bitte frauenfeindlich sein?</example>
                 <example>Er sollte das können.</example>
                 <example>Wo ist das produziert worden?</example>
+                <example>Wer hat das kaputtgemacht?</example>
+                <example>In einer späteren Meldung wurde das korrigiert.</example>
+                <example>Natürlich ist das nachzuprüfen.</example>
                 <example>Aber bisher ist das mein Ersteindruck, der sich sehr schnell ändern kann.</example>
             </rule>
         </rulegroup>
@@ -52687,34 +52717,6 @@ Andere Projekte</example>
                 <example>Das Schweigen der anderen werte ich ebenfalls als Zustimmung.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="AM_NOETIGSTEN_FEHLEN" name="'am nötigsten (Nötigsten) fehlen'">
-            <rule>
-                <pattern>
-                    <token>am</token>
-                    <marker>
-                        <token case_sensitive="yes">nötigsten</token>
-                    </marker>
-                    <token inflected="yes">fehlen</token>
-                </pattern>
-                <message>Schreiben Sie dieses als Nomen gebrauchte Adjektiv groß.</message>
-                <suggestion>Nötigsten</suggestion>
-                <short>&prgk;.</short>
-                <example correction="Nötigsten">Es hat ihr am <marker>nötigsten</marker> gefehlt.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token inflected="yes" skip="3">fehlen</token>
-                    <token>am</token>
-                    <marker>
-                        <token case_sensitive="yes">nötigsten</token>
-                    </marker>
-                </pattern>
-                <message>Schreiben Sie dieses als Nomen gebrauchte Adjektiv groß.</message>
-                <suggestion>Nötigsten</suggestion>
-                <short>&prgk;.</short>
-                <example correction="Nötigsten">Es fehlte ihr am <marker>nötigsten</marker>.</example>
-            </rule>
-        </rulegroup>
         <rulegroup id="ALLES_MOEGLICHE" name="'alles mögliche (Mögliche)'">
             <url>https://www.korrekturen.de/wortliste/alles_moegliche.shtml</url>
             <rule>
@@ -56892,7 +56894,7 @@ Andere Projekte</example>
                 </antipattern>
                 <antipattern>
                     <token>.</token>
-                    <token regexp="yes" spacebefore="no">&sometlds;|jpe?g|gif|png|mp4|mpg|avi|exe|dmg|html|php|js</token>
+                    <token regexp="yes" spacebefore="no">&sometlds;|jpe?g|gif|png|mp4|mpg|avi|exe|dmg|html|php|js|docx?|xlsx?|pptx?</token>
                 </antipattern>
                 <pattern>
                     <marker>

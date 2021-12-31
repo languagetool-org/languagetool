@@ -156,7 +156,12 @@ public class CaseRuleTest {
     assertGood("Assistenzsysteme warnen rechtzeitig vor Gefahren.");
     assertGood("Jeremy Schulte rannte um sein Leben.");
     assertGood("Er arbeitet im Bereich Präsidiales.");
+    assertGood("Er spricht Sunnitisch & Schiitisch.");
     assertGood("Er sagte, Geradliniges und Krummliniges sei unvergleichbar.");
+    assertGood("Dort erfahren sie Kurioses und Erstaunliches zum Zusammenspiel von Mensch und Natur.");
+    assertGood("Dabei unterscheidet die Shareware zwischen Privatem und Dienstlichem bei Fahrten ebenso wie bei Autos.");
+    assertGood("Besucher erwartet Handegefertigtes, Leckeres und Informatives rund um den Hund.");
+    assertGood("Der Unterschied zwischen Vorstellbarem und Machbarem war niemals geringer.");
     assertGood("Das war Fiete Lang.");
     assertGood("Wenn du an das glaubst, was du tust, kannst du Großes erreichen.");
     assertGood("Dann hat er Großes erreicht.");
@@ -219,6 +224,9 @@ public class CaseRuleTest {
     assertBad("Er sagte, Geradliniges und krummliniges sei unvergleichbar.");
     assertBad("Er sagte, ein Geradliniges und Krummliniges Konzept ist nicht tragbar.");
     assertBad("Ä Was?");
+    assertBad("… die preiswerte Variante unserer Topseller im Bereich Alternativ Mehle.");
+    assertBad("…  jahrzehntelangen Mitstreitern und vielen Freunden aus Nah und Fern.");
+    assertBad("Hi und Herzlich willkommen auf meiner Seite.");
     //assertBad("Ich gehe gerne Joggen.");
     assertBad("Er ist Groß.");
     assertBad("Die Zahl ging auf Über 1.000 zurück.");

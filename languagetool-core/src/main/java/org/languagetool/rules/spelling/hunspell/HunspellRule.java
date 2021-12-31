@@ -332,6 +332,10 @@ public class HunspellRule extends SpellingCheckRule {
   }
 
   private List<SuggestedReplacement> calcSuggestions(String word, String cleanWord) throws IOException {
+    List<SuggestedReplacement> onlySuggestions = getOnlySuggestions(cleanWord);
+    if (!onlySuggestions.isEmpty()) {
+      return onlySuggestions;
+    }
     List<SuggestedReplacement> suggestions = SuggestedReplacement.convert(getSuggestions(cleanWord));
     if (word.endsWith(".")) {
       int pos = 1;
