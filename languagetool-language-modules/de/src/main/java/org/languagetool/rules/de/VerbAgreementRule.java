@@ -249,7 +249,7 @@ public class VerbAgreementRule extends TextLevelRule {
     Arrays.asList(
       pos("VER:IMP:SIN:SFT"),  // "Kümmere du dich mal nicht darum!"
       token("du"),
-      token("dich")
+      tokenRegex("dich|dein|deine[srnm]?")
     ),
     Arrays.asList(
       token("sei"),
