@@ -18,7 +18,6 @@
  */
 package org.languagetool.rules.de;
 
-import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
@@ -138,10 +137,10 @@ public class VerbAgreementRuleTest {
     assertGood("Bekommst sogar eine Sicherheitszulage");
     assertGood("Dallun sagte nur, dass er gleich kommen wird und legte wieder auf.");
     assertGood("Tinne, Elvis und auch ich werden gerne wiederkommen!");
-    // TODO:
-    // assertGood("Die Frage lautet: Bist du bereit zu helfen?");
-    // assertGood("Ich will nicht so wie er enden.");
-    // assertGood("Das heißt, wir geben einander oft nach als gute Freunde, ob wir gleich nicht einer Meinung sind.");
+    assertGood("Du bist Lehrer und weißt diese Dinge nicht?");
+    assertGood("Die Frage lautet: Bist du bereit zu helfen?");
+    assertGood("Ich will nicht so wie er enden.");
+    assertGood("Das heißt, wir geben einander oft nach als gute Freunde, ob wir gleich nicht einer Meinung sind.");
     assertGood("Wir seh'n uns in Berlin.");
     assertGood("Bist du bereit, darüber zu sprechen?");
     assertGood("Bist du schnell eingeschlafen?");
@@ -255,7 +254,7 @@ public class VerbAgreementRuleTest {
     assertGood("Ja sind ab morgen dabei.");
     assertGood("Oh bin überfragt.");
     // TODO: assertBad("Er fragte irritiert: „Darf ich fragen, die an dich gerichtet werden, beantworten?“");
-//     assertGood("Angenommen, du wärst ich."); TODO
+    assertGood("Angenommen, du wärst ich.");
     assertGood("Ich denke, dass das Haus, in das er gehen will, heute Morgen gestrichen worden ist.");
     // incorrect sentences:
     assertBad("Auch morgen leben du.");

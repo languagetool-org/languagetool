@@ -95,27 +95,27 @@ public class VerbAgreementRule extends TextLevelRule {
       token("#"),
       posRegex("VER.*")
     ),
-    // Arrays.asList(
-    //   token("Du"),
-    //   tokenRegex("bist|warst|wärst")
-    // ),
-    // Arrays.asList(
-    //   token("als"),
-    //   token("auch"),
-    //   tokenRegex("er|sie|wir|du|ich|ihr")
-    // ),
-    // Arrays.asList(
-    //   tokenRegex("so|wie|zu"),
-    //   token("lange"),
-    //   tokenRegex("er|sie|wir|du|ich|ihr")
-    // ),
-    // Arrays.asList(
-    //   // Ich will nicht so wie er enden.
-    //   new PatternTokenBuilder().tokenRegex("so|genauso|ähnlich").matchInflectedForms().setSkip(2).build(),
-    //   token("wie"),
-    //   tokenRegex("er|sie|du|ihr|ich"),
-    //   posRegex("VER.*")
-    // ),
+     Arrays.asList(
+       token("Du"),
+       tokenRegex("bist|warst|wärst")
+     ),
+     Arrays.asList(
+       token("als"),
+       token("auch"),
+       tokenRegex("er|sie|wir|du|ich|ihr")
+     ),
+     Arrays.asList(
+       tokenRegex("so|wie|zu"),
+       token("lange"),
+       tokenRegex("er|sie|wir|du|ich|ihr")
+     ),
+     Arrays.asList(
+       // Ich will nicht so wie er enden.
+       new PatternTokenBuilder().tokenRegex("so|genauso|ähnlich").matchInflectedForms().setSkip(2).build(),
+       token("wie"),
+       tokenRegex("er|sie|du|ihr|ich"),
+       posRegex("VER.*")
+     ),
     Arrays.asList(
       // "Bekommst sogar eine Sicherheitszulage"
       pos("SENT_START"),
@@ -133,8 +133,15 @@ public class VerbAgreementRule extends TextLevelRule {
     Arrays.asList( 
       // "Dallun sagte nur, dass er gleich kommen wird und legte wieder auf."
       // "Sie fragte, ob er bereit für die zweite Runde ist."
-      token("er"),
-      tokenRegex("gleich|bereit")
+      posRegex("VER.*"),  // z.B. "Bist"
+      tokenRegex("er|sie|ich|wir|du|es|ihr"),
+      tokenRegex("gleich|bereit|lange|schnelle?")  // ist hier kein Verb
+    ),
+    Arrays.asList(
+      // "Dallun sagte nur, dass er gleich kommen wird und legte wieder auf."
+      posRegex("ADV.*|KON.*"),
+      tokenRegex("er|sie|ich|wir|du|es|ihr"),
+      tokenRegex("gleich|bereit|lange|schnelle?")  // ist hier kein Verb
     ),
     Arrays.asList(
       // "Bringst nicht einmal so etwas Einfaches zustande!"
@@ -419,10 +426,6 @@ public class VerbAgreementRule extends TextLevelRule {
     
     for (int i = 1; i < tokens.length; ++i) { // ignore SENT_START
 
-      if (tokens[i].isImmunized()) {
-        continue;
-      }
-
       String strToken = tokens[i].getToken().toLowerCase();
       strToken = strToken.replace("‚", "");
 
@@ -479,7 +482,9 @@ public class VerbAgreementRule extends TextLevelRule {
     // "ich", "du", "er", and "wir" must have a matching verb
 
     if (posVer1Sin != -1 && posIch == -1 && !isQuotationMark(tokens[posVer1Sin-1])) { // 1st pers sg verb but no "ich"
-      ruleMatches.add(ruleMatchWrongVerb(tokens[posVer1Sin], pos, sentence));
+      if (!tokens[posVer1Sin].isImmunized()) {
+        ruleMatches.add(ruleMatchWrongVerb(tokens[posVer1Sin], pos, sentence));
+      }
     } else if (posIch > 0 && !isNear(posPossibleVer1Sin, posIch) // check whether verb next to "ich" is 1st pers sg
                && (tokens[posIch].getToken().equals("ich") || tokens[posIch].getStartPos() <= 1 ||
                    (tokens[posIch].getToken().equals("Ich") && posIch >= 2 && tokens[posIch-2].getToken().equals(":")) ||
@@ -488,12 +493,16 @@ public class VerbAgreementRule extends TextLevelRule {
       int plus1 = ((posIch + 1) == tokens.length) ? 0 : +1; // prevent posIch+1 segfault
       BooleanAndFiniteVerb check = verbDoesMatchPersonAndNumber(tokens[posIch - 1], tokens[posIch + plus1], "1", "SIN", finiteVerb);
       if (!check.verbDoesMatchPersonAndNumber && !nextButOneIsModal(tokens, posIch) && !"äußerst".equals(check.finiteVerb.getToken())) {
-        ruleMatches.add(ruleMatchWrongVerbSubject(tokens[posIch], check.finiteVerb, "1:SIN", pos, sentence));
+        if (!tokens[posIch].isImmunized()) {
+          ruleMatches.add(ruleMatchWrongVerbSubject(tokens[posIch], check.finiteVerb, "1:SIN", pos, sentence));
+        }
       }
     }
     
     if (posVer2Sin != -1 && posDu == -1 && !isQuotationMark(tokens[posVer2Sin-1])) {
-      ruleMatches.add(ruleMatchWrongVerb(tokens[posVer2Sin], pos, sentence));
+      if (!tokens[posVer2Sin].isImmunized()) {
+        ruleMatches.add(ruleMatchWrongVerb(tokens[posVer2Sin], pos, sentence));
+      }
     } else if (posDu > 0 && !isNear(posPossibleVer2Sin, posDu)
                &&(!isQuotationMark(tokens[posDu-1]) || posDu < 3 || (posDu > 1 && tokens[posDu-2].getToken().equals(":")))) {
       int plus1 = ((posDu + 1) == tokens.length) ? 0 : +1;
@@ -502,7 +511,9 @@ public class VerbAgreementRule extends TextLevelRule {
           !tokens[posDu+plus1].hasPosTagStartingWith("VER:1:SIN:KJ2") && // "Wenn ich du wäre"
           !(tokens[posDu+plus1].hasPosTagStartingWith("ADJ:") && !tokens[posDu+plus1].hasPosTag("ADJ:PRD:GRU"))&& // "dass du billige Klamotten..."
           !tokens[posDu-1].hasPosTagStartingWith("VER:1:SIN:KJ2") &&
-          !nextButOneIsModal(tokens, posDu)) {
+          !nextButOneIsModal(tokens, posDu) &&
+          !tokens[posDu].isImmunized()
+      ) {
         ruleMatches.add(ruleMatchWrongVerbSubject(tokens[posDu], check.finiteVerb, "2:SIN", pos, sentence));
       }
     }
@@ -514,17 +525,21 @@ public class VerbAgreementRule extends TextLevelRule {
       if (!check.verbDoesMatchPersonAndNumber 
               && !nextButOneIsModal(tokens, posEr)
               && !"äußerst".equals(check.finiteVerb.getToken())
-              && !"regen".equals(check.finiteVerb.getToken())) {  // "wo er regen Anteil nahm"
+              && !"regen".equals(check.finiteVerb.getToken())  // "wo er regen Anteil nahm"
+              && !tokens[posEr].isImmunized()
+          ) {
         ruleMatches.add(ruleMatchWrongVerbSubject(tokens[posEr], check.finiteVerb, "3:SIN", pos, sentence));
       }
     }
     
     if (posVer1Plu != -1 && posWir == -1 && !isQuotationMark(tokens[posVer1Plu-1])) {
-      ruleMatches.add(ruleMatchWrongVerb(tokens[posVer1Plu], pos, sentence));
+      if (!tokens[posVer1Plu].isImmunized()) {
+        ruleMatches.add(ruleMatchWrongVerb(tokens[posVer1Plu], pos, sentence));
+      }
     } else if (posWir > 0 && !isNear(posPossibleVer1Plu, posWir) && !isQuotationMark(tokens[posWir-1])) {
       int plus1 = ((posWir + 1) == tokens.length) ? 0 : +1;
       BooleanAndFiniteVerb check = verbDoesMatchPersonAndNumber(tokens[posWir - 1], tokens[posWir + plus1], "1", "PLU", finiteVerb);
-      if (!check.verbDoesMatchPersonAndNumber && !nextButOneIsModal(tokens, posWir)) {
+      if (!check.verbDoesMatchPersonAndNumber && !nextButOneIsModal(tokens, posWir) && !tokens[posWir].isImmunized()) {
         ruleMatches.add(ruleMatchWrongVerbSubject(tokens[posWir], check.finiteVerb, "1:PLU", pos, sentence));
       }
     }
