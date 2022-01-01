@@ -67,6 +67,9 @@ public class VerbAgreementRule extends TextLevelRule {
       token("ich")
     ),
     Arrays.asList(
+      token("vermittelst")  // "Sie befestigen die Regalbretter vermittelst dreier Schrauben."
+    ),
+    Arrays.asList(
       token("du"),
       token("denkst"),
       token("ich")

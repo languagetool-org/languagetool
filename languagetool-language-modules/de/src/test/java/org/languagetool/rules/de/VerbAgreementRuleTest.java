@@ -160,6 +160,7 @@ public class VerbAgreementRuleTest {
     assertGood("Egal wie lange du versuchst, die Leute davon zu überzeugen");
     assertGood("Du bist verheiratet und hast zwei Kinder.");
     assertGood("Du bist aus Berlin und wohnst in Bonn.");
+    assertGood("Sie befestigen die Regalbretter vermittelst dreier Schrauben.");
     // incorrect sentences:
     assertBad("Als Borcarbid weißt es eine hohe Härte auf.");
     assertBad("Das greift auf Vorläuferinstitutionen bist auf die Zeit von 1234 zurück.");
