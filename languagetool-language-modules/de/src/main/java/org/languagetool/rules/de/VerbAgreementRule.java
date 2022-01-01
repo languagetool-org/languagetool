@@ -19,6 +19,7 @@
 package org.languagetool.rules.de;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.similarity.LevenshteinDistance;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
@@ -662,7 +663,6 @@ public class VerbAgreementRule extends TextLevelRule {
           suggestions.set(i, StringTools.uppercaseFirstChar(suggestions.get(i)));
         }
       }
-      Collections.sort(suggestions);
       return suggestions;
     } catch (IOException e) {
       throw new RuntimeException(e);
@@ -730,6 +730,8 @@ public class VerbAgreementRule extends TextLevelRule {
       for (String pronounSuggestion : pronounSuggestions) {
         suggestions.add(pronounSuggestion + " " + verb.getToken());
       }
+      String markedText = sentence.getText().substring(subject.getStartPos(), verb.getStartPos()+verb.getToken().length());
+      sortBySimilarity(suggestions, markedText);
       ruleMatch.setSuggestedReplacements(suggestions);
     } else {
       ruleMatch = new RuleMatch(this, sentence, pos+verb.getStartPos(), pos+subject.getStartPos()+subject.getToken().length(), msg);
@@ -741,12 +743,22 @@ public class VerbAgreementRule extends TextLevelRule {
       for (String pronounSuggestion : pronounSuggestions) {
         suggestions.add(verb.getToken() + " " + pronounSuggestion);
       }
+      String markedText = sentence.getText().substring(verb.getStartPos(), subject.getStartPos()+subject.getToken().length());
+      sortBySimilarity(suggestions, markedText);
       ruleMatch.setSuggestedReplacements(suggestions);
     }
     
     return ruleMatch;
   }
-  
+
+  private void sortBySimilarity(List<String> suggestions, String markedText) {
+    suggestions.sort((o1, o2) -> {
+      int diff1 = LevenshteinDistance.getDefaultInstance().apply(markedText, o1);
+      int diff2 = LevenshteinDistance.getDefaultInstance().apply(markedText, o2);
+      return diff1 - diff2;
+    });
+  }
+
   static class BooleanAndFiniteVerb {
     boolean verbDoesMatchPersonAndNumber;
     AnalyzedTokenReadings finiteVerb;

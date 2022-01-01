@@ -51,6 +51,14 @@ public class VerbAgreementRuleTest {
   }
 
   @Test
+  public void testSuggestionSorting() throws IOException {
+    RuleMatch[] match1 = rule.match(lt.analyzeText("Wir nenne ihn mal „wild“."));
+    assertThat(match1.length, is(1));
+    assertThat(match1[0].getSuggestedReplacements().toString(),
+      is("[Wir nennen, Wir nennten, Er nenne, Sie nenne, Wir nannten, Ich nenne, Es nenne]"));
+  }
+
+  @Test
   public void testPositions() throws IOException {
     RuleMatch[] match1 = rule.match(lt.analyzeText("Du erreichst ich unter 12345"));
     assertThat(match1.length, is(1));
@@ -267,7 +275,7 @@ public class VerbAgreementRuleTest {
     assertBad("Auch morgen lebte wir noch.");
     assertBad("Du bin nett.", 2); // TODO 2 errors
     assertBad("Du können heute leider nicht kommen.");
-    assertBad("Du können heute leider nicht kommen.", "Du kannst", "Du konntest", "Du könnest", "Du könntest", "Wir können", "Sie können");
+    assertBad("Du können heute leider nicht kommen.", "Du könnest", "Du kannst", "Du könntest", "Wir können", "Sie können", "Du konntest");
     assertBad("Du leben.");
     assertBad("Du wünscht dir so viel.");
     assertBad("Er bin nett.", 2);
@@ -278,15 +286,15 @@ public class VerbAgreementRuleTest {
 //     assertBad("Ich geht jetzt nach Hause und dort gehe ich sofort unter die Dusche."); TODO
     assertBad("Ich kannst heute leider nicht kommen.", 2);
     assertBad("Ich leben.");
-    assertBad("Ich leben.", "Ich leb", "Ich lebe", "Ich lebte", "Wir leben", "Sie leben");
+    assertBad("Ich leben.", "Ich lebe", "Ich leb", "Ich lebte", "Wir leben", "Sie leben");
     assertBad("Lebe du?");
-    assertBad("Lebe du?", "Lebest du", "Lebst du", "Lebtest du", "Lebe ich", "Lebe er", "Lebe sie", "Lebe es");
+    assertBad("Lebe du?", "Lebest du", "Lebst du", "Lebe er", "Lebe es", "Lebtest du", "Lebe ich", "Lebe sie");
     assertBad("Leben du?");
     assertBad("Nett bist ich nicht.", 2);
-    assertBad("Nett bist ich nicht.", 2, "bin ich", "sei ich", "war ich", "wäre ich", "bist du");
+    assertBad("Nett bist ich nicht.", 2, "bin ich", "bist du", "sei ich", "wäre ich", "war ich");
     assertBad("Nett sind du.");
     assertBad("Nett sind er.");
-    assertBad("Nett sind er.", "ist er", "sei er", "war er", "wäre er", "sind wir", "sind sie");
+    assertBad("Nett sind er.", "sind wir", "sei er", "ist er", "sind sie", "wäre er", "war er");
     assertBad("Nett warst wir.", 2);
     assertBad("Wir bin nett.", 2);
     assertBad("Wir gelangst zu ihr.", 2);
@@ -294,8 +302,8 @@ public class VerbAgreementRuleTest {
     assertBad("Wünscht du dir mehr Zeit?", "Subjekt (du) und Prädikat (Wünscht)");
     assertBad("Wir lebst noch.", 2);
     assertBad("Wir lebst noch.", 2, "Wir leben", "Wir lebten", "Du lebst");
-    assertBad("Er sagte düster: „Ich brauchen mich nicht schuldig fühlen.“", 1, "Ich brauch", "Ich brauche", "Ich brauchte", "Ich bräuchte", "Wir brauchen", "Sie brauchen");
-    assertBad("Er sagte: „Ich brauchen mich nicht schuldig fühlen.“", 1, "Ich brauch", "Ich brauche", "Ich brauchte", "Ich bräuchte", "Wir brauchen", "Sie brauchen");
+    assertBad("Er sagte düster: „Ich brauchen mich nicht schuldig fühlen.“", 1, "Ich brauche", "Ich brauchte", "Ich brauch", "Ich bräuchte", "Wir brauchen", "Sie brauchen");
+    assertBad("Er sagte: „Ich brauchen mich nicht schuldig fühlen.“", 1, "Ich brauche", "Ich brauchte", "Ich brauch", "Ich bräuchte", "Wir brauchen", "Sie brauchen");
   }
 
   private void assertGood(String s) throws IOException {
