@@ -24890,15 +24890,86 @@ Como nos canta Afonso X de Castela, o Rei Sábio.
              <example>Você nos incomoda com sua música.</example>
          </rule>
      </rulegroup>
-    <rule id='ASSERTO_DE_CONTAS' name="Confusão: asserto/acerto">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+	 
+	<!-- ASSERTO acerto -->
+    <rule id='CONFUSÃO_ASSERTO_ACERTO_DE_CONTAS' name="Confusão: asserto/acerto">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-01 (Checked/Enhanced) (1-JAN-2022+)      -->
       <pattern>
-          <token>asserto</token>
+		  <marker>
+			<token>asserto</token>
+		  </marker>
           <token>de</token>
           <token>contas</token>
       </pattern>
-      <message>Substitua por <suggestion>acerto \2 \3</suggestion>.</message>
-      <example correction="acerto de contas">Temos de fazer um <marker>asserto de contas</marker>.</example>
+	  <message>Possível confusão de termos.</message>
+	  <suggestion>acerto</suggestion>
+      <example correction="acerto">Vamos fazer um <marker>asserto</marker> de contas.</example>
+    </rule>
+	 
+	<!-- DOS dois -->
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-01 (Checked/Enhanced) (1-JAN-2022+)      -->
+	<rulegroup id='CONFUSÃO_DOS_DOIS' name="Confusão: dos/dois"> 
+<!--
+Sinto frio mesmo com dos pares de meias. → Sinto frio mesmo com dois pares de meias.
+-->		
+		<rule>
+			<pattern>
+				<token regexp='yes'>com|dos|em|para</token>
+				<marker>
+					<token regexp='no'>dos</token>
+				</marker>
+				<token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
+			</pattern>
+			<message>Possível confusão de termos.</message>
+			<suggestion>dois</suggestion>
+			<example correction="dois">Sinto frio mesmo com <marker>dos</marker> pares de meias.</example>
+			<example type='correct'>Sinto frio mesmo com <marker>dois</marker> pares de meias.</example>
+			<example>Cada um dos dois prisioneiros receberá uma dura pena.</example>
+			<example>Isto aconteceu em dois anos de trabalho.</example>
+		</rule>
+<!--
+Nós os dos queremos ganhar. → Nós os dois queremos ganhar.
+-->
+		<rule>
+			<pattern>
+				<or>
+					<token postag='PP.+|V.+' postag_regexp='yes'/>
+					<token regexp='yes'>com|dos|em|para</token>
+				</or>
+				<token regexp='no'>os</token>
+				<marker>
+					<token regexp='no'>dos</token>
+				</marker>
+				<token postag='PD.+|V.+' postag_regexp='yes'/>
+			</pattern>
+			<message>Possível confusão de termos.</message>
+			<suggestion>dois</suggestion>
+			<example correction="dois">Nós os <marker>dos</marker> queremos ganhar.</example>
+			<example type='correct'>Nós os <marker>dois</marker> queremos ganhar.</example>
+			<example>Nós os dois o vamos ganhar.</example>
+			<example>Vocês os dois são os melhores da turma.</example>
+		</rule>
+	</rulegroup>
+
+	<!-- VESTIR calçar -->
+    <rule id='CONFUSÃO_VESTIR_CALÇAR' name="Confusão: vestir/calçar">
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-01 (Checked/Enhanced) (1-JAN-2022+)      -->
+<!--
+Vou calçar os sapatos.
+Não se esqueça de calçar as meias.
+-->
+      <pattern>
+	      <marker>
+			<token inflected="yes">vestir</token>
+		  </marker>
+		  <token min="0" max="2" negate="yes" regexp="yes">botas?|chinelos?|galochas?|luvas?|meias?|peúgas?|sandálias?|sapatilhas?|sapatos?|ténis</token>	  		  
+          <token regexp="yes">botas?|chinelos?|galochas?|luvas?|meias?|peúgas?|sandálias?|sapatilhas?|sapatos?|ténis</token>
+      </pattern>
+      <message>Utilize o verbo 'calçar' nas extremidades dos membros do corpo.</message>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>calçar</match></suggestion>
+      <example correction="calçar">Vou <marker>vestir</marker> os sapatos.</example>
+      <example>Vou calçar os sapatos.</example>
+	  <example>Não se esqueça de calçar as meias.</example>
     </rule>
 
 	<!-- ASSISTIR (Ver) -->
@@ -25238,24 +25309,6 @@ Faço isso dês que me dê o livro. → Faço isso desde que me dê o livro.
       <example correction="desde">Faço isso <marker>dês</marker> que me dê o livro.</example>
     </rule>	
 
-	<!-- DOS dois -->
-	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-01-07 (1-JAN-2021+)      -->
-<!--
-Sinto frio mesmo com dois pares de meias.
--->		
-	<rule id='CONFUSÃO_DOS_DOIS' name="Confusão: dos/dois">    
-      <pattern>
-		<token regexp='yes'>com|dos</token>
-		<marker>
-			<token regexp='no'>dos</token>
-		</marker>
-		<token postag='NC.P000|AQ0.P0' postag_regexp='yes'/>
-      </pattern>
-      <message>Substitua por <suggestion>dois</suggestion>.</message>
-      <example correction="dois">Sinto frio mesmo com <marker>dos</marker> pares de meias.</example>
-	  <example type='correct'>Sinto frio mesmo com <marker>dois</marker> pares de meias.</example>
-    </rule>
-
 	<!-- E POSSÍVEL VENCER é possível vencer -->
     <rulegroup id='CONFUSÃO_E_É' name="Confusão: e/é">
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-03-08 + 2021-03-09 (1-JAN-2021+)      -->
@@ -25411,28 +25464,6 @@ Vê na etiqueta que esta agarrada ao cabaz. → Vê na etiqueta que está agarra
 	</rule>	
 	</rulegroup>
 	
-
-	<!-- VESTIR calçar -->
-    <rule id='CONFUSÃO_VESTIR_CALÇAR' name="Confusão: vestir/calçar">
-	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-02-04 (Enhanced) (1-JAN-2021+)      -->
-<!--
-Vou calçar os sapatos.
-Não se esqueça de calçar as meias.
--->
-      <pattern>
-	      <marker>
-			<token inflected="yes">vestir</token>
-		  </marker>
-		  <token postag='DA0...+|DI0...+|DD0...+' postag_regexp='yes'/>		  		  
-          <token regexp="yes">sapatos?|chinelos?|meias?|luvas?|botas?|peúgas?|ténis|sapatilhas?|galochas?</token>
-      </pattern>
-      <message>Utilize o verbo 'calçar' nas extremidades dos membros do corpo.</message>
-        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>calçar</match></suggestion>
-      <example correction="calçar">Vou <marker>vestir</marker> os sapatos.</example>
-      <example>Vou calçar os sapatos.</example>
-	  <example>Não se esqueça de calçar as meias.</example>
-    </rule>
-
     <rule id='E_MAS_TARDE' name="Confusão: mas tarde/mais tarde">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
