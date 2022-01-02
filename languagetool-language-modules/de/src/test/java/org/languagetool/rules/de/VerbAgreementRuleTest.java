@@ -266,6 +266,7 @@ public class VerbAgreementRuleTest {
     assertGood("Angenommen, du wärst ich.");
     assertGood("Ich denke, dass das Haus, in das er gehen will, heute Morgen gestrichen worden ist.");
     assertGood("Ich hab mein Leben, leb du deines!");
+    assertGood("Da freut er sich, wenn er schlafen geht und was findet.");
     // incorrect sentences:
     assertBad("Auch morgen leben du.");
     assertBad("Du weiß noch, dass du das gestern gesagt hast.");

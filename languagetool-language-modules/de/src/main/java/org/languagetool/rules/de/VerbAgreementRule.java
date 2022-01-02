@@ -68,6 +68,22 @@ public class VerbAgreementRule extends TextLevelRule {
       token("ich")
     ),
     Arrays.asList(
+      token("ich"),
+      token("schlafen"),
+      token("gehe")
+    ),
+    Arrays.asList(
+      token("du"),
+      token("schlafen"),
+      token("gehst")
+    ),
+    Arrays.asList(
+      // "Da freut er sich, wenn er schlafen geht und was findet."
+      token("er"),
+      token("schlafen"),
+      token("geht")
+    ),
+    Arrays.asList(
       token("vermittelst")  // "Sie befestigen die Regalbretter vermittelst dreier Schrauben."
     ),
     Arrays.asList(
