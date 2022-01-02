@@ -3120,9 +3120,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Нужна запятая или тире</short>
                 <example>Когда вы находитесь на нашей земле, вы должны подчиняться им, даже если вы служите другим.</example>
                 <example correction=", ему| – ему">Когда человек хочет что-то получить<marker> ему</marker> надо чем-то пожертвовать.</example>
-            </rule>
-            <!-- TODO: Если ты позвонил – говори -->        
-        </rulegroup>
+            </rule>      
+        </rulegroup>                       
+        <rule default="on" id="Tire_and_Verbs" name="Пропущено тире между глаголами">
+            <pattern>
+                 <token postag="VB:Past:INTR:PFV:.*" postag_regexp="yes"></token>
+                 <token postag="VB:IMP:TRANS:IMPFV:Sin:P2" postag_regexp="yes"></token>                
+            </pattern>
+            <message>Пропущено тире между глаголами: <suggestion>\1 – \2</suggestion></message>
+            <short>Пропущено тире</short>
+            <example>Если ты позвонил – говори.</example>
+            <example correction="позвонил – говори">Если ты <marker>позвонил говори</marker>.</example>
+        </rule>
         <rule id="ESLI_TO" name="Сложный союз «если... , то»">
             <antipattern>
                 <token>Если</token>
@@ -9948,23 +9957,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message suppress_misspelled="yes">Глагол в настоящем времени не может быть в повелительном наклонении: <suggestion><match no="3" postag="VB:IMP:(.*)" postag_regexp="yes" postag_replace="VB:Real:$1"></match></suggestion></message>
             <example correction="ищете">Если вы <marker>ищите</marker> в этом месте.</example>
             <example>Если вы ищете в этом месте.</example>
-        </rule>        
-        
+        </rule>
         <rule default="on" id="Verb_and_Verb" name="Глагол и глагол">
-	        <antipattern>
+	     <antipattern> <!-- exception for "Tire_and_Verbs"  rule -->
+                 <token postag="VB:Past:INTR:PFV:.*" postag_regexp="yes"></token>
+                 <token postag="VB:IMP:TRANS:IMPFV:Sin:P2" postag_regexp="yes"></token>                
+            </antipattern>            
+            <antipattern>
                 <token postag="SENT_START" negate_pos="yes"/>
                 <token case_sensitive="yes" regexp="yes">[А-ЯЁ].*</token>
-	        </antipattern>
+	    </antipattern>
             <antipattern>
                 <!-- TODO should be a work chunk СONJ (similar to
                      однако, только) -->
-                <!-- e.g. как попало is a ADV word chunk -->
+	        <!-- Что чёрт возьми происходит? -->
                 <token>чёрт</token>
                 <token regexp="yes">возьми|побери</token>
             </antipattern>
-	        <!-- Что чёрт возьми происходит? -->
             <antipattern>
-                <!-- Try using ADV multiword chunk  (similar to хорошо) -->
+                <!-- Use ADV multiword chunk  (similar to хорошо) -->
                 <!-- e.g. как следует, как попало, того и гляди, во что бы (то) ни стало is a ADV multiword chunk -->
                 <token postag="&lt;/ADV&gt;"></token>
             </antipattern>
