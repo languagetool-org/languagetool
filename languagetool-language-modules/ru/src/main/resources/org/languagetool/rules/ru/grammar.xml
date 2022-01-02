@@ -2727,7 +2727,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="SENT_START"></token>
                 <marker>
                     <token skip="-1">В<exception scope="next" postag="VB:.*" postag_regexp="yes"></exception>
-                        <exception scope="next" regexp="yes">частности|конце|целом</exception>
+                        <exception scope="next" regexp="yes">частности|конце|целом|общем|деталях</exception>
                     </token> <!-- Исключения для вводных выражений, TODO -->
                     <token>,</token>
                     <token>это</token>
@@ -6527,18 +6527,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Я хотел сказать о том, что будет.</example>
         </rule>
         <rule id="grammar_coordination_of_verbal_participle_phrases" name="Грамматические ошибки вида: «Идя по улице, у меня развязался шнурок»">
-            <!-- TODO: Make this rule more universal, add postags -->         
+            <!-- TODO: Make this rule more universal, add postags (+) -->         
             <pattern>
-                <token>идя</token>
-                <token>по</token>
-                <token>улице</token>
+                <token postag_regexp="yes" postag="DPT:Real:.*:.*"></token>
+                <token skip="3"></token>
                 <token>,</token>
                 <token>у</token>
                 <token>меня</token>  
             </pattern>
-            <message>Грамматическая ошибка: <suggestion>Когда я шёл <match no="2" /> <match no="3" /><match no="4" /> <match no="5" /> <match no="6" /></suggestion>.</message>           
+            <message>Грамматическая ошибка: замените деепричастие глаголом в прошедшем времени.</message>           
+            <suggestion>Когда я <match  no="1" postag="DPT:Real:(.*):(.*)" postag_regexp="yes" postag_replace="VB:Past:$1:$2:(Masc|Fem)" /> <match no="2" include_skipped="all" />, <match no="4" /> <match no="5" /></suggestion>
             <short>Грамматическая ошибка</short>
-            <example correction="Когда я шёл по улице, у меня"><marker>Идя по улице, у меня</marker> развязался шнурок.</example>
+            <example correction="Когда я шла по улице, у меня|Когда я шёл по улице, у меня"><marker>Идя по улице, у меня</marker> развязался шнурок.</example>
             <example>Когда я шёл по улице, у меня развязался шнурок.</example>
         </rule>
         <rule id="grammar_Duplication_by_the_pronoun_of_the_noun-subject" name="Грамматические ошибки. Дублирование местоимением существительного-подлежащего">
@@ -8665,7 +8665,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>        
                 
         <rulegroup default="on" id="Ne_pril_prich" name="«Не» с прилагательными и причастиями">
-            <rule> <!-- TODO совсем не такой - обработать фильтром -->
+            <rule>
                 <pattern>
                     <token regexp="yes">очень|весьма|крайне|совершенно|вполне|почти|отчасти|совсем|чрезвычайно</token>
                     <marker>
@@ -10041,7 +10041,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- Пусть сам как хочет ковыряется, а я от проекта устраняюсь. -->
             </antipattern>
             <antipattern>
-                <!-- TODO missing ё for noun, e.g. слез  -->
+                <!-- TODO missing ё for noun, e.g. слез/слёз  -->
                 <token regexp="yes">&missing_yo;</token>
             </antipattern>
             <antipattern>
@@ -11226,7 +11226,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <exception postag="NN:.*:.*:.*:V" postag_regexp="yes" />
                     <exception postag="NN:.*:.*:.*:Nom" postag_regexp="yes" />
                     <exception postag="NN:.*:.*:.*:.*" postag_regexp="yes" negate_pos="yes" />
-                    <exception>человек</exception> <!-- TODO: проверить disambig-->  
                 </token>
             </pattern>
             <message>Предлог «за» предполагает употребление существительного в творительном или винительном падежах.</message>
@@ -11234,7 +11233,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Творительный или винительный падеж</short>
             <example correction=""><marker>За весе</marker>.</example>
             <example>Он был за домом.</example>
-            <example>Я спросил, что это за вода.</example>   <!-- check disambig -->
+            <example>Я спросил, что это за вода?</example>   <!-- check disambig. Ok. вода - Nom -->
+            <example>Я спросил, что это за человек?</example>   <!-- check disambig Ok. человек - Nom -->
             <example>Однако из за уменьшения габаритов и веса комплектующих</example>  <!-- incorrect example, but for another rule -->
         </rule>
         <rule id="PREP_Na_And_Noun" name="Предлог «на» и существительное" >
@@ -12032,9 +12032,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="DoubleIH" name="Два «их» в предложении"> 
             <rule>
-                <!-- 2 "их" в предложении
-                TODO: See RussianWordRepeatRule.java also.
-                -->
+                <!-- 2 "их" в предложении, need exception in RussianWordRepeatRule.java to more accurate checking.-->
                 <pattern>
                         <token skip="-1">их<exception  scope="next" regexp="yes">[,:;.!?…]|-|–|—</exception><exception regexp="yes" scope="next">и|только|или</exception></token>
                     <marker>
