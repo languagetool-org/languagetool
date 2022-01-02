@@ -6105,7 +6105,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Verwechslungen -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
-        <rule id="ZU_SO" name="zu (so) lange" default="temp_off">
+        <rule id="ZU_SO" name="zu (so) lange">
             <pattern>
                 <token postag="KON.*|SENT_START|PKT" postag_regexp="yes" />
                 <marker>
@@ -7466,6 +7466,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Meinten Sie <suggestion><match no="1" regexp_match="R" regexp_replace="Fr"/></suggestion>?</message>
                 <short>&verw;</short>
                 <example correction="Frohes"><marker>Rohes</marker> Schaffen!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>rohes</token>
+                    </marker>
+                    <token>neues</token>
+                    <token min="0">zu</token>
+                    <token regexp="yes" inflected="yes">wünschen|Jahr|\!|\.|\,</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>frohes</suggestion>?</message>
+                <short>&verw;</short>
+                <example correction="frohes">Ich wünsche ein <marker>rohes</marker> neues Jahr!</example>
+                <example correction="frohes">Ich wünsche dir ein <marker>rohes</marker> Neues!</example>
             </rule>
         </rulegroup>
         <rule id="GEISEL_DER_MENSCHHEIT" name="Geisel (Geißel) der Menschheit">
@@ -11808,7 +11822,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
-        <rule id="EIN_LOGGEN" name="ein loggen (einloggen)" default="temp_off">
+        <rule id="LIEBLINGS_SUB" name="Lieblings Tisch (Lieblingstisch)" default="temp_off">
+            <antipattern>
+                <token postag="EIG.*|UNKNOWN" postag_regexp="yes" case_sensitive="yes" regexp="yes">[A-ZÄÖÜ].*</token>
+                <token min="0">.</token>
+                <token case_sensitive="yes">Lieblings</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">Herrn?|Frau|Fräulein|Dr|Mrs?|Doktor|Prof(essor)?</token>
+                <token min="0">.</token>
+                <token>Lieblings</token>
+            </antipattern>
+            <pattern>
+                <token>Lieblings</token>
+                <token postag="SUB.*" postag_regexp="yes" />
+            </pattern>
+            <message>Dieses Nomen wird in der Regel zusammengeschrieben.</message>
+            <suggestion>Lieblings<match no="2" case_conversion="startlower" /></suggestion>
+            <suggestion>Lieblings-\2</suggestion>
+            <example correction="Lieblingsauto|Lieblings-Auto">VW Golf ist mein <marker>Lieblings Auto</marker>.</example>
+        </rule>
+        <rule id="EIN_LOGGEN" name="ein loggen (einloggen)">
             <antipattern>
                 <token>Loggen</token>
                 <token postag="VER.*" postag_regexp="yes" />
@@ -24513,6 +24547,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="FROHES_NEUES" name="frohes neues (Neues)!">
+            <antipattern>
+                <token>neues</token>
+                <token regexp="yes">.*jahr</token>
+            </antipattern>
+            <antipattern>
+                <token>neues</token>
+                <token postag="UNKNOWN|SUB.*|EIG.*" postag_regexp="yes" />
+            </antipattern>
+            <antipattern>
+                <token>neues</token>
+                <token regexp="yes" min="0">und|oder|&amp;|,</token>
+                <token regexp="yes" case_sensitive="yes">[a-zäöü].+es</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">frohes|fröhliches</token>
+                <marker>
+                    <token case_sensitive="yes">neues</token>
+                </marker>
+            </pattern>
+            <message>Nominalisierte Adjektive sollten in der Regel großgeschrieben werden.</message>
+            <suggestion>Neues</suggestion>
+            <example correction="Neues">Ich wünsche dir ein frohes <marker>neues</marker>!</example>
+            <example>Ich wünsche dir ein frohes neues Jahr.</example>
+        </rule>
         <rulegroup id="AM_NOETIGSTEN" name="am nötigsten (Nötigsten)">
             <url>https://www.lernnetz24.de/regeln/0453.html</url>
             <rule>
@@ -24842,21 +24901,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="PRIVATES_UND_BERUFLICHES" name="privates und berufliches (Privates und Berufliches)">
             <antipattern case_sensitive="yes">
-                <token regexp="yes">[PB].+</token>
+                <token regexp="yes">[PBG].+</token>
                 <token regexp="yes">und|UND|oder|ODER|sowie|SOWIE&amp;</token>
-                <token regexp="yes">[PB].+</token>
+                <token regexp="yes">[PBG].+</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">[pb].+</token>
+                <token regexp="yes">[pbg].+</token>
                 <token regexp="yes">und|oder|sowie|&amp;</token>
-                <token regexp="yes">[pb].+</token>
+                <token regexp="yes">[pbg].+</token>
                 <token postag="SUB.*|UNKNOWN|EIG.*" postag_regexp="yes" regexp="yes">.*[a-z].*</token>
             </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes">private[snm]</token>
                     <token regexp="yes">und|oder|sowie|&amp;</token>
-                    <token regexp="yes">berufliche[snm]</token>
+                    <token regexp="yes">berufliche[snm]|geschäftliche[snm]</token>
                 </pattern>
                 <message>Nominalisierte Adjektive sollten in der Regel großgeschrieben werden.</message>
                 <suggestion><match no="1" case_conversion="startupper" /> \2 <match no="3" case_conversion="startupper" /></suggestion>
@@ -24865,7 +24924,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">berufliche[snm]</token>
+                    <token regexp="yes">berufliche[snm]|geschäftliche[snm]</token>
                     <token regexp="yes">und|oder|sowie|&amp;</token>
                     <token regexp="yes">private[snm]</token>
                 </pattern>
@@ -29420,13 +29479,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <antipattern case_sensitive="yes">
                     <token regexp="yes">[iI]m</token>
-                    <token regexp="yes">wesentlichen|voraus|ungewissen|speziellen|klaren|guten|ganzen|dunkeln|argen|besonderen|übrigen|trüben|grünen|einzelnen|weitesten|entferntesten</token>
+                    <token regexp="yes">wesentlichen|voraus|ungewissen|speziellen|(un)?klaren|guten|ganzen|dunkeln|argen|besonderen|übrigen|trüben|grünen|einzelnen|weitesten|entferntesten</token>
                     <token postag="ADV:.+" postag_regexp="yes"><exception postag="ZUS"/></token>
                 </antipattern>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[iI]m</token>
                     <marker>
-                        <token regexp="yes">wesentlichen|voraus|ungewissen|speziellen|klaren|guten|ganzen|dunkeln|argen|besonderen|übrigen|trüben|grünen|einzelnen|weitesten|entferntesten</token>
+                        <token regexp="yes">wesentlichen|voraus|ungewissen|speziellen|(un)?klaren|guten|ganzen|dunkeln|argen|besonderen|übrigen|trüben|grünen|einzelnen|weitesten|entferntesten</token>
                     </marker>
                     <token><exception postag="(SUB|ADJ|EIG):.*|UNKNOWN" postag_regexp="yes"/></token>
                 </pattern>
@@ -53989,7 +54048,7 @@ Andere Projekte</example>
                 <short>Meinten Sie 'Im-'?</short>
                 <example correction="Im-">Auf dem Schild stand "<marker>Im</marker> und Export".</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token case_sensitive="yes">ein</token>
@@ -54001,7 +54060,7 @@ Andere Projekte</example>
                 <message>Die Wendung '<suggestion>\1-</suggestion> und ausloggen' wird mit Bindestrich geschrieben.</message>
                 <example correction="ein-">Ich versuchte bereits mich <marker>ein</marker> und auszuloggen.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token case_sensitive="yes">aus</token>
@@ -54013,7 +54072,7 @@ Andere Projekte</example>
                 <message>Die Wendung '<suggestion>\1-</suggestion> und einloggen' wird mit Bindestrich geschrieben.</message>
                 <example correction="aus-">Ich versuchte bereits mich <marker>aus</marker> und einzuloggen.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token case_sensitive="yes">an</token>
@@ -54025,7 +54084,7 @@ Andere Projekte</example>
                 <message>Die Wendung '<suggestion>\1-</suggestion> und abmelden' wird mit Bindestrich geschrieben.</message>
                 <example correction="an-">Ich versuchte bereits mich <marker>an</marker> und abzumelden.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token case_sensitive="yes">ab</token>
@@ -54037,7 +54096,7 @@ Andere Projekte</example>
                 <message>Die Wendung '<suggestion>\1-</suggestion> und anmelden' wird mit Bindestrich geschrieben.</message>
                 <example correction="ab-">Ich versuchte bereits mich <marker>ab</marker> und anzumelden.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token case_sensitive="yes">hoch</token>
@@ -54049,7 +54108,7 @@ Andere Projekte</example>
                 <message>Die Wendung '<suggestion>\1-</suggestion> und herunterfahren' wird mit Bindestrich geschrieben.</message>
                 <example correction="hoch-">Ich versuche es <marker>hoch</marker> und runterzufahren.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token regexp="yes" case_sensitive="yes">(he)?runter</token>
@@ -60205,7 +60264,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern>
-                    <token case_sensitive="yes" regexp="yes">[Gg]eouted|[Gg]ekited|[Gg]edated|[Gg]ecasted|[Gg]evested</token>
+                    <token case_sensitive="yes" regexp="yes">[Gg]eouted|[Gg]ekited|[Gg]edated|[Gg]ecasted|[Gg]evested|[Gg]eshorted</token>
                 </pattern>
                 <message>Die empfohlene Schreibweise für diesen Anglizismus ist <suggestion><match no="1" regexp_match="ed$" regexp_replace="et" /></suggestion>.</message>
                 <example correction="gedatet">Sie haben sich 2 Wochen lang <marker>gedated</marker>.</example>

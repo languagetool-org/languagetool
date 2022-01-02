@@ -59,7 +59,7 @@ class CaseRuleAntiPatterns {
     Arrays.asList(
       csRegex("Private[snm]"),
       csRegex("und|&"),
-      csRegex("Berufliche[snm]")
+      csRegex("Berufliche[snm]|Geschäftliche[snm]")
     ),
     Arrays.asList(
       csRegex("Hin"),
@@ -67,9 +67,9 @@ class CaseRuleAntiPatterns {
       csRegex("Her")
     ),
     Arrays.asList(
-      csRegex("ein"),
+      csRegex("k?ein"),
       csRegex("Richtig|Falsch"),
-      csRegex("und|&"),
+      csRegex("und|oder|&"),
       csRegex("Richtig|Falsch")
     ),
     Arrays.asList(
@@ -82,21 +82,21 @@ class CaseRuleAntiPatterns {
       csRegex("[A-ZÄÖÜ].+es"),
       csRegex("und|oder|&"),
       csRegex("[A-ZÄÖÜ].+es"),
-      csRegex("[a-zäöüß\\-,\\.\\!\\?…;:]+")
+      csRegex("[a-zäöüß\\-,\\.\\!\\?…;:–\\)\\(]+")
     ),
     Arrays.asList(
       // … in Ägyptisch, Berberisch und Semitisch erfolgte zuletzt.
       csRegex("[A-ZÄÖÜ].+isch"),
       csRegex("und|oder|&"),
       csRegex("[A-ZÄÖÜ].+isch"),
-      csRegex("[a-zäöüß\\-,\\.\\!\\?…;:]+")
+      csRegex("[a-zäöüß\\-,\\.\\!\\?…;:–\\)\\(]+")
     ),
     Arrays.asList(
       // … in Ägyptisch, Berberisch und Semitisch erfolgte zuletzt.
       csRegex("[A-ZÄÖÜ].+em"),
       csRegex("und|oder|&"),
       csRegex("[A-ZÄÖÜ].+em"),
-      csRegex("[a-zäöüß\\-,\\.\\!\\?…;:]+")
+      csRegex("[a-zäöüß\\-,\\.\\!\\?…;:–\\)\\(]+")
     ),
     Arrays.asList(
       // Er arbeitet im Bereich Präsidiales.

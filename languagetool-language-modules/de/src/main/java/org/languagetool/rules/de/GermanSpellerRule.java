@@ -1238,6 +1238,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Müllhalte", "Müllhalde");
     put("Entäuschung", "Enttäuschung");
     put("Entäuschungen", "Enttäuschungen");
+    putRepl("[Üü]bergrifflich(e[mnrs]?)?", "lich", "ig");
   }
 
   private static void putRepl(String wordPattern, String pattern, String replacement) {

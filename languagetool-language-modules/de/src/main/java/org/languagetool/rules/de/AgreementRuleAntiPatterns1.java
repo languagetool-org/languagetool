@@ -905,6 +905,63 @@ class AgreementRuleAntiPatterns1 {
       token("Windows"),
       tokenRegex("\\d+")
     ),
+    // TODO: comment in
+    // Arrays.asList(
+    //   // die gegnerischen Shooting Guards
+    //   posRegex("ART.*NOM:PLU"),
+    //   posRegex("(ADJ|PA[12]).*NOM:PLU.*"),
+    //   posRegex("SUB.*SIN.*"),
+    //   new PatternTokenBuilder().posRegex("UNKNOWN").tokenRegex("(?i)[A-ZÄÖÜ].+").build()
+    // ),
+    // Arrays.asList(
+    //   // die gegnerischen Shooting Guards
+    //   posRegex("ART.*GEN:PLU"),
+    //   posRegex("(ADJ|PA[12]).*GEN:PLU.*"),
+    //   posRegex("SUB.*SIN.*"),
+    //   new PatternTokenBuilder().posRegex("UNKNOWN").tokenRegex("(?i)[A-ZÄÖÜ].+").build()
+    // ),
+    // Arrays.asList(
+    //   // die gegnerischen Shooting Guards
+    //   posRegex("ART.*DAT:PLU"),
+    //   posRegex("(ADJ|PA[12]).*DAT:PLU.*"),
+    //   posRegex("SUB.*SIN.*"),
+    //   new PatternTokenBuilder().posRegex("UNKNOWN").tokenRegex("(?i)[A-ZÄÖÜ].+").build()
+    // ),
+    // Arrays.asList(
+    //   // die gegnerischen Shooting Guards
+    //   posRegex("ART.*AKK:PLU"),
+    //   posRegex("(ADJ|PA[12]).*AKK:PLU.*"),
+    //   posRegex("SUB.*SIN.*"),
+    //   new PatternTokenBuilder().posRegex("UNKNOWN").tokenRegex("(?i)[A-ZÄÖÜ].+").build()
+    // ),
+    // Arrays.asList(
+    //   // den leidenschaftlichen Lobpreis der texanischen Gateway Church aus
+    //   posRegex("ART.*DAT:SIN.*"),
+    //   posRegex("(ADJ|PA[12]).*DAT:SIN.*"),
+    //   posRegex("SUB.*SIN.*"),
+    //   new PatternTokenBuilder().posRegex("UNKNOWN").tokenRegex("(?i)[A-ZÄÖÜ].+").build()
+    // ),
+    // Arrays.asList(
+    //   // den leidenschaftlichen Lobpreis des texanischen Gateway Church aus
+    //   posRegex("ART.*GEN:SIN.*"),
+    //   posRegex("(ADJ|PA[12]).*GEN:SIN.*"),
+    //   posRegex("SUB.*SIN.*"),
+    //   new PatternTokenBuilder().posRegex("UNKNOWN").tokenRegex("(?i)[A-ZÄÖÜ].+").build()
+    // ),
+    // Arrays.asList(
+    //   // den leidenschaftlichen Lobpreis des texanischen Gateway Church aus
+    //   posRegex("ART.*NOM:SIN.*"),
+    //   posRegex("(ADJ|PA[12]).*NOM:SIN.*"),
+    //   posRegex("SUB.*SIN.*"),
+    //   new PatternTokenBuilder().posRegex("UNKNOWN").tokenRegex("(?i)[A-ZÄÖÜ].+").build()
+    // ),
+    // Arrays.asList(
+    //   // den leidenschaftlichen Lobpreis des texanischen Gateway Church aus
+    //   posRegex("ART.*AKK:SIN.*"),
+    //   posRegex("(ADJ|PA[12]).*AKK:SIN.*"),
+    //   posRegex("SUB.*SIN.*"),
+    //   new PatternTokenBuilder().posRegex("UNKNOWN").tokenRegex("(?i)[A-ZÄÖÜ].+").build()
+    // ),
     Arrays.asList(
       tokenRegex("Ende|Mitte|Anfang"), // "Ende letzten Jahres"
       new PatternTokenBuilder().posRegex("ART:DEF:GEN:.*").min(0).build(),
