@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 Russian grammar and typo rules for LanguageTool.
 See resource/ru/russian_tags.txt for the meaning of the POS tags.
 
-Copyright © 2008-2021 Yakov Reztsov
+Copyright © 2008-2022 Yakov Reztsov
 http://www.languagetool.org
 
 This library is free software; you can redistribute it and/or
@@ -3906,7 +3906,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup default="on" id="PO_NAD" name="Правописание сложного предлога «по-над»">
-            <rule> <!-- TODO  добавить исключение в правило "два предлога подряд" -->
+            <rule>
                 <pattern case_sensitive="yes">
                   <marker>
                     <token>по</token>
@@ -3915,7 +3915,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token  postag_regexp="yes" postag="NN:.*:.*:.*:T|ADJ:.*:.*:T"></token>       
                 </pattern>
                 <message>Предлог пишется через дефис: <suggestion>\1-\2</suggestion>.</message>
-
                 <short>Дефис</short>
                 <example>Кот крался по-над стенкой.</example>
                 <example correction="по-над">Кот крался <marker>по над</marker> стенкой.</example>
@@ -11768,6 +11767,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
 
         <rule id="Two_PREP" name="Два предлога подряд">        
+            <antipattern> <!-- exception for rule "PO_NAD" -->
+                <token>по</token>
+                <token>над</token>
+                <token postag_regexp="yes" postag="NN:.*:.*:.*:T|ADJ:.*:.*:T"></token>     
+            </antipattern>         
             <pattern>
                 <marker>
                   <token postag="PREP"><exception postag="PREP|ABR:.*" negate_pos="yes"  postag_regexp="yes" /><exception case_sensitive="yes" regexp="yes">К|По|У</exception><exception regexp="yes">минус|изо|насчёт|насчет|ради|перед</exception><exception scope="previous" postag="PREP"></exception></token>  <!--   <exception postag="SENT_START" negate_pos="yes" case_sensitive="yes" regexp="yes">[АБГ-ЖИ-НПРСТФ-Я].*</exception>  -->
@@ -11785,6 +11789,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Слияние Бухарского и Хивинского ханств произошло военным путём в 1876 году.</example>
             <example>Возвышенность простирается с Ю на С от старой дороги.</example>
             <example>Она преподаёт изо в школе.</example>
+            <example>Кот крался по над стенкой.</example> <!-- Incorrect example, but another rule "PO_NAD" must detect it. -->
             <example>Разбил в аварии перед у машины</example>
             <example>К ИЗО ученик подготовился.</example>
             <example correction="В|К"><marker>В к</marker> ране.</example>
