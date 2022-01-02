@@ -24946,7 +24946,7 @@ Por favor, nos dê alguns exemplos.
 			<antipattern>
 				<token>nos</token>
 				<token postag='RG|VMM03S0|VMSP[13]S0' postag_regexp='yes'/>
-				<token postag='AQ..P.+|NC.P.+|DI.+' postag_regexp='yes'/>
+				<token postag='AQ.+|NC.+|DI.+' postag_regexp='yes'/>
 			</antipattern>
 <!--
 Desde 1951, a Austrália tem sido um aliado militar formal dos Estados Unidos, nos termos do tratado ANZUS.
@@ -24959,8 +24959,18 @@ Nos dez dias após seu lançamento, o livro vendeu 11,5 milhões de cópias.
 -->
 			<antipattern>
 				<token>nos</token>
-				<token min="1" max="2" postag='VMN0.P.+|AQ..P.+|NC.P.+|Z0.+' postag_regexp='yes'/>
+				<token min="1" max="2" postag='VMN0.P.+|AQ.+|NC.+|Z0.+' postag_regexp='yes'/>
 				<token postag='SPS.+' postag_regexp='yes'/>
+			</antipattern>
+<!--
+O que não nos mata, nos deixa mais fortes.
+Nos cerca de 100 eventos organizados entre Setembro de 2006 e Outubro de 2012, estiveram contabilizados os feridos.
+THIS ANTIPATTERN WAS BASED ON TIAGO SANTO'S RULE WHICH WAS REPLACED BY MY OWN RULE.
+-->
+			<antipattern>
+				<token>nos</token>
+				<token postag='NC.+|AQ.+|VMI[PMS]3P.+' postag_regexp='yes'/>
+				<token postag='SPS.+|RG|CS|DD.+|PD.+|CC|VMN0000' postag_regexp='yes'/>
 			</antipattern>
 			<pattern>
 				<or>
@@ -24970,7 +24980,7 @@ Nos dez dias após seu lançamento, o livro vendeu 11,5 milhões de cópias.
 				<marker>
 					<token>nos</token>
 				</marker>
-				<token min="1" max="2" negate_pos="yes" postag='AQ..P.+|NC.P.+|NP.+|AO..P.+|RG|PE..P.+|PR..P.+|PT..P.+|AP..P.+|Z0.+|VMP00P.+|VM...S.+|UNKNOWN|VMIP[23]P0|D[AIP]..P.+' postag_regexp='yes'/>
+				<token min="1" max="2" negate_pos="yes" postag='AQ.+|NC.+|NP.+|AO.+|RG|P[ERT].+|AP.+|Z0.+|VMP00P.+|VM...S.+|UNKNOWN|VMIP[23]P0|D[AIP].+' postag_regexp='yes'/>
 				<token negate_pos="yes" postag='SPS00' postag_regexp='no'/>			
 			</pattern>
 			<message>Baseado no contexto pode utilizar 'nós' ou 'nos'.</message>
@@ -25012,6 +25022,9 @@ Nos dez dias após seu lançamento, o livro vendeu 11,5 milhões de cópias.
 			<example>Nos lhanos do Orinoco e no planalto das Guianas, as precipitações vão de moderadas a elevadas.</example>
 			<example>Nos seres unicelulares a mitose já possui o papel da reprodução em si.</example>
 			<example>Nos dez dias após seu lançamento, o livro vendeu 11,5 milhões de cópias.</example>
+			
+			<example>O que não nos mata, nos deixa mais fortes.</example>
+			<example>Nos cerca de 100 eventos organizados entre Setembro de 2006 e Outubro de 2012, estiveram contabilizados os feridos.</example>	
 		</rule>
 	</rulegroup>
 
