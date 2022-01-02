@@ -41,6 +41,7 @@ public class RussianWordRepeatRule extends AdvancedWordRepeatRule {
     tempSet.add("не");
     tempSet.add("ни");
     tempSet.add("а");
+    tempSet.add("их");
     tempSet.add("на");
     tempSet.add("в");
     tempSet.add("минута");
