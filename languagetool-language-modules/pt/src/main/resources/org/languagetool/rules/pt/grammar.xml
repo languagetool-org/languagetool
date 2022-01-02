@@ -7,8 +7,8 @@ title="Easy editing stylesheet" ?>
  <!--
  Portuguese (Portugal - prereform + postreform) - Grammar and Typo Rules for LanguageTool.
  
- Copyright © 2012-2021 Marco A.G.Pinto (www.marcoagpinto.com)
- Copyright © 2016-2021 Tiago F. Santos (tiagofsantos81@sapo.pt)
+ Copyright © 2012-2022 Marco A.G.Pinto (www.marcoagpinto.com)
+ Copyright © 2016-2022 Tiago F. Santos (tiagofsantos81@sapo.pt)
 
  Thanks to Juan Martorell, Daniel Naber, Jaume Ortolà, Christopher Blum,
  Udo Mai and Yakov Reztsov who mentored the project.
@@ -24953,16 +24953,25 @@ Nós os dos queremos ganhar. → Nós os dois queremos ganhar.
 
 	<!-- VESTIR calçar -->
     <rule id='CONFUSÃO_VESTIR_CALÇAR' name="Confusão: vestir/calçar">
-	<!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-01 (Checked/Enhanced) (1-JAN-2022+)      -->
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-01/02 (Checked/Enhanced) (1-JAN-2022+)      -->
 <!--
 Vou calçar os sapatos.
 Não se esqueça de calçar as meias.
 -->
+<!--
+Kullervo abriu a arca que continha seus tesouros, deixando ver galas soberbas, vestidos esplêndidos, meias bordadas com fios de ouro, cintos e broches de prata.
+Vence a indústria do luxo, porque a disputa hoje é sobre os melhores e piores vestidos, sapatos, acessórios, publicados exaustivamente pela imprensa internacional e, claro, repercutidos aqui no Brasil.
+-->
+      <antipattern>
+		<token>vestidos</token>
+		<token min="0" max="1" negate="yes" regexp="yes">botas?|chinelos?|galochas?|luvas?|meias?|peúgas?|sandálias?|sapatilhas?|sapatos?|ténis</token>
+		<token postag='_PUNCT' postag_regexp='no'/>
+      </antipattern>
       <pattern>
 	      <marker>
 			<token inflected="yes">vestir</token>
 		  </marker>
-		  <token min="0" max="2" negate="yes" regexp="yes">botas?|chinelos?|galochas?|luvas?|meias?|peúgas?|sandálias?|sapatilhas?|sapatos?|ténis</token>	  		  
+		  <token min="0" max="2" negate="yes" regexp="yes">botas?|chinelos?|galochas?|luvas?|meias?|peúgas?|sandálias?|sapatilhas?|sapatos?|ténis</token>
           <token regexp="yes">botas?|chinelos?|galochas?|luvas?|meias?|peúgas?|sandálias?|sapatilhas?|sapatos?|ténis</token>
       </pattern>
       <message>Utilize o verbo 'calçar' nas extremidades dos membros do corpo.</message>
@@ -24970,6 +24979,9 @@ Não se esqueça de calçar as meias.
       <example correction="calçar">Vou <marker>vestir</marker> os sapatos.</example>
       <example>Vou calçar os sapatos.</example>
 	  <example>Não se esqueça de calçar as meias.</example>
+	  
+	  <example>Kullervo abriu a arca que continha seus tesouros, deixando ver galas soberbas, vestidos esplêndidos, meias bordadas com fios de ouro, cintos e broches de prata.</example>
+	  <example>Vence a indústria do luxo, porque a disputa hoje é sobre os melhores e piores vestidos, sapatos, acessórios, publicados exaustivamente pela imprensa internacional e, claro, repercutidos aqui no Brasil.</example>
     </rule>
 
 	<!-- ASSISTIR (Ver) -->
