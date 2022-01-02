@@ -13922,25 +13922,6 @@ Eu comprei-a quando fui à loja.
       <example correction="não faz falta">Isso <marker>no faz falta</marker> às pessoas.</example>
     </rule>
 
-    <!-- NOS + VERB - nós + verb -->
-    <rule id='NOS_VERBO' name="Confusão: nos/nós + VERBO">
-	<!--      Created by Tiago F. Santos and improved by Marco A.G.Pinto, Portuguese rule 2021-11-24 (25-JUN-2021+)      -->
-      <pattern>
-		  <marker>
-			<token case_sensitive="yes">Nos</token>
-          </marker>
-		  <token postag_regexp='yes' postag="VM...P.+">
-            <exception postag_regexp='yes' postag='NC.+|AQ.+|VMI[PMS]3P.+'/>
-		  </token>
-		  <token postag_regexp='yes' postag="SPS.+|RG|CS|DD.+|PD.+|CC|VMN0000"/>
-      </pattern>
-      <message>Baseado no contexto pode utilizar 'Nós' ou 'Nos'.</message>
-	  <suggestion>Nós</suggestion>
-      <example correction="Nós"><marker>Nos</marker> sabemos a resposta.</example>
-	  <example>Nos cuidava como um pai.</example>
-	  <example>Nos dizeres de Edison Carneiro, no clássico “Candomblés da Bahia”.</example>
-    </rule>
-
     <!-- NUM não -->
     <rule id='NUM_NÃO' name="Confusão: num/não">
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-05-25 (Enhanced) (17-MAR-2021+)      -->
@@ -24948,6 +24929,89 @@ Nós os dos queremos ganhar. → Nós os dois queremos ganhar.
 			<example type='correct'>Nós os <marker>dois</marker> queremos ganhar.</example>
 			<example>Nós os dois o vamos ganhar.</example>
 			<example>Vocês os dois são os melhores da turma.</example>
+		</rule>
+	</rulegroup>
+
+	<!-- NOS nós -->
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-02 (1-JAN-2022+)      -->
+	<rulegroup id='CONFUSÃO_NOS_NÓS' name="Confusão: nos/nós" default="temp_off">
+<!--
+Nos somos os chefes. → Nós somos os chefes.
+-->		
+		<rule>
+<!--
+Nos mais jovens, é mais comum ela ser noticiada aos familiares.
+Por favor, nos dê alguns exemplos.
+-->
+			<antipattern>
+				<token>nos</token>
+				<token postag='RG|VMM03S0|VMSP[13]S0' postag_regexp='yes'/>
+				<token postag='AQ..P.+|NC.P.+|DI.+' postag_regexp='yes'/>
+			</antipattern>
+<!--
+Desde 1951, a Austrália tem sido um aliado militar formal dos Estados Unidos, nos termos do tratado ANZUS.
+Nos termos da Constituição, a autonomia regional não afecta a integridade da soberania do Estado.
+Nos termos deste acordo, formar-se-ia no mesmo mês um governo de transição.
+
+Nos lhanos do Orinoco e no planalto das Guianas, as precipitações vão de moderadas a elevadas.
+Nos seres unicelulares a mitose já possui o papel da reprodução em si.
+Nos dez dias após seu lançamento, o livro vendeu 11,5 milhões de cópias.
+-->
+			<antipattern>
+				<token>nos</token>
+				<token min="1" max="2" postag='VMN0.P.+|AQ..P.+|NC.P.+|Z0.+' postag_regexp='yes'/>
+				<token postag='SPS.+' postag_regexp='yes'/>
+			</antipattern>
+			<pattern>
+				<or>
+					<token postag_regexp='no' postag="SENT_START"/>
+					<token>,</token>
+				</or>
+				<marker>
+					<token>nos</token>
+				</marker>
+				<token min="1" max="2" negate_pos="yes" postag='AQ..P.+|NC.P.+|NP.+|AO..P.+|RG|PE..P.+|PR..P.+|PT..P.+|AP..P.+|Z0.+|VMP00P.+|VM...S.+|UNKNOWN|VMIP[23]P0|D[AIP]..P.+' postag_regexp='yes'/>
+				<token negate_pos="yes" postag='SPS00' postag_regexp='no'/>			
+			</pattern>
+			<message>Baseado no contexto pode utilizar 'nós' ou 'nos'.</message>
+			<suggestion>nós</suggestion>
+			<example correction="Nós"><marker>Nos</marker> somos os chefes.</example>
+			<example>Nos cuidava como um pai.</example>
+			<example>Nos dizeres de Edison Carneiro, no clássico “Candomblés da Bahia”.</example>
+			<example>Nos Estados Unidos, o termo não foi usado até o final do século XIX.</example>
+			<example>Nos últimos anos da sua vida, Albino Forjaz de Sampaio dedicou-se essencialmente aos estudos.</example>
+			<example>Segundo autores, existem duas linhas de pensamentos, nos quais a História do Turismo se divide.</example>
+			<example>Nos cerca de vinte anos seguintes, até a morte em 1804, a produção de Kant foi incessante.</example>
+			<example>Nos demais gases presentes na natureza sua distribuição de cargas é menos simétrica que no hélio</example>	
+			<example>Nos meus tempos de escola eu normalmente ia para a cama às dez.</example>
+			<example>Nos três anos seguintes, Hitler conheceria uma série quase inabalada de sucessos militares.</example>
+			<example>Nos cem anos que se seguem, irrompem conflitos devidos às invasões francesas e lutas liberais.</example>
+			<example>Tem-se efetuado a navegação, por embarcações de pequeno porte, nos 210 km entre São Borja e Uruguaiana.</example>
+			<example>Manaus conta com o Aeroporto Internacional Eduardo Gomes, nos moldes dos construídos na década de 1980.</example>
+			<example>Nos vales secos o mesmo efeito ocorre sobre uma base de rochas, conduzindo a uma paisagem esturricada.</example>
+			<example>Nos dados do IBGE de 2005 o município possuía R$ mil no seu Produto Interno Bruto.</example>
+			<example>Se ele estivesse aqui, nos visitaria.</example>
+			<example>Todas as vezes que o professor viaja, nos dá lembranças.</example>
+			<example>Nada, exceto a morte, nos poderá separar.</example>
+			<example>Quando da sua morte, nos finais do século XVIII, a população de Berlim atingia os 150 000 habitantes.</example>
+			<example>Nos vegetais, o sistema reprodutor masculino e feminino habitualmente coexistem em uma mesma flor.</example>
+			<example>Nos terminais, os passageiros têm a possibilidade de trocar de linha sem pagamento de nova tarifa.</example>
+			<example>Nos seus 130 anos de história, tem mantido uma presença reconhecida no panorama da cidade e do país.</example>
+			<example>Calvino, nos seus 24 anos de idade, está em processo de busca.</example>
+			<example>Nos vários alfabetos cirílicos, é o equivalente fonético do N latino.</example>
+			<example>Nos vários mocambos palmarinos chegaram a reunir-se mais de vinte mil pessoas.</example>
+			<example>Nos outros movimentos há passagens em acordes e arpejos.</example>			
+			<example>São Roque do Pico, nos Açores.</example>
+
+			<example>Nos mais jovens, é mais comum ela ser noticiada aos familiares.</example>
+			<example>Por favor, nos dê alguns exemplos.</example>
+			
+			<example>Desde 1951, a Austrália tem sido um aliado militar formal dos Estados Unidos, nos termos do tratado ANZUS.</example>
+			<example>Nos termos da Constituição, a autonomia regional não afecta a integridade da soberania do Estado.</example>
+			<example>Nos termos deste acordo, formar-se-ia no mesmo mês um governo de transição.</example>
+			<example>Nos lhanos do Orinoco e no planalto das Guianas, as precipitações vão de moderadas a elevadas.</example>
+			<example>Nos seres unicelulares a mitose já possui o papel da reprodução em si.</example>
+			<example>Nos dez dias após seu lançamento, o livro vendeu 11,5 milhões de cópias.</example>
 		</rule>
 	</rulegroup>
 
