@@ -13560,10 +13560,19 @@ onwaarschijnlijk
 				<example type="correct">Het <marker>e-mailadres</marker> klopt.</example>
 				<example type="correct">De <marker>back-up</marker> is mislukt.</example>
 			</rule>
+			<rule>
+				<antipattern><token regexp="yes">rood-groene?</token></antipattern>
+				<pattern>
+					<token regexp="yes">(paars|rood|geel|grijs|oranje|blauw|groen)-(paarse?|rood|rode|geel|gele|grijs|grijze|oranje|blauwe?|groene?)<exception postag="UNKNOWN"/></token>
+				</pattern><!-- afwisseled gekleurd -->
+				<filter class="org.languagetool.rules.nl.DutchSuppressMisspelledSuggestionsFilter" args="suppressMatch:false"/>
+				<message>Een koppelteken tussen kleuren is correct als iets afwisselend in kleur is; een mengkleur schrijf je zonder koppelteken.</message>
+				<suggestion suppress_misspelled="yes"><match no="1" regexp_match="[-]" regexp_replace=""/></suggestion>
+				<example correction="oranjegeel">Het huis is <marker>oranje-geel</marker>.</example>
+			</rule>
 		</rulegroup>
 	</category>
 	<category id="CASING" name="Hoofdlettergebruik">
-		
 		<rulegroup id="JARIGE_JOB" name="Job/job" type="misspelling">
 			<rule>
 				<pattern>
