@@ -143,7 +143,7 @@ public class VerbAgreementRule extends TextLevelRule {
     ),
     Arrays.asList(
       // Du scheiß Idiot
-      token("du|sie"),
+      tokenRegex("du|sie"),
       tokenRegex("schei(ß|ss)"),
       posRegex("SUB.*|UNKNOWN")
     ),
