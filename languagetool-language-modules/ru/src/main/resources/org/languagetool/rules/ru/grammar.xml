@@ -3123,12 +3123,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>                       
         <rule default="on" id="Tire_and_Verbs" name="Пропущено тире между глаголами">
             <pattern>
-                 <token postag="VB:Past:INTR:PFV:.*" postag_regexp="yes"></token>
-                 <token postag="VB:IMP:TRANS:IMPFV:Sin:P2" ></token>                
+                 <token postag="VB:Past:INTR:PFV:.*" postag_regexp="yes"><exception postag="VB:Past:INTR:PFV:.*" postag_regexp="yes" negate_pos="yes" /></token>
+                 <token postag="VB:IMP:TRANS:IMPFV:Sin:P2" ><exception postag="VB:IMP:TRANS:IMPFV:Sin:P2"  negate_pos="yes"></exception></token>                
             </pattern>
             <message>Пропущено тире между глаголами: <suggestion>\1 – \2</suggestion></message>
             <short>Пропущено тире</short>
             <example>Если ты позвонил – говори.</example>
+            <example>Осталось три дня.</example>
             <example correction="позвонил – говори">Если ты <marker>позвонил говори</marker>.</example>
         </rule>
         <rule id="ESLI_TO" name="Сложный союз «если... , то»">
