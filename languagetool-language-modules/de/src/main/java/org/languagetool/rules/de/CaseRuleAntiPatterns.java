@@ -1135,6 +1135,15 @@ class CaseRuleAntiPatterns {
     Arrays.asList( // Das ist das Debakel und Aus für Podolski
       csToken("Aus"),
       csToken("für")
+    ),
+    Arrays.asList( // Frohes Neues!
+      csRegex("[Ff]rohes"),
+      csToken("Neues")
+    ),
+    Arrays.asList( // Wir sollten das mal labeln
+      csToken("das"),
+      csToken("mal"),
+      csRegex("[a-zäöüß].+n")
     )
   );
 

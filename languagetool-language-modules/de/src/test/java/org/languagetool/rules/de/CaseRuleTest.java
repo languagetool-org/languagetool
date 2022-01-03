@@ -197,6 +197,7 @@ public class CaseRuleTest {
     assertGood("Ist das eine Frage ? Müsste das nicht anders sein?");
     assertGood("Das ist ein Satz !!! Das auch.");
     assertGood("Liebe Kund:in");
+    assertGood("Wir sollten das mal labeln.");
 
     // https://github.com/languagetool-org/languagetool/issues/1515:
     assertGood("▶︎ Dies ist ein Test");

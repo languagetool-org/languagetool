@@ -11833,7 +11833,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
-        <rule id="LIEBLINGS_SUB" name="Lieblings Tisch (Lieblingstisch)" default="temp_off">
+        <rule id="LIEBLINGS_SUB" name="Lieblings Tisch (Lieblingstisch)">
             <antipattern>
                 <token postag="EIG.*|UNKNOWN" postag_regexp="yes" case_sensitive="yes" regexp="yes">[A-ZÄÖÜ].*</token>
                 <token min="0">.</token>
@@ -12022,7 +12022,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="ADV.*" postag_regexp="yes" min="0" />
                     <marker>
                         <token>riesen</token>
-                        <token regexp="yes">Freude|Ehre|Chance|Auswahl|Hilfe|Portion|Explosion</token>
+                        <token regexp="yes">Freude|Ehre|Chance|Auswahl|Hilfe|Portion|Explosion|Gaudi</token>
                     </marker>
                 </pattern>
                 <message>Dieses Wort wird als Nomen zusammengeschrieben, oder meinten Sie das Adjektiv "riesengroß"?</message>
@@ -24561,31 +24561,44 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
-        <rule id="FROHES_NEUES" name="frohes neues (Neues)!">
-            <antipattern>
-                <token>neues</token>
-                <token regexp="yes">.*jahr</token>
-            </antipattern>
-            <antipattern>
-                <token>neues</token>
-                <token postag="UNKNOWN|SUB.*|EIG.*" postag_regexp="yes" />
-            </antipattern>
-            <antipattern>
-                <token>neues</token>
-                <token regexp="yes" min="0">und|oder|&amp;|,</token>
-                <token regexp="yes" case_sensitive="yes">[a-zäöü].+es</token>
-            </antipattern>
-            <pattern>
-                <token regexp="yes">frohes|fröhliches</token>
-                <marker>
-                    <token case_sensitive="yes">neues</token>
-                </marker>
-            </pattern>
-            <message>Nominalisierte Adjektive sollten in der Regel großgeschrieben werden.</message>
-            <suggestion>Neues</suggestion>
-            <example correction="Neues">Ich wünsche dir ein frohes <marker>neues</marker>!</example>
-            <example>Ich wünsche dir ein frohes neues Jahr.</example>
-        </rule>
+        <rulegroup id="FROHES_NEUES" name="frohes neues (Neues)!">
+            <rule>
+                <antipattern>
+                    <token>neues</token>
+                    <token regexp="yes">.*jahr</token>
+                </antipattern>
+                <antipattern>
+                    <token>neues</token>
+                    <token postag="UNKNOWN|SUB.*|EIG.*" postag_regexp="yes" />
+                </antipattern>
+                <antipattern>
+                    <token>neues</token>
+                    <token regexp="yes" min="0">und|oder|&amp;|,</token>
+                    <token regexp="yes" case_sensitive="yes">[a-zäöü].+es</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">frohes|fröhliches</token>
+                    <marker>
+                        <token case_sensitive="yes">neues</token>
+                    </marker>
+                </pattern>
+                <message>Nominalisierte Adjektive sollten in der Regel großgeschrieben werden.</message>
+                <suggestion>Neues</suggestion>
+                <example correction="Neues">Ich wünsche dir ein frohes <marker>neues</marker>!</example>
+                <example>Ich wünsche dir ein frohes neues Jahr.</example>
+            </rule>
+            <rule default="off"><!-- unsure, see https://bastiansick.de/kolumnen/zwiebelfisch/frohes-n-neues-jahr/ -->
+                <pattern>
+                    <token>frohes</token>
+                    <marker>
+                        <token case_sensitive="yes">Neues</token>
+                    </marker>
+                    <token regexp="yes">.*jahr</token>
+                </pattern>
+                <message>Das Adjektiv <suggestion><match no="2" case_conversion="alllower" /></suggestion> sollte hier kleingeschrieben werden.</message>
+                <example correction="neues">Ich wünsche ein frohes <marker>Neues</marker> Jahr.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AM_NOETIGSTEN" name="am nötigsten (Nötigsten)">
             <url>https://www.lernnetz24.de/regeln/0453.html</url>
             <rule>
@@ -44607,7 +44620,7 @@ Andere Projekte</example>
                 <token regexp="yes">am|zum</token>
                 <token regexp="yes">nähe?sten</token>
             </pattern>
-            <message>Die Steigerungsform von "nah" sind "näher" (Komparativ) und "nächsten" (Superlativ).</message>
+            <message>Die Steigerungsformen von "nah" sind "näher" (Komparativ) und "nächsten" (Superlativ).</message>
             <suggestion>am nächsten</suggestion>
             <url>https://blog.leo.org/2011/11/30/die-naechste-tankstelle/</url>
             <example correction="am nächsten">Ich nehme das, was dem <marker>am nähesten</marker> kommt.</example>
@@ -53168,6 +53181,7 @@ Andere Projekte</example>
                  "Ich finde das Haus von Dieter sollte"
                  "Ich finde bei den Autos von Dieter sollte ..."
                  "Die Menschen glauben bei den Autos sind ..."
+                 "Ich hoffe Sie gut informiert zu haben."
                 -->
             <antipattern><!-- Tom weiß mit Lasttieren umzugehen. -->
                 <token inflected="yes" skip="12">wissen</token>
