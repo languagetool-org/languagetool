@@ -78,6 +78,15 @@ public class VerbAgreementRule extends TextLevelRule {
       token("gehst")
     ),
     Arrays.asList(
+      token("per"),
+      token("du"),
+      tokenRegex("sind|waren|sein|wären|war|ist|gewesen")
+    ),
+    Arrays.asList(
+      token("schnellst"),
+      token("möglich")
+    ),
+    Arrays.asList(
       // "Da freut er sich, wenn er schlafen geht und was findet."
       token("er"),
       token("schlafen"),
@@ -90,6 +99,10 @@ public class VerbAgreementRule extends TextLevelRule {
       token("du"),
       token("denkst"),
       token("ich")
+    ),
+    Arrays.asList(
+      token("na"),
+      token("komm")
     ),
     Arrays.asList(
       tokenRegex("muß|mußten?|müßt?en?"), // alte rechtschreibung (andere fehler)
@@ -114,6 +127,25 @@ public class VerbAgreementRule extends TextLevelRule {
       // hash tag
       token("#"),
       posRegex("VER.*")
+    ),
+    Arrays.asList(
+      // wie du war ich auch
+      token("wie"),
+      tokenRegex("du|ihr|er|es|sie"),
+      tokenRegex("bin|war"),
+      token("ich")
+    ),
+    Arrays.asList(
+      // Arabic names: Aryat Abraha bin Sabah Kaaba
+      posRegex("UNKNOWN|EIG.*"),
+      token("bin"),
+      posRegex("UNKNOWN|EIG.*")
+    ),
+    Arrays.asList(
+      // Du scheiß Idiot
+      tokenRegex("du|sie"),
+      tokenRegex("schei(ß|ss)"),
+      posRegex("SUB.*|UNKNOWN")
     ),
      Arrays.asList(
        token("Du"),
@@ -155,13 +187,20 @@ public class VerbAgreementRule extends TextLevelRule {
       // "Sie fragte, ob er bereit für die zweite Runde ist."
       posRegex("VER.*"),  // z.B. "Bist"
       tokenRegex("er|sie|ich|wir|du|es|ihr"),
-      tokenRegex("gleich|bereit|lange|schnelle?")  // ist hier kein Verb
+      tokenRegex("gleich|bereit|lange|schnelle?|halt|bitte")  // ist hier kein Verb
     ),
     Arrays.asList(
       // "Dallun sagte nur, dass er gleich kommen wird und legte wieder auf."
       posRegex("ADV.*|KON.*"),
       tokenRegex("er|sie|ich|wir|du|es|ihr"),
-      tokenRegex("gleich|bereit|lange|schnelle?")  // ist hier kein Verb
+      tokenRegex("gleich|bereit|lange|schnelle?|halt|bitte")  // ist hier kein Verb
+    ),
+    Arrays.asList(
+      // "Woraufhin ich verlegen lächelte"
+      posRegex("ADV.*|KON.*"),
+      tokenRegex("er|sie|ich|wir|du|es|ihr"),
+      tokenRegex("verlegen"),
+      posRegex("VER.*")
     ),
     Arrays.asList(
       // "Bringst nicht einmal so etwas Einfaches zustande!"

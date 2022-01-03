@@ -6527,10 +6527,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="о том, что">Я хотел сказать <marker>о том, то что</marker> будет.</example>
             <example>Я хотел сказать о том, что будет.</example>
         </rule>
-        <rule id="grammar_coordination_of_verbal_participle_phrases" name="Грамматические ошибки вида: «Идя по улице, у меня развязался шнурок»">
-            <!-- TODO: Make this rule more universal, add postags (+) -->         
+        <rule id="grammar_coordination_of_verbal_participle_phrases" name="Грамматические ошибки вида: «Идя по улице, у меня развязался шнурок»">     
             <pattern>
-                <token postag_regexp="yes" postag="DPT:Real:.*:.*"></token>
+                <token postag_regexp="yes" postag="DPT:Real:.*:.*"><exception postag_regexp="yes" postag="DPT:Real:.*:.*" negate_pos="yes"></exception></token>
                 <token skip="3"></token>
                 <token>,</token>
                 <token>у</token>
@@ -6540,6 +6539,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>Когда я <match  no="1" postag="DPT:Real:(.*):(.*)" postag_regexp="yes" postag_replace="VB:Past:$1:$2:(Masc|Fem)" /> <match no="2" include_skipped="all" />, <match no="4" /> <match no="5" /></suggestion>
             <short>Грамматическая ошибка</short>
             <example correction="Когда я шла по улице, у меня|Когда я шёл по улице, у меня"><marker>Идя по улице, у меня</marker> развязался шнурок.</example>
+            <example>Всякий раз, как я вижу, как плачет моя дочь, у меня сердце кровью обливается.</example>
             <example>Когда я шёл по улице, у меня развязался шнурок.</example>
         </rule>
         <rule id="grammar_Duplication_by_the_pronoun_of_the_noun-subject" name="Грамматические ошибки. Дублирование местоимением существительного-подлежащего">
@@ -11236,6 +11236,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Он был за домом.</example>
             <example>Я спросил, что это за вода?</example>   <!-- check disambig. Ok. вода - Nom -->
             <example>Я спросил, что это за человек?</example>   <!-- check disambig Ok. человек - Nom -->
+            <example>Что он был за человек?</example>
             <example>Однако из за уменьшения габаритов и веса комплектующих</example>  <!-- incorrect example, but for another rule -->
         </rule>
         <rule id="PREP_Na_And_Noun" name="Предлог «на» и существительное" >

@@ -236,13 +236,11 @@ Copyright (C) 2009-2021 Yakov Reztsov
     </rule>
 
     <rule name="NOUN_NOT_NOM" id="NOUN_NOT_NOM">
-        <antipattern>
-            <token>что</token>
-            <token>это</token>
+        <antipattern> <!-- exception for: Что он был за человек? -->
+            <token skip="-1">что</token>
             <token>за</token>
             <token postag="NN:.*:.*:.*:Nom" postag_regexp="yes"></token> 
         </antipattern>
-
         <pattern>	 
             <!-- Что за головная боль!    "Что за" - междометие -->
             <!-- Add exception for : "Что за + NN:.*:.*:Nom" -->
