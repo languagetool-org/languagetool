@@ -13473,17 +13473,6 @@ Eu comprei-a quando fui à loja.
     </rule>
   </rulegroup>
 
-    <rule id='DÊS_DO' name="Desde o">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-      <pattern>
-          <token>dês</token>
-          <token regexp='yes'>dos?</token>
-      </pattern>
-      <message>Substitua por <suggestion>desde o<match no='2' regexp_match='(do)(s?)' regexp_replace='$2'/></suggestion>.</message>
-      <example correction="desde o">Isto acontece <marker>dês do</marker> mês passado.</example>
-      <example correction="desde os">Isto acontece <marker>dês dos</marker> tempos da minha avó.</example>
-    </rule>
-
     <rule id='DESDE_QUE_HAJAM' name="Desde que haja">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
@@ -24817,8 +24806,8 @@ o tomate'>
 
  <category id='CONFUSED_WORDS' name="Confusão de Palavras">
  
-	 <!--      Created by Jaume Ortolà, Portuguese rule 2021-01-08      -->
      <rulegroup id="DIACRITICS" name="Confusão com diacríticos">
+	 <!--      Created by Jaume Ortolà, Portuguese rule 2021-01-08      -->
          <rule>
 <!-- MARCOAGPINTO 2021-01-09 (1-JAN-2021+) *START* -->
 <!--
@@ -24887,9 +24876,49 @@ Como nos canta Afonso X de Castela, o Rei Sábio.
       <example correction="acerto">Vamos fazer um <marker>asserto</marker> de contas.</example>
     </rule>
 	 
-	<!-- DOS dois -->
+	<!-- DÊS desde -->
+    <rulegroup id='CONFUSÃO_DÊS_DESDE' name="Confusão: dês/desde" default="temp_off">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-03 (1-JAN-2022+)      -->
+	<!--
+Faço isso dês que me dê o livro. → Faço isso desde que me dê o livro.
+Faço isso dês de que me dê o livro. → Faço isso desde que me dê o livro.
+	-->
+	  <rule>
+		<pattern>
+			<marker>
+				<token>dês</token>
+				<token min="0" max="1">de</token>
+			</marker>
+			<token>que</token>
+		</pattern>
+		<message>Possível confusão de termos.</message>
+		<suggestion>desde</suggestion>
+		<example correction="desde">Faço isso <marker>dês</marker> que me dê o livro.</example>
+		<example correction="desde">Faço isso <marker>dês de</marker> que me dê o livro.</example>
+      </rule>
+	<!--
+Isto acontece dês do mês passado. → Isto acontece desde o mês passado.
+Isto acontece dês dos meses passados. → Isto acontece desde os meses passados.
+Isto acontece dês da semana passada. → Isto acontece desde a semana passada.
+Isto acontece dês das semanas passadas. → Isto acontece desde as semanas passadas.
+	-->
+	  <rule>
+		<pattern>
+			<token>dês</token>
+			<token regexp='yes'>d[ao]s?</token>
+		</pattern>
+		<message>Possível confusão de termos.</message>
+		<suggestion>desde <match no='2' regexp_match='(d)(.)(s?)' regexp_replace='$2$3'/></suggestion>
+		<example correction="desde o">Isto acontece <marker>dês do</marker> mês passado.</example>
+		<example correction="desde os">Isto acontece <marker>dês dos</marker> meses passados.</example>
+		<example correction="desde a">Isto acontece <marker>dês da</marker> semana passada.</example>
+		<example correction="desde as">Isto acontece <marker>dês das</marker> semanas passadas.</example>		
+      </rule>
+	</rulegroup>
+	 
+	<!-- DOS dois -->	
+	<rulegroup id='CONFUSÃO_DOS_DOIS' name="Confusão: dos/dois">
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-01 (Checked/Enhanced) (1-JAN-2022+)      -->
-	<rulegroup id='CONFUSÃO_DOS_DOIS' name="Confusão: dos/dois"> 
 <!--
 Sinto frio mesmo com dos pares de meias. → Sinto frio mesmo com dois pares de meias.
 -->		
@@ -25381,23 +25410,6 @@ O Rui já cá esta. → O Rui já cá está.
       <example>Universidade de Trás-os-Montes e Alto Douro</example>
     </rule>
   </rulegroup>
-
-	<!-- DÊS QUE desde que -->
-    <rule id='DES_QUE_DESDE_QUE' name="Confusão: dês/desde">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-12-10 (25-JUN-2021+)      -->
-	<!--
-Faço isso dês que me dê o livro. → Faço isso desde que me dê o livro.
-	-->
-      <pattern>
-		<marker>
-			<token>dês</token>
-		</marker>
-		<token>que</token>
-      </pattern>
-      <message>Possível confusão de termos.</message>
-	  <suggestion>desde</suggestion>
-      <example correction="desde">Faço isso <marker>dês</marker> que me dê o livro.</example>
-    </rule>	
 
 	<!-- E POSSÍVEL VENCER é possível vencer -->
     <rulegroup id='CONFUSÃO_E_É' name="Confusão: e/é">
