@@ -255,6 +255,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Mögliche Tippfehler">
+        <rule id="SPELL_NUMBER_TEST" name="spell number test" default="temp_off">
+            <pattern>
+               <token regexp="yes">\d+</token> 
+            </pattern>
+            <message>Buchstabiere die Zahlen! (Test)</message>
+            <suggestion><match no="1" postag="_spell_number_"/></suggestion>
+            <example correction="einhundertdreiundzwanzig"><marker>123</marker></example>
+        </rule>
         <rule id="MOMENTANE" name="momentane (momentan)">
             <antipattern>
                 <token regexp="yes">die|eine</token>
