@@ -81,6 +81,7 @@ import java.util.stream.Stream;
 public abstract class GRPCRule extends RemoteRule {
   private static final Logger logger = LoggerFactory.getLogger(GRPCRule.class);
   private static final int DEFAULT_BATCH_SIZE = 8;
+  public static final String WHITESPACE_REGEX = "[\u00a0\u202f\ufeff\ufffd]";
 
   public static String cleanID(String id) {
     return id.replaceAll("[^a-zA-Z_]", "_").toUpperCase();
@@ -215,7 +216,7 @@ public abstract class GRPCRule extends RemoteRule {
     List<String> text = sentences.stream().map(AnalyzedSentence::getText).map(s -> {
         if (whitespaceNormalisation) {
           // non-breaking space can be treated as normal space
-          return s.replaceAll("[\u00a0]", " ");
+          return s.replaceAll(WHITESPACE_REGEX, " ");
         } else {
           return s;
         }
