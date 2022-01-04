@@ -57,6 +57,7 @@ public abstract class RemoteRule extends Rule {
   protected final boolean inputLogging;
   protected final boolean filterMatches;
   protected final boolean fixOffsets;
+  protected final boolean whitespaceNormalisation; // implemented only in GRPCRule for now
   protected final Language ruleLanguage;
   protected final JLanguageTool lt;
   protected final Pattern suppressMisspelledMatch;
@@ -72,6 +73,7 @@ public abstract class RemoteRule extends Rule {
       ruleId = getId();
     }
     filterMatches = Boolean.parseBoolean(serviceConfiguration.getOptions().getOrDefault("filterMatches", "false"));
+    whitespaceNormalisation = Boolean.parseBoolean(serviceConfiguration.getOptions().getOrDefault("whitespaceNormalisation", "true"));
     fixOffsets = Boolean.parseBoolean(serviceConfiguration.getOptions().getOrDefault("fixOffsets", "true"));
     try {
       if (serviceConfiguration.getOptions().containsKey("suppressMisspelledMatch")) {

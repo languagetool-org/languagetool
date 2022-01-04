@@ -3,14 +3,13 @@
 
   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
-      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS ZZZZ} %-5level [%thread] [%method] rID:%X{rID} %logger %msg%n</pattern>
+      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS ZZZZ} %-5level %logger %msg%n</pattern>
     </encoder>
   </appender>
 
   <appender name="METRICS" class="org.languagetool.server.InstrumentedAppender" />
 
   <logger name="org.languagetool" level="INFO"/>
-  <logger name="org.languagetool.tools.LtThreadPoolFactory" level="DEBUG" />
   <!-- for debugging purposes only: log queries / responses -->
   <!--  <logger name="org.languagetool.server.UserDictMapper" level="TRACE" />-->
   <!--  <logger name="org.languagetool.server.GroupMapper" level="TRACE" />-->

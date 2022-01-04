@@ -4409,7 +4409,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <marker>
                 <token regexp="yes">\p{Lu}\p{Ll}+</token>
             </marker>
-            <token regexp="yes">Street|Avenue|Boulevard|Crescent|Drive|Lane|Road|Walk</token>
+            <token regexp="yes">Street|Avenue|Boulevard|Crescent|Drive|Lane|Road|Walk|Straße|Allee</token>
         </pattern>
         <disambig postag="NNP"/>
         <example type="untouched">You Never Walk Alone</example>
@@ -15701,14 +15701,29 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig action="remove" postag="DT"/>
     </rule>
 
-
-    <rule id="STR_PERIOD" name="Ignore spelling of 'Str.'">
-        <pattern>
-            <token case_sensitive="yes">Str</token>
-            <token spacebefore="no">.</token>
-        </pattern>
-        <disambig action="ignore_spelling"/>
-    </rule>
+    <rulegroup id="GERMAN_STREET_NAMES" name="ignore spelling of German street names">
+        <rule>
+            <pattern>
+                <token regexp="yes">[A-ZÄÖÜ][a-zäöüß]+</token>
+                <token case_sensitive="yes">Str</token>
+                <token spacebefore="no">.</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">[A-ZÄÖÜ][a-zäöüß]+</token>
+                <token case_sensitive="yes" regexp="yes">(Straße|Allee|Weg|Chaussee|Twiete)</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token case_sensitive="yes" regexp="yes">[A-ZÄÖÜ][a-zäöüß]+-(Straße|Allee|Weg|Chaussee|Twiete)</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
 
 
     <rulegroup id="MICHAELS_IGNORE_SPELLING" name="ignore spelling of 'Michaels'">

@@ -81,6 +81,7 @@ import java.util.stream.Stream;
 public abstract class GRPCRule extends RemoteRule {
   private static final Logger logger = LoggerFactory.getLogger(GRPCRule.class);
   private static final int DEFAULT_BATCH_SIZE = 8;
+  public static final String WHITESPACE_REGEX = "[\u00a0\u202f\ufeff\ufffd]";
 
   public static String cleanID(String id) {
     return id.replaceAll("[^a-zA-Z_]", "_").toUpperCase();
@@ -212,7 +213,14 @@ public abstract class GRPCRule extends RemoteRule {
 
   @Override
   protected RemoteRule.RemoteRequest prepareRequest(List<AnalyzedSentence> sentences, @Nullable Long textSessionId) {
-    List<String> text = sentences.stream().map(AnalyzedSentence::getText).collect(Collectors.toList());
+    List<String> text = sentences.stream().map(AnalyzedSentence::getText).map(s -> {
+        if (whitespaceNormalisation) {
+          // non-breaking space can be treated as normal space
+          return s.replaceAll(WHITESPACE_REGEX, " ");
+        } else {
+          return s;
+        }
+    }).collect(Collectors.toList());
     List<Long> ids = Collections.emptyList();
     if (textSessionId != null) {
       ids = Collections.nCopies(text.size(), textSessionId);
@@ -231,7 +239,7 @@ public abstract class GRPCRule extends RemoteRule {
       requests.add(req);
     }
     if (requests.size() > 1) {
-      logger.info("Split {} sentences into {} requests for {}", sentences.size(), requests.size(), getId());
+      logger.debug("Split {} sentences into {} requests for {}", sentences.size(), requests.size(), getId());
     }
     return new MLRuleRequest(requests, sentences);
   }
@@ -254,6 +262,7 @@ public abstract class GRPCRule extends RemoteRule {
       try {
         for (MLServerProto.MatchRequest req : reqData.requests) {
           if (timeoutMilliseconds > 0) {
+            logger.debug("Deadline for rule {}: {}ms", getId(), timeoutMilliseconds);
             futures.add(conn.stub
               .withDeadlineAfter(timeoutMilliseconds, TimeUnit.MILLISECONDS)
               .match(req));
