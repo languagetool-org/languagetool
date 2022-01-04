@@ -12893,39 +12893,7 @@ A minha UPS nova vinha estragada. → A minha UPS nova vinha avariada.
       <example correction="à meia-noite">O encontro é <marker>à meia noite</marker>.</example>
     </rule>
 
-    <rule id='À_HÁ_CONFUSÃO' name="Confusão: à/há">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-05-27 (Enhanced) (17-MAR-2021+)      -->
-<!--
-Ainda à muito para fazer. → Ainda há muito para fazer. 
-Ainda à pouco para fazer. → Ainda há pouco para fazer.
-Ainda à bastante para fazer. → Ainda há bastante para fazer.
-Ainda à imenso para fazer. → Ainda há imenso para fazer.
-Ele veio, embora à muito se saiba. → Ele veio, embora há muito se saiba.
--->	
-      <antipattern>
-		<token postag='RG|CS' postag_regexp='yes'/>
-		<token>à</token>
-		<token regexp='yes'>noite|tarde|esquerda|direita|frente|disposição|medida|primeira|partida</token>
-	  </antipattern>
-	  <pattern>
-		  <token postag='RG|CS' postag_regexp='yes'>
-            <exception postag_regexp='yes' postag='DI.+|NC.+|AQ0.+|PI.+|CC|SPS.+'/>
-		  </token>
-		  <marker>
-			<token>à</token>
-		  </marker>
-		  <token postag='PI.+|RG' postag_regexp='yes'>
-            <exception postag_regexp='yes' postag='V.+'/>
-		  </token>
-      </pattern>
-      <message>Substitua por <suggestion>há</suggestion>.</message>
-      <example correction="há">Ainda <marker>à</marker> muito a fazer.</example>
-	  <example>Ainda há muito para fazer.</example>
-	  <example>Ainda há pouco para fazer.</example>
-	  <example>Ainda há bastante para fazer.</example>
-	  <example>Ainda há imenso para fazer.</example>
-	  <example>Ele veio, embora há muito se saiba.</example>	  
-    </rule>
+
 
     <rule id='A_PREÇO_PELO' name="Confusão: a preço/apreço">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
@@ -24804,8 +24772,12 @@ o tomate'>
 
  </category>
 
+
+
  <category id='CONFUSED_WORDS' name="Confusão de Palavras">
- 
+
+
+
      <rulegroup id="DIACRITICS" name="Confusão com diacríticos">
 	 <!--      Created by Jaume Ortolà, Portuguese rule 2021-01-08      -->
          <rule>
@@ -24860,7 +24832,218 @@ Como nos canta Afonso X de Castela, o Rei Sábio.
              <example>Você nos incomoda com sua música.</example>
          </rule>
      </rulegroup>
-	 
+
+
+
+	<!-- À há -->
+    <rulegroup id='CONFUSÃO_À_HÁ' name="Confusão: à/há (expressões de tempo/quantidade)">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-04 (1-JAN-2022+)      -->
+	<!--
+O show aconteceu à aproximadamente dois meses. → O show aconteceu há aproximadamente dois meses.
+Conheço a Ana à quase 30 anos. → Conheço a Ana há quase 30 anos.
+Ainda à muito para fazer. → Ainda há muito para fazer. 
+Ainda à pouco para fazer. → Ainda há pouco para fazer.
+Ainda à bastante para fazer. → Ainda há bastante para fazer.
+Ainda à imenso para fazer. → Ainda há imenso para fazer.
+
+NOTE THAT THIS FIRST RULE DOESN'T HAVE AN EXCEPTION FOR 'SPS.+' TO FLAG:
+Até à relativamente pouco tempo era possível observar-se as faixas horizontais de azulejos. → "Até HÁ"
+	-->
+
+<!--
+THIS ANTIPATTERN IS FOR BOTH RULES.
+IT FIXES FALSE POSITIVES SUCH AS:
+Seu fuso horário é de menos quatro horas (-4) em relação à hora mundial GMT.
+"Ele reúne, o que é muito raro, a maior inocência de costumes à mais vasta capacidade intelectual que já encontrei na América num menino da sua idade".
+Antologia Ilustrada de Filosofia: das origens à Idade Moderna.
+Não há diferenças com relação à idade, sexo e entre grupos no uso de tais vocalizações.
+A Revolução é considerada como o acontecimento que deu início à Idade Contemporânea.
+A origem desta aldeia remonta à era romana e esteve sempre associada à rota do sal.
+Ela apareceu no parque mesmo à hora marcada.
+Com Saladino, teve um adversário à altura, combatendo e travando um subtil táctico.
+Dizia-se, à época, que os negros deviam ser tratados com os três "P": Pano, pão e pau.
+Martin resolveu contratá-los, mas teve um problema com Pete Best, considerando-o, à época, "fraco".
+Os métodos para preparo diferem muito em relação à ocasião ou a cultura local.
+O gado comprava-se noutras terras e a caça que aparecia resumia-se a coelhos, lebres, perdizes e, à época, as rolas.
+Durante a Segunda Guerra Mundial, o Projeto Manhattan desenvolveu armas nucleares, dando início à Era Atômica.
+Nesse documento de doação não é mencionada a ilha das Flores, uma vez que, à época, não tinha um nome.
+Este é um ritual que remonta à Idade Média que se repete ao longo dos séculos com um sentimento profundamente religioso.
+Historicamente, a dependência britânica de Anguila fazia também parte da federação, que era à altura conhecida como São Cristóvão-Neves-Anguila.
+Ele tinha dois alunos a cinquenta francos à hora.
+Tornou-se freguesia em 1495, à data pertencia ao concelho de Óbidos.
+As reuniões raramente começam à hora prevista.
+Ele frequentemente assiste à TV.
+-->
+	  <antipattern>
+		<token postag='SPS.+|_PUNCT|V.+|NC.+|AQ.+|RG|DI.+|DP.+|PP.+|AO.+|CC|NP.+|UNKNOWN|CS|I|Z0.+|PI.+|_QUOT|RM|DD.+' postag_regexp='yes'/>
+		<token postag='NC.+|AQ.+|_PUNCT|UNKNOWN|NP.+|DP.+|I|V.+|PP.+|RM|DD.+|_QUOT' postag_regexp='yes'/>
+		<token>à</token>
+		<token postag='NC.+|AQ.+|NP.+|SPS.+|UNKNOWN|DI.+|DP.+|PP.+|DA.+|RG|RN|CS|_PUNCT|I|V.+|DD.+|_QUOT' postag_regexp='yes'/>
+		<token postag='NC.+|AQ.+|NP.+|_PUNCT|CC|V.+|CS|UNKNOWN|DI.+|DP.+|PP.+|DA.+|RN|I|RG|RM|DD.+|_QUOT' postag_regexp='yes'>
+			<exception regexp='yes'>&expressoes_de_tempo;</exception>
+		</token>
+	  </antipattern>
+	  
+<!--
+THIS ANTIPATTERN IS FOR BOTH RULES.
+BASED ON THE FIRST ONE AND THE SENTENCE STARTING AS "À" (SENT_START or COMMA).
+NO MORE CHANGES IN THE FIRST.
+IT FIXES FALSE POSITIVES SUCH AS:
+À época, Hippolyte Bayard também desenvolveu um método de fotografia.
+À época, o Maranhão era uma das mais ricas regiões do Brasil.
+À data, parte da freguesia já era «Honra de Farlães».
+À data, nenhuma sonda visitou Ceres.
+À época esta cidade compunha os territórios Poloneses tomados pela Prússia nas Divisões da Polônia.
+À data esta raça de cães era relativamente desconhecida pela toda população do concelho.
+-->
+	  <antipattern>
+		<token postag='SENT_START|_PUNCT' postag_regexp='yes'/>
+		<token>à</token>
+		<token postag='NC.+|AQ.+|NP.+|SPS.+|UNKNOWN|DI.+|DP.+|PP.+|DA.+|RG|RN|CS|_PUNCT|I|V.+|DD.+|_QUOT' postag_regexp='yes'/>
+		<token postag='NC.+|AQ.+|NP.+|_PUNCT|CC|V.+|CS|UNKNOWN|DI.+|DP.+|PP.+|DA.+|RN|I|RG|RM|DD.+|_QUOT' postag_regexp='yes'>
+			<exception regexp='yes'>&expressoes_de_tempo;</exception>
+		</token>
+	  </antipattern>
+	  
+<!--
+THIS ANTIPATTERN IS FOR BOTH RULES.
+BASED ON THE FIRST ONE AND INSTEAD OF CHECKING FOR THE WORD "À",
+IT SEARCHES FOR "à hora de" (SPS00).
+NO MORE CHANGES IN THE FIRST.
+IT FIXES FALSE POSITIVES SUCH AS:
+Isso significa que horário oficial no Brasil varia de 2 a 4 horas a menos em relação à hora de Greenwich (GMT).
+Não teve tanto sucesso à hora de tornar França numa grande potência comercial equiparável à Inglaterra e a Holanda.
+Os acadêmicos também estão divididos à hora de estabelecer uma causa para o final do mercantilismo.
+À hora de assinar os ofícios valorizava acima de tudo a lealdade e a maleabilidade.
+No atual acordo ortográfico (2003) é feita uma referência ao português como critério utilizado à hora de elaborar a norma.
+-->
+	  <antipattern>
+		<token>à</token>
+		<token>hora</token>
+		<token>de</token>
+	  </antipattern>
+
+	  <rule>
+<!--
+A flora corresponde à predominantemente típica do domínio do cerrado.
+Em oposição à relativamente monótona atmosfera de Úrano, a atmosfera de Neptuno é notável.
+Essas movendo-se obviamente também em direção contrária à realmente verificada para as cargas negativas.
+-->
+		<antipattern>
+			<token negate_pos="yes" postag='RG|SPS00' postag_regexp='yes'/>
+			<token>à</token>
+			<token postag='RM' postag_regexp='no'/>
+			<token postag='NC.+|AQ.+|NP.+|V.+' postag_regexp='yes'>
+				<exception postag_regexp='yes' postag='Z0.+'/>
+			</token>
+		</antipattern>
+
+		<pattern>
+			<token postag='SENT_START|_PUNCT|NC.+|AQ.+|NP.+|RG|PP.+|V.+' postag_regexp='yes'/>
+			<marker>
+				<token>à</token>
+			</marker>
+			<token regexp="yes">&adverbios_de_intensidade;
+				<exception postag_regexp='no' postag='RN'/>
+			</token>
+		</pattern>
+		<message>Para expressões de tempo/quantidade utilize 'há'.</message>
+		<suggestion>há</suggestion>
+		<example correction="há">Ainda <marker>à</marker> muito para fazer.</example>
+		<example correction="há">Conheço a Ana <marker>à</marker> quase 30 anos.</example>
+		<example correction="há">Esteve à margem <marker>à</marker> aproximadamente dois meses.</example>
+		<example>Ainda há muito para fazer.</example>
+		<example>Ainda há pouco para fazer.</example>
+		<example>Ainda há bastante para fazer.</example>
+		<example>Ainda há imenso para fazer.</example>
+		<example>Até há relativamente pouco tempo era possível observar-se as faixas horizontais de azulejos.</example>
+		<example>Até os seus mortos foram por esses caminhos transportados, até à não muito distante década de 1960, para o cemitério da Erada.</example>		
+
+		<example>A flora corresponde à predominantemente típica do domínio do cerrado.</example>
+		<example>Em oposição à relativamente monótona atmosfera de Úrano, a atmosfera de Neptuno é notável.</example>
+		<example>Essas movendo-se obviamente também em direção contrária à realmente verificada para as cargas negativas.</example>
+	  </rule>
+	  
+	<!--
+Conheço a Ana à 30 anos. → Conheço a Ana há 30 anos.
+Conhecemos os maias à séculos. → Conhecemos os maias há séculos.
+Nos barcos à toneladas de peixe pescado. → Nos barcos há toneladas de peixe pescado.
+	-->
+	  <rule>
+<!--
+A bandeira do Estado do Amazonas remonta ao século XIX, especificamente à década de 1890.
+À idade de 25 anos, ela vivera em muitos países.
+À hora da experiência, uma chuva forte tornou o balão pesado.
+Ainda à época do conflito, ocorreu a inauguração do Peter Café Sport (1918).
+-->
+		<antipattern>
+			<token>à</token>
+			<token regexp="yes">&expressoes_de_tempo;</token>
+			<token postag='SPS.+' postag_regexp='yes'/>
+		</antipattern>
+		
+<!--
+Toy Story, e sua continuação , Toy Story 2 ganham uma roupagem à Século XXI.
+-->
+		<antipattern>
+			<token>à</token>
+			<token regexp="yes">&expressoes_de_tempo;</token>
+			<token postag='ZR.+|AO.+' postag_regexp='yes'/>
+		</antipattern>
+
+<!--
+Ele está assistindo à TV em seu quarto.
+Eu provavelmente não assistirei à TV esta noite.
+Tom estava assistindo à TV na noite passada.
+O Tom não faz nada além de assistir à TV o dia inteiro.
+Assistir à TV é um dos meus passatempos favoritos.
+-->
+		<antipattern>
+			<token postag='V.+' postag_regexp='yes'/>
+			<token>à</token>
+			<token postag='NP.+' postag_regexp='yes'/>
+		</antipattern>	
+
+		<pattern>
+			<token postag='SENT_START|_PUNCT|NC.+|AQ.+|NP.+|RG|PP.+|V.+' postag_regexp='yes'>
+				<exception postag_regexp='yes' postag='SPS.+'/>
+			</token>
+			<marker>
+				<token>à</token>
+			</marker>
+			<token min="0" max="1" postag='Z0.+' postag_regexp='yes'/>
+			<token regexp="yes">&expressoes_de_tempo;|&unidades_de_medida;|&unidades_de_medida_por_extenso;
+				<exception postag_regexp='yes' postag='SPS.+'/>
+			</token>
+		</pattern>
+		<message>Para expressões de tempo/quantidade utilize 'há'.</message>
+		<suggestion>há</suggestion>
+		<example correction="há">Conheço a Ana <marker>à</marker> 30 anos.</example>
+		<example correction="há">Conhecemos os maias <marker>à</marker> séculos.</example>
+		<example correction="há">Nos barcos <marker>à</marker> toneladas de peixe pescado.</example>
+		<example>A agricultura de subsistência, muito praticada até à década de 1980, tem vindo a ser abandonada.</example>
+		<example>Sua produção, muito superior à das ilhas portuguesas no Atlântico, supria quase toda a Europa.</example>
+		<example>A estrutura de funcionamento das comunidades intermunicipais é muito semelhante à das áreas metropolitanas.</example>
+		<example>A Bandeira de Portugal deverá ser sempre de dimensão superior ou igual à das outras bandeiras;</example>
+		<example>Esta métrica é similar à das distâncias no espaço euclidiano.</example>
+
+		<example>A bandeira do Estado do Amazonas remonta ao século XIX, especificamente à década de 1890.</example>
+		<example>À idade de 25 anos, ela vivera em muitos países.</example>
+		<example>À hora da experiência, uma chuva forte tornou o balão pesado.</example>
+		<example>Ainda à época do conflito, ocorreu a inauguração do Peter Café Sport (1918).</example>
+
+		<example>Toy Story, e sua continuação , Toy Story 2 ganham uma roupagem à Século XXI.</example>
+
+		<example>Ele está assistindo à TV em seu quarto.</example>
+		<example>Eu provavelmente não assistirei à TV esta noite.</example>
+		<example>Tom estava assistindo à TV na noite passada.</example>
+		<example>O Tom não faz nada além de assistir à TV o dia inteiro.</example>
+		<example>Assistir à TV é um dos meus passatempos favoritos.</example>
+	  </rule>
+	</rulegroup>
+
+
+
 	<!-- ASSERTO acerto -->
     <rule id='CONFUSÃO_ASSERTO_ACERTO_DE_CONTAS' name="Confusão: asserto/acerto">
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-01 (Checked/Enhanced) (1-JAN-2022+)      -->
@@ -24875,7 +25058,9 @@ Como nos canta Afonso X de Castela, o Rei Sábio.
 	  <suggestion>acerto</suggestion>
       <example correction="acerto">Vamos fazer um <marker>asserto</marker> de contas.</example>
     </rule>
-	 
+
+
+
 	<!-- DÊS desde -->
     <rulegroup id='CONFUSÃO_DÊS_DESDE' name="Confusão: dês/desde" default="temp_off">
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-03 (1-JAN-2022+)      -->
@@ -24896,6 +25081,7 @@ Faço isso dês de que me dê o livro. → Faço isso desde que me dê o livro.
 		<example correction="desde">Faço isso <marker>dês</marker> que me dê o livro.</example>
 		<example correction="desde">Faço isso <marker>dês de</marker> que me dê o livro.</example>
       </rule>
+
 	<!--
 Isto acontece dês do mês passado. → Isto acontece desde o mês passado.
 Isto acontece dês dos meses passados. → Isto acontece desde os meses passados.
@@ -24915,8 +25101,10 @@ Isto acontece dês das semanas passadas. → Isto acontece desde as semanas pass
 		<example correction="desde as">Isto acontece <marker>dês das</marker> semanas passadas.</example>		
       </rule>
 	</rulegroup>
-	 
-	<!-- DOS dois -->	
+
+
+
+	<!-- DOS dois -->
 	<rulegroup id='CONFUSÃO_DOS_DOIS' name="Confusão: dos/dois">
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-01 (Checked/Enhanced) (1-JAN-2022+)      -->
 <!--
@@ -24937,6 +25125,7 @@ Sinto frio mesmo com dos pares de meias. → Sinto frio mesmo com dois pares de 
 			<example>Cada um dos dois prisioneiros receberá uma dura pena.</example>
 			<example>Isto aconteceu em dois anos de trabalho.</example>
 		</rule>
+
 <!--
 Nós os dos queremos ganhar. → Nós os dois queremos ganhar.
 -->
@@ -24961,12 +25150,14 @@ Nós os dos queremos ganhar. → Nós os dois queremos ganhar.
 		</rule>
 	</rulegroup>
 
+
+
 	<!-- NOS nós -->
 	<rulegroup id='CONFUSÃO_NOS_NÓS' name="Confusão: nos/nós" default="temp_off">
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-02/3 (1-JAN-2022+)      -->
 <!--
 Nos somos os chefes. → Nós somos os chefes.
--->		
+-->
 		<rule>
 <!--
 Nos mais jovens, é mais comum ela ser noticiada aos familiares.
@@ -25042,21 +25233,23 @@ THIS ANTIPATTERN WAS BASED ON TIAGO SANTO'S RULE WHICH WAS REPLACED BY MY OWN RU
 			<example>Nos outros movimentos há passagens em acordes e arpejos.</example>			
 			<example>São Roque do Pico, nos Açores.</example>
 			<example>Criámos um fórum onde nós os três seríamos os administradores.</example>
-			
+
 			<example>Nos mais jovens, é mais comum ela ser noticiada aos familiares.</example>
 			<example>Por favor, nos dê alguns exemplos.</example>
-			
+
 			<example>Desde 1951, a Austrália tem sido um aliado militar formal dos Estados Unidos, nos termos do tratado ANZUS.</example>
 			<example>Nos termos da Constituição, a autonomia regional não afecta a integridade da soberania do Estado.</example>
 			<example>Nos termos deste acordo, formar-se-ia no mesmo mês um governo de transição.</example>
 			<example>Nos lhanos do Orinoco e no planalto das Guianas, as precipitações vão de moderadas a elevadas.</example>
 			<example>Nos seres unicelulares a mitose já possui o papel da reprodução em si.</example>
 			<example>Nos dez dias após seu lançamento, o livro vendeu 11,5 milhões de cópias.</example>
-			
+
 			<example>O que não nos mata, nos deixa mais fortes.</example>
 			<example>Nos cerca de 100 eventos organizados entre Setembro de 2006 e Outubro de 2012, estiveram contabilizados os feridos.</example>	
 		</rule>
 	</rulegroup>
+
+
 
 	<!-- VESTIR calçar -->
     <rule id='CONFUSÃO_VESTIR_CALÇAR' name="Confusão: vestir/calçar">
@@ -25065,6 +25258,7 @@ THIS ANTIPATTERN WAS BASED ON TIAGO SANTO'S RULE WHICH WAS REPLACED BY MY OWN RU
 Vou calçar os sapatos.
 Não se esqueça de calçar as meias.
 -->
+
 <!--
 Kullervo abriu a arca que continha seus tesouros, deixando ver galas soberbas, vestidos esplêndidos, meias bordadas com fios de ouro, cintos e broches de prata.
 Vence a indústria do luxo, porque a disputa hoje é sobre os melhores e piores vestidos, sapatos, acessórios, publicados exaustivamente pela imprensa internacional e, claro, repercutidos aqui no Brasil.
@@ -25074,6 +25268,7 @@ Vence a indústria do luxo, porque a disputa hoje é sobre os melhores e piores 
 		<token min="0" max="1" negate="yes" regexp="yes">botas?|chinelos?|galochas?|luvas?|meias?|peúgas?|sandálias?|sapatilhas?|sapatos?|ténis</token>
 		<token postag='_PUNCT' postag_regexp='no'/>
       </antipattern>
+
       <pattern>
 	      <marker>
 			<token inflected="yes">vestir</token>
@@ -25090,6 +25285,8 @@ Vence a indústria do luxo, porque a disputa hoje é sobre os melhores e piores 
 	  <example>Kullervo abriu a arca que continha seus tesouros, deixando ver galas soberbas, vestidos esplêndidos, meias bordadas com fios de ouro, cintos e broches de prata.</example>
 	  <example>Vence a indústria do luxo, porque a disputa hoje é sobre os melhores e piores vestidos, sapatos, acessórios, publicados exaustivamente pela imprensa internacional e, claro, repercutidos aqui no Brasil.</example>
     </rule>
+
+
 
 	<!-- ASSISTIR (Ver) -->
     <rule id='ASSISTIR_VER' name="Confusão: Assistir (ver)">
@@ -25173,46 +25370,7 @@ Apenas adultos podem assistir àquele filme.
       <example correction="à tua">Dá uma mãozinha <marker>há tua</marker> família.</example>
     </rule>
 
-    <rule id='À-HÁ_N_TEMPO' name="Confusão: há/à (há n tempo)">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-      <antipattern>
-          <token>à</token>
-          <token>última</token>
-          <token>hora</token>
-      </antipattern>
-      <antipattern>
-          <token>à</token>
-          <token regexp='yes'>d[eao]s?|direita|disposição|distância|espreita|esquerda|frente|hora|mesma|noite|pressa|tarde|toa|vontade</token>
-      </antipattern>
-      <antipattern>
-          <token>à</token>
-          <token regexp='yes'>beira|custa|distância|maneira|medida|venda|vista|volta|hora|luz</token>
-          <token regexp='yes'>de|que</token>
-      </antipattern>
-      <antipattern>
-          <token>em</token>
-          <token>tempo</token>
-          <token>real</token>
-      </antipattern>
-      <pattern>
-          <token>à</token>
-          <token min="0" regexp="yes">quase|poucos?|alguns|cerca|volta</token>
-          <token min="0" postag_regexp='yes' postag='[RS].+'/>
-          <token skip="-1" postag_regexp='yes' postag='[CZ].+'>
-            <exception postag='(?:V.[CIS][CFIMPS].|NP|DP).+|_PUNCT' postag_regexp='yes' scope='next'/>
-            <exception postag='(?:V.[CIS][CFIMPS].|NP|DP).+|_PUNCT' postag_regexp='yes'/>
-            <exception regexp='yes'>altura|frente|trás|esquerda|direita|manhã|tarde|noite</exception></token>
-          <token regexp="yes">&expressoes_de_tempo;</token>
-      </pattern>
-      <message>Se se refere ao tempo já decorrido, substitua por <suggestion>há <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>.</message>
-      <example correction="há quase 30 anos">Conheço a Ana <marker>à quase 30 anos</marker>.</example>
-      <example>Algumas pessoas e ideias parecem fora do lugar ou à frente do seu tempo.</example>
-      <example>No entanto, antes de vir à Terra por qualquer período de tempo.</example>
-      <example>Esta situação é semelhante à do ano anterior.</example>
-      <example>Estão em festa até à tarde do dia seguinte.</example>
-      <example>Esteve à margem dos quase dois meses de viagem.</example>
-      <example correction="há aproximadamente dois meses">Esteve à margem <marker>à aproximadamente dois meses</marker>.</example>
-    </rule>
+
 
     <rule id='HÁ-DIRECTION' name="Confusão: Há + Direção">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
