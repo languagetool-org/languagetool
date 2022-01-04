@@ -187,7 +187,6 @@ class ApiV2 {
     logger.info("Started reading dictionary for user: {}, offset: {}, limit: {}, dict_cache: {}, dict: {}",
       limits.getPremiumUid(), offset, limit, limits.getDictCacheSize(), params.get("dict"));
 
-
     if (params.containsKey("dict")) {
       throw new IllegalArgumentException("Use parameter 'dicts', not 'dict' in GET /words API method.");
     }
@@ -233,8 +232,7 @@ class ApiV2 {
       List<String> words = Arrays.asList(parameters.get("words").split("\\s+"));
       deleted = db.deleteWordBatch(words, limits.getPremiumUid(),parameters.get("dict"));
       writeResponse("deleted", deleted, httpExchange);
-    }
-    else {
+    } else {
       deleted = db.deleteWord(parameters.get("word"), limits.getPremiumUid(), parameters.get("dict"));
       writeResponse("deleted", deleted, httpExchange);
     }
