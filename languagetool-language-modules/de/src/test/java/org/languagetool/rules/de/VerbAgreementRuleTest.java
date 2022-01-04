@@ -161,7 +161,7 @@ public class VerbAgreementRuleTest {
     assertGood("Mögest du lange leben!");
     assertGood("Planst du lange hier zu bleiben?");
     assertGood("Du bist zwischen 11 und 12 Jahren alt und spielst gern Fußball bzw. möchtest damit anfangen?");
-    assertGood("Ist das so schnell, wie du gehen kannst?");
+    assertGood("Ein großer Hadithwissenschaftler, Scheich Şemseddin Mehmed bin Muhammed-ül Cezri, kam in der Zeit von Mirza Uluğ Bey nach Semerkant.");
     assertGood("Die Prüfbescheinigung bekommst du gleich nach der bestanden Prüfung vom Prüfer.");
     assertGood("Du bist sehr schön und brauchst überhaupt gar keine Schminke zu verwenden.");
     assertGood("Ist das so schnell, wie du gehen kannst?");
