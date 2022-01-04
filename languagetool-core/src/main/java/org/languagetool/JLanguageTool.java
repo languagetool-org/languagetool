@@ -1797,7 +1797,7 @@ public class JLanguageTool {
         // test wrapped rules as normal in PatternRuleTest
         if (rule instanceof RepeatedPatternRuleTransformer.RepeatedPatternRule) {
           List<AbstractPatternRule> wrappedRules = ((RepeatedPatternRuleTransformer.RepeatedPatternRule) rule).getWrappedRules();
-          rulesById.addAll(wrappedRules);
+          rulesById.addAll(wrappedRules.stream().filter(r -> r.getSubId().equals(subId)).collect(Collectors.toList()));
         } else if (rule instanceof AbstractPatternRule &&((AbstractPatternRule) rule).getSubId().equals(subId)){
           rulesById.add((AbstractPatternRule) rule);
         }
