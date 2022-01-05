@@ -107,6 +107,8 @@ public class UkrainianTaggerTest {
 
     TestTools.myAssert("о 15.33", "о/[о]intj|о/[о]prep -- 15.33/[15.33]time", tokenizer, tagger);
     TestTools.myAssert("О 1:05", "О/[о]intj|О/[о]prep -- 1:05/[1:05]time", tokenizer, tagger);
+    
+    assertNotTagged("H1");
   }
 
   @Test
@@ -399,14 +401,16 @@ public class UkrainianTaggerTest {
     TestTools.myAssert("вчинок-приклад", "вчинок-приклад/[вчинок-приклад]noun:inanim:m:v_naz|вчинок-приклад/[вчинок-приклад]noun:inanim:m:v_zna", tokenizer, tagger);
     TestTools.myAssert("міста-фортеці", "міста-фортеці/[місто-фортеця]noun:inanim:n:v_rod|міста-фортеці/[місто-фортеця]noun:inanim:p:v_naz|міста-фортеці/[місто-фортеця]noun:inanim:p:v_zna", tokenizer, tagger);
 
+    //TODO: :p:ns -> lemma with :p
+//    TestTools.myAssert("батьки-шляхтичі", "батьки-шляхтичі", tokenizer, tagger);
 
     // TODO: unanim
     TestTools.myAssert("ворог-стафілокок", "ворог-стафілокок/[null]null", tokenizer, tagger);
     TestTools.myAssert("стафілокок-реагент", "стафілокок-реагент/[null]null", tokenizer, tagger);
     
-    //TODO: бек, бег, ага, паша, бей, хан
-//    TestTools.myAssert("капуджі-ага", "два-чотири/[два-чотири]numr:v_naz|два-чотири/[два-чотири]numr:v_naz", tokenizer, tagger);
-//    TestTools.myAssert("Каладжі-бей", "два-чотири/[два-чотири]numr:v_naz|два-чотири/[два-чотири]numr:v_naz", tokenizer, tagger);
+    //TODO: бек, бег, ага, паша, хан
+//    TestTools.myAssert("Каладжі-ага", "", tokenizer, tagger);
+    TestTools.myAssert("Каладжі-бей", "Каладжі-бей/[Каладжі-бей]noun:anim:m:v_naz:prop:fname", tokenizer, tagger);
 //    TestTools.myAssert("капудан-паша", "два-чотири/[два-чотири]numr:v_naz|два-чотири/[два-чотири]numr:v_naz", tokenizer, tagger);
 //    TestTools.myAssert("кальфа-ефенді", "два-чотири/[два-чотири]numr:v_naz|два-чотири/[два-чотири]numr:v_naz", tokenizer, tagger);
 
@@ -416,8 +420,7 @@ public class UkrainianTaggerTest {
 
     TestTools.myAssert("RPM-пакунок", "RPM-пакунок/[RPM-пакунок]noun:inanim:m:v_naz|RPM-пакунок/[RPM-пакунок]noun:inanim:m:v_zna", tokenizer, tagger);
 
-    //TODO:
-//    TestTools.myAssert("ненависть-шоу", "", tokenizer, tagger);
+    TestTools.myAssert("ненависть-шоу", "ненависть-шоу/[ненависть-шоу]noun:inanim:f:v_naz|ненависть-шоу/[ненависть-шоу]noun:inanim:f:v_zna", tokenizer, tagger);
 
     // handled by different logic
 //    assertNotTagged("напів-люкс");
@@ -430,6 +433,7 @@ public class UkrainianTaggerTest {
     assertNotTagged("кохання-найщиріше"); // - мало би бути тире
     assertNotTagged("Донець-кий");
     assertNotTagged("мас-штаби");
+    assertNotTagged("підо-пічні");
     assertNotTagged("рибо-полювання");
     assertNotTagged("вовіки-вічні");
     assertNotTagged("юре-юре");
@@ -540,6 +544,8 @@ public class UkrainianTaggerTest {
     TestTools.myAssert("Напівсправедливий", "Напівсправедливий/[напівсправедливий]adj:m:v_kly|Напівсправедливий/[напівсправедливий]adj:m:v_naz|Напівсправедливий/[напівсправедливий]adj:m:v_zna:rinanim", tokenizer, tagger);
     TestTools.myAssert("напіврозслабленого", "напіврозслабленого/[напіврозслаблений]adj:m:v_rod|напіврозслабленого/[напіврозслаблений]adj:m:v_zna:ranim|напіврозслабленого/[напіврозслаблений]adj:n:v_rod", tokenizer, tagger);
 
+    TestTools.myAssert("північноазіатський", "північноазіатський/[північноазіатський]adj:m:v_kly|північноазіатський/[північноазіатський]adj:m:v_naz|північноазіатський/[північноазіатський]adj:m:v_zna:rinanim", tokenizer, tagger);
+
     assertNotTagged("авіамені");
     assertNotTagged("антиЄвропа");
     assertNotTagged("напіврозслабеному");   // typo
@@ -618,8 +624,7 @@ public class UkrainianTaggerTest {
     
 //    TestTools.myAssert("американо-блакитний", "американо-блакитний/[null]null", tokenizer, tagger);
 
-//  assertNotTagged("льотно-посадкова"); - загубилося початкове "з". Але це не спинило тегувальника - чому?
-
+//    assertNotTagged("льотно-посадкова"); - загубилося початкове "з". Але це не спинило тегувальника - чому?
 
 //    TestTools.myAssert("дітей-сиріт", "дітей-сиріт/[діти-сироти]noun:anim:p:v_rod", tokenizer, tagger);
 //    TestTools.myAssert("курей-бройлерів", "кури-бройлери", tokenizer, tagger);
@@ -638,8 +643,8 @@ public class UkrainianTaggerTest {
     TestTools.myAssert("поселення-гігант", "поселення-гігант/[поселення-гігант]noun:inanim:n:v_naz|поселення-гігант/[поселення-гігант]noun:inanim:n:v_zna", tokenizer, tagger);
     TestTools.myAssert("бот-учитель", "бот-учитель/[бот-учитель]noun:inanim:m:v_naz|бот-учитель/[бот-учитель]noun:inanim:m:v_zna", tokenizer, tagger);
     
-    TestTools.myAssert("сонях-красень", "сонях-красень/[сонях-красень]noun:inanim:m:v_naz|сонях-красень/[сонях-красень]noun:inanim:m:v_naz|сонях-красень/[сонях-красень]noun:inanim:m:v_zna|сонях-красень/[сонях-красень]noun:inanim:m:v_zna", tokenizer, tagger);
-    TestTools.myAssert("красень-сонях", "красень-сонях/[красень-сонях]noun:inanim:m:v_naz|красень-сонях/[красень-сонях]noun:inanim:m:v_naz|красень-сонях/[красень-сонях]noun:inanim:m:v_zna|красень-сонях/[красень-сонях]noun:inanim:m:v_zna", tokenizer, tagger);
+    TestTools.myAssert("сонях-красень", "сонях-красень/[сонях-красень]noun:inanim:m:v_naz|сонях-красень/[сонях-красень]noun:inanim:m:v_zna", tokenizer, tagger);
+    TestTools.myAssert("красень-сонях", "красень-сонях/[красень-сонях]noun:inanim:m:v_naz|красень-сонях/[красень-сонях]noun:inanim:m:v_zna", tokenizer, tagger);
     TestTools.myAssert("депутатів-привидів", "депутатів-привидів/[депутат-привид]noun:anim:p:v_rod|депутатів-привидів/[депутат-привид]noun:anim:p:v_zna", tokenizer, tagger);
     TestTools.myAssert("дівчата-зірочки", "дівчата-зірочки/[дівчина-зірочка]noun:anim:p:v_naz", tokenizer, tagger);
 
@@ -684,6 +689,11 @@ public class UkrainianTaggerTest {
     TestTools.myAssert("Я-вор-рова", "Я-вор-рова/[Яворів]noun:inanim:m:v_rod:prop:geo:alt|Я-вор-рова/[яворовий]adj:f:v_kly:alt|Я-вор-рова/[яворовий]adj:f:v_naz:alt", tokenizer, tagger);
     // мілі- (з дефісом) є помилковим префіксом
     TestTools.myAssert("мілі-ціо-нерів", "мілі-ціо-нерів/[null]null", tokenizer, tagger);
+    
+    TestTools.myAssert("Тааак", "Тааак/[так]adv:&pron:dem:alt|Тааак/[так]conj:coord:alt|Тааак/[так]conj:subord:alt|Тааак/[так]part:alt", tokenizer, tagger);
+    TestTools.myAssert("загубииилася", "загубииилася/[загубитися]verb:rev:perf:past:f:alt", tokenizer, tagger);
+
+    assertNotTagged("ііі");
     //TODO:
 //    TestTools.myAssert("та-ак", "", tokenizer, tagger);
 //      "Що-о"
@@ -694,7 +704,9 @@ public class UkrainianTaggerTest {
     //TODO: should technically tag both lowercase and uppercase to get :fname as well
 //    TestTools.myAssert("Да-а-ри", "", tokenizer, tagger);
     TestTools.myAssert("т-то", "т-то/[null]null", tokenizer, tagger);
+
     assertNotTagged("відео-конференц-зв'язком");
+    assertNotTagged("Шаабан");
   }
 
 
@@ -743,6 +755,12 @@ public class UkrainianTaggerTest {
     TestTools.myAssert("км2", "км2/[км2]noninfl", tokenizer, tagger);
     TestTools.myAssert("мм²", "мм²/[мм²]noninfl", tokenizer, tagger);
 //    TestTools.myAssert("7а", "7а/[7а]noninfl", tokenizer, tagger);
+  }
+
+  @Test
+  public void testBracketedWord() throws IOException {
+    TestTools.myAssert("д[окто]р[ом]", "д[окто]р[ом]/[доктор]noun:anim:m:v_oru:alt", tokenizer, tagger);
+    TestTools.myAssert("Акад[емія]", "Акад[емія]/[академія]noun:inanim:f:v_naz:alt", tokenizer, tagger);
   }
   
 //  @Test

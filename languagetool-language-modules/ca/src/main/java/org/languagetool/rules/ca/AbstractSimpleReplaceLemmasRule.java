@@ -47,7 +47,7 @@ public abstract class AbstractSimpleReplaceLemmasRule extends AbstractSimpleRepl
   
   public AbstractSimpleReplaceLemmasRule(final ResourceBundle messages, Language language) throws IOException {
     super(messages);
-    this.setIgnoreTaggedWords();
+    //this.setIgnoreTaggedWords();
     synth = (CatalanSynthesizer) language.getSynthesizer();
   }  
   
@@ -71,13 +71,10 @@ public abstract class AbstractSimpleReplaceLemmasRule extends AbstractSimpleRepl
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
     String originalLemma = null;
-    
     for (int i=1; i<tokens.length; i++) {
-
       List<String> replacementLemmas = null; 
       String replacePOSTag = null;
       boolean bRuleMatches = false;
-      
       for (AnalyzedToken at: tokens[i].getReadings()){
         if (getWrongWords().containsKey(at.getLemma())) {
           replacementLemmas = getWrongWords().get(at.getLemma());
@@ -87,7 +84,6 @@ public abstract class AbstractSimpleReplaceLemmasRule extends AbstractSimpleRepl
           break;
         }
       }
-      
       // find suggestions
       List<String> possibleReplacements = new ArrayList<>();
       if (replacementLemmas != null && replacePOSTag != null) {     
@@ -115,12 +111,10 @@ public abstract class AbstractSimpleReplaceLemmasRule extends AbstractSimpleRepl
           }
         }
       }
-      
       if (bRuleMatches) {
         RuleMatch potentialRuleMatch = createRuleMatch(tokens[i], possibleReplacements, sentence, originalLemma);
         ruleMatches.add(potentialRuleMatch);
       }
-
     }
     return toRuleMatchArray(ruleMatches);
   }

@@ -129,6 +129,13 @@ public class SubjectVerbAgreementRule extends Rule {
       tokenRegex("sind")
     ),
     Arrays.asList(
+      // Gründer und Leiter des Zentrums ist der Rabbiner Marvin Hier, sein Stellvertreter ist Rabbi Abraham Cooper.
+      tokenRegex("Gründer(in)?|Gesellschafter(in)?|Leiter(in)?|Geschäftsführer(in)?|Chef(in)?"),
+      tokenRegex("und|sowie|&"),
+      new PatternTokenBuilder().tokenRegex("Gründer(in)?|Gesellschafter(in)?|Leiter(in)?|Geschäftsführer(in)?|Chef(in)?").setSkip(4).build(),
+      tokenRegex("ist")
+    ),
+    Arrays.asList(
       tokenRegex("ist|war"),
       token("gemeinsam")
     ),
@@ -184,6 +191,15 @@ public class SubjectVerbAgreementRule extends Rule {
       pos("SUB:DAT:PLU:NOG"),
       tokenRegex("ist|war"),
       posRegex(".+:NOM:.+")
+    ),
+    Arrays.asList( // Das Gestell, sowie der komplette Tisch sind leicht zu montieren.
+      posRegex("SUB:.+"),
+      new PatternTokenBuilder().pos("PKT").min(0).build(),
+      token("sowie"),
+      posRegex("ART.*"),
+      new PatternTokenBuilder().posRegex("(ADJ|PA[12]).*").min(0).build(),
+      posRegex("SUB:.+"),
+      tokenRegex("sind|waren")
     )
   );
 

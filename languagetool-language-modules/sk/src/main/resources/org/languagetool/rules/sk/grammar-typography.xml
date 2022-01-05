@@ -172,14 +172,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule id="POMLCKA_1" name="Nesprávne použitie pomlčky 1">
                 <pattern>
 		    <!-- Napr. Rakúsko–Uhorská -->
-                    <token regexp="yes">(.*\S)([–—])(\S.*)</token>
+                    <token regexp="yes">.*\S</token>
+                    <token regexp="yes" spacebefore="no">[–—]</token>
+                    <token regexp="yes" spacebefore="no">\S.*</token>
                 </pattern>
 
 		<message>Pomlčka sa oddeľuje medzerami.
 			Pridajte medzery 
-			(<suggestion><match no="1" regexp_match="(.*)([–—])(.*)" regexp_replace="$1 $2 $3"/></suggestion>)
+			(<suggestion>\1 \2 \3</suggestion>)
 			alebo ju nahraďte spojovníkom 
-			(<suggestion><match no="1" regexp_match="(.*)([–—])(.*)" regexp_replace="$1-$3"/></suggestion>).
+			(<suggestion>\1-\3</suggestion>).
 		</message>
 
                 <short>Typografická chyba, pomlčka sa oddeľuje medzerou. Pridajte medzery alebo ju nahraďte spojovníkom.</short>

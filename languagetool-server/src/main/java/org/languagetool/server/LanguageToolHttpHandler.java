@@ -25,9 +25,11 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.ErrorRateTooHighException;
+import org.languagetool.tools.LoggingTools;
 import org.languagetool.tools.StringTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -40,10 +42,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeoutException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static java.net.HttpURLConnection.HTTP_UNAVAILABLE;
 import static org.languagetool.server.ServerTools.getHttpReferrer;
@@ -60,13 +60,13 @@ class LanguageToolHttpHandler implements HttpHandler {
   private final Set<String> allowedIps;  
   private final RequestLimiter requestLimiter;
   private final ErrorRequestLimiter errorRequestLimiter;
-  private final LinkedBlockingQueue<Runnable> workQueue;
+  private final BlockingQueue<Runnable> workQueue;
   private final Server httpServer;
   private final TextChecker textCheckerV2;
   private final HTTPServerConfig config;
   private final RequestCounter reqCounter = new RequestCounter();
   
-  LanguageToolHttpHandler(HTTPServerConfig config, Set<String> allowedIps, boolean internal, RequestLimiter requestLimiter, ErrorRequestLimiter errorLimiter, LinkedBlockingQueue<Runnable> workQueue, Server httpServer) {
+  LanguageToolHttpHandler(HTTPServerConfig config, Set<String> allowedIps, boolean internal, RequestLimiter requestLimiter, ErrorRequestLimiter errorLimiter, BlockingQueue<Runnable> workQueue, Server httpServer) {
     this.config = config;
     this.allowedIps = allowedIps;
     this.requestLimiter = requestLimiter;
@@ -89,9 +89,12 @@ class LanguageToolHttpHandler implements HttpHandler {
     int reqId = reqCounter.incrementRequestCount();
     ServerMetricsCollector.getInstance().logRequest();
     boolean incrementHandleCount = false;
+    String requestId = getRequestId(httpExchange);
+    MDC.MDCCloseable mdcRequestID = MDC.putCloseable("rID", requestId);
     try {
       URI requestedUri = httpExchange.getRequestURI();
       String path = requestedUri.getRawPath();
+      logger.info("Handling {} {}", httpExchange.getRequestMethod(), path);
       if (config.getServerURL() != null) {
         path = config.getServerURL().relativize(new URI(requestedUri.getPath())).getRawPath();
         if (!path.startsWith("/")) {
@@ -227,6 +230,9 @@ class LanguageToolHttpHandler implements HttpHandler {
         } else {
           response = "Checking took longer than " + config.getMaxCheckTimeMillisAnonymous() / 1000.0f + " seconds, which is this server's limit. Please make sure you have selected the proper language or consider submitting a shorter text.";
         }
+      } else if (e instanceof UnavailableException) {
+        errorCode = HTTP_UNAVAILABLE;
+        response = e.getMessage();
       } else {
         response = "Internal Error: " + e.getMessage();
         errorCode = HttpURLConnection.HTTP_INTERNAL_ERROR;
@@ -237,11 +243,22 @@ class LanguageToolHttpHandler implements HttpHandler {
       sendError(httpExchange, errorCode, "Error: " + response);
 
     } finally {
+      logger.info("Handled request in {}ms; sending code {}", System.currentTimeMillis() - startTime, httpExchange.getResponseCode());
       httpExchange.close();
+      mdcRequestID.close();
       if (incrementHandleCount) {
         reqCounter.decrementHandleCount(reqId);
       }
     }
+  }
+
+  @NotNull
+  static String getRequestId(HttpExchange httpExchange) {
+    String requestId = httpExchange.getRequestHeaders().getFirst("X-Request-ID");
+    if (requestId == null) {
+      requestId = "-";
+    }
+    return requestId;
   }
 
   private boolean hasCause(Exception e, Class<AuthException> clazz) {
@@ -330,10 +347,15 @@ class LanguageToolHttpHandler implements HttpHandler {
       message += "Stacktrace follows:";
       String stackTrace = ExceptionUtils.getStackTrace(e);
       message += ServerTools.cleanUserTextFromMessage(stackTrace, params);
-      logger.error(message);
     } else {
       message += "(no stacktrace logged)";
-      logger.error(message);
+    }
+    if (errorCode < 500) {
+      logger.info(LoggingTools.BAD_REQUEST, message);
+    } else if (e.getMessage() != null && e.getMessage().contains("took longer than")) {
+      logger.warn(LoggingTools.REQUEST, message);
+    } else {
+      logger.error(LoggingTools.REQUEST, message);
     }
 
     if (!(e instanceof TextTooLongException || e instanceof TooManyRequestsException ||

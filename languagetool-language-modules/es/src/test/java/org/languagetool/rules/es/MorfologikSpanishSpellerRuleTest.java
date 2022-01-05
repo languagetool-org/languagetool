@@ -114,6 +114,9 @@ public class MorfologikSpanishSpellerRuleTest {
     matches = rule.match(lt.getAnalyzedSentence("windows1995"));
     assertEquals("Windows 1995", matches[0].getSuggestedReplacements().get(0));
     
+    matches = rule.match(lt.getAnalyzedSentence("en1995"));
+    assertEquals("en 1995", matches[0].getSuggestedReplacements().get(0));
+    
     //currencies
     matches = rule.match(lt.getAnalyzedSentence("$100"));
     assertEquals(0, matches.length);

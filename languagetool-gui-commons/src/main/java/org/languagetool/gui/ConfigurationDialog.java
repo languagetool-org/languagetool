@@ -52,7 +52,7 @@ import java.util.List;
  */
 public class ConfigurationDialog implements ActionListener {
 
-  private static final String NO_MOTHER_TONGUE = "---";
+  private static final String NO_SELECTED_LANGUAGE = "---";
   private static final String ACTION_COMMAND_OK = "OK";
   private static final String ACTION_COMMAND_CANCEL = "CANCEL";
   private static final int MAX_PORT = 65536;
@@ -533,19 +533,19 @@ public class ConfigurationDialog implements ActionListener {
     radioButtons[1] = new JRadioButton(Tools.getLabel(messages.getString("guiSetLanguageTo")));
     radioButtons[1].setActionCommand("SelectLang");
 
-    JComboBox<String> motherTongueBox = new JComboBox<>(getPossibleMotherTongues());
-    if (config.getMotherTongue() != null) {
-      motherTongueBox.setSelectedItem(config.getMotherTongue().getTranslatedName(messages));
+    JComboBox<String> fixedLanguageBox = new JComboBox<>(getPossibleLanguages(false));
+    if (config.getFixedLanguage() != null) {
+      fixedLanguageBox.setSelectedItem(config.getFixedLanguage().getTranslatedName(messages));
     }
-    motherTongueBox.addItemListener(e -> {
+    fixedLanguageBox.addItemListener(e -> {
       if (e.getStateChange() == ItemEvent.SELECTED) {
-        Language motherTongue;
-        if (motherTongueBox.getSelectedItem() instanceof String) {
-          motherTongue = getLanguageForLocalizedName(motherTongueBox.getSelectedItem().toString());
+        Language fixedLanguage;
+        if (fixedLanguageBox.getSelectedItem() instanceof String) {
+          fixedLanguage = getLanguageForLocalizedName(fixedLanguageBox.getSelectedItem().toString());
         } else {
-          motherTongue = (Language) motherTongueBox.getSelectedItem();
+          fixedLanguage = (Language) fixedLanguageBox.getSelectedItem();
         }
-        config.setMotherTongue(motherTongue);
+        config.setFixedLanguage(fixedLanguage);
         config.setUseDocLanguage(false);
         radioButtons[1].setSelected(true);
       }
@@ -565,19 +565,19 @@ public class ConfigurationDialog implements ActionListener {
     
     radioButtons[1].addActionListener(e -> {
       config.setUseDocLanguage(false);
-      Language motherTongue;
-      if (motherTongueBox.getSelectedItem() instanceof String) {
-        motherTongue = getLanguageForLocalizedName(motherTongueBox.getSelectedItem().toString());
+      Language fixedLanguage;
+      if (fixedLanguageBox.getSelectedItem() instanceof String) {
+        fixedLanguage = getLanguageForLocalizedName(fixedLanguageBox.getSelectedItem().toString());
       } else {
-        motherTongue = (Language) motherTongueBox.getSelectedItem();
+        fixedLanguage = (Language) fixedLanguageBox.getSelectedItem();
       }
-      config.setMotherTongue(motherTongue);
+      config.setFixedLanguage(fixedLanguage);
     });
     languagePanel.add(radioButtons[0], cons1);
     cons1.gridy++;
     languagePanel.add(radioButtons[1], cons1);
     cons1.gridx = 1;
-    languagePanel.add(motherTongueBox, cons1);
+    languagePanel.add(fixedLanguageBox, cons1);
 
     cons.insets = new Insets(0, SHIFT1, 0, 0);
     cons.gridx = 0;
@@ -587,75 +587,72 @@ public class ConfigurationDialog implements ActionListener {
 
   private void addOfficeTextruleElements(GridBagConstraints cons, JPanel portPanel, JCheckBox useQueueResetbox, JCheckBox saveCacheBox) {
     int numParaCheck = config.getNumParasToCheck();
-    JRadioButton[] radioButtons = new JRadioButton[4];
+    boolean useTextLevelQueue = config.useTextLevelQueue();
+    JRadioButton[] radioButtons = new JRadioButton[3];
     ButtonGroup numParaGroup = new ButtonGroup();
-    radioButtons[0] = new JRadioButton(Tools.getLabel(messages.getString("guiCheckOnlyParagraph")));
-    radioButtons[0].setActionCommand("ParagraphCheck");
+    radioButtons[0] = new JRadioButton(Tools.getLabel(messages.getString("guiTextCheckMode")));
+    radioButtons[0].setActionCommand("FullTextCheck");
+    
+    radioButtons[1] = new JRadioButton(Tools.getLabel(messages.getString("guiParagraphCheckMode")));
+    radioButtons[1].setActionCommand("ParagraphCheck");
 
-    radioButtons[1] = new JRadioButton(Tools.getLabel(messages.getString("guiCheckFullText")));
-    radioButtons[1].setActionCommand("FullTextCheck");
-    
-    radioButtons[2] = new JRadioButton(Tools.getLabel(messages.getString("guiCheckChapter")));
-    radioButtons[2].setActionCommand("ChapterCheck");
-    
-    radioButtons[3] = new JRadioButton(Tools.getLabel(messages.getString("guiCheckNumParagraphs")));
-    radioButtons[3].setActionCommand("NParagraphCheck");
+    radioButtons[2] = new JRadioButton(Tools.getLabel(messages.getString("guiDeveloperModeCheck")));
+    radioButtons[2].setActionCommand("NParagraphCheck");
 
     JTextField numParaField = new JTextField(Integer.toString(5), 2);
     numParaField.setEnabled(radioButtons[2].isSelected());
     numParaField.setMinimumSize(new Dimension(30, 25));
     
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 3; i++) {
       numParaGroup.add(radioButtons[i]);
     }
     
-    if (numParaCheck == 0) {
+    if (numParaCheck == 0 || config.onlySingleParagraphMode()) {
+      radioButtons[1].setSelected(true);
+      numParaField.setEnabled(false);
+      saveCacheBox.setEnabled(false);
+      config.setUseTextLevelQueue(false);
+//      useQueueResetbox.setEnabled(false);
+      if (config.onlySingleParagraphMode()) {
+        radioButtons[0].setEnabled(false);
+        radioButtons[2].setEnabled(false);
+      }
+    } else if (useTextLevelQueue) {
       radioButtons[0].setSelected(true);
       numParaField.setEnabled(false);
-      useQueueResetbox.setEnabled(false);
-      saveCacheBox.setEnabled(false);
-    } else if (numParaCheck < -1) {
-      radioButtons[1].setSelected(true);
-      numParaField.setEnabled(false);    
-    } else if (numParaCheck < 0) {
-      radioButtons[2].setSelected(true);
-      numParaField.setEnabled(false);
+      config.setNumParasToCheck(-2);
     } else {
-      radioButtons[3].setSelected(true);
+      radioButtons[2].setSelected(true);
       numParaField.setText(Integer.toString(numParaCheck));
       numParaField.setEnabled(true);
     }
 
     radioButtons[0].addActionListener(e -> {
       numParaField.setEnabled(false);
-      config.setNumParasToCheck(0);
-      useQueueResetbox.setEnabled(false);
-      saveCacheBox.setEnabled(false);
+      config.setNumParasToCheck(-2);
+      config.setUseTextLevelQueue(true);
+//      useQueueResetbox.setEnabled(false);
+      saveCacheBox.setEnabled(true);
     });
     
     radioButtons[1].addActionListener(e -> {
       numParaField.setEnabled(false);
-      config.setNumParasToCheck(-2);
-      useQueueResetbox.setEnabled(true);
-      saveCacheBox.setEnabled(true);
+      config.setNumParasToCheck(0);
+      config.setUseTextLevelQueue(false);
+//      useQueueResetbox.setEnabled(true);
+      saveCacheBox.setEnabled(false);
     });
     
     radioButtons[2].addActionListener(e -> {
-      numParaField.setEnabled(false);
-      config.setNumParasToCheck(-1);
-      useQueueResetbox.setEnabled(true);
-      saveCacheBox.setEnabled(true);
-    });
-    
-    radioButtons[3].addActionListener(e -> {
       int numParaCheck1 = Integer.parseInt(numParaField.getText());
-      if (numParaCheck1 < 1) numParaCheck1 = 1;
+      if (numParaCheck1 < -2) numParaCheck1 = -2;
       else if (numParaCheck1 > 99) numParaCheck1 = 99;
       config.setNumParasToCheck(numParaCheck1);
       numParaField.setForeground(Color.BLACK);
       numParaField.setText(Integer.toString(numParaCheck1));
       numParaField.setEnabled(true);
-      useQueueResetbox.setEnabled(true);
+      config.setUseTextLevelQueue(false);
+//      useQueueResetbox.setEnabled(true);
       saveCacheBox.setEnabled(true);
     });
     
@@ -672,7 +669,7 @@ public class ConfigurationDialog implements ActionListener {
       public void changedUpdate(DocumentEvent e) {
         try {
           int numParaCheck = Integer.parseInt(numParaField.getText());
-          if (numParaCheck > 0 && numParaCheck < 99) {
+          if (numParaCheck > -3 && numParaCheck < 99) {
             numParaField.setForeground(Color.BLACK);
             config.setNumParasToCheck(numParaCheck);
           } else {
@@ -697,9 +694,9 @@ public class ConfigurationDialog implements ActionListener {
     cons1.anchor = GridBagConstraints.WEST;
     cons1.fill = GridBagConstraints.NONE;
     cons1.weightx = 0.0f;
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 3; i++) {
       radioPanel.add(radioButtons[i], cons1);
-      if (i < 3) cons1.gridy++;
+      if (i < 2) cons1.gridy++;
     }
     cons1.gridx = 1;
     radioPanel.add(numParaField, cons1);
@@ -863,31 +860,19 @@ public class ConfigurationDialog implements ActionListener {
     cons.gridy++;
     portPanel.add(new JLabel(" "), cons);
     
+    cons.gridy++;
+    portPanel.add(getMotherTonguePanel(cons), cons);
+    
+    cons.gridx = 0;
+    cons.gridy++;
+    portPanel.add(new JLabel(" "), cons);
+    
     JCheckBox markSingleCharBold = new JCheckBox(Tools.getLabel(messages.getString("guiMarkSingleCharBold")));
     markSingleCharBold.setSelected(config.markSingleCharBold());
     markSingleCharBold.addItemListener(e -> config.setMarkSingleCharBold(markSingleCharBold.isSelected()));
     cons.gridy++;
     portPanel.add(markSingleCharBold, cons);
 
-    cons.gridy++;
-    portPanel.add(new JLabel(" "), cons);
-
-    JCheckBox noBackgroundCheckBox = new JCheckBox(Tools.getLabel(messages.getString("guiNoBackgroundCheck")));
-    noBackgroundCheckBox.setSelected(config.noBackgroundCheck());
-    noBackgroundCheckBox.addItemListener(e -> config.setNoBackgroundCheck(noBackgroundCheckBox.isSelected()));
-    cons.gridy++;
-    portPanel.add(noBackgroundCheckBox, cons);
-
-    cons.gridy++;
-    portPanel.add(new JLabel(" "), cons);
-    
-    addOfficeTextruleElements(cons, portPanel, useQueueResetbox, saveCacheBox);
-    
-    cons.insets = new Insets(0, SHIFT1, 0, 0);
-    cons.gridx = 0;
-    cons.gridy++;
-    JLabel dummyLabel4 = new JLabel(" ");
-    portPanel.add(dummyLabel4, cons);
     JCheckBox useLtDictionaryBox = new JCheckBox(Tools.getLabel(messages.getString("guiUseLtDictionary")));
     useLtDictionaryBox.setSelected(config.useLtDictionary());
     useLtDictionaryBox.addItemListener(e -> {
@@ -903,12 +888,30 @@ public class ConfigurationDialog implements ActionListener {
     });
     cons.gridy++;
     portPanel.add(noSynonymsAsSuggestionsBox, cons);
+
+    JCheckBox noBackgroundCheckBox = new JCheckBox(Tools.getLabel(messages.getString("guiNoBackgroundCheck")));
+    noBackgroundCheckBox.setSelected(config.noBackgroundCheck());
+    noBackgroundCheckBox.addItemListener(e -> config.setNoBackgroundCheck(noBackgroundCheckBox.isSelected()));
+    cons.gridy++;
+    portPanel.add(noBackgroundCheckBox, cons);
+
+    cons.gridy++;
+    portPanel.add(new JLabel(" "), cons);
     
+    addOfficeTextruleElements(cons, portPanel, useQueueResetbox, saveCacheBox);
+    
+    cons.insets = new Insets(0, SHIFT1, 0, 0);
+    cons.gridx = 0;
+/*
+    cons.gridy++;
+    JLabel dummyLabel4 = new JLabel(" ");
+    portPanel.add(dummyLabel4, cons);
+*/    
     cons.gridy++;
     portPanel.add(new JLabel(" "), cons);
     
     addOfficeTechnicalElements(cons, portPanel);
-
+/*
     useQueueResetbox.setSelected(config.useTextLevelQueue());
     useQueueResetbox.addItemListener(e -> {
       config.setUseTextLevelQueue(useQueueResetbox.isSelected());
@@ -917,11 +920,13 @@ public class ConfigurationDialog implements ActionListener {
     cons.gridx = 0;
     cons.gridy++;
     portPanel.add(useQueueResetbox, cons);
-
+*/
     saveCacheBox.setSelected(config.saveLoCache());
     saveCacheBox.addItemListener(e -> {
       config.setSaveLoCache(saveCacheBox.isSelected());
     });
+    cons.insets = new Insets(0, SHIFT2, 0, 0);
+    cons.gridx = 0;
     cons.gridy++;
     portPanel.add(saveCacheBox, cons);
     
@@ -1321,7 +1326,7 @@ public class ConfigurationDialog implements ActionListener {
   private JPanel getMotherTonguePanel(GridBagConstraints cons) {
     JPanel motherTonguePanel = new JPanel();
     motherTonguePanel.add(new JLabel(messages.getString("guiMotherTongue")), cons);
-    JComboBox<String> motherTongueBox = new JComboBox<>(getPossibleMotherTongues());
+    JComboBox<String> motherTongueBox = new JComboBox<>(getPossibleLanguages(true));
     if (config.getMotherTongue() != null) {
       motherTongueBox.setSelectedItem(config.getMotherTongue().getTranslatedName(messages));
     }
@@ -1422,16 +1427,16 @@ public class ConfigurationDialog implements ActionListener {
     panel.add(helpButton, cons);
   }
 
-  private String[] getPossibleMotherTongues() {
-    List<String> motherTongues = new ArrayList<>();
-    if(!insideOffice) {
-      motherTongues.add(NO_MOTHER_TONGUE);
+  private String[] getPossibleLanguages(boolean addNoSeletion) {
+    List<String> languages = new ArrayList<>();
+    if(addNoSeletion) {
+      languages.add(NO_SELECTED_LANGUAGE);
     }
     for (Language lang : Languages.get()) {
-      motherTongues.add(lang.getTranslatedName(messages));
-      motherTongues.sort(null);
+      languages.add(lang.getTranslatedName(messages));
+      languages.sort(null);
     }
-    return motherTongues.toArray(new String[0]);
+    return languages.toArray(new String[0]);
   }
 
   @Override

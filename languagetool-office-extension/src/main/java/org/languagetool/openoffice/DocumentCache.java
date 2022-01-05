@@ -433,7 +433,7 @@ public class DocumentCache implements Serializable {
   /**
    * Gives Back the StartPosition of Paragraph
    */
-  public int getStartOfParagraph(int nPara, int checkedPara, int parasToCheck, boolean textIsChanged, boolean useQueue) {
+  public int getStartOfParagraph(int nPara, int checkedPara, int parasToCheck, boolean textIsChanged, boolean useQueue, boolean hasFootnotes) {
     if (nPara < 0 || toParaMapping.size() <= nPara) {
       return -1;
     }
@@ -443,7 +443,8 @@ public class DocumentCache implements Serializable {
     }
     int pos = 0;
     for (int i = startPos; i < nPara; i++) {
-      pos += getTextParagraph(i).length() + OfficeTools.NUMBER_PARAGRAPH_CHARS;
+      pos += SingleCheck.removeFootnotes(getTextParagraph(i), 
+          (hasFootnotes ? getTextParagraphFootnotes(i) : null)).length() + OfficeTools.NUMBER_PARAGRAPH_CHARS;
     }
     return pos;
   }

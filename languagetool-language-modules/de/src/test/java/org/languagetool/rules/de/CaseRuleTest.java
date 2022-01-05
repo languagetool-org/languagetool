@@ -25,7 +25,6 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
 import org.languagetool.language.German;
-import org.languagetool.rules.patterns.StringMatcher;
 
 import java.io.IOException;
 
@@ -52,6 +51,7 @@ public class CaseRuleTest {
   public void testRule() throws IOException {
 
     // correct sentences:
+    assertGood("(Dauer, Raum, Anwesende)");
     assertGood("Es gibt wenige Befragte.");
     assertGood("Es gibt weniger Befragte, die das machen würden.");
     assertGood("Es gibt mehr Befragte, die das machen würden.");
@@ -155,6 +155,13 @@ public class CaseRuleTest {
     assertGood("Wahrscheinlich müssten sie das überarbeiten");
     assertGood("Assistenzsysteme warnen rechtzeitig vor Gefahren.");
     assertGood("Jeremy Schulte rannte um sein Leben.");
+    assertGood("Er arbeitet im Bereich Präsidiales.");
+    assertGood("Er spricht Sunnitisch & Schiitisch.");
+    assertGood("Er sagte, Geradliniges und Krummliniges sei unvergleichbar.");
+    assertGood("Dort erfahren sie Kurioses und Erstaunliches zum Zusammenspiel von Mensch und Natur.");
+    assertGood("Dabei unterscheidet die Shareware zwischen Privatem und Dienstlichem bei Fahrten ebenso wie bei Autos.");
+    assertGood("Besucher erwartet Handegefertigtes, Leckeres und Informatives rund um den Hund.");
+    assertGood("Der Unterschied zwischen Vorstellbarem und Machbarem war niemals geringer.");
     assertGood("Das war Fiete Lang.");
     assertGood("Wenn du an das glaubst, was du tust, kannst du Großes erreichen.");
     assertGood("Dann hat er Großes erreicht.");
@@ -184,10 +191,13 @@ public class CaseRuleTest {
     assertGood("Hans Pries GmbH");
     assertGood(":D Auf dieses Frl.");
     assertGood("Das Gedicht “Der Panther”.");  // quotes are not correct, but leave that to the quotes rule
+    assertGood("Klar, dass wir das brauchen.");
+    assertGood("Das wird Scholz' engster Vertrauter Wolfgang Schmidt übernehmen.");
 
     assertGood("Ist das eine Frage ? Müsste das nicht anders sein?");
     assertGood("Das ist ein Satz !!! Das auch.");
     assertGood("Liebe Kund:in");
+    assertGood("Wir sollten das mal labeln.");
 
     // https://github.com/languagetool-org/languagetool/issues/1515:
     assertGood("▶︎ Dies ist ein Test");
@@ -202,13 +212,22 @@ public class CaseRuleTest {
     assertGood("..., die ins Nichts griff.");
     assertGood("Er fragte, was sie über das denken und zwinkerte ihnen zu.");
     assertGood("dem Ägyptischen, Berberischen, Semitischen, Kuschitischen, Omotischen und dem Tschadischen");
+    assertGood("mit S-Bahn-ähnlichen Verkehrsmitteln");
+    assertGood("mit U-Bahn-ähnlichen und günstigen Verkehrsmitteln");
+    assertGood("mit Ü-Ei-großen, schweren Hagelkörnern");
+    assertGood("mit E-Musik-artigen, komplizierten Harmonien");
 
     //assertBad("Sie sind nicht Verständlich");
     assertBad("Das machen der Töne ist schwierig.");
     assertBad("Sie Vertraute niemandem.");
     assertBad("Beten Lernt man in Nöten.");
     assertBad("Ich habe Heute keine Zeit.");
+    assertBad("Er sagte, Geradliniges und krummliniges sei unvergleichbar.");
+    assertBad("Er sagte, ein Geradliniges und Krummliniges Konzept ist nicht tragbar.");
     assertBad("Ä Was?");
+    assertBad("… die preiswerte Variante unserer Topseller im Bereich Alternativ Mehle.");
+    assertBad("…  jahrzehntelangen Mitstreitern und vielen Freunden aus Nah und Fern.");
+    assertBad("Hi und Herzlich willkommen auf meiner Seite.");
     //assertBad("Ich gehe gerne Joggen.");
     assertBad("Er ist Groß.");
     assertBad("Die Zahl ging auf Über 1.000 zurück.");
@@ -402,6 +421,7 @@ public class CaseRuleTest {
     assertBad("Das ist Ein Mann.");
 
     assertBad("Sie erhalten bald unsere Neuesten Insights.");
+    assertBad("Auf eine Carvingschiene sollte die Kette schon im Kalten Zustand weit durchhängen.");
 
     assertGood("Du Ärmste!");
     assertGood("Ich habe nur Schlechtes über den Laden gehört.");
@@ -419,6 +439,10 @@ public class CaseRuleTest {
     assertGood("Alleine durch die bloße Einwohnerzahl des Landes leben im Land zahlreiche Kulturschaffende, nach einer Schätzung etwa 30.000 Künstler.");
     assertGood("Ich hatte das offenbar vergessen oder nicht ganz verstanden.");
     assertGood("Ich hatte das vergessen oder nicht ganz verstanden.");
+    assertGood("Das ist ein zwingendes Muss.");
+    assertGood("Er hält eine Handbreit Abstand.");
+    assertGood("Das ist das Debakel und Aus für Podolski.");
+    assertGood("Der schwedische Psychologe Dan Katz, Autor von 'Angst kocht auch nur mit Wasser', sieht in der Corona-Krise dennoch nicht nur Negatives.");
   }
 
   private void assertGood(String input) throws IOException {

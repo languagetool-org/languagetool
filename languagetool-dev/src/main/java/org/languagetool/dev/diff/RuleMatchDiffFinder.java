@@ -18,7 +18,6 @@
  */
 package org.languagetool.dev.diff;
 
-import joptsimple.internal.Strings;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.tools.StringTools;
@@ -39,6 +38,8 @@ public class RuleMatchDiffFinder {
   private static final String MARKER_END = "</span>";
   private static final int IFRAME_MAX = -1;
 
+  private boolean fullMode;
+
   List<RuleMatchDiff> getDiffs(List<LightRuleMatch> l1, List<LightRuleMatch> l2) {
     System.out.println("Comparing result 1 (" + l1.size() + " matches) to result 2 (" + l2.size() + " matches), step 1");
     //debugList("List 1", l1);
@@ -50,10 +51,10 @@ public class RuleMatchDiffFinder {
       LightRuleMatch oldMatch = oldMatches.get(key);
       if (oldMatch != null) {
         if (!oldMatch.getSuggestions().equals(match.getSuggestions()) ||
-            !oldMatch.getMessage().equals(match.getMessage()) ||
-            oldMatch.getStatus() != match.getStatus() ||
-            //!Objects.equals(oldMatch.getSubId(), match.getSubId()) ||   -- sub id change = other sub-rule added or removed, this is usually not relevant
-            !oldMatch.getCoveredText().equals(match.getCoveredText())) {
+          !oldMatch.getMessage().equals(match.getMessage()) ||
+          oldMatch.getStatus() != match.getStatus() ||
+          //!Objects.equals(oldMatch.getSubId(), match.getSubId()) ||   -- sub id change = other sub-rule added or removed, this is usually not relevant
+          !oldMatch.getCoveredText().equals(match.getCoveredText())) {
           result.add(RuleMatchDiff.modified(oldMatch, match));
         }
       } else {
@@ -75,7 +76,7 @@ public class RuleMatchDiffFinder {
           for (RuleMatchDiff addedMatch : addedMatches) {
             LightRuleMatch tmp = addedMatch.getNewMatch();
             boolean overlaps = tmp.getColumn() < match.getColumn() + match.getCoveredText().length() &&
-                               tmp.getColumn() + tmp.getCoveredText().length() > match.getColumn();
+              tmp.getColumn() + tmp.getCoveredText().length() > match.getColumn();
             if (overlaps && !tmp.getFullRuleId().equals(match.getFullRuleId())) {
               /*System.out.println(tmp + "\noverlaps\n" + match);
               System.out.println("tmp " + tmp.getTitle());
@@ -137,7 +138,7 @@ public class RuleMatchDiffFinder {
     return map;
   }
 
-  private void printDiffs(List<RuleMatchDiff> diffs, FileWriter fw, String langCode, String date) throws IOException {
+  private void printDiffs(List<RuleMatchDiff> diffs, FileWriter fw, String langCode, String date, String filename, String ruleId) throws IOException {
     fw.write("Diffs found: " + diffs.size());
     if (diffs.size() > 0) {
       RuleMatchDiff diff1 = diffs.get(0);
@@ -147,6 +148,13 @@ public class RuleMatchDiffFinder {
         fw.write(". Category: " + diff1.getNewMatch().getCategoryName());
       }
     }
+    if (fullMode) {
+      fw.write(". <a href='../" + langCode + "/" + filename + "'>Today's list</a>");
+    } else {
+      fw.write(". <a href='../" + langCode + "_full/" + filename + "'>Full list</a>");
+    }
+    String shortRuleId = ruleId.replaceFirst("^.* / ", "").replaceFirst("\\[[0-9]+\\]", "");
+    fw.write(".  " + getAnalyticsLink(shortRuleId, langCode));
     fw.write("<br>\n");
     printTableBegin(fw);
     int iframeCount = 0;
@@ -197,6 +205,15 @@ public class RuleMatchDiffFinder {
     printTableEnd(fw);
   }
 
+  private String getAnalyticsLink(String ruleId, String langCode) {
+    String shortId = ruleId.replaceFirst("\\[[0-9]+\\]", "");
+    String shortLangCode = langCode.replaceFirst("-.*", "");
+    return "[<a href='https://internal1.languagetool.org/grafana/d/BY_CNDHGz/rule-events-analysis?orgId=1&var-rule_id=" +
+      shortId + "&from=now-30d&var-language=" + shortLangCode + "' target='grafana' title='Grafana'>g</a>/" +
+      "<a href='https://analytics.languagetoolplus.com/matomo/index.php?module=Widgetize&action=iframe&secondaryDimension=eventName&moduleToWidgetize=Events&actionToWidgetize=getAction&idSite=18&period=day&date=yesterday&flat=1&filter_column=label&show_dimensions=1&filter_pattern=" +
+      shortId + "' target='disables' title='disables in Matomo'>m</a>]";
+  }
+
   private String cleanSource(String ruleSource) {
     if (ruleSource == null) {
       return "java";
@@ -235,8 +252,8 @@ public class RuleMatchDiffFinder {
   }
 
   private int printMessage(FileWriter fw, LightRuleMatch oldMatch, LightRuleMatch newMatch,
-                            LightRuleMatch replaces, LightRuleMatch replacedBy, String langCode, String date,
-                            RuleMatchDiff.Status status, int iframeCount) throws IOException {
+                           LightRuleMatch replaces, LightRuleMatch replacedBy, String langCode, String date,
+                           RuleMatchDiff.Status status, int iframeCount) throws IOException {
     fw.write("  <td>");
     String message;
     boolean canOverlap;
@@ -253,32 +270,32 @@ public class RuleMatchDiffFinder {
       //System.out.println("new: " + newMatch.getMessage());
       fw.write(
         "<tt>old:</tt> " + showTrimSpace(oldMatch.getMessage()) + "<br>\n" +
-        "<tt>new:</tt> " + showTrimSpace(newMatch.getMessage()));
+          "<tt>new:</tt> " + showTrimSpace(newMatch.getMessage()));
       message = newMatch.getMessage();
       canOverlap = canOverlap(newMatch);
     }
-    fw.write("  <br><span class='sentence'>" + escapeSentence(oldMatch.getContext()) + "</span>");
+    fw.write("  <br><span class='sentence'>" + showTrimSpace(escapeSentence(oldMatch.getContext())) + "</span>");
     boolean withIframe = false;
     if (status == RuleMatchDiff.Status.ADDED || status == RuleMatchDiff.Status.MODIFIED) {
       int markerFrom = oldMatch.getContext().indexOf(MARKER_START);
       int markerTo = oldMatch.getContext().replace(MARKER_START, "").indexOf(MARKER_END);
       String params = "sentence=" + enc(oldMatch.getContext().replace(MARKER_START, "").replace(MARKER_END, ""), 300) +
-              "&rule_id=" + enc(oldMatch.getFullRuleId()) +
-              "&filename=" + enc(cleanSource(oldMatch.getRuleSource())) +
-              "&message=" + enc(message, 300) +
-              "&suggestions=" + enc(Strings.join(oldMatch.getSuggestions(), ", "), 300) +
-              "&marker_from=" + markerFrom +
-              "&marker_to=" + markerTo +
-              "&language=" + enc(langCode) +
-              "&day=" + enc(date);
+        "&rule_id=" + enc(oldMatch.getFullRuleId()) +
+        "&filename=" + enc(cleanSource(oldMatch.getRuleSource())) +
+        "&message=" + enc(message, 300) +
+        "&suggestions=" + enc(String.join(", ", oldMatch.getSuggestions()), 300) +
+        "&marker_from=" + markerFrom +
+        "&marker_to=" + markerTo +
+        "&language=" + enc(langCode) +
+        "&day=" + enc(date);
       if (iframeCount > IFRAME_MAX) {
         // rendering 2000 iframes into a page isn't fun...
         fw.write("    <a target='regression_feedback' href=\"https://languagetoolplus.com/regression/button?" + params + "\">FA?</a>\n\n");
       } else {
         fw.write("    <iframe scrolling=\"no\" style=\"border: none; width: 165px; height: 30px\"\n" +
-                "src=\"https://languagetoolplus.com/regression/button?" +
-                //"src=\"http://127.0.0.1:8000/regression/button" +
-                params + "\"></iframe>\n\n");
+          "src=\"https://languagetoolplus.com/regression/button?" +
+          //"src=\"http://127.0.0.1:8000/regression/button" +
+          params + "\"></iframe>\n\n");
         withIframe = true;
       }
     }
@@ -312,17 +329,17 @@ public class RuleMatchDiffFinder {
     return match.getRuleId().equals("TOO_LONG_SENTENCE") || match.getRuleId().equals("TOO_LONG_SENTENCE_DE");
   }
 
-  private String escapeSentence(String s)  {
+  private String escapeSentence(String s) {
     return StringTools.escapeHTML(s).
-            replace("&lt;span class='marker'&gt;", "<span class='marker'>").
-            replace("&lt;/span&gt;", "</span>");
+      replace("&lt;span class='marker'&gt;", "<span class='marker'>").
+      replace("&lt;/span&gt;", "</span>");
   }
 
-  private String enc(String s)  {
+  private String enc(String s) {
     return enc(s, Integer.MAX_VALUE);
   }
 
-  private String enc(String s, int maxLen)  {
+  private String enc(String s, int maxLen) {
     try {
       return URLEncoder.encode(StringUtils.abbreviate(s, maxLen), "utf-8");
     } catch (UnsupportedEncodingException e) {
@@ -331,6 +348,7 @@ public class RuleMatchDiffFinder {
   }
 
   private String showTrimSpace(String s) {
+    s = s.replaceAll("\n", "<span class='whitespace'>\\\\n</span>");
     s = s.replaceFirst("^\\s", "<span class='whitespace'>&nbsp;</span>");
     s = s.replaceFirst("\\s$", "<span class='whitespace'>&nbsp;</span>");
     s = s.replaceAll("\u00A0", "<span class='nbsp' title='non-breaking space'>&nbsp;</span>");
@@ -358,9 +376,12 @@ public class RuleMatchDiffFinder {
   }
 
   private void run(LightRuleMatchParser parser, File file1, File file2, File outputDir, String langCode, String date) throws IOException {
+    if (file1.getName().equals("empty.json")) {
+      fullMode = true;
+    }
     List<LightRuleMatch> l1 = parser.parseOutput(file1);
     List<LightRuleMatch> l2 = parser.parseOutput(file2);
-    String title = "Comparing " + file1.getName() + " to "  + file2.getName();
+    String title = "Comparing " + file1.getName() + " to " + file2.getName();
     System.out.println(title);
     List<RuleMatchDiff> diffs = getDiffs(l1, l2);
     diffs.sort((k, j) -> {
@@ -380,14 +401,15 @@ public class RuleMatchDiffFinder {
     Map<String, List<RuleMatchDiff>> keyToDiffs = groupDiffs(diffs);
     List<OutputFile> outputFiles = new ArrayList<>();
     for (Map.Entry<String, List<RuleMatchDiff>> entry : keyToDiffs.entrySet()) {
-      File outputFile = new File(outputDir, "result_" + entry.getKey().replaceAll("/" , "_").replaceAll("[\\s_]+", "_") + ".html");
+      String filename = "result_" + entry.getKey().replaceAll("/", "_").replaceAll("[\\s_]+", "_") + ".html";
+      File outputFile = new File(outputDir, filename);
       if (entry.getValue().size() > 0) {
         outputFiles.add(new OutputFile(outputFile, entry.getValue()));
       }
       try (FileWriter fw = new FileWriter(outputFile)) {
         System.out.println("Writing result to " + outputFile);
         printHeader(title, fw);
-        printDiffs(entry.getValue(), fw, langCode, date);
+        printDiffs(entry.getValue(), fw, langCode, date, filename, entry.getKey());
         printFooter(fw);
       }
     }
@@ -427,8 +449,7 @@ public class RuleMatchDiffFinder {
         fw.write("<td>");
         String id = file.replaceFirst("result_.*?_", "").replace(".html", "");
         fw.write("  <a href='" + file + "'>" + id + "</a>");
-        fw.write("  <a href='https://internal1.languagetool.org/grafana/d/BY_CNDHGz/rule-events-analysis?orgId=1&var-rule_id=" +
-          id.replaceFirst("\\[[0-9]+\\]", "") + "&var-language=" + langCode.replaceFirst("-.*", "") + "'>[g]</a>");
+        fw.write("  " + getAnalyticsLink(id, langCode));
         fw.write("</td>");
         if (outputFile.items.size() > 0 && outputFile.items.get(0).getNewMatch() != null) {
           fw.write("<td class='msg'>" + escapeSentence(outputFile.items.get(0).getNewMatch().getMessage()) + "</td>");
@@ -448,6 +469,7 @@ public class RuleMatchDiffFinder {
   static class OutputFile {
     File file;
     List<RuleMatchDiff> items;
+
     OutputFile(File file, List<RuleMatchDiff> items) {
       this.file = file;
       this.items = items;
@@ -489,11 +511,11 @@ public class RuleMatchDiffFinder {
     fw.write("    td { vertical-align: top; }\n");
     fw.write("    .small { font-size: small }\n");
     fw.write("    .sentence { color: #666; }\n");
-    fw.write("    .marker { text-decoration: underline; }\n");
+    fw.write("    .marker { text-decoration: underline; background-color: rgba(200, 200, 200, 0.4) }\n");
     fw.write("    .source { color: #999; }\n");
     fw.write("    .status { color: #999; }\n");
-    fw.write("    .whitespace { background-color: #ccc; }\n");
-    fw.write("    .nbsp { background-color: #ccc; }\n");
+    fw.write("    .whitespace { background-color: rgba(200, 200, 200, 0.3) }\n");
+    fw.write("    .nbsp { background-color: rgba(200, 200, 200, 0.3) }\n");
     fw.write("    .id { color: #666; }\n");
     fw.write("    .msg { color: #666; }\n");
     fw.write("  </style>\n");
@@ -527,6 +549,7 @@ public class RuleMatchDiffFinder {
       "    col_2: 'none',\n" +
       "    col_3: 'none',\n" +
       "    col_4: 'select',\n" +
+      "    col_5: 'none',\n" +
       "    grid_layout: false,\n" +
       "    col_types: ['number', 'number', 'number', 'number', 'string', 'string'],\n" +
       "    extensions: [{ name: 'sort' }]\n" +
@@ -575,7 +598,7 @@ public class RuleMatchDiffFinder {
         if (file.length() >= varPos + 1) {
           StringBuilder tempName = new StringBuilder(file).replace(varPos, varPos + 2, "XX");
           if (tempName.toString().equals(templateName)) {
-            String langCode = file.substring(varPos, varPos+2);
+            String langCode = file.substring(varPos, varPos + 2);
             String tempNameNew = file.replace(".old", ".new");
             File newFile = new File(dir, tempNameNew);
             if (!newFile.exists()) {

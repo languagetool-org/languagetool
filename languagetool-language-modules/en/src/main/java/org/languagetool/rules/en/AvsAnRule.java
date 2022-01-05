@@ -21,6 +21,7 @@ package org.languagetool.rules.en;
 import org.languagetool.*;
 import org.languagetool.rules.*;
 import org.languagetool.tools.StringTools;
+import org.languagetool.tools.Tools;
 
 import java.util.*;
 import java.util.regex.Pattern;
@@ -50,6 +51,7 @@ public class AvsAnRule extends Rule {
   public AvsAnRule(ResourceBundle messages) {
     super.setCategory(Categories.MISC.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Misspelling);
+    setUrl(Tools.getUrl("https://languagetool.org/insights/post/indefinite-articles/"));
     addExamplePair(Example.wrong("The train arrived <marker>a hour</marker> ago."),
                    Example.fixed("The train arrived <marker>an hour</marker> ago."));
   }

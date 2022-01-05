@@ -49,7 +49,6 @@ class Pipeline extends JLanguageTool {
   }
 
   private boolean setup = false;
-  private long lastUsedTimestamp;
 
   /**
    * Prevents any further changes after this method was called.
@@ -58,25 +57,8 @@ class Pipeline extends JLanguageTool {
    this.setup = true;
   }
 
-  /**
-   * Refresh expire timer of pipeline
-   */
-  void refreshExpireTimer() {
-    lastUsedTimestamp = System.currentTimeMillis();
-  }
-
-  /**
-   * Test if expire time has elapsed since last use.
-   * @return is pipeline expired?
-   */
-  boolean isExpired() {
-    long delta = System.currentTimeMillis() - lastUsedTimestamp;
-    return delta > PipelinePool.PIPELINE_EXPIRE_TIME;
-  }
-
   Pipeline(Language language, List<Language> altLanguages, Language motherTongue, ResultCache cache, GlobalConfig globalConfig, UserConfig userConfig, boolean inputLogging) {
     super(language, altLanguages, motherTongue, cache, globalConfig, userConfig, inputLogging);
-    lastUsedTimestamp = System.currentTimeMillis();
   }
 
   @Override

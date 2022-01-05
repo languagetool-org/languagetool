@@ -46,6 +46,7 @@ class AgreementSuggestor2 {
     "PRO:IND:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU:B/S"
   );
   private final static String adjTemplate = "ADJ:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU:GRU:IND/DEF";
+  private final static String pa1Template = "PA1:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU:GRU:IND/DEF:VER";
   private final static String pa2Template = "PA2:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU:GRU:IND/DEF:VER";
   private final static List<String> nounTemplates = Arrays.asList(
     "SUB:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU",
@@ -64,6 +65,7 @@ class AgreementSuggestor2 {
   private final String origPhrase;
 
   private AnalyzedTokenReadings prepositionToken;
+  private String skippedStr;
 
   AgreementSuggestor2(Synthesizer synthesizer, AnalyzedTokenReadings determinerToken, AnalyzedTokenReadings nounToken,
                       AgreementRule.ReplacementType replacementType) {
@@ -91,6 +93,10 @@ class AgreementSuggestor2 {
 
   void setPreposition(AnalyzedTokenReadings prep) {
     this.prepositionToken = prep;
+  }
+
+  public void setSkipped(String skippedStr) {
+    this.skippedStr = skippedStr;
   }
 
   List<String> getSuggestions() {
@@ -251,8 +257,19 @@ class AgreementSuggestor2 {
         if (adjReading.getToken().equals("meisten") && num.equals("SIN")) {
           continue;
         }
+        if (adjReading.getPOSTag().startsWith("ADV:")) {  // adverb, nothing to synthesize
+          adjSynthesized.add(adjReading.getToken());
+          continue;
+        }
         boolean detIsDef = detReading.getPOSTag().contains(":DEF:") || detReading.getToken().equals("ins");
-        String template = adjReading.getPOSTag().startsWith("PA2") ? pa2Template : adjTemplate;
+        String template;
+        if (adjReading.getPOSTag().startsWith("PA1")) {
+          template = pa1Template;
+        } else if (adjReading.getPOSTag().startsWith("PA2")) {
+          template = pa2Template;
+        } else {
+          template = adjTemplate;
+        }
         if (adjReading.getPOSTag().contains(":KOM:")) {
           template = template.replace(":GRU:", ":KOM:");
         } else if (adjReading.getPOSTag().contains(":SUP:")) {
@@ -303,6 +320,9 @@ class AgreementSuggestor2 {
         for (String adj2SynthesizedElem : adj2Synthesized) {
           for (String nounSynthesizedElem : nounSynthesized) {
             String elem = detSynthesizedElem;
+            if (skippedStr != null) {
+              elem += " " + skippedStr;
+            }
             if (!adj1SynthesizedElem.isEmpty()) {
               elem += " " + adj1SynthesizedElem;
             }

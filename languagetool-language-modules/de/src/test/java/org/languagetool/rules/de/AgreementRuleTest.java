@@ -20,9 +20,7 @@ package org.languagetool.rules.de;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Languages;
-import org.languagetool.TestTools;
+import org.languagetool.*;
 import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.RuleMatch;
 
@@ -46,6 +44,33 @@ public class AgreementRuleTest {
   }
 
   @Test
+  public void testGetCategoriesCausingError() {
+    AnalyzedTokenReadings tokenDetMasSin = new AnalyzedTokenReadings(new AnalyzedToken("der", "ART:DEF:NOM:SIN:MAS", "der"));
+    AnalyzedTokenReadings tokenDetFemSin = new AnalyzedTokenReadings(new AnalyzedToken("die", "ART:DEF:NOM:SIN:FEM", "der"));
+    AnalyzedTokenReadings tokenDetFemPlu = new AnalyzedTokenReadings(new AnalyzedToken("die", "ART:DEF:NOM:PLU:FEM", "der"));
+    AnalyzedTokenReadings tokenSubNeuSin = new AnalyzedTokenReadings(new AnalyzedToken("Haus", "SUB:NOM:SIN:NEU", "Haus"));
+    AnalyzedTokenReadings tokenSubFemPlu = new AnalyzedTokenReadings(new AnalyzedToken("Frauen", "SUB:NOM:PLU:FEM", "Frau"));
+    AnalyzedTokenReadings tokenSubGenFemPlu = new AnalyzedTokenReadings(new AnalyzedToken("Frauen", "SUB:GEN:PLU:FEM", "Frau"));
+
+    List<String> res1 = rule.getCategoriesCausingError(tokenDetFemPlu, tokenSubGenFemPlu);
+    assertThat(res1.size(), is(1));
+    assertTrue(res1.get(0).contains("Kasus"));
+
+    List<String> res2 = rule.getCategoriesCausingError(tokenDetMasSin, tokenSubNeuSin);
+    assertThat(res2.size(), is(1));
+    assertTrue(res2.get(0).contains("Genus"));
+
+    List<String> res3 = rule.getCategoriesCausingError(tokenDetFemSin, tokenSubFemPlu);
+    assertThat(res3.size(), is(1));
+    assertTrue(res3.get(0).contains("Numerus"));
+
+    //List<String> res4 = rule.getCategoriesCausingError(tokenDetFemSin, tokenSubGenFemPlu);
+    //assertThat(res4.size(), is(2));
+    //assertTrue(res4.get(0).contains("Numerus"));
+    //assertTrue(res4.get(1).contains("Kasus"));
+  }
+
+  @Test
   public void testCompoundMatch() throws IOException {
     assertBad("Das ist die Original Mail", "die Originalmail", "die Original-Mail");
     assertBad("Das ist die neue Original Mail", "die neue Originalmail", "die neue Original-Mail");
@@ -65,6 +90,9 @@ public class AgreementRuleTest {
     assertGood("Sie gehörte einst zu den besten Afrikas.");
     assertGood("Dieses Bild stammt von einem lange Zeit unbekannten Maler.");
     assertGood("Das Staatsoberhaupt ist der Verfassung zufolge der König.");
+    assertGood("Der Ende der 1960er Jahre umgestaltete Garten ist schön.");
+    assertGood("Die Anfang des letzten Monats umgestaltete Veranda ist schön.");
+    assertGood("Der Mitte 2001 umgestaltete Garten ist schön.");
     //assertBad("Die Bad Taste Party von Susi", "Die Bad-Taste-Party");   // not supported yet
     //assertBad("Die Update Liste.", "Die Updateliste");  // not accepted by speller
     List<RuleMatch> matches = lt.check("Er folgt damit dem Tipp des Autoren Michael Müller.");
@@ -189,6 +217,7 @@ public class AgreementRuleTest {
     assertGood("Die Müllers aus Hamburg.");
     assertGood("Es ist noch unklar, wann und für wen Impfungen vorgenommen werden könnten.");
     assertGood("Macht dir das Hoffnung?");
+    assertGood("Mich fasziniert Macht.");
 
     assertGood("Wir machen das Januar.");
     assertGood("Wir teilen das Morgen mit.");
@@ -199,6 +228,7 @@ public class AgreementRuleTest {
     assertGood("Können Sie das nächsten Monat erledigen?");
     assertGood("Können Sie das auch nächsten Monat erledigen?");
     assertGood("War das Absicht?");
+    assertGood("Alles Große und Edle ist einfacher Art.");
 
     assertGood("Das Dach meines Autos.");
     assertGood("Das Dach meiner Autos.");
@@ -279,6 +309,8 @@ public class AgreementRuleTest {
     assertGood("Die meisten Lebensmittel enthalten das.");  // Lebensmittel has NOG as gender in Morphy
     // TODO: Find agreement errors in relative clauses
     assertBad("Gutenberg, die Genie.");
+    assertBad("Wahrlich ein äußerst kritische Jury.", "eine äußerst kritische Jury");
+    assertBad("Das ist ein enorm großer Auto.", "ein enorm großes Auto");
     //assertBad("Gutenberg, die größte Genie.");
     //assertBad("Gutenberg, die größte Genie aller Zeiten.");
     assertGood("Die wärmsten Monate sind August und September, die kältesten Januar und Februar.");
@@ -299,6 +331,8 @@ public class AgreementRuleTest {
     assertGood("Es ist nicht bekannt, mit welchem Alter Kinder diese Fähigkeit erlernen.");
     assertGood("Dieser ist nun in den Ortungsbereich des einen Roboters gefahren.");
     assertGood("Wenn dies großen Erfolg hat, werden wir es weiter fördern.");
+    assertGood("Alles Gute!");
+    assertGood("Das bedeutet nichts Gutes.");
     assertGood("Die Ereignisse dieses einen Jahres waren sehr schlimm.");
     assertGood("Er musste einen Hochwasser führenden Fluss nach dem anderen überqueren.");
     assertGood("Darf ich Ihren Füller für ein paar Minuten ausleihen?");
@@ -459,7 +493,7 @@ public class AgreementRuleTest {
     assertBad("Ich gebe dir das kleinen Kaninchen.");
     assertBad("Ich gebe dir das kleinem Kaninchen.");
     assertBad("Ich gebe dir das kleiner Kaninchen.");
-    assertBadWithNoSuggestion("Geprägt ist der Platz durch einen 142 Meter hoher Obelisken");
+    assertBad("Geprägt ist der Platz durch einen 142 Meter hoher Obelisken", "einen 142 Meter hohen Obelisken");
     //assertBad("Ich gebe dir das kleines Kaninchen.");  // already detected by ART_ADJ_SOL
     //assertBad("Ich gebe dir das klein Kaninchen.");  // already detected by MEIN_KLEIN_HAUS
     assertGood("Ich gebe dir das kleine Kaninchen.");
@@ -526,8 +560,23 @@ public class AgreementRuleTest {
     assertGood("Der Deutsch Langhaar ist ein mittelgroßer Jagdhund");
     assertGood("Eine Lösung die Spaß macht");
     assertGood("Mir machte das Spaß.");
+    assertGood("Wir möchten nicht, dass irgendjemand Fragen stellt.");
+    assertGood("Die Multiple Sklerose hat 1000 Gesichter.");
     assertGood("Na ja, einige nennen das Freundschaft plus, aber das machen wir besser nicht.");
     assertGood("Vogue, eigentlich als B-Seite der letzten Like A Prayer-Auskopplung Keep It Together gedacht, wurde kurzfristig als eigenständige Single herausgebracht");
+    assertGood("..., die laufend Gewaltsituationen ausgeliefert sind");
+    assertGood("Dann folgte die Festnahme der dringend Tatverdächtigen.");
+
+    assertGood("Ich habe meine Projektidee (die riesiges finanzielles Potenzial hat) an einen Unternehmenspräsidenten geschickt.");
+    assertGood("Als weitere Rechtsquelle gelten gelegentlich noch immer der Londoner Court of Appeal und das britische House of Lords.");
+    assertGood("Die Evangelische Kirche befindet sich in der Bad Sodener Altstadt direkt neben dem Quellenpark.");
+    assertGood("Der volle Windows 10 Treibersupport");
+    assertGood("Zugleich stärkt es die renommierte Berliner Biodiversitätsforschung.");
+    assertGood("Der Windows 10 Treibersupport");
+    assertGood("Kennt irgendwer Tipps wie Kopfhörer länger halten?");
+    assertGood("George Lucas 1999 über seine sechsteilige Star Wars Saga.");
+    assertGood("… und von denen mehrere Gegenstand staatsanwaltlicher Ermittlungen waren.");
+    assertGood("Die südlichste Düsseldorfer Rheinbrücke ist die Fleher Brücke, eine Schrägseilbrücke mit dem höchsten Brückenpylon in Deutschland und einer Vielzahl von fächerförmig angeordneten Seilen.");
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");
     //assertBad("Erst recht ich fleißiges Arbeiter.");
@@ -594,6 +643,7 @@ public class AgreementRuleTest {
   @Test
   public void testDetAdjNounRule() throws IOException {
     // correct sentences:
+    assertGood("Die Übernahme der früher selbständigen Gesellschaft");
     assertGood("Das ist, weil man oft bei anderen schreckliches Essen vorgesetzt bekommt.");
     assertGood("Das ist der riesige Tisch.");
     assertGood("Der riesige Tisch ist groß.");
@@ -616,8 +666,12 @@ public class AgreementRuleTest {
     assertGood("Ich besitze ein Modell aus der 300er Reihe.");
     assertGood("Aber ansonsten ist das erste Sahne");
     assertGood("...damit diese ausreichend Sauerstoff geben.");
+    assertGood("...als auch die jedem zukommende Freiheit.");
+    assertGood("...als auch die daraus jedem zukommende Freiheit.");
 
     // incorrect sentences:
+    assertBad("Er hatte ein anstrengenden Tag",
+      "ein anstrengender Tag", "ein anstrengendes Tag", "einen anstrengenden Tag", "einem anstrengenden Tag");
     assertBad("Es sind die riesigen Tisch.");
     //assertBad("Dort, die riesigen Tischs!");    // TODO: error not detected because of comma
     assertBad("Als die riesigen Tischs kamen.");
@@ -627,8 +681,8 @@ public class AgreementRuleTest {
     assertBad("An der rote Ampel.");
     assertBad("An der rotes Ampel.");
     assertBad("An der rotem Ampel.");
-    assertBad("Er hatte ihn aus dem 1,4 Meter tiefem Wasser gezogen.");
-    assertBad("Er hatte ihn aus dem 1,4 Meter tiefem Wasser gezogen.");
+    assertBad("Er hatte ihn aus dem 1,4 Meter tiefem Wasser gezogen.", "dem 1,4 Meter tiefen Wasser");
+    assertBad("Das ist ein sehr schönes Tisch.", "ein sehr schöner Tisch");
     assertBad("Er hatte eine sehr schweren Infektion.");
     assertBad("Ein fast 5 Meter hohem Haus.");
     assertBad("Ein fünf Meter hohem Haus.");
@@ -656,6 +710,8 @@ public class AgreementRuleTest {
     assertGood("Werden mehrere solcher physikalischen Elemente zu einer Einheit zusammengesetzt...");
     assertGood("Aufgrund ihrer weniger guten Bonitätslage.");
     assertGood("Mit ihren teilweise eigenwilligen Außenformen...");
+    assertGood("Die deutsche Kommasetzung bedarf einiger technischer Ausarbeitung.");
+    assertGood("Die deutsche Kommasetzung bedarf einiger guter technischer Ausarbeitung.");
     // incorrect:
     assertBad("Das ist eine solides strategisches Fundament", "ein solides strategisches Fundament");
     assertBad("Das ist eine solide strategisches Fundament", "ein solides strategisches Fundament");
@@ -664,6 +720,19 @@ public class AgreementRuleTest {
     assertBad("Das ist ein solides strategische Fundament", "ein solides strategisches Fundament");
     assertBad("Das ist ein solides strategisches Fundamente", "ein solides strategisches Fundament");
     assertBad("Das ist ein solides strategisches Fundaments", "ein solides strategisches Fundament");
+    assertBad("Die deutsche Kommasetzung bedarf einiger technisches Ausarbeitung.");
+    assertBad("Die deutsche Kommasetzung bedarf einiger guter technische Ausarbeitung.");
+  }
+
+  @Test
+  public void testKonUntArtDefSub() throws IOException {
+    // correct:
+    assertGood("Wieso verstehst du nicht, dass das komplett verschiedene Dinge sind?");
+    assertGood("Ich frage mich sehr, ob die wirklich zusätzliche Gebühren abdrücken wollen");
+    // incorrect:
+    assertBad("Dies wurde durchgeführt um das moderne Charakter zu betonen.", "den modernen Charakter");
+    assertBad("Nur bei Topfpflanzung ist eine regelmäßige Düngung wichtig, da die normalen Bodenbildungsprozessen nicht stattfinden.", "die normalen Bodenbildungsprozesse", "den normalen Bodenbildungsprozessen");
+    assertBad("Die Höhe kommt oft darauf an, ob die richtigen Leuten gut mit einen können oder nicht.");
   }
 
   private void assertGood(String s) throws IOException {

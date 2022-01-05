@@ -4,7 +4,8 @@
 
     <!--
  Portuguese (Portugal - prereform + postreform) - Grammar and Typo Rules for LanguageTool.
- Copyright © 2016-2017 Tiago F. Santos (tiagofsantos81@sapo.pt)
+ Copyright © 2016-2021 Tiago F. Santos (tiagofsantos81@sapo.pt)
+ Copyright © 2021 Marco A.G.Pinto (www.marcoagpinto.com)
 
  This library is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
@@ -1547,7 +1548,6 @@
       </pattern>
       <disambig action="remove" postag="V.N.+"/>
     </rule>
-
     <rule id="PUNCT" name="Pontuação">
     <!-- 		l18n from Spanish disambiguation.xml by Tiago F. Santos		-->
       <pattern>
@@ -1627,6 +1627,14 @@
       <example type="ambiguous" inputform="&quot;[&quot;/'',&quot;/``]" outputform="&quot;[&quot;/``]">Um (<marker>&quot;</marker>teste&quot;.</example>
     </rule>
   </rulegroup>
+  
+  <rule id="QUOTATION_MARCOAGPINTO" name="Aspas MARCOAGPINTO">
+    <!--      Created by Marco A.G.Pinto, Portuguese 2021-11-05 (25-JUN-2021+)      -->
+    <pattern>
+      <token regexp="yes">[»«"”‘‹›']</token>
+    </pattern>
+    <disambig action="add"><wd pos="_QUOT"/></disambig>
+  </rule>
 
   <rulegroup id="VERBOS_COMPOSTOS" name="Verbos compostos">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2018-07-08  	-->

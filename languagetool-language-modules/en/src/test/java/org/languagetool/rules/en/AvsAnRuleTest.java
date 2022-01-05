@@ -89,6 +89,9 @@ public class AvsAnRuleTest {
     //Test on acronyms/initials:
     assertCorrect("A. R.J. Turgot");
 
+    // list items
+    assertCorrect("Make sure that 3.a as well as 3.b are correct.");
+
     //mixed case as dictionary-based exception
     assertCorrect("Anyone for an MSc?");
     assertIncorrect("Anyone for a MSc?");

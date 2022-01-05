@@ -27,6 +27,19 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
 -->
 <rules lang="de" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/remote-rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <category name="Machine learning rules" id="AI_RULES">
+        <rule id="AI_HYDRA_LEO_CPT_MIT_MIR" name="">
+            <pattern>
+                <token skip="-1" inflected="yes" regexp="yes">arbeiten|bekommen|benutzen|benützen|bestimmen|bieten|bringen|denken|dürfen|empfinden|erleben|essen|fahren|finanzieren|fliegen|fühlen|führen|geben|gehen|gestalten|haben|halten|helfen|hören|kämpfen|klingen|kommen|können|kriegen|lassen|laufen|leiden|lesen|liefern|machen|marschieren|mischen|müssen|nehmen|pfeifen|rauchen|rechnen|reden|regieren|reisen|reißen|reissen|schicken|schleifen|schleppen|schneiden|schreiben|schwimmen|schwingen|singen|sollen|spielen|sprechen|teilen|tun|verdienen|wirken|wollen|zählen|ziehen
+                    <exception scope="next" negate="yes" inflected="yes" postag="VER(:AUX|:MOD)?(INF|[123]).*" postag_regexp="yes" regexp="yes">arbeiten|bekommen|benutzen|benützen|bestimmen|bieten|bringen|denken|dürfen|empfinden|erleben|essen|fahren|finanzieren|fliegen|fühlen|führen|geben|gehen|gestalten|haben|halten|helfen|hören|kämpfen|klingen|kommen|können|kriegen|lassen|laufen|leiden|lesen|liefern|machen|marschieren|mischen|müssen|nehmen|pfeifen|rauchen|rechnen|reden|regieren|reisen|reißen|reissen|schicken|schleifen|schleppen|schneiden|schreiben|schwimmen|schwingen|singen|sollen|spielen|sprechen|teilen|tun|verdienen|wirken|wollen|zählen|ziehen</exception>
+                </token>
+                <marker>
+                    <token>mit</token>
+                </marker>
+                <token postag="(KON|PKT).*" postag_regexp="yes"/>
+            </pattern>
+            <example correction="">Bitte hilf <marker>mit</marker>, die fehlenden Informationen zu recherchieren und einzufügen</example>
+            <example correction="">Schreiben Sie das bitte <marker>mit</marker>.</example>
+        </rule>
         <rule id="AI_HYDRA_LEO_CASE_UPPER" name="">
             <!-- no upper for mRNA, iPhone etc. -->
             <pattern>
@@ -68,10 +81,11 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <rule>
                 <pattern>
                     <marker>
-                        <token case_sensitive="yes" regexp="yes">Du|Dir|Dich|Euch|Ihr|Ihnen</token>
+                        <token case_sensitive="yes" regexp="yes">Du|Dir|Dich|Euch|Euer|Eure[nmsr]?|Ihr|Ihre[nmsr]?|Ihnen</token>
                     </marker>
                 </pattern>
                 <example correction="">Ich danke <marker>Dir</marker> von ganzem Herzen.</example>
+                <example correction="">Das Handelsblatt hat <marker>Ihren</marker> als geheim eingestuften Bericht veröffentlicht.</example><!-- Frage in einem Interview -->
             </rule>
             <rule>
                 <pattern>
@@ -108,6 +122,15 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     </marker>
                 </pattern>
                 <example correction="">Sind <marker>Sie</marker> etwas erkältet?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[„"«]</token>
+                    <marker>
+                        <token spacebefore="no" regexp="yes" case_sensitive="yes">[A-ZÄÖÜ].+</token>
+                    </marker>
+                </pattern>
+                <example correction="">Sie sieht durch seine Aussagen „<marker>Das</marker> Gemeinwohl wieder mehr im Mittelpunkt“ stehend.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AI_HYDRA_LEO_MISSING_COMMA" name="">
@@ -206,13 +229,8 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction=""><marker>Auflage</marker> München 2010, S. 17</example>
             </rule>
             <rule>
-                <pattern>
-                    <token postag="SENT_START" />
-                    <marker>
-                        <token regexp="yes">@.+</token>
-                    </marker>
-                </pattern>
-                <example correction=""><marker>@Christian</marker> die Milch ist schlecht.</example>
+                <regexp mark="1">^@(\S+)</regexp>
+                <example correction="">@<marker>Christian</marker> wir beabsichtigen ...</example>
             </rule>
         </rulegroup>
         <rulegroup id="AI_HYDRA_LEO_CP_WIE_WIR" name="">
@@ -272,6 +290,30 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token postag="VER.*[123].*" postag_regexp="yes"/>
                 </pattern>
                 <example correction="">In der Fabrik <marker>da</marker> wohnt ein Hobbit.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_HYDRA_LEO_CP_DAS_DASS" name="">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>das</token>
+                    </marker>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <example correction="">Manche Katzen weigern Würmer sonnik gesehen jedoch, Essen zu sich zu nehmen, <marker>das</marker> .</example>
+                <example correction="">Einer beziehung zerstörst, was sie bequem für lust statt bars zu versuchen sie mag, <marker>das</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_HYDRA_LEO_NOUN_SPACE" name="">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="(ART|ADJ|PRO:(POS|IND)).*" postag_regexp="yes" negate_pos="yes"/>
+                    <marker>
+                        <token regexp="yes">Rechts|Links</token>
+                        <token regexp="yes">Au(ss|ß)en</token>
+                    </marker>
+                </pattern>
+                <example correction="">Er spielt halt oft die Pässe, die einen Angriff einleiten (was von <marker>Links Außen</marker> schwer ist).</example>
             </rule>
         </rulegroup>
     </category>

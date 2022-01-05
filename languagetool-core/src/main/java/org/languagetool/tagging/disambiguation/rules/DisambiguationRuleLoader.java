@@ -18,6 +18,7 @@
  */
 package org.languagetool.tagging.disambiguation.rules;
 
+import org.languagetool.JLanguageTool;
 import org.languagetool.tools.Tools;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -42,7 +43,11 @@ public class DisambiguationRuleLoader extends DefaultHandler {
     DisambiguationRuleHandler handler = new DisambiguationRuleHandler();
     SAXParserFactory factory = SAXParserFactory.newInstance();
     SAXParser saxParser = factory.newSAXParser();
-    Tools.setPasswordAuthenticator();
+
+    if (JLanguageTool.isCustomPasswordAuthenticatorUsed()) {
+      Tools.setPasswordAuthenticator();
+    }
+
     saxParser.parse(stream, handler);
     return handler.getDisambRules();
   }

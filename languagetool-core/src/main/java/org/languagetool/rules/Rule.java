@@ -68,6 +68,7 @@ public abstract class Rule {
   private boolean defaultTempOff;
   private boolean officeDefaultOn = false;
   private boolean officeDefaultOff = false;
+  private int minPrevMatches = 0; // minimum number of previous matches to show the rule
 
   public Rule() {
     this(null);
@@ -527,5 +528,13 @@ public abstract class Rule {
 
   public void setPremium(boolean premium) {
     isPremium = premium;
+  }
+  
+  public void setMinPrevMatches(int i) {
+    minPrevMatches = i;
+  }
+  
+  public int getMinPrevMatches() {
+    return minPrevMatches;
   }
 }

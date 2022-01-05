@@ -79,6 +79,9 @@ public class PatternRuleHandler extends XMLRuleHandler {
   private boolean isRuleSuppressMisspelled;
   private boolean isSuggestionSuppressMisspelled;
 
+  private int minPrevMatches = 0;
+  private int ruleGroupMinPrevMatches = 0;
+  
   private String idPrefix;
 
   public PatternRuleHandler() {
@@ -143,6 +146,16 @@ public class PatternRuleHandler extends XMLRuleHandler {
         url = new StringBuilder();
         id = attrs.getValue(ID);
         name = attrs.getValue(NAME);
+        String minPrevMatchesStr = attrs.getValue(MINPREVMATCHES);
+        if (minPrevMatchesStr != null) {
+          if (inRuleGroup && ruleGroupMinPrevMatches > 0) {
+            throw new RuntimeException("Rule group " + ruleGroupId + " has " + MINPREVMATCHES + "=" + ruleGroupMinPrevMatches
+                + ", thus rule " + id + " cannot specify " + MINPREVMATCHES);
+          }
+          minPrevMatches = Integer.parseInt(minPrevMatchesStr);  
+        } else {
+          minPrevMatches = ruleGroupMinPrevMatches;
+        }
         String premiumRule = attrs.getValue(PREMIUM);
         //check if this rule is premium
         if (premiumRule != null) { //if flag is set on rule it overrides everything before
@@ -317,6 +330,10 @@ public class PatternRuleHandler extends XMLRuleHandler {
         if (attrs.getValue("tags") != null) {
           ruleGroupTags.addAll(Arrays.asList(attrs.getValue("tags").split(" ")));
         }
+        String minPrevMatchesStr2 = attrs.getValue(MINPREVMATCHES);
+        if (minPrevMatchesStr2 != null) {
+          ruleGroupMinPrevMatches = Integer.parseInt(minPrevMatchesStr2);  
+        }
         break;
       case MATCH:
         setMatchElement(attrs, inSuggestion && (isSuggestionSuppressMisspelled || isRuleSuppressMisspelled));
@@ -410,6 +427,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         inRule = false;
         filterClassName = null;
         filterArgs = null;
+        minPrevMatches = 0;
         ruleTags.clear();
         break;
       case EXCEPTION:
@@ -538,6 +556,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         ruleGroupDefaultTempOff = false;
         defaultOff = false;
         defaultTempOff = false;
+        ruleGroupMinPrevMatches = 0;
         ruleGroupTags.clear();
         break;
       case MARKER:
@@ -617,6 +636,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         rule.addTags(categoryTags);
         rule.setSourceFile(sourceFile);
         rule.setPremium(isPremiumRule);
+        rule.setMinPrevMatches(minPrevMatches);
       } else if (regex.length() > 0) {
         int flags = regexCaseSensitive ? 0 : Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE;
         String regexStr = regex.toString();

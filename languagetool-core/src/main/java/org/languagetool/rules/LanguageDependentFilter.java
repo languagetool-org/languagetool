@@ -21,93 +21,29 @@ package org.languagetool.rules;
 import org.languagetool.Language;
 import org.languagetool.rules.patterns.RuleSet;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /* 
- * Adjust rule matches for some languages  
+ * Adjust rule suggestions for some languages  
  * 
  * @since 4.6
  */
 public class LanguageDependentFilter implements RuleMatchFilter {
 
   protected Language language;
-  protected Set<String> enabledRules;
-  protected Set<CategoryId> disabledCategories;
-  
-  private static final Pattern CA_OLD_DIACRITICS = Pattern.compile(".*\\b(dóna|vénen|véns|fóra)\\b.*",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-  private static final Pattern ES_CONTRACTIONS = Pattern.compile("\\b([Aa]|[Dd]e) e(l)\\b");
+  protected Set<String> enabledRules; 
 
   public LanguageDependentFilter(Language lang, RuleSet rules) {
     language = lang;
-    enabledRules = new HashSet<String>();
-    for (Rule r : rules.allRules()) {
-      enabledRules.add(r.getId());
-    }
+    enabledRules = rules.allRuleIds();
   }
 
   @Override
   public List<RuleMatch> filter(List<RuleMatch> ruleMatches) {
-    if (language.getShortCode().equals("ca")) {
-      // Use typographic apostrophe in suggestions
-      if (enabledRules.contains("APOSTROF_TIPOGRAFIC") || !enabledRules.contains("DIACRITICS_TRADITIONAL_RULES")) {
-        List<RuleMatch> newRuleMatches = new ArrayList<>();
-        for (RuleMatch rm : ruleMatches) {
-          List<String> replacements = rm.getSuggestedReplacements();
-          List<String> newReplacements = new ArrayList<>();
-          for (String s : replacements) {
-            if (enabledRules.contains("APOSTROF_TIPOGRAFIC") && s.length() > 1) {
-              s = s.replace("'", "’");
-            }
-            Matcher m = CA_OLD_DIACRITICS.matcher(s);
-            if (!enabledRules.contains("DIACRITICS_TRADITIONAL_RULES") && m.matches()) {
-              // skip this suggestion with traditional diacritics
-            } else {
-              newReplacements.add(s);
-            }
-          }
-          RuleMatch newMatch = new RuleMatch(rm, newReplacements);
-          newRuleMatches.add(newMatch);
-        }
-        return newRuleMatches;
-      }
-    } else if (language.getShortCode().equals("fr")) {
-      if (this.enabledRules.contains("APOS_TYP")) {
-        List<RuleMatch> newRuleMatches = new ArrayList<>();
-        for (RuleMatch rm : ruleMatches) {
-          List<String> replacements = rm.getSuggestedReplacements();
-          List<String> newReplacements = new ArrayList<>();
-          for (String s : replacements) {
-            if (s.length() > 1) {
-              s = s.replace("'", "’");
-            }
-            newReplacements.add(s);
-          }
-          RuleMatch newMatch = new RuleMatch(rm, newReplacements);
-          newRuleMatches.add(newMatch);
-        }
-        return newRuleMatches;
-      }
-    } else if (language.getShortCode().equals("es")) {
-        List<RuleMatch> newRuleMatches = new ArrayList<>();
-        for (RuleMatch rm : ruleMatches) {
-          List<String> replacements = rm.getSuggestedReplacements();
-          List<String> newReplacements = new ArrayList<>();
-          for (String s : replacements) {
-            Matcher m = ES_CONTRACTIONS.matcher(s);
-            s= m.replaceAll("$1$2");
-            newReplacements.add(s);
-          }
-          RuleMatch newMatch = new RuleMatch(rm, newReplacements);
-          newRuleMatches.add(newMatch);
-        }
-        return newRuleMatches;
-    }
-    return ruleMatches;
+	  return language.adaptSuggestions(ruleMatches, enabledRules);
   }
-
 }
+
+	  
+	

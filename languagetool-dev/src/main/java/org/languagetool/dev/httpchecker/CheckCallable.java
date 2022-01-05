@@ -162,6 +162,8 @@ class CheckCallable implements Callable<File> {
     try {
       System.setProperty("http.keepAlive", "false");  // without this, there's an overhead of about 1 second - not sure why
       URLConnection conn = url.openConnection();
+      conn.setConnectTimeout(20*1000);
+      conn.setReadTimeout(60*1000);
       conn.setDoOutput(true);
       if (user != null && password != null) {
         String authString = user + ":" + password;

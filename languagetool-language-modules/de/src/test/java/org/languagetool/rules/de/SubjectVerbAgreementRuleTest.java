@@ -302,7 +302,8 @@ public class SubjectVerbAgreementRuleTest {
         "Vier Monate ist die Niederlage nun her.",
         "Sie liebt Kunst und Kunst war auch kein Problem, denn er würde das Geld zurückkriegen.",
         "Bei komplexen und andauernden Störungen ist der Stress-Stoffwechsel des Hundes entgleist.",
-        "Eltern ist der bisherige Kita-Öffnungsplan zu unkonkret"
+        "Eltern ist der bisherige Kita-Öffnungsplan zu unkonkret",
+        "Gründer und Leiter des Zentrums ist der Rabbiner Marvin Hier, sein Stellvertreter ist Rabbi Abraham Cooper."
     );
     for (String sentence : sentences) {
       assertGood(sentence);

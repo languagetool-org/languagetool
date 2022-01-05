@@ -5,6 +5,61 @@ Copyright (C) 2009-2021 Yakov Reztsov
 -->
 <rules lang="ru"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd">
+
+<!--  fast fix! -->
+    <rule name="NN_Inanim_Neut" id="NN_Inanim_Neut">
+        <pattern>
+            <marker>
+                <and>
+                    <token postag="NN:Inanim:Neut" ></token>
+                    <token postag="NN:Inanim:Neut:Sin:V" ></token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="add" > 
+            <wd pos="NN:Inanim:Neut:Sin:Nom" />
+        </disambig>
+
+    </rule>
+        <rule name="NN_Inanim_Masc" id="NN_Inanim_Masc">
+        <pattern>
+            <marker>
+                <and>
+                    <token postag="NN:Inanim:Masc" ></token>
+                    <token postag="NN:Inanim:Masc:Sin:V" ></token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="add" > 
+            <wd pos="NN:Inanim:Masc:Sin:Nom" />
+        </disambig>
+
+    </rule>
+        <rule name="NN_Inanim_Fem" id="NN_Inanim_Fem">
+        <pattern>
+            <marker>
+                <and>
+                    <token postag="NN:Inanim:Fem" ></token>
+                    <token postag="NN:Inanim:Fem:Sin:V" ></token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="add" > 
+            <wd pos="NN:Inanim:Fem:Sin:Nom" />
+        </disambig>
+
+    </rule>   
+   
+    <rule name="i_Co" id="i_Co">
+        <pattern>
+            <token>и</token>
+            <marker>
+                <token case_sensitive="yes">Ко</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="PREP"></disambig>
+    </rule>                 
+
     <!-- prepositions 
    R:   
    без, вместо, вокруг (prep & adv), для, до, из (изо), из-за, из-под, кроме,
@@ -81,7 +136,23 @@ Copyright (C) 2009-2021 Yakov Reztsov
         </pattern>
         <disambig action="remove" postag="NN:.*:.*:.*:Nom"></disambig>
     </rule>
-
+    <!-- где телефон? где телефоны? где Оля? -->
+    <!--
+    <rule name="NOUN_V5" id="NOUN_V5">
+        <pattern>	 
+            <token skip="1">где</token>  
+            <marker>
+                <and>
+                    <token postag="NN:.*:.*:.*:Nom" postag_regexp="yes"></token>
+                    <token postag="NN:.*:.*:.*:V" postag_regexp="yes"></token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="NN:.*:.*:.*:V"></disambig>
+        <example type="ambiguous" inputform="телефон[телефон/NN:Inanim:Masc:Sin:Nom,телефон/NN:Inanim:Masc:Sin:V]" outputform="телефон[телефон/NN:Inanim:Masc:Sin:Nom]">Где <marker>телефон</marker>?</example>
+        <example type="ambiguous" inputform="телефон[телефон/NN:Inanim:Masc:Sin:Nom,телефон/NN:Inanim:Masc:Sin:V]" outputform="телефон[телефон/NN:Inanim:Masc:Sin:Nom]">Где наш <marker>телефон</marker>?</example>
+    </rule>
+    --> 
     <rule name="NOUN_R" id="NOUN_R">
         <pattern>
             <!-- без  - родительный  -->
@@ -122,7 +193,37 @@ Copyright (C) 2009-2021 Yakov Reztsov
         </pattern>
         <disambig action="remove" postag="NN:.*:.*:.*:(Nom|D|R|T)"></disambig>
     </rule>
-    
+    <rule name="NOUN_Letter" id="NOUN_Letter">
+        <pattern>
+            <marker>
+                <token postag="NN:.*:.*" postag_regexp="yes" regexp="yes">[А-ЯЁ]</token>
+            </marker>
+            <token>.</token>
+        </pattern>
+        <disambig action="remove" postag="NN:.*:.*"></disambig>
+    </rule>
+    <rule name="NOUN_ABR_OS" id="NOUN_ABR_OS">
+        <pattern>
+            <marker>
+                <and>
+                    <token postag="NN:.*:.*:.*:.*" postag_regexp="yes"></token>
+                    <token case_sensitive="yes" >ОС</token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="NN:.*:.*:.*:.*"></disambig>
+    </rule>
+    <rule name="NOUN_ABR_VRU" id="NOUN_ABR_VRU">
+        <pattern>
+            <marker>
+                <and>
+                    <token postag="ABR:.*" postag_regexp="yes"></token>
+                    <token case_sensitive="yes" >ВРУ</token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="VB:Real:TRANS:IMPFV:Sin:P1"></disambig>
+    </rule>     
     <rule name="INTERJECTION_OR_PREP_O" id="INTERJECTION_O">
         <pattern>
             <!-- о  -->
@@ -135,13 +236,11 @@ Copyright (C) 2009-2021 Yakov Reztsov
     </rule>
 
     <rule name="NOUN_NOT_NOM" id="NOUN_NOT_NOM">
-        <antipattern>
-            <token>что</token>
-            <token>это</token>
+        <antipattern> <!-- exception for: Что он был за человек? -->
+            <token skip="-1">что</token>
             <token>за</token>
             <token postag="NN:.*:.*:.*:Nom" postag_regexp="yes"></token> 
         </antipattern>
-
         <pattern>	 
             <!-- Что за головная боль!    "Что за" - междометие -->
             <!-- Add exception for : "Что за + NN:.*:.*:Nom" -->
@@ -170,8 +269,9 @@ Copyright (C) 2009-2021 Yakov Reztsov
             <!-- Что за головная боль!    "Что за" - междометие -->
             <!-- Add exception for : "Что за + NN:.*:.*:Nom" -->
             <!-- Add exception for : "в невесты" -->
+            <!-- Add exception for : "за лучший фильм"  remove "за", must sync with rule "ADJ_V" !-->
             <token  negate="yes">что</token>
-            <token regexp="yes">за|без|вместо|для|до|из|из-за|изо|из-под|к|ко|кроме|на|над|о|около|от|перед|по|под|при|против|с|сквозь|со|среди|у|через</token>
+            <token regexp="yes">без|вместо|для|до|из|из-за|изо|из-под|к|ко|кроме|на|над|о|около|от|перед|по|под|при|против|с|сквозь|со|среди|у|через</token>
             <token postag="ADJ:.*" postag_regexp="yes"></token>
             <marker>
                 <and>
@@ -305,6 +405,35 @@ Copyright (C) 2009-2021 Yakov Reztsov
         </pattern>
        <disambig action="remove" postag="PT:.*:.*:Nom"></disambig>
     </rule>
+    <!-- где наша Оля? -->
+    <!-- Где наш телефон? -->
+    <!--
+     <rule name="ADJ_V5" id="ADJ_V5">
+        <pattern>
+            <token>где</token>
+            <marker>
+                <and>
+                    <token postag="ADJ:.*:.*:Nom" postag_regexp="yes"></token>
+                    <token postag="ADJ:.*:.*:V" postag_regexp="yes"></token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="ADJ:.*:.*:V"></disambig>
+        <example type="ambiguous" inputform="наш[наш/ADJ:MPR:Masc:Nom,наш/ADJ:MPR:Masc:V]" outputform="наш[наш/ADJ:MPR:Masc:Nom]">Где <marker>наш</marker> телефон?</example>
+    </rule>
+    <rule name="PT_V5" id="PT_V5">
+        <pattern>
+            <token>где</token>
+            <marker>
+                <and>
+                    <token postag="PT:.*:.*:Nom" postag_regexp="yes"></token>
+                    <token postag="PT:.*:.*:V" postag_regexp="yes"></token>
+                </and>
+            </marker>
+        </pattern>
+       <disambig action="remove" postag="PT:.*:.*:V"></disambig>
+    </rule>
+    -->
     <rule name="ADJ_R" id="ADJ_R">
         <pattern>
             <token regexp="yes">без|безо|вместо|для|до|из|изо|из-за|из-под|кроме|около|от|против|среди|у</token>
@@ -457,6 +586,16 @@ Copyright (C) 2009-2021 Yakov Reztsov
             </marker>
         </pattern>
         <disambig><match no="2" postag="ADV"></match></disambig>
+    </rule>
+
+    <rule name="ADV_PARTICLE" id="ADV_PARTICLE">
+        <pattern>  
+            <marker>
+                <token regexp="yes">еще|ещё</token>
+            </marker>
+            <token>не</token>
+        </pattern>
+        <disambig action="remove" postag="PARTICLE"></disambig>
     </rule>
 
     <!-- disambiguation for prounouns' -->
@@ -736,5 +875,16 @@ Copyright (C) 2009-2021 Yakov Reztsov
         </pattern>
         <disambig action="remove" postag="VB:.*:.*:.*:.*"></disambig>
     </rule>
-       
+     
+  <rulegroup id="po-ADJ" name="po-ADJ">  <!-- по-мышиному -->
+        <rule>
+            <pattern>
+                <token regexp="yes">[Пп]о-([а-яё]+)<exception regexp="yes">по-крайней|по-крайнему|по-полной|по-меньшей|по-большей</exception></token> 
+            </pattern>
+            <filter class="org.languagetool.rules.ru.NoDisambiguationRussianPartialPosTagFilter"
+                    args="no:1 regexp:[Пп]о-([а-яё]+) postag_regexp:ADJ:Posit:(.*:D|PL:V) "/><!-- The filter is case-sensitive -->
+            <disambig action="ignore_spelling"></disambig>
+        </rule>
+    </rulegroup>
+           
 </rules>

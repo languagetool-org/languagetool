@@ -49,6 +49,11 @@ public class ProhibitedCompoundRule extends Rule {
   private static final List<Pair> lowercasePairs = Arrays.asList(
           // NOTE: words here must be all-lowercase
           // NOTE: no need to add words from confusion_sets.txt, they will be used automatically (if starting with uppercase char)
+          new Pair("bau", "Bauwerk, Baustelle", "baum", "Pflanze"),
+          new Pair("gase", "Plural von 'Gas' (Aggregatzustand)", "gasse", "kleine Straße"),
+          new Pair("ekel", "Abscheu", "enkel", "Kind eines eigenen Kindes"),
+          new Pair("reis", "Nahrungsmittel", "reise", "Ausflug/Fahrt"),
+          new Pair("speichel", "Körperflüssigkeit", "speicher", "Lager, Depot, Ablage"),
           new Pair("hüte", "Kopfbedeckungen", "häute", "Plural von 'Haut'"),
           new Pair("bach", "kleiner Fluss", "bauch", "Teil des menschlichen Körpers"),
           new Pair("werbereich", null, "erbereich", null),
@@ -122,6 +127,96 @@ public class ProhibitedCompoundRule extends Rule {
     "Gra(ph|f)it"   // Grafit/Graphit
   );
   private static final Set<String> blacklist = new HashSet<>(Arrays.asList(
+          "Schneehose",  // vs hase
+          "Schneehosen",  // vs hase
+          "Außendusche",  // vs augen
+          "Außenduschen",  // vs augen
+          "Nachbauteile",  // vs bar
+          "Nachbauteilen",  // vs bar
+          "Außenbar",  // vs bau
+          "Modelfigur",  // vs modell
+          "Kurzangebot",  // vs kur
+          "Kurzangebote",  // vs kur
+          "Kurzangeboten",  // vs kur
+          "Verschwörungsideologe",  // vs ideologie
+          "Verschwörungsideologen",  // vs ideologie
+          "Maklerkollege",  // vs maler
+          "Maklerkollegen",  // vs maler
+          "Suppenköche",  // vs küche
+          "Suppenköchen",  // vs küche
+          "Schulköche",  // vs küche
+          "Schulköchen",  // vs küche
+          "Privatköche",  // vs küche
+          "Privatköchen",  // vs küche
+          "Mannschaftsköche",  // vs küche
+          "Mannschaftsköchen",  // vs küche
+          "Gourmetköche",  // vs küche
+          "Gourmetköchen",  // vs küche
+          "Fischköche",  // vs küche
+          "Fischköchen",  // vs küche
+          "Gefängnisköche",  // vs küche
+          "Gefängnisköchen",  // vs küche
+          "Chemieexperte",  // vs exporte
+          "Devisenexperte",  // vs exporte
+          "Mietinteressent",  // vs Mit
+          "Mietinteressenten",  // vs Mit
+          "Mietinteressentin",  // vs Mit
+          "Mietinteressentinnen",  // vs Mit
+          "Gruppenunterkunft",  // vs Truppe
+          "Gruppenunterkünfte",  // vs Truppe
+          "Gruppenunterkünften",  // vs Truppe
+          "Fischturm",  // vs Misch
+          "Wandtaster",  // vs Hand
+          "Rauchsalz",  // vs satz
+          "Miettag",  // vs Mit
+          "Mietrechnung",  // vs Mit
+          "Grundgas",  // vs Glas
+          "Mahlstufe",  // vs Wahl
+          "Mahlstufen",  // vs Wahl
+          "Mahlprogramm",  // vs Wahl
+          "Mahlprogramme",  // vs Wahl
+          "Mahlprogrammen",  // vs Wahl
+          "umparken",  // vs packen
+          "Fabrikgasse",  // vs gase
+          "Dachreinigung",  // vs Nach
+          "Dachreinigungen",  // vs Nach
+          "Geisterspiel",  // vs Meister
+          "Geisterspiels",  // vs Meister
+          "Geisterspiele",  // vs Meister
+          "Geisterspielen",  // vs Meister
+          "gehostet",  // vs hort
+          "gehostete",  // vs hort
+          "gehostetes",  // vs hort
+          "gehosteten",  // vs hort
+          "gehostetes",  // vs hort
+          "gehosteter",  // vs hort
+          "gehostetem",  // vs hort
+          "Felltyp",  // vs Zell
+          "Felltyps",  // vs Zell
+          "Gemüsehaus",  // vs baus
+          "Ladepark",  // vs Bade
+          "Ladeparks",  // vs Bade
+          "Autoexperte",  // vs exporte
+          "Autoexperten",  // vs exporte
+          "Basiskonten",  // vs kosten
+          "Onlinekonten",  // vs kosten
+          "Druckmodell",  // vs model/modell
+          "Druckmodells",  // vs model/modell
+          "Druckmodelle",  // vs model/modell
+          "Druckmodellen",  // vs model/modell
+          "Modelleben",  // vs model/modell
+          "Modellebens",  // vs model/modell
+          "Porzellanmarke",  // vs markt/marke
+          "Porzellanmarken",  // vs markt/marke
+          "Abtauvorgang",  // vs bau/tau
+          "Abtauvorgangs",  // vs bau/tau
+          "Abtauvorgänge",  // vs bau/tau
+          "Abtauvorgängen",  // vs bau/tau
+          "Kurzantrag",  // vs kur
+          "Kurzanträge",  // vs kur
+          "Kurzanträgen",  // vs kur
+          "Hundeschuhe",  // vs schule
+          "Hundeschuhen",  // vs schule
           "Testerinnen",  // vs text
           "Wirtschaftspreises",  // vs kreises
           "Schlüsselkreise",  // vs preisen
@@ -843,12 +938,22 @@ public class ProhibitedCompoundRule extends Rule {
           "Mobilfunkmarke", // vs Mobilfunkmarkt
           "Schulball", // vs Schulfall
           "Schulballs", // vs Schulfalls
+          "Aluminiumzölle", // vs Aluminiumzelle
+          "Aluminiumzöllen", // vs Aluminiumzellen
+          "Herz-Ass", // vs Herzast
+          "Herzass", // vs Herzast
+          "Fleischmagen", // vs Fleischtagen
           "marktdurchdringend", // vs markdurchdringend
           "marktdurchdringende",
           "marktdurchdringendes",
           "marktdurchdringender",
           "marktdurchdringenden",
-          "marktdurchdringendem"
+          "marktdurchdringendem",
+          "Zukunftsbaum", // vs raum
+          "Zukunftsbaums", // vs raum
+          "Zukunftsbaumes", // vs raum
+          "Rasenwurzel", // vs nasen
+          "Rasenwurzeln" // vs nasen
   ));
 
   // have per-class static list of these and reference that in instance

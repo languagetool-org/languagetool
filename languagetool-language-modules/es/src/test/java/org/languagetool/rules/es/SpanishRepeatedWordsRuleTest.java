@@ -47,11 +47,16 @@ public class SpanishRepeatedWordsRuleTest {
   @Test
   public void testRule() throws IOException {
 
+    assertCorrectText("Emplearon la fuerza. Pero los empleados se resistieron.");
+    assertCorrectText("Antes dije esto. Antes de venir.");
     assertCorrectText("Propuse aquello. Pero la propuesta no fue acceptada.");
-
+    assertCorrectText("Creó cosas interesantes. Pero creo que no eran útiles.");
     assertCorrectText(
         "Fue excelente. El arquitecto de la catedral parece ser que fue el maestro Enrique, seguramente natural de Francia, que ya había trabajado anteriormente en la catedral de Burgos. Es evidente que conocía la forma arquitectónica gótica de la isla de Francia. Falleció en el año 1277 y fue sustituido por el español Juan Pérez. En el año 1289 fallecía también el obispo Martín Fernández, cuando la cabecera del templo ya estaba abierta al culto. La estructura fundamental de la catedral se finaliza pronto, en el año 1302, abriendo el obispo Gonzalo Osorio la totalidad de la iglesia a los fieles, aunque en el siglo xiv aún se terminarían el claustro y la torre norte; la torre sur no se finalizó hasta la segunda mitad del siglo xv. Esta prontitud en el acabamiento de las obras le da una gran unidad de estilo arquitectónico. La catedral de León se inspira en la planta de la catedral de Reims (aunque esta es de menor superficie), que bien pudo conocer el maestro Enrique. Al igual que la mayoría de catedrales francesas, la de León está construida con un módulo geométrico basado en el triángulo (ad triangulum), cuyos miembros se relacionan con la raíz cuadrada de 3, al que responden la totalidad de sus partes y del todo. Este aspecto, como la planta, los alzados, y los repertorios decorativos y simbólicos convierten esta catedral en un auténtico edificio transpirenaico, alejado de la corriente hispánica, que le ha merecido los calificativos de «la más francesa de las catedrales españolas» o el de Pulchra Leonina. Fue excelente.");
 
+    assertCorrectText("Yo propuse aquello. Pero también propuse esto otro.");
+    assertCorrectText("Yo propuse aquello. Pero propuse también esto otro.");
+    
     RuleMatch[] matches = getRuleMatches(
         "Yo propuse aquello. Pero la sugerencia propuesta por el presidente no fue acceptada.");
     assertEquals(1, matches.length);
@@ -69,6 +74,13 @@ public class SpanishRepeatedWordsRuleTest {
     assertEquals(1, matches.length);
     assertEquals("Sugieres", matches[0].getSuggestedReplacements().get(0));
     assertEquals("Recomiendas", matches[0].getSuggestedReplacements().get(1));
+    
+    matches = getRuleMatches("Inicia el debate. Inicia la conversación.");
+    assertEquals(1, matches.length);
+    assertEquals("Comienza", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("Empieza", matches[0].getSuggestedReplacements().get(1));
+    assertEquals("Pone en marcha", matches[0].getSuggestedReplacements().get(2));
+
   }
 
   private RuleMatch[] getRuleMatches(String sentences) throws IOException {
@@ -83,3 +95,4 @@ public class SpanishRepeatedWordsRuleTest {
   }
 
 }
+

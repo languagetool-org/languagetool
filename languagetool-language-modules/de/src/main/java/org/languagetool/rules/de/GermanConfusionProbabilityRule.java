@@ -106,7 +106,17 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
     "würdest du dich vorstellen", // vs dir
     "daten wir über", // "welche Daten wir über unsere Nutzer erfassen"
     "anders seht", // falls ihr das anders seht (weht)
-    "wir ja." // vs wie
+    "weit fallendem", // vs weiht
+    "weit fallenden", // vs weiht
+    "weit fallendes", // vs weiht
+    "weit fallende", // vs weiht
+    "weit fallender", // vs weiht
+    "wir ja.", // vs wie
+    "weißt, wie", // vs weist
+    "weißt ja, wie", // vs weist
+    "weißt, dass", // vs weist
+    "weißt ja, dass", // vs weist
+    "Vorgestern und Gestern" // vs Gesten
   );
 
   public GermanConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
@@ -128,6 +138,10 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
       }
     }
     return false;
+  }
+
+  protected boolean isCommonWord(String token) {
+    return token.matches("[\\wöäüßÖÄÜ]+");
   }
 
 }

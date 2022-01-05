@@ -27,6 +27,8 @@ import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.xx.DemoTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.Tokenizer;
+import org.languagetool.tokenizers.be.BelarusianWordTokenizer;
 
 import java.io.IOException;
 import java.util.*;
@@ -64,6 +66,11 @@ public class Belarusian extends Language {
   @Override
   public SentenceTokenizer createDefaultSentenceTokenizer() {
     return new SRXSentenceTokenizer(this);
+  }
+
+  @Override
+  public Tokenizer createDefaultWordTokenizer() {
+    return new BelarusianWordTokenizer();
   }
 
   @Override

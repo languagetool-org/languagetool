@@ -158,12 +158,18 @@ public class HTTPSServerTest {
         fail("Expected exception with error 413, got: " + expected);
       }
     }
-
+    
     String json = check("de", "This is an English text, but we specify German anyway");
     assertTrue("Got: " + json, json.contains("\"German\""));
     assertTrue("Got: " + json, json.contains("\"de\""));
     assertTrue("Got: " + json, json.contains("\"English (US)\""));
     assertTrue("Got: " + json, json.contains("\"en-US\""));
+    
+    String json2 = check("de-CH", "Die äußeren Wirklichkeit.");
+    assertTrue("Got: " + json2, json2.contains("replacements\":[{\"value\":\"Die äussere Wirklichkeit\""));
+    
+    String json3 = check("de-DE", "Die äußeren Wirklichkeit.");
+    assertTrue("Got: " + json3, json3.contains("replacements\":[{\"value\":\"Die äußere Wirklichkeit\""));
   }
 
   private String check(String langCode, String text) throws IOException {

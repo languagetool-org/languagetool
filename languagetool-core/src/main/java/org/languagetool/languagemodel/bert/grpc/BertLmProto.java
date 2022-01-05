@@ -58,7 +58,7 @@ public final class BertLmProto {
   /**
    * Protobuf type {@code bert.Mask}
    */
-  public  static final class Mask extends
+  public static final class Mask extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:bert.Mask)
       MaskOrBuilder {
@@ -162,6 +162,7 @@ public final class BertLmProto {
      * <code>uint32 start = 1;</code>
      * @return The start.
      */
+    @java.lang.Override
     public int getStart() {
       return start_;
     }
@@ -172,6 +173,7 @@ public final class BertLmProto {
      * <code>uint32 end = 2;</code>
      * @return The end.
      */
+    @java.lang.Override
     public int getEnd() {
       return end_;
     }
@@ -571,6 +573,7 @@ public final class BertLmProto {
        * <code>uint32 start = 1;</code>
        * @return The start.
        */
+      @java.lang.Override
       public int getStart() {
         return start_;
       }
@@ -601,6 +604,7 @@ public final class BertLmProto {
        * <code>uint32 end = 2;</code>
        * @return The end.
        */
+      @java.lang.Override
       public int getEnd() {
         return end_;
       }
@@ -831,7 +835,7 @@ public final class BertLmProto {
   /**
    * Protobuf type {@code bert.ScoreRequest}
    */
-  public  static final class ScoreRequest extends
+  public static final class ScoreRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:bert.ScoreRequest)
       ScoreRequestOrBuilder {
@@ -932,6 +936,7 @@ public final class BertLmProto {
      * <code>string text = 1;</code>
      * @return The text.
      */
+    @java.lang.Override
     public java.lang.String getText() {
       java.lang.Object ref = text_;
       if (ref instanceof java.lang.String) {
@@ -948,6 +953,7 @@ public final class BertLmProto {
      * <code>string text = 1;</code>
      * @return The bytes for text.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getTextBytes() {
       java.lang.Object ref = text_;
@@ -967,12 +973,14 @@ public final class BertLmProto {
     /**
      * <code>repeated .bert.Mask mask = 2;</code>
      */
+    @java.lang.Override
     public java.util.List<org.languagetool.languagemodel.bert.grpc.BertLmProto.Mask> getMaskList() {
       return mask_;
     }
     /**
      * <code>repeated .bert.Mask mask = 2;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends org.languagetool.languagemodel.bert.grpc.BertLmProto.MaskOrBuilder> 
         getMaskOrBuilderList() {
       return mask_;
@@ -980,18 +988,21 @@ public final class BertLmProto {
     /**
      * <code>repeated .bert.Mask mask = 2;</code>
      */
+    @java.lang.Override
     public int getMaskCount() {
       return mask_.size();
     }
     /**
      * <code>repeated .bert.Mask mask = 2;</code>
      */
+    @java.lang.Override
     public org.languagetool.languagemodel.bert.grpc.BertLmProto.Mask getMask(int index) {
       return mask_.get(index);
     }
     /**
      * <code>repeated .bert.Mask mask = 2;</code>
      */
+    @java.lang.Override
     public org.languagetool.languagemodel.bert.grpc.BertLmProto.MaskOrBuilder getMaskOrBuilder(
         int index) {
       return mask_.get(index);
@@ -1748,7 +1759,7 @@ public final class BertLmProto {
   /**
    * Protobuf type {@code bert.Prediction}
    */
-  public  static final class Prediction extends
+  public static final class Prediction extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:bert.Prediction)
       PredictionOrBuilder {
@@ -1854,6 +1865,7 @@ public final class BertLmProto {
      * <code>repeated double score = 1;</code>
      * @return A list containing the score.
      */
+    @java.lang.Override
     public java.util.List<java.lang.Double>
         getScoreList() {
       return score_;
@@ -2366,7 +2378,7 @@ public final class BertLmProto {
   /**
    * Protobuf type {@code bert.BertLmResponse}
    */
-  public  static final class BertLmResponse extends
+  public static final class BertLmResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:bert.BertLmResponse)
       BertLmResponseOrBuilder {
@@ -2459,12 +2471,14 @@ public final class BertLmProto {
     /**
      * <code>repeated .bert.Prediction scores = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<org.languagetool.languagemodel.bert.grpc.BertLmProto.Prediction> getScoresList() {
       return scores_;
     }
     /**
      * <code>repeated .bert.Prediction scores = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends org.languagetool.languagemodel.bert.grpc.BertLmProto.PredictionOrBuilder> 
         getScoresOrBuilderList() {
       return scores_;
@@ -2472,18 +2486,21 @@ public final class BertLmProto {
     /**
      * <code>repeated .bert.Prediction scores = 1;</code>
      */
+    @java.lang.Override
     public int getScoresCount() {
       return scores_.size();
     }
     /**
      * <code>repeated .bert.Prediction scores = 1;</code>
      */
+    @java.lang.Override
     public org.languagetool.languagemodel.bert.grpc.BertLmProto.Prediction getScores(int index) {
       return scores_.get(index);
     }
     /**
      * <code>repeated .bert.Prediction scores = 1;</code>
      */
+    @java.lang.Override
     public org.languagetool.languagemodel.bert.grpc.BertLmProto.PredictionOrBuilder getScoresOrBuilder(
         int index) {
       return scores_.get(index);
@@ -3154,7 +3171,7 @@ public final class BertLmProto {
   /**
    * Protobuf type {@code bert.BatchScoreRequest}
    */
-  public  static final class BatchScoreRequest extends
+  public static final class BatchScoreRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:bert.BatchScoreRequest)
       BatchScoreRequestOrBuilder {
@@ -3247,12 +3264,14 @@ public final class BertLmProto {
     /**
      * <code>repeated .bert.ScoreRequest requests = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<org.languagetool.languagemodel.bert.grpc.BertLmProto.ScoreRequest> getRequestsList() {
       return requests_;
     }
     /**
      * <code>repeated .bert.ScoreRequest requests = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends org.languagetool.languagemodel.bert.grpc.BertLmProto.ScoreRequestOrBuilder> 
         getRequestsOrBuilderList() {
       return requests_;
@@ -3260,18 +3279,21 @@ public final class BertLmProto {
     /**
      * <code>repeated .bert.ScoreRequest requests = 1;</code>
      */
+    @java.lang.Override
     public int getRequestsCount() {
       return requests_.size();
     }
     /**
      * <code>repeated .bert.ScoreRequest requests = 1;</code>
      */
+    @java.lang.Override
     public org.languagetool.languagemodel.bert.grpc.BertLmProto.ScoreRequest getRequests(int index) {
       return requests_.get(index);
     }
     /**
      * <code>repeated .bert.ScoreRequest requests = 1;</code>
      */
+    @java.lang.Override
     public org.languagetool.languagemodel.bert.grpc.BertLmProto.ScoreRequestOrBuilder getRequestsOrBuilder(
         int index) {
       return requests_.get(index);
@@ -3942,7 +3964,7 @@ public final class BertLmProto {
   /**
    * Protobuf type {@code bert.BatchBertLmResponse}
    */
-  public  static final class BatchBertLmResponse extends
+  public static final class BatchBertLmResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:bert.BatchBertLmResponse)
       BatchBertLmResponseOrBuilder {
@@ -4035,12 +4057,14 @@ public final class BertLmProto {
     /**
      * <code>repeated .bert.BertLmResponse responses = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<org.languagetool.languagemodel.bert.grpc.BertLmProto.BertLmResponse> getResponsesList() {
       return responses_;
     }
     /**
      * <code>repeated .bert.BertLmResponse responses = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends org.languagetool.languagemodel.bert.grpc.BertLmProto.BertLmResponseOrBuilder> 
         getResponsesOrBuilderList() {
       return responses_;
@@ -4048,18 +4072,21 @@ public final class BertLmProto {
     /**
      * <code>repeated .bert.BertLmResponse responses = 1;</code>
      */
+    @java.lang.Override
     public int getResponsesCount() {
       return responses_.size();
     }
     /**
      * <code>repeated .bert.BertLmResponse responses = 1;</code>
      */
+    @java.lang.Override
     public org.languagetool.languagemodel.bert.grpc.BertLmProto.BertLmResponse getResponses(int index) {
       return responses_.get(index);
     }
     /**
      * <code>repeated .bert.BertLmResponse responses = 1;</code>
      */
+    @java.lang.Override
     public org.languagetool.languagemodel.bert.grpc.BertLmProto.BertLmResponseOrBuilder getResponsesOrBuilder(
         int index) {
       return responses_.get(index);

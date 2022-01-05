@@ -31,7 +31,7 @@ import static junit.framework.TestCase.fail;
 public class WordListValidatorTest {
 
   private static final String VALID_CHARS =
-          "[ 0-9a-zA-ZöäüÖÄÜßëçèéáàóòÈÉÁÀÓÒÍãñíîş&*_:\\\\" +
+          "[ 0-9a-zA-ZöäüÖÄÜßëçèéáàóòÈÉÁÀÓÒÍãñíîŞş&*_:\\\\" +
           "___INSERT___" +
           "Œ€ūαΑβΒγɣΓδΔεΕζΖηΗθΘιΙκΚλΛμΜνΝξΞοΟπΠρΡσΣτΤυΥφΦχΧψΨωΩάΆέΈίΊήΉύΎϊϋΰΐœţłń" +
           "ŚśōżúïÎôêâû" +
@@ -103,7 +103,21 @@ public class WordListValidatorTest {
           "Djuvečreis",
           "Hidschāb/S",
           "Dvořák/S",
+          "Paul Erdős",
           "Erdoğan/S",
+          "Sørensen/S",
+          "Sørensen",
+          "Søren/S",
+          "Søren",
+          "Radosław",
+          "Radosław/S",
+          "Jarosław",
+          "Jarosław/S",
+          "Władysław/S",
+          "Şahin/S",
+          "Uğur/S",
+          "Jørgensen/S",
+          "Jørgensen",
           "Ångström",
           "ångström",
           "ångströms",
@@ -130,9 +144,12 @@ public class WordListValidatorTest {
           "Łódź",
           "Ørsted",
           "Mirotić",
+          "Subotić",
           "Pÿur",
+          "Subašić",
           "celebrytę", // for PL
           "antybiotykoterapię", // for PL
+          "elektromobilność", // for PL
           "kryptowalutę", // for PL
           "fotowoltaikę", // for PL
           "insulinooporność", // for PL

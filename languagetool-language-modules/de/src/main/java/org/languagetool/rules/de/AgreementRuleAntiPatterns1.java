@@ -30,6 +30,30 @@ class AgreementRuleAntiPatterns1 {
 
   static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
+      tokenRegex("der|des"),   // "Übernahme der früher selbständigen Gesellschaft"
+      token("früher"),
+      posRegex("ADJ:.*"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(
+      token("Ehre"),  // "Ehre, wem Ehre gebührt"
+      token(","),
+      token("wem"),
+      token("Ehre")
+    ),
+    Arrays.asList(
+      token("in"),
+      token("mehrerer"),
+      token("Hinsicht")
+    ),
+    Arrays.asList(
+      tokenRegex("der|die|das"),   // "die [daraus] jedem zukommende Freiheit", "im Lichte der diesem zukommenden Repräsentationsaufgabe"
+      new PatternTokenBuilder().posRegex("ADV:.*").min(0).build(),
+      tokenRegex("jedem|diesem"),
+      posRegex("PA1:.*"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(
       tokenRegex("spendet|macht"),  // "Macht dir das Hoffnung?"
       tokenRegex("mir|euch|dir|uns|ihnen"),
       token("das"),
@@ -119,7 +143,7 @@ class AgreementRuleAntiPatterns1 {
     Arrays.asList(
       // "Andere weniger bekannte Vorschläge", "Ich habe mir das gerade letzte Woche zugelegt."
       posRegex("ART:.*|PRO:(POS|DEM|PER|IND).*"),
-      tokenRegex("zunehmend|vorzugsweise|gekonnt|ausgeprägt|einige|solcher|solchen|typischerweise|hinreichend|nachgerade|vereinzelt|verheerend|hinreichend|zahlreiche|genauer|weiter|weniger|einzige|teilweise|anderen|sämtlicher|geringer|anderer|weniger|ausreichend|gerade|anhaltend|meisten"),
+      tokenRegex("anscheinend|zunehmend|vorzugsweise|gekonnt|ausgeprägt|einige|solcher|solchen|typischerweise|hinreichend|nachgerade|vereinzelt|verheerend|hinreichend|zahlreiche|genauer|weiter|weniger|einzige|teilweise|anderen|sämtlicher|geringer|anderer|weniger|ausreichend|gerade|anhaltend|meisten"),
       posRegex("ADJ:.*"),
       posRegex("SUB:.*")
     ),
@@ -151,17 +175,17 @@ class AgreementRuleAntiPatterns1 {
     Arrays.asList(
       token("von"),  // "von denen viele Open-Source-Software sind"
       token("denen"),
-      tokenRegex("viele|alle|einige|manche"),
-      posRegex("SUB:.*SIN:.*"),
-      token("sind|seien|waren")
+      tokenRegex("viele|alle|einige|manche|mehrere|wenige"),
+      new PatternTokenBuilder().posRegex("SUB:.*SIN:.*").setSkip(-1).build(),
+      tokenRegex("sind|seien|sein|waren|wären")
     ),
     Arrays.asList(
       token("von"),  // "von denen die meisten Open-Source-Software sind"
       token("denen"),
       token("die"),
-      token("meisten"),
-      posRegex("SUB:.*SIN:.*"),
-      token("sind|seien|waren")
+      tokenRegex("meisten|wenigsten|besten"),
+      new PatternTokenBuilder().posRegex("SUB:.*SIN:.*").setSkip(-1).build(),
+      tokenRegex("sind|seien|sein|waren|wären")
     ),
     Arrays.asList(
       tokenRegex("die|der|den"),  // "die späten 50er Jahre"
@@ -491,6 +515,10 @@ class AgreementRuleAntiPatterns1 {
       tokenRegex("App|Play"),
       token("Store")
     ),
+    Arrays.asList(
+      token("Knecht"),
+      token("Ruprecht")
+    ),
     Arrays.asList(  // "in dem einen Jahr"
       token("dem"),
       token("einen"),
@@ -776,9 +804,8 @@ class AgreementRuleAntiPatterns1 {
       tokenRegex("(Kilo|Zenti|Milli)?meter|Jahre|Monate|Wochen|Tage|Stunden|Minuten|Sekunden")
     ),
     Arrays.asList(
-      token("Van"), // https://de.wikipedia.org/wiki/Alexander_Van_der_Bellen
-      token("der"),
-      tokenRegex("Bellens?")
+      token("van"), // https://de.wikipedia.org/wiki/Alexander_Van_der_Bellen
+      token("der")
     ),
     Arrays.asList(
       token("mehrere"), // "mehrere Verwundete" http://forum.languagetool.org/t/de-false-positives-and-false-false/1516
@@ -790,6 +817,12 @@ class AgreementRuleAntiPatterns1 {
     ),
     Arrays.asList(
       tokenRegex("d(ie|e[nr])|[md]eine[nr]?|(eure|unsere)[nr]?|diese[nr]?"),
+      token("Top"),
+      tokenRegex("\\d+")
+    ),
+    Arrays.asList(
+      tokenRegex("d(ie|e[nr])|[md]eine[nr]?|(eure|unsere)[nr]?|diese[nr]?"),
+      posRegex("(ADJ|PA[12]).+"),
       token("Top"),
       tokenRegex("\\d+")
     ),
@@ -809,8 +842,131 @@ class AgreementRuleAntiPatterns1 {
       pos(JLanguageTool.SENTENCE_END_TAGNAME)
     ),
     Arrays.asList(
+      token("der"),
+      token("viele"),
+      tokenRegex("Schnee|Regen")
+    ),
+    Arrays.asList(
       token("Außenring"),
       token("Autobahn")
+    ),
+    Arrays.asList(
+      tokenRegex("Senior|Junior"),
+      tokenRegex("Leaders?"),
+      tokenRegex("Days?")
+    ),
+    Arrays.asList(
+      // ich habe meine Projektidee (die riesiges finanzielles Potenzial hat) an einen Unternehmenspräsidenten geschickt
+      posRegex("SUB.*(FEM|PLU).*|EIG.*FEM.*|UNKNOWN"),
+      token("("),
+      token("die")
+    ),
+    Arrays.asList(
+      posRegex("SUB.*MAS.*|EIG.*MAS.*|UNKNOWN"),
+      token("("),
+      token("de[rm]")
+    ),
+    Arrays.asList(
+      posRegex("SUB.*NEU.*|EIG.*NEU.*|UNKNOWN"),
+      token("("),
+      token("das")
+    ),
+    Arrays.asList(
+      pos("KON:UNT"), // "dass das komplett verschiedene Dinge sind"
+      tokenRegex("der|das|dies"),
+      new PatternTokenBuilder().pos("ADJ:PRD:GRU").min(0).build(),
+      posRegex("ADJ.*PLU.*SOL|PA2.*PLU.*SOL:VER"),
+      posRegex("SUB.*PLU.*")
+    ),
+    Arrays.asList(
+      pos("KON:UNT"), // "ob die wirklich zusätzliche Gebühren abdrücken"
+      token("die"),
+      new PatternTokenBuilder().pos("ADJ:PRD:GRU").min(0).build(),
+      posRegex("ADJ.*(NOM|AKK):PLU.*SOL|PA2.*(NOM|AKK):PLU.*SOL:VER"),
+      posRegex("SUB.*(NOM|AKK):PLU.*")
+    ),
+    Arrays.asList(
+      tokenRegex("Ende|Mitte|Anfang"), // "Ende 1923"
+      tokenRegex("1[0-9]{3}|20[0-9]{2}")
+    ),
+    Arrays.asList(
+      tokenRegex("dann|so"),
+      token("bedarf"),
+      tokenRegex("das|dies")
+    ),
+    Arrays.asList(
+      posRegex("ART.*|PRO:POS.*"),
+      posRegex("ADJ.*|PA[12].*"),
+      token("Windows"),
+      tokenRegex("\\d+")
+    ),
+    Arrays.asList(
+      posRegex("ART.*|PRO:POS.*"),
+      token("Windows"),
+      tokenRegex("\\d+")
+    ),
+    // TODO: comment in
+    // Arrays.asList(
+    //   // die gegnerischen Shooting Guards
+    //   posRegex("ART.*NOM:PLU"),
+    //   posRegex("(ADJ|PA[12]).*NOM:PLU.*"),
+    //   posRegex("SUB.*SIN.*"),
+    //   new PatternTokenBuilder().posRegex("UNKNOWN").tokenRegex("(?i)[A-ZÄÖÜ].+").build()
+    // ),
+    // Arrays.asList(
+    //   // die gegnerischen Shooting Guards
+    //   posRegex("ART.*GEN:PLU"),
+    //   posRegex("(ADJ|PA[12]).*GEN:PLU.*"),
+    //   posRegex("SUB.*SIN.*"),
+    //   new PatternTokenBuilder().posRegex("UNKNOWN").tokenRegex("(?i)[A-ZÄÖÜ].+").build()
+    // ),
+    // Arrays.asList(
+    //   // die gegnerischen Shooting Guards
+    //   posRegex("ART.*DAT:PLU"),
+    //   posRegex("(ADJ|PA[12]).*DAT:PLU.*"),
+    //   posRegex("SUB.*SIN.*"),
+    //   new PatternTokenBuilder().posRegex("UNKNOWN").tokenRegex("(?i)[A-ZÄÖÜ].+").build()
+    // ),
+    // Arrays.asList(
+    //   // die gegnerischen Shooting Guards
+    //   posRegex("ART.*AKK:PLU"),
+    //   posRegex("(ADJ|PA[12]).*AKK:PLU.*"),
+    //   posRegex("SUB.*SIN.*"),
+    //   new PatternTokenBuilder().posRegex("UNKNOWN").tokenRegex("(?i)[A-ZÄÖÜ].+").build()
+    // ),
+    // Arrays.asList(
+    //   // den leidenschaftlichen Lobpreis der texanischen Gateway Church aus
+    //   posRegex("ART.*DAT:SIN.*"),
+    //   posRegex("(ADJ|PA[12]).*DAT:SIN.*"),
+    //   posRegex("SUB.*SIN.*"),
+    //   new PatternTokenBuilder().posRegex("UNKNOWN").tokenRegex("(?i)[A-ZÄÖÜ].+").build()
+    // ),
+    // Arrays.asList(
+    //   // den leidenschaftlichen Lobpreis des texanischen Gateway Church aus
+    //   posRegex("ART.*GEN:SIN.*"),
+    //   posRegex("(ADJ|PA[12]).*GEN:SIN.*"),
+    //   posRegex("SUB.*SIN.*"),
+    //   new PatternTokenBuilder().posRegex("UNKNOWN").tokenRegex("(?i)[A-ZÄÖÜ].+").build()
+    // ),
+    // Arrays.asList(
+    //   // den leidenschaftlichen Lobpreis des texanischen Gateway Church aus
+    //   posRegex("ART.*NOM:SIN.*"),
+    //   posRegex("(ADJ|PA[12]).*NOM:SIN.*"),
+    //   posRegex("SUB.*SIN.*"),
+    //   new PatternTokenBuilder().posRegex("UNKNOWN").tokenRegex("(?i)[A-ZÄÖÜ].+").build()
+    // ),
+    // Arrays.asList(
+    //   // den leidenschaftlichen Lobpreis des texanischen Gateway Church aus
+    //   posRegex("ART.*AKK:SIN.*"),
+    //   posRegex("(ADJ|PA[12]).*AKK:SIN.*"),
+    //   posRegex("SUB.*SIN.*"),
+    //   new PatternTokenBuilder().posRegex("UNKNOWN").tokenRegex("(?i)[A-ZÄÖÜ].+").build()
+    // ),
+    Arrays.asList(
+      tokenRegex("Ende|Mitte|Anfang"), // "Ende letzten Jahres"
+      new PatternTokenBuilder().posRegex("ART:DEF:GEN:.*").min(0).build(),
+      new PatternTokenBuilder().posRegex("ADJ.*:GEN:.*").matchInflectedForms().tokenRegex("dieser|(vor)?letzter|[0-9]+er").build(),
+      tokenRegex("Woche|Monats|Jahr(es?|zehnts|hunderts|tausends)")
     ));
 
 }

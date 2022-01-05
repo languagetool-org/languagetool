@@ -42,6 +42,13 @@ public class AgreementSuggestor2Test {
   }
 
   @Test
+  public void testAdverbSuggestions() throws IOException {
+    assertSuggestion3("ein sehr schönes Tisch", "[ein sehr schöner Tisch]", true);
+    assertSuggestion3("eines sehr schönen Tisch", "[einen sehr schönen Tisch, einem sehr schönen Tisch, eines sehr schönen Tischs, eines sehr schönen Tisches]", true);
+    assertSuggestion3("der sehr schönen Tischen", "[dem sehr schönen Tischen, den sehr schönen Tischen, der sehr schönen Tische]", true);
+  }
+
+  @Test
   public void testSuggestions() throws IOException {
     assertSuggestion1("deine Buch", "[dein Buch, deinem Buch, deine Bücher, deinem Buche, deines Buchs, deines Buches, deiner Bücher, deinen Büchern]");
     assertSuggestion1("dieser Buch", "[dieses Buch, diesem Buch, dies Buch, dieser Bücher, diesem Buche, dieses Buchs, dieses Buches, diese Bücher, diesen Büchern]");
@@ -66,6 +73,8 @@ public class AgreementSuggestor2Test {
       "das vorangegangene versuchen, dem vorangegangenen versuchen, des vorangegangenen Versuchens, der vorangegangenen Versuche, " +
       "dem vorangegangenen Versuch, des vorangegangenen Versuchs, des vorangegangenen versuchens, die vorangegangenen Versuche]");
     assertSuggestion1("der Blutflusses", "[des Blutflusses, der Blutfluss, der Blutflüsse, den Blutfluss, dem Blutfluss, den Blutflüssen, die Blutflüsse]");
+    assertSuggestion2("ein anstrengenden Tag",
+      "[ein anstrengender Tag, ein anstrengendes Tag, einen anstrengenden Tag, einem anstrengenden Tag, eines anstrengenden Tags, eines anstrengenden Tages]");
     //assertSuggestion2("vor allem Teams", "[vor allen Teams]");  // TODO: 'allen' is PRO:IND, 'allem' is PRO:DEM, so we don't map yet between those
   }
 

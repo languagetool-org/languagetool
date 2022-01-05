@@ -40,7 +40,7 @@ public class GermanSynthesizer extends BaseSynthesizer {
   public static final GermanSynthesizer INSTANCE = new GermanSynthesizer(Languages.getLanguageForShortCode("de-DE"));
 
   public GermanSynthesizer(Language lang) {
-    super("/de/german_synth.dict", "/de/german_tags.txt", lang);
+    super("de/de.sor", "/de/german_synth.dict", "/de/german_tags.txt", lang);
   }
 
   @Override

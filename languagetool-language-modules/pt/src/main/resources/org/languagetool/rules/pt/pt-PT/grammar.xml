@@ -257,6 +257,38 @@ Eu não sei se entraria em contacto com ela.
 		<token negate_pos="yes" postag='VMG.+' postag_regexp='yes'/>	
       </antipattern>
 <!-- MARCOAGPINTO 2021-08-13 (25-JUN-2021+) *END* -->
+<!-- MARCOAGPINTO 2021-11-24 (25-JUN-2021+) *START* -->
+<!--
+; Notice that his rule is just to remove false suggestions such as: "te darei" to "darei-te" (instead of "dar-te-ei").
+  "dar-te-ei" and alike is suggested by other rule.
+
+  This antipattern removes hundreds of hits, thus it must be better checked on 1-JAN-2022+ with a smaller number
+  of sentences, since it was checked against 600 000.
+
+Eu a farei vir aqui.  
+Se houver qualquer coisa virtuosa, amável, de boa fama ou louvável, nós a procuraremos.
+Se ele tem proficiência em inglês, eu o contratarei.
+Eu os telefonarei quando voltar amanhã.
+Eu me lembrarei disso.
+Nós nos casaremos no final de março.
+Te darei o céu.
+Te daremos o céu.
+Eu te darei esse livro.
+Eu lhe emprestarei uma caneta.
+Se eu tivesse que escolher, seguramente te descartaria.
+Você me daria a receita da sua salada?
+Se ele tivesse me dito a verdade, eu o teria perdoado.
+Se um estranho me desse um tapa no rosto em plena rua, eu o mataria sem pestanejar.
+Ela o fará em 24 horas.
+Cedo ou tarde ele me contará tudo.
+No primeiro caso, o Governo receberá o menor e lhe dará destino, em conformidade da presente lei.
+Ajuda-te a ti mesmo e Deus te ajudará.
+-->
+      <antipattern>
+		<token postag='PP.+' postag_regexp='yes'/>
+		<token postag='VMI[CF][13].+' postag_regexp='yes'/>	
+      </antipattern>
+<!-- MARCOAGPINTO 2021-11-24 (25-JUN-2021+) *END* -->
       <antipattern>
           <token>de</token>
           <token regexp='yes'>forma|jeito|modo</token>
@@ -404,7 +436,6 @@ Eu não sei se entraria em contacto com ela.
         <suggestion>\2-<match no='1' case_conversion="startlower"/></suggestion>
       <example correction='dou-te'>Eu <marker>te dou</marker> um laptop.</example>
       <example correction='dou-te'><marker>Te dou</marker> um laptop.</example><!-- XXX changing the behaviour of the second token effects also the first token. This is Ok, since this error is caught by a second rule. -->
-      <example correction='emprestaria-me'>Você <marker>me emprestaria</marker> o seu dicionário?</example>
       <example correction='ver-te'>Foi muito bom <marker>te ver</marker> de novo.</example>
       <example>Ela pode ter-me visto na festa.</example>
       <example>Todos se admiram da sua perseverança.</example>
@@ -813,6 +844,17 @@ Eu não peguei o seu maldito carro, meu deus do céu!
 		  <token postag='AQ.+|NC.+|RG' postag_regexp='yes'/>
       </antipattern>
 <!-- MARCOAGPINTO 2021-09-21 (25-JUN-2021+) *END* -->
+<!-- MARCOAGPINTO 2021-11-05 (25-JUN-2021+) *START* -->
+<!--
+Este é o pai cujo seu filho foi à escola.
+
+; In 600 000 sentences, it only removed 1 false positive.
+-->
+      <antipattern>
+		<token regexp='yes'>cuj[oa]s?</token>
+		<token postag='DP.+' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2021-11-05 (25-JUN-2021+) *END* -->
       <pattern>
           <token>
             <exception regexp="yes">[ao]s?|es[st][ae]s?|uma?s?|uns|por|de|em|&contracoes_MS;|&contracoes_MP;|&contracoes_FS;|&contracoes_FP;</exception></token>
@@ -870,6 +912,8 @@ Eu não peguei o seu maldito carro, meu deus do céu!
 	  <example>Hoje faz anos o Rui, meu amigo de longa data.</example>
 <!--	  <example>Tua gente, teus anos de glória,</example> -->
 	  <example>Eu não peguei o seu maldito carro, meu deus do céu!</example>
+	  
+	  <example>Este é o pai cujo seu filho foi à escola.</example>
     </rule>
     <rule>
       <antipattern>
@@ -897,6 +941,26 @@ Eu não peguei o seu maldito carro, meu deus do céu!
           <token>em</token>
           <token regexp="yes">["“]</token>
       </antipattern>
+<!-- MARCOAGPINTO 2021-11-09/10 (25-JUN-2021+) *START* -->
+<!--
+Todavia, estive lá eu em sua representação.
+Ele é superior a mim em seu conhecimento de inglês.
+Ele quer fazer aquilo em seu nome.
+Eu não teria feito isso em seu lugar.
+Que é isso em sua mão?
+Meu irmão fez isso em meu lugar.
+Amor é ver ela em seus sonhos.
+-->
+      <antipattern>
+		<token postag='RG|V.+' postag_regexp='yes'>
+			<exception postag_regexp='yes' postag='SPS.+'/>
+		</token>
+		<token postag='PP.+|PD.+' postag_regexp='yes'/>
+		<token>em</token>
+		<token postag='DP.+' postag_regexp='yes'/>
+		<token postag='NC.+|AQ.+' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2021-11-09/10 (25-JUN-2021+) *END* -->
       <pattern>
           <token>em</token>
           <token postag='DP.*' postag_regexp='yes'/>
@@ -904,6 +968,14 @@ Eu não peguei o seu maldito carro, meu deus do céu!
       <message>Será que quis dizer:</message>
         <suggestion>n<match no='2' postag='DP.(..).' postag_regexp='yes' postag_replace='DA.$1.'>o</match> <match no='2' case_conversion="alllower"/></suggestion>
       <example correction='na sua'>Leve <marker>em sua</marker> cesta.</example>
+	  
+	  <example>Todavia, estive lá eu em sua representação.</example>
+	  <example>Ele é superior a mim em seu conhecimento de inglês.</example>
+	  <example>Ele quer fazer aquilo em seu nome.</example> 
+	  <example>Eu não teria feito isso em seu lugar.</example>
+	  <example>Que é isso em sua mão?</example>
+	  <example>Meu irmão fez isso em meu lugar.</example>
+	  <example>Amor é ver ela em seus sonhos.</example>
     </rule>
   </rulegroup>
 
@@ -1393,6 +1465,23 @@ Com efeito, vinham-se acumulando estudos e testemunhos.
 
  <category id='FORMAL_SPEECH' name='Linguagem Formal' type='register'>
 
+	<!-- EDUCAÇÃO SUPERIOR Ensino Superior -->
+    <rule id='ENSINO_SUPERIOR' name="Educação Superior → Ensino Superior" type="style">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-12-18 (25-JUN-2021+)      -->
+	<!--
+O ISCTE é uma instituição de Educação Superior. → O ISCTE é uma instituição de Ensino Superior.
+	-->
+      <pattern>
+		<marker>
+			<token case_sensitive="yes">Educação</token>
+			<token case_sensitive="yes">Superior</token>
+		</marker>
+      </pattern>      
+	  <message>Se estiver a referir-se a uma instituição/ramo universitário, opte por:</message>
+	  <suggestion>Ensino Superior</suggestion>
+      <example correction="Ensino Superior">O ISCTE é uma instituição de <marker>Educação Superior</marker>.</example>
+    </rule>
+
     <!-- TODO Add antipattern for dash and quotations -->
   <rulegroup id='T-V_DISTINCTION' name='Tratamento formal: Tu,Você; Vós,Vocês' default='on'>
     <!-- Created by Tiago F. Santos , Portuguese rule, 2016-12-28 -->
@@ -1582,7 +1671,7 @@ Mordomos-mores do Reino de Portugal.
       <pattern>
           <token regexp='yes'>teus?|tuas?|ti</token>
       </pattern>
-      <message>O uso explícito do pronome "\1" pode ser interpretado como desrespeitoso. Considere substituí-lo pelo pronome de tratamente adequado.</message>
+      <message>O uso explícito do pronome "\1" pode ser interpretado como desrespeitoso. Considere substituí-lo pelo pronome de tratamento adequado.</message>
         <suggestion><match no='1' regexp_match='t' regexp_replace='s'/></suggestion>
       <short>Tratamento inapropriado</short>
       <example correction="seu">O <marker>teu</marker> carro é maneiro.</example>
@@ -1594,7 +1683,7 @@ Mordomos-mores do Reino de Portugal.
       <pattern>
           <token>te</token>
       </pattern>
-      <message>O uso explícito do pronome "\1" pode ser interpretado como desrespeitoso. Considere substituí-lo pelo pronome de tratamente adequado.</message>
+      <message>O uso explícito do pronome "\1" pode ser interpretado como desrespeitoso. Considere substituí-lo pelo pronome de tratamento adequado.</message>
         <suggestion>lhe</suggestion>
       <short>Tratamento inapropriado</short>
       <example correction="lhe">O Dr. Mário faz-<marker>te</marker> essa análise sem problemas.</example>
@@ -1606,7 +1695,7 @@ Mordomos-mores do Reino de Portugal.
           <token postag="R.+" postag_regexp='yes' min='0' max='2'/>
           <token postag="V...2.+" postag_regexp='yes'/>
       </pattern>
-      <message>O uso explícito do pronome "\1" pode ser interpretado como desrespeitoso. Considere remover o pronome ou substituí-lo pelo pronome de tratamente adequado.</message>
+      <message>O uso explícito do pronome "\1" pode ser interpretado como desrespeitoso. Considere remover o pronome ou substituí-lo pelo pronome de tratamento adequado.</message>
         <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/></suggestion>
       <short>Tratamento inapropriado</short>
       <example correction="Tem"><marker>Tu tem</marker> mais atenção ao promenor.</example>
@@ -1620,7 +1709,7 @@ Mordomos-mores do Reino de Portugal.
               <token postag="V...3.+" postag_regexp='yes'>
                   <exception postag="VMN0000"/></token>
           </pattern>
-          <message>O uso explícito do pronome "\1" pode ser interpretado como desrespeitoso. Considere remover o pronome ou substituí-lo pelo pronome de tratamente adequado.</message>
+          <message>O uso explícito do pronome "\1" pode ser interpretado como desrespeitoso. Considere remover o pronome ou substituí-lo pelo pronome de tratamento adequado.</message>
           <suggestion><match no='2' include_skipped='all'/></suggestion>
           <suggestion><match no='1' postag="PP3C([PS])000" postag_regexp="yes" postag_replace="DA0M$10">o</match> <match no='1' postag="PP3C([PS])000" postag_regexp="yes" postag_replace="NCM$1000">senhor</match> <match no='2'/></suggestion>
           <suggestion><match no='1' postag="PP3C([PS])000" postag_regexp="yes" postag_replace="DA0F$10">o</match> <match no='1' postag="PP3C([PS])000" postag_regexp="yes" postag_replace="NCF$1000">senhor</match> <match no='2'/></suggestion>
@@ -1636,7 +1725,7 @@ Mordomos-mores do Reino de Portugal.
               <token postag="V...3.+" postag_regexp='yes'>
                   <exception postag="VMN0000"/></token>
           </pattern>
-          <message>O uso explícito do pronome "\1" pode ser interpretado como desrespeitoso. Considere remover o pronome ou substituí-lo pelo pronome de tratamente adequado.</message>
+          <message>O uso explícito do pronome "\1" pode ser interpretado como desrespeitoso. Considere remover o pronome ou substituí-lo pelo pronome de tratamento adequado.</message>
           <suggestion><match no='2' regexp_match="^(.*)$" regexp_replace="$1" include_skipped='all' case_conversion="startupper"/></suggestion>
           <suggestion><match no='1' postag="PP3C([PS])000" postag_regexp="yes" postag_replace="DA0M$10" case_conversion="startupper">o</match> <match no='1' postag="PP3C([PS])000" postag_regexp="yes" postag_replace="NCM$1000">senhor</match> <match no='2'/></suggestion>
           <suggestion><match no='1' postag="PP3C([PS])000" postag_regexp="yes" postag_replace="DA0F$10" case_conversion="startupper">o</match> <match no='1' postag="PP3C([PS])000" postag_regexp="yes" postag_replace="NCF$1000">senhor</match> <match no='2'/></suggestion>
@@ -1656,7 +1745,7 @@ Mordomos-mores do Reino de Portugal.
               <token postag="V...3.+" postag_regexp='yes'>
                   <exception postag="VMN0000"/></token>
           </pattern>
-          <message>O uso explícito do pronome "\1" pode ser interpretado como desrespeitoso. Considere remover o pronome ou substituí-lo pelo pronome de tratamente adequado.</message>
+          <message>O uso explícito do pronome "\1" pode ser interpretado como desrespeitoso. Considere remover o pronome ou substituí-lo pelo pronome de tratamento adequado.</message>
           <suggestion><match no='2' include_skipped='all'/></suggestion>
           <suggestion><match no='1' postag="PP3C([PS])000" postag_regexp="yes" postag_replace="DA0M$10">o</match> <match no='1' postag="PP3C([PS])000" postag_regexp="yes" postag_replace="NCM$1000">senhor</match> <match no='2'/></suggestion>
           <suggestion><match no='1' postag="PP3C([PS])000" postag_regexp="yes" postag_replace="DA0F$10">o</match> <match no='1' postag="PP3C([PS])000" postag_regexp="yes" postag_replace="NCF$1000">senhor</match> <match no='2'/></suggestion>
@@ -1675,7 +1764,7 @@ Mordomos-mores do Reino de Portugal.
               <token postag="V...3.+" postag_regexp='yes'>
                   <exception postag="VMN0000"/></token>
           </pattern>
-          <message>O uso explícito do pronome "\1" pode ser interpretado como desrespeitoso. Considere remover o pronome ou substituí-lo pelo pronome de tratamente adequado.</message>
+          <message>O uso explícito do pronome "\1" pode ser interpretado como desrespeitoso. Considere remover o pronome ou substituí-lo pelo pronome de tratamento adequado.</message>
           <suggestion><match no='2' regexp_match="^(.*)$" regexp_replace="$1" include_skipped='all' case_conversion="startupper"/></suggestion>
           <suggestion><match no='1' postag="PP3C([PS])000" postag_regexp="yes" postag_replace="DA0M$10" case_conversion="startupper">o</match> <match no='1' postag="PP3C([PS])000" postag_regexp="yes" postag_replace="NCM$1000">senhor</match> <match no='2' include_skipped='all'/></suggestion>
           <suggestion><match no='1' postag="PP3C([PS])000" postag_regexp="yes" postag_replace="DA0F$10" case_conversion="startupper">o</match> <match no='1' postag="PP3C([PS])000" postag_regexp="yes" postag_replace="NCF$1000">senhor</match> <match no='2' include_skipped='all'/></suggestion>
@@ -1897,7 +1986,7 @@ Ambrósio responde-lhe por um tratado "Sobre a fé para Graciano Augusto", em ci
       <pattern>
           <token regexp='yes'>vocês?</token>
       </pattern>
-      <message>O uso explícito do pronome "você" pode ser interpretado como desrespeitoso. Considere remover o pronome ou substituí-lo pelo pronome de tratamente adequado.</message>
+      <message>O uso explícito do pronome "você" pode ser interpretado como desrespeitoso. Considere remover o pronome ou substituí-lo pelo pronome de tratamento adequado.</message>
         <suggestion>o Senhor</suggestion>
         <suggestion>a Senhora</suggestion>
         <suggestion>o Excelentíssimo</suggestion>

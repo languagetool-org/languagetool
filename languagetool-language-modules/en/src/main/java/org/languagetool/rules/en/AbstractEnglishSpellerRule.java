@@ -37,8 +37,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import static org.languagetool.rules.SuggestedReplacement.topMatch;
 
 @SuppressWarnings("ArraysAsListWithZeroOrOneArgument")
 public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
@@ -96,6 +101,40 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
 
   private static NERService nerPipe = null;
   
+    
+  
+  private static final int maxPatterns = 9;
+  private static final Pattern[] wordPatterns = new Pattern[maxPatterns];
+  private static final String[] blogLinks = new String[maxPatterns];
+  static  {
+    wordPatterns[0] = Pattern.compile(".*[yi][zs]e(s|d)?|.*[yi][zs]ings?|.*i[zs]ations?", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+    blogLinks[0] = "https://languagetool.org/insights/post/ise-ize/#the-distinctions-between-%E2%80%9C-ise%E2%80%9D-%E2%80%9C-ize%E2%80%9D-and-%E2%80%9C-yse%E2%80%9D-%E2%80%9C-yze%E2%80%9D";
+
+    wordPatterns[1] = Pattern.compile(".*(defen[cs]e|offen[sc]e|preten[sc]e).*", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+    blogLinks[1] = "https://languagetool.org/insights/post/ise-ize/#the-distinctions-between-%E2%80%9C-ise%E2%80%9D-%E2%80%9C-ize%E2%80%9D-and-%E2%80%9C-yse%E2%80%9D-%E2%80%9C-yze%E2%80%9D";
+
+    wordPatterns[2] = Pattern.compile(".*og|.*ogue", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+    blogLinks[2] = "https://languagetool.org/insights/post/ise-ize/#another-difference-because-of-foreign-words-%E2%80%9C-og%E2%80%9D-vs-%E2%80%9C-ogue%E2%80%9D";
+    
+    wordPatterns[3] = Pattern.compile(".*(or|our).*", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+    blogLinks[3] = "https://languagetool.org/insights/post/our-or/#colour-or-color-%E2%80%94-colourise-or-colorize";
+
+    wordPatterns[4] = Pattern.compile(".*e?able|.*dge?ments?|aging|ageing|ax|axe|.*grame?s?|neuron|neurone|neurons|neurones", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+    blogLinks[4] = "https://languagetool.org/insights/post/our-or/#likeable-vs-likable-judgement-vs-judgment-oestrogen-vs-estrogen";
+    
+    wordPatterns[5] = Pattern.compile(".*(centre|center).*|.*(re|er)", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+    blogLinks[5] = "https://languagetool.org/insights/post/re-vs-er/#the-difference-of-%E2%80%9C-reer%E2%80%9D-at-the-center-of-attention";
+   
+    wordPatterns[6] = Pattern.compile("canceled|cancelled|canceling|cancelling|chili|chilli|chilies|chillies|chilis|chillis|counselor|counsellor|counselors|counsellors|defueled|defuelled|defueling|defuelling|defuelings|defuellings|dialed|dialled|dialer|dialler|dialers|diallers|dialing|dialling|dialog|dialogue|dialogize|dialogise|dialogized|dialogised|dialogizes|dialogises|dialogizing|dialogising|dialogs|dialogues|dialyzable|dialysable|dialyze|dialyse|dialyzed|dialysed|dialyzes|dialyses|dialyzing|dialysing|enroll|enrol|enrolled|enroled|enrolling|enroling|enrollment|enrolment|enrollments|enrolments|enrolls|enrols|fueled|fuelled|fueling|fuelling|fulfill|fulfil|fulfillment|fulfilment|fulfills|fulfils|installment|instalment|installments|instalments|jewelry|jewellery|labeled|labelled|labeling|labelling|marvelous|marvellous|medalist|medallist|medalists|medallists|modeled|modelled|modeling|modelling|noise-canceling|noise-cancelling|refueled|refuelled|refueling|refuelling|relabeled|relabelled|relabeling|relabelling|remodeled|remodelled|remodeling|remodelling|signalization|signalisation|signalize|signalise|signalized|signalised|signalizes|signalises|signalizing|signalising|skillful|skilful|skillfully|skilfully|tranquilize|tranquillize|tranquilized|tranquillized|tranquilizes|tranquillizes|traveled|travelled|traveler|traveller|travelers|travellers|traveling|travelling|uncanceled|uncancelled|uncanceling|uncancelling|unlabeled|unlabelled|wooly|woolly", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+    blogLinks[6] = "https://languagetool.org/insights/post/re-vs-er/#british-english-prefers-doubling-consonants-doesn%E2%80%99t-it";
+    
+    wordPatterns[7] = Pattern.compile("airfoil|aerofoil|airfoils|aerofoils|airplane|aeroplane|airplanes|aeroplanes|aluminum|aluminium|artifact|artefact|artifacts|artefacts|backdraft|backdraught|cozy|cosy|", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+    blogLinks[7] = "https://languagetool.org/insights/post/re-vs-er/#more-radical-differences-between-british-and-american-english-spellings";
+    
+    wordPatterns[8] = Pattern.compile("amenorrhea|amenorrhoea|anesthesia|anaesthesia|anesthesias|anaesthesias|anesthetic|anaesthetic|anesthetically|anaesthetically|anesthetics|anaesthetics|anesthetist|anaesthetist|anesthetists|anaesthetists|anesthetization|anaesthetisation|anesthetizations|anaesthetisations|anesthetize|anaesthetise|anesthetized|anaesthetised|anesthetizes|anaesthetises|anesthetizing|anaesthetising|archeological|archaeological|archeologically|archaeologically|archeologies|archaeologies|archeology|archaeology|cesium|caesium|diarrhea|diarrhoea|diarrheal|diarrhoeal|dyslipidemia|dyslipidaemia|dyslipidemias|dyslipidaemias|edematous|oedematous|encyclopedia|encyclopaedia|encyclopedias|encyclopaedias|eon|aeon|eons|aeons|esophagi|oesophagi|esophagus|oesophagus|esophaguses|oesophaguses|esthetic|aesthetic|esthetical|aesthetical|esthetically|aesthetically|esthetician|aesthetician|estheticians|aestheticians|estrogen|oestrogen|estrus|oestrus|etiologies|aetiologies|etiology|aetiology|feces|faeces|fetal|foetal|fetus|foetus|fetuses|foetuses|gastroesophageal|gastro-oesophageal|glycemic|glycaemic|gynecomastia|gynaecomastia|hematemesis|haematemesis|hematoma|haematoma|hematomas|haematomas|hematopoietic|haematopoietic|hematuria|haematuria|hematurias|haematurias|hemolytic|haemolytic|hemophilia|haemophilia|hemorrhage|haemorrhage|hemorrhages|haemorrhages|hemostasis|haemostasis|homeopathies|homoeopathies|homeopathy|homoeopathy|hyperemia|hyperaemia|hyperemic|hyperaemic|hypnopedia|hypnopaedia|hypnopedic|hypnopaedic|hypocalcaemia|hypocalcaemia|hypokalaemic|hypokalemic|kinesthesia|kinaesthesia|kinesthesis|kinaesthesis|kinesthetic|kinaesthetic|kinesthetically|kinaesthetically|maneuver|manoeuvre|maneuvers|manoeuvres|orthopedic|orthopaedic|orthopedics|orthopaedics|paleoecology|palaeoecology|paleogeographical|palaeogeographical|paleogeographically|palaeogeographically|paleogeography|palaeogeography|paresthesia|paraesthesia|pediatric|paediatric|pediatrically|paediatrically|pediatrician|paediatrician|pediatricians|paediatricians|pedomorphic|paedomorphic|pedophile|paedophile|pedophiles|paedophiles|polycythemia|polycythaemia|pretorium|praetorium|pyorrhea|pyorrhoea|septicemia|septicaemia|synesthesia|synaesthesia|synesthete|synaesthete|synesthetes|synaesthetes|tracheoesophageal|tracheo-oesophageal", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+    blogLinks[8] = "https://languagetool.org/insights/post/our-or/#likeable-vs-likable-judgement-vs-judgment-oestrogen-vs-estrogen";
+  }
+  
   public AbstractEnglishSpellerRule(ResourceBundle messages, Language language) throws IOException {
     this(messages, language, null, Collections.emptyList());
   }
@@ -118,6 +157,22 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
         logger.warn("Could not run NER test on '" + sentenceText + "', will assume there are no named entities", e);
       }
     }
+    
+    // add custom URLs
+    for (RuleMatch match : matches) {
+      String misspelledWord = (String) match.getSentence().getText().subSequence(match.getFromPos(), match.getToPos());
+      if (isValidInOtherVariant(misspelledWord) != null) {
+        for (int i = 0; i < maxPatterns; i++) {
+          Matcher m = wordPatterns[i].matcher(misspelledWord);
+          if (m.matches()) {
+            match.setUrl(new URL(blogLinks[i]));
+            break;
+          }
+        }  
+      }
+      
+    }
+    
     return matches;
   }
 
@@ -293,6 +348,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().startsWith("en ") &&
                    !k.getReplacement().toLowerCase().startsWith("co ") &&
                    !k.getReplacement().toLowerCase().startsWith("de ") &&
+                   !k.getReplacement().toLowerCase().startsWith("ex ") &&
                    !k.getReplacement().toLowerCase().startsWith("mid ") &&
                    !k.getReplacement().toLowerCase().startsWith("non ") &&
                    !k.getReplacement().toLowerCase().startsWith("bio ") &&
@@ -397,10 +453,14 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().endsWith(" r") &&
                    !k.getReplacement().endsWith(" um") &&
                    !k.getReplacement().endsWith(" er") &&
+                   !k.getReplacement().endsWith(" es") &&
+                   !k.getReplacement().endsWith(" ex") &&
                    !k.getReplacement().endsWith(" na") &&
+                   !k.getReplacement().endsWith(" gs") &&
                    !k.getReplacement().endsWith(" don") &&
                    !k.getReplacement().endsWith(" dons") &&
                    !k.getReplacement().endsWith(" la") &&
+                   !k.getReplacement().endsWith(" ism") &&
                    !k.getReplacement().endsWith(" ma"))
       .collect(Collectors.toList());
   }
@@ -529,6 +589,20 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
 
   protected static Map<String, List<String>> getTopSuggestions() {
     Map<String, List<String>> s = new HashMap<>();
+    s.put("retd", Arrays.asList("retd.", "retired"));
+    s.put("Retd", Arrays.asList("Retd.", "Retired"));
+    s.put("rom", Arrays.asList("room"));
+    s.put("abt", Arrays.asList("about"));
+    s.put("becuz", Arrays.asList("because"));
+    s.put("becus", Arrays.asList("because"));
+    s.put("lullabys", Arrays.asList("lullabies"));
+    s.put("Lullabys", Arrays.asList("Lullabies"));
+    s.put("forceably", Arrays.asList("forcibly"));
+    s.put("Forceably", Arrays.asList("Forcibly"));
+    s.put("accidently", Arrays.asList("accidentally"));
+    s.put("Accidently", Arrays.asList("Accidentally"));
+    s.put("aer", Arrays.asList("are", "air"));
+    s.put("Aer", Arrays.asList("Are", "Air"));
     s.put("downie", Arrays.asList("downy"));
     s.put("Downie", Arrays.asList("Downy"));
     s.put("happing", Arrays.asList("happening"));
@@ -1043,6 +1117,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("yeld", Arrays.asList("yelled"));
     s.put("os", Arrays.asList("OS", "is", "so"));
     s.put("abel", Arrays.asList("able"));
+    s.put("param", Arrays.asList("parameter"));
+    s.put("params", Arrays.asList("parameters"));
+    s.put("Param", Arrays.asList("Parameter"));
+    s.put("Params", Arrays.asList("Parameters"));
 
     return s;
   }
@@ -1084,6 +1162,48 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     return translator;
   }
 
+  // Do not tokenize new words from spelling.txt...
+  // Multi-token words should be in multiwords.txt
+  protected boolean tokenizeNewWords() {
+    return false;
+  }
+
+  @Override
+  protected List<SuggestedReplacement> getOnlySuggestions(String word) {
+    // NOTE: only add words here that would otherwise have more than one suggestion
+    // and have apply to all variants of English (en-US, en-GB, ...):
+    if (word.matches("[Cc]emetary")) return topMatch(word.replaceFirst("emetary", "emetery"));
+    if (word.matches("[Cc]emetaries")) return topMatch(word.replaceFirst("emetaries", "emeteries"));
+    if (word.matches("[Bb]asicly")) return topMatch(word.replaceFirst("asicly", "asically"));
+    if (word.matches("[Bb]eleives?")) return topMatch(word.replaceFirst("eleive", "elieve"));
+    if (word.matches("[Bb]elives?")) return topMatch(word.replaceFirst("elive", "elieve"));
+    if (word.matches("[Bb]izzare")) return topMatch(word.replaceFirst("izzare", "izarre"));
+    if (word.matches("[Cc]ompletly")) return topMatch(word.replaceFirst("ompletly", "ompletely"));
+    if (word.matches("[Dd]issapears?")) return topMatch(word.replaceFirst("issapear", "isappear"));
+    if (word.matches("[Ff]arenheit")) return topMatch(word.replaceFirst("arenheit", "ahrenheit"));
+    if (word.matches("[Ff]reinds?")) return topMatch(word.replaceFirst("reind", "riend"));
+    if (word.matches("[Ii]ncidently")) return topMatch(word.replaceFirst("ncidently", "ncidentally"));
+    if (word.matches("[Ii]nterupts?")) return topMatch(word.replaceFirst("nterupt", "nterrupt"));
+    if (word.matches("[Ll]ollypops?")) return topMatch(word.replaceFirst("ollypop", "ollipop"));
+    if (word.matches("[Oo]cassions?")) return topMatch(word.replaceFirst("cassion", "ccasion"));
+    if (word.matches("[Oo]ccurances?")) return topMatch(word.replaceFirst("ccurance", "ccurrence"));
+    if (word.matches("[Pp]ersistant")) return topMatch(word.replaceFirst("ersistant", "ersistent"));
+    if (word.matches("[Pp]eices?")) return topMatch(word.replaceFirst("eice", "iece"));
+    if (word.matches("[Ss]eiges?")) return topMatch(word.replaceFirst("eige", "iege"));
+    if (word.matches("[Ss]upercedes?")) return topMatch(word.replaceFirst("upercede", "upersede"));
+    if (word.matches("[Tt]hreshholds?")) return topMatch(word.replaceFirst("hreshhold", "hreshold"));
+    if (word.matches("[Tt]ommorrows?")) return topMatch(word.replaceFirst("ommorrow", "omorrow"));
+    if (word.matches("[Tt]ounges?")) return topMatch(word.replaceFirst("ounge", "ongue"));
+    if (word.matches("[Ww]ierd")) return topMatch(word.replaceFirst("ierd", "eird"));
+    if (word.matches("[Jj]ist")) {
+      List<SuggestedReplacement> l = new ArrayList<>();
+      l.add(new SuggestedReplacement("just"));
+      l.add(new SuggestedReplacement("gist"));
+      return l;
+    }
+    return Collections.emptyList();
+  }
+
   private static class IrregularForms {
     final String baseform;
     final String posName;
@@ -1096,11 +1216,5 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       this.forms = forms;
     }
   }
-  
-  // Do not tokenize new words from spelling.txt... 
-  // Multi-token words should be in multiwords.txt
-  protected boolean tokenizeNewWords() {
-    return false;
-  }
-  
+
 }

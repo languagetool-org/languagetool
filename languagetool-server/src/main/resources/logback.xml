@@ -5,17 +5,17 @@
     <encoder>
       <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS ZZZZ} %-5level %logger %msg%n</pattern>
     </encoder>
-<!--
-    Uncomment if you want detailed information about the message
-    <encoder>
-      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} %msg%n</pattern>
-    </encoder>
--->
   </appender>
 
+  <appender name="METRICS" class="org.languagetool.server.InstrumentedAppender" />
+
   <logger name="org.languagetool" level="INFO"/>
+  <!-- for debugging purposes only: log queries / responses -->
+  <!--  <logger name="org.languagetool.server.UserDictMapper" level="TRACE" />-->
+  <!--  <logger name="org.languagetool.server.GroupMapper" level="TRACE" />-->
 
   <root level="info">
     <appender-ref ref="STDOUT" />
+    <appender-ref ref="METRICS" />
   </root>
 </configuration>

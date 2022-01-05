@@ -18,10 +18,12 @@
  */
 package org.languagetool.dev.wikipedia;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
+@Ignore
 public class WikipediaTextFilterTest {
 
   private final SwebleWikipediaTextFilter swebleFilter = new SwebleWikipediaTextFilter();

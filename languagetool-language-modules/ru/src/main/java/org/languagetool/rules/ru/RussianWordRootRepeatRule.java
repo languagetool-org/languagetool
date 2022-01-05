@@ -18,7 +18,7 @@
  */
 package org.languagetool.rules.ru;
 
-import org.languagetool.Experimental;
+
 import org.languagetool.rules.AbstractWordCoherencyRule;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.WordCoherencyDataLoader;
@@ -29,11 +29,12 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 /**
- * WordRootRepeatRule. Experimental.
+ * WordRootRepeatRule.
+ * This rule detects words in the same sentence with the same root that belong to different parts of speech.
  * @author Yakov Reztsov
  * @since 5.1
  */
-@Experimental
+
 public class RussianWordRootRepeatRule extends AbstractWordCoherencyRule {
 
   private static final Map<String, Set<String>> wordMap = new WordCoherencyDataLoader().loadWords("/ru/wordrootrep.txt");

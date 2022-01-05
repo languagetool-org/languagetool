@@ -32,7 +32,6 @@ import org.languagetool.rules.ml.MLServerProto;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Collections;
 
 @Ignore("Requires local ML server")
 public class GRPCRuleTest {
@@ -43,9 +42,12 @@ public class GRPCRuleTest {
 
   @Before
   public void setUp() throws Exception {
-    config = new RemoteRuleConfig(RULE_ID, "localhost", 50000,
-      0, 0L, 0.0f,
-      1, 0L, 0L, 0L, Collections.emptyMap());
+    config = new RemoteRuleConfig();
+
+    config.ruleId = RULE_ID;
+    config.url = "localhost";
+    config.port = 50000;
+
 
     rule = new GRPCRule(new Demo(), JLanguageTool.getMessageBundle(), config, true) {
       @Override

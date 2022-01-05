@@ -842,11 +842,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="VEZAJ" name="Zamenjaj pomišljaj z vezajem">
             <rule>
                 <pattern>
-                    <token regexp="yes">(.*\S)([–—])(\S*)</token>
+                    <token regexp="yes">(.*\S)</token>
+                    <token regexp="yes" spacebefore="no">[–—]</token>
+                    <token regexp="yes" spacebefore="no">\S*</token>
                 </pattern>
-                <message>Namesto pomišljaja uporabite vezaj: <match no="1" regexp_match="(.*)([–—])(.*)" regexp_replace="$1-$3"></match></message>
+                <message>Namesto pomišljaja uporabite vezaj: <suggestion>\1-\3</suggestion>.</message>
                 <short>Pomišljaj namesto vezaja</short>
-                <example correction=""><marker>Avstro–ogrska</marker> monarhija je razpadla 11. novembra 1918 s podpisom abdikacije cesarja Karla I.</example>
+                <example correction="Avstro-ogrska"><marker>Avstro–ogrska</marker> monarhija je razpadla 11. novembra 1918 s podpisom abdikacije cesarja Karla I.</example>
                 <example>Avstro-ogrska monarhija je razpadla 11. novembra 1918 s podpisom abdikacije cesarja Karla I.</example>
             </rule>
         </rulegroup>
@@ -1052,6 +1054,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Napačna raba predloga pred krajevnim imenom, pravilno je: <suggestion>na</suggestion> Bledu!</message>
                 <short>Nepravilno: v Bled</short>
                 <example correction="Na"><marker>V</marker> Bledu sva jedla kremne rezine.</example>
+            </rule>
+            <rule id="DUNAJ" name="Nepravilna raba: Dunaj">
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">[Vv]</token>
+                    </marker>
+                    <token regexp="yes">Dunaj.*</token>
+                </pattern>
+                <message>Napačna raba predloga pred krajevnim imenom, pravilno je: <suggestion>na</suggestion> Dunaju!</message>
+                <short>Nepravilno: v Dunaj</short>
+                <example correction="na">Novoletni koncert <marker>v</marker> Dunaju</example>
             </rule>
             <rule id="IZ_KJE" name="Nepravilna raba: iz kje">
                 <pattern case_sensitive="no">

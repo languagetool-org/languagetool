@@ -25,11 +25,16 @@ import de.danielnaber.jwordsplitter.InputTooLongException;
 import gnu.trove.THashSet;
 import org.languagetool.tokenizers.Tokenizer;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Supplier;
+
+import static java.util.Arrays.asList;
 
 /**
  * Split German nouns using the jWordSplitter library.
@@ -76,6 +81,15 @@ public class GermanCompoundTokenizer implements Tokenizer {
     // add exceptions here so we don't need to update JWordSplitter for every exception we find:  
     //wordSplitter.addException("Maskerade", Collections.singletonList("Maskerade"));
     //wordSplitter.addException("Sportshorts", asList("Sport", "shorts")); 
+    wordSplitter.addException("Hallesche", asList("Hallesche"));
+    wordSplitter.addException("Halleschen", asList("Halleschen"));
+    wordSplitter.addException("Reinigungstab", asList("Reinigungs", "tab"));
+    wordSplitter.addException("Reinigungstabs", asList("Reinigungs", "tabs"));
+    wordSplitter.addException("Tauschwerte", asList("Tausch", "werte"));
+    wordSplitter.addException("Tauschwertes", asList("Tausch", "wertes"));
+    wordSplitter.addException("Kinderspielen", asList("Kinder", "spielen"));
+    wordSplitter.addException("Buchhaltungstrick", asList("Buchhaltungs", "trick"));
+    wordSplitter.addException("Buchhaltungstricks", asList("Buchhaltungs", "tricks"));
     wordSplitter.setStrictMode(strictMode);
     wordSplitter.setMinimumWordLength(3);
   }
@@ -98,12 +112,22 @@ public class GermanCompoundTokenizer implements Tokenizer {
   }
 
   public static void main(String[] args) throws IOException {
-    if (args.length != 1) {
-      System.out.println("Usage: " + GermanCompoundTokenizer.class.getSimpleName() + " <wordToSplit>");
+    if (args.length == 0) {
+      System.out.println("Usage: " + GermanCompoundTokenizer.class.getSimpleName() + " <wordsToSplit... or file>");
       System.exit(1);
     }
     GermanCompoundTokenizer tokenizer = new GermanCompoundTokenizer();
-    System.out.println(tokenizer.tokenize(args[0]));
+    if (new File(args[0]).exists()) {
+      System.out.println("Working on lines from " + args[0] + ":");
+      List<String> lines = Files.readAllLines(Paths.get(args[0]));
+      for (String line : lines) {
+        System.out.println(tokenizer.tokenize(line));
+      }
+    } else {
+      for (String arg : args) {
+        System.out.println(tokenizer.tokenize(arg));
+      }
+    }
   }
 
 }

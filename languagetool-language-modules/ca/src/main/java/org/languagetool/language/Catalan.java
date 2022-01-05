@@ -23,6 +23,7 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.rules.*;
 import org.languagetool.rules.ca.*;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.ca.CatalanSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -34,6 +35,8 @@ import org.languagetool.tokenizers.ca.CatalanWordTokenizer;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Catalan extends Language {
 
@@ -87,7 +90,6 @@ public class Catalan extends Language {
             new SimpleReplaceBalearicRule(messages),
             new SimpleReplaceRule(messages),
             new ReplaceOperationNamesRule(messages, this),
-            new SimpleReplaceDNVRule(messages, this), // can be removed here after updating dictionaries
             new SimpleReplaceDiacriticsIEC(messages),
             new SimpleReplaceAnglicism(messages), 
             new PronomFebleDuplicateRule(messages),
@@ -95,8 +97,10 @@ public class Catalan extends Language {
             new SimpleReplaceAdverbsMent(messages),
             new CatalanWordRepeatBeginningRule(messages, this),
             new CompoundRule(messages, this, userConfig),
-            new CatalanRepeatedWordsRule(messages)
-            //REMEMBER TO ADD RULES TO ValencianCatalan!!
+            new CatalanRepeatedWordsRule(messages), 
+            new SimpleReplaceDNVRule(messages, this),
+            new SimpleReplaceDNVColloquialRule(messages, this),
+            new SimpleReplaceDNVSecondaryRule(messages, this)
     );
   }
 
@@ -181,6 +185,7 @@ public class Catalan extends Language {
       case "CA_COMPOUNDS": return 50;
       case "INCORRECT_EXPRESSIONS": return 50;
       case "PERSONATGES_FAMOSOS": return 50;
+      case "CONFUSIONS2": return 50;
       case "MOTS_NO_SEPARATS": return 40;
       case "REPETEAD_ELEMENTS": return 40;
       case "ESPAIS_SOBRANTS": return 40; // greater than L
@@ -206,12 +211,15 @@ public class Catalan extends Language {
       case "CONCORDANCES_DET_NOM": return 5;
       case "DET_GN": return 5; // greater than DE_EL_S_APOSTROFEN
       case "VENIR_NO_REFLEXIU": return 5;
+      case "ARTICLE_TOPONIM_MIN": return -10; // lesser than CONTRACCIONS, CONCORDANCES_DET_NOM 
       case "PEL_QUE": return -10; // lesser than PEL_QUE_FA
+      case "COMMA_LOCUTION": return -10;
       case "REGIONAL_VERBS": return -10;
       case "PRONOMS_FEBLES_SOLTS": return -10; //lesser than SPELLING
       case "AGREEMENT_POSTPONED_ADJ": return -15;
       case "FALTA_COMA_FRASE_CONDICIONAL": return -20;
       case "ESPAIS_QUE_FALTEN_PUNTUACIO": return -20;
+      case "REPETITIONS_STYLE": return -50;
       case "MUNDAR": return -50;
       case "NOMBRES_ROMANS": return -90;
       case "MORFOLOGIK_RULE_CA_ES": return -100;
@@ -224,5 +232,43 @@ public class Catalan extends Language {
       case "ELA_GEMINADA_WIKI": return -200;
     }
     return super.getPriorityForId(id);
+  }
+  
+  public boolean hasMinMatchesRules() {
+    return true;
+  }
+  
+  @Override
+  public SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
+      return new MorfologikCatalanSpellerRule(messages, this, null, Collections.emptyList());
+  }
+  
+  
+  private static final Pattern CA_OLD_DIACRITICS = Pattern.compile(".*\\b(dóna|vénen|véns|fóra)\\b.*",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  
+  @Override
+  public List<RuleMatch> adaptSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
+    if (enabledRules.contains("APOSTROF_TIPOGRAFIC") || !enabledRules.contains("DIACRITICS_TRADITIONAL_RULES")) {
+      List<RuleMatch> newRuleMatches = new ArrayList<>();
+      for (RuleMatch rm : ruleMatches) {
+        List<String> replacements = rm.getSuggestedReplacements();
+        List<String> newReplacements = new ArrayList<>();
+        for (String s : replacements) {
+          if (enabledRules.contains("APOSTROF_TIPOGRAFIC") && s.length() > 1) {
+            s = s.replace("'", "’");
+          }
+          Matcher m = CA_OLD_DIACRITICS.matcher(s);
+          if (!enabledRules.contains("DIACRITICS_TRADITIONAL_RULES") && m.matches()) {
+            // skip this suggestion with traditional diacritics
+          } else {
+            newReplacements.add(s);
+          }
+        }
+        RuleMatch newMatch = new RuleMatch(rm, newReplacements);
+        newRuleMatches.add(newMatch);
+      }
+      return newRuleMatches;
+    }
+    return ruleMatches;
   }
 }

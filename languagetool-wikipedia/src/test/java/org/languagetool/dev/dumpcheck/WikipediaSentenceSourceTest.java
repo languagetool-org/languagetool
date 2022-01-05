@@ -18,6 +18,7 @@
  */
 package org.languagetool.dev.dumpcheck;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.language.English;
 
@@ -30,6 +31,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+@Ignore
 public class WikipediaSentenceSourceTest {
   
   @Test

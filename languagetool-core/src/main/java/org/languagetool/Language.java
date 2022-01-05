@@ -27,6 +27,8 @@ import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.RemoteRuleConfig;
 import org.languagetool.rules.Rule;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.TestRemoteRule;
 import org.languagetool.rules.neuralnetwork.Word2VecModel;
 import org.languagetool.rules.patterns.*;
 import org.languagetool.rules.spelling.SpellingCheckRule;
@@ -46,6 +48,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * Base class for any supported language (English, German, etc). Language classes
@@ -215,7 +218,10 @@ public abstract class Language {
   public List<Rule> getRelevantRemoteRules(ResourceBundle messageBundle, List<RemoteRuleConfig> configs,
                                            GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages, boolean inputLogging)
     throws IOException {
-    return Collections.emptyList();
+    return configs.stream()
+      .filter(config -> config.getRuleId().startsWith("TEST"))
+      .map(c -> new TestRemoteRule(this, c))
+      .collect(Collectors.toList());
   }
 
   /**
@@ -891,4 +897,18 @@ public abstract class Language {
   public int hashCode() {
     return getShortCodeWithCountryAndVariant().hashCode();
   }
+  
+  /*
+   * @since 5.1 
+   * Some rules contain the field min_matches to check repeated patterns 
+   */
+  public boolean hasMinMatchesRules() {
+    return false;
+  }
+  
+  /** @since 5.6 */
+  public List<RuleMatch> adaptSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
+	  return ruleMatches;
+  }
+  
 }

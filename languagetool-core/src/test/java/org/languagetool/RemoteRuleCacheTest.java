@@ -26,15 +26,16 @@ import org.junit.Test;
 import org.languagetool.language.Demo;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
-import org.languagetool.rules.*;
+import org.languagetool.rules.RemoteRule;
+import org.languagetool.rules.RemoteRuleConfig;
+import org.languagetool.rules.RemoteRuleResult;
+import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
 
@@ -47,11 +48,13 @@ public class RemoteRuleCacheTest {
   private JLanguageTool lt;
   private ResultCache cache;
   private RemoteRule rule;
-  private final ExecutorService remoteRulePool = Executors.newCachedThreadPool();
 
   static class TestRemoteRule extends RemoteRule {
-    private static final RemoteRuleConfig testConfig = new RemoteRuleConfig(
-      "TEST_REMOTE_RULE", "example.com", 1234, 0, 0L, 0.0f, 1, 10L, 0L, 0L, Collections.emptyMap());
+    private static final RemoteRuleConfig testConfig = new RemoteRuleConfig();
+
+    static {
+      testConfig.ruleId = "TEST_REMOTE_RULE";
+    }
 
     TestRemoteRule() {
       super(new Demo(), JLanguageTool.getMessageBundle(), testConfig, false);
@@ -108,7 +111,7 @@ public class RemoteRuleCacheTest {
 
     try {
       return lt.check(annotatedText, true, JLanguageTool.ParagraphHandling.NORMAL, null,
-        JLanguageTool.Mode.ALL, JLanguageTool.Level.DEFAULT, remoteRulePool);
+        JLanguageTool.Mode.ALL, JLanguageTool.Level.DEFAULT);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }

@@ -92,6 +92,27 @@ class LightRuleMatchParser {
       if (StringUtils.countMatches(sentence, coveredText) == 1) {
         int idx = sentence.indexOf(coveredText);
         context = getContextWithSpan(sentence, idx, idx + coveredText.length());
+      } else {
+        String shortContext = match.get("context").get("text").asText();
+        int idxFix = 0;
+        if (shortContext.startsWith("...")) {
+          shortContext = shortContext.substring(3);
+          idxFix = 3;
+        }
+        if (shortContext.endsWith("...")) {
+          shortContext = shortContext.substring(0, shortContext.length()-3);
+        }
+        String noLinebreakSentence = sentence.replace('\n', ' ');
+        // NOTE: this won't always work (i.e. find the shortContext), as shortContext
+        // might contain the start of the next sentence... the reason we want a sentence-based
+        // context at all is that the "Maybe replaces" and "Maybe replaced by" information will
+        // be incomplete for matches if some contexts are based on the full sentence
+        // and others are not.
+        if (StringUtils.countMatches(noLinebreakSentence, shortContext) == 1) {
+          int idx = noLinebreakSentence.indexOf(shortContext);
+          idx = idx + contextOffset - idxFix;
+          context = getContextWithSpan(sentence, idx, idx + coveredText.length());
+        }
       }
     }
     JsonNode replacements = match.get("replacements");

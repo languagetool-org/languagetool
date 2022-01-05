@@ -91,6 +91,7 @@ class OfficeTools {
   public static boolean DEVELOP_MODE = false;     //  Activate Development Mode
 
   public  static final String CONFIG_FILE = "Languagetool.cfg";
+  public  static final String OOO_CONFIG_FILE = "Languagetool-ooo.cfg";
   private static final String OLD_CONFIG_FILE = ".languagetool-ooo.cfg";
   private static final String LOG_FILE = "LanguageTool.log";
 

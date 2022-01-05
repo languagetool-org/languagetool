@@ -51,7 +51,7 @@ public class DuUpperLowerCaseRule extends TextLevelRule {
     super.setCategory(Categories.CASING.getCategory(messages));
     addExamplePair(Example.wrong("Wie geht es Dir? Bist <marker>du</marker> wieder gesund?"),
                    Example.fixed("Wie geht es Dir? Bist <marker>Du</marker> wieder gesund?"));
-    setUrl(Tools.getUrl("https://insights.languagetool.com/de/beitrag/duzen-grossgeschrieben/"));
+    setUrl(Tools.getUrl("https://languagetool.org/insights/de/beitrag/duzen-grossgeschrieben/"));
   }
 
   @Override

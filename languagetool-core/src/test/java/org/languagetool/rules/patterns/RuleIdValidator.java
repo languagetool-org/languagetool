@@ -43,7 +43,7 @@ class RuleIdValidator {
     Map<String, String> idsToFile = new HashMap<>();
     List<Rule> allRules = new JLanguageTool(lang).getAllRules();
     for (Rule rule : allRules) {
-      if (!(rule instanceof AbstractPatternRule)) {
+      if (!(rule instanceof AbstractPatternRule || rule instanceof RepeatedPatternRuleTransformer.RepeatedPatternRule)) {
         idsToFile.put(rule.getId(), "Java (" + rule.getClass().getName() + ")");
       }
     }

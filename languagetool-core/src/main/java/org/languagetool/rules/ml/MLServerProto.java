@@ -101,7 +101,7 @@ public final class MLServerProto {
   /**
    * Protobuf type {@code lt_ml_server.MatchRequest}
    */
-  public  static final class MatchRequest extends
+  public static final class MatchRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:lt_ml_server.MatchRequest)
       MatchRequestOrBuilder {
@@ -280,6 +280,7 @@ public final class MLServerProto {
      * <code>bool inputLogging = 2;</code>
      * @return The inputLogging.
      */
+    @java.lang.Override
     public boolean getInputLogging() {
       return inputLogging_;
     }
@@ -294,6 +295,7 @@ public final class MLServerProto {
      * <code>repeated int64 textSessionID = 3;</code>
      * @return A list containing the textSessionID.
      */
+    @java.lang.Override
     public java.util.List<java.lang.Long>
         getTextSessionIDList() {
       return textSessionID_;
@@ -862,6 +864,7 @@ public final class MLServerProto {
        * <code>bool inputLogging = 2;</code>
        * @return The inputLogging.
        */
+      @java.lang.Override
       public boolean getInputLogging() {
         return inputLogging_;
       }
@@ -1105,7 +1108,7 @@ public final class MLServerProto {
   /**
    * Protobuf type {@code lt_ml_server.MatchResponse}
    */
-  public  static final class MatchResponse extends
+  public static final class MatchResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:lt_ml_server.MatchResponse)
       MatchResponseOrBuilder {
@@ -1202,6 +1205,7 @@ public final class MLServerProto {
      *
      * <code>repeated .lt_ml_server.MatchList sentenceMatches = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<org.languagetool.rules.ml.MLServerProto.MatchList> getSentenceMatchesList() {
       return sentenceMatches_;
     }
@@ -1212,6 +1216,7 @@ public final class MLServerProto {
      *
      * <code>repeated .lt_ml_server.MatchList sentenceMatches = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends org.languagetool.rules.ml.MLServerProto.MatchListOrBuilder> 
         getSentenceMatchesOrBuilderList() {
       return sentenceMatches_;
@@ -1223,6 +1228,7 @@ public final class MLServerProto {
      *
      * <code>repeated .lt_ml_server.MatchList sentenceMatches = 1;</code>
      */
+    @java.lang.Override
     public int getSentenceMatchesCount() {
       return sentenceMatches_.size();
     }
@@ -1233,6 +1239,7 @@ public final class MLServerProto {
      *
      * <code>repeated .lt_ml_server.MatchList sentenceMatches = 1;</code>
      */
+    @java.lang.Override
     public org.languagetool.rules.ml.MLServerProto.MatchList getSentenceMatches(int index) {
       return sentenceMatches_.get(index);
     }
@@ -1243,6 +1250,7 @@ public final class MLServerProto {
      *
      * <code>repeated .lt_ml_server.MatchList sentenceMatches = 1;</code>
      */
+    @java.lang.Override
     public org.languagetool.rules.ml.MLServerProto.MatchListOrBuilder getSentenceMatchesOrBuilder(
         int index) {
       return sentenceMatches_.get(index);
@@ -2005,7 +2013,7 @@ public final class MLServerProto {
   /**
    * Protobuf type {@code lt_ml_server.MatchList}
    */
-  public  static final class MatchList extends
+  public static final class MatchList extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:lt_ml_server.MatchList)
       MatchListOrBuilder {
@@ -2102,6 +2110,7 @@ public final class MLServerProto {
      *
      * <code>repeated .lt_ml_server.Match matches = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<org.languagetool.rules.ml.MLServerProto.Match> getMatchesList() {
       return matches_;
     }
@@ -2112,6 +2121,7 @@ public final class MLServerProto {
      *
      * <code>repeated .lt_ml_server.Match matches = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends org.languagetool.rules.ml.MLServerProto.MatchOrBuilder> 
         getMatchesOrBuilderList() {
       return matches_;
@@ -2123,6 +2133,7 @@ public final class MLServerProto {
      *
      * <code>repeated .lt_ml_server.Match matches = 1;</code>
      */
+    @java.lang.Override
     public int getMatchesCount() {
       return matches_.size();
     }
@@ -2133,6 +2144,7 @@ public final class MLServerProto {
      *
      * <code>repeated .lt_ml_server.Match matches = 1;</code>
      */
+    @java.lang.Override
     public org.languagetool.rules.ml.MLServerProto.Match getMatches(int index) {
       return matches_.get(index);
     }
@@ -2143,6 +2155,7 @@ public final class MLServerProto {
      *
      * <code>repeated .lt_ml_server.Match matches = 1;</code>
      */
+    @java.lang.Override
     public org.languagetool.rules.ml.MLServerProto.MatchOrBuilder getMatchesOrBuilder(
         int index) {
       return matches_.get(index);
@@ -2919,23 +2932,39 @@ public final class MLServerProto {
         getSubIdBytes();
 
     /**
+     * <pre>
+     * legacy; use suggestedReplacements
+     * </pre>
+     *
      * <code>repeated string suggestions = 5;</code>
      * @return A list containing the suggestions.
      */
     java.util.List<java.lang.String>
         getSuggestionsList();
     /**
+     * <pre>
+     * legacy; use suggestedReplacements
+     * </pre>
+     *
      * <code>repeated string suggestions = 5;</code>
      * @return The count of suggestions.
      */
     int getSuggestionsCount();
     /**
+     * <pre>
+     * legacy; use suggestedReplacements
+     * </pre>
+     *
      * <code>repeated string suggestions = 5;</code>
      * @param index The index of the element to return.
      * @return The suggestions at the given index.
      */
     java.lang.String getSuggestions(int index);
     /**
+     * <pre>
+     * legacy; use suggestedReplacements
+     * </pre>
+     *
      * <code>repeated string suggestions = 5;</code>
      * @param index The index of the value to return.
      * @return The bytes of the suggestions at the given index.
@@ -3002,11 +3031,85 @@ public final class MLServerProto {
      */
     com.google.protobuf.ByteString
         getMatchShortDescriptionBytes();
+
+    /**
+     * <pre>
+     * to show a link, e.g. with further explanations for this error
+     * </pre>
+     *
+     * <code>string url = 9;</code>
+     * @return The url.
+     */
+    java.lang.String getUrl();
+    /**
+     * <pre>
+     * to show a link, e.g. with further explanations for this error
+     * </pre>
+     *
+     * <code>string url = 9;</code>
+     * @return The bytes for url.
+     */
+    com.google.protobuf.ByteString
+        getUrlBytes();
+
+    /**
+     * <pre>
+     * new and extended suggestions; overwrite any values set in suggestions
+     * </pre>
+     *
+     * <code>repeated .lt_ml_server.SuggestedReplacement suggestedReplacements = 10;</code>
+     */
+    java.util.List<org.languagetool.rules.ml.MLServerProto.SuggestedReplacement> 
+        getSuggestedReplacementsList();
+    /**
+     * <pre>
+     * new and extended suggestions; overwrite any values set in suggestions
+     * </pre>
+     *
+     * <code>repeated .lt_ml_server.SuggestedReplacement suggestedReplacements = 10;</code>
+     */
+    org.languagetool.rules.ml.MLServerProto.SuggestedReplacement getSuggestedReplacements(int index);
+    /**
+     * <pre>
+     * new and extended suggestions; overwrite any values set in suggestions
+     * </pre>
+     *
+     * <code>repeated .lt_ml_server.SuggestedReplacement suggestedReplacements = 10;</code>
+     */
+    int getSuggestedReplacementsCount();
+    /**
+     * <pre>
+     * new and extended suggestions; overwrite any values set in suggestions
+     * </pre>
+     *
+     * <code>repeated .lt_ml_server.SuggestedReplacement suggestedReplacements = 10;</code>
+     */
+    java.util.List<? extends org.languagetool.rules.ml.MLServerProto.SuggestedReplacementOrBuilder> 
+        getSuggestedReplacementsOrBuilderList();
+    /**
+     * <pre>
+     * new and extended suggestions; overwrite any values set in suggestions
+     * </pre>
+     *
+     * <code>repeated .lt_ml_server.SuggestedReplacement suggestedReplacements = 10;</code>
+     */
+    org.languagetool.rules.ml.MLServerProto.SuggestedReplacementOrBuilder getSuggestedReplacementsOrBuilder(
+        int index);
+
+    /**
+     * <pre>
+     * is this correction eligible for auto-correction?
+     * </pre>
+     *
+     * <code>bool autoCorrect = 11;</code>
+     * @return The autoCorrect.
+     */
+    boolean getAutoCorrect();
   }
   /**
    * Protobuf type {@code lt_ml_server.Match}
    */
-  public  static final class Match extends
+  public static final class Match extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:lt_ml_server.Match)
       MatchOrBuilder {
@@ -3022,6 +3125,8 @@ public final class MLServerProto {
       ruleDescription_ = "";
       matchDescription_ = "";
       matchShortDescription_ = "";
+      url_ = "";
+      suggestedReplacements_ = java.util.Collections.emptyList();
     }
 
     @java.lang.Override
@@ -3104,6 +3209,26 @@ public final class MLServerProto {
               matchShortDescription_ = s;
               break;
             }
+            case 74: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              url_ = s;
+              break;
+            }
+            case 82: {
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+                suggestedReplacements_ = new java.util.ArrayList<org.languagetool.rules.ml.MLServerProto.SuggestedReplacement>();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              suggestedReplacements_.add(
+                  input.readMessage(org.languagetool.rules.ml.MLServerProto.SuggestedReplacement.parser(), extensionRegistry));
+              break;
+            }
+            case 88: {
+
+              autoCorrect_ = input.readBool();
+              break;
+            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -3121,6 +3246,9 @@ public final class MLServerProto {
       } finally {
         if (((mutable_bitField0_ & 0x00000001) != 0)) {
           suggestions_ = suggestions_.getUnmodifiableView();
+        }
+        if (((mutable_bitField0_ & 0x00000002) != 0)) {
+          suggestedReplacements_ = java.util.Collections.unmodifiableList(suggestedReplacements_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -3149,6 +3277,7 @@ public final class MLServerProto {
      * <code>uint32 offset = 1;</code>
      * @return The offset.
      */
+    @java.lang.Override
     public int getOffset() {
       return offset_;
     }
@@ -3163,6 +3292,7 @@ public final class MLServerProto {
      * <code>uint32 length = 2;</code>
      * @return The length.
      */
+    @java.lang.Override
     public int getLength() {
       return length_;
     }
@@ -3177,6 +3307,7 @@ public final class MLServerProto {
      * <code>string id = 3;</code>
      * @return The id.
      */
+    @java.lang.Override
     public java.lang.String getId() {
       java.lang.Object ref = id_;
       if (ref instanceof java.lang.String) {
@@ -3197,6 +3328,7 @@ public final class MLServerProto {
      * <code>string id = 3;</code>
      * @return The bytes for id.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getIdBytes() {
       java.lang.Object ref = id_;
@@ -3221,6 +3353,7 @@ public final class MLServerProto {
      * <code>string sub_id = 4;</code>
      * @return The subId.
      */
+    @java.lang.Override
     public java.lang.String getSubId() {
       java.lang.Object ref = subId_;
       if (ref instanceof java.lang.String) {
@@ -3241,6 +3374,7 @@ public final class MLServerProto {
      * <code>string sub_id = 4;</code>
      * @return The bytes for subId.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getSubIdBytes() {
       java.lang.Object ref = subId_;
@@ -3258,6 +3392,10 @@ public final class MLServerProto {
     public static final int SUGGESTIONS_FIELD_NUMBER = 5;
     private com.google.protobuf.LazyStringList suggestions_;
     /**
+     * <pre>
+     * legacy; use suggestedReplacements
+     * </pre>
+     *
      * <code>repeated string suggestions = 5;</code>
      * @return A list containing the suggestions.
      */
@@ -3266,6 +3404,10 @@ public final class MLServerProto {
       return suggestions_;
     }
     /**
+     * <pre>
+     * legacy; use suggestedReplacements
+     * </pre>
+     *
      * <code>repeated string suggestions = 5;</code>
      * @return The count of suggestions.
      */
@@ -3273,6 +3415,10 @@ public final class MLServerProto {
       return suggestions_.size();
     }
     /**
+     * <pre>
+     * legacy; use suggestedReplacements
+     * </pre>
+     *
      * <code>repeated string suggestions = 5;</code>
      * @param index The index of the element to return.
      * @return The suggestions at the given index.
@@ -3281,6 +3427,10 @@ public final class MLServerProto {
       return suggestions_.get(index);
     }
     /**
+     * <pre>
+     * legacy; use suggestedReplacements
+     * </pre>
+     *
      * <code>repeated string suggestions = 5;</code>
      * @param index The index of the value to return.
      * @return The bytes of the suggestions at the given index.
@@ -3300,6 +3450,7 @@ public final class MLServerProto {
      * <code>string ruleDescription = 6;</code>
      * @return The ruleDescription.
      */
+    @java.lang.Override
     public java.lang.String getRuleDescription() {
       java.lang.Object ref = ruleDescription_;
       if (ref instanceof java.lang.String) {
@@ -3320,6 +3471,7 @@ public final class MLServerProto {
      * <code>string ruleDescription = 6;</code>
      * @return The bytes for ruleDescription.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getRuleDescriptionBytes() {
       java.lang.Object ref = ruleDescription_;
@@ -3344,6 +3496,7 @@ public final class MLServerProto {
      * <code>string matchDescription = 7;</code>
      * @return The matchDescription.
      */
+    @java.lang.Override
     public java.lang.String getMatchDescription() {
       java.lang.Object ref = matchDescription_;
       if (ref instanceof java.lang.String) {
@@ -3364,6 +3517,7 @@ public final class MLServerProto {
      * <code>string matchDescription = 7;</code>
      * @return The bytes for matchDescription.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getMatchDescriptionBytes() {
       java.lang.Object ref = matchDescription_;
@@ -3388,6 +3542,7 @@ public final class MLServerProto {
      * <code>string matchShortDescription = 8;</code>
      * @return The matchShortDescription.
      */
+    @java.lang.Override
     public java.lang.String getMatchShortDescription() {
       java.lang.Object ref = matchShortDescription_;
       if (ref instanceof java.lang.String) {
@@ -3408,6 +3563,7 @@ public final class MLServerProto {
      * <code>string matchShortDescription = 8;</code>
      * @return The bytes for matchShortDescription.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getMatchShortDescriptionBytes() {
       java.lang.Object ref = matchShortDescription_;
@@ -3420,6 +3576,127 @@ public final class MLServerProto {
       } else {
         return (com.google.protobuf.ByteString) ref;
       }
+    }
+
+    public static final int URL_FIELD_NUMBER = 9;
+    private volatile java.lang.Object url_;
+    /**
+     * <pre>
+     * to show a link, e.g. with further explanations for this error
+     * </pre>
+     *
+     * <code>string url = 9;</code>
+     * @return The url.
+     */
+    @java.lang.Override
+    public java.lang.String getUrl() {
+      java.lang.Object ref = url_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        url_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * to show a link, e.g. with further explanations for this error
+     * </pre>
+     *
+     * <code>string url = 9;</code>
+     * @return The bytes for url.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getUrlBytes() {
+      java.lang.Object ref = url_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        url_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int SUGGESTEDREPLACEMENTS_FIELD_NUMBER = 10;
+    private java.util.List<org.languagetool.rules.ml.MLServerProto.SuggestedReplacement> suggestedReplacements_;
+    /**
+     * <pre>
+     * new and extended suggestions; overwrite any values set in suggestions
+     * </pre>
+     *
+     * <code>repeated .lt_ml_server.SuggestedReplacement suggestedReplacements = 10;</code>
+     */
+    @java.lang.Override
+    public java.util.List<org.languagetool.rules.ml.MLServerProto.SuggestedReplacement> getSuggestedReplacementsList() {
+      return suggestedReplacements_;
+    }
+    /**
+     * <pre>
+     * new and extended suggestions; overwrite any values set in suggestions
+     * </pre>
+     *
+     * <code>repeated .lt_ml_server.SuggestedReplacement suggestedReplacements = 10;</code>
+     */
+    @java.lang.Override
+    public java.util.List<? extends org.languagetool.rules.ml.MLServerProto.SuggestedReplacementOrBuilder> 
+        getSuggestedReplacementsOrBuilderList() {
+      return suggestedReplacements_;
+    }
+    /**
+     * <pre>
+     * new and extended suggestions; overwrite any values set in suggestions
+     * </pre>
+     *
+     * <code>repeated .lt_ml_server.SuggestedReplacement suggestedReplacements = 10;</code>
+     */
+    @java.lang.Override
+    public int getSuggestedReplacementsCount() {
+      return suggestedReplacements_.size();
+    }
+    /**
+     * <pre>
+     * new and extended suggestions; overwrite any values set in suggestions
+     * </pre>
+     *
+     * <code>repeated .lt_ml_server.SuggestedReplacement suggestedReplacements = 10;</code>
+     */
+    @java.lang.Override
+    public org.languagetool.rules.ml.MLServerProto.SuggestedReplacement getSuggestedReplacements(int index) {
+      return suggestedReplacements_.get(index);
+    }
+    /**
+     * <pre>
+     * new and extended suggestions; overwrite any values set in suggestions
+     * </pre>
+     *
+     * <code>repeated .lt_ml_server.SuggestedReplacement suggestedReplacements = 10;</code>
+     */
+    @java.lang.Override
+    public org.languagetool.rules.ml.MLServerProto.SuggestedReplacementOrBuilder getSuggestedReplacementsOrBuilder(
+        int index) {
+      return suggestedReplacements_.get(index);
+    }
+
+    public static final int AUTOCORRECT_FIELD_NUMBER = 11;
+    private boolean autoCorrect_;
+    /**
+     * <pre>
+     * is this correction eligible for auto-correction?
+     * </pre>
+     *
+     * <code>bool autoCorrect = 11;</code>
+     * @return The autoCorrect.
+     */
+    @java.lang.Override
+    public boolean getAutoCorrect() {
+      return autoCorrect_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -3459,6 +3736,15 @@ public final class MLServerProto {
       }
       if (!getMatchShortDescriptionBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 8, matchShortDescription_);
+      }
+      if (!getUrlBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 9, url_);
+      }
+      for (int i = 0; i < suggestedReplacements_.size(); i++) {
+        output.writeMessage(10, suggestedReplacements_.get(i));
+      }
+      if (autoCorrect_ != false) {
+        output.writeBool(11, autoCorrect_);
       }
       unknownFields.writeTo(output);
     }
@@ -3500,6 +3786,17 @@ public final class MLServerProto {
       if (!getMatchShortDescriptionBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(8, matchShortDescription_);
       }
+      if (!getUrlBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(9, url_);
+      }
+      for (int i = 0; i < suggestedReplacements_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(10, suggestedReplacements_.get(i));
+      }
+      if (autoCorrect_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(11, autoCorrect_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -3531,6 +3828,12 @@ public final class MLServerProto {
           .equals(other.getMatchDescription())) return false;
       if (!getMatchShortDescription()
           .equals(other.getMatchShortDescription())) return false;
+      if (!getUrl()
+          .equals(other.getUrl())) return false;
+      if (!getSuggestedReplacementsList()
+          .equals(other.getSuggestedReplacementsList())) return false;
+      if (getAutoCorrect()
+          != other.getAutoCorrect()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -3560,6 +3863,15 @@ public final class MLServerProto {
       hash = (53 * hash) + getMatchDescription().hashCode();
       hash = (37 * hash) + MATCHSHORTDESCRIPTION_FIELD_NUMBER;
       hash = (53 * hash) + getMatchShortDescription().hashCode();
+      hash = (37 * hash) + URL_FIELD_NUMBER;
+      hash = (53 * hash) + getUrl().hashCode();
+      if (getSuggestedReplacementsCount() > 0) {
+        hash = (37 * hash) + SUGGESTEDREPLACEMENTS_FIELD_NUMBER;
+        hash = (53 * hash) + getSuggestedReplacementsList().hashCode();
+      }
+      hash = (37 * hash) + AUTOCORRECT_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getAutoCorrect());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -3688,6 +4000,7 @@ public final class MLServerProto {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
+          getSuggestedReplacementsFieldBuilder();
         }
       }
       @java.lang.Override
@@ -3708,6 +4021,16 @@ public final class MLServerProto {
         matchDescription_ = "";
 
         matchShortDescription_ = "";
+
+        url_ = "";
+
+        if (suggestedReplacementsBuilder_ == null) {
+          suggestedReplacements_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        } else {
+          suggestedReplacementsBuilder_.clear();
+        }
+        autoCorrect_ = false;
 
         return this;
       }
@@ -3748,6 +4071,17 @@ public final class MLServerProto {
         result.ruleDescription_ = ruleDescription_;
         result.matchDescription_ = matchDescription_;
         result.matchShortDescription_ = matchShortDescription_;
+        result.url_ = url_;
+        if (suggestedReplacementsBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) != 0)) {
+            suggestedReplacements_ = java.util.Collections.unmodifiableList(suggestedReplacements_);
+            bitField0_ = (bitField0_ & ~0x00000002);
+          }
+          result.suggestedReplacements_ = suggestedReplacements_;
+        } else {
+          result.suggestedReplacements_ = suggestedReplacementsBuilder_.build();
+        }
+        result.autoCorrect_ = autoCorrect_;
         onBuilt();
         return result;
       }
@@ -3832,6 +4166,39 @@ public final class MLServerProto {
           matchShortDescription_ = other.matchShortDescription_;
           onChanged();
         }
+        if (!other.getUrl().isEmpty()) {
+          url_ = other.url_;
+          onChanged();
+        }
+        if (suggestedReplacementsBuilder_ == null) {
+          if (!other.suggestedReplacements_.isEmpty()) {
+            if (suggestedReplacements_.isEmpty()) {
+              suggestedReplacements_ = other.suggestedReplacements_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+            } else {
+              ensureSuggestedReplacementsIsMutable();
+              suggestedReplacements_.addAll(other.suggestedReplacements_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.suggestedReplacements_.isEmpty()) {
+            if (suggestedReplacementsBuilder_.isEmpty()) {
+              suggestedReplacementsBuilder_.dispose();
+              suggestedReplacementsBuilder_ = null;
+              suggestedReplacements_ = other.suggestedReplacements_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+              suggestedReplacementsBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getSuggestedReplacementsFieldBuilder() : null;
+            } else {
+              suggestedReplacementsBuilder_.addAllMessages(other.suggestedReplacements_);
+            }
+          }
+        }
+        if (other.getAutoCorrect() != false) {
+          setAutoCorrect(other.getAutoCorrect());
+        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -3871,6 +4238,7 @@ public final class MLServerProto {
        * <code>uint32 offset = 1;</code>
        * @return The offset.
        */
+      @java.lang.Override
       public int getOffset() {
         return offset_;
       }
@@ -3913,6 +4281,7 @@ public final class MLServerProto {
        * <code>uint32 length = 2;</code>
        * @return The length.
        */
+      @java.lang.Override
       public int getLength() {
         return length_;
       }
@@ -4146,6 +4515,10 @@ public final class MLServerProto {
          }
       }
       /**
+       * <pre>
+       * legacy; use suggestedReplacements
+       * </pre>
+       *
        * <code>repeated string suggestions = 5;</code>
        * @return A list containing the suggestions.
        */
@@ -4154,6 +4527,10 @@ public final class MLServerProto {
         return suggestions_.getUnmodifiableView();
       }
       /**
+       * <pre>
+       * legacy; use suggestedReplacements
+       * </pre>
+       *
        * <code>repeated string suggestions = 5;</code>
        * @return The count of suggestions.
        */
@@ -4161,6 +4538,10 @@ public final class MLServerProto {
         return suggestions_.size();
       }
       /**
+       * <pre>
+       * legacy; use suggestedReplacements
+       * </pre>
+       *
        * <code>repeated string suggestions = 5;</code>
        * @param index The index of the element to return.
        * @return The suggestions at the given index.
@@ -4169,6 +4550,10 @@ public final class MLServerProto {
         return suggestions_.get(index);
       }
       /**
+       * <pre>
+       * legacy; use suggestedReplacements
+       * </pre>
+       *
        * <code>repeated string suggestions = 5;</code>
        * @param index The index of the value to return.
        * @return The bytes of the suggestions at the given index.
@@ -4178,6 +4563,10 @@ public final class MLServerProto {
         return suggestions_.getByteString(index);
       }
       /**
+       * <pre>
+       * legacy; use suggestedReplacements
+       * </pre>
+       *
        * <code>repeated string suggestions = 5;</code>
        * @param index The index to set the value at.
        * @param value The suggestions to set.
@@ -4194,6 +4583,10 @@ public final class MLServerProto {
         return this;
       }
       /**
+       * <pre>
+       * legacy; use suggestedReplacements
+       * </pre>
+       *
        * <code>repeated string suggestions = 5;</code>
        * @param value The suggestions to add.
        * @return This builder for chaining.
@@ -4209,6 +4602,10 @@ public final class MLServerProto {
         return this;
       }
       /**
+       * <pre>
+       * legacy; use suggestedReplacements
+       * </pre>
+       *
        * <code>repeated string suggestions = 5;</code>
        * @param values The suggestions to add.
        * @return This builder for chaining.
@@ -4222,6 +4619,10 @@ public final class MLServerProto {
         return this;
       }
       /**
+       * <pre>
+       * legacy; use suggestedReplacements
+       * </pre>
+       *
        * <code>repeated string suggestions = 5;</code>
        * @return This builder for chaining.
        */
@@ -4232,6 +4633,10 @@ public final class MLServerProto {
         return this;
       }
       /**
+       * <pre>
+       * legacy; use suggestedReplacements
+       * </pre>
+       *
        * <code>repeated string suggestions = 5;</code>
        * @param value The bytes of the suggestions to add.
        * @return This builder for chaining.
@@ -4535,6 +4940,457 @@ public final class MLServerProto {
         onChanged();
         return this;
       }
+
+      private java.lang.Object url_ = "";
+      /**
+       * <pre>
+       * to show a link, e.g. with further explanations for this error
+       * </pre>
+       *
+       * <code>string url = 9;</code>
+       * @return The url.
+       */
+      public java.lang.String getUrl() {
+        java.lang.Object ref = url_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          url_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * to show a link, e.g. with further explanations for this error
+       * </pre>
+       *
+       * <code>string url = 9;</code>
+       * @return The bytes for url.
+       */
+      public com.google.protobuf.ByteString
+          getUrlBytes() {
+        java.lang.Object ref = url_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          url_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * to show a link, e.g. with further explanations for this error
+       * </pre>
+       *
+       * <code>string url = 9;</code>
+       * @param value The url to set.
+       * @return This builder for chaining.
+       */
+      public Builder setUrl(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        url_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * to show a link, e.g. with further explanations for this error
+       * </pre>
+       *
+       * <code>string url = 9;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearUrl() {
+        
+        url_ = getDefaultInstance().getUrl();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * to show a link, e.g. with further explanations for this error
+       * </pre>
+       *
+       * <code>string url = 9;</code>
+       * @param value The bytes for url to set.
+       * @return This builder for chaining.
+       */
+      public Builder setUrlBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        url_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.util.List<org.languagetool.rules.ml.MLServerProto.SuggestedReplacement> suggestedReplacements_ =
+        java.util.Collections.emptyList();
+      private void ensureSuggestedReplacementsIsMutable() {
+        if (!((bitField0_ & 0x00000002) != 0)) {
+          suggestedReplacements_ = new java.util.ArrayList<org.languagetool.rules.ml.MLServerProto.SuggestedReplacement>(suggestedReplacements_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          org.languagetool.rules.ml.MLServerProto.SuggestedReplacement, org.languagetool.rules.ml.MLServerProto.SuggestedReplacement.Builder, org.languagetool.rules.ml.MLServerProto.SuggestedReplacementOrBuilder> suggestedReplacementsBuilder_;
+
+      /**
+       * <pre>
+       * new and extended suggestions; overwrite any values set in suggestions
+       * </pre>
+       *
+       * <code>repeated .lt_ml_server.SuggestedReplacement suggestedReplacements = 10;</code>
+       */
+      public java.util.List<org.languagetool.rules.ml.MLServerProto.SuggestedReplacement> getSuggestedReplacementsList() {
+        if (suggestedReplacementsBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(suggestedReplacements_);
+        } else {
+          return suggestedReplacementsBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <pre>
+       * new and extended suggestions; overwrite any values set in suggestions
+       * </pre>
+       *
+       * <code>repeated .lt_ml_server.SuggestedReplacement suggestedReplacements = 10;</code>
+       */
+      public int getSuggestedReplacementsCount() {
+        if (suggestedReplacementsBuilder_ == null) {
+          return suggestedReplacements_.size();
+        } else {
+          return suggestedReplacementsBuilder_.getCount();
+        }
+      }
+      /**
+       * <pre>
+       * new and extended suggestions; overwrite any values set in suggestions
+       * </pre>
+       *
+       * <code>repeated .lt_ml_server.SuggestedReplacement suggestedReplacements = 10;</code>
+       */
+      public org.languagetool.rules.ml.MLServerProto.SuggestedReplacement getSuggestedReplacements(int index) {
+        if (suggestedReplacementsBuilder_ == null) {
+          return suggestedReplacements_.get(index);
+        } else {
+          return suggestedReplacementsBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <pre>
+       * new and extended suggestions; overwrite any values set in suggestions
+       * </pre>
+       *
+       * <code>repeated .lt_ml_server.SuggestedReplacement suggestedReplacements = 10;</code>
+       */
+      public Builder setSuggestedReplacements(
+          int index, org.languagetool.rules.ml.MLServerProto.SuggestedReplacement value) {
+        if (suggestedReplacementsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureSuggestedReplacementsIsMutable();
+          suggestedReplacements_.set(index, value);
+          onChanged();
+        } else {
+          suggestedReplacementsBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * new and extended suggestions; overwrite any values set in suggestions
+       * </pre>
+       *
+       * <code>repeated .lt_ml_server.SuggestedReplacement suggestedReplacements = 10;</code>
+       */
+      public Builder setSuggestedReplacements(
+          int index, org.languagetool.rules.ml.MLServerProto.SuggestedReplacement.Builder builderForValue) {
+        if (suggestedReplacementsBuilder_ == null) {
+          ensureSuggestedReplacementsIsMutable();
+          suggestedReplacements_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          suggestedReplacementsBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * new and extended suggestions; overwrite any values set in suggestions
+       * </pre>
+       *
+       * <code>repeated .lt_ml_server.SuggestedReplacement suggestedReplacements = 10;</code>
+       */
+      public Builder addSuggestedReplacements(org.languagetool.rules.ml.MLServerProto.SuggestedReplacement value) {
+        if (suggestedReplacementsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureSuggestedReplacementsIsMutable();
+          suggestedReplacements_.add(value);
+          onChanged();
+        } else {
+          suggestedReplacementsBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * new and extended suggestions; overwrite any values set in suggestions
+       * </pre>
+       *
+       * <code>repeated .lt_ml_server.SuggestedReplacement suggestedReplacements = 10;</code>
+       */
+      public Builder addSuggestedReplacements(
+          int index, org.languagetool.rules.ml.MLServerProto.SuggestedReplacement value) {
+        if (suggestedReplacementsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureSuggestedReplacementsIsMutable();
+          suggestedReplacements_.add(index, value);
+          onChanged();
+        } else {
+          suggestedReplacementsBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * new and extended suggestions; overwrite any values set in suggestions
+       * </pre>
+       *
+       * <code>repeated .lt_ml_server.SuggestedReplacement suggestedReplacements = 10;</code>
+       */
+      public Builder addSuggestedReplacements(
+          org.languagetool.rules.ml.MLServerProto.SuggestedReplacement.Builder builderForValue) {
+        if (suggestedReplacementsBuilder_ == null) {
+          ensureSuggestedReplacementsIsMutable();
+          suggestedReplacements_.add(builderForValue.build());
+          onChanged();
+        } else {
+          suggestedReplacementsBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * new and extended suggestions; overwrite any values set in suggestions
+       * </pre>
+       *
+       * <code>repeated .lt_ml_server.SuggestedReplacement suggestedReplacements = 10;</code>
+       */
+      public Builder addSuggestedReplacements(
+          int index, org.languagetool.rules.ml.MLServerProto.SuggestedReplacement.Builder builderForValue) {
+        if (suggestedReplacementsBuilder_ == null) {
+          ensureSuggestedReplacementsIsMutable();
+          suggestedReplacements_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          suggestedReplacementsBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * new and extended suggestions; overwrite any values set in suggestions
+       * </pre>
+       *
+       * <code>repeated .lt_ml_server.SuggestedReplacement suggestedReplacements = 10;</code>
+       */
+      public Builder addAllSuggestedReplacements(
+          java.lang.Iterable<? extends org.languagetool.rules.ml.MLServerProto.SuggestedReplacement> values) {
+        if (suggestedReplacementsBuilder_ == null) {
+          ensureSuggestedReplacementsIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, suggestedReplacements_);
+          onChanged();
+        } else {
+          suggestedReplacementsBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * new and extended suggestions; overwrite any values set in suggestions
+       * </pre>
+       *
+       * <code>repeated .lt_ml_server.SuggestedReplacement suggestedReplacements = 10;</code>
+       */
+      public Builder clearSuggestedReplacements() {
+        if (suggestedReplacementsBuilder_ == null) {
+          suggestedReplacements_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+          onChanged();
+        } else {
+          suggestedReplacementsBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * new and extended suggestions; overwrite any values set in suggestions
+       * </pre>
+       *
+       * <code>repeated .lt_ml_server.SuggestedReplacement suggestedReplacements = 10;</code>
+       */
+      public Builder removeSuggestedReplacements(int index) {
+        if (suggestedReplacementsBuilder_ == null) {
+          ensureSuggestedReplacementsIsMutable();
+          suggestedReplacements_.remove(index);
+          onChanged();
+        } else {
+          suggestedReplacementsBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * new and extended suggestions; overwrite any values set in suggestions
+       * </pre>
+       *
+       * <code>repeated .lt_ml_server.SuggestedReplacement suggestedReplacements = 10;</code>
+       */
+      public org.languagetool.rules.ml.MLServerProto.SuggestedReplacement.Builder getSuggestedReplacementsBuilder(
+          int index) {
+        return getSuggestedReplacementsFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <pre>
+       * new and extended suggestions; overwrite any values set in suggestions
+       * </pre>
+       *
+       * <code>repeated .lt_ml_server.SuggestedReplacement suggestedReplacements = 10;</code>
+       */
+      public org.languagetool.rules.ml.MLServerProto.SuggestedReplacementOrBuilder getSuggestedReplacementsOrBuilder(
+          int index) {
+        if (suggestedReplacementsBuilder_ == null) {
+          return suggestedReplacements_.get(index);  } else {
+          return suggestedReplacementsBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <pre>
+       * new and extended suggestions; overwrite any values set in suggestions
+       * </pre>
+       *
+       * <code>repeated .lt_ml_server.SuggestedReplacement suggestedReplacements = 10;</code>
+       */
+      public java.util.List<? extends org.languagetool.rules.ml.MLServerProto.SuggestedReplacementOrBuilder> 
+           getSuggestedReplacementsOrBuilderList() {
+        if (suggestedReplacementsBuilder_ != null) {
+          return suggestedReplacementsBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(suggestedReplacements_);
+        }
+      }
+      /**
+       * <pre>
+       * new and extended suggestions; overwrite any values set in suggestions
+       * </pre>
+       *
+       * <code>repeated .lt_ml_server.SuggestedReplacement suggestedReplacements = 10;</code>
+       */
+      public org.languagetool.rules.ml.MLServerProto.SuggestedReplacement.Builder addSuggestedReplacementsBuilder() {
+        return getSuggestedReplacementsFieldBuilder().addBuilder(
+            org.languagetool.rules.ml.MLServerProto.SuggestedReplacement.getDefaultInstance());
+      }
+      /**
+       * <pre>
+       * new and extended suggestions; overwrite any values set in suggestions
+       * </pre>
+       *
+       * <code>repeated .lt_ml_server.SuggestedReplacement suggestedReplacements = 10;</code>
+       */
+      public org.languagetool.rules.ml.MLServerProto.SuggestedReplacement.Builder addSuggestedReplacementsBuilder(
+          int index) {
+        return getSuggestedReplacementsFieldBuilder().addBuilder(
+            index, org.languagetool.rules.ml.MLServerProto.SuggestedReplacement.getDefaultInstance());
+      }
+      /**
+       * <pre>
+       * new and extended suggestions; overwrite any values set in suggestions
+       * </pre>
+       *
+       * <code>repeated .lt_ml_server.SuggestedReplacement suggestedReplacements = 10;</code>
+       */
+      public java.util.List<org.languagetool.rules.ml.MLServerProto.SuggestedReplacement.Builder> 
+           getSuggestedReplacementsBuilderList() {
+        return getSuggestedReplacementsFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          org.languagetool.rules.ml.MLServerProto.SuggestedReplacement, org.languagetool.rules.ml.MLServerProto.SuggestedReplacement.Builder, org.languagetool.rules.ml.MLServerProto.SuggestedReplacementOrBuilder> 
+          getSuggestedReplacementsFieldBuilder() {
+        if (suggestedReplacementsBuilder_ == null) {
+          suggestedReplacementsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              org.languagetool.rules.ml.MLServerProto.SuggestedReplacement, org.languagetool.rules.ml.MLServerProto.SuggestedReplacement.Builder, org.languagetool.rules.ml.MLServerProto.SuggestedReplacementOrBuilder>(
+                  suggestedReplacements_,
+                  ((bitField0_ & 0x00000002) != 0),
+                  getParentForChildren(),
+                  isClean());
+          suggestedReplacements_ = null;
+        }
+        return suggestedReplacementsBuilder_;
+      }
+
+      private boolean autoCorrect_ ;
+      /**
+       * <pre>
+       * is this correction eligible for auto-correction?
+       * </pre>
+       *
+       * <code>bool autoCorrect = 11;</code>
+       * @return The autoCorrect.
+       */
+      @java.lang.Override
+      public boolean getAutoCorrect() {
+        return autoCorrect_;
+      }
+      /**
+       * <pre>
+       * is this correction eligible for auto-correction?
+       * </pre>
+       *
+       * <code>bool autoCorrect = 11;</code>
+       * @param value The autoCorrect to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAutoCorrect(boolean value) {
+        
+        autoCorrect_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * is this correction eligible for auto-correction?
+       * </pre>
+       *
+       * <code>bool autoCorrect = 11;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearAutoCorrect() {
+        
+        autoCorrect_ = false;
+        onChanged();
+        return this;
+      }
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -4588,6 +5444,1002 @@ public final class MLServerProto {
 
   }
 
+  public interface SuggestedReplacementOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:lt_ml_server.SuggestedReplacement)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string replacement = 1;</code>
+     * @return The replacement.
+     */
+    java.lang.String getReplacement();
+    /**
+     * <code>string replacement = 1;</code>
+     * @return The bytes for replacement.
+     */
+    com.google.protobuf.ByteString
+        getReplacementBytes();
+
+    /**
+     * <code>string description = 2;</code>
+     * @return The description.
+     */
+    java.lang.String getDescription();
+    /**
+     * <code>string description = 2;</code>
+     * @return The bytes for description.
+     */
+    com.google.protobuf.ByteString
+        getDescriptionBytes();
+
+    /**
+     * <pre>
+     * Value shown in the UI after the replacement (but not part of it).
+     * </pre>
+     *
+     * <code>string suffix = 3;</code>
+     * @return The suffix.
+     */
+    java.lang.String getSuffix();
+    /**
+     * <pre>
+     * Value shown in the UI after the replacement (but not part of it).
+     * </pre>
+     *
+     * <code>string suffix = 3;</code>
+     * @return The bytes for suffix.
+     */
+    com.google.protobuf.ByteString
+        getSuffixBytes();
+
+    /**
+     * <pre>
+     * from 0 (lowest) to 1 (highest)
+     * </pre>
+     *
+     * <code>float confidence = 4;</code>
+     * @return The confidence.
+     */
+    float getConfidence();
+  }
+  /**
+   * Protobuf type {@code lt_ml_server.SuggestedReplacement}
+   */
+  public static final class SuggestedReplacement extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:lt_ml_server.SuggestedReplacement)
+      SuggestedReplacementOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use SuggestedReplacement.newBuilder() to construct.
+    private SuggestedReplacement(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private SuggestedReplacement() {
+      replacement_ = "";
+      description_ = "";
+      suffix_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new SuggestedReplacement();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private SuggestedReplacement(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              replacement_ = s;
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              description_ = s;
+              break;
+            }
+            case 26: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              suffix_ = s;
+              break;
+            }
+            case 37: {
+
+              confidence_ = input.readFloat();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return org.languagetool.rules.ml.MLServerProto.internal_static_lt_ml_server_SuggestedReplacement_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return org.languagetool.rules.ml.MLServerProto.internal_static_lt_ml_server_SuggestedReplacement_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              org.languagetool.rules.ml.MLServerProto.SuggestedReplacement.class, org.languagetool.rules.ml.MLServerProto.SuggestedReplacement.Builder.class);
+    }
+
+    public static final int REPLACEMENT_FIELD_NUMBER = 1;
+    private volatile java.lang.Object replacement_;
+    /**
+     * <code>string replacement = 1;</code>
+     * @return The replacement.
+     */
+    @java.lang.Override
+    public java.lang.String getReplacement() {
+      java.lang.Object ref = replacement_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        replacement_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string replacement = 1;</code>
+     * @return The bytes for replacement.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getReplacementBytes() {
+      java.lang.Object ref = replacement_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        replacement_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int DESCRIPTION_FIELD_NUMBER = 2;
+    private volatile java.lang.Object description_;
+    /**
+     * <code>string description = 2;</code>
+     * @return The description.
+     */
+    @java.lang.Override
+    public java.lang.String getDescription() {
+      java.lang.Object ref = description_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        description_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string description = 2;</code>
+     * @return The bytes for description.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getDescriptionBytes() {
+      java.lang.Object ref = description_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        description_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int SUFFIX_FIELD_NUMBER = 3;
+    private volatile java.lang.Object suffix_;
+    /**
+     * <pre>
+     * Value shown in the UI after the replacement (but not part of it).
+     * </pre>
+     *
+     * <code>string suffix = 3;</code>
+     * @return The suffix.
+     */
+    @java.lang.Override
+    public java.lang.String getSuffix() {
+      java.lang.Object ref = suffix_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        suffix_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * Value shown in the UI after the replacement (but not part of it).
+     * </pre>
+     *
+     * <code>string suffix = 3;</code>
+     * @return The bytes for suffix.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getSuffixBytes() {
+      java.lang.Object ref = suffix_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        suffix_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int CONFIDENCE_FIELD_NUMBER = 4;
+    private float confidence_;
+    /**
+     * <pre>
+     * from 0 (lowest) to 1 (highest)
+     * </pre>
+     *
+     * <code>float confidence = 4;</code>
+     * @return The confidence.
+     */
+    @java.lang.Override
+    public float getConfidence() {
+      return confidence_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getReplacementBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, replacement_);
+      }
+      if (!getDescriptionBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, description_);
+      }
+      if (!getSuffixBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, suffix_);
+      }
+      if (confidence_ != 0F) {
+        output.writeFloat(4, confidence_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getReplacementBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, replacement_);
+      }
+      if (!getDescriptionBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, description_);
+      }
+      if (!getSuffixBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, suffix_);
+      }
+      if (confidence_ != 0F) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(4, confidence_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof org.languagetool.rules.ml.MLServerProto.SuggestedReplacement)) {
+        return super.equals(obj);
+      }
+      org.languagetool.rules.ml.MLServerProto.SuggestedReplacement other = (org.languagetool.rules.ml.MLServerProto.SuggestedReplacement) obj;
+
+      if (!getReplacement()
+          .equals(other.getReplacement())) return false;
+      if (!getDescription()
+          .equals(other.getDescription())) return false;
+      if (!getSuffix()
+          .equals(other.getSuffix())) return false;
+      if (java.lang.Float.floatToIntBits(getConfidence())
+          != java.lang.Float.floatToIntBits(
+              other.getConfidence())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + REPLACEMENT_FIELD_NUMBER;
+      hash = (53 * hash) + getReplacement().hashCode();
+      hash = (37 * hash) + DESCRIPTION_FIELD_NUMBER;
+      hash = (53 * hash) + getDescription().hashCode();
+      hash = (37 * hash) + SUFFIX_FIELD_NUMBER;
+      hash = (53 * hash) + getSuffix().hashCode();
+      hash = (37 * hash) + CONFIDENCE_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getConfidence());
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static org.languagetool.rules.ml.MLServerProto.SuggestedReplacement parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.SuggestedReplacement parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.SuggestedReplacement parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.SuggestedReplacement parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.SuggestedReplacement parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.SuggestedReplacement parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.SuggestedReplacement parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.SuggestedReplacement parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.SuggestedReplacement parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.SuggestedReplacement parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.SuggestedReplacement parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static org.languagetool.rules.ml.MLServerProto.SuggestedReplacement parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(org.languagetool.rules.ml.MLServerProto.SuggestedReplacement prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code lt_ml_server.SuggestedReplacement}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:lt_ml_server.SuggestedReplacement)
+        org.languagetool.rules.ml.MLServerProto.SuggestedReplacementOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return org.languagetool.rules.ml.MLServerProto.internal_static_lt_ml_server_SuggestedReplacement_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return org.languagetool.rules.ml.MLServerProto.internal_static_lt_ml_server_SuggestedReplacement_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                org.languagetool.rules.ml.MLServerProto.SuggestedReplacement.class, org.languagetool.rules.ml.MLServerProto.SuggestedReplacement.Builder.class);
+      }
+
+      // Construct using org.languagetool.rules.ml.MLServerProto.SuggestedReplacement.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        replacement_ = "";
+
+        description_ = "";
+
+        suffix_ = "";
+
+        confidence_ = 0F;
+
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return org.languagetool.rules.ml.MLServerProto.internal_static_lt_ml_server_SuggestedReplacement_descriptor;
+      }
+
+      @java.lang.Override
+      public org.languagetool.rules.ml.MLServerProto.SuggestedReplacement getDefaultInstanceForType() {
+        return org.languagetool.rules.ml.MLServerProto.SuggestedReplacement.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public org.languagetool.rules.ml.MLServerProto.SuggestedReplacement build() {
+        org.languagetool.rules.ml.MLServerProto.SuggestedReplacement result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public org.languagetool.rules.ml.MLServerProto.SuggestedReplacement buildPartial() {
+        org.languagetool.rules.ml.MLServerProto.SuggestedReplacement result = new org.languagetool.rules.ml.MLServerProto.SuggestedReplacement(this);
+        result.replacement_ = replacement_;
+        result.description_ = description_;
+        result.suffix_ = suffix_;
+        result.confidence_ = confidence_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof org.languagetool.rules.ml.MLServerProto.SuggestedReplacement) {
+          return mergeFrom((org.languagetool.rules.ml.MLServerProto.SuggestedReplacement)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(org.languagetool.rules.ml.MLServerProto.SuggestedReplacement other) {
+        if (other == org.languagetool.rules.ml.MLServerProto.SuggestedReplacement.getDefaultInstance()) return this;
+        if (!other.getReplacement().isEmpty()) {
+          replacement_ = other.replacement_;
+          onChanged();
+        }
+        if (!other.getDescription().isEmpty()) {
+          description_ = other.description_;
+          onChanged();
+        }
+        if (!other.getSuffix().isEmpty()) {
+          suffix_ = other.suffix_;
+          onChanged();
+        }
+        if (other.getConfidence() != 0F) {
+          setConfidence(other.getConfidence());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        org.languagetool.rules.ml.MLServerProto.SuggestedReplacement parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (org.languagetool.rules.ml.MLServerProto.SuggestedReplacement) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object replacement_ = "";
+      /**
+       * <code>string replacement = 1;</code>
+       * @return The replacement.
+       */
+      public java.lang.String getReplacement() {
+        java.lang.Object ref = replacement_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          replacement_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string replacement = 1;</code>
+       * @return The bytes for replacement.
+       */
+      public com.google.protobuf.ByteString
+          getReplacementBytes() {
+        java.lang.Object ref = replacement_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          replacement_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string replacement = 1;</code>
+       * @param value The replacement to set.
+       * @return This builder for chaining.
+       */
+      public Builder setReplacement(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        replacement_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string replacement = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearReplacement() {
+        
+        replacement_ = getDefaultInstance().getReplacement();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string replacement = 1;</code>
+       * @param value The bytes for replacement to set.
+       * @return This builder for chaining.
+       */
+      public Builder setReplacementBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        replacement_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object description_ = "";
+      /**
+       * <code>string description = 2;</code>
+       * @return The description.
+       */
+      public java.lang.String getDescription() {
+        java.lang.Object ref = description_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          description_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string description = 2;</code>
+       * @return The bytes for description.
+       */
+      public com.google.protobuf.ByteString
+          getDescriptionBytes() {
+        java.lang.Object ref = description_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          description_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string description = 2;</code>
+       * @param value The description to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDescription(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        description_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string description = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearDescription() {
+        
+        description_ = getDefaultInstance().getDescription();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string description = 2;</code>
+       * @param value The bytes for description to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDescriptionBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        description_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object suffix_ = "";
+      /**
+       * <pre>
+       * Value shown in the UI after the replacement (but not part of it).
+       * </pre>
+       *
+       * <code>string suffix = 3;</code>
+       * @return The suffix.
+       */
+      public java.lang.String getSuffix() {
+        java.lang.Object ref = suffix_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          suffix_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * Value shown in the UI after the replacement (but not part of it).
+       * </pre>
+       *
+       * <code>string suffix = 3;</code>
+       * @return The bytes for suffix.
+       */
+      public com.google.protobuf.ByteString
+          getSuffixBytes() {
+        java.lang.Object ref = suffix_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          suffix_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * Value shown in the UI after the replacement (but not part of it).
+       * </pre>
+       *
+       * <code>string suffix = 3;</code>
+       * @param value The suffix to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSuffix(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        suffix_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Value shown in the UI after the replacement (but not part of it).
+       * </pre>
+       *
+       * <code>string suffix = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSuffix() {
+        
+        suffix_ = getDefaultInstance().getSuffix();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Value shown in the UI after the replacement (but not part of it).
+       * </pre>
+       *
+       * <code>string suffix = 3;</code>
+       * @param value The bytes for suffix to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSuffixBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        suffix_ = value;
+        onChanged();
+        return this;
+      }
+
+      private float confidence_ ;
+      /**
+       * <pre>
+       * from 0 (lowest) to 1 (highest)
+       * </pre>
+       *
+       * <code>float confidence = 4;</code>
+       * @return The confidence.
+       */
+      @java.lang.Override
+      public float getConfidence() {
+        return confidence_;
+      }
+      /**
+       * <pre>
+       * from 0 (lowest) to 1 (highest)
+       * </pre>
+       *
+       * <code>float confidence = 4;</code>
+       * @param value The confidence to set.
+       * @return This builder for chaining.
+       */
+      public Builder setConfidence(float value) {
+        
+        confidence_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * from 0 (lowest) to 1 (highest)
+       * </pre>
+       *
+       * <code>float confidence = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearConfidence() {
+        
+        confidence_ = 0F;
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:lt_ml_server.SuggestedReplacement)
+    }
+
+    // @@protoc_insertion_point(class_scope:lt_ml_server.SuggestedReplacement)
+    private static final org.languagetool.rules.ml.MLServerProto.SuggestedReplacement DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new org.languagetool.rules.ml.MLServerProto.SuggestedReplacement();
+    }
+
+    public static org.languagetool.rules.ml.MLServerProto.SuggestedReplacement getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<SuggestedReplacement>
+        PARSER = new com.google.protobuf.AbstractParser<SuggestedReplacement>() {
+      @java.lang.Override
+      public SuggestedReplacement parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new SuggestedReplacement(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<SuggestedReplacement> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<SuggestedReplacement> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public org.languagetool.rules.ml.MLServerProto.SuggestedReplacement getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_lt_ml_server_MatchRequest_descriptor;
   private static final 
@@ -4608,6 +6460,11 @@ public final class MLServerProto {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_lt_ml_server_Match_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_lt_ml_server_SuggestedReplacement_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_lt_ml_server_SuggestedReplacement_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -4622,15 +6479,20 @@ public final class MLServerProto {
       "ng\030\002 \001(\010\022\025\n\rtextSessionID\030\003 \003(\003\"A\n\rMatch" +
       "Response\0220\n\017sentenceMatches\030\001 \003(\0132\027.lt_m" +
       "l_server.MatchList\"1\n\tMatchList\022$\n\007match" +
-      "es\030\001 \003(\0132\023.lt_ml_server.Match\"\252\001\n\005Match\022" +
+      "es\030\001 \003(\0132\023.lt_ml_server.Match\"\217\002\n\005Match\022" +
       "\016\n\006offset\030\001 \001(\r\022\016\n\006length\030\002 \001(\r\022\n\n\002id\030\003 " +
       "\001(\t\022\016\n\006sub_id\030\004 \001(\t\022\023\n\013suggestions\030\005 \003(\t" +
       "\022\027\n\017ruleDescription\030\006 \001(\t\022\030\n\020matchDescri" +
       "ption\030\007 \001(\t\022\035\n\025matchShortDescription\030\010 \001" +
-      "(\t2N\n\010MLServer\022B\n\005Match\022\032.lt_ml_server.M" +
-      "atchRequest\032\033.lt_ml_server.MatchResponse" +
-      "\"\000B*\n\031org.languagetool.rules.mlB\rMLServe" +
-      "rProtob\006proto3"
+      "(\t\022\013\n\003url\030\t \001(\t\022A\n\025suggestedReplacements" +
+      "\030\n \003(\0132\".lt_ml_server.SuggestedReplaceme" +
+      "nt\022\023\n\013autoCorrect\030\013 \001(\010\"d\n\024SuggestedRepl" +
+      "acement\022\023\n\013replacement\030\001 \001(\t\022\023\n\013descript" +
+      "ion\030\002 \001(\t\022\016\n\006suffix\030\003 \001(\t\022\022\n\nconfidence\030" +
+      "\004 \001(\0022N\n\010MLServer\022B\n\005Match\022\032.lt_ml_serve" +
+      "r.MatchRequest\032\033.lt_ml_server.MatchRespo" +
+      "nse\"\000B*\n\031org.languagetool.rules.mlB\rMLSe" +
+      "rverProtob\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -4659,7 +6521,13 @@ public final class MLServerProto {
     internal_static_lt_ml_server_Match_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_lt_ml_server_Match_descriptor,
-        new java.lang.String[] { "Offset", "Length", "Id", "SubId", "Suggestions", "RuleDescription", "MatchDescription", "MatchShortDescription", });
+        new java.lang.String[] { "Offset", "Length", "Id", "SubId", "Suggestions", "RuleDescription", "MatchDescription", "MatchShortDescription", "Url", "SuggestedReplacements", "AutoCorrect", });
+    internal_static_lt_ml_server_SuggestedReplacement_descriptor =
+      getDescriptor().getMessageTypes().get(4);
+    internal_static_lt_ml_server_SuggestedReplacement_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_lt_ml_server_SuggestedReplacement_descriptor,
+        new java.lang.String[] { "Replacement", "Description", "Suffix", "Confidence", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

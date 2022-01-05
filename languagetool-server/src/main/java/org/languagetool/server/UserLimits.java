@@ -60,6 +60,10 @@ class UserLimits {
     }
   }
 
+  /**
+   * @deprecated Use #getLimitsFromToken() instead
+   */
+  @Deprecated
   static UserLimits getLimitsFromUserAccount(HTTPServerConfig config, @NotNull String username, @NotNull String password) {
     UserInfoEntry entry = DatabaseAccess.getInstance().getUserInfoWithPassword(username, password);
     if (entry == null) { // transparent fallback to anonymous user if DB down

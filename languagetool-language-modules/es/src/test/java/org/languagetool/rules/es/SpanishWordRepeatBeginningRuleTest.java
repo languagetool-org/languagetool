@@ -35,6 +35,7 @@ public class SpanishWordRepeatBeginningRuleTest {
   public void testRule() throws IOException {
     JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("es"));
     lt.enableRule("SPANISH_WORD_REPEAT_BEGINNING_RULE"); // even if it is temp_off
+    lt.disableRule("ES_REPEATEDWORDS");
 
     // ================== correct sentences ===================
     // two successive sentences that start with the same non-adverb word.

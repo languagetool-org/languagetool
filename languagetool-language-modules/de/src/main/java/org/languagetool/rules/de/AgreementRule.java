@@ -51,6 +51,7 @@ import static org.languagetool.tools.StringTools.startsWithUppercase;
  * <ul>
  *  <li>DET/PRO NOUN: e.g. "mein Auto", "der Mann", "die Frau" (correct), "die Haus" (incorrect)</li>
  *  <li>DET/PRO ADJ NOUN: e.g. "der riesige Tisch" (correct), "die riesigen Tisch" (incorrect)</li>
+ *  <li>DET/PRO ADJ ADJ NOUN: e.g. "der große riesige Tisch" (correct), "die große riesige Tisch" (incorrect)</li>
  * </ul>
  *
  * Note that this rule only checks agreement inside the noun phrase, not whether
@@ -67,7 +68,6 @@ public class AgreementRule extends Rule {
   private final Supplier<List<DisambiguationPatternRule>> antiPatterns;
 
   private JLanguageTool lt;
-  private boolean returnSuggestions = true;
 
   enum GrammarCategory {
     KASUS("Kasus (Fall: Wer/Was, Wessen, Wem, Wen/Was - Beispiel: 'das Fahrrads' statt 'des Fahrrads')"),
@@ -93,14 +93,37 @@ public class AgreementRule extends Rule {
   private static final String SHORT_MSG = "Evtl. keine Übereinstimmung von Kasus, Numerus oder Genus";
 
   private static final Set<String> MODIFIERS = new HashSet<>(Arrays.asList(
-      "besonders",
-      "fast",
-      "ganz",
-      "geradezu",
-      "sehr",
-      "überaus",
-      "ziemlich"
-    ));
+    "absolut",
+    "ausgesprochen",
+    "außergewöhnlich",
+    "außerordentlich",
+    "äußerst",
+    "besonders",
+    "dringend",
+    "echt",
+    "einigermaßen",
+    "enorm",
+    "extrem",
+    "fast",
+    "ganz",
+    "geradezu",
+    "halbwegs",
+    "höchst",
+    "komplett",
+    "laufend",
+    "recht",
+    "relativ",
+    "sehr",
+    "total",
+    "überaus",
+    "ungewöhnlich",
+    "unglaublich",
+    //"viel",    // "xxx, die viel Platz..."
+    "völlig",
+    "weit",
+    "wirklich",
+    "ziemlich"
+  ));
 
   private static final Set<String> VIELE_WENIGE_LOWERCASE = new HashSet<>(Arrays.asList(
     "jegliche",
@@ -124,6 +147,9 @@ public class AgreementRule extends Rule {
   private static final String[] REL_PRONOUN_LEMMAS = {"der", "welch"};
 
   private static final Set<String> PRONOUNS_TO_BE_IGNORED = new HashSet<>(Arrays.asList(
+    "nichts",
+    "alles",   // "Ruhe vor dem alles verheerenden Sturm", "Alles Große und Edle ist einfacher Art."
+    "dies",
     "ich",
     "dir",
     "dich",
@@ -131,6 +157,7 @@ public class AgreementRule extends Rule {
     "d",
     "er", "sie", "es",
     "wir",
+    "mich",
     "mir",
     "uns",
     "ihnen",
@@ -154,10 +181,12 @@ public class AgreementRule extends Rule {
     "etwas",
     "irgendetwas",
     "irgendwas",
+    "irgendwer",
     "was",
     "wer",
     "jenen",      // "...und mit jenen anderer Arbeitsgruppen verwoben"
     "diejenigen",
+    "irgendjemand", "irgendjemandes",
     "jemand", "jemandes",
     "niemand", "niemandes"
   ));
@@ -170,11 +199,15 @@ public class AgreementRule extends Rule {
     "Piepen", // Die Piepen
     "Badlands",
     "Visual", // englisch
+    "Special", // englisch
+    "Multiple", // englisch
     "Chief", // Chief Executive Officer
     "Carina", // Name
     "Wüstenrot", // Name
+    "Impflicht", // found by speller
     "Rückgrad", // found by speller
     "Rückgrads", // found by speller
+    "Aalen", // Plural form of "Aal" but also large city in Germany
     "Meter", // Das Meter (Objekt zum Messen)
     "Boots", // "Die neuen Boots" (englisch Stiefel)
     "Taxameter", // Beides erlaubt "Das" und "Die"
@@ -229,10 +262,6 @@ public class AgreementRule extends Rule {
     return map;
   }
 
-  void disableSuggestions() {
-    returnSuggestions = false;
-  }
-  
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
@@ -240,42 +269,37 @@ public class AgreementRule extends Rule {
     AnalyzedTokenReadings[] origTokens = Arrays.copyOf(tokens, tokens.length);
     Map<Integer, ReplacementType> replMap = replacePrepositionsByArticle(tokens);
     for (int i = 0; i < tokens.length; i++) {
-      //defaulting to the first reading
-      //TODO: check for all readings
-      String posToken = tokens[i].getAnalyzedToken(0).getPOSTag();
+      String posToken = tokens[i].getAnalyzedToken(0).getPOSTag();  //TODO: check for all readings?
       if (JLanguageTool.SENTENCE_START_TAGNAME.equals(posToken) || tokens[i].isImmunized() || origTokens[i].isImmunized()) {
         continue;
       }
-
-      AnalyzedTokenReadings tokenReadings = tokens[i];
-      boolean relevantPronoun = isRelevantPronoun(tokens, i);
-
-      boolean ignore = couldBeRelativeOrDependentClause(tokens, i);
+      if (couldBeRelativeOrDependentClause(tokens, i)) {
+        continue;
+      }
       if (i > 0) {
         String prevToken = tokens[i-1].getToken().toLowerCase();
         if (StringUtils.equalsAny(tokens[i].getToken(), "eine", "einen")
             && StringUtils.equalsAny(prevToken, "der", "die", "das", "des", "dieses")) {
           // TODO: "der eine Polizist" -> nicht ignorieren, sondern "der polizist" checken; "auf der einen Seite"
-          ignore = true;
+          continue;
         }
       }
-
       // avoid false alarm on "nichts Gutes" and "alles Gute"
-      if (StringUtils.equalsAny(tokenReadings.getToken(), "nichts", "Nichts", "alles", "Alles", "dies", "Dies")) {
-        ignore = true;
-      }
-
+      AnalyzedTokenReadings tokenReadings = tokens[i];
       // avoid false alarm on "Art. 1" and "bisherigen Art. 1" (Art. = Artikel):
       boolean detAbbrev = i < tokens.length-2 && tokens[i+1].getToken().equals("Art") && tokens[i+2].getToken().equals(".");
       boolean detAdjAbbrev = i < tokens.length-3 && tokens[i+2].getToken().equals("Art") && tokens[i+3].getToken().equals(".");
       // "einen Hochwasser führenden Fluss", "die Gott zugeschriebenen Eigenschaften":
       boolean followingParticiple = i < tokens.length-3 && (tokens[i+2].hasPartialPosTag("PA1") || tokens[i+2].getToken().matches("zugeschriebenen?|genannten?"));
       if (detAbbrev || detAdjAbbrev || followingParticiple) {
-        ignore = true;
+        continue;
       }
-
-      if ((hasReadingOfType(tokenReadings, POSType.DETERMINER) || relevantPronoun) && !ignore) {
+      if (hasReadingOfType(tokenReadings, POSType.DETERMINER) || isRelevantPronoun(tokens, i)) {
         int tokenPosAfterModifier = getPosAfterModifier(i+1, tokens);
+        String skippedStr = null;
+        if (tokenPosAfterModifier > i+1) {
+          skippedStr = sentence.getText().substring(tokens[i+1].getStartPos(), tokens[tokenPosAfterModifier-1].getEndPos());
+        }
         int tokenPos = tokenPosAfterModifier;
         if (tokenPos >= tokens.length) {
           break;
@@ -301,7 +325,7 @@ public class AgreementRule extends Rule {
             }
             boolean allowSuggestion = tokenPos == i + 2;  // prevent incomplete suggestion for e.g. "einen 142 Meter hoher Obelisken" (-> "einen hohen Obelisken")
             RuleMatch ruleMatch = checkDetAdjNounAgreement(maybePreposition, tokens[i],
-                nextToken, tokens[tokenPos], sentence, i, allowSuggestion ? replMap : null);
+                nextToken, tokens[tokenPos], sentence, i, allowSuggestion ? replMap : null, skippedStr);
             if (ruleMatch != null) {
               ruleMatches.add(ruleMatch);
             }
@@ -331,12 +355,12 @@ public class AgreementRule extends Rule {
    * @return index of first non-modifier token
    */
   private int getPosAfterModifier(int startAt, AnalyzedTokenReadings[] tokens) {
-    if ((startAt + 1) < tokens.length && MODIFIERS.contains(tokens[startAt].getToken())) {
+    if (startAt + 1 < tokens.length && MODIFIERS.contains(tokens[startAt].getToken())) {
       startAt++;
     }
-    if ((startAt + 1) < tokens.length && (StringUtils.isNumeric(tokens[startAt].getToken()) || tokens[startAt].hasPosTag("ZAL"))) {
+    if (startAt + 1 < tokens.length && (StringUtils.isNumeric(tokens[startAt].getToken()) || tokens[startAt].hasPosTag("ZAL"))) {
       int posAfterModifier = startAt + 1;
-      if ((startAt + 3) < tokens.length && ",".equals(tokens[startAt+1].getToken()) && StringUtils.isNumeric(tokens[startAt+2].getToken())) {
+      if (startAt + 3 < tokens.length && ",".equals(tokens[startAt+1].getToken()) && StringUtils.isNumeric(tokens[startAt+2].getToken())) {
         posAfterModifier = startAt + 3;
       }
       if (StringUtils.endsWithAny(tokens[posAfterModifier].getToken(), "gramm", "Gramm", "Meter", "meter")) {
@@ -431,22 +455,15 @@ public class AgreementRule extends Rule {
       List<String> errorCategories = getCategoriesCausingError(token1, token2);
       String errorDetails = errorCategories.isEmpty() ?
             "Kasus, Genus oder Numerus" : String.join(" und ", errorCategories);
-      String msg = "Möglicherweise fehlende grammatische Übereinstimmung " +
-            "des " + errorDetails + ".";
+      String msg = "Möglicherweise fehlende grammatische Übereinstimmung des " + errorDetails + ".";
       String shortMsg = "Evtl. keine Übereinstimmung von Kasus, Genus oder Numerus";
       ruleMatch = new RuleMatch(this, sentence, token1.getStartPos(),
               token2.getEndPos(), msg, shortMsg);
-      /*try {
-        // this will not give a match for compounds that are not in the dictionary...
-        ruleMatch.setUrl(new URL("https://www.korrekturen.de/flexion/deklination/" + token2.getToken() + "/"));
-      } catch (MalformedURLException e) {
-        throw new RuntimeException(e);
-      }*/
-      if (returnSuggestions) {
-        AgreementSuggestor2 suggestor = new AgreementSuggestor2(language.getSynthesizer(), token1, token2, replMap.get(tokenPos));
-        suggestor.setPreposition(maybePreposition);
-        ruleMatch.setSuggestedReplacements(suggestor.getSuggestions(true));
-      }
+      // this will not give a match for compounds that are not in the dictionary...
+      //ruleMatch.setUrl(Tools.getUrl("https://www.korrekturen.de/flexion/deklination/" + token2.getToken() + "/"));
+      AgreementSuggestor2 suggestor = new AgreementSuggestor2(language.getSynthesizer(), token1, token2, replMap.get(tokenPos));
+      suggestor.setPreposition(maybePreposition);
+      ruleMatch.setSuggestedReplacements(suggestor.getSuggestions(true));
     }
     return ruleMatch;
   }
@@ -462,7 +479,7 @@ public class AgreementRule extends Rule {
         String testPhrase = origToken1 + " " + potentialCompound;
         String hyphenPotentialCompound = token2.getToken() + "-" + nextToken.getToken();
         String hyphenTestPhrase = origToken1 + " " + hyphenPotentialCompound;
-        return getRuleMatch(token1, sentence, nextToken, testPhrase, hyphenTestPhrase);
+        return getRuleMatch(token1, nextToken, sentence, testPhrase, hyphenTestPhrase);
       }
     }
     return null;
@@ -480,7 +497,7 @@ public class AgreementRule extends Rule {
         String testPhrase = origToken1 + " " + token2.getToken() + " " + potentialCompound;
         String hyphenPotentialCompound = token3.getToken() + "-" + nextToken.getToken();
         String hyphenTestPhrase = origToken1 + " " + token2.getToken() + " " + hyphenPotentialCompound;
-        return getRuleMatch(token1, sentence, nextToken, testPhrase, hyphenTestPhrase);
+        return getRuleMatch(token1, nextToken, sentence, testPhrase, hyphenTestPhrase);
       }
     }
     return null;
@@ -498,29 +515,29 @@ public class AgreementRule extends Rule {
         String testPhrase = origToken1 + " " + token2.getToken() + " " + token3.getToken() + " " + potentialCompound;
         String hyphenPotentialCompound = token4.getToken() + "-" + nextToken.getToken();
         String hyphenTestPhrase = origToken1 + " " + token2.getToken() + " " + token3.getToken() + " " + hyphenPotentialCompound;
-        return getRuleMatch(token1, sentence, nextToken, testPhrase, hyphenTestPhrase);
+        return getRuleMatch(token1, nextToken, sentence, testPhrase, hyphenTestPhrase);
       }
     }
     return null;
   }
 
   @Nullable
-  private RuleMatch getRuleMatch(AnalyzedTokenReadings token1, AnalyzedSentence sentence, AnalyzedTokenReadings nextToken, String testPhrase, String hyphenTestPhrase) {
+  private RuleMatch getRuleMatch(AnalyzedTokenReadings token, AnalyzedTokenReadings token2, AnalyzedSentence sentence, String testPhrase, String hyphenTestPhrase) {
     try {
       initLt();
-      if (nextToken.getReadings().stream().allMatch(k -> k.getPOSTag() != null && !k.getPOSTag().startsWith("SUB"))) {
+      if (token2.getReadings().stream().allMatch(k -> k.getPOSTag() != null && !k.getPOSTag().startsWith("SUB"))) {
         return null;
       }
       List<String> replacements = new ArrayList<>();
-      if (lt.check(testPhrase).isEmpty() && nextToken.isTagged()) {
+      if (lt.check(testPhrase).isEmpty() && token2.isTagged()) {
         replacements.add(testPhrase);
       }
-      if (lt.check(hyphenTestPhrase).isEmpty() && nextToken.isTagged()) {
+      if (lt.check(hyphenTestPhrase).isEmpty() && token2.isTagged()) {
         replacements.add(hyphenTestPhrase);
       }
       if (replacements.size() > 0) {
         String message = "Wenn es sich um ein zusammengesetztes Nomen handelt, wird es zusammengeschrieben.";
-        RuleMatch ruleMatch = new RuleMatch(this, sentence, token1.getStartPos(), nextToken.getEndPos(), message);
+        RuleMatch ruleMatch = new RuleMatch(this, sentence, token.getStartPos(), token2.getEndPos(), message);
         ruleMatch.addSuggestedReplacements(replacements);
         ruleMatch.setUrl(Tools.getUrl("https://dict.leo.org/grammatik/deutsch/Rechtschreibung/Regeln/Getrennt-zusammen/Nomen.html#grammarAnchor-Nomen-49575"));
         return ruleMatch;
@@ -546,7 +563,7 @@ public class AgreementRule extends Rule {
     return "allen".equals(token1.getToken()) && "Grund".equals(token2.getToken());
   }
 
-  private List<String> getCategoriesCausingError(AnalyzedTokenReadings token1, AnalyzedTokenReadings token2) {
+  List<String> getCategoriesCausingError(AnalyzedTokenReadings token1, AnalyzedTokenReadings token2) {
     List<String> categories = new ArrayList<>();
     List<GrammarCategory> categoriesToCheck = Arrays.asList(GrammarCategory.KASUS, GrammarCategory.GENUS, GrammarCategory.NUMERUS);
     for (GrammarCategory category : categoriesToCheck) {
@@ -558,7 +575,8 @@ public class AgreementRule extends Rule {
   }
 
   private RuleMatch checkDetAdjNounAgreement(AnalyzedTokenReadings maybePreposition, AnalyzedTokenReadings token1,
-                                             AnalyzedTokenReadings token2, AnalyzedTokenReadings token3, AnalyzedSentence sentence, int tokenPos, Map<Integer, ReplacementType> replMap) {
+                                             AnalyzedTokenReadings token2, AnalyzedTokenReadings token3, AnalyzedSentence sentence,
+                                             int tokenPos, Map<Integer, ReplacementType> replMap, String skippedStr) {
     // TODO: remove (token3 == null || token3.getToken().length() < 2)
     // see Daniel's comment from 20.12.2016 at https://github.com/languagetool-org/languagetool/issues/635
     if (token3 == null || token3.getToken().length() < 2) {
@@ -591,16 +609,14 @@ public class AgreementRule extends Rule {
         return null;
       }
       ruleMatch = new RuleMatch(this, sentence, token1.getStartPos(), token3.getEndPos(), MSG, SHORT_MSG);
-      if (returnSuggestions && replMap != null) {
-        AgreementSuggestor2 suggestor = new AgreementSuggestor2(language.getSynthesizer(), token1, token2, token3, replMap.get(tokenPos));
-        suggestor.setPreposition(maybePreposition);
-        ruleMatch.setSuggestedReplacements(suggestor.getSuggestions(true));
-      }
+      AgreementSuggestor2 suggestor = new AgreementSuggestor2(language.getSynthesizer(), token1, token2, token3, replMap != null ? replMap.get(tokenPos) : null);
+      suggestor.setPreposition(maybePreposition);
+      suggestor.setSkipped(skippedStr);
+      ruleMatch.setSuggestedReplacements(suggestor.getSuggestions(true));
     }
     return ruleMatch;
   }
 
-  // TODO: partially duplicates checkDetAdjNounAgreement
   private RuleMatch checkDetAdjAdjNounAgreement(AnalyzedTokenReadings maybePreposition, AnalyzedTokenReadings token1,
                                              AnalyzedTokenReadings token2, AnalyzedTokenReadings token3, AnalyzedTokenReadings token4,
                                              AnalyzedSentence sentence, int tokenPos, Map<Integer, ReplacementType> replMap) {
@@ -615,7 +631,7 @@ public class AgreementRule extends Rule {
         return null;
       }
       ruleMatch = new RuleMatch(this, sentence, token1.getStartPos(), token4.getEndPos(), MSG2, SHORT_MSG);
-      if (returnSuggestions && replMap != null) {
+      if (replMap != null) {
         AgreementSuggestor2 suggestor = new AgreementSuggestor2(language.getSynthesizer(), token1, token2, token3, token4, replMap.get(tokenPos));
         suggestor.setPreposition(maybePreposition);
         ruleMatch.setSuggestedReplacements(suggestor.getSuggestions(true));
@@ -642,8 +658,8 @@ public class AgreementRule extends Rule {
   private Set<String> retainCommonCategories(AnalyzedTokenReadings token1,
                                              AnalyzedTokenReadings token2, AnalyzedTokenReadings token3) {
     Set<GrammarCategory> categoryToRelaxSet = Collections.emptySet();
-    Set<String> set1 = AgreementTools.getAgreementCategories(token1, categoryToRelaxSet, true);
     boolean skipSol = !VIELE_WENIGE_LOWERCASE.contains(token1.getToken().toLowerCase());
+    Set<String> set1 = AgreementTools.getAgreementCategories(token1, categoryToRelaxSet, skipSol);
     Set<String> set2 = AgreementTools.getAgreementCategories(token2, categoryToRelaxSet, skipSol);
     Set<String> set3 = AgreementTools.getAgreementCategories(token3, categoryToRelaxSet, true);
     set1.retainAll(set2);
@@ -655,8 +671,8 @@ public class AgreementRule extends Rule {
   private Set<String> retainCommonCategories(AnalyzedTokenReadings token1,
                                              AnalyzedTokenReadings token2, AnalyzedTokenReadings token3, AnalyzedTokenReadings token4) {
     Set<GrammarCategory> categoryToRelaxSet = Collections.emptySet();
-    Set<String> set1 = AgreementTools.getAgreementCategories(token1, categoryToRelaxSet, true);
     boolean skipSol = !VIELE_WENIGE_LOWERCASE.contains(token1.getToken().toLowerCase());
+    Set<String> set1 = AgreementTools.getAgreementCategories(token1, categoryToRelaxSet, skipSol);
     Set<String> set2 = AgreementTools.getAgreementCategories(token2, categoryToRelaxSet, skipSol);
     Set<String> set3 = AgreementTools.getAgreementCategories(token3, categoryToRelaxSet, skipSol);
     Set<String> set4 = AgreementTools.getAgreementCategories(token4, categoryToRelaxSet, true);

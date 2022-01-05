@@ -180,7 +180,6 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     assertEquals(0, rule.match(lt.getAnalyzedSentence("A web-feature-driven-car software.")).length);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("A web-feature-drivenx-car software.")).length);
 
-    assertAllMatches(lt, rule, "timezones", "timezone", "time zones");
     assertAllMatches(lt, rule, "robinson", "Robinson", "robin son", "robins on", "Robson", "Robeson", "robins", "Roberson");
   }
 
@@ -378,6 +377,18 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
         System.out.println("  getErrorLimitLang: " + match.getErrorLimitLang());
       }
     }
+  }
+
+  @Test
+  public void testGetOnlySuggestions() throws IOException {
+    assertThat(rule.getOnlySuggestions("cemetary").size(), is(1));
+    assertThat(rule.getOnlySuggestions("cemetary").get(0).getReplacement(), is("cemetery"));
+    assertThat(rule.getOnlySuggestions("Cemetary").size(), is(1));
+    assertThat(rule.getOnlySuggestions("Cemetary").get(0).getReplacement(), is("Cemetery"));
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("cemetary"));
+    assertThat(matches.length, is(1));
+    assertThat(matches[0].getSuggestedReplacements().size(), is(1));
+    assertThat(matches[0].getSuggestedReplacements().get(0), is("cemetery"));
   }
 
   private void assertSuggestion(String input, String... expectedSuggestions) throws IOException {

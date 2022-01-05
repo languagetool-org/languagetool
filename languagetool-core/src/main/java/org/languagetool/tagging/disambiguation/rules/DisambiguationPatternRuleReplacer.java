@@ -77,9 +77,8 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
   private boolean keepByDisambig(AnalyzedSentence sentence, int ruleMatchFromPos, int ruleMatchToPos) throws IOException {
     List<DisambiguationPatternRule> antiPatterns = rule.getAntiPatterns();
     for (DisambiguationPatternRule antiPattern : antiPatterns) {
-      PatternRule disambigRule = new PatternRule("fake-disambig-id", rule.getLanguage(), antiPattern.getPatternTokens(), "desc", "msg", "short");
-      RuleMatch[] matches = disambigRule.match(sentence);
-      if (matches != null) {
+      if (!antiPattern.canBeIgnoredFor(sentence)) {
+        RuleMatch[] matches = new PatternRuleMatcher(antiPattern, false).match(sentence);
         for (RuleMatch disMatch : matches) {
           if ((disMatch.getFromPos() <= ruleMatchFromPos && disMatch.getToPos() >= ruleMatchFromPos) ||  // left overlap of rule match start
               (disMatch.getFromPos() <= ruleMatchToPos && disMatch.getToPos() >= ruleMatchToPos) ||  // right overlap of rule match end

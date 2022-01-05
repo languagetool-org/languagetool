@@ -192,6 +192,7 @@ public class English extends Language implements AutoCloseable {
         new ConsistentApostrophesRule(messages),
         new EnglishSpecificCaseRule(messages),
         new EnglishUnpairedBracketsRule(messages, this),
+        new EnglishUnpairedQuotesRule(messages, this),
         new EnglishWordRepeatRule(messages, this),
         new AvsAnRule(messages),
         new EnglishWordRepeatBeginningRule(messages, this),
@@ -306,7 +307,6 @@ public class English extends Language implements AutoCloseable {
   protected int getPriorityForId(String id) {
     switch (id) {
       case "I_E":                       return 10;  // needs higher prio than EN_COMPOUNDS ("i.e learning")
-      case "EN_DIACRITICS_REPLACE":     return 9;   // prefer over spell checker (like PHRASE_REPETITION)
       case "CHILDISH_LANGUAGE":         return 8;   // prefer over spell checker
       case "RUDE_SARCASTIC":            return 6;   // prefer over spell checker
       case "FOR_NOUN_SAKE":             return 6;   // prefer over PROFANITY (e.g. "for fuck sake")
@@ -318,6 +318,10 @@ public class English extends Language implements AutoCloseable {
       case "DOS_AND_DONTS":             return 3;
       case "EN_COMPOUNDS":              return 2;
       case "ABBREVIATION_PUNCTUATION":  return 2;
+      case "ON_THE_LOOK_OUT":           return 1;   // higher prio than VERB_NOUN_CONFUSION
+      case "APOSTROPHE_IN_DAYS":        return 1;   // higher prio than A_NNS
+      case "PICTURE_PERFECT_HYPHEN":    return 1;   // higher prio than some agreement rules
+      case "SAVE_SAFE":                 return 1;   // higher prio than agreement rules
       case "FEDEX":                     return 2;   // higher prio than many verb rules (e.g. MD_BASEFORM)
       case "DROP_DEAD_HYPHEN":          return 1;   // higher prio than agreement rules (e.g. I_AM_VB)
       case "HEAR_HERE":                 return 1;   // higher prio than agreement rules (e.g. I_AM_VB)
@@ -330,10 +334,12 @@ public class English extends Language implements AutoCloseable {
       case "CAUSE_COURSE":              return 1;   // higher prio than CAUSE_BECAUSE
       case "AN_AND":                    return 1;   // higher prio than A_MY and DT_PRP
       case "HER_S":                     return 1;   // higher prio than THEIR_S
+      case "ONE_TO_MANY_HYPHEN":        return 1;   // higher prio than TO_TOO
       case "COVID_19":                  return 1;
       case "OTHER_WISE_COMPOUND":       return 1;
       case "ON_EXCEL":                  return 1;
       case "ALL_NN":                    return 1;   // higher prio than MASS_AGREEMENT
+      case "SHOW_COMPOUNDS":            return 1;   // higher prio than agreement rules
       case "PRP_AREA":                  return 1;   // higher prio than you/your confusion rules
       case "IF_VB_PCT":                 return 1;   // higher prio than IF_VB
       case "CAUSE_BECAUSE":             return 1;   // higher prio than MISSING_TO_BETWEEN_BE_AND_VB
@@ -409,7 +415,7 @@ public class English extends Language implements AutoCloseable {
       case "IT_IF":                     return 1;   // needs higher prio than PRP_COMMA and IF_YOU_ANY
       case "FINE_TUNE_COMPOUNDS":       return 1;   // prefer over less specific rules
       case "WHAT_IS_YOU":               return 1;   // prefer over HOW_DO_I_VB, NON3PRS_VERB
-      case "SUPPOSE_TO":                return 1;   // prefer over HOW_DO_I_VB and I_AM_VB
+      case "SUPPOSE_TO":                return 1;   // prefer over HOW_DO_I_VB and I_AM_VB and ARE_WE_HAVE
       case "CONFUSION_GONG_GOING":      return 1;   // prefer over I_AM_VB
       case "SEEN_SEEM":                 return 1;   // prefer over PRP_PAST_PART
       case "PROFANITY":                 return 1;   // prefer over spell checker (less prio than EN_COMPOUNDS)
@@ -420,6 +426,9 @@ public class English extends Language implements AutoCloseable {
       case "WANNA":                     return 1;   // prefer over spell checker
       case "LOOK_FORWARD_TO":           return 1;   // prefer over LOOK_FORWARD_NOT_FOLLOWED_BY_TO
       case "LOOK_SLIKE":                return 1;   // higher prio than prem:SINGULAR_NOUN_VERB_AGREEMENT
+      case "A3FT":                      return 1;   // higher prio than NUMBERS_IN_WORDS
+      case "EN_DIACRITICS_REPLACE":     return -1;   // prefer over spell checker
+      case "MISSING_COMMA_BETWEEN_DAY_AND_YEAR":     return -1;   // less priority than DATE_WEEKDAY
       case "FASTLY":                    return -1;   // higher prio than spell checker
       case "ANYWAYS":                   return -1;   // higher prio than spell checker
       case "MISSING_GENITIVE":          return -1;  // prefer over spell checker (like EN_SPECIFIC_CASE)
@@ -443,7 +452,6 @@ public class English extends Language implements AutoCloseable {
       case "BE_RB_BE":                  return -1;  // prefer other more specific rules
       case "IT_ITS":                    return -1;  // prefer other more specific rules
       case "ENGLISH_WORD_REPEAT_RULE":  return -1;  // prefer other more specific rules (e.g. IT_IT)
-      case "PRP_MD_NN":                 return -1;  // prefer other more specific rules (e.g. MD_ABLE, WONT_WANT)
       case "NON_ANTI_PRE_JJ":           return -1;  // prefer other more specific rules
       case "DT_JJ_NO_NOUN":             return -1;  // prefer other more specific rules (e.g. THIRD_PARTY)
       case "AGREEMENT_SENT_START":      return -1;  // prefer other more specific rules
@@ -466,6 +474,7 @@ public class English extends Language implements AutoCloseable {
       case "COMMA_COMPOUND_SENTENCE":   return -1;  // prefer other rules
       case "COMMA_COMPOUND_SENTENCE_2": return -1;  // prefer other rules
       case "REPEATED_VERBS":            return -1;  // prefer other rules
+      case "THE_CC":                    return -2;  // prefer other more specific rules (with suggestions)
       case "PRP_RB_NO_VB":              return -2;  // prefer other more specific rules (with suggestions)
       case "PRP_VBG":                   return -2;  // prefer other more specific rules (with suggestions, prefer over HE_VERB_AGR)
       case "PRP_VBZ":                   return -2;  // prefer other more specific rules (with suggestions)
@@ -492,7 +501,9 @@ public class English extends Language implements AutoCloseable {
       case "MORFOLOGIK_RULE_EN_ZA":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "MORFOLOGIK_RULE_EN_NZ":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "MORFOLOGIK_RULE_EN_AU":     return -10;  // more specific rules (e.g. L2 rules) have priority
+      case "PRP_MD_NN":                 return -12;  // prefer other more specific rules (e.g. MD_ABLE, WONT_WANT)
       case "TWO_CONNECTED_MODAL_VERBS": return -15;
+      case "PRP_VB_IMPROVE":            return -24;  // higher prio than PRP_VB but prefer other rules (with suggestions, e.g. confusion rules)
       case "WANT_TO_NN":                return -25;  // prefer more specific rules that give a suggestion
       case "QUESTION_WITHOUT_VERB":     return -25;  // prefer more specific rules that give a suggestion
       case "PRP_VB":                    return -25;  // prefer other rules (with suggestions, e.g. confusion rules)
@@ -513,6 +524,9 @@ public class English extends Language implements AutoCloseable {
     }
     if (id.startsWith("CONFUSION_RULE_")) {
       return -20;
+    }
+    if (id.startsWith("AI_SPELLING_RULE")) {
+      return -9; // higher than MORFOLOGIK_*, for testing
     }
     if (id.startsWith("AI_HYDRA_LEO")) { // prefer more specific rules (also speller)
       if (id.startsWith("AI_HYDRA_LEO_CP")) {
@@ -558,6 +572,18 @@ public class English extends Language implements AutoCloseable {
     // no description needed - matches based on automatically created rules with descriptions provided by remote server
     rules.addAll(GRPCRule.createAll(this, configs, inputLogging,
       "AI_EN_", "INTERNAL - dynamically loaded rule supported by remote server"));
+
+    if (getCountries().length == 1) {
+      // automatically load any existing AI spelling models for all variants
+      String country = getCountries()[0];
+      rules.addAll(GRPCRule.createAll(this, configs, inputLogging,
+        "AI_SPELLING_RULE_EN_" + country, "INTERNAL - dynamically loaded rule supported by remote server"));
+    }
     return rules;
   }
+  
+  public boolean hasMinMatchesRules() {
+    return true;
+  }
+
 }

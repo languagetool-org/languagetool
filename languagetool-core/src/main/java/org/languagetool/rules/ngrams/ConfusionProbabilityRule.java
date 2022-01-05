@@ -168,7 +168,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
               if (!suggestions.contains(betterAlternative.getString())) {
                 suggestions.add(betterAlternative.getString());
               }
-              if (pos > 0 && "_START_".equals(tokens.get(pos-1).token) && tokens.size() > pos+1 && tokens.get(pos+1).token != null && !tokens.get(pos+1).token.matches("\\w+")) {
+              if (pos > 0 && "_START_".equals(tokens.get(pos-1).token) && tokens.size() > pos+1 && tokens.get(pos+1).token != null && !isCommonWord(tokens.get(pos+1).token)) {
                 // Let's assume there is not enough data for this. The original problem was a false alarm for
                 // "Resolves:" (-> "Resolved:")
                 continue;
@@ -193,6 +193,10 @@ public abstract class ConfusionProbabilityRule extends Rule {
       pos++;
     }
     return matches.toArray(new RuleMatch[0]);
+  }
+
+  protected boolean isCommonWord(String token) {
+    return token.matches("\\w+");
   }
 
   private boolean isCoveredByAntiPattern(AnalyzedSentence sentence, GoogleToken googleToken) {

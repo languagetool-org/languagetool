@@ -67,8 +67,10 @@ public class UkrainianWordTokenizer implements Tokenizer {
   private static final String NON_BREAKING_PLACEHOLDER = "\uE109";
   private static final String BREAKING_PLACEHOLDER = "\uE110";
   private static final String NON_BREAKING_PLACEHOLDER2 = "\uE120";
+  // TODO: use \uE120 for most of non-breaking cases
 
   private static final Pattern WEIRD_APOSTROPH_PATTERN = Pattern.compile("([бвджзклмнпрстфхш])[\"\u201D\u201F]([єїюя])", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  public static final Pattern WORDS_WITH_BRACKETS_PATTERN = Pattern.compile("([а-яіїєґ])\\[([а-яіїєґ]+)\\]", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
   // decimal comma between digits
   private static final Pattern DECIMAL_COMMA_PATTERN = Pattern.compile("([\\d]),([\\d])", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
@@ -143,7 +145,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
   private static final Pattern ABBR_DOT_NON_ENDING_PATTERN = Pattern.compile("(?<![а-яіїєґА-ЯІЇЄҐ'\u0301-])(абз|австрал|амер|англ|акад(ем)?|арк|ауд|бл(?:изьк)?|буд|в(?!\\.+)|вип|вірм|грец(?:ьк)"
       + "|держ|див|діал|дод|дол|досл|доц|доп|екон|ел|жін|зав|заст|зах|зб|зв|зневажл?|зовн|ім|івр|ісп|іст|італ"
       + "|к|каб|каф|канд|кв|[1-9]-кімн|кімн|кл|кн|коеф|латин|мал|моб|н|[Нн]апр|нац|образн|оп|оф|п|пен|перекл|перен|пл|пол|пов|пор|поч|пп|прибл|прикм|прим|присл|пров|пром|просп"
-      + "|[Рр]ед|[Рр]еж|розд|розм|рт|рум|с|[Сс]вв?|скор|соц|співавт|ст|стор|сх|табл|тт|[тТ]ел|техн|укр|філол|фр|франц|ч|чайн|част|ц|яп)\\.(?!\\.+[\\h\\v]*$)");
+      + "|[Рр]ед|[Рр]еж|розд|розм|рт|рум|с|[Сс]вв?|скор|соц|співавт|ст|стор|сх|табл|тт|[тТ]ел|техн|укр|філол|фр|франц|худ|ч|чайн|част|ц|яп)\\.(?!\\.+[\\h\\v]*$)");
   private static final Pattern ABBR_DOT_NON_ENDING_PATTERN_2 = Pattern.compile("([^а-яіїєґА-ЯІЇЄҐ'-]м)\\.([\\h\\v]*[А-ЯІЇЄҐ])");
   // скорочення що можуть бути в кінці речення
   private static final Pattern ABBR_DOT_ENDING_PATTERN = Pattern.compile("([^а-яіїєґА-ЯІЇЄҐ'\u0301-]((та|й|і) ін|(та|й|і) под|інш|атм|відс|гр|е|коп|обл|р|рр|РР|руб|ст|стол|стор|чол|шт))\\.");
@@ -302,6 +304,9 @@ public class UkrainianWordTokenizer implements Tokenizer {
     
     text = COMPOUND_WITH_QUOTES1.matcher(text).replaceAll("$1$2\uE120$3\uE120$4\uE120");
     text = COMPOUND_WITH_QUOTES2.matcher(text).replaceAll("$1\uE120$2\uE120$3\uE120$4");
+    if( text.indexOf('[') != -1 ) {
+      text = WORDS_WITH_BRACKETS_PATTERN.matcher(text).replaceAll("$1\\[\uE120$2\\]\uE120");
+    }
     
     // if period is not the last character in the sentence
     int dotIndex = text.indexOf('.');

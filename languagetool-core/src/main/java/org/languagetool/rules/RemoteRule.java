@@ -21,20 +21,23 @@
 
 package org.languagetool.rules;
 
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import io.github.resilience4j.circuitbreaker.CircuitBreaker;
+import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.tools.CircuitBreakers;
+import org.languagetool.tools.LtThreadPoolFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -47,25 +50,14 @@ public abstract class RemoteRule extends Rule {
   
   private static final Logger logger = LoggerFactory.getLogger(RemoteRule.class);
 
-  /* needs to be shared between rule instances because new instances may be created and discarded often
-     needs to be a map because 'static' and inheritance don't play nice in Java */
-  private static final ConcurrentMap<String, Long> lastFailure = new ConcurrentHashMap<>();
-  private static final ConcurrentMap<String, Long> timeoutIntervalStart = new ConcurrentHashMap<>();
-  private static final ConcurrentMap<String, AtomicInteger> consecutiveFailures = new ConcurrentHashMap<>();
-  private static final ConcurrentMap<String, AtomicLong> timeoutTotal = new ConcurrentHashMap<>();
-  private static final ConcurrentMap<String, ConcurrentLinkedQueue<Future>> runningTasks = new ConcurrentHashMap<>();
-  private static final ThreadFactory threadFactory = new ThreadFactoryBuilder()
-    .setNameFormat("remote-rule-pool-%d").setDaemon(true).build();
-
   protected static final List<Runnable> shutdownRoutines = new LinkedList<>();
-
-  // needed to run callables with timeout
-  static final ExecutorService executor = Executors.newCachedThreadPool(threadFactory);
+  protected static final ConcurrentMap<String, CircuitBreaker> circuitBreakers = new ConcurrentHashMap<>();
 
   protected final RemoteRuleConfig serviceConfiguration;
   protected final boolean inputLogging;
   protected final boolean filterMatches;
   protected final boolean fixOffsets;
+  protected final boolean whitespaceNormalisation; // implemented only in GRPCRule for now
   protected final Language ruleLanguage;
   protected final JLanguageTool lt;
   protected final Pattern suppressMisspelledMatch;
@@ -81,6 +73,7 @@ public abstract class RemoteRule extends Rule {
       ruleId = getId();
     }
     filterMatches = Boolean.parseBoolean(serviceConfiguration.getOptions().getOrDefault("filterMatches", "false"));
+    whitespaceNormalisation = Boolean.parseBoolean(serviceConfiguration.getOptions().getOrDefault("whitespaceNormalisation", "true"));
     fixOffsets = Boolean.parseBoolean(serviceConfiguration.getOptions().getOrDefault("fixOffsets", "true"));
     try {
       if (serviceConfiguration.getOptions().containsKey("suppressMisspelledMatch")) {
@@ -100,11 +93,6 @@ public abstract class RemoteRule extends Rule {
     } catch(PatternSyntaxException e) {
       throw new IllegalArgumentException("suppressMisspelledSuggestions must be a valid regex", e);
     }
-    lastFailure.putIfAbsent(ruleId, 0L);
-    timeoutIntervalStart.putIfAbsent(ruleId, 0L);
-    timeoutTotal.putIfAbsent(ruleId, new AtomicLong());
-    consecutiveFailures.putIfAbsent(ruleId, new AtomicInteger());
-    runningTasks.putIfAbsent(ruleId, new ConcurrentLinkedQueue<>());
   }
 
   public RemoteRule(Language language, ResourceBundle messages, RemoteRuleConfig config, boolean inputLogging) {
@@ -144,6 +132,27 @@ public abstract class RemoteRule extends Rule {
    */
   protected abstract RemoteRuleResult fallbackResults(RemoteRequest request);
 
+  protected CircuitBreaker createCircuitBreaker(String id) {
+    CircuitBreakerConfig.SlidingWindowType type;
+    RemoteRuleConfig c = serviceConfiguration;
+    try {
+      type = CircuitBreakerConfig.SlidingWindowType.valueOf(serviceConfiguration.getSlidingWindowType());
+    } catch (IllegalArgumentException e) {
+      type = CircuitBreakerConfig.SlidingWindowType.COUNT_BASED;
+      logger.warn("Couldn't parse slidingWindowType value '{}' for rule '{}', use one of {}; defaulting to '{}'", serviceConfiguration.getSlidingWindowType(), id, Arrays.asList(CircuitBreakerConfig.SlidingWindowType.values()), type);
+    }
+
+    CircuitBreakerConfig config = CircuitBreakerConfig
+      .custom()
+      .failureRateThreshold(c.getFailureRateThreshold())
+      .slidingWindow(
+        c.getSlidingWindowSize(), c.getMinimumNumberOfCalls(), type)
+      .waitDurationInOpenState(Duration.ofMillis(Math.max(1, c.getDownMilliseconds())))
+      .enableAutomaticTransitionFromOpenToHalfOpen()
+      .build();
+    return CircuitBreakers.registry().circuitBreaker("remote-rule-" + id, config);
+  }
+
   /**
    * @param sentences text to check
    * @param textSessionId ID for texts, should stay constant for a user session; used for A/B tests of experimental rules
@@ -153,127 +162,62 @@ public abstract class RemoteRule extends Rule {
     if (sentences.isEmpty()) {
       return new FutureTask<>(() -> new RemoteRuleResult(false, true, Collections.emptyList(), sentences));
     }
+    Map<String, String> context = MDC.getCopyOfContextMap();
     return new FutureTask<>(() -> {
-      long startTime = System.nanoTime();
+      MDC.clear();
+      if (context != null) {
+        MDC.setContextMap(context);
+      }
       long characters = sentences.stream().mapToInt(sentence -> sentence.getText().length()).sum();
-      String ruleId = getId();
+      long timeout = getTimeout(characters);
       RemoteRequest req = prepareRequest(sentences, textSessionId);
       RemoteRuleResult result;
 
-      if (consecutiveFailures.get(ruleId).get() >= serviceConfiguration.getFall()) {
-        long failureInterval = System.currentTimeMillis() - lastFailure.get(ruleId);
-        if (failureInterval < serviceConfiguration.getDownMilliseconds()) {
-          RemoteRuleMetrics.request(ruleId, 0, 0, characters, RemoteRuleMetrics.RequestResult.DOWN);
-          result = fallbackResults(req);
-          return result;
-        }
-      }
-      if (System.nanoTime() - timeoutIntervalStart.get(ruleId) >
-          TimeUnit.MILLISECONDS.toNanos(serviceConfiguration.getTimeoutLimitIntervalMilliseconds())) {
-        //System.out.printf("Resetting timeoutTotal; was %d%n", timeoutTotal.get(ruleId).intValue());
-        timeoutTotal.get(ruleId).set(0L);
-        timeoutIntervalStart.put(ruleId, System.nanoTime());
-      } else if (serviceConfiguration.getTimeoutLimitTotalMilliseconds() > 0L &&
-                 timeoutTotal.get(ruleId).get() > serviceConfiguration.getTimeoutLimitTotalMilliseconds()) {
-        //System.out.printf("Down because of timeoutTotal; was %d%n", timeoutTotal.get(ruleId).intValue());
-        RemoteRuleMetrics.request(ruleId, 0, 0, characters, RemoteRuleMetrics.RequestResult.DOWN);
-        result = fallbackResults(req);
-        return result;
-      }
-      RemoteRuleMetrics.up(ruleId, true);
+      result = executeRequest(req, timeout).call();
 
-      for (int i = 0; i <= serviceConfiguration.getMaxRetries(); i++) {
-        long timeout = serviceConfiguration.getBaseTimeoutMilliseconds() +
-          Math.round(characters * serviceConfiguration.getTimeoutPerCharacterMilliseconds());
-        Callable<RemoteRuleResult> task = executeRequest(req, timeout);
-        Future<RemoteRuleResult> future = null;
-        try {
-          future = executor.submit(task);
-          runningTasks.get(ruleId).add(future);
-          if (timeout <= 0)  { // for debugging, disable timeout
-            result = future.get();
-          } else {
-            result = future.get(timeout, TimeUnit.MILLISECONDS);
-          }
-          future.cancel(true);
-
-          if (result.isRemote()) { // don't reset failures if no remote call took place
-            consecutiveFailures.get(ruleId).set(0);
-            RemoteRuleMetrics.failures(ruleId, 0);
-          }
-
-          RemoteRuleMetrics.RequestResult requestResult = result.isRemote() ?
-            RemoteRuleMetrics.RequestResult.SUCCESS : RemoteRuleMetrics.RequestResult.SKIPPED;
-          RemoteRuleMetrics.request(ruleId, i, System.nanoTime() - startTime, characters, requestResult);
-
-          if (fixOffsets) {
-            for (AnalyzedSentence sentence : sentences) {
-              List<RuleMatch> toFix = result.matchesForSentence(sentence);
-              if (toFix != null) {
-                fixMatchOffsets(sentence, toFix);
-              }
-            }
-          }
-
-          if (filterMatches) {
-            List<RuleMatch> filteredMatches = new ArrayList<>();
-            for (AnalyzedSentence sentence : sentences) {
-              List<RuleMatch> sentenceMatches = result.matchesForSentence(sentence);
-              if (sentenceMatches != null) {
-                List<RuleMatch> filteredSentenceMatches = RemoteRuleFilters.filterMatches(
-                  ruleLanguage, sentence, sentenceMatches);
-                filteredMatches.addAll(filteredSentenceMatches);
-              }
-            }
-            result = new RemoteRuleResult(result.isRemote(), result.isSuccess(), filteredMatches, sentences);
-          }
-
-          List<RuleMatch> filteredMatches = new ArrayList<>();
-          for (AnalyzedSentence sentence : sentences) {
-              List<RuleMatch> sentenceMatches = result.matchesForSentence(sentence);
-              if (sentenceMatches != null) {
-                List<RuleMatch> filteredSentenceMatches = suppressMisspelled(sentenceMatches);
-                filteredMatches.addAll(filteredSentenceMatches);
-              }
-          }
-          result = new RemoteRuleResult(result.isRemote(), result.isSuccess(), filteredMatches, sentences);
-
-          return result;
-        } catch (Exception e) {
-          RemoteRuleMetrics.RequestResult status;
-          if (e instanceof TimeoutException || e instanceof InterruptedException || e instanceof CancellationException ||
-            (e.getCause() != null && e.getCause() instanceof TimeoutException)) {
-            status = RemoteRuleMetrics.RequestResult.TIMEOUT;
-            logger.warn("Timed out while fetching results for remote rule " + ruleId + ", tried " + (i + 1) + " times, timeout: " + timeout + "ms" , e);
-            timeoutTotal.get(ruleId).addAndGet(timeout);
-          } else {
-            status = RemoteRuleMetrics.RequestResult.ERROR;
-            logger.error("Error while fetching results for remote rule " + ruleId + ", tried " + (i + 1) + " times, timeout: " + timeout + "ms" , e);
-          }
-
-          RemoteRuleMetrics.request(ruleId, i, System.nanoTime() - startTime, characters, status);
-        } finally {
-          if (future != null) {
-            future.cancel(true);
-            runningTasks.get(ruleId).remove(future);
+      if (fixOffsets) {
+        for (AnalyzedSentence sentence : sentences) {
+          List<RuleMatch> toFix = result.matchesForSentence(sentence);
+          if (toFix != null) {
+            fixMatchOffsets(sentence, toFix);
           }
         }
       }
-      RemoteRuleMetrics.failures(ruleId, consecutiveFailures.get(ruleId).incrementAndGet());
-      logger.warn("Fetching results for remote rule " + ruleId + " failed.");
-      if (consecutiveFailures.get(ruleId).get() >= serviceConfiguration.getFall() ||
-          serviceConfiguration.getTimeoutLimitTotalMilliseconds() > 0 &&
-          timeoutTotal.get(ruleId).get() > serviceConfiguration.getTimeoutLimitTotalMilliseconds()) {
-        lastFailure.put(ruleId, System.currentTimeMillis());
-        logger.warn("Remote rule " + ruleId + " marked as DOWN.");
-        RemoteRuleMetrics.downtime(ruleId, serviceConfiguration.getDownMilliseconds());
-        RemoteRuleMetrics.up(ruleId, false);
-        System.out.printf("Aborting %d tasks.%n", runningTasks.get(ruleId).size());
-        runningTasks.get(ruleId).forEach(task -> task.cancel(true));
+
+      if (filterMatches) {
+        List<RuleMatch> filteredMatches = new ArrayList<>();
+        for (AnalyzedSentence sentence : sentences) {
+          List<RuleMatch> sentenceMatches = result.matchesForSentence(sentence);
+          if (sentenceMatches != null) {
+            List<RuleMatch> filteredSentenceMatches = RemoteRuleFilters.filterMatches(
+              ruleLanguage, sentence, sentenceMatches);
+            filteredMatches.addAll(filteredSentenceMatches);
+          }
+        }
+        result = new RemoteRuleResult(result.isRemote(), result.isSuccess(), filteredMatches, sentences);
       }
-      result = fallbackResults(req);
+
+      List<RuleMatch> filteredMatches = new ArrayList<>();
+      for (AnalyzedSentence sentence : sentences) {
+        List<RuleMatch> sentenceMatches = result.matchesForSentence(sentence);
+        if (sentenceMatches != null) {
+          List<RuleMatch> filteredSentenceMatches = suppressMisspelled(sentenceMatches);
+          filteredMatches.addAll(filteredSentenceMatches);
+        }
+      }
+      result = new RemoteRuleResult(result.isRemote(), result.isSuccess(), filteredMatches, sentences);
       return result;
     });
+  }
+
+  public long getTimeout(long characters) {
+    long timeout = serviceConfiguration.getBaseTimeoutMilliseconds() +
+      Math.round(characters * serviceConfiguration.getTimeoutPerCharacterMilliseconds());
+    return timeout;
+  }
+
+  public CircuitBreaker circuitBreaker() {
+    return circuitBreakers.computeIfAbsent(getId(), this::createCircuitBreaker);
   }
 
   private List<RuleMatch> suppressMisspelled(List<RuleMatch> sentenceMatches) {
@@ -321,11 +265,18 @@ public abstract class RemoteRule extends Rule {
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     FutureTask<RemoteRuleResult> task = run(Collections.singletonList(sentence));
-    task.run();
+    Optional<ThreadPoolExecutor> executor = LtThreadPoolFactory.getFixedThreadPoolExecutor(LtThreadPoolFactory.REMOTE_RULE_EXECUTING_POOL);
     try {
-      return task.get().getMatches().toArray(RuleMatch.EMPTY_ARRAY);
-    } catch (InterruptedException | ExecutionException e) {
-      logger.warn("Fetching results for remote rule " + getId() + " failed.", e);
+      long timeout = getTimeout(sentence.getText().length());
+      if (executor.isPresent()) {
+        executor.get().submit(task);
+      } else {
+        task.run();
+      }
+      RemoteRuleResult result = task.get(timeout, TimeUnit.MILLISECONDS);
+      return result.getMatches().toArray(RuleMatch.EMPTY_ARRAY);
+    } catch (InterruptedException | ExecutionException | TimeoutException e) {
+      logger.info("Fetching results for remote rule " + getId() + " failed.", e);
       return RuleMatch.EMPTY_ARRAY;
     }
   }

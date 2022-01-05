@@ -121,7 +121,8 @@ public class French extends Language implements AutoCloseable {
             new QuestionWhitespaceStrictRule(messages, this),
             new QuestionWhitespaceRule(messages, this),
             new SimpleReplaceRule(messages),
-            new AnglicismReplaceRule(messages)
+            new AnglicismReplaceRule(messages),
+            new FrenchRepeatedWordsRule(messages)
     );
   }
 
@@ -247,10 +248,13 @@ public class French extends Language implements AutoCloseable {
       case "LEURS_LEUR": return 100; // greater than N_V
       case "DU_DU": return 100; // greater than DU_LE
       case "ACCORD_CHAQUE": return 100; // greater than ACCORD_NOMBRE
+      case "J_N2": return 100; // greater than J_N
       case "CEST_A_DIRE": return 100; // greater than A_A_ACCENT
       case "FAIRE_VPPA": return 100; // greater than A_ACCENT_A
       case "VIRGULE_EXPRESSIONS_FIGEES": return 100; // greater than agreement rules
       case "TRAIT_UNION": return 100; // greater than other rules for trait d'union
+      case "PLURIEL_AL2": return 100; // greater than other rules for pluriel al
+      case "FR_SPLIT_WORDS_HYPHEN": return 100; // greater than MOTS_INCOMP
       case "PAS_DE_TRAIT_UNION": return 50; //  // greater than agreement rules
       case "MOTS_INCOMP": return 50; // greater than PRONSUJ_NONVERBE and DUPLICATE_DETERMINER
       case "PRIME-TIME": return 50; //  // greater than agreement rules
@@ -265,6 +269,8 @@ public class French extends Language implements AutoCloseable {
       case "ESPACE_UNITES": return 10; // needs to have higher priority than spell checker
       case "BYTES": return 10; // needs to be higher than spell checker for 10MB style matches
       case "Y_A": return 10; // needs to be higher than spell checker for style suggestion
+      case "COTE": return 10; // needs to be higher than D_N
+      case "PEUTETRE": return 10; // needs to be higher than AUX_ETRE_VCONJ
       case "A_A_ACCENT": return 10; // triggers false alarms for IL_FAUT_INF if there is no a/à correction 
       case "A_ACCENT_A": return 10; // greater than PRONSUJ_NONVERBE
       case "JE_M_APPEL": return 10;  // override NON_V
@@ -274,24 +280,36 @@ public class French extends Language implements AutoCloseable {
       //case "ACCORD_COULEUR": return 1; // needs to have higher priority than agreement postponed adj
       case "R_VAVOIR_VINF": return 10; // needs higher priority than A_INFINITIF
       case "AN_EN": return 10; // needs higher priority than AN_ANNEE
+      case "SE_CE": return -10; // needs higher priority than ELISION
+      case "SYNONYMS": return -10; // less than ELISION
       case "PAS_DE_SOUCIS": return 10; // needs higher priority than PAS_DE_PB_SOUCIS (premium)
       //case "PRONSUJ_NONVERBE": return 10; // needs higher priority than AUXILIAIRE_MANQUANT
       //case "AUXILIAIRE_MANQUANT": return 5; // needs higher priority than ACCORD_NOM_VERBE
       case "CONFUSION_PAR_PART": return -5;  // turn off completely when PART_OU_PAR is activated
       case "SONT_SON": return -5; // less than ETRE_VPPA_OU_ADJ
       case "FR_SIMPLE_REPLACE": return -10;
-      case "TE_NV": return -10; // less than SE_CE, SE_SA and SE_SES
+      case "TE_NV": return -20; // less than SE_CE, SE_SA and SE_SES
+      case "SYNONYMES": return -20; // less than grammar rules
+      case "TE_NV2": return -10; // less than SE_CE, SE_SA and SE_SES
       case "PLURIEL_AL": return -10; // less than AGREEMENT_POSTPONED_ADJ
+      case "INTERROGATIVE_DIRECTE": return -10; // less than OU
+      case "D_J_N": return -10; // less than J_N
       case "IMP_PRON": return -10; // less than D_N
       case "TOO_LONG_PARAGRAPH": return -15;
       case "PREP_VERBECONJUGUE": return -20;
+      case "LA_LA2": return -20; // less than LA_LA
+      case "CROIRE": return -20; // less than JE_CROIS_QUE
       case "PAS_DE_VERBE_APRES_POSSESSIF_DEMONSTRATIF": return -20;
+      case "VIRGULE_VERBE": return -20; // less than grammar rules
       case "VERBES_FAMILIERS": return -25;  // less than PREP_VERBECONJUGUE + PAS_DE_VERBE_APRES_POSSESSIF_DEMONSTRATIF
       case "VERB_PRONOUN": return -50; // greater than FR_SPELLING_RULE; less than ACCORD_V_QUESTION
       case "IL_VERBE": return -50; // greater than FR_SPELLING_RULE
       case "ILS_VERBE": return -50; // greater than FR_SPELLING_RULE
       case "AGREEMENT_POSTPONED_ADJ": return -50;
       case "MULTI_ADJ": return -50;
+      case "POINTS_SUSPENSIONS_SPACE": return -50; // lesser than grammar rules
+      case "MOT_TRAIT_MOT": return -50; // lesser than grammar rules
+      case "ESSENTIEL": return -50; // lesser than grammar rules
       case "CONFUSION_RULE_PREMIUM": return -50; // lesser than PRONSUJ_NONVERBE
       case "FR_SPELLING_RULE": return -100;
       case "ET_SENT_START": return -151; // lower than grammalecte rules
@@ -306,6 +324,31 @@ public class French extends Language implements AutoCloseable {
       return -150;
     }
     return super.getPriorityForId(id);
+  }
+  
+  public boolean hasMinMatchesRules() {
+    return true;
+  }
+
+  @Override
+  public List<RuleMatch> adaptSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
+    if (enabledRules.contains("APOS_TYP")) {
+      List<RuleMatch> newRuleMatches = new ArrayList<>();
+      for (RuleMatch rm : ruleMatches) {
+        List<String> replacements = rm.getSuggestedReplacements();
+        List<String> newReplacements = new ArrayList<>();
+        for (String s : replacements) {
+          if (s.length() > 1) {
+            s = s.replace("'", "’");
+          }
+          newReplacements.add(s);
+        }
+        RuleMatch newMatch = new RuleMatch(rm, newReplacements);
+        newRuleMatches.add(newMatch);
+      }
+      return newRuleMatches;
+    }
+    return ruleMatches;
   }
 
 }

@@ -63,10 +63,10 @@ class LORemoteLanguageTool {
   private final List<Rule> allRules = new ArrayList<>();
   private final List<Rule> spellingRules = new ArrayList<>();
   private final List<String> ruleValues = new ArrayList<>();
+  private final Language language;
+  private final Language motherTongue;
+  private final RemoteLanguageTool remoteLanguageTool;
 
-  private Language language;
-  private Language motherTongue;
-  private RemoteLanguageTool remoteLanguageTool;
   private int maxTextLength;
   private boolean remoteRun;
   
@@ -135,7 +135,8 @@ class LORemoteLanguageTool {
         configBuilder.enabledRuleIds(enabledRules.toArray(new String[0]));
         configBuilder.disabledRuleIds(tmpDisabled.toArray(new String[0]));
         configBuilder.ruleValues(ruleValues);
-        configBuilder.mode("allButTextLevelOnly");
+        configBuilder.mode("all");
+//        configBuilder.mode("allButTextLevelOnly");
       } else if (checkMode == RemoteCheck.ONLY_SPELL) {
         Set<String> tmpEnabled = new HashSet<>();
         for (Rule rule : spellingRules) {
@@ -148,7 +149,8 @@ class LORemoteLanguageTool {
         configBuilder.mode("allButTextLevelOnly");
       }
     }
-    configBuilder.level("picky");
+    configBuilder.level("default");
+//    configBuilder.level("picky");
     CheckConfiguration remoteConfig = configBuilder.build();
     int limit;
     for (int nStart = 0; text.length() > nStart; nStart += limit) {
@@ -167,7 +169,7 @@ class LORemoteLanguageTool {
         subText = text.substring(nStart, nEnd);
         limit = nEnd;
       }
-      RemoteResult remoteResult = null;
+      RemoteResult remoteResult;
       try {
         remoteResult = remoteLanguageTool.check(subText, remoteConfig);
       } catch (Throwable t) {
@@ -292,8 +294,9 @@ class LORemoteLanguageTool {
     }
     if (matchRule == null) {
       MessageHandler.printToLogFile("WARNING: Rule \"" + remoteMatch.getRuleDescription() + "(ID: " 
-                                    + remoteMatch.getRuleId() + ")\" not supported by LO extension!");
-      return null;
+                                    + remoteMatch.getRuleId() + ")\" may be not supported by option panel!");
+      matchRule = new RemoteRule(remoteMatch);
+      allRules.add(matchRule);
     }
     RuleMatch ruleMatch = new RuleMatch(matchRule, null, remoteMatch.getErrorOffset() + nOffset, 
         remoteMatch.getErrorOffset() + remoteMatch.getErrorLength() + nOffset, remoteMatch.getMessage(), 
@@ -317,9 +320,7 @@ class LORemoteLanguageTool {
     }
     for (RemoteRuleMatch remoteMatch : remoteRulematches) {
       RuleMatch ruleMatch = toRuleMatch(remoteMatch, nOffset);
-      if (ruleMatch != null) {
-        ruleMatches.add(ruleMatch);
-      }
+      ruleMatches.add(ruleMatch);
     }
     return ruleMatches;
   }
@@ -370,11 +371,7 @@ class LORemoteLanguageTool {
       if (ruleMap.containsKey("isOfficeDefaultOff")) {
         setOfficeDefaultOff();
       }
-      if (ruleMap.containsKey("isDictionaryBasedSpellingRule")) {
-        isDictionaryBasedSpellingRule = true;
-      } else {
-        isDictionaryBasedSpellingRule = false;
-      }
+      isDictionaryBasedSpellingRule = ruleMap.containsKey("isDictionaryBasedSpellingRule");
       if (ruleMap.containsKey("hasConfigurableValue")) {
         hasConfigurableValue = true;
         defaultValue = Integer.parseInt(ruleMap.get("defaultValue"));
@@ -390,6 +387,26 @@ class LORemoteLanguageTool {
       }
       setCategory(new Category(new CategoryId(ruleMap.get("categoryId")), ruleMap.get("categoryName")));
       setLocQualityIssueType(ITSIssueType.getIssueType(ruleMap.get("locQualityIssueType")));
+    }
+
+    RemoteRule(RemoteRuleMatch remoteMatch) {
+      ruleId = remoteMatch.getRuleId();
+      description = remoteMatch.getRuleDescription();
+      isDictionaryBasedSpellingRule = false;
+      hasConfigurableValue = false;
+      defaultValue = 0;
+      minConfigurableValue = 0;
+      maxConfigurableValue = 100;
+      configureText = "";
+      String categoryId = remoteMatch.getCategoryId().orElse(null);
+      String categoryName = remoteMatch.getCategory().orElse(null);
+      if (categoryId != null && categoryName != null) {
+        setCategory(new Category(new CategoryId(categoryId), categoryName));
+      }
+      String locQualityIssueType = remoteMatch.getLocQualityIssueType().orElse(null);
+      if (locQualityIssueType != null) {
+        setLocQualityIssueType(ITSIssueType.getIssueType(locQualityIssueType));
+      }
     }
 
     @Override
@@ -433,7 +450,7 @@ class LORemoteLanguageTool {
     }
 
     @Override
-    public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+    public RuleMatch[] match(AnalyzedSentence sentence) {
       return null;
     }
     
@@ -466,11 +483,7 @@ class LORemoteLanguageTool {
       if (ruleMap.containsKey("isOfficeDefaultOff")) {
         setOfficeDefaultOff();
       }
-      if (ruleMap.containsKey("isDictionaryBasedSpellingRule")) {
-        isDictionaryBasedSpellingRule = true;
-      } else {
-        isDictionaryBasedSpellingRule = false;
-      }
+      isDictionaryBasedSpellingRule = ruleMap.containsKey("isDictionaryBasedSpellingRule");
       if (ruleMap.containsKey("hasConfigurableValue")) {
         hasConfigurableValue = true;
         defaultValue = Integer.parseInt(ruleMap.get("defaultValue"));
@@ -530,7 +543,7 @@ class LORemoteLanguageTool {
     }
 
     @Override
-    public RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException {
+    public RuleMatch[] match(List<AnalyzedSentence> sentences) {
       return null;
     }
 

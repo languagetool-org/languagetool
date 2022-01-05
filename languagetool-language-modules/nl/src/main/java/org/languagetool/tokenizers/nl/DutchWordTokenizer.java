@@ -35,7 +35,7 @@ public class DutchWordTokenizer extends WordTokenizer {
 
   public DutchWordTokenizer() {
     //remove the apostrophe etc. from the standard tokenizing characters:
-    String chars = super.getTokenizingCharacters();
+    String chars = super.getTokenizingCharacters() + "\u005f"; //underscore
     for (String quote : QUOTES) {
       chars = chars.replace(quote, "");
     }

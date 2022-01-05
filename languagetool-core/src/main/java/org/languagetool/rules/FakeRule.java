@@ -18,15 +18,33 @@
  */
 package org.languagetool.rules;
 
+import io.micrometer.core.instrument.Tags;
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.Tag;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class FakeRule extends Rule {
 
+  private String ruleId = "FAKE-RULE";
+
+  public FakeRule() {}
+
+  public FakeRule(String id) {
+    ruleId = id;
+  }
+
+  public FakeRule(String id, Tag tag) {
+    ruleId = id;
+    setTags(Arrays.asList(tag));
+  }
+
   @Override
   public String getId() {
-    return "FAKE-RULE";
+    return ruleId;
   }
 
   @Override

@@ -443,11 +443,20 @@ public class UkrainianWordTokenizerTest {
     testList = w.tokenize("Рис. 10");
     assertEquals(Arrays.asList("Рис.", " ", "10"), testList);
 
+    testList = w.tokenize("худ. фільм");
+    assertEquals(Arrays.asList("худ.", " ", "фільм"), testList);
+
     // not too frequent
 //    testList = w.tokenize("30.04.10р.");
 //    assertEquals(Arrays.asList("30.04.10", "р."), testList);
   }
 
+  @Test
+  public void testBrackets() {
+    // скорочення
+    List<String> testList = w.tokenize("д[окто]р[ом]");
+    assertEquals(Arrays.asList("д[окто]р[ом]"), testList);
+  }
 
   @Test
   public void testApostrophe() {

@@ -58,7 +58,47 @@ public class GermanSpellerRuleTest {
   //
   
   @Test
-  public void filterForLanguage() {
+  @Ignore("accepting words is not active (yet?)")
+  public void testArtig() throws IOException {
+    GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    accept("zigarrenartig", rule);
+    accept("zigarrenartige", rule);
+    accept("zigarrenartiger", rule);
+    accept("zigarrenartiges", rule);
+    accept("zigarrenartigen", rule);
+    accept("zigarrenartigem", rule);
+    accept("handlungsartig", rule);
+    dontAccept("zigarrenartigex", rule);
+    dontAccept("handlungartig", rule);
+    dontAccept("arbeitartig", rule);
+  }
+
+  private void accept(String word, GermanSpellerRule rule) throws IOException {
+    assertTrue(rule.ignoreWord(Collections.singletonList(word), 0));
+  }
+
+  private void dontAccept(String word, GermanSpellerRule rule) throws IOException {
+    assertFalse(rule.ignoreWord(Collections.singletonList(word), 0));
+  }
+
+  @Test
+  public void testGetOnlySuggestions() throws IOException {
+    GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    assertThat(rule.getOnlySuggestions("autentisch").size(), is(1));
+    assertThat(rule.getOnlySuggestions("autentisch").get(0).getReplacement(), is("authentisch"));
+    assertThat(rule.getOnlySuggestions("autentischeres").size(), is(1));
+    assertThat(rule.getOnlySuggestions("autentischeres").get(0).getReplacement(), is("authentischeres"));
+    assertThat(rule.getOnlySuggestions("Autentischere").size(), is(1));
+    assertThat(rule.getOnlySuggestions("Autentischere").get(0).getReplacement(), is("Authentischere"));
+    JLanguageTool lt = new JLanguageTool(GERMAN_DE);
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("Eine autentische Sache."));
+    assertThat(matches.length, is(1));
+    assertThat(matches[0].getSuggestedReplacements().size(), is(1));
+    assertThat(matches[0].getSuggestedReplacements().get(0), is("authentische"));
+  }
+
+  @Test
+  public void testFilterForLanguage() {
     GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     List<String> list1 = new ArrayList<>(Arrays.asList("Mafiosi s", "foo"));
     rule.filterForLanguage(list1);
@@ -106,6 +146,14 @@ public class GermanSpellerRuleTest {
     assertTrue(rule.isProhibited("Feuerwerksartigel")); // entry with ".*" at line start in prohibited.txt
     assertTrue(rule.isProhibited("Feuerwerksartigeln")); // entry with ".*" at line start in prohibited.txt
     assertTrue(rule.isProhibited("Feuerwerksartigels")); // entry with ".*" at line start in prohibited.txt
+  }
+
+  @Test
+  public void testFilterBadSuggestions() throws Exception {
+    GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    JLanguageTool lt = new JLanguageTool(GERMAN_DE);
+    assertNotSuggestion("nicht in euerer", "i neuerer", rule, lt);
+    assertNotSuggestion("Ich rauche ne Zigarette", "rauchen e", rule, lt);
   }
 
   @Test
@@ -505,7 +553,6 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("desinfektionierst", "desinfizierst", rule, lt);
     assertFirstSuggestion("Neuhichkeit", "Neuigkeit", rule, lt);
     assertFirstSuggestion("neuhichkeiten", "Neuigkeiten", rule, lt);
-    
   }
 
   @Test
@@ -541,6 +588,13 @@ public class GermanSpellerRuleTest {
     }
   }
 
+  private void assertNotSuggestion(String input, String notExpected, GermanSpellerRule rule, JLanguageTool lt) throws IOException {
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
+    for (RuleMatch match : matches) {
+      assertFalse("Found unexpected suggestion '" + notExpected + "' for input '" + input + "'", match.getSuggestedReplacements().contains(notExpected));
+    }
+  }
+
   @Test
   public void testDashAndHyphenEtc() throws Exception {
     HunspellRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
@@ -567,6 +621,7 @@ public class GermanSpellerRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Ist doch - gut")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Ist doch -- gut")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Stil- und Grammatikprüfung gut")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Oliven- und Mandelöl")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Stil-, Text- und Grammatikprüfung gut")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Er liebt die Stil-, Text- und Grammatikprüfung.")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Stil-, Text- und Grammatikprüfung")).length);
@@ -651,6 +706,7 @@ public class GermanSpellerRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("\uFEFFAblenkungsfreie Schreibumgebung")).length);
     
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Die blablaxx.mp3 und das sdifguds.avi bzw. die XYZXYZ.AVI")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Ausgestrahlt von 3sat")).length);
   }
 
   @Test
@@ -853,6 +909,10 @@ public class GermanSpellerRuleTest {
     // commas are actually not part of the word, so the suggestion doesn't include them:
     assertFirstSuggestion("informationnen,", "Informationen", rule, lt);
     assertFirstSuggestion("ALT-TARIF,", null, rule, lt);
+    assertNotSuggestion("Pseudo-Rebellentum", "Pseudo- Rebellentum", rule, lt);
+    assertNotSuggestion("Pseudo-Rebellentum", "Pseudo--Rebellentum", rule, lt);
+    assertNotSuggestion("Virtualisierungs-Layer", "Virtualisierungs--Layer", rule, lt);
+    assertNotSuggestion("Mediations-Background", "Mediation s-Background", rule, lt);
     assertFirstSuggestion("ALT-ÜBERSICHT,", null, rule, lt);
     assertFirstSuggestion("Sakralkultur,", null, rule, lt);
     assertFirstSuggestion("Auschwitzmythxs,", null, rule, lt);  // correction prevented by lcDoNotSuggestWords
@@ -866,7 +926,7 @@ public class GermanSpellerRuleTest {
     assertCorrectionsByOrder(rule, "heisst", "heißt");  // "heißt" should be first
     assertCorrectionsByOrder(rule, "heissen", "heißen");
     assertCorrectionsByOrder(rule, "müßte", "musste", "müsste");
-    assertCorrectionsByOrder(rule, "schmohren", "schmoren", "Lehmohren");
+    assertCorrectionsByOrder(rule, "schmohren", "schmoren");
     assertCorrectionsByOrder(rule, "Fänomen", "Phänomen");
     assertCorrectionsByOrder(rule, "homofob", "homophob");
     assertCorrectionsByOrder(rule, "ueber", "über");

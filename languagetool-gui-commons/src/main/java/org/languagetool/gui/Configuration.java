@@ -89,6 +89,7 @@ public class Configuration {
   private static final String ENABLED_RULES_ONLY_KEY = "enabledRulesOnly";
   private static final String LANGUAGE_KEY = "language";
   private static final String MOTHER_TONGUE_KEY = "motherTongue";
+  private static final String FIXED_LANGUAGE_KEY = "fixedLanguage";
   private static final String NGRAM_DIR_KEY = "ngramDir";
   private static final String WORD2VEC_DIR_KEY = "word2vecDir";
   private static final String AUTO_DETECT_KEY = "autoDetect";
@@ -123,6 +124,7 @@ public class Configuration {
   private static final String USE_LT_DICTIONARY_KEY = "UseLtDictionary";
   private static final String NO_SYNONYMS_AS_SUGGESTIONS_KEY = "noSynonymsAsSuggestions";
   private static final String SAVE_LO_CACHE_KEY = "saveLoCache";
+  private static final String LT_VERSION_KEY = "ltVersion";
 
   private static final String DELIMITER = ",";
   // find all comma followed by zero or more white space characters that are preceded by ":" AND a valid 6-digit hex code
@@ -166,6 +168,7 @@ public class Configuration {
   private boolean enabledRulesOnly = false;
   private Language language;
   private Language motherTongue = null;
+  private Language fixedLanguage = null;
   private File ngramDirectory;
   private File word2vecDirectory;
   private boolean runServer;
@@ -193,7 +196,10 @@ public class Configuration {
   private String currentProfile = null;
   private String otherServerUrl = null;
   private String logLevel = null;
+  private String ltVersion = null;
   private boolean switchOff = false;
+  private boolean isOffice = false;
+  private boolean isOpenOffice = false;
   
   /**
    * Uses the configuration file from the default location.
@@ -210,10 +216,10 @@ public class Configuration {
   }
 
   public Configuration(File baseDir, String filename, Language lang) throws IOException {
-    this(baseDir, filename, null, lang);
+    this(baseDir, filename, null, lang, false);
   }
 
-  public Configuration(File baseDir, String filename, File oldConfigFile, Language lang) throws IOException {
+  public Configuration(File baseDir, String filename, File oldConfigFile, Language lang, boolean isOffice) throws IOException {
     // already fails silently if file doesn't exist in loadConfiguration, don't fail here either
     // can cause problem when starting LanguageTool server as a user without a home directory because of default arguments
     //if (baseDir == null || !baseDir.isDirectory()) {
@@ -221,6 +227,8 @@ public class Configuration {
     //}
     initOptions();
     this.lang = lang;
+    this.isOffice = isOffice;
+    this.isOpenOffice = isOffice && filename.contains("ooo");
     configFile = new File(baseDir, filename);
     this.oldConfigFile = oldConfigFile;
     setAllProfileKeys();
@@ -300,6 +308,7 @@ public class Configuration {
     this.language = configuration.language;
     this.lang = configuration.lang;
     this.motherTongue = configuration.motherTongue;
+    this.fixedLanguage = configuration.fixedLanguage;
     this.ngramDirectory = configuration.ngramDirectory;
     this.word2vecDirectory = configuration.word2vecDirectory;
     this.runServer = configuration.runServer;
@@ -327,6 +336,9 @@ public class Configuration {
     this.saveLoCache = configuration.saveLoCache;
     this.otherServerUrl = configuration.otherServerUrl;
     this.logLevel = configuration.logLevel;
+    this.isOffice = configuration.isOffice;
+    this.isOpenOffice = configuration.isOpenOffice;
+    this.ltVersion = configuration.ltVersion;
     
     this.disabledRuleIds.clear();
     this.disabledRuleIds.addAll(configuration.disabledRuleIds);
@@ -376,6 +388,10 @@ public class Configuration {
     for (Entry<String, String> entry : configuration.configForOtherProfiles.entrySet()) {
       this.configForOtherProfiles.put(entry.getKey(), entry.getValue());
     }
+  }
+
+  public void setConfigFile(File configFile) {
+    this.configFile = configFile;
   }
 
   public Set<String> getDisabledRuleIds() {
@@ -441,11 +457,19 @@ public class Configuration {
     this.motherTongue = motherTongue;
   }
 
+  public Language getFixedLanguage() {
+    return fixedLanguage;
+  }
+
+  public void setFixedLanguage(Language fixedLanguage) {
+    this.fixedLanguage = fixedLanguage;
+  }
+
   public Language getDefaultLanguage() {
     if (useDocLanguage) {
       return null;
     }
-    return motherTongue;
+    return fixedLanguage;
   }
 
   public void setUseDocLanguage(boolean useDocLang) {
@@ -1064,12 +1088,12 @@ public class Configuration {
   }
 
   /**
-   * if true: LT is switched Off, else: LT is switched On
-   * @since 4.4
+   * only single paragraph mode can be used (for OO and old LO
+   * @since 5.6
    */
-//  public boolean isSwitchedOff() {
-//    return switchOff;
-//  }
+  public boolean onlySingleParagraphMode() {
+    return isOpenOffice;
+  }
 
   /**
    * Set LT is switched Off or On
@@ -1120,6 +1144,15 @@ public class Configuration {
       }
       definedProfiles.addAll(getListFromProperties(props, DEFINED_PROFILES_KEY));
       
+      ltVersion = (String) props.get(LT_VERSION_KEY);
+      
+      if (ltVersion != null) {
+        String motherTongueStr = (String) props.get(MOTHER_TONGUE_KEY);
+        if (motherTongueStr != null && !motherTongueStr.equals("xx")) {
+          motherTongue = Languages.getLanguageForShortCode(motherTongueStr);
+        }
+      }
+
       logLevel = (String) props.get(LOG_LEVEL_KEY);
       
       storeConfigForAllProfiles(props);
@@ -1141,16 +1174,28 @@ public class Configuration {
   }
   
   private void loadCurrentProfile(Properties props, String prefix, String qualifier) {
+    
     String useDocLangString = (String) props.get(prefix + USE_DOC_LANG_KEY);
     if (useDocLangString != null) {
       useDocLanguage = Boolean.parseBoolean(useDocLangString);
     }
-    String motherTongueStr = (String) props.get(prefix + MOTHER_TONGUE_KEY);
-    if (motherTongueStr != null && !motherTongueStr.equals("xx")) {
-      motherTongue = Languages.getLanguageForShortCode(motherTongueStr);
+    if (ltVersion == null) {
+      String motherTongueStr = (String) props.get(prefix + MOTHER_TONGUE_KEY);
+      if (motherTongueStr != null && !motherTongueStr.equals("xx")) {
+        if (isOffice) {
+          fixedLanguage = Languages.getLanguageForShortCode(motherTongueStr);
+        } else {
+          motherTongue = Languages.getLanguageForShortCode(motherTongueStr);
+        }
+      }
+    } else {
+      String fixedLanguageStr = (String) props.get(prefix + FIXED_LANGUAGE_KEY);
+      if (fixedLanguageStr != null) {
+        fixedLanguage = Languages.getLanguageForShortCode(fixedLanguageStr);
+      }
     }
-    if (!useDocLanguage && motherTongue != null) {
-      qualifier = getQualifier(motherTongue);
+    if (!useDocLanguage && fixedLanguage != null) {
+      qualifier = getQualifier(fixedLanguage);
     }
 
     disabledRuleIds.addAll(getListFromProperties(props, prefix + DISABLED_RULES_KEY + qualifier));
@@ -1394,6 +1439,9 @@ public class Configuration {
     Properties props = new Properties();
     String qualifier = getQualifier(lang);
 
+    String[] versionParts = JLanguageTool.VERSION.split("-");
+    props.setProperty(LT_VERSION_KEY, versionParts[0]);
+
     if (currentProfile != null && !currentProfile.isEmpty()) {
       props.setProperty(CURRENT_PROFILE_KEY, currentProfile);
     }
@@ -1402,6 +1450,10 @@ public class Configuration {
       props.setProperty(DEFINED_PROFILES_KEY, String.join(DELIMITER, definedProfiles));
     }
     
+    if (motherTongue != null) {
+      props.setProperty(MOTHER_TONGUE_KEY, motherTongue.getShortCodeWithCountryAndVariant());
+    }
+
     if (logLevel != null) {
       props.setProperty(LOG_LEVEL_KEY, logLevel);
     }
@@ -1454,7 +1506,7 @@ public class Configuration {
   
   private void setAllProfileKeys() {
     allProfileKeys.add(LANGUAGE_KEY);
-    allProfileKeys.add(MOTHER_TONGUE_KEY);
+    allProfileKeys.add(FIXED_LANGUAGE_KEY);
     allProfileKeys.add(NGRAM_DIR_KEY);
     allProfileKeys.add(WORD2VEC_DIR_KEY);
     allProfileKeys.add(AUTO_DETECT_KEY);
@@ -1513,6 +1565,11 @@ public class Configuration {
       }
     }
     for (String sPrefix : prefix) {
+      if (isOffice && ltVersion == null) {
+        if (props.containsKey(sPrefix + MOTHER_TONGUE_KEY)) {
+          configForOtherProfiles.put(sPrefix + FIXED_LANGUAGE_KEY, props.getProperty(sPrefix + MOTHER_TONGUE_KEY));
+        }
+      }
       for (String key : allProfileKeys) {
         String preKey = sPrefix + key;
         if (props.containsKey(preKey)) {
@@ -1538,8 +1595,8 @@ public class Configuration {
     if (language != null && !language.isExternal()) {  // external languages won't be known at startup, so don't save them
       props.setProperty(prefix + LANGUAGE_KEY, language.getShortCodeWithCountryAndVariant());
     }
-    if (motherTongue != null) {
-      props.setProperty(prefix + MOTHER_TONGUE_KEY, motherTongue.getShortCodeWithCountryAndVariant());
+    if (fixedLanguage != null) {
+      props.setProperty(prefix + FIXED_LANGUAGE_KEY, fixedLanguage.getShortCodeWithCountryAndVariant());
     }
     if (ngramDirectory != null) {
       props.setProperty(prefix + NGRAM_DIR_KEY, ngramDirectory.getAbsolutePath());

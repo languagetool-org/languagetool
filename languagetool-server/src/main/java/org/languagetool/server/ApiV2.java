@@ -110,7 +110,7 @@ class ApiV2 {
   }
 
   private void handleMaxTextLengthRequest(HttpExchange httpExchange, HTTPServerConfig config) throws IOException {
-    String response = Integer.toString(config.maxTextHardLength);
+    String response = Integer.toString(config.getMaxTextLengthAnonymous());
     ServerTools.setCommonHeaders(httpExchange, TEXT_CONTENT_TYPE, allowOriginUrl);
     httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
     httpExchange.getResponseBody().write(response.getBytes(ENCODING));
@@ -187,7 +187,6 @@ class ApiV2 {
     logger.info("Started reading dictionary for user: {}, offset: {}, limit: {}, dict_cache: {}, dict: {}",
       limits.getPremiumUid(), offset, limit, limits.getDictCacheSize(), params.get("dict"));
 
-
     if (params.containsKey("dict")) {
       throw new IllegalArgumentException("Use parameter 'dicts', not 'dict' in GET /words API method.");
     }
@@ -201,8 +200,8 @@ class ApiV2 {
     List<String> words = db.getWords(limits, groups, offset, limit);
     //List<String> words = db.getWords(limits.getPremiumUid(), groups, offset, limit);
     long durationMilliseconds = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - start);
-    logger.info("Finished reading dictionary for user: {}, offset: {}, limit: {}, dict_cache: {}, dict: {} in {}ms",
-      limits.getPremiumUid(), offset, limit, limits.getDictCacheSize(), params.get("dict"), durationMilliseconds);
+    logger.info("Finished reading dictionary for user: {}, offset: {}, limit: {}, dict_cache: {}, dict: {}, size: {} in {}ms",
+      limits.getPremiumUid(), offset, limit, limits.getDictCacheSize(), params.get("dict"), words.size(), durationMilliseconds);
     writeListResponse("words", words, httpExchange);
   }
   
@@ -233,8 +232,7 @@ class ApiV2 {
       List<String> words = Arrays.asList(parameters.get("words").split("\\s+"));
       deleted = db.deleteWordBatch(words, limits.getPremiumUid(),parameters.get("dict"));
       writeResponse("deleted", deleted, httpExchange);
-    }
-    else {
+    } else {
       deleted = db.deleteWord(parameters.get("word"), limits.getPremiumUid(), parameters.get("dict"));
       writeResponse("deleted", deleted, httpExchange);
     }

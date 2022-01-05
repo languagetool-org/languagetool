@@ -20,6 +20,7 @@ package org.languagetool.rules;
 
 import org.languagetool.Language;
 import org.languagetool.Premium;
+import org.languagetool.Tag;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +34,7 @@ import java.util.List;
 public class CleanOverlappingFilter implements RuleMatchFilter {
 
   private static final int negativeConstant = Integer.MIN_VALUE + 10000;
-  
+
   private final Language language;
   private final boolean hidePremiumMatches;
 
@@ -63,16 +64,19 @@ public class CleanOverlappingFilter implements RuleMatchFilter {
       }
       // overlapping
       int currentPriority = language.getRulePriority(ruleMatch.getRule());
-      if (Premium.get().isPremiumRule(ruleMatch.getRule()) && hidePremiumMatches) {
+      if (isPremiumRule(ruleMatch) && hidePremiumMatches) {
         // non-premium match should win, so the premium match does *not* become a hidden match
         // (we'd show hidden matches for errors covered by an Open Source match)
         currentPriority = Integer.MIN_VALUE;
       }
-      if (ruleMatch.getRule().getTags().toString().contains("picky")) {
+      if (ruleMatch.getRule().getTags().contains(Tag.picky) && currentPriority != Integer.MIN_VALUE) {
         currentPriority += negativeConstant;
       }
       int prevPriority = language.getRulePriority(prevRuleMatch.getRule());
-      if (prevRuleMatch.getRule().getTags().toString().contains("picky")) {
+      if (isPremiumRule(prevRuleMatch) && hidePremiumMatches) {
+        prevPriority = Integer.MIN_VALUE;
+      }
+      if (prevRuleMatch.getRule().getTags().contains(Tag.picky) && prevPriority != Integer.MIN_VALUE) {
         prevPriority += negativeConstant;
       }
       if (currentPriority == prevPriority) {
@@ -93,5 +97,9 @@ public class CleanOverlappingFilter implements RuleMatchFilter {
     }
     return cleanList;
   }
-  
+
+  protected boolean isPremiumRule(RuleMatch ruleMatch) {
+    return Premium.get().isPremiumRule(ruleMatch.getRule());
+  }
+
 }

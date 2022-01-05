@@ -432,7 +432,7 @@ public class TextLevelCheckQueue {
       if (e == null || nCheck != e.nCheck || nCache != e.nCache || !docId.equals(e.docId)) {
         return false;
       }
-      if (nCheck < 1 || (nCheck == -1 && e.nStart >= nStart && e.nStart <= nEnd) 
+      if (nCheck < -1 || (nCheck == -1 && e.nStart >= nStart && e.nStart <= nEnd) 
           || (nCheck >= 0 && nStart == e.nStart && nEnd == e.nEnd)) {
         return true;
       }
@@ -543,15 +543,16 @@ public class TextLevelCheckQueue {
                 if (lastLanguage == null || !lastLanguage.equals(entryLanguage)) {
                   lastLanguage = entryLanguage;
                   initLangtool(lastLanguage);
+                  sortedTextRules.activateTextRulesByIndex(queueEntry.nCache, lt);
                 } else if (lastCache != queueEntry.nCache) {
                   sortedTextRules.activateTextRulesByIndex(queueEntry.nCache, lt);
                 }
-                lastDocId = queueEntry.docId;
-                lastStart = queueEntry.nStart;
-                lastEnd = queueEntry.nEnd;
-                lastCache = queueEntry.nCache;
-                queueEntry.runQueueEntry(multiDocHandler, lt);
               }
+              lastDocId = queueEntry.docId;
+	            lastStart = queueEntry.nStart;
+	            lastEnd = queueEntry.nEnd;
+	            lastCache = queueEntry.nCache;
+	            queueEntry.runQueueEntry(multiDocHandler, entryLanguage == null ? null : lt);
               queueEntry = null;
             }
           }

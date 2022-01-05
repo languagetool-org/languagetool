@@ -71,8 +71,8 @@ public class RussianTagger extends BaseTagger {
                 word = word.replace("я̀", "я");
                 word = word.replace("ʼ", "ъ");
             }
-                word_ie=word.replace("е","ё");
-                word_ie=word_ie.toLowerCase();
+                word_ie=word.toLowerCase();
+                word_ie=word_ie.replace("е","ё");
 
             List<AnalyzedToken> l = getAnalyzedTokens(word);
 

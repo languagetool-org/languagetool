@@ -18,8 +18,8 @@
  */
 package org.languagetool.rules.es;
 
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.function.Supplier;
 
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.language.Spanish;
@@ -27,22 +27,39 @@ import org.languagetool.rules.AbstractRepeatedWordsRule;
 import org.languagetool.rules.SynonymsData;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.es.SpanishSynthesizer;
+import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
+import org.languagetool.rules.patterns.PatternToken;
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
 
-public class SpanishRepeatedWordsRule extends AbstractRepeatedWordsRule{
+public class SpanishRepeatedWordsRule extends AbstractRepeatedWordsRule {
 
   private static final SpanishSynthesizer synth = new SpanishSynthesizer(new Spanish());
 
+  private final Supplier<List<DisambiguationPatternRule>> antiPatterns;
   
-  public SpanishRepeatedWordsRule(ResourceBundle messages) {
-    super(messages, new Spanish());
-    super.setDefaultTempOff();
-  }
-  
-  private static final Map<String, SynonymsData> wordsToCheck = loadWords("/es/synonyms.txt");
+  private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays
+      .asList(Arrays.asList(token("también"), csRegex(".+")), 
+          Arrays.asList(csRegex(".+"), token("también")),
+          Arrays.asList(csRegex("[Aa]ntes|[Dd]espués"), csRegex("de|del")),
+          Arrays.asList(csRegex("[Tt]ema|TEMA"), csRegex("\\d+|[IXVC]+")),
+          Arrays.asList(csRegex("[Aa]sí"), token("que")));
   
   @Override
+  public List<DisambiguationPatternRule> getAntiPatterns() {
+    return antiPatterns.get();
+  }
+
+  public SpanishRepeatedWordsRule(ResourceBundle messages) {
+    super(messages, new Spanish());
+    antiPatterns = cacheAntiPatterns(new Spanish(), ANTI_PATTERNS);
+    // super.setDefaultTempOff();
+  }
+
+  private static final Map<String, SynonymsData> wordsToCheck = loadWords("/es/synonyms.txt");
+
+  @Override
   protected String getMessage() {
-    return "Esta palabra ya ha aparecido antes. Puede usar un sinónimo para hacer más interesante el texto, excepto si la repetición es intencionada.";
+    return "Esta palabra ya ha aparecido en una de las frases inmediatamente anteriores. Puede usar un sinónimo para hacer más interesante el texto, excepto si la repetición es intencionada.";
   }
 
   @Override
@@ -57,14 +74,14 @@ public class SpanishRepeatedWordsRule extends AbstractRepeatedWordsRule{
 
   @Override
   protected String getShortMessage() {
-    return "Palabra repetida";
+    return "Estilo: palabra repetida";
   }
-  
+
   @Override
   protected Synthesizer getSynthesizer() {
     return synth;
   }
-  
+
   @Override
   protected String adjustPostag(String postag) {
     if (postag.contains("CN")) {
@@ -86,7 +103,7 @@ public class SpanishRepeatedWordsRule extends AbstractRepeatedWordsRule{
     } else if (postag.contains("FN")) {
       return postag.replaceFirst("FN", "[FC][SPN]");
     }
-    return postag; 
+    return postag;
   }
 
   @Override

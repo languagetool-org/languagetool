@@ -1,17 +1,57 @@
 # LanguageTool Change Log
 
-## 5.6-SNAPSHOT (release planned for 2021-12-29)
+## 5.7 (release planned for 2022-03-28)
 
 ...
 
+
+## 5.6 (2021-12-29)
+
+#### Catalan
+  * added and improved rules
+
+#### Dutch
+  * more words in dictionary
+  * added many special word groups
+  * added rules for accidentally split words
+
+#### English
+  * added and improved rules
+  * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2021.12.01, v. 3.0.3)
+
+#### French
+  * added and improved rules
+
+#### German
+  * added and improved rules
+
+#### Portuguese
+  * added and improved rules
+  * added words and POS data
+  * fixed tons of false positives
+
 #### Russian
   * added and improved rules
+  * improved disambiguation
+  * added words and POS data
+  * fix POS data
+  * rebuild POS dictionary
+  * improved spell checking
+
+#### Spanish
+  * added and improved rules
+  * updated dictionary (spanish-pos-dict-1.5)
+
+#### Ukrainian
+  * many new words in the POS dictionary
+  * added and improved rules
+  * improved tagging and disambiguation
 
 #### General
   * The `--allow-origin` option doesn't require a parameter anymore
     in order to avoid confusion about whether `*` needs to be quoted
     on Windows. Using `--allow-origin` without a parameter now implies `*`.
-
+  * Added new value `firstupper` for `case_conversion` attribute in `grammar.xml (see issue #3241).
 
 
 ## 5.5 (2021-10-02)

@@ -968,11 +968,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
 
       <rule>
+        <antipattern>
+          <token regexp="yes">години|хвилини</token>
+          <token min="0">за</token>
+          <token>півтори</token>
+        </antipattern>
         <pattern>
           <token regexp="yes">півтор[аи]</token>
           <marker>
             <token postag_regexp="yes" postag="(noun.*?|adj):p:.*">
-              <exception postag_regexp="yes" postag="(noun.*?|adj):[nmf]:v_rod.*"/>
+              <exception postag_regexp="yes" postag="(noun.*?|adj):[nmf]:v_rod.*|noun.*pron.*"/>
               <exception inflected="yes">раз</exception>  <!-- special case in the rule below -->
               <exception regexp="yes">десятих|сотих|тисячних</exception>
             </token>
@@ -990,6 +995,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>півтора рази</example> <!-- ingore this mistake here, it'll be caght by rule below -->
         <example>півтора тисячі</example> <!-- ingore this mistake here, it'll be caght by rule above -->
         <example>якихось півтори десятих</example>
+        <example>години за півтори ми створили такий текст</example>
+        <example>години за півтори люди створили такий текст</example>
+        <example>години півтори людям давали їжу</example>
       </rule>
 
       <rule>
@@ -1341,9 +1349,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </marker>
         </pattern>
         <message>Після «подружжя» прізвище має стояти в родовому відмінку множини</message>
-        <suggestion><match no="2" postag_regexp="yes" postag="(noun:anim:)[fm]:v_...(:prop:lname.*)" postag_replace="$1p:v_rod$2"/></suggestion>
+        <suggestion><match no="2" postag_regexp="yes" postag="(noun:anim:)[fm]:v_...(?::nv)?(:prop:lname.*)" postag_replace="$1p:v_rod(:nv)?$2"/></suggestion>
         <example correction="Обам">Подружжя <marker>Обама</marker>.</example>
         <example correction="Кличків">Подружжя <marker>Кличко</marker>.</example>
+        <!-- 
+        <example correction="Гіббсів">Подружжя <marker>Гіббс</marker>.</example>
+         -->
         <example>Подружжя Бушів.</example>
         <example>Подружжя Роше.</example>
         <example>подружжя Цвігун і Ковальчука</example>
@@ -1975,8 +1986,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </token>
         </pattern>
         <message>Іменник біль - чоловічого роду</message>
-        <suggestion><match no="1" postag_regexp="yes" postag="(adj):f:(.*)" postag_replace="$1:m:$2"/> <match no="2" postag_regexp="yes" postag="(noun:inanim):f:(.*)" postag_replace="$1:m:$2"/></suggestion>
+        <suggestion><match no="1" postag_regexp="yes" postag="(adj):f:(v_...)(.*)" postag_replace="$1:m:$2(:rinanim)?$3"/> <match no="2" postag_regexp="yes" postag="(noun:inanim):f:(.*)" postag_replace="$1:m:$2"/></suggestion>
         <example correction="сильний біль"><marker>сильна біль</marker></example>
+        <example correction="сильний біль"><marker>сильну біль</marker></example>
         <example>Стояла біла, як біль, так перелякалася.</example>
         <example>Лице біллю білували.</example>
         <example>увесь їхній біль</example>

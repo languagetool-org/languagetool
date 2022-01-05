@@ -231,6 +231,20 @@ public class GermanWordRepeatRule extends WordRepeatRule {
       new PatternTokenBuilder().csToken("die").build(),
       new PatternTokenBuilder().csToken("die").build()
     ),
+    Arrays.asList(// "Haben die die Elemente ..."
+      posRegex("PKT|SENT_START|KON:NEB"),
+      tokenRegex("haben|hatten"),
+      new PatternTokenBuilder().csToken("die").build(),
+      new PatternTokenBuilder().csToken("die").build(),
+      posRegex(".*SUB.*PLU.*|UNKNOWN")
+    ),
+    Arrays.asList(// "und ob die die Währungen ..."
+      posRegex("PKT|SENT_START|KON:NEB"),
+      tokenRegex("ob|falls"),
+      new PatternTokenBuilder().csToken("die").build(),
+      new PatternTokenBuilder().csToken("die").build(),
+      posRegex(".*SUB.*PLU.*|UNKNOWN")
+    ),
     Arrays.asList(// "Das Haus, in das das Kind läuft."
       csToken(","),
       posRegex("PRP:.+"),
@@ -253,6 +267,10 @@ public class GermanWordRepeatRule extends WordRepeatRule {
     Arrays.asList(// "Er muss sein Essen essen"
       csToken("Essen"),
       csToken("essen")
+    ),
+    Arrays.asList(
+      tokenRegex("^[_]+$"),
+      tokenRegex("^[_]+$")
     )
   );
   private final Supplier<List<DisambiguationPatternRule>> antiPatterns;

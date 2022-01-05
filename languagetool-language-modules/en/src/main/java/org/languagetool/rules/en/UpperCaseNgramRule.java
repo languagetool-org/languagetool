@@ -455,6 +455,17 @@ public class UpperCaseNgramRule extends Rule {
     ),
     Arrays.asList( // Keys
       csRegex("Enter|Return|Escape|Shift")
+    ),
+    Arrays.asList( // You Can't Judge a Book by the Cover
+      csRegex("[A-Z].+"),
+      csRegex("Ca|Wo|Do|Should|[CW]ould|Must|Did|Does|Need"),
+      csRegex("n't"),
+      csRegex("[A-Z].+")
+    ),
+    Arrays.asList( // You Can't Judge a Book by the Cover
+      csRegex("Ca|Wo|Do|Should|[CW]ould|Must|Did|Does|Need"),
+      csRegex("n't"),
+      csRegex("[A-Z].+")
     )
   );
 

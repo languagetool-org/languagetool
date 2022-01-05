@@ -48,7 +48,7 @@ public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
 
   public EnglishUnpairedBracketsRule(ResourceBundle messages, Language language) {
     super(messages, EN_START_SYMBOLS, EN_END_SYMBOLS);
-    addExamplePair(Example.wrong("<marker>\"</marker>I'm over here, she said."),
+    addExamplePair(Example.wrong("\"I'm over here,<marker></marker> she said."),
                    Example.fixed("\"I'm over here,<marker>\"</marker> she said."));
   }
 

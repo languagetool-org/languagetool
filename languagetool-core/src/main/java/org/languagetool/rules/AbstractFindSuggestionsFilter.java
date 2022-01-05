@@ -28,7 +28,6 @@ import java.util.regex.Pattern;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
-import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tools.StringTools;
 
@@ -73,7 +72,7 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
       }
       if (posWord < 1 || posWord > patternTokens.length) {
         throw new IllegalArgumentException("FindSuggestionsFilter: Index out of bounds in "
-            + match.getRule().getFullId() + ", PronounFrom: " + posWord);
+            + match.getRule().getFullId() + ", wordFrom: " + posWord);
       }
       AnalyzedTokenReadings atrWord = patternTokens[posWord - 1];
       boolean isWordCapitalized = StringTools.isCapitalizedWord(atrWord.getToken());
@@ -94,7 +93,7 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
 
       if (generateSuggestions) {
         if (removeSuggestionsRegexp != null) {
-          regexpPattern = Pattern.compile(removeSuggestionsRegexp, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+          regexpPattern = Pattern.compile(removeSuggestionsRegexp, Pattern.UNICODE_CASE);
         }
         String wordToCheck = atrWord.getToken();
         if (atrWord.isTagged()) {

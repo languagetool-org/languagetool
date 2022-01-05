@@ -23,11 +23,16 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.LanguageSpecificTest;
 import org.languagetool.Languages;
+import org.languagetool.language.English;
 import org.languagetool.rules.Rule;
+import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.AbstractPatternRule;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 public class EnglishTest extends LanguageSpecificTest {
   
@@ -40,6 +45,18 @@ public class EnglishTest extends LanguageSpecificTest {
       Arrays.asList("TOO_TO", "MORFOLOGIK_RULE_EN_US", "MORFOLOGIK_RULE_EN_US", "MORFOLOGIK_RULE_EN_US", "SENT_START_CONJUNCTIVE_LINKING_ADVERB_COMMA", "APOS_ARE", "IN_A_X_MANNER", "UPPERCASE_SENTENCE_START", "DOUBLE_HYPHEN", "IT_IS", "EN_A_VS_AN", "EN_CONTRACTION_SPELLING", "OVER_SEAS", "PM_IN_THE_EVENING", "DATE_WEEKDAY")
     );
     runTests(lang, null, "ÆæāýÅåøšùçıčćö");
+  }
+
+  @Test
+  public void testRepeatedPatternRules() throws IOException {
+    Language lang = new English();
+    JLanguageTool lt = new JLanguageTool(lang);
+
+    List<RuleMatch> matches = lt.check("Thank you for all your help. Here is another sentence. Thank you so much for all the fish.");
+    assertEquals("Matches when close together", 1, matches.size());
+
+    matches = lt.check("Thank you for all your help. This is filler. Here are more words. There needs to be a certain distance between sentences so that this doesn't match again. How long does it need to be? The default setting is 350 characters. That's quite a lot. Here are some more words to fill up this text. Here are some more words to fill up this text. Now here are some more words to fill up this text. Thank you so much for all the fish.");
+    assertEquals("No matches when further apart", 0, matches.size());
   }
 
   @Test

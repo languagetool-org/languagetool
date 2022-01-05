@@ -18,12 +18,13 @@
  */
 package org.languagetool.server;
 
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.sun.net.httpserver.HttpExchange;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.apache.ibatis.session.RowBounds;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
@@ -33,10 +34,11 @@ import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.*;
 import org.languagetool.rules.bitext.BitextRule;
 import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrdererConfig;
+import org.languagetool.tools.LtThreadPoolFactory;
 import org.languagetool.tools.Tools;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.nio.file.Files;
@@ -50,6 +52,7 @@ import java.util.stream.Stream;
 /**
  * @since 3.4
  */
+@Slf4j
 abstract class TextChecker {
 
   private static final int PINGS_CLEAN_MILLIS = 60 * 1000;  // internal pings database will be cleaned this often
@@ -73,7 +76,6 @@ abstract class TextChecker {
   protected static final int NUM_PIPELINES_PER_SETTING = 3; // for prewarming
 
   protected final HTTPServerConfig config;
-  private static final Logger logger = LoggerFactory.getLogger(TextChecker.class);
 
   private static final String ENCODING = "UTF-8";
   private static final int CACHE_STATS_PRINT = 500; // print cache stats every n cache requests
@@ -103,7 +105,38 @@ abstract class TextChecker {
       this.ngramIdentifier = new LanguageIdentifier();
       this.ngramIdentifier.enableNgrams(config.getNgramLangIdentData());
     }
-    this.executorService = Executors.newCachedThreadPool(new ThreadFactoryBuilder().setNameFormat("lt-textchecker-thread-%d").build());
+    this.executorService = LtThreadPoolFactory.createFixedThreadPoolExecutor(
+      LtThreadPoolFactory.TEXT_CHECKER_POOL,
+      config.getMaxTextCheckerThreads(), config.getMaxTextCheckerThreads(),
+      config.getTextCheckerQueueSize(),
+      60L, false, (thread, throwable) -> {
+        log.error("Thread: " + thread.getName() + " failed with: " + throwable.getMessage());
+      },
+      false);
+
+    // set up other pools used by text checker and remote rule
+    //Need to use own thread pool, otherwise the text-checker thread-pool will be full very soon
+    int remoteRuleCount = 0;
+    if (config.getRemoteRulesConfigFile() != null) {
+      try (FileInputStream fis = new FileInputStream(config.getRemoteRulesConfigFile())) {
+        remoteRuleCount = RemoteRuleConfig.parse(fis).size();
+      } catch (IOException e) {
+        log.error("Couldn't read RemoteRule configuration", e);
+      }
+    }
+    if (remoteRuleCount > 0) {
+      LtThreadPoolFactory.createFixedThreadPoolExecutor(
+        LtThreadPoolFactory.REMOTE_RULE_EXECUTING_POOL,
+        config.getMaxCheckThreads(),
+        config.getMaxCheckThreads() * remoteRuleCount * LtThreadPoolFactory.REMOTE_RULE_POOL_SIZE_FACTOR,
+        -1,
+        5L, true, (thread, throwable) -> {
+          log.error("Thread: " + thread.getName() + " failed with: " + throwable.getMessage());
+        },
+        true
+      );
+    }
+
     this.cache = config.getCacheSize() > 0 ? new ResultCache(
       config.getCacheSize(), config.getCacheTTLSeconds(), TimeUnit.SECONDS) : null;
     this.databaseLogger = DatabaseLogger.getInstance();
@@ -122,13 +155,13 @@ abstract class TextChecker {
 
     pipelinePool = new PipelinePool(config, cache, internalServer);
     if (config.isPipelinePrewarmingEnabled()) {
-      logger.info("Prewarming pipelines...");
+      log.info("Prewarming pipelines...");
       prewarmPipelinePool();
-      logger.info("Prewarming finished.");
+      log.info("Prewarming finished.");
     }
     if (config.getAbTest() != null) {
       UserConfig.enableABTests();
-      logger.info("A/B-Test enabled: " + config.getAbTest());
+      log.info("A/B-Test enabled: " + config.getAbTest());
       if (config.getAbTest().equals("SuggestionsOrderer")) {
         SuggestionsOrdererConfig.setMLSuggestionsOrderingEnabled(true);
       }
@@ -146,7 +179,7 @@ abstract class TextChecker {
   private void prewarmPipelinePool() {
     // setting + number of pipelines
     // typical addon settings at the moment (2018-11-05)
-    Map<PipelinePool.PipelineSettings, Integer> prewarmSettings = new HashMap<>();
+    Map<PipelineSettings, Integer> prewarmSettings = new HashMap<>();
     List<Language> prewarmLanguages = Stream.of(
       "de-DE", "en-US", "en-GB", "pt-BR", "ru-RU", "es", "it", "fr", "pl-PL", "uk-UA")
       .map(Languages::getLanguageForShortCode)
@@ -160,20 +193,20 @@ abstract class TextChecker {
         QueryParams params = new QueryParams(Collections.emptyList(), Collections.emptyList(), addonDisabledRules,
           Collections.emptyList(), Collections.emptyList(), false, true,
           true, true, Premium.isPremiumVersion(), false, mode, JLanguageTool.Level.PICKY, null);
-        PipelinePool.PipelineSettings settings = new PipelinePool.PipelineSettings(language, null, params, config.globalConfig, user);
+        PipelineSettings settings = new PipelineSettings(language, null, params, config.globalConfig, user);
         prewarmSettings.put(settings, NUM_PIPELINES_PER_SETTING);
 
-        PipelinePool.PipelineSettings settingsMotherTongueEqual = new PipelinePool.PipelineSettings(language, language, params, config.globalConfig, user);
-        PipelinePool.PipelineSettings settingsMotherTongueEnglish = new PipelinePool.PipelineSettings(language,
+        PipelineSettings settingsMotherTongueEqual = new PipelineSettings(language, language, params, config.globalConfig, user);
+        PipelineSettings settingsMotherTongueEnglish = new PipelineSettings(language,
           Languages.getLanguageForName("English"), params, config.globalConfig, user);
         prewarmSettings.put(settingsMotherTongueEqual, NUM_PIPELINES_PER_SETTING);
         prewarmSettings.put(settingsMotherTongueEnglish, NUM_PIPELINES_PER_SETTING);
       }
     }
     try {
-      for (Map.Entry<PipelinePool.PipelineSettings, Integer> prewarmSetting : prewarmSettings.entrySet()) {
+      for (Map.Entry<PipelineSettings, Integer> prewarmSetting : prewarmSettings.entrySet()) {
           int numPipelines = prewarmSetting.getValue();
-          PipelinePool.PipelineSettings setting = prewarmSetting.getKey();
+          PipelineSettings setting = prewarmSetting.getKey();
 
           // request n pipelines first, return all afterwards -> creates multiple for same setting
           List<Pipeline> pipelines = new ArrayList<>();
@@ -221,12 +254,13 @@ abstract class TextChecker {
       throw new AuthException("Anonymous access is prohibited on this server, please provide authentication.");
     }
 
-    if (aText.getPlainText().length() > limits.getMaxTextLength()) {
-      String msg = "limit: " + limits.getMaxTextLength() + ", size: " + aText.getPlainText().length();
+    int length = aText.getPlainText().length();
+    if (length > limits.getMaxTextLength()) {
+      String msg = "limit: " + limits.getMaxTextLength() + ", size: " + length;
       databaseLogger.log(new DatabaseAccessLimitLogEntry("MaxCharacterSizeExceeded", logServerId, agentId, userId, msg, referrer, userAgent));
       ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.MAX_TEXT_SIZE);
       throw new TextTooLongException("Your text exceeds the limit of " + limits.getMaxTextLength() +
-              " characters (it's " + aText.getPlainText().length() + " characters). Please submit a shorter text.");
+              " characters (it's " + length + " characters). Please submit a shorter text.");
     }
     // static because we can't rely on errorRequestLimiter, null when timeoutRequestLimit option not set
     try {
@@ -254,7 +288,7 @@ abstract class TextChecker {
       if (text != null) {
         message += ", text length: " + text.length();
       }
-      logger.warn(message);
+      log.warn(message);
       return;
     }
     List<String> dictGroups = null;
@@ -289,7 +323,7 @@ abstract class TextChecker {
           long randomSegmentSize = (Long.MAX_VALUE - maxRandom) / maxRandom;
           long segmentOffset = random * randomSegmentSize;
           if (timestamp > randomSegmentSize) {
-            logger.warn(String.format("Could not transform textSessionId '%s'", textSessionIdStr));
+            log.warn(String.format("Could not transform textSessionId '%s'", textSessionIdStr));
           }
           textSessionId = segmentOffset + timestamp;
         } else {
@@ -297,7 +331,7 @@ abstract class TextChecker {
         }
       }
     } catch (NumberFormatException ex) {
-      logger.warn("Could not parse textSessionId '" + parameters.get("textSessionId") + "' as long: " + ex.getMessage());
+      log.info("Could not parse textSessionId '" + parameters.get("textSessionId") + "' as long: " + ex.getMessage());
     }
 
     String abTest = null;
@@ -404,24 +438,29 @@ abstract class TextChecker {
       enabledCategories, disabledCategories, useEnabledOnly,
       useQuerySettings, allowIncompleteResults, enableHiddenRules, limits.getPremiumUid() != null && limits.hasPremium(), enableTempOffRules, mode, level, callback, inputLogging);
 
-    int textSize = aText.getPlainText().length();
+    int textSize = length;
 
     List<CheckResults> ruleMatchesSoFar = Collections.synchronizedList(new ArrayList<>());
 
-    Future<List<CheckResults>> future = executorService.submit(new Callable<List<CheckResults>>() {
-      @Override
-      public List<CheckResults> call() throws Exception {
-        // use to fake OOM in thread for testing:
-        /*if (Math.random() < 0.1) {
-          throw new OutOfMemoryError();
-        }*/
-        List<CheckResults> results = getRuleMatches(aText, lang, motherTongue, parameters, params, userConfig, detLang, preferredLangs,
-                preferredVariants, f -> ruleMatchesSoFar.add(new CheckResults(Collections.singletonList(f), Collections.emptyList())));
-        // generate suggestions, otherwise this is not part of the timeout logic and not properly measured in the metrics
-        results.stream().flatMap(r -> r.getRuleMatches().stream()).forEach(RuleMatch::computeLazySuggestedReplacements);
-        return results;
-      }
-    });
+    Future<List<CheckResults>> future;
+    try {
+      future = executorService.submit(() -> {
+        try (MDC.MDCCloseable c = MDC.putCloseable("rID", LanguageToolHttpHandler.getRequestId(httpExchange))) {
+          log.debug("Starting text check on {} chars; params: {}", length, params);
+          long time = System.currentTimeMillis();
+          List<CheckResults> results = getRuleMatches(aText, lang, motherTongue, parameters, params, userConfig, detLang, preferredLangs,
+            preferredVariants, f -> ruleMatchesSoFar.add(new CheckResults(Collections.singletonList(f), Collections.emptyList())));
+          log.debug("Finished text check in {}ms. Starting suggestion generation.", System.currentTimeMillis() - time);
+          time = System.currentTimeMillis();
+          // generate suggestions, otherwise this is not part of the timeout logic and not properly measured in the metrics
+          results.stream().flatMap(r -> r.getRuleMatches().stream()).forEach(RuleMatch::computeLazySuggestedReplacements);
+          log.debug("Finished suggestion generation in {}ms, returning results.", System.currentTimeMillis() - time);
+          return results;
+        }
+      });
+    } catch (RejectedExecutionException e) {
+      throw new UnavailableException("Server overloaded, please try again later", e);
+    }
     String incompleteResultReason = null;
     List<CheckResults> res;
     try {
@@ -437,7 +476,7 @@ abstract class TextChecker {
         databaseLogger.log(new DatabaseCheckErrorLogEntry("ErrorRateTooHigh", logServerId, agentId, userId, lang, detLang.getDetectedLanguage(), textSize, "matches: " + ruleMatchesSoFar.size()));
       }
       if (params.allowIncompleteResults && ExceptionUtils.getRootCause(e) instanceof ErrorRateTooHighException) {
-        logger.warn(e.getMessage() + " - returning " + ruleMatchesSoFar.size() + " matches found so far. " +
+        log.warn(e.getMessage() + " - returning " + ruleMatchesSoFar.size() + " matches found so far. " +
           "Detected language: " + detLang + ", " + ServerTools.getLoggingInfo(remoteAddress, null, -1, httpExchange,
           parameters, System.currentTimeMillis()-timeStart, reqCounter));
         res = new ArrayList<>(ruleMatchesSoFar);  // threads might still be running, so make a copy
@@ -459,14 +498,14 @@ abstract class TextChecker {
                        ", lang: " + lang.getShortCodeWithCountryAndVariant() +
                        ", detected: " + detLang +
                        ", #" + count +
-                       ", " + aText.getPlainText().length() + " characters of text" +
+                       ", " + length + " characters of text" +
                        ", mode: " + mode.toString().toLowerCase() +
                        ", h: " + reqCounter.getHandleCount() +
                        ", r: " + reqCounter.getRequestCount() +
                        ", requestId: " + requestId +
                        ", system load: " + loadInfo + ")";
       if (params.allowIncompleteResults) {
-        logger.info(message + " - returning " + ruleMatchesSoFar.size() + " matches found so far");
+        log.info(message + " - returning " + ruleMatchesSoFar.size() + " matches found so far");
         res = new ArrayList<>(ruleMatchesSoFar);  // threads might still be running, so make a copy
         incompleteResultReason = "Results are incomplete: text checking took longer than allowed maximum of " +
                 String.format(Locale.ENGLISH, "%.2f", limits.getMaxCheckTimeMillis()/1000.0) + " seconds";
@@ -553,7 +592,7 @@ abstract class TextChecker {
 
     String version = parameters.get("v") != null ? ", version: " + parameters.get("v") : "";
     String skipLimits = limits.getSkipLimits() ? ", skipLimits" : "";
-    logger.info("Check done: " + aText.getPlainText().length() + " chars, " + languageMessage +
+    log.info("Check done: " + length + " chars, " + languageMessage +
             ", requestId: " + requestId + ", #" + count + ", " + referrer + ", "
             + premiumMatchRuleIds.size() + "/"
             + matchCount + " matches, "
@@ -563,15 +602,15 @@ abstract class TextChecker {
             + ", r:" + reqCounter.getRequestCount()
             + ", m:" + ServerTools.getModeForLog(mode) + skipLimits
             + ", premium: " + (limits.getPremiumUid() != null && limits.hasPremium())
-            + ", temporaryPremiumDisabledRuleMatches: " + temporaryPremiumDisabledRuleMatch
-            + ", temporaryPremiumDisabledRuleMatchedIds: " + temporaryPremiumDisabledRuleMatchedIds
+            //+ ", temporaryPremiumDisabledRuleMatches: " + temporaryPremiumDisabledRuleMatch //TODO activate if used
+            //+ ", temporaryPremiumDisabledRuleMatchedIds: " + temporaryPremiumDisabledRuleMatchedIds //TODO activate if used
             + (limits.getPremiumUid() != null ? ", uid:" + limits.getPremiumUid() : ""));
     if (limits.getPremiumUid() != null && limits.getPremiumUid() == 1456) { // Fernando Moon, fernando.moon@eggbun-edu.com - allows logging text in exchange for free API access (see email 2018-05-31):
-      logger.info("Eggbun input: " + aText.getPlainText().replace("\n", "\\n").replace("\r", "\\r"));
+      log.info("Eggbun input: " + aText.getPlainText().replace("\n", "\\n").replace("\r", "\\r"));
     }
     if (premiumMatchRuleIds.size() > 0) {
       for (String premiumMatchRuleId : premiumMatchRuleIds) {
-        logger.info("premium:" + lang.getShortCodeWithCountryAndVariant() + ":" + premiumMatchRuleId);
+        log.info("premium:" + lang.getShortCodeWithCountryAndVariant() + ":" + premiumMatchRuleId);
       }
     }
 
@@ -593,7 +632,7 @@ abstract class TextChecker {
 
       if (databaseLogger.isLogging()) {
         if (System.currentTimeMillis() - pingsCleanDateMillis > PINGS_CLEAN_MILLIS && pings.size() < PINGS_MAX_SIZE) {
-          logger.info("Cleaning pings DB (" + pings.size() + " items)");
+          log.info("Cleaning pings DB (" + pings.size() + " items)");
           pings.clear();
           pingsCleanDateMillis = System.currentTimeMillis();
         }
@@ -603,7 +642,7 @@ abstract class TextChecker {
             databaseLogger.log(ping);
             if (pings.size() >= PINGS_MAX_SIZE) {
               // prevent pings taking up unlimited amounts of memory
-              logger.warn("Pings DB has reached max size: " + pings.size());
+              log.warn("Pings DB has reached max size: " + pings.size());
             } else {
               pings.add(ping);
             }
@@ -643,7 +682,7 @@ abstract class TextChecker {
 
   private List<String> getUserDictWords(UserLimits limits, List<String> groups) {
     DatabaseAccess db = DatabaseAccess.getInstance();
-    return db.getWordsFromDictionaries(limits, groups);
+    return db.getWords(limits, groups, RowBounds.NO_ROW_OFFSET, RowBounds.NO_ROW_LIMIT);
   }
 
   protected void checkParams(Map<String, String> parameters) {
@@ -662,7 +701,7 @@ abstract class TextChecker {
       String sentenceHitPercentage = String.format(Locale.ENGLISH, "%.2f", cache.getSentenceCache().stats().hitRate() * 100.0f);
       String matchesHitPercentage = String.format(Locale.ENGLISH, "%.2f", cache.getMatchesCache().stats().hitRate() * 100.0f);
       String remoteHitPercentage = String.format(Locale.ENGLISH, "%.2f", cache.getRemoteMatchesCache().stats().hitRate() * 100.0f);
-      logger.info("Cache stats: " + sentenceHitPercentage + "% / " + matchesHitPercentage + "% / " + remoteHitPercentage + "% hit rate");
+      log.info("Cache stats: " + sentenceHitPercentage + "% / " + matchesHitPercentage + "% / " + remoteHitPercentage + "% hit rate");
     }
 
     if (parameters.get("sourceText") != null) {
@@ -705,7 +744,7 @@ abstract class TextChecker {
             res.addAll(getPipelineResults(entry.getValue().build(), entry.getKey(), motherTongue, params, userConfig, listener));
           }
         } catch (Exception e) {
-          logger.error("Problem with multilingual mode (preferredLangs=" + preferredLangs+ ", preferredVariants=" + preferredVariants + "), " +
+          log.error("Problem with multilingual mode (preferredLangs=" + preferredLangs+ ", preferredVariants=" + preferredVariants + "), " +
             "falling back to single language.", e);
           res.addAll(getPipelineResults(aText, lang, motherTongue, params, userConfig, listener));
         }
@@ -724,18 +763,18 @@ abstract class TextChecker {
   }
 
   private List<CheckResults> getPipelineResults(AnnotatedText aText, Language lang, Language motherTongue, QueryParams params, UserConfig userConfig, RuleMatchListener listener) throws Exception {
-    PipelinePool.PipelineSettings settings = null;
+    PipelineSettings settings = null;
     Pipeline lt = null;
     List<CheckResults> res = new ArrayList<>();
     try {
-      settings = new PipelinePool.PipelineSettings(lang, motherTongue, params, config.globalConfig, userConfig);
+      settings = new PipelineSettings(lang, motherTongue, params, config.globalConfig, userConfig);
       lt = pipelinePool.getPipeline(settings);
       Long textSessionId = userConfig.getTextSessionId();
       if (params.regressionTestMode) {
         textSessionId = -2L; // magic value for remote rule roll-out - includes all results, even from disabled models
       }
       res.add(lt.check2(aText, true, JLanguageTool.ParagraphHandling.NORMAL, listener,
-        params.mode, params.level, executorService, textSessionId));
+        params.mode, params.level, textSessionId));
     } finally {
       if (lt != null) {
         pipelinePool.returnPipeline(settings, lt);

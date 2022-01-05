@@ -3,9 +3,6 @@ parameters:
   run_on_pull:
     default: true
     type: boolean
-  run_on_post:
-    default: false
-    type: boolean
 orbs:
   shallow-checkout: expo/shallow-checkout@1.0.2
 workflows:
@@ -15,7 +12,8 @@ workflows:
     jobs:
       - test-modules-job
   run_on_post_request:
-    when: << pipeline.parameters.run_on_post >>
+    when:
+      not: << pipeline.parameters.run_on_pull >>
     jobs:
       - test-scheduled-job
   run_daily:
@@ -65,57 +63,95 @@ commands:
   get-diffs:
     description: Get diffs via git diff
     steps:
-      - run: cd $CIRCLE_WORKING_DIRECTORY && git diff --name-only <<pipeline.git.base_revision>>..<<pipeline.git.revision>> > /home/circleci/git_diffs.txt 
-#      - run: cd $CIRCLE_WORKING_DIRECTORY && git diff --name-only master.."$CIRCLE_BRANCH" > /home/circleci/git_diffs.txt
-#      - run: cd $CIRCLE_WORKING_DIRECTORY && git show --name-only --pretty="" >> /home/circleci/git_diffs.txt
-      - run: tail --lines=100 /home/circleci/git_diffs.txt
+      - run: cd $CIRCLE_WORKING_DIRECTORY && git diff --name-only <<pipeline.git.base_revision>>..<<pipeline.git.revision>> > /home/circleci/git_diffs.txt || echo "languagetool-core/" > /home/circleci/git_diffs.txt
+      - run:
+          name: Check if diff file has content otherwise add core to force test all
+          command: |
+            if [ -s /home/circleci/git_diffs.txt ]
+            then
+              tail /home/circleci/git_diffs.txt
+            else
+              echo "languagetool-core" > /home/circleci/git_diffs.txt
+            fi
   install-project:
     description: Run maven install
     steps:
       - run: cd $CIRCLE_WORKING_DIRECTORY && mvn -pl '!languagetool-rpm-package' clean install -DskipTests
       - run: cd $CIRCLE_WORKING_DIRECTORY && mvn dependency:go-offline
-  install-project-full:
-    description: Run maven install
+  create-diff-file-for-scheduled:
+    description: Create the difffile to work with scheduled tasks
     steps:
-      - run: cd $CIRCLE_WORKING_DIRECTORY && mvn clean install -DskipTests
-      - run: cd $CIRCLE_WORKING_DIRECTORY && mvn dependency:go-offline
-  run-tests-on-diff:
+      - run: echo "scheduledTask/run_tests" > /home/circleci/git_diffs.txt
+  run-tests:
     parameters:
       path_to_check:
         type: string
+      ignore_diff:
+        type: boolean
+        default: false
+    steps:
+      - when:
+          condition: << parameters.ignore_diff >>
+          steps:
+            - run:
+                name: Check diffs and test modules
+                command: |
+                  if grep -q -e << parameters.path_to_check >>/.* /home/circleci/git_diffs.txt 
+                  then
+                    echo "" > /home/circleci/git_diffs.txt
+                    cd $CIRCLE_WORKING_DIRECTORY && mvn -pl '!languagetool-rpm-package' test -fae
+                  else
+                    echo "No changes detected in <<parameters.path_to_check>>"
+                  fi
+      - unless:
+          condition: << parameters.ignore_diff >>
+          steps:
+            - run:
+                name: Check diffs and test modules
+                command: |
+                  if grep -q -e << parameters.path_to_check >>/.* /home/circleci/git_diffs.txt 
+                  then
+                    cd $CIRCLE_WORKING_DIRECTORY && mvn --projects << parameters.path_to_check >> --also-make test -fae
+                  else
+                    echo "No changes detected in <<parameters.path_to_check>>"
+                  fi
+  save-test-results:
     steps:
       - run:
-          name: Check diffs and test modules
+          name: Save test results
           command: |
-            if grep -q -e << parameters.path_to_check >>/.* /home/circleci/git_diffs.txt 
-            then
-              cd $CIRCLE_WORKING_DIRECTORY && mvn --projects << parameters.path_to_check >> test
-            else
-              echo "No changes detected in <<parameters.path_to_check>>"
-            fi
-  #      - run: grep -q -e << parameters.path_to_check >>/.* /home/circleci/git_diffs.txt && cd $CIRCLE_WORKING_DIRECTORY && mvn --projects << parameters.path_to_check >> test || echo "No changes detected in <<parameters.path_to_check>>"
-  run-all-tests:
-    steps:
-      - run: cd $CIRCLE_WORKING_DIRECTORY && mvn test
+            mkdir -p ~/test-results/junit/
+            find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} ~/test-results/junit/ \;
+          when: always
+      - store_test_results: 
+          path: ~/test-results
+#      - store_artifacts: 
+#          path: ~test-results/junit
 executors:
   docker-openjdk8:
     docker:
       - image: circleci/openjdk:8-jdk
 jobs:
   test-scheduled-job:
+    resource_class: medium
     executor:
       name: docker-openjdk8
     environment:
       MAVEN_OPTS: -Xmx3200m
     steps:
       - custom-checkout
-      - install-project-full
-      - run-all-tests
+      - create-diff-file-for-scheduled
+      - install-project
+      - run-tests:
+          path_to_check: "scheduledTask"
+          ignore_diff: true
+      - save-test-results
       - save_cache:
           paths:
             - ~/.m2
           key: v1-dependencies-{{ checksum "/home/circleci/project/~/project/pom.xml" }}
   test-modules-job:
+    resource_class: medium
     executor:
       name: docker-openjdk8
     environment:
@@ -124,92 +160,94 @@ jobs:
       - custom-checkout
       - get-diffs
       - install-project
-      - run-tests-on-diff:
-          path_to_check: "languagetool-commandline"
-      - run-tests-on-diff:
+      - run-tests:
           path_to_check: "languagetool-core"
-      - run-tests-on-diff:
+          ignore_diff: true
+      - run-tests:
+          path_to_check: "languagetool-commandline"
+      - run-tests:
           path_to_check: "languagetool-dev"
-      - run-tests-on-diff:
+      - run-tests:
           path_to_check: "languagetool-gui-commons"
-      - run-tests-on-diff:
+      - run-tests:
           path_to_check: "languagetool-http-client"
-      - run-tests-on-diff:
+      - run-tests:
           path_to_check: "languagetool-language-modules/ar"
-      - run-tests-on-diff:
+      - run-tests:
           path_to_check: "languagetool-language-modules/ast"
-      - run-tests-on-diff:
+      - run-tests:
           path_to_check: "languagetool-language-modules/be"
-      - run-tests-on-diff:
+      - run-tests:
           path_to_check: "languagetool-language-modules/br"
-      - run-tests-on-diff:
+      - run-tests:
           path_to_check: "languagetool-language-modules/ca"
-      - run-tests-on-diff:
+      - run-tests:
           path_to_check: "languagetool-language-modules/da"
-      - run-tests-on-diff:
+      - run-tests:
           path_to_check: "languagetool-language-modules/de"
-      - run-tests-on-diff:
+      - run-tests:
           path_to_check: "languagetool-language-modules/el"
-      - run-tests-on-diff:
+      - run-tests:
           path_to_check: "languagetool-language-modules/en"
-      - run-tests-on-diff:
+      - run-tests:
           path_to_check: "languagetool-language-modules/eo"
-      - run-tests-on-diff:
+      - run-tests:
           path_to_check: "languagetool-language-modules/es"
-      - run-tests-on-diff:
+      - run-tests:
           path_to_check: "languagetool-language-modules/fa"
-      - run-tests-on-diff:
+      - run-tests:
           path_to_check: "languagetool-language-modules/fr"
-      - run-tests-on-diff:
+      - run-tests:
           path_to_check: "languagetool-language-modules/ga"
-      - run-tests-on-diff:
+      - run-tests:
           path_to_check: "languagetool-language-modules/gl"
-      - run-tests-on-diff:
+      - run-tests:
           path_to_check: "languagetool-language-modules/is"
-      - run-tests-on-diff:
+      - run-tests:
           path_to_check: "languagetool-language-modules/it"
-      - run-tests-on-diff:
+      - run-tests:
           path_to_check: "languagetool-language-modules/ja"
-      - run-tests-on-diff:
+      - run-tests:
           path_to_check: "languagetool-language-modules/km"
-      - run-tests-on-diff:
+      - run-tests:
           path_to_check: "languagetool-language-modules/lt"
-      - run-tests-on-diff:
+      - run-tests:
           path_to_check: "languagetool-language-modules/ml"
-      - run-tests-on-diff:
+      - run-tests:
           path_to_check: "languagetool-language-modules/nl"
-      - run-tests-on-diff:
+      - run-tests:
           path_to_check: "languagetool-language-modules/pl"
-      - run-tests-on-diff:
+      - run-tests:
           path_to_check: "languagetool-language-modules/pt"
-      - run-tests-on-diff:
+      - run-tests:
           path_to_check: "languagetool-language-modules/ro"
-      - run-tests-on-diff:
+      - run-tests:
           path_to_check: "languagetool-language-modules/ru"
-      - run-tests-on-diff:
+      - run-tests:
           path_to_check: "languagetool-language-modules/sk"
-      - run-tests-on-diff:
+      - run-tests:
           path_to_check: "languagetool-language-modules/sl"
-      - run-tests-on-diff:
+      - run-tests:
           path_to_check: "languagetool-language-modules/sv"
-      - run-tests-on-diff:
+      - run-tests:
           path_to_check: "languagetool-language-modules/ta"
-      - run-tests-on-diff:
+      - run-tests:
           path_to_check: "languagetool-language-modules/tl"
-      - run-tests-on-diff:
+      - run-tests:
           path_to_check: "languagetool-language-modules/uk"
-      - run-tests-on-diff:
+      - run-tests:
           path_to_check: "languagetool-language-modules/zh"
-      - run-tests-on-diff:
+      - run-tests:
           path_to_check: "languagetool-office-extension"
-      - run-tests-on-diff:
+      - run-tests:
           path_to_check: "languagetool-server"
-      - run-tests-on-diff:
+      - run-tests:
           path_to_check: "languagetool-standalone"
-      - run-tests-on-diff:
+      - run-tests:
           path_to_check: "languagetool-tools"
-      - run-tests-on-diff:
+      - run-tests:
           path_to_check: "languagetool-wikipedia"
+      - save-test-results
       - save_cache:
           paths:
             - ~/.m2

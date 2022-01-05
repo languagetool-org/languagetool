@@ -23,6 +23,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.rules.Rule;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * An object holding a set of rules with an optional possibility to fetch only the ones applicable for a given sentence
@@ -33,6 +34,7 @@ import java.util.*;
  */
 @ApiStatus.Internal
 public abstract class RuleSet {
+  private volatile Set<String> ruleIds;
 
   /**
    * @return all rules in this set, not filtered
@@ -43,6 +45,18 @@ public abstract class RuleSet {
    * @return all rules from {@link #allRules} that might be applicable to the given sentence.
    */
   public abstract List<Rule> rulesForSentence(AnalyzedSentence sentence);
+
+  /**
+   * @return the ids of {@link #allRules()}
+   * @since 5.6
+   */
+  public Set<String> allRuleIds() {
+    Set<String> result = ruleIds;
+    if (result == null) {
+      ruleIds = result = Collections.unmodifiableSet(allRules().stream().map(Rule::getId).collect(Collectors.toSet()));
+    }
+    return result;
+  }
 
   /**
    * @return a simple RuleSet that returns all the rules from {@link #rulesForSentence}

@@ -73,4 +73,5 @@ public class AmericanEnglish extends English {
     }
     return rules;
   }
+
 }

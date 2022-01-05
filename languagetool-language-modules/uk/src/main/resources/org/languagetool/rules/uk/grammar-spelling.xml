@@ -143,6 +143,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="гідроаеропорт"><marker>гідро-аеропорт</marker>.</example>
          -->
         <example correction="екопоселення"><marker>еко-поселення</marker></example>
+        <example correction="супербагатії">яку складають <marker>супер-багатії</marker></example>
         <example>анти-Забужко</example>
         <example>мета-2013</example>
         <example>контр-адмірал</example>
@@ -1011,6 +1012,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="не треба">Агов, <marker>на треба</marker> цього!</example>
     </rule>
 
+    <rule id="za_te" name="«За те» і «зате»">
+      <pattern>
+        <token negate="yes">,</token>
+        <marker>
+          <token>зате
+            <exception case_sensitive="yes">Зате</exception>
+          </token>
+        </marker>
+        <token>,</token>
+        <token>що</token>
+      </pattern>
+      <message>Можливо треба: <suggestion>за те</suggestion>?</message>
+      <example correction="за те">А не <marker>зате</marker>, що вони скоїли</example>
+      <example>Цікаво, зате, що вони</example>
+      <example>— Зате, щоправда,</example>
+    </rule>
+
+    <rule id="numr_suffix" name="Нарощування числівників">
+      <pattern>
+        <marker>
+          <token postag_regexp="yes" postag="numr.*bad" regexp="yes">[0-9]+-ти</token>
+        </marker>
+      </pattern>
+      <message>Це кількісний числівник (2 класи — два класи), а нарощують лише порядкові числівники (2-й клас — другий клас).</message>
+      <suggestion><match no="1" regexp_match="([0-9]+)-ти" regexp_replace="$1"/></suggestion>
+      <url>https://uk.wikipedia.org/wiki/%D0%92%D1%96%D0%BA%D1%96%D0%BF%D0%B5%D0%B4%D1%96%D1%8F:%D0%A1%D1%82%D0%B8%D0%BB%D1%8C/%D0%9D%D0%B0%D1%80%D0%BE%D1%89%D0%B5%D0%BD%D0%BD%D1%8F_%D0%BF%D0%BE%D1%80%D1%8F%D0%B4%D0%BA%D0%BE%D0%B2%D0%B8%D1%85_%D1%87%D0%B8%D1%81%D0%BB%D1%96%D0%B2%D0%BD%D0%B8%D0%BA%D1%96%D0%B2</url>
+      <example correction="10">А не <marker>10-ти</marker> класів</example>
+    </rule>
 
     <rulegroup id="LATIN_LETTERS_IN_SENTENCE" name="Латинські літери в реченні">
       <rule>
@@ -1222,6 +1251,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="Машина"><marker>машина</marker> приїхала рано.</example>
     </rule>
 -->
+
+    <rule id="z_velykoiy" name="Назви з великої">
+      <pattern>
+        <and>
+          <token case_sensitive="yes" regexp="yes">[а-яіїєґ].*</token>
+          <token regexp="yes" inflected="yes">богородиця|господь|благовіщення|великдень|різдво|покрова|євангеліє
+            <exception regexp="yes" inflected="yes">покров|господа|великодній</exception>
+          </token>
+        </and>
+      </pattern>
+      <message>За чинним правописом назви свят, культових книг тощо пишемо з великої літери</message>
+      <suggestion><match no="1" case_conversion ="startupper"/></suggestion>
+      <example correction="Різдва">готувався до <marker>різдва</marker></example>
+      <example>по тонкому покрову</example>
+      <example>така затишна господа</example>
+    </rule>
 
     <rule id="vid_teper" name="Від тепер">
       <pattern>

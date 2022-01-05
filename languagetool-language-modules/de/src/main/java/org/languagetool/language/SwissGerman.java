@@ -23,6 +23,7 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Rule;
+import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.de.SwissCompoundRule;
 import org.languagetool.rules.de.SwissGermanSpellerRule;
 import org.languagetool.rules.spelling.SpellingCheckRule;
@@ -74,6 +75,22 @@ public class SwissGerman extends German {
   @Override
   public boolean isVariant() {
     return true;
+  }
+  
+  @Override
+  public List<RuleMatch> adaptSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
+    List<RuleMatch> newRuleMatches = new ArrayList<>();
+    for (RuleMatch rm : ruleMatches) {
+      List<String> replacements = rm.getSuggestedReplacements();
+      List<String> newReplacements = new ArrayList<>();
+      for (String s : replacements) {
+        s = s.replaceAll("ß", "ss");
+        newReplacements.add(s);
+      }
+      RuleMatch newMatch = new RuleMatch(rm, newReplacements);
+      newRuleMatches.add(newMatch);
+    }
+    return newRuleMatches;
   }
 
 }
