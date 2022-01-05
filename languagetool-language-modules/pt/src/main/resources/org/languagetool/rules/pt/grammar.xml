@@ -24837,7 +24837,7 @@ Como nos canta Afonso X de Castela, o Rei Sábio.
 
 	<!-- À há -->
     <rulegroup id='CONFUSÃO_À_HÁ' name="Confusão: à/há (expressões de tempo/quantidade)">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-04 (1-JAN-2022+)      -->
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-04/5 (1-JAN-2022+)      -->
 	<!--
 O show aconteceu à aproximadamente dois meses. → O show aconteceu há aproximadamente dois meses.
 Conheço a Ana à quase 30 anos. → Conheço a Ana há quase 30 anos.
@@ -24845,6 +24845,7 @@ Ainda à muito para fazer. → Ainda há muito para fazer.
 Ainda à pouco para fazer. → Ainda há pouco para fazer.
 Ainda à bastante para fazer. → Ainda há bastante para fazer.
 Ainda à imenso para fazer. → Ainda há imenso para fazer.
+Tudo à bastante tempo. → Tudo há bastante tempo.
 
 NOTE THAT THIS FIRST RULE DOESN'T HAVE AN EXCEPTION FOR 'SPS.+' TO FLAG:
 Até à relativamente pouco tempo era possível observar-se as faixas horizontais de azulejos. → "Até HÁ"
@@ -24939,7 +24940,7 @@ Essas movendo-se obviamente também em direção contrária à realmente verific
 		</antipattern>
 
 		<pattern>
-			<token postag='SENT_START|_PUNCT|NC.+|AQ.+|NP.+|RG|PP.+|V.+' postag_regexp='yes'/>
+			<token postag='SENT_START|_PUNCT|NC.+|AQ.+|NP.+|RG|PP.+|V.+|PI0NN000' postag_regexp='yes'/>
 			<marker>
 				<token>à</token>
 			</marker>
@@ -24952,6 +24953,7 @@ Essas movendo-se obviamente também em direção contrária à realmente verific
 		<example correction="há">Ainda <marker>à</marker> muito para fazer.</example>
 		<example correction="há">Conheço a Ana <marker>à</marker> quase 30 anos.</example>
 		<example correction="há">Esteve à margem <marker>à</marker> aproximadamente dois meses.</example>
+		<example correction="há">Tudo <marker>à</marker> bastante tempo.</example>
 		<example>Ainda há muito para fazer.</example>
 		<example>Ainda há pouco para fazer.</example>
 		<example>Ainda há bastante para fazer.</example>
@@ -24968,6 +24970,7 @@ Essas movendo-se obviamente também em direção contrária à realmente verific
 Conheço a Ana à 30 anos. → Conheço a Ana há 30 anos.
 Conhecemos os maias à séculos. → Conhecemos os maias há séculos.
 Nos barcos à toneladas de peixe pescado. → Nos barcos há toneladas de peixe pescado.
+Tudo à minutos. → Tudo há minutos.
 	-->
 	  <rule>
 <!--
@@ -25005,7 +25008,7 @@ Assistir à TV é um dos meus passatempos favoritos.
 		</antipattern>	
 
 		<pattern>
-			<token postag='SENT_START|_PUNCT|NC.+|AQ.+|NP.+|RG|PP.+|V.+' postag_regexp='yes'>
+			<token postag='SENT_START|_PUNCT|NC.+|AQ.+|NP.+|RG|PP.+|V.+|PI0NN000' postag_regexp='yes'>
 				<exception postag_regexp='yes' postag='SPS.+'/>
 			</token>
 			<marker>
@@ -25021,6 +25024,7 @@ Assistir à TV é um dos meus passatempos favoritos.
 		<example correction="há">Conheço a Ana <marker>à</marker> 30 anos.</example>
 		<example correction="há">Conhecemos os maias <marker>à</marker> séculos.</example>
 		<example correction="há">Nos barcos <marker>à</marker> toneladas de peixe pescado.</example>
+		<example correction="há">Tudo <marker>à</marker> minutos.</example>	
 		<example>A agricultura de subsistência, muito praticada até à década de 1980, tem vindo a ser abandonada.</example>
 		<example>Sua produção, muito superior à das ilhas portuguesas no Atlântico, supria quase toda a Europa.</example>
 		<example>A estrutura de funcionamento das comunidades intermunicipais é muito semelhante à das áreas metropolitanas.</example>
