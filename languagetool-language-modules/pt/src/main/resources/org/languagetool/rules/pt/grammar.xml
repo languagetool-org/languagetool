@@ -25066,7 +25066,7 @@ Assistir à TV é um dos meus passatempos favoritos.
 
 
 	<!-- DÊS desde -->
-    <rulegroup id='CONFUSÃO_DÊS_DESDE' name="Confusão: dês/desde" default="temp_off">
+    <rulegroup id='CONFUSÃO_DÊS_DESDE' name="Confusão: dês/desde">
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-03 (1-JAN-2022+)      -->
 	<!--
 Faço isso dês que me dê o livro. → Faço isso desde que me dê o livro.
@@ -42070,6 +42070,25 @@ Era visto nas mãos de todos os japoneses em paradas.
 
  <category id='TRANSLATION_ERRORS' name="Erros de Tradução" type="mistranslation">
 
+
+
+	<!-- ATAQUES EM MASSA ataques em grande escala -->
+    <rule id='ATAQUES_EM_MASSA' name="Ataques em grande escala">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-05 (Checked/Enhanced) (1-JAN-2022+)      -->
+      <pattern>
+          <token regexp='yes'>ataques?</token>
+          <token>em</token>
+		  <marker>
+			<token>massa</token>
+		  </marker>
+      </pattern>
+	  <message>Expressão não pode ser traduzida literalmente.</message>
+      <suggestion>grande escala</suggestion>
+      <example correction="grande escala">As botnets fazem ataques em <marker>massa</marker>.</example>
+    </rule>
+
+
+
     <rule id='CAMINHAR_CAMINHOS' name="percorrer caminhos">
     <!-- Created by Marco A.G. Pinto, 2017-XX-XX -->
       <pattern>
@@ -42080,17 +42099,6 @@ Era visto nas mãos de todos os japoneses em paradas.
       </pattern>
       <message>Substitua por <suggestion><match no='1' postag='V.+' postag_regexp='yes'>percorrer</match></suggestion>.</message>
       <example correction="percorrer">Deve <marker>caminhar</marker> caminhos descobertos por tentativa e erro.</example>
-    </rule>
-
-    <rule id='ATAQUES_EM_MASSA' name="Ataques em grande escala">
-    <!-- Created by Marco A.G. Pinto, 2017-XX-XX -->
-      <pattern>
-          <token regexp='yes'>ataques?</token>
-          <token>em</token>
-          <token>massa</token>
-      </pattern>
-      <message>Substitua por <suggestion>\1 em grande escala</suggestion>.</message>
-      <example correction="ataques em grande escala">As botnets fazem <marker>ataques em massa</marker>.</example>
     </rule>
 
   <rulegroup id='ENG_ELETRICO' name="Erro de tradução: 'engenheiro elétrico'">
