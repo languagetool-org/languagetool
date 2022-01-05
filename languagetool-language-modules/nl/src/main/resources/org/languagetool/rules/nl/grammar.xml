@@ -33832,9 +33832,14 @@ steenwijk;Steenwijk
 			</rule>
 		</rulegroup>
 		<rulegroup id="LANGE_TERMIJN_X" name="lange termijn geheugen">
+			<antipattern>
+				<token>op</token>
+				<token regexp="yes">lange|korte|langere</token>
+				<token>termijn</token>
+			</antipattern>
 			<rule>
 				<pattern>
-					<token regexp="yes">lange|korte</token>
+					<token regexp="yes">lange|korte|langere</token>
 					<token>termijn</token>
 					<token postag ="ZNW.*" postag_regexp="yes"><exception postag_regexp="yes" postag="BNW.*VRB|WKW:TGW:3EP"/><exception regexp="yes">één|een</exception></token>
 				</pattern>
@@ -33843,7 +33848,7 @@ steenwijk;Steenwijk
 			</rule>
 			<rule>
 				<pattern>
-					<token regexp="yes">lange|korte</token>
+					<token regexp="yes">lange|korte|langere</token>
 					<token regexp="yes">termijn...*</token>
 				</pattern>
 				<message>U bedoelt mogelijk: <suggestion>\1\2</suggestion>.</message>
@@ -34508,6 +34513,17 @@ steenwijk;Steenwijk
 	</category>
 	<category id="CONFUSED_WORDS" name="Woordverwarring">
 
+		<rulegroup id="VERIJZEN" name="Verijzen/verwijzen/verrijzen">
+			<rule>
+				<pattern>
+					<token inflected="yes">verijzen</token>
+				</pattern>
+				<message>Verijzen is bevriezen; verrijzen is ontstaan; verwijzen kan het ook nog zijn.</message>
+				<suggestion><match no="1" postag_regexp="yes" postag="WKW.*">verrijzen</match></suggestion>
+				<suggestion><match no="1" postag_regexp="yes" postag="WKW.*">verwijzen</match></suggestion>
+				<example correction="verrijst|verwijst">Hier <marker>verijst</marker> een nieuw gebouw.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="RECHTERLIJK" name="Rechte(r)lijk">
 			<rule>
 				<antipattern><token>rechterlijke</token><token regexp="yes">macht|orde</token></antipattern>
