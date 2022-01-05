@@ -15703,23 +15703,23 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
 
     <rulegroup id="GERMAN_STREET_NAMES" name="ignore spelling of German street names">
         <rule>
-            <pattern>
+            <pattern case_sensitive="yes">
                 <token regexp="yes">[A-ZÄÖÜ][a-zäöüß]+</token>
-                <token case_sensitive="yes">Str</token>
+                <token>Str</token>
                 <token spacebefore="no">.</token>
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>
         <rule>
-            <pattern>
+            <pattern case_sensitive="yes">
                 <token regexp="yes">[A-ZÄÖÜ][a-zäöüß]+</token>
-                <token case_sensitive="yes" regexp="yes">(Straße|Allee|Weg|Chaussee|Twiete)</token>
+                <token regexp="yes">(Straße|Allee|Weg|Chaussee|Twiete)</token>
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>
         <rule>
-            <pattern>
-                <token case_sensitive="yes" regexp="yes">[A-ZÄÖÜ][a-zäöüß]+-(Straße|Allee|Weg|Chaussee|Twiete)</token>
+            <pattern case_sensitive="yes">
+                <token regexp="yes">[A-ZÄÖÜ][a-zäöüß]+-(Straße|Allee|Weg|Chaussee|Twiete)</token>
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>

@@ -349,6 +349,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("co ") &&
                    !k.getReplacement().toLowerCase().startsWith("de ") &&
                    !k.getReplacement().toLowerCase().startsWith("ex ") &&
+                   !k.getReplacement().toLowerCase().startsWith("es ") &&
                    !k.getReplacement().toLowerCase().startsWith("mid ") &&
                    !k.getReplacement().toLowerCase().startsWith("non ") &&
                    !k.getReplacement().toLowerCase().startsWith("bio ") &&
@@ -591,6 +592,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     Map<String, List<String>> s = new HashMap<>();
     s.put("retd", Arrays.asList("retd.", "retired"));
     s.put("Retd", Arrays.asList("Retd.", "Retired"));
+    s.put("repetion", Arrays.asList("repetition"));
+    s.put("Repetion", Arrays.asList("Repetition"));
+    s.put("repetions", Arrays.asList("repetitions"));
+    s.put("Repetions", Arrays.asList("Repetitions"));
     s.put("rom", Arrays.asList("room"));
     s.put("abt", Arrays.asList("about"));
     s.put("becuz", Arrays.asList("because"));
