@@ -1227,6 +1227,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("strang", w -> Arrays.asList("Strang", "strengte"));
     put("Gym", w -> Arrays.asList("Fitnessstudio", "Gymnasium"));
     put("Gyms", w -> Arrays.asList("Fitnessstudios", "Gymnasiums"));
+    put("gäng", w -> Arrays.asList("ging", "gang"));
+    put("di", w -> Arrays.asList("du", "die", "Di.", "der", "den"));
+    put("Di", w -> Arrays.asList("Du", "Die", "Di.", "Der", "Den"));
     put("mußt", "musst");
     put("müßtest", "müsstest");
     put("müßten", "müssten");

@@ -114,7 +114,7 @@ public class VerbAgreementRule extends TextLevelRule {
       tokenRegex("['’`´‘]")
     ),
     Arrays.asList(
-      tokenRegex("wir|sie"),
+      tokenRegex("wir|sie|zu"),
       tokenRegex("seh|steh|geh"),
       tokenRegex("['’`´‘]"),
       token("n")

@@ -100,7 +100,7 @@ class CaseRuleAntiPatterns {
     ),
     Arrays.asList(
       // Er arbeitet im Bereich Präsidiales.
-      csRegex("Bereich"),
+      csRegex("Bereich|Departement"),
       csRegex("[A-ZÄÖÜ].+es")
     ),
     Arrays.asList(
@@ -114,9 +114,9 @@ class CaseRuleAntiPatterns {
     ),
     Arrays.asList(
       // "Tom ist ein engagierter, gutaussehender Vierzigjähriger, der..."
-      posRegex("(ADJ:|PA2).*"),
+      posRegex("(ADJ:|PA[12]).*"),
       token(","),
-      posRegex("(ADJ:|PA2).*"),
+      posRegex("(ADJ:|PA[12]).*"),
       regex("[A-ZÖÄÜ].+jährige[mnr]?"),
       posRegex("(?!SUB).*")
     ),
@@ -258,7 +258,7 @@ class CaseRuleAntiPatterns {
     ),
     // names with english adjectives
     Arrays.asList(
-      regex("Digital|Global|Smart|International|Trade|Private|Live|Urban|Man|Total|Native|Imperial|Modern|Responsive|Simple|Legend|Human|Light|Ministerial"),
+      regex("Digital|Global|Smart|International|Trade|Private|Live|Urban|Man|Total|Native|Imperial|Modern|Responsive|Simple|Legend|Human|Light|Ministerial|National"),
       pos("UNKNOWN")
     ),
     Arrays.asList(
@@ -605,7 +605,7 @@ class CaseRuleAntiPatterns {
     ),
     Arrays.asList( // Hey Matt (name),
       regex("Hey|Hi|Hallo|Na|Moin|Servus"),
-      regex("Matt|Will")
+      regex("Matt|Will|Per")
     ),
     Arrays.asList( // Hey mein Süßer,
       regex("Hey|Hi|Hallo|Na|Moin|Servus"),
@@ -748,9 +748,14 @@ class CaseRuleAntiPatterns {
     Arrays.asList( // "Sa. oder So."
       csRegex("Mo|Di|Mi|Do|Fr|Sa"),
       token("."),
-      csRegex("&|und|oder|-"),
+      csRegex("&|und|oder|-|,"),
       csToken("So"),
       token(".")
+    ),
+    Arrays.asList( // "Sa, So"
+      csToken("Sa"),
+      csRegex("&|und|oder|-|,"),
+      csToken("So")
     ),
     Arrays.asList( // Es hatte 10,5 Ah
       csRegex("\\d+"),
@@ -1144,6 +1149,38 @@ class CaseRuleAntiPatterns {
       csToken("das"),
       csToken("mal"),
       csRegex("[a-zäöüß].+n")
+    ),
+    Arrays.asList(
+      regex("[^a-zäöüß\\-0-9]+"),
+      csToken("["),
+      csToken("…"),
+      csToken("]"),
+      csRegex("[A-ZÄÖÜ].+")
+    ),
+    Arrays.asList(
+      regex("[^a-zäöüß\\-0-9]+"),
+      csToken("["),
+      csToken("."),
+      csToken("."),
+      csToken("."),
+      csToken("]"),
+      csRegex("[A-ZÄÖÜ].+")
+    ),
+    Arrays.asList( // Kund:in
+      csToken("Kund"),
+      csRegex("[:_*\\/]"),
+      regex("in|innen")
+    ),
+    Arrays.asList( // Wie ein verstoßener Größenwahnsinniger.
+      posRegex("ART:.*|PRO:POS:.*"),
+      posRegex("PA[12].*"),
+      posRegex("SUB.*ADJ"),
+      csRegex("[a-zäöüß\\-,\\.\\!\\?…;:–\\)\\(]+")
+    ),
+    Arrays.asList( // Vorab das Wichtigste - ...
+      posRegex("das"),
+      posRegex("SUB.*NEU:ADJ"),
+      csRegex("[a-zäöüß\\-,\\.\\!\\?…;:–\\)\\(]+")
     )
   );
 

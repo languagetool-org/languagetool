@@ -39,6 +39,10 @@ class AgreementRuleAntiPatterns2 {
       tokenRegex("Managers?")
     ),
     Arrays.asList(
+      token("Wohnungsbau"),
+      token("Aalen")
+    ),
+    Arrays.asList(
       token("Display"),
       tokenRegex("Ads?|Advertising")
     ),

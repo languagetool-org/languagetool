@@ -94,11 +94,13 @@ public class CaseRule extends Rule {
     "Packet", // misspelling of "Paket" (caught by spell checker)
     "Adult", // eng
     "Apart", // eng
+    "Fair", // eng
     "Viral", // eng
     "Tough", // eng
     "Resilient", // eng
     "Hexagonal", // eng
     "Responsive", // eng
+    "Anno", // Name
     "Mo",
     "Di",
     "Mi",
@@ -267,6 +269,25 @@ public class CaseRule extends Rule {
     "Flansch",
     "WhatsApp",
     "Verschleiß",
+    "Schutzsuchende", // gendered form
+    "Schutzsuchenden", // gendered form
+    "Versicherte",
+    "Versicherten", // gendered form
+    "Lernende", // gendered form
+    "Lernenden", // gendered form
+    "Teilnehmende", // gendered form
+    "Teilnehmenden", // gendered form
+    "Radfahrende", // gendered form
+    "Radfahrenden", // gendered form
+    "Autofahrende", // gendered form
+    "Autofahrenden", // gendered form
+    "Auszubildene", // gendered form
+    "Auszubildenen", // gendered form
+    "Absolvierende", // gendered form
+    "Absolvierenden", // gendered form
+    "Einheimische",
+    "Einheimischen",
+    "Einheimischer",
     "Wehrbeauftragter",
     "Wehrbeauftragte",
     "Wehrbeauftragten",

@@ -568,6 +568,8 @@ public class AgreementRuleTest {
     assertGood("Vogue, eigentlich als B-Seite der letzten Like A Prayer-Auskopplung Keep It Together gedacht, wurde kurzfristig als eigenständige Single herausgebracht");
     assertGood("..., die laufend Gewaltsituationen ausgeliefert sind");
     assertGood("Dann folgte die Festnahme der dringend Tatverdächtigen.");
+    assertGood("Von der ersten Spielminute an machten die Münsteraner Druck und ...");
+    assertGood("Wenn diese Prognose bestätigt wird, wird empfohlen, dass Unternehmen die gefährliche Güter benötigen, die Transporte am Montag und Dienstag machen.");
 
     assertGood("Ich habe meine Projektidee (die riesiges finanzielles Potenzial hat) an einen Unternehmenspräsidenten geschickt.");
     assertGood("Als weitere Rechtsquelle gelten gelegentlich noch immer der Londoner Court of Appeal und das britische House of Lords.");

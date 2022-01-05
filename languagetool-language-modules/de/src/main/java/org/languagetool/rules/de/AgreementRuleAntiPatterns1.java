@@ -905,6 +905,16 @@ class AgreementRuleAntiPatterns1 {
       token("Windows"),
       tokenRegex("\\d+")
     ),
+    // wird empfohlen, dass Unternehmen die gefährliche Güter benötigen ...
+    Arrays.asList(
+      token("dass"),
+      new PatternTokenBuilder().posRegex("ADJ.*|PA[12].*").min(0).build(),
+      posRegex("SUB:.*PLU.*"),
+      token("die"),
+      posRegex("ADJ.*|PA[12].*"),
+      posRegex("SUB:.*"),
+      posRegex("VER:.*")
+    ),
     // TODO: comment in
     // Arrays.asList(
     //   // die gegnerischen Shooting Guards
@@ -962,6 +972,13 @@ class AgreementRuleAntiPatterns1 {
     //   posRegex("SUB.*SIN.*"),
     //   new PatternTokenBuilder().posRegex("UNKNOWN").tokenRegex("(?i)[A-ZÄÖÜ].+").build()
     // ),
+    Arrays.asList(
+      // Von der ersten Spielminute an machten die Münsteraner Druck und ...
+      new PatternTokenBuilder().matchInflectedForms().tokenRegex("machen").build(),
+      token("die"),
+      posRegex("SUB.*PLU.*"),
+      tokenRegex("Druck")
+    ),
     Arrays.asList(
       tokenRegex("Ende|Mitte|Anfang"), // "Ende letzten Jahres" "Ende der 50er Jahre"
       new PatternTokenBuilder().posRegex("ART:DEF:GEN:.*").min(0).build(),
