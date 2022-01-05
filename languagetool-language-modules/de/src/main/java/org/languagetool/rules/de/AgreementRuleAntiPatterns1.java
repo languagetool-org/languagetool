@@ -963,9 +963,9 @@ class AgreementRuleAntiPatterns1 {
     //   new PatternTokenBuilder().posRegex("UNKNOWN").tokenRegex("(?i)[A-ZÄÖÜ].+").build()
     // ),
     Arrays.asList(
-      tokenRegex("Ende|Mitte|Anfang"), // "Ende letzten Jahres"
+      tokenRegex("Ende|Mitte|Anfang"), // "Ende letzten Jahres" "Ende der 50er Jahre"
       new PatternTokenBuilder().posRegex("ART:DEF:GEN:.*").min(0).build(),
-      new PatternTokenBuilder().posRegex("ADJ.*:GEN:.*").matchInflectedForms().tokenRegex("dieser|(vor)?letzter|[0-9]+er").build(),
+      new PatternTokenBuilder().posRegex("ADJ.*:(GEN|DAT):.*|ZAL").matchInflectedForms().tokenRegex("dieser|(vor)?letzter|[0-9]+er").build(),
       tokenRegex("Woche|Monats|Jahr(es?|zehnts|hunderts|tausends)")
     ));
 

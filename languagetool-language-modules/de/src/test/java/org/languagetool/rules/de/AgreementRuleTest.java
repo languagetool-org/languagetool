@@ -91,6 +91,8 @@ public class AgreementRuleTest {
     assertGood("Dieses Bild stammt von einem lange Zeit unbekannten Maler.");
     assertGood("Das Staatsoberhaupt ist der Verfassung zufolge der König.");
     assertGood("Der Ende der 1960er Jahre umgestaltete Garten ist schön.");
+    assertGood("Der Ende der achtziger Jahre umgestaltete Garten hat unter anderem ungefähr 70 verschiedene Sorten von Rosen und Volieren für exotische Vögel.");
+    assertGood("Als Vorboten des Discounthandels sind die Ende der 50er Jahre in der Bundesrepublik Deutschland wiederauflebenden Erscheinungsformen des Beziehungs-, Betriebs- und Belegschaftshandels anzusehen.");
     assertGood("Die Anfang des letzten Monats umgestaltete Veranda ist schön.");
     assertGood("Der Mitte 2001 umgestaltete Garten ist schön.");
     //assertBad("Die Bad Taste Party von Susi", "Die Bad-Taste-Party");   // not supported yet
