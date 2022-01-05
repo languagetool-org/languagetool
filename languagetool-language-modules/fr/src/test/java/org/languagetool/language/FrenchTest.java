@@ -57,33 +57,5 @@ public class FrenchTest {
     assertEquals(lang.toAdvancedTypography("C'est l'\"homme\"."), "C’est l’« homme ».");
     assertEquals(lang.toAdvancedTypography("Vouliez-vous dire <suggestion>50\u00a0$</suggestion>?"), "Vouliez-vous dire «\u00a050\u00a0$\u00a0»\u202f?");
   }
-  
-  @Test
-  public void testRepeatedPatternRules() throws IOException {
-    Language lang = new French();
-    JLanguageTool tool = new JLanguageTool(lang);
-        
-    List<RuleMatch> matches = tool.check("J’adore l’esprit et le son de cette guitare qui convient à tous les styles et en particulier à ce que j’ai envie faire ! J’adore l’esprit et le son de cette guitare qui convient à tous les styles et en particulier à ce que j’ai envie faire !");
-    assertEquals(1, matches.size());
-    assertEquals(199, matches.get(0).getFromPos());
-    
-    matches = tool.check("J’adore l’esprit et le son de cette guitare qui convient à tous les styles et en particulier à ce que j’ai envie faire !");
-    assertEquals(0, matches.size());
-    
-    matches = tool.check("Tout d'abord, ça a l'air vrai.");
-    assertEquals(0, matches.size());
-    
-    matches = tool.check("Tout d'abord, ça a l'air vrai. Tout d'abord, ça a l'air vrai.");
-    assertEquals(0, matches.size());
-    
-    matches = tool.check("Tout d'abord, ça a l'air vrai. Tout d'abord, ça a l'air vrai. Les élections sont marquées par la dispersion entre une dizaine de partis capables d'accéder au Parlement, soit la première fois qu'autant de formations sont représentées. Cette diversité, apparue après la grave crise économique de 2008, rend plus volatile le vote des électeurs et complexifie la constitution de coalitions gouvernementales. Tout d'abord, ça a l'air vrai.");
-    assertEquals(0, matches.size());
-    
-    matches = tool.check("Tout d'abord, ça a l'air vrai. Tout d'abord, ça a l'air vrai. Tout d'abord, ça a l'air vrai.");
-    assertEquals(1, matches.size());
-    assertEquals(62, matches.get(0).getFromPos());
-    
-    
-  }
 
 }
