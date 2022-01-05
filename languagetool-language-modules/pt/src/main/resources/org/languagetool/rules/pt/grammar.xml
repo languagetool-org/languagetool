@@ -4642,6 +4642,29 @@ António Gonçalves Dias nasceu em 10 de agosto de 1823, no sítio Boa Vista, em
 		  <token postag='AQ0.P.+|NC.P.+' postag_regexp='yes'/>	  
       </antipattern>
 <!-- MARCOAGPINTO 2021-09-21 (25-JUN-2021+) *END* -->
+
+<!-- MARCOAGPINTO 2022-01-05 (1-JAN-2022+) *START* -->
+<!--
+Estou de férias e regresso de sábado a oito.
+Estou de férias e regresso de segunda-feira a oito.
+
+THIS ANTIPATTERN APPEARS ONCE IN THE GRAMMAR.
+IT SHOWS NO HITS AGAINST A 900 000 CORPORA.
+-->
+      <antipattern>
+		<token regexp='yes'>segunda|terça|quarta|quinta|sexta|sábado|domingo</token>
+		<token>a</token>
+		<token postag='Z0.+' postag_regexp='yes'/>
+      </antipattern>
+      <antipattern>
+		<token regexp='yes'>segunda|terça|quarta|quinta|sexta</token>
+		<token spacebefore='no' regexp='yes'>[-]</token>
+		<token spacebefore='no'>feira</token>
+		<token>a</token>
+		<token postag='Z0.+' postag_regexp='yes'/>
+      </antipattern>	  
+<!-- MARCOAGPINTO 2022-01-05 (1-JAN-2022+) *END* -->
+
       <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
         <marker>
@@ -4718,6 +4741,9 @@ António Gonçalves Dias nasceu em 10 de agosto de 1823, no sítio Boa Vista, em
 	  <example>Existe uma linha de gol a 10 jardas de cada uma das linhas finais e paralela a ambas.</example>
 	  <example>A blastulação ocorre depois da clivagem ter dado origem a 128 células.</example>
 	  <example>António Gonçalves Dias nasceu em 10 de agosto de 1823, no sítio Boa Vista, em terras de Jatobá (a 14 léguas de Caxias).</example>
+	  
+	  <example>Estou de férias e regresso de sábado a oito.</example>
+	  <example>Estou de férias e regresso de segunda-feira a oito.</example>
 	</rule>
     <rule>
       <antipattern>
