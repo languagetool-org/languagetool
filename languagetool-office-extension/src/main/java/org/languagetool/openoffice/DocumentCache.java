@@ -22,6 +22,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.languagetool.openoffice.DocumentCursorTools.DocumentText;
 import org.languagetool.openoffice.FlatParagraphTools.ParagraphContainer;
 import org.languagetool.openoffice.OfficeDrawTools.ImpressParagraphContainer;
 
@@ -30,163 +31,267 @@ import com.sun.star.lang.XComponent;
 
 /**
  * Class to store the Text of a LO document (document cache)
+ * 
  * @since 5.0
  * @author Fred Kruse
  */
 public class DocumentCache implements Serializable {
-  
-  private static final long serialVersionUID = 2L;
 
-  private static boolean debugMode;                         //  should be false except for testing
+  private static final long serialVersionUID = 3L;
 
-  private List<String> paragraphs = null;                   //  stores the flat paragraphs of document
-  private List<Integer> chapterBegins = null;               //  stores the paragraphs formated as headings; is used to subdivide the document in chapters
-  private List<SerialLocale> locales = null;                //  stores the language of the paragraphs;
-  private List<int[]> footnotes = null;                     //  stores the footnotes of the paragraphs;
-  private List<Integer> toTextMapping = new ArrayList<>();  //  Mapping from FlatParagraph to DocumentCursor
-  private List<Integer> toParaMapping = new ArrayList<>();  //  Mapping from DocumentCursor to FlatParagraph
+  public final static int CURSOR_TYPE_UNKNOWN = -1;
+  public final static int CURSOR_TYPE_ENDNOTE = 0;
+  public final static int CURSOR_TYPE_FOOTNOTE = 1;
+  public final static int CURSOR_TYPE_HEADER_FOOTER = 2;
+  public final static int CURSOR_TYPE_TEXT = 3;
+  public final static int CURSOR_TYPE_TABLE = 4;
+
+  public static final int NUMBER_CURSOR_TYPES = 5;
+
+  private static boolean debugMode; // should be false except for testing
+
+  private final List<String> paragraphs = new ArrayList<String>(); // stores the flat paratoTextMappinggraphs of
+                                                                   // document
+
+  private final List<List<Integer>> chapterBegins = new ArrayList<List<Integer>>(); // stores the paragraphs formated as
+                                                                                    // headings; is used to subdivide
+                                                                                    // the document in chapters
+  private final List<SerialLocale> locales = new ArrayList<SerialLocale>(); // stores the language of the paragraphs;
+  private final List<int[]> footnotes = new ArrayList<int[]>(); // stores the footnotes of the paragraphs;
+  private final List<TextParagraph> toTextMapping = new ArrayList<>(); // Mapping from FlatParagraph to DocumentCursor
+  private final List<List<Integer>> toParaMapping = new ArrayList<>(); // Mapping from DocumentCursor to FlatParagraph
+  private final boolean isImpress;
   private int defaultParaCheck;
-  private boolean isImpress = false;
   private boolean isReset = false;
 
-  DocumentCache(DocumentCursorTools docCursor, FlatParagraphTools flatPara, int defaultParaCheck, 
-      Locale docLocale, XComponent xComponent, boolean isImpress) {
+  DocumentCache(boolean isImpress) {
+    debugMode = OfficeTools.DEBUG_MODE_DC;
+    this.isImpress = isImpress;
+  }
+
+  DocumentCache(DocumentCursorTools docCursor, FlatParagraphTools flatPara, int defaultParaCheck, Locale docLocale,
+      XComponent xComponent, boolean isImpress) {
     debugMode = OfficeTools.DEBUG_MODE_DC;
     this.defaultParaCheck = defaultParaCheck;
     this.isImpress = isImpress;
-    if (isImpress) {
-      resetImpressCache(xComponent);
-    } else {
-      reset(docCursor, flatPara, docLocale);
-    }
+    refresh(docCursor, flatPara, docLocale, xComponent);
   }
-  
+
   DocumentCache(DocumentCache in) {
-    paragraphs = new ArrayList<String>(in.paragraphs);
-    chapterBegins = new ArrayList<Integer>(in.chapterBegins);
-    locales = new ArrayList<SerialLocale>(in.locales);
-    footnotes = new ArrayList<int[]>(in.footnotes);
-    toTextMapping = new ArrayList<Integer>(in.toTextMapping);
-    toParaMapping = new ArrayList<Integer>(in.toParaMapping);
-    defaultParaCheck = in.defaultParaCheck;
+    debugMode = OfficeTools.DEBUG_MODE_DC;
+    add(in);
     isImpress = in.isImpress;
   }
-  
-  DocumentCache(List<String> paragraphs, List<String> textParagraphs, List<int[]> footnotes, Locale locale) {
-    this.paragraphs = paragraphs;
-    this.footnotes = footnotes;
-    chapterBegins = new ArrayList<Integer>();
-    locales = new ArrayList<SerialLocale>();
+
+  /**
+   * set the cache only for test use
+   */
+  public void setForTest(List<String> paragraphs, List<List<String>> textParagraphs, List<int[]> footnotes,
+      List<List<Integer>> chapterBegins, Locale locale) {
+    debugMode = OfficeTools.DEBUG_MODE_DC;
+    this.paragraphs.addAll(paragraphs);
+    this.footnotes.addAll(footnotes);
+    this.chapterBegins.addAll(chapterBegins);
     for (int i = 0; i < paragraphs.size(); i++) {
       locales.add(new SerialLocale(locale));
+    }
+    for (int i = 0; i < NUMBER_CURSOR_TYPES; i++) {
+      toParaMapping.add(new ArrayList<Integer>());
     }
     mapParagraphs(textParagraphs);
   }
   
   /**
-   * reset the document cache
-   * load the actual state of the document into the cache
-   * is only used for writer documents 
+   * Refresh the cache
    */
-  public synchronized void reset(DocumentCursorTools docCursor, FlatParagraphTools flatPara, Locale docLocale) {
+  public synchronized void refresh(DocumentCursorTools docCursor, FlatParagraphTools flatPara, Locale docLocale, XComponent xComponent) {
+    if (isImpress) {
+      refreshImpressCache(xComponent);
+    } else {
+      refreshWriterCache(docCursor, flatPara, docLocale);
+    }
+  }
+
+  /**
+   * reset the document cache load the actual state of the document into the cache
+   * is only used for writer documents
+   */
+  private void refreshWriterCache(DocumentCursorTools docCursor, FlatParagraphTools flatPara, Locale docLocale) {
     try {
+      long startTime = System.currentTimeMillis();
       isReset = true;
-      List<String> textParas = docCursor.getAllTextParagraphs();
+      clear();
+      for (int i = 0; i < NUMBER_CURSOR_TYPES; i++) {
+        toParaMapping.add(new ArrayList<Integer>());
+      }
+      List<DocumentText> documentTexts = new ArrayList<>();
+      for (int i = 0; i < NUMBER_CURSOR_TYPES; i++) {
+        documentTexts.add(null);
+      }
+      documentTexts.set(CURSOR_TYPE_TEXT, docCursor.getAllTextParagraphs());
+      documentTexts.set(CURSOR_TYPE_TABLE, docCursor.getTextOfAllTables());
+      documentTexts.set(CURSOR_TYPE_FOOTNOTE, docCursor.getTextOfAllFootnotes());
+      documentTexts.set(CURSOR_TYPE_ENDNOTE, docCursor.getTextOfAllEndnotes());
+      documentTexts.set(CURSOR_TYPE_HEADER_FOOTER, docCursor.getTextOfAllHeadersAndFooters());
+      if (debugMode) {
+        for (int i = 0; i < NUMBER_CURSOR_TYPES; i++) {
+          if (documentTexts.get(i) == null) {
+            MessageHandler.printToLogFile("DocumentCache: reset: CursorType: " + i + "; Document Text is Null!");
+          } else {
+            MessageHandler.printToLogFile("DocumentCache: reset: CursorType: " + i + "; Number of paragraphs: "
+                + documentTexts.get(i).paragraphs.size());
+          }
+        }
+      }
       ParagraphContainer paragraphContainer = null;
-      if (textParas != null) {
-        chapterBegins = docCursor.getParagraphHeadings();
+      List<List<String>> textParas = new ArrayList<>();
+      if (documentTexts.get(CURSOR_TYPE_TEXT) != null) {
+        for (DocumentText documentText : documentTexts) {
+          textParas.add(documentText.paragraphs);
+          chapterBegins.add(documentText.headingNumbers);
+        }
         paragraphContainer = flatPara.getAllFlatParagraphs(docLocale);
         if (paragraphContainer == null) {
-          MessageHandler.printToLogFile("paragraphContainer == null - ParagraphCache not initialised");
-          paragraphs = null;
+          MessageHandler.printToLogFile(
+              "WARNING: DocumentCache: reset: paragraphContainer == null - ParagraphCache not initialised");
           isReset = false;
           return;
         }
-        paragraphs = paragraphContainer.paragraphs;
-        locales = new ArrayList<SerialLocale>();
-        for (Locale locale :  paragraphContainer.locales) {
-          locales.add(new SerialLocale(locale)) ;
+        paragraphs.addAll(paragraphContainer.paragraphs);
+        for (Locale locale : paragraphContainer.locales) {
+          locales.add(new SerialLocale(locale));
         }
-        footnotes = paragraphContainer.footnotePositions;
+        footnotes.addAll(paragraphContainer.footnotePositions);
       }
       if (paragraphs == null) {
-        MessageHandler.printToLogFile("paragraphs == null - ParagraphCache not initialised");
+        MessageHandler
+            .printToLogFile("WARNING: DocumentCache: reset: paragraphs == null - ParagraphCache not initialised");
         isReset = false;
         return;
       }
       mapParagraphs(textParas);
+      long endTime = System.currentTimeMillis();
+      MessageHandler.printToLogFile("Time to generate cache: " + (endTime - startTime));
     } finally {
       isReset = false;
     }
   }
 
   /**
-   * Map text paragraphs to flat paragraphs
-   * is only used for writer documents 
+   * Map text paragraphs to flat paragraphs is only used for writer documents
    */
-  private void mapParagraphs(List<String> textParas) {
-    if (debugMode) {
-      MessageHandler.printToLogFile("\n\nNot mapped paragraphs:");
-    }
+  private void mapParagraphs(List<List<String>> textParas) {
     if (textParas != null && !textParas.isEmpty()) {
-      int n = 0; 
+      List<Integer> nText = new ArrayList<>();
+      for (int i = 0; i < textParas.size(); i++) {
+        nText.add(0);
+      }
+      // TODO: Develop a more advanced method of mapping
+      int firstText = paragraphs.size() - textParas.get(CURSOR_TYPE_TABLE).size()
+          - textParas.get(CURSOR_TYPE_TEXT).size();
       for (int i = 0; i < paragraphs.size(); i++) {
-        if ((footnotes != null && i < footnotes.size() && footnotes.get(i).length > 0)
-            || (n < textParas.size() && (paragraphs.get(i).equals(textParas.get(n)) 
-                || removeZeroWidthSpace(paragraphs.get(i)).equals(textParas.get(n))))) {
-          toTextMapping.add(n);
-          toParaMapping.add(i);
-          n++;
-        } else {
-          toTextMapping.add(-1);
-          if (debugMode) {
-            MessageHandler.printToLogFile("\nFlat("  + i + "): '" + paragraphs.get(i));
-            if (n < textParas.size()) {
-              MessageHandler.printToLogFile("Doc("  + n + "): '" + textParas.get(n));
+        boolean hasFootnote = footnotes != null && i < footnotes.size() && footnotes.get(i).length > 0;
+        boolean isMapped = false;
+        for (int n = 0; n < textParas.size(); n++) {
+          if (hasFootnote && n < 3) {
+            continue;
+          }
+          if (i < firstText
+              && toParaMapping.get(CURSOR_TYPE_ENDNOTE).size() == textParas.get(CURSOR_TYPE_ENDNOTE).size()
+              && toParaMapping.get(CURSOR_TYPE_FOOTNOTE).size() == textParas.get(CURSOR_TYPE_FOOTNOTE).size()
+              && toParaMapping.get(CURSOR_TYPE_HEADER_FOOTER).size() == textParas.get(CURSOR_TYPE_HEADER_FOOTER)
+                  .size()) {
+            break;
+          }
+          int j = nText.get(n);
+          if (j < textParas.get(n).size()) {
+            String flatPara = hasFootnote ? SingleCheck.removeFootnotes(paragraphs.get(i), footnotes.get(i))
+                : paragraphs.get(i);
+            String textPara = hasFootnote ? SingleCheck.removeFootnotes(textParas.get(n).get(j), footnotes.get(i))
+                : textParas.get(n).get(j);
+            if (flatPara.equals(textPara) || removeZeroWidthSpace(flatPara).equals(textPara)) {
+              toTextMapping.add(new TextParagraph(n, j));
+              toParaMapping.get(n).add(i);
+              nText.set(n, j + 1);
+              isMapped = true;
+              break;
             }
-          }  
+          }
+        }
+        if (!isMapped) {
+          toTextMapping.add(new TextParagraph(CURSOR_TYPE_UNKNOWN, -1));
+          MessageHandler.printToLogFile(
+              "WARNING: DocumentCache: Could not map Paragraph(" + i + "): '" + paragraphs.get(i) + "'");
+          if (debugMode) {
+            for (int k = 0; k < NUMBER_CURSOR_TYPES; k++) {
+              MessageHandler.printToLogFile("Actual Cursor Paragraph (Type " + k + "): "
+                  + (nText.get(k) < textParas.get(k).size() ? "'" + textParas.get(k).get(nText.get(k)) + "'"
+                      : "no paragraph left"));
+            }
+          }
         }
       }
-      prepareChapterBegins();
+      prepareChapterBeginsForText();
       isReset = false;
       if (debugMode) {
-        MessageHandler.printToLogFile("\n\ntoParaMapping:");
-        for (int i = 0; i < toParaMapping.size(); i++) {
-          MessageHandler.printToLogFile("Doc: " + i + " Flat: " + toParaMapping.get(i)
-          + OfficeTools.LOG_LINE_BREAK + getTextParagraph(i));
+        MessageHandler.printToLogFile("\nDocumentCache: mapParagraphs: toParaMapping:");
+        for (int n = 0; n < NUMBER_CURSOR_TYPES; n++) {
+          MessageHandler.printToLogFile("Cursor Type: " + n);
+          for (int i = 0; i < toParaMapping.get(n).size(); i++) {
+            MessageHandler
+                .printToLogFile("DocumentCache: mapParagraphs: Doc: " + i + " Flat: " + toParaMapping.get(n).get(i));
+          }
         }
-        MessageHandler.printToLogFile("\n\ntoTextMapping:");
+        MessageHandler.printToLogFile("\nDocumentCache: mapParagraphs: toTextMapping:");
         for (int i = 0; i < toTextMapping.size(); i++) {
-          MessageHandler.printToLogFile("Flat: " + i + " Doc: " + toTextMapping.get(i) + " locale: " + locales.get(i).Language + "-" + locales.get(i).Country);
+          MessageHandler.printToLogFile("DocumentCache: mapParagraphs: Flat: " + i + " Doc: "
+              + toTextMapping.get(i).number + " Type: " + toTextMapping.get(i).type + "; locale: "
+              + locales.get(i).Language + "-" + locales.get(i).Country + "; '" + getFlatParagraph(i) + "'");
         }
-        MessageHandler.printToLogFile("\n\nheadings:");
-        for (int i = 0; i < chapterBegins.size(); i++) {
-          MessageHandler.printToLogFile("Num: " + i + " Heading: " + chapterBegins.get(i));
+        MessageHandler.printToLogFile("\nDocumentCache: mapParagraphs: headings:");
+        for (int n = 0; n < NUMBER_CURSOR_TYPES; n++) {
+          MessageHandler.printToLogFile("\nDocumentCache: mapParagraphs: Cursor Type: " + n);
+          for (int i = 0; i < chapterBegins.get(n).size(); i++) {
+            MessageHandler
+                .printToLogFile("DocumentCache: mapParagraphs: Num: " + i + " Heading: " + chapterBegins.get(n).get(i));
+          }
         }
-        MessageHandler.printToLogFile("\nNumber of Flat Paragraphs: " + paragraphs.size());
-        MessageHandler.printToLogFile("Number of Text Paragraphs: " + toParaMapping.size());
-        MessageHandler.printToLogFile("Number of footnotes: " + footnotes.size());
-        MessageHandler.printToLogFile("Number of locales: " + locales.size());
+        MessageHandler.printToLogFile("DocumentCache: mapParagraphs: Number of Flat Paragraphs: " + paragraphs.size());
+        MessageHandler.printToLogFile(
+            "DocumentCache: mapParagraphs: Number of Text Paragraphs: " + toParaMapping.get(CURSOR_TYPE_TEXT).size());
+        MessageHandler.printToLogFile("DocumentCache: mapParagraphs: Number of footnotes: " + footnotes.size());
+        MessageHandler.printToLogFile("DocumentCache: mapParagraphs: Number of locales: " + locales.size());
       }
     }
   }
-  
+
   /**
    * reset the document cache for impress documents
    */
-  public void resetImpressCache(XComponent xComponent) {
+  private void refreshImpressCache(XComponent xComponent) {
     ImpressParagraphContainer container = OfficeDrawTools.getAllParagraphs(xComponent);
-    paragraphs = container.paragraphs;
-    chapterBegins = container.pageBegins;
-    locales = new ArrayList<SerialLocale>();
-    for (Locale locale :  container.locales) {
-      locales.add(new SerialLocale(locale)) ;
+    clear();
+    paragraphs.addAll(container.paragraphs);
+    for (int i = 0; i < NUMBER_CURSOR_TYPES - 1; i++) {
+      chapterBegins.add(new ArrayList<Integer>());
     }
-    footnotes = new ArrayList<>();
+    chapterBegins.get(CURSOR_TYPE_TEXT).addAll(container.pageBegins);
+    for (Locale locale : container.locales) {
+      locales.add(new SerialLocale(locale));
+    }
+    for (int i = 0; i < NUMBER_CURSOR_TYPES; i++) {
+      toParaMapping.add(new ArrayList<Integer>());
+    }
     for (int i = 0; i < paragraphs.size(); i++) {
-      toTextMapping.add(i);
-      toParaMapping.add(i);
+      toTextMapping.add(new TextParagraph(CURSOR_TYPE_TEXT, i));
+      toParaMapping.get(CURSOR_TYPE_TEXT).add(i);
       footnotes.add(new int[0]);
+    }
+    if (debugMode) {
+      MessageHandler.printToLogFile("DocumentCache: reset: isImpress: Number of paragraphse: " + paragraphs.size());
+      for (int i = 0; i < NUMBER_CURSOR_TYPES; i++) {
+        MessageHandler.printToLogFile("DocumentCache: reset: CursorType: " + i + "; Number of paragraphs: " + toParaMapping.get(i).size());
+      }
     }
   }
 
@@ -202,154 +307,223 @@ public class DocumentCache implements Serializable {
         return false;
       }
     }
-    return paragraphs == null ? false: true;
+    return paragraphs == null ? false : true;
   }
-  
+
   /**
    * get Flat Paragraph by Index
    */
-  public String getFlatParagraph(int n) {
+  public synchronized String getFlatParagraph(int n) {
     return paragraphs.get(n);
   }
-  
+
   /**
    * set Flat Paragraph at Index
    */
-  public void setFlatParagraph(int n, String sPara) {
+  public synchronized void setFlatParagraph(int n, String sPara) {
     paragraphs.set(n, sPara);
   }
-    
+
   /**
    * set Flat Paragraph and Locale at Index
    */
-  public void setFlatParagraph(int n, String sPara, Locale locale) {
+  public synchronized void setFlatParagraph(int n, String sPara, Locale locale) {
     paragraphs.set(n, sPara);
     locales.set(n, new SerialLocale(locale));
   }
-    
+
   /**
-   * get Text Paragraph by Index
+   * is multilingual Flat Paragraph
    */
-  public String getTextParagraph(int n) {
-    return paragraphs.get(toParaMapping.get(n));
+  public synchronized boolean isMultilingualFlatParagraph(int n) {
+    return locales.get(n).Variant.startsWith(OfficeTools.MULTILINGUAL_LABEL);
   }
-  
+
   /**
-   * get Number of Flat Paragraph from Number of Text Paragraph
+   * set multilingual flag to Flat Paragraph
    */
-  public int getFlatParagraphNumber(int n) {
-    return toParaMapping.get(n);
+  public synchronized void setMultilingualFlatParagraph(int n) {
+    SerialLocale locale = locales.get(n);
+    if (!locale.Variant.startsWith(OfficeTools.MULTILINGUAL_LABEL)) {
+      locale.Variant = OfficeTools.MULTILINGUAL_LABEL + locale.Variant;
+      locales.set(n, locale);
+    }
   }
-  
+
   /**
    * get Locale of Flat Paragraph by Index
    */
-  public Locale getFlatParagraphLocale(int n) {
-    return locales.get(n).toLocale();
+  public synchronized Locale getFlatParagraphLocale(int n) {
+    return locales.get(n).toLocaleWithoutLabel();
   }
-  
+
   /**
    * set Locale of Flat Paragraph by Index
    */
-  public void setFlatParagraphLocale(int n, Locale locale) {
+  public synchronized void setFlatParagraphLocale(int n, Locale locale) {
     locales.set(n, new SerialLocale(locale));
   }
-  
-  /**
-   * get Locale of Text Paragraph by Index
-   */
-  public Locale getTextParagraphLocale(int n) {
-    return locales.get(toParaMapping.get(n)).toLocale();
-  }
-  
+
   /**
    * get footnotes of Flat Paragraph by Index
    */
-  public int[] getFlatParagraphFootnotes(int n) {
+  public synchronized int[] getFlatParagraphFootnotes(int n) {
     return footnotes.get(n);
   }
-  
-  /**
-   * get footnotes of Text Paragraph by Index
-   */
-  public int[] getTextParagraphFootnotes(int n) {
-    return footnotes.get(toParaMapping.get(n));
-  }
-  
+
   /**
    * set footnotes of Flat Paragraph by Index
    */
-  public void setFlatParagraphFootnotes(int n, int[] footnotePos) {
+  public synchronized void setFlatParagraphFootnotes(int n, int[] footnotePos) {
     footnotes.set(n, footnotePos);
   }
   
   /**
-   * get footnotes of Text Paragraph by Index
+   * clear document cache
    */
-  public void setTextParagraphFootnotes(int n, int[] footnotePos) {
-    footnotes.set(toParaMapping.get(n), footnotePos);
+  public synchronized void clear() {
+    paragraphs.clear();
+    chapterBegins.clear();
+    locales.clear();
+    footnotes.clear();
+    toTextMapping.clear();
+    toParaMapping.clear();
   }
   
+  /**
+   * Add a document Cache
+   */
+  private synchronized void add(DocumentCache in) {
+    paragraphs.addAll(in.paragraphs);
+    chapterBegins.addAll(in.chapterBegins);
+    locales.addAll(in.locales);
+    footnotes.addAll(in.footnotes);
+    toTextMapping.addAll(in.toTextMapping);
+    toParaMapping.addAll(in.toParaMapping);
+    defaultParaCheck = in.defaultParaCheck;
+  }
+  
+  /**
+   * Replace a document Cache
+   */
+  public synchronized void put(DocumentCache in) {
+    clear();
+    add(in);
+  }
+
   /**
    * is DocumentCache empty
    */
-  public boolean isEmpty() {
+  public synchronized boolean isEmpty() {
     return paragraphs == null || paragraphs.isEmpty();
   }
-  
+
   /**
    * size of document cache (number of all flat paragraphs)
    */
-  public int size() {
+  public synchronized int size() {
     return paragraphs == null ? 0 : paragraphs.size();
   }
-  
+
+  /**
+   * get the Content of a Text Paragraph
+   */
+  public synchronized String getTextParagraph(TextParagraph textParagraph) {
+    if (textParagraph.type == CURSOR_TYPE_UNKNOWN) {
+      return null;
+    }
+    return paragraphs.get(toParaMapping.get(textParagraph.type).get(textParagraph.number));
+  }
+
+  /**
+   * get Number of Flat Paragraph from Number of Text Paragraph
+   */
+  public synchronized int getFlatParagraphNumber(TextParagraph textParagraph) {
+    if (textParagraph.type == CURSOR_TYPE_UNKNOWN) {
+      return -1;
+    }
+    return toParaMapping.get(textParagraph.type).get(textParagraph.number);
+  }
+
+  /**
+   * get Locale of Text Paragraph by Index
+   */
+  public synchronized Locale getTextParagraphLocale(TextParagraph textParagraph) {
+    if (textParagraph.type == CURSOR_TYPE_UNKNOWN) {
+      return null;
+    }
+    return locales.get(toParaMapping.get(textParagraph.type).get(textParagraph.number)).toLocaleWithoutLabel();
+  }
+
+  /**
+   * get footnotes of Text Paragraph by Index
+   */
+  public synchronized int[] getTextParagraphFootnotes(TextParagraph textParagraph) {
+    if (textParagraph.type == CURSOR_TYPE_UNKNOWN) {
+      return new int[0];
+    }
+    return footnotes.get(toParaMapping.get(textParagraph.type).get(textParagraph.number));
+  }
+
+  /**
+   * set footnotes of Text Paragraph
+   */
+  public synchronized void setTextParagraphFootnotes(TextParagraph textParagraph, int[] footnotePos) {
+    if (textParagraph.type != CURSOR_TYPE_UNKNOWN) {
+      footnotes.set(toParaMapping.get(textParagraph.type).get(textParagraph.number), footnotePos);
+    }
+  }
+
   /**
    * get Number of Text Paragraph from Number of Flat Paragraph
    */
-  public int getNumberOfTextParagraph(int numberOfFlatParagraph) {
+  public synchronized TextParagraph getNumberOfTextParagraph(int numberOfFlatParagraph) {
     return toTextMapping.get(numberOfFlatParagraph);
   }
-  
+
   /**
    * size of text cache (without headers, footnotes, etc.)
    */
-  public int textSize() {
-    return toParaMapping.size();
+  public synchronized int textSize(TextParagraph textParagraph) {
+    if (textParagraph.type == CURSOR_TYPE_UNKNOWN) {
+      return 0;
+    }
+    return toParaMapping.get(textParagraph.type).size();
   }
-  
+
   /**
    * size of text cache (without headers, footnotes, etc.)
    */
-  public boolean isEqual(int n, String text, Locale locale) {
-    return ((n < 0 || n >= locales.size() || locales.get(n) == null) ? false :
-        (locales.get(n).equalsLocale(locale) && text.equals(paragraphs.get(n))));
+  public synchronized boolean isEqual(int n, String text, Locale locale) {
+    return ((n < 0 || n >= locales.size() || locales.get(n) == null) ? false
+        : ((isMultilingualFlatParagraph(n) || locales.get(n).equalsLocale(locale)) && text.equals(paragraphs.get(n))));
   }
-  
+
   /**
    * Gives back the start paragraph for text level check
    */
-  public int getStartOfParaCheck(int numCurPara, int parasToCheck, boolean checkOnlyParagraph, boolean useQueue, boolean addParas) {
-    if (numCurPara < 0 || toParaMapping.size() <= numCurPara) {
+  public synchronized int getStartOfParaCheck(TextParagraph textParagraph, int parasToCheck, boolean checkOnlyParagraph,
+      boolean useQueue, boolean addParas) {
+    if (textParagraph.number < 0 || toParaMapping.get(textParagraph.type).size() <= textParagraph.number) {
       return -1;
     }
-    if (parasToCheck < -1) {
+    if (parasToCheck < -1) { // check all flat paragraphs
       return 0;
     }
     if (parasToCheck == 0) {
-      return numCurPara;
+      return textParagraph.number;
     }
     int headingBefore = 0;
-    for (int heading : chapterBegins) {
-      if (heading > numCurPara) {
+    for (int heading : chapterBegins.get(textParagraph.type)) {
+      if (heading > textParagraph.number) {
         break;
-      } 
+      }
       headingBefore = heading;
     }
-    if (headingBefore == numCurPara || parasToCheck < 0 || (useQueue && !checkOnlyParagraph)) {
+    if (headingBefore == textParagraph.number || parasToCheck < 0 || (useQueue && !checkOnlyParagraph)) {
       return headingBefore;
     }
-    int startPos = numCurPara - parasToCheck;
+    int startPos = textParagraph.number - parasToCheck;
     if (addParas) {
       startPos -= parasToCheck;
     }
@@ -358,37 +532,38 @@ public class DocumentCache implements Serializable {
     }
     return startPos;
   }
-  
+
   /**
    * Gives back the end paragraph for text level check
    */
-  public int getEndOfParaCheck(int numCurPara, int parasToCheck, boolean checkOnlyParagraph, boolean useQueue, boolean addParas) {
-    if (numCurPara < 0 || toParaMapping.size() <= numCurPara) {
+  public synchronized int getEndOfParaCheck(TextParagraph textParagraph, int parasToCheck, boolean checkOnlyParagraph,
+      boolean useQueue, boolean addParas) {
+    if (textParagraph.number < 0 || toParaMapping.get(textParagraph.type).size() <= textParagraph.number) {
       return -1;
     }
-    if (parasToCheck < -1) {
-      return toParaMapping.size();
+    if (parasToCheck < -1) { // check all flat paragraphs
+      return size();
     }
     int headingAfter = -1;
     if (parasToCheck == 0) {
-      return numCurPara + 1;
+      return textParagraph.number + 1;
     }
-    for (int heading : chapterBegins) {
+    for (int heading : chapterBegins.get(textParagraph.type)) {
       headingAfter = heading;
-      if (heading > numCurPara) {
+      if (heading > textParagraph.number) {
         break;
       }
     }
-    if (headingAfter <= numCurPara || headingAfter > toParaMapping.size()) {
-      headingAfter = toParaMapping.size();
+    if (headingAfter <= textParagraph.number || headingAfter > toParaMapping.get(textParagraph.type).size()) {
+      headingAfter = toParaMapping.get(textParagraph.type).size();
     }
     if (parasToCheck < 0 || (useQueue && !checkOnlyParagraph)) {
       return headingAfter;
     }
-    int endPos = numCurPara + 1 + parasToCheck;
+    int endPos = textParagraph.number + 1 + parasToCheck;
     if (!checkOnlyParagraph) {
       endPos += defaultParaCheck;
-    } 
+    }
     if (addParas) {
       endPos += parasToCheck;
     }
@@ -397,21 +572,39 @@ public class DocumentCache implements Serializable {
     }
     return endPos;
   }
-  
+
   /**
    * Gives Back the full Text as String
    */
-  public String getDocAsString(int numCurPara, int parasToCheck, boolean checkOnlyParagraph, boolean useQueue, boolean hasFootnotes) {
-    int startPos = getStartOfParaCheck(numCurPara, parasToCheck, checkOnlyParagraph, useQueue, true);
-    int endPos = getEndOfParaCheck(numCurPara, parasToCheck, checkOnlyParagraph, useQueue, true);
-    if (startPos < 0 || endPos < 0 || (hasFootnotes && getTextParagraph(startPos).isEmpty() && getTextParagraphFootnotes(startPos).length > 0)) {
-      return "";
-    }
-    StringBuilder docText = new StringBuilder(fixLinebreak(SingleCheck.removeFootnotes(getTextParagraph(startPos), 
-        (hasFootnotes ? getTextParagraphFootnotes(startPos) : null))));
-    for (int i = startPos + 1; i < endPos; i++) {
-      docText.append(OfficeTools.END_OF_PARAGRAPH).append(fixLinebreak(SingleCheck.removeFootnotes(getTextParagraph(i), 
-          (hasFootnotes ? getTextParagraphFootnotes(i) : null))));
+  public synchronized String getDocAsString(TextParagraph textParagraph, int parasToCheck, boolean checkOnlyParagraph,
+      boolean useQueue, boolean hasFootnotes) {
+    int startPos = getStartOfParaCheck(textParagraph, parasToCheck, checkOnlyParagraph, useQueue, true);
+    int endPos = getEndOfParaCheck(textParagraph, parasToCheck, checkOnlyParagraph, useQueue, true);
+    StringBuilder docText;
+    if (parasToCheck < -1) { // check all flat paragraphs
+      if (startPos < 0 || endPos < 0
+          || (hasFootnotes && getFlatParagraph(startPos).isEmpty() && getFlatParagraphFootnotes(startPos).length > 0)) {
+        return "";
+      }
+      docText = new StringBuilder(fixLinebreak(SingleCheck.removeFootnotes(getFlatParagraph(startPos),
+          (hasFootnotes ? getFlatParagraphFootnotes(startPos) : null))));
+      for (int i = startPos + 1; i < endPos; i++) {
+        docText.append(OfficeTools.END_OF_PARAGRAPH).append(fixLinebreak(
+            SingleCheck.removeFootnotes(getFlatParagraph(i), (hasFootnotes ? getFlatParagraphFootnotes(i) : null))));
+      }
+    } else {
+      TextParagraph startPara = new TextParagraph(textParagraph.type, startPos);
+      if (startPos < 0 || endPos < 0 || (hasFootnotes && getTextParagraph(startPara).isEmpty()
+          && getTextParagraphFootnotes(startPara).length > 0)) {
+        return "";
+      }
+      docText = new StringBuilder(fixLinebreak(SingleCheck.removeFootnotes(getTextParagraph(startPara),
+          (hasFootnotes ? getTextParagraphFootnotes(startPara) : null))));
+      for (int i = startPos + 1; i < endPos; i++) {
+        TextParagraph tPara = new TextParagraph(textParagraph.type, i);
+        docText.append(OfficeTools.END_OF_PARAGRAPH).append(fixLinebreak(SingleCheck
+            .removeFootnotes(getTextParagraph(tPara), (hasFootnotes ? getTextParagraphFootnotes(tPara) : null))));
+      }
     }
     return docText.toString();
   }
@@ -419,43 +612,53 @@ public class DocumentCache implements Serializable {
   /**
    * Change manual linebreak to distinguish from end of paragraph
    */
-  public static String fixLinebreak (String text) {
+  public static String fixLinebreak(String text) {
     return text.replaceAll(OfficeTools.SINGLE_END_OF_PARAGRAPH, OfficeTools.MANUAL_LINEBREAK);
   }
 
   /**
    * Change manual linebreak to distinguish from end of paragraph
    */
-  public static String removeZeroWidthSpace (String text) {
+  public static String removeZeroWidthSpace(String text) {
     return text.replaceAll(OfficeTools.ZERO_WIDTH_SPACE, "");
   }
 
   /**
    * Gives Back the StartPosition of Paragraph
    */
-  public int getStartOfParagraph(int nPara, int checkedPara, int parasToCheck, boolean textIsChanged, boolean useQueue, boolean hasFootnotes) {
-    if (nPara < 0 || toParaMapping.size() <= nPara) {
+  public synchronized int getStartOfParagraph(int nPara, TextParagraph textParagraph, int parasToCheck, boolean checkOnlyParagraph,
+      boolean useQueue, boolean hasFootnotes) {
+    if (nPara < 0 || (parasToCheck > -2 && toParaMapping.get(textParagraph.type).size() <= nPara)
+        || (parasToCheck < -1 && paragraphs.size() <= nPara)) {
       return -1;
     }
-    int startPos = getStartOfParaCheck(checkedPara, parasToCheck, textIsChanged, useQueue, true);
+    int startPos = getStartOfParaCheck(textParagraph, parasToCheck, checkOnlyParagraph, useQueue, true);
     if (startPos < 0) {
       return -1;
     }
     int pos = 0;
-    for (int i = startPos; i < nPara; i++) {
-      pos += SingleCheck.removeFootnotes(getTextParagraph(i), 
-          (hasFootnotes ? getTextParagraphFootnotes(i) : null)).length() + OfficeTools.NUMBER_PARAGRAPH_CHARS;
+    if (parasToCheck < -1) {
+      for (int i = startPos; i < nPara; i++) {
+        pos += SingleCheck.removeFootnotes(getFlatParagraph(i), 
+                (hasFootnotes ? getFlatParagraphFootnotes(i) : null)).length() + OfficeTools.NUMBER_PARAGRAPH_CHARS;
+      }
+    } else {
+      for (int i = startPos; i < nPara; i++) {
+        TextParagraph tPara = new TextParagraph(textParagraph.type, i);
+        pos += SingleCheck.removeFootnotes(getTextParagraph(tPara), 
+                (hasFootnotes ? getTextParagraphFootnotes(tPara) : null)).length() + OfficeTools.NUMBER_PARAGRAPH_CHARS;
+      }
     }
     return pos;
   }
-  
+
   /**
-   *  Add the next chapter begin after Heading 
-   *  and changes of language to the chapter begins
+   * For cursor type text: Add the next chapter begin after Heading and changes of
+   * language to the chapter begins
    */
-  private void prepareChapterBegins() {
-    List<Integer> prepChBegins = new ArrayList<Integer>(chapterBegins);
-    for (int begin : chapterBegins) {
+  private void prepareChapterBeginsForText() {
+    List<Integer> prepChBegins = new ArrayList<Integer>(chapterBegins.get(CURSOR_TYPE_TEXT));
+    for (int begin : chapterBegins.get(CURSOR_TYPE_TEXT)) {
       if (!prepChBegins.contains(begin + 1)) {
         prepChBegins.add(begin + 1);
       }
@@ -464,58 +667,84 @@ public class DocumentCache implements Serializable {
       SerialLocale lastLocale = locales.get(0);
       for (int i = 1; i < locales.size(); i++) {
         if (locales != null && !locales.get(i).equalsLocale(lastLocale)) {
-          int nText = getNumberOfTextParagraph(i);
-          if (nText >= 0) {
-            if (!prepChBegins.contains(nText)) {
-              prepChBegins.add(nText);
+          TextParagraph nText = getNumberOfTextParagraph(i);
+          if (nText.type == CURSOR_TYPE_TEXT && nText.number >= 0) {
+            if (!prepChBegins.contains(nText.number)) {
+              prepChBegins.add(nText.number);
             }
             lastLocale = locales.get(i);
             if (debugMode) {
-              MessageHandler.printToLogFile("Paragraph("  + i + "): Locale changed to: " + lastLocale.Language + (lastLocale.Country == null ? "" : ("-" + lastLocale.Country)));
+              MessageHandler.printToLogFile(
+                  "DocumentCache: prepareChapterBeginsForText: Paragraph(" + i + "): Locale changed to: "
+                      + lastLocale.Language + (lastLocale.Country == null ? "" : ("-" + lastLocale.Country)));
             }
           }
         }
       }
     }
     prepChBegins.sort(null);
-    chapterBegins = prepChBegins;
+    chapterBegins.set(CURSOR_TYPE_TEXT, prepChBegins);
+  }
+
+  public TextParagraph createTextParagraph(int type, int paragraph) {
+    return new TextParagraph(type, paragraph);
+  }
+
+  static class TextParagraph implements Serializable {
+    private static final long serialVersionUID = 1L;
+    int type;
+    int number;
+
+    TextParagraph(int type, int number) {
+      this.type = type;
+      this.number = number;
+    }
   }
 
   /**
-   * Class of serializable locale
-   * needed to save cache
+   * Class of serializable locale needed to save cache
    */
   class SerialLocale implements Serializable {
-     
+
     private static final long serialVersionUID = 1L;
     String Country;
     String Language;
     String Variant;
-   
+
     SerialLocale(Locale locale) {
       this.Country = locale.Country;
       this.Language = locale.Language;
       this.Variant = locale.Variant;
     }
-    
+
     /**
      * return the language as Locale
      */
     Locale toLocale() {
-      return new Locale(Language, Country, Variant); 
+      return new Locale(Language, Country, Variant);
+    }
+
+    /**
+     * return the language as Locale without multilingual label
+     */
+    Locale toLocaleWithoutLabel() {
+      if (Variant.startsWith(OfficeTools.MULTILINGUAL_LABEL)) {
+        return new Locale(Language, Country, Variant.substring(OfficeTools.MULTILINGUAL_LABEL.length()));
+      }
+      return new Locale(Language, Country, Variant);
     }
 
     /**
      * True if the Language is the same as Locale
      */
     boolean equalsLocale(Locale locale) {
-      return ((locale == null || Language == null || Country == null || Variant == null)? false : 
-          Language.equals(locale.Language) && Country.equals(locale.Country) && Variant.equals(locale.Variant));
+      return ((locale == null || Language == null || Country == null || Variant == null) ? false
+          : Language.equals(locale.Language) && Country.equals(locale.Country) && Variant.equals(locale.Variant));
     }
 
     boolean equalsLocale(SerialLocale locale) {
-      return ((locale == null || Language == null || Country == null || Variant == null)? false : 
-          Language.equals(locale.Language) && Country.equals(locale.Country) && Variant.equals(locale.Variant));
+      return ((locale == null || Language == null || Country == null || Variant == null) ? false
+          : Language.equals(locale.Language) && Country.equals(locale.Country) && Variant.equals(locale.Variant));
     }
 
   }

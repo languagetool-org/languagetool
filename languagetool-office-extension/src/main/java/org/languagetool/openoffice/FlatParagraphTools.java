@@ -19,10 +19,12 @@
 package org.languagetool.openoffice;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.jetbrains.annotations.Nullable;
+import org.languagetool.openoffice.DocumentCache.TextParagraph;
 import org.languagetool.openoffice.SingleCheck.SentenceErrors;
 
 import com.sun.star.beans.Property;
@@ -247,7 +249,7 @@ public class FlatParagraphTools {
         allParas.add(0, text);
         footnotePositions.add(0, getPropertyValues("FootnotePositions", tmpFlatPara));
         // add just one local for the whole paragraph
-        locale = getPrimaryParagraphLanguage(tmpFlatPara, len, docLocale, locale);
+        locale = getPrimaryParagraphLanguage(tmpFlatPara, 0, len, docLocale, locale, false);
         locales.add(0, locale);
         tmpFlatPara = xFlatParaIter.getParaBefore(tmpFlatPara);
       }
@@ -257,7 +259,7 @@ public class FlatParagraphTools {
         int len = text.length();
         allParas.add(text);
         footnotePositions.add(getPropertyValues("FootnotePositions", tmpFlatPara));
-        locale = getPrimaryParagraphLanguage(tmpFlatPara, len, docLocale, locale);
+        locale = getPrimaryParagraphLanguage(tmpFlatPara, 0, len, docLocale, locale, false);
         locales.add(locale);
         if (debugMode) {
           printPropertyValueInfo(tmpFlatPara);
@@ -282,10 +284,101 @@ public class FlatParagraphTools {
     }
     return locale;
   }
+  
+  /**
+   * Get language Portions of a paragraph
+   * @throws IllegalArgumentException 
+   */
+  private static List<Integer> getLanguagePortions(XFlatParagraph flatPara, int len) throws IllegalArgumentException {
+    List<Integer> langPortions = new ArrayList<Integer>();
+    Locale lastLocale = flatPara.getLanguageOfText(0, 1);
+    for (int i = 1; i < len; i++) {
+      Locale locale = flatPara.getLanguageOfText(i, 1);
+      if (!OfficeTools.isEqualLocale(lastLocale, locale)) {
+        langPortions.add(i);
+        lastLocale = locale;
+      }
+    }
+    return langPortions;
+  }
+  
+  
+  /**
+   * Get the main language of paragraph 
+   * @throws IllegalArgumentException 
+   */
+  public static Locale getPrimaryParagraphLanguage(XFlatParagraph flatPara, int start, int len, Locale docLocale, 
+      Locale lastLocale, boolean onlyPrimary) throws IllegalArgumentException {
+    if (docLocale != null) {
+      return docLocale;
+    }
+    if (len == 0 && lastLocale != null) {
+      return lastLocale.Variant.startsWith(OfficeTools.MULTILINGUAL_LABEL) ? 
+          new Locale(lastLocale.Language, lastLocale.Country, lastLocale.Variant.substring(OfficeTools.MULTILINGUAL_LABEL.length())) : lastLocale;
+    }
+    if (len < 2) {
+      return getParagraphLanguage(flatPara, start, len);
+    }
+    Map<Locale, Integer> locales = new HashMap<Locale, Integer>();
+    for (int i = start; i < len; i++) {
+      Locale locale = flatPara.getLanguageOfText(i, 1);
+      boolean existingLocale = false;
+      for (Locale loc : locales.keySet()) {
+        if (loc.Language.equals(locale.Language)) {
+          locales.put(loc, locales.get(loc) + 1);
+          existingLocale = true;
+          break;
+        }
+      }
+      if (!existingLocale) {
+        locales.put(locale, 1);
+      }
+    }
+    if (locales.keySet().size() == 0) {
+      return lastLocale.Variant.startsWith(OfficeTools.MULTILINGUAL_LABEL) ? 
+          new Locale(lastLocale.Language, lastLocale.Country, lastLocale.Variant.substring(OfficeTools.MULTILINGUAL_LABEL.length())) : lastLocale;
+    }
+    Locale biggestLocal = null;
+    int biggestLocalNumber = 0;
+    for (Locale loc : locales.keySet()) {
+      int locNum = locales.get(loc);
+      if (biggestLocal == null || locNum > biggestLocalNumber) {
+        biggestLocal = loc;
+        biggestLocalNumber = locNum;
+      }
+    }
+    if (biggestLocal == null) {
+      return lastLocale.Variant.startsWith(OfficeTools.MULTILINGUAL_LABEL) ? 
+          new Locale(lastLocale.Language, lastLocale.Country, lastLocale.Variant.substring(OfficeTools.MULTILINGUAL_LABEL.length())) : lastLocale;
+    } else if (onlyPrimary || locales.keySet().size() == 1) {
+      if (debugMode) {
+        MessageHandler.printToLogFile("FlatParagraphTools: getPrimaryParagraphLanguage: locale: " + OfficeTools.localeToString(biggestLocal));
+      }
+      return biggestLocal;
+    } else {
+      if (debugMode) {
+        MessageHandler.printToLogFile("FlatParagraphTools: getPrimaryParagraphLanguage: is multilingual locale: " + OfficeTools.localeToString(biggestLocal));
+      }
+      return new Locale(biggestLocal.Language, biggestLocal.Country, OfficeTools.MULTILINGUAL_LABEL + biggestLocal.Variant);
+    }
+  }
+
+  /**
+   * Get the main language of paragraph 
+   * @throws IllegalArgumentException 
+   */
+  public Locale getPrimaryLanguageOfPartOfParagraph(int nPara, int start, int len, Locale lastLocale) throws IllegalArgumentException {
+    XFlatParagraph flatPara = getFlatParagraphAt(nPara);
+    if (flatPara == null) {
+      return lastLocale;
+    }
+    return getPrimaryParagraphLanguage(flatPara, start, len, null, lastLocale, true);
+  }
+  
   /**
    * Try to get the main language of paragraph 
    * @throws IllegalArgumentException 
-   */
+   *//*
   public static Locale getPrimaryParagraphLanguage(XFlatParagraph flatPara, int len, Locale docLocale, Locale lastLocale) throws IllegalArgumentException {
     if (docLocale != null) {
       return docLocale;
@@ -314,23 +407,27 @@ public class FlatParagraphTools {
     Locale locale2 = getParagraphLanguage(flatPara, len/3, len/3);
     if (OfficeTools.isEqualLocale(locale1, locale2)) {
       if (debugMode) {
-        MessageHandler.printToLogFile("len = " + len + "; locale: " + locale1.Language);
+        MessageHandler.printToLogFile("FlatParagraphTools: getPrimaryParagraphLanguage: local1: from = " + 0 + "; locale: " + OfficeTools.localeToString(locale1));
+        MessageHandler.printToLogFile("FlatParagraphTools: getPrimaryParagraphLanguage: local2: from = " + len/3 + "; locale: " + OfficeTools.localeToString(locale2));
       }
       return locale1;
     }
     Locale locale3 = getParagraphLanguage(flatPara, 2*len/3, len/3);
     if (OfficeTools.isEqualLocale(locale2, locale3)) {
       if (debugMode) {
-        MessageHandler.printToLogFile("len = " + len + "; locale: " + locale2.Language);
+        MessageHandler.printToLogFile("FlatParagraphTools: getPrimaryParagraphLanguage: local2: from = " +  len/3 + "; locale: " + OfficeTools.localeToString(locale2));
+        MessageHandler.printToLogFile("FlatParagraphTools: getPrimaryParagraphLanguage: local3: from = " + 2*len/3 + "; locale: " + OfficeTools.localeToString(locale3));
       }
-      return locale2;
+      return new Locale(locale2.Language, locale2.Country, OfficeTools.MULTILINGUAL_LABEL + locale2.Variant);
     }
     if (debugMode) {
-      MessageHandler.printToLogFile("len = " + len + "; locale: " + locale1.Language);
+      MessageHandler.printToLogFile("FlatParagraphTools: getPrimaryParagraphLanguage: local1: from = " + 0 + "; locale: " + OfficeTools.localeToString(locale1));
+      MessageHandler.printToLogFile("FlatParagraphTools: getPrimaryParagraphLanguage: local2: from = " +  len/3 + "; locale: " + OfficeTools.localeToString(locale2));
+      MessageHandler.printToLogFile("FlatParagraphTools: getPrimaryParagraphLanguage: local3: from = " + 2*len/3 + "; locale: " + OfficeTools.localeToString(locale3));
     }
-    return locale1;
+    return new Locale(locale1.Language, locale1.Country, OfficeTools.MULTILINGUAL_LABEL + locale1.Variant);
   }
-
+*/
   /**
    * Returns Number of all FlatParagraphs of Document from current FlatParagraph
    * Returns negative value if it fails
@@ -539,9 +636,9 @@ public class FlatParagraphTools {
    * else the marks are added to the existing marks
    */
 
-  public void markParagraphs(Map<Integer, List<SentenceErrors>> changedParas, DocumentCache docCache, boolean override, XParagraphCursor cursor) {
+  public void markParagraphs(Map<Integer, List<SentenceErrors>> changedParas, DocumentCache docCache, boolean override, DocumentCursorTools docCursor) {
     try {
-      if (changedParas == null || changedParas.isEmpty() || docCache == null) {
+      if (changedParas == null || changedParas.isEmpty() || docCache == null || docCursor == null) {
         return;
       }
       XFlatParagraph xFlatPara = getLastFlatParagraph();
@@ -551,8 +648,11 @@ public class FlatParagraphTools {
         }
         return;
       }
-      if (override) {
-        cursor.gotoStart(false);
+      // treat text cursor separately because of performance reasons for big texts
+      XParagraphCursor textCursor = null;
+      if (override && docCursor != null) {
+        textCursor = docCursor.getParagraphCursor();
+        textCursor.gotoStart(false);
       }
       XFlatParagraph tmpFlatPara = xFlatPara;
       XFlatParagraph startFlatPara = xFlatPara;
@@ -563,27 +663,25 @@ public class FlatParagraphTools {
       tmpFlatPara = startFlatPara;
       int num = 0;
       int nMarked = 0;
-/*
-      for (int n : changedParas.keySet()) {
-        List<SentenceErrors> listErrors = changedParas.get(n);
-        String s = "";
-        for (int i = 0; i < listErrors.size(); i++) {
-          s += "(" + listErrors.get(i).sentenceStart + "," + listErrors.get(i).sentenceEnd + ") ";
-        }
-        MessageHandler.printToLogFile("Mark Para " + n + ": " + s);
-      }
-*/
       while (tmpFlatPara != null && nMarked < changedParas.size() && num < docCache.size()) {
-        int nTextPara = docCache.getNumberOfTextParagraph(num);
+        TextParagraph nTextPara = docCache.getNumberOfTextParagraph(num);
+        XParagraphCursor cursor;
+        if (!override || nTextPara.type == DocumentCache.CURSOR_TYPE_UNKNOWN) {
+          cursor = null;
+        } else if (nTextPara.type == DocumentCache.CURSOR_TYPE_TEXT) {
+          cursor = textCursor;
+        } else {
+          cursor = docCursor.getParagraphCursor(nTextPara);
+        }
         if (changedParas.containsKey(num)) {
-          addMarksToOneParagraph(tmpFlatPara, changedParas.get(num), nTextPara < 0 ? null : cursor, override);
+          addMarksToOneParagraph(tmpFlatPara, changedParas.get(num), cursor, override);
           if (debugMode) {
             MessageHandler.printToLogFile("mark Paragraph: " + num + ", Text: " + tmpFlatPara.getText());
           }
           nMarked++;
         }
-        if (override && cursor != null && nTextPara >= 0) {
-          cursor.gotoNextParagraph(false);
+        if (override && textCursor != null && nTextPara.type == DocumentCache.CURSOR_TYPE_TEXT) {
+          textCursor.gotoNextParagraph(false);
         }
         tmpFlatPara = xFlatParaIter.getParaAfter(tmpFlatPara);
         num++;

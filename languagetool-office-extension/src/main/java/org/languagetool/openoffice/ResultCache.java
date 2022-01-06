@@ -46,26 +46,32 @@ class ResultCache implements Serializable {
     this(null);
   }
 
-  ResultCache(ResultCache cache) {
+  public ResultCache(ResultCache cache) {
     this.entries = Collections.synchronizedMap(new HashMap<>());
+    replace(cache);
+  }
+
+  /**
+   * Replace the cache content
+   */
+  synchronized void replace(ResultCache cache) {
+    entries.clear();
     if (cache != null) {
-      synchronized(cache.entries) {
         this.entries.putAll(cache.entries);
-      }
     }
   }
 
   /**
    * Remove all cache entries for a paragraph
    */
-  void remove(int numberOfParagraph) {
+  synchronized void remove(int numberOfParagraph) {
     entries.remove(numberOfParagraph);
   }
 
   /**
    * Remove all cache entries between firstParagraph and lastParagraph
    */
-  void removeRange(int firstParagraph, int lastParagraph) {
+  synchronized void removeRange(int firstParagraph, int lastParagraph) {
     for (int i = firstParagraph; i <= lastParagraph; i++) {
       entries.remove(i);
     }
@@ -75,7 +81,7 @@ class ResultCache implements Serializable {
    * Remove all cache entries between firstPara (included) and lastPara (included)
    * shift all numberOfParagraph by 'shift'
    */
-  void removeAndShift(int firstParagraph, int lastParagraph, int shift) {
+  synchronized void removeAndShift(int firstParagraph, int lastParagraph, int shift) {
     for (int i = firstParagraph; i <= lastParagraph; i++) {
       entries.remove(i);
     }
@@ -95,35 +101,44 @@ class ResultCache implements Serializable {
   /**
    * add or replace a cache entry
    */
-  void put(int numberOfParagraph, List<Integer> nextSentencePositions, SingleProofreadingError[] errorArray) {
+  synchronized void put(int numberOfParagraph, List<Integer> nextSentencePositions, SingleProofreadingError[] errorArray) {
     entries.put(numberOfParagraph, new CacheEntry(nextSentencePositions, errorArray));
   }
 
   /**
    * add or replace a cache entry for paragraph
    */
-  void put(int numberOfParagraph, SingleProofreadingError[] errorArray) {
+  synchronized void put(int numberOfParagraph, SingleProofreadingError[] errorArray) {
     entries.put(numberOfParagraph, new CacheEntry(null, errorArray));
+  }
+
+  /**
+   * add proof reading errors to a cache entry for paragraph
+   */
+  synchronized void add(int numberOfParagraph, SingleProofreadingError[] errorArray) {
+    CacheEntry cacheEntry = entries.get(numberOfParagraph);
+    cacheEntry.addErrorArray(errorArray);
+    entries.put(numberOfParagraph, cacheEntry);
   }
 
   /**
    * Remove all cache entries
    */
-  void removeAll() {
+  synchronized void removeAll() {
     entries.clear();
   }
 
   /**
    * get cache entry of paragraph
    */
-  CacheEntry getCacheEntry(int numberOfParagraph) {
+  synchronized CacheEntry getCacheEntry(int numberOfParagraph) {
     return entries.get(numberOfParagraph);
   }
 
   /**
    * get Proofreading errors of on paragraph from cache
    */
-  SingleProofreadingError[] getMatches(int numberOfParagraph) {
+  synchronized SingleProofreadingError[] getMatches(int numberOfParagraph) {
     CacheEntry entry = getCacheEntry(numberOfParagraph);
     if (entry == null) {
       return null;
@@ -134,7 +149,7 @@ class ResultCache implements Serializable {
   /**
    * get start sentence position from cache
    */
-  int getStartSentencePosition(int numberOfParagraph, int sentencePosition) {
+  synchronized int getStartSentencePosition(int numberOfParagraph, int sentencePosition) {
     CacheEntry entry = entries.get(numberOfParagraph);
     if (entry == null) {
       return 0;
@@ -156,7 +171,7 @@ class ResultCache implements Serializable {
   /**
    * get next sentence position from cache
    */
-  int getNextSentencePosition(int numberOfParagraph, int sentencePosition) {
+  synchronized int getNextSentencePosition(int numberOfParagraph, int sentencePosition) {
     CacheEntry entry = entries.get(numberOfParagraph);
     if (entry == null) {
       return 0;
@@ -176,7 +191,7 @@ class ResultCache implements Serializable {
   /**
    * get Proofreading errors of sentence out of paragraph matches from cache
    */
-  SingleProofreadingError[] getFromPara(int numberOfParagraph,
+  synchronized SingleProofreadingError[] getFromPara(int numberOfParagraph,
                                         int startOfSentencePosition, int endOfSentencePosition) {
     CacheEntry entry = entries.get(numberOfParagraph);
     if (entry == null) {
@@ -224,7 +239,7 @@ class ResultCache implements Serializable {
    * Compares a paragraph cache with another cache.
    * Gives back a list of entries for every paragraph: true if the both entries are identically
    */
-  List<Integer> differenceInCaches(ResultCache oldCache) {
+  synchronized List<Integer> differenceInCaches(ResultCache oldCache) {
     List<Integer> differentParas = new ArrayList<>();
     CacheEntry oEntry;
     CacheEntry nEntry;
@@ -248,21 +263,21 @@ class ResultCache implements Serializable {
   /**
    * get number of paragraphs stored in cache
    */
-  int getNumberOfParas() {
+  synchronized int getNumberOfParas() {
     return entries.size();
   }
 
   /**
    * get number of entries
    */
-  int getNumberOfEntries() {
+  synchronized int getNumberOfEntries() {
     return entries.size();
   }
 
   /**
    * get number of matches
    */
-  int getNumberOfMatches() {
+  synchronized int getNumberOfMatches() {
     int number = 0;
     for (int n : entries.keySet()) {
       number += entries.get(n).errorArray.length;
@@ -275,7 +290,7 @@ class ResultCache implements Serializable {
    * if there are more than one error at the position return the one which begins at second
    * if there are more than one that begins at the same position return the one with the smallest size
    */
-  SingleProofreadingError getErrorAtPosition(int numPara, int numChar) {
+  synchronized SingleProofreadingError getErrorAtPosition(int numPara, int numChar) {
     CacheEntry entry = entries.get(numPara);
     if (entry == null) {
       return null;
@@ -297,7 +312,7 @@ class ResultCache implements Serializable {
    */
   public class CacheEntry implements Serializable {
     private static final long serialVersionUID = 2L;
-    final SerialProofreadingError[] errorArray;
+    SerialProofreadingError[] errorArray;
     List<Integer> nextSentencePositions = null;
 
     CacheEntry(List<Integer> nextSentencePositions, SingleProofreadingError[] sErrorArray) {
@@ -319,6 +334,22 @@ class ResultCache implements Serializable {
         eArray[i] = errorArray[i].toSingleProofreadingError();
       }
       return eArray;
+    }
+    
+    /**
+     * Add an SingleProofreadingError array to an existing one
+     */
+    void addErrorArray(SingleProofreadingError[] errors) {
+      if (errors == null || errors.length == 0) {
+        return;
+      }
+      SerialProofreadingError newErrorArray[] = new SerialProofreadingError[errorArray.length + errors.length];
+      for (int i = 0; i < errorArray.length; i++) {
+        newErrorArray[i] = errorArray[i];
+      }
+      for (int i = 0; i < errors.length; i++) {
+        newErrorArray[errorArray.length + i] = new SerialProofreadingError(errors[i]);
+      }
     }
   }
   
