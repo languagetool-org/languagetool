@@ -772,9 +772,9 @@ class AgreementRuleAntiPatterns1 {
       posRegex("SUB:.*") // Meistens sind das Frauen, die damit besser umgehen können.
     ),
     Arrays.asList( // Natürlich ist das Quatsch!
-      token("ist"),
+      tokenRegex("ist|war"),
       token("das"),
-      token("Quatch")
+      token("Quastch")
     ),
     Arrays.asList(
       token("des"),
