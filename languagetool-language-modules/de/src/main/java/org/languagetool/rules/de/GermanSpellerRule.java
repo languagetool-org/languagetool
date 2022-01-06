@@ -95,6 +95,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   static {
     put("lieder", w -> Arrays.asList("leider", "Lieder"));
     put("frägst", "fragst");
+    put("Impflicht", "Impfpflicht");
     put("Wandererin", "Wanderin");
     put("daß", "dass");
     put("eien", "eine");
