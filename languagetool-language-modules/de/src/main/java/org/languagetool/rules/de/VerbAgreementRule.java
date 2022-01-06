@@ -226,7 +226,7 @@ public class VerbAgreementRule extends TextLevelRule {
       token("ich")
       ),
     Arrays.asList(
-      // "Einer wie du kennt ...", "Aber jemand wie Du daherkommt"
+      // "Einer wie du kennt ...", "Aber wenn jemand wie Du daherkommt"
       tokenRegex("einer?|jemand"),
       token("wie"),
       token("du"),
