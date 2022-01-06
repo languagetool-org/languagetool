@@ -42297,30 +42297,20 @@ THIS ANTIPATTERN IS TO AVOID FLAGGING THE REPLACEMENT TEXT FOR OBSCENE WORDS.
 
 
 
-  <rulegroup id='TRAZEDORES_DA_JUSTIÇA' name="Erro de tradução: 'justiceiro(s)'">
-    <!-- Created by Marco A.G. Pinto -->
-      <short>Erro de tradução</short>
-    <rule>
+	<!-- TRAZEDOR(ES) DA JUSTIÇA justiceiro(s) -->
+	<rule id='TRAZEDORES_DA_JUSTIÇA' name="Erro de tradução: 'justiceir[ao](s)'">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-06 (Checked/Enhanced) (1-JAN-2022+)      -->
+
       <pattern>
-          <token>trazedores</token>
-          <token regexp="yes">de|da</token>
+		  <token regexp="yes">trazedora?|trazedor[ae]s</token>
+          <token regexp="yes">d[ae]</token>
           <token>justiça</token>
       </pattern>
       <message>Expressão não pode ser traduzida literalmente.</message>
-        <suggestion>justiceiros</suggestion>
+      <suggestion><match no='1' postag='NC(..)000' postag_replace='NC$1000'>justiceiro</match></suggestion>
+	  <example correction="justiceiro">O terrorista julga ser <marker>trazedor da justiça</marker>.</example>
       <example correction="justiceiros">Os terroristas julgam ser <marker>trazedores da justiça</marker>.</example>
     </rule>
-    <rule>
-      <pattern>
-          <token>trazedor</token>
-          <token regexp="yes">de|da</token>
-          <token>justiça</token>
-      </pattern>
-      <message>Expressão não pode ser traduzida literalmente.</message>
-        <suggestion>justiceiro</suggestion>
-      <example correction="justiceiro">O terrorista julga ser <marker>trazedor da justiça</marker>.</example>
-    </rule>
-  </rulegroup>
 
 
 
@@ -42346,7 +42336,7 @@ THIS ANTIPATTERN IS TO AVOID FLAGGING THE REPLACEMENT TEXT FOR OBSCENE WORDS.
 
 
  <category id='MISSPELLING' name="Erros Ortográficos" type="misspelling">
- 
+
  	<!-- PODERIAM-SE poder-se-ia -->
     <rulegroup id='PODERIAM-SE' name="Formas verbais: poderiam-se → poder-se-iam">
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-11-24/30 + 2021-12-02 (Enhanced) (25-JUN-2021+)      -->
