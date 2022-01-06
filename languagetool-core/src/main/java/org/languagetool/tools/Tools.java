@@ -34,6 +34,8 @@ import java.util.*;
 
 public final class Tools {
 
+  private static LinguServices linguServices = null;
+  
   private Tools() {
     // cannot construct, static methods only
   }
@@ -424,4 +426,26 @@ public final class Tools {
     return false;
   }
 
+  /**
+   * set linguistic services (only to introduce external speller for LT)
+   * since 5.7
+   */
+  public static void setLinguisticServices(LinguServices ls) {
+    linguServices = ls;
+  }
+  
+  /**
+   * since 5.7
+   */
+  public static boolean isExternSpeller() {
+    return linguServices != null;
+  }
+  
+  /**
+   * since 5.7
+   */
+  public static LinguServices getLinguisticServices() {
+    return linguServices;
+  }
+  
 }

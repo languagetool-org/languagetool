@@ -771,6 +771,7 @@ public class MultiDocumentsHandler {
       noBackgroundCheck = config.noBackgroundCheck();
       if (linguServices == null) {
         linguServices = new LinguisticServices(xContext);
+        Tools.setLinguisticServices(linguServices);
       }
       linguServices.setNoSynonymsAsSuggestions(config.noSynonymsAsSuggestions() || testMode);
       if (this.lt == null) {

@@ -36,6 +36,7 @@ import org.languagetool.rules.spelling.suggestions.SuggestionsChanges;
 import org.languagetool.rules.translation.TranslationEntry;
 import org.languagetool.rules.translation.Translator;
 import org.languagetool.tools.StringTools;
+import org.languagetool.tools.Tools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -267,17 +268,26 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
    * @since 2.4
    */
   protected boolean isMisspelled(MorfologikMultiSpeller speller, String word) {
-    if (speller == null) {  //  work around for LO/OO extension (speller is always null
-      return false;         //  some rules (e.g. RuleFilterEvaluator.runFilter will not work properly in extension
-    }                       //  TODO: implement the use of external speller for LO/OO extension
-    if (!speller.isMisspelled(word)) {
-      return false;
+    if (speller == null && Tools.isExternSpeller()) {  // use of external speller for LO/OO extension
+      if (Tools.getLinguisticServices().isCorrectSpell(word, language)) {
+        return false;
+      }
+    } else {
+      if (!speller.isMisspelled(word)) {
+        return false;
+      }
     }
     if (checkCompound && compoundRegex.matcher(word).find()) {
       String[] words = compoundRegex.split(word);
       for (String singleWord: words) {
-        if (speller.isMisspelled(singleWord)) {
-          return true;
+        if (speller == null && Tools.isExternSpeller()) {  // use of external speller for LO/OO extension
+          if (!Tools.getLinguisticServices().isCorrectSpell(singleWord, language)) {
+            return true;
+          }
+        } else {
+          if (speller.isMisspelled(singleWord)) {
+            return true;
+          }
         }
       }
       return false;
