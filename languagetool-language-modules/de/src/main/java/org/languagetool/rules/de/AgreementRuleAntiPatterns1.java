@@ -774,7 +774,7 @@ class AgreementRuleAntiPatterns1 {
     Arrays.asList( // Natürlich ist das Quatsch!
       tokenRegex("ist|war"),
       token("das"),
-      token("Quastch")
+      token("Quatsch")
     ),
     Arrays.asList(
       token("des"),
