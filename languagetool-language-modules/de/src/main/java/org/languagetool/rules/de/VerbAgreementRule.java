@@ -226,11 +226,11 @@ public class VerbAgreementRule extends TextLevelRule {
       token("ich")
       ),
     Arrays.asList(
-      // "Einer wie du kennt ..."
-      token("einer"),
+      // "Einer wie du kennt ...", "Aber jemand wie Du daherkommt"
+      tokenRegex("einer?|jemand"),
       token("wie"),
       token("du"),
-      pos("VER:3:SIN:PRÄ:NON")
+      posRegex("VER:3:.*")
     ),
     Arrays.asList(
       // "Kannst mich gerne anrufen" (ugs.)
