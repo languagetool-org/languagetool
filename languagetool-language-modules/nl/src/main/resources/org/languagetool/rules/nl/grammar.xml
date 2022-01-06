@@ -35229,13 +35229,12 @@ steenwijk;Steenwijk
 			</rule>
 			<rule>
 				<pattern>
-					<token regexp="yes">pro-forma|anti-.*|aan-uit|breedspectrum|zero-tolerance|licht-donker|oog-hand|deur-tot-deur|wildwest|start-stop|hoog-laag|bruto-netto|kip-ei|dag-nacht|ad-interim|warmte-koude|lumpsum|zij-aan-zij<exception postag_regexp="yes" postag="BNW.*|UNKOWN"/></token>
-					<token postag_regexp="yes" postag="ZNW.*"/>
+					<token regexp="yes">pro-forma|anti|anti-|aan-uit|breedspectrum|zero-tolerance|licht-donker|oog-hand|deur-tot-deur|wildwest|start-stop|hoog-laag|bruto-netto|kip-ei|dag-nacht|ad-interim|warmte-koude|lumpsum|zij-aan-zij<exception postag_regexp="yes" postag="BNW.*|UNKOWN"/></token>
+					<token postag_regexp="yes" postag="ZNW.*"><exception postag="WKW:TGW:INF"/><exception regexp="yes">tegen|moet</exception></token>
 				</pattern>
-				<filter class="org.languagetool.rules.nl.CompoundFilter" args="word1:\1 word2:\2"/>
-				<!-- <filter class="org.languagetool.rules.nl.CompoundFilter" args="words:\1|\2"/> -->
+			    <filter class="org.languagetool.rules.nl.DutchSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>
 				<message>U bedoelt vast <suggestion>\1\2</suggestion>.</message>
-				<example correction="pro-formazaak">Het was maar een <marker>pro-forma zaak</marker>.</example>
+				<example correction="pro-formanota">Het was maar een <marker>pro-forma nota</marker>.</example>
 			</rule>
 			<rule>
 				<pattern>
