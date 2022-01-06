@@ -668,8 +668,8 @@ public class VerbAgreementRule extends TextLevelRule {
    */
   private BooleanAndFiniteVerb verbDoesMatchPersonAndNumber(AnalyzedTokenReadings token1, AnalyzedTokenReadings token2,
                                                String person, String number, AnalyzedTokenReadings finiteVerb) {
-    if (StringUtils.equalsAny(token1.getToken(), ",", "und","sowie") ||
-    		StringUtils.equalsAny(token2.getToken(), ",", "und","sowie")) {
+    if (StringUtils.equalsAny(token1.getToken(), ",", "und", "sowie", "&") ||
+    		StringUtils.equalsAny(token2.getToken(), ",", "und", "sowie", "&")) {
       return new BooleanAndFiniteVerb(true, finiteVerb);
     }
    
