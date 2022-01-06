@@ -42266,29 +42266,34 @@ THIS ANTIPATTERN IS TO AVOID FLAGGING THE REPLACEMENT TEXT FOR OBSCENE WORDS.
 
 
 
-  <rulegroup id='PEQUENO_INTESTINO' name="Erro de tradução: 'intestino delgado'">
-    <!-- Created by Marco A.G. Pinto -->
-	<!-- ADD +V after tokens -->
-      <short>Erro de tradução</short>
-    <rule>
-      <pattern>
-          <token>pequeno</token>
-          <token>intestino</token>
-      </pattern>
-      <message>Expressão não pode ser traduzida literalmente.</message>
-        <suggestion>intestino delgado</suggestion>
-      <example correction="intestino delgado">O <marker>pequeno intestino</marker> é um órgão importante.</example>
-    </rule>
-    <rule>
-      <pattern>
-          <token>intestino</token>
-          <token>pequeno</token>
-      </pattern>
-      <message>Expressão não pode ser traduzida literalmente.</message>
-        <suggestion>intestino delgado</suggestion>
-      <example correction="intestino delgado">O <marker>intestino pequeno</marker> é um órgão importante.</example>
-    </rule>
-  </rulegroup>
+    <!-- PEQUENO INTESTINO intestino delgado -->
+	<rulegroup id='PEQUENO_INTESTINO' name="Erro de tradução: 'intestino delgado'">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-06 (Checked/Enhanced) (1-JAN-2022+)      -->
+		<rule>
+			<pattern>
+				<marker>
+					<token>pequeno</token>
+					<token>intestino</token>
+				</marker>
+				<token postag='V.+' postag_regexp='yes'/>
+			</pattern>
+			<message>Expressão não pode ser traduzida literalmente.</message>
+			<suggestion>intestino delgado</suggestion>
+			<example correction="intestino delgado">O <marker>pequeno intestino</marker> é um órgão importante.</example>
+		</rule>
+		<rule>
+			<pattern>
+				<marker>
+					<token>intestino</token>
+					<token>pequeno</token>
+				</marker>
+				<token postag='V.+' postag_regexp='yes'/>
+			</pattern>
+			<message>Expressão não pode ser traduzida literalmente.</message>
+			<suggestion>intestino delgado</suggestion>
+			<example correction="intestino delgado">O <marker>intestino pequeno</marker> é um órgão importante.</example>
+		</rule>
+	</rulegroup>
 
 
 
