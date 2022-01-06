@@ -42094,12 +42094,14 @@ Era visto nas mãos de todos os japoneses em paradas.
 
  </category>
 
+
+
  <category id='TRANSLATION_ERRORS' name="Erros de Tradução" type="mistranslation">
 
 
 
 	<!-- ATAQUES EM MASSA ataques em grande escala -->
-    <rule id='ATAQUES_EM_MASSA' name="Ataque(s) em grande escala">
+    <rule id='ATAQUES_EM_MASSA' name="Erro de tradução: 'ataque(s) em grande escala'">
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-05 (Checked/Enhanced) (1-JAN-2022+)      -->
       <pattern>
           <token regexp='yes'>ataques?</token>
@@ -42115,17 +42117,22 @@ Era visto nas mãos de todos os japoneses em paradas.
 
 
 
-    <rule id='CAMINHAR_CAMINHOS' name="percorrer caminhos">
-    <!-- Created by Marco A.G. Pinto, 2017-XX-XX -->
+	<!-- CAMINHAR CAMINHOS percorrer/trilhar caminhos -->
+    <rule id='CAMINHAR_CAMINHOS' name="Erro de tradução: 'percorrer/trilhar caminhos'">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-06 (Checked/Enhanced) (1-JAN-2022+)      -->
       <pattern>
         <marker>
           <token inflected='yes'>caminhar</token>
         </marker>
-          <token>caminhos</token>
+        <token>caminhos</token>
       </pattern>
-      <message>Substitua por <suggestion><match no='1' postag='V.+' postag_regexp='yes'>percorrer</match></suggestion>.</message>
-      <example correction="percorrer">Deve <marker>caminhar</marker> caminhos descobertos por tentativa e erro.</example>
+	  <message>Expressão não pode ser traduzida literalmente.</message>
+      <suggestion><match no='1' postag='V.+' postag_regexp='yes'>percorrer</match></suggestion>
+	  <suggestion><match no='1' postag='V.+' postag_regexp='yes'>trilhar</match></suggestion>
+      <example correction="percorrer|trilhar">Deve <marker>caminhar</marker> caminhos descobertos por tentativa e erro.</example>
     </rule>
+
+
 
   <rulegroup id='ENG_ELETRICO' name="Erro de tradução: 'engenheiro elétrico'">
     <!-- Created by Tiago F. Santos, 2017-05-19 -->
@@ -42154,8 +42161,11 @@ Era visto nas mãos de todos os japoneses em paradas.
     -->
   </rulegroup>
 
+
+
     <rule id='ESTIMAÇÃO_MÁXIMA_SEMELHANÇA' name="Erro de tradução: 'estimação máxima verosimilhança'">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+	<!-- ADD pela to token -->
       <pattern>
           <token regexp="yes">estimativas?|estimação|estimações|estimador|estimadores</token>
 		  <token regexp="yes">de|da|por</token>
@@ -42168,6 +42178,8 @@ Era visto nas mãos de todos os japoneses em paradas.
         <suggestion>verosimilhança</suggestion>
       <example correction='verosimilhança'>A estimativa de máxima <marker>semelhança</marker> é usada em Estatística.</example>
     </rule>
+
+
 
     <!-- 	FURTO/ROUBO DA/DE IDENTIDADE usurpação de identidade -->	
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-01-03 (Enhanced) (1-JAN-2021+)      -->
@@ -42182,6 +42194,19 @@ Era visto nas mãos de todos os japoneses em paradas.
 		<example correction="usurpou">Alguém <marker>roubou</marker> a identidade do dono da empresa.</example>  
 		<example type='correct'>Alguém <marker>usurpou</marker> a minha identidade.</example>
 	</rule>
+
+
+
+    <rule id='LOWER_QUOTES' name="Símbolo não utilizado em português: „">
+    <!--  Localized from Catalan grammar.xml, by Tiago F. Santos, 2017-02-22      -->
+      <pattern>
+          <token>„</token>
+      </pattern>
+      <message>O símbolo de aspas baixas não é utilizado em português.</message>
+        <suggestion>“</suggestion>
+      <url>https://pt.wikipedia.org/wiki/Aspas</url>
+      <example correction="“">A palavra <marker>„</marker>desenvovedor” vem do inglês e traduz-se em programador.</example>
+    </rule>
 
 
 
@@ -42233,19 +42258,11 @@ THIS ANTIPATTERN IS TO AVOID FLAGGING THE REPLACEMENT TEXT FOR OBSCENE WORDS.
       <example>Mesmo bom!</example>
     </rule>
 
-    <rule id='LOWER_QUOTES' name="Símbolo não utilizado em português: „">
-    <!--  Localized from Catalan grammar.xml, by Tiago F. Santos, 2017-02-22      -->
-      <pattern>
-          <token>„</token>
-      </pattern>
-      <message>O símbolo de aspas baixas não é utilizado em português.</message>
-        <suggestion>“</suggestion>
-      <url>https://pt.wikipedia.org/wiki/Aspas</url>
-      <example correction="“">A palavra <marker>„</marker>desenvovedor” vem do inglês e traduz-se em programador.</example>
-    </rule>
+
 
   <rulegroup id='PEQUENO_INTESTINO' name="Erro de tradução: 'intestino delgado'">
     <!-- Created by Marco A.G. Pinto -->
+	<!-- ADD +V after tokens -->
       <short>Erro de tradução</short>
     <rule>
       <pattern>
@@ -42266,6 +42283,8 @@ THIS ANTIPATTERN IS TO AVOID FLAGGING THE REPLACEMENT TEXT FOR OBSCENE WORDS.
       <example correction="intestino delgado">O <marker>intestino pequeno</marker> é um órgão importante.</example>
     </rule>
   </rulegroup>
+
+
 
   <rulegroup id='TRAZEDORES_DA_JUSTIÇA' name="Erro de tradução: 'justiceiro(s)'">
     <!-- Created by Marco A.G. Pinto -->
@@ -42292,6 +42311,8 @@ THIS ANTIPATTERN IS TO AVOID FLAGGING THE REPLACEMENT TEXT FOR OBSCENE WORDS.
     </rule>
   </rulegroup>
 
+
+
     <rule id='UM_TAMANHO_SERVE_PARA_TODOS' name="Erro de tradução: 'tamanho único'">
     <!-- Created by Marco A.G. Pinto -->
       <pattern>
@@ -42306,6 +42327,8 @@ THIS ANTIPATTERN IS TO AVOID FLAGGING THE REPLACEMENT TEXT FOR OBSCENE WORDS.
       <example correction="tamanho único">As meias são <marker>um tamanho serve para todos</marker>.</example>
     </rule>
  </category>
+
+
 
  <category id='MISSPELLING' name="Erros Ortográficos" type="misspelling">
  
