@@ -42163,34 +42163,40 @@ Era visto nas mãos de todos os japoneses em paradas.
 
 
 
-    <rule id='ESTIMAÇÃO_MÁXIMA_SEMELHANÇA' name="Erro de tradução: 'estimação máxima verosimilhança'">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-	<!-- ADD pela to token -->
+	<!-- ESTIMAÇÃO MÁXIMA SEMELHANÇA estimação máxima verosimilhança -->
+    <rule id='ESTIMAÇÃO_MÁXIMA_SEMELHANÇA' name="Erro de tradução: 'estimação máxima verosimilhança(PT)/verossimilhança(BR)'">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-06 (Checked/Enhanced) (1-JAN-2022+)      -->
+	<!--
+	IN pt_PT: verosimilhança
+	IN pt_BR: verossimilhança
+	-->
       <pattern>
           <token regexp="yes">estimativas?|estimação|estimações|estimador|estimadores</token>
-		  <token regexp="yes">de|da|por</token>
+		  <token regexp="yes">d[ae]|pela|por</token>
 		  <token>máxima</token>
         <marker>
           <token>semelhança</token>
         </marker>
       </pattern>
       <message>Expressão não pode ser traduzida literalmente.</message>
-        <suggestion>verosimilhança</suggestion>
-      <example correction='verosimilhança'>A estimativa de máxima <marker>semelhança</marker> é usada em Estatística.</example>
+      <suggestion>verosimilhança</suggestion>
+	  <suggestion>verossimilhança</suggestion>
+      <example correction='verosimilhança|verossimilhança'>A estimativa de máxima <marker>semelhança</marker> é usada em Estatística.</example>
     </rule>
 
 
 
-    <!-- 	FURTO/ROUBO DA/DE IDENTIDADE usurpação de identidade -->	
-	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-01-03 (Enhanced) (1-JAN-2021+)      -->
-    <rule id='FURTO_ROUBO_IDENTIDADE' name="Usurpação de identidade">
+    <!-- 	FURTO/ROUBO DE IDENTIDADE usurpação de identidade -->	
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-06 (Checked/Enhanced) (1-JAN-2022+)      -->
+    <rule id='FURTO_ROUBO_IDENTIDADE' name="Erro de tradução: 'usurpação de identidade'">
 		<pattern>
 		    <marker>
 				<token skip="3" inflected='yes' regexp='yes'>furtar|roubar</token>
 			</marker>
 			<token regexp='yes'>identidades?</token>
-		</pattern>		
-		<message>Substitua por <suggestion><match no='1' postag='V.+' postag_regexp='yes'>usurpar</match></suggestion>.</message>
+		</pattern>
+		<message>Expressão não pode ser traduzida literalmente.</message>
+		<suggestion><match no='1' postag='V.+' postag_regexp='yes'>usurpar</match></suggestion>
 		<example correction="usurpou">Alguém <marker>roubou</marker> a identidade do dono da empresa.</example>  
 		<example type='correct'>Alguém <marker>usurpou</marker> a minha identidade.</example>
 	</rule>
