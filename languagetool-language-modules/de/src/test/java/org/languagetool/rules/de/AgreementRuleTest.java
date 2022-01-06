@@ -580,6 +580,8 @@ public class AgreementRuleTest {
     assertGood("Kennt irgendwer Tipps wie Kopfhörer länger halten?");
     assertGood("George Lucas 1999 über seine sechsteilige Star Wars Saga.");
     assertGood("… und von denen mehrere Gegenstand staatsanwaltlicher Ermittlungen waren.");
+    assertGood("Natürlich ist das Quatsch!");
+    assertGood("Die letzte unter Windows 98 lauffähige Version ist 5.1.");
     assertGood("Die südlichste Düsseldorfer Rheinbrücke ist die Fleher Brücke, eine Schrägseilbrücke mit dem höchsten Brückenpylon in Deutschland und einer Vielzahl von fächerförmig angeordneten Seilen.");
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");

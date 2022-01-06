@@ -105,8 +105,8 @@ public class MissingCommaRelativeClauseRule extends Rule {
       ),
       Arrays.asList( // Aus diesem Grund sind die Wörter nicht direkt übersetzt, stattdessen wird der Zustand oder die Situation beschrieben in der die Wörter benutzt werden. 
         posRegex("PA2.*|VER:PA2.*"),
-        regex("werden|wurden"),
-        regex("[\\.\\!,\\?…\\:;]+")
+        token("werden"),
+        regex("[\\.\\!\\?…\\:;]+")
       ),
       Arrays.asList( // Plan von Maßnahmen, mit denen das Ansteckungsrisiko während des Aufenthalts an einem Ort verringert werden soll
         token("werden"),

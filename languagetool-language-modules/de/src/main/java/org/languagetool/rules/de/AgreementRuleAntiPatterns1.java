@@ -766,10 +766,15 @@ class AgreementRuleAntiPatterns1 {
     ),
     Arrays.asList(
       // like above, but with ":", as we don't interpret this as a sentence start (but it often is)
-      csRegex("Meist(ens)?|Oft(mals)?|Häufig|Selten"),
+      csRegex("Meist(ens)?|Oft(mals)?|Häufig|Selten|Natürlich"),
       tokenRegex("sind|waren|ist"),
       token("das"),
       posRegex("SUB:.*") // Meistens sind das Frauen, die damit besser umgehen können.
+    ),
+    Arrays.asList( // Natürlich ist das Quatsch!
+      token("ist"),
+      token("das"),
+      token("Quatch")
     ),
     Arrays.asList(
       token("des"),
@@ -901,6 +906,14 @@ class AgreementRuleAntiPatterns1 {
       tokenRegex("\\d+")
     ),
     Arrays.asList(
+      // Die letzte unter Windows 98 lauffähige Version ist 5.1.
+      posRegex("ART.*|PRO:POS.*"),
+      posRegex("ADJ.*|PA[12].*"),
+      posRegex("ADJ.*|PA[12].*"),
+      token("Windows"),
+      tokenRegex("\\d+")
+    ),
+    Arrays.asList(
       posRegex("ART.*|PRO:POS.*"),
       token("Windows"),
       tokenRegex("\\d+")
@@ -914,6 +927,22 @@ class AgreementRuleAntiPatterns1 {
       posRegex("ADJ.*|PA[12].*"),
       posRegex("SUB:.*"),
       posRegex("VER:.*")
+    ),
+    Arrays.asList( // des Handelsblatt Research Institutes
+      tokenRegex("des|unse?res|[dms]?eines|eures|ihres"),
+      posRegex("SUB:NOM.*SIN.*"),
+      posRegex("SUB:NOM.*SIN.*"),
+      posRegex("SUB:GEN.*SIN.*")
+    ),
+    Arrays.asList( // Ein Mobiles Einsatzkommando
+      posRegex("ART.*|PRO:POS.*"),
+      csToken("Mobiles"),
+      csToken("Einsatzkommando")
+    ),
+    Arrays.asList( // Die Gen Z
+      posRegex("ART.*|PRO:POS.*"),
+      csToken("Gen"),
+      tokenRegex("[XYZ]")
     ),
     // TODO: comment in
     // Arrays.asList(

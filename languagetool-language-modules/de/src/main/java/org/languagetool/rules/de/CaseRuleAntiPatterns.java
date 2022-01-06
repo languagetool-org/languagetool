@@ -603,6 +603,12 @@ class CaseRuleAntiPatterns {
       regex("Süßer?|Hübscher?|Liebster?|Liebes"),
       pos("PKT")
     ),
+    Arrays.asList( // Guten Morgen Liebste,
+      csRegex("Guten?"),
+      csRegex("Morgen|Abend|Mittag|Nacht"),
+      regex("Süßer?|Hübscher?|Liebster?|Liebes"),
+      pos("PKT")
+    ),
     Arrays.asList( // Hey Matt (name),
       regex("Hey|Hi|Hallo|Na|Moin|Servus"),
       regex("Matt|Will|Per")
@@ -1142,7 +1148,7 @@ class CaseRuleAntiPatterns {
       csToken("für")
     ),
     Arrays.asList( // Frohes Neues!
-      csRegex("[Ff]rohes"),
+      csRegex("[Ff]rohes|[Gg]esundes"),
       csToken("Neues")
     ),
     Arrays.asList( // Wir sollten das mal labeln

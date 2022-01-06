@@ -403,6 +403,7 @@ public class CaseRuleTest {
     assertGood("Sie/Er hat Schuld.");
     assertGood("Das war irgendein Irrer.");
     assertGood("Wir wagen Neues.");
+    assertGood("Grundsätzlich gilt aber: Essen Sie, was die Einheimischen Essen.");
     assertGood("Vielleicht reden wir später mit ein paar Einheimischen.");
     assertBad("Das existiert im Jazz zunehmend nicht mehr Bei der weiteren Entwicklung des Jazz zeigt sich das.");
     assertGood("Das denken zwar viele, ist aber total falsch.");
