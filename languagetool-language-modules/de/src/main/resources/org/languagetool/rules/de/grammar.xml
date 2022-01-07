@@ -6118,10 +6118,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Verwechslungen -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
-        <rule id="IN_DER_NAHE" name="in der Nahe (Nähe)" default="temp_off">
+        <rule id="IN_DER_NAHE" name="in der Nahe (Nähe)">
             <antipattern>
                 <token>nahe</token>
-                <token regexp="yes">gelegen.*|liegend.*|osten.*</token>
+                <token regexp="yes">gelegen.*|liegend.*|osten.*|zu</token>
             </antipattern>
             <pattern>
                 <token>in</token>
@@ -8116,7 +8116,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker><token>Sei</token></marker>
                 <token postag="VER.*[1-3]:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöüß]+
                     <exception postag="ADV.*|.*PA[12].*|ART:IND:.+|ADJ.*" postag_regexp="yes"/>
-                    <exception regexp="yes">bereit|lieb</exception>
+                    <exception regexp="yes">bereit|lieb|mein</exception>
                 </token>
             </pattern>
             <message>Meinten Sie <suggestion>Sie</suggestion>?</message>
@@ -8124,6 +8124,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Sei bitte ruhig!</example>
             <example>Sei bereit!</example>
             <example>Sei lieb!</example>
+            <example>Sei mein!</example>
         </rule>
         <rulegroup id="WAISE_WEISE" name="Waise/Weise/Wiese">
             <url>https://languagetool.org/insights/de/beitrag/ai-vs-ei/</url>
@@ -9932,7 +9933,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category id="PROPER_NOUNS" name="Prominente/geographische Eigennamen">
         <!-- geographische Namen u. ä. -->
-        <rulegroup id="SAUCE_HOLLANDAISE" name="Sauce hollandaise" default="temp_off">
+        <rulegroup id="SAUCE_HOLLANDAISE" name="Sauce hollandaise">
             <rule>
                 <antipattern case_sensitive="yes">
                     <token>Sauce</token>
@@ -16620,7 +16621,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>&getrennt;.</short>
                 <example correction="Haareschneiden">Beim <marker>Haare schneiden</marker> kommen mir die besten Einfälle.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">zum|beim|das</token>
                     <marker>
@@ -24674,7 +24675,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
-        <rule id="IN_RAGE" name="in rage (Rage)" default="temp_off">
+        <rule id="IN_RAGE" name="in rage (Rage)">
             <pattern case_sensitive="yes">
                 <token>in</token>
                 <marker>
@@ -24684,7 +24685,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Das Nomen <suggestion>Rage</suggestion> (von "in Rage reden") wird großgeschrieben.</message>
             <example correction="Rage">Ich rede mich hier in <marker>rage</marker>.</example>
         </rule>
-        <rulegroup id="FALL_SUBST" name="fall (Fall)" default="temp_off">
+        <rulegroup id="FALL_SUBST" name="fall (Fall)">
             <rule>
                 <pattern>
                     <token regexp="yes">\d+?%|prozent|teil</token>
@@ -24717,7 +24718,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Fall">Der <marker>fall</marker> ist gelöst.</example>
             </rule>
         </rulegroup>
-        <rule id="TOP_ODER_FLOP" name="top (Top) oder flop (Flop)" default="temp_off">
+        <rule id="TOP_ODER_FLOP" name="top (Top) oder flop (Flop)">
             <antipattern case_sensitive="yes">
                 <token>Top</token>
                 <token>oder</token>
@@ -24757,18 +24758,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Verlass">Auf dich ist stets <marker>verlass</marker>.</example>
             </rule>
         </rulegroup>
-        <rule id="HALLO_ZUSAMMEN" name="Hallo Zusammen (zusammen)"><!-- höhere prio als DE_CASE-->
-            <pattern>
-                <token regexp="yes">h[ea]llo|hi|servus|hey|ciao|moin|gr[üu]ezi|guten|na</token>
-                <token regexp="yes" min="0">abend|tag|mittag|morgen</token>
-                <marker>
-                    <token case_sensitive="yes">Zusammen</token>
-                </marker>
-            </pattern>
-            <message>Auch in der Grußformel sollte das Adverb <suggestion><match no="3" case_conversion="alllower" /></suggestion> kleingeschrieben werden.</message>
-            <url>https://www.duden.de/rechtschreibung/zusammen</url>
-            <example correction="zusammen">Hallo <marker>Zusammen</marker>, wie geht's?</example>
-        </rule>
+        <rulegroup id="HALLO_ZUSAMMEN" name="Hallo Zusammen (zusammen)"><!-- höhere prio als DE_CASE-->
+            <rule>
+                <pattern>
+                    <token regexp="yes">h[ea]llo|hi|servus|hey|ciao|moin|gr[üu]ezi|guten|na</token>
+                    <token regexp="yes" min="0">abend|tag|mittag|morgen</token>
+                    <marker>
+                        <token case_sensitive="yes">Zusammen</token>
+                    </marker>
+                </pattern>
+                <message>Auch in der Grußformel sollte das Adverb <suggestion><match no="3" case_conversion="alllower" /></suggestion> kleingeschrieben werden.</message>
+                <url>https://www.duden.de/rechtschreibung/zusammen</url>
+                <example correction="zusammen">Hallo <marker>Zusammen</marker>, wie geht's?</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START" />
+                    <token regexp="yes">h[ea]llo|hi|servus|hey|ciao|moin|gr[üu]ezi|na</token>
+                    <marker>
+                        <token case_sensitive="yes">Ihr</token>
+                    </marker>
+                    <token spacebefore="no" regexp="yes">[!,\.\?]</token>
+                </pattern>
+                <message>Auch in der Grußformel sollte das Pronomen <suggestion><match no="3" case_conversion="alllower" /></suggestion> kleingeschrieben werden.</message>
+                <example correction="ihr">Hey <marker>Ihr</marker>, lasst uns reden.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="GANG_UND_GAEBE" name="gang und gäbe">
             <url>https://de.wiktionary.org/wiki/gang_und_g%C3%A4be</url>
             <rule>
@@ -48036,33 +48051,38 @@ Andere Projekte</example>
             <example correction=''>Das ist dann ja für <marker>bezahlt</marker> Leute, richtig?</example>
         </rule>
         <rulegroup id="PRAESENS_EINST" name="Präsens + 'einst' etc.">
+            <antipattern>
+                <token>wird</token>
+                <token>einst</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
                         <token postag='VER:.*:PRÄ:.*' postag_regexp='yes'>
-                            <exception regexp='yes' inflected="yes">sein|haben|einen?|scheinen</exception>
+                            <exception regexp='yes' inflected="yes">sein|haben|einen?|scheinen|meinen</exception>
                             <exception postag_regexp="yes" postag="(PA2|SUB):.*"/>
                         </token>
                     </marker>
                     <token regexp='yes'>einst|seinerzeit|damals</token>
                 </pattern>
-                <message>Meinten Sie die Vergangenheitsform?</message>
+                <message>Das Adverb "\2" erfordert ein Verb in der Vergangenheitsform.</message>
                 <example correction=''>Sie <marker>starten</marker> einst eine eigene Firma.</example>
                 <example>Sie starteten einst eine eigene Firma.</example>
                 <example>CDU-Kanzler Kiesinger war vor Amtsantritt einst NSDAP-Mitglied gewesen.</example>
+                <example>Besonders ausgeprägt wurde dieses Problem allerdings erst als mein damals dreijähriger Erstgeborener Verstärkung bekam.</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
                         <token postag='VER:.*:PRÄ:.*' postag_regexp='yes'>
-                            <exception regexp='yes' inflected="yes">sein|haben|m?einen?|scheinen</exception>
+                            <exception regexp='yes' inflected="yes">sein|haben|m?einen?|scheinen|meinen</exception>
                             <exception postag_regexp="yes" postag="(PA2|SUB):.*"/>
                         </token>
                     </marker>
                     <token regexp='yes'>letzte[sn]?|vorige[sn]?</token>
                     <token regexp='yes'>&zeiteinheiten;|&zeiteinheitensing;</token>
                 </pattern>
-                <message>Meinten Sie die Vergangenheitsform?</message>
+                <message>Das Wort "\2" erfordert ein Verb in der Vergangenheitsform.</message>
                 <example correction=''>Sie <marker>starten</marker> letzten Monat eine eigene Firma.</example>
                 <example>Sie starteten letzten Monat eine eigene Firma.</example>
                 <example>Eine von ihnen ließ sich jedoch in meinen letzten Tagen des Praktikums kaum noch überzeugen.</example>

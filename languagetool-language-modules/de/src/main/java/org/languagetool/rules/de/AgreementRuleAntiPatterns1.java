@@ -929,10 +929,9 @@ class AgreementRuleAntiPatterns1 {
       posRegex("VER:.*")
     ),
     Arrays.asList( // des Handelsblatt Research Institutes
-      tokenRegex("des|unse?res|[dms]?eines|eures|ihres"),
-      posRegex("SUB:NOM.*SIN.*"),
-      posRegex("SUB:NOM.*SIN.*"),
-      posRegex("SUB:GEN.*SIN.*")
+      csToken("Handelsblatt"),
+      csToken("Research"),
+      csRegex("Institute?s?")
     ),
     Arrays.asList( // Ein Mobiles Einsatzkommando
       posRegex("ART.*|PRO:POS.*"),

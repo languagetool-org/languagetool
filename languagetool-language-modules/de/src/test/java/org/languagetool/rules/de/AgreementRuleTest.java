@@ -520,6 +520,7 @@ public class AgreementRuleTest {
 
     assertBad("Hier steht Ihre Text.");
     assertBad("Hier steht ihre Text.");
+    assertBad("Antje Last, Inhaberin des Berliner Kult Hotels Auberge, freute sich ebenfalls über die Gastronomenfamilie aus Bayern.");
 
     assertBad("Das ist doch lächerlich, was ist denn das für ein Klinik?");
     assertGood("Das ist doch lächerlich, was ist denn das für eine Klinik?");

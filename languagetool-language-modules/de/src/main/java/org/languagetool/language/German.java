@@ -381,7 +381,6 @@ public class German extends Language implements AutoCloseable {
       case "IM_IHM": return -4;  // lower prio than spell checker
       case "SEHR_GEEHRTER_NAME": return -4;  // lower prio than spell checker
       case "DE_PHRASE_REPETITION": return -4;  // lower prio than spell checker
-      case "GERMAN_WORD_REPEAT_RULE": return -4; // prefer other more specific rules but prefer over DOPPELUNG_MODALVERB
       case "PUNCTUATION_PARAGRAPH_END": return -4;  // don't hide spelling mistakes
       case "TEST_F_ANSTATT_PH": return -4;  // don't hide spelling mistakes
       case "SUBJECT_VERB_AGREEMENT": return -5; // prefer more specific rules that offer a suggestion (e.g. DE_VERBAGREEMENT)
@@ -389,6 +388,7 @@ public class German extends Language implements AutoCloseable {
       case "KOMMA_VOR_RELATIVSATZ": return -10;
       case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2": return -10;
       case "SAGT_RUFT": return -12; // prefer case rules, DE_VERBAGREEMENT, AI and speller
+      case "GERMAN_WORD_REPEAT_RULE": return -13; // prefer SAGT_RUFT
       case "BEI_VERB": return -14; // prefer case, spelling and AI rules
       case "MODALVERB_FLEKT_VERB": return -14; // prefer case, spelling and AI rules
       case "TOO_LONG_PARAGRAPH": return -15;
@@ -416,9 +416,6 @@ public class German extends Language implements AutoCloseable {
     }
     if (id.startsWith("AI_HYDRA_LEO")) { // prefer more specific rules (also speller)
       if (id.startsWith("AI_HYDRA_LEO_CP")) {
-        return 2;
-      }
-      if (id.startsWith("AI_HYDRA_LEO_CP_DAS")) {
         return 2;
       }
       return -11;
