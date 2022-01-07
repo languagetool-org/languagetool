@@ -85,6 +85,9 @@ public class EnglishWordTokenizerTest {
     final List<String> tokens17 = wordTokenizer.tokenize("My address is address@email.com or other@email.com.");
     assertEquals("[My,  , address,  , is,  , address@email.com,  , or,  , other@email.com, .]", tokens17.toString());
     assertEquals(tokens17.size(), 12);
+    final List <String> tokens18 = wordTokenizer.tokenize("doin' that");
+    assertEquals("[doin',  , that]", tokens18.toString());
+    assertEquals(tokens18.size(), 3);
     
   }
 }

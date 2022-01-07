@@ -64,8 +64,20 @@ public class EnglishUnpairedQuotesRuleTest {
     assertCorrect("This is what he said: \"We believe in freedom. This is what we do.\"");
     assertCorrect("(([20] [20] [20]))");
     
-    //FIXME:
-    //assertCorrect("I'm not goin'");
+    assertCorrect("He was an ol' man.");
+    assertCorrect("'till the end.");
+    assertCorrect("jack-o'-lantern");
+    assertCorrect("jack o'lantern");
+    assertCorrect("sittin' there");
+    assertCorrect("Nothin'");
+    assertCorrect("ya'");
+    assertCorrect("I'm not goin'");
+    assertCorrect("y'know");
+    assertCorrect("Please find attached Fritz' revisions");
+    assertCorrect("You're only foolin' round.");
+    assertCorrect("I stayed awake 'till the morning.");
+    
+    assertCorrect("under the 'Global Markets' heading");
     
     assertCorrect("He's an 'admin'.");
     // test for a case that created a false alarm after disambiguation

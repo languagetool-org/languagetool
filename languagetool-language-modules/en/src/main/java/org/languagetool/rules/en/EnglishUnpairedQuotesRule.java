@@ -73,8 +73,10 @@ public class EnglishUnpairedQuotesRule extends GenericUnpairedBracketsRule {
       AnalyzedTokenReadings[] tokens, int i, int j, boolean precSpace,
       boolean follSpace, UnsyncStack<SymbolLocator> symbolStack) {
 
-    //TODO: add an', o', 'till, 'tain't, 'cept, 'fore in the disambiguator
-    //and mark up as contractions somehow
+    //add an', o', 'till, 'tain't, 'cept, 'fore in the disambiguator
+    if (tokens[i].hasPosTag("_apostrophe_contraction_") || tokens[i].hasPosTag("POS")) {
+      return false;
+    }
 
     if (i <= 1) {
       return true;
