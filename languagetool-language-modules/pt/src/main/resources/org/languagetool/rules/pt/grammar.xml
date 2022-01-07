@@ -2144,18 +2144,6 @@ A César o que é de César.
 		  <token regexp="yes">que|na|no|maiores|menores|como|por|o|[.,?!]</token>
 	  </antipattern>
 <!-- MARCOAGPINTO 2020-10-05 + 2020-11-05 (2-JUL-2020+) *END* -->
-<!-- MARCOAGPINTO 2021-02-09 (1-JAN-2021+) *START* -->
-<!--
-As folhas de louro dão um sabor especial ao feijão e a outros cozidos.
-O pai opunha-se firmemente a tais planos, preferindo que o filho fizesse carreira na função pública.
-Vi-o algumas vezes na televisão.
--->
-      <antipattern>
-		<token postag='DA0.S.+' postag_regexp='yes'/>
-		<token postag='DI0.P.+' postag_regexp='yes'/>
-	    <token postag='NC.P.+|AQ0.P.+' postag_regexp='yes'/>
-      </antipattern> 
-<!-- MARCOAGPINTO 2021-02-09 (1-JAN-2021+) *END* -->
 <!-- MARCOAGPINTO 2021-02-22 (1-JAN-2021+) *START* -->
 <!--
 O grande mal nos conflitos deve-se a inocentes serem lesados.
@@ -2193,6 +2181,30 @@ Estas instruções basearam-se nas várias a que tive acesso.
 		<token regexp='no'></token>
       </antipattern> 	  
 <!-- MARCOAGPINTO 2021-03-05 (1-JAN-2021+) *END* -->
+
+<!-- MARCOAGPINTO 2022-01-07 (1-JAN-2022+) *START* -->
+<!--
+Apresente-me a seus pais quando se sentir preparada.
+Apresente-me a suas mães quando se sentir preparada.
+As folhas de louro dão um sabor especial ao feijão e a outros cozidos.
+O pai opunha-se firmemente a tais planos, preferindo que o filho fizesse carreira na função pública.
+Já o rio Alva, que corre a seus pés, não desempenhou aqui o papel que tomou noutras povoações a montante.
+A seus olhos "diante do paciente só existe a compreensão individual".
+É o único ser vivo que cria uma aparência de realidade para enganar a si próprio ou a seus similares.
+Intelectual muito talentoso devotou-se a seus estudos, em especial à filosofia e à medicina.
+
+THIS ANTIPATTERN APPEARS THREE TIMES IN THE GRAMMAR.XML.
+HITS AGAINST A 600 000 CORPORA:
+BEFORE:4586
+ AFTER:4576
+-->
+      <antipattern>
+		<token postag='DA0FS.+' postag_regexp='yes'/>
+		<token postag='DP..P.+|DI..P.+|DD..P.+|PI..P.+' postag_regexp='yes'/>
+		<token postag='AQ..P.+|NC.P.+|CS|CC|VM...P.+|SPS00|RN|RM|RG' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-01-07 (1-JAN-2022+) *END* -->
+
       <pattern>
 			<token>a
 				<exception negate_pos='yes' postag_regexp='yes' postag='D.+'/>
@@ -2209,11 +2221,7 @@ Estas instruções basearam-se nas várias a que tive acesso.
 	  <example type='correct'>Daí <marker>a duas</marker> semanas temos a festa.</example>
 	  <example type='correct'>Os arqueólogos dedicam-se cada vez mais <marker>a fases tardias</marker> da evolução humana.</example>
 	  <example type='correct'>O profeta, mas <marker>a evidências que</marker> apoiam que esta reivindicação é falsa.</example>
-	  
-	  <example>As folhas de louro dão um sabor especial ao feijão e <marker>a outros</marker> cozidos.</example>
-	  <example>O pai opunha-se firmemente a tais planos, preferindo que o filho fizesse carreira na função pública.</example>
-	  <example>Vi-o algumas vezes na televisão.</example>
-	  
+
 	  <example>O grande mal nos conflitos deve-se <marker>a inocentes</marker> serem lesados.</example>
 	  <example>Existem prejuízos graves e dispendiosos a instalações ou vantagens para os criminosos.</example>
 	  
@@ -2221,7 +2229,16 @@ Estas instruções basearam-se nas várias a que tive acesso.
 	  <example>A campanha de vendas levou eles a perdas de mais de 95%.</example>
 	  <example>A campanha de vendas levou estes a perdas de mais de 95%.</example>
 	  <example>Outras proteínas evoluíram de modo a ligar-se a sequências de ADN específicas.</example>
-	  <example>Estas instruções basearam-se nas várias a que tive acesso.</example>	  
+	  <example>Estas instruções basearam-se nas várias a que tive acesso.</example>
+
+	  <example>Apresente-me a seus pais quando se sentir preparada.</example>
+	  <example>Apresente-me a suas mães quando se sentir preparada.</example>
+	  <example>As folhas de louro dão um sabor especial ao feijão e a outros cozidos.</example>
+	  <example>O pai opunha-se firmemente a tais planos, preferindo que o filho fizesse carreira na função pública.</example>
+	  <example>Já o rio Alva, que corre a seus pés, não desempenhou aqui o papel que tomou noutras povoações a montante.</example>
+	  <example>A seus olhos "diante do paciente só existe a compreensão individual".</example>
+	  <example>É o único ser vivo que cria uma aparência de realidade para enganar a si próprio ou a seus similares.</example>
+	  <example>Intelectual muito talentoso devotou-se a seus estudos, em especial à filosofia e à medicina.</example>
 	</rule>
   </rulegroup>
 
@@ -4479,18 +4496,7 @@ Verificámos que ao termos forças uniformes conseguimos.
 		  <token regexp="yes">que|na|no|maiores|menores|como|por|o|[.,?!]</token>
 	  </antipattern>
 <!-- MARCOAGPINTO 2020-10-05 + 2020-11-05 (2-JUL-2020+) *END* -->
-<!-- MARCOAGPINTO 2021-02-09 (1-JAN-2021+) *START* -->
-<!--
-As folhas de louro dão um sabor especial ao feijão e a outros cozidos.
-O pai opunha-se firmemente a tais planos, preferindo que o filho fizesse carreira na função pública.
-Vi-o algumas vezes na televisão.
--->
-      <antipattern>
-		<token postag='DA0.S.+' postag_regexp='yes'/>
-		<token postag='DI0.P.+' postag_regexp='yes'/>
-	    <token postag='NC.P.+|AQ0.P.+' postag_regexp='yes'/>
-      </antipattern> 
-<!-- MARCOAGPINTO 2021-02-09 (1-JAN-2021+) *END* -->
+
 <!-- MARCOAGPINTO 2021-02-22 (1-JAN-2021+) *START* -->
 <!--
 O grande mal nos conflitos deve-se a inocentes serem lesados.
@@ -4667,6 +4673,29 @@ IT SHOWS NO HITS AGAINST A 900 000 CORPORA.
       </antipattern>	  
 <!-- MARCOAGPINTO 2022-01-05 (1-JAN-2022+) *END* -->
 
+<!-- MARCOAGPINTO 2022-01-07 (1-JAN-2022+) *START* -->
+<!--
+Apresente-me a seus pais quando se sentir preparada.
+Apresente-me a suas mães quando se sentir preparada.
+As folhas de louro dão um sabor especial ao feijão e a outros cozidos.
+O pai opunha-se firmemente a tais planos, preferindo que o filho fizesse carreira na função pública.
+Já o rio Alva, que corre a seus pés, não desempenhou aqui o papel que tomou noutras povoações a montante.
+A seus olhos "diante do paciente só existe a compreensão individual".
+É o único ser vivo que cria uma aparência de realidade para enganar a si próprio ou a seus similares.
+Intelectual muito talentoso devotou-se a seus estudos, em especial à filosofia e à medicina.
+
+THIS ANTIPATTERN APPEARS THREE TIMES IN THE GRAMMAR.XML.
+HITS AGAINST A 600 000 CORPORA:
+BEFORE:4586
+ AFTER:4576
+-->
+      <antipattern>
+		<token postag='DA0FS.+' postag_regexp='yes'/>
+		<token postag='DP..P.+|DI..P.+|DD..P.+|PI..P.+' postag_regexp='yes'/>
+		<token postag='AQ..P.+|NC.P.+|CS|CC|VM...P.+|SPS00|RN|RM|RG' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-01-07 (1-JAN-2022+) *END* -->
+
       <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
         <marker>
@@ -4694,11 +4723,7 @@ IT SHOWS NO HITS AGAINST A 900 000 CORPORA.
       <example correction='bastante mesa|bastantes mesas|bastante, mesas'>Existem <marker>bastante mesas</marker>!</example>
       <example>Algo que nos une como plataforma a tantos continentes, a tantos oceanos, a tantas culturas, a tantas civilizações</example>
 	  <example type='correct'>O Rui quer enfrentar de <marker>forma eficaz ações entrópicas</marker>.</example>
-	  
-	  <example>As folhas de louro dão um sabor especial ao feijão e <marker>a outros</marker> cozidos.</example>
-	  <example>O pai opunha-se firmemente a tais planos, preferindo que o filho fizesse carreira na função pública.</example>
-	  <example>Vi-o algumas vezes na televisão.</example>
-	  
+	 
 	  <example>O grande mal nos conflitos deve-se <marker>a inocentes</marker> serem lesados.</example>
 	  <example>Existem prejuízos graves e dispendiosos a instalações ou vantagens para os criminosos.</example>
 	  
@@ -4746,6 +4771,15 @@ IT SHOWS NO HITS AGAINST A 900 000 CORPORA.
 	  
 	  <example>Estou de férias e regresso de sábado a oito.</example>
 	  <example>Estou de férias e regresso de segunda-feira a oito.</example>
+	  
+	  <example>Apresente-me a seus pais quando se sentir preparada.</example>
+	  <example>Apresente-me a suas mães quando se sentir preparada.</example>
+	  <example>As folhas de louro dão um sabor especial ao feijão e a outros cozidos.</example>
+	  <example>O pai opunha-se firmemente a tais planos, preferindo que o filho fizesse carreira na função pública.</example>
+	  <example>Já o rio Alva, que corre a seus pés, não desempenhou aqui o papel que tomou noutras povoações a montante.</example>
+	  <example>A seus olhos "diante do paciente só existe a compreensão individual".</example>
+	  <example>É o único ser vivo que cria uma aparência de realidade para enganar a si próprio ou a seus similares.</example>
+	  <example>Intelectual muito talentoso devotou-se a seus estudos, em especial à filosofia e à medicina.</example>
 	</rule>
     <rule>
       <antipattern>
@@ -5334,18 +5368,7 @@ HITS AGAINST A 600 000 CORPORA: NO HITS.
 		  <token postag='DA0MS0' postag_regexp='no'/>		  	  
       </antipattern>
 <!-- MARCOAGPINTO 2020-06-06 *END* -->
-<!-- MARCOAGPINTO 2021-02-09 (1-JAN-2021+) *START* -->
-<!--
-As folhas de louro dão um sabor especial ao feijão e a outros cozidos.
-O pai opunha-se firmemente a tais planos, preferindo que o filho fizesse carreira na função pública.
-Vi-o algumas vezes na televisão.
--->
-      <antipattern>
-		<token postag='DA0.S.+' postag_regexp='yes'/>
-		<token postag='DI0.P.+' postag_regexp='yes'/>
-	    <token postag='NC.P.+|AQ0.P.+' postag_regexp='yes'/>
-      </antipattern> 
-<!-- MARCOAGPINTO 2021-02-09 (1-JAN-2021+) *END* -->
+
 <!-- MARCOAGPINTO 2021-03-05 (1-JAN-2021+) *START* -->
 <!--
 A campanha de vendas levou milhares deles a perdas de mais de 95%.
@@ -5385,6 +5408,30 @@ Mas a todos quantos o receberam deu-lhes o poder de serem feitos filhos de Deus.
 		<token postag='DA..P.+|DD..P.+|CS|RG|PI..P.+|PP..P.+' postag_regexp='yes'/>
       </antipattern>
 <!-- MARCOAGPINTO 2021-11-21 (25-JUN-2021+) *END* -->
+
+<!-- MARCOAGPINTO 2022-01-07 (1-JAN-2022+) *START* -->
+<!--
+Apresente-me a seus pais quando se sentir preparada.
+Apresente-me a suas mães quando se sentir preparada.
+As folhas de louro dão um sabor especial ao feijão e a outros cozidos.
+O pai opunha-se firmemente a tais planos, preferindo que o filho fizesse carreira na função pública.
+Já o rio Alva, que corre a seus pés, não desempenhou aqui o papel que tomou noutras povoações a montante.
+A seus olhos "diante do paciente só existe a compreensão individual".
+É o único ser vivo que cria uma aparência de realidade para enganar a si próprio ou a seus similares.
+Intelectual muito talentoso devotou-se a seus estudos, em especial à filosofia e à medicina.
+
+THIS ANTIPATTERN APPEARS THREE TIMES IN THE GRAMMAR.XML.
+HITS AGAINST A 600 000 CORPORA:
+BEFORE:4586
+ AFTER:4576
+-->
+      <antipattern>
+		<token postag='DA0FS.+' postag_regexp='yes'/>
+		<token postag='DP..P.+|DI..P.+|DD..P.+|PI..P.+' postag_regexp='yes'/>
+		<token postag='AQ..P.+|NC.P.+|CS|CC|VM...P.+|SPS00|RN|RM|RG' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-01-07 (1-JAN-2022+) *END* -->
+
       <pattern>
           <unify negate="yes">
             <feature id="number"/>
@@ -5398,17 +5445,12 @@ Mas a todos quantos o receberam deu-lhes o poder de serem feitos filhos de Deus.
         <suggestion><match no='1' postag='D(...).(.+)' postag_replace='D$1S$2' postag_regexp='yes'/> <match no='2' postag='D(...).(.+)' postag_replace='D$1S$2' postag_regexp='yes'/></suggestion>
         <suggestion><match no='1' postag='D(...).(.+)' postag_replace='D$1P$2' postag_regexp='yes'/> <match no='2' postag='D(...).(.+)' postag_replace='D$1P$2' postag_regexp='yes'/></suggestion>
       <example correction="A nossa|As nossas"><marker>As nossa</marker> equipa de operações está muito focada nos campos de verão..</example>
-	  	  
-	  <example>As folhas de louro dão um sabor especial ao feijão e <marker>a outros</marker> cozidos.</example>
-	  <example>O pai opunha-se firmemente a tais planos, preferindo que o filho fizesse carreira na função pública.</example>
-	  <example>Vi-o algumas vezes na televisão.</example>
-	  
+
 	  <example type='correct'>A campanha de vendas levou milhares deles <marker>a perdas</marker> de mais de 95%.</example>
 	  <example>A campanha de vendas levou eles a perdas de mais de 95%.</example>
 	  <example>A campanha de vendas levou estes a perdas de mais de 95%.</example>
 	  <example>Outras proteínas evoluíram de modo a ligar-se a sequências de ADN específicas.</example>
 	  <example>Estas instruções basearam-se nas várias a que tive acesso.</example>
-
 
 	  <example>Estou grato a todos aqueles que contribuíram para o meu desenvolvimento técnico.</example>
 	  <example>Basta colar uma lista de e-mails abaixo para enviar convites a todos nós.</example>
@@ -5416,6 +5458,15 @@ Mas a todos quantos o receberam deu-lhes o poder de serem feitos filhos de Deus.
 	  <example>A todos os apelido e canais numa rede era atribuído uma marca temporal – a data e tempo da sua criação.</example>
 	  <example>O Commons é um banco de imagens, sons e mídia em geral comum a todas as Wikipédias.</example>
 	  <example>Mas a todos quantos o receberam deu-lhes o poder de serem feitos filhos de Deus.</example>
+	  
+	  <example>Apresente-me a seus pais quando se sentir preparada.</example>
+	  <example>Apresente-me a suas mães quando se sentir preparada.</example>
+	  <example>As folhas de louro dão um sabor especial ao feijão e a outros cozidos.</example>
+	  <example>O pai opunha-se firmemente a tais planos, preferindo que o filho fizesse carreira na função pública.</example>
+	  <example>Já o rio Alva, que corre a seus pés, não desempenhou aqui o papel que tomou noutras povoações a montante.</example>
+	  <example>A seus olhos "diante do paciente só existe a compreensão individual".</example>
+	  <example>É o único ser vivo que cria uma aparência de realidade para enganar a si próprio ou a seus similares.</example>
+	  <example>Intelectual muito talentoso devotou-se a seus estudos, em especial à filosofia e à medicina.</example>
     </rule>
   </rulegroup>
 
