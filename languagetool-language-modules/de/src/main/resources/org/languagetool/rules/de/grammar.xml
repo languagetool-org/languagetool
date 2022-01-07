@@ -11925,6 +11925,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>\1-\2</suggestion>
             <example correction="Lieblings-Auto">VW Golf ist mein <marker>Lieblings Auto</marker>.</example>
         </rule>
+        <rule id="LIEBLINGS_SUB2" name="Lieblings Tisch (Lieblingstisch)" default="temp_off">
+            <antipattern>
+                <token postag="EIG.*|UNKNOWN" postag_regexp="yes" case_sensitive="yes" regexp="yes">[A-ZÄÖÜ].*</token>
+                <token min="0">.</token>
+                <token case_sensitive="yes">Lieblings</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">Herrn?|Frau|Fräulein|Dr|Mrs?|Doktor|Prof(essor)?</token>
+                <token min="0">.</token>
+                <token>Lieblings</token>
+            </antipattern>
+            <pattern>
+                <token>Lieblings</token>
+                <token postag="SUB.*" postag_regexp="yes" />
+            </pattern>
+            <filter class="org.languagetool.rules.de.PotentialCompoundFilter" args="part1:\1 part2:\2"/>
+            <message>Dieses Nomen wird in der Regel zusammengeschrieben.</message>
+            <example correction="Lieblingsauto">VW Golf ist mein <marker>Lieblings Auto</marker>.</example>
+            <example correction="Lieblings-Anime">Das ist mein <marker>lieblings Anime</marker>.</example>
+        </rule> 
         <rule id="EIN_LOGGEN" name="ein loggen (einloggen)">
             <antipattern>
                 <token>Loggen</token>
