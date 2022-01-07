@@ -115,6 +115,10 @@ public class ProhibitedCompoundRule extends Rule {
   private static LinguServices linguServices;
   private static final List<String> ignoreWords = Arrays.asList("Die", "De");
   private static final List<String> blacklistRegex = Arrays.asList(
+    "Model(vertrags?|verträgen?|erfahrung|erfahrungen)",
+    "(Raum|Surf|Jazz|Herbst|Gymnastik|Normal)schuhen?",
+    "preis",  // Getränkepreis etc.
+    "reisähnlich(e|e[nmrs])?",
     "reisender",  // Ägyptenreisender etc.
     "[a-zöäüß]+sender",  // wg. sende/sender, z.B. bremsender, abzulassender
     "gra(ph|f)ische?",  // kosmografisch etc.
@@ -127,6 +131,58 @@ public class ProhibitedCompoundRule extends Rule {
     "Gra(ph|f)it"   // Grafit/Graphit
   );
   private static final Set<String> blacklist = new HashSet<>(Arrays.asList(
+          "Schreibraten",  // vs bart
+          "Treppentransport",  // vs truppen
+          "Treppentransports",  // vs truppen
+          "Treppentransporte",  // vs truppen
+          "Treppentransporten",  // vs truppen
+          "Familienvillen",  // vs willen
+          "Kampweg",  // vs kampf
+          "Kampwegs",  // vs kampf
+          "Werbemodel",  // vs modell
+          "Werbemodels",  // vs modell
+          "Schuhreinigung",  // vs schul
+          "Luftrad",  // vs rat
+          "Luftrads",  // vs rat
+          "Waschgel",  // vs geld
+          "Waschgels",  // vs geld
+          "Absatzzeile",  // vs ziele
+          "Absatzzeilen",  // vs ziele
+          "Standardzeile",  // vs ziele
+          "Standardzeilen",  // vs ziele
+          "Reisspezialität",  // vs eis
+          "Reisspezialitäten",  // vs eis
+          "Kommunikationsgewerbe",  // vs gewebe
+          "Kunststoffgewerbe",  // vs gewebe
+          "Obstring",  // vs ost
+          "Obstringen",  // vs ost
+          "Mietinformation",  // vs mit
+          "Mietinformationen",  // vs mit
+          "Bergtrasse",  // vs rasse
+          "Privatprofil",  // vs profit
+          "Spezialölen",  // vs öfen
+          "Ladedock",  // vs deck
+          "Ladedocks",  // vs deck
+          "Fahrtenregler",  // vs segler
+          "Fahrtenreglern",  // vs segler
+          "Fahrtenreglers",  // vs segler
+          "Körperakne",  // vs akte
+          "Mitarbeiterakte",  // vs aktie
+          "Mitarbeiterakten",  // vs aktien
+          "Frontschaden",  // vs frost
+          "Testgebühr",  // vs fest
+          "Testgebühren",  // vs fest
+          "Energiegeld",  // vs feld
+          "Kontaktermittlung",  // vs vermittlung
+          "Flutnacht",  // vs blut
+          "Salztank",  // vs bank
+          "Kursformat",  // vs kurz
+          "Kursformate",  // vs kurz
+          "Kursformaten",  // vs kurz
+          "Kursseite",  // vs kurz
+          "Kursseiten",  // vs kurz
+          "Ladekarte",  // vs lage
+          "Ladekarten",  // vs lage
           "Schneehose",  // vs hase
           "Schneehosen",  // vs hase
           "Außendusche",  // vs augen
