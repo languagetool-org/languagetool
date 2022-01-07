@@ -9062,6 +9062,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="4" regexp_match="(?iu)u(.+)" regexp_replace="sobreú$1" case_conversion="preserve"/></suggestion>
                 <example correction="sobreúso">Era un problema de <marker>sobre uso</marker>.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" inflected="yes">máquina|camión|avión</token>
+                    <marker>
+                        <token>apaga</token>
+                        <token min="0">-</token>
+                        <token regexp="yes">fuegos?</token>
+                    </marker>
+                </pattern>
+                <message>Se escribe junto.</message>
+                <suggestion>apagafuegos</suggestion>
+                <example correction="apagafuegos">Las máquinas <marker>apaga fuegos</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="D.*" postag_regexp="yes"/>
+                    <token postag="_QM_OPEN" min="0"/>
+                    <marker>
+                        <token>apaga</token>
+                        <token min="0">-</token>
+                        <token regexp="yes">fuegos?</token>
+                    </marker>
+                </pattern>
+                <message>Se escribe junto.</message>
+                <suggestion>apagafuegos</suggestion>
+                <example correction="apagafuegos">Un <marker>apaga fuegos</marker>.</example>
+                <example correction="apagafuegos">Un «<marker>apaga fuegos</marker>».</example>
+            </rule>
         </rulegroup>
         <rule id="TIK_TOK" name="TikTok">
             <pattern>
@@ -24636,7 +24664,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <antipattern case_sensitive="yes">
                     <token>Warren</token>
-                    <token regexp="yes">Buffett</token>
+                    <token>Buffett</token>
                 </antipattern>
                 <pattern>
                     <token regexp="yes">Warr?en</token>
