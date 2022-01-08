@@ -119,7 +119,7 @@ class CheckRequestAnalysis {
     setFlatParagraphTools(xComponent);
     if (docCache.isEmpty()) {
       docCursor = new DocumentCursorTools(xComponent);
-      docCache.refresh(docCursor, flatPara, docLanguage != null ? LinguisticServices.getLocale(docLanguage) : null, xComponent);
+      docCache.refresh(docCursor, flatPara, docLanguage != null ? LinguisticServices.getLocale(docLanguage) : null, xComponent, 1);
       if (debugMode > 0) {
         MessageHandler.printToLogFile("+++ resetAllParas (docCache is empty): new docCache.size: " + docCache.size()
                 + ", docID: " + docID + OfficeTools.LOG_LINE_BREAK);
@@ -190,7 +190,7 @@ class CheckRequestAnalysis {
     if (docCursor == null) {
       docCursor = new DocumentCursorTools(xComponent);
     }
-    docCache.refresh(docCursor, flatPara, docLanguage != null ? LinguisticServices.getLocale(docLanguage) : null, xComponent);
+    docCache.refresh(docCursor, flatPara, docLanguage != null ? LinguisticServices.getLocale(docLanguage) : null, xComponent, 2);
     if (docCache.isEmpty()) {
       return -1;
     }
@@ -368,7 +368,7 @@ class CheckRequestAnalysis {
       return -1;
     }
     if (isImpress && docCache.isEmpty()) {
-      docCache.refresh(docCursor, flatPara, docLanguage != null ? LinguisticServices.getLocale(docLanguage) : null, xComponent);
+      docCache.refresh(docCursor, flatPara, docLanguage != null ? LinguisticServices.getLocale(docLanguage) : null, xComponent, 3);
 //      singleDocument.setDocumentCache(docCache);
     }
 
@@ -386,7 +386,7 @@ class CheckRequestAnalysis {
 
     if (docCache.isEmpty()) {
       docCursor = new DocumentCursorTools(xComponent);
-      docCache.refresh(docCursor, flatPara, docLanguage != null ? LinguisticServices.getLocale(docLanguage) : null, xComponent);
+      docCache.refresh(docCursor, flatPara, docLanguage != null ? LinguisticServices.getLocale(docLanguage) : null, xComponent, 4);
       if (debugMode > 0) {
         MessageHandler.printToLogFile("+++ resetAllParas (docCache is empty): new docCache.size: " + docCache.size()
                 + ", docID: " + docID + OfficeTools.LOG_LINE_BREAK);
@@ -599,10 +599,10 @@ class CheckRequestAnalysis {
     if (nFParas == docCache.size()) {
       return nPara;
     }
-    if (debugMode > 0) {
+//    if (debugMode > 0) {
       MessageHandler.printToLogFile("*** resetAllParas: docCache.size: " + docCache.size() + ", nPara: " + nPara
               + ", docID: " + docID + OfficeTools.LOG_LINE_BREAK);
-    }
+//    }
     DocumentCache oldDocCache = new DocumentCache(docCache);
     if (useQueue) {
       mDocHandler.getTextLevelCheckQueue().interruptCheck(docID);
@@ -610,7 +610,7 @@ class CheckRequestAnalysis {
     if (docCursor == null) {
       docCursor = new DocumentCursorTools(xComponent);
     }
-    docCache.refresh(docCursor, flatPara, docLanguage != null ? LinguisticServices.getLocale(docLanguage) : null, xComponent);
+    docCache.refresh(docCursor, flatPara, docLanguage != null ? LinguisticServices.getLocale(docLanguage) : null, xComponent, 5);
     if (docCache.isEmpty()) {
       return -1;
     }

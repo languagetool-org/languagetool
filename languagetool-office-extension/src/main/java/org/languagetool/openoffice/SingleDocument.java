@@ -196,7 +196,7 @@ class SingleDocument {
           docCursor = new DocumentCursorTools(xComponent);
         }
         docCache.refresh(docCursor, flatPara, 
-            docLanguage != null ? LinguisticServices.getLocale(docLanguage) : null, xComponent);
+            docLanguage != null ? LinguisticServices.getLocale(docLanguage) : null, xComponent, 6);
       }
       resetDocCache = false;
     }

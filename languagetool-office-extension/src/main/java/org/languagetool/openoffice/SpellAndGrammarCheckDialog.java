@@ -220,7 +220,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
   private void actualizeImpressDocumentCache(SingleDocument document) {
     if (isImpress) {
       DocumentCache oldCache = new DocumentCache(docCache);
-      docCache.refresh(null, null, null, document.getXComponent());
+      docCache.refresh(null, null, null, document.getXComponent(), 7);
       if (!oldCache.isEmpty()) {
         boolean isSame = true;
         if (oldCache.size() != docCache.size()) {
