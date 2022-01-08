@@ -933,7 +933,7 @@ class AgreementRuleAntiPatterns1 {
       csToken("Research"),
       csRegex("Institute?s?")
     ),
-    Arrays.asList( // des Handelsblatt Research Institutes
+    Arrays.asList( // Ich arbeite bei der Shop Apotheke im Vertrieb
       csToken("Shop"),
       csToken("Apotheke")
     ),
