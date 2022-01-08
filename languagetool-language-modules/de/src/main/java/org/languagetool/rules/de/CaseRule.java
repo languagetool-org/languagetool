@@ -111,7 +111,6 @@ public class CaseRule extends Rule {
     "Mag",   // "Mag. Helke Müller"
     "Nov",
     "Diss",
-    "Angeboten",
     "Invalide",
     "Invalider",
     "Invaliden",
@@ -447,6 +446,9 @@ public class CaseRule extends Rule {
     "Hu", // name
     "Jenseits",
     "Abends",
+    "Stimmberechtigte",
+    "Stimmberechtigten",
+    "Stimmberechtigter",
     "Alleinerziehende",
     "Alleinerziehenden",
     "Alleinerziehender",

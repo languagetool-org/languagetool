@@ -11907,26 +11907,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>\1<match no="2" case_conversion="alllower" /><match no="3" case_conversion="alllower" /></suggestion>
             <example correction="schönreden">Du kannst es dir weiter <marker>schön reden</marker>, auch wenn die Realität eine andere ist.</example>
         </rule>
-        <rule id="LIEBLINGS_SUB" name="Lieblings Tisch (Lieblingstisch)"><!-- TODO: Use Compound filter once it can deal with a lower case "lieblings"-->
-            <antipattern>
-                <token postag="EIG.*|UNKNOWN" postag_regexp="yes" case_sensitive="yes" regexp="yes">[A-ZÄÖÜ].*</token>
-                <token min="0">.</token>
-                <token case_sensitive="yes">Lieblings</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">Herrn?|Frau|Fräulein|Dr|Mrs?|Doktor|Prof(essor)?</token>
-                <token min="0">.</token>
-                <token>Lieblings</token>
-            </antipattern>
-            <pattern>
-                <token>Lieblings</token>
-                <token postag="SUB.*" postag_regexp="yes" />
-            </pattern>
-            <message>Dieses Nomen wird in der Regel zusammengeschrieben.</message>
-            <suggestion>\1-\2</suggestion>
-            <example correction="Lieblings-Auto">VW Golf ist mein <marker>Lieblings Auto</marker>.</example>
-        </rule>
-        <rule id="LIEBLINGS_SUB2" name="Lieblings Tisch (Lieblingstisch)" default="temp_off">
+        <rule id="LIEBLINGS_SUB" name="Lieblings Tisch (Lieblingstisch)">
             <antipattern>
                 <token postag="EIG.*|UNKNOWN" postag_regexp="yes" case_sensitive="yes" regexp="yes">[A-ZÄÖÜ].*</token>
                 <token min="0">.</token>
@@ -24771,7 +24752,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <url>https://www.duden.de/rechtschreibung/zusammen</url>
                 <example correction="zusammen">Hallo <marker>Zusammen</marker>, wie geht's?</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START" />
                     <token regexp="yes">h[ea]llo|hi|servus|hey|ciao|moin|gr[üu]ezi|na</token>
@@ -25019,7 +25000,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <token postag="ADV.*|NEG" postag_regexp="yes" min="0" max="2" />
                     <marker>
-                        <token case_sensitive="yes" regexp="yes">Stolz|Klein|Wei(ß|ss)|Dürr|Fröhlich|Fair|Platt</token><!-- Adjekive, die als Nomen oder Eigenname getaggt sind -->
+                        <token case_sensitive="yes" regexp="yes">Stolz|Klein|Wei(ß|ss)|Dürr|Fröhlich|Fair|Platt|Oldschool</token><!-- Adjekive, die als Nomen oder Eigenname getaggt sind -->
                     </marker>
                 </pattern>
                 <message>Das Adjektiv <suggestion><match no="4" case_conversion="alllower" /></suggestion> wird kleingeschrieben.</message>
@@ -25044,7 +25025,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <token postag="ADV.*|NEG" postag_regexp="yes" min="0" max="2" />
                     <marker>
-                        <token case_sensitive="yes" regexp="yes">Stolz|Klein|Wei(ß|ss)|Dürr|Fröhlich|Fair|Platt</token><!-- Adjekive, die als Nomen oder Eigenname getaggt sind -->
+                        <token case_sensitive="yes" regexp="yes">Stolz|Klein|Wei(ß|ss)|Dürr|Fröhlich|Fair|Platt|Oldschool</token><!-- Adjekive, die als Nomen oder Eigenname getaggt sind -->
                     </marker>
                 </pattern>
                 <message>Das Adjektiv <suggestion><match no="4" case_conversion="alllower" /></suggestion> wird kleingeschrieben.</message>
@@ -25061,7 +25042,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>ihr</token>
                     <token postag="ADV.*|NEG" postag_regexp="yes" min="0" max="2" />
                     <marker>
-                        <token case_sensitive="yes" regexp="yes" skip="-1">Stolz|Klein|Wei(ß|ss)|Dürr|Fröhlich|Fair|Platt</token><!-- Adjekive, die als Nomen oder Eigenname getaggt sind -->
+                        <token case_sensitive="yes" regexp="yes" skip="-1">Stolz|Klein|Wei(ß|ss)|Dürr|Fröhlich|Fair|Platt|Oldschool</token><!-- Adjekive, die als Nomen oder Eigenname getaggt sind -->
                     </marker>
                     <token>?</token>
                 </pattern>
@@ -60784,6 +60765,38 @@ Andere Projekte</example>
         </rulegroup>
     </category>
     <category id="EMPFOHLENE_RECHTSCHREIBUNG" name="Empfohlene/Modernere Rechtschreibung" type="style">
+        <rulegroup id="PROBIEREN_GEHT_UEBER_STUDIEREN" name="Probieren geht über Studieren" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token>Probieren</token>
+                <token min="0">geht</token>
+                <token>über</token>
+                <token>Studieren</token>
+            </antipattern>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[Pp]robieren</token>
+                    <token>geht</token>
+                    <token>über</token>
+                    <token regexp="yes">[Ss]tudieren</token>
+                </pattern>
+                <message>In dieser Redewendung wird es empfohlen beide Verben großzuschreiben.</message>
+                <suggestion>Probieren geht über Studieren</suggestion>
+                <example correction="Probieren geht über Studieren"><marker>Probieren geht über studieren</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes" skip="1">gehen</token>
+                    <marker>
+                        <token regexp="yes">[Pp]robieren</token>
+                        <token>über</token>
+                        <token regexp="yes">[Ss]tudieren</token>
+                    </marker>
+                </pattern>
+                <message>In dieser Redewendung wird es empfohlen beide Verben großzuschreiben.</message>
+                <suggestion>Probieren über Studieren</suggestion>
+                <example correction="Probieren über Studieren">Am Ende geht <marker>probieren über studieren</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="EVTL_ABK" name="Schreibweise der Abkürzung 'evtl.'">
             <url>https://www.duden.de/rechtschreibung/evtl_</url>
             <rule>

@@ -1187,6 +1187,36 @@ class CaseRuleAntiPatterns {
       posRegex("das"),
       posRegex("SUB.*NEU:ADJ"),
       csRegex("[a-zäöüß\\-,\\.\\!\\?…;:–\\)\\(]+")
+    ),
+    Arrays.asList( // Wichtiges/Lehrreiches/Großes/...
+      token("/"),
+      csRegex("[A-ZÄÖÜ].*"),
+      token("/")
+    ),
+    Arrays.asList( // Etwas anderes Lebendiges
+      csRegex("anderes"),
+      csRegex("[A-ZÄÖÜ].+es"),
+      csRegex("[a-zäöü…\\.!,\\?…].*")
+    ),
+    Arrays.asList( // § 12 Die Pflichtversicherung
+      csToken("§"),
+      csRegex("\\d+"),
+      csRegex("[A-ZÄÖÜ].+")
+    ),
+    Arrays.asList( // § 12.1 Die Pflichtversicherung
+      csToken("§"),
+      regex("\\d+"),
+      token("."),
+      regex("\\d+"),
+      csRegex("[A-ZÄÖÜ].+")
+    ),
+    Arrays.asList( // Etwas anderes Lebendiges
+      csToken("zu"),
+      csRegex("Angeboten|Gefahren|Kosten")
+    ),
+    Arrays.asList( // Die Gemeinde Nahe in Schleswig-Holstein
+      csRegex("Gemeinden?"),
+      csToken("Nahe")
     )
   );
 

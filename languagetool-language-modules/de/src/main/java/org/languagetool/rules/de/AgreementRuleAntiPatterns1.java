@@ -902,7 +902,7 @@ class AgreementRuleAntiPatterns1 {
     Arrays.asList(
       posRegex("ART.*|PRO:POS.*"),
       posRegex("ADJ.*|PA[12].*"),
-      token("Windows"),
+      tokenRegex("Windows|iOS"),
       tokenRegex("\\d+")
     ),
     Arrays.asList(
@@ -910,12 +910,12 @@ class AgreementRuleAntiPatterns1 {
       posRegex("ART.*|PRO:POS.*"),
       posRegex("ADJ.*|PA[12].*"),
       posRegex("ADJ.*|PA[12].*"),
-      token("Windows"),
+      tokenRegex("Windows|iOS"),
       tokenRegex("\\d+")
     ),
     Arrays.asList(
       posRegex("ART.*|PRO:POS.*"),
-      token("Windows"),
+      tokenRegex("Windows|iOS"),
       tokenRegex("\\d+")
     ),
     // wird empfohlen, dass Unternehmen die gefährliche Güter benötigen ...
@@ -932,6 +932,10 @@ class AgreementRuleAntiPatterns1 {
       csToken("Handelsblatt"),
       csToken("Research"),
       csRegex("Institute?s?")
+    ),
+    Arrays.asList( // des Handelsblatt Research Institutes
+      csToken("Shop"),
+      csToken("Apotheke")
     ),
     Arrays.asList( // Ein Mobiles Einsatzkommando
       posRegex("ART.*|PRO:POS.*"),
