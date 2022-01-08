@@ -1126,6 +1126,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("params", Arrays.asList("parameters"));
     s.put("Param", Arrays.asList("Parameter"));
     s.put("Params", Arrays.asList("Parameters"));
+    s.put("amature", Arrays.asList("amateur"));
 
     return s;
   }
