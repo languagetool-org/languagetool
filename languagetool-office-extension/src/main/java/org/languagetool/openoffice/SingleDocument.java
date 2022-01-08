@@ -206,10 +206,6 @@ class SingleDocument {
     if (disposed) {
       return paRes;
     }
-    if (!isImpress && ltMenus == null) {
-      ltMenus = new LanguageToolMenus(xContext, this, config);
-    }
-    
     try {
       if (docReset) {
         numLastVCPara = 0;
@@ -255,6 +251,9 @@ class SingleDocument {
       lastChangedPara = (textIsChanged && numParasToCheck != 0) ? paraNum : -1;
     } catch (Throwable t) {
       MessageHandler.showError(t);
+    }
+    if (!isImpress && ltMenus == null) {
+      ltMenus = new LanguageToolMenus(xContext, this, config);
     }
     return paRes;
   }
