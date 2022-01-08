@@ -72,7 +72,9 @@ public class MissingCommaEval {
             List<Integer> commaPosInFixedSentence = getCommaPositions(fixedSentence);
             for (Integer commaPos : commaPosInFixedSentence) {
               System.out.println("F: " + fixedSentence + " - " + match.getRuleId() + ", comma at " + commaPos);
-              if (commaPositions.contains(commaPos) && !foundCommaPositions.contains(commaPos)) {
+              // be more generous due to issues with offset problems (as we replace ", " by two spaces...):
+              boolean commaProperlyAdded = commaPositions.contains(commaPos) || commaPositions.contains(commaPos-1) || commaPositions.contains(commaPos+1);
+              if (commaProperlyAdded && !foundCommaPositions.contains(commaPos)) {
                 foundCommaPositions.add(commaPos);
               }
             }
