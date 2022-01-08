@@ -599,10 +599,10 @@ class CheckRequestAnalysis {
     if (nFParas == docCache.size()) {
       return nPara;
     }
-//    if (debugMode > 0) {
+    if (debugMode > 0) {
       MessageHandler.printToLogFile("*** resetAllParas: docCache.size: " + docCache.size() + ", nPara: " + nPara
               + ", docID: " + docID + OfficeTools.LOG_LINE_BREAK);
-//    }
+    }
     DocumentCache oldDocCache = new DocumentCache(docCache);
     if (useQueue) {
       mDocHandler.getTextLevelCheckQueue().interruptCheck(docID);
