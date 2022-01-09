@@ -227,6 +227,8 @@ public class CaseRule extends Rule {
     "Vorstandsvorsitzender",
     "Vorstandsvorsitzenden",
     "Vorstandsvorsitzende",
+    "Demonstrierende",
+    "Demonstrierenden",
     "Marketingtreibende",
     "Marketingtreibender",
     "Marketingtreibenden",

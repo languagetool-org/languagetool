@@ -2854,6 +2854,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="gegeben">Man hat herausgefunden, dass ihnen wenig <marker>gegen</marker> worden ist.</example>
             </rule>
         </rulegroup>
+        <rule id="SAGT_SAGT" name="Zwei gleiche aufeinanderfolgende Verben" default="temp_off"><!-- ähnlich wie SAGT_RUFT, nur höhere prio als GERMAN_WORD_REPEAT_RULE -->
+            <antipattern>
+                <token>sog</token>
+                <token spacebefore="no">.</token>
+            </antipattern>
+            <antipattern>
+                <token case_sensitive="yes" regexp="yes">wochenenden?</token><!-- tagged as verb -->
+            </antipattern>
+            <pattern case_sensitive="yes">
+                <token postag="VER:(1|2|3):.*" postag_regexp="yes" regexp="yes">[a-zäöü].*
+                    <exception negate_pos="yes" postag="VER:(1|2|3):.*|VER:IMP:PLU.*" postag_regexp="yes"/>
+                    <exception postag_regexp="yes" postag="VER:AUX:.*"/>
+                    <exception>folgt</exception>
+                </token>
+                <token>
+                    <match no="0" />
+                    <exception negate_pos="yes" postag="VER:(1|2|3):.*|VER:IMP:PLU.*" postag_regexp="yes"/>
+                    <exception postag_regexp="yes" postag="VER:AUX:.*"/>
+                    <exception regexp="yes">schei(ß|ss)e|.+aufnahmen|vermittelst</exception>
+                </token>
+            </pattern>
+            <message>Möglicherweise ist hier ein Wort zu viel oder es fehlt ein Komma.</message>
+            <suggestion>\1, \2</suggestion>
+            <suggestion>\1</suggestion>
+            <example correction="sagt, sagt|sagt">Sie <marker>sagt sagt</marker> laut.</example>
+        </rule>
         <rulegroup id="SAGT_RUFT" name="Zwei aufeinanderfolgende Verben">
             <short>Möglicherweise ist hier ein Wort zu viel oder es fehlt ein Komma</short>
             <rule>
@@ -60765,7 +60791,7 @@ Andere Projekte</example>
         </rulegroup>
     </category>
     <category id="EMPFOHLENE_RECHTSCHREIBUNG" name="Empfohlene/Modernere Rechtschreibung" type="style">
-        <rulegroup id="PROBIEREN_GEHT_UEBER_STUDIEREN" name="Probieren geht über Studieren" default="temp_off">
+        <rulegroup id="PROBIEREN_GEHT_UEBER_STUDIEREN" name="Probieren geht über Studieren">
             <antipattern case_sensitive="yes">
                 <token>Probieren</token>
                 <token min="0">geht</token>

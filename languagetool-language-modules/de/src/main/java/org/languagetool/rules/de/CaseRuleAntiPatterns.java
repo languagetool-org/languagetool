@@ -1200,7 +1200,7 @@ class CaseRuleAntiPatterns {
     ),
     Arrays.asList( // § 12 Die Pflichtversicherung
       csToken("§"),
-      csRegex("\\d+"),
+      csRegex("\\d+[a-z]{0,2}"),
       csRegex("[A-ZÄÖÜ].+")
     ),
     Arrays.asList( // § 12.1 Die Pflichtversicherung
