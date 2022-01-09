@@ -293,6 +293,17 @@ class SingleDocument {
    */
   void dispose(boolean disposed) {
     this.disposed = disposed;
+    if (disposed) {
+      if (docCursor != null) {
+        docCursor.setDisposed();
+      }
+      if (viewCursor != null) {
+        viewCursor.setDisposed();
+      }
+      if (flatPara != null) {
+        flatPara.setDisposed();
+      }
+    }
   }
   
   /**
@@ -437,8 +448,7 @@ class SingleDocument {
       if (cacheExist) {
         docCache.put(cacheIO.getDocumentCache());
         for (int i = 0; i < cacheIO.getParagraphsCache().size(); i++) {
-          paragraphsCache.get(i).removeAll();
-          paragraphsCache.add(cacheIO.getParagraphsCache().get(i));
+          paragraphsCache.get(i).replace(cacheIO.getParagraphsCache().get(i));
         }
         ignoredMatches = new IgnoredMatches(cacheIO.getIgnoredMatches());
       }

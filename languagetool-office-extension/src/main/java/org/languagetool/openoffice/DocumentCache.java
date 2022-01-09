@@ -461,6 +461,13 @@ public class DocumentCache implements Serializable {
   }
 
   /**
+   * has no content
+   */
+  public synchronized boolean hasNoContent() {
+    return paragraphs == null || paragraphs.isEmpty() || (paragraphs.size() == 1 && paragraphs.get(0).isEmpty());
+  }
+
+  /**
    * size of document cache (number of all flat paragraphs)
    */
   public synchronized int size() {

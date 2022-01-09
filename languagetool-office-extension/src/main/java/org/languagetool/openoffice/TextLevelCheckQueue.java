@@ -209,7 +209,7 @@ public class TextLevelCheckQueue {
    * remove all entries for the disposed docId (gone document)
    * @param docId
    */
-  public void interruptCheck(String docId) {
+  public void interruptCheck(String docId, boolean wait) {
     if (debugMode) {
       MessageHandler.printToLogFile("interrupt queue");
     }
@@ -223,7 +223,7 @@ public class TextLevelCheckQueue {
         }
       }
     }
-    if (!queueWaits && lastStart != null && lastDocId != null && lastDocId.equals(docId)) {
+    if (wait && !queueWaits && lastStart != null && lastDocId != null && lastDocId.equals(docId)) {
       waitForInterrupt();
       lastDocId = null;
     }

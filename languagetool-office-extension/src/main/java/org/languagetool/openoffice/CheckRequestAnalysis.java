@@ -605,7 +605,7 @@ class CheckRequestAnalysis {
     }
     DocumentCache oldDocCache = new DocumentCache(docCache);
     if (useQueue) {
-      mDocHandler.getTextLevelCheckQueue().interruptCheck(docID);
+      mDocHandler.getTextLevelCheckQueue().interruptCheck(docID, true);
     }
     if (docCursor == null) {
       docCursor = new DocumentCursorTools(xComponent);

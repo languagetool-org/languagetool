@@ -67,6 +67,15 @@ public class FlatParagraphTools {
   }
   
   /**
+   * document is disposed: set all class variables to null
+   */
+  public void setDisposed() {
+    xFlatParaIter = null;
+    lastFlatPara = null;
+    xComponent = null;
+  }
+
+  /**
    * is valid initialization of FlatParagraphTools
    */
   boolean isValid() {

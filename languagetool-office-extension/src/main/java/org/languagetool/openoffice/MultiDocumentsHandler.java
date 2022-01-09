@@ -355,10 +355,20 @@ public class MultiDocumentsHandler {
         }
         if (useQueue && textLevelQueue != null) {
           MessageHandler.printToLogFile("Interrupt text level queue for document " + document.getDocID());
-          textLevelQueue.interruptCheck(document.getDocID());
+          textLevelQueue.interruptCheck(document.getDocID(), true);
           MessageHandler.printToLogFile("Interrupt done");
         }
         document.setXComponent(xContext, null);
+        if (document.getDocumentCache().hasNoContent()) {
+          //  The delay seems to be necessary as workaround for a GDK bug (Linux) to stabilizes
+          //  the load of a document from an empty document 
+          MessageHandler.printToLogFile("Disposing document has no content: Wait for 1000 milliseconds");
+          try {
+            Thread.sleep(1000);
+          } catch (InterruptedException e) {
+            MessageHandler.printException(e);
+          }
+        }
       }
     }
     if (!found) {
@@ -674,7 +684,7 @@ public class MultiDocumentsHandler {
             MessageHandler.printToLogFile("Document ID corrected: old: " + oldDocId + ", new: " + docID);
             if (useQueue && textLevelQueue != null) {
               MessageHandler.printToLogFile("Interrupt text level queue for old document ID: " + oldDocId);
-              textLevelQueue.interruptCheck(oldDocId);
+              textLevelQueue.interruptCheck(oldDocId, true);
               MessageHandler.printToLogFile("Interrupt done");
             }
             if (documents.get(i).isDisposed()) {
@@ -717,7 +727,7 @@ public class MultiDocumentsHandler {
           if (documents.get(i).isDisposed()) {
             if (useQueue && textLevelQueue != null) {
               MessageHandler.printToLogFile("Interrupt text level queue for document " + documents.get(i).getDocID());
-              textLevelQueue.interruptCheck(documents.get(i).getDocID());
+              textLevelQueue.interruptCheck(documents.get(i).getDocID(), true);
               MessageHandler.printToLogFile("Interrupt done");
             }
             MessageHandler.printToLogFile("Disposed document " + documents.get(i).getDocID() + " removed");

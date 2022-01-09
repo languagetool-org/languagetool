@@ -55,10 +55,17 @@ import com.sun.star.uno.XComponentContext;
  */
 public class ViewCursorTools {
   
-  private final XDesktop xDesktop;
+  private XDesktop xDesktop;
 
   ViewCursorTools(XComponentContext xContext) {
     xDesktop = OfficeTools.getDesktop(xContext);
+  }
+
+  /**
+   * document is disposed: set all class variables to null
+   */
+  public void setDisposed() {
+    xDesktop = null;
   }
 
   /** 

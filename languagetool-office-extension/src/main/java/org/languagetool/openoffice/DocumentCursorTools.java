@@ -61,14 +61,23 @@ class DocumentCursorTools {
       "FooterTextFirst" 
   };
 
-  private final XParagraphCursor xPCursor;
-  private final XTextCursor xTextCursor;
-  private final XTextDocument curDoc;
+  private XParagraphCursor xPCursor;
+  private XTextCursor xTextCursor;
+  private XTextDocument curDoc;
   
   DocumentCursorTools(XComponent xComponent) {
     curDoc = UnoRuntime.queryInterface(XTextDocument.class, xComponent);
     xTextCursor = getCursor(xComponent);
     xPCursor = getParagraphCursor(xComponent);
+  }
+  
+  /**
+   * document is disposed: set all class variables to null
+   */
+  public void setDisposed() {
+    xPCursor = null;
+    xTextCursor = null;
+    curDoc = null;
   }
 
   /** 
