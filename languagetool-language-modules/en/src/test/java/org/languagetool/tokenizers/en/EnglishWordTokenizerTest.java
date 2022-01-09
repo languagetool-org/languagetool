@@ -88,6 +88,9 @@ public class EnglishWordTokenizerTest {
     final List <String> tokens18 = wordTokenizer.tokenize("doin' that");
     assertEquals("[doin',  , that]", tokens18.toString());
     assertEquals(tokens18.size(), 3);
+    final List <String> tokens19 = wordTokenizer.tokenize("ne’er e'er o’er jack-o'-lantern");
+    assertEquals("[ne’er,  , e'er,  , o’er,  , jack-o'-lantern]", tokens19.toString());
+    assertEquals(tokens19.size(), 7);
     
   }
 }
