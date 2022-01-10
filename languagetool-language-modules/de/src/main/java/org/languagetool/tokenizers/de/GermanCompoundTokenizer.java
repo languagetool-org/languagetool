@@ -90,6 +90,7 @@ public class GermanCompoundTokenizer implements Tokenizer {
     wordSplitter.addException("Kinderspielen", asList("Kinder", "spielen"));
     wordSplitter.addException("Buchhaltungstrick", asList("Buchhaltungs", "trick"));
     wordSplitter.addException("Buchhaltungstricks", asList("Buchhaltungs", "tricks"));
+    wordSplitter.addException("karamelligen", asList("karamelligen"));  // != Karamel+Ligen
     wordSplitter.setStrictMode(strictMode);
     wordSplitter.setMinimumWordLength(3);
   }
