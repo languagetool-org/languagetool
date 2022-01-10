@@ -173,6 +173,8 @@ public class GermanTaggerTest {
     assertEquals("Zuge[Zug/SUB:DAT:SIN:MAS]", toSortedString(aToken18));
     AnalyzedTokenReadings aToken19 = tagger.lookup("Tische");
     assertEquals("Tische[Tisch/SUB:AKK:PLU:MAS, Tisch/SUB:DAT:SIN:MAS, Tisch/SUB:GEN:PLU:MAS, Tisch/SUB:NOM:PLU:MAS]", toSortedString(aToken19));
+
+    assertNull(tagger.lookup("vanillig-karamelligen"));
   }
 
   // make sure we use the version of the POS data that was extended with post spelling reform data

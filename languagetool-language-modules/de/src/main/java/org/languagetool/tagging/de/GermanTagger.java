@@ -140,7 +140,7 @@ public class GermanTagger extends BaseTagger {
 
       //Find only the actual important part of the word
       List<String> compoundedWord = GermanCompoundTokenizer.getStrictInstance().tokenize(lastPart);
-      if (compoundedWord.size() > 1) {
+      if (compoundedWord.size() > 1 && StringTools.startsWithUppercase(word)) {  // don't uppercase last part of e.g. "vanillig-karamelligen"
         lastPart = StringTools.uppercaseFirstChar(compoundedWord.get(compoundedWord.size() - 1));
       } else {
         lastPart = compoundedWord.get(compoundedWord.size() - 1);
