@@ -310,6 +310,11 @@ public class French extends Language implements AutoCloseable {
       case "POINTS_SUSPENSIONS_SPACE": return -50; // lesser than grammar rules
       case "MOT_TRAIT_MOT": return -50; // lesser than grammar rules
       case "ESSENTIEL": return -50; // lesser than grammar rules
+      case "IMPORTANT": return -50; // lesser than grammar rules
+      case "SOUHAITER": return -50; // lesser than grammar rules
+      case "TROUVER": return -50; // lesser than grammar rules
+      case "CAR": return -50; // lesser than grammar rules
+      case "AIMER": return -50; // lesser than grammar rules
       case "CONFUSION_RULE_PREMIUM": return -50; // lesser than PRONSUJ_NONVERBE
       case "FR_SPELLING_RULE": return -100;
       case "ET_SENT_START": return -151; // lower than grammalecte rules
