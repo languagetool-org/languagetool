@@ -54,7 +54,9 @@ public class NonSignificantVerbsRule extends AbstractStatisticStyleRule {
   }
   
   private static boolean isException(AnalyzedTokenReadings[] tokens, int num) {
-    if (tokens[num].hasLemma("machen")) {
+    if (tokens[num].getToken().startsWith("sein") || tokens[num].getToken().startsWith("Sein")) {
+      return true;
+    } else if (tokens[num].hasLemma("machen")) {
       for (int i = 1; i < tokens.length; i++) {
         if ("Angst".equals(tokens[i].getToken()) || "frisch".equals(tokens[i].getToken()) || "bemerkbar".equals(tokens[i].getToken()) ||
             "aufmerksam".equals(tokens[i].getToken())) {
