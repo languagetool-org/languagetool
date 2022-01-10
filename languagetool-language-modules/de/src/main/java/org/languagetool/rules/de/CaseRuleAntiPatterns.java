@@ -455,7 +455,7 @@ class CaseRuleAntiPatterns {
     ),
     Arrays.asList(
      // "Das Aus für Italien kam unerwartet." / "Müller drängt auf Aus bei Pflichtmitgliedschaft"
-     regex("auf|das|vor|a[mn]"),
+     regex("auf|das|vor|a[mn]|vorzeitige[mns]?|frühe[mns]?|späte[mns]?"),
      csToken("Aus"),
      posRegex("^PRP:.+|VER:[1-3]:.+")
     ),
@@ -1196,6 +1196,10 @@ class CaseRuleAntiPatterns {
     Arrays.asList( // Etwas anderes Lebendiges
       csRegex("anderes"),
       csRegex("[A-ZÄÖÜ].+es"),
+      csRegex("[a-zäöü…\\.!,\\?…].*")
+    ),
+    Arrays.asList( // Ich habe noch Dringendes mitzuteilen
+      csRegex("Dringendes"),
       csRegex("[a-zäöü…\\.!,\\?…].*")
     ),
     Arrays.asList( // § 12 Die Pflichtversicherung

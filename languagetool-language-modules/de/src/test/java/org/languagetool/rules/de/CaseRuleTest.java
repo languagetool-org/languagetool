@@ -409,6 +409,7 @@ public class CaseRuleTest {
     assertGood("Das denken zwar viele, ist aber total falsch.");
     assertGood("Ich habe nix Besseres gefunden.");
     assertGood("Ich habe nichts Besseres gefunden.");
+    assertGood("Ich habe noch Dringendes mitzuteilen.");
 
     // uppercased adjective compounds
     assertGood("Er isst UV-bestrahltes Obst.");

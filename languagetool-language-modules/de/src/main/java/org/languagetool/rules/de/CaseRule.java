@@ -277,7 +277,15 @@ public class CaseRule extends Rule {
     "Schutzsuchenden", // gendered form
     "Versicherte",
     "Versicherten", // gendered form
+    "Cyberkriminelle",
+    "Cyberkriminellen",
+    "Kriminelle",
+    "Kriminellen",
+    "Auszubildenden",
+    "Auszubildende",
+    "Auszubildender",
     "Lernende", // gendered form
+    "Lernender", // gendered form
     "Lernenden", // gendered form
     "Teilnehmende", // gendered form
     "Teilnehmenden", // gendered form

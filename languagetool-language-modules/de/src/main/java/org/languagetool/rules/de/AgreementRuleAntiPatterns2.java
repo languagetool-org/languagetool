@@ -597,6 +597,14 @@ class AgreementRuleAntiPatterns2 {
       token("Ernst")
     ),
     Arrays.asList(
+      // ... dann spart das Zeit und Geld.
+      new PatternTokenBuilder().csToken("sparen").matchInflectedForms().setSkip(3).build(),
+      csRegex("das|dies|dieses"),
+      token("Zeit"),
+      token("und"),
+      csRegex("Geld|Nerven")
+    ),
+    Arrays.asList(
       csRegex("das|es|dies"),
       csRegex("bedeutete?"),
       token("Krieg")

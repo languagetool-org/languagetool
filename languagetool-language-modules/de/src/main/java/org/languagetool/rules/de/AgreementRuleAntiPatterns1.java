@@ -1012,6 +1012,12 @@ class AgreementRuleAntiPatterns1 {
       tokenRegex("Druck")
     ),
     Arrays.asList(
+      // Im Tun zu sein verhindert Prokrastination.
+      token("zu"),
+      token("sein"),
+      posRegex("VER.*")
+    ),
+    Arrays.asList(
       tokenRegex("Ende|Mitte|Anfang"), // "Ende letzten Jahres" "Ende der 50er Jahre"
       new PatternTokenBuilder().posRegex("ART:DEF:GEN:.*").min(0).build(),
       new PatternTokenBuilder().posRegex("ADJ.*:(GEN|DAT):.*|ZAL").matchInflectedForms().tokenRegex("dieser|(vor)?letzter|[0-9]+er").build(),

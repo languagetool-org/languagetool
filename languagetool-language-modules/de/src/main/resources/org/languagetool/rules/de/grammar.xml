@@ -14365,7 +14365,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          <rule id="FUGEN_S_ZUSAMMENSCHREIBUNG" name="Wirtschafts Weisen (Wirtschschaftsweisen)">
             <antipattern>
                 <token postag="EIG:NOM:.+" postag_regexp="yes" />
-                <token regexp="yes">[A-ZÜÄÖ][a-zäöüß]{2,30}(ung|schaft|sicht|heit|keit|ion|tät)s</token>
+                <token regexp="yes">[A-ZÜÄÖ][a-zäöüß]{2,30}(ung|schaft|sicht|heit|keit|ion|tät|fahrt)s</token>
             </antipattern>
             <antipattern>
                 <token>Disney</token>
@@ -14397,7 +14397,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <pattern case_sensitive="yes">
                 <token postag="UNKNOWN" regexp="yes">
-                    [A-ZÜÄÖ][a-zäöüß]{2,30}(ung|schaft|sicht|heit|keit|ion|tät)s
+                    [A-ZÜÄÖ][a-zäöüß]{1,30}(ung|schaft|sicht|heit|keit|ion|tät|fahrt)s
                     <exception regexp="yes">.+yo?ungs|Jisungs|Sojungs|.*federations|Kalions|Combustions|Dandelions|.*cessions|Therions|Questions|Angesichts|Configurations|.*cations|Akarions|Didions|Samsungs|.*ctions|Connexions|Reservations|Creations|.*capsulations|Functions|Levions|Associations|Options|Nations|Relations|Communications|Operations|Observations|Perceptions|Situations|Conversations|Diversions|Divisions|Editions|Restrictions|Elections|Combinations|Confessions|Micronations|Solutions</exception>
                 </token>
                 <token postag=".*SUB.*" postag_regexp="yes" regexp="yes">
@@ -14411,6 +14411,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Hochleistungssport">Er macht <marker>Hochleistungs Sport</marker>.</example>
             <example correction="Regenerierungsplan">Ich habe sogar einen liebevoll ausgearbeiteten <marker>Regenerierungs Plan</marker> erhalten, der sich vielversprechend liest.</example>
             <example correction="Wirtschaftsweisen">Die <marker>Wirtschafts Weisen</marker>.</example>
+            <example correction="Abfahrtszeiten">Wir richten uns nach den <marker>Abfahrts Zeiten</marker>.</example>
             <example>DRSC – Deutsches Rechnungslegungs Standards Committee</example>
             <example>Wenn die Auswirkungen des Deutschtums Probleme bereiten.</example>
             <example>Denn als Goslings Charakter bei seinem Job als Pianist in einer Bar entsprechende Festtagslieder anstimmen soll, zeigt er sich wenig angetan.</example>
@@ -25834,7 +25835,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <pattern>
                 <token case_sensitive="yes" regexp="yes">[Ii]m</token>
-                <token regexp="yes" case_sensitive="yes">sitzen|singen|vertrauen|garten|nachhinein|stehen|leben|web|abstand|wohlwollen|vorstand|sterben|(durch)?schnitt|sinne?|kopf|unterschied|herzen|laufe?|liegen|betrieb|einklang|reisen|griff|vorbei(gehen|laufen|rennen|fahren)|falle|(tief)?schlaf|vergleich|verlaufe?|beruf|rahmen|fernsehen|wochenende|streit|ende|kreise|bilde|laden|(augen)?blick</token>
+                <token regexp="yes" case_sensitive="yes">sitzen|singen|vertrauen|vertrieb|garten|nachhinein|stehen|leben|web|abstand|wohlwollen|vorstand|sterben|(durch)?schnitt|sinne?|kopf|unterschied|herzen|laufe?|liegen|betrieb|einklang|reisen|griff|vorbei(gehen|laufen|rennen|fahren)|falle|(tief)?schlaf|vergleich|verlaufe?|beruf|rahmen|fernsehen|wochenende|streit|ende|kreise|bilde|laden|(augen)?blick</token>
             </pattern>
             <message>Bitte prüfen Sie die Groß- und Kleinschreibung.</message>
             <suggestion>\1 <match no="2" case_conversion="startupper" /></suggestion>
@@ -48677,6 +48678,39 @@ Andere Projekte</example>
                 <example type="triggers_error">Es wird ein optisches Gitter vorgeschaltet, <marker>das</marker> das einfallende Licht aufspaltet</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token skip="3">das</token>
+                    <token>zugrunde</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="3">das</token>
+                    <token>zu</token>
+                    <token>grunde</token>
+                </antipattern>
+                <antipattern>
+                    <token case_sensitive="yes">Das</token>
+                    <token />
+                    <token postag="ADJ.*|PA[12].*" postag_regexp="yes" min="0" />
+                    <token postag="SUB.*" postag_regexp="yes" />
+                    <token>nach</token>
+                </antipattern>
+                <antipattern>
+                    <token case_sensitive="yes">Das</token>
+                    <token />
+                    <token postag="ADJ.*|PA[12].*" postag_regexp="yes" min="0" />
+                    <token postag="SUB.*" postag_regexp="yes" />
+                    <token postag="(ADJ|PA[12]):NOM:SIN:NEU.*" postag_regexp="yes" min="1" max="2" />
+                    <token postag="SUB:NOM:SIN:NEU.*" postag_regexp="yes" />
+                </antipattern>
+                <antipattern>
+                    <token case_sensitive="yes">Das</token>
+                    <token />
+                    <token postag="ADJ.*|PA[12].*" postag_regexp="yes" min="0" />
+                    <token postag="SUB.*" postag_regexp="yes" />
+                    <token postag="(ADJ|PA[12]):NOM:SIN:NEU.*|UNKNOWN" postag_regexp="yes" regexp="yes" min="1" max="2">.+e</token>
+                    <token regexp="yes">,|und|oder|&amp;</token>
+                    <token postag="(ADJ|PA[12]):NOM:SIN:NEU.*|UNKNOWN" postag_regexp="yes" regexp="yes">.+e</token>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <marker><token>Das</token></marker>
                     <token regexp="yes">d(ies)?e[mnr]</token>
@@ -48684,6 +48718,11 @@ Andere Projekte</example>
                 <message>Prüfen Sie, ob hier <suggestion>Dass</suggestion> stehen sollte.</message>
                 <example correction="Dass"><marker>Das</marker> dem Mann jetzt ein Zahn fehlt, ist bedauerlich.</example>
                 <example correction="Dass"><marker>Das</marker> dieser Frau jetzt ein Zahn fehlt, ist bedauerlich.</example>
+                <example>Problem: Das der Fallstudie zugrunde liegende Problem bzw. die zugrunde liegenden Probleme können ausdrücklich benannt werden.</example>
+                <example>Das dem Reichtum nach oberste Prozent der amerikanischen Haushalte vereint auf sich 40 % des Vermögens im Land.</example>
+                <example>Das dem Menschen verheißene ewige Leben führt zu einer Teilhabe an dieser Ewigkeit Gottes.</example>
+                <example>Das der französischen Regierung unterstellte Zentrum für strategische Analysen kommt mittlerweile zu dem Schluss, …</example>
+                <example>Das den Samen umgebende rote, fleischige Gewebe …</example>
             </rule>
             <rule>
                 <pattern>
@@ -50150,6 +50189,11 @@ Andere Projekte</example>
                 <token regexp="yes">es|das</token>
                 <token skip="-1">zu</token>
                 <token postag="VER.*" postag_regexp="yes" />
+            </antipattern>
+            <antipattern>
+                <token>um</token>
+                <token>und</token>
+                <token>bei</token>
             </antipattern>
             <rule>
                 <pattern>
@@ -60616,6 +60660,12 @@ Andere Projekte</example>
                     <token>,</token>
                     <token>drei</token>
                 </antipattern>
+                <antipattern><!-- Daher: Daher: Starten Sie mit der Umsetzung lieber jetzt, im Sommer oder gar erst Ende des Jahres. -->
+                    <token postag="SENT_START" skip="5" />
+                    <token postag="PKT" />
+                    <token postag="SUB:NOM:SIN:NEU:INF" skip="-1" />
+                    <token>,</token>
+                </antipattern>
                 <pattern>
                     <token skip="-1" postag="SENT_START">
                         <exception scope="next" postag="VER:.*|UNKNOWN" postag_regexp="yes"/>
@@ -60658,6 +60708,7 @@ Andere Projekte</example>
                 <example>Aber genug von mir, erzähl mir mal von dir.</example>
                 <example>Hallo Herr Köhler, erstmal danke dafür.</example>
                 <example>Wenn er zwei, drei verlässliche Leute findet für die Firma.</example>
+                <example>Daher: Starten Sie mit der Umsetzung lieber jetzt, im Sommer oder gar erst Ende des Jahres.</example>
             </rule>
         </rulegroup>
         <rulegroup id="KOMMA_VOR_INFINITIVGRUPPEN_OPT" name="Optional: Komma vor Infinitivgruppen" default="off">
