@@ -1558,6 +1558,21 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     }
   }
 
+  private boolean isOnlyNoun(String word) {
+    try {
+      List<AnalyzedTokenReadings> readings = tagger.tag(singletonList(word));
+      for (AnalyzedTokenReadings reading : readings) {
+        boolean accept = reading.getReadings().stream().allMatch(k -> k.getPOSTag() != null && k.getPOSTag().startsWith("SUB:"));
+        if (!accept) {
+          return false;
+        }
+      }
+      return readings.stream().allMatch(reading -> reading.matchesPosTagRegex("SUB:.*"));
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
   private boolean isAdjOrNounOrUnknown(String word) {
     try {
       List<AnalyzedTokenReadings> readings = tagger.tag(singletonList(word));
@@ -1642,11 +1657,13 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         //return true;
       }*/
       if (isMisspelled(word)) {
-        if (!isMisspelled(firstPart) && !firstPart.matches(".{3,25}(tum|ing|ling|heit|keit|schaft|ung|ion|tät|at|um)")) {
+        if (!isMisspelled(firstPart) && !firstPart.matches(".{3,25}(tum|ing|ling|heit|keit|schaft|ung|ion|tät|at|um)") &&
+            isOnlyNoun(firstPart)) {
           System.out.println("could accept 1: " + word);
           //return true;
         } else if (firstPart.endsWith("s") && !isMisspelled(firstPart.replaceFirst("s$", "")) &&
-                   firstPart.matches(".{3,25}(tum|ing|ling|heit|keit|schaft|ung|ion|tät|at|um)s")) { // "handlungsartig"
+                   firstPart.matches(".{3,25}(tum|ing|ling|heit|keit|schaft|ung|ion|tät|at|um)s") &&   // "handlungsartig"
+                   isOnlyNoun(firstPart)) {
           System.out.println("could accept 2: " + word);
           //return true;
         }
