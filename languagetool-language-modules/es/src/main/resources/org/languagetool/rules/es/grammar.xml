@@ -23568,6 +23568,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- ambigous -->
                 <token regexp="yes">[0-9]+[A-Z]+<exception regexp="yes">[0-9]+(V|W|MW|AM|PM|MB|GB|TB)</exception></token>
             </antipattern>
+            <antipattern>
+                <token postag="NP.*" postag_regexp="yes"/>
+            </antipattern>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">(\d[\d.,]+)?\d+(&unidades;)</token>
@@ -23580,6 +23583,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Es de los años 50s.</example>
                 <example>Es de los 1950s.</example>
                 <example>En los años 30s, 40s y 50s.</example>
+                <example>Según una encuesta de 40dB. para El País</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
