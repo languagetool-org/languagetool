@@ -16106,6 +16106,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="SO_WEIT" name="so weit (soweit)">
             <url>https://www.korrekturen.de/wortliste/soweit.shtml</url>
             <rule>
+                <antipattern>
+                    <token>soweit</token>
+                    <token>ich</token>
+                    <token regexp="yes">wei[ß|ss]</token>
+                </antipattern>
                 <pattern>
                     <token><exception postag="PKT|SENT_START|UNKNOWN|KON:NEB" postag_regexp="yes"/></token>
                     <marker>
@@ -16120,6 +16125,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="so weit">Er sah Wüste <marker>soweit</marker> seine Augen reichten.</example>
                 <example correction="so weit">Wir sind schon <marker>soweit</marker> gekommen.</example>
                 <example>Das sieht soweit gut aus.</example>
+                <example>Abgesehen von Word, wofür Sie soweit ich weiß keine Lizenz haben, sollten die Programme laufen.</example>
             </rule>
             <rule>
                 <pattern>
