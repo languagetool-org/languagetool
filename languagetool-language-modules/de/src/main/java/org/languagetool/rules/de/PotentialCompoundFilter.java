@@ -45,7 +45,7 @@ public class PotentialCompoundFilter extends RuleFilter {
     String part2 = arguments.get("part2");
     String part1capitalized = part1;
     String part2capitalized = part2;
-    String part2lowercase = part1;
+    String part2lowercase = part2;
     if (!StringTools.isMixedCase(part2) && !StringTools.isAllUppercase(part2)) {
       part2lowercase = part2.toLowerCase();
       part2capitalized = StringTools.uppercaseFirstChar(part2.toLowerCase());
