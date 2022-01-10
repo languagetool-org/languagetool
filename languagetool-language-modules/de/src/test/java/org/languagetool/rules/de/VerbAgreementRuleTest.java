@@ -72,6 +72,12 @@ public class VerbAgreementRuleTest {
     assertThat(match3.length, is(1));
     assertThat(match3[0].getFromPos(), is(97));
     assertThat(match3[0].getToPos(), is(107));
+    
+    //TODO: This is a FP to be fixed
+    RuleMatch[] match4 = rule.match(lt.analyzeText("Mir ist bewusst, dass viele Menschen wie du empfinden."));
+    assertThat(match4.length, is(1));
+    assertThat(match4[0].getFromPos(), is(41));
+    assertThat(match4[0].getToPos(), is(53));
   }
   
   @Test
