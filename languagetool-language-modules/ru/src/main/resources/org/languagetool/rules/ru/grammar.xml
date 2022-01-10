@@ -10302,7 +10302,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 	    <example correction="относится">Проблема может возникнуть при наличии собственных резонансов в модели, что <marker>относиться</marker> и к нашему случаю, где частота падающей волны приходится на максимум дипольного отклика частицы.</example>
         </rule>        
         </rulegroup>                
-        <rule id="Verb_INF_OR_3P_2" default="temp_off" name="Инфинитив вместо личной формы глагола" > <!-- set temp off -->  <!-- tags="picky" -->
+        <rulegroup  id="Verb_INF_OR_3P_2" default="temp_off" name="Инфинитив вместо личной формы глагола" > <!-- set temp off -->  <!-- tags="picky" -->
             <antipattern>
                  <token postag="SENT_START" skip="-1" />
                  <token postag="VB:.*" skip="-1" postag_regexp="yes" ><exception   postag="VB:.*"  postag_regexp="yes"  negate_pos="yes"    /></token>
@@ -10354,6 +10354,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">и|или</token>
                 <token postag="VB:INF:.*" postag_regexp="yes"></token>    
             </antipattern>
+        <rule>
             <pattern>
                 <marker>
                     <token postag="VB:INF:.*" postag_regexp="yes" regexp="yes" >[а-яё]*ться<exception negate_pos="yes" postag="VB:INF:.*" postag_regexp="yes"/>
@@ -10362,12 +10363,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception regexp="yes" scope="previous" >было|стало|можно|сложно|нужно|трудно|надо|нелегко|легко|лучше|хуже|невозможно|успешно|чтобы|сильно|слабо|непросто|небрежно|вовремя|разрешено|приятно|рад</exception> <!-- check word, maybe set POStag? -->
                     </token>
                 </marker>
-                <token postag="PREP" skip="-1"></token>    
+                <token postag="PREP"  skip="-1"></token>    
                 <token regexp="yes">[.;,!?]</token>
             </pattern>
             <filter class="org.languagetool.rules.ru.RussianPartialPosTagFilter" 
                 args="no:1 regexp:(.*)ься postag_regexp:UNKNOWN   negate_pos:yes"/>     <!-- Test if word without "ь" exist --> 
-            <message suppress_misspelled="yes">Глагол должен быть в личной форме, мягкий знак не нужен: <suggestion><match no="1" postag="VB:INF:.*" postag_regexp="yes" postag_replace="VB:.*:.*:Sin:P3"/></suggestion></message>
+            <message suppress_misspelled="yes" >Глагол должен быть в личной форме, мягкий знак не нужен: <suggestion><match no="1" postag="VB:INF:.*" postag_regexp="yes" postag_replace="VB:.*:.*:Sin:P3"/></suggestion></message>
             <url>http://tsya.ru/</url>
             <short>Глагол должен быть в личной форме</short>
             <example>Но вот мой друг очень положительно относится к спорту.</example>
@@ -10380,8 +10381,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Плесень может появляться и размножаться в кислотах, которые защищают нас от бактерий.</example>
             <example>Взрослый самец может временно присоединяться к стаду с самками.</example>
             <example>Все хотят встретиться с вами, вы знаменитость!</example>
-            <example correction="относится">Но вот мой друг очень положительно <marker>относиться</marker> к спорту. </example>
+            <example correction="относится">Но вот мой друг очень положительно <marker>относиться</marker> к спорту.</example>
         </rule>
+       
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="VB:INF:.*" postag_regexp="yes" regexp="yes" >[а-яё]*ться<exception negate_pos="yes" postag="VB:INF:.*" postag_regexp="yes"/>
+                        <exception postag_regexp="yes" scope="next" postag="VB:.*|DPT:.*"></exception>
+                        <exception postag_regexp="yes" scope="previous" postag="VB:.*|DPT:.*|PT_Short:.*|PT:.*|SENT_START" />
+                        <exception regexp="yes" scope="previous" >было|стало|можно|сложно|нужно|трудно|надо|нелегко|легко|лучше|хуже|невозможно|успешно|чтобы|сильно|слабо|непросто|небрежно|вовремя|разрешено|приятно|рад</exception> <!-- check word, maybe set POStag? -->
+                    </token>
+                </marker>
+                <token postag="ADV"  skip="-1"></token>    
+                <token regexp="yes">[.;,!?]</token>
+            </pattern>
+       <!--     <filter class="org.languagetool.rules.ru.RussianPartialPosTagFilter" 
+                args="no:1 regexp:(.*)ься postag_regexp:UNKNOWN   negate_pos:yes"/>    --> <!-- Test if word without "ь" exist --> 
+            <message suppress_misspelled="yes" >Глагол должен быть в личной форме, мягкий знак не нужен: <suggestion><match no="1" postag="VB:INF:.*" postag_regexp="yes" postag_replace="VB:.*:.*:Sin:P3"/></suggestion></message>
+            <url>http://tsya.ru/</url>
+            <short>Глагол должен быть в личной форме</short>
+
+            <example correction="пятится">Рак <marker>пятиться</marker> назад.</example>
+
+        </rule>
+        </rulegroup>
 
         <rulegroup default="on" id="Verb_3P_and_inf" name="Правописание «-т» и «-ть» в глаголах – однородных членах предложения">
           <rule>        
