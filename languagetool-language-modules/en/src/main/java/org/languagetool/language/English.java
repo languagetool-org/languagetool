@@ -320,7 +320,7 @@ public class English extends Language implements AutoCloseable {
       case "DOS_AND_DONTS":             return 3;
       case "EN_COMPOUNDS":              return 2;
       case "ABBREVIATION_PUNCTUATION":  return 2;
-      case "IF_YOU_FURTHER_QUESTIONS":  return 1;   // higher prio than agreement rules
+      case "IF_YOU_FURTHER_QUESTIONS":  return 2;   // higher prio than agreement rules and AI
       case "ON_THE_LOOK_OUT":           return 1;   // higher prio than VERB_NOUN_CONFUSION
       case "APOSTROPHE_IN_DAYS":        return 1;   // higher prio than A_NNS
       case "PICTURE_PERFECT_HYPHEN":    return 1;   // higher prio than some agreement rules
