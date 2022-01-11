@@ -275,6 +275,26 @@
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">.*-</token>
+                <marker>
+                    <token spacebefore="no">'</token>    
+                </marker>
+                <token regexp="yes" spacebefore="no">\p{L}+</token>
+            </pattern>
+            <disambig action="add"><wd pos="_apostrophe_contraction_"/></disambig>
+        </rule>
+        <rule>
+            <!-- '60 campaign -->
+            <pattern>
+                <marker>
+                    <token spacebefore="yes">'</token>    
+                </marker>
+                <token regexp="yes" spacebefore="no">\d\ds?</token>
+            </pattern>
+            <disambig action="add"><wd pos="_apostrophe_contraction_"/></disambig>
+        </rule>
     </rulegroup>
     <rulegroup id="DIGIT_HYPHENATED_ADJECTIVES" name="hyphenated adjectives (e.g. 10-part)">
         <rule>
@@ -6319,6 +6339,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token regexp="yes">else|\d+</token>
             <token>'s</token>
             <token postag="NN.*" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
+            <!-- quotation marks -->
+            <token regexp="yes">['‘]</token>
+            <token spacebefore="no" regexp="yes" skip="4">.+</token>
+            <token regexp="yes">.*s</token>
+            <token spacebefore="no" regexp="yes">['’]</token>
         </antipattern>
         <rule><!-- probably verb "is": now add to some -->
             <antipattern>
