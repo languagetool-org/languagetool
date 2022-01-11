@@ -23,7 +23,7 @@ import org.languagetool.rules.AbstractNewYearDateFilter;
 import java.util.Calendar;
 
 /**
- * @since 4.3
+ * @since 5.7
  */
 public class NewYearDateFilter extends AbstractNewYearDateFilter {
 
