@@ -71,6 +71,11 @@ public class GermanSpellerRuleTest {
     dontAccept("zigarrenartigex", rule);
     dontAccept("handlungartig", rule);
     dontAccept("arbeitartig", rule);
+    dontAccept("kostefrei", rule);
+    dontAccept("reglemäßig", rule);
+    dontAccept("hatfrei", rule);
+    dontAccept("geruchhemmend", rule);
+    dontAccept("aberabhängig", rule);
   }
 
   private void accept(String word, GermanSpellerRule rule) throws IOException {

@@ -1657,13 +1657,16 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         //return true;
       }*/
       if (isMisspelled(word)) {
-        if (!isMisspelled(firstPart) && !firstPart.matches(".{3,25}(tum|ing|ling|heit|keit|schaft|ung|ion|tät|at|um)") &&
-            isOnlyNoun(firstPart)) {
+        if (!isMisspelled(firstPart) &&
+            !firstPart.matches(".{3,25}(tum|ing|ling|heit|keit|schaft|ung|ion|tät|at|um)") &&
+            isOnlyNoun(firstPart) &&
+            !isMisspelled(firstPart + "test")) {  // does hunspell accept this? takes infex-s into account automatically
           System.out.println("could accept 1: " + word);
           //return true;
         } else if (firstPart.endsWith("s") && !isMisspelled(firstPart.replaceFirst("s$", "")) &&
                    firstPart.matches(".{3,25}(tum|ing|ling|heit|keit|schaft|ung|ion|tät|at|um)s") &&   // "handlungsartig"
-                   isOnlyNoun(firstPart)) {
+                   isOnlyNoun(firstPart.replaceFirst("s$", "")) &&
+                   !isMisspelled(firstPart + "test")) {  // does hunspell accept this? takes infex-s into account automatically
           System.out.println("could accept 2: " + word);
           //return true;
         }
