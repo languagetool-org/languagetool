@@ -24937,15 +24937,18 @@ Como nos canta Afonso X de Castela, o Rei Sábio.
 
 	<!-- À há -->
     <rulegroup id='CONFUSÃO_À_HÁ' name="Confusão: à/há (expressões de tempo/quantidade)">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-04/5 (1-JAN-2022+)      -->
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-04/5/11 (1-JAN-2022+)      -->
 	<!--
-O show aconteceu à aproximadamente dois meses. → O show aconteceu há aproximadamente dois meses.
-Conheço a Ana à quase 30 anos. → Conheço a Ana há quase 30 anos.
-Ainda à muito para fazer. → Ainda há muito para fazer. 
-Ainda à pouco para fazer. → Ainda há pouco para fazer.
+Ainda à muito para fazer. → Ainda há muito para fazer.
 Ainda à bastante para fazer. → Ainda há bastante para fazer.
 Ainda à imenso para fazer. → Ainda há imenso para fazer.
+Conheço a Ana à quase 30 anos. → Conheço a Ana há quase 30 anos.
+O show aconteceu à aproximadamente dois meses. → O show aconteceu há aproximadamente dois meses.
 Tudo à bastante tempo. → Tudo há bastante tempo.
+Conheço a Ana à 30 anos. → Conheço a Ana há 30 anos.
+Conhecemos os maias à séculos. → Conhecemos os maias há séculos.
+Nos barcos à toneladas de peixe pescado. → Nos barcos há toneladas de peixe pescado.
+Tudo à minutos. → Tudo há minutos.
 
 NOTE THAT THIS FIRST RULE DOESN'T HAVE AN EXCEPTION FOR 'SPS.+' TO FLAG:
 Até à relativamente pouco tempo era possível observar-se as faixas horizontais de azulejos. → "Até HÁ"
@@ -24953,27 +24956,12 @@ Até à relativamente pouco tempo era possível observar-se as faixas horizontai
 
 <!--
 THIS ANTIPATTERN IS FOR BOTH RULES.
-IT FIXES FALSE POSITIVES SUCH AS:
+IT REMOVES FALSE POSITIVES SUCH AS:
 Seu fuso horário é de menos quatro horas (-4) em relação à hora mundial GMT.
 "Ele reúne, o que é muito raro, a maior inocência de costumes à mais vasta capacidade intelectual que já encontrei na América num menino da sua idade".
 Antologia Ilustrada de Filosofia: das origens à Idade Moderna.
 Não há diferenças com relação à idade, sexo e entre grupos no uso de tais vocalizações.
 A Revolução é considerada como o acontecimento que deu início à Idade Contemporânea.
-A origem desta aldeia remonta à era romana e esteve sempre associada à rota do sal.
-Ela apareceu no parque mesmo à hora marcada.
-Com Saladino, teve um adversário à altura, combatendo e travando um subtil táctico.
-Dizia-se, à época, que os negros deviam ser tratados com os três "P": Pano, pão e pau.
-Martin resolveu contratá-los, mas teve um problema com Pete Best, considerando-o, à época, "fraco".
-Os métodos para preparo diferem muito em relação à ocasião ou a cultura local.
-O gado comprava-se noutras terras e a caça que aparecia resumia-se a coelhos, lebres, perdizes e, à época, as rolas.
-Durante a Segunda Guerra Mundial, o Projeto Manhattan desenvolveu armas nucleares, dando início à Era Atômica.
-Nesse documento de doação não é mencionada a ilha das Flores, uma vez que, à época, não tinha um nome.
-Este é um ritual que remonta à Idade Média que se repete ao longo dos séculos com um sentimento profundamente religioso.
-Historicamente, a dependência britânica de Anguila fazia também parte da federação, que era à altura conhecida como São Cristóvão-Neves-Anguila.
-Ele tinha dois alunos a cinquenta francos à hora.
-Tornou-se freguesia em 1495, à data pertencia ao concelho de Óbidos.
-As reuniões raramente começam à hora prevista.
-Ele frequentemente assiste à TV.
 -->
 	  <antipattern>
 		<token postag='SPS.+|_PUNCT|V.+|NC.+|AQ.+|RG|DI.+|DP.+|PP.+|AO.+|CC|NP.+|UNKNOWN|CS|I|Z0.+|PI.+|_QUOT|RM|DD.+' postag_regexp='yes'/>
@@ -24988,17 +24976,19 @@ Ele frequentemente assiste à TV.
 <!--
 THIS ANTIPATTERN IS FOR BOTH RULES.
 BASED ON THE FIRST ONE AND THE SENTENCE STARTING AS "À" (SENT_START or COMMA).
+STARTING ALSO WITH "JÁ" (CS|I)
+STARTING ALSO WITH A VERB (V.+)
 NO MORE CHANGES IN THE FIRST.
-IT FIXES FALSE POSITIVES SUCH AS:
+IT REMOVES FALSE POSITIVES SUCH AS:
 À época, Hippolyte Bayard também desenvolveu um método de fotografia.
 À época, o Maranhão era uma das mais ricas regiões do Brasil.
 À data, parte da freguesia já era «Honra de Farlães».
 À data, nenhuma sonda visitou Ceres.
 À época esta cidade compunha os territórios Poloneses tomados pela Prússia nas Divisões da Polônia.
-À data esta raça de cães era relativamente desconhecida pela toda população do concelho.
 -->
 	  <antipattern>
 		<token postag='SENT_START|_PUNCT' postag_regexp='yes'/>
+		<token min="0" max="1" postag='CS|I|V.+' postag_regexp='yes'/> <!-- "Já à época o quitute foi congratulado." + "Apresentei à época, inúmeros trabalhos em reuniões." 2022-01-11 -->
 		<token>à</token>
 		<token postag='NC.+|AQ.+|NP.+|SPS.+|UNKNOWN|DI.+|DP.+|PP.+|DA.+|RG|RN|CS|_PUNCT|I|V.+|DD.+|_QUOT' postag_regexp='yes'/>
 		<token postag='NC.+|AQ.+|NP.+|_PUNCT|CC|V.+|CS|UNKNOWN|DI.+|DP.+|PP.+|DA.+|RN|I|RG|RM|DD.+|_QUOT' postag_regexp='yes'>
@@ -25045,7 +25035,7 @@ Essas movendo-se obviamente também em direção contrária à realmente verific
 				<token>à</token>
 			</marker>
 			<token regexp="yes">&adverbios_de_intensidade;
-				<exception postag_regexp='no' postag='RN'/>
+				<exception postag_regexp='yes' postag='RN|NP.+'/>
 			</token>
 		</pattern>
 		<message>Para expressões de tempo/quantidade utilize 'há'.</message>
@@ -25116,7 +25106,7 @@ Assistir à TV é um dos meus passatempos favoritos.
 			</marker>
 			<token min="0" max="1" postag='Z0.+' postag_regexp='yes'/>
 			<token regexp="yes">&expressoes_de_tempo;|&unidades_de_medida;|&unidades_de_medida_por_extenso;
-				<exception postag_regexp='yes' postag='SPS.+'/>
+				<exception postag_regexp='yes' postag='SPS.+|NP.+'/>
 			</token>
 		</pattern>
 		<message>Para expressões de tempo/quantidade utilize 'há'.</message>
@@ -25145,6 +25135,8 @@ Assistir à TV é um dos meus passatempos favoritos.
 		<example>Assistir à TV é um dos meus passatempos favoritos.</example>
 	  </rule>
 	</rulegroup>
+
+
 
 
 	<!-- ASSERTO acerto -->
