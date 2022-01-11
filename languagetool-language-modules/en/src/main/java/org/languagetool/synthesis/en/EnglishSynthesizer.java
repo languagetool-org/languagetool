@@ -50,7 +50,7 @@ public class EnglishSynthesizer extends BaseSynthesizer {
   private static final String TAGS_FILE_NAME = "/en/english_tags.txt";
   private static final String SOR_FILE_NAME = "/en/en.sor";
   
-  private static final List<String> exceptions = Arrays.asList("e'er", "o'er", "ol'", "ma'am", "n't", "informations");
+  private static final List<String> exceptions = Arrays.asList("ne'er", "e'er", "o'er", "ol'", "ma'am", "n't", "informations");
 
   // A special tag to add determiners.
   private static final String ADD_DETERMINER = "+DT";
