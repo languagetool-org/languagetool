@@ -305,7 +305,10 @@ public class German extends Language implements AutoCloseable {
       case "SICH_SICHT" : return 1;   // prefer over agreement rules
       case "MIT_VERANTWORTLICH" : return 1;   // prefer over agreement rules
       case "VOR_LACHEN" : return 1;   // prefer over ZUSAMMENGESETZTE_VERBEN
+      case "TOUREN_SUBST" : return 1;   // prefer over ZUSAMMENGESETZTE_VERBEN
       case "AUF_DRÄNGEN" : return 1;   // prefer over ZUSAMMENGESETZTE_VERBEN
+      case "AUF_ZACK" : return 1;   // prefer over ZUSAMMENGESETZTE_VERBEN
+      case "UNTER_DRUCK" : return 1;   // prefer over ZUSAMMENGESETZTE_VERBEN
       case "ZUCCHINIS" : return 1;   // overwrite spell checker
       case "ANGL_PA_ED_UNANGEMESSEN" : return 1;   // overwrite spell checker
       case "WRONG_UPPER_QUOTE": return 1; // higher prio than UNPAIRED_QUOTES

@@ -534,6 +534,7 @@ public class AgreementRuleTest {
     assertGood("Die können sich in unserer neuen Hall of Fame verewigen.");
     assertGood("Auch, wenn das weite Teile der Bevölkerung betrifft.");
     assertGood("Hat das Einfluss auf Ihr Trinkverhalten?");
+    assertGood("Ihr wisst aber schon, dass das Blödsinn ist.");
 
     assertBad("Ich weiß nicht mehr, was unser langweiligen Thema war.");
     assertGood("Aber mein Wissen über die Antike ist ausbaufähig.");

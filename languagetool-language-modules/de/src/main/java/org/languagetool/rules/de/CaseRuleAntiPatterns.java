@@ -1221,6 +1221,11 @@ class CaseRuleAntiPatterns {
     Arrays.asList( // Die Gemeinde Nahe in Schleswig-Holstein
       csRegex("Gemeinden?"),
       csToken("Nahe")
+    ),
+    Arrays.asList( // Ein Haus // Eine Villa
+      token("/"),
+      token("/"),
+      csRegex("[A-ZÄÖÜ].+")
     )
   );
 

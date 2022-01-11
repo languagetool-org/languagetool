@@ -1015,7 +1015,7 @@ class AgreementRuleAntiPatterns1 {
       // Im Tun zu sein verhindert Prokrastination.
       token("zu"),
       token("sein"),
-      posRegex("VER.*")
+      posRegex("VER:3:SIN.*")
     ),
     Arrays.asList(
       tokenRegex("Ende|Mitte|Anfang"), // "Ende letzten Jahres" "Ende der 50er Jahre"
