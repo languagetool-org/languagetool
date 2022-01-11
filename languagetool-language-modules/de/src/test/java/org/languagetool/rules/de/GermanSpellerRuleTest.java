@@ -58,7 +58,6 @@ public class GermanSpellerRuleTest {
   //
   
   @Test
-  @Ignore("accepting words is not active (yet?)")
   public void testArtig() throws IOException {
     GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     accept("zigarrenartig", rule);

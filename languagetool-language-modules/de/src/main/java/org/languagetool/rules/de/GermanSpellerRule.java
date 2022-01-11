@@ -1661,14 +1661,20 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
             !firstPart.matches(".{3,25}(tum|ing|ling|heit|keit|schaft|ung|ion|tät|at|um)") &&
             isOnlyNoun(firstPart) &&
             !isMisspelled(firstPart + "test")) {  // does hunspell accept this? takes infex-s into account automatically
-          System.out.println("could accept 1: " + word);
-          //return true;
+          System.out.println("will accept: " + word);
+          return true;
+        } else if (!isMisspelled(firstPart) &&
+                   !firstPart.matches(".{3,25}(tum|ing|ling|heit|keit|schaft|ung|ion|tät|at|um)")) {
+                   System.out.println("will not accept: " + word);
         } else if (firstPart.endsWith("s") && !isMisspelled(firstPart.replaceFirst("s$", "")) &&
                    firstPart.matches(".{3,25}(tum|ing|ling|heit|keit|schaft|ung|ion|tät|at|um)s") &&   // "handlungsartig"
                    isOnlyNoun(firstPart.replaceFirst("s$", "")) &&
                    !isMisspelled(firstPart + "test")) {  // does hunspell accept this? takes infex-s into account automatically
-          System.out.println("could accept 2: " + word);
-          //return true;
+          System.out.println("will accept: " + word);
+          return true;
+        } else if (firstPart.endsWith("s") && !isMisspelled(firstPart.replaceFirst("s$", "")) &&
+                   firstPart.matches(".{3,25}(tum|ing|ling|heit|keit|schaft|ung|ion|tät|at|um)s")) {
+          System.out.println("will not accept: " + word);
         }
       }
     }
