@@ -21,63 +21,31 @@ package org.languagetool.rules.ca;
 import org.languagetool.rules.AbstractDateCheckFilter;
 
 import java.util.Calendar;
-import java.util.Locale;
 
 /**
  * Catalan localization of {@link AbstractDateCheckFilter}.
  * @since 2.7
  */
 public class DateCheckFilter extends AbstractDateCheckFilter {
+  
+  private final DateFilterHelper dateFilterHelper = new DateFilterHelper();
+
+  @Override
+  protected int getMonth(String localizedMonth) {
+    return dateFilterHelper.getMonth(localizedMonth);
+  }
 
   @Override
   protected Calendar getCalendar() {
-    return Calendar.getInstance(Locale.UK);
+    return dateFilterHelper.getCalendar();
   }
-
-  @SuppressWarnings("ControlFlowStatementWithoutBraces")
-  @Override
+  
   protected int getDayOfWeek(String dayStr) {
-    String day = dayStr.toLowerCase();
-    if (day.equals("dg") || day.equals("diumenge")) return Calendar.SUNDAY;
-    if (day.equals("dl") || day.equals("dilluns")) return Calendar.MONDAY;
-    if (day.equals("dt") || day.equals("dimarts")) return Calendar.TUESDAY;
-    if (day.equals("dc") || day.equals("dimecres")) return Calendar.WEDNESDAY;
-    if (day.equals("dj") || day.equals("dijous")) return Calendar.THURSDAY;
-    if (day.equals("dv") || day.equals("divendres")) return Calendar.FRIDAY;
-    if (day.equals("ds") || day.equals("dissabte")) return Calendar.SATURDAY;
-    throw new RuntimeException("Could not find day of week for '" + dayStr + "'");
+    return dateFilterHelper.getDayOfWeek(dayStr);
   }
 
-  @SuppressWarnings("ControlFlowStatementWithoutBraces")
   @Override
   protected String getDayOfWeek(Calendar date) {
-    String englishDay = date.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.UK);
-    if (englishDay.equals("Sunday")) return "diumenge";
-    if (englishDay.equals("Monday")) return "dilluns";
-    if (englishDay.equals("Tuesday")) return "dimarts";
-    if (englishDay.equals("Wednesday")) return "dimecres";
-    if (englishDay.equals("Thursday")) return "dijous";
-    if (englishDay.equals("Friday")) return "divendres";
-    if (englishDay.equals("Saturday")) return "dissabte";
-    return "";
-  }
-
-  @SuppressWarnings({"ControlFlowStatementWithoutBraces", "MagicNumber"})
-  @Override
-  protected int getMonth(String monthStr) {
-    String mon = monthStr.toLowerCase();
-    if (mon.startsWith("gen")) return 1;
-    if (mon.startsWith("febr")) return 2;
-    if (mon.startsWith("març")) return 3;
-    if (mon.startsWith("abr")) return 4;
-    if (mon.startsWith("maig")) return 5;
-    if (mon.startsWith("juny")) return 6;
-    if (mon.startsWith("jul")) return 7;
-    if (mon.startsWith("ag")) return 8;
-    if (mon.startsWith("set")) return 9;
-    if (mon.startsWith("oct")) return 10;
-    if (mon.startsWith("nov")) return 11;
-    if (mon.startsWith("des")) return 12;
-    throw new RuntimeException("Could not find month '" + monthStr + "'");
+    return dateFilterHelper.getDayOfWeek(date);
   }
 }
