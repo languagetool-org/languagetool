@@ -18253,7 +18253,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
-        <rule id="ADVERBIO_MENTE" name="posterior mente -> posteriormente" default="temp_off">
+        <rule id="ADVERBIO_MENTE" name="posterior mente -> posteriormente">
+            <antipattern>
+                <token postag="D.*|PX.*" postag_regexp="yes"/>
+                <token postag="AQ.[FC]S.|V.P..SF." postag_regexp="yes"></token>
+                <token>ment</token>
+            </antipattern>
             <pattern>
                 <token postag="AQ.[FC]S.|V.P..SF." postag_regexp="yes"/>
                 <token min="0">-</token>
@@ -18261,6 +18266,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>¿Quería decir <suggestion>\1\3</suggestion>?</message>
             <example correction="posteriormente">Sucedió <marker>posterior mente</marker>.</example>
+            <example>Nadie entiende la brillante mente de Beethoven</example>
+            <example>Tu misma mente te hará sentir cansado.</example>
         </rule>
         <rule id="DEL_LA" name="confusión: del la -> de la">
             <antipattern>
