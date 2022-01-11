@@ -66,6 +66,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     "cocksuckers",
     "coon",
     "cunt",
+    "double check",
     "fuck",
     "fucker",
     "fuckhead",
