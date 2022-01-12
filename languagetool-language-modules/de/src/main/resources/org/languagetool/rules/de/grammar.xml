@@ -1171,6 +1171,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="alle">Ihr installiert Euch <marker>all</marker> das LanguageTool Browser-Add-on.</example>
         </rule>
         <rule id="INF_VER_MOD" name="Fehlender Infinitiv vor modalem Hilfsverb (sage[n] durfte)">
+            <antipattern>
+                <token regexp="yes" skip="4">wo|wann|was|wie|wenn</token>
+                <token regexp="yes" skip="3">ichs?</token>
+                <token postag="VER:.*1:SIN:KJ1:.+" postag_regexp="yes" />
+                <token postag="VER:MOD:[12]:.+" postag_regexp="yes" />
+            </antipattern>
+            <antipattern><!-- was bitte soll daran ... -->
+                <token regexp="yes">was|wer|wo|wann|wie</token>
+                <token>bitte</token>
+            </antipattern>
+            <antipattern><!-- ah danke -->
+                <token postag="INJ|SENT_START|PKT" postag_regexp="yes" />
+                <token>danke</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token postag="VER:.*1:SIN:KJ1:.+" postag_regexp="yes">
@@ -1184,8 +1198,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="werden">Wir haben uns geeinigt, dass darauf verzichtet <marker>werde</marker> könnte.</example>
             <example>Wie lange muss man warten?</example>
             <example correction="werden">Wie er Vorgesetzter <marker>werde</marker> konnte, ist mir ein Rätsel.</example>
+            <example correction="zugreifen">Die Nachrichtendienste hätten vor dem Flughafen <marker>zugreife</marker> müssen!</example>
             <example>Die Taube und der Strauß sind beide Vögel; der eine kann fliegen, aber der andere nicht.</example>
             <example>Ich verlange nur, dass er mir meine lässt.</example>
+            <example>Was bitte soll daran "unabhängig" sein?</example>
+            <example>So wie ich das aber bisher sehe will das keiner.</example>
+            <example>Was bitte soll daran "unabhängig" sein?</example>
+            <example>Wo genau ich in Mathe weiter mache muss ich erst noch sehen.</example>
         </rule>
         <rulegroup id="NIEMANDEN" name="niemanden (niemandem)">
             <rule>
@@ -14055,7 +14074,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="ALLER_COMPOUNDS" name="aller bestes (allerbestes)">
             <pattern>
                 <token>aller</token>
-                <token regexp="yes">frühestens|orts|beste[sr]?|größte[sr]?|grösste[sr]?|höchste[sr]?|letzte[sr]?|liebste[sr]?|erste[nsr]?|meiste[ns]?|mindeste[sr]?|nächste[sr]?|neue?ste[sr]?|nötigste[nsr]?|notwendigste[nsr]?|schlimmste[nsr]?|schönste[nsr]?|schnellste[nsr]?|späteste[nrs]?|spätestens|wichtigste[nrs]?|kleinste[rn]?</token>
+                <token regexp="yes">frühestens|orts|beste[sr]?|größte[sr]?|grösste[sr]?|höchste[sr]?|letzte[sr]?|liebste[sr]?|erste[nsr]?|meiste[ns]?|mindeste[sr]?|nächste[sr]?|neue?ste[sr]?|nötigste[nsr]?|notwendigste[nsr]?|schlimmste[nsr]?|schönste[nsr]?|schnellste[nsr]?|späteste[nrs]?|spätestens|wichtigste[nrs]?|kleinste[rns]?|feinste[rns]?</token>
             </pattern>
             <message>Das Wort <suggestion>\1<match no="2" case_conversion="alllower" /></suggestion> wird zusammengeschrieben.</message>
             <short>Zusammenschreibung</short>
@@ -24778,6 +24797,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="EIN_AUF_UND_AB" name="ein auf und ab (Auf und Ab)" default="temp_off">
+            <antipattern>
+                <token>ab</token>
+                <token postag="VER:INF.*" postag_regexp="yes" />
+            </antipattern>
+            <pattern>
+                <token regexp="yes">k?ein|das|dieses|im</token>
+                <token postag="(PA[12]|ADJ).*NEU.*" postag_regexp="yes" min="0" />
+                <marker>
+                    <token case_sensitive="yes">auf</token>
+                    <token>und</token>
+                    <token case_sensitive="yes">ab</token>
+                </marker>
+            </pattern>
+            <message>In dieser Redewendund werden <suggestion>Auf und Ab</suggestion> großgeschrieben.</message>
+            <url>https://de.wiktionary.org/wiki/Auf_und_Ab</url>
+            <example correction="Auf und Ab">Das <marker>auf und ab</marker> der Wellen hat eine positive Wirkung.</example>
+        </rule>
         <rule id="IN_RAGE" name="in rage (Rage)">
             <pattern case_sensitive="yes">
                 <token>in</token>
@@ -25122,7 +25159,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <token postag="ADV.*|NEG" postag_regexp="yes" min="0" max="2" />
                     <marker>
-                        <token case_sensitive="yes" regexp="yes">Stolz|Klein|Wei(ß|ss)|Dürr|Fröhlich|Fair|Platt|Oldschool</token><!-- Adjekive, die als Nomen oder Eigenname getaggt sind -->
+                        <token case_sensitive="yes" regexp="yes">Stolz|Klein|Wei(ß|ss)|Dürr|Fröhlich|Fair|Platt|Oldschool|Fromm</token><!-- Adjekive, die als Nomen oder Eigenname getaggt sind -->
                     </marker>
                 </pattern>
                 <message>Das Adjektiv <suggestion><match no="4" case_conversion="alllower" /></suggestion> wird kleingeschrieben.</message>
@@ -25147,7 +25184,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <token postag="ADV.*|NEG" postag_regexp="yes" min="0" max="2" />
                     <marker>
-                        <token case_sensitive="yes" regexp="yes">Stolz|Klein|Wei(ß|ss)|Dürr|Fröhlich|Fair|Platt|Oldschool</token><!-- Adjekive, die als Nomen oder Eigenname getaggt sind -->
+                        <token case_sensitive="yes" regexp="yes">Stolz|Klein|Wei(ß|ss)|Dürr|Fröhlich|Fair|Platt|Oldschool|Fromm</token><!-- Adjekive, die als Nomen oder Eigenname getaggt sind -->
                     </marker>
                 </pattern>
                 <message>Das Adjektiv <suggestion><match no="4" case_conversion="alllower" /></suggestion> wird kleingeschrieben.</message>
@@ -25164,7 +25201,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>ihr</token>
                     <token postag="ADV.*|NEG" postag_regexp="yes" min="0" max="2" />
                     <marker>
-                        <token case_sensitive="yes" regexp="yes" skip="-1">Stolz|Klein|Wei(ß|ss)|Dürr|Fröhlich|Fair|Platt|Oldschool</token><!-- Adjekive, die als Nomen oder Eigenname getaggt sind -->
+                        <token case_sensitive="yes" regexp="yes" skip="-1">Stolz|Klein|Wei(ß|ss)|Dürr|Fröhlich|Fair|Platt|Oldschool|Fromm</token><!-- Adjekive, die als Nomen oder Eigenname getaggt sind -->
                     </marker>
                     <token>?</token>
                 </pattern>
@@ -40554,6 +40591,29 @@ Andere Projekte</example>
                 <short>&prgk;.</short>
                 <example>Im Fall der <marker>Fälle</marker> möchte ich gewarnt werden.</example>
                 <example correction="Fälle">Ein Prozess ist in 90 Prozent der <marker>fälle</marker> vermeidbar.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">bei|in|für|mit|zu|ohne</token>
+                    <token regexp="yes">solchen?|diesen?|einigen?|viele</token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">fällen?</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="3" case_conversion="startupper" /></suggestion>&subende;</message>
+                <example correction="Fällen">In solchen <marker>fällen</marker> muss man schnell handeln.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">bei|in|mit|zu</token>
+                    <token>den</token>
+                    <token>meisten</token>
+                    <marker>
+                        <token case_sensitive="yes">fällen</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="4" case_conversion="startupper" /></suggestion>&subende;</message>
+                <example correction="Fällen">In den meisten <marker>fällen</marker> muss man schnell handeln.</example>
             </rule>
         </rulegroup>
         <rulegroup id="IN_DIE_BREITE" name="'breite (Breite)'">

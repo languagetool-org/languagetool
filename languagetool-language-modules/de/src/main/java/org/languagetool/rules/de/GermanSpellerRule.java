@@ -1244,6 +1244,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Entäuschungen", "Enttäuschungen");
     put("kanns", "kann es");
     put("hbat", "habt");
+    put("ichs", "ich es");
     putRepl("[Üü]bergrifflich(e[mnrs]?)?", "lich", "ig");
   }
 

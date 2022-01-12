@@ -488,7 +488,10 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "passed out", // vs past
       "passed vs failed", // vs past
       "passed vs. failed", // vs past
-      "people from there" // vs their
+      "people from there", // vs their
+      "as you well know", // vs known
+      "as they well know", // vs known
+      "as we well know" // vs known
     );
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
