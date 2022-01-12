@@ -504,6 +504,7 @@ public class English extends Language implements AutoCloseable {
       case "MORFOLOGIK_RULE_EN_ZA":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "MORFOLOGIK_RULE_EN_NZ":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "MORFOLOGIK_RULE_EN_AU":     return -10;  // more specific rules (e.g. L2 rules) have priority
+      case "POSSESSIVE_APOSTROPHE":     return -12;  // prefer AI comma rules
       case "PRP_MD_NN":                 return -12;  // prefer other more specific rules (e.g. MD_ABLE, WONT_WANT)
       case "TWO_CONNECTED_MODAL_VERBS": return -15;
       case "PRP_VB_IMPROVE":            return -24;  // higher prio than PRP_VB but prefer other rules (with suggestions, e.g. confusion rules)
