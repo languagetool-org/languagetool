@@ -29,10 +29,7 @@ import org.apache.commons.pool2.impl.GenericKeyedObjectPool;
 import org.apache.commons.pool2.impl.GenericKeyedObjectPoolConfig;
 import org.languagetool.*;
 import org.languagetool.gui.Configuration;
-import org.languagetool.rules.DictionaryMatchFilter;
-import org.languagetool.rules.DictionarySpellMatchFilter;
-import org.languagetool.rules.RemoteRuleConfig;
-import org.languagetool.rules.Rule;
+import org.languagetool.rules.*;
 import org.languagetool.tools.Tools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -163,6 +160,10 @@ class PipelinePool implements KeyedPooledObjectFactory<PipelineSettings, Pipelin
       lt.addMatchFilter(new DictionaryMatchFilter(userConfig));
     }
     lt.addMatchFilter(new DictionarySpellMatchFilter(userConfig));
+    if (config.getRemoteRulesConfigFile() != null) {
+      // TODO: is there another place for this?
+      GRPCRuleMatchFilter.configure(config.getRemoteRulesConfigFile());
+    }
 
     Premium premium = Premium.get();
     if (config.isPremiumOnly()) {

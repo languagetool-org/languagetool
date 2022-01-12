@@ -1039,6 +1039,8 @@ public class JLanguageTool {
     }
     ruleMatches = new LanguageDependentFilter(language, rules).filter(ruleMatches);
 
+    ruleMatches = new GRPCRuleMatchFilter(language).filter(ruleMatches, annotatedText);
+
     return applyCustomFilters(ruleMatches, annotatedText);
   }
 
