@@ -81,11 +81,12 @@ public class EnglishUnpairedBracketsRuleTest {
     assertCorrect("under the 'Global Markets' heading");
     assertCorrect("He's an 'admin'.");
     assertCorrect("However, he's still expected to start in the 49ers' next game on Oct.");
-    // FIXME: assertCorrect("all of his great-grandfathers' names");
-    // FIXME: assertCorrect("Though EES' past profits now are in question");
-    // FIXME: assertCorrect("whelms field and oxens' toil and smiling grain");
-    // FIXME: assertCorrect("Networks' Communicator and FocusFocus' Conference.");
-    // FIXME: assertCorrect("Additional funding came from MegaMags' founders and existing individual investors.");
+    assertCorrect("all of his great-grandfathers' names");
+    assertCorrect("Though EES' past profits now are in question");
+    assertCorrect("Networks' Communicator and FocusFocus' Conference.");
+    assertCorrect("Additional funding came from MegaMags' founders and existing individual investors.");
+    assertCorrect("al-Jazā’er");
+    // FIXME?: assertCorrect("second Mu’taq and third");
     
     assertCorrect("22' N., long. ");
     assertCorrect("11º 22'");
