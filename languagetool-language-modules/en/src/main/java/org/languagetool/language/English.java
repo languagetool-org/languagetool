@@ -422,7 +422,6 @@ public class English extends Language implements AutoCloseable {
       case "CONFUSION_GONG_GOING":      return 1;   // prefer over I_AM_VB
       case "SEEN_SEEM":                 return 1;   // prefer over PRP_PAST_PART
       case "PROFANITY":                 return 1;   // prefer over spell checker (less prio than EN_COMPOUNDS)
-      case "GOOD_FLUCK":                return 2;   // prefer over PROFANITY
       case "THE_THEM":                  return 1;   // prefer over TO_TWO
       case "THERE_THEIR":               return 1;   // prefer over GO_TO_HOME
       case "IT_IS_DEPENDING_ON":        return 1;   // prefer over PROGRESSIVE_VERBS
