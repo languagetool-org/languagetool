@@ -90,24 +90,17 @@ public abstract class GRPCRule extends RemoteRule {
   /**
    * Internal rule to create rule matches with IDs based on Match Sub-IDs
    */
-  protected class GRPCSubRule extends Rule {
+  public static class GRPCSubRule extends Rule {
     private final String matchId;
     private final String description;
 
-    GRPCSubRule(String ruleId, String subId, @Nullable String description) {
+    GRPCSubRule(String ruleId, String subId, String description) {
       if (subId != null && !subId.trim().isEmpty()) {
         this.matchId = cleanID(ruleId) + "_" + cleanID(subId);
       } else {
         this.matchId = cleanID(ruleId);
       }
-      if (description == null || description.isEmpty()) {
-        this.description = GRPCRule.this.getDescription();
-        if (this.description == null || this.description.isEmpty()) {
-          throw new RuntimeException("Missing description for rule with ID " + matchId);
-        }
-      } else {
-        this.description = description;
-      }
+      this.description = description;
     }
 
     @Override
@@ -293,7 +286,14 @@ public abstract class GRPCRule extends RemoteRule {
 
   private List<RuleMatch> getRuleMatches(MLRuleRequest reqData, List<MatchResponse> responses) {
     BiFunction<MLServerProto.MatchList, AnalyzedSentence, Stream<RuleMatch>> createMatch = (matchList, sentence) -> matchList.getMatchesList().stream().map(match -> {
-        GRPCSubRule subRule = new GRPCSubRule(match.getId(), match.getSubId(), match.getRuleDescription());
+      String description = match.getRuleDescription();
+      if (description == null || description.isEmpty()) {
+        description = this.getDescription();
+        if (description == null || description.isEmpty()) {
+          throw new RuntimeException("Missing description for rule with ID " + match.getId() + "_" + match.getSubId());
+        }
+      }
+      GRPCSubRule subRule = new GRPCSubRule(match.getId(), match.getSubId(), description);
         String message = match.getMatchDescription();
         String shortMessage = match.getMatchShortDescription();
         if (message == null || message.isEmpty()) {
