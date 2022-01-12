@@ -100,7 +100,7 @@ class CaseRuleAntiPatterns {
     ),
     Arrays.asList(
       // Er arbeitet im Bereich Präsidiales.
-      csRegex("Bereich|Departement"),
+      csRegex("Bereich|Departement|Stabsstelle"),
       csRegex("[A-ZÄÖÜ].+es")
     ),
     Arrays.asList(
@@ -1061,7 +1061,7 @@ class CaseRuleAntiPatterns {
     ),
     Arrays.asList(
       // Während 208 der Befragten Frau Baerbock bevorzugten, ...
-      csRegex("\\d+%?|meisten|wenige|einige|viele|Gro(ß|ss)teil"),
+      csRegex("\\d+%?|%|Prozent|meisten|wenige|einige|viele|Gro(ß|ss)teil"),
       csToken("der"),
       csRegex("Befragten|Teilnehmenden"),
       new PatternTokenBuilder().posRegex("SUB:.*").csTokenRegex("[A-ZÖÜÄ].+").build()
@@ -1199,7 +1199,7 @@ class CaseRuleAntiPatterns {
       csRegex("[a-zäöü…\\.!,\\?…].*")
     ),
     Arrays.asList( // Ich habe noch Dringendes mitzuteilen
-      csRegex("Dringendes"),
+      csRegex("Dringendes|Bares|Vertrautes|Positives|Negatives"),
       csRegex("[a-zäöü…\\.!,\\?…].*")
     ),
     Arrays.asList( // § 12 Die Pflichtversicherung

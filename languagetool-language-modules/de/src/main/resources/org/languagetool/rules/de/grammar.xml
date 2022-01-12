@@ -12828,7 +12828,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="IRGEND_COMPOUND" name="Ich komme irgend wann (irgendwann) zur Party.">
             <pattern>
                 <token>irgend</token>
-                <token regexp="yes">ein(mal)?|(et)?was|jemand|wann|welch|wer|wie|wo(her|hin)?</token>
+                <token regexp="yes">ein(mal)?|(et)?was|jemand(e[nms])?|wann|welch(e[rnms]?)?|wer|wie|wo(her|hin)?</token>
             </pattern>
             <message>Möchten Sie die empfohlene Schreibweise <suggestion>irgend<match no="2" case_conversion="alllower" /></suggestion> verwenden?</message>
             <example correction="irgendetwas">Da stört <marker>irgend etwas</marker> Lautes.</example>
@@ -13225,9 +13225,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 * geistig Behinderte
                 * zentral Lager
                 * zentral Wert
-                * spitzen Politiker
-                * spitzen Manager
-                * spitzen Fußballer
                 * lokal Partner
                 * maximal Zulassung/Begrenzung
                 * exklusiv Kunde
@@ -13526,7 +13523,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>spitzen</token>
-                    <token regexp="yes" case_sensitive="yes">Teams?|Typ|Idee|Lage|Weins?|Produkts?|Film|Sportlers?|Sportlerin|Kandidat(en)?|Steuer(satz(es)?)?|Jahrgangs?|Höschens?</token>
+                    <token regexp="yes" case_sensitive="yes">Teams?|Typ|Idee|Lage|Weins?|Produkts?|Film|Sportlers?|Sportlerin|Kandidat(en)?|Steuer(satz(es)?)?|Jahrgangs?|Höschens?|Anwalts?|Qualität|Fu(ß|ss)ball(ers?)?|Reiters?|Managers?|Managerin</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Spitzen<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Spitzenidee">Das ist eine <marker>spitzen Idee</marker>!</example>
@@ -24811,7 +24808,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token case_sensitive="yes">ab</token>
                 </marker>
             </pattern>
-            <message>In dieser Redewendund werden <suggestion>Auf und Ab</suggestion> großgeschrieben.</message>
+            <message>In dieser Redewendung werden <suggestion>Auf und Ab</suggestion> großgeschrieben.</message>
             <url>https://de.wiktionary.org/wiki/Auf_und_Ab</url>
             <example correction="Auf und Ab">Das <marker>auf und ab</marker> der Wellen hat eine positive Wirkung.</example>
         </rule>
@@ -24904,7 +24901,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">h[ea]llo|hi|servus|hey|ciao|moin|gr[üu]ezi|guten|na</token>
                     <token regexp="yes" min="0">abend|tag|mittag|morgen</token>
                     <marker>
-                        <token case_sensitive="yes">Zusammen</token>
+                        <token case_sensitive="yes" regexp="yes">Zusammen|Allerseits</token>
                     </marker>
                 </pattern>
                 <message>Auch in der Grußformel sollte das Adverb <suggestion><match no="3" case_conversion="alllower" /></suggestion> kleingeschrieben werden.</message>
@@ -25105,7 +25102,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="ERST_MAL_KLEIN" name="erst Mal (mal)">
             <pattern>
-                <token regexp="yes" case_sensitive="yes">[Ee]rst|[Zz]unächst|[Vv]orerst|[Zz]uerst</token>
+                <token regexp="yes" case_sensitive="yes">[Ee]rst|[Zz]unächst|[Vv]orerst|[Zz]uerst|[Nn]och|[Ss]chon</token>
                 <marker>
                     <token case_sensitive="yes">Mal</token>
                 </marker>
@@ -25159,7 +25156,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <token postag="ADV.*|NEG" postag_regexp="yes" min="0" max="2" />
                     <marker>
-                        <token case_sensitive="yes" regexp="yes">Stolz|Klein|Wei(ß|ss)|Dürr|Fröhlich|Fair|Platt|Oldschool|Fromm</token><!-- Adjekive, die als Nomen oder Eigenname getaggt sind -->
+                        <token case_sensitive="yes" regexp="yes">Stolz|Klein|Wei(ß|ss)|Dürr|Fröhlich|Fair|Platt|Oldschool|Fromm|Superb</token><!-- Adjektive, die als Nomen oder Eigenname getaggt sind -->
                     </marker>
                 </pattern>
                 <message>Das Adjektiv <suggestion><match no="4" case_conversion="alllower" /></suggestion> wird kleingeschrieben.</message>
@@ -25184,7 +25181,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <token postag="ADV.*|NEG" postag_regexp="yes" min="0" max="2" />
                     <marker>
-                        <token case_sensitive="yes" regexp="yes">Stolz|Klein|Wei(ß|ss)|Dürr|Fröhlich|Fair|Platt|Oldschool|Fromm</token><!-- Adjekive, die als Nomen oder Eigenname getaggt sind -->
+                        <token case_sensitive="yes" regexp="yes">Stolz|Klein|Wei(ß|ss)|Dürr|Fröhlich|Fair|Platt|Oldschool|Fromm|Superb</token><!-- Adjektive, die als Nomen oder Eigenname getaggt sind -->
                     </marker>
                 </pattern>
                 <message>Das Adjektiv <suggestion><match no="4" case_conversion="alllower" /></suggestion> wird kleingeschrieben.</message>
@@ -25201,7 +25198,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>ihr</token>
                     <token postag="ADV.*|NEG" postag_regexp="yes" min="0" max="2" />
                     <marker>
-                        <token case_sensitive="yes" regexp="yes" skip="-1">Stolz|Klein|Wei(ß|ss)|Dürr|Fröhlich|Fair|Platt|Oldschool|Fromm</token><!-- Adjekive, die als Nomen oder Eigenname getaggt sind -->
+                        <token case_sensitive="yes" regexp="yes" skip="-1">Stolz|Klein|Wei(ß|ss)|Dürr|Fröhlich|Fair|Platt|Oldschool|Fromm|Superb</token><!-- Adjektive, die als Nomen oder Eigenname getaggt sind -->
                     </marker>
                     <token>?</token>
                 </pattern>
@@ -42961,7 +42958,7 @@ Andere Projekte</example>
                 </antipattern>
                 <pattern case_sensitive="yes">
                     <token><exception regexp="yes">[eE]in</exception></token>
-                    <token regexp="yes" case_sensitive="no">irgend(et)?was|(et)?was|nichts|nix|alles|viel|wenig|genug</token>
+                    <token regexp="yes" case_sensitive="no">irgend(et)?was|(et)?was|sowas|nichts|nix|alles|viel|wenig|genug</token>
                     <marker>
                         <token postag="(ADJ:NOM:SIN:NEU:(GRU|KOM):IND)|(PA[12]:AKK:.*)" postag_regexp="yes" regexp="yes">[a-zäöü].+es<exception regexp="yes">anderes|einiges|weniges</exception></token>
                     </marker>
@@ -43039,7 +43036,7 @@ Andere Projekte</example>
                 </antipattern>
                 <pattern case_sensitive="yes">
                     <token><exception regexp="yes">[eE]in</exception></token>
-                    <token regexp="yes">irgend(et)?was|(et)?was|nichts|nix|alles|viel|wenig|genug</token>
+                    <token regexp="yes">irgend(et)?was|(et)?was|sowas|nichts|nix|alles|viel|wenig|genug</token>
                     <token regexp="yes">sehr|besonders|weniger|so|eher|mehr|weitaus|halbwegs|allzu|ziemlich|wirklich|r?echt|komplett|ganz|total|richtig|einigerma(ß|ss)en|fast|relativ|au(ß|ss)erordentlich|überaus|äu(ß|ss)erst|ungemein|au(ß|ss)ergewöhnlich|bitter|denkbar|bemerkenswert|ausgesprochen|unendlich|ungeheuer|voll|wahnsinnig|verdammt|entsetzlich|höllisch|furchtbar|fürchterlich|enorm|ungewöhnlich|vollkommen|völlig|echt|deutlich</token>
                     <marker>
                         <token postag="(ADJ:NOM:SIN:NEU:(GRU|KOM):IND)|(PA1:AKK:.*)" postag_regexp="yes" regexp="yes">[a-zäöü].+es<exception regexp="yes">anderes|einiges|weniges</exception></token>
@@ -43063,7 +43060,7 @@ Andere Projekte</example>
                 </antipattern>
                 <pattern case_sensitive="yes">
                     <token><exception regexp="yes">[eE]in</exception></token>
-                    <token regexp="yes">irgend(et)?was|(et)?was|nichts|nix|alles|viel|wenig|genug</token>
+                    <token regexp="yes">irgend(et)?was|(et)?was|sowas|nichts|nix|alles|viel|wenig|genug</token>
                     <token>ganz</token>
                     <token>schön</token>
                     <marker>
@@ -43133,7 +43130,7 @@ Andere Projekte</example>
                     <token postag="UNKNOWN|(SUB|ADJ|EIG):.*" postag_regexp="yes" regexp="yes">.*[a-zäöüß].*</token>
                 </antipattern>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes" case_sensitive="no">irgend(et)?was|(et)?was|nichts|nix|alles|viel|wenig|genug</token>
+                    <token regexp="yes" case_sensitive="no">irgend(et)?was|(et)?was|sowas|nichts|nix|alles|viel|wenig|genug</token>
                     <token regexp="yes" min="0">sehr|besonders|weniger|so|eher|mehr|weitaus|halbwegs|allzu|ziemlich|wirklich|r?echt|komplett|ganz|total|richtig|einigerma(ß|ss)en|fast|relativ|au(ß|ss)erordentlich|überaus|äu(ß|ss)erst|ungemein|au(ß|ss)ergewöhnlich|bitter|denkbar|bemerkenswert|ausgesprochen|unendlich|ungeheuer|voll|wahnsinnig|verdammt|entsetzlich|höllisch|furchtbar|fürchterlich|enorm|ungewöhnlich|vollkommen|völlig|echt|deutlich</token>
                     <marker>
                         <token postag="ADJ:DAT:SIN:.*|PA[12]:DAT.*" postag_regexp="yes" regexp="yes">[a-zäöü].+em<exception regexp="yes">anderem|eigenem|wenigem</exception></token>
@@ -59552,8 +59549,9 @@ Andere Projekte</example>
                         <token><exception regexp="yes">,|;|:|\.|-|–|—|\(|„|"|bis|und|oder|sondern|\)</exception><exception postag="SENT_START"/><exception postag="VER:([1-3]|AUX|MOD):.*" postag_regexp="yes"/></token>
                         <token skip="-1" regexp="yes">nämlich|insbesondere|einschließlich|einschliesslich<exception scope="next" postag="VER.*" postag_regexp="yes"/></token>
                     </marker>
-                    <token postag="SENT_END">
+                    <token postag="SENT_END" regexp="yes">\p{P}+
                         <exception scope="previous" postag="VER:.+" postag_regexp="yes"/>
+                        <exception scope="previous" postag="UNKNOWN" postag_regexp="yes" regexp="yes">.*[a-z].*</exception>
                     </token>
                 </pattern>
                 <message>Vor einer nachgestellten Erläuterung steht üblicherweise ein Komma.</message>
@@ -59572,6 +59570,7 @@ Andere Projekte</example>
                 <example>Ein Haus verbraucht laut einer US-Studie nämlich rund 519 Kilogramm CO2.</example>
                 <example>Ich finde Eve nämlich auch super.</example>
                 <example>Letztlich eignet sich Kanban insbesondere für Reihenfertigung.</example>
+                <example>Dann werden seine Wörter nämlich am Server persistiert.</example>
             </rule> 
             <rule id="KOMMA_NACH_DIREKTER_REDE" name="Fehlendes Komma nach direkter Rede">
                 <pattern>
@@ -61069,8 +61068,19 @@ Andere Projekte</example>
                     <token regexp="yes" case_sensitive="yes">[Ee]vt</token>
                     <token spacebefore="no">.</token>
                 </pattern>
-                <message>Die korrekte Abkürzung für "eventuell" ist <suggestion>evtl.</suggestion>.</message>
+                <message>Die empfohlene Abkürzung für "eventuell" ist <suggestion>evtl.</suggestion>.</message>
                 <example correction="evtl.">Er wollte nichts sagen <marker>evt.</marker> weil er Angst hatte.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="GGF_ABK" name="Schreibweise der Abkürzung 'ggf.'">
+            <url>https://de.wiktionary.org/wiki/ggf.</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">[Gg]gfs</token>
+                    <token spacebefore="no">.</token>
+                </pattern>
+                <message>Die empfohlene Abkürzung für "gegebenenfalls" ist <suggestion>ggf.</suggestion>.</message>
+                <example correction="ggf.">Wir werden uns <marker>ggfs.</marker> dazu noch mal melden.</example>
             </rule>
         </rulegroup>
         <rulegroup id="GEFEATURED" name="gefeatured -> gefeaturt">

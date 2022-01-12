@@ -1245,6 +1245,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("kanns", "kann es");
     put("hbat", "habt");
     put("ichs", "ich es");
+    put("folgendermassen", "folgendermaßen");
     putRepl("[Üü]bergrifflich(e[mnrs]?)?", "lich", "ig");
   }
 

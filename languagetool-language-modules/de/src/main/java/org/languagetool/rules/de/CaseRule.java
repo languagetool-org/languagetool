@@ -97,6 +97,7 @@ public class CaseRule extends Rule {
     "Fair", // eng
     "Viral", // eng
     "Tough", // eng
+    "Superb", // eng und Automodell
     "Resilient", // eng
     "Hexagonal", // eng
     "Responsive", // eng
@@ -145,6 +146,8 @@ public class CaseRule extends Rule {
     "Werbetreibende",
     "Werbetreibender",
     "Werbetreibenden",
+    "Verletzter",
+    "Verletzten",
     "Werktätige",
     "Werktätiger",
     "Werktätigen",
