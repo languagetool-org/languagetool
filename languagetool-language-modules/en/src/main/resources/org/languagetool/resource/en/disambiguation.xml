@@ -244,7 +244,7 @@
         <rule>
             <pattern>
                 <marker>
-                    <token>'</token>    
+                    <token regexp="yes">['’]</token>    
                 </marker>
                 <token spacebefore="no" regexp="yes">bout|burbs|cause|cuz|em|er|lil|n|ol|ole|spose|sposed|til|till|twixt|cept|fore</token>
             </pattern>
@@ -252,9 +252,19 @@
         </rule>
         <rule>
             <pattern>
+                <marker>
+                    <token regexp="yes">['’]</token>    
+                </marker>
+                <token spacebefore="no" regexp="yes">t</token>
+                <token spacebefore="no"/>
+            </pattern>
+            <disambig action="add"><wd pos="_apostrophe_contraction_"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
                 <token regexp="yes">an|gangsta|jus|o|slo|tho|tol|ya</token>
                 <marker>
-                    <token spacebefore="no">'</token>    
+                    <token spacebefore="no" regexp="yes">['’]</token>    
                 </marker>
             </pattern>
             <disambig action="add"><wd pos="_apostrophe_contraction_"/></disambig>
@@ -263,7 +273,7 @@
             <pattern>
                 <token regexp="yes">.+z</token>
                 <marker>
-                    <token spacebefore="no">'</token>    
+                    <token spacebefore="no" regexp="yes">['’]</token>  
                 </marker>
                 <token postag="N.*" postag_regexp="yes"></token>
             </pattern>
@@ -279,7 +289,7 @@
             <pattern>
                 <token regexp="yes">.*-</token>
                 <marker>
-                    <token spacebefore="no">'</token>    
+                    <token spacebefore="no" regexp="yes">['’]</token>   
                 </marker>
                 <token regexp="yes" spacebefore="no">\p{L}+</token>
             </pattern>
@@ -289,9 +299,63 @@
             <!-- '60 campaign -->
             <pattern>
                 <marker>
-                    <token spacebefore="yes">'</token>    
+                    <token spacebefore="yes" regexp="yes">['’]</token>    
                 </marker>
                 <token regexp="yes" spacebefore="no">\d\ds?</token>
+            </pattern>
+            <disambig action="add"><wd pos="_apostrophe_contraction_"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">\d+ers</token>
+                <marker>
+                    <token spacebefore="no" regexp="yes">['’]</token>  
+                </marker>
+            </pattern>
+            <disambig action="add"><wd pos="POS"/></disambig>
+        </rule>
+        <!--<rule>
+            <!-\- 20' N -\->
+            <pattern>
+                <token regexp="yes">\d+</token>
+                <marker>
+                    <token>'</token>    
+                </marker>
+                <token regexp="yes">[NSEW]</token>
+            </pattern>
+            <disambig action="add"><wd pos="_apostrophe_contraction_"/></disambig>
+        </rule>
+        <rule>
+            <!-\- 20' N -\->
+            <pattern>
+                <token regexp="yes">\d*[º°]</token>
+                <token regexp="yes">\d+</token>
+                <marker>
+                    <token>'</token>    
+                </marker>
+            </pattern>
+            <disambig action="add"><wd pos="_apostrophe_contraction_"/></disambig>
+        </rule>-->
+        <rule>
+            <!-- 20'  ambiguous -->
+            <pattern>
+                <!--<token regexp="yes">\.|,</token>-->
+                <token regexp="yes">\d+</token>
+                <marker>
+                    <token regexp="yes">['’]</token>  
+                </marker>
+            </pattern>
+            <disambig action="add"><wd pos="_apostrophe_contraction_"/></disambig>
+        </rule>
+        <rule>
+            <!-- French or other languages -->
+            <pattern>
+                
+                <token regexp="yes">\p{L}</token>
+                <marker>
+                    <token regexp="yes" spacebefore="no">['’]</token>  
+                </marker>
+                <token regexp="yes" spacebefore="no">\p{L}.+</token>
             </pattern>
             <disambig action="add"><wd pos="_apostrophe_contraction_"/></disambig>
         </rule>

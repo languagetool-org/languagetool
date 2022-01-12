@@ -80,6 +80,26 @@ public class EnglishUnpairedBracketsRuleTest {
     assertCorrect("I stayed awake 'till the morning.");
     assertCorrect("under the 'Global Markets' heading");
     assertCorrect("He's an 'admin'.");
+    assertCorrect("However, he's still expected to start in the 49ers' next game on Oct.");
+    // FIXME: assertCorrect("all of his great-grandfathers' names");
+    // FIXME: assertCorrect("Though EES' past profits now are in question");
+    // FIXME: assertCorrect("whelms field and oxens' toil and smiling grain");
+    // FIXME: assertCorrect("Networks' Communicator and FocusFocus' Conference.");
+    // FIXME: assertCorrect("Additional funding came from MegaMags' founders and existing individual investors.");
+    
+    assertCorrect("22' N., long. ");
+    assertCorrect("11º 22'");
+    assertCorrect("11° 22'");
+    assertCorrect("11° 22.5'");
+    assertCorrect("In case I garbled mine, here 'tis.");
+    assertCorrect("It's about three o’clock.");
+    assertCorrect("It's about three o'clock.");
+    assertCorrect("Rory O’More");
+    assertCorrect("Rory O'More");
+    assertCorrect("Côte d’Ivoire");
+    assertCorrect("Côte d'Ivoire");
+    assertCorrect("Colonel d’Aubigni");
+    
     
     // test for a case that created a false alarm after disambiguation
     assertCorrect("This is a \"special test\", right?");
