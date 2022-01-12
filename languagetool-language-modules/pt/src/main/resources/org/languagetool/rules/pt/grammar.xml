@@ -25378,6 +25378,50 @@ Vence a indústria do luxo, porque a disputa hoje é sobre os melhores e piores 
     </rule>
 
 
+  <!-- XEQUE(s) cheque(s) -->
+  <rulegroup id='CONFUSÃO_XEQUE_CHEQUE' name='Confusão: xeque(s)/cheque(s)'>
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-12 (Checked/Enhanced) (1-JAN-2022+)      -->
+    <rule>
+      <pattern>
+		  <marker>
+			<token regexp="yes">xeques?</token>
+		  </marker>
+          <token regexp="yes">avulsos?|carecas?|cruzados?|visados?</token>
+      </pattern>
+      <message>Possível confusão de termos.</message>
+	  <suggestion><match no='1' regexp_match='xeque(s?)' regexp_replace='cheque$1'/></suggestion>
+      <example correction="cheque">É um <marker>xeque</marker> cruzado.</example>
+      <example correction="cheques">São <marker>xeques</marker> visados.</example>
+    </rule>
+    <rule>
+      <pattern>
+		  <marker>
+			<token regexp="yes">xeques?</token>
+		  </marker>
+          <token>sem</token>
+          <token>cobertura</token>
+      </pattern>
+      <message>Possível confusão de termos.</message>
+      <suggestion><match no='1' regexp_match='xeque(s?)' regexp_replace='cheque$1'/></suggestion>
+	  <example correction="cheque">É um <marker>xeque</marker> sem cobertura.</example>
+      <example correction="cheques">São <marker>xeques</marker> sem cobertura.</example>
+    </rule>
+    <rule>
+      <pattern>
+		  <marker>
+			<token regexp="yes">xeques?</token>
+		  </marker>
+          <token>em</token>
+          <token>branco</token>
+      </pattern>
+      <message>Possível confusão de termos.</message>
+	  <suggestion><match no='1' regexp_match='xeque(s?)' regexp_replace='cheque$1'/></suggestion>
+      <example correction="cheque">É um <marker>xeque</marker> em branco.</example>
+      <example correction="cheques">São <marker>xeques</marker> em branco.</example>
+    </rule>
+  </rulegroup>
+
+
 	<!-- ASSISTIR (Ver) -->
     <rule id='ASSISTIR_VER' name="Confusão: Assistir (ver)">
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-04-08 (17-MAR-2021+)      -->
@@ -36964,38 +37008,6 @@ O Rui esteve lá no período 2013 –2021. → O Rui esteve lá no período 2013
     </rule>
   </rulegroup>
 
-  <rulegroup id='XEQUE_CHEQUE' name='Confusão Xeque - Cheque'>
-    <!-- Rule by Marco A.G. Pinto -->
-    <rule>
-      <pattern case_sensitive="no">
-          <token regexp="yes">xeques?</token>
-          <token regexp="yes">(?:avulso|careca|cruzado|visado)s?</token>
-      </pattern>
-      <message>Substitua por <suggestion><match no='1' regexp_match='xeque(s?)' regexp_replace='cheque$1'/> \2</suggestion>.</message>
-      <example correction="cheque cruzado">É um <marker>xeque cruzado</marker>.</example>
-      <example correction="cheques visados">São <marker>xeques visados</marker>.</example>
-    </rule>
-    <rule>
-      <pattern case_sensitive="no">
-          <token regexp="yes">xeques?</token>
-          <token>sem</token>
-          <token>cobertura</token>
-      </pattern>
-      <message>Substitua por <suggestion><match no='1' regexp_match='xeque(s?)' regexp_replace='cheque$1'/> \2 \3</suggestion>.</message>
-      <example correction="cheque sem cobertura">É um <marker>xeque sem cobertura</marker>.</example>
-      <example correction="cheques sem cobertura">São <marker>xeques sem cobertura</marker>.</example>
-    </rule>
-    <rule>
-      <pattern case_sensitive="no">
-          <token regexp="yes">xeques?</token>
-          <token>em</token>
-          <token>branco</token>
-      </pattern>
-      <message>Substitua por <suggestion><match no='1' regexp_match='xeque(s?)' regexp_replace='cheque$1'/> \2 \3</suggestion>.</message>
-      <example correction="cheque em branco">É um <marker>xeque em branco</marker>.</example>
-      <example correction="cheques em branco">São <marker>xeques em branco</marker>.</example>
-    </rule>
-  </rulegroup>
 
     <rule id='WEEKDAY_TO_WEEKDAY' name="Datas: redundâcia de '-feira'">
     <!--       Created by Tiago F. Santos,  2019-09-05      -->
@@ -37013,6 +37025,7 @@ O Rui esteve lá no período 2013 –2021. → O Rui esteve lá no período 2013
         <suggestion>\1 a \5\6\7</suggestion>
       <example correction="segunda a sexta-feira">Podem visitar o museu de <marker>segunda-feira a sexta-feira</marker>.</example>
     </rule>
+
 
   <rulegroup id="DATE_FUTURE_VERB_PAST" name="Datas: Data futura + verbo no passado">
     <!-- Localized from English grammar.xml by Tiago F. Santos, 2018-09-11 -->
