@@ -82,6 +82,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     "niggaz",
     "negro",
     "nigger",
+    "nigger lip",
+    "nigger lips",
     "niggers",
     "shit",
     "shits",
