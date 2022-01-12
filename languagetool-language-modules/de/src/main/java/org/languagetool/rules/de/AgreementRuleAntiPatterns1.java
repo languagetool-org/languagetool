@@ -1022,6 +1022,10 @@ class AgreementRuleAntiPatterns1 {
       new PatternTokenBuilder().posRegex("ART:DEF:GEN:.*").min(0).build(),
       new PatternTokenBuilder().posRegex("ADJ.*:(GEN|DAT):.*|ZAL").matchInflectedForms().tokenRegex("dieser|(vor)?letzter|[0-9]+er").build(),
       tokenRegex("Woche|Monats|Jahr(es?|zehnts|hunderts|tausends)")
+    ),
+    Arrays.asList(
+      token("das"),
+      csToken("Boostern")
     ));
 
 }
