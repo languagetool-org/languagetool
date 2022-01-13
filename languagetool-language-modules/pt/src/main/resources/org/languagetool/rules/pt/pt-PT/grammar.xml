@@ -855,6 +855,32 @@ Este é o pai cujo seu filho foi à escola.
 		<token postag='DP.+' postag_regexp='yes'/>
       </antipattern>
 <!-- MARCOAGPINTO 2021-11-05 (25-JUN-2021+) *END* -->
+
+<!-- MARCOAGPINTO 2022-01-13 (1-JAN-2022+) *START* -->
+<!--
+THIS ANTIPATTERN CHECKS FOR AN INTERJECTION + COMMA(_PUNCT) + DP + NC/AQ/NP/etc.:MIN_MAX=1_TO_3 + _PUNCT.
+ITS ACCURACY WILL IMPROVE AS NEW INTERJECTIONS POS ARE ADDED.
+
+Parabéns, meu Querido Irmão Vítor!
+Feliz Natal, meu Querido Irmão Vítor!
+Olá, Seu Pica Pica! Como vai a sua esposa?
+Olhe, seu João, eu jamais diria uma coisa assim.
+Sim — minha mãezinha, pessoa atenciosa e de bom coração! A única criatura amável naquela família desajustada.
+Boa noite, meu ursinho fofinho!
+
+HITS AGAINST A 600 000 CORPORA:
+BEFORE:42837
+ AFTER:42826
+-->
+      <antipattern>
+	    <token postag='I' postag_regexp='no'/>
+		<token postag='_PUNCT' postag_regexp='no'/>
+		<token postag='DP.+' postag_regexp='yes'/>
+		<token min="1" max="3" postag='NP.+|AQ.+|NC.+|RG|SPS.+|CC|DA.+|DI.+' postag_regexp='yes'/>
+		<token postag='_PUNCT' postag_regexp='no'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-01-13 (1-JAN-2022+) *END* -->
+
       <pattern>
           <token>
             <exception regexp="yes">[ao]s?|es[st][ae]s?|uma?s?|uns|por|de|em|&contracoes_MS;|&contracoes_MP;|&contracoes_FS;|&contracoes_FP;</exception></token>
@@ -914,6 +940,13 @@ Este é o pai cujo seu filho foi à escola.
 	  <example>Eu não peguei o seu maldito carro, meu deus do céu!</example>
 	  
 	  <example>Este é o pai cujo seu filho foi à escola.</example>
+	  
+	  <example>Parabéns, meu Querido Irmão Vítor!</example>
+<!--	  <example>Feliz Natal, meu Querido Irmão Vítor!</example> -->
+	  <example>Olá, Seu Pica Pica! Como vai a sua esposa?</example>
+	  <example>Olhe, seu João, eu jamais diria uma coisa assim.</example>
+	  <example>Sim — minha mãezinha, pessoa atenciosa e de bom coração! A única criatura amável naquela família desajustada.</example>
+	  <example>Boa noite, meu ursinho fofinho!</example>
     </rule>
     <rule>
       <antipattern>
