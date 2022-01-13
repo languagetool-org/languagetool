@@ -86,7 +86,8 @@ public class EnglishUnpairedBracketsRuleTest {
     assertCorrect("Networks' Communicator and FocusFocus' Conference.");
     assertCorrect("Additional funding came from MegaMags' founders and existing individual investors.");
     assertCorrect("al-Jazā’er");
-    // FIXME?: assertCorrect("second Mu’taq and third");
+    assertCorrect("second Mu’taq and third");
+    assertCorrect("second Mu'taq and third");
     
     assertCorrect("22' N., long. ");
     assertCorrect("11º 22'");
