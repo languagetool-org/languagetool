@@ -359,6 +359,17 @@
             </pattern>
             <disambig action="add"><wd pos="_apostrophe_contraction_"/></disambig>
         </rule>
+        <rule>
+            <!-- apostrophe inside a word -->
+            <pattern>
+                <token regexp="yes">\p{L}.+</token>
+                <marker>
+                    <token regexp="yes" spacebefore="no">['’]</token>    
+                </marker>
+                <token regexp="yes" spacebefore="no">\p{L}.+</token>
+            </pattern>
+            <disambig action="add"><wd pos="_apostrophe_contraction_"/></disambig>
+        </rule>
     </rulegroup>
     <rulegroup id="DIGIT_HYPHENATED_ADJECTIVES" name="hyphenated adjectives (e.g. 10-part)">
         <rule>
