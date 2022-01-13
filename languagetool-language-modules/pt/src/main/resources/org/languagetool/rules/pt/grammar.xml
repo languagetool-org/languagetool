@@ -12980,18 +12980,6 @@ A minha UPS nova vinha estragada. → A minha UPS nova vinha avariada.
     </rule>
 
 
-    <rule id='A_PREÇO_PELO' name="Confusão: a preço/apreço">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-      <pattern>
-          <token>a</token>
-          <token>preço</token>
-          <token regexp='yes'>por|pel[ao]s?</token>
-      </pattern>
-      <message>Substitua por <suggestion>apreço \3</suggestion>.</message>
-      <example correction="apreço pelo">Tenho muito <marker>a preço pelo</marker> DVD.</example>
-      <example correction="apreço por">Tenho muito <marker>a preço por</marker> ele.</example>
-    </rule>
-
     <rule id='A_QUANDO' name="Confusão: a quando/aquando">
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-04-25 (Enhanced) (17-MAR-2021+)      -->
 <!-- MARCOAGPINTO 2021-04-25 (17-MAR-2021+) *START* -->
@@ -25137,6 +25125,21 @@ Assistir à TV é um dos meus passatempos favoritos.
 	</rulegroup>
 
 
+	<!-- A PREÇO apreço -->
+    <rule id='CONFUSÃO_A_PREÇO_APREÇO' name="Confusão: a preço/apreço">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-13 (Checked/Enhanced) (1-JAN-2022+)      -->
+      <pattern>
+		  <marker>
+			<token>a</token>
+			<token>preço</token>
+          </marker>
+		  <token regexp='yes'>para|por|pel[ao]s?</token>
+      </pattern>
+	  <message>Possível confusão de termos.</message>
+	  <suggestion>apreço</suggestion>
+      <example correction="apreço">Tenho muito <marker>a preço</marker> pelo DVD.</example>
+      <example correction="apreço">Tenho muito <marker>a preço</marker> por ele.</example>
+    </rule>
 
 
 	<!-- ASSERTO acerto -->
