@@ -25158,6 +25158,26 @@ Assistir à TV é um dos meus passatempos favoritos.
     </rule>
 
 
+	<!-- CAPAS capaz -->
+    <rule id='CONFUSÃO_CAPAS_CAPAZ' name="Confusão: capas/capaz">
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-13 (Checked/Enhanced) (1-JAN-2022+)      -->
+	<!--
+Este é capas de ser o pior port de sempre.
+	-->	
+      <pattern>
+		  <token regexp='yes' inflected='yes'>ser|estar</token>
+		  <marker>
+			<token>capas</token>
+		  </marker>
+		  <token></token>
+		  <token postag='V.+|NC.+|AQ.+' postag_regexp='yes'/>
+      </pattern>
+	  <message>Possível confusão de termos.</message>
+      <suggestion>capaz</suggestion>
+      <example correction="capaz">Este é <marker>capas</marker> de ser o pior port de sempre.</example>
+    </rule>
+
+
 	<!-- DÊS desde -->
     <rulegroup id='CONFUSÃO_DÊS_DESDE' name="Confusão: dês/desde">
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-03 (1-JAN-2022+)      -->
@@ -25565,23 +25585,6 @@ Os Russos conhecem a ilha desde pelo menos o século XI, quando caçadores de No
       <example correction="arriar a vela">Vamos <marker>arrear a vela</marker>.</example>
     </rule>
 
-	<!-- CAPAS capaz -->
-	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-01-27 (1-JAN-2021+)      -->
-<!--
-Este é capas de ser o pior port de sempre.
--->	
-    <rule id='CAPAS_CAPAZ' name="Confusão: capas/capaz">
-      <pattern>
-		  <token inflected='yes'>ser</token>
-		  <marker>
-			<token>capas</token>
-		  </marker>
-		  <token></token>
-		  <token postag='V.+|NC.+' postag_regexp='yes'/>
-      </pattern>
-      <message>Substitua por <suggestion>capaz</suggestion>.</message>
-      <example correction="capaz">Este é <marker>capas</marker> de ser o pior port de sempre.</example>
-    </rule>
 
   <rulegroup id='ESTA_CONFUSION' name="Confusão: Esta/Está">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
