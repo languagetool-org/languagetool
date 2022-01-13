@@ -141,6 +141,17 @@ RB => Règles Brutes
         </pattern>
         <disambig action="remove" postag="J e s"/>
     </rule>
+    <rule id="JE_LE_POURRAIS" name="je le pourrais">
+        <pattern>
+            <token inflected="yes">je</token>
+            <token inflected="yes" min="0" max="1">ne</token>
+            <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+            <marker>
+                <token postag="V.* con pres 1 s" postag_regexp="yes"/>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="V.* con pres 2 s"/>
+    </rule>
         <rule name="google" id="GOOGLE">
             <pattern>
                 <marker>
@@ -2267,6 +2278,16 @@ RB => Règles Brutes
             <token postag="V.* inf" postag_regexp="yes"/>
         </pattern>
         <disambig action="remove" postag="V.*"/>
+    </rule>
+    <rule id="TIROIRS" name="tiroirs">
+        <!-- with agreement error -->
+        <pattern>
+            <token regexp="yes">tiroirs?</token>
+            <marker>
+                <token regexp="yes">couverts?</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="J.*"/>
     </rule>
     <rule id="CUITE" name="cuite">
         <!-- with agreement error -->
@@ -5218,6 +5239,11 @@ RB => Règles Brutes
             <disambig action="filterall"/>
         </rule>
         <rule>
+            <antipattern>
+                <token postag="R pers .*" postag_regexp="yes"/>
+                <token>les</token>
+                <token postag="N.*" postag_regexp="yes"/>
+            </antipattern>
             <pattern>
                 <token postag="R pers .*" postag_regexp="yes">
                     <exception regexp="yes">y|-.*</exception></token>
@@ -6269,7 +6295,8 @@ RB => Règles Brutes
                 <token>
                     <exception postag="Z.*" postag_regexp="yes"/>
                     <exception regexp="yes">il|elle|n'</exception>
-                    <exception postag="R.*" postag_regexp="yes" regexp="yes">.*'</exception></token>
+                    <exception postag="[NJR].*" postag_regexp="yes"/>
+                </token>
                 <marker>
                     <token>en</token>
                 </marker>
