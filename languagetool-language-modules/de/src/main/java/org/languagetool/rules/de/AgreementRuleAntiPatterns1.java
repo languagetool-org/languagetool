@@ -1026,6 +1026,11 @@ class AgreementRuleAntiPatterns1 {
     Arrays.asList(
       token("das"),
       csToken("Boostern")
+    ),
+    Arrays.asList(
+      token("das"),
+      csToken("verlangte"),
+      tokenRegex("Ruhe|Zeit|Geduld")
     ));
 
 }

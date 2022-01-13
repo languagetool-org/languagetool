@@ -24794,7 +24794,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
-        <rule id="EIN_AUF_UND_AB" name="ein auf und ab (Auf und Ab)" default="temp_off">
+        <rule id="EIN_AUF_UND_AB" name="ein auf und ab (Auf und Ab)">
             <antipattern>
                 <token>ab</token>
                 <token postag="VER:INF.*" postag_regexp="yes" />
@@ -40409,14 +40409,14 @@ Andere Projekte</example>
                 <message>Das Nomen <suggestion><match no="2" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
                 <example correction="Tagen">Nach langen 14 <marker>tagen</marker> durfte er wieder in die Freiheit.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
-                    <token regexp="yes">paar|einigen?|wenigen?|\d+|zwei|drei|vier|fünf|sechs|sieben</token>
+                    <token regexp="yes">paar|einigen?|mehreren?|wenigen?|\d+|zwei|drei|vier|fünf|sechs|sieben</token>
                     <marker>
                         <token case_sensitive="yes" regexp="yes">tagen?</token>
                     </marker>
                     <token min="0">zu</token>
-                    <token regexp="yes">spät(er)?|früh(er)?|verzug|verspätet</token>
+                    <token regexp="yes">spät(er)?|früh(er)?|verzug|verspätung|verspätet</token>
                 </pattern>
                 <message>Das Nomen <suggestion><match no="2" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
                 <example correction="Tage">Die Post kam 2 <marker>tage</marker> später.</example>
@@ -40589,10 +40589,10 @@ Andere Projekte</example>
                 <example>Im Fall der <marker>Fälle</marker> möchte ich gewarnt werden.</example>
                 <example correction="Fälle">Ein Prozess ist in 90 Prozent der <marker>fälle</marker> vermeidbar.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">bei|in|für|mit|zu|ohne</token>
-                    <token regexp="yes">solchen?|diesen?|einigen?|viele</token>
+                    <token regexp="yes">solchen?|diesen?|einigen?|viele|mehreren?|wenigen?|manchen?</token>
                     <marker>
                         <token case_sensitive="yes" regexp="yes">fällen?</token>
                     </marker>
@@ -40600,7 +40600,7 @@ Andere Projekte</example>
                 <message>&subanfang;<suggestion><match no="3" case_conversion="startupper" /></suggestion>&subende;</message>
                 <example correction="Fällen">In solchen <marker>fällen</marker> muss man schnell handeln.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">bei|in|mit|zu</token>
                     <token>den</token>
@@ -59544,6 +59544,10 @@ Andere Projekte</example>
                     <token skip="10">letztlich</token>
                     <token>insbesondere</token>
                 </antipattern>
+                <antipattern>
+                    <token>nämlich</token>
+                    <token regexp="yes">,|-|–|—</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token><exception regexp="yes">,|;|:|\.|-|–|—|\(|„|"|bis|und|oder|sondern|\)</exception><exception postag="SENT_START"/><exception postag="VER:([1-3]|AUX|MOD):.*" postag_regexp="yes"/></token>
@@ -59551,7 +59555,7 @@ Andere Projekte</example>
                     </marker>
                     <token postag="SENT_END" regexp="yes">\p{P}+
                         <exception scope="previous" postag="VER:.+" postag_regexp="yes"/>
-                        <exception scope="previous" postag="UNKNOWN" postag_regexp="yes" regexp="yes">.*[a-z].*</exception>
+                        <exception scope="previous" postag="UNKNOWN" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöüß]+</exception>
                     </token>
                 </pattern>
                 <message>Vor einer nachgestellten Erläuterung steht üblicherweise ein Komma.</message>
