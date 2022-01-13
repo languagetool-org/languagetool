@@ -994,6 +994,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">More cars are <marker>need</marker>.</example>
                 <example>More cars are need of repairs than ever.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token chunk_re="I-NP.*">use</token>
+                    </marker>
+                    <token chunk_re="[IE]-NP.*" regexp="yes">cases?</token>
+                    <token postag="CC|PCT|SENT_END" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">Recurly Taxes enables basic sales tax compliance <marker>use</marker> cases, and certain geographies.</example>
+                <example>We need proper equipment for use in cases where we can't get to the target.</example>
+            </rule>
         </rulegroup>
     </category>
 </rules>
