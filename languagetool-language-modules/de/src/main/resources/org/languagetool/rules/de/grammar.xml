@@ -6388,6 +6388,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="verfügt">Die Ölplattform <marker>verfugt</marker> über fünf Schlauchboote.</example>
             <example correction="verfügst">Du <marker>verfugst</marker> über erstaunliche Fähigkeiten.</example>
         </rule>
+        <rule id="WACHEN_WASCHEN" name="wachen vs. waschen">
+            <pattern>
+                <token regexp="yes" inflected="yes">Bart|Geschirr|Haar|Hand|Hemd|Hose|Wäsche</token>
+                <token min="0">zu</token>
+                <marker><token>wachen</token></marker>
+            </pattern>
+            <message>&verw;Meinten Sie <suggestion><match no="3" regexp_match="wac" regexp_replace="wasc"/></suggestion>?</message>
+            <example correction="waschen">Ich möchte mir jetzt die Haare <marker>wachen</marker>.</example>
+        </rule>
         <rule id="BEDIENUNGEN_BEDINGUNGEN" name="Bedienungen vs. Bedingungen">
             <pattern>
                 <token>unter</token>
