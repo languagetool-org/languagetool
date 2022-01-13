@@ -766,10 +766,15 @@ class AgreementRuleAntiPatterns1 {
     ),
     Arrays.asList(
       // like above, but with ":", as we don't interpret this as a sentence start (but it often is)
-      csRegex("Meist(ens)?|Oft(mals)?|Häufig|Selten"),
+      csRegex("Meist(ens)?|Oft(mals)?|Häufig|Selten|Natürlich"),
       tokenRegex("sind|waren|ist"),
       token("das"),
       posRegex("SUB:.*") // Meistens sind das Frauen, die damit besser umgehen können.
+    ),
+    Arrays.asList( // Natürlich ist das Quatsch!
+      tokenRegex("ist|war"),
+      token("das"),
+      token("Quatsch")
     ),
     Arrays.asList(
       token("des"),
@@ -897,13 +902,50 @@ class AgreementRuleAntiPatterns1 {
     Arrays.asList(
       posRegex("ART.*|PRO:POS.*"),
       posRegex("ADJ.*|PA[12].*"),
-      token("Windows"),
+      tokenRegex("Windows|iOS"),
+      tokenRegex("\\d+")
+    ),
+    Arrays.asList(
+      // Die letzte unter Windows 98 lauffähige Version ist 5.1.
+      posRegex("ART.*|PRO:POS.*"),
+      posRegex("ADJ.*|PA[12].*"),
+      posRegex("ADJ.*|PA[12].*"),
+      tokenRegex("Windows|iOS"),
       tokenRegex("\\d+")
     ),
     Arrays.asList(
       posRegex("ART.*|PRO:POS.*"),
-      token("Windows"),
+      tokenRegex("Windows|iOS"),
       tokenRegex("\\d+")
+    ),
+    // wird empfohlen, dass Unternehmen die gefährliche Güter benötigen ...
+    Arrays.asList(
+      token("dass"),
+      new PatternTokenBuilder().posRegex("ADJ.*|PA[12].*").min(0).build(),
+      posRegex("SUB:.*PLU.*"),
+      token("die"),
+      posRegex("ADJ.*|PA[12].*"),
+      posRegex("SUB:.*"),
+      posRegex("VER:.*")
+    ),
+    Arrays.asList( // des Handelsblatt Research Institutes
+      csToken("Handelsblatt"),
+      csToken("Research"),
+      csRegex("Institute?s?")
+    ),
+    Arrays.asList( // Ich arbeite bei der Shop Apotheke im Vertrieb
+      csToken("Shop"),
+      csToken("Apotheke")
+    ),
+    Arrays.asList( // Ein Mobiles Einsatzkommando
+      posRegex("ART.*|PRO:POS.*"),
+      csToken("Mobiles"),
+      csToken("Einsatzkommando")
+    ),
+    Arrays.asList( // Die Gen Z
+      posRegex("ART.*|PRO:POS.*"),
+      csToken("Gen"),
+      tokenRegex("[XYZ]")
     ),
     // TODO: comment in
     // Arrays.asList(
@@ -963,10 +1005,27 @@ class AgreementRuleAntiPatterns1 {
     //   new PatternTokenBuilder().posRegex("UNKNOWN").tokenRegex("(?i)[A-ZÄÖÜ].+").build()
     // ),
     Arrays.asList(
+      // Von der ersten Spielminute an machten die Münsteraner Druck und ...
+      new PatternTokenBuilder().matchInflectedForms().tokenRegex("machen").build(),
+      token("die"),
+      posRegex("SUB.*PLU.*"),
+      tokenRegex("Druck")
+    ),
+    Arrays.asList(
+      // Im Tun zu sein verhindert Prokrastination.
+      token("zu"),
+      token("sein"),
+      posRegex("VER:3:SIN.*")
+    ),
+    Arrays.asList(
       tokenRegex("Ende|Mitte|Anfang"), // "Ende letzten Jahres" "Ende der 50er Jahre"
       new PatternTokenBuilder().posRegex("ART:DEF:GEN:.*").min(0).build(),
       new PatternTokenBuilder().posRegex("ADJ.*:(GEN|DAT):.*|ZAL").matchInflectedForms().tokenRegex("dieser|(vor)?letzter|[0-9]+er").build(),
       tokenRegex("Woche|Monats|Jahr(es?|zehnts|hunderts|tausends)")
+    ),
+    Arrays.asList(
+      token("das"),
+      csToken("Boostern")
     ));
 
 }

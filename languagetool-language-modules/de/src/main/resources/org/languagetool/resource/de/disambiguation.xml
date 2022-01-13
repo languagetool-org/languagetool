@@ -4654,7 +4654,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </rule>
         <rule>
             <pattern case_sensitive="yes">
-                <token regexp="yes">Advanced|Automatic|Astronomical|Certified|United|Active|Electronic|Scientific|Electric|Federal|Dynamic|Black|White|Blue|Green|Big|Little|World|Travel|Director|Social|My|Deep|Dead|Dark|European|American|Australian|English|Asian|Austrian|Swiss|German|Central|Medical|Custom|Consumer|Energy|Dragon|Child|Technology|Intelligence|Conference|Communication|Freedom|Magic|Direct|Autonomous|Californian?|Climate|Managed|Sponsored|Independent|Technical|Extended|Educational|Deluxe|Public|Safety|Ultimate|Local|Heavy|Diamond|Capital</token>
+                <token regexp="yes">Advanced|Automatic|Authori[sz]ed|Astronomical|Certified|United|Active|Electronic|Economic|Scientific|Electric|Federal|Dynamic|Black|White|Blue|Green|Big|Little|World|Travel|Director|Social|My|Deep|Dead|Dark|European|American|Australian|English|Asian|Austrian|Swiss|German|Central|Medical|Custom|Consumer|Energy|Dragon|Child|Technology|Intelligence|Conference|Communication|Freedom|Magic|Direct|Autonomous|Californian?|Climate|Managed|Sponsored|Independent|Technical|Extended|Educational|Deluxe|Public|Safety|Ultimate|Local|Heavy|Diamond|Capital</token>
                 <token postag="UNKNOWN|SUB:.+" postag_regexp="yes" regexp="yes" min="0">[A-Z][a-z]+|[A-Z]+</token>
                 <token postag="UNKNOWN|SUB:.+" postag_regexp="yes" regexp="yes">[A-Z][a-z]+|[A-Z]+</token>
             </pattern>
@@ -4662,9 +4662,9 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </rule>
         <rule>
             <pattern case_sensitive="yes">
-                <token regexp="yes">Advanced|Automatic|Astronomical|Certified|United|Active|Electronic|Scientific|Electric|Federal|Dynamic|Black|White|Blue|Green|Big|Little|World|Travel|Director|Social|My|Deep|Dead|Dark|European|American|Australian|English|Asian|Austrian|Swiss|German|Central|Medical|Custom|Consumer|Energy|Dragon|Child|Technology|Intelligence|Conference|Communication|Freedom|Magic|Direct|Autonomous|Californian?|Climate|Managed|Sponsored|Independent|Technical|Extended|Educational|Deluxe|Public|Safety|Ultimate|Local|Heavy|Diamond|Capital</token>
+                <token regexp="yes">Advanced|Automatic|Authori[sz]ed|Astronomical|Certified|United|Active|Electronic|Economic|Scientific|Electric|Federal|Dynamic|Black|White|Blue|Green|Big|Little|World|Travel|Director|Social|My|Deep|Dead|Dark|European|American|Australian|English|Asian|Austrian|Swiss|German|Central|Medical|Custom|Consumer|Energy|Dragon|Child|Technology|Intelligence|Conference|Communication|Freedom|Magic|Direct|Autonomous|Californian?|Climate|Managed|Sponsored|Independent|Technical|Extended|Educational|Deluxe|Public|Safety|Ultimate|Local|Heavy|Diamond|Capital</token>
                 <token postag="UNKNOWN|SUB:.+" postag_regexp="yes" regexp="yes">[A-Z][a-z]+|[A-Z]+</token>
-                <token regexp="yes">and|&amp;</token>
+                <token regexp="yes">and|or|&amp;</token>
                 <token postag="UNKNOWN|SUB:.+" postag_regexp="yes" regexp="yes">[A-Z][a-z]+|[A-Z]+</token>
             </pattern>
             <disambig action="ignore_spelling"/>
@@ -5097,6 +5097,90 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             </disambig>
         </rule>
     </rulegroup>
+    
+    <rulegroup id="CASE_STUDY" name="Case Study Journey als Kompositum">
+        <rule>
+            <pattern>
+                <token>case</token>
+                <token>study</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:NOM:SIN:FEM"/>
+                <wd pos="SUB:NOM:SIN:FEM"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>case</token>
+                <token>study</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:GEN:SIN:FEM"/>
+                <wd pos="SUB:GEN:SIN:FEM"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>case</token>
+                <token>study</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:DAT:SIN:FEM"/>
+                <wd pos="SUB:DAT:SIN:FEM"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>case</token>
+                <token>study</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:AKK:SIN:FEM"/>
+                <wd pos="SUB:AKK:SIN:FEM"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>case</token>
+                <token regexp="yes">studys|studies</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:NOM:PLU:FEM"/>
+                <wd pos="SUB:NOM:PLU:FEM"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>case</token>
+                <token regexp="yes">studys|studies</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:GEN:PLU:FEM"/>
+                <wd pos="SUB:GEN:PLU:FEM"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>case</token>
+                <token regexp="yes">studys|studies</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:DAT:PLU:FEM"/>
+                <wd pos="SUB:DAT:PLU:FEM"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>case</token>
+                <token regexp="yes">studys|studies</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:AKK:PLU:FEM"/>
+                <wd pos="SUB:AKK:PLU:FEM"/>
+            </disambig>
+        </rule>
+    </rulegroup>
+
 
     <rulegroup id="USER_EXPERIENCE" name="Customer Experience als Kompositum">
         <rule>
@@ -5295,6 +5379,17 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             </marker>
             <token regexp="yes">und|oder|&amp;|\/|sowie</token>
             <token regexp="yes">(Ex|Im)port.*</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="IGNORE_SPELLING_OF_AUF_UND_ABWAERTS" name="ignore 'auf- und abwärts'">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token regexp="yes">(ab|auf)-</token>
+            </marker>
+            <token regexp="yes">und|oder|&amp;|\/|sowie</token>
+            <token regexp="yes">(ab|auf)wärts</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>

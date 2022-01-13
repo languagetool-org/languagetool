@@ -100,7 +100,7 @@ class CaseRuleAntiPatterns {
     ),
     Arrays.asList(
       // Er arbeitet im Bereich Präsidiales.
-      csRegex("Bereich"),
+      csRegex("Bereich|Departement|Stabsstelle"),
       csRegex("[A-ZÄÖÜ].+es")
     ),
     Arrays.asList(
@@ -114,9 +114,9 @@ class CaseRuleAntiPatterns {
     ),
     Arrays.asList(
       // "Tom ist ein engagierter, gutaussehender Vierzigjähriger, der..."
-      posRegex("(ADJ:|PA2).*"),
+      posRegex("(ADJ:|PA[12]).*"),
       token(","),
-      posRegex("(ADJ:|PA2).*"),
+      posRegex("(ADJ:|PA[12]).*"),
       regex("[A-ZÖÄÜ].+jährige[mnr]?"),
       posRegex("(?!SUB).*")
     ),
@@ -258,7 +258,7 @@ class CaseRuleAntiPatterns {
     ),
     // names with english adjectives
     Arrays.asList(
-      regex("Digital|Global|Smart|International|Trade|Private|Live|Urban|Man|Total|Native|Imperial|Modern|Responsive|Simple|Legend|Human|Light|Ministerial"),
+      regex("Digital|Global|Smart|International|Trade|Private|Live|Urban|Man|Total|Native|Imperial|Modern|Responsive|Simple|Legend|Human|Light|Ministerial|National"),
       pos("UNKNOWN")
     ),
     Arrays.asList(
@@ -455,7 +455,7 @@ class CaseRuleAntiPatterns {
     ),
     Arrays.asList(
      // "Das Aus für Italien kam unerwartet." / "Müller drängt auf Aus bei Pflichtmitgliedschaft"
-     regex("auf|das|vor|a[mn]"),
+     regex("auf|das|vor|a[mn]|vorzeitige[mns]?|frühe[mns]?|späte[mns]?"),
      csToken("Aus"),
      posRegex("^PRP:.+|VER:[1-3]:.+")
     ),
@@ -603,9 +603,15 @@ class CaseRuleAntiPatterns {
       regex("Süßer?|Hübscher?|Liebster?|Liebes"),
       pos("PKT")
     ),
+    Arrays.asList( // Guten Morgen Liebste,
+      csRegex("Guten?"),
+      csRegex("Morgen|Abend|Mittag|Nacht"),
+      regex("Süßer?|Hübscher?|Liebster?|Liebes"),
+      pos("PKT")
+    ),
     Arrays.asList( // Hey Matt (name),
       regex("Hey|Hi|Hallo|Na|Moin|Servus"),
-      regex("Matt|Will")
+      regex("Matt|Will|Per")
     ),
     Arrays.asList( // Hey mein Süßer,
       regex("Hey|Hi|Hallo|Na|Moin|Servus"),
@@ -748,9 +754,14 @@ class CaseRuleAntiPatterns {
     Arrays.asList( // "Sa. oder So."
       csRegex("Mo|Di|Mi|Do|Fr|Sa"),
       token("."),
-      csRegex("&|und|oder|-"),
+      csRegex("&|und|oder|-|,"),
       csToken("So"),
       token(".")
+    ),
+    Arrays.asList( // "Sa, So"
+      csToken("Sa"),
+      csRegex("&|und|oder|-|,"),
+      csToken("So")
     ),
     Arrays.asList( // Es hatte 10,5 Ah
       csRegex("\\d+"),
@@ -1050,7 +1061,7 @@ class CaseRuleAntiPatterns {
     ),
     Arrays.asList(
       // Während 208 der Befragten Frau Baerbock bevorzugten, ...
-      csRegex("\\d+%?|meisten|wenige|einige|viele|Gro(ß|ss)teil"),
+      csRegex("\\d+%?|%|Prozent|meisten|wenige|einige|viele|Gro(ß|ss)teil"),
       csToken("der"),
       csRegex("Befragten|Teilnehmenden"),
       new PatternTokenBuilder().posRegex("SUB:.*").csTokenRegex("[A-ZÖÜÄ].+").build()
@@ -1137,13 +1148,84 @@ class CaseRuleAntiPatterns {
       csToken("für")
     ),
     Arrays.asList( // Frohes Neues!
-      csRegex("[Ff]rohes"),
+      csRegex("[Ff]rohes|[Gg]esundes"),
       csToken("Neues")
     ),
     Arrays.asList( // Wir sollten das mal labeln
       csToken("das"),
       csToken("mal"),
       csRegex("[a-zäöüß].+n")
+    ),
+    Arrays.asList(
+      regex("[^a-zäöüß\\-0-9]+"),
+      csToken("["),
+      csToken("…"),
+      csToken("]"),
+      csRegex("[A-ZÄÖÜ].+")
+    ),
+    Arrays.asList(
+      regex("[^a-zäöüß\\-0-9]+"),
+      csToken("["),
+      csToken("."),
+      csToken("."),
+      csToken("."),
+      csToken("]"),
+      csRegex("[A-ZÄÖÜ].+")
+    ),
+    Arrays.asList( // Kund:in
+      csToken("Kund"),
+      csRegex("[:_*\\/]"),
+      regex("in|innen")
+    ),
+    Arrays.asList( // Wie ein verstoßener Größenwahnsinniger.
+      posRegex("ART:.*|PRO:POS:.*"),
+      posRegex("PA[12].*"),
+      posRegex("SUB.*ADJ"),
+      csRegex("[a-zäöüß\\-,\\.\\!\\?…;:–\\)\\(]+")
+    ),
+    Arrays.asList( // Vorab das Wichtigste - ...
+      posRegex("das"),
+      posRegex("SUB.*NEU:ADJ"),
+      csRegex("[a-zäöüß\\-,\\.\\!\\?…;:–\\)\\(]+")
+    ),
+    Arrays.asList( // Wichtiges/Lehrreiches/Großes/...
+      token("/"),
+      csRegex("[A-ZÄÖÜ].*"),
+      token("/")
+    ),
+    Arrays.asList( // Etwas anderes Lebendiges
+      csRegex("anderes"),
+      csRegex("[A-ZÄÖÜ].+es"),
+      csRegex("[a-zäöü…\\.!,\\?…].*")
+    ),
+    Arrays.asList( // Ich habe noch Dringendes mitzuteilen
+      csRegex("Dringendes|Bares|Vertrautes|Positives|Negatives"),
+      csRegex("[a-zäöü…\\.!,\\?…].*")
+    ),
+    Arrays.asList( // § 12 Die Pflichtversicherung
+      csToken("§"),
+      csRegex("\\d+[a-z]{0,2}"),
+      csRegex("[A-ZÄÖÜ].+")
+    ),
+    Arrays.asList( // § 12.1 Die Pflichtversicherung
+      csToken("§"),
+      regex("\\d+"),
+      token("."),
+      regex("\\d+"),
+      csRegex("[A-ZÄÖÜ].+")
+    ),
+    Arrays.asList( // Etwas anderes Lebendiges
+      csToken("zu"),
+      csRegex("Angeboten|Gefahren|Kosten")
+    ),
+    Arrays.asList( // Die Gemeinde Nahe in Schleswig-Holstein
+      csRegex("Gemeinden?"),
+      csToken("Nahe")
+    ),
+    Arrays.asList( // Ein Haus // Eine Villa
+      token("/"),
+      token("/"),
+      csRegex("[A-ZÄÖÜ].+")
     )
   );
 

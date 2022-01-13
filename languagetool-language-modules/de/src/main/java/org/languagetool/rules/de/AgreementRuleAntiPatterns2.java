@@ -39,6 +39,10 @@ class AgreementRuleAntiPatterns2 {
       tokenRegex("Managers?")
     ),
     Arrays.asList(
+      token("Wohnungsbau"),
+      token("Aalen")
+    ),
+    Arrays.asList(
       token("Display"),
       tokenRegex("Ads?|Advertising")
     ),
@@ -582,9 +586,23 @@ class AgreementRuleAntiPatterns2 {
     ),
     Arrays.asList(
       new PatternTokenBuilder().csToken("meinen").matchInflectedForms().setSkip(3).build(),
-      token("das"),
+      csRegex("das|dies|dieses"),
       new PatternTokenBuilder().token("wirklich").min(0).build(),
       token("Ernst")
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().csToken("nehmen").matchInflectedForms().setSkip(3).build(),
+      csRegex("das|dies|dieses"),
+      new PatternTokenBuilder().token("wirklich").min(0).build(),
+      token("Ernst")
+    ),
+    Arrays.asList(
+      // ... dann spart das Zeit und Geld.
+      new PatternTokenBuilder().csToken("sparen").matchInflectedForms().setSkip(3).build(),
+      csRegex("das|dies|dieses"),
+      token("Zeit"),
+      token("und"),
+      csRegex("Geld|Nerven")
     ),
     Arrays.asList(
       csRegex("das|es|dies"),

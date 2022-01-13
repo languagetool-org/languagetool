@@ -77,11 +77,6 @@ public class LanguageToolMenus {
     debugMode = OfficeTools.DEBUG_MODE_LM;
     this.document = document;
     this.xContext = xContext;
-    try {
-      Thread.sleep(500);
-    } catch (InterruptedException e) {
-      MessageHandler.printException(e);
-    }
     setConfigValues(config);
     ltHeadMenu = new LTHeadMenu();
     ltContextMenu = new ContextMenuInterceptor(xContext);

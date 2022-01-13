@@ -1472,7 +1472,8 @@ RB => Règles Brutes
     <rule id="TRAITE_DE" name="traite de">
         <pattern>
             <marker>
-                <token postag="V (ind|sub|imp) .*" postag_regexp="yes">traite</token>
+                <token postag="V (ind|sub|imp) .*" postag_regexp="yes">traite
+                    <exception scope="previous">de</exception></token>
             </marker>
             <token min="0" postag="A"/>
             <token regexp="yes">de|d'|du|des</token>
@@ -2442,6 +2443,12 @@ RB => Règles Brutes
         <disambig action="filter" postag="N m s"/>
     </rule>
     <rule id="VINS" name="vins (noun)">
+        <antipattern>
+            <token>tu</token>
+            <token>ne</token>
+            <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+            <token postag="N m p" regexp="yes">vins|comptes</token>
+        </antipattern>
         <pattern>
             <marker>
                 <token postag="N m p" regexp="yes">vins|comptes</token>
@@ -2454,7 +2461,7 @@ RB => Règles Brutes
         <pattern>
             <marker>
                 <token postag="N m s">compte
-                    <exception scope="previous" regexp="yes">je|il|elle</exception>
+                    <exception scope="previous" regexp="yes">je|il|elle|ne|la|les</exception>
                     <exception scope="previous" postag="[JN].*" postag_regexp="yes"></exception></token>
             </marker>
             <token postag="J [me] sp?|V.* ppa [me] sp?" postag_regexp="yes"><exception>sur</exception></token>
@@ -5414,7 +5421,13 @@ RB => Règles Brutes
             <token regexp="yes">il|elle|on</token>
             <token min="0">ne</token>
             <token postag="R.*" postag_regexp="yes"/>
-            <token postag="V.*3 s" postag_regexp="yes"/>
+            <token postag="V.* 3 s" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
+            <token regexp="yes">il|elle|on</token>
+            <token min="0">ne</token>
+            <token>leur</token>
+            <token postag="V.* 3 s" postag_regexp="yes"/>
         </antipattern>
         <antipattern>
             <token>l'</token>

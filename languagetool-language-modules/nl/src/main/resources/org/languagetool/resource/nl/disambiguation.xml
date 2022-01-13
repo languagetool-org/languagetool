@@ -26,6 +26,14 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+	<rule name="Ignore saints" id="SAINT">
+        <pattern>
+            <token case_sensitive="yes" regexp="yes">St</token>
+            <token spacebefore="no">.</token>
+            <token spacebefore="no" case_sensitive="yes" regexp="yes">-[A-Z][a-z].*</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
 	<rule name="Ignore spelling of glued units, te be warned for by rule" id="NUMBER_UNITS">
         <pattern>
             <token case_sensitive="yes" regexp="yes">[1-9][0-9]+(m2|m3|v|V|kV|A|W|g|l|ml|cc|km|mm|cm|km2|cm3|cm2)</token>

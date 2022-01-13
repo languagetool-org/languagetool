@@ -77,8 +77,11 @@ class OfficeTools {
   public static final String LOG_LINE_BREAK = System.lineSeparator();  //  LineBreak in Log-File (MS-Windows compatible)
   public static final int MAX_SUGGESTIONS = 15;  // Number of suggestions maximal shown in LO/OO
   public static final int NUMBER_TEXTLEVEL_CACHE = 4;  // Number of caches for matches of text level rules
+  public static final String MULTILINGUAL_LABEL = "99-";  // Label added in front of variant to indicate a multilingual paragraph (returned is the main language)
   
-  public static int DEBUG_MODE_SD = 0;
+  public static int DEBUG_MODE_SD = 0;            //  Set Debug Mode for SingleDocument
+  public static int DEBUG_MODE_SC = 0;            //  Set Debug Mode for SingleCheck
+  public static int DEBUG_MODE_CR = 0;            //  Set Debug Mode for CheckRequest
   public static boolean DEBUG_MODE_MD = false;    //  Activate Debug Mode for MultiDocumentsHandler
   public static boolean DEBUG_MODE_DC = false;    //  Activate Debug Mode for DocumentCache
   public static boolean DEBUG_MODE_FP = false;    //  Activate Debug Mode for FlatParagraphTools
@@ -498,6 +501,17 @@ class OfficeTools {
   }
   
   /**
+   * Get a boolean value from an Object
+   */
+  public static boolean getBooleanValue(Object o) {
+    if (o instanceof Boolean) {
+      return ((Boolean) o).booleanValue();
+    }
+//    MessageHandler.printToLogFile("Object is not an expected boolean!");
+    return false;
+  }
+  
+  /**
    * Handle logLevel for debugging and development
    */
   static void setLogLevel(String logLevel) {
@@ -518,23 +532,37 @@ class OfficeTools {
           if (numLevel > 0) {
             DEBUG_MODE_MD = true;
             DEBUG_MODE_TQ = true;
-            DEBUG_MODE_FP = true;
             if (DEBUG_MODE_SD == 0) {
               DEBUG_MODE_SD = numLevel;
+            }
+            if (DEBUG_MODE_SC == 0) {
+              DEBUG_MODE_SC = numLevel;
+            }
+            if (DEBUG_MODE_CR == 0) {
+              DEBUG_MODE_CR = numLevel;
             }
           }
           if (numLevel > 1) {
             DEBUG_MODE_DC = true;
             DEBUG_MODE_LM = true;
           }
-        } else if (level.startsWith("sd:")) {
+          if (numLevel > 2) {
+            DEBUG_MODE_FP = true;
+          }
+        } else if (level.startsWith("sd:") || level.startsWith("sc:") || level.startsWith("cr:")) {
           String[] levelSD = level.split(":");
           if (levelSD.length != 2) {
             continue;
           }
           int numLevel = Integer.parseInt(levelSD[1]);
           if (numLevel > 0) {
-            DEBUG_MODE_SD = numLevel;
+            if (levelSD[0].equals("sd")) {
+              DEBUG_MODE_SD = numLevel;
+            } else if (levelSD[0].equals("sc")) {
+              DEBUG_MODE_SC = numLevel;
+            } else if (levelSD[0].equals("cr")) {
+              DEBUG_MODE_CR = numLevel;
+            }
           }
         } else if (level.equals("md")) {
           DEBUG_MODE_MD = true;

@@ -35,21 +35,18 @@ import org.languagetool.rules.UnsyncStack;
 
 public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
 
-  private static final List<String> EN_START_SYMBOLS = Arrays.asList("[", "(", "{", "\"");
-  private static final List<String> EN_END_SYMBOLS   = Arrays.asList("]", ")", "}", "\"");
+  //private static final List<String> EN_START_SYMBOLS = Arrays.asList("[", "(", "{");
+  //private static final List<String> EN_END_SYMBOLS   = Arrays.asList("]", ")", "}");
   private static final Pattern INCH_PATTERN = Pattern.compile(".*\\d\".*", Pattern.DOTALL);
   // This is more strict, but also leads to confusing messages for users who mix up the many
   // characters that are be used as a quote character (https://github.com/languagetool-org/languagetool/issues/2356): 
-  //private static final List<String> EN_START_SYMBOLS = Arrays.asList("[", "(", "{", "“", "\"", "'");
-  //private static final List<String> EN_END_SYMBOLS   = Arrays.asList("]", ")", "}", "”", "\"", "'");
-
-  private static final Pattern YEAR_NUMBER = Pattern.compile("\\d\\ds?");
-  private static final Pattern ALPHA = Pattern.compile("\\p{L}+");
+  private static final List<String> EN_START_SYMBOLS = Arrays.asList("[", "(", "{", "“", "\"", "'", "‘");
+  private static final List<String> EN_END_SYMBOLS   = Arrays.asList("]", ")", "}", "”", "\"", "'", "’");
 
   public EnglishUnpairedBracketsRule(ResourceBundle messages, Language language) {
     super(messages, EN_START_SYMBOLS, EN_END_SYMBOLS);
-    addExamplePair(Example.wrong("\"I'm over here,<marker></marker> she said."),
-                   Example.fixed("\"I'm over here,<marker>\"</marker> she said."));
+      addExamplePair(Example.wrong("\"I'm over here,<marker></marker> she said."),
+                     Example.fixed("\"I'm over here,<marker>\"</marker> she said."));
   }
 
   @Override
@@ -72,67 +69,31 @@ public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
       AnalyzedTokenReadings[] tokens, int i, int j, boolean precSpace,
       boolean follSpace, UnsyncStack<SymbolLocator> symbolStack) {
 
-    //TODO: add an', o', 'till, 'tain't, 'cept, 'fore in the disambiguator
-    //and mark up as contractions somehow
+    if (tokens[i].hasPosTag("_apostrophe_contraction_") || tokens[i].hasPosTag("POS")) {
+      return false;
+    }
 
     if (i <= 1) {
       return true;
-    }
-
-    if (i > 2) { // we need this for al-'Adad, as we tokenize on final '-'
-      if ("'".equals(tokens[i].getToken())) {
-        if ("-".equals(tokens[i - 1].getToken()) &&
-            !tokens[i - 1].isWhitespaceBefore() &&
-            ALPHA.matcher(tokens[i - 2].getToken()).matches()) {
-          return false;
-        }
-      }
     }
 
     boolean superException = !super.isNoException(tokenStr, tokens, i, j, precSpace, follSpace, symbolStack);
     if (superException) {
       return false;
     }
-
+    
+    //TODO: What is done here? Examples?
+    //The exception for 20" is in preventMatch()
     if (!precSpace && follSpace || tokens[i].isSentenceEnd()) {
       // exception for English inches, e.g., 20"
-      AnalyzedTokenReadings prevToken = tokens[i - 1];
       if ("\"".equals(tokenStr)) {
         if (!symbolStack.empty() && "\"".equals(symbolStack.peek().getSymbol())) {
           return true;
         }
       }
-      // Exception for English plural Saxon genitive
-      if ((isQuote(tokenStr)) && tokens[i].hasPosTag("POS")) {
-        return false;
-      }
-      // puttin' on the Ritz
-      if (isQuote(tokenStr) && prevToken.hasPosTag("VBG")
-          && prevToken.getToken().endsWith("in")) {
-        return false;
-      }
-      // Dunkin' Donuts
-      if (isQuote(tokenStr) && prevToken.getToken().equals("Dunkin")) {
-        return false;
-      }
-    }
-    if (precSpace && !follSpace) {
-      if ("'".equals(tokenStr) && i + 1 < tokens.length) {
-        // hold 'em!
-        if ("em".equals(tokens[i + 1].getToken())) {
-          return false;
-        }
-        // '60 campaign
-        else if (YEAR_NUMBER.matcher(tokens[i + 1].getToken()).matches()) {
-          return false;
-        }
-      }
     }
     return true;
   }
-
-  private boolean isQuote(String tokenStr) {
-    return "'".equals(tokenStr) || "’".equals(tokenStr);
-  }
+ 
 
 }

@@ -65,7 +65,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     "cocksucker",
     "cocksuckers",
     "coon",
+    "coon ass",
+    "coon asses",
     "cunt",
+    "double check",
     "fuck",
     "fucker",
     "fuckhead",
@@ -81,6 +84,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     "niggaz",
     "negro",
     "nigger",
+    "nigger lip",
+    "nigger lips",
     "niggers",
     "shit",
     "shits",
@@ -349,6 +354,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("co ") &&
                    !k.getReplacement().toLowerCase().startsWith("de ") &&
                    !k.getReplacement().toLowerCase().startsWith("ex ") &&
+                   !k.getReplacement().toLowerCase().startsWith("es ") &&
                    !k.getReplacement().toLowerCase().startsWith("mid ") &&
                    !k.getReplacement().toLowerCase().startsWith("non ") &&
                    !k.getReplacement().toLowerCase().startsWith("bio ") &&
@@ -591,6 +597,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     Map<String, List<String>> s = new HashMap<>();
     s.put("retd", Arrays.asList("retd.", "retired"));
     s.put("Retd", Arrays.asList("Retd.", "Retired"));
+    s.put("repetion", Arrays.asList("repetition"));
+    s.put("Repetion", Arrays.asList("Repetition"));
+    s.put("repetions", Arrays.asList("repetitions"));
+    s.put("Repetions", Arrays.asList("Repetitions"));
     s.put("rom", Arrays.asList("room"));
     s.put("abt", Arrays.asList("about"));
     s.put("becuz", Arrays.asList("because"));
@@ -1121,6 +1131,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("params", Arrays.asList("parameters"));
     s.put("Param", Arrays.asList("Parameter"));
     s.put("Params", Arrays.asList("Parameters"));
+    s.put("amature", Arrays.asList("amateur"));
+    s.put("egoic", Arrays.asList("egoistic"));
 
     return s;
   }

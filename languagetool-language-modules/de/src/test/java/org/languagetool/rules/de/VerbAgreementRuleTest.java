@@ -72,6 +72,12 @@ public class VerbAgreementRuleTest {
     assertThat(match3.length, is(1));
     assertThat(match3[0].getFromPos(), is(97));
     assertThat(match3[0].getToPos(), is(107));
+    
+    //TODO: This is a FP to be fixed
+    RuleMatch[] match4 = rule.match(lt.analyzeText("Mir ist bewusst, dass viele Menschen wie du empfinden."));
+    assertThat(match4.length, is(1));
+    assertThat(match4[0].getFromPos(), is(41));
+    assertThat(match4[0].getToPos(), is(53));
   }
   
   @Test
@@ -169,6 +175,7 @@ public class VerbAgreementRuleTest {
     assertGood("Du bist verheiratet und hast zwei Kinder.");
     assertGood("Du bist aus Berlin und wohnst in Bonn.");
     assertGood("Sie befestigen die Regalbretter vermittelst dreier Schrauben.");
+    assertGood("Meine Familie & ich haben uns ein neues Auto gekauft.");
     // incorrect sentences:
     assertBad("Als Borcarbid weißt es eine hohe Härte auf.");
     assertBad("Das greift auf Vorläuferinstitutionen bist auf die Zeit von 1234 zurück.");

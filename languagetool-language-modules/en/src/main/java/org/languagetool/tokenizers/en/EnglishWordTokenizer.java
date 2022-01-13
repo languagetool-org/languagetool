@@ -41,7 +41,7 @@ public class EnglishWordTokenizer extends WordTokenizer {
           Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE),
       Pattern.compile("^(.+)(['’]m|['’]re|['’]ll|['’]ve|['’]d|['’]s)(['’-]?)$",
           Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE),
-      Pattern.compile("^(['’]t)(was)$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE));
+      Pattern.compile("^(['’]t)(was|were|is)$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE));
   
   //the string used to tokenize characters
   private final String enTokenizingChars = super.getTokenizingCharacters() + "_"; // underscore;
@@ -121,7 +121,8 @@ public class EnglishWordTokenizer extends WordTokenizer {
           if (!s.contains("-") && !s.contains("'") && !s.contains("’")) {
             l.add(s);
           } else {
-            if (EnglishTagger.INSTANCE.tag(Arrays.asList(s.replaceAll("\u00AD","").replace("’", "'"))).get(0).isTagged()) {
+            if (EnglishTagger.INSTANCE.tag(Arrays.asList(s.replaceAll("\u00AD", "").replace("’", "'"))).get(0)
+                .isTagged()) {
               l.add(s);
             }
             // some camel-case words containing hyphen (is there any better fix?)

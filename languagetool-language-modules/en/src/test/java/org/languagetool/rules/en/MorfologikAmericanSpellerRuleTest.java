@@ -181,6 +181,16 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     assertEquals(1, rule.match(lt.getAnalyzedSentence("A web-feature-drivenx-car software.")).length);
 
     assertAllMatches(lt, rule, "robinson", "Robinson", "robin son", "robins on", "Robson", "Robeson", "robins", "Roberson");
+    
+    // contractions with apostrophe
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("You're only foolin' round.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("You’re only foolin’ round.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("This is freakin' hilarious.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("It's the meal that keeps on givin'.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Don't Stop Believin'.")).length);
+    
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("wrongwordin'")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("wrongwordin’")).length);
   }
 
   @Test

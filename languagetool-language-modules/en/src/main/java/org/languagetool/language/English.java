@@ -32,6 +32,7 @@ import org.languagetool.rules.en.*;
 import org.languagetool.rules.neuralnetwork.NeuralNetworkRuleCreator;
 import org.languagetool.rules.neuralnetwork.Word2VecModel;
 import org.languagetool.rules.patterns.PatternRuleLoader;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.en.EnglishSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -48,6 +49,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
@@ -192,7 +194,6 @@ public class English extends Language implements AutoCloseable {
         new ConsistentApostrophesRule(messages),
         new EnglishSpecificCaseRule(messages),
         new EnglishUnpairedBracketsRule(messages, this),
-        new EnglishUnpairedQuotesRule(messages, this),
         new EnglishWordRepeatRule(messages, this),
         new AvsAnRule(messages),
         new EnglishWordRepeatBeginningRule(messages, this),
@@ -318,6 +319,7 @@ public class English extends Language implements AutoCloseable {
       case "DOS_AND_DONTS":             return 3;
       case "EN_COMPOUNDS":              return 2;
       case "ABBREVIATION_PUNCTUATION":  return 2;
+      case "IF_YOU_FURTHER_QUESTIONS":  return 2;   // higher prio than agreement rules and AI
       case "ON_THE_LOOK_OUT":           return 1;   // higher prio than VERB_NOUN_CONFUSION
       case "APOSTROPHE_IN_DAYS":        return 1;   // higher prio than A_NNS
       case "PICTURE_PERFECT_HYPHEN":    return 1;   // higher prio than some agreement rules
@@ -419,6 +421,7 @@ public class English extends Language implements AutoCloseable {
       case "CONFUSION_GONG_GOING":      return 1;   // prefer over I_AM_VB
       case "SEEN_SEEM":                 return 1;   // prefer over PRP_PAST_PART
       case "PROFANITY":                 return 1;   // prefer over spell checker (less prio than EN_COMPOUNDS)
+      case "GOOD_FLUCK":                return 2;   // prefer over PROFANITY
       case "THE_THEM":                  return 1;   // prefer over TO_TWO
       case "THERE_THEIR":               return 1;   // prefer over GO_TO_HOME
       case "IT_IS_DEPENDING_ON":        return 1;   // prefer over PROGRESSIVE_VERBS
@@ -501,6 +504,7 @@ public class English extends Language implements AutoCloseable {
       case "MORFOLOGIK_RULE_EN_ZA":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "MORFOLOGIK_RULE_EN_NZ":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "MORFOLOGIK_RULE_EN_AU":     return -10;  // more specific rules (e.g. L2 rules) have priority
+      case "POSSESSIVE_APOSTROPHE":     return -12;  // prefer AI comma rules
       case "PRP_MD_NN":                 return -12;  // prefer other more specific rules (e.g. MD_ABLE, WONT_WANT)
       case "TWO_CONNECTED_MODAL_VERBS": return -15;
       case "PRP_VB_IMPROVE":            return -24;  // higher prio than PRP_VB but prefer other rules (with suggestions, e.g. confusion rules)
@@ -584,6 +588,11 @@ public class English extends Language implements AutoCloseable {
   
   public boolean hasMinMatchesRules() {
     return true;
+  }
+  
+  @Override
+  public SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
+      return new MorfologikAmericanSpellerRule(messages, this, null, Collections.emptyList());
   }
 
 }

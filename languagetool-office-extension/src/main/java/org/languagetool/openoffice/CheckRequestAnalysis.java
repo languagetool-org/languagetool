@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.languagetool.Language;
 import org.languagetool.gui.Configuration;
+import org.languagetool.openoffice.DocumentCache.TextParagraph;
 
 import com.sun.star.lang.Locale;
 import com.sun.star.lang.XComponent;
@@ -42,7 +43,6 @@ class CheckRequestAnalysis {
   
   private static int debugMode;                     //  should be 0 except for testing; 1 = low level; 2 = advanced level
   
-  private final int defaultParaCheck;               //  will be overwritten by config
   private final int numParasToCheck;                //  current number of Paragraphs to be checked
 
   private final XComponentContext xContext;         //  The context of the document
@@ -55,9 +55,9 @@ class CheckRequestAnalysis {
   private final boolean useQueue;                   //  true: use queue to check text level rules (given by configuration)
   private final boolean isImpress;                  //  true: is an Impress document
   private final int proofInfo;                      //  Information about proof request (supported by LO > 6.4 otherwise: 0 == UNKNOWN)
+  private final DocumentCache docCache;             //  cache of paragraphs (only readable by parallel thread)
 
-  private DocumentCache docCache;                   //  cache of paragraphs (only readable by parallel thread)
-  private List<ResultCache> paragraphsCache;        //  Cache for matches of text rules
+  private final List<ResultCache> paragraphsCache;  //  Cache for matches of text rules
   private FlatParagraphTools flatPara;              //  Save information for flat paragraphs (including iterator and iterator provider) for the single document
   private ViewCursorTools viewCursor;               //  Get the view cursor for desktop
   private int numLastVCPara;                        //  Save position of ViewCursor for the single documents
@@ -70,14 +70,13 @@ class CheckRequestAnalysis {
   private int numParasToChange = -1;                //  Number of paragraphs to change for n-paragraph cache
   private int paraNum;                              //  Number of current checked paragraph
 
-  CheckRequestAnalysis(int numLastVCPara, int numLastFlPara, int defaultParaCheck, int proofInfo, int numParasToCheck,
+  CheckRequestAnalysis(int numLastVCPara, int numLastFlPara, int proofInfo, int numParasToCheck,
       SingleDocument singleDocument, List<ResultCache> paragraphsCache, ViewCursorTools viewCursor) {
-    debugMode = OfficeTools.DEBUG_MODE_SD;
+    debugMode = OfficeTools.DEBUG_MODE_CR;
     this.singleDocument = singleDocument;
     this.viewCursor = viewCursor;
     this.numLastVCPara = numLastVCPara;
     this.numLastFlPara = numLastFlPara;
-    this.defaultParaCheck = defaultParaCheck;
     this.proofInfo = proofInfo;
     this.paragraphsCache = paragraphsCache;
     mDocHandler = singleDocument.getMultiDocumentsHandler();
@@ -104,7 +103,7 @@ class CheckRequestAnalysis {
    */
   int getNumberOfParagraph(int nPara, String chPara, Locale locale, int startPos, int[] footnotePositions) {
     paraNum = getParaPos(nPara, chPara, locale, startPos, footnotePositions);
-    if (docCache == null || paraNum >= docCache.size()) {
+    if (paraNum >= docCache.size()) {
       paraNum = -1;
     }
     return paraNum;
@@ -113,30 +112,29 @@ class CheckRequestAnalysis {
   /**
    * Actualize document cache and result cache for given paragraph number
    */
-  DocumentCache actualizeDocumentCache (int nPara, boolean isIntern) {
+  void actualizeDocumentCache (int nPara, boolean isIntern) {
     if (isDisposed()) {
-      return null;
+      return;
     }
     setFlatParagraphTools(xComponent);
-    if (docCache == null) {
+    if (docCache.isEmpty()) {
       docCursor = new DocumentCursorTools(xComponent);
-      docCache = new DocumentCache(docCursor, flatPara, defaultParaCheck,
-          docLanguage != null ? LinguisticServices.getLocale(docLanguage) : null, xComponent, isImpress);
+      docCache.refresh(docCursor, flatPara, docLanguage != null ? LinguisticServices.getLocale(docLanguage) : null, xComponent, 1);
       if (debugMode > 0) {
-        MessageHandler.printToLogFile("+++ resetAllParas (docCache == null): docCache.size: " + docCache.size()
+        MessageHandler.printToLogFile("+++ resetAllParas (docCache is empty): new docCache.size: " + docCache.size()
                 + ", docID: " + docID + OfficeTools.LOG_LINE_BREAK);
       }
       if (docCache.isEmpty()) {
-        return null;
+        return;
       }
-      singleDocument.setDocumentCache(docCache);
+//      singleDocument.setDocumentCache(docCache);
     } else {
       int nOldParas = docCache.size();
       changesInNumberOfParagraph(false);
       int numParas = docCache.size();
       if (numParas <= 0) {
         MessageHandler.printToLogFile("Internal request: docCache error!");
-        return null;
+        return;
       }
       textIsChanged = true;
       if (nOldParas != numParas) {
@@ -144,22 +142,22 @@ class CheckRequestAnalysis {
           MessageHandler.printToLogFile("Internal request: NumberesetCheckr of Paragraphs has changed: o:" +
               nOldParas + ", n:" + numParas);
         }
-        return docCache;
+        return;
       }
     }
     XFlatParagraph xFlatPara = flatPara.getFlatParagraphAt(nPara);
     if (xFlatPara == null) {
-      return null;
+      return;
     }
     String chPara = xFlatPara.getText();
     Locale docLocale = docLanguage == null ? null : LinguisticServices.getLocale(docLanguage);
     Locale lastLocale = nPara <= 0 ? null : docCache.getFlatParagraphLocale(nPara - 1);
     try {
-     Locale locale = FlatParagraphTools.getPrimaryParagraphLanguage(xFlatPara, chPara.length(), docLocale, lastLocale);
+     Locale locale = FlatParagraphTools.getPrimaryParagraphLanguage(xFlatPara, 0, chPara.length(), docLocale, lastLocale, false);
       if (!docCache.isEqual(nPara, chPara, locale)) {
         if (debugMode > 1) {
           MessageHandler.printToLogFile("Internal request: Paragraph has changed:\no:" 
-              + chPara + "\nn:" + docCache.getTextParagraph(nPara));
+              + chPara + "\nn:" + docCache.getFlatParagraph(nPara));
         }
         docCache.setFlatParagraph(nPara, chPara, locale);
         removeResultCache(nPara);
@@ -169,7 +167,6 @@ class CheckRequestAnalysis {
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
     }
-    return docCache;
   }
   
   /**
@@ -179,9 +176,13 @@ class CheckRequestAnalysis {
    * returns -1 if there is no change in document cache
    */
   int changesInDocumentCache () {
-    DocumentCache oldDocCache = this.docCache;
     //  Return -1, if there is no initialized docCache
-    if (oldDocCache == null || isDisposed()) {
+    if (docCache.isEmpty() || isDisposed()) {
+      return -1;
+    }
+    DocumentCache oldDocCache = new DocumentCache(docCache);
+    //  Return -1, if there is no initialized docCache
+    if (isDisposed()) {
       return -1;
     }
     setFlatParagraphTools(xComponent);
@@ -189,10 +190,8 @@ class CheckRequestAnalysis {
     if (docCursor == null) {
       docCursor = new DocumentCursorTools(xComponent);
     }
-    docCache = new DocumentCache(docCursor, flatPara, defaultParaCheck,
-        docLanguage != null ? LinguisticServices.getLocale(docLanguage) : null, xComponent, isImpress);
+    docCache.refresh(docCursor, flatPara, docLanguage != null ? LinguisticServices.getLocale(docLanguage) : null, xComponent, 2);
     if (docCache.isEmpty()) {
-      this.docCache = null;
       return -1;
     }
     if (docCache.size() != oldDocCache.size()) {
@@ -201,32 +200,34 @@ class CheckRequestAnalysis {
       // to prevent spontaneous recheck of nearly the whole text
       // the change of text contents has to be checked first
       // ignore headers and footers and the change of function inside of them
-      int fromText = 0;
-      while (fromText < docCache.textSize() && fromText < oldDocCache.textSize()
-          && docCache.getTextParagraph(fromText).equals(oldDocCache.getTextParagraph(fromText))) {
-        fromText++;
+      while (from < docCache.size() && from < oldDocCache.size() 
+          && (docCache.getNumberOfTextParagraph(from).type == DocumentCache.CURSOR_TYPE_HEADER_FOOTER
+          || docCache.getFlatParagraph(from).equals(oldDocCache.getFlatParagraph(from)))) {
+        from++;
       }
-      boolean isTextChange = fromText < docCache.textSize() && fromText < oldDocCache.textSize();
+      boolean isTextChange = from < docCache.size() && from < oldDocCache.size();
       if (isTextChange) {
         // if change in text is found check the number of text paragraphs which have changed
-        int toText = 1;
-        while (toText <= docCache.textSize() && toText <= oldDocCache.textSize()
-            && docCache.getTextParagraph(docCache.textSize() - toText).equals(
-                    oldDocCache.getTextParagraph(oldDocCache.textSize() - toText))) {
-          toText++;
+        while (to <= docCache.size() && to <= oldDocCache.size()
+            && (docCache.getNumberOfTextParagraph(docCache.size() - to).type == DocumentCache.CURSOR_TYPE_HEADER_FOOTER
+            || docCache.getFlatParagraph(docCache.size() - to).equals(
+                    oldDocCache.getFlatParagraph(oldDocCache.size() - to)))) {
+          to++;
         }
-        toText = docCache.textSize() - toText;
-        from = docCache.getFlatParagraphNumber(fromText);
-        to = toText < 0 ? 0 : docCache.getFlatParagraphNumber(toText);
+        to = docCache.size() - to;
+        if (to < 0) {
+          to = 0;
+        }
       } else {
         // if no change in text is found check the number of flat paragraphs which have changed
+        from = 0;
         while (from < docCache.size() && from < oldDocCache.size()
-            && (docCache.getNumberOfTextParagraph(from) >= 0
+            && (docCache.getNumberOfTextParagraph(from).type != DocumentCache.CURSOR_TYPE_HEADER_FOOTER
             || docCache.getFlatParagraph(from).equals(oldDocCache.getFlatParagraph(from)))) {
           from++;
         }
         while (to <= docCache.size() && to <= oldDocCache.size()
-            && (docCache.getNumberOfTextParagraph(docCache.size() - to) >= 0
+            && (docCache.getNumberOfTextParagraph(docCache.size() - to).type != DocumentCache.CURSOR_TYPE_HEADER_FOOTER
             || docCache.getFlatParagraph(docCache.size() - to).equals(
                     oldDocCache.getFlatParagraph(oldDocCache.size() - to)))) {
           to++;
@@ -272,10 +273,10 @@ class CheckRequestAnalysis {
       if (debugMode > 0) {
         MessageHandler.printToLogFile("Cache size changed: from = " + from + "; to = " + to + "; docID: " + docID);
       }
-    } else {
+    } else if (useQueue){
       for (int n = 0; n < docCache.size(); n++) {
-        int nt = docCache.getNumberOfTextParagraph(n);
-        if (nt >= 0 && !docCache.getFlatParagraph(n).equals(oldDocCache.getFlatParagraph(n))) {
+        int type = docCache.getNumberOfTextParagraph(n).type;
+        if (type != DocumentCache.CURSOR_TYPE_UNKNOWN && !docCache.getFlatParagraph(n).equals(oldDocCache.getFlatParagraph(n))) {
           for (int i = 0; i < minToCheckPara.size(); i++) {
             if (minToCheckPara.get(i) != 0 || nFirstPara >= 0) {
               singleDocument.addQueueEntry(n, i, minToCheckPara.get(i), docID, false, true);
@@ -289,9 +290,9 @@ class CheckRequestAnalysis {
         }
       }
     }
-    if (nFirstPara >= 0) {
-      singleDocument.setDocumentCache(docCache);
-    }
+//    if (nFirstPara >= 0) {
+//      singleDocument.setDocumentCache(docCache);
+//    }
     return nFirstPara;
   }
   
@@ -366,10 +367,9 @@ class CheckRequestAnalysis {
     if (isDisposed()) {
       return -1;
     }
-    if (isImpress && docCache == null) {
-      docCache = new DocumentCache(docCursor, flatPara, defaultParaCheck,
-          docLanguage != null ? LinguisticServices.getLocale(docLanguage) : null, xComponent, isImpress);
-      singleDocument.setDocumentCache(docCache);
+    if (isImpress && docCache.isEmpty()) {
+      docCache.refresh(docCursor, flatPara, docLanguage != null ? LinguisticServices.getLocale(docLanguage) : null, xComponent, 3);
+//      singleDocument.setDocumentCache(docCache);
     }
 
     if (nPara >= 0) {
@@ -384,19 +384,17 @@ class CheckRequestAnalysis {
     docCursor = null;
     setFlatParagraphTools(xComponent);
 
-    if (docCache == null) {
+    if (docCache.isEmpty()) {
       docCursor = new DocumentCursorTools(xComponent);
-      docCache = new DocumentCache(docCursor, flatPara, defaultParaCheck,
-          docLanguage != null ? LinguisticServices.getLocale(docLanguage) : null, xComponent, isImpress);
+      docCache.refresh(docCursor, flatPara, docLanguage != null ? LinguisticServices.getLocale(docLanguage) : null, xComponent, 4);
       if (debugMode > 0) {
-        MessageHandler.printToLogFile("+++ resetAllParas (docCache == null): docCache.size: " + docCache.size()
+        MessageHandler.printToLogFile("+++ resetAllParas (docCache is empty): new docCache.size: " + docCache.size()
                 + ", docID: " + docID + OfficeTools.LOG_LINE_BREAK);
       }
       if (docCache.isEmpty()) {
-        docCache = null;
         return -1;
       }
-      singleDocument.setDocumentCache(docCache);
+//      singleDocument.setDocumentCache(docCache);
     }
     
     if (debugMode > 1) {
@@ -417,7 +415,7 @@ class CheckRequestAnalysis {
    * returns -1 if Paragraph can not be found
    */
   private int getParaFromFlatparagraph(String chPara, Locale locale, int startPos, int[] footnotePositions) {
-    if (docCache == null) {
+    if (docCache.isEmpty()) {
       return -1;
     }
     // try to get next position from last FlatParagraph position (for performance reasons)
@@ -448,9 +446,9 @@ class CheckRequestAnalysis {
         return nPara;
       }
     }
-    int nTPara = docCache.getNumberOfTextParagraph(nPara); 
+    TextParagraph nTPara = docCache.getNumberOfTextParagraph(nPara); 
     if (proofInfo == OfficeTools.PROOFINFO_MARK_PARAGRAPH) {
-      if (nTPara < 0) {
+      if (nTPara.type == DocumentCache.CURSOR_TYPE_UNKNOWN) {
         return getPosFromChangedPara(chPara, locale, nPara, footnotePositions);
       }
     }
@@ -529,7 +527,7 @@ class CheckRequestAnalysis {
    */
   private int getParaFromViewCursorOrDialog(String chParaWithFootnotes, Locale locale, int[] footnotePositions) {
     // try to get ViewCursor position (proof initiated by mouse click)
-    if (docCache == null || isDisposed()) {
+    if (docCache.isEmpty() || isDisposed()) {
       return -1;
     }
     if (viewCursor == null) {
@@ -538,18 +536,14 @@ class CheckRequestAnalysis {
     int nPara;
     String vcText = SingleCheck.removeFootnotes(viewCursor.getViewCursorParagraphText(), footnotePositions);
     String chPara = SingleCheck.removeFootnotes(chParaWithFootnotes, footnotePositions);
-    if (debugMode > 1) {
-      MessageHandler.printToLogFile("CheckRequestAnalysis: getParaFromViewCursorOrDialog:" + OfficeTools.LOG_LINE_BREAK
-          + "chPara: '" + chPara + "'" + OfficeTools.LOG_LINE_BREAK + "vcText: '" + vcText + "'");
-    }
     if (chPara.equals(vcText)) {
-      nPara = viewCursor.getViewCursorParagraph();
-      if (nPara >= 0 && nPara < docCache.textSize()) {
-        nPara = docCache.getFlatParagraphNumber(nPara);
-        String dcText = SingleCheck.removeFootnotes(docCache.getFlatParagraph(nPara), footnotePositions);
-        if(!dcText.equals(chPara)) {
+      TextParagraph tPara = viewCursor.getViewCursorParagraph();
+      if (tPara != null && tPara.type != DocumentCache.CURSOR_TYPE_UNKNOWN) {
+        nPara = docCache.getFlatParagraphNumber(tPara);
+        numLastVCPara = nPara;
+        if(!docCache.isEqual(nPara, chParaWithFootnotes, locale)) {
           actualizeDocumentCache(nPara, false);
-          dcText = SingleCheck.removeFootnotes(docCache.getFlatParagraph(nPara), footnotePositions);
+          String dcText = SingleCheck.removeFootnotes(docCache.getFlatParagraph(nPara), footnotePositions);
           if (!dcText.equals(chPara)) {
             if (debugMode > 0) {
               MessageHandler.printToLogFile("From View Cursor: Is Table, Footnote, etc): Number of Paragraph: " + nPara);
@@ -558,17 +552,11 @@ class CheckRequestAnalysis {
           }
           textIsChanged = true;
         }
-      } else {
         if (debugMode > 0) {
-          MessageHandler.printToLogFile("From Dialog: Paragraph not found: return -1" + OfficeTools.LOG_LINE_BREAK);
+          MessageHandler.printToLogFile("From View Cursor: Number of Paragraph: " + nPara + OfficeTools.LOG_LINE_BREAK);
         }
-        nPara = -1;
+        return nPara;
       }
-      if (debugMode > 0) {
-        MessageHandler.printToLogFile("From View Cursor: Number of Paragraph: " + nPara + OfficeTools.LOG_LINE_BREAK);
-      }
-      numLastVCPara = nPara;
-      return nPara;
     }
     // try to get next position from last ViewCursor position (proof per dialog box)
     if (numLastVCPara >= docCache.size()) {
@@ -596,8 +584,7 @@ class CheckRequestAnalysis {
    */
   private int changesInNumberOfParagraph(boolean getCurNum) {
     // Test if Size of allParas is correct; Reset if not
-    DocumentCache docCache = this.docCache;
-    if (docCache == null || isDisposed()) {
+    if (docCache.isEmpty() || isDisposed()) {
       return -1;
     }
     setFlatParagraphTools(xComponent);
@@ -616,17 +603,15 @@ class CheckRequestAnalysis {
       MessageHandler.printToLogFile("*** resetAllParas: docCache.size: " + docCache.size() + ", nPara: " + nPara
               + ", docID: " + docID + OfficeTools.LOG_LINE_BREAK);
     }
-    DocumentCache oldDocCache = docCache;
+    DocumentCache oldDocCache = new DocumentCache(docCache);
     if (useQueue) {
-      mDocHandler.getTextLevelCheckQueue().interruptCheck(docID);
+      mDocHandler.getTextLevelCheckQueue().interruptCheck(docID, true);
     }
     if (docCursor == null) {
       docCursor = new DocumentCursorTools(xComponent);
     }
-    docCache = new DocumentCache(docCursor, flatPara, defaultParaCheck,
-        docLanguage != null ? LinguisticServices.getLocale(docLanguage) : null, xComponent, isImpress);
+    docCache.refresh(docCursor, flatPara, docLanguage != null ? LinguisticServices.getLocale(docLanguage) : null, xComponent, 5);
     if (docCache.isEmpty()) {
-      this.docCache = null;
       return -1;
     }
     int from = 0;
@@ -634,32 +619,33 @@ class CheckRequestAnalysis {
     // to prevent spontaneous recheck of nearly the whole text
     // the change of text contents has to be checked first
     // ignore headers and footers and the change of function inside of them
-    int fromText = 0;
-    while (fromText < docCache.textSize() && fromText < oldDocCache.textSize()
-        && docCache.getTextParagraph(fromText).equals(oldDocCache.getTextParagraph(fromText))) {
-      fromText++;
+    while (from < docCache.size() && from < oldDocCache.size()
+        && (docCache.getNumberOfTextParagraph(from).type == DocumentCache.CURSOR_TYPE_HEADER_FOOTER
+        || docCache.getFlatParagraph(from).equals(oldDocCache.getFlatParagraph(from)))) {
+      from++;
     }
-    boolean isTextChange = fromText < docCache.textSize() && fromText < oldDocCache.textSize();
+    boolean isTextChange = from < docCache.size() && from < oldDocCache.size();
     if (isTextChange) {
       // if change in text is found check the number of text paragraphs which have changed
-      int toText = 1;
-      while (toText <= docCache.textSize() && toText <= oldDocCache.textSize()
-          && docCache.getTextParagraph(docCache.textSize() - toText).equals(
-                  oldDocCache.getTextParagraph(oldDocCache.textSize() - toText))) {
-        toText++;
+      while (to <= docCache.size() && to <= oldDocCache.size()
+          && (docCache.getNumberOfTextParagraph(docCache.size() - to).type == DocumentCache.CURSOR_TYPE_HEADER_FOOTER
+          || docCache.getFlatParagraph(docCache.size() - to).equals(
+                  oldDocCache.getFlatParagraph(oldDocCache.size() - to)))) {
+        to++;
       }
-      toText = docCache.textSize() - toText;
-      from = docCache.getFlatParagraphNumber(fromText);
-      to = toText < 0 ? 0 : docCache.getFlatParagraphNumber(toText);
+      to = docCache.size() - to;
+      if (to < 0) {
+        to = 0;
+      }
     } else {
       // if no change in text is found check the number of flat paragraphs which have changed
       while (from < docCache.size() && from < oldDocCache.size()
-          && (docCache.getNumberOfTextParagraph(from) >= 0
+          && (docCache.getNumberOfTextParagraph(from).type != DocumentCache.CURSOR_TYPE_HEADER_FOOTER
           || docCache.getFlatParagraph(from).equals(oldDocCache.getFlatParagraph(from)))) {
         from++;
       }
       while (to <= docCache.size() && to <= oldDocCache.size()
-          && (docCache.getNumberOfTextParagraph(docCache.size() - to) >= 0
+          && (docCache.getNumberOfTextParagraph(docCache.size() - to).type != DocumentCache.CURSOR_TYPE_HEADER_FOOTER
           || docCache.getFlatParagraph(docCache.size() - to).equals(
                   oldDocCache.getFlatParagraph(oldDocCache.size() - to)))) {
         to++;
@@ -675,8 +661,7 @@ class CheckRequestAnalysis {
     for (ResultCache cache : paragraphsCache) {
       cache.removeAndShift(from, to, docCache.size() - oldDocCache.size());
     }
-    this.docCache = docCache;
-    singleDocument.setDocumentCache(docCache);
+//    singleDocument.setDocumentCache(docCache);
     if (useQueue && isTextChange) {
       if (debugMode > 0) {
         MessageHandler.printToLogFile("Number of Paragraphs has changed: new: " + docCache.size() 
@@ -706,7 +691,7 @@ class CheckRequestAnalysis {
     if (debugMode > 0) {
       MessageHandler.printToLogFile("Number FlatParagraphs: " + nFParas + "; docID: " + docID);
     }
-    if (nFParas < docCache.textSize()) {
+    if (nFParas < docCache.size()) {
       return -1;   // try to get ViewCursor position for proof info unknown
     }
     if (nPara >= docCache.size()) {
@@ -725,24 +710,25 @@ class CheckRequestAnalysis {
    * find position from changed paragraph
    */
   private int getPosFromChangedPara(String chPara, Locale locale, int nPara, int[] footnotePos) {
-    if (docCache == null || nPara < 0 || isDisposed()) {
+    if (docCache.isEmpty() || nPara < 0 || isDisposed()) {
       return -1;
     }
     if (!docCache.isEqual(nPara, chPara, locale)) {
       if (debugMode > 0) {
-        MessageHandler.printToLogFile("!!! flat praragraph changed: nPara: " + nPara
-                + "; docID: " + docID
-                + OfficeTools.LOG_LINE_BREAK + "old: " + docCache.getFlatParagraph(nPara) + OfficeTools.LOG_LINE_BREAK 
+        MessageHandler.printToLogFile("CkeckRequestAnalysis: flat praragraph changed: nPara: " + nPara + "; docID: " + docID
+                + "; locale: isMultilingual: " + docCache.isMultilingualFlatParagraph(nPara) 
+                + "; old: " + OfficeTools.localeToString(docCache.getFlatParagraphLocale(nPara))
+                + "; new: " + OfficeTools.localeToString(locale) + OfficeTools.LOG_LINE_BREAK
+                + "old: " + docCache.getFlatParagraph(nPara) + OfficeTools.LOG_LINE_BREAK 
                 + "new: " + chPara + OfficeTools.LOG_LINE_BREAK);
       }
       docCache.setFlatParagraph(nPara, chPara, locale);
       docCache.setFlatParagraphFootnotes(nPara, footnotePos);
       if (useQueue) {
         for (int i = 0; i < minToCheckPara.size(); i++) {
-          if (minToCheckPara.get(i) == 0) {
-            paragraphsCache.get(i).remove(nPara);
-          } else {
-            singleDocument.addQueueEntry(nPara, i, minToCheckPara.get(i), docID, numLastFlPara < 0 ? false : true, numLastFlPara < 0 ? false : true);
+          paragraphsCache.get(i).remove(nPara);
+          if (minToCheckPara.get(i) > 0) {
+            singleDocument.addQueueEntry(nPara, i, minToCheckPara.get(i), docID, false, numLastFlPara < 0 ? false : true);
           }
         }
       } else {
@@ -768,7 +754,7 @@ class CheckRequestAnalysis {
    * Is paragraph same, next not empty after or before   
    */
   private int findNextParaPos(int startPara, String paraStr, Locale locale, int startPos) {
-    if (docCache == null || docCache.size() < 1 || isDisposed()) {
+    if (docCache.size() < 1 || isDisposed()) {
       return -1;
     }
     if (startPos > 0 && numLastFlPara >= 0) {

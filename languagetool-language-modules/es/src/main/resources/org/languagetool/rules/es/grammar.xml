@@ -43,7 +43,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY meses_ano_abrv "ene|feb|mar|abrl|may|jun|jul|ago|sep|set|oct|nov|dic">
 <!ENTITY estaciones_ano "primavera|verano|otoño|invierno">
 <!ENTITY exceptions_DECIMAL_COMMA "bluetooth|paso|anejo|anexo|cláusula|cuadro|epígrafe|revisión|versión|resolución|decreto|ley|sección|capítulo|apartado|partida|tabla|imagen|fotografía|gráfica|gráfico|foto|mapa|punto|artículo|ver|figura|iPhone|firmware|hardware|software|doi|(?-i).*OS|X">
-<!ENTITY unidades "GB|TB|MB|MBps|Mbps|AM|PM|M|am|pm|m?[lL]|mm|cm|dm|m|km|h|min|s|seg|g|kg|Hz|[kM]Hz|°[FC]|pts|ptas|M?[£€$]|(mm|cm|dm|m|km)[23²³]">
+<!ENTITY unidades "GB|TB|MB|MBps|Mbps|AM|PM|M|am|pm|m?[lL]|mmHg|dB|mm|cm|dm|m|km|h|min|s|seg|g|kg|Hz|[kM]Hz|°[FC]|pts|ptas|M?[£€$]|(mm|cm|dm|m|km)[23²³]">
 <!ENTITY unidades_SI "(da|h|k|M|G|T|P|E|Z|Y|d|c|m|µ|n|p|f|a|z|y)?(m|g|s|A|K|cd|mol|Hz|N|Pa|J|W|Wh|C|V|Ω|S|F|T|Wb|H|rad|sr|lm|lx|Bq|Gy|Sv|kat|l|L)[²³23]?">
 <!--TODO: check case of abbreviations-->
 <!ENTITY abreviaturas "[Ee]xt|EXT|Dir|Dr|Dra|Abg|[Aa]cept|[Aa]dm|[Aa]dmón|[Aa]fma|[Aa]fmo|Alfz|Almte|[Aa]p|[Aa]pdo|[Aa]prox|Arq|[Aa]rt|Arz|[Aa]tta|Ayto|[Aa]tte|[Aa]tto|[Aa]v|[Aa]vd|[Aa]vda|Barna|Bco|Bibl|Bma|Bmo|Bo|Brig|Bta|Bto|[Cc]aj|[Cc]ap|Cdad|[Cc]ent|[Cc]f|[Cc]fr|[Cc]go|[Cc]je|[Cc]l|Cmdt|Cmte|Cnel|[Cc]ol|Comod|Comp|Comte|Contralmte|[Cc]oord|[Cc]p|[Cc]rec|[Cc]ta|Cte|[Cc]ts|[Cc]tv|[Cc]tvo|[Cc]ént|Cía|[Cc]ód|[Cc]ónf|[Cc]ónfr|[Dd]cha|[Dd]cho|[Dd]epto|[Dd]iag|[Dd]icc|[Dd]oc|[Dd]pto|[Dd]to|[Dd]updo|[Ee]d|[Ee]dit|[Ee]do|[Ee]f|[Ee]j|Emmo|[Ee]ntlo|[Ee]tc|[Ee]xcl|Excma|Excmo|[Ff]asc|[Ff]ca|Fdo|[Ff]ig|[Ff]ol|Fr|[Ff]ra|[Ff]éc|Gdor|Gdora|Gob|Gral|Hna|Hno|[Ii]b|[Ii]bíd|Il|Ilma|Ilmo|Iltre|[Ii]mp|[Ii]mpr|[Ii]mpto|incl|Ing|Inst|[Ii]zda|[Ii]zdo|[Ii]zq|[Ii]zqda|[Ii]zqdo|Jhs|Lcda|Lcdo|Lda|Ldo|Lic|Ltd|Ltda|Ltdo|Magfca|Magfco|Mons|[Mm]r|[Mm]s|[Mm]áx|[Mm]ín|[Nn]ro|[Nn]úm|Ob|Pat|Pbro|pdo|Pdta|Pdte|[Pp]g|[Pp]l|[Pp]lza|Pnt|[Pp]pal|[Pp]ral|Presb|Prof|[Pp]rov|[Pp]ról|[Pp]za|[Pp]ág|[Pp]árr|Rda|Rdo|[Rr]eg|Rep|Rev|Rte|Rvd|Rvda|Rvdma|Rvdmo|Rvdo|Sdad|Sgto|[Ss]ig|Soc|Sr|Sra|Srs|Sres|Sras|Srta|Sta|Sto|[Tt]el|[Tt]eléf|[Tt]fno|[Tt]rad|Tte|[Tt]ít|Ud|Uds|Univ|Valmte|Vd|Vda|Vdo|Vds|[Vv]id|[Vv]ol|[Vv]s|[Vv]ta|[Vv]to|Xto|[Íí]d">
@@ -9061,6 +9061,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Probablemente se escribe junto.</message>
                 <suggestion><match no="4" regexp_match="(?iu)u(.+)" regexp_replace="sobreú$1" case_conversion="preserve"/></suggestion>
                 <example correction="sobreúso">Era un problema de <marker>sobre uso</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" inflected="yes">máquina|camión|avión</token>
+                    <marker>
+                        <token>apaga</token>
+                        <token min="0">-</token>
+                        <token regexp="yes">fuegos?</token>
+                    </marker>
+                </pattern>
+                <message>Se escribe junto.</message>
+                <suggestion>apagafuegos</suggestion>
+                <example correction="apagafuegos">Las máquinas <marker>apaga fuegos</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="D.*" postag_regexp="yes"/>
+                    <token postag="_QM_OPEN" min="0"/>
+                    <marker>
+                        <token>apaga</token>
+                        <token min="0">-</token>
+                        <token regexp="yes">fuegos?</token>
+                    </marker>
+                </pattern>
+                <message>Se escribe junto.</message>
+                <suggestion>apagafuegos</suggestion>
+                <example correction="apagafuegos">Un <marker>apaga fuegos</marker>.</example>
+                <example correction="apagafuegos">Un «<marker>apaga fuegos</marker>».</example>
             </rule>
         </rulegroup>
         <rule id="TIK_TOK" name="TikTok">
@@ -18225,6 +18253,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
+        <rule id="ADVERBIO_MENTE" name="posterior mente -> posteriormente">
+            <antipattern>
+                <token postag="D.*|PX.*" postag_regexp="yes"/>
+                <token postag="AQ.[FC]S.|V.P..SF." postag_regexp="yes"></token>
+                <token>mente</token>
+            </antipattern>
+            <pattern>
+                <token postag="AQ.[FC]S.|V.P..SF." postag_regexp="yes"/>
+                <token min="0">-</token>
+                <token>mente</token>
+            </pattern>
+            <message>¿Quería decir <suggestion>\1\3</suggestion>?</message>
+            <example correction="posteriormente">Sucedió <marker>posterior mente</marker>.</example>
+            <example>Nadie entiende la brillante mente de Beethoven</example>
+            <example>Tu misma mente te hará sentir cansado.</example>
+        </rule>
         <rule id="DEL_LA" name="confusión: del la -> de la">
             <antipattern>
                 <token skip="-1">la</token>
@@ -23540,6 +23584,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- ambigous -->
                 <token regexp="yes">[0-9]+[A-Z]+<exception regexp="yes">[0-9]+(V|W|MW|AM|PM|MB|GB|TB)</exception></token>
             </antipattern>
+            <antipattern>
+                <token postag="NP.*" postag_regexp="yes"/>
+            </antipattern>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">(\d[\d.,]+)?\d+(&unidades;)</token>
@@ -23552,6 +23599,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Es de los años 50s.</example>
                 <example>Es de los 1950s.</example>
                 <example>En los años 30s, 40s y 50s.</example>
+                <example>Según una encuesta de 40dB. para El País</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -24636,7 +24684,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <antipattern case_sensitive="yes">
                     <token>Warren</token>
-                    <token regexp="yes">Buffett</token>
+                    <token>Buffett</token>
                 </antipattern>
                 <pattern>
                     <token regexp="yes">Warr?en</token>

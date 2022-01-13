@@ -49,6 +49,8 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
 //      ii++;
 //    }
 
+    //TODO: remove suggestions that trigger the rule again.
+    // It would be needed to run again the rule with the full sentence. 
     List<String> replacements = new ArrayList<>();
     String wordFrom = getRequired("wordFrom", arguments);
     String desiredPostag = getRequired("desiredPostag", arguments);
@@ -85,8 +87,6 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
         if (atr.matchesPosTagRegex(desiredPostag)) {
           if (diacriticsMode) {
             return null;
-          } else {
-            generateSuggestions = false;
           }
         }
       }

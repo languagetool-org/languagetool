@@ -58,13 +58,51 @@ public class EnglishUnpairedBracketsRuleTest {
     assertCorrect("This is a sentence with a smiley ;-) and so on...");
     assertCorrect("I don't know.");
     assertCorrect("This is the joint presidents' declaration.");
+    assertCorrect("The screen is 20\"");
     assertCorrect("The screen is 20\" wide.");
+    assertIncorrect("The screen is very\" wide.");
     assertCorrect("This is a [test] sentence...");
     assertCorrect("The plight of Tamil refugees caused a surge of support from most of the Tamil political parties.[90]");
     assertCorrect("This is what he said: \"We believe in freedom. This is what we do.\"");
     assertCorrect("(([20] [20] [20]))");
+    
+    assertCorrect("He was an ol' man.");
+    assertCorrect("'till the end.");
+    assertCorrect("jack-o'-lantern");
+    assertCorrect("jack o'lantern");
+    assertCorrect("sittin' there");
+    assertCorrect("Nothin'");
+    assertCorrect("ya'");
     assertCorrect("I'm not goin'");
+    assertCorrect("y'know");
+    assertCorrect("Please find attached Fritz' revisions");
+    assertCorrect("You're only foolin' round.");
+    assertCorrect("I stayed awake 'till the morning.");
+    assertCorrect("under the 'Global Markets' heading");
     assertCorrect("He's an 'admin'.");
+    assertCorrect("However, he's still expected to start in the 49ers' next game on Oct.");
+    assertCorrect("all of his great-grandfathers' names");
+    assertCorrect("Though EES' past profits now are in question");
+    assertCorrect("Networks' Communicator and FocusFocus' Conference.");
+    assertCorrect("Additional funding came from MegaMags' founders and existing individual investors.");
+    assertCorrect("al-Jazā’er");
+    assertCorrect("second Mu’taq and third");
+    assertCorrect("second Mu'taq and third");
+    
+    assertCorrect("22' N., long. ");
+    assertCorrect("11º 22'");
+    assertCorrect("11° 22'");
+    assertCorrect("11° 22.5'");
+    assertCorrect("In case I garbled mine, here 'tis.");
+    assertCorrect("It's about three o’clock.");
+    assertCorrect("It's about three o'clock.");
+    assertCorrect("Rory O’More");
+    assertCorrect("Rory O'More");
+    assertCorrect("Côte d’Ivoire");
+    assertCorrect("Côte d'Ivoire");
+    assertCorrect("Colonel d’Aubigni");
+    
+    
     // test for a case that created a false alarm after disambiguation
     assertCorrect("This is a \"special test\", right?");
     // numerical bullets
@@ -78,8 +116,10 @@ public class EnglishUnpairedBracketsRuleTest {
     assertCorrect("Kill 'em all!");
     assertCorrect("Puttin' on the Ritz");
     assertCorrect("Dunkin' Donuts");
+    assertCorrect("Hold 'em!");
     //some more cases
     assertCorrect("(Ketab fi Isti'mal al-'Adad al-Hindi)");
+    assertCorrect("(al-'Adad al-Hindi)");
     assertCorrect("On their 'host' societies.");
     assertCorrect("On their 'host society'.");
     assertCorrect("Burke-rostagno the Richard S. Burkes' home in Wayne may be the setting for the wedding reception for their daughter.");
@@ -91,6 +131,10 @@ public class EnglishUnpairedBracketsRuleTest {
     assertCorrect("\"02\" will sort before \"10\" as expected so it will have size of 10\""); // inch symbol is at the sentence end
     assertCorrect("\"02\" will sort before \"10\""); // quotation mark is at the sentence end
     assertCorrect("On their 'host societies'.");
+    assertCorrect("On their host 'societies'.");
+    assertIncorrect("On their 'host societies.");
+    //TODO: ambiguous
+    assertCorrect("On their host societies'.");
     assertCorrect("a) item one\nb) item two\nc) item three");
     assertCorrectText("\n\n" +
                       "a) New York\n" +
@@ -103,14 +147,14 @@ public class EnglishUnpairedBracketsRuleTest {
     assertCorrect("I think that Liszt's \"Forgotten Waltz No.3\" is a hidden masterpiece.");
     assertCorrect("I think that Liszt's \"Forgotten Waltz No. 3\" is a hidden masterpiece.");
     assertCorrect("Turkish distinguishes between dotted and dotless \"I\"s.");
-    // assertCorrect("It has recognized no \"bora\"-like pattern in his behaviour."); It's fixed with the new tokenizer
+    assertCorrect("It has recognized no \"bora\"-like pattern in his behaviour."); //It's fixed with the new tokenizer
 
     // incorrect sentences:
     assertIncorrect("(This is a test sentence.");
-    //assertIncorrect("This is a test with an apostrophe &'.");   -- commented out now that >'< is not checked anymore
-    //assertIncorrect("&'");
-    //assertIncorrect("!'");
-    //assertIncorrect("What?'");
+    assertIncorrect("This is a test with an apostrophe &'.");  
+    //FIXME? assertIncorrect("&'");
+    //FIXME? assertIncorrect("!'");
+    //FIXME: assertIncorrect("What?'");
     assertCorrect("This is not so (neither a nor b");
     assertIncorrect("This is not so (neither a nor b.");
     assertIncorrect("This is not so neither a nor b)");
@@ -119,7 +163,7 @@ public class EnglishUnpairedBracketsRuleTest {
     assertIncorrect("\"He is making them feel comfortable all along.");
 
     // this is currently considered incorrect... although people often use smileys this way:
-    assertCorrect("Some text (and some funny remark :-) with more text to follow");
+    assertCorrect("Some text (and some funny remark :-) with more text to follow");  //TODO: Why is this correct and the next one incorrect?
     assertIncorrect("Some text (and some funny remark :-) with more text to follow!");
     assertCorrect("Some text. This is \"12345\", a number.");
     assertCorrect("Some text.\n\nThis is \"12345\", a number.");
@@ -130,7 +174,7 @@ public class EnglishUnpairedBracketsRuleTest {
 
     RuleMatch[] matches;
     matches = rule.match(Collections.singletonList(lt.getAnalyzedSentence("(This is a test” sentence.")));
-    assertEquals(1, matches.length);
+    assertEquals(2, matches.length);
     matches = rule.match(Collections.singletonList(lt.getAnalyzedSentence("This [is (a test} sentence.")));
     assertEquals(3, matches.length);
   }

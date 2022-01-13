@@ -77,6 +77,24 @@ public class EnglishTagger extends BaseTagger {
         List<AnalyzedToken> firstupperTaggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(firstUpper));
         addTokens(firstupperTaggerTokens, l);
       }
+      
+      if (l.isEmpty() && lowerWord.endsWith("in'")) {
+        String correctedWord = word;
+        if (isAllUpper) {
+          correctedWord = correctedWord.substring(0, correctedWord.length() - 1) + "G";
+        } else {
+          correctedWord = correctedWord.substring(0, correctedWord.length() - 1) + "g";
+        }
+        List<AnalyzedToken> taggerTokens2 = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(correctedWord));
+        // normal case:
+        addTokens(taggerTokens2, l);
+        // tag non-lowercase (alluppercase or startuppercase), but not mixed-case words with lowercase word tags:
+        if (!isLowercase && !isMixedCase) {
+          List<AnalyzedToken> lowerTaggerTokens = asAnalyzedTokenListForTaggedWords(word,
+              getWordTagger().tag(correctedWord.toLowerCase()));
+          addTokens(lowerTaggerTokens, l);
+        }
+      }
 
       // additional tagging with prefixes   removed: && !isMixedCase
       /*if (l.isEmpty()) {

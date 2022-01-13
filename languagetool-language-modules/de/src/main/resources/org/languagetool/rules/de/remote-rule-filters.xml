@@ -168,6 +168,24 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <rule>
                 <pattern>
                     <marker>
+                        <token regexp="yes">[−–\+-]?[0-9]+</token>
+                    </marker>
+                    <token case_sensitive="yes" regexp="yes">°[CFRK]</token>
+                </pattern>
+                <example correction="">In den Wintermonaten gibt es Tage, an denen das Thermometer auf unter <marker>−65</marker> °C fällt.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[−–\+-]?[0-9]+</token>
+                    </marker>
+                    <token case_sensitive="yes">K</token>
+                </pattern>
+                <example correction="">In den Wintermonaten gibt es Tage, an denen das Thermometer auf unter <marker>208</marker> K fällt.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
                         <token regexp="yes">[—–,;:=-]</token>
                     </marker>
                 </pattern>

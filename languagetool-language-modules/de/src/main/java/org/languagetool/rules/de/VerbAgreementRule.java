@@ -114,7 +114,7 @@ public class VerbAgreementRule extends TextLevelRule {
       tokenRegex("['’`´‘]")
     ),
     Arrays.asList(
-      tokenRegex("wir|sie"),
+      tokenRegex("wir|sie|zu"),
       tokenRegex("seh|steh|geh"),
       tokenRegex("['’`´‘]"),
       token("n")
@@ -226,11 +226,11 @@ public class VerbAgreementRule extends TextLevelRule {
       token("ich")
       ),
     Arrays.asList(
-      // "Einer wie du kennt ..."
-      token("einer"),
+      // "Einer wie du kennt ...", "Aber wenn jemand wie Du daherkommt"
+      tokenRegex("einer?|jemand"),
       token("wie"),
       token("du"),
-      pos("VER:3:SIN:PRÄ:NON")
+      posRegex("VER:3:.*")
     ),
     Arrays.asList(
       // "Kannst mich gerne anrufen" (ugs.)
@@ -445,18 +445,18 @@ public class VerbAgreementRule extends TextLevelRule {
       for(int i = 2; i < tokens.length; i++) {
         if(",".equals(tokens[i-2].getToken()) && CONJUNCTIONS.contains(tokens[i].getToken())) {
           partialSentence = new AnalyzedSentence(Arrays.copyOfRange(tokens, idx, i));
-          ruleMatches.addAll(match(partialSentence, pos));
+          ruleMatches.addAll(match(partialSentence, pos, sentence));
           idx = i;
         }
       }
       partialSentence = new AnalyzedSentence(Arrays.copyOfRange(tokens, idx, tokens.length));
-      ruleMatches.addAll(match(partialSentence, pos));
+      ruleMatches.addAll(match(partialSentence, pos, sentence));
       pos += sentence.getCorrectedTextLength();
     }
     return toRuleMatchArray(ruleMatches);
   }
 
-  private List<RuleMatch> match(AnalyzedSentence sentence, int pos) {
+  private List<RuleMatch> match(AnalyzedSentence sentence, int pos, AnalyzedSentence wholeSentence) {
 
     AnalyzedTokenReadings finiteVerb = null;
     List<RuleMatch> ruleMatches = new ArrayList<>();
@@ -542,7 +542,7 @@ public class VerbAgreementRule extends TextLevelRule {
 
     if (posVer1Sin != -1 && posIch == -1 && !isQuotationMark(tokens[posVer1Sin-1])) { // 1st pers sg verb but no "ich"
       if (!tokens[posVer1Sin].isImmunized()) {
-        ruleMatches.add(ruleMatchWrongVerb(tokens[posVer1Sin], pos, sentence));
+        ruleMatches.add(ruleMatchWrongVerb(tokens[posVer1Sin], pos, wholeSentence));
       }
     } else if (posIch > 0 && !isNear(posPossibleVer1Sin, posIch) // check whether verb next to "ich" is 1st pers sg
                && (tokens[posIch].getToken().equals("ich") || tokens[posIch].getStartPos() <= 1 ||
@@ -553,14 +553,14 @@ public class VerbAgreementRule extends TextLevelRule {
       BooleanAndFiniteVerb check = verbDoesMatchPersonAndNumber(tokens[posIch - 1], tokens[posIch + plus1], "1", "SIN", finiteVerb);
       if (!check.verbDoesMatchPersonAndNumber && !nextButOneIsModal(tokens, posIch) && !"äußerst".equals(check.finiteVerb.getToken())) {
         if (!tokens[posIch].isImmunized()) {
-          ruleMatches.add(ruleMatchWrongVerbSubject(tokens[posIch], check.finiteVerb, "1:SIN", pos, sentence));
+          ruleMatches.add(ruleMatchWrongVerbSubject(tokens[posIch], check.finiteVerb, "1:SIN", pos, wholeSentence));
         }
       }
     }
     
     if (posVer2Sin != -1 && posDu == -1 && !isQuotationMark(tokens[posVer2Sin-1])) {
       if (!tokens[posVer2Sin].isImmunized()) {
-        ruleMatches.add(ruleMatchWrongVerb(tokens[posVer2Sin], pos, sentence));
+        ruleMatches.add(ruleMatchWrongVerb(tokens[posVer2Sin], pos, wholeSentence));
       }
     } else if (posDu > 0 && !isNear(posPossibleVer2Sin, posDu)
                &&(!isQuotationMark(tokens[posDu-1]) || posDu < 3 || (posDu > 1 && tokens[posDu-2].getToken().equals(":")))) {
@@ -573,7 +573,7 @@ public class VerbAgreementRule extends TextLevelRule {
           !nextButOneIsModal(tokens, posDu) &&
           !tokens[posDu].isImmunized()
       ) {
-        ruleMatches.add(ruleMatchWrongVerbSubject(tokens[posDu], check.finiteVerb, "2:SIN", pos, sentence));
+        ruleMatches.add(ruleMatchWrongVerbSubject(tokens[posDu], check.finiteVerb, "2:SIN", pos, wholeSentence));
       }
     }
     
@@ -587,19 +587,19 @@ public class VerbAgreementRule extends TextLevelRule {
               && !"regen".equals(check.finiteVerb.getToken())  // "wo er regen Anteil nahm"
               && !tokens[posEr].isImmunized()
           ) {
-        ruleMatches.add(ruleMatchWrongVerbSubject(tokens[posEr], check.finiteVerb, "3:SIN", pos, sentence));
+        ruleMatches.add(ruleMatchWrongVerbSubject(tokens[posEr], check.finiteVerb, "3:SIN", pos, wholeSentence));
       }
     }
     
     if (posVer1Plu != -1 && posWir == -1 && !isQuotationMark(tokens[posVer1Plu-1])) {
       if (!tokens[posVer1Plu].isImmunized()) {
-        ruleMatches.add(ruleMatchWrongVerb(tokens[posVer1Plu], pos, sentence));
+        ruleMatches.add(ruleMatchWrongVerb(tokens[posVer1Plu], pos, wholeSentence));
       }
     } else if (posWir > 0 && !isNear(posPossibleVer1Plu, posWir) && !isQuotationMark(tokens[posWir-1])) {
       int plus1 = ((posWir + 1) == tokens.length) ? 0 : +1;
       BooleanAndFiniteVerb check = verbDoesMatchPersonAndNumber(tokens[posWir - 1], tokens[posWir + plus1], "1", "PLU", finiteVerb);
       if (!check.verbDoesMatchPersonAndNumber && !nextButOneIsModal(tokens, posWir) && !tokens[posWir].isImmunized()) {
-        ruleMatches.add(ruleMatchWrongVerbSubject(tokens[posWir], check.finiteVerb, "1:PLU", pos, sentence));
+        ruleMatches.add(ruleMatchWrongVerbSubject(tokens[posWir], check.finiteVerb, "1:PLU", pos, wholeSentence));
       }
     }
     
@@ -668,8 +668,8 @@ public class VerbAgreementRule extends TextLevelRule {
    */
   private BooleanAndFiniteVerb verbDoesMatchPersonAndNumber(AnalyzedTokenReadings token1, AnalyzedTokenReadings token2,
                                                String person, String number, AnalyzedTokenReadings finiteVerb) {
-    if (StringUtils.equalsAny(token1.getToken(), ",", "und","sowie") ||
-    		StringUtils.equalsAny(token2.getToken(), ",", "und","sowie")) {
+    if (StringUtils.equalsAny(token1.getToken(), ",", "und", "sowie", "&") ||
+    		StringUtils.equalsAny(token2.getToken(), ",", "und", "sowie", "&")) {
       return new BooleanAndFiniteVerb(true, finiteVerb);
     }
    

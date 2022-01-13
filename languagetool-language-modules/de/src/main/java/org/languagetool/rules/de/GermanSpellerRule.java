@@ -95,6 +95,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   static {
     put("lieder", w -> Arrays.asList("leider", "Lieder"));
     put("frägst", "fragst");
+    put("Impflicht", "Impfpflicht");
     put("Wandererin", "Wanderin");
     put("daß", "dass");
     put("eien", "eine");
@@ -1227,6 +1228,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("strang", w -> Arrays.asList("Strang", "strengte"));
     put("Gym", w -> Arrays.asList("Fitnessstudio", "Gymnasium"));
     put("Gyms", w -> Arrays.asList("Fitnessstudios", "Gymnasiums"));
+    put("gäng", w -> Arrays.asList("ging", "gang"));
+    put("di", w -> Arrays.asList("du", "die", "Di.", "der", "den"));
+    put("Di", w -> Arrays.asList("Du", "Die", "Di.", "Der", "Den"));
     put("mußt", "musst");
     put("müßtest", "müsstest");
     put("müßten", "müssten");
@@ -1238,6 +1242,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Müllhalte", "Müllhalde");
     put("Entäuschung", "Enttäuschung");
     put("Entäuschungen", "Enttäuschungen");
+    put("kanns", "kann es");
+    put("hbat", "habt");
+    put("ichs", "ich es");
+    put("folgendermassen", "folgendermaßen");
     putRepl("[Üü]bergrifflich(e[mnrs]?)?", "lich", "ig");
   }
 
@@ -1552,6 +1560,21 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     }
   }
 
+  private boolean isOnlyNoun(String word) {
+    try {
+      List<AnalyzedTokenReadings> readings = tagger.tag(singletonList(word));
+      for (AnalyzedTokenReadings reading : readings) {
+        boolean accept = reading.getReadings().stream().allMatch(k -> k.getPOSTag() != null && k.getPOSTag().startsWith("SUB:"));
+        if (!accept) {
+          return false;
+        }
+      }
+      return readings.stream().allMatch(reading -> reading.matchesPosTagRegex("SUB:.*"));
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
   private boolean isAdjOrNounOrUnknown(String word) {
     try {
       List<AnalyzedTokenReadings> readings = tagger.tag(singletonList(word));
@@ -1636,13 +1659,24 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         //return true;
       }*/
       if (isMisspelled(word)) {
-        if (!isMisspelled(firstPart) && !firstPart.matches(".{3,25}(tum|ing|ling|heit|keit|schaft|ung|ion|tät|at|um)")) {
-          System.out.println("could accept 1: " + word);
-          //return true;
+        if (!isMisspelled(firstPart) &&
+            !firstPart.matches(".{3,25}(tum|ing|ling|heit|keit|schaft|ung|ion|tät|at|um)") &&
+            isOnlyNoun(firstPart) &&
+            !isMisspelled(firstPart + "test")) {  // does hunspell accept this? takes infex-s into account automatically
+          System.out.println("will accept: " + word);
+          return true;
+        } else if (!isMisspelled(firstPart) &&
+                   !firstPart.matches(".{3,25}(tum|ing|ling|heit|keit|schaft|ung|ion|tät|at|um)")) {
+                   System.out.println("will not accept: " + word);
         } else if (firstPart.endsWith("s") && !isMisspelled(firstPart.replaceFirst("s$", "")) &&
-                   firstPart.matches(".{3,25}(tum|ing|ling|heit|keit|schaft|ung|ion|tät|at|um)s")) { // "handlungsartig"
-          System.out.println("could accept 2: " + word);
-          //return true;
+                   firstPart.matches(".{3,25}(tum|ing|ling|heit|keit|schaft|ung|ion|tät|at|um)s") &&   // "handlungsartig"
+                   isOnlyNoun(firstPart.replaceFirst("s$", "")) &&
+                   !isMisspelled(firstPart + "test")) {  // does hunspell accept this? takes infex-s into account automatically
+          System.out.println("will accept: " + word);
+          return true;
+        } else if (firstPart.endsWith("s") && !isMisspelled(firstPart.replaceFirst("s$", "")) &&
+                   firstPart.matches(".{3,25}(tum|ing|ling|heit|keit|schaft|ung|ion|tät|at|um)s")) {
+          System.out.println("will not accept: " + word);
         }
       }
     }

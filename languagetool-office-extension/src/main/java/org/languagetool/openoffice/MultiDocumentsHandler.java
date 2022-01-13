@@ -39,6 +39,7 @@ import org.languagetool.Languages;
 import org.languagetool.UserConfig;
 import org.languagetool.gui.AboutDialog;
 import org.languagetool.gui.Configuration;
+import org.languagetool.openoffice.DocumentCache.TextParagraph;
 import org.languagetool.openoffice.SpellAndGrammarCheckDialog.LtCheckDialog;
 import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.Rule;
@@ -200,7 +201,7 @@ public class MultiDocumentsHandler {
           testFootnotes(propertyValues);
         }
         lt = initLanguageTool(!isSameLanguage);
-        initCheck(lt, locale);
+        initCheck(lt);
         if (initDocs) {
           initDocuments();
         }
@@ -354,10 +355,20 @@ public class MultiDocumentsHandler {
         }
         if (useQueue && textLevelQueue != null) {
           MessageHandler.printToLogFile("Interrupt text level queue for document " + document.getDocID());
-          textLevelQueue.interruptCheck(document.getDocID());
+          textLevelQueue.interruptCheck(document.getDocID(), true);
           MessageHandler.printToLogFile("Interrupt done");
         }
         document.setXComponent(xContext, null);
+        if (document.getDocumentCache().hasNoContent()) {
+          //  The delay seems to be necessary as workaround for a GDK bug (Linux) to stabilizes
+          //  the load of a document from an empty document 
+          MessageHandler.printToLogFile("Disposing document has no content: Wait for 1000 milliseconds");
+          try {
+            Thread.sleep(1000);
+          } catch (InterruptedException e) {
+            MessageHandler.printException(e);
+          }
+        }
       }
     }
     if (!found) {
@@ -673,7 +684,7 @@ public class MultiDocumentsHandler {
             MessageHandler.printToLogFile("Document ID corrected: old: " + oldDocId + ", new: " + docID);
             if (useQueue && textLevelQueue != null) {
               MessageHandler.printToLogFile("Interrupt text level queue for old document ID: " + oldDocId);
-              textLevelQueue.interruptCheck(oldDocId);
+              textLevelQueue.interruptCheck(oldDocId, true);
               MessageHandler.printToLogFile("Interrupt done");
             }
             if (documents.get(i).isDisposed()) {
@@ -716,7 +727,7 @@ public class MultiDocumentsHandler {
           if (documents.get(i).isDisposed()) {
             if (useQueue && textLevelQueue != null) {
               MessageHandler.printToLogFile("Interrupt text level queue for document " + documents.get(i).getDocID());
-              textLevelQueue.interruptCheck(documents.get(i).getDocID());
+              textLevelQueue.interruptCheck(documents.get(i).getDocID(), true);
               MessageHandler.printToLogFile("Interrupt done");
             }
             MessageHandler.printToLogFile("Disposed document " + documents.get(i).getDocID() + " removed");
@@ -770,6 +781,7 @@ public class MultiDocumentsHandler {
       noBackgroundCheck = config.noBackgroundCheck();
       if (linguServices == null) {
         linguServices = new LinguisticServices(xContext);
+        Tools.setLinguisticServices(linguServices);
       }
       linguServices.setNoSynonymsAsSuggestions(config.noSynonymsAsSuggestions() || testMode);
       if (this.lt == null) {
@@ -829,7 +841,7 @@ public class MultiDocumentsHandler {
   /**
    * Enable or disable rules as given by configuration file
    */
-  void initCheck(SwJLanguageTool lt, Locale locale) {
+  void initCheck(SwJLanguageTool lt) {
     Set<String> disabledRuleIds = config.getDisabledRuleIds();
     if (disabledRuleIds != null) {
       // copy as the config thread may access this as well
@@ -890,6 +902,15 @@ public class MultiDocumentsHandler {
   void resetIgnoredMatches() {
     for (SingleDocument document : documents) {
       document.resetIgnoreOnce();
+    }
+  }
+
+  /**
+   * Reset document caches
+   */
+  void resetDocumentCaches() {
+    for (SingleDocument document : documents) {
+      document.resetDocumentCache();
     }
   }
 
@@ -1147,7 +1168,7 @@ public class MultiDocumentsHandler {
       if (!lang.equals(docLanguage)) {
         docLanguage = lang;
         lTool = initLanguageTool();
-        initCheck(lTool, LinguisticServices.getLocale(lang));
+        initCheck(lTool);
         config = this.config;
       }
       ConfigThread configThread = new ConfigThread(lang, config, lTool, this);
@@ -1327,9 +1348,8 @@ public class MultiDocumentsHandler {
             XComponent currentComponent = document.getXComponent();
             if (currentComponent != null) {
               if (!document.isImpress()) {
-                DocumentCursorTools docCursor = new DocumentCursorTools(currentComponent);
                 ViewCursorTools viewCursor = new ViewCursorTools(xContext);
-                SpellAndGrammarCheckDialog.setTextViewCursor(0, 0, viewCursor, docCursor);
+                SpellAndGrammarCheckDialog.setTextViewCursor(0, new TextParagraph (DocumentCache.CURSOR_TYPE_TEXT ,0), viewCursor);
               } else {
                 OfficeDrawTools.setCurrentPage(0, currentComponent);
               }
@@ -1355,6 +1375,7 @@ public class MultiDocumentsHandler {
           return;
         }
         resetIgnoredMatches();
+        resetDocumentCaches();
         resetDocument();
       } else if ("remoteHint".equals(sEvent)) {
         if (getConfiguration().useOtherServer()) {
@@ -1454,7 +1475,7 @@ public class MultiDocumentsHandler {
         this.locale = locale;
         extraRemoteRules.clear();
         lt = initLanguageTool(true);
-        initCheck(lt, locale);
+        initCheck(lt);
         initDocuments();
         setJavaLookAndFeel();
         return true;
@@ -1524,7 +1545,7 @@ public class MultiDocumentsHandler {
       MessageHandler.showMessage(messages.getString("loExtHeapMessage"));
       for (SingleDocument document : documents) {
         document.resetCache();
-        document.setDocumentCache(null);
+        document.resetDocumentCache();
       }
       return false;
     } else {

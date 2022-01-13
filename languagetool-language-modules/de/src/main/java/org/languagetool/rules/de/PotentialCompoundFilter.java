@@ -43,19 +43,28 @@ public class PotentialCompoundFilter extends RuleFilter {
     initLt();
     String part1 = arguments.get("part1");
     String part2 = arguments.get("part2");
-
-    String joinedWord = StringTools.uppercaseFirstChar(part1.toLowerCase()) + part2.toLowerCase();
+    String part1capitalized = part1;
+    String part2capitalized = part2;
+    String part2lowercase = part2;
+    if (!StringTools.isMixedCase(part2) && !StringTools.isAllUppercase(part2)) {
+      part2lowercase = part2.toLowerCase();
+      part2capitalized = StringTools.uppercaseFirstChar(part2.toLowerCase());
+    }
+    if (!StringTools.isMixedCase(part1) && !StringTools.isAllUppercase(part1)) {
+      part1capitalized = StringTools.uppercaseFirstChar(part1.toLowerCase());
+    }
+    String joinedWord = part1capitalized + part2lowercase;
+    String hyphenatedWord = part1capitalized + "-" + part2capitalized;
     List<String> replacements = new ArrayList<>();
     List<RuleMatch> matches = lt.check(joinedWord);
     if (matches.isEmpty()) {
       if (joinedWord.length() > 20) {
-        replacements.add(part1 + "-" + part2);
+        replacements.add(hyphenatedWord);
       }
       replacements.add(joinedWord);
     } else {
-      replacements.add(part1 + "-" + part2);
+      replacements.add(hyphenatedWord);
     }
-
     if (!replacements.isEmpty()) {
       String message = match.getMessage();
       RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(),
