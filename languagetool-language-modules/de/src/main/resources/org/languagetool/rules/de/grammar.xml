@@ -6171,6 +6171,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Verwechslungen -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
+        <rule id="FREU_FRAU" name="Freu vs Frau" default="temp_off">
+            <antipattern>
+                <token skip="1">ich</token>
+                <token>freu</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token case_sensitive="yes">Freu</token>
+                </marker>
+                <token postag="UNKNOWN|EIG.*(VOR|NAC).*" postag_regexp="yes" case_sensitive="yes" regexp="yes">
+                    [A-ZÄÖÜ][a-zäöüß\-]+
+                    <exception regexp="yes">[DM]ich|Mir</exception>
+                </token>
+            </pattern>
+            <message>Meinten Sie die Anrede <suggestion>Frau</suggestion>?</message>
+            <example correction="Frau"><marker>Freu</marker> Thies hat morgen keine Zeit.</example>
+            <example>Freu Dich!</example>
+        </rule>
         <rule id="SCHON_SCHÖN" name="schon vs schön" default="temp_off">
             <antipattern>
                 <token>schon</token>
@@ -53903,6 +53921,7 @@ Andere Projekte</example>
                  "Ich finde das Haus von Dieter sollte"
                  "Ich finde bei den Autos von Dieter sollte ..."
                  "Ich hoffe Sie gut informiert zu haben."
+                 "Ich denke 7 Jahre sind somit in Ordnung."
                 -->
             <antipattern><!-- Tom weiß mit Lasttieren umzugehen. -->
                 <token inflected="yes" skip="12">wissen</token>
@@ -53929,7 +53948,7 @@ Andere Projekte</example>
                         glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten
                         <exception postag="SUB.*" postag_regexp="yes" />
                     </token>
-                    <token regexp="yes" min="0">übrigens|deswegen|allerdings|durchaus</token>
+                    <token regexp="yes" min="0">übrigens|deswegen|allerdings|durchaus|eher|mal</token>
                     <marker>
                         <token regexp="yes" case_sensitive="yes">fürs?|zwischen|mit|gegen|bis|au(ß|ss)er|vo[mn]|wegen|dank|beim?|ohne|aufs?|unter|neben|hinter|zwischen|vor|an|zu[rm]?|i[nm]</token>
                     </marker>
@@ -53969,7 +53988,7 @@ Andere Projekte</example>
                         glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten
                         <exception postag="SUB.*" postag_regexp="yes" />
                     </token>
-                    <token regexp="yes" min="0">übrigens|deswegen|allerdings|durchaus</token>
+                    <token regexp="yes" min="0">übrigens|deswegen|allerdings|durchaus|eher|mal</token>
                     <marker>
                         <token regexp="yes" case_sensitive="yes">fürs?|zwischen|mit|gegen|bis|au(ß|ss)er|vo[mn]|wegen|dank|beim?|ohne|aufs?|unter|neben|hinter|zwischen|vor|an|zu[rm]?|i[nm]</token>
                     </marker>
@@ -54003,7 +54022,7 @@ Andere Projekte</example>
                         glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten
                         <exception postag="SUB.*" postag_regexp="yes" />
                     </token>
-                    <token regexp="yes" min="0">übrigens|deswegen|allerdings|durchaus</token>
+                    <token regexp="yes" min="0">übrigens|deswegen|allerdings|durchaus|eher|mal</token>
                     <marker>
                         <token regexp="yes" case_sensitive="yes">fürs?|zwischen|mit|gegen|bis|au(ß|ss)er|vo[mn]|wegen|dank|beim?|ohne|aufs?|unter|neben|hinter|zwischen|vor|an|zu[rm]?|i[nm]</token>
                     </marker>
@@ -54033,7 +54052,7 @@ Andere Projekte</example>
                         glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten
                         <exception postag="SUB.*" postag_regexp="yes" />
                     </token>
-                    <token regexp="yes" min="0">übrigens|deswegen|allerdings|durchaus</token>
+                    <token regexp="yes" min="0">übrigens|deswegen|allerdings|durchaus|eher|mal</token>
                     <marker>
                         <token regexp="yes" case_sensitive="yes">fürs?|zwischen|mit|gegen|bis|au(ß|ss)er|vo[mn]|wegen|dank|beim?|ohne|aufs?|unter|neben|hinter|zwischen|vor|an|zu[rm]?|i[nm]</token>
                     </marker>
@@ -54082,7 +54101,7 @@ Andere Projekte</example>
                         glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten
                         <exception postag="SUB.*" postag_regexp="yes" />
                     </token>
-                    <token regexp="yes" min="0">übrigens|deswegen|allerdings|durchaus</token>
+                    <token regexp="yes" min="0">übrigens|deswegen|allerdings|durchaus|eher|mal</token>
                     <marker>
                         <token postag="ART.*|PRO:(POS|DEM).*" postag_regexp="yes" />
                     </marker>
@@ -54147,7 +54166,7 @@ Andere Projekte</example>
                         glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten
                         <exception postag="SUB.*" postag_regexp="yes" />
                     </token>
-                    <token regexp="yes" min="0">übrigens|deswegen|allerdings|durchaus</token>
+                    <token regexp="yes" min="0">übrigens|deswegen|allerdings|durchaus|eher|mal</token>
                     <marker>
                         <token postag="EIG.*|SUB.*|PRO:PER:NOM.*|PRO:IND:NOM.*" postag_regexp="yes" />
                     </marker>
@@ -54220,7 +54239,7 @@ Andere Projekte</example>
                         glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten
                         <exception postag="SUB.*" postag_regexp="yes" />
                     </token>
-                    <token regexp="yes" min="0">übrigens|deswegen|allerdings|durchaus</token>
+                    <token regexp="yes" min="0">übrigens|deswegen|allerdings|durchaus|eher|mal</token>
                     <marker>
                         <token postag="(ADJ|PA[12]).*" postag_regexp="yes" />
                     </marker>
@@ -54251,7 +54270,7 @@ Andere Projekte</example>
                         <exception postag="SUB.*" postag_regexp="yes" />
                         <exception postag="PA2.*" postag_regexp="yes" />
                     </token>
-                    <token regexp="yes" min="0">übrigens|deswegen|allerdings|durchaus</token>
+                    <token regexp="yes" min="0">übrigens|deswegen|allerdings|durchaus|eher|mal</token>
                     <marker>
                         <token regexp="yes">Herrn?|Hr|Fr|Frau|Fräulein|Dr|Doktor|Mrs?|Prof(essor)?</token>
                     </marker>
@@ -60256,6 +60275,11 @@ Andere Projekte</example>
                 <token postag="(VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*)" postag_regexp="yes" skip="-1"/>
                 <token><match no="0"/></token>
             </antipattern>
+            <antipattern>
+                <token>wie</token>
+                <token>folgt</token>
+                <token postag="VER.*" postag_regexp="yes" />
+            </antipattern>
             <pattern>
                 <token postag="(VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*)" postag_regexp="yes" skip="-1">
                     <exception postag="VER:(INF|MOD):.*|VER:AUX:.*:KJ[12]|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
@@ -60325,6 +60349,11 @@ Andere Projekte</example>
             <example>Sie hatten weitererzählt, dass er sie entführt hat, weswegen sie keinen Groll hatte.</example>
             <example>Das hatte die Folge, dass er beschuldigt wurde, wofür es keine Antworten gab.</example>
             <example>Verdächtig sind vier Männer.</example>
+            <example>Ihre Blätter sind schon welk.</example>
+            <example>Bertolt Brecht gilt als einer der bedeutendsten Lyriker und Dramatiker des 20. Jahrhunderts.</example>
+            <example>Berlin ist dufte.</example>
+            <example>Kant zählt zu den bedeutendsten Vertretern der abendländischen Philosophie.</example>
+            <example>Ein Beispiel hierfür ist die Finanzierung des Films „Das Boot“ die sich wie folgt zusammensetzte:</example>
             <example>Dies gelingt nur, wenn die einzelnen Einheiten anschlussfähig sind, was durch einen systemspezifischen Code geleistet wird.</example>
             <example>Wir waren so aufgeregt, dass wir nicht still sitzen konnten.</example>
             <example>Das Vorstellungsgespräch ist so gut verlaufen, dass er die Stelle bekommen hat.</example>
