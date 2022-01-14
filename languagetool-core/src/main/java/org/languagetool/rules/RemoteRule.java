@@ -250,6 +250,9 @@ public abstract class RemoteRule extends Rule {
         if (suppressMisspelledSuggestions != null && suppressMisspelledSuggestions.matcher(id).matches()) {
           List<SuggestedReplacement> suggestedReplacements = m.getSuggestedReplacementObjects().stream()
             .filter(checkSpelling).collect(Collectors.toList());
+          if (suggestedReplacements.isEmpty()) {
+            continue;
+          }
           m.setSuggestedReplacementObjects(suggestedReplacements);
         }
         result.add(m);
