@@ -668,22 +668,7 @@ Ajuda-te a ti mesmo e Deus te ajudará.
           <token regexp='yes'>saudades?</token>
           <token regexp='yes'>suas?|vossas</token>
       </antipattern>
-<!-- MARCOAGPINTO 2020-08-31 + 2020-09-03 + 2020-10-07 (2-JUL-2020+) *START* -->
-<!-- "Isso cheira a paixão assolapada, meu menino!" -->
-<!-- "Isso é muito feio no desporto, meus senhores!" -->
-      <antipattern>
-		  <token></token>
-<!--	      <token postag='AQ0[CFM][SP]0|NC[CFM][SP]000' postag_regexp='yes'/> -->
-		  <token>,</token>
-          <token postag='DP.+' postag_regexp='yes'/>
-		  <token postag='AQ0[CFM][SP]0|NC[CFM][SP]000' postag_regexp='yes'/>
-		  <and>
-			<token min="0" max="1" postag='AQ0[CFM][SP]0|NC[CFM][SP]000|RM' postag_regexp='yes'/>
-			<token negate="yes" postag='V.+' postag_regexp='yes'/>
-		  </and>
-		  <token regexp='yes'>[.]|,|!|[?]</token>
-      </antipattern>	  	  
-<!-- MARCOAGPINTO 2020-08-31 + 2020-09-03 + 2020-10-07 (2-JUL-2020+) *END* -->
+
 <!-- MARCOAGPINTO 2020-10-13 (2-JUL-2020+) *START* --> 
 <!-- "A Ana perguntou-me com aquele seu olhar lascivo." -->
       <antipattern>	
@@ -827,23 +812,7 @@ Olá minha gestora, quando voltas de férias?
 		<token min="1" max="3" postag='AQ.+|NC.+|NP.+' postag_regexp='yes'/>
       </antipattern> 
 <!-- MARCOAGPINTO 2021-03-01 + 2021-03-02 (1-JAN-2021+) *END* -->
-<!-- MARCOAGPINTO 2021-09-21 (25-JUN-2021+) *START* -->
-<!--
-Hoje faz anos o Rui, meu amigo de longa data.
-Tua gente, teus anos de glória,
-Eu não peguei o seu maldito carro, meu deus do céu!
--->
-      <antipattern>
-		  <token postag='AQ.+|NC.+|NP.+|V.+' postag_regexp='yes'>
-			<exception postag_regexp='no' postag='RN'/>
-		  </token>
-		  <token regexp='yes'>[,]</token>
-		  <token regexp='yes'>meus?|teus?</token>
-		  <token postag='AQ.+|NC.+' postag_regexp='yes'/>
-		  <token postag='SPS.+' postag_regexp='yes'/>
-		  <token postag='AQ.+|NC.+|RG' postag_regexp='yes'/>
-      </antipattern>
-<!-- MARCOAGPINTO 2021-09-21 (25-JUN-2021+) *END* -->
+
 <!-- MARCOAGPINTO 2021-11-05 (25-JUN-2021+) *START* -->
 <!--
 Este é o pai cujo seu filho foi à escola.
@@ -856,9 +825,9 @@ Este é o pai cujo seu filho foi à escola.
       </antipattern>
 <!-- MARCOAGPINTO 2021-11-05 (25-JUN-2021+) *END* -->
 
-<!-- MARCOAGPINTO 2022-01-13 (1-JAN-2022+) *START* -->
+<!-- MARCOAGPINTO 2022-01-13/14 (1-JAN-2022+) *START* -->
 <!--
-THIS ANTIPATTERN CHECKS FOR AN INTERJECTION + COMMA(_PUNCT) + DP + NC/AQ/NP/etc.:MIN_MAX=1_TO_3 + _PUNCT.
+THIS ANTIPATTERN CHECKS FOR AN INTERJECTION/etc. + COMMA(_PUNCT) + DP + NC/AQ/NP/etc.:MIN_MAX=1_TO_3 + _PUNCT.
 ITS ACCURACY WILL IMPROVE AS NEW INTERJECTIONS POS ARE ADDED.
 
 Parabéns, meu Querido Irmão Vítor!
@@ -867,19 +836,23 @@ Olá, Seu Pica Pica! Como vai a sua esposa?
 Olhe, seu João, eu jamais diria uma coisa assim.
 Sim — minha mãezinha, pessoa atenciosa e de bom coração! A única criatura amável naquela família desajustada.
 Boa noite, meu ursinho fofinho!
+Obrigado por tudo, meus amigos!
+Hoje faz anos o Rui, meu amigo de longa data.
+Tua gente, teus anos de glória,
+Eu não peguei o seu maldito carro, meu deus do céu!
 
 HITS AGAINST A 600 000 CORPORA:
-BEFORE:42837
+BEFORE:43071 (WITH TWO ANTIPATTERNS REMOVED ABOVE, COVERED BY THIS ONE)
  AFTER:42826
 -->
       <antipattern>
-	    <token postag='I' postag_regexp='no'/>
+	    <token postag='I|NP.+|AQ.+|NC.+|UNKNOWN|V.+|PD.+|PP.+|RG|_QUOT|RM|PI.+' postag_regexp='yes'/>
 		<token postag='_PUNCT' postag_regexp='no'/>
 		<token postag='DP.+' postag_regexp='yes'/>
-		<token min="1" max="3" postag='NP.+|AQ.+|NC.+|RG|SPS.+|CC|DA.+|DI.+' postag_regexp='yes'/>
-		<token postag='_PUNCT' postag_regexp='no'/>
+		<token min="1" max="4" postag='NP.+|AQ.+|NC.+|RG|SPS.+|CC|DA.+|DI.+|RM|I' postag_regexp='yes'/>
+		<token postag='_PUNCT|CC' postag_regexp='yes'/> <!-- "CC" adds "e" and "ou" -->
       </antipattern>
-<!-- MARCOAGPINTO 2022-01-13 (1-JAN-2022+) *END* -->
+<!-- MARCOAGPINTO 2022-01-13/14 (1-JAN-2022+) *END* -->
 
       <pattern>
           <token>
@@ -935,10 +908,6 @@ BEFORE:42837
 	  <example>Olá <marker>minha</marker> gestora, quando voltas de férias?</example>
 	  <example>Ó meu Deus! Está um caos completo!</example>
 	  
-	  <example>Hoje faz anos o Rui, meu amigo de longa data.</example>
-<!--	  <example>Tua gente, teus anos de glória,</example> -->
-	  <example>Eu não peguei o seu maldito carro, meu deus do céu!</example>
-	  
 	  <example>Este é o pai cujo seu filho foi à escola.</example>
 	  
 	  <example>Parabéns, meu Querido Irmão Vítor!</example>
@@ -947,6 +916,10 @@ BEFORE:42837
 	  <example>Olhe, seu João, eu jamais diria uma coisa assim.</example>
 	  <example>Sim — minha mãezinha, pessoa atenciosa e de bom coração! A única criatura amável naquela família desajustada.</example>
 	  <example>Boa noite, meu ursinho fofinho!</example>
+	  <example>Obrigado por tudo, meus amigos!</example>
+	  <example>Hoje faz anos o Rui, meu amigo de longa data.</example>
+<!--	  <example>Tua gente, teus anos de glória,</example> -->
+	  <example>Eu não peguei o seu maldito carro, meu deus do céu!</example>
     </rule>
     <rule>
       <antipattern>
