@@ -200,6 +200,94 @@ public class SubjectVerbAgreementRule extends Rule {
       new PatternTokenBuilder().posRegex("(ADJ|PA[12]).*").min(0).build(),
       posRegex("SUB:.+"),
       tokenRegex("sind|waren")
+    ),
+    Arrays.asList( // Das saisonale Obst und Gemüse ist köstlich und oft deutlich günstiger als in der Stadt.
+      tokenRegex("das"),
+      posRegex("(ADJ|PA[12]).*NEU.*"),
+      posRegex("SUB:.*NEU.*"),
+      tokenRegex("und"),
+      posRegex("SUB:.*NEU.*"),
+      tokenRegex("ist|war")
+    ),
+    Arrays.asList( // Das saisonale Obst und Gemüse ist köstlich und oft deutlich günstiger als in der Stadt.
+      tokenRegex("der"),
+      posRegex("(ADJ|PA[12]).*MAS.*"),
+      posRegex("SUB:.*MAS.*"),
+      tokenRegex("und"),
+      posRegex("SUB:.*MAS.*"),
+      tokenRegex("ist|war")
+    ),
+    Arrays.asList( // Das saisonale Obst und Gemüse ist köstlich und oft deutlich günstiger als in der Stadt.
+      tokenRegex("die"),
+      posRegex("(ADJ|PA[12]).*FEM.*"),
+      posRegex("SUB:.*FEM.*"),
+      tokenRegex("und"),
+      posRegex("SUB:.*FEM.*"),
+      tokenRegex("ist|war")
+    ),
+    Arrays.asList( // Einer der bedeutendsten Māori-Autoren der Gegenwart ist Witi Ihimaera.
+      tokenRegex("(irgend)?einer?|meisten|viele|einige|Betreiber|(Mit)?Gründer|Inhaber"),
+      new PatternTokenBuilder().tokenRegex("der|dieser").setSkip(4).build(),
+      tokenRegex("ist|war")
+    ),
+    Arrays.asList( // Start und Ziel ist Innsbruck
+      token("Start"),
+      token("und"),
+      token("Ziel"),
+      tokenRegex("ist|war")
+    ),
+    Arrays.asList( // Frisches Obst und Gemüse ist gut für die Gesundheit. 
+      token("Obst"),
+      token("und"),
+      token("Gemüse")
+    ),
+    Arrays.asList( // Frisches Obst und Gemüse ist gut für die Gesundheit. 
+      token("Sport"),
+      token("und"),
+      token("Spiel")
+    ),
+    Arrays.asList( // Das bedeutendste Bauwerk und Wahrzeichen der Stadt ist die …
+      token("das"),
+      posRegex("(ADJ|PA[12]).*NEU.*"),
+      posRegex("SUB.*NEU.*"),
+      token("und"),
+      posRegex("SUB.*NEU.*"),
+      tokenRegex("der|dieser"),
+      posRegex("SUB.*"),
+      tokenRegex("ist|war")
+    ),
+    Arrays.asList( // Die bedeutendsten Bauwerke und Wahrzeichen der Stadt ist die …
+      token("die"),
+      posRegex("(ADJ|PA[12]).*PLU.*"),
+      posRegex("SUB.*PLU.*"),
+      token("und"),
+      posRegex("SUB.*PLU.*"),
+      tokenRegex("der|dieser"),
+      posRegex("SUB.*"),
+      tokenRegex("sind|waren")
+    ),
+    Arrays.asList( // Die neueste Auflage von Toms Kindheitserinnerungen ist schon wieder vergriffen.
+      posRegex("(ADJ|PA[12]|ART).*SIN.*"),
+      posRegex("SUB.*SIN.*"),
+      posRegex("PRP.*"),
+      posRegex("EIG.*GEN.*"),
+      posRegex("SUB.*"),
+      tokenRegex("ist|war")
+    ),
+    Arrays.asList( // Die Aussichten für Japans Zukunft sind düster.
+      posRegex("(ADJ|PA[12]|ART).*PLU.*"),
+      posRegex("SUB.*PLU.*"),
+      posRegex("PRP.*"),
+      posRegex("EIG.*GEN.*"),
+      posRegex("SUB.*"),
+      tokenRegex("sind|waren")
+    ),
+    Arrays.asList( // Anfänger wie auch Fortgeschrittene sind herzlich willkommen!
+      posRegex("SUB.*PLU.*"),
+      token("wie"),
+      token("auch"),
+      tokenRegex(".+"),
+      tokenRegex("sind|waren")
     )
   );
 

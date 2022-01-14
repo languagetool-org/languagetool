@@ -24838,6 +24838,43 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rulegroup id="DER_KLICK_AUF" name="der klick (Klick) auf" default="temp_off">
+            <rule>
+                <pattern>
+                    <token postag="ART.*MAS.*" postag_regexp="yes" />
+                    <token postag="(ADJ|PA[12]):.*" postag_regexp="yes" min="0" regexp="yes" case_sensitive="yes">
+                        [a-zöäü].*
+                        <exception postag="ADV:MOD" />
+                    </token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">[ck]lick</token>
+                    </marker>
+                    <token>auf</token>
+                </pattern>
+                <message>Das Nomen <suggestion>Klick</suggestion> wird großgeschrieben.</message>
+                <example correction="Klick">Mit dem <marker>klick</marker> auf "Kaufen" bestätigen Sie unsere AGB.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="(PRO|ART).*MAS.*" postag_regexp="yes">
+                        <exception regexp="yes">das|ich|du|sie|er|es|wir|ihn|uns|euch|dich|mich|man</exception>
+                    </token>
+                    <token postag="(ADJ|PA[12]):.*MAS.*" postag_regexp="yes" min="0" regexp="yes" case_sensitive="yes">
+                        [a-zöäü].*
+                        <exception postag="ADV:MOD" />
+                    </token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">[ck]lick</token>
+                    </marker>
+                    <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
+                    <token postag="VER:.+" postag_regexp="yes">
+                        <exception regexp="yes">m?einen?|mal|recht</exception>
+                    </token>
+                </pattern>
+                <message>Das Nomen <suggestion>Klick</suggestion> wird großgeschrieben.</message>
+                <example correction="Klick">Jeder <marker>klick</marker> hilft!</example>
+            </rule>
+        </rulegroup>
         <rule id="UM_LETZTERES" name="um letzteres (Letzteres) kümmern" default="temp_off">
             <pattern>
                 <token>um</token>
@@ -24945,7 +24982,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
                     <token postag="VER:.+" postag_regexp="yes">
-                        <exception regexp="yes">m?einen?</exception>
+                        <exception regexp="yes">m?einen?|mal|recht</exception>
                     </token>
                 </pattern>
                 <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
@@ -45102,6 +45139,16 @@ Andere Projekte</example>
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
+        <rule id="SOLCHE_VORGEHEN" name="solche(s) Vorgehen" default="temp_off">
+            <pattern>
+                <token regexp="yes">solche|ähnliche|diese</token>
+                <token case_sensitive="yes">Vorgehen</token>
+            </pattern>
+            <message>Für das Nomen "Vorgehen" existiert keine Pluralform.</message>
+            <suggestion>\1s Vorgehen</suggestion>
+            <suggestion>\1 Vorgänge</suggestion>
+            <example correction="Solches Vorgehen|Solche Vorgänge"><marker>Solche Vorgehen</marker> sind jedoch oft für kleine Projekte zu aufwändig.</example>
+        </rule>
         <rulegroup id="HAST_DICH" name="hast (du) dich">
             <antipattern>
                 <token skip="-1">du</token>
@@ -53800,6 +53847,28 @@ Andere Projekte</example>
     <!-- Zeichensetzung -->
     <!-- ====================================================================== -->
     <category id="PUNCTUATION" name="Zeichensetzung">
+        <rule id="ICH_MELDE_MICH_SOLLTE" name="ich melde mich(,) sollte" default="temp_off">
+            <pattern>
+                <token postag="PRO.*|EIG.*" postag_regexp="yes" />
+                <token inflected="yes" regexp="yes">
+                    melden|rufen|sprechen|sehen|informieren|benachrichtigen|pingen
+                    <exception case_sensitive="yes" regexp="yes">[A-Z].*</exception>
+                </token>
+                <token regexp="yes">mich|sich|dich|man|uns</token>
+                <token postag="ADV.*" postag_regexp="yes" min="0" max="2" />
+                <marker>
+                    <token postag="VER:(MOD|AUX).*" postag_regexp="yes" skip="-1">
+                        <exception postag="PA[12].*" postag_regexp="yes" />
+                    </token>
+                </marker>
+                <token postag="VER:INF.*" postag_regexp="yes" />
+            </pattern>
+            <message>Hier scheint ein Komma zu fehlen.</message>
+            <suggestion>, \5</suggestion>
+            <example correction=", sollte">Ich melde mich<marker> sollte</marker> das Interesse wieder bestehen.</example>
+            <example correction=", sollte">Der meldet sich wieder<marker> sollte</marker> das Interesse wieder bestehen.</example>
+            <example>Man kann sich jetzt ganz gelassen zurücklehnen und abwarten.</example>
+        </rule>
         <rule id="ICH_SEHE_WAS_WAS" name="ich sehe was(,) was du nicht siehst">
             <pattern>
                 <token postag="VER.*" postag_regexp="yes" />
@@ -53833,7 +53902,6 @@ Andere Projekte</example>
             <!-- TODO:
                  "Ich finde das Haus von Dieter sollte"
                  "Ich finde bei den Autos von Dieter sollte ..."
-                 "Die Menschen glauben bei den Autos sind ..."
                  "Ich hoffe Sie gut informiert zu haben."
                 -->
             <antipattern><!-- Tom weiß mit Lasttieren umzugehen. -->
@@ -53849,9 +53917,11 @@ Andere Projekte</example>
                 <token postag="PRO:POS.*" postag_regexp="yes" />
                 <token regexp="yes" case_sensitive="yes">wissen|glauben?|wetten?|fürchten</token>
             </antipattern>
+            
             <rule><!-- Ich glaube für euch ist hier kein Platz -->
                 <pattern>
                     <token postag="PKT|SENT_START|KON.*" postag_regexp="yes" />
+                    <token regexp="yes" min="0">&anfauf;</token>
                     <token regexp="yes" min="0">Herrn?|Frau|Fräulein</token>
                     <token postag="PRO:PER:NOM.*|PRO:IND:NOM.*|EIG.*" postag_regexp="yes" />
                     <token inflected="yes" regexp="yes" min="0">werden|haben</token>
@@ -53875,7 +53945,7 @@ Andere Projekte</example>
                     </token>
                 </pattern>
                 <message>Hier scheint ein Komma zu fehlen.</message>
-                <suggestion>, \7</suggestion>
+                <suggestion>, \8</suggestion>
                 <example correction=", für">Ich glaube<marker> für</marker> euch ist hier kein Platz.</example>
                 <example correction=", für">Ich glaube übrigens<marker> für</marker> euch ist hier kein Platz.</example>
                 <example correction=", wegen">Sie denken<marker> wegen</marker> Karl geht alles den Bach runter.</example>
@@ -53891,7 +53961,6 @@ Andere Projekte</example>
             </rule>
             <rule><!-- Die Menschen glauben bei euch ist kein Platz.  -->
                 <pattern>
-                    <token postag="PKT|SENT_START|KON.*" postag_regexp="yes" />
                     <token postag="ART.*|PRO:(POS|DEM).*" postag_regexp="yes" />
                     <token postag="(ADJ|PA[12]).*" postag_regexp="yes" min="0" max="2" />
                     <token postag="EIG.*|PRO.*|SUB.*" postag_regexp="yes" />
@@ -53916,14 +53985,17 @@ Andere Projekte</example>
                     </token>
                 </pattern>
                 <message>Hier scheint ein Komma zu fehlen.</message>
-                <suggestion>, \8</suggestion>
+                <suggestion>, \7</suggestion>
                 <example correction=", für">Die Menschen glauben<marker> für</marker> euch ist hier kein Platz.</example>
                 <example correction=", für">Der Peter behauptet<marker> für</marker> euch ist hier kein Platz.</example>
+                <example correction=", bei">Die Mechaniker glauben<marker> bei</marker> den Autos sind die Zündkerzen kaputt.</example>
                 <example>Zuerst einmal möchte ich mich herzlichst bei euch bedanken, dass ihr euer wissen mit allen teilt.</example>
+                <example type="triggers_error">Dort habe ich das INDASA-Rollenschleifpapier weiß in Industriequalität entdeckt.</example>
             </rule>
             <rule><!-- Ich glaube in 2 Monaten gehen ... -->
                 <pattern>
                     <token postag="PKT|SENT_START|KON.*" postag_regexp="yes" />
+                    <token regexp="yes" min="0">&anfauf;</token>
                     <token regexp="yes" min="0">Herrn?|Frau|Fräulein</token>
                     <token postag="PRO:PER:NOM.*|PRO:IND:NOM.*|EIG.*" postag_regexp="yes" />
                     <token inflected="yes" regexp="yes" min="0">werden|haben</token>
@@ -53947,12 +54019,13 @@ Andere Projekte</example>
                     </token>
                 </pattern>
                 <message>Hier scheint ein Komma zu fehlen.</message>
-                <suggestion>, \7</suggestion>
+                <suggestion>, \8</suggestion>
                 <example correction=", in">Ich glaube<marker> in</marker> 3 Monaten ist hier wieder ein Platz frei.</example>
             </rule>
             <rule>
                 <pattern>
                     <token postag="PKT|SENT_START|KON.*" postag_regexp="yes" />
+                    <token regexp="yes" min="0">&anfauf;</token>
                     <token regexp="yes" min="0">Herrn?|Frau|Fräulein</token>
                     <token postag="PRO:PER:NOM.*|PRO:IND:NOM.*|EIG.*" postag_regexp="yes" />
                     <token inflected="yes" regexp="yes" min="0">werden|haben</token>
@@ -53976,7 +54049,7 @@ Andere Projekte</example>
                     </token>
                 </pattern>
                 <message>Hier scheint ein Komma zu fehlen.</message>
-                <suggestion>, \7</suggestion>
+                <suggestion>, \8</suggestion>
                 <example correction=", für">Ich glaube<marker> für</marker> Herrn Trump ist hier kein Platz.</example>
             </rule>
             <rule>
@@ -54001,6 +54074,7 @@ Andere Projekte</example>
                 </antipattern>
                 <pattern>
                     <token postag="PKT|SENT_START|KON.*" postag_regexp="yes" />
+                    <token regexp="yes" min="0">&anfauf;</token>
                     <token regexp="yes" min="0">Herrn?|Frau|Fräulein</token>
                     <token postag="PRO:PER:NOM.*|PRO:IND:NOM.*|EIG.*" postag_regexp="yes" />
                     <token inflected="yes" regexp="yes" min="0">werden|haben</token>
@@ -54021,7 +54095,7 @@ Andere Projekte</example>
                     </token>
                 </pattern>
                 <message>Hier scheint ein Komma zu fehlen.</message>
-                <suggestion>, \7</suggestion>
+                <suggestion>, \8</suggestion>
                 <example correction=", die">Ich denke<marker> die</marker> Zeit ist begrenzt.</example>
                 <example correction=", diese">Ich glaube<marker> diese</marker> große französische Konkurrenz sollten wir uns anschauen.</example>
                 <example correction=", die">Ich hoffe<marker> die</marker> AFD wird nicht so stark wie sie von einigen geredet ist.</example>
@@ -54065,6 +54139,7 @@ Andere Projekte</example>
                 </antipattern>
                 <pattern>
                     <token postag="PKT|SENT_START|KON.*" postag_regexp="yes" />
+                    <token regexp="yes" min="0">&anfauf;</token>
                     <token regexp="yes" min="0">Herrn?|Frau|Fräulein</token>
                     <token postag="PRO:PER:NOM.*|PRO:IND:NOM.*|EIG.*" postag_regexp="yes" />
                     <token inflected="yes" regexp="yes" min="0">werden|haben</token>
@@ -54083,7 +54158,7 @@ Andere Projekte</example>
                     </token>
                 </pattern>
                 <message>Hier scheint ein Komma zu fehlen.</message>
-                <suggestion>, \7</suggestion>
+                <suggestion>, \8</suggestion>
                 <example correction=", Grammatik-Regeln">Ich denke<marker> Grammatik-Regeln</marker> sollten Vorrang haben.</example>
                 <example correction=", Tom">Ich glaube<marker> Tom</marker> gefällt es hier nicht.</example>
                 <example correction=", Vampire">Ich finde<marker> Vampire</marker> bereichern das Rollenspiel, doch nur wenn sie nach Lore gestaltet werden.</example>
@@ -54092,6 +54167,7 @@ Andere Projekte</example>
                 <example correction=", ich">Ihr wisst<marker> ich</marker> trage öfters Mode von Ulla Popken.</example>
                 <example correction=", man">Ich glaube<marker> man</marker> braucht in diesem Fall eine unabhängige, übergeordnete Instanz.</example>
                 <example correction=", der">Ich glaub<marker> der</marker> war nötig.</example>
+                <example correction=", man">Ich finde<marker> man</marker> sollte das nicht machen.</example>
                 <example>Eine in Osteuropa und Asien vermutete Gruppe pflasterte mit ihren Aussendungen vor einigen Monaten zwei Millionen Mailboxen zu.</example>
                 <example>Ich finde Esel süß.</example>
                 <example>Tom und Maria sagten Johannes, sie fänden Elke eingebildet.</example>
@@ -54136,6 +54212,7 @@ Andere Projekte</example>
                 </antipattern>
                 <pattern>
                     <token postag="PKT|SENT_START|KON.*" postag_regexp="yes" />
+                    <token regexp="yes" min="0">&anfauf;</token>
                     <token regexp="yes" min="0">Herrn?|Frau|Fräulein</token>
                     <token postag="PRO:PER:NOM.*|PRO:IND:NOM.*|EIG.*" postag_regexp="yes" />
                     <token inflected="yes" regexp="yes" min="0">werden|haben</token>
@@ -54156,7 +54233,7 @@ Andere Projekte</example>
                     </token>
                 </pattern>
                 <message>Hier scheint ein Komma zu fehlen.</message>
-                <suggestion>, \7</suggestion>
+                <suggestion>, \8</suggestion>
                 <example correction=", neue">Ich denke<marker> neue</marker> Grammatik-Regeln sollten Vorrang haben.</example>
                 <example correction=", gute">Ich glaube<marker> gute</marker> Interviewführung lernt man größtenteils durchs machen.</example>
                 <example>Die weiß behaarten Nebenblätter sind 3 bis 7 mm lang.</example>
@@ -54165,6 +54242,7 @@ Andere Projekte</example>
             <rule>
                 <pattern>
                     <token postag="PKT|SENT_START|KON.*" postag_regexp="yes" />
+                    <token regexp="yes" min="0">&anfauf;</token>
                     <token regexp="yes" min="0">Herrn?|Frau|Fräulein</token>
                     <token postag="PRO:PER:NOM.*|PRO:IND:NOM.*|EIG.*" postag_regexp="yes" />
                     <token inflected="yes" regexp="yes" min="0">werden|haben</token>
@@ -54186,7 +54264,7 @@ Andere Projekte</example>
                     </token>
                 </pattern>
                 <message>Hier scheint ein Komma zu fehlen.</message>
-                <suggestion>, \7</suggestion>
+                <suggestion>, \8</suggestion>
                 <example correction=", Herr">Ich denke<marker> Herr</marker> Peters sollte Vorrang haben.</example>
             </rule>
         </rulegroup>

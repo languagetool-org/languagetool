@@ -303,6 +303,13 @@ public class SubjectVerbAgreementRuleTest {
         "Sie liebt Kunst und Kunst war auch kein Problem, denn er würde das Geld zurückkriegen.",
         "Bei komplexen und andauernden Störungen ist der Stress-Stoffwechsel des Hundes entgleist.",
         "Eltern ist der bisherige Kita-Öffnungsplan zu unkonkret",
+        "Einer der bedeutendsten Māori-Autoren der Gegenwart ist Witi Ihimaera.",
+        "Start und Ziel ist Innsbruck",
+        "Anfänger wie auch Fortgeschrittene sind herzlich willkommen!",
+        "Die Aussichten für Japans Zukunft sind düster.",
+        "Das Angeln an Mallorcas Felsküsten ist überaus Erfolg versprechend.",
+        "Das bedeutendste Bauwerk und Wahrzeichen der Stadt ist die ehemalige Klosterkirche des Klosters Hofen.",
+        "Das saisonale Obst und Gemüse ist köstlich und oft deutlich günstiger als in der Stadt.",
         "Gründer und Leiter des Zentrums ist der Rabbiner Marvin Hier, sein Stellvertreter ist Rabbi Abraham Cooper."
     );
     for (String sentence : sentences) {

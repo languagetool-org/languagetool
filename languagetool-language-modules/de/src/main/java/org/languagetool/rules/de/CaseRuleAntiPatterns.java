@@ -1199,7 +1199,11 @@ class CaseRuleAntiPatterns {
       csRegex("[a-zäöü…\\.!,\\?…].*")
     ),
     Arrays.asList( // Ich habe noch Dringendes mitzuteilen
-      csRegex("Dringendes|Bares|Vertrautes|Positives|Negatives|Gelerntes"),
+      csRegex("Dringendes|Bares|Vertrautes|Positives|Negatives|Gelerntes|Neues|Altes"),
+      csRegex("[a-zäöü…\\.!,\\?…].*")
+    ),
+    Arrays.asList( // Immer mehr Ältere erkranken daran
+      csRegex("Ältere|Jüngere"),
       csRegex("[a-zäöü…\\.!,\\?…].*")
     ),
     Arrays.asList( // § 12 Die Pflichtversicherung
@@ -1239,8 +1243,7 @@ class CaseRuleAntiPatterns {
     ),
     Arrays.asList( // [Weiterlesen]
       token("["),
-      csRegex("[A-ZÄÖÜ].+"),
-      token("]")
+      csRegex("[A-ZÄÖÜ].+")
     )
   );
 
