@@ -49,6 +49,7 @@ public class RepeatedPatternRuleTransformer implements PatternRuleTransformer {
     RepeatedPatternRule(List<AbstractPatternRule> rules, Language lang) {
       this.rules = Collections.unmodifiableList(rules);
       this.ruleLanguage = lang;
+      setPremium(rules.stream().anyMatch(r -> r.isPremium()));
     }
 
     private final List<AbstractPatternRule> rules;
