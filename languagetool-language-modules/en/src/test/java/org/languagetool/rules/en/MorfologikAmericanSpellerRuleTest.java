@@ -146,6 +146,8 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     assertEquals(0, rule.match(lt.getAnalyzedSentence("компьютерная")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("中文維基百科 中文维基百科")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("The statements¹ of⁷ the⁵⁰ government⁹‽")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("At 3 o'clock.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("At 3 o’clock.")).length);
     
     // test words in language-specific spelling_en-US.txt
     assertEquals(0, rule.match(lt.getAnalyzedSentence("USTestWordToBeIgnored")).length);
