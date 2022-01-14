@@ -3480,6 +3480,14 @@ RB => Règles Brutes
     </rulegroup>
     <!-- CATEGORY: verbs (particular cases) -->
     <!-- TODO: move down -->
+    <rule id="COUPONS_NET" name="coupons net">
+        <pattern>
+            <token postag="R pers obj 3 e p">les</token>
+            <token postag="V ind pres 1 p">coupons</token>
+            <token postag="A">net</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
     <rule id="LEQUEL_VERBE" name="pour lequel + verbe">
         <pattern>
             <token postag="P"/>
@@ -5240,7 +5248,7 @@ RB => Règles Brutes
         </rule>
         <rule>
             <antipattern>
-                <token postag="R pers .*" postag_regexp="yes"/>
+                <token postag="R pers .*" postag_regexp="yes" regexp="yes">.*-mêmes?</token>
                 <token>les</token>
                 <token postag="N.*" postag_regexp="yes"/>
             </antipattern>
@@ -6717,6 +6725,10 @@ RB => Règles Brutes
         <antipattern>
             <token postag="D.*" postag_regexp="yes"/>
             <token postag="[NJZ].*" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
+            <token postag="R pers.*" postag_regexp="yes" regexp="yes">.*-mêmes?</token>
+            <token>les</token>
         </antipattern>
         <pattern>
             <token postag="R pers.*" postag_regexp="yes">
