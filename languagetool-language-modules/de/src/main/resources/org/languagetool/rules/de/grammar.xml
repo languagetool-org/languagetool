@@ -1687,7 +1687,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token>im</token>
                     <token>rahmen</token>
-                    <token regexp="yes">von|de[sr]</token>
+                    <token regexp="yes">von|de[sr]|diese[rs]</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">sein</token>
+                    <token postag="ADV.*" postag_regexp="yes" min="0" />
+                    <token>im</token>
+                    <token>kommen</token>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -1696,11 +1702,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="VER:[123]:.*" postag_regexp="yes">
                         <exception postag="VER:.*" postag_regexp="yes" negate_pos="yes"/>
                         <exception regexp="yes">regen|prallen|siebten|achten|web|wachen|trauten|ehelichen|Schweiße|Schweisse|stumpfen|.+bändigen|.+orientiert.*|.+vergleich|durchschnitt|stockdunkeln|leben|sitzen|garten|.*lauf|.+blick|weg|dunkeln|dunklen|hellen|wegstehen|.+gebiet|Skype|.+unterricht</exception>
+                        <exception postag="VER:INF.*" postag_regexp="yes" case_sensitive="yes" regexp="yes">[A-ZÄÖÜ][a-zäöüß].*</exception>
                     </token>
                 </pattern>
                 <message>Möglicher Tippfehler: Meinten Sie <suggestion>ihm</suggestion>?</message>
                 <example correction="Ihm"><marker>Im</marker> folgt Merkel.</example>
                 <example><marker>Im</marker> gleichen T-Shirt sah er besser aus.</example>
+                <example>Das ist im kommen.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -6163,6 +6171,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Verwechslungen -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
+        <rule id="SCHON_SCHÖN" name="schon vs schön" default="temp_off">
+            <antipattern>
+                <token>schon</token>
+                <token postag="PKT" spacebefore="yes" />
+            </antipattern>
+            <antipattern>
+                <token>schon</token>
+                <token>.</token>
+                <token>.</token>
+            </antipattern>
+            <antipattern>
+                <token>schon</token>
+                <token>!</token>
+                <token>?</token>
+            </antipattern>
+            <pattern>
+                <token postag="PRO:PER.*" postag_regexp="yes" />
+                <token inflected="yes">sein</token>
+                <token postag="ADV.*" postag_regexp="yes" min="0" />
+                <marker>
+                    <token case_sensitive="yes">schon</token>
+                </marker>
+                <token regexp="yes">,|\.|!|wenn|dass</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>schön</suggestion>?</message>
+            <example correction="schön">Es wäre <marker>schon</marker>, wenn es besser funktionieren würde.</example>
+        </rule>
         <rule id="IN_DER_NAHE" name="in der Nahe (Nähe)">
             <antipattern>
                 <token>nahe</token>
@@ -24803,6 +24838,59 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="UM_LETZTERES" name="um letzteres (Letzteres) kümmern" default="temp_off">
+            <pattern>
+                <token>um</token>
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">ersteres|letzteres|folgendes</token>
+                </marker>
+                <token min="0">zu</token>
+                <token postag="VER.*" postag_regexp="yes" />
+            </pattern>
+            <message>Nominalisierte Adjektive sollten in der Regel großgeschrieben werden.</message>
+            <suggestion><match no="2" case_conversion="startupper" /></suggestion>
+            <example correction="Letzteres">Ich werde mich um <marker>letzteres</marker> kümmern.</example>
+        </rule>
+        <rule id="GEGENUEBER" name="Gegenüber (gegenüber)" default="temp_off">
+            <antipattern>
+                <token postag="(ADJ|ART|PRO:POS|PA[12]).*|UNKNOWN" postag_regexp="yes" />
+                <token case_sensitive="yes">Gegenüber</token>
+            </antipattern>
+            <antipattern>
+                <token>als</token>
+                <token>Gegenüber</token>
+                <token postag="ADJ.*" postag_regexp="yes" />
+                <token postag="VER.*" postag_regexp="yes" />
+            </antipattern>
+            <pattern>
+                <token regexp="yes">
+                    .*[a-zäöüß0-9].*
+                    <exception regexp="yes">vom|am|zum|im|beim</exception>
+                </token>
+                <marker>
+                    <token case_sensitive="yes">Gegenüber</token>
+                </marker>
+            </pattern>
+            <message>Das Adverb <suggestion><match no="2" case_conversion="alllower" /></suggestion> sollte kleingeschrieben werden.</message>
+            <example correction="gegenüber">Ich stehe dem Mann <marker>Gegenüber</marker>.</example>
+            <example>Natürlich, aber das hängt vom Gegenüber ab.</example>
+            <example>… wenn man ihn als Gegenüber ernst nimmt und anspricht.</example>
+        </rule>
+        <rule id="RUECKEN_AN_RUECKEN" name="Rücken an Rücken" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">Rücken|Schulter|Kopf|Seite|Haut</token>
+                <token>an</token>
+                <token regexp="yes">Rücken|Schulter|Kopf|Seite|Haut</token>
+            </antipattern>
+            <pattern case_sensitive="yes">
+                <token regexp="yes">[Rr]ücken|[Ss]chulter|[Kk]opf|[Ss]eite|[Hh]aut</token>
+                <token>an</token>
+                <token regexp="yes">[Rr]ücken|[Ss]chulter|[Kk]opf|[Ss]eite|[Hh]aut</token>
+            </pattern>
+            <message>In dieser Redewendung sollte "\1" großgeschrieben werden.</message>
+            <suggestion><match no="1" case_conversion="startupper" /> an <match no="3" case_conversion="startupper" /></suggestion>
+            <example correction="Rücken an Rücken">Wir stehen <marker>rücken an rücken</marker>.</example>
+        </rule>
         <rule id="EIN_AUF_UND_AB" name="ein auf und ab (Auf und Ab)">
             <antipattern>
                 <token>ab</token>
@@ -45327,6 +45415,12 @@ Andere Projekte</example>
                 <token>an</token>
             </antipattern>
             <antipattern>
+                <token>Seite</token>
+                <token>an</token>
+                <token>Seite</token>
+                <token>an</token>
+            </antipattern>
+            <antipattern>
                 <token>Schlag</token>
                 <token>auf</token>
                 <token>Schlag</token>
@@ -59228,6 +59322,11 @@ Andere Projekte</example>
                         <exception>zu</exception>
                     </token>
                 </antipattern>
+                <antipattern>
+                    <token>um</token>
+                    <token>so</token>
+                    <token>besser</token>
+                </antipattern>
                 <pattern>
                     <token postag="VER:.*" postag_regexp="yes" skip="-1">
                         <exception postag="VER:AUX:.*|SUB:.*|EIG:.*|PR[OP]:.*|AD[JV]:.*|ART:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
@@ -59518,7 +59617,7 @@ Andere Projekte</example>
                     <token regexp="yes">nämlich|insbesondere|einschließlich|einschliesslich|also</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">,|;|:|-|–|—</token>
+                    <token regexp="yes">,|;|:|-|–|—|\(</token>
                     <token/>
                     <token regexp="yes">nämlich|insbesondere|einschließlich|einschliesslich|also</token>
                 </antipattern>
@@ -59536,7 +59635,7 @@ Andere Projekte</example>
                     <token>insbesondere</token>
                 </antipattern>
                 <antipattern>
-                    <token>da</token>
+                    <token regexp="yes">da|dann|dort</token>
                     <token>nämlich</token>
                 </antipattern>
                 <antipattern>
@@ -59555,16 +59654,23 @@ Andere Projekte</example>
                 </antipattern>
                 <antipattern>
                     <token>nämlich</token>
-                    <token regexp="yes">,|-|–|—</token>
+                    <token regexp="yes">,|-|–|—|…|\)</token>
+                </antipattern>
+                <antipattern><!-- Dazu gehörten für ihn insbesondere die freien Künste. -->
+                    <token inflected="yes">gehören</token>
+                    <token postag="ADV.*" postag_regexp="yes" min="0" />
+                    <token>für</token>
+                    <token regexp="yes">ihn|mich|sie|euch|uns</token>
+                    <token regexp="yes">nämlich|insbesondere</token>
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token><exception regexp="yes">,|;|:|\.|-|–|—|\(|„|"|bis|und|oder|sondern|\)</exception><exception postag="SENT_START"/><exception postag="VER:([1-3]|AUX|MOD):.*" postag_regexp="yes"/></token>
+                        <token><exception regexp="yes">,|;|:|\.|-|–|—|\(|„|"|bis|und|oder|sondern|sowie|\)</exception><exception postag="SENT_START"/><exception postag="VER:([1-3]|AUX|MOD):.*" postag_regexp="yes"/></token>
                         <token skip="-1" regexp="yes">nämlich|insbesondere|einschließlich|einschliesslich<exception scope="next" postag="VER.*" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="SENT_END" regexp="yes">\p{P}+
                         <exception scope="previous" postag="VER:.+" postag_regexp="yes"/>
-                        <exception scope="previous" postag="UNKNOWN" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöüß]+</exception>
+                        <exception scope="previous" postag="UNKNOWN" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöüß]{4,20}</exception>
                     </token>
                 </pattern>
                 <message>Vor einer nachgestellten Erläuterung steht üblicherweise ein Komma.</message>
@@ -59579,9 +59685,11 @@ Andere Projekte</example>
                 <example>Sei nun n eine natürliche Zahl und damit insbesondere nicht negativ.</example>
                 <example>Er schrie, denn witzig fand er es nämlich nicht.</example>
                 <example>Dann steht da nämlich etwas anderes vermerkt.</example>
+                <example>Dazu gehörten für ihn insbesondere die freien Künste.</example>
                 <example>Diagnostisch wichtig ist hier insbesondere die Entwicklung.</example>
                 <example>Ein Haus verbraucht laut einer US-Studie nämlich rund 519 Kilogramm CO2.</example>
                 <example>Ich finde Eve nämlich auch super.</example>
+                <example>Die obersten Gerichte des Kantons sind das Kantonsgericht (zuständig insbesondere für Zivil- und Strafsachen) und das Verwaltungsgericht (zuständig insbesondere für öffentlichrechtliche Streitigkeiten).</example>
                 <example>Letztlich eignet sich Kanban insbesondere für Reihenfertigung.</example>
                 <example>Dann werden seine Wörter nämlich am Server persistiert.</example>
             </rule> 

@@ -1236,6 +1236,11 @@ class CaseRuleAntiPatterns {
       token(">"),
       token(">"),
       csRegex("[A-ZÄÖÜ].+")
+    ),
+    Arrays.asList( // [Weiterlesen]
+      token("["),
+      csRegex("[A-ZÄÖÜ].+"),
+      token("]")
     )
   );
 

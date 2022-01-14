@@ -1246,6 +1246,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("hbat", "habt");
     put("ichs", "ich es");
     put("folgendermassen", "folgendermaßen");
+    put("Adon", "Add-on");
+    put("Adons", "Add-ons");
     putRepl("[Üü]bergrifflich(e[mnrs]?)?", "lich", "ig");
   }
 
@@ -1440,8 +1442,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         && !s.matches("[\\wöäüÖÄÜß]+ -[\\wöäüÖÄÜß]+")   // e.g. "ALT -TARIF"
         && !s.endsWith("-s")   // https://github.com/languagetool-org/languagetool/issues/4042
         && !s.endsWith(" de")   // https://github.com/languagetool-org/languagetool/issues/4042
-        && !s.matches("[a-zöäüß] .+")
-        && !s.matches(".+ [a-zöäüß]");  // z.B. nicht "rauchen e" für "rauche ne" vorschlagen
+        && !s.matches("[A-ZÖÄÜa-zöäüß] .+") // z.B. nicht "I Tand" für "IT and Services"
+        && !s.matches(".+ [a-zöäüßA-ZÖÄÜ]");  // z.B. nicht "rauchen e" für "rauche ne" vorschlagen
   }
 
   @NotNull

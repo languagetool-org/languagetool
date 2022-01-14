@@ -1028,6 +1028,14 @@ class AgreementRuleAntiPatterns1 {
       csToken("Boostern")
     ),
     Arrays.asList(
+      // Das Zeit.de-CMS / Das Zeit.de CMS
+      token("das"),
+      new PatternTokenBuilder().posRegex("(ADJ|PA[12]).+").min(0).build(),
+      csToken("Zeit"),
+      csToken("."),
+      tokenRegex("de.*")
+    ),
+    Arrays.asList(
       token("das"),
       csToken("verlangte"),
       tokenRegex("Ruhe|Zeit|Geduld")
