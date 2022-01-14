@@ -51,7 +51,7 @@
   * The `--allow-origin` option doesn't require a parameter anymore
     in order to avoid confusion about whether `*` needs to be quoted
     on Windows. Using `--allow-origin` without a parameter now implies `*`.
-  * Added new value `firstupper` for `case_conversion` attribute in `grammar.xml (see issue #3241).
+  * Added new value `firstupper` for `case_conversion` attribute in `grammar.xml` (see issue #3241).
 
 
 ## 5.5 (2021-10-02)
