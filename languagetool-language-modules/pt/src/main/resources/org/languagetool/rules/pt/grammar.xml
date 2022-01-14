@@ -11802,65 +11802,8 @@ Vamos minorar a dor.
 		<message>Substitua por <suggestion>devida</suggestion>.</message>
 		<example correction="devida">Não vos posso dar a atenção <marker>que merecem</marker>.</example>  
 	</rule>
-	
-    <!-- 	CADA VEZ MAIOR/MENOR crescente/decrescente -->	
-	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-31 (21-OCT-2020+)     -->
-    <rulegroup id='CADA_VEZ_MAIOR_MENOR_CRESCENTE_DECRESCENTE' name="Cada vez maior/menor > crescente/decrescente">
-	
-	  <!-- CRESCENTE -->
-	  <rule>
-		<pattern>
-	      <token regexp='yes'>a|e|é|o|um|uma</token>
-		  <marker>
-			<token>cada</token>
-			<token>vez</token>
-			<token>maior</token>
-		  </marker>
-		</pattern>
-		<message>Substitua por <suggestion>crescente</suggestion>.</message>
-		<example correction="crescente">O <marker>cada vez maior</marker> número de cometas descobertos tornou o processo problemático.</example>
-	  </rule>
-	  <rule>
-		<pattern>
-	      <token postag='AQ0[CFM]S0|NC[CFM]S000' postag_regexp='yes'/>
-		  <marker>
-			<token>cada</token>
-			<token>vez</token>
-			<token>maior</token>
-		  </marker>
-		</pattern>
-		<message>Substitua por <suggestion>crescente</suggestion>.</message>
-		<example correction="crescente">O número <marker>cada vez maior</marker> de cometas descobertos tornou o processo problemático.</example>
-	  </rule>
-	  
-	  <!-- DECRESCENTE -->
-	  <rule>
-		<pattern>
-	      <token regexp='yes'>a|e|é|o|um|uma</token>
-		  <marker>
-			<token>cada</token>
-			<token>vez</token>
-			<token>menor</token>
-		  </marker>
-		</pattern>
-		<message>Substitua por <suggestion>decrescente</suggestion>.</message>
-		<example correction="decrescente">O <marker>cada vez menor</marker> número de cometas descobertos tornou o processo problemático.</example>
-	  </rule>
-	  <rule>
-		<pattern>
-	      <token postag='AQ0[CFM]S0|NC[CFM]S000' postag_regexp='yes'/>
-		  <marker>
-			<token>cada</token>
-			<token>vez</token>
-			<token>menor</token>
-		  </marker>
-		</pattern>
-		<message>Substitua por <suggestion>decrescente</suggestion>.</message>
-		<example correction="decrescente">O número <marker>cada vez menor</marker> de cometas descobertos tornou o processo problemático.</example>
-	  </rule>
-	  
-    </rulegroup>
-	
+
+
 	<!-- CHEGAR AO FIM findar/terminar -->
     <rule id='CHEGAR_AO_FIM_FINDAR_TERMINAR' name="Chegar ao fim → findar/terminar " type="style">
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-11-21 (25-JUN-2021+)      -->
@@ -19131,6 +19074,47 @@ O quê?!
 
 
  <category id='REDUNDANCY' name="Redundância">
+
+
+    <!-- 	CADA VEZ MAIOR/MENOR crescente/decrescente -->	
+    <rulegroup id='CADA_VEZ_MAIOR_MENOR_CRESCENTE_DECRESCENTE' name="Cada vez maior/menor → crescente/decrescente">
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-14 (Checked/Enhanced) (1-JAN-2022+)      -->
+
+	  <!-- CRESCENTE -->
+	  <rule>
+		<pattern>
+		  <or>
+			<token negate_pos="yes" postag='V.+' postag_regexp='yes'/>
+			<token>é</token>
+		  </or>
+		  <marker>
+			<token>cada</token>
+			<token>vez</token>
+			<token>maior</token>
+		  </marker>
+		</pattern>
+		<message>Substitua por <suggestion>crescente</suggestion>.</message>
+		<example correction="crescente">O número <marker>cada vez maior</marker> de cometas descobertos tornou o processo problemático.</example>
+	  </rule>
+
+	  <!-- DECRESCENTE -->
+	  <rule>
+		<pattern>
+		  <or>
+			<token negate_pos="yes" postag='V.+' postag_regexp='yes'/>
+			<token>é</token>
+		  </or>
+		  <marker>
+			<token>cada</token>
+			<token>vez</token>
+			<token>menor</token>
+		  </marker>
+		</pattern>
+		<message>Substitua por <suggestion>decrescente</suggestion>.</message>
+		<example correction="decrescente">O número <marker>cada vez menor</marker> de cometas descobertos tornou o processo problemático.</example>
+	  </rule>
+
+    </rulegroup>
 
 
     <rule id='ANTES_PREFIRO' name="Prefiro">
