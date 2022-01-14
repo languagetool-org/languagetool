@@ -5481,6 +5481,16 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="ignore_spelling"/>
     </rule>
 
+    <rule id="SANKT_KEIN_VERB" name="'Sankt' kein Verb">
+        <pattern>
+            <marker>
+                <token case_sensitive="yes">Sankt</token>
+            </marker>
+            <token case_sensitive="yes" regexp="yes" postag="UNKNOWN|EIG.*|SUB.*">[A-Z].+</token>
+        </pattern>
+        <disambig action="remove" postag="VER.*"/>
+    </rule>
+
     <!-- TODO: (ohne meine neue ..., durch eine alte ...)-->
     <!-- <rulegroup id="EINE_ARTIKEL" name="eine/meine als Artikel">
         <rule>
