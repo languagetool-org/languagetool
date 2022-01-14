@@ -314,30 +314,20 @@
             </pattern>
             <disambig action="add"><wd pos="POS"/></disambig>
         </rule>
-        <!--<rule>
-            <!-\- 20' N -\->
-            <pattern>
-                <token regexp="yes">\d+</token>
-                <marker>
-                    <token>'</token>    
-                </marker>
-                <token regexp="yes">[NSEW]</token>
-            </pattern>
-            <disambig action="add"><wd pos="_apostrophe_contraction_"/></disambig>
-        </rule>
-        <rule>
-            <!-\- 20' N -\->
-            <pattern>
-                <token regexp="yes">\d*[º°]</token>
-                <token regexp="yes">\d+</token>
-                <marker>
-                    <token>'</token>    
-                </marker>
-            </pattern>
-            <disambig action="add"><wd pos="_apostrophe_contraction_"/></disambig>
-        </rule>-->
         <rule>
             <!-- 20'  ambiguous -->
+            <antipattern>
+                <!-- quotation marks -->
+                <token>'</token>
+                <token spacebefore="no" regexp="yes" skip="8">.+</token>
+                <token spacebefore="no">'</token>
+            </antipattern>
+            <antipattern>
+                <!-- quotation marks -->
+                <token>‘</token>
+                <token spacebefore="no" regexp="yes" skip="8">.+</token>
+                <token spacebefore="no">’</token>
+            </antipattern>
             <pattern>
                 <!--<token regexp="yes">\.|,</token>-->
                 <token regexp="yes">\d+</token>
@@ -6414,13 +6404,18 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token regexp="yes">else|\d+</token>
             <token>'s</token>
             <token postag="NN.*" postag_regexp="yes"/>
+        </antipattern> 
+        <antipattern>
+            <!-- quotation marks -->
+            <token>'</token>
+            <token spacebefore="no" regexp="yes" skip="8">.+</token>
+            <token spacebefore="no">'</token>
         </antipattern>
         <antipattern>
             <!-- quotation marks -->
-            <token regexp="yes">['‘]</token>
-            <token spacebefore="no" regexp="yes" skip="4">.+</token>
-            <token regexp="yes">.*s</token>
-            <token spacebefore="no" regexp="yes">['’]</token>
+            <token>‘</token>
+            <token spacebefore="no" regexp="yes" skip="8">.+</token>
+            <token spacebefore="no">’</token>
         </antipattern>
         <rule><!-- probably verb "is": now add to some -->
             <antipattern>

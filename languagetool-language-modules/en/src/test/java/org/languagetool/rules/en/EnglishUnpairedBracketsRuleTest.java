@@ -88,6 +88,8 @@ public class EnglishUnpairedBracketsRuleTest {
     assertCorrect("al-Jazā’er");
     assertCorrect("second Mu’taq and third");
     assertCorrect("second Mu'taq and third");
+    assertCorrect("The phrase ‘\\1 \\2’ is British English.");
+    assertCorrect("The phrase ‘1 2’ is British English.");
     
     assertCorrect("22' N., long. ");
     assertCorrect("11º 22'");
