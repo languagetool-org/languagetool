@@ -339,21 +339,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Möglicher Tippfehler gefunden.</message>
                 <example correction="Grüße">Schöne <marker>Grüß0e</marker>.</example>
             </rule>
-        <rule id="POTENTIAL_COMPUND_TEST" name="potential compound test" default="temp_off">
-            <pattern>
-                <token regexp="yes">teures|neue|manchen</token>
-                <marker>
-                    <token regexp="yes">Hunde|Vereinsmitglieder|Event</token>
-                    <token regexp="yes">Futter|Zertifikate|Zertifikaten|Firmen</token>
-                </marker>
-            </pattern>
-            <filter class="org.languagetool.rules.de.PotentialCompoundFilter" args="determiner:\1 part1:\2 part2:\3"/>
-            <message>Wenn es sich um ein zusammengesetztes Nomen handelt, wird es mit Bindestrich oder zusammengeschrieben.</message>
-            <example correction="Hundefutter">Ich fordere teures <marker>Hunde Futter</marker>.</example>
-            <example correction="Vereinsmitglieder-Zertifikate|Vereinsmitgliederzertifikate">Ich fordere neue <marker>Vereinsmitglieder Zertifikate</marker>.</example>
-            <!--Done by DE_AGREEMENT <example correction="Vereinsmitglieder-Zertifikate|Vereinsmitgliederzertifikate">Bei manchen <marker>Vereinsmitglieder Zertifikaten</marker> haben sich Fehler eingeschlichen.</example>-->
-            <example correction="Event-Firmen">Ich fordere neue <marker>Event Firmen</marker>.</example>
-        </rule>
         <rule id="KOMPOSITA_BIVALENTE_VERBEN" name="Ich kenne mehrere Blumen Läden (Blumenläden)">
             <antipattern><!-- des Pudels Kern -->
                 <token postag="ART.*GEN.*" postag_regexp="yes"/>
@@ -6171,7 +6156,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Verwechslungen -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
-        <rule id="FREU_FRAU" name="Freu vs Frau" default="temp_off">
+        <rule id="TOPP_TOP" name="topp vs top" default="temp_off">
+            <pattern>
+                <token regexp="yes">ist|sind|war|waren</token>
+                <token min="0">wirklich</token>
+                <marker>
+                    <token case_sensitive="yes" regexp="yes">[Tt]opp</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie das Adjektiv <suggestion>top</suggestion> (= super)?</message>
+            <example correction="top">Deine Brille ist wirklich <marker>topp</marker>.</example>
+        </rule>
+        <rule id="FREU_FRAU" name="Freu vs Frau">
             <antipattern>
                 <token skip="1">ich</token>
                 <token>freu</token>
@@ -6189,7 +6185,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Frau"><marker>Freu</marker> Thies hat morgen keine Zeit.</example>
             <example>Freu Dich!</example>
         </rule>
-        <rule id="SCHON_SCHÖN" name="schon vs schön" default="temp_off">
+        <rule id="SCHON_SCHÖN" name="schon vs schön">
             <antipattern>
                 <token>schon</token>
                 <token postag="PKT" spacebefore="yes" />
@@ -12470,10 +12466,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="ADV.*" postag_regexp="yes" min="0" />
                 <marker>
                     <token>zu</token>
-                    <token>steht</token>
+                    <token regexp="yes">steht|stand</token>
                 </marker>
             </pattern>
-            <message>Das Verb <suggestion>zusteht</suggestion> wird zusammengeschrieben.</message>
+            <message>Das Verb <suggestion>zu<match no="5" case_conversion="alllower" /></suggestion> wird zusammengeschrieben.</message>
             <example correction="zusteht">Ich möchte das, was mir <marker>zu steht</marker>.</example>
         </rule>
         <rule id="SCHEISS_EGAL" name="scheißegal">
@@ -24856,7 +24852,43 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
-        <rulegroup id="DER_KLICK_AUF" name="der klick (Klick) auf" default="temp_off">
+        <rule id="WAS_GIBTS_NEUES" name="was gibt's neues (Neues)" default="temp_off">
+            <pattern>
+                <token>was</token>
+                <token regexp="yes">gibts?</token>
+                <token regexp="yes" min="0">&apostrophe;</token>
+                <token regexp="yes" min="0">e?s</token>
+                <token regexp="yes" min="0">denn|heute</token>
+                <marker>
+                    <token case_sensitive="yes" regexp="yes">neues|schöneres|besseres|schlimmeres|schlechteres</token>
+                </marker>
+                <token regexp="yes">,|als|\?|von|über|zu[rm]?|\?</token>
+            </pattern>
+            <message>Nominalisierte Adjektive sollten in der Regel großgeschrieben werden.</message>
+            <suggestion><match no="6" case_conversion="startupper" /></suggestion>
+            <example correction="Neues">Was gibt's <marker>neues</marker>?</example>
+        </rule>
+        <rule id="AUFGABEN_SUBST" name="meine aufgaben (Aufgaben)" default="temp_off">
+            <pattern>
+                <token postag="(PRO|ART).*PLU.*" postag_regexp="yes">
+                    <exception regexp="yes">das|ich|du|sie|er|es|wir|ihn|uns|euch|dich|mich|man</exception>
+                </token>
+                <token postag="(ADJ|PA[12]):.*PLU.*" postag_regexp="yes" min="0" regexp="yes" case_sensitive="yes">
+                    [a-zöäü].*
+                    <exception postag="ADV:MOD" />
+                </token>
+                <marker>
+                    <token case_sensitive="yes">aufgaben</token>
+                </marker>
+                <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
+                <token postag="VER:.+" postag_regexp="yes">
+                    <exception regexp="yes">m?einen?|mal|recht</exception>
+                </token>
+            </pattern>
+            <message>Das Nomen <suggestion>Aufgaben</suggestion> wird großgeschrieben.</message>
+            <example correction="Aufgaben">Meine <marker>aufgaben</marker> sind erledigt!</example>
+        </rule>
+        <rulegroup id="DER_KLICK_AUF" name="der klick (Klick) auf">
             <rule>
                 <pattern>
                     <token postag="ART.*MAS.*" postag_regexp="yes" />
@@ -24897,7 +24929,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token>um</token>
                 <marker>
-                    <token regexp="yes" case_sensitive="yes">ersteres|letzteres|folgendes</token>
+                    <token regexp="yes" case_sensitive="yes">ersteres|letzteres|folgendes|neues|altes</token>
                 </marker>
                 <token min="0">zu</token>
                 <token postag="VER.*" postag_regexp="yes" />
@@ -24906,7 +24938,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion><match no="2" case_conversion="startupper" /></suggestion>
             <example correction="Letzteres">Ich werde mich um <marker>letzteres</marker> kümmern.</example>
         </rule>
-        <rule id="GEGENUEBER" name="Gegenüber (gegenüber)" default="temp_off">
+        <rule id="GEGENUEBER" name="Gegenüber (gegenüber)">
             <antipattern>
                 <token postag="(ADJ|ART|PRO:POS|PA[12]).*|UNKNOWN" postag_regexp="yes" />
                 <token case_sensitive="yes">Gegenüber</token>
@@ -24931,7 +24963,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Natürlich, aber das hängt vom Gegenüber ab.</example>
             <example>… wenn man ihn als Gegenüber ernst nimmt und anspricht.</example>
         </rule>
-        <rule id="RUECKEN_AN_RUECKEN" name="Rücken an Rücken" default="temp_off">
+        <rule id="RUECKEN_AN_RUECKEN" name="Rücken an Rücken">
             <antipattern case_sensitive="yes">
                 <token regexp="yes">Rücken|Schulter|Kopf|Seite|Haut</token>
                 <token>an</token>
@@ -35071,6 +35103,26 @@ Andere Projekte</example>
                 <example correction="Preis">Wir alle haben unseren <marker>preis</marker>.</example>
                 <example correction="Preis">Freiheit hat ihren <marker>preis</marker>.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="(PRO|ART).*PLU.*" postag_regexp="yes">
+                        <exception regexp="yes">das|ich|du|sie|er|es|wir|ihn|uns|euch|dich|mich|man</exception>
+                    </token>
+                    <token postag="(ADJ|PA[12]):.*PLU.*" postag_regexp="yes" min="0" regexp="yes" case_sensitive="yes">
+                        [a-zöäü].*
+                        <exception postag="ADV:MOD" />
+                    </token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">preise?</token>
+                    </marker>
+                    <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
+                    <token postag="VER:.+" postag_regexp="yes">
+                        <exception regexp="yes">m?einen?|mal|recht</exception>
+                    </token>
+                </pattern>
+                <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
+                <example correction="Preise">Die <marker>preise</marker> steigen wirklich stark!</example>
+            </rule>
         </rulegroup>
         <rulegroup id="ZEIT_SUBST" name="'zeit (Zeit) haben' etc.">
             <antipattern>
@@ -39934,6 +39986,16 @@ Andere Projekte</example>
                 <message>Das Nomen <suggestion><match no="4" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
                 <example correction="Menge">Ich hatte eine <marker>menge</marker> Glück!</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>jede</token>
+                    <marker>
+                        <token case_sensitive="yes">menge</token>
+                    </marker>
+                </pattern>
+                <message>Das Nomen <suggestion><match no="2" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
+                <example correction="Menge">Ich hab davon jede <marker>menge</marker>.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="REIHE_SUBST" name="'an die reihe (Reihe) kommen' etc.">
             <rule>
@@ -40730,7 +40792,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">Fall|Mehrzahl|Prozent|Bruchteil</token>
+                    <token regexp="yes">Fall|Mehrzahl|Prozent|Bruchteil|(\d+)?%</token>
                     <token>der</token>
                     <marker>
                         <token>fälle</token>
@@ -41896,6 +41958,26 @@ Andere Projekte</example>
                 <short>&prgk;.</short>
                 <example>Er hat bekommen, was ihm <marker>zustand</marker>.</example>
                 <example correction="Zustand">Das ist je nach <marker>zustand</marker> unterschiedlich.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="(PRO|ART).*MAS.*" postag_regexp="yes">
+                        <exception regexp="yes">das|ich|du|sie|er|es|wir|ihn|uns|euch|dich|mich|man</exception>
+                    </token>
+                    <token postag="(ADJ|PA[12]):.*MAS.*" postag_regexp="yes" min="0" regexp="yes" case_sensitive="yes">
+                        [a-zöäü].*
+                        <exception postag="ADV:MOD" />
+                    </token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">zustand|zustände</token>
+                    </marker>
+                    <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
+                    <token postag="VER:.+" postag_regexp="yes">
+                        <exception regexp="yes">m?einen?|mal|recht</exception>
+                    </token>
+                </pattern>
+                <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
+                <example correction="Zustände">Die <marker>zustände</marker> sind einigermaßen gut!</example>
             </rule>
         </rulegroup>
         <rulegroup id="AUFSTAND_SUBST" name="'aufstand (Aufstand)'">
@@ -45157,15 +45239,16 @@ Andere Projekte</example>
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
-        <rule id="SOLCHE_VORGEHEN" name="solche(s) Vorgehen" default="temp_off">
+        <rule id="SOLCHE_VORGEHEN" name="solche(s) Vorgehen">
             <pattern>
-                <token regexp="yes">solche|ähnliche|diese</token>
+                <token regexp="yes">solche|ähnliche|diese|die|welche</token>
                 <token case_sensitive="yes">Vorgehen</token>
             </pattern>
             <message>Für das Nomen "Vorgehen" existiert keine Pluralform.</message>
             <suggestion>\1s Vorgehen</suggestion>
+            <suggestion>\1 Vorgehensweisen</suggestion>
             <suggestion>\1 Vorgänge</suggestion>
-            <example correction="Solches Vorgehen|Solche Vorgänge"><marker>Solche Vorgehen</marker> sind jedoch oft für kleine Projekte zu aufwändig.</example>
+            <example correction="Solches Vorgehen|Solche Vorgehensweisen|Solche Vorgänge"><marker>Solche Vorgehen</marker> sind jedoch oft für kleine Projekte zu aufwändig.</example>
         </rule>
         <rulegroup id="HAST_DICH" name="hast (du) dich">
             <antipattern>
@@ -53865,7 +53948,381 @@ Andere Projekte</example>
     <!-- Zeichensetzung -->
     <!-- ====================================================================== -->
     <category id="PUNCTUATION" name="Zeichensetzung">
-        <rule id="ICH_MELDE_MICH_SOLLTE" name="ich melde mich(,) sollte" default="temp_off">
+        <rule id="DIE_FRAGE_IST_KOMMA" name="die Frage ist(,) wem" default="temp_off">
+            <pattern>
+                <token>die</token>
+                <token postag="ADJ.*|PA.*" postag_regexp="yes" min="0" />
+                <token>Frage</token>
+                <token>ist</token>
+                <token min="0">doch</token>
+                <marker>
+                    <token min="0" regexp="yes">von|mit|zu|aus|auf|ohne|für|unter|über</token>
+                    <token regexp="yes">wem|wer|wie|wo|wann|was|wohin|womit|woher|wozu|warum|wieso|weshalb</token>
+                </marker>
+                <token regexp="yes">.*[a-z].*</token>
+            </pattern>
+            <message>Hier scheint ein Komma zu fehlen.</message>
+            <suggestion>, \6 \7</suggestion>
+            <example correction=", von wem">Die Frage ist doch<marker> von wem</marker> weiß er das?</example>
+            <example correction=", wem">Die Frage ist<marker> wem</marker> schuldet er noch was?</example>
+        </rule>
+        <rulegroup id="WO_DENKST_DU_SIND_KOMMA" name="Wo denkst du(,) soll es sein?" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes" skip="3">was|wo|wie|wer|welche[sr]?|warum|wozu|wieso</token>
+                    <token regexp="yes">denkst|dachtest|glaubst|glaubtest|hoffst|hofftest</token>
+                    <token>du</token>
+                    <marker>
+                        <token postag="VER.*" postag_regexp="yes">
+                            <exception regexp="yes">m?einen?|mal|gar|dank|recht|äu(ß|ss)erst|wider|(an)?dauernd|halt|sicher|bestimmt|gekonnt</exception>
+                        </token>
+                    </marker>
+                    <token regexp="yes">.*[a-z].*</token>
+                </pattern>
+                <message>Hier scheint ein Komma zu fehlen.</message>
+                <suggestion>, \4</suggestion>
+                <example correction=", ist">Wo denkst du<marker> ist</marker> es?</example>
+                <example correction=", soll">Was denkst du<marker> soll</marker> das bringen?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" skip="3">was|wo|wie|wer|welche[sr]?|warum|wozu|wieso</token>
+                    <token regexp="yes">denkt|dachtet|glaubt|glaubtet|hofft|hofftet</token>
+                    <token>ihr</token>
+                    <marker>
+                        <token postag="VER.*" postag_regexp="yes">
+                            <exception regexp="yes">m?einen?|mal|gar|dank|recht|äu(ß|ss)erst|wider|(an)?dauernd|halt|sicher|bestimmt|gekonnt</exception>
+                        </token>
+                    </marker>
+                    <token regexp="yes">.*[a-z].*</token>
+                </pattern>
+                <message>Hier scheint ein Komma zu fehlen.</message>
+                <suggestion>, \4</suggestion>
+                <example correction=", ist">Wo denkt ihr<marker> ist</marker> es?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" skip="3">was|wo|wer|wie|welche[sr]?|warum|wozu|wieso</token>
+                    <token regexp="yes">denken|dachten|glauben|glaubt|glaubten|hofft|hoffen|hofften?</token>
+                    <token>sie</token>
+                    <marker>
+                        <token postag="VER.*" postag_regexp="yes">
+                            <exception regexp="yes">m?einen?|mal|gar|dank|recht|äu(ß|ss)erst|wider|(an)?dauernd|halt|sicher|bestimmt|gekonnt</exception>
+                        </token>
+                    </marker>
+                    <token regexp="yes">.*[a-z].*</token>
+                </pattern>
+                <message>Hier scheint ein Komma zu fehlen.</message>
+                <suggestion>, \4</suggestion>
+                <example correction=", ist">Wo dachten Sie<marker> ist</marker> es?</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="DAHER_DACHTE_ICH_MIR_KOMMA" name="daher dachten wir(,) es wäre">
+            <rule>
+                <pattern>
+                    <token postag="PKT|SENT_START|KON.*" postag_regexp="yes" />
+                    <token regexp="yes" min="0">&anfauf;</token>
+                    <token regexp="yes" min="0">daher|deswegen|deshalb|diesbezüglich</token>
+                    <token regexp="yes">dachte?</token>
+                    <token>ich</token>
+                    <token>mir</token>
+                    <token regexp="yes" min="0">bereits|schon</token>
+                    <marker>
+                        <token postag="ART.*|PRO.*|EIG.*" postag_regexp="yes" />
+                    </marker>
+                    <token postag="(ADJ|PA[12]).*" postag_regexp="yes" min="0" />
+                    <token postag="SUB.*" postag_regexp="yes" min="0" />
+                    <token postag="VER.*" postag_regexp="yes">
+                        <exception regexp="yes">m?einen?|mal|gar|dank|recht|äu(ß|ss)erst|wider|(an)?dauernd|halt|sicher|bestimmt|gekonnt</exception>
+                    </token>
+                </pattern>
+                <message>Hier scheint ein Komma zu fehlen.</message>
+                <suggestion>, \8</suggestion>
+                <example correction=", ich">Daher dachte ich mir<marker> ich</marker> frage mal den Fachmann.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="PKT|SENT_START|KON.*" postag_regexp="yes" />
+                    <token regexp="yes" min="0">&anfauf;</token>
+                    <token regexp="yes" min="0">daher|deswegen|deshalb|diesbezüglich</token>
+                    <token regexp="yes">dachte?</token>
+                    <token>ich</token>
+                    <token regexp="yes" min="0">bereits|schon</token>
+                    <marker>
+                        <token postag="ART.*|PRO.*|EIG.*" postag_regexp="yes">
+                            <exception>mir</exception>
+                        </token>
+                    </marker>
+                    <token postag="(ADJ|PA[12]).*" postag_regexp="yes" min="0" />
+                    <token postag="SUB.*" postag_regexp="yes" min="0" />
+                    <token postag="VER.*" postag_regexp="yes">
+                        <exception regexp="yes">m?einen?|mal|gar|dank|recht|äu(ß|ss)erst|wider|(an)?dauernd|halt|sicher|bestimmt|gekonnt</exception>
+                    </token>
+                </pattern>
+                <message>Hier scheint ein Komma zu fehlen.</message>
+                <suggestion>, \7</suggestion>
+                <example correction=", ich">Daher dachte ich<marker> ich</marker> frage mal den Fachmann.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="PKT|SENT_START|KON.*" postag_regexp="yes" />
+                    <token regexp="yes" min="0">&anfauf;</token>
+                    <token regexp="yes" min="0">daher|deswegen|deshalb|diesbezüglich</token>
+                    <token regexp="yes">dachten?</token>
+                    <token>wir</token>
+                    <token>uns</token>
+                    <token regexp="yes" min="0">bereits|schon</token>
+                    <marker>
+                        <token postag="ART.*|PRO.*|EIG.*" postag_regexp="yes" />
+                    </marker>
+                    <token postag="(ADJ|PA[12]).*" postag_regexp="yes" min="0" />
+                    <token postag="SUB.*" postag_regexp="yes" min="0" />
+                    <token postag="VER.*" postag_regexp="yes">
+                        <exception regexp="yes">m?einen?|mal|gar|dank|recht|äu(ß|ss)erst|wider|(an)?dauernd|halt|sicher|bestimmt|gekonnt</exception>
+                    </token>
+                </pattern>
+                <message>Hier scheint ein Komma zu fehlen.</message>
+                <suggestion>, \8</suggestion>
+                <example correction=", wir">Daher dachten wir uns<marker> wir</marker> fragen mal den Fachmann.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="PKT|SENT_START|KON.*" postag_regexp="yes" />
+                    <token regexp="yes" min="0">&anfauf;</token>
+                    <token regexp="yes" min="0">daher|deswegen|deshalb|diesbezüglich</token>
+                    <token regexp="yes">dachten?</token>
+                    <token>wir</token>
+                    <token regexp="yes" min="0">bereits|schon</token>
+                    <marker>
+                        <token postag="ART.*|PRO.*|EIG.*" postag_regexp="yes">
+                            <exception>uns</exception>
+                        </token>
+                    </marker>
+                    <token postag="(ADJ|PA[12]).*" postag_regexp="yes" min="0" />
+                    <token postag="SUB.*" postag_regexp="yes" min="0" />
+                    <token postag="VER.*" postag_regexp="yes">
+                        <exception regexp="yes">m?einen?|mal|gar|dank|recht|äu(ß|ss)erst|wider|(an)?dauernd|halt|sicher|bestimmt|gekonnt</exception>
+                    </token>
+                </pattern>
+                <message>Hier scheint ein Komma zu fehlen.</message>
+                <suggestion>, \7</suggestion>
+                <example correction=", wir">Daher dachten wir<marker> wir</marker> fragen mal den Fachmann.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="PKT|SENT_START|KON.*" postag_regexp="yes" />
+                    <token regexp="yes" min="0">&anfauf;</token>
+                    <token regexp="yes" min="0">daher|deswegen|deshalb|diesbezüglich</token>
+                    <token regexp="yes">dachten?</token>
+                    <token>sie</token>
+                    <token>sich</token>
+                    <token regexp="yes" min="0">bereits|schon</token>
+                    <marker>
+                        <token postag="ART.*|PRO.*|EIG.*" postag_regexp="yes" />
+                    </marker>
+                    <token postag="(ADJ|PA[12]).*" postag_regexp="yes" min="0" />
+                    <token postag="SUB.*" postag_regexp="yes" min="0" />
+                    <token postag="VER.*" postag_regexp="yes">
+                        <exception regexp="yes">m?einen?|mal|gar|dank|recht|äu(ß|ss)erst|wider|(an)?dauernd|halt|sicher|bestimmt|gekonnt</exception>
+                    </token>
+                </pattern>
+                <message>Hier scheint ein Komma zu fehlen.</message>
+                <suggestion>, \8</suggestion>
+                <example correction=", sie">Daher dachten sie sich<marker> sie</marker> fragen mal den Fachmann.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="PKT|SENT_START|KON.*" postag_regexp="yes" />
+                    <token regexp="yes" min="0">&anfauf;</token>
+                    <token regexp="yes" min="0">daher|deswegen|deshalb|diesbezüglich</token>
+                    <token regexp="yes">dachten?</token>
+                    <token>sie</token>
+                    <token regexp="yes" min="0">bereits|schon</token>
+                    <marker>
+                        <token postag="ART.*|PRO.*|EIG.*" postag_regexp="yes">
+                            <exception>sich</exception>
+                        </token>
+                    </marker>
+                    <token postag="(ADJ|PA[12]).*" postag_regexp="yes" min="0" />
+                    <token postag="SUB.*" postag_regexp="yes" min="0" />
+                    <token postag="VER.*" postag_regexp="yes">
+                        <exception regexp="yes">m?einen?|mal|gar|dank|recht|äu(ß|ss)erst|wider|(an)?dauernd|halt|sicher|bestimmt|gekonnt</exception>
+                    </token>
+                </pattern>
+                <message>Hier scheint ein Komma zu fehlen.</message>
+                <suggestion>, \7</suggestion>
+                <example correction=", sie">Daher dachten sie<marker> sie</marker> fragen mal den Fachmann.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="STELL_DIR_VOR_KOMMA" name="Stell dir vor(,) du ..." default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">stelle?</token>
+                    <token>dir</token>
+                    <token min="0">doch</token>
+                    <token min="0" regexp="yes">einfach|wirklich</token>
+                    <token min="0">mal</token>
+                    <token>vor</token>
+                    <marker>
+                        <token postag="ART.*|PRO.*|EIG.*" postag_regexp="yes" />
+                    </marker>
+                    <token postag="(ADJ|PA[12]).*" postag_regexp="yes" min="0" />
+                    <token postag="SUB.*" postag_regexp="yes" min="0" />
+                    <token postag="VER.*" postag_regexp="yes">
+                        <exception regexp="yes">m?einen?|mal|gar|dank|recht|äu(ß|ss)erst|wider|(an)?dauernd|halt|sicher|bestimmt|gekonnt</exception>
+                    </token>
+                </pattern>
+                <message>Hier scheint ein Komma zu fehlen.</message>
+                <suggestion>, \7</suggestion>
+                <example correction=", du">Stell dir vor<marker> du</marker> könntest das WhatsApp von deinen Freunden hacken.</example>
+                <example correction=", du">Stell dir doch mal vor<marker> du</marker> wärst Bundeskanzler.</example>
+                <example correction=", ein">Stell dir mal vor<marker> ein</marker> betrunkener Verkäufer sagt zu dir.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>stellen</token>
+                    <token>sie</token>
+                    <token>sich</token>
+                    <token min="0">doch</token>
+                    <token min="0" regexp="yes">einfach|wirklich</token>
+                    <token min="0">mal</token>
+                    <token>vor</token>
+                    <marker>
+                        <token postag="ART.*|PRO.*|EIG.*" postag_regexp="yes" />
+                    </marker>
+                    <token postag="(ADJ|PA[12]).*" postag_regexp="yes" min="0" />
+                    <token postag="SUB.*" postag_regexp="yes" min="0" />
+                    <token postag="VER.*" postag_regexp="yes">
+                        <exception regexp="yes">m?einen?|mal|gar|dank|recht|äu(ß|ss)erst|wider|(an)?dauernd|halt|sicher|bestimmt|gekonnt</exception>
+                    </token>
+                </pattern>
+                <message>Hier scheint ein Komma zu fehlen.</message>
+                <suggestion>, \8</suggestion>
+                <example correction=", Peter">Stellen Sie sich vor<marker> Peter</marker> könnte Bundeskanzler sein.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>stellt</token>
+                    <token>euch</token>
+                    <token min="0">doch</token>
+                    <token min="0" regexp="yes">einfach|wirklich</token>
+                    <token min="0">mal</token>
+                    <token>vor</token>
+                    <marker>
+                        <token postag="ART.*|PRO.*|EIG.*" postag_regexp="yes" />
+                    </marker>
+                    <token postag="(ADJ|PA[12]).*" postag_regexp="yes" min="0" />
+                    <token postag="SUB.*" postag_regexp="yes" min="0" />
+                    <token postag="VER.*" postag_regexp="yes">
+                        <exception regexp="yes">m?einen?|mal|gar|dank|recht|äu(ß|ss)erst|wider|(an)?dauernd|halt|sicher|bestimmt|gekonnt</exception>
+                    </token>
+                </pattern>
+                <message>Hier scheint ein Komma zu fehlen.</message>
+                <suggestion>, \7</suggestion>
+                <example correction=", ihr">Stellt euch vor<marker> ihr</marker> wärt Bundeskanzler.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="MEINST_DU_DAS_KOMMA" name="Meinst du(,) das stimmt?" default="temp_off">
+            <rule>
+                <pattern>
+                    <token postag="PKT|SENT_START|KON.*" postag_regexp="yes" />
+                    <token regexp="yes" min="0">&anfauf;</token>
+                    <token regexp="yes">meinst(est)?</token>
+                    <token>du</token>
+                    <token regexp="yes" min="0">nicht|wirklich|vielleicht</token>
+                    <marker>
+                        <token postag="ART.*|PRO.*|EIG.*" postag_regexp="yes" />
+                    </marker>
+                    <token postag="(ADJ|PA[12]).*" postag_regexp="yes" min="0" />
+                    <token postag="SUB.*" postag_regexp="yes" min="0" />
+                    <token postag="VER.*" postag_regexp="yes">
+                        <exception regexp="yes">m?einen?|mal|gar|dank|recht|äu(ß|ss)erst|wider|(an)?dauernd|halt|sicher|bestimmt|gekonnt</exception>
+                    </token>
+                </pattern>
+                <message>Hier scheint ein Komma zu fehlen.</message>
+                <suggestion>, \6</suggestion>
+                <example correction=", das">Meinst du<marker> das</marker> funktioniert?</example>
+                <example correction=", er">Meinst du<marker> er</marker> hat recht?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="PKT|SENT_START|KON.*" postag_regexp="yes" />
+                    <token regexp="yes" min="0">&anfauf;</token>
+                    <token regexp="yes">meint(et)?</token>
+                    <token>ihr</token>
+                    <token regexp="yes" min="0">nicht|wirklich|vielleicht</token>
+                    <marker>
+                        <token postag="ART.*|PRO.*|EIG.*" postag_regexp="yes" />
+                    </marker>
+                    <token postag="(ADJ|PA[12]).*" postag_regexp="yes" min="0" />
+                    <token postag="SUB.*" postag_regexp="yes" min="0" />
+                    <token postag="VER.*" postag_regexp="yes">
+                        <exception regexp="yes">m?einen?|mal|gar|dank|recht|äu(ß|ss)erst|wider|(an)?dauernd|halt|sicher|bestimmt|gekonnt</exception>
+                    </token>
+                </pattern>
+                <message>Hier scheint ein Komma zu fehlen.</message>
+                <suggestion>, \6</suggestion>
+                <example correction=", das">Meint ihr<marker> das</marker> funktioniert?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="PKT|SENT_START|KON.*" postag_regexp="yes" />
+                    <token regexp="yes" min="0">&anfauf;</token>
+                    <token regexp="yes">meinte?</token>
+                    <token>er</token>
+                    <token regexp="yes" min="0">nicht|wirklich|vielleicht</token>
+                    <marker>
+                        <token postag="ART.*|PRO.*|EIG.*" postag_regexp="yes" />
+                    </marker>
+                    <token postag="(ADJ|PA[12]).*" postag_regexp="yes" min="0" />
+                    <token postag="SUB.*" postag_regexp="yes" min="0" />
+                    <token postag="VER.*" postag_regexp="yes">
+                        <exception regexp="yes">m?einen?|mal|gar|dank|recht|äu(ß|ss)erst|wider|(an)?dauernd|halt|sicher|bestimmt|gekonnt</exception>
+                    </token>
+                </pattern>
+                <message>Hier scheint ein Komma zu fehlen.</message>
+                <suggestion>, \6</suggestion>
+                <example correction=", das">Meint er<marker> das</marker> funktioniert?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="PKT|SENT_START|KON.*" postag_regexp="yes" />
+                    <token regexp="yes" min="0">&anfauf;</token>
+                    <token regexp="yes">meint?en?</token>
+                    <token>sie</token>
+                    <token regexp="yes" min="0">nicht|wirklich|vielleicht</token>
+                    <marker>
+                        <token postag="ART.*|PRO.*|EIG.*" postag_regexp="yes" />
+                    </marker>
+                    <token postag="(ADJ|PA[12]).*" postag_regexp="yes" min="0" />
+                    <token postag="SUB.*" postag_regexp="yes" min="0" />
+                    <token postag="VER.*" postag_regexp="yes">
+                        <exception regexp="yes">m?einen?|mal|gar|dank|recht|äu(ß|ss)erst|wider|(an)?dauernd|halt|sicher|bestimmt|gekonnt</exception>
+                    </token>
+                </pattern>
+                <message>Hier scheint ein Komma zu fehlen.</message>
+                <suggestion>, \6</suggestion>
+                <example correction=", das">Meinen Sie<marker> das</marker> funktioniert?</example>
+            </rule>
+        </rulegroup>
+        <rule id="GEHT_NICHT_GIBT_ES_NICHT_KOMMA" name="geht nicht(,) gibts nicht" default="temp_off">
+            <pattern>
+                <token>geht</token>
+                <token>nicht</token>
+                <marker>
+                    <token regexp="yes">gibts?</token>
+                </marker>
+                <token regexp="yes" min="0">&apostrophe;</token>
+                <token min="0" regexp="yes">e?s</token>
+                <token>nicht</token>
+            </pattern>
+            <message>Hier scheint ein Komma zu fehlen.</message>
+            <suggestion>, \3</suggestion>
+            <example correction=", gibt">Geht nicht<marker> gibt</marker>'s nicht.</example>
+            <example correction=", gibt">Geht nicht<marker> gibt</marker> es nicht.</example>
+            <example correction=", gibts">Geht nicht<marker> gibts</marker> es nicht.</example>
+        </rule>
+        <rule id="ICH_MELDE_MICH_SOLLTE_KOMMA" name="ich melde mich(,) sollte">
             <pattern>
                 <token postag="PRO.*|EIG.*" postag_regexp="yes" />
                 <token inflected="yes" regexp="yes">
@@ -53920,8 +54377,13 @@ Andere Projekte</example>
             <!-- TODO:
                  "Ich finde das Haus von Dieter sollte"
                  "Ich finde bei den Autos von Dieter sollte ..."
+                 "Ich hoffe deine Dienstreise nach Frankreich war erfolgreich?"
+                 "Ich hoffe über Ostern kommt mal etwas Ruhe rein..."
                  "Ich hoffe Sie gut informiert zu haben."
-                 "Ich denke 7 Jahre sind somit in Ordnung."
+                 "Ich meine Raphael hat das genau richtig gesagt."
+                 "Ich denke hier setzt Charity-Event die richtigen Schwerpunkte."
+                 "Ich denke momentan kann man noch einiges positiv beeinflussen. "
+                 "Ich denke Milchpulver für drei Tage sollte auch kein Problem sein."
                 -->
             <antipattern><!-- Tom weiß mit Lasttieren umzugehen. -->
                 <token inflected="yes" skip="12">wissen</token>
@@ -53941,14 +54403,15 @@ Andere Projekte</example>
                 <pattern>
                     <token postag="PKT|SENT_START|KON.*" postag_regexp="yes" />
                     <token regexp="yes" min="0">&anfauf;</token>
+                    <token postag="ADV.*" postag_regexp="yes" min="0" />
                     <token regexp="yes" min="0">Herrn?|Frau|Fräulein</token>
                     <token postag="PRO:PER:NOM.*|PRO:IND:NOM.*|EIG.*" postag_regexp="yes" />
                     <token inflected="yes" regexp="yes" min="0">werden|haben</token>
                     <token regexp="yes" inflected="yes">
-                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten
+                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|sehen
                         <exception postag="SUB.*" postag_regexp="yes" />
                     </token>
-                    <token regexp="yes" min="0">übrigens|deswegen|allerdings|durchaus|eher|mal</token>
+                    <token regexp="yes" min="0">übrigens|deswegen|allerdings|durchaus|eher|mal|also</token>
                     <marker>
                         <token regexp="yes" case_sensitive="yes">fürs?|zwischen|mit|gegen|bis|au(ß|ss)er|vo[mn]|wegen|dank|beim?|ohne|aufs?|unter|neben|hinter|zwischen|vor|an|zu[rm]?|i[nm]</token>
                     </marker>
@@ -53964,7 +54427,7 @@ Andere Projekte</example>
                     </token>
                 </pattern>
                 <message>Hier scheint ein Komma zu fehlen.</message>
-                <suggestion>, \8</suggestion>
+                <suggestion>, \9</suggestion>
                 <example correction=", für">Ich glaube<marker> für</marker> euch ist hier kein Platz.</example>
                 <example correction=", für">Ich glaube übrigens<marker> für</marker> euch ist hier kein Platz.</example>
                 <example correction=", wegen">Sie denken<marker> wegen</marker> Karl geht alles den Bach runter.</example>
@@ -53985,10 +54448,10 @@ Andere Projekte</example>
                     <token postag="EIG.*|PRO.*|SUB.*" postag_regexp="yes" />
                     <token inflected="yes" regexp="yes" min="0">werden|haben</token>
                     <token regexp="yes" inflected="yes">
-                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten
+                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|sehen
                         <exception postag="SUB.*" postag_regexp="yes" />
                     </token>
-                    <token regexp="yes" min="0">übrigens|deswegen|allerdings|durchaus|eher|mal</token>
+                    <token regexp="yes" min="0">übrigens|deswegen|allerdings|durchaus|eher|mal|also</token>
                     <marker>
                         <token regexp="yes" case_sensitive="yes">fürs?|zwischen|mit|gegen|bis|au(ß|ss)er|vo[mn]|wegen|dank|beim?|ohne|aufs?|unter|neben|hinter|zwischen|vor|an|zu[rm]?|i[nm]</token>
                     </marker>
@@ -54014,19 +54477,20 @@ Andere Projekte</example>
             <rule><!-- Ich glaube in 2 Monaten gehen ... -->
                 <pattern>
                     <token postag="PKT|SENT_START|KON.*" postag_regexp="yes" />
+                    <token postag="ADV.*" postag_regexp="yes" min="0" />
                     <token regexp="yes" min="0">&anfauf;</token>
                     <token regexp="yes" min="0">Herrn?|Frau|Fräulein</token>
                     <token postag="PRO:PER:NOM.*|PRO:IND:NOM.*|EIG.*" postag_regexp="yes" />
                     <token inflected="yes" regexp="yes" min="0">werden|haben</token>
                     <token regexp="yes" inflected="yes">
-                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten
+                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|sehen
                         <exception postag="SUB.*" postag_regexp="yes" />
                     </token>
-                    <token regexp="yes" min="0">übrigens|deswegen|allerdings|durchaus|eher|mal</token>
+                    <token regexp="yes" min="0">übrigens|deswegen|allerdings|durchaus|eher|mal|also</token>
                     <marker>
                         <token regexp="yes" case_sensitive="yes">fürs?|zwischen|mit|gegen|bis|au(ß|ss)er|vo[mn]|wegen|dank|beim?|ohne|aufs?|unter|neben|hinter|zwischen|vor|an|zu[rm]?|i[nm]</token>
                     </marker>
-                    <token regexp="yes">\d+</token>
+                    <token regexp="yes">\d+|zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf|zwölf</token>
                     <token postag="(ADJ|PA[12]).*" postag_regexp="yes" min="0" max="2" />
                     <token postag="EIG.*|SUB.*" postag_regexp="yes">
                         <exception postag="ART.*" postag_regexp="yes" />
@@ -54038,21 +54502,52 @@ Andere Projekte</example>
                     </token>
                 </pattern>
                 <message>Hier scheint ein Komma zu fehlen.</message>
-                <suggestion>, \8</suggestion>
+                <suggestion>, \9</suggestion>
                 <example correction=", in">Ich glaube<marker> in</marker> 3 Monaten ist hier wieder ein Platz frei.</example>
+            </rule>
+            <rule default="temp_off"><!-- Ich glaube 2 Monate sind ... -->
+                <pattern>
+                    <token postag="PKT|SENT_START|KON.*" postag_regexp="yes" />
+                    <token regexp="yes" min="0">&anfauf;</token>
+                    <token postag="ADV.*" postag_regexp="yes" min="0" />
+                    <token regexp="yes" min="0">Herrn?|Frau|Fräulein</token>
+                    <token postag="PRO:PER:NOM.*|PRO:IND:NOM.*|EIG.*" postag_regexp="yes" />
+                    <token inflected="yes" regexp="yes" min="0">werden|haben</token>
+                    <token regexp="yes" inflected="yes">
+                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|sehen
+                        <exception postag="SUB.*" postag_regexp="yes" />
+                    </token>
+                    <token regexp="yes" min="0">übrigens|deswegen|allerdings|durchaus|eher|mal|also</token>
+                    <marker>
+                        <token regexp="yes">\d+|zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf|zwölf</token>
+                    </marker>
+                    <token postag="(ADJ|PA[12]).*" postag_regexp="yes" min="0" max="2" />
+                    <token postag="EIG.*|SUB.*" postag_regexp="yes">
+                        <exception postag="ART.*" postag_regexp="yes" />
+                    </token>
+                    <token postag="VER.*" postag_regexp="yes">
+                        <exception regexp="yes">m?einen?|mal|gar|dank|recht|äu(ß|ss)erst|wider|(an)?dauernd|halt|sicher|bestimmt|gekonnt</exception>
+                        <exception case_sensitive="yes" regexp="yes">[A-ZÄÖÜ][a-zäöü].+</exception>
+                        <exception postag="VER:EIZ:NON" />
+                    </token>
+                </pattern>
+                <message>Hier scheint ein Komma zu fehlen.</message>
+                <suggestion>, \9</suggestion>
+                <example correction=", 3">Ich glaube<marker> 3</marker> Monate sind genug.</example>
             </rule>
             <rule>
                 <pattern>
                     <token postag="PKT|SENT_START|KON.*" postag_regexp="yes" />
                     <token regexp="yes" min="0">&anfauf;</token>
+                    <token postag="ADV.*" postag_regexp="yes" min="0" />
                     <token regexp="yes" min="0">Herrn?|Frau|Fräulein</token>
                     <token postag="PRO:PER:NOM.*|PRO:IND:NOM.*|EIG.*" postag_regexp="yes" />
                     <token inflected="yes" regexp="yes" min="0">werden|haben</token>
                     <token regexp="yes" inflected="yes">
-                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten
+                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|sehen
                         <exception postag="SUB.*" postag_regexp="yes" />
                     </token>
-                    <token regexp="yes" min="0">übrigens|deswegen|allerdings|durchaus|eher|mal</token>
+                    <token regexp="yes" min="0">übrigens|deswegen|allerdings|durchaus|eher|mal|also</token>
                     <marker>
                         <token regexp="yes" case_sensitive="yes">fürs?|zwischen|mit|gegen|bis|au(ß|ss)er|vo[mn]|wegen|dank|beim?|ohne|aufs?|unter|neben|hinter|zwischen|vor|an|zu[rm]?|i[nm]</token>
                     </marker>
@@ -54068,7 +54563,7 @@ Andere Projekte</example>
                     </token>
                 </pattern>
                 <message>Hier scheint ein Komma zu fehlen.</message>
-                <suggestion>, \8</suggestion>
+                <suggestion>, \9</suggestion>
                 <example correction=", für">Ich glaube<marker> für</marker> Herrn Trump ist hier kein Platz.</example>
             </rule>
             <rule>
@@ -54094,14 +54589,15 @@ Andere Projekte</example>
                 <pattern>
                     <token postag="PKT|SENT_START|KON.*" postag_regexp="yes" />
                     <token regexp="yes" min="0">&anfauf;</token>
+                    <token postag="ADV.*" postag_regexp="yes" min="0" />
                     <token regexp="yes" min="0">Herrn?|Frau|Fräulein</token>
                     <token postag="PRO:PER:NOM.*|PRO:IND:NOM.*|EIG.*" postag_regexp="yes" />
                     <token inflected="yes" regexp="yes" min="0">werden|haben</token>
                     <token regexp="yes" inflected="yes">
-                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten
+                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|sehen
                         <exception postag="SUB.*" postag_regexp="yes" />
                     </token>
-                    <token regexp="yes" min="0">übrigens|deswegen|allerdings|durchaus|eher|mal</token>
+                    <token regexp="yes" min="0">übrigens|deswegen|allerdings|durchaus|eher|mal|also</token>
                     <marker>
                         <token postag="ART.*|PRO:(POS|DEM).*" postag_regexp="yes" />
                     </marker>
@@ -54114,7 +54610,7 @@ Andere Projekte</example>
                     </token>
                 </pattern>
                 <message>Hier scheint ein Komma zu fehlen.</message>
-                <suggestion>, \8</suggestion>
+                <suggestion>, \9</suggestion>
                 <example correction=", die">Ich denke<marker> die</marker> Zeit ist begrenzt.</example>
                 <example correction=", diese">Ich glaube<marker> diese</marker> große französische Konkurrenz sollten wir uns anschauen.</example>
                 <example correction=", die">Ich hoffe<marker> die</marker> AFD wird nicht so stark wie sie von einigen geredet ist.</example>
@@ -54159,14 +54655,15 @@ Andere Projekte</example>
                 <pattern>
                     <token postag="PKT|SENT_START|KON.*" postag_regexp="yes" />
                     <token regexp="yes" min="0">&anfauf;</token>
+                    <token postag="ADV.*" postag_regexp="yes" min="0" />
                     <token regexp="yes" min="0">Herrn?|Frau|Fräulein</token>
                     <token postag="PRO:PER:NOM.*|PRO:IND:NOM.*|EIG.*" postag_regexp="yes" />
                     <token inflected="yes" regexp="yes" min="0">werden|haben</token>
                     <token regexp="yes" inflected="yes">
-                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten
+                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|sehen
                         <exception postag="SUB.*" postag_regexp="yes" />
                     </token>
-                    <token regexp="yes" min="0">übrigens|deswegen|allerdings|durchaus|eher|mal</token>
+                    <token regexp="yes" min="0">übrigens|deswegen|allerdings|durchaus|eher|mal|also</token>
                     <marker>
                         <token postag="EIG.*|SUB.*|PRO:PER:NOM.*|PRO:IND:NOM.*" postag_regexp="yes" />
                     </marker>
@@ -54177,7 +54674,7 @@ Andere Projekte</example>
                     </token>
                 </pattern>
                 <message>Hier scheint ein Komma zu fehlen.</message>
-                <suggestion>, \8</suggestion>
+                <suggestion>, \9</suggestion>
                 <example correction=", Grammatik-Regeln">Ich denke<marker> Grammatik-Regeln</marker> sollten Vorrang haben.</example>
                 <example correction=", Tom">Ich glaube<marker> Tom</marker> gefällt es hier nicht.</example>
                 <example correction=", Vampire">Ich finde<marker> Vampire</marker> bereichern das Rollenspiel, doch nur wenn sie nach Lore gestaltet werden.</example>
@@ -54232,14 +54729,15 @@ Andere Projekte</example>
                 <pattern>
                     <token postag="PKT|SENT_START|KON.*" postag_regexp="yes" />
                     <token regexp="yes" min="0">&anfauf;</token>
+                    <token postag="ADV.*" postag_regexp="yes" min="0" />
                     <token regexp="yes" min="0">Herrn?|Frau|Fräulein</token>
                     <token postag="PRO:PER:NOM.*|PRO:IND:NOM.*|EIG.*" postag_regexp="yes" />
                     <token inflected="yes" regexp="yes" min="0">werden|haben</token>
                     <token regexp="yes" inflected="yes">
-                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten
+                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|sehen
                         <exception postag="SUB.*" postag_regexp="yes" />
                     </token>
-                    <token regexp="yes" min="0">übrigens|deswegen|allerdings|durchaus|eher|mal</token>
+                    <token regexp="yes" min="0">übrigens|deswegen|allerdings|durchaus|eher|mal|also</token>
                     <marker>
                         <token postag="(ADJ|PA[12]).*" postag_regexp="yes" />
                     </marker>
@@ -54252,7 +54750,7 @@ Andere Projekte</example>
                     </token>
                 </pattern>
                 <message>Hier scheint ein Komma zu fehlen.</message>
-                <suggestion>, \8</suggestion>
+                <suggestion>, \9</suggestion>
                 <example correction=", neue">Ich denke<marker> neue</marker> Grammatik-Regeln sollten Vorrang haben.</example>
                 <example correction=", gute">Ich glaube<marker> gute</marker> Interviewführung lernt man größtenteils durchs machen.</example>
                 <example>Die weiß behaarten Nebenblätter sind 3 bis 7 mm lang.</example>
@@ -54262,15 +54760,16 @@ Andere Projekte</example>
                 <pattern>
                     <token postag="PKT|SENT_START|KON.*" postag_regexp="yes" />
                     <token regexp="yes" min="0">&anfauf;</token>
+                    <token postag="ADV.*" postag_regexp="yes" min="0" />
                     <token regexp="yes" min="0">Herrn?|Frau|Fräulein</token>
                     <token postag="PRO:PER:NOM.*|PRO:IND:NOM.*|EIG.*" postag_regexp="yes" />
                     <token inflected="yes" regexp="yes" min="0">werden|haben</token>
                     <token regexp="yes" inflected="yes">
-                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten
+                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|sehen
                         <exception postag="SUB.*" postag_regexp="yes" />
                         <exception postag="PA2.*" postag_regexp="yes" />
                     </token>
-                    <token regexp="yes" min="0">übrigens|deswegen|allerdings|durchaus|eher|mal</token>
+                    <token regexp="yes" min="0">übrigens|deswegen|allerdings|durchaus|eher|mal|also</token>
                     <marker>
                         <token regexp="yes">Herrn?|Hr|Fr|Frau|Fräulein|Dr|Doktor|Mrs?|Prof(essor)?</token>
                     </marker>
@@ -54283,7 +54782,7 @@ Andere Projekte</example>
                     </token>
                 </pattern>
                 <message>Hier scheint ein Komma zu fehlen.</message>
-                <suggestion>, \8</suggestion>
+                <suggestion>, \9</suggestion>
                 <example correction=", Herr">Ich denke<marker> Herr</marker> Peters sollte Vorrang haben.</example>
             </rule>
         </rulegroup>
@@ -60280,13 +60779,22 @@ Andere Projekte</example>
                 <token>folgt</token>
                 <token postag="VER.*" postag_regexp="yes" />
             </antipattern>
+            <antipattern><!-- *grins* -->
+                <token skip="2">*</token>
+                <token>*</token>
+            </antipattern>
+            <antipattern><!-- Deine Brille ist topp -->
+                <token postag="(VER:[1-3]:.*|VER.*:[1-3]:.*)" postag_regexp="yes" />
+                <token postag="VER:IMP:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes" />
+                <token postag="PKT" />
+            </antipattern>
             <pattern>
                 <token postag="(VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*)" postag_regexp="yes" skip="-1">
                     <exception postag="VER:(INF|MOD):.*|VER:AUX:.*:KJ[12]|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     <exception inflected="yes" regexp="yes">bleiben|lassen|versuchen|bemühen|sieben|achten</exception>   <!-- siebte, achte werden nicht als Zahlwort erkannt  -->
                     <exception>bitte</exception>
                     <exception case_sensitive="yes">Bell</exception>
-                    <exception regexp="yes" scope="next">,|\.|:|\?|!|;|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
+                    <exception regexp="yes" scope="next">,|\.|:|\?|!|;|-|–|—|─|\)|\(|„|“|»|«|"|und|oder|&amp;|…</exception>
                     <exception regexp="yes" scope="next">weil|ob(wohl|gleich)?|da(mit|ss)?|indem|wenn|falls|während|bevor|nachdem|seitdem|so(bald|dass|fern|lange)|was|als|wie|bis|wer|wo|wohin|sondern|aber</exception>
                 </token>
                 <token postag="VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+
@@ -60367,6 +60875,12 @@ Andere Projekte</example>
             <example>US-Justizminister William Barr hat eine aktive Unterstützung angekündigt.</example>
             <example>Daniel Schöpf hat sie ins Studio begleitet.</example>
             <example>Wir fuhren rauf und runter mit dem Fahrstuhl.</example>
+            <example>TU Jan Bohnert ist Mitglied der Bayerischen Architektenkammer.</example>
+            <example>Ist Esperanto zu etwas nütze?</example>
+            <example>Das ist das nullte Gesetz.</example>
+            <example>Jetzt ist die Frage…reicht ein Allround Objektiv wie z.B. die Tamron aus eurem Bericht?</example>
+            <example>Red Hat ist eine sehr populäre kommerzielle Distribution.</example>
+            <example>Reibung und Verschleiß sind die größten Feinde von Baumaschinen und Baugeräten.</example>
             <example>Geringfügige Verunreinigungen der Rohstoffe, die mit den normalen Qualitätsanforderungen an das Gebrauchsglas vereinbar sind, stellen ebenfalls Quellen für weitere (unbeabsichtigte) Glasbestandteile dar.</example>
             <example>Du hast doch den Link zu web.de eingesetzt.</example>
             <example>Bell erfand das Telefon nicht alleine.</example>

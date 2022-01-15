@@ -1199,7 +1199,7 @@ class CaseRuleAntiPatterns {
       csRegex("[a-zäöü…\\.!,\\?…].*")
     ),
     Arrays.asList( // Ich habe noch Dringendes mitzuteilen
-      csRegex("Dringendes|Bares|Vertrautes|Positives|Negatives|Gelerntes|Neues|Altes"),
+      csRegex("Dringendes|Bares|Vertrautes|Positives|Negatives|Gelerntes|Neues|Altes|Besseres|Schlechteres|Schöneres|Schlimmeres"),
       csRegex("[a-zäöü…\\.!,\\?…].*")
     ),
     Arrays.asList( // Immer mehr Ältere erkranken daran

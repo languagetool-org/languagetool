@@ -5491,6 +5491,52 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="remove" postag="VER.*"/>
     </rule>
 
+    <rule id="RED_KEIN_VERB" name="'Red' kein Verb">
+        <pattern>
+            <marker>
+                <token case_sensitive="yes">Red</token>
+            </marker>
+            <token case_sensitive="yes" regexp="yes" postag="UNKNOWN|EIG.*|SUB.*" postag_regexp="yes">[A-Z].+</token>
+        </pattern>
+        <disambig action="remove" postag="VER.*"/>
+    </rule>
+
+    <rule id="NUETZE_KEIN_VERB" name="'nütze' kein Verb">
+        <!-- "Er ist zu nichts nütze"-->
+        <pattern>
+            <token>zu</token>
+            <token postag="ADV.*" postag_regexp="yes" min="0" />
+            <token regexp="yes">(irgend)?was|(irgend)?etwas|nix|nichts</token>
+            <marker>
+                <token case_sensitive="yes" regexp="yes">n[üu]tze</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="VER.*"/>
+    </rule>
+
+    <rule id="NULLTE_KEIN_VERB" name="'nullte' kein Verb">
+        <!-- "Das nullte Gesetz"-->
+        <pattern>
+            <token postag="ART.*|PRO:POS" postag_regexp="yes" />
+            <marker>
+                <token case_sensitive="yes">nullte</token>
+            </marker>
+            <token postag="SUB.*" postag_regexp="yes" />
+        </pattern>
+        <disambig action="remove" postag="VER.*"/>
+    </rule>
+
+    <rule id="FRANZ_KEIN_VERB" name="'franz.' kein Verb">
+        <!-- "Auf franz. heißt es Liebe"-->
+        <pattern>
+            <marker>
+                <token case_sensitive="yes">franz</token>
+            </marker>
+            <token spacebefore="no">.</token>
+        </pattern>
+        <disambig action="remove" postag="VER.*"/>
+    </rule>
+
     <!-- TODO: (ohne meine neue ..., durch eine alte ...)-->
     <!-- <rulegroup id="EINE_ARTIKEL" name="eine/meine als Artikel">
         <rule>
