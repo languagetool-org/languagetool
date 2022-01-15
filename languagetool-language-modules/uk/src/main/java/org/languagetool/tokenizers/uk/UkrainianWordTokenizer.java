@@ -40,7 +40,8 @@ public class UkrainianWordTokenizer implements Tokenizer {
 //      "(?<!\uE120)(!{2,3}|\\?{2,3}|\\.{3}|[!?][!?.]{1,2}"
             "(!{2,3}|\\?{2,3}|\\.{3}|[!?][!?.]{1,2}"
             + "|[\u0020\u00A0\\n\\r\\t"
-            + ",.;!?\u2014:()\\[\\]{}<>/|\\\\…=¿¡]"
+            + ",.;!?\u2014:()\\[\\]{}<>/|\\\\…°$€₴=¿¡]" // what about: №§
+            + "|%(?![-\u2013][а-яіїєґ])" // allow 5%-й
             + "|(?<!\uE109)[\"«»„”“]"                       // quotes have special cases
             + "|[\u2000-\u200F"
             + "\u201A\u2020-\u202F\u2030\u2031\u2033-\u206F"
@@ -69,7 +70,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
   private static final String NON_BREAKING_PLACEHOLDER2 = "\uE120";
   // TODO: use \uE120 for most of non-breaking cases
 
-  private static final Pattern WEIRD_APOSTROPH_PATTERN = Pattern.compile("([бвджзклмнпрстфхш])[\"\u201D\u201F]([єїюя])", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern WEIRD_APOSTROPH_PATTERN = Pattern.compile("([бвджзклмнпрстфхш])([\"\u201D\u201F`´])([єїюя])", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   public static final Pattern WORDS_WITH_BRACKETS_PATTERN = Pattern.compile("([а-яіїєґ])\\[([а-яіїєґ]+)\\]", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
   // decimal comma between digits
@@ -418,12 +419,12 @@ public class UkrainianWordTokenizer implements Tokenizer {
         .replace('\u2019', '\'')
         .replace('\u02BC', '\'')
         .replace('\u2018', '\'')
-        .replace('`', '\'')
-        .replace('´',  '\'')
+//        .replace('`', '\'')
+//        .replace('´',  '\'')
         .replace('\u201A', ',')  // SINGLE LOW-9 QUOTATION MARK sometimes used as a comma
         .replace('\u2011', '-'); // we handle \u2013 in tagger so we can base our rule on it
 
-    text = WEIRD_APOSTROPH_PATTERN.matcher(text).replaceAll("$1'$2");
+    text = WEIRD_APOSTROPH_PATTERN.matcher(text).replaceAll("$1\uE120$2\uE120$3");
 
     return text;
   }

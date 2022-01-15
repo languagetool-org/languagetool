@@ -6364,16 +6364,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <rule id="bilya_num" name="Біля + числівник">
       <pattern>
-        <token>біля</token>
-        <token postag_regexp="yes" postag="number|numr:p:v_rod.*">
-          <exception postag_regexp="yes" postag="numr.*pron.*"/> <!--одних|багатьох -->
-          <exception regexp="yes">обох|одних</exception>
-        </token>
-        <token postag_regexp="yes" postag="(noun|numr).*v_rod.*"/>
+        <marker>
+          <token>біля</token>
+          <token min="0" regexp="yes">[$€]</token>
+          <token postag_regexp="yes" postag="number|numr:p:v_rod.*">
+            <exception postag_regexp="yes" postag="numr.*pron.*"/> <!--одних|багатьох -->
+            <exception regexp="yes">обох|одних</exception>
+          </token>
+        </marker>
+        <or>
+          <token postag_regexp="yes" postag="(noun|numr).*v_rod.*"/>
+          <token min="0" regexp="yes">[$€%]</token>
+        </or>
       </pattern>
-      <message>Правильно: <suggestion>близько <match no="2"/> <match no="3"/></suggestion></message>
-      <example correction="близько п'яти відсотків"><marker>біля п'яти відсотків</marker></example>
-      <example correction="близько 1 млрд."><marker>біля 1 млрд.</marker> осіб</example>
+      <message>Правильно: <suggestion>близько <match no="2"/><match no="3"/></suggestion></message>
+      <example correction="близько п'яти"><marker>біля п'яти</marker> відсотків</example>
+      <example correction="близько 1"><marker>біля 1</marker> млрд. осіб</example>
+      <example correction="близько $1"><marker>біля $1</marker> млрд.</example>
+      <example correction="близько 1"><marker>біля 1</marker>€ млрд. інвестицій</example>
+      <example correction="близько 1"><marker>біля 1</marker>%.</example>
       <example>біля одного воза він зупинився</example>
       <example>біля обох воріт</example>
       <example>біля одних дверей</example>

@@ -153,6 +153,24 @@ public abstract class LemmaHelper {
           && (token == null || token.matcher(tokens[i].getCleanToken()).matches()) )
         return i;
 
+      if( posTagsToIgnore != null ) {
+      if( ! PosTagHelper.hasPosTag(tokens[i], posTagsToIgnore)
+          && ! QUOTES.matcher(tokens[i].getCleanToken()).matches() )
+        break;
+      }
+    }
+
+    return -1;
+  }
+
+  static int tokenSearch(AnalyzedTokenReadings[] tokens, int pos, Pattern posTag, Pattern token, Pattern posTagsToIgnore, Dir dir) {
+    int step = dir == Dir.FORWARD ? 1 : -1;
+
+    for(int i = pos; i < tokens.length && i > 0; i += step) {
+      if( (posTag == null || PosTagHelper.hasPosTag(tokens[i], posTag)) 
+          && (token == null || token.matcher(tokens[i].getCleanToken()).matches()) )
+        return i;
+
       if( ! PosTagHelper.hasPosTag(tokens[i], posTagsToIgnore)
           && ! QUOTES.matcher(tokens[i].getCleanToken()).matches() )
         break;

@@ -298,7 +298,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
               <feature id="gender"/>
               <feature id="case"/>
               <token postag_regexp="yes" postag="numr:.:v_dav.*" min="0"/>
-              <token postag_regexp="yes" postag="adj:.:v_dav.*" min="0"/>
+              <token postag_regexp="yes" postag="adj:.:v_dav.*" min="0">
+                <exception>їх</exception>
+              </token>
               <token postag_regexp="yes" postag="noun:inanim:.:v_dav.*">
                 <exception postag_regexp="yes" postag="noun:.*:v_(rod|zna|oru).*|noun:anim.*:v_naz.*|adv.*"/>
   <!--               <exception scope="next">нікому</exception>  --> <!-- не вірити -->
@@ -1986,7 +1988,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </token>
         </pattern>
         <message>Іменник біль - чоловічого роду</message>
-        <suggestion><match no="1" postag_regexp="yes" postag="(adj):f:(v_...)(.*)" postag_replace="$1:m:$2(:rinanim)?$3"/> <match no="2" postag_regexp="yes" postag="(noun:inanim):f:(.*)" postag_replace="$1:m:$2"/></suggestion>
+        <suggestion><match no="1" postag_regexp="yes" postag="(adj):f:(v_...)(.*)" postag_replace="$1:m:$2(:rinanim)?$3"/> <match no="2" postag_regexp="yes" postag="(noun:inanim):f:(.*):xp2" postag_replace="$1:m:$2:xp1"/></suggestion>
         <example correction="сильний біль"><marker>сильна біль</marker></example>
         <example correction="сильний біль"><marker>сильну біль</marker></example>
         <example>Стояла біла, як біль, так перелякалася.</example>

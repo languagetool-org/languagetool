@@ -85,7 +85,7 @@ public class UkrainianTaggerTest {
     TestTools.myAssert("101,234", "101,234/[101,234]number", tokenizer, tagger);
     TestTools.myAssert("101 234", "101 234/[101 234]number", tokenizer, tagger);
 
-    TestTools.myAssert("3,5-5,6% 7° 7,4°С", "3,5-5,6%/[3,5-5,6%]number -- 7°/[7°]number -- 7,4°С/[7,4°С]number", tokenizer, tagger);
+    TestTools.myAssert("3,5-5,6 7° 7,4°C", "3,5-5,6/[3,5-5,6]number -- 7/[7]number -- 7,4/[7,4]number -- C/[C]number:latin", tokenizer, tagger);
 
     TestTools.myAssert("XIX", "XIX/[XIX]number:latin", tokenizer, tagger);
     TestTools.myAssert("II", "II/[II]number:latin", tokenizer, tagger);
@@ -125,7 +125,7 @@ public class UkrainianTaggerTest {
         +" -- до/[до]noun:inanim:n:v_dav:nv|до/[до]noun:inanim:n:v_kly:nv|до/[до]noun:inanim:n:v_mis:nv|до/[до]noun:inanim:n:v_naz:nv|до/[до]noun:inanim:n:v_oru:nv"
         +"|до/[до]noun:inanim:n:v_rod:nv|до/[до]noun:inanim:n:v_zna:nv|до/[до]noun:inanim:p:v_dav:nv|до/[до]noun:inanim:p:v_kly:nv|до/[до]noun:inanim:p:v_mis:nv"
         +"|до/[до]noun:inanim:p:v_naz:nv|до/[до]noun:inanim:p:v_oru:nv|до/[до]noun:inanim:p:v_rod:nv|до/[до]noun:inanim:p:v_zna:nv|до/[до]prep"
-        +" -- н./[н.]adj:f:v_dav:nv:abbr|н./[н.]adj:f:v_mis:nv:abbr|н./[н.]adj:f:v_naz:nv:abbr|н./[н.]adj:f:v_oru:nv:abbr|н./[н.]adj:f:v_rod:nv:abbr|н./[н.]adj:f:v_zna:nv:abbr"
+        +" -- н./[н.]adj:f:v_dav:nv:abbr|н./[н.]adj:f:v_mis:nv:abbr|н./[н.]adj:f:v_naz:nv:abbr|н./[н.]adj:f:v_oru:nv:abbr|н./[н.]adj:f:v_rod:nv:abbr|н./[н.]adj:f:v_zna:nv:abbr|н./[н.]noun:inanim:n:v_rod:abbr"
         +" -- е./[е.]noun:inanim:f:v_dav:nv:abbr|е./[е.]noun:inanim:f:v_mis:nv:abbr|е./[е.]noun:inanim:f:v_naz:nv:abbr|е./[е.]noun:inanim:f:v_oru:nv:abbr|е./[е.]noun:inanim:f:v_rod:nv:abbr"
         +"|е./[е.]noun:inanim:f:v_zna:nv:abbr|е./[е.]noun:inanim:p:v_dav:nv:abbr|е./[е.]noun:inanim:p:v_mis:nv:abbr|е./[е.]noun:inanim:p:v_naz:nv:abbr|е./[е.]noun:inanim:p:v_oru:nv:abbr"
         +"|е./[е.]noun:inanim:p:v_rod:nv:abbr|е./[е.]noun:inanim:p:v_zna:nv:abbr",
@@ -771,6 +771,11 @@ public class UkrainianTaggerTest {
 //    System.err.println(": " +token);
 //    TestTools.myAssert("і картками.", "", tokenizer, tagger);
 //  }
+
+  @Test
+  public void testSpecialChars() throws IOException {
+    TestTools.myAssert("П`єр", "П'єр/[П'єр]noun:anim:m:v_naz:prop:fname", tokenizer, tagger);
+  }
   
   private void assertNotTagged(String word) throws IOException {
   	TestTools.myAssert(word, word+"/[null]null", tokenizer, tagger);

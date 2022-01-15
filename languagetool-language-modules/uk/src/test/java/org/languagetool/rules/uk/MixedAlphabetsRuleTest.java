@@ -171,7 +171,7 @@ public class MixedAlphabetsRuleTest {
     matches = rule.match(lt.getAnalyzedSentence("На 0,6°С.")); // cyrillic С
     assertEquals(1, matches.length);
     assertEquals("Вжито кириличну літеру замість латинської", matches[0].getMessage());
-    assertEquals("0,6°C", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("C", matches[0].getSuggestedReplacements().get(0));
   }
 
   @Test

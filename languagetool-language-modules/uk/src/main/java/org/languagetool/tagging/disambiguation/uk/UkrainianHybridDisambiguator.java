@@ -46,7 +46,7 @@ import org.languagetool.tagging.uk.PosTagHelper;
  */
 
 public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
-  private static final String LAST_NAME_TAG = ":lname";
+  private static final String LAST_NAME_TAG = ":prop:lname";
   private static final Pattern INITIAL_REGEX = Pattern.compile("[А-ЯІЇЄҐ]\\.");
   private static final Pattern INANIM_VKLY = Pattern.compile("noun:inanim:.:v_kly.*");
   private static final Pattern PLURAL_NAME = Pattern.compile("noun:anim:p:.*:fname.*");
@@ -548,7 +548,7 @@ TODO:
       lnamePosTag = lnamePosTag.replaceAll(":(alt|ua_\\d{4}|xp\\d)", "");
 
       String initialsToken = initialsReadings.getAnalyzedToken(0).getToken();
-      AnalyzedToken newToken = new AnalyzedToken(initialsToken, lnamePosTag.replace(LAST_NAME_TAG, ":"+initialType+":abbr"), initialsToken);
+      AnalyzedToken newToken = new AnalyzedToken(initialsToken, lnamePosTag.replace(LAST_NAME_TAG, ":abbr:prop:"+initialType), initialsToken);
       newToken.setWhitespaceBefore(initialsReadings.isWhitespaceBefore());
       newTokens.add(newToken);
     }

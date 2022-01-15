@@ -219,8 +219,11 @@ public class TokenAgreementNounVerbRuleTest {
     assertMatches(0, "вони як ніхто інший знали");
     
     assertMatches(0, "який прибила хвиля");
-    assertMatches(0, "ті, хто зрозуміли");
-    assertMatches(0, "всі хто зрозуміли");
+    assertMatches(0, "Ті, хто зрозуміли");
+    assertMatches(0, "ті, хто сповідує");
+    assertMatches(0, "ті, хто не сповідують");
+    assertMatches(1, "всі хто зрозуміли"); // пропущена кома
+    assertEmptyMatch("про те, хто була ця клята Пандора");
 
     assertEmptyMatch("що можна було й інший пошукати");
   }
@@ -524,7 +527,8 @@ public class TokenAgreementNounVerbRuleTest {
 
   
   private void assertMatches(int num, String text) throws IOException {
-    assertEquals(num, rule.match(lt.getAnalyzedSentence(text)).length);
+    RuleMatch[] match = rule.match(lt.getAnalyzedSentence(text));
+    assertEquals("Unexpected: " + Arrays.asList(match), num, match.length);
   }
 
   private static final String GOOD_TEXT = "Хоча упродовж десятиліть ширилися численні історії про те, що я був у ряду наступників трону Тембу, щойно наведений простий генеалогічний екскурс викриває міфічність таких тверджень."

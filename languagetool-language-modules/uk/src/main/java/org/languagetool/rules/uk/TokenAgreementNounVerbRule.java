@@ -36,6 +36,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.uk.LemmaHelper.Dir;
 import org.languagetool.tagging.uk.PosTagHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -98,6 +99,7 @@ public class TokenAgreementNounVerbRule extends Rule {
 
     for (int i = 1; i < tokens.length; i++) {
       AnalyzedTokenReadings tokenReadings = tokens[i];
+      String cleanToken = tokenReadings.getCleanToken();
 
       String posTag0 = tokenReadings.getAnalyzedToken(0).getPOSTag();
 
@@ -119,7 +121,7 @@ public class TokenAgreementNounVerbRule extends Rule {
     
 
       if( PosTagHelper.hasPosTag(tokenReadings, NOUN_V_NAZ_PATTERN)
-          || Arrays.asList("яка").contains(tokenReadings.getToken()) ) {
+          || Arrays.asList("яка").contains(cleanToken) ) {
         state = new State();
 
         for (AnalyzedToken token: tokenReadings) {
@@ -137,6 +139,22 @@ public class TokenAgreementNounVerbRule extends Rule {
             state.nounPos = i;
             state.nounTokenReadings.add(token);
             state.nounAnalyzedTokenReadings = tokenReadings;
+          }
+          else if( i >= 3 && "хто".equalsIgnoreCase(cleanToken) 
+              && ",".equals(tokens[i-1].getToken()) 
+              && Arrays.asList("те").contains(StringUtils.defaultIfEmpty(tokens[i-2].getCleanToken(), "").toLowerCase())
+              && LemmaHelper.tokenSearch(tokens, i+1, Pattern.compile("verb.*:f\\b.*"), null, Pattern.compile("part"), Dir.FORWARD) > 0 ) {
+            // ignore: про те, хто була ця клята Пандора
+            state = null;
+            break;
+          }
+          else if( i >= 3 && "хто".equalsIgnoreCase(cleanToken) 
+              && ",".equals(tokens[i-1].getToken()) 
+              && Arrays.asList("ті", "всі").contains(StringUtils.defaultIfEmpty(tokens[i-2].getCleanToken(), "").toLowerCase())
+              && LemmaHelper.tokenSearch(tokens, i+1, Pattern.compile("verb.*:p\\b.*"), null, Pattern.compile("part"), Dir.FORWARD) > 0 ) {
+            state.nounPos = i-2;
+            state.nounTokenReadings.addAll(PosTagHelper.filter(tokens[i-2].getReadings(), Pattern.compile("adj.*")));
+            state.nounAnalyzedTokenReadings = tokens[i-2];
           }
           else if( nounPosTag.startsWith("noun") && nounPosTag.contains("v_naz") ) {
             state.nounPos = i;

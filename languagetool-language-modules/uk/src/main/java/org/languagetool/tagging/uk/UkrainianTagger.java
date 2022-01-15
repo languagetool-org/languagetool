@@ -46,7 +46,7 @@ import org.slf4j.LoggerFactory;
 public class UkrainianTagger extends BaseTagger {
   private static final Logger logger = LoggerFactory.getLogger(UkrainianTagger.class);
 
-  private static final Pattern NUMBER = Pattern.compile("[-+±]?[€₴$]?[0-9]+(,[0-9]+)?([-–—][0-9]+(,[0-9]+)?)?(%|°С?)?|\\d{1,3}([\\s\u00A0\u202F]\\d{3})+");
+  private static final Pattern NUMBER = Pattern.compile("[-+±]?[0-9]+(,[0-9]+)?([-–—][0-9]+(,[0-9]+)?)?|\\d{1,3}([\\s\u00A0\u202F]\\d{3})+");
   // full latin number regex: M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})
   private static final Pattern LATIN_NUMBER = Pattern.compile("(?=[MDCLXVI])M*(C[MD]|D?C*)(X[CL]|L?X*)(I[XV]|V?I*)");
   private static final Pattern LATIN_NUMBER_CYR = Pattern.compile("[IXІХV]{2,4}(-[а-яі]{1,4})?|[IXІХV](-[а-яі]{1,4})");
@@ -126,6 +126,11 @@ public class UkrainianTagger extends BaseTagger {
 
   @Override
   protected List<AnalyzedToken> getAnalyzedTokens(String word) {
+    
+    if( word.indexOf('`') > 0 ) {
+      word = word.replace('`', '\'');
+    }
+    
     List<AnalyzedToken> tokens = super.getAnalyzedTokens(word);
 
     if( word.length() < 2 )

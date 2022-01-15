@@ -30,7 +30,9 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
@@ -39,6 +41,7 @@ import org.languagetool.language.Ukrainian;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.uk.LemmaHelper.Dir;
 import org.languagetool.rules.uk.TokenAgreementPrepNounExceptionHelper.RuleException;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.uk.IPOSTag;
@@ -77,7 +80,7 @@ public class TokenAgreementPrepNounRule extends Rule {
   public String getShort() {
     return "Узгодження прийменника та іменника";
   }
-
+  
   @Override
   public final RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
@@ -88,14 +91,24 @@ public class TokenAgreementPrepNounRule extends Rule {
       AnalyzedTokenReadings tokenReadings = tokens[i];
 
       String posTag = tokenReadings.getAnalyzedToken(0).getPOSTag();
+      String thisToken = tokenReadings.getCleanToken();
+
+      // через, м’яко кажучи, невеликої популярності
+      if( prepTokenReadings != null ) {
+        int insertEndPos = findInsertEnd(prepTokenReadings, tokens, i, false);
+        if( insertEndPos > 0 ) {
+          i=insertEndPos;
+          continue;
+        }
+      }
 
       if (posTag == null
           || posTag.contains(IPOSTag.unknown.getText()) ){
+        
         prepTokenReadings = null;
         continue;
       }
 
-      String thisToken = tokenReadings.getToken();
 
       // часто вживають укр. В замість лат.: гепатит В
       // first token is always SENT_START
@@ -146,7 +159,7 @@ public class TokenAgreementPrepNounRule extends Rule {
         if( prep.equals("понад") )
           continue;
 
-        if( prep.equals("шляхом") || prep.equals("од") ) {
+        if( prep.equals("шляхом") || prep.equals("од") || prep.equals("поруч") ) {
           prepTokenReadings = null;
           continue;
         }
@@ -209,6 +222,63 @@ public class TokenAgreementPrepNounRule extends Rule {
       
       if( PosTagHelper.hasPosTagPart(tokenReadings, ":v_") ) {
 
+        // домовився за їх. - ненормативна форма
+        List<AnalyzedToken> pronPosNounReadings = tokenReadings.getReadings().stream()
+            .filter(r -> PosTagHelper.hasPosTag(r, Pattern.compile("noun:unanim:.:v_rod.*pron.*")) 
+                && Arrays.asList("вони", "він", "вона", "воно").contains(r.getLemma()))
+            .collect(Collectors.toList());
+
+        // нього-таки тощо
+        if( pronPosNounReadings.size() > 0 && ! thisToken.toLowerCase().matches("(них|нього|неї)(-[а-я]+)?") ) {
+          if( i < tokens.length - 1 
+              && (PosTagHelper.hasPosTag(tokens[i+1], Pattern.compile("(noun|adj|adv|part|num|conj:coord|noninfl).*"))
+                  || StringUtils.defaultIfBlank(tokens[i+1].getCleanToken(), "").matches("[\"«„“/$€…]|[a-zA-Z'-]+") ) ) {
+            // test next
+            // при його ділянці 
+            continue;
+          }
+          else {
+            int insertEndPos = findInsertEnd(prepTokenReadings, tokens, i+1, true);
+            if( insertEndPos > 0 ) {
+              i=insertEndPos;
+              continue;
+            }
+            
+            RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, prepTokenReadings, posTagsToFind, sentence, tokens, i);
+            ruleMatches.add(potentialRuleMatch);
+            prepTokenReadings = null;
+            continue;
+          }
+        }
+
+        List<AnalyzedToken> pronPosAdjReadings = tokenReadings.getReadings().stream()
+            .filter(r -> PosTagHelper.hasPosTag(r, Pattern.compile("adj.*pron:pos(?!:bad).*")) 
+                && Arrays.asList("їх", "його", "її").contains(r.getLemma()))
+            .collect(Collectors.toList());
+
+        // to detect: завдяки його зусиллі
+        if( pronPosAdjReadings.size() > 0 ) {
+
+          if (! TokenAgreementPrepNounRule.hasVidmPosTag(posTagsToFind, pronPosAdjReadings)) {
+            RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, prepTokenReadings, posTagsToFind, sentence, tokens, i);
+            ruleMatches.add(potentialRuleMatch);
+            prepTokenReadings = null;
+            continue;
+          }
+
+          if( i < tokens.length - 1 ) {
+            // test next
+            // при їхній ділянці 
+            continue;
+          }
+        }
+        else if ( thisToken.equals("їх") ) {
+          RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, prepTokenReadings, posTagsToFind, sentence, tokens, i);
+          ruleMatches.add(potentialRuleMatch);
+          prepTokenReadings = null;
+          continue;
+        }
+
         if( hasVidmPosTag(posTagsToFind, tokenReadings) ) {
           prepTokenReadings = null;
           continue;
@@ -262,15 +332,44 @@ public class TokenAgreementPrepNounRule extends Rule {
     return toRuleMatchArray(ruleMatches);
   }
 
+  private static int findInsertEnd(AnalyzedTokenReadings prepTokenReadings, AnalyzedTokenReadings[] tokens, int i, boolean lookForPart) {
+    int nextPos = i;
+    AnalyzedTokenReadings tokenReadings = tokens[i];
+    
+    if( true ) {
+      if( i > tokens.length - 2 )
+        return -1;
+
+      if( tokenReadings.getCleanToken().matches("же?") ) {
+        nextPos = i+1;
+      }
+    }
+
+    if( nextPos > tokens.length - 3 )
+      return nextPos==i ? -1 : nextPos-1;
+
+    if( tokenReadings.isPosTagUnknown() && tokenReadings.getCleanToken().matches("[,(]") ) {
+      int commaPos = LemmaHelper.tokenSearch(tokens, i+1, (String)null, Pattern.compile("[,)]"), null, Dir.FORWARD);
+      if( commaPos > i+1 && commaPos < i+6 && commaPos < tokens.length-1 && ! tokens[commaPos+1].getCleanToken().equals("що") ) {
+        if( tokenReadings.getCleanToken().replace('(', ')').equals(tokens[commaPos].getCleanToken()) )
+          return commaPos;
+      }
+    }
+    return nextPos==i ? -1 : nextPos-1;
+  }
 
   static boolean hasVidmPosTag(Collection<String> posTagsToFind, AnalyzedTokenReadings tokenReadings) {
+    return hasVidmPosTag(posTagsToFind, tokenReadings.getReadings());
+  }
+
+  static boolean hasVidmPosTag(Collection<String> posTagsToFind, List<AnalyzedToken> tokenReadings) {
     boolean vidminokFound = false;  // because POS dictionary is not complete
 
     for(AnalyzedToken token: tokenReadings) {
       String posTag = token.getPOSTag();
 
-      if( posTag == null ) {
-        if( tokenReadings.getReadingsLength() == 1) 
+      if( posTag == null ) { // && ! ".".equals(tokenReadings.get(0).getToken()) ) {
+        if( tokenReadings.size() == 1) 
           return true;
         
         continue;
@@ -359,11 +458,23 @@ public class TokenAgreementPrepNounRule extends Rule {
         prepTokenReadings.getToken(), String.join(", ", reqVidminkyNames), String.join(", ", foundVidminkyNames));
 
     if( tokenString.equals("їх") && requiredPostTagsRegEx != null ) {
-      msg += ". Можливо, тут потрібно присвійний займенник «їхній»?";
+      msg += ". Можливо, тут потрібно присвійний займенник «їхній» або нормативна форма р.в. «них»?";
       try {
         String newYihPostag = "adj:p" + requiredPostTagsRegEx + ".*";
         String[] synthesized = ukrainianSynthesizer.synthesize(new AnalyzedToken("їхній", "adj:m:v_naz:&pron:pos", "їхній"), newYihPostag, true);
         suggestions.addAll( Arrays.asList(synthesized) );
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+    }
+    else if( (tokenString.equals("його") || tokenString.equals("її")) && requiredPostTagsRegEx != null ) {
+      String repl = tokenString.equals("його") ? "нього" : "неї";
+      msg += ". Можливо, тут потрібно присвійний займенник «" + repl + "»?";
+      try {
+        String newYihPostag = "adj:p" + requiredPostTagsRegEx + ".*";
+        String[] synthesized = ukrainianSynthesizer.synthesize(new AnalyzedToken("їхній", "adj:m:v_naz:&pron:pos", "їхній"), newYihPostag, true);
+        suggestions.addAll( Arrays.asList(synthesized) );
+        suggestions.add(repl);
       } catch (IOException e) {
         throw new RuntimeException(e);
       }

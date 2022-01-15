@@ -19,15 +19,15 @@
 
 package org.languagetool.tokenizers.uk;
 
-import org.apache.commons.lang3.StringUtils;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import org.apache.commons.lang3.StringUtils;
+import org.junit.Test;
 
 public class UkrainianWordTokenizerTest {
   private final UkrainianWordTokenizer w = new UkrainianWordTokenizer();
@@ -116,6 +116,9 @@ public class UkrainianWordTokenizerTest {
 
     testList = w.tokenize("вчора о 7:30 ранку");
     assertEquals(Arrays.asList("вчора", " ", "о", " ", "7:30", " ", "ранку"), testList);
+
+    testList = w.tokenize("3,5-5,6% 7° 7,4°С");
+    assertEquals(Arrays.asList("3,5-5,6", "%", " ", "7", "°", " ", "7,4", "°", "С"), testList);
   }
 
   @Test
@@ -193,7 +196,7 @@ public class UkrainianWordTokenizerTest {
     assertEquals(Arrays.asList("стін\u00AD\nку"), testList);
 
     testList = w.tokenize("п\"яний");
-    assertEquals(Arrays.asList("п'яний"), testList);
+    assertEquals(Arrays.asList("п\"яний"), testList);
 
     testList = w.tokenize("Веретениця**");
     assertEquals(Arrays.asList("Веретениця", "**"), testList);
@@ -275,7 +278,7 @@ public class UkrainianWordTokenizerTest {
     assertEquals(Arrays.asList("911", " ", "тис.", "грн", ".", " ", "з", " ", "бюджету"), testList);
 
     testList = w.tokenize("за $400\n  тис., здавалося б");
-    assertEquals(Arrays.asList("за", " ", "$400", "\n", " ", " ", "тис.", ",", " ", "здавалося", " ", "б"), testList);
+    assertEquals(Arrays.asList("за", " ", "$", "400", "\n", " ", " ", "тис.", ",", " ", "здавалося", " ", "б"), testList);
 
     testList = w.tokenize("найважчого жанру— оповідання");
     assertEquals(Arrays.asList("найважчого", " ", "жанру", "—", " ", "оповідання"), testList);
@@ -558,7 +561,7 @@ public class UkrainianWordTokenizerTest {
     assertEquals(Arrays.asList("РЕАЛІЗАЦІЇ", " ", "\\xAD", "\\n", "СІЛЬСЬКОГОСПОДАРСЬКОЇ"), testList);
 
     testList = w.tokenize("а%його");
-    assertEquals(Arrays.asList("а%", "його"), testList);
+    assertEquals(Arrays.asList("а", "%", "його"), testList);
 
     testList = w.tokenize("5%-го");
     assertEquals(Arrays.asList("5%-го"), testList);

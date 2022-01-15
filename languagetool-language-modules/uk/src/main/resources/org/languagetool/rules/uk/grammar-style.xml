@@ -113,15 +113,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token regexp="yes" inflected="yes">більше?|більший
             <exception scope="previous">не</exception>
           </token>
+          <token min="0" regexp="yes">[$€]</token>
           <token postag="number"/>
         </pattern>
-        <message>З числівником замість «більше» краще вживати «понад», або «більше ніж/як»: <suggestion>понад <match no="2"/></suggestion></message>
-        <suggestion>більш як <match no="2"/></suggestion>
-        <suggestion>більше ніж <match no="2"/></suggestion>
+        <message>З числівником замість «більше» краще вживати «понад», або «більше ніж/як»: <suggestion>понад <match no="2"/><match no="3"/></suggestion></message>
+        <suggestion>більш як <match no="2"/><match no="3"/></suggestion>
+        <suggestion>більше ніж <match no="2"/><match no="3"/></suggestion>
         <example>Більш як 40</example>
         <example correction="понад 500|більш як 500|більше ніж 500"><marker>більше 500</marker>.</example>
         <example correction="понад 2,000|більш як 2,000|більше ніж 2,000"><marker>більшими 2,000</marker> слів.</example>
-        <example correction="Понад 10%|Більш як 10%|Більше ніж 10%">«<marker>Більше 10%</marker> людей</example>
+        <example correction="Понад 10|Більш як 10|Більше ніж 10">«<marker>Більше 10</marker>% людей</example>
+        <example correction="понад $1,5|більш як $1,5|більше ніж $1,5">трохи <marker>більше $1,5</marker> млрд</example>
         <!--
             <example correction="вище ніж 39"><marker>вище 39</marker> градусів.</example>
         -->
@@ -189,14 +191,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token regexp="yes" inflected="yes">менше?|менший
             <exception scope="previous">не</exception>
           </token>
+          <token min="0" regexp="yes">[%$€]</token>
           <token postag="number"/>
         </pattern>
-        <message>З числівником замість «менше» краще вживати «менше ніж/як»: <suggestion>менш як <match no="2"/></suggestion></message>
-        <suggestion>менше ніж <match no="2"/></suggestion>
+        <message>З числівником замість «менше» краще вживати «менше ніж/як»: <suggestion>менш як <match no="2"/><match no="3"/></suggestion></message>
+        <suggestion>менше ніж <match no="2"/><match no="3"/></suggestion>
         <example>Менш як 40</example>
         <example correction="менш як 500|менше ніж 500"><marker>менше 500</marker>.</example>
         <example correction="менш як 2,000|менше ніж 2,000"><marker>меншими 2,000</marker> слів.</example>
-        <example correction="Менш як 10%|Менше ніж 10%">«<marker>Менше 10%</marker> людей</example>
+        <example correction="Менш як 10|Менше ніж 10">«<marker>Менше 10</marker>% людей</example>
+        <example correction="менш як $1,5|менше ніж $1,5">трохи <marker>менше $1,5</marker> млрд</example>
+        <example correction="менш як 1,5|менше ніж 1,5">трохи <marker>менше 1,5</marker>% млрд</example>
         <example>Не менше 40</example>
         <example>Щонайменше 40</example>
       </rule>
@@ -1275,7 +1280,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </marker>
         </pattern>
         <message>Знайдено плеоназм, краще: <suggestion>\1 \3</suggestion></message>
-        <example correction="знижка 10%"><marker>знижка мінус 10%</marker>.</example>
+        <example correction="знижка 10"><marker>знижка мінус 10</marker>%.</example>
       </rule>
 
       <rule>
@@ -1946,6 +1951,67 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>всі частки майна</example>
     </rule>
 
+<!--
+    <rulegroup id="snihovyi_snizhnyi" name="Сніговий і сніжний">
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">сніжний</token>
+          </marker>
+          <token inflected="yes" regexp="yes">межа|гора|гірка|вода|намет|стіна|баба|пороша|буря|буран|колір|людина|плуг</token>
+        </pattern>
+        <message>У значеннях: який утворився зі снігу, зроблений зі снігу; який несе сніг; вкритий снігами; схожий на сніг тощо краще вжити <suggestion>сніговий</suggestion>?</message>
+        <example correction="сніговий"><marker>сніжний</marker> баба</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">сніжний</token>
+          </marker>
+          <token inflected="yes" regexp="yes">кальвіль|подорожник|плісень|барс|чайка</token>
+        </pattern>
+        <message>Як складова частина ботанічних і зоологічних назв краще вжити <suggestion>сніговий</suggestion>?</message>
+        <example correction="сніговий"><marker>сніжний</marker> барс</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">сніговий</token>
+          </marker>
+          <token inflected="yes" regexp="yes">вітер|курява|рівнина|поле|полотно</token>
+        </pattern>
+        <message>У значеннях: який несе сніг, укритий снігами, схожий на сніг тощо краще вжити <suggestion>сніжний</suggestion>?</message>
+        <example correction="сніжний"><marker>снігова</marker> зима</example>
+      </rule>
+    </rulegroup>
+-->
+<!--
+    <rulegroup id="pysemnist_pysmennist" name="Писемність і письменність">
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">письменність</token>
+          </marker>
+          <token inflected="yes" regexp="yes">межа|гора|гірка|вода|намет|стіна|баба|зима|пороша|буря|буран|колір|людина|плуг</token>
+        </pattern>
+        <message>У значеннях: який утворився зі снігу, зроблений зі снігу; який несе сніг; вкритий снігами; схожий на сніг тощо краще вжити <suggestion>сніговий</suggestion>?</message>
+        <example correction="сніговий"><marker>сніжний</marker> баба</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">писемність</token>
+          </marker>
+          <token inflected="yes" regexp="yes">зима|вітер|курява|рівнина|поле|полотно</token>
+        </pattern>
+        <message>У значеннях: який несе сніг, укритий снігами, схожий на сніг тощо краще вжити <suggestion>сніжний</suggestion>?</message>
+        <example correction="сніжний"><marker>снігова</marker> зима</example>
+      </rule>
+    </rulegroup>
+-->
     <rulegroup id="NETOCHNE_VZHYVANNYA" name="Неточне вживання слів">
       <rule>
         <pattern>
@@ -2985,19 +3051,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token regexp="yes">жінок|жінки|жінка</token>
       </antipattern>
       <pattern>
-        <token postag=".*num.*" postag_regexp="yes">
-          <exception inflected="yes" regexp="yes">один|обидва|два</exception>
-          <exception postag_regexp="yes" postag="adj:m:.*"/>
-        </token>
-        <marker>
-          <token regexp="yes">чоловік[аи]?
+        <or>
+          <token postag=".*num.*" postag_regexp="yes">
+            <exception inflected="yes" regexp="yes">один|обидва|два</exception>
+            <exception postag_regexp="yes" postag="adj:m:.*"/>
           </token>
+          <token>%</token>
+        </or>
+        <marker>
+          <token regexp="yes">чоловік[аи]?</token>
         </marker>
       </pattern>
       <message>Деякі мовні стилісти радять вживати «осіб»: \1 <suggestion>осіб</suggestion></message>
       <url>http://mova.kreschatic.kiev.ua/32.php</url>
       <example correction="осіб">На заході побувало триста <marker>чоловік</marker>.</example>
       <example correction="осіб">280 мільйонів <marker>чоловік</marker>.</example>
+      <example correction="осіб">280% <marker>чоловік</marker>.</example>
       <example>На заході побувало 21 чоловік і 15 жінок.</example>
       <example>791 чоловік, 43 жінки</example>
       <example>Один чоловік сказав мені таке...</example>

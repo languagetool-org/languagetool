@@ -380,7 +380,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="культивувати 170|культивувати-170">почали <marker>культивувати170</marker> років</example>
         <example correction="до 1600|до-1600"><marker>до1600</marker> ккал</example>
         <example correction="Євро 2012|Євро-2012">на хвилі <marker>Євро2012</marker></example>
-        <example correction="майже 100%|майже-100%"><marker>майже100%</marker>.</example>
+        <example correction="майже 100|майже-100"><marker>майже100</marker>%.</example>
         <example correction="тримаємо 12–15|тримаємо-12–15"><marker>тримаємо12–15</marker> хвилин</example>
         <example>20 мм2</example>
         <!-- CO2 in cyrillic -->
@@ -465,7 +465,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token regexp="yes">[$+-]?[0-9,-]*[0-9]</token>
             <token regexp="yes" spacebefore="no">[а-яіїєґ][а-яіїєґ'.-]*
-              <exception postag_regexp="yes" postag="noun.*fname:abbr"/>
+              <exception postag_regexp="yes" postag="noun.*:abbr:prop:fname"/>
             </token>
           </marker>
         </pattern>
@@ -1494,6 +1494,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </pattern>
       <message>Можливо, ви мали на увазі <suggestion><match no="1" regexp_match="витупа(є|ють|ємо?)" regexp_replace="виступа$1"/></suggestion>?</message>
       <example correction="виступає">він <marker>витупає</marker> завтра.</example>
+    </rule>
+
+    <rule id="invalid_apostrophe" name="Неправильний символ апострофа">
+      <regexp>([а-яіїєґ'-]*[бвджзклмнпрстфхш])[&quot;”‟`´]([єїюя][а-яіїєґ'-]*)</regexp>
+      <message>Можливо вжито неправильний символ апострофа?</message>
+      <suggestion>\1'\2</suggestion>
+      <example correction="прим'ятий">він <marker>прим"ятий</marker>.</example>
+      <example correction="прим'ятий">він <marker>прим´ятий</marker>.</example>
     </rule>
   </category>
 

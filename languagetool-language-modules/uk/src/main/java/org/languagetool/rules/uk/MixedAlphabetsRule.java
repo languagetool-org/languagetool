@@ -100,7 +100,7 @@ public class MixedAlphabetsRule extends Rule {
           && ( i > 1
               && ! "Тому".equals(tokens[i-1].getCleanToken())
               && ! "Франко".equals(tokens[i-1].getCleanToken())
-              && PosTagHelper.hasPosTag(tokens[i-1], Pattern.compile(".*fname(?!:abbr).*"))) ) {
+              && PosTagHelper.hasPosTag(tokens[i-1], Pattern.compile("(?!.*:abbr).*fname.*"))) ) {
         List<String> replacements = new ArrayList<>();
         replacements.add( toLatin(tokenString) );
 
@@ -120,8 +120,20 @@ public class MixedAlphabetsRule extends Rule {
         }
       }
 
-      if( tokenString.length() < 2 )
+      if( tokenString.length() < 2 ) {
+        if( tokenString.equals("°") 
+            && i < tokens.length - 1
+            && tokens[i+1].getCleanToken().equals("С") ) {  // Cyrillic С
+          List<String> replacements = new ArrayList<>();
+          replacements.add("C");
+
+          String msg = "Вжито кириличну літеру замість латинської";
+          RuleMatch potentialRuleMatch = createRuleMatch(tokens[i+1], replacements, msg, sentence);
+          ruleMatches.add(potentialRuleMatch);
+        }
+
         continue;
+      }
 
       if( MIXED_ALPHABETS.matcher(tokenString).matches() ) {
 
@@ -152,15 +164,6 @@ public class MixedAlphabetsRule extends Rule {
 
         String msg = "Вжито кириличні літери замість латинських на позначення римської цифри";
         msg = adjustForInvalidSuffix(tokenString, msg);
-        RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, replacements, msg, sentence);
-        ruleMatches.add(potentialRuleMatch);
-      }
-      else if( tokenString.endsWith("°С") ) {  // cyrillic С
-        List<String> replacements = new ArrayList<>();
-        int length = tokenString.length();
-        replacements.add( tokenString.substring(0,  length-1) + toLatin(tokenString.substring(length-1)) );
-
-        String msg = "Вжито кириличну літеру замість латинської";
         RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, replacements, msg, sentence);
         ruleMatches.add(potentialRuleMatch);
       }
