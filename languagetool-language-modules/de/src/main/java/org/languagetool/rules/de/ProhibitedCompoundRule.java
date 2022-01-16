@@ -49,6 +49,9 @@ public class ProhibitedCompoundRule extends Rule {
   private static final List<Pair> lowercasePairs = Arrays.asList(
           // NOTE: words here must be all-lowercase
           // NOTE: no need to add words from confusion_sets.txt, they will be used automatically (if starting with uppercase char)
+          new Pair("türmer", "Turmwächter", "türme", "Plural von 'Turm' (Bauwerk)"),
+          new Pair("soge", "ziehende Strömungen", "sorge", "bedrückendes Gefühl"),
+          new Pair("panne", "technischer Defekt", "spanne", "Zeitraum"),
           new Pair("elfer", "Elfmeter", "helfer", "Person, die hilft"),
           new Pair("bau", "Bauwerk, Baustelle", "baum", "Pflanze"),
           new Pair("gase", "Plural von 'Gas' (Aggregatzustand)", "gasse", "kleine Straße"),
