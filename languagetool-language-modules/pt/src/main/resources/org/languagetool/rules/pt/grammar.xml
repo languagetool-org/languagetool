@@ -41706,6 +41706,24 @@ Isto deve ser feito com precisão científica. → Isto deve ser feito com rigor
 	<!-- FEITA efetuada/realizada/conduzida/concretizada/elaborada -->
     <rulegroup id='FAZER_EFETUAR_REALIZAR_CONDUZIR_CONCRETIZAR_ELABORAR' name="Fazer → efetuar/realizar/conduzir/concretizar/elaborar" type="style" tags="picky">
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-06-29/30 + 2021-07-02 + 2021-10-31 (25-JUN-2021+)      -->
+
+<!-- MARCOAGPINTO 2022-01-16 (1-JAN-2022+) *START* -->
+<!--
+Hoje faz 21 anos que entrei para a empresa.
+Faz quatro anos que eu estudo francês.
+Faz uma semana que a gente se encontrou.
+Você não sabia que ele morreu faz dois anos?
+Sempre faz um tempo tão horrível em abril?
+Não falo com Tom já faz um tempo.
+-->
+      <antipattern>
+	    <token regexp='no' inflected='yes'>fazer</token>
+		<token postag='Z0.+' postag_regexp='yes'/>
+		<token regexp='yes'>&expressoes_de_tempo;</token>
+		<token postag='CS|RG|_PUNCT' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-01-16 (1-JAN-2022+) *END* -->
+
 <!--
 Ele a fez sua esposa.
 Ele me fez seu assistente.
