@@ -41356,6 +41356,24 @@ Elas têm umas sextas de vime. → Elas têm umas cestas de vime.
  <category id='REDACTION_TIPS' name='Dicas de redação' type='style'>
 
 
+	<!-- PERDER A VIDA A morrer/falecer/perecer -->
+    <rule id='PERDER_A_VIDA' name="perder a vida → morrer/falecer/perecer">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-16 (Checked/Enhanced) (1-JAN-2022+)      -->
+      <pattern>
+		<token regexp='no' inflected='yes'>perder</token>	
+		<token regexp='yes'>as?</token>
+		<token min="0" max="1" postag='DP.+' postag_regexp='yes'/>
+		<token regexp='yes'>vidas?</token>
+      </pattern>
+      <message>Melhore a redação.</message>
+	  <suggestion><match no='1' postag='V.+' postag_regexp='yes'>morrer</match></suggestion>
+	  <suggestion><match no='1' postag='V.+' postag_regexp='yes'>falecer</match></suggestion>
+	  <suggestion><match no='1' postag='V.+' postag_regexp='yes'>perecer</match></suggestion>
+      <example correction="morreu|faleceu|pereceu">Ele <marker>perdeu a vida</marker> num acidente.</example>	  
+	  <example correction="morreram|faleceram|pereceram">Um milhão de pessoas <marker>perderam as suas vidas</marker> na guerra.</example>
+    </rule>
+
+
 	<!-- ATRAVÉS DE por -->
     <rulegroup id='ATRAVES_DE_POR' name="Através de → por" type="style">
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-12-05/6 (25-JUN-2021+)      -->
@@ -41947,21 +41965,6 @@ Estou determinado a levar a cabo este plano. → Estou determinado a realizar es
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/na-medida-do-possivel/33734</url>
       <example correction="">Isto deve ser feito <marker>na medida do possível</marker>.</example>
       <example>Isto deve ser feito <marker>dentro do possível</marker>.</example>
-    </rule>
-
-	<!-- PERDER A VIDA A morrer/falecer/perecer -->
-    <rule id='PERDER_A_VIDA' name="perder a vida → morrer/falecer/perecer">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-03-15 (1-JAN-2021+)      -->
-      <pattern>
-		<token regexp='no' inflected='yes'>perder</token>	
-		<token>a</token>
-		<token>vida</token>
-      </pattern>
-      <message>Melhore a redação.</message>
-	  <suggestion><match no='1' postag='V.+' postag_regexp='yes'>morrer</match></suggestion>
-	  <suggestion><match no='1' postag='V.+' postag_regexp='yes'>falecer</match></suggestion>
-	  <suggestion><match no='1' postag='V.+' postag_regexp='yes'>perecer</match></suggestion>
-      <example correction="morreu|faleceu|pereceu">Ele <marker>perdeu a vida</marker> num acidente.</example>
     </rule>
 
     <!-- QUE TER COMO/POR NOME/ADJETIVO cujo(a) Nome/Adjetivo ser -->
