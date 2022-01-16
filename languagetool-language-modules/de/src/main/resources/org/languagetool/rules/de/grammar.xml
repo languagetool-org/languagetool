@@ -29555,14 +29555,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="ZAHL_SUFFIX_IN_ZUSAMMENSETZUNG" name="Bindestrich nach Ziffer und Suffix: 1970er-Jahre, 100stel-Liter" default="temp_off">
             <rule>
+                <antipattern>
+                    <token regexp="yes">[0-9]{2}er</token>
+                    <token inflected="yes">Jahr</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">[0-9]{1,4}(er|s?tel)</token>
                     <token regexp="yes" postag_regexp="yes" postag="SUB:.*">[A-ZÄÖÜ].+</token>
                 </pattern>
-                <message>Es fehlt hier ein Bindestrich nach \1.</message>
+                <message>Es fehlt ein Bindestrich nach \1.</message>
                 <suggestion>\1-\2</suggestion>
+                <url>https://grammis.ids-mannheim.de/rechtschreibung/6159#</url>
                 <example correction="1970er-Jahren">So geschah es in den <marker>1970er Jahren</marker>.</example>
                 <example correction="10tel-Liter">Ich brauche einen <marker>10tel Liter</marker> Milch.</example>
+                <example>In den 80er Jahren</example>
             </rule>
         </rulegroup>
         <rule id="HALBMAST" name="auf Halbmast (halbmast)">
