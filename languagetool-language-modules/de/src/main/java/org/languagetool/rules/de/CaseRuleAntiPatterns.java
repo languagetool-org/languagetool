@@ -1196,15 +1196,16 @@ class CaseRuleAntiPatterns {
     Arrays.asList( // Etwas anderes Lebendiges
       csRegex("anderes"),
       csRegex("[A-ZÄÖÜ].+es"),
-      csRegex("[a-zäöü…\\.!,\\?…].*")
+      csRegex("[a-zäöü…\\.!:;,\\?…\\)].*")
     ),
     Arrays.asList( // Ich habe noch Dringendes mitzuteilen
       csRegex("Dringendes|Bares|Vertrautes|Positives|Negatives|Gelerntes|Neues|Altes|Besseres|Schlechteres|Schöneres|Schlimmeres"),
-      csRegex("[a-zäöü…\\.!,\\?…].*")
+      csRegex("[a-zäöü…\\.!,\\?…\\)].*")
     ),
     Arrays.asList( // Immer mehr Ältere erkranken daran
-      csRegex("Ältere|Jüngere"),
-      csRegex("[a-zäöü…\\.!,\\?…].*")
+      csRegex("[a-zäöü…\\.,:;0-9\\/].*"),
+      csRegex("Ältere[rn]?|Jüngere[rn]?|Verwirrte[rn]?|Zuschauende[rn]?|Angeklagte[rn]?|Beschuldigte[rn]?|Referierende[rn]?|Moderierende[rn]?|Dunkelhäutige[rn]?"),
+      csRegex("[a-zäöü…\\.!:;,\\?…\\)].*")
     ),
     Arrays.asList( // § 12 Die Pflichtversicherung
       csToken("§"),

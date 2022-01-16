@@ -211,6 +211,7 @@ public class CaseRule extends Rule {
     "Rutsch",
     "Spar",
     "Merz",
+    "Gefahren",
     "Minderjährige",
     "Minderjähriger",
     "Minderjährigen",
