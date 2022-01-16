@@ -10384,13 +10384,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="относится">Но вот мой друг очень положительно <marker>относиться</marker> к спорту.</example>
         </rule>
         </rulegroup>
-        <rulegroup  id="Verb_INF_OR_3P_3" default="temp_off" name="Инфинитив вместо личной формы глагола (3)" > <!-- set temp off -->  <!-- tags="picky" -->
-       
+        <rulegroup  id="Verb_INF_OR_3P_3" default="on" tags="picky" name="Инфинитив вместо личной формы глагола (3)" > <!-- set temp off -->  <!-- tags="picky" -->      
         <rule>
             <pattern>
+                <token postag="SENT_START" skip="-1" ></token>
                 <token postag="NN:.*:Nom|PNN:.*:Nom:.*"  postag_regexp="yes"  ><exception postag_regexp="yes" negate_pos="yes" postag="NN:.*:.*|PNN:.*:Nom:.*" />
                 <exception postag_regexp="yes" scope="previous" postag="VB:.*|NN:.*:Nom|PNN:.*:Nom:.*" />
-                <exception regexp="yes" scope="previous" >было|стало|можно|сложно|нужно|трудно|надо|нелегко|легко|лучше|хуже|невозможно|успешно|чтобы|сильно|слабо|непросто|небрежно|вовремя|разрешено</exception> <!-- check word, maybe set POStag? -->
+                <exception postag_regexp="yes" postag="NN:Inanim:.*:Sin:R" />
+                <exception regexp="yes" scope="previous" >было|стало|можно|сложно|нужно|трудно|надо|нелегко|легко|лучше|хуже|невозможно|успешно|чтобы|сильно|слабо|непросто|небрежно|вовремя|разрешено|&verb;</exception> <!-- check word, maybe set POStag? -->
                 </token> 
                 <marker>
                     <token postag="VB:INF:.*" postag_regexp="yes" regexp="yes" >[а-яё]*ться<exception negate_pos="yes" postag="VB:INF:.*" postag_regexp="yes"/></token>
@@ -10400,12 +10401,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
        <!--     <filter class="org.languagetool.rules.ru.RussianPartialPosTagFilter" 
                 args="no:1 regexp:(.*)ься postag_regexp:UNKNOWN   negate_pos:yes"/>    --> <!-- Test if word without "ь" exist --> 
-            <message suppress_misspelled="yes" >Глагол должен быть в личной форме, мягкий знак не нужен: <suggestion><match no="2" postag="VB:INF:.*" postag_regexp="yes" postag_replace="VB:.*:.*:Sin:P3"/></suggestion></message>
+            <message suppress_misspelled="yes" >Глагол должен быть в личной форме, мягкий знак не нужен: <suggestion><match no="3" postag="VB:INF:.*" postag_regexp="yes" postag_replace="VB:.*:.*:Sin:P3"/></suggestion></message>
             <url>http://tsya.ru/</url>
             <short>Глагол должен быть в личной форме</short>
-
+            <example>У меня нет никакого желания оставаться здесь.</example>
+            <example correction="решится">Эта проблема <marker>решиться</marker> после установки данной системы.</example>
             <example correction="пятится">Рак <marker>пятиться</marker> назад.</example>
-
         </rule>
         </rulegroup>
 
