@@ -13234,6 +13234,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Zusammenschreibung</short>
             <example correction="10er-Schlüssel">Mit dem <marker>10er Schlüssel</marker> konnte ich die Schraube lösen.</example>
         </rule>
+        <rulegroup id="ZAHL_SUFFIX_IN_ZUSAMMENSETZUNG" name="Bindestrich nach Ziffer und Suffix: 5er-Pack, 100stel-Liter"  default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d+(er|s?tel)</token>
+                    <token regexp="yes" postag_regexp="yes" postag="SUB:.*">[A-ZÄÖÜ].+<exception inflected="yes">Jahr</exception></token>
+                </pattern>
+                <message>Es fehlt ein Bindestrich nach \1.</message>
+                <suggestion>\1-\2</suggestion>
+                <url>https://grammis.ids-mannheim.de/rechtschreibung/6159#</url>
+                <example correction="10er-Pack">Ich brauche einen <marker>10er Pack</marker> Batterien.</example>
+                <example>In den 80er Jahren</example>
+                <example>So geschah es in den1970er Jahren.</example>
+                <example correction="100stel-Millimeter">Die Differenz betrug weniger als ein <marker>100stel Millimeter</marker>.</example>
+                <example correction="5tel-Gramm">Es wog nur ein <marker>5tel Gramm</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="SOZIAL_MEDIA" name="sozial Media">
             <pattern>
                 <token>sozial</token>
@@ -29658,24 +29674,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1" regexp_match="(\d+)" regexp_replace="$1-"/></suggestion>
                 <url>https://www.duden.de/rechtschreibung/_jaehrig</url>
                 <example correction="13-jährige">Das <marker>13jährige</marker> Mädchen gewann den Vorlesewettbewerb.</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="ZAHL_SUFFIX_IN_ZUSAMMENSETZUNG" name="Bindestrich nach Ziffer und Suffix: 1970er-Jahre, 100stel-Liter" default="temp_off">
-            <rule>
-                <antipattern>
-                    <token regexp="yes">[0-9]+er</token>
-                    <token inflected="yes">Jahr</token>
-                </antipattern>
-                <pattern>
-                    <token regexp="yes">[0-9]{1,4}(er|s?tel)</token>
-                    <token regexp="yes" postag_regexp="yes" postag="SUB:.*">[A-ZÄÖÜ].+</token>
-                </pattern>
-                <message>Es fehlt ein Bindestrich nach \1.</message>
-                <suggestion>\1-\2</suggestion>
-                <url>https://grammis.ids-mannheim.de/rechtschreibung/6159#</url>
-                <!--<example correction="1970er-Jahren">So geschah es in den <marker>1970er Jahren</marker>.</example>-->
-                <example correction="10tel-Liter">Ich brauche einen <marker>10tel Liter</marker> Milch.</example>
-                <example>In den 80er Jahren</example>
             </rule>
         </rulegroup>
         <rule id="HALBMAST" name="auf Halbmast (halbmast)">

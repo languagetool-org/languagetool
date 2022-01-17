@@ -1640,7 +1640,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     boolean ignoreHyphenatedCompound = false;
     if (!ignore && !ignoreUncapitalizedWord) {
       if (word.contains("-")) {
-        ignoreByHyphen = word.endsWith("-") && ignoreByHangingHyphen(words, idx);
+        if (idx > 0 && "".equals(words.get(idx-1)) && StringUtils.startsWithAny(word, "stel-", "tel-") ) {
+          // accept compounds such as '100stel-Millimeter' or '5tel-Gramm'
+          return !isMisspelled(StringUtils.substringAfter(word, "-"));
+        } else {
+          ignoreByHyphen = word.endsWith("-") && ignoreByHangingHyphen(words, idx);
+        }
       }
       ignoreHyphenatedCompound = !ignoreByHyphen && ignoreCompoundWithIgnoredWord(word);
     }
@@ -1684,8 +1689,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       }
     }
     if ((idx+1 < words.size() && (word.endsWith(".mp") || word.endsWith(".woff")) && words.get(idx+1).equals("")) ||
-        (idx > 0 && "sat".equals(word) && "".equals(words.get(idx-1)))) {
-      // e.g. ".mp3" or "3sat" - the check for the empty string is because digits were removed during
+        (idx > 0 && "".equals(words.get(idx-1)) && StringUtils.equalsAny(word, "sat", "stel", "tel") )) {
+      // e.g. ".mp3", "3sat", "100stel", "5tel" - the check for the empty string is because digits were removed during
       // hunspell-style tokenization before
       return true;
     }
