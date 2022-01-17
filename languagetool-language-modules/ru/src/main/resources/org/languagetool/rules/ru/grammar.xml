@@ -10384,10 +10384,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="относится">Но вот мой друг очень положительно <marker>относиться</marker> к спорту.</example>
         </rule>
         </rulegroup>
-        <rulegroup  id="Verb_INF_OR_3P_3" default="on" tags="picky" name="Инфинитив вместо личной формы глагола (3)" > <!-- set temp off -->  <!-- tags="picky" -->      
+        <rulegroup  id="Verb_INF_OR_3P_3" default="temp_off"  name="Инфинитив вместо личной формы глагола (3)" >
         <rule>
             <pattern>
-                <token postag="SENT_START" skip="-1" ></token>
+                <token postag="SENT_START" skip="-1" ><exception regexp="yes" scope="next">какой|если|какая|какие|какое</exception>
+                    <exception postag_regexp="yes" scope="next" postag="VB:.*" />
+                </token>
                 <token postag="NN:.*:Nom|PNN:.*:Nom:.*"  postag_regexp="yes"  ><exception postag_regexp="yes" negate_pos="yes" postag="NN:.*:.*|PNN:.*:Nom:.*" />
                 <exception postag_regexp="yes" scope="previous" postag="VB:.*|NN:.*:Nom|PNN:.*:Nom:.*" />
                 <exception postag_regexp="yes" postag="NN:Inanim:.*:Sin:R" />
@@ -10396,7 +10398,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token postag="VB:INF:.*" postag_regexp="yes" regexp="yes" >[а-яё]*ться<exception negate_pos="yes" postag="VB:INF:.*" postag_regexp="yes"/></token>
                 </marker>
-                <token postag="ADV"  skip="-1"><exception postag_regexp="yes" scope="next" postag="VB:.*"></exception></token>    
+                <token postag="ADV"  skip="-1"><exception postag_regexp="yes" scope="next" postag="VB:.*" /><exception postag_regexp="yes" postag="VB:.*" /></token>    
                 <token regexp="yes">[.;,!?]</token>
             </pattern>
        <!--     <filter class="org.languagetool.rules.ru.RussianPartialPosTagFilter" 
