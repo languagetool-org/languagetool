@@ -5537,6 +5537,70 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="remove" postag="VER.*"/>
     </rule>
 
+    <rule id="UNTER_FERNER_LIEFEN" name="'unter ferner liefen' kein Verb">
+        <pattern>
+            <token>unter</token>
+            <token>ferner</token>
+            <marker>
+                <token>liefen</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="VER.*"/>
+    </rule>
+
+    <rule id="MAL_KEIN_VERB" name="'mal' kein Verb">
+        <antipattern>
+            <token skip="1">mal</token>
+            <token>ich</token>
+        </antipattern>
+        <antipattern>
+            <token>mal</token>
+            <token>und</token>
+            <token postag="VER:IMP.*" postag_regexp="yes" />
+        </antipattern>
+        <pattern>
+            <token regexp="yes">schon|zunächst|(vor)?erst|noch|kein</token>
+            <marker>
+                <token>mal</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="VER.*"/>
+    </rule>
+
+    <rule id="DE_LAS_KEIN_VERB" name="'de las' kein Verb">
+        <pattern>
+            <token>de</token>
+            <marker>
+                <token>las</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="VER.*"/>
+    </rule>
+
+    <rule id="ON_TOUR_KEIN_VERB" name="'on tour' kein Verb">
+        <pattern>
+            <token>on</token>
+            <marker>
+                <token>tour</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="VER.*"/>
+    </rule>
+
+    <rule id="VIERTEL_NACH_VOR_KEIN_VERB" name="'viertel nach' kein Verb">
+        <antipattern>
+            <token>ich</token>
+            <token>viertel</token>
+        </antipattern>
+        <pattern>
+            <marker>
+                <token>viertel</token>
+            </marker>
+            <token regexp="yes">nach|vor</token>
+        </pattern>
+        <disambig action="remove" postag="VER.*"/>
+    </rule>
+
     <!-- TODO: (ohne meine neue ..., durch eine alte ...)-->
     <!-- <rulegroup id="EINE_ARTIKEL" name="eine/meine als Artikel">
         <rule>

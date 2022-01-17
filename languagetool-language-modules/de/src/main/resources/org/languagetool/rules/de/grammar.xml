@@ -23626,6 +23626,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Stil -->
     <!-- ====================================================================== -->
     <category id="STYLE" name="Stil" type="style">
+        <rule id="DAUERN_TUT" name="dauern tut -> dauert" default="temp_off">
+            <pattern>
+                <token regexp="yes">.*[a-z].*</token>
+                <marker>
+                    <token postag="VER:INF.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü].*</token>
+                    <token case_sensitive="yes">tut</token>
+                </marker>
+                <token postag="PKT|KON.*" postag_regexp="yes" />
+            </pattern>
+            <message>Hier kann es stilistisch besser sein, auf das Wort "tut" zu verzichten.</message>
+            <suggestion><match no="2" postag="VER:3:SIN:PRÄ.*" postag_regexp="yes" /></suggestion>
+            <example correction="dauert">Kann ja wohl nich sein, dass das so lange <marker>dauern tut</marker>!</example>
+        </rule>
         <rule id="OEFTESTEN" name="öftesten (häufigsten)">
             <pattern>
                 <token>öftesten</token>
@@ -24852,6 +24865,100 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="MIETE_SUBST" name="halbe miete (Miete)" default="temp_off">
+            <antipattern>
+                <token>miete</token>
+                <token>ich</token>
+            </antipattern>
+            <pattern>
+                <token inflected="yes" skip="3">sein</token>
+                <token>halbe</token>
+                <marker>
+                    <token case_sensitive="yes">miete</token>
+                </marker>
+            </pattern>
+            <message>Das Nomen <suggestion>Miete</suggestion> wird großgeschrieben.</message>
+            <example correction="Miete">Am Ende ist das doch die halbe <marker>miete</marker>.</example>
+        </rule>
+        <rulegroup id="IHR_LIEBEN" name="hallo ihr lieben (Lieben)" default="temp_off">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|PKT" postag_regexp="yes" />
+                    <token regexp="yes">hallo|hi|hey|na|moin|servus|gr(ue|ü)zi|ciao</token>
+                    <token min="0">,</token>
+                    <token>ihr</token>
+                    <token min="0">beiden</token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">lieben|sü(ß|ss)en|hübschen</token>
+                    </marker>
+                    <token postag="SENT_END" regexp="yes">\p{P}</token>
+                </pattern>
+                <message>Nominalisierte Adjektive sollten in der Regel großgeschrieben werden.</message>
+                <suggestion><match no="6" case_conversion="startupper" /></suggestion>
+                <example correction="Lieben">Hallo ihr <marker>lieben</marker>,</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|PKT" postag_regexp="yes" />
+                    <token regexp="yes">hallo|hi|hey|na|moin|servus|gr(ue|ü)zi|ciao</token>
+                    <token min="0">,</token>
+                    <token>ihr</token>
+                    <token min="0">beiden</token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes" postag="SENT_END">lieben|sü(ß|ss)en|hübschen</token>
+                    </marker>
+                </pattern>
+                <message>Nominalisierte Adjektive sollten in der Regel großgeschrieben werden.</message>
+                <suggestion><match no="6" case_conversion="startupper" /></suggestion>
+                <example correction="Lieben">Hallo ihr <marker>lieben</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|PKT" postag_regexp="yes" />
+                    <token regexp="yes">guten?</token>
+                    <token regexp="yes">morgen|abend|nacht|mittag</token>
+                    <token min="0">,</token>
+                    <token>ihr</token>
+                    <token min="0">beiden</token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">lieben|sü(ß|ss)en|hübschen</token>
+                    </marker>
+                    <token postag="SENT_END" regexp="yes">\p{P}</token>
+                </pattern>
+                <message>Nominalisierte Adjektive sollten in der Regel großgeschrieben werden.</message>
+                <suggestion><match no="7" case_conversion="startupper" /></suggestion>
+                <example correction="Lieben">Guten Morgen ihr <marker>lieben</marker>,</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|PKT" postag_regexp="yes" />
+                    <token regexp="yes">guten?</token>
+                    <token regexp="yes">morgen|abend|nacht|mittag</token>
+                    <token min="0">,</token>
+                    <token>ihr</token>
+                    <token min="0">beiden</token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes" postag="SENT_END">lieben|sü(ß|ss)en|hübschen</token>
+                    </marker>
+                </pattern>
+                <message>Nominalisierte Adjektive sollten in der Regel großgeschrieben werden.</message>
+                <suggestion><match no="7" case_conversion="startupper" /></suggestion>
+                <example correction="Lieben">Guten Morgen ihr <marker>lieben</marker></example>
+            </rule>
+        </rulegroup>
+        <rule id="MUSS_NOMEN" name="ein muss (Muss)" default="temp_off">
+            <pattern>
+                <token regexp="yes">ist|war|wäre?</token>
+                <token regexp="yes">k?ein</token>
+                <token regexp="yes" min="0">absolutes|definitives</token>
+                <marker>
+                    <token case_sensitive="yes">muss</token>
+                </marker>
+            </pattern>
+            <message>Hier wird <suggestion>Muss</suggestion> als Nomen gebraucht und sollte daher großgeschrieben werden.</message>
+            <example correction="Muss">Das ist ein absolutes <marker>muss</marker>.</example>
+        </rule>
+                
         <rule id="WAS_GIBTS_NEUES" name="was gibt's neues (Neues)">
             <pattern>
                 <token>was</token>
@@ -39413,9 +39520,8 @@ Andere Projekte</example>
                 <pattern case_sensitive="yes">
                     <token>aus</token>
                     <marker>
-                        <token regexp="yes">stahl|eisen|wolle</token>
+                        <token regexp="yes">stahl|eisen|wolle|holz</token>
                     </marker>
-                    <token postag="SENT_END"/>
                 </pattern>
                 <message>&subanfang;<suggestion><match case_conversion="startupper" no="2"/></suggestion>&subende;</message>
                 <example correction="Stahl">Der Träger war aus <marker>stahl</marker>.</example>
@@ -39424,7 +39530,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes" inflected="yes">bestehen|sein</token>
+                    <token regexp="yes" inflected="yes" skip="2">bestehen|sein</token>
                     <token>aus</token>
                     <marker>
                         <token regexp="yes">stahl|eisen|wolle</token>
@@ -41080,7 +41186,7 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[aA]uf</token>
-                    <token>der</token>
+                    <token regexp="yes">der</token>
                     <marker>
                         <token>stelle</token>
                     </marker>
@@ -41137,7 +41243,7 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[aA]n</token>
-                    <token regexp="yes">(mein|[dD]ein|sein|unser|[iI]hr|eur|dies|ander)er|derselben|dieselbe</token>
+                    <token regexp="yes">(mein|[dD]ein|sein|unser|[iI]hr|eur|dies|ander)er|derselben|dieselbe|erster|zweiter|dritter|vierter|letzter</token>
                     <marker>
                         <token>stelle</token>
                     </marker>
@@ -41913,7 +42019,7 @@ Andere Projekte</example>
                     <token regexp="yes">[iI]n</token>
                     <token>einem</token>
                     <token regexp="yes">solch|so</token>
-                    <token regexp="yes">(gut|schlecht|katastrophal|labil|unbrauchbar|inakzeptabl)en</token>
+                    <token regexp="yes">(gut|schlecht|katastrophal|labil|unbrauchbar|inakzeptabl|tadellos)en</token>
                     <marker>
                         <token>zustand</token>
                     </marker>
@@ -41926,8 +42032,8 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[iI]n</token>
-                    <token regexp="yes">(k)?einem</token>
-                    <token regexp="yes">(solch|gut|schlecht|katastrophal|brauchbar|akzeptabl)en</token>
+                    <token regexp="yes">(k)?eine[nm]</token>
+                    <token regexp="yes">(solch|gut|schlecht|katastrophal|brauchbar|akzeptabl|tadellos)en</token>
                     <marker>
                         <token>zustand</token>
                     </marker>
@@ -41940,7 +42046,7 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[iI]n</token>
-                    <token regexp="yes">(sein|ihr|dies|ein|gut|schlecht|katastrophal|brauchbar|akzeptabl|welch)em</token>
+                    <token regexp="yes">(sein|ihr|dies|ein|gut|schlecht|katastrophal|brauchbar|akzeptabl|welch|tadellos)e[nm]</token>
                     <marker>
                         <token>zustand</token>
                     </marker>
@@ -45508,7 +45614,7 @@ Andere Projekte</example>
                     <token case_sensitive="yes">wies</token>
                 </marker>
                 <token postag="ADJ.*|ADV.*" postag_regexp="yes" min="0" />
-                <token regexp="yes">w[äa]r|ist|gewesen|funktionierte?</token>
+                <token regexp="yes">w[äa]r|ist|gewesen|funktionierte?|i[nm]|da|dort</token>
             </pattern>
             <message>Meinten Sie <suggestion>wie es</suggestion>?</message>
             <example correction="wie es">Ich bin zufrieden, so <marker>wies</marker> ist.</example>
@@ -54249,7 +54355,6 @@ Andere Projekte</example>
                 <token postag="SUB.*|EIG.*|UNKNOWN" postag_regexp="yes" />
             </antipattern>
             <rule>
-
                 <pattern>
                     <token postag="PKT|SENT_START|KON.*" postag_regexp="yes" />
                     <token regexp="yes" min="0">&anfauf;</token>
@@ -54432,17 +54537,21 @@ Andere Projekte</example>
                 <token postag="ADV.*" postag_regexp="yes" min="0" />
                 <token postag="ADJ.*|VER.*" postag_regexp="yes" />
             </antipattern>
-
+            <antipattern><!-- Was glauben Sie ist wahr, obwohl Sie es nicht beweisen können? -->
+                <token regexp="yes">was|das</token>
+                <token inflected="yes" regexp="yes" min="0">werden|haben</token>
+                <token inflected="yes" regexp="yes">glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|merken</token>
+            </antipattern>
             <rule><!-- Ich glaube für euch ist hier kein Platz -->
                 <pattern>
                     <token postag="PKT|SENT_START|KON.*" postag_regexp="yes" />
                     <token regexp="yes" min="0">&anfauf;</token>
                     <token postag="ADV.*" postag_regexp="yes" min="0" />
                     <token regexp="yes" min="0">Herrn?|Frau|Fräulein</token>
-                    <token postag="PRO:PER:NOM.*|PRO:IND:NOM.*|EIG.*" postag_regexp="yes" />
+                    <token postag="PRO:PER:NOM.*|PRO:IND.*|EIG.*" postag_regexp="yes" />
                     <token inflected="yes" regexp="yes" min="0">werden|haben</token>
                     <token regexp="yes" inflected="yes">
-                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten
+                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|merken
                         <exception postag="SUB.*" postag_regexp="yes" />
                     </token>
                     <token regexp="yes" min="0">übrigens|deswegen|allerdings|durchaus|eher|mal|also</token>
@@ -54482,7 +54591,7 @@ Andere Projekte</example>
                     <token postag="EIG.*|PRO.*|SUB.*" postag_regexp="yes" />
                     <token inflected="yes" regexp="yes" min="0">werden|haben</token>
                     <token regexp="yes" inflected="yes">
-                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten
+                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|merken
                         <exception postag="SUB.*" postag_regexp="yes" />
                     </token>
                     <token regexp="yes" min="0">übrigens|deswegen|allerdings|durchaus|eher|mal|also</token>
@@ -54514,10 +54623,10 @@ Andere Projekte</example>
                     <token postag="ADV.*" postag_regexp="yes" min="0" />
                     <token regexp="yes" min="0">&anfauf;</token>
                     <token regexp="yes" min="0">Herrn?|Frau|Fräulein</token>
-                    <token postag="PRO:PER:NOM.*|PRO:IND:NOM.*|EIG.*" postag_regexp="yes" />
+                    <token postag="PRO:PER:NOM.*|PRO:IND.*|EIG.*" postag_regexp="yes" />
                     <token inflected="yes" regexp="yes" min="0">werden|haben</token>
                     <token regexp="yes" inflected="yes">
-                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten
+                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|merken
                         <exception postag="SUB.*" postag_regexp="yes" />
                     </token>
                     <token regexp="yes" min="0">übrigens|deswegen|allerdings|durchaus|eher|mal|also</token>
@@ -54545,10 +54654,10 @@ Andere Projekte</example>
                     <token regexp="yes" min="0">&anfauf;</token>
                     <token postag="ADV.*" postag_regexp="yes" min="0" />
                     <token regexp="yes" min="0">Herrn?|Frau|Fräulein</token>
-                    <token postag="PRO:PER:NOM.*|PRO:IND:NOM.*|EIG.*" postag_regexp="yes" />
+                    <token postag="PRO:PER:NOM.*|PRO:IND.*|EIG.*" postag_regexp="yes" />
                     <token inflected="yes" regexp="yes" min="0">werden|haben</token>
                     <token regexp="yes" inflected="yes">
-                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten
+                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|merken
                         <exception postag="SUB.*" postag_regexp="yes" />
                     </token>
                     <token regexp="yes" min="0">übrigens|deswegen|allerdings|durchaus|eher|mal|also</token>
@@ -54575,10 +54684,10 @@ Andere Projekte</example>
                     <token regexp="yes" min="0">&anfauf;</token>
                     <token postag="ADV.*" postag_regexp="yes" min="0" />
                     <token regexp="yes" min="0">Herrn?|Frau|Fräulein</token>
-                    <token postag="PRO:PER:NOM.*|PRO:IND:NOM.*|EIG.*" postag_regexp="yes" />
+                    <token postag="PRO:PER:NOM.*|PRO:IND.*|EIG.*" postag_regexp="yes" />
                     <token inflected="yes" regexp="yes" min="0">werden|haben</token>
                     <token regexp="yes" inflected="yes">
-                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten
+                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|merken
                         <exception postag="SUB.*" postag_regexp="yes" />
                     </token>
                     <token regexp="yes" min="0">übrigens|deswegen|allerdings|durchaus|eher|mal|also</token>
@@ -54625,10 +54734,10 @@ Andere Projekte</example>
                     <token regexp="yes" min="0">&anfauf;</token>
                     <token postag="ADV.*" postag_regexp="yes" min="0" />
                     <token regexp="yes" min="0">Herrn?|Frau|Fräulein</token>
-                    <token postag="PRO:PER:NOM.*|PRO:IND:NOM.*|EIG.*" postag_regexp="yes" />
+                    <token postag="PRO:PER:NOM.*|PRO:IND.*|EIG.*" postag_regexp="yes" />
                     <token inflected="yes" regexp="yes" min="0">werden|haben</token>
                     <token regexp="yes" inflected="yes">
-                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten
+                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|merken
                         <exception postag="SUB.*" postag_regexp="yes" />
                     </token>
                     <token regexp="yes" min="0">übrigens|deswegen|allerdings|durchaus|eher|mal|also</token>
@@ -54683,7 +54792,7 @@ Andere Projekte</example>
                 </antipattern>
                 <antipattern><!-- Ich sage es besorgt: -->
                     <token inflected="yes">sagen</token>
-                    <token postag="PRO:PER:NOM.*|PRO:IND:NOM.*" postag_regexp="yes" />
+                    <token postag="PRO:PER:NOM.*|PRO:IND.*" postag_regexp="yes" />
                     <token postag="PA2.*" postag_regexp="yes" />
                 </antipattern>
                 <pattern>
@@ -54691,15 +54800,15 @@ Andere Projekte</example>
                     <token regexp="yes" min="0">&anfauf;</token>
                     <token postag="ADV.*" postag_regexp="yes" min="0" />
                     <token regexp="yes" min="0">Herrn?|Frau|Fräulein</token>
-                    <token postag="PRO:PER:NOM.*|PRO:IND:NOM.*|EIG.*" postag_regexp="yes" />
+                    <token postag="PRO:PER:NOM.*|PRO:IND.*|EIG.*" postag_regexp="yes" />
                     <token inflected="yes" regexp="yes" min="0">werden|haben</token>
                     <token regexp="yes" inflected="yes">
-                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten
+                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|merken
                         <exception postag="SUB.*" postag_regexp="yes" />
                     </token>
                     <token regexp="yes" min="0">übrigens|deswegen|allerdings|durchaus|eher|mal|also</token>
                     <marker>
-                        <token postag="EIG.*|SUB.*|PRO:PER:NOM.*|PRO:IND:NOM.*" postag_regexp="yes" />
+                        <token postag="EIG.*|SUB.*|PRO:PER:NOM.*|PRO:IND.*" postag_regexp="yes" />
                     </marker>
                     <token postag="VER.*" postag_regexp="yes">
                         <exception regexp="yes">m?einen?|mal|gar|dank|recht|äu(ß|ss)erst|wider|(an)?dauernd|halt|sicher|bestimmt|gekonnt</exception>
@@ -54726,6 +54835,7 @@ Andere Projekte</example>
                 <example>Wir finden Mathematik frustrierend.</example>
                 <example>Ich finde Ottos Aussage ungewöhnlich.</example>
                 <example>Ich finde das aufregend.</example>
+                <example>Was glauben Sie ist wahr, obwohl Sie es nicht beweisen können?</example>
                 <example>Das sagt man halt so.</example>
                 <example>Jan und Jutta wussten es gekonnt die teils starken Böen in ihr Spiel einzubauen und fegten die Gegner mit 6:2 und 6:0 vom Platz.</example>
                 <example>Sigmund, du weißt das sicher besser als die PISA-Autoren.</example>
@@ -54765,10 +54875,10 @@ Andere Projekte</example>
                     <token regexp="yes" min="0">&anfauf;</token>
                     <token postag="ADV.*" postag_regexp="yes" min="0" />
                     <token regexp="yes" min="0">Herrn?|Frau|Fräulein</token>
-                    <token postag="PRO:PER:NOM.*|PRO:IND:NOM.*|EIG.*" postag_regexp="yes" />
+                    <token postag="PRO:PER:NOM.*|PRO:IND.*|EIG.*" postag_regexp="yes" />
                     <token inflected="yes" regexp="yes" min="0">werden|haben</token>
                     <token regexp="yes" inflected="yes">
-                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten
+                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|merken
                         <exception postag="SUB.*" postag_regexp="yes" />
                     </token>
                     <token regexp="yes" min="0">übrigens|deswegen|allerdings|durchaus|eher|mal|also</token>
@@ -54796,10 +54906,10 @@ Andere Projekte</example>
                     <token regexp="yes" min="0">&anfauf;</token>
                     <token postag="ADV.*" postag_regexp="yes" min="0" />
                     <token regexp="yes" min="0">Herrn?|Frau|Fräulein</token>
-                    <token postag="PRO:PER:NOM.*|PRO:IND:NOM.*|EIG.*" postag_regexp="yes" />
+                    <token postag="PRO:PER:NOM.*|PRO:IND.*|EIG.*" postag_regexp="yes" />
                     <token inflected="yes" regexp="yes" min="0">werden|haben</token>
                     <token regexp="yes" inflected="yes">
-                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten
+                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|merken
                         <exception postag="SUB.*" postag_regexp="yes" />
                         <exception postag="PA2.*" postag_regexp="yes" />
                     </token>
@@ -58260,7 +58370,7 @@ Andere Projekte</example>
                     <token postag='VER:.*' postag_regexp='yes'>
                         <exception regexp="yes">mal|schnell|einen?</exception>
                     </token>
-                    <token regexp='yes' min='0'>nicht|bereits|schon|vielleicht|noch|mich|dich|sich|euch|uns|sie|ihn|dann|schließlich|schliesslich|endlich</token>
+                    <token regexp='yes' min='0'>nicht|bereits|schon|vielleicht|noch|mich|dich|sich|euch|uns|sie|ihn|dann|schließlich|schliesslich|endlich|klar</token>
                     <marker>
                         <token regexp='yes' case_sensitive='yes'>inwiefern|inwieweit|ob|wann|warum|wem|wen|wer|weshalb|weswegen|wessen|wieso|wo|wodurch|woher|wohin|wofür|womit|woran|worauf|wovon|wozu</token>
                     </marker>
@@ -58271,6 +58381,7 @@ Andere Projekte</example>
                 <short>Möglicherweise fehlendes Komma</short>
                 <example correction=', ob'>Er fragt<marker> ob</marker> das ginge.</example>
                 <example correction=', wer'>Ich erkundigte mich<marker> wer</marker> das sei.</example>
+                <example correction=", woran">Den Frauen war klar<marker> woran</marker> sie sind, aber sie fühlten sich menschlicher behandelt und damit wohler.</example>
                 <example>Er konnte hören, wen sie anrief.</example>
                 <example>Ich bin erstaunt ob deiner schnellen Antwort.</example>
                 <example>Er zitterte ob Marias Schlagfertigkeit.</example>
@@ -60819,14 +60930,38 @@ Andere Projekte</example>
                 <token>folgt</token>
                 <token postag="VER.*" postag_regexp="yes" />
             </antipattern>
-            <antipattern><!-- *grins* -->
-                <token skip="2">*</token>
-                <token>*</token>
-            </antipattern>
             <antipattern><!-- Deine Brille ist topp -->
                 <token postag="(VER:[1-3]:.*|VER.*:[1-3]:.*)" postag_regexp="yes" />
                 <token postag="VER:IMP:.*" postag_regexp="yes" case_sensitive="yes" />
                 <token postag="PKT" />
+            </antipattern>
+            <antipattern>
+                <token>#</token>
+                <token spacebefore="no" postag="VER.*" postag_regexp="yes" />
+            </antipattern>
+            <antipattern><!-- emoji as sentence breaker -->
+                <token postag="(VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*)" postag_regexp="yes" skip="-1" />
+                <token regexp="yes">[\ud83c\udc00-\ud83c\udfff]+|[\ud83d\udc00-\ud83d\udfff]+|[\u2600-\u27ff]+</token>
+                <token case_sensitive="yes" regexp="yes" skip="-1">[A-ZÄÖÜ].*</token>
+                <token postag="VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes" />
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">[dsk]?ein(e[nmr])?|ihr(e[nmr])?|euer|euren|eurem|unse?r(e[nmr])?|de[rn]|das|die|diese[mnrs]</token>
+                <token postag="(ADJ|PA[12]).*" postag_regexp="yes" case_sensitive="yes" regexp="yes" min="0">[a-zäöü].*</token>
+                <token postag="VER:INF.*" postag_regexp="yes" />
+                <token><exception regexp="yes">ich|&apostrophe;</exception></token>
+            </antipattern>
+            <antipattern>
+                <token postag="(VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*)" postag_regexp="yes" skip="-1" />
+                <token>-</token>
+                <token skip="-1">-</token>
+                <token postag="VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes" />
+            </antipattern>
+            <antipattern>
+                <token postag="(VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*)" postag_regexp="yes" skip="-1" />
+                <token>/</token>
+                <token skip="-1">/</token>
+                <token postag="VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes" />
             </antipattern>
             <pattern>
                 <token postag="(VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*)" postag_regexp="yes" skip="-1">
@@ -60834,12 +60969,13 @@ Andere Projekte</example>
                     <exception inflected="yes" regexp="yes">bleiben|lassen|versuchen|bemühen|sieben|achten</exception>   <!-- siebte, achte werden nicht als Zahlwort erkannt  -->
                     <exception>bitte</exception>
                     <exception case_sensitive="yes">Bell</exception>
-                    <exception regexp="yes" scope="next">,|\.|:|\?|!|;|-|–|—|─|\)|\(|„|“|»|«|"|und|oder|&amp;|…</exception>
+                    <exception regexp="yes" scope="next">,|\.|:|\?|!|;|-|–|—|─|\)|\(|„|“|»|«|"|\*|und|oder|&amp;|…|→|•|=</exception>
                     <exception regexp="yes" scope="next">weil|ob(wohl|gleich)?|da(mit|ss)?|indem|wenn|falls|während|bevor|nachdem|seitdem|so(bald|dass|fern|lange)|was|als|wie|bis|wer|wo|wohin|sondern|aber</exception>
                 </token>
                 <token postag="VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+
                     <exception postag="VER:(INF:|PA2).*|VER:MOD:INF.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     <exception inflected="yes" regexp="yes">bleiben|lassen|sieben|achten</exception>   <!-- siebte, achte werden nicht als Zahlwort erkannt  -->
+                    <exception>gelangen</exception>   <!-- incorrect tagging  -->
                     <exception regexp="yes">bitte|halt|mindere|lichte|sog|rauf|vermittelst</exception>
                     <exception postag="VER:IMP:SIN:NON" />
                     <exception regexp="yes" scope="previous">,|\.|:|\?|!|;|-|–|—|\)|\(|„|“|»|«|"|und|oder|da|weil|ob(wohl|gleich)?|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|so(bald|lange)|was|als|wie|bis|wer|wo|wohin</exception>
@@ -60923,6 +61059,7 @@ Andere Projekte</example>
             <example>Reibung und Verschleiß sind die größten Feinde von Baumaschinen und Baugeräten.</example>
             <example>Geringfügige Verunreinigungen der Rohstoffe, die mit den normalen Qualitätsanforderungen an das Gebrauchsglas vereinbar sind, stellen ebenfalls Quellen für weitere (unbeabsichtigte) Glasbestandteile dar.</example>
             <example>Du hast doch den Link zu web.de eingesetzt.</example>
+            <example>Morgen geht immer 🙂 Viel Erfolg wünsche ich.</example>
             <example>Bell erfand das Telefon nicht alleine.</example>
             <example>In unserer Zeit ist die Zahl der Gedichteschreiber größer ist als die der Gedichteleser.</example><!-- probably not a missing comma but a doublet, found in Premium -->
         </rule>
@@ -61888,7 +62025,7 @@ Andere Projekte</example>
             </antipattern>
             <rule>
                 <pattern>
-                    <token case_sensitive="yes" regexp="yes">[Gg]epatched|[Gg]etracked|[Gg]eteased|[Gg]ereviewed|[Gg]eshuffeled|[Gg]eboostered|[Gg]ecrawled|[Gg]efracked|[Gg]espoilered|[Gg]ematched|[Aa]ngeteasered|[Gg]eteasered|[Gg]eskyped|[Gg]ezapped|[Gg]etaped|[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]etagged|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched|[Gg]etuned|[Gg]ecrashed|[Gg]ecat?ched|[Cc]hecked|[Ee]ntertained|[Gg]egoogled|[Gg]ecoached|[Gg]eblogged|[Gg]ebeamed|[Gg]echipped</token>
+                    <token case_sensitive="yes" regexp="yes">[Gg]epatched|[Gg]etracked|[Gg]eteased|[Gg]ereviewed|[Gg]eshuffeled|[Gg]eboostered|[Gg]ecrawled|[Gg]efracked|[Gg]espoilered|[Gg]ematched|[Aa]ngeteasered|[Gg]eteasered|[Gg]eskyped|[Gg]ezapped|[Gg]etaped|[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]etagged|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched|[Gg]etuned|[Gg]ecrashed|[Gg]ecat?ched|[Cc]hecked|[Ee]ntertained|[Gg]egoogled|[Gg]ecoached|[Gg]eblogged|[Gg]ebeamed|[Gg]echipped|[Pp]erformed</token>
                 </pattern>
                 <message>Die empfohlene Schreibweise für diesen Anglizismus ist <suggestion><match no="1" regexp_match="ed$" regexp_replace="t" /></suggestion>.</message>
                 <example correction="gefeaturt">Wir wurden auf der Startseite des App Stores <marker>gefeatured</marker>.</example>
