@@ -25398,6 +25398,30 @@ THIS ANTIPATTERN WAS BASED ON TIAGO SANTO'S RULE WHICH WAS REPLACED BY MY OWN RU
 	</rulegroup>
 
 
+	<!-- TER estar -->
+    <rule id='CONFUSÃO_TER_ESTAR' name="Confusão: ter/estar" default="temp_off">
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-17 (Checked/Enhanced) (1-JAN-2022+)      -->
+	<!--
+Eu tive com a Ana ontem. → Eu estive com a Ana ontem.
+Eu tive com dores de cabeça. → Eu estive com dores de cabeça.
+	-->	
+      <pattern>
+		  <token negate_pos="yes" postag='V.+|CS|RG|PE.+|PR.+|PT.+|I' postag_regexp='yes'/>
+		  <marker>
+			<and>
+				<token inflected='yes'>ter</token>			
+				<token postag='VMIS[123].+|VMIM3P0' postag_regexp='yes'/>
+			</and>
+		  </marker>
+		  <token>com</token>
+		  <token postag='DA.+|DI.+|Z0.+|PP.+|NC.+|AQ.+' postag_regexp='yes'/>
+      </pattern>
+	  <message>Possível confusão de termos.</message>
+      <suggestion><match no='2' postag='V.+' postag_regexp='yes'>estar</match></suggestion>
+      <example correction="estive">Eu <marker>tive</marker> com a Ana ontem.</example>
+    </rule>
+
+
 	<!-- VESTIR calçar -->
     <rule id='CONFUSÃO_VESTIR_CALÇAR' name="Confusão: vestir/calçar">
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-01/02 (Checked/Enhanced) (1-JAN-2022+)      -->
