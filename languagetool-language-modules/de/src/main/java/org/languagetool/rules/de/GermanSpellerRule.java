@@ -2274,6 +2274,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     if (word.matches("[Aa]utentisch(e[nmsr]?|ste[nmsr]?|ere[nmsr]?)?")) {
       return topMatch(word.replaceFirst("utent", "uthent"));
     }
+    switch (word) {
+      case "daß": return topMatch("dass");
+      case "Daß": return topMatch("Dass");
+    }
     return Collections.emptyList();
   }
 
