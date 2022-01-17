@@ -714,6 +714,7 @@ public class GermanSpellerRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Ein 32stel eines Loses")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Ein 5tel eines Loses")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("ein 100stel-Millimeter")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("ein 5tel-Gramm")).length);
   }
 
   @Test
