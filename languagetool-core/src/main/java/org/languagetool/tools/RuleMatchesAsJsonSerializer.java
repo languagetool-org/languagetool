@@ -24,7 +24,6 @@ import org.languagetool.*;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.*;
-import org.languagetool.rules.patterns.AbstractPatternRule;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -278,14 +277,11 @@ public class RuleMatchesAsJsonSerializer {
     g.writeObjectFieldStart("rule");
     Rule rule = match.getRule();
     g.writeStringField("id", match.getSpecificRuleId()); // rule.getId()
-    if (rule instanceof AbstractPatternRule) {
-      AbstractPatternRule pRule = (AbstractPatternRule) rule;
-      if (pRule.getSubId() != null) {
-        g.writeStringField("subId", pRule.getSubId());
-      }
-      if (pRule.getSourceFile() != null && compactMode != 1) {
-        g.writeStringField("sourceFile", pRule.getSourceFile().replaceFirst(".*/", ""));
-      }
+    if (rule.getSubId() != null) {
+      g.writeStringField("subId", rule.getSubId());
+    }
+    if (rule.getSourceFile() != null && compactMode != 1) {
+      g.writeStringField("sourceFile", rule.getSourceFile().replaceFirst(".*/", ""));
     }
     g.writeStringField("description", rule.getDescription());
     g.writeStringField("issueType", rule.getLocQualityIssueType().toString());
