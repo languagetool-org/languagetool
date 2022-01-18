@@ -24,10 +24,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,7 +37,7 @@ class LightRuleMatchParser {
   private final Pattern startPattern = Pattern.compile("^(?:\\d+\\.\\) )?Line (\\d+), column (\\d+), Rule ID: (.*)");
   private final Pattern coverPattern = Pattern.compile("^([ ^]+)$");
 
-  List<LightRuleMatch> parseOutput(File inputFile) throws IOException {
+  JsonParseResult parseOutput(File inputFile) throws IOException {
     if (inputFile.getName().endsWith(".json")) {
       return parseAggregatedJson(inputFile);
     } else {
@@ -52,16 +49,20 @@ class LightRuleMatchParser {
    * Parses LT JSON that has been appended into a large file (one JSON result per line).
    */
   @NotNull
-  private List<LightRuleMatch> parseAggregatedJson(File inputFile) {
+  private JsonParseResult parseAggregatedJson(File inputFile) {
     System.out.println("Parsing " + inputFile + "...");
     ObjectMapper mapper = new ObjectMapper();
     List<LightRuleMatch> ruleMatches = new ArrayList<>();
+    Set<String> buildDates = new HashSet<>();
     int lineCount = 1;
     try (Scanner scanner = new Scanner(inputFile)) {
       while (scanner.hasNextLine()) {
         String line = scanner.nextLine();
         JsonNode node = mapper.readTree(line);
         JsonNode matches = node.get("matches");
+        JsonNode software = node.get("software");
+        String buildDate = software != null ? software.get("buildDate").asText() : "unknown";
+        buildDates.add(buildDate);
         for (JsonNode match : matches) {
           ruleMatches.add(nodeToLightMatch(node.get("title").asText(), match));
         }
@@ -70,7 +71,7 @@ class LightRuleMatchParser {
     } catch (Exception e) {
       throw new RuntimeException("Failed to parse line " + lineCount + " of " + inputFile, e);
     }
-    return ruleMatches;
+    return new JsonParseResult(ruleMatches, buildDates);
   }
 
   @NotNull
@@ -142,7 +143,7 @@ class LightRuleMatchParser {
     return new LightRuleMatch(0, offset, fullRuleId, message, category, context, coveredText, replacementList, ruleSource, title, status, tags);
   }
 
-  List<LightRuleMatch> parseOutput(Reader reader) {
+  JsonParseResult parseOutput(Reader reader) {
     List<LightRuleMatch> result = new ArrayList<>();
     int lineNum = -1;
     int columnNum = -1;
@@ -203,7 +204,7 @@ class LightRuleMatchParser {
         // don't reset title, can appear more than once per sentence
       }
     }
-    return result;
+    return new JsonParseResult(result, Collections.singleton("unknown"));
   }
 
   @NotNull
@@ -221,5 +222,13 @@ class LightRuleMatchParser {
     LightRuleMatch.Status s = ruleId.contains("[temp_off]") ? LightRuleMatch.Status.temp_off : LightRuleMatch.Status.on;
     return new LightRuleMatch(line, column, cleanId, message, "", context, coveredText, suggestions, source, title, s, tags);
   }
-  
+
+  static class JsonParseResult {
+    List<LightRuleMatch> result;
+    Set<String> buildDates;
+    JsonParseResult(List<LightRuleMatch> result, Set<String> buildDates) {
+      this.result = result;
+      this.buildDates = buildDates;
+    }
+  }
 }

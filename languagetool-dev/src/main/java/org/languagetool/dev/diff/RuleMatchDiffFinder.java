@@ -379,8 +379,10 @@ public class RuleMatchDiffFinder {
     if (file1.getName().equals("empty.json")) {
       fullMode = true;
     }
-    List<LightRuleMatch> l1 = parser.parseOutput(file1);
-    List<LightRuleMatch> l2 = parser.parseOutput(file2);
+    LightRuleMatchParser.JsonParseResult jsonParseResult1 = parser.parseOutput(file1);
+    List<LightRuleMatch> l1 = jsonParseResult1.result;
+    LightRuleMatchParser.JsonParseResult jsonParseResult2 = parser.parseOutput(file2);
+    List<LightRuleMatch> l2 = jsonParseResult2.result;
     String title = "Comparing " + file1.getName() + " to " + file2.getName();
     System.out.println(title);
     List<RuleMatchDiff> diffs = getDiffs(l1, l2);
@@ -462,6 +464,10 @@ public class RuleMatchDiffFinder {
       }
       fw.write("</tbody>");
       fw.write("</table>\n\n");
+      fw.write("<br><table class='meta'>\n");
+      fw.write("  <tr><td>Old API:</td> <td>" + jsonParseResult1.buildDates + "</td></tr>\n");
+      fw.write("  <tr><td>New API:</td> <td>" + jsonParseResult2.buildDates + "</td></tr>\n");
+      fw.write("</table>\n");
       printFooterForIndex(fw);
     }
   }
@@ -518,6 +524,7 @@ public class RuleMatchDiffFinder {
     fw.write("    .nbsp { background-color: rgba(200, 200, 200, 0.3) }\n");
     fw.write("    .id { color: #666; }\n");
     fw.write("    .msg { color: #666; }\n");
+    fw.write("    .meta { color: #666; }\n");
     fw.write("  </style>\n");
     fw.write("</head>\n");
     fw.write("<body>\n\n");
