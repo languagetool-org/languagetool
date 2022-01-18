@@ -93,7 +93,7 @@ public class HTTPServerTest {
   }
 
   void runTranslatedMessageTest() throws IOException {
-    String result1 = checkV2(Languages.getLanguageForShortCode("fr"), "C'est unx");
+    String result1 = checkV2(Languages.getLanguageForShortCode("fr"), "C'est unx.");
     assertTrue(result1.contains("Faute de frappe possible trouvée"));
     assertFalse(result1.contains("Possible spelling mistake found"));
 
