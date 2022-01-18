@@ -3,6 +3,7 @@ package org.languagetool.rules;
 import static org.languagetool.rules.GRPCRule.Connection.getManagedChannel;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
@@ -13,9 +14,13 @@ import java.util.stream.Collectors;
 
 import javax.net.ssl.SSLException;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.Language;
+import org.languagetool.Tag;
 import org.languagetool.markup.AnnotatedText;
+import org.languagetool.rules.ml.MLServerProto;
 import org.languagetool.rules.ml.MLServerProto.Match;
 import org.languagetool.rules.ml.MLServerProto.MatchList;
 import org.languagetool.rules.ml.MLServerProto.MatchResponse;
@@ -51,6 +56,64 @@ public class GRPCRuleMatchFilter implements RuleMatchFilter {
     circuitBreaker = CircuitBreakers.registry().circuitBreaker(GRPCRuleMatchFilter.class.getName(), config);
   }
 
+  class RuleData extends Rule {
+    private final Match m;
+    private final String sourceFile;
+
+    RuleData(Match m) {
+      this.m = m;
+      this.sourceFile = m.getRule().getSourceFile();
+      if (!m.getRule().getIssueType().isEmpty()) {
+        setLocQualityIssueType(ITSIssueType.valueOf(m.getRule().getIssueType()));
+      }
+      if (m.getRule().getTempOff()) {
+        setDefaultTempOff();
+      }
+      if (m.getRule().hasCategory()) {
+        Category c = new Category(new CategoryId(m.getRule().getCategory().getId()),
+          m.getRule().getCategory().getName());
+        setCategory(c);
+      }
+      setPremium(m.getRule().getIsPremium());
+      setTags(m.getRule().getTagsList().stream().map(t -> Tag.valueOf(t.name())).collect(Collectors.toList()));
+    }
+
+    @Nullable
+    @Override
+    public String getSourceFile() {
+      if (sourceFile == null || sourceFile.isEmpty()) {
+        return null;
+      }
+      return sourceFile;
+    }
+
+    @Override
+    public String getId() {
+      return m.getId();
+    }
+
+    @Override
+    public String getSubId() {
+     return m.getSubId();
+    }
+
+    @Override
+    public String getDescription() {
+      return m.getRuleDescription();
+    }
+
+    @Override
+    public int estimateContextForSureMatch() {
+      return m.getContextForSureMatch();
+    }
+
+    @Override
+    public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+      throw new UnsupportedOperationException("Not implemented; internal class used for returning match" +
+        " information from remote endpoint");
+    }
+  }
+
   public GRPCRuleMatchFilter(Language language) {
   }
 
@@ -80,29 +143,81 @@ public class GRPCRuleMatchFilter implements RuleMatchFilter {
     }
   }
 
+  @NotNull
+  private static String nullAsEmpty(@Nullable String s) {
+    return s != null ? s : "";
+  }
+
+  @Nullable
+  private static String emptyAsNull(String s) {
+    if (s != null && s.isEmpty()) {
+      return null;
+    }
+    return s;
+  }
+
+  private MLServerProto.SuggestedReplacement convertSuggestedReplacement(SuggestedReplacement s) {
+    MLServerProto.SuggestedReplacement.Builder sb = MLServerProto.SuggestedReplacement.newBuilder()
+      .setReplacement(s.getReplacement())
+      .setDescription(nullAsEmpty(s.getShortDescription()))
+      .setSuffix(nullAsEmpty(s.getSuffix()))
+      .setType(MLServerProto.SuggestedReplacement.SuggestionType.valueOf(s.getType().name()));
+    if (s.getConfidence() != null) {
+      sb.setConfidence(s.getConfidence());
+    }
+    return sb.build();
+  }
+
+  private SuggestedReplacement convertSuggestedReplacement(MLServerProto.SuggestedReplacement s) {
+    SuggestedReplacement sb = new SuggestedReplacement(s.getReplacement(),
+      emptyAsNull(s.getDescription()), emptyAsNull(s.getSuffix()));
+    sb.setType(SuggestedReplacement.SuggestionType.valueOf(s.getType().name()));
+    if (s.getConfidence() != 0f) {
+      sb.setConfidence(s.getConfidence());
+    }
+    return sb;
+  }
+
   private Match convertMatch(RuleMatch m) {
+    // TODO: handling for conversion errors with enums
     return Match.newBuilder()
       .setOffset(m.getFromPos())
       .setLength(m.getToPos() - m.getFromPos())
-      .setId(m.getRule().getId())
-      // TODO: subId for pattern rules, etc.; for now empty
-      // TODO: use suggestedReplacements field
-      .addAllSuggestions(m.getSuggestedReplacements())
-      .setRuleDescription(m.getRule().getDescription())
-      .setMatchDescription(m.getMessage())
-      .setMatchShortDescription(m.getShortMessage())
+      .setId(m.getSpecificRuleId())
+      .setSubId(nullAsEmpty(m.getRule().getSubId()))
+      .addAllSuggestedReplacements(m.getSuggestedReplacementObjects().stream()
+        .map(this::convertSuggestedReplacement).collect(Collectors.toList()))
+      .setRuleDescription(nullAsEmpty(m.getRule().getDescription()))
+      .setMatchDescription(nullAsEmpty(m.getMessage()))
+      .setMatchShortDescription(nullAsEmpty(m.getShortMessage()))
       .setUrl((m.getUrl() != null ? m.getUrl().toString() : ""))
       .setAutoCorrect(m.isAutoCorrect())
-      .build();
+      .setType(Match.MatchType.valueOf(m.getType().name()))
+      .setContextForSureMatch(m.getRule().estimateContextForSureMatch())
+      .setRule(MLServerProto.Rule.newBuilder()
+        .setSourceFile(nullAsEmpty(m.getRule().getSourceFile()))
+        .setIssueType(m.getRule().getLocQualityIssueType().name())
+        .setTempOff(m.getRule().isDefaultTempOff())
+        .setCategory(MLServerProto.RuleCategory.newBuilder()
+          .setId(m.getRule().getCategory().getId().toString())
+          .setName(m.getRule().getCategory().getName())
+          .build())
+        .setIsPremium(m.getRule().isPremium())
+        .addAllTags(m.getRule().getTags().stream()
+          .map(t -> MLServerProto.Rule.Tag.valueOf(t.name()))
+          .collect(Collectors.toList()))
+        .build()
+      ).build();
   }
 
   private RuleMatch convertMatch(Match m, AnalyzedSentence s) {
-    // TODO: use our own rule subclass?
-    Rule rule = new GRPCRule.GRPCSubRule(m.getId(), m.getSubId(), m.getRuleDescription());
+    Rule rule = new RuleData(m);
     RuleMatch r = new RuleMatch(rule, s, m.getOffset(), m.getOffset() + m.getLength(), m.getMatchDescription(), m.getMatchShortDescription());
 
-    r.setSuggestedReplacements(m.getSuggestionsList());
+    r.setSuggestedReplacementObjects(m.getSuggestedReplacementsList().stream()
+      .map(this::convertSuggestedReplacement).collect(Collectors.toList()));
     r.setAutoCorrect(m.getAutoCorrect());
+    r.setType(RuleMatch.Type.valueOf(m.getType().name()));
 
     if (!m.getUrl().isEmpty()) {
       try {
@@ -127,8 +242,10 @@ public class GRPCRuleMatchFilter implements RuleMatchFilter {
     List<MatchList> matches = ruleMatches.stream().map(m -> MatchList.newBuilder().addMatches(convertMatch(m)).build()).collect(Collectors.toList());
 
     PostProcessingRequest req = PostProcessingRequest.newBuilder().addAllSentences(sentences).addAllMatches(matches).build();
+    System.out.println("Sending " + req);
     // TODO: circuitBreaker
     MatchResponse response = stub.process(req);
+    System.out.println("Received " + response);
     List<RuleMatch> result = new ArrayList<>(response.getSentenceMatchesCount());
     for (int i = 0; i < response.getSentenceMatchesCount(); i++) {
       result.add(convertMatch(response.getSentenceMatches(i).getMatches(0), ruleMatches.get(i).getSentence()));
