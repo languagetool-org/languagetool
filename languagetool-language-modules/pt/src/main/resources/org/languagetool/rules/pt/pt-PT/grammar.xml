@@ -854,6 +854,24 @@ BEFORE:43071 (WITH TWO ANTIPATTERNS REMOVED ABOVE, COVERED BY THIS ONE)
       </antipattern>
 <!-- MARCOAGPINTO 2022-01-13/14 (1-JAN-2022+) *END* -->
 
+<!-- MARCOAGPINTO 2022-01-18 (1-JAN-2022+) *START* -->
+<!--
+A app era para meu uso privado, mas um amigo viu ter potencial para ser vendido.
+Nós o convidamos a vir para nossa casa.
+Para minha surpresa, ele tinha uma bela voz.
+Para meu azar, chegaram as melgas.
+
+HITS AGAINST A 600 000 CORPORA:
+BEFORE:42569
+ AFTER:41750
+-->
+      <antipattern>
+		<token>para</token>
+		<token postag='DP.+' postag_regexp='yes'/>
+		<token postag='V.+|NC.+|AQ.+' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-01-18 (1-JAN-2022+) *END* -->
+
       <pattern>
           <token>
             <exception regexp="yes">[ao]s?|es[st][ae]s?|uma?s?|uns|por|de|em|&contracoes_MS;|&contracoes_MP;|&contracoes_FS;|&contracoes_FP;</exception></token>
@@ -920,6 +938,11 @@ BEFORE:43071 (WITH TWO ANTIPATTERNS REMOVED ABOVE, COVERED BY THIS ONE)
 	  <example>Hoje faz anos o Rui, meu amigo de longa data.</example>
 <!--	  <example>Tua gente, teus anos de glória,</example> -->
 	  <example>Eu não peguei o seu maldito carro, meu deus do céu!</example>
+	  
+	  <example>A app era para meu uso privado, mas um amigo viu ter potencial para ser vendido.</example>
+	  <example>Nós o convidamos a vir para nossa casa.</example>
+	  <example>Para minha surpresa, ele tinha uma bela voz.</example>
+	  <example>Para meu azar, chegaram as melgas.</example>
     </rule>
     <rule>
       <antipattern>
