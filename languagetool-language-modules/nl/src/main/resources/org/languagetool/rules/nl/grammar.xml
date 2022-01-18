@@ -20023,6 +20023,25 @@ steenwijk;Steenwijk
 				<message>U bedoelt mogelijk <suggestion>\1, \2</suggestion> (bij een leespauze) of <suggestion>\1 <match no="2" postag="WKW:VTD:ONV"/></suggestion>.</message>
 				<example correction="werd, verwaarloost|werd verwaarloosd">Het restaurant <marker>werd verwaarloost</marker>.</example>
 			</rule>
+			<rule>
+				<pattern>
+					<token inflected="yes" regexp="yes">worden|zijn|kunnen|willen<exception regexp="yes">zij|wil</exception></token>
+					<token postag_regexp="yes" postag="BYW.*"><exception regexp="yes">maar|wat</exception></token>
+					<token regexp="yes" postag="WKW:TGW:3EP">^(ge|be|ver|ont).*t$<exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+				</pattern>
+				<message>U bedoelt mogelijk <suggestion>\1 \2 <match no="3" postag="WKW:VTD:ONV"/></suggestion>.</message>
+				<example correction="werd helaas verwaarloosd">Het restaurant <marker>werd helaas verwaarloost</marker>.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token inflected="yes" regexp="yes">worden|zijn|kunnen|willen<exception regexp="yes">zij|wil</exception></token>
+					<token postag_regexp="yes" postag="BYW.*|.*ONV"><exception regexp="yes">maar|wat</exception></token>
+					<token postag_regexp="yes" postag="BYW.*|.*ONV"><exception regexp="yes">maar|wat</exception></token>
+					<token regexp="yes" postag="WKW:TGW:3EP">^(ge|be|ver|ont).*t$<exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+				</pattern>
+				<message>U bedoelt mogelijk <suggestion>\1 \2 \3 <match no="4" postag="WKW:VTD:ONV"/></suggestion>.</message>
+				<example correction="werd jammer genoeg verwaarloosd">Het restaurant <marker>werd jammer genoeg verwaarloost</marker>.</example>
+			</rule>
 		</rulegroup>
 		<rulegroup id="VINDT_IK" name="verkeerde werkwoordvorm">
 			<rule>
