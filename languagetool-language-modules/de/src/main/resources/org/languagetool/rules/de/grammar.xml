@@ -56702,6 +56702,25 @@ Andere Projekte</example>
                     <token>Spuren</token>
                     <token>von</token>
                 </antipattern>
+                <antipattern>
+                    <token skip="-1" postag="VER:MOD:.*" postag_regexp="yes"/>
+                    <token>,</token>
+                    <token min="0" regexp="yes">so|dann|da</token>
+                    <token postag="VER:.+" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1" postag="VER:MOD:.*" postag_regexp="yes"/>
+                    <token skip="-1">,</token>
+                    <token>,</token>
+                    <token min="0" regexp="yes">so|dann|da</token>
+                    <token postag="VER:.+" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token skip="-1">mögen</token>
+                    <token postag="VER:.+" postag_regexp="yes"/>
+                    <token postag="(KON|PKT|UNKNOWN).*" postag_regexp="yes"><exception postag="SENT_END"/></token>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token min="0" max="1" regexp="yes">„|»|«|"</token>
@@ -56751,6 +56770,10 @@ Andere Projekte</example>
                 <example>Sollten wir Ihren Standort hier unerwarteterweise nicht gelistet haben lassen Sie es uns wissen.</example>
                 <example>Möchtest du zum Beispiel in 10 Jahren dein Traumhaus für 500.000 Euro kaufen und du benötigst dafür ca. 20 % Eigenkapital, so brauchst du in zehn Jahren 100.000 Euro.</example>
                 <example>Willst Du ein Foto dazugeben, so ziehe es von deinem Desktop einfach an die passende Stelle im Text.</example>
+                <example>Sollte man sich entscheiden, an bezahlten Umfragen teilzunehmen, empfehle ich, die Umfragen immer sofort zu machen, da einige Studien schnell wieder geschlossen werden, und man so bares Geld verschenkt.</example>
+                <example>Kann man das nicht, sollte man sie als Möglichkeit sehen.</example>
+                <example>Lässt man sie los, erlischt die Lampe.</example>
+                <example>Sollte eine Buchung storniert werden müssen, bitten wir um eine möglichst umgehende schriftliche Benachrichtigung.</example>
             </rule>
             <rule><!-- 10 -->
                 <antipattern>
