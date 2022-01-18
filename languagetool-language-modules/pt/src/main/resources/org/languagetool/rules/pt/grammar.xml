@@ -41432,6 +41432,33 @@ Einstein é um génio e é considerado o pai da relatividade. → Einstein é um
     </rule>
 
 
+	<!-- DO INIMIGO/ADVERSÁRIO/ALIADO inimiga/adversário/aliada -->
+    <rule id='INIMIGO_ADVERSÁRIO_ALIADO' name="Simplificar: D[ao](s) + inimig[ao](s)/adversári[ao](s)/aliad[ao](s) → inimiga(s)/adversária(s)/aliada(s)" type="style">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-18 (Checked/Enhanced) (1-JAN-2022+)      -->
+	<!--
+O objetivo é alcançar a bandeira do inimigo. → O objetivo é alcançar a bandeira inimiga.
+O objetivo é alcançar o terreno do inimigo. → O objetivo é alcançar o terreno inimigo.
+	-->
+      <pattern>
+		<token regexp='yes'>[ao]s?</token>
+		<token postag='NC.+' postag_regexp='yes'>
+			<exception postag_regexp='yes' postag='V.+|DI.+|Z0.+'/>
+		</token>
+		<marker>
+			<token regexp='yes'>d[ao]s?</token>
+			<token regexp='yes'>inimig[ao]s?|adversári[ao]s?|aliad[ao]s?</token>
+		</marker>		
+      </pattern>      
+	  <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:4 lemmaSelect:NC.* postagFrom:2 postagSelect:NC.*"/>
+	  <message>Esta perífrase poderá ser simplificada.</message>
+	  <suggestion>{suggestion}</suggestion>	
+      <example correction="inimiga">O objetivo é alcançar a bandeira <marker>do inimigo</marker>.</example>
+	  <example>Sabiam localizar os rastros dos animais e as trilhas inimigas.</example>
+	  <example>No mês de Abril de 1945, durante a invasão aliada, a cidade foi tomada sem grande resistência pelos americanos.</example>
+	  <example>Os exércitos inimigos foram vencidos.</example>
+    </rule>
+
+
 	<!-- PERDER A VIDA A morrer/falecer/perecer -->
     <rule id='PERDER_A_VIDA' name="perder a vida → morrer/falecer/perecer">
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-16 (Checked/Enhanced) (1-JAN-2022+)      -->
@@ -41577,29 +41604,6 @@ São regras muito simples e que permitem agir corretamente. → São regras muit
 	  <example>O imperador ordenou a construção de hospedarias para os viajantes e que fosse proporcionado tratamento médico não só aos humanos, mas também aos animais.</example>
     </rule>
 
-	<!-- DO INIMIGO/ADVERSÁRIO/ALIADO inimiga/adversário/aliada -->
-    <rule id='INIMIGO_ADVERSÁRIO_ALIADO' name="Do(s) + inimigo(s)/adversário(s)/aliado(s) → inimiga(s)/adversária(s)/aliada(s)" type="style">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-10-07 (25-JUN-2021+)      -->
-	<!--
-O objetivo é alcançar a bandeira do inimigo. → O objetivo é alcançar a bandeira inimiga.
-	-->
-      <pattern>
-		<token regexp='yes'>as?</token>
-		<token postag='NC.+' postag_regexp='yes'>
-			<exception postag_regexp='yes' postag='V.+|DI.+|Z0.+'/>
-		</token>
-		<marker>
-			<token regexp='yes'>dos?</token>
-			<token regexp='yes'>inimigos?|adversários?|aliados?</token>
-		</marker>		
-      </pattern>      
-	  <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:4 lemmaSelect:NC.* postagFrom:2 postagSelect:NC.*"/>
-	  <message>Esta perífrase poderá ser simplificada.</message>
-	  <suggestion>{suggestion}</suggestion>	
-      <example correction="inimiga">O objetivo é alcançar a bandeira <marker>do inimigo</marker>.</example>
-	  <example>Sabiam localizar os rastros dos animais e as trilhas inimigas.</example>
-	  <example>No mês de Abril de 1945, durante a invasão aliada, a cidade foi tomada sem grande resistência pelos americanos.</example>
-    </rule>
 
 	<!-- VÁRI[AO]S VEZES vári[ao]s -->
     <rule id='VARIAS_VEZES_VARIAS' name="Simplificar: Vári[ao]s vezes → Vári[ao]s" type="style">
