@@ -14701,29 +14701,6 @@ Eu comprei-a quando fui à loja.
       <example correction="mostra">Quero ver a <marker>amostra</marker> de arte.</example>
     </rule>
 
-	<!-- E É/SÃO/FOI/FORAM sendo/sido verbo -->
-    <rule id='E_É_SÃO_FOI_FORAM_SENDO_SIDO' name="E é/são/foi/foram + Verbo → Sendo/Sido + Verbo" type="style">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-10 + 2021-07-12 (25-JUN-2021+)      -->
-	<!--
-Ele escondeu-se e foi capturado em maio. → Ele escondeu-se sendo capturado em maio.
-Einstein é um génio e é considerado o pai da relatividade. → Einstein é um génio e considerado o pai da relatividade.
-	-->
-      <pattern>
-		<marker>
-			<token>e</token>
-			<token regexp='yes'>é|são|foi|foram</token>
-		</marker>
-		<token postag='V.+' postag_regexp='yes'>
-			<exception postag_regexp='yes' postag='NP.+'/>
-		</token>		
-      </pattern>
-	  <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
-	  <suggestion>sendo</suggestion>
-	  <suggestion>sido</suggestion>
-	  <suggestion>e</suggestion>
-      <example correction="sendo|sido|e">Einstein é um génio <marker>e é</marker> considerado o pai da relatividade.</example>
-	  <example>Ele escondeu-se sendo capturado em maio.</example>	  
-    </rule>
 
 	<!-- QUE [NÃO] HÁ [não] haver -->
     <rulegroup id='QUE_HÁ_QUE_NÃO_HÁ' name="Que [não] há → [Não] haver" type="style">
@@ -41427,6 +41404,32 @@ Elas têm umas sextas de vime. → Elas têm umas cestas de vime.
 
 
  <category id='REDACTION_TIPS' name='Dicas de redação' type='style'>
+
+
+	<!-- E É/SÃO/FOI/FORAM VERBO sendo/sido/e verbo -->
+    <rule id='E_É_SÃO_FOI_FORAM_SENDO_SIDO' name="Simplificar: E é/são/foi/foram + V. → sendo/sido/e + V." type="style">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-18 (Checked/Enhanced) (1-JAN-2022+)      -->
+	<!--
+Ele escondeu-se e foi capturado em maio. → Ele escondeu-se sendo capturado em maio.
+Einstein é um génio e é considerado o pai da relatividade. → Einstein é um génio e considerado o pai da relatividade.
+	-->
+      <pattern>
+		<marker>
+			<token>e</token>
+			<token regexp='yes'>é|são|foi|foram</token>
+		</marker>
+		<token postag='V.+' postag_regexp='yes'>
+			<exception postag_regexp='yes' postag='NP.+|SPS00.PD0NN00|VMG0000'/>
+		</token>		
+      </pattern>
+	  <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+	  <suggestion>sendo</suggestion>
+	  <suggestion>sido</suggestion>
+	  <suggestion>e</suggestion>
+      <example correction="sendo|sido|e">Einstein é um génio <marker>e é</marker> considerado o pai da relatividade.</example>
+	  <example>Ele escondeu-se sendo capturado em maio.</example>
+	  <example>Começou tímido, e foi soltando uma lista que parecia não acabar, de tanto assunto.</example>
+    </rule>
 
 
 	<!-- PERDER A VIDA A morrer/falecer/perecer -->
