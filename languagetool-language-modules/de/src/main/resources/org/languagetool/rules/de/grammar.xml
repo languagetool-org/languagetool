@@ -627,6 +627,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="bewenden">Lassen wir es dabei nicht <marker>beenden</marker>.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="VERALTEN_VERHALTEN" name="das Veralten (Verhalten)" default="temp_off">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag_regexp="yes" postag="PRO:POS:[ADN].+|ADJ.+"></token>
+                    <marker><token>Veralten</token></marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>Verhalten</suggestion>?</message>
+                <short>&typo;</short>
+                <example correction="Verhalten">Sein <marker>Veralten</marker> war stets tadellos.</example>
+                <example correction="Verhalten">Der Hund zeigte ein sehr ängstliches <marker>Veralten</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="VERENDEN_VERSENDEN" name="verenden (versenden/verwenden)">
             <rule>
                 <pattern>
@@ -23979,7 +23991,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="nichts">Das ist <marker>nix</marker> für mich.</example>
             <example>Jochen Nix ist ein deutscher Schauspieler, Theaterregisseur und Hörspielsprecher.</example>
         </rule>
-        <rule id="ALLEINE" name="alleine (allein)"  default="temp_off">
+        <rule id="ALLEINE" name="alleine (allein)" default="temp_off" tags="picky">
             <pattern>
                 <marker>
                     <token>alleine</token>
