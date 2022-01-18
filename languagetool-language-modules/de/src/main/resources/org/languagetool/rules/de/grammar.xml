@@ -275,6 +275,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="momentan">Was programmieren angeht befinde ich mich <marker>momentane</marker> noch in der Lernphase.</example>
             <example>Momentane und mittlere Reaktionsgeschwindigkeit</example>
         </rule>
+        <rule id="TEL" name="tel (Tel)"  default="temp_off">
+            <pattern>
+                <token postag="PKT"/>
+                <marker>
+                    <token case_sensitive="yes" spacebefore="yes">tel</token>
+                </marker>
+            </pattern>
+            <message>Möglicher Tippfehler gefunden.</message>
+            <suggestion>teil</suggestion>
+            <suggestion>Gel</suggestion>
+            <suggestion>del</suggestion>
+            <suggestion>Tel</suggestion>
+            <example correction="teil|Gel|del|Tel">Es ist klar: <marker>tel</marker> hat er genommen.</example>
+        </rule>
         <rule id="WIR_HABE" name="wir habe (haben)">
             <antipattern>
                 <token>wir</token>
@@ -13224,17 +13238,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Meinten Sie das Adverb <suggestion><match no="1" case_conversion="alllower" />ohne</suggestion>?</message>
             <example correction="zweifelsohne">Das ist <marker>Zweifels ohne</marker> eine tolle Idee.</example>
         </rule>
-        <rule id="ZAL_ER_NUSS_COMPOUND" name="Ein 10er Steckschlüssel (10er-Steckschlüssel)">
-            <pattern>
-                <token regexp="yes">\d+er</token>
-                <token case_sensitive="yes" regexp="yes">Nuss|Nüssen?|Langnuss|Langnüssen?|Schlüsseln?|Steckschlüsseln?|Tickets?|Dübeln?|Bohrern?|Schrauben?|Sets?|Packs?|Träger[ns]?</token>
-            </pattern>
-            <message>Dieses Nomen wird in der Regel mit Bindestrich geschrieben.</message>
-            <suggestion>\1-\2</suggestion>
-            <short>Zusammenschreibung</short>
-            <example correction="10er-Schlüssel">Mit dem <marker>10er Schlüssel</marker> konnte ich die Schraube lösen.</example>
-        </rule>
-        <rulegroup id="ZAHL_SUFFIX_IN_ZUSAMMENSETZUNG" name="Bindestrich nach Ziffer und Suffix: 5er-Pack, 100stel-Liter"  default="temp_off">
+        <rulegroup id="ZAHL_SUFFIX_IN_ZUSAMMENSETZUNG" name="Bindestrich nach Ziffer und Suffix: 5er-Pack, 100stel-Liter">
             <rule>
                 <pattern>
                     <token regexp="yes">\d+(er|s?tel)</token>
@@ -13243,11 +13247,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Es fehlt ein Bindestrich nach \1.</message>
                 <suggestion>\1-\2</suggestion>
                 <url>https://grammis.ids-mannheim.de/rechtschreibung/6159#</url>
+                <short>Zusammenschreibung</short>
                 <example correction="10er-Pack">Ich brauche einen <marker>10er Pack</marker> Batterien.</example>
                 <example>In den 80er Jahren</example>
                 <example>So geschah es in den 1970er Jahren.</example>
                 <example correction="100stel-Millimeter">Die Differenz betrug weniger als ein <marker>100stel Millimeter</marker>.</example>
                 <example correction="5tel-Gramm">Es wog nur ein <marker>5tel Gramm</marker>.</example>
+                <example correction="10er-Schlüssel">Mit dem <marker>10er Schlüssel</marker> konnte ich die Schraube lösen.</example>
             </rule>
         </rulegroup>
         <rule id="SOZIAL_MEDIA" name="sozial Media">
