@@ -68,6 +68,10 @@ title="Easy editing stylesheet" ?>
 
 	<!ENTITY gerundio_excecoes "abandonando|acrescentando|acumulando|adicionando|aperfeiçoando|armazenando|aumentando|beneficiando|caindo|consolidando|crescendo|decrescendo|desaparecendo|emergindo|empregando|fazendo|ficando|ganhando|havendo|levantando|originando|perdendo|permitindo|progredindo|propagando|recorrendo|sabendo|saindo|sendo|surgindo|usando">
 
+	<!ENTITY cores_invariaveis "açafrão|água|alizarina|âmbar|ameixa|amêndoa|ametista|aspargo|bordô|borgonha|brasil|bronze|caqui|caramelo|cardo|carmesim|carmim|cenoura|cereja|chocolate|ciano|cinza|cobre|concha|creme|dainise|ébano|eminência|esmeralda|eucalipto|feldspato|ferrugem|fúchsia|fuligem|gainsboro|gelo|glitter|goiaba|grená|heliotrópio|independência|índigo|iris|jade|jambo|jasmine|kiwi|kobi|kobicha|laranja|lavanda|lemon|lilás|lima|linho|madeira|magenta|malva|mamão|maná|marfim|milho|mocassim|mostarda|neve|nyanza|ocre|oliva|orquídea|ouro|pêssego|prata|púrpura|quantum|quartz|renda|rosa|salmão|sépia|siena|tangerina|terracota|tijolo|tomate|triássico|trigo|turquesa|ube|urucum|vinho|violeta|xanadu|zaffre">
+	<!ENTITY cores "açafrão|água|alizarina|amarelo|âmbar|ameixa|amêndoa|ametista|aspargo|azul|bege|bordô|borgonha|branco|brasil|bronze|caqui|caramelo|cardo|carmesim|carmim|castanho|cenoura|cereja|chocolate|ciano|cinza|cobre|concha|coral|creme|dainise|dourado|ébano|eminência|encarnado|escarlate|esmeralda|eucalipto|fandango|feldspato|ferrugem|flerte|fúchsia|fuligem|gainsboro|gelo|glitter|goiaba|grená|heliotrópio|herbal|independência|índigo|iris|jade|jambo|jasmine|kiwi|kobi|kobicha|laranja|lavanda|lemon|lilás|lima|linho|madeira|magenta|malva|mamão|maná|marfim|marrom|milho|mocassim|mostarda|naval|neve|nyanza|ocre|oliva|orquídea|ouro|pardo|pêssego|prata|preto|púrpura|quantum|quartz|renda|rosa|roxo|rútilo|salmão|sépia|siena|tangerina|terracota|tijolo|tomate|triássico|trigo|turquesa|ube|urucum|verde|vermelho|vinho|violeta|xanadu|zaffre">
+    <!-- Taken from: https://pt.wikipedia.org/wiki/Lista_de_cores -->
+
 ]>
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -825,7 +829,7 @@ Este é o pai cujo seu filho foi à escola.
       </antipattern>
 <!-- MARCOAGPINTO 2021-11-05 (25-JUN-2021+) *END* -->
 
-<!-- MARCOAGPINTO 2022-01-13/14 (1-JAN-2022+) *START* -->
+<!-- MARCOAGPINTO 2022-01-13/14/19 (1-JAN-2022+) *START* -->
 <!--
 THIS ANTIPATTERN CHECKS FOR AN INTERJECTION/etc. + COMMA(_PUNCT) + DP + NC/AQ/NP/etc.:MIN_MAX=1_TO_3 + _PUNCT.
 ITS ACCURACY WILL IMPROVE AS NEW INTERJECTIONS POS ARE ADDED.
@@ -842,19 +846,21 @@ Tua gente, teus anos de glória,
 Eu não peguei o seu maldito carro, meu deus do céu!
 
 HITS AGAINST A 600 000 CORPORA:
-BEFORE:43071 (WITH TWO ANTIPATTERNS REMOVED ABOVE, COVERED BY THIS ONE)
- AFTER:42826
+BEFORE:42247 (WITH TWO ANTIPATTERNS REMOVED ABOVE, COVERED BY THIS ONE)
+ AFTER:41750
 -->
       <antipattern>
 	    <token postag='I|NP.+|AQ.+|NC.+|UNKNOWN|V.+|PD.+|PP.+|RG|_QUOT|RM|PI.+' postag_regexp='yes'/>
 		<token postag='_PUNCT' postag_regexp='no'/>
 		<token postag='DP.+' postag_regexp='yes'/>
-		<token min="1" max="4" postag='NP.+|AQ.+|NC.+|RG|SPS.+|CC|DA.+|DI.+|RM|I' postag_regexp='yes'/>
+		<token min="1" max="4" postag='NP.+|AQ.+|NC.+|RG|SPS.+|CC|DA.+|DI.+|RM|I' postag_regexp='yes'>
+			<exception regexp="yes" inflected="yes">&cores;</exception>
+		</token>
 		<token postag='_PUNCT|CC' postag_regexp='yes'/> <!-- "CC" adds "e" and "ou" -->
       </antipattern>
-<!-- MARCOAGPINTO 2022-01-13/14 (1-JAN-2022+) *END* -->
+<!-- MARCOAGPINTO 2022-01-13/14/19 (1-JAN-2022+) *END* -->
 
-<!-- MARCOAGPINTO 2022-01-18 (1-JAN-2022+) *START* -->
+<!-- MARCOAGPINTO 2022-01-18/19 (1-JAN-2022+) *START* -->
 <!--
 A app era para meu uso privado, mas um amigo viu ter potencial para ser vendido.
 Nós o convidamos a vir para nossa casa.
@@ -863,14 +869,15 @@ Para meu azar, chegaram as melgas.
 
 HITS AGAINST A 600 000 CORPORA:
 BEFORE:42569
- AFTER:41750
+ AFTER:41745
 -->
       <antipattern>
 		<token>para</token>
 		<token postag='DP.+' postag_regexp='yes'/>
 		<token postag='V.+|NC.+|AQ.+' postag_regexp='yes'/>
+		<token negate="yes" regexp="yes" inflected="yes">&cores;</token>
       </antipattern>
-<!-- MARCOAGPINTO 2022-01-18 (1-JAN-2022+) *END* -->
+<!-- MARCOAGPINTO 2022-01-18/19 (1-JAN-2022+) *END* -->
 
       <pattern>
           <token>
