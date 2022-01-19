@@ -41,7 +41,7 @@ import org.languagetool.rules.RuleMatch;
 
 public class ConfusionPairEvaluator {
   
-  private final static String enconding = "UTF-8";
+  private final static String encoding = "UTF-8";
   static String[] words = new String[2];
   static String[] ruleIds = new String[2];
   static int[][] results = new int[2][4]; // word0/word1 ; TP/FP/TN/FN
@@ -66,7 +66,7 @@ public class ConfusionPairEvaluator {
         lt.disableRule(rule.getId());
       }
     }
-    try (InputStreamReader isr = getInputStreamReader(filename, enconding);
+    try (InputStreamReader isr = getInputStreamReader(filename, encoding);
         BufferedReader br = new BufferedReader(isr)) {
       String line;
       while ((line = br.readLine()) != null) {
