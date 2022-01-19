@@ -13646,7 +13646,8 @@ onwaarschijnlijk
 		<rulegroup id="WEEKDAGEN_MAANDEN" name="Hoofdletters bij dagen en maanden" type="misspelling">
 			<rule>
 				<antipattern case_sensitive="yes"><token>April</token><token postag_regexp="yes" postag="ENM:PER:LST.*"/></antipattern>
-				<antipattern case_sensitive="yes"><token>Witte</token><token>Donderdag</token></antipattern>
+				<antipattern case_sensitive="yes"><token regexp="yes">Witte|Zwarte</token><token>Donderdag</token></antipattern>
+				<antipattern case_sensitive="yes"><token>Goede</token><token>Vrijdag</token></antipattern>
 				<antipattern case_sensitive="yes"><token>Zondag</token><token>met</token><token>Lubach</token></antipattern>
 				<antipattern><token postag_regexp="yes" postag="SENT_START|START" skip="-1"/><token skip="-1" regexp="yes">keizer|fort|villa|imperator|Caesar|.*ianus|Constantijns?|.*ius|Nero</token><token postag="SENT_END"/></antipattern>
 				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token regexp="yes">&APOSTROPH;|&DBLQUOTE;</token><token case_sensitive="yes" regexp="yes">[A-Z].*</token></antipattern>
