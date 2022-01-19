@@ -576,6 +576,8 @@ public class GermanSpellerRuleTest {
     ruleCH.addIgnoreWords("Fußelmappse/N");
     assertCorrect("Fusselmappse", ruleCH, lt);
     assertCorrect("Fusselmappsen", ruleCH, lt);
+    assertCorrect("Coronapatienten", rule, lt);
+    assertCorrect("Coronapatienten.", rule, lt);
   }
 
   private void assertCorrect(String word, MyGermanSpellerRule rule, JLanguageTool lt) throws IOException {
