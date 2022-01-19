@@ -36,6 +36,21 @@ class AgreementRuleAntiPatterns1 {
       posRegex("SUB:.*")
     ),
     Arrays.asList(
+      tokenRegex("der|die|das"),   // "Der solchen Einsätzen gegenüber kritische Müller ..."
+      tokenRegex("solche[mn]|diese[mn]"),
+      posRegex("SUB:.*"),
+      token("gegenüber"),
+      posRegex("ADJ:.*"),
+      posRegex("SUB:.*|EIG.*")
+    ),
+    Arrays.asList(
+      tokenRegex("des|der"),   // "des wenige Jahrzehnte zuvor verstorbenen Klostergründers"
+      new PatternTokenBuilder().posRegex("ADJ:.*").min(0).build(),
+      posRegex("SUB:.*|EIG.*"),
+      token("zuvor"),
+      posRegex("PA2:.*")
+    ),
+    Arrays.asList(
       token("Ehre"),  // "Ehre, wem Ehre gebührt"
       token(","),
       token("wem"),

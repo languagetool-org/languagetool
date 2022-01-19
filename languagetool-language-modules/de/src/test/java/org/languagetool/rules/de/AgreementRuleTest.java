@@ -220,6 +220,8 @@ public class AgreementRuleTest {
     assertGood("Es ist noch unklar, wann und für wen Impfungen vorgenommen werden könnten.");
     assertGood("Macht dir das Hoffnung?");
     assertGood("Mich fasziniert Macht.");
+    assertGood("Der solchen Einsätzen gegenüber kritische Hitler wurde nicht im Voraus informiert.");
+    assertGood("Gregor wählte die Gestalt des wenige Jahrzehnte zuvor verstorbenen Klostergründers.");
 
     assertGood("Wir machen das Januar.");
     assertGood("Wir teilen das Morgen mit.");
