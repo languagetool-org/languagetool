@@ -157,8 +157,10 @@ public class CaseRule extends Rule {
     "Genesene", // temporary fix
     "Genesenen", // temporary fix
     "Geimpfte", // temporary fix
+    "Geboosterte", // temporary fix
     "Ungeimpfte", // temporary fix
     "Geimpften", // temporary fix
+    "Geboosterten", // temporary fix
     "Ungeimpften", // temporary fix
     "Geflüchtete", // temporary fix
     "Geflüchteten", // temporary fix
