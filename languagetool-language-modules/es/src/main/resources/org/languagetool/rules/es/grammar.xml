@@ -18264,7 +18264,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="ADVERBIO_MENTE" name="posterior mente -> posteriormente">
             <antipattern>
                 <token postag="D.*|PX.*" postag_regexp="yes"/>
-                <token postag="AQ.[FC]S.|V.P..SF." postag_regexp="yes"></token>
+                <token postag="AQ.[FC]S.|V.P..SF." postag_regexp="yes"/>
                 <token>mente</token>
             </antipattern>
             <pattern>
@@ -24701,6 +24701,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>¿Quiso decir <suggestion>Warren Buffett</suggestion>, empresario estadounidense?</message>
                 <url>https://es.wikipedia.org/wiki/Warren_Buffett</url>
                 <example correction="Warren Buffett"><marker>Waren Buffet</marker> es el hombre más rico del mundo.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">Paul|Jean-Paul</token>
+                    <marker>
+                        <token regexp="yes">Sastre|Satre</token>
+                    </marker>
+                </pattern>
+                <message>¿Quiso decir <suggestion>Sartre</suggestion>, filósofo francés?</message>
+                <url>https://es.wikipedia.org/wiki/Jean-Paul_Sartre</url>
+                <example correction="Sartre">Jean-Paul <marker>Sastre</marker> es un filósofo francés.</example>
+                <example correction="Sartre">Jean Paul <marker>Sastre</marker> es un filósofo francés.</example>
             </rule>
         </rulegroup>
     </category>
