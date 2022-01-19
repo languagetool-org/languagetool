@@ -41327,6 +41327,32 @@ Elas têm umas sextas de vime. → Elas têm umas cestas de vime.
  <category id='REDACTION_TIPS' name='Dicas de redação' type='style'>
 
 
+	<!-- E QUE que -->
+    <rule id='E_QUE_QUE' name="Simplificar: E que → que" type="style">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-19 (Checked/Enhanced) (1-JAN-2022+)      -->
+	<!--
+São regras muito simples e que permitem agir corretamente. → São regras muito simples que permitem agir corretamente.
+	-->
+      <pattern>
+		<token negate_pos="yes" postag='SPS.+|Z0.+|RG|DA.+|CS|I|V.+' postag_regexp='yes'/>
+		<token postag='AQ.+|NC.+' postag_regexp='yes'/>
+		<marker>
+			<token>e</token>
+			<token>que</token>
+		</marker>
+		<token postag='V.+' postag_regexp='yes'/>
+		<token postag='V.+|DA.+|SPS.+|CC' postag_regexp='yes'/>
+      </pattern>
+      <message>Poderá omitir a conjunção 'e' para simplificar a parafrase.</message>
+	  <suggestion>que</suggestion>
+      <example correction="que">São regras muito simples <marker>e que</marker> permitem agir corretamente.</example>
+	  <example>É uma definição relativamente aberta que deverá ser especificada para cada grupo cultural por meio do embate político.</example>
+	  <example>Obras que custaram cerca de mil contos e que foram inauguradas a 21 de Outubro de 1951.</example>
+	  <example>Além disso, havia duas tribos que provavelmente eram relacionadas com os godos e que permaneceram na Escandinávia, os gotlanders e os gautas.</example>
+	  <example>O imperador ordenou a construção de hospedarias para os viajantes e que fosse proporcionado tratamento médico não só aos humanos, mas também aos animais.</example>
+    </rule>
+
+
 	<!-- E É/SÃO/FOI/FORAM VERBO sendo/sido/e verbo -->
     <rule id='E_É_SÃO_FOI_FORAM_SENDO_SIDO' name="Simplificar: E é/são/foi/foram + V. → sendo/sido/e + V." type="style">
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-18 (Checked/Enhanced) (1-JAN-2022+)      -->
@@ -41585,31 +41611,6 @@ O Rui corre o risco de perder o carro. → O Rui arrisca perder o carro.
 	  <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
 	  <suggestion><match no='1' postag='V.+' postag_regexp='yes'>arriscar</match></suggestion>
       <example correction="arriscar">O Rui vai <marker>correr o risco de</marker> perder o carro.</example>
-    </rule>
-
-	<!-- E QUE que -->
-    <rule id='E_QUE_QUE' name="E que → que" type="style">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-10-03 (25-JUN-2021+)      -->
-	<!--
-São regras muito simples e que permitem agir corretamente. → São regras muito simples que permitem agir corretamente.
-	-->
-      <pattern>
-		<token negate_pos="yes" postag='SPS.+|Z0.+|RG|DA.+|CS|I|V.+' postag_regexp='yes'/>
-		<token postag='AQ.+|NC.+' postag_regexp='yes'/>
-		<marker>
-			<token>e</token>
-			<token>que</token>
-		</marker>
-		<token postag='V.+' postag_regexp='yes'/>
-		<token postag='V.+|DA.+|SPS.+' postag_regexp='yes'/>
-      </pattern>
-      <message>Poderá omitir a conjunção 'e' para simplificar a parafrase.</message>
-	  <suggestion>que</suggestion>
-      <example correction="que">São regras muito simples <marker>e que</marker> permitem agir corretamente.</example>
-	  <example>É uma definição relativamente aberta que deverá ser especificada para cada grupo cultural por meio do embate político.</example>
-	  <example>Obras que custaram cerca de mil contos e que foram inauguradas a 21 de Outubro de 1951.</example>
-	  <example>Além disso, havia duas tribos que provavelmente eram relacionadas com os godos e que permaneceram na Escandinávia, os gotlanders e os gautas.</example>
-	  <example>O imperador ordenou a construção de hospedarias para os viajantes e que fosse proporcionado tratamento médico não só aos humanos, mas também aos animais.</example>
     </rule>
 
 
