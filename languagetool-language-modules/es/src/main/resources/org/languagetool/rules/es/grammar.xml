@@ -18253,6 +18253,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
+        <rule id="DURANTE_A" name="durante a > durante la" default="temp_off">
+            <pattern>
+                <token>durante</token>
+                <token case_sensitive="yes">a</token>
+            </pattern>
+            <message>¿Quería decir <suggestion>durante la</suggestion>?</message>
+            <example correction="durante la">Pasó <marker>durante a</marker> primera mitad del siglo.</example>
+        </rule>
         <rule id="ADVERBIO_MENTE" name="posterior mente -> posteriormente">
             <antipattern>
                 <token postag="D.*|PX.*" postag_regexp="yes"/>
