@@ -63,6 +63,7 @@ public class GRPCRuleMatchFilter implements RuleMatchFilter {
     RuleData(Match m) {
       this.m = m;
       this.sourceFile = m.getRule().getSourceFile();
+      // keep default values from Rule baseclass
       if (!m.getRule().getIssueType().isEmpty()) {
         setLocQualityIssueType(ITSIssueType.valueOf(m.getRule().getIssueType()));
       }
@@ -81,10 +82,7 @@ public class GRPCRuleMatchFilter implements RuleMatchFilter {
     @Nullable
     @Override
     public String getSourceFile() {
-      if (sourceFile == null || sourceFile.isEmpty()) {
-        return null;
-      }
-      return sourceFile;
+      return emptyAsNull(sourceFile);
     }
 
     @Override
@@ -94,7 +92,7 @@ public class GRPCRuleMatchFilter implements RuleMatchFilter {
 
     @Override
     public String getSubId() {
-     return m.getSubId();
+     return emptyAsNull(m.getSubId());
     }
 
     @Override
@@ -104,6 +102,7 @@ public class GRPCRuleMatchFilter implements RuleMatchFilter {
 
     @Override
     public int estimateContextForSureMatch() {
+      // 0 is okay as default value
       return m.getContextForSureMatch();
     }
 
