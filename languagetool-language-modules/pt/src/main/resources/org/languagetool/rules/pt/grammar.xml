@@ -41327,6 +41327,25 @@ Elas têm umas sextas de vime. → Elas têm umas cestas de vime.
  <category id='REDACTION_TIPS' name='Dicas de redação' type='style'>
 
 
+	<!-- PARA SABER QUAL A para delinear/determinar a -->
+    <rule id='DELINEAR_DETERMINAR' name="Saber qual a → delinear/determinar a">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-19 (Checked/Enhanced) (1-JAN-2022+)      -->
+      <pattern>
+		<token regexp='yes'>para|permitem?|permitir</token>	
+		<marker>
+			<token>saber</token>
+			<token regexp='yes'>qual|quais</token>			
+		</marker>
+		<token regexp='yes'>[ao]s?</token>
+		<token></token>
+      </pattern>
+      <message>Melhore a redação.</message>
+	  <suggestion>delinear</suggestion>
+	  <suggestion>determinar</suggestion>
+      <example correction="delinear|determinar">Isto para <marker>saber qual</marker> a melhor técnica de ataque.</example>
+    </rule>
+
+
 	<!-- E QUE que -->
     <rule id='E_QUE_QUE' name="Simplificar: E que → que" type="style">
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-19 (Checked/Enhanced) (1-JAN-2022+)      -->
@@ -41661,25 +41680,6 @@ Apagaram várias vezes comentários meus. → Apagaram vários comentários meus
 	  <message>Esta perífrase poderá ser simplificada.</message>
 	  <suggestion><match no='4' postag='NC(.)P000' postag_replace='DI0$1P0'>vários</match></suggestion>
       <example correction="várias">Apagaram <marker>várias vezes</marker> publicações minhas.</example>
-    </rule>
-
-	<!-- PARA SABER QUAL A para delinear/determinar a -->
-    <rule id='DELINEAR_DETERMINAR' name="saber qual a → delinear/determinar a">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-03-09 + 2021-03-10 + 2021-03-11 (1-JAN-2021+)      -->
-      <pattern>
-	  <token regexp='yes'>para|permite</token>	
-		<marker>
-			<token>saber</token>
-			<token regexp='yes'>qual|quais</token>			
-		</marker>
-		<token regexp='yes'>[ao]s?</token>
-		<token></token>
-		<token postag='NC.+|AQ0.+|V.+' postag_regexp='yes'/>
-      </pattern>
-      <message>Melhore a redação.</message>
-	  <suggestion>delinear</suggestion>
-	  <suggestion>determinar</suggestion>
-      <example correction="delinear|determinar">Isto para <marker>saber qual</marker> a melhor técnica de ataque.</example>
     </rule>
 
 
