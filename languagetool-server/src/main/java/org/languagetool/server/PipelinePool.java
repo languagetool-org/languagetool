@@ -162,7 +162,7 @@ class PipelinePool implements KeyedPooledObjectFactory<PipelineSettings, Pipelin
     lt.addMatchFilter(new DictionarySpellMatchFilter(userConfig));
     if (config.getRemoteRulesConfigFile() != null) {
       // TODO: is there another place for this?
-      GRPCRuleMatchFilter.configure(config.getRemoteRulesConfigFile());
+      GRPCPostProcessing.configure(config.getRemoteRulesConfigFile());
     }
 
     Premium premium = Premium.get();
