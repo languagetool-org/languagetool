@@ -7,8 +7,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
@@ -35,7 +34,7 @@ import io.grpc.ManagedChannel;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class GRPCRuleMatchFilter implements RuleMatchFilter {
+public class GRPCPostProcessing {
 
   private static final Duration slowDurationThreshold = Duration.ofMillis(400);
   private static final int slowRateThreshold = 80;
@@ -53,7 +52,7 @@ public class GRPCRuleMatchFilter implements RuleMatchFilter {
       .failureRateThreshold(failureRateThreshold)
       .waitDurationInOpenState(waitDurationOpen)
       .build();
-    circuitBreaker = CircuitBreakers.registry().circuitBreaker(GRPCRuleMatchFilter.class.getName(), config);
+    circuitBreaker = CircuitBreakers.registry().circuitBreaker(GRPCPostProcessing.class.getName(), config);
   }
 
   class RuleData extends Rule {
@@ -113,7 +112,7 @@ public class GRPCRuleMatchFilter implements RuleMatchFilter {
     }
   }
 
-  public GRPCRuleMatchFilter(Language language) {
+  public GRPCPostProcessing(Language language) {
   }
 
   public static void configure(File remoteRuleConfig) {
@@ -228,28 +227,50 @@ public class GRPCRuleMatchFilter implements RuleMatchFilter {
     return r;
   }
 
-  @Override
-  public List<RuleMatch> filter(List<RuleMatch> ruleMatches, AnnotatedText text) {
+  public List<RuleMatch> filter(List<AnalyzedSentence> sentences, List<RuleMatch> ruleMatches) {
     if (channel == null) {
       return ruleMatches;
     }
-    System.out.println("RESORTING IN: " + ruleMatches.stream().map(RuleMatch::getSuggestedReplacements).collect(Collectors.toList()));
 
-    // TODO: transform or take as argument (List<AnalyzedSentence>, List<List<RuleMatch>>)
-    // for now, allow duplicate sentences; each rule match is transformed into one sentence and a list with just that one rule match
-    List<String> sentences = ruleMatches.stream().map(RuleMatch::getSentence).map(AnalyzedSentence::getText).collect(Collectors.toList());
-    List<MatchList> matches = ruleMatches.stream().map(m -> MatchList.newBuilder().addMatches(convertMatch(m)).build()).collect(Collectors.toList());
+    List<MatchList> matches = new ArrayList<>();
+    List<Integer> offset = new ArrayList<>();
+    for (int i = 0; i < sentences.size(); i++) {
+      AnalyzedSentence sentence = sentences.get(i);
+      if (i == 0) {
+        offset.add(0);
+      } else {
+        offset.add(offset.get(i-1) + sentences.get(i-1).getText().length());
+      }
+      List<RuleMatch> sentenceMatches = new ArrayList<>();
+      Iterator<RuleMatch> iter = ruleMatches.iterator();
+      while (iter.hasNext()) {
+        RuleMatch m = iter.next();
+        if (sentence.equals(m.getSentence())) {
+          iter.remove();
+          m.setOffsetPosition(m.getFromPos() - offset.get(i), m.getToPos() - offset.get(i));
+          sentenceMatches.add(m);
+        }
+      }
+      matches.add(MatchList.newBuilder().addAllMatches(
+        sentenceMatches.stream().map(this::convertMatch).collect(Collectors.toList())).build());
+    }
+    List<String> sentenceText = sentences.stream().map(AnalyzedSentence::getText).collect(Collectors.toList());
 
-    PostProcessingRequest req = PostProcessingRequest.newBuilder().addAllSentences(sentences).addAllMatches(matches).build();
-    System.out.println("Sending " + req);
+    PostProcessingRequest req = PostProcessingRequest.newBuilder()
+      .addAllSentences(sentenceText).addAllMatches(matches).build();
     // TODO: circuitBreaker
     MatchResponse response = stub.process(req);
-    System.out.println("Received " + response);
     List<RuleMatch> result = new ArrayList<>(response.getSentenceMatchesCount());
     for (int i = 0; i < response.getSentenceMatchesCount(); i++) {
-      result.add(convertMatch(response.getSentenceMatches(i).getMatches(0), ruleMatches.get(i).getSentence()));
+      MatchList matchList = response.getSentenceMatches(i);
+      AnalyzedSentence sentence = sentences.get(i);
+      int offsetShift = offset.get(i);
+      for (int j = 0; j  < matchList.getMatchesCount(); j++) {
+        RuleMatch match = convertMatch(matchList.getMatches(j), sentence);
+        match.setOffsetPosition(match.getFromPos() + offsetShift, match.getToPos() + offsetShift);
+        result.add(match);
+      }
     }
-    System.out.println("RESORTING OUT: " + result.stream().map(RuleMatch::getSuggestedReplacements).collect(Collectors.toList()));
     return result;
   }
 }

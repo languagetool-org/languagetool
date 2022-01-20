@@ -1022,8 +1022,14 @@ public class JLanguageTool {
 
     ruleMatches.addAll(remoteMatches);
 
-    return ruleMatches.isEmpty() ? res :
-           new CheckResults(filterMatches(annotatedText, rules, ruleMatches), res.getIgnoredRanges());
+    if (ruleMatches.isEmpty()) {
+      return res;
+    }
+
+    ruleMatches = filterMatches(annotatedText, rules, ruleMatches);
+    ruleMatches = new GRPCPostProcessing(language).filter(analyzedSentences, ruleMatches);
+
+    return new CheckResults(ruleMatches, res.getIgnoredRanges());
   }
 
   private List<RuleMatch> filterMatches(AnnotatedText annotatedText, RuleSet rules, List<RuleMatch> ruleMatches) {
@@ -1038,8 +1044,6 @@ public class JLanguageTool {
       ruleMatches = new CleanOverlappingFilter(language, userConfig.getHidePremiumMatches()).filter(ruleMatches);
     }
     ruleMatches = new LanguageDependentFilter(language, rules).filter(ruleMatches);
-
-    ruleMatches = new GRPCRuleMatchFilter(language).filter(ruleMatches, annotatedText);
 
     return applyCustomFilters(ruleMatches, annotatedText);
   }
