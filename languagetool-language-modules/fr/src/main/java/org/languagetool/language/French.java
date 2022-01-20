@@ -289,7 +289,6 @@ public class French extends Language implements AutoCloseable {
       case "SONT_SON": return -5; // less than ETRE_VPPA_OU_ADJ
       case "FR_SIMPLE_REPLACE": return -10;
       case "TE_NV": return -20; // less than SE_CE, SE_SA and SE_SES
-      case "SYNONYMES": return -20; // less than grammar rules
       case "TE_NV2": return -10; // less than SE_CE, SE_SA and SE_SES
       case "PLURIEL_AL": return -10; // less than AGREEMENT_POSTPONED_ADJ
       case "INTERROGATIVE_DIRECTE": return -10; // less than OU
@@ -310,9 +309,10 @@ public class French extends Language implements AutoCloseable {
       case "POINTS_SUSPENSIONS_SPACE": return -50; // lesser than grammar rules
       case "MOT_TRAIT_MOT": return -50; // lesser than grammar rules
       case "ESSENTIEL": return -50; // lesser than grammar rules
+      case "CONFUSION_AL_LA": return -50; // lesser than AUX_AVOIR_VCONJ
       case "IMPORTANT": return -50; // lesser than grammar rules
       case "SOUHAITER": return -50; // lesser than grammar rules
-      case "TROUVER": return -50; // lesser than grammar rules
+      case "SYNONYMES": return -50; // lesser than grammar rules
       case "CAR": return -50; // lesser than grammar rules
       case "AIMER": return -50; // lesser than grammar rules
       case "CONFUSION_RULE_PREMIUM": return -50; // lesser than PRONSUJ_NONVERBE
