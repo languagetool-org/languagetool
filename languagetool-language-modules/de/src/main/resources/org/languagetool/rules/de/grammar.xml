@@ -6191,6 +6191,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Verwechslungen -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
+        <rule id="VERWANDET_VERWANDTE" name="verwandet" default="temp_off">
+            <pattern>
+                <token>verwandet</token>
+            </pattern>
+            <message>Meinten Sie möglicherweise <suggestion>verwandte</suggestion> or das Verb <suggestion>verwandelt</suggestion>?</message>
+            <example correction="Verwandte|Verwandelt">Meine Cousine ist meine <marker>Verwandet</marker>.</example>
+        </rule>
         <rule id="TOPP_TOP" name="topp vs top">
             <pattern>
                 <token regexp="yes">ist|sind|war|waren</token>
@@ -12146,7 +12153,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <pattern>
                 <token>ziel</token>
-                <token regexp="yes">(gerecht|gerichtet|orientiert)(e[rsnm])?</token>
+                <token regexp="yes">(gerecht|gerichtet|orientiert|führend)(e[rsnm])?</token>
             </pattern>
             <message>Das Adjektiv "zielgerecht" wird zusammengeschrieben.</message>
             <suggestion><match no="1" case_conversion="alllower" /><match no="2" case_conversion="alllower" /></suggestion>
@@ -13636,6 +13643,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Hinter<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Hinterhalt">Das ist ein <marker>hinter Halt</marker>!</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>gering</token>
+                    <token regexp="yes" case_sensitive="yes">Verdiener[sn]?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>Gering<match no="2" case_conversion="alllower" /></suggestion>?</message>
+                <example correction="Geringverdiener">Aus dem Weg, <marker>gering Verdiener</marker>!</example>
             </rule>
         </rulegroup>
         <rule id="GEGEN_CHECKEN" name="gegen checken (gegenchecken)">
@@ -25501,7 +25516,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <token postag="ADV.*|NEG" postag_regexp="yes" min="0" max="2" />
                     <marker>
-                        <token case_sensitive="yes" regexp="yes">Stolz|Klein|Wei(ß|ss)|Dürr|Fröhlich|Fair|Platt|Oldschool|Fromm|Superb</token><!-- Adjektive, die als Nomen oder Eigenname getaggt sind -->
+                        <token case_sensitive="yes" regexp="yes">Stolz|Klein|Wei(ß|ss)|Dürr|Fröhlich|Fair|Platt|Oldschool|Fromm|Superb|Kahl</token><!-- Adjektive, die als Nomen oder Eigenname getaggt sind -->
                     </marker>
                 </pattern>
                 <message>Das Adjektiv <suggestion><match no="4" case_conversion="alllower" /></suggestion> wird kleingeschrieben.</message>
@@ -25526,7 +25541,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <token postag="ADV.*|NEG" postag_regexp="yes" min="0" max="2" />
                     <marker>
-                        <token case_sensitive="yes" regexp="yes">Stolz|Klein|Wei(ß|ss)|Dürr|Fröhlich|Fair|Platt|Oldschool|Fromm|Superb</token><!-- Adjektive, die als Nomen oder Eigenname getaggt sind -->
+                        <token case_sensitive="yes" regexp="yes">Stolz|Klein|Wei(ß|ss)|Dürr|Fröhlich|Fair|Platt|Oldschool|Fromm|Superb|Kahl</token><!-- Adjektive, die als Nomen oder Eigenname getaggt sind -->
                     </marker>
                 </pattern>
                 <message>Das Adjektiv <suggestion><match no="4" case_conversion="alllower" /></suggestion> wird kleingeschrieben.</message>
@@ -25543,12 +25558,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>ihr</token>
                     <token postag="ADV.*|NEG" postag_regexp="yes" min="0" max="2" />
                     <marker>
-                        <token case_sensitive="yes" regexp="yes" skip="-1">Stolz|Klein|Wei(ß|ss)|Dürr|Fröhlich|Fair|Platt|Oldschool|Fromm|Superb</token><!-- Adjektive, die als Nomen oder Eigenname getaggt sind -->
+                        <token case_sensitive="yes" regexp="yes" skip="-1">Stolz|Klein|Wei(ß|ss)|Dürr|Fröhlich|Fair|Platt|Oldschool|Fromm|Superb|Kahl</token><!-- Adjektive, die als Nomen oder Eigenname getaggt sind -->
                     </marker>
                     <token>?</token>
                 </pattern>
                 <message>Das Adjektiv <suggestion><match no="4" case_conversion="alllower" /></suggestion> wird kleingeschrieben.</message>
                 <example correction="stolz">Seid ihr <marker>Stolz</marker> auf mich?</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes" inflected="yes">
+                        sehen
+                    </token>
+                    <token postag="ADV.*|NEG" postag_regexp="yes" min="0" max="2" />
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes" skip="-1">Stolz|Klein|Wei(ß|ss)|Dürr|Fröhlich|Fair|Platt|Oldschool|Fromm|Superb|Kahl</token><!-- Adjektive, die als Nomen oder Eigenname getaggt sind -->
+                    </marker>
+                    <token>aus</token>
+                </pattern>
+                <message>Das Adjektiv <suggestion><match no="3" case_conversion="alllower" /></suggestion> wird kleingeschrieben.</message>
+                <example correction="kahl">Es sieht ganz <marker>Kahl</marker> aus.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes" inflected="yes">
+                        machen
+                    </token>
+                    <token regexp="yes">das|es|ihn|sie|euch|uns|mich|dich|(irgend)?etwas|(irgend)?(was|wen|jemand)|nix|nichts|niemanden</token>
+                    <token postag="ADV.*|NEG" postag_regexp="yes" min="0" max="2" />
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes" skip="-1">Stolz|Klein|Wei(ß|ss)|Dürr|Fröhlich|Fair|Platt|Oldschool|Fromm|Superb|Kahl</token><!-- Adjektive, die als Nomen oder Eigenname getaggt sind -->
+                    </marker>
+                    <token postag="PKT|KON.*" postag_regexp="yes" />
+                </pattern>
+                <message>Das Adjektiv <suggestion><match no="4" case_conversion="alllower" /></suggestion> wird kleingeschrieben.</message>
+                <example correction="klein">Du machst dich <marker>Klein</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="GUTEN_RUTSCH" name="guten rutsch (Rutsch)">
@@ -50861,6 +50905,15 @@ Andere Projekte</example>
                 <token postag="SUB.*|UNKNOWN" postag_regexp="yes" />
                 <token>entsprechend</token>
             </antipattern>
+            <antipattern>
+                <token>sowas</token>
+                <token>von</token>
+            </antipattern>
+            <antipattern>
+                <token>so</token>
+                <token>was</token>
+                <token>von</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token>wo</token>
@@ -56742,6 +56795,22 @@ Andere Projekte</example>
                     <token postag="VER:.+" postag_regexp="yes"/>
                     <token postag="(KON|PKT|UNKNOWN).*" postag_regexp="yes"><exception postag="SENT_END"/></token>
                 </antipattern>
+                <antipattern><!-- Könnte mir auch vorstellen, die ... -->
+                    <token postag="SENT_START"/>
+                    <token min="0" max="1" regexp="yes">„|»|«|"</token>
+                    <token>könnte</token>
+                    <token>mir</token>
+                    <token postag="ADV.*" postag_regexp="yes" min="0" max="2" />
+                    <token postag="VER:INF.*" postag_regexp="yes" />
+                </antipattern>
+                <antipattern><!-- Könnten uns auch vorstellen, die ... -->
+                    <token postag="SENT_START"/>
+                    <token min="0" max="1" regexp="yes">„|»|«|"</token>
+                    <token>könnten</token>
+                    <token>uns</token>
+                    <token postag="ADV.*" postag_regexp="yes" min="0" max="2" />
+                    <token postag="VER:INF.*" postag_regexp="yes" />
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token min="0" max="1" regexp="yes">„|»|«|"</token>
@@ -56767,9 +56836,11 @@ Andere Projekte</example>
                 <example correction="?">Soll er schon nach Hause gehen<marker>.</marker></example>
                 <example correction="?">Könnte das perspektivisch auch über die API direkt im Webbrowser realisiert werden, z.B. zum Diktieren des Artikel-Textes<marker>.</marker></example>
                 <example correction="?">Kannst du mir bitte deine Handy-Nummer sagen<marker>.</marker></example>
+                <example correction="?">Könnte mir jemand sagen, ob das so korrekt ist<marker>.</marker></example>
                 <!--<example correction="?">"Soll er schon nach Hause gehen<marker>.</marker></example> TODO: doesn't work because tagger confused by quote character -->
                 <example>Mach es bitte ein zweites Mal.</example>
                 <example>Mag sein, dass sie die Tatsachen kennt.</example>
+                <example>Könnte mir auch vorstellen, dass wir das später machen.</example>
                 <example>Sollte das auch nicht klappen, werde ich Ihren Account manuell freischalten.</example>
                 <example>Sollte es damit Probleme geben, melden Sie sich bitte erneut per E-Mail bei uns.</example>
                 <example>Sollten einzelne Bestimmungen der AGB unwirksam oder undurchführbar sein oder unwirksam oder undurchführbar werden, bleibt davon die Wirksamkeit der AGB im Übrigen unberührt.</example>

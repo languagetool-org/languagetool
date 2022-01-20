@@ -1204,8 +1204,8 @@ class CaseRuleAntiPatterns {
     ),
     Arrays.asList( // Immer mehr Ältere erkranken daran
       csRegex("[a-zäöü…\\.,:;0-9\\/].*"),
-      csRegex("Ältere[rn]?|Jüngere[rn]?|Verwirrte[rn]?|Zuschauende[rn]?|Angeklagte[rn]?|Beschuldigte[rn]?|Referierende[rn]?|Moderierende[rn]?|Dunkelhäutige[rn]?"),
-      csRegex("[a-zäöü…\\.!:;,\\?…\\)].*")
+      csRegex("Ältere[rn]?|Jüngere[rn]?|Verwirrte[rn]?|Zuschauende[rn]?|Angeklagte[rn]?|Beschuldigte[rn]?|Referierende[rn]?|Moderierende[rn]?|Dunkelhäutige[rn]?|Verantwortliche[rn]?"),
+      csRegex("[a-zäöü…\\.!:;,\\?…\\)\\*].*")
     ),
     Arrays.asList( // § 12 Die Pflichtversicherung
       csToken("§"),

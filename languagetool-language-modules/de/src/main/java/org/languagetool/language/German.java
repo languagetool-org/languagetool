@@ -290,6 +290,7 @@ public class German extends Language implements AutoCloseable {
       case "DA_DURCH": return 2; // prefer over SUBSTANTIVIERUNG_NACH_DURCH and DURCH_SCHAUEN and DURCH_WACHSEN
       case "BEI_GOOGLE" : return 2;   // prefer over agreement rules and VOR_BEI
       case "VOR_BEI": return 1; // prefer over BEI_BEHALTEN
+      case "VERWANDET_VERWANDTE": return 1; // prefer over DE_CASE
       case "EIN_LOGGEN": return 1; // prefer over most agreement rules
       case "ZU_GENÜGE" : return 1;   // prefer over ZU_KOENNE
       case "IMPFLICHT" : return 1;   // prefer over agreement rules DE_AGREEMENT
@@ -366,6 +367,7 @@ public class German extends Language implements AutoCloseable {
       case "AKZENT_STATT_APOSTROPH": return -1;  // lower prio than PLURAL_APOSTROPH
       case "BEENDE_IST_SENTEND": return -1; // prefer more specific rules
       case "ICH_GLAUBE_FUER_EUCH": return -2; // prefer agreement rules
+      case "OBJECT_AGREEMENT": return -2; // less prio than DE_AGREEMENT
       case "ICH_INF_PREMIUM": return -2; // prefer more specific rules that offer a suggestion (e.g. SUBJECT_VERB_AGREEMENT)
       case "MEHRERE_WOCHE_PREMIUM": return -2;  // less prio than DE_AGREEMENT
       case "DOPPELTER_NOMINATIV": return -2;  // give precedence to wie-wir-wird confusion rules

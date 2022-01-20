@@ -791,6 +791,11 @@ class AgreementRuleAntiPatterns1 {
       token("das"),
       token("Quatsch")
     ),
+    Arrays.asList( // Eine Maßnahme die Vertrauen schafft
+      tokenRegex("der|die"),
+      token("Vertrauen"),
+      new PatternTokenBuilder().matchInflectedForms().tokenRegex("schaffen").build()
+    ),
     Arrays.asList(
       token("des"),
       token("Lied"),
@@ -1054,6 +1059,10 @@ class AgreementRuleAntiPatterns1 {
       token("das"),
       csToken("verlangte"),
       tokenRegex("Ruhe|Zeit|Geduld")
+    ),
+    Arrays.asList(
+      csToken("BMW"),
+      token("ConnectedDrive")
     ));
 
 }
