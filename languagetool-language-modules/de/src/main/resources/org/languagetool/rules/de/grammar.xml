@@ -255,6 +255,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Mögliche Tippfehler">
+        <rule id="LETZTES_ENDES" name="letztes (letzten) Endes" default="temp_off"><!-- keep prio higher than DE_AGREEMENT -->
+            <pattern>
+                <token>letztes</token>
+                <token>Endes</token>
+            </pattern>
+            <message>Möglicher Tippfehler: Meinten Sie <suggestion>letzten Endes</suggestion>?</message>
+            <example correction="letzten Endes">Das ist <marker>letztes Endes</marker> egal.</example>
+            <example correction="Letzten Endes"><marker>Letztes Endes</marker> kommt es nicht auf Schönheit an.</example>
+        </rule>
         <rule id="MOMENTANE" name="momentane (momentan)">
             <antipattern>
                 <token regexp="yes">die|eine</token>
