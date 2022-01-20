@@ -17447,6 +17447,56 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>vor</token>
                 <token>zu</token>
             </antipattern>
+            <antipattern><!-- Die beiden sind sowas von zu beneiden. -->
+                <token>sowas</token>
+                <token>von</token>
+                <token>zu</token>
+            </antipattern>
+            <antipattern><!-- Die beiden sind so was von zu beneiden. -->
+                <token>so</token>
+                <token>was</token>
+                <token>von</token>
+                <token>zu</token>
+            </antipattern>
+            <antipattern>
+                <token>auf</token>
+                <token regexp="yes">und|&amp;</token>
+                <token>ab</token>
+                <token>zu</token>
+            </antipattern>
+            <antipattern><!-- Ich hoffe, es macht dir nichts aus zu laufen. -->
+                <token inflected="yes">machen</token>
+                <token regexp="yes">euch|[md]ir|uns|ih[mr]|ihnen|denen</token>
+                <token postag="ADV.*" postag_regexp="yes" min="0" max="2" />
+                <token regexp="yes">nichts|nix</token>
+                <token>aus</token>
+                <token>zu</token>
+            </antipattern>
+            <antipattern><!-- Ich hoffe, es macht dir nichts aus zu laufen. -->
+                <token inflected="yes">machen</token>
+                <token postag="EIG.*|UNKNOWN" postag_regexp="yes" />
+                <token postag="ADV.*" postag_regexp="yes" min="0" max="2" />
+                <token regexp="yes">nichts|nix</token>
+                <token>aus</token>
+                <token>zu</token>
+            </antipattern>
+            <antipattern><!-- Auf zu frischen Taten! -->
+                <token>auf</token>
+                <token>zu</token>
+                <token postag="ADJ.*PLU.*" postag_regexp="yes" />
+                <token postag="POS.*PLU.*" postag_regexp="yes" />
+            </antipattern>
+            <antipattern><!-- Tom flehte mich an zu kommen. -->
+                <token inflected="yes" regexp="yes" skip="4">flehen|schicken|fangen</token>
+                <token>an</token>
+                <token>zu</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">vo[nm]</token>
+                <token>Beginn</token>
+                <token>an</token>
+                <token>zu</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token postag=".*PRP:.*" postag_regexp="yes">
@@ -17455,6 +17505,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception>ausserhalb</exception>
                         <exception>aufgrund</exception>
                         <exception>abseits</exception>
+                        <exception>kopfunter</exception>
+                        <exception>von</exception>
+                        <exception>plus</exception>
                         <exception>beim</exception>
                         <exception>gegenüber</exception>
                         <exception>statt</exception>
@@ -17498,6 +17551,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Sie haben nicht vor zu gehen.</example>
                 <example>Ich schlug vor zu warten.</example>
                 <example>Er hatte nämlich nicht vor zu bremsen.</example>
+                <example>Die beiden sind so was vonzubeneiden.</example>
+                <example>Es macht mir nichts aus zu stehen.</example>
+                <example>Auf zu frischen Taten!</example>
+                <example>Ich hoffe, es macht dir nichts aus zu laufen.</example>
+                <example>Tom begann auf und ab zu gehen.</example>
                 <example>Sein Plan war, den Putsch vom „Bendlerblock“ aus zu dirigieren.</example>
             </rule>
             <!-- Now try to catch some errors our first rule missed, mostly because of the exceptions defined above -->
@@ -25516,7 +25574,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <token postag="ADV.*|NEG" postag_regexp="yes" min="0" max="2" />
                     <marker>
-                        <token case_sensitive="yes" regexp="yes">Stolz|Klein|Wei(ß|ss)|Dürr|Fröhlich|Fair|Platt|Oldschool|Fromm|Superb|Kahl</token><!-- Adjektive, die als Nomen oder Eigenname getaggt sind -->
+                        <token case_sensitive="yes" regexp="yes">Stolz|Sauer|Klein|Wei(ß|ss)|Dürr|Fröhlich|Fair|Platt|Oldschool|Fromm|Superb|Kahl</token><!-- Adjektive, die als Nomen oder Eigenname getaggt sind -->
                     </marker>
                 </pattern>
                 <message>Das Adjektiv <suggestion><match no="4" case_conversion="alllower" /></suggestion> wird kleingeschrieben.</message>
@@ -25541,7 +25599,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <token postag="ADV.*|NEG" postag_regexp="yes" min="0" max="2" />
                     <marker>
-                        <token case_sensitive="yes" regexp="yes">Stolz|Klein|Wei(ß|ss)|Dürr|Fröhlich|Fair|Platt|Oldschool|Fromm|Superb|Kahl</token><!-- Adjektive, die als Nomen oder Eigenname getaggt sind -->
+                        <token case_sensitive="yes" regexp="yes">Stolz|Sauer|Klein|Wei(ß|ss)|Dürr|Fröhlich|Fair|Platt|Oldschool|Fromm|Superb|Kahl</token><!-- Adjektive, die als Nomen oder Eigenname getaggt sind -->
                     </marker>
                 </pattern>
                 <message>Das Adjektiv <suggestion><match no="4" case_conversion="alllower" /></suggestion> wird kleingeschrieben.</message>
@@ -25558,7 +25616,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>ihr</token>
                     <token postag="ADV.*|NEG" postag_regexp="yes" min="0" max="2" />
                     <marker>
-                        <token case_sensitive="yes" regexp="yes" skip="-1">Stolz|Klein|Wei(ß|ss)|Dürr|Fröhlich|Fair|Platt|Oldschool|Fromm|Superb|Kahl</token><!-- Adjektive, die als Nomen oder Eigenname getaggt sind -->
+                        <token case_sensitive="yes" regexp="yes" skip="-1">Stolz|Sauer|Klein|Wei(ß|ss)|Dürr|Fröhlich|Fair|Platt|Oldschool|Fromm|Superb|Kahl</token><!-- Adjektive, die als Nomen oder Eigenname getaggt sind -->
                     </marker>
                     <token>?</token>
                 </pattern>
@@ -25567,12 +25625,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule default="temp_off">
                 <pattern>
-                    <token regexp="yes" inflected="yes">
+                    <token inflected="yes">
                         sehen
                     </token>
                     <token postag="ADV.*|NEG" postag_regexp="yes" min="0" max="2" />
                     <marker>
-                        <token case_sensitive="yes" regexp="yes" skip="-1">Stolz|Klein|Wei(ß|ss)|Dürr|Fröhlich|Fair|Platt|Oldschool|Fromm|Superb|Kahl</token><!-- Adjektive, die als Nomen oder Eigenname getaggt sind -->
+                        <token case_sensitive="yes" regexp="yes" skip="-1">Stolz|Sauer|Klein|Wei(ß|ss)|Dürr|Fröhlich|Fair|Platt|Oldschool|Fromm|Superb|Kahl</token><!-- Adjektive, die als Nomen oder Eigenname getaggt sind -->
                     </marker>
                     <token>aus</token>
                 </pattern>
@@ -25581,13 +25639,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule default="temp_off">
                 <pattern>
-                    <token regexp="yes" inflected="yes">
+                    <token inflected="yes">
                         machen
                     </token>
                     <token regexp="yes">das|es|ihn|sie|euch|uns|mich|dich|(irgend)?etwas|(irgend)?(was|wen|jemand)|nix|nichts|niemanden</token>
                     <token postag="ADV.*|NEG" postag_regexp="yes" min="0" max="2" />
                     <marker>
-                        <token case_sensitive="yes" regexp="yes" skip="-1">Stolz|Klein|Wei(ß|ss)|Dürr|Fröhlich|Fair|Platt|Oldschool|Fromm|Superb|Kahl</token><!-- Adjektive, die als Nomen oder Eigenname getaggt sind -->
+                        <token case_sensitive="yes" regexp="yes" skip="-1">Stolz|Sauer|Klein|Wei(ß|ss)|Dürr|Fröhlich|Fair|Platt|Oldschool|Fromm|Superb|Kahl</token><!-- Adjektive, die als Nomen oder Eigenname getaggt sind -->
                     </marker>
                     <token postag="PKT|KON.*" postag_regexp="yes" />
                 </pattern>
@@ -29568,7 +29626,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="ANS_KLEINES_NOMEN" name="ans/fürs/... + kleingeschriebenes Nomen">
             <antipattern>
                 <token regexp="yes">ans|fürs|übers|unters|hinters|durchs|ins|vors</token>
-                <token postag="ADJ:.*" postag_regexp="yes"/>
+                <token postag="(ADJ|PA[12]):.*" postag_regexp="yes"/>
                 <token regexp="yes" case_sensitive="yes">[A-ZÖÄÜ].+</token>
             </antipattern>
             <antipattern>
@@ -29579,15 +29637,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token regexp="yes">ans|fürs|übers|unters|hinters|durchs|ins|vors</token>
-                <token postag="ADJ:.*" postag_regexp="yes"/>
-                <token regexp="yes">und|oder</token>
-                <token postag="ADJ:.*" postag_regexp="yes"/>
+                <token postag="(ADJ|PA[12]):.*" postag_regexp="yes"/>
+                <token regexp="yes">und|oder|sowie|,|/</token>
+                <token postag="(ADJ|PA[12]):.*|UNKNOWN|ZAL" postag_regexp="yes" min="1" max="2" />
                 <token regexp="yes" case_sensitive="yes">[A-ZÖÄÜ].+</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">ans|fürs|übers|unters|hinters|durchs|ins|vors</token>
-                <token postag="ADJ:.*" postag_regexp="yes"/>
-                <token postag="ADJ:.*" postag_regexp="yes"/>
+                <token postag="(ADJ|PA[12]):.*" postag_regexp="yes"/>
+                <token regexp="yes">anstatt|wie|als</token>
+                <token regexp="yes">ans|fürs|übers|unters|hinters|durchs|ins|vors</token>
+                <token postag="(ADJ|PA[12]):.*|UNKNOWN|ZAL" postag_regexp="yes"/>
+                <token regexp="yes" case_sensitive="yes">[A-ZÖÄÜ].+</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">ans|fürs|übers|unters|hinters|durchs|ins|vors</token>
+                <token postag="(ADJ|PA[12]):.*" postag_regexp="yes"/>
+                <token postag="(ADJ|PA[12]):.*|UNKNOWN|ZAL" postag_regexp="yes" min="0" />
+                <token regexp="yes">bzw|beziehungsweise|respektive</token>
+                <token min="0">.</token>
+                <token postag="(ADJ|PA[12]):.*|UNKNOWN|ZAL" postag_regexp="yes"/>
+                <token regexp="yes" case_sensitive="yes">[A-ZÖÄÜ].+</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">ans|fürs|übers|unters|hinters|durchs|ins|vors</token>
+                <token postag="(ADJ|PA[12]):.*" postag_regexp="yes"/>
+                <token postag="(ADJ|PA[12]):.*|UNKNOWN|ZAL" postag_regexp="yes"/>
+                <token regexp="yes" case_sensitive="yes">[A-ZÖÄÜ].+</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">ans|fürs|übers|unters|hinters|durchs|ins|vors</token>
+                <token postag="(ADJ|PA[12]):.*" postag_regexp="yes"/>
+                <token>(</token>
+                <token postag="(ADJ|PA[12]):.*|UNKNOWN|ZAL" postag_regexp="yes"/>
+                <token>)</token>
                 <token regexp="yes" case_sensitive="yes">[A-ZÖÄÜ].+</token>
             </antipattern>
             <antipattern>
@@ -29602,12 +29685,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes" case_sensitive="yes">[a-z]+</token>
                 <token case_sensitive="yes">Jahrhundert</token>
             </antipattern>
+            <antipattern>
+                <token regexp="yes">ans|fürs|übers|unters|hinters|durchs|ins|vors</token>
+                <token postag="ADJ.*NEU.*" postag_regexp="yes" />
+                <token postag="VER:INF.*" postag_regexp="yes" />
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">nächste|erste|letzte</token>
+                <token>mal</token>
+            </antipattern>
             <pattern>
                 <token regexp="yes">ans|fürs|übers|unters|hinters|durchs|ins|vors</token>
                 <marker>
-                    <token case_sensitive="yes" postag="VER:INF:NON|ADJ:AKK:.*" postag_regexp="yes" regexp="yes">[a-zöäü].*<exception>andere</exception></token>
+                    <token case_sensitive="yes" postag="VER:INF:NON|(ADJ|PA[12]):AKK:.*" postag_regexp="yes" regexp="yes">[a-zöäü].*<exception>andere</exception></token>
                 </marker>
-                <token><exception postag="SUB:NOM:SIN:NEU" /><exception>,</exception></token>
+                <token><exception postag="SUB:NOM:SIN:NEU.*" postag_regexp="yes" /><exception>,</exception></token>
             </pattern>
             <message><suggestion><match no="2" case_conversion="startupper"/></suggestion> scheint hier ein Nomen zu sein (\1 = <match no="1" regexp_match="s$" regexp_replace="" /> das) und muss dann großgeschrieben werden.</message>
             <example correction="Essen">Aber ans <marker>essen</marker> hat er nicht mehr gedacht.</example>
@@ -29619,6 +29711,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Dreimal müssen sie von einem Boot ins nächste steigen.</example>
             <example>Es dauerte bis ins neunzehnte Jahrhundert.</example>
             <example>Es dauerte bis ins späte neunzehnte Jahrhundert.</example>
+            <example>1819 versetzte man ihn als Pfarrer ins pfälzische (bayerische) Großkarlbach bei Grünstadt.</example>
+            <example>Danke fürs hartnäckige nachfragen.</example><!-- "Nachfragen" should be capitalized -->
+            <example>Für SSIDs ins blaue bzw. grüne Netz</example>
         </rule>
         <rule id="ANS_EINGEMACHTE" name="ans eingemachte (Eingemachte)">
             <pattern case_sensitive="yes">

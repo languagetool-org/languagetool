@@ -1249,6 +1249,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("folgendermassen", "folgendermaßen");
     put("Adon", "Add-on");
     put("Adons", "Add-ons");
+    put("vertraggt", w -> Arrays.asList("vertagt", "getaggt"));
+    put("Angehensweise", "Vorgehensweise");
+    put("Angehensweisen", "Vorgehensweisen");
+    put("Neudefinierung", "Neudefinition");
+    put("Definierung", "Definition");
+    put("Definierungen", "Definitionen");
     putRepl("[Üü]bergrifflich(e[mnrs]?)?", "lich", "ig");
   }
 
@@ -1440,6 +1446,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         && !s.matches("[\\wöäüÖÄÜß]+ [a-zöäüß]-[\\wöäüÖÄÜß]+")   // e.g. "Mediation s-Background"
         && !s.matches("[\\wöäüÖÄÜß]+- [\\wöäüÖÄÜß]+")   // e.g. "Pseudo- Rebellentum"
         && !s.matches("[A-ZÄÖÜ][a-zäöüß]+-[a-zäöüß]+-[a-zäöüß]+")   // e.g. "Kapuze-over-teil"
+        && !s.matches("[A-ZÄÖÜ][a-zäöüß]+-[A-ZÄÖÜ]-[A-ZÄÖÜ][a-zäöüß]+")   // e.g. "Tuchs-N-Harmonie"
         && !s.matches("[\\wöäüÖÄÜß]+ -[\\wöäüÖÄÜß]+")   // e.g. "ALT -TARIF"
         && !s.endsWith("-s")   // https://github.com/languagetool-org/languagetool/issues/4042
         && !s.endsWith(" de")   // https://github.com/languagetool-org/languagetool/issues/4042

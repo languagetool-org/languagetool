@@ -100,7 +100,7 @@ class CaseRuleAntiPatterns {
     ),
     Arrays.asList(
       // Er arbeitet im Bereich Präsidiales.
-      csRegex("Bereich|Departement|Stabsstelle"),
+      csRegex("Bereich|Departement|Stabsstellen?|Dienststellen?"),
       csRegex("[A-ZÄÖÜ].+es")
     ),
     Arrays.asList(
@@ -845,7 +845,7 @@ class CaseRuleAntiPatterns {
     ),
     Arrays.asList(
       // Trennzeichen https://github.com/languagetool-org/languagetool/issues/1515
-      regex("▶︎|▶|▶️|→|•|★|⧪|⮞|✔︎|✓|✔️|✅|➡️|➔|☛|◆|▪|■|☞|❤|✒︎|☑️|✗|✘|✖|➢|=|>|❏|›|❖|·|⬢|\\|"),
+      regex("▶︎|▶|▶️|→|•|★|⧪|⮞|✔︎|✓|✔️|✅|➡️|➔|☛|◼|◆|▪|■|☞|❤|✒︎|☑️|✗|✘|✖|➢|=|>|❏|›|❖|·|⬢|\\|"),
       regex(".*")
     ),
     Arrays.asList(
@@ -1205,7 +1205,7 @@ class CaseRuleAntiPatterns {
     Arrays.asList( // Immer mehr Ältere erkranken daran
       csRegex("[a-zäöü…\\.,:;0-9\\/].*"),
       csRegex("Ältere[rn]?|Jüngere[rn]?|Verwirrte[rn]?|Zuschauende[rn]?|Angeklagte[rn]?|Beschuldigte[rn]?|Referierende[rn]?|Moderierende[rn]?|Dunkelhäutige[rn]?|Verantwortliche[rn]?"),
-      csRegex("[a-zäöü…\\.!:;,\\?…\\)\\*].*")
+      csRegex("[a-zäöü…\\.!:;,\\?…\\)\\*\\(].*")
     ),
     Arrays.asList( // § 12 Die Pflichtversicherung
       csToken("§"),
