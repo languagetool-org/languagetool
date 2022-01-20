@@ -41327,6 +41327,51 @@ Elas têm umas sextas de vime. → Elas têm umas cestas de vime.
  <category id='REDACTION_TIPS' name='Dicas de redação' type='style'>
 
 
+	<!-- CORRER O RISCO arriscar-->
+    <rulegroup id='CORRER_RISCO_ARRISCAR' name="Simplificar: Correr o risco → arriscar" type='style'>
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-20 (Checked/Enhanced) (1-JAN-2022+)      -->
+	<!--
+O Rui vai correr o risco de perder o carro. → O Rui vai arriscar perder o carro.
+O Rui corre o risco de perder o carro. → O Rui arrisca perder o carro.
+	-->
+	<rule>
+      <pattern>
+		<marker>
+			<token regexp='no' inflected='yes'>correr</token>
+			<token min="0" max="1" regexp='yes'>os?</token>
+			<token regexp='yes'>riscos?</token>
+			<token>de</token>
+		</marker>
+		<or>
+			<token postag='V.+' postag_regexp='yes'/>
+			<token regexp='yes'>se|ser</token>
+		</or>
+      </pattern>
+	  <message>Esta perífrase poderá ser simplificada.</message>
+	  <suggestion><match no='1' postag='V.+' postag_regexp='yes'>arriscar</match></suggestion>
+      <example correction="arriscar">O Rui vai <marker>correr o risco de</marker> perder o carro.</example>
+    </rule>
+
+	<!--
+O Rui vai correr o risco para tentar vencer. → O Rui vai arriscar para tentar vencer.
+	-->
+	<rule>
+      <pattern>
+		<marker>
+			<token regexp='no' inflected='yes'>correr</token>
+			<token min="0" max="1" regexp='yes'>os?</token>
+			<token regexp='yes'>riscos?</token>			
+		</marker>
+		<token postag='CC' postag_regexp='no'/>
+      </pattern>
+	  <message>Esta perífrase poderá ser simplificada.</message>
+	  <suggestion><match no='1' postag='V.+' postag_regexp='yes'>arriscar</match></suggestion>
+      <example correction="arriscar">O Rui vai <marker>correr o risco</marker> para tentar vencer.</example>
+    </rule>
+	
+	</rulegroup>
+
+
 	<!-- PARA SABER QUAL A para delinear/determinar a -->
     <rule id='DELINEAR_DETERMINAR' name="Saber qual a → delinear/determinar a">
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-19 (Checked/Enhanced) (1-JAN-2022+)      -->
@@ -41641,26 +41686,6 @@ A bactéria do carbúnculo mata-os através de uma toxina.
     </rule>	
 	
 	</rulegroup>
-
-	<!-- CORRER O RISCO arriscar-->
-    <rule id='CORRER_RISCO_ARRISCAR' name="Correr o risco → Arriscar" type='style'>
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-09-01 (25-JUN-2021+)      -->
-	<!--
-O Rui vai correr o risco de perder o carro. → O Rui vai arriscar perder o carro.
-O Rui corre o risco de perder o carro. → O Rui arrisca perder o carro.
-	-->
-      <pattern>
-		<marker>
-			<token regexp='no' inflected='yes'>correr</token>
-			<token>o</token>
-			<token>risco</token>
-			<token postag='SPS.+' postag_regexp='yes'/>
-		</marker>
-      </pattern>
-	  <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
-	  <suggestion><match no='1' postag='V.+' postag_regexp='yes'>arriscar</match></suggestion>
-      <example correction="arriscar">O Rui vai <marker>correr o risco de</marker> perder o carro.</example>
-    </rule>
 
 
 	<!-- VÁRI[AO]S VEZES vári[ao]s -->
