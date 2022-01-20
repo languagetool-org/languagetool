@@ -24702,17 +24702,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <url>https://es.wikipedia.org/wiki/Warren_Buffett</url>
                 <example correction="Warren Buffett"><marker>Waren Buffet</marker> es el hombre más rico del mundo.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">Paul|Jean-Paul</token>
                     <marker>
-                        <token regexp="yes">Sastre|Satre</token>
+                        <token>Sastre</token>
                     </marker>
                 </pattern>
                 <message>¿Quiso decir <suggestion>Sartre</suggestion>, filósofo francés?</message>
                 <url>https://es.wikipedia.org/wiki/Jean-Paul_Sartre</url>
                 <example correction="Sartre">Jean-Paul <marker>Sastre</marker> es un filósofo francés.</example>
                 <example correction="Sartre">Jean Paul <marker>Sastre</marker> es un filósofo francés.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern case_sensitive="yes">
+                    <token>Alí</token>
+                    <token>Babá</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">al[ií]</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">bab[áàa]</token>
+                </pattern>
+                <message>¿Quería decir <suggestion>Alí Babá</suggestion> (personaje de ficción) o <suggestion>Alibaba</suggestion> (empresa china)?</message>
+                <example correction="Alí Babá|Alibaba"><marker>Ali baba</marker> y los cuarenta ladrones.</example>
             </rule>
         </rulegroup>
     </category>
