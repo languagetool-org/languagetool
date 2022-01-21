@@ -19517,7 +19517,18 @@ steenwijk;Steenwijk
 				<message>Voor '\2' komt (als u een pauze hoort) een komma: <suggestion>\1, \2</suggestion>.</message>
 				<example correction="gestoord, maar">Het is <marker>gestoord maar</marker> er zijn er.</example>
             </rule>
-
+            <rule>
+              <antipattern><token regexp="yes">dus|altijd|toch|alleen</token><token>maar</token></antipattern>
+                <pattern>
+                    <marker>
+		                <token negate_pos="yes" postag="SENT_START"><exception regexp="yes">[:;,&DBLQUOTE;(-–]</exception><exception postag="WKW:TGW:1EP"/></token>
+                        <token>maar</token>
+                    </marker>
+                    <token regexp="yes">die|deze|dit</token>
+                </pattern>
+				<message>Voor '\2' komt (als u een pauze hoort) een komma: <suggestion>\1, \2</suggestion>.</message>
+				<example correction="gestoord, maar">Het is <marker>gestoord maar</marker> die zijn er.</example>
+            </rule>
 			<!-- using fixed phrases -->
 
 			<rule>
