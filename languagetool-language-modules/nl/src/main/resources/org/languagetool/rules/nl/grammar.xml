@@ -12669,7 +12669,7 @@ onwaarschijnlijk
 			<!--
 			2014-08-22 TaalTik
 			2017-06-26 uitzondering voor korte zinnen gemaakt (kopjes)
-			2020-01-07 uitzondering voor zinnen mete paragraafnummer (kopjes)
+			2020-01-07 uitzondering voor zinnen met paragraafnummer (kopjes)
 			-->
 			<rule>
 				<antipattern>
@@ -19378,6 +19378,8 @@ steenwijk;Steenwijk
 				<antipattern><token>zoveel</token><token>je</token><token>maar</token><token postag="WKW:TGW:3EP/"/></antipattern>
 				<antipattern><token>zullen</token><token>we</token><token>maar</token><token postag="WKW:TGW:INF"/></antipattern>
 				
+				<antipattern><token postag="VNW:PER.*" postag_regexp="yes"/><token>maar</token><token min="0" max="2" postag="BYW"/><token postag="WKW:.*" postag_regexp="yes"/></antipattern>
+
 				<pattern>
 					<marker>
 						<token><exception postag_regexp="yes" postag="SENT_START|START"/><exception regexp="yes">&APOSTROPH;|&DBLQUOTE;</exception></token>
@@ -42716,19 +42718,29 @@ steenwijk;Steenwijk
 		</rulegroup>
 
 	</category>
-	<!--
-	<category id="VANG" name="vangen">
-		<rule id="VANG_BYW" name="x" >
-			<pattern>
-				<marker>
-					<token postag_regexp="yes" postag="BYW.*"/>
-					<token><exception postag_regexp="yes" postag="BYW.*"/></token>
-					<token postag_regexp="yes" postag="BYW.*"/>
-				</marker>
-			</pattern>
-			<message>x.</message>
-			<example type="incorrect">Het is <marker>niet hem toch</marker>.</example>
-		</rule>
+
+	<category id="VREEMDE_ZINNEN" name="Vreemde zinnen">
+		<rulegroup id="VREEMDE_ZIN" name="x" default="temp_off">
+			<antipattern>
+				<token postag="SENT_START" skip="-1"/>
+				<token postag="UNKNOWN" skip="-1"/>
+				<token postag="SENT_END" regexp="yes">[.?!]</token>
+			</antipattern>
+			<antipattern>
+				<!-- there is already a rule warning for short sentences -->
+				<token postag="SENT_START"/>
+				<token min="0" max="2"/>
+				<token postag="SENT_END" regexp="yes">[.?!]</token>
+			</antipattern>
+			<rule>
+				<pattern>
+					<token postag="SENT_START" skip="5"/>
+					<token postag="SENT_END" regexp="yes">[.?!]</token>
+				</pattern>
+				<message>De constructie van deze zin hebben we (nog) niet als correct genoteerd. Kijk het nog eens na.</message>
+				<example type="incorrect"><marker>Aap fiets koe.</marker></example>
+			</rule>
+		</rulegroup>
 	</category>
-	-->
+
 </rules>
