@@ -37805,6 +37805,7 @@ O Rui esteve lá no período 2013 –2021. → O Rui esteve lá no período 2013
     </rule>
   </rulegroup>
 
+
     <rule default="on" id='SENT_START_NUM' name="Número no início da frase">
     <!--  Based on English CAPITALIZATION rule, by Tiago F. Santos, 2017-05-09      -->
       <antipattern>
@@ -37822,60 +37823,51 @@ O Rui esteve lá no período 2013 –2021. → O Rui esteve lá no período 2013
           <token postag="SENT_START"/>
           <token regexp="yes">(?:\d{2}|\d{4})\.\d{2}\.(?:\d{2}|\d{4})</token>
       </antipattern>
-<!-- MARCOAGPINTO 2021-07-08 + 2021-07-12 (25-JUN-2021+) *START* -->
+	  
+<!-- MARCOAGPINTO 2022-01-21 (Checked/Enhanced) (1-JAN-2022+) *START* -->
 <!--
 27 de janeiro de 1974.
+Acesso em: 10 set 2007.
+André 23:07, 14 nov 2004 (UTC).
+2 jul 1605.
 -->
       <antipattern>
-		<token postag="SENT_START"/>
-		<token postag='Z0.+' postag_regexp='yes'/>
+		<token regexp='yes'>0?[1-9]|[12][0-9]|3[01]</token>
 		<token min="0" max="1">de</token>
-		<token regexp='yes'>janeiro|fevereiro|março|abril|maio|junho|julho|agosto|setembro|outubro|novembro|dezembro</token>
+		<token regexp='yes'>&meses_ano_abrev;|&meses_ano;</token>
 	  </antipattern>
-<!-- MARCOAGPINTO 2021-07-08 + 2021-07-12 (25-JUN-2021+) *END* -->	
-<!-- MARCOAGPINTO 2021-07-12 (25-JUN-2021+) *START* -->
+<!-- MARCOAGPINTO 2022-01-21 (Checked/Enhanced) (1-JAN-2022+) *END* -->
+
+<!-- MARCOAGPINTO 2022-01-21 (Checked/Enhanced) (1-JAN-2022+) *START* -->
 <!--
 4 a.C.
 4 d.C.
 -->
       <antipattern>
-		<token postag="SENT_START"/>
 		<token postag='Z0.+' postag_regexp='yes'/>
 		<token regexp='yes'>a|d</token>
 		<token regexp='yes'>[.]</token>
 		<token case_sensitive='yes'>C</token>
 		<token regexp='yes'>[.]</token>
 	  </antipattern>
-<!-- MARCOAGPINTO 2021-07-12 (25-JUN-2021+) *END* -->
-<!-- MARCOAGPINTO 2021-07-13 (25-JUN-2021+) *START* -->
+<!-- MARCOAGPINTO 2022-01-21 (Checked/Enhanced) (1-JAN-2022+) *END* -->
+
+<!-- MARCOAGPINTO 2022-01-21 (Checked/Enhanced) (1-JAN-2022+) *START* -->
 <!--
 10 A.D.
 -->
       <antipattern>
-		<token postag="SENT_START"/>
 		<token postag='Z0.+' postag_regexp='yes'/>
 		<token case_sensitive='yes'>A</token>
 		<token regexp='yes'>[.]</token>
 		<token case_sensitive='yes'>D</token>
 		<token regexp='yes'>[.]</token>
 	  </antipattern>
-<!-- MARCOAGPINTO 2021-07-13 (25-JUN-2021+) *END* -->
-<!-- MARCOAGPINTO 2021-12-17 (25-JUN-2021+) *START* -->
-<!--
-Acesso em: 10 set 2007.
-André 23:07, 14 nov 2004 (UTC).
-2 jul 1605.
-USED IN ABBREVIATIONS, BARBARISMS AND ALSO IN SENTENCES STARTING WITH A NUMBER.
--->
-      <antipattern>
-		<token regexp='yes'>0?[1-9]|[12][0-9]|3[01]</token>
-		<token regexp='yes'>&meses_ano_abrev;</token>
-		<token postag='Z0.+' postag_regexp='yes'/>
-      </antipattern>
-<!-- MARCOAGPINTO 2021-12-17 (25-JUN-2021+) *END* -->
+<!-- MARCOAGPINTO 2022-01-21 (Checked/Enhanced) (1-JAN-2022+) *END* -->
+
       <pattern>
-          <phraseref idref="ALL_SENT_START"/>
-        <marker>
+        <phraseref idref="ALL_SENT_START"/>
+		<marker>
           <token regexp="yes">[\d,.]+</token>
         </marker>
           <token>
@@ -37898,16 +37890,16 @@ USED IN ABBREVIATIONS, BARBARISMS AND ALSO IN SENTENCES STARTING WITH A NUMBER.
       <example>25.12.2017 às 12h00</example>
 	  
 	  <example>27 de janeiro de 1974.</example>
-	  
+      <example>Acesso em: 10 set 2007.</example>
+	  <example>André 23:07, 14 nov 2004 (UTC).</example>
+	  <example>2 jul 1605.</example>
+
 	  <example>4 a.C.</example>
 	  <example>4 d.C.</example>
 	  
-	  <example>10 A.D.</example>
-
-      <example>Acesso em: 10 set 2007.</example>
-	  <example>André 23:07, 14 nov 2004 (UTC).</example>
-	  <example>2 jul 1605.</example>	  
+	  <example>10 A.D.</example>	  
     </rule>
+
 
   <rulegroup id='CERCA_DE_NR' name="Aproximação excessivamente precisa">
     <!-- Created by Tiago F. Santos, 2017-02-28 -->
