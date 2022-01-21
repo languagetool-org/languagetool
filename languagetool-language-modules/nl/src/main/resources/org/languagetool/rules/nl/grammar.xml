@@ -19395,7 +19395,212 @@ steenwijk;Steenwijk
 
 			</rule>
 		</rulegroup>
-		
+
+		<rulegroup id="KOMMA_MAAR_2" name="maar → , maar" tags="picky">
+			<rule>
+				<pattern>
+   					<token negate_pos="yes" postag="SENT_START"><exception regexp="yes">[:;,&DBLQUOTE;(-–]</exception><exception postag="WKW:TGW:1EP"/></token>
+					<marker>
+    					<token postag="WKW:VTD:ONV"/>
+						<token>maar</token>
+					</marker>
+				</pattern>
+				<message>Voor '\3' komt (als u een pauze hoort) een komma: <suggestion>\2, \3</suggestion>.</message>
+				<example correction="gestoord, maar">Het is <marker>gestoord maar</marker> ik kan dat niet.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+   					<token negate_pos="yes" postag="SENT_START"><exception regexp="yes">[:;,&DBLQUOTE;(-–]</exception><exception postag="WKW:TGW:1EP"/></token>
+						<token>maar</token>
+					</marker>
+					<token>ik</token>
+					<token postag_regexp="yes" postag="WKW:(TGW|VLT):1EP"/>
+				</pattern>
+				<message>Voor '\2' komt (als u een pauze hoort) een komma: <suggestion>\1, \2</suggestion>.</message>
+				<example correction="vreemd, maar">Het is <marker>vreemd maar</marker> ik kan dat niet.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+   					<token negate_pos="yes" postag="SENT_START"><exception regexp="yes">[:;,&DBLQUOTE;(-–]</exception><exception postag="WKW:TGW:1EP"/></token>
+						<token>maar</token>
+					</marker>
+					<token regexp="yes">je|jij|hij|zij|men|u|iedereen|menigeen|n?iemand|alles|ge|gij|het|dit|dat</token>
+					<token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/>
+				</pattern>
+				<message>Voor '\2' komt (als u een pauze hoort) een komma: <suggestion>\1, \2</suggestion>.</message>
+				<example correction="vreemd, maar">Het is <marker>vreemd maar</marker> je kunt dat niet.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+   					<token negate_pos="yes" postag="SENT_START"><exception regexp="yes">[:;,&DBLQUOTE;(-–]</exception><exception postag="WKW:TGW:1EP"/></token>
+						<token>maar</token>
+					</marker>
+					<token regexp="yes">we|wij|zij</token>
+					<token postag_regexp="yes" postag="WKW:(TGW|VLT):INF"/>
+				</pattern>
+				<message>Voor '\2' komt (als u een pauze hoort) een komma: <suggestion>\1, \2</suggestion>.</message>
+				<example correction="vreemd, maar">Het is <marker>vreemd maar</marker> wij kunnen dat niet.</example>
+			</rule>
+			<rule>
+				<antipattern><token>alleen</token><token>maar</token></antipattern>
+				<pattern>
+					<marker>
+   					<token negate_pos="yes" postag="SENT_START"><exception regexp="yes">[:;,&DBLQUOTE;(-–]</exception><exception postag="WKW:TGW:1EP"/></token>
+						<token>maar</token>
+					</marker>
+					<token regexp="yes">toen|wanneer|indien</token>
+				</pattern>
+				<message>Voor '\2' komt (als u een pauze hoort) een komma: <suggestion>\1, \2</suggestion>.</message>
+				<example correction="gestoord, maar">Het is <marker>gestoord maar</marker> toen ik het zag, ging het mis.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+						<token negate_pos="yes" postag="SENT_START"><exception regexp="yes">[:;,&DBLQUOTE;(-–]</exception><exception postag="WKW:TGW:1EP"/></token>
+						<token>maar</token>
+					</marker>
+					<token regexp="yes">daar|er|hier</token>
+					<token postag_regexp="yes" postag="WKW:(TGW|VLT|INF).*"><exception>uit</exception></token>
+				</pattern>
+				<message>Voor '\2' komt (als u een pauze hoort) een komma: <suggestion>\1, \2</suggestion>.</message>
+				<example correction="gestoord, maar">Het is <marker>gestoord maar</marker> hier zie ik iets.</example>
+			</rule>
+
+			<rule>
+				<pattern>
+					<marker>
+    					<token postag_regexp="yes" postag="BNW.*" />
+						<token>maar</token>
+					</marker>
+					<token>niet</token>
+					<token postag_regexp="yes" postag="BNW.*" />
+				</pattern>
+				<message>Voor '\1' komt (als u een pauze hoort) een komma: <suggestion>\1, \2</suggestion>.</message>
+				<example correction="vreemde, maar">Het is een <marker>vreemde maar</marker> niet ongewone fout.</example>
+			</rule>
+			<rule>
+			    <antipattern><token>alleen</token><token>maar</token></antipattern>
+			    <antipattern><token postag="WKW:TGW:1EP"/><token regexp="yes">me|hem|haar</token></antipattern>
+				<pattern>
+					<marker>
+						<token negate_pos="yes" postag="SENT_START"><exception regexp="yes">[:;,&DBLQUOTE;(-–]</exception><exception postag="WKW:TGW:1EP"/></token>
+						<token>maar</token>
+					</marker>
+					<token>als</token>
+					<token regexp="yes" >je|ik|hij|ze|zij|men|u|ge|gij|iedereen|n?iemand|allen|menigeen</token>
+				</pattern>
+				<message>Voor '\2' komt (als u een pauze hoort) een komma: <suggestion>\1, \2</suggestion>.</message>
+				<example correction="vreemd, maar">Het is <marker>vreemd maar</marker> als ik het zie, gaat het mis.</example>
+			</rule>
+            <rule>
+                <pattern>
+                    <marker>
+		                <token negate_pos="yes" postag="SENT_START"><exception regexp="yes">[:;,&DBLQUOTE;(-–]</exception><exception postag="WKW:TGW:1EP"/></token>
+                        <token>maar</token>
+                    </marker>
+                    <token regexp="yes">volgens|tijdens|bovendien|daarna|hierna|erna|indien</token>
+                </pattern>
+				<message>Voor '\2' komt (als u een pauze hoort) een komma: <suggestion>\1, \2</suggestion>.</message>
+				<example correction="gestoord, maar">Het is <marker>gestoord maar</marker> volgens hem.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+		                <token negate_pos="yes" postag="SENT_START"><exception regexp="yes">[:;,&DBLQUOTE;(-–]</exception><exception postag="WKW:TGW:1EP"/></token>
+                        <token>maar</token>
+                    </marker>
+                    <token>er</token>
+                </pattern>
+				<message>Voor '\2' komt (als u een pauze hoort) een komma: <suggestion>\1, \2</suggestion>.</message>
+				<example correction="gestoord, maar">Het is <marker>gestoord maar</marker> er zijn er.</example>
+            </rule>
+
+			<!-- using fixed phrases -->
+
+			<rule>
+				<pattern>
+					<marker>
+						<token negate_pos="yes" postag="SENT_START"><exception regexp="yes">[:;,&DBLQUOTE;(-–]</exception><exception postag="WKW:TGW:1EP"/></token>
+						<token>maar</token>
+					</marker>
+					<token>op</token><token>de</token><token>een</token><token>of</token><token>andere</token><token>manier</token>
+				</pattern>
+				<message>Voor '\2' komt (als u een pauze hoort) een komma: <suggestion>\1, \2</suggestion>.</message>
+				<example correction="vreemd, maar">Het is <marker>vreemd maar</marker> op de een of andere manier kunnen wij dat niet.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+						<token negate_pos="yes" postag="SENT_START"><exception regexp="yes">[:;,&DBLQUOTE;(-–]</exception><exception postag="WKW:TGW:1EP"/></token>
+						<token>maar</token>
+					</marker>
+					<token>in</token><token>de</token><token>loop</token><token>van</token>
+				</pattern>
+				<message>Voor '\2' komt (als u een pauze hoort) een komma: <suggestion>\1, \2</suggestion>.</message>
+				<example correction="vreemd, maar">Het is <marker>vreemd maar</marker> in de loop van de tijd gaat het mis.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+						<token negate_pos="yes" postag="SENT_START"><exception regexp="yes">[:;,&DBLQUOTE;(-–]</exception><exception postag="WKW:TGW:1EP"/></token>
+						<token>maar</token>
+					</marker>
+					<token>minder</token>
+					<token postag="BNW:STL:ONV"/>
+					<token>dan</token>
+				</pattern>
+				<message>Voor '\2' komt (als u een pauze hoort) een komma: <suggestion>\1, \2</suggestion>.</message>
+				<example correction="vreemd, maar">Het is <marker>vreemd maar</marker> minder vreemd dan ik dacht.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+						<token negate_pos="yes" postag="SENT_START"><exception regexp="yes">[:;,&DBLQUOTE;(-–]</exception><exception postag="WKW:TGW:1EP"/></token>
+						<token>maar</token>
+					</marker>
+					<token>aan</token><token>de</token><token>andere</token><token>kant</token>
+				</pattern>
+				<message>Voor '\2' komt (als u een pauze hoort) een komma: <suggestion>\1, \2</suggestion>.</message>
+				<example correction="vreemd, maar">Het is <marker>vreemd maar</marker> aan de andere kant gaat het mis.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+						<token negate_pos="yes" postag="SENT_START"><exception regexp="yes">[:;,&DBLQUOTE;(-–]</exception><exception postag="WKW:TGW:1EP"/></token>
+						<token>maar</token>
+					</marker>
+					<token>tot</token><token>op</token><token>de</token><token>dag</token><token>van</token>
+				</pattern>
+				<message>Voor '\2' komt (als u een pauze hoort) een komma: <suggestion>\1, \2</suggestion>.</message>
+				<example correction="vreemd, maar">Het is <marker>vreemd maar</marker> tot op de dag van vandaag gaat het mis.</example>
+			</rule>
+            <rule>
+                <pattern>
+                    <marker>
+		                <token negate_pos="yes" postag="SENT_START"><exception regexp="yes">[:;,&DBLQUOTE;(-–]</exception><exception postag="WKW:TGW:1EP"/></token>
+                        <token>maar</token>
+                    </marker>
+                    <token>dan</token>
+                </pattern>
+				<message>Voor '\2' komt (als u een pauze hoort) een komma: <suggestion>\1, \2</suggestion>.</message>
+				<example correction="gestoord, maar">Het is <marker>gestoord maar</marker> dan anders.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+		                <token negate_pos="yes" postag="SENT_START"><exception regexp="yes">[:;,&DBLQUOTE;(-–]</exception><exception postag="WKW:TGW:1EP"/></token>
+                        <token>maar</token>
+                    </marker>
+                    <token regexp="yes">nu|nou|binnenkort|straks</token>
+                </pattern>
+				<message>Voor '\2' komt (als u een pauze hoort) een komma: <suggestion>\1, \2</suggestion>.</message>
+				<example correction="gestoord, maar">Het is <marker>gestoord maar</marker> nu anders.</example>
+            </rule>
+		</rulegroup>
+
 		<rulegroup id="KOMMA_DAT" name=", dat → dat" tags="picky">
 			<rule>
 				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token>,</token><token>dat</token></antipattern>
@@ -42734,8 +42939,11 @@ steenwijk;Steenwijk
 			</antipattern>
 			<rule>
 				<pattern>
-					<token postag="SENT_START" skip="5"/>
-					<token postag="SENT_END" regexp="yes">[.?!]</token>
+					<token postag="SENT_START"/>
+					<marker>
+						<token skip="5"/>
+						<token postag="SENT_END" regexp="yes">[.?!]</token>
+					</marker>
 				</pattern>
 				<message>De constructie van deze zin hebben we (nog) niet als correct genoteerd. Kijk het nog eens na.</message>
 				<example type="incorrect"><marker>Aap fiets koe.</marker></example>
