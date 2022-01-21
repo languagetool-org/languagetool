@@ -338,6 +338,42 @@ title="Easy editing stylesheet" ?>
  <category id='GRAMMAR' name="Gramática Geral" type="grammar">
  
  
+  <!-- ELE/ELA/NELE/NELA PRÓPRIO PRÓPRIA concordância de género -->
+  <rulegroup id='ELE_ELA_NELE_NELA_PRÓPRIO_PRÓPRIA' name="Concordância de género: El[ae](s)/Nel[ae](s) própri[ao](s)">
+  <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-21 (Checked/Enhanced) (1-JAN-2022+)      -->
+  <!--
+Elas próprios fizeram a comida. → Elas próprias fizeram a comida.
+Ele própria fê-lo. → Ele próprio fê-lo.
+A fé está nela próprio. → A fé está nela própria.
+A fé está neles próprias. → A fé está neles próprios.
+  -->
+		<rule>
+			<pattern>	
+				<token regexp="yes">eles?|neles?</token>
+				<marker>
+					<token regexp="yes">próprias?</token>
+				</marker>
+			</pattern>
+			<message>&MSG_ECG;</message>
+			<suggestion>próprio<match no='2' regexp_match='(própria)(s?)' regexp_replace='$2'/></suggestion>
+			<example correction="próprio">Ele <marker>própria</marker> escolheu.</example>
+			<example correction="próprios">Eles <marker>próprias</marker> escolheram.</example>
+        </rule>
+		<rule>
+			<pattern>				
+				<token regexp="yes">elas?|nelas?</token>
+				<marker>
+					<token regexp="yes">próprios?</token>
+				</marker>
+			</pattern>
+			<message>&MSG_ECG;</message>
+			<suggestion>própria<match no='2' regexp_match='(próprio)(s?)' regexp_replace='$2'/></suggestion>
+			<example correction="própria">Ela <marker>próprio</marker> escolheu.</example>
+			<example correction="próprias">Elas <marker>próprios</marker> escolheram.</example>
+		</rule>
+  </rulegroup>
+
+
 	<!-- A À -->
     <rulegroup id='ERROS_DE_CRASE_MARCOAGPINTO' name="Erros de crase (Marco A.G.Pinto)">
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-17 (1-JAN-2022+)      -->
@@ -2006,55 +2042,8 @@ O pai cujo filha fez anos. → O pai cuja filha fez anos.
 		</rule>	
 
 	</rulegroup>
-  
-  <rulegroup id='ELE_ELA_PROPRIO_PROPRIA' name="Ele(s)/Ela(s) próprio(s)/própria(s)">
-		<!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-03-03   -->
-		<rule>
-			<pattern>				
-				<token>ele</token>
-				<marker>
-					<token>própria</token>
-				</marker>
-			</pattern>
-			<message>&MSG_ECG;</message>
-			<suggestion>próprio</suggestion>
-			<example correction="próprio">Ele <marker>própria</marker> escolheu.</example>
-        </rule>
-        <rule>
-			<pattern>				
-				<token>eles</token>
-				<marker>
-					<token>próprias</token>
-				</marker>
-			</pattern>
-			<message>&MSG_ECG;</message>
-			<suggestion>próprios</suggestion>
-			<example correction="próprios">Eles <marker>próprias</marker> escolheram.</example>
-		</rule>
-		<rule>
-			<pattern>				
-				<token>ela</token>
-				<marker>
-					<token>próprio</token>
-				</marker>
-			</pattern>
-			<message>&MSG_ECG;</message>
-			<suggestion>própria</suggestion>
-			<example correction="própria">Ela <marker>próprio</marker> escolheu.</example>
-		</rule>
-		<rule>
-			<pattern>				
-				<token>elas</token>
-				<marker>
-					<token>próprios</token>
-				</marker>
-			</pattern>
-			<message>&MSG_ECG;</message>
-			<suggestion>próprias</suggestion>
-			<example correction="próprias">Elas <marker>próprios</marker> escolheram.</example>
-		</rule>
-  </rulegroup>
-	
+
+
     <!-- Specific gender concordance errors - A > Masculine Noun -->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-24 -->
     <rule default='off' id='ERRO_DE_CONCORDNCIA_DO_GÉNERO_FEMININO_A' name="Concordância de género: A + Masculino">
