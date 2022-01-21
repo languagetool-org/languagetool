@@ -84,13 +84,13 @@ public class ConfusionPairEvaluator {
             }
           }
           if (count0>0 && count1>0) {
-            System.out.println("Sentence with the two words: " + sentence);
+            System.out.println("WARNING Sentence with the two words: " + sentence);
           } else if (count0==1 && count1==0) {
             analyzeSentence(sentence, 0);
           } else if (count0==0 && count1==1) {
             analyzeSentence(sentence, 1);
           } else if (count0>1 || count1>1) {
-            System.out.println("Sentence with a repeated word: " + sentence);
+            System.out.println("WARNING Sentence with a repeated word: " + sentence);
           }
         }
       }
