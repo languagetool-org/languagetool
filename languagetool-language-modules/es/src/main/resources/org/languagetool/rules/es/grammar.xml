@@ -18261,7 +18261,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>¿Quería decir <suggestion>durante la</suggestion>?</message>
             <example correction="durante la">Pasó <marker>durante a</marker> primera mitad del siglo.</example>
         </rule>
-        <rule id="DURANTE_AL" name="durante al > durante la">
+        <rule id="DURANTE_AL" name="durante al > durante la" default="temp_off">
+            <antipattern>
+                <token>al</token>
+                <token>menos</token>
+            </antipattern>
             <pattern>
                 <token>durante</token>
                 <token>al</token>
@@ -18269,6 +18273,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>¿Quería decir <suggestion>durante la</suggestion>?</message>
             <suggestion>durante el</suggestion>
             <example correction="durante la|durante el">Pasó <marker>durante al</marker> día 30.</example>
+            <example>Durante al menos tres días.</example>
         </rule>
         <rule id="ADVERBIO_MENTE" name="posterior mente -> posteriormente">
             <antipattern>
