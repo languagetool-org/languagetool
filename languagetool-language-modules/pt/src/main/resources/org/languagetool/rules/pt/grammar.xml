@@ -41265,23 +41265,6 @@ Elas têm umas sextas de vime. → Elas têm umas cestas de vime.
       </rule>	  
 	</rulegroup>
 
-    <rule id='QUE_TEM-TÊM' name="Que tem/têm">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-09-29 (2-JUL-2020+)     -->
-      <pattern>
-	      <token postag='NC[CFM][SP]000|NP[FM]S[0G]00|AQ0[CFM][SP]0' postag_regexp='yes'/>
-		  <token min="0" max="1" regexp='yes' spacebefore='yes'>[)"'’]</token>
-		  <token min="0" max="1" regexp='yes' spacebefore='no'>[,]</token>
-		  <marker>
-			<token>que</token>
-			<token regexp="yes">tem|têm</token>		  
-		  </marker>
-		  <token postag='NC[CFM][SP]000|AQ0[CFM][SP]0' postag_regexp='yes'>
-	  	  <exception regexp='yes'>lá|são|disponível</exception></token>
-      </pattern>
-      <message>Substitua por <suggestion>com</suggestion>.</message>
-      <example correction="com">São dicionários <marker>que têm</marker> milhões de palavras.</example>
-	  <example type='correct'>São dicionários <marker>com</marker> milhões de palavras.</example>
-    </rule>
 
     <rule id='UM_BAIXO-ASSINADO' name="Calinada: Um abaixo-assinado">
     <!-- Created by Marco A.G. Pinto, Portuguese rule -->
@@ -41577,6 +41560,31 @@ Isso evita que sejam produzidos erros gramaticais em certas línguas.
 
 	  <example>Tom acha que está apaixonado.</example>
 	  <example>Isso evita que sejam produzidos erros gramaticais em certas línguas.</example>
+    </rule>
+
+
+    <!-- QUE TEM/TÊM com -->
+    <rule id='QUE_TEM_TÊM' name="Simplificar: Que tem/têm → com">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-21 (Checked/Enhanced) (1-JAN-2022+)      -->
+	<!--
+É uma empresa séria, que tem marcas que acompanham a história da família. → É uma empresa séria, com marcas que acompanham a história da família.
+As unhas são uma das partes do corpo que têm mais contacto com tudo. → As unhas são uma das partes do corpo com mais contacto com tudo.
+	-->
+      <pattern>
+	      <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+		  <token min="0" max="1" postag='_PUNCT|_QUOT' postag_regexp='yes'/>
+		  <marker>
+			<token>que</token>
+			<token regexp="yes">t[eê]m</token>
+		  </marker>
+		  <token postag='NC.+|AQ.+' postag_regexp='yes'>
+			<exception regexp='yes'>disponível|disponíveis|lá|nel[ae]s?|são|sobre</exception>
+		  </token>
+      </pattern>
+	  <message>Esta perífrase poderá ser simplificada.</message>
+	  <suggestion>com</suggestion>
+      <example correction="com">São dicionários <marker>que têm</marker> milhões de palavras.</example>
+	  <example type='correct'>São dicionários <marker>com</marker> milhões de palavras.</example>
     </rule>
 
 
