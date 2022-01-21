@@ -132,8 +132,10 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
       if (lang.getShortCodeWithCountryAndVariant().equals("de-DE")) {
         runTestForLanguage(lang);  // tests de-DE-AT/grammar.xml
         runTestForLanguage(Languages.getLanguageForShortCode("de"));  // tests de/grammar.xml
-      } else {
-        System.out.println("Skipping " + lang + " because only de-DE gets tested for German (assuming there are no de-CH specific rules)");
+      } else if (lang.getShortCodeWithCountryAndVariant().equals("de-CH")) {
+        runTestForLanguage(lang);
+      } else{
+        System.out.println("Skipping " + lang + " because only de-DE and de-CH gets tested for German (assuming there are no de-AT specific rules)");
       }
     } else {
       if (skipCountryVariant(lang)) {

@@ -93,4 +93,13 @@ public class SwissGerman extends German {
     return newRuleMatches;
   }
 
+  @Override
+  public String getOpeningDoubleQuote() {
+    return "«";
+  }
+
+  @Override
+  public String getClosingDoubleQuote() {
+    return "»";
+  }
 }
