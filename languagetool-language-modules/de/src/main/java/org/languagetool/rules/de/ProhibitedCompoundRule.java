@@ -120,7 +120,8 @@ public class ProhibitedCompoundRule extends Rule {
   private static LinguServices linguServices;
   private static final List<String> ignoreWords = Arrays.asList("Die", "De");
   private static final List<String> blacklistRegex = Arrays.asList(
-    "Model(vertrags?|verträgen?|erfahrung|erfahrungen)",
+    "stromkreis",  // vs. reis/reise
+    "Model(vertrags?|verträgen?|erfahrung|erfahrungen|szene)",
     "(Raum|Surf|Jazz|Herbst|Gymnastik|Normal)schuhen?",
     "preis",  // Getränkepreis etc.
     "reisähnlich(e|e[nmrs])?",
@@ -136,6 +137,10 @@ public class ProhibitedCompoundRule extends Rule {
     "Gra(ph|f)it"   // Grafit/Graphit
   );
   private static final Set<String> blacklist = new HashSet<>(Arrays.asList(
+          "Traumschuhe",  // vs Schule
+          "Traumschuhen",  // vs Schule
+          "Schulware",  // vs Schuh
+          "Schulwaren",  // vs krisen
           "Konzernkreisen",  // vs krisen
           "Strandmotiv",  // vs stand
           "Strandmotive",  // vs stand
