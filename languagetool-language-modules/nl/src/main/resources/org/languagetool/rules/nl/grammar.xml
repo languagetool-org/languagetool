@@ -32477,6 +32477,15 @@ steenwijk;Steenwijk
 	</category>
 	<category id="TYPOS" name="Spellingcontrole" type="misspelling">
 
+		<rule id="TE_WERKWOORD" name="OCR-fout: re gaan / te gaan">
+           <pattern>
+               <token>re</token>
+			   <token postag_regexp="yes" postag="WKW:TGW:INF|BNW:STL:(VRB|ONV)"/>
+           </pattern>
+		   <message>Dit is vast een ocr-fout, waarbij de t als r is gezien.</message>
+		   <suggestion>te \2</suggestion>
+           <example correction="te corrigeren">Hij heeft iets <marker>re corrigeren</marker>.</example>
+       </rule>
 		<rule id="OH_O" name="Oh/O">
            <pattern>
                <token>oh</token>
