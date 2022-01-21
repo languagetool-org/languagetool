@@ -41329,7 +41329,7 @@ Elas têm umas sextas de vime. → Elas têm umas cestas de vime.
 
 	<!-- CORRER O RISCO arriscar-->
     <rulegroup id='CORRER_RISCO_ARRISCAR' name="Simplificar: Correr o risco → arriscar" type='style'>
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-20 (Checked/Enhanced) (1-JAN-2022+)      -->
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-20/21 (Checked/Enhanced) (1-JAN-2022+)      -->
 	<!--
 O Rui vai correr o risco de perder o carro. → O Rui vai arriscar perder o carro.
 O Rui corre o risco de perder o carro. → O Rui arrisca perder o carro.
@@ -41362,7 +41362,10 @@ O Rui vai correr o risco para tentar vencer. → O Rui vai arriscar para tentar 
 			<token min="0" max="1" regexp='yes'>os?</token>
 			<token regexp='yes'>riscos?</token>			
 		</marker>
-		<token postag='CC' postag_regexp='no'/>
+		<or>
+			<token postag='_PUNCT' postag_regexp='no'/>
+			<token regexp='yes'>às?|aos?|e|ou|n[ao]s?|para|por</token>	
+		</or>
       </pattern>
 	  <message>Esta perífrase poderá ser simplificada.</message>
 	  <suggestion><match no='1' postag='V.+' postag_regexp='yes'>arriscar</match></suggestion>
