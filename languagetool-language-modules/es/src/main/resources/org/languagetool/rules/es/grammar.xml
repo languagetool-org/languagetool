@@ -18253,13 +18253,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
-        <rule id="DURANTE_A" name="durante a > durante la" default="temp_off">
+        <rule id="DURANTE_A" name="durante a > durante la">
             <pattern>
                 <token>durante</token>
                 <token case_sensitive="yes">a</token>
             </pattern>
             <message>¿Quería decir <suggestion>durante la</suggestion>?</message>
             <example correction="durante la">Pasó <marker>durante a</marker> primera mitad del siglo.</example>
+        </rule>
+        <rule id="DURANTE_AL" name="durante al > durante la">
+            <pattern>
+                <token>durante</token>
+                <token>al</token>
+            </pattern>
+            <message>¿Quería decir <suggestion>durante la</suggestion>?</message>
+            <suggestion>durante el</suggestion>
+            <example correction="durante la|durante el">Pasó <marker>durante al</marker> día 30.</example>
         </rule>
         <rule id="ADVERBIO_MENTE" name="posterior mente -> posteriormente">
             <antipattern>
@@ -24714,7 +24723,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Sartre">Jean-Paul <marker>Sastre</marker> es un filósofo francés.</example>
                 <example correction="Sartre">Jean Paul <marker>Sastre</marker> es un filósofo francés.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern case_sensitive="yes">
                     <token>Alí</token>
                     <token>Babá</token>
