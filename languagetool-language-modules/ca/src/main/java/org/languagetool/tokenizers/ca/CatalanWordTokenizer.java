@@ -170,6 +170,11 @@ public class CatalanWordTokenizer extends WordTokenizer {
         l.add("-");
         s = s.substring(1);
       }
+      int hyphensAtEnd = 0;
+      while (s.length() > 1 && s.endsWith("-")) {
+        s = s.substring(0, s.length() - 1);
+        hyphensAtEnd++;
+      }
       int j = 0;
       while (j < maxPatterns && !matchFound) {
         matcher = patterns[j].matcher(s);
@@ -185,6 +190,10 @@ public class CatalanWordTokenizer extends WordTokenizer {
         }
       } else {
         l.addAll(wordsToAdd(s));
+      }
+      while (hyphensAtEnd > 0) {
+        l.add("-");
+        hyphensAtEnd--;
       }
     }
     return joinEMailsAndUrls(l);

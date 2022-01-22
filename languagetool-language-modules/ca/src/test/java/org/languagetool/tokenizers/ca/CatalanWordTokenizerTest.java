@@ -32,6 +32,8 @@ public class CatalanWordTokenizerTest {
     CatalanWordTokenizer wordTokenizer = new CatalanWordTokenizer();
     List<String> tokens;
     
+    tokens = wordTokenizer.tokenize("-contar-se'n-");
+    assertEquals("[-, contar, -se, 'n, -]", tokens.toString());
     tokens = wordTokenizer.tokenize("-M'agradaria.");
     assertEquals("[-, M', agradaria, .]", tokens.toString());
     
