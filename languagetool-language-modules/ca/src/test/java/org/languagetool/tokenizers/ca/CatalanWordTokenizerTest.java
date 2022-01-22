@@ -32,6 +32,9 @@ public class CatalanWordTokenizerTest {
     CatalanWordTokenizer wordTokenizer = new CatalanWordTokenizer();
     List<String> tokens;
     
+    tokens = wordTokenizer.tokenize("-M'agradaria.");
+    assertEquals("[-, M', agradaria, .]", tokens.toString());
+    
     tokens = wordTokenizer.tokenize("Visiteu 'http://www.softcatala.org'");
     assertEquals("[Visiteu,  , ', http://www.softcatala.org, ']", tokens.toString());
     tokens = wordTokenizer.tokenize("Visiteu \"http://www.softcatala.org\"");

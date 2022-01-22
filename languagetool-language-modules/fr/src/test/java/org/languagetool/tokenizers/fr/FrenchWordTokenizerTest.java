@@ -86,6 +86,10 @@ public class FrenchWordTokenizerTest {
     tokens = wordTokenizer.tokenize("sous-trai\u00ADtants");
     assertEquals(tokens.size(), 1);
     
+    tokens = wordTokenizer.tokenize("-L'homme.");
+    assertEquals(tokens.toString(), "[-, L', homme, .]");
+    tokens = wordTokenizer.tokenize("-Oui -l'homme.");
+    assertEquals(tokens.toString(), "[-, Oui,  , -, l', homme, .]");
     
     tokens = wordTokenizer.tokenize("10 000");
     assertEquals(tokens.size(), 1);

@@ -149,6 +149,10 @@ public class FrenchWordTokenizer extends WordTokenizer {
           .replace("\u0001\u0001FR_DECIMALPOINT\u0001\u0001", ".")
           .replace("\u0001\u0001FR_DECIMALCOMMA\u0001\u0001", ",").replace("\u0001\u0001FR_SPACE\u0001\u0001", " ");
       boolean matchFound = false;
+      while (s.length() > 1 && s.startsWith("-")) {
+        l.add("-");
+        s = s.substring(1);
+      }
       int j = 0;
       while (j < maxPatterns && !matchFound) {
         matcher = patterns[j].matcher(s);

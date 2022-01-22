@@ -166,6 +166,10 @@ public class CatalanWordTokenizer extends WordTokenizer {
               .replace("\u0001\u0001ELA_GEMINADA\u0001\u0001", "l.l")
               .replace("\u0001\u0001ELA_GEMINADA_UPPERCASE\u0001\u0001", "L.L");
       boolean matchFound = false;
+      while (s.length() > 1 && s.startsWith("-")) {
+        l.add("-");
+        s = s.substring(1);
+      }
       int j = 0;
       while (j < maxPatterns && !matchFound) {
         matcher = patterns[j].matcher(s);
