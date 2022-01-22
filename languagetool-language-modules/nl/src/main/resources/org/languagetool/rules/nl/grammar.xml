@@ -39565,6 +39565,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 	</category>
 	<category id="REPETITIONS" name="Herhaling van woorden of woordgroepen." >
+
 		<rulegroup id="DUBBEL_WOORD" name="Dubbel woord">
 			<antipattern><token>hoe</token><token>het</token><token>het</token></antipattern>
 			<antipattern><token postag_regexp="yes" postag="WKW.*"/><token>het</token><token>het</token><token postag="BNW:OVR:VRB"/></antipattern>
@@ -39615,6 +39616,36 @@ steenwijk;Steenwijk
 				<message>Een dubbel woord kan juist zijn, maar vaak is het een vergissing: <suggestion>\1</suggestion>.</message>
 				<example correction="het">Ik zie <marker>het het</marker> juist.</example>
 			</rule>
+		</rulegroup>
+		<rulegroup id="VAN_VAN" name="van van/van Van">
+			<antipattern><token>van</token><token>van</token><token>alles</token></antipattern>
+			<antipattern><token>in</token><token>plaats</token><token>van</token><token>van</token></antipattern>
+			<rule>
+				<pattern>
+					<marker>
+						<token case_sensitive="yes">van</token>
+						<token case_sensitive="yes">van</token>
+					</marker>
+					<token case_sensitive="yes" regexp="yes">[^A_Z].*</token>
+				</pattern>
+				<message>Waarschijnlijk staat hier een 'van' te veel.</message>
+				<suggestion>van</suggestion>
+				<example correction="van">Ik haal de pan <marker>van van</marker> het vuur.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+						<token case_sensitive="yes">van</token>
+						<token case_sensitive="yes">van</token>
+					</marker>
+					<token min="0" max="1" regexp="yes">de|der|den</token>
+					<token case_sensitive="yes" regexp="yes">[A-Z][a-z].*</token>
+				</pattern>
+				<message>Als \4 een eigennaam is, dan wordt de 'van' die bij de naam hoort met een hoofdletter geschreven.</message>
+				<suggestion>Van</suggestion>
+				<example correction="Van">Ik haal de pan <marker>van van</marker> Heijningen.</example>
+			</rule>
+
 		</rulegroup>
 		<rulegroup id="DE_HET" name="De het">
 			<!-- 2014-08-22 TaalTik regel werkt prima -->
