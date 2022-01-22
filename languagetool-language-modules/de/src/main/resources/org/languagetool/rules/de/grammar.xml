@@ -5631,7 +5631,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>&seitseid;</message>
                 <example correction="seit">Es gibt schon <marker>seid</marker> etwa 12:00 keine Brötchen mehr.</example>
             </rule>
-            <rule default="temp_off"><!-- 29 -->
+            <rule><!-- 29 -->
                 <antipattern>
                     <token>ihr</token>
                     <token skip="-1">seid</token>
@@ -25008,7 +25008,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
-        <rule id="VORSCHAU_SUBST" name="ihre reise (Reise)" default="temp_off">
+        <rule id="VORSCHAU_SUBST" name="ihre vorschau (Vorschau)">
             <pattern>
                 <token postag="(PRO:POS|ART):.*FEM.*" postag_regexp="yes">
                     <exception>das</exception>
@@ -25026,7 +25026,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
             <example correction="Vorschau">Die <marker>vorschau</marker> macht Lust auf mehr!</example>
         </rule>
-        <rule id="GERAET_SUBST" name="ihre reise (Reise)" default="temp_off">
+        <rule id="GERAET_SUBST" name="ihr gerät (Gerät)">
             <pattern>
                 <token postag="(PRO:POS|ART):.*NEU.*" postag_regexp="yes">
                     <exception>das</exception>
@@ -31594,6 +31594,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="bedarf">Der Text <marker>Bedarf</marker> noch einer Kürzung</example>
                 <example>Der Bedarf ist sehr hoch.</example>
                 <example>Ja, da gibt es Bedarf.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">gibt|gab|hast|hattest|hatten?</token>
+                    <token regexp="yes">du|es|sie</token>
+                    <token regexp="yes" min="0" max="2">vielleicht|richtig|mächtig|k?ein(en)?|gro(ß|ss)en|kaum|viel|wenig|mwirklich|möglicherweise|irgend(einen|wie)</token>
+                    <marker>
+                        <token case_sensitive="yes">bedarf</token>
+                    </marker>
+                    <token min="0">mehr</token>
+                    <token regexp="yes">daran|an|für|dafür|\?</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Bedarf</suggestion>&subende;</message>
+                <url>https://de.wiktionary.org/wiki/Bedarf</url>
+                <example correction="Bedarf">Gibt es <marker>bedarf</marker> daran?</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">du|es|sie</token>
+                    <token regexp="yes">gibt|gab|hast|hattest|hatten?</token>
+                    <token regexp="yes" min="0" max="2">vielleicht|richtig|mächtig|k?ein(en)?|gro(ß|ss)en|kaum|viel|wenig|mwirklich|möglicherweise|irgend(einen|wie)</token>
+                    <marker>
+                        <token case_sensitive="yes">bedarf</token>
+                    </marker>
+                    <token min="0">mehr</token>
+                    <token regexp="yes">daran|an|für|dafür|\.</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Bedarf</suggestion>&subende;</message>
+                <url>https://de.wiktionary.org/wiki/Bedarf</url>
+                <example correction="Bedarf">Es gab keinen <marker>bedarf</marker> mehr daran.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AUSREDE_SUBST" name="'faule ausrede (Ausrede)'">
@@ -55171,13 +55201,13 @@ Andere Projekte</example>
             <rule>
                 <antipattern>
                     <token inflected="yes">finden</token>
-                    <token postag="(ADJ|PA[12]).*" postag_regexp="yes" />
+                    <token postag="(ADJ|PA[12]).*|PRO:(POS|DEM|IND).*" postag_regexp="yes" />
                     <token postag="EIG.*|SUB.*" postag_regexp="yes" />
                     <token postag="ADJ.*|PA[12].*|VER:PA[12].*" postag_regexp="yes" />
                 </antipattern>
                 <antipattern>
                     <token inflected="yes">finden</token>
-                    <token postag="(ADJ|PA[12]).*" postag_regexp="yes" />
+                    <token postag="(ADJ|PA[12]).*|PRO:(POS|DEM|IND).*" postag_regexp="yes" />
                     <token postag="EIG.*|SUB.*" postag_regexp="yes" />
                     <token postag="VER.*" postag_regexp="yes" />
                     <token>vor</token>
@@ -55223,6 +55253,10 @@ Andere Projekte</example>
                 <example correction=", gute">Ich glaube<marker> gute</marker> Interviewführung lernt man größtenteils durchs machen.</example>
                 <example>Die weiß behaarten Nebenblätter sind 3 bis 7 mm lang.</example>
                 <example>Eine in Osteuropa und Asien vermutete neue Gruppe pflasterte …</example>
+                <example>Man fand das Opfer zerstückelt auf.</example>
+                <example>Sie fand das Landleben öde.</example>
+                <example>Ich finde diese Zahlen alarmierend.</example>
+                <example>Ich fand den Knopf lose vor.</example>
             </rule>
             <rule>
                 <pattern>
