@@ -41597,6 +41597,150 @@ Isto resume todas as forças que atuam sobre o objeto. → Isto resume todas as 
     </rule>
 
 
+	<!-- VER observar/constatar -->
+    <rule id='VER_OBSERVAR_CONSTATAR' name="Ver → Observar/Constatar" type="style">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-22 (Checked/Enhanced) (1-JAN-2022+)      -->
+	<!--
+É fácil como podem ver na figura. → É fácil como podem constatar na figura.
+
+TESTED AGAINST 600000 SENTENCES:
+BEFORE:2859
+ AFTER:2473
+	-->
+
+<!--
+Ela não pode ter me visto na festa.
+Você se importaria em vir e me ver no sábado?
+Quantas cores você vê no arco-íris?
+Por que não deu para você vir no sábado?
+Deixe-me ver o seu pulso.
+Do topo podia-se ver o rio.
+Deixe-me ver a lista.
+Estava muito nublado para ver o avião.
+Eu gostaria de ver o senhor Kosugi.
+Eu gostaria de ver o mundo antigo.
+Dá para ver a diferença?
+Acabei de ver o seu amigo.
+-->
+      <antipattern>
+		<token postag='V.+|CC' postag_regexp='yes'/>
+		<token min="0" max="1" regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
+		<token postag='PP.+|DA.+|PD.+|SPS00' postag_regexp='yes'/>
+		<token regexp='no' inflected='yes'>ver</token>
+	  </antipattern>
+
+<!--
+Veja a palavra no dicionário.
+A ver a liberdade que lhes era retirada.
+Na forma como via o curso que o panorama cultural português levava.
+Eu não consigo ver as palavras no quadro.
+Muitos canadenses valorizam o multiculturalismo e veem o Canadá como sendo inerentemente multicultural.
+Esta noite pode-se ver a Lua cheia.
+Eu vi o John na biblioteca.
+Tom planeja ver a Mary na segunda.
+Você já viu a figura pintada por Picasso?
+Veja os cursos avaliados!
+Podemos ver o porto inteiro do prédio.
+Não vejo o porquê precisarmos disso.
+Acho pouco provável que alienígenas parecidos com os que vemos nos filmes já tenham visitado nosso planeta.
+-->
+      <antipattern>
+		<token regexp='no' inflected='yes'>ver</token>
+		<token postag='DA.+|DI.+|DP.+|PP.+' postag_regexp='yes'/>
+		<token postag='AQ.+|NC.+|NP.+' postag_regexp='yes'/>
+		<token postag='SPS00.DA|CS|V.+' postag_regexp='yes'/>
+	  </antipattern>	
+
+<!--
+Com você é verão o ano inteiro.
+Aproveitamos e almoçamos em um restaurante ali na praça, a dica aqui é ver os pratos do dia.
+Foram ver o amigo defunto pela última vez no velório.
+O Tom foi ver a Mary três dias depois daquilo.
+Tu foste ver o Tom?
+-->
+      <antipattern>
+		<token regexp='no' inflected='yes'>ser</token>
+		<token regexp='yes'>ver|verão</token>
+	  </antipattern>	  	
+
+<!--
+O estilo de combate assemelha-se ao de guerrilha visto os radicais estarem entrincheirados.
+Era visto pela ditadura militar que se instalou no país, em 1964, como um elemento subversivo.
+Kennedy também foi mal-visto pelos comandantes militares dos Estados Unidos.
+Ou o nativo visto pelo prisma do etnógrafo?
+Ninguém tem visto o Tom por um tempo.
+Pensei que já tivesse visto o Tom em algum lugar.
+Disposto a desfazer o mal entendido entre a ciência e a religião, conseguiu ser mal visto pelos representantes de ambas.
+Era visto nas mãos de todos os japoneses em paradas.
+-->
+      <antipattern>
+		<token negate="yes" regexp='no' inflected='yes'>ser</token>
+		<token regexp='yes'>vist[ao]s?</token>
+		<token negate_pos="yes" postag='SPS00.DA' postag_regexp='yes'/>
+		<token min="1" max="2" postag='NP.+|AQ.+|NC.+|V.+' postag_regexp='yes'>
+			<exception postag_regexp='yes' postag='CS|RG'/>
+		</token>
+		<token postag='SPS.+|CS|V.+|CC|RM|RG' postag_regexp='yes'/>
+	  </antipattern>	 	  
+
+      <pattern>
+		<marker>
+			<token regexp='no' inflected='yes'>ver
+				<exception regexp='yes' inflected='yes'>vestir|ir</exception>
+			</token>
+		</marker>
+		<token postag='DA.+|SPS00.DA' postag_regexp='yes'/>
+		<token negate_pos="yes" postag='AQ.+|AO.+' postag_regexp='yes'/>
+      </pattern>
+      <message>Num contexto formal ou académico, é preferível escrever 'observar' ou 'constatar'.</message>
+	  <suggestion><match no='1' postag='V.+' postag_regexp='yes'>observar</match></suggestion>
+	  <suggestion><match no='1' postag='V.+' postag_regexp='yes'>constatar</match></suggestion>
+      <example correction="observar|constatar">É fácil como podem <marker>ver</marker> na figura.</example>
+
+	  <example>Ela não pode ter me visto na festa.</example>
+	  <example>Você se importaria em vir e me ver no sábado?</example>
+	  <example>Quantas cores você vê no arco-íris?</example>
+	  <example>Por que não deu para você vir no sábado?</example>
+	  <example>Deixe-me ver o seu pulso.</example>
+	  <example>Do topo podia-se ver o rio.</example>
+	  <example>Deixe-me ver a lista.</example>
+	  <example>Estava muito nublado para ver o avião.</example>
+	  <example>Eu gostaria de ver o senhor Kosugi.</example>
+	  <example>Eu gostaria de ver o mundo antigo.</example>
+	  <example>Dá para ver a diferença?</example>
+	  <example>Acabei de ver o seu amigo.</example>
+
+	  <example>Veja a palavra no dicionário.</example>
+	  <example>A ver a liberdade que lhes era retirada.</example>
+	  <example>Na forma como via o curso que o panorama cultural português levava.</example>
+	  <example>Eu não consigo ver as palavras no quadro.</example>
+	  <example>Muitos canadenses valorizam o multiculturalismo e veem o Canadá como sendo inerentemente multicultural.</example>
+	  <example>Esta noite pode-se ver a Lua cheia.</example>
+	  <example>Eu vi o John na biblioteca.</example>
+	  <example>Tom planeja ver a Mary na segunda.</example>
+	  <example>Você já viu a figura pintada por Picasso?</example>
+	  <example>Veja os cursos avaliados!</example>
+	  <example>Podemos ver o porto inteiro do prédio.</example>
+	  <example>Não vejo o porquê precisarmos disso.</example>
+	  <example>Acho pouco provável que alienígenas parecidos com os que vemos nos filmes já tenham visitado nosso planeta.</example>
+
+	  <example>Com você é verão o ano inteiro.</example>
+	  <example>Aproveitamos e almoçamos em um restaurante ali na praça, a dica aqui é ver os pratos do dia.</example>
+	  <example>Foram ver o amigo defunto pela última vez no velório.</example>
+	  <example>O Tom foi ver a Mary três dias depois daquilo.</example>
+	  <example>Tu foste ver o Tom?</example>
+
+	  <example>O estilo de combate assemelha-se ao de guerrilha visto os radicais estarem entrincheirados.</example>
+	  <example>Era visto pela ditadura militar que se instalou no país, em 1964, como um elemento subversivo.</example>
+	  <example>Kennedy também foi mal-visto pelos comandantes militares dos Estados Unidos.</example>
+	  <example>Ou o nativo visto pelo prisma do etnógrafo?</example>
+	  <example>Ninguém tem visto o Tom por um tempo.</example>
+	  <example>Pensei que já tivesse visto o Tom em algum lugar.</example>
+	  <example>Disposto a desfazer o mal entendido entre a ciência e a religião, conseguiu ser mal visto pelos representantes de ambas.</example>
+	  <example>Era visto nas mãos de todos os japoneses em paradas.</example>
+    </rule>
+
+
 	<!-- ATRAVÉS DE por -->
     <rulegroup id='ATRAVES_DE_POR' name="Através de → por" type="style">
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-12-05/6 (25-JUN-2021+)      -->
@@ -42173,139 +42317,6 @@ A primeira função de Carvalho em Londres foi obter ajuda para as forças portu
 	  <example>A primeira função de Carvalho em Londres foi obter ajuda para as forças portuguesas na Índia.</example>	 
 	</rule>
    </rulegroup>
-   
-	<!-- VER observar/constatar -->
-    <rule id='VER_OBSERVAR_CONSTATAR' name="Ver → Observar/Constatar" type="style" tags="picky">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-06-27 (25-JUN-2021+)      -->
-	<!--
-É fácil como podem ver na figura.  → É fácil como podem constatar na figura.
-	-->
-<!-- MARCOAGPINTO 2021-06-27 (25-JUN-2021+) *START* -->
-<!--
-Ela não pode ter me visto na festa.
-Você se importaria em vir e me ver no sábado?
-Quantas cores você vê no arco-íris?
-Por que não deu para você vir no sábado?
--->
-      <antipattern>
-		<token postag='V.+|CC' postag_regexp='yes'/>
-		<token postag='PP.+' postag_regexp='yes'/>
-		<token regexp='no' inflected='yes'>ver</token>
-	  </antipattern>
-<!--
-Ele viu-me a comer.
--->
-      <antipattern>
-		<token regexp='no' inflected='yes'>ver</token>
-		<token min="0" max="1" regexp='yes' spacebefore='no'>&hifen;</token>
-		<token postag='PP.+' postag_regexp='yes'/>
-		<token postag='DA.+|SPS00.DA' postag_regexp='yes'/>
-	  </antipattern>	  
-<!--
-Veja a palavra no dicionário.
-A ver a liberdade que lhes era retirada.
-Na forma como via o curso que o panorama cultural português levava.
-Eu não consigo ver as palavras no quadro.
--->
-      <antipattern>
-		<token regexp='no' inflected='yes'>ver</token>
-		<token postag='DA.+' postag_regexp='yes'/>
-		<token postag='AQ0.+|NC.+' postag_regexp='yes'/>
-		<token postag='SPS00.DA|CS' postag_regexp='yes'/>
-	  </antipattern>	 
-<!--
-Muitos canadenses valorizam o multiculturalismo e veem o Canadá como sendo inerentemente multicultural.
-Esta noite pode-se ver a Lua cheia.
--->
-      <antipattern>
-		<token regexp='no' inflected='yes'>ver</token>
-		<token postag='DA.+' postag_regexp='yes'/>
-		<token postag='NP.+' postag_regexp='yes'/>
-		<token postag='V.+' postag_regexp='yes'/>
-	  </antipattern>
-<!--
-Com você é verão o ano inteiro.
--->
-      <antipattern>
-		<token regexp='no' inflected='yes'>ser</token>
-		<token>verão</token>
-	  </antipattern>	  	  	  
-<!-- MARCOAGPINTO 2021-06-27 (25-JUN-2021+) *END* -->
-<!-- MARCOAGPINTO 2021-07-08 + 2021-07-22 + 2021-07-26 (25-JUN-2021+) *START* -->
-<!--
-O estilo de combate assemelha-se ao de guerrilha visto os radicais estarem entrincheirados.
-Era visto pela ditadura militar que se instalou no país, em 1964, como um elemento subversivo.
-Kennedy também foi mal-visto pelos comandantes militares dos Estados Unidos.
-Ou o nativo visto pelo prisma do etnógrafo?
-Ninguém tem visto o Tom por um tempo.
-Pensei que já tivesse visto o Tom em algum lugar.
-Disposto a desfazer o mal entendido entre a ciência e a religião, conseguiu ser mal visto pelos representantes de ambas.
-Era visto nas mãos de todos os japoneses em paradas.
--->
-      <antipattern>
-		<token negate="yes" regexp='no' inflected='yes'>ser</token>
-		<token>visto</token>
-		<token/>		
-		<token postag='NP.+|AQ0.+|NC.+|V.+' postag_regexp='yes'>
-			<exception postag_regexp='yes' postag='CS|RG'/>
-		</token>
-		<token postag='SPS.+|CS|V.+|CC|RM|RG' postag_regexp='yes'/>
-	  </antipattern>
-<!-- Below for min="1" max="2" 2021-07-26 -->
-      <antipattern>
-		<token negate="yes" regexp='no' inflected='yes'>ser</token>
-		<token>visto</token>
-		<token/>		
-		<token postag='NP.+|AQ0.+|NC.+|V.+' postag_regexp='yes'>
-			<exception postag_regexp='yes' postag='CS|RG'/>
-		</token>
-		<token postag='NP.+|AQ0.+|NC.+|V.+' postag_regexp='yes'>
-			<exception postag_regexp='yes' postag='CS|RG'/>
-		</token>		
-		<token postag='SPS.+|CS|V.+|CC|RM|RG' postag_regexp='yes'/>
-	  </antipattern>	  
-<!-- MARCOAGPINTO 2021-07-08 + 2021-07-22 + 2021-07-26 (25-JUN-2021+) *END* -->
-      <pattern>
-		<marker>
-			<token regexp='no' inflected='yes'>ver</token>	
-		</marker>
-		<token postag='DA.+|SPS00.DA' postag_regexp='yes'/>
-		<token negate_pos="yes" postag='AQ0.+|AO.+' postag_regexp='yes'/>
-      </pattern>
-      <message>Num contexto formal ou académico, é preferível escrever 'observar' ou 'constatar'.</message>
-	  <suggestion><match no='1' postag='V.+' postag_regexp='yes'>observar</match></suggestion>
-	  <suggestion><match no='1' postag='V.+' postag_regexp='yes'>constatar</match></suggestion>
-      <example correction="observar|constatar">É fácil como podem <marker>ver</marker> na figura.</example>
-	  <example>Ela não pode ter me visto na festa.</example>
-	  <example>Você se importaria em vir e me ver no sábado?</example>
-	  <example>Quantas cores você vê no arco-íris?</example>
-	  <example>Por que não deu para você vir no sábado?</example>
-	  
-	  <example>Ele viu-me a comer.</example>
-
-	  <example>Veja a palavra no dicionário.</example>
-	  <example>A ver a liberdade que lhes era retirada.</example>
-	  <example>Na forma como via o curso que o panorama cultural português levava.</example>
-	  <example>Eu não consigo ver as palavras no quadro.</example>
-	  
-	  <example>Muitos canadenses valorizam o multiculturalismo e veem o Canadá como sendo inerentemente multicultural.</example>
-	  <example>Esta noite pode-se ver a Lua cheia.</example>
-	  
-	  <example>Com você é verão o ano inteiro.</example>
-	    
-	  <example>A Itália viu as primeiras lutas entre anarquistas e fascistas.</example>
-	  <example>Após os comerciais, veremos o segundo estágio da luta.</example>
-	  <example>Tom e Maria acordaram cedo para ver a primeira alvorada do ano.</example>
-	  
-	  <example>O estilo de combate assemelha-se ao de guerrilha visto os radicais estarem entrincheirados.</example>
-	  <example>Era visto pela ditadura militar que se instalou no país, em 1964, como um elemento subversivo.</example>
-	  <example>Kennedy também foi mal-visto pelos comandantes militares dos Estados Unidos.</example>
-	  <example>Ou o nativo visto pelo prisma do etnógrafo?</example>
-	  <example>Ninguém tem visto o Tom por um tempo.</example>
-	  <example>Pensei que já tivesse visto o Tom em algum lugar.</example>
-	  <example>Disposto a desfazer o mal entendido entre a ciência e a religião, conseguiu ser mal visto pelos representantes de ambas.</example>
-	  <example>Era visto nas mãos de todos os japoneses em paradas.</example>	  
-    </rule>
 
 
  </category>
