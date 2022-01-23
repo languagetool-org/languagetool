@@ -41611,6 +41611,29 @@ Isto resume todas as forças que atuam sobre o objeto. → Isto resume todas as 
     </rule>
 
 
+	<!-- VÁRIAS VEZES vári[ao]s -->
+    <rule id='VÁRIAS_VEZES_VÁRIAS' name="Simplificar: Várias vezes → Vári[ao]s" type="style">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-23 (Checked/Enhanced) (1-JAN-2022+)      -->
+	<!--
+Apagaram várias vezes publicações minhas. → Apagaram várias publicações minhas.
+Apagaram várias vezes comentários meus. → Apagaram vários comentários meus.
+Apagaram várias vezes comentários do Rui. → Apagaram vários comentários do Rui.
+	-->
+      <pattern>
+		<token postag='V.+' postag_regexp='yes'/>
+		<marker>
+			<token>várias</token>
+			<token>vezes</token>
+		</marker>
+		<token postag='NC.P.+' postag_regexp='yes'/>
+		<token postag='DP.+|SPS.+' postag_regexp='yes'/>
+      </pattern>
+	  <message>Esta perífrase poderá ser simplificada.</message>
+	  <suggestion><match no='4' postag='NC(.)P000' postag_replace='DI0$1P0'>vários</match></suggestion>
+      <example correction="várias">Apagaram <marker>várias vezes</marker> publicações minhas.</example>
+    </rule>
+
+
 	<!-- VER observar/constatar -->
     <rule id='VER_OBSERVAR_CONSTATAR' name="Ver → Observar/Constatar" type="style">
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-22 (Checked/Enhanced) (1-JAN-2022+)      -->
@@ -41836,28 +41859,6 @@ A bactéria do carbúnculo mata-os através de uma toxina.
     </rule>	
 	
 	</rulegroup>
-
-
-	<!-- VÁRI[AO]S VEZES vári[ao]s -->
-    <rule id='VARIAS_VEZES_VARIAS' name="Simplificar: Vári[ao]s vezes → Vári[ao]s" type="style">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-12-15 (25-JUN-2021+)      -->
-	<!--
-Apagaram várias vezes publicações minhas. → Apagaram várias publicações minhas.
-Apagaram várias vezes comentários meus. → Apagaram vários comentários meus.
-	-->
-      <pattern>
-		<token postag='V.+' postag_regexp='yes'/>
-		<marker>
-			<token regexp='yes'>vári[ao]s</token>
-			<token regexp='no'>vezes</token>
-		</marker>
-		<token postag='NC.P.+' postag_regexp='yes'/>
-		<token postag='DP.+' postag_regexp='yes'/>
-      </pattern>      
-	  <message>Esta perífrase poderá ser simplificada.</message>
-	  <suggestion><match no='4' postag='NC(.)P000' postag_replace='DI0$1P0'>vários</match></suggestion>
-      <example correction="várias">Apagaram <marker>várias vezes</marker> publicações minhas.</example>
-    </rule>
 
 
 	<!-- QUE ESTÁ/ESTÃO CONTRAÇÃO/PREPOSIÇÃO contração/preposição -->
