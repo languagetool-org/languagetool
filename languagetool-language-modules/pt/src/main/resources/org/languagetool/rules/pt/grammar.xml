@@ -42007,6 +42007,33 @@ Não falo com Tom já faz um tempo.
       </antipattern>
 <!-- MARCOAGPINTO 2022-01-16 (1-JAN-2022+) *END* -->
 
+<!-- MARCOAGPINTO 2022-01-23 (1-JAN-2022+) *START* -->
+<!--
+TESTS WITH 600000 SENTENCES:
+BEFORE:9643
+ AFTER:9447
+-->
+<!--
+Faço parte do clube de natação.
+Estou feliz em fazer parte desse projeto.
+Segundo a TV, fará tempo bom hoje.
+Assim, só faz sentido para vender sistemas concebidos para esvaziar a sua simulador de negociacao Forex tester.
+-->
+      <antipattern>
+	    <token regexp='no' inflected='yes'>fazer</token>
+		<token regexp='yes'>horas|papel|parte|tempo</token>
+      </antipattern>
+<!--
+Eles sempre fazem piadas sobre o chefe.
+E não esqueça de fazer seguro de viagem.
+Tornou-se o primeiro coreano a entrar na parada, feito conquistado antes da sua primeira turnê mundial.
+-->
+      <antipattern>
+		<token regexp='no' inflected='yes'>fazer</token>
+		<token postag='VMP.+' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-01-23 (1-JAN-2022+) *END* -->
+
 <!--
 Ele a fez sua esposa.
 Ele me fez seu assistente.
@@ -42019,7 +42046,7 @@ O que você faz é mais importante do que o que você diz.
       <antipattern>
 		<token postag='PD.+|PI.+|PP.+|RN|CS|V.+' postag_regexp='yes'/>
 		<token regexp='no' inflected='yes'>fazer</token>
-		<token postag='PP.+|DP.*|V.+' postag_regexp='yes'/>
+		<token postag='PP.+|DP.+|V.+' postag_regexp='yes'/>
 	  </antipattern>
 <!--
 O que você fez neste verão?
