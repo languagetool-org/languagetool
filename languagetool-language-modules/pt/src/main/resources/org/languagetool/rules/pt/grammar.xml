@@ -41986,6 +41986,7 @@ Isto deve ser feito com precisão científica. → Isto deve ser feito com rigor
      </rule> 
 	</rulegroup>
 
+
 	<!-- FEITA efetuada/realizada/conduzida/concretizada/elaborada -->
     <rulegroup id='FAZER_EFETUAR_REALIZAR_CONDUZIR_CONCRETIZAR_ELABORAR' name="Fazer → efetuar/realizar/conduzir/concretizar/elaborar" type="style" tags="picky">
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-06-29/30 + 2021-07-02 + 2021-10-31 (25-JUN-2021+)      -->
@@ -42011,7 +42012,7 @@ Não falo com Tom já faz um tempo.
 <!--
 TESTS WITH 600000 SENTENCES:
 BEFORE:9643
- AFTER:9192
+ AFTER:9087
 -->
 
 <!--
@@ -42033,9 +42034,17 @@ Este celular é feito de papel eletrônico.
 Eles sempre fazem piadas sobre o chefe.
 E não esqueça de fazer seguro de viagem.
 Tornou-se o primeiro coreano a entrar na parada, feito conquistado antes da sua primeira turnê mundial.
+
+Fiz esse vestido sozinha.
+Eu mesmo fiz esta comida.
+Você está fazendo isso errado.
+Está com um cheiro meio desagradável, mas tenho medo de mexer e fazer algo errado.
+Sendo assim, vamos fazer algo divertido.
+Esta resposta a fez ficar zangada.
 -->
       <antipattern>
 		<token regexp='no' inflected='yes'>fazer</token>
+		<token min="0" max="1" negate_pos="yes" postag='VMP.+' postag_regexp='yes'/>
 		<token postag='VMP.+' postag_regexp='yes'/>
       </antipattern>
 <!-- MARCOAGPINTO 2022-01-23 (1-JAN-2022+) *END* -->
@@ -42224,6 +42233,7 @@ Vou fazer uma pesquisa. → Vou realizar uma pesquisa.
 	  <example>Um acaso fez descobrir a cilada e Vasco da Gama pôde continuar.</example>
 	</rule>
     </rulegroup>
+
 
 	<!-- LEVADA A CABO efetuada/realizada/conduzida/concretizada/elaborada -->
     <rule id='LEVAR_A_CABO' name="Levar a cabo → efetuar/realizar/conduzir/concretizar/elaborar">
