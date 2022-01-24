@@ -70,6 +70,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     "cunt",
     "double check",
     "hard coded",
+    "faggot",
+    "faggots",
     "fuck",
     "fucker",
     "fuckhead",
