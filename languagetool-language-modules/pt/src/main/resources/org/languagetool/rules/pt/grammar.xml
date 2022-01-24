@@ -41675,7 +41675,7 @@ Apagaram várias vezes comentários do Rui. → Apagaram vários comentários do
 
 TESTED AGAINST 600000 SENTENCES:
 BEFORE:2859
- AFTER:2452
+ AFTER:2215
 	-->
 
 <!--
@@ -41772,6 +41772,40 @@ Veja na linha seguinte.
       </antipattern>
 <!-- MARCOAGPINTO 2022-01-24 (1-JAN-2022+) *END* -->
 
+<!-- MARCOAGPINTO 2022-01-24 (1-JAN-2022+) *START* -->
+<!--
+TESTS WITH 600000 SENTENCES:
+BEFORE:2452
+ AFTER:2215
+-->
+<!--
+Você já viu o Monte Fuji? É indescritivelmente lindo.
+Também quero ver o Sam, curto algumas musicas dele.
+Eu não deveria ter ido ver o Tom.
+Há quatro meses que não vejo a Maria.
+-->
+      <antipattern>
+		<token regexp='no' inflected='yes'>ver</token>
+		<token min="0" max="1" negate="yes" regexp='yes'>[ao]s?|de|d[ao]s?|n[ao]s?|em</token>
+		<token regexp='yes'>[ao]s?|de|d[ao]s?|n[ao]s?|em</token>
+		<token postag='NP.+' postag_regexp='yes'/>
+      </antipattern>
+
+<!--
+Você viu o que o Tom fez à Mary?
+Deus vê o que o Diabo esconde.
+Veja o que o Tom tem a dizer sobre tudo isso.
+-->
+      <antipattern>
+		<token regexp='no' inflected='yes'>ver</token>
+		<token>o</token>
+		<token>que</token>
+		<token min="0" max="1" negate="yes" regexp='yes'>[ao]s?|de|d[ao]s?|n[ao]s?|em</token>
+		<token regexp='yes'>[ao]s?|de|d[ao]s?|n[ao]s?|em</token>
+		<token postag='NP.+' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-01-24 (1-JAN-2022+) *END* -->
+
       <pattern>
 		<marker>
 			<token regexp='no' inflected='yes'>ver
@@ -41832,6 +41866,15 @@ Veja na linha seguinte.
 	  <example>Você viu o livro de receitas que eu escrevi?</example>
 	  <example>Veja a nota de rodapé na página 5.</example>
 	  <example>Veja na linha seguinte.</example>
+
+	  <example>Você já viu o Monte Fuji? É indescritivelmente lindo.</example>
+	  <example>Também quero ver o Sam, curto algumas musicas dele.</example>
+	  <example>Eu não deveria ter ido ver o Tom.</example>
+	  <example>Há quatro meses que não vejo a Maria.</example>
+
+	  <example>Você viu o que o Tom fez à Mary?</example>
+	  <example>Deus vê o que o Diabo esconde.</example>
+	  <example>Veja o que o Tom tem a dizer sobre tudo isso.</example>
     </rule>
 
 
