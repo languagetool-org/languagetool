@@ -32488,6 +32488,31 @@ steenwijk;Steenwijk
 
 	</category>
 	<category id="TYPOS" name="Spellingcontrole" type="misspelling">
+		<rulegroup id="WK" name="WK/wk">
+			<rule>
+				<pattern>
+					<token regexp="yes">[0-9]+</token>
+					<marker>
+						<token case_sensitive="yes">wk</token>
+					</marker>
+				</pattern>
+				<message>U kunt het beter voluit schrijven.</message>
+				<suggestion>week</suggestion>
+				<suggestion>weken</suggestion>
+				<example correction="week|weken">Het duurt 7 <marker>wk</marker>.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token><exception regexp="yes">[0-9]+</exception></token>
+					<marker>
+						<token case_sensitive="yes" regexp="yes">wk|Wk|wK</token>
+					</marker>
+				</pattern>
+				<message>Bedoelt u een Wereldkampioenschap?</message>
+				<suggestion>WK</suggestion>
+				<example correction="WK">Het duurt een <marker>wk</marker>.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="PH" name="pH">
 			<rule>
 				<antipattern case_sensitive="yes"><token>Ph</token><token>.</token></antipattern>
