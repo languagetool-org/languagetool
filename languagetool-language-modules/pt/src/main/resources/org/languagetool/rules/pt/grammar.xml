@@ -8769,28 +8769,6 @@ Isto observa-se quando as forças avaliam mal o cenário.
       <example correction='vêmos'>Escreve-se 'vemos', e não '<marker>vê-mos</marker>'.</example>
     </rule>
 
-	<!-- POR ISSO aí/assim/daí -->
-    <rule id='POR_ISSO_AÍ_ASSIM_DAÍ' name="Por isso → aí/assim/daí">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-05-06 (17-MAR-2021+)      -->
-	<!--
-E por isso ter informado a chefe. → E daí ter informado a chefe.
-E por isso eu ter informado a chefe. → E daí eu ter informado a chefe.
-	-->
-		<pattern>
-			<marker>
-				<token>por</token>
-				<token>isso</token>
-			</marker>
-			<token min="0" max="1" postag='PP.+' postag_regexp='yes'/>
-			<token postag='VMN0000|VMN03P0|VMIS2.+' postag_regexp='yes'/>
-		</pattern>		
-		<message>Esta perífrase pode ser simplificada.</message>
-		<suggestion>aí</suggestion>
-		<suggestion>assim</suggestion>
-		<suggestion>daí</suggestion>
-		<example correction="aí|assim|daí">E <marker>por isso</marker> ter informado a chefe.</example>
-		<example>Quero assim saber a verdade.</example>
-    </rule>
 
     <rule id='PRONOMIAL_COLOCATIONS_ADJUSTMENT_NOS' name='Colocações pronomiais: ênclise de formas nasais (no, na, nos, nas)'>
     <!-- Created by Tiago F. Santos, 2017-03-10 -->
@@ -41469,6 +41447,61 @@ O objetivo é alcançar o terreno do inimigo. → O objetivo é alcançar o terr
     </rule>
 
 
+	<!-- POR ISSO aí/assim/daí/isso -->
+    <rulegroup id='POR_ISSO_AÍ_ASSIM_DAÍ_ISSO' name="Simplificar: por isso → aí/assim/daí/isso">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-24 (Checked/Enhanced) (1-JAN-2022+)      -->
+	<!--
+Queria por isso ter informado a chefe. → Queria daí ter informado a chefe.
+Deveria por isso eu ter informado a chefe. → Deveria aí eu ter informado a chefe.
+Lamento por isso ter acontecido. → Lamento isso ter acontecido.
+Lamento muito por isso ter acontecido. → Lamento muito isso ter acontecido.
+	-->
+
+<!--
+Queria por isso ter informado a chefe. → Queria daí ter informado a chefe.
+Deveria por isso eu ter informado a chefe. → Deveria aí eu ter informado a chefe.
+-->
+	  <rule>
+		<pattern>
+			<token negate_pos="yes" postag='VMIP.+|NC.+|AQ.+|DI.+|PI.+|RG' postag_regexp='yes'/>
+			<marker>
+				<token>por</token>
+				<token>isso</token>
+			</marker>
+			<token min="0" max="1" negate_pos="yes" postag='V.+' postag_regexp='yes'/>
+			<token postag='VMN0000|VMN03.+|VMIS2.+' postag_regexp='yes'/>
+		</pattern>		
+		<message>Esta perífrase poderá ser simplificada.</message>
+		<suggestion>aí</suggestion>
+		<suggestion>assim</suggestion>
+		<suggestion>daí</suggestion>
+		<example correction="aí|assim|daí">Queria <marker>por isso</marker> ter informado a chefe.</example>
+		<example>Quero assim saber a verdade.</example>
+	  </rule>
+	  
+<!--
+Lamento por isso ter acontecido. → Lamento isso ter acontecido.
+Lamento muito por isso ter acontecido. → Lamento muito isso ter acontecido.
+-->
+	  <rule>
+		<pattern>
+			<token postag='VMIP.+|NC.+|AQ.+|DI.+|PI.+|RG' postag_regexp='yes'/>
+			<marker>
+				<token>por</token>
+				<token>isso</token>
+			</marker>
+			<token min="0" max="1" negate_pos="yes" postag='V.+' postag_regexp='yes'/>
+			<token postag='VMN0000' postag_regexp='no'/>
+		</pattern>		
+		<message>Esta perífrase poderá ser simplificada.</message>
+		<suggestion>isso</suggestion>
+		<example correction="isso">Lamento <marker>por isso</marker> ter acontecido.</example>
+		<example correction="isso">Lamento muito <marker>por isso</marker> ter acontecido.</example>
+		<example>Lamento isso ter acontecido.</example>		
+	  </rule>
+    </rulegroup>
+
+
 	<!-- QUE SER/ESTAR PART_PASSADO part_passado -->
     <rule id='QUE_SER_ESTAR_PARTPASSADO' name="Simplificar: Que + ser/estar + part. passado → Particípio passado" type='style'>
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-19/20 (Checked/Enhanced) (1-JAN-2022+)      -->
@@ -42058,7 +42091,6 @@ BEFORE:9087
 Fora da pista os dois fizeram crescer o incidente com entrevistas provocantes.
 Faça vir o médico, porque estou doente.
 O gelo fez cair as flores dos damasqueiros.
-
 Selecione apenas itens com a mesma finalidade para fazer e finalizar o seu pedido.
 Saiba como fazer para lavar o veículo corretamente e evitar danos ao seu veículo.
 Os humanos não foram feitos para viver para sempre.
