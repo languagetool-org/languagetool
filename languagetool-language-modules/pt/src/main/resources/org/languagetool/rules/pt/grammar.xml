@@ -41675,7 +41675,7 @@ Apagaram várias vezes comentários do Rui. → Apagaram vários comentários do
 
 TESTED AGAINST 600000 SENTENCES:
 BEFORE:2859
- AFTER:2473
+ AFTER:2452
 	-->
 
 <!--
@@ -41751,7 +41751,26 @@ Era visto nas mãos de todos os japoneses em paradas.
 			<exception postag_regexp='yes' postag='CS|RG'/>
 		</token>
 		<token postag='SPS.+|CS|V.+|CC|RM|RG' postag_regexp='yes'/>
-	  </antipattern>	 	  
+	  </antipattern>
+
+<!-- MARCOAGPINTO 2022-01-24 (1-JAN-2022+) *START* -->
+<!--
+TESTS WITH 600000 SENTENCES:
+BEFORE:2473
+ AFTER:2452
+-->
+<!--
+Para mais informações, veja a página número 16.
+Você viu o livro de receitas que eu escrevi?
+Veja a nota de rodapé na página 5.
+Veja na linha seguinte.
+-->
+      <antipattern>
+		<token regexp='no' inflected='yes'>ver</token>
+		<token regexp='yes'>[ao]s?|n[ao]s?</token>
+		<token regexp='yes'>abstracts?|anexos?|assuntos?|capítulos?|conclusão|conclusões|folhas?|índices?|introdução|linhas?|livros?|notas?|páginas?|parágrafos?|resumos?|secção|secções|subcapítulos?|títulos?|tópicos?</token>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-01-24 (1-JAN-2022+) *END* -->
 
       <pattern>
 		<marker>
@@ -41808,6 +41827,11 @@ Era visto nas mãos de todos os japoneses em paradas.
 	  <example>Pensei que já tivesse visto o Tom em algum lugar.</example>
 	  <example>Disposto a desfazer o mal entendido entre a ciência e a religião, conseguiu ser mal visto pelos representantes de ambas.</example>
 	  <example>Era visto nas mãos de todos os japoneses em paradas.</example>
+
+	  <example>Para mais informações, veja a página número 16.</example>
+	  <example>Você viu o livro de receitas que eu escrevi?</example>
+	  <example>Veja a nota de rodapé na página 5.</example>
+	  <example>Veja na linha seguinte.</example>
     </rule>
 
 
