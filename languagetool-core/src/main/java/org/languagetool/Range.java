@@ -47,4 +47,17 @@ public class Range {
   public String getLang() {
     return lang;
   }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Range range = (Range) o;
+    return fromPos == range.fromPos && toPos == range.toPos && lang.equals(range.lang);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(fromPos, toPos, lang);
+  }
 }
