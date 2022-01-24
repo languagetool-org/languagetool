@@ -32485,10 +32485,9 @@ steenwijk;Steenwijk
 				<example type="incorrect">Tuurlijk, hij was de enige in zijn muziekgenre, en tuurlijk, ‘je weet maar nooit’ is altijd een terechte gedachte, maar uiteindelijk vormen die twee argumenten niet meer dan een zielloos <marker>zwaktebod</marker>.</example>
 			</rule>
 		</rulegroup>
-
 	</category>
 	<category id="TYPOS" name="Spellingcontrole" type="misspelling">
-		<rulegroup id="WK" name="WK/wk">
+		<rulegroup id="WK" name="WK/wk" default="temp_off"><!--@@@@-->
 			<rule>
 				<pattern>
 					<token regexp="yes">[0-9]+</token>
@@ -32513,7 +32512,18 @@ steenwijk;Steenwijk
 				<example correction="WK">Het duurt een <marker>wk</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="PH" name="pH">
+		<rulegroup id="VE" name="ve / van een" default="temp_off"><!--@@@@-->
+			<rule>
+				<antipattern><token postag="UNKNOWN"/><token>ve</token><token postag="UNKNOWN"/></antipattern>
+				<antipattern><token regexp="yes">.*[aeou]-</token><token>ve</token></antipattern>
+				<pattern>
+					<token case_sensitive="yes">ve</token>
+				</pattern>
+				<message>Dit is losgekomen van een woord, of is een foute afkorting voor <suggestion>van een</suggestion>.</message>
+				<example correction="van een">De waardering <marker>ve</marker> betaalmiddel.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="PH" name="pH" default="temp_off"><!--@@@@-->
 			<rule>
 				<antipattern case_sensitive="yes"><token>Ph</token><token>.</token></antipattern>
 				<antipattern case_sensitive="yes"><token>pH</token></antipattern>
@@ -32525,7 +32535,7 @@ steenwijk;Steenwijk
 				<example correction="pH">De <marker>PH</marker> is 7.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="SEMI" name="Semi is meestal een voorvoegsel" default="temp_off">
+		<rulegroup id="SEMI" name="Semi is meestal een voorvoegsel" default="temp_off"><!--@@@@-->
 			<rule>
 				<pattern>
 					<token>semi</token>
@@ -32538,7 +32548,7 @@ steenwijk;Steenwijk
 				<example correction="semi-indirect">Het gaat <marker>semi indirect</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="EE" name="ee / een" default="temp_off">
+		<rulegroup id="EE" name="ee / een" default="temp_off"><!--@@@@-->
 			<rule>
 				<pattern>
 					<token case_sensitive="yes">ee</token>
@@ -32547,7 +32557,7 @@ steenwijk;Steenwijk
 				<example correction="een|Ee">Hij doet het <marker>ee</marker> keer.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="_10X" name="10x 10 keer">
+		<rulegroup id="_10X" name="10x 10 keer" default="temp_off"><!--@@@@-->
 			<rule>
 				<pattern>
 					<token regexp="yes" case_sensitive="yes">[0-9]+x</token>
@@ -32557,7 +32567,7 @@ steenwijk;Steenwijk
 				<example correction="10 keer">Hij doet het <marker>10x</marker> fout.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="ERS" name="ers / 'ers">
+		<rulegroup id="ERS" name="ers / 'ers" default="temp_off"><!--@@@@-->
 			<rule>
 				<pattern>
 					<token/>
