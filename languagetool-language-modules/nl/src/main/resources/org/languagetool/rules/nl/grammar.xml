@@ -17912,23 +17912,19 @@ steenwijk;Steenwijk
 		</rulegroup>
 	</category>
 	<category id="PUNCTUATION" name="Interpunctie">
-		<!-- 2014-08-21 TaalTik
-		deze regel geeft bijna alleem maar false positives in de vorm van regelnummers en alineanummers.
-		daarom uitgeschakeld
-		<rule id="nr603" name="zin begint met symbool">
-		<pattern case_sensitive="yes">
-		<token postag_regexp="yes" postag="SENT_START|START"></token>
-		<token regexp="yes">^[0-9].*</token>
-		<marker>
-		<token regexp="yes">^[A-Z][a-z]<exception postag_regexp="yes" postag="ENM.*"></exception></token>
-		</marker>
-		</pattern>
-		<message>Wanneer de zin met een getal of symbool begint, krijgt het eerste echte woord geen hoofdletter (behalve als het een eigennaam is):<suggestion><match no="3" case_conversion="startlower"></match></suggestion>.</message>
-		<short>Geen hoofdletter</short>
-		<example type="incorrect">900 <marker>Is</marker> een verkeerd begin.</example>
-		<example>900 <marker>is</marker> een goed begin.</example>
-		</rule>
-		-->
+		<rulegroup id="SPATIES_OM_KOPPEL" name="spaties om -">
+			<rule>
+				<pattern>
+					<token regexp="yes">-.+</token>
+					<token skip="6"/>
+					<token regexp="yes">.+-</token>
+				</pattern>
+				<message>Wanneer een streepje een tussenzin aangeeft, horen er spaties omheen.</message>
+				<suggestion><match no="1" regexp_match="^-" regexp_replace="- "/> <match no="2" include_skipped="all"/> <match no="3" regexp_match="-$" regexp_replace=" -"/></suggestion>
+				<url>https://taaladvies.net/volgorde-komma-aanhalingsteken/</url>
+				<example correction="- liever toch niet -">Dat doe ik <marker>-liever toch niet-</marker> zei Jan.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="KOMMA_AANHALING" name="Volgorde aanhalingsteken en komma.">
 			<rule>
 				<antipattern>
@@ -32492,7 +32488,46 @@ steenwijk;Steenwijk
 
 	</category>
 	<category id="TYPOS" name="Spellingcontrole" type="misspelling">
-
+		<rulegroup id="_10X" name="10x 10 keer">
+			<rule>
+				<pattern>
+					<token regexp="yes" case_sensitive="yes">[0-9]+x</token>
+				</pattern>
+				<message>Netter is om het uit te schrijven.</message>
+				<suggestion><match no="1" regexp_match="x" regexp_replace=" keer"/></suggestion>
+				<example correction="10 keer">Hij doet het <marker>10x</marker> fout.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="ERS" name="ers / 'ers">
+			<rule>
+				<pattern>
+					<token/>
+					<token spacebefore="yes">ers</token>
+				</pattern>
+				<message>Hier hoort vast een apostrof tussen.</message>
+				<suggestion>\1'\2</suggestion>
+				<example correction="zzp'ers">Er werken veel <marker>zzp ers</marker>.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token/>
+					<token spacebefore="yes">'</token>
+					<token spacebefore="no">ers</token>
+				</pattern>
+				<message>Dit hoort aan elkaar.</message>
+				<suggestion>\1\2\3</suggestion>
+				<example correction="zzp'ers">Er werken veel <marker>zzp 'ers</marker>.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token regexp="yes">.*-</token>
+					<token>ers</token>
+				</pattern>
+				<message>Hier hoort vast een apostrof tussen, een geen koppelteken.</message>
+				<suggestion><match no="1" regexp_match="-$" regexp_replace=""/>'\2</suggestion>
+				<example correction="zzp'ers">Er werken veel <marker>zzp- ers</marker>.</example>
+			</rule>
+		</rulegroup>
 		<rule id="TE_WERKWOORD" name="OCR-fout: re gaan / te gaan">
            <pattern>
                <token>re</token>
