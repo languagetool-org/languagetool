@@ -32502,6 +32502,29 @@ steenwijk;Steenwijk
 			</rule>
 		</rulegroup>
 		-->
+		<rulegroup id="SEMI" name="Semi is meestal een voorvoegsel">
+			<rule>
+				<pattern>
+					<token>semi</token>
+					<token/>
+				</pattern>
+				<filter class="org.languagetool.rules.nl.DutchSuppressMisspelledSuggestionsFilter" args="suppressMatch:false"/>
+				###############
+				<message>Semi hoort meestal aan het volgende woord vast, omdat het een voorvoegsel is.</message>
+				<suggestion>\1\2</suggestion>
+				<suggestion>\1-\2</suggestion>
+				<example correction="semi-intelligent">Hij is <marker>semi intelligent</marker>.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="EE" name="ee / een">
+			<rule>
+				<pattern>
+					<token case_sensitive="yes">ee</token>
+				</pattern>
+				<message>U bedoelt vast <suggestion>een</suggestion> of de <suggestion>Ee</suggestion>.</message>
+				<example correction="een|Ee">Hij doet het <marker>ee</marker> keer.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="_10X" name="10x 10 keer">
 			<rule>
 				<pattern>
