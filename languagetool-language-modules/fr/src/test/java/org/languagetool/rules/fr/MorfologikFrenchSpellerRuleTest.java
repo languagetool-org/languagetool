@@ -67,6 +67,7 @@ public class MorfologikFrenchSpellerRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Un test simple.")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Le cœur, la sœur.")).length);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Un test simpple.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Ç'avait")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("LanguageTool")).length);
     
     assertEquals(0, rule.match(lt.getAnalyzedSentence("L'ONU")).length);
