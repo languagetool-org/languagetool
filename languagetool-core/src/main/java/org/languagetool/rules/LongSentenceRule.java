@@ -22,6 +22,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Tag;
 import org.languagetool.UserConfig;
+import org.languagetool.tools.Tools;
 
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -46,6 +47,7 @@ public class LongSentenceRule extends TextLevelRule {
     setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
     setTags(Collections.singletonList(Tag.picky));
+    setUrl(Tools.getUrl("https://languagetool.org/insights/post/sentence-length/"));
     int tmpMaxWords = maxWords;
     if (userConfig != null) {
       int confWords = userConfig.getConfigValueByID(getId());
