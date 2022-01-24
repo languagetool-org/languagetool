@@ -1503,13 +1503,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">&pronombre_personal_no_articulo;</token>
                 <token postag="V.[SI].*" postag_regexp="yes"/>
             </antipattern>-->
+            <antipattern>
+                <token>cuan</token>
+                <token>largo</token>
+                <token regexp="yes">soy|era</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <or>
-                        <token postag="V.[^NGP].*|SENT_START" postag_regexp="yes" skip="-1"><exception postag="_possible_NP|.*LOC_ADV.*" postag_regexp="yes"/><exception postag="PR.*|PT.*|DT.*|DE.*|.*LOC_CONJ.*|C.|_loc_unavez" postag_regexp="yes" scope="next"/><exception postag="PR.*|PT.*|DT.*|.*LOC_CONJ.*|CS|_loc_unavez" postag_regexp="yes" scope="previous"/><exception scope="next" regexp="yes">porque|como</exception></token>
-                        <token regexp="yes" skip="-1">(?-i);|Y|O|Ni|Pero|Pues<exception postag="PR.*|PT.*|DT.*|.*LOC_CONJ.*|CS" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">porque|como</exception></token>
+                        <token postag="V.[^NGP].*|SENT_START" postag_regexp="yes" skip="-1"><exception postag="_possible_NP|.*LOC_ADV.*" postag_regexp="yes"/><exception postag="PR.*|PT.*|DT.*|DE.*|LOC_CS|C.|_loc_unavez" postag_regexp="yes" scope="next"/><exception postag="PR.*|PT.*|DT.*|LOC_CS|CS|_loc_unavez" postag_regexp="yes" scope="previous"/><exception scope="next" regexp="yes">porque|como</exception></token>
+                        <token regexp="yes" skip="-1">(?-i);|Y|O|Ni|Pero|Pues<exception postag="PR.*|PT.*|DT.*|LOC_CS|CS" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">porque|como</exception></token>
                     </or>
-                    <token postag="V.[^NGP].*" postag_regexp="yes" skip="-1"><exception postag=".*_GN_.*|N.*|A.*|V.[NGP].*|_loc_nosequi|.*LOC_ADV.*|RG|_possible_NP|&lt;.*&gt;" postag_regexp="yes"/><exception>di</exception><exception scope="next" regexp="yes">porque|como|que|/</exception><exception postag="_PUNCT.*|C.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*|_loc_unavez" postag_regexp="yes" scope="next"/></token>
+                    <token postag="V.[^NGP].*" postag_regexp="yes" skip="-1"><exception postag=".*_GN_.*|N.*|A.*|V.[NGP].*|_loc_nosequi|.*LOC_ADV.*|RG|_possible_NP|&lt;.*&gt;" postag_regexp="yes"/><exception>di</exception><exception scope="next" regexp="yes">porque|como|que|/</exception><exception postag="_PUNCT.*|C.*|PR.*|PT.*|DT.*|LOC_CS|_loc_unavez" postag_regexp="yes" scope="next"/></token>
                     <marker>
                         <token postag="V.[^NGP].*" postag_regexp="yes"><exception regexp="yes">&unusually_noun;</exception><exception postag=".*_GN_.*|N.*|A.*|V.[NGP].*|.*LOC.*|_loc_nosequi|.*LOC_ADV.*|RG|_possible_NP|&lt;.*&gt;" postag_regexp="yes"/><exception regexp="yes">di|cap</exception><exception scope="previous" regexp="yes">&pronombre_personal_no_articulo;</exception><exception scope="previous" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/></token>
                     </marker>
@@ -1524,11 +1529,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <or>
-                        <token postag="V.[^NGP].*|SENT_START" postag_regexp="yes" skip="-1"><exception postag="_possible_NP|.*LOC_ADV.*" postag_regexp="yes"/><exception postag="PR.*|PT.*|DT.*|DE.*|.*LOC_CONJ.*|C.|_loc_unavez" postag_regexp="yes" scope="next"/><exception postag="PR.*|PT.*|DT.*|.*LOC_CONJ.*|CS|_loc_unavez" postag_regexp="yes" scope="previous"/><exception scope="next" regexp="yes">porque|como</exception></token>
-                        <token regexp="yes" skip="-1">(?-i);|Y|O|Ni|Pero|Pues<exception postag="PR.*|PT.*|DT.*|.*LOC_CONJ.*|CS" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">porque|como</exception></token>
+                        <token postag="V.[^NGP].*|SENT_START" postag_regexp="yes" skip="-1"><exception postag="_possible_NP|.*LOC_ADV.*" postag_regexp="yes"/><exception postag="PR.*|PT.*|DT.*|DE.*|LOC_CS|C.|_loc_unavez" postag_regexp="yes" scope="next"/><exception postag="PR.*|PT.*|DT.*|LOC_CS|CS|_loc_unavez" postag_regexp="yes" scope="previous"/><exception scope="next" regexp="yes">porque|como</exception></token>
+                        <token regexp="yes" skip="-1">(?-i);|Y|O|Ni|Pero|Pues<exception postag="PR.*|PT.*|DT.*|LOC_CS|CS" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">porque|como</exception></token>
                     </or>
                     <marker>
-                        <token postag="V.[^NGP].*" postag_regexp="yes" skip="-1"><exception regexp="yes">&unusually_noun;</exception><exception postag=".*_GN_.*|N.*|A.*|V.[NGP].*|_loc_nosequi|.*LOC_ADV.*|RG|_possible_NP|&lt;.*&gt;" postag_regexp="yes"/><exception>di</exception><exception scope="next" regexp="yes">porque|como|que|/</exception><exception postag="_PUNCT.*|C.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*|_loc_unavez" postag_regexp="yes" scope="next"/><exception scope="previous" regexp="yes">&pronombre_personal_no_articulo;</exception></token>
+                        <token postag="V.[^NGP].*" postag_regexp="yes" skip="-1"><exception regexp="yes">&unusually_noun;</exception><exception postag=".*_GN_.*|N.*|A.*|V.[NGP].*|_loc_nosequi|.*LOC_ADV.*|RG|_possible_NP|&lt;.*&gt;" postag_regexp="yes"/><exception>di</exception><exception scope="next" regexp="yes">porque|como|que|/</exception><exception postag="_PUNCT.*|C.*|PR.*|PT.*|DT.*|LOC_CS|_loc_unavez" postag_regexp="yes" scope="next"/><exception scope="previous" regexp="yes">&pronombre_personal_no_articulo;</exception></token>
                     </marker>
                     <token postag="V.[^NGP].*" postag_regexp="yes"><exception postag=".*_GN_.*|N.*|A.*|V.[NGP].*|.*LOC.*|_loc_nosequi|.*LOC_ADV.*|RG|_possible_NP|&lt;.*&gt;" postag_regexp="yes"/><exception regexp="yes">di|cap</exception><!--<exception scope="previous"
                         postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>--></token>
@@ -1592,6 +1597,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <!-- del tristemente celebre-->
+                <antipattern>
+                    <token>en</token>
+                    <token>cuanto</token>
+                </antipattern>
+                <antipattern>
+                    <token>a</token>
+                    <token>lo</token>
+                    <token regexp="yes">mejor|peor</token>
+                </antipattern>
                 <pattern>
                     <token postag="SPS00|SP:DA" postag_regexp="yes"><exception postag="RG|_possible_NP" postag_regexp="yes"/></token>
                     <token postag="D[AI].*" postag_regexp="yes" min="0"/>
@@ -1901,7 +1915,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- ha sido más explicito -->
                 <pattern>
                     <token inflected="yes" regexp="yes">estar|ser|hacer<exception postag="_GN_MS"/></token>
-                    <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                    <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"><exception postag="C.*" postag_regexp="yes"/></token>
                     <marker>
                         <token><exception postag="RG|LOC_ADV|[NA].*" postag_regexp="yes"/></token>
                     </marker>
@@ -1914,6 +1928,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="explícito">Fue mucho más <marker>explicito</marker>.</example>
                 <example>Ella es demasiado baja.</example>
                 <example>En el estado opera el nepotismo.</example>
+                <example>algo que hago sólo mientras termino mi doctorado</example>
             </rule>
             <rule>
                 <!-- Only noun + adj: with 2 errors: alivian la nauseas matutinas-->
@@ -1951,9 +1966,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Se lio con esto.</example>
             </rule>
             <rule>
-                <!-- destacado interprete de (only adjectives usually before the noun -->
+                <!-- destacado interprete de (only adjectives usually before the noun) -->
+                <antipattern>
+                    <token>ahora</token>
+                    <token>mismo</token>
+                </antipattern>
                 <pattern>
-                    <token postag="AQ.*|V.P.*" postag_regexp="yes" inflected="yes" regexp="yes">santo|referir|dicho|nuevo|gran|destacado|mismo|apreciable<exception regexp="yes">el|lo|la</exception><exception postag="PP.*" postag_regexp="yes"/></token>
+                    <token postag="AQ.*|V.P.*" postag_regexp="yes" inflected="yes" regexp="yes">santo|referir|dicho|nuevo|gran|destacado|mismo|apreciable<exception scope="previous">lo</exception></token>
                     <marker>
                         <token><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
                     </marker>
@@ -1962,6 +1981,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Si es adjetivo o nombre, se escribe con tilde.</message>
                 <suggestion>{suggestion}</suggestion>
                 <example correction="intérprete">Un destacado <marker>interprete</marker> de música clásica.</example>
+                <example>Ahora mismo termino.</example>
+                <example>Con lo dicho termino el tema.</example>
             </rule>
             <rule>
                 <!-- destacados interpretes (plural) -->
@@ -2021,6 +2042,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Si es adjetivo o nombre, se escribe con tilde.</message>
                 <suggestion>{suggestion}</suggestion>
                 <example correction="máquina">A toda <marker>maquina</marker> cada día.</example>
+            </rule>
+            <rule default="temp_off">
+                <!-- en primer termino -->
+                <pattern>
+                    <token regexp="yes">en|el|a</token>
+                    <token postag="AO.*" postag_regexp="yes"/>
+                    <marker>
+                        <token><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\3 postag:NC.* gendernumberFrom:2"/>
+                <message>Si es adjetivo o nombre, se escribe con tilde.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="término">En primer <marker>termino</marker>.</example>
+                <example correction="término">En último <marker>termino</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="PRACTICA" name="practica/práctica">
@@ -3271,7 +3307,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="SENT_START"/>
                     <phraseref idref="_GN_SINGULAR"/>
-                    <token postag="_QM_OPEN|R.*|LOC_ADV" postag_regexp="yes" min="0" max="4"/>
+                    <token postag="_QM_OPEN|R.*|LOC_ADV" postag_regexp="yes" min="0" max="4"><exception postag="C.*" postag_regexp="yes"/></token>
                     <marker>
                         <and>
                             <token postag="VMIP1S0" regexp="yes">.+o<exception postag="V...3.*|C.*|SP.*|V.G.*|[ANCR].*|_possible_NP" postag_regexp="yes"/></token>
@@ -3306,6 +3342,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Cada mañana cruzo las vías férreas.</example>
                 <example>Un examen más profundo y detallado-</example>
                 <example>Total envío:</example>
+                <example>Silencio mientras termino.</example>
             </rule>
         </rulegroup>
         <rule id="PROMEDIO" name="promedio/promedió">
@@ -12153,7 +12190,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>si<exception scope="previous">como</exception></token>
                         <token skip="-1">no<exception postag="V.[MSI].*" postag_regexp="yes" scope="next"/></token>
                     </marker>
-                    <token postag="SENT_END|_PUNCT.*|LOC_CONJ|CS" postag_regexp="yes"/>
+                    <token postag="SENT_END|_PUNCT.*|LOC_CS|CS" postag_regexp="yes"/>
                 </pattern>
                 <message>Probablemente hay que usar la conjunción adversativa <suggestion>sino</suggestion>.</message>
                 <short>Posible confusión</short>
@@ -16121,7 +16158,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <token>tú<exception postag="SP.*|CC|LOC_PREP" postag_regexp="yes" scope="previous"/></token>
-                    <token postag="RG|LOC_ADV" postag_regexp="yes" min="0" max="3"/>
+                    <token postag="RG|LOC_ADV" postag_regexp="yes" min="0" max="3"><exception postag="C.*" postag_regexp="yes"/></token>
                     <marker>
                         <token postag="V.[^M].[13]..|V.[^M].2P." postag_regexp="yes"><exception postag="V...2S.|AQ.*|RG|LOC_ADV" postag_regexp="yes"/></token>
                     </marker>
