@@ -41,6 +41,7 @@ public class UserConfig {
   }
 
   private final List<String> userSpecificSpellerWords;
+  private final Set<String> acceptedPhrases;
   private final int maxSpellingSuggestions;
   private final Long userDictCacheSize;
   private final String userDictName;
@@ -101,14 +102,14 @@ public class UserConfig {
     this.abTest = abTest;
     this.textSessionId = textSessionId;
     this.hidePremiumMatches = hidePremiumMatches;
+    this.acceptedPhrases = buildAcceptedPhrases();
   }
 
   public List<String> getAcceptedWords() {
     return userSpecificSpellerWords;
   }
 
-  @NotNull
-  public Set<String> getAcceptedPhrases() {
+  private Set<String> buildAcceptedPhrases() {
     HashSet<String> phrases = new HashSet<>();
     for (String wordOrPhrase : userSpecificSpellerWords) {
       if (wordOrPhrase.contains(" ")) {
@@ -116,6 +117,11 @@ public class UserConfig {
       }
     }
     return phrases;
+  }
+
+  @NotNull
+  public Set<String> getAcceptedPhrases() {
+    return acceptedPhrases;
   }
 
   public int getMaxSpellingSuggestions() {

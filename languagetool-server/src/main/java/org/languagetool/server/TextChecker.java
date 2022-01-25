@@ -885,6 +885,11 @@ abstract class TextChecker {
 
     final boolean regressionTestMode; // no fallbacks for remote rules, retries, enable all rules
 
+    QueryParams() {
+      this(Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList(),
+           false, false, false, false, false, false, JLanguageTool.Mode.ALL, JLanguageTool.Level.DEFAULT, null);
+    }
+
     QueryParams(List<Language> altLanguages, List<String> enabledRules, List<String> disabledRules, List<CategoryId> enabledCategories, List<CategoryId> disabledCategories,
                 boolean useEnabledOnly, boolean useQuerySettings, boolean allowIncompleteResults, boolean enableHiddenRules, boolean premium, boolean enableTempOffRules, JLanguageTool.Mode mode, JLanguageTool.Level level, @Nullable String callback) {
       this(altLanguages, enabledRules, disabledRules, enabledCategories, disabledCategories, useEnabledOnly, useQuerySettings, allowIncompleteResults, enableHiddenRules, premium, enableTempOffRules, mode, level, callback, true);

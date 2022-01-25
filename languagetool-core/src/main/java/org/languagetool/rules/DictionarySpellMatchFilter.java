@@ -38,7 +38,7 @@ public class DictionarySpellMatchFilter implements RuleMatchFilter {
 
   @Override
   public List<RuleMatch> filter(List<RuleMatch> ruleMatches, AnnotatedText text) {
-    Set<String> dictionary = new HashSet<>(userConfig.getAcceptedPhrases());
+    Set<String> dictionary = userConfig.getAcceptedPhrases();
     if (dictionary.size() > 0) {
       Map<String, List<RuleMatch>> phraseToMatches = getPhrases(ruleMatches, text);
       List<RuleMatch> cleanMatches = new ArrayList<>(ruleMatches);
@@ -52,7 +52,7 @@ public class DictionarySpellMatchFilter implements RuleMatchFilter {
     return ruleMatches;
   }
 
-  Map<String, List<RuleMatch>> getPhrases(List<RuleMatch> ruleMatches, AnnotatedText text) {
+  public Map<String, List<RuleMatch>> getPhrases(List<RuleMatch> ruleMatches, AnnotatedText text) {
     Map<String, List<RuleMatch>> phraseToMatches = new HashMap<>();
     int prevToPos = Integer.MIN_VALUE;
     List<RuleMatch> collectedMatches = new ArrayList<>();

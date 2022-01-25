@@ -35,6 +35,10 @@ public class PipelineSettings {
   final UserConfig userConfig;
   final GlobalConfig globalConfig;
 
+  PipelineSettings(Language lang, UserConfig userConfig) {
+    this(lang, null, new TextChecker.QueryParams(), new GlobalConfig(), userConfig);
+  }
+
   PipelineSettings(Language lang, Language motherTongue, TextChecker.QueryParams params, GlobalConfig globalConfig, UserConfig userConfig) {
     this.lang = lang;
     this.motherTongue = motherTongue;
