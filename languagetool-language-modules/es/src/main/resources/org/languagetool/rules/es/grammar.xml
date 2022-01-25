@@ -71,6 +71,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY diacritics_03 "incomoda|incomodas|lastima|lastimas|medica|medicas">
     <!ENTITY diacritics_04 "critica|criticas|limite|limites|purpura|purpuras">
     <!ENTITY diacritics_05 "maquina|ultima|ultimas">
+    <!ENTITY diacritics_06 "termino">
     <!ENTITY exceptions_ADO "apurado|lesionado|mecanizado|aislado|abarrotado|abrazado|abrigado|acicalado|acompañado|acurrucado|adelantado|adornado|afeitado|aferrado|agachado|agarrado|aparejado|apañado|apoyado|apretado|armado|arreglado|arremangado|arrodillado|aseado|asociado|atado|ataviado|atestado|atrasado|avergonzado|bordado|calado|callado|calzado|camuflado|cansado|caracterizado|cargado|chiflado|colgado|colocado|concentrado|condecorado|condenado|conectado|confiado|coronado|dedicado|desaliñado|desarmado|descaminado|descamisado|desencaminado|despeinado|destinado|disfrazado|disparado|doblado|drogado|embozado|empaquetado|encabezado|encajado|encaminado|encantado|encapuchado|encerrado|encorvado|enfadado|enfundado|engalanado|enganchado|enmascarado|enrollado|ensimismado|entusiasmado|equipado|equivocado|errado|escoltado|esposado|fechado|firmado|flanqueado|forrado|frustrado|guardado|guiado|holgado|implicado|impulsado|inclinado|instalado|invitado|lanzado|ligado|malhumorado|manchado|mandado|maquillado|mezclado|montado|ocupado|pegado|peinado|pintado|preocupado|preparado|propulsado|recomendado|recostado|repantigado|resguardado|resignado|respaldado|retrasado|rezagado|rodado|rodeado|sellado|sentado|situado|sobrado|sobrecargado|tapado|tirado|tocado|trajeado|tripulado|tumbado|uniformado">
     <!ENTITY exceptions_ADO2 "relacionado|alimentado|mentalizado|abismado|aceitado|acelerado|acoplado|acuclillado|adaptado|aderezado|adormilado|agazapado|agobiado|ahogado|airado|ajustado|aliviado|allanado|amarrado|amenazado|anexado|aparcado|apesadumbrado|apresurado|apretujado|apuntado|arrimado|arrugado|asustado|atemorizado|aterrado|atontado|aupado|aventajado|bronceado|cambiado|cautivado|certificado|clavado|comandado|comparado|completado|complicado|conjuntado|contrariado|cruzado|dado|decepcionado|decorado|deformado|demostrado|desarreglado|desaseado|desatado|desbocado|desbordado|descargado|descarriado|descuidado|desgraciado|desgreñado|desorientado|despistado|desplomado|desviado|determinado|dotado|duchado|echado|empatado|empolvado|empujado|encuadrado|engarzado|engañado|enjaezado|enmarcado|ensamblado|ensillado|entrecomillado|envarado|enviado|escayolado|esperanzado|estresado|exagerado|exclamado|expulsado|extraviado|fijado|flipado|grabado|hablado|hipnotizado|ilustrado|impregnado|incomunicado|incorporado|indignado|insultado|integrado|interesado|intrigado|inventado|lastrado|lavado|mamado|marcado|mareado|mojado|motivado|obnubilado|orientado|pagado|pensado|perfumado|pertrechado|pilotado|plagado|planchado|plateado|precintado|rapado|rasurado|realizado|reforzado|remangado|rematado|remolcado|repujado|rizado|separado|sincronizado|tatuado|tomado|vendado|vigilado|zarandeado|zumbado">
     <!ENTITY ordinales_decenas "décimo|vigésimo|trigésimo|cuadragésimo|quincuagésimo|sexagésimo|septuagésimo|nonagésimo">
@@ -1680,6 +1681,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Para gente que no la practica.</example>
                 <!-- tu>tú-->
             </rule>
+            <rule default="temp_off">
+                <!-- Un solo termino -->
+                <pattern>
+                    <token postag="DI.*" postag_regexp="yes"/>
+                    <token inflected="yes">solo</token>
+                    <marker>
+                        <token><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\3 postag:NC.* gendernumberFrom:1"/>
+                <message>Si es adjetivo o nombre, se escribe con tilde.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="término">Un solo <marker>termino</marker>.</example>
+            </rule>
             <rule>
                 <!-- La fabrica produjo -->
                 <pattern>
@@ -1972,7 +1987,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>mismo</token>
                 </antipattern>
                 <pattern>
-                    <token postag="AQ.*|V.P.*" postag_regexp="yes" inflected="yes" regexp="yes">santo|referir|dicho|nuevo|gran|destacado|mismo|apreciable<exception scope="previous">lo</exception></token>
+                    <token postag="AQ.*|V.P.*|NC.*" postag_regexp="yes" inflected="yes" regexp="yes">santo|referir|dicho|nuevo|gran|destacado|mismo|apreciable|propio<exception scope="previous">lo</exception></token>
                     <marker>
                         <token><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
                     </marker>
@@ -2046,7 +2061,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule default="temp_off">
                 <!-- en primer termino -->
                 <pattern>
-                    <token regexp="yes">en|el|a</token>
+                    <token regexp="yes">en|el|a|un|del|al</token>
                     <token postag="AO.*" postag_regexp="yes"/>
                     <marker>
                         <token><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
@@ -2057,6 +2072,82 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>{suggestion}</suggestion>
                 <example correction="término">En primer <marker>termino</marker>.</example>
                 <example correction="término">En último <marker>termino</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <!-- cuyo termino -->
+                <pattern>
+                    <token>cuyo</token>
+                    <marker>
+                        <token><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\2 postag:[AN].*"/>
+                <message>Si es adjetivo o nombre, se escribe con tilde.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="término">Durarían nueve horas, a cuyo <marker>termino</marker> recobraría su tamaño.</example>
+            </rule>
+            <rule default="temp_off">
+                <!-- termino cuyo -->
+                <pattern>
+                    <marker>
+                        <token><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token inflected="yes">cuyo</token>
+                </pattern>
+                <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\1 postag:[AN].*"/>
+                <message>Si es adjetivo o nombre, se escribe con tilde.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="término"><marker>termino</marker> cuya acuñación se debe a este autor</example>
+            </rule>
+            <rule default="temp_off">
+                <!-- su termino -->
+                <pattern>
+                    <token regexp="yes">mi|tu|su|nuestr[oa]|vuestr[oa]</token>
+                    <marker>
+                        <token><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\2 postag:(NC|AQ).*"/>
+                <message>Si es adjetivo o nombre, se escribe con tilde.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="término">A su <marker>termino</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="TERMINO" name="termino->término" default="temp_off">
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">poner|dar</token>
+                    <token min="0" max="2" postag_regexp="yes" postag="A..[MC][SN].|V.P..SM|RG|LOC_ADV"/>
+                    <marker>
+                        <token>termino</token>
+                    </marker>
+                </pattern>
+                <message>Si es adjetivo o nombre, se escribe con tilde.</message>
+                <suggestion>término</suggestion>
+                <example correction="término">Hubo que poner <marker>termino</marker> a aquello.</example>
+                <example correction="término">Hubo que poner lamentable <marker>termino</marker> a aquello.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>termino</token>
+                    </marker>
+                    <token regexp="yes">medio|municipal|local|provincial|comarcal|genérico|despectivo|griego|militar|peyorativo|latino|español|castellano|inglés|francés|alemán|italiano|ruso|catalán|valenciano|.+ópico|.*aico|hebreo</token>
+                </pattern>
+                <message>Si es adjetivo o nombre, se escribe con tilde.</message>
+                <suggestion>término</suggestion>
+                <example correction="término">No había <marker>termino</marker> medio.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>termino</token>
+                    </marker>
+                    <token postag="_QM_OPEN"/>
+                </pattern>
+                <message>Si es adjetivo o nombre, se escribe con tilde.</message>
+                <suggestion>término</suggestion>
+                <example correction="término">el uso del antigo <marker>termino</marker> "escena".</example>
             </rule>
         </rulegroup>
         <rule id="PRACTICA" name="practica/práctica">
@@ -2482,6 +2573,100 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="última">La <marker>ultima</marker>.</example>
             <example correction="últimas">Las <marker>ultimas</marker>.</example>
         </rule>
+        <rulegroup id="DIACRITICS_06" name="06" default="temp_off">
+            <!--<rule>
+                <pattern>
+                    <token postag="A..[MC][SN].|V.P..SM" postag_regexp="yes"/>
+                    <marker>
+                        <token regexp="yes">&diacritics_06;<exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\2 postag:N.* gendernumberFrom:1"/>
+                <message>Si es adjetivo o nombre, se escribe con tilde.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="término">Último <marker>termino</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception postag="P.*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token regexp="yes">&diacritics_06;<exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="A..[MC][SN].|V.P..SM" postag_regexp="yes"/>
+                </pattern>
+                <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\2 postag:N.* gendernumberFrom:3"/>
+                <message>Si es adjetivo o nombre, se escribe con tilde.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="término"><marker>termino</marker> lamentable</example>
+                <example>Yo termino último.</example>
+            </rule>-->
+            <rule>
+                <pattern>
+                    <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                    <marker>
+                        <token regexp="yes">&diacritics_06;<exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\3 postag:N.* gendernumberFrom:2"/>
+                <message>Si es adjetivo o nombre, se escribe con tilde.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="término">Lo llevo a feliz <marker>termino</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">&diacritics_06;<exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token>que</token>
+                </pattern>
+                <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\1 postag:N.*"/>
+                <message>Si es adjetivo o nombre, se escribe con tilde.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="término">Qué és un mamífero, <marker>termino</marker> que no he oído nunca.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                    <token regexp="yes">&diacritics_06;</token>
+                </antipattern>
+                <antipattern>
+                    <token>de</token>
+                    <token>una</token>
+                    <token>vez</token>
+                </antipattern>
+                <antipattern>
+                    <token>de</token>
+                    <token regexp="yes" min="0">una|la|esta|esa|aquella</token>
+                    <token regexp="yes">manera|forma</token>
+                </antipattern>
+                <antipattern>
+                    <token>de</token>
+                    <token>un</token>
+                    <token>trago</token>
+                </antipattern>
+                <antipattern>
+                    <token>de</token>
+                    <token>vuelta</token>
+                    <token regexp="yes">a|al</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">&diacritics_06;<exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token min="0" postag="A..[MC][SN].|V.P..SM" postag_regexp="yes"/>
+                    <token regexp="yes">de|del<exception postag="LOC_ADV"/></token>
+                    <token><exception postag="V.N.*" postag_regexp="yes"/></token>
+                </pattern>
+                <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\1 postag:N.*"/>
+                <message>Si es adjetivo o nombre, se escribe con tilde.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="término">La caída y <marker>termino</marker> de todas las cosas.</example>
+                <example>Termino de verlos.</example>
+                <example>La termino de una vez</example>
+                <example>Termino de forma triste.</example>
+            </rule>
+        </rulegroup>
         <rule id="DIACRITICS_CONDICIONAL" name="secundaria/secundaría">
             <pattern>
                 <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
