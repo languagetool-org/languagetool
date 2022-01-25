@@ -41449,7 +41449,7 @@ O objetivo é alcançar o terreno do inimigo. → O objetivo é alcançar o terr
 
 	<!-- POR ISSO aí/assim/daí/isso -->
     <rulegroup id='POR_ISSO_AÍ_ASSIM_DAÍ_ISSO' name="Simplificar: por isso → aí/assim/daí/isso">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-24 (Checked/Enhanced) (1-JAN-2022+)      -->
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-24/25 (Checked/Enhanced) (1-JAN-2022+)      -->
 	<!--
 Queria por isso ter informado a chefe. → Queria daí ter informado a chefe.
 Deveria por isso eu ter informado a chefe. → Deveria aí eu ter informado a chefe.
@@ -41485,7 +41485,8 @@ Lamento muito por isso ter acontecido. → Lamento muito isso ter acontecido.
 -->
 	  <rule>
 		<pattern>
-			<token postag='VMIP.+|NC.+|AQ.+|DI.+|PI.+|RG' postag_regexp='yes'/>
+			<token postag='VMIP.+' postag_regexp='yes'/>
+			<token min="0" max="1" postag='NC.+|AQ.+|DI.+|PI.+|RG' postag_regexp='yes'/>
 			<marker>
 				<token>por</token>
 				<token>isso</token>
@@ -41756,7 +41757,7 @@ Era visto nas mãos de todos os japoneses em paradas.
 <!-- MARCOAGPINTO 2022-01-24/25 (1-JAN-2022+) *START* -->
 <!--
 TESTS WITH 600000 SENTENCES:
-BEFORE:2215
+BEFORE:2236
  AFTER:2164
 -->
 <!--
