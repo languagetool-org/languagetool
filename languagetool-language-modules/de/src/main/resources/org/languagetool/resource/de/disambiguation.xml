@@ -5180,7 +5180,58 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             </disambig>
         </rule>
     </rulegroup>
-
+    
+    <rulegroup id="STANDING_OVATIONS" name="Standing Ovations als Kompositum">
+        <rule>
+            <pattern>
+                <marker>
+                    <token>Standing</token>
+                </marker>
+                <token regexp="yes">Ovation|Crop</token>
+            </pattern>
+            <disambig action="remove" postag="SUB.*" />
+        </rule>
+        <rule>
+            <pattern>
+                <token>Standing</token>
+                <token>Ovations</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:NOM:PLU:FEM"/>
+                <wd pos="SUB:NOM:PLU:FEM"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>Standing</token>
+                <token>Ovations</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:GEN:PLU:FEM"/>
+                <wd pos="SUB:GEN:PLU:FEM"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>Standing</token>
+                <token>Ovations</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:DAT:PLU:FEM"/>
+                <wd pos="SUB:DAT:PLU:FEM"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>Standing</token>
+                <token>Ovations</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="SUB:AKK:PLU:FEM"/>
+                <wd pos="SUB:AKK:PLU:FEM"/>
+            </disambig>
+        </rule>
+    </rulegroup>
 
     <rulegroup id="USER_EXPERIENCE" name="Customer Experience als Kompositum">
         <rule>

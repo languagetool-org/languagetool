@@ -17480,6 +17480,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>ab</token>
                 <token>zu</token>
             </antipattern>
+            <antipattern>
+                <token>ab</token>
+                <token regexp="yes">und|&amp;</token>
+                <token>zu</token>
+            </antipattern>
             <antipattern><!-- Ich hoffe, es macht dir nichts aus zu laufen. -->
                 <token inflected="yes">machen</token>
                 <token regexp="yes">euch|[md]ir|uns|ih[mr]|ihnen|denen</token>
@@ -17513,9 +17518,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>an</token>
                 <token>zu</token>
             </antipattern>
+            <antipattern>
+                <token inflected="yes" skip="4">zielen</token>
+                <token>darauf</token>
+                <token>ab</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" skip="2">fordern</token>
+                <token>auf</token>
+                <token>zu</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">ganzes?</token>
+                <token regexp="yes">Tag|Woche|Monat|Jahr</token>
+                <token>über</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token postag=".*PRP:.*" postag_regexp="yes">
+                        <exception>a</exception>
                         <exception>am</exception>
                         <exception>außerhalb</exception>
                         <exception>ausserhalb</exception>
@@ -17552,6 +17573,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception>zeit</exception>
                         <exception>zu</exception>
                         <exception>zum</exception>
+                        <exception>fürs</exception>
+                        <exception>ans</exception>
+                        <exception regexp="yes">.*zeit</exception>
                     </token>
                     <token>zu</token>
                     <token postag=".*VER:.*INF.*" postag_regexp="yes"><exception regexp="yes">ein(ig)en|agieren|sieben|weiten|sein|unter.+en|ermöglichen|berichten|beeinflussen|erreichen</exception></token>
@@ -29715,7 +29739,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">ans|fürs|übers|unters|hinters|durchs|ins|vors</token>
                 <token postag="(ADJ|PA[12]):.*" postag_regexp="yes"/>
                 <token postag="(ADJ|PA[12]):.*|UNKNOWN|ZAL" postag_regexp="yes"/>
-                <token regexp="yes" case_sensitive="yes" postag="SUB.*NEU.*|UNKNOWN" postag_regexp="yes">[A-ZÖÄÜ].+</token>
+                <token regexp="yes" case_sensitive="yes" postag="SUB.*NEU.*|UNKNOWN|EIG.*" postag_regexp="yes">[A-ZÖÄÜ].+</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">ans|fürs|übers|unters|hinters|durchs|ins|vors</token>
@@ -29745,15 +29769,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="VER:INF.*" postag_regexp="yes" />
             </antipattern>
             <antipattern>
-                <token regexp="yes">nächste|erste|letzte</token>
-                <token>mal</token>
+                <token regexp="yes">nächste|erste|letzte|mach</token>
+                <token regexp="yes">mal?</token>
+            </antipattern>
+            <antipattern>
+                <token>nahe</token>
+                <token regexp="yes">gelegen.*|liegend.*</token>
             </antipattern>
             <pattern>
                 <token regexp="yes">ans|fürs|übers|unters|hinters|durchs|ins|vors</token>
                 <marker>
-                    <token case_sensitive="yes" postag="VER:INF:NON|(ADJ|PA[12]):AKK:.*" postag_regexp="yes" regexp="yes">[a-zöäü].*<exception>andere</exception></token>
+                    <token case_sensitive="yes" postag="VER:INF:NON|(ADJ|PA[12]):AKK:.*" postag_regexp="yes" regexp="yes">
+                        [a-zöäü].*
+                        <exception regexp="yes">andere|m?einen?</exception>
+                    </token>
                 </marker>
-                <token><exception postag="SUB:NOM:SIN:NEU.*" postag_regexp="yes" /><exception>,</exception></token>
+                <token>
+                    <exception postag="SUB:NOM:SIN:NEU.*" postag_regexp="yes" />
+                    <exception>,</exception>
+                </token>
             </pattern>
             <message><suggestion><match no="2" case_conversion="startupper"/></suggestion> scheint hier ein Nomen zu sein (\1 = <match no="1" regexp_match="s$" regexp_replace="" /> das) und muss dann großgeschrieben werden.</message>
             <example correction="Essen">Aber ans <marker>essen</marker> hat er nicht mehr gedacht.</example>
@@ -29772,6 +29806,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>1819 versetzte man ihn als Pfarrer ins pfälzische (bayerische) Großkarlbach bei Grünstadt.</example>
             <example>Danke fürs hartnäckige nachfragen.</example><!-- "Nachfragen" should be capitalized -->
             <example>Für SSIDs ins blaue bzw. grüne Netz</example>
+            <example>Mit etwa 37 rezenten Arten von Trinidad bis ins südliche tropische Amerika.</example>
+            <example>Anfänglich wurden täglich nur 16 Liter produziert und der größte Teil der Produktion ging ins nahe gelegene Frankreich.</example>
         </rule>
         <rule id="ANS_EINGEMACHTE" name="ans eingemachte (Eingemachte)">
             <pattern case_sensitive="yes">
@@ -31597,7 +31633,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule default="temp_off">
                 <pattern>
-                    <token regexp="yes">gibt|gab|hast|hattest|hatten?</token>
+                    <token regexp="yes">gibt|gab|hast|hattest|hatten?|haben</token>
                     <token regexp="yes">du|es|sie</token>
                     <token regexp="yes" min="0" max="2">vielleicht|richtig|mächtig|k?ein(en)?|gro(ß|ss)en|kaum|viel|wenig|mwirklich|möglicherweise|irgend(einen|wie)</token>
                     <marker>
@@ -31613,7 +31649,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule default="temp_off">
                 <pattern>
                     <token regexp="yes">du|es|sie</token>
-                    <token regexp="yes">gibt|gab|hast|hattest|hatten?</token>
+                    <token regexp="yes">gibt|gab|hast|hattest|hatten?|haben</token>
                     <token regexp="yes" min="0" max="2">vielleicht|richtig|mächtig|k?ein(en)?|gro(ß|ss)en|kaum|viel|wenig|mwirklich|möglicherweise|irgend(einen|wie)</token>
                     <marker>
                         <token case_sensitive="yes">bedarf</token>
@@ -45379,6 +45415,22 @@ Andere Projekte</example>
             </rule>
         </rulegroup>
         <rule id="DAS_ETWAS" name="das gewisse etwas (Etwas)">
+            <antipattern>
+                <token>das</token>
+                <token postag="ADJ.*" postag_regexp="yes" />
+                <token>etwas</token>
+                <token regexp="yes" postag="ADJ.*|UNKNOWN" postag_regexp="yes" case_sensitive="yes">.+er</token>
+            </antipattern>
+            <antipattern>
+                <token>das</token>
+                <token regexp="yes">ganze|gerade</token>
+                <token>etwas</token>
+            </antipattern>
+            <antipattern>
+                <token>ein</token>
+                <token>leichtes</token>
+                <token>etwas</token>
+            </antipattern>
             <pattern>
                 <token regexp="yes">das|ein</token>
                 <token postag="ADJ:AKK:SIN:.+" postag_regexp="yes"/>
@@ -45388,6 +45440,10 @@ Andere Projekte</example>
             <short>&prgk;.</short>
             <example correction="Etwas">Sie hat das gewisse <marker>etwas</marker>.
             </example><example correction="Etwas">Unter dem Sitz klebt ein grünes <marker>etwas</marker>.</example>
+            <example>Um das ganze etwas spannender und interaktiver zu gestalten, ...</example>
+            <example>Mir gefällt das erste etwas besser.</example>
+            <example>Leider ist das ganze etwas schwierig.</example>
+            <example>Leider ist das gerade etwas schwierig.</example>
         </rule>
         <rulegroup id="JA_NEIN" name="mit ja (Ja)">
             <rule>
@@ -60760,7 +60816,7 @@ Andere Projekte</example>
                 </antipattern>
                 <antipattern>
                     <token postag="VER.*" postag_regexp="yes"/>
-                    <token postag="PRO:.+|EIG:.+" postag_regexp="yes"/>
+                    <token postag="PRO:.+|EIG:.+|UNKNOWN" postag_regexp="yes"/>
                     <token regexp="yes">nämlich|insbesondere|einschließlich|einschliesslich|also</token>
                 </antipattern>
                 <antipattern>
@@ -60812,8 +60868,10 @@ Andere Projekte</example>
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token><exception regexp="yes">,|;|:|\.|-|–|—|\(|„|"|bis|und|oder|sondern|sowie|\)</exception><exception postag="SENT_START"/><exception postag="VER:([1-3]|AUX|MOD):.*" postag_regexp="yes"/></token>
-                        <token skip="-1" regexp="yes">nämlich|insbesondere|einschließlich|einschliesslich<exception scope="next" postag="VER.*" postag_regexp="yes"/></token>
+                        <token><exception regexp="yes">,|;|:|\.|-|–|—||\(|„|"|bis|und|oder|sondern|sowie|\)</exception><exception postag="SENT_START"/><exception postag="VER:([1-3]|AUX|MOD):.*" postag_regexp="yes"/></token>
+                        <token skip="-1" regexp="yes">insbesondere|einschließlich|einschliesslich
+                            <exception scope="next" postag="VER.*" postag_regexp="yes"/>
+                        </token>
                     </marker>
                     <token postag="SENT_END" regexp="yes">\p{P}+
                         <exception scope="previous" postag="VER:.+" postag_regexp="yes"/>
@@ -60822,7 +60880,7 @@ Andere Projekte</example>
                 </pattern>
                 <message>Vor einer nachgestellten Erläuterung steht üblicherweise ein Komma.</message>
                 <suggestion>\1, \2</suggestion>
-                <example correction="Jahreszeiten, nämlich">Es gibt vier <marker>Jahreszeiten nämlich</marker> Frühling, Sommer, Herbst und Winter.</example>
+                <example correction="Jahreszeiten, insbesondere">Es gibt vier <marker>Jahreszeiten insbesondere</marker> Frühling, Sommer, Herbst und Winter.</example>
                 <example>Es gibt vier <marker>Jahreszeiten, nämlich</marker> Frühling, Sommer, Herbst und Winter.</example>
                 <example>Als Wissenschaft vom Erleben und Verhalten des Menschen einschließlich der biologischen bzw. neurowissenschaftlichen Grundlagen ist die Psychologie von vornherein interdisziplinär ausgerichtet.</example>
                 <example>Die aristotelische Philosophie widerspricht der christlichen Lehre insbesondere in zwei Punkten: Sie verneint die Schöpfung und die Unsterblichkeit der Seele.</example>
