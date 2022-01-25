@@ -5881,7 +5881,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>el</token>
                     <token min="0" max="4" postag_regexp="yes" postag="R.|LOC_ADV|_QM_OPEN"/>
                     <!-- _PUNCT_CONT-->
-                    <token postag="N.[MC][SN].*|A..[MC][SN].|_GN_MS|DN.*|UNKNOWN|_abrev_biblia|_possible_NP|V.N.*|V.P..SM" postag_regexp="yes"/>
+                    <token postag="N.[MC][SN].*|A..[MC][SN].|_GN_MS|UNKNOWN|_abrev_biblia|_possible_NP|V.N.*|V.P..SM" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>el</token>
+                    <token min="0" max="4" postag_regexp="yes" postag="R.|LOC_ADV|_QM_OPEN"/>
+                    <token postag="DN.*" postag_regexp="yes"/>
+                    <token><exception postag="N..P.*" postag_regexp="yes"/></token>
+                </antipattern>
+                <antipattern>
+                    <token>el</token>
+                    <token postag="DN.*" postag_regexp="yes"/>
+                    <token>veces</token>
+                    <token postag="N.[MC][SN].*|AQ.[MC][SN]." postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
                     <token>el</token>
@@ -5936,6 +5948,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="él">Vivimos en <marker>el</marker> pero hay que saber respetar al resto.</example>
                 <example correction="él">El que dice permanecer en <marker>el</marker> debe andar como él anduvo</example>
                 <example correction="él">Necesita que se ejerza sobre <marker>el</marker> una fuerza.</example>
+                <example correction="él">Hizo con <marker>el</marker> cuatro películas.</example>
+                <example>El cuatro veces campeón del mundo.</example>
                 <example>Me gusta el que tienes.</example>
                 <example>El E y el Y.</example>
                 <example>El bien conocido cantautor.</example>
