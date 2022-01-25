@@ -41405,10 +41405,11 @@ O objetivo é alcançar o terreno do inimigo. → O objetivo é alcançar o terr
 			<token regexp='yes'>inimig[ao]s?|adversári[ao]s?|aliad[ao]s?|oponentes?</token>
 		</marker>		
       </pattern>      
-	  <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:4 lemmaSelect:NC.* postagFrom:2 postagSelect:NC.*"/>
+      <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:4 lemmaSelect:NC.* postagFrom:2 postagSelect:NC(.)(.).* postagReplace:NC[\b1C][\b2N].*" />
 	  <message>Esta perífrase poderá ser simplificada.</message>
 	  <suggestion>{suggestion}</suggestion>	
       <example correction="inimiga">O objetivo é alcançar a bandeira <marker>do inimigo</marker>.</example>
+      <example correction="oponente">As forças da NATO querem alcançar a bandeira <marker>dos oponentes</marker>.</example>
 	  <example>Sabiam localizar os rastros dos animais e as trilhas inimigas.</example>
 	  <example>No mês de Abril de 1945, durante a invasão aliada, a cidade foi tomada sem grande resistência pelos americanos.</example>
 	  <example>Os exércitos inimigos foram vencidos.</example>
