@@ -873,14 +873,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
           </rulegroup>
           <rulegroup id="bivshij_biloj" name="Логические ошибки: «бывший» или «былой»">
-            <rule>  <!--  TODO   add inflected  -->
+            <rule>
                 <pattern>
-                    <token>былой</token>
-                    <token>муж</token>
-                </pattern>              
-                <message>Должно быть: <suggestion>бывший <match no="2"></match></suggestion>?</message>
+                    <token inflected="yes">былой</token>
+                    <token inflected="yes">муж</token>
+                </pattern>
+                <message>Должно быть: <suggestion><match no="1" postag="ADJ:Posit:Masc:(Nom|R|D|T|P)" postag_regexp="yes" postag_replace="ADJ:Posit:Masc:$1">бывший</match> <match no="2"></match></suggestion>?</message>
                 <short>Логическая ошибка</short>
-                <example correction="бывший муж"><marker>былой муж</marker></example>
+                <example correction="бывшего мужа"><marker>былого мужа</marker></example> <!--  TODO   improve correction !!!  -->
             </rule>
             <rule> 
                 <pattern>
