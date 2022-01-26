@@ -6185,6 +6185,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Principios en materia criminal como el Non bis in idem.</example>
                 <example>Es nuestra obligación ayudarnos el uno al otro.</example>
                 <example>Fue el ganador en el mano a mano.</example>
+                <example>Esto pasó en el 2017.</example>
+                <example>El 4 es un buen número.</example>
+                <example>El cuatro es un buen número.</example>
             </rule>
             <rule>
                 <pattern>
@@ -10450,7 +10453,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="bastante">Son <marker>bastantes</marker> conocidos entre el público.</example>
             <example>Aquí hay bastantes personas.</example>
         </rule>
-        <rule id="CONCORDANCIA_GRAN" name="concordancia gran + nombre/adjetivo" default="temp_off">
+        <rule id="CONCORDANCIA_GRAN" name="concordancia gran + nombre/adjetivo">
             <pattern>
                 <token>gran</token>
                 <token postag="NC.P.*|A...P.*|V.P..P." postag_regexp="yes"/>
@@ -10459,7 +10462,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>\1 <match no="2" postag_regexp="yes" postag="(NC.|A...|V.P..)P(.*)" postag_replace="$1S$2"/></suggestion>
             <example correction="Gran perjudicado"><marker>Gran perjudicados</marker> por la decisión.</example>
         </rule>
-        <rulegroup id="CONCORDANCIA_BUEN" name="concordancia buen + nombre/adjetivo" default="temp_off">
+        <rulegroup id="CONCORDANCIA_BUEN" name="concordancia buen + nombre/adjetivo">
+            <antipattern>
+                <token>a</token>
+                <token>buen</token>
+                <token>hambre</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token>buen</token>
@@ -10469,6 +10477,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>bien \2</suggestion>
                 <suggestion>\1 <match no="2" postag_regexp="yes" postag="(NC.|A...|V.P..)P(.*)" postag_replace="$1S$2"/></suggestion>
                 <example correction="Bien conocidos|Buen conocido"><marker>Buen conocidos</marker> por todos.</example>
+                <example>El buen Descartes.</example>
             </rule>
             <rule>
                 <pattern>
@@ -15727,6 +15736,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>En Málaga se echan en falta parques grandes.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>a</token>
+                    <token>buen</token>
+                    <token>hambre</token>
+                </antipattern>
                 <pattern>
                     <unify negate="yes">
                         <feature id="numero"/>
@@ -15751,6 +15765,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Combos creatina.</example>
                 <example>Las clases alta y media españolas.</example>
                 <example>Son pulsiones asaz primitivas.</example>
+                <example>A buen hambre no hay pan duro.</example>
             </rule>
             <rule>
                 <pattern>
@@ -18543,7 +18558,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
-        <rule id="DES_DE" name="des -> de" default="temp_off">
+        <rule id="DES_DE" name="des -> de">
             <pattern>
                 <token postag="N.*|_GN_.*" postag_regexp="yes"/>
                 <marker>
@@ -18554,7 +18569,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>¿Quería decir <suggestion>de</suggestion>?</message>
             <example correction="de">Son objeto <marker>des</marker> discusión.</example>
         </rule>
-        <rule id="PAR_POR" name="par -> por" default="temp_off">
+        <rule id="PAR_POR" name="par -> por">
             <pattern>
                 <token><exception postag="D..[MC][SN]," postag_regexp="yes"/></token>
                 <marker>
@@ -18565,7 +18580,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>¿Quería decir <suggestion>por</suggestion>?</message>
             <example correction="Por"><marker>Par</marker> ese motivo se separaron.</example>
         </rule>
-        <rule id="CON_O_SIN" name="con *a sin -> con o sin" default="temp_off">
+        <rule id="CON_O_SIN" name="con *a sin -> con o sin">
             <pattern>
                 <token>con</token>
                 <marker>
@@ -18584,7 +18599,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>¿Quería decir <suggestion>durante la</suggestion>?</message>
             <example correction="durante la">Pasó <marker>durante a</marker> primera mitad del siglo.</example>
         </rule>
-        <rule id="DURANTE_AL" name="durante al > durante la" default="temp_off">
+        <rule id="DURANTE_AL" name="durante al > durante la">
             <antipattern>
                 <token>al</token>
                 <token>menos</token>
