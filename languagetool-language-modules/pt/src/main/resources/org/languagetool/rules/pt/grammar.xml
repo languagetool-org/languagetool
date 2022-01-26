@@ -16523,6 +16523,29 @@ Por as DDR efetuarem duas operações por ciclo, surgiram os módulos CL2.5 que 
           <token regexp="yes">[\.!?]</token>
           <token regexp="yes" spacebefore='no'>”|»|&quot;</token>
       </antipattern>
+
+<!-- MARCOAGPINTO 2022-01-26 (1-JAN-2022+) *START* -->
+<!--
+NOTICE THE ANTIPATTERN CREATED HERE IN THE COMMA "MAS" RULE, SO THAT IT TRIGGERS THE RULE CONFUSÃO_MAS_MAIS.
+
+Vamos fazer exercício durante mas meses. → Vamos fazer exercício durante mais meses.
+É uma estratégia um pouco mas trabalhosa. → É uma estratégia um pouco mais trabalhosa.
+Quanto mas informação reunir, mais condições esse investidor vai ter. → Quanto mais informação reunir, mais condições esse investidor vai ter.
+Temos muitos modelos para eleger, dos mas curtinhos aos longos, dos mas justos aos larguinhos. → Temos muitos modelos para eleger, dos mais curtinhos aos longos, dos mais justos aos larguinhos.
+-->
+      <antipattern>
+		  <token postag='CC|CS|RG|SPS.+' postag_regexp='yes'>
+			<exception postag_regexp="yes" postag="I|SPS00.P.+"/>
+		  </token>
+		  <marker>
+			<token>mas</token>
+		  </marker>
+		  <token postag='NC.+|AQ.+' postag_regexp='yes'>
+			<exception>ser</exception>
+			<exception postag_regexp="no" postag="RN"/>
+		  </token>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-01-26 (1-JAN-2022+) *END* -->  
 	  
 	<!-- 12 LIÇÕES UMA PARA CADA MÊS DO ANO 12 lições, uma para cada mês do ano -->
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2021-01-17 (1-JAN-2021+)      -->
@@ -25165,6 +25188,36 @@ Nós os dos queremos ganhar. → Nós os dois queremos ganhar.
 	</rulegroup>
 
 
+    <!-- MAS mais -->
+    <rule id='CONFUSÃO_MAS_MAIS' name="Confusão: mas/mais">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-26 (Checked/Enhanced) (1-JAN-2022+)      -->
+<!--
+NOTICE THE ANTIPATTERN CREATED IN THE COMMA "MAS" RULE, SO THAT IT TRIGGERS THIS RULE (CONFUSÃO_MAS_MAIS).
+HITS IN 600000 SENTENCES:5
+Vamos fazer exercício durante mas meses. → Vamos fazer exercício durante mais meses.
+É uma estratégia um pouco mas trabalhosa. → É uma estratégia um pouco mais trabalhosa.
+Quanto mas informação reunir, mais condições esse investidor vai ter. → Quanto mais informação reunir, mais condições esse investidor vai ter.
+Temos muitos modelos para eleger, dos mas curtinhos aos longos, dos mas justos aos larguinhos. → Temos muitos modelos para eleger, dos mais curtinhos aos longos, dos mais justos aos larguinhos.
+-->
+      <pattern>
+<!--		  <token regexp='yes'>e|porque|então</token> -->
+		  <token postag='CC|CS|RG|SPS.+' postag_regexp='yes'>
+			<exception postag_regexp="yes" postag="I|SPS00.P.+"/>
+		  </token>
+		  <marker>
+			<token>mas</token>
+		  </marker>
+		  <token postag='NC.+|AQ.+' postag_regexp='yes'>
+			<exception>ser</exception>
+			<exception postag_regexp="no" postag="RN"/>
+		  </token>
+      </pattern>
+	  <message>Possível confusão de termos.</message>
+	  <suggestion>mais</suggestion>
+      <example correction="mais">As mulheres engravidam menos e <marker>mas</marker> tarde.</example>
+    </rule>
+
+
 	<!-- NOS nós -->
 	<rulegroup id='CONFUSÃO_NOS_NÓS' name="Confusão: nos/nós" default="temp_off">
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-02/3 (1-JAN-2022+)      -->
@@ -25784,17 +25837,6 @@ Vê na etiqueta que esta agarrada ao cabaz. → Vê na etiqueta que está agarra
 		<example>Pensa-se que esta estrada teria ligação com outra do Alto Minho, a qual iria ter à Galiza.</example>
 	</rule>	
 	</rulegroup>
-	
-    <rule id='E_MAS_TARDE' name="Confusão: mas tarde/mais tarde">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-      <pattern>
-          <token regexp='yes'>e|porque|então</token>
-          <token>mas</token>
-          <token>tarde</token>
-      </pattern>
-      <message>Substitua por <suggestion>e mais tarde</suggestion>.</message>
-      <example correction="e mais tarde">As mulheres engravidam menos <marker>e mas tarde</marker>.</example>
-    </rule>
 	
     <rule id='O_AO' name="Confusão: o/ao" >
     <!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-07-04 (2-JUL-2020+) -->
