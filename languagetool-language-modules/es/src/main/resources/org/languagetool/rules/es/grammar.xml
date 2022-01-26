@@ -10441,18 +10441,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="GRAMMAR" name="Gramática" type="grammar">
-        <rule id="BASTANTES" name="bastantes -> bastante" default="temp_off">
-            <pattern raw_pos="yes">
-                <marker>
-                    <token>bastantes</token>
-                </marker>
-                <token postag="A.*|V.P.*" postag_regexp="yes"/>
-            </pattern>
-            <message>Si "bastante" es un adverbio que modifica al adjetivo "\2", se debe escribir en singular.</message>
-            <suggestion>bastante</suggestion>
-            <example correction="bastante">Son <marker>bastantes</marker> conocidos entre el público.</example>
-            <example>Aquí hay bastantes personas.</example>
-        </rule>
+        <rulegroup id="BASTANTES" name="bastantes -> bastante" default="temp_off">
+            <rule>
+                <pattern raw_pos="yes">
+                    <marker>
+                        <token>bastantes</token>
+                    </marker>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"><exception postag="N.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Si "bastante" es un adverbio que modifica al adjetivo "\2", se debe escribir en singular.</message>
+                <suggestion>bastante</suggestion>
+                <example correction="bastante">Son <marker>bastantes</marker> peligrosos.</example>
+                <example>Aquí hay bastantes personas.</example>
+                <example>En este caso tienen bastantes hamburguesas en su menú.</example>
+            </rule>
+            <rule>
+                <!-- words that are N+A, but usually A -->
+                <pattern raw_pos="yes">
+                    <token inflected="yes" skip="2">ser<exception scope="next" postag="SPS00|LOC_PREP" postag_regexp="yes"/></token>
+                    <marker>
+                        <token>bastantes</token>
+                    </marker>
+                    <token inflected="yes">conocido</token>
+                </pattern>
+                <message>Si "bastante" es un adverbio que modifica al adjetivo "\3", se debe escribir en singular.</message>
+                <suggestion>bastante</suggestion>
+                <example correction="bastante">Son <marker>bastantes</marker> conocidos entre el público.</example>
+                <example>En este caso tienen bastantes hamburguesas en su menú.</example>
+                <example>Es compartida con bastantes conocidos míos</example>
+                <example>Las opiniones que había oído de bastantes conocidos.</example>
+            </rule>
+        </rulegroup>
         <rule id="CONCORDANCIA_GRAN" name="concordancia gran + nombre/adjetivo">
             <pattern>
                 <token>gran</token>
