@@ -8,8 +8,8 @@ title="Easy editing stylesheet" ?>
  
  Portuguese (Portugal - postreform) - Grammar and Typo Rules for LanguageTool.
 
- Copyright © 2016-2021 Tiago F. Santos (tiagofsantos81@sapo.pt)
- Copyright © 2016-2021 Marco A.G.Pinto (www.marcoagpinto.com)
+ Copyright © 2016-2022 Tiago F. Santos (tiagofsantos81@sapo.pt)
+ Copyright © 2016-2022 Marco A.G.Pinto (www.marcoagpinto.com)
 
  This library is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
@@ -1936,6 +1936,20 @@ Ambrósio responde-lhe por um tratado "Sobre a fé para Graciano Augusto", em ci
 	  </antipattern>
 <!-- MARCOAGPINTO 2021-07-16 (25-JUN-2021+) *END* -->
 
+<!-- MARCOAGPINTO 2022-01-26 (1-JAN-2022+) *START* -->
+<!--
+Dói-me o estômago.
+Dói-me a barriga.
+Dói-me um dente.
+Dói-me aqui.
+-->
+      <antipattern>
+		  <token postag='VMIP3P0' postag_regexp='no'/>
+		  <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
+		  <token regexp='yes' spacebefore='no'>me|lhes?|nos</token>		  
+      </antipattern>
+<!-- MARCOAGPINTO 2022-01-26 (1-JAN-2022+) *END* -->  
+
       <pattern>
           <token min='0' regexp='yes'>tu|vós</token>
           <token postag="V...2.+" postag_regexp='yes'>
@@ -1954,16 +1968,16 @@ Ambrósio responde-lhe por um tratado "Sobre a fé para Graciano Augusto", em ci
 	  <example type='correct'>E assim <marker>abri-lhe</marker> a porta.</example>
 	  <example type='correct'>E assim <marker>abri-lhes</marker> a porta.</example>
 	  <example type='correct'><marker>O Facebook pergunta-me</marker> o que vai na minha mente.</example>
-	  
+
 	  <example>Como sou católico, <marker>constrange-me</marker> falar abertamente sobre este tema.</example>
 	  <example>Dói-me dizer isso, mas você está demitido.</example>
-	  <example>Dói-nos dizer isso, mas você está demitido.</example>	  
+	  <example>Dói-nos dizer isso, mas você está demitido.</example>
 	  <example>Dói-me ao ouvir isso.</example>
 	  <example>Entristece-me ao ouvir isso.</example>
-	  	  
+
 	  <example>O Facebook <marker>pergunta-me</marker> o que vai na minha mente.</example>
-	  <example>O nome vem-lhe de um painel de azulejos com um ramo de girassóis, colocado onde deveria estar a pedra de armas.</example>	  
-	  
+	  <example>O nome vem-lhe de um painel de azulejos com um ramo de girassóis, colocado onde deveria estar a pedra de armas.</example>
+
 	  <example>O mundo espiritual <marker>aparece-nos</marker> na sua realidade prática.</example>
 	  <example>Ainda resta-nos muita comida.</example>
 	  <example>Amar quem nos odeia liberta-nos.</example>
@@ -1973,6 +1987,11 @@ Ambrósio responde-lhe por um tratado "Sobre a fé para Graciano Augusto", em ci
 	  <example>Ao pensar em AI, vem-nos à mente os robôs.</example>
 	  <example>Cabe-nos por tal entender as regras; e não impô-las à natureza.</example>
 	  <example>Ambrósio responde-lhe por um tratado "Sobre a fé para Graciano Augusto", em cinco livros.</example>
+
+	  <example>Dói-me o estômago.</example>
+	  <example>Dói-me a barriga.</example>
+	  <example>Dói-me um dente.</example>
+	  <example>Dói-me aqui.</example>
     </rule>
     <!--    <rule>
       <antipattern>
