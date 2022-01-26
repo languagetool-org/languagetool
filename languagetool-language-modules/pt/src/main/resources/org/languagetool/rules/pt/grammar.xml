@@ -42173,6 +42173,28 @@ Tenho de fazer o jantar hoje.
       </antipattern>
 <!-- MARCOAGPINTO 2022-01-24 (1-JAN-2022+) *END* -->
 
+<!-- MARCOAGPINTO 2022-01-26 (1-JAN-2022+) *START* -->
+<!--
+BASED ON THE ANTIPATTERNS FROM RULE ID: VER_OBSERVAR_CONSTATAR
+TESTS WITH 600000 SENTENCES:
+BEFORE:8627
+ AFTER:8477
+-->
+<!--
+Estes sapatos são feitos na Itália.
+Diga-me o que você fez em Tóquio.
+Assim como inúmeros outros padres da Igreja e teólogos de então fizeram referência a José.
+Faça a Dida feliz, vai?
+Quer conhecer o mundo todo, mas se der para fazer escala em Paris, a cada voo, melhor ainda!
+-->
+      <antipattern>
+		<token regexp='no' inflected='yes'>fazer</token>
+		<token min="0" max="1" negate="yes" regexp='yes'>[ao]s?|de|d[ao]s?|n[ao]s?|em</token>
+		<token regexp='yes'>[ao]s?|de|d[ao]s?|n[ao]s?|em</token>
+		<token postag='NP.+' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-01-26 (1-JAN-2022+) *END* -->
+
 <!--
 Ele a fez sua esposa.
 Ele me fez seu assistente.
