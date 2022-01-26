@@ -291,7 +291,6 @@ public class JLanguageToolTest {
     assertThat(matches.get(0).getToPos(), is(29));
   }
 
-  
 
 
 
