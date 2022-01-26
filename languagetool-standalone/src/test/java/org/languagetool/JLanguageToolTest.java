@@ -58,6 +58,9 @@ public class JLanguageToolTest {
     assertTrue(ruleIds2.contains("DEMO_RULE_OFF"));
   }
 
+
+
+
   @Test
   public void testIsPremium() {
     assertFalse(Premium.isPremiumVersion());
@@ -127,6 +130,8 @@ public class JLanguageToolTest {
     assertEquals("This is a sentence! ", sentences.get(0));
     assertEquals("This is another one.", sentences.get(1));
   }
+
+
 
   @Test
   public void testAnnotateTextCheck() throws IOException {
@@ -200,6 +205,8 @@ public class JLanguageToolTest {
     assertThat(matches.get(0).getToPos(), is(29));
   }
 
+
+
   @Test
   public void testStrangeInput() throws IOException {
     JLanguageTool lt = new JLanguageTool(english);
@@ -262,6 +269,29 @@ public class JLanguageToolTest {
     assertThat(cache.hitCount(), is(12L));
   }
 
+  @Test
+  public void testMessages() throw IOException{
+    JLanguageTool obj = new JLanguageTool(english);
+    AnnotatedText message = new AnnotatedTextBuilder()
+      .addText("Theres an error in your message! This is what the error is").build();
+    List<RuleMatch> matches = obj.check(message);
+    assertThat(matches.size(), is(1));
+    assertThat(matches.get(0).getFromPos(), is(28));
+    assertThat(matches.get(0).getToPos(), is(29));
+  }
+
+  @Test
+  public void testTitleofRules() throw IOException{
+    JLanguageTool obj = new JLanguageTool(english);
+    AnnotatedText rules = new AnnotatedTextBuilder()
+      .addText("Theres an error in the title of your rule! This is what the error is").build();
+    List<RuleMatch> matches = obj.check(rules);
+    assertThat(matches.size(), is(1));
+    assertThat(matches.get(0).getFromPos(), is(28));
+    assertThat(matches.get(0).getToPos(), is(29));
+  }
+
+  
   class InternalRule extends Rule{
     @Override
     public String getId() {
