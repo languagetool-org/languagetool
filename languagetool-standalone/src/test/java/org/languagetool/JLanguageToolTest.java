@@ -291,7 +291,9 @@ public class JLanguageToolTest {
     assertThat(matches.get(0).getToPos(), is(29));
   }
 
-  
+  @Test
+
+
   class InternalRule extends Rule{
     @Override
     public String getId() {
