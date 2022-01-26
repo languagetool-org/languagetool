@@ -84,7 +84,7 @@ public abstract class GRPCRule extends RemoteRule {
   public static final String WHITESPACE_REGEX = "[\u00a0\u202f\ufeff\ufffd]";
 
   public static String cleanID(String id) {
-    return id.replaceAll("[^a-zA-Z_]", "_").toUpperCase();
+    return id.replaceAll("[^a-zA-Z0-9_]", "_").toUpperCase();
   }
   /**
    * Internal rule to create rule matches with IDs based on Match Sub-IDs
