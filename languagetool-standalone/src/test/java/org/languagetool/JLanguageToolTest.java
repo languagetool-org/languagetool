@@ -294,6 +294,8 @@ public class JLanguageToolTest {
   
 
 
+
+
   class InternalRule extends Rule{
     @Override
     public String getId() {
