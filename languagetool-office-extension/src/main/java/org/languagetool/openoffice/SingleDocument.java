@@ -560,7 +560,8 @@ class SingleDocument {
           }
         }
       }
-      int nStart = nPara == null ? 0 : docCache.getFlatParagraphNumber(nPara);
+      int nStart = (nPara == null || nPara.type == DocumentCache.CURSOR_TYPE_UNKNOWN || nPara.number < docCache.textSize(nPara)) ? 
+          0 : docCache.getFlatParagraphNumber(nPara);
       for (int i = nStart; i < docCache.size(); i++) {
         if (docCache.getNumberOfTextParagraph(i).type != DocumentCache.CURSOR_TYPE_UNKNOWN) {
           for (int nCache = 1; nCache < paragraphsCache.size(); nCache++) {
