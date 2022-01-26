@@ -150,7 +150,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         if (minPrevMatchesStr != null) {
           if (inRuleGroup && ruleGroupMinPrevMatches > 0) {
             throw new RuntimeException("Rule group " + ruleGroupId + " has " + MINPREVMATCHES + "=" + ruleGroupMinPrevMatches
-                + ", thus rule " + id + " cannot specify " + MINPREVMATCHES);
+                + ", thus rule " + id + " cannot specify " + MINPREVMATCHES + ". URL for this error: " + internUrl(url)); // this put the url in the error and checks if the given url is good and if not then it gives a malformed url exception
           }
           minPrevMatches = Integer.parseInt(minPrevMatchesStr);  
         } else {
@@ -182,10 +182,10 @@ public class PatternRuleHandler extends XMLRuleHandler {
         id = idPrefix != null ? idPrefix + id : id;
 
         if (inRuleGroup && ruleGroupDefaultOff && attrs.getValue(DEFAULT) != null) {
-          throw new RuntimeException("Rule group " + ruleGroupId + " is off by default, thus rule " + id + " cannot specify 'default=...'");
+          throw new RuntimeException("Rule group " + ruleGroupId + " is off by default, thus rule " + id + " cannot specify 'default=...'" + "Url for this error:" + internUrl(url));
         }
         if (inRuleGroup && ruleGroupDefaultTempOff && attrs.getValue(DEFAULT) != null) {
-          throw new RuntimeException("Rule group " + ruleGroupId + " is off by default, thus rule " + id + " cannot specify 'default=...'");
+          throw new RuntimeException("Rule group " + ruleGroupId + " is off by default, thus rule " + id + " cannot specify 'default=...'" + "Url for this error:" + internUrl(url));
         }
         if (inRuleGroup && ruleGroupDefaultOff) {
           defaultOff = true;

@@ -154,6 +154,4 @@ public class LongSentenceRule extends TextLevelRule {
     return messages.getString("guiLongSentencesText");
   }
 
-
-
 }

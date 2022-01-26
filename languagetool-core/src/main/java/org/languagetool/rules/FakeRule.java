@@ -56,5 +56,13 @@ public class FakeRule extends Rule {
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     return new RuleMatch[0];
   }
+  @Override
+  public void setRuleId(String ruleId) {
+    this.ruleId = ruleId;
+  }// overrides the setRUleID method using the new rule ID "FAKE_ID" for trial purposes
 
+  @Override
+  public String getRuleId() {
+    return ruleId;
+  }//overrides the get ruledID with this sample ID
 }
