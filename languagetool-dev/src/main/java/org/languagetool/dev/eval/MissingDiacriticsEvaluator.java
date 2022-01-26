@@ -123,11 +123,15 @@ public class MissingDiacriticsEvaluator {
   }
   
   private static void analyzeSentence(String correctSentence, int j, int pos) throws IOException {
-
+    
+    boolean isFP = false;
+    boolean isFN = false;
+    
     List<RuleMatch> matchesCorrect = lt.check(correctSentence);
     if (isThereErrorAtPos(matchesCorrect, pos)) {
       results[j][classifyTypes.indexOf("FP")]++;
       System.out.println(ruleIds[j] + " FP: " + correctSentence);
+      isFP = true;
     } else {
       results[j][classifyTypes.indexOf("TN")]++;
       //System.out.println(ruleIds[j] + " TN: " + correctSentence);
@@ -151,9 +155,13 @@ public class MissingDiacriticsEvaluator {
     } else {
       results[1 - j][classifyTypes.indexOf("FN")]++;
       System.out.println(ruleIds[1 - j] + " FN: " + wrongSentence);
+      isFN = true;
     }
     
     //FP+FN in the same sentence -> probable error in corpus
+    if (isFP && isFN) {
+      System.out.println("POSSIBLE ERROR IN CORPUS: " + correctSentence);
+    }
 
   }
   

@@ -65,7 +65,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY colors_invariable "burdeos|naranja|rosa|violeta|añil|carmesí">
     <!ENTITY words_H_ASPIRADA2 "Higgs|high|Hildesheim|Hill|hijabs?|Hillary|Himmler|hip-hop|hippies|hippy|hipsters?|Hirado|His|hits?|Hubei|Hudson|Hunter|Husserl|Huygens|Utah|husky">
     <!ENTITY words_H_ASPIRADA "Harris|Harvey|Hunspell|Hassan|Haddock|Haarle[mn].*|Hainan|haendel.*|händel.*|habermas.*|hadits?|Hanuk?kà|hack.*|Harlem|Harper|Hartford|Haifa|haikus?|haima|haimes|Haikou|halal|halar|Halifax|Halmstad|halls?|Halle|Halley|Hallstatt|Hallstein|Halloweens?|Hals|herr|Herut|Hamadan|Hamas|Hamàs|hamilton.*|Hamlet.*|hammams?|Hammond|Hampton|hàmsters?|h[aà]ndicaps?|Hangzhou|Hannover|Hanoi|Hans|Hansa|hanseàti[cq].*|happenings?|Harbin|hardware|Haneke|harolds?|Hatay|Hamleigh|Harrisburg|Harrison|harrods?|harry|Hartley|Hartmann?|Hartree|Haruki|Har[td]?vard|Harz|hash.*|Hastings|Havel|Havilland|hawai.*|hawk.*|Hayek|Haydn.*|Hayworth|Heard|hearst|Heathrow|heav.*|hegel.*|Hebei|Hedmark|Heerenveen|Hedw.*|Heerlen|Hefei|Heidelberg|Heide[gn].*|Heilbronn|Heilongjiang|Heilig.*|hei[nk].*|Heisen.*|Heitz|Helmand|Helmholtz|Helen|Helsingborg|Hèlsinki|Heming.*|Henan|henna|hennes|Henry|Hepburn|herbert.*|Herder|Hereford|Herford|Herning|Hertfordshire|Herzog|Hesse|Hessen|Hewlett.*|Hezboll.+|high.*|hilbert.*|Hilda|Hillingdon|hinden.*|Hilton|hinterlands?|Hirsch.*|Hitch.*|hitler.*|Hilversum|Hobart|Hockenheim|Hodeida|Hohhot|Hokkaido|hobbes.*|hobby|Hogw.*|hobbies|Hodgkin|Hohen.*|Hölderlin|h[òo]ldings?|holy.*|hollywood.*|Holmes.*|Holstein|Hong|Hong-Kong|hongk.+|Honolu.+|Honsh[uū]|h[òo]bbits?|hooligan.*|hoover.*|hopkins|Hork.*|Horowitz|horst|H[ou]f.*|Houla|house|Houston|Howard|Hoyerswerda|Hunan|Huddersfield|Hunedoara|huskys?|huskies|hubs?|Hubble|humbold.*|Hume|hunting.*|Hussein|husseinit.+|university|united|(?-i)Hagen|Hamada">
-    <!ENTITY diacritics_00 "linea|lineas|entrelinea|entrelineas|arboles|lagrima|lagrimas|victima|victimas|solida|solidas|solido">
+    <!ENTITY diacritics_00 "linea|lineas|entrelinea|entrelineas|arboles|lagrima|lagrimas|victima|victimas|solida|solidas|solido|autentica|autenticas|autentico|adan">
     <!ENTITY diacritics_01 "capitulo|titulo|medico|nauseas|nausea|cubica|cubicas|cubico">
     <!ENTITY diacritics_02 "maquina|maquinas|ejercito|genero">
     <!ENTITY diacritics_03 "incomoda|incomodas|lastima|lastimas|medica|medicas">
@@ -2304,10 +2304,56 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token>circulo</token>
             </pattern>
-            <message>Si es adjetivo o nombre, se escribe con tilde.</message>
+            <message>Si es un nombre, se escribe con tilde.</message>
             <suggestion>círculo</suggestion>
             <example correction="círculo">En un amplio <marker>circulo</marker> a Madrid.</example>
         </rule>
+        <rulegroup id="INTIMA" name="intima->íntima" default="temp_off">
+            <rule>
+                <antipattern>
+                    <token>intima</token>
+                    <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                    <token>con</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"><exception>la</exception></token>
+                    <token>intima</token>
+                </antipattern>
+                <antipattern>
+                    <token>intima</token>
+                    <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                    <token regexp="yes">a|al</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">no|que</token>
+                    <token>intima</token>
+                </antipattern>
+                <antipattern>
+                    <token>con</token>
+                    <token regexp="yes" min="0">el|los|la|las</token>
+                    <token skip="3" regexp="yes">que|qué</token>
+                    <token>intima</token>
+                </antipattern>
+                <pattern>
+                    <token>intima<exception postag="NP.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Si es un adjetivo, se escribe con tilde.</message>
+                <suggestion>íntima</suggestion>
+                <example correction="ínitima">Fue una ceremonia <marker>intima</marker>.</example>
+                <example>¿Con qué monstruos intima allá, en las profundidades?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">mirada|ceremonia|parte|boda|ropa|relación|más|muy|menos|bastante|.*mente|poco|demasiado|alianza|asociación|audiencia|amiga</token>
+                    <marker>
+                        <token>intima<exception postag="NP.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Si es un adjetivo, se escribe con tilde.</message>
+                <suggestion>íntima</suggestion>
+                <example correction="ínitima">Es una mirada <marker>intima</marker> al futuro.</example>
+            </rule>
+        </rulegroup>
         <rule id="DIACRITICS_SPECIAL" name="diacríticos, casos especiales">
             <antipattern>
                 <token/>
@@ -2335,7 +2381,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token skip="2">calculo</token>
                 <token>que</token>
             </antipattern>
-
             <antipattern>
                 <token regexp="yes">practicas?</token>
                 <token postag="RG"/>
@@ -2353,7 +2398,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                          ???: pio, moran, indico, opera, anima, animas, replica, replicas,-->
                 <!-- TODO: solo me faltan 2 practicas más -->
                 <marker>
-                    <token postag="V.[SI].*" postag_regexp="yes" regexp="yes">maquina|capitulo|ada|adan|animo|aticulo|autentica|autenticas|autentico|azucares|barbara|calculo|canceres|capsula|capsulas|catalogo|debito|deposito|diagnostico|dialogo|domestica|domesticas|domestico|embolo|entrelinea|entrelineas|epitome|espontanea|estomago|idolatra|idolatras|ignifuga|ignifugas|ignifugo|ilegitima|ilegitimas|ilegitimo|invalida|invalidas|invalido|lamina|laminas|legitima|legitimas|legitimo|lideres|liquida|liquidas|liquido|maquinas|marques|matricula|medica|medicas|medico|modulo|nomina|nominas|oleo|ovulo|oxido|oxigeno|pacifico|petroleo|pixeles|prestamos|prorroga|purpurea|purpureas|recamara|recamaras|reciproca|reciprocas|reciproco|retrograda|retrogradas|retrogrado|revalida|revalidas|rondo|simultanea|simultaneas|simultaneo|tempano|titulo|trafico|tramite|tramites|transito|tremolo|triangulo|ulcera|ulceras|vehiculo|vinculo<exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
+                    <token postag="V.[SI].*" postag_regexp="yes" regexp="yes">maquina|capitulo|ada|animo|aticulo|azucares|barbara|calculo|canceres|capsula|capsulas|catalogo|debito|deposito|diagnostico|dialogo|domestica|domesticas|domestico|embolo|entrelinea|entrelineas|epitome|espontanea|estomago|idolatra|idolatras|ignifuga|ignifugas|ignifugo|ilegitima|ilegitimas|ilegitimo|invalida|invalidas|invalido|lamina|laminas|legitima|legitimas|legitimo|lideres|liquida|liquidas|liquido|maquinas|marques|matricula|medica|medicas|medico|modulo|nomina|nominas|oleo|ovulo|oxido|oxigeno|pacifico|petroleo|pixeles|prestamos|prorroga|purpurea|purpureas|recamara|recamaras|reciproca|reciprocas|reciproco|retrograda|retrogradas|retrogrado|revalida|revalidas|rondo|simultanea|simultaneas|simultaneo|tempano|titulo|trafico|tramite|tramites|transito|tremolo|triangulo|ulcera|ulceras|vehiculo|vinculo<exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
             <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\1 postag:NC.*|AQ.*"/>
