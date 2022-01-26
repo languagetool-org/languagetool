@@ -33,6 +33,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+import java.util.regex.Pattern;
 
 import static org.junit.Assert.*;
 
@@ -132,5 +133,30 @@ public class RemoteRuleFiltersTest {
     assertTrue("Filter applies, antipattern did not match", RemoteRuleFilters.filterMatches(testLang, s,
       Arrays.asList(matchSubstring(ruleId, s, "best bar"))
     ).isEmpty());
+  }
+
+  @Test
+  public void testIDRegexFilter() throws IOException, ExecutionException {
+    String ruleId = "TEST_ID_REGEX";
+    JLanguageTool lt = new JLanguageTool(testLang);
+    AnalyzedSentence s = lt.getAnalyzedSentence("This is a foo.");
+
+    assertFalse("Regex doesn't match", RemoteRuleFilters.filterMatches(testLang, s,
+      Arrays.asList(matchSubstring(ruleId, s, "foo"))
+      ).isEmpty());
+
+    assertTrue("Regex matches 1", RemoteRuleFilters.filterMatches(testLang, s,
+      Arrays.asList(matchSubstring(ruleId + "1", s, "foo"))
+      ).isEmpty());
+    assertTrue("Regex matches 2", RemoteRuleFilters.filterMatches(testLang, s,
+      Arrays.asList(matchSubstring(ruleId + "2", s, "foo"))
+      ).isEmpty());
+    assertTrue("Regex matches 3", RemoteRuleFilters.filterMatches(testLang, s,
+      Arrays.asList(matchSubstring(ruleId + "99", s, "foo"))
+      ).isEmpty());
+
+    assertFalse("Regex must match complete string", RemoteRuleFilters.filterMatches(testLang, s,
+      Arrays.asList(matchSubstring(ruleId + "100", s, "foo"))
+      ).isEmpty());
   }
 }
