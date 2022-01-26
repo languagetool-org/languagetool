@@ -41,6 +41,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -69,8 +70,10 @@ public final class RemoteRuleFilters {
     }
     // load all relevant filters for given matches
     Set<String> matchIds = matches.stream().map(m -> m.getRule().getId()).collect(Collectors.toSet());
-    List<AbstractPatternRule> filters = rules.get(lang).entrySet()
-      .stream().filter(e -> matchIds.contains(e.getKey())).flatMap(e -> e.getValue().stream()).collect(Collectors.toList());
+    List<AbstractPatternRule> filters = rules.get(lang).entrySet().stream()
+      .filter(e -> matchIds.stream().anyMatch(id -> id.matches(e.getKey())))
+      .flatMap(e -> e.getValue().stream())
+      .collect(Collectors.toList());
 
     // prepare for lookup of matches
     Map<MatchPosition, Set<AbstractPatternRule>> filterRulesByPosition = new HashMap<>();
@@ -87,7 +90,7 @@ public final class RemoteRuleFilters {
         MatchPosition pos = new MatchPosition(match.getFromPos(), match.getToPos());
         // is there a filter match with the right ID at this position?
         boolean matched = filterRulesByPosition.getOrDefault(pos, Collections.emptySet())
-          .stream().anyMatch(rule -> rule.getId().equals(match.getRule().getId()));
+          .stream().anyMatch(rule -> match.getRule().getId().matches(rule.getId()));
         return !matched;
       })
       .collect(Collectors.toList());
