@@ -157,7 +157,7 @@ class SingleCheck {
       MessageHandler.printToLogFile("SingleCheck: getCheckResults: paRes.aErrors.length: " + errors.length 
           + "; docID: " + singleDocument.getDocID());
     }
-    if (!isImpress && numParasToCheck != 0 && paraNum >= 0 && ((textIsChanged && nextSentence >= paraText.length()) || isDialogRequest)) {
+    if (!isImpress && numParasToCheck != 0 && paraNum >= 0 && (textIsChanged || isDialogRequest)) {
       if (docCursor == null && !isDisposed()) {
         docCursor = new DocumentCursorTools(xComponent);
       }

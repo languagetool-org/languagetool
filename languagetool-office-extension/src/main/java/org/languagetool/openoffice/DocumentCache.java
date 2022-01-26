@@ -104,14 +104,15 @@ public class DocumentCache implements Serializable {
   /**
    * Refresh the cache
    */
-  public synchronized void refresh(DocumentCursorTools docCursor, FlatParagraphTools flatPara, Locale docLocale, XComponent xComponent, int fromWhere) {
+  public synchronized void refresh(DocumentCursorTools docCursor, FlatParagraphTools flatPara
+      , Locale docLocale, XComponent xComponent, int fromWhere) {
     if (debugMode) {
       MessageHandler.printToLogFile("DocumentCache: refresh: Called from: " + fromWhere);
     }
     if (isImpress) {
       refreshImpressCache(xComponent);
     } else {
-      refreshWriterCache(docCursor, flatPara, docLocale);
+      refreshWriterCache(docCursor, flatPara, docLocale, fromWhere);
     }
   }
 
@@ -119,7 +120,7 @@ public class DocumentCache implements Serializable {
    * reset the document cache load the actual state of the document into the cache
    * is only used for writer documents
    */
-  private void refreshWriterCache(DocumentCursorTools docCursor, FlatParagraphTools flatPara, Locale docLocale) {
+  private void refreshWriterCache(DocumentCursorTools docCursor, FlatParagraphTools flatPara, Locale docLocale, int fromWhere) {
     try {
       long startTime = System.currentTimeMillis();
       isReset = true;
@@ -173,8 +174,10 @@ public class DocumentCache implements Serializable {
         return;
       }
       mapParagraphs(textParas);
-      long endTime = System.currentTimeMillis();
-      MessageHandler.printToLogFile("Time to generate cache: " + (endTime - startTime));
+      if (fromWhere != 2) { //  do not write time to log for text level queue
+        long endTime = System.currentTimeMillis();
+        MessageHandler.printToLogFile("Time to generate cache(" + fromWhere + "): " + (endTime - startTime));
+      }
     } finally {
       isReset = false;
     }
