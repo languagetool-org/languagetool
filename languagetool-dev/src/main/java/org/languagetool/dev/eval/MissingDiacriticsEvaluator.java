@@ -134,6 +134,16 @@ public class MissingDiacriticsEvaluator {
     }
 
     String wrongSentence = correctSentence.replaceAll("\\b" + words[j] + "\\b", words[1 - j]);
+    if (wrongSentence.equals(correctSentence)) {
+      wrongSentence = correctSentence.replaceAll("\\b" + StringTools.uppercaseFirstChar(words[j]) + "\\b", StringTools.uppercaseFirstChar(words[1 - j]));
+    }
+    if (wrongSentence.equals(correctSentence)) {
+      wrongSentence = correctSentence.replaceAll("\\b" + words[j].toUpperCase() + "\\b", words[1 - j].toUpperCase());
+    }
+    if (wrongSentence.equals(correctSentence)) {
+      System.out.println("Word cannot be replaced: "+ wrongSentence);
+      return;
+    }
     List<RuleMatch> matchesWrong = lt.check(wrongSentence);
     if (isThereErrorAtPos(matchesWrong, pos)) {
       results[1 - j][classifyTypes.indexOf("TP")]++;
