@@ -251,6 +251,124 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">@<marker>Christian</marker> wir beabsichtigen ...</example>
             </rule>
         </rulegroup>
+        <rulegroup id="AI_HYDRA_LEO_MISSING_COMMA__" name="">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token/>
+                    </marker>
+                    <token regexp="yes">und|sowie|oder
+                        <exception scope="next">dass</exception>
+                    </token>
+                </pattern>
+                <example correction="">Es donnerte, die See ging in so hohen schwarzen Wellen wie Kirchtürme, wie <marker>Berge</marker> und sie hatten oben alle eine weiße Krone von Schaum auf.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token/>
+                    </marker>
+                    <token>aufgrund
+                        <exception scope="next" regexp="yes">derer|dessen</exception>
+                    </token>
+                </pattern>
+                <example correction="">Dazu müssen Sie zunächst Ihren <marker>Istzustand</marker> aufgrund Ihrer Erfahrungen, Überzeugungen und einigem Mehr, ausführlich beschreiben, ihn sich erklären und ihn bewerten.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[−–\+-]?[0-9]+([.,]?[0-9]+)?</token>
+                    </marker>
+                    <token regexp="yes">[°\%\$€£¥฿₹\u8371]</token>
+                </pattern>
+                <example correction="">Die Wohnungsmieten oder Versicherungsbeiträge etwa (die in der Berechnung der Inflationsrate zudem eine höhere Gewichtung haben) haben sich nach der Euro-Einführung kaum verändert; sinkende Preise gab es beim Gas, Heizöl (<marker>−16</marker> %) und Telefonieren.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[−–\+-]?[0-9]+</token>
+                    </marker>
+                    <token case_sensitive="yes" regexp="yes">°[CFRK]</token>
+                </pattern>
+                <example correction="">In den Wintermonaten gibt es Tage, an denen das Thermometer auf unter <marker>−65</marker> °C fällt.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[−–\+-]?[0-9]+</token>
+                    </marker>
+                    <token case_sensitive="yes">K</token>
+                </pattern>
+                <example correction="">In den Wintermonaten gibt es Tage, an denen das Thermometer auf unter <marker>208</marker> K fällt.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[—–,;:=-]</token>
+                    </marker>
+                </pattern>
+                <example correction="">Besonders beliebt sind kleinblättrige Ahornarten <marker>–</marker> Kiefern und Wacholder.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip="-1" postag="VER:AUX.*" postag_regexp="yes" inflected="yes">haben</token>
+                    <token postag="ART:DEF:NOM.*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="SUB:.*" postag_regexp="yes"/>
+                    </marker>
+                    <token skip="2" postag="ART:DEF:AKK.*" postag_regexp="yes"/>
+                    <token postag="SUB:.*" postag_regexp="yes"/>
+                    <token postag="PA2.*" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">Das erste, was passierte, haben natürlich die <marker>Ärzte</marker> die Rechtsanwälte verständigt.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">\d.*</token>
+                    </marker>
+                    <token regexp="yes">₿|¢|$|€|₤|₱|₽|₪|₩|¥|bits?|bytes?|cents?|centimetern?|dezilitern?|dezimetern?|dl|dm|.*dollar|euros?|franken|gb|gigabytes?|gramm|jahr(e|en)?|jahrzehnt(e|en)?|kilobytes?|kilogramm|kilometern?|km|kr|kronen?|kubikmetern?|litern?|mark|m|mb|megabits|megabytes?|metern?|mg|milligramm|millilitern?|millimetern?|million(en)?|milliard(e|en)?|minuten?|mio|ml|mm|monat(e|en)?|mrd|pesos?|pfund|pikogramm|pg|promille|prozent|quadratkilometern?|quadratmetern?|rappen?|rubel|sekunden?|stunden?|tag(e|en)?|tausend|tonnen?|wochen?|yen|zentimetern?</token>
+                </pattern>
+                <example correction="">Die Stadt hat eine Größe von ungefähr <marker>1000</marker> Quadratkilometern.</example>
+                <example correction="">Mit mehr als <marker>111</marker> Millionen Tagesbesuchern jährlich ist Hamburg eines der attraktivsten Tourismusziele in Deutschland.</example>
+            </rule>
+            <rule><!-- A. Merkel | E. T. A. Hoffmann | S. Band 3 ... -->
+                <pattern>
+                    <token regexp="yes">\p{Lu}</token>
+                    <marker>
+                        <token spacebefore="no">.</token>
+                    </marker>
+                    <token regexp="yes">\p{Lu}.*</token>
+                </pattern>
+                <example correction="">Sibthorpe, Lestrade, C<marker>.</marker> Matthews, Greaves: Discovery of the</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="(EIG|UNKNOWN).*" postag_regexp="yes" regexp="yes">\p{Lu}.+</token>
+                    <token postag="(EIG|SUB|UNKNOWN).*" postag_regexp="yes" regexp="yes">\p{Lu}.+</token>
+                    <token regexp="yes">der|die</token>
+                    <marker>
+                        <token regexp="yes">ältere|jüngere</token>
+                    </marker>
+                </pattern>
+                <example correction="">Wiederum anders geht Jan Brueghel der <marker>Jüngere</marker> das Thema an.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token>auflage</token>
+                    </marker>
+                    <token min="0" postag="(EIG|SUB|UNKNOWN).*" postag_regexp="yes" regexp="yes">\p{Lu}.*</token>
+                    <token regexp="yes">\d{3,4}</token>
+                </pattern>
+                <example correction=""><marker>Auflage</marker> München 2010, S. 17</example>
+            </rule>
+            <rule>
+                <regexp mark="1">^@(\S+)</regexp>
+                <example correction="">@<marker>Christian</marker> wir beabsichtigen ...</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AI_HYDRA_LEO_CP_WIE_WIR" name="">
             <rule>
                 <pattern>
