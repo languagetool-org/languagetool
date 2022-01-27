@@ -22,8 +22,11 @@ import com.google.common.cache.Cache;
 import org.apache.ibatis.jdbc.SQL;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 import org.languagetool.Premium;
+import org.languagetool.rules.Rule;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
@@ -209,4 +212,12 @@ abstract class DatabaseAccess {
    * @return a list of words from the user's dictionary (complete, or from the given range)
    */
   public abstract List<String> getWords(UserLimits limits, List<String> groups, int offset, int limit);
+
+  /**
+   * @param limits user account and settings for e.g. caching
+   * @param lang language of rules to fetch; fetches global rules and language-specific rules for that language
+   * @param groups names of groups of rules to be fetched, or null for default set of rules
+   * @return a list of user rules (complete, or from the given range)
+   */
+  public abstract List<Rule> getRules(UserLimits limits, Language lang, @Nullable List<String> groups);
 }
