@@ -67,7 +67,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY words_H_ASPIRADA "Harris|Harvey|Hunspell|Hassan|Haddock|Haarle[mn].*|Hainan|haendel.*|händel.*|habermas.*|hadits?|Hanuk?kà|hack.*|Harlem|Harper|Hartford|Haifa|haikus?|haima|haimes|Haikou|halal|halar|Halifax|Halmstad|halls?|Halle|Halley|Hallstatt|Hallstein|Halloweens?|Hals|herr|Herut|Hamadan|Hamas|Hamàs|hamilton.*|Hamlet.*|hammams?|Hammond|Hampton|hàmsters?|h[aà]ndicaps?|Hangzhou|Hannover|Hanoi|Hans|Hansa|hanseàti[cq].*|happenings?|Harbin|hardware|Haneke|harolds?|Hatay|Hamleigh|Harrisburg|Harrison|harrods?|harry|Hartley|Hartmann?|Hartree|Haruki|Har[td]?vard|Harz|hash.*|Hastings|Havel|Havilland|hawai.*|hawk.*|Hayek|Haydn.*|Hayworth|Heard|hearst|Heathrow|heav.*|hegel.*|Hebei|Hedmark|Heerenveen|Hedw.*|Heerlen|Hefei|Heidelberg|Heide[gn].*|Heilbronn|Heilongjiang|Heilig.*|hei[nk].*|Heisen.*|Heitz|Helmand|Helmholtz|Helen|Helsingborg|Hèlsinki|Heming.*|Henan|henna|hennes|Henry|Hepburn|herbert.*|Herder|Hereford|Herford|Herning|Hertfordshire|Herzog|Hesse|Hessen|Hewlett.*|Hezboll.+|high.*|hilbert.*|Hilda|Hillingdon|hinden.*|Hilton|hinterlands?|Hirsch.*|Hitch.*|hitler.*|Hilversum|Hobart|Hockenheim|Hodeida|Hohhot|Hokkaido|hobbes.*|hobby|Hogw.*|hobbies|Hodgkin|Hohen.*|Hölderlin|h[òo]ldings?|holy.*|hollywood.*|Holmes.*|Holstein|Hong|Hong-Kong|hongk.+|Honolu.+|Honsh[uū]|h[òo]bbits?|hooligan.*|hoover.*|hopkins|Hork.*|Horowitz|horst|H[ou]f.*|Houla|house|Houston|Howard|Hoyerswerda|Hunan|Huddersfield|Hunedoara|huskys?|huskies|hubs?|Hubble|humbold.*|Hume|hunting.*|Hussein|husseinit.+|university|united|(?-i)Hagen|Hamada">
     <!ENTITY diacritics_00 "linea|lineas|entrelinea|entrelineas|arboles|lagrima|lagrimas|victima|victimas|solida|solidas|solido|autentica|autenticas|autentico|adan|magnifico|oleo|ovulo|oxido|oxigeno|pacifico|petroleo|pixeles|petalo|azucares|canceres|capsula|capsulas">
     <!ENTITY diacritics_01 "capitulo|titulo|medico|nauseas|nausea|cubica|cubicas|cubico|intimo">
-    <!ENTITY diacritics_02 "maquina|maquinas|ejercito|genero|magnifica">
+    <!ENTITY diacritics_02 "maquina|maquinas|ejercito|genero|magnifica|articulo|barbara">
     <!ENTITY diacritics_03 "incomoda|incomodas|lastima|lastimas|medica|medicas">
     <!ENTITY diacritics_04 "critica|criticas|limite|limites|purpura|purpuras">
     <!ENTITY diacritics_05 "maquina|ultima|ultimas">
@@ -2150,6 +2150,60 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="término">el uso del antigo <marker>termino</marker> "escena".</example>
             </rule>
         </rulegroup>
+        <rule id="MARQUES" name="marques/marqués" default="temp_off">
+            <antipattern>
+                <token regexp="yes">cuando|que</token>
+                <token case_sensitive="yes">marques</token>
+            </antipattern>
+            <antipattern>
+                <token>en</token>
+                <token>cuanto</token>
+                <token case_sensitive="yes">marques</token>
+            </antipattern>
+            <antipattern>
+                <token postag="VMSP2S0" skip="4"/>
+                <token postag="CC"/>
+                <token case_sensitive="yes">marques</token>
+            </antipattern>
+            <antipattern>
+                <token postag="PR.*|CS" postag_regexp="yes"><exception>como</exception></token>
+                <token case_sensitive="yes">marques</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">me|te|lo|la|los|las|le|les|nos|no|tú</token>
+                <token>marques</token>
+            </antipattern>
+            <pattern>
+                <token>marques</token>
+            </pattern>
+            <message>Si es un nombre, se escribe con tilde. Correcto si es una forma del v. 'marcar'.</message>
+            <suggestion>marqués</suggestion>
+            <example correction="Marqués"><marker>Marques</marker> de Utrillo.</example>
+            <example>Quiero que marques las casillas rojas.</example>
+            <example>Quiero que las marques todas.</example>
+            <example>Cuando marques las casillas, recuerda la última.</example>
+            <example>No cojas el teléfono y marques el número.</example>
+            <example type="triggers_error">Lorenzo Marques.</example>
+        </rule>
+        <rule id="PIO" name="pio > pío">
+            <antipattern>
+                <token regexp="yes" skip="-1">pajaro|pajarillo|pollo|gorrión</token>
+                <token>pio</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1">pio</token>
+                <token regexp="yes">pajaro|pajarillo|pollo|gorrión</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>pio</token>
+                </marker>
+            </pattern>
+            <message>Si es un adjetivo, es escribe con tile. Correcto como forma en pasado del v. 'piar'.</message>
+            <suggestion>pío</suggestion>
+            <example correction="pío">Es una personaje muy <marker>pio</marker>.</example>
+            <example>El gorrión pio.</example>
+        </rule>
         <rule id="PRACTICA" name="practica/práctica">
             <antipattern>
                 <token>que</token>
@@ -2411,7 +2465,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                          ???: pio, moran, indico, opera, anima, animas, replica, replicas,-->
                 <!-- TODO: solo me faltan 2 practicas más -->
                 <marker>
-                    <token postag="V.[SI].*" postag_regexp="yes" regexp="yes">maquina|capitulo|ada|animo|articulo|barbara|calculo|catalogo|debito|deposito|diagnostico|dialogo|domestica|domesticas|domestico|embolo|entrelinea|entrelineas|epitome|espontanea|estomago|idolatra|idolatras|ignifuga|ignifugas|ignifugo|ilegitima|ilegitimas|ilegitimo|invalida|invalidas|invalido|lamina|laminas|legitima|legitimas|legitimo|lideres|liquida|liquidas|liquido|marques|matricula|medica|medicas|medico|modulo|nomina|nominas|prestamos|prorroga|purpurea|purpureas|recamara|recamaras|reciproca|reciprocas|reciproco|retrograda|retrogradas|retrogrado|revalida|revalidas|rondo|simultanea|simultaneas|simultaneo|tempano|titulo|trafico|tramite|tramites|transito|tremolo|triangulo|ulcera|ulceras|vehiculo|vinculo<exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
+                    <token postag="V.[SI].*" postag_regexp="yes" regexp="yes">maquina|capitulo|ada|animo|calculo|catalogo|debito|deposito|diagnostico|dialogo|domestica|domesticas|domestico|embolo|entrelinea|entrelineas|epitome|espontanea|estomago|idolatra|idolatras|ignifuga|ignifugas|ignifugo|ilegitima|ilegitimas|ilegitimo|invalida|invalidas|invalido|lamina|laminas|legitima|legitimas|legitimo|lideres|liquida|liquidas|liquido|matricula|medica|medicas|medico|modulo|nomina|nominas|prestamos|prorroga|purpurea|purpureas|recamara|recamaras|reciproca|reciprocas|reciproco|retrograda|retrogradas|retrogrado|revalida|revalidas|rondo|simultanea|simultaneas|simultaneo|tempano|titulo|trafico|tramite|tramites|transito|tremolo|triangulo|ulcera|ulceras|vehiculo|vinculo<exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
             <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\1 postag:NC.*|AQ.*"/>
