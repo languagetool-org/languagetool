@@ -29,15 +29,15 @@ import javax.xml.parsers.SAXParserFactory;
 import java.io.InputStream;
 import java.util.*;
 
-class RuleIdValidator {
+public class RuleIdValidator {
 
   private Language lang;
 
-  RuleIdValidator(Language lang) {
+  public RuleIdValidator(Language lang) {
     this.lang = lang;
   }
   
-  void validateUniqueness() {
+  public void validateUniqueness() {
     System.out.println("Check rule id uniqueness for " + lang + "...");
     List<String> fileNames = lang.getRuleFileNames();
     Map<String, String> idsToFile = new HashMap<>();

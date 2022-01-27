@@ -21,16 +21,20 @@
 
 package org.languagetool.rules;
 
+import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.MultiThreadedJLanguageTool;
 import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.rules.patterns.PatternRuleTest;
+import org.languagetool.rules.patterns.RuleIdValidator;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 import java.util.stream.Collectors;
+
+import static org.junit.Assert.fail;
 
 /**
  * base class to test rules in remote-rule-filters.xml, like PatternRuleTest for grammar.xml
@@ -40,6 +44,30 @@ public class RemoteRuleFilterTest extends PatternRuleTest {
   @Override
   protected List<String> getGrammarFileNames(Language lang) {
     return Collections.singletonList(RemoteRuleFilters.getFilename(lang));
+  }
+
+  @Override
+  protected void validateRuleIds(Language lang, JLanguageTool lt) {
+    List<AbstractPatternRule> rules = RemoteRuleFilters.load(lang)
+      .values().stream().flatMap(Collection::stream).collect(Collectors.toList());
+    Set<String> categoryIds = new HashSet<>();
+    new RuleIdValidator(lang).validateUniqueness();
+    for (Rule rule : rules) {
+      try {
+        Pattern.compile(rule.getId());
+      } catch (PatternSyntaxException e) {
+        fail("Remote rule filter ID must be a valid regex; got " + rule.getId() + ": " + e);
+      }
+      if (rule.getId().equalsIgnoreCase("ID")) {
+        System.err.println("WARNING: " + lang.getShortCodeWithCountryAndVariant() + " has a rule with id 'ID', this should probably be changed");
+      }
+      Category category = rule.getCategory();
+      String catId = category.getId().toString();
+      if (!catId.matches("[A-Z0-9_-]+") && !categoryIds.contains(catId)) {
+        System.err.println("WARNING: category id '" + catId + "' doesn't match expected regexp [A-Z0-9_-]+");
+        categoryIds.add(catId);
+      }
+    }
   }
 
   @Override
