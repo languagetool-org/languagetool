@@ -27,7 +27,9 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.languagetool.Language;
 import org.languagetool.Premium;
+import org.languagetool.rules.Rule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -350,6 +352,12 @@ class DatabaseAccessOpenSource extends DatabaseAccess {
   @Override
   public List<String> getWords(UserLimits limits, List<String> groups, int offset, int limit) {
     return getWords(limits.getPremiumUid(), offset, limit);
+  }
+
+  @Override
+  public List<Rule> getRules(UserLimits limits, Language lang, List<String> groups) {
+    // not implemented in open source
+    return Collections.emptyList();
   }
 
 }

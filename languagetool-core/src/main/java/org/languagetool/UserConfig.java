@@ -18,6 +18,7 @@
  */
 package org.languagetool;
 
+import org.languagetool.rules.Rule;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.jetbrains.annotations.NotNull;
@@ -42,6 +43,7 @@ public class UserConfig {
 
   private final List<String> userSpecificSpellerWords;
   private final Set<String> acceptedPhrases;
+  private final List<Rule> userSpecificRules;
   private final int maxSpellingSuggestions;
   private final Long userDictCacheSize;
   private final String userDictName;
@@ -80,16 +82,19 @@ public class UserConfig {
   public UserConfig(List<String> userSpecificSpellerWords, Map<String, Integer> ruleValues,
                     int maxSpellingSuggestions, Long premiumUid, String userDictName, Long userDictCacheSize,
                     LinguServices linguServices) {
-    this(userSpecificSpellerWords, ruleValues, maxSpellingSuggestions, premiumUid, userDictName, userDictCacheSize, linguServices,
+    this(userSpecificSpellerWords, Collections.emptyList(), ruleValues, maxSpellingSuggestions, premiumUid, userDictName, userDictCacheSize, linguServices,
       false, null, null, false);
   }
 
-  public UserConfig(List<String> userSpecificSpellerWords, Map<String, Integer> ruleValues,
+  public UserConfig(List<String> userSpecificSpellerWords,
+                    List<Rule> userSpecificRules,
+                    Map<String, Integer> ruleValues,
                     int maxSpellingSuggestions, Long premiumUid, String userDictName,
                     Long userDictCacheSize,
                     LinguServices linguServices, boolean filterDictionaryMatches,
                     @Nullable String abTest, @Nullable Long textSessionId, boolean hidePremiumMatches) {
     this.userSpecificSpellerWords = Objects.requireNonNull(userSpecificSpellerWords);
+    this.userSpecificRules = Objects.requireNonNull(userSpecificRules);
     for (Map.Entry<String, Integer> entry : ruleValues.entrySet()) {
       this.configurableRuleValues.put(entry.getKey(), entry.getValue());
     }
@@ -105,6 +110,7 @@ public class UserConfig {
     this.acceptedPhrases = buildAcceptedPhrases();
   }
 
+  @NotNull
   public List<String> getAcceptedWords() {
     return userSpecificSpellerWords;
   }
@@ -122,6 +128,14 @@ public class UserConfig {
   @NotNull
   public Set<String> getAcceptedPhrases() {
     return acceptedPhrases;
+  }
+
+  /**
+   * @since 5.7
+   */
+  @NotNull
+  public List<Rule> getRules() {
+    return userSpecificRules;
   }
 
   public int getMaxSpellingSuggestions() {
@@ -187,6 +201,8 @@ public class UserConfig {
     //  otherwise ResultCache can be used even when dictionaries have changed
     return new EqualsBuilder()
       .append(configurableRuleValues, other.configurableRuleValues)
+      .append(userSpecificRules.stream().mapToLong(k -> k.getId().hashCode()).sum(),
+              other.userSpecificRules.stream().mapToLong(k -> k.getId().hashCode()).sum())
       .append(premiumUid, other.premiumUid)
       .append(userDictName, other.userDictName)
       .append(userSpecificSpellerWords, other.userSpecificSpellerWords)
@@ -204,6 +220,8 @@ public class UserConfig {
     // not calculating userSpecificSpellerWords.hashCode(), can be expensive; premiumId + userDictName is close enough
     return new HashCodeBuilder(3, 11)
       .append(maxSpellingSuggestions)
+      .append(userSpecificRules.stream()
+              .mapToLong(k -> k.getId().hashCode()).sum())
       .append(premiumUid)
       .append(userDictName)
       .append(userDictCacheSize)

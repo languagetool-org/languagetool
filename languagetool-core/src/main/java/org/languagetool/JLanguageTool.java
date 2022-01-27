@@ -1989,7 +1989,10 @@ public class JLanguageTool {
             sentenceMatches = cache.getIfPresent(cacheKey);
           }
           if (sentenceMatches == null) {
-            sentenceMatches = checkAnalyzedSentence(paraMode, rules.rulesForSentence(sentence.analyzed), sentence.analyzed, checkRemoteRules, textWordCounter);
+
+            List<Rule> rules = new ArrayList<>(this.rules.rulesForSentence(sentence.analyzed));
+            rules.addAll(userConfig.getRules());
+            sentenceMatches = checkAnalyzedSentence(paraMode, rules, sentence.analyzed, checkRemoteRules, textWordCounter);
           }
           if (cache != null) {
             cache.put(cacheKey, sentenceMatches);

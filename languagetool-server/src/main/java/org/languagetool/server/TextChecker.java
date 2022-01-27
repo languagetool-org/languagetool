@@ -352,11 +352,7 @@ abstract class TextChecker {
     if (limits.hasPremium()) {
       enableHiddenRules = false;
     }
-    UserConfig userConfig = new UserConfig(dictWords, getRuleValues(parameters), config.getMaxSpellingSuggestions(),
-      limits.getPremiumUid(), dictName, limits.getDictCacheSize(), null, filterDictionaryMatches, abTest, textSessionId,
-      !limits.hasPremium() && enableHiddenRules);
 
-    //print("Check start: " + text.length() + " chars, " + langParam);
     boolean autoDetectLanguage = getLanguageAutoDetect(parameters);
     List<String> preferredVariants = getPreferredVariants(parameters);
     if (parameters.get("noopLanguages") != null && !autoDetectLanguage) {
@@ -370,6 +366,16 @@ abstract class TextChecker {
     DetectedLanguage detLang = getLanguage(aText.getPlainText(), parameters, preferredVariants, noopLangs, preferredLangs,
       parameters.getOrDefault("ld", "control").equalsIgnoreCase("test"));
     Language lang = detLang.getGivenLanguage();
+
+    List<Rule> userRules = getUserRules(limits, lang, dictGroups);
+    UserConfig userConfig =
+      new UserConfig(dictWords, userRules,
+                     getRuleValues(parameters), config.getMaxSpellingSuggestions(),
+                     limits.getPremiumUid(), dictName, limits.getDictCacheSize(),
+                     null, filterDictionaryMatches, abTest, textSessionId,
+                     !limits.hasPremium() && enableHiddenRules);
+
+    //print("Check start: " + text.length() + " chars, " + langParam);
 
     // == temporary counting code ======================================
     /*
@@ -683,6 +689,11 @@ abstract class TextChecker {
   private List<String> getUserDictWords(UserLimits limits, List<String> groups) {
     DatabaseAccess db = DatabaseAccess.getInstance();
     return db.getWords(limits, groups, RowBounds.NO_ROW_OFFSET, RowBounds.NO_ROW_LIMIT);
+  }
+
+  private List<Rule> getUserRules(UserLimits limits, Language lang, List<String> groups) {
+    DatabaseAccess db = DatabaseAccess.getInstance();
+    return db.getRules(limits, lang, groups);
   }
 
   protected void checkParams(Map<String, String> parameters) {
