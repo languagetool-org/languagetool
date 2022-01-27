@@ -692,8 +692,12 @@ abstract class TextChecker {
   }
 
   private List<Rule> getUserRules(UserLimits limits, Language lang, List<String> groups) {
-    DatabaseAccess db = DatabaseAccess.getInstance();
-    return db.getRules(limits, lang, groups);
+    if (limits.getPremiumUid() != null && DatabaseAccess.isReady()) {
+      DatabaseAccess db = DatabaseAccess.getInstance();
+      return db.getRules(limits, lang, groups);
+    } else {
+      return Collections.emptyList();
+    }
   }
 
   protected void checkParams(Map<String, String> parameters) {
