@@ -83,6 +83,14 @@ abstract class DatabaseAccess {
   }
 
   /**
+   * @since 5.7
+   * Test if instance is configured and can be used
+   */
+  static synchronized boolean isReady() {
+    return instance != null;
+  }
+
+  /**
    * For tests, to avoid waiting for the invalidation period.
    */
   abstract void invalidateCaches();
