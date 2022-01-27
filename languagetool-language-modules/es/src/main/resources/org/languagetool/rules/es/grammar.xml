@@ -18280,6 +18280,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS2" name="Confusiones (2)">
+        <rulegroup id="EL_MENOS" name="el menos/al menos" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>el</token>
+                        <token>menos</token>
+                    </marker>
+                    <token postag="D[IN].*" min="0" max="4" postag_regexp="yes"/>
+                    <token regexp="yes">vez|veces</token>
+                </pattern>
+                <message>¿Quería decir <suggestion>al menos</suggestion>?</message>
+                <example correction="al menos">Lo hizo <marker>el menos</marker> tres veces.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>el</token>
+                        <token>menos</token>
+                    </marker>
+                    <token postag="DN.*" postag_regexp="yes"/>
+                </pattern>
+                <message>¿Quería decir <suggestion>al menos</suggestion>?</message>
+                <example correction="al menos">Yo tengo <marker>el menos</marker> cuatro.</example>
+                <example correction="al menos">Pero en <marker>el menos</marker> tres o cuatro lugares.</example>
+                <example type="triggers_error">Está en el menos tres.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ES_SPLIT_WORDS_HYPHEN" name="palabras partidas con guión">
             <antipattern>
                 <token inflected="yes">prefijo</token>
