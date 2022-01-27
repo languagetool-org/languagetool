@@ -2058,11 +2058,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>{suggestion}</suggestion>
                 <example correction="máquina">A toda <marker>maquina</marker> cada día.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <!-- en primer termino -->
                 <pattern>
                     <token regexp="yes">en|el|a|un|del|al</token>
-                    <token postag="AO.*" postag_regexp="yes"/>
+                    <token postag="AO.*" postag_regexp="yes"><exception>primero</exception></token>
                     <marker>
                         <token><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
                     </marker>
@@ -2073,7 +2073,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="término">En primer <marker>termino</marker>.</example>
                 <example correction="término">En último <marker>termino</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <!-- cuyo termino -->
                 <pattern>
                     <token>cuyo</token>
@@ -2086,7 +2086,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>{suggestion}</suggestion>
                 <example correction="término">Durarían nueve horas, a cuyo <marker>termino</marker> recobraría su tamaño.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <!-- termino cuyo -->
                 <pattern>
                     <marker>
@@ -2099,7 +2099,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>{suggestion}</suggestion>
                 <example correction="término"><marker>termino</marker> cuya acuñación se debe a este autor</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <!-- su termino -->
                 <pattern>
                     <token regexp="yes">mi|tu|su|nuestr[oa]|vuestr[oa]</token>
@@ -2113,7 +2113,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="término">A su <marker>termino</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="TERMINO" name="termino->término" default="temp_off">
+        <rulegroup id="TERMINO" name="termino->término">
             <rule>
                 <pattern>
                     <token inflected="yes" regexp="yes">poner|dar</token>
@@ -2318,10 +2318,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>circulo</token>
             </pattern>
             <message>Si es un nombre, se escribe con tilde.</message>
-            <suggestion>círculo</suggestion>
+            <suggestion><match no="1" regexp_match="(?iu)i" regexp_replace="í" case_conversion="preserve"/></suggestion>
             <example correction="círculo">En un amplio <marker>circulo</marker> a Madrid.</example>
         </rule>
-        <rulegroup id="INTIMA" name="intima->íntima" default="temp_off">
+        <rulegroup id="INTIMA" name="intima->íntima">
             <rule>
                 <antipattern>
                     <token>intima</token>
@@ -2644,7 +2644,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="última">La <marker>ultima</marker>.</example>
             <example correction="últimas">Las <marker>ultimas</marker>.</example>
         </rule>
-        <rulegroup id="DIACRITICS_06" name="06" default="temp_off">
+        <rulegroup id="DIACRITICS_06" name="06">
             <!--<rule>
                 <pattern>
                     <token postag="A..[MC][SN].|V.P..SM" postag_regexp="yes"/>
@@ -10512,7 +10512,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="GRAMMAR" name="Gramática" type="grammar">
-        <rulegroup id="BASTANTES" name="bastantes -> bastante" default="temp_off">
+        <rulegroup id="BASTANTES" name="bastantes -> bastante">
             <rule>
                 <pattern raw_pos="yes">
                     <marker>
