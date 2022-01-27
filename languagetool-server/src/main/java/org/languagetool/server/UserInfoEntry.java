@@ -32,6 +32,7 @@ import java.util.Date;
 class UserInfoEntry {
 
   private final long id;
+  private final String email;
   private final byte[] passwordHash;
   private final String addonToken;
   @Nullable
@@ -49,9 +50,10 @@ class UserInfoEntry {
   private final Long userGroup;
 
 
-  UserInfoEntry(long id, @Nullable Long userDictCacheSize, @Nullable Long requestsPerDay, @Nullable Integer limitEnforcement, @Nullable Long managedAccounts,
+  UserInfoEntry(long id, String email, @Nullable Long userDictCacheSize, @Nullable Long requestsPerDay, @Nullable Integer limitEnforcement, @Nullable Long managedAccounts,
                 @Nullable String passwordHash, @Nullable java.sql.Date premiumFrom, @Nullable java.sql.Date premiumTo, String addonToken, String apiKey, @Nullable Long userGroup) {
     this.id = id;
+    this.email = email;
     this.addonToken = addonToken;
     this.apiKey = apiKey;
     this.userDictCacheSize = userDictCacheSize;
@@ -82,6 +84,10 @@ class UserInfoEntry {
 
   long getUserId() {
     return id;
+  }
+
+  String getEmail() {
+    return email;
   }
 
   @Nullable

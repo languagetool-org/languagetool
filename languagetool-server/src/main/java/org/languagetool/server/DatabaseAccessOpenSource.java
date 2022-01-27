@@ -138,7 +138,7 @@ class DatabaseAccessOpenSource extends DatabaseAccess {
   @Override
   UserInfoEntry getUserInfoWithApiKey(String username, String apiKey) {
     Long userId = getUserId(username, apiKey);
-    UserInfoEntry user = new UserInfoEntry(userId, null, null, null, null, null, null, null, null,  apiKey, null);
+    UserInfoEntry user = new UserInfoEntry(userId, username, null, null, null, null, null, null, null, null,  apiKey, null);
     return user;
   }
 
