@@ -336,42 +336,6 @@ title="Easy editing stylesheet" ?>
 
 
  <category id='GRAMMAR' name="Gramática Geral" type="grammar">
- 
- 
-  <!-- ELE/ELA/NELE/NELA PRÓPRIO PRÓPRIA concordância de género -->
-  <rulegroup id='ELE_ELA_NELE_NELA_PRÓPRIO_PRÓPRIA' name="Concordância de género: El[ae](s)/Nel[ae](s) própri[ao](s)">
-  <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-21 (Checked/Enhanced) (1-JAN-2022+)      -->
-  <!--
-Elas próprios fizeram a comida. → Elas próprias fizeram a comida.
-Ele própria fê-lo. → Ele próprio fê-lo.
-A fé está nela próprio. → A fé está nela própria.
-A fé está neles próprias. → A fé está neles próprios.
-  -->
-		<rule>
-			<pattern>	
-				<token regexp="yes">eles?|neles?</token>
-				<marker>
-					<token regexp="yes">próprias?</token>
-				</marker>
-			</pattern>
-			<message>&MSG_ECG;</message>
-			<suggestion>próprio<match no='2' regexp_match='(própria)(s?)' regexp_replace='$2'/></suggestion>
-			<example correction="próprio">Ele <marker>própria</marker> escolheu.</example>
-			<example correction="próprios">Eles <marker>próprias</marker> escolheram.</example>
-        </rule>
-		<rule>
-			<pattern>				
-				<token regexp="yes">elas?|nelas?</token>
-				<marker>
-					<token regexp="yes">próprios?</token>
-				</marker>
-			</pattern>
-			<message>&MSG_ECG;</message>
-			<suggestion>própria<match no='2' regexp_match='(próprio)(s?)' regexp_replace='$2'/></suggestion>
-			<example correction="própria">Ela <marker>próprio</marker> escolheu.</example>
-			<example correction="próprias">Elas <marker>próprios</marker> escolheram.</example>
-		</rule>
-  </rulegroup>
 
 
 	<!-- A À -->
@@ -385,7 +349,7 @@ Logo a noite vou experimentar novamente. → Logo à noite vou experimentar nova
 Logo a noite vou experimentar novamente. → Logo à noite vou experimentar novamente.
 Logo a noite ela vai experimentar novamente. → Logo à noite ela vai experimentar novamente.
 	-->
-	
+
 <!-- MARCOAGPINTO 2022-01-17 (1-JAN-2022+) *START* -->
 <!--
 Por que a Maria resolveu ficar aqui?
@@ -421,6 +385,104 @@ Por que a senhora resolveu ficar aqui?
 			<example>Por que a senhora resolveu ficar aqui?</example>
 		</rule>	
     </rulegroup>
+
+
+  <!-- ELE/ELA/NELE/NELA PRÓPRIO PRÓPRIA concordância de género -->
+  <rulegroup id='GENDER_ELE_ELA_NELE_NELA_PRÓPRIO_PRÓPRIA' name="Concordância de género: El[ae](s)/Nel[ae](s) própri[ao](s)">
+  <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-21 (Checked/Enhanced) (1-JAN-2022+)      -->
+  <!--
+Elas próprios fizeram a comida. → Elas próprias fizeram a comida.
+Ele própria fê-lo. → Ele próprio fê-lo.
+A fé está nela próprio. → A fé está nela própria.
+A fé está neles próprias. → A fé está neles próprios.
+  -->
+		<rule>
+			<pattern>	
+				<token regexp="yes">eles?|neles?</token>
+				<marker>
+					<token regexp="yes">próprias?</token>
+				</marker>
+			</pattern>
+			<message>&MSG_ECG;</message>
+			<suggestion>próprio<match no='2' regexp_match='(própria)(s?)' regexp_replace='$2'/></suggestion>
+			<example correction="próprio">Ele <marker>própria</marker> escolheu.</example>
+			<example correction="próprios">Eles <marker>próprias</marker> escolheram.</example>
+        </rule>
+		<rule>
+			<pattern>				
+				<token regexp="yes">elas?|nelas?</token>
+				<marker>
+					<token regexp="yes">próprios?</token>
+				</marker>
+			</pattern>
+			<message>&MSG_ECG;</message>
+			<suggestion>própria<match no='2' regexp_match='(próprio)(s?)' regexp_replace='$2'/></suggestion>
+			<example correction="própria">Ela <marker>próprio</marker> escolheu.</example>
+			<example correction="próprias">Elas <marker>próprios</marker> escolheram.</example>
+		</rule>
+  </rulegroup>
+
+
+  <!-- ESTE/ESTA concordância de género -->
+  <rulegroup id='GENDER_ESTE_ESTA' name="Concordância de género: Este(s)/esta(s)">
+  <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-27 (1-JAN-2022+)      -->
+  <!--
+HITS IN 600000 SENTENCES:37
+SOME HITS HAPPEN DUE TO MISSING POS INFORMATION FOR THE WORDS.
+
+E este tese foi redigida por mim. → E esta tese foi redigida por mim.
+E estes teses foram redigidas por mim. → E estas teses foram redigidas por mim.
+E esta documento foi redigida por mim. → E este documento foi redigido por mim.
+E estas documentos foram redigidas por mim. → E estes documentos foram redigidas por mim.
+Só sei que esta livro é meu. → Só sei que este livro é meu.
+  -->
+
+<!--
+THIS ANTIPATTERN REMOVES THE WRONG USAGE OF THE WORDS ESTE(S)/ESTA(S) WITH VERBS.
+OTHER RULE SHOULD SUGGEST REPLACING "ESTA" WITH "ESTÁ".
+
+O chão esta coberto de neve.
+Na parede esta escrito que as convocações estao senfo feitas por email e telefone “fixo”.
+Todo mundo esta ferido.
+Vocês só sabem dizer (perguntar) onde esta escrito isto na bíblia?
+O que esta morto, não pode morrer!
+A beleza é o sorriso da verdade quando esta vê seu próprio rosto em um espelho perfeito.
+-->		
+		<antipattern>
+			<token postag='N[CP].+|RG|CS' postag_regexp='yes'/>
+			<token regexp="yes">est[ae]s?</token>
+			<token postag='VMP00.+|VMIP3.+|VMM03.+' postag_regexp='yes'/>
+		</antipattern>
+
+		<rule>
+			<pattern>	
+				<marker>
+					<token regexp="yes">estes?</token>
+				</marker>
+				<token postag='NCF.+' postag_regexp='yes'>
+					<exception postag_regexp='yes' postag='N[CP][CM].+|VMIP3.+|VMG0000|VMIF3.+|VMN03.+|VMII.+|RG|Z0.P.+'/>
+				</token>
+			</pattern>
+			<message>&MSG_ECG;</message>
+			<suggestion><match no='1' postag='DD0M(.)0' postag_regexp="yes" postag_replace='DD0F$10'>este</match></suggestion>
+			<example correction="esta">E <marker>este</marker> tese foi redigida por mim.</example>
+			<example correction="estas">E <marker>estes</marker> teses foram redigidas por mim.</example>
+        </rule>
+		<rule>
+			<pattern>
+				<marker>
+					<token regexp="yes">estas?</token>
+				</marker>
+				<token postag='NCM.+' postag_regexp='yes'>
+					<exception postag_regexp='yes' postag='N[CP][CF].+|VMIP3.+|VMG0000|VMIF3.+|VMN03.+|VMII.+|RG|Z0.P.+'/>
+				</token>
+			</pattern>
+			<message>&MSG_ECG;</message>
+			<suggestion><match no='1' postag='DD0F(.)0' postag_regexp="yes" postag_replace='DD0M$10'>este</match></suggestion>
+			<example correction="este">E <marker>esta</marker> documento foi redigido por mim.</example>
+			<example correction="estes">E <marker>estas</marker> documentos foram redigidas por mim.</example>
+		</rule>
+  </rulegroup>
 
 
     <!--          Tiago F. Santos Rules Start         ****START**** -->
