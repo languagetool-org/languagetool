@@ -309,6 +309,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token case_sensitive="yes" regexp="yes">google|skype</token>
                 <token postag="VER.*|PRP.*" postag_regexp="yes" />
             </antipattern>
+            <antipattern>
+                <token regexp="yes">könnt?en|müsst?en|sollt?en|dürft?en|werden|würden</token>
+                <token>wir</token>
+                <token regexp="yes">glaube|denke|vermute|behaupte</token>
+                <token>ich</token>
+            </antipattern>
             <pattern>
                 <token>wir</token>
                 <marker>
@@ -31631,7 +31637,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Der Bedarf ist sehr hoch.</example>
                 <example>Ja, da gibt es Bedarf.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">gibt|gab|hast|hattest|hatten?|haben</token>
                     <token regexp="yes">du|es|sie</token>
@@ -31646,7 +31652,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <url>https://de.wiktionary.org/wiki/Bedarf</url>
                 <example correction="Bedarf">Gibt es <marker>bedarf</marker> daran?</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">du|es|sie</token>
                     <token regexp="yes">gibt|gab|hast|hattest|hatten?|haben</token>
@@ -43001,7 +43007,10 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token inflected="yes" skip="1">haben</token>
+                    <token inflected="yes" skip="1">
+                        haben
+                        <exception scope="next" regexp="yes">[,:;\-–\)\(]|und|oder|&amp;</exception>
+                    </token>
                     <marker>
                         <token regexp="yes">schwächen|stärken</token>
                     </marker>
@@ -43009,6 +43018,7 @@ Andere Projekte</example>
                 <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Schwächen">Es hat gewisse <marker>schwächen</marker>.</example>
+                <example>Bestimmte Immunzellen, die Menschen in der Vergangenheit gegen Erkältungscoronaviren gebildet haben, stärken die Immunreaktion gegen SARS-CoV-2.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -57054,6 +57064,12 @@ Andere Projekte</example>
                     <token postag="ADV.*" postag_regexp="yes" min="0" max="2" />
                     <token postag="VER:INF.*" postag_regexp="yes" />
                 </antipattern>
+                <antipattern><!-- Konnte gerade erfolgreich einen Kauf mit 3DS machen. -->
+                    <token postag="SENT_START"/>
+                    <token min="0" max="1" regexp="yes">„|»|«|"</token>
+                    <token>konnte</token>
+                    <token postag="ADV.*" postag_regexp="yes" />
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token min="0" max="1" regexp="yes">„|»|«|"</token>
@@ -57097,6 +57113,7 @@ Andere Projekte</example>
                 <example>Kann sich mühelos spontan und fließend ausdrücken</example>
                 <example>Kannst es dir weiterhin gerne schönreden.</example>
                 <example>Kannst mir auch gerne eine pn schicken.</example>
+                <example>Konnte gerade erfolgreich einen Kauf mit 3DS machen.</example>
                 <example>Kann Spuren von Nüssen und anderen Saaten enthalten.</example>
                 <example>Musst dir keine Sorgen machen.</example>
                 <example>Mag sein er ist intelligent, aber er macht oft Schusselfehler.</example>
@@ -60713,16 +60730,17 @@ Andere Projekte</example>
             <rule>
                 <pattern>
                     <token inflected="yes">sein</token>
-                    <token>es</token>
+                    <token regexp="yes">es|das</token>
+                    <token postag="ADV.*" postag_regexp="yes" min="0" />
                     <token min="0">nicht</token>
                     <marker><token>gewohnt</token></marker>
                     <token skip="5"><exception>,</exception></token>
                     <token>zu</token>
                     <token postag="VER:INF:.+" postag_regexp="yes"/>
-                    <token postag="SENT_END"/>
+                    <token postag="PKT"/>
                 </pattern>
-                <message>Wenn eine Infinitivgruppe mit '\4' eingeleitet wird, muss ein Komma gesetzt werden.</message>
-                <suggestion>\4,</suggestion>
+                <message>Wenn eine Infinitivgruppe mit '\5' eingeleitet wird, muss ein Komma gesetzt werden.</message>
+                <suggestion>\5,</suggestion>
                 <example correction="gewohnt,">Er ist es nicht <marker>gewohnt</marker> hart zu arbeiten.</example>
                 <example correction="gewohnt,">Wir sind es <marker>gewohnt</marker> hart zu arbeiten.</example>
                 <example>Er ist es nicht <marker>gewohnt,</marker> hart zu arbeiten.</example>
@@ -60731,15 +60749,16 @@ Andere Projekte</example>
             <rule>
                 <pattern>
                     <token inflected="yes">sein</token>
-                    <token>es</token>
+                    <token regexp="yes">es|das</token>
+                    <token postag="ADV.*" postag_regexp="yes" min="0" />
                     <token min="0">nicht</token>
                     <marker><token>gewohnt</token></marker>
                     <token skip="5"><exception>,</exception></token>
                     <token postag="VER:EIZ:.+" postag_regexp="yes"/>
-                    <token postag="SENT_END"/>
+                    <token postag="PKT"/>
                 </pattern>
-                <message>Wenn eine Infinitivgruppe mit '\4' eingeleitet wird, muss ein Komma gesetzt werden.</message>
-                <suggestion>\4,</suggestion>
+                <message>Wenn eine Infinitivgruppe mit '\5' eingeleitet wird, muss ein Komma gesetzt werden.</message>
+                <suggestion>\5,</suggestion>
                 <example correction="gewohnt,">Er ist es nicht <marker>gewohnt</marker> hungrig einzuschlafen.</example>
                 <example>Er ist es nicht <marker>gewohnt,</marker> hungrig einzuschlafen.</example>
             </rule>
@@ -61447,7 +61466,6 @@ Andere Projekte</example>
                 <token postag="VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+
                     <exception postag="VER:(INF:|PA2).*|VER:MOD:INF.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                     <exception inflected="yes" regexp="yes">bleiben|lassen|sieben|achten</exception>   <!-- siebte, achte werden nicht als Zahlwort erkannt  -->
-                    <exception>gelangen</exception>   <!-- incorrect tagging  -->
                     <exception regexp="yes">bitte|halt|mindere|lichte|sog|rauf|vermittelst</exception>
                     <exception postag="VER:IMP:SIN:NON" />
                     <exception regexp="yes" scope="previous">,|\.|:|\?|!|;|-|–|—|\)|\(|„|“|»|«|"|und|oder|da|weil|ob(wohl|gleich)?|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|so(bald|lange)|was|als|wie|bis|wer|wo|wohin</exception>
