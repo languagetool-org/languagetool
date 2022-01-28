@@ -262,10 +262,13 @@ public class GRPCPostProcessing {
     }
     List<String> sentenceText = sentences.stream().map(AnalyzedSentence::getText).collect(Collectors.toList());
 
+    System.out.println("Matches for resorting: " + ruleMatches.stream().map(m -> m.toString() + m.getSuggestedReplacementObjects()).collect(Collectors.joining()));
     PostProcessingRequest req = PostProcessingRequest.newBuilder()
       .addAllSentences(sentenceText).addAllMatches(matches).build();
+    System.out.println("Resorting request: " + req);
     // TODO: circuitBreaker
     MatchResponse response = stub.process(req);
+    System.out.println("Resorting response: " + response);
     List<RuleMatch> result = new ArrayList<>(response.getSentenceMatchesCount());
     for (int i = 0; i < response.getSentenceMatchesCount(); i++) {
       MatchList matchList = response.getSentenceMatches(i);
@@ -277,6 +280,7 @@ public class GRPCPostProcessing {
         result.add(match);
       }
     }
+    System.out.println("Resorted matches: " + result.stream().map(m -> m.toString() + m.getSuggestedReplacementObjects()).collect(Collectors.joining()));
     return result;
   }
 }
