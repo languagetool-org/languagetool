@@ -261,7 +261,7 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
     for (int i = 1; i < tokens.length; i++) {
       List<AnalyzedToken> analyzedTokens = tokens[i].getReadings();
 
-      if( ! PosTagHelper.hasPosTag(analyzedTokens, Pattern.compile("noun:inanim:.:v_kly.*") )
+      if( ! PosTagHelper.hasPosTag(analyzedTokens, Pattern.compile("noun:inanim:.:v_kly(?!.*:geo).*") )
           || likelyVklyContext(tokens, i) )
         continue;
 

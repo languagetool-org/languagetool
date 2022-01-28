@@ -92,7 +92,7 @@ class CompoundTagger {
 
   static final List<String> LEFT_O_ADJ_INVALID = Arrays.asList(
     "багато", "мало", "високо", "низько", "старо", "важко", "зовнішньо", "внутрішньо", "ново", "середньо",
-    "південно", "північно", "західно", "східно", "центрально"
+    "південно", "північно", "західно", "східно", "центрально", "ранньо", "пізньо"
   );
 
   static final Pattern LEFT_O_ADJ_INVALID_PATTERN = Pattern.compile("^(" + StringUtils.join(LEFT_O_ADJ_INVALID, "|") + ")(.+)");

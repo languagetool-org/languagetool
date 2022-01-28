@@ -216,6 +216,11 @@ public class UkrainianHybridDisambiguationTest {
         "/[null]SENT_START Ясний/[ясний]adj:m:v_kly:compb|Ясний/[ясний]adj:m:v_naz:compb|Ясний/[ясний]adj:m:v_zna:rinanim:compb"
         +"  /[null]null місяцю/[місяць]noun:inanim:m:v_dav|місяцю/[місяць]noun:inanim:m:v_kly !/[null]null",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
+    
+    TestTools.myAssert("Мій Львове",
+        "/[null]SENT_START Мій/[мій]adj:m:v_kly:&pron:pos|Мій/[мій]adj:m:v_naz:&pron:pos|Мій/[мій]adj:m:v_zna:rinanim:&pron:pos"
+        + "  /[null]null Львове/[Львов]noun:anim:m:v_kly:prop:lname|Львове/[Львове]noun:inanim:n:v_kly:prop:geo|Львове/[Львове]noun:inanim:n:v_naz:prop:geo|Львове/[Львове]noun:inanim:n:v_zna:prop:geo|Львове/[Львів]noun:inanim:m:v_kly:prop:geo",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
   }
 
   @Test

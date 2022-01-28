@@ -18,6 +18,14 @@
  */
 package org.languagetool.rules.patterns;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
@@ -25,10 +33,6 @@ import org.languagetool.Language;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tools.StringTools;
-
-import java.io.IOException;
-import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * A Rule that describes a language error as a simple pattern of words or of
@@ -210,18 +214,24 @@ public class PatternRule extends AbstractTokenBasedRule {
   public final RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     if (canBeIgnoredFor(sentence)) return RuleMatch.EMPTY_ARRAY;
 
-    RuleMatcher matcher = new PatternRuleMatcher(this, useList);
-    return checkForAntiPatterns(sentence, matcher, matcher.match(sentence));
+    try {
+      RuleMatcher matcher = new PatternRuleMatcher(this, useList);
+      return checkForAntiPatterns(sentence, matcher);
+    } catch (IOException e) {
+      throw new IOException("Error analyzing sentence: '" + sentence + "'", e);
+    } catch (Exception e) {
+      throw new RuntimeException("Error analyzing sentence: '" + sentence + "' with rule " + getFullId(), e);
+    }
   }
 
-  private RuleMatch[] checkForAntiPatterns(AnalyzedSentence sentence, RuleMatcher matcher, RuleMatch[] matches) throws IOException {
-    if (matches != null && matches.length > 0 && !getAntiPatterns().isEmpty()) {
+  private RuleMatch[] checkForAntiPatterns(AnalyzedSentence sentence, RuleMatcher matcher) throws IOException {
+    if ( /*matches != null && matches.length > 0 &&*/ !getAntiPatterns().isEmpty()) {
       AnalyzedSentence immunized = getSentenceWithImmunization(sentence);
       if (Arrays.stream(immunized.getTokens()).anyMatch(AnalyzedTokenReadings::isImmunized)) {
         return matcher.match(immunized);
       }
     }
-    return matches;
+    return matcher.match(sentence);
   }
 
   List<Integer> getElementNo() {

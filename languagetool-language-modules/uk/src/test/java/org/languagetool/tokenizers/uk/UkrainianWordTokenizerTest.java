@@ -370,6 +370,9 @@ public class UkrainianWordTokenizerTest {
     testList = w.tokenize("і т.д.");
     assertEquals(Arrays.asList("і", " ", "т.", "д."), testList);
 
+    testList = w.tokenize("в т. ч.");
+    assertEquals(Arrays.asList("в", " ", "т.", " ", "ч."), testList);
+
     testList = w.tokenize("до т. зв. сальону");
     assertEquals(Arrays.asList("до", " ", "т.", " ", "зв.", " ", "сальону"), testList);
 
@@ -387,7 +390,10 @@ public class UkrainianWordTokenizerTest {
 
     testList = w.tokenize("на 1-кімн. кв. в центрі");
     assertEquals(Arrays.asList("на", " " , "1-кімн.", " ", "кв.", " ", "в", " ", "центрі"), testList);
-    
+
+    testList = w.tokenize("1 кв. км.");
+    assertEquals(Arrays.asList("1", " ", "кв.", " ", "км", "."), testList);
+
     testList = w.tokenize("Валерій (міліціонер-пародист.\n–  Авт.) стане пародистом.");
     assertEquals(Arrays.asList("Валерій", " ", "(", "міліціонер-пародист", ".", "\n", "–", " ", " ", "Авт.", ")", " ", "стане", " ", "пародистом", "."), testList);
 
