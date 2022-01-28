@@ -3488,6 +3488,35 @@ RB => Règles Brutes
     </rulegroup>
     <!-- CATEGORY: verbs (particular cases) -->
     <!-- TODO: move down -->
+    <rulegroup id="SEMBLE_T_IL" name="semble-t-il">
+        <rule>
+        <pattern>
+            <marker>
+                <token postag="V ind pres 3 s" postag_regexp="yes"/>
+            </marker>
+            <token regexp="yes">-t-il|-t-elle|-t-on</token>
+        </pattern>
+        <disambig action="remove" postag="V ind pres 1 s"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="V ind pres 3 s" postag_regexp="yes"/>
+                </marker>
+                <token regexp="yes">-t-il|-t-elle|-t-on</token>
+            </pattern>
+            <disambig action="remove" postag="V imp pres 2 s"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="V ind pres 3 s" postag_regexp="yes"/>
+                </marker>
+                <token regexp="yes">-t-il|-t-elle|-t-on</token>
+            </pattern>
+            <disambig action="remove" postag="V sub pres 1 s"/>
+        </rule>
+    </rulegroup>
     <rule id="COUPONS_NET" name="coupons net">
         <pattern>
             <token postag="R pers obj 3 e p">les</token>

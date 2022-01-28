@@ -311,7 +311,6 @@ public class French extends Language implements AutoCloseable {
       case "AGREEMENT_POSTPONED_ADJ": return -50;
       case "MULTI_ADJ": return -50;
       case "POINTS_SUSPENSIONS_SPACE": return -50; // lesser than grammar rules
-      case "MOT_TRAIT_MOT": return -50; // lesser than grammar rules
       case "ESSENTIEL": return -50; // lesser than grammar rules
       case "CONFUSION_AL_LA": return -50; // lesser than AUX_AVOIR_VCONJ
       case "IMPORTANT": return -50; // lesser than grammar rules
@@ -328,6 +327,8 @@ public class French extends Language implements AutoCloseable {
       case "UPPERCASE_SENTENCE_START": return -300;
       case "FRENCH_WHITESPACE_STRICT": return -350; // picky; if on, it should overwrite FRENCH_WHITESPACE
       case "FRENCH_WHITESPACE": return -400; // lesser than UPPERCASE_SENTENCE_START and FR_SPELLING_RULE
+      case "MOT_TRAIT_MOT": return -400; // lesser than UPPERCASE_SENTENCE_START and FR_SPELLING_RULE
+
 
     }
     if (id.startsWith("grammalecte_")) {
