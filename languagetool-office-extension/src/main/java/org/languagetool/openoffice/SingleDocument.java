@@ -252,7 +252,7 @@ class SingleDocument {
     } catch (Throwable t) {
       MessageHandler.showError(t);
     }
-    if (!isImpress && ltMenus == null) {
+    if (!isImpress && ltMenus == null && paraText.length() > 4) {
       ltMenus = new LanguageToolMenus(xContext, this, config);
     }
     return paRes;
