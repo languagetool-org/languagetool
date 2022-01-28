@@ -245,7 +245,13 @@ public class GRPCPostProcessing {
       Iterator<RuleMatch> iter = ruleMatches.iterator();
       while (iter.hasNext()) {
         RuleMatch m = iter.next();
-        if (sentence.equals(m.getSentence())) {
+        // NOTE: we can't compare sentences directly, as parts of sentences like AnalyzedTokenReadings
+        // seem to be mutated during the matching process and rule matches will thus refer to sentences that are
+        // not equal to the initially analyzed sentences we receive in the first argument
+        // e.g. by AnalyzedTokenReadings.immunize()
+        // example sentence: The breakdown suggest that the transportation sector register a large fall in prices.
+        // so just use sentence.getText()
+        if (sentence.getText().equals(m.getSentence().getText())) {
           iter.remove();
           m.setOffsetPosition(m.getFromPos() - offset.get(i), m.getToPos() - offset.get(i));
           sentenceMatches.add(m);
