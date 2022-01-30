@@ -176,6 +176,8 @@ public class VerbAgreementRuleTest {
     assertGood("Du bist aus Berlin und wohnst in Bonn.");
     assertGood("Sie befestigen die Regalbretter vermittelst dreier Schrauben.");
     assertGood("Meine Familie & ich haben uns ein neues Auto gekauft.");
+    assertGood("Der Bescheid lasse im übrigen die Abwägungen vermissen, wie die Betriebsprüfung zu den Sachverhaltsbeurteilungen gelange, die den von ihr bekämpften Bescheiden zugrundegelegt worden seien.");
+    assertGood("Die Bildung des Samens erfolgte laut Alkmaion im Gehirn, von wo aus er durch die Adern in den Hoden gelange.");
     // incorrect sentences:
     assertBad("Als Borcarbid weißt es eine hohe Härte auf.");
     assertBad("Das greift auf Vorläuferinstitutionen bist auf die Zeit von 1234 zurück.");

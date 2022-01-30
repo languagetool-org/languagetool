@@ -1244,6 +1244,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Entäuschung", "Enttäuschung");
     put("Entäuschungen", "Enttäuschungen");
     put("kanns", "kann es");
+    put("funktionierts", "funktioniert es");
     put("hbat", "habt");
     put("ichs", "ich es");
     put("folgendermassen", "folgendermaßen");
