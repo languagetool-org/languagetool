@@ -6593,6 +6593,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="NCFS000|AQ.[FC]S.|V.P..SF" postag_regexp="yes"/>
                 <token postag="NCFS000|AQ.[FC]S.|V.P..SF" postag_regexp="yes"/>
             </antipattern>
+            <antipattern>
+                <token>esta</token>
+                <token postag="AQ.[FC]S.|V.P..SF" postag_regexp="yes"/>
+                <token regexp="yes">y|o|e|u</token>
+                <token postag="AQ.[FC]S.|V.P..SF" postag_regexp="yes"/>
+                <token postag="NCFS000"/>
+            </antipattern>
             <rule>
                 <!-- está + participio-->
                 <pattern>
@@ -6617,7 +6624,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>cuando sea esta formada por varios miembros</example>
                 <example>entre él y esta querida hija</example>
                 <example>Esta pretendida polémica</example>
-                <!-- <example>Al verse esta superada.</example> better disambiguation needed-->
+                <example>Pero esta repentina y loable disposición hacia la virtud.</example>
+                <example>Al verse esta superada.</example>
             </rule>
             <rule>
                 <!--está + gerundio-->
@@ -7070,6 +7078,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>como</token>
                     <token>este</token>
                 </antipattern>
+                <antipattern>
+                    <token regexp="yes">lo|la</token>
+                    <token postag="V...3S." postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token postag="PR.*" postag_regexp="yes" skip="3"><exception scope="next" postag="CC|_PUNT.*" postag_regexp="yes"/></token>
                     <marker>
@@ -7086,6 +7098,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>enlazan el este con el oeste</example>
                 <example>Un ecosistema como este en la taiga puede ser alto en biomasa.</example>
                 <example>y espacios como este en la Qt DevNet</example>
+                <example>No solo porque se sabe que este lo suele hacer con sus ayudantes.</example>
             </rule>
             <rule>
                 <!-- esté + adjetivo-->
@@ -15657,6 +15670,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">\d+</token>
             </antipattern>
             <antipattern>
+                <token inflected="yes">estar</token>
+                <token>juntos</token>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token regexp="yes">y|e</token>
+                <token postag="N.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">estar</token>
+                <token>juntas</token>
+                <token postag="N.[FC].*" postag_regexp="yes"/>
+                <token regexp="yes">y|e</token>
+                <token postag="N.[FC].*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
                 <!-- usually invariant -->
                 <token regexp="yes">id|led|top|pop|turno</token>
             </antipattern>
@@ -15895,6 +15922,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¿Por qué no limpia papá su estudio?</example>
                 <example>el masajeador facial que quita años de encima</example>
                 <example>En Málaga se echan en falta parques grandes.</example>
+                <example>Como si estuvieran juntos hombre y mujer.</example>
             </rule>
             <rule>
                 <antipattern>
