@@ -23,6 +23,7 @@ import java.util.List;
 import org.languagetool.Language;
 import org.languagetool.gui.Configuration;
 import org.languagetool.openoffice.DocumentCache.TextParagraph;
+import org.languagetool.openoffice.OfficeTools.DocumentType;
 
 import com.sun.star.lang.Locale;
 import com.sun.star.lang.XComponent;
@@ -53,7 +54,7 @@ class CheckRequestAnalysis {
   private final List<Integer> minToCheckPara;       //  List of minimal to check paragraphs for different classes of text level rules
   private final Language docLanguage;               //  fixed language (by configuration); if null: use language of document (given by LO/OO)
   private final boolean useQueue;                   //  true: use queue to check text level rules (given by configuration)
-  private final boolean isImpress;                  //  true: is an Impress document
+  private final DocumentType docType;               //  save the type of document
   private final int proofInfo;                      //  Information about proof request (supported by LO > 6.4 otherwise: 0 == UNKNOWN)
   private final DocumentCache docCache;             //  cache of paragraphs (only readable by parallel thread)
 
@@ -83,7 +84,7 @@ class CheckRequestAnalysis {
     xContext = mDocHandler.getContext();
     xComponent = singleDocument.getXComponent();
     docID = singleDocument.getDocID();
-    isImpress = singleDocument.isImpress();
+    docType = singleDocument.getDocumentType();
     minToCheckPara = mDocHandler.getNumMinToCheckParas();
     docCache = singleDocument.getDocumentCache();
     flatPara = singleDocument.getFlatParagraphTools();
@@ -367,7 +368,7 @@ class CheckRequestAnalysis {
     if (isDisposed()) {
       return -1;
     }
-    if (isImpress && docCache.isEmpty()) {
+    if (docType != DocumentType.WRITER && docCache.isEmpty()) {
       docCache.refresh(docCursor, flatPara, docLanguage != null ? LinguisticServices.getLocale(docLanguage) : null, xComponent, 3);
 //      singleDocument.setDocumentCache(docCache);
     }

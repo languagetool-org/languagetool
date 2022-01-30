@@ -57,13 +57,20 @@ import com.sun.star.uno.XComponentContext;
  */
 class OfficeTools {
   
+  public enum DocumentType {
+    WRITER,       //  Writer document
+    IMPRESS,      //  Impress document
+    CALC,         //  Calc document
+    UNSUPPORTED   //  unsupported document
+  }
+  
   public enum RemoteCheck {
     NONE,         //  no remote check
     ALL,          //  spell and grammar check
     ONLY_SPELL,   //  only spell check
     ONLY_GRAMMAR  //  only grammar check
   }
-  
+    
   public static final String LT_SERVICE_NAME = "org.languagetool.openoffice.Main";
   public static final int PROOFINFO_UNKNOWN = 0;
   public static final int PROOFINFO_GET_PROOFRESULT = 1;

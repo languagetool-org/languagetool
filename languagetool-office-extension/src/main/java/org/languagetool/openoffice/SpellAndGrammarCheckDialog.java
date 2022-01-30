@@ -63,6 +63,7 @@ import org.languagetool.Languages;
 import org.languagetool.JLanguageTool.ParagraphHandling;
 import org.languagetool.gui.Tools;
 import org.languagetool.openoffice.DocumentCache.TextParagraph;
+import org.languagetool.openoffice.OfficeTools.DocumentType;
 import org.languagetool.openoffice.OfficeTools.RemoteCheck;
 import org.languagetool.rules.RuleMatch;
 
@@ -77,7 +78,6 @@ import com.sun.star.text.XFlatParagraph;
 import com.sun.star.text.XMarkingAccess;
 import com.sun.star.text.XParagraphCursor;
 import com.sun.star.text.XTextCursor;
-import com.sun.star.text.XTextViewCursor;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
 
@@ -144,7 +144,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
   private Locale locale;
   private int checkType = 0;
   private DocumentCache docCache;
-  private boolean isImpress = false;
+  private DocumentType docType = DocumentType.WRITER;
   private boolean doInit = true;
   private int dialogX = -1;
   private int dialogY = -1;
@@ -217,8 +217,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
   /**
    * Actualize impress document cache
    */
-  private void actualizeImpressDocumentCache(SingleDocument document) {
-    if (isImpress) {
+  private void actualizeNonWriterDocumentCache(SingleDocument document) {
+    if (docType != DocumentType.WRITER) {
       DocumentCache oldCache = new DocumentCache(docCache);
       docCache.refresh(null, null, null, document.getXComponent(), 7);
       if (!oldCache.isEmpty()) {
@@ -264,10 +264,10 @@ public class SpellAndGrammarCheckDialog extends Thread {
       currentDocument = documents.getCurrentDocument();
     }
     if (currentDocument != null) {
-      isImpress = currentDocument.isImpress();
+      docType = currentDocument.getDocumentType();
       docCache = currentDocument.getDocumentCache();
-      if (isImpress) {
-        actualizeImpressDocumentCache(currentDocument);
+      if (docType != DocumentType.WRITER) {
+        actualizeNonWriterDocumentCache(currentDocument);
       }
     }
     return currentDocument;
@@ -278,7 +278,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
    */
   public void nextError() {
     SingleDocument document = getCurrentDocument();
-    if (document == null || isImpress || !documents.isEnoughHeapSpace()) {
+    if (document == null || docType != DocumentType.WRITER || !documents.isEnoughHeapSpace()) {
       return;
     }
     XComponent xComponent = document.getXComponent();
@@ -352,8 +352,10 @@ public class SpellAndGrammarCheckDialog extends Thread {
     docCache.setFlatParagraph(nFPara, sPara);
     document.removeResultCache(nFPara);
     document.removeIgnoredMatch(nFPara, true);
-    if (isImpress) {
+    if (docType == DocumentType.IMPRESS) {
       OfficeDrawTools.changeTextOfParagraph(nFPara, nStart, nLength, replace, document.getXComponent());
+    } else if (docType == DocumentType.CALC) {
+      OfficeSpreadsheetTools.setTextofCell(nFPara, sPara, document.getXComponent());
     } else {
       TextParagraph tPara = docCache.getNumberOfTextParagraph(nFPara);
       if (tPara.type != DocumentCache.CURSOR_TYPE_UNKNOWN) {
@@ -537,7 +539,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
           return null;
         }
         XFlatParagraph xFlatPara = null;
-        if (!isImpress) {
+        if (docType == DocumentType.WRITER) {
           xFlatPara = document.getFlatParagraphTools().getFlatParagraphAt(nPara);
           if (xFlatPara == null) {
             return null;
@@ -620,7 +622,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
       try {
         int xVC = 0;
         TextParagraph yVC = null;
-        if (!isImpress) {
+        if (docType == DocumentType.WRITER) {
           yVC = viewCursor.getViewCursorParagraph();
           xVC = viewCursor.getViewCursorCharacter();
         }
@@ -669,7 +671,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
             }
           }
         }
-        if (!isImpress) {
+        if (docType == DocumentType.WRITER) {
           setTextViewCursor(xVC, yVC, viewCursor);
         }
       } catch (Throwable t) {
@@ -846,20 +848,24 @@ public class SpellAndGrammarCheckDialog extends Thread {
           FlatParagraphTools flatPara= null;
           if (changeLanguage.getSelectedIndex() > 0) {
             String selectedLang = (String) language.getSelectedItem();
-            locale = this.getLocaleFromLanguageName(selectedLang);
+            locale = getLocaleFromLanguageName(selectedLang);
             flatPara = currentDocument.getFlatParagraphTools();
             currentDocument.removeResultCache(y);
             if (changeLanguage.getSelectedIndex() == 1) {
-              if (isImpress) {
+              if (docType == DocumentType.IMPRESS) {
                 OfficeDrawTools.setLanguageOfParagraph(y, error.nErrorStart, error.nErrorLength, locale, currentDocument.getXComponent());
+              } else if (docType == DocumentType.CALC) {
+                OfficeSpreadsheetTools.setLanguageOfSpreadsheet(locale, currentDocument.getXComponent());
               } else {
                 flatPara.setLanguageOfParagraph(y, error.nErrorStart, error.nErrorLength, locale);
               }
               addLanguageChangeUndo(y, error.nErrorStart, error.nErrorLength, lastLang);
               docCache.setMultilingualFlatParagraph(y);
             } else if (changeLanguage.getSelectedIndex() == 2) {
-              if (isImpress) {
+              if (docType == DocumentType.IMPRESS) {
                 OfficeDrawTools.setLanguageOfParagraph(y, 0, docCache.getFlatParagraph(y).length(), locale, currentDocument.getXComponent());
+              } else if (docType == DocumentType.CALC) {
+                OfficeSpreadsheetTools.setLanguageOfSpreadsheet(locale, currentDocument.getXComponent());
               } else {
                 flatPara.setLanguageOfParagraph(y, 0, docCache.getFlatParagraph(y).length(), locale);
               }
@@ -1120,7 +1126,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
             }
             String newDocId = currentDocument.getDocID();
             if (debugMode) {
-              MessageHandler.printToLogFile("Check Dialog: Window Focus gained: new docID = " + newDocId + ", old = " + docId + ", isImpress: " + isImpress);
+              MessageHandler.printToLogFile("Check Dialog: Window Focus gained: new docID = " + newDocId + ", old = " + docId + ", docType: " + docType);
             }
             if (!docId.equals(newDocId)) {
               docId = newDocId;
@@ -1195,7 +1201,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
      * Initialize the cursor / define the range for check
      */
     private boolean initCursor() {
-      if (!isImpress) {
+      if (docType == DocumentType.WRITER) {
         viewCursor = new ViewCursorTools(xContext);
         if (debugMode) {
           MessageHandler.printToLogFile("viewCursor initialized: docId: " + docId);
@@ -1590,13 +1596,15 @@ public class SpellAndGrammarCheckDialog extends Thread {
         MessageHandler.printToLogFile("CheckDialog: getNextError: docCache size == 0: Return null");
         return null;
       }
-      if (!isImpress) {
+      if (docType == DocumentType.WRITER) {
         y = docCache.getFlatParagraphNumber(viewCursor.getViewCursorParagraph());
-      } else {
+      } else if (docType == DocumentType.IMPRESS) {
         y = OfficeDrawTools.getParagraphFromCurrentPage(xComponent);
+      } else {
+        y = OfficeSpreadsheetTools.getParagraphFromCurrentSheet(xComponent);
       }
       if (y < 0 || y >= docCache.size()) {
-        MessageHandler.printToLogFile("CheckDialog: getNextError: : y (= " + y + ") >= text size (= " + docCache.size() + "): Return null");
+        MessageHandler.printToLogFile("CheckDialog: getNextError: y (= " + y + ") >= text size (= " + docCache.size() + "): Return null");
         endOfDokumentMessage = messages.getString("guiCheckComplete");
         return null;
       }
@@ -1764,7 +1772,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
      */
     private void ignoreOnce() {
       x = error.nErrorStart;
-      if (isSpellError && !isImpress) {
+      if (isSpellError && docType == DocumentType.WRITER) {
           removeSpellingMark(y);
       }
       currentDocument.setIgnoredMatch(x, y, error.aRuleIdentifier, true);
@@ -1845,7 +1853,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
       String replace;
       String orgText;
       String dialogText = sentenceIncludeError.getText();
-      if (isImpress) {
+      if (docType != DocumentType.WRITER) {
         orgText = docCache.getFlatParagraph(y);
         if (!orgText.equals(dialogText)) {
           int firstChange = getDifferenceFromBegin(orgText, dialogText);
@@ -2021,8 +2029,10 @@ public class SpellAndGrammarCheckDialog extends Thread {
             MessageHandler.printToLogFile("Change Language: Locale: " + locale.Language + "-" + locale.Country 
               + ", nFlat = " + nFlat + ", nStart = " + nStart + ", nLen = " + nLen);
           }
-          if (isImpress) {
+          if (docType == DocumentType.IMPRESS) {
             OfficeDrawTools.setLanguageOfParagraph(nFlat, nStart, nLen, locale, currentDocument.getXComponent());
+          } else if (docType == DocumentType.CALC) {
+            OfficeSpreadsheetTools.setLanguageOfSpreadsheet(locale, currentDocument.getXComponent());
           } else {
             flatPara.setLanguageOfParagraph(nFlat, nStart, nLen, locale);
           }
@@ -2043,7 +2053,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
             if (debugMode) {
               MessageHandler.printToLogFile("Ignore change: nFlat = " + nFlat + ", n = (" + n.type + "," + n.number + "), x = " + xStarts.get(0));
             }
-            if (isImpress) {
+            if (docType != DocumentType.WRITER) {
               for (int i = xStarts.size() - 1; i >= 0; i --) {
                 int xStart = xStarts.get(i);
                 changeTextOfParagraph(nFlat, xStart, length, lastUndo.word, currentDocument, viewCursor);
@@ -2076,10 +2086,10 @@ public class SpellAndGrammarCheckDialog extends Thread {
     void setFlatViewCursor(int x, int y, ViewCursorTools viewCursor) {
       this.x = x;
       this.y = y;
-      if (!isImpress) {
+      if (docType == DocumentType.WRITER) {
         TextParagraph para = docCache.getNumberOfTextParagraph(y);
         SpellAndGrammarCheckDialog.setTextViewCursor(x, para, viewCursor);
-      } else {
+      } else if (docType == DocumentType.IMPRESS) {
         OfficeDrawTools.setCurrentPage(y, currentDocument.getXComponent());
         if (OfficeDrawTools.isParagraphInNotesPage(y, currentDocument.getXComponent())) {
           OfficeTools.dispatchCmd(".uno:NotesMode", xContext);
@@ -2091,6 +2101,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
           }
           dialog.toFront();
         }
+      } else {
+        OfficeSpreadsheetTools.setCurrentSheet(y, currentDocument.getXComponent());
       }
     }
     

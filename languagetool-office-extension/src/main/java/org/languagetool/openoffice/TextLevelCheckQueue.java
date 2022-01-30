@@ -24,6 +24,7 @@ import java.util.List;
 
 import org.languagetool.Language;
 import org.languagetool.openoffice.DocumentCache.TextParagraph;
+import org.languagetool.openoffice.OfficeTools.DocumentType;
 
 import com.sun.star.lang.Locale;
 import com.sun.star.lang.XComponent;
@@ -331,7 +332,7 @@ public class TextLevelCheckQueue {
     }
     int nDoc = 0;
     for (int n = 0; n < documents.size(); n++) {
-      if ((docId == null || docId.equals(documents.get(n).getDocID())) && !documents.get(n).isDisposed() && !documents.get(n).isImpress()) {
+      if ((docId == null || docId.equals(documents.get(n).getDocID())) && !documents.get(n).isDisposed() && documents.get(n).getDocumentType() == DocumentType.WRITER) {
         QueueEntry queueEntry = documents.get(n).getNextQueueEntry(nPara);
         if (queueEntry != null) {
           return queueEntry;
@@ -341,7 +342,7 @@ public class TextLevelCheckQueue {
       }
     }
     for (int n = 0; n < documents.size(); n++) {
-      if (docId != null && docId.equals(documents.get(n).getDocID()) && !documents.get(n).isDisposed() && !documents.get(n).isImpress()) {
+      if (docId != null && docId.equals(documents.get(n).getDocID()) && !documents.get(n).isDisposed() && documents.get(n).getDocumentType() == DocumentType.WRITER) {
         QueueEntry queueEntry = documents.get(n).getQueueEntryForChangedParagraph();
         if (queueEntry != null) {
           return queueEntry;
@@ -351,7 +352,7 @@ public class TextLevelCheckQueue {
       }
     }
     for (int i = nDoc + 1; i < documents.size(); i++) {
-      if (!documents.get(i).isDisposed() && !documents.get(i).isImpress()) {
+      if (!documents.get(i).isDisposed() && documents.get(i).getDocumentType() == DocumentType.WRITER) {
         QueueEntry queueEntry = documents.get(i).getNextQueueEntry(null);
         if (queueEntry != null) {
           return queueEntry;
@@ -359,7 +360,7 @@ public class TextLevelCheckQueue {
       }
     }
     for (int i = 0; i < nDoc; i++) {
-      if (!documents.get(i).isDisposed() && !documents.get(i).isImpress()) {
+      if (!documents.get(i).isDisposed() && documents.get(i).getDocumentType() == DocumentType.WRITER) {
         QueueEntry queueEntry = documents.get(i).getNextQueueEntry(null);
         if (queueEntry != null) {
           return queueEntry;

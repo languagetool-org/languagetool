@@ -40,6 +40,7 @@ import org.languagetool.UserConfig;
 import org.languagetool.gui.AboutDialog;
 import org.languagetool.gui.Configuration;
 import org.languagetool.openoffice.DocumentCache.TextParagraph;
+import org.languagetool.openoffice.OfficeTools.DocumentType;
 import org.languagetool.openoffice.SpellAndGrammarCheckDialog.LtCheckDialog;
 import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.Rule;
@@ -253,8 +254,14 @@ public class MultiDocumentsHandler {
       }
       XTextDocument curDoc = UnoRuntime.queryInterface(XTextDocument.class, xComponent);
       if (curDoc == null) {
+        String prefix = null;
         if (OfficeDrawTools.isImpressDocument(xComponent)) {
-          String docID = createImpressDocId();
+          prefix = "I";
+        } else if (OfficeSpreadsheetTools.isSpreadsheetDocument(xComponent)) {
+          prefix = "C";
+        }
+        if (prefix != null) {
+          String docID = createOtherDocId(prefix);
           try {
             xComponent.addEventListener(xEventListener);
           } catch (Throwable t) {
@@ -276,13 +283,13 @@ public class MultiDocumentsHandler {
   /**
    * create new Impress document id
    */
-  private String createImpressDocId() {
+  private String createOtherDocId(String prefix) {
     String docID;
     if (documents.size() == 0) {
-      return "I1";
+      return prefix + "1";
     }
     for (int n = 1; n < documents.size() + 1; n++) {
-      docID = "I" + n;
+      docID = prefix + n;
       boolean isValid = true;
       for (SingleDocument document : documents) {
         if (docID.equals(document.getDocID())) {
@@ -1347,11 +1354,13 @@ public class MultiDocumentsHandler {
           if (document != null) {
             XComponent currentComponent = document.getXComponent();
             if (currentComponent != null) {
-              if (!document.isImpress()) {
+              if (document.getDocumentType() == DocumentType.WRITER) {
                 ViewCursorTools viewCursor = new ViewCursorTools(xContext);
                 SpellAndGrammarCheckDialog.setTextViewCursor(0, new TextParagraph (DocumentCache.CURSOR_TYPE_TEXT ,0), viewCursor);
-              } else {
+              } else if (document.getDocumentType() == DocumentType.IMPRESS){
                 OfficeDrawTools.setCurrentPage(0, currentComponent);
+              } else {
+                OfficeSpreadsheetTools.setCurrentSheet(0, currentComponent);
               }
             }
           }
@@ -1423,9 +1432,18 @@ public class MultiDocumentsHandler {
         return false;
       }
       Locale locale;
-      boolean isImpress = OfficeDrawTools.isImpressDocument(xComponent);
-      if (isImpress) {
+      DocumentType docType;
+      if (OfficeDrawTools.isImpressDocument(xComponent)) {
+        docType = DocumentType.IMPRESS;
+      } else if (OfficeSpreadsheetTools.isSpreadsheetDocument(xComponent)) {
+        docType = DocumentType.CALC;
+      } else {
+        docType = DocumentType.WRITER;
+      }
+      if (docType == DocumentType.IMPRESS) {
         locale = OfficeDrawTools.getDocumentLocale(xComponent);
+      } else if (docType == DocumentType.CALC) {
+        locale = OfficeSpreadsheetTools.getDocumentLocale(xComponent);
       } else {
         locale = getDocumentLocale();
       }
@@ -1436,8 +1454,10 @@ public class MultiDocumentsHandler {
           if (debugMode) {
             MessageHandler.printToLogFile("Try to get locale: n = " + n);
           }
-          if (isImpress) {
+          if (docType == DocumentType.IMPRESS) {
             locale = OfficeDrawTools.getDocumentLocale(xComponent);
+          } else if (docType == DocumentType.CALC) {
+            locale = OfficeSpreadsheetTools.getDocumentLocale(xComponent);
           } else {
             locale = getDocumentLocale();
           }
@@ -1448,9 +1468,9 @@ public class MultiDocumentsHandler {
       }
       if (locale == null) {
         if (showMessage) {
-          MessageHandler.showMessage("No Local! LanguageTool can not be started!");
+          MessageHandler.showMessage("No Locale! LanguageTool can not be started!");
         } else {
-          MessageHandler.printToLogFile("No Local! LanguageTool can not be started!");
+          MessageHandler.printToLogFile("No Locale! LanguageTool can not be started!");
         }
         return false;
       } else if (!hasLocale(locale)) {
@@ -1469,7 +1489,7 @@ public class MultiDocumentsHandler {
         }
         return false;
       }
-      if (isImpress) {
+      if (docType != DocumentType.WRITER) {
         langForShortName = getLanguage(locale);
         docLanguage = langForShortName;
         this.locale = locale;

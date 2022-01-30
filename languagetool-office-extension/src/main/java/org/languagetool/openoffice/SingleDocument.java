@@ -31,6 +31,7 @@ import java.util.Set;
 import org.languagetool.Language;
 import org.languagetool.gui.Configuration;
 import org.languagetool.openoffice.DocumentCache.TextParagraph;
+import org.languagetool.openoffice.OfficeTools.DocumentType;
 import org.languagetool.openoffice.TextLevelCheckQueue.QueueEntry;
 
 import com.sun.star.beans.PropertyValue;
@@ -92,7 +93,7 @@ class SingleDocument {
   private int lastChangedPara;                    //  lastPara which was detected as changed
   private List<Integer> lastChangedParas;         //  lastPara which was detected as changed
   private IgnoredMatches ignoredMatches;          //  Map of matches (number of paragraph, number of character) that should be ignored after ignoreOnce was called
-  private boolean isImpress = false;              //  true: is an Impress document 
+  private final DocumentType docType;             //  save the type of document
   private boolean disposed = false;               //  true: document with this docId is disposed - SingleDocument shall be removed
   private boolean resetDocCache = false;          //  true: the cache of the document should be reseted before the next check
   private boolean hasFootnotes = true;            //  true: Footnotes are supported by LO/OO
@@ -108,7 +109,11 @@ class SingleDocument {
     this.config = config;
     this.docID = docID;
     if (docID.charAt(0) == 'I') {
-      isImpress = true;
+      docType = DocumentType.IMPRESS;
+    } else if (docID.charAt(0) == 'C') {
+      docType = DocumentType.CALC;
+    } else {
+      docType = DocumentType.WRITER;
     }
     xComponent = xComp;
     mDocHandler = mDH;
@@ -126,7 +131,7 @@ class SingleDocument {
     if (docCursor == null) {
       docCursor = new DocumentCursorTools(xComponent);
     }
-    docCache = new DocumentCache(isImpress);
+    docCache = new DocumentCache(docType);
     if (config != null && config.saveLoCache() && xComponent != null && !mDocHandler.isTestMode()) {
       readCaches();
     }
@@ -252,7 +257,7 @@ class SingleDocument {
     } catch (Throwable t) {
       MessageHandler.showError(t);
     }
-    if (!isImpress && ltMenus == null && paraText.length() > 4) {
+    if (docType == DocumentType.WRITER && ltMenus == null && paraText.length() > 4) {
       ltMenus = new LanguageToolMenus(xContext, this, config);
     }
     return paRes;
@@ -307,10 +312,10 @@ class SingleDocument {
   }
   
   /**
-   * is an Impress document
+   * get type of document
    */
-  boolean isImpress() {
-    return isImpress;
+  DocumentType getDocumentType() {
+    return docType;
   }
   
   /**
@@ -655,9 +660,9 @@ class SingleDocument {
   public void setIgnoredMatch(int x, int y, String ruleId, boolean isIntern) {
     ignoredMatches.setIgnoredMatch(x, y, ruleId);
     if (debugMode > 1) {
-      MessageHandler.printToLogFile("Ignore Match: isImpress = " + isImpress + "; numParasToCheck = " + numParasToCheck);
+      MessageHandler.printToLogFile("Ignore Match: DocumentType = " + docType + "; numParasToCheck = " + numParasToCheck);
     }
-    if (!isImpress && numParasToCheck != 0) {
+    if (docType == DocumentType.WRITER && numParasToCheck != 0) {
       List<Integer> changedParas = new ArrayList<>();
       changedParas.add(y);
       remarkChangedParagraphs(changedParas, isIntern);

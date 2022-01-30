@@ -46,7 +46,6 @@ import com.sun.star.presentation.XPresentationPage;
 import com.sun.star.text.XText;
 import com.sun.star.text.XTextCursor;
 import com.sun.star.uno.UnoRuntime;
-import com.sun.star.uno.XComponentContext;
 
 /**
  * Some tools to get information of LibreOffice Impress context
@@ -198,7 +197,7 @@ public class OfficeDrawTools {
   /**
    * get all paragraphs of a impress document
    */
-  public static ImpressParagraphContainer getAllParagraphs(XComponent xComponent) {
+  public static ParagraphContainer getAllParagraphs(XComponent xComponent) {
     List<String> paragraphs = new ArrayList<>();
     List<Locale> locales = new ArrayList<>();
     List<Integer> pageBegins = new ArrayList<>();
@@ -232,7 +231,7 @@ public class OfficeDrawTools {
       MessageHandler.showError(t);
     }
     OfficeDrawTools o = new OfficeDrawTools();
-    return o.new ImpressParagraphContainer(paragraphs, locales, pageBegins);
+    return o.new ParagraphContainer(paragraphs, locales, pageBegins);
   }
   
   /**
@@ -575,12 +574,12 @@ public class OfficeDrawTools {
     return null;
   }
   
-  public class ImpressParagraphContainer {
+  public class ParagraphContainer {
     public List<String> paragraphs;
     public List<Locale> locales;
     public List<Integer> pageBegins;
     
-    ImpressParagraphContainer(List<String> paragraphs, List<Locale> locales, List<Integer> pageBegins) {
+    ParagraphContainer(List<String> paragraphs, List<Locale> locales, List<Integer> pageBegins) {
       this.paragraphs = paragraphs;
       this.locales = locales;
       this.pageBegins = pageBegins;

@@ -238,7 +238,7 @@ public class FlatParagraphTools {
    * Returns null if it fails
    */
   @Nullable
-  public ParagraphContainer getAllFlatParagraphs(Locale docLocale) {
+  public FlatParagraphContainer getAllFlatParagraphs(Locale docLocale) {
     try {
       XFlatParagraph xFlatPara = getLastFlatParagraph();
       if (xFlatPara == null) {
@@ -275,7 +275,7 @@ public class FlatParagraphTools {
         }
         tmpFlatPara = xFlatParaIter.getParaAfter(tmpFlatPara);
       }
-      return new ParagraphContainer(allParas, locales, footnotePositions);
+      return new FlatParagraphContainer(allParas, locales, footnotePositions);
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
@@ -776,12 +776,12 @@ public class FlatParagraphTools {
     }
   }
 
-  public class ParagraphContainer {
+  public class FlatParagraphContainer {
     public List<String> paragraphs;
     public List<Locale> locales;
     public List<int[]> footnotePositions;
     
-    ParagraphContainer(List<String> paragraphs, List<Locale> locales, List<int[]> footnotePositions) {
+    FlatParagraphContainer(List<String> paragraphs, List<Locale> locales, List<int[]> footnotePositions) {
       this.paragraphs = paragraphs;
       this.locales = locales;
       this.footnotePositions = footnotePositions;

@@ -19,7 +19,6 @@
 package org.languagetool.openoffice;
 
 import java.awt.Color;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,6 +31,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.gui.Configuration;
 import org.languagetool.openoffice.DocumentCache.TextParagraph;
+import org.languagetool.openoffice.OfficeTools.DocumentType;
 import org.languagetool.openoffice.ResultCache.CacheEntry;
 import org.languagetool.openoffice.SingleDocument.IgnoredMatches;
 import org.languagetool.rules.RuleMatch;
@@ -39,7 +39,6 @@ import org.languagetool.tools.StringTools;
 
 import com.sun.star.beans.PropertyState;
 import com.sun.star.beans.PropertyValue;
-import com.sun.star.lang.IllegalArgumentException;
 import com.sun.star.lang.Locale;
 import com.sun.star.lang.XComponent;
 import com.sun.star.linguistic2.SingleProofreadingError;
@@ -81,7 +80,7 @@ class SingleCheck {
   private final List<Integer> minToCheckPara;       //  List of minimal to check paragraphs for different classes of text level rules
   private final List<ResultCache> paragraphsCache;  //  Cache for matches of text rules
   private final int numParasToCheck;                //  current number of Paragraphs to be checked
-  private final boolean isImpress;                  //  true: is an Impress document
+  private final DocumentType docType;               //  save the type of document
   private final boolean isDialogRequest;            //  true: check was initiated by right mouse click or proofreading dialog
   private final boolean isIntern;                   //  true: check was initiated by right mouse click or proofreading dialog
   private final boolean useQueue;                   //  true: use queue to check text level rules (will be overridden by config)
@@ -93,7 +92,6 @@ class SingleCheck {
   private int changeFrom = 0;                       //  Change result cache from paragraph
   private int changeTo = 0;                         //  Change result cache to paragraph
   private String lastSinglePara = null;             //  stores the last paragraph which is checked as single paragraph
-  private boolean multiLingalIsChecked = false;     //  the last multilingual paragraph is full checked
 
   private List<Integer> changedParas;               //  List of changed paragraphs after editing the document
   
@@ -113,7 +111,7 @@ class SingleCheck {
     mDocHandler = singleDocument.getMultiDocumentsHandler();
     xComponent = singleDocument.getXComponent();
     docCache = singleDocument.getDocumentCache();
-    isImpress = singleDocument.isImpress();
+    docType = singleDocument.getDocumentType();
     config = mDocHandler.getConfiguration();
     useQueue = numParasToCheck != 0 && !isDialogRequest && !mDocHandler.isTestMode() && config.useTextLevelQueue();
     minToCheckPara = mDocHandler.getNumMinToCheckParas();
@@ -129,7 +127,7 @@ class SingleCheck {
     if (isDisposed()) {
       return new SingleProofreadingError[0];
     }
-    if (!isImpress && !isIntern && lastChangedPara >= 0) {
+    if (docType == DocumentType.WRITER && !isIntern && lastChangedPara >= 0) {
       if (docCursor == null) {
         docCursor = new DocumentCursorTools(xComponent);
       }
@@ -151,13 +149,12 @@ class SingleCheck {
     }
     List<SingleProofreadingError[]> pErrors = checkTextRules(paraText, locale, footnotePositions, paraNum, startOfSentence, lt, textIsChanged, isIntern);
     startOfSentence = paragraphsCache.get(0).getStartSentencePosition(paraNum, startOfSentence);
-    int nextSentence = paragraphsCache.get(0).getNextSentencePosition(paraNum, startOfSentence);
     SingleProofreadingError[] errors = mergeErrors(pErrors, paraNum);
     if (debugMode > 1) {
       MessageHandler.printToLogFile("SingleCheck: getCheckResults: paRes.aErrors.length: " + errors.length 
           + "; docID: " + singleDocument.getDocID());
     }
-    if (!isImpress && numParasToCheck != 0 && paraNum >= 0 && (textIsChanged || isDialogRequest)) {
+    if (docType == DocumentType.WRITER && numParasToCheck != 0 && paraNum >= 0 && (textIsChanged || isDialogRequest)) {
       if (docCursor == null && !isDisposed()) {
         docCursor = new DocumentCursorTools(xComponent);
       }
@@ -262,7 +259,7 @@ class SingleCheck {
         }
         startPos = endPos;
       }
-      if (!isImpress && useQueue && !isDialogRequest) {
+      if (docType == DocumentType.WRITER && useQueue && !isDialogRequest) {
         if (mDH.getTextLevelCheckQueue() == null || mDH.getTextLevelCheckQueue().isInterrupted()) {
           return;
         }
