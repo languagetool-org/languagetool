@@ -15652,6 +15652,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="AGREEMENT_ADJ_NOUN" name="Concordancias adjetivo y nombre">
             <antipattern>
+                <token regexp="yes">pp?</token>
+                <token>.</token>
+                <token regexp="yes">\d+</token>
+            </antipattern>
+            <antipattern>
                 <!-- usually invariant -->
                 <token regexp="yes">id|led|top|pop|turno</token>
             </antipattern>
@@ -15922,6 +15927,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Las clases alta y media españolas.</example>
                 <example>Son pulsiones asaz primitivas.</example>
                 <example>A buen hambre no hay pan duro.</example>
+                <example>Veánse cuadros pp. 455-456.</example>
+                <example>Ver cuadro p. 34.</example>
             </rule>
             <rule>
                 <pattern>
@@ -23840,6 +23847,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">&abreviaturas;</token>
                 <token spacebefore="no">-</token>
             </antipattern>
+            <antipattern>
+                <token>.</token>
+                <token spacebefore="no">doc</token>
+            </antipattern>
             <rule>
                 <pattern case_sensitive="yes">
                     <marker>
@@ -23885,6 +23896,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Vive en Tel Aviv.</example>
                 <example>de Google Doc</example>
                 <example>El autor Ed Morales lo afirma.</example>
+                <example>Envíame el documento .doc esta tarde.</example>
             </rule>
             <rule>
                 <pattern>
