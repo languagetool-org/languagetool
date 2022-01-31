@@ -65,7 +65,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY colors_invariable "burdeos|naranja|rosa|violeta|añil|carmesí">
     <!ENTITY words_H_ASPIRADA2 "Higgs|high|Hildesheim|Hill|hijabs?|Hillary|Himmler|hip-hop|hippies|hippy|hipsters?|Hirado|His|hits?|Hubei|Hudson|Hunter|Husserl|Huygens|Utah|husky">
     <!ENTITY words_H_ASPIRADA "Harris|Harvey|Hunspell|Hassan|Haddock|Haarle[mn].*|Hainan|haendel.*|händel.*|habermas.*|hadits?|Hanuk?kà|hack.*|Harlem|Harper|Hartford|Haifa|haikus?|haima|haimes|Haikou|halal|halar|Halifax|Halmstad|halls?|Halle|Halley|Hallstatt|Hallstein|Halloweens?|Hals|herr|Herut|Hamadan|Hamas|Hamàs|hamilton.*|Hamlet.*|hammams?|Hammond|Hampton|hàmsters?|h[aà]ndicaps?|Hangzhou|Hannover|Hanoi|Hans|Hansa|hanseàti[cq].*|happenings?|Harbin|hardware|Haneke|harolds?|Hatay|Hamleigh|Harrisburg|Harrison|harrods?|harry|Hartley|Hartmann?|Hartree|Haruki|Har[td]?vard|Harz|hash.*|Hastings|Havel|Havilland|hawai.*|hawk.*|Hayek|Haydn.*|Hayworth|Heard|hearst|Heathrow|heav.*|hegel.*|Hebei|Hedmark|Heerenveen|Hedw.*|Heerlen|Hefei|Heidelberg|Heide[gn].*|Heilbronn|Heilongjiang|Heilig.*|hei[nk].*|Heisen.*|Heitz|Helmand|Helmholtz|Helen|Helsingborg|Hèlsinki|Heming.*|Henan|henna|hennes|Henry|Hepburn|herbert.*|Herder|Hereford|Herford|Herning|Hertfordshire|Herzog|Hesse|Hessen|Hewlett.*|Hezboll.+|high.*|hilbert.*|Hilda|Hillingdon|hinden.*|Hilton|hinterlands?|Hirsch.*|Hitch.*|hitler.*|Hilversum|Hobart|Hockenheim|Hodeida|Hohhot|Hokkaido|hobbes.*|hobby|Hogw.*|hobbies|Hodgkin|Hohen.*|Hölderlin|h[òo]ldings?|holy.*|hollywood.*|Holmes.*|Holstein|Hong|Hong-Kong|hongk.+|Honolu.+|Honsh[uū]|h[òo]bbits?|hooligan.*|hoover.*|hopkins|Hork.*|Horowitz|horst|H[ou]f.*|Houla|house|Houston|Howard|Hoyerswerda|Hunan|Huddersfield|Hunedoara|huskys?|huskies|hubs?|Hubble|humbold.*|Hume|hunting.*|Hussein|husseinit.+|university|united|(?-i)Hagen|Hamada">
-    <!ENTITY diacritics_00 "linea|lineas|entrelinea|entrelineas|arboles|lagrima|lagrimas|victima|victimas|solida|solidas|solido|autentica|autenticas|autentico|adan|magnifico|oleo|ovulo|oxido|oxigeno|pacifico|petroleo|pixeles|petalo|azucares|canceres|capsula|capsulas|indice|indices|espontaneo|espontanea|espontaneas|bufalo|bufala|bufalas|ovalo|ovalos|astrologo|astrologa|astrologas|petalos|clausula|clausulas|decrepito|decrepita|decrepitas|tempano|purpurea|purpureas|recamara|recamaras">
+    <!ENTITY diacritics_00 "linea|lineas|entrelinea|entrelineas|arboles|lagrima|lagrimas|victima|victimas|solida|solidas|solido|autentica|autenticas|autentico|adan|magnifico|oleo|ovulo|oxido|oxigeno|pacifico|petroleo|pixeles|petalo|azucares|canceres|capsula|capsulas|indice|indices|espontaneo|espontanea|espontaneas|bufalo|bufala|bufalas|ovalo|ovalos|astrologo|astrologa|astrologas|petalos|clausula|clausulas|decrepito|decrepita|decrepitas|tempano|purpurea|purpureas|recamara|recamaras|embolo|epitome|estomago|debito">
     <!ENTITY diacritics_01 "capitulo|titulo|medico|nauseas|nausea|cubica|cubicas|cubico|intimo|ilegitimo|retrograda|retrogradas">
     <!ENTITY diacritics_02 "maquina|maquinas|ejercito|genero|magnifica|articulo|barbara|domestico|capitulo|retrogrado|reciproco|liquido|simultaneo|tremolo|triangulo|vehiculo|vinculo|transito|titulo">
     <!ENTITY diacritics_03 "incomoda|incomodas|lastima|lastimas|medica|medicas|simultanea|simultaneas">
@@ -1681,7 +1681,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Para gente que no la practica.</example>
                 <!-- tu>tú-->
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <!-- Un solo termino -->
                 <pattern>
                     <token postag="DI.*" postag_regexp="yes"/>
@@ -1810,7 +1810,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="NCMS.*" postag_regexp="yes"/>
                     <marker>
-                        <token><exception regexp="yes">solicito|indico|vienes|verifico</exception></token>
+                        <token><exception regexp="yes">solicito|indico|vienes|verifico|celebre</exception></token>
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\2 postag:A.* gendernumberFrom:1"/>
@@ -1825,6 +1825,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>El semáforo indica la luz amarilla.</example>
                 <example>Con gusto verifico su informe.</example>
                 <example>No te lo tomes a mal si critico tu trabajo.</example>
+                <example>No es el momento de que el equipo celebre una fiesta.</example>
             </rule>
             <rule>
                 <!-- de forma integra -->
@@ -2111,6 +2112,71 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Si es adjetivo o nombre, se escribe con tilde.</message>
                 <suggestion>{suggestion}</suggestion>
                 <example correction="término">A su <marker>termino</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="CELEBRE" name="celebre -> célebre">
+            <rule>
+                <pattern>
+                    <token regexp="yes" inflected="yes">volver|hacer|.+mente|más|menos|frase|personaje|muy|tan|pintor|artista|actor|actriz|director|pianista|músico|violinista</token>
+                    <marker>
+                        <token regexp="yes">celebres?</token>
+                    </marker>
+                </pattern>
+                <message>Si es un adjetivo, se escribe con tilde.</message>
+                <suggestion><match no="2" regexp_match="(?iu)ce" regexp_replace="cé" case_conversion="preserve"/></suggestion>
+                <example correction="célebre">Fue el más <marker>celebre</marker>.</example>
+            </rule>
+            <rule>
+                <pattern raw_pos="yes">
+                    <token postag="D.*" postag_regexp="yes"/>
+                    <marker>
+                        <token regexp="yes">celebres?</token>
+                    </marker>
+                    <token postag="_QM_OPEN"/>
+                </pattern>
+                <message>Si es un adjetivo, se escribe con tilde.</message>
+                <suggestion><match no="2" regexp_match="(?iu)ce" regexp_replace="cé" case_conversion="preserve"/></suggestion>
+                <example correction="célebre">Fue la <marker>celebre</marker> "plegariá".</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>de</token>
+                    <token regexp="yes" min="0">una|la|esta|esa|aquella|otra</token>
+                    <token regexp="yes">manera|forma</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                    <token>celebre</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">celebres?</token>
+                    </marker>
+                    <token regexp="yes">por|de|del</token>
+                </pattern>
+                <message>Si es un adjetivo, se escribe con tilde.</message>
+                <suggestion><match no="1" regexp_match="(?iu)ce" regexp_replace="cé" case_conversion="preserve"/></suggestion>
+                <example correction="Célebre"><marker>Celebre</marker> por su locura.</example>
+                <example>Que celebre de forma espotánea la victoria.</example>
+                <example>Que se celebre por su parte</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>celebre</token>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token postag="AQ.*|V.P.*" postag_regexp="yes"/>
+                    <token>y</token>
+                    <marker>
+                        <token regexp="yes">celebres?</token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\3 postag:[AN].* gendernumberFrom:1"/>
+                <message>Si es un adjetivo, se escribe con tilde.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="célebre">Su obra más conocida y <marker>celebre</marker> es este cuadro.</example>
+                <example>que la conferencia invite solo a parlamentarios y celebre un debate</example>
             </rule>
         </rulegroup>
         <rulegroup id="TERMINO" name="termino->término">
@@ -2461,11 +2527,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>practicas</token>
             </antipattern>
             <pattern>
-                <!-- NOT: celebre, domino, decimos, domine, escalamos, , echo, llamaron, piden, paramos, cede, solicita, solicito, termino, verifica, vienes, aman, borren, calan, capitula, crias, critica, criticas, critico |critica, cuajaron, cupe, calculo, envió, escalamos, estipula, habito, participe, platica, platicas, predica, predicas, patina, regulo, solicita, solicitas, solicito, suplico, suplica, suplicas, termino, verifica, indica, ulula publica|publicas|publico prospera|prosperas|prospero  especifica|especificas|especifico| |fabrica|fabricas |limite|limites
+                <!-- NOT: domino, decimos, domine, escalamos, , echo, llamaron, piden, paramos, cede, solicita, solicito, termino, verifica, vienes, aman, borren, calan, capitula, crias, critica, criticas, critico |critica, cuajaron, cupe, calculo, envió, escalamos, estipula, habito, participe, platica, platicas, predica, predicas, patina, regulo, solicita, solicitas, solicito, suplico, suplica, suplicas, termino, verifica, indica, ulula publica|publicas|publico prospera|prosperas|prospero  especifica|especificas|especifico| |fabrica|fabricas |limite|limites
                          ???: pio, moran, indico, opera, anima, animas, replica, replicas,-->
                 <!-- TODO: solo me faltan 2 practicas más -->
                 <marker>
-                    <token postag="V.[SI].*" postag_regexp="yes" regexp="yes">maquina|ada|animo|catalogo|debito|deposito|diagnostico|dialogo|domestica|domesticas|embolo|entrelinea|entrelineas|epitome|estomago|idolatra|idolatras|ignifuga|ignifugas|ignifugo|ilegitima|ilegitimas|invalida|invalidas|invalido|lamina|laminas|legitima|legitimas|legitimo|lideres|liquida|liquidas|matricula|medica|medicas|medico|modulo|nomina|nominas|prestamos|prorroga|reciproca|reciprocas|revalida|revalidas|rondo|trafico|tramite|tramites|ulcera|ulceras<exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
+                    <token postag="V.[SI].*" postag_regexp="yes" regexp="yes">maquina|ada|animo|catalogo|deposito|diagnostico|dialogo|domestica|domesticas|idolatra|idolatras|ignifuga|ignifugas|ignifugo|ilegitima|ilegitimas|invalida|invalidas|invalido|lamina|laminas|legitima|legitimas|legitimo|lideres|liquida|liquidas|matricula|medica|medicas|medico|modulo|nomina|nominas|prestamos|prorroga|reciproca|reciprocas|revalida|revalidas|rondo|trafico|tramite|tramites|ulcera|ulceras<exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
             <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\1 postag:NC.*|AQ.*"/>
@@ -2774,7 +2840,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token>de</token>
-                    <token regexp="yes" min="0">una|la|esta|esa|aquella</token>
+                    <token regexp="yes" min="0">una|la|esta|esa|aquella|otra</token>
                     <token regexp="yes">manera|forma</token>
                 </antipattern>
                 <antipattern>

@@ -130,7 +130,9 @@ public class MissingDiacriticsEvaluator {
     List<RuleMatch> matchesCorrect = lt.check(correctSentence);
     if (isThereErrorAtPos(matchesCorrect, pos)) {
       results[j][classifyTypes.indexOf("FP")]++;
-      System.out.println(ruleIds[j] + " FP: " + correctSentence);
+      if (j==1) {
+        System.out.println(ruleIds[j] + " FP: " + correctSentence);
+      }
       isFP = true;
     } else {
       results[j][classifyTypes.indexOf("TN")]++;
@@ -154,13 +156,15 @@ public class MissingDiacriticsEvaluator {
       //System.out.println(ruleIds[1 - j] + " TP: " + wrongSentence);
     } else {
       results[1 - j][classifyTypes.indexOf("FN")]++;
-      System.out.println(ruleIds[1 - j] + " FN: " + wrongSentence);
+      if (j==0) {
+        System.out.println(ruleIds[1 - j] + " FN: " + wrongSentence);  
+      }
       isFN = true;
     }
     
     //FP+FN in the same sentence -> probable error in corpus
     if (isFP && isFN) {
-      System.out.println("POSSIBLE ERROR IN CORPUS: " + correctSentence);
+      //System.out.println("POSSIBLE ERROR IN CORPUS: " + correctSentence);
     }
 
   }
