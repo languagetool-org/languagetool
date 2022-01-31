@@ -7698,9 +7698,13 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
     </rulegroup>
     <rule id="BASTANT" name="bastant (no gerundi)">
+        <antipattern>
+            <token>imponent</token>
+            <token postag="D.*" postag_regexp="yes"/>
+        </antipattern>
         <pattern>
             <!-- TODO: exceptions -->
-            <token>bastant</token>
+            <token regexp="yes">bastant|imponent</token>
         </pattern>
         <disambig action="remove" postag="V.G.*"/>
     </rule>
