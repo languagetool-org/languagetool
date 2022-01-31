@@ -466,6 +466,11 @@ class SingleDocument {
    */
   void writeCaches() {
     if (numParasToCheck != 0) {
+      DocumentCache docCache = new DocumentCache(this.docCache);
+      List<ResultCache> paragraphsCache = new ArrayList<ResultCache>();
+      for (int i = 0; i < this.paragraphsCache.size(); i++) {
+        paragraphsCache.add(new ResultCache(this.paragraphsCache.get(i)));
+      }
       cacheIO.saveCaches(docCache, paragraphsCache, ignoredMatches, config, mDocHandler);
     }
   }
