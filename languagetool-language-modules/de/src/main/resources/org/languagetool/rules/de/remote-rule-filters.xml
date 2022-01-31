@@ -259,6 +259,33 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Dass sind <marker>etwa</marker> 812 mg.</example>
             </rule>
+            <rule>
+            <pattern>
+                <marker>
+                    <token postag="SUB.*" postag_regexp="yes"/>
+                </marker>
+                <token skip="-1" postag="(KON|PRP).*" postag_regexp="yes">
+                    <exception scope="next" postag="VER.*" postag_regexp="yes"/>
+                </token>
+                <token postag="SENT_END"/>
+            </pattern>
+            <example correction="">Sprechen Sie eine andere <marker>Sprache</marker> außer Englisch?</example>
+            <example correction="">Es gibt keinen besseren <marker>Spiegel</marker> als ein alter Freund.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token postag="PRP.*" postag_regexp="yes"/>
+                    <token min="0" negate_pos="yes" postag="SUB.*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="(SUB|UNKNOWN).*" postag_regexp="yes" regexp="yes">\p{Lu}.+</token>
+                    </marker>
+                    <token postag="VER:(AUX:|MOD:)?[123].*" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">Trotz aller <marker>Sorgfalt</marker> können sich die Daten verändert haben.</example>
+                <example correction="">Trotz <marker>Sorgfalt</marker> können sich die Daten verändert haben.</example>
+                <example correction="">Neben den <marker>Softwareupdates</marker> muss aber auch das eigene Wissen auf dem aktuellen Stand gehalten werden.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_HYDRA_LEO_CPT_DIE_CDIE" name="">
             <rule>
