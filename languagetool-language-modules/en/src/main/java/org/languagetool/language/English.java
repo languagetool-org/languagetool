@@ -443,6 +443,7 @@ public class English extends Language implements AutoCloseable {
       case "WE_BE":                     return -1;
       case "A_LOT_OF_NN":               return -1;
       case "IT_VBZ":                    return -1;
+      case "REPETITIONS_STYLE":         return -1;  // repetition style rules, usually with prefix REP_
       case "ORDER_OF_WORDS_WITH_NOT":   return -1;  // less prio than punctuation rules
       case "ADVERB_WORD_ORDER_10_TEMP": return 1;
       case "ADVERB_WORD_ORDER":         return -1;  // less prio than PRP_PAST_PART //
