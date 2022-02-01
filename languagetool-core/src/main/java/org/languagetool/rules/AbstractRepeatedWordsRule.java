@@ -67,7 +67,7 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
 
   public AbstractRepeatedWordsRule(ResourceBundle messages, Language language) {
     super(messages);
-    super.setCategory(Categories.STYLE.getCategory(messages));
+    super.setCategory(Categories.REPETITIONS_STYLE.getCategory(messages));
     super.setLocQualityIssueType(ITSIssueType.Style);
     ruleId = language.getShortCode().toUpperCase() + "_" + "REPEATEDWORDS";
   }

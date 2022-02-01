@@ -324,6 +324,7 @@ public class French extends Language implements AutoCloseable {
       case "MAIS_SENT_START": return -151; // lower than grammalecte rules
       case "ELISION": return -200; // should be lower in priority than spell checker
       case "POINT": return -200; // should be lower in priority than spell checker
+      case "REPETITIONS_STYLE": return -250;  // repetition style rules, usually with prefix REP_
       case "UPPERCASE_SENTENCE_START": return -300;
       case "FRENCH_WHITESPACE_STRICT": return -350; // picky; if on, it should overwrite FRENCH_WHITESPACE
       case "FRENCH_WHITESPACE": return -400; // lesser than UPPERCASE_SENTENCE_START and FR_SPELLING_RULE

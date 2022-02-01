@@ -417,6 +417,7 @@ public class German extends Language implements AutoCloseable {
       case "VERB_IST": return -53; // less prio than comma rules and spell checker
       case "WAR_WERDEN": return -53; // less prio than comma rules
       case "SUBJUNKTION_KOMMA_2": return -54; // lower prio than KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ and KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2
+      case "REPETITIONS_STYLE": return -60;
     }
     if (id.startsWith("CONFUSION_RULE_")) {
       return -1;
