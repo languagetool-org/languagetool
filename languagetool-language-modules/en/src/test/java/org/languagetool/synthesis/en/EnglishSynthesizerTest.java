@@ -47,30 +47,34 @@ public class EnglishSynthesizerTest {
     assertEquals("[presidents]", Arrays.toString(synth.synthesize(dummyToken("president"), "NNS")));
     assertEquals("[tested]", Arrays.toString(synth.synthesize(dummyToken("test"), "VBD")));
     assertEquals("[tested]", Arrays.toString(synth.synthesize(dummyToken("test"), "VBD", false)));
-    //with regular expressions
+    // with regular expressions
     assertEquals("[tested]", Arrays.toString(synth.synthesize(dummyToken("test"), "VBD", true)));
     assertEquals("[tested, testing]", Arrays.toString(synth.synthesize(dummyToken("test"), "VBD|VBG", true)));
-    //with special indefinite article
-    assertEquals("[a university, the university]", Arrays.toString(synth.synthesize(dummyToken("university"), "+DT", false)));
+    // with special indefinite article
+    assertEquals("[a university, the university]",
+        Arrays.toString(synth.synthesize(dummyToken("university"), "+DT", false)));
     assertEquals("[an hour, the hour]", Arrays.toString(synth.synthesize(dummyToken("hour"), "+DT", false)));
     assertEquals("[an hour]", Arrays.toString(synth.synthesize(dummyToken("hour"), "+INDT", false)));
-    //indefinite article and other changes...
+    // indefinite article and other changes...
     assertEquals("[an hour]", Arrays.toString(synth.synthesize(dummyToken("hours", "hour"), "NN\\+INDT", true)));
     assertEquals("[a hexagon]", Arrays.toString(synth.synthesize(dummyToken("hexagon"), "NN|NN:.*\\+INDT", true)));
-    //indefinite article and other changes...
+    // indefinite article and other changes...
     assertEquals("[the hour]", Arrays.toString(synth.synthesize(dummyToken("hours", "hour"), "NN\\+DT", true)));
     // from added.txt:
     assertEquals("[absolutized]", Arrays.toString(synth.synthesize(dummyToken("absolutize"), "VBD", false)));
     assertEquals("[absolutized]", Arrays.toString(synth.synthesize(dummyToken("absolutize"), "VB[XD]", true)));
     // from removed.txt:
     assertEquals("[]", Arrays.toString(synth.synthesize(dummyToken("Christmas"), "VBZ", false)));
-    
-    assertEquals("[twelve]",Arrays.toString(synth.synthesize(dummyToken("12"), "_spell_number_", false)));
-    assertEquals("[one thousand two hundred forty-three]",Arrays.toString(synth.synthesize(dummyToken("1243"), "_spell_number_", false)));
-    assertEquals("[twelve]",Arrays.toString(synth.synthesize(dummyToken("12"), "_spell_number_", true)));
-    
-    assertEquals("[I]",Arrays.toString(synth.synthesize(dummyToken("myself", "I"), "PRP_S1S", true)));
-    
+
+    assertEquals("[twelve]", Arrays.toString(synth.synthesize(dummyToken("12"), "_spell_number_", false)));
+    assertEquals("[one thousand two hundred forty-three]",
+        Arrays.toString(synth.synthesize(dummyToken("1243"), "_spell_number_", false)));
+    assertEquals("[twelve]", Arrays.toString(synth.synthesize(dummyToken("12"), "_spell_number_", true)));
+
+    assertEquals("[I]", Arrays.toString(synth.synthesize(dummyToken("myself", "I"), "PRP_S1S", true)));
+
+    assertEquals("[mixed]", Arrays.toString(synth.synthesize(dummyToken("mix"), "VBD")));
+    assertEquals("[mixed]", Arrays.toString(synth.synthesize(dummyToken("mix"), "VBN")));
   }
 
 }
