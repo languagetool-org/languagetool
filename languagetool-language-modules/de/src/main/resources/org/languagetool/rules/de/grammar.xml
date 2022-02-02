@@ -25656,7 +25656,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <token postag="ADV.*|NEG" postag_regexp="yes" min="0" max="2" />
                     <marker>
-                        <token case_sensitive="yes" regexp="yes">Stolz|Sauer|Klein|Wei(ß|ss)|Dürr|Fröhlich|Fair|Platt|Oldschool|Fromm|Superb|Kahl</token><!-- Adjektive, die als Nomen oder Eigenname getaggt sind -->
+                        <token case_sensitive="yes" regexp="yes">Stolz|Sauer|Klein|Wei(ß|ss)|Dürr|Fröhlich|Fair|Platt|Oldschool|Fromm|Superb|Kahl|Lang|Kurz</token><!-- Adjektive, die als Nomen oder Eigenname getaggt sind -->
                     </marker>
                 </pattern>
                 <message>Das Adjektiv <suggestion><match no="4" case_conversion="alllower" /></suggestion> wird kleingeschrieben.</message>
@@ -25681,7 +25681,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <token postag="ADV.*|NEG" postag_regexp="yes" min="0" max="2" />
                     <marker>
-                        <token case_sensitive="yes" regexp="yes">Stolz|Sauer|Klein|Wei(ß|ss)|Dürr|Fröhlich|Fair|Platt|Oldschool|Fromm|Superb|Kahl</token><!-- Adjektive, die als Nomen oder Eigenname getaggt sind -->
+                        <token case_sensitive="yes" regexp="yes">Stolz|Sauer|Klein|Wei(ß|ss)|Dürr|Fröhlich|Fair|Platt|Oldschool|Fromm|Superb|Kahl|Lang|Kurz</token><!-- Adjektive, die als Nomen oder Eigenname getaggt sind -->
                     </marker>
                 </pattern>
                 <message>Das Adjektiv <suggestion><match no="4" case_conversion="alllower" /></suggestion> wird kleingeschrieben.</message>
@@ -25698,7 +25698,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>ihr</token>
                     <token postag="ADV.*|NEG" postag_regexp="yes" min="0" max="2" />
                     <marker>
-                        <token case_sensitive="yes" regexp="yes" skip="-1">Stolz|Sauer|Klein|Wei(ß|ss)|Dürr|Fröhlich|Fair|Platt|Oldschool|Fromm|Superb|Kahl</token><!-- Adjektive, die als Nomen oder Eigenname getaggt sind -->
+                        <token case_sensitive="yes" regexp="yes" skip="-1">Stolz|Sauer|Klein|Wei(ß|ss)|Dürr|Fröhlich|Fair|Platt|Oldschool|Fromm|Superb|Kahl|Lang|Kurz</token><!-- Adjektive, die als Nomen oder Eigenname getaggt sind -->
                     </marker>
                     <token>?</token>
                 </pattern>
@@ -25712,7 +25712,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <token postag="ADV.*|NEG" postag_regexp="yes" min="0" max="2" />
                     <marker>
-                        <token case_sensitive="yes" regexp="yes" skip="-1">Stolz|Sauer|Klein|Wei(ß|ss)|Dürr|Fröhlich|Fair|Platt|Oldschool|Fromm|Superb|Kahl</token><!-- Adjektive, die als Nomen oder Eigenname getaggt sind -->
+                        <token case_sensitive="yes" regexp="yes" skip="-1">Stolz|Sauer|Klein|Wei(ß|ss)|Dürr|Fröhlich|Fair|Platt|Oldschool|Fromm|Superb|Kahl|Lang|Kurz</token><!-- Adjektive, die als Nomen oder Eigenname getaggt sind -->
                     </marker>
                     <token>aus</token>
                 </pattern>
@@ -25727,7 +25727,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">das|es|ihn|sie|euch|uns|mich|dich|(irgend)?etwas|(irgend)?(was|wen|jemand)|nix|nichts|niemanden</token>
                     <token postag="ADV.*|NEG" postag_regexp="yes" min="0" max="2" />
                     <marker>
-                        <token case_sensitive="yes" regexp="yes" skip="-1">Stolz|Sauer|Klein|Wei(ß|ss)|Dürr|Fröhlich|Fair|Platt|Oldschool|Fromm|Superb|Kahl</token><!-- Adjektive, die als Nomen oder Eigenname getaggt sind -->
+                        <token case_sensitive="yes" regexp="yes" skip="-1">Stolz|Sauer|Klein|Wei(ß|ss)|Dürr|Fröhlich|Fair|Platt|Oldschool|Fromm|Superb|Kahl|Lang|Kurz</token><!-- Adjektive, die als Nomen oder Eigenname getaggt sind -->
                     </marker>
                     <token postag="PKT|KON.*" postag_regexp="yes" />
                 </pattern>
@@ -52033,6 +52033,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes" postag="ADJ:.*:(SOL|IND)" postag_regexp="yes">.+er</token>
                     <token>als</token>
                 </antipattern>
+                <antipattern>
+                    <token inflected="yes" skip="8">unterscheiden</token>
+                    <token>von</token>
+                    <token>der</token>
+                    <token postag="ADJ:.*:(SOL|IND)" postag_regexp="yes" />
+                    <token postag="SUB.*" postag_regexp="yes" />
+                </antipattern>
+                <antipattern>
+                    <token>von</token>
+                    <token>der</token>
+                    <token postag="ADJ:.*:(SOL|IND)" postag_regexp="yes" />
+                    <token postag="SUB.*" postag_regexp="yes" skip="8" />
+                    <token inflected="yes">unterscheiden</token>
+                </antipattern>
                 <pattern>
                     <token negate="yes">,</token>
                     <marker>
@@ -52079,6 +52093,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Sie engagiert sich für die kanadische Tourette-Syndrome Foundation und die US-amerikanische Tourette Syndrome Association.</example>
                 <example>Es gibt Personen die ähnliche Ziele verfolgen.</example><!-- missing comma -->
                 <example type="triggers_error">Die hochschwangere Ellen.</example>
+                <example>Oberflächlich gesehen unterscheidet sich jedoch die Ausbildung eines Bön-Mönches nicht von der buddhistischer Mönche.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ADJ_PRAEDIKATIV" name="Starke, schwache oder gemischte Adjektiv-Flexion statt prädikativer, z.B. 'sich normale (normal) entwickeln'">
@@ -61450,7 +61465,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>forscht</token>
             </antipattern>
             <antipattern>
-                <token>äußerst</token><!-- "äußerst schmackhaft" - not a verb in this context -->
+                <token regexp="yes">äu(ß|ss)erst</token><!-- "äußerst schmackhaft" - not a verb in this context -->
                 <token postag="ADJ.*|PA[12].*" postag_regexp="yes" />
             </antipattern>
             <pattern>
