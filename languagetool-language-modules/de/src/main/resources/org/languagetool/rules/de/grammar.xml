@@ -53152,11 +53152,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>Bor</token>
                 </antipattern>
                 <antipattern>
+                    <token>Blatt</token>
+                    <token>Papier</token>
+                </antipattern>
+                <antipattern>
                     <token>von</token>
                     <token>denen</token>
                     <token regexp="yes">viele|alle|einige|manche</token>
                     <token postag="SUB:.+:SIN:.+" postag_regexp="yes"/>
                     <token>sind</token>
+                </antipattern>
+                <antipattern>
+                    <token>,</token>
+                    <token postag="PRP.+" postag_regexp="yes"></token>
+                    <token inflected="yes">der</token>
+                    <token regexp="yes">viele|etliche|einige|mehrere|zahlreiche</token>
+                    <token postag="SUB:.+:SIN:.+" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
                     <token regexp="yes">(viele|etliche|einige|mehrere|zahlreiche)n?</token>
@@ -53165,7 +53176,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <exception postag="SUB:AKK:SIN:MAS"/>
                             <exception postag=".+:ADJ" postag_regexp="yes"/>
                             <exception postag="SUB:(.+):PLU:.+|SUB:.+:INF|SUB:(GEN|DAT):.+" postag_regexp="yes"/>
-                            <exception regexp="yes">Arbeit|Hardware|Bewohner|Spannung|Bier|Unklarheit|Wassers?|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Paar|Stück|Fuß|Fuss|Grad|Gramm|Kilo.*|Milli.+|Mark|Reichsmark|Rentenmark|Zeit|Irritation|Pfund|Einwanderung|Auswanderung|Kritik|Literatur|Aufmerksamkeit|Verwirrung|Bar|Gold|Schlamms?|Schilling|Überredungskunst|Aufregung|Muße|Musse|Mitte</exception>
+                            <exception regexp="yes">Arbeit|Hardware|Bewohner|Spannung|Bier|Unklarheit|Wassers?|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Paar|Stück|Fuß|Fuss|Grad|Gramm|Kilo.*|Milli.+|Mark|Reichsmark|Rentenmark|Zeit|Irritation|Pfund|Einwanderung|Auswanderung|Kritik|Literatur|Aufmerksamkeit|Verwirrung|Bar|Gold|Schlamms?|Schilling|Überredungskunst|Aufregung|Muße|Musse|Mitte|Erfahrung|Anstrengung|Mühe</exception>
                             <exception regexp="yes" case_sensitive="yes">Dutzend|Hundert|Tausend</exception>
                             <exception scope="next">/</exception>
                         </token>
@@ -53187,6 +53198,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Sie hat ihn nicht wegen seines vielen Geldes genommen.</example>
                 <example>Tom überforderte die viele Arbeit, die er zu erledigen hatte.</example>
                 <example>Wie viele CDs hast du?</example>
+                <example>Diese Aktion, mit der zahlreiche Wissenschaftler die Idee...</example>
+                <example>Ausserdem habe ich einige Erfahrung in der Handhabung schwieriger Verhandlungen.</example>
                 <example>In den 1950ern kam es zu einem Dixieland-Revival, der einige Titel in die Spitze der Plattenverkäufe brachte.</example>
             </rule>
             <rule>
@@ -53214,6 +53227,70 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Es waren eine <marker>Million</marker> Menschen auf der Flucht.</example>
                 <example correction="Millionen">Es waren 2 <marker>Million</marker> Menschen auf der Flucht.</example>
                 <example correction="Millionen">Es waren 12 <marker>Million</marker> Menschen auf der Flucht.</example>
+            </rule>
+            <rule   default="temp_off">
+                <antipattern>
+                    <token>Mole</token>
+                    <token>Bor</token>
+                </antipattern>
+                <antipattern>
+                    <token>Blatt</token>
+                    <token>Papier</token>
+                </antipattern>
+                <antipattern>
+                    <token>von</token>
+                    <token>denen</token>
+                    <token regexp="yes">viele|alle|einige|manche</token>
+                    <token postag_regexp="yes" postag="ADJ.+"><exception postag="ADJ.+" postag_regexp="yes" negate="yes"/></token>
+                    <token postag="SUB:.+:SIN:.+" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>,</token>
+                    <token postag="PRP.+" postag_regexp="yes"></token>
+                    <token inflected="yes">der</token>
+                    <token regexp="yes">viele|etliche|einige|mehrere|zahlreiche</token>
+                    <token postag_regexp="yes" postag="ADJ.+"><exception postag="ADJ.+" postag_regexp="yes" negate="yes"/></token>
+                    <token postag="SUB:.+:SIN:.+" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>,</token>
+                    <token inflected="yes">der</token>
+                    <token regexp="yes">(viele|etliche|einige|mehrere|zahlreiche)</token>
+                    <token postag_regexp="yes" postag="ADJ.+"><exception postag="ADJ.+" postag_regexp="yes" negate="yes"/></token>
+                    <token postag="SUB:.+:SIN:.+" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">(viele|etliche|einige|mehrere|zahlreiche)n?</token>
+                    <token postag_regexp="yes" postag="ADJ.+"><exception postag="ADJ.+" postag_regexp="yes" negate="yes"/></token>
+                    <marker>
+                        <token postag="SUB:.+:SIN:.+" postag_regexp="yes">
+                            <exception postag="SUB:AKK:SIN:MAS"/>
+                            <exception postag=".+:ADJ" postag_regexp="yes"/>
+                            <exception postag="SUB:(.+):PLU:.+|SUB:.+:INF|SUB:(GEN|DAT):.+" postag_regexp="yes"/>
+                            <exception regexp="yes">Arbeit|Hardware|Bewohner|Spannung|Bier|Unklarheit|Wassers?|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Paar|Stück|Fuß|Fuss|Grad|Gramm|Kilo.*|Milli.+|Mark|Reichsmark|Rentenmark|Zeit|Irritation|Pfund|Einwanderung|Auswanderung|Kritik|Literatur|Aufmerksamkeit|Verwirrung|Bar|Gold|Schlamms?|Schilling|Überredungskunst|Aufregung|Muße|Musse|Mitte|Porsche|Bedeutung|Wirkung</exception>
+                            <exception regexp="yes" case_sensitive="yes">Dutzend|Hundert|Tausend</exception>
+                            <exception scope="next">/</exception>
+                        </token>
+                    </marker>
+                    <token>
+                       <exception postag="SUB:.+:PLU:.+|ZUS|PA1:.+" postag_regexp="yes"/>
+                       <exception spacebefore="no" regexp="yes">'|\/</exception>
+                    </token>
+                </pattern>
+                <message>Möglicher Tippfehler: Müsste dieses Wort im Plural stehen?</message>
+                <suggestion><match no="3" postag=".*:PLU:.*" postag_regexp="yes"/></suggestion>
+                <example correction="Möglichkeiten">Wir haben viele neue <marker>Möglichkeit</marker>.</example>
+                <example>Wir haben hier viele neue <marker>Möglichkeiten</marker>.</example>
+                <example>Er hatte einigen beachtlichen <marker>Erfolg</marker> mit seiner Idee.</example>
+                <example>Sie hatte einige neuwertige <marker>Game</marker> Boys.</example>
+                <example>Es gibt einige moderne <marker>Holz</marker> verarbeitende Industriebetriebe.</example>
+                <example>Er bemängelte die viele unnötige Kohlensäure darin.</example>
+                <example>Vom vielen Herumsitzen langweile ich mich noch zu Tode.</example>
+                <example>Sie hat ihn nicht wegen seines vielen Geldes genommen.</example>
+                <example>Tom überforderte die viele harte Arbeit, die er zu erledigen hatte.</example>
+                <example>Wie viele gute CDs hast du?</example>
+                <example>Texte, von denen einige verbindliche Bedeutung erlangten </example>
+                <example>In den 1950ern kam es zu einem Dixieland-Revival, der einige deutsche Titel in die Spitze der Plattenverkäufe brachte.</example>
             </rule>
         </rulegroup>
         <rulegroup id="USA_PLURAL" name="'Die USA ist (sind)' etc. (falscher Singular)">
