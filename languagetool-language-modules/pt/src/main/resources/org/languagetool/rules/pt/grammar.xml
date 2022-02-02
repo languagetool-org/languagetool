@@ -1657,6 +1657,19 @@ A sua adopção no Pentium foi uma novidade significativa na linha da plataforma
 		<token postag='NP.+|AQ0.+|NC.+|UNKNOWN' postag_regexp='yes'/>
       </antipattern>
 <!-- MARCOAGPINTO 2021-08-27 (25-JUN-2021+) *END* -->
+
+<!-- MARCOAGPINTO 2022-02-02 (1-JAN-2022+) *START* -->
+<!--
+THIS ANTIPATTERN IS TO TRIGGER THE RULE: CONFUSÃO_ESTA_ESTÁ
+-->
+      <antipattern>
+		<token postag='N[CP].+|RG|CS' postag_regexp='yes'/>
+		<token regexp="yes">estas?</token>
+		<token postag='VMP00.+' postag_regexp='yes'/>
+		<token negate_pos="yes" postag='V.+|NC.+' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-02-02 (1-JAN-2022+) *END* -->
+
       <pattern>
           <token negate='yes' regexp='yes'>o|e|de|&hifen;</token> <!-- MARCOAGPINTO 2019-12-31 -->
         <marker>
@@ -25250,6 +25263,244 @@ Nós os dos queremos ganhar. → Nós os dois queremos ganhar.
 	</rulegroup>
 
 
+  <!-- ESTA está -->
+  <rulegroup id='CONFUSÃO_ESTA_ESTÁ' name="Confusão: Esta/Está">
+  <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-28/29/30/31 + 2022-02-01/02 (Checked/Enhanced) (1-JAN-2022+)      -->
+<!--
+HITS IN 600000 SENTENCES:111
+
+NOTICE THAT ONE OF THE ANTIPATTERNS REMOVED (RULE 1?):
+O que esta morto, não pode morrer! → O que está morto, não pode morrer!
+TRY TO FIND A COMMA RULE THAT TRIGGERS IT (O + QUE + ESTA + NC + COMMA) AND NEGATE THE COMMA.
+IT PROBABLY CAN ALSO BE FIXED IN THE PATTERN BY ADDING "O/A" ON TOP AND COMMA IN THE NEGATE TOKEN.
+
+ALSO, THERE IS A ANTIPATTERN IN THE GENDER RULE SO THAT RULE 1 IS TRIGGERED AND NOT CONFUSED WITH GENDER.
+
+
+O chão esta coberto de neve. → O chão está coberto de neve.
+Todo mundo esta ferido. → Todo mundo está ferido.
+Vocês só sabem dizer (perguntar) onde esta escrito isto na bíblia? → Vocês só sabem dizer (perguntar) onde está escrito isto na bíblia?
+O que esta morto, não pode morrer! → O que está morto, não pode morrer!
+
+O Rui já cá esta. → O Rui já cá está.
+Assim esta melhor que no passado. → Assim está melhor que no passado.
+A vida não esta fácil para a população mundial. → A vida não está fácil para a população mundial.
+Excelente para quem não esta doente. → Excelente para quem não está doente.
+-->
+
+<!--
+O chão esta coberto de neve. → O chão está coberto de neve.
+Todo mundo esta ferido. → Todo mundo está ferido.
+Vocês só sabem dizer (perguntar) onde esta escrito isto na bíblia? → Vocês só sabem dizer (perguntar) onde está escrito isto na bíblia?
+O que esta morto, não pode morrer! → O que está morto, não pode morrer!
+-->
+	<rule>
+
+<!--
+Sem dúvida que esta jogada da Microsoft irá afetar a oferta de apps na Microsoft Store.
+-->
+	  <antipattern>
+		<token/>
+		<token postag='CS' postag_regexp='no'/>
+		<token regexp="yes">estas?</token>
+		<token min="1" max="2" postag='NC.+|AQ.+|RN' postag_regexp='yes'/>
+		<token regexp="yes">d[ao]s?|de</token>
+		<token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+	  </antipattern>
+
+      <pattern>
+		<token postag='N[CP].+|RG|CS' postag_regexp='yes'/>
+		<marker>
+			<token regexp="yes">estas?</token>
+		</marker>
+		<token postag='VMP00.+' postag_regexp='yes'/>
+		<token negate_pos="yes" postag='V.+|NC.+' postag_regexp='yes'/>
+      </pattern>
+	  <message>Possível confusão de termos.</message>
+      <suggestion>está<match no='2' regexp_match='(esta)(s?)' regexp_replace='$2'/></suggestion>
+      <example correction="está">O chão <marker>esta</marker> coberto de neve.</example>
+	  <example>O chão está coberto de neve.</example>
+	  <example>Todo mundo está ferido.</example>
+	  <example>Vocês só sabem dizer (perguntar) onde está escrito isto na bíblia?</example>
+	  <example>O que está morto, não pode morrer!</example>
+    </rule>
+
+<!--
+O Rui já cá esta. → O Rui já cá está.
+Assim esta melhor que no passado. → Assim está melhor que no passado.
+A vida não esta fácil para a população mundial. → A vida não está fácil para a população mundial.
+Excelente para quem não esta doente. → Excelente para quem não está doente.
+No entanto esta não é por si só uma condição suficiente.
+-->
+	<rule>
+
+<!--
+Sabe, eventualmente coloco uma ou outra frase que cato por aí nas minhas andanças virtuais e esta acima veio bem a calhar pelo que ando escrevendo ultimamente.
+-->
+	  <antipattern>
+		<token postag='CC' postag_regexp='no'/>
+		<token regexp="yes">estas?</token>
+		<token regexp="yes">&adverbios_de_intensidade;|&adverbios_de_lugar;|melhor|pior|fácil|difícil</token>
+		<token postag='V.+' postag_regexp='yes'/>
+	  </antipattern>
+
+<!--
+Congele este peixe e esta carne, por favor.
+Queria aprender russo, mas esta escola de idiomas ensina apenas inglês e espanhol.
+Talvez esta opinião esteja correta.
+Após aceitar, não receberá novamente esta mensagem.
+-->
+	  <antipattern>
+		<token negate_pos="yes" postag='V.+|NC.+|AQ.+|PI.+|CC' postag_regexp='yes'/>
+		<token min="0" max="1" regexp="yes">[,]</token>
+		<token postag='V.+|CC|RG|NC.+|AQ.+' postag_regexp='yes'>
+			<exception postag_regexp='no' postag='VMG0000'/>
+		</token>
+		<token regexp="yes">estas?</token>
+		<token min="0" max="1" regexp="yes">[,]</token>
+		<token postag='DA.+|PD.+|PP.+|NC.+|AQ.+|RM|RN|CC' postag_regexp='yes'>
+			<exception postag_regexp='no' postag='I'/>
+		</token>
+	  </antipattern>
+
+<!--
+Quero comer pizza esta noite.
+Temos bastante tempo esta noite.
+Eu realmente não quero comer comida chinesa esta noite.
+Como é grande esta árvore!
+Não dormi muito esta noite.
+O carteiro estava de bom humor esta manhã.
+Alguns nomes ainda serão definidos – o que deve ocorrer ainda esta semana.
+Ela estará aqui esta noite.
+A lareira deixa esta sala mais aconchegante.
+Você gostaria de que passássemos um tempo juntos esta noite?
+O fogo se apagou e esta sala está fria.
+-->
+	  <antipattern>
+		<token postag='V.+|SPS00.*|SPS00.DA|DA.+|PD.+|DI.+|CS|CC|RG' postag_regexp='yes'/>
+		<token min="1" max="2" postag='NC.+|AQ.+|RG|CS|CC' postag_regexp='yes'>
+			<exception postag_regexp='yes' postag='V.+'/>
+		</token>
+		<token regexp="yes">estas?</token>
+		<token postag='NC.+|AQ.+|V.+|PP.+|CS|CC' postag_regexp='yes'>
+			<exception postag_regexp='yes' postag='VMG0000|I'/>
+			<exception regexp='yes'>&adverbios_de_intensidade;|&adverbios_de_lugar;|melhor|pior|fácil|difícil</exception>
+		</token>
+	  </antipattern>
+
+<!--
+Não acho que devemos fazer isso esta manhã.
+Tom vai tentar fazer isso esta tarde.
+Vou fazer isto esta tarde.
+Não leve a mal esta minha observação.
+Que língua esta!
+-->
+	  <antipattern>
+		<token postag='V.+|RG|SENT_START|SPS00' postag_regexp='yes'>
+			<exception postag_regexp='no' postag='I'/>
+		</token>
+		<token postag='PD.+|CS|PE.+|PR.+|PT.+|CC|RG' postag_regexp='yes'>
+			<exception postag_regexp='no' postag='I'/>
+		</token>
+		<token min="0" max="2" postag='NC.+|AQ.+' postag_regexp='yes'>
+			<exception postag_regexp='no' postag='I'/>
+		</token>
+		<token regexp="yes">estas?</token>
+		<token min="0" max="1" postag='DP.+' postag_regexp='yes'>
+			<exception postag_regexp='no' postag='I'/>
+		</token>
+		<token postag='NC.+|AQ.+|_PUNCT' postag_regexp='yes'>
+			<exception postag_regexp='no' postag='I'/>
+			<exception regexp='yes'>&adverbios_de_intensidade;|&adverbios_de_lugar;|melhor|pior|fácil|difícil</exception>
+		</token>
+	  </antipattern>
+
+<!--
+Congele este peixe e esta carne, por favor.
+Rui leva a irmã ao aeroporto, mas esta pede-lhe para parar na praia para se despedir de Ricardo.
+Logo depois veio a possibilidade de se tratar do código de barras, mas esta já foi substituída pelo biochip
+Tentou usar a via diplomática para impedir tal ataque, e quando esta falhou, a potência foi obrigada a uma partição pacífica.
+Temos uma salsicha com ervas da Provença, uma salsicha de javali, e esta, que é uma salsicha seca.
+Resolvi liberar todas as minhas frases em inglês, inclusive esta.
+-->
+	  <antipattern>
+		<token postag='CC|DA.+|SPS00.DA|_PUNCT|PD.+|DI.+|CS' postag_regexp='yes'>
+			<exception scope='previous' postag_regexp='yes' postag='NP.+'/>
+			<exception postag_regexp='yes' postag='PD.+'/>
+		</token>
+		<token min="0" max="1" postag='RG|CS|PD.+|DI.+|CC' postag_regexp='yes'/>
+		<token regexp="yes">estas?</token>
+		<token min="0" max="1" postag='PD.+|DI.+|CS|RG|CC' postag_regexp='yes'>
+			<exception regexp='yes'>&adverbios_de_intensidade;|&adverbios_de_lugar;|melhor|pior|fácil|difícil</exception>
+		</token>
+		<token postag='V.+|_PUNCT|PP.+|CS|CC|NC.+|AQ.+|RG' postag_regexp='yes'>
+			<exception postag_regexp='no' postag='VMG0000'/>
+			<exception regexp='yes'>&adverbios_de_intensidade;|&adverbios_de_lugar;|melhor|pior|fácil|difícil</exception>
+		</token>
+	  </antipattern>
+
+<!--
+Que notícia bizarra esta!
+Que língua esta!
+Quem se não esta mesma elite que tem que sentar-se ao lado de negros e favelados nos bancos das universidades.
+-->
+	  <antipattern>
+		<token postag='PD.+|SENT_START' postag_regexp='yes'/>
+		<token postag='CS' postag_regexp='no'/>
+		<token min="1" max="2" postag='NC.+|AQ.+|RN' postag_regexp='yes'/>
+		<token regexp="yes">estas?</token>
+	  </antipattern>
+
+<!--
+Caso seja uma cliente em Portugal Continental e esta for a sua primeira encomenda na Oito.
+-->
+	  <antipattern>
+		<token postag='CC|SPS00' postag_regexp='yes'/>
+		<token regexp="yes">estas?</token>
+		<token min="0" max="2" postag='NC.+|AQ.+|RN' postag_regexp='yes'/>
+		<token postag='V.+|DA.+' postag_regexp='yes'>
+			<exception postag_regexp='no' postag='VMG0000'/>
+		</token>
+	  </antipattern>
+
+<!--
+Nele tenho certeza que localizará outras fontes tão boas quanto estas, encontre no hiperlink nesse site.
+Aquelas rosas não são tão belas quanto estas.
+-->
+	  <antipattern>
+		<token postag='RG' postag_regexp='no'>
+			<exception postag_regexp='no' postag='I'/>
+		</token>
+		<token min="1" max="3" postag='NC.+|AQ.+|RN|RG' postag_regexp='yes'>
+			<exception postag_regexp='no' postag='I'/>
+		</token>
+		<token regexp="yes">estas?</token>
+		<token postag='_PUNCT' postag_regexp='no'/>
+	  </antipattern>
+
+      <pattern>
+		<token postag='RG|CC|PD.+|NC.+|AQ.+' postag_regexp='yes'>
+			<exception postag_regexp='yes' postag='SPS.+|V.+'/>
+		</token>
+		<token min="0" max="1" postag='RN' postag_regexp='no'/>
+		<marker>
+			<token regexp="yes">estas?</token>
+		</marker>
+		<token negate_pos="yes" postag='RN|CS|P[ERT].+|RM' postag_regexp='yes'/>
+      </pattern>
+	  <message>Possível confusão de termos.</message>
+      <suggestion>está<match no='3' regexp_match='(esta)(s?)' regexp_replace='$2'/></suggestion>
+      <example correction="está">O Rui já cá <marker>esta</marker>.</example>
+	  <example>O Rui já cá está.</example>
+	  <example>Assim está melhor que no passado.</example>
+	  <example>A vida não está fácil para a população mundial.</example>
+	  <example>Excelente para quem não está doente.</example>
+	  <example>No entanto esta não é por si só uma condição suficiente.</example>
+    </rule>
+
+  </rulegroup>
+
+
     <!-- MAS mais -->
     <rule id='CONFUSÃO_MAS_MAIS' name="Confusão: mas/mais">
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-26 (Checked/Enhanced) (1-JAN-2022+)      -->
@@ -25621,72 +25872,6 @@ Os Russos conhecem a ilha desde pelo menos o século XI, quando caçadores de No
       <message>Substitua por <suggestion>arriar \2 \3</suggestion>.</message>
       <example correction="arriar a vela">Vamos <marker>arrear a vela</marker>.</example>
     </rule>
-
-
-  <rulegroup id='ESTA_CONFUSION' name="Confusão: Esta/Está">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-    <rule>
-      <pattern>
-          <token regexp='yes'>estas?</token>
-          <token>melhor</token>
-      </pattern>
-      <message>Substitua por <suggestion><match no='1' regexp_match='a' regexp_replace='á'/> melhor</suggestion>.</message>
-      <example correction="está melhor">Assim <marker>esta melhor</marker> que no passado.</example>
-      <example correction="estás melhor">Assim <marker>estas melhor</marker>.</example>
-    </rule>
-    <rule>
-      <pattern>
-          <token regexp='yes'>estás?</token>
-          <token regexp='yes'>técnicas?</token>
-      </pattern>
-      <message>Substitua por <suggestion><match no='1' regexp_match='á' regexp_replace='a'/> \2</suggestion>.</message>
-      <example correction="esta técnica">Os primeiros a usar <marker>está técnica</marker> foram eles.</example>
-    </rule>
-    <rule>
-      <pattern>
-          <token postag_regexp="yes" postag="D.+"/>
-          <token postag_regexp="yes" postag="N..S.+"/>
-          <token>esta</token>
-          <token postag="SPS00"/>
-      </pattern>
-      <message>Substitua por <suggestion>\1 \2 está \4</suggestion>.</message>
-      <example correction="O Rui está de"><marker>O Rui esta de</marker> saída.</example>
-    </rule>
-    <rule>
-      <pattern>
-          <token>não</token>
-          <token>esta</token>
-          <token>fácil</token>
-      </pattern>
-      <message>Substitua por <suggestion>não está fácil</suggestion>.</message>
-      <example correction="não está fácil">A vida <marker>não esta fácil</marker> para a população mundial.</example>
-    </rule>
-    <rule>
-      <pattern>
-          <token>quem</token>
-          <token>não</token>
-          <token>esta</token>
-      </pattern>
-      <message>Substitua por <suggestion>quem não está</suggestion>.</message>
-      <example correction="quem não está">Excelente para <marker>quem não esta</marker> doente.</example>
-    </rule>
-    <rule>
-<!--
-O Rui já cá esta. → O Rui já cá está.
--->
-      <pattern>
-		  <token postag_regexp="no" postag="I">
-			<exception postag_regexp="yes" postag='V.+'/></token>
-          <token postag_regexp="no" postag="RG"/>
-		  <marker>
-			<token>esta</token>
-		  </marker>	
-		  <token regexp='yes'>[.,!?;()]</token>
-      </pattern>
-      <message>Substitua por <suggestion>está</suggestion>.</message>
-      <example correction="está">O Rui já cá <marker>esta</marker>.</example>
-    </rule>
-  </rulegroup>
 
     <rule id='HÁS_VEZES' name="Confusão: hás vezes/às vezes">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
