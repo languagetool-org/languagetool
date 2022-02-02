@@ -255,6 +255,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Mögliche Tippfehler">
+        <rule id="AUF_JEDEN_FALLS" name="auf jeden Falls (Fall)" default="temp_off">
+            <pattern>
+                <token regexp="yes">auf|in</token>
+                <token regexp="yes">jede[mn]</token>
+                <marker>
+                    <token>Falls</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion>Fall</suggestion>?</message>
+            <example correction="Fall">Ich denke auf jeden <marker>Falls</marker>, dass das so richtig ist.</example>
+        </rule>
         <rule id="LETZTES_ENDES" name="letztes (letzten) Endes"><!-- keep prio higher than DE_AGREEMENT -->
             <pattern>
                 <token>letztes</token>
@@ -310,7 +321,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="VER.*|PRP.*" postag_regexp="yes" />
             </antipattern>
             <antipattern>
-                <token regexp="yes">könnt?en|müsst?en|sollt?en|dürft?en|werden|würden</token>
+                <token postag="VER:1:PLU.*|VER:MOD:1:PLU.*" postag_regexp="yes" />
                 <token>wir</token>
                 <token regexp="yes">glaube|denke|vermute|behaupte</token>
                 <token>ich</token>
@@ -332,6 +343,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Darüber können wir rege diskutieren.</example>
             <example>Ich/wir wünsche/n Ihnen einen guten Rutsch.</example>
             <example>Und wenn wir google zur Hilfe nehmen?</example>
+            <example>Da gehen wir glaube ich erst morgen hin.</example>
         </rule>
         <rule id="DOLLER_DOLLAR" name="Doller (Dollar)">
             <pattern>
@@ -12105,6 +12117,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rule id="JEDEN_FALLS" name="jeden Falls (jedenfalls)" default="temp_off">
+            <antipattern>
+                <token regexp="yes">eines|auf</token>
+                <token>jeden</token>
+            </antipattern>
+            <pattern>
+                <token>jeden</token>
+                <token>falls</token>
+            </pattern>
+            <message>Meinten Sie das Adverb <suggestion>jedenfalls</suggestion>?</message>
+            <example correction="jedenfalls">Ich denke <marker>jeden Falls</marker>, dass das so richtig ist.</example>
+        </rule>
         <rule id="NAHE_ZU_ADJ" name="nahe zu (nahezu)">
             <pattern>
                 <marker>
@@ -25038,6 +25062,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="AUS_DER_PATSCHE" name="patsche (Patsche)" default="temp_off">
+            <antipattern>
+                <token>patsche</token>
+                <token>ich</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">aus|in</token>
+                <token>der</token>
+                <marker>
+                    <token case_sensitive="yes">patsche</token>
+                </marker>
+            </pattern>
+            <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
+            <url>https://de.wiktionary.org/wiki/jemandem_aus_der_Patsche_helfen</url>
+            <example correction="Patsche">Kannst du mir aus der <marker>patsche</marker> helfen?</example>
+        </rule>
         <rule id="VORSCHAU_SUBST" name="ihre vorschau (Vorschau)">
             <pattern>
                 <token postag="(PRO:POS|ART):.*FEM.*" postag_regexp="yes">
@@ -54988,7 +55028,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|merken
                         <exception postag="SUB.*" postag_regexp="yes" />
                     </token>
-                    <token regexp="yes" min="0">übrigens|deswegen|immer|allerdings|durchaus|eher|mal|also|jedoch</token>
+                    <token regexp="yes" min="0">übrigens|deswegen|immer|allerdings|durchaus|eher|mal|also|jedoch|jedenfalls</token>
                     <marker>
                         <token regexp="yes" case_sensitive="yes">fürs?|zwischen|mit|gegen|bis|au(ß|ss)er|vo[mnr]|vor[sm]|wegen|dank|beim?|ohne|aufs?|unters?|übers?|nach|neben|hinters?|zwischen|an|zu[rm]?|i[nm]</token>
                     </marker>
@@ -55028,7 +55068,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|merken
                         <exception postag="SUB.*" postag_regexp="yes" />
                     </token>
-                    <token regexp="yes" min="0">übrigens|deswegen|immer|allerdings|durchaus|eher|mal|also|jedoch</token>
+                    <token regexp="yes" min="0">übrigens|deswegen|immer|allerdings|durchaus|eher|mal|also|jedoch|jedenfalls</token>
                     <marker>
                         <token regexp="yes" case_sensitive="yes">fürs?|zwischen|mit|gegen|bis|au(ß|ss)er|vo[mnr]|vor[sm]|wegen|dank|beim?|ohne|aufs?|unters?|übers?|nach|neben|hinters?|zwischen|an|zu[rm]?|i[nm]</token>
                     </marker>
@@ -55063,7 +55103,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|merken
                         <exception postag="SUB.*" postag_regexp="yes" />
                     </token>
-                    <token regexp="yes" min="0">übrigens|deswegen|immer|allerdings|durchaus|eher|mal|also|jedoch</token>
+                    <token regexp="yes" min="0">übrigens|deswegen|immer|allerdings|durchaus|eher|mal|also|jedoch|jedenfalls</token>
                     <marker>
                         <token regexp="yes" case_sensitive="yes">fürs?|zwischen|mit|gegen|bis|au(ß|ss)er|vo[mnr]|vor[sm]|wegen|dank|beim?|ohne|aufs?|unters?|übers?|nach|neben|hinters?|zwischen|an|zu[rm]?|i[nm]</token>
                     </marker>
@@ -55094,7 +55134,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|merken
                         <exception postag="SUB.*" postag_regexp="yes" />
                     </token>
-                    <token regexp="yes" min="0">übrigens|deswegen|immer|allerdings|durchaus|eher|mal|also|jedoch</token>
+                    <token regexp="yes" min="0">übrigens|deswegen|immer|allerdings|durchaus|eher|mal|also|jedoch|jedenfalls</token>
                     <marker>
                         <token regexp="yes">\d+|zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf|zwölf</token>
                     </marker>
@@ -55124,7 +55164,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|merken
                         <exception postag="SUB.*" postag_regexp="yes" />
                     </token>
-                    <token regexp="yes" min="0">übrigens|deswegen|immer|allerdings|durchaus|eher|mal|also|jedoch</token>
+                    <token regexp="yes" min="0">übrigens|deswegen|immer|allerdings|durchaus|eher|mal|also|jedoch|jedenfalls</token>
                     <marker>
                         <token regexp="yes" case_sensitive="yes">fürs?|zwischen|mit|gegen|bis|au(ß|ss)er|vo[mn]|wegen|dank|beim?|ohne|aufs?|unter|neben|hinter|zwischen|vor|an|zu[rm]?|i[nm]</token>
                     </marker>
@@ -55174,7 +55214,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|merken
                         <exception postag="SUB.*" postag_regexp="yes" />
                     </token>
-                    <token regexp="yes" min="0">übrigens|deswegen|immer|allerdings|durchaus|eher|mal|also|jedoch</token>
+                    <token regexp="yes" min="0">übrigens|deswegen|immer|allerdings|durchaus|eher|mal|also|jedoch|jedenfalls</token>
                     <marker>
                         <token postag="ART.*|PRO:(POS|DEM|IND).*" postag_regexp="yes" />
                     </marker>
@@ -55240,7 +55280,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|merken
                         <exception postag="SUB.*" postag_regexp="yes" />
                     </token>
-                    <token regexp="yes" min="0">übrigens|deswegen|immer|allerdings|durchaus|eher|mal|also|jedoch</token>
+                    <token regexp="yes" min="0">übrigens|deswegen|immer|allerdings|durchaus|eher|mal|also|jedoch|jedenfalls</token>
                     <marker>
                         <token postag="EIG.*|SUB.*|PRO:PER:NOM.*|PRO:IND.*" postag_regexp="yes" />
                     </marker>
@@ -55277,6 +55317,52 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ich finde es faszinierend, das Faröische und das Norwegische zu vergleichen.</example>
                 <example>Ich hoffte sie wiederzusehen.</example>
                 <example>Ich dachte, du weißt es sicher.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token inflected="yes">finden</token>
+                    <token postag="EIG.*|UNKNOWN|SUB.*" postag_regexp="yes" min="1" max="2" />
+                    <token postag="ADJ.*|PA[12].*|VER:PA[12].*" postag_regexp="yes" />
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">finden</token>
+                    <token postag="EIG.*|UNKNOWN|SUB.*" postag_regexp="yes" min="1" max="2" />
+                    <token postag="VER.*" postag_regexp="yes" />
+                    <token>vor</token>
+                </antipattern>
+                <antipattern><!-- Eine in Osteuropa und Asien vermutete Gruppe pflasterte ... -->
+                    <token postag="KON.*|PKT" postag_regexp="yes" />
+                    <token postag="EIG.*" postag_regexp="yes" />
+                    <token regexp="yes">vermutet.*|gefunden.*|geschätzt.*|befürchtet.*</token>
+                </antipattern>
+                <pattern>
+                    <token postag="PKT|SENT_START|KON.*" postag_regexp="yes" />
+                    <token regexp="yes" min="0">&anfauf;</token>
+                    <token postag="ADV.*" postag_regexp="yes" min="0" />
+                    <token regexp="yes" min="0">Herrn?|Frau|Fräulein</token>
+                    <token postag="PRO:PER:NOM.*|PRO:IND.*|EIG.*" postag_regexp="yes" />
+                    <token inflected="yes" regexp="yes" min="0">werden|haben</token>
+                    <token regexp="yes" inflected="yes">
+                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|merken
+                        <exception postag="SUB.*" postag_regexp="yes" />
+                    </token>
+                    <token regexp="yes" min="0">übrigens|deswegen|immer|allerdings|durchaus|eher|mal|also|jedoch|jedenfalls</token>
+                    <marker>
+                        <token postag="EIG.*|SUB.*|UNKNOWN" postag_regexp="yes" case_sensitive="yes" regexp="yes">[A-ZÄÖÜ][a-zäöüß\-].*</token>
+                    </marker>
+                    <token postag="EIG.*|SUB.*|UNKNOWN" postag_regexp="yes" case_sensitive="yes" regexp="yes" min="0">[A-ZÄÖÜ][a-zäöüß\-].*</token>
+                    <token postag="VER.*" postag_regexp="yes">
+                        <exception regexp="yes">m?einen?|mal|gar|dank|recht|äu(ß|ss)erst|wider|(an)?dauernd|halt|sicher|bestimmt|gekonnt</exception>
+                        <exception case_sensitive="yes" regexp="yes">[A-ZÄÖÜ][a-zäöü].+</exception>
+                        <exception postag="VER:EIZ:NON" />
+                    </token>
+                </pattern>
+                <message>Hier scheint ein Komma zu fehlen.</message>
+                <suggestion>, \9</suggestion>
+                <example correction=", Tom">Ich glaube<marker> Tom</marker> Meier gefällt es hier nicht.</example>
+                <example correction=", Toms">Aber ich glaube<marker> Toms</marker> Buch ist endlich fertig.</example>
+                <example>Tom findet Marias Lispeln süß, Johanna dagegen regt es tierisch auf.</example>
+                <example>Wir finden Toms Arbeit zufriedenstellend.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -55315,7 +55401,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|merken
                         <exception postag="SUB.*" postag_regexp="yes" />
                     </token>
-                    <token regexp="yes" min="0">übrigens|deswegen|immer|allerdings|durchaus|eher|mal|also|jedoch</token>
+                    <token regexp="yes" min="0">übrigens|deswegen|immer|allerdings|durchaus|eher|mal|also|jedoch|jedenfalls</token>
                     <marker>
                         <token postag="(ADJ|PA[12]).*|PRO:(POS|DEM|IND).*" postag_regexp="yes" />
                     </marker>
@@ -55351,7 +55437,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception postag="SUB.*" postag_regexp="yes" />
                         <exception postag="PA2.*" postag_regexp="yes" />
                     </token>
-                    <token regexp="yes" min="0">übrigens|deswegen|immer|allerdings|durchaus|eher|mal|also|jedoch</token>
+                    <token regexp="yes" min="0">übrigens|deswegen|immer|allerdings|durchaus|eher|mal|also|jedoch|jedenfalls</token>
                     <marker>
                         <token regexp="yes">Herrn?|Hr|Fr|Frau|Fräulein|Dr|Doktor|Mrs?|Prof(essor)?</token>
                     </marker>

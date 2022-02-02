@@ -967,6 +967,11 @@ class AgreementRuleAntiPatterns1 {
       csToken("Gen"),
       tokenRegex("[XYZ]")
     ),
+    Arrays.asList( // Das veranlasste Bürgermeister Adam
+      tokenRegex("das|dies"),
+      csToken("veranlasste"),
+      posRegex("SUB.*")
+    ),
     // TODO: comment in
     // Arrays.asList(
     //   // die gegnerischen Shooting Guards
