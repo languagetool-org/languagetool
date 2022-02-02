@@ -918,6 +918,18 @@ RB => Règles Brutes
         </pattern>
         <disambig action="filter" postag="N.*"/>
     </rule>
+    <rule id="QUI_MONTRE" name="qui montre">
+        <pattern>
+            <token>qui</token>
+            <marker>
+                <and>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token postag="V.* (ind|con|sub).*" postag_regexp="yes"/>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="N.*"/>
+    </rule>
     <rule id="EN_AS_TU_FAIT" name="as tu (missing hyphen)">
         <pattern>
             <!-- missing hyphen -->
@@ -2278,6 +2290,16 @@ RB => Règles Brutes
             <token postag="V.* inf" postag_regexp="yes"/>
         </pattern>
         <disambig action="remove" postag="V.*"/>
+    </rule>
+    <rule id="PARTIE_PRENANTE" name="partie prenante">
+        <!-- with agreement error -->
+        <pattern>
+            <marker>
+                <token>partie</token>
+            </marker>
+            <token>prenante</token>
+        </pattern>
+        <disambig action="remove" postag="J.*"/>
     </rule>
     <rule id="GENS" name="gens">
         <pattern>
