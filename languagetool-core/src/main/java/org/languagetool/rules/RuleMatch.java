@@ -43,6 +43,8 @@ import java.util.stream.Collectors;
  */
 public class RuleMatch implements Comparable<RuleMatch> {
   public static final RuleMatch[] EMPTY_ARRAY = new RuleMatch[0];
+  public static final String SUGGESTION_START_TAG = "<suggestion>";
+  public static final String SUGGESTION_END_TAG = "</suggestion>";
 
   //private static final Pattern SUGGESTION_PATTERN = Pattern.compile("<suggestion>(.*?)</suggestion>");
   private final Rule rule;
@@ -155,17 +157,15 @@ public class RuleMatch implements Comparable<RuleMatch> {
     this.shortMessage = shortMessage;
     // extract suggestion from <suggestion>...</suggestion> in message:
     LinkedHashSet<SuggestedReplacement> replacements = new LinkedHashSet<>();
-    String startTag = "<suggestion>";
-    String endTag = "</suggestion>";
     String suggestion = message + (suggestionsOutMsg != null ? suggestionsOutMsg : "");
-    int pos = suggestion.indexOf(startTag);
+    int pos = suggestion.indexOf(SUGGESTION_START_TAG);
     while (pos != -1) {
-      int end = suggestion.indexOf(endTag, pos);
+      int end = suggestion.indexOf(SUGGESTION_END_TAG, pos);
       if (end == -1) {
         break;
       }
-      String replacement = suggestion.substring(pos + startTag.length(), end);
-      pos = end + endTag.length();
+      String replacement = suggestion.substring(pos + SUGGESTION_START_TAG.length(), end);
+      pos = end + SUGGESTION_END_TAG.length();
       if (replacement.contains(PatternRuleMatcher.MISTAKE)) {
         continue;
       }
@@ -173,7 +173,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
         replacement = StringTools.uppercaseFirstChar(replacement);
       }
       replacements.add(new SuggestedReplacement(replacement));
-      pos = suggestion.indexOf(startTag, pos);
+      pos = suggestion.indexOf(SUGGESTION_START_TAG, pos);
     }
 
     this.sentence = sentence;
