@@ -138,6 +138,12 @@ public class ProhibitedCompoundRule extends Rule {
     "Gra(ph|f)it"   // Grafit/Graphit
   );
   private static final Set<String> blacklist = new HashSet<>(Arrays.asList(
+          "Landeregion",  // vs. Landes
+          "Landeregionen",  // vs. Landes
+          "Landebetrieb",  // vs. Landes ("Start- und Landebetrieb")
+          "Landebetriebs",  // vs. Landes ("Start- und Landebetrieb")
+          "Landeoffiziere",  // vs. Landes
+          "Landeoffizieren",  // vs. Landes
           "Luftwert",  // vs. Lust
           "Luftwerte",  // vs. Lust
           "Luftwerts",  // vs. Lust
