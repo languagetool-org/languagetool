@@ -2434,7 +2434,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="Chief" id="CHIEF"><!-- common job titles -->
       <pattern case_sensitive="yes">
         <token>Chief</token>
-        <token regexp="yes">Executive|Growth|Product|Technology|Technical|Digital|Design|Data|Operating|Operations?|Financial|Sales|Business|Administrative|Analytics|Brand(ing)?|Information|Investment|Learning|Petty|People|Customer|Communications?|Creative|Support|Commercial|Procurement|Privacy|Project|Research|Risk|Strategy|Sales|Security|Visionary</token>
+        <token regexp="yes">Executive|Growth|Product|Technology|Technical|Digital|Design|Data|Operating|Operations?|Financial|Sales|Business|Administrative|Analytics|Brand(ing)?|Information|Investment|Learning|Petty|People|Customer|Communications?|Creative|Support|Commercial|Procurement|Privacy|Project|Research|Risk|Strategy|Sales|Security|Visionary|Marketing|Innovation</token>
         <token regexp="yes">Officers?</token>
       </pattern>
       <disambig action="ignore_spelling"/>
@@ -5340,6 +5340,38 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <token regexp="yes">Angel[oe]s|Zetas|Gatos</token>
         </pattern>
         <disambig action="remove" postag="(SUB|VER|ADV).*"/>
+    </rule>
+
+    <rulegroup id="ROYAL_KEIN_NOMEN" name="'Royal' kein Nomen">
+        <rule>
+            <pattern>
+                <marker>
+                    <token>Royal</token>
+                </marker>
+                <token regexp="yes">Air|Alberts?|Navy|Societ.*|Canadian|British|Geographical|Institutions?|Miles?|Caribbean|Vikings?|Nedlloyd|Parks?|Shakespeare</token>
+            </pattern>
+            <disambig action="remove" postag="SUB.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>Royal</token>
+                </marker>
+                <token postag="UNKNOWN" regexp="yes">.*[a-z].*</token>
+            </pattern>
+            <disambig action="remove" postag="SUB.*"/>
+        </rule>
+    </rulegroup>
+
+
+    <rule id="DAILY_WEEKLY_KEIN_NOMEN" name="'Daily' kein Nomen">
+        <pattern>
+            <marker>
+                <token regexp="yes">Daily|Weekly</token>
+            </marker>
+            <token postag="SUB.*|UNKNOWN" postag_regexp="yes" />
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
     </rule>
 
     <rule id="BIN_KEIN_VERB" name="'bin' kein Verb">

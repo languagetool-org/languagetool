@@ -590,6 +590,7 @@ public class AgreementRuleTest {
     assertGood("Die letzte unter Windows 98 lauffähige Version ist 5.1.");
     assertGood("Das veranlasste Bürgermeister Adam, selbst tätig zu werden, denn er wollte es nicht zulassen, dass in seiner Stadt Notleidende ohne Hilfe dastehen.");
     assertGood("Die südlichste Düsseldorfer Rheinbrücke ist die Fleher Brücke, eine Schrägseilbrücke mit dem höchsten Brückenpylon in Deutschland und einer Vielzahl von fächerförmig angeordneten Seilen.");
+    assertGood("Ein zeitweise wahres Stakkato an einschlägigen Patenten, das Benz & Cie.");
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");
     //assertBad("Erst recht ich fleißiges Arbeiter.");
