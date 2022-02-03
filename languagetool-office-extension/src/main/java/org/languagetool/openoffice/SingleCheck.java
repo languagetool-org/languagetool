@@ -182,7 +182,7 @@ class SingleCheck {
     if (isDisposed()) {
       return;
     }
-    if (docCache == null || nFPara < 0 || nFPara >= docCache.size()) {
+    if (docCache == null || lt == null || nFPara < 0 || nFPara >= docCache.size()) {
       return;
     }
 //    List<ResultCache> paragraphsCache = this.paragraphsCache;
