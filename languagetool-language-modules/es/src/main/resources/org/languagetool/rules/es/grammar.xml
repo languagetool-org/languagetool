@@ -67,8 +67,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY words_H_ASPIRADA2 "Higgs|high|Hildesheim|Hill|hijabs?|Hillary|Himmler|hip-hop|hippies|hippy|hipsters?|Hirado|His|hits?|Hubei|Hudson|Hunter|Husserl|Huygens|Utah|husky">
     <!ENTITY words_H_ASPIRADA "Harris|Harvey|Hunspell|Hassan|Haddock|Haarle[mn].*|Hainan|haendel.*|händel.*|habermas.*|hadits?|Hanuk?kà|hack.*|Harlem|Harper|Hartford|Haifa|haikus?|haima|haimes|Haikou|halal|halar|Halifax|Halmstad|halls?|Halle|Halley|Hallstatt|Hallstein|Halloweens?|Hals|herr|Herut|Hamadan|Hamas|Hamàs|hamilton.*|Hamlet.*|hammams?|Hammond|Hampton|hàmsters?|h[aà]ndicaps?|Hangzhou|Hannover|Hanoi|Hans|Hansa|hanseàti[cq].*|happenings?|Harbin|hardware|Haneke|harolds?|Hatay|Hamleigh|Harrisburg|Harrison|harrods?|harry|Hartley|Hartmann?|Hartree|Haruki|Har[td]?vard|Harz|hash.*|Hastings|Havel|Havilland|hawai.*|hawk.*|Hayek|Haydn.*|Hayworth|Heard|hearst|Heathrow|heav.*|hegel.*|Hebei|Hedmark|Heerenveen|Hedw.*|Heerlen|Hefei|Heidelberg|Heide[gn].*|Heilbronn|Heilongjiang|Heilig.*|hei[nk].*|Heisen.*|Heitz|Helmand|Helmholtz|Helen|Helsingborg|Hèlsinki|Heming.*|Henan|henna|hennes|Henry|Hepburn|herbert.*|Herder|Hereford|Herford|Herning|Hertfordshire|Herzog|Hesse|Hessen|Hewlett.*|Hezboll.+|high.*|hilbert.*|Hilda|Hillingdon|hinden.*|Hilton|hinterlands?|Hirsch.*|Hitch.*|hitler.*|Hilversum|Hobart|Hockenheim|Hodeida|Hohhot|Hokkaido|hobbes.*|hobby|Hogw.*|hobbies|Hodgkin|Hohen.*|Hölderlin|h[òo]ldings?|holy.*|hollywood.*|Holmes.*|Holstein|Hong|Hong-Kong|hongk.+|Honolu.+|Honsh[uū]|h[òo]bbits?|hooligan.*|hoover.*|hopkins|Hork.*|Horowitz|horst|H[ou]f.*|Houla|house|Houston|Howard|Hoyerswerda|Hunan|Huddersfield|Hunedoara|huskys?|huskies|hubs?|Hubble|humbold.*|Hume|hunting.*|Hussein|husseinit.+|university|united|(?-i)Hagen|Hamada">
     <!ENTITY diacritics_00 "linea|lineas|entrelinea|entrelineas|arboles|lagrima|lagrimas|victima|victimas|solida|solidas|solido|autentica|autenticas|autentico|adan|magnifico|oleo|ovulo|oxido|oxigeno|pacifico|petroleo|pixeles|petalo|azucares|canceres|capsula|capsulas|indice|indices|espontaneo|espontanea|espontaneas|bufalo|bufala|bufalas|ovalo|ovalos|astrologo|astrologa|astrologas|petalos|clausula|clausulas|decrepito|decrepita|decrepitas|tempano|purpurea|purpureas|recamara|recamaras|embolo|epitome|estomago|debito|ignifuga|ignifugas|ignifugo">
-    <!ENTITY diacritics_01 "capitulo|titulo|medico|nauseas|nausea|cubica|cubicas|cubico|intimo|ilegitimo|retrograda|retrogradas">
-    <!ENTITY diacritics_02 "maquina|maquinas|ejercito|genero|magnifica|articulo|barbara|domestico|capitulo|retrogrado|reciproco|liquido|simultaneo|tremolo|triangulo|vehiculo|vinculo|transito|titulo|catalogo|dialogo">
+    <!ENTITY diacritics_01 "capitulo|titulo|medico|nauseas|nausea|cubica|cubicas|cubico|intimo|ilegitimo|retrograda|retrogradas|ulcera|ulceras">
+    <!ENTITY diacritics_02 "maquina|maquinas|ejercito|genero|magnifica|articulo|barbara|domestico|capitulo|retrogrado|reciproco|liquido|simultaneo|tremolo|triangulo|vehiculo|vinculo|transito|titulo|catalogo|dialogo|trafico">
     <!ENTITY diacritics_03 "incomoda|incomodas|lastima|lastimas|medica|medicas|simultanea|simultaneas">
     <!ENTITY diacritics_04 "critica|criticas|limite|limites|purpura|purpuras|calculo|deposito">
     <!ENTITY diacritics_05 "maquina|ultima|ultimas">
@@ -2552,7 +2552,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                          ???: pio, moran, indico, opera, anima, animas, replica, replicas,-->
                 <!-- TODO: solo me faltan 2 practicas más -->
                 <marker>
-                    <token postag="V.[SI].*" postag_regexp="yes" regexp="yes">maquina|ada|animo|diagnostico|domestica|domesticas|idolatra|idolatras|ilegitima|ilegitimas|invalida|invalidas|invalido|lamina|laminas|legitima|legitimas|legitimo|lideres|liquida|liquidas|matricula|medica|medicas|medico|modulo|nomina|nominas|prestamos|prorroga|reciproca|reciprocas|revalida|revalidas|rondo|trafico|tramite|tramites|ulcera|ulceras<exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
+                    <token postag="V.[SI].*" postag_regexp="yes" regexp="yes">maquina|ada|animo|diagnostico|domestica|domesticas|idolatra|idolatras|ilegitima|ilegitimas|invalida|invalidas|invalido|lamina|laminas|legitima|legitimas|legitimo|lideres|liquida|liquidas|matricula|modulo|nomina|nominas|prestamos|prorroga|reciproca|reciprocas|revalida|revalidas|rondo|tramite|tramites<exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
             <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\1 postag:NC.*|AQ.*"/>
@@ -2576,270 +2576,286 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Lee mucho y practica mucho.</example>
             <example>¿Qué clase de deportes practicas?</example>
         </rule>
-        <!-- new rules diacritics -->
-        <rule id="DIACRITICS_00" name="linea/línea">
-            <pattern>
-                <marker>
-                    <token regexp="yes">&diacritics_00;</token>
-                </marker>
-            </pattern>
-            <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\1 postag:[AN].*"/>
-            <message>Si es adjetivo o nombre, se escribe con tilde.</message>
-            <suggestion>{suggestion}</suggestion>
-            <example correction="Líneas"><marker>Lineas</marker> de actuación.</example>
-        </rule>
-        <rule id="DIACRITICS_01" name="verbo/adj o nombre 01">
+        <rulegroup name="diacríticos" id="DIACRITICS_BY_GROUPS">
             <antipattern>
-                <token regexp="yes">que|si</token>
-                <token min="0" max="3" postag="R.*|LOC_ADV" postag_regexp="yes"/>
-                <token regexp="yes">&diacritics_01;</token>
+                <token postag="SPS00"/>
+                <token regexp="yes">el|los|la|las</token>
+                <token regexp="yes">cual|cuales|que</token>
+                <token postag="V.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
-                <token regexp="yes">&diacritics_01;</token>
+                <token regexp="yes">del|al</token>
+                <token regexp="yes">cual|cuales|que</token>
+                <token postag="V.*" postag_regexp="yes"/>
             </antipattern>
-            <antipattern>
-                <token>yo</token>
-                <token postag="VMIP1S0"/>
-            </antipattern>
-            <antipattern>
-                <token>capitulo</token>
-                <token>ante</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">no|sí</token>
-                <token skip="2">intimo</token>
-                <token>con</token>
-            </antipattern>
-            <pattern>
-                <marker>
+            <rule id="DIACRITICS_00" name="linea/línea">
+                <pattern>
+                    <marker>
+                        <token regexp="yes">&diacritics_00;</token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\1 postag:[AN].*"/>
+                <message>Si es adjetivo o nombre, se escribe con tilde.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="Líneas"><marker>Lineas</marker> de actuación.</example>
+            </rule>
+            <rule id="DIACRITICS_01" name="verbo/adj o nombre 01">
+                <antipattern>
+                    <token regexp="yes">que|si</token>
+                    <token min="0" max="3" postag="R.*|LOC_ADV" postag_regexp="yes"/>
                     <token regexp="yes">&diacritics_01;</token>
-                </marker>
-            </pattern>
-            <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\1 postag:[AN].*"/>
-            <message>Si es adjetivo o nombre, se escribe con tilde.</message>
-            <suggestion>{suggestion}</suggestion>
-            <example correction="Capítulo"><marker>Capitulo</marker> 3.</example>
-            <example>Sin embargo, si capitulo, es en verdad por pura debilidad;</example>
-            <example>Mi biografía demuestra que nunca capitulo.</example>
-            <example>—Quedaos; no quiero que se suponga que capitulo con esos rebeldes.</example>
-            <example>Dejo de hacerlo totalmente y capitulo ante sus corrientes circulares y viscosas.</example>
-            <!--<example>con un ademán que quería decir o «capitulo» o «cedo el timón».</example>
+                </antipattern>
+                <antipattern>
+                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                    <token regexp="yes">&diacritics_01;</token>
+                </antipattern>
+                <antipattern>
+                    <token>yo</token>
+                    <token postag="VMIP1S0"/>
+                </antipattern>
+                <antipattern>
+                    <token>capitulo</token>
+                    <token>ante</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">no|sí</token>
+                    <token skip="2">intimo</token>
+                    <token>con</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">&diacritics_01;</token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\1 postag:[AN].*"/>
+                <message>Si es adjetivo o nombre, se escribe con tilde.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="Capítulo"><marker>Capitulo</marker> 3.</example>
+                <example>Sin embargo, si capitulo, es en verdad por pura debilidad;</example>
+                <example>Mi biografía demuestra que nunca capitulo.</example>
+                <example>—Quedaos; no quiero que se suponga que capitulo con esos rebeldes.</example>
+                <example>Dejo de hacerlo totalmente y capitulo ante sus corrientes circulares y viscosas.</example>
+                <!--<example>con un ademán que quería decir o «capitulo» o «cedo el timón».</example>
             <example>Una semana capitulo volviéndome de nuevo hacia el ordenador, con un suspiro de resignación.</example>-->
-        </rule>
-        <rule id="DIACRITICS_02" name="verbo/adj o nombre 02">
-            <antipattern>
-                <token regexp="yes">que|si|cuando|porque</token>
-                <token min="0" max="3" postag="R.*|LOC_ADV" postag_regexp="yes"/>
-                <token regexp="yes">&diacritics_02;</token>
-            </antipattern>
-            <antipattern>
-                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
-                <token regexp="yes">&diacritics_02;</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">&diacritics_02;</token>
-                <token postag="PI.*" postag_regexp="yes"/>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">&diacritics_02;</token>
-                <and>
-                    <token postag="_GN_.*" postag_regexp="yes"/>
-                    <token postag="D.*" postag_regexp="yes"/>
-                </and>
-            </antipattern>
-            <antipattern>
-                <token>no</token>
-                <token regexp="yes">&diacritics_02;</token>
-            </antipattern>
-            <antipattern>
-                <token>yo</token>
-                <token postag="VMIP1S0"/>
-            </antipattern>
-            <antipattern>
-                <token postag="VMIP1S0"/>
-                <token>yo</token>
-            </antipattern>
-            <antipattern>
-                <token postag="RG|LOC_ADV" postag_regexp="yes"/>
-                <token>dialogo</token>
-            </antipattern>
-            <pattern>
-                <marker>
-                    <token regexp="yes">&diacritics_02;<exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
-                </marker>
-            </pattern>
-            <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\1 postag:[AN].*"/>
-            <message>Si es adjetivo o nombre, se escribe con tilde.</message>
-            <suggestion>{suggestion}</suggestion>
-            <example correction="Máquina"><marker>Maquina</marker> de pelar patatas.</example>
-            <example correction="Máquina"><marker>Maquina</marker> para pelar patatas.</example>
-            <example correction="Ejército"><marker>Ejercito</marker> del aire.</example>
-            <example correction="género"><marker>genero</marker> gramatical</example>
-            <example correction="Catálogo">CD <marker>Catalogo</marker> 2015.</example>
-            <example correction="Ejército"><marker>Ejercito</marker> Nacional Mexicano.</example>
-            <example>Ejercito la mente jugando al ajedrez.</example>
-            <example>Maquina la destrucción del planeta.</example>
-            <example>Battle maquina algo.</example>
-            <example>Y no genero nada específico para ellos.</example>
-        </rule>
-        <rule id="DIACRITICS_03" name="verbo/adj o nombre 03">
-            <antipattern>
-                <token regexp="yes">que|si</token>
-                <token min="0" max="3" postag="R.*|LOC_ADV" postag_regexp="yes"/>
-                <token regexp="yes">&diacritics_03;</token>
-            </antipattern>
-            <antipattern>
-                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
-                <token regexp="yes">&diacritics_03;</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">&diacritics_03;</token>
-                <token postag="D.*|PI.*" postag_regexp="yes"/>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">&diacritics_03;</token>
-                <token regexp="yes">a|al</token>
-            </antipattern>
-            <antipattern>
-                <token>yo</token>
-                <token postag="VMIP1S0"/>
-            </antipattern>
-            <antipattern>
-                <token postag="VMIP1S0"/>
-                <token>yo</token>
-            </antipattern>
-            <pattern>
-                <marker>
-                    <token regexp="yes">&diacritics_03;<exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
-                </marker>
-            </pattern>
-            <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\1 postag:[AN].*"/>
-            <message>Si es adjetivo o nombre, se escribe con tilde.</message>
-            <suggestion>{suggestion}</suggestion>
-            <example correction="incómoda">Es <marker>incomoda</marker>.</example>
-            <example>Incomodas a todo el mundo.</example>
-            <example>Simultanea varias carreras universitarias.</example>
-        </rule>
-        <rule id="DIACRITICS_04" name="verbo/adj o nombre 04">
-            <antipattern>
-                <token regexp="yes">que|si|quien</token>
-                <token min="0" max="3" postag="R.*|LOC_ADV" postag_regexp="yes"/>
-                <token regexp="yes">&diacritics_04;</token>
-            </antipattern>
-            <antipattern>
-                <token postag="&pronombre_personal_atono_POS;|NP.*" postag_regexp="yes"/>
-                <token regexp="yes">&diacritics_04;</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">\p{Lu}.*</token>
-                <token postag="V.I.3S." postag_regexp="yes" regexp="yes">&diacritics_04;</token>
-            </antipattern>
-            <antipattern>
-                <token postag="R.*|LOC_ADV|NP.*" postag_regexp="yes"/>
-                <token regexp="yes">&diacritics_04;</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">&diacritics_04;</token>
-                <!-- sometimes ambiguous N/A -->
-                <token postag="D.*|P[ID].*|N.*|RG|LOC_ADV" postag_regexp="yes"/>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">&diacritics_04;</token>
-                <token>de</token>
-                <token regexp="yes">manera|forma</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">&diacritics_04;</token>
-                <token regexp="yes">a|al|que|cómo|\?</token>
-            </antipattern>
-            <antipattern>
-                <token postag="V.I.3S." postag_regexp="yes"/>
-                <token postag="CC|_PUNCT_CONT" postag_regexp="yes" min="1" max="2"/>
-                <token min="0">se</token>
-                <token postag="V.I.3S." postag_regexp="yes"/>
-            </antipattern>
-            <antipattern>
-                <token postag="V.S.3S." postag_regexp="yes"/>
-                <token postag="CC|_PUNCT_CONT" postag_regexp="yes" min="1" max="2"/>
-                <token min="0">se</token>
-                <token postag="V.S.3S." postag_regexp="yes"/>
-            </antipattern>
-            <antipattern>
-                <token postag="V.I.2S." postag_regexp="yes"/>
-                <token postag="CC|_PUNCT_CONT" postag_regexp="yes" min="1" max="2"/>
-                <token min="0">te</token>
-                <token postag="V.I.2S." postag_regexp="yes"/>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">él|ella|usted</token>
-                <token min="0" max="3" postag="R.*|LOC_ADV" postag_regexp="yes"/>
-                <token postag="V.[IS].3S." postag_regexp="yes"/>
-            </antipattern>
-            <antipattern>
-                <token postag="V.[IS].3S." postag_regexp="yes"/>
-                <token regexp="yes">él|ella|usted</token>
-            </antipattern>
-            <antipattern>
-                <token postag="_GN_.S" postag_regexp="yes"/>
-                <token>critica</token>
-            </antipattern>
-            <antipattern>
-                <token>que</token>
-                <token max="7" postag="_GN_.S|RG|LOC_ADV" postag_regexp="yes"/>
-                <token>limite</token>
-            </antipattern>
-            <antipattern>
-                <token>yo</token>
-                <token postag="VMIP1S0"/>
-            </antipattern>
-            <antipattern>
-                <token postag="VMIP1S0"/>
-                <token>yo</token>
-            </antipattern>
-            <antipattern>
-                <token>deposito</token>
-                <token regexp="yes">en|sobre|ante</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">en|sobre</token>
-                <token skip="1"/>
-                <token>deposito</token>
-            </antipattern>
-            <pattern>
-                <marker>
-                    <token regexp="yes">&diacritics_04;<exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
-                </marker>
-            </pattern>
-            <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\1 postag:[AN].*"/>
-            <message>Si es adjetivo o nombre, se escribe con tilde.</message>
-            <suggestion>{suggestion}</suggestion>
-            <example correction="Crítica"><marker>Critica</marker> de cine.</example>
-            <example correction="límite">la fecha <marker>limite</marker></example>
-            <example correction="LÍMITE">LA FECHA <marker>LIMITE</marker></example>
-            <example>que piensa, siente y critica</example>
-            <example>El cínico critica y los ganadores analizan</example>
-            <example>La autora critica de arriba abajo a los jóvenes.</example>
-            <example>lloras, ríes, criticas, censuras</example>
-            <example>Quiere que se limite la participación.</example>
-            <example>Que se defina y limite, hacia delante y hacia atrás.</example>
-            <example>Y que el gobierno limite con otra medida los pesos.</example>
-            <example>Calculo que vendrá mañana.</example>
-            <example>Calculo la velocidad del viento.</example>
-        </rule>
-        <rule id="DIACRITICS_05" name="05">
-            <pattern>
-                <token regexp="yes">los|la|las</token>
-                <marker>
-                    <token regexp="yes">&diacritics_05;<exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
-                </marker>
-            </pattern>
-            <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\2 postag:[AN].* gendernumberFrom:1"/>
-            <message>Si es adjetivo o nombre, se escribe con tilde.</message>
-            <suggestion>{suggestion}</suggestion>
-            <example correction="última">La <marker>ultima</marker>.</example>
-            <example correction="últimas">Las <marker>ultimas</marker>.</example>
-        </rule>
+            </rule>
+            <rule id="DIACRITICS_02" name="verbo/adj o nombre 02">
+                <antipattern>
+                    <token regexp="yes">que|si|cuando|porque</token>
+                    <token min="0" max="3" postag="R.*|LOC_ADV" postag_regexp="yes"/>
+                    <token regexp="yes">&diacritics_02;</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                    <token regexp="yes">&diacritics_02;</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">&diacritics_02;</token>
+                    <token postag="PI.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">&diacritics_02;</token>
+                    <and>
+                        <token postag="_GN_.*" postag_regexp="yes"/>
+                        <token postag="D.*" postag_regexp="yes"/>
+                    </and>
+                </antipattern>
+                <antipattern>
+                    <token>no</token>
+                    <token regexp="yes">&diacritics_02;</token>
+                </antipattern>
+                <antipattern>
+                    <token>yo</token>
+                    <token postag="VMIP1S0"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="VMIP1S0"/>
+                    <token>yo</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="RG|LOC_ADV" postag_regexp="yes"/>
+                    <token>dialogo</token>
+                </antipattern>
+                <antipattern>
+                    <token>trafico<exception scope="previous" postag="V.*" postag_regexp="yes"/></token>
+                    <token regexp="yes">con|en</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">&diacritics_02;<exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\1 postag:[AN].*"/>
+                <message>Si es adjetivo o nombre, se escribe con tilde.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="Máquina"><marker>Maquina</marker> de pelar patatas.</example>
+                <example correction="Máquina"><marker>Maquina</marker> para pelar patatas.</example>
+                <example correction="Ejército"><marker>Ejercito</marker> del aire.</example>
+                <example correction="género"><marker>genero</marker> gramatical</example>
+                <example correction="Catálogo">CD <marker>Catalogo</marker> 2015.</example>
+                <example correction="Ejército"><marker>Ejercito</marker> Nacional Mexicano.</example>
+                <example>Ejercito la mente jugando al ajedrez.</example>
+                <example>Maquina la destrucción del planeta.</example>
+                <example>Battle maquina algo.</example>
+                <example>Y no genero nada específico para ellos.</example>
+            </rule>
+            <rule id="DIACRITICS_03" name="verbo/adj o nombre 03">
+                <antipattern>
+                    <token regexp="yes">que|si</token>
+                    <token min="0" max="3" postag="R.*|LOC_ADV" postag_regexp="yes"/>
+                    <token regexp="yes">&diacritics_03;</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                    <token regexp="yes">&diacritics_03;</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">&diacritics_03;</token>
+                    <token postag="D.*|PI.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">&diacritics_03;</token>
+                    <token regexp="yes">a|al</token>
+                </antipattern>
+                <antipattern>
+                    <token>yo</token>
+                    <token postag="VMIP1S0"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="VMIP1S0"/>
+                    <token>yo</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">&diacritics_03;<exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\1 postag:[AN].*"/>
+                <message>Si es adjetivo o nombre, se escribe con tilde.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="incómoda">Es <marker>incomoda</marker>.</example>
+                <example>Incomodas a todo el mundo.</example>
+                <example>Simultanea varias carreras universitarias.</example>
+            </rule>
+            <rule id="DIACRITICS_04" name="verbo/adj o nombre 04">
+                <antipattern>
+                    <token regexp="yes">que|si|quien</token>
+                    <token min="0" max="3" postag="R.*|LOC_ADV" postag_regexp="yes"/>
+                    <token regexp="yes">&diacritics_04;</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="&pronombre_personal_atono_POS;|NP.*" postag_regexp="yes"/>
+                    <token regexp="yes">&diacritics_04;</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\p{Lu}.*</token>
+                    <token postag="V.I.3S." postag_regexp="yes" regexp="yes">&diacritics_04;</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="R.*|LOC_ADV|NP.*" postag_regexp="yes"/>
+                    <token regexp="yes">&diacritics_04;</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">&diacritics_04;</token>
+                    <!-- sometimes ambiguous N/A -->
+                    <token postag="D.*|P[ID].*|N.*|RG|LOC_ADV" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">&diacritics_04;</token>
+                    <token>de</token>
+                    <token regexp="yes">manera|forma</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">&diacritics_04;</token>
+                    <token regexp="yes">a|al|que|cómo|\?</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.I.3S." postag_regexp="yes"/>
+                    <token postag="CC|_PUNCT_CONT" postag_regexp="yes" min="1" max="2"/>
+                    <token min="0">se</token>
+                    <token postag="V.I.3S." postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.S.3S." postag_regexp="yes"/>
+                    <token postag="CC|_PUNCT_CONT" postag_regexp="yes" min="1" max="2"/>
+                    <token min="0">se</token>
+                    <token postag="V.S.3S." postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.I.2S." postag_regexp="yes"/>
+                    <token postag="CC|_PUNCT_CONT" postag_regexp="yes" min="1" max="2"/>
+                    <token min="0">te</token>
+                    <token postag="V.I.2S." postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">él|ella|usted</token>
+                    <token min="0" max="3" postag="R.*|LOC_ADV" postag_regexp="yes"/>
+                    <token postag="V.[IS].3S." postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.[IS].3S." postag_regexp="yes"/>
+                    <token regexp="yes">él|ella|usted</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="_GN_.S" postag_regexp="yes"/>
+                    <token>critica</token>
+                </antipattern>
+                <antipattern>
+                    <token>que</token>
+                    <token max="7" postag="_GN_.S|RG|LOC_ADV" postag_regexp="yes"/>
+                    <token>limite</token>
+                </antipattern>
+                <antipattern>
+                    <token>yo</token>
+                    <token postag="VMIP1S0"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="VMIP1S0"/>
+                    <token>yo</token>
+                </antipattern>
+                <antipattern>
+                    <token>deposito</token>
+                    <token regexp="yes">en|sobre|ante</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">en|sobre</token>
+                    <token skip="1"/>
+                    <token>deposito</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">&diacritics_04;<exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\1 postag:[AN].*"/>
+                <message>Si es adjetivo o nombre, se escribe con tilde.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="Crítica"><marker>Critica</marker> de cine.</example>
+                <example correction="límite">la fecha <marker>limite</marker></example>
+                <example correction="LÍMITE">LA FECHA <marker>LIMITE</marker></example>
+                <example>que piensa, siente y critica</example>
+                <example>El cínico critica y los ganadores analizan</example>
+                <example>La autora critica de arriba abajo a los jóvenes.</example>
+                <example>lloras, ríes, criticas, censuras</example>
+                <example>Quiere que se limite la participación.</example>
+                <example>Que se defina y limite, hacia delante y hacia atrás.</example>
+                <example>Y que el gobierno limite con otra medida los pesos.</example>
+                <example>Calculo que vendrá mañana.</example>
+                <example>Calculo la velocidad del viento.</example>
+            </rule>
+            <rule id="DIACRITICS_05" name="05">
+                <pattern>
+                    <token regexp="yes">los|la|las</token>
+                    <marker>
+                        <token regexp="yes">&diacritics_05;<exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\2 postag:[AN].* gendernumberFrom:1"/>
+                <message>Si es adjetivo o nombre, se escribe con tilde.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="última">La <marker>ultima</marker>.</example>
+                <example correction="últimas">Las <marker>ultimas</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="DIACRITICS_06" name="06">
             <!--<rule>
                 <pattern>
