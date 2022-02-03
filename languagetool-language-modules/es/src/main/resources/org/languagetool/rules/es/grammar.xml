@@ -22,6 +22,7 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
 <!DOCTYPE rules [
+    <!ENTITY msg_semicolon_comma "Esta locución se escribe normalmente entre comas. Use un punto y coma para empezar una nueva frase que contrasta con la anterior.">
     <!ENTITY dashes "[–—―‒-]"> 
     <!ENTITY msg_repeated_pattern "Esta expresión ya ha aparecido antes. Puede sustituirla por otra para hacer más variado el texto.">
     <!ENTITY sometlds "com|de|net|edu|uk|org|info|nl|eu|cn|biz|at|ch|fr|tv|to|fm|es|it|gov|mil|mx|pt|dev|us|sg|me|io|app|shop|club|games|in|co|cloud|no|se|dk|ie|cc|tk|ai|au|nz|za|cm|ng|tw|jp|kg|ag|site|int|my|ir|pk|mobi|asia|hk|mz|xyz|design|ventures|services|cat|ly|name|world|online|consulting|digital|be|is|sex|web|lab|local|bio|live|ngo">
@@ -23349,9 +23350,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>sin</token>
                     <token>embargo</token>
                 </pattern>
-                <filter class="org.languagetool.rules.AddCommasFilter" args="none:none"/>
-                <message>Esta locución se escribe normalmente entre comas.</message>
+                <filter class="org.languagetool.rules.AddCommasFilter" args="suggestSemicolon:true"/>
+                <message>&msg_semicolon_comma;</message>
                 <example correction="embargo,">Sin <marker>embargo</marker> no logró ganar.</example>
+                <example correction="; sin embargo,|, sin embargo,">Me gusta mucho este<marker>, sin embargo</marker> prefiero aquel.</example>
             </rule>
             <rule>
                 <pattern>

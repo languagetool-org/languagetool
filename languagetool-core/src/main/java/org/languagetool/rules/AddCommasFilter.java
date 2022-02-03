@@ -36,6 +36,13 @@ public class AddCommasFilter extends RuleFilter {
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
+   
+    // for patterns ", aun así" suggest "; aun así," and ", aun así,"
+    String suggestSemicolon = getOptional("suggestSemicolon", arguments);
+    boolean bSuggestSemicolon = false;
+    if (suggestSemicolon != null && suggestSemicolon.equalsIgnoreCase("true")) {
+      bSuggestSemicolon = true;
+    }
 
     AnalyzedTokenReadings[] tokens = match.getSentence().getTokensWithoutWhitespace();
     int postagFrom = 1;
@@ -55,7 +62,14 @@ public class AddCommasFilter extends RuleFilter {
       return null;
     }
     RuleMatch newMatch = null;
-    if (beforeOK && !afterOK) {
+    if (bSuggestSemicolon && tokens[postagFrom - 1].getToken().equals(",") && !afterOK) {
+      newMatch = new RuleMatch(match.getRule(), match.getSentence(), tokens[postagFrom - 1].getStartPos(),
+          tokens[postagTo].getEndPos(), match.getMessage(), match.getShortMessage());
+      newMatch.addSuggestedReplacement(
+          "; " + match.getSentence().getText().substring(match.getFromPos(), match.getToPos()) + ",");
+      newMatch.addSuggestedReplacement(
+          ", " + match.getSentence().getText().substring(match.getFromPos(), match.getToPos()) + ",");
+    } else if (beforeOK && !afterOK) {
       newMatch = new RuleMatch(match.getRule(), match.getSentence(), tokens[postagTo].getStartPos(), match.getToPos(),
           match.getMessage(), match.getShortMessage());
       newMatch.setSuggestedReplacement(tokens[postagTo].getToken() + ",");
