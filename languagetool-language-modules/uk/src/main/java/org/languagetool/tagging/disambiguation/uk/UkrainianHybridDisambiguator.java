@@ -548,7 +548,7 @@ TODO:
       lnamePosTag = lnamePosTag.replaceAll(":(alt|ua_\\d{4}|xp\\d)", "");
 
       String initialsToken = initialsReadings.getAnalyzedToken(0).getToken();
-      AnalyzedToken newToken = new AnalyzedToken(initialsToken, lnamePosTag.replace(LAST_NAME_TAG, ":abbr:prop:"+initialType), initialsToken);
+      AnalyzedToken newToken = new AnalyzedToken(initialsToken, lnamePosTag.replace(LAST_NAME_TAG, ":nv:abbr:prop:"+initialType), initialsToken);
       newToken.setWhitespaceBefore(initialsReadings.isWhitespaceBefore());
       newTokens.add(newToken);
     }
