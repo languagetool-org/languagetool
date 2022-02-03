@@ -599,6 +599,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Es wird spannend, weil der Trainer erst am Freitag über sein Antreten entscheiden kann.</example>
             <example>Nur der Mensch kann über seinen Weg entscheiden.</example>
         </rule>
+        <rulegroup id="VERSANDEN_VERSTANDEN" name="vers(t)anden" default="temp_off">
+            <rule>
+                <antipattern>
+                    <token case_sensitive="yes">versanden</token>
+                    <token inflected="yes">lassen</token>
+                </antipattern>
+                <pattern>
+                    <token inflected="yes" skip="4">haben<exception scope="next" regexp="yes">[;,:]</exception></token>
+                    <marker><token case_sensitive="yes">versanden</token></marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>verstanden</suggestion>?</message>
+                <short>&typo;</short>
+                <example correction="verstanden">Er hat das Thema <marker>versanden</marker>.</example>
+                <example correction="verstanden">Er hat das Thema überhaupt nicht <marker>versanden</marker>.</example>
+                <example correction="verstanden">Er hat das Thema überhaupt nicht <marker>versanden</marker>, weil es ihn überfordert.</example>
+                <example>Er hat das Thema komplett <marker>versanden</marker> lassen.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="SCHALTEN_UND_WALTEN" name="schalten und walten">
             <rule>
                 <pattern>
