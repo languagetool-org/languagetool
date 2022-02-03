@@ -41606,6 +41606,26 @@ O Rui vai correr o risco para tentar vencer. → O Rui vai arriscar para tentar 
 	</rulegroup>
 
 
+	<!-- CORRIGIR ERROS/FALHAS corrigir imprecisões -->
+    <rule id='CORRIGIR_ERROS_FALHAS_IMPRECISÕES' name="Corrigir erros/falhas → Corrigir imprecisões" type="style">
+	<!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-02-03 (1-JAN-2022+)      -->
+	<!--
+Vou corrigir pequenos erros no texto. → Vou corrigir pequenas imprecisões no texto.
+Vou corrigir alguns erros no texto. → Vou corrigir algumas imprecisões no texto.
+	-->
+      <pattern>
+		  <token regexp='no' inflected='yes'>corrigir</token>
+		  <token regexp='yes' inflected='yes'>&adverbios_de_intensidade;|algum|inúmero|pequeno</token>
+		  <marker>
+			<token regexp='yes'>erros|falhas</token>
+		  </marker>
+      </pattern>
+	  <message>Se for um texto académico/científico, pondere empregar o termo 'imprecisão'.</message>
+	  <example type='correct'>Vou corrigir algumas <marker>imprecisões</marker> no texto.</example>
+	  <example type='incorrect'>Vou corrigir algumas <marker>falhas</marker> no texto.</example>
+    </rule>
+
+
 	<!-- PARA SABER QUAL A para delinear/determinar a -->
     <rule id='DELINEAR_DETERMINAR' name="Saber qual a → delinear/determinar a">
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-19 (Checked/Enhanced) (1-JAN-2022+)      -->
