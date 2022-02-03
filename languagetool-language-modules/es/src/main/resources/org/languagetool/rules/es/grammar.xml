@@ -215,6 +215,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>con</token>
                     <token case_sensitive="yes">Julio</token>
                 </antipattern>
+                <antipattern>
+                    <token regexp="yes">cariño|amistad|amor</token>
+                    <token>de</token>
+                    <token case_sensitive="yes">Julio</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes" case_sensitive="yes">&meses_ano_may;</token>
@@ -2633,7 +2638,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token regexp="yes">&diacritics_02;</token>
-                <token postag="PI.*|_GN_.*" postag_regexp="yes"/>
+                <token postag="PI.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">&diacritics_02;</token>
+                <and>
+                    <token postag="_GN_.*" postag_regexp="yes"/>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </and>
             </antipattern>
             <antipattern>
                 <token>no</token>
@@ -2660,6 +2672,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Ejército"><marker>Ejercito</marker> del aire.</example>
             <example correction="género"><marker>genero</marker> gramatical</example>
             <example correction="Catálogo">CD <marker>Catalogo</marker> 2015.</example>
+            <example correction="Ejército"><marker>Ejercito</marker> Nacional Mexicano.</example>
             <example>Ejercito la mente jugando al ajedrez.</example>
             <example>Maquina la destrucción del planeta.</example>
             <example>Battle maquina algo.</example>
@@ -24886,7 +24899,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Pocos días después, todo estaba resuelto.</example>
             <example>Después del descanso, siguió la reunión.</example>
         </rule>
-        <rule id="REP_ANTES" name="repetición: antes" min_prev_matches="2" default="temp_off">
+        <rule id="REP_ANTES" name="repetición: antes" min_prev_matches="2">
             <antipattern>
                 <token>antes</token>
                 <token regexp="yes">de|del|que</token>
