@@ -23,7 +23,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.Experimental;
 import org.languagetool.Language;
+import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
@@ -60,6 +62,7 @@ public abstract class AbstractPatternRule extends Rule {
   protected String filterArgs;
   protected String message;
   protected String sourceFile = null;
+  protected RuleMatch.Type type = null; // allow setting custom match types without relying on IssueType
 
   private final String id;
   private final String description;
@@ -336,6 +339,37 @@ public abstract class AbstractPatternRule extends Rule {
    */
   String getShortMessage() {
   	return StringUtils.EMPTY;
+  }
+
+  /**
+   * Determines the match type, based on the type variable if set (to allow overriding) or {@link org.languagetool.rules.Rule#getLocQualityIssueType()}
+   * @since 5.7
+   * @return The match type for the matches created by this rule
+   */
+  @Nullable
+  @Experimental
+  public RuleMatch.Type getType() {
+    if (type == null) {
+      ITSIssueType issueType = getLocQualityIssueType();
+      if (issueType == ITSIssueType.Style || issueType == ITSIssueType.LocaleViolation || issueType == ITSIssueType.Register) {
+        // interpret the issue type - this is what the clients have done so far before there was RuleMatch.Type
+        return RuleMatch.Type.Hint;
+      } else {
+        // default type as defined in RuleMatch
+        return RuleMatch.Type.Other;
+      }
+    }
+    return type;
+  }
+
+  /**
+   * Allows overriding the match type, otherwise determined by {@link org.languagetool.rules.Rule#getLocQualityIssueType()}
+   * @since 5.7
+   * @param type the desired match type
+   */
+  @Experimental
+  public void setType(RuleMatch.Type type) {
+    this.type = type;
   }
 
 }

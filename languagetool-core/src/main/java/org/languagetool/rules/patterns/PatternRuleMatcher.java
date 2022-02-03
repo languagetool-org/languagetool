@@ -43,15 +43,11 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
 
   private static final Map<String,Integer> currentlyActiveRules = new ConcurrentHashMap<>();
 
-  //private static final Logger logger = LoggerFactory.getLogger(PatternRuleMatcher.class);
-  private static final String SUGGESTION_START_TAG = "<suggestion>";
-  private static final String SUGGESTION_END_TAG = "</suggestion>";
-
   private static final String allowedChars = "[^<>()]*?";
   private static final Pattern SUGGESTION_PATTERN_SUPPRESS = Pattern
-      .compile(SUGGESTION_START_TAG + PatternRuleHandler.PLEASE_SPELL_ME 
+      .compile(RuleMatch.SUGGESTION_START_TAG + PatternRuleHandler.PLEASE_SPELL_ME
           + allowedChars + "(\\(" + allowedChars + "\\)|" + MISTAKE + ")" + allowedChars  
-          + SUGGESTION_END_TAG);
+          + RuleMatch.SUGGESTION_END_TAG);
 
   private final boolean useList;
   //private final Integer slowMatchThreshold;
@@ -155,8 +151,8 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
     }
     int fromPos = tokens[firstMarkerMatchToken].getStartPos();
     // FIXME: this is fishy, assumes that comma should always come before whitespace:
-    if (firstMarkerMatchToken >= 1 && (errMessage.contains(SUGGESTION_START_TAG + ",") 
-        || suggestionsOutMsg.contains(SUGGESTION_START_TAG + ","))) {
+    if (firstMarkerMatchToken >= 1 && (errMessage.contains(RuleMatch.SUGGESTION_START_TAG + ",")
+        || suggestionsOutMsg.contains(RuleMatch.SUGGESTION_START_TAG + ","))) {
       fromPos = tokens[firstMarkerMatchToken - 1].getStartPos()
           + tokens[firstMarkerMatchToken - 1].getToken().length();
     }
@@ -168,16 +164,12 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
     if (fromPos < toPos) { // this can happen with some skip="-1" when the last token is not matched
       // if the message is "suppress_misspelled" and there are no suggestions,
       // then do not create the rule match
-      if (!(errMessage.contains(PatternRuleHandler.PLEASE_SPELL_ME) && !errMessage.contains(SUGGESTION_START_TAG)
-          && !suggestionsOutMsg.contains(SUGGESTION_START_TAG))) {
+      if (!(errMessage.contains(PatternRuleHandler.PLEASE_SPELL_ME) && !errMessage.contains(RuleMatch.SUGGESTION_START_TAG)
+          && !suggestionsOutMsg.contains(RuleMatch.SUGGESTION_START_TAG))) {
         String clearMsg = errMessage.replaceAll(PatternRuleHandler.PLEASE_SPELL_ME, "").replaceAll(MISTAKE, "");
         RuleMatch ruleMatch = new RuleMatch(rule, sentence, fromPos, toPos, tokens[firstMatchToken].getStartPos(), tokens[lastMatchToken].getEndPos(),
                 clearMsg, shortErrMessage, startsWithUppercase, suggestionsOutMsg);
-        ITSIssueType issueType = ruleMatch.getRule().getLocQualityIssueType();
-        if (issueType == ITSIssueType.Style || issueType == ITSIssueType.LocaleViolation || issueType == ITSIssueType.Register) {
-          // interpret the issue type - this is what the clients have done so far before there was RuleMatch.Type
-          ruleMatch.setType(RuleMatch.Type.Hint);
-        }
+        ruleMatch.setType(rule.getType());
         if (rule.getFilter() != null) {
           RuleFilterEvaluator evaluator = new RuleFilterEvaluator(rule.getFilter());
           AnalyzedTokenReadings[] patternTokens = Arrays.copyOfRange(tokens, firstMatchToken, lastMatchToken + 1);
@@ -198,7 +190,7 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
   private boolean matchPreservesCase(List<Match> suggestionMatches, String msg) {
     if (suggestionMatches != null && !suggestionMatches.isEmpty()) {
       //PatternRule rule = (PatternRule) this.rule;
-      int sugStart = msg.indexOf(SUGGESTION_START_TAG) + SUGGESTION_START_TAG.length();
+      int sugStart = msg.indexOf(RuleMatch.SUGGESTION_START_TAG) + RuleMatch.SUGGESTION_START_TAG.length();
       if (msg.contains(PatternRuleHandler.PLEASE_SPELL_ME)) {
         sugStart += PatternRuleHandler.PLEASE_SPELL_ME.length();
       }
@@ -353,7 +345,7 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
     Matcher matcher = SUGGESTION_PATTERN_SUPPRESS.matcher(result);
     result = matcher.replaceAll("");
     // remove the remaining tags <pleasespellme/> in suggestions but not in the message
-    result = result.replaceAll(SUGGESTION_START_TAG + PatternRuleHandler.PLEASE_SPELL_ME, SUGGESTION_START_TAG);
+    result = result.replaceAll(RuleMatch.SUGGESTION_START_TAG + PatternRuleHandler.PLEASE_SPELL_ME, RuleMatch.SUGGESTION_START_TAG);
     return result;
   }
 
@@ -364,24 +356,24 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
     String suggestionLeft = "";
     String suggestionRight = "";
     String rightSideNew = rightSide;
-    int sPos = leftSide.lastIndexOf(SUGGESTION_START_TAG);
+    int sPos = leftSide.lastIndexOf(RuleMatch.SUGGESTION_START_TAG);
     if (sPos >= 0) {
-      suggestionLeft = leftSide.substring(sPos + SUGGESTION_START_TAG.length());
+      suggestionLeft = leftSide.substring(sPos + RuleMatch.SUGGESTION_START_TAG.length());
     }
     if (StringTools.isEmpty(suggestionLeft)) {
       errorMessage = leftSide;
     } else {
-      errorMessage = leftSide.substring(0, leftSide.lastIndexOf(SUGGESTION_START_TAG)) + SUGGESTION_START_TAG;
+      errorMessage = leftSide.substring(0, leftSide.lastIndexOf(RuleMatch.SUGGESTION_START_TAG)) + RuleMatch.SUGGESTION_START_TAG;
     }
-    int rPos = rightSide.indexOf(SUGGESTION_END_TAG);
+    int rPos = rightSide.indexOf(RuleMatch.SUGGESTION_END_TAG);
     if (rPos >= 0) {
       suggestionRight = rightSide.substring(0, rPos);
     }
     if (!StringTools.isEmpty(suggestionRight)) {
-      rightSideNew = rightSide.substring(rightSide.indexOf(SUGGESTION_END_TAG));
+      rightSideNew = rightSide.substring(rightSide.indexOf(RuleMatch.SUGGESTION_END_TAG));
     }
-    int lastLeftSugEnd = leftSide.indexOf(SUGGESTION_END_TAG);
-    int lastLeftSugStart = leftSide.lastIndexOf(SUGGESTION_START_TAG);
+    int lastLeftSugEnd = leftSide.indexOf(RuleMatch.SUGGESTION_END_TAG);
+    int lastLeftSugStart = leftSide.lastIndexOf(RuleMatch.SUGGESTION_START_TAG);
     StringBuilder sb = new StringBuilder();
     sb.append(errorMessage);
     for (int z = 0; z < matches.length; z++) {
@@ -389,9 +381,9 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
       sb.append(matches[z]);
       sb.append(suggestionRight);
       if (z < matches.length - 1 && lastLeftSugEnd < lastLeftSugStart) {
-        sb.append(SUGGESTION_END_TAG);
+        sb.append(RuleMatch.SUGGESTION_END_TAG);
         sb.append(", ");
-        sb.append(SUGGESTION_START_TAG);
+        sb.append(RuleMatch.SUGGESTION_START_TAG);
       }
     }
     sb.append(rightSideNew);
