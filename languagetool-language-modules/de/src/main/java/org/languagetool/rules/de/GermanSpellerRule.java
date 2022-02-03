@@ -2286,6 +2286,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     switch (word) {
       case "daß": return topMatch("dass");
       case "Daß": return topMatch("Dass");
+      case "bescheid": return topMatch("Bescheid");
     }
     return Collections.emptyList();
   }
