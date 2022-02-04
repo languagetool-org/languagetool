@@ -746,6 +746,20 @@ RB => Règles Brutes
     </rule>
     <!-- END: verb + pronoun-->
     <!-- CATEGORY: Elements dans périphrases verbals, exceptions -->
+    <rule id="AI_Y_POINT" name="ai Y points">
+        <pattern>
+            <token regexp="yes" inflected="yes">avoir</token>
+            <token postag="A|R [mf] .*" postag_regexp="yes" min="0" max="3"/>
+            <marker>
+                <token postag="Y|D.*" postag_regexp="yes"/>
+                <and>
+                    <token postag="V.* ppa.*" postag_regexp="yes"/>
+                    <token postag="N.*" postag_regexp="yes"/>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="V ppa.*"/>
+    </rule>
     <rule id="JUSTE_TOUS" name="juste tous">
         <pattern>
             <token regexp="yes" inflected="yes">avoir|être|puovoir|vouloir</token>
@@ -2290,6 +2304,20 @@ RB => Règles Brutes
             <token postag="V.* inf" postag_regexp="yes"/>
         </pattern>
         <disambig action="remove" postag="V.*"/>
+    </rule>
+    <rule id="A_D_N" name="brosse">
+        <!-- with agreement error -->
+        <pattern>
+            <marker>
+                <token>à</token>
+            </marker>
+            <token postag="D.*" postag_regexp="yes"/>
+            <and>
+            <token postag="N.*" postag_regexp="yes"/>
+                <token postag="V ppa.*" postag_regexp="yes"/>
+            </and>
+        </pattern>
+        <disambig action="remove" postag="V ppa.*"/>
     </rule>
     <rule id="PARTIE_PRENANTE" name="partie prenante">
         <!-- with agreement error -->
