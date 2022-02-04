@@ -213,25 +213,20 @@ public class PatternRule extends AbstractTokenBasedRule {
   @Override
   public final RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     if (canBeIgnoredFor(sentence)) return RuleMatch.EMPTY_ARRAY;
+    
+    RuleMatcher matcher = new PatternRuleMatcher(this, useList);
+    return checkForAntiPatterns(sentence, matcher, matcher.match(sentence));
 
-    try {
-      RuleMatcher matcher = new PatternRuleMatcher(this, useList);
-      return checkForAntiPatterns(sentence, matcher);
-    } catch (IOException e) {
-      throw new IOException("Error analyzing sentence: '" + sentence + "'", e);
-    } catch (Exception e) {
-      throw new RuntimeException("Error analyzing sentence: '" + sentence + "' with rule " + getFullId(), e);
-    }
   }
 
-  private RuleMatch[] checkForAntiPatterns(AnalyzedSentence sentence, RuleMatcher matcher) throws IOException {
-    if ( /*matches != null && matches.length > 0 &&*/ !getAntiPatterns().isEmpty()) {
+  private RuleMatch[] checkForAntiPatterns(AnalyzedSentence sentence, RuleMatcher matcher, RuleMatch[] matches) throws IOException {
+    if (matches != null && matches.length > 0 && !getAntiPatterns().isEmpty()) {
       AnalyzedSentence immunized = getSentenceWithImmunization(sentence);
       if (Arrays.stream(immunized.getTokens()).anyMatch(AnalyzedTokenReadings::isImmunized)) {
         return matcher.match(immunized);
       }
     }
-    return matcher.match(sentence);
+    return matches;
   }
 
   List<Integer> getElementNo() {
