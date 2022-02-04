@@ -5342,28 +5342,6 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="remove" postag="(SUB|VER|ADV).*"/>
     </rule>
 
-    <rulegroup id="ROYAL_KEIN_NOMEN" name="'Royal' kein Nomen">
-        <rule>
-            <pattern>
-                <marker>
-                    <token>Royal</token>
-                </marker>
-                <token regexp="yes">Air|Alberts?|Navy|Societ.*|Canadian|British|Geographical|Institutions?|Miles?|Caribbean|Vikings?|Nedlloyd|Parks?|Shakespeare</token>
-            </pattern>
-            <disambig action="remove" postag="SUB.*"/>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token>Royal</token>
-                </marker>
-                <token postag="UNKNOWN" regexp="yes">.*[a-z].*</token>
-            </pattern>
-            <disambig action="remove" postag="SUB.*"/>
-        </rule>
-    </rulegroup>
-
-
     <rule id="DAILY_WEEKLY_KEIN_NOMEN" name="'Daily' kein Nomen">
         <pattern>
             <marker>
