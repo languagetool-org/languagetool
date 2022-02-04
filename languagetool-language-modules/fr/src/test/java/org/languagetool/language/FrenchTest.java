@@ -57,5 +57,20 @@ public class FrenchTest {
     assertEquals(lang.toAdvancedTypography("C'est l'\"homme\"."), "C’est l’« homme ».");
     assertEquals(lang.toAdvancedTypography("Vouliez-vous dire <suggestion>50\u00a0$</suggestion>?"), "Vouliez-vous dire «\u00a050\u00a0$\u00a0»\u202f?");
   }
+  
+  @Test
+  public void testRules() throws IOException {
+    Language lang = new French();
+    JLanguageTool lt = new JLanguageTool(lang);
+   
+    // In some (unclear) circumstances, matches in these sentences and rules are not detected by tests on XML examples #6300
+    
+    // FRENCH_WORD_REPEAT_RULE[2]
+    List<RuleMatch> matches = lt.check("Fête des mères et remise de l'insigne \" Morts pour la France \".");
+    assertEquals(0, matches.size());
+    // ACCORD_V_QUESTION2[1]
+    List<RuleMatch> matches2 = lt.check("D'autre part je ne soutiens pas du tout le système actuel en france mais je sais qu'au train où l'on va que notre prochaine étape sera celle de la Grèce ou de l'Argentine.");
+    assertEquals(1, matches2.size());
+  }
 
 }
