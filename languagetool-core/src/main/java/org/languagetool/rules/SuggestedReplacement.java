@@ -160,7 +160,11 @@ public class SuggestedReplacement {
   }
 
   public static List<SuggestedReplacement> topMatch(String word) {
-    SuggestedReplacement sugg = new SuggestedReplacement(word);
+    return topMatch(word, null);
+  }
+
+  public static List<SuggestedReplacement> topMatch(String word, String shortDesc) {
+    SuggestedReplacement sugg = new SuggestedReplacement(word, shortDesc);
     sugg.setConfidence(SpellingCheckRule.HIGH_CONFIDENCE);
     return singletonList(sugg);
   }

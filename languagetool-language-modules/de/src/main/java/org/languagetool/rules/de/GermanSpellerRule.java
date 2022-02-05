@@ -2287,6 +2287,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "daß": return topMatch("dass");
       case "Daß": return topMatch("Dass");
       case "bescheid": return topMatch("Bescheid");
+      case "Triologie": return topMatch("Trilogie", "Werk (z.B. Film), das aus drei Teilen besteht");
     }
     return Collections.emptyList();
   }
