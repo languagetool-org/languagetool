@@ -122,6 +122,7 @@ public class ProhibitedCompoundRule extends Rule {
   private static final List<String> ignoreWords = Arrays.asList("Die", "De");
   private static final List<String> blacklistRegex = Arrays.asList(
     "stromkreis",  // vs. reis/reise
+    "Lande(basis|basen|region|gebiets?|gebieten?|regionen|betriebs?|betrieben?|offizieren?|bereichs?|bereichen?|einrichtung|einrichtungen|massen?|plans?|versuchs?|versuchen?)",  // vs. Landes
     "Model(vertrags?|verträgen?|erfahrung|erfahrungen|szene)",
     "(Raum|Surf|Jazz|Herbst|Gymnastik|Normal)schuhen?",
     "preis",  // Getränkepreis etc.
@@ -138,12 +139,6 @@ public class ProhibitedCompoundRule extends Rule {
     "Gra(ph|f)it"   // Grafit/Graphit
   );
   private static final Set<String> blacklist = new HashSet<>(Arrays.asList(
-          "Landeregion",  // vs. Landes
-          "Landeregionen",  // vs. Landes
-          "Landebetrieb",  // vs. Landes ("Start- und Landebetrieb")
-          "Landebetriebs",  // vs. Landes ("Start- und Landebetrieb")
-          "Landeoffiziere",  // vs. Landes
-          "Landeoffizieren",  // vs. Landes
           "Luftwert",  // vs. Lust
           "Luftwerte",  // vs. Lust
           "Luftwerts",  // vs. Lust
