@@ -178,14 +178,13 @@ class SingleCheck {
     //  make the method thread save
     MultiDocumentsHandler mDH = mDocHandler;
     DocumentCursorTools docCursor = this.docCursor;
-    DocumentCache docCache = new DocumentCache(this.docCache);
     if (isDisposed()) {
       return;
     }
     if (docCache == null || lt == null || nFPara < 0 || nFPara >= docCache.size()) {
       return;
     }
-//    List<ResultCache> paragraphsCache = this.paragraphsCache;
+    DocumentCache docCache = new DocumentCache(this.docCache);
     try {
 
       ResultCache oldCache = null;
