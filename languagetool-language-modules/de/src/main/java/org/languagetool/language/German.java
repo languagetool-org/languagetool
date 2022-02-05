@@ -397,7 +397,6 @@ public class German extends Language implements AutoCloseable {
       case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2": return -10;
       case "SAGT_RUFT": return -12; // prefer case rules, DE_VERBAGREEMENT, AI and speller
       case "GERMAN_WORD_REPEAT_RULE": return -13; // prefer SAGT_RUFT
-      case "INF_VER_MOD": return -13; // prefer case, spelling and AI rules
       case "BEI_VERB": return -14; // prefer case, spelling and AI rules
       case "MODALVERB_FLEKT_VERB": return -14; // prefer case, spelling and AI rules
       case "TOO_LONG_PARAGRAPH": return -15;
@@ -414,6 +413,7 @@ public class German extends Language implements AutoCloseable {
       case "VERB_FEM_SUBST": return -52; // prefer comma rules (including AI)
       case "DEF_ARTIKEL_INDEF_ADJ": return -52; // less prio than DE_AGREMEENT and less prio than most comma rules
       case "PRP_ADJ_AGREEMENT": return -52; // less prio than DE_AGREMEENT and less prio than most comma rules
+      case "INF_VER_MOD": return -53; // prefer case, spelling and AI rules
       case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ": return -53;
       case "VERB_IST": return -53; // less prio than comma rules and spell checker
       case "WAR_WERDEN": return -53; // less prio than comma rules

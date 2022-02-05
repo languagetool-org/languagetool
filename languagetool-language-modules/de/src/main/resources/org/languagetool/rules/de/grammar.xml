@@ -1228,24 +1228,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="INF_VER_MOD" name="Fehlender Infinitiv vor modalem Hilfsverb (sage[n] durfte)">
             <antipattern>
-                <token regexp="yes" skip="4">wo|wann|was|wie|wenn</token>
+                <token regexp="yes" skip="4">wo|wann|was|wie|wenn|bevor|ehe|nachdem</token>
                 <token regexp="yes" skip="3">ichs?</token>
                 <token postag="VER:.*1:SIN:KJ1:.+" postag_regexp="yes" />
                 <token postag="VER:MOD:[12]:.+" postag_regexp="yes" />
             </antipattern>
-            <antipattern><!-- was bitte soll daran ... -->
-                <token regexp="yes">was|wer|wo|wann|wie</token>
-                <token>bitte</token>
-            </antipattern>
             <antipattern><!-- ah danke -->
                 <token postag="INJ|SENT_START|PKT" postag_regexp="yes" />
                 <token>danke</token>
+            </antipattern>
+            <antipattern>
+                <token postag="VER:.*1:SIN:KJ1:.+" postag_regexp="yes" />
+                <token postag="VER:MOD:1:.+" postag_regexp="yes" />
+                <token>ich</token>
+            </antipattern>
+            <antipattern>
+                <token postag="VER:.*1:SIN:KJ1:.+" postag_regexp="yes" />
+                <token>konnte</token>
+                <token regexp="yes">mich|uns|man</token>
+            </antipattern>
+            <antipattern>
+                <token postag="VER:.*1:SIN:KJ1:.+" postag_regexp="yes" />
+                <token regexp="yes">konnten|sollten|mussten</token>
+                <token regexp="yes">wir</token>
+            </antipattern>
+            <antipattern>
+                <token>nur</token>
+                <token>wage</token><!-- "vage" TODO -->
             </antipattern>
             <pattern>
                 <marker>
                     <token postag="VER:.*1:SIN:KJ1:.+" postag_regexp="yes">
                         <exception postag="SENT_START" scope="previous"/>
                         <exception postag="A(DJ|RT):.+|SUB:.+|PRO:POS:.+" postag_regexp="yes"/>
+                        <exception>bitte</exception>
                     </token>
                 </marker>
                 <token postag="VER:MOD:[12]:.+" postag_regexp="yes"><exception postag="VER:INF:NON"/></token>
@@ -8419,6 +8435,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="vage">Ich erinnere mich <marker>wage</marker> daran.</example>
                 <example correction="vage">Er erinnert mich <marker>wage</marker> an meinen Onkel.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token skip="5" case_sensitive="yes">wage</token>
+                    </marker>
+                    <token regexp="yes" skip="3">(dar)?an</token>
+                    <token inflected="yes">erinnern</token>
+                </pattern>
+                <message>&verw;Meinten Sie <suggestion>vage</suggestion> (=unklar, unpräzise)?</message>
+                <short>&verw;</short>
+                <example correction="vage">Nur <marker>wage</marker> kann ich mich daran erinnern.</example>
+            </rule>
             <rule>
                 <antipattern>
                     <token>Zünglein</token>
@@ -8438,6 +8466,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="vage">Ich habe da eine <marker>wage</marker> Ahnung.</example>
                 <example>Eine <marker>vage</marker> Entscheidung.</example>
                 <example>Wenn die Wage streikt, muss man abnehmen.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>wage</token>
+                    <token regexp="yes">ich|sie|er|das|der|die|[smd]ein.*</token>
+                </antipattern>
+                <pattern>
+                    <token>nur</token>
+                    <marker>
+                        <token case_sensitive="yes">wage</token>
+                    </marker>
+                </pattern>
+                <message>&verw;Meinten Sie <suggestion>vage</suggestion> (=unklar, unpräzise)?</message>
+                <short>&verw;</short>
+                <example correction="vage">Nur <marker>wage</marker> kann ich mich daran erinnern.</example>
             </rule>
         </rulegroup>
         <rulegroup id="WAGE_WAAGE" name="wage/Waage">
@@ -12135,6 +12178,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rule id="ZU_GLEICH" name="zu gleich (zugleich)" default="temp_off">
+            <antipattern>
+                <token regexp="yes">Vergleich|Unterschied</token>
+                <token>zu</token>
+            </antipattern>
+            <antipattern>
+                <token skip="3">von</token>
+                <token>zu</token>
+            </antipattern>
+            <antipattern>
+                <token>zu</token>
+                <token>gleich</token>
+                <token postag="PRO:IND.*|ADJ.*|PA[12].*|UNKNOWN" postag_regexp="yes" regexp="yes">.*[a-z].*</token>
+            </antipattern>
+            <pattern>
+                <token case_sensitive="yes">zu</token>
+                <token>gleich</token>
+            </pattern>
+            <message>Meinten Sie das Adverb <suggestion>zugleich</suggestion>?</message>
+            <example correction="zugleich">Er ist <marker>zu gleich</marker> auch mein bester Freund.</example>
+            <example>1723 kam es auf dem Marktplatz zu gleich mehreren Hinrichtungen.</example>
+        </rule>
         <rule id="JEDEN_FALLS" name="jeden Falls (jedenfalls)">
             <antipattern>
                 <token regexp="yes">eines|auf</token>
@@ -25094,7 +25159,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
-        <rule id="AUS_DER_PATSCHE" name="patsche (Patsche)" default="temp_off">
+        <rule id="AUS_DER_PATSCHE" name="patsche (Patsche)">
             <antipattern>
                 <token>patsche</token>
                 <token>ich</token>
@@ -53090,15 +53155,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="VIELZAHL_PLUS_SINGULAR" name="'eine Vielzahl von Möglichkeit (Möglichkeiten)' etc. (falscher Singular)">
             <short>Müsste dieses Wort im Plural stehen?</short>
+            <antipattern>
+                <token>Blatt</token>
+                <token regexp="yes">.*Papier</token>
+            </antipattern>
+            <antipattern>
+                <token>Laib</token>
+                <token>Brot</token>
+            </antipattern>
+            <antipattern>
+                <token>Mole</token>
+                <token>Bor</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes">d(ie|er)|eine|ganze</token>
                     <token regexp="yes">Vielzahl|Reihe|Fülle</token>
                     <token>von</token>
                     <marker>
-                        <token postag="SUB:DAT:SIN:.+" postag_regexp="yes"><exception postag="SUB:(.+):PLU:.+" postag_regexp="yes"/><exception regexp="yes">.*teilen|Übereinkommen|Flora</exception></token>
+                        <token postag="SUB:DAT:SIN:.+" postag_regexp="yes">
+                            <exception postag="SUB:(.+):PLU:.+|.+:SUB.*INF" postag_regexp="yes"/>
+                            <exception regexp="yes">.*teilen|Übereinkommen|Flora</exception>
+                        </token>
                     </marker>
-                    <token><exception postag="SUB:.+:PLU:.+" postag_regexp="yes"/><exception postag="UNKNOWN"/></token>
+                    <token><exception postag="SUB:.+:PLU:.+" postag_regexp="yes"/><exception postag="UNKNOWN" regexp="yes">.*[a-z].*</exception></token>
                 </pattern>
                 <message>Möglicher Tippfehler: Müsste dieses Wort im Plural stehen?</message>
                 <suggestion><match no="4" postag=".*:PLU:.*" postag_regexp="yes"/></suggestion>
@@ -53109,9 +53189,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Wir haben eine Vielzahl von <marker>Personal</marker> Firewalls im Einsatz.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token postag="SUB:.+:SIN:.+" postag_regexp="yes" />
+                    <token postag="SUB:.+:SIN:.+" postag_regexp="yes" />
+                    <token postag="SUB.*PLU.*|UNKNOWN" postag_regexp="yes" />
+                </antipattern>
                 <pattern>
                     <token regexp="yes">die|ein</token>
-                    <token>paar</token>
+                    <token case_sensitive="yes">paar</token>
                     <marker>
                         <token postag="SUB:.+:SIN:.+" postag_regexp="yes">
                             <exception postag=".+:ADJ" postag_regexp="yes"/>
@@ -53119,12 +53204,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <exception regexp="yes">Bier|Wasser|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Fuß|Fuss|Paar|Mark|Reichsmark|Rentenmark|Pfund|Dollar|Euro|Stück|Grad|Gramm|Kilo.*|Milli.+|Mann|Schuss|Zoll|Bar|Promille|Barrel|Schilling</exception>
                         </token>
                     </marker>
-                    <token><exception postag="SUB:.+:PLU:.+" postag_regexp="yes"/></token>
+                    <token><exception postag="SUB:.+:PLU:.+" postag_regexp="yes"/><exception postag="UNKNOWN" regexp="yes">.*[a-z].*</exception></token>
                 </pattern>
                 <message>Möglicher Tippfehler: Müsste dieses Wort im Plural stehen?</message>
                 <suggestion><match no="3" postag=".*:PLU:.*" postag_regexp="yes"/></suggestion>
                 <example correction="Eier|Eiern">Wir haben ein paar <marker>Ei</marker> gegessen.</example>
                 <example>Wir haben ein paar <marker>Game</marker> Boys.</example>
+                <example>Dazu braucht ein Paar Zeit und eventuell Unterstützung.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -53152,16 +53238,57 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">Anfang|Mitte|Ende|&monate;</token>
                     <token regexp="yes">\d\d\d\d</token>
                 </antipattern>
+                <antipattern>
+                    <token regexp="yes">(zwei-?|drei-?)?viertel|halb</token>
+                    <token regexp="yes" min="0">nach|vor</token>
+                    <token postag="ZAL" />
+                </antipattern>
+                <antipattern>
+                    <token postag="SUB:.+:SIN:.+" postag_regexp="yes" />
+                    <token regexp="yes">fähigen|basierten|unterstützten</token>
+                    <token postag="SUB.*PLU.*|UNKNOWN" postag_regexp="yes" />
+                </antipattern>
+                <antipattern>
+                    <token postag="SUB:.+:SIN:.+" postag_regexp="yes" />
+                    <token postag="SUB:.+:SIN:.+" postag_regexp="yes" />
+                    <token postag="SUB.*PLU.*|UNKNOWN" postag_regexp="yes" />
+                </antipattern>
+                <antipattern><!-- Tom lernte erst mit dreißig Fahren. -->
+                    <token>mit</token>
+                    <token postag="ZAL" />
+                    <token postag="SUB.*INF" postag_regexp="yes" />
+                </antipattern>
+                <antipattern><!-- Tom lernte erst mit dreißig Französisch. -->
+                    <token>mit</token>
+                    <token postag="ZAL" />
+                    <token postag="SUB.*" postag_regexp="yes" />
+                    <token inflected="yes">lernen</token>
+                </antipattern>
+                <antipattern><!-- Tom lernte erst mit dreißig Französisch. -->
+                    <token inflected="yes" skip="5">lernen</token>
+                    <token>mit</token>
+                    <token postag="ZAL" />
+                    <token postag="SUB.*" postag_regexp="yes" />
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">Vormittag|Abend|Mittag|Nachmittag|Morgen|Nacht</token>
+                    <token>um</token>
+                    <token min="0" regexp="yes">halb|Punkt</token>
+                    <token postag="ZAL" />
+                </antipattern>
                 <pattern>
-                    <token postag="ZAL"><exception postag="ART:.*" postag_regexp="yes"/><exception regexp="yes">erstens|zweitens|drittens|null</exception></token>
+                    <token postag="ZAL"><exception postag="ART:.*" postag_regexp="yes"/><exception regexp="yes">erstens|zweitens|drittens|null|eins</exception></token>
                     <marker>
                         <token postag="SUB:.+:SIN:.+" postag_regexp="yes">
                             <exception postag=".+:ADJ" postag_regexp="yes"/>
                             <exception postag="SUB:(.+):PLU:.+" postag_regexp="yes"/>
-                            <exception regexp="yes">Dank|Eis|Tee|Kaffee|Bier|Wasser|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Fuß|Fuss|Paar|Mark|D-?Mark|Reichsmark|Rentenmark|Pfund|Dollar|US-Dollar|Euro|Pfennig|Stück|Grad|Gramm|Kilo.*|Milli.+|Mann|Schuss|Uhr|Zoll|Bar|Promille|Barrel|Schilling|Sigma|Charisma|Komma</exception>
+                            <exception regexp="yes">Balls|Dank|Eis|Tee|Kaffee|Bier|Wasser|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Fuß|Fuss|Paar|Mark|D-?Mark|Reichsmark|Rentenmark|Pfund|Dollar|US-Dollar|DM|Euro|Pfennig|Stück|Goldmark|Grad|Gramm|Kilo.*|Milli.+|.+beamte|Mann|Schuss|Uhr|Zoll|Bar|Promille|Barrel|Schilling|Sigma|Charisma|Komma|Donnerwetter|Fieber</exception>
                         </token>
                     </marker>
-                    <token><exception postag="SUB:.+:PLU:.+|UNKNOWN" postag_regexp="yes"/></token>
+                    <token>
+                        <exception postag="SUB:.+:PLU:.+" postag_regexp="yes"/>
+                        <exception postag="UNKNOWN" regexp="yes">.*[a-z].*</exception>
+                    </token>
                 </pattern>
                 <message>Möglicher Tippfehler: Müsste dieses Wort im Plural stehen?</message>
                 <suggestion><match no="2" postag=".*:PLU:.*" postag_regexp="yes"/></suggestion>
@@ -53179,18 +53306,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Die Biene Maja ist die Hauptfigur in zwei Anfang des 20. Jahrhunderts erschienenen Romanen.</example>
                 <example>In Zahlen: fünf Komma acht.</example>
                 <example>Das waren etwa zehn US-Dollar.</example>
+                <example>Ich esse um viertel acht Abendbrot.</example>
+                <example>Tom lernte erst mit dreißig Fahren.</example>
+                <example>Pairing (paaren) der zwei Bluetooth fähigen Geräte, welche man miteinander verbinden möchte, durch und schon kann man Daten wie Musik, Videos, Bilder austauschen.</example>
+                <example>Ich esse Viertel nach sieben Abendbrot.</example>
                 <example>Sie haben null Bock und null Ahnung.</example>
+                <example>Diese Dame war heute Nachmittag um drei Zeugin eines Unfalls.</example>
                 <example>Seit mehr als zwei Jahren ist bekannt, dass nach Staffel acht Schluss ist.</example>
             </rule>
             <rule>
-                <antipattern>
-                    <token>Mole</token>
-                    <token>Bor</token>
-                </antipattern>
-                <antipattern>
-                    <token>Blatt</token>
-                    <token>Papier</token>
-                </antipattern>
                 <antipattern>
                     <token>von</token>
                     <token>denen</token>
@@ -53205,6 +53329,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">viele|etliche|einige|mehrere|zahlreiche</token>
                     <token postag="SUB:.+:SIN:.+" postag_regexp="yes"/>
                 </antipattern>
+                <antipattern>
+                    <token postag="SUB:.+:SIN:.+" postag_regexp="yes" />
+                    <token postag="SUB:.+:SIN:.+" postag_regexp="yes" />
+                    <token postag="SUB.*PLU.*|UNKNOWN" postag_regexp="yes" />
+                </antipattern>
+                <antipattern>
+                    <token>einige</token>
+                    <token>Vorsicht</token>
+                </antipattern>
+                <antipattern>
+                    <token>die</token>
+                    <token>viele</token>
+                    <token regexp="yes">Bewegung|Arbeit</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">(viele|etliche|einige|mehrere|zahlreiche)n?</token>
                     <marker>
@@ -53212,13 +53350,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <exception postag="SUB:AKK:SIN:MAS"/>
                             <exception postag=".+:ADJ" postag_regexp="yes"/>
                             <exception postag="SUB:(.+):PLU:.+|SUB:.+:INF|SUB:(GEN|DAT):.+" postag_regexp="yes"/>
-                            <exception regexp="yes">Arbeit|Hardware|Bewohner|Spannung|Bier|Unklarheit|Wassers?|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Paar|Stück|Fuß|Fuss|Grad|Gramm|Kilo.*|Milli.+|Mark|Reichsmark|Rentenmark|Zeit|Irritation|Pfund|Einwanderung|Auswanderung|Kritik|Literatur|Aufmerksamkeit|Verwirrung|Bar|Gold|Schlamms?|Schilling|Überredungskunst|Aufregung|Muße|Musse|Mitte|Erfahrung|Anstrengung|Mühe</exception>
+                            <exception regexp="yes">Arbeit|Hardware|Bewohner|Spannung|Bier|Unklarheit|Wassers?|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Paar|Stück|Fuß|Fuss|Grad|Gramm|Kilo.*|Milli.+|Mark|Reichsmark|Rentenmark|Zeit|Irritation|Pfund|Einwanderung|Auswanderung|Kritik|Literatur|Aufmerksamkeit|Verwirrung|Bar|Gold|Schlamms?|Schilling|Überredungskunst|Aufregung|Muße|Musse|Mitte|Erfahrung|Anstrengung|Mühe|Drachen</exception>
                             <exception regexp="yes" case_sensitive="yes">Dutzend|Hundert|Tausend</exception>
                             <exception scope="next">/</exception>
                         </token>
                     </marker>
                     <token>
                         <exception postag="SUB:.+:PLU:.+|ZUS|PA1:.+" postag_regexp="yes"/>
+                        <exception postag="UNKNOWN" regexp="yes">.*[a-z].*</exception>
                        <exception spacebefore="no" regexp="yes">'|\/</exception>
                     </token>
                 </pattern>
@@ -53237,6 +53376,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Diese Aktion, mit der zahlreiche Wissenschaftler die Idee...</example>
                 <example>Ausserdem habe ich einige Erfahrung in der Handhabung schwieriger Verhandlungen.</example>
                 <example>In den 1950ern kam es zu einem Dixieland-Revival, der einige Titel in die Spitze der Plattenverkäufe brachte.</example>
+                <example>Funktionsmodelle, Werkzeuge, Montagehilfen, Ersatzteile, Baugruppen und Gehäuse sind nur einige 3D Druck Anwendungsbereiche.</example>
             </rule>
             <rule>
                 <pattern>
@@ -53252,6 +53392,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Millionen">Es waren drei <marker>Million</marker> Menschen auf der Flucht.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp="yes">[BM]illion</token>
+                    <token postag="UNKNOWN" regexp="yes">.*[a-z].*</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">[0-9]+<exception>1</exception></token>
                     <marker>
@@ -53263,16 +53407,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Es waren eine <marker>Million</marker> Menschen auf der Flucht.</example>
                 <example correction="Millionen">Es waren 2 <marker>Million</marker> Menschen auf der Flucht.</example>
                 <example correction="Millionen">Es waren 12 <marker>Million</marker> Menschen auf der Flucht.</example>
+                <example>2006 veröffentlicht Brian Eno die DVD 77 Million Paintings mit einem generativen Computerprogramm.</example>
             </rule>
             <rule>
-                <antipattern>
-                    <token>Mole</token>
-                    <token>Bor</token>
-                </antipattern>
-                <antipattern>
-                    <token>Blatt</token>
-                    <token>Papier</token>
-                </antipattern>
                 <antipattern>
                     <token>von</token>
                     <token>denen</token>
@@ -53310,6 +53447,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token>
                        <exception postag="SUB:.+:PLU:.+|ZUS|PA1:.+" postag_regexp="yes"/>
+                       <exception postag="UNKNOWN" regexp="yes">.*[a-z].*</exception>
                        <exception spacebefore="no" regexp="yes">'|\/</exception>
                     </token>
                 </pattern>
@@ -61666,11 +61804,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token regexp="yes">äu(ß|ss)erst</token><!-- "äußerst schmackhaft" - not a verb in this context -->
                 <token postag="ADJ.*|PA[12].*" postag_regexp="yes" />
-            </antipattern>
-            <antipattern>
-                <token postag="(VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*)" postag_regexp="yes" skip="-1" />
-                <token regexp="yes" skip="-1">,|\.|:|\?|!|;|-|–|—|─|\)|\(|„|“|»|«|"|\*|und|oder|&amp;|…|→|•|=|weil|ob(wohl|gleich)?|da(mit|ss)?|indem|wenn|falls|während|bevor|nachdem|seitdem|so(bald|dass|fern|lange)|was|als|wie|bis|wer|wo|wohin|sondern|aber</token>
-                <token postag="VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes" />
             </antipattern>
             <pattern>
                 <token postag="(VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*)" postag_regexp="yes" skip="-1">
