@@ -845,7 +845,7 @@ class CaseRuleAntiPatterns {
     ),
     Arrays.asList(
       // Trennzeichen https://github.com/languagetool-org/languagetool/issues/1515
-      regex("▶︎|▶|▶️|→|•|★|⧪|⮞|✔︎|✓|✔️|✅|➡️|➔|⇨|☛|◼|◆|▪|■|☞|❤|✒︎|☑️|✗|✘|✖|➢|=|>|❏|›|❖|·|⬢|\\|"),
+      regex("▶︎|▶|▶️|→|•|★|⧪|⮞|✔︎|✓|✔️|✅|➡️|➔|⇨|☛|◼|◆|▪|■|☞|❤|✒︎|☑️|✗|✘|✖|➢|=|>|❏|›|❖|·|▲|◄|⬢|\\|"),
       regex(".*")
     ),
     Arrays.asList(
@@ -1199,12 +1199,12 @@ class CaseRuleAntiPatterns {
       csRegex("[a-zäöü…\\.!:;,\\?…\\)].*")
     ),
     Arrays.asList( // Ich habe noch Dringendes mitzuteilen
-      csRegex("Dringendes|Bares|Vertrautes|Positives|Negatives|Gelerntes|Neues|Altes|Besseres|Schlechteres|Schöneres|Schlimmeres"),
+      csRegex("Dringendes|Bares|Vertrautes|Positives|Negatives|Gelerntes|Neues|Altes|Besseres|Schlechteres|Schöneres|Schlimmeres|Zutreffendes|Gesehenes|Abgerissenes"),
       csRegex("[a-zäöü…\\.!,\\?…\\)].*")
     ),
     Arrays.asList( // Immer mehr Ältere erkranken daran
       csRegex("[a-zäöü…\\.,:;0-9\\/].*"),
-      csRegex("Ältere[rn]?|Jüngere[rn]?|Verwirrte[rn]?|Zuschauende[rn]?|Angeklagte[rn]?|Befragte[rn]?|Beschuldigte[rn]?|Referierende[rn]?|Moderierende[rn]?|Dunkelhäutige[rn]?|Verantwortliche[rn]?|Alleinlebende[rn]?|Ungeübte[rn]?"),
+      csRegex("Ältere[rn]?|Jüngere[rn]?|Verwirrte[rn]?|Zuschauende[rn]?|Angeklagte[rn]?|Befragte[rn]?|Beschuldigte[rn]?|Referierende[rn]?|Moderierende[rn]?|Dunkelhäutige[rn]?|Verantwortliche[rn]?|Alleinlebende[rn]?|Ungeübte[rn]?|Außerirdische[rn]?|Berittene[rn]?|Heranwachsende[rn]?"),
       csRegex("[a-zäöü…\\.!:;,\\?…\\)\\*\\(].*")
     ),
     Arrays.asList( // Im Folgenden soll 
@@ -1250,6 +1250,12 @@ class CaseRuleAntiPatterns {
     Arrays.asList( // [Weiterlesen]
       token("["),
       csRegex("[A-ZÄÖÜ].+")
+    ),
+    Arrays.asList( // Beim Hoch- und Runtertragen
+      regex("beim|zum"),
+      csRegex("[A-ZÄÖÜ].+-"),
+      csRegex("und|oder|&|/"),
+      csRegex("[A-ZÄÖÜ].+n")
     )
   );
 

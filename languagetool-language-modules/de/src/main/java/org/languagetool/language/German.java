@@ -394,9 +394,9 @@ public class German extends Language implements AutoCloseable {
       case "SAGT_SAGT": return -9; // higher pro than KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2 and GERMAN_WORD_REPEAT_RULE
       case "PUNKT_ENDE_ABSATZ": return -10;  // should never hide other errors, as chance for a false alarm is quite high
       case "KOMMA_VOR_RELATIVSATZ": return -10;
-      case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2": return -10;
-      case "SAGT_RUFT": return -12; // prefer case rules, DE_VERBAGREEMENT, AI and speller
-      case "GERMAN_WORD_REPEAT_RULE": return -13; // prefer SAGT_RUFT
+      case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2": return -12;
+      case "SAGT_RUFT": return -13; // prefer case rules, DE_VERBAGREEMENT, AI and speller
+      case "GERMAN_WORD_REPEAT_RULE": return -14; // prefer SAGT_RUFT
       case "BEI_VERB": return -14; // prefer case, spelling and AI rules
       case "MODALVERB_FLEKT_VERB": return -14; // prefer case, spelling and AI rules
       case "TOO_LONG_PARAGRAPH": return -15;
@@ -410,13 +410,13 @@ public class German extends Language implements AutoCloseable {
       case "COMMA_BEHIND_RELATIVE_CLAUSE": return -52; // less prio than AI_HYDRA_LEO
       case "DOPPELUNG_MODALVERB": return -52; // prefer comma rules (DOPPELUNG_MODALVERB, AI)
       case "VER_DOPPELUNG": return -52; // prefer comma rules (including AI)
-      case "VERB_FEM_SUBST": return -52; // prefer comma rules (including AI)
       case "DEF_ARTIKEL_INDEF_ADJ": return -52; // less prio than DE_AGREMEENT and less prio than most comma rules
       case "PRP_ADJ_AGREEMENT": return -52; // less prio than DE_AGREMEENT and less prio than most comma rules
-      case "INF_VER_MOD": return -53; // prefer case, spelling and AI rules
       case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ": return -53;
       case "VERB_IST": return -53; // less prio than comma rules and spell checker
       case "WAR_WERDEN": return -53; // less prio than comma rules
+      case "INF_VER_MOD": return -53; // prefer case, spelling and AI rules
+      case "VERB_FEM_SUBST": return -54; // prefer comma rules (including AI)
       case "SUBJUNKTION_KOMMA_2": return -54; // lower prio than KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ and KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2
       case "REPETITIONS_STYLE": return -60;
     }

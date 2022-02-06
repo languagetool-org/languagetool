@@ -111,6 +111,11 @@ public class MissingCommaRelativeClauseRule extends Rule {
       Arrays.asList( // Plan von Maßnahmen, mit denen das Ansteckungsrisiko während des Aufenthalts an einem Ort verringert werden soll
         token("werden"),
         new PatternTokenBuilder().posRegex("SENT_END").matchInflectedForms().tokenRegex("sollen|können|müssen").build()
+      ),
+      Arrays.asList(
+        posRegex("VER:.*1:SIN:KJ1:.+"),
+        posRegex("VER:MOD:[12]:.+"),
+        posRegex("PKT|KON:NEB")
       )
   ), GERMAN);
 

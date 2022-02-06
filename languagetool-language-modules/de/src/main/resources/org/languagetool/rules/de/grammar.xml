@@ -1250,11 +1250,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token postag="VER:.*1:SIN:KJ1:.+" postag_regexp="yes" />
                 <token regexp="yes">konnten|sollten|mussten</token>
-                <token regexp="yes">wir</token>
+                <token regexp="yes">wir|sie|die</token>
             </antipattern>
             <antipattern>
                 <token>nur</token>
-                <token>wage</token><!-- "vage" TODO -->
+                <token>wage</token><!-- caught by WAGE_VAGE -->
             </antipattern>
             <pattern>
                 <marker>
@@ -8435,7 +8435,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="vage">Ich erinnere mich <marker>wage</marker> daran.</example>
                 <example correction="vage">Er erinnert mich <marker>wage</marker> an meinen Onkel.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token skip="5" case_sensitive="yes">wage</token>
@@ -8467,7 +8467,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Eine <marker>vage</marker> Entscheidung.</example>
                 <example>Wenn die Wage streikt, muss man abnehmen.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>wage</token>
                     <token regexp="yes">ich|sie|er|das|der|die|[smd]ein.*</token>
@@ -12178,7 +12178,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
-        <rule id="ZU_GLEICH" name="zu gleich (zugleich)" default="temp_off">
+        <rule id="ZU_GLEICH" name="zu gleich (zugleich)">
             <antipattern>
                 <token regexp="yes">Vergleich|Unterschied</token>
                 <token>zu</token>
@@ -53178,7 +53178,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <exception regexp="yes">.*teilen|Übereinkommen|Flora</exception>
                         </token>
                     </marker>
-                    <token><exception postag="SUB:.+:PLU:.+" postag_regexp="yes"/><exception postag="UNKNOWN" regexp="yes">.*[a-z].*</exception></token>
+                    <token>
+                        <exception postag="SUB:.+:PLU:.+" postag_regexp="yes"/>
+                        <exception regexp="yes">\(|\/|'|#</exception>
+                        <exception postag="UNKNOWN" regexp="yes">.*[a-z0-9].*</exception>
+                    </token>
                 </pattern>
                 <message>Möglicher Tippfehler: Müsste dieses Wort im Plural stehen?</message>
                 <suggestion><match no="4" postag=".*:PLU:.*" postag_regexp="yes"/></suggestion>
@@ -53204,7 +53208,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <exception regexp="yes">Bier|Wasser|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Fuß|Fuss|Paar|Mark|Reichsmark|Rentenmark|Pfund|Dollar|Euro|Stück|Grad|Gramm|Kilo.*|Milli.+|Mann|Schuss|Zoll|Bar|Promille|Barrel|Schilling</exception>
                         </token>
                     </marker>
-                    <token><exception postag="SUB:.+:PLU:.+" postag_regexp="yes"/><exception postag="UNKNOWN" regexp="yes">.*[a-z].*</exception></token>
+                    <token>
+                        <exception postag="SUB:.+:PLU:.+" postag_regexp="yes"/>
+                        <exception regexp="yes">\(|\/|'|#</exception>
+                        <exception postag="UNKNOWN" regexp="yes">.*[a-z0-9].*</exception>
+                    </token>
                 </pattern>
                 <message>Möglicher Tippfehler: Müsste dieses Wort im Plural stehen?</message>
                 <suggestion><match no="3" postag=".*:PLU:.*" postag_regexp="yes"/></suggestion>
@@ -53287,7 +53295,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token>
                         <exception postag="SUB:.+:PLU:.+" postag_regexp="yes"/>
-                        <exception postag="UNKNOWN" regexp="yes">.*[a-z].*</exception>
+                        <exception regexp="yes">\(|\/|'|#</exception>
+                        <exception postag="UNKNOWN" regexp="yes">.*[a-z0-9].*</exception>
                     </token>
                 </pattern>
                 <message>Möglicher Tippfehler: Müsste dieses Wort im Plural stehen?</message>
@@ -53305,6 +53314,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Er hatte in zwei Aufsehen erregenden Nature-Veröffentlichungen drüber berichtet.</example>
                 <example>Die Biene Maja ist die Hauptfigur in zwei Anfang des 20. Jahrhunderts erschienenen Romanen.</example>
                 <example>In Zahlen: fünf Komma acht.</example>
+                <example>Mittelfristig soll die Bundeswehr also über drei A 350 verfügen, die auf der Langstrecke eingesetzt werden können.</example>
                 <example>Das waren etwa zehn US-Dollar.</example>
                 <example>Ich esse um viertel acht Abendbrot.</example>
                 <example>Tom lernte erst mit dreißig Fahren.</example>
@@ -53357,8 +53367,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token>
                         <exception postag="SUB:.+:PLU:.+|ZUS|PA1:.+" postag_regexp="yes"/>
-                        <exception postag="UNKNOWN" regexp="yes">.*[a-z].*</exception>
-                       <exception spacebefore="no" regexp="yes">'|\/</exception>
+                        <exception regexp="yes">\(|\/|'|#</exception>
+                        <exception postag="UNKNOWN" regexp="yes">.*[a-z0-9].*</exception>
                     </token>
                 </pattern>
                 <message>Möglicher Tippfehler: Müsste dieses Wort im Plural stehen?</message>
@@ -53446,9 +53456,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </token>
                     </marker>
                     <token>
-                       <exception postag="SUB:.+:PLU:.+|ZUS|PA1:.+" postag_regexp="yes"/>
-                       <exception postag="UNKNOWN" regexp="yes">.*[a-z].*</exception>
-                       <exception spacebefore="no" regexp="yes">'|\/</exception>
+                        <exception postag="SUB:.+:PLU:.+|ZUS|PA1:.+" postag_regexp="yes"/>
+                        <exception regexp="yes">\(|\/|'|#</exception>
+                        <exception postag="UNKNOWN" regexp="yes">.*[a-z0-9].*</exception>
                     </token>
                 </pattern>
                 <message>Möglicher Tippfehler: Müsste dieses Wort im Plural stehen?</message>
@@ -62612,6 +62622,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SUB:NOM:SIN:NEU:INF" skip="-1" />
                     <token>,</token>
                 </antipattern>
+                <antipattern>
+                    <token>,</token>
+                    <token>egal</token>
+                    <token regexp="yes">ob|wie|wann|wo|was|warum</token>
+                </antipattern>
                 <pattern>
                     <token skip="-1" postag="SENT_START">
                         <exception scope="next" postag="VER:.*|UNKNOWN" postag_regexp="yes"/>
@@ -62654,6 +62669,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Aber genug von mir, erzähl mir mal von dir.</example>
                 <example>Hallo Herr Köhler, erstmal danke dafür.</example>
                 <example>Wenn er zwei, drei verlässliche Leute findet für die Firma.</example>
+                <example>Einer wie Ahmed, egal wie klein und mickrig er den Nordmännern vorkommt.</example>
                 <example>Daher: Starten Sie mit der Umsetzung lieber jetzt, im Sommer oder gar erst Ende des Jahres.</example>
             </rule>
         </rulegroup>
