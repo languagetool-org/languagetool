@@ -675,6 +675,9 @@ public class GermanSpellerRuleTest {
     assertEquals(1, rule.match(lt.getAnalyzedSentence("machtS")).length);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("All-Inclusive-Preis")).length);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("dRanging")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Das Draufklicken")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Des Draufklickens")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("Des draufklickens")).length);
 
     // originally from spelling.txt:
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Wichtelmännchen")).length);
