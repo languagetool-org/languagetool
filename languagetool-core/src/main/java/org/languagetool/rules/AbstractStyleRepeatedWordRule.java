@@ -213,7 +213,12 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
     for (AnalyzedToken reading : readings) {
       String lemma = reading.getLemma();
       if (lemma != null) {
-        synonyms = getSynonymsForWord(lemma);
+        List<String> newSynonyms = getSynonymsForWord(lemma);
+        for (String synonym : newSynonyms) {
+          if (!synonyms.contains(synonym)) {
+            synonyms.add(synonym);
+          }
+        }
       }
     }
     if(synonyms.isEmpty()) {
