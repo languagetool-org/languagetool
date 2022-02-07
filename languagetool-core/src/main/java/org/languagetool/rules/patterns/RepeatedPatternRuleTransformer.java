@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 
 public class RepeatedPatternRuleTransformer implements PatternRuleTransformer {
   
-  protected int maxDistance = 350; // number of characters!
+  protected int maxDistanceTokens = 60; // number of tokens 
   protected final Language transformerLanguage;
 
   public RepeatedPatternRuleTransformer(Language lang) {
@@ -71,8 +71,9 @@ public class RepeatedPatternRuleTransformer implements PatternRuleTransformer {
     @Override
     public RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException {
       List<RuleMatch> matches = new ArrayList<>();
-      int offset = 0;
-      int prevFromPos = 0;
+      int offsetChars = 0;
+      int offsetTokens = 0;
+      int prevFromToken = 0;
       int prevMatches = 0;
       // we need to adjust offsets since each pattern rule returns offsets relative to the sentence, not text
       for (AnalyzedSentence s : sentences) {
@@ -83,17 +84,25 @@ public class RepeatedPatternRuleTransformer implements PatternRuleTransformer {
         }
         sentenceMatches = new SameRuleGroupFilter().filter(sentenceMatches);
         // no sorting: SameRuleGroupFilter sorts rule matches already
+        int sentenceLenghtTokens = s.getTokensWithoutWhitespace().length;
         for (RuleMatch m : sentenceMatches) {
-          int fromPos = m.getFromPos() + offset;
-          int toPos = m.getToPos() + offset;
+          int fromToken = 0;
+          while (fromToken < sentenceLenghtTokens
+              && s.getTokensWithoutWhitespace()[fromToken].getStartPos() < m.getFromPos()) {
+            fromToken++;
+          }
+          fromToken += offsetTokens;
+          int fromPos = m.getFromPos() + offsetChars;
+          int toPos = m.getToPos() + offsetChars;
           m.setOffsetPosition(fromPos, toPos);
-          if (fromPos - prevFromPos <= maxDistance && prevMatches >= m.getRule().getMinPrevMatches()) {
+          if (fromToken - prevFromToken <= maxDistanceTokens && prevMatches >= m.getRule().getMinPrevMatches()) {
             matches.add(m);
           }
-          prevFromPos = fromPos;
+          prevFromToken = fromToken;
           prevMatches++;
         }
-        offset += s.getText().length();
+        offsetChars += s.getText().length();
+        offsetTokens += sentenceLenghtTokens - 1; // -1 -> not counting SENT_START
       }
       return matches.toArray(new RuleMatch[0]); 
     }
