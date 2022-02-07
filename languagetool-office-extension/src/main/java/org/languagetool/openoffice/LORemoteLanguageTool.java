@@ -28,7 +28,12 @@ import java.util.Map;
 import java.util.Set;
 
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.LinguServices;
+import org.languagetool.UserConfig;
 import org.languagetool.JLanguageTool.ParagraphHandling;
 import org.languagetool.gui.Configuration;
 import org.languagetool.openoffice.OfficeTools.RemoteCheck;
@@ -66,14 +71,19 @@ class LORemoteLanguageTool {
   private final Language language;
   private final Language motherTongue;
   private final RemoteLanguageTool remoteLanguageTool;
+  private final UserConfig userConfig;
+  private final boolean addSynonyms;
+  private JLanguageTool lt = null;
 
   private int maxTextLength;
   private boolean remoteRun;
   
   LORemoteLanguageTool(Language language, Language motherTongue, Configuration config,
-                       List<Rule> extraRemoteRules) throws MalformedURLException {
+                       List<Rule> extraRemoteRules, UserConfig userConfig) throws MalformedURLException {
     this.language = language;
     this.motherTongue = motherTongue;
+    this.userConfig = userConfig;
+    addSynonyms = userConfig != null && userConfig.getLinguServices() != null && !config.noSynonymsAsSuggestions();
     String serverUrl = config.getServerUrl();
     setRuleValues(config.getConfigurableValues());
     URL serverBaseUrl = new URL(serverUrl == null ? SERVER_URL : serverUrl);
@@ -177,7 +187,7 @@ class LORemoteLanguageTool {
         remoteRun = false;
         return null;
       }
-      ruleMatches.addAll(toRuleMatches(remoteResult.getMatches(), nStart));
+      ruleMatches.addAll(toRuleMatches(text, remoteResult.getMatches(), nStart));
     }
     return ruleMatches;
   }
@@ -283,9 +293,69 @@ class LORemoteLanguageTool {
   }
   
   /**
+   * get synonyms for a word
+   */
+  public List<String> getSynonymsForWord(String word, LinguServices linguServices) {
+    List<String> synonyms = new ArrayList<String>();
+    List<String> rawSynonyms = linguServices.getSynonyms(word, language);
+    for (String synonym : rawSynonyms) {
+      synonym = synonym.replaceAll("\\(.*\\)", "").trim();
+      if (!synonym.isEmpty() && !synonyms.contains(synonym)) {
+        synonyms.add(synonym);
+      }
+    }
+    return synonyms;
+  }
+
+  /**
+   * get synonyms for a repeated word
+   */
+  public List<String> getSynonymsForToken(AnalyzedTokenReadings token, LinguServices linguServices) {
+    List<String> synonyms = new ArrayList<String>();
+    if(linguServices == null || token == null) {
+      return synonyms;
+    }
+    List<AnalyzedToken> readings = token.getReadings();
+    for (AnalyzedToken reading : readings) {
+      String lemma = reading.getLemma();
+      if (lemma != null) {
+        List<String> newSynonyms = getSynonymsForWord(lemma, linguServices);
+        for (String synonym : newSynonyms) {
+          if (!synonyms.contains(synonym)) {
+            synonyms.add(synonym);
+          }
+        }
+      }
+    }
+    if(synonyms.isEmpty()) {
+      synonyms = getSynonymsForWord(token.getToken(), linguServices);
+    }
+    return synonyms;
+  }
+  /**
+   * get synonyms of a word
+   */
+  private List<String> getSynonyms(String word) {
+    if (!addSynonyms) {
+      return null;
+    }
+    if (lt == null) {
+      lt = new JLanguageTool(language, motherTongue, null, userConfig);
+    }
+    List<AnalyzedSentence> analyzedSentence;
+    try {
+      analyzedSentence = lt.analyzeText(word);
+      return getSynonymsForToken(analyzedSentence.get(0).getTokensWithoutWhitespace()[1], userConfig.getLinguServices());
+    } catch (Throwable t) {
+      MessageHandler.printException(t);
+      return null;
+    }
+  }
+  
+  /**
    * Convert a remote rule match to a LT rule match 
    */
-  private RuleMatch toRuleMatch(RemoteRuleMatch remoteMatch, int nOffset) throws MalformedURLException {
+  private RuleMatch toRuleMatch(String text, RemoteRuleMatch remoteMatch, int nOffset) throws MalformedURLException {
     Rule matchRule = null;
     for (Rule rule : allRules) {
       if (remoteMatch.getRuleId().equals(rule.getId())) {
@@ -304,8 +374,18 @@ class LORemoteLanguageTool {
     if (remoteMatch.getUrl().isPresent()) {
       ruleMatch.setUrl(new URL(remoteMatch.getUrl().get()));
     }
+    List<String> replacements = null;
     if (remoteMatch.getReplacements().isPresent()) {
+      replacements = remoteMatch.getReplacements().get();
+    }
+    if (replacements != null && !replacements.isEmpty()) {
       ruleMatch.setSuggestedReplacements(remoteMatch.getReplacements().get());
+    } else if (addSynonyms && remoteMatch.getRuleId().startsWith("STYLE_REPEATED_WORD_RULE")) {
+      String word = text.substring(ruleMatch.getFromPos(), ruleMatch.getToPos());
+      List<String> synonyms = getSynonyms(word);
+      if (synonyms != null && !synonyms.isEmpty()) {
+        ruleMatch.setSuggestedReplacements(synonyms);
+      }
     }
     return ruleMatch;
   }
@@ -313,13 +393,13 @@ class LORemoteLanguageTool {
   /**
    * Convert a list of remote rule matches to a list of LT rule matches
    */
-  private List<RuleMatch> toRuleMatches(List<RemoteRuleMatch> remoteRulematches, int nOffset) throws MalformedURLException {
+  private List<RuleMatch> toRuleMatches(String text, List<RemoteRuleMatch> remoteRulematches, int nOffset) throws MalformedURLException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     if (remoteRulematches == null || remoteRulematches.isEmpty()) {
       return ruleMatches;
     }
     for (RemoteRuleMatch remoteMatch : remoteRulematches) {
-      RuleMatch ruleMatch = toRuleMatch(remoteMatch, nOffset);
+      RuleMatch ruleMatch = toRuleMatch(text, remoteMatch, nOffset);
       ruleMatches.add(ruleMatch);
     }
     return ruleMatches;

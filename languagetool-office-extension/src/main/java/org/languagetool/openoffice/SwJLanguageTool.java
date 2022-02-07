@@ -66,7 +66,7 @@ public class SwJLanguageTool {
     if (isRemote) {
       lt = null;
       mlt = null;
-      rlt = new LORemoteLanguageTool(language, motherTongue, config, extraRemoteRules);
+      rlt = new LORemoteLanguageTool(language, motherTongue, config, extraRemoteRules, userConfig);
       if (!rlt.remoteRun()) {
         MessageHandler.showMessage(MESSAGES.getString("loRemoteSwitchToLocal"));
         isRemote = false;
