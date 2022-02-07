@@ -3615,6 +3615,28 @@ RB => Règles Brutes
     </rulegroup>
     <!-- CATEGORY: verbs (particular cases) -->
     <!-- TODO: move down -->
+    <rulegroup id="FAIS_ATTENTION" name="fais attention">
+        <rule>
+        <pattern>
+            <marker>
+                <token regexp="yes">faisons|fais|faites</token>
+            </marker>
+            <token>attention</token>
+        </pattern>
+        <disambig action="remove" postag="V ind pres.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="[ZT].*" postag_regexp="yes"/>
+                <marker>
+                    <token regexp="yes">faisons|fais|faites</token>
+                </marker>
+                <token skip="-1">attention</token>
+                <token>!</token>
+            </pattern>
+            <disambig action="remove" postag="V ind pres.*"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="SEMBLE_T_IL" name="semble-t-il">
         <rule>
         <pattern>
