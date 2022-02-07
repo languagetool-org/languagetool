@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 
 public class RepeatedPatternRuleTransformer implements PatternRuleTransformer {
   
-  protected int maxDistance = 350; // numer of tokens
+  protected int maxDistance = 350; // number of characters!
   protected final Language transformerLanguage;
 
   public RepeatedPatternRuleTransformer(Language lang) {
