@@ -1252,7 +1252,7 @@ class CaseRuleAntiPatterns {
       csRegex("[A-ZÄÖÜ].+")
     ),
     Arrays.asList( // Beim Hoch- und Runtertragen
-      regex("beim|zum"),
+      regex("beim|zum|im|am"),
       csRegex("[A-ZÄÖÜ].+-"),
       csRegex("und|oder|&|/"),
       csRegex("[A-ZÄÖÜ].+n")

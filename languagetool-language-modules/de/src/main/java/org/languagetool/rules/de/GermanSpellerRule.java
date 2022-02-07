@@ -1250,7 +1250,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("folgendermassen", "folgendermaßen");
     put("Adon", "Add-on");
     put("Adons", "Add-ons");
-    put("vertraggt", w -> Arrays.asList("vertagt", "getaggt"));
+    put("vertaggt", w -> Arrays.asList("vertagt", "getaggt"));
     put("Angehensweise", "Vorgehensweise");
     put("Angehensweisen", "Vorgehensweisen");
     put("Neudefinierung", "Neudefinition");
@@ -2285,8 +2285,16 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     }
     switch (word) {
       case "daß": return topMatch("dass");
+      case "mußt": return topMatch("musst");
+      case "müßtest": return topMatch("müsstest");
+      case "müßen": return topMatch("müssen");
+      case "müßten": return topMatch("müssten");
+      case "müßte": return topMatch("müsste");
       case "Daß": return topMatch("Dass");
       case "bescheid": return topMatch("Bescheid");
+      case "ausversehen": return topMatch("aus Versehen");
+      case "Entäuschung": return topMatch("Enttäuschung");
+      case "Entäuschungen": return topMatch("Enttäuschungen");
       case "Triologie": return topMatch("Trilogie", "Werk (z.B. Film), das aus drei Teilen besteht");
     }
     return Collections.emptyList();

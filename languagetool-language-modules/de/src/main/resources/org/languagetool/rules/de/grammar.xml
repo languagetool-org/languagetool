@@ -13448,8 +13448,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 * nieder Lage
                 * sozial Kompetenz
                 * schwarz Brot
-                * klein Gruppen
-                * klein Kinder
                 * halb Schwester/Bruder
                 * digital Form
                 * digital Druck
@@ -13780,6 +13778,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Gering<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Geringverdiener">Aus dem Weg, <marker>gering Verdiener</marker>!</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>klein</token>
+                    <token regexp="yes" case_sensitive="yes">[kK]rams?|Kinds?|Kindern?|Gruppen?|Gelds?|Kriegs?|Arbeit|Ausgabe|Unternehmers?|Betriebs?|Abnehmers?|Aktionärs?|Anzeigen?|Besitzers?|Grundbesitzers?|Hirns?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>Klein<match no="2" case_conversion="alllower" /></suggestion>?</message>
+                <example correction="Kleinkram">Ich mache ganz viel <marker>klein Kram</marker>!</example>
             </rule>
         </rulegroup>
         <rule id="GEGEN_CHECKEN" name="gegen checken (gegenchecken)">
@@ -34848,6 +34854,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>&prgk;.</short>
                 <example correction="Haut">Und du liegst wieder auf der faulen <marker>haut</marker>.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="(PRO:POS|ART):.*FEM.*" postag_regexp="yes">
+                        <exception>das</exception>
+                    </token>
+                    <token postag="(ADJ|PA[12]):.*FEM.*" postag_regexp="yes" min="0" regexp="yes" case_sensitive="yes">
+                        [a-zöäü].*
+                        <exception postag="ADV:MOD" />
+                    </token>
+                    <marker>
+                        <token case_sensitive="yes">haut</token>
+                    </marker>
+                    <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
+                    <token postag="VER:.+" postag_regexp="yes" />
+                </pattern>
+                <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
+                <example correction="Haut">Ihre <marker>haut</marker> ist sehr weich.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern case_sensitive="yes">
+                    <token inflected="yes" skip="2">gehen</token>
+                    <token>unter</token>
+                    <token>die</token>
+                    <marker>
+                        <token>haut</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Haut</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Haut">Das geht unter die <marker>haut</marker>.</example>
+            </rule>
         </rulegroup>
         <rule id="STUMPF_UND_STIEL" name="'mit stumpf (Stumpf) und Stiel'">
             <pattern case_sensitive="yes">
@@ -55273,9 +55310,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="ADJ.*|VER.*" postag_regexp="yes" />
             </antipattern>
             <antipattern><!-- Was glauben Sie ist wahr, obwohl Sie es nicht beweisen können? -->
-                <token regexp="yes">was|das</token>
+                <token regexp="yes">was|das|wie|wo|wann|wieso|warum</token>
                 <token inflected="yes" regexp="yes" min="0">werden|haben</token>
-                <token inflected="yes" regexp="yes">glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|merken</token>
+                <token inflected="yes" regexp="yes">glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|merken|meinen</token>
+            </antipattern>
+            <antipattern>
+                <token postag="KON.*" postag_regexp="yes" />
+                <token regexp="yes" min="0">&anfauf;</token>
+                <token postag="ADV.*" postag_regexp="yes" min="0" />
+                <token regexp="yes" min="0">Herrn?|Frau|Fräulein</token>
+                <token postag="PRO:PER:NOM.*|PRO:IND.*|EIG.*" postag_regexp="yes" />
+                <token inflected="yes" regexp="yes" min="0">werden|haben</token>
+                <token regexp="yes">mein(en?)?</token>
+            </antipattern>
+            <antipattern>
+                <token postag="KON.*" postag_regexp="yes" />
+                <token postag="ART.*|PRO:(POS|DEM).*" postag_regexp="yes" />
+                <token postag="(ADJ|PA[12]).*" postag_regexp="yes" min="0" max="2" />
+                <token postag="EIG.*|PRO.*|SUB.*" postag_regexp="yes" />
+                <token inflected="yes" regexp="yes" min="0">werden|haben</token>
+                <token regexp="yes">mein(en?)?</token>
             </antipattern>
             <rule><!-- Ich glaube für euch ist hier kein Platz -->
                 <pattern>
@@ -55286,7 +55340,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="PRO:PER:NOM.*|PRO:IND.*|EIG.*" postag_regexp="yes" />
                     <token inflected="yes" regexp="yes" min="0">werden|haben</token>
                     <token regexp="yes" inflected="yes">
-                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|merken
+                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|merken|meinen
                         <exception postag="SUB.*" postag_regexp="yes" />
                     </token>
                     <token regexp="yes" min="0">übrigens|deswegen|immer|allerdings|durchaus|eher|mal|also|jedoch|jedenfalls</token>
@@ -55314,10 +55368,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction=", für">Aber ich glaube<marker> für</marker> nächste Woche ist eh ein großes Update geplant.</example>
                 <example correction=", für">Herr Peters denkt<marker> für</marker> nächste Woche sei ein großes Update geplant.</example>
                 <example correction=", in">Ich denke<marker> in</marker> zwei Monaten haben wir unser normales Leben zurück.</example>
+                <example correction=", bei">Ich meine<marker> bei</marker> solchen Aktionen ging es bekanntlich noch nie um Demokratie.</example>
                 <example>Ich denke für euch.</example>
                 <example>Ich denke wegen euch einen wirklich großen Schritt weiter.</example>
                 <example>Tom weiß mit Lasttieren umzugehen.</example>
                 <example>Ich hoffe auf einen regen Austausch.</example>
+                <example>Ich habe einen Füller von Marco benutzt, weil ich meinen zu Hause vergessen hatte.</example>
             </rule>
             <rule><!-- Die Menschen glauben bei euch ist kein Platz.  -->
                 <pattern>
@@ -55326,7 +55382,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="EIG.*|PRO.*|SUB.*" postag_regexp="yes" />
                     <token inflected="yes" regexp="yes" min="0">werden|haben</token>
                     <token regexp="yes" inflected="yes">
-                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|merken
+                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|merken|meinen
                         <exception postag="SUB.*" postag_regexp="yes" />
                     </token>
                     <token regexp="yes" min="0">übrigens|deswegen|immer|allerdings|durchaus|eher|mal|also|jedoch|jedenfalls</token>
@@ -55361,7 +55417,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="PRO:PER:NOM.*|PRO:IND.*|EIG.*" postag_regexp="yes" />
                     <token inflected="yes" regexp="yes" min="0">werden|haben</token>
                     <token regexp="yes" inflected="yes">
-                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|merken
+                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|merken|meinen
                         <exception postag="SUB.*" postag_regexp="yes" />
                     </token>
                     <token regexp="yes" min="0">übrigens|deswegen|immer|allerdings|durchaus|eher|mal|also|jedoch|jedenfalls</token>
@@ -55392,7 +55448,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="PRO:PER:NOM.*|PRO:IND.*|EIG.*" postag_regexp="yes" />
                     <token inflected="yes" regexp="yes" min="0">werden|haben</token>
                     <token regexp="yes" inflected="yes">
-                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|merken
+                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|merken|meinen
                         <exception postag="SUB.*" postag_regexp="yes" />
                     </token>
                     <token regexp="yes" min="0">übrigens|deswegen|immer|allerdings|durchaus|eher|mal|also|jedoch|jedenfalls</token>
@@ -55422,7 +55478,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="PRO:PER:NOM.*|PRO:IND.*|EIG.*" postag_regexp="yes" />
                     <token inflected="yes" regexp="yes" min="0">werden|haben</token>
                     <token regexp="yes" inflected="yes">
-                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|merken
+                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|merken|meinen
                         <exception postag="SUB.*" postag_regexp="yes" />
                     </token>
                     <token regexp="yes" min="0">übrigens|deswegen|immer|allerdings|durchaus|eher|mal|also|jedoch|jedenfalls</token>
@@ -55471,7 +55527,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes" min="0">Herrn?|Frau|Fräulein</token>
                     <token postag="PRO:PER:NOM.*|PRO:IND.*|EIG.*" postag_regexp="yes" />
                     <token inflected="yes" regexp="yes" min="0">werden|haben</token>
-                    <token regexp="yes" inflected="yes">
+                    <token regexp="yes" inflected="yes"><!-- TODO: add "meinen" -->
                         glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|merken
                         <exception postag="SUB.*" postag_regexp="yes" />
                     </token>
@@ -55537,7 +55593,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes" min="0">Herrn?|Frau|Fräulein</token>
                     <token postag="PRO:PER:NOM.*|PRO:IND.*|EIG.*" postag_regexp="yes" />
                     <token inflected="yes" regexp="yes" min="0">werden|haben</token>
-                    <token regexp="yes" inflected="yes">
+                    <token regexp="yes" inflected="yes"><!-- TODO: add "meinen" -->
                         glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|merken
                         <exception postag="SUB.*" postag_regexp="yes" />
                     </token>
@@ -55578,6 +55634,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ich finde es faszinierend, das Faröische und das Norwegische zu vergleichen.</example>
                 <example>Ich hoffte sie wiederzusehen.</example>
                 <example>Ich dachte, du weißt es sicher.</example>
+                <example>Was soll ich tun, wenn ich meine Passwort vergessen?</example>
             </rule>
             <rule>
                 <antipattern>
@@ -55603,7 +55660,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes" min="0">Herrn?|Frau|Fräulein</token>
                     <token postag="PRO:PER:NOM.*|PRO:IND.*|EIG.*" postag_regexp="yes" />
                     <token inflected="yes" regexp="yes" min="0">werden|haben</token>
-                    <token regexp="yes" inflected="yes">
+                    <token regexp="yes" inflected="yes"><!-- TODO: add "meinen" -->
                         glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|merken
                         <exception postag="SUB.*" postag_regexp="yes" />
                     </token>
@@ -55658,7 +55715,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes" min="0">Herrn?|Frau|Fräulein</token>
                     <token postag="PRO:PER:NOM.*|PRO:IND.*|EIG.*" postag_regexp="yes" />
                     <token inflected="yes" regexp="yes" min="0">werden|haben</token>
-                    <token regexp="yes" inflected="yes">
+                    <token regexp="yes" inflected="yes"><!-- TODO: add "meinen" -->
                         glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|merken
                         <exception postag="SUB.*" postag_regexp="yes" />
                     </token>
@@ -55693,7 +55750,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes" min="0">Herrn?|Frau|Fräulein</token>
                     <token postag="PRO:PER:NOM.*|PRO:IND.*|EIG.*" postag_regexp="yes" />
                     <token inflected="yes" regexp="yes" min="0">werden|haben</token>
-                    <token regexp="yes" inflected="yes">
+                    <token regexp="yes" inflected="yes"><!-- TODO: add "meinen" -->
                         glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|merken
                         <exception postag="SUB.*" postag_regexp="yes" />
                         <exception postag="PA2.*" postag_regexp="yes" />

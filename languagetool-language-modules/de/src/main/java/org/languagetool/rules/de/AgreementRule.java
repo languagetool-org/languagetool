@@ -194,6 +194,7 @@ public class AgreementRule extends Rule {
   ));
 
   private static final Set<String> NOUNS_TO_BE_IGNORED = new HashSet<>(Arrays.asList(
+    "A",
     "Prozent",   // Plural "Prozente", trotzdem ist "mehrere Prozent" korrekt
     "Wollen",  // das Wollen
     "Gramm",
