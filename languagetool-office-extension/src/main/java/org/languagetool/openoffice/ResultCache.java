@@ -57,7 +57,9 @@ class ResultCache implements Serializable {
   synchronized void replace(ResultCache cache) {
     entries.clear();
     if (cache != null) {
+      synchronized(cache) {
         this.entries.putAll(cache.entries);
+      }
     }
   }
 
