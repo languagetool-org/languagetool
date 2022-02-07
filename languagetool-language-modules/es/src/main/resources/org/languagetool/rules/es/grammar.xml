@@ -6935,6 +6935,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ya que esta afecta a todos.</example>
                 <example>Otra revista, esta mucho más moderna, con cierto renombre es Gigamesh</example>
             </rule>
+            <rule default="temp_off">
+                <!-- está + llena (adj/n)-->
+                <antipattern>
+                    <token>esta</token>
+                    <token postag="A...S.|V.P..SF" postag_regexp="yes"/>
+                    <token postag="N.[FC][SN].*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>esta</token>
+                    <token max="3" min="1" postag="A..[FC][SN].|V.P..SF|NCFS.*|CC" postag_regexp="yes"/>
+                    <token postag="V.[SI].*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>,</token>
+                    <token>esta</token>
+                    <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                    <token postag="A..FS." postag_regexp="yes"><exception>sola</exception></token>
+                </antipattern>
+                <pattern raw_pos="yes">
+                    <marker>
+                        <token>esta</token>
+                    </marker>
+                    <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                    <token postag="A...S." postag_regexp="yes"><exception postag="AO0FS0" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Si es del v. 'estar', se escribe con tilde.</message>
+                <suggestion>está</suggestion>
+                <example correction="está">La Biblia <marker>esta</marker> llena de errores.</example>
+            </rule>
             <rule>
                 <pattern>
                     <marker>
