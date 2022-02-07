@@ -6751,12 +6751,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="ESTA_TILDE" name="*esta/está">
-            <antipattern>
+           <antipattern>
                 <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
                 <token>esta</token>
             </antipattern>
             <antipattern>
-                <token postag="V.[SIGN].*|V.P..SF" postag_regexp="yes"><exception scope="previous">que</exception></token>
+                <token postag="V.[SIGN].*" postag_regexp="yes"><exception scope="previous">que</exception></token>
+                <!-- |V.P..SF -->
                 <token>esta</token>
             </antipattern>
             <antipattern>
@@ -6770,6 +6771,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">y|o|e|u</token>
                 <token postag="AQ.[FC]S.|V.P..SF" postag_regexp="yes"/>
                 <token postag="NCFS000"/>
+            </antipattern>
+            <antipattern>
+                <token postag="VMM.*" postag_regexp="yes"/>
+                <token>esta</token>
             </antipattern>
             <rule>
                 <!-- está + participio-->
@@ -6816,6 +6821,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <!--está + preposición, adverbio-->
                 <antipattern>
+                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
+                    <token postag="V.P..SF" postag_regexp="yes"/>
+                    <token>esta</token>
+                </antipattern>
+                <antipattern>
                     <token>en</token>
                     <token>realidad</token>
                 </antipattern>
@@ -6839,7 +6849,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>esta</token>
                     </marker>
                     <token min="0">todo</token>
-                    <token regexp="yes">bien|mal|en|con|entre|aquí|ahí|allí|allá|el|la|lo|un|una|uno|junto</token>
+                    <token regexp="yes">bien|mal|en|con|entre|aquí|ahí|allí|allá|el|la|lo|un|una|uno|junto|por|mi|tu|su|[vn]uestr[oa]|conmigo|contigo</token>
                 </pattern>
                 <message>Si es del v. 'estar', se escribe con tilde.</message>
                 <suggestion>está</suggestion>
@@ -6850,11 +6860,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="está">En un pequeño promontorio <marker>esta</marker> la Catedral.</example>
                 <example correction="está">Y <marker>esta</marker> todo bien.</example>
                 <example correction="está">En el mesón que <marker>esta</marker> junto al Prado.</example>
+                <example correction="está">Les persona encargada <marker>esta</marker> con el cliente.</example>
                 <example>Sustituye a esta en la jerarquía.</example>
                 <example>aunque esta en realidad no lo sea</example>
                 <example>Tras esta en 1954</example>
                 <example>Ante esta en mayo</example>
-                <example>Finalizada esta en 1445</example>
+                <example>Finalizada esta en 1445, </example>
                 <example>Se une con esta en sus puntos extremos</example>
                 <example>Al contraponer esta con aquella.</example>
                 <example>Se divide esta entre la suma de los pesos.</example>
@@ -6864,6 +6875,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>por ser esta la casa matriz</example>
                 <example>No ha sido esta la vía elegida.</example>
                 <example>Habrá muchas escenas como esta en los próximos programas.</example>
+            </rule>
+            <rule default="temp_off">
+                <!--está + preposición de-->
+                <antipattern>
+                    <token>en</token>
+                    <token>realidad</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">ser</token>
+                    <token>esta</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="NC[FC]P000|_GN_FP" postag_regexp="yes"/>
+                    <token>como</token>
+                    <token>esta</token>
+                </antipattern>
+                <antipattern>
+                    <token>esta</token>
+                    <token min="0">todo</token>
+                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                    <token postag="V.[SI].*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>esta</token>
+                    </marker>
+                    <token min="0">todo</token>
+                    <token regexp="yes">de|del</token>
+                </pattern>
+                <message>Si es del v. 'estar', se escribe con tilde.</message>
+                <suggestion>está</suggestion>
+                <example correction="está">La gente protesta y no <marker>esta</marker> de acuerdo con las cosas que están mal.</example>
+                <example correction="está">La persona encargada <marker>esta</marker> de vacaciones.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -6963,6 +7007,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Si es del v. 'estar', se escribe con tilde.</message>
                 <suggestion>está</suggestion>
                 <example correction="está">La Biblia <marker>esta</marker> llena de errores.</example>
+                <example>Pélame esta naranja.</example>
             </rule>
             <rule>
                 <pattern>
