@@ -141,6 +141,73 @@ RB => Règles Brutes
         </pattern>
         <disambig action="remove" postag="J e s"/>
     </rule>
+    <rule id="STEAK_FRITES" name="steak frites">
+        <pattern>
+            <token regexp="yes">steaks?</token>
+            <marker>
+                <token regexp="yes">frites?</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="N.*"/>
+    </rule>
+    <rule id="POINTS_POSITIFS" name="points positifs">
+        <pattern>
+            <marker>
+                <token regexp="yes">points?</token>
+            </marker>
+            <token regexp="yes">positifs?|négatifs?|neutres?</token>
+        </pattern>
+        <disambig action="filter" postag="N.*"/>
+    </rule>
+    <rule id="REVUE_DE_NOM" name="revue de nom">
+        <pattern>
+            <marker>
+                <token regexp="yes">revues?</token>
+            </marker>
+            <token inflected="yes">de</token>
+            <token postag="N.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="remove" postag="V ppa.*"/>
+    </rule>
+    <rule id="REVUE_DE_NOM1" name="revue de nom">
+        <pattern>
+            <marker>
+                <token regexp="yes">revues?</token>
+            </marker>
+            <token inflected="yes">de</token>
+            <token postag="N.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="remove" postag="J.*"/>
+    </rule>
+    <rule id="NIVEAU_PORTIERES" name="niveau portières">
+        <pattern>
+            <marker>
+                <token regexp="yes">niveaux?</token>
+            </marker>
+            <token regexp="yes">portières</token>
+        </pattern>
+        <disambig action="filter" postag="V.* ppa.*"/>
+    </rule>
+    <rule id="INTERDIT" name="interdit">
+        <pattern>
+            <token postag="N.*" postag_regexp="yes"/>
+            <marker>
+                <token>interdit</token>
+            </marker>
+            <token regexp="yes" skip="-1">à|aux?</token>
+            <token inflected="yes">de</token>
+        </pattern>
+        <disambig action="filter" postag="V ind pres 3 s"/>
+    </rule>
+    <rule id="TIROIR_COUVERT" name="tiroir couvert">
+        <pattern>
+            <token regexp="yes">tiroirs?</token>
+            <marker>
+                <token regexp="yes">couverts?</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="N.*"/>
+    </rule>
     <rule id="JE_LE_POURRAIS" name="je le pourrais">
         <pattern>
             <token inflected="yes">je</token>
