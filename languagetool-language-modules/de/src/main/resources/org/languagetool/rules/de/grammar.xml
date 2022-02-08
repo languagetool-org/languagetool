@@ -25744,8 +25744,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="ERST_MAL_KLEIN" name="erst Mal (mal)">
+            <antipattern>
+                <token>Mal</token>
+                <token>für</token>
+                <token>Mal</token>
+            </antipattern>
             <pattern>
-                <token regexp="yes" case_sensitive="yes">[Ee]rst|[Zz]unächst|[Vv]orerst|[Zz]uerst|[Nn]och|[Ss]chon</token>
+                <token regexp="yes" case_sensitive="yes">[Ee]rst|[Zz]unächst|[Vv]orerst|[Zz]uerst|[Nn]och|[Ss]chon|[Nn]un</token>
                 <marker>
                     <token case_sensitive="yes">Mal</token>
                 </marker>
@@ -35539,17 +35544,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="IN_DER_TAT" name="'in der tat (Tat)'">
+            <antipattern>
+                <token>tat</token>
+                <token regexp="yes">s?ich|e[rs]|sie|man</token>
+            </antipattern>
             <pattern case_sensitive="yes">
                 <token regexp="yes">[Ii]n</token>
                 <token>der</token>
                 <marker>
                     <token>tat</token>
                 </marker>
-                <token regexp="yes" negate="yes">s?ich|e[rs]|sie</token>
             </pattern>
             <message>&subanfang;<suggestion>Tat</suggestion>&subende;</message>
             <short>&prgk;.</short>
             <example correction="Tat">In der <marker>tat</marker> – dort liegt der Bahnhof.</example>
+            <example>… in der tat man so, als wäre man reich.</example>
         </rule>
         <rulegroup id="AUF_FRISCHER_TAT" name="'auf frischer tat (Tat)'">
             <rule>
