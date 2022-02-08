@@ -445,12 +445,12 @@ public class RuleMatchDiffFinder {
         fw.write(file.replaceFirst("result_", "").replaceFirst("_.*", ""));
         fw.write("</td>");
         if (outputFile.items.size() > 0 && outputFile.items.get(0).getNewMatch() != null) {
-          fw.write("<td>" + (outputFile.items.get(0).getNewMatch().getTags().contains("picky") ? "y" : "") + "</td>");
+          fw.write("<td>" + (outputFile.items.get(0).getNewMatch().getTags().contains("picky") ? "p" : "") + "</td>");
         } else {
           fw.write("<td></td>");
         }
         if (outputFile.items.size() > 0 && outputFile.items.get(0).getNewMatch() != null) {
-          fw.write("<td>" + (outputFile.items.get(0).getNewMatch().getStatus() == LightRuleMatch.Status.temp_off ? "y" : "") + "</td>");
+          fw.write("<td>" + (outputFile.items.get(0).getNewMatch().getStatus() == LightRuleMatch.Status.temp_off ? "t" : "") + "</td>");
         } else {
           fw.write("<td></td>");
         }
