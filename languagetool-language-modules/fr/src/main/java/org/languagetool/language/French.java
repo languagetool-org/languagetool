@@ -260,6 +260,7 @@ public class French extends Language implements AutoCloseable {
       case "MOTS_INCOMP": return 50; // greater than PRONSUJ_NONVERBE and DUPLICATE_DETERMINER
       case "PRIME-TIME": return 50; //  // greater than agreement rules
       case "A_VERBE_INFINITIF": return 20; // greater than PRONSUJ_NONVERBE
+      case "EMPLOI_EMPLOIE": return 20; // greater than MOTS_INCOMP
       case "VOIR_VOIRE": return 20; // greater than PLACE_DE_LA_VIRGULE
       case "CAT_TYPOGRAPHIE": return 20; // greater than PRONSUJ_NONVERBE or agreement rules
       case "CAT_HOMONYMES_PARONYMES": return 20;
@@ -324,10 +325,12 @@ public class French extends Language implements AutoCloseable {
       case "ELISION": return -200; // should be lower in priority than spell checker
       case "POINT": return -200; // should be lower in priority than spell checker
       case "REPETITIONS_STYLE": return -250;  // repetition style rules, usually with prefix REP_
+      case "FR_REPEATEDWORDS_EXIGER": return -250;  // repetition style rules,
       case "UPPERCASE_SENTENCE_START": return -300;
       case "FRENCH_WHITESPACE_STRICT": return -350; // picky; if on, it should overwrite FRENCH_WHITESPACE
       case "FRENCH_WHITESPACE": return -400; // lesser than UPPERCASE_SENTENCE_START and FR_SPELLING_RULE
       case "MOT_TRAIT_MOT": return -400; // lesser than UPPERCASE_SENTENCE_START and FR_SPELLING_RULE
+      case "FRENCH_WORD_REPEAT_BEGINNING_RULE": return -350; // less than REPETITIONS_STYLE
 
 
     }
