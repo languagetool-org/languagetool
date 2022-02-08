@@ -3941,6 +3941,33 @@ Copyright (C) 2011 Juan Martorell
         <disambig action="filter" postag="NP.*"/>
         <example type="untouched">LA CONSTANTE RIVALIDAD ENTRE ELLOS.</example>
     </rule>
+    <rulegroup id="CUYO" name="cuyo + nombre/vebo">
+        <rule>
+            <pattern>
+                <token regexp="yes">cuy[oa]s?</token>
+                <marker>
+                    <token postag="N.*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="V.[MSI].*"/>
+        </rule>
+    </rulegroup>
+    <rule id="UNA" name="una (not verb)">
+        <pattern>
+            <marker>
+                <token>una</token>
+            </marker>
+            <!-- error: está -->
+            <token>esta</token>
+        </pattern>
+        <disambig action="remove" postag="V.*"/> 
+    </rule>
+    <rule id="MADRUGADA" name="madurgada (no participio)">
+        <pattern>
+            <token>madrugada</token>
+        </pattern>
+        <disambig action="remove" postag="VMP00SF"/>
+    </rule>
     <rule id="pequeno" name="pequeño: adjectivo ante nombre">
         <pattern>
             <marker>
@@ -5013,7 +5040,7 @@ Copyright (C) 2011 Juan Martorell
         </rule>
         <rule>
             <pattern>
-                <token><exception inflected="yes">estar</exception></token>
+                <token><exception inflected="yes">estar</exception><exception regexp="yes">estas?</exception></token>
                 <marker>
                     <and>
                         <token postag="A.*" postag_regexp="yes" inflected="yes">falto<exception postag="_GN_.*" postag_regexp="yes"/></token>
@@ -5026,7 +5053,7 @@ Copyright (C) 2011 Juan Martorell
         </rule>
         <rule>
             <pattern>
-                <token><exception postag="V.*|RG" postag_regexp="yes"/></token>
+                <token><exception postag="V.*|RG" postag_regexp="yes"/><exception regexp="yes">estas?</exception></token>
                 <marker>
                     <token regexp="yes">fríos?<exception postag="_GN_.*" postag_regexp="yes"/></token>
                 </marker>
