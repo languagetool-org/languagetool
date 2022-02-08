@@ -26123,7 +26123,90 @@ Os Russos conhecem a ilha desde pelo menos o século XI, quando caçadores de No
 	 </rule>	 
     </rulegroup>
 
-
+	<!-- ESTA está -->
+    <rulegroup id='ESTA_ESTÁ' name="Confusão: esta/está">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-27/28 + 2021-12-06 (25-JUN-2021+)      -->
+	<!--
+A posição dos cestos agora é está. → A posição dos cestos agora é esta.
+A grande maioria dos gregos são cristãos sendo está fé seguida por 92% da população. → A grande maioria dos gregos são cristãos sendo esta fé seguida por 92% da população.
+	-->
+	<rule>
+      <pattern>
+		<token negate_pos="yes" postag='DA.+' postag_regexp='yes'/>
+	    <token min="1" max="2" postag='RG|NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+		<token postag='V.+' postag_regexp='yes'>
+			<exception postag_regexp='yes' postag='RG|I|NC.+|AQ.+|SPS.+'/>
+		</token>
+		<marker>
+			<token>está</token>
+		</marker>
+		<token negate_pos="yes" postag='V.+|SPS.+|RM|RG' postag_regexp='yes'/>
+      </pattern>
+	  <message>Substitua por <suggestion>esta</suggestion>.</message>
+      <example correction="esta">A posição dos cestos agora é <marker>está</marker>.</example>
+	  <example>A grande maioria dos gregos são cristãos sendo esta fé seguida por 92% da população.</example>
+    </rule>
+	<!--
+A raiz da árvore esta podre. → A raiz da árvore está podre.
+	-->
+	<rule>
+      <pattern>
+		<token negate="yes" regexp='yes'>d[ao]s?</token>
+		<token negate_pos='yes' postag='RG|V.+|NP.+|PP.+' postag_regexp='yes'/>
+		<token regexp='yes'>d[ao]s?</token>
+		<token postag='NC.+|AQ.+' postag_regexp='yes'/>
+		<marker>
+			<token>esta</token>
+		</marker>
+		<token postag='NC.+|AQ.+' postag_regexp='yes'>
+			<exception postag_regexp='yes' postag='AO.+'/>
+		</token>		
+      </pattern>
+	  <message>Substitua por <suggestion>está</suggestion>.</message>
+      <example correction="está">A raiz da árvore <marker>esta</marker> podre.</example>
+	  <example>Havia uns caras estranhos no banco esta manhã.</example>
+	  <example>Eu vou ao supermercado esta tarde.</example>
+	  <example>Antes da Relatividade esta interligação era um dado experimental.</example>
+	  <example>E em 1942, por conta da industrialização do coroá esta progressista cidade recebeu o título de usina.</example>
+    </rule>
+	<!--
+O livro guardado nos arquivos esta datado de 1691. → O livro guardado nos arquivos está datado de 1691.
+	-->
+	<rule>
+      <pattern>
+		<token regexp='yes'>n[ao]s?</token>
+		<token postag='NC.+|AQ.+' postag_regexp='yes'/>
+		<marker>
+			<token>esta</token>
+		</marker>
+		<token postag='V.+' postag_regexp='yes'/>	
+      </pattern>
+	  <message>Substitua por <suggestion>está</suggestion>.</message>
+      <example correction="está">O livro guardado nos arquivos <marker>esta</marker> datado de 1691.</example>
+    </rule>	
+	<!--
+Vê na etiqueta que esta agarrada ao cabaz. → Vê na etiqueta que está agarrada ao cabaz.
+	-->	
+    <rule>
+		<pattern>
+			<and>
+				<token negate="yes" regexp='yes'>[,]</token>
+				<token negate_pos='yes' postag='PP.+' postag_regexp='yes'/>
+			</and>
+			<token postag='AQ.+|NC.+|NP.+|CS' postag_regexp='yes'>
+				<exception postag_regexp='yes' postag='SPS.+'/>
+			</token>
+			<marker>
+				<token regexp='no'>esta</token>				
+			</marker>
+			<token postag='VMP00S.+' postag_regexp='yes'/>
+		</pattern>		
+		<message>Substitua por <suggestion>está</suggestion>.</message>
+		<example correction="está">Vê na etiqueta que <marker>esta</marker> agarrada ao cabaz.</example>
+		<example>Pensa-se que esta estrada teria ligação com outra do Alto Minho, a qual iria ter à Galiza.</example>
+	</rule>	
+	</rulegroup>
+	
     <rule id='O_AO' name="Confusão: o/ao" >
     <!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-07-04 (2-JUL-2020+) -->
       <pattern>		
