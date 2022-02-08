@@ -426,7 +426,7 @@ public class RuleMatchDiffFinder {
       fw.write("  <td>MOD</td>");
       fw.write("  <td>Source</td>");
       fw.write("  <td title='Picky'>P</td>");
-      fw.write("  <td title='TmpOff'>P</td>");
+      fw.write("  <td title='temp_off'>T</td>");
       fw.write("  <td>ID</td>");
       fw.write("  <td>Message of first match</td>");
       fw.write("</tr>");
