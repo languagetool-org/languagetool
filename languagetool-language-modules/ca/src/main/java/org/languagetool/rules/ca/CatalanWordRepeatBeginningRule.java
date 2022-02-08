@@ -76,7 +76,7 @@ public class CatalanWordRepeatBeginningRule extends WordRepeatBeginningRule {
       "Puix que");
 
   private static final List<String> EXCEPCIONS_START = Arrays.asList("el", "la", "els", "les", "punt", "article",
-      "mòdul", "part", "sessió", "unitat", "tema");
+      "mòdul", "part", "sessió", "unitat", "tema", "a");
 
   static {
     // based on https://www.pinterest.com/pin/229542912245527548/
