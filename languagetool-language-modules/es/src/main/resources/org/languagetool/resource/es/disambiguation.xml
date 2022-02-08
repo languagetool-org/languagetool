@@ -3964,9 +3964,9 @@ Copyright (C) 2011 Juan Martorell
     </rule>
     <rule id="MADRUGADA" name="madurgada (no participio)">
         <pattern>
-            <token>madrugada</token>
+            <token regexp="yes">madrugadas?|revistas?</token>
         </pattern>
-        <disambig action="remove" postag="VMP00SF"/>
+        <disambig action="remove" postag="V.P.*"/>
     </rule>
     <rule id="pequeno" name="pequeño: adjectivo ante nombre">
         <pattern>
@@ -4407,6 +4407,11 @@ Copyright (C) 2011 Juan Martorell
     </rule>
     <!--D_AN Detrás de un determinante, va el nombre y no el adjetivo-->
     <rule id="D_AN" name="Art + Nom/Adj = Nom">
+        <antipattern>
+            <!-- possible error esta/está -->
+            <token>esta</token>
+            <token postag="AQ.*" postag_regexp="yes"/>
+        </antipattern>
         <pattern>
             <unify>
                 <feature id="numero"/>
