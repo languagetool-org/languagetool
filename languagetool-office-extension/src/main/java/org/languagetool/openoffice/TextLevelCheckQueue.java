@@ -225,7 +225,7 @@ public class TextLevelCheckQueue {
       }
     }
     if (wait && !queueWaits && lastStart != null && lastDocId != null && lastDocId.equals(docId)) {
-      waitForInterrupt();
+//      waitForInterrupt();
       lastDocId = null;
     }
   }
@@ -484,7 +484,7 @@ public class TextLevelCheckQueue {
     void runQueueEntry(MultiDocumentsHandler multiDocHandler, SwJLanguageTool lt) {
       if (testHeapSpace()) {
         SingleDocument document = getSingleDocument(docId);
-        if (document != null) {
+        if (document != null && !document.isDisposed()) {
           document.runQueueEntry(nStart, nEnd, nCache, nCheck, overrideRunning, lt);
         }
       }

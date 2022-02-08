@@ -242,6 +242,9 @@ class SingleDocument {
       numLastVCPara = requestAnalysis.getLastParaNumFromViewCursor();
       boolean textIsChanged = requestAnalysis.textIsChanged();
       
+      if (disposed) {
+        return paRes;
+      }
       SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, docCursor, flatPara, 
           docLanguage, ignoredMatches, numParasToCheck, isDialogRequest, isIntern);
       paRes.aErrors = singleCheck.getCheckResults(paraText, footnotePositions, locale, lt, paraNum, 
@@ -527,7 +530,7 @@ class SingleDocument {
    * nFPara is number of flat paragraph
    */
   public void addQueueEntry(int nFPara, int nCache, int nCheck, String docId, boolean checkOnlyParagraph, boolean overrideRunning) {
-    if (mDocHandler.isSortedRuleForIndex(nCache) && docCache != null) {
+    if (!disposed && mDocHandler.isSortedRuleForIndex(nCache) && docCache != null) {
       TextParagraph nTPara = docCache.getNumberOfTextParagraph(nFPara);
       if (nTPara != null && nTPara.type != DocumentCache.CURSOR_TYPE_UNKNOWN) {
         int nStart;
@@ -561,7 +564,7 @@ class SingleDocument {
    * get the next queue entry which is the next empty cache entry
    */
   public QueueEntry getNextQueueEntry(TextParagraph nPara) {
-    if (docCache != null) {
+    if (!disposed && docCache != null) {
       if (nPara != null && nPara.type != DocumentCache.CURSOR_TYPE_UNKNOWN && nPara.number < docCache.textSize(nPara)) {
         for (int nCache = 1; nCache < paragraphsCache.size(); nCache++) {
           if (mDocHandler.isSortedRuleForIndex(nCache) && docCache.isFinished() 
@@ -598,7 +601,7 @@ class SingleDocument {
    * get the queue entry for the first changed paragraph in document cache
    */
   public QueueEntry getQueueEntryForChangedParagraph() {
-    if (docCache != null) {
+    if (!disposed && docCache != null) {
       CheckRequestAnalysis requestAnalysis = new CheckRequestAnalysis(numLastVCPara, numLastFlPara,
           OfficeTools.PROOFINFO_GET_PROOFRESULT, numParasToCheck, this, paragraphsCache, viewCursor);
       int nPara = requestAnalysis.changesInDocumentCache();
@@ -613,7 +616,7 @@ class SingleDocument {
    * run a text level check from a queue entry (initiated by the queue)
    */
   public void runQueueEntry(TextParagraph nStart, TextParagraph nEnd, int cacheNum, int nCheck, boolean override, SwJLanguageTool lt) {
-    if (flatPara != null && docCache.isFinished() && nStart.number < docCache.textSize(nStart)) {
+    if (!disposed && flatPara != null && docCache.isFinished() && nStart.number < docCache.textSize(nStart)) {
       SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, docCursor, flatPara, docLanguage, ignoredMatches, numParasToCheck, false, false);
       singleCheck.addParaErrorsToCache(docCache.getFlatParagraphNumber(nStart), lt, cacheNum, nCheck, 
           nEnd.number == nStart.number + 1, override, false, hasFootnotes);

@@ -62,7 +62,6 @@ public class DocumentCache implements Serializable {
   private final List<TextParagraph> toTextMapping = new ArrayList<>(); // Mapping from FlatParagraph to DocumentCursor
   private final List<List<Integer>> toParaMapping = new ArrayList<>(); // Mapping from DocumentCursor to FlatParagraph
   private final DocumentType docType;
-  private int defaultParaCheck;
   private boolean isReset = false;
 
   DocumentCache(DocumentType docType) {
@@ -70,10 +69,9 @@ public class DocumentCache implements Serializable {
     this.docType = docType;
   }
 
-  DocumentCache(DocumentCursorTools docCursor, FlatParagraphTools flatPara, int defaultParaCheck, Locale docLocale,
+  DocumentCache(DocumentCursorTools docCursor, FlatParagraphTools flatPara, Locale docLocale,
       XComponent xComponent, DocumentType docType) {
     debugMode = OfficeTools.DEBUG_MODE_DC;
-    this.defaultParaCheck = defaultParaCheck;
     this.docType = docType;
     refresh(docCursor, flatPara, docLocale, xComponent, 0);
   }
@@ -453,7 +451,6 @@ public class DocumentCache implements Serializable {
     footnotes.addAll(in.footnotes);
     toTextMapping.addAll(in.toTextMapping);
     toParaMapping.addAll(in.toParaMapping);
-    defaultParaCheck = in.defaultParaCheck;
   }
   
   /**
@@ -622,7 +619,7 @@ public class DocumentCache implements Serializable {
     }
     int endPos = textParagraph.number + 1 + parasToCheck;
     if (!checkOnlyParagraph) {
-      endPos += defaultParaCheck;
+      endPos += parasToCheck * OfficeTools.CHECK_MULTIPLIKATOR;
     }
     if (addParas) {
       endPos += parasToCheck;

@@ -154,7 +154,7 @@ class SingleCheck {
       MessageHandler.printToLogFile("SingleCheck: getCheckResults: paRes.aErrors.length: " + errors.length 
           + "; docID: " + singleDocument.getDocID());
     }
-    if (docType == DocumentType.WRITER && numParasToCheck != 0 && paraNum >= 0 && (textIsChanged || isDialogRequest)) {
+    if (!isDisposed() && docType == DocumentType.WRITER && numParasToCheck != 0 && paraNum >= 0 && (textIsChanged || isDialogRequest)) {
       if (docCursor == null && !isDisposed()) {
         docCursor = new DocumentCursorTools(xComponent);
       }
@@ -206,13 +206,13 @@ class SingleCheck {
       int startPos = docCache.getStartOfParagraph(startPara, tPara, parasToCheck, checkOnlyParagraph, useQueue, hasFootnotes);
       int endPos;
       for (int i = startPara; i < endPara; i++) {
-        if (useQueue && !isDialogRequest && (mDH.getTextLevelCheckQueue() == null || mDH.getTextLevelCheckQueue().isInterrupted())) {
+        if (isDisposed() || (useQueue && !isDialogRequest && (mDH.getTextLevelCheckQueue() == null || mDH.getTextLevelCheckQueue().isInterrupted()))) {
           return;
         }
         TextParagraph textPara = docCache.createTextParagraph(cursorType, i);
         int[] footnotePos = docCache.getTextParagraphFootnotes(textPara);
         if (i < endPara - 1) {
-          endPos = docCache.getStartOfParagraph(i + 1, textPara, parasToCheck, checkOnlyParagraph, useQueue, hasFootnotes);
+          endPos = docCache.getStartOfParagraph(i + 1, tPara, parasToCheck, checkOnlyParagraph, useQueue, hasFootnotes);
         } else {
           endPos = textToCheck.length();
         }
@@ -258,14 +258,11 @@ class SingleCheck {
         }
         startPos = endPos;
       }
-      if (docType == DocumentType.WRITER && useQueue && !isDialogRequest) {
+      if (!isDisposed() && docType == DocumentType.WRITER && useQueue && !isDialogRequest) {
         if (mDH.getTextLevelCheckQueue() == null || mDH.getTextLevelCheckQueue().isInterrupted()) {
           return;
         }
-        if (isDisposed()) {
-          return;
-        }
-        if (docCursor == null && !isDisposed()) {
+        if (docCursor == null) {
           docCursor = new DocumentCursorTools(xComponent);
         }
         flatPara = singleDocument.setFlatParagraphTools();
@@ -394,7 +391,9 @@ class SingleCheck {
   private List<SingleProofreadingError[]> checkTextRules( String paraText, Locale locale, int[] footnotePos, int paraNum, 
       int startSentencePos, SwJLanguageTool lt, boolean textIsChanged, boolean isIntern) {
     List<SingleProofreadingError[]> pErrors = new ArrayList<>();
-
+    if (isDisposed()) {
+      return pErrors;
+    }
     TextParagraph nTParas = paraNum < 0 ? null : docCache.getNumberOfTextParagraph(paraNum);
     if (nTParas == null || nTParas.type == DocumentCache.CURSOR_TYPE_UNKNOWN) {
       pErrors.add(checkParaRules(paraText, locale, footnotePos, paraNum, startSentencePos, lt, 0, 0, textIsChanged, isIntern));
@@ -414,7 +413,7 @@ class SingleCheck {
             oldCache = new ResultCache(paragraphsCache.get(i));
           }
           pErrors.add(checkParaRules(paraText, locale, footnotePos, paraNum, startSentencePos, lt, i, parasToCheck, textIsChanged, isIntern));
-          if (textIsChanged && !useQueue) {
+          if (!isDisposed() && textIsChanged && !useQueue) {
             if (parasToCheck != 0) {
               tmpChangedParas = paragraphsCache.get(i).differenceInCaches(oldCache);
               for (int chPara : tmpChangedParas) {
@@ -470,6 +469,9 @@ class SingleCheck {
     int startSentencePos = 0;
     int endSentencePos = 0;
     try {
+      if (isDisposed()) {
+        return pErrors;
+      }
       boolean isMultiLingual = nFPara >= 0 ? docCache.isMultilingualFlatParagraph(nFPara) : false;
       // use Cache for check in single paragraph mode only after the first call of paragraph
       if (nFPara >= 0 || (sentencePos > 0 && lastSinglePara != null && lastSinglePara.equals(paraText))) {
@@ -511,6 +513,9 @@ class SingleCheck {
 
         List<Integer> nextSentencePositions = getNextSentencePositions(paraText, mLt);
         paragraphMatches = mLt.check(removeFootnotes(paraText, footnotePos), true, JLanguageTool.ParagraphHandling.NORMAL);
+        if (isDisposed()) {
+          return null;
+        }
         if (paragraphMatches == null || paragraphMatches.isEmpty()) {
           paragraphsCache.get(cacheNum).put(nFPara, nextSentencePositions, new SingleProofreadingError[0]);
           if (debugMode > 1) {
@@ -547,6 +552,9 @@ class SingleCheck {
       }
 
       //  check of numParasToCheck or full text 
+      if (isDisposed()) {
+        return null;
+      }
       addParaErrorsToCache(nFPara, lt, cacheNum, parasToCheck, textIsChanged, textIsChanged, isIntern, (footnotePos != null));
       return paragraphsCache.get(cacheNum).getFromPara(nFPara, startSentencePos, endSentencePos);
 
@@ -786,34 +794,36 @@ class SingleCheck {
    */
   private List<SentenceErrors> getSentenceErrosAsList(int numberOfParagraph, SwJLanguageTool lt) {
     List<SentenceErrors> sentenceErrors = new ArrayList<SentenceErrors>();
-    CacheEntry entry = paragraphsCache.get(0).getCacheEntry(numberOfParagraph);
-    List<Integer> nextSentencePositions = null;
-    if (entry != null) {
-      nextSentencePositions = entry.nextSentencePositions;
-    }
-    if (nextSentencePositions == null) {
-      nextSentencePositions = new ArrayList<Integer>();
-    }
-    if (nextSentencePositions.size() == 0 && docCache != null 
-        && numberOfParagraph >= 0 && numberOfParagraph < docCache.size()) {
-      nextSentencePositions = getNextSentencePositions(docCache.getFlatParagraph(numberOfParagraph), lt);
-    }
-    int startPosition = 0;
-    if (nextSentencePositions.size() == 1) {
-      List<SingleProofreadingError[]> errorList = new ArrayList<SingleProofreadingError[]>();
-      for (ResultCache cache : paragraphsCache) {
-        CacheEntry cacheEntry = cache.getCacheEntry(numberOfParagraph);
-        errorList.add(cacheEntry == null ? null : cacheEntry.getErrorArray());
+    if (!isDisposed()) {
+      CacheEntry entry = paragraphsCache.get(0).getCacheEntry(numberOfParagraph);
+      List<Integer> nextSentencePositions = null;
+      if (entry != null) {
+        nextSentencePositions = entry.nextSentencePositions;
       }
-      sentenceErrors.add(new SentenceErrors(startPosition, nextSentencePositions.get(0), mergeErrors(errorList, numberOfParagraph)));
-    } else {
-      for (int nextPosition : nextSentencePositions) {
+      if (nextSentencePositions == null) {
+        nextSentencePositions = new ArrayList<Integer>();
+      }
+      if (nextSentencePositions.size() == 0 && docCache != null 
+          && numberOfParagraph >= 0 && numberOfParagraph < docCache.size()) {
+        nextSentencePositions = getNextSentencePositions(docCache.getFlatParagraph(numberOfParagraph), lt);
+      }
+      int startPosition = 0;
+      if (nextSentencePositions.size() == 1) {
         List<SingleProofreadingError[]> errorList = new ArrayList<SingleProofreadingError[]>();
         for (ResultCache cache : paragraphsCache) {
-          errorList.add(cache.getFromPara(numberOfParagraph, startPosition, nextPosition));
+          CacheEntry cacheEntry = cache.getCacheEntry(numberOfParagraph);
+          errorList.add(cacheEntry == null ? null : cacheEntry.getErrorArray());
         }
-        sentenceErrors.add(new SentenceErrors(startPosition, nextPosition, mergeErrors(errorList, numberOfParagraph)));
-        startPosition = nextPosition;
+        sentenceErrors.add(new SentenceErrors(startPosition, nextSentencePositions.get(0), mergeErrors(errorList, numberOfParagraph)));
+      } else {
+        for (int nextPosition : nextSentencePositions) {
+          List<SingleProofreadingError[]> errorList = new ArrayList<SingleProofreadingError[]>();
+          for (ResultCache cache : paragraphsCache) {
+            errorList.add(cache.getFromPara(numberOfParagraph, startPosition, nextPosition));
+          }
+          sentenceErrors.add(new SentenceErrors(startPosition, nextPosition, mergeErrors(errorList, numberOfParagraph)));
+          startPosition = nextPosition;
+        }
       }
     }
     return sentenceErrors;

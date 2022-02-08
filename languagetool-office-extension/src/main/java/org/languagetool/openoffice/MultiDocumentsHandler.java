@@ -360,11 +360,11 @@ public class MultiDocumentsHandler {
         if (config.saveLoCache()) {
           document.writeCaches();
         }
-        if (useQueue && textLevelQueue != null) {
-          MessageHandler.printToLogFile("Interrupt text level queue for document " + document.getDocID());
-          textLevelQueue.interruptCheck(document.getDocID(), true);
-          MessageHandler.printToLogFile("Interrupt done");
-        }
+//        if (useQueue && textLevelQueue != null) {
+//          MessageHandler.printToLogFile("Interrupt text level queue for document " + document.getDocID());
+//          textLevelQueue.interruptCheck(document.getDocID(), true);
+//          MessageHandler.printToLogFile("Interrupt done");
+//        }
         document.setXComponent(xContext, null);
         if (document.getDocumentCache().hasNoContent()) {
           //  The delay seems to be necessary as workaround for a GDK bug (Linux) to stabilizes
