@@ -1773,7 +1773,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token postag="VER:[123]:.*" postag_regexp="yes">
                         <exception postag="VER:.*" postag_regexp="yes" negate_pos="yes"/>
-                        <exception regexp="yes">regen|prallen|siebten|achten|web|wachen|trauten|ehelichen|Schweiße|Schweisse|stumpfen|.+bändigen|.+orientiert.*|.+vergleich|durchschnitt|stockdunkeln|leben|sitzen|garten|.*lauf|.+blick|weg|dunkeln|dunklen|hellen|wegstehen|.+gebiet|Skype|.+unterricht</exception>
+                        <exception regexp="yes">regen|prallen|siebten|achten|web|wachen|trauten|ehelichen|Schweiße|Schweisse|stumpfen|.+bändigen|.+orientiert.*|.+vergleich|durchschnitt|stockdunkeln|leben|sitzen|garten|.*lauf|.+blick|weg|dunkeln|dunklen|hellen|wegstehen|.+gebiet|Skype|.+unterricht|.+steig|knie</exception>
                         <exception postag="VER:INF.*" postag_regexp="yes" case_sensitive="yes" regexp="yes">[A-ZÄÖÜ][a-zäöüß].*</exception>
                     </token>
                 </pattern>
@@ -13779,7 +13779,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Meinten Sie das Nomen <suggestion>Gering<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Geringverdiener">Aus dem Weg, <marker>gering Verdiener</marker>!</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>klein</token>
                     <token regexp="yes" case_sensitive="yes">[kK]rams?|Kinds?|Kindern?|Gruppen?|Gelds?|Kriegs?|Arbeit|Ausgabe|Unternehmers?|Betriebs?|Abnehmers?|Aktionärs?|Anzeigen?|Besitzers?|Grundbesitzers?|Hirns?</token>
@@ -30885,7 +30885,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <!-- the regex below matches singular nouns of female gender that can also be verb forms -->
             <rule>
                 <antipattern>
-                    <token postag_regexp="yes" postag="PRO:REF:.+" skip="1"/>
                     <token case_sensitive="yes" regexp="yes">scheiße|scheisse</token>
                     <token inflected="yes" regexp="yes">fühlen|gehen|finden|aussehen|behandeln|bauen|laufen|abgehen|sein</token>
                 </antipattern>
@@ -31024,7 +31023,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes" case_sensitive="yes">ab(fahrt|frage|fuhr|reise|sage)|an(fahrt|frage|klage|rede|reise|richte|sage|zeige)|asche|ausbeute|ausfahrt|ausfuhr|ausleihe|auslese|ausrede|ausreise|aussage|backe|bahre|band|beichte|beize|beule|beute|binde|blase|bombe|bräune|brause|braut|bremse|buche|bucht|bürde|bürste|creme|decke|delle|dichte|durchfahrt|durchreiche|durchreise|durchsage|dusche|düse|ehre|eiche|eile|einbrenne|einfahrt|einreise|erde|fahrt|falle|falte|feier|feile|flamme|flaute|fliege|fliese|flöte|flucht|folge|frage|fräse|fresse|fülle|furche|geige|gemeinde|glotze|gnade|grenze|grille|großtat|grosstat|gurke|hacke|halle|harke|härte|haut|hecke|hetze|hexe|hinfahrt|hinreise|höhle|hülle|hupe|hure|illustrierte|initiative|kacke|kante|kappe|karre|keile|kerbe|kette|keule|kippe|klage|klampfe|klappe|klatsche|klaue|klebe|klemme|klette|klinge|klingel|klinke|kloppe|knarre|knete|knospe|kotze|krähe|kralle|kurbel|kurve|kürze|kutsche|lade|last|lauge|lehne|lehre|leier|leiste|leuchte|liege|linse|locke|lüge|lymphe|menge|messe|miete|mühe|münze|nachfolge|nachfrage|nähe|naht|nässe|pappe|pauke|pause|pelle|perle|pfeife|pflanze|pisse|plane|posaune|predigt|presse|probe|prostituierte|pumpe|quelle|ramme|ranke|rassel|rast|rate|ratsche|raute|rede|reibe|reihe|reise|rinne|ritze|robbe|röhre|rolle|rotze|rückfrage|rüge|ruhe|rutsche|sage|säge|sahne|sause|salbe|schabe|schanze|scharte|schau|schaufel|schaukel|scheide|scheiße|scheisse|schelle|schenke|schere|schiene|schippe|schlampe|schlappe|schleife|schleppe|schleuder|schleuse|schließe|schliesse|schlinge|schmiede|schmiere|schnalle|schnauze|schneide|schnitte|schramme|schraube|schule|schuppe|schürze|schwäche|schwärze|schwebe|schwelle|schwemme|schwitze|sehne|seife|senke|sonne|sorge|spalte|spanne|sparte|speise|spende|sperre|spritze|spucke|spule|spüle|stärke|stelle|stiege|stimme|strafe|strebe|strecke|streife|strippe|stufe|stunde|stütze|suche|sucht|sülze|summe|taste|tat|taufe|trage|träne|tränke|trommel|trompete|tröte|tunke|tüte|unke|vollmacht|voraussage|vorfahrt|vorhersage|vormacht|wacht|walze|wand|wärme|warte|weide|weile|welle|wende|werft|wette|wichse|wiege|wiese|winde|wippe|wohltat|wolle|würze|zeche|zicke|zufuhr|zusage|zwinge</token>
                     </marker>
                     <token postag="VER:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">^[a-zäöü].+
-                        <exception regexp="yes">ein(en?)?|sein|deutschen?|klaren?|bitte|schnell|sicher|gleich|dringend|anscheinend|andauernd|anschlie(ß|ss)end|zunehmend|überwiegend</exception>
+                        <exception regexp="yes">ein(en?)?|meine?n?|sein|deutschen?|klaren?|bitte|schnell|sicher|gleich|dringend|anscheinend|andauernd|anschlie(ß|ss)end|zunehmend|überwiegend|verdammt</exception>
                         <exception postag="ADV:MOD" />
                     </token>
                 </pattern>
@@ -31760,7 +31759,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <antipattern>
                     <token case_sensitive="yes" skip="7">Bedarf</token>
-                    <token inflected="yes" regexp="yes">geben|bestehen|haben</token>
+                    <token inflected="yes" regexp="yes">geben|bestehen|haben|anmelden</token>
                 </antipattern>
                 <antipattern>
                     <token inflected="yes" regexp="yes">geben|bestehen|haben</token>
@@ -34859,7 +34858,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>&prgk;.</short>
                 <example correction="Haut">Und du liegst wieder auf der faulen <marker>haut</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="(PRO:POS|ART):.*FEM.*" postag_regexp="yes">
                         <exception>das</exception>
@@ -34877,11 +34876,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
                 <example correction="Haut">Ihre <marker>haut</marker> ist sehr weich.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern case_sensitive="yes">
                     <token inflected="yes" skip="2">gehen</token>
                     <token>unter</token>
-                    <token>die</token>
+                    <token regexp="yes">die|meine</token>
                     <marker>
                         <token>haut</token>
                     </marker>
@@ -39088,6 +39087,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Gründe">Keiner der genannten <marker>gründe</marker> trifft zu.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>die</token>
+                    <token>gründen</token>
+                </antipattern>
                 <pattern>
                     <token postag="(PRO:POS|ART):.+|PRO:IND:NOM:PLU.*" postag_regexp="yes">
                         <exception>das</exception>
@@ -39548,6 +39551,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Liebe">Er kam der <marker>liebe</marker> wegen nach Berlin.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>liebe</token>
+                    <token postag="EIG.*FEM.*" postag_regexp="yes" />
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[aA]us</token>
                     <marker>
@@ -39557,6 +39564,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>&inwend;'aus Liebe' wird <suggestion>Liebe</suggestion> in der Regel großgeschrieben.</message>
                 <short>&prgk;.</short>
                 <example correction="Liebe">Nur nicht aus <marker>liebe</marker> weinen, es gibt im Leben nicht nur den einen.</example>
+                <example>Wie siehst du denn aus liebe Daniela?</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -41973,9 +41981,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <antipattern>
-                    <token>der</token>
+                    <token regexp="yes">der|die</token>
                     <token>versuchen</token>
-                    <token inflected="yes">werden</token>
+                    <token inflected="yes" regexp="yes">werden|sollen</token>
+                </antipattern>
+                <antipattern>
+                    <token>alle</token>
+                    <token>versuchen</token>
                 </antipattern>
                 <pattern>
                     <token postag="(PRO|ART).*MAS.*" postag_regexp="yes">
@@ -42115,6 +42127,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="LEID_SUBST" name="'leid (LEID)'">
             <rule>
+                <antipattern>
+                    <token inflected="yes">tun</token>
+                    <token>ihr</token>
+                    <token>leid</token>
+                </antipattern>
                 <pattern>
                     <token postag="PRO:POS:.+" postag_regexp="yes"/>
                     <token min="0">ganzes</token>
@@ -42127,6 +42144,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>&prgk;.</short>
                 <example correction="Leid">Er hat ihr sein ganzes <marker>leid</marker> geklagt.</example>
                 <example>Sie sagte, dass es ihr <marker>leid</marker> tut.</example>
+                <example>Es tut ihr leid.</example>
             </rule>
             <rule>
                 <pattern>
@@ -55340,6 +55358,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token inflected="yes" regexp="yes" min="0">werden|haben</token>
                 <token regexp="yes">mein(en?)?</token>
             </antipattern>
+            <antipattern><!-- „Nun, ich habe meine in die Schublade getan. -->
+                <token postag="SENT_START|PKT" postag_regexp="yes" />
+                <token postag="ART.*|PRO:(POS|DEM).*" postag_regexp="yes" />
+                <token postag="(ADJ|PA[12]).*" postag_regexp="yes" min="0" max="2" />
+                <token postag="EIG.*|PRO.*|SUB.*" postag_regexp="yes" />
+                <token inflected="yes" regexp="yes">werden|haben</token>
+                <token regexp="yes">mein(en?)?</token>
+            </antipattern>
+            <antipattern><!-- „Nun, ich habe meine in die Schublade getan. -->
+                <token postag="SENT_START|PKT" postag_regexp="yes" />
+                <token regexp="yes" min="0">&anfauf;</token>
+                <token postag="ADV.*" postag_regexp="yes" min="0" />
+                <token regexp="yes" min="0">Herrn?|Frau|Fräulein</token>
+                <token postag="PRO:PER:NOM.*|PRO:IND.*|EIG.*" postag_regexp="yes" />
+                <token inflected="yes" regexp="yes">werden|haben</token>
+                <token regexp="yes">mein(en?)?</token>
+            </antipattern>
             <rule><!-- Ich glaube für euch ist hier kein Platz -->
                 <pattern>
                     <token postag="PKT|SENT_START|KON.*" postag_regexp="yes" />
@@ -55382,6 +55417,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ich denke wegen euch einen wirklich großen Schritt weiter.</example>
                 <example>Tom weiß mit Lasttieren umzugehen.</example>
                 <example>Ich hoffe auf einen regen Austausch.</example>
+                <example>„Nun, ich habe meine in die Schublade getan.</example>
                 <example>Ich habe einen Füller von Marco benutzt, weil ich meinen zu Hause vergessen hatte.</example>
             </rule>
             <rule><!-- Die Menschen glauben bei euch ist kein Platz.  -->
@@ -55536,8 +55572,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes" min="0">Herrn?|Frau|Fräulein</token>
                     <token postag="PRO:PER:NOM.*|PRO:IND.*|EIG.*" postag_regexp="yes" />
                     <token inflected="yes" regexp="yes" min="0">werden|haben</token>
-                    <token regexp="yes" inflected="yes"><!-- TODO: add "meinen" -->
-                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|merken
+                    <token regexp="yes" inflected="yes">
+                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|merken|meinen
                         <exception postag="SUB.*" postag_regexp="yes" />
                     </token>
                     <token regexp="yes" min="0">übrigens|deswegen|immer|allerdings|durchaus|eher|mal|also|jedoch|jedenfalls</token>
@@ -55602,8 +55638,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes" min="0">Herrn?|Frau|Fräulein</token>
                     <token postag="PRO:PER:NOM.*|PRO:IND.*|EIG.*" postag_regexp="yes" />
                     <token inflected="yes" regexp="yes" min="0">werden|haben</token>
-                    <token regexp="yes" inflected="yes"><!-- TODO: add "meinen" -->
-                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|merken
+                    <token regexp="yes" inflected="yes">
+                        glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|merken|meinen
                         <exception postag="SUB.*" postag_regexp="yes" />
                     </token>
                     <token regexp="yes" min="0">übrigens|deswegen|immer|allerdings|durchaus|eher|mal|also|jedoch|jedenfalls</token>
@@ -63254,7 +63290,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">rot(lackiert|geschminkt|kariert|gestreift|gefroren|glühend|geädert|unterlaufen|geweint)(e[nmrs]?)?|(gelb|blau|grün)(gestreift|kariert|(ge)?färbt?)(e[nmrs]?)?|schwarz(gerändert|gestreift|gekleidet|gelockt|(ge)?färbt?)(e[nmrs]?)?|wei(ß|ss)(gekleidet|(ge)?(färb|kalk|tünch|wasch)t?|gestreift|lackiert|gestrichen|gedeckt|glühend)(e[nmrs]?)?</token>
+                    <token regexp="yes">rot(lackiert|geschminkt|kariert|gestreift|gefroren|glühend|geädert|unterlaufen|geweint)(e[nmrs]?)?|(gelb|blau|grün)(gestreift|kariert|(ge)?färbt?)(e[nmrs]?)?|schwarz(gerändert|gestreift|gekleidet|gelockt|(ge)?färbt?)(e[nmrs]?)?|wei(ß|ss)(gekleidet|(ge)?(färb|kalk|tünch)t?|gestreift|lackiert|gestrichen|gedeckt|glühend)(e[nmrs]?)?</token>
                 </pattern>
                 <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1" regexp_match="(.)(ot|elb|lau|rün|chwarz|eiß)(.*)" regexp_replace="$1$2 $3"/></suggestion> verwenden?</message>
                 <example correction="Rot lackierte"><marker>Rotlackierte</marker> Autos gefallen ihr ganz besonders.</example>
