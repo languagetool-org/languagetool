@@ -42039,6 +42039,83 @@ Grave as preferências para que tenha de as alterar constantemente. → Grave as
     </rulegroup>
 
 
+	<!-- O QUE ORIGINA originando -->
+    <rule id='SIMPLIFICAR_O_QUE_VERBO_VERBOGERUNDIO' name="Simplificar: O que + V. → V. Gerúndio" type="style" default="off">
+    <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-02-08/09 (1-JAN-2022+)      -->
+	<!--
+As regras estão erradas o que origina a sua desorganização. → As regras estão erradas originando a sua desorganização.
+	-->
+
+<!--
+A César o que é de César.
+Ninguém larga sem dor o que possui com amor.
+Eu não sei o que seria de nós sem você.
+Dois homens estão checando o que está de errado com o carro.
+-->	
+	  <antipattern>
+		<token>o</token>
+		<token>que</token>
+		<token postag='VMIP3.+' postag_regexp='yes'/>
+		<token postag='SPS00.*' postag_regexp='yes'>
+			<exception regexp='yes'>às?|[ao]s?|d[ao]s?|del[ae]s?|em|n[ao]s?|para|pel[ao]s?</exception>
+		</token>
+	  </antipattern>
+
+<!--
+Não faz sentido discutir sobre o que é verdade e o que não é.
+Contudo, o que impera são os fascismos sociais.
+Afinal, o que é consciência?
+Aliás, o que é backup?
+
+WORKING ON THIS ANTIPATTERN: 2022-02-09
+FIX FALSE POSITIVES WITH STARTING RG
+-->
+	  <antipattern>
+		<token postag='SPS.+|CC|RG' postag_regexp='yes'/>
+		<token min="0" max="1" regexp='yes'>[,]</token>
+		<token>o</token>
+		<token>que</token>
+		<token postag='V.+' postag_regexp='yes'/>
+		<token postag='NC.+|AQ.+' postag_regexp='yes'/>
+	  </antipattern>
+
+      <pattern>
+		<and>
+			<token negate="yes" inflected='yes' regexp='yes'>haver|estar|existir|ser</token>
+			<token negate_pos="yes" postag='SPS.+|SENT_START|PP.+|VM[MNS].+|PI.+|CS|RG|DD.+|PD.+|NP.+|PE.+|PR.+|PT.+|CC|VMIP[^3].+' postag_regexp='yes'/>
+		</and>
+		<marker>
+			<token>o</token>
+			<token>que</token>
+			<token postag='VMIP3.+' postag_regexp='yes'/>
+		</marker>
+		<and>
+			<token negate_pos="yes" postag='_PUNCT|SENT_END|VMG0000|CC|VM[MNS].+|CS|RG|VMP00.+|DD.+|PD.+|PI.+|NP.+|PP.+|VMIP[^3].+' postag_regexp='yes'/>
+			<token negate="yes" inflected='yes' regexp='yes'>haver|estar|existir|ser</token>
+		</and>
+		<token negate_pos="yes" postag='_PUNCT' postag_regexp='no'/>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+	  <suggestion><match no='4' postag='VMIP3.+' postag_regexp="yes" postag_replace='VMG0000'/></suggestion>
+      <example correction="originando">As regras estão erradas <marker>o que origina</marker> a sua desorganização.</example>
+	  <example>E o que é este algo?</example>
+	  <example>Entenda o que muda!</example>
+	  <example>Por isso, olhe para dentro e saiba o que quer!</example>
+	  <example>Não sei o que significa esta palavra. Vou procurá-la no dicionário.</example>
+	  <example>Os estudos definem objetivamente o que seria essa energia?</example>
+
+	  <example>A César o que é de César.</example>
+	  <example>Ninguém larga sem dor o que possui com amor.</example>
+	  <example>Eu não sei o que seria de nós sem você.</example>
+	  <example>Dois homens estão checando o que está de errado com o carro.</example>
+
+	  <example>Não faz sentido discutir sobre o que é verdade e o que não é.</example>
+	  <example>Contudo, o que impera são os fascismos sociais.</example>
+	  <example>Afinal, o que é consciência?</example>
+	  <example>Aliás, o que é backup?</example>
+    </rule>
+
+
 	<!-- VÁRIAS VEZES vári[ao]s -->
     <rule id='VÁRIAS_VEZES_VÁRIAS' name="Simplificar: Várias vezes → Vári[ao]s" type="style">
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-23 (Checked/Enhanced) (1-JAN-2022+)      -->
