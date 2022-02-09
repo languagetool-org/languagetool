@@ -1995,6 +1995,15 @@ Copyright (C) 2011 Juan Martorell
     <rulegroup id="ADVERBS" name="adverbios">
         <rule>
             <pattern>
+                <token regexp="yes">lo|qué</token>
+                <marker>
+                    <token>cerca</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="RG"/>
+        </rule>
+        <rule>
+            <pattern>
                 <token postag="D.*" postag_regexp="yes"/>
                 <marker>
                     <token>mano</token>
@@ -3960,7 +3969,7 @@ Copyright (C) 2011 Juan Martorell
             <!-- error: está -->
             <token>esta</token>
         </pattern>
-        <disambig action="remove" postag="V.*"/> 
+        <disambig action="remove" postag="V.*"/>
     </rule>
     <rule id="MADRUGADA" name="madurgada (no participio)">
         <pattern>
@@ -4439,7 +4448,7 @@ Copyright (C) 2011 Juan Martorell
             <marker>
                 <token postag="D[^T].*" postag_regexp="yes"><exception inflected="yes">todo</exception><exception postag="R.*|P[IX].*" postag_regexp="yes"/></token>
             </marker>
-            <token postag="[PNA].*" postag_regexp="yes"><exception postag="V.*|P[IX].*" postag_regexp="yes"/></token>
+            <token postag="[PNA].*" postag_regexp="yes"><exception postag="V.*|P[IX].*|D.*" postag_regexp="yes"/></token>
         </pattern>
         <disambig action="filter" postag="D.*|_GN_.*"/>
     </rule>
