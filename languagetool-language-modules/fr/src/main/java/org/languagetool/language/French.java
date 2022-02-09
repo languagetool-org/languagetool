@@ -285,6 +285,7 @@ public class French extends Language implements AutoCloseable {
       case "AN_EN": return 10; // needs higher priority than AN_ANNEE
       case "APOS_M": return 10; // needs higher priority than APOS_ESPACE
       case "ACCORD_PLURIEL_ORDINAUX": return 10; // needs higher priority than D_J
+      case "ADJ_ADJ_SENT_END": return 10; // needs higher priority than ACCORD_COULEUR
       case "SE_CE": return -10; // needs higher priority than ELISION
       case "SYNONYMS": return -10; // less than ELISION
       case "PAS_DE_SOUCIS": return 10; // needs higher priority than PAS_DE_PB_SOUCIS (premium)
@@ -311,7 +312,6 @@ public class French extends Language implements AutoCloseable {
       case "ILS_VERBE": return -50; // greater than FR_SPELLING_RULE
       case "AGREEMENT_POSTPONED_ADJ": return -50;
       case "MULTI_ADJ": return -50;
-      case "POINTS_SUSPENSIONS_SPACE": return -50; // lesser than grammar rules
       case "ESSENTIEL": return -50; // lesser than grammar rules
       case "CONFUSION_AL_LA": return -50; // lesser than AUX_AVOIR_VCONJ
       case "IMPORTANT": return -50; // lesser than grammar rules
@@ -326,6 +326,7 @@ public class French extends Language implements AutoCloseable {
       case "POINT": return -200; // should be lower in priority than spell checker
       case "REPETITIONS_STYLE": return -250;  // repetition style rules, usually with prefix REP_
       case "FR_REPEATEDWORDS_EXIGER": return -250;  // repetition style rules,
+      case "POINTS_SUSPENSIONS_SPACE": return -250;  // should be lower in priority than ADJ_ADJ_SENT_END
       case "UPPERCASE_SENTENCE_START": return -300;
       case "FRENCH_WHITESPACE_STRICT": return -350; // picky; if on, it should overwrite FRENCH_WHITESPACE
       case "FRENCH_WHITESPACE": return -400; // lesser than UPPERCASE_SENTENCE_START and FR_SPELLING_RULE

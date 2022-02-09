@@ -190,7 +190,9 @@ RB => Règles Brutes
     </rule>
     <rule id="INTERDIT" name="interdit">
         <pattern>
-            <token postag="N.*" postag_regexp="yes"/>
+            <token postag="N.*" postag_regexp="yes">
+                <exception postag="V (avoir|etre).*|A" postag_regexp="yes"/>
+            </token>
             <marker>
                 <token>interdit</token>
             </marker>
@@ -3618,6 +3620,7 @@ RB => Règles Brutes
     <rulegroup id="FAIS_ATTENTION" name="fais attention">
         <rule>
         <pattern>
+            <token postag="SENT_START|M nonfin" postag_regexp="yes"/>
             <marker>
                 <token regexp="yes">faisons|fais|faites</token>
             </marker>
