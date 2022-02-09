@@ -7092,7 +7092,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>esta</token>
                     </marker>
                     <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
-                    <token regexp="yes">llena|casada|embarazada|metida|llamada|licenciada|basada|pegada|partida|pedida|ausente|asociada|subida|enamorada|verde|pendiente|lista<exception postag="AO0FS0"/></token>
+                    <token regexp="yes">llena|casada|embarazada|metida|llamada|licenciada|basada|pegada|partida|pedida|ausente|asociada|subida|enamorada|verde|pendiente|lista</token>
                     <!-- TODO: check similiar possible confusions in the dict: adj/noun -->
                 </pattern>
                 <message>Si es del verbo 'estar', se escribe con tilde.</message>
@@ -7133,6 +7133,185 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Esta subida en los precios es inexplicable.</example>
                 <example correction="está"><marker>esta</marker> partida por la mitad</example>
                 <example correction="está">¡Piscis <marker>esta</marker> enamorada!</example>
+            </rule>
+            <rule default="temp_off">
+                <!-- está + llena (ambiguous adj/n)
+                similar to previous rule with more words-->
+                <antipattern>
+                    <token postag="SENT_START" skip="-1"><exception scope="next" postag="C.*|PR.*" postag_regexp="yes"/></token>
+                    <token postag="_GN_FS">esta</token>
+                    <token postag="_GN_FS" skip="-1"><exception scope="next" postag="C.*|PR.*" postag_regexp="yes"/></token>
+                    <token postag="V.[SI].*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.[SI].*" postag_regexp="yes" skip="-1"><exception scope="next" postag="C.*|PR.*" postag_regexp="yes"/></token>
+                    <token postag="_GN_FS">esta</token>
+                    <token postag="_GN_FS" skip="-1"><exception scope="next" postag="C.*|PR.*" postag_regexp="yes"/></token>
+                </antipattern>
+                <antipattern>
+                    <token postag="VMM.*" postag_regexp="yes"/>
+                    <token>esta</token>
+                </antipattern>
+                <antipattern>
+                    <token>esta</token>
+                    <token postag="A...S.|V.P..SF" postag_regexp="yes"/>
+                    <token postag="N.[FC][SN].*" postag_regexp="yes"><exception>mañana</exception></token>
+                </antipattern>
+                <antipattern>
+                    <token>esta</token>
+                    <token max="3" min="1" postag="A..[FC][SN].|V.P..SF|NCFS.*" postag_regexp="yes"/>
+                    <token postag="V.[SI].*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>esta</token>
+                    <token max="3" min="1" postag="A..[FC][SN].|V.P..SF|NCFS.*" postag_regexp="yes"/>
+                    <token postag="CC"/>
+                    <token max="2" min="1" postag="A..[FC][SN].|V.P..SF|NCFS.*" postag_regexp="yes"/>
+                    <token postag="V.[SI].*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>,</token>
+                    <token>esta</token>
+                    <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                    <token postag="A..FS." postag_regexp="yes"><exception>sola</exception></token>
+                </antipattern>
+                <antipattern>
+                    <token postag="_GN_FS">esta</token>
+                    <token postag="_GN_FS"/>
+                    <token postag="_GN_FS"/>
+                </antipattern>
+                <antipattern>
+                    <token>esta</token>
+                    <token>llamada</token>
+                    <token><exception regexp="yes">a|al</exception></token>
+                </antipattern>
+                <antipattern>
+                    <token>esta</token>
+                    <token>subida</token>
+                    <token><exception regexp="yes">a|en</exception></token>
+                </antipattern>
+                <antipattern>
+                    <token>esta</token>
+                    <token>partida</token>
+                    <token><exception>por</exception></token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>esta</token>
+                    </marker>
+                    <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                    <token regexp="yes"
+                        >basada|muerta|casada|cubierta|cerrada|embarazada|llena|enamorada|sentada|asociada|protegida|dominada|afiliada|enferma|perdida|loca|ausente|clara|interesada|rota|dormida|implicada|pintada|rematada|obligada|acreditada|asentada|echada|asegurada|metida|pendiente|condenada|iluminada|herida|contenta|enterada|recogida|desesperada|inconsciente|feliz|puesta|encargada|montada|afectada|limpia|helada|poseída|divorciada|prometida|pegada|mojada|acostada|subordinada|rodada|confinada|detenida|ordenada|seca|desaparecida|sembrada|habilitada|licenciada|armada|recomendada|chiflada|invitada|borracha|orgullosa|empleada|aterrada|débil|internada|alfabetizada|vacante|sacada|acusada|verde|invertida|alerta|distraída|aliada|tirada|resentida|predestinada|defendida|arrepentida|jubilada|pasada|soltera|penada|ciega|graduada|prisionera|hinchada|cambiada|dispersa|retenida|suelta|gris|gorda|azul|histérica|desgarrada|guapa|picada|titulada|hambrienta|tibia|enrollada|soldada|vencida|avanzada|ida|encarnada|seguida|impedida|cuajada|necesitada|chalada|liberada|alzada|bordada|lanzada|desaconsejada|normal|cautiva|cogida|derivada|colada|lesionada|incapacitada|hueca|varada|convaleciente|sorda|agregada|reparada|negada|arrancada|descubierta|llevada|encorvada|serena|incomunicada|descalza|atracada|mandada|frita|peinada|disimulada|acampada|diplomada|procesada|demente|estirada|agarrada|blanca|entretenida|inválida|izada|calada|pelada|pirada|ahogada|copada|sonriente|pillada|iniciada|mutilada|majareta|moribunda|ebria|acelerada|helena|abrigada|lisa|exiliada|desamparada|refugiada|encalada|arqueada|imposibilitada|retrasada|paranoica|delegada|elegida|adoptada|dorada|ajada|coja|pedida|pasmada|lavada|disparada|trancada|paralítica|descuidada|entendida|arañada|endemoniada|accidentada|pringada|despatarrada|espantada|exaltada|maya|adjunta|cómoda|crecida|paralela|moderada|galardonada|denunciada|colegiada|tullida|acordada|lisiada|planchada|desbocada|librada|vertical|cristina|súper|patricia|rabiosa|ociosa|igualada|violada|mellada|arrimada|chunga|dopada|punteada|enviada|tísica|vigilante|volada|semi|destapada|confederada|tostada|horizontal|rastrillada|aguada|plana|degenerada|conjugada|alba|cesante|chocha|derecha|turbia|júnior|lacerada|conjurada|paulina|interna|encausada|dejada|amurada|lila|fallecida|obrada|escarmentada|beneficiada|arada|indefinida|maja|barata|segada|laureada|pulsada|abanderada|leprosa|votada|encharcada|emparedada|alienada|escamada|piripi|indiferente|parida|convicta|chupada|cebada|maldecida|cruzada|inclusa|mona|macedonia|durmiente|ronca|calva|inconforme|hilada|desvalida|arriada|calatrava|encapuchada|consentida|despistada|refrenada|desaprovechada|finalista|chueca|encañada|excomulgada|realquilada|embolada|desnaturalizada|fucsia|testada|botada|indocumentada|recocida|carioca|asilada|herniada|vengadora|violeta|soltada|gaya|culpada|cuartelada|leída|pensionada|flagelada|siria|desposeída|libia|becada|líquida|desconfiada|lidia|oída|chequeada|cuadrada|pesimista|maníaca|tata|fumada|lela|sentimental|armenia|depresiva|amotinada|manca|rebotada</token>
+                </pattern>
+                <message>Si es del verbo 'estar', se escribe con tilde.</message>
+                <suggestion>está</suggestion>
+                <example correction="está">La Biblia <marker>esta</marker> llena de errores.</example>
+                <example correction="está">Ella <marker>esta</marker> casada y tiene tres hijos.</example>
+                <example correction="está">como saber si mi hipoteca <marker>esta</marker> metida en esa primera titulación</example>
+                <example correction="Está"><marker>Esta</marker> ausente en "Jade con Beck" y "El Wood", hasta ahora.</example>
+                <!--   "Jade vota a Beck" should be tagged as an independent entity 
+                    <example correction="Está"><marker>Esta</marker> ausente en "Jade vota a Beck" y "El Wood", hasta ahora.</example>-->
+                <example correction="está">Se siente bien aunque todavia <marker>esta</marker> verde.</example>
+                <example correction="está">El comentario ha sido enviado y ahora <marker>esta</marker> pendiente de revisión. </example>
+                <example>Esta pendiente es demasiado pronunciada.</example>
+                <example>Pélame esta naranja.</example>
+                <example>Esta rosa silvestre desprende un aroma dulce.</example>
+                <example>Esta madrugada no será posible.</example>
+                <example>¿Cuánto te está costando esta llamada?</example>
+                <example>¿Dónde has encontrado esta lista?</example>
+                <example>Es posible alargar infinitamente esta lista.</example>
+                <example>Soportarán esta subida ellos mismos.</example>
+                <example>No estoy seguro de ganar esta partida.</example>
+                <example>Esta llamada a revisión solo se ha llevado a cabo en Estados Unidos.</example>
+                <example>Esta lavadora me ha dado un sinfín de problemas.</example>
+                <example correction="está"><marker>esta</marker> licenciada y examinada por la agencia Texas Office</example>
+                <example correction="está">es afiliada al IESS y <marker>esta</marker> embarazada</example>
+                <example correction="está">cuando se <marker>esta</marker> embarazada todo cambia </example>
+                <example correction="está"><marker>esta</marker> pedida por su madre </example>
+                <example correction="está">Cada transformación de energía <marker>esta</marker> asociada con una pérdida de energía en forma de calor.</example>
+                <example correction="está">la cual <marker>esta</marker> basada en Papá corazón</example>
+                <example>Esta lista es mi lista de la compra.</example>
+                <example correction="está">la mitad de mi uña que <marker>esta</marker> pegada al dedo</example>
+                <example correction="está">su nueva novela <marker>esta</marker> basada en sus experiencias personales.</example>
+                <example>Esta subida en los precios es inexplicable.</example>
+                <example correction="está">¡Piscis <marker>esta</marker> enamorada!</example>
+                <example>Esta loca no sabe lo que hace.</example>
+            </rule>
+            <rule default="temp_off">
+                <!-- está + llena (ambiguous adj/n)
+                similar to previous rule with more ambiguous words
+                It needs more exceptions-->
+                <antipattern>
+                    <token postag="SENT_START" skip="-1"><exception scope="next" postag="C.*|PR.*" postag_regexp="yes"/></token>
+                    <token postag="_GN_FS">esta</token>
+                    <token postag="_GN_FS" skip="-1"><exception scope="next" postag="C.*|PR.*" postag_regexp="yes"/></token>
+                    <token postag="V.[SI].*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.[SI].*" postag_regexp="yes" skip="-1"><exception scope="next" postag="C.*|PR.*" postag_regexp="yes"/></token>
+                    <token postag="_GN_FS">esta</token>
+                    <token postag="_GN_FS" skip="-1"><exception scope="next" postag="C.*|PR.*" postag_regexp="yes"/></token>
+                </antipattern>
+                <antipattern>
+                    <token postag="VMM.*" postag_regexp="yes"/>
+                    <token>esta</token>
+                </antipattern>
+                <antipattern>
+                    <token>esta</token>
+                    <token postag="A...S.|V.P..SF" postag_regexp="yes"/>
+                    <token postag="N.[FC][SN].*" postag_regexp="yes"><exception>mañana</exception></token>
+                </antipattern>
+                <antipattern>
+                    <token>esta</token>
+                    <token max="3" min="1" postag="A..[FC][SN].|V.P..SF|NCFS.*" postag_regexp="yes"/>
+                    <token postag="V.[SI].*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>esta</token>
+                    <token max="3" min="1" postag="A..[FC][SN].|V.P..SF|NCFS.*" postag_regexp="yes"/>
+                    <token postag="CC"/>
+                    <token max="2" min="1" postag="A..[FC][SN].|V.P..SF|NCFS.*" postag_regexp="yes"/>
+                    <token postag="V.[SI].*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>,</token>
+                    <token>esta</token>
+                    <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                    <token postag="A..FS." postag_regexp="yes"><exception>sola</exception></token>
+                </antipattern>
+                <antipattern>
+                    <token postag="_GN_FS">esta</token>
+                    <token postag="_GN_FS"/>
+                    <token postag="_GN_FS"/>
+                </antipattern>
+                <antipattern>
+                    <token>esta</token>
+                    <token>llamada</token>
+                    <token><exception regexp="yes">a|al</exception></token>
+                </antipattern>
+                <antipattern>
+                    <token>esta</token>
+                    <token>subida</token>
+                    <token><exception regexp="yes">a|en</exception></token>
+                </antipattern>
+                <antipattern>
+                    <token>esta</token>
+                    <token>partida</token>
+                    <token><exception>por</exception></token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>esta</token>
+                    </marker>
+                    <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                    <token regexp="yes"
+                        >alta|baja|bebida|cara|corrida|cruzada|despedida|dicha|lista|llamada|mala|maldita|mayor|movida|negra|parada|partida|pesada|posada|presa|quebrada|retirada|revuelta|rica|subida|velada|vista|vuelta</token>
+                </pattern>
+                <message>Si es del verbo 'estar', se escribe con tilde.</message>
+                <suggestion>está</suggestion>
+                <example correction="Está">¿<marker>Esta</marker> lista?</example>
+                <example correction="está">Para saber cuando <marker>esta</marker> lista, tienes que notar que el líquido deja de transparentarse</example>
+                <example>Esta lista es mi lista de la compra.</example>
             </rule>
             <rule>
                 <antipattern>
