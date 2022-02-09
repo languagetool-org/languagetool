@@ -426,6 +426,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("t ") &&
                    !k.getReplacement().toLowerCase().startsWith("um ") &&
                    !k.getReplacement().toLowerCase().startsWith("oft ") &&
+                   !k.getReplacement().endsWith(" i") &&
                    !k.getReplacement().endsWith(" able") &&
                    !k.getReplacement().endsWith(" less") && // (e.g. permissionless)
                    !k.getReplacement().endsWith(" sly") && // unnecessary suggestion (e.g. for continuesly)
@@ -454,6 +455,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().endsWith(" ed") &&
                    !k.getReplacement().endsWith(" al") &&
                    !k.getReplacement().endsWith(" ans") &&
+                   !k.getReplacement().endsWith(" mans") &&
                    !k.getReplacement().endsWith(" ti") &&
                    !k.getReplacement().endsWith(" de") &&
                    !k.getReplacement().endsWith(" ea") &&
