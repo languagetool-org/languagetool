@@ -28,20 +28,17 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.apache.commons.io.ByteOrderMark;
 import org.apache.commons.io.input.BOMInputStream;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
-import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.StringTools;
 
 public class MissingDiacriticsEvaluator {
-  
+
   private final static String encoding = "UTF-8";
   static String[] words = new String[2];
   static String[] ruleIds = new String[2];
@@ -49,7 +46,7 @@ public class MissingDiacriticsEvaluator {
   static Language lang = null;
   static JLanguageTool lt = null;
   static List<String> classifyTypes = Arrays.asList("TP", "FP", "TN", "FN");
-    
+
   public static void main(String[] args) throws Exception {
     if (args.length != 3) {
       help();
@@ -60,8 +57,8 @@ public class MissingDiacriticsEvaluator {
     String filename = args[1];
     words[0] = args[2];
     words[1] = StringTools.removeDiacritics(words[0]);
-    ruleIds[0] = "___WRONG_DIACRITICS_RULES"; //args[4];
-    ruleIds[1] = "_MISSING_DIACRITICS_RULES"; //args[5];
+    ruleIds[0] = "Rules " + words[0] + " -> " + words[1]; // remove diacritics rules
+    ruleIds[1] = "Rules " + words[1] + " -> " + words[0]; // missing diacritics rules
 //    for (Rule rule : lt.getAllRules()) {
 //      if (!rule.getId().equals(ruleIds[0]) && !rule.getId().equals(ruleIds[1])) {
 //        lt.disableRule(rule.getId());
@@ -74,75 +71,57 @@ public class MissingDiacriticsEvaluator {
         List<String> sentencesLine = lt.sentenceTokenize(line);
         for (String sentence : sentencesLine) {
           List<String> tokens = lang.getWordTokenizer().tokenize(sentence);
-          int count0 = 0;
-          int count1 = 0;
           int pos = 0;
-          int firstPos = -1;
           for (String token : tokens) {
             if (token.equalsIgnoreCase(words[0])) {
               analyzeSentence(sentence, 0, pos);
-              count0++;
-              if (firstPos<0) {
-                firstPos = pos;
-              }
             }
             if (token.equalsIgnoreCase(words[1])) {
               analyzeSentence(sentence, 1, pos);
-              count1++;
-              if (firstPos<0) {
-                firstPos = pos;
-              }
             }
             pos += token.length();
           }
-          /*if (count0>0 && count1>0) {
-            System.out.println("WARNING Sentence with the two words: " + sentence);
-          } else if (count0==1 && count1==0) {
-            //analyzeSentence(sentence, 0, firstPos);
-          } else if (count0==0 && count1==1) {
-            //analyzeSentence(sentence, 1, firstPos);
-          } else if (count0>1 || count1>1) {
-            System.out.println("WARNING Sentence with a repeated word: " + sentence);
-          }*/
-          
         }
       }
     }
-    
-    for (int i=0; i<2; i++) {
-      System.out.println("Results for rule "+ruleIds[i]);
-      for (int j=0; j<4; j++) {
-        System.out.println(classifyTypes.get(j)+": "+results[i][j]);
+
+    for (int i = 0; i < 2; i++) {
+      System.out.println("Results for: " + ruleIds[i]);
+      for (int j = 0; j < 4; j++) {
+        System.out.println(classifyTypes.get(j) + ": " + results[i][j]);
       }
-      float precision = results[i][classifyTypes.indexOf("TP")] / (float) (results[i][classifyTypes.indexOf("TP")] + results[i][classifyTypes.indexOf("FP")]);
-      float recall = results[i][classifyTypes.indexOf("TP")] / (float) (results[i][classifyTypes.indexOf("TP")] + results[i][classifyTypes.indexOf("FN")]);
+      float precision = results[i][classifyTypes.indexOf("TP")]
+          / (float) (results[i][classifyTypes.indexOf("TP")] + results[i][classifyTypes.indexOf("FP")]);
+      float recall = results[i][classifyTypes.indexOf("TP")]
+          / (float) (results[i][classifyTypes.indexOf("TP")] + results[i][classifyTypes.indexOf("FN")]);
       System.out.println("Precision: " + String.format("%.4f", precision));
       System.out.println("Recall: " + String.format("%.4f", recall));
     }
-    
+
     float time = (float) ((System.currentTimeMillis() - start) / 1000.0);
     System.out.println("Total time: " + String.format("%.2f", time) + " seconds");
   }
-  
+
   private static void analyzeSentence(String correctSentence, int j, int fromPos) throws IOException {
-    
+
     boolean isFP = false;
     boolean isFN = false;
-    
+
     List<RuleMatch> matchesCorrect = lt.check(correctSentence);
     if (isThereErrorAtPos(matchesCorrect, fromPos)) {
       results[j][classifyTypes.indexOf("FP")]++;
-      //if (j==1) {
-        System.out.println(ruleIds[j] + " FP: " + correctSentence);
-      //}
+      // if (j==1) {
+      System.out.println(ruleIds[j] + " FP: " + correctSentence);
+      // }
       isFP = true;
     } else {
       results[j][classifyTypes.indexOf("TN")]++;
-      //System.out.println(ruleIds[j] + " TN: " + correctSentence);
+      // System.out.println(ruleIds[j] + " TN: " + correctSentence);
     }
 
-    //String wrongSentence = correctSentence.replaceAll("\\b" + words[j] + "\\b", words[1 - j]);
-    String replaceWith =  words[1 - j];
+    // String wrongSentence = correctSentence.replaceAll("\\b" + words[j] + "\\b",
+    // words[1 - j]);
+    String replaceWith = words[1 - j];
     if (StringTools.isCapitalizedWord(words[j])) {
       replaceWith = StringTools.uppercaseFirstChar(replaceWith);
     }
@@ -151,61 +130,46 @@ public class MissingDiacriticsEvaluator {
     }
     String wrongSentence = correctSentence.substring(0, fromPos) + replaceWith
         + correctSentence.substring(fromPos + words[j].length(), correctSentence.length());
-//    if (wrongSentence.equals(correctSentence)) {
-//      wrongSentence = correctSentence.replaceAll("\\b" + StringTools.uppercaseFirstChar(words[j]) + "\\b", StringTools.uppercaseFirstChar(words[1 - j]));
-//    }
-//    if (wrongSentence.equals(correctSentence)) {
-//      wrongSentence = correctSentence.replaceAll("\\b" + words[j].toUpperCase() + "\\b", words[1 - j].toUpperCase());
-//    }
     if (wrongSentence.equals(correctSentence)) {
-      System.out.println("Word cannot be replaced: "+ wrongSentence);
+      System.out.println("Word cannot be replaced: " + wrongSentence);
       return;
     }
     List<RuleMatch> matchesWrong = lt.check(wrongSentence);
     if (isThereErrorAtPos(matchesWrong, fromPos)) {
       results[1 - j][classifyTypes.indexOf("TP")]++;
-      //System.out.println(ruleIds[1 - j] + " TP: " + wrongSentence);
+      // System.out.println(ruleIds[1 - j] + " TP: " + wrongSentence);
     } else {
       results[1 - j][classifyTypes.indexOf("FN")]++;
-      if (j==0) {
-        System.out.println(ruleIds[1 - j] + " FN: " + wrongSentence);  
+      if (j == 0) {
+        System.out.println(ruleIds[1 - j] + " FN: " + wrongSentence);
       }
       isFN = true;
     }
-    
-    //FP+FN in the same sentence -> probable error in corpus
+
+    // FP+FN in the same sentence -> probable error in corpus
     if (isFP && isFN) {
       System.out.println("POSSIBLE ERROR IN CORPUS: " + correctSentence);
     }
 
   }
-  
+
   private static boolean isThereErrorAtPos(List<RuleMatch> matches, int pos) {
-    for (RuleMatch match : matches ) {
+    for (RuleMatch match : matches) {
       if (match.getFromPos() <= pos && match.getToPos() > pos) {
         return true;
       }
     }
     return false;
   }
-  
-  /*private static boolean containsID (List<RuleMatch> matches, String id) {
-    for (RuleMatch match : matches) {
-      if (match.getRule().getId().equals(id)) {
-        return true;
-      }
-    }
-    return false;
-  }
-  
-  private int indexOfWord(String word, String sentence) {
-    Pattern p = Pattern.compile("\\b" + word + "\\b");
-    Matcher m = p.matcher(sentence);
-    if (m != null) {
-      return m.start();
-    }
-    return -1;
-  }*/
+
+//  private static boolean containsID (List<RuleMatch> matches, String id) {
+//    for (RuleMatch match : matches) {
+//      if (match.getRule().getId().equals(id)) {
+//        return true;
+//      }
+//    }
+//    return false;
+//  }
 
   private static InputStreamReader getInputStreamReader(String filename, String encoding) throws IOException {
     String charsetName = encoding != null ? encoding : Charset.defaultCharset().name();
@@ -221,16 +185,15 @@ public class MissingDiacriticsEvaluator {
     }
     return new InputStreamReader(new BufferedInputStream(is), charsetName);
   }
-  
+
   private static boolean isStdIn(String filename) {
     return "-".equals(filename);
   }
-  
+
   private static void help() {
     System.out.println("Usage: " + MissingDiacriticsEvaluator.class.getSimpleName()
-        + " <language code> <intput file> wordWithDiacritics");
+        + " <language code> <intput file> <word with diacritics>");
     System.exit(1);
   }
-  
 
 }

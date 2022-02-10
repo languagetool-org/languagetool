@@ -3484,6 +3484,15 @@ Copyright (C) 2011 Juan Martorell
             </pattern>
             <disambig action="filter" postag="N.*"/>
         </rule>
+        <rule>
+            <pattern>
+                <token>qué</token>
+                <marker>
+                    <token postag="N.*" postag_regexp="yes" inflected="yes">distancia</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="N.*"/>
+        </rule>
     </rulegroup>
     <rule id="un_not_verb" name="un + not verb">
         <pattern>
@@ -4193,6 +4202,11 @@ Copyright (C) 2011 Juan Martorell
     </rulegroup>
     <!-- DAN : Determinante + Adjetivo + Nombre-->
     <rule id="DAN" name="Det + Adj + Nom">
+        <antipattern>
+            <token>esta</token>
+            <token></token>
+            <token postag="RG"/>
+        </antipattern>
         <pattern>
             <marker>
                 <unify>
@@ -5033,7 +5047,7 @@ Copyright (C) 2011 Juan Martorell
     <rule id="not_verb_if_agreement" name="not verb if agreement">
         <pattern>
             <and>
-                <token inflected="yes" regexp="yes">uno|serie</token>
+                <token inflected="yes" regexp="yes">uno|serie|cena|historia</token>
                 <token postag="_GN_.*" postag_regexp="yes"/>
             </and>
         </pattern>
