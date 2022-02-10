@@ -3,6 +3,9 @@ parameters:
   run_on_pull:
     default: true
     type: boolean
+  deploy_after_test:
+    default: false
+    type: boolean
 orbs:
   shallow-checkout: expo/shallow-checkout@1.0.2
 workflows:
@@ -89,6 +92,9 @@ commands:
       ignore_diff:
         type: boolean
         default: false
+      deploy_artifact:
+        type: boolean
+        default: false
     steps:
       - when:
           condition: << parameters.ignore_diff >>
@@ -100,6 +106,10 @@ commands:
                   then
                     echo "" > /home/circleci/git_diffs.txt
                     cd $CIRCLE_WORKING_DIRECTORY && mvn -pl '!languagetool-rpm-package' test -fae
+                    if << parameters.deploy_artifact >> = true || << pipeline.deploy_after_test >>
+                    then
+                      cd mvn -s .circleci.settings.xml -pl '!languagetool-rpm-package' -DskipTests deploy
+                    fi 
                   else
                     echo "No changes detected in <<parameters.path_to_check>>"
                   fi
@@ -112,6 +122,10 @@ commands:
                   if grep -q -e << parameters.path_to_check >>/.* /home/circleci/git_diffs.txt 
                   then
                     cd $CIRCLE_WORKING_DIRECTORY && mvn --projects << parameters.path_to_check >> --also-make test -fae
+                    if << parameters.deploy_artifact >> = true || << pipeline.deploy_after_test >>
+                    then
+                      cd mvn -s .circleci.settings.xml --projects << parameters.path_to_check >> -DskipTests deploy
+                    fi
                   else
                     echo "No changes detected in <<parameters.path_to_check>>"
                   fi
@@ -124,9 +138,7 @@ commands:
             find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} ~/test-results/junit/ \;
           when: always
       - store_test_results: 
-          path: ~/test-results
-#      - store_artifacts: 
-#          path: ~test-results/junit
+          path: ~/test-results      
 executors:
   docker-openjdk8:
     docker:
