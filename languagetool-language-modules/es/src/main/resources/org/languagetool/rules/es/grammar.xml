@@ -6821,7 +6821,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="V.P..S[FM]" postag_regexp="yes"><exception postag="NCFS000"/></token>
                 </pattern>
                 <message>Si es del verbo 'estar', se escribe con tilde.</message>
-                <suggestion>está</suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
                 <example correction="Está"><marker>Esta</marker> cansado.</example>
                 <example correction="Está"><marker>Esta</marker> muy cansado.</example>
                 <example correction="Está"><marker>Esta</marker> agotado.</example>
@@ -6848,7 +6848,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="V.G.*" postag_regexp="yes"><exception postag="NCFS000"/></token>
                 </pattern>
                 <message>Si es del verbo 'estar', se escribe con tilde.</message>
-                <suggestion>está</suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
                 <example correction="Está"><marker>Esta</marker> cantando.</example>
                 <example correction="Está"><marker>Esta</marker> siempre corriendo.</example>
                 <example correction="Está"><marker>Esta</marker> esperando.</example>
@@ -6887,7 +6887,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">todo|toda|casi|usted|él|ella|bien|mal|en|entre|aquí|ahí|allí|allá|el|la|lo|un|una|uno|junto|por|mi|tu|su|[vn]uestr[oa]|conmigo|contigo|esta|esa|aquella|este|ese|aquel|ésta|ésa|aquélla|éste|ése|aquél|esto|eso|aquello|algo</token>
                 </pattern>
                 <message>Si es del verbo 'estar', se escribe con tilde.</message>
-                <suggestion>está</suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
                 <example correction="está">El niño <marker>esta</marker> en la guardería.</example>
                 <example correction="Está"><marker>Esta</marker> en la guardería.</example>
                 <example correction="Está"><marker>Esta</marker> en aquella.</example>
@@ -6955,7 +6955,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">de|del|a|al|sin|sobre|con</token>
                 </pattern>
                 <message>Si es del verbo 'estar', se escribe con tilde.</message>
-                <suggestion>está</suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
                 <example correction="está">La gente protesta y no <marker>esta</marker> de acuerdo con las cosas que están mal.</example>
                 <example correction="está">La persona encargada <marker>esta</marker> de vacaciones.</example>
                 <example correction="está">La ciudad donde se crió <marker>esta</marker> al este de Osaka.</example>
@@ -6975,6 +6975,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>fuera</token>
                     <token postag="D...S.|A...S." postag_regexp="yes"/>
                 </antipattern>
+                <antipattern>
+                    <token postag="SENT_START" skip="-1"><exception scope="next" postag="C.*|PR.*" postag_regexp="yes"/></token>
+                    <token postag="_GN_FS">esta</token>
+                    <token postag="_GN_FS" skip="-1"><exception scope="next" postag="C.*|PR.*" postag_regexp="yes"/></token>
+                    <token postag="V.[SI].*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>esta</token>
@@ -6983,12 +6989,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">fuera|dentro|arriba|abajo|cerca|lejos|cerquísima|lejísimos?|delante|detrás|encima|debajo</token>
                 </pattern>
                 <message>Si es del verbo 'estar', se escribe con tilde.</message>
-                <suggestion>está</suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
                 <example correction="está">Esta crítica <marker>esta</marker> completamente fuera de lugar.</example>
                 <example correction="está">La crítica que haces <marker>esta</marker> fuera de lugar.</example>
                 <example correction="Está"><marker>Esta</marker> fuera la mejor.</example>
                 <example>Aunque esta fuera la mejor.</example>
                 <example>Le daba igual que esta fuera el esperanto u otra lengua.</example>
+                <example>Esta cerca la construyó mi padre.</example>
             </rule>
             <rule>
                 <!-- está + adjetivo-->
@@ -7019,11 +7026,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>esta</token>
                     </marker>
-                    <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                    <token min="0" max="4" postag="RG_before|LOC_ADV" postag_regexp="yes"/>
                     <token postag="A...S." postag_regexp="yes"><exception postag="NC[FC]S000|AO0FS0" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Si es del verbo 'estar', se escribe con tilde.</message>
-                <suggestion>está</suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
                 <example correction="Está"><marker>Esta</marker> disponible.</example>
                 <example correction="Está"><marker>Esta</marker> muy bonito.</example>
                 <example correction="Está"><marker>Esta</marker> preciosa.</example>
@@ -7048,11 +7055,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Otra revista, esta mucho más moderna, con cierto renombre es Gigamesh</example>
                 <example>Esta panda de inútiles</example>
                 <example>Quiero comprar esta campera.</example>
+                <example>Aunque esta fuera la mejor.</example>
+                <example>Sobre todo si esta fuera multianual.</example>
             </rule>
             <rule>
                 <!-- está + llena (ambiguous adj/n)-->
                 <antipattern>
-                    <token postag="SENT_START" skip="-1"><exception scope="next" postag="C.*|PR.*" postag_regexp="yes"/></token>
+                    <token postag="SENT_START|_PUNCT.*" skip="-1"><exception scope="next" postag="C.*|PR.*" postag_regexp="yes"/></token>
                     <token postag="_GN_FS">esta</token>
                     <token postag="_GN_FS" skip="-1"><exception scope="next" postag="C.*|PR.*" postag_regexp="yes"/></token>
                     <token postag="V.[SI].*" postag_regexp="yes"/>
@@ -7118,7 +7127,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <!-- TODO: check similiar possible confusions in the dict: adj/noun -->
                 </pattern>
                 <message>Si es del verbo 'estar', se escribe con tilde.</message>
-                <suggestion>está</suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
                 <example correction="está">La Biblia <marker>esta</marker> llena de errores.</example>
                 <example correction="está">Ella <marker>esta</marker> casada y tiene tres hijos.</example>
                 <example correction="está">como saber si mi hipoteca <marker>esta</marker> metida en esa primera titulación</example>
@@ -7155,12 +7164,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Esta subida en los precios es inexplicable.</example>
                 <example correction="está"><marker>esta</marker> partida por la mitad</example>
                 <example correction="está">¡Piscis <marker>esta</marker> enamorada!</example>
+                <example>Esta lista no está en orden alfabético y por eso es difícil de leer.</example>
             </rule>
             <rule default="temp_off">
                 <!-- está + llena (ambiguous adj/n)
                 similar to previous rule with more words-->
                 <antipattern>
-                    <token postag="SENT_START" skip="-1"><exception scope="next" postag="C.*|PR.*" postag_regexp="yes"/></token>
+                    <token postag="SENT_START|_PUNCT.*" skip="-1"><exception scope="next" postag="C.*|PR.*" postag_regexp="yes"/></token>
                     <token postag="_GN_FS">esta</token>
                     <token postag="_GN_FS" skip="-1"><exception scope="next" postag="C.*|PR.*" postag_regexp="yes"/></token>
                     <token postag="V.[SI].*" postag_regexp="yes"/>
@@ -7226,7 +7236,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         >basada|muerta|casada|cubierta|cerrada|embarazada|llena|enamorada|sentada|asociada|protegida|dominada|afiliada|enferma|perdida|loca|ausente|clara|interesada|rota|dormida|implicada|pintada|rematada|obligada|acreditada|asentada|echada|asegurada|metida|pendiente|condenada|iluminada|herida|contenta|enterada|recogida|desesperada|inconsciente|feliz|puesta|encargada|montada|afectada|limpia|helada|poseída|divorciada|prometida|pegada|mojada|acostada|subordinada|rodada|confinada|detenida|ordenada|seca|desaparecida|sembrada|habilitada|licenciada|armada|recomendada|chiflada|invitada|borracha|orgullosa|empleada|aterrada|débil|internada|alfabetizada|vacante|sacada|acusada|verde|invertida|alerta|distraída|aliada|tirada|resentida|predestinada|defendida|arrepentida|jubilada|pasada|soltera|penada|ciega|graduada|prisionera|hinchada|cambiada|dispersa|retenida|suelta|gris|gorda|azul|histérica|desgarrada|guapa|picada|titulada|hambrienta|tibia|enrollada|soldada|vencida|avanzada|ida|encarnada|seguida|impedida|cuajada|necesitada|chalada|liberada|alzada|bordada|lanzada|desaconsejada|normal|cautiva|cogida|derivada|colada|lesionada|incapacitada|hueca|varada|convaleciente|sorda|agregada|reparada|negada|arrancada|descubierta|llevada|encorvada|serena|incomunicada|descalza|atracada|mandada|frita|peinada|disimulada|acampada|diplomada|procesada|demente|estirada|agarrada|blanca|entretenida|inválida|izada|calada|pelada|pirada|ahogada|copada|sonriente|pillada|iniciada|mutilada|majareta|moribunda|ebria|acelerada|helena|abrigada|lisa|exiliada|desamparada|refugiada|encalada|arqueada|imposibilitada|retrasada|paranoica|delegada|elegida|adoptada|dorada|ajada|coja|pedida|pasmada|lavada|disparada|trancada|paralítica|descuidada|entendida|arañada|endemoniada|accidentada|pringada|despatarrada|espantada|exaltada|maya|adjunta|cómoda|crecida|paralela|moderada|galardonada|denunciada|colegiada|tullida|acordada|lisiada|planchada|desbocada|librada|vertical|cristina|súper|patricia|rabiosa|ociosa|igualada|violada|mellada|arrimada|chunga|dopada|punteada|enviada|tísica|vigilante|volada|semi|destapada|confederada|tostada|horizontal|rastrillada|aguada|plana|degenerada|conjugada|alba|cesante|chocha|derecha|turbia|júnior|lacerada|conjurada|paulina|interna|encausada|dejada|amurada|lila|fallecida|obrada|escarmentada|beneficiada|arada|indefinida|maja|barata|segada|laureada|pulsada|abanderada|leprosa|votada|encharcada|emparedada|alienada|escamada|piripi|indiferente|parida|convicta|chupada|cebada|maldecida|inclusa|mona|macedonia|durmiente|ronca|calva|inconforme|hilada|desvalida|arriada|calatrava|encapuchada|consentida|despistada|refrenada|desaprovechada|finalista|chueca|encañada|excomulgada|realquilada|embolada|desnaturalizada|fucsia|testada|botada|indocumentada|recocida|carioca|asilada|herniada|vengadora|violeta|soltada|gaya|culpada|cuartelada|leída|pensionada|flagelada|siria|desposeída|libia|becada|líquida|desconfiada|lidia|oída|chequeada|cuadrada|pesimista|maníaca|tata|fumada|lela|sentimental|armenia|depresiva|amotinada|manca|rebotada</token>
                 </pattern>
                 <message>Si es del verbo 'estar', se escribe con tilde.</message>
-                <suggestion>está</suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
                 <example correction="está">La Biblia <marker>esta</marker> llena de errores.</example>
                 <example correction="está">Los lunes la tienda <marker>esta</marker> cerrada.</example>
                 <example correction="está">Ella <marker>esta</marker> casada y tiene tres hijos.</example>
@@ -7330,7 +7340,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">alta|baja|bebida|cara|corrida|cruzada|despedida|dicha|lista|llamada|mala|maldita|mayor|movida|negra|parada|partida|pesada|posada|presa|quebrada|retirada|revuelta|rica|subida|velada|vista|vuelta</token>
                 </pattern>
                 <message>Si es del verbo 'estar', se escribe con tilde.</message>
-                <suggestion>está</suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
                 <example correction="Está">¿<marker>Esta</marker> lista?</example>
                 <example correction="está">Para saber cuando <marker>esta</marker> lista, tienes que notar que el líquido deja de transparentarse</example>
                 <example>Esta lista es mi lista de la compra.</example>
@@ -7341,6 +7351,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>de</token>
                     <token regexp="yes">ahí|allí|allá|acá|aquí</token>
                 </antipattern>
+                <antipattern>
+                    <token>cómo</token>
+                    <token>esta</token>
+                    <token min="0" max="2" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                    <token postag="V.[SI].*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">dónde|cómo|ahí|allí|allá|acá|aquí</token>
                     <marker>
@@ -7348,9 +7364,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Si es del verbo 'estar', se escribe con tilde.</message>
-                <suggestion>está</suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
                 <example correction="está">Si supiéramos dónde <marker>esta</marker>.</example>
                 <example>Quita de aquí esta basura.</example>
+                <example>para inmediatamente ver cómo esta se deshacía en mi dedo</example>
+                <example type="triggers_error" reason="error in cómo">Y no hablo de páginas con nombres ridículos cómo esta, hablo de libros escritos por médicos.</example>
             </rule>
             <rule>
                 <pattern>
@@ -7362,7 +7380,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Si es del verbo 'estar', se escribe con tilde.</message>
-                <suggestion>está</suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
                 <example correction="está">¿Sabes a qué altura <marker>esta</marker> la calle?</example>
             </rule>
             <rule>
@@ -7374,7 +7392,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Si es del verbo 'estar', se escribe con tilde.</message>
-                <suggestion>está</suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
                 <example correction="está">¡Qué buena <marker>esta</marker>!</example>
                 <example correction="está">¡Qué cerca <marker>esta</marker>!</example>
             </rule>
@@ -7386,7 +7404,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">todo|100%</token>
                 </pattern>
                 <message>Si es del verbo 'estar', se escribe con tilde.</message>
-                <suggestion>está</suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
                 <example correction="Está"><marker>Esta</marker> todo muy mal.</example>
                 <example correction="Está"><marker>Esta</marker> 100% seguro.</example>
             </rule>
@@ -7399,7 +7417,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>%</token>
                 </pattern>
                 <message>Si es del verbo 'estar', se escribe con tilde.</message>
-                <suggestion>está</suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
                 <example correction="Está"><marker>Esta</marker> 100 % seguro.</example>
             </rule>
             <rule>
@@ -7411,7 +7429,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">a|al</token>
                 </pattern>
                 <message>Si es del verbo 'estar', se escribe con tilde.</message>
-                <suggestion>está</suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
                 <example correction="está">El cabo <marker>esta</marker> 30 millas al sur.</example>
             </rule>
             <rule>
@@ -7422,7 +7440,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="NPMS.*" postag_regexp="yes"/>
                 </pattern>
                 <message>Si es del verbo 'estar', se escribe con tilde.</message>
-                <suggestion>está</suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
                 <example correction="está">Dónde <marker>esta</marker> Daniel Centeno.</example>
                 <example>A pesar de esta Daniel se fue.</example>
             </rule>
@@ -7440,7 +7458,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>?</token>
                 </pattern>
                 <message>Si es del verbo 'estar', se escribe con tilde.</message>
-                <suggestion>está</suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
                 <example correction="está">¿Cómo <marker>esta</marker>?</example>
                 <example correction="está">¿Dónde <marker>esta</marker>, Gabriela?</example>
                 <example correction="está">¿Dónde <marker>esta</marker> Gabriela?</example>
@@ -7461,7 +7479,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SENT_END" regexp="yes">\p{P}</token>
                 </pattern>
                 <message>Si es del verbo 'estar', se escribe con tilde.</message>
-                <suggestion>está</suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
                 <example correction="está">Juan Carlos no <marker>esta</marker>.</example>
             </rule>
         </rulegroup>
