@@ -80,12 +80,14 @@ public class MissingDiacriticsEvaluator {
           int firstPos = -1;
           for (String token : tokens) {
             if (token.equalsIgnoreCase(words[0])) {
+              analyzeSentence(sentence, 0, pos);
               count0++;
               if (firstPos<0) {
                 firstPos = pos;
               }
             }
             if (token.equalsIgnoreCase(words[1])) {
+              analyzeSentence(sentence, 1, pos);
               count1++;
               if (firstPos<0) {
                 firstPos = pos;
@@ -93,15 +95,15 @@ public class MissingDiacriticsEvaluator {
             }
             pos += token.length();
           }
-          if (count0>0 && count1>0) {
+          /*if (count0>0 && count1>0) {
             System.out.println("WARNING Sentence with the two words: " + sentence);
           } else if (count0==1 && count1==0) {
-            analyzeSentence(sentence, 0, firstPos);
+            //analyzeSentence(sentence, 0, firstPos);
           } else if (count0==0 && count1==1) {
-            analyzeSentence(sentence, 1, firstPos);
+            //analyzeSentence(sentence, 1, firstPos);
           } else if (count0>1 || count1>1) {
             System.out.println("WARNING Sentence with a repeated word: " + sentence);
-          }
+          }*/
           
         }
       }
@@ -122,36 +124,45 @@ public class MissingDiacriticsEvaluator {
     System.out.println("Total time: " + String.format("%.2f", time) + " seconds");
   }
   
-  private static void analyzeSentence(String correctSentence, int j, int pos) throws IOException {
+  private static void analyzeSentence(String correctSentence, int j, int fromPos) throws IOException {
     
     boolean isFP = false;
     boolean isFN = false;
     
     List<RuleMatch> matchesCorrect = lt.check(correctSentence);
-    if (isThereErrorAtPos(matchesCorrect, pos)) {
+    if (isThereErrorAtPos(matchesCorrect, fromPos)) {
       results[j][classifyTypes.indexOf("FP")]++;
-      if (j==1) {
+      //if (j==1) {
         System.out.println(ruleIds[j] + " FP: " + correctSentence);
-      }
+      //}
       isFP = true;
     } else {
       results[j][classifyTypes.indexOf("TN")]++;
       //System.out.println(ruleIds[j] + " TN: " + correctSentence);
     }
 
-    String wrongSentence = correctSentence.replaceAll("\\b" + words[j] + "\\b", words[1 - j]);
-    if (wrongSentence.equals(correctSentence)) {
-      wrongSentence = correctSentence.replaceAll("\\b" + StringTools.uppercaseFirstChar(words[j]) + "\\b", StringTools.uppercaseFirstChar(words[1 - j]));
+    //String wrongSentence = correctSentence.replaceAll("\\b" + words[j] + "\\b", words[1 - j]);
+    String replaceWith =  words[1 - j];
+    if (StringTools.isCapitalizedWord(words[j])) {
+      replaceWith = StringTools.uppercaseFirstChar(replaceWith);
     }
-    if (wrongSentence.equals(correctSentence)) {
-      wrongSentence = correctSentence.replaceAll("\\b" + words[j].toUpperCase() + "\\b", words[1 - j].toUpperCase());
+    if (StringTools.isAllUppercase(replaceWith)) {
+      replaceWith = replaceWith.toUpperCase();
     }
+    String wrongSentence = correctSentence.substring(0, fromPos) + replaceWith
+        + correctSentence.substring(fromPos + words[j].length(), correctSentence.length());
+//    if (wrongSentence.equals(correctSentence)) {
+//      wrongSentence = correctSentence.replaceAll("\\b" + StringTools.uppercaseFirstChar(words[j]) + "\\b", StringTools.uppercaseFirstChar(words[1 - j]));
+//    }
+//    if (wrongSentence.equals(correctSentence)) {
+//      wrongSentence = correctSentence.replaceAll("\\b" + words[j].toUpperCase() + "\\b", words[1 - j].toUpperCase());
+//    }
     if (wrongSentence.equals(correctSentence)) {
       System.out.println("Word cannot be replaced: "+ wrongSentence);
       return;
     }
     List<RuleMatch> matchesWrong = lt.check(wrongSentence);
-    if (isThereErrorAtPos(matchesWrong, pos)) {
+    if (isThereErrorAtPos(matchesWrong, fromPos)) {
       results[1 - j][classifyTypes.indexOf("TP")]++;
       //System.out.println(ruleIds[1 - j] + " TP: " + wrongSentence);
     } else {
@@ -164,7 +175,7 @@ public class MissingDiacriticsEvaluator {
     
     //FP+FN in the same sentence -> probable error in corpus
     if (isFP && isFN) {
-      //System.out.println("POSSIBLE ERROR IN CORPUS: " + correctSentence);
+      System.out.println("POSSIBLE ERROR IN CORPUS: " + correctSentence);
     }
 
   }
