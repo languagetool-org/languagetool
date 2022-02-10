@@ -100,7 +100,7 @@ commands:
           condition: << parameters.ignore_diff >>
           steps:
             - run:
-                name: Check diffs and test modules
+                name: Run full test (deploy << parameters.deploy_artifact >>)
                 command: |
                   if grep -q -e << parameters.path_to_check >>/.* /home/circleci/git_diffs.txt 
                   then
@@ -117,7 +117,7 @@ commands:
           condition: << parameters.ignore_diff >>
           steps:
             - run:
-                name: Check diffs and test modules
+                name: Check diffs and test modules (deploy << parameters.deploy_artifact >>)
                 command: |
                   if grep -q -e << parameters.path_to_check >>/.* /home/circleci/git_diffs.txt 
                   then
@@ -157,6 +157,7 @@ jobs:
       - run-tests:
           path_to_check: "scheduledTask"
           ignore_diff: true
+          deploy_artifact: true
       - save-test-results
       - save_cache:
           paths:
