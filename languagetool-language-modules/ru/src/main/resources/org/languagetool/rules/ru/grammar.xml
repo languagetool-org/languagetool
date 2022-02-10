@@ -2650,7 +2650,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="крыльцо, чтобы освежиться">Я вышел на <marker>крыльцо чтобы освежиться</marker>.</example>
                 <example>Я вышел на крыльцо, чтобы освежиться.</example>
                 <example>Я здесь, в том числе и чтобы помочь вам.</example>
-                <example>Я вышел на крыльцо не для того чтобы освежиться.</example> <!-- Incorrect example, but another rule must detect it  -->
+                <example>Я вышел на крыльцо не для того чтобы освежиться. (Некорректный пример)</example> <!-- Incorrect example, but another rule must detect it  -->
                 <example>Я вышел на крыльцо не для того, чтобы освежиться.</example>
                 <example>Врагам понадобилось почти 10 месяцев, только чтобы захватить город.</example>
             </rule>
@@ -2666,7 +2666,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Запятые при обстоятельственном обороте</short>
                 <example correction="крыльцо, только чтобы освежиться">Я вышел на <marker>крыльцо только чтобы освежиться</marker>.</example>
                 <example>Я вышел на крыльцо, только чтобы освежиться.</example>
-                <example>Я вышел на крыльцо не для того чтобы освежиться.</example> <!-- Incorrect example, but another rule must detect it  -->
+                <example>Я вышел на крыльцо не для того чтобы освежиться. (Некорректный пример)</example> <!-- Incorrect example, but another rule must detect it  -->
                 <example>Я вышел на крыльцо не для того, чтобы освежиться.</example>
                 <example>Врагам понадобилось почти 10 месяцев, только чтобы захватить город.</example>
             </rule>
@@ -2682,7 +2682,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <url>http://new.gramota.ru/spravka/rules/151-zap-19-32</url>
                 <short>Запятые при обстоятельственном обороте</short>
                 <example correction="крыльцо, для того чтобы освежиться">Я вышел на <marker>крыльцо для того чтобы освежиться</marker>.</example>
-                <example>Я вышел на крыльцо не для того чтобы освежиться.</example> <!-- Incorrect example, but another rule must detect it  -->
+                <example>Я вышел на крыльцо не для того чтобы освежиться. (Некорректный пример)</example> <!-- Incorrect example, but another rule must detect it  -->
                 <example>Я вышел на крыльцо не для того, чтобы освежиться.</example>
                 <example>Я вышел на крыльцо, для того чтобы освежиться.</example>
             </rule>         
@@ -3149,7 +3149,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Нужна запятая или тире: <suggestion>, \3</suggestion> или <suggestion> – \3</suggestion></message>
             <url>http://old-punctum.ru/punctum.php?sid=1191</url>
             <short>Нужна запятая или тире</short>
-            <example>Если постучится кто то дверь не открывай, а зови на помощь.</example> <!-- incorrect example, but it must detect with another rule -->
+            <example>Если постучится кто то дверь не открывай, а зови на помощь. (Некорректный пример)</example> <!-- incorrect example, but it must detect with another rule -->
             <example>Если передумаешь - не тяни, а то я могу всё распродать</example>
             <example>Если уж на то пошло.</example>
             <example correction=", то| – то">Если ты позвонил<marker> то</marker> говори.</example>
@@ -3864,7 +3864,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
               <example>Они лишь подсвечивали то стены, то сталагмит.</example>
               <example>И то и то правда.</example>
               <example>Дамочка не то босая, не то в каких-то прозрачных... туфлях.</example>
-              <example>Дамочка не то босая не то в каких-то прозрачных... туфлях.</example> <!--  incorrect example, but it must triggered with another rule -->
+              <example>Дамочка не то босая не то в каких-то прозрачных... туфлях. (Некорректный пример)</example> <!--  incorrect example, but it must triggered with another rule -->
               <example correction="то стены зала, то сталагмит">Они лишь подсвечивали <marker>то стены зала то сталагмит</marker>.</example>
               <example correction="то стены пещерного зала, то наиболее">Лампы лишь подсвечивали <marker>то стены пещерного зала то наиболее</marker> красивый сталагмит.</example>
             </rule>
@@ -9972,9 +9972,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token case_sensitive="yes" regexp="yes">[А-ЯЁ].*</token>
 	    </antipattern>
             <antipattern>
-                <!-- TODO should be a work chunk СONJ (similar to однако, только) -->
+                <!-- Use СONJ multiword chunk (similar to однако, только) -->
 	        <!-- Что чёрт возьми происходит? (черт побери)-->
-                <token postag="&lt;/FR&gt;"></token>
+                <token postag="&lt;/CONJ&gt;"></token>
             </antipattern>
             <antipattern>
                 <!-- Use ADV multiword chunk  (similar to хорошо) -->
@@ -9985,19 +9985,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- Мороженое того и гляди растает, давай уже съедим его. -->
             <!-- Во что бы то ни стало заскочи посмотреть на нас. -->
             <!-- Во что бы ни стало заскочи посмотреть на нас. --> 
-            <antipattern>
-                <!-- TODO should be a work chunk ADV (similar to хорошо) -->
-                <!-- e.g. как попало is a ADV word chunk -->
-                <token>будь</token>
-                <token>здоров</token>
-            </antipattern>
+
             <!-- Закладывает будь здоров! -->
-            <antipattern>
-                <!-- TODO пущай simialr пусть -->
-                <!-- TODO хули simialr чего, зачем - should have ADV tag-->
-                <token regexp="yes">пущай|хули</token>
-            </antipattern>
-            <!-- Я его на бочку с порохом посадил, пущай полетает! -->
+                <!-- Use multiword chunk ADV (similar to хорошо) -->
+                <!-- e.g. как попало is a ADV word chunk -->
+
+            <!-- Я его на бочку с порохом посадил, пущай полетает! -->            
+                <!-- пущай simialr пусть -->
+                <!-- хули simialr чего, зачем - Use multiword ADV tag, and should have ADV tag-->
+
             <antipattern>
                 <token regexp="yes">давай|давайте</token>
                 <token postag="VB:Fut:.*" postag_regexp="yes"/>
@@ -10116,7 +10112,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Думал собраться пойти купить выпить.</example>
             <example>Он как следует попарился.</example>
             <example>Толику необходимо перепрыгнуть через преграду.</example>
-            <example>Он смеялся радовался.</example> <!-- Incorrect example, but this error must detected with another rule. -->
+            <example>Он смеялся радовался. (Некорректный пример)</example> <!-- Incorrect example, but this error must detected with another rule. -->
             <example correction="будет строиться">Здесь <marker>будет строится</marker> всё больше жилья.</example>
         </rule>
        
@@ -11275,7 +11271,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Я спросил, что это за вода?</example>   <!-- check disambig. Ok. вода - Nom -->
             <example>Я спросил, что это за человек?</example>   <!-- check disambig Ok. человек - Nom -->
             <example>Что он был за человек?</example>
-            <example>Однако из за уменьшения габаритов и веса комплектующих</example>  <!-- incorrect example, but for another rule -->
+            <example>Однако из за уменьшения габаритов и веса комплектующих. (Некорректный пример)</example>  <!-- incorrect example, but for another rule -->
         </rule>
         <rule id="PREP_Na_And_Noun" name="Предлог «на» и существительное" >
             <pattern>
@@ -11548,7 +11544,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Пишется слитно: <suggestion>\1\2</suggestion></message>
             <short>Пишется слитно</short>
             <example>Южнокорейский консорциум может поучаствовать в проекте.</example>
-            <example>Он хочет по идти в кругосветное путешествие.</example> <!-- Incorrect example, but for another rules!!! -->
+            <example>Он хочет по идти в кругосветное путешествие. (Некорректный пример)</example> <!-- Incorrect example, but for another rules!!! -->
             <example correction="поучаствовать">Южнокорейский консорциум может <marker>по участвовать</marker> в проекте.</example>
         </rule>
         <rule id="Potok_and_Noun" name="Словосочетание: «поток» и существительное">
@@ -11828,7 +11824,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Слияние Бухарского и Хивинского ханств произошло военным путём в 1876 году.</example>
             <example>Возвышенность простирается с Ю на С от старой дороги.</example>
             <example>Она преподаёт изо в школе.</example>
-            <example>Кот крался по над стенкой.</example> <!-- Incorrect example, but another rule "PO_NAD" must detect it. -->
+            <example>Кот крался по над стенкой. (Некорректный пример)</example> <!-- Incorrect example, but another rule "PO_NAD" must detect it. -->
             <example>Разбил в аварии перед у машины</example>
             <example>К ИЗО ученик подготовился.</example>
             <example correction="В|К"><marker>В к</marker> ране.</example>
