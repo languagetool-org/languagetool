@@ -3,6 +3,9 @@ parameters:
   run_on_pull:
     default: true
     type: boolean
+  deploy_after_test:
+    default: false
+    type: boolean
 orbs:
   shallow-checkout: expo/shallow-checkout@1.0.2
 workflows:
@@ -89,17 +92,24 @@ commands:
       ignore_diff:
         type: boolean
         default: false
+      deploy_artifact:
+        type: boolean
+        default: false
     steps:
       - when:
           condition: << parameters.ignore_diff >>
           steps:
             - run:
-                name: Check diffs and test modules
+                name: Run full test (deploy << parameters.deploy_artifact >>)
                 command: |
                   if grep -q -e << parameters.path_to_check >>/.* /home/circleci/git_diffs.txt 
                   then
                     echo "" > /home/circleci/git_diffs.txt
                     cd $CIRCLE_WORKING_DIRECTORY && mvn -pl '!languagetool-rpm-package' test -fae
+                    if << parameters.deploy_artifact >> = true || << pipeline.parameters.deploy_after_test >>
+                    then
+                      mvn -s .circleci.settings.xml -pl '!languagetool-rpm-package' -DskipTests deploy
+                    fi 
                   else
                     echo "No changes detected in <<parameters.path_to_check>>"
                   fi
@@ -107,11 +117,15 @@ commands:
           condition: << parameters.ignore_diff >>
           steps:
             - run:
-                name: Check diffs and test modules
+                name: Check diffs and test modules (deploy << parameters.deploy_artifact >>)
                 command: |
                   if grep -q -e << parameters.path_to_check >>/.* /home/circleci/git_diffs.txt 
                   then
                     cd $CIRCLE_WORKING_DIRECTORY && mvn --projects << parameters.path_to_check >> --also-make test -fae
+                    if << parameters.deploy_artifact >> = true || << pipeline.parameters.deploy_after_test >>
+                    then
+                      mvn -s .circleci.settings.xml --projects << parameters.path_to_check >> -DskipTests deploy
+                    fi
                   else
                     echo "No changes detected in <<parameters.path_to_check>>"
                   fi
@@ -124,9 +138,7 @@ commands:
             find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} ~/test-results/junit/ \;
           when: always
       - store_test_results: 
-          path: ~/test-results
-#      - store_artifacts: 
-#          path: ~test-results/junit
+          path: ~/test-results      
 executors:
   docker-openjdk8:
     docker:
@@ -145,6 +157,7 @@ jobs:
       - run-tests:
           path_to_check: "scheduledTask"
           ignore_diff: true
+          deploy_artifact: true
       - save-test-results
       - save_cache:
           paths:
