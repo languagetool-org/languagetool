@@ -178,11 +178,13 @@ class SingleCheck {
     //  make the method thread save
     MultiDocumentsHandler mDH = mDocHandler;
     DocumentCursorTools docCursor = this.docCursor;
-    if (isDisposed()) {
+    if (isDisposed() || docCache == null || nFPara < 0 || nFPara >= docCache.size()) {
+      MessageHandler.printToLogFile("SingleCheck: addParaErrorsToCache: return: isDisposed = " + isDisposed() + ", nFPara = " + nFPara 
+          + ", docCache(Size) = " + (docCache == null ? "null" : docCache.size()) );
       return;
     }
-    if (docCache == null || lt == null || nFPara < 0 || nFPara >= docCache.size()) {
-      return;
+    if (lt == null) {
+      MessageHandler.printToLogFile("SingleCheck: addParaErrorsToCache: return: lt is null");
     }
     DocumentCache docCache = new DocumentCache(this.docCache);
     try {
@@ -197,6 +199,8 @@ class SingleCheck {
       
       String textToCheck = docCache.getDocAsString(tPara, parasToCheck, checkOnlyParagraph, useQueue, hasFootnotes);
       List<RuleMatch> paragraphMatches = null;
+      //  NOTE: lt == null if language is not supported by LT
+      //        but empty proof reading errors have added to cache to satisfy text level queue
       if (lt != null && mDocHandler.isSortedRuleForIndex(cacheNum)) {
         paragraphMatches = lt.check(textToCheck, true, JLanguageTool.ParagraphHandling.ONLYPARA);
       }
@@ -207,6 +211,9 @@ class SingleCheck {
       int endPos;
       for (int i = startPara; i < endPara; i++) {
         if (isDisposed() || (useQueue && !isDialogRequest && (mDH.getTextLevelCheckQueue() == null || mDH.getTextLevelCheckQueue().isInterrupted()))) {
+          MessageHandler.printToLogFile("SingleCheck: addParaErrorsToCache: return: isDisposed = " + isDisposed() + ", useQueue = " + useQueue
+              + ", isDialogRequest = " + isDialogRequest + ", TextLevelCheckQueue(isInterrupted) = " 
+              + (mDH.getTextLevelCheckQueue() == null ? "null" : mDH.getTextLevelCheckQueue().isInterrupted()));
           return;
         }
         TextParagraph textPara = docCache.createTextParagraph(cursorType, i);

@@ -272,6 +272,7 @@ public class TextLevelCheckQueue {
         if (multiDocHandler.hasLocale(locale)) {
           return multiDocHandler.getLanguage(locale);
         }
+        MessageHandler.printToLogFile("Queue: getLanguage: return null: locale = " + OfficeTools.localeToString(locale));
       }
     }
     return null;
@@ -534,7 +535,18 @@ public class TextLevelCheckQueue {
           if (textRuleQueue.isEmpty()) {
             synchronized(textRuleQueue) {
               if (lastDocId != null) {
-                QueueEntry queueEntry = getNextQueueEntry(lastStart, lastDocId);
+                QueueEntry queueEntry = null;
+                try {
+                  queueEntry = getNextQueueEntry(lastStart, lastDocId);
+                } catch (Throwable e) {
+                  //  there may be exceptions because of timing problems
+                  //  catch them and write to log file but don't stop the queue
+                  if (debugMode) {
+                    MessageHandler.showError(e);
+                  } else {
+                    MessageHandler.printException(e);
+                  }
+                }
                 if (queueEntry != null) {
                   textRuleQueue.add(queueEntry);
                   queueEntry = null;
@@ -577,23 +589,40 @@ public class TextLevelCheckQueue {
                 MessageHandler.printToLogFile("run queue entry: docId = " + queueEntry.docId + ", nStart.type = " + queueEntry.nStart.type 
                     + ", nStart.number = " + queueEntry.nStart.number + ", nEnd.number = " + queueEntry.nEnd.number 
                     + ", nCheck = " + queueEntry.nCheck + ", overrideRunning = " + queueEntry.overrideRunning);
-              }
-              Language entryLanguage = getLanguage(queueEntry.docId, queueEntry.nStart);
-              if (entryLanguage != null) {
-                if (lastLanguage == null || !lastLanguage.equals(entryLanguage)) {
-                  lastLanguage = entryLanguage;
-                  initLangtool(lastLanguage);
-                  sortedTextRules.activateTextRulesByIndex(queueEntry.nCache, lt);
-                } else if (lastCache != queueEntry.nCache) {
-                  sortedTextRules.activateTextRulesByIndex(queueEntry.nCache, lt);
+                if (queueEntry.nStart.number + 1 == queueEntry.nEnd.number) {
+                  SingleDocument document = getSingleDocument(queueEntry.docId);
+                  MessageHandler.printToLogFile("Paragraph(" + queueEntry.nStart.number + "): '" 
+                      + document.getDocumentCache().getTextParagraph(queueEntry.nStart) + "'");
                 }
               }
-              lastDocId = queueEntry.docId;
-	            lastStart = queueEntry.nStart;
-	            lastEnd = queueEntry.nEnd;
-	            lastCache = queueEntry.nCache;
-	            queueEntry.runQueueEntry(multiDocHandler, entryLanguage == null ? null : lt);
-              queueEntry = null;
+              try {
+                Language entryLanguage = getLanguage(queueEntry.docId, queueEntry.nStart);
+                if (entryLanguage != null) {
+                  if (lastLanguage == null || !lastLanguage.equals(entryLanguage)) {
+                    lastLanguage = entryLanguage;
+                    initLangtool(lastLanguage);
+                    sortedTextRules.activateTextRulesByIndex(queueEntry.nCache, lt);
+                  } else if (lastCache != queueEntry.nCache) {
+                    sortedTextRules.activateTextRulesByIndex(queueEntry.nCache, lt);
+                  }
+                }
+                lastDocId = queueEntry.docId;
+  	            lastStart = queueEntry.nStart;
+  	            lastEnd = queueEntry.nEnd;
+  	            lastCache = queueEntry.nCache;
+  	            // entryLanguage == null: language is not supported by LT
+  	            // lt is set to null - results in empty entry in result cache
+  	            queueEntry.runQueueEntry(multiDocHandler, entryLanguage == null ? null : lt);
+                queueEntry = null;
+              } catch (Throwable e) {
+                //  there may be exceptions because of timing problems
+                //  catch them and write to log file but don't stop the queue
+                if (debugMode) {
+                  MessageHandler.showError(e);
+                } else {
+                  MessageHandler.printException(e);
+                }
+              }
             }
           }
         }
