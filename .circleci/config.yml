@@ -108,7 +108,7 @@ commands:
                     cd $CIRCLE_WORKING_DIRECTORY && mvn -pl '!languagetool-rpm-package' test -fae
                     if << parameters.deploy_artifact >> = true || << pipeline.parameters.deploy_after_test >>
                     then
-                      cd mvn -s .circleci.settings.xml -pl '!languagetool-rpm-package' -DskipTests deploy
+                      mvn -s .circleci.settings.xml -pl '!languagetool-rpm-package' -DskipTests deploy
                     fi 
                   else
                     echo "No changes detected in <<parameters.path_to_check>>"
@@ -124,7 +124,7 @@ commands:
                     cd $CIRCLE_WORKING_DIRECTORY && mvn --projects << parameters.path_to_check >> --also-make test -fae
                     if << parameters.deploy_artifact >> = true || << pipeline.parameters.deploy_after_test >>
                     then
-                      cd mvn -s .circleci.settings.xml --projects << parameters.path_to_check >> -DskipTests deploy
+                      mvn -s .circleci.settings.xml --projects << parameters.path_to_check >> -DskipTests deploy
                     fi
                   else
                     echo "No changes detected in <<parameters.path_to_check>>"
