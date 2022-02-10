@@ -106,7 +106,7 @@ commands:
                   then
                     echo "" > /home/circleci/git_diffs.txt
                     cd $CIRCLE_WORKING_DIRECTORY && mvn -pl '!languagetool-rpm-package' test -fae
-                    if << parameters.deploy_artifact >> = true || << pipeline.deploy_after_test >>
+                    if << parameters.deploy_artifact >> = true || << pipeline.parameters.deploy_after_test >>
                     then
                       cd mvn -s .circleci.settings.xml -pl '!languagetool-rpm-package' -DskipTests deploy
                     fi 
@@ -122,7 +122,7 @@ commands:
                   if grep -q -e << parameters.path_to_check >>/.* /home/circleci/git_diffs.txt 
                   then
                     cd $CIRCLE_WORKING_DIRECTORY && mvn --projects << parameters.path_to_check >> --also-make test -fae
-                    if << parameters.deploy_artifact >> = true || << pipeline.deploy_after_test >>
+                    if << parameters.deploy_artifact >> = true || << pipeline.parameters.deploy_after_test >>
                     then
                       cd mvn -s .circleci.settings.xml --projects << parameters.path_to_check >> -DskipTests deploy
                     fi
