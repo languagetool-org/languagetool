@@ -38,6 +38,8 @@ import java.io.IOException;
 import java.util.*;
 import java.util.function.Supplier;
 
+import static org.languagetool.tools.StringTools.uppercaseFirstChar;
+
 /**
  * German part-of-speech tagger, requires data file in <code>de/german.dict</code> in the classpath.
  * The POS tagset is described in
@@ -82,7 +84,7 @@ public class GermanTagger extends BaseTagger {
   }
 
   private final ManualTagger removalTagger;
-  private static final Supplier<Map<String, PrefixInfixVerb>> verbInfos = Suppliers.memoize(GermanTagger::initVerbInfos);
+  private static final Supplier<ExpansionInfos> expansionInfos = Suppliers.memoize(GermanTagger::initExpansionInfos);
 
   public static final GermanTagger INSTANCE = new GermanTagger();
 
@@ -91,11 +93,13 @@ public class GermanTagger extends BaseTagger {
     removalTagger = (ManualTagger) ((CombiningTagger) getWordTagger()).getRemovalTagger();
   }
 
-  private static Map<String, PrefixInfixVerb> initVerbInfos() {
+  private static ExpansionInfos initExpansionInfos() {
     Map<String, PrefixInfixVerb> verbInfos = new THashMap<>();
+    Map<String, NominalizedVerb> nominalizedVerbInfos = new THashMap<>();
+    Map<String, NominalizedGenitiveVerb> nominalizedGenVerbInfos = new THashMap<>();
     List<String> spellingWords = new CachingWordListLoader().loadWords("de/hunspell/spelling.txt");
     for (String line : spellingWords) {
-      if (!line.contains("_")) {
+      if (!line.contains("_") || line.endsWith("_in")) {
         continue;
       }
       String[] parts = line.replace("#.*", "").trim().split("_");
@@ -112,8 +116,12 @@ public class GermanTagger extends BaseTagger {
         throw new RuntimeException(e);
       }
       verbInfos.put(prefix + "zu" + verbBaseform, new PrefixInfixVerb(prefix, "zu", verbBaseform));  //  "zu<verb>" is not part of forms from synthesizer
+      nominalizedVerbInfos.put(uppercaseFirstChar(prefix) + verbBaseform,
+        new NominalizedVerb(uppercaseFirstChar(prefix), verbBaseform));
+      nominalizedGenVerbInfos.put(uppercaseFirstChar(prefix) + verbBaseform + "s",
+        new NominalizedGenitiveVerb(uppercaseFirstChar(prefix), verbBaseform));
     }
-    return verbInfos;
+    return new ExpansionInfos(verbInfos, nominalizedVerbInfos, nominalizedGenVerbInfos);
   }
 
   private List<TaggedWord> addStem(List<TaggedWord> analyzedWordResults, String stem) {
@@ -141,7 +149,7 @@ public class GermanTagger extends BaseTagger {
       //Find only the actual important part of the word
       List<String> compoundedWord = GermanCompoundTokenizer.getStrictInstance().tokenize(lastPart);
       if (compoundedWord.size() > 1 && StringTools.startsWithUppercase(word)) {  // don't uppercase last part of e.g. "vanillig-karamelligen"
-        lastPart = StringTools.uppercaseFirstChar(compoundedWord.get(compoundedWord.size() - 1));
+        lastPart = uppercaseFirstChar(compoundedWord.get(compoundedWord.size() - 1));
       } else {
         lastPart = compoundedWord.get(compoundedWord.size() - 1);
       }
@@ -222,16 +230,28 @@ public class GermanTagger extends BaseTagger {
       if (taggerTokens.size() > 0) { //Word known, just add analyzed token to readings
         readings.addAll(getAnalyzedTokens(taggerTokens, word));
       } else { // Word not known, try to decompose it and use the last part for POS tagging:
-        PrefixInfixVerb verbInfo = verbInfos.get().get(word);
+        PrefixInfixVerb verbInfo = expansionInfos.get().verbInfos.get(word);
+        NominalizedVerb nomVerbInfo = expansionInfos.get().nominalizedVerbInfos.get(word);
+        NominalizedGenitiveVerb nomGenVerbInfo = expansionInfos.get().nominalizedGenVerbInfos.get(word);
         //String prefixVerbLastPart = prefixedVerbLastPart(word);   // see https://github.com/languagetool-org/languagetool/issues/2740
         if (verbInfo != null) {   // e.g. "herumgeben" with "herum_geben" in spelling.txt
-          String noPrefixForm = word.substring(verbInfo.prefix.length() + verbInfo.infix.length());   // infix can be "zu"
-          List<TaggedWord> tags = tag(noPrefixForm);
-          for (TaggedWord tag : tags) {
-            if (tag.getPosTag() != null && (tag.getPosTag().startsWith("VER:") || tag.getPosTag().startsWith("PA2:"))) {  // e.g. "schicke" is verb and adjective
-              readings.add(new AnalyzedToken(word, tag.getPosTag(), verbInfo.prefix + tag.getLemma()));
+          if (StringTools.startsWithLowercase(verbInfo.prefix)) {
+            String noPrefixForm = word.substring(verbInfo.prefix.length() + verbInfo.infix.length());   // infix can be "zu"
+            List<TaggedWord> tags = tag(noPrefixForm);
+            for (TaggedWord tag : tags) {
+              if (tag.getPosTag() != null && (tag.getPosTag().startsWith("VER:") || tag.getPosTag().startsWith("PA2:"))) {  // e.g. "schicke" is verb and adjective
+                readings.add(new AnalyzedToken(word, tag.getPosTag(), verbInfo.prefix + tag.getLemma()));
+              }
             }
           }
+        } else if (nomVerbInfo != null) {
+          // e.g. "herum_geben" in spelling.txt -> "(das) Herumgeben"
+          readings.add(new AnalyzedToken(word, "SUB:NOM:SIN:NEU:INF", nomVerbInfo.prefix + nomVerbInfo.verbBaseform));
+          readings.add(new AnalyzedToken(word, "SUB:AKK:SIN:NEU:INF", nomVerbInfo.prefix + nomVerbInfo.verbBaseform));
+          readings.add(new AnalyzedToken(word, "SUB:DAT:SIN:NEU:INF", nomVerbInfo.prefix + nomVerbInfo.verbBaseform));
+        } else if (nomGenVerbInfo != null) {
+          // e.g. "herum_geben" in spelling.txt -> "(des) Herumgebens"
+          readings.add(new AnalyzedToken(word, "SUB:GEN:SIN:NEU:INF", nomGenVerbInfo.prefix + nomGenVerbInfo.verbBaseform));
         /*} else if (prefixVerbLastPart != null) {   // "aufstöhnen" etc.
           List<TaggedWord> taggedWords = getWordTagger().tag(prefixVerbLastPart);
           String firstPart = word.replaceFirst(prefixVerbLastPart + "$", "");
@@ -276,7 +296,7 @@ public class GermanTagger extends BaseTagger {
                 //Tokenize, start word uppercase if it's a result of splitting
                 List<String> compoundedWord = GermanCompoundTokenizer.getStrictInstance().tokenize(word);
                 if (compoundedWord.size() > 1) {
-                  word = StringTools.uppercaseFirstChar(compoundedWord.get(compoundedWord.size() - 1));
+                  word = uppercaseFirstChar(compoundedWord.get(compoundedWord.size() - 1));
                 } else {
                   word = compoundedWord.get(compoundedWord.size() - 1);
                 }
@@ -309,7 +329,7 @@ public class GermanTagger extends BaseTagger {
             // last part governs a word's POS:
             String lastPart = compoundParts.get(compoundParts.size() - 1);
             if (StringTools.startsWithUppercase(word)) {
-              lastPart = StringTools.uppercaseFirstChar(lastPart);
+              lastPart = uppercaseFirstChar(lastPart);
             }
             List<TaggedWord> partTaggerTokens = getWordTagger().tag(lastPart);
             if (partTaggerTokens.isEmpty()) {
@@ -475,4 +495,35 @@ public class GermanTagger extends BaseTagger {
       this.verbBaseform = verbBaseform;
     }
   }
+
+  static class NominalizedVerb {
+    String prefix;
+    String verbBaseform;
+    NominalizedVerb(String prefix, String verbBaseform) {
+      this.prefix = prefix;
+      this.verbBaseform = verbBaseform;
+    }
+  }
+
+  static class NominalizedGenitiveVerb {
+    String prefix;
+    String verbBaseform;
+    NominalizedGenitiveVerb(String prefix, String verbBaseform) {
+      this.prefix = prefix;
+      this.verbBaseform = verbBaseform;
+    }
+  }
+
+  static class ExpansionInfos {
+    Map<String, PrefixInfixVerb> verbInfos;
+    Map<String, NominalizedVerb> nominalizedVerbInfos;
+    Map<String, NominalizedGenitiveVerb> nominalizedGenVerbInfos;
+    ExpansionInfos(Map<String, PrefixInfixVerb> verbInfos, Map<String, NominalizedVerb> nominalizedVerbInfos,
+                   Map<String, NominalizedGenitiveVerb> nominalizedGenVerbInfos) {
+      this.verbInfos = verbInfos;
+      this.nominalizedVerbInfos = nominalizedVerbInfos;
+      this.nominalizedGenVerbInfos = nominalizedGenVerbInfos;
+    }
+  }
+
 }

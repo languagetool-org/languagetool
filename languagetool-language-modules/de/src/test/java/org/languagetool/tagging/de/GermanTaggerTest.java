@@ -299,6 +299,22 @@ public class GermanTaggerTest {
     assertTrue(res4.contains("abschicken/VER:3:PLU:KJ1:SFT*"));
     assertTrue(res4.contains("abschicken/VER:3:PLU:PRÄ:SFT*"));
     assertFalse(res4.contains("ADJ:"));
+
+    List<AnalyzedTokenReadings> result5 = tagger.tag(Collections.singletonList("Mitmanagen"));
+    assertThat(result5.size(), is(1));
+    assertThat(result5.get(0).getReadings().size(), is(3));
+    String res5 = result5.toString();
+    assertTrue(res5.contains("Mitmanagen/SUB:NOM:SIN:NEU:INF"));
+    assertTrue(res5.contains("Mitmanagen/SUB:AKK:SIN:NEU:INF"));
+    assertTrue(res5.contains("Mitmanagen/SUB:DAT:SIN:NEU:INF"));
+    assertFalse(res5.contains("ADJ:"));
+
+    List<AnalyzedTokenReadings> result6 = tagger.tag(Collections.singletonList("Mitmanagens"));
+    assertThat(result6.size(), is(1));
+    assertThat(result6.get(0).getReadings().size(), is(1));
+    String res6 = result6.toString();
+    assertTrue(res6.contains("Mitmanagen/SUB:GEN:SIN:NEU:INF"));
+    assertFalse(res6.contains("ADJ:"));
   }
 
   /**
