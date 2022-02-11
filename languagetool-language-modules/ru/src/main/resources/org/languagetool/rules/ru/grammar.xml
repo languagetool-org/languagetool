@@ -904,14 +904,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <rulegroup id="okazat_zabotu" name="Логические ошибки: «оказать заботу»">
             <rule> <!--  TODO   add inflected  -->
                 <pattern>
-                    <token>оказать</token>
+                    <token inflected="yes" postag="VB:(.*)" postag_regexp="yes">оказать</token>
                     <token>заботу</token>
                 </pattern>              
-                <message>Должно быть: <suggestion>проявить <match no="2"></match></suggestion>?</message>
+                <message>Должно быть: <suggestion><match no="1" postag="VB:(INF|Fut|Past):(.*)" postag_regexp="yes" postag_replace="VB:$1:$2">проявить</match> <match no="2"></match></suggestion>?</message>
                 <short>Логическая ошибка</short>
                 <example correction="проявить заботу"><marker>оказать заботу</marker></example>
+                <example correction="проявил заботу"><marker>оказал заботу</marker></example>
+                <example correction="проявила заботу"><marker>оказала заботу</marker></example>
+                <example correction="проявим заботу"><marker>окажем заботу</marker></example>
+                <example correction="проявлю заботу"><marker>окажу заботу</marker></example>
             </rule>
-            <rule> <!--  TODO   add inflected  -->
+            <!-- move to previous rule
+            <rule>
                 <pattern>
                     <token>оказал</token>
                     <token>заботу</token>
@@ -920,7 +925,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Логическая ошибка</short>
                 <example correction="проявил заботу"><marker>оказал заботу</marker></example>
             </rule>
-            <rule> <!--  TODO   add inflected  -->
+            <rule>
                 <pattern>
                     <token>оказала</token>
                     <token>заботу</token>
@@ -929,7 +934,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Логическая ошибка</short>
                 <example correction="проявила заботу"><marker>оказала заботу</marker></example>
             </rule>
-            <rule> <!--  TODO   add inflected  -->
+            <rule>
                 <pattern>
                     <token>окажем</token>
                     <token>заботу</token>
@@ -938,7 +943,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Логическая ошибка</short>
                 <example correction="проявим заботу"><marker>окажем заботу</marker></example>
             </rule>
-            <rule> <!--  TODO   add inflected  -->
+            <rule>
                 <pattern>
                     <token>окажу</token>
                     <token>заботу</token>
@@ -947,6 +952,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Логическая ошибка</short>
                 <example correction="проявлю заботу"><marker>окажу заботу</marker></example>
             </rule>
+            -->
           </rulegroup>
           <rulegroup id="povisit_svoi_krugozor" name="Логические ошибки: «повысить свой кругозор»">
             <rule>
