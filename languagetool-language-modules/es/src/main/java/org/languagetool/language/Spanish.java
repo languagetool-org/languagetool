@@ -252,6 +252,14 @@ public class Spanish extends Language implements AutoCloseable {
       case "SPANISH_WORD_REPEAT_RULE": return -150;
       case "UPPERCASE_SENTENCE_START": return -200;
     }
+
+    if (id.startsWith("AI_ES_HYDRA_LEO")) { // prefer more specific rules (also speller)
+      if (id.startsWith("AI_ES_HYDRA_LEO_MISSING_COMMA")) {
+        return -51; // prefer comma style rules.
+      }
+      return -11;
+    }
+
     //STYLE is -50
     return super.getPriorityForId(id);
   }
