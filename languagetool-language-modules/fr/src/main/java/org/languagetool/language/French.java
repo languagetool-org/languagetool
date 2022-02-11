@@ -332,12 +332,19 @@ public class French extends Language implements AutoCloseable {
       case "FRENCH_WHITESPACE": return -400; // lesser than UPPERCASE_SENTENCE_START and FR_SPELLING_RULE
       case "MOT_TRAIT_MOT": return -400; // lesser than UPPERCASE_SENTENCE_START and FR_SPELLING_RULE
       case "FRENCH_WORD_REPEAT_BEGINNING_RULE": return -350; // less than REPETITIONS_STYLE
-
-
     }
+
     if (id.startsWith("grammalecte_")) {
       return -150;
     }
+
+    if (id.startsWith("AI_FR_HYDRA_LEO")) { // prefer more specific rules (also speller)
+      if (id.startsWith("AI_FR_HYDRA_LEO_MISSING_COMMA")) {
+        return -51; // prefer comma style rules.
+      }
+      return -11;
+    }
+
     return super.getPriorityForId(id);
   }
   
