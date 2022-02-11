@@ -1095,7 +1095,9 @@ public class ProhibitedCompoundRule extends Rule {
           "Wandlungskapital", // vs Handlungskapital
           "Wandlungskapitals", // vs Handlungskapital
           "Themenboxen", // vs bogen
-          "Superyacht" // vs macht
+          "Superyacht", // vs macht
+          "Testbestellung", // vs fest
+          "Testbestellungen" // vs fest
   ));
 
   // have per-class static list of these and reference that in instance

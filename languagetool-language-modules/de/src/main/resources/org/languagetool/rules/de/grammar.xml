@@ -5996,6 +5996,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="AL_ALS" name="al (als)">
+            <antipattern>
+                <token>et</token>
+                <token>al</token>
+            </antipattern>
+            <antipattern>
+                <token postag="UNKNOWN" regexp="yes" case_sensitive="yes">[Aa]l-[A-Z].*|[A-Z].*</token>
+                <token>al</token>
+                <token postag="EIG.*" postag_regexp="yes" />
+            </antipattern>
             <pattern case_sensitive="yes">
                 <marker><token>al</token></marker>
                 <token>
@@ -55748,16 +55757,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="EIG.*" postag_regexp="yes" />
                     <token regexp="yes">vermutet.*|gefunden.*|geschätzt.*|befürchtet.*</token>
                 </antipattern>
-                <antipattern>
-                    <token postag="PKT|SENT_START|KON.*" postag_regexp="yes"/>
-                    <token regexp="yes">alle|die</token>
-                    <token>meine</token>
-                    <token postag="((EIG|SUB).*PLU|UNKNOWN).*" postag_regexp="yes"/>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">der|die</token>
-                    <token>meine</token>
-                    <token postag="((EIG|SUB).*SIN|UNKNOWN).*" postag_regexp="yes"/>
+                <antipattern><!-- Es gab ein wochenlanges diplomatisches Tauziehen zwischen Russland und den USA, die meine Auslieferung forderten. -->
+                    <token postag="PKT|SENT_START" postag_regexp="yes" />
+                    <token regexp="yes" min="0">&anfauf;</token>
+                    <token postag="ADV.*" postag_regexp="yes" min="0" />
+                    <token regexp="yes">die|der|das|alle</token>
+                    <token inflected="yes" regexp="yes" min="0">werden|haben</token>
+                    <token regexp="yes">meine?</token>
+                    <token postag="SUB.*|UNKNOWN" postag_regexp="yes" />
                 </antipattern>
                 <pattern>
                     <token postag="PKT|SENT_START|KON.*" postag_regexp="yes" />
@@ -55787,6 +55794,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction=", Toms">Aber ich glaube<marker> Toms</marker> Buch ist endlich fertig.</example>
                 <example>Tom findet Marias Lispeln süß, Johanna dagegen regt es tierisch auf.</example>
                 <example>Wir finden Toms Arbeit zufriedenstellend.</example>
+                <example>Es gab ein wochenlanges diplomatisches Tauziehen zwischen Russland und den USA, die meine Auslieferung forderten.</example>
+                <example>Alle meine Gassi-Wegli sind unter Wasser, weggespühlt, mit Baumstämmen und -Ästen versperrt, es pieselt ohne Ende und ich glaube, meine beiden neuen Freunde - Schnecke 1 und Schnecke 2 - sind die einzigen, die über dieses Piselwetter glücklich sind.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -55814,6 +55823,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">vermutet.*|gefunden.*|geschätzt.*|befürchtet.*</token>
                     <token postag="(ADJ|PA[12]).*" postag_regexp="yes" />
                 </antipattern>
+                <antipattern><!-- Es gab ein wochenlanges diplomatisches Tauziehen zwischen Russland und den USA, die meine baldige Auslieferung forderten. -->
+                    <token regexp="yes" min="0">&anfauf;</token>
+                    <token postag="ADV.*" postag_regexp="yes" min="0" />
+                    <token regexp="yes">die|der|das|alle</token>
+                    <token inflected="yes" regexp="yes" min="0">werden|haben</token>
+                    <token regexp="yes">meine?</token>
+                    <token postag="(ADJ|PA[12]).*" postag_regexp="yes" />
+                    <token postag="(ADJ|PA[12]).*" postag_regexp="yes" min="0" />
+                    <token postag="SUB.*|UNKNOWN" postag_regexp="yes" />
+                </antipattern>
                 <pattern>
                     <token postag="PKT|SENT_START|KON.*" postag_regexp="yes" />
                     <token regexp="yes" min="0">&anfauf;</token>
@@ -55821,7 +55840,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes" min="0">Herrn?|Frau|Fräulein</token>
                     <token postag="PRO:PER:NOM.*|PRO:IND.*|EIG.*" postag_regexp="yes" />
                     <token inflected="yes" regexp="yes" min="0">werden|haben</token>
-                    <token regexp="yes" inflected="yes"><!-- TODO: add "meinen" -->
+                    <token regexp="yes" inflected="yes">
                         glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|merken|meinen
                         <exception postag="SUB.*" postag_regexp="yes" />
                     </token>
@@ -55847,6 +55866,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Sie fand das Landleben öde.</example>
                 <example>Ich finde diese Zahlen alarmierend.</example>
                 <example>Ich fand den Knopf lose vor.</example>
+                <example>Es gab ein wochenlanges diplomatisches Tauziehen zwischen Russland und den USA, die meine baldige Auslieferung forderten.</example>
             </rule>
             <rule>
                 <pattern>
@@ -55856,7 +55876,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes" min="0">Herrn?|Frau|Fräulein</token>
                     <token postag="PRO:PER:NOM.*|PRO:IND.*|EIG.*" postag_regexp="yes" />
                     <token inflected="yes" regexp="yes" min="0">werden|haben</token>
-                    <token regexp="yes" inflected="yes"><!-- TODO: add "meinen" -->
+                    <token regexp="yes" inflected="yes">
                         glauben|denken|sagen|hoffen|schätzen|wetten|vermuten|wissen|behaupten|finden|fürchten|befürchten|merken|meinen
                         <exception postag="SUB.*" postag_regexp="yes" />
                         <exception postag="PA2.*" postag_regexp="yes" />
