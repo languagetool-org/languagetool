@@ -407,7 +407,7 @@ public class German extends Language implements AutoCloseable {
       case "GENDER_NEUTRALITY": return -15;
       case "TYPOGRAPHY": return -15;
       case "ALL_UPPERCASE": return -15;
-      case "COMMA_BEHIND_RELATIVE_CLAUSE": return -52; // less prio than AI_HYDRA_LEO
+      case "COMMA_BEHIND_RELATIVE_CLAUSE": return -52; // less prio than AI_DE_HYDRA_LEO
       case "DOPPELUNG_MODALVERB": return -52; // prefer comma rules (DOPPELUNG_MODALVERB, AI)
       case "VER_DOPPELUNG": return -52; // prefer comma rules (including AI)
       case "DEF_ARTIKEL_INDEF_ADJ": return -52; // less prio than DE_AGREMEENT and less prio than most comma rules
@@ -423,11 +423,11 @@ public class German extends Language implements AutoCloseable {
     if (id.startsWith("CONFUSION_RULE_")) {
       return -1;
     }
-    if (id.startsWith("AI_HYDRA_LEO")) { // prefer more specific rules (also speller)
-      if (id.startsWith("AI_HYDRA_LEO_MISSING_COMMA")) {
+    if (id.startsWith("AI_DE_HYDRA_LEO")) { // prefer more specific rules (also speller)
+      if (id.startsWith("AI_DE_HYDRA_LEO_MISSING_COMMA")) {
         return -51; // prefer comma style rules.
       }
-      if (id.startsWith("AI_HYDRA_LEO_CP")) {
+      if (id.startsWith("AI_DE_HYDRA_LEO_CP")) {
         return 2;
       }
       return -11;
