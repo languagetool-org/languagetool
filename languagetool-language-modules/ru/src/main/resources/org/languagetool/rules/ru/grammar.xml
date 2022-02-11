@@ -875,12 +875,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <rulegroup id="bivshij_biloj" name="Логические ошибки: «бывший» или «былой»">
             <rule>
                 <pattern>
-                    <token inflected="yes">былой</token>
+                    <token inflected="yes" postag="ADJ:Posit:Masc:(Nom|R|D|T|P)" postag_regexp="yes">былой</token>
                     <token inflected="yes">муж</token>
                 </pattern>
                 <message>Должно быть: <suggestion><match no="1" postag="ADJ:Posit:Masc:(Nom|R|D|T|P)" postag_regexp="yes" postag_replace="ADJ:Posit:Masc:$1">бывший</match> <match no="2"></match></suggestion>?</message>
                 <short>Логическая ошибка</short>
-                <example correction="бывшего мужа"><marker>былого мужа</marker></example> <!--  TODO   improve correction !!!  -->
+                <example correction="бывшего мужа"><marker>былого мужа</marker></example>
             </rule>
             <rule> 
                 <pattern>
@@ -893,12 +893,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule> 
                 <pattern>
-                    <token>бывшие</token>
-                    <token>заслуги</token>
+                    <token inflected="yes" postag="ADJ:Posit:PL:(Nom|R|D|T|P)" postag_regexp="yes">бывший</token> <!-- бывшие -->
+                    <token inflected="yes">заслуга</token> <!-- заслуги -->
                 </pattern>              
-                <message>Должно быть: <suggestion>былые <match no="2"></match></suggestion>?</message>
+                <message>Должно быть: <suggestion><match no="1" postag="ADJ:Posit:PL:(Nom|R|D|T|P)" postag_regexp="yes" postag_replace="ADJ:Posit:PL:$1">былой</match> <match no="2"></match></suggestion>?</message>
                 <short>Логическая ошибка</short>
-                <example correction="былые заслуги"><marker>бывшие заслуги</marker></example>
+                <example correction="былые заслуги"><marker>бывшие заслуги</marker></example> <!--  TODO   check correction !!! (V case)  -->
             </rule>
           </rulegroup> 
           <rulegroup id="okazat_zabotu" name="Логические ошибки: «оказать заботу»">
