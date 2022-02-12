@@ -10176,7 +10176,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example>Wyraził żywe zainteresowanie zaplanowaną dyskusją na temat nauczania matematyki.</example>
 						<example correction="zainteresowanie ciekawszym|zainteresowanie ciekawszymi|zainteresowanie ciekawszą|zainteresowanie ciekawym|zainteresowanie ciekawymi|zainteresowanie ciekawą|zainteresowanie najciekawszym|zainteresowanie najciekawszymi|zainteresowanie najciekawszą">Wyraził żywe <marker>zainteresowanie dla ciekawej</marker> dyskusji na temat nauczania matematyki.</example>
 				</rule>
-				<rule id="POLTOREJ" name="„półtorej” + rzeczownik rodzaju męskiego lub nijakiego (półtora)">
+				<rulegroup id="POLTOREJ" name="„półtorej” + rzeczownik rodzaju męskiego lub nijakiego (półtora)">
+				<rule>
 						<pattern>
 								<marker>
 										<token>półtorej</token>
@@ -10188,7 +10189,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example>Kupiłem półtora litra wódki.</example>
 						<example>Za półtorej godziny spotykam się z kolegą.</example>
 						<example correction="półtora">Kupiłem <marker>półtorej</marker> litra wódki.</example>
-                  <example>Minie może półtorej albo i dwie doby.</example>
+            <example>Minie może półtorej albo i dwie doby.</example>
+				</rule>
+						<rule>
+						<pattern>
+								<marker>
+										<token>półtora</token>
+								</marker>
+								<token postag="subst:.*gen.*:f" postag_regexp="yes"><exception postag="subst.*gen.*:[nm][1-3]" postag_regexp="yes"></exception></token>
+						</pattern>
+						<message>Mówi się <suggestion>półtorej</suggestion> \2, nie „półtora \2”.</message>
+						<short>Błąd składniowy</short>
+						<example>Kupiłem półtora litra wódki.</example>
+						<example>Za półtorej godziny spotykam się z kolegą.</example>
+						<example correction="półtorej">Za <marker>półtora</marker> godziny spotykam się na Zoomie.</example>
+            <example>Minie może półtorej albo i dwie doby.</example>
+				</rule>
+				</rulegroup>
+				<rule id="DLA_CZEMU" name="„dla czemu” (dlaczego)">
+          <pattern>
+            <token>dla</token>
+            <token>czemu</token>
+          </pattern>
+          <message>Mówi się <suggestion>dlaczego</suggestion>.</message>
+          <short>Błąd składniowy</short>
+          <example correction="Dlaczego"><marker>Dla czemu</marker> ludzie pomagają innym?</example>
+          <example>Dlaczego ludzie pomagają innym?</example>
 				</rule>
 				<rulegroup id="UZYWAC_CO" name="„używać co” (czego)">
                         <antipattern>
