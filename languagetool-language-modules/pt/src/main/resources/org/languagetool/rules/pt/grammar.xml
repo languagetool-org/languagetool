@@ -41682,6 +41682,50 @@ Vou corrigir alguns erros no texto. → Vou corrigir algumas imprecisões no tex
     </rule>
 
 
+	<!-- DOS HUMANOS humano -->
+    <rulegroup id='DOS_HUMANOS_HUMANO' name="Simplificar: Do(s) + humano(s) → humano" type="style">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-02-12 (1-JAN-2022+)      -->
+	<!--
+O comportamento dos humanos é previsível. → O comportamento humano é previsível.
+Tempo e espaço são meras ilusões dos sentidos precários dos humanos. → Tempo e espaço são meras ilusões dos sentidos precários humanos.
+	-->
+	 <rule>
+      <pattern>
+		<token postag='NC[^C].+' postag_regexp='yes'>
+			<exception postag_regexp='yes' postag='DI.+|Z0.+'/>
+		</token>
+		<marker>
+			<token regexp='yes'>dos?</token>
+			<token regexp='yes'>humanos?</token>
+		</marker>
+		<token negate_pos="yes" postag='VM..3P.' postag_regexp='yes'/>
+      </pattern>
+	  <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:3 lemmaSelect:NC.* postagFrom:1 postagSelect:NC(.)(.).* postagReplace:NC[\b1C][\b2N].*" />
+	  <message>Esta perífrase poderá ser simplificada.</message>
+	  <suggestion>{suggestion}</suggestion>
+      <example correction="humano">O comportamento <marker>dos humanos</marker> é previsível.</example>
+	  <example>Graça de Deus, continuar a amar tudo aquilo que dentro e fora do meu ser se apresenta sob as vestes humanas.</example>
+	 </rule>
+	 <rule>
+      <pattern>
+		<token postag='AQ0[^C].+' postag_regexp='yes'>
+			<exception postag_regexp='yes' postag='DI.+|Z0.+'/>
+		</token>
+		<marker>
+			<token regexp='yes'>dos?</token>
+			<token regexp='yes'>humanos?</token>
+		</marker>
+		<token negate_pos="yes" postag='VM..3P.' postag_regexp='yes'/>
+      </pattern>
+	  <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:3 lemmaSelect:AQ0.* postagFrom:1 postagSelect:AQ0(.)(.).* postagReplace:NC[\b1C][\b2N].*" />
+	  <message>Esta perífrase poderá ser simplificada.</message>
+	  <suggestion>{suggestion}</suggestion>
+      <example correction="humanos">Tempo e espaço são meras ilusões dos sentidos <marker>dos humanos</marker>.</example>
+	  <example>Tempo e espaço são meras ilusões dos sentidos precários humanos.</example>
+	 </rule>
+    </rulegroup>
+
+
 	<!-- E QUE que -->
     <rule id='E_QUE_QUE' name="Simplificar: E que → que" type="style">
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-19 (Checked/Enhanced) (1-JAN-2022+)      -->
