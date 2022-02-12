@@ -3980,6 +3980,24 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="remove" postag="V.*"/>
     </rule>
+    <rulegroup id="CONTRA" name="contra">
+        <rule>
+            <pattern>
+                <token postag="SPS00">en</token>
+                <token postag="NCCS000">contra</token>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token><exception postag="D..[FC][SN]." postag_regexp="yes"/></token>
+                <marker>
+                    <token postag="SPS00">contra</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="SPS00"/>
+        </rule>
+    </rulegroup>
     <rule id="MADRUGADA" name="madurgada (no participio)">
         <pattern>
             <token regexp="yes">madrugadas?|revistas?</token>
@@ -4204,7 +4222,7 @@ Copyright (C) 2011 Juan Martorell
     <rule id="DAN" name="Det + Adj + Nom">
         <antipattern>
             <token>esta</token>
-            <token></token>
+            <token/>
             <token postag="RG"/>
         </antipattern>
         <pattern>
@@ -4527,13 +4545,6 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="replace">
                 <wd pos="LOC_PREP" lemma="respecto a"/>
             </disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token postag="SPS00">en</token>
-                <token postag="NCCS000">contra</token>
-            </pattern>
-            <disambig action="filterall"/>
         </rule>
         <rule>
             <!-- ambiguous!! -->

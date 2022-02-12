@@ -6914,6 +6914,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="está">En el mesón que <marker>esta</marker> junto al Prado.</example>
                 <example correction="está">París <marker>esta</marker> en Francia.</example>
                 <example correction="está">¿Quién <marker>esta</marker> en esta habitación?</example>
+                <example correction="Está"><marker>Esta</marker> totalmente en contra de la explotación infantil.</example>
                 <example>Sustituye a esta en la jerarquía.</example>
                 <example>aunque esta en realidad no lo sea</example>
                 <example>Tras esta en 1954</example>
@@ -7100,11 +7101,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="_GN_FS">esta</token>
                     </marker>
                     <token postag="_GN_FS" skip="-1"><exception scope="next" postag="C.*|PR.*" postag_regexp="yes"/></token>
-                    <token postag="V.[SI].*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/></token>
+                    <token postag="V.[SI].*" postag_regexp="yes"><exception postag="_GN_.*|_possible_NP" postag_regexp="yes"/></token>
                 </antipattern>
                 <antipattern>
                     <token postag="SENT_START|_PUNCT.*" postag_regexp="yes" skip="-1"><exception scope="next" postag="C.*|PR.*" postag_regexp="yes"/></token>
-                    <token postag="V.[SI].*" postag_regexp="yes" skip="-1"><exception postag="_GN_.*" postag_regexp="yes"/><exception scope="next" postag="C.*|PR.*" postag_regexp="yes"/></token>
+                    <token postag="V.[SI].*" postag_regexp="yes" skip="-1"><exception postag="_GN_.*|_possible_NP" postag_regexp="yes"/><exception scope="next" postag="C.*|PR.*" postag_regexp="yes"/></token>
                     <marker>
                         <token postag="_GN_FS">esta</token>
                     </marker>
@@ -7229,11 +7230,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="_GN_FS">esta</token>
                     </marker>
                     <token postag="_GN_FS" skip="-1"><exception scope="next" postag="C.*|PR.*" postag_regexp="yes"/></token>
-                    <token postag="V.[SI].*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/></token>
+                    <token postag="V.[SI].*" postag_regexp="yes"><exception postag="_GN_.*|_possible_NP" postag_regexp="yes"/></token>
                 </antipattern>
                 <antipattern>
                     <token postag="SENT_START|_PUNCT.*" postag_regexp="yes" skip="-1"><exception scope="next" postag="C.*|PR.*" postag_regexp="yes"/></token>
-                    <token postag="V.[SI].*" postag_regexp="yes" skip="-1"><exception postag="_GN_.*" postag_regexp="yes"/><exception scope="next" postag="C.*|PR.*" postag_regexp="yes"/><exception postag="_GN_FS"/></token>
+                    <token postag="V.[SI].*" postag_regexp="yes" skip="-1"><exception postag="_GN_.*|_possible_NP" postag_regexp="yes"/><exception scope="next" postag="C.*|PR.*" postag_regexp="yes"/><exception postag="_GN_FS"/></token>
                     <marker>
                         <token postag="_GN_FS">esta</token>
                     </marker>
@@ -7340,6 +7341,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Esta subida en los precios es inexplicable.</example>
                 <example correction="está">¡Piscis <marker>esta</marker> enamorada!</example>
                 <example>Esta loca no sabe lo que hace.</example>
+                <example correction="está">Aun sale que <marker>esta</marker> protegida contra escritura.</example>
             </rule>
             <rule>
                 <!-- está + llena (ambiguous adj/n)
@@ -7349,10 +7351,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SENT_START|_PUNCT.*" postag_regexp="yes" skip="-1"><exception scope="next" postag="C.*|PR.*" postag_regexp="yes"/></token>
                     <token postag="_GN_FS">esta</token>
                     <token postag="_GN_FS" skip="-1"><exception scope="next" postag="C.*|PR.*" postag_regexp="yes"/></token>
-                    <token postag="V.[SI].*" postag_regexp="yes"/>
+                    <token postag="V.[SI].*" postag_regexp="yes"><exception postag="_GN_.*|_possible_NP" postag_regexp="yes"/></token>
                 </antipattern>
                 <antipattern>
-                    <token postag="V.[SI].*" postag_regexp="yes" skip="-1"><exception scope="next" postag="C.*|PR.*" postag_regexp="yes"/></token>
+                    <token postag="V.[SI].*" postag_regexp="yes" skip="-1"><exception postag="_GN_.*|_possible_NP" postag_regexp="yes"/><exception scope="next" postag="C.*|PR.*" postag_regexp="yes"/></token>
                     <token postag="_GN_FS">esta</token>
                     <token postag="_GN_FS" skip="-1"><exception scope="next" postag="C.*|PR.*" postag_regexp="yes"/></token>
                 </antipattern>
@@ -7533,7 +7535,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="NC[FC][SN].*|V.P..SF" postag_regexp="yes"/>
                 </antipattern>-->
                 <antipattern>
-                    <token skip="2">esta</token>
+                    <token skip="4">esta</token>
                     <token postag="V.[SI].*" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
@@ -7558,6 +7560,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>para ver cómo esta se deshacía</example>
                 <example>Está claro por qué le duele el estómago.</example>
                 <example>Si esta parte es afirmativa, ¿por qué esta otra es una pregunta?</example>
+                <example>¿Por qué esta región del Noroeste está siendo tan fuertemente impactada?</example>
             </rule>
             <rule>
                 <pattern>
@@ -7592,13 +7595,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>esta</token>
                     </marker>
                     <token min="0" postag="RG"/>
-                    <token postag="LOC_PREP" inflected="yes" regexp="yes">a cargo de|a continuación de|a dos dedos de|a eso de|a este lado de|a expensas de|a favor de|a la busca de|a la espera de|a la mitad de|a la siga de|a la vuelta de|a la zona de|a lo ancho de|a lo largo y ancho de|a nombre de|a partir de|a punto de|a ras de|a todo lo largo de|a un lado de|a vuelta de|al abrigo de|al cabo de|al cargo de|al derredor de|al filo de|al frente de|al gusto de|al interior de|al otro lado de|al socaire de|al tanto de|allende de|bajo el poder de|bajo la responsabilidad de|de acuerdo con|de este lado de|debajo de|del otro lado de|del poder de|delante de|detrás de|dirección a|en contra de|en contra del|en dirección a|en el centro de|en el entorno de|en el interior de|en el otro lado de|en el puesto de|en espera de|en evitación de|en favor de|en la necesidad de|en la zona de|en las cercanías de|en las proximidades de|en medio de|en mitad de|en oposición a|en plan de|en torno a|en torno de|en vías de|encima de|enfrente
-                        de|esperando a|inmediatamente después de|lejos de|más allá de|por al lado de|por debajo de|por delante de|por dentro de|por detrás de|por el centro de|por el otro lado de|por este lado de</token>
+                    <token postag="LOC_PREP" inflected="yes" regexp="yes">a cargo de|a continuación de|a dos dedos de|a eso de|a este lado de|a expensas de|a favor de|a la busca de|a la espera de|a la mitad de|a la siga de|a la vuelta de|a la zona de|a lo ancho de|a lo largo y ancho de|a nombre de|a partir de|a punto de|a ras de|a todo lo largo de|a un lado de|a vuelta de|al abrigo de|al cabo de|al cargo de|al derredor de|al filo de|al frente de|al gusto de|al interior de|al otro lado de|al socaire de|al tanto de|allende de|bajo el poder de|bajo la responsabilidad de|de acuerdo con|de este lado de|debajo de|del otro lado de|del poder de|delante de|detrás de|dirección a|encima de|enfrente de|esperando a|inmediatamente después de|lejos de|más allá de|por al lado de|por debajo de|por delante de|por dentro de|por detrás de|por el centro de|por el otro lado de|por este lado de</token>
+                    <!-- en contra de|en contra del|en dirección a|en el centro de|en el entorno de|en el interior de|en el otro lado de|en el puesto de|en espera de|en evitación de|en favor de|en la necesidad de|en la zona de|en las cercanías de|en las proximidades de|en medio de|en mitad de|en oposición a|en plan de|en torno a|en torno de|en vías de| -->
                 </pattern>
                 <message>Si es del verbo 'estar', se escribe con tilde.</message>
                 <suggestion><match no="1" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
                 <example correction="está">La situación <marker>esta</marker> más allá de mi control</example>
-                <example correction="Está"><marker>Esta</marker> totalmente en contra de la pornografía infantil.</example>
                 <example>No nos había sido posible ganar ni la temporada pasada ni esta pese a ser un equipo de nuestro nivel.</example>
                 <example>Haciendo que esta aparte de chat y todos los beneficios de las redes tenga video chat.</example>
             </rule>
@@ -7665,7 +7667,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="triggers_error">Taro no siempre está aquí.</example>
                 <example>Yo sé por qué Tom está ocupado.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>está</token>
