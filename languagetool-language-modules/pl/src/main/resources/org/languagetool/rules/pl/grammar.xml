@@ -6360,7 +6360,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </rule>
 		</category>
 		<category id="SYNTAX" name="Błędy składniowe" type="grammar">
-
+      <rulegroup id="CORAZ_NAJBARDZIEJ_CORAZ_BARDZIEJ" name="Coraz najbardziej (coraz bardziej)">
+      <rule>
+      <pattern>
+        <token>coraz</token>
+        <marker>
+        <token postag=".*:sup" postag_regexp="yes"/>
+        </marker>
+       </pattern>
+       <message>„Coraz” wymaga stopnia wyższego przymiotnika lub przysłówka. Czy chodziło o <suggestion><match no="2" regexp_match="^naj" regexp_replace=""/></suggestion>?</message>
+       <short>Błąd gramatyczny</short>
+       <example correction='mniej'>Kodowanie to coraz <marker>najmniej</marker> popularna metoda pracy z najmłodszymi dziećmi.</example>
+       <example>Kodowanie to coraz bardziej popularna metoda pracy z najmłodszymi dziećmi.</example>
+      </rule>
+      <rule>
+       <pattern>
+        <token>coraz</token>
+        <marker>
+        <token>najbardziej</token>
+        </marker>
+       </pattern>
+       <message>„Coraz” wymaga stopnia wyższego przymiotnika lub przysłówka. Czy chodziło o <suggestion>bardziej</suggestion>?</message>
+       <short>Błąd gramatyczny</short>
+       <example correction='bardziej'>Kodowanie to coraz <marker>najbardziej</marker> popularna metoda pracy z najmłodszymi dziećmi.</example>
+       <example>Kodowanie to coraz bardziej popularna metoda pracy z najmłodszymi dziećmi.</example>
+      </rule>
+      </rulegroup>
         <rule id="ZDANIE_PODRZEDNE_Z_KTORY_LUB_JAKI" name="Zdanie podrzędne z „który” lub „jaki” niepasujące do nadrzędnego">
         <antipattern> <!-- zwykły rządzący rzeczownik -->
         <unify><feature id="gender"/><feature id="number"/>
@@ -15494,7 +15519,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </antipattern>
                     <rule>
                     <pattern>
-                        <token case_sensitive="yes" regexp="yes">\p{Ll}{1,}</token>
+                        <token case_sensitive="yes" regexp="yes">\p{Ll}{1,40}</token>
                         <marker>
                         <token case_sensitive="yes" regexp="yes" inflected="yes">poniedziałek|wtorek|środa|czwartek|piątek|sobota|niedziela<exception regexp="yes">(?-iu)\p{Ll}.*</exception><exception postag="brev:pun"/></token>
                         </marker>
@@ -16648,7 +16673,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </rulegroup>
 				<rule default="off" id="PRZECIAGNIJ-I-UPUSC" name="Wyrażenia pisane z wieloma łącznikami">
 						<pattern>
-								<token postag="UNKNOWN" regexp="yes"><exception regexp="yes">staro-cerkiewno-słowiańs.*|staro-wysoko-niemiec.*|koh-i-noor.*</exception><exception regexp="yes">.*-(en|a|sur|de|du|au|of|upon|cyk|as|off|per)-.*</exception>\p{L}{2,}-\p{L}+-.*</token>
+								<token postag="UNKNOWN" regexp="yes"><exception regexp="yes">staro-cerkiewno-słowiańs.*|staro-wysoko-niemiec.*|koh-i-noor.*</exception><exception regexp="yes">.*-(en|a|sur|de|du|au|of|upon|cyk|as|off|per)-.*</exception>\p{L}{2,40}-\p{L}+-.*</token>
 						</pattern>
 						<message>Prawdopodobnie to wyrażenie jest kalką z języka obcego. W języku polskim zwykle nie łączy się wielu wyrazów łącznikiem w celu uzyskania jednego wyrazu. Poprawnie: <suggestion><match no="1" regexp_match="\-" regexp_replace=" "></match></suggestion>.</message>
 						<short>Błąd ortograficzny</short>
@@ -19795,7 +19820,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
 		<category id="TYPOS" name="Prawdopodobne literówki" type="misspelling">
-        <rule id="EUROPA" name="„europa” (Europa)">
+          <rule id="EUROPA" name="„europa” (Europa)">
           <pattern case_sensitive="yes">
             <token inflected="yes" regexp="yes">Europa|Rzym<exception regexp="yes">\p{Lu}.+</exception></token>
           </pattern>
