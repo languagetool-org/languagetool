@@ -3300,15 +3300,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </rule>
 				<rule id="TYM_BARDZIEJ_ZE" name="Zbędny przecinek w „tym bardziej że”">
 						<pattern>
+						  <marker>
 								<token>tym</token>
 								<token>bardziej</token>
 								<token>,</token>
 								<token>że</token>
+              </marker>
+                <token><exception postag="conj|comp" postag_regexp="yes"/></token>
 						</pattern>
 						<message>Prawdopodobnie zbędny przecinek. Przecinek stawia się przed całym zestawieniem: <suggestion>\1 \2 \4</suggestion>.</message>
 						<short>Zbędny przecinek</short>
 						<example>Nie wiadomo, czy Jarek był agentem, tym bardziej że jego teczka została sfałszowana.</example>
 						<example correction="tym bardziej że">Nie wiadomo, czy Jarek był agentem <marker>tym bardziej, że</marker> jego teczka została sfałszowana.</example>
+						<example>Można to było zrobić bez zbędnych udziwnień, tym bardziej, że jeżeli się już dotrze do podanych informacji, to okazują się one rzeczowe i użyteczne.</example>
 				</rule>
 				<rule id="Z_TYM_ZE" name="Zbędny przecinek w „z tym że”">
                         <antipattern>
