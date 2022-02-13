@@ -25265,7 +25265,7 @@ Nós os dos queremos ganhar. → Nós os dois queremos ganhar.
 
   <!-- ESTA está -->
   <rulegroup id='CONFUSÃO_ESTA_ESTÁ' name="Confusão: Esta/Está">
-  <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-28/29/30/31 + 2022-02-01/02/05/06/08 (Checked/Enhanced) (1-JAN-2022+)      -->
+  <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-28/29/30/31 + 2022-02-01/02/05/06/08/13 (Checked/Enhanced) (1-JAN-2022+)      -->
 <!--
 HITS IN 600000 SENTENCES:109
 
@@ -25408,7 +25408,9 @@ Vou fazer isto esta tarde.
 			<token regexp="yes">estas?</token>
 		</marker>
 		<token min="0" max="1" postag='PD.+' postag_regexp='yes'/> <!-- dia namorados -->
-		<token postag='VMP00.+|NC.+|AQ.+|VMN0000' postag_regexp='yes'/> <!-- dia namorados VMN0000 -->
+		<token postag='VMP00.+|NC.+|AQ.+|VMN0000' postag_regexp='yes'> <!-- dia namorados VMN0000 -->
+			<exception postag_regexp='yes' postag='VMIS.+'/> <!-- "Ao aplicar a Teoria da Informação esta veio ainda mais acentuar o número de vitórias." -->
+		</token>
 		<token negate_pos="yes" postag='V.+|NC.+' postag_regexp='yes'/>
       </pattern>
 	  <message>Possível confusão de termos.</message>
