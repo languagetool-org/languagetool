@@ -260,6 +260,7 @@ public class TokenAgreementPrepNounRuleTest {
     assertEmptyMatch("на їх користь стягнуто");
     assertEmptyMatch("не всупереч, а тому, що він має");
     assertEmptyMatch("у його (лікаря) присутності");
+    assertEquals(1, ruleMatch("до їх").length);
     
     assertEmptyMatch("Під його, без перебільшення, мудрим");
     assertEmptyMatch("до її, так би мовити, санітарного стану");
@@ -283,7 +284,6 @@ public class TokenAgreementPrepNounRuleTest {
     assertEmptyMatch("через її, м’яко кажучи, невелику популярність");
     
     assertEquals(1, ruleMatch("при його ж заняттів").length);
-    
   }
   
   @Test

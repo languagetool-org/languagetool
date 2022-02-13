@@ -333,16 +333,17 @@ public class TokenAgreementPrepNounRule extends Rule {
   }
 
   private static int findInsertEnd(AnalyzedTokenReadings prepTokenReadings, AnalyzedTokenReadings[] tokens, int i, boolean lookForPart) {
+    if( i >= tokens.length - 2 )
+      return -1;
+    
     int nextPos = i;
     AnalyzedTokenReadings tokenReadings = tokens[i];
     
-    if( true ) {
-      if( i > tokens.length - 2 )
-        return -1;
+    if( i > tokens.length - 2 )
+      return -1;
 
-      if( tokenReadings.getCleanToken().matches("же?") ) {
-        nextPos = i+1;
-      }
+    if( tokenReadings.getCleanToken().matches("же?") ) {
+      nextPos = i+1;
     }
 
     if( nextPos > tokens.length - 3 )
