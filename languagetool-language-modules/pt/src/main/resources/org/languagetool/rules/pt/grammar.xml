@@ -11562,6 +11562,18 @@ Vamos minorar a dor.
     <!--  Based on Catalan KILO_LOWERCASE rule, by Tiago F. Santos, 2017-02-27      -->
       <url>https://pt.wikipedia.org/wiki/Prefixos_do_Sistema_Internacional_de_Unidades</url>
       <short>Erro de capitalização</short>
+
+<!-- MARCOAGPINTO 2022-02-13 (Checked/Enhanced) (1-JAN-2022+) *START* -->
+<!--
+THIS ANTIPATTERN ALSO APPEARS IN TWO OTHER PLACES ALSO ^2 RELATED.
+As forças estão organizadas numa hierarquia C2.
+-->
+      <antipattern>
+		  <token regexp='yes'>ciclos?|estruturas?|hierarquias?|hierárquicas?</token>
+		  <token case_sensitive='yes'>C2</token>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-02-13 (Checked/Enhanced) (1-JAN-2022+) *END* -->
+
     <rule>
       <pattern case_sensitive="yes">
           <token postag_regexp='yes' postag='Z.+' skip='3'/>
@@ -35295,6 +35307,18 @@ A última versão foi a 1.7.13 e o seu sucessor é o SeaMonkey.
     <!-- Created by Tiago F. Santos, 2017-05-12 -->
       <url>https://pt.wikipedia.org/wiki/Exponencia%C3%A7%C3%A3o</url>
       <short>Erro tipográfico</short>
+
+<!-- MARCOAGPINTO 2022-02-13 (Checked/Enhanced) (1-JAN-2022+) *START* -->
+<!--
+THIS ANTIPATTERN ALSO APPEARS IN TWO OTHER PLACES ALSO ^2 RELATED.
+As forças estão organizadas numa hierarquia C2.
+-->
+      <antipattern>
+		  <token regexp='yes'>ciclos?|estruturas?|hierarquias?|hierárquicas?</token>
+		  <token case_sensitive='yes'>C2</token>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-02-13 (Checked/Enhanced) (1-JAN-2022+) *END* -->
+
     <rule>
       <pattern case_sensitive="yes">
           <token postag_regexp='yes' postag='Z.+' skip='3'/>
@@ -36073,6 +36097,18 @@ Isto foi criado em 27-JAN-2021.
 
   <rulegroup id='CHEMICAL_FORMULAS_TYPOGRAPHY' name='Fórmulas químicas'>
     <!-- Created by Tiago F. Santos, 2017-02-12 -->
+
+<!-- MARCOAGPINTO 2022-02-13 (Checked/Enhanced) (1-JAN-2022+) *START* -->
+<!--
+THIS ANTIPATTERN ALSO APPEARS IN TWO OTHER PLACES ALSO ^2 RELATED.
+As forças estão organizadas numa hierarquia C2.
+-->
+      <antipattern>
+		  <token regexp='yes'>ciclos?|estruturas?|hierarquias?|hierárquicas?</token>
+		  <token case_sensitive='yes'>C2</token>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-02-13 (Checked/Enhanced) (1-JAN-2022+) *END* -->
+
     <rule>
       <pattern case_sensitive='yes'>
           <token regexp='yes'>(?:\d+)(?:&tabela_periodica;)+(?:[₁₂₃₄₅₆₇₈₉]+)((&tabela_periodica;)+)?</token>
@@ -36083,15 +36119,6 @@ Isto foi criado em 27-JAN-2021.
     </rule>
     <!-- Created by Tiago F. Santos, 2017-01-18 -->
     <rule>
-<!-- MARCOAGPINTO 2021-09-20 (25-JUN-2021+) *START* -->
-<!--
-As forças estão organizadas numa hierarquia C2.
--->
-      <antipattern>
-		  <token regexp='yes'>hierarquias?|hierárquicas?</token>
-		  <token case_sensitive='yes'>C2</token>
-      </antipattern>
-<!-- MARCOAGPINTO 2021-09-20 (25-JUN-2021+) *END* -->
       <pattern case_sensitive='yes'>
           <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+2((?:&tabela_periodica;)+)?
             <exception regexp='yes'>(?:I[CP]|U|PS)2</exception></token>
@@ -36101,8 +36128,6 @@ As forças estão organizadas numa hierarquia C2.
       <example correction='O₂'><marker>O2</marker></example>
       <example correction='4H₂O'><marker>4H2O</marker></example>
       <example>U2</example>
-	  
-	  <example>As forças estão organizadas numa hierarquia C2.</example>
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
