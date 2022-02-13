@@ -62,6 +62,9 @@ public class GermanTagger extends BaseTagger {
     }
   }
 
+  // do not add noun tags to these words, e.g. don't add noun tags to "Wegstrecken" for weg_strecken from spelling.txt:
+  private static final List<String> nounTagExpansionExceptions = Arrays.asList("Wegstrecken");
+
   private static final List<String> tagsForWeise = new ArrayList<>();
   static {
     // "kofferweise", "idealerweise" etc.
@@ -233,6 +236,7 @@ public class GermanTagger extends BaseTagger {
         PrefixInfixVerb verbInfo = expansionInfos.get().verbInfos.get(word);
         NominalizedVerb nomVerbInfo = expansionInfos.get().nominalizedVerbInfos.get(word);
         NominalizedGenitiveVerb nomGenVerbInfo = expansionInfos.get().nominalizedGenVerbInfos.get(word);
+        boolean addNounTags = !nounTagExpansionExceptions.contains(word);
         //String prefixVerbLastPart = prefixedVerbLastPart(word);   // see https://github.com/languagetool-org/languagetool/issues/2740
         if (verbInfo != null) {   // e.g. "herumgeben" with "herum_geben" in spelling.txt
           if (StringTools.startsWithLowercase(verbInfo.prefix)) {
@@ -244,12 +248,12 @@ public class GermanTagger extends BaseTagger {
               }
             }
           }
-        } else if (nomVerbInfo != null) {
+        } else if (nomVerbInfo != null && addNounTags) {
           // e.g. "herum_geben" in spelling.txt -> "(das) Herumgeben"
           readings.add(new AnalyzedToken(word, "SUB:NOM:SIN:NEU:INF", nomVerbInfo.prefix + nomVerbInfo.verbBaseform));
           readings.add(new AnalyzedToken(word, "SUB:AKK:SIN:NEU:INF", nomVerbInfo.prefix + nomVerbInfo.verbBaseform));
           readings.add(new AnalyzedToken(word, "SUB:DAT:SIN:NEU:INF", nomVerbInfo.prefix + nomVerbInfo.verbBaseform));
-        } else if (nomGenVerbInfo != null) {
+        } else if (nomGenVerbInfo != null && addNounTags) {
           // e.g. "herum_geben" in spelling.txt -> "(des) Herumgebens"
           readings.add(new AnalyzedToken(word, "SUB:GEN:SIN:NEU:INF", nomGenVerbInfo.prefix + nomGenVerbInfo.verbBaseform));
         /*} else if (prefixVerbLastPart != null) {   // "aufstöhnen" etc.

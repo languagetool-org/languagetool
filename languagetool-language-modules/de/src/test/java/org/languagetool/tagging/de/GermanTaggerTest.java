@@ -315,6 +315,12 @@ public class GermanTaggerTest {
     String res6 = result6.toString();
     assertTrue(res6.contains("Mitmanagen/SUB:GEN:SIN:NEU:INF"));
     assertFalse(res6.contains("ADJ:"));
+
+    List<AnalyzedTokenReadings> result7 = tagger.tag(Collections.singletonList("Wegstrecken"));
+    assertThat(result7.size(), is(1));
+    assertThat(result7.get(0).getReadings().size(), is(7));
+    String res7 = result7.toString();
+    assertFalse(res7.contains("Wegstrecken/SUB:GEN:SIN:NEU:INF"));
   }
 
   /**
