@@ -42084,8 +42084,8 @@ Grave as preferências para que tenha de as alterar constantemente. → Grave as
 
 
 	<!-- O QUE ORIGINA originando -->
-    <rule id='SIMPLIFICAR_O_QUE_VERBO_VERBOGERUNDIO' name="Simplificar: O que + V. → V. Gerúndio" type="style" default="off">
-    <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-02-08/09 (1-JAN-2022+)      -->
+    <rule id='SIMPLIFICAR_O_QUE_VERBO_VERBOGERUNDIO' name="Simplificar: O que + V. → V. Gerúndio" type="style">
+    <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-02-08-13 (1-JAN-2022+)      -->
 	<!--
 As regras estão erradas o que origina a sua desorganização. → As regras estão erradas originando a sua desorganização.
 	-->
@@ -42105,22 +42105,109 @@ Dois homens estão checando o que está de errado com o carro.
 		</token>
 	  </antipattern>
 
+<!-- THE FOUR ANTIPATTERNS BELOW ARE SIMILAR WITH THE STARTING TOKEN
+     MORE TO TAKE CARE OF NOT REMOVING SENTENCES STARTING WITH A COMMA.
+-->
 <!--
 Não faz sentido discutir sobre o que é verdade e o que não é.
 Contudo, o que impera são os fascismos sociais.
-Afinal, o que é consciência?
-Aliás, o que é backup?
-
-WORKING ON THIS ANTIPATTERN: 2022-02-09
-FIX FALSE POSITIVES WITH STARTING RG
+"O que é que as senhoras desejam saber?" "Tudo."
+"O que é que você está olhando?" "Nada."
+Aqui você vê quanto está bem informado sobre o que acontece no governo federal.
+# 1/4:
 -->
 	  <antipattern>
-		<token postag='SPS.+|CC|RG' postag_regexp='yes'/>
+		<token postag='SPS.+|CC|_QUOT|VM[MNS].+|VMIP3.+|CS|RM|AO.+' postag_regexp='yes'/>
 		<token min="0" max="1" regexp='yes'>[,]</token>
 		<token>o</token>
 		<token>que</token>
+		<token min="0" max="1"  postag='RN' postag_regexp='no'/>
 		<token postag='V.+' postag_regexp='yes'/>
-		<token postag='NC.+|AQ.+' postag_regexp='yes'/>
+		<token postag='NC.+|AQ.+|CS|SPS00.DA|NP.+|PI.+|SPS00.*|AO.+' postag_regexp='yes'/>
+	  </antipattern>
+<!--
+Adicione o título do post e o nome do seu site ou blog para que as pessoas saibam sobre o que é o post.
+Agora que você sabe o que é o cPanel, que tal fazer um teste?
+Alguém desonesto que toma o que pertence a outra pessoa é um ladrão.
+As invisíveis raízes são o que sustenta a grande árvore.
+As dificuldades é que mostram o que são os homens.
+# 2/4:
+-->
+	  <antipattern>
+		<and>
+			<token postag='SPS.+|CC|_QUOT|VM[MNS].+|VMIP3.+|CS|AO.+' postag_regexp='yes'/>
+			<token negate="yes" regexp='yes'>[,]</token>
+		</and>
+		<token>o</token>
+		<token>que</token>
+		<token min="0" max="1"  postag='RN' postag_regexp='no'/>
+		<token postag='V.+' postag_regexp='yes'/>
+		<token postag='DA.+|RM|AO.+' postag_regexp='yes'/>
+	  </antipattern>
+<!--
+SENTENCES STARTING WITH "," AND SPECIFIC VERBS
+Neste contexto, o que é que foi determinado?
+Se você acha isso de mim, o que é que eu posso fazer?
+Tom, o que é que tu fazes?
+Afinal, o que é o conselho de administração em empresas?
+# 3/4:
+-->
+	  <antipattern>
+		<token postag='_PUNCT' postag_regexp='no'/>
+		<token min="0" max="1"  postag='V.+' postag_regexp='yes'/>
+		<token>o</token>
+		<token>que</token>
+		<token min="0" max="1"  postag='RN' postag_regexp='no'/>
+		<token inflected='yes' regexp='yes'>haver|estar|existir|ser</token>
+		<token postag='CS|DA.+|NP.+|AO.+|DI.+|Z0.+|SPS.+' postag_regexp='yes'/>
+	  </antipattern>
+<!--
+SENTENCES STARTING WITH "O QUE" + SPECIFIC VERBS + 1 OR 2 NOUNS AND PUNCTUATION
+Parece que você esqueceu o que é religião.
+Escolha o que é certo, não o que é fácil.
+Para você, o que é memória?
+Como é possível crer e não provar? Talvez por ser de tudo a fé o que é mais forte.
+# 4/4:
+-->
+	  <antipattern>
+		<token>o</token>
+		<token>que</token>
+		<token min="0" max="1"  postag='RN' postag_regexp='no'/>
+		<token inflected='yes' regexp='yes'>haver|estar|existir|ser</token>
+		<token min="0" max="1"  postag='SPS.+' postag_regexp='yes'/>
+		<token min="1" max="2" postag='NC.+|AQ.+|RM' postag_regexp='yes'/>
+		<token postag='_PUNCT|CC' postag_regexp='yes'/>
+	  </antipattern>
+
+<!--
+Afinal, o que é consciência?
+Aliás, o que é backup?
+Mas, afinal, o que é que aconteceu?
+Então o que é que eu faço agora?
+Ei, o que pensa que está fazendo?
+-->
+	  <antipattern>
+		<token postag='RG' postag_regexp='no'/>
+		<token min="0" max="1" regexp='yes'>[,]</token>
+		<token>o</token>
+		<token>que</token>
+		<token min="0" max="1"  postag='RN' postag_regexp='no'/>
+		<token postag='V.+' postag_regexp='yes'/>
+		<token postag='NC.+|AQ.+|CS|SPS00.DA|NP.+|PI.+|SPS00.*|RM|AO.+' postag_regexp='yes'>
+			<exception postag_regexp='no' postag='RG'/>
+		</token>
+	  </antipattern>
+
+<!--
+"SABER" APPEARS AS A NOUN CAUSING SEVERAL FALSE POSITIVES. THIS FIXES IT.
+Gostaria de saber o que é que ela faz.
+Gostaria de saber o que leva uma editora se decidir à publicar um livro?
+Gostaria de saber o que seria mais lucrativo pra mim.
+-->
+	  <antipattern>
+		<token>saber</token>
+		<token>o</token>
+		<token>que</token>
 	  </antipattern>
 
       <pattern>
@@ -42139,7 +42226,7 @@ FIX FALSE POSITIVES WITH STARTING RG
 		</and>
 		<token negate_pos="yes" postag='_PUNCT' postag_regexp='no'/>
       </pattern>
-      <message>Esta perífrase poderá ser simplificada.</message>
+      <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
 	  <suggestion><match no='4' postag='VMIP3.+' postag_regexp="yes" postag_replace='VMG0000'/></suggestion>
       <example correction="originando">As regras estão erradas <marker>o que origina</marker> a sua desorganização.</example>
 	  <example>E o que é este algo?</example>
@@ -42153,10 +42240,41 @@ FIX FALSE POSITIVES WITH STARTING RG
 	  <example>Eu não sei o que seria de nós sem você.</example>
 	  <example>Dois homens estão checando o que está de errado com o carro.</example>
 
+<!-- RULE GROUP 1/4 -->
 	  <example>Não faz sentido discutir sobre o que é verdade e o que não é.</example>
 	  <example>Contudo, o que impera são os fascismos sociais.</example>
+	  <example>"O que é que as senhoras desejam saber?" "Tudo."</example>
+	  <example>"O que é que você está olhando?" "Nada."</example>
+	  <example>Aqui você vê quanto está bem informado sobre o que acontece no governo federal.</example>
+
+<!-- RULE GROUP 2/4 -->  
+	  <example>Adicione o título do post e o nome do seu site ou blog para que as pessoas saibam sobre o que é o post.</example>
+	  <example>Agora que você sabe o que é o cPanel, que tal fazer um teste?</example>
+	  <example>Alguém desonesto que toma o que pertence a outra pessoa é um ladrão.</example>
+	  <example>As invisíveis raízes são o que sustenta a grande árvore.</example>
+	  <example>As dificuldades é que mostram o que são os homens.</example>
+
+<!-- RULE GROUP 3/4 -->
+	  <example>Neste contexto, o que é que foi determinado?</example>
+	  <example>Se você acha isso de mim, o que é que eu posso fazer?</example>
+	  <example>Tom, o que é que tu fazes?</example>
+	  <example>Afinal, o que é o conselho de administração em empresas?</example>
+
+<!-- RULE GROUP 4/4 -->
+	  <example>Parece que você esqueceu o que é religião.</example>
+	  <example>Escolha o que é certo, não o que é fácil.</example>
+	  <example>Para você, o que é memória?</example>
+	  <example>Como é possível crer e não provar? Talvez por ser de tudo a fé o que é mais forte.</example>
+
 	  <example>Afinal, o que é consciência?</example>
 	  <example>Aliás, o que é backup?</example>
+	  <example>Mas, afinal, o que é que aconteceu?</example>
+	  <example>Então o que é que eu faço agora?</example>
+	  <example>Ei, o que pensa que está fazendo?</example>
+
+	  <example>Gostaria de saber o que é que ela faz.</example>
+	  <example>Gostaria de saber o que leva uma editora se decidir à publicar um livro?</example>
+	  <example>Gostaria de saber o que seria mais lucrativo pra mim.</example>
     </rule>
 
 
