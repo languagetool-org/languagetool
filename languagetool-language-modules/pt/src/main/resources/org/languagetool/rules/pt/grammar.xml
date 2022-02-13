@@ -41597,6 +41597,29 @@ Elas têm umas sextas de vime. → Elas têm umas cestas de vime.
  <category id='REDACTION_TIPS' name='Dicas de redação' type='style'>
 
 
+	<!-- CERTA exata -->
+    <rule id='CERTO_EXATO' name="Certo → Exato" type="style">
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2022-02-13 (1-JAN-2022+)      -->
+	<!--
+Quero a percentagem certa na tabela. → Quero a percentagem exata na tabela.
+	-->
+      <pattern>
+		  <token regexp='yes'>[ao]s?</token>
+		  <token postag_regexp='yes' postag='NC.+|AQ.+'>
+			<exception postag_regexp='yes' postag='V.+'/>
+			<exception regexp='yes'>ajudas?|caminhos?|cara?|coisas?|decisão|decisões|escolhas?|estradas?|ferramentas?|homem|homens|livros?|modos?|mulher|mulheres|perguntas?|pessoas?|portas?|técnicas?</exception>
+			<exception regexp='yes'>&expressoes_de_tempo;</exception>
+		  </token>
+		  <marker>
+			<token regexp='yes'>cert[ao]s?</token>
+		  </marker>
+      </pattern>
+	  <message>Se for um texto académico/científico, pondere empregar o termo 'exato'.</message>
+	  <example type='correct'>Quero a percentagem <marker>exata</marker> na tabela.</example>
+	  <example type='incorrect'>Quero a percentagem <marker>certa</marker> na tabela.</example>
+    </rule>
+
+
 	<!-- CORRER O RISCO arriscar-->
     <rulegroup id='CORRER_RISCO_ARRISCAR' name="Simplificar: Correr o risco → arriscar" type='style'>
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-20/21 (Checked/Enhanced) (1-JAN-2022+)      -->
