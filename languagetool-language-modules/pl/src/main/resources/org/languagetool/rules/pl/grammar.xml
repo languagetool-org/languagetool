@@ -19851,7 +19851,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
 		<category id="TYPOS" name="Prawdopodobne literówki" type="misspelling">
-          <rule id="EUROPA" name="„europa” (Europa)">
+		  <rule id="OPACZNOSC_OPATRZNOSC" name="„Opaczność” (opatrzność)">
+		  <antipattern> <!-- tytuł dzieła sztuki -->
+    		  <token inflected="yes">opaczność</token>
+    		  <token>opatrzności</token>
+		  </antipattern>
+       <pattern>
+        <token inflected="yes">opaczność</token>
+       </pattern>
+       <message>Powinno być <suggestion><match no="1" regexp_match="czn" regexp_replace="trzn"/></suggestion> (=opieka Boga)</message>
+       <short>Błąd ortograficzny</short>
+       <example correction='opatrzność'>Boska <marker>opaczność</marker> ich ochroniła.</example>
+       <example>Boska opatrzność ich ochroniła.</example>
+       <example>&quot;Opaczność Opatrzności&quot; - bo taki tytuł nosi najnowszy tomik wierszy księdza Miłosza Bieli, jest już czwartym w jego pisarskim dorobku.</example>
+      </rule>
+        <rule id="EUROPA" name="„europa” (Europa)">
           <pattern case_sensitive="yes">
             <token inflected="yes" regexp="yes">Europa|Rzym<exception regexp="yes">\p{Lu}.+</exception></token>
           </pattern>
