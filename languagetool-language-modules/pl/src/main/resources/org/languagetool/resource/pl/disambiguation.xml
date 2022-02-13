@@ -7419,17 +7419,19 @@
     <rule name="mianownik + jest + mianownik" id="nom_jest_nom">
         <pattern>
             <unify>
-                <feature id="number"/>
+                <feature id="gender"/><feature id="number"/>
                 <marker>
                     <token postag="(?:adj|pact|subst|ger|ppas).*nom[:\.].*" postag_regexp="yes"/>
-                    <token postag="verb:fin.*:ter:imperf:nonrefl" inflected="yes" postag_regexp="yes">być</token>
+                    <unify-ignore>
+                        <token postag="verb:fin.*:ter:imperf:nonrefl" inflected="yes" postag_regexp="yes">być</token>
+                    </unify-ignore>
                     <token postag="(?:adj|pact|subst|ger|ppas).*nom[:\.].*" postag_regexp="yes"/>
                 </marker>
             </unify>
         </pattern>
         <disambig action="unify"/>
         <example type="ambiguous" inputform="niewielkie[niewielki/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos,niewielki/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos,niewielki/adj:sg:acc:n1.n2:pos,niewielki/adj:sg:nom.voc:n1.n2:pos]"
-                 outputform="niewielkie[niewielki/adj:sg:nom.voc:n1.n2:pos]">Zasadne jest <marker>niewielkie</marker> podtopienie.</example>
+                 outputform="niewielkie[niewielki/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos,niewielki/adj:sg:nom.voc:n1.n2:pos]">Zasadne jest <marker>niewielkie</marker> podtopienie.</example>
     </rule>
 
     <rule name="mianownik + conj + jest + mianownik" id="nom_conj_jest_nom">
