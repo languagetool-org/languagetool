@@ -9712,7 +9712,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <marker>
                         <token postag='(:?subst|adj|ppas|pact|ger|ppron[1-3]):.*' postag_regexp='yes'>
                           <exception postag='(:?subst|adj|ppas|pact|ger|ppron[1-3]):(.*acc.*|.*loc.*)' postag_regexp='yes'></exception>
-                          <exception regexp="yes">stojaka|przeciwka</exception>
+                          <exception>stojaka</exception>
                           </token>
                         </marker>
                        </pattern>
@@ -18302,17 +18302,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <example>Jak ci nie gwizdnę co ino sił, umarły by usłyszał.</example>
 				</rule>
 				<!-- błędna pisownia rozłączna -->
-				<rule id="DO_CZEKAĆ" name="„do czekać” (doczekać)">
-          <pattern>
-          <token>do</token>
-          <token inflected="yes">czekać</token>      
-          </pattern>
-          <message>Ten czasownik pisze się łącznie: <suggestion>\1\2</suggestion>.</message>
-          <url>https://www.korektortekstu.pl/jak-sie-pisze/doczekal-czy-do-czekal</url>
-          <short>Błąd ortograficzny</short>
-          <example correction="doczekać">Nie mogę się <marker>do czekać</marker>.</example>
-          <example>Czekał, czekał, aż się doczekał.</example>
-				</rule>
 				<rulegroup id="PONAD_TO" name="„ponad to”, „po nadto” (ponadto)">
 						<rule>
                                 <antipattern>
@@ -18466,33 +18455,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example>Poza tym samochód wyposażony jest w ogromny bagażnik.</example>
 						<example correction="Poza"><marker>Po za</marker> tym samochód wyposażony jest w ogromny bagażnik.</example>
 				</rule>
-				<rulegroup id="NAPRZECIWKO" name="„na przeciwko/przeciw” (naprzeciwko/naprzeciw)">
-				<rule>
+				<rule id="NAPRZECIWKO" name="„na przeciwko/przeciw” (naprzeciwko/naprzeciw)">
 						<pattern>
 								<token>na</token>
-								<token regexp="yes">przeciwk[oa]|przeciw|daremnie|umyślnie|wet</token>
+								<token regexp="yes">przeciwko|przeciw|daremnie|umyślnie|wet</token>
 						</pattern>
 						<message>Wyrażenie <suggestion>\1\2</suggestion> piszemy łącznie.</message>
-						<url>https://www.ortograf.pl/watpliwosci-jezykowe/jak-piszemy-z-naprzeciwka-czy-z-na-przeciwka</url>
 						<short>Błąd ortograficzny</short>
 						<example>Ala mieszkała naprzeciwko.</example>
 						<example correction="naprzeciw">Sam wyszedłeś mu <marker>na przeciw</marker>.</example>
 						<example correction="nadaremnie">Nigdy nie wymawiaj mojego imienia <marker>na daremnie</marker>.</example>
 						<example correction="Naprzeciwko"><marker>Na przeciwko</marker> moich okien są takie same okna innego budynku na naszym terenie.</example>
-						<example correction="naprzeciwka">On idzie z <marker>na przeciwka</marker>.</example>
-        </rule>
-            <rule>
-						<pattern>
-								<token>zna</token>
-								<token regexp="yes">przeciwka|przeciw</token>
-						</pattern>
-						<message>Poprawnie: <suggestion>z na\2</suggestion>.</message>
-						<url>https://www.ortograf.pl/watpliwosci-jezykowe/jak-piszemy-z-naprzeciwka-czy-z-na-przeciwka</url>
-						<short>Błąd ortograficzny</short>
-						<example>Ala mieszkała naprzeciwko.</example>
-						<example correction="z naprzeciwka">On idzie <marker>zna przeciwka</marker>.</example>
-        </rule>
-        </rulegroup>
+				</rule>
 				<rule id="ZNAD" name="„z nad” (znad)">
 						<pattern>
 								<token>z</token>
@@ -23215,21 +23189,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </rule>
                 </rulegroup>
                 <rule id="NAPRZECIWKA" name="„naprzeciwka” (z naprzeciwka)">
-                    <antipattern>
-                          <token>na</token>
-                          <token>przeciwka</token>
-                    </antipattern>
                     <pattern>
                         <token><exception>z</exception></token>
                         <marker>
-                            <token regexp="yes">(na)?przeciwka</token>
+                            <token>naprzeciwka</token>
                         </marker>
                     </pattern>
-                    <message>Prawdopodobna literówka: <suggestion>z <match no="2" case_conversion="alllower"/></suggestion>.</message>
+                    <message>Prawdopodobna literówka: <suggestion>z <match no="2"/></suggestion>.</message>
                     <short>Literówka</short>
                     <example correction='z naprzeciwka'>Samochód jechał <marker>naprzeciwka</marker>.</example>
                     <example>Samochód jechał z naprzeciwka.</example>
-                    <example correction="Z przeciwka"><marker>Przeciwka</marker> nadjeżdżał samochód.</example>
                 </rule>
 				<rulegroup id="Z_POWODY" name="„z powody” (z powodu) itp.">
 						<rule>
