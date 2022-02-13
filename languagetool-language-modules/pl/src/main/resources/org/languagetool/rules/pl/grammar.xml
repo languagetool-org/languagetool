@@ -19851,6 +19851,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
 		<category id="TYPOS" name="Prawdopodobne literówki" type="misspelling">
+		  <rule id="SKROT_OK_BEZ_KROPKI" name="Skrót „ok” bez kropki (ok.)">
+       <pattern>
+        <token>ok</token>
+        <token regexp='yes'>\d+%?</token>
+       </pattern>
+       <message>Powinno być <suggestion>ok.</suggestion></message>
+       <short>Brak kropki</short>
+       <example correction='ok.'>Miesięczna rata spłacana przez kredytobiorców jest obecnie <marker>ok 10%</marker> niższa niż przy kredycie tej samej wysokości zaciągniętym w grudniu 2008 roku.</example>
+       <example>Miesięczna rata spłacana przez kredytobiorców jest obecnie ok. 10% niższa niż przy kredycie tej samej wysokości zaciągniętym w grudniu 2008 roku.</example>
+      </rule>
 		  <rule id="OPACZNOSC_OPATRZNOSC" name="„Opaczność” (opatrzność)">
 		  <antipattern> <!-- tytuł dzieła sztuki -->
     		  <token inflected="yes">opaczność</token>
