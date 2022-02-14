@@ -13669,6 +13669,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rulegroup>
 		</category>
 		<category id="PHONETICS" name="Błędy fonetyczne" type="misspelling">
+          <rule id="S_Z" name="„s” (z)">
+           <pattern case_sensitive='yes'>
+            <token><exception regexp='yes'>[’'/0-9]+(,[0-9]+)?</exception></token>
+            <marker>
+            <token>s</token>
+            </marker>
+            <token case_sensitive="no" regexp='yes' postag='.*:gen.*' postag_regexp='yes'>[ptkfsścćh].+<exception regexp='yes'>s[wftśsrłndpgklcbmżń].+|[zśźż][wftśsrłndpgklzcbmżń].+|[rs]z[wftśsrłndwpgklzcbmżń].+|[wf][wftśwpgzcbmżń].+|wk[^ł].+|f[dsk].+|wd[^zię].+|ws[^ze].+|Lwow(?:a|em)|mną|mnie|snu</exception></token>
+           </pattern>
+           <message>Błąd ortograficzny – „s” to skrót od „sekunda”. Powinno być: <suggestion>z</suggestion>.</message>
+           <short>Błąd ortograficzny</short>
+           <example correction='z'>Nie może poradzić sobie z samoobsługą <marker>s</marker> powodów zdrowotnych.</example>
+           <example>Nie może poradzić sobie z samoobsługą z powodów zdrowotnych.</example>
+           <example correction="z">Branie gorzały <marker>s</marker> Polski całkowicie odradzam.</example>
+          </rule>
 				<rulegroup id="W_WE" name="„w” przed „f/w…” i spółgłoską (we)">
 						<rule>
 								<pattern>
