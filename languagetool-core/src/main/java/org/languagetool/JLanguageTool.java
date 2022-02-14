@@ -18,10 +18,8 @@
  */
 package org.languagetool;
 
-import io.github.resilience4j.circuitbreaker.CallNotPermittedException;
 import io.github.resilience4j.circuitbreaker.CircuitBreaker;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.broker.ClassBroker;
@@ -1075,41 +1073,20 @@ public class JLanguageTool {
         RemoteRule rule = remoteRules.get(taskIndex);
         String ruleKey = rule.getId();
         long chars = requestSize.get(taskIndex);
-        try {
-          if (task == null && chars == 0) { // everything cached
-            //logger.info("Results for remote rule already cached");
-            continue;
-          } else if (task == null) { // circuitbreaker open or task rejected from pool
-            // rejected tasks are already logged/tracked in LtThreadPoolFactory
-            RemoteRuleMetrics.request(ruleKey, deadlineStartNanos, chars, RemoteRuleMetrics.RequestResult.DOWN);
-            continue;
-          }
-          //logger.info("Fetching results for remote rule for {} chars", chars);
-          rule.circuitBreaker().executeCallable(() -> fetchResults(deadlineStartNanos, mode, level, analyzedSentences, remoteMatches, matchOffset, annotatedText, textSessionID, chars, deadlineEndNanos, task, rule, ruleKey));
-        } catch (InterruptedException e) {
-          logger.info("Failed to fetch result from remote rule '{}' - interrupted.", ruleKey);
-          RemoteRuleMetrics.request(ruleKey, deadlineStartNanos, chars, RemoteRuleMetrics.RequestResult.INTERRUPTED);
-          break;
-        } catch (CancellationException e) {
-          logger.info("Failed to fetch result from remote rule '{}' - cancelled.", ruleKey);
-          RemoteRuleMetrics.request(ruleKey, deadlineStartNanos, chars, RemoteRuleMetrics.RequestResult.INTERRUPTED);
-        } catch (TimeoutException e) {
-          logger.info("Failed to fetch result from remote rule '{}' - timed out ({}ms, {} chars).", ruleKey,
-            System.nanoTime() - deadlineStartNanos, chars);
-          RemoteRuleMetrics.request(ruleKey, deadlineStartNanos, chars, RemoteRuleMetrics.RequestResult.TIMEOUT);
-        } catch (CallNotPermittedException e) {
-          logger.info("Failed to fetch result from remote rule '{}' - circuitbreaker active, rule marked as down.", ruleKey);
+        if (task == null && chars == 0) { // everything cached
+          //logger.info("Results for remote rule already cached");
+          continue;
+        } else if (task == null) { // circuitbreaker open or task rejected from pool
+          // rejected tasks are already logged/tracked in LtThreadPoolFactory
           RemoteRuleMetrics.request(ruleKey, deadlineStartNanos, chars, RemoteRuleMetrics.RequestResult.DOWN);
-        } catch (Exception e) {
-          if (ExceptionUtils.indexOfThrowable(e, TimeoutException.class) != -1) {
-            String msg = String.format("Failed to fetch result from remote rule '%s' - request timed out with other errors (%dms, %d chars).",
-              ruleKey, System.nanoTime() - deadlineStartNanos, chars);
-            logger.warn(msg, e);
-            RemoteRuleMetrics.request(ruleKey, deadlineStartNanos, chars, RemoteRuleMetrics.RequestResult.ERROR);
-          } else {
-            logger.warn("Failed to fetch result from remote rule '" + ruleKey + "' - error while executing rule.", e);
-            RemoteRuleMetrics.request(ruleKey, deadlineStartNanos, chars, RemoteRuleMetrics.RequestResult.ERROR);
-          }
+          continue;
+        }
+        try {
+          //logger.info("Fetching results for remote rule for {} chars", chars);
+          RemoteRuleMetrics.inCircuitBreaker(deadlineStartNanos, rule, ruleKey, chars, () ->
+            fetchResults(deadlineStartNanos, mode, level, analyzedSentences, remoteMatches, matchOffset, annotatedText, textSessionID, chars, deadlineEndNanos, task, rule, ruleKey));
+        } catch (InterruptedException e) {
+          break;
         }
       }
 
