@@ -982,7 +982,11 @@ public class JLanguageTool {
 
     List<RuleMatch> remoteMatches = new LinkedList<>();
     List<FutureTask<RemoteRuleResult>> remoteRuleTasks = null;
-    List<RemoteRule> remoteRules = new LinkedList<>();
+
+    List<RemoteRule> remoteRules = rules.allRules().stream()
+      .filter(RemoteRule.class::isInstance).map(RemoteRule.class::cast)
+      .collect(Collectors.toList());
+
     long remoteRuleCheckStart = System.nanoTime();
     // map by sentence index, as the same sentence can be repeated multiple times in a text
     // -> need to distinguish offsets / matches
@@ -990,12 +994,14 @@ public class JLanguageTool {
     Map<Integer, Integer> matchOffset = new HashMap<>();
     // store actual request sizes (i.e. without cached sentences), so timeouts and metrics are calculated correctly
     List<Integer> requestSize = new ArrayList<>();
-    ExecutorService remoteRulesThreadPool = LtThreadPoolFactory.getFixedThreadPoolExecutor(LtThreadPoolFactory.REMOTE_RULE_EXECUTING_POOL).orElse(null);
-    if (remoteRulesThreadPool != null && mode != Mode.TEXTLEVEL_ONLY) {
+    ExecutorService remoteRulesThreadPool =
+      mode == Mode.TEXTLEVEL_ONLY || remoteRules.isEmpty() ? null :
+      LtThreadPoolFactory.getFixedThreadPoolExecutor(LtThreadPoolFactory.REMOTE_RULE_EXECUTING_POOL).orElse(null);
+    if (remoteRulesThreadPool != null) {
       // trigger remote rules to run on whole text at once, at the start, then we wait for the results
       remoteRuleTasks = new ArrayList<>();
-      checkRemoteRules(rules.allRules(), analyzedSentences, mode, level,
-        remoteRuleTasks, remoteRules, requestSize, cachedResults, matchOffset, textSessionID);
+      checkRemoteRules(remoteRules, analyzedSentences, mode, level,
+        remoteRuleTasks, requestSize, cachedResults, matchOffset, textSessionID, remoteRulesThreadPool);
     }
 
     long deadlineStartNanos = System.nanoTime();
@@ -1181,10 +1187,10 @@ public class JLanguageTool {
     match.setOffsetPosition(fromPos, toPos);
   }
 
-  protected void checkRemoteRules(List<Rule> allRules, List<AnalyzedSentence> analyzedSentences, Mode mode, Level level,
-                                  List<FutureTask<RemoteRuleResult>> remoteRuleTasks, List<RemoteRule> remoteRules,
-                                  List<Integer> requestSize,
-                                  Map<Integer, List<RuleMatch>> cachedResults, Map<Integer, Integer> matchOffset, Long textSessionID) {
+  private void checkRemoteRules(List<RemoteRule> rules, List<AnalyzedSentence> analyzedSentences, Mode mode, Level level,
+                                List<FutureTask<RemoteRuleResult>> remoteRuleTasks, List<Integer> requestSize,
+                                Map<Integer, List<RuleMatch>> cachedResults, Map<Integer, Integer> matchOffset,
+                                Long textSessionID, ExecutorService executor) {
     List<InputSentence> cacheKeys = new LinkedList<>();
     int offset = 0;
     // prepare keys for caching, offsets for adjusting match positions
@@ -1197,67 +1203,61 @@ public class JLanguageTool {
         userConfig, altLanguages, mode, level, textSessionID);
       cacheKeys.add(cacheKey);
     }
-    ExecutorService jLanguageToolPool = LtThreadPoolFactory.getFixedThreadPoolExecutor(
-      LtThreadPoolFactory.REMOTE_RULE_EXECUTING_POOL).orElseThrow(() -> new IllegalStateException("Thread pool not initialized"));
-    for (Rule r : allRules) {
-      if (r instanceof RemoteRule) {
-        RemoteRule rule = (RemoteRule) r;
-        remoteRules.add(rule);
-        FutureTask<RemoteRuleResult> task;
-        List<AnalyzedSentence> input;
-        int size;
-        if (cache != null) {
-          List<AnalyzedSentence> nonCachedSentences = new ArrayList<>();
-          for (int sentenceIndex = 0; sentenceIndex < analyzedSentences.size(); sentenceIndex++) {
-            // filter out sentences with cached results
-            InputSentence cacheKey = cacheKeys.get(sentenceIndex);
-            String ruleKey = rule.getId();
-            AnalyzedSentence sentence = analyzedSentences.get(sentenceIndex);
-            Map<String, List<RuleMatch>> cacheEntry;
-            try {
-              cacheEntry = cache.getRemoteMatchesCache().get(cacheKey, HashMap::new);
-            } catch (ExecutionException e) {
-              throw new RuntimeException(e);
-            }
-            if (cacheEntry == null) {
-              throw new RuntimeException("Couldn't access remote matches cache.");
-            }
-            List<RuleMatch> cachedMatches = cacheEntry.get(ruleKey);
-            // mark for check or retrieve from cache
-            if (cachedMatches == null) {
-              nonCachedSentences.add(sentence);
-            } else {
-              cachedResults.putIfAbsent(sentenceIndex, new LinkedList<>());
-              cachedResults.get(sentenceIndex).addAll(cachedMatches);
-            }
+    for (RemoteRule rule : rules) {
+      FutureTask<RemoteRuleResult> task;
+      List<AnalyzedSentence> input;
+      int size;
+      if (cache != null) {
+        List<AnalyzedSentence> nonCachedSentences = new ArrayList<>();
+        for (int sentenceIndex = 0; sentenceIndex < analyzedSentences.size(); sentenceIndex++) {
+          // filter out sentences with cached results
+          InputSentence cacheKey = cacheKeys.get(sentenceIndex);
+          String ruleKey = rule.getId();
+          AnalyzedSentence sentence = analyzedSentences.get(sentenceIndex);
+          Map<String, List<RuleMatch>> cacheEntry;
+          try {
+            cacheEntry = cache.getRemoteMatchesCache().get(cacheKey, HashMap::new);
+          } catch (ExecutionException e) {
+            throw new RuntimeException(e);
           }
-          // userConfig is cached by pipeline pool,
-          // logger.info("Checking {} not cached sentences out of {}", nonCachedSentences.size(), analyzedSentences.size());
-          input = nonCachedSentences;
-        } else {
-          input = analyzedSentences;
-        }
-        size = input.stream().map(s -> s.getText().length()).reduce(0, Integer::sum);
-        task = rule.run(input, textSessionID);
-        requestSize.add(size);
-
-        try {
-          // skip calls (which send requests) if open/forced_open
-          // try calls if half_open
-          // would need manual tracking if we use tryAcquirePermission, this is easier
-          // does require automaticTransitionFromOpenToHalfOpenEnabled settting
-          if (size == 0 ||
-            rule.circuitBreaker().getState() == CircuitBreaker.State.OPEN ||
-            rule.circuitBreaker().getState() == CircuitBreaker.State.FORCED_OPEN) {
-            task = null;
+          if (cacheEntry == null) {
+            throw new RuntimeException("Couldn't access remote matches cache.");
+          }
+          List<RuleMatch> cachedMatches = cacheEntry.get(ruleKey);
+          // mark for check or retrieve from cache
+          if (cachedMatches == null) {
+            nonCachedSentences.add(sentence);
           } else {
-            jLanguageToolPool.submit(task);
+            cachedResults.putIfAbsent(sentenceIndex, new LinkedList<>());
+            cachedResults.get(sentenceIndex).addAll(cachedMatches);
           }
-          remoteRuleTasks.add(task);
-        } catch (RejectedExecutionException ignored) {
-          // remoteRuleTasks and remoteRules lists are expected to be aligned
-          remoteRuleTasks.add(null);
         }
+        // userConfig is cached by pipeline pool,
+        // logger.info("Checking {} not cached sentences out of {}", nonCachedSentences.size(), analyzedSentences.size());
+        input = nonCachedSentences;
+      } else {
+        input = analyzedSentences;
+      }
+      size = input.stream().map(s -> s.getText().length()).reduce(0, Integer::sum);
+      task = rule.run(input, textSessionID);
+      requestSize.add(size);
+
+      try {
+        // skip calls (which send requests) if open/forced_open
+        // try calls if half_open
+        // would need manual tracking if we use tryAcquirePermission, this is easier
+        // does require automaticTransitionFromOpenToHalfOpenEnabled settting
+        if (size == 0 ||
+          rule.circuitBreaker().getState() == CircuitBreaker.State.OPEN ||
+          rule.circuitBreaker().getState() == CircuitBreaker.State.FORCED_OPEN) {
+          task = null;
+        } else {
+          executor.submit(task);
+        }
+        remoteRuleTasks.add(task);
+      } catch (RejectedExecutionException ignored) {
+        // remoteRuleTasks and remoteRules lists are expected to be aligned
+        remoteRuleTasks.add(null);
       }
     }
   }
