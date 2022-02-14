@@ -902,7 +902,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
           </rulegroup> 
           <rulegroup id="okazat_zabotu" name="Логические ошибки: «оказать заботу»">
-            <rule> <!--  TODO   add inflected  -->
+            <rule>
                 <pattern>
                     <token inflected="yes" postag="VB:(.*)" postag_regexp="yes">оказать</token>
                     <token>заботу</token>
@@ -915,44 +915,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="проявим заботу"><marker>окажем заботу</marker></example>
                 <example correction="проявлю заботу"><marker>окажу заботу</marker></example>
             </rule>
-            <!-- move to previous rule
-            <rule>
-                <pattern>
-                    <token>оказал</token>
-                    <token>заботу</token>
-                </pattern>              
-                <message>Должно быть: <suggestion>проявил <match no="2"></match></suggestion>?</message>
-                <short>Логическая ошибка</short>
-                <example correction="проявил заботу"><marker>оказал заботу</marker></example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>оказала</token>
-                    <token>заботу</token>
-                </pattern>              
-                <message>Должно быть: <suggestion>проявила <match no="2"></match></suggestion>?</message>
-                <short>Логическая ошибка</short>
-                <example correction="проявила заботу"><marker>оказала заботу</marker></example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>окажем</token>
-                    <token>заботу</token>
-                </pattern>              
-                <message>Должно быть: <suggestion>проявим <match no="2"></match></suggestion>?</message>
-                <short>Логическая ошибка</short>
-                <example correction="проявим заботу"><marker>окажем заботу</marker></example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>окажу</token>
-                    <token>заботу</token>
-                </pattern>              
-                <message>Должно быть: <suggestion>проявлю <match no="2"></match></suggestion>?</message>
-                <short>Логическая ошибка</short>
-                <example correction="проявлю заботу"><marker>окажу заботу</marker></example>
-            </rule>
-            -->
           </rulegroup>
           <rulegroup id="povisit_svoi_krugozor" name="Логические ошибки: «повысить свой кругозор»">
             <rule>
@@ -14444,7 +14406,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                         <token>в</token>
                         <token>заключении</token>
-                        <token regexp="yes">этого|чего|всего|которых|этой|того|той|моей|твоей|вашей|нашей|своей|своего|выступления|концерта|эфира|вышесказанного|позвольте|вышеупомянутого</token>
+                        <token regexp="yes">этого|чего|всего|которых|этой|того|той|моей|твоей|вашей|нашей|своей|своего|выступления|мероприятия|собрания|встречи|концерта|эфира|вышесказанного|позвольте|вышеупомянутого</token>
                 </pattern>
                 <message>Это предлог «в» с существительным на «–ие» в винит. падеже, окончание которого совпадает с окончанием этого существительного в им. падеже. Вы имели в виду <suggestion>в заключение \3</suggestion>?</message>
                 <short>Правильно «в заключение»</short>
