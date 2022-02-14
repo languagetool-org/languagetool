@@ -55697,6 +55697,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="EIG.*" postag_regexp="yes" />
                     <token regexp="yes">vermutet.*|gefunden.*|geschätzt.*|befürchtet.*</token>
                 </antipattern>
+                <antipattern>
+                    <token postag="PKT|SENT_START|KON.*" postag_regexp="yes"/>
+                    <token regexp="yes">alle|die</token>
+                    <token>meine</token>
+                    <token postag="((EIG|SUB).*PLU|UNKNOWN).*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">der|die</token>
+                    <token>meine</token>
+                    <token postag="((EIG|SUB).*SIN|UNKNOWN).*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token postag="PKT|SENT_START|KON.*" postag_regexp="yes" />
                     <token regexp="yes" min="0">&anfauf;</token>
