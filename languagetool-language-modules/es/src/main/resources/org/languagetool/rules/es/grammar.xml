@@ -6788,28 +6788,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token postag="SENT_START|CC" skip="-1" postag_regexp="yes"><exception scope="next" postag="PR.*|CS|LOC_CS" postag_regexp="yes"/></token>
-                <token postag="V.[SIG].*" postag_regexp="yes"><exception postag="_GN_.*|NP.*|NC.*|RG" postag_regexp="yes"/></token>
-                <token>esta</token>
+                <token postag="V.[SIG].*" postag_regexp="yes"><exception postag="_GN_.*|NP.*|NC.*|RG|A.*" postag_regexp="yes"/></token>
+                <marker>
+                    <token>esta</token>
+                </marker>
             </antipattern>
             <antipattern>
                 <token postag="SENT_START|CC" skip="-1" postag_regexp="yes"><exception scope="next" postag="PR.*|CS|LOC_CS" postag_regexp="yes"/></token>
-                <token postag="V.I.*" postag_regexp="yes"><exception postag="_GN_.*|NP.*|NC.*" postag_regexp="yes"/></token>
+                <token postag="V.I.*" postag_regexp="yes"><exception postag="_GN_.*|NP.*|NC.*|A.*" postag_regexp="yes"/></token>
                 <token regexp="yes">a|que|de</token>
                 <token postag="V.N.*" postag_regexp="yes"/>
-                <token>esta</token>
+                <marker>
+                    <token>esta</token>
+                </marker>
             </antipattern>
             <antipattern>
-                <token>esta</token>
+                <marker>
+                    <token>esta</token>
+                </marker>
                 <token postag="NC[FC]S000" postag_regexp="yes"/>
                 <token postag="NC[FC]S000|AQ.[FC]S.|V.P..SF" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <token>esta</token>
+                <marker>
+                    <token>esta</token>
+                </marker>
                 <token postag="NC[FC]S000|AQ.[FC]S.|V.P..SF" postag_regexp="yes"/>
                 <token postag="NC[FC]S000" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <token>esta</token>
+                <marker>
+                    <token>esta</token>
+                </marker>
                 <token postag="AQ.[FC]S.|V.P..SF" postag_regexp="yes"/>
                 <token regexp="yes">y|o|e|u</token>
                 <token postag="AQ.[FC]S.|V.P..SF" postag_regexp="yes"/>
@@ -6817,12 +6827,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token inflected="yes" regexp="yes">ser|ver</token>
-                <token>esta</token>
+                <marker>
+                    <token>esta</token>
+                </marker>
                 <token postag="AQ0FS0|VMP00SF" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
                 <token postag="V.S.*" postag_regexp="yes" inflected="yes">estar</token>
-                <token>esta</token>
+                <marker>
+                    <token>esta</token>
+                </marker>
                 <token postag="AQ0FS0|VMP00SF" postag_regexp="yes"/>
             </antipattern>
             <rule>
@@ -6843,6 +6857,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="está">La persona no <marker>esta</marker> dispuesta a renunciar.</example>
                 <example correction="está">Lo que haces <marker>esta</marker> completamente garantizado.</example>
                 <example correction="está">Siempre <marker>esta</marker> vestida impecable.</example>
+                <example correction="Está"><marker>Esta</marker> cada día más chiflada.</example>
                 <example>Esta revista es antigua.</example>
                 <example>Esta comida es buena.</example>
                 <example>Al ser esta superada.</example>
@@ -6859,7 +6874,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>esta</token>
                     </marker>
-                    <token min="0" postag="RG"/>
+                    <token min="0" max="3" postag="RG"/>
                     <token postag="V.G.*" postag_regexp="yes"><exception postag="NCFS000"/></token>
                 </pattern>
                 <message>Si es del verbo 'estar', se escribe con tilde.</message>
@@ -6867,6 +6882,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Está"><marker>Esta</marker> cantando.</example>
                 <example correction="Está"><marker>Esta</marker> siempre corriendo.</example>
                 <example correction="Está"><marker>Esta</marker> esperando.</example>
+                <example correction="está">¿Qué <marker>esta</marker> haciendo esta silla aquí?</example>
             </rule>
             <rule>
                 <!--  ESTA_TILDE3 está + preposición, adverbio-->
@@ -6903,8 +6919,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>esta</token>
                     </marker>
-                    <token min="0" max="3" postag="_QM_OPEN|LOC_ADV|RG.*" postag_regexp="yes"><exception regexp="yes">todo|toda|casi|usted|él|ella|bien|mal|en|entre|aquí|ahí|allí|allá|el|la|lo|un|una|uno|junto|por|mi|tu|su|[vn]uestr[oa]|conmigo|contigo|esta|esa|aquella|este|ese|aquel|ésta|ésa|aquélla|éste|ése|aquél|esto|eso|aquello|algo|fuera|dentro|arriba|abajo|cerca|lejos|cerquísima|lejísimo|delante|detrás|encima|debajo|de|del|a|al|sin|sobre|con|bajo</exception></token>
-                    <token regexp="yes">todo|toda|casi|usted|él|ella|bien|mal|en|entre|aquí|ahí|allí|allá|el|la|lo|un|una|uno|junto|por|mi|tu|su|[vn]uestr[oa]|conmigo|contigo|esta|esa|aquella|este|ese|aquel|ésta|ésa|aquélla|éste|ése|aquél|esto|eso|aquello|algo</token>
+                    <token min="0" max="3" postag="_QM_OPEN|LOC_ADV|RG.*" postag_regexp="yes"><exception regexp="yes">mejor|peor|todo|toda|casi|usted|él|ella|bien|mal|en|entre|acá|aquí|ahí|allí|allá|el|la|lo|un|una|uno|junto|por|mi|tu|su|[vn]uestr[oa]|conmigo|contigo|esta|esa|aquella|este|ese|aquel|ésta|ésa|aquélla|éste|ése|aquél|esto|eso|aquello|algo|fuera|dentro|arriba|abajo|cerca|lejos|cerquísima|lejísimo|delante|detrás|encima|debajo|de|del|a|al|sin|sobre|con|bajo</exception></token>
+                    <token regexp="yes">mejor|peor|todo|toda|casi|usted|él|ella|bien|mal|en|entre|acá|aquí|ahí|allí|allá|el|la|lo|un|una|uno|junto|por|mi|tu|su|[vn]uestr[oa]|conmigo|contigo|esta|esa|aquella|este|ese|aquel|ésta|ésa|aquélla|éste|ése|aquél|esto|eso|aquello|algo</token>
                 </pattern>
                 <message>Si es del verbo 'estar', se escribe con tilde.</message>
                 <suggestion><match no="1" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
@@ -6918,6 +6934,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="está">París <marker>esta</marker> en Francia.</example>
                 <example correction="está">¿Quién <marker>esta</marker> en esta habitación?</example>
                 <example correction="Está"><marker>Esta</marker> totalmente en contra de la explotación infantil.</example>
+                <example correction="está">Uno <marker>esta</marker> en Nueva York, pero los otros están en Londres.</example>
                 <example>Sustituye a esta en la jerarquía.</example>
                 <example>aunque esta en realidad no lo sea</example>
                 <example>Tras esta en 1954</example>
@@ -6984,7 +7001,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>esta</token>
                     </marker>
                     <token min="0">todo</token>
-                    <token regexp="yes">de|del|a|al|sin|sobre|con|bajo|hasta|enfrente|frente|ante|como|para|contra</token>
+                    <token regexp="yes">de|del|a|al|sin|sobre|con|bajo|hasta|enfrente|frente|ante|como|para|contra|tras</token>
                 </pattern>
                 <message>Si es del verbo 'estar', se escribe con tilde.</message>
                 <suggestion><match no="1" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
@@ -7010,7 +7027,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>esta</token>
                     </marker>
                     <token>fuera</token>
-                    <token min="0" postag="RG_before"/>
+                    <token min="0" postag="RG.*" postag_regexp="yes"/>
                     <token postag="D...S.|A...S.|V.P..SF" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
@@ -7026,7 +7043,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>esta</token>
                     </marker>
                     <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"><exception regexp="yes">afuera|adentro|fuera|dentro|arriba|abajo|cerca|lejos|cerquísima|lejísimo|delante|detrás|encima|debajo</exception></token>
-                    <token regexp="yes">afuera|adentroe|fuera|dentro|arriba|abajo|cerca|lejos|cerquísima|lejísimos?|delante|detrás|encima|debajo</token>
+                    <token regexp="yes">afuera|adentro|fuera|dentro|arriba|abajo|cerca|lejos|cerquísima|lejísimos?|delante|detrás|encima|debajo</token>
                 </pattern>
                 <message>Si es del verbo 'estar', se escribe con tilde.</message>
                 <suggestion><match no="1" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
@@ -7040,6 +7057,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <!-- ESTA_TILDE6 está + adjetivo-->
+                <antipattern>
+                    <token postag="C.|PR.*" postag_regexp="yes" skip="6"/>
+                    <marker>
+                        <token>esta</token>
+                    </marker>
+                    <token>fuera</token>
+                    <token min="0" postag="RG.*" postag_regexp="yes"/>
+                    <token postag="D...S.|A...S.|V.P..SF" postag_regexp="yes"/>
+                </antipattern>
                 <antipattern>
                     <token>esta</token>
                     <token postag="A...S.|V.P..SF" postag_regexp="yes"/>
@@ -7067,7 +7093,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>esta</token>
                     </marker>
-                    <token min="0" max="4" postag="RG_before|LOC_ADV" postag_regexp="yes"/>
+                    <token min="0" max="4" postag="RG.*|LOC_ADV" postag_regexp="yes"/>
                     <token postag="A...S." postag_regexp="yes"><exception postag="NC[FC]S000|AO0FS0" postag_regexp="yes"/><exception>misma</exception></token>
                 </pattern>
                 <message>Si es del verbo 'estar', se escribe con tilde.</message>
@@ -7081,6 +7107,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="está">Aún no <marker>esta</marker> muy claro.</example>
                 <example correction="está">El interior no <marker>esta</marker> frío.</example>
                 <example correction="está">Si la comida <marker>esta</marker> fría, ponla en el microondas.</example>
+                <example correction="está">El bebé <marker>esta</marker> despierto.</example>
+                <example correction="está">La niña <marker>esta</marker> despierta.</example>
+                <example correction="está">Su trabajo <marker>esta</marker> ahora completo.</example>
                 <example>Esta preciosa y antigua casa</example>
                 <!-- "y" needs disambiguation -->
                 <example>Esta preciosa casa es muy antiga.</example>
@@ -7111,8 +7140,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="V.[SI].*" postag_regexp="yes"><exception postag="_GN_.*|_possible_NP" postag_regexp="yes"/></token>
                 </antipattern>
                 <antipattern>
-                    <!--<token postag="SENT_START|_PUNCT.*" postag_regexp="yes" skip="-1"><exception scope="next" postag="C.*|PR.*" postag_regexp="yes"/></token>-->
+                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes" skip="-1"><exception scope="next" postag="C.*|PR.*" postag_regexp="yes"/></token>
                     <token postag="V.[SI].*" postag_regexp="yes" skip="-1"><exception postag="_GN_.*|_possible_NP" postag_regexp="yes"/><exception scope="next" postag="C.*|PR.*|RN|_PUNCT.*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token postag="_GN_FS">esta</token>
+                    </marker>
+                    <token postag="_GN_FS"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.[SI].*" postag_regexp="yes"><exception postag="_GN_.*|_possible_NP" postag_regexp="yes"/></token>
                     <marker>
                         <token postag="_GN_FS">esta</token>
                     </marker>
@@ -7242,8 +7278,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="V.[SI].*" postag_regexp="yes"><exception postag="_GN_.*|_possible_NP" postag_regexp="yes"/></token>
                 </antipattern>
                 <antipattern>
-                    <!--<token postag="SENT_START|_PUNCT.*" postag_regexp="yes" skip="-1"><exception scope="next" postag="C.*|PR.*" postag_regexp="yes"/></token>-->
+                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes" skip="-1"><exception scope="next" postag="C.*|PR.*" postag_regexp="yes"/></token>
                     <token postag="V.[SI].*" postag_regexp="yes" skip="-1"><exception postag="_GN_.*|_possible_NP" postag_regexp="yes"/><exception scope="next" postag="C.*|PR.*|RN|_PUNCT.*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token postag="_GN_FS">esta</token>
+                    </marker>
+                    <token postag="_GN_FS"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.[SI].*" postag_regexp="yes"><exception postag="_GN_.*|_possible_NP" postag_regexp="yes"/></token>
                     <marker>
                         <token postag="_GN_FS">esta</token>
                     </marker>
@@ -7278,14 +7321,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token max="2" min="1" postag="A..[FC][SN].|V.P..SF|NCFS.*" postag_regexp="yes"/>
                     <token postag="V.[SI].*" postag_regexp="yes"/>
                 </antipattern>
-                <antipattern>
+                <!--<antipattern>
                     <token>,</token>
                     <marker>
                         <token>esta</token>
                     </marker>
                     <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
                     <token postag="A..FS." postag_regexp="yes"><exception>sola</exception></token>
-                </antipattern>
+                </antipattern>-->
                 <antipattern>
                     <marker>
                         <token postag="_GN_FS">esta</token>
@@ -7352,6 +7395,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Esta loca no sabe lo que hace.</example>
                 <example correction="está">Aun sale que <marker>esta</marker> protegida contra escritura.</example>
                 <example>Después de toda esta recogida de datos.</example>
+                <example correction="está">La imagen que se proyecta en la retina <marker>esta</marker> invertida.</example>
+                <example correction="Está"><marker>Esta</marker> feliz de seguir vivo.</example>
+                <example correction="está">No puedo ordeñar esta vaca, <marker>esta</marker> enferma.</example>
             </rule>
             <rule>
                 <!-- ESTA_TILDE9 está + llena (ambiguous adj/n)
@@ -7424,23 +7470,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token/>
                     <token>que</token>
                 </antipattern>
+                <antipattern>
+                    <token>solo</token>
+                    <token postag="V.[SI].3S." postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>esta</token>
                     </marker>
                     <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
-                    <token regexp="yes">nueva|vieja|alta|baja|bebida|cara|corrida|cruzada|despedida|dicha|lista|llamada|mala|maldita|mayor|movida|negra|parada|partida|pesada|posada|presa|quebrada|retirada|revuelta|rica|subida|velada|vista|vuelta</token>
+                    <token regexp="yes">nueva|vieja|alta|baja|bebida|cara|corrida|cruzada|despedida|dicha|lista|llamada|mala|maldita|mayor|movida|negra|parada|partida|pesada|posada|presa|quebrada|retirada|revuelta|rica|subida|velada|vista|vuelta|solo|sola|malo</token>
                 </pattern>
                 <message>Si es del verbo 'estar', se escribe con tilde.</message>
                 <suggestion><match no="1" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
                 <example correction="Está">¿<marker>Esta</marker> lista?</example>
                 <example correction="está">Para saber cuando <marker>esta</marker> lista, tienes que notar que el líquido deja de transparentarse</example>
                 <example correction="está">Ya <marker>esta</marker> vieja.</example>
+                <example correction="está">El chico <marker>esta</marker> solo.</example>
+                <example correction="está">La chica <marker>esta</marker> sola.</example>
                 <example>Esta lista es mi lista de la compra.</example>
                 <example>Con este vídeo y esta cara de felicidad.</example>
                 <example>Dijeron que expandirían esta bebida y es así.</example>
                 <example>Nos gusta compartir esta velada con ustedes.</example>
                 <example>La que ya tienes y esta nueva que vas a comprar</example>
+                <example>Esta solo es una cosa rutinaria.</example>
             </rule>
             <rule>
                 <!-- ESTA_TILDE10 -->
@@ -7456,14 +7509,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="V.[SI].*" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">dónde|cómo|ahí|allí|allá|acá|aquí|ya|él|ella|no</token>
+                    <token regexp="yes">cómo|ahí|allí|allá|acá|aquí|ya|no</token>
                     <marker>
                         <token>esta<exception postag="_GN_FS"/></token>
                     </marker>
                 </pattern>
                 <message>Si es del verbo 'estar', se escribe con tilde.</message>
                 <suggestion><match no="2" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
-                <example correction="está">Si supiéramos dónde <marker>esta</marker>.</example>
+                <example correction="está">Si supiéramos cómo <marker>esta</marker>.</example>
                 <example>Quita de aquí esta basura.</example>
                 <example>para inmediatamente ver cómo esta se deshacía en mi dedo</example>
                 <example type="triggers_error" reason="error in cómo">Y no hablo de páginas con nombres ridículos cómo esta, hablo de libros escritos por médicos.</example>
@@ -7471,9 +7524,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <!-- ESTA_TILDE11 -->
                 <pattern>
-                    <token regexp="yes">a|de|en</token>
+                    <token regexp="yes">a|de|en|por</token>
                     <token>qué</token>
-                    <token postag="_GN_.*" postag_regexp="yes" min="1" max="3"/>
+                    <token postag="_GN_.*|NP.*" postag_regexp="yes" min="1" max="3"><exception>esta</exception></token>
                     <marker>
                         <token>esta</token>
                     </marker>
@@ -7481,6 +7534,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Si es del verbo 'estar', se escribe con tilde.</message>
                 <suggestion><match no="4" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
                 <example correction="está">¿Sabes a qué altura <marker>esta</marker> la calle?</example>
+                <example correction="está">Yo sé por qué Tom <marker>esta</marker> feliz.</example>
+                <example>Yo sé por qué esta casa es tan bonita.</example>
             </rule>
             <rule>
                 <!-- ESTA_TILDE12 -->
@@ -7632,6 +7687,68 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="está">La situación <marker>esta</marker> más allá de mi control</example>
                 <example>No nos había sido posible ganar ni la temporada pasada ni esta pese a ser un equipo de nuestro nivel.</example>
                 <example>Haciendo que esta aparte de chat y todos los beneficios de las redes tenga video chat.</example>
+            </rule>
+            <rule>
+                <!-- ESTA_TILDE21 -->
+                <antipattern>
+                    <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
+                    <token regexp="yes">él|ella|no|esto|eso|aquello|este|ese|aquel|esta|esa|aquella</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.[SI].3S." postag_regexp="yes"/>
+                    <token regexp="yes">él|ella|no|esto|eso|aquello|este|ese|aquel|esta|esa|aquella</token>
+                </antipattern>
+                <antipattern>
+                    <token>esta</token>
+                    <token regexp="yes">&partes_dia;</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">él|ella|no|esto|eso|aquello|este|ese|aquel|esta|esa|aquella</token>
+                    <marker>
+                        <token>esta</token>
+                    </marker>
+                </pattern>
+                <message>Si es del verbo 'estar', se escribe con tilde.</message>
+                <suggestion><match no="2" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
+                <example correction="está">Ella <marker>esta</marker> envidiosa.</example>
+                <example>¿Vendrá él esta noche?</example>
+                <example>Tom exige que me vaya a encontrar con él esta tarde.</example>
+                <example>¿Tenemos que hacer esto esta noche?</example>
+                <example>Yo le escribo a ella esta carta.</example>
+                <example>No esta noche, tengo dolor de cabeza.</example>
+            </rule>
+            <rule>
+                <!-- ESTA_TILDE22 -->
+                <antipattern>
+                    <token>esta</token>
+                    <token postag="NC[FC][SN].*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">dónde|donde</token>
+                    <marker>
+                        <token>esta</token>
+                    </marker>
+                </pattern>
+                <message>Si es del verbo 'estar', se escribe con tilde.</message>
+                <suggestion><match no="2" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
+                <example correction="está">Todo el mundo sabe dónde <marker>esta</marker> Australia.</example>
+                <example correction="está">Todo el mundo sabe dónde <marker>esta</marker> Mary.</example>
+                <example correction="está">Si supiéramos dónde <marker>esta</marker>.</example>
+                <example>Quiero ir donde esta comida es tradicional.</example>
+            </rule>
+            <rule default="temp_off">
+                <!-- ESTA_TILDE23 -->
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="1" max="5" postag="_GN_.S|N..S.*" postag_regexp="yes"><exception postag="_GN_.P|N..P.*|DN.*|NCCN.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&expresiones_tiempo;|&unidades_tiempo;|&dias_semana;|&meses_ano;|&estaciones_ano;|&partes_dia;|vez|&nombres_colectivos;|qué|cuál|cual|cuanto|cuánto|resto|adjunto</exception><exception regexp="yes">.*%|esta</exception></token>
+                    <marker>
+                        <token>esta</token>
+                    </marker>
+                </pattern>
+                <message>Si es del verbo 'estar', se escribe con tilde.</message>
+                <suggestion><match no="4" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
+                <example correction="está">La mamá <marker>esta</marker> enfadada.</example>
+                <example>Un día esta oruga se convertirá en una hermosa mariposa.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ESTAS_NO_TILDE" name="estás/estas">

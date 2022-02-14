@@ -293,6 +293,18 @@ Copyright (C) 2011 Juan Martorell
         </rule>
     </rulegroup>
     <rulegroup id="LOC_ADV" name="locuciones adverbiales">
+        <rule id="CADA_VEZ_MAS" name="cada vez más">
+            <pattern>
+                <token>cada</token>
+                <token regexp="yes">&unidades_tiempo;|vez</token>
+                <token regexp="yes">más|menos</token>
+            </pattern>
+            <disambig action="replace">
+                <wd lemma="cada vez más" pos="LOC_ADV"/>
+                <wd lemma="cada vez más" pos="LOC_ADV"/>
+                <wd lemma="cada vez más" pos="LOC_ADV"/>
+            </disambig>
+        </rule>
         <rule id="en_efecto" name="en efecto (locución adverbial)">
             <pattern>
                 <marker>
@@ -1877,16 +1889,36 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="remove" postag="A.*"/>
     </rule>
-    <rule id="expresa" name="expresa">
+    <rule id="vivo" name="vivo (adj)">
         <pattern>
-            <token>esta</token>
+            <token postag="V.*" postag_regexp="yes"><exception postag="[NA].*" postag_regexp="yes"/></token>
             <marker>
-                <token>expresa</token>
+                <token postag="A.*" postag_regexp="yes" inflected="yes">vivo</token>
             </marker>
-            <token><exception postag="NC[FC][SN]000" postag_regexp="yes"/></token>
         </pattern>
-        <disambig action="filter" postag="V.I.*"/>
+        <disambig action="filter" postag="A.*"/>
     </rule>
+    <rulegroup id="WRONG_ESTA" name="wrong esta/está">
+        <rule id="expresa" name="expresa">
+            <pattern>
+                <token>esta</token>
+                <marker>
+                    <token>expresa</token>
+                </marker>
+                <token><exception postag="NC[FC][SN]000" postag_regexp="yes"/></token>
+            </pattern>
+            <disambig action="filter" postag="V.I.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token>esta</token>
+                <marker>
+                    <token>despierto</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="A.*"/>
+        </rule>
+    </rulegroup>
     <rule id="not_adj" name="not adj">
         <pattern>
             <and>
@@ -3983,7 +4015,7 @@ Copyright (C) 2011 Juan Martorell
     <rule id="UNA" name="una (not verb)">
         <pattern>
             <marker>
-                <token>una</token>
+                <token regexp="yes">una|uno</token>
             </marker>
             <!-- error: está -->
             <token>esta</token>
@@ -5120,6 +5152,11 @@ Copyright (C) 2011 Juan Martorell
         </rule>
     </rulegroup>
     <rulegroup id="not_adj_but_verb" name="not adjective but verb">
+        <antipattern>
+            <!-- possible error esta/está -->
+            <token>esta</token>
+            <token postag="AQ.*" postag_regexp="yes"/>
+        </antipattern>
         <rule>
             <pattern>
                 <marker>
