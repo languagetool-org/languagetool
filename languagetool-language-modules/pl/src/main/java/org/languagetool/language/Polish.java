@@ -100,6 +100,7 @@ public class Polish extends Language {
         new PolishWordRepeatRule(messages),
         new CompoundRule(messages, this, userConfig),
         new SimpleReplaceRule(messages),
+        new WordCoherencyRule(messages),
         new DashRule(messages)
         );
   }
