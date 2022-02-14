@@ -6779,6 +6779,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="ESTA_TILDE" name="*esta/está">
             <antipattern>
                 <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
+                <token min="0">toda</token>
                 <marker>
                     <token>esta</token>
                 </marker>
@@ -6823,7 +6824,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="AQ0FS0|VMP00SF" postag_regexp="yes"/>
             </antipattern>
             <rule>
-                <!-- está + participio-->
+                <!-- ESTA_TILDE1 está + participio-->
                 <pattern>
                     <marker>
                         <token>esta</token>
@@ -6851,7 +6852,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Al verse esta superada.</example>
             </rule>
             <rule>
-                <!--está + gerundio-->
+                <!-- ESTA_TILDE2 está + gerundio-->
                 <pattern>
                     <marker>
                         <token>esta</token>
@@ -6866,7 +6867,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Está"><marker>Esta</marker> esperando.</example>
             </rule>
             <rule>
-                <!--está + preposición, adverbio-->
+                <!--  ESTA_TILDE3 está + preposición, adverbio-->
                 <antipattern>
                     <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
                     <token postag="V.P..SF" postag_regexp="yes"/>
@@ -6874,7 +6875,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token>en</token>
-                    <token>realidad</token>
+                    <token regexp="yes">realidad|concreto</token>
                 </antipattern>
                 <antipattern>
                     <token inflected="yes">ser</token>
@@ -6933,7 +6934,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Esta más bien parece la prima.</example>
             </rule>
             <rule>
-                <!--está + preposición de-->
+                <!--  ESTA_TILDE4 está + preposición de-->
                 <antipattern>
                     <token>en</token>
                     <token>realidad</token>
@@ -7000,13 +7001,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Esta como bien podéis observar ha salido de forma nefasta.</example>
             </rule>
             <rule>
+                <!--  ESTA_TILDE5 -->
                 <antipattern>
                     <token postag="C.|PR.*" postag_regexp="yes" skip="6"/>
                     <marker>
                         <token>esta</token>
                     </marker>
                     <token>fuera</token>
-                    <token postag="D...S.|A...S." postag_regexp="yes"/>
+                    <token min="0" postag="RG_before"/>
+                    <token postag="D...S.|A...S.|V.P..SF" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
                     <token postag="SENT_START" skip="-1"><exception scope="next" postag="C.*|PR.*" postag_regexp="yes"/></token>
@@ -7031,9 +7034,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Aunque esta fuera la mejor.</example>
                 <example>Le daba igual que esta fuera el esperanto u otra lengua.</example>
                 <example>Esta cerca la construyó mi padre.</example>
+                <example>aunque esta fuera extremadamente buena</example>
             </rule>
             <rule>
-                <!-- está + adjetivo-->
+                <!-- ESTA_TILDE6 está + adjetivo-->
                 <antipattern>
                     <token>esta</token>
                     <token postag="A...S.|V.P..SF" postag_regexp="yes"/>
@@ -7092,9 +7096,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Quiero comprar esta campera.</example>
                 <example>Aunque esta fuera la mejor.</example>
                 <example>Sobre todo si esta fuera multianual.</example>
+                <example>Esta expresa sus sentimientos.</example>
             </rule>
             <rule>
-                <!-- está + llena (ambiguous adj/n)-->
+                <!--  ESTA_TILDE7 está + llena (ambiguous adj/n)-->
                 <antipattern>
                     <token postag="SENT_START|_PUNCT.*" postag_regexp="yes" skip="-1"><exception scope="next" postag="C.*|PR.*" postag_regexp="yes"/></token>
                     <marker>
@@ -7104,8 +7109,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="V.[SI].*" postag_regexp="yes"><exception postag="_GN_.*|_possible_NP" postag_regexp="yes"/></token>
                 </antipattern>
                 <antipattern>
-                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes" skip="-1"><exception scope="next" postag="C.*|PR.*" postag_regexp="yes"/></token>
-                    <token postag="V.[SI].*" postag_regexp="yes" skip="-1"><exception postag="_GN_.*|_possible_NP" postag_regexp="yes"/><exception scope="next" postag="C.*|PR.*" postag_regexp="yes"/></token>
+                    <!--<token postag="SENT_START|_PUNCT.*" postag_regexp="yes" skip="-1"><exception scope="next" postag="C.*|PR.*" postag_regexp="yes"/></token>-->
+                    <token postag="V.[SI].*" postag_regexp="yes" skip="-1"><exception postag="_GN_.*|_possible_NP" postag_regexp="yes"/><exception scope="next" postag="C.*|PR.*|RN|_PUNCT.*" postag_regexp="yes"/></token>
                     <marker>
                         <token postag="_GN_FS">esta</token>
                     </marker>
@@ -7189,6 +7194,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="está">Se siente bien aunque todavia <marker>esta</marker> verde.</example>
                 <example correction="está">El comentario ha sido enviado y ahora <marker>esta</marker> pendiente de revisión. </example>
                 <example correction="está">Que yo sepa, todavía no <marker>esta</marker> casada.</example>
+                <example correction="está">Que yo sepa, todavía <marker>esta</marker> casada.</example>
                 <example correction="está">Esta película <marker>esta</marker> basada en una novela.</example>
                 <example correction="está">Esta copia <marker>esta</marker> llena de errores. </example>
                 <example>Esta pendiente es demasiado pronunciada.</example>
@@ -7220,9 +7226,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="está"><marker>esta</marker> partida por la mitad</example>
                 <example correction="está">¡Piscis <marker>esta</marker> enamorada!</example>
                 <example>Esta lista no está en orden alfabético y por eso es difícil de leer.</example>
+                <example>Los que integran esta lista, pero no pueden venir.</example>
             </rule>
             <rule>
-                <!-- está + llena (ambiguous adj/n)
+                <!-- ESTA_TILDE8 está + llena (ambiguous adj/n)
                 similar to previous rule with more words-->
                 <antipattern>
                     <token postag="SENT_START|_PUNCT.*" postag_regexp="yes" skip="-1"><exception scope="next" postag="C.*|PR.*" postag_regexp="yes"/></token>
@@ -7233,8 +7240,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="V.[SI].*" postag_regexp="yes"><exception postag="_GN_.*|_possible_NP" postag_regexp="yes"/></token>
                 </antipattern>
                 <antipattern>
-                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes" skip="-1"><exception scope="next" postag="C.*|PR.*" postag_regexp="yes"/></token>
-                    <token postag="V.[SI].*" postag_regexp="yes" skip="-1"><exception postag="_GN_.*|_possible_NP" postag_regexp="yes"/><exception scope="next" postag="C.*|PR.*" postag_regexp="yes"/><exception postag="_GN_FS"/></token>
+                    <!--<token postag="SENT_START|_PUNCT.*" postag_regexp="yes" skip="-1"><exception scope="next" postag="C.*|PR.*" postag_regexp="yes"/></token>-->
+                    <token postag="V.[SI].*" postag_regexp="yes" skip="-1"><exception postag="_GN_.*|_possible_NP" postag_regexp="yes"/><exception scope="next" postag="C.*|PR.*|RN|_PUNCT.*" postag_regexp="yes"/></token>
                     <marker>
                         <token postag="_GN_FS">esta</token>
                     </marker>
@@ -7342,9 +7349,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="está">¡Piscis <marker>esta</marker> enamorada!</example>
                 <example>Esta loca no sabe lo que hace.</example>
                 <example correction="está">Aun sale que <marker>esta</marker> protegida contra escritura.</example>
+                <example>Después de toda esta recogida de datos.</example>
             </rule>
             <rule>
-                <!-- está + llena (ambiguous adj/n)
+                <!-- ESTA_TILDE9 está + llena (ambiguous adj/n)
                 similar to previous rule with more ambiguous words
                 It needs more exceptions-->
                 <antipattern>
@@ -7354,9 +7362,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="V.[SI].*" postag_regexp="yes"><exception postag="_GN_.*|_possible_NP" postag_regexp="yes"/></token>
                 </antipattern>
                 <antipattern>
-                    <token postag="V.[SI].*" postag_regexp="yes" skip="-1"><exception postag="_GN_.*|_possible_NP" postag_regexp="yes"/><exception scope="next" postag="C.*|PR.*" postag_regexp="yes"/></token>
+                    <token postag="V.[SING].*" postag_regexp="yes" skip="-1"><exception postag="_GN_.*|_possible_NP" postag_regexp="yes"/><exception scope="next" postag="C.*|PR.*" postag_regexp="yes"/></token>
                     <token postag="_GN_FS">esta</token>
-                    <token postag="_GN_FS" skip="-1"><exception scope="next" postag="C.*|PR.*" postag_regexp="yes"/></token>
+                    <token postag="_GN_FS"/>
                 </antipattern>
                 <antipattern>
                     <token postag="VMM.*" postag_regexp="yes"/>
@@ -7409,6 +7417,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="N.*" postag_regexp="yes"/>
                     <token regexp="yes">de|del</token>
                 </antipattern>
+                <antipattern>
+                    <token>esta</token>
+                    <token/>
+                    <token>que</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>esta</token>
@@ -7423,8 +7436,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="está">Ya <marker>esta</marker> vieja.</example>
                 <example>Esta lista es mi lista de la compra.</example>
                 <example>Con este vídeo y esta cara de felicidad.</example>
+                <example>Dijeron que expandirían esta bebida y es así.</example>
+                <example>Nos gusta compartir esta velada con ustedes.</example>
+                <example>La que ya tienes y esta nueva que vas a comprar</example>
             </rule>
             <rule>
+                <!-- ESTA_TILDE10 -->
                 <antipattern>
                     <token postag="V.*" postag_regexp="yes"/>
                     <token>de</token>
@@ -7450,6 +7467,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="triggers_error" reason="error in cómo">Y no hablo de páginas con nombres ridículos cómo esta, hablo de libros escritos por médicos.</example>
             </rule>
             <rule>
+                <!-- ESTA_TILDE11 -->
                 <pattern>
                     <token regexp="yes">a|de|en</token>
                     <token>qué</token>
@@ -7463,6 +7481,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="está">¿Sabes a qué altura <marker>esta</marker> la calle?</example>
             </rule>
             <rule>
+                <!-- ESTA_TILDE12 -->
                 <pattern>
                     <token>qué</token>
                     <or>
@@ -7482,6 +7501,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¡Qué mierda esta gelatina de pescado vuestra!</example>
             </rule>
             <rule>
+                <!-- ESTA_TILDE13 -->
                 <pattern>
                     <marker>
                         <token>esta</token>
@@ -7494,6 +7514,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Está"><marker>Esta</marker> 100% seguro.</example>
             </rule>
             <rule>
+                <!-- ESTA_TILDE14 -->
                 <pattern>
                     <marker>
                         <token>esta</token>
@@ -7506,6 +7527,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Está"><marker>Esta</marker> 100 % seguro.</example>
             </rule>
             <rule>
+                <!-- ESTA_TILDE15 -->
                 <pattern>
                     <marker>
                         <token>esta</token>
@@ -7518,6 +7540,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="está">El cabo <marker>esta</marker> 30 millas al sur.</example>
             </rule>
             <rule>
+                <!-- ESTA_TILDE16 -->
                 <pattern>
                     <marker>
                         <token>esta</token>
@@ -7530,6 +7553,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>A pesar de esta Daniel se fue.</example>
             </rule>
             <rule>
+                <!-- ESTA_TILDE17 -->
                 <!--<antipattern>
                     <token>esta</token>
                     <token postag="NC[FC][SN].*|V.P..SF" postag_regexp="yes"/>
@@ -7563,6 +7587,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¿Por qué esta región del Noroeste está siendo tan fuertemente impactada?</example>
             </rule>
             <rule>
+                <!-- ESTA_TILDE18 -->
                 <pattern>
                     <token regexp="yes">no|sí</token>
                     <token min="0">que</token>
@@ -7576,6 +7601,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="está">Juan Carlos no <marker>esta</marker>.</example>
             </rule>
             <rule>
+                <!-- ESTA_TILDE19 -->
                 <pattern>
                     <token postag="V.P..S." postag_regexp="yes"/>
                     <marker>
@@ -7589,7 +7615,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="está">Lo que hice, hecho <marker>esta</marker>.</example>
             </rule>
             <rule>
-                <!--está + loc. prep.-->
+                <!-- ESTA_TILDE20 -->
+                <!-- está + loc. prep.-->
                 <pattern>
                     <marker>
                         <token>esta</token>

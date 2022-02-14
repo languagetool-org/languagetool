@@ -1877,6 +1877,16 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="remove" postag="A.*"/>
     </rule>
+    <rule id="expresa" name="expresa">
+        <pattern>
+            <token>esta</token>
+            <marker>
+                <token>expresa</token>
+            </marker>
+            <token><exception postag="NC[FC][SN]000" postag_regexp="yes"/></token>
+        </pattern>
+        <disambig action="filter" postag="V.I.*"/>
+    </rule>
     <rule id="not_adj" name="not adj">
         <pattern>
             <and>
@@ -5098,6 +5108,15 @@ Copyright (C) 2011 Juan Martorell
                 </marker>
             </pattern>
             <disambig action="remove" postag="A.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="D.*" postag_regexp="yes"/>
+                <marker>
+                    <token postag="N.*" postag_regexp="yes" inflected="yes">objetivo</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="N.*"/>
         </rule>
     </rulegroup>
     <rulegroup id="not_adj_but_verb" name="not adjective but verb">
