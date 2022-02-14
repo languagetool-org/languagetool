@@ -42169,7 +42169,7 @@ Dois homens estão checando o que está de errado com o carro.
 		</token>
 	  </antipattern>
 
-<!-- THE FOUR ANTIPATTERNS BELOW ARE SIMILAR WITH THE STARTING TOKEN
+<!-- THE FIVE ANTIPATTERNS BELOW ARE SIMILAR WITH THE STARTING TOKEN
      MORE TO TAKE CARE OF NOT REMOVING SENTENCES STARTING WITH A COMMA.
 -->
 <!--
@@ -42178,7 +42178,7 @@ Contudo, o que impera são os fascismos sociais.
 "O que é que as senhoras desejam saber?" "Tudo."
 "O que é que você está olhando?" "Nada."
 Aqui você vê quanto está bem informado sobre o que acontece no governo federal.
-# 1/4:
+# 1/5:
 -->
 	  <antipattern>
 		<token postag='SPS.+|CC|_QUOT|VM[MNS].+|VMIP3.+|CS|RM|AO.+' postag_regexp='yes'/>
@@ -42195,7 +42195,7 @@ Agora que você sabe o que é o cPanel, que tal fazer um teste?
 Alguém desonesto que toma o que pertence a outra pessoa é um ladrão.
 As invisíveis raízes são o que sustenta a grande árvore.
 As dificuldades é que mostram o que são os homens.
-# 2/4:
+# 2/5:
 -->
 	  <antipattern>
 		<and>
@@ -42214,7 +42214,7 @@ Neste contexto, o que é que foi determinado?
 Se você acha isso de mim, o que é que eu posso fazer?
 Tom, o que é que tu fazes?
 Afinal, o que é o conselho de administração em empresas?
-# 3/4:
+# 3/5:
 -->
 	  <antipattern>
 		<token postag='_PUNCT' postag_regexp='no'/>
@@ -42231,7 +42231,7 @@ Parece que você esqueceu o que é religião.
 Escolha o que é certo, não o que é fácil.
 Para você, o que é memória?
 Como é possível crer e não provar? Talvez por ser de tudo a fé o que é mais forte.
-# 4/4:
+# 4/5:
 -->
 	  <antipattern>
 		<token>o</token>
@@ -42241,6 +42241,24 @@ Como é possível crer e não provar? Talvez por ser de tudo a fé o que é mais
 		<token min="0" max="1"  postag='SPS.+' postag_regexp='yes'/>
 		<token min="1" max="2" postag='NC.+|AQ.+|RM' postag_regexp='yes'/>
 		<token postag='_PUNCT|CC' postag_regexp='yes'/>
+	  </antipattern>
+<!--
+SENTENCES STARTING WITH "O QUE" + SPECIFIC VERBS + 1 OR 2 NOUNS AND D[AO]S?
+IT IS EXACTLY LIKE 4/5 EXCEPT FOR THESE WORDS AT THE END.
+TRY TO ASK JAUME TO CHANGE THE POS OF "D[AO]S"
+BASED ON MY THESIS.
+Só se coloca em inventário o que é propriedade dos falecidos que será transferido aos herdeiros.
+Portanto identifiquemos o que é a norma e o que é a excepção e assim saberemos o que é a realidade do jogo do Benfica.
+# 5/5:
+-->
+	  <antipattern>
+		<token>o</token>
+		<token>que</token>
+		<token min="0" max="1"  postag='RN' postag_regexp='no'/>
+		<token inflected='yes' regexp='yes'>haver|estar|existir|ser</token>
+		<token min="0" max="1"  postag='SPS.+' postag_regexp='yes'/>
+		<token min="1" max="2" postag='NC.+|AQ.+|RM' postag_regexp='yes'/>
+		<token regexp='yes'>d[ao]s?</token>
 	  </antipattern>
 
 <!--
@@ -42304,31 +42322,35 @@ Gostaria de saber o que seria mais lucrativo pra mim.
 	  <example>Eu não sei o que seria de nós sem você.</example>
 	  <example>Dois homens estão checando o que está de errado com o carro.</example>
 
-<!-- RULE GROUP 1/4 -->
+<!-- RULE GROUP 1/5 -->
 	  <example>Não faz sentido discutir sobre o que é verdade e o que não é.</example>
 	  <example>Contudo, o que impera são os fascismos sociais.</example>
 	  <example>"O que é que as senhoras desejam saber?" "Tudo."</example>
 	  <example>"O que é que você está olhando?" "Nada."</example>
 	  <example>Aqui você vê quanto está bem informado sobre o que acontece no governo federal.</example>
 
-<!-- RULE GROUP 2/4 -->  
+<!-- RULE GROUP 2/5 -->  
 	  <example>Adicione o título do post e o nome do seu site ou blog para que as pessoas saibam sobre o que é o post.</example>
 	  <example>Agora que você sabe o que é o cPanel, que tal fazer um teste?</example>
 	  <example>Alguém desonesto que toma o que pertence a outra pessoa é um ladrão.</example>
 	  <example>As invisíveis raízes são o que sustenta a grande árvore.</example>
 	  <example>As dificuldades é que mostram o que são os homens.</example>
 
-<!-- RULE GROUP 3/4 -->
+<!-- RULE GROUP 3/5 -->
 	  <example>Neste contexto, o que é que foi determinado?</example>
 	  <example>Se você acha isso de mim, o que é que eu posso fazer?</example>
 	  <example>Tom, o que é que tu fazes?</example>
 	  <example>Afinal, o que é o conselho de administração em empresas?</example>
 
-<!-- RULE GROUP 4/4 -->
+<!-- RULE GROUP 4/5 -->
 	  <example>Parece que você esqueceu o que é religião.</example>
 	  <example>Escolha o que é certo, não o que é fácil.</example>
 	  <example>Para você, o que é memória?</example>
 	  <example>Como é possível crer e não provar? Talvez por ser de tudo a fé o que é mais forte.</example>
+
+<!-- RULE GROUP 5/5 -->
+	  <example>Só se coloca em inventário o que é propriedade dos falecidos que será transferido aos herdeiros.</example>
+	  <example>Portanto identifiquemos o que é a norma e o que é a excepção e assim saberemos o que é a realidade do jogo do Benfica.</example>
 
 	  <example>Afinal, o que é consciência?</example>
 	  <example>Aliás, o que é backup?</example>
