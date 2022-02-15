@@ -119,9 +119,9 @@ commands:
           name: Kick off new premium pipeline
           command: |
             curl --request POST \
-            -- url https://circleci.com/api/v2/project/gh/languagetooler-gmbh/languagetool-premium/pipeline \
+            --url https://circleci.com/api/v2/project/gh/languagetooler-gmbh/languagetool-premium/pipeline \
             --header 'Content-Type: application/json' \
-            --data '{"branch":"master","parameters":{"deploy_prod":true}}'
+            --data '{"branch":"master","parameters":{"run_on_pull":false}}'
             -u "${API_TOKEN}"
 executors:
   docker-openjdk11:
