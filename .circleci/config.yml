@@ -35,12 +35,12 @@ jobs:
       - run:
           name: test full
           command: |
-            - cd $CIRCLE_WORKING_DIRECTORY && mvn -pl '!languagetool-rpm-package' test -fae
+            cd $CIRCLE_WORKING_DIRECTORY && mvn -pl '!languagetool-rpm-package' test -fae
       - save-test-results
       - run:
           name: deploy full
           command: |
-            - cd $CIRCLE_WORKING_DIRECTORY && mvn -s .circleci.settings.xml -pl '!languagetool-rpm-package' -DskipTests deploy
+            cd $CIRCLE_WORKING_DIRECTORY && mvn -s .circleci.settings.xml -pl '!languagetool-rpm-package' -DskipTests deploy
       - save_cache:
           paths:
             - ~/.m2
@@ -57,12 +57,12 @@ jobs:
       - run:
           name: test modules
           command: |
-            - cd $CIRCLE_WORKING_DIRECTORY && ./test-modules.sh
+            cd $CIRCLE_WORKING_DIRECTORY && ./test-modules.sh
       - save-test-results
       - run:
           name: deploy modules
           command: |
-            - cd $CIRCLE_WORKING_DIRECTORY && ./deploy-modules.sh
+            cd $CIRCLE_WORKING_DIRECTORY && ./deploy-modules.sh
       - save_cache:
           paths:
             - ~/.m2
