@@ -93,9 +93,14 @@ else
   if grep -q -e "languagetool-standalone/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-standalone,$PROJECTS"; fi
   if grep -q -e "languagetool-tools/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-tools,$PROJECTS"; fi
   if grep -q -e "languagetool-wikipedia/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-wikipedia,$PROJECTS"; fi
-  PROJECTS=${PROJECTS::-1}
-  TEST_COMMAND=(mvn clean --projects "$PROJECTS" --also-make -fae test)
+  if [ -z "$PROJECTS" ]
+  then
+    echo "No changes in any module detected"
+    return 0
+  else
+    PROJECTS=${PROJECTS::-1}
+    TEST_COMMAND=(mvn clean --projects "$PROJECTS" --also-make -fae test)
+  fi
 fi
-cd ..
 echo "${TEST_COMMAND[@]}"
 "${TEST_COMMAND[@]}"
