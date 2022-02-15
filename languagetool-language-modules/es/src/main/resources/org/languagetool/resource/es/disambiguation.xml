@@ -3655,6 +3655,20 @@ Copyright (C) 2011 Juan Martorell
         </rule>
         <rule>
             <pattern>
+                <token postag="SENT_START" skip="-1"><exception scope="next" postag="CS|P[RT].*|LOC_CS" postag_regexp="yes"/></token>
+                <token>,</token>
+                <token postag="D.*" postag_regexp="yes"/>
+                <marker>
+                    <and>
+                        <token postag="N.*" postag_regexp="yes"/>
+                        <token postag="V.S.*" postag_regexp="yes"><exception postag="V.I.*" postag_regexp="yes"/></token>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="V.[SM].*"/>
+        </rule>
+        <rule>
+            <pattern>
                 <token postag="D.*" postag_regexp="yes"/>
                 <marker>
                     <and>
@@ -4194,7 +4208,7 @@ Copyright (C) 2011 Juan Martorell
                         <feature id="genero"/>
                         <feature id="numero"/>
                         <token postag="D.*" postag_regexp="yes"/>
-                        <token postag="N.*" postag_regexp="yes"/>
+                        <token postag="N.*" postag_regexp="yes"><exception>a</exception></token>
                         <token postag="A.*" postag_regexp="yes"><exception regexp="yes">solo|auto|queda</exception></token>
                     </unify>
                 </marker>
@@ -4221,7 +4235,7 @@ Copyright (C) 2011 Juan Martorell
             <pattern>
                 <marker>
                     <token postag="D[^R].[FC][SN0].*" postag_regexp="yes"/>
-                    <token postag="N.[FC][SN0].*" postag_regexp="yes"><exception postag="DN.*" postag_regexp="yes"/></token>
+                    <token postag="N.[FC][SN0].*" postag_regexp="yes"><exception postag="DN.*" postag_regexp="yes"/><exception>a</exception></token>
                     <token postag="A..[FC][SN0].*|V.P..SF|PX.[FC][SN0].*" postag_regexp="yes"><exception regexp="yes">afecta|queda</exception></token>
                 </marker>
             </pattern>
@@ -5056,6 +5070,16 @@ Copyright (C) 2011 Juan Martorell
             </disambig>
         </rule>
     </rulegroup>
+    <rule id="tan_x_como" name="tan duro como">
+        <pattern>
+            <token>tan</token>
+            <marker>
+                <token postag="A.*" postag_regexp="yes"/>
+            </marker>
+            <token>como</token>
+        </pattern>
+        <disambig action="remove" postag="N.*|V.[SI].*"></disambig>
+    </rule>
     <rule id="not_noun_no_agreement1" name="not noun if no agreement">
         <pattern>
             <marker>

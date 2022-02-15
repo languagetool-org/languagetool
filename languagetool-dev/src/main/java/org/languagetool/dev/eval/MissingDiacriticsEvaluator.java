@@ -192,7 +192,7 @@ public class MissingDiacriticsEvaluator {
 
   private static void help() {
     System.out.println("Usage: " + MissingDiacriticsEvaluator.class.getSimpleName()
-        + " <language code> <intput file> <word with diacritics>");
+        + " <language code> <corpus file> <word with diacritics>");
     System.exit(1);
   }
 
