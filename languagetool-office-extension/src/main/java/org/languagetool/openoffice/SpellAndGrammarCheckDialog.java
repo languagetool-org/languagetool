@@ -1093,7 +1093,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
         if (e.getStateChange() == ItemEvent.SELECTED) {
           int selectedIndex = activateRule.getSelectedIndex();
           if (selectedIndex > 0) {
-            Map<String, String> deactivatedRulesMap = documents.getDisabledRulesMap();
+            Map<String, String> deactivatedRulesMap = documents.getDisabledRulesMap(OfficeTools.localeToString(locale));
             int j = 1;
             for(String ruleId : deactivatedRulesMap.keySet()) {
               if (j == selectedIndex) {
@@ -1429,7 +1429,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
         if (debugMode) {
           MessageHandler.printToLogFile("Spell Dialog: Language set");
         }
-        Map<String, String> deactivatedRulesMap = documents.getDisabledRulesMap();
+        Map<String, String> deactivatedRulesMap = documents.getDisabledRulesMap(OfficeTools.localeToString(locale));
         if (!deactivatedRulesMap.isEmpty()) {
           activateRule.removeAllItems();
           activateRule.addItem(messages.getString("loContextMenuActivateRule"));
@@ -1808,7 +1808,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
     private void deactivateRule() {
       if (!isSpellError) {
         documents.deactivateRule(error.aRuleIdentifier, false);
-        documents.addDisabledRule(error.aRuleIdentifier);
+        documents.addDisabledRule(OfficeTools.localeToString(locale), error.aRuleIdentifier);
         documents.initDocuments();
         documents.resetDocument();
         addUndo(y, "deactivateRule", error.aRuleIdentifier);
@@ -2013,7 +2013,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
         } else if (action.equals("activateRule")) {
           currentDocument.removeResultCache(yUndo);
           documents.deactivateRule(lastUndo.ruleId, false);
-          documents.addDisabledRule(lastUndo.ruleId);
+          Locale locale = docCache.getFlatParagraphLocale(yUndo);
+          documents.addDisabledRule(OfficeTools.localeToString(locale), lastUndo.ruleId);
           documents.initDocuments();
           documents.resetDocument();
           doInit = true;

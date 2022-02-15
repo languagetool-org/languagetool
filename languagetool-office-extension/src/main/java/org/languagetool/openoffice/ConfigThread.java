@@ -61,7 +61,7 @@ class ConfigThread extends Thread {
     }
     try {
       List<Rule> allRules = lt.getAllRules();
-      Set<String> disabledRulesUI = documents.getDisabledRules();
+      Set<String> disabledRulesUI = documents.getDisabledRules(docLanguage.getShortCodeWithCountryAndVariant());
       config.addDisabledRuleIds(disabledRulesUI);
       boolean configChanged = cfgDialog.show(allRules);
       if (configChanged) {
@@ -72,13 +72,13 @@ class ConfigThread extends Thread {
             disabledRulesUI.remove(ruleId);
           }
         }
-        documents.setDisabledRules(disabledRulesUI);
+        documents.setDisabledRules(docLanguage.getShortCodeWithCountryAndVariant(), disabledRulesUI);
         config.removeDisabledRuleIds(disabledRulesUI);
         config.saveConfiguration(docLanguage);
 //        documents.resetDocumentCaches();
         documents.resetConfiguration();
       } else {
-        config.removeDisabledRuleIds(documents.getDisabledRules());
+        config.removeDisabledRuleIds(documents.getDisabledRules(docLanguage.getShortCodeWithCountryAndVariant()));
       }
     } catch (Throwable e) {
       MessageHandler.showError(e);

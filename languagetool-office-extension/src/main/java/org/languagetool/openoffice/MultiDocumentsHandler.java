@@ -98,29 +98,29 @@ public class MultiDocumentsHandler {
   private Configuration config = null;
   private LinguisticServices linguServices = null;
   private SortedTextRules sortedTextRules;
-  private Set<String> disabledRulesUI;        //  Rules disabled by context menu or spell dialog
-  private final List<Rule> extraRemoteRules;  //  store of rules supported by remote server but not locally
-  private final LtDictionary dictionary;      //  internal dictionary of LT defined words 
-  private LtCheckDialog ltDialog = null;      //  LT spelling and grammar check dialog
-  private boolean dialogIsRunning = false;    //  The dialog was started     
+  private Map<String, Set<String>> disabledRulesUI; //  Rules disabled by context menu or spell dialog
+  private final List<Rule> extraRemoteRules;        //  store of rules supported by remote server but not locally
+  private final LtDictionary dictionary;            //  internal dictionary of LT defined words 
+  private LtCheckDialog ltDialog = null;            //  LT spelling and grammar check dialog
+  private boolean dialogIsRunning = false;          //  The dialog was started     
   
-  private XComponentContext xContext;         //  The context of the document
-  private final List<SingleDocument> documents;  //  The List of LO documents to be checked
-//  private XComponent goneComponent = null;      //  save component of closed document
+  private XComponentContext xContext;               //  The context of the document
+  private final List<SingleDocument> documents;     //  The List of LO documents to be checked
+//  private XComponent goneComponent = null;        //  save component of closed document
   private boolean isDisposed = false;
-  private boolean recheck = true;             //  if true: recheck the whole document at next iteration
-  private int docNum;                         //  number of the current document
+  private boolean recheck = true;                   //  if true: recheck the whole document at next iteration
+  private int docNum;                               //  number of the current document
   
-  private int numSinceHeapTest = 0;           //  number of checks since last heap test
-  private boolean heapLimitReached = false;   //  heap limit is reached
+  private int numSinceHeapTest = 0;                 //  number of checks since last heap test
+  private boolean heapLimitReached = false;         //  heap limit is reached
 
-  private boolean noBackgroundCheck = false;  //  is LT switched off by config
-  private boolean useQueue = true;            //  will be overwritten by config
+  private boolean noBackgroundCheck = false;        //  is LT switched off by config
+  private boolean useQueue = true;                  //  will be overwritten by config
 
-  private String menuDocId = null;            //  Id of document at which context menu was called 
+  private String menuDocId = null;                  //  Id of document at which context menu was called 
   private TextLevelCheckQueue textLevelQueue = null; // Queue to check text level rules
   
-  private boolean useOrginalCheckDialog = false;  // use original spell and grammar dialog (LT check dialog does not work for OO)
+  private boolean useOrginalCheckDialog = false;    // use original spell and grammar dialog (LT check dialog does not work for OO)
   private boolean isNotTextDodument = false;
   private int heapCheckInterval = HEAP_CHECK_INTERVAL;
   private boolean testMode = false;
@@ -136,7 +136,7 @@ public class MultiDocumentsHandler {
     oldConfigFile = OfficeTools.getOldConfigFile();
     MessageHandler.init();
     documents = new ArrayList<>();
-    disabledRulesUI = new HashSet<>();
+    disabledRulesUI = new HashMap<>();
     extraRemoteRules = new ArrayList<>();
     dictionary = new LtDictionary();
   }
@@ -386,8 +386,14 @@ public class MultiDocumentsHandler {
   /**
    *  Add a rule to disabled rules by context menu or spell dialog
    */
-  void addDisabledRule(String ruleId) {
-    disabledRulesUI.add(ruleId);
+  void addDisabledRule(String langCode, String ruleId) {
+    if (disabledRulesUI.containsKey(langCode)) {
+      disabledRulesUI.get(langCode).add(ruleId);
+    } else {
+      Set<String >rulesIds = new HashSet<>();
+      rulesIds.add(ruleId);
+      disabledRulesUI.put(langCode, rulesIds);
+    }
   }
   
   /**
@@ -401,23 +407,43 @@ public class MultiDocumentsHandler {
    *  remove all disabled rules by context menu or spell dialog
    */
   void resetDisabledRules() {
-    disabledRulesUI = new HashSet<>();
+    disabledRulesUI = new HashMap<>();
   }
   
   /**
-   *  get all disabled rules by context menu or spell dialog
+   *  get disabled rules for a language code by context menu or spell dialog
    */
-  Set<String> getDisabledRules() {
+  Set<String> getDisabledRules(String langCode) {
+    if (langCode == null || !disabledRulesUI.containsKey(langCode)) {
+      return new HashSet<String>();
+    }
+    return disabledRulesUI.get(langCode);
+  }
+  
+  /**
+   *  get all disabled rules
+   */
+  Map<String, Set<String>> getAllDisabledRules() {
     return disabledRulesUI;
   }
   
   /**
+   *  get all disabled rules
+   */
+  void setAllDisabledRules(Map<String, Set<String>> disabledRulesUI) {
+    this.disabledRulesUI = disabledRulesUI;
+  }
+  
+  /**
    *  get all disabled rules by context menu or spell dialog
    */
-  Map<String, String> getDisabledRulesMap() {
+  Map<String, String> getDisabledRulesMap(String langCode) {
+    if (langCode == null) {
+      langCode = OfficeTools.localeToString(locale);
+    }
     Map<String, String> disabledRulesMap = new HashMap<>();
     List<Rule> allRules = lt.getAllRules();
-    for (String disabledRule : disabledRulesUI) {
+    for (String disabledRule : getDisabledRules(langCode)) {
       String ruleDesc = null;
       for (Rule rule : allRules) {
         if (disabledRule.equals(rule.getId())) {
@@ -447,8 +473,8 @@ public class MultiDocumentsHandler {
   /**
    *  set disabled rules by context menu or spell dialog
    */
-  void setDisabledRules(Set<String> ruleIds) {
-    disabledRulesUI = new HashSet<>(ruleIds);
+  void setDisabledRules(String langCode, Set<String> ruleIds) {
+    disabledRulesUI.put(langCode, new HashSet<>(ruleIds));
   }
   
   /**
@@ -873,8 +899,9 @@ public class MultiDocumentsHandler {
         lt.enableRule(ruleName);
       }
     }
-    if (disabledRulesUI != null) {
-      for (String id : disabledRulesUI) {
+    Set<String> disabledLocaleRules = getDisabledRules(lt.getLanguage().getShortCodeWithCountryAndVariant());
+    if (disabledLocaleRules != null) {
+      for (String id : disabledLocaleRules) {
         lt.disableRule(id);
       }
     }
@@ -888,7 +915,8 @@ public class MultiDocumentsHandler {
 //    MessageHandler.printToLogFile("Start setConfigValues!");
     setConfigValues(config, lt);
 //    MessageHandler.printToLogFile("Start sortedTextRules!");
-    sortedTextRules = new SortedTextRules(lt, config, disabledRulesUI);
+    String langCode = lt.getLanguage().getShortCodeWithCountryAndVariant();
+    sortedTextRules = new SortedTextRules(lt, config, getDisabledRules(langCode));
 //    MessageHandler.printToLogFile("Start resetCache!");
 //    MessageHandler.printToLogFile("Start textLevelQueue!");
     if (useQueue && !noBackgroundCheck) {
@@ -1105,7 +1133,8 @@ public class MultiDocumentsHandler {
    * reset sorted text level rules
    */
   public void resetSortedTextRules() {
-    sortedTextRules = new SortedTextRules(lt, config, disabledRulesUI);
+    String langCode = lt.getLanguage().getShortCodeWithCountryAndVariant();
+    sortedTextRules = new SortedTextRules(lt, config, getDisabledRules(langCode));
   }
 
   /**
@@ -1618,7 +1647,7 @@ public class MultiDocumentsHandler {
    */
   public void ignoreRule(String ruleId, Locale locale) {
     /* TODO: config should be locale-dependent */
-    addDisabledRule(ruleId);
+    addDisabledRule(OfficeTools.localeToString(locale), ruleId);
     setRecheck();
   }
 

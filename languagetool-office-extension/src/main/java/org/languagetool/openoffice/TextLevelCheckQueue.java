@@ -512,8 +512,11 @@ public class TextLevelCheckQueue {
         MessageHandler.printToLogFile("queue: InitLangtool: language = " + (language == null ? "null" : language.getShortCodeWithCountryAndVariant()));
       }
       lt = multiDocHandler.initLanguageTool(language, false);
-      multiDocHandler.initCheck(lt);
-      sortedTextRules = new SortedTextRules(lt, multiDocHandler.getConfiguration(), multiDocHandler.getDisabledRules());
+      if (lt != null) {
+        multiDocHandler.initCheck(lt);
+        String langCode = OfficeTools.localeToString(multiDocHandler.getLocale());
+        sortedTextRules = new SortedTextRules(lt, multiDocHandler.getConfiguration(), multiDocHandler.getDisabledRules(langCode));
+      }
     }
     
     /**

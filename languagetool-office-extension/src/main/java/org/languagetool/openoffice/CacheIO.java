@@ -186,11 +186,7 @@ public class CacheIO implements Serializable {
     if (cachePath != null) {
       try {
         if (exceedsSaveSize(docCache)) {
-          Set<String> disabledRuleIds = new HashSet<String>(config.getDisabledRuleIds());
-          for (String ruleId : mDocHandler.getDisabledRules()) {
-            disabledRuleIds.add(ruleId);
-          }
-          allCaches = new AllCaches(docCache, paragraphsCache, disabledRuleIds, config.getDisabledCategoryNames(), 
+          allCaches = new AllCaches(docCache, paragraphsCache, mDocHandler.getAllDisabledRules(), config.getDisabledRuleIds(), config.getDisabledCategoryNames(), 
               config.getEnabledRuleIds(), ignoredMatches, JLanguageTool.VERSION);
           saveAllCaches(cachePath);
         } else {
@@ -249,7 +245,8 @@ public class CacheIO implements Serializable {
     if (!allCaches.ltVersion.equals(JLanguageTool.VERSION)) {
       return false;
     }
-    if (config.getEnabledRuleIds().size() != allCaches.enabledRuleIds.size() || config.getDisabledCategoryNames().size() != allCaches.disabledCategories.size()) {
+    if (config.getEnabledRuleIds().size() != allCaches.enabledRuleIds.size() || config.getDisabledRuleIds().size() != allCaches.disabledRuleIds.size() 
+          || config.getDisabledCategoryNames().size() != allCaches.disabledCategories.size()) {
       return false;
     }
     for (String ruleId : config.getEnabledRuleIds()) {
@@ -263,7 +260,8 @@ public class CacheIO implements Serializable {
       }
     }
     Set<String> disabledRuleIds = new HashSet<String>(config.getDisabledRuleIds());
-    for (String ruleId : mDocHandler.getDisabledRules()) {
+    String langCode = OfficeTools.localeToString(mDocHandler.getLocale());
+    for (String ruleId : mDocHandler.getDisabledRules(langCode)) {
       disabledRuleIds.add(ruleId);
     }
     if (disabledRuleIds.size() != allCaches.disabledRuleIds.size()) {
@@ -274,6 +272,15 @@ public class CacheIO implements Serializable {
         return false;
       }
     }
+    Map<String, Set<String>> disabledRulesUI = new HashMap<String, Set<String>>();
+    for (String lang : allCaches.disabledRulesUI.keySet()) {
+      Set<String > ruleIDs = new HashSet<String>();
+      for (String ruleID : allCaches.disabledRulesUI.get(lang)) {
+        ruleIDs.add(ruleID);
+      }
+      disabledRulesUI.put(langCode, ruleIDs);
+    }
+    mDocHandler.setAllDisabledRules(disabledRulesUI);
     return true;
   }
   
@@ -351,20 +358,29 @@ public class CacheIO implements Serializable {
 
   class AllCaches implements Serializable {
 
-    private static final long serialVersionUID = 4L;
+    private static final long serialVersionUID = 5L;
 
     DocumentCache docCache;                 //  cache of paragraphs
     List<ResultCache> paragraphsCache;      //  Cache for matches of text rules
+    Map<String, List<String>> disabledRulesUI;
     List<String> disabledRuleIds;
     List<String> disabledCategories;
     List<String> enabledRuleIds;
     Map<Integer, Map<String, Set<Integer>>> ignoredMatches;          //  Map of matches (number of paragraph, number of character) that should be ignored after ignoreOnce was called
     String ltVersion;
     
-    AllCaches(DocumentCache docCache, List<ResultCache> paragraphsCache, Set<String> disabledRuleIds, Set<String> disabledCategories, 
-        Set<String> enabledRuleIds, IgnoredMatches ignoredMatches, String ltVersion) {
+    AllCaches(DocumentCache docCache, List<ResultCache> paragraphsCache, Map<String, Set<String>> disabledRulesUI, Set<String> disabledRuleIds, 
+        Set<String> disabledCategories, Set<String> enabledRuleIds, IgnoredMatches ignoredMatches, String ltVersion) {
       this.docCache = docCache;
       this.paragraphsCache = paragraphsCache;
+      this.disabledRulesUI = new HashMap<String, List<String>>();
+      for (String langCode : disabledRulesUI.keySet()) {
+        List <String >ruleIDs = new ArrayList<String>();
+        for (String ruleID : disabledRulesUI.get(langCode)) {
+          ruleIDs.add(ruleID);
+        }
+        this.disabledRulesUI.put(langCode, ruleIDs);
+      }
       this.disabledRuleIds = new ArrayList<String>();
       for (String ruleID : disabledRuleIds) {
         this.disabledRuleIds.add(ruleID);
