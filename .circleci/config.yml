@@ -120,9 +120,9 @@ commands:
           command: |
             curl --request POST \
             --url https://circleci.com/api/v2/project/gh/languagetooler-gmbh/languagetool-premium/pipeline \
-            --header 'Content-Type: application/json' \
+            --header "Circle-Token: ${API_TOKEN}" \
+            --header "Content-Type: application/json" \
             --data '{"branch":"master","parameters":{"run_on_pull":false}}'
-            -u "${API_TOKEN}"
 executors:
   docker-openjdk11:
     docker:
