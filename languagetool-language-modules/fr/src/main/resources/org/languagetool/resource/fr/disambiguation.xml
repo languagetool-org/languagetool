@@ -184,7 +184,7 @@ RB => Règles Brutes
             <marker>
                 <token regexp="yes">niveaux?</token>
             </marker>
-            <token regexp="yes">portières</token>
+            <token regexp="yes">portières?</token>
         </pattern>
         <disambig action="filter" postag="V.* ppa.*"/>
     </rule>
@@ -6025,6 +6025,11 @@ RB => Règles Brutes
     </rulegroup>
     <rulegroup id="not_imperative" name="not imperative">
         <rule>
+            <antipattern>
+                <token>ne</token>
+                <token postag="R pers obj.*" postag_regexp="yes"/>
+                <token postag="V .*" postag_regexp="yes"/>
+            </antipattern>
             <pattern>
                 <token postag="R pers.*" postag_regexp="yes">
                     <exception regexp="yes">-.*</exception></token>

@@ -300,6 +300,9 @@ public class French extends Language implements AutoCloseable {
       case "PLURIEL_AL": return -10; // less than AGREEMENT_POSTPONED_ADJ
       case "INTERROGATIVE_DIRECTE": return -10; // less than OU
       case "D_J_N": return -10; // less than J_N
+      case "FAMILIARITES": return -10; // less than grammar rules
+      case "V_J_A_R": return -10; // less than grammar rules
+      case "TRES_TRES_ADJ": return -10; // less than grammar rules
       case "IMP_PRON": return -10; // less than D_N
       case "TOO_LONG_PARAGRAPH": return -15;
       case "PREP_VERBECONJUGUE": return -20;
