@@ -11132,7 +11132,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!--  PREP у, без, вместо, для, до, из (изо), из-за, из-под, кроме, около, от, против, среди-> NN:.*:R   -->
                 <token regexp="yes">у|без|вместо|для|до|из|изо|из-за|из-под|кроме|около|от|против|среди</token>
                 <token postag="NN:.*:.*:.*" postag_regexp="yes" regexp="yes">[а-яё].*<exception postag="NN:.*:.*:R|NN:.*:.*:2R|NN:.*:.*:2P" postag_regexp="yes"></exception>
-                    <exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception> <!-- SENT_END|PARA_END removed -->
+                    <exception postag="NN:.*:.*:.*|SENT_END|PARA_END" negate_pos="yes" postag_regexp="yes"></exception>
                     <exception regexp="yes">нее|варяг|грек|роду|полсотни|власть</exception> 
                 </token>
             </pattern>
@@ -11143,7 +11143,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>К его словам мало кто прислушивается, особенно из власть предержащих.</example>
             <example>Он встретил у Гончаровых холодный приём.</example>
             <example correction="у опушки|опушка">Заросший пруд <marker>у опушка</marker> леса.</example>
-        <!--    <example correction="у опушек|у опушки|опушка">Заросший пруд <marker>у опушка</marker></example> TODO: need check disambig !!! rule NOUN_NOT_NOM -->  
+            <example correction="у опушки|опушка">Заросший пруд <marker>у опушка</marker></example> <!-- у опушек| TODO: need check disambig !!! rule NOUN_NOT_NOM -->  
         </rule>
         <rule default="on" id="PREP_U_and_ADJ" name="Предлоги: «у», «без», ... и прилагательное">
             <pattern>
