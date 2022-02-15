@@ -96,7 +96,7 @@ else
   if [ -z "$PROJECTS" ]
   then
     echo "No changes in any module detected"
-    return 0
+    exit 0
   else
     PROJECTS=${PROJECTS::-1}
     TEST_COMMAND=(mvn clean --projects "$PROJECTS" --also-make -fae test)

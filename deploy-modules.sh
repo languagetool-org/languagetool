@@ -93,7 +93,7 @@ if grep -q -e "languagetool-tools/.*" /home/circleci/git_diffs.txt; then PROJECT
 if grep -q -e "languagetool-wikipedia/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-wikipedia,$PROJECTS"; fi
 if [ -z "$PROJECTS" ]; then
   echo "No changes in any module detected"
-  return 0
+  exit 0
 else
   PROJECTS=${PROJECTS::-1}
   DEPLOY_COMMAND=(mvn -s .circleci.settings.xml --projects "$PROJECTS" --also-make -DskipTests deploy)
