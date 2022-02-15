@@ -19,7 +19,8 @@ workflows:
       and:
         - not:
             equal: [ scheduled_pipeline, << pipeline.trigger_source >> ]
-        - equal:  [ true, << pipeline.parameters.run_on_pull >> ]
+        - not:
+            equal:  [ true, << pipeline.parameters.run_on_pull >> ]
     jobs:
       - test-and-deploy-full
   commit-triggerd-workflow:
@@ -27,8 +28,7 @@ workflows:
       and:
         - not:
             equal: [ scheduled_pipeline, << pipeline.trigger_source >> ]
-        - not:
-            equal: [ true, << pipeline.parameters.run_on_pull >> ]            
+        - equal: [ true, << pipeline.parameters.run_on_pull >> ]            
     jobs:
       - test-and-deploy-partial #Medium
 jobs:
