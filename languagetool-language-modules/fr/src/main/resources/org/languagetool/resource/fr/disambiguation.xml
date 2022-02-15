@@ -2363,6 +2363,16 @@ RB => Règles Brutes
     </rule>
     <!-- END: proper nouns -->
     <!-- CATEGORY: nouns, nominal groups (particular cases) -->
+    <rule id="ORANGE" name="orange">
+        <!-- It could be useful for other color names? -->
+        <pattern>
+            <token regexp="yes" inflected="yes">un|ce</token>
+            <marker>
+                <token postag="N.*" postag_regexp="yes" inflected="yes">orange</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="N.*"></disambig>
+    </rule>
     <rule id="BROSSE" name="brosse">
         <!-- with agreement error -->
         <pattern>
