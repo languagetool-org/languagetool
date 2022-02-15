@@ -3,24 +3,32 @@ parameters:
   run_on_pull:
     default: true
     type: boolean
-  deploy_after_test:
-    default: false
-    type: boolean
 orbs:
   shallow-checkout: expo/shallow-checkout@1.0.2
 workflows:
   version: 2
-  scheduled-run-workflow:
+  scheduled-workflow:
     when:
       and:
         - equal: [ scheduled_pipeline, << pipeline.trigger_source >> ]
         - equal: [ "RunFullTest", << pipeline.schedule.name >> ]
     jobs:
-      - test-and-deploy-full #Medium
+      - test-and-deploy-full
+  on-demand-workflow:
+    when: 
+      and:
+        - not:
+            equal: [ scheduled_pipeline, << pipeline.trigger_source >> ]
+        - equal:  [ true, << pipeline.parameters.run_on_pull >> ]
+    jobs:
+      - test-and-deploy-full
   commit-triggerd-workflow:
     when:
-      not:
-        equal: [ scheduled_pipeline, << pipeline.trigger_source >> ]
+      and:
+        - not:
+            equal: [ scheduled_pipeline, << pipeline.trigger_source >> ]
+        - not:
+            equal: [ true, << pipeline.parameters.run_on_pull >> ]            
     jobs:
       - test-and-deploy-partial #Medium
 jobs:
