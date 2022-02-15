@@ -42138,14 +42138,14 @@ Grave as preferências para que tenha de as alterar constantemente. → Grave as
 			<message>Em certos contextos, esta perífrase pode ser simplificada.</message>
 			<suggestion>\1 <match no='3' postag='VMM0(.)(.)0' postag_regexp="yes" postag_replace='VMN0$1$20'/></suggestion>
 			<example correction="para ter">Grave as preferências <marker>para que tenha</marker> de as alterar constantemente.</example>
-		</rule>	
+		</rule>
 
     </rulegroup>
 
 
 	<!-- O QUE ORIGINA originando -->
     <rule id='SIMPLIFICAR_O_QUE_VERBO_VERBOGERUNDIO' name="Simplificar: O que + V. → V. Gerúndio" type="style">
-    <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-02-08-13 (1-JAN-2022+)      -->
+    <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-02-08-13/15 (1-JAN-2022+)      -->
 	<!--
 As regras estão erradas o que origina a sua desorganização. → As regras estão erradas originando a sua desorganização.
 	-->
@@ -42155,7 +42155,7 @@ A César o que é de César.
 Ninguém larga sem dor o que possui com amor.
 Eu não sei o que seria de nós sem você.
 Dois homens estão checando o que está de errado com o carro.
--->	
+-->
 	  <antipattern>
 		<token>o</token>
 		<token>que</token>
@@ -42181,7 +42181,7 @@ Aqui você vê quanto está bem informado sobre o que acontece no governo federa
 		<token min="0" max="1" regexp='yes'>[,]</token>
 		<token>o</token>
 		<token>que</token>
-		<token min="0" max="1"  postag='RN' postag_regexp='no'/>
+		<token min="0" max="1" postag='RN' postag_regexp='no'/>
 		<token postag='V.+' postag_regexp='yes'/>
 		<token postag='NC.+|AQ.+|CS|SPS00.DA|NP.+|PI.+|SPS00.*|AO.+' postag_regexp='yes'/>
 	  </antipattern>
@@ -42200,7 +42200,7 @@ As dificuldades é que mostram o que são os homens.
 		</and>
 		<token>o</token>
 		<token>que</token>
-		<token min="0" max="1"  postag='RN' postag_regexp='no'/>
+		<token min="0" max="1" postag='RN' postag_regexp='no'/>
 		<token postag='V.+' postag_regexp='yes'/>
 		<token postag='DA.+|RM|AO.+' postag_regexp='yes'/>
 	  </antipattern>
@@ -42214,10 +42214,10 @@ Afinal, o que é o conselho de administração em empresas?
 -->
 	  <antipattern>
 		<token postag='_PUNCT' postag_regexp='no'/>
-		<token min="0" max="1"  postag='V.+' postag_regexp='yes'/>
+		<token min="0" max="1" postag='V.+' postag_regexp='yes'/>
 		<token>o</token>
 		<token>que</token>
-		<token min="0" max="1"  postag='RN' postag_regexp='no'/>
+		<token min="0" max="1" postag='RN' postag_regexp='no'/>
 		<token inflected='yes' regexp='yes'>haver|estar|existir|ser</token>
 		<token postag='CS|DA.+|NP.+|AO.+|DI.+|Z0.+|SPS.+' postag_regexp='yes'/>
 	  </antipattern>
@@ -42232,10 +42232,10 @@ Como é possível crer e não provar? Talvez por ser de tudo a fé o que é mais
 	  <antipattern>
 		<token>o</token>
 		<token>que</token>
-		<token min="0" max="1"  postag='RN' postag_regexp='no'/>
+		<token min="0" max="1" postag='RN' postag_regexp='no'/>
 		<token inflected='yes' regexp='yes'>haver|estar|existir|ser</token>
-		<token min="0" max="1"  postag='SPS.+|DI.+|Z0.+|DA.+' postag_regexp='yes'/>
-		<token min="1" max="2" postag='NC.+|AQ.+|RM|NP.+' postag_regexp='yes'/>
+		<token min="0" max="2" postag='SPS.+|DI.+|Z0.+|DA.+' postag_regexp='yes'/>
+		<token min="1" max="2" postag='NC.+|AQ.+|RM|NP.+|AP.+|DP.+' postag_regexp='yes'/>
 		<token postag='_PUNCT|CC' postag_regexp='yes'/>
 	  </antipattern>
 <!--
@@ -42250,10 +42250,10 @@ Portanto identifiquemos o que é a norma e o que é a excepção e assim saberem
 	  <antipattern>
 		<token>o</token>
 		<token>que</token>
-		<token min="0" max="1"  postag='RN' postag_regexp='no'/>
+		<token min="0" max="1" postag='RN' postag_regexp='no'/>
 		<token inflected='yes' regexp='yes'>haver|estar|existir|ser</token>
-		<token min="0" max="1"  postag='SPS.+|DI.+|Z0.+|DA.+' postag_regexp='yes'/>
-		<token min="1" max="2" postag='NC.+|AQ.+|RM|NP.+' postag_regexp='yes'/>
+		<token min="0" max="2" postag='SPS.+|DI.+|Z0.+|DA.+' postag_regexp='yes'/>
+		<token min="1" max="2" postag='NC.+|AQ.+|RM|NP.+|AP.+|DP.+' postag_regexp='yes'/>
 		<token regexp='yes'>d[ao]s?</token>
 	  </antipattern>
 
@@ -42269,7 +42269,7 @@ Ei, o que pensa que está fazendo?
 		<token min="0" max="1" regexp='yes'>[,]</token>
 		<token>o</token>
 		<token>que</token>
-		<token min="0" max="1"  postag='RN' postag_regexp='no'/>
+		<token min="0" max="1" postag='RN' postag_regexp='no'/>
 		<token postag='V.+' postag_regexp='yes'/>
 		<token postag='NC.+|AQ.+|CS|SPS00.DA|NP.+|PI.+|SPS00.*|RM|AO.+' postag_regexp='yes'>
 			<exception postag_regexp='no' postag='RG'/>
@@ -42286,6 +42286,18 @@ Gostaria de saber o que seria mais lucrativo pra mim.
 		<token>saber</token>
 		<token>o</token>
 		<token>que</token>
+	  </antipattern>
+
+<!--
+Como Jesus disse na hora da sua consumação ”PAI, PERDOA-LHES, ELES NÃO SABEM O QUE FAZEM”.
+O bem vale o que custa...
+-->
+	  <antipattern>
+		<token>o</token>
+		<token>que</token>
+		<token/>
+		<token min="0" max="1" postag='_QUOT' postag_regexp='no'/>
+		<token postag='_PUNCT' postag_regexp='no'/>
 	  </antipattern>
 
       <pattern>
@@ -42357,6 +42369,9 @@ Gostaria de saber o que seria mais lucrativo pra mim.
 	  <example>Gostaria de saber o que é que ela faz.</example>
 	  <example>Gostaria de saber o que leva uma editora se decidir à publicar um livro?</example>
 	  <example>Gostaria de saber o que seria mais lucrativo pra mim.</example>
+
+	  <example>Como Jesus disse na hora da sua consumação ”PAI, PERDOA-LHES, ELES NÃO SABEM O QUE FAZEM”.</example>
+	  <example>O bem vale o que custa...</example>
     </rule>
 
 
