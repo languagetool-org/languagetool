@@ -1,59 +1,102 @@
 version: 2.1
-parameters:
-  run_on_pull:
-    default: true
-    type: boolean
-  deploy_after_test:
-    default: false
-    type: boolean
+# This allow us to use CircleCI's dynamic configuration feature
+# https://circleci.com/docs/2.0/configuration-cookbook/?section=examples-and-guides#dynamic-configuration
+setup: true
+# Using path-filtering orb instead of custom diff workflow
 orbs:
+  path-filtering: circleci/path-filtering@0.1.1
   shallow-checkout: expo/shallow-checkout@1.0.2
 workflows:
   version: 2
-  run_on_pull_request:
-    when: << pipeline.parameters.run_on_pull >>
-    jobs:
-      - test-modules-job
-  run_on_post_request:
+  # the always-run workflow is always triggered
+#  always-run:
+#    jobs:
+#      - add-github-ssh
+#      - custom-checkout
+  # triggered by circleCI
+  # https://circleci.com/docs/2.0/scheduled-pipelines/
+  scheduled-run-workflow:
     when:
-      not: << pipeline.parameters.run_on_pull >>
+      and:
+        - equal: [scheduled_pipeline, << pipeline.trigger_source >> ]
+        - equal: ["RunFullTest", << pipeline.schedule.name >>]
     jobs:
-      - test-scheduled-job
-  run_daily:
-    triggers:
-      - schedule:
-          cron: "0 12 * * *"
-          filters:
-            branches:
-              only:
-                - master
+      - test-and-deploy-full
+  # triggered by commit
+  generate-config:
+    when:
+      not:
+        equal: [ scheduled_pipeline, << pipeline.trigger_source >> ]
     jobs:
-      - test-scheduled-job
-  run_before-deployment:
-    triggers:
-      - schedule:
-          cron: "30 16 * * *"
-          filters:
-            branches:
-              only:
-                - master
-    jobs:
-      - test-scheduled-job
-  run_nightly:
-    triggers:
-      - schedule:
-          cron: "0 0 * * *"
-          filters:
-            branches:
-              only:
-                - master
-    jobs:
-      - test-scheduled-job
-commands:
-  add-github-ssh:
-    description: Avoid hosts unknown for github
+      - path-filtering/filter:
+          base-revision: master
+          config-path: .circleci/build-config.yml
+          #path variable value
+          mapping: |
+            languagetool-core/.* full-job true
+            languagetool-commandline/.* commandline-job true
+            languagetool-dev/.* dev-job true
+            languagetool-gui-commons/.* gui-commons-job true
+            languagetool-http-client/.* http-client-job true
+            languagetool-language-modules/all/.* lang-all-job true
+            languagetool-language-modules/ar/.* lang-ar-job true
+            languagetool-language-modules/ast/.* lang-ast-job true
+            languagetool-language-modules/be/.* lang-be-job true
+            languagetool-language-modules/br/.* lang-br-job true
+            languagetool-language-modules/ca/.* lang-ca-job true
+            languagetool-language-modules/da/.* lang-da-job true
+            languagetool-language-modules/de/.* lang-de-job true
+            languagetool-language-modules/de-DE-x-simple-language/.* lang-de-simple-job true
+            languagetool-language-modules/el/.* lang-el-job true
+            languagetool-language-modules/en/.* lang-en-job true
+            languagetool-language-modules/eo/.* lang-eo-job true
+            languagetool-language-modules/es/.* lang-es-job true
+            languagetool-language-modules/fa/.* lang-fa-job true
+            languagetool-language-modules/fr/.* lang-fr-job true
+            languagetool-language-modules/ga/.* lang-ga-job true
+            languagetool-language-modules/gl/.* lang-gl-job true
+            languagetool-language-modules/is/.* lang-is-job true
+            languagetool-language-modules/it/.* lang-it-job true
+            languagetool-language-modules/ja/.* lang-ja-job true
+            languagetool-language-modules/km/.* lang-km-job true
+            languagetool-language-modules/lt/.* lang-lt-job true
+            languagetool-language-modules/ml/.* lang-ml-job true
+            languagetool-language-modules/nl/.* lang-nl-job true
+            languagetool-language-modules/pl/.* lang-pl-job true
+            languagetool-language-modules/pt/.* lang-pt-job true
+            languagetool-language-modules/ro/.* lang-ro-job true
+            languagetool-language-modules/ru/.* lang-ru-job true
+            languagetool-language-modules/sk/.* lang-sk-job true
+            languagetool-language-modules/sl/.* lang-sl-job true
+            languagetool-language-modules/sr/.* lang-sr-job true
+            languagetool-language-modules/sv/.* lang-sv-job true
+            languagetool-language-modules/ta/.* lang-ta-job true
+            languagetool-language-modules/tl/.* lang-tl-job true
+            languagetool-language-modules/uk/.* lang-uk-job true
+            languagetool-language-modules/zh/.* lang-zh-job true
+            languagetool-office-extension/.* office-extension-job true
+            languagetool-rpm-package/.* rpm-package-job true
+            languagetool-server/.* server-job true
+            languagetool-standalone/.* standalone-job true
+            languagetool-tools/.* tools-job true
+            languagetool-wikipedia/.* wikipedia-job true
+#      - trigger-premium-pipeline
+jobs:
+  test-and-deploy-full:
+    resource_class: medium
+    executor:
+      name: docker-openjdk8
+    environment:
+      MAVEN_OPTS: -Xmx3200m
     steps:
-      - run: mkdir ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
+      - custom-checkout
+      - test-and-deploy
+      - save-test-results
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: v1-dependencies-{{ checksum "/home/circleci/project/~/project/pom.xml" }}
+commands:
   custom-checkout:
     description: My custom checkout
     steps:
@@ -63,72 +106,11 @@ commands:
           keys:
             - v1-dependencies-{{ checksum "/home/circleci/project/~/project/pom.xml" }}
             - v1-dependencies-
-  get-diffs:
-    description: Get diffs via git diff
+  test-and-deploy:
+    description: Test and deploy the project
     steps:
-      - run: cd $CIRCLE_WORKING_DIRECTORY && git diff --name-only <<pipeline.git.base_revision>>..<<pipeline.git.revision>> > /home/circleci/git_diffs.txt || echo "languagetool-core/" > /home/circleci/git_diffs.txt
-      - run:
-          name: Check if diff file has content otherwise add core to force test all
-          command: |
-            if [ -s /home/circleci/git_diffs.txt ]
-            then
-              tail /home/circleci/git_diffs.txt
-            else
-              echo "languagetool-core" > /home/circleci/git_diffs.txt
-            fi
-  install-project:
-    description: Run maven install
-    steps:
-      - run: cd $CIRCLE_WORKING_DIRECTORY && mvn -pl '!languagetool-rpm-package' clean install -DskipTests
-      - run: cd $CIRCLE_WORKING_DIRECTORY && mvn dependency:go-offline
-  create-diff-file-for-scheduled:
-    description: Create the difffile to work with scheduled tasks
-    steps:
-      - run: echo "scheduledTask/run_tests" > /home/circleci/git_diffs.txt
-  run-tests:
-    parameters:
-      path_to_check:
-        type: string
-      ignore_diff:
-        type: boolean
-        default: false
-      deploy_artifact:
-        type: boolean
-        default: false
-    steps:
-      - when:
-          condition: << parameters.ignore_diff >>
-          steps:
-            - run:
-                name: Run full test (deploy << parameters.deploy_artifact >>)
-                command: |
-                  if grep -q -e << parameters.path_to_check >>/.* /home/circleci/git_diffs.txt 
-                  then
-                    echo "" > /home/circleci/git_diffs.txt
-                    cd $CIRCLE_WORKING_DIRECTORY && mvn -pl '!languagetool-rpm-package' test -fae
-                    if << parameters.deploy_artifact >> = true || << pipeline.parameters.deploy_after_test >>
-                    then
-                      mvn -s .circleci.settings.xml -pl '!languagetool-rpm-package' -DskipTests deploy
-                    fi 
-                  else
-                    echo "No changes detected in <<parameters.path_to_check>>"
-                  fi
-      - unless:
-          condition: << parameters.ignore_diff >>
-          steps:
-            - run:
-                name: Check diffs and test modules (deploy << parameters.deploy_artifact >>)
-                command: |
-                  if grep -q -e << parameters.path_to_check >>/.* /home/circleci/git_diffs.txt 
-                  then
-                    cd $CIRCLE_WORKING_DIRECTORY && mvn --projects << parameters.path_to_check >> --also-make test -fae
-                    if << parameters.deploy_artifact >> = true || << pipeline.parameters.deploy_after_test >>
-                    then
-                      mvn -s .circleci.settings.xml --projects << parameters.path_to_check >> -DskipTests deploy
-                    fi
-                  else
-                    echo "No changes detected in <<parameters.path_to_check>>"
-                  fi
+      - run: mvn clean package -pl !languagetool-rpm-package
+      - run: mvn -s .circleci.settings.xml deploy -DskipTests
   save-test-results:
     steps:
       - run:
@@ -143,125 +125,3 @@ executors:
   docker-openjdk8:
     docker:
       - image: circleci/openjdk:8-jdk
-jobs:
-  test-scheduled-job:
-    resource_class: medium
-    executor:
-      name: docker-openjdk8
-    environment:
-      MAVEN_OPTS: -Xmx3200m
-    steps:
-      - custom-checkout
-      - create-diff-file-for-scheduled
-      - install-project
-      - run-tests:
-          path_to_check: "scheduledTask"
-          ignore_diff: true
-          deploy_artifact: true
-      - save-test-results
-      - save_cache:
-          paths:
-            - ~/.m2
-          key: v1-dependencies-{{ checksum "/home/circleci/project/~/project/pom.xml" }}
-  test-modules-job:
-    resource_class: medium
-    executor:
-      name: docker-openjdk8
-    environment:
-      MAVEN_OPTS: -Xmx3200m
-    steps:
-      - custom-checkout
-      - get-diffs
-      - install-project
-      - run-tests:
-          path_to_check: "languagetool-core"
-          ignore_diff: true
-      - run-tests:
-          path_to_check: "languagetool-commandline"
-      - run-tests:
-          path_to_check: "languagetool-dev"
-      - run-tests:
-          path_to_check: "languagetool-gui-commons"
-      - run-tests:
-          path_to_check: "languagetool-http-client"
-      - run-tests:
-          path_to_check: "languagetool-language-modules/ar"
-      - run-tests:
-          path_to_check: "languagetool-language-modules/ast"
-      - run-tests:
-          path_to_check: "languagetool-language-modules/be"
-      - run-tests:
-          path_to_check: "languagetool-language-modules/br"
-      - run-tests:
-          path_to_check: "languagetool-language-modules/ca"
-      - run-tests:
-          path_to_check: "languagetool-language-modules/da"
-      - run-tests:
-          path_to_check: "languagetool-language-modules/de"
-      - run-tests:
-          path_to_check: "languagetool-language-modules/el"
-      - run-tests:
-          path_to_check: "languagetool-language-modules/en"
-      - run-tests:
-          path_to_check: "languagetool-language-modules/eo"
-      - run-tests:
-          path_to_check: "languagetool-language-modules/es"
-      - run-tests:
-          path_to_check: "languagetool-language-modules/fa"
-      - run-tests:
-          path_to_check: "languagetool-language-modules/fr"
-      - run-tests:
-          path_to_check: "languagetool-language-modules/ga"
-      - run-tests:
-          path_to_check: "languagetool-language-modules/gl"
-      - run-tests:
-          path_to_check: "languagetool-language-modules/is"
-      - run-tests:
-          path_to_check: "languagetool-language-modules/it"
-      - run-tests:
-          path_to_check: "languagetool-language-modules/ja"
-      - run-tests:
-          path_to_check: "languagetool-language-modules/km"
-      - run-tests:
-          path_to_check: "languagetool-language-modules/lt"
-      - run-tests:
-          path_to_check: "languagetool-language-modules/ml"
-      - run-tests:
-          path_to_check: "languagetool-language-modules/nl"
-      - run-tests:
-          path_to_check: "languagetool-language-modules/pl"
-      - run-tests:
-          path_to_check: "languagetool-language-modules/pt"
-      - run-tests:
-          path_to_check: "languagetool-language-modules/ro"
-      - run-tests:
-          path_to_check: "languagetool-language-modules/ru"
-      - run-tests:
-          path_to_check: "languagetool-language-modules/sk"
-      - run-tests:
-          path_to_check: "languagetool-language-modules/sl"
-      - run-tests:
-          path_to_check: "languagetool-language-modules/sv"
-      - run-tests:
-          path_to_check: "languagetool-language-modules/ta"
-      - run-tests:
-          path_to_check: "languagetool-language-modules/tl"
-      - run-tests:
-          path_to_check: "languagetool-language-modules/uk"
-      - run-tests:
-          path_to_check: "languagetool-language-modules/zh"
-      - run-tests:
-          path_to_check: "languagetool-office-extension"
-      - run-tests:
-          path_to_check: "languagetool-server"
-      - run-tests:
-          path_to_check: "languagetool-standalone"
-      - run-tests:
-          path_to_check: "languagetool-tools"
-      - run-tests:
-          path_to_check: "languagetool-wikipedia"
-      - save-test-results
-      - save_cache:
-          paths:
-            - ~/.m2
-          key: v1-dependencies-{{ checksum "/home/circleci/project/~/project/pom.xml" }}
