@@ -199,6 +199,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <token>winny</token>
                             <marker><token>sposób</token></marker>
                             </antipattern>
+                            <antipattern>
+                              <token>wężej</token>                            
+                            </antipattern>
                             <antipattern> <!-- byłby ... dokonał -->
                                 <unify>
                                     <feature id="number"/><feature id="gender"/>
@@ -13669,6 +13672,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rulegroup>
 		</category>
 		<category id="PHONETICS" name="Błędy fonetyczne" type="misspelling">
+		      <rule id="wezej" name="„wężej” (węziej)">
+              <pattern>
+                <marker>
+                  <token>wężej</token>                
+                </marker>
+                <token><exception regexp="yes">skóry|skórki</exception></token>
+              </pattern>
+              <message>Błąd ortograficzny. Powinno być: <suggestion>węziej</suggestion>.</message>
+              <short>Błąd ortograficzny</short>
+              <example>To są buty z wężej skórki.</example>
+              <example correction="węziej">Tam, gdzie było <marker>wężej</marker>, blokowali jeden pas.</example>
+		      </rule>
           <rule id="S_Z" name="„s” (z)">
            <pattern case_sensitive='yes'>
             <token><exception regexp='yes'>[’'/0-9]+(,[0-9]+)?</exception></token>
@@ -15738,7 +15753,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
            <short>Błąd ortograficzny</short>
            <example correction='nie miał'>Nikt z nas <marker>niemiał</marker> o tym pojęcia.</example>           
             </rule>
-            <rule id="WGLAB_W_GBLAB" name="„wgłąb” (w głąb)">
+            <rulegroup id="WGLAB_W_GLAB" name="„wgłąb” (w głąb)">
+            <rule>
                 <pattern>
                     <marker>
                         <token>wgłąb</token>
@@ -15751,6 +15767,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction='w głąb'>Pozwól mi zajrzeć <marker>wgłąb</marker> swej duszy.</example>
                 <example>Pozwól mi zajrzeć w głąb swej duszy.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>wgłąb</token>
+                    </marker>
+                    <token regexp='yes'>&interp;</token>
+                </pattern>
+                <message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion>w głąb</suggestion> (= głęboko, w dół)?</message>
+                <url>http://sjp.pwn.pl/sjp/w-glab;2535535.html</url>
+                <short>Błąd ortograficzny</short>
+                <example correction='w głąb'>Pozwól mi zajrzeć <marker>wgłąb</marker>.</example>
+                <example>Pozwól mi zajrzeć w głąb.</example>
+            </rule>
+            </rulegroup>
             <rule id="OM_A" name="„sprzedać nabywcą” (nabywcom)">
                 <pattern>
                     <token inflected='yes' regexp='yes'>(:?od)?sprzedać|(:?od)?sprzedawać|akompaniować|aplikować|asystować|bandażować|bezcześcić|bluzgać|bluźnić|błogosławić|opyl[ia]ć|posprzedqawać|życzyć</token>
@@ -18459,16 +18489,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						</rule>
 				</rulegroup>
 				<!-- błędna pisownia rozłączna -->
-				<rule id="NA_W_POL" name="„na w pół” (na wpół)">
+				<rule id="NA_W_POL" name="„na w pół, na w skroś” (na wpół, na wskroś)">
 						<pattern>
 								<token>na</token>
 								<token>w</token>
-								<token>pół</token>
+								<token regexp="yes">pół|skroś</token>
 						</pattern>
-						<message>Błąd ortograficzny. Powinno być: <suggestion>na wpół</suggestion>.</message>
+						<message>Błąd ortograficzny. Powinno być: <suggestion>na \2\3</suggestion>.</message>
 						<short>Błąd ortograficzny</short>
 						<example>Przemysław wyszedł z domu na wpół rozebrany.</example>
 						<example correction="na wpół">Przemysław wyszedł z domu <marker>na w pół</marker> rozebrany.</example>
+						<example correction="na wskroś">Tylko byłby <marker>na w skroś</marker> poprawnie polityczny.</example>
 				</rule>
 				<rule id="PO_ZA" name="„po za” (poza)">
 						<pattern case_sensitive="yes">
