@@ -4,6 +4,10 @@
 
 ...
 
+#### Polish
+  * added and improved rules, especially for frequent mistakes
+  * added a rule for spelling coherency (*menedżer* or *menadżer* but not both in the same document)
+  * updated the user interface translation
 
 ## 5.6 (2021-12-29)
 
@@ -35,7 +39,7 @@
   * improved disambiguation
   * added words and POS data
   * fix POS data
-  * rebuild POS dictionary
+  * rebuilt POS dictionary
   * improved spell checking
 
 #### Spanish
