@@ -19946,6 +19946,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
 		<category id="TYPOS" name="Prawdopodobne literówki" type="misspelling">
+		  <rulegroup id="TUTA_J" name="„tuta j” (tutaj)">
+        <rule>
+          <pattern>
+            <token>tuta</token>
+            <token>j</token>          
+          </pattern>
+          <message>Prawdopodobnie literówka. Czy chodziło o <suggestion>\1\2</suggestion>?</message>
+          <short>Zbędna spacja</short>
+          <example correction="tutaj">Chodźcie no <marker>tuta j</marker>.</example> 
+          <example>Tuta rosną banany.</example>       
+        </rule>
+        <rule>
+          <pattern>
+            <marker>
+              <token>tuta</token>
+            </marker>
+            <token><exception>j</exception></token>          
+          </pattern>
+          <message>Prawdopodobnie literówka. Czy chodziło o <suggestion>\1j</suggestion>?</message>
+          <short>Zbędna spacja</short>
+          <example correction="tutaj">Chodźcie no <marker>tuta</marker>.</example> 
+          <example>Tuta j rosną banany.</example>       
+        </rule>		  
+		  </rulegroup>
 		  <rule id="SKROT_OK_BEZ_KROPKI" name="Skrót „ok” bez kropki (ok.)">
        <pattern>
         <token>ok</token>
