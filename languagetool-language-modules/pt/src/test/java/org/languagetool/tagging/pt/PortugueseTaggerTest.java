@@ -50,5 +50,9 @@ public class PortugueseTaggerTest {
             + "os/[o]DA0MP0|os/[o]PD0MP000|os/[o]PP3MPA00 -- "
             + "meus/[meu]AP0MP1S|meus/[meu]DP1MPS -- "
             + "amigos/[amigo]AQ0MP0|amigos/[amigo]NCMP000", tokenizer, tagger);
+    
+    TestTools.myAssert("tentou resolver",
+        "tentou/[tentar]VMIS3S0 -- resolver/[resolver]VMN0000|resolver/[resolver]VMSF1S0|resolver/[resolver]VMSF3S0"
+        , tokenizer, tagger);
   }
 }
