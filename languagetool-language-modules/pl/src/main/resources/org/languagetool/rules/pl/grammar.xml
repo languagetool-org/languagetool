@@ -5719,7 +5719,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				<rulegroup id="STO_GRAM" name="„sto gram” (sto gramów) itp.">
 						<rule>
 								<pattern>
-										<token inflected="yes" regexp="yes">pięć|sześć|siedem|osiem|dziewięć|dziesięć|jedenaście|dwanaście|trzynaście|czternaście|piętnaście|szesnaście|siedemnaście|osiemnaście|dziewiętnaście|dwadzieścia|trzydzieści|czterdzieści|pięćdziesiąt|sześćdziesiąt|siedemdziesiąt|osiemdziesiąt|dziewięćdziesiąt|sto|dwieście|trzysta|czterysta|pięćset|sześćset|siedemset|osiemset|dziewięćset|tysiąc|milion|miliard|bilion</token>
+										<token inflected="yes" regexp="yes">pięć|sześć|siedem|osiem|dziewięć|dziesięć|jedenaście|dwanaście|trzynaście|czternaście|piętnaście|szesnaście|siedemnaście|osiemnaście|dziewiętnaście|dwadzieścia|trzydzieści|czterdzieści|pięćdziesiąt|sześćdziesiąt|siedemdziesiąt|osiemdziesiąt|dziewięćdziesiąt|sto|dwieście|trzysta|czterysta|pięćset|sześćset|siedemset|osiemset|dziewięćset|tysiąc|milion|miliard|bilion|\d*[5-9]\d*|\d+0|1[1-9]\d*</token>
 										<marker>
 												<token regexp="yes">wat|gram|amper|kilowat|kilogram|kiloamper|wolt|kilowolt|złoty|kilometr|metr|centymetr</token>
 										</marker>
@@ -5729,10 +5729,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>Ludwik kupił sto gramów szyneczki.</example>
 								<example correction="woltów">Do zasilania wystarczy dziesięć <marker>wolt</marker>.</example>
 								<example correction="gramów">Ludwik kupił sto <marker>gram</marker> szyneczki.</example>
+								<example correction="gramów">Ludwik kupił 100 <marker>gram</marker> szyneczki.</example>
 						</rule>
 						<rule>
 								<pattern>
-										<token inflected="yes" regexp="yes">dwa|trzy|cztery</token>
+										<token inflected="yes" regexp="yes">dwa|trzy|cztery|[234]</token>
 										<marker>
 												<token regexp="yes">wat|gram|amper|kilowat|kilogram|kiloamper|wolt|kilowolt|złoty|kilometr|metr|centymetr</token>
 										</marker>
@@ -5740,6 +5741,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<message>Nazwy jednostek miary odmienia się. W tym wypadku powinny być w mianowniku liczby mnogiej:<suggestion><match no="2" postag="subst:pl:.*nom.*:m.*" postag_regexp="yes"></match></suggestion>.</message>
 								<short>Błąd odmiany</short>
 								<example>Ludwik kupił sto gramów szyneczki.</example>
+								<example correction="gramy">Ludwik miał ze sobą 2 <marker>gram</marker> tajemniczej białej substancji.</example>
 								<example correction="kilogramy">Ludwik kupił dwa <marker>kilogram</marker> szyneczki.</example>
 						</rule>
 				</rulegroup>
@@ -18581,6 +18583,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          <short>Błąd pisowni</short>
          <example correction='aa'><marker>a/a</marker></example>
          <example>aa</example>
+        </rule>
+        <rule id="austriacki" name="„austryjacki” (austriacki)">
+          <pattern>
+            <token regexp="yes">austryjack.*|Austryja.*</token>          
+          </pattern>
+          <message>Błąd ortograficzny. Poprawnie: <suggestion><match no="1"  regexp_match="ustryj" regexp_replace="ustri"/></suggestion>.</message>
+          <short>Błąd ortograficzny</short>
+          <example>To austriackie gadanie.</example>
+          <example correction="austriacki">Kraj był podzielony na trzy zabory: pruski, rosyjski i <marker>austryjacki</marker>.</example>
+          <example correction="Austriak">No ale Polak zarabia dużo więcej niż <marker>Austryjak</marker>.</example>        
         </rule>
 				<rulegroup id="SKROTY_BEZ_KROPKI" name="Pisownia skrótów dr, mgr, nr">
 						<rule>

@@ -4131,21 +4131,22 @@
 
     <rule id="num_gen" name="dopełniacz po liczbach > 5">
         <pattern>
-            <token regexp="yes">\d*[5-9]|\d+0|1[1-9]
+            <token regexp="yes">\d*[5-9]\d*|\d+0\d*|1[1-9]\d*
                 <exception scope="previous" inflected="yes">rok</exception>
                 <exception regexp="yes">1\d{3}</exception>
             </token>
             <marker>
-                <token postag="(?:adj|ger|subst|pact|ppas):pl.*gen.*|brev.*" postag_regexp="yes"/>
+                <token postag="(?:adj|ger|subst|pact|ppas):pl.*gen.*|brev.*" postag_regexp="yes"><exception>gram</exception></token>
             </marker>
         </pattern>
         <disambig action="filterall"/>
         <example type="untouched">Do teorii ruchów Browna wiele wniósł w latach 1906–1917 Marian Smoluchowski.</example>
+        <example type="untouched">Kupił 100 gram amfetaminy.</example>
     </rule>
 
     <rule id="num_tys_gen" name="dopełniacz po liczbach > 5 ze skrótem tys.">
         <pattern>
-            <token regexp="yes">\d*[5-9]|\d+0|1[1-9]</token>
+            <token regexp="yes">\d*[5-9]\d*|\d+0\d*|1[1-9]\d*</token>
             <token>tys</token>
             <token>.</token>
             <marker>
@@ -13540,6 +13541,15 @@
         <pattern>
             <marker>
                 <token>wężej</token>
+            </marker>
+        </pattern>
+        <disambig action="ignore_spelling"></disambig>
+    </rule>
+
+    <rule id="austryjacki" name="austryjacki">
+        <pattern>
+            <marker>
+                <token regexp="yes">austryjack.*|Austryja.*</token>
             </marker>
         </pattern>
         <disambig action="ignore_spelling"></disambig>
