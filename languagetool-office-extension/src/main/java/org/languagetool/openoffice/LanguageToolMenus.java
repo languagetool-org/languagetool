@@ -286,7 +286,7 @@ public class LanguageToolMenus {
      */
     
     private void setActivateRuleMenu(short pos, short id, short submenuStartId) {
-      Map<String, String> deactivatedRulesMap = document.getMultiDocumentsHandler().getDisabledRulesMap();
+      Map<String, String> deactivatedRulesMap = document.getMultiDocumentsHandler().getDisabledRulesMap(null);
       if (!deactivatedRulesMap.isEmpty()) {
         if (ltMenu.getItemId(pos) != id) {
           ltMenu.insertItem(id, MESSAGES.getString("loContextMenuActivateRule"), MenuItemStyle.AUTOCHECK, pos);
@@ -340,7 +340,7 @@ public class LanguageToolMenus {
       } else if (event.MenuId > switchOffId + SUBMENU_ID_DIFF && event.MenuId <= switchOffId + SUBMENU_ID_DIFF + definedProfiles.size()) {
         runProfileAction(definedProfiles.get(event.MenuId - switchOffId - 22));
       } else if (event.MenuId > switchOffId + SUBMENU_ID_DIFF + definedProfiles.size()) {
-        Map<String, String> deactivatedRulesMap = document.getMultiDocumentsHandler().getDisabledRulesMap();
+        Map<String, String> deactivatedRulesMap = document.getMultiDocumentsHandler().getDisabledRulesMap(null);
         short j = (short)(switchOffId + SUBMENU_ID_DIFF + definedProfiles.size() + 1);
         for (String ruleId : deactivatedRulesMap.keySet()) {
           if(event.MenuId == j) {
@@ -456,7 +456,7 @@ public class LanguageToolMenus {
               
               int nId = i + 4;
               
-              Map<String, String> deactivatedRulesMap = document.getMultiDocumentsHandler().getDisabledRulesMap();
+              Map<String, String> deactivatedRulesMap = document.getMultiDocumentsHandler().getDisabledRulesMap(null);
 
               if (!deactivatedRulesMap.isEmpty()) {
                 XIndexContainer xSubMenuContainer = (XIndexContainer)UnoRuntime.queryInterface(XIndexContainer.class,
