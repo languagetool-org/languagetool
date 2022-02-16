@@ -141,6 +141,45 @@ RB => Règles Brutes
         </pattern>
         <disambig action="remove" postag="J e s"/>
     </rule>
+    <rulegroup id="CEUX_QUI_L_ECOUTE" name="ceux qui l'écoute">
+        <rule>
+        <pattern>
+            <token><exception postag="P"/></token>
+            <token regexp="yes">ceux|celles?|celui</token>
+            <token>qui</token>
+            <marker>
+                <token postag="D e s">l'</token>
+            </marker>
+            <and>
+            <token postag="N.*" postag_regexp="yes"/>
+            <token postag="V.*" postag_regexp="yes"/>
+            </and>
+        </pattern>
+        <disambig action="replace" postag="R pers obj e s"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token><exception postag="P"/></token>
+                <token regexp="yes">ceux|celles?|celui</token>
+                <token>qui</token>
+                <token>l'</token>
+                <marker>
+                    <token postag="N.*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <disambig action="replace" postag="V ind pres 3 s"/>
+        </rule>
+    </rulegroup>
+    <rule id="JE" name="je">
+        <pattern>
+            <token>je</token>
+            <token postag="R pers obj.*" postag_regexp="yes"/>
+            <marker>
+                <token>permets</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="V ind pres 2 s"/>
+    </rule>
     <rule id="STEAK_FRITES" name="steak frites">
         <pattern>
             <token regexp="yes">steaks?</token>
