@@ -46005,6 +46005,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token />
                     <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 </antipattern>
+                <antipattern>
+                    <token>ich</token>
+                    <token><exception regexp="yes">wünscht?e</exception></token>
+                    <token min="0">,</token>
+                    <token>ich</token>
+                    <token regexp="yes" case_sensitive="yes">könnt|müsst|[sw]ollt|würd|dacht|fürcht|befürcht|möcht</token>
+                </antipattern>
                 <pattern>
                     <token>ich</token>
                     <marker>
@@ -46013,6 +46020,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Die korrekte Verbform scheint hier <suggestion>\2e</suggestion> zu sein.</message>
                 <example correction="würde">Ich <marker>würd</marker> das anders machen.</example>
+                <example correction="könnte">Ich wünschte, ich <marker>könnt</marker> schneller schwimmen.</example>
+                <example>Ich hoffe, ich könnt mir helfen.</example>
+                <example>Ich hoffe ich könnt mir helfen.</example>
             </rule>
             <rule>
                 <pattern>
