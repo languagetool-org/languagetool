@@ -49,10 +49,10 @@ PROJECTS=""
 DEPLOY_COMMAND=""
 
 if grep -q -e "languagetool-core/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-core",$PROJECTS; fi
-if grep -q -e "languagetool-commandline/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-commandline,$PROJECTS"; fi
-if grep -q -e "languagetool-dev/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-dev,$PROJECTS"; fi
+#if grep -q -e "languagetool-commandline/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-commandline,$PROJECTS"; fi
+#if grep -q -e "languagetool-dev/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-dev,$PROJECTS"; fi
 if grep -q -e "languagetool-gui-commons/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-gui-commons,$PROJECTS"; fi
-if grep -q -e "languagetool-http-client/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-http-client,$PROJECTS"; fi
+#if grep -q -e "languagetool-http-client/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-http-client,$PROJECTS"; fi
 if grep -q -e "languagetool-language-modules/ar/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-language-modules/ar,$PROJECTS"; fi
 if grep -q -e "languagetool-language-modules/ast/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-language-modules/ast,$PROJECTS"; fi
 if grep -q -e "languagetool-language-modules/be/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-language-modules/be,$PROJECTS"; fi
@@ -86,11 +86,11 @@ if grep -q -e "languagetool-language-modules/ta/.*" /home/circleci/git_diffs.txt
 if grep -q -e "languagetool-language-modules/tl/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-language-modules/tl,$PROJECTS"; fi
 if grep -q -e "languagetool-language-modules/uk/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-language-modules/uk,$PROJECTS"; fi
 if grep -q -e "languagetool-language-modules/zh/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-language-modules/zh,$PROJECTS"; fi
-if grep -q -e "languagetool-office-extension/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-office-extension,$PROJECTS"; fi
+#if grep -q -e "languagetool-office-extension/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-office-extension,$PROJECTS"; fi
 if grep -q -e "languagetool-server/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-server,$PROJECTS"; fi
-if grep -q -e "languagetool-standalone/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-standalone,$PROJECTS"; fi
-if grep -q -e "languagetool-tools/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-tools,$PROJECTS"; fi
-if grep -q -e "languagetool-wikipedia/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-wikipedia,$PROJECTS"; fi
+#if grep -q -e "languagetool-standalone/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-standalone,$PROJECTS"; fi
+#if grep -q -e "languagetool-tools/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-tools,$PROJECTS"; fi
+#if grep -q -e "languagetool-wikipedia/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-wikipedia,$PROJECTS"; fi
 if [ -z "$PROJECTS" ]; then
   echo "No changes in any module detected"
   exit 0
