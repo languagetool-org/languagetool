@@ -30,6 +30,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.CancellationException;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 public final class RemoteRuleMetrics {
@@ -103,18 +104,19 @@ public final class RemoteRuleMetrics {
       logger.info("Failed to fetch result from remote rule '{}' - cancelled.", ruleKey);
       request(ruleKey, deadlineStartNanos, chars, RequestResult.INTERRUPTED);
     } catch (TimeoutException e) {
-      logger.info("Failed to fetch result from remote rule '{}' - timed out ({}ms, {} chars).", ruleKey,
-        System.nanoTime() - deadlineStartNanos, chars);
+      long timeout = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - deadlineStartNanos);
+      logger.info("Failed to fetch result from remote rule '{}' - timed out ({}ms, {} chars).",
+        ruleKey, timeout, chars);
       request(ruleKey, deadlineStartNanos, chars, RequestResult.TIMEOUT);
     } catch (CallNotPermittedException e) {
       logger.info("Failed to fetch result from remote rule '{}' - circuitbreaker active, rule marked as down.", ruleKey);
       request(ruleKey, deadlineStartNanos, chars, RequestResult.DOWN);
     } catch (Exception e) {
       if (ExceptionUtils.indexOfThrowable(e, TimeoutException.class) != -1) {
-        String msg = String.format("Failed to fetch result from remote rule '%s' - request timed out with other errors (%dms, %d chars).",
-          ruleKey, System.nanoTime() - deadlineStartNanos, chars);
-        logger.warn(msg, e);
-        request(ruleKey, deadlineStartNanos, chars, RequestResult.ERROR);
+        long timeout = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - deadlineStartNanos);
+        logger.info("Failed to fetch result from remote rule '{}' - timed out with exception {} ({}ms, {} chars).",
+          ruleKey, e, timeout, chars);
+        request(ruleKey, deadlineStartNanos, chars, RequestResult.TIMEOUT);
       } else {
         logger.warn("Failed to fetch result from remote rule '" + ruleKey + "' - error while executing rule.", e);
         request(ruleKey, deadlineStartNanos, chars, RequestResult.ERROR);
