@@ -42145,7 +42145,7 @@ Grave as preferências para que tenha de as alterar constantemente. → Grave as
 
 	<!-- O QUE ORIGINA originando -->
     <rule id='SIMPLIFICAR_O_QUE_VERBO_VERBOGERUNDIO' name="Simplificar: O que + V. → V. Gerúndio" type="style">
-    <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-02-08-13/15 (1-JAN-2022+)      -->
+    <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-02-08-13/15/17 (1-JAN-2022+)      -->
 	<!--
 As regras estão erradas o que origina a sua desorganização. → As regras estão erradas originando a sua desorganização.
 	-->
@@ -42196,7 +42196,7 @@ As dificuldades é que mostram o que são os homens.
 	  <antipattern>
 		<and>
 			<token postag='SPS.+|CC|_QUOT|VM[MNS].+|VMIP3.+|CS|AO.+' postag_regexp='yes'/>
-			<token negate="yes" regexp='yes'>[,]</token>
+			<token negate_pos="yes" postag='_PUNCT' postag_regexp='no'/>
 		</and>
 		<token>o</token>
 		<token>que</token>
@@ -42235,11 +42235,11 @@ Como é possível crer e não provar? Talvez por ser de tudo a fé o que é mais
 		<token min="0" max="1" postag='RN' postag_regexp='no'/>
 		<token inflected='yes' regexp='yes'>haver|estar|existir|ser</token>
 		<token min="0" max="2" postag='SPS.+|DI.+|Z0.+|DA.+' postag_regexp='yes'/>
-		<token min="1" max="2" postag='NC.+|AQ.+|RM|NP.+|AP.+|DP.+' postag_regexp='yes'/>
+		<token min="1" max="2" postag='NC.+|AQ.+|RM|NP.+|AP.+|DP.+|VMN0000' postag_regexp='yes'/>
 		<token postag='_PUNCT|CC' postag_regexp='yes'/>
 	  </antipattern>
 <!--
-SENTENCES STARTING WITH "O QUE" + SPECIFIC VERBS + 1 OR 2 NOUNS AND D[AO]S?
+SENTENCES STARTING WITH "O QUE" + SPECIFIC VERBS + 1 OR 2 NOUNS AND "[ao]s?|d[ao]s?"
 IT IS EXACTLY LIKE 4/5 EXCEPT FOR THESE WORDS AT THE END.
 TRY TO ASK JAUME TO CHANGE THE POS OF "D[AO]S"
 BASED ON MY THESIS.
@@ -42253,8 +42253,8 @@ Portanto identifiquemos o que é a norma e o que é a excepção e assim saberem
 		<token min="0" max="1" postag='RN' postag_regexp='no'/>
 		<token inflected='yes' regexp='yes'>haver|estar|existir|ser</token>
 		<token min="0" max="2" postag='SPS.+|DI.+|Z0.+|DA.+' postag_regexp='yes'/>
-		<token min="1" max="2" postag='NC.+|AQ.+|RM|NP.+|AP.+|DP.+' postag_regexp='yes'/>
-		<token regexp='yes'>d[ao]s?</token>
+		<token min="1" max="2" postag='NC.+|AQ.+|RM|NP.+|AP.+|DP.+|VMN0000' postag_regexp='yes'/>
+		<token regexp='yes'>[ao]s?|d[ao]s?</token>
 	  </antipattern>
 
 <!--
@@ -42300,6 +42300,35 @@ O bem vale o que custa...
 		<token postag='_PUNCT' postag_regexp='no'/>
 	  </antipattern>
 
+<!--
+2) O que significam em Economia os seguintes fatores de produção: capital, terra e trabalho?
+Beth descreveu o que vira em detalhes.
+Ela não esclareceu o que significam suas enigmáticas palavras.
+-->
+	  <antipattern>
+		<token postag='_PUNCT|V.+' postag_regexp='yes'/>
+		<token>o</token>
+		<token>que</token>
+		<token postag='VMIP3P0|VMIM3S0' postag_regexp='yes'/>
+		<token/>
+		<token postag='NC.+|AQ.+|V.+' postag_regexp='yes'/>
+	  </antipattern>
+
+<!--
+Todo mundo segue uma regra de ouro: o que tem ouro impõe as regras.
+Bom, o que vale mesmo é a propaganda, do livro no caso!
+-->
+	  <antipattern>
+		<token postag='_PUNCT|V.+' postag_regexp='yes'/>
+		<token>o</token>
+		<token>que</token>
+		<token postag='V.+' postag_regexp='yes'/>
+		<token postag='DD.+|PI.+|NC.+|AQ.+' postag_regexp='yes'>
+			<exception postag_regexp='no' postag='RG'/>
+		</token>
+		<token postag='V.+' postag_regexp='yes'/>
+	  </antipattern>
+
       <pattern>
 		<and>
 			<token negate="yes" inflected='yes' regexp='yes'>haver|estar|existir|ser</token>
@@ -42311,7 +42340,7 @@ O bem vale o que custa...
 			<token postag='VMIP3.+' postag_regexp='yes'/>
 		</marker>
 		<and>
-			<token negate_pos="yes" postag='_PUNCT|SENT_END|VMG0000|CC|VM[MNS].+|CS|RG|VMP00.+|DD.+|PD.+|PI.+|NP.+|PP.+|VMIP[^3].+|PE.+|PR.+|PT.+' postag_regexp='yes'/>
+			<token negate_pos="yes" postag='_PUNCT|SENT_END|VMG0000|CC|VM[MNS].+|CS|RG|VMP00.+|DD.+|PD.+|PI.+|NP.+|PP.+|VMIP[^3].+|PE.+|PR.+|PT.+|UNKNOWN' postag_regexp='yes'/>
 			<token negate="yes" inflected='yes' regexp='yes'>haver|estar|existir|ser</token>
 		</and>
 		<token negate_pos="yes" postag='_PUNCT' postag_regexp='no'/>
@@ -42372,6 +42401,13 @@ O bem vale o que custa...
 
 	  <example>Como Jesus disse na hora da sua consumação ”PAI, PERDOA-LHES, ELES NÃO SABEM O QUE FAZEM”.</example>
 	  <example>O bem vale o que custa...</example>
+
+	  <example>2) O que significam em Economia os seguintes fatores de produção: capital, terra e trabalho?</example>
+	  <example>Beth descreveu o que vira em detalhes.</example>
+	  <example>Ela não esclareceu o que significam suas enigmáticas palavras.</example>
+
+	  <example>Todo mundo segue uma regra de ouro: o que tem ouro impõe as regras.</example>
+	  <example>Bom, o que vale mesmo é a propaganda, do livro no caso!</example>
     </rule>
 
 
