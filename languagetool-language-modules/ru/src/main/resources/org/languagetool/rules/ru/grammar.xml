@@ -3777,14 +3777,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>ни</token>
                     <token regexp="yes" negate="yes" min="1" max="2">,</token>
-                    <token>ни</token>
+                    <token>ни<exception scope="previous" regexp="yes">&pnct;</exception></token>
                     <token regexp="yes" negate="yes" min="1" max="2">,</token>
-                    <token>ни</token>
+                    <token>ни<exception scope="previous" regexp="yes">&pnct;</exception></token>
                     <token regexp="yes" negate="yes">,</token>
                 </pattern>
               <message>Пропущена запятая: <suggestion><match no="1" include_skipped="all"/> <match no="2" include_skipped="all" />, <match no="3" include_skipped="all"/> <match no="4" include_skipped="all"/>, <match no="5" include_skipped="all"/> <match no="6" include_skipped="all"/></suggestion>.</message>
               <short>Пропущена запятая</short>
               <example>Не было ни бурных слов, ни пылких признаний, ни клятв.</example>
+              <example>ни дать ни взять; ни пава ни ворона</example>
               <example correction="ни бурных слов, ни пылких признаний, ни клятв">Не было <marker>ни бурных слов ни пылких признаний ни клятв</marker>.</example>
             </rule>
         </rulegroup>
@@ -3793,7 +3794,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>либо</token>
                     <token  skip="1" ></token>
-                    <token>либо<exception scope="previous"  >,</exception></token>
+                    <token>либо<exception scope="previous" regexp="yes">&pnct;</exception></token>
                     <token regexp="yes" negate="yes" >,</token>
                 </pattern>
               <message>Пропущена запятая: <suggestion><match no="1" include_skipped="all"/> <match no="2" include_skipped="all" />, <match no="3" include_skipped="all"/> <match no="4" include_skipped="all"/></suggestion>.</message>
@@ -3807,8 +3808,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>или</token>
-                    <token regexp="yes" negate="yes" min="1" max="2">,<exception regexp="yes">[)(«–—-]</exception></token>
-                    <token>или<exception scope="previous" regexp="yes">[)(«–—-]</exception></token>
+                    <token regexp="yes" negate="yes" min="1" max="2">,<exception regexp="yes">&pnct;</exception></token>
+                    <token>или<exception scope="previous" regexp="yes">&pnct;</exception></token>
                     <token regexp="yes" negate="yes">,</token>
                 </pattern>
               <message>Пропущена запятая: <suggestion><match no="1" include_skipped="all"/> <match no="2" include_skipped="all" />, <match no="3" include_skipped="all"/> <match no="4" include_skipped="all"/></suggestion>.</message>
