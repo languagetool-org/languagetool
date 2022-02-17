@@ -45,6 +45,7 @@ public class MissingCommaEval {
     int totalCommasFound = 0;
     int lineCount = 0;
     RemoteLanguageTool lt = new RemoteLanguageTool(Tools.getUrl("http://localhost:8081"));
+    CheckConfiguration config = new CheckConfigurationBuilder().disabledRuleIds("WHITESPACE_RULE").build();
     List<String> lines = Files.readAllLines(Paths.get(args[0]));
     for (String line : lines) {
       if (!line.contains(", ")) {
@@ -58,7 +59,7 @@ public class MissingCommaEval {
       System.out.println("I: " + noCommas + " -> " + commaPositions);
       RemoteResult result;
       try {
-        result = lt.check(noCommas, "de-DE");
+        result = lt.check(noCommas, config);
       } catch (RuntimeException e) {
         System.out.println("Exception, skipping '" + line + "': ");
         e.printStackTrace();
