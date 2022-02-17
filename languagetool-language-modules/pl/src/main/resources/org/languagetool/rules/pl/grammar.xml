@@ -13043,14 +13043,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example correction="cofaniu">Uważaj przy <marker>cofaniu w tył</marker>!</example>
 						</rule>
 						<rule>
-								<pattern>
-										<token inflected="yes" regexp="yes">cofać|cofnąć</token>
+                <pattern>
+										<token inflected="yes" regexp="yes" skip="-1">cofać|cofnąć<exception scope="next" postag="verb.*" postag_regexp="yes"/></token>
 										<token>wstecz</token>
 								</pattern>
-								<message>To pleonazm. Wystarczy powiedzieć: <suggestion>\1</suggestion>.</message>
+								<message>To pleonazm. Wystarczy powiedzieć: <suggestion><match no="1" include_skipped="all"/></suggestion>.</message>
 								<short>Pleonazm</short>
 								<example>Uważaj przy cofaniu!</example>
 								<example correction="cofaniu">Uważaj przy <marker>cofaniu wstecz</marker>!</example>
+								<example correction="Cofaj się szybko"><marker>Cofaj się szybko wstecz</marker>.</example>
 						</rule>
 				</rulegroup>
 				<rule id="POPRAWIC_SIE_NA_LEPSZE" name="„poprawić się na lepsze” (poprawić się)">
