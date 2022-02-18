@@ -42195,14 +42195,14 @@ As dificuldades é que mostram o que são os homens.
 -->
 	  <antipattern>
 		<and>
-			<token postag='SPS.+|CC|_QUOT|VM[MNS].+|VMIP3.+|CS|AO.+' postag_regexp='yes'/>
+			<token postag='SPS.+|CC|_QUOT|VM[MNS].+|VMIP3.+|CS|AO.+|VMIS.+|DD.+|PI.+' postag_regexp='yes'/>
 			<token negate_pos="yes" postag='_PUNCT' postag_regexp='no'/>
 		</and>
 		<token>o</token>
 		<token>que</token>
 		<token min="0" max="1" postag='RN' postag_regexp='no'/>
 		<token postag='V.+' postag_regexp='yes'/>
-		<token postag='DA.+|RM|AO.+' postag_regexp='yes'/>
+		<token postag='DA.+|RM|AO.+|SPS00|NC.+|AQ.+' postag_regexp='yes'/>
 	  </antipattern>
 <!--
 SENTENCES STARTING WITH "," AND SPECIFIC VERBS
@@ -42291,12 +42291,14 @@ Gostaria de saber o que seria mais lucrativo pra mim.
 <!--
 Como Jesus disse na hora da sua consumação ”PAI, PERDOA-LHES, ELES NÃO SABEM O QUE FAZEM”.
 O bem vale o que custa...
+Ela não sente necessidade de provar nada, ela faz aquilo que entende com a sua música, não o que esperam dela.
+Você sabe o que significa "UNESCO"?
 -->
 	  <antipattern>
 		<token>o</token>
 		<token>que</token>
 		<token/>
-		<token min="0" max="1" postag='_QUOT' postag_regexp='no'/>
+		<token min="0" max="3" postag='SPS.+|NP.+|_QUOT' postag_regexp='yes'/>
 		<token postag='_PUNCT' postag_regexp='no'/>
 	  </antipattern>
 
@@ -42311,7 +42313,7 @@ Ela não esclareceu o que significam suas enigmáticas palavras.
 		<token>que</token>
 		<token postag='VMIP3P0|VMIM3S0' postag_regexp='yes'/>
 		<token/>
-		<token postag='NC.+|AQ.+|V.+' postag_regexp='yes'/>
+		<token postag='NP.+|NC.+|AQ.+|V.+' postag_regexp='yes'/>
 	  </antipattern>
 
 <!--
@@ -42323,10 +42325,26 @@ Bom, o que vale mesmo é a propaganda, do livro no caso!
 		<token>o</token>
 		<token>que</token>
 		<token postag='V.+' postag_regexp='yes'/>
-		<token postag='DD.+|PI.+|NC.+|AQ.+' postag_regexp='yes'>
+		<token postag='DD.+|PI.+|NC.+|AQ.+|DI.+|Z0.+' postag_regexp='yes'>
 			<exception postag_regexp='no' postag='RG'/>
 		</token>
 		<token postag='V.+' postag_regexp='yes'/>
+	  </antipattern>
+
+<!--
+, para o terreno da criação literária: O que torna uma obra literária única e de posse exclusiva do seu criador?
+(25/08/2017) - Nova plataforma do boleto bancário: o que muda para lojas virtuais?
+, por não estar imbuída de maus conceitos, mas de verdadeiros e retos; o que resulta da sínese, enquanto virtude especial.
+...nificar a mesma coisa num certo contexto lingüístico, mas para a maioria fica a seguinte impressão: o que é "awere"?
+[145] O que resta sugere uma base de 11,5 metros, um quinto da pirâmide principal.
+-->
+	  <antipattern>
+		<token regexp='yes'>[:;\[\]]</token>
+		<token>o</token>
+		<token>que</token>
+		<token postag='V.+' postag_regexp='yes'/>
+		<token/>
+		<token postag='NP.+|NC.+|AQ.+|UNKNOWN|DI.+|Z0.+' postag_regexp='yes'/>
 	  </antipattern>
 
       <pattern>
@@ -42345,7 +42363,7 @@ Bom, o que vale mesmo é a propaganda, do livro no caso!
 		</and>
 		<token negate_pos="yes" postag='_PUNCT' postag_regexp='no'/>
       </pattern>
-      <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+      <message>Esta perífrase pode ser simplificada.</message>
 	  <suggestion><match no='4' postag='VMIP3.+' postag_regexp="yes" postag_replace='VMG0000'/></suggestion>
       <example correction="originando">As regras estão erradas <marker>o que origina</marker> a sua desorganização.</example>
 	  <example>E o que é este algo?</example>
@@ -42401,6 +42419,8 @@ Bom, o que vale mesmo é a propaganda, do livro no caso!
 
 	  <example>Como Jesus disse na hora da sua consumação ”PAI, PERDOA-LHES, ELES NÃO SABEM O QUE FAZEM”.</example>
 	  <example>O bem vale o que custa...</example>
+	  <example>Ela não sente necessidade de provar nada, ela faz aquilo que entende com a sua música, não o que esperam dela.</example>
+	  <example>Você sabe o que significa "UNESCO"?</example>
 
 	  <example>2) O que significam em Economia os seguintes fatores de produção: capital, terra e trabalho?</example>
 	  <example>Beth descreveu o que vira em detalhes.</example>
@@ -42408,6 +42428,12 @@ Bom, o que vale mesmo é a propaganda, do livro no caso!
 
 	  <example>Todo mundo segue uma regra de ouro: o que tem ouro impõe as regras.</example>
 	  <example>Bom, o que vale mesmo é a propaganda, do livro no caso!</example>
+
+	  <example>, para o terreno da criação literária: O que torna uma obra literária única e de posse exclusiva do seu criador?</example>
+	  <example>(25/08/2017) - Nova plataforma do boleto bancário: o que muda para lojas virtuais?</example>
+	  <example>, por não estar imbuída de maus conceitos, mas de verdadeiros e retos; o que resulta da sínese, enquanto virtude especial.</example>
+	  <example>...nificar a mesma coisa num certo contexto lingüístico, mas para a maioria fica a seguinte impressão: o que é "awere"?</example>
+	  <example>[145] O que resta sugere uma base de 11,5 metros, um quinto da pirâmide principal.</example>
     </rule>
 
 
