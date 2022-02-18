@@ -101,7 +101,7 @@ if [ -z "$PROJECTS" ]; then
   exit 0
 else
   PROJECTS=${PROJECTS::-1}
-  DEPLOY_COMMAND=(mvn -s .circleci.settings.xml --projects "$PROJECTS" --also-make -DskipTests deploy)
+  DEPLOY_COMMAND=(mvn -s .circleci.settings.xml --projects "$PROJECTS" -DskipTests deploy)
 fi
 echo "${DEPLOY_COMMAND[@]}"
 "${DEPLOY_COMMAND[@]}"
