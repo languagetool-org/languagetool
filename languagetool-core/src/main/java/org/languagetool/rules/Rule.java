@@ -69,6 +69,7 @@ public abstract class Rule {
   private boolean officeDefaultOn = false;
   private boolean officeDefaultOff = false;
   private int minPrevMatches = 0; // minimum number of previous matches to show the rule
+  private int distanceTokens = -1; // distance (number of tokens) between matches to consider a repetition
 
   public Rule() {
     this(null);
@@ -536,5 +537,13 @@ public abstract class Rule {
   
   public int getMinPrevMatches() {
     return minPrevMatches;
+  }
+  
+  public void setDistanceTokens(int i) {
+    distanceTokens = i;
+  }
+  
+  public int getDistanceTokens() {
+    return distanceTokens;
   }
 }

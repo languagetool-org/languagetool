@@ -98,6 +98,7 @@ public class XMLRuleHandler extends DefaultHandler {
   protected static final String SUGGESTION = "suggestion";
   protected static final String TABNAME = "tab";
   protected static final String MINPREVMATCHES = "min_prev_matches";
+  protected static final String DISTANCETOKENS = "distance_tokens";
 
   protected List<AbstractPatternRule> rules = new ArrayList<>();
   protected Language language;

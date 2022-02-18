@@ -81,6 +81,8 @@ public class PatternRuleHandler extends XMLRuleHandler {
 
   private int minPrevMatches = 0;
   private int ruleGroupMinPrevMatches = 0;
+  private int distanceTokens = 0;
+  private int ruleGroupDistanceTokens = 0;
   
   private String idPrefix;
 
@@ -155,6 +157,16 @@ public class PatternRuleHandler extends XMLRuleHandler {
           minPrevMatches = Integer.parseInt(minPrevMatchesStr);  
         } else {
           minPrevMatches = ruleGroupMinPrevMatches;
+        }
+        String distanceTokensStr = attrs.getValue(DISTANCETOKENS);
+        if (distanceTokensStr != null) {
+          if (inRuleGroup && ruleGroupDistanceTokens > 0) {
+            throw new RuntimeException("Rule group " + ruleGroupId + " has " + DISTANCETOKENS + "=" + ruleGroupDistanceTokens
+                + ", thus rule " + id + " cannot specify " + DISTANCETOKENS);
+          }
+          distanceTokens = Integer.parseInt(distanceTokensStr);  
+        } else {
+          distanceTokens = ruleGroupDistanceTokens;
         }
         String premiumRule = attrs.getValue(PREMIUM);
         //check if this rule is premium
@@ -334,6 +346,10 @@ public class PatternRuleHandler extends XMLRuleHandler {
         if (minPrevMatchesStr2 != null) {
           ruleGroupMinPrevMatches = Integer.parseInt(minPrevMatchesStr2);  
         }
+        String distanceTokensStr2 = attrs.getValue(DISTANCETOKENS);
+        if (distanceTokensStr2 != null) {
+          ruleGroupDistanceTokens = Integer.parseInt(distanceTokensStr2);  
+        }
         break;
       case MATCH:
         setMatchElement(attrs, inSuggestion && (isSuggestionSuppressMisspelled || isRuleSuppressMisspelled));
@@ -428,6 +444,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         filterClassName = null;
         filterArgs = null;
         minPrevMatches = 0;
+        distanceTokens = 0;
         ruleTags.clear();
         break;
       case EXCEPTION:
@@ -557,6 +574,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         defaultOff = false;
         defaultTempOff = false;
         ruleGroupMinPrevMatches = 0;
+        ruleGroupDistanceTokens = 0;
         ruleGroupTags.clear();
         break;
       case MARKER:
@@ -637,6 +655,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         rule.setSourceFile(sourceFile);
         rule.setPremium(isPremiumRule);
         rule.setMinPrevMatches(minPrevMatches);
+        rule.setDistanceTokens(distanceTokens);
       } else if (regex.length() > 0) {
         int flags = regexCaseSensitive ? 0 : Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE;
         String regexStr = regex.toString();

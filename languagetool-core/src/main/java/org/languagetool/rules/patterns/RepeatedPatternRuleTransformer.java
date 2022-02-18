@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 
 public class RepeatedPatternRuleTransformer implements PatternRuleTransformer {
   
-  protected int maxDistanceTokens = 60; // number of tokens 
+  protected int defaultMaxDistanceTokens = 60; // number of tokens 
   protected final Language transformerLanguage;
 
   public RepeatedPatternRuleTransformer(Language lang) {
@@ -95,6 +95,10 @@ public class RepeatedPatternRuleTransformer implements PatternRuleTransformer {
           int fromPos = m.getFromPos() + offsetChars;
           int toPos = m.getToPos() + offsetChars;
           m.setOffsetPosition(fromPos, toPos);
+          int maxDistanceTokens = m.getRule().getDistanceTokens();
+          if (maxDistanceTokens < 1) {
+            maxDistanceTokens = defaultMaxDistanceTokens;
+          }
           if (fromToken - prevFromToken <= maxDistanceTokens && prevMatches >= m.getRule().getMinPrevMatches()) {
             matches.add(m);
           }
