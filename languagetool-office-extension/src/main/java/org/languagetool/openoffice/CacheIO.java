@@ -82,17 +82,17 @@ public class CacheIO implements Serializable {
     try {
       XTextDocument curDoc = UnoRuntime.queryInterface(XTextDocument.class, xComponent);
       if (curDoc == null) {
-        MessageHandler.printToLogFile("XTextDocument not found!");
+        MessageHandler.printToLogFile("CacheIO: getDocumentPath: XTextDocument not found!");
         return null;
       }
       XController xController = curDoc.getCurrentController();
       if (xController == null) {
-        MessageHandler.printToLogFile("XController not found!");
+        MessageHandler.printToLogFile("CacheIO: getDocumentPath: XController not found!");
         return null;
       }
       XModel xModel = xController.getModel();
       if (xModel == null) {
-        MessageHandler.printToLogFile("XModel not found!");
+        MessageHandler.printToLogFile("CacheIO: getDocumentPath: XModel not found!");
         return null;
       }
       String url = xModel.getURL();
@@ -103,7 +103,7 @@ public class CacheIO implements Serializable {
         return null;
       }
       if (DEBUG_MODE) {
-        MessageHandler.printToLogFile("file URL: " + url);
+        MessageHandler.printToLogFile("CacheIO: getDocumentPath: file URL: " + url);
       }
       URI uri = new URI(url);
       return uri.getPath();
@@ -120,17 +120,17 @@ public class CacheIO implements Serializable {
    */
   private String getCachePath(boolean create) {
     if (documentPath == null) {
-      MessageHandler.printToLogFile("getCachePath: documentPath == null!");
+      MessageHandler.printToLogFile("CacheIO: getCachePath: documentPath == null!");
       return null;
     }
     File cacheDir = OfficeTools.getCacheDir();
     if (DEBUG_MODE) {
-      MessageHandler.printToLogFile("cacheDir: " + cacheDir.getAbsolutePath());
+      MessageHandler.printToLogFile("CacheIO: getCachePath: cacheDir: " + cacheDir.getAbsolutePath());
     }
     CacheFile cacheFile = new CacheFile(cacheDir);
     String cacheFileName = cacheFile.getCacheFileName(documentPath, create);
     if (cacheFileName == null) {
-      MessageHandler.printToLogFile("getCachePath: cacheFileName == null!");
+      MessageHandler.printToLogFile("CacheIO: getCachePath: cacheFileName == null!");
       return null;
     }
     File cacheFilePath = new File(cacheDir, cacheFileName);
@@ -138,7 +138,7 @@ public class CacheIO implements Serializable {
       cacheFile.cleanUp(cacheFileName);
     }
     if (DEBUG_MODE) {
-      MessageHandler.printToLogFile("cacheFilePath: " + cacheFilePath.getAbsolutePath());
+      MessageHandler.printToLogFile("CacheIO: getCachePath: cacheFilePath: " + cacheFilePath.getAbsolutePath());
     }
     return cacheFilePath.getAbsolutePath();
   }
@@ -196,7 +196,7 @@ public class CacheIO implements Serializable {
           }
         }
       } catch (Throwable t) {
-        MessageHandler.printToLogFile(t.getMessage());
+        MessageHandler.printToLogFile("CacheIO: saveCaches: " + t.getMessage());
         if (DEBUG_MODE) {
           MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
         }
@@ -326,6 +326,7 @@ public class CacheIO implements Serializable {
    * print debug information of caches to log file
    */
   private void printCacheInfo() {
+    MessageHandler.printToLogFile("CacheIO: saveCaches:");
     MessageHandler.printToLogFile("Document Cache: Number of paragraphs: " + allCaches.docCache.size());
     MessageHandler.printToLogFile("Paragraph Cache(0): Number of paragraphs: " + allCaches.paragraphsCache.get(0).getNumberOfParas() 
         + ", Number of matches: " + allCaches.paragraphsCache.get(0).getNumberOfMatches());
@@ -434,7 +435,7 @@ public class CacheIO implements Serializable {
         }
         cacheMap = new CacheMap();
         if (DEBUG_MODE) {
-          MessageHandler.printToLogFile("create cacheMap file");
+          MessageHandler.printToLogFile("CacheIO: CacheFile: create cacheMap file");
         }
         write(cacheMap);
       }
@@ -449,7 +450,7 @@ public class CacheIO implements Serializable {
         ObjectInputStream in = new ObjectInputStream(fileIn);
         cacheMap = (CacheMap) in.readObject();
         if (DEBUG_MODE) {
-          MessageHandler.printToLogFile("read cacheMap file: size=" + cacheMap.size());
+          MessageHandler.printToLogFile("CacheIO: CacheFile: read cacheMap file: size=" + cacheMap.size());
         }
         in.close();
         fileIn.close();
@@ -468,7 +469,7 @@ public class CacheIO implements Serializable {
         FileOutputStream fileOut = new FileOutputStream(cacheMapFile);
         ObjectOutputStream out = new ObjectOutputStream(fileOut);
         if (DEBUG_MODE) {
-          MessageHandler.printToLogFile("write cacheMap file: size=" + cacheMap.size());
+          MessageHandler.printToLogFile("CacheIO: CacheFile: write cacheMap file: size=" + cacheMap.size());
         }
         out.writeObject(cacheMap);
         out.close();
@@ -568,7 +569,7 @@ public class CacheIO implements Serializable {
        */
       public String getOrCreateCacheFile(String docPath, boolean create) {
         if (DEBUG_MODE) {
-          MessageHandler.printToLogFile("getOrCreateCacheFile: docPath=" + docPath);
+          MessageHandler.printToLogFile("CacheIO: getOrCreateCacheFile: docPath=" + docPath);
           for (String file : cacheNames.keySet()) {
             MessageHandler.printToLogFile("cacheNames: docPath=" + file + ", cache=" + cacheNames.get(file));
           }
@@ -624,23 +625,23 @@ public class CacheIO implements Serializable {
             String cacheFileName = cacheMap.get(doc);
             File cacheFile = new File(cacheDir, cacheFileName);
             if (DEBUG_MODE) {
-              MessageHandler.printToLogFile("CacheMap: docPath=" + doc + ", docFile exist: " + (docFile == null ? "null" : docFile.exists()) + 
+              MessageHandler.printToLogFile("CacheIO: CacheCleanUp: CacheMap: docPath=" + doc + ", docFile exist: " + (docFile == null ? "null" : docFile.exists()) + 
                   ", cacheFile exist: " + (cacheFile == null ? "null" : cacheFile.exists()));
             }
             if (docFile == null || !docFile.exists() || cacheFile == null || !cacheFile.exists() 
                 || (systemTime - cacheFile.lastModified() > MAX_CACHE_TIME && !cacheFileName.equals(currentFile))) {
               cacheMap.remove(doc);
               mapChanged = true;
-              MessageHandler.printToLogFile("Remove Path from CacheMap: " + doc);
+              MessageHandler.printToLogFile("CacheIO: CacheCleanUp: Remove Path from CacheMap: " + doc);
               if (cacheFile != null && cacheFile.exists()) {
                 cacheFile.delete();
-                MessageHandler.printToLogFile("Delete cache file: " + cacheFile.getAbsolutePath());
+                MessageHandler.printToLogFile("CacheIO: CacheCleanUp: Delete cache file: " + cacheFile.getAbsolutePath());
               }
             }
           }
           if (mapChanged) {
             if (DEBUG_MODE) {
-              MessageHandler.printToLogFile("CacheCleanUp: Write CacheMap");
+              MessageHandler.printToLogFile("CacheIO: CacheCleanUp: Write CacheMap");
             }
             write(cacheMap);
           }

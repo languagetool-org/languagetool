@@ -108,25 +108,6 @@ class MessageHandler {
   }
 
   /**
-   * Get the path to log-file
-   *//*
-  private static String getLogPath() {
-    String xdgDataHome = System.getenv().get("XDG_DATA_HOME");
-    String logHome = xdgDataHome != null ? xdgDataHome + "/LanguageTool" : homeDir;
-    String path = logHome + "/" + logFileName;
-    File parentDir = new File(path).getParentFile();
-    if (parentDir != null && !testMode) {
-      if (!parentDir.exists()) {
-        boolean success = parentDir.mkdirs();
-        if (!success) {
-          showMessage("Can't create directory: " + parentDir);
-        }
-      }
-    }
-    return path;
-  }
-  */
-  /**
    * Will throw exception instead of showing errors as dialogs - use only for test cases.
    */
   static void setTestMode(boolean mode) {

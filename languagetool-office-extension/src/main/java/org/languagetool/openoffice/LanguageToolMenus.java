@@ -122,7 +122,7 @@ public class LanguageToolMenus {
       XMenuBar menubar = null;
       menubar = OfficeTools.getMenuBar(xContext);
       if (menubar == null) {
-        MessageHandler.printToLogFile("Menubar is null");
+        MessageHandler.printToLogFile("LanguageToolMenus: LTHeadMenu: Menubar is null");
         return;
       }
       for (short i = 0; i < menubar.getItemCount(); i++) {
@@ -134,7 +134,7 @@ public class LanguageToolMenus {
         }
       }
       if (toolsMenu == null) {
-        MessageHandler.printToLogFile("Tools Menu is null");
+        MessageHandler.printToLogFile("LanguageToolMenus: LTHeadMenu: Tools Menu is null");
         return;
       }
       for (short i = 0; i < toolsMenu.getItemCount(); i++) {
@@ -146,7 +146,7 @@ public class LanguageToolMenus {
         }
       }
       if (ltMenu == null) {
-        MessageHandler.printToLogFile("LT Menu is null");
+        MessageHandler.printToLogFile("LanguageToolMenus: LTHeadMenu: LT Menu is null");
         return;
       }
       
@@ -159,12 +159,12 @@ public class LanguageToolMenus {
         }
       }
       if (switchOffId == 0) {
-        MessageHandler.printToLogFile("switchOffId not found");
+        MessageHandler.printToLogFile("LanguageToolMenus: LTHeadMenu: switchOffId not found");
         return;
       }
       
       if (MESSAGES.getString("loMenuSwitchOff").equals(ltMenu.getItemText(switchOffId))) {
-        MessageHandler.printToLogFile("LT menu already installed");
+        MessageHandler.printToLogFile("LanguageToolMenus: LTHeadMenu: LT menu already installed");
         return;
       } else {
         ltMenu.removeItem(switchOffPos, (short) 1);
@@ -172,18 +172,9 @@ public class LanguageToolMenus {
       }
       toolsMenu.addMenuListener(this);
       if (debugMode) {
-        MessageHandler.printToLogFile("Menu listener set");
+        MessageHandler.printToLogFile("LanguageToolMenus: LTHeadMenu: Menu listener set");
       }
       
-    }
-    
-    /**
-     * remove the listeners set by LT
-     * currently not used
-     */
-    public void removeListener() {
-//      xProfileMenu.removeMenuListener(this);
-//      toolsMenu.removeMenuListener(this);
     }
     
     /**
@@ -213,7 +204,7 @@ public class LanguageToolMenus {
       ltMenu.insertItem(profilesId, MESSAGES.getString("loMenuChangeProfiles"), MenuItemStyle.AUTOCHECK, profilesPos);
       xProfileMenu = OfficeTools.getPopupMenu(xContext);
       if (xProfileMenu == null) {
-        MessageHandler.printToLogFile("Profile menu == null");
+        MessageHandler.printToLogFile("LanguageToolMenus: setProfileMenu: Profile menu == null");
         return;
       }
       
@@ -292,7 +283,7 @@ public class LanguageToolMenus {
           ltMenu.insertItem(id, MESSAGES.getString("loContextMenuActivateRule"), MenuItemStyle.AUTOCHECK, pos);
           xActivateRuleMenu = OfficeTools.getPopupMenu(xContext);
           if (xActivateRuleMenu == null) {
-            MessageHandler.printToLogFile("activate rule menu == null");
+            MessageHandler.printToLogFile("LanguageToolMenus: setActivateRuleMenu: activate rule menu == null");
             return;
           }
           xActivateRuleMenu.addMenuListener(this);
@@ -333,7 +324,7 @@ public class LanguageToolMenus {
     @Override
     public void itemSelected(MenuEvent event) {
       if (debugMode) {
-        MessageHandler.printToLogFile("event id: " + ((int)event.MenuId));
+        MessageHandler.printToLogFile("LanguageToolMenus: setActivateRuleMenu: event id: " + ((int)event.MenuId));
       }
       if (event.MenuId == switchOffId + SUBMENU_ID_DIFF) {
         runProfileAction(null);
@@ -345,7 +336,7 @@ public class LanguageToolMenus {
         for (String ruleId : deactivatedRulesMap.keySet()) {
           if(event.MenuId == j) {
             if (debugMode) {
-              MessageHandler.printToLogFile("activate rule: " + ruleId);
+              MessageHandler.printToLogFile("LanguageToolMenus: setActivateRuleMenu: activate rule: " + ruleId);
             }
             document.getMultiDocumentsHandler().activateRule(ruleId);
             return;
@@ -378,25 +369,25 @@ public class LanguageToolMenus {
       try {
         XTextDocument xTextDocument = OfficeTools.getCurrentDocument(xContext);
         if (xTextDocument == null) {
-          MessageHandler.printToLogFile("ContextMenuInterceptor: xTextDocument == null");
+          MessageHandler.printToLogFile("LanguageToolMenus: ContextMenuInterceptor: xTextDocument == null");
           return;
         }
         xTextDocument.getCurrentController();
         XController xController = xTextDocument.getCurrentController();
         if (xController == null) {
-          MessageHandler.printToLogFile("ContextMenuInterceptor: xController == null");
+          MessageHandler.printToLogFile("LanguageToolMenus: ContextMenuInterceptor: xController == null");
           return;
         }
         XContextMenuInterception xContextMenuInterception = UnoRuntime.queryInterface(XContextMenuInterception.class, xController);
         if (xContextMenuInterception == null) {
-          MessageHandler.printToLogFile("ContextMenuInterceptor: xContextMenuInterception == null");
+          MessageHandler.printToLogFile("LanguageToolMenus: ContextMenuInterceptor: xContextMenuInterception == null");
           return;
         }
         ContextMenuInterceptor aContextMenuInterceptor = new ContextMenuInterceptor();
         XContextMenuInterceptor xContextMenuInterceptor = 
             UnoRuntime.queryInterface(XContextMenuInterceptor.class, aContextMenuInterceptor);
         if (xContextMenuInterceptor == null) {
-          MessageHandler.printToLogFile("ContextMenuInterceptor: xContextMenuInterceptor == null");
+          MessageHandler.printToLogFile("LanguageToolMenus: ContextMenuInterceptor: xContextMenuInterceptor == null");
           return;
         }
         xContextMenuInterception.registerContextMenuInterceptor(xContextMenuInterceptor);
@@ -474,7 +465,6 @@ public class LanguageToolMenus {
                 XPropertySet xNewMenuEntry3 = UnoRuntime.queryInterface(XPropertySet.class,
                     xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
                 xNewMenuEntry3.setPropertyValue("Text", MESSAGES.getString("loContextMenuActivateRule"));
-//                xNewMenuEntry3.setPropertyValue("CommandURL", new String( "slot:5410" ));
                 xNewMenuEntry3.setPropertyValue( "SubContainer", (Object)xSubMenuContainer );
                 xContextMenu.insertByIndex(i + 3, xNewMenuEntry3);
                 nId++;
@@ -529,7 +519,7 @@ public class LanguageToolMenus {
         MessageHandler.printException(t);
       }
       
-      MessageHandler.printToLogFile("no change in Menu");
+      MessageHandler.printToLogFile("LanguageToolMenus: notifyContextMenuExecute: no change in Menu");
       return ContextMenuInterceptorAction.IGNORED;
     }
     
@@ -539,13 +529,13 @@ public class LanguageToolMenus {
     private void printProperties(XPropertySet props) throws UnknownPropertyException, WrappedTargetException {
       Property[] propInfo = props.getPropertySetInfo().getProperties();
       for (Property property : propInfo) {
-        MessageHandler.printToLogFile("Property: Name: " + property.Name + ", Type: " + property.Type);
+        MessageHandler.printToLogFile("LanguageToolMenus: Property: Name: " + property.Name + ", Type: " + property.Type);
       }
       if (props.getPropertySetInfo().hasPropertyByName("Text")) {
-        MessageHandler.printToLogFile("Property: Name: " + props.getPropertyValue("Text"));
+        MessageHandler.printToLogFile("LanguageToolMenus: Property: Name: " + props.getPropertyValue("Text"));
       }
       if (props.getPropertySetInfo().hasPropertyByName("CommandURL")) {
-        MessageHandler.printToLogFile("Property: CommandURL: " + props.getPropertyValue("CommandURL"));
+        MessageHandler.printToLogFile("LanguageToolMenus: Property: CommandURL: " + props.getPropertyValue("CommandURL"));
       }
     }
 

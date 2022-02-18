@@ -125,7 +125,7 @@ public class FlatParagraphTools {
     try {
       if (xFlatParaIter == null) {
         if (debugMode) {
-          MessageHandler.printToLogFile("getCurrentFlatParagraph: FlatParagraphIterator == null");
+          MessageHandler.printToLogFile("FlatParagraphTools: getCurrentFlatParagraph: FlatParagraphIterator == null");
         }
         return null;
       }
@@ -167,7 +167,7 @@ public class FlatParagraphTools {
       XFlatParagraph xFlatPara = getLastFlatParagraph();
       if (xFlatPara == null) {
         if (debugMode) {
-          MessageHandler.printToLogFile("getFlatParagraphAt: FlatParagraph == null");
+          MessageHandler.printToLogFile("FlatParagraphTools: getFlatParagraphAt: FlatParagraph == null");
         }
         return null;
       }
@@ -182,7 +182,7 @@ public class FlatParagraphTools {
         num++;
       }
       if (xFlatPara == null) {
-        MessageHandler.printToLogFile("getFlatParagraphAt: FlatParagraph == null; n = " + num + "; nPara = " + nPara);
+        MessageHandler.printToLogFile("FlatParagraphTools: getFlatParagraphAt: FlatParagraph == null; n = " + num + "; nPara = " + nPara);
         return null;
       }
       return xFlatPara;
@@ -200,7 +200,7 @@ public class FlatParagraphTools {
     XFlatParagraph xFlatPara = getCurrentFlatParagraph();
     if (xFlatPara == null) {
       if (debugMode) {
-        MessageHandler.printToLogFile("isCurrentFlatPara: FlatParagraph == null");
+        MessageHandler.printToLogFile("FlatParagraphTools: getCurrentParaText: FlatParagraph == null");
       }
       return null;
     }
@@ -216,7 +216,7 @@ public class FlatParagraphTools {
       XFlatParagraph xFlatPara = getCurrentFlatParagraph();
       if (xFlatPara == null) {
         if (debugMode) {
-          MessageHandler.printToLogFile("getCurNumFlatParagraph: FlatParagraph == null");
+          MessageHandler.printToLogFile("FlatParagraphTools: getCurNumFlatParagraph: FlatParagraph == null");
         }
         return -1;
       }
@@ -243,7 +243,7 @@ public class FlatParagraphTools {
       XFlatParagraph xFlatPara = getLastFlatParagraph();
       if (xFlatPara == null) {
         if (debugMode) {
-          MessageHandler.printToLogFile("getAllFlatParagraphs: FlatParagraph == null");
+          MessageHandler.printToLogFile("FlatParagraphTools: getAllFlatParagraphs: FlatParagraph == null");
         }
         return null;
       }
@@ -298,6 +298,7 @@ public class FlatParagraphTools {
    * Get language Portions of a paragraph
    * @throws IllegalArgumentException 
    */
+  @SuppressWarnings("unused")
   private static List<Integer> getLanguagePortions(XFlatParagraph flatPara, int len) throws IllegalArgumentException {
     List<Integer> langPortions = new ArrayList<Integer>();
     Locale lastLocale = flatPara.getLanguageOfText(0, 1);
@@ -385,59 +386,6 @@ public class FlatParagraphTools {
   }
   
   /**
-   * Try to get the main language of paragraph 
-   * @throws IllegalArgumentException 
-   *//*
-  public static Locale getPrimaryParagraphLanguage(XFlatParagraph flatPara, int len, Locale docLocale, Locale lastLocale) throws IllegalArgumentException {
-    if (docLocale != null) {
-      return docLocale;
-    }
-    if (debugMode) {
-      MessageHandler.printToLogFile("len = " + len + "; lastLocale: " + (lastLocale == null ? "null" : lastLocale.Language));
-      String textPortions = "";
-      int[] portions = flatPara.getLanguagePortions();
-      for (int i : portions) {
-        textPortions += (i + ", ");
-      }
-      MessageHandler.printToLogFile("text portions(" + portions.length + "): " + textPortions);
-      MessageHandler.printToLogFile("'" + flatPara.getText() +"'");
-    }
-    if (len == 0 && lastLocale != null) {
-      return lastLocale;
-    }
-    if (len < 6) {
-      Locale locale = getParagraphLanguage(flatPara, 0, len);
-      if (debugMode) {
-        MessageHandler.printToLogFile("len = " + len + "; locale: " + locale.Language);
-      }
-      return locale;
-    }
-    Locale locale1 = getParagraphLanguage(flatPara, 0, len/3);
-    Locale locale2 = getParagraphLanguage(flatPara, len/3, len/3);
-    if (OfficeTools.isEqualLocale(locale1, locale2)) {
-      if (debugMode) {
-        MessageHandler.printToLogFile("FlatParagraphTools: getPrimaryParagraphLanguage: local1: from = " + 0 + "; locale: " + OfficeTools.localeToString(locale1));
-        MessageHandler.printToLogFile("FlatParagraphTools: getPrimaryParagraphLanguage: local2: from = " + len/3 + "; locale: " + OfficeTools.localeToString(locale2));
-      }
-      return locale1;
-    }
-    Locale locale3 = getParagraphLanguage(flatPara, 2*len/3, len/3);
-    if (OfficeTools.isEqualLocale(locale2, locale3)) {
-      if (debugMode) {
-        MessageHandler.printToLogFile("FlatParagraphTools: getPrimaryParagraphLanguage: local2: from = " +  len/3 + "; locale: " + OfficeTools.localeToString(locale2));
-        MessageHandler.printToLogFile("FlatParagraphTools: getPrimaryParagraphLanguage: local3: from = " + 2*len/3 + "; locale: " + OfficeTools.localeToString(locale3));
-      }
-      return new Locale(locale2.Language, locale2.Country, OfficeTools.MULTILINGUAL_LABEL + locale2.Variant);
-    }
-    if (debugMode) {
-      MessageHandler.printToLogFile("FlatParagraphTools: getPrimaryParagraphLanguage: local1: from = " + 0 + "; locale: " + OfficeTools.localeToString(locale1));
-      MessageHandler.printToLogFile("FlatParagraphTools: getPrimaryParagraphLanguage: local2: from = " +  len/3 + "; locale: " + OfficeTools.localeToString(locale2));
-      MessageHandler.printToLogFile("FlatParagraphTools: getPrimaryParagraphLanguage: local3: from = " + 2*len/3 + "; locale: " + OfficeTools.localeToString(locale3));
-    }
-    return new Locale(locale1.Language, locale1.Country, OfficeTools.MULTILINGUAL_LABEL + locale1.Variant);
-  }
-*/
-  /**
    * Returns Number of all FlatParagraphs of Document from current FlatParagraph
    * Returns negative value if it fails
    */
@@ -446,7 +394,7 @@ public class FlatParagraphTools {
       XFlatParagraph xFlatPara = getLastFlatParagraph();
       if (xFlatPara == null) {
         if (debugMode) {
-          MessageHandler.printToLogFile("getNumberOfAllFlatPara: FlatParagraph == null");
+          MessageHandler.printToLogFile("FlatParagraphTools: getNumberOfAllFlatPara: FlatParagraph == null");
         }
         return -1;
       }
@@ -475,13 +423,13 @@ public class FlatParagraphTools {
   private int[] getPropertyValues(String propName, XFlatParagraph xFlatPara) {
     if (xFlatPara == null) {
       if (debugMode) {
-        MessageHandler.printToLogFile("getPropertyValues: FlatParagraph == null");
+        MessageHandler.printToLogFile("FlatParagraphTools: getPropertyValues: FlatParagraph == null");
       }
       return  new int[]{};
     }
     XPropertySet paraProps = UnoRuntime.queryInterface(XPropertySet.class, xFlatPara);
     if (paraProps == null) {
-      MessageHandler.printToLogFile("XPropertySet == null");
+      MessageHandler.printToLogFile("FlatParagraphTools: getPropertyValues: XPropertySet == null");
       return  new int[]{};
     }
     Object propertyValue;
@@ -490,7 +438,7 @@ public class FlatParagraphTools {
       if (propertyValue instanceof int[]) {
         return (int[]) propertyValue;
       } else {
-        MessageHandler.printToLogFile("Not of expected type int[]: " + propertyValue + ": " + propertyValue);
+        MessageHandler.printToLogFile("FlatParagraphTools: getPropertyValues: Not of expected type int[]: " + propertyValue + ": " + propertyValue);
       }
     } catch (Throwable t) {
       MessageHandler.printException(t);
@@ -503,7 +451,7 @@ public class FlatParagraphTools {
    */
   private void printPropertyValueInfo(XFlatParagraph xFlatPara) {
     if (xFlatPara == null) {
-      MessageHandler.printToLogFile("printPropertyValues: FlatParagraph == null");
+      MessageHandler.printToLogFile("FlatParagraphTools: printPropertyValues: FlatParagraph == null");
       return;
     }
     XPropertySet paraProps = UnoRuntime.queryInterface(XPropertySet.class, xFlatPara);
@@ -511,7 +459,7 @@ public class FlatParagraphTools {
       MessageHandler.printToLogFile("XPropertySet == null");
       return;
     }
-    MessageHandler.printToLogFile("Property Value Info:");
+    MessageHandler.printToLogFile("FlatParagraphTools: Property Value Info:");
     try {
       XPropertySetInfo propertySetInfo = paraProps.getPropertySetInfo();
       
@@ -532,13 +480,13 @@ public class FlatParagraphTools {
       XFlatParagraph xFlatPara = getLastFlatParagraph();
       if (xFlatPara == null) {
         if (debugMode) {
-          MessageHandler.printToLogFile("setFlatParasAsChecked: FlatParagraph == null");
+          MessageHandler.printToLogFile("FlatParagraphTools: setFlatParasAsChecked: FlatParagraph == null");
         }
         return;
       }
       if (isChecked == null) {
         if (debugMode) {
-          MessageHandler.printToLogFile("setFlatParasAsChecked: List isChecked == null");
+          MessageHandler.printToLogFile("FlatParagraphTools: setFlatParasAsChecked: List isChecked == null");
         }
         isChecked  = new ArrayList<>();
       }
@@ -552,7 +500,7 @@ public class FlatParagraphTools {
       int num = 0;
       while (tmpFlatPara != null && num < from) {
         if (debugMode && num >= isChecked.size()) {
-          MessageHandler.printToLogFile("!?! List isChecked == null");
+          MessageHandler.printToLogFile("FlatParagraphTools: setFlatParasAsChecked: List isChecked == null");
         }
         if (num < isChecked.size() && isChecked.get(num)) {
           tmpFlatPara.setChecked(TextMarkupType.PROOFREADING, true);
@@ -567,7 +515,7 @@ public class FlatParagraphTools {
       }
       while (tmpFlatPara != null) {
         if (debugMode && num >= isChecked.size()) {
-          MessageHandler.printToLogFile("!?! List isChecked == null");
+          MessageHandler.printToLogFile("FlatParagraphTools: setFlatParasAsChecked: List isChecked == null");
         }
         if (num < isChecked.size() && isChecked.get(num)) {
           tmpFlatPara.setChecked(TextMarkupType.PROOFREADING, true);
@@ -588,7 +536,7 @@ public class FlatParagraphTools {
       XFlatParagraph xFlatPara = getLastFlatParagraph();
       if (xFlatPara == null) {
         if (debugMode) {
-          MessageHandler.printToLogFile("setFlatParasAsChecked: FlatParagraph == null");
+          MessageHandler.printToLogFile("FlatParagraphTools: setFlatParasAsChecked: FlatParagraph == null");
         }
         return;
       }
@@ -616,7 +564,7 @@ public class FlatParagraphTools {
       XFlatParagraph xFlatPara = getLastFlatParagraph();
       if (xFlatPara == null) {
         if (debugMode) {
-          MessageHandler.printToLogFile("isChecked: FlatParagraph == null");
+          MessageHandler.printToLogFile("FlatParagraphTools: isChecked: FlatParagraph == null");
         }
         return null;
       }
@@ -653,7 +601,7 @@ public class FlatParagraphTools {
       XFlatParagraph xFlatPara = getLastFlatParagraph();
       if (xFlatPara == null) {
         if (debugMode) {
-          MessageHandler.printToLogFile("markParagraphs: FlatParagraph == null");
+          MessageHandler.printToLogFile("FlatParagraphTools: markParagraphs: FlatParagraph == null");
         }
         return;
       }
@@ -675,7 +623,7 @@ public class FlatParagraphTools {
       while (tmpFlatPara != null && nMarked < changedParas.size() && num < docCache.size()) {
         TextParagraph nTextPara = docCache.getNumberOfTextParagraph(num);
         XParagraphCursor cursor;
-        if (!override || nTextPara.type == DocumentCache.CURSOR_TYPE_UNKNOWN) {
+        if (!override || docCursor == null || nTextPara.type == DocumentCache.CURSOR_TYPE_UNKNOWN) {
           cursor = null;
         } else if (nTextPara.type == DocumentCache.CURSOR_TYPE_TEXT) {
           cursor = textCursor;
@@ -685,7 +633,7 @@ public class FlatParagraphTools {
         if (changedParas.containsKey(num)) {
           addMarksToOneParagraph(tmpFlatPara, changedParas.get(num), cursor, override);
           if (debugMode) {
-            MessageHandler.printToLogFile("mark Paragraph: " + num + ", Text: " + tmpFlatPara.getText());
+            MessageHandler.printToLogFile("FlatParagraphTools: mark Paragraph: " + num + ", Text: " + tmpFlatPara.getText());
           }
           nMarked++;
         }
@@ -710,7 +658,7 @@ public class FlatParagraphTools {
     XFlatParagraph xFlatPara = getCurrentFlatParagraph();
     if (xFlatPara == null) {
       if (debugMode) {
-        MessageHandler.printToLogFile("markParagraphs: FlatParagraph == null");
+        MessageHandler.printToLogFile("FlatParagraphTools: markCurrentParagraph: FlatParagraph == null");
       }
       return;
     }
@@ -724,13 +672,13 @@ public class FlatParagraphTools {
   private void addMarksToOneParagraph(XFlatParagraph flatPara, List<SentenceErrors> errorList, XParagraphCursor cursor, boolean override) {
     boolean isChecked = flatPara.isChecked(TextMarkupType.PROOFREADING);
     if (debugMode) {
-      MessageHandler.printToLogFile("xMarkingAccess: overrride = " + override + "; cursor " + (cursor == null ? "==" : "!=") + " null"
+      MessageHandler.printToLogFile("FlatParagraphTools: addMarksToOneParagraph: xMarkingAccess: overrride = " + override + "; cursor " + (cursor == null ? "==" : "!=") + " null"
           + "; isChecked = " + isChecked);
     }
     if (override && cursor != null) {
       XMarkingAccess xMarkingAccess = UnoRuntime.queryInterface(XMarkingAccess.class, cursor);
       if (xMarkingAccess == null) {
-        MessageHandler.printToLogFile("xMarkingAccess == null");
+        MessageHandler.printToLogFile("FlatParagraphTools: addMarksToOneParagraph: xMarkingAccess == null");
       } else {
         xMarkingAccess.invalidateMarkings(TextMarkupType.PROOFREADING);
         XComponent markComponent = UnoRuntime.queryInterface(XComponent.class, xMarkingAccess);
@@ -797,7 +745,7 @@ public class FlatParagraphTools {
       XFlatParagraph xFlatPara = getLastFlatParagraph();
       if (xFlatPara == null) {
         if (debugMode) {
-          MessageHandler.printToLogFile("changeTextOfParagraph: FlatParagraph == null");
+          MessageHandler.printToLogFile("FlatParagraphTools: changeTextOfParagraph: FlatParagraph == null");
         }
         return;
       }
@@ -812,7 +760,7 @@ public class FlatParagraphTools {
         num++;
       }
       if (xFlatPara == null) {
-        MessageHandler.printToLogFile("changeTextOfParagraph: FlatParagraph == null; n = " + num + "; nPara = " + nPara);
+        MessageHandler.printToLogFile("FlatParagraphTools: changeTextOfParagraph: FlatParagraph == null; n = " + num + "; nPara = " + nPara);
         return;
       }
       xFlatPara.changeText(nStart, nLen, newText, new PropertyValue[0]);
@@ -831,7 +779,7 @@ public class FlatParagraphTools {
       XFlatParagraph xFlatPara = getLastFlatParagraph();
       if (xFlatPara == null) {
         if (debugMode) {
-          MessageHandler.printToLogFile("setLanguageOfParagraph: FlatParagraph == null");
+          MessageHandler.printToLogFile("FlatParagraphTools: setLanguageOfParagraph: FlatParagraph == null");
         }
         return;
       }
@@ -846,7 +794,7 @@ public class FlatParagraphTools {
         num++;
       }
       if (xFlatPara == null) {
-        MessageHandler.printToLogFile("setLanguageOfParagraph: FlatParagraph == null; n = " + num + "; nPara = " + nPara);
+        MessageHandler.printToLogFile("FlatParagraphTools: setLanguageOfParagraph: FlatParagraph == null; n = " + num + "; nPara = " + nPara);
         return;
       }
       PropertyValue[] propertyValues = { new PropertyValue("CharLocale", -1, locale, PropertyState.DIRECT_VALUE) };

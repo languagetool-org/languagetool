@@ -52,7 +52,7 @@ public class LtDictionary {
   public boolean setLtDictionary(XComponentContext xContext, Locale locale, LinguisticServices linguServices) {
     XSearchableDictionaryList searchableDictionaryList = OfficeTools.getSearchableDictionaryList(xContext);
     if (searchableDictionaryList == null) {
-      MessageHandler.printToLogFile("searchableDictionaryList == null");
+      MessageHandler.printToLogFile("LtDictionary: setLtDictionary: searchableDictionaryList == null");
       return false;
     }
     if (listIgnoredWords == null) {
@@ -123,7 +123,7 @@ public class LtDictionary {
     if (!dictionaryList.isEmpty()) {
       XSearchableDictionaryList searchableDictionaryList = OfficeTools.getSearchableDictionaryList(xContext);
       if (searchableDictionaryList == null) {
-        MessageHandler.printToLogFile("searchableDictionaryList == null");
+        MessageHandler.printToLogFile("LtDictionary: removeLtDictionaries: searchableDictionaryList == null");
         return false;
       }
       for (String dictionaryName : dictionaryList) {
@@ -160,7 +160,7 @@ public class LtDictionary {
   public void addWordToDictionary(String dictionaryName, String word, XComponentContext xContext) {
     XSearchableDictionaryList searchableDictionaryList = OfficeTools.getSearchableDictionaryList(xContext);
     if (searchableDictionaryList == null) {
-      MessageHandler.printToLogFile("searchableDictionaryList == null");
+      MessageHandler.printToLogFile("LtDictionary: addWordToDictionary: searchableDictionaryList == null");
       return;
     }
     XDictionary dictionary = searchableDictionaryList.getDictionaryByName(dictionaryName);
@@ -173,7 +173,7 @@ public class LtDictionary {
   public void removeWordFromDictionary(String dictionaryName, String word, XComponentContext xContext) {
     XSearchableDictionaryList searchableDictionaryList = OfficeTools.getSearchableDictionaryList(xContext);
     if (searchableDictionaryList == null) {
-      MessageHandler.printToLogFile("searchableDictionaryList == null");
+      MessageHandler.printToLogFile("LtDictionary: removeWordFromDictionary: searchableDictionaryList == null");
       return;
     }
     XDictionary dictionary = searchableDictionaryList.getDictionaryByName(dictionaryName);
@@ -186,7 +186,7 @@ public class LtDictionary {
   public String[] getUserDictionaries(XComponentContext xContext) {
     XSearchableDictionaryList searchableDictionaryList = OfficeTools.getSearchableDictionaryList(xContext);
     if (searchableDictionaryList == null) {
-      MessageHandler.printToLogFile("searchableDictionaryList == null");
+      MessageHandler.printToLogFile("LtDictionary: getUserDictionaries: searchableDictionaryList == null");
       return null;
     }
     XDictionary[] dictionaryList = searchableDictionaryList.getDictionaries();

@@ -122,26 +122,25 @@ class CheckRequestAnalysis {
       docCursor = new DocumentCursorTools(xComponent);
       docCache.refresh(docCursor, flatPara, docLanguage != null ? LinguisticServices.getLocale(docLanguage) : null, xComponent, 1);
       if (debugMode > 0) {
-        MessageHandler.printToLogFile("+++ resetAllParas (docCache is empty): new docCache.size: " + docCache.size()
+        MessageHandler.printToLogFile("CheckRequestAnalysis: actualizeDocumentCache: resetAllParas (docCache is empty): new docCache.size: " + docCache.size()
                 + ", docID: " + docID + OfficeTools.LOG_LINE_BREAK);
       }
       if (docCache.isEmpty()) {
         return;
       }
-//      singleDocument.setDocumentCache(docCache);
     } else {
       int nOldParas = docCache.size();
       changesInNumberOfParagraph(false);
       int numParas = docCache.size();
       if (numParas <= 0) {
-        MessageHandler.printToLogFile("Internal request: docCache error!");
+        MessageHandler.printToLogFile("CheckRequestAnalysis: actualizeDocumentCache: docCache error!");
         return;
       }
       textIsChanged = true;
       if (nOldParas != numParas) {
         if (debugMode > 1) {
-          MessageHandler.printToLogFile("Internal request: NumberesetCheckr of Paragraphs has changed: o:" +
-              nOldParas + ", n:" + numParas);
+          MessageHandler.printToLogFile("CheckRequestAnalysis: actualizeDocumentCache: Number of Paragraphs has changed: old:" +
+              nOldParas + ", new:" + numParas);
         }
         return;
       }
@@ -157,12 +156,11 @@ class CheckRequestAnalysis {
      Locale locale = FlatParagraphTools.getPrimaryParagraphLanguage(xFlatPara, 0, chPara.length(), docLocale, lastLocale, false);
       if (!docCache.isEqual(nPara, chPara, locale)) {
         if (debugMode > 1) {
-          MessageHandler.printToLogFile("Internal request: Paragraph has changed:\no:" 
-              + chPara + "\nn:" + docCache.getFlatParagraph(nPara));
+          MessageHandler.printToLogFile("ICheckRequestAnalysis: actualizeDocumentCache: Paragraph has changed:\nold:" 
+              + chPara + "\nnew:" + docCache.getFlatParagraph(nPara));
         }
         docCache.setFlatParagraph(nPara, chPara, locale);
         removeResultCache(nPara);
-//        singleDocument.setFlatParagraphTools(flatPara);
         singleDocument.removeIgnoredMatch(nPara, isIntern);
       }
     } catch (Throwable t) {
@@ -239,25 +237,25 @@ class CheckRequestAnalysis {
       changeTo = to + numParasToChange + 1;
       singleDocument.removeAndShiftIgnoredMatch(from, to, oldDocCache.size(), docCache.size());
       if (debugMode > 0) {
-        MessageHandler.printToLogFile("!!!Changed paragraphs: from:" + from + ", to: " + to);
+        MessageHandler.printToLogFile("CheckRequestAnalysis: changesInDocumentCache: Changed paragraphs: from:" + from + ", to: " + to);
       }
       for (ResultCache cache : paragraphsCache) {
         cache.removeAndShift(from, to, docCache.size() - oldDocCache.size());
       }
       if (!isDisposed() && useQueue && isTextChange) {
         if (debugMode > 0) {
-          MessageHandler.printToLogFile("Number of Paragraphs has changed: new: " + docCache.size() 
+          MessageHandler.printToLogFile("CheckRequestAnalysis: changesInDocumentCache: Number of Paragraphs has changed: new: " + docCache.size() 
           + ",  old: " + oldDocCache.size()+ ", docID: " + docID);
           if (to - from > 1) {
-            MessageHandler.printToLogFile("Number of Paragraphs has changed: Difference from " + from + " to " + to);
-            MessageHandler.printToLogFile("Old Cache size: " + oldDocCache.size());
-            MessageHandler.printToLogFile("new docCache(from): '" + docCache.getFlatParagraph(from) + "'");
+            MessageHandler.printToLogFile("CheckRequestAnalysis: changesInDocumentCache: Number of Paragraphs has changed: Difference from " + from + " to " + to);
+            MessageHandler.printToLogFile("CheckRequestAnalysis: changesInDocumentCache: Old Cache size: " + oldDocCache.size());
+            MessageHandler.printToLogFile("CheckRequestAnalysis: changesInDocumentCache: new docCache(from): '" + docCache.getFlatParagraph(from) + "'");
             if (from < oldDocCache.size()) {
-              MessageHandler.printToLogFile("old docCache(from): '" + oldDocCache.getFlatParagraph(from) + "'");
+              MessageHandler.printToLogFile("CheckRequestAnalysis: changesInDocumentCache: old docCache(from): '" + oldDocCache.getFlatParagraph(from) + "'");
             }
-            MessageHandler.printToLogFile("new docCache(to): '" + docCache.getFlatParagraph(to) + "'");
+            MessageHandler.printToLogFile("CheckRequestAnalysis: changesInDocumentCache: new docCache(to): '" + docCache.getFlatParagraph(to) + "'");
             if (to < oldDocCache.size()) {
-              MessageHandler.printToLogFile("old docCache(to): '" + oldDocCache.getFlatParagraph(to) + "'");
+              MessageHandler.printToLogFile("CheckRequestAnalysis: changesInDocumentCache: old docCache(to): '" + oldDocCache.getFlatParagraph(to) + "'");
             }
           }
         }
@@ -272,7 +270,7 @@ class CheckRequestAnalysis {
         }
       }
       if (debugMode > 0) {
-        MessageHandler.printToLogFile("Cache size changed: from = " + from + "; to = " + to + "; docID: " + docID);
+        MessageHandler.printToLogFile("CheckRequestAnalysis: changesInDocumentCache: Cache size changed: from = " + from + "; to = " + to + "; docID: " + docID);
       }
     } else if (isDisposed() && useQueue){
       for (int n = 0; n < docCache.size(); n++) {
@@ -286,18 +284,16 @@ class CheckRequestAnalysis {
             }
           }
           if (debugMode > 0) {
-            MessageHandler.printToLogFile("FlatParagraph(" + n + ") has changed; docID: " + docID);
+            MessageHandler.printToLogFile("CheckRequestAnalysis: changesInDocumentCache: FlatParagraph(" + n + ") has changed; docID: " + docID);
           }
         }
       }
     }
-//    if (nFirstPara >= 0) {
-//      singleDocument.setDocumentCache(docCache);
-//    }
     return nFirstPara;
   }
   
-  /** Get new initialized flat paragraph tools
+  /** 
+   * Get new initialized flat paragraph tools
    */
   FlatParagraphTools getFlatParagraphTools() {
     if (flatPara == null) {
@@ -306,25 +302,29 @@ class CheckRequestAnalysis {
     return flatPara;
   }
   
-  /** Get new initialized view cursor tools
+  /** 
+   * Get new initialized view cursor tools
    */
   ViewCursorTools getViewCursorTools() {
     return viewCursor;
   }
   
-  /** Get new initialized document cursor tools
+  /** 
+   * Get new initialized document cursor tools
    */
   DocumentCursorTools getDocumentCursorTools() {
     return docCursor;
   }
 
-  /** Get last number of paragraph from view cursor
+  /** 
+   * Get last number of paragraph from view cursor
    */
   int getLastParaNumFromViewCursor() {
     return numLastVCPara;
   }
   
-  /** Get last number of paragraph from flat paragraph
+  /** 
+   * Get last number of paragraph from flat paragraph
    */
   int getLastParaNumFromFlatParagraph() {
     return numLastFlPara;
@@ -370,7 +370,6 @@ class CheckRequestAnalysis {
     }
     if (docType != DocumentType.WRITER && docCache.isEmpty()) {
       docCache.refresh(docCursor, flatPara, docLanguage != null ? LinguisticServices.getLocale(docLanguage) : null, xComponent, 3);
-//      singleDocument.setDocumentCache(docCache);
     }
 
     if (nPara >= 0) {
@@ -389,17 +388,16 @@ class CheckRequestAnalysis {
       docCursor = new DocumentCursorTools(xComponent);
       docCache.refresh(docCursor, flatPara, docLanguage != null ? LinguisticServices.getLocale(docLanguage) : null, xComponent, 4);
       if (debugMode > 0) {
-        MessageHandler.printToLogFile("+++ resetAllParas (docCache is empty): new docCache.size: " + docCache.size()
+        MessageHandler.printToLogFile("CheckRequestAnalysis: getParaPos: resetAllParas (docCache is empty): new docCache.size: " + docCache.size()
                 + ", docID: " + docID + OfficeTools.LOG_LINE_BREAK);
       }
       if (docCache.isEmpty()) {
         return -1;
       }
-//      singleDocument.setDocumentCache(docCache);
     }
     
     if (debugMode > 1) {
-      MessageHandler.printToLogFile("proofInfo = " + proofInfo);
+      MessageHandler.printToLogFile("CheckRequestAnalysis: getParaPos: proofInfo = " + proofInfo);
     }
     
     if (proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT) {
@@ -422,7 +420,7 @@ class CheckRequestAnalysis {
     // try to get next position from last FlatParagraph position (for performance reasons)
     if (startPos != 0 && proofInfo == OfficeTools.PROOFINFO_MARK_PARAGRAPH) {
       if (debugMode > 0) {
-        MessageHandler.printToLogFile("From FlatParagraph: Number of Paragraph: " + numLastFlPara 
+        MessageHandler.printToLogFile("CheckRequestAnalysis: getParaFromFlatparagraph: Number of Paragraph: " + numLastFlPara 
             + " (proofInfo == " + OfficeTools.PROOFINFO_MARK_PARAGRAPH + ")" + OfficeTools.LOG_LINE_BREAK);
       }
       return numLastFlPara;
@@ -431,7 +429,7 @@ class CheckRequestAnalysis {
     if (nPara >= 0) {
       numLastFlPara = nPara;
       if (debugMode > 0) {
-        MessageHandler.printToLogFile("From last FlatPragraph Position: Number of Paragraph: " + nPara 
+        MessageHandler.printToLogFile("CheckRequestAnalysis: getParaFromFlatparagraph: Number of Paragraph: " + nPara 
             + ", start: " + startPos + OfficeTools.LOG_LINE_BREAK);
       }
       return nPara;
@@ -459,7 +457,7 @@ class CheckRequestAnalysis {
     if (!isDisposed()) {
       String curFlatParaText = flatPara.getCurrentParaText();
       if (debugMode > 0) {
-        MessageHandler.printToLogFile("curFlatParaText: " + curFlatParaText + OfficeTools.LOG_LINE_BREAK
+        MessageHandler.printToLogFile("CheckRequestAnalysis: getParaFromFlatparagraph: curFlatParaText: " + curFlatParaText + OfficeTools.LOG_LINE_BREAK
             + "chPara: " + chPara + OfficeTools.LOG_LINE_BREAK + "getFlatParagraph: " + docCache.getFlatParagraph(nPara) + OfficeTools.LOG_LINE_BREAK);
       }
       if (proofInfo == OfficeTools.PROOFINFO_UNKNOWN) {
@@ -478,7 +476,7 @@ class CheckRequestAnalysis {
           if (n >= 0) {
             numLastFlPara = n;
             if (debugMode > 0) {
-              MessageHandler.printToLogFile("From document cache: Number of Paragraph: " + n 
+              MessageHandler.printToLogFile("CheckRequestAnalysis: getParaFromFlatparagraph: From document cache: Number of Paragraph: " + n 
                   + ", start: " + startPos + OfficeTools.LOG_LINE_BREAK);
             }
             textIsChanged = true;
@@ -555,14 +553,14 @@ class CheckRequestAnalysis {
           String dcText = SingleCheck.removeFootnotes(docCache.getFlatParagraph(nPara), footnotePositions);
           if (!dcText.equals(chPara)) {
             if (debugMode > 0) {
-              MessageHandler.printToLogFile("From View Cursor: Is Table, Footnote, etc): Number of Paragraph: " + nPara);
+              MessageHandler.printToLogFile("CheckRequestAnalysis: getParaFromViewCursorOrDialog: cText != chPara: Number of Paragraph: " + nPara);
             }
             return -1;
           }
           textIsChanged = true;
         }
         if (debugMode > 0) {
-          MessageHandler.printToLogFile("From View Cursor: Number of Paragraph: " + nPara + OfficeTools.LOG_LINE_BREAK);
+          MessageHandler.printToLogFile("CheckRequestAnalysis: getParaFromViewCursorOrDialog: Number of Paragraph: " + nPara + OfficeTools.LOG_LINE_BREAK);
         }
         return nPara;
       }
@@ -575,13 +573,12 @@ class CheckRequestAnalysis {
     if (nPara >= 0) {
       numLastVCPara = nPara;
       if (debugMode > 0) {
-        MessageHandler.printToLogFile("From Dialog: Number of Paragraph: " + nPara + OfficeTools.LOG_LINE_BREAK);
+        MessageHandler.printToLogFile("CheckRequestAnalysis: getParaFromViewCursorOrDialog: From DocCache: Number of Paragraph: " + nPara + OfficeTools.LOG_LINE_BREAK);
       }
-//    isDialogRequest.add(nParas);
     return nPara;
     }
     if (debugMode > 0) {
-      MessageHandler.printToLogFile("From Dialog: Paragraph not found: return -1" + OfficeTools.LOG_LINE_BREAK);
+      MessageHandler.printToLogFile("CheckRequestAnalysis: getParaFromViewCursorOrDialog: Paragraph not found: return -1" + OfficeTools.LOG_LINE_BREAK);
     }
     return -1;
   }
@@ -609,7 +606,7 @@ class CheckRequestAnalysis {
       return nPara;
     }
     if (debugMode > 0) {
-      MessageHandler.printToLogFile("*** resetAllParas: docCache.size: " + docCache.size() + ", nPara: " + nPara
+      MessageHandler.printToLogFile("CheckRequestAnalysis: changesInNumberOfParagraph: resetAllParas: docCache.size: " + docCache.size() + ", nPara: " + nPara
               + ", docID: " + docID + OfficeTools.LOG_LINE_BREAK);
     }
     if (isDisposed()) {
@@ -668,27 +665,26 @@ class CheckRequestAnalysis {
     changeTo = to + numParasToChange + 1;
     singleDocument.removeAndShiftIgnoredMatch(from, to, oldDocCache.size(), docCache.size());
     if (debugMode > 0) {
-      MessageHandler.printToLogFile("!!!Changed paragraphs: from:" + from + ", to: " + to);
+      MessageHandler.printToLogFile("CheckRequestAnalysis: changesInNumberOfParagraph: Changed paragraphs: from:" + from + ", to: " + to);
     }
     if(isDisposed()) {
       for (ResultCache cache : paragraphsCache) {
         cache.removeAndShift(from, to, docCache.size() - oldDocCache.size());
       }
-  //    singleDocument.setDocumentCache(docCache);
       if (useQueue && isTextChange) {
         if (debugMode > 0) {
-          MessageHandler.printToLogFile("Number of Paragraphs has changed: new: " + docCache.size() 
+          MessageHandler.printToLogFile("CheckRequestAnalysis: changesInNumberOfParagraph: Number of Paragraphs has changed: new: " + docCache.size() 
           + ",  old: " + oldDocCache.size()+ ", docID: " + docID);
           if (to - from > 1) {
-            MessageHandler.printToLogFile("Number of Paragraphs has changed: Difference from " + from + " to " + to);
-            MessageHandler.printToLogFile("Old Cache size: " + oldDocCache.size());
-            MessageHandler.printToLogFile("new docCache(from): '" + docCache.getFlatParagraph(from) + "'");
+            MessageHandler.printToLogFile("CheckRequestAnalysis: changesInNumberOfParagraph: Number of Paragraphs has changed: Difference from " + from + " to " + to);
+            MessageHandler.printToLogFile("CheckRequestAnalysis: changesInNumberOfParagraph: Old Cache size: " + oldDocCache.size());
+            MessageHandler.printToLogFile("CheckRequestAnalysis: changesInNumberOfParagraph: new docCache(from): '" + docCache.getFlatParagraph(from) + "'");
             if (from < oldDocCache.size()) {
-              MessageHandler.printToLogFile("old docCache(from): '" + oldDocCache.getFlatParagraph(from) + "'");
+              MessageHandler.printToLogFile("CheckRequestAnalysis: changesInNumberOfParagraph: old docCache(from): '" + oldDocCache.getFlatParagraph(from) + "'");
             }
-            MessageHandler.printToLogFile("new docCache(to): '" + docCache.getFlatParagraph(to) + "'");
+            MessageHandler.printToLogFile("CheckRequestAnalysis: changesInNumberOfParagraph: new docCache(to): '" + docCache.getFlatParagraph(to) + "'");
             if (to < oldDocCache.size()) {
-              MessageHandler.printToLogFile("old docCache(to): '" + oldDocCache.getFlatParagraph(to) + "'");
+              MessageHandler.printToLogFile("CheckRequestAnalysis: changesInNumberOfParagraph: old docCache(to): '" + oldDocCache.getFlatParagraph(to) + "'");
             }
           }
         }
@@ -702,7 +698,7 @@ class CheckRequestAnalysis {
       }
       //  set divNum (difference between doc cursor text and flat paragraphs (is number of footnotes etc.)
       if (debugMode > 0) {
-        MessageHandler.printToLogFile("Number FlatParagraphs: " + nFParas + "; docID: " + docID);
+        MessageHandler.printToLogFile("CheckRequestAnalysis: changesInNumberOfParagraph: Number FlatParagraphs: " + nFParas + "; docID: " + docID);
       }
     }
     if (isDisposed() || nFParas < docCache.size()) {
@@ -729,7 +725,7 @@ class CheckRequestAnalysis {
     }
     if (!docCache.isEqual(nPara, chPara, locale)) {
       if (debugMode > 0) {
-        MessageHandler.printToLogFile("CkeckRequestAnalysis: flat praragraph changed: nPara: " + nPara + "; docID: " + docID
+        MessageHandler.printToLogFile("CheckRequestAnalysis: getPosFromChangedPara: flat praragraph changed: nPara: " + nPara + "; docID: " + docID
                 + "; locale: isMultilingual: " + docCache.isMultilingualFlatParagraph(nPara) 
                 + "; old: " + OfficeTools.localeToString(docCache.getFlatParagraphLocale(nPara))
                 + "; new: " + OfficeTools.localeToString(locale) + OfficeTools.LOG_LINE_BREAK
@@ -753,11 +749,10 @@ class CheckRequestAnalysis {
       textIsChanged = true;
       changeFrom = nPara - numParasToChange;
       changeTo = nPara + numParasToChange + 1;
-//      singleDocument.setFlatParagraphTools(flatPara);
       singleDocument.removeIgnoredMatch(nPara, false);
     }
     if (debugMode > 0) {
-      MessageHandler.printToLogFile("From FlatParagraph: Number of Paragraph: " + nPara + OfficeTools.LOG_LINE_BREAK);
+      MessageHandler.printToLogFile("CheckRequestAnalysis: getPosFromChangedPara: Number of Paragraph: " + nPara + OfficeTools.LOG_LINE_BREAK);
     }
     numLastFlPara = nPara;  //  Note: This is the number of flat paragraph
     return nPara;

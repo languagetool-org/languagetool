@@ -89,34 +89,33 @@ public class LinguisticServices extends LinguServices {
       XMultiComponentFactory xMCF = UnoRuntime.queryInterface(XMultiComponentFactory.class,
           xContext.getServiceManager());
       if (xMCF == null) {
-        printText("XMultiComponentFactory == null");
+        MessageHandler.printToLogFile("LinguisticServices: getLinguSvcMgr: XMultiComponentFactory == null");
         return null;
       }
       // retrieve Office's remote component context as a property
       XPropertySet props = UnoRuntime.queryInterface(XPropertySet.class, xMCF);
       if (props == null) {
-        printText("XPropertySet == null");
+        MessageHandler.printToLogFile("LinguisticServices: getLinguSvcMgr: XPropertySet == null");
         return null;
       }
-      // initObject);
       Object defaultContext = props.getPropertyValue("DefaultContext");
       // get the remote interface XComponentContext
       XComponentContext xComponentContext = UnoRuntime.queryInterface(XComponentContext.class, defaultContext);
       if (xComponentContext == null) {
-        printText("XComponentContext == null");
+        MessageHandler.printToLogFile("LinguisticServices: getLinguSvcMgr: XComponentContext == null");
         return null;
       }
       Object o = xMCF.createInstanceWithContext("com.sun.star.linguistic2.LinguServiceManager", xComponentContext);     
       // create service component using the specified component context
       XLinguServiceManager mxLinguSvcMgr = UnoRuntime.queryInterface(XLinguServiceManager.class, o);
       if (mxLinguSvcMgr == null) {
-        printText("XLinguServiceManager2 == null");
+        MessageHandler.printToLogFile("LinguisticServices: getLinguSvcMgr: XLinguServiceManager2 == null");
         return null;
       }
       return mxLinguSvcMgr;
     } catch (Throwable t) {
       // If anything goes wrong, give the user a stack trace
-      printMessage(t);
+      MessageHandler.printException(t);
     }
     return null;
   }
@@ -131,7 +130,7 @@ public class LinguisticServices extends LinguServices {
       }
     } catch (Throwable t) {
       // If anything goes wrong, give the user a stack trace
-      printMessage(t);
+      MessageHandler.printException(t);
     }
     return null;
   }
@@ -146,7 +145,7 @@ public class LinguisticServices extends LinguServices {
       }
     } catch (Throwable t) {
       // If anything goes wrong, give the user a stack trace
-      printMessage(t);
+      MessageHandler.printException(t);
     }
     return null;
   }
@@ -161,25 +160,11 @@ public class LinguisticServices extends LinguServices {
       }
     } catch (Throwable t) {
       // If anything goes wrong, give the user a stack trace
-      printMessage(t);
+      MessageHandler.printException(t);
     }
     return null;
   }
 
-  /**
-   * Print text to log file
-   */
-  private static void printText(String txt) {
-    MessageHandler.printToLogFile(txt);
-  }
-  
-  /**
-   * Print exception to log file
-   */
-  private static void printMessage(Throwable t) {
-    MessageHandler.printException(t);
-  }
-  
   /**
    * Get a Locale from a LT defined language
    */
@@ -219,11 +204,11 @@ public class LinguisticServices extends LinguServices {
     List<String> synonyms = new ArrayList<>();
     try {
       if (thesaurus == null) {
-        printText("XThesaurus == null");
+        MessageHandler.printToLogFile("LinguisticServices: getSynonyms: XThesaurus == null");
         return synonyms;
       }
       if (locale == null) {
-        printText("Locale == null");
+        MessageHandler.printToLogFile("LinguisticServices: getSynonyms: Locale == null");
         return synonyms;
       }
       PropertyValue[] properties = new PropertyValue[0];
@@ -239,7 +224,7 @@ public class LinguisticServices extends LinguServices {
       return synonyms;
     } catch (Throwable t) {
       // If anything goes wrong, give the user a stack trace
-      printMessage(t);
+      MessageHandler.printException(t);
       return synonyms;
     }
   }
@@ -254,7 +239,7 @@ public class LinguisticServices extends LinguServices {
   
   public boolean isCorrectSpell(String word, Locale locale) {
     if (spellChecker == null) {
-      printText("XSpellChecker == null");
+      MessageHandler.printToLogFile("LinguisticServices: isCorrectSpell: XSpellChecker == null");
       return false;
     }
     PropertyValue[] properties = new PropertyValue[0];
@@ -262,7 +247,7 @@ public class LinguisticServices extends LinguServices {
       return spellChecker.isValid(word, locale, properties);
     } catch (Throwable t) {
       // If anything goes wrong, give the user a stack trace
-      printMessage(t);
+      MessageHandler.printException(t);
       return false;
     }
   }
@@ -276,7 +261,7 @@ public class LinguisticServices extends LinguServices {
   
   public String[] getSpellAlternatives(String word, Locale locale) {
     if (spellChecker == null) {
-      printText("XSpellChecker == null");
+      MessageHandler.printToLogFile("LinguisticServices: getSpellAlternatives: XSpellChecker == null");
       return null;
     }
     PropertyValue[] properties = new PropertyValue[0];
@@ -288,7 +273,7 @@ public class LinguisticServices extends LinguServices {
       return spellAlternatives.getAlternatives();
     } catch (Throwable t) {
       // If anything goes wrong, give the user a stack trace
-      printMessage(t);
+      MessageHandler.printException(t);
       return null;
     }
   }
@@ -304,7 +289,7 @@ public class LinguisticServices extends LinguServices {
   
   public int getNumberOfSyllables(String word, Locale locale) {
     if (hyphenator == null) {
-      printText("XHyphenator == null");
+      MessageHandler.printToLogFile("LinguisticServices: getNumberOfSyllables: XHyphenator == null");
       return 1;
     }
     PropertyValue[] properties = new PropertyValue[0];
@@ -317,7 +302,7 @@ public class LinguisticServices extends LinguServices {
       return numSyllable.length + 1;
     } catch (Throwable t) {
       // If anything goes wrong, give the user a stack trace
-      printMessage(t);
+      MessageHandler.printException(t);
       return 1;
     }
   }
@@ -330,7 +315,7 @@ public class LinguisticServices extends LinguServices {
     if (xContext != null) {
       XLinguServiceManager mxLinguSvcMgr = getLinguSvcMgr(xContext); 
       if (mxLinguSvcMgr == null) {
-        printText("XLinguServiceManager == null");
+        MessageHandler.printToLogFile("LinguisticServices: setLtAsGrammarService: XLinguServiceManager == null");
         return false;
       }
       Locale[] locales = MultiDocumentsHandler.getLocales();
@@ -338,16 +323,16 @@ public class LinguisticServices extends LinguServices {
         if (OfficeTools.isEqualLocale(locale, loc)) {
           String[] serviceNames = mxLinguSvcMgr.getConfiguredServices("com.sun.star.linguistic2.Proofreader", locale);
           if (serviceNames.length == 0) {
-            MessageHandler.printToLogFile("No configured Service for: " + OfficeTools.localeToString(locale));
+            MessageHandler.printToLogFile("LinguisticServices: setLtAsGrammarService: No configured Service for: " + OfficeTools.localeToString(locale));
           } else {
             for (String service : serviceNames) {
-              MessageHandler.printToLogFile("Configured Service: " + service + ", " + OfficeTools.localeToString(locale));
+              MessageHandler.printToLogFile("Configured Linguistic Service: " + service + ", " + OfficeTools.localeToString(locale));
             }
           }
           if (serviceNames.length != 1 || !serviceNames[0].equals(OfficeTools.LT_SERVICE_NAME)) {
             String[] aServiceNames = mxLinguSvcMgr.getAvailableServices("com.sun.star.linguistic2.Proofreader", locale);
             for (String service : aServiceNames) {
-              MessageHandler.printToLogFile("Available Service: " + service + ", " + OfficeTools.localeToString(locale));
+              MessageHandler.printToLogFile("Available Linguistic Service: " + service + ", " + OfficeTools.localeToString(locale));
             }
             String[] configuredServices = new String[1];
             configuredServices[0] = new String(OfficeTools.LT_SERVICE_NAME);
@@ -383,7 +368,7 @@ public class LinguisticServices extends LinguServices {
       return true;
     }
     if (mxLinguSvcMgr == null) {
-      printText("XLinguServiceManager == null");
+      MessageHandler.printToLogFile("LinguisticServices: setLtAsGrammarService: XLinguServiceManager == null");
       return false;
     }
     isSetLt = true;
@@ -393,7 +378,7 @@ public class LinguisticServices extends LinguServices {
       if (serviceNames.length != 1 || !serviceNames[0].equals(OfficeTools.LT_SERVICE_NAME)) {
         String[] aServiceNames = mxLinguSvcMgr.getAvailableServices("com.sun.star.linguistic2.Proofreader", locale);
         for (String service : aServiceNames) {
-          MessageHandler.printToLogFile("Available Service: " + service + ", " + OfficeTools.localeToString(locale));
+          MessageHandler.printToLogFile("Available Linguistic Service: " + service + ", " + OfficeTools.localeToString(locale));
         }
         String[] configuredServices = new String[1];
         configuredServices[0] = new String(OfficeTools.LT_SERVICE_NAME);

@@ -204,25 +204,6 @@ public class ViewCursorTools {
   }
   
   /** 
-   * Returns Paragraph number under ViewCursor 
-   * Returns a negative value if it fails
-   *//*
-  int getViewCursorParagraph() {
-    try {
-      XParagraphCursor xParagraphCursor = getParagraphCursorFromViewCursor();
-      if (xParagraphCursor == null) {
-        return -1;
-      }
-      int pos = 0;
-      while (xParagraphCursor.gotoPreviousParagraph(false)) pos++;
-      return pos;
-    } catch (Throwable t) {
-      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
-      return -5;             // Return negative value as method failed
-    }
-  }
-*/  
-  /** 
    * Returns the text document for the current document
    */
   private XTextDocument getTextDocument() {
@@ -521,7 +502,6 @@ public class ViewCursorTools {
       MessageHandler.printException(t);     // all Exceptions XWordCursorthrown by UnoRuntime.queryInterface are caught
     }
     return null;
-
   }
   
   /** 
@@ -561,7 +541,7 @@ public class ViewCursorTools {
         vCursor.goRight((short)xChar, false);
       }
     } else {
-      MessageHandler.printToLogFile("xParagraphCursor == null");
+      MessageHandler.printToLogFile("ViewCursorTools: setViewCursorToParaIfFits: xParagraphCursor == null");
     }
     return nLastPara;
   }
@@ -618,7 +598,6 @@ public class ViewCursorTools {
       }
       // Get the TextTablesSupplier interface of the document
       XTextTablesSupplier xTableSupplier = UnoRuntime.queryInterface(XTextTablesSupplier.class, curDoc);
-
       // Get an XIndexAccess of TextTables
       return UnoRuntime.queryInterface(XIndexAccess.class, xTableSupplier.getTextTables());
     } catch (Throwable t) {

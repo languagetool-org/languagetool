@@ -222,7 +222,7 @@ public class OfficeDrawTools {
               XText xText = UnoRuntime.queryInterface(XText.class, xShape);
               getAllParagraphsFromText(paragraphs, locales, pageBegins, xText);
             } else {
-              MessageHandler.printToLogFile("xShape " + j + " is null");
+              MessageHandler.printToLogFile("OfficeDrawTools: getAllParagraphs: xShape " + j + " is null");
             }
           }
         }
@@ -302,7 +302,7 @@ public class OfficeDrawTools {
                 return;
               }
             } else {
-              MessageHandler.printToLogFile("xShape " + j + " is null");
+              MessageHandler.printToLogFile("OfficeDrawTools: changeTextOfParagraph: xShape " + j + " is null");
             }
           }
         }
@@ -382,7 +382,7 @@ public class OfficeDrawTools {
                 return;
               }
             } else {
-              MessageHandler.printToLogFile("xShape " + j + " is null");
+              MessageHandler.printToLogFile("OfficeDrawTools: setLanguageOfParagraph: xShape " + j + " is null");
             }
           }
         }
@@ -451,7 +451,7 @@ public class OfficeDrawTools {
                 return;
               }
             } else {
-              MessageHandler.printToLogFile("xShape " + j + " is null");
+              MessageHandler.printToLogFile("OfficeDrawTools: setCurrentPage: xShape " + j + " is null");
             }
           }
         }
@@ -492,7 +492,7 @@ public class OfficeDrawTools {
               XText xText = UnoRuntime.queryInterface(XText.class, xShape);
               nParaCount = findParaInText(nParaCount, -1, xText);
             } else {
-              MessageHandler.printToLogFile("xShape " + j + " is null");
+              MessageHandler.printToLogFile("OfficeDrawTools: getParagraphFromCurrentPage: xShape " + j + " is null");
             }
           }
         }
@@ -530,7 +530,7 @@ public class OfficeDrawTools {
                 return (n == 0 ? false : true);
               }
             } else {
-              MessageHandler.printToLogFile("xShape " + j + " is null");
+              MessageHandler.printToLogFile("OfficeDrawTools: isParagraphInNotesPage: xShape " + j + " is null");
             }
           }
         }
@@ -563,7 +563,7 @@ public class OfficeDrawTools {
               XPropertySet xParaPropSet = UnoRuntime.queryInterface(XPropertySet.class, xTextCursor);
               return ((Locale) xParaPropSet.getPropertyValue("CharLocale"));
             } else {
-              MessageHandler.printToLogFile("xShape " + j + " is null");
+              MessageHandler.printToLogFile("OfficeDrawTools: getDocumentLocale: xShape " + j + " is null");
             }
           }
         }

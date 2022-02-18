@@ -232,8 +232,8 @@ public class DocumentCache implements Serializable {
                 : paragraphs.get(i);
             int j = nText.get(CURSOR_TYPE_TEXT) + 1;
             if (debugMode) {
-              MessageHandler.printToLogFile("Not mapped Paragraph(" + i + "): " + flatPara);
-              MessageHandler.printToLogFile("firstText: " + firstText + "; j = " + j);
+              MessageHandler.printToLogFile("DocumentCache: mapParagraphs: Not mapped Paragraph(" + i + "): " + flatPara);
+              MessageHandler.printToLogFile("DocumentCache: mapParagraphs: firstText: " + firstText + "; j = " + j);
             }
             if (j < textParas.get(CURSOR_TYPE_TEXT).size()) {
               String textPara = hasFootnote ? SingleCheck.removeFootnotes(textParas.get(CURSOR_TYPE_TEXT).get(j), footnotes.get(i))
@@ -267,6 +267,7 @@ public class DocumentCache implements Serializable {
                 "WARNING: DocumentCache: Could not map Paragraph(" + i + "): '" + paragraphs.get(i) + "'");
           }
           if (debugMode) {
+            MessageHandler.printToLogFile("DocumentCache: mapParagraphs:");
             for (int k = 0; k < NUMBER_CURSOR_TYPES; k++) {
               MessageHandler.printToLogFile("Actual Cursor Paragraph (Type " + k + "): "
                   + (nText.get(k) < textParas.get(k).size() ? "'" + textParas.get(k).get(nText.get(k)) + "'"

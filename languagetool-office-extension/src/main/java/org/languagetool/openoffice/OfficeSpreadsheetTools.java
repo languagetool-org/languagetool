@@ -118,12 +118,12 @@ public class OfficeSpreadsheetTools {
    */
   public static ParagraphContainer getAllParagraphs(XComponent xComponent) {
     if (xComponent == null) {
-      MessageHandler.printToLogFile("xComponent == null");
+      MessageHandler.printToLogFile("OfficeSpreadsheetTools: OfficeSpreadsheetTools: xComponent == null");
       return null;
     }
     XSpreadsheetDocument xSpreadsheetDocument = UnoRuntime.queryInterface(XSpreadsheetDocument.class, xComponent);
     if (xSpreadsheetDocument == null) {
-      MessageHandler.printToLogFile("xSpreadsheetDocument == null");
+      MessageHandler.printToLogFile("OfficeSpreadsheetTools: OfficeSpreadsheetTools: xSpreadsheetDocument == null");
       return null;
     }
     XPropertySet xSpreadsheetPropertySet = UnoRuntime.queryInterface(XPropertySet.class, xSpreadsheetDocument);
@@ -131,12 +131,12 @@ public class OfficeSpreadsheetTools {
       Locale locale = (Locale) xSpreadsheetPropertySet.getPropertyValue("CharLocale");
       XSpreadsheets xSheets = xSpreadsheetDocument.getSheets();
       if (xSheets == null) {
-        MessageHandler.printToLogFile("xSheets == null");
+        MessageHandler.printToLogFile("OfficeSpreadsheetTools: OfficeSpreadsheetTools: xSheets == null");
         return null;
       }
       XIndexAccess xSheetsIA = UnoRuntime.queryInterface(XIndexAccess.class, xSheets);
       if (xSheetsIA == null) {
-        MessageHandler.printToLogFile("xSheetsIA == null");
+        MessageHandler.printToLogFile("OfficeSpreadsheetTools: OfficeSpreadsheetTools: xSheetsIA == null");
         return null;
       }
       List<String> paragraphs = new ArrayList<String>();
@@ -146,7 +146,7 @@ public class OfficeSpreadsheetTools {
       for (int i = 0; i < xSheetsIA.getCount(); i++) {
         XSpreadsheet xSheet = UnoRuntime.queryInterface(XSpreadsheet.class, xSheetsIA.getByIndex(i));
         if (xSheet == null) {
-          MessageHandler.printToLogFile("xSheet == null");
+          MessageHandler.printToLogFile("OfficeSpreadsheetTools: OfficeSpreadsheetTools: xSheet == null");
           return null;
         }
         boolean isEmptyText = false;
@@ -190,30 +190,30 @@ public class OfficeSpreadsheetTools {
    */
   public static void setTextofCell(int nPara, String replace, XComponent xComponent) {
     if (xComponent == null) {
-      MessageHandler.printToLogFile("xComponent == null");
+      MessageHandler.printToLogFile("OfficeSpreadsheetTools: setTextofCell: xComponent == null");
       return;
     }
     XSpreadsheetDocument xSpreadsheetDocument = UnoRuntime.queryInterface(XSpreadsheetDocument.class, xComponent);
     if (xSpreadsheetDocument == null) {
-      MessageHandler.printToLogFile("xSpreadsheetDocument == null");
+      MessageHandler.printToLogFile("OfficeSpreadsheetTools: setTextofCell: xSpreadsheetDocument == null");
       return;
     }
     try {
       XSpreadsheets xSheets = xSpreadsheetDocument.getSheets();
       if (xSheets == null) {
-        MessageHandler.printToLogFile("xSheets == null");
+        MessageHandler.printToLogFile("OfficeSpreadsheetTools: setTextofCell: xSheets == null");
         return;
       }
       XIndexAccess xSheetsIA = UnoRuntime.queryInterface(XIndexAccess.class, xSheets);
       if (xSheetsIA == null) {
-        MessageHandler.printToLogFile("xSheetsIA == null");
+        MessageHandler.printToLogFile("OfficeSpreadsheetTools: setTextofCell: xSheetsIA == null");
         return;
       }
       int nParaCount = 0;
       for (int i = 0; i < xSheetsIA.getCount(); i++) {
         XSpreadsheet xSheet = UnoRuntime.queryInterface(XSpreadsheet.class, xSheetsIA.getByIndex(i));
         if (xSheet == null) {
-          MessageHandler.printToLogFile("xSheet == null");
+          MessageHandler.printToLogFile("OfficeSpreadsheetTools: setTextofCell: xSheet == null");
           return;
         }
         int maxRows = getFilledRowCount(xSheet, MAX_TABLE_COLS);
@@ -241,24 +241,24 @@ public class OfficeSpreadsheetTools {
     try {
       XSpreadsheetDocument xSpreadsheetDocument = UnoRuntime.queryInterface(XSpreadsheetDocument.class, xComponent);
       if (xSpreadsheetDocument == null) {
-        MessageHandler.printToLogFile("xSpreadsheetDocument == null");
+        MessageHandler.printToLogFile("OfficeSpreadsheetTools: setCurrentSheet: xSpreadsheetDocument == null");
         return;
       }
       XModel xModel = UnoRuntime.queryInterface(XModel.class, xSpreadsheetDocument);
       XController xController = xModel.getCurrentController();
       XSpreadsheetView xSpreadsheetView = UnoRuntime.queryInterface(XSpreadsheetView.class, xController);
       if (xSpreadsheetView == null) {
-        MessageHandler.printToLogFile("xSpreadsheetView == null");
+        MessageHandler.printToLogFile("OfficeSpreadsheetTools: setCurrentSheet: xSpreadsheetView == null");
         return;
       }
       XSpreadsheets xSheets = xSpreadsheetDocument.getSheets();
       if (xSheets == null) {
-        MessageHandler.printToLogFile("xSheets == null");
+        MessageHandler.printToLogFile("OfficeSpreadsheetTools: setCurrentSheet: xSheets == null");
         return;
       }
       XIndexAccess xSheetsIA = UnoRuntime.queryInterface(XIndexAccess.class, xSheets);
       if (xSheetsIA == null) {
-        MessageHandler.printToLogFile("xSheetsIA == null");
+        MessageHandler.printToLogFile("OfficeSpreadsheetTools: setCurrentSheet: xSheetsIA == null");
         return;
       }
       int nParaCount = 0;
@@ -266,7 +266,7 @@ public class OfficeSpreadsheetTools {
       for (int i = 0; i < nSheets; i++) {
         XSpreadsheet xSheet = UnoRuntime.queryInterface(XSpreadsheet.class, xSheetsIA.getByIndex(i));
         if (xSheet == null) {
-          MessageHandler.printToLogFile("xSheet == null");
+          MessageHandler.printToLogFile("OfficeSpreadsheetTools: setCurrentSheet: xSheet == null");
           return;
         }
         if (i == nSheets - 1 || nParaCount == nPara) {
@@ -297,14 +297,14 @@ public class OfficeSpreadsheetTools {
     try {
       XSpreadsheetDocument xSpreadsheetDocument = UnoRuntime.queryInterface(XSpreadsheetDocument.class, xComponent);
       if (xSpreadsheetDocument == null) {
-        MessageHandler.printToLogFile("xSpreadsheetDocument == null");
+        MessageHandler.printToLogFile("OfficeSpreadsheetTools: getParagraphFromCurrentSheet: xSpreadsheetDocument == null");
         return -1;
       }
       XModel xModel = UnoRuntime.queryInterface(XModel.class, xSpreadsheetDocument);
       XController xController = xModel.getCurrentController();
       XSpreadsheetView xSpreadsheetView = UnoRuntime.queryInterface(XSpreadsheetView.class, xController);
       if (xSpreadsheetView == null) {
-        MessageHandler.printToLogFile("xSpreadsheetView == null");
+        MessageHandler.printToLogFile("OfficeSpreadsheetTools: getParagraphFromCurrentSheet: xSpreadsheetView == null");
         return -1;
       }
       XSpreadsheet xCurrentSheet = xSpreadsheetView.getActiveSheet();
@@ -312,21 +312,21 @@ public class OfficeSpreadsheetTools {
       String currentSheetName = (String) xSheetPropertySet.getPropertyValue("AbsoluteName");
       XSpreadsheets xSheets = xSpreadsheetDocument.getSheets();
       if (xSheets == null) {
-        MessageHandler.printToLogFile("xSheets == null");
+        MessageHandler.printToLogFile("OfficeSpreadsheetTools: getParagraphFromCurrentSheet: xSheets == null");
         return -1;
       }
       XIndexAccess xSheetsIA = UnoRuntime.queryInterface(XIndexAccess.class, xSheets);
       if (xSheetsIA == null) {
-        MessageHandler.printToLogFile("xSheetsIA == null");
+        MessageHandler.printToLogFile("OfficeSpreadsheetTools: getParagraphFromCurrentSheet: xSheetsIA == null");
         return -1;
       }
       int nParaCount = 0;
       int nSheets = xSheetsIA.getCount();
-      MessageHandler.printToLogFile("nSheets = " + nSheets);
+      MessageHandler.printToLogFile("OfficeSpreadsheetTools: getParagraphFromCurrentSheet: nSheets = " + nSheets);
       for (int i = 0; i < nSheets; i++) {
         XSpreadsheet xSheet = UnoRuntime.queryInterface(XSpreadsheet.class, xSheetsIA.getByIndex(i));
         if (xSheet == null) {
-          MessageHandler.printToLogFile("xSheet == null");
+          MessageHandler.printToLogFile("OfficeSpreadsheetTools: getParagraphFromCurrentSheet: xSheet == null");
           return -1;
         }
         xSheetPropertySet = UnoRuntime.queryInterface(XPropertySet.class, xSheet);
@@ -334,7 +334,7 @@ public class OfficeSpreadsheetTools {
         if (currentSheetName.equals(sheetName)) {
           return nParaCount;
         }
-        MessageHandler.printToLogFile("xCurrentSheet = " + xCurrentSheet + ", xSheet = " + xSheet);
+        MessageHandler.printToLogFile("OfficeSpreadsheetTools: getParagraphFromCurrentSheet: xCurrentSheet = " + xCurrentSheet + ", xSheet = " + xSheet);
         int maxRows = getFilledRowCount(xSheet, MAX_TABLE_COLS);
         int maxCols = getFilledColumnCount(xSheet, maxRows);
         for (int nCol = 0; nCol < maxCols; nCol++) {
@@ -355,12 +355,12 @@ public class OfficeSpreadsheetTools {
    */
   public static void setLanguageOfSpreadsheet(Locale locale, XComponent xComponent) {
     if (xComponent == null) {
-      MessageHandler.printToLogFile("xComponent == null");
+      MessageHandler.printToLogFile("OfficeSpreadsheetTools: setLanguageOfSpreadsheet: xComponent == null");
       return;
     }
     XSpreadsheetDocument xSpreadsheetDocument = UnoRuntime.queryInterface(XSpreadsheetDocument.class, xComponent);
     if (xSpreadsheetDocument == null) {
-      MessageHandler.printToLogFile("xSpreadsheetDocument == null");
+      MessageHandler.printToLogFile("OfficeSpreadsheetTools: setLanguageOfSpreadsheet: xSpreadsheetDocument == null");
       return;
     }
     XPropertySet xSpreadsheetPropertySet = UnoRuntime.queryInterface(XPropertySet.class, xSpreadsheetDocument);
@@ -376,12 +376,12 @@ public class OfficeSpreadsheetTools {
    */
   public static Locale getDocumentLocale(XComponent xComponent) {
     if (xComponent == null) {
-      MessageHandler.printToLogFile("xComponent == null");
+      MessageHandler.printToLogFile("OfficeSpreadsheetTools: getDocumentLocale: xComponent == null");
       return null;
     }
     XSpreadsheetDocument xSpreadsheetDocument = UnoRuntime.queryInterface(XSpreadsheetDocument.class, xComponent);
     if (xSpreadsheetDocument == null) {
-      MessageHandler.printToLogFile("xSpreadsheetDocument == null");
+      MessageHandler.printToLogFile("OfficeSpreadsheetTools: getDocumentLocale: xSpreadsheetDocument == null");
       return null;
     }
     XPropertySet xSpreadsheetPropertySet = UnoRuntime.queryInterface(XPropertySet.class, xSpreadsheetDocument);

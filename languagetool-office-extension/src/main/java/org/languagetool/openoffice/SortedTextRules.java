@@ -59,9 +59,9 @@ class SortedTextRules {
       }
     }
     if (debugMode) {
-      MessageHandler.printToLogFile("Number different minToCheckParagraph: " + minToCheckParagraph.size());
+      MessageHandler.printToLogFile("SortedTextRules: Number different minToCheckParagraph: " + minToCheckParagraph.size());
       for ( int i = 0; i < minToCheckParagraph.size(); i++) {
-        MessageHandler.printToLogFile("minToCheckParagraph: " + minToCheckParagraph.get(i));
+        MessageHandler.printToLogFile("SortedTextRules: minToCheckParagraph: " + minToCheckParagraph.get(i));
         for (int j = 0; j < textLevelRules.get(i).size(); j++) {
           MessageHandler.printToLogFile("RuleId: " + textLevelRules.get(i).get(j));
         }
@@ -111,12 +111,10 @@ class SortedTextRules {
       if (i == nCache) {
         for (String ruleId : textLevelRules.get(i)) {
           lt.enableRule(ruleId);
-//          MessageHandler.printToLogFile("Cache: " + i + ", Rule enabled: " + ruleId);
         }
       } else {
         for (String ruleId : textLevelRules.get(i)) {
           lt.disableRule(ruleId);
-//          MessageHandler.printToLogFile("Cache: " + i + ", Rule disabled: " + ruleId);
         }
       }
     }

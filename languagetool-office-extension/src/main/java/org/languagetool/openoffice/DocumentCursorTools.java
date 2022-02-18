@@ -191,7 +191,6 @@ class DocumentCursorTools {
           headingNumbers.add(paraNum);
         }
       }
-//      MessageHandler.printToLogFile("Text Cursor: Number of all paras: " + allParas.size() + "Number of all headings: " + headingNumbers.size()); 
       return new DocumentText(allParas, headingNumbers);
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
@@ -219,16 +218,16 @@ class DocumentCursorTools {
    */
   void printProperties() {
     if (xPCursor == null) {
-      MessageHandler.printToLogFile("Properties: ParagraphCursor == null");
+      MessageHandler.printToLogFile("DocumentCursorTools: Properties: ParagraphCursor == null");
       return;
     }
     XPropertySet xParagraphPropertySet = UnoRuntime.queryInterface(XPropertySet.class, xPCursor.getStart());
     Property[] properties = xParagraphPropertySet.getPropertySetInfo().getProperties();
     for (Property property : properties) {
-      MessageHandler.printToLogFile("Properties: Name: " + property.Name + ", Type: " + property.Type);
+      MessageHandler.printToLogFile("DocumentCursorTools: Properties: Name: " + property.Name + ", Type: " + property.Type);
     }
     try {
-      MessageHandler.printToLogFile("!!! Properties: ParaStyleName: " + xParagraphPropertySet.getPropertyValue("ParaStyleName"));
+      MessageHandler.printToLogFile("DocumentCursorTools: Properties: ParaStyleName: " + xParagraphPropertySet.getPropertyValue("ParaStyleName"));
     } catch (Throwable e) {
       MessageHandler.printException(e);
     }

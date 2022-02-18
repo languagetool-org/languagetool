@@ -146,7 +146,6 @@ class LORemoteLanguageTool {
         configBuilder.disabledRuleIds(tmpDisabled.toArray(new String[0]));
         configBuilder.ruleValues(ruleValues);
         configBuilder.mode("all");
-//        configBuilder.mode("allButTextLevelOnly");
       } else if (checkMode == RemoteCheck.ONLY_SPELL) {
         Set<String> tmpEnabled = new HashSet<>();
         for (Rule rule : spellingRules) {
@@ -160,7 +159,6 @@ class LORemoteLanguageTool {
       }
     }
     configBuilder.level("default");
-//    configBuilder.level("picky");
     CheckConfiguration remoteConfig = configBuilder.build();
     int limit;
     for (int nStart = 0; text.length() > nStart; nStart += limit) {

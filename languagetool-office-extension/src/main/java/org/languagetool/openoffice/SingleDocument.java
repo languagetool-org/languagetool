@@ -161,14 +161,14 @@ class SingleDocument {
         if (propertyValue.Value instanceof int[]) {
           footnotePositions = (int[]) propertyValue.Value;
         } else {
-          MessageHandler.printToLogFile("Not of expected type int[]: " + propertyValue.Name + ": " + propertyValue.Value.getClass());
+          MessageHandler.printToLogFile("SingleDocument: getCheckResults: Not of expected type int[]: " + propertyValue.Name + ": " + propertyValue.Value.getClass());
         }
       }
       if ("ProofInfo".equals(propertyValue.Name)) {
         if (propertyValue.Value instanceof Integer) {
           proofInfo = (int) propertyValue.Value;
         } else {
-          MessageHandler.printToLogFile("Not of expected type int: " + propertyValue.Name + ": " + propertyValue.Value.getClass());
+          MessageHandler.printToLogFile("SingleDocument: getCheckResults: Not of expected type int: " + propertyValue.Name + ": " + propertyValue.Value.getClass());
         }
       }
     }
@@ -356,7 +356,8 @@ class SingleDocument {
     docLanguage = language;
   }
   
-  /** Set XComponentContext and XComponent of the document
+  /** 
+   * Set XComponentContext and XComponent of the document
    */
   void setXComponent(XComponentContext xContext, XComponent xComponent) {
     this.xContext = xContext;
@@ -370,75 +371,69 @@ class SingleDocument {
     }
   }
   
-  /** Get xComponent of the document
+  /**
+   *  Get xComponent of the document
    */
   XComponent getXComponent() {
     return xComponent;
   }
   
-  /** Get MultiDocumentsHandler
+  /**
+   *  Get MultiDocumentsHandler
    */
   MultiDocumentsHandler getMultiDocumentsHandler() {
     return mDocHandler;
   }
   
-  /** Get ID of the document
+  /**
+   *  Get ID of the document
    */
   String getDocID() {
     return docID;
   }
   
-  /** Get ID of the document
+  /**
+   *  Get ID of the document
    */
   void setDocID(String docId) {
     docID = docId;
   }
   
-  /** Get flat paragraph tools of the document
+  /**
+   *  Get flat paragraph tools of the document
    */
   FlatParagraphTools getFlatParagraphTools () {
     return flatPara;
   }
   
-  /** Get document cache of the document
+  /**
+   *  Get document cache of the document
    */
   DocumentCache getDocumentCache() {
     return docCache;
   }
   
-  /** Set document cache of the document
-   *//*
-  void setDocumentCache(DocumentCache docCache) {
-    this.docCache.put(docCache);
-  }
-*/  
-  /** reset document cache of the document
+  /**
+   *  reset document cache of the document
    */
   void resetDocumentCache() {
     resetDocCache = true;
   }
   
-  /** set last changed paragraphs
+  /**
+   *  set last changed paragraphs
    */
   void setLastChangedParas(List<Integer> lastChangedParas) {
     this.lastChangedParas = lastChangedParas;
   }
   
-  /** get last changed paragraphs
+  /**
+   *  get last changed paragraphs
    */
   List<Integer> getLastChangedParas() {
     return lastChangedParas;
   }
   
-  /** Update document cache and get it
-   *//*  TODO:
-  DocumentCache getUpdatedDocumentCache(int nPara, boolean isIntern) {
-    CheckRequestAnalysis requestAnalysis = new CheckRequestAnalysis(numLastVCPara, numLastFlPara, defaultParaCheck, 
-        OfficeTools.PROOFINFO_GET_PROOFRESULT, numParasToCheck, this, paragraphsCache, viewCursor);
-    docCache = requestAnalysis.actualizeDocumentCache(nPara, isIntern);
-    return docCache;
-  }
-*/  
   /**
    * reset the Document
    */
@@ -503,26 +498,14 @@ class SingleDocument {
 	  if (disposed) {
       flatPara = null;
 	  } else if (flatPara == null) {
-//      MessageHandler.printToLogFile("new FlatParagraphTools"); 
       flatPara = new FlatParagraphTools(xComponent);
       if (!flatPara.isValid()) {
         flatPara = null;
       }
     } else {
-//      MessageHandler.printToLogFile("flatPara.init()"); 
       flatPara.init();
     }
-//    MessageHandler.printToLogFile("return flatPara"); 
     return flatPara;
-  }
-  
-  /** 
-   * Set flat paragraph tools from other class
-   *//*
-  public void setFlatParagraphTools(FlatParagraphTools flatPara) {
-    if (flatPara != null) {
-      this.flatPara = flatPara;
-    }
   }
   
   /**
@@ -668,7 +651,7 @@ class SingleDocument {
   public void setIgnoredMatch(int x, int y, String ruleId, boolean isIntern) {
     ignoredMatches.setIgnoredMatch(x, y, ruleId);
     if (debugMode > 1) {
-      MessageHandler.printToLogFile("Ignore Match: DocumentType = " + docType + "; numParasToCheck = " + numParasToCheck);
+      MessageHandler.printToLogFile("SingleDocument: setIgnoredMatch: DocumentType = " + docType + "; numParasToCheck = " + numParasToCheck);
     }
     if (docType == DocumentType.WRITER && numParasToCheck != 0) {
       List<Integer> changedParas = new ArrayList<>();
@@ -676,7 +659,7 @@ class SingleDocument {
       remarkChangedParagraphs(changedParas, isIntern);
     }
     if (debugMode > 0) {
-      MessageHandler.printToLogFile("Ignore Match added at: paragraph: " + y + "; character: " + x + "; ruleId: " + ruleId);
+      MessageHandler.printToLogFile("SingleDocument: setIgnoredMatch: Ignore Match added at: paragraph: " + y + "; character: " + x + "; ruleId: " + ruleId);
     }
   }
   
@@ -712,7 +695,7 @@ class SingleDocument {
       remarkChangedParagraphs(changedParas, isIntern);
     }
     if (debugMode > 0) {
-      MessageHandler.printToLogFile("All Ignored Matches removed at: paragraph: " + y);
+      MessageHandler.printToLogFile("SingleDocument: removeIgnoredMatch: All Ignored Matches removed at: paragraph: " + y);
     }
   }
   
@@ -728,7 +711,7 @@ class SingleDocument {
       remarkChangedParagraphs(changedParas, isIntern);
     }
     if (debugMode > 0) {
-      MessageHandler.printToLogFile("Ignore Match removed at: paragraph: " + y + "; character: " + x);
+      MessageHandler.printToLogFile("SingleDocument: removeIgnoredMatch: Ignore Match removed at: paragraph: " + y + "; character: " + x);
     }
   }
   
@@ -755,7 +738,7 @@ class SingleDocument {
       Arrays.sort(errors, new ErrorPositionComparator());
       if (debugMode > 0) {
         for (int i = 0; i < errors.length; i++) {
-          MessageHandler.printToLogFile("Error[" + i + "]: ruleID: " + errors[i].aRuleIdentifier + ", Start = " + errors[i].nErrorStart + ", Length = " + errors[i].nErrorLength);
+          MessageHandler.printToLogFile("SingleDocument: getRuleIdFromCache: Error[" + i + "]: ruleID: " + errors[i].aRuleIdentifier + ", Start = " + errors[i].nErrorStart + ", Length = " + errors[i].nErrorLength);
         }
       }
       return errors[0].aRuleIdentifier;
@@ -800,7 +783,7 @@ class SingleDocument {
         }
       }
     }
-    MessageHandler.printToLogFile("getRuleIdFromCache: No ruleId found");
+    MessageHandler.printToLogFile("SingleDocument: getRuleIdFromCache: No ruleId found");
     return null;
   }
   
@@ -972,7 +955,7 @@ class SingleDocument {
       if (broadcaster != null) {
         broadcaster.addDocumentEventListener(eventListener);
       } else {
-        MessageHandler.printToLogFile("Could not add document event listener!");
+        MessageHandler.printToLogFile("SingleDocument: setDokumentListener: Could not add document event listener!");
       }
     }
   }
@@ -985,7 +968,6 @@ class SingleDocument {
 
     @Override
     public void documentEventOccured(DocumentEvent event) {
-//      MessageHandler.printToLogFile("Document Event: " + event.EventName);
       if (event.EventName.equals("OnSave") && config.saveLoCache()) {
         writeCaches();
       } else if(event.EventName.equals("OnSaveAsDone") && config.saveLoCache()) {

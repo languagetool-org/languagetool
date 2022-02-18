@@ -382,8 +382,8 @@ class SingleCheck {
         }
       }
       if (debugMode > 2) {
-        MessageHandler.printToLogFile("unFilteredErrors.length: " + unFilteredErrors.length);
-        MessageHandler.printToLogFile("filteredErrors.length: " + filteredErrors.size());
+        MessageHandler.printToLogFile("SingleCheck: filterIgnoredMatches: unFilteredErrors.length: " + unFilteredErrors.length);
+        MessageHandler.printToLogFile("SingleCheck: filterIgnoredMatches: filteredErrors.length: " + filteredErrors.size());
       }
       return filteredErrors.toArray(new SingleProofreadingError[0]);
     }
@@ -499,11 +499,6 @@ class SingleCheck {
         if (useQueue && pErrors == null && parasToCheck > 0 && isTextParagraph && !textIsChanged && mDocHandler.getTextLevelCheckQueue().isWaiting()) {
           mDocHandler.getTextLevelCheckQueue().wakeupQueue(singleDocument.getDocID());
         }
-/*  TODO: Remove after tests
-        if (useQueue && pErrors == null && parasToCheck != 0 && isTextParagraph && !textIsChanged) {
-          singleDocument.addQueueEntry(nFPara, cacheNum, parasToCheck, singleDocument.getDocID(), false, false);
-        }
-*/
         return pErrors;
       }
       
@@ -571,65 +566,6 @@ class SingleCheck {
     return null;
   }
   
-  /**
-   * Check a multilingual paragraph
-   * @throws IOException 
-   * @throws IllegalArgumentException 
-   *//*
-  //  The grammar check of single sentences of different languages inside one paragraph is not supported by LO/OO.
-  //  So the function is commented out 
-  private List<RuleMatch> checkMultilingualParagraph (String paraText, Locale locale, int[] footnotePos, int nFPara, int sentencePos, 
-      SwJLanguageTool lt) throws IOException, IllegalArgumentException {
-    List<RuleMatch> paragraphMatches;
-    Locale lastOtherLocale = null;
-    Locale primaryLocale = docCache.getFlatParagraphLocale(nFPara);
-    SwJLanguageTool lLt = null;
-    SwJLanguageTool mLt;
-    if (OfficeTools.isEqualLocale(primaryLocale, locale)) {
-      mLt = lt;
-    } else {
-      lastOtherLocale = new Locale(primaryLocale.Language, primaryLocale.Country, primaryLocale.Variant);
-      lLt = mDocHandler.initLanguageTool(mDocHandler.getLanguage(lastOtherLocale), false);
-      mDocHandler.initCheck(lLt);
-      mLt = lLt;
-    }
-    List<Integer> nextSentencePositions = getNextSentencePositions(paraText, mLt);
-    String text = removeFootnotes(paraText, footnotePos);
-    paragraphMatches = mLt.check(text, true, JLanguageTool.ParagraphHandling.ONLYNONPARA);
-    if (paragraphMatches == null) {
-      paragraphMatches = new ArrayList<RuleMatch>();
-    }
-    if (nextSentencePositions.size() < 1 || (nextSentencePositions.size() == 1 && nextSentencePositions.get(0) == 0)) {
-      return paragraphMatches;
-    }
-    int sentenceStart = 0;
-    for (int i = 0; i < nextSentencePositions.size(); i++) {
-      int sentenceEnd = i == nextSentencePositions.size() - 1 ? text.length() : nextSentencePositions.get(i);
-      Locale sentenceLocale = flatPara.getPrimaryLanguageOfPartOfParagraph(nFPara, sentenceStart, 
-          sentenceEnd - sentenceStart, primaryLocale);
-      if (OfficeTools.isEqualLocale(sentenceLocale, locale)) {
-        mLt = lt;
-      } else if (lastOtherLocale != null && OfficeTools.isEqualLocale(sentenceLocale, lastOtherLocale)) {
-          mLt = lLt;
-      } else {
-        lastOtherLocale = new Locale(sentenceLocale.Language, sentenceLocale.Country, sentenceLocale.Variant);
-        lLt = mDocHandler.initLanguageTool(mDocHandler.getLanguage(lastOtherLocale), false);
-        mDocHandler.initCheck(lLt);
-        mLt = lLt;
-      }
-      List<RuleMatch> sentenceMatches = mLt.check(text.substring(sentenceStart, sentenceEnd), true, JLanguageTool.ParagraphHandling.ONLYNONPARA);
-      if (sentenceMatches != null && !sentenceMatches.isEmpty()) {
-        for (RuleMatch match : sentenceMatches) {
-          match.setOffsetPosition(sentenceStart + match.getFromPos(), sentenceStart + match.getToPos());
-        }
-        paragraphMatches.addAll(sentenceMatches);
-      }
-      sentenceStart = nextSentencePositions.get(i);
-    }
-    return paragraphMatches;
-  }
-*/
-
   /**
    * Creates a SingleGrammarError object for use in LO/OO.
    */
