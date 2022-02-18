@@ -16676,6 +16676,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="de la misma área">Es <marker>del mismo área</marker>.</example>
                 <example correction="de la otra área">Viene <marker>del otro área</marker>.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <unify negate="yes">
+                        <feature id="numero"/>
+                        <feature id="genero"/>
+                        <token postag="DP..S." postag_regexp="yes"/>
+                        <token postag="A.*|PX.*|V.P.*" postag_regexp="yes"/>
+                        <token postag="N.F.*" postag_regexp="yes" regexp="yes">&nombre_fem_el;</token>
+                    </unify>
+                </pattern>
+                <message>Error de concordancia. Ante la palabra "\3" solo adoptan la forma masculina los determinantes 'el' y 'un' (y opcionalmente 'algún' y 'ningún').</message>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="DP.[FC][SN].*" postag_regexp="yes"/> <match no="2" postag="(PX|A.).[FC][SN].*" postag_regexp="yes"/> \3</suggestion>
+                <example correction="su propia área">Está encerrando al equipo contrario en <marker>su propio área</marker>.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AGREEMENT_ADJ_NOUN" name="Concordancias adjetivo y nombre">
             <antipattern>
