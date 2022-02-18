@@ -8199,7 +8199,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>— Śliczności fuzja — westchnął Jędrek.</example>
                 <example>— Wódki pani powinna wypić zaraz.</example>
             </rule>
-            <rule id="DISAGREEMENT_VERB_PPRON" name="Niezgodność formy czasownika i zaimka osobowego">
+            <rulegroup id="DISAGREEMENT_VERB_PPRON" name="Niezgodność formy czasownika i zaimka osobowego">
+            <rule>
                 <pattern>
                     <token postag="SENT_START"/>
                     <marker>
@@ -8216,6 +8217,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Błąd gramatyczny</short>
                 <example type="incorrect"><marker>Przywróciła on</marker> pokój wewnętrzny Niemcom i zorganizował ekspansję na wschód.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <unify negate="yes">
+                            <feature id="number"/>
+                            <feature id="person"/>
+                            <feature id="gender"/>
+                            <token postag="ppron.*:nom.*" postag_regexp="yes"/>
+                            <token postag="verb:praet.*" postag_regexp="yes"/>
+                        </unify>
+                    </marker>
+                </pattern>
+                <message>Nieuzgodnione formy czasownika i zaimka osobowego (inna liczba, osoba lub rodzaj gramatyczny).</message>
+                <short>Błąd gramatyczny</short>
+                <example type="incorrect"><marker>On poszła</marker> do szkoły.</example>
+            </rule>
+            </rulegroup>
             <rule id="WIKSZO_BYO_WIKSZO_BYA" name="„Większość było” (większość była)">
                 <pattern>
                     <token skip='5'>większość<exception regexp='yes' scope='next'>verb:.*</exception><exception scope='next'>,</exception></token>
@@ -12998,49 +13017,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				<rulegroup id="COFAC_SIE_DO_TYLU" name="„cofać się do tyłu” (cofać się)">
 						<rule>
 								<pattern>
-										<token inflected="yes" regexp="yes">cofać|cofnąć</token>
-										<token></token>
+										<token inflected="yes" regexp="yes" skip="-1">cofać|cofnąć<exception scope="next" postag="verb.*" postag_regexp="yes"/></token>
 										<token>do</token>
 										<token>tyłu</token>
 								</pattern>
-								<message>To pleonazm. Wystarczy powiedzieć: <suggestion>\1 \2</suggestion>.</message>
-								<short>Pleonazm</short>
-								<example>Cofnij się!</example>
-								<example correction="Cofnij się"><marker>Cofnij się do tyłu</marker>!</example>
-						</rule>
-						<rule>
-								<pattern>
-										<token inflected="yes" regexp="yes">cofać|cofnąć</token>
-										<token></token>
-										<token>w</token>
-										<token>tył</token>
-								</pattern>
-								<message>To pleonazm. Wystarczy powiedzieć: <suggestion>\1 \2</suggestion>.</message>
-								<short>Pleonazm</short>
-								<example>Cofnij się!</example>
-								<example correction="Cofnij się"><marker>Cofnij się w tył</marker>!</example>
-						</rule>
-						<rule>
-								<pattern>
-										<token inflected="yes" regexp="yes">cofać|cofnąć</token>
-										<token>do</token>
-										<token>tyłu</token>
-								</pattern>
-								<message>To pleonazm. Wystarczy powiedzieć: <suggestion>\1</suggestion>.</message>
+								<message>To pleonazm. Wystarczy powiedzieć: <suggestion><match no="1" include_skipped="all"/></suggestion>.</message>
 								<short>Pleonazm</short>
 								<example>Uważaj przy cofaniu!</example>
 								<example correction="cofaniu">Uważaj przy <marker>cofaniu do tyłu</marker>!</example>
+		            <example correction="Cofnij się"><marker>Cofnij się do tyłu</marker>!</example>
 						</rule>
 						<rule>
 								<pattern>
-										<token inflected="yes" regexp="yes">cofać|cofnąć</token>
+										<token inflected="yes" regexp="yes" skip="-1">cofać|cofnąć<exception scope="next" postag="verb.*" postag_regexp="yes"/></token>
 										<token>w</token>
 										<token>tył</token>
 								</pattern>
-								<message>To pleonazm. Wystarczy powiedzieć: <suggestion>\1</suggestion>.</message>
+								<message>To pleonazm. Wystarczy powiedzieć: <suggestion><match no="1" include_skipped="all"/></suggestion>.</message>
 								<short>Pleonazm</short>
 								<example>Uważaj przy cofaniu!</example>
 								<example correction="cofaniu">Uważaj przy <marker>cofaniu w tył</marker>!</example>
+								<example correction="Cofnij się"><marker>Cofnij się w tył</marker>!</example>
 						</rule>
 						<rule>
                 <pattern>
