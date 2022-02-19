@@ -42361,6 +42361,19 @@ Se X significa Y, o que significa Z?
 		<token regexp='yes'>[?]</token>
 	  </antipattern>
 
+<!--
+"SABER" and "SÃO" APPEAR AS A NOUN CAUSING SEVERAL FALSE POSITIVES. THIS FIXES IT.
+⁣ ⁣ O que precisam saber é que: pessoas continuam tendo ataques cardíacos, pessoas continuam tendo AVCs, pessoas conti...
+Na boca, o que aparece são os lip tints, que são produtos versáteis, bem líquidos, verdadeiras tintas, que você aplica nos...
+Pouco importam as notas na música, o que conta são as sensações produzidas por elas.
+-->
+	  <antipattern>
+		<token>o</token>
+		<token>que</token>
+		<token postag='V.+' postag_regexp='yes'/>
+		<token regexp='yes'>saber|são</token>
+	  </antipattern>
+
       <pattern>
 		<and>
 			<token negate="yes" inflected='yes' regexp='yes'>haver|estar|existir|ser</token>
@@ -42452,6 +42465,10 @@ Se X significa Y, o que significa Z?
 	  <example>Você sabe o que é "açaí"?</example>
 	  <example>Para você, o que significa liberdade?</example>
 	  <example>Se X significa Y, o que significa Z?</example>
+
+	  <example>⁣ ⁣ O que precisam saber é que: pessoas continuam tendo ataques cardíacos, pessoas continuam tendo AVCs, pessoas conti...</example>
+	  <example>Na boca, o que aparece são os lip tints, que são produtos versáteis, bem líquidos, verdadeiras tintas, que você aplica nos...</example>
+	  <example>Pouco importam as notas na música, o que conta são as sensações produzidas por elas.</example>
     </rule>
 
 
