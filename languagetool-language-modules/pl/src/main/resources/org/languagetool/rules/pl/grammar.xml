@@ -19944,6 +19944,151 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
 		<category id="TYPOS" name="Prawdopodobne literówki" type="misspelling">
+		<rulegroup id="laska_laska" name="„łaska marszałkowska” (laska marszałkowska)">
+    <rule>
+      <pattern>
+        <unify>
+        <feature id="number"/><feature id="gender"/><feature id="case"/>
+          <token regexp="yes" inflected="yes">marszałkowski|nagi|napalony|seksowny|zgrabny|gorący|ładny|goły|chudy|biały|niezły|zajebisty|pasterski|napalić</token>
+          <marker>          
+            <token inflected="yes">łaska</token>
+          </marker>
+          </unify>
+      </pattern>
+      <message>Czy chodziło o <suggestion><match no="2" regexp_match="łas" regexp_replace="las"/></suggestion></message>
+      <short>Literówka</short>
+      <example correction="laskę">Widziałem tam zgrabną <marker>łaskę</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <unify>
+        <feature id="number"/><feature id="gender"/><feature id="case"/>
+          <marker>          
+            <token inflected="yes">łaska</token>
+          </marker>
+          <token regexp="yes" inflected="yes">marszałkowski|nagi|napalony|seksowny|zgrabny|gorący|ładny|goły|chudy|biały|niezły|zajebisty|pasterski|napalić</token>
+          </unify>
+      </pattern>
+      <message>Czy chodziło o <suggestion><match no="1" regexp_match="łas" regexp_replace="las"/></suggestion></message>
+      <short>Literówka</short>
+      <example correction="laski">Projekt wpłynął do <marker>łaski</marker> marszałkowskiej.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <unify>
+        <feature id="number"/><feature id="gender"/><feature id="case"/>
+          <token regexp="yes" inflected="yes">boży|szczególny|odebrać|chrystusowy|nadzwyczajny|płynąć|sakramentalny|zbawczy|boski|uświęcać|pański|żaden|wszelki|obity|otrzymać</token>
+          <marker>          
+            <token inflected="yes">laska</token>
+          </marker>
+          </unify>
+      </pattern>
+      <message>Czy chodziło o <suggestion><match no="2" regexp_match="las" regexp_replace="łas"/></suggestion></message>
+      <short>Literówka</short>
+      <example correction="łaska">Spłynęła na niego Boża <marker>laska</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <unify>
+        <feature id="number"/><feature id="gender"/><feature id="case"/>
+          <marker>          
+            <token inflected="yes">laska</token>
+          </marker>
+          <token regexp="yes" inflected="yes">boży|szczególny|odebrać|chrystusowy|nadzwyczajny|płynąć|sakramentalny|zbawczy|boski|uświęcać|pański|żaden|wszelki|obity|otrzymać</token>
+          </unify>
+      </pattern>
+      <message>Czy chodziło o <suggestion><match no="1" regexp_match="las" regexp_replace="łas"/></suggestion></message>
+      <short>Literówka</short>
+      <example correction="łaskę">Odczuł <marker>laskę</marker> chrystusową.</example>
+      </rule>
+      <rule>
+      <pattern>
+            <token skip="3" inflected="yes" regexp="yes">dostąpić|uprosić|wyprosić|obdarzać|wypraszać|wyjednać</token>
+            <marker>
+              <token inflected="yes">laska</token>
+            </marker>
+      </pattern>     
+      <message>Czy chodziło o <suggestion><match no="2" regexp_match="las" regexp_replace="łas"/></suggestion></message>
+      <short>Literówka</short>
+      <example correction="łaski">Dostąpił <marker>laski</marker>.</example> 
+      </rule>
+      <rule>
+      <pattern>
+            <token skip="3" inflected="yes" regexp="yes">wyrwać|stukać|poderwać|wyrywać|podpierać|podrywać</token>
+            <marker>
+              <token inflected="yes">łaska</token>
+            </marker>
+      </pattern>     
+      <message>Czy chodziło o <suggestion><match no="2" regexp_match="łas" regexp_replace="las"/></suggestion></message>
+      <short>Literówka</short>
+      <example correction="laskę">Poderwał wczoraj <marker>łaskę</marker> z Mielna.</example> 
+      </rule>
+		</rulegroup>
+		<rulegroup id="ZNAJDUJE" name="znajduję się (znajduje się)">
+      <rule>        
+        <pattern>
+        <marker>
+          <token>znajduję</token>
+        </marker>
+          <token>się</token>
+          <token postag_regexp="yes"  postag=".*(nom|acc).*"/>
+        </pattern>
+        <message>Czy chodziło o <suggestion>znajduje</suggestion>?</message>
+        <short>Literówka</short>
+        <example correction="znajduje">Po lewej stronie <marker>znajduję</marker> się pasek.</example>
+        <example>Znajduję się w tym miejscu.</example>
+		  </rule>
+		  <rule>        
+        <pattern>
+        <marker>
+          <token>znajduję</token>
+        </marker>
+          <token>się</token>
+          <unify><feature id="number"><type id="pl"/></feature>
+          <feature id="case"><type id="gen"/></feature>
+          <feature id="gender"/>
+            <token postag_regexp="yes"  postag="num.*"/>
+            <token postag_regexp="yes" postag="(subst|adj).*"/>
+          </unify>
+        </pattern>
+        <message>Czy chodziło o <suggestion>znajduje</suggestion>?</message>
+        <short>Literówka</short>
+        <example correction="znajduje">Po lewej stronie <marker>znajduję</marker> się dwóch aktorów.</example>
+        <example correction="znajduje">Fotografia ze spektaklu „Portret trumienny”, na której <marker>znajduję</marker> się dwóch aktorów.</example>        
+        <example>Znajduję się w tym miejscu.</example>
+		  </rule>
+		  <rule>        
+        <pattern>
+        <token>się</token>
+        <marker>
+          <token>znajduję</token>
+        </marker>
+          <unify><feature id="number"><type id="pl"/></feature>
+          <feature id="case"><type id="gen"/></feature>
+          <feature id="gender"/>
+            <token postag_regexp="yes"  postag="num.*"/>
+            <token postag_regexp="yes" postag="(subst|adj).*"/>
+          </unify>
+        </pattern>
+        <message>Czy chodziło o <suggestion>znajduje</suggestion>?</message>
+        <short>Literówka</short>
+        <example correction="znajduje">Po stronie, na której się <marker>znajduję</marker> dwóch aktorów.</example>
+        <example>Znajduję się w tym miejscu.</example>
+		  </rule>
+		  <rule>        
+        <pattern>
+        <token>się</token>
+        <marker>
+          <token>znajduję</token>
+        </marker>
+          <token postag_regexp="yes"  postag=".*(nom|acc).*"/>
+        </pattern>
+        <message>Czy chodziło o <suggestion>znajduje</suggestion>?</message>
+        <short>Literówka</short>
+        <example correction="znajduje">Gdzie się <marker>znajduję</marker> filtr paliwa?</example>
+        <example>Ja się znajduję w tym miejscu.</example>
+		  </rule>
+		  </rulegroup>
 		  <rulegroup id="TUTA_J" name="„tuta j” (tutaj)">
         <rule>
           <pattern>
