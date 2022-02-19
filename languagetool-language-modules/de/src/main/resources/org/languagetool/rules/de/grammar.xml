@@ -617,6 +617,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Er hat das Thema komplett <marker>versanden</marker> lassen.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="SCHEINT_SCHIENT" name="schient (scheint)">
+            <rule>
+                <pattern>
+                    <token postag=".*:SIN:.*" postag_regexp="yes"><exception postag=".*:PLU:.*" postag_regexp="yes"/></token>
+                    <marker><token skip="6">schient</token></marker>
+                    <token>zu</token>
+                    <token postag="VER:INF:.+" postag_regexp="yes"></token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="2" regexp_match="ie" regexp_replace="ei"/></suggestion>?</message>
+                <example correction="scheint">Der Mann <marker>schient</marker>, hungrig zu sein.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag=".*:SIN:.*" postag_regexp="yes"><exception postag=".*:PLU:.*" postag_regexp="yes"/></token>
+                    <marker><token skip="6">schient</token></marker>
+                    <token postag="VER:EIZ:.+" postag_regexp="yes"></token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="2" regexp_match="ie" regexp_replace="ei"/></suggestion>?</message>
+                <example correction="scheint">Der Mann <marker>schient</marker> seht schlecht auszusehen.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="STUBE_TUBE" name="Stube vs Tube">
             <rule>
                 <pattern>
