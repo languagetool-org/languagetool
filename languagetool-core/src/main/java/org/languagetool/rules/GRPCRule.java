@@ -40,6 +40,7 @@ import org.languagetool.Language;
 import org.languagetool.rules.ml.MLServerGrpc;
 import org.languagetool.rules.ml.MLServerGrpc.MLServerFutureStub;
 import org.languagetool.rules.ml.MLServerProto;
+import org.languagetool.rules.ml.MLServerProto.MatchRequest;
 import org.languagetool.rules.ml.MLServerProto.MatchResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -226,7 +227,7 @@ public abstract class GRPCRule extends RemoteRule {
       ids = Collections.nCopies(text.size(), textSessionId);
     }
 
-    List<MLServerProto.MatchRequest> requests = new ArrayList();
+    List<MLServerProto.MatchRequest> requests = new ArrayList<MatchRequest>();
 
     for (int offset = 0; offset < sentences.size(); offset += batchSize) {
       MLServerProto.MatchRequest req = MLServerProto.MatchRequest.newBuilder()
@@ -258,7 +259,7 @@ public abstract class GRPCRule extends RemoteRule {
       MLRuleRequest reqData = (MLRuleRequest) requestArg;
 
       List<ListenableFuture<MatchResponse>> futures = new ArrayList<>();
-      List<MatchResponse> responses = new ArrayList();
+      List<MatchResponse> responses = new ArrayList<MatchResponse>();
       try {
         for (MLServerProto.MatchRequest req : reqData.requests) {
           if (timeoutMilliseconds > 0) {
