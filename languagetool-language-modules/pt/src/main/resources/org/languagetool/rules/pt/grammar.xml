@@ -42145,7 +42145,7 @@ Grave as preferências para que tenha de as alterar constantemente. → Grave as
 
 	<!-- O QUE ORIGINA originando -->
     <rule id='SIMPLIFICAR_O_QUE_VERBO_VERBOGERUNDIO' name="Simplificar: O que + V. → V. Gerúndio" type="style">
-    <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-02-08-13/15/17 (1-JAN-2022+)      -->
+    <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-02-08-13/15/17/19 (1-JAN-2022+)      -->
 	<!--
 As regras estão erradas o que origina a sua desorganização. → As regras estão erradas originando a sua desorganização.
 	-->
@@ -42347,6 +42347,20 @@ Bom, o que vale mesmo é a propaganda, do livro no caso!
 		<token postag='NP.+|NC.+|AQ.+|UNKNOWN|DI.+|Z0.+' postag_regexp='yes'/>
 	  </antipattern>
 
+<!--
+ANTIPATTERN FOR INTERROGATIONS, SUGGESTED BY RICARDO JOSEH LIMA - 2022-02-19
+Você sabe o que é "açaí"?
+Para você, o que significa liberdade?
+Se X significa Y, o que significa Z?
+-->
+	  <antipattern>
+		<token>o</token>
+		<token>que</token>
+		<token postag='V.+' postag_regexp='yes'/>
+		<token min="0" max="5" postag='SENT_END' negate_pos="yes" postag_regexp='no'/>
+		<token regexp='yes'>[?]</token>
+	  </antipattern>
+
       <pattern>
 		<and>
 			<token negate="yes" inflected='yes' regexp='yes'>haver|estar|existir|ser</token>
@@ -42434,6 +42448,10 @@ Bom, o que vale mesmo é a propaganda, do livro no caso!
 	  <example>, por não estar imbuída de maus conceitos, mas de verdadeiros e retos; o que resulta da sínese, enquanto virtude especial.</example>
 	  <example>...nificar a mesma coisa num certo contexto lingüístico, mas para a maioria fica a seguinte impressão: o que é "awere"?</example>
 	  <example>[145] O que resta sugere uma base de 11,5 metros, um quinto da pirâmide principal.</example>
+
+	  <example>Você sabe o que é "açaí"?</example>
+	  <example>Para você, o que significa liberdade?</example>
+	  <example>Se X significa Y, o que significa Z?</example>
     </rule>
 
 
