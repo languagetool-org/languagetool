@@ -4205,6 +4205,53 @@
         <disambig postag="subst:sg:gen:m3"/>
     </rule>
 
+    <rule id="brev_min" name="liczba + min = skrót od „minuta”">
+        <pattern>
+            <token regexp="yes">\d+</token>
+            <marker>
+                <token>min</token>
+            </marker>
+        </pattern>
+        <disambig postag="brev:npun"/>
+        <example type="untouched">Nie rób głupich min.</example>
+        <example type="ambiguous" inputform="min[mina/subst:pl:gen:f,minimum/brev:pun,minuta/brev:npun]" outputform="min[minuta/brev:npun]">To trwało 29 <marker>min</marker>.</example>
+    </rule>
+
+    <rule id="jeden_dzien" name="1 dzień - to nie dzienia">
+        <pattern>
+            <token regexp="yes">jeden|1</token>
+            <marker>
+                <token>dzień</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="subst:sg.*"/>
+    </rule>
+
+    <rule id="prep_num_unify_1" name="unifikacja przyimka nad liczbą">
+        <pattern>
+            <unify>
+                <feature id="case"/>
+                <token postag="prep.*" postag_regexp="yes"/>
+                <unify-ignore><token>1</token></unify-ignore>
+                <token postag="(adj|subst):sg.*" postag_regexp="yes"/>
+            </unify>
+        </pattern>
+        <disambig action="unify"/>
+    </rule>
+
+
+    <rule id="prep_num_unify" name="unifikacja przyimka nad liczbą">
+        <pattern>
+            <unify>
+                <feature id="case"/>
+            <token postag="prep.*" postag_regexp="yes"/>
+                <unify-ignore><token regexp="yes">\d+</token></unify-ignore>
+                <token postag="(adj|subst).*" postag_regexp="yes"/>
+            </unify>
+        </pattern>
+        <disambig action="unify"/>
+    </rule>
+
     <rule id="num_wzrosly" name="liczebnik + wzrosły, spadły...">
         <pattern>
             <token postag='num:pl.*:rec' postag_regexp='yes'>

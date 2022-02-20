@@ -8830,6 +8830,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example correction="Trzydziestu trzech mężczyzn"><marker>Trzydzieści trzej mężczyźni</marker> śpią na lekcji.</example>
 						<example>Czterdziestu pięciu policjantów użyło broni.</example>
 				</rule>
+				<rule id="DLA_OSB_DLA_OSOBY" name="„Dla 1 osób” (dla 1 osoby)">
+				<antipattern>
+            <unify negate="yes"><feature id="gender"/>
+              <token inflected="yes">jeden</token>
+              <token postag="subst:pl:gen.*" postag_regexp="yes"/>
+            </unify>
+				</antipattern>
+         <pattern>
+          <token postag='prep:gen.*' postag_regexp='yes'></token>
+          <token regexp='yes'>1|jednej|jednego</token>
+          <marker>
+          <token postag='subst:pl:gen.*' postag_regexp='yes'><exception postag='subst:sg:gen.*' postag_regexp='yes'></exception></token>
+          </marker>
+         </pattern>
+         <message>Niewłaściwa końcówka rzeczownika. Powinno być: <suggestion><match no="3"  postag_regexp="yes" postag="(.*)pl(.*)" postag_replace="$1sg$2"/></suggestion>.</message>
+         <short>Błąd gramatyczny</short>
+         <example correction='osoby'>To jest pokój dla 1 <marker>osób</marker>.</example>
+         <example>To jest pokój dla 1 osoby.</example>
+         <example>Przyszło mi do  głowy za jednego tam na wsi, co los wyciągnął, iść do wojska.</example>
+         <example>Gotować około 1 min.</example>
+         <example>60 procent władzy i kontroli za 1 procent kapitału</example>
+         <example>Cena za 1 dzień pobytu</example>
+        </rule>
 				<rule id="NIE_ULEGA_WATPLIWOSCI" name="„nie ulega najmniejszych wątpliwości”" default="off" >
 						<pattern>
 								<token>nie</token>
