@@ -58,6 +58,17 @@ Copyright (C) 2009-2022 Yakov Reztsov
             </marker>
         </pattern>
         <disambig action="remove" postag="PREP"></disambig>
+    </rule>
+    
+    <rule name="V_levom" id="V_levom">
+        <pattern>
+            <token>в</token>
+            <marker>
+                <token postag="NN:.*|ADJ:.*" postag_regexp="yes" inflected="yes" >левый</token>
+            </marker>
+             <token postag="NN:.*|PNN:.*" postag_regexp="yes" ></token>
+        </pattern>
+        <disambig action="remove" postag="NN:.*" ></disambig>
     </rule>                 
 
     <!-- prepositions 
