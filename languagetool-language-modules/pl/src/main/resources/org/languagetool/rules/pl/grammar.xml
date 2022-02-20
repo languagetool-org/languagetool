@@ -7453,7 +7453,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>To jest znaczenie naturalne.</example>
                 <example>Zatrzymani to 40-letnia kobieta, bliska znajoma dziennikarza, oraz 40-letni rzemieślnik.</example>
             </rule>
-            <rule id="NIEZGODNOSC_LICZBY_PODMIOTU_I_ORZECZENIA" name="Niezgodność liczby podmiotu i orzeczenia">
+            <rulegroup id="NIEZGODNOSC_LICZBY_PODMIOTU_I_ORZECZENIA" name="Niezgodność liczby podmiotu i orzeczenia">
             <antipattern> <!-- szyk przestawny -->
               <marker>
                 <token postag='verb:fin:pl.*' postag_regexp='yes'/>
@@ -8003,6 +8003,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
               <token postag="subst:pl:nom.*" postag_regexp="yes"/>
             </unify>
             </antipattern>
+            <rule>
             <pattern>
                 <marker>
                 <token postag='subst:sg:nom.*' postag_regexp='yes' skip='-1'>
@@ -8131,6 +8132,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                <example>Tudjman wierzy, że tylko on i jego partia są prawdziwymi obrońcami interesów narodowych.</example>
                <example>To zrozumiałe — tak słaby rywal plus ogromny upał są wystarczającym usprawiedliwieniem.</example>
             </rule>
+              <rule>
+                <pattern>
+                    <token regexp="yes">jest|był[oa]?|jeste[śm]</token>
+                    <marker>
+                    <unify negate="yes"><feature id="number"/>
+                    <token postag="adj.*inst.*" postag_regexp="yes"/>
+                    <token postag="subst.*inst.*" postag_regexp="yes"/>
+                    </unify>
+                    </marker>
+                </pattern>
+                <message>Niezgodność liczby przymiotnika i rzeczownika: \2 \3.</message>
+                <short>Błąd składniowy</short>
+                <example correction="">Jestem <marker>prawdziwymi Polakiem</marker>.</example>
+                <example correction="">Może okaże się, że jestem <marker>jakimiś potworem</marker>.</example>
+              </rule>
+            </rulegroup>
             <rule id="NIEWLASCIWA_KONCOWKA_PRZYPADKU_ORZECZNIKA" name="Niewłaściwa końcówka przypadku orzecznika">
                 <antipattern>
                     <token regexp="yes">jest(:?e[mś])?</token>
@@ -19944,7 +19961,89 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
 		<category id="TYPOS" name="Prawdopodobne literówki" type="misspelling">
-		<rulegroup id="laska_laska" name="„łaska marszałkowska” (laska marszałkowska)">
+		<rulegroup id="czesc_czesc" name="„cześć” mylone z „część”">
+      <rule>
+      <pattern>
+      <marker>
+        <token>część</token>
+      </marker>
+      <token>i</token>
+      <token>chwała</token>      
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>cześć</suggestion>?</message>
+      <short>Literówka</short>
+      <example correction="Cześć"><marker>Część</marker> i chwała bohaterom!</example>      
+      </rule>
+      <rule>
+      <pattern>
+      <token>na</token>
+      <token regexp="yes">jego|jej</token>
+      <marker>
+        <token>część</token>
+      </marker>
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>cześć</suggestion>?</message>
+      <short>Literówka</short>
+      <example correction="cześć">Wydałem bankiet na jej <marker>część</marker>.</example>      
+      </rule>
+      <rule>
+      <pattern>
+      <token postag="SENT_START"/>
+      <marker>
+        <token>część</token>
+      </marker>
+        <token regexp="yes">pracy|wszystkim|[!,]</token>
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>cześć</suggestion>?</message>
+      <short>Literówka</short>
+      <example correction="Cześć"><marker>Część</marker> pracy!</example>      
+      </rule>
+      <rule>
+      <pattern>
+      <token regexp="yes">\d+|pierwsz[aą]|drug[aą]|trzeci[aą]|czwart[ąa]|piąt[aą]|szóst[aą]|siódm[aą]|ósm[aą]|dzie[sw]iąt[ąa]|jedenast[ąa]|dwunast[ąa]|trzynast[aą]|czternast[aą]|piętnast[aą]|szesnast[aą]|siedemnast[aą]|osiemnast[ąa]|dziewiętnast[aą]|dwudziest[aą]|trzydziest[aą]|czterdziest[ąa]|pięćdziesiąt[ąa]|sześćdziesiąt[aą]|siedemdziesiąt[aą]|osiemdziesiąt[aą]|dziewięćdziesiąt[aą]|setn[aą]|tysięczn[aą]|milionow[ąa]|samochodow[ąa]|górn[aą]|znaczn[ąa]|spor[ąą]|dalek[aą]|centraln[ąa]|południow[ąa]|północn[aą]|zachodni[ąa]|wschodni[ąa]|duż[ąa]|zamienn[aą]|środkow[aą]|oficjaln[ąa]|pozostał[aą]|doln[aą]|wielk[ąa]|integraln[aą]|oryginaln[aą]</token>
+      <marker>
+      <token>cześć</token>      
+      </marker>
+      </pattern>
+      <message>Czy chodziło o <suggestion>część</suggestion>?</message>
+      <example correction="część">To była pierwsza <marker>cześć</marker> tryptyku.</example>    
+      </rule>
+      <rule>
+      <pattern>
+      <marker>
+      <token>cześć</token>      
+      </marker>
+      <token regexp="yes">\d+|(?:I{1,3})?|(:?VI{0,3})?|(:?I[XV])?|(:?XI{0,2})?|pierwsz[aą]|drug[aą]|trzeci[aą]|czwart[ąa]|piąt[aą]|szóst[aą]|siódm[aą]|ósm[aą]|dzie[sw]iąt[ąa]|jedenast[ąa]|dwunast[ąa]|trzynast[aą]|czternast[aą]|piętnast[aą]|szesnast[aą]|siedemnast[aą]|osiemnast[ąa]|dziewiętnast[aą]|dwudziest[aą]|trzydziest[aą]|czterdziest[ąa]|pięćdziesiąt[ąa]|sześćdziesiąt[aą]|siedemdziesiąt[aą]|osiemdziesiąt[aą]|dziewięćdziesiąt[aą]|setn[aą]|tysięczn[aą]|milionow[ąa]|samochodow[ąa]|górn[aą]|znaczn[ąa]|spor[ąą]|dalek[aą]|centraln[ąa]|południow[ąa]|północn[aą]|zachodni[ąa]|wschodni[ąa]|duż[ąa]|zamienn[aą]|środkow[aą]|oficjaln[ąa]|pozostał[aą]|doln[aą]|wielk[ąa]|integraln[aą]|oryginaln[aą]|drog[aą]|droższ[aą]</token>
+      </pattern>
+      <message>Czy chodziło o <suggestion>część</suggestion>?</message>
+      <example correction="część">To była <marker>cześć</marker> pierwsza tryptyku.</example>
+      <example correction="Część"><marker>Cześć</marker> IV</example>
+      </rule>
+      <rule>
+      <pattern>
+      <marker>
+      <token>cześć</token>      
+      </marker>
+      <token regexp="yes">jest|była|będzie</token>
+      <token regexp="yes">\d+|pierwsz[aą]|drug[aą]|trzeci[aą]|czwart[ąa]|piąt[aą]|szóst[aą]|siódm[aą]|ósm[aą]|dzie[sw]iąt[ąa]|jedenast[ąa]|dwunast[ąa]|trzynast[aą]|czternast[aą]|piętnast[aą]|szesnast[aą]|siedemnast[aą]|osiemnast[ąa]|dziewiętnast[aą]|dwudziest[aą]|trzydziest[aą]|czterdziest[ąa]|pięćdziesiąt[ąa]|sześćdziesiąt[aą]|siedemdziesiąt[aą]|osiemdziesiąt[aą]|dziewięćdziesiąt[aą]|setn[aą]|tysięczn[aą]|milionow[ąa]|samochodow[ąa]|górn[aą]|znaczn[ąa]|spor[ąą]|dalek[aą]|centraln[ąa]|południow[ąa]|północn[aą]|zachodni[ąa]|wschodni[ąa]|duż[ąa]|zamienn[aą]|środkow[aą]|oficjaln[ąa]|pozostał[aą]|doln[aą]|wielk[ąa]|integraln[aą]|oryginaln[aą]|drog[aą]|droższ[aą]</token>
+      </pattern>
+      <message>Czy chodziło o <suggestion>część</suggestion>?</message>
+      <example correction="część">Ta <marker>cześć</marker> była pierwsza.</example>    
+      </rule>
+       <rule>
+      <pattern>
+      <marker>
+      <token>cześć</token>      
+      </marker>
+      <token regexp="yes">jest|była|będzie</token>
+      <token postag="adv.*" postag_regexp="yes"></token>
+      <token regexp="yes">\d+|pierwsz[aą]|drug[aą]|trzeci[aą]|czwart[ąa]|piąt[aą]|szóst[aą]|siódm[aą]|ósm[aą]|dzie[sw]iąt[ąa]|jedenast[ąa]|dwunast[ąa]|trzynast[aą]|czternast[aą]|piętnast[aą]|szesnast[aą]|siedemnast[aą]|osiemnast[ąa]|dziewiętnast[aą]|dwudziest[aą]|trzydziest[aą]|czterdziest[ąa]|pięćdziesiąt[ąa]|sześćdziesiąt[aą]|siedemdziesiąt[aą]|osiemdziesiąt[aą]|dziewięćdziesiąt[aą]|setn[aą]|tysięczn[aą]|milionow[ąa]|samochodow[ąa]|górn[aą]|znaczn[ąa]|spor[ąą]|dalek[aą]|centraln[ąa]|południow[ąa]|północn[aą]|zachodni[ąa]|wschodni[ąa]|duż[ąa]|zamienn[aą]|środkow[aą]|oficjaln[ąa]|pozostał[aą]|doln[aą]|wielk[ąa]|integraln[aą]|oryginaln[aą]|drog[aą]|droższ[aą]</token>
+      </pattern>
+      <message>Czy chodziło o <suggestion>część</suggestion>?</message>
+      <example correction="część">Ta <marker>cześć</marker> była bardzo droga.</example>    
+      </rule>
+		</rulegroup>
+		<rulegroup id="laska_laska" name="„łaska” mylone z „laska”">
     <rule>
       <pattern>
         <unify>
