@@ -1640,6 +1640,28 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <example type="untouched">Die Stadt, in die wir fahren werden, ist sehr schön.</example>
             <example type="untouched">Bevor wir schwimmen gegangen sind, müssen wir das machen.</example>
         </rule>
+        <rule>
+            <pattern>
+                <token>wir</token>
+                <marker>
+                    <token postag="VER:MOD:1:PLU:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+en</token>
+                </marker>
+                <token postag="VER:INF.*" postag_regexp="yes"></token>
+            </pattern>
+            <disambig action="remove" postag="VER.*:(3|I..).*"/>
+            <example type="ambiguous" inputform="können[können/VER:MOD:1:PLU:KJ1,können/VER:MOD:1:PLU:PRÄ,können/VER:MOD:3:PLU:KJ1,können/VER:MOD:3:PLU:PRÄ,können/VER:MOD:INF]" outputform="können[können/VER:MOD:1:PLU:KJ1,können/VER:MOD:1:PLU:PRÄ]">Wir <marker>können</marker> sagen, dass wir alles alles versucht haben.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token>wir</token>
+                <token postag="VER:MOD:1:PLU:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+en</token>
+                <marker>
+                    <token postag="VER:INF.*" postag_regexp="yes"></token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="VER.*:[13].*"/>
+            <example type="ambiguous" inputform="sagen[sagen/VER:1:PLU:KJ1:SFT,sagen/VER:1:PLU:PRÄ:SFT,sagen/VER:3:PLU:KJ1:SFT,sagen/VER:3:PLU:PRÄ:SFT,sagen/VER:INF:SFT]" outputform="sagen[sagen/VER:INF:SFT]">Wir können <marker>sagen</marker>, dass wir alles alles versucht haben.</example>
+        </rule>
     </rulegroup>
     <rulegroup id="KEIN_IMPERATIV_II" name="Entferne Imperativ von Verkürzungen wie 'ich geh', 'ich lauf'">
          <rule>
