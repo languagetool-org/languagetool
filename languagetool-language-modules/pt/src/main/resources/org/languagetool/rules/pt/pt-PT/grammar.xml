@@ -848,7 +848,7 @@ Hoje faz anos o Rui, meu amigo de longa data.
 Tua gente, teus anos de glória,
 Eu não peguei o seu maldito carro, meu deus do céu!
 
-HITS AGAINST A 600 000 CORPORA:
+HITS IN 600000 SENTENCES:
 BEFORE:42247 (WITH TWO ANTIPATTERNS REMOVED ABOVE, COVERED BY THIS ONE)
  AFTER:41750
 -->
@@ -870,7 +870,7 @@ Nós o convidamos a vir para nossa casa.
 Para minha surpresa, ele tinha uma bela voz.
 Para meu azar, chegaram as melgas.
 
-HITS AGAINST A 600 000 CORPORA:
+HITS IN 600000 SENTENCES:
 BEFORE:42569
  AFTER:41745
 -->
@@ -881,6 +881,28 @@ BEFORE:42569
 		<token negate="yes" regexp="yes" inflected="yes">&cores;</token>
       </antipattern>
 <!-- MARCOAGPINTO 2022-01-18/19 (1-JAN-2022+) *END* -->
+
+<!-- MARCOAGPINTO 2022-02-20 (1-JAN-2022+) *START* -->
+<!--
+O gerente disse que o fracasso foi culpa sua.
+Ela é amiga minha.
+Eu não retenho nada teu.
+Tudo é culpa minha.
+Não posso te culpar. Foi culpa minha.
+
+HITS IN 600000 SENTENCES:
+BEFORE:41752
+ AFTER:41647
+-->
+      <antipattern>
+		<token postag='V.+' postag_regexp='yes'/>
+		<token postag='V.+|NC.+|AQ.+' postag_regexp='yes'/>
+		<token postag='DP.+' postag_regexp='yes'/>
+		<token min="0" max="1" postag='_QUOT' postag_regexp='no'/>
+		<token min="0" max="1" regexp="yes" inflected="yes">[(,\[]</token>		
+		<token postag='SPS.+|_PUNCT|CC' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-02-20 (1-JAN-2022+) *END* -->
 
       <pattern>
           <token>
@@ -953,6 +975,12 @@ BEFORE:42569
 	  <example>Nós o convidamos a vir para nossa casa.</example>
 	  <example>Para minha surpresa, ele tinha uma bela voz.</example>
 	  <example>Para meu azar, chegaram as melgas.</example>
+
+	  <example>O gerente disse que o fracasso foi culpa sua.</example>
+	  <example>Ela é amiga minha.</example>
+	  <example>Eu não retenho nada teu.</example>
+	  <example>Tudo é culpa minha.</example>
+	  <example>Não posso te culpar. Foi culpa minha.</example>
     </rule>
     <rule>
       <antipattern>
