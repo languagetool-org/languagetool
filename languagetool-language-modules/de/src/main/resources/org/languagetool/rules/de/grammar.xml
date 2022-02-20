@@ -638,6 +638,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="scheint">Der Mann <marker>schient</marker> sehr schlecht auszusehen.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="TASCHE_ASCHE" name="Tasche vs Asche">
+            <rule>
+                <pattern>
+                    <marker><token case_sensitive="yes" regexp="yes">(Akku|Akten|Anzug|Außen|Backen|Baumwoll|Besteck|Boots|Brief|Brust|Business|Dreieck|Eingriff|Einkaufs|Einschub|Fahrrad|Falten|Frauen|Front|Geheim|Geld|Gesäß|Hand|Handy|Hemd|Hochschul|Hosen|Jackeninnen|Jacken|Kleidungs|Kniepolster|Kompressions|Korb|Kosmetik|Kühl|Kultur|Kurier|Laptop|Leder|Luftpolsterversand|Luxus|Mantel|Maul|Netz|Notebook|Ober|Papier|Plastik|Rechteck|Regenmantel|Schub|Schulter|Schutz|Seiten|Sicherheits|Sicht|Sport|Stoff|Strand|Tempo|Trage|Transport|Versand|Vorder|Wand|Wasser|Webbrief|Wickel|Windel|Zahnfleisch)aschen?</token></marker>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="1" regexp_match="asche" regexp_replace="tasche"/></suggestion>? (Tasche bezeichnet ein Behältnis, wohingegen Asche einen Verbrennungsrückstand meint.)</message>
+                <short>&typo;</short>
+                <example correction="Handtasche">Sie hat eine neue <marker>Handasche</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="STUBE_TUBE" name="Stube vs Tube">
             <rule>
                 <pattern>
