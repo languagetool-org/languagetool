@@ -16,7 +16,8 @@ service PostProcessingServer {
 message PostProcessingRequest {
     repeated string sentences = 1; // input text to be analyzed
     repeated MatchList matches = 2; // matches of input text, to be transformed
-    // TODO: inputLogging, textSessionId, ...?
+    bool inputLogging = 3; // allow logging of input on error
+    repeated int64 textSessionID = 4; // session ID, for partial rollout & A/B tests
 }
 
 message MatchRequest {
