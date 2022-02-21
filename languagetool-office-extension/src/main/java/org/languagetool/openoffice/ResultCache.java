@@ -133,14 +133,14 @@ class ResultCache implements Serializable {
   /**
    * get cache entry of paragraph
    */
-  synchronized CacheEntry getCacheEntry(int numberOfParagraph) {
+  CacheEntry getCacheEntry(int numberOfParagraph) {
     return entries.get(numberOfParagraph);
   }
 
   /**
    * get Proofreading errors of on paragraph from cache
    */
-  synchronized SingleProofreadingError[] getMatches(int numberOfParagraph) {
+  SingleProofreadingError[] getMatches(int numberOfParagraph) {
     CacheEntry entry = getCacheEntry(numberOfParagraph);
     if (entry == null) {
       return null;
@@ -151,7 +151,7 @@ class ResultCache implements Serializable {
   /**
    * get start sentence position from cache
    */
-  synchronized int getStartSentencePosition(int numberOfParagraph, int sentencePosition) {
+  int getStartSentencePosition(int numberOfParagraph, int sentencePosition) {
     CacheEntry entry = entries.get(numberOfParagraph);
     if (entry == null) {
       return 0;
@@ -173,7 +173,7 @@ class ResultCache implements Serializable {
   /**
    * get next sentence position from cache
    */
-  synchronized int getNextSentencePosition(int numberOfParagraph, int sentencePosition) {
+  int getNextSentencePosition(int numberOfParagraph, int sentencePosition) {
     CacheEntry entry = entries.get(numberOfParagraph);
     if (entry == null) {
       return 0;
@@ -193,7 +193,7 @@ class ResultCache implements Serializable {
   /**
    * get Proofreading errors of sentence out of paragraph matches from cache
    */
-  synchronized SingleProofreadingError[] getFromPara(int numberOfParagraph,
+  SingleProofreadingError[] getFromPara(int numberOfParagraph,
                                         int startOfSentencePosition, int endOfSentencePosition) {
     CacheEntry entry = entries.get(numberOfParagraph);
     if (entry == null) {
@@ -241,7 +241,7 @@ class ResultCache implements Serializable {
    * Compares a paragraph cache with another cache.
    * Gives back a list of entries for every paragraph: true if the both entries are identically
    */
-  synchronized List<Integer> differenceInCaches(ResultCache oldCache) {
+  List<Integer> differenceInCaches(ResultCache oldCache) {
     List<Integer> differentParas = new ArrayList<>();
     CacheEntry oEntry;
     CacheEntry nEntry;
@@ -265,21 +265,21 @@ class ResultCache implements Serializable {
   /**
    * get number of paragraphs stored in cache
    */
-  synchronized int getNumberOfParas() {
+  int getNumberOfParas() {
     return entries.size();
   }
 
   /**
    * get number of entries
    */
-  synchronized int getNumberOfEntries() {
+  int getNumberOfEntries() {
     return entries.size();
   }
 
   /**
    * get number of matches
    */
-  synchronized int getNumberOfMatches() {
+  int getNumberOfMatches() {
     int number = 0;
     for (int n : entries.keySet()) {
       number += entries.get(n).errorArray.length;
@@ -292,7 +292,7 @@ class ResultCache implements Serializable {
    * if there are more than one error at the position return the one which begins at second
    * if there are more than one that begins at the same position return the one with the smallest size
    */
-  synchronized SingleProofreadingError getErrorAtPosition(int numPara, int numChar) {
+  SingleProofreadingError getErrorAtPosition(int numPara, int numChar) {
     CacheEntry entry = entries.get(numPara);
     if (entry == null) {
       return null;
