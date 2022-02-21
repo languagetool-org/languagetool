@@ -8830,8 +8830,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example correction="Trzydziestu trzech mężczyzn"><marker>Trzydzieści trzej mężczyźni</marker> śpią na lekcji.</example>
 						<example>Czterdziestu pięciu policjantów użyło broni.</example>
 				</rule>
-				<rule id="DLA_OSB_DLA_OSOBY" name="„Dla 1 osób” (dla 1 osoby)">
-				<antipattern>
+				<rulegroup id="DLA_OSB_DLA_OSOBY" name="„Dla 1 osób” (dla 1 osoby)">
+        <rule><antipattern>
             <unify negate="yes"><feature id="gender"/>
               <token inflected="yes">jeden</token>
               <token postag="subst:pl:gen.*" postag_regexp="yes"/>
@@ -8853,6 +8853,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          <example>60 procent władzy i kontroli za 1 procent kapitału</example>
          <example>Cena za 1 dzień pobytu</example>
         </rule>
+        <rule>
+        <antipattern>
+          <token regexp="yes">\d{2}</token>
+          <marker>
+            <token regexp="yes">minuty|tygodnia|dnia</token>
+          </marker>        
+        </antipattern>
+        <antipattern>
+          <token regexp="yes">od|z</token>
+          <token>\d+</token>
+          <token>do</token>
+          <token>\d+</token>
+          <marker>
+            <token postag="subst:sg:gen.*" postag_regexp="yes"/>
+          </marker>
+          </antipattern>
+        <pattern>
+          <token postag='prep:gen.*' postag_regexp='yes'></token>
+          <token regexp='yes'>\d+<exception regexp="yes">1|jednej|jednego|[12]\d{3}</exception></token>
+          <marker>
+          <token postag='subst:sg:gen.*' postag_regexp='yes'>
+            <exception postag='subst:pl:gen.*' postag_regexp='yes'></exception>
+            <exception regexp="yes">wieku|klasy|roku|lata|piętra|miejsca|kwartału|stycznia|lutego|marca|kwietnia|maja|czerwca|lipca|sierpnia|września|października|listopada|grudnia|ulicy</exception>
+            </token>
+          </marker>
+         </pattern>
+         <message>Niewłaściwa końcówka rzeczownika. Powinno być: <suggestion><match no="3"  postag_regexp="yes" postag="(.*)sg(.*)" postag_replace="$1pl$2"/></suggestion>.</message>
+         <short>Błąd gramatyczny</short>
+         <example correction="osób">To jest namiot dla 2 <marker>osoby</marker>.</example>
+         <example>To już jednak nie interesowało ekip telewizyjnych i fotoreporterów, odjeżdżających z 38 Ulicy.</example>
+        <example>Widzimy się za 3 minuty.</example>
+        <example>Użytkownik odbiornika jest obowiązany uiszczać opłatę do 20 dnia danego miesiąca.</example>
+        <example>Od 69 minuty nastroje znacznie się pogorszyły, ponieważ Broendby wyrównało.</example>
+      </rule>
+      </rulegroup>
 				<rule id="NIE_ULEGA_WATPLIWOSCI" name="„nie ulega najmniejszych wątpliwości”" default="off" >
 						<pattern>
 								<token>nie</token>

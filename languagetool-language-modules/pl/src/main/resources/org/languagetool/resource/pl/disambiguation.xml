@@ -4245,8 +4245,8 @@
             <unify>
                 <feature id="case"/>
             <token postag="prep.*" postag_regexp="yes"/>
-                <unify-ignore><token regexp="yes">\d+</token></unify-ignore>
-                <token postag="(adj|subst).*" postag_regexp="yes"/>
+                <unify-ignore><token regexp="yes">\d*[234]</token></unify-ignore>
+                <token postag="(adj|subst):pl:.*" postag_regexp="yes"/>
             </unify>
         </pattern>
         <disambig action="unify"/>
@@ -5022,7 +5022,8 @@
         <rule>
             <pattern>
                 <unify> <feature id="case"/>
-                    <token postag="prep.*" postag_regexp="yes"><exception postag="prep.*|burk" negate_pos="yes" postag_regexp="yes"/><exception>co</exception></token>              <unify-ignore><token regexp="yes">\d+|I{1,3}|I?VI{0,3}|I?XI{0,3}</token></unify-ignore>
+                    <token postag="prep.*" postag_regexp="yes"><exception postag="prep.*|burk" negate_pos="yes" postag_regexp="yes"/><exception>co</exception></token>
+                    <unify-ignore><token regexp="yes">\d+|I{1,3}|I?VI{0,3}|I?XI{0,3}</token></unify-ignore>
                     <token postag="(?:adj|depr|ger|num|subst|ppron.*|ppas|pact|siebie):.*" postag_regexp="yes"><exception>co</exception><exception postag="qub"/></token>
                 </unify>
             </pattern>
