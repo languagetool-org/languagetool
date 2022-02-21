@@ -1130,6 +1130,21 @@ class CaseRuleAntiPatterns {
     ),
     Arrays.asList(
       regex("im"),
+      csRegex("Allgemeinen"),
+      csRegex("[a-zäöü…\\.!\\?…].*")
+    ),
+    Arrays.asList(
+      regex("im"),
+      csRegex("Allgemeinen"),
+      posRegex("SUB.*(NEU|FEM).*")
+    ),
+    Arrays.asList(
+      regex("im"),
+      csRegex("Allgemeinen"),
+      posRegex("SUB.*PLU.*")
+    ),
+    Arrays.asList(
+      regex("im"),
       csRegex("Stillen|Dunkeln|Dunklen|Trocke?nen|Hellen|Trüben|Kalten|Warmen|Geringsten|Entferntesten"),
       csRegex("[a-zäöü…\\.!\\?…].*")
     ),
@@ -1204,7 +1219,7 @@ class CaseRuleAntiPatterns {
     ),
     Arrays.asList( // Immer mehr Ältere erkranken daran
       csRegex("[a-zäöü…\\.,:;0-9\\/].*"),
-      csRegex("Ältere[rn]?|Jüngere[rn]?|Verwirrte[rn]?|Zuschauende[rn]?|Angeklagte[rn]?|Befragte[rn]?|Beschuldigte[rn]?|Referierende[rn]?|Moderierende[rn]?|Dunkelhäutige[rn]?|Verantwortliche[rn]?|Alleinlebende[rn]?|Ungeübte[rn]?|Außerirdische[rn]?|Berittene[rn]?|Heranwachsende[rn]?"),
+      csRegex("Ältere[rn]?|Jüngere[rn]?|Verwirrte[rn]?|Zuschauende[rn]?|Angeklagte[rn]?|Befragte[rn]?|Beschuldigte[rn]?|Referierende[rn]?|Moderierende[rn]?|Dunkelhäutige[rn]?|Verantwortliche[rn]?|Alleinlebende[rn]?|Ungeübte[rn]?|Außerirdische[rn]?|Berittene[rn]?|Heranwachsende[rn]?|Ganze[sn]?"),
       csRegex("[a-zäöü…\\.!:;,\\?…\\)\\*\\(].*")
     ),
     Arrays.asList( // Im Folgenden soll 
