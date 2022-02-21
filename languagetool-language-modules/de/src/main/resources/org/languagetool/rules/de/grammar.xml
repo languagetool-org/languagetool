@@ -59567,6 +59567,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                <example correction=", an was">Denn sie wissen<marker> an was</marker> sie glauben sollen.</example>
                <example>Ich sehe was was du nicht siehst.</example>
             </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>ob</token>
+                    <token postag='.*GEN.*|UNKNOWN' postag_regexp='yes'/>
+                </antipattern>
+                <antipattern>
+                    <token>was</token>
+                    <token>was</token>
+                </antipattern>
+                <pattern>
+                    <token postag="VER:(MOD|AUX):[1-3].+" postag_regexp="yes"></token>
+                    <token min="0" postag="NEG"></token>
+                    <token postag="VER:INF.+" postag_regexp="yes"></token>
+                    <marker>
+                        <token min="0" postag="PRP.+" postag_regexp="yes"></token>
+                        <token regexp="yes">inwie(fern|weit)|ob|wann|was|warum|we[mnr]|wes(halb|wegen|sen)|wieso|wo(durch|her|hin|für|mit|gegen|ran|rauf|von|zu)?</token>
+                    </marker>
+                    <token postag="PRO.+|EIG.+" postag_regexp="yes"></token>
+               </pattern>
+               <message>Indirekte Fragen und Relativsätze werden mit Komma vom Hauptsatz abgetrennt.</message>
+               <suggestion>, \4 \5</suggestion>
+               <short>Möglicherweise fehlendes Komma</short>
+               <example correction=", was">Denn sie konnten nicht wissen<marker> was</marker> sie tun.</example>
+               <example correction=", was">Denn sie konnten wissen<marker> was</marker> sie tun.</example>
+               <example correction=", an was">Denn sie konnten nicht wissen<marker> an was</marker> sie glauben sollen.</example>
+               <example correction=", an was">Denn sie konnten wissen<marker> an was</marker> sie glauben sollen.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="KOMMA_VOR_WIE" name="Komma vor wie">
             <rule>
@@ -61423,6 +61450,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>\5,</suggestion>
                 <example correction="gewohnt,">Er ist es nicht <marker>gewohnt</marker> hungrig einzuschlafen.</example>
                 <example>Er ist es nicht <marker>gewohnt,</marker> hungrig einzuschlafen.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="VER:[1-3].+" postag_regexp="yes" skip="-1">
+                        <exception postag="VER:(MOD|AUX).+" postag_regexp="yes"/>
+                        <exception scope="next" postag="PKT"/>
+                        <exception inflected="yes">scheinen</exception>
+                    </token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">dar(um|an|auf)<exception scope="previous" postag="KON:.+" postag_regexp="yes"/></token>
+                    </marker>
+                    <token skip="4">
+                        <exception postag="PKT|VER:EIZ.+" postag_regexp="yes"/>
+                        <exception>zu</exception>
+                        <exception scope="next" postag="PKT"></exception>
+                    </token>
+                    <token>zu</token>
+                    <token postag="VER:INF.+" postag_regexp="yes"></token>
+                </pattern>
+                <message>Fehlt möglicherweise hier oder im Rest des Satzes ein Komma?</message>
+                <suggestion>\2,</suggestion>
+                <url>https://gfds.de/erweiterter-infinitiv-komma-bei/</url>
+                <example correction="darum,">Es geht mir gar nicht <marker>darum</marker> euch Vorschtrift zu machen.</example>
+                <example>Es geht mir nicht darum zu bestrafen.</example>
             </rule>
         </rulegroup>
         <rulegroup id="KOMMAFEHLER" name="Fehler in der Kommasetzung">
@@ -64061,7 +64112,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token case_sensitive="yes">Recht</token>
                 </antipattern>
                 <antipattern>
-                    <token>„</token>
+                    <token regexp="yes">„|welches</token>
                     <token case_sensitive="yes">Recht</token>
                 </antipattern>
                 <pattern>
@@ -64078,6 +64129,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Er wusste, dass er das <marker>Recht</marker> hatte so etwas zu verlangen.</example>
                 <example><marker>Recht</marker> hatte sie.</example>
                 <example>Er sagte: „Recht haben und recht bekommen sind zwei verschiedene Fakten.“</example>
+                <example>Welches Recht haben wir, über ihn zu urteilen?</example>
             </rule>
             <rule>
                 <pattern>
