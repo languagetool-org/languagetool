@@ -13837,6 +13837,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Meinten Sie das Nomen <suggestion>Klein<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Kleinkram">Ich mache ganz viel <marker>klein Kram</marker>!</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>regional</token>
+                    <token regexp="yes" case_sensitive="yes">[Bb]ahn|Zugs?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>Regional<match no="2" case_conversion="alllower" /></suggestion>?</message>
+                <example correction="Regionalzug">Der <marker>Regional Zug</marker> fährt in den Bahnhof ein.</example>
+            </rule>
         </rulegroup>
         <rule id="GEGEN_CHECKEN" name="gegen checken (gegenchecken)">
             <pattern>
@@ -45994,6 +46002,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
+        <rule id="VORM_AUSSTERBEN_BEDROHT" name="vorm (vom) Aussterben bedroht" default="temp_off">
+            <antipattern>
+                <token>vom</token>
+                <token case_sensitive="yes">Aussterben</token>
+            </antipattern>
+            <pattern case_sensitive="yes">
+                <marker>
+                    <token regexp="yes">[Vv]or?m</token>
+                    <token regexp="yes">[Aa]ussterben</token>
+                </marker>
+                <token min="0">zu</token>
+                <token inflected="yes">bedrohen</token>
+            </pattern>
+            <message>In dieser Redewendung wird "Aussterben" großgeschrieben und die Präposition "vom" verwendet.</message>
+            <suggestion>vom Aussterben</suggestion>
+            <example correction="vom Aussterben">Die Bienen sind <marker>vorm aussterben</marker> bedroht.</example>
+        </rule>
         <rule id="SOLCHE_VORGEHEN" name="solche(s) Vorgehen">
             <pattern>
                 <token regexp="yes">solche|ähnliche|diese|die|welche</token>
