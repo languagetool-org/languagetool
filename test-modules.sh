@@ -99,7 +99,7 @@ else
     exit 0
   else
     PROJECTS=${PROJECTS::-1}
-    TEST_COMMAND=(mvn clean --projects "$PROJECTS" -amd -fae test)
+    TEST_COMMAND=(mvn clean --projects "$PROJECTS" -am -fae test)
   fi
 fi
 echo "${TEST_COMMAND[@]}"
