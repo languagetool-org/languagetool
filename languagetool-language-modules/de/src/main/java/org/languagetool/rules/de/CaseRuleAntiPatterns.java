@@ -133,7 +133,7 @@ class CaseRuleAntiPatterns {
       token("Roll")
     ),
     Arrays.asList(
-      regex("Vitamin-[A-Z][0-9]?-reich(e|en|em|es)?")
+      regex("Vitamin-[A-Z][0-9]?-reich(e|e[nms])?")
     ),
     Arrays.asList(
       // Auflistung
@@ -752,7 +752,7 @@ class CaseRuleAntiPatterns {
       csToken("So")
     ),
     Arrays.asList( // "Sa. oder So."
-      csRegex("Mo|Di|Mi|Do|Fr|Sa"),
+      csRegex("M[io]|D[io]||Fr|Sa"),
       token("."),
       csRegex("&|und|oder|-|,"),
       csToken("So"),
