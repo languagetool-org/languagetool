@@ -1251,6 +1251,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Adon", "Add-on");
     put("Adons", "Add-ons");
     put("vertaggt", w -> Arrays.asList("vertagt", "getaggt"));
+    put("keinsten", w -> Arrays.asList("keinen", "kleinsten"));
     put("Angehensweise", "Vorgehensweise");
     put("Angehensweisen", "Vorgehensweisen");
     put("Neudefinierung", "Neudefinition");
@@ -1444,6 +1445,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         && !s.matches(".+[*_:]innen")
         && !s.contains("--")
         && !s.endsWith("roulett")
+        && !s.matches(".+\\szigste[srnm]") // do not suggest "ein zigste" for "einzigste"
         && !s.matches("[\\wöäüÖÄÜß]+ [a-zöäüß]-[\\wöäüÖÄÜß]+")   // e.g. "Mediation s-Background"
         && !s.matches("[\\wöäüÖÄÜß]+- [\\wöäüÖÄÜß]+")   // e.g. "Pseudo- Rebellentum"
         && !s.matches("[A-ZÄÖÜ][a-zäöüß]+-[a-zäöüß]+-[a-zäöüß]+")   // e.g. "Kapuze-over-teil"
@@ -2293,6 +2295,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Daß": return topMatch("Dass");
       case "bescheid": return topMatch("Bescheid");
       case "ausversehen": return topMatch("aus Versehen");
+      case "Johannesbeere": return topMatch("Johannisbeere");
+      case "Johannesbeeren": return topMatch("Johannisbeeren");
       case "Entäuschung": return topMatch("Enttäuschung");
       case "Entäuschungen": return topMatch("Enttäuschungen");
       case "Triologie": return topMatch("Trilogie", "Werk (z.B. Film), das aus drei Teilen besteht");

@@ -186,6 +186,7 @@ public class AgreementRule extends Rule {
     "irgendwer",
     "was",
     "wer",
+    "wem",
     "jenen",      // "...und mit jenen anderer Arbeitsgruppen verwoben"
     "diejenigen",
     "irgendjemand", "irgendjemandes",

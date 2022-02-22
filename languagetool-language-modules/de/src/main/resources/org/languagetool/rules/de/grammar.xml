@@ -1389,10 +1389,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Meinten Sie <suggestion>um</suggestion>?</message>
                 <example correction="um">Ich werde <marker>im</marker> dich kämpfen.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>Uhr</token>
-                    <token regexp="yes">Zug|Flieger|Bus</token>
+                    <token regexp="yes" inflected="yes">Zug|Flieger|Bus|Flug|Meeting</token>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -1406,7 +1406,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="um">Ich kann <marker>im</marker> 18 Uhr.</example>
                 <example>Er sitzt im 18 Uhr Flieger.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>9</token>
                     <token>:</token>
@@ -1430,7 +1430,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="um">Ich kann <marker>im</marker> 18:30.</example>
                 <example>Auch die Livestream Formate bei Instagram oder Facebook sind im 9:16 Format.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token regexp="yes">[Ii]m</token>
@@ -4395,7 +4395,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token>de</token>
-                    <token regexp="yes">Sainte?\-.*|Bouillon|Grande?|Bibliographie|Gendarmes</token>
+                    <token regexp="yes">Sainte?\-.*|Bouillon|Grande?|Bibliographie|Gendarmes|Amigos</token>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">Tour|Amateurs|Internationale|Mondiale|Francisco|Hugues|Dôme|Piazza|Plaza|Universidad|Isla</token>
@@ -8089,6 +8089,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="ACH_NACH" name="ach/nach">
             <rule>
+                <antipattern>
+                    <token>ach</token>
+                    <token>so</token>
+                </antipattern>
                 <pattern>
                     <token>von</token>
                     <token/>
@@ -12282,7 +12286,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
-        <rule id="KICK_OFF" name="Kick Off (Kick-off)" default="temp_off">
+        <rulegroup id="KICK_OFF" name="Kick Off (Kick-off)">
             <antipattern>
                 <token regexp="yes" skip="2">s|lets|will|can|could|we|they|you</token>
                 <token>kick</token>
@@ -12291,14 +12295,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>off</token>
                 <token regexp="yes">the|y?our|my|an?|this|that|th[eo]se</token>
             </antipattern>
-            <pattern>
-                <token>Kick</token>
-                <token regexp="yes">Offs?</token>
-            </pattern>
-            <message>Das Substantiv <suggestion>Kick-<match no="2" case_conversion="alllower" /></suggestion> wird mit Bindestrich oder zusammengeschrieben.</message>
-            <suggestion>Kick<match no="2" case_conversion="alllower" /></suggestion>
-            <example correction="Kick-off|Kickoff">Der <marker>Kick Off</marker> zu unserem Projekt ist um 15 Uhr.</example>
-        </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>Kick</token>
+                    <token>Off</token>
+                    <token regexp="yes">Meetings?</token>
+                </pattern>
+                <message>Das Substantiv <suggestion>Kick-<match no="2" case_conversion="alllower" />-<match no="3" case_conversion="startupper" /></suggestion> wird mit Bindestrich oder zusammengeschrieben.</message>
+                <suggestion>Kickoff-<match no="3" case_conversion="startupper" /></suggestion>
+                <example correction="Kick-off-Meeting|Kickoff-Meeting">Das <marker>Kick Off Meeting</marker> zu unserem Projekt ist um 15 Uhr.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>Kick</token>
+                    <token regexp="yes">Offs?</token>
+                </pattern>
+                <message>Das Substantiv <suggestion>Kick-<match no="2" case_conversion="alllower" /></suggestion> wird mit Bindestrich oder zusammengeschrieben.</message>
+                <suggestion>Kick<match no="2" case_conversion="alllower" /></suggestion>
+                <example correction="Kick-off|Kickoff">Der <marker>Kick Off</marker> zu unserem Projekt ist um 15 Uhr.</example>
+            </rule>
+        </rulegroup>
         <rule id="ZU_GLEICH" name="zu gleich (zugleich)">
             <antipattern>
                 <token regexp="yes">Vergleich|Unterschied</token>
@@ -13908,7 +13924,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Meinten Sie das Nomen <suggestion>Klein<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Kleinkram">Ich mache ganz viel <marker>klein Kram</marker>!</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>regional</token>
                     <token regexp="yes" case_sensitive="yes">[Bb]ahn|Zugs?</token>
@@ -46081,7 +46097,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
-        <rule id="VORM_AUSSTERBEN_BEDROHT" name="vorm (vom) Aussterben bedroht" default="temp_off">
+        <rule id="VORM_AUSSTERBEN_BEDROHT" name="vorm (vom) Aussterben bedroht">
             <antipattern>
                 <token>vom</token>
                 <token case_sensitive="yes">Aussterben</token>

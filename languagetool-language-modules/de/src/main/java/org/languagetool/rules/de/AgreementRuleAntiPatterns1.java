@@ -957,6 +957,14 @@ class AgreementRuleAntiPatterns1 {
       csToken("Shop"),
       csToken("Apotheke")
     ),
+    Arrays.asList( // In den Prime Standard
+      csToken("Prime"),
+      csToken("Standard")
+    ),
+    Arrays.asList( // Die Nord Stream 2 AG
+      csToken("Nord"),
+      csToken("Stream")
+    ),
     Arrays.asList( // Ein Mobiles Einsatzkommando
       posRegex("ART.*|PRO:POS.*"),
       csToken("Mobiles"),

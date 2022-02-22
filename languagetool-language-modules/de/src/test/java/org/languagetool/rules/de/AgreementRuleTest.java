@@ -591,6 +591,7 @@ public class AgreementRuleTest {
     assertGood("Das veranlasste Bürgermeister Adam, selbst tätig zu werden, denn er wollte es nicht zulassen, dass in seiner Stadt Notleidende ohne Hilfe dastehen.");
     assertGood("Die südlichste Düsseldorfer Rheinbrücke ist die Fleher Brücke, eine Schrägseilbrücke mit dem höchsten Brückenpylon in Deutschland und einer Vielzahl von fächerförmig angeordneten Seilen.");
     assertGood("Ein zeitweise wahres Stakkato an einschlägigen Patenten, das Benz & Cie.");
+    assertGood("Wem Rugby nicht sehr geläufig ist, dem wird auch das Six Nations nicht viel sagen.");
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");
     //assertBad("Erst recht ich fleißiges Arbeiter.");

@@ -1136,7 +1136,7 @@ class CaseRuleAntiPatterns {
     Arrays.asList(
       regex("im"),
       csRegex("Allgemeinen"),
-      posRegex("SUB.*(NEU|FEM).*")
+      posRegex("SUB.*FEM.*")
     ),
     Arrays.asList(
       regex("im"),
