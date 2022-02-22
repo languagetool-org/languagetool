@@ -539,6 +539,15 @@ class SingleDocument {
     int nCheck = mDocHandler.getNumMinToCheckParas().get(nCache);
     int nStart = docCache.getStartOfParaCheck(nPara, nCheck, false, true, false);
     int nEnd = docCache.getEndOfParaCheck(nPara, nCheck, false, true, false);
+    if (nCheck > 0 && nStart + 1 < nEnd) {
+      if ((nStart == nPara.number 
+              || paragraphsCache.get(nCache).getCacheEntry(docCache.getFlatParagraphNumber(new TextParagraph(nPara.type, nPara.number - 1))) != null) 
+          && (nEnd == nPara.number 
+              || paragraphsCache.get(nCache).getCacheEntry(docCache.getFlatParagraphNumber(new TextParagraph(nPara.type, nPara.number + 1))) != null)) {
+        nStart = nPara.number;
+        nEnd = nStart + 1;
+      }
+    }
     return mDocHandler.getTextLevelCheckQueue().createQueueEntry(docCache.createTextParagraph(nPara.type, nStart), 
         docCache.createTextParagraph(nPara.type, nEnd), nCache, nCheck, docID, false);
   }

@@ -738,7 +738,7 @@ class CheckRequestAnalysis {
         for (int i = 0; i < minToCheckPara.size(); i++) {
           paragraphsCache.get(i).remove(nPara);
           if (minToCheckPara.get(i) > 0) {
-            singleDocument.addQueueEntry(nPara, i, minToCheckPara.get(i), docID, false, numLastFlPara < 0 ? false : true);
+            singleDocument.addQueueEntry(nPara, i, minToCheckPara.get(i), docID, true, numLastFlPara < 0 ? false : true);
           }
         }
       } else {
