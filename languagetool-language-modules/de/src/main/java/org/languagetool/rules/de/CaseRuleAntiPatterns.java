@@ -1033,14 +1033,14 @@ class CaseRuleAntiPatterns {
       // "3.) Ein Listenpunkt"
       SENT_START,
       regex("\\d{1,3}[a-z]?"),
-      token("."),
+      csToken("."),
       regex("[\\]\\)\\}]"),
       csRegex("[A-ZÄÜÖ].*")
     ),
     Arrays.asList(
       // "Es besteht aus Schülern, Arbeitstätigen und Studenten."
       posRegex("SUB:.+"),
-      token(","),
+      csToken(","),
       posRegex("SUB:.+"),
       csRegex("und|oder|&"),
       posRegex("SUB:.+:(MAS|FEM|NEU)")
@@ -1125,26 +1125,26 @@ class CaseRuleAntiPatterns {
       csRegex("[a-zäöü…\\.!\\?…].*")
     ),
     Arrays.asList(
-      regex("im"),
+      token("im"),
       csRegex("Wesentlichen")
     ),
     Arrays.asList(
-      regex("im"),
+      token("im"),
       csRegex("Allgemeinen"),
       csRegex("[a-zäöü…\\.!\\?…].*")
     ),
     Arrays.asList(
-      regex("im"),
+      token("im"),
       csRegex("Allgemeinen"),
       posRegex("SUB.*FEM.*")
     ),
     Arrays.asList(
-      regex("im"),
+      token("im"),
       csRegex("Allgemeinen"),
       posRegex("SUB.*PLU.*")
     ),
     Arrays.asList(
-      regex("im"),
+      token("im"),
       csRegex("Stillen|Dunkeln|Dunklen|Trocke?nen|Hellen|Trüben|Kalten|Warmen|Geringsten|Entferntesten"),
       csRegex("[a-zäöü…\\.!\\?…].*")
     ),
