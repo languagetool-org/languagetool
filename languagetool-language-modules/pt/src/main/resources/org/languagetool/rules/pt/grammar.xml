@@ -19116,39 +19116,39 @@ O quê?!
 
     <!-- 	CADA VEZ MAIOR/MENOR crescente/decrescente -->	
     <rulegroup id='CADA_VEZ_MAIOR_MENOR_CRESCENTE_DECRESCENTE' name="Cada vez maior/menor → crescente/decrescente">
-	<!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-14 (Checked/Enhanced) (1-JAN-2022+)      -->
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-14 + 2022-02-22 (Checked/Enhanced) (1-JAN-2022+)      -->
 
 	  <!-- CRESCENTE -->
 	  <rule>
 		<pattern>
 		  <or>
 			<token negate_pos="yes" postag='V.+' postag_regexp='yes'/>
-			<token>é</token>
+			<token inflected='yes'>ser</token>
 		  </or>
 		  <marker>
 			<token>cada</token>
 			<token>vez</token>
-			<token>maior</token>
+			<token regexp='yes'>maior|maiores</token>
 		  </marker>
 		</pattern>
-		<message>Substitua por <suggestion>crescente</suggestion>.</message>
+		<message>Substitua por <suggestion><match no='4' postag='AQ..(.).' postag_replace='AQ0C$10'>crescente</match></suggestion>.</message>
 		<example correction="crescente">O número <marker>cada vez maior</marker> de cometas descobertos tornou o processo problemático.</example>
 	  </rule>
-
+	  
 	  <!-- DECRESCENTE -->
 	  <rule>
 		<pattern>
 		  <or>
 			<token negate_pos="yes" postag='V.+' postag_regexp='yes'/>
-			<token>é</token>
+			<token inflected='yes'>ser</token>
 		  </or>
 		  <marker>
 			<token>cada</token>
 			<token>vez</token>
-			<token>menor</token>
+			<token regexp='yes'>menor|menores</token>
 		  </marker>
 		</pattern>
-		<message>Substitua por <suggestion>decrescente</suggestion>.</message>
+		<message>Substitua por <suggestion><match no='4' postag='AQ..(.).' postag_replace='AQ0C$10'>decrescente</match></suggestion>.</message>
 		<example correction="decrescente">O número <marker>cada vez menor</marker> de cometas descobertos tornou o processo problemático.</example>
 	  </rule>
 
