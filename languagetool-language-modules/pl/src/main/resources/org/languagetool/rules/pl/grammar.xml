@@ -20019,6 +20019,128 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
 		<category id="TYPOS" name="Prawdopodobne literówki" type="misspelling">
+		<rulegroup id="ZAPIS_DATY_ZE_SKROTEM_BLEDNYM" name="Błędny zapis skrótu miesiąca w dacie">
+		<rule>
+		<pattern>
+      <token regexp="yes">[0123]\d?</token>
+      <token>sty</token>
+      <token regexp="yes">[12]\d{3}</token>
+    </pattern>
+    <message>Błąd ortograficzny w skrócie nazwy miesiąca (typowy w bezmyślnym tłumaczeniu). Powinno być: <suggestion>\1 I \3</suggestion>.</message>
+    <short>Błąd ortograficzny</short>
+    <example correction="21 I 2012">Wiadomość z <marker>21 Sty 2012</marker>:</example>
+		</rule>
+		<rule>
+		<pattern>
+      <token regexp="yes">[0123]\d?</token>
+      <token>lut</token>
+      <token regexp="yes">[12]\d{3}</token>
+    </pattern>
+    <message>Błąd ortograficzny w skrócie nazwy miesiąca (typowy w bezmyślnym tłumaczeniu). Powinno być: <suggestion>\1 II \3</suggestion>.</message>
+    <short>Błąd ortograficzny</short>
+    <example correction="21 II 2012">Wiadomość z <marker>21 lut 2012</marker>:</example>
+		</rule>
+		<rule>
+		<pattern>
+      <token regexp="yes">[0123]\d?</token>
+      <token>mar</token>
+      <token regexp="yes">[12]\d{3}</token>
+    </pattern>
+    <message>Błąd ortograficzny w skrócie nazwy miesiąca (typowy w bezmyślnym tłumaczeniu). Powinno być: <suggestion>\1 III \3</suggestion>.</message>
+    <short>Błąd ortograficzny</short>
+    <example correction="21 III 2012">Wiadomość z <marker>21 Mar 2012</marker>:</example>
+		</rule>
+		<rule>
+		<pattern>
+      <token regexp="yes">[0123]\d?</token>
+      <token>kwi</token>
+      <token regexp="yes">[12]\d{3}</token>
+    </pattern>
+    <message>Błąd ortograficzny w skrócie nazwy miesiąca (typowy w bezmyślnym tłumaczeniu). Powinno być: <suggestion>\1 IV \3</suggestion>.</message>
+    <short>Błąd ortograficzny</short>
+    <example correction="21 IV 2012">Wiadomość z <marker>21 Kwi 2012</marker>:</example>
+		</rule>
+		<rule>
+		<pattern>
+      <token regexp="yes">[0123]\d?</token>
+      <token>maj</token>
+      <token regexp="yes">[12]\d{3}</token>
+    </pattern>
+    <message>Błąd ortograficzny w skrócie lub błędna odmiana nazwy miesiąca. Powinno być: <suggestion>\1 V \3</suggestion> lub <suggestion>\1 maja \3</suggestion>.</message>
+    <short>Błąd ortograficzny</short>
+    <example correction="1 V 2012|1 maja 2012">Wiadomość z <marker>1 Maj 2012</marker>:</example>
+		</rule>
+		<rule>
+		<pattern>
+      <token regexp="yes">[0123]\d?</token>
+      <token>cze</token>
+      <token regexp="yes">[12]\d{3}</token>
+    </pattern>
+    <message>Błąd ortograficzny w skrócie nazwy miesiąca (typowy w bezmyślnym tłumaczeniu). Powinno być: <suggestion>\1 VI \3</suggestion>.</message>
+    <short>Błąd ortograficzny</short>
+    <example correction="21 VI 2012">Wiadomość z <marker>21 cze 2012</marker>:</example>
+		</rule>
+		<rule>
+		<pattern>
+      <token regexp="yes">[0123]\d?</token>
+      <token>lip</token>
+      <token regexp="yes">[12]\d{3}</token>
+    </pattern>
+    <message>Błąd ortograficzny w skrócie nazwy miesiąca (typowy w bezmyślnym tłumaczeniu). Powinno być: <suggestion>\1 VII \3</suggestion>.</message>
+    <short>Błąd ortograficzny</short>
+    <example correction="10 VII 2012">Wiadomość z <marker>10 Lip 2012</marker>:</example>
+		</rule>
+		<rule>
+		<pattern>
+      <token regexp="yes">[0123]\d?</token>
+      <token>sie</token>
+      <token regexp="yes">[12]\d{3}</token>
+    </pattern>
+    <message>Błąd ortograficzny w skrócie nazwy miesiąca (typowy w bezmyślnym tłumaczeniu). Powinno być: <suggestion>\1 VIII \3</suggestion>.</message>
+    <short>Błąd ortograficzny</short>
+    <example correction="30 VIII 2012">Wiadomość z <marker>30 Sie 2012</marker>:</example>
+		</rule>
+		<rule>
+		<pattern>
+      <token regexp="yes">[0123]\d?</token>
+      <token>wrz</token>
+      <token regexp="yes">[12]\d{3}</token>
+    </pattern>
+    <message>Błąd ortograficzny w skrócie nazwy miesiąca (typowy w bezmyślnym tłumaczeniu). Powinno być: <suggestion>\1 IX \3</suggestion>.</message>
+    <short>Błąd ortograficzny</short>
+    <example correction="21 IX 2012">Wiadomość z <marker>21 Wrz 2012</marker>:</example>
+		</rule>
+		<rule>
+		<pattern>
+      <token regexp="yes">[0123]\d?</token>
+      <token>paź</token>
+      <token regexp="yes">[12]\d{3}</token>
+    </pattern>
+    <message>Błąd ortograficzny w skrócie nazwy miesiąca (typowy w bezmyślnym tłumaczeniu). Powinno być: <suggestion>\1 X \3</suggestion>.</message>
+    <short>Błąd ortograficzny</short>
+    <example correction="2 X 2012">Wiadomość z <marker>2 Paź 2012</marker>:</example>
+		</rule>
+		<rule>
+		<pattern>
+      <token regexp="yes">[0123]\d?</token>
+      <token>lis</token>
+      <token regexp="yes">[12]\d{3}</token>
+    </pattern>
+    <message>Błąd ortograficzny w skrócie nazwy miesiąca (typowy w bezmyślnym tłumaczeniu). Powinno być: <suggestion>\1 XI \3</suggestion>.</message>
+    <short>Błąd ortograficzny</short>
+    <example correction="11 XI 2012">Wiadomość z <marker>11 lis 2012</marker>:</example>
+		</rule>
+		<rule>
+		<pattern>
+      <token regexp="yes">[0123]\d?</token>
+      <token>gru</token>
+      <token regexp="yes">[12]\d{3}</token>
+    </pattern>
+    <message>Błąd ortograficzny w skrócie nazwy miesiąca (typowy w bezmyślnym tłumaczeniu). Powinno być: <suggestion>\1 XII \3</suggestion>.</message>
+    <short>Błąd ortograficzny</short>
+    <example correction="24 XII 2020">Wiadomość z <marker>24 gru 2020</marker>:</example>
+		</rule>
+		</rulegroup>
 		<rulegroup id="czesc_czesc" name="„cześć” mylone z „część”">
       <rule>
       <pattern>
