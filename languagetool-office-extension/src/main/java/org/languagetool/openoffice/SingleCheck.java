@@ -506,15 +506,18 @@ class SingleCheck {
       if (!isTextParagraph || parasToCheck == 0) {
         Locale primaryLocale = isMultiLingual ? docCache.getFlatParagraphLocale(nFPara) : locale;
         SwJLanguageTool mLt;
-        if (OfficeTools.isEqualLocale(primaryLocale, locale)) {
+        if (OfficeTools.isEqualLocale(primaryLocale, locale) || !mDocHandler.hasLocale(primaryLocale)) {
           mLt = lt;
         } else {
           mLt = mDocHandler.initLanguageTool(mDocHandler.getLanguage(primaryLocale), false);
           mDocHandler.initCheck(mLt);
         }
-
         List<Integer> nextSentencePositions = getNextSentencePositions(paraText, mLt);
-        paragraphMatches = mLt.check(removeFootnotes(paraText, footnotePos), true, JLanguageTool.ParagraphHandling.NORMAL);
+        if (mLt == null) {
+          paragraphMatches = null;
+        } else {
+          paragraphMatches = mLt.check(removeFootnotes(paraText, footnotePos), true, JLanguageTool.ParagraphHandling.NORMAL);
+        }
         if (isDisposed()) {
           return null;
         }
@@ -673,7 +676,7 @@ class SingleCheck {
       nextSentencePositions.add(0);
       return nextSentencePositions;
     }
-    if (lt.isRemote()) {
+    if (lt == null || lt.isRemote()) {
       nextSentencePositions.add(paraText.length());
     } else {
       List<String> tokenizedSentences = lt.sentenceTokenize(cleanFootnotes(paraText));
