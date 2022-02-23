@@ -8,6 +8,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
@@ -36,24 +38,17 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class GRPCPostProcessing {
 
-  private static final Duration slowDurationThreshold = Duration.ofMillis(400);
-  private static final int slowRateThreshold = 80;
-  private static final int failureRateThreshold = 50;
-  private static final Duration waitDurationOpen = Duration.ofSeconds(60);
+  private final CircuitBreaker circuitBreaker;
+  private ManagedChannel channel;
+  private PostProcessingServerBlockingStub stub;
 
-  private static final CircuitBreaker circuitBreaker;
-  private static ManagedChannel channel;
-  private static PostProcessingServerBlockingStub stub;
+  private RemoteRuleConfig config;
 
-  static {
-    CircuitBreakerConfig config = CircuitBreakerConfig.custom()
-      .slowCallDurationThreshold(slowDurationThreshold)
-      .slowCallRateThreshold(slowRateThreshold)
-      .failureRateThreshold(failureRateThreshold)
-      .waitDurationInOpenState(waitDurationOpen)
-      .build();
-    circuitBreaker = CircuitBreakers.registry().circuitBreaker(GRPCPostProcessing.class.getName(), config);
-  }
+  // instances by rule ID in RemoteRuleConfig
+  private static ConcurrentMap<String, GRPCPostProcessing> instances = new ConcurrentHashMap<>();
+  // configured rule IDs by language (multiple language variants can share an instance)
+  private static ConcurrentMap<Language, String> configIDs = new ConcurrentHashMap<>();
+
 
   class RuleData extends Rule {
     private final Match m;
@@ -112,33 +107,43 @@ public class GRPCPostProcessing {
     }
   }
 
-  public GRPCPostProcessing(Language language) {
+  private GRPCPostProcessing(RemoteRuleConfig config) throws Exception {
+    this.config = config;
+    CircuitBreakerConfig circuitBreakerConfig = RemoteRule.getCircuitBreakerConfig(config, config.getRuleId());
+    circuitBreaker = CircuitBreakers.registry().circuitBreaker(
+      "grpc-postprocessing-" + config.getRuleId(), circuitBreakerConfig);
+
+    String host = config.getUrl();
+    int port = config.getPort();
+    boolean ssl = Boolean.parseBoolean(config.getOptions().getOrDefault("secure", "false"));
+    String key = config.getOptions().get("clientKey");
+    String cert = config.getOptions().get("clientCertificate");
+    String ca = config.getOptions().get("rootCertificate");
+    channel = getManagedChannel(host, port, ssl, key, cert, ca);
+    stub = PostProcessingServerGrpc.newBlockingStub(channel);
   }
 
-  public static void configure(File remoteRuleConfig) {
-    // TODO: own config object / values; configure circuit breaker via options;
-    // make a static load method that loads and caches based on remote rule configuration, language-dependent
-    if (channel != null) {
-      return;
+  @Nullable
+  public static GRPCPostProcessing get(Language lang) {
+    String configID = configIDs.get(lang);
+    if (configID == null) {
+      return null;
     }
-    List<RemoteRuleConfig> configs = null;
-    try {
-      configs = RemoteRuleConfig.load(remoteRuleConfig);
-      // TODO: make this language-dependent or send language as part of request
-      RemoteRuleConfig serviceConfiguration = RemoteRuleConfig.getRelevantConfig("AI_RESORTING", configs);
-      if (serviceConfiguration != null) {
-        String host = serviceConfiguration.getUrl();
-        int port = serviceConfiguration.getPort();
-        boolean ssl = Boolean.parseBoolean(serviceConfiguration.getOptions().getOrDefault("secure", "false"));
-        String key = serviceConfiguration.getOptions().get("clientKey");
-        String cert = serviceConfiguration.getOptions().get("clientCertificate");
-        String ca = serviceConfiguration.getOptions().get("rootCertificate");
-        channel = getManagedChannel(host, port, ssl, key, cert, ca);
-        stub = PostProcessingServerGrpc.newBlockingStub(channel);
+    return instances.get(configID);
+  }
+
+  public static void configure(Language lang, RemoteRuleConfig config) {
+    String key = config.getRuleId();
+    configIDs.putIfAbsent(lang, key);
+    instances.computeIfAbsent(key, s -> {
+      try {
+        return new GRPCPostProcessing(config);
+      } catch (Exception e) {
+        log.warn(String.format("Couldn't initialize GRPCPostProcessing instance" +
+          " for language '%s' and configuration '%s'", lang, config), e);
+        return null;
       }
-    } catch (ExecutionException | SSLException e) {
-      log.error("Couldn't configure GRPCRuleMatchFilter", e);
-    }
+    });
   }
 
   @NotNull
@@ -227,13 +232,9 @@ public class GRPCPostProcessing {
     return r;
   }
 
-  public List<RuleMatch> filter(List<AnalyzedSentence> sentences, List<RuleMatch> ruleMatches) {
-    if (channel == null) {
-      return ruleMatches;
-    }
-
+  private PostProcessingRequest buildRequest(List<AnalyzedSentence> sentences, List<RuleMatch> ruleMatches,
+                                             List<Integer> offset) {
     List<MatchList> matches = new ArrayList<>();
-    List<Integer> offset = new ArrayList<>();
     for (int i = 0; i < sentences.size(); i++) {
       AnalyzedSentence sentence = sentences.get(i);
       if (i == 0) {
@@ -266,8 +267,32 @@ public class GRPCPostProcessing {
     PostProcessingRequest req = PostProcessingRequest.newBuilder()
       .addAllSentences(sentenceText).addAllMatches(matches).build();
     System.out.println("Resorting request: " + req);
-    // TODO: circuitBreaker
-    MatchResponse response = stub.process(req);
+    return req;
+  }
+
+  public List<RuleMatch> filter(List<AnalyzedSentence> sentences, List<RuleMatch> ruleMatches) {
+    if (channel == null) {
+      return ruleMatches;
+    }
+
+    int chars = sentences.stream().map(s -> s.getText().length()).reduce(0, Integer::sum);
+    List<RuleMatch> result;
+    try {
+      result = RemoteRuleMetrics.inCircuitBreaker(System.nanoTime(), circuitBreaker,
+        config.ruleId, chars, () -> runPostprocessing(sentences, ruleMatches));
+    } catch (InterruptedException e) {
+      return ruleMatches;
+    }
+    if (result == null) {
+      return ruleMatches;
+    } else {
+      return result;
+    }
+  }
+
+  private List<RuleMatch> runPostprocessing(List<AnalyzedSentence> sentences, List<RuleMatch> ruleMatches) {
+    List<Integer> offset = new ArrayList<>();
+    MatchResponse response = stub.process(buildRequest(sentences, ruleMatches, offset));
     System.out.println("Resorting response: " + response);
     List<RuleMatch> result = new ArrayList<>(response.getSentenceMatchesCount());
     for (int i = 0; i < response.getSentenceMatchesCount(); i++) {

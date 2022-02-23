@@ -1027,7 +1027,14 @@ public class JLanguageTool {
     }
 
     ruleMatches = filterMatches(annotatedText, rules, ruleMatches);
-    ruleMatches = new GRPCPostProcessing(language).filter(analyzedSentences, ruleMatches);
+
+    // decide if this should be done right after performCheck, before waiting for remote rule results
+    // better for latency, remote rules probably don't need resorting
+    // complications with application of other filters?
+    GRPCPostProcessing postProcessing = GRPCPostProcessing.get(language);
+    if (postProcessing != null) {
+      ruleMatches = postProcessing.filter(analyzedSentences, ruleMatches);
+    }
 
     return new CheckResults(ruleMatches, res.getIgnoredRanges());
   }
@@ -1089,7 +1096,7 @@ public class JLanguageTool {
         }
         try {
           //logger.info("Fetching results for remote rule for {} chars", chars);
-          RemoteRuleMetrics.inCircuitBreaker(deadlineStartNanos, rule, ruleKey, chars, () ->
+          RemoteRuleMetrics.inCircuitBreaker(deadlineStartNanos, rule.circuitBreaker(), ruleKey, chars, () ->
             fetchResults(deadlineStartNanos, mode, level, analyzedSentences, remoteMatches, matchOffset, annotatedText, textSessionID, chars, deadlineEndNanos, task, rule, ruleKey));
         } catch (InterruptedException e) {
           break;
