@@ -209,7 +209,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <marker>
                         <token regexp="yes">\d.*</token>
                     </marker>
-                    <token regexp="yes">₿|¢|$|€|₤|₱|₽|₪|₩|¥|bits?|bytes?|cents?|centimetern?|dezilitern?|dezimetern?|dl|dm|.*dollar|euros?|franken|gb|gigabytes?|gramm|[kmg]w|ha|hektar|jahr(e|en)?|jahrzehnt(e|en)?|kilobytes?|kilogramm|kilometern?|km|kr|kronen?|kubikmetern?|litern?|mark|m|mb|megabits|megabytes?|metern?|mg|milligramm|millilitern?|millimetern?|million(en)?|milliard(e|en)?|minuten?|mio|ml|mm|monat(e|en)?|mrd|pesos?|pfund|pikogramm|pg|promille|prozent|quadratkilometern?|quadratmetern?|rappen?|rubel|sekunden?|stunden?|tag(e|en)?|tausend|tonnen?|wochen?|yen|zentimetern?</token>
+                    <token regexp="yes">₿|¢|$|€|₤|₱|₽|₪|₩|¥|bits?|bytes?|cents?|centimetern?|dezilitern?|dezimetern?|dl|dm|.*dollar|euros?|franken|gb|gigabytes?|gramm|[kmg]w|ha|hektar|jahr(e|en)?|jahrzehnt(e|en)?|kilobytes?|kilogramm|kilometern?|km|kr|kronen?|kubikmetern?|litern?|mark|m|mb|megabits|megabytes?|metern?|mg|milligramm|millilitern?|millimetern?|million(en)?|milliard(e|en)?|minuten?|mio|ml|mm|monat(e|en)?|mrd|pesos?|pfund|pikogramm|pg|promille|prozent|quadratkilometern?|quadratmetern?|rappen?|rubel|sekunden?|stunden?|tag(e|en)?|tausend|tonnen?|wochen?|yen|zentimetern?|gw</token>
                 </pattern>
                 <example correction="">Die Stadt hat eine Größe von ungefähr <marker>1000</marker> Quadratkilometern.</example>
                 <example correction="">Mit mehr als <marker>111</marker> Millionen Tagesbesuchern jährlich ist Hamburg eines der attraktivsten Tourismusziele in Deutschland.</example>
@@ -253,9 +253,10 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <rule>
                 <pattern>
                     <marker>
-                        <token>etwa</token>
+                        <token regexp="yes">etwa|bei|circa|ungefähr|von|ab|zu|über|unter|mit|für</token>
                     </marker>
-                    <token regexp="yes">\d+(₿|¢|$|€|₤|₱|₽|₪|₩|¥)?</token>
+                    <token min="0">−</token>
+                    <token regexp="yes">-?\d+(₿|¢|$|€|₤|₱|₽|₪|₩|¥)?</token>
                 </pattern>
                 <example correction="">Dass sind <marker>etwa</marker> 812 mg.</example>
             </rule>
@@ -304,6 +305,44 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token>Roomba</token>
                 </pattern>
                 <example correction="">Ob von Medion, <marker>iRobot</marker> Roomba, Neato oder Eufy: Ein Saugroboter ist für viele Menschen eine wertvolle Unterstützung im Haushalt.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="VER.*" postag_regexp="yes" />
+                    </marker>
+                    <token regexp="yes" skip="2">\d+</token>
+                    <token regexp="yes">pro|per</token>
+                </pattern>
+                <example correction="">Die Bevölkerungsdichte <marker>betrug</marker> 905 Einwohner pro Quadratkilometer.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">\d+</token>
+                    </marker>
+                    <token>pro</token>
+                </pattern>
+                <example correction="">Deutschland: <marker>231</marker> pro km²</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>pro</token>
+                    <marker>
+                        <token />
+                    </marker>
+                    <token regexp="yes">\d+</token>
+                </pattern>
+                <example correction="">Mein Mann verdient pro <marker>Jahr</marker> 100000 Euro</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="ZAL" />
+                    </marker>
+                    <token regexp="yes">Kilos?|.*gramm|.*meter|tonnen|.*bits?|.*bytes?|mg|km|g|kg|knoten|euro?|dollar|CHF|USD|pfund|franken|kronen|bitcoins?|[bm]illionen|[bm]illiarden|tausend|hundert|hektar|ha</token>
+                </pattern>
+                <example correction="">Es gibt fast <marker>sieben</marker> Milliarden Menschen auf der Welt.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AI_DE_HYDRA_LEO_CPT_DIE_CDIE" name="">
