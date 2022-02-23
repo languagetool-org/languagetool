@@ -2288,6 +2288,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     switch (word) {
       case "daß": return topMatch("dass");
       case "mußt": return topMatch("musst");
+      case "mußten": return topMatch("mussten");
+      case "mußte": return topMatch("musste");
+      case "mußtest": return topMatch("musstest");
       case "müßtest": return topMatch("müsstest");
       case "müßen": return topMatch("müssen");
       case "müßten": return topMatch("müssten");
@@ -2295,6 +2298,13 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Daß": return topMatch("Dass");
       case "bescheid": return topMatch("Bescheid");
       case "ausversehen": return topMatch("aus Versehen");
+      case "Luxenburg": return topMatch("Luxemburg");
+      case "Luxenburgs": return topMatch("Luxemburgs");
+      case "Lichtenstein": return topMatch("Liechtenstein");
+      case "Lichtensteins": return topMatch("Liechtensteins");
+      case "immernoch": return topMatch("immer noch");
+      case "Rechtshcreibfehler": return topMatch("Rechtshcreibfehler"); // for demo text on home page
+      case "markirt": return topMatch("markiert"); // for demo text on home page
       case "Johannesbeere": return topMatch("Johannisbeere");
       case "Johannesbeeren": return topMatch("Johannisbeeren");
       case "Entäuschung": return topMatch("Enttäuschung");

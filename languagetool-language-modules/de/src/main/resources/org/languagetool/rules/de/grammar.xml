@@ -6363,6 +6363,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Verwechslungen -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
+        <rule id="FAIL_FEHL" name="fail vs fehl" default="temp_off">
+            <pattern>
+                <token inflected="yes" skip="4">
+                    schlagen
+                    <exception scope="next" regexp="yes">[\(\),:;…\-–]</exception>
+                </token>
+                <marker>
+                    <token case_sensitive="yes">fail</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion>fehl</suggestion> (wie in dem Verb "fehlschlagen")?</message>
+            <example correction="fehl">Der Test schlägt immer wieder <marker>fail</marker>.</example>
+        </rule>
         <rule id="VERWANDET_VERWANDTE" name="verwandet">
             <pattern>
                 <token>verwandet</token>
@@ -12295,7 +12308,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>off</token>
                 <token regexp="yes">the|y?our|my|an?|this|that|th[eo]se</token>
             </antipattern>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>Kick</token>
                     <token>Off</token>
@@ -23235,7 +23248,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">es|das|dies</token>
                     <token regexp="yes">würde|könnte|müsste|sollte|wird|kann|muss|soll</token>
-                    <token min="0" regexp="yes">nur|jetzt|aktuell|wirklich|vielleicht|möglicherweise|total|schon|keinen|natürlich|durchaus|allerdings|wohl|viel|eigentlich|wahrscheinlich|vermutlich|vielleicht</token>
+                    <token min="0" regexp="yes">nur|jetzt|aktuell|wirklich|vielleicht|möglicherweise|total|schon|keinen|natürlich|durchaus|allerdings|wohl|viel|eigentlich|wahrscheinlich|vermutlich</token>
                     <token>Sinn</token>
                     <token>machen</token>
                 </pattern>
@@ -46145,6 +46158,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
+        <rule id="MIR_NICHTS_DIR_NICHTS" name="mir nichts, dir nichts" default="temp_off">
+            <antipattern>
+                <token>mir</token>
+                <token>nichts</token>
+                <token>,</token>
+                <token>dir</token>
+                <token>nichts</token>
+            </antipattern>
+            <antipattern>
+                <token>mir</token>
+                <token>nicht</token>
+                <token>,</token>
+                <token>dir</token>
+                <token>nicht</token>
+            </antipattern>
+            <pattern>
+                <token>mir</token>
+                <token regexp="yes">nich(t?s?)?|nix</token>
+                <token min="0">,</token>
+                <token>dir</token>
+                <token regexp="yes">nich(t?s?)?|nix</token>
+            </pattern>
+            <message>Meinten Sie die Redewendung <suggestion>mir nichts, dir nichts</suggestion>?</message>
+            <url>https://de.wiktionary.org/wiki/mir_nichts,_dir_nichts</url>
+            <example correction="mir nichts, dir nichts">Du kannst doch nicht einfach <marker>mir nich dir nichts</marker> in den Flieger steigen!</example>
+            <example>Das gefällt mir nicht, dir nicht und auch ihm nicht.</example>
+        </rule>
         <rule id="VORM_AUSSTERBEN_BEDROHT" name="vorm (vom) Aussterben bedroht">
             <antipattern>
                 <token>vom</token>
