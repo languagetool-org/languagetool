@@ -260,6 +260,7 @@ public class French extends Language implements AutoCloseable {
       case "MOTS_INCOMP": return 50; // greater than PRONSUJ_NONVERBE and DUPLICATE_DETERMINER
       case "PRIME-TIME": return 50; //  // greater than agreement rules
       case "A_VERBE_INFINITIF": return 20; // greater than PRONSUJ_NONVERBE
+      case "DE_OU_DES": return 20; // greater than PAS_ADJ
       case "EMPLOI_EMPLOIE": return 20; // greater than MOTS_INCOMP
       case "VOIR_VOIRE": return 20; // greater than PLACE_DE_LA_VIRGULE
       case "CAT_TYPOGRAPHIE": return 20; // greater than PRONSUJ_NONVERBE or agreement rules
@@ -307,6 +308,7 @@ public class French extends Language implements AutoCloseable {
       case "TOO_LONG_PARAGRAPH": return -15;
       case "PREP_VERBECONJUGUE": return -20;
       case "LA_LA2": return -20; // less than LA_LA
+      case "FRENCH_WORD_REPEAT_RULE": return -20; // less than TRES_TRES_ADJ
       case "CROIRE": return -20; // less than JE_CROIS_QUE
       case "PAS_DE_VERBE_APRES_POSSESSIF_DEMONSTRATIF": return -20;
       case "VIRGULE_VERBE": return -20; // less than grammar rules
