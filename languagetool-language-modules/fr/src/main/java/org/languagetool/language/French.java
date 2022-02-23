@@ -326,6 +326,10 @@ public class French extends Language implements AutoCloseable {
       case "FR_SPELLING_RULE": return -100;
       case "ET_SENT_START": return -151; // lower than grammalecte rules
       case "MAIS_SENT_START": return -151; // lower than grammalecte rules
+      case "EN_CE_QUI_CONCERNE": return -152;  // less than MAIS_SENT_START + ET_SENT_START
+      case "EN_MEME_TEMPS": return -152;  // less than MAIS_SENT_START + ET_SENT_START
+      case "ET_AUSSI": return -152;  // less than CONFUSION_EST_ET + ET_SENT_START
+      case "MAIS_AUSSI": return -152;  // less than MAIS_SENT_START
       case "ELISION": return -200; // should be lower in priority than spell checker
       case "POINT": return -200; // should be lower in priority than spell checker
       case "REPETITIONS_STYLE": return -250;  // repetition style rules, usually with prefix REP_
@@ -333,6 +337,7 @@ public class French extends Language implements AutoCloseable {
       case "POINTS_SUSPENSIONS_SPACE": return -250;  // should be lower in priority than ADJ_ADJ_SENT_END
       case "UPPERCASE_SENTENCE_START": return -300;
       case "FRENCH_WHITESPACE_STRICT": return -350; // picky; if on, it should overwrite FRENCH_WHITESPACE
+      case "TOUT_MAJUSCULES": return -400;
       case "FRENCH_WHITESPACE": return -400; // lesser than UPPERCASE_SENTENCE_START and FR_SPELLING_RULE
       case "MOT_TRAIT_MOT": return -400; // lesser than UPPERCASE_SENTENCE_START and FR_SPELLING_RULE
       case "FRENCH_WORD_REPEAT_BEGINNING_RULE": return -350; // less than REPETITIONS_STYLE
