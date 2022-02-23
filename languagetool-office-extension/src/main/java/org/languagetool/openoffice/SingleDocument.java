@@ -81,6 +81,7 @@ class SingleDocument {
   
   private final DocumentCache docCache;           //  cache of paragraphs (only readable by parallel thread)
   private final List<ResultCache> paragraphsCache;//  Cache for matches of text rules
+  private final Map<Integer, String> changedParas;//  Map of last changed paragraphs;
   private DocumentCursorTools docCursor = null;   //  Save document cursor for the single document
   private ViewCursorTools viewCursor = null;      //  Get the view cursor for desktop
   private FlatParagraphTools flatPara = null;     //  Save information for flat paragraphs (including iterator and iterator provider) for the single document
@@ -117,6 +118,7 @@ class SingleDocument {
     }
     xComponent = xComp;
     mDocHandler = mDH;
+    changedParas = new HashMap<Integer, String>();
     setDokumentListener(xComponent);
     List<ResultCache> paraCache = new ArrayList<>();
     for (int i = 0; i < OfficeTools.NUMBER_TEXTLEVEL_CACHE; i++) {
@@ -220,7 +222,7 @@ class SingleDocument {
       boolean isDialogRequest = (nPara >= 0 || proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT);
       
       CheckRequestAnalysis requestAnalysis = new CheckRequestAnalysis(numLastVCPara, numLastFlPara,
-          proofInfo, numParasToCheck, this, paragraphsCache, viewCursor);
+          proofInfo, numParasToCheck, this, paragraphsCache, viewCursor, changedParas);
       int paraNum = requestAnalysis.getNumberOfParagraph(nPara, paraText, locale, paRes.nStartOfSentencePosition, footnotePositions);
       if (debugMode > 1) {
         MessageHandler.printToLogFile("Single document: getCheckResults: paraNum = " + paraNum + ", nPara = " + nPara);
@@ -593,12 +595,26 @@ class SingleDocument {
    * get the queue entry for the first changed paragraph in document cache
    */
   public QueueEntry getQueueEntryForChangedParagraph() {
-    if (!disposed && docCache != null) {
+    if (!disposed && docCache != null && flatPara != null && !changedParas.isEmpty()) {
+/*  TODO: Remove after Tests
       CheckRequestAnalysis requestAnalysis = new CheckRequestAnalysis(numLastVCPara, numLastFlPara,
           OfficeTools.PROOFINFO_GET_PROOFRESULT, numParasToCheck, this, paragraphsCache, viewCursor);
       int nPara = requestAnalysis.changesInDocumentCache();
-      if (nPara >= 0) {
-        return createQueueEntry(docCache.getNumberOfTextParagraph(nPara), 0);
+*/
+      Set<Integer> nParas = new HashSet<Integer>(changedParas.keySet());
+      for (int nPara : nParas) {
+        String sPara = flatPara.getFlatParagraphAt(nPara).getText();
+        if (sPara != null) {
+          String sChangedPara = changedParas.get(nPara);
+          changedParas.remove(nPara);
+          if (sChangedPara != null && !sChangedPara.equals(sPara)) {
+            docCache.setFlatParagraph(nPara, sPara);
+            for (int i = 0; i < mDocHandler.getNumMinToCheckParas().size(); i++) {
+              paragraphsCache.get(i).remove(nPara);
+            }
+            return createQueueEntry(docCache.getNumberOfTextParagraph(nPara), 0);
+          }
+        }
       }
     }
     return null;

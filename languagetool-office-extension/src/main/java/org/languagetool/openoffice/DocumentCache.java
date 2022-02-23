@@ -97,13 +97,13 @@ public class DocumentCache implements Serializable {
     for (int i = 0; i < NUMBER_CURSOR_TYPES; i++) {
       toParaMapping.add(new ArrayList<Integer>());
     }
-    mapParagraphs(textParagraphs);
+    mapParagraphs(this.paragraphs, toTextMapping, toParaMapping, this.chapterBegins, locales, textParagraphs);
   }
   
   /**
    * Refresh the cache
    */
-  public synchronized void refresh(DocumentCursorTools docCursor, FlatParagraphTools flatPara
+  public void refresh(DocumentCursorTools docCursor, FlatParagraphTools flatPara
       , Locale docLocale, XComponent xComponent, int fromWhere) {
     if (debugMode) {
       MessageHandler.printToLogFile("DocumentCache: refresh: Called from: " + fromWhere);
@@ -122,6 +122,12 @@ public class DocumentCache implements Serializable {
   private void refreshWriterCache(DocumentCursorTools docCursor, FlatParagraphTools flatPara, Locale docLocale, int fromWhere) {
     try {
       long startTime = System.currentTimeMillis();
+      List<String> paragraphs = new ArrayList<String>();
+      List<List<Integer>> chapterBegins = new ArrayList<List<Integer>>();
+      List<SerialLocale> locales = new ArrayList<SerialLocale>();
+      List<int[]> footnotes = new ArrayList<int[]>();
+      List<TextParagraph> toTextMapping = new ArrayList<>();
+      List<List<Integer>> toParaMapping = new ArrayList<>();
       isReset = true;
       clear();
       for (int i = 0; i < NUMBER_CURSOR_TYPES; i++) {
@@ -160,19 +166,20 @@ public class DocumentCache implements Serializable {
           isReset = false;
           return;
         }
+        if (paragraphContainer.paragraphs == null) {
+          MessageHandler
+              .printToLogFile("WARNING: DocumentCache: refresh: paragraphs in paragraphContainer == null - ParagraphCache not initialised");
+          isReset = false;
+          return;
+        }
         paragraphs.addAll(paragraphContainer.paragraphs);
         for (Locale locale : paragraphContainer.locales) {
           locales.add(new SerialLocale(locale));
         }
         footnotes.addAll(paragraphContainer.footnotePositions);
       }
-      if (paragraphs == null) {
-        MessageHandler
-            .printToLogFile("WARNING: DocumentCache: refresh: paragraphs == null - ParagraphCache not initialised");
-        isReset = false;
-        return;
-      }
-      mapParagraphs(textParas);
+      mapParagraphs(paragraphs, toTextMapping, toParaMapping, chapterBegins, locales, textParas);
+      actualizeCache (paragraphs, chapterBegins, locales, footnotes, toTextMapping, toParaMapping);
       if (fromWhere != 2) { //  do not write time to log for text level queue
         long endTime = System.currentTimeMillis();
         MessageHandler.printToLogFile("Time to generate cache(" + fromWhere + "): " + (endTime - startTime));
@@ -181,11 +188,30 @@ public class DocumentCache implements Serializable {
       isReset = false;
     }
   }
+  
+  /**
+   * Actualize cache
+   */
+  private synchronized void actualizeCache (List<String> paragraphs, List<List<Integer>> chapterBegins, List<SerialLocale> locales, 
+      List<int[]> footnotes, List<TextParagraph> toTextMapping, List<List<Integer>> toParaMapping) {
+    this.paragraphs.clear();
+    this.paragraphs.addAll(paragraphs);
+    this.chapterBegins.clear();
+    this.chapterBegins.addAll(chapterBegins);
+    this.locales.clear();
+    this.locales.addAll(locales);
+    this.footnotes.clear();
+    this.footnotes.addAll(footnotes);
+    this.toTextMapping.clear();
+    this.toTextMapping.addAll(toTextMapping);
+    this.toParaMapping.addAll(toParaMapping);
+  }
 
   /**
    * Map text paragraphs to flat paragraphs is only used for writer documents
    */
-  private void mapParagraphs(List<List<String>> textParas) {
+  private void mapParagraphs(List<String> paragraphs, List<TextParagraph> toTextMapping, List<List<Integer>> toParaMapping,
+        List<List<Integer>> chapterBegins, List<SerialLocale> locales, List<List<String>> textParas) {
     if (textParas != null && !textParas.isEmpty()) {
       List<Integer> nText = new ArrayList<>();
       for (int i = 0; i < textParas.size(); i++) {
@@ -276,7 +302,7 @@ public class DocumentCache implements Serializable {
           }
         }
       }
-      prepareChapterBeginsForText();
+      prepareChapterBeginsForText(chapterBegins, locales);
       isReset = false;
       if (debugMode) {
         MessageHandler.printToLogFile("\nDocumentCache: mapParagraphs: toParaMapping:");
@@ -313,7 +339,7 @@ public class DocumentCache implements Serializable {
   /**
    * reset the document cache for impress documents
    */
-  private void refreshImpressCalcCache(XComponent xComponent) {
+  private synchronized void refreshImpressCalcCache(XComponent xComponent) {
     ParagraphContainer container;
     if (docType == DocumentType.IMPRESS) {
       container = OfficeDrawTools.getAllParagraphs(xComponent);
@@ -714,7 +740,7 @@ public class DocumentCache implements Serializable {
    * For cursor type text: Add the next chapter begin after Heading and changes of
    * language to the chapter begins
    */
-  private void prepareChapterBeginsForText() {
+  private void prepareChapterBeginsForText(List<List<Integer>> chapterBegins, List<SerialLocale> locales) {
     List<Integer> prepChBegins = new ArrayList<Integer>(chapterBegins.get(CURSOR_TYPE_TEXT));
     for (int begin : chapterBegins.get(CURSOR_TYPE_TEXT)) {
       if (!prepChBegins.contains(begin + 1)) {

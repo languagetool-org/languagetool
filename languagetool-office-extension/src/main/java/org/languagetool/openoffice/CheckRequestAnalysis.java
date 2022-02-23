@@ -19,6 +19,7 @@
 package org.languagetool.openoffice;
 
 import java.util.List;
+import java.util.Map;
 
 import org.languagetool.Language;
 import org.languagetool.gui.Configuration;
@@ -57,13 +58,13 @@ class CheckRequestAnalysis {
   private final DocumentType docType;               //  save the type of document
   private final int proofInfo;                      //  Information about proof request (supported by LO > 6.4 otherwise: 0 == UNKNOWN)
   private final DocumentCache docCache;             //  cache of paragraphs (only readable by parallel thread)
-
+  private final Map<Integer, String> changedParas;  //  Map of last changed paragraphs;
   private final List<ResultCache> paragraphsCache;  //  Cache for matches of text rules
+
   private FlatParagraphTools flatPara;              //  Save information for flat paragraphs (including iterator and iterator provider) for the single document
   private ViewCursorTools viewCursor;               //  Get the view cursor for desktop
   private int numLastVCPara;                        //  Save position of ViewCursor for the single documents
   private int numLastFlPara;                        //  Save position of FlatParagraph for the single documents
-
   private DocumentCursorTools docCursor = null;     //  Save document cursor for the single document
   private int changeFrom = 0;                       //  Change result cache from paragraph
   private int changeTo = 0;                         //  Change result cache to paragraph
@@ -72,7 +73,7 @@ class CheckRequestAnalysis {
   private int paraNum;                              //  Number of current checked paragraph
 
   CheckRequestAnalysis(int numLastVCPara, int numLastFlPara, int proofInfo, int numParasToCheck,
-      SingleDocument singleDocument, List<ResultCache> paragraphsCache, ViewCursorTools viewCursor) {
+      SingleDocument singleDocument, List<ResultCache> paragraphsCache, ViewCursorTools viewCursor, Map<Integer, String> changedParas) {
     debugMode = OfficeTools.DEBUG_MODE_CR;
     this.singleDocument = singleDocument;
     this.viewCursor = viewCursor;
@@ -80,6 +81,7 @@ class CheckRequestAnalysis {
     this.numLastFlPara = numLastFlPara;
     this.proofInfo = proofInfo;
     this.paragraphsCache = paragraphsCache;
+    this.changedParas = changedParas;
     mDocHandler = singleDocument.getMultiDocumentsHandler();
     xContext = mDocHandler.getContext();
     xComponent = singleDocument.getXComponent();
@@ -173,7 +175,8 @@ class CheckRequestAnalysis {
    * add incorrect paragraphs to check queue
    * returns the first incorrectFlat paragraph number
    * returns -1 if there is no change in document cache
-   */
+   *//*
+   *  TODO: Remove after Tests
   int changesInDocumentCache () {
     //  Return -1, if there is no initialized docCache
     if (docCache.isEmpty() || isDisposed()) {
@@ -291,7 +294,7 @@ class CheckRequestAnalysis {
     }
     return nFirstPara;
   }
-  
+*/  
   /** 
    * Get new initialized flat paragraph tools
    */
@@ -735,6 +738,7 @@ class CheckRequestAnalysis {
       docCache.setFlatParagraph(nPara, chPara, locale);
       docCache.setFlatParagraphFootnotes(nPara, footnotePos);
       if (useQueue) {
+        changedParas.put(nPara, chPara);
         for (int i = 0; i < minToCheckPara.size(); i++) {
           paragraphsCache.get(i).remove(nPara);
           if (minToCheckPara.get(i) > 0) {
