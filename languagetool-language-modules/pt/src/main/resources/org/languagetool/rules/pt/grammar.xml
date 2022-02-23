@@ -15356,28 +15356,6 @@ O edifício tem um grau de altura 5, que é também o mais alto da lista. → O 
 
 	</rulegroup>
 
-    <!-- 	VERB TER + PARTICÍPIO PASSADO Pret. Perf. Ind. de Part_Passado -->	
-	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-04 (21-OCT-2020+)     -->
-    <rulegroup id='VERB_TER_MAIS_PARTICIPIO_PASSADO' name="Verbo Ter + Part_Passado > Verbo Pret. Perf. Ind. de Part_Passado" type="style">
-		<rule>
-			<pattern>
-				<token>tinha</token>
-				<token postag='VMP00SM' postag_regexp='no'/>
-			</pattern>		
-			<message>Em certos contextos, esta perífrase pode ser simplificada.</message>
-			<suggestion><match no='2' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIS1S0|VMIS3S0|VMIM3S0'/></suggestion>
-			<example correction="foi|fora|fui">Essa honra <marker>tinha sido</marker> entregue a Ernest Hemingway.</example> 
-		</rule>
-		<rule>
-			<pattern>
-				<token>tinham</token>
-				<token postag='VMP00SM' postag_regexp='no'/>
-			</pattern>		
-			<message>Em certos contextos, esta perífrase pode ser simplificada.</message>
-			<suggestion><match no='2' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIM3P0|VMIS3P0'/></suggestion>
-			<example correction="foram">Essas honras <marker>tinham sido</marker> entregues a Ernest Hemingway.</example>  
-		</rule>		
-	</rulegroup>
 
     <!-- VÍDEO CONFERÊNCIA videoconferência -->	
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-24 (21-OCT-2020+)     -->
@@ -42470,6 +42448,48 @@ Pouco importam as notas na música, o que conta são as sensações produzidas p
 	  <example>Na boca, o que aparece são os lip tints, que são produtos versáteis, bem líquidos, verdadeiras tintas, que você aplica nos...</example>
 	  <example>Pouco importam as notas na música, o que conta são as sensações produzidas por elas.</example>
     </rule>
+
+
+    <!-- 	VERBO TER + PARTICÍPIO PASSADO Pret. Perf. Ind. Part. Passado -->
+    <rulegroup id='SIMPLIFICAR_VERBO_TER_MAIS_PARTICIPIO_PASSADO' name="Simplificar: V. Ter + Part. Passado → V. Pret. Perf. Ind. Part. Passado" type="style">
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2022-02-23 (Checked/Enhanced) (1-JAN-2022+)      -->
+		<rule>
+			<pattern>
+				<token>tinha</token>
+				<token postag='VMP00SM' postag_regexp='no'/>
+			</pattern>
+			<message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+			<suggestion><match no='2' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIS1S0|VMIS3S0|VMIM3S0'/></suggestion>
+			<example correction="foi|fora|fui">Essa honra <marker>tinha sido</marker> entregue a Ernest Hemingway.</example>
+		</rule>
+		<rule>
+			<pattern>
+				<token>tinhas</token>
+				<token postag='VMP00SM' postag_regexp='no'/>
+			</pattern>
+			<message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+			<suggestion><match no='2' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIS2P0|VMIM2S0|VMIS2S0'/></suggestion>
+			<example correction="estiveras|estiveste|estivestes">Tu <marker>tinhas estado</marker> na feira.</example>
+		</rule>
+		<rule>
+			<pattern>
+				<token>tinham</token>
+				<token postag='VMP00SM' postag_regexp='no'/>
+			</pattern>
+			<message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+			<suggestion><match no='2' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIS3P0'/></suggestion>
+			<example correction="foram">Essas honras <marker>tinham sido</marker> entregues a Ernest Hemingway.</example>
+		</rule>
+		<rule>
+			<pattern>
+				<token>tínhamos</token>
+				<token postag='VMP00SM' postag_regexp='no'/>
+			</pattern>
+			<message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+			<suggestion><match no='2' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIS1P0'/></suggestion>
+			<example correction="fomo|fomos">Nós <marker>tínhamos sido</marker> entregues à polícia.</example>
+		</rule>
+	</rulegroup>
 
 
 	<!-- VÁRIAS VEZES vári[ao]s -->
