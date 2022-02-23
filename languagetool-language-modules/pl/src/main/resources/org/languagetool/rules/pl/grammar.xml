@@ -511,6 +511,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                                 <token>zrobiło</token>
                                             </marker>
                                         </antipattern>
+                                        <antipattern>
+                                            <token postag="pred">to</token>
+                                            <token regexp="yes">są|jest|był[ayo]?</token>                                        
+                                        </antipattern>
                                         <pattern>
                             <token postag="pred" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:.*|prep.*|qub|conj|comp|&lt;/TO_(ZNACZY|JEST)&gt;" postag_regexp="yes" scope="current"></exception><exception scope="current" regexp="yes">może|widać|dość|wolno</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"/></token>
                             <token postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|conj|comp" postag_regexp="yes" scope="current"/><exception scope="current">może</exception></token>
@@ -523,17 +527,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <example>Trzeba byłoby kupić wino, można byłoby narwać owoców w ogrodzie.</example>
                         <example>Było trzeba kupić wino, było można narwać owoców w ogrodzie.</example>
                         <example correction=""><marker>Trzeba kupić wino można narwać owoców w ogrodzie.</marker></example>
-                                        <example>— Mój przyjacielu — odparł — ty widać nie wiesz, co to rozrywka na tym świecie.</example>
-                                        <example>Nie można się było wahać.</example>
-                                        <example>Można by było pomyśleć, że zdrzemnęli się.</example>
-                                        <example>Tymczasem wiadomo jest nie tylko w Górnym i Dolnym Egipcie, ale u Hetytów...</example>
-                                        <example>Trzeba tu było ciągle myśleć o drugich.</example>
-                                        <example>Trzeba bowiem było wyjść po schodkach.</example>
-                                        <example>Wiadomo ci jest, że Skyresh Bolgolam jada robaki?</example>
-                                        <example>Nie sposób jest być eleganckim.</example>
-                                        <example>Nawet z postawy jego żołnierzy nie można tego było wywnioskować.</example>
-                                        <example>W domu jakiś rosły mężczyzna (był to Anglik świeżo osiadły w willi) wziął go ostrożnie w rękę.</example>
-                                        <example>Był tak wzruszony, że pani Wąsowskiej żal go się zrobiło.</example>
+                        <example>— Mój przyjacielu — odparł — ty widać nie wiesz, co to rozrywka na tym świecie.</example>
+                        <example>Nie można się było wahać.</example>
+                        <example>Można by było pomyśleć, że zdrzemnęli się.</example>
+                        <example>Tymczasem wiadomo jest nie tylko w Górnym i Dolnym Egipcie, ale u Hetytów...</example>
+                        <example>Trzeba tu było ciągle myśleć o drugich.</example>
+                        <example>Trzeba bowiem było wyjść po schodkach.</example>
+                        <example>Wiadomo ci jest, że Skyresh Bolgolam jada robaki?</example>
+                        <example>Nie sposób jest być eleganckim.</example>
+                        <example>Nawet z postawy jego żołnierzy nie można tego było wywnioskować.</example>
+                        <example>W domu jakiś rosły mężczyzna (był to Anglik świeżo osiadły w willi) wziął go ostrożnie w rękę.</example>
+                        <example>Był tak wzruszony, że pani Wąsowskiej żal go się zrobiło.</example>
+                        <example>To są zbędne, w istocie, elementy.</example>
                     </rule>
                                 <rule>              <!-- jak/co widać na początku zdania -->
                                     <antipattern>
@@ -8004,6 +8009,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </unify>
             </antipattern>
             <rule>
+            <antipattern>
+                <marker>
+                  <token postag='verb:fin:pl:ter.*' postag_regexp='yes'/>
+                </marker>
+                  <token regexp="yes">[„«»…’&quot;]</token>
+                  <token postag='(subst|num):pl:nom.*|ppron3:pl:nom.*' postag_regexp='yes'/>
+            </antipattern>
+            <antipattern>
+            <token>o</token><token>baj</token>
+            </antipattern>
+            <antipattern>
+                <token>w</token>            
+                <token>ładzą</token>
+            </antipattern>
             <pattern>
                 <marker>
                 <token postag='subst:sg:nom.*' postag_regexp='yes' skip='-1'>
@@ -8021,7 +8040,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                   <exception regexp="yes" scope="previous">[234]|[2-9][234]|\d[02-9][234]</exception>
                   </token>
                 </marker>
-                <token ><exception postag='(subst|num):pl:nom.*|ppron3:pl:nom.*' postag_regexp='yes'></exception><exception>:</exception></token>
+                <token><exception postag='(subst|num):pl:nom.*|ppron3:pl:nom.*' postag_regexp='yes'></exception><exception>:</exception></token>
                </pattern>
                <message>Podmiot „<match no="1"/>” jest niezgodny z liczbą orzeczenia „<match no="2"/>”. Niepoprawna liczba któregoś z wyrazu lub brak przecinka.</message>
                <short>Niezgodność liczby podmiotu i orzeczenia</short>
@@ -8131,6 +8150,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                <example>26 lutego w Sierra Leone mają się odbyć wybory.</example>
                <example>Tudjman wierzy, że tylko on i jego partia są prawdziwymi obrońcami interesów narodowych.</example>
                <example>To zrozumiałe — tak słaby rywal plus ogromny upał są wystarczającym usprawiedliwieniem.</example>
+               <example>Co potrafią &quot;japonki&quot;?</example>
+               <example>O baj przedkładają skuteczność ponad sztukę.</example>
             </rule>
               <rule>
                 <pattern>
@@ -9729,7 +9750,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                          <pattern>
                           <token postag="prep.*" postag_regexp="yes">o</token>
                           <marker>
-                          <token postag='(:?subst|adj|ppas|pact|ger|ppron[1-3]):.*' postag_regexp='yes'><exception postag='(:?subst|adj|ppas|pact|ger|ppron[1-3]):(.*acc.*|.*[vl]oc.*)' postag_regexp='yes'></exception></token>
+                          <token postag='(:?subst|adj|ppas|pact|ger|ppron[1-3]):.*' postag_regexp='yes'><exception postag='(:?subst|adj|ppas|pact|ger|ppron[1-3]):(.*acc.*|.*[vl]oc.*)' postag_regexp='yes'></exception><exception>baj</exception></token>
                           </marker>
                          </pattern>
                          <message>Ten przyimek jest używany z biernikiem lub miejscownikiem.</message>
@@ -9741,6 +9762,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                          <example>Nie wiem, o której dziewczynie mówisz.</example>
                          <example>Większość Azji Zachodniej stanowią obszary o wyżynno-górzystym ułożeniu terenu.</example>
                          <example>Nasze przekonanie o nim może być kruche.</example>
+                         <!-- O_BAJ_OBAJ -->
+                         <example>O baj długie lata pracowali na Ukrainie.</example>
                         </rule>
                         <rule> <!-- „na”: z miejscownikiem lub biernikiem -->
                           <antipattern> <!-- na lat kilkanaście -->
@@ -18298,7 +18321,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <antipattern>
                             <marker>
                                 <token>nie</token>
-                                <token inflected="yes" regexp="yes">wszystek|każdy|żaden|inny|jakiś?|taki|czyj|mój|twój|nasz|wasz|ten|sam|swój|on|ów|ostatni|jeden|pierwszy|drugi|trzeci|czwarty|piąty|szósty|siódmy|ósmy|dziewiąty|dziesiąty|jedenasty|dwunasty|trzynasty|czternasty|piętnasty</token>
+                                <token inflected="yes" regexp="yes">wszystek|każdy|żaden|inny|jakiś?|taki|czyj|mój|twój|nasz|wasz|ten|sam|swój|on|ów|ostatni|jeden|&numord;</token>
                             </marker>
                         </antipattern>
                         <antipattern>
@@ -20019,6 +20042,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
 		<category id="TYPOS" name="Prawdopodobne literówki" type="misspelling">
+		<rule id="w_ladza" name="„w ładzą” (władzą)">
+		<pattern>
+        <token>w</token>
+        <token  case_sensitive="yes">ładzą</token>
+		</pattern>
+		<message>Czy chodziło o <suggestion>\1\2</suggestion>?</message>
+		<short>Literówka</short>
+		<example correction="władzą">Niechętnie dzielił się <marker>w ładzą</marker>.</example>
+		</rule>
 		<rulegroup id="ZAPIS_DATY_ZE_SKROTEM_BLEDNYM" name="Błędny zapis skrótu miesiąca w dacie">
 		<rule>
 		<pattern>

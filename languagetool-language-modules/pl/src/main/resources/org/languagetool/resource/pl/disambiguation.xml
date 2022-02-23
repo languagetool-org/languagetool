@@ -7471,7 +7471,7 @@
                 <token>to</token>
                 <marker>
                     <unify><feature id="number"/>
-                        <token regexp="yes">jest|są</token>
+                        <token regexp="yes">jest|są|był[ayo]?</token>
                         <token postag="subst.*nom.*" postag_regexp="yes"></token>
                     </unify>
                 </marker>
@@ -7483,7 +7483,7 @@
             <token>to</token>
             <marker>
             <unify><feature id="number"/>
-                <token regexp="yes">jest|są</token>
+                <token regexp="yes">jest|są|był[ayo]?</token>
                 <token postag="adj.*nom.*" postag_regexp="yes"></token>
                 <token postag="subst.*nom.*" postag_regexp="yes"></token>
             </unify>
@@ -7496,7 +7496,7 @@
                 <token>to</token>
                 <marker>
                     <unify><feature id="number"/>
-                        <token regexp="yes">jest|są</token>
+                        <token regexp="yes">jest|są|był[ayo]?</token>
                         <unify-ignore>
                             <token postag="adv.*|qub" postag_regexp="yes"/>
                         </unify-ignore>
@@ -7512,7 +7512,7 @@
                 <token>to</token>
                 <marker>
                     <unify><feature id="number"/>
-                        <token regexp="yes">jest|są</token>
+                        <token regexp="yes">jest|są|był[ayo]?</token>
                         <token postag="adj.*nom.*" postag_regexp="yes"></token>
                         <unify-ignore>
                             <token regexp="yes">[,ia]|lub|oraz</token>
@@ -7530,7 +7530,7 @@
                 <token>to</token>
                 <marker>
                     <unify><feature id="number"/>
-                        <token regexp="yes">jest|są</token>
+                        <token regexp="yes">jest|są|był[ayo]?</token>
                         <token postag="adj.*nom.*" postag_regexp="yes"></token>
                         <unify-ignore>
                             <token regexp="yes">[,ia]|lub|oraz</token>
@@ -7549,7 +7549,7 @@
                 <token>to</token>
                 <marker>
                     <unify><feature id="number"/>
-                        <token regexp="yes">jest|są</token>
+                        <token regexp="yes">jest|są|był[ayo]?</token>
                         <unify-ignore>
                             <token postag="adv.*|qub" postag_regexp="yes"/>
                         </unify-ignore>
@@ -7568,6 +7568,17 @@
             <disambig action="unify"/>
         </rule>
     </rulegroup>
+
+
+    <rule id="to_pred_byc" name="to + jest/są -> predykatyw">
+        <pattern>
+            <marker>
+                <token>to</token>
+            </marker>
+            <token regexp="yes">jest|są|był[ayo]?</token>
+        </pattern>
+        <disambig action="replace"><wd lemma="to" pos="pred"/></disambig>
+    </rule>
 
     <rule name="mianownik + jest + mianownik" id="nom_jest_nom">
         <pattern>
@@ -7825,7 +7836,7 @@
         </pattern>
         <disambig action="remove"><wd lemma="krajać"/></disambig>
         <example type="ambiguous" inputform="kraje[kraj/subst:pl:acc:m3,kraj/subst:pl:nom:m3,kraj/subst:pl:voc:m3,krajać/verb:fin:sg:ter:imperf:refl.nonrefl]"
-                 outputform="kraje[kraj/subst:pl:acc:m3,kraj/subst:pl:nom:m3,kraj/subst:pl:voc:m3]">To były <marker>kraje</marker> NATO.</example>
+                 outputform="kraje[kraj/subst:pl:acc:m3,kraj/subst:pl:nom:m3,kraj/subst:pl:voc:m3]">Tak wyglądają <marker>kraje</marker> NATO.</example>
     </rule>
 
     <rule id="PANSTWO_MLODZI" name="państwo młodzi">
@@ -9423,7 +9434,7 @@
         <disambig action="unify"/>
         <example type="untouched">Antoni lata Tupolowem.</example>
         <example type="ambiguous" inputform="lata[latać/verb:fin:sg:ter:imperf:nonrefl,lato/subst:pl:acc:n2,lato/subst:pl:nom:n2,lato/subst:pl:voc:n2,lato/subst:sg:gen:n2,rok/subst:pl:acc:m3,rok/subst:pl:nom:m3,rok/subst:pl:voc:m3]"
-                 outputform="lata[rok/subst:pl:acc:m3,rok/subst:pl:nom:m3,rok/subst:pl:voc:m3]">To były <marker>lata</marker> dziewięćdziesiąte!</example>
+                 outputform="lata[rok/subst:pl:acc:m3,rok/subst:pl:nom:m3,rok/subst:pl:voc:m3]">Ech, <marker>lata</marker> dziewięćdziesiąte!</example>
     </rule>
 
 
@@ -12924,7 +12935,7 @@
             </pattern>
             <disambig action="add"><wd lemma="co" pos="co_innego">co</wd></disambig>
             <example type="untouched">To było coś innego.</example>
-            <example type="ambiguous" inputform="co[co/comp,co/prep:acc,co/prep:nom,co/qub,co/subst:sg:acc:n2,co/subst:sg:gen:n2,co/subst:sg:nom:n2]" outputform="co[co/co_innego,co/comp,co/prep:acc,co/prep:nom,co/qub,co/subst:sg:acc:n2,co/subst:sg:gen:n2,co/subst:sg:nom:n2]">To było <marker>co</marker> innego.</example>
+            <example type="ambiguous" inputform="co[co/comp,co/prep:acc,co/prep:nom,co/qub,co/subst:sg:acc:n2,co/subst:sg:gen:n2,co/subst:sg:nom:n2]" outputform="co[co/co_innego,co/comp,co/prep:acc,co/prep:nom,co/qub,co/subst:sg:acc:n2,co/subst:sg:gen:n2,co/subst:sg:nom:n2]">Ale to już <marker>co</marker> innego.</example>
         </rule>
         <rule>
             <pattern>
