@@ -59671,7 +59671,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                <example correction=", an was">Denn sie wissen<marker> an was</marker> sie glauben sollen.</example>
                <example>Ich sehe was was du nicht siehst.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>ob</token>
                     <token postag='.*GEN.*|UNKNOWN' postag_regexp='yes'/>
@@ -61555,10 +61555,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="gewohnt,">Er ist es nicht <marker>gewohnt</marker> hungrig einzuschlafen.</example>
                 <example>Er ist es nicht <marker>gewohnt,</marker> hungrig einzuschlafen.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="VER:[1-3].+" postag_regexp="yes" skip="-1">
-                        <exception postag="VER:(MOD|AUX).+" postag_regexp="yes"/>
+                        <exception postag="VER:(MOD|AUX).+|ART:.+|ADJ:.+" postag_regexp="yes"/>
                         <exception scope="next" postag="PKT"/>
                         <exception inflected="yes">scheinen</exception>
                     </token>
@@ -61567,7 +61567,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token skip="4">
                         <exception postag="PKT|VER:EIZ.+" postag_regexp="yes"/>
-                        <exception>zu</exception>
+                        <exception regexp="yes">zu|a[bn]|nichts</exception>
                         <exception scope="next" postag="PKT"></exception>
                     </token>
                     <token>zu</token>
@@ -61578,6 +61578,58 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <url>https://gfds.de/erweiterter-infinitiv-komma-bei/</url>
                 <example correction="darum,">Es geht mir gar nicht <marker>darum</marker> euch Vorschriften zu machen.</example>
                 <example>Es geht mir nicht darum zu bestrafen.</example>
+                <example>Es gibt daran nichts zu bemängeln.</example>
+                <example>Es Es kommt darauf an ihn zu fördern.</example><!-- comma missing, but suggested at wrong position-->
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="VER:[1-3].+" postag_regexp="yes" skip="-1">
+                        <exception postag="VER:(MOD|AUX).+|ART:.+|ADJ:.+" postag_regexp="yes"/>
+                        <exception scope="next" postag="PKT"/>
+                        <exception inflected="yes" regexp="yes">scheinen|finden</exception>
+                    </token>
+                    <token case_sensitive="yes" regexp="yes">dar(um|an|auf)<exception scope="previous" postag="KON:.+" postag_regexp="yes"/></token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">a[bn]</token>
+                    </marker>
+                    <token skip="4">
+                        <exception postag="PKT|VER:EIZ.+" postag_regexp="yes"/>
+                        <exception regexp="yes">zu|a[bn]</exception>
+                        <exception scope="next" postag="PKT"></exception>
+                    </token>
+                    <token>zu</token>
+                    <token postag="VER:INF.+" postag_regexp="yes"></token>
+                </pattern>
+                <message>Fehlt möglicherweise hier oder im Rest des Satzes ein Komma?</message>
+                <suggestion>\3,</suggestion>
+                <url>https://gfds.de/erweiterter-infinitiv-komma-bei/</url>
+                <example correction="ab,">Es zielte darauf <marker>ab</marker> ihn zu überzeugen.</example>
+                <example correction="an,">Es kommt darauf <marker>an</marker> ihn zu überzeugen.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="VER:[1-3].+" postag_regexp="yes" skip="-1">
+                        <exception postag="VER:(MOD|AUX).+|ART:.+|ADJ:.+" postag_regexp="yes"/>
+                        <exception scope="next" postag="PKT"/>
+                        <exception inflected="yes" regexp="yes">scheinen|finden</exception>
+                    </token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">dar(um|an|auf)<exception scope="previous" postag="KON:.+" postag_regexp="yes"/></token>
+                    </marker>
+                    <token skip="4">
+                        <exception postag="PKT"/>
+                        <exception regexp="yes">zu|a[bn]</exception>
+                        <exception scope="next" postag="PKT"></exception>
+                        <exception postag="VER:EIZ.+" postag_regexp="yes"></exception>
+                    </token>
+                    <token postag="VER:EIZ.+" postag_regexp="yes"></token>
+                </pattern>
+                <message>Fehlt möglicherweise hier oder im Rest des Satzes ein Komma?</message>
+                <suggestion>\2,</suggestion>
+                <url>https://gfds.de/erweiterter-infinitiv-komma-bei/</url>
+                <example correction="darum,">Es geht mir gar nicht <marker>darum</marker> euch meine Regeln aufzuzwingen.</example>
+                <example>Sie geben Ruhe nur für Augenblicke, um gleich darauf mit neuem Schrecken anzugreifen.</example>
+                <example>Ich finde daran nichts auszusetzen</example>
             </rule>
         </rulegroup>
         <rulegroup id="KOMMAFEHLER" name="Fehler in der Kommasetzung">
