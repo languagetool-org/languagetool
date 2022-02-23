@@ -7776,7 +7776,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- ESTA_TILDE23 -->
                 <antipattern>
                     <token postag="SENT_START"/>
-                    <token postag="V.M.*" postag_regexp="yes"/>
+                    <token postag="V.M.*|V.I.*" postag_regexp="yes"/>
                     <marker>
                         <token>esta</token>
                     </marker>
@@ -7803,6 +7803,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Quita esta mesa.</example>
                 <example>Comparte esta noticia con tus contactos.</example>
                 <example>Su actuación esta vez fue francamente afortunada.</example>
+                <example>Miro esta flor.</example>
             </rule>
             <rule>
                 <!-- ESTA_TILDE24 -->
@@ -7812,12 +7813,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token min="0" regexp="yes">media|medio</token>
                     <token postag="D[IN].*" postag_regexp="yes" min="0" max="4"/>
-                    <token inflected="yes" regexp="yes">milla|.*metro|minuto|hora|segundo</token>
+                    <token regexp="yes">millas?|.*metros?|minutos?|horas?|segundos?</token>
                 </pattern>
                 <message>Si es del verbo 'estar', se escribe con tilde.</message>
                 <suggestion><match no="1" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
                 <example correction="está">La oficina de correos <marker>esta</marker> media milla más allá.</example>
                 <example correction="está">Mi reloj <marker>esta</marker> cinco minutos adelantado.</example>
+                <example>Esta segunda temporada promete mucho más.</example>
             </rule>
             <rule>
                 <!-- ESTA_TILDE25 -->
