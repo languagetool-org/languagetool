@@ -24046,6 +24046,54 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Stil -->
     <!-- ====================================================================== -->
     <category id="STYLE" name="Stil" type="style">
+        <rulegroup id="WOERTER_OHNE_STEIGERUNG" name="Sie waren die Einzigsten (Einzigen)." > 
+            <rule><!--1-->
+                <pattern>
+                    <marker>
+                        <token regexp="yes">(einzigste|schwangerste|optimalste|entscheidenste|leerste|falschste|unnahbarste|absolutsten|totste|kinderlosten|mündlichste|maximalste|unvergleichbarste)(n|m|r|s)?</token>
+                    </marker>
+                </pattern>
+                <message>Standardsprachlich erlaubt dieses Wort in der Regel keine Steigerung.</message>
+                <suggestion><match no="1" regexp_match="ste" regexp_replace="e"></match></suggestion>
+                <example correction="einzige">Es war das <marker>einzigste</marker>, dass ihm blieb.</example>
+                <example correction="Einzigen">Sie waren die <marker>Einzigsten</marker>.</example>
+            </rule>
+            <rule><!--2-->
+                <pattern>
+                    <marker>
+                        <token regexp="yes">(letzteste|absolutesten|toteste|perfekteste)(n|m|r|s)?</token>
+                    </marker>
+                </pattern>
+                <message>Standardsprachlich erlaubt dieses Wort in der Regel keine Steigerung.</message>
+                <suggestion><match no="1" regexp_match="este" regexp_replace="e"></match></suggestion>
+                <example correction="letzte">Es war das <marker>letzteste</marker> Alternative, die ihm blieb.</example>
+            </rule>
+        </rulegroup>
+        
+        <rulegroup id="KOFFERWOERTER" name="Gestern war das zumindestens so.">
+            <rule><!--1-->
+                <pattern>
+                    <marker>
+                        <token>zumindestens</token>
+                    </marker>
+                </pattern>
+                <message>Hier handelt sich um eine umgangssprachliche Wortkreuzung aus 'zumindest' und 'mindestens'. Möchten Sie sie durch eine Alternative ersetzen, um Ihren Text formeller zu machen?</message>
+                <suggestion><match no="1">zumindest</match></suggestion>
+                <suggestion><match no="1">mindestens</match></suggestion>
+                <example correction="zumindest|mindestens">Gestern war das <marker>zumindestens</marker> so.</example>
+            </rule>
+            <rule><!--2-->
+                <pattern>
+                    <marker>
+                        <token>zumeistens</token>
+                    </marker>
+                </pattern>
+                <message>Hier handelt sich um eine umgangssprachliche Wortkreuzung aus 'zumindest' und 'meistens'. Möchten Sie sie durch eine Alternative ersetzen, um Ihren Text formeller zu machen?</message>
+                <suggestion><match no="1">zumindest</match></suggestion>
+                <suggestion><match no="1">meistens</match></suggestion>
+                <example correction="zumindest|meistens">Gestern war das <marker>zumeistens</marker> so.</example>
+            </rule>
+        </rulegroup>        
         <rulegroup id="DAUERN_TUT" name="dauern tut -> dauert">
             <rule>
                 <pattern>
