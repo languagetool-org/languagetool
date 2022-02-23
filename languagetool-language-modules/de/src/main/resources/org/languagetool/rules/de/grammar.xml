@@ -25165,6 +25165,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="ZU_HEULEN_VS_ZUM_HEULEN" name="zu heulen ist zum Heulen">
+            <pattern>
+                <token skip="-1" min="0"/>
+                <token inflected="yes" skip="-1">sein<exception postag="ADJ.*" postag_regexp="yes" scope="next"></exception></token>
+                <marker>
+                    <token>zu</token>
+                    <token>heulen</token>
+                </marker>
+            </pattern>
+            <message>"Zu heulen ist zum Heulen. In der Kombination "zum Heulen (zumute) sein" handelt es sich um ein nominalisiertes Verb mit der Präposition "zum". Nicht um eine Infinitivstruktur.</message>
+            <suggestion>zum Heulen</suggestion>
+            <example correction="zum Heulen">Das ist ja <marker>zu heulen</marker>.</example>
+            <example correction="zum Heulen">Mir ist schon seit Wochen <marker>zu heulen</marker> zumute.</example>
+            <example>Das ist ja zum Heulen.</example>
+            <example>Sie ist kurz davor, zu heulen.</example>
+        </rule>
         <rule id="AUS_DER_PATSCHE" name="patsche (Patsche)">
             <antipattern>
                 <token>patsche</token>
