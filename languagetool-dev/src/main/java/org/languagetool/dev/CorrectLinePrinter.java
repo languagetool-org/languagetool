@@ -22,6 +22,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.rules.RuleMatch;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -39,6 +40,7 @@ public class CorrectLinePrinter {
     }
     List<String> lines = Files.readAllLines(Paths.get(args[0]));
     JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode(args[1]));
+    lt.activateLanguageModelRules(new File("/home/languagetool/ngram-data/"));
     for (String line : lines) {
       List<RuleMatch> matches = lt.check(line);
       if (matches.size() == 0) {
