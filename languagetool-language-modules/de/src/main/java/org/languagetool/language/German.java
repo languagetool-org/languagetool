@@ -367,6 +367,7 @@ public class German extends Language implements AutoCloseable {
       case "FALSCHES_RELATIVPRONOMEN": return -1; // prefer dass/das rules
       case "AKZENT_STATT_APOSTROPH": return -1;  // lower prio than PLURAL_APOSTROPH
       case "BEENDE_IST_SENTEND": return -1; // prefer more specific rules
+      case "ICH_GEHE_DU_BLEIBST": return -2; // prefer ICH_GLAUBE_FUER_EUCH
       case "ICH_GLAUBE_FUER_EUCH": return -2; // prefer agreement rules
       case "OBJECT_AGREEMENT": return -2; // less prio than DE_AGREEMENT
       case "ICH_INF_PREMIUM": return -2; // prefer more specific rules that offer a suggestion (e.g. SUBJECT_VERB_AGREEMENT)
@@ -390,6 +391,7 @@ public class German extends Language implements AutoCloseable {
       case "DE_PHRASE_REPETITION": return -4;  // lower prio than spell checker
       case "PUNCTUATION_PARAGRAPH_END": return -4;  // don't hide spelling mistakes
       case "TEST_F_ANSTATT_PH": return -4;  // don't hide spelling mistakes
+      case "SATZBAU_AN_DEN_KOMMT": return -5;  // lower prio than rules that give a suggestion
       case "SUBJECT_VERB_AGREEMENT": return -5; // prefer more specific rules that offer a suggestion (e.g. DE_VERBAGREEMENT)
       case "SAGT_SAGT": return -9; // higher pro than KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2 and GERMAN_WORD_REPEAT_RULE
       case "PUNKT_ENDE_ABSATZ": return -10;  // should never hide other errors, as chance for a false alarm is quite high
@@ -412,6 +414,7 @@ public class German extends Language implements AutoCloseable {
       case "VER_DOPPELUNG": return -52; // prefer comma rules (including AI)
       case "DEF_ARTIKEL_INDEF_ADJ": return -52; // less prio than DE_AGREMEENT and less prio than most comma rules
       case "PRP_ADJ_AGREEMENT": return -52; // less prio than DE_AGREMEENT and less prio than most comma rules
+      case "SIE_WOLLTEN_SIND": return -52;
       case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ": return -53;
       case "VERB_IST": return -53; // less prio than comma rules and spell checker
       case "WAR_WERDEN": return -53; // less prio than comma rules
