@@ -25335,6 +25335,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="MIT_FREUNDLICHEN_GRUESSEN_KOMMA" name="Falsches Satzzeichen nach 'Mit freundlichen Grüßen' etc.">
             <url>https://languagetool.org/insights/de/beitrag/kommasetzung-in-grussformeln/</url>
+            <antipattern><!-- Viele Grüße, und bleiben Sie gesund! -->
+                <token regexp="yes" skip="-1">,|;</token>
+                <token regexp="yes" postag="SENT_END">[\.\!\?]</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
