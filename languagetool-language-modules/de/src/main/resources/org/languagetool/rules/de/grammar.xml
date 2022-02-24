@@ -25375,6 +25375,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="GUTES_GELINGEN" name="ein gutes gelingen (Gelingen)" default="temp_off">
+            <pattern>
+                <token regexp="yes">gutes|erfolgreiches|frohes</token>
+                <marker>
+                    <token case_sensitive="yes">gelingen</token>
+                </marker>
+            </pattern>
+            <message>Das Wort <suggestion><match no="2" case_conversion="startupper" /></suggestion> wird hier als Nomen gebraucht und sollte daher großgeschrieben werden.</message>
+            <example correction="Gelingen">Ich wünsche Ihnen ein gutes <marker>gelingen</marker>!</example>
+        </rule>
         <rule id="AUS_DER_PATSCHE" name="patsche (Patsche)">
             <antipattern>
                 <token>patsche</token>

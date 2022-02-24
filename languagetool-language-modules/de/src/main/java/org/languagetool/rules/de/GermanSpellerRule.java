@@ -2303,10 +2303,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Lichtenstein": return topMatch("Liechtenstein");
       case "Lichtensteins": return topMatch("Liechtensteins");
       case "immernoch": return topMatch("immer noch");
-      case "Rechtshcreibfehler": return topMatch("Rechtshcreibfehler"); // for demo text on home page
+      case "Rechtshcreibfehler": return topMatch("Rechtschreibfehler"); // for demo text on home page
       case "markirt": return topMatch("markiert"); // for demo text on home page
       case "Johannesbeere": return topMatch("Johannisbeere");
       case "Johannesbeeren": return topMatch("Johannisbeeren");
+      case "Endgeld": return topMatch("Entgeld");
       case "Entäuschung": return topMatch("Enttäuschung");
       case "Entäuschungen": return topMatch("Enttäuschungen");
       case "Triologie": return topMatch("Trilogie", "Werk (z.B. Film), das aus drei Teilen besteht");
