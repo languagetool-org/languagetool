@@ -524,8 +524,8 @@ class SingleDocument {
           nStart = nTPara.number;
           nEnd = nTPara.number + 1;
         } else {
-          nStart = docCache.getStartOfParaCheck(nTPara, nCheck, overrideRunning, true, false);
-          nEnd = docCache.getEndOfParaCheck(nTPara, nCheck, overrideRunning, true, false);
+          nStart = docCache.getStartOfParaCheck(nTPara, nCheck, checkOnlyParagraph, true, false);
+          nEnd = docCache.getEndOfParaCheck(nTPara, nCheck, checkOnlyParagraph, true, false);
         }
         mDocHandler.getTextLevelCheckQueue().addQueueEntry(docCache.createTextParagraph(nTPara.type, nStart), 
             docCache.createTextParagraph(nTPara.type, nEnd), nCache, nCheck, docId, overrideRunning);

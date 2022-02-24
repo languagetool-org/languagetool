@@ -80,22 +80,35 @@ class ResultCache implements Serializable {
   }
 
   /**
-   * Remove all cache entries between firstPara (included) and lastPara (included)
+   * Remove all cache entries between firstPara (included) and lastPara (excluded)
    * shift all numberOfParagraph by 'shift'
    */
   synchronized void removeAndShift(int firstParagraph, int lastParagraph, int shift) {
-    for (int i = firstParagraph; i <= lastParagraph; i++) {
+    if (lastParagraph < firstParagraph || shift == 0) {
+      return;
+    }
+    for (int i = firstParagraph; i < lastParagraph - shift - 1; i++) {
       entries.remove(i);
     }
     Map<Integer, CacheEntry> tmpEntries = entries;
     entries = Collections.synchronizedMap(new HashMap<>());
     synchronized (tmpEntries) {
-      for (int i : tmpEntries.keySet()) {
-        if (i >= firstParagraph && i + shift >= 0) {
-          entries.put(i + shift, tmpEntries.get(i));
-        } else if (i < firstParagraph + shift) {
-          entries.put(i, tmpEntries.get(i));
-        } 
+      if (shift > 0) {
+        for (int i : tmpEntries.keySet()) {
+          if (i >= firstParagraph) {
+            entries.put(i + shift, tmpEntries.get(i));
+          } else {
+            entries.put(i, tmpEntries.get(i));
+          } 
+        }
+      } else {
+        for (int i : tmpEntries.keySet()) {
+          if (i >= lastParagraph && i + shift >= 0) {
+            entries.put(i + shift, tmpEntries.get(i));
+          } else if (i < firstParagraph) {
+            entries.put(i, tmpEntries.get(i));
+          } 
+        }
       }
     }
   }

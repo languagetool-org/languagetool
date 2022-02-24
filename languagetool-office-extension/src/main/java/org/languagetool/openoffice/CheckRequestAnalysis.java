@@ -645,12 +645,12 @@ class CheckRequestAnalysis {
                   oldDocCache.getFlatParagraph(oldDocCache.size() - to)))) {
         to++;
       }
-      to = docCache.size() - to;
+      to = docCache.size() - to + 1;
       if (to < 0) {
         to = 0;
       }
     } else {
-      // if no change in text is found check the number of flat paragraphs which have changed
+      // if no change in text is found check the number of header and footer paragraphs which have changed
       while (from < docCache.size() && from < oldDocCache.size()
           && (docCache.getNumberOfTextParagraph(from).type != DocumentCache.CURSOR_TYPE_HEADER_FOOTER
           || docCache.getFlatParagraph(from).equals(oldDocCache.getFlatParagraph(from)))) {
@@ -662,15 +662,15 @@ class CheckRequestAnalysis {
                   oldDocCache.getFlatParagraph(oldDocCache.size() - to)))) {
         to++;
       }
-      to = docCache.size() - to;
+      to = docCache.size() - to + 1;
     }
     changeFrom = from - numParasToChange;
-    changeTo = to + numParasToChange + 1;
+    changeTo = to + numParasToChange;
     singleDocument.removeAndShiftIgnoredMatch(from, to, oldDocCache.size(), docCache.size());
     if (debugMode > 0) {
       MessageHandler.printToLogFile("CheckRequestAnalysis: changesInNumberOfParagraph: Changed paragraphs: from:" + from + ", to: " + to);
     }
-    if(isDisposed()) {
+    if(!isDisposed()) {
       for (ResultCache cache : paragraphsCache) {
         cache.removeAndShift(from, to, docCache.size() - oldDocCache.size());
       }
@@ -693,7 +693,7 @@ class CheckRequestAnalysis {
         }
         for (int i = 0; i < minToCheckPara.size(); i++) {
           if (minToCheckPara.get(i) != 0) {
-            for (int n = from; n <= to; n++) {
+            for (int n = from; n < to; n++) {
               singleDocument.addQueueEntry(n, i, minToCheckPara.get(i), docID, false, true);
             }
           }
