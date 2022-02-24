@@ -7620,7 +7620,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern> <!-- podmiot szeregowy ze spójnikiem czy też, lub też, bądź też -->
               <token postag='(subst|adj):.*:nom.*' postag_regexp='yes'/>                          
-              <token regexp="yes">bądź|czy|lub</token>
+              <token regexp="yes">bądź|czy|lub|oraz</token>
               <token>też</token>
               <marker>
                 <token postag='subst:sg:nom.*' postag_regexp='yes'/>
@@ -8026,10 +8026,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <marker>
                 <token postag='subst:sg:nom.*' postag_regexp='yes' skip='-1'>
-                  <exception regexp="yes">\p{Lu}+|Android|plus|niż|[tc]o|cóż|nic|juz|czyż|państwo|ksiądz|tatuś|matka|ojciec|proboszcz|kanonik|królowa|król</exception>
+                  <exception regexp="yes">\p{Lu}+|Android|plus|niż|[tcC]o|cóż|nic|juz|czyż|państwo|ksiądz|tatuś|matka|ojciec|proboszcz|kanonik|królowa|król</exception>
                   <exception postag='verb.*sg.*|ppron3:pl:.*|conj|comp.*|interp.*|subst:pl:nom.*|pred|num:pl:nom.*' postag_regexp='yes' scope='next'/>
                   <exception postag='adj:pl:nom.*' postag_regexp='yes' scope='next' inflected="yes" regexp="yes">jeden|drugi</exception>
-                  <exception postag='subst:pl:nom.*|adv.*|qub' postag_regexp='yes'/>
+                  <exception postag='subst:pl:nom.*|adv.*|qub|brev:npun' postag_regexp='yes'/>
                   <exception postag='conj' scope='previous'/>
                   <exception postag="prep:nom.*" postag_regexp="yes" scope="previous"/>
                   <exception regexp="yes" scope="previous" spacebefore="no">&apost;|\-</exception>
@@ -8152,6 +8152,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                <example>To zrozumiałe — tak słaby rywal plus ogromny upał są wystarczającym usprawiedliwieniem.</example>
                <example>Co potrafią &quot;japonki&quot;?</example>
                <example>O baj przedkładają skuteczność ponad sztukę.</example>
+               <example>Słowa naszej dr dźwięczą mi ciągle w uszach.</example>
             </rule>
               <rule>
                 <pattern>
@@ -8892,7 +8893,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </antipattern>
         <pattern>
           <token postag='prep:gen.*' postag_regexp='yes'></token>
-          <token regexp='yes'>\d+<exception regexp="yes">1|jednej|jednego|[12]\d{3}</exception></token>
+          <token regexp='yes'>\d+<exception regexp="yes">1|[12]\d{3}</exception></token>
           <marker>
           <token postag='subst:sg:gen.*' postag_regexp='yes'>
             <exception postag='subst:pl:gen.*' postag_regexp='yes'></exception>
@@ -20042,6 +20043,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
 		<category id="TYPOS" name="Prawdopodobne literówki" type="misspelling">
+		<rule id="FONETYCZNY_OM_A" name="Błędny zapis „-ą” (om) w końcówkach celownika">
+		<antipattern>
+      <unify><feature id="gender"/><feature id="number"/><feature id="case"/>
+      <token inflected="yes" regexp="yes">płeć|kierunek|drużyna|pogląd</token>
+      <marker>
+      <token inflected="yes">przeciwny</token>
+      </marker>
+      </unify>
+		</antipattern>
+    <pattern>
+        <token><exception postag=".*dat.*" postag_regexp="yes"></exception></token>
+        <token inflected="yes">przeciwny<exception>przeciwną</exception></token>
+        <marker><token regexp="yes" postag="subst.*" postag_regexp="yes">.*ą<exception postag=".*dat.*" postag_regexp="yes"/></token>
+        </marker>
+    </pattern>
+    <message>Czy chodziło o <suggestion suppress_misspelled="yes"><match no="3" regexp_match="ą$" regexp_replace="om"></match></suggestion>?</message>
+    <example correction="zmianom">Jestem przeciwna <marker>zmianą</marker> emerytalnym.</example>
+    <example>Była atrakcyjną dla płci przeciwnej kobietą.</example>
+    <example>Zderzyła się czołowo z jadącą w kierunku przeciwnym ciężarówką.</example>
+    <example>Posługują sie w krajach im przeciwnych metodą marketingu…</example>
+    <example>Teorie są tylko nieodpowiedzialną i Bogu przeciwną herezją.</example>
+    </rule>
 		<rule id="w_ladza" name="„w ładzą” (władzą)">
 		<pattern>
         <token>w</token>
