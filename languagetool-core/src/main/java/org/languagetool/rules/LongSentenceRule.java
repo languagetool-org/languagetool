@@ -107,9 +107,6 @@ public class LongSentenceRule extends TextLevelRule {
           && !tokens[i].getToken().equals("\n") && !tokens[i].getToken().equals("\r\n")
           && !tokens[i].getToken().equals("\n\r")
         ) {
-//          if (tokens[i].getToken().equals(firstWord) && fromPosToken == null) {
-//
-//          }
           if (isWordCount(tokens[i].getToken())) {
             //Get first word token
             if (fromPosToken == null) {
@@ -121,7 +118,12 @@ public class LongSentenceRule extends TextLevelRule {
               if (toPosToken == null) {
                 for (int j = tokens.length - 1; j >= 0; j--) {
                   if (isWordCount(tokens[j].getToken())) {
-                    toPosToken = tokens[j];
+                    if (tokens.length > j + 1 && tokens[j+1].getToken().equals(".")) {
+                      toPosToken = tokens[j + 1];
+                    } else {
+                      toPosToken = tokens[j];
+
+                    }
                     break;
                   }
                 }
