@@ -42021,31 +42021,6 @@ Isso evita que sejam produzidos erros gramaticais em certas línguas.
     </rule>
 
 
-    <!-- QUE TEM/TÊM com -->
-    <rule id='QUE_TEM_TÊM' name="Simplificar: Que tem/têm → com">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-21 (Checked/Enhanced) (1-JAN-2022+)      -->
-	<!--
-É uma empresa séria, que tem marcas que acompanham a história da família. → É uma empresa séria, com marcas que acompanham a história da família.
-As unhas são uma das partes do corpo que têm mais contacto com tudo. → As unhas são uma das partes do corpo com mais contacto com tudo.
-	-->
-      <pattern>
-	      <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
-		  <token min="0" max="1" postag='_PUNCT|_QUOT' postag_regexp='yes'/>
-		  <marker>
-			<token>que</token>
-			<token regexp="yes">t[eê]m</token>
-		  </marker>
-		  <token postag='NC.+|AQ.+' postag_regexp='yes'>
-			<exception regexp='yes'>disponível|disponíveis|lá|nel[ae]s?|são|sobre</exception>
-		  </token>
-      </pattern>
-	  <message>Esta perífrase poderá ser simplificada.</message>
-	  <suggestion>com</suggestion>
-      <example correction="com">São dicionários <marker>que têm</marker> milhões de palavras.</example>
-	  <example type='correct'>São dicionários <marker>com</marker> milhões de palavras.</example>
-    </rule>
-
-
 	<!-- QUE ATUA/ATUAM a atuar -->
     <rule id='QUE_VERBO_A_VERBOINFINITIVO' name="Simplificar: Que + V. → A + V. Infinitivo" type="style">
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-19 (Checked/Enhanced) (1-JAN-2022+)      -->
@@ -42447,6 +42422,32 @@ Pouco importam as notas na música, o que conta são as sensações produzidas p
 	  <example>⁣ ⁣ O que precisam saber é que: pessoas continuam tendo ataques cardíacos, pessoas continuam tendo AVCs, pessoas conti...</example>
 	  <example>Na boca, o que aparece são os lip tints, que são produtos versáteis, bem líquidos, verdadeiras tintas, que você aplica nos...</example>
 	  <example>Pouco importam as notas na música, o que conta são as sensações produzidas por elas.</example>
+    </rule>
+
+
+    <!-- QUE/E TEM/TÊM com -->
+    <rule id='SIMPLIFICAR_QUE_E_TEM_TÊM' name="Simplificar: Que/E tem/têm → com">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-21 + 2022-02-24 (Checked/Enhanced) (1-JAN-2022+)      -->
+	<!--
+É uma empresa séria, que tem marcas que acompanham a história da família. → É uma empresa séria, com marcas que acompanham a história da família.
+As unhas são uma das partes do corpo que têm mais contacto com tudo. → As unhas são uma das partes do corpo com mais contacto com tudo.
+A política económica de um país é importante e tem implicações nos gastos públicos. → A política económica de um país é importante com implicações nos gastos públicos.
+	-->
+      <pattern>
+	      <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+		  <token min="0" max="1" postag='_PUNCT|_QUOT' postag_regexp='yes'/>
+		  <marker>
+			<token regexp="yes">que|e</token>
+			<token regexp="yes">t[eê]m</token>
+		  </marker>
+		  <token postag='NC.+|AQ.+' postag_regexp='yes'>
+			<exception regexp='yes'>disponível|disponíveis|lá|nel[ae]s?|são|sobre</exception>
+		  </token>
+      </pattern>
+	  <message>Esta perífrase poderá ser simplificada.</message>
+	  <suggestion>com</suggestion>
+      <example correction="com">São dicionários <marker>que têm</marker> milhões de palavras.</example>
+	  <example type='correct'>São dicionários <marker>com</marker> milhões de palavras.</example>
     </rule>
 
 
