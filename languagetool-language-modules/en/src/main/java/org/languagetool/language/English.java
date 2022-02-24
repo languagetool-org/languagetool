@@ -437,13 +437,15 @@ public class English extends Language implements AutoCloseable {
       case "MISSING_GENITIVE":          return -1;  // prefer over spell checker (like EN_SPECIFIC_CASE)
       case "EN_UNPAIRED_BRACKETS":      return -1;  // less priority than rules that suggest the correct brackets
       case "NEEDS_FIXED":               return -1;  // less priority than MISSING_TO_BEFORE_A_VERB
+      case "I_THINK_FEEL":              return -51;
+      case "KNOW_AWARE_REDO":           return -51;
       case "BLACK_SEA":                 return -1;  // less priority than SEA_COMPOUNDS
       case "A_TO":                      return -1;  // less priority than other rules that offer suggestions
       case "MANY_NN":                   return -1;  // less priority than PUSH_UP_HYPHEN, SOME_FACULTY
       case "WE_BE":                     return -1;
       case "A_LOT_OF_NN":               return -1;
       case "IT_VBZ":                    return -1;
-      case "REPETITIONS_STYLE":         return -1;  // repetition style rules, usually with prefix REP_
+      case "REPETITIONS_STYLE":         return -51;  // repetition style rules, usually with prefix REP_
       case "ORDER_OF_WORDS_WITH_NOT":   return -1;  // less prio than punctuation rules
       case "ADVERB_WORD_ORDER_10_TEMP": return 1;
       case "ADVERB_WORD_ORDER":         return -1;  // less prio than PRP_PAST_PART //
