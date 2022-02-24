@@ -182,7 +182,7 @@ public class GRPCPostProcessing {
   }
 
   private Match convertMatch(RuleMatch m) {
-    // TODO: handling for conversion errors with enums
+    // could add better handling for conversion errors with enums
     return Match.newBuilder()
       .setOffset(m.getFromPos())
       .setLength(m.getToPos() - m.getFromPos())
@@ -263,10 +263,8 @@ public class GRPCPostProcessing {
     }
     List<String> sentenceText = sentences.stream().map(AnalyzedSentence::getText).collect(Collectors.toList());
 
-    System.out.println("Matches for resorting: " + ruleMatches.stream().map(m -> m.toString() + m.getSuggestedReplacementObjects()).collect(Collectors.joining()));
     PostProcessingRequest req = PostProcessingRequest.newBuilder()
       .addAllSentences(sentenceText).addAllMatches(matches).build();
-    System.out.println("Resorting request: " + req);
     return req;
   }
 
@@ -293,7 +291,6 @@ public class GRPCPostProcessing {
   private List<RuleMatch> runPostprocessing(List<AnalyzedSentence> sentences, List<RuleMatch> ruleMatches) {
     List<Integer> offset = new ArrayList<>();
     MatchResponse response = stub.process(buildRequest(sentences, ruleMatches, offset));
-    System.out.println("Resorting response: " + response);
     List<RuleMatch> result = new ArrayList<>(response.getSentenceMatchesCount());
     for (int i = 0; i < response.getSentenceMatchesCount(); i++) {
       MatchList matchList = response.getSentenceMatches(i);
@@ -305,7 +302,6 @@ public class GRPCPostProcessing {
         result.add(match);
       }
     }
-    System.out.println("Resorted matches: " + result.stream().map(m -> m.toString() + m.getSuggestedReplacementObjects()).collect(Collectors.joining()));
     return result;
   }
 }
