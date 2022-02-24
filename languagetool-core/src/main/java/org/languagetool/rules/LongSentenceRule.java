@@ -33,13 +33,12 @@ import java.util.ResourceBundle;
 
 /**
  * A rule that warns on long sentences.
- *
  * @since 3.9
  */
 public class LongSentenceRule extends TextLevelRule {
 
   public static final String RULE_ID = "TOO_LONG_SENTENCE";
-
+  
   private final ResourceBundle messages;
   private final int maxWords;
 
@@ -146,7 +145,7 @@ public class LongSentenceRule extends TextLevelRule {
         i++;
       }
       for (int j = 0; j < fromPos.size(); j++) {
-        RuleMatch ruleMatch = new RuleMatch(this, sentence, pos + fromPos.get(j), pos + toPos.get(j), msg);
+        RuleMatch ruleMatch = new RuleMatch(this, sentence, pos+fromPos.get(j), pos+toPos.get(j), msg);
         ruleMatches.add(ruleMatch);
       }
       pos += sentence.getCorrectedTextLength();
@@ -158,8 +157,8 @@ public class LongSentenceRule extends TextLevelRule {
   public int minToCheckParagraph() {
     return 0;
   }
-
-  // next functions give the user the possibility to configure the function
+  
+// next functions give the user the possibility to configure the function
   @Override
   public int getDefaultValue() {
     return maxWords;
@@ -184,6 +183,7 @@ public class LongSentenceRule extends TextLevelRule {
   public String getConfigureText() {
     return messages.getString("guiLongSentencesText");
   }
+
 
 
 }
