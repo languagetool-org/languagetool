@@ -31,7 +31,7 @@ import java.util.*;
 
 public class RuleIdValidator {
 
-  private Language lang;
+  private final Language lang;
 
   public RuleIdValidator(Language lang) {
     this.lang = lang;
@@ -70,9 +70,9 @@ public class RuleIdValidator {
     //System.out.println("id uniqueness for " + lang + " finished");
   }
   
-  private class XmlIdHandler extends DefaultHandler {
+  private static class XmlIdHandler extends DefaultHandler {
 
-    private Set<String> ids = new HashSet<>();
+    private final Set<String> ids = new HashSet<>();
     
     @Override
     public void startElement(String namespaceURI, String lName, String qName, Attributes attrs) {
