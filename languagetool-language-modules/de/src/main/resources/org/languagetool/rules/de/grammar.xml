@@ -22406,8 +22406,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category id="COLLOQUIALISMS" name="Umgangssprache" type="register">
         <!-- TODO Make one Java-rule for context-independent, colloquial expressions and maintain a list -->
-        <rulegroup id="ZUM_STATT_FUERS" name="fürs (zum) Schneiden">
-            <rule id="ZUM_STATT_FUERS1" name="fürs (zum) Schneiden1">
+        <rulegroup id="ZUM_STATT_FUERS" name="fürs (zum) Schneiden" default="temp_off">
+            <rule>
+                <antipattern>
+                    <token regexp="yes">danke|danke schön</token>
+                    <token>fürs</token>
+                    <token postag="SUB.*INF.*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>fürs<exception regexp='yes' scope='previous'>danke|danke schön</exception></token>
@@ -22415,12 +22420,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag='SUB.*INF.*' postag_regexp='yes'></token>
                     <token skip="-1" min="0" inflected='yes' regexp='yes'>brauchen|benötigen|nehmen</token>
                 </pattern>
-                <message>Hier könnte <suggestion>zum</suggestion> besser klingen, da fürs sehr umgangssprachlich ist.</message>
-                <url>https://learngerman.dw.com/de/nominalisierung-verben-als-nomen/l-38464354/e-38468479</url>
+                <message>Hier könnte <suggestion>zum</suggestion> besser klingen, da 'fürs' sehr umgangssprachlich ist.</message>
                 <example correction="Zum"><marker>Fürs</marker> Schneiden benötigt man eine Schere.</example>
                 <example>Danke schön fürs Schneiden.</example>
+                <example>Danke fürs Kommen.</example>
             </rule>
-            <rule id="ZUM_STATT_FUERS2" name="fürs (zum) Schneiden2">
+            <rule>
                 <pattern>
                     <token skip="-1" inflected='yes' regexp='yes'>brauchen|benötigen|nehmen</token>
                     <token min="0"></token>
@@ -22430,7 +22435,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag='SUB.*INF.*' postag_regexp='yes'></token>
                 </pattern>
                 <message>Hier könnte <suggestion>zum</suggestion> besser klingen, da 'fürs' sehr umgangssprachlich ist.</message>
-                <url>https://learngerman.dw.com/de/nominalisierung-verben-als-nomen/l-38464354/e-38468479</url>
                 <example correction="zum">Man nimmt Mehl <marker>fürs</marker> Backen.</example>
             </rule>
         </rulegroup>
