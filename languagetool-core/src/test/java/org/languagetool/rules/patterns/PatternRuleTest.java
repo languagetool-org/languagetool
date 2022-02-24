@@ -220,6 +220,9 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
       if (rule.getId().equalsIgnoreCase("ID")) {
         System.err.println("WARNING: " + lang.getShortCodeWithCountryAndVariant() + " has a rule with id 'ID', this should probably be changed");
       }
+      if (rule.getId().startsWith("DB_")) {
+        fail("Rule ID must not start with 'DB_', this prefix is reserved for internal use: " + rule.getId());
+      }
       if (rule.getId().contains("[") || rule.getId().contains("]")) {
         fail("Rule ID must not contain '[...]': " + rule.getId());
       }
