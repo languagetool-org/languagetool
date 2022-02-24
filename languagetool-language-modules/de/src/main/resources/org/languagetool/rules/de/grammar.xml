@@ -25165,6 +25165,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="NICHTS_FUER_UNGUT" name="nichts für Ungut (ungut)" default="temp_off">
+            <pattern>
+                <token>nichts</token>
+                <token>für</token>
+                <marker>
+                    <token case_sensitive="yes">Ungut</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="3" case_conversion="startlower"/></suggestion>?</message>
+            <example correction="ungut">Nichts für <marker>Ungut</marker>. Ich habe es nicht so gemeint.</example>
+        </rule>
         <rule id="AUS_DER_PATSCHE" name="patsche (Patsche)">
             <antipattern>
                 <token>patsche</token>
