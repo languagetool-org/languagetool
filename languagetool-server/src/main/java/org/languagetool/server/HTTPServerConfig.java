@@ -18,6 +18,7 @@
  */
 package org.languagetool.server;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -37,9 +38,10 @@ import java.util.regex.Pattern;
 /**
  * @since 2.0
  */
+@Slf4j
 public class HTTPServerConfig {
 
-  private static final Logger logger = LoggerFactory.getLogger(HTTPServerConfig.class);
+//  private static final Logger logger = LoggerFactory.getLogger(HTTPServerConfig.class);
 
   enum Mode { LanguageTool }
 
@@ -192,7 +194,7 @@ public class HTTPServerConfig {
     "premiumAlways",
     "redisPassword", "redisHost", "redisCertificate", "redisKey", "redisKeyPassword",
     "redisUseSentinel", "sentinelHost", "sentinelPort", "sentinelPassword", "sentinelMasterId",
-    "dbLogging", "premiumOnly", "nerUrl");
+    "dbLogging", "premiumOnly", "nerUrl", "passwortLoginAccessListPath");
 
   /**
    * Create a server configuration for the default port ({@link #DEFAULT_PORT}).
@@ -224,7 +226,7 @@ public class HTTPServerConfig {
   HTTPServerConfig(String[] args) {
     for (int i = 0; i < args.length; i++) {
       if (args[i].matches("--[a-zA-Z]+=.+")) {
-        System.err.println("WARNING: use `--option value`, not `--option=value`, parameters will be ignored otherwise: " + args[i]);
+        log.warn("WARNING: use `--option value`, not `--option=value`, parameters will be ignored otherwise: {}", args[i]);
       }
       switch (args[i]) {
         case "--config":
@@ -247,7 +249,7 @@ public class HTTPServerConfig {
             throw new IllegalArgumentException("Cannot use --premiumAlways with non-premium version");
           }
           premiumAlways = true;
-          System.out.println("*** Running in PREMIUM-ALWAYS mode, premium features are available without authentication");
+          log.info("Running in PREMIUM-ALWAYS mode, premium features are available without authentication.");
           break;
         case "--allow-origin":
           try {
@@ -286,10 +288,9 @@ public class HTTPServerConfig {
           break;
         default:
           if (args[i].contains("=")) {
-            System.out.println("WARNING: unknown option: " + args[i] +
-                    " - please note that parameters are given as '--arg param', i.e. without '=' between argument and parameter");
+              log.warn("unknown option: {}  - please note that parameters are given as '--arg param', i.e. without '=' between argument and parameter", args[i]);
           } else {
-            System.out.println("WARNING: unknown option: " + args[i]);
+              log.warn("unknown option: {}",  args[i]);
           }
       }
     }
@@ -388,7 +389,7 @@ public class HTTPServerConfig {
         }
         cacheTTLSeconds = Integer.parseInt(getOptionalProperty(props, "cacheTTLSeconds", "300"));
         if (props.containsKey("warmUp")) {
-          System.err.println("Setting ignored: 'warmUp'. Look into using pipelineCaching and pipelinePrewarming instead.");
+          log.warn("Setting ignored: 'warmUp'. Look into using pipelineCaching and pipelinePrewarming instead.");
         }
         maxErrorsPerWordRate = Float.parseFloat(getOptionalProperty(props, "maxErrorsPerWordRate", "0"));
         maxSpellingSuggestions = Integer.parseInt(getOptionalProperty(props, "maxSpellingSuggestions", "0"));
@@ -465,14 +466,12 @@ public class HTTPServerConfig {
         String nerUrl = getOptionalProperty(props, "nerUrl", null);
         if (nerUrl != null) {
           globalConfig.setNERUrl(nerUrl);
-          logger.info("Using NER service: " + globalConfig.getNerUrl());
+          log.info("Using NER service: {}", globalConfig.getNerUrl());
         }
         for (Object o : props.keySet()) {
           String key = (String)o;
           if (!KNOWN_OPTION_KEYS.contains(key) && !key.matches("lang-[a-z]+-dictPath") && !key.matches("lang-[a-z]+")) {
-            System.err.println("***** WARNING: ****");
-            System.err.println("Key '" + key + "' from configuration file '" + file + "' is unknown. Please check the key's spelling (case is significant).");
-            System.err.println("Known keys: " + KNOWN_OPTION_KEYS);
+            log.warn("Key '{}' from configuration file '{}' is unknown. Please check the key's spelling (case is significant). Known keys: {}", key, file, KNOWN_OPTION_KEYS);
           }
         }
 
@@ -513,7 +512,7 @@ public class HTTPServerConfig {
         if (!dictPathFile.exists() || !dictPathFile.isFile()) {
           throw new IllegalArgumentException("dictionary file does not exist or is not a file: '" + dictPath + "'");
         }
-        ServerTools.print("Adding dynamic spell checker language " + name + ", code: " + code + ", dictionary: " + dictPath);
+        log.info("Adding dynamic spell checker language {}, code: {}, dictionary: {}", name,  code, dictPath);
         Language lang = Languages.addLanguage(name, code, new File(dictPath));
         // better fail early in case of misconfiguration, so use the language now:
         if (!new File(lang.getCommonWordsPath()).exists()) {

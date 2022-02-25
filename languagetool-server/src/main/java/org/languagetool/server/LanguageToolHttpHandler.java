@@ -20,6 +20,7 @@ package org.languagetool.server;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jetbrains.annotations.NotNull;
@@ -27,8 +28,6 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.ErrorRateTooHighException;
 import org.languagetool.tools.LoggingTools;
 import org.languagetool.tools.StringTools;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 
 import java.io.IOException;
@@ -47,11 +46,9 @@ import java.util.concurrent.TimeoutException;
 
 import static java.net.HttpURLConnection.HTTP_UNAVAILABLE;
 import static org.languagetool.server.ServerTools.getHttpReferrer;
-import static org.languagetool.server.ServerTools.print;
 
+@Slf4j
 class LanguageToolHttpHandler implements HttpHandler {
-
-  private static final Logger logger = LoggerFactory.getLogger(LanguageToolHttpHandler.class);
 
   static final String API_DOC_URL = "https://languagetool.org/http-api/swagger-ui/#/default";
   
@@ -94,7 +91,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     try {
       URI requestedUri = httpExchange.getRequestURI();
       String path = requestedUri.getRawPath();
-      logger.info("Handling {} {}", httpExchange.getRequestMethod(), path);
+      log.debug("Handling {} {}", httpExchange.getRequestMethod(), path);
       if (config.getServerURL() != null) {
         path = config.getServerURL().relativize(new URI(requestedUri.getPath())).getRawPath();
         if (!path.startsWith("/")) {
@@ -102,7 +99,7 @@ class LanguageToolHttpHandler implements HttpHandler {
         }
       }
       if (path.startsWith("/v2/stop") && config.isStoppable()) {
-        logger.warn("Stopping server by external command");
+        log.warn("Stopping server by external command");
         httpServer.stop();
         return;
       }
@@ -243,7 +240,7 @@ class LanguageToolHttpHandler implements HttpHandler {
       sendError(httpExchange, errorCode, "Error: " + response);
 
     } finally {
-      logger.info("Handled request in {}ms; sending code {}", System.currentTimeMillis() - startTime, httpExchange.getResponseCode());
+      log.debug("Handled request in {}ms; sending code {}", System.currentTimeMillis() - startTime, httpExchange.getResponseCode());
       httpExchange.close();
       mdcRequestID.close();
       if (incrementHandleCount) {
@@ -320,7 +317,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     message += ", referrer: " + getHttpReferrer(httpExchange);
     message += ", language: " + params.get("language");
     message += ", " + getTextOrDataSizeMessage(params);
-    logger.error(message);
+    log.error(message);
   }
 
   private void logError(String remoteAddress, Exception e, int errorCode, HttpExchange httpExchange, Map<String, String> params, 
@@ -351,18 +348,17 @@ class LanguageToolHttpHandler implements HttpHandler {
       message += "(no stacktrace logged)";
     }
     if (errorCode < 500) {
-      logger.info(LoggingTools.BAD_REQUEST, message);
+      log.debug(LoggingTools.BAD_REQUEST, message);
     } else if (e.getMessage() != null && e.getMessage().contains("took longer than")) {
-      logger.warn(LoggingTools.REQUEST, message);
+      log.warn(LoggingTools.REQUEST, message);
     } else {
-      logger.error(LoggingTools.REQUEST, message);
+      log.error(LoggingTools.REQUEST, message);
     }
 
     if (!(e instanceof TextTooLongException || e instanceof TooManyRequestsException ||
         ExceptionUtils.getRootCause(e) instanceof ErrorRateTooHighException || e.getCause() instanceof TimeoutException)) {
       if (config.isVerbose() && text != null && textLoggingAllowed) {
-        print("Exception was caused by this text (" + text.length() + " chars, showing up to 500):\n" +
-          StringUtils.abbreviate(text, 500), System.err);
+        log.error("Exception was caused by this text ({} chars, showing up to 500):\n {}", text.length(), StringUtils.abbreviate(text, 500));
         logToDatabase(params, message + StringUtils.abbreviate(text, 500));
       } else {
         logToDatabase(params, message);

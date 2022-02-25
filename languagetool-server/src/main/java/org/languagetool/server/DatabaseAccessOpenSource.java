@@ -20,6 +20,7 @@ package org.languagetool.server;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.ibatis.datasource.pooled.PooledDataSource;
 import org.apache.ibatis.exceptions.PersistenceException;
@@ -43,9 +44,9 @@ import java.util.concurrent.TimeUnit;
  * Encapsulate database access. Will do nothing if database access is not configured.
  * @since 4.2
  */
+@Slf4j
 class DatabaseAccessOpenSource extends DatabaseAccess {
-
-  private static final Logger logger = LoggerFactory.getLogger(DatabaseAccessOpenSource.class);
+  
   private static final String NON_PREMIUM_MSG = "This server does not support username/password";
 
   private final Cache<String, Long> dbLoggingCache = CacheBuilder.newBuilder()
@@ -57,7 +58,7 @@ class DatabaseAccessOpenSource extends DatabaseAccess {
     super(config);
     if (config.getDatabaseDriver() != null) {
       try {
-        logger.info("Setting up database access, URL " + config.getDatabaseUrl() + ", driver: " + config.getDatabaseDriver() + ", user: " + config.getDatabaseUsername());
+        log.debug("Setting up database access, URL " + config.getDatabaseUrl() + ", driver: " + config.getDatabaseDriver() + ", user: " + config.getDatabaseUsername());
         InputStream inputStream = Resources.getResourceAsStream("org/languagetool/server/mybatis-config.xml");
         Properties properties = new Properties();
         properties.setProperty("driver", config.getDatabaseDriver());
@@ -78,14 +79,14 @@ class DatabaseAccessOpenSource extends DatabaseAccess {
 
         DatabaseLogger.init(sqlSessionFactory);
         if (!config.getDatabaseLogging()) {
-          logger.info("dbLogging not set to true, turning off logging");
+          log.debug("dbLogging not set to true, turning off logging");
           DatabaseLogger.getInstance().disableLogging();
         }
       } catch (IOException e) {
         throw new RuntimeException(e);
       }
     } else {
-      logger.info("Not setting up database access, dbDriver is not configured");
+      log.debug("Not setting up database access, dbDriver is not configured");
     }
   }
 
@@ -179,14 +180,14 @@ class DatabaseAccessOpenSource extends DatabaseAccess {
       map.put("userId", userId);
       List<String> existingWords = session.selectList("org.languagetool.server.UserDictMapper.selectWord", map);
       if (existingWords.size() >= 1) {
-        logger.info("Did not add '" + word + "' for user " + userId + " to list of ignored words, already exists");
+        log.info("Did not add '" + word + "' for user " + userId + " to list of ignored words, already exists");
         return false;
       } else {
         Date now = new Date();
         map.put("created_at", now);
         map.put("updated_at", now);
         int affectedRows = session.insert("org.languagetool.server.UserDictMapper.addWord", map);
-        logger.info("Added '" + word + "' for user " + userId + " to list of ignored words, affectedRows: " + affectedRows);
+        log.info("Added '" + word + "' for user " + userId + " to list of ignored words, affectedRows: " + affectedRows);
         return affectedRows == 1;
       }
     }
@@ -235,11 +236,11 @@ class DatabaseAccessOpenSource extends DatabaseAccess {
       map.put("userId", userId);
       int count = session.delete("org.languagetool.server.UserDictMapper.selectWord", map);
       if (count == 0) {
-        logger.info("Did not delete '" + word + "' for user " + userId + " from list of ignored words, does not exist");
+        log.info("Did not delete '" + word + "' for user " + userId + " from list of ignored words, does not exist");
         return false;
       } else {
         int affectedRows = session.delete("org.languagetool.server.UserDictMapper.deleteWord", map);
-        logger.info("Deleted '" + word + "' for user " + userId + " from list of ignored words, affectedRows: " + affectedRows);
+        log.info("Deleted '" + word + "' for user " + userId + " from list of ignored words, affectedRows: " + affectedRows);
         return affectedRows >= 1;
       }
     }
@@ -283,7 +284,7 @@ class DatabaseAccessOpenSource extends DatabaseAccess {
             }
           }
         } catch (PersistenceException e) {
-          logger.warn("Error: Could not get/register id for this client: " + client, e);
+          log.warn("Error: Could not get/register id for this client: " + client, e);
           return -1L;
         }
       });
@@ -293,7 +294,7 @@ class DatabaseAccessOpenSource extends DatabaseAccess {
         return id;
       }
     } catch (ExecutionException e) {
-      logger.warn("Failure in getOrCreateClientId with client '" + client + "': ", e);
+      log.warn("Failure in getOrCreateClientId with client '" + client + "': ", e);
       return null;
     }
   }

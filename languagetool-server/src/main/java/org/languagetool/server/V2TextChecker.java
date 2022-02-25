@@ -19,6 +19,7 @@
 package org.languagetool.server;
 
 import com.sun.net.httpserver.HttpExchange;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.CheckResults;
 import org.languagetool.DetectedLanguage;
@@ -37,6 +38,7 @@ import static org.languagetool.server.ServerTools.setCommonHeaders;
  * Checker for v2 of the API, which returns JSON.
  * @since 3.4
  */
+@Slf4j
 class V2TextChecker extends TextChecker {
 
   private static final String JSON_CONTENT_TYPE = "application/json";
@@ -104,7 +106,7 @@ class V2TextChecker extends TextChecker {
   protected DetectedLanguage getLanguage(String text, Map<String, String> parameters, List<String> preferredVariants,
                                          List<String> noopLangs, List<String> preferredLangs, boolean testMode) {
     if ("true".equals(parameters.get("languageChanged"))) {
-      System.out.println("languageChanged, testMode: " + testMode);
+      log.info("languageChanged, testMode: {}", testMode);
     }
     String langParam = parameters.get("language");
     DetectedLanguage detectedLang = detectLanguageOfString(text, null, preferredVariants, noopLangs, preferredLangs, testMode);

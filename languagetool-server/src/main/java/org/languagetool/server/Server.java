@@ -22,6 +22,7 @@ import com.sun.net.httpserver.HttpServer;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
+import org.languagetool.tools.LoggingTools;
 import org.languagetool.tools.LtThreadPoolFactory;
 
 import java.util.Arrays;
@@ -60,11 +61,10 @@ abstract class Server {
    */
   public void run() {
     String hostName = host != null ? host : "localhost";
-    ServerTools.print("Starting LanguageTool " + JLanguageTool.VERSION +
-            " (build date: " + JLanguageTool.BUILD_DATE + ", " + JLanguageTool.GIT_SHORT_ID + ") server on " + getProtocol() + "://" + hostName + ":" + port  + "...");
+    log.info(LoggingTools.INIT, "Starting LanguageTool {} (build date: {}, {}) server on {}://{}:{}...", JLanguageTool.VERSION, JLanguageTool.BUILD_DATE, JLanguageTool.GIT_SHORT_ID, getProtocol(), hostName, port);
     server.start();
     isRunning = true;
-    ServerTools.print("Server started");
+    log.info(LoggingTools.INIT, "Server started");
   }
 
   /**
@@ -75,10 +75,10 @@ abstract class Server {
       httpHandler.shutdown();
     }
     if (server != null) {
-      ServerTools.print("Stopping server...");
+      log.info(LoggingTools.EXIT, "Stopping server...");
       server.stop(5);
       isRunning = false;
-      ServerTools.print("Server stopped");
+      log.info(LoggingTools.EXIT, "Server stopped");
     }
   }
 
@@ -179,16 +179,13 @@ abstract class Server {
 
   protected static void checkForNonRootUser() {
     if ("root".equals(System.getProperty("user.name"))) {
-      ServerTools.print("****************************************************************************************************");
-      ServerTools.print("*** WARNING: this process is running as root - please do not run it as root for security reasons ***");
-      ServerTools.print("****************************************************************************************************");
+      log.warn("This process is running as root - please do not run it as root for security reasons");
     }
   }
   
   protected ThreadPoolExecutor getExecutorService(HTTPServerConfig config) {
     int threadPoolSize = config.getMaxCheckThreads();
-    ServerTools.print("Setting up thread pool with " + threadPoolSize + " threads");
-
+    log.info("Setting up thread pool with {} threads", threadPoolSize);
     // reuse = false -> this should only be called once in production, needs to be false for tests
     return LtThreadPoolFactory.createFixedThreadPoolExecutor(LtThreadPoolFactory.SERVER_POOL,
       threadPoolSize, threadPoolSize, 0,0L, false,

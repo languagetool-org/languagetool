@@ -24,8 +24,9 @@ package org.languagetool.tools;
 import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
 
-public class LoggingTools {
+public final class LoggingTools {
   public static final Marker INIT = MarkerFactory.getMarker("INIT");
+  public static final Marker EXIT = MarkerFactory.getMarker("EXIT");
   public static final Marker CHECK = MarkerFactory.getMarker("CHECK");
   public static final Marker REQUEST = MarkerFactory.getMarker("REQUEST");
   public static final Marker BAD_REQUEST = MarkerFactory.getMarker("BAD_REQUEST");
@@ -34,4 +35,7 @@ public class LoggingTools {
   public static final Marker DB = MarkerFactory.getMarker("DB");
   public static final Marker REDIS = MarkerFactory.getMarker("REDIS");
   public static final Marker CACHE = MarkerFactory.getMarker("CACHE");
+
+  private LoggingTools() {
+  }
 }

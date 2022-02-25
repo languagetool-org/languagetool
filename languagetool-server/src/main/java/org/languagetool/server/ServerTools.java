@@ -92,9 +92,9 @@ final class ServerTools {
     return dateFormat.format(date.getTime());
   }
 
-  static void print(String s) {
-    print(s, System.out);
-  }
+//  static void print(String s) {
+//    print(s, System.out);
+//  }
 
   /* replace with structured logging:
   check done
@@ -114,12 +114,12 @@ final class ServerTools {
   various other exceptions
    */
 
-  static void print(String s, PrintStream outputStream) {
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ZZ");
-    dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-    String now = dateFormat.format(new Date());
-    outputStream.println(now + " " + s);
-  }
+//  static void print(String s, PrintStream outputStream) {
+//    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ZZ");
+//    dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+//    String now = dateFormat.format(new Date());
+//    outputStream.println(now + " " + s);
+//  }
 
   static void setCommonHeaders(HttpExchange httpExchange, String contentType, String allowOriginUrl) {
     httpExchange.getResponseHeaders().set("Content-Type", contentType);

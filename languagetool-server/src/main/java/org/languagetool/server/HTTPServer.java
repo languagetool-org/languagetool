@@ -19,6 +19,7 @@
 package org.languagetool.server;
 
 import com.sun.net.httpserver.HttpServer;
+import lombok.extern.slf4j.Slf4j;
 import org.languagetool.JLanguageTool;
 import org.languagetool.tools.Tools;
 
@@ -40,6 +41,7 @@ import static org.languagetool.server.HTTPServerConfig.DEFAULT_HOST;
  * @author Daniel Naber
  * @author Ankit
  */
+@Slf4j
 public class HTTPServer extends Server {
 
   private final ThreadPoolExecutor executorService;
@@ -142,8 +144,8 @@ public class HTTPServer extends Server {
       checkForNonRootUser();
       HTTPServer server;
       if (config.isPublicAccess()) {
-        ServerTools.print("WARNING: running in HTTP mode, consider running LanguageTool behind a reverse proxy that takes care of encryption (HTTPS)");
-        ServerTools.print("WARNING: running in public mode, LanguageTool API can be accessed without restrictions!");
+        log.warn("Running in HTTP mode, consider running LanguageTool behind a reverse proxy that takes care of encryption (HTTPS)");
+        log.warn("Running in public mode, LanguageTool API can be accessed without restrictions!");
         server = new HTTPServer(config, false, null, null);
       } else {
         server = new HTTPServer(config, false, DEFAULT_HOST, DEFAULT_ALLOWED_IPS);

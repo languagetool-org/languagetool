@@ -21,6 +21,7 @@
 
 package org.languagetool.server;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -32,6 +33,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * @since 4.3
  */
+@Slf4j
 class DatabaseLogger {
 
   // package private for mocking in tests
@@ -74,7 +76,7 @@ class DatabaseLogger {
             && batchSize < SQL_BATCH_SIZE
             && System.currentTimeMillis() - batchTime < SQL_BATCH_WAITING_TIME)  {
             if (messages.size() > SQL_BATCH_SIZE) {
-              ServerTools.print(String.format("Logging queue filling up: %d entries", messages.size()));
+              log.info("Logging queue filling up: {} entries", messages.size());
             }
             // polling to be able to react when waiting time has elapsed
             DatabaseLogEntry entry = messages.poll(POLLING_TIME, TimeUnit.MILLISECONDS);
@@ -92,7 +94,7 @@ class DatabaseLogger {
           session.commit();
         }
       } catch (Exception e) {
-        e.printStackTrace();
+        log.error("{}",e.getStackTrace());
         if (!Thread.currentThread().isInterrupted()) {
           new WorkerThread().start();
         }
@@ -132,7 +134,7 @@ class DatabaseLogger {
         if (messages.size() < MAX_QUEUE_SIZE) {
           messages.put(entry);
         } else {
-          ServerTools.print("Logging queue has reached size limit; discarding new messages.");
+            log.warn("Logging queue has reached size limit; discarding new messages.");
         }
       }
     } catch (InterruptedException e) {

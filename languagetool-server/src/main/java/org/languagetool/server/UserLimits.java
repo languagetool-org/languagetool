@@ -23,6 +23,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -34,9 +35,8 @@ import java.util.Objects;
 /**
  * @since 4.0
  */
+@Slf4j
 class UserLimits {
-
-  private static final Logger logger = LoggerFactory.getLogger(UserLimits.class);
   
   @Nullable
   private final UserInfoEntry account;
@@ -69,10 +69,10 @@ class UserLimits {
     if (entry == null) { // transparent fallback to anonymous user if DB down
       return getDefaultLimits(config);
     } if (entry.hasPremium() || config.isPremiumAlways()) {
-      logger.info("Access via username/password for " + username);
+      log.debug("Access via username/password for " + username);
       return new UserLimits(config.getMaxTextLengthPremium(), config.getMaxCheckTimeMillisPremium(), entry.getUserId(), true, entry.getUserDictCacheSize(), entry.getRequestsPerDay(), entry.getLimitEnforcement(), entry);
     } else {
-      logger.info("Non-premium access via username/password for " + username);
+      log.debug("Non-premium access via username/password for " + username);
       return new UserLimits(config.getMaxTextLengthLoggedIn(), config.getMaxCheckTimeMillisLoggedIn(), entry.getUserId(), false, entry.getUserDictCacheSize(), entry.getRequestsPerDay(), entry.getLimitEnforcement(), entry);
     }
   }

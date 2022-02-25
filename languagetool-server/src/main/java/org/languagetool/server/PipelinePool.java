@@ -21,6 +21,7 @@
 
 package org.languagetool.server;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.pool2.KeyedObjectPool;
 import org.apache.commons.pool2.KeyedPooledObjectFactory;
 import org.apache.commons.pool2.PooledObject;
@@ -47,9 +48,8 @@ import java.util.stream.Collectors;
 /**
  * Caches pre-configured JLanguageTool instances to avoid costly setup time of rules, etc.
  */
+@Slf4j
 class PipelinePool implements KeyedPooledObjectFactory<PipelineSettings, Pipeline> {
-
-  private static final Logger logger = LoggerFactory.getLogger(PipelinePool.class);
 
   private final KeyedObjectPool<PipelineSettings, Pipeline> pool;
 
@@ -82,14 +82,14 @@ class PipelinePool implements KeyedPooledObjectFactory<PipelineSettings, Pipelin
     } else {
       try {
         long time = System.currentTimeMillis();
-        logger.debug("Requesting pipeline; pool has {} active objects, {} idle; pipeline settings: {}",
+        log.debug("Requesting pipeline; pool has {} active objects, {} idle; pipeline settings: {}",
           pool.getNumActive(), pool.getNumIdle(), settings);
         Pipeline p = pool.borrowObject(settings);
-        logger.debug("Fetching pipeline took {}ms; pool has {} active objects, {} idle; pipeline settings: {}",
+        log.debug("Fetching pipeline took {}ms; pool has {} active objects, {} idle; pipeline settings: {}",
           System.currentTimeMillis() - time, pool.getNumActive(), pool.getNumIdle(), settings);
         return p;
       } catch(NoSuchElementException ignored) {
-        logger.info("Pipeline pool capacity reached: {} active objects, {} idle",
+        log.info("Pipeline pool capacity reached: {} active objects, {} idle",
           pool.getNumActive(), pool.getNumIdle());
         return createPipeline(settings.lang, settings.motherTongue, settings.query, settings.globalConfig, settings.userConfig, config.getDisabledRuleIds());
       }
@@ -103,8 +103,7 @@ class PipelinePool implements KeyedPooledObjectFactory<PipelineSettings, Pipelin
       pool.returnObject(settings, pipeline);
     } catch(IllegalStateException e) {
       // this might happen when pool capacity is reached and we return newly created objects that were never borrowed
-      logger.info("Exception while trying to return pipeline to pool;" +
-        " this is expected when pipeline capacity is reached", e);
+      log.info("Exception while trying to return pipeline to pool; this is expected when pipeline capacity is reached", e);
     }
   }
 
@@ -138,7 +137,7 @@ class PipelinePool implements KeyedPooledObjectFactory<PipelineSettings, Pipelin
           rules = RemoteRuleConfig.load(config.getRemoteRulesConfigFile());
         }
       } catch (Exception e) {
-        logger.error("Could not load remote rule configuration", e);
+        log.error("Could not load remote rule configuration", e);
       }
       // modify remote rule configuration to avoid timeouts
 
@@ -196,7 +195,7 @@ class PipelinePool implements KeyedPooledObjectFactory<PipelineSettings, Pipelin
   }
 
   private void configureFromRulesFile(JLanguageTool lt, Language lang) throws IOException {
-    ServerTools.print("Using options configured in " + config.getRulesConfigFile());
+    log.info("Using options configured in {}", config.getRulesConfigFile());
     // If we are explicitly configuring from rules, ignore the useGUIConfig flag
     if (config.getRulesConfigFile() != null) {
       org.languagetool.gui.Tools.configureFromRules(lt, new Configuration(config.getRulesConfigFile()
@@ -209,7 +208,7 @@ class PipelinePool implements KeyedPooledObjectFactory<PipelineSettings, Pipelin
   private void configureFromGUI(JLanguageTool lt, Language lang) throws IOException {
     Configuration config = new Configuration(lang);
     if (internalServer && config.getUseGUIConfig()) {
-      ServerTools.print("Using options configured in the GUI");
+      log.info("Using options configured in the GUI");
       org.languagetool.gui.Tools.configureFromRules(lt, config);
     }
   }

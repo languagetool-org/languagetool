@@ -323,7 +323,7 @@ abstract class TextChecker {
           long randomSegmentSize = (Long.MAX_VALUE - maxRandom) / maxRandom;
           long segmentOffset = random * randomSegmentSize;
           if (timestamp > randomSegmentSize) {
-            log.warn(String.format("Could not transform textSessionId '%s'", textSessionIdStr));
+            log.warn("Could not transform textSessionId '{}'", textSessionIdStr);
           }
           textSessionId = segmentOffset + timestamp;
         } else {
@@ -511,7 +511,7 @@ abstract class TextChecker {
                        ", requestId: " + requestId +
                        ", system load: " + loadInfo + ")";
       if (params.allowIncompleteResults) {
-        log.info(message + " - returning " + ruleMatchesSoFar.size() + " matches found so far");
+        log.debug(message + " - returning " + ruleMatchesSoFar.size() + " matches found so far");
         res = new ArrayList<>(ruleMatchesSoFar);  // threads might still be running, so make a copy
         incompleteResultReason = "Results are incomplete: text checking took longer than allowed maximum of " +
                 String.format(Locale.ENGLISH, "%.2f", limits.getMaxCheckTimeMillis()/1000.0) + " seconds";
@@ -598,7 +598,7 @@ abstract class TextChecker {
 
     String version = parameters.get("v") != null ? ", version: " + parameters.get("v") : "";
     String skipLimits = limits.getSkipLimits() ? ", skipLimits" : "";
-    log.info("Check done: " + length + " chars, " + languageMessage +
+    log.debug("Check done: " + length + " chars, " + languageMessage +
             ", requestId: " + requestId + ", #" + count + ", " + referrer + ", "
             + premiumMatchRuleIds.size() + "/"
             + matchCount + " matches, "
@@ -612,7 +612,7 @@ abstract class TextChecker {
             //+ ", temporaryPremiumDisabledRuleMatchedIds: " + temporaryPremiumDisabledRuleMatchedIds //TODO activate if used
             + (limits.getPremiumUid() != null ? ", uid:" + limits.getPremiumUid() : ""));
     if (limits.getPremiumUid() != null && limits.getPremiumUid() == 1456) { // Fernando Moon, fernando.moon@eggbun-edu.com - allows logging text in exchange for free API access (see email 2018-05-31):
-      log.info("Eggbun input: " + aText.getPlainText().replace("\n", "\\n").replace("\r", "\\r"));
+      log.debug("Eggbun input: " + aText.getPlainText().replace("\n", "\\n").replace("\r", "\\r"));
     }
     if (premiumMatchRuleIds.size() > 0) {
       for (String premiumMatchRuleId : premiumMatchRuleIds) {
@@ -716,7 +716,7 @@ abstract class TextChecker {
       String sentenceHitPercentage = String.format(Locale.ENGLISH, "%.2f", cache.getSentenceCache().stats().hitRate() * 100.0f);
       String matchesHitPercentage = String.format(Locale.ENGLISH, "%.2f", cache.getMatchesCache().stats().hitRate() * 100.0f);
       String remoteHitPercentage = String.format(Locale.ENGLISH, "%.2f", cache.getRemoteMatchesCache().stats().hitRate() * 100.0f);
-      log.info("Cache stats: " + sentenceHitPercentage + "% / " + matchesHitPercentage + "% / " + remoteHitPercentage + "% hit rate");
+      log.debug("Cache stats: " + sentenceHitPercentage + "% / " + matchesHitPercentage + "% / " + remoteHitPercentage + "% hit rate");
     }
 
     if (parameters.get("sourceText") != null) {
