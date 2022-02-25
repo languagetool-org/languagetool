@@ -42427,22 +42427,23 @@ Pouco importam as notas na música, o que conta são as sensações produzidas p
 
     <!-- QUE/E TEM/TÊM com -->
     <rule id='SIMPLIFICAR_QUE_E_TEM_TÊM' name="Simplificar: Que/E tem/têm → com">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-21 + 2022-02-24 (Checked/Enhanced) (1-JAN-2022+)      -->
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-21 + 2022-02-24/25 (Checked/Enhanced) (1-JAN-2022+)      -->
 	<!--
 É uma empresa séria, que tem marcas que acompanham a história da família. → É uma empresa séria, com marcas que acompanham a história da família.
 As unhas são uma das partes do corpo que têm mais contacto com tudo. → As unhas são uma das partes do corpo com mais contacto com tudo.
 A política económica de um país é importante e tem implicações nos gastos públicos. → A política económica de um país é importante com implicações nos gastos públicos.
 	-->
       <pattern>
-	      <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+	      <token postag='NC.+|AQ.+|NP.+|VMP00.+' postag_regexp='yes'/>
 		  <token min="0" max="1" postag='_PUNCT|_QUOT' postag_regexp='yes'/>
 		  <marker>
 			<token regexp="yes">que|e</token>
 			<token regexp="yes">t[eê]m</token>
 		  </marker>
-		  <token postag='NC.+|AQ.+' postag_regexp='yes'>
-			<exception regexp='yes'>disponível|disponíveis|lá|nel[ae]s?|são|sobre</exception>
+		  <token postag='NC.+|AQ.+|DI.+|Z0.+|SPS00' postag_regexp='yes'>
+			<exception regexp='yes'>com|de|disponível|disponíveis|em|lá|nel[ae]s?|para|por|são|sobre</exception>
 		  </token>
+		  <token negate_pos="yes" postag='_PUNCT' postag_regexp='no'/>
       </pattern>
 	  <message>Esta perífrase poderá ser simplificada.</message>
 	  <suggestion>com</suggestion>
