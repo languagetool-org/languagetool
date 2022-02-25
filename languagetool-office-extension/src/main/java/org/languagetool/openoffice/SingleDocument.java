@@ -165,7 +165,6 @@ class SingleDocument {
       PropertyValue[] propertyValues, boolean docReset, SwJLanguageTool lt, int nPara) {
     boolean isMouseRequest = false;
     if (isRightButtonPressed) {
-      MessageHandler.printToLogFile("Right Button pressed: text: " + paraText);
       isMouseRequest = true;
       isRightButtonPressed = false;
     }
@@ -1038,7 +1037,6 @@ class SingleDocument {
 
     @Override
     public boolean mousePressed(MouseEvent event) {
-//      MessageHandler.printToLogFile("MouseEvent pressed: " + event.Buttons);
       if (event.Buttons == MouseButton.RIGHT) {
         isRightButtonPressed = true;
       }
@@ -1047,11 +1045,6 @@ class SingleDocument {
 
     @Override
     public boolean mouseReleased(MouseEvent event) {
-/*      MessageHandler.printToLogFile("MouseEvent released: " + event.Buttons);
-      if (event.Buttons == MouseButton.RIGHT) {
-        isRightButtonPressed = true;
-      }
-*/
       return false;
     }
   }
