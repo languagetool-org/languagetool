@@ -353,6 +353,40 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction=""><marker>Der</marker> 685 Quadratkilometer grosse Kanton entspricht etwa dem Einzugsgebiet der Linth.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>bitte</token>
+                    </marker>
+                    <token postag="EIG.*" postag_regexp="yes" />
+                    <token skip="4">,</token>
+                    <token postag="VER:EIZ.*" postag_regexp="yes" />
+                </pattern>
+                <example correction=""><marker>Bitte</marker> Tom, nicht auf mich aufzupassen!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>bitte</token>
+                    </marker>
+                    <token postag="EIG.*" postag_regexp="yes" />
+                    <token skip="4">,</token>
+                    <token>zu</token>
+                    <token postag="VER:INF.*" postag_regexp="yes" />
+                </pattern>
+                <example correction=""><marker>Bitte</marker> Tom, sich nicht zu erschrecken</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>bitte</token>
+                    </marker>
+                    <token postag="EIG.*" postag_regexp="yes" />
+                    <token>,</token>
+                    <token regexp="yes">dass|ob</token>
+                </pattern>
+                <example correction=""><marker>Bitte</marker> Tom, dass er aufpasst!</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_DE_HYDRA_LEO_CPT_DIE_CDIE" name="">
             <rule>
