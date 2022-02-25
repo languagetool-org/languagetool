@@ -669,6 +669,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Backstube">Er steht schon früh in der <marker>Backtube</marker>.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="SPINNE_SINNE" name="Spinne vs Sinne">
+            <rule>
+                <pattern>
+                    <marker><token case_sensitive="yes" regexp="yes">(Assel|Baumwoll|Haus|Maschinen|Plastik|Prozessions|Riesenkrabben|Riesen|Spring|Vogel|Wäsche|Web|Winkel|Zahn)sinnen?</token></marker>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="1" regexp_match="sinne" regexp_replace="spinne"/></suggestion>?</message>
+                <short>&typo;</short>
+                <example correction="Vogelspinnen">Er hält drei <marker>Vogelsinnen</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="SCHALTEN_UND_WALTEN" name="schalten und walten">
             <rule>
                 <pattern>
