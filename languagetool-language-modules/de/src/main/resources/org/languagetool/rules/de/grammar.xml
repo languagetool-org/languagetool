@@ -255,6 +255,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Mögliche Tippfehler">
+        <rule id="IM_ENDDEFEKT" name="im Enddefekt (Endeffekt)" default="temp_off">
+            <pattern>
+                <token>im</token>
+                <marker>
+                    <token>Enddefekt</token>
+                </marker>
+            </pattern>
+            <message>Möglicher Tippfehler gefunden: Meinten Sie <suggestion>Endeffekt</suggestion>?</message>
+            <example correction="Endeffekt">Im <marker>Enddefekt</marker> ist alles gut verlaufen.</example>
+            <example correction="Endeffekt">Was zählt, ist, dass im <marker>Enddefekt</marker> alles gut verlaufen ist.</example>
+        </rule>
         <rule id="AUF_JEDEN_FALLS" name="auf jeden Falls (Fall)">
             <pattern>
                 <token regexp="yes">auf|in</token>
