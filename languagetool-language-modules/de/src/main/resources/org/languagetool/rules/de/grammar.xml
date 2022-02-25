@@ -24059,7 +24059,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Stil -->
     <!-- ====================================================================== -->
     <category id="STYLE" name="Stil" type="style">
-        <rulegroup id="WOERTER_OHNE_STEIGERUNG" name="Sie waren die Einzigsten (Einzigen)." > 
+        <rulegroup id="EGAL_STIL" name="egal (gleichgültig)" tags="picky" default="temp_off">
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="-1">sein</token>
+                    <marker>
+                        <token>egal</token>
+                    </marker>
+                </pattern>
+                <message>Möglicherweise ist es stilistisch besser, eine standardsprachliche Formulierung zu benutzen.</message>
+                <suggestion>gleichgültig</suggestion>
+                <suggestion>unerheblich</suggestion>
+                <suggestion>bedeutungslos</suggestion>
+                <suggestion>irrelevant</suggestion>
+                <example correction="gleichgültig|unerheblich|bedeutungslos|irrelevant">Für die Entscheidung ist das, wie ich schon sagte, <marker>egal</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>egal</token>
+                    </marker>
+                    <token inflected="yes" skip="-1">sein</token>
+                </pattern>
+                <message>Möglicherweise ist es stilistisch besser, eine standardsprachliche Formulierung zu benutzen.</message>
+                <suggestion>gleichgültig</suggestion>
+                <suggestion>unerheblich</suggestion>
+                <suggestion>bedeutungslos</suggestion>
+                <suggestion>irrelevant</suggestion>
+                <example correction="gleichgültig|unerheblich|bedeutungslos|irrelevant">Ich sage das, weil es für die Entscheidung <marker>egal</marker> ist.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="WOERTER_OHNE_STEIGERUNG" name="Sie waren die Einzigsten (Einzigen)." >
             <rule><!--1-->
                 <pattern>
                     <marker>
