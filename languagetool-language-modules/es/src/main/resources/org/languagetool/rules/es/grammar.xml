@@ -26391,6 +26391,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Koolhaas">Rem <marker>Kolhaas</marker>.</example>
                 <example correction="Koolhaas">"Rem" <marker>Kolhaas</marker>.</example>
             </rule>
+            <rule>
+                <antipattern>
+                    <token>Volodímir</token>
+                    <token>Zelenski</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">Volod[yií]m[yi]r|Vladimir|Vladímir</token>
+                        <token regexp="yes">Z[eiy]l[eiy]nsk[iy][iy]?</token>
+                    </marker>
+                </pattern>
+                <message>¿Quiso decir <suggestion>Volodímir Zelenski</suggestion>, presidente de Ucrania?</message>
+                <url>https://es.wikipedia.org/wiki/Volod%C3%ADmir_Zelenski</url>
+                <example correction="Volodímir Zelenski"><marker>Volodimyr Zelinski</marker>.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>Vladímir</token>
+                    <token>Putin</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">Volod[yií]m[yi]r|Vladimir|Vladímir</token>
+                        <token regexp="yes">Po?utine?</token>
+                    </marker>
+                </pattern>
+                <message>¿Quiso decir <suggestion>Vladímir Putin</suggestion>, presidente de la Federación Rusa?</message>
+                <url>https://es.wikipedia.org/wiki/Vlad%C3%ADmir_Putin</url>
+                <example correction="Vladímir Putin"><marker>Vladimir Poutin</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <!-- But someties the English transliteration is used: Vladimir Nabokov ?-->
+                <pattern>
+                    <token>vladimir</token>
+                </pattern>
+                <message>La escritura adecuada de este nombre ruso es con tilde.</message>
+                <suggestion>Vladímir</suggestion>
+                <example correction="Vladímir">En la zona de <marker>Vladimir</marker>.</example>
+            </rule>
         </rulegroup>
     </category>
 </rules>
