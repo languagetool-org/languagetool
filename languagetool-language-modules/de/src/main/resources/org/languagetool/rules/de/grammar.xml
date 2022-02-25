@@ -22564,6 +22564,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category id="COLLOQUIALISMS" name="Umgangssprache" type="register">
         <!-- TODO Make one Java-rule for context-independent, colloquial expressions and maintain a list -->
+            <rule id="DRUM_DARUM" name="drum (darum)" default="temp_off">
+                <antipattern>
+                    <token>Drum</token>
+                    <token>und</token>
+                    <token>Dran</token>
+                </antipattern>
+                <antipattern>
+                    <token>sei</token>
+                    <token>es</token>
+                    <token>drum</token>
+                </antipattern>
+                <antipattern>
+                    <token>sei</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
+                    <token spacebefore="no">s</token>
+                    <token>drum</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">[Dd]rum</token>
+                    <token regexp="yes">und|and|&amp;</token>
+                    <token regexp="yes">[Bb]ass</token>
+                </antipattern>
+                <pattern>
+                    <token>drum</token>
+                </pattern>
+                <message>In formellen Kontexten ist das standardsprachliche <suggestion>darum</suggestion> eventuell passender.</message>
+                <url>https://www.dwds.de/wb/drum</url>
+                <example correction="darum">Ich werde mich schon <marker>drum</marker> kümmern.</example>
+                <example correction="darum">Es regnet und <marker>drum</marker> gehe ich nicht ins Schwimmbad.</example>
+                <example>Mit allem Drum und Dran kostet es 100€.</example>
+                <example>Sei es drum, ich wollte sowieso nicht in den Urlaub fahren.</example>
+                <example>Sei's drum, der Pullover war soweiso zu klein.</example>
+                <example>Meine Lieblingsmusikrichtung ist eigentlich Drum and Bass.</example>
+                <example>Drum und Bass finde ich super.</example>
+            </rule>
         <rulegroup id="DOPPELPERFEKT" name="Doppeltes Perfekt: 'ich habe es geputzt gehabt' etc.">
             <!-- TODO: Dasselbe mit 'sein' -->
             <url>https://de.wikipedia.org/wiki/Doppeltes_Perfekt</url>
