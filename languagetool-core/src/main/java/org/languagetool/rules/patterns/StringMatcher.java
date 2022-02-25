@@ -178,7 +178,7 @@ public abstract class StringMatcher {
       }
 
       @Override
-      Substrings handleOr(Substrings left, Substrings right) {
+      Substrings handleOr(List<Substrings> components) {
         return UNKNOWN;
       }
 
@@ -219,8 +219,8 @@ public abstract class StringMatcher {
       }
 
       @Override
-      Stream<String> handleOr(Stream<String> left, Stream<String> right) {
-        return Stream.concat(left, right);
+      Stream<String> handleOr(List<Stream<String>> components) {
+        return components.stream().flatMap(Function.identity());
       }
 
       @Override
@@ -271,17 +271,18 @@ public abstract class StringMatcher {
     }
 
     T disjunction() {
-      T result = concatenation();
+      List<T> components = new ArrayList<>();
+      components.add(concatenation());
       while (true) {
         if (pos >= regexp.length() || regexp.charAt(pos) != '|') {
-          return result;
+          return components.size() == 1 ? components.get(0) : handleOr(components);
         }
         pos++;
-        result = handleOr(result, concatenation());
+        components.add(concatenation());
       }
     }
 
-    abstract T handleOr(T left, T right);
+    abstract T handleOr(List<T> components);
 
     abstract T handleConcatenation(T left, T right);
 
@@ -385,9 +386,10 @@ public abstract class StringMatcher {
           }
         }
       }
-      return options == null
-             ? unknown()
-             : options.stream().map(c -> charLiteral(c)).reduce(this::handleOr).orElseThrow(() -> TooComplexRegexp.INSTANCE);
+      if (options == null) return unknown();
+      List<T> components = options.stream().map(c -> charLiteral(c)).collect(Collectors.toList());
+      if (components.isEmpty()) throw TooComplexRegexp.INSTANCE;
+      return components.size() == 1 ? components.get(0) : handleOr(components);
     }
 
     private T charLiteral(@Nullable Character c) {

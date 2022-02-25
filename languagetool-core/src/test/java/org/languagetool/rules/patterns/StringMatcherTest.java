@@ -25,10 +25,11 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import static org.languagetool.rules.patterns.StringMatcher.getPossibleRegexpValues;
 
 public class StringMatcherTest {
@@ -118,6 +119,17 @@ public class StringMatcherTest {
     assertRequiredSubstrings("((\\-)?[0-9]+[0-9.,]{0,15})(?:[\\s  ]+)(°[^CFK])", "(°)");
     assertRequiredSubstrings("\\b(teils\\s[^,]+\\steils)\\b", "[teils, teils]");
     assertRequiredSubstrings("§ ?(\\d+[a-z]?)", "[§)");
+  }
+
+  @Test
+  public void noSOEOnLongDisjunction() {
+    int count = 100_000;
+    String pattern = IntStream.range(0, count).mapToObj(i -> "a" + i).collect(Collectors.joining("|"));
+    StringMatcher matcher = StringMatcher.create(pattern, true, true);
+    for (int i = 0; i < count; i++) {
+      assertTrue(matcher.matches("a" + i));
+      assertFalse(matcher.matches("b" + i));
+    }
   }
 
   private static void assertRequiredSubstrings(String regexp, @Nullable String expected) {
