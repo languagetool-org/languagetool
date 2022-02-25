@@ -24059,7 +24059,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Stil -->
     <!-- ====================================================================== -->
     <category id="STYLE" name="Stil" type="style">
-        <rulegroup id="WOERTER_OHNE_STEIGERUNG" name="Sie waren die Einzigsten (Einzigen)." > 
+        <rule id="KLAUEN_STIL" name="klauen (stehlen, rauben)" default="temp_off">
+            <pattern>
+                <marker>
+                    <token inflected="yes">klauen</token>
+                </marker>
+            </pattern>
+            <message>Das Verb 'klauen' ist umgangssprachlich. Möglicherweise passt <suggestion>stehlen</suggestion> oder <suggestion>rauben</suggestion> besser.</message>
+            <example correction="stehlen|rauben">Dem armen Mann wurden alle Wertsachen <marker>klauen</marker>.</example>
+        </rule>
+        <rulegroup id="WOERTER_OHNE_STEIGERUNG" name="Sie waren die Einzigsten (Einzigen)." >
             <rule><!--1-->
                 <pattern>
                     <marker>
