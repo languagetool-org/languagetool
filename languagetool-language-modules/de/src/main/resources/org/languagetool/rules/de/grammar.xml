@@ -22564,6 +22564,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category id="COLLOQUIALISMS" name="Umgangssprache" type="register">
         <!-- TODO Make one Java-rule for context-independent, colloquial expressions and maintain a list -->
+        <rule id="EXTRA" name="extra" default="temp_off">
+            <pattern>
+                <marker>
+                    <token>extra</token>
+                </marker>
+                <token inflected="yes" regexp="yes">machen|tun</token>
+            </pattern>
+            <message>'Extra' im Sinne von 'vorsätzlich' etwas tun ist sehr umgangssprachlich und könnte hier durch formellere Alternativen ersetzt werden.</message>
+            <suggestion>vorsätzlich</suggestion>
+            <suggestion>gezielt</suggestion>
+            <suggestion>absichtlich</suggestion>
+            <suggestion>willentlich</suggestion>
+            <suggestion>mit Absicht</suggestion>
+            <example correction="vorsätzlich|gezielt|absichtlich|willentlich|mit Absicht">Ich weiß genau, dass er das <marker>extra</marker> gemacht hat.</example>
+        </rule>
         <rulegroup id="DOPPELPERFEKT" name="Doppeltes Perfekt: 'ich habe es geputzt gehabt' etc.">
             <!-- TODO: Dasselbe mit 'sein' -->
             <url>https://de.wikipedia.org/wiki/Doppeltes_Perfekt</url>
