@@ -81,8 +81,9 @@ class SingleCheck {
   private final List<ResultCache> paragraphsCache;  //  Cache for matches of text rules
   private final int numParasToCheck;                //  current number of Paragraphs to be checked
   private final DocumentType docType;               //  save the type of document
-  private final boolean isDialogRequest;            //  true: check was initiated by right mouse click or proofreading dialog
-  private final boolean isIntern;                   //  true: check was initiated by right mouse click or proofreading dialog
+  private final boolean isDialogRequest;            //  true: check was initiated by proofreading dialog
+  private final boolean isMouseRequest;             //  true: check was initiated by right mouse click
+  private final boolean isIntern;                   //  true: check was initiated by intern check dialog
   private final boolean useQueue;                   //  true: use queue to check text level rules (will be overridden by config)
   private final Language docLanguage;               //  Language used for check
   private final IgnoredMatches ignoredMatches;      //  Map of matches (number of paragraph, number of character) that should be ignored after ignoreOnce was called
@@ -97,7 +98,7 @@ class SingleCheck {
   
   SingleCheck(SingleDocument singleDocument, List<ResultCache> paragraphsCache, DocumentCursorTools docCursor,
       FlatParagraphTools flatPara, Language docLanguage, IgnoredMatches ignoredMatches, 
-      int numParasToCheck, boolean isDialogRequest, boolean isIntern) {
+      int numParasToCheck, boolean isDialogRequest, boolean isMouseRequest, boolean isIntern) {
     debugMode = OfficeTools.DEBUG_MODE_SC;
     this.singleDocument = singleDocument;
     this.paragraphsCache = paragraphsCache;
@@ -105,6 +106,7 @@ class SingleCheck {
     this.flatPara = flatPara;
     this.numParasToCheck = numParasToCheck;
     this.isDialogRequest = isDialogRequest;
+    this.isMouseRequest = isMouseRequest;
     this.isIntern = isIntern;
     this.docLanguage = docLanguage;
     this.ignoredMatches = ignoredMatches;
@@ -495,7 +497,7 @@ class SingleCheck {
       }
       // return Cache result if available / for right mouse click or Dialog only use cache
       boolean isTextParagraph = nFPara >= 0 && docCache != null && docCache.getNumberOfTextParagraph(nFPara).type != DocumentCache.CURSOR_TYPE_UNKNOWN;
-      if (nFPara >= 0 && (pErrors != null || (useQueue && !isDialogRequest && parasToCheck != 0))) {
+      if (nFPara >= 0 && (pErrors != null || isMouseRequest || (useQueue && !isDialogRequest && parasToCheck != 0))) {
         if (useQueue && pErrors == null && parasToCheck > 0 && isTextParagraph && !textIsChanged && mDocHandler.getTextLevelCheckQueue().isWaiting()) {
           mDocHandler.getTextLevelCheckQueue().wakeupQueue(singleDocument.getDocID());
         }

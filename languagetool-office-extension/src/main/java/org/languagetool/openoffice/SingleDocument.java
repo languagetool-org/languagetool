@@ -34,15 +34,22 @@ import org.languagetool.openoffice.DocumentCache.TextParagraph;
 import org.languagetool.openoffice.OfficeTools.DocumentType;
 import org.languagetool.openoffice.TextLevelCheckQueue.QueueEntry;
 
+import com.sun.star.awt.MouseButton;
+import com.sun.star.awt.MouseEvent;
+import com.sun.star.awt.XMouseClickHandler;
+import com.sun.star.awt.XUserInputInterception;
 import com.sun.star.beans.PropertyValue;
 import com.sun.star.document.DocumentEvent;
 import com.sun.star.document.XDocumentEventBroadcaster;
 import com.sun.star.document.XDocumentEventListener;
+import com.sun.star.frame.XController;
+import com.sun.star.frame.XModel;
 import com.sun.star.lang.EventObject;
 import com.sun.star.lang.Locale;
 import com.sun.star.lang.XComponent;
 import com.sun.star.linguistic2.ProofreadingResult;
 import com.sun.star.linguistic2.SingleProofreadingError;
+import com.sun.star.text.XTextDocument;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
 
@@ -99,6 +106,7 @@ class SingleDocument {
   private boolean resetDocCache = false;          //  true: the cache of the document should be reseted before the next check
   private boolean hasFootnotes = true;            //  true: Footnotes are supported by LO/OO
   private boolean isLastIntern = false;           //  true: last check was intern
+  private boolean isRightButtonPressed = false;   //  true: right mouse Button was pressed
   private String lastSinglePara = null;           //  stores the last paragraph which is checked as single paragraph
   private Language docLanguage = null;            //  Language used for check
   private LanguageToolMenus ltMenus = null;       //  LT menus (tools menu and context menu)
@@ -155,7 +163,12 @@ class SingleDocument {
     
   ProofreadingResult getCheckResults(String paraText, Locale locale, ProofreadingResult paRes, 
       PropertyValue[] propertyValues, boolean docReset, SwJLanguageTool lt, int nPara) {
-    
+    boolean isMouseRequest = false;
+    if (isRightButtonPressed) {
+      MessageHandler.printToLogFile("Right Button pressed: text: " + paraText);
+      isMouseRequest = true;
+      isRightButtonPressed = false;
+    }
     int [] footnotePositions = null;  // e.g. for LO/OO < 4.3 and the 'FootnotePositions' property
     int proofInfo = OfficeTools.PROOFINFO_UNKNOWN;  //  OO and LO < 6.5 do not support ProofInfo
     for (PropertyValue propertyValue : propertyValues) {
@@ -219,7 +232,7 @@ class SingleDocument {
         ignoredMatches = new IgnoredMatches();
       }
       boolean isIntern = nPara < 0 ? false : true;
-      boolean isDialogRequest = (nPara >= 0 || proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT);
+      boolean isDialogRequest = (nPara >= 0 || (proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT));
       
       CheckRequestAnalysis requestAnalysis = new CheckRequestAnalysis(numLastVCPara, numLastFlPara,
           proofInfo, numParasToCheck, this, paragraphsCache, viewCursor, changedParas);
@@ -248,7 +261,7 @@ class SingleDocument {
         return paRes;
       }
       SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, docCursor, flatPara, 
-          docLanguage, ignoredMatches, numParasToCheck, isDialogRequest, isIntern);
+          docLanguage, ignoredMatches, numParasToCheck, isDialogRequest, isMouseRequest, isIntern);
       paRes.aErrors = singleCheck.getCheckResults(paraText, footnotePositions, locale, lt, paraNum, 
           paRes.nStartOfSentencePosition, textIsChanged, changeFrom, changeTo, lastSinglePara, lastChangedPara);
       lastSinglePara = singleCheck.getLastSingleParagraph();
@@ -625,7 +638,7 @@ class SingleDocument {
    */
   public void runQueueEntry(TextParagraph nStart, TextParagraph nEnd, int cacheNum, int nCheck, boolean override, SwJLanguageTool lt) {
     if (!disposed && flatPara != null && docCache.isFinished() && nStart.number < docCache.textSize(nStart)) {
-      SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, docCursor, flatPara, docLanguage, ignoredMatches, numParasToCheck, false, false);
+      SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, docCursor, flatPara, docLanguage, ignoredMatches, numParasToCheck, false, false, false);
       singleCheck.addParaErrorsToCache(docCache.getFlatParagraphNumber(nStart), lt, cacheNum, nCheck, 
           nEnd.number == nStart.number + 1, override, false, hasFootnotes);
     }
@@ -633,7 +646,7 @@ class SingleDocument {
   
   private void remarkChangedParagraphs(List<Integer> changedParas, boolean isIntern) {
     if (!disposed) {
-      SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, docCursor, flatPara, docLanguage, ignoredMatches, numParasToCheck, true, isIntern);
+      SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, docCursor, flatPara, docLanguage, ignoredMatches, numParasToCheck, true, false, isIntern);
       if (docCursor == null) {
         docCursor = new DocumentCursorTools(xComponent);
       }
@@ -982,10 +995,31 @@ class SingleDocument {
       } else {
         MessageHandler.printToLogFile("SingleDocument: setDokumentListener: Could not add document event listener!");
       }
+      XTextDocument curDoc = UnoRuntime.queryInterface(XTextDocument.class, xComponent);
+      if (curDoc == null) {
+        MessageHandler.printToLogFile("SingleDocument: setDokumentListener: XTextDocument not found!");
+        return;
+      }
+      XModel xModel = UnoRuntime.queryInterface(XModel.class, xComponent);
+      if (xModel == null) {
+        MessageHandler.printToLogFile("SingleDocument: setDokumentListener: XModel not found!");
+        return;
+      }
+      XController xController = xModel.getCurrentController();
+      if (xController == null) {
+        MessageHandler.printToLogFile("SingleDocument: setDokumentListener: XController not found!");
+        return;
+      }
+      XUserInputInterception xUserInputInterception = UnoRuntime.queryInterface(XUserInputInterception.class, xController);
+      if (xUserInputInterception == null) {
+        MessageHandler.printToLogFile("SingleDocument: setDokumentListener: XUserInputInterception not found!");
+        return;
+      }
+      xUserInputInterception.addMouseClickHandler(eventListener);
     }
   }
   
-  class LTDokumentEventListener implements XDocumentEventListener {
+  class LTDokumentEventListener implements XDocumentEventListener, XMouseClickHandler {
 
     @Override
     public void disposing(EventObject event) {
@@ -1000,6 +1034,25 @@ class SingleDocument {
         cacheIO.setDocumentPath(xComponent);
         writeCaches();
       }
+    }
+
+    @Override
+    public boolean mousePressed(MouseEvent event) {
+//      MessageHandler.printToLogFile("MouseEvent pressed: " + event.Buttons);
+      if (event.Buttons == MouseButton.RIGHT) {
+        isRightButtonPressed = true;
+      }
+      return false;
+    }
+
+    @Override
+    public boolean mouseReleased(MouseEvent event) {
+/*      MessageHandler.printToLogFile("MouseEvent released: " + event.Buttons);
+      if (event.Buttons == MouseButton.RIGHT) {
+        isRightButtonPressed = true;
+      }
+*/
+      return false;
     }
   }
 
