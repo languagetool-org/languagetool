@@ -302,7 +302,7 @@ public class DocumentCache implements Serializable {
           }
         }
       }
-      prepareChapterBeginsForText(chapterBegins, locales);
+      prepareChapterBeginsForText(chapterBegins, toTextMapping, locales);
       isReset = false;
       if (debugMode) {
         MessageHandler.printToLogFile("\nDocumentCache: mapParagraphs: toParaMapping:");
@@ -740,7 +740,7 @@ public class DocumentCache implements Serializable {
    * For cursor type text: Add the next chapter begin after Heading and changes of
    * language to the chapter begins
    */
-  private void prepareChapterBeginsForText(List<List<Integer>> chapterBegins, List<SerialLocale> locales) {
+  private void prepareChapterBeginsForText(List<List<Integer>> chapterBegins, List<TextParagraph> toTextMapping, List<SerialLocale> locales) {
     List<Integer> prepChBegins = new ArrayList<Integer>(chapterBegins.get(CURSOR_TYPE_TEXT));
     for (int begin : chapterBegins.get(CURSOR_TYPE_TEXT)) {
       if (!prepChBegins.contains(begin + 1)) {
@@ -751,7 +751,7 @@ public class DocumentCache implements Serializable {
       SerialLocale lastLocale = locales.get(0);
       for (int i = 1; i < locales.size(); i++) {
         if (locales != null && !locales.get(i).equalsLocale(lastLocale)) {
-          TextParagraph nText = getNumberOfTextParagraph(i);
+          TextParagraph nText = toTextMapping.get(i);
           if (nText.type == CURSOR_TYPE_TEXT && nText.number >= 0) {
             if (!prepChBegins.contains(nText.number)) {
               prepChBegins.add(nText.number);
