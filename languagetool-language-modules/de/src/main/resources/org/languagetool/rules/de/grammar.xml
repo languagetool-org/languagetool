@@ -255,6 +255,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Mögliche Tippfehler">
+        <rule id="IMP_AUX" name="abonnier (abonniert) haben etc." default="temp_off">
+            <antipattern>
+                <!-- "William Penn war nicht von Geburt an Quäker." -->
+                <token postag="EIG:.*" postag_regexp="yes"/>
+                <token postag="VER:IMP:SIN:SFT"/>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token postag="VER:IMP:SIN:SFT">
+                        <exception postag_regexp="yes" postag="VER:[123].*"/>
+                        <exception postag_regexp="yes" postag="(SUB|EIG).*"/>
+                        <exception postag_regexp="yes" postag="AD[VJ].*"/>
+                        <exception regexp="yes">null|Dell</exception>
+                    </token>
+                </marker>
+                <token postag="VER:AUX.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="1" postag_regexp="yes" postag="VER:IMP:SIN:SFT" postag_replace="VER:PA2:SFT"/></suggestion>?</message>
+            <example correction="abonniert">Vielen Dank, dass Sie LanguageTool <marker>abonnier</marker> haben.</example>
+            <example>Fisch ist heute billig.</example>
+            <example>William Penn war nicht von Geburt an Quäker.</example>
+        </rule>
         <rule id="IM_ENDDEFEKT" name="im Enddefekt (Endeffekt)" default="temp_off">
             <pattern>
                 <token>im</token>
