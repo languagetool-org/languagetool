@@ -697,6 +697,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Vogelspinnen">Er hält drei <marker>Vogelsinnen</marker>.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="ZUM_ANBEISSEN" name="zum Anbeißen vs zum Abbeißen">
+            <rule>
+                <pattern>
+                    <token>zum</token>
+                    <marker><token case_sensitive="yes">Abbeißen</token></marker>
+                    <token case_sensitive="yes" inflected="yes" regexp="yes">aus(sehen)?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="2" regexp_match="Abb" regexp_replace="Anb"/></suggestion>?</message>
+                <short>&typo;</short>
+                <example correction="Anbeißen">Die Torte sah zum <marker>Abbeißen</marker> aus.</example>
+                <example correction="Anbeißen">Weil die Torte zum <marker>Abbeißen</marker> aussah, ...</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="SCHALTEN_UND_WALTEN" name="schalten und walten">
             <rule>
                 <pattern>
