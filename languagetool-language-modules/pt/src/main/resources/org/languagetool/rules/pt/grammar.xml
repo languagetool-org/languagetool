@@ -42427,13 +42427,14 @@ Pouco importam as notas na música, o que conta são as sensações produzidas p
 
     <!-- QUE/E TEM/TÊM com -->
     <rule id='SIMPLIFICAR_QUE_E_TEM_TÊM' name="Simplificar: Que/E tem/têm → com">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-21 + 2022-02-24/25 (Checked/Enhanced) (1-JAN-2022+)      -->
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-21 + 2022-02-24/25/26 (Checked/Enhanced) (1-JAN-2022+)      -->
 	<!--
 É uma empresa séria, que tem marcas que acompanham a história da família. → É uma empresa séria, com marcas que acompanham a história da família.
 As unhas são uma das partes do corpo que têm mais contacto com tudo. → As unhas são uma das partes do corpo com mais contacto com tudo.
 A política económica de um país é importante e tem implicações nos gastos públicos. → A política económica de um país é importante com implicações nos gastos públicos.
 	-->
       <pattern>
+		  <token negate="yes" inflected='yes'>ser</token>
 	      <token postag='NC.+|AQ.+|NP.+|VMP00.+' postag_regexp='yes'/>
 		  <token min="0" max="1" postag='_PUNCT|_QUOT' postag_regexp='yes'/>
 		  <marker>
