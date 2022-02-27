@@ -20635,6 +20635,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ich war gestern Kuchen essen.</example>
             </rule>
             <rule><!-- 14) haben am 23. Februar 2020 -->
+                <antipattern>
+                    <token>den</token>
+                    &date_month_full_skip;
+                </antipattern>
                 <pattern>
                     <token inflected="yes" postag="VER:AUX:.*" postag_regexp="yes" skip="-1">haben</token>
                     &date_month_full_skip;
@@ -20649,6 +20653,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ich habe gestern Kuchen gegessen.</example>
                 <example>Wir werden am 7. Februar 2025 den Kunden informieren.</example>
                 <example>Wir werden am 7. Februar 2025 den Kunden informiert haben.</example>
+                <example>Ich habe die Veranstaltung auf den 13. Oktober 2025 verschoben.</example>
             </rule>
             <rule><!-- 15) waren/sind am 23. Februar 2020  -->
                 <pattern>
@@ -20675,6 +20680,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes" skip="15">werden</token>
                     <token postag="PA2:.*" postag_regexp="yes"></token>
                 </antipattern>
+                <antipattern>
+                    <token>den</token>
+                    &date_month_full_skip;
+                </antipattern>
                 <pattern>
                     &date_month_full_skip;
                     <token postag="VER:.*:PRT.*" postag_regexp="yes" skip="-1"/>
@@ -20688,6 +20697,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ich war gestern Kuchen essen.</example>
                 <example>Die Veranstaltung wird auf den 13. Oktober 2025 verschoben.</example>
                 <example>Im Zuge der COVID-19-Pandemie wurde der US-Starttermin allerdings zunächst auf den 1. April 2032 verschoben.</example>
+                <example>Ich habe die Veranstaltung auf den 13. Oktober 2025 verschoben.</example>
             </rule>
             <rule><!-- 17) am 23. Februar 2020 haben -->
                 <pattern>
@@ -20736,6 +20746,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes" skip="8">werden</token>
                     <token postag="PA2:.*" postag_regexp="yes"></token>
                 </antipattern>
+                <antipattern>
+                    <token>den</token>
+                    &date_month_full_skip;
+                </antipattern>
                 <pattern>
                     &date_month_full_skip;
                     <token postag="VER:.*:PRT.*" postag_regexp="yes" skip="-1"/>
@@ -20748,6 +20762,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Am 7. August 2025 bin ich im Urlaub.</example>
                 <example>Ich war gestern Kuchen essen.</example>
                 <example>Die Veranstaltung wird auf den 13. Oktober 2025 verschoben.</example>
+                <example>Ich habe die Veranstaltung auf den 13. Oktober 2025 verschoben.</example>
             </rule>
         </rulegroup>
 
