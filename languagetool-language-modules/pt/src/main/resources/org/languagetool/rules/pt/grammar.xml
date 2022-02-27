@@ -42452,6 +42452,32 @@ As unhas são uma das partes do corpo que têm mais contacto com tudo. → As un
     </rule>
 
 
+    <!-- QUE CAUSAM causados -->
+    <rule id='SIMPLIFICAR_QUE_VERBO_PARTICÍPIO_PASSADO' name="Simplificar: Que + V. → V. Part. Passado">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-02-27 (1-JAN-2022+)      -->
+	<!--
+As balas de borracha reduzem os danos que causam nos manifestantes atingidos. → As balas de borracha reduzem os danos causados nos manifestantes atingidos.
+	-->
+      <pattern>
+		  <token inflected='yes' regexp='yes'>acrescer|decrescer|aumentar|reduzir|incrementar|decrementar|maximizar|minimizar|ampliar|diminuir|intensificar</token>
+		  <token/>
+	      <token postag='NC[^C]+' postag_regexp='yes'/>
+		  <marker>
+			<token>que</token>
+			<token postag='VMIP3.+' postag_regexp='yes'/>
+		  </marker>
+		  <and>
+			<token negate_pos="yes" postag='V.+' postag_regexp='yes'/>
+			<token negate="yes">ser</token>
+		  </and>
+      </pattern>
+	  <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:5 lemmaSelect:V.* postagFrom:3 postagSelect:NC(.)(.).* postagReplace:VMP00[\b2N][\b1C]" />
+	  <message>Esta perífrase poderá ser simplificada.</message>
+	  <suggestion>{suggestion}</suggestion>
+      <example correction="causados">As balas de borracha reduzem os danos <marker>que causam</marker> nos manifestantes atingidos.</example>
+    </rule>
+
+
     <!-- 	VERBO TER + PARTICÍPIO PASSADO Pret. Perf. Ind. Part. Passado -->
     <rulegroup id='SIMPLIFICAR_VERBO_TER_MAIS_PARTICIPIO_PASSADO' name="Simplificar: V. Ter + Part. Passado → V. Pret. Perf. Ind. Part. Passado" type="style">
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2022-02-23 (Checked/Enhanced) (1-JAN-2022+)      -->
