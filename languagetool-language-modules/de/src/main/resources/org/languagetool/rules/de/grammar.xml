@@ -13348,10 +13348,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>ad-hoc</token>
-                    <token regexp="yes">mitteilung|erklärung|meldung|publizität|interpretation</token>
+                    <token regexp="yes">Mitteilung|Erklärung|Entscheidung|Meldung|Publizität|Interpretation</token>
                 </pattern>
                 <message>Das Nomen <suggestion>Ad-hoc-<match no="2" case_conversion="startupper" /></suggestion> wird zusammengeschrieben.</message>
                 <example correction="Ad-hoc-Meldung">Das Unternehmen veröffentlichte eine <marker>Ad-hoc Meldung</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="SOSEHR" name="so sehr (sosehr)" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>,</token>
+                    <marker>
+                        <token>so</token>
+                        <token>sehr</token>
+                    </marker>
+                    <token postag="PRO:PER:NOM:.+" postag_regexp="yes" skip="-1"><exception scope="next" postag="PKT"/></token>
+                    <token postag="VER:[123]:.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Die Konjunktion <suggestion>sosehr</suggestion> wird zusammengeschrieben.</message>
+                <example correction="sosehr">Wir müssen das tun, <marker>so sehr</marker> ich es auch bedauere.</example>
             </rule>
         </rulegroup>
         <rule id="STARK_MACHEN" name="stark machen (starkmachen)">
