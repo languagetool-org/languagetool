@@ -691,7 +691,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Backstube">Er steht schon früh in der <marker>Backtube</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="REGIEREN_REAGIEREN" name="regieren vs reagieren" default="temp_off">
+        <rulegroup id="REGIEREN_REAGIEREN" name="regieren vs reagieren">
             <rule>
                 <pattern>
                     <token inflected="yes" regexp="yes">[A-Z]\w+(oxid|säure)|Alkali.+|Chlor|allergisch|beherzt|e(nd|x)otherm|gereizt|Kathode|sofort|Stickstoff|Substanz|System|Vorwurf|W(asser|irk)stoff</token>
@@ -785,18 +785,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Meinten Sie <suggestion>bewenden</suggestion>?</message>
                 <short>&typo;</short>
                 <example correction="bewenden">Lassen wir es dabei nicht <marker>beenden</marker>.</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="VERALTEN_VERHALTEN" name="das Veralten (Verhalten)" default="temp_off">
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token postag_regexp="yes" postag="PRO:POS:[ADN].+|ADJ.+"></token>
-                    <marker><token>Veralten</token></marker>
-                </pattern>
-                <message>Meinten Sie <suggestion>Verhalten</suggestion>?</message>
-                <short>&typo;</short>
-                <example correction="Verhalten">Sein <marker>Veralten</marker> war stets tadellos.</example>
-                <example correction="Verhalten">Der Hund zeigte ein sehr ängstliches <marker>Veralten</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="VERENDEN_VERSENDEN" name="verenden (versenden/verwenden)">
@@ -6203,6 +6191,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="verhalte|verwalte">Dann <marker>veralte</marker> dich nicht so!</example>
             </rule>
         </rulegroup>
+<!--        <rulegroup id="VERALTEN_VERHALTEN" name="das Veralten (Verhalten)" default="temp_off">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag_regexp="yes" postag="PRO:POS:[ADN].+|ADJ.+"></token>
+                    <marker><token>Veralten</token></marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>Verhalten</suggestion>?</message>
+                <short>&typo;</short>
+                <example correction="Verhalten">Sein <marker>Veralten</marker> war stets tadellos.</example>
+                <example correction="Verhalten">Der Hund zeigte ein sehr ängstliches <marker>Veralten</marker>.</example>
+            </rule>
+        </rulegroup>-->
         <rule id="MITTELOHRENZUENDUNG" name="'Mittelohrenzündung (Mittelohrentzündung)'">
             <regexp>Mittelohrenzündung(en)?</regexp>
             <message>Meinten Sie <suggestion><match no="0" regexp_match="enz" regexp_replace="entz"/></suggestion>?</message>
