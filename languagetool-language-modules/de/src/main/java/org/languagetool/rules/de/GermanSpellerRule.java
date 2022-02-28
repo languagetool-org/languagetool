@@ -2298,6 +2298,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Daß": return topMatch("Dass");
       case "bescheid": return topMatch("Bescheid");
       case "ausversehen": return topMatch("aus Versehen");
+      case "Stückweit": return topMatch("Stück weit");
+      case "Uranium": return topMatch("Uran");
+      case "Uraniums": return topMatch("Urans");
       case "Luxenburg": return topMatch("Luxemburg");
       case "Luxenburgs": return topMatch("Luxemburgs");
       case "Lichtenstein": return topMatch("Liechtenstein");

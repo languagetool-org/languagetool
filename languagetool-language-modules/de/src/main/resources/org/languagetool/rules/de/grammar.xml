@@ -25580,7 +25580,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="MIT_FREUNDLICHEN_GRUESSEN_KOMMA" name="Falsches Satzzeichen nach 'Mit freundlichen Grüßen' etc.">
             <url>https://languagetool.org/insights/de/beitrag/kommasetzung-in-grussformeln/</url>
             <antipattern><!-- Viele Grüße, und bleiben Sie gesund! -->
-                <token regexp="yes" skip="-1">,|;</token>
+                <token regexp="yes" skip="8">,|;</token>
                 <token regexp="yes" postag="SENT_END">[\.\!\?]</token>
             </antipattern>
             <rule>
@@ -25619,16 +25619,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
-        <rule id="BEIDE_MALE" name="beide male (Male)" default="temp_off">
+        <rule id="BEIDE_MALE" name="beide male (Male)">
             <pattern>
                 <token regexp="yes">beide|alle|(so)?viele|einige|diverse|häufige</token>
                 <marker>
                     <token case_sensitive="yes">male</token>
                 </marker>
+                <token postag="ADV.*|NEG" postag_regexp="yes" min="0" max="2" />
                 <token postag="VER.*" postag_regexp="yes" />
             </pattern>
             <message>Das Pluralnomen <suggestion>Male</suggestion> wird großgeschrieben.</message>
             <example correction="Male">Ich bin einige <marker>male</marker> gestolpert.</example>
+            <example correction="Male">Ich hab dich beide <marker>male</marker> wirklich nicht gesehen.</example>
         </rule>
         <rule id="GUTES_GELINGEN" name="ein gutes gelingen (Gelingen)">
             <pattern>
@@ -53250,6 +53252,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">er|sie</token>
             </antipattern>
             <antipattern>
+                <token regexp="yes">ist|war</token>
+                <token postag="(PA[12]|ADJ).*SIN.*" postag_regexp="yes" min="1" max="2" />
+                <token postag="SUB.*SIN.*" postag_regexp="yes" />
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">sind|waren</token>
+                <token postag="(PA[12]|ADJ).*PLU.*" postag_regexp="yes" min="1" max="2" />
+                <token postag="SUB.*PLU.*" postag_regexp="yes" />
+            </antipattern>
+            <antipattern>
                 <token regexp="yes">bin|war</token>
                 <token>ich</token>
             </antipattern>
@@ -53265,6 +53277,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">bist|warst</token>
                 <token>du</token>
             </antipattern>
+            <antipattern>
+                <token regexp="yes">bin|b?ist|sind|seid|war(st|en|t)?</token>
+                <token postag="ADV.*" postag_regexp="yes" />
+                <token postag="PRP.*" postag_regexp="yes" />
+            </antipattern>
             <pattern case_sensitive="yes">
                 <token postag_regexp="yes" postag="PA2:PRD.*"/>
                 <marker>
@@ -53278,6 +53295,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="worden">Nachdem du besiegt <marker>werden</marker> bist, gabst du völlig auf.</example>
             <example correction="worden">Nachdem du besiegt <marker>würden</marker> bist, gabst du völlig auf.</example>
             <example>Wenn dann noch Wäschehaken in den Kabinen angebracht werden ist die Sache rund.</example><!-- missing comma -->
+            <example>Lieben und nicht geliebt werden ist verlorene Zeit.</example><!-- missing comma -->
         </rule>
         <rule id="WURDEN_WORDEN_2" name="'wurden (worden)'" default="temp_off">
             <antipattern>
@@ -53290,7 +53308,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <pattern case_sensitive="yes">
                 <token skip="-1" regexp="yes">bin|b?ist|sind|seid|war(st|en|t)?
-                    <exception scope="next" regexp="yes">bzw|/|\-|—|–|\,|;|\:|und|oder|&klam;|&anf;|dass|wie|umso|ob|wenn|welche[rnm]?</exception>
+                    <exception scope="next" regexp="yes">bzw|/|\-|—|–|\,|;|\:|\?|\.|und|&amp;|oder|&klam;|&anf;|dass|wie|umso|ob|wenn|weil|aber|welche[rnm]?</exception>
+                    <exception scope="next" postag="VER:MOD.*" postag_regexp="yes" />
                 </token>
                 <token postag_regexp="yes" postag="PA2:PRD.*"/>
                 <marker>
@@ -55484,7 +55503,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="ADJ.*|PA.*" postag_regexp="yes" min="0" />
                 <token>Frage</token>
                 <token>ist</token>
-                <token min="0">doch</token>
+                <token min="0" regexp="yes">doch|aber</token>
                 <marker>
                     <token min="0" regexp="yes">von|mit|zu|aus|auf|ohne|für|unter|über</token>
                     <token regexp="yes">wem|wer|wie|wo|wann|was|wohin|womit|woher|wozu|warum|wieso|weshalb</token>

@@ -417,11 +417,11 @@ public class German extends Language implements AutoCloseable {
       case "PRP_ADJ_AGREEMENT": return -52; // less prio than DE_AGREMEENT and less prio than most comma rules
       case "SIE_WOLLTEN_SIND": return -52;
       case "ART_ADJ_SOL": return -52; // prefer comma rules
+      case "WURDEN_WORDEN_1": return -52; // prefer comma rules
       case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ": return -53;
       case "VERB_IST": return -53; // less prio than comma rules and spell checker
       case "WAR_WERDEN": return -53; // less prio than comma rules
       case "INF_VER_MOD": return -53; // prefer case, spelling and AI rules
-      case "WURDEN_WORDEN_1": return -54; // prefer comma rules
       case "VERB_FEM_SUBST": return -54; // prefer comma rules (including AI)
       case "SUBJUNKTION_KOMMA_2": return -54; // lower prio than KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ and KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2
       case "REPETITIONS_STYLE": return -60;
