@@ -437,8 +437,6 @@ public class English extends Language implements AutoCloseable {
       case "IRREGARDLESS":              return 1;   // prefer over spell checker
       case "ULTRA_HYPHEN":              return 1;   // prefer over EN_COMPOUND_ADJECTIVE_INTERNAL
       case "THINK_BELIEVE_THAT":        return 1;
-      case "I_THINK_FEEL":              return -51;
-      case "KNOW_AWARE_REDO":           return -51;
       case "IF_DT_NN_VBZ":              return -1;  // prefer IF_PLEASE_COMMA
       case "MD_VBD":                    return -1;  // prefer LOWERCASE_MONTHS
       case "PRP_PRP":                   return -1;  // prefer other rules that give a suggestion
@@ -584,6 +582,8 @@ public class English extends Language implements AutoCloseable {
       case "AI_HYDRA_LEO_MISSING_COMMA": return -51; // prefer comma style rules.
       case "SENTENCE_FRAGMENT_SINGLE_WORDS": return -51;  // prefer other more important sentence start corrections.
       case "MD_NN":                     return -60;  // prefer PRP_MD_NN
+      case "I_THINK_FEEL":              return -60;
+      case "KNOW_AWARE_REDO":           return -60;
       case "EN_REDUNDANCY_REPLACE":     return -510;  // style rules should always have the lowest priority.
       case "EN_PLAIN_ENGLISH_REPLACE":  return -511;  // style rules should always have the lowest priority.
       case "THREE_NN":                  return -600;  // style rules should always have the lowest priority.
