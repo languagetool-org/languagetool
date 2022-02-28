@@ -409,6 +409,7 @@ public class German extends Language implements AutoCloseable {
       case "GENDER_NEUTRALITY": return -15;
       case "TYPOGRAPHY": return -15;
       case "ALL_UPPERCASE": return -15;
+      case "ANFUEHRUNGSZEICHEN_CH_FR": return -49; // prefer over AT/DE quote conventions (is in CH grammar)
       case "COMMA_BEHIND_RELATIVE_CLAUSE": return -52; // less prio than AI_DE_HYDRA_LEO
       case "DOPPELUNG_MODALVERB": return -52; // prefer comma rules (DOPPELUNG_MODALVERB, AI)
       case "VER_DOPPELUNG": return -52; // prefer comma rules (including AI)
