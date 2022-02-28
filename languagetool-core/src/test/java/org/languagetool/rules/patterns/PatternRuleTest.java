@@ -226,6 +226,9 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
       if (rule.getId().contains("[") || rule.getId().contains("]")) {
         fail("Rule ID must not contain '[...]': " + rule.getId());
       }
+      if (rule.getId().contains(" ")) {
+        fail("Rule ID must not contain a space: " + rule.getId());
+      }
       if (rule.getId().length() > 79) {  // limit needed so the Grafana import script works
         fail("Rule ID too long, keep it <= 79 chars: " + rule.getId());
       }
