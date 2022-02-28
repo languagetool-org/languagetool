@@ -8527,12 +8527,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <!-- раздельное написание частицы не:
-                далеко не, вовсе не, отнюдь не или зависимые слова, начинающиеся с ни-
+                далеко не, вовсе не, отнюдь не или зависимые слова, начинающиеся с ни- (temp remove вовсе, issue #6360)
                 -->
                 <pattern>
                     <marker>         
                         <or>
-                            <token regexp="yes">далеко|вовсе|отнюдь</token>
+                            <token regexp="yes">далеко|отнюдь</token>
                             <token postag="ADV"  regexp="yes">(ни)(.*)</token>   
                         </or>
                         <token postag="ADV"  regexp="yes">(не)(.*)[о]</token>                  
