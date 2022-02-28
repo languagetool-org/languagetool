@@ -24061,8 +24061,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="STYLE" name="Stil" type="style">
         <rulegroup id="EGAL_STIL" name="egal (gleichgültig)" tags="picky" default="temp_off">
             <rule>
+                <antipattern>
+                    <token postag="PRO.*DAT.*|SUB:DAT.*|EIG.*" postag_regexp="yes"></token>
+                    <token skip="-1" postag="VER.*" postag_regexp="yes" inflected="yes">sein</token>
+                    <token>egal</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="VER.*" postag_regexp="yes" inflected="yes" skip="-1">sein</token>
+                    <token skip="-1" postag="PRO.*DAT.*|SUB:DAT.*|EIG.*" postag_regexp="yes"></token>
+                    <token>egal</token>
+                </antipattern>
                 <pattern>
-                    <token inflected="yes" skip="-1">sein</token>
+                    <token postag="VER.*" postag_regexp="yes" inflected="yes" skip="-1">sein</token>
                     <marker>
                         <token>egal</token>
                     </marker>
@@ -24073,20 +24083,58 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>bedeutungslos</suggestion>
                 <suggestion>irrelevant</suggestion>
                 <example correction="gleichgültig|unerheblich|bedeutungslos|irrelevant">Für die Entscheidung ist das, wie ich schon sagte, <marker>egal</marker>.</example>
+                <example>Mir ist egal, ob du jetzt oder später vorbeikommst.</example>
+                <example>Ob du heute oder morgen einkaufst, ist mir egal.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token skip="-1" postag="PRO.*DAT.*|SUB:DAT.*|EIG.*" postag_regexp="yes"></token>
+                    <token>egal</token>
+                    <token postag="VER.*" postag_regexp="yes" inflected="yes">sein</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="VER.*" postag_regexp="yes" inflected="yes" skip="-1">sein</token>
+                    <token skip="-1" postag="PRO.*DAT.*|SUB:DAT.*|EIG.*" postag_regexp="yes"></token>
+                    <token>egal</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>egal</token>
                     </marker>
-                    <token inflected="yes" skip="-1">sein</token>
+                    <token postag="VER.*" postag_regexp="yes" inflected="yes" skip="-1">sein</token>
                 </pattern>
                 <message>Möglicherweise ist es stilistisch besser, eine standardsprachliche Formulierung zu benutzen.</message>
                 <suggestion>gleichgültig</suggestion>
                 <suggestion>unerheblich</suggestion>
                 <suggestion>bedeutungslos</suggestion>
                 <suggestion>irrelevant</suggestion>
-                <example correction="gleichgültig|unerheblich|bedeutungslos|irrelevant">Ich sage das, weil es für die Entscheidung <marker>egal</marker> ist.</example>
+                <example correction="Gleichgültig|Unerheblich|Bedeutungslos|Irrelevant"><marker>Egal</marker> ist die Entscheidung keineswegs.</example>
+                <example>Ich kümmere mich nicht darum, weil es mir egal ist.</example>
+                <example>Ob du heute oder morgen vorbeikommst, ist mir egal.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="PRO.*DAT.*|SUB:DAT.*|EIG.*" postag_regexp="yes"></token>
+                    <token postag="VER.*" postag_regexp="yes" inflected="yes">sein</token>
+                        <marker>
+                            <token>egal</token>
+                        </marker>
+                </pattern>
+                <message>Möglicherweise ist es stilistisch besser, eine standardsprachliche Formulierung zu benutzen.</message>
+                <suggestion>gleichgültig</suggestion>
+                <example correction="gleichgültig">Mir ist <marker>egal</marker>, welche Entscheidung ihr trefft.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="VER.*" postag_regexp="yes" inflected="yes">sein</token>
+                    <token postag="PRO.*DAT.*|SUB:DAT.*|EIG.*" postag_regexp="yes"></token>
+                    <marker>
+                        <token>egal</token>
+                    </marker>
+                </pattern>
+                <message>Möglicherweise ist es stilistisch besser, eine standardsprachliche Formulierung zu benutzen.</message>
+                <suggestion>gleichgültig</suggestion>
+                <example correction="gleichgültig">Welche Entscheidungen getroffen werden, ist mir <marker>egal</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="WOERTER_OHNE_STEIGERUNG" name="Sie waren die Einzigsten (Einzigen)." >
