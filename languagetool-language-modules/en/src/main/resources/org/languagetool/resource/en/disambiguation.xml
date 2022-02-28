@@ -5918,6 +5918,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token postag="JJR"/>
                 <token postag="SENT_END"/>
             </antipattern>
+            <antipattern><!-- that lay's all over ... -->
+                <token chunk_re=".-VP" postag="VBP" />
+                <token>'s</token>
+            </antipattern>
             <pattern>
                 <token postag="DT|PRP\$" postag_regexp="yes">
                     <exception regexp="yes">th[eo]se|all|no|much</exception>
@@ -15948,4 +15952,15 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
+
+    <rule id="ON_FLEEK" name="on fleek">
+        <!-- https://www.merriam-webster.com/dictionary/on%20fleek-->
+        <pattern>
+            <token>on</token>
+            <marker>
+                <token case_sensitive="yes" regexp="yes">[Ff]leek|FLEEK</token>
+            </marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
 </rules>
