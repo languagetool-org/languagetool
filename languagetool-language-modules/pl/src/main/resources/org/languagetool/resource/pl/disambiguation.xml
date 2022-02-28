@@ -4115,7 +4115,7 @@
     <rule id="num_fract_gen" name="dopełniacz po liczbach ułamkowych">
         <pattern>
             <token regexp="yes">\d</token>
-            <token spacebefore="no">,</token>
+            <token spacebefore="no" regexp="yes">[,/]</token>
             <token spacebefore="no" regexp="yes">\d+</token>
             <marker>
                 <token postag="(?:adj|ger|subst|pact|ppas):sg.*gen.*" postag_regexp="yes"/>
@@ -4134,6 +4134,7 @@
             <token regexp="yes">\d*[5-9]\d*|\d+0\d*|1[1-9]\d*
                 <exception scope="previous" inflected="yes">rok</exception>
                 <exception regexp="yes">1\d{3}</exception>
+                <exception regexp="yes">\d*[234]</exception>
             </token>
             <marker>
                 <token postag="(?:adj|ger|subst|pact|ppas):pl.*gen.*|brev.*" postag_regexp="yes"><exception>gram</exception></token>
@@ -4203,6 +4204,17 @@
             </marker>
         </pattern>
         <disambig postag="subst:sg:gen:m3"/>
+    </rule>
+
+    <rule id="num_acc_m1" name="biernik m1 po liczbie 2,3,4...">
+        <pattern>
+            <token postag="verb.*|pact.*|pant.*|verb:imps.*" postag_regexp="yes"/>
+            <token regexp="yes">\d*[234]</token>
+            <marker>
+            <token postag="subst:pl:acc:m1"/>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
     </rule>
 
     <rule id="brev_min" name="liczba + min = skrót od „minuta”">
@@ -11476,6 +11488,7 @@
         <example type="ambiguous" inputform="Ma[mieć/verb:fin:sg:ter:imperf:refl.nonrefl,mój/adj:sg:nom.voc:f:pos]"
                  outputform="Ma[mieć/verb:fin:sg:ter:imperf:refl.nonrefl]"><marker>Ma</marker> bardzo dużą powierzchnię 462 km².</example>
     </rule>
+
 
 
     <!-- rule name="kobiety miały" id="MIALY">

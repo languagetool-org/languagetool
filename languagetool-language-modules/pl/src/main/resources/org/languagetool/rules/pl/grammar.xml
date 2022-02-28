@@ -8860,7 +8860,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </unify>
 				</antipattern>
          <pattern>
-          <token postag='prep:gen.*' postag_regexp='yes'></token>
+          <token postag='prep:gen.*|&lt;/PREP:GEN&gt;' postag_regexp='yes'></token>
           <token regexp='yes'>1|jednej|jednego</token>
           <marker>
           <token postag='subst:pl:gen.*' postag_regexp='yes'><exception postag='subst:sg:gen.*' postag_regexp='yes'></exception></token>
@@ -8884,15 +8884,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </antipattern>
         <antipattern>
           <token regexp="yes">od|z</token>
-          <token>\d+</token>
+          <token regexp="yes">\d+</token>
           <token>do</token>
-          <token>\d+</token>
+          <token regexp="yes">\d+</token>
           <marker>
             <token postag="subst:sg:gen.*" postag_regexp="yes"/>
           </marker>
           </antipattern>
         <pattern>
-          <token postag='prep:gen.*' postag_regexp='yes'></token>
+          <token postag='prep:gen.*|&lt;/PREP:GEN&gt;' postag_regexp='yes'></token>
           <token regexp='yes'>\d+<exception regexp="yes">1|[12]\d{3}</exception></token>
           <marker>
           <token postag='subst:sg:gen.*' postag_regexp='yes'>
@@ -8908,8 +8908,223 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>Widzimy się za 3 minuty.</example>
         <example>Użytkownik odbiornika jest obowiązany uiszczać opłatę do 20 dnia danego miesiąca.</example>
         <example>Od 69 minuty nastroje znacznie się pogorszyły, ponieważ Broendby wyrównało.</example>
+        <example> Rady mają być ukonstytuowane również na wzór francuski, po 1/3 przedstawicieli administracji rządowej.</example>
       </rule>
-      </rulegroup>
+    </rulegroup>
+    <rule id="SKLADNIA_LICZEBNIKA" name="Składnia liczebnika: „3 osób” (3 osoby)">
+    <antipattern>
+    <token regexp="yes">[1-3?]\d</token>
+    <marker>
+        <token regexp="yes">lut|lip</token>    
+    </marker>
+    <token regexp="yes">\d{4}</token>
+    </antipattern>
+    <antipattern>
+      <token inflected="yes">ciśnienie</token>
+      <marker>
+      <token regexp="yes">\d+</token>      
+      </marker>
+      <token regexp="yes">barów|hektopaskali</token>
+    </antipattern>
+    <antipattern>
+      <token regexp="yes">art|ust|ok|str</token>
+      <marker>      
+      <token>.</token>
+      <token regexp="yes">\d+</token>
+      </marker>
+    </antipattern>
+    <antipattern>
+      <token regexp="yes">\d+</token>
+      <token regexp="yes">[\.,/—\-\+x]</token>
+      <marker>
+          <token regexp="yes">\d+</token>      
+      </marker>    
+    </antipattern>
+    <antipattern>
+      <token postag_regexp="yes" postag="prep:gen.*|&lt;/PREP:GEN&gt;"/>
+      <token regexp="yes">zaledwie|prawie|przynajmniej|blisko|ponad|przeszło|niespełna|niecałych|ostatnich|minionych|najbliższych</token>
+      <marker>
+          <token regexp="yes">\d+</token>      
+      </marker>
+    </antipattern>
+    <antipattern> <!-- to samo, ale z koordynacją -->
+      <token postag_regexp="yes" postag="prep:gen.*|&lt;/PREP:GEN&gt;"/>
+      <token regexp="yes">zaledwie|prawie|przynajmniej|blisko|ponad|przeszło|niespełna|niecałych|ostatnich|minionych|najbliższych</token>
+      <token regexp="yes">\d+</token>
+      <token regexp="yes">oraz|i|lub|ani|czy|bądź</token>
+      <marker>
+          <token regexp="yes">\d+</token>      
+      </marker>
+    </antipattern>
+      <antipattern>
+      <token postag_regexp="yes" postag="prep:gen.*|&lt;/PREP:GEN&gt;"/>
+      <token>co</token>
+      <token regexp="yes">najmniej|najwyżej</token>
+      <marker>
+          <token regexp="yes">\d+</token>      
+      </marker>
+    </antipattern>
+    <antipattern> <!-- zakładamy, że gerundia zawsze wymagają dopełniacza -->
+      <token postag="ger.*" postag_regexp="yes"/>
+      <token min="0" regexp="yes">prawie|blisko|ponad|przeszło|najwyżej|zaledwie</token> 
+      <marker>
+      <token regexp="yes">\d+</token>      
+      </marker>
+    </antipattern>
+    <antipattern>
+      <token postag_regexp="yes" postag="prep:gen.*|&lt;/PREP:GEN&gt;"/>
+      <token min="1" regexp="yes">\d{3}</token>
+      <marker>
+          <token regexp="yes">\d+</token>      
+      </marker>
+    </antipattern>
+    <antipattern>
+      <token postag_regexp="yes" postag="prep:gen.*|&lt;/PREP:GEN&gt;"/>
+      <unify><feature id="number"/><feature id="gender"/><feature id="case"/>
+          <token postag="(ppas|adj).*" postag_regexp="yes"/>     
+          <unify-ignore>
+            <token min="0" postag="qub|adv.*" postag_regexp="yes"/>
+            <token regexp="yes">\d+</token>          
+          </unify-ignore>
+          <token postag="subst.*" postag_regexp="yes"/>
+      </unify>
+    </antipattern>
+    <antipattern>
+        <token>w</token>
+        <token regexp="yes">rękach|czasie|roku|wieku|granicach|okresie|przeciągu</token>
+        <marker>
+          <token regexp="yes">\d+</token>
+        </marker>
+    </antipattern>
+        <antipattern>
+        <token>w</token>
+        <token regexp="yes">rękach|czasie|roku|wieku|granicach|okresie|przeciągu</token>
+          <token regexp="yes">\d+</token>
+        <token regexp="yes">oraz|i|lub|ani|czy|bądź</token>
+        <marker>
+      <token regexp="yes">\d+</token>        
+        </marker>        
+    </antipattern>
+    <antipattern>
+      <unify>
+        <feature id="number"/><feature id="case"/><feature id="gender"/>
+          <token postag="(adj|ppas|pact).*" postag_regexp="yes"/>
+          <unify-ignore>
+            <token regexp="yes">\d+</token>          
+          </unify-ignore>
+          <marker>
+            <token postag='subst:pl:gen.*' postag_regexp='yes'/>
+          </marker>
+      </unify>          
+    </antipattern>
+    <antipattern>
+      <token postag="(verb:praet:sg:n.*|verb:fin:sg.*):ter:.*" postag_regexp="yes"/>
+      <token min="0" postag="qub|adv.*" postag_regexp="yes"/>
+      <marker>
+      <token regexp="yes">\d+</token>      
+      </marker>
+    </antipattern>
+    <antipattern>
+      <token postag="(verb:praet:sg:n.*|verb:fin:sg.*):ter:.*:refl.*" postag_regexp="yes"/>
+      <token>się</token>
+      <token min="0" postag="qub|adv.*" postag_regexp="yes"/>
+      <marker>
+      <token regexp="yes">\d+</token>      
+      </marker>
+    </antipattern>
+    <antipattern>
+      <token inflected="yes" regexp="yes">kwota|suma|cena|zysk|wysokość|wartość|równowartości|poziom|liczba|szybkość|szerokość|temperatura|objętość|okres|upływ</token>
+      <token min="0" regexp="yes">prawie|blisko|ponad|przeszło|najwyżej|zaledwie</token>      
+      <marker>
+        <token regexp="yes">\d+</token>      
+      </marker>    
+    </antipattern>
+    <antipattern> <!-- rząd czasownika zanegowanego -->
+      <token>nie</token>
+      <token skip="-1" postag="verb:.*|pcon.*|pa[cn]t.*|verb:imps.*" postag_regexp="yes">
+        <exception scope="next" postag="verb:.*sg.*:ter.*|pcon.*|pa[cn]t.*|verb:imps.*" postag_regexp="yes"/>      
+      </token>
+      <marker>
+      <token regexp="yes">\d*[234]</token>
+      <token postag='subst:pl:gen.*' postag_regexp='yes'/>
+      </marker>
+    </antipattern>
+    <antipattern> <!-- rząd imiesłowu czynnego zanegowanego -->
+      <token skip="-1" postag="pact.*:neg:.*" postag_regexp="yes">
+        <exception scope="next" postag="verb:.*sg.*:ter.*|pcon.*|pa[cn]t.*|verb:imps.*" postag_regexp="yes"/>      
+      </token>
+      <marker>
+      <token regexp="yes">\d*[234]</token>
+      <token postag='subst:pl:gen.*' postag_regexp='yes'/>
+      </marker>
+    </antipattern>        
+    <antipattern> <!-- czasowniki wymagające dopełniacza -->
+      <token skip="-1" regexp="yes" inflected="yes">dokonać|dokonywać|dosłuchać|dosłuchiwać|dotyczyć|dowieść|dowodzić|nienawidzić|oczekiwać|pilnować|potrzebować|pozbawić|sięgać|sięgnąć|słuchać|udzielać|udzielić|unikać|uniknąć|użyć|używać|zażądać|żądać
+      <exception scope="next" postag="verb:.*sg.*:ter.*|pcon.*|pa[cn]t.*|verb:imps.*" postag_regexp="yes"/>
+      </token>
+      <marker>
+      <token regexp="yes">\d*[234]</token>
+      <token postag='subst:pl:gen.*' postag_regexp='yes'/>
+      </marker>
+    </antipattern>
+    <antipattern> <!-- predykatyw „potrzeba”, dosyć grubo ciosany wyjątek -->
+      <token skip="-1">potrzeba
+      <exception scope="next" postag="pcon.*|pant.*|verb:imps.*" postag_regexp="yes"/>
+      </token>
+      <marker>
+      <token regexp="yes">\d*[234]</token>
+      <token postag='subst:pl:gen.*' postag_regexp='yes'/>
+      </marker>
+    </antipattern>
+    <!--
+      <antipattern>  przymiotniki wymagające dopełniacza  <token skip="-1" inflected="yes">pozbawiony
+      <exception scope="next" postag="pcon.*|pant.*|verb.*" postag_regexp="yes"/>
+      </token>
+      <marker>
+      <token regexp="yes">\d*[234]</token>
+      <token postag='subst:pl:gen.*' postag_regexp='yes'/>
+      </marker>
+    </antipattern>
+    -->
+     
+    <pattern>
+        <token regexp="yes">\d*[234]
+        <exception regexp="yes">\d*1[234]</exception>
+        <exception scope="previous" postag_regexp="yes" postag="subst.*|prep:gen.*|&lt;/PREP:GEN&gt;"/>
+        <exception scope="previous" spacebefore="no" regexp="yes">[\.']</exception>
+        <exception scope="previous" regexp="yes">jest|było|wynosi(ło)?|§|liczy|uczęszcza|rzędu</exception></token>
+      <marker>        
+        <token postag='subst:pl:gen.*' postag_regexp='yes'>
+        <exception postag="subst:pl:nom.*|brev.*|subst:pl:gen:m1" postag_regexp="yes"/>
+        <exception regexp="yes">procent|proc|ust</exception></token>
+      </marker>    
+    </pattern>
+    <message>Błędna końcówka przypadku. Powinno być: <suggestion><match no="2"  postag_regexp="yes" postag="(.*)pl:gen(.*)" postag_replace="$1pl:nom$2"/></suggestion></message>
+    <url>https://rjp.pan.pl/index.php?option=com_content&amp;view=article&amp;id=1011:skadnia-liczebnikow-70&amp;catid=44&amp;Itemid=58</url>    
+    <short>Błąd gramatyczny</short>
+    <example correction="osoby">23 <marker>osób</marker></example>
+    <example>Znalazło się wówczas w porządku obrad aż 14 projektów określonych jako pilne.</example>
+    <example>W Rosji oficjalnie zarejestrowanych jest 852 chorych na AIDS</example>
+    <example>Polish Investment zajmuje się tym od ponad 2 lat.</example>
+    <example>W każdym z następnych 2 lat inwestujemy równowartość tej kwoty, czyli 12 tys. i 14 tys.</example>    
+    <example>Wyprawa potrwa ok. 2 miesięcy.</example>
+    <example>Internowanych zostało 223 mieszkańców.</example>
+    <example>Wśród poszkodowanych znalazło się 1804 chorych na hemofilię.</example>
+    <example>Straci bez wątpienia większość z posiadanych obecnie 43 miejsc w Izbie Gmin.</example>
+    <example>Rannych zostało również 24 policjantów.</example>
+    <example>Przepis § 2 ust. 2 stosuje się odpowiednio.</example>
+    <example>Okres spłaty nie przekracza 2 tygodni.</example>
+    <example>Nie dokonano 2 zamachów.</example>
+    <example>Z załączonej faktury wynika, że dokonano rewizji celnej 193 kartonów obuwia.</example>
+    <example>O 656 mandatów ubiega się 3923 kandydatów.</example>
+    <example>Osoby te nie skończyły jeszcze 34 lat.</example>
+    <example>Zastrzelili 4 nauczycieli.</example>
+    <example>Z kolei produkcja w czerwcu spadła po raz pierwszy w br. o 5,8 proc. do 901 334 sztuk.</example>
+    <example>Celem jest sprywatyzowanie 2 tysięcy przedsiębiorstw.</example>
+    <example>Przy stworzeniu możliwości przeznaczenia całego dochodu na rozwój potrzeba byłoby na to tylko 2 lat.</example>
+    <example correction="stacje">Zakaz objął 72 <marker>stacji</marker> CPN.</example>
+    <example>Czas nieprzekraczający 2 tygodni</example> 
+    </rule>
 				<rule id="NIE_ULEGA_WATPLIWOSCI" name="„nie ulega najmniejszych wątpliwości”" default="off" >
 						<pattern>
 								<token>nie</token>
@@ -15009,6 +15224,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
 		<category id="CASING" name="Pisownia małą i wielką literą" type="misspelling">
+		  <rule id="Polak" name="„polak” (Polak)">
+        <pattern>
+            <token case_sensitive="yes" inflected="yes">polak<exception case_sensitive="yes" inflected="yes">Polak</exception></token>        
+        </pattern>
+        <message>Małą literą piszemy tylko nazwę przedmiotu szkolnego w gwarze uczniowskiej. Nazwy narodowości piszemy dużą: <suggestion><match no="1" case_conversion="startupper"/></suggestion>.</message>
+        <short>Błąd ortograficzny</short>
+        <example>Niewielu Polaków jadło kebaba.</example>
+        <example correction="Polakom">Przyglądam się <marker>polakom</marker> i Ukraińcom.</example>
+		  </rule>
 		  <rule id="PIETA_ACHILLESOWA" name="„pięta Achillesowa” (pięta achillesowa)">
 						<pattern>
 								<unify>
@@ -15950,6 +16174,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Błąd ortograficzny</short>
                 <example correction="mimochodem">On wspomina o tym <marker>mimo chodem</marker>.</example>
                 <example>On wspomina o tym mimochodem.</example>
+            </rule>
+            <rule id="PO_TRZEBA" name="„po trzeba” (potrzeba)">
+                <pattern>
+                    <token>po<exception case_sensitive="yes">PO</exception><exception scope="previous">dzień</exception></token>
+                    <token>trzeba</token>
+                </pattern>
+                <message>Błąd ortograficzny. Ten wyraz pisze się łącznie: <suggestion><match no="1"/><match no="2"/></suggestion>.</message>
+                <url>https://jaksiepisze.pl/potrzeba-czy-po-trzeba/</url>
+                <short>Błąd ortograficzny</short>
+                <example correction="potrzeba">Dlatego <marker>po trzeba</marker> było wziąć szmatę.</example>
+                <example>Czy na tabletkę dzień po trzeba mieć receptę?</example>
+                <example>PO trzeba rozwiązać.</example>
             </rule>
             <rule id="O_JEJ" name="„o jej!” (ojej)">
                 <pattern>
@@ -18909,33 +19145,47 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <short>Brak kropek</short>
                             <example correction='o.o.'>Danfoss sp. z <marker>oo</marker>, polski oddział duńskiego koncernu Danfoss</example>
                         </rule>
+                        <rule>
+                          <pattern>
+                            <token regexp="yes">\d+</token>
+                            <marker>
+                              <token>proc</token>
+                            </marker>
+                            <token><exception>.</exception></token>
+                            </pattern>
+                            <message>Brak kropki w skrócie: <suggestion>proc.</suggestion></message>
+                            <short>Brak kropki</short>
+                            <example correction="proc.">W imporcie udziały te wynosiły analogicznie — 14,4 <marker>proc</marker>, 49,9 proc. i 54,5 proc.</example>
+                        </rule>
 				</rulegroup>
-                <rulegroup id="OK_BEZ_KROPKI" name="„ok” (ok.)">
-                    <rule>
-                        <pattern>
-                            <marker>
-                                <token>ok</token>
-                            </marker>
-                            <token regexp='yes'>\d+</token>
-                        </pattern>
-                        <message>Czy chodziło o skrót <suggestion>ok.</suggestion>?</message>
-                        <short>Prawdopodobna literówka</short>
-                        <example correction="ok.">To było <marker>ok</marker> 200 psów.</example>
-                        <example>To było ok. 200 psów.</example>
-                    </rule>
-                    <rule>
-                        <pattern>
-                            <marker>
-                                <token>ok</token>
-                            </marker>
-                            <token postag='num:pl:.*' postag_regexp='yes'></token>
-                        </pattern>
-                        <message>Czy chodziło o skrót <suggestion>ok.</suggestion> (=około)?</message>
-                        <short>Prawdopodobna literówka</short>
-                        <example correction="ok.">To było <marker>ok</marker> dwustu psów.</example>
-                        <example>To było ok. dwustu psów.</example>
-                    </rule>
-                </rulegroup>
+        <rulegroup id="OK_BEZ_KROPKI" name="„ok” (ok.)">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>ok</token>
+                    </marker>
+                    <token regexp='yes'>\d+%?</token>
+                </pattern>
+                <message>Czy chodziło o skrót <suggestion>ok.</suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example correction="ok.">To było <marker>ok</marker> 200 psów.</example>
+                <example>To było ok. 200 psów.</example>
+                <example correction='ok.'>Miesięczna rata spłacana przez kredytobiorców jest obecnie <marker>ok</marker> 10% niższa niż przy kredycie tej samej wysokości zaciągniętym w grudniu 2008 roku.</example>
+                <example>Miesięczna rata spłacana przez kredytobiorców jest obecnie ok. 10% niższa niż przy kredycie tej samej wysokości zaciągniętym w grudniu 2008 roku.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>ok</token>
+                    </marker>
+                    <token postag='num:pl:.*' postag_regexp='yes'></token>
+                </pattern>
+                <message>Czy chodziło o skrót <suggestion>ok.</suggestion> (=około)?</message>
+                <short>Prawdopodobna literówka</short>
+                <example correction="ok.">To było <marker>ok</marker> dwustu psów.</example>
+                <example>To było ok. dwustu psów.</example>
+            </rule>
+        </rulegroup>
 				<rule id="POD_KONTEM" name="„pod kontem czegoś” (pod kątem)">
 						<pattern>
 								<marker>
@@ -20065,6 +20315,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <example>Posługują sie w krajach im przeciwnych metodą marketingu…</example>
     <example>Teorie są tylko nieodpowiedzialną i Bogu przeciwną herezją.</example>
     </rule>
+    <rule id="o_k" name="„o k. (ok.)">
+        <pattern>
+            <marker>
+            <token>o</token>
+            <token>k</token>
+            <token spacebefore="no">.</token>
+           </marker>
+            <token regexp="yes">\d+</token>
+          </pattern>        
+        <message>Literówka. Czy chodziło o <suggestion>\1\2\3</suggestion>?</message>
+        <short>Literówka</short>
+        <example correction="ok.">Lekcja muzealna trwa <marker>o k.</marker> 45 - 90 min.</example>  
+    </rule>
 		<rule id="w_ladza" name="„w ładzą” (władzą)">
 		<pattern>
         <token>w</token>
@@ -20447,16 +20710,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <example>Tuta j rosną banany.</example>       
         </rule>		  
 		  </rulegroup>
-		  <rule id="SKROT_OK_BEZ_KROPKI" name="Skrót „ok” bez kropki (ok.)">
-       <pattern>
-        <token>ok</token>
-        <token regexp='yes'>\d+%?</token>
-       </pattern>
-       <message>Powinno być <suggestion>ok.</suggestion></message>
-       <short>Brak kropki</short>
-       <example correction='ok.'>Miesięczna rata spłacana przez kredytobiorców jest obecnie <marker>ok 10%</marker> niższa niż przy kredycie tej samej wysokości zaciągniętym w grudniu 2008 roku.</example>
-       <example>Miesięczna rata spłacana przez kredytobiorców jest obecnie ok. 10% niższa niż przy kredycie tej samej wysokości zaciągniętym w grudniu 2008 roku.</example>
-      </rule>
 		  <rule id="OPACZNOSC_OPATRZNOSC" name="„Opaczność” (opatrzność)">
 		  <antipattern> <!-- tytuł dzieła sztuki -->
     		  <token inflected="yes">opaczność</token>
