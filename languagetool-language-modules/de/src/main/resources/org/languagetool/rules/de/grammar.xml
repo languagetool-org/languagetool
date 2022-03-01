@@ -724,7 +724,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>zum</token>
-                    <marker><token case_sensitive="yes">Abbeißen</token></marker>
+                    <marker><token case_sensitive="yes" regexp="yes">Abbei(ß|ss)en</token></marker>
                     <token case_sensitive="yes" inflected="yes" regexp="yes">aus(sehen)?</token>
                 </pattern>
                 <message>Meinten Sie, etwas sieht zum <suggestion><match no="2" regexp_match="Abb" regexp_replace="Anb"/></suggestion> aus (= ist besonders attraktiv)?</message>
@@ -12374,6 +12374,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rule id="ZU_FOLGE" name="zu folge (zufolge)" default="temp_off">
+            <antipattern>
+                <token>zur</token>
+                <token case_sensitive="yes" regexp="yes">Folge|FOLGE</token>
+            </antipattern>
+            <antipattern>
+                <token>zu</token>
+                <token case_sensitive="yes" regexp="yes">Folge|FOLGE</token>
+                <token regexp="yes" min="0">nr|#</token>
+                <token regexp="yes" min="0">.</token>
+                <token regexp="yes">\d+</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes" case_sensitive="yes">Meinung(en)?|.*Bericht(en)?|Gerücht(en)?|Begründung(en)?|Berechnung(en)?|Studien?|Angaben?|Überlegung(en)?</token>
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">zur?</token>
+                    <token>folge</token>
+                </marker>
+            </pattern>
+            <message>Die Präposition <suggestion>zufolge</suggestion> wird zusammengeschrieben?</message>
+            <example correction="zufolge">Da kommt ein einziger Dax-Vorstandschef Berechnungen <marker>zu folge</marker> auf Pensionszusagen von 30 Millionen Euro.</example>
+        </rule>
         <rulegroup id="KICK_OFF" name="Kick Off (Kick-off)">
             <antipattern>
                 <token regexp="yes" skip="2">s|lets|will|can|could|we|they|you</token>
@@ -24295,7 +24317,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
                 <token inflected="yes" regexp="yes">machen|tun</token>
             </pattern>
-            <message>'Extra' im Sinne von 'vorsätzlich'  ist sehr umgangssprachlich und könnte hier durch formellere Alternativen ersetzt werden.</message>
+            <message>'Extra' im Sinne von 'vorsätzlich' ist sehr umgangssprachlich und könnte hier durch formellere Alternativen ersetzt werden.</message>
             <suggestion>vorsätzlich</suggestion>
             <suggestion>gezielt</suggestion>
             <suggestion>absichtlich</suggestion>
