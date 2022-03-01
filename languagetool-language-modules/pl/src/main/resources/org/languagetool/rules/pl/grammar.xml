@@ -15225,10 +15225,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 		</category>
 		<category id="CASING" name="Pisownia małą i wielką literą" type="misspelling">
 		  <rule id="NIETYPOWA_KOMBINACJA_DUZYCH_I_MALYCH_LITER" name="Nietypowa kombinacja dużych i małych liter">
+        <antipattern case_sensitive="yes">
+        <token postag="UNKNOWN" negate_pos="yes" inflected="yes" regexp="yes" negate="yes">^(\p{Ll}+|\p{Lu}+|\p{Lu}\p{Ll}+)$</token>
+        </antipattern>
       <pattern case_sensitive='yes'>
       <token regexp='yes'>\p{L}+
         <exception regexp='yes'>^(\p{Ll}+|\p{Lu}+|\p{Lu}\p{Ll}+)$|\p{Lu}+i\p{Lu}</exception>
-        <exception regexp="yes">iPhone|iMac|iP[oa]d|LanguageTool.*</exception>        
+        <exception regexp="yes">iPhone|iMac|iP[oa]d|LanguageTool.*|OpenOffice|LibreOffice</exception>
         </token>
       </pattern>
       <message>Nietypowa kombinacja małych i dużych liter. Czy nie powinno być: <suggestion><match no="1" case_conversion="alllower"/></suggestion>?</message>
@@ -15239,6 +15242,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>T1</example>
       <example>To jest zmienna X-23.</example>
       <example>Tak wygląda polityka PiS.</example>
+      <example>To nieznany w przyrodzie przypadek fachowca z ZChN.</example>
       </rule>
 		  <rule id="Polak" name="„polak” (Polak)">
         <pattern>
@@ -17530,7 +17534,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rulegroup>
 				<rule id="SKROTOWCE_BEZ_DYWIZU" name="Skrótowce bez dywizu w przypadkach zależnych">
 						<pattern>
-								<token regexp="yes">\p{Lu}{1,2}+[i]*\p{Lu}+[a-ząćęłńóśźż&amp;&amp;[^\p{Lu}]]+<exception regexp="yes">GKKFicie|JCMości|JCMością|JCWysokości|JCWysokością|JKMości|JKMością|JKWysokości|JKWysokością|PZKol|PZMocie|PZMot|SJPDor|WPan|WPani|WPaństwo|CSSp|MKOl|PKOl|REDakcj.*|KPCh|VBScript|GUŁag|\p{Lu}{2}[^aeiuyąę]|((XC|XL|L?X{0,3})(IX|IV|V?I{0,3}))([mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tymi?|a|c[ieh]|ci[aemou]|ciej|cioletnią|ego|ej|g[aio]|gi[em]|[yi]m|ki|któregoś|m[aeo]|miu|o|[tr]o|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|tk[ai]|[mt]*[i]*oletni.*|[mt]*[ueą]|[mt]*ych)</exception></token>
+								<token regexp="yes">\p{Lu}{1,2}+[i]*\p{Lu}+[a-ząćęłńóśźż&amp;&amp;[^\p{Lu}]]+<exception regexp="yes">GKKFicie|JCMości|JCMością|JCWysokości|JCWysokością|JKMości|JKMością|JKWysokości|JKWysokością|PZKol|PZMocie|PZMot|SJPDor|WPan|WPani|WPaństwo|CSSp|MKOl|PKOl|REDakcj.*|KPCh|VBScript|GUŁag|WiFi|\p{Lu}{2}[^aeiuyąę]|((XC|XL|L?X{0,3})(IX|IV|V?I{0,3}))([mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tymi?|a|c[ieh]|ci[aemou]|ciej|cioletnią|ego|ej|g[aio]|gi[em]|[yi]m|ki|któregoś|m[aeo]|miu|o|[tr]o|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|tk[ai]|[mt]*[i]*oletni.*|[mt]*[ueą]|[mt]*ych)</exception></token>
 						</pattern>
 						<message>Prawdopodobny błąd zapisu odmiany; skrótowce odmieniamy z dywizem:<suggestion><match no="1" regexp_match="^(\p{Lu}{1,2}+[i]*\p{Lu}+)([\p{L}&amp;&amp;[^\p{Lu}]]{1,4}+)" regexp_replace="$1-$2"></match></suggestion>.</message>
 						<short>Błąd ortograficzny</short>
