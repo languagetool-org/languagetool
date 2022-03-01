@@ -15224,6 +15224,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
 		<category id="CASING" name="Pisownia małą i wielką literą" type="misspelling">
+		  <rule id="NIETYPOWA_KOMBINACJA_DUZYCH_I_MALYCH_LITER" name="Nietypowa kombinacja dużych i małych liter">
+      <pattern case_sensitive='yes'>
+      <token regexp='yes'>\p{L}+
+        <exception regexp='yes'>^(\p{Ll}+|\p{Lu}+|\p{Lu}\p{Ll}+)$|\p{Lu}+i\p{Lu}</exception>
+        <exception regexp="yes">iPhone|iMac|iP[oa]d</exception>        
+        </token>
+      </pattern>
+      <message>Nietypowa kombinacja małych i dużych liter. Czy nie powinno być: <suggestion><match no="1" case_conversion="alllower"/></suggestion>?</message>
+      <short>Nietypowe małe i duże litery</short>
+      <example correction='słowo'>To jest dziwnie napisane <marker>sŁoWo</marker>.</example>
+      <example>To jest dziwnie napisane słowo.</example>
+      <example>test_variable</example>
+      <example>T1</example>
+      <example>To jest zmienna X-23.</example>
+      <example>Tak wygląda polityka PiS.</example>
+      </rule>
 		  <rule id="Polak" name="„polak” (Polak)">
         <pattern>
             <token case_sensitive="yes" inflected="yes">polak<exception case_sensitive="yes" inflected="yes">Polak</exception></token>        
@@ -15420,17 +15436,172 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <example>Nie zgodził się na to Marian Krzaklewski.</example>
 				</rule>
 				<rule id="JEZYK_POLSKI" name="Pisownia nazw języków wielką literą">
+				    <antipattern case_sensitive="yes">
+				      <token inflected="yes">rada</token>
+				      <token>Języka</token>
+				      <token>Polskiego</token>
+				    </antipattern>
+				    <antipattern>
+				    		<unify><feature id="gender"/><feature id="number"/><feature id="case"/>
+                  <token inflected="yes">Aleksander</token>
+                  <token inflected="yes">macedoński</token>            
+                </unify>
+				    </antipattern>
+            <antipattern>
+				    		<unify><feature id="gender"/><feature id="number"/><feature id="case"/>
+                  <token inflected="yes" regexp="yes">rzesza|nizina</token>
+                  <token inflected="yes">niemiecki</token>                
+                </unify>
+				    </antipattern>
+				    <antipattern>
+				    		<unify><feature id="gender"/><feature id="number"/><feature id="case"/>
+                  <token inflected="yes" regexp="yes">rzeczpospolita|naród|niż|bank|mennica|królestwo|teatr|gazeta|kurier|dziennik|monitor|instytut|telewizja|wojsko|Tatry|telekomunikacja</token>
+                  <token inflected="yes">polski</token>                
+                </unify>
+				    </antipattern>
+				    <antipattern>
+				    		<unify><feature id="gender"/><feature id="number"/><feature id="case"/>
+                  <token inflected="yes">federacja</token>
+                  <token inflected="yes">rosyjski</token>                
+                </unify>
+				    </antipattern>
+            <antipattern>
+				    		<unify><feature id="gender"/><feature id="number"/><feature id="case"/>
+                  <token inflected="yes">morze</token>
+                  <token inflected="yes">norweski</token>                
+                </unify>
+				    </antipattern>				   
+				    <antipattern> <!-- utwór Liszta -->
+				    		<unify><feature id="gender"/><feature id="number"/><feature id="case"/>
+                  <token inflected="yes" postag="subst:pl.*" postag_regexp="yes">taniec</token>
+                  <token inflected="yes">węgierski</token>                
+                </unify>
+				    </antipattern>
+				    <antipattern>
+				    		<unify><feature id="gender"/><feature id="number"/><feature id="case"/>
+                  <token inflected="yes">królestwo</token>
+                  <token inflected="yes">węgierski</token>                
+                </unify>
+				    </antipattern>
+            <antipattern>
+				    		<unify><feature id="gender"/><feature id="number"/><feature id="case"/>
+                  <token inflected="yes">cesarstwo</token>
+                  <token inflected="yes">rosyjski</token>                
+                </unify>
+				    </antipattern>         
+            <antipattern>
+				    		<unify><feature id="gender"/><feature id="number"/><feature id="case"/>
+                  <token inflected="yes" regexp="yes">pustynia|morze|zatoka|półwysep</token>
+                  <token inflected="yes">arabski</token>                
+                </unify>
+				    </antipattern>
+				    <antipattern>
+				    		<unify><feature id="gender"/><feature id="number"/><feature id="case"/>
+                  <token inflected="yes">zatoka</token>
+                  <token inflected="yes" regexp="yes">perski|fiński</token>                
+                </unify>
+				    </antipattern>
+				    <antipattern>
+				    		<unify><feature id="gender"/><feature id="number"/><feature id="case"/>
+                  <token inflected="yes">ogród</token>
+                  <token inflected="yes">luksemburski</token>                
+                </unify>
+				    </antipattern>
+				     <antipattern>
+				    		<unify><feature id="gender"/><feature id="number"/><feature id="case"/>
+                  <token inflected="yes" regexp="yes">biblia|uniwersytet</token>
+                  <token inflected="yes">hebrajski</token>                
+                </unify>
+				    </antipattern>
+				    <antipattern>
+				    		<unify><feature id="gender"/><feature id="number"/><feature id="case"/>
+                  <token inflected="yes">mur</token>
+                  <token inflected="yes">chiński</token>                
+                </unify>
+				    </antipattern>
+				    <antipattern>
+				    		<unify><feature id="gender"/><feature id="number"/><feature id="case"/>
+                  <token inflected="yes" regexp="yes">góra|jezioro</token>
+                  <token inflected="yes">albański</token>                
+                </unify>
+				    </antipattern>
+				       <antipattern>
+				    		<unify><feature id="gender"/><feature id="number"/><feature id="case"/>
+                  <token inflected="yes">archipelag</token>
+                  <token inflected="yes">malajski</token>                
+                </unify>
+				    </antipattern>
+            <antipattern>
+				    		<unify><feature id="gender"/><feature id="number"/><feature id="case"/>
+                  <token inflected="yes">półwysep</token>
+                  <token inflected="yes" regexp="yes">malajski|koreański</token>                
+                </unify>
+				    </antipattern>				    
+				     <antipattern>
+				    		<unify><feature id="gender"/><feature id="number"/><feature id="case"/>
+                  <token inflected="yes">republika</token>
+                  <token inflected="yes" regexp="yes">chorwacki|serbski|litewski|włoski|węgierski|czeski|słowacki|hiszpański|łotewski|estoński</token>                
+                </unify>
+				    </antipattern>
+           <antipattern>
+				    		<unify><feature id="gender"/><feature id="number"/><feature id="case"/>
+                  <token inflected="yes" regexp="yes">komedia|instytut|akademia|republika</token>
+                  <token inflected="yes">francuski</token>                
+                </unify>
+				    </antipattern>
+            <antipattern>
+				    		<unify><feature id="gender"/><feature id="number"/><feature id="case"/>
+                  <token inflected="yes">Ameryka</token>
+                  <token inflected="yes">łaciński</token>                
+                </unify>
+				    </antipattern>
+	         <antipattern>
+				    		<unify><feature id="gender"/><feature id="number"/><feature id="case"/>
+                  <token inflected="yes">wielki</token>        
+                  <token inflected="yes">rewolucja</token>
+                  <token inflected="yes">francuski</token>                
+                </unify>
+				    </antipattern>
+				    <antipattern>
+				          <token postag="subst.*" postag_regexp="yes"><exception>język</exception></token>
+				          <token>Polski</token>
+            </antipattern>
+            <antipattern>
+              <unify><feature id="gender"/><feature id="number"/><feature id="case"/>
+                    <token inflected="yes" regexp="yes">angielski|polski|rosyjski|niemiecki|francuski|hiszpański|łaciński|grecki|turecki|albański|kataloński|ukraiński|czeski|słowacki|szwedzki|niderlandzki|chiński|norweski|litewski|łotewski|estoński|rumuński|bułgarski|włoski|flamandzki|portugalski|kastylijski|fiński|duński|indonezyjski|hebrajski|koreański|serbski|chorwacki|słoweński|arabski|węgierski|wietnamski|newarski|perski|tajski|galicyjski|malajski|bośniacki|luksemburski|macedoński|gruziński|islandzki|walijski|serbsko-chorwacki</token>
+                    <token postag="subst.*" postag_regexp="yes" regexp="yes">\p{Lu}\p{Ll}+</token>
+              </unify>
+            </antipattern>
 						<pattern case_sensitive="yes">
-								<token inflected="yes">język<exception scope="previous" inflected="yes">rada</exception></token>
-								<marker>
-										<token regexp="yes">(?:Angielski|Polski|Rosyjski|Niemiecki|Francuski|Hiszpański|Łaciński|Grecki|Turecki|Albański|Kataloński|Ukraiński|Czeski|Słowacki|Szwedzki|Niderlandzki|Chiński|Norweski|Litewski|Łotewski|Estoński|Rumuński|Bułgarski|Włoski|Flamandzki|Portugalski|Kastylijski|Fiński|Duński|Indonezyjski|Hebrajski|Koreański|Serbski|Chorwacki|Słoweński|Arabski|Węgierski|Wietnamski|Newarski|Perski|Tajski|Galicyjski|Malajski|Bośniacki|Luksemburski|Macedoński|Gruziński|Islandzki|Walijski|Serbsko-chorwacki).*</token>
+						<unify><feature id="gender"/><feature id="number"/><feature id="case"/>
+                <marker>
+								<token postag="subst.*" postag_regexp="yes">
+								      <!-- imiona i skrótowce -->
+								    <exception inflected="yes" regexp="yes">\p{Lu}\p{Ll}+|\p{Lu}</exception>
+								    <exception inflected="yes" regexp="yes">ulica|pan|hrabia|plac</exception>
+								    <!-- trójelementowe nazwy własne oraz tytuły -->
+								    <exception scope="previous" regexp="yes">\p{Lu}\p{Ll}+|[»«„&quot;]</exception>
+                </token>
+                  <token inflected="yes" regexp="yes">angielski|polski|rosyjski|niemiecki|francuski|hiszpański|łaciński|grecki|turecki|albański|kataloński|ukraiński|czeski|słowacki|szwedzki|niderlandzki|chiński|norweski|litewski|łotewski|estoński|rumuński|bułgarski|włoski|flamandzki|portugalski|kastylijski|fiński|duński|indonezyjski|hebrajski|koreański|serbski|chorwacki|słoweński|arabski|węgierski|wietnamski|newarski|perski|tajski|galicyjski|malajski|bośniacki|luksemburski|macedoński|gruziński|islandzki|walijski|serbsko-chorwacki
+                  <exception regexp="yes">\p{Ll}+|\p{Lu}+</exception></token>
 								</marker>
+            </unify>
 						</pattern>
-						<message>Nazwy języków piszemy małą literą: <suggestion><match case_conversion="alllower" no="2"></match></suggestion>.</message>
+						<message>Przymiotniki wywodzące się z nazw języków piszemy małą literą (chyba że w innej nazwie własnej): <suggestion><match case_conversion="alllower" no="1"/> <match case_conversion="alllower" no="2"></match></suggestion>.</message>
 						<short>Błąd pisowni wielką i małą literą</short>
-						<example correction="katalońskim">To piękna książka w języku <marker>Katalońskim</marker>.</example>
+						<example correction="języku katalońskim">To piękna książka w <marker>języku Katalońskim</marker>.</example>
 						<example>Dbaj o wymowę w języku polskim.</example>
 						<example>Rada Języka Polskiego.</example>
+						<example correction="agentów rosyjskich">Opublikujemy listę <marker>agentów Rosyjskich</marker>.</example>
+						<example>To grobowiec Ludwika Niemieckiego.</example>
+						<example>KONNICA ROSYJSKA</example>
+						<example>Niech żyje Byczysław, z łaski Bożej król Polski i Litwy!</example>
+						<example>wielkorządca Polski z ramienia caratu</example>
+						<example>Śmiał się z nadmiaru makaronów w żołądku pana Słowackiego.</example>
+						<example>Autorem „Kordiana” jest Juliusz Słowacki.</example>
+						<example>Został prezesem Narodowego Banku Polskiego.</example>
+						<example>Tekst ukazał się w „Nauce Polskiej”.</example>
+						<example>Z inicjatywy krośnieńskiego oddziału Polskiego Towarzystwa Leśnego powstaje bajka…</example>
 				</rule>
                 <rulegroup id="PISOWNIA_NAZW_CZASOPISM" name="Tytuły czasopism bez wielkich liter">
                     <rule>
@@ -15562,9 +15733,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<short>Błąd pisowni wielką i małą literą</short>
 						<example correction="warmińsko-mazurskie">Piękne jest zwłaszcza województwo <marker>Warmińsko-Mazurskie</marker>.</example>
 						<example>Mieszkam w województwie mazowieckim.</example>
-                        <example>Urząd Marszałkowski Województwa Kujawsko-Pomorskiego</example>
+            <example>Urząd Marszałkowski Województwa Kujawsko-Pomorskiego</example>
 				</rule>
-                </rulegroup>
+        </rulegroup>
 				<rule id="WOLNA_AMERYKANKA" name="„wolna Amerykanka” (wolna amerykanka)">
 						<pattern case_sensitive="yes">
 								<unify>
@@ -15719,7 +15890,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 														<token regexp="yes">Mo.*</token>
 												</and>
 												<and>
-														<token inflected="yes" regexp="yes">bałtycki|egejski|czerwony|śródziemny|czarny</token>
+														<token inflected="yes" regexp="yes">adriatycki|alandzki|andamański|azowski|arabski|balearski|balijski|biały|bałtycki|botnicki|celtycki|egejski|chilijski|czerwony|filipiński|grenlandzki|hebrydzki|irlandzki|joński|karaibski|kreteński|labradorski|lakkadiwski|lewantyński|libijski|liguryjski|mirtejski|norweski|nowogwinejski|północny|sargassowy|sycylijski|śródziemny|tracki|tyrreński|wattowy|czarny|koralowy|wschodniochiński|jawajski|molucki|japoński|ochocki|południowochiński|wewnętrzny|żółty</token>
 														<token regexp="yes">\p{Ll}+</token>
 												</and>
 										</unify>
@@ -15740,7 +15911,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 														<token inflected="yes">morze</token>
 														<token regexp="yes">mo.*</token>
 												</and>
-												<token inflected="yes" regexp="yes">bałtycki|egejski|czerwony|śródziemny|czarny</token>
+												<token inflected="yes" regexp="yes">adriatycki|alandzki|andamański|azowski|arabski|balearski|balijski|biały|bałtycki|botnicki|celtycki|egejski|chilijski|czerwony|filipiński|grenlandzki|hebrydzki|irlandzki|joński|karaibski|kreteński|labradorski|lakkadiwski|lewantyński|libijski|liguryjski|mirtejski|norweski|nowogwinejski|północny|sargassowy|sycylijski|śródziemny|tracki|tyrreński|wattowy|czarny|koralowy|wschodniochiński|jawajski|molucki|japoński|ochocki|południowochiński|wewnętrzny|żółty</token>
 										</unify>
 								</pattern>
 								<message>Błędna pisownia. Powinno być: <suggestion><match case_conversion="startupper" no="1"></match> <match case_conversion="startupper" no="2"></match></suggestion>.</message>
@@ -15751,6 +15922,44 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>Widziałem nad tamtym morzem bałtyckie rybitwy.</example>
 						</rule>
 				</rulegroup>
+				<rule id="ameryka_lacinska" name="„ameryka łacińska” (Ameryka Łacińska)">
+	        <pattern case_sensitive="yes">
+				    		<unify><feature id="gender"/><feature id="number"/><feature id="case"/>
+                  <token inflected="yes">Ameryka</token>
+                  <token inflected="yes" regexp="yes">łaciński|południowy|północny|środkowy|centralny|anglosaski
+                    <exception regexp="yes">\p{Lu}\p{Ll}+|\p{Lu}+</exception></token>                
+                </unify>
+				    </pattern>
+            <message>Błędna pisownia. Powinno być: <suggestion><match case_conversion="startupper" no="1"></match> <match case_conversion="startupper" no="2"></match></suggestion>.</message>
+            <short>Błędne użycie małych i wielkich liter</short>
+            <example>To przedstawiciele Ameryki Łacińskiej.</example>
+            <example correction="Ameryką Łacińską">On się przejmuje <marker>Ameryką łacińską</marker>.</example>
+				</rule>
+				<rule id="republika_jakas" name="„republika litewska” (Republika Litewska)">
+				<antipattern case_sensitive="yes">
+				          <and>         
+                  <token inflected="yes">republika</token>
+                  <token regexp="yes">\p{Lu}\p{Ll}+|\p{Lu}+</token>
+                  </and>
+                  <marker>
+                  <and>
+                  <token inflected="yes" regexp="yes">włoski|węgierski|czeski|słowacki|hiszpański|łotewski|estoński|środkowoafrykański|chiński</token>                
+                  <token regexp="yes">\p{Lu}\p{Ll}+|\p{Lu}+</token>                  
+                  </and>
+                  </marker>
+				</antipattern>
+            <pattern case_sensitive="yes">
+				    		<unify>
+				    		<feature id="gender"/><feature id="number"/><feature id="case"/>
+                  <token inflected="yes">republika</token>
+                  <token inflected="yes" regexp="yes">włoski|węgierski|czeski|słowacki|hiszpański|łotewski|estoński|środkowoafrykański|chiński</token>                
+                </unify>
+            </pattern>
+            <message>Błędna pisownia. Powinno być: <suggestion><match case_conversion="startupper" no="1"></match> <match case_conversion="startupper" no="2"></match></suggestion>.</message>
+            <short>Błędne użycie małych i wielkich liter</short>
+            <example>To przedstawiciele Republiki Czeskiej.</example>
+            <example correction="Republice Czeskiej">Myślałem często o <marker>republice Czeskiej</marker>.</example>
+				</rule>
             <rulegroup id="OCEAN_ATLANTYCKI" name="„ocean atlantycki” (Ocean Atlantycki)">
                 <rule>
                     <pattern case_sensitive="yes">
@@ -16128,10 +16337,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <unify>
                         <feature id="case"/><feature id="gender"/><feature id="number"/>
                         <token inflected='yes'>Europa</token>
-                        <token inflected='yes' regexp='yes'>zachodni|wschodni<exception regexp='yes'>[ZW].*</exception></token>
+                        <token inflected='yes' regexp='yes'>zachodni|wschodni|południowy|północny|środkowy<exception regexp='yes'>[ZWPŚ].*</exception></token>
                     </unify>
                 </pattern>
-                <message>Błąd ortograficzny, jeśli chodziło o państwa Europy zachodniej wchodzące w skład UE. Powinno być: <suggestion><match no="1"/> <match no="2" case_conversion="startupper"/></suggestion>.</message>
+                <message>Błąd ortograficzny, jeśli chodziło o państwa Europy zachodniej wchodzące w skład UE lub regiony Europy. Powinno być: <suggestion><match no="1"/> <match no="2" case_conversion="startupper"/></suggestion>.</message>
                 <url>http://sjp.pwn.pl/poradnia/haslo/zachodnia-Europa-Europa-Zachodnia;5447.html</url>
                 <short>Błąd ortograficzny</short>
                 <example correction='Europy Zachodniej'>Pojechałem do <marker>Europy zachodniej</marker>.</example>
@@ -20743,7 +20952,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <example>To było w Opolu.</example>
           <example correction="Opolem">Nie martw się <marker>opolem</marker>.</example>
         </rule>
-        <rule id="AFRYKA" name="„afryka” (Afryka)">        
+        <rulegroup id="AFRYKA" name="„afryka” (Afryka)">
+        <rule>
+        <pattern case_sensitive="yes">
+          <unify><feature id="gender"/><feature id="number"/><feature id="case"/>
+            <token inflected="yes">afryka</token>
+            <token inflected="yes" regexp="yes">południowa|północny|środkowy|wschodni|zachodni
+              <exception regexp="yes">\p{Lu}\p{Ll}+|\p{Lu}+</exception></token>                
+          </unify>
+        </pattern>
+        <message>Błędna pisownia. Powinno być: <suggestion><match case_conversion="startupper" no="1"></match> <match case_conversion="startupper" no="2"></match></suggestion>.</message>
+        <short>Błędne użycie małych i wielkich liter</short>
+        <example>To mieszkańcy Afryki Środkowej.</example>
+        <example correction="Afryki Zachodniej">To są kraje <marker>afryki zachodniej</marker>.</example>
+        </rule>
+        <rule>
           <pattern case_sensitive="yes">
             <token inflected="yes">afryka<exception regexp="yes">A.*</exception></token>
           </pattern>
@@ -20752,6 +20975,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <example>To było w Afryce.</example>
           <example correction="Afryką">Nie martw się <marker>afryką</marker>.</example>
         </rule>
+        </rulegroup>
         <rule id="MASARZ" name="„masarz” (masaż)">
           <pattern>
            <token inflected="yes">masarz</token>
