@@ -22669,6 +22669,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category id="COLLOQUIALISMS" name="Umgangssprache" type="register">
         <!-- TODO Make one Java-rule for context-independent, colloquial expressions and maintain a list -->
+            <rule id="KOMPLETT_STIL" name="komplett (völlig, vollkommen)" default="temp_off">
+                <pattern>
+                    <marker>
+                        <token inflected="no">komplett</token>
+                    </marker>
+                </pattern>
+                <message>Das Adverb 'komplett' im Sinne von 'vollkommen' ist sehr umgangssprachlich und könnte hier durch formellere Alternativen ersetzt werden.</message>
+                <suggestion>vollkommen</suggestion>
+                <suggestion>gänzlich</suggestion>
+                <suggestion>völlig</suggestion>
+                <suggestion>umfassend</suggestion>
+                <suggestion>vollständig</suggestion>
+                <example correction="vollkommen|gänzlich|völlig|umfassend|vollständig">Ich habe das Formular <marker>komplett</marker> ausgefüllt.</example>
+                <example correction="vollkommen|gänzlich|völlig|umfassend|vollständig">Die Umgeungsstraße war wegen Bauarbeiten <marker>komplett</marker> gesperrt.</example>
+            </rule>
             <rule id="DRUM_DARUM" name="drum (darum)" default="temp_off">
                 <antipattern>
                     <token>Drum</token>
