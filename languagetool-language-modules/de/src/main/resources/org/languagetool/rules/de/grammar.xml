@@ -22669,6 +22669,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category id="COLLOQUIALISMS" name="Umgangssprache" type="register">
         <!-- TODO Make one Java-rule for context-independent, colloquial expressions and maintain a list -->
+            <rule id="KRASS_STIL" name="krass (erstaunlich, enorm)" default="temp_off" tags="picky">
+                <pattern>
+                    <marker>
+                        <token inflected="no">krass</token>
+                    </marker>
+                </pattern>
+                <message>'Krass' wird vor allem in der Jugendsprache gebraucht und ist daher sehr umgangssprachlich. Hier könnten formellere Alternativen passender sein.</message>
+                <suggestion>bemerkenswert</suggestion>
+                <suggestion>wunderbar</suggestion>
+                <suggestion>extrem</suggestion>
+                <suggestion>erstklassig</suggestion>
+                <suggestion>schockierend</suggestion>
+                <suggestion>enorm</suggestion>
+                <example correction="bemerkenswert|wunderbar|extrem|erstklassig|schockierend|enorm">Der Urlaub letzte Woche war wirklich <marker>krass</marker>.</example>
+                <example correction="bemerkenswert|wunderbar|extrem|erstklassig|schockierend|enorm">Der Sturm gestern war <marker>krass</marker>.</example>
+            </rule>
             <rule id="DRUM_DARUM" name="drum (darum)" default="temp_off">
                 <antipattern>
                     <token>Drum</token>
