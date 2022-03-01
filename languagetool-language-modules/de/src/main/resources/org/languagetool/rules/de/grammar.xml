@@ -24062,11 +24062,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="KLAUEN_STIL" name="klauen (stehlen, rauben)" default="temp_off">
             <pattern>
                 <marker>
-                    <token inflected="yes">klauen</token>
+                    <token inflected="yes" postag="VER.*" postag_regexp="yes">klauen</token>
                 </marker>
             </pattern>
-            <message>Das Verb 'klauen' ist umgangssprachlich. Möglicherweise passt <suggestion>stehlen</suggestion> oder <suggestion>rauben</suggestion> besser.</message>
-            <example correction="stehlen|rauben">Dem armen Mann wurden alle Wertsachen <marker>klauen</marker>.</example>
+            <message>Das Verb 'klauen' ist umgangssprachlich. Möglicherweise passt ein anderes Verb besser.</message>
+            <suggestion><match no="1" postag="VER.*" postag_regexp="yes">rauben</match></suggestion>
+            <suggestion><match no="1" postag="VER.*" postag_regexp="yes">stehlen</match></suggestion>
+            <example correction="geraubt|gestohlen">Dem armen Mann wurden alle Wertsachen <marker>geklaut</marker>.</example>
         </rule>
         <rulegroup id="WOERTER_OHNE_STEIGERUNG" name="Sie waren die Einzigsten (Einzigen)." >
             <rule><!--1-->
