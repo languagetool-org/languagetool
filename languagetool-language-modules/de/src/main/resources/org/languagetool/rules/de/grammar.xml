@@ -46447,6 +46447,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
+        <rule id="SATZSTELLUNG_KON_UNT_VERB_AM_ENDE" name="Ich gehe nicht ins Schwimmbad, weil ich will nicht (ich nicht will)." tags="picky">
+            <pattern>
+                <token>,</token>
+                <token postag="KON:UNT">
+                    <exception postag="KON:NEB"/>
+                </token>
+                <marker>
+                    <token postag="PRO:PER:NOM:.+|EIG:NOM:.+|SUB:NOM:.+" postag_regexp="yes"/>
+                    <token postag="VER:MOD:(1|2|3):.+" postag_regexp="yes"/>
+                    <token postag="PRO:PER.*" postag_regexp="yes" min="0"></token>
+                    <token postag="NEG"></token>
+                </marker>
+                <token postag="PKT"/>
+            </pattern>
+            <message>Standardsprachlich wird das Verb in einem Nebensatz an die letzte Position im Satz gesetzt (Verb-Letzt-Stellung).</message>
+            <suggestion>\3 \5 \6 \4</suggestion>
+            <example correction="ich nicht will">Ich gehe nicht ins Schwimmbad, weil <marker>ich will nicht</marker>.</example>
+            <example correction="ich das nicht kann">Ich fahre kein Auto, weil <marker>ich kann das nicht</marker>.</example>
+            <example>Ich kaufe diese Hose nicht, denn ich möchte sie nicht.</example>
+        </rule>
         <rule id="MIR_NICHTS_DIR_NICHTS" name="mir nichts, dir nichts">
             <antipattern>
                 <token>mir</token>
