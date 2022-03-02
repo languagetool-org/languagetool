@@ -22669,21 +22669,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category id="COLLOQUIALISMS" name="Umgangssprache" type="register">
         <!-- TODO Make one Java-rule for context-independent, colloquial expressions and maintain a list -->
-            <rule id="KRASS_STIL" name="krass (erstaunlich, enorm)" default="temp_off" tags="picky">
+            <rule id="KRASS_STIL" name="krass (erstaunlich, extrem)" default="temp_off" tags="picky">
+                <antipattern>
+                    <token regexp="yes">Unterschied|Gegensatz|Gegenteil|Widerspruch|Kontrast</token>
+                    <token skip="-1"/>
+                    <token>krass</token>
+                </antipattern>
+                <antipattern>
+                    <token>krass</token>
+                    <token skip="-1"/>
+                    <token regexp="yes">Unterschied|Gegensatz|Gegenteil|Widerspruch|Kontrast</token>
+                </antipattern>
                 <pattern>
                     <marker>
-                        <token inflected="no">krass</token>
+                        <token>krass</token>
                     </marker>
                 </pattern>
-                <message>'Krass' wird vor allem in der Jugendsprache gebraucht und ist daher sehr umgangssprachlich. Hier könnten formellere Alternativen passender sein.</message>
+                <message>'Krass' wird oft in der Jugendsprache gebraucht und kann daher sehr umgangssprachlich wirken. Hier könnten Alternativen passender sein.</message>
                 <suggestion>bemerkenswert</suggestion>
-                <suggestion>wunderbar</suggestion>
                 <suggestion>extrem</suggestion>
                 <suggestion>erstklassig</suggestion>
                 <suggestion>schockierend</suggestion>
                 <suggestion>enorm</suggestion>
-                <example correction="bemerkenswert|wunderbar|extrem|erstklassig|schockierend|enorm">Der Urlaub letzte Woche war wirklich <marker>krass</marker>.</example>
-                <example correction="bemerkenswert|wunderbar|extrem|erstklassig|schockierend|enorm">Der Sturm gestern war <marker>krass</marker>.</example>
+                <example correction="bemerkenswert|extrem|erstklassig|schockierend|enorm">Der Urlaub letzte Woche war wirklich <marker>krass</marker>.</example>
+                <example correction="bemerkenswert|extrem|erstklassig|schockierend|enorm">Der Sturm gestern war <marker>krass</marker>.</example>
+                <example>Der Gegensatz zwischen diesen beiden Statistiken ist krass.</example>
+                <example>Krass ist der Unterschied zwischen heute und gestern.</example>
             </rule>
             <rule id="DRUM_DARUM" name="drum (darum)" default="temp_off">
                 <antipattern>
