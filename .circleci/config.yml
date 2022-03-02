@@ -91,7 +91,7 @@ commands:
   get-diffs:
     description: Get files changed
     steps:
-      - run: cd $CIRCLE_WORKING_DIRECTORY && git diff --name-only <<pipeline.git.base_revision>>..<<pipeline.git.revision>> > /home/circleci/git_diffs.txt || echo "languagetool-core/" > /home/circleci/git_diffs.txt
+      - run: cd $CIRCLE_WORKING_DIRECTORY && git diff --name-only <<pipeline.git.base_revision>>..<<pipeline.git.revision>> > /home/circleci/git_diffs.txt || echo "languagetool-core/run_tests" > /home/circleci/git_diffs.txt
       - run:
           name: Check if diff file has content otherwise add core to force test all
           command: |
@@ -99,7 +99,7 @@ commands:
             then
               tail /home/circleci/git_diffs.txt
             else
-              echo "languagetool-core" > /home/circleci/git_diffs.txt
+              echo "languagetool-core/run_tests" > /home/circleci/git_diffs.txt
             fi
   install-project:
     description: Run maven install
