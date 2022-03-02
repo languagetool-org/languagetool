@@ -129,7 +129,7 @@ to
 			  — https://en.wikipedia.org/wiki/List_of_state_and_union_territory_capitals_in_India		  
 2019-11-01
 to
-2021-12-01 — Added thousands of possessives and plurals.
+2022-03-01 — Added thousands of possessives and plurals.
 		   — Improved flags: "3", "N", "O", "W".
 -------
 
