@@ -7509,6 +7509,24 @@ No seu conjunto existem cinco capelas e uma igreja.
 		<token negate_pos="yes" postag='SPS00' postag_regexp='no'/>
 	  </antipattern>
 <!-- MARCOAGPINTO 2021-06-01 (17-MAR-2021+) *END* -->
+
+<!-- MARCOAGPINTO 2022-03-02 (1-JAN-2022+) *START* -->
+<!--
+A lidar com pessoas más, qualquer dia vou-me tornar como elas.
+A lidar com pessoas más, qualquer dia vais-te tornar como elas.
+Que outra escolha tive eu?
+
+ANTIPATTERN PRODUCES 1 HIT, SO IT IS MORE FOR SENTENCES OF THE KIND ABOVE.
+-->
+      <antipattern>
+		<token postag='DI.+|DA.+' postag_regexp='yes'/>
+		<token postag='NC.+|AQ.+' postag_regexp='yes'/>
+		<token postag='V....S.+' postag_regexp='yes'/>
+		<token min="0" max="1" regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
+		<token postag='PP..S.+' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-03-02 (1-JAN-2022+) *END* -->
+
       <pattern>
 <!-- MARCOAGPINTO 2020-05-09 *START* -->
 <!-- "As pessoas no meu trabalho infelizmente não falam Alemão, apenas português." -->	  
@@ -7566,7 +7584,11 @@ No seu conjunto existem cinco capelas e uma igreja.
 	  <example>Na nossa pesquisa complementamos esses conteúdos.</example>
 	  <example>Na nossa investigação empregamos o termo.</example>
 	  <example>No seu adro foram sepultadas, em duas valas comuns, 84 vítimas do Mandado de Deus.</example>
-	  <example>No seu conjunto existem cinco capelas e uma igreja.</example>	  
+	  <example>No seu conjunto existem cinco capelas e uma igreja.</example>
+
+	  <example>A lidar com pessoas más, qualquer dia vou-me tornar como elas.</example>
+	  <example>A lidar com pessoas más, qualquer dia vais-te tornar como elas.</example>
+	  <example>Que outra escolha tive eu?	</example>
     </rule>
 	
     <!-- 	VERBO_SER + EU fui eu -->
