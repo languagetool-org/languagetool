@@ -46469,6 +46469,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
+        <rule id="HANDELN_UEBER" name="handeln über (von)" default="temp_off">
+            <antipattern>
+                <token inflected="yes">handeln</token>
+                <token min="0" skip="-1"/>
+                <token>aus</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">handeln</token>
+                <token min="0" skip="-1"/>
+                <token>um</token>
+            </antipattern>
+            <antipattern>
+                <token>um</token>
+                <token min="0" skip="-1"/>
+                <token inflected="yes">handeln</token>
+            </antipattern>
+            <pattern>
+                <token inflected="yes">handeln</token>
+                <token min="0" skip="-1"/>
+                <marker>
+                    <token>über</token>
+                </marker>
+                <token postag="ART.*|PRP.*|SUB.*|EIG.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Das Verb 'handeln', im Sinne von 'es geht um' (ein Thema), verlangt die Präposition 'von'.</message>
+            <suggestion>von</suggestion>
+            <example correction="von">Die Geschichte handelt <marker>über</marker> einen Mann, der nach dem Sinn des Lebens sucht.</example>
+            <example correction="von">Der Text handelt <marker>über</marker> ein Mädchen, das seine Eltern sucht.</example>
+            <example>Das Buch handelt von einer Frau, die ihren weg zurück nach Hause findet.</example>
+            <example>Die Länder handelten einen Vertrag über neue Lizenzen aus.</example>
+            <example>Hierbei handelt es sich um einen neuen Forschungsansatz.</example>
+            <example>Es ist ein neuer Forschungsansatz, um den es sich handelt.</example>
+        </rule>
         <rule id="MIR_NICHTS_DIR_NICHTS" name="mir nichts, dir nichts">
             <antipattern>
                 <token>mir</token>
