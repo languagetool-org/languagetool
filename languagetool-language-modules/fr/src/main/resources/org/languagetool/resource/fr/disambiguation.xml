@@ -579,6 +579,16 @@ RB => Règles Brutes
         </pattern>
         <disambig action="remove" postag="N.*"/>
     </rule>
+    <rule id="NEUF_CENT" name="neuf cent">
+        <pattern>
+            <marker>
+                <token>neuf</token>
+            </marker>
+            <token min="0" max="1">-</token>
+            <token regexp="yes">cents?</token>
+        </pattern>
+        <disambig action="filter" postag="K"/>
+    </rule>
     <rule id="DONNE" name="donne">
         <pattern>
             <token regexp="yes">cela|ça</token>
