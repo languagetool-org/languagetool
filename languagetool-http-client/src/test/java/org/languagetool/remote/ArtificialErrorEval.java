@@ -24,19 +24,20 @@ import org.languagetool.tools.Tools;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Takes correct sentences, introduces errors (e.g. confusion pairs), 
- * and evaluates the LT rules.
+ * Takes correct sentences, introduces errors (e.g. confusion pairs), and
+ * evaluates the LT rules.
  */
 public class ArtificialErrorEval {
 
   static String[] words = new String[2];
-  static String[] ruleIds = new String[2];
+  static String[] fakeRuleIDs = new String[2];
   static List<String> classifyTypes = Arrays.asList("TP", "FP", "TN", "FN", "TPs");
   static int[][] results = new int[2][5]; // word0/word1 ; TP/FP/TN/FN/TP with expected suggestion
   static RemoteLanguageTool lt;
@@ -44,6 +45,7 @@ public class ArtificialErrorEval {
   static boolean verboseOutput = false;
   static boolean undirectional = false;
   static Pattern pWordboundaries = Pattern.compile("\\b.+\\b");
+  static int countLine = 0;
 
   public static void main(String[] args) throws IOException {
     if (args.length < 4 || args.length > 6) {
@@ -70,8 +72,8 @@ public class ArtificialErrorEval {
     long start = System.currentTimeMillis();
     words[0] = args[2];
     words[1] = args[3];
-    ruleIds[0] = "rules " + words[0] + " -> " + words[1]; // rules in one direction
-    ruleIds[1] = "rules " + words[1] + " -> " + words[0]; // rules in the other direction
+    fakeRuleIDs[0] = "rules_" + words[0] + "->" + words[1]; // rules in one direction
+    fakeRuleIDs[1] = "rules_" + words[1] + "->" + words[0]; // rules in the other direction
     lt = new RemoteLanguageTool(Tools.getUrl("http://localhost:8081"));
     CheckConfiguration config = new CheckConfigurationBuilder(args[0]).disabledRuleIds("WHITESPACE_RULE").build();
     List<String> lines = Files.readAllLines(Paths.get(args[1]));
@@ -89,33 +91,35 @@ public class ArtificialErrorEval {
     } else {
       p1 = Pattern.compile(words[1], Pattern.CASE_INSENSITIVE);
     }
-    int count = 0;
     for (String line : lines) {
-      count++;
-      if (verboseOutput && count % 500 == 0) {
-        System.out.println("Read "+count+" lines from corpus");
-      }
-      if (count > maxLines) {
+      countLine++;
+      if (countLine > maxLines) {
         break;
       }
+      boolean foundSomething = false;
       if (words[0].length() > 0) {
         Matcher m = p0.matcher(line);
         while (m.find()) {
+          foundSomething = true;
           analyzeSentence(line, 0, m.start(), config);
         }
       }
       if (words[1].length() > 0) {
         Matcher m = p1.matcher(line);
         while (m.find()) {
+          foundSomething = true;
           analyzeSentence(line, 1, m.start(), config);
         }
+      }
+      if (!foundSomething) {
+        //printSentenceOutput("Ignored, no error", line, "");
       }
     }
     // print results
     int oneOrTwo = (undirectional ? 1 : 2);
     for (int i = 0; i < oneOrTwo; i++) {
       System.out.println("-------------------------------------");
-      System.out.println("Results for " + ruleIds[i]);
+      System.out.println("Results for " + fakeRuleIDs[i]);
       System.out.println("TP (with expected suggestion): " + results[i][4]);
       for (int j = 0; j < 4; j++) {
         System.out.println(classifyTypes.get(j) + ": " + results[i][j]);
@@ -124,8 +128,10 @@ public class ArtificialErrorEval {
           / (float) (results[i][classifyTypes.indexOf("TP")] + results[i][classifyTypes.indexOf("FP")]);
       float recall = results[i][classifyTypes.indexOf("TP")]
           / (float) (results[i][classifyTypes.indexOf("TP")] + results[i][classifyTypes.indexOf("FN")]);
+      float expectedSuggestionPercentage = (float) results[i][classifyTypes.indexOf("TPs")] / results[i][classifyTypes.indexOf("TP")];
       System.out.println("Precision: " + String.format("%.4f", precision));
       System.out.println("Recall: " + String.format("%.4f", recall));
+      System.out.println("TP with expected suggestion: " + String.format("%.4f", expectedSuggestionPercentage));
     }
     float time = (float) ((System.currentTimeMillis() - start) / 1000.0);
     System.out.println("-------------------------------------");
@@ -134,20 +140,17 @@ public class ArtificialErrorEval {
 
   private static void analyzeSentence(String correctSentence, int j, int fromPos, CheckConfiguration config)
       throws IOException {
-    // boolean isFP = false;
-    // boolean isFN = false;
     // Correct sentence
     if (!undirectional || j == 0) {
       List<RemoteRuleMatch> matchesCorrect = lt.check(correctSentence, config).getMatches();
-      if (isThereErrorAtPos(matchesCorrect, fromPos)) {
+      List<String> ruleIDs = ruleIDsAtPos(matchesCorrect, fromPos);
+      if (ruleIDs.size()>0) {
         results[j][classifyTypes.indexOf("FP")]++;
-        if (verboseOutput) {
-          System.out.println(ruleIds[j] + " FP: " + correctSentence);
-        }
-        // isFP = true;
+        printSentenceOutput("FP", correctSentence, fakeRuleIDs[j] + ":" + String.join(",", ruleIDs));
       } else {
         results[j][classifyTypes.indexOf("TN")]++;
-        // System.out.println(ruleIds[j] + " TN: " + correctSentence);
+        // Too verbose...
+        //printSentenceOutput("TN", correctSentence, fakeRuleIDs[j]);
       }
     }
 
@@ -164,42 +167,46 @@ public class ArtificialErrorEval {
       String wrongSentence = correctSentence.substring(0, fromPos) + replaceWith
           + correctSentence.substring(fromPos + words[j].length(), correctSentence.length());
       if (wrongSentence.equals(correctSentence)) {
-        System.out.println("Word cannot be replaced: " + wrongSentence);
+        // Should not happen
+        printSentenceOutput("Error: word cannot be replaced", correctSentence, "");
         return;
       }
-
       List<RemoteRuleMatch> matchesWrong = lt.check(wrongSentence, config).getMatches();
-      if (isThereErrorAtPos(matchesWrong, fromPos)) {
+      List<String> ruleIDs = ruleIDsAtPos(matchesWrong, fromPos);
+      if (ruleIDs.size() > 0) {
         results[1 - j][classifyTypes.indexOf("TP")]++;
         if (isExpectedSuggestionAtPos(matchesWrong, fromPos, words[j], wrongSentence, correctSentence)) {
           results[1 - j][classifyTypes.indexOf("TPs")]++;
+          printSentenceOutput("TP", wrongSentence, fakeRuleIDs[1 - j] + ":" + String.join(",", ruleIDs));
         } else {
-          if (verboseOutput) {
-            System.out.println("TP without expected suggestion: " + wrongSentence);
-          }
+          printSentenceOutput("TP no expected suggestion", wrongSentence, fakeRuleIDs[1 - j] + ":" + String.join(",", ruleIDs));
         }
       } else {
         results[1 - j][classifyTypes.indexOf("FN")]++;
-        if (verboseOutput) {
-          System.out.println(ruleIds[1 - j] + " FN: " + wrongSentence);
-        }
-        // isFN = true;
+        printSentenceOutput("FN", wrongSentence, fakeRuleIDs[1 - j]);
       }
     }
-    // FP+FN in the same sentence -> probable error in corpus
-    // if (isFP && isFN) {
-    // System.out.println("POSSIBLE ERROR IN CORPUS: " + correctSentence);
-    // }
-
+  }
+  
+  private static void printSentenceOutput(String classification, String sentence, String ruleIds) {
+    if (verboseOutput) {
+      System.out.println(countLine + ". " + classification + ": " + sentence + " –– " + ruleIds);
+    }
   }
 
-  private static boolean isThereErrorAtPos(List<RemoteRuleMatch> matchesCorrect, int pos) {
+  private static List<String> ruleIDsAtPos(List<RemoteRuleMatch> matchesCorrect, int pos) {
+    List<String> ruleIDs = new ArrayList<>();
     for (RemoteRuleMatch match : matchesCorrect) {
       if (match.getErrorOffset() <= pos && match.getErrorOffset() + match.getErrorLength() >= pos) {
-        return true;
+        String subId = match.getRuleSubId().get(); 
+        if (subId != null) {
+          ruleIDs.add(match.getRuleId() + "[" + match.getRuleSubId().get() + "]");  
+        } else {
+          ruleIDs.add(match.getRuleId());
+        }
       }
     }
-    return false;
+    return ruleIDs;
   }
 
   private static boolean isExpectedSuggestionAtPos(List<RemoteRuleMatch> matchesCorrect, int pos,
@@ -207,13 +214,11 @@ public class ArtificialErrorEval {
     for (RemoteRuleMatch match : matchesCorrect) {
       if (match.getErrorOffset() <= pos && match.getErrorOffset() + match.getErrorLength() >= pos) {
         for (String s : match.getReplacements().get()) {
-          // the replacement rebuilds the original correct sentence
+          // check wether the replacement rebuilds the original correct sentence
           String correctedSentence = wrongSentence.substring(0, match.getErrorOffset()) + s
               + wrongSentence.substring(match.getErrorOffset() + match.getErrorLength(), wrongSentence.length());
           if (correctedSentence.equals(correctSentence)) {
             return true;
-          } else {
-            return false;
           }
         }
       }
