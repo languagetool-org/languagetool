@@ -329,72 +329,111 @@ USA
             <example correction="2011,">The meeting scheduled for July 10, <marker>2011</marker> was canceled.</example>
             <example>My birthday is October 8, <marker>1983,</marker> but I usually do not celebrate.</example>
         </rule>
-        <rulegroup id="US_ONE_ENTITY" name="The United States are (is) 245 years old" default="temp_off">
-            <rule>  <!-- 'United States', SENT_START -->
+        <rulegroup id="US_ONE_ENTITY" name="The United States are (is) 246 years old" default="temp_off">
+            <rule>  <!-- 'United States' -->
                 <antipattern>
+                    <token chunk="E-NP-plural" />
+                    <token regexp="yes">of|for</token>
+                    <token>the</token>
                     <token>united</token>
                     <token>states</token>
-                    <token postag="VBD" chunk="B-VP">
-                        <exception>broadcast</exception>
-                    </token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">.+s</token>
+                    <token regexp="yes">of|for</token>
+                    <token>the</token>
+                    <token>united</token>
+                    <token>states</token>
                 </antipattern>
                 <pattern>
-                    <token postag="SENT_START" />
-                    <token min="0">the</token>
+                    <token postag="SENT_START|CC|PCT" postag_regexp="yes">
+                        <exception>and</exception>
+                    </token>
+                    <token>the</token>
                     <token>united</token>
                     <token>states</token>
                     <marker>
-                        <token postag="VBP?" postag_regexp="yes" chunk="B-VP" />
+                        <token postag="VBP?" postag_regexp="yes" chunk="B-VP">
+                            <exception postag="MD|VB[DN]" postag_regexp="yes" />
+                        </token>
                     </marker>
                 </pattern>
-                <message>In American English, '\2 \3 \4' is a singular entity and therefore requires a third-person verb form.</message>
+                <message>In American English, 'the United States' is considered singular entity, and therefore takes a third-person verb form.</message>
                 <suggestion><match no="5" postag="VBZ" /></suggestion>
-                <example correction="is">The United States <marker>are</marker> 245 years old.</example>
-                <example correction="broadcasts">The United States <marker>broadcast</marker> a new radio message announcing a $25 million cash reward for information leading to Osama bin Laden's location or capture.</example>
-                <example>The United States fell 6 places to a ranking of only 22 in Transparency International's‘s list of countries by corruption.</example>
-                <example>The United States saw the Chinese theater as a means to tie up a large number of Japanese troops, as well as being a location for American airbases from which to strike the Japanese home islands.</example>
+                <example correction="is">The United States <marker>are</marker> 246 years old.</example>
+                <example correction="tries">If the United States <marker>try</marker> to hit and annihilate Iran, this will be its last war.</example>
+                <example correction="does">Whenever the United States <marker>do</marker> not succeed in invading, annihilating, dividing or controlling a country, they feel humiliated.</example>
+                <example>A noted series of HPIs for the United States are the Case–Shiller indices, devised by American economists Karl Case, Robert J. Shiller, and Allan Weiss.</example>
+                <example>In another twenty years, the United States will no longer be able to be the police for the world.</example>
+                <example>In that final, the United States upset the Cubans, beating them 4–0.</example>
             </rule>
-            <rule>  <!-- 'the US', SENT_START -->
+            <rule>  <!-- 'US' -->
                 <antipattern>
+                    <token chunk="E-NP-plural" />
+                    <token regexp="yes">of|for</token>
+                    <token>the</token>
                     <token case_sensitive="yes">US</token>
-                    <token postag="VBD" chunk="B-VP">
-                        <exception>broadcast</exception>
-                    </token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">.+s</token>
+                    <token regexp="yes">of|for</token>
+                    <token>the</token>
+                    <token case_sensitive="yes">US</token>
                 </antipattern>
                 <pattern>
-                    <token postag="SENT_START" />
+                    <token postag="SENT_START|CC|PCT" postag_regexp="yes">
+                        <exception>and</exception>
+                    </token>
                     <token>the</token>
                     <token case_sensitive="yes">US</token>
                     <marker>
-                        <token postag="VBP?" postag_regexp="yes" chunk="B-VP" />
+                        <token postag="VBP?" postag_regexp="yes" chunk="B-VP">
+                            <exception postag="MD|VB[DN]" postag_regexp="yes" />
+                        </token>
                     </marker>
                 </pattern>
-                <message>In American English, '\2 \3' is a singular entity and therefore requires a third-person verb form.</message>
+                <message>In American English, 'the US' is considered singular entity, and therefore takes a third-person verb form.</message>
                 <suggestion><match no="4" postag="VBZ" /></suggestion>
-                <example correction="is">The US <marker>are</marker> 245 years old.</example>
+                <example correction="tries">If the US <marker>try</marker> to hit and annihilate Iran, this will be its last war.</example>
+                <example correction="gets">How much longer until the US <marker>get</marker> full blown “Shithole Country” status? </example>
             </rule>
-            <rule>  <!-- 'the U.S.', SENT_START -->
+            <rule>  <!-- 'U.S.' -->
                 <antipattern>
+                    <token chunk="E-NP-plural" />
+                    <token regexp="yes">of|for</token>
+                    <token>the</token>
+                    <token case_sensitive="yes">U</token>
+                    <token>.</token>
                     <token case_sensitive="yes">S</token>
                     <token>.</token>
-                    <token postag="VBD" chunk="B-VP">
-                        <exception>broadcast</exception>
-                    </token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">.+s</token>
+                    <token regexp="yes">of|for</token>
+                    <token>the</token>
+                    <token case_sensitive="yes">U</token>
+                    <token>.</token>
+                    <token case_sensitive="yes">S</token>
+                    <token>.</token>
                 </antipattern>
                 <pattern>
-                    <token postag="SENT_START" />
+                    <token postag="SENT_START|CC|PCT" postag_regexp="yes">
+                        <exception>and</exception>
+                    </token>
                     <token>the</token>
                     <token case_sensitive="yes">U</token>
                     <token>.</token>
                     <token case_sensitive="yes">S</token>
                     <token>.</token>
                     <marker>
-                        <token postag="VBP?" postag_regexp="yes" chunk="B-VP" />
+                        <token postag="VBP?" postag_regexp="yes" chunk="B-VP">
+                            <exception postag="MD|VB[DN]" postag_regexp="yes" />
+                        </token>
                     </marker>
                 </pattern>
-                <message>In American English, 'The U.S.' is a singular entity and therefore requires a third-person verb form.</message>
+                <message>In American English, 'the US' is considered singular entity, and therefore takes a third-person verb form.</message>
                 <suggestion><match no="7" postag="VBZ" /></suggestion>
-                <example correction="is">The U.S. <marker>are</marker> 245 years old.</example>
+                <example correction="tries">If the U.S. <marker>try</marker> to hit and annihilate Iran, this will be its last war.</example>
             </rule>
         </rulegroup>
 
