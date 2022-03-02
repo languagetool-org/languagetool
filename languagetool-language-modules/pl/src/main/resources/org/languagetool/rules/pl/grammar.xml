@@ -6985,6 +6985,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          <example>Metoda Houyhnhnmów wychowywania młodzieży płci obojga godna jest podziwu i naśladowania.</example>
          <example>- A byle okazał się tylko przyzwoitym człowiekiem, to pal sześć owe zyski.</example>
          <example>To rzekłszy, wydobył złożony we czworo papier i odczytał coś, czego chłopi wprawdzie nie rozumieli, ale radowali się bardzo.</example>
+         <example>Tom mówi, że wy dwoje macie sporo ze sobą wspólnego.</example>
         </rule>
         <rule>
         <antipattern>
@@ -7095,7 +7096,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token regexp="yes">[;:,\.!]</token>
         </antipattern>
         <pattern>
-              <token regexp="yes">\d+%<exception scope="previous">o</exception></token>
+              <token regexp="yes">\d+%<exception scope="previous" regexp="yes">[ow]</exception></token>
                 <marker>
                     <token postag='(subst|ger|adj|pact|ppas).*nom.*' postag_regexp='yes' regexp="yes">\p{Ll}+
                     <exception postag='.*gen.*' postag_regexp='yes'/>
@@ -7110,6 +7111,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <example>A przy okresie 15-letnim nawet ponad 30% niższy.</example>
           <example>Kupno towaru przez internet u pewnego dilera jest w 99,99999% bezpieczne, nie mniej niż w sklepie stacjonarnym.</example>
           <example>15% to inwestorzy, którzy inaczej dzielą inwestycje.</example>
+          <example>Powierzchnia Ziemi to w 70% woda.</example>
           <example>Szampon to RENE FURTERER OKARA przedłużający o 80% trwałość koloru włosów farbowanych.</example>
         </rule>
         </rulegroup>
@@ -8023,6 +8025,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>w</token>            
                 <token>ładzą</token>
             </antipattern>
+            <antipattern>
+                <token postag="subst:pl.*" postag_regexp="yes"></token>
+                <token>całe</token>
+                <marker>
+                <token>życie</token>
+                </marker>
+                <token postag='verb:fin:pl:ter.*' postag_regexp='yes'/>
+            </antipattern>
             <pattern>
                 <marker>
                 <token postag='subst:sg:nom.*' postag_regexp='yes' skip='-1'>
@@ -8153,6 +8163,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                <example>Co potrafią &quot;japonki&quot;?</example>
                <example>O baj przedkładają skuteczność ponad sztukę.</example>
                <example>Słowa naszej dr dźwięczą mi ciągle w uszach.</example>
+               <example>Ludzi i pogodę trzeba brać poważnie.</example>
+               <example>Mężczyźni całe życie pozostają dziećmi.</example>
             </rule>
               <rule>
                 <pattern>
@@ -15231,7 +15243,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <pattern case_sensitive='yes'>
       <token regexp='yes'>\p{L}+
         <exception regexp='yes'>^(\p{Ll}+|\p{Lu}+|\p{Lu}\p{Ll}+)$|\p{Lu}+i\p{Lu}</exception>
-        <exception regexp="yes">iPhone|iMac|iP[oa]d.*|iTunes|VoIP|[GMk]Hz|dB|WiFi|[kM]Wh?|DirectX|WordPress.*|MasterCard|PlayStation|GeForce|BlackBerry|MySQL|PRL.*|NewConnect|LanguageTool.*|OpenOffice|LibreOffice|YouTube|DivX|eBay|k[VB]|AdWords|PayPal|PageRank|WoW|MySpace|PowerPoin.*|DzU|VMware|MacOS|mAh|CoD|microSD|OpenGL|BioWare|BenQ|SMS.*|WinXP|NVidia|SharePoin.*|FireWire|MultiBank.*|FreeBSD|UWr|MPa|phpBB|eMule|BitTorrent|LeBron|Ma?c\p{Lu}.*|AmigaOS|PwC|WikiLeaks|InterCity|kN|PostgreSQL|easyJet|InPost|ePUAP|CeBIT|FullHD|ArcelorMittal|UniCredit|ActiveX|SanDisk</exception>
+        <exception regexp="yes">iPhone|iMac|iP[oa]d.*|iTunes|VoIP|[GMk]Hz|dB|WiFi|[kM]Wh?|DirectX|WordPress.*|MasterCard|PlayStation|GeForce|BlackBerry|MySQL|PRL.*|NewConnect|LanguageTool.*|OpenOffice|LibreOffice|YouTube|DivX|eBay.*|k[VB]|AdWords|PayPal|PageRank|WoW.*|MySpace|PowerPoin.*|DzU|VMware|MacOS|mAh|CoD|microSD|OpenGL|BioWare|BenQ|SMS.*|WinXP|NVidia|SharePoin.*|FireWire|MultiBank.*|FreeBSD|UWr|MPa|phpBB|eMule|BitTorrent|LeBron|Ma?c\p{Lu}.*|AmigaOS|PwC|WikiLeaks|InterCity|kN|PostgreSQL|easyJet|InPost|ePUAP|CeBIT|FullHD|ArcelorMittal|UniCredit|ActiveX|SanDisk|AppStore|SpaceX</exception>
         </token>
       </pattern>
       <message>Nietypowa kombinacja małych i dużych liter. Czy nie powinno być: <suggestion><match no="1" case_conversion="alllower"/></suggestion>?</message>
@@ -15497,6 +15509,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				    		<unify><feature id="gender"/><feature id="number"/><feature id="case"/>
                   <token inflected="yes" regexp="yes">pustynia|morze|zatoka|półwysep</token>
                   <token inflected="yes">arabski</token>                
+                </unify>
+				    </antipattern>
+				    <antipattern>
+				    		<unify><feature id="gender"/><feature id="number"/><feature id="case"/>
+                  <token inflected="yes">kanał</token>
+                  <token inflected="yes">angielski</token>                
                 </unify>
 				    </antipattern>
 				    <antipattern>

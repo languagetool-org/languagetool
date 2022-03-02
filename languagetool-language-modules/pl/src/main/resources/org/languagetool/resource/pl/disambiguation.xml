@@ -8224,6 +8224,14 @@
         <disambig postag="verb:fin:sg:pri:perf:nonrefl"/>
     </rule>
 
+
+    <rule id="BRAC_INF" name="brać jako bezokolicznik">
+        <pattern>
+            <marker><token>brać<exception scope="previous" postag="adj:sg:(acc|nom.*):f:.*" postag_regexp="yes"/></token></marker>
+        </pattern>
+        <disambig postag="verb:inf:imperf:refl.nonrefl"/>
+    </rule>
+
     <rulegroup id="ADJ_PRAET_ADJ" name="wyrosła jako przymiotnik">
         <rule>
             <pattern>
@@ -11642,6 +11650,17 @@
             <token postag_regexp="yes" postag="verb:inf.*"/>
         </pattern>
         <disambig action="filter" postag="verb.*"/>
+    </rule>
+
+    <rule id="wy_num_macie" name="wy macie">
+        <pattern>
+            <token>wy</token>
+            <token min="0" postag="num:pl:nom.acc.voc.*" postag_regexp="yes"/>
+            <marker>
+            <token>macie</token>
+            </marker>
+        </pattern>
+        <disambig postag="verb:fin:pl:sec:imperf:refl.nonrefl"/>
     </rule>
 
     <!-- TODO: oznakować tak jak rzeczownik po skrócie -->
