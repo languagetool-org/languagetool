@@ -92,6 +92,9 @@ public class ArtificialErrorEval {
     int count = 0;
     for (String line : lines) {
       count++;
+      if (verboseOutput && count % 500 == 0) {
+        System.out.println("Read "+count+" lines from corpus");
+      }
       if (count > maxLines) {
         break;
       }
@@ -151,10 +154,11 @@ public class ArtificialErrorEval {
     // Wrong sentence
     if (!undirectional || j == 1) {
       String replaceWith = words[1 - j];
-      if (StringTools.isCapitalizedWord(words[j])) {
+      String originalString = correctSentence.substring(fromPos, fromPos + words[j].length());
+      if (StringTools.isCapitalizedWord(originalString)) {
         replaceWith = StringTools.uppercaseFirstChar(replaceWith);
       }
-      if (StringTools.isAllUppercase(replaceWith)) {
+      if (StringTools.isAllUppercase(originalString)) {
         replaceWith = replaceWith.toUpperCase();
       }
       String wrongSentence = correctSentence.substring(0, fromPos) + replaceWith
