@@ -46471,48 +46471,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="GRAMMAR" name="Grammatik">
         <rule id="FALSCHER_IMPERATIV" name="Machst du (Mach|Mache) die Tür zu." default="temp_off">
             <antipattern>
-                   <token postag="SENT_START"/>
-                <marker>
-                    <token postag="VER:2:SIN.*" postag_regexp="yes"/>
-                    <token>du</token>
-                </marker>
-                <token skip="-1"/>
+                <token postag="SENT_START"/>
+                <token postag="VER:2:SIN.*" postag_regexp="yes"/>
+                <token skip="-1">du</token>
                 <token>?</token>
             </antipattern>
             <antipattern>
-                   <token postag="SENT_START"/>
-                <marker>
-                    <token postag="VER:2:SIN.*KJ2.*" postag_regexp="yes"/>
-                    <token>du</token>
-                </marker>
-                <token skip="-1"/>
+                <token postag="SENT_START"/>
+                <token postag="VER:2:SIN.*KJ2.*" postag_regexp="yes"/>
+                <token skip="-1">du</token>
                 <token>.</token>
             </antipattern>
             <antipattern>
-                   <token postag="SENT_START"/>
-                <marker>
-                    <token postag="VER:2:SIN.*" postag_regexp="yes"/>
-                    <token>du</token>
-                </marker>
-                <token skip="-1"/>
+                <token postag="SENT_START"/>
+                <token postag="VER:2:SIN.*" postag_regexp="yes"/>
+                <token skip="-1">du</token>
                 <token>,</token>
             </antipattern>
             <antipattern>
-                   <token postag="SENT_START"/>
-                <marker>
-                    <token postag="VER:2:SIN.*" postag_regexp="yes"/>
-                    <token>du</token>
-                    <token min="0" postag="EIG.*" postag_regexp="yes"/>
-                </marker>
+                <token postag="SENT_START"/>
+                <token postag="VER:2:SIN.*" postag_regexp="yes"/>
+                <token>du</token>
+                <token min="0" postag="EIG.*" postag_regexp="yes"/>
                 <token regexp="yes">,|:|;|–</token>
             </antipattern>
             <antipattern>
                 <token postag="SENT_START"/>
-                <marker>
-                    <token postag="VER:2:SIN.*" postag_regexp="yes"/>
-                    <token>du</token>
-                </marker>
-                <token skip="-1"/>
+                <token postag="VER:2:SIN.*" postag_regexp="yes"/>
+                <token skip="-1">du</token>
                 <token postag="ABK.*" postag_regexp="yes"/>
                 <token>.</token>
             </antipattern>
@@ -46522,8 +46508,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="VER:2:SIN.*" postag_regexp="yes"/>
                     <token>du</token>
                 </marker>
-                <token skip="-1"/>
-                <token postag="SENT_END"/>
             </pattern>
             <message>Ist dies eine Frage? Falls ja, setzen Sie ein Fragezeichen. Falls es sich um eine Aufforderung handelt, verwenden Sie den Imperativ.</message>
             <suggestion><match no="2" postag_regexp="yes" postag="VER:2:SIN.*" postag_replace="VER:IMP:SIN.*"/></suggestion>
