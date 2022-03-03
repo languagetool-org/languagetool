@@ -22691,6 +22691,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category id="COLLOQUIALISMS" name="Umgangssprache" type="register">
         <!-- TODO Make one Java-rule for context-independent, colloquial expressions and maintain a list -->
+            <rule id="KOMPLETT_STIL" name="komplett (völlig, vollkommen)" default="temp_off" tags="picky">
+                <pattern>
+                    <marker>
+                        <token>komplett</token>
+                    </marker>
+                </pattern>
+                <message>Das Adverb 'komplett' im Sinne von 'vollkommen' ist sehr umgangssprachlich und könnte hier durch formellere Alternativen ersetzt werden.</message>
+                <suggestion>vollkommen</suggestion>
+                <suggestion>gänzlich</suggestion>
+                <suggestion>völlig</suggestion>
+                <suggestion>umfassend</suggestion>
+                <suggestion>vollständig</suggestion>
+                <example correction="vollkommen|gänzlich|völlig|umfassend|vollständig">Ich habe das Formular <marker>komplett</marker> ausgefüllt.</example>
+                <example correction="vollkommen|gänzlich|völlig|umfassend|vollständig">Die Umgehungsstraße war wegen Bauarbeiten <marker>komplett</marker> gesperrt.</example>
+            </rule>
             <rulegroup id="ZUM_STATT_FUERS" name="fürs (zum) Schneiden" default="temp_off">
                 <rule>
                     <antipattern>
