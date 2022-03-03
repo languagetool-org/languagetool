@@ -46469,6 +46469,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
+        <rule id="KONNEKTOR_JE_JE" name="je_je (je_desto)" default="temp_off">
+            <pattern>
+                <token>je</token>
+                <token postag="ADJ:PRD:KOM.*" postag_regexp="yes"></token>
+                <token skip="-1"></token>
+                <token>,</token>
+                <marker>
+                    <token>je</token>
+                </marker>
+                <token postag="ADJ:PRD:KOM.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Die korrekte Form dieser Satzverbindung lautet 'je...desto'.</message>
+            <suggestion>desto</suggestion>
+            <example correction="desto">Je höher das Gebäude ist, <marker>je</marker> besser ist auch die Aussicht.</example>
+            <example correction="desto">Je mehr Autos auf den Straßen, <marker>je</marker> größer die Umweltverschmutzung.</example>
+        </rule>
         <rule id="MIR_NICHTS_DIR_NICHTS" name="mir nichts, dir nichts">
             <antipattern>
                 <token>mir</token>
