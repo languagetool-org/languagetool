@@ -46471,29 +46471,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="GRAMMAR" name="Grammatik">
         <rule id="HANDELN_UEBER" name="handeln über (von)" default="temp_off">
             <antipattern>
-                <token inflected="yes">handeln</token>
-                <token min="0" skip="-1"/>
-                <token>aus</token>
+			<token skip="-1" inflected="yes">handeln</token>
+			<token>aus</token>
             </antipattern>
             <antipattern>
-                <token inflected="yes">handeln</token>
-                <token min="0" skip="-1"/>
+                <token skip="-1" inflected="yes">handeln</token>
                 <token>um</token>
             </antipattern>
             <antipattern>
-                <token>um</token>
-                <token min="0" skip="-1"/>
+                <token skip="-1">um</token>
                 <token inflected="yes">handeln</token>
             </antipattern>
             <pattern>
-                <token inflected="yes">handeln</token>
-                <token min="0" skip="-1"/>
+                <token skip="-1" inflected="yes">handeln</token>
                 <marker>
                     <token>über</token>
                 </marker>
                 <token postag="ART.*|PRP.*|SUB.*|EIG.*" postag_regexp="yes"></token>
             </pattern>
-            <message>Das Verb 'handeln', im Sinne von 'es geht um' (ein Thema), verlangt die Präposition 'von'.</message>
+            <message>Wenn es um ein Thema geht, heißt es standardsprachlich 'handeln von'.</message>
             <suggestion>von</suggestion>
             <example correction="von">Die Geschichte handelt <marker>über</marker> einen Mann, der nach dem Sinn des Lebens sucht.</example>
             <example correction="von">Der Text handelt <marker>über</marker> ein Mädchen, das seine Eltern sucht.</example>
