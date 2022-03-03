@@ -22691,6 +22691,43 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category id="COLLOQUIALISMS" name="Umgangssprache" type="register">
         <!-- TODO Make one Java-rule for context-independent, colloquial expressions and maintain a list -->
+            <rulegroup id="ZUM_STATT_FUERS" name="fürs (zum) Schneiden" default="temp_off">
+                <rule>
+                    <antipattern>
+                        <token regexp="yes">danke</token>
+                        <token min="0">schön</token>
+                        <token>fürs</token>
+                        <token postag="SUB.*INF.*" postag_regexp="yes"/>
+                    </antipattern>
+                    <antipattern>
+                        <token regexp="yes">danke(schön)?</token>
+                        <token>fürs</token>
+                        <token postag="SUB.*INF.*" postag_regexp="yes"/>
+                    </antipattern>
+                    <pattern>
+                        <marker>
+                            <token>fürs</token>
+                        </marker>
+                        <token postag='SUB.*INF.*' postag_regexp='yes'></token>
+                        <token skip="-1" min="0" inflected='yes' regexp='yes'>brauchen|benötigen|nehmen</token>
+                    </pattern>
+                    <message>Hier könnte <suggestion>zum</suggestion> besser klingen, da 'fürs' sehr umgangssprachlich ist.</message>
+                    <example correction="Zum"><marker>Fürs</marker> Schneiden benötigt man eine Schere.</example>
+                    <example>Danke schön fürs Schneiden.</example>
+                    <example>Danke fürs Kommen.</example>
+                </rule>
+                <rule>
+                    <pattern>
+                        <token skip="-1" inflected='yes' regexp='yes'>brauchen|benötigen|nehmen</token>
+                        <marker>
+                            <token>fürs</token>
+                        </marker>
+                        <token postag='SUB.*INF.*' postag_regexp='yes'></token>
+                    </pattern>
+                    <message>Hier könnte <suggestion>zum</suggestion> besser klingen, da 'fürs' sehr umgangssprachlich ist.</message>
+                    <example correction="zum">Man nimmt Mehl <marker>fürs</marker> Backen.</example>
+                </rule>
+            </rulegroup>
             <rule id="DRUM_DARUM" name="drum (darum)" default="temp_off">
                 <antipattern>
                     <token>Drum</token>
