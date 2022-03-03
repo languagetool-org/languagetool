@@ -370,6 +370,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("multi ") &&
                    !k.getReplacement().toLowerCase().startsWith("retro ") &&
                    !k.getReplacement().toLowerCase().startsWith("extra ") &&
+                   !k.getReplacement().toLowerCase().startsWith("mega ") &&
                    !k.getReplacement().toLowerCase().startsWith("meta ") &&
                    !k.getReplacement().toLowerCase().startsWith("uni ") &&
                    !k.getReplacement().toLowerCase().startsWith("anti ") &&
