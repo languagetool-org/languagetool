@@ -22669,68 +22669,66 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category id="COLLOQUIALISMS" name="Umgangssprache" type="register">
         <!-- TODO Make one Java-rule for context-independent, colloquial expressions and maintain a list -->
-            <rule id="KRASS_STIL" name="krass (erstaunlich, extrem)" default="temp_off" tags="picky">
-                <antipattern>
-                    <token regexp="yes">Unterschied|Gegensatz|Gegenteil|Widerspruch|Kontrast</token>
-                    <token skip="-1"/>
+        <rule id="KRASS_STIL" name="krass (erstaunlich, extrem)" default="temp_off" tags="picky">
+            <antipattern>
+                <token skip="-1" regexp="yes">Unterschied|Gegensatz|Gegenteil|Widerspruch|Kontrast</token>
+                <token>krass</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1">krass</token>
+                <token regexp="yes">Unterschied|Gegensatz|Gegenteil|Widerspruch|Kontrast</token>
+            </antipattern>
+            <pattern>
+                <marker>
                     <token>krass</token>
-                </antipattern>
-                <antipattern>
-                    <token>krass</token>
-                    <token skip="-1"/>
-                    <token regexp="yes">Unterschied|Gegensatz|Gegenteil|Widerspruch|Kontrast</token>
-                </antipattern>
-                <pattern>
-                    <marker>
-                        <token>krass</token>
-                    </marker>
-                </pattern>
-                <message>'Krass' wird oft in der Jugendsprache gebraucht und kann daher sehr umgangssprachlich wirken. Hier könnten Alternativen passender sein.</message>
-                <suggestion>bemerkenswert</suggestion>
-                <suggestion>extrem</suggestion>
-                <suggestion>erstklassig</suggestion>
-                <suggestion>schockierend</suggestion>
-                <suggestion>enorm</suggestion>
-                <example correction="bemerkenswert|extrem|erstklassig|schockierend|enorm">Der Urlaub letzte Woche war wirklich <marker>krass</marker>.</example>
-                <example correction="bemerkenswert|extrem|erstklassig|schockierend|enorm">Der Sturm gestern war <marker>krass</marker>.</example>
-                <example>Der Gegensatz zwischen diesen beiden Statistiken ist krass.</example>
-                <example>Krass ist der Unterschied zwischen heute und gestern.</example>
-            </rule>
-            <rule id="DRUM_DARUM" name="drum (darum)" default="temp_off">
-                <antipattern>
-                    <token>Drum</token>
-                    <token>und</token>
-                    <token>Dran</token>
-                </antipattern>
-                <antipattern>
-                    <token>sei</token>
-                    <token>es</token>
-                    <token>drum</token>
-                </antipattern>
-                <antipattern>
-                    <token>sei</token>
-                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
-                    <token spacebefore="no">s</token>
-                    <token>drum</token>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">[Dd]rum</token>
-                    <token regexp="yes">und|and|&amp;</token>
-                    <token regexp="yes">[Bb]ass</token>
-                </antipattern>
-                <pattern>
-                    <token>drum</token>
-                </pattern>
-                <message>In formellen Kontexten ist das standardsprachliche <suggestion>darum</suggestion> eventuell passender.</message>
-                <url>https://www.dwds.de/wb/drum</url>
-                <example correction="darum">Ich werde mich schon <marker>drum</marker> kümmern.</example>
-                <example correction="darum">Es regnet und <marker>drum</marker> gehe ich nicht ins Schwimmbad.</example>
-                <example>Mit allem Drum und Dran kostet es 100€.</example>
-                <example>Sei es drum, ich wollte sowieso nicht in den Urlaub fahren.</example>
-                <example>Sei's drum, der Pullover war soweiso zu klein.</example>
-                <example>Meine Lieblingsmusikrichtung ist eigentlich Drum and Bass.</example>
-                <example>Drum und Bass finde ich super.</example>
-            </rule>
+                </marker>
+            </pattern>
+            <message>'Krass' wird oft in der Jugendsprache gebraucht und kann daher sehr umgangssprachlich wirken. Hier könnten Alternativen passender sein.</message>
+            <suggestion>bemerkenswert</suggestion>
+            <suggestion>extrem</suggestion>
+            <suggestion>erstklassig</suggestion>
+            <suggestion>schockierend</suggestion>
+            <suggestion>enorm</suggestion>
+            <example correction="bemerkenswert|extrem|erstklassig|schockierend|enorm">Der Urlaub letzte Woche war wirklich <marker>krass</marker>.</example>
+            <example correction="bemerkenswert|extrem|erstklassig|schockierend|enorm">Der Sturm gestern war <marker>krass</marker>.</example>
+            <example>Der Gegensatz zwischen diesen beiden Statistiken ist krass.</example>
+            <example>Krass ist der Unterschied zwischen heute und gestern.</example>
+        </rule>
+        <rule id="DRUM_DARUM" name="drum (darum)" default="temp_off">
+            <antipattern>
+                <token>Drum</token>
+                <token>und</token>
+                <token>Dran</token>
+            </antipattern>
+            <antipattern>
+                <token>sei</token>
+                <token>es</token>
+                <token>drum</token>
+            </antipattern>
+            <antipattern>
+                <token>sei</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
+                <token spacebefore="no">s</token>
+                <token>drum</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">[Dd]rum</token>
+                <token regexp="yes">und|and|&amp;</token>
+                <token regexp="yes">[Bb]ass</token>
+            </antipattern>
+            <pattern>
+                <token>drum</token>
+            </pattern>
+            <message>In formellen Kontexten ist das standardsprachliche <suggestion>darum</suggestion> eventuell passender.</message>
+            <url>https://www.dwds.de/wb/drum</url>
+            <example correction="darum">Ich werde mich schon <marker>drum</marker> kümmern.</example>
+            <example correction="darum">Es regnet und <marker>drum</marker> gehe ich nicht ins Schwimmbad.</example>
+            <example>Mit allem Drum und Dran kostet es 100€.</example>
+            <example>Sei es drum, ich wollte sowieso nicht in den Urlaub fahren.</example>
+            <example>Sei's drum, der Pullover war soweiso zu klein.</example>
+            <example>Meine Lieblingsmusikrichtung ist eigentlich Drum and Bass.</example>
+            <example>Drum und Bass finde ich super.</example>
+        </rule>
         <rulegroup id="DOPPELPERFEKT" name="Doppeltes Perfekt: 'ich habe es geputzt gehabt' etc.">
             <!-- TODO: Dasselbe mit 'sein' -->
             <url>https://de.wikipedia.org/wiki/Doppeltes_Perfekt</url>
