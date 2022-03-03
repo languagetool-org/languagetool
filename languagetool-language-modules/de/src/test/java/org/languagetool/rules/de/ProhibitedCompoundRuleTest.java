@@ -85,6 +85,7 @@ public class ProhibitedCompoundRuleTest {
     assertMatches("Er ist Uhr-Berliner.", "Uhr-Berliner", "Urberliner");
     assertMatches("Das ist ein Mitauto.", "Mitauto", "Mietauto");
     assertMatches("Das ist ein Mit-Auto.", "Mit-Auto", "Mietauto");
+    assertMatches("Das ist Petra Mitauto.", 0);
     assertMatches("Hier leben die Uhreinwohner.", "Uhreinwohner", "Ureinwohner");
     assertMatches("Hier leben die Uhr-Einwohner.", "Uhr-Einwohner", "Ureinwohner");
     assertMatches("Eine Leerzeile einfügen.", 0);
