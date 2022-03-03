@@ -5750,7 +5750,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example correction="kilogramy">Ludwik kupił dwa <marker>kilogram</marker> szyneczki.</example>
 						</rule>
 				</rulegroup>
-				<rule id="JEDNE_DZIECKO" name="„te”, „jedne”, „tamte” + rzeczownik r. nijakiego w l.poj.">
+				<rulegroup id="JEDNE_DZIECKO" name="„te”, „jedne”, „tamte” + rzeczownik r. nijakiego w l.poj.">
+				<rule>
 						<pattern>
 								<marker>
 										<token postag="adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos"><exception postag="adj:sg:(nom|acc).*|verb.+" postag_regexp="yes"></exception><exception>też</exception><exception>one</exception></token>
@@ -5774,6 +5775,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Umożliwiają nam one wyjaśnianie własnego zachowania retrospekcyjnie.</example>
             <example>Czy mogę zobaczyć pańskie prawo jazdy?</example>
 				</rule>
+				<rule>
+  				<antipattern>
+  				<unify><feature id="gender"/><feature id="case"/><feature id="gender"/>
+  				    <token postag="subst:pl.*|num:pl.*:congr" postag_regexp="yes"/>
+  				    <marker>
+  				    <token postag="adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos"/>
+  				    </marker>
+  				</unify>
+	  			</antipattern>
+	  			<antipattern>
+	  			  <token regexp="yes">lub|[i,a–—]</token>
+	  			  <marker>
+	  			  <token regexp="yes">jakie|które</token>
+	  			  </marker>
+	  			</antipattern>
+						<pattern>
+								<marker>
+										<token postag="adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos"><exception postag="adj:sg:(nom|acc).*|verb.+|pact:pl.*acc.*n[12].*" postag_regexp="yes"></exception><exception>też</exception><exception>one</exception></token>
+								</marker>
+								<token postag="adj:sg:(nom|acc).*:n.*" postag_regexp="yes"><exception postag="pact:pl.*acc.*n[12].*" postag_regexp="yes"/></token>
+								<token postag="(subst|ger):sg:(acc\.)?nom.*:n.*" postag_regexp="yes"><exception postag="(subst|adj):pl:(acc\.)?nom.*:(n|f|m3).*" postag_regexp="yes"></exception><exception regexp="yes">to|coś?</exception></token>
+						</pattern>
+						<message>Ten przymiotnik lub zaimek jest w liczbie mnogiej. Prawdopodobnie należy użyć liczby pojedynczej: <suggestion><match no="1" postag="adj:sg:.*nom.*[\.:]n[^o].*" postag_regexp="yes"></match></suggestion>.</message>
+						<short>Błąd odmiany</short>
+						<example correction="Jedno"><marker>Jedne</marker> ładne dziecko zachowuje się grzecznie.</example>
+            <example>Czy ktoś znalazł jakieś dowody potwierdzające takie postępowanie wojsk rosyjskich?</example>
+            <example>Kandydatury te każde państwo będzie mogło odrzucić w ciągu 30 dni.</example>
+            <example>Jerzy Ślaski zaprotestował też ostro przeciw częstemu określaniu walk, jakie zbrojne podziemie prowadziło przeciw sowietyzacji Polski, jako wojny domowej.</example>						
+            <example>Dwa skrajne to utrzymanie obecnego systemu lub zniesienie wszystkich istniejących jeszcze ograniczeń.</example>						
+						<example>W Jelczańskich Zakładach Samochodowych będą wytwarzane autobusy miejskie niskopodłogowe jedno- i dwuczłonowe, autobusy turystyczne, a także ciężkie samochody transportowe.</example>
+				</rule>
+				</rulegroup>
 				<rulegroup id="PIERWSZY_STYCZEN_1993" name="Błędna odmiana miesiąca w datach, np. 1 styczeń 2010 (1 stycznia)">
 						<rule>
 								<pattern>

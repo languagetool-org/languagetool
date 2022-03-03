@@ -3967,6 +3967,18 @@
         <disambig action="filterall"/>
     </rule>
 
+    <rule id="jedno_adja" name="Jedno- jako adja">
+        <pattern>
+            <marker>
+                <token>jedno</token>
+            </marker>
+            <token spacebefore="no">-</token>
+            <token regexp="yes">i|lub|czy|bądź|oraz</token>
+            <token postag="adj.*" postag_regexp="yes" regexp="yes">(wielo|różno|kilku|obu|dwu|trój|trzy|cztero|pięcio|sześcio|siedmio|ośmio|dzie[sw]ięcio|jedenasto|dwunasto|trzynasto|czternasto|piętnasto|szesnasto|siedemnasto|osiemnasto|dziewiętnasto|dwudziesto|trzydziesto|czterdziesto|pięćsiesięcio|sześćdziesięcio|siedemdziesięcio|osiemdziesięcio|dziewięćdziesięcio|stu|dwustu|trzystu|czterystu|pięciuset|sześciuset|siedmiuset|ośmiuset|dziewięciuset|tysiąc)\p{L}{4,70}</token>
+        </pattern>
+        <disambig postag="adja"/>
+    </rule>
+
     <rulegroup id="NUM_CONGR" name="liczebnik ze związkiem zgody">
         <rule>
             <pattern>
@@ -5174,6 +5186,8 @@
             <disambig action="unify"/>
             <example type="ambiguous" inputform="niemieckich[niemiecki/adj:pl:acc:m1.p1:pos,niemiecki/adj:pl:gen:m1.m2.m3.f.n1.n2.p1.p2.p3:pos,niemiecki/adj:pl:loc:m1.m2.m3.f.n1.n2.p1.p2.p3:pos,niemiecki/subst:pl:gen:m3,niemiecki/subst:pl:loc:m3]" outputform="niemieckich[niemiecki/adj:pl:gen:m1.m2.m3.f.n1.n2.p1.p2.p3:pos,niemiecki/subst:pl:gen:m3]">Piszę do polsko-<marker>niemieckich</marker> towarzyszy broni.</example>
         </rule>
+
+
 
         <rule id="PREP_ADV_ADJ_ADJ_SUBST">
             <pattern>
@@ -13532,6 +13546,8 @@
       </pattern>
       <disambig action="ignore_spelling"></disambig>
     </rule>
+
+
 
     <rule id="compounds_2" name="Przymiotniki złożone występujące co najmniej dwukrotnie">
         <pattern>
