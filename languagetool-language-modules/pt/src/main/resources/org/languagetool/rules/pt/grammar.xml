@@ -42493,11 +42493,26 @@ Pouco importam as notas na música, o que conta são as sensações produzidas p
 
     <!-- QUE/E TEM/TÊM com -->
     <rule id='SIMPLIFICAR_QUE_E_TEM_TÊM' name="Simplificar: Que/E tem/têm → com">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-21 + 2022-02-24/25/26 (Checked/Enhanced) (1-JAN-2022+)      -->
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-21 + 2022-02-24/25/26 + 2022-03-03 (Checked/Enhanced) (1-JAN-2022+)      -->
 	<!--
 É uma empresa séria, que tem marcas que acompanham a história da família. → É uma empresa séria, com marcas que acompanham a história da família.
 As unhas são uma das partes do corpo que têm mais contacto com tudo. → As unhas são uma das partes do corpo com mais contacto com tudo.
 	-->
+
+<!--
+FIXES IN MY THESIS: "Contudo, os simuladores não são perfeitos e têm limitações."
+-->
+	  <antipattern>
+		<token>são</token>
+		<token postag='NC.+|AQ.+|NP.+|VMP00.+' postag_regexp='yes'/>
+		<token>e</token>
+		<token regexp="yes">t[eê]m</token>
+		<token min="1" max="2" postag='NC.+|AQ.+|DI.+|Z0.+|SPS00' postag_regexp='yes'>
+			<exception regexp='yes'>com|de|disponível|disponíveis|em|lá|nel[ae]s?|para|por|são|sobre</exception>
+		</token>
+		<token postag='_PUNCT|SENT_END' postag_regexp='yes'/>
+	  </antipattern>
+
       <pattern>
 		  <token negate="yes" inflected='yes'>ser</token>
 	      <token postag='NC.+|AQ.+|NP.+|VMP00.+' postag_regexp='yes'/>
@@ -42515,6 +42530,8 @@ As unhas são uma das partes do corpo que têm mais contacto com tudo. → As un
 	  <suggestion>com</suggestion>
       <example correction="com">São dicionários <marker>que têm</marker> milhões de palavras.</example>
 	  <example type='correct'>São dicionários <marker>com</marker> milhões de palavras.</example>
+
+	  <example>Contudo, os simuladores não são perfeitos e têm limitações.</example>
     </rule>
 
 
