@@ -24221,6 +24221,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Stil -->
     <!-- ====================================================================== -->
     <category id="STYLE" name="Stil" type="style">
+        <rule id="SICH_GEGENSEITIG" name="sich gegenseitig (einander)" default="temp_off" tags="picky">
+            <pattern>
+                <token postag="PRO:REF.*" postag_regexp="yes"/>
+                <token>gegenseitig</token>
+            </pattern>
+            <message>Eine Alternative könnte hier schriftsprachlich eleganter sein.</message>
+            <suggestion>einander</suggestion>
+            <example correction="einander">Unsere Sinne beeinflussen <marker>sich gegenseitig</marker>.</example>
+            <example correction="einander">Freunde sollten <marker>sich gegenseitig</marker> helfen.</example>
+        </rule>
         <rule id="NICHTS_FUER_UNGUT" name="nichts für Ungut (ungut)" default="temp_off">
             <pattern>
                 <token>nichts</token>
