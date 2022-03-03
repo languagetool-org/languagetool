@@ -416,6 +416,29 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">In der Fabrik <marker>da</marker> wohnt ein Hobbit.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="AI_DE_HYDRA_LEO_CPT_DAS_CDAS" name="">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes">@.+</token>
+                    <marker>
+                        <token>das</token>
+                    </marker>
+                </pattern>
+                <example correction="">@Emanuel <marker>das</marker> ist einer aus diesem Issue.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes" case_sensitive="yes">@[A-ZÄÖÜ].*</token>
+                    <token regexp="yes" case_sensitive="yes">[A-ZÄÖÜ].*</token>
+                    <marker>
+                        <token>das</token>
+                    </marker>
+                </pattern>
+                <example correction="">@Emanuel Peter <marker>das</marker> ist einer aus diesem Issue.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AI_DE_HYDRA_LEO_CP_DAS_DASS" name="">
             <rule>
                 <pattern>
