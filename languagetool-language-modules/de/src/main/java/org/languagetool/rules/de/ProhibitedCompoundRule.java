@@ -27,6 +27,7 @@ import org.languagetool.language.GermanyGerman;
 import org.languagetool.languagemodel.BaseLanguageModel;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
+import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -1215,8 +1216,14 @@ public class ProhibitedCompoundRule extends Rule {
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
+    AnalyzedTokenReadings prevReadings = null;
     for (AnalyzedTokenReadings readings : sentence.getTokensWithoutWhitespace()) {
       String tmpWord = readings.getToken();
+      if (prevReadings != null && prevReadings.hasAnyPartialPosTag("EIG:") && StringTools.startsWithUppercase(tmpWord) &&
+        (readings.hasAnyPartialPosTag("EIG:") || readings.isPosTagUnknown())) {
+        // assume name, e.g. "Bianca Baalhorn" (avoid: Baalhorn => Ballhorn)
+        continue;
+      }
       List<String> wordsParts = new ArrayList<>(Arrays.asList(tmpWord.split("-")));
       int partsStartPos = 0;
       for (String wordPart : wordsParts) {
@@ -1226,6 +1233,7 @@ public class ProhibitedCompoundRule extends Rule {
       if (noHyphens != null) {
         getMatches(sentence, ruleMatches, readings, 0, noHyphens, tmpWord.length()-noHyphens.length());
       }
+      prevReadings = readings;
     }
     return toRuleMatchArray(ruleMatches);
   }
@@ -1276,7 +1284,9 @@ public class ProhibitedCompoundRule extends Rule {
       long variantCount = lm.getCount(variant);
       //float factor = variantCount / (float)Math.max(wordCount, 1);
       //System.out.println("word: " + wordPart + " (" + wordCount + "), variant: " + variant + " (" + variantCount + "), factor: " + factor + ", pair: " + pair);
-      if (variantCount > getThreshold() && wordCount == 0 && !blacklist.contains(wordPart) && !isMisspelled(variant) && blacklistRegex.stream().noneMatch(k -> wordPart.matches(".*" + k + ".*"))) {
+
+      if (variantCount > getThreshold() && wordCount == 0 && !blacklist.contains(wordPart) && !isMisspelled(variant) &&
+          blacklistRegex.stream().noneMatch(k -> wordPart.matches(".*" + k + ".*"))) {
         String msg;
         if (pair.part1Desc != null && pair.part2Desc != null) {
           msg = "Möglicher Tippfehler. " + uppercaseFirstChar(pair.part1) + ": " + pair.part1Desc + ", " + uppercaseFirstChar(pair.part2) + ": " + pair.part2Desc;
