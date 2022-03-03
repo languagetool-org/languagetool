@@ -214,7 +214,7 @@ public class ArtificialErrorEval {
     for (RemoteRuleMatch match : matchesCorrect) {
       if (match.getErrorOffset() <= pos && match.getErrorOffset() + match.getErrorLength() >= pos) {
         for (String s : match.getReplacements().get()) {
-          // check wether the replacement rebuilds the original correct sentence
+          // check that the replacement rebuilds the original correct sentence
           String correctedSentence = wrongSentence.substring(0, match.getErrorOffset()) + s
               + wrongSentence.substring(match.getErrorOffset() + match.getErrorLength(), wrongSentence.length());
           if (correctedSentence.equals(correctSentence)) {
