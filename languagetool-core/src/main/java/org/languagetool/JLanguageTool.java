@@ -19,6 +19,7 @@
 package org.languagetool;
 
 import io.github.resilience4j.circuitbreaker.CircuitBreaker;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -72,8 +73,9 @@ import java.util.stream.IntStream;
  *
  * @see MultiThreadedJLanguageTool
  */
+@Slf4j
 public class JLanguageTool {
-  private static final Logger logger = LoggerFactory.getLogger(JLanguageTool.class);
+//  private static final Logger logger = LoggerFactory.getLogger(JLanguageTool.class);
 
   /** LanguageTool version as a string like {@code 2.3} or {@code 2.4-SNAPSHOT}. */
   public static final String VERSION = "5.7-SNAPSHOT";
@@ -1012,7 +1014,7 @@ public class JLanguageTool {
     long remoteRuleCheckEnd = System.nanoTime();
     if (remoteRules.size() > 0) {
       long wait = TimeUnit.NANOSECONDS.toMillis(remoteRuleCheckEnd - textCheckEnd);
-      logger.info("Local checks took {}ms, remote checks {}ms; waited {}ms on remote results",
+      log.debug("Local checks took {}ms, remote checks {}ms; waited {}ms on remote results",
         TimeUnit.NANOSECONDS.toMillis(textCheckEnd - deadlineStartNanos),
         TimeUnit.NANOSECONDS.toMillis(remoteRuleCheckEnd - remoteRuleCheckStart), wait);
       RemoteRuleMetrics.wait(language.getShortCode(), wait);
@@ -1116,7 +1118,7 @@ public class JLanguageTool {
       result = task.get();
     } else {
       long waitTime = Math.max(0, deadlineEndNanos - System.nanoTime());
-      logger.debug("Waiting for {}ms for check of {} ({} chars)",
+      log.debug("Waiting for {}ms for check of {} ({} chars)",
         TimeUnit.NANOSECONDS.toMillis(waitTime), ruleKey, chars);
       result = task.get(waitTime, TimeUnit.NANOSECONDS);
     }
@@ -1399,8 +1401,8 @@ public class JLanguageTool {
           tmpErrorsPerWord = errorsPerWord;
         }
         if (maxErrorsPerWordRate > 0 && errorsPerWord > maxErrorsPerWordRate && wordCounter > 25) {
-          errorRateLog.forEach(e -> logger.info(LoggingTools.BAD_REQUEST, e));
-          logger.info(LoggingTools.BAD_REQUEST, "ErrorRateTooHigh is reached by a single sentence after rule: " + rule.getFullId() +
+          errorRateLog.forEach(e -> log.debug(LoggingTools.BAD_REQUEST, e));
+          log.debug(LoggingTools.BAD_REQUEST, "ErrorRateTooHigh is reached by a single sentence after rule: " + rule.getFullId() +
             " the whole text contains " + wordCounter + " words " +
             " this sentence has " + sentenceMatches.size() + " matches");
           throw new ErrorRateTooHighException("ErrorRateTooHigh is reached by a single sentence after rule: " + rule.getFullId() +
@@ -1998,7 +2000,7 @@ public class JLanguageTool {
             tmpErrorsPerWord = errorsPerWord;
           }
           if (maxErrorsPerWordRate > 0 && errorsPerWord > maxErrorsPerWordRate && wordCounter > 25) {
-            errorRateLog.forEach(e -> logger.info(LoggingTools.BAD_REQUEST, e));
+            errorRateLog.forEach(e -> log.debug(LoggingTools.BAD_REQUEST, e));
             throw new ErrorRateTooHighException("Text checking was stopped due to too many errors (more than " + String.format("%.0f", maxErrorsPerWordRate * 100) +
               "% of words seem to have an error). Are you sure you have set the correct text language? Language set: " + JLanguageTool.this.language.getName() +
               ", text length: " + annotatedText.getPlainText().length());
@@ -2007,8 +2009,7 @@ public class JLanguageTool {
         } catch (ErrorRateTooHighException e) {
           throw e;
         } catch (StackOverflowError e) {
-          System.out.println("Could not check sentence due to StackOverflowError (language: " + language + "): <sentcontent>"
-                  + StringUtils.abbreviate(sentence.analyzed.toTextString(), 10_000) + "</sentcontent>");
+          log.error("Could not check sentence due to StackOverflowError (language: {}): <sentcontent>{}</sentcontent>", language, StringUtils.abbreviate(sentence.analyzed.toTextString(), 10_000));
           throw e;
         } catch (Exception e) {
           throw new RuntimeException("Could not check sentence (language: " + language + "): <sentcontent>"
