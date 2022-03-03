@@ -46469,7 +46469,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
-        <rule id="FALSCHER_IMPERATIV" name="Machst du (Mach|Mache) die Tür zu.">
+        <rule id="FALSCHER_IMPERATIV" name="Machst du (Mach|Mache) die Tür zu." default="temp_off">
             <antipattern>
                    <token postag="SENT_START"/>
                 <marker>
@@ -46523,9 +46523,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>du</token>
                 </marker>
                 <token skip="-1"/>
-                <token>.</token>
+                <token postag="SENT_END"/>
             </pattern>
-            <message>Ist dies eine Frage? Falls ja, setzen Sie ein Fragezeichen. Falles es sich um einen Imperativ handelt, verwenden sie eine korrekte Verbform.</message>
+            <message>Ist dies eine Frage? Falls ja, setzen Sie ein Fragezeichen. Falls es sich um eine Aufforderung handelt, verwenden Sie den Imperativ.</message>
             <suggestion><match no="2" postag_regexp="yes" postag="VER:2:SIN.*" postag_replace="VER:IMP:SIN.*"/></suggestion>
             <example correction="Mach|Mache"><marker>Machst du</marker> die Tür zu.</example>
             <example correction="Räum|Räume"><marker>Räumst du</marker> bitte dein Zimmer auf.</example>
