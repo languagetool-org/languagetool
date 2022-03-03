@@ -3049,7 +3049,7 @@ Difere da guerra porque os conflitos são uma luta entre radicais. → Difere da
 
 	<!-- QUE FORAM/FOI/SÃO/É sendo -->
     <rulegroup id='QUE_FORAM_FOI_SÃO_É_SENDO' name="Que foram/foi/são/é → Sendo">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-05-20 + 2021-07-12 + 2021-07-13 + 2021-07-14 + 2021-07-30 + 2021-08-18  (17-MAR-2021+)      -->
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-05-20 + 2021-07-12 + 2021-07-13 + 2021-07-14 + 2021-07-30 + 2021-08-18 + 2022-03-03 (17-MAR-2021+)      -->
 	<!--
 Temos locais com árvores que são o ideal para o nosso modelo. → Temos locais com árvores sendo o ideal para o nosso modelo.
 Apresenta uma tela sensível ao toque que é o dispositivo de entrada principal. → Apresenta uma tela sensível ao toque sendo o dispositivo de entrada principal.
@@ -3177,6 +3177,23 @@ Ele não possui quaisquer poderes governativos, sendo as suas funções essencia
 		<token postag='DP.+' postag_regexp='yes'/>
       </antipattern>
 <!-- MARCOAGPINTO 2021-08-17 (25-JUN-2021+) *END* -->
+
+<!-- MARCOAGPINTO 2022-03-03 (1-JAN-2022+) *START* -->
+<!--
+FROM MY THESIS: ", sendo desconhecida a localização dos líderes"
+Imediatamente após a apreensão, foi dado início a fase de cumprimento de mandados, sendo presos os líderes de organização criminosa voltada para o tráfico internacional de cocaína.
+...je, com apoio da Polícia Rodoviária Federal (PRF), caminhão foi abordado quando deixava Ponta Porã, sendo encontrada a carga de 265 quilos de cocaína no veículo.
+-->
+      <antipattern>
+		<token regexp='yes'>[,]</token>
+		<token inflected='yes'>ser</token>
+		<token postag='VMP00.+' postag_regexp='yes'/>
+		<token regexp='yes'>[ao]s?</token>
+		<token postag='NC.+|AQ.+' postag_regexp='yes'/>
+		<token postag='SPS.+' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-03-03 (1-JAN-2022+) *END* -->
+
 		<pattern>
 			<token regexp='yes'>[,]</token>
 			<marker>
@@ -3215,6 +3232,10 @@ Ele não possui quaisquer poderes governativos, sendo as suas funções essencia
 		<example>Eles admitem que a matemática por detrás é interessante, sendo a sua oposição os usos não matemáticos.</example>
 		<example>A Antártida não tem flora terrestre, sendo a sua única composição vegetal feita por algas marinhas e outros organismos autótrofos.</example>
 		<example>Ele não possui quaisquer poderes governativos, sendo as suas funções essencialmente do foro cerimonial.</example>
+
+		<example>, sendo desconhecida a localização dos líderes</example>
+		<example>Imediatamente após a apreensão, foi dado início a fase de cumprimento de mandados, sendo presos os líderes de organização criminosa voltada para o tráfico internacional de cocaína.</example>
+		<example>...je, com apoio da Polícia Rodoviária Federal (PRF), caminhão foi abordado quando deixava Ponta Porã, sendo encontrada a carga de 265 quilos de cocaína no veículo.</example>
     </rule>
 	</rulegroup>
 
@@ -7588,7 +7609,7 @@ ANTIPATTERN PRODUCES 1 HIT, SO IT IS MORE FOR SENTENCES OF THE KIND ABOVE.
 
 	  <example>A lidar com pessoas más, qualquer dia vou-me tornar como elas.</example>
 	  <example>A lidar com pessoas más, qualquer dia vais-te tornar como elas.</example>
-	  <example>Que outra escolha tive eu?	</example>
+	  <example>Que outra escolha tive eu?</example>
     </rule>
 	
     <!-- 	VERBO_SER + EU fui eu -->
