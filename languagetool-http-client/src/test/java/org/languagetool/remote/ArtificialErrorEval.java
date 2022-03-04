@@ -27,6 +27,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -198,9 +199,15 @@ public class ArtificialErrorEval {
     List<String> ruleIDs = new ArrayList<>();
     for (RemoteRuleMatch match : matchesCorrect) {
       if (match.getErrorOffset() <= pos && match.getErrorOffset() + match.getErrorLength() >= pos) {
-        String subId = match.getRuleSubId().get(); 
+        String subId = null;
+        try {
+          subId = match.getRuleSubId().get();
+        } catch (NoSuchElementException e) {
+          System.out.println("Exception, skipping '" + countLine + "': ");
+          e.printStackTrace();
+        }
         if (subId != null) {
-          ruleIDs.add(match.getRuleId() + "[" + match.getRuleSubId().get() + "]");  
+          ruleIDs.add(match.getRuleId() + "[" + match.getRuleSubId().get() + "]");
         } else {
           ruleIDs.add(match.getRuleId());
         }
