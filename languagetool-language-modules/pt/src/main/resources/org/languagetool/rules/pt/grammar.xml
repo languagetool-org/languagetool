@@ -42491,6 +42491,29 @@ Pouco importam as notas na música, o que conta são as sensações produzidas p
     </rule>
 
 
+	<!-- ,POIS , -->
+    <rule id='SIMPLIFICAR_POIS_REMOVER' name="Simplificar: Remoção de “pois” com ela(s)/ele(s)" type="style">
+	<!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-03-04 (1-JAN-2022+)      -->
+	<!--
+Não tenho médica de família, pois ela está ausente até dezembro. → Não tenho médica de família, ela está ausente até dezembro.
+	-->
+      <pattern>
+		  <token postag='NC.+|AQ.+' postag_regexp='yes'>
+			<exception postag_regexp='yes' postag='V.+'/>
+		  </token>
+		  <token regexp='yes'>[,]</token>
+		  <marker>			
+			<token>pois</token>
+			<token regexp='yes'>el[ae]s?</token>
+		  </marker>
+		  <token postag='V.+' postag_regexp='yes'/>
+      </pattern>
+	  <message>Esta perífrase poderá ser simplificada.</message>
+	  <suggestion>\4</suggestion>
+	  <example correction="ela">Não tenho médica de família, <marker>pois ela</marker> está ausente até dezembro.</example>
+    </rule>
+
+
     <!-- QUE/E TEM/TÊM com -->
     <rule id='SIMPLIFICAR_QUE_E_TEM_TÊM' name="Simplificar: Que/E tem/têm → com">
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-21 + 2022-02-24/25/26 + 2022-03-03 (Checked/Enhanced) (1-JAN-2022+)      -->
