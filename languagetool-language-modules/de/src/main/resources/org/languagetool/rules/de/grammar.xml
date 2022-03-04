@@ -46521,6 +46521,69 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
+        <rulegroup id="KONNEKTOR_UMSO_UMSO" name="umso_umso (je_desto/umso)" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>umso</token>
+                    </marker>
+                    <token postag="ADJ:PRD:KOM.*" postag_regexp="yes"></token>
+                    <token skip="-1"></token>
+                    <token>,</token>
+                    <token regexp="yes">umso|desto</token>
+                    <token postag="ADJ:PRD:KOM.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Die korrekte Form dieser Satzverbindung lautet 'je...desto/umso'.</message>
+                <suggestion>je</suggestion>
+                <example correction="Je"><marker>Umso</marker> höher das Gebäude ist, umso besser ist auch die Aussicht.</example>
+                <example correction="Je"><marker>Umso</marker> weniger Autos auf den Straßen, umso geringer die Umweltverschmutzung.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>umso</token>
+                    </marker>
+                    <token>mehr</token>
+                    <token skip="-1"></token>
+                    <token>,</token>
+                    <token regexp="yes">umso|desto</token>
+                    <token postag="ADJ:PRD:KOM.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Die korrekte Form dieser Satzverbindung lautet 'je...desto/umso'.</message>
+                <suggestion>je</suggestion>
+                <example correction="Je"><marker>Umso</marker> mehr Autos auf den Straßen, umso höher die Umweltverschmutzung.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>umso</token>
+                    </marker>
+                    <token postag="ADJ:PRD:KOM.*" postag_regexp="yes"></token>
+                    <token skip="-1"></token>
+                    <token>,</token>
+                    <token regexp="yes">umso|desto</token>
+                    <token>mehr</token>
+                </pattern>
+                <message>Die korrekte Form dieser Satzverbindung lautet 'je...desto/umso'.</message>
+                <suggestion>je</suggestion>
+                <example correction="Je"><marker>Umso</marker> höher das Gebäude ist, umso mehr Angst habe ich.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>umso</token>
+                    </marker>
+                    <token>mehr</token>
+                    <token skip="-1"></token>
+                    <token>,</token>
+                        <token regexp="yes">umso|desto</token>
+                    <token>mehr</token>
+                </pattern>
+                <message>Die korrekte Form dieser Satzverbindung lautet 'je...desto/umso'.</message>
+                <suggestion>je</suggestion>
+                <example correction="Je"><marker>Umso</marker> mehr ich esse, umso mehr nehme ich zu.</example>
+            </rule>
+        </rulegroup>
         <rule id="SATZSTELLUNG_KON_UNT_VERB_AM_ENDE" name="Ich gehe nicht ins Schwimmbad, weil ich will nicht (ich nicht will)." default="temp_off">
             <pattern>
                 <token>,</token>
