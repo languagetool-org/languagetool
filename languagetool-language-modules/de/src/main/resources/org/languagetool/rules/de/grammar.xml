@@ -22691,6 +22691,60 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category id="COLLOQUIALISMS" name="Umgangssprache" type="register">
         <!-- TODO Make one Java-rule for context-independent, colloquial expressions and maintain a list -->
+        <rulegroup id="WO_DRUM" name="Wo drum (worum) geht es?" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>wo</token>
+                        <token skip="-1">drum</token>
+                    </marker>
+                    <token>?</token>
+                </pattern>
+                <message>Bei einer direkten oder indirekten Frage sollte das Adverb 'worum' verwendet werden.</message>
+                <suggestion>worum</suggestion>
+                <example correction="Worum"><marker>Wo drum</marker> geht es denn heute?</example>
+                <example correction="Worum"><marker>Wo drum</marker> handelt es sich denn beim heutigen Meeting?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>wo</token>
+                        <token skip="-1">drauf</token>
+                    </marker>
+                    <token>?</token>
+                </pattern>
+                <message>Bei einer direkten oder indirekten Frage sollte das Adverb 'worauf' verwendet werden.</message>
+                <suggestion>worauf</suggestion>
+                <example correction="Worauf"><marker>Wo drauf</marker> warten wir denn noch?</example>
+                <example correction="Worauf"><marker>Wo drauf</marker> spielst du an?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>wo</token>
+                        <token skip="-1">drüber</token>
+                    </marker>
+                    <token>?</token>
+                </pattern>
+                <message>Bei einer direkten oder indirekten Frage sollte das Adverb 'worüber' verwendet werden.</message>
+                <suggestion>worüber</suggestion>
+                <example correction="Worüber"><marker>Wo drüber</marker> wird denn heute im Meeting gesprochen?</example>
+                <example correction="Worüber"><marker>Wo drüber</marker> diskutieren wir denn schon wieder?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>wo</token>
+                        <token skip="-1">dran</token>
+                    </marker>
+                    <token>?</token>
+                </pattern>
+                <message>Bei einer direkten oder indirekten Frage sollte das Adverb 'woran' verwendet werden.</message>
+                <suggestion>woran</suggestion>
+                <example correction="Woran"><marker>Wo dran</marker> hängt es denn jetzt schon wieder?</example>
+                <example correction="Woran"><marker>Wo dran</marker> zweifelst du denn?</example>
+            </rule>
+        </rulegroup>
             <rule id="KOMPLETT_STIL" name="komplett (völlig, vollkommen)" default="temp_off" tags="picky">
                 <pattern>
                     <marker>
