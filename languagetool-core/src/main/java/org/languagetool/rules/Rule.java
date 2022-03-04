@@ -96,7 +96,7 @@ public abstract class Rule {
   public abstract String getId();
 
   /**
-   * Same as {@link #getId()} for Java rules. For XML rules, this can contain a numbers
+   * Same as {@link #getId()} for Java rules. For XML rules, this can contain a number
    * that identifies the subrule of a rule group.
    * @since 4.9
    */
