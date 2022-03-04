@@ -1250,6 +1250,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("folgendermassen", "folgendermaßen");
     put("Adon", "Add-on");
     put("Adons", "Add-ons");
+    put("ud", "und");
     put("vertaggt", w -> Arrays.asList("vertagt", "getaggt"));
     put("keinsten", w -> Arrays.asList("keinen", "kleinsten"));
     put("Angehensweise", "Vorgehensweise");
@@ -1453,6 +1454,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         && !s.matches("[\\wöäüÖÄÜß]+ -[\\wöäüÖÄÜß]+")   // e.g. "ALT -TARIF"
         && !s.endsWith("-s")   // https://github.com/languagetool-org/languagetool/issues/4042
         && !s.endsWith(" de")   // https://github.com/languagetool-org/languagetool/issues/4042
+        && !s.endsWith(" en")   // https://github.com/languagetool-org/languagetool/issues/4042
         && !s.matches("[A-ZÖÄÜa-zöäüß] .+") // z.B. nicht "I Tand" für "IT and Services"
         && !s.matches(".+ [a-zöäüßA-ZÖÄÜ]");  // z.B. nicht "rauchen e" für "rauche ne" vorschlagen
   }

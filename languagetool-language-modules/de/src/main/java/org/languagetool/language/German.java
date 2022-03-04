@@ -402,12 +402,6 @@ public class German extends Language implements AutoCloseable {
       case "BEI_VERB": return -14; // prefer case, spelling and AI rules
       case "MODALVERB_FLEKT_VERB": return -14; // prefer case, spelling and AI rules
       case "TOO_LONG_PARAGRAPH": return -15;
-      // Category ids - make sure style issues don't hide overlapping "real" errors:
-      case "COLLOQUIALISMS": return -15;
-      case "STYLE": return -15;
-      case "REDUNDANCY": return -15;
-      case "GENDER_NEUTRALITY": return -15;
-      case "TYPOGRAPHY": return -15;
       case "ALL_UPPERCASE": return -15;
       case "ANFUEHRUNGSZEICHEN_CH_FR": return -49; // prefer over AT/DE quote conventions (is in CH grammar)
       case "COMMA_BEHIND_RELATIVE_CLAUSE": return -52; // less prio than AI_DE_HYDRA_LEO
@@ -424,7 +418,14 @@ public class German extends Language implements AutoCloseable {
       case "INF_VER_MOD": return -53; // prefer case, spelling and AI rules
       case "VERB_FEM_SUBST": return -54; // prefer comma rules (including AI)
       case "SUBJUNKTION_KOMMA_2": return -54; // lower prio than KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ and KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2
+      case "DOPPELUNG_GLEICHES_VERB": return -55; // prefer comma rules
       case "REPETITIONS_STYLE": return -60;
+      // Category ids - make sure style issues don't hide overlapping "real" errors:
+      case "COLLOQUIALISMS": return -15;
+      case "STYLE": return -15;
+      case "REDUNDANCY": return -15;
+      case "GENDER_NEUTRALITY": return -15;
+      case "TYPOGRAPHY": return -15;
     }
     if (id.startsWith("CONFUSION_RULE_")) {
       return -1;
