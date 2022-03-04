@@ -2286,8 +2286,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return topMatch(word.replaceFirst("utent", "uthent"));
     }
     switch (word) {
-      case "Reiszwecke": return topMatch("Reißzwecke");
-      case "Reiszwecken": return topMatch("Reißzwecken");
+      case "Reiszwecke": return topMatch("Reißzwecke", "kurzer Nagel mit flachem Kopf");
+      case "Reiszwecken": return topMatch("Reißzwecken", "kurzer Nagel mit flachem Kopf");
       case "daß": return topMatch("dass");
       case "mußt": return topMatch("musst");
       case "mußten": return topMatch("mussten");
