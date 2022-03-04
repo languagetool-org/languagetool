@@ -21365,26 +21365,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Redundanz -->
     <!-- ====================================================================== -->
     <category id="REDUNDANCY" name="Redundanz" type="style">
-        <rulegroup id="HAUPTPROTAGONIST" name="Hauptprotagonist (Protagonist)" default="temp_off" tags="picky">
-            <rule>
-                <pattern>
-                  <token>Hauptprotagonist</token>
-                </pattern>
-                <message>Tautologie: Protagonisten sind bereis Hauptfiguren.</message>
-                <suggestion>Protagonist</suggestion>
-                <suggestion>Hauptcharakter</suggestion>
-                <example correction="Protagonist|Hauptcharakter">Der <marker>Hauptprotagonist</marker> und seine Freunde kämpfen gegen das Böse.</example>
-            </rule>
-            <rule>
-                <pattern>
-                  <token>Hauptprotagonisten</token>
-                </pattern>
-                <message>Tautologie: Protagonisten sind bereis Hauptfiguren.</message>
-                <suggestion>Protagonisten</suggestion>
-                <suggestion>Hauptcharaktere</suggestion>
-                <example correction="Protagonisten|Hauptcharaktere">Die <marker>Hauptprotagonisten</marker> verlieren den Kampf um das goldene Zepter.</example>
-            </rule>
-        </rulegroup>
+        <rule id="HAUPTPROTAGONIST" name="Hauptprotagonist (Protagonist)" default="temp_off" tags="picky">
+            <pattern>
+              <token inflected="yes">Hauptprotagonist</token>
+            </pattern>
+            <message>Tautologie: Protagonisten sind bereis Hauptfiguren.</message>
+            <suggestion><match no="1" postag="SUB.*" postag_regexp="yes">Protagonist</match></suggestion>
+            <suggestion><match no="1" postag="SUB.*" postag_regexp="yes">Hauptcharakter</match></suggestion>
+            <example correction="Protagonist|Hauptcharakter">Der <marker>Hauptprotagonist</marker> und seine Freunde kämpfen gegen das Böse.</example>
+            <example correction="Protagonisten|Hauptcharaktere">Die <marker>Hauptprotagonisten</marker> verlieren den Kampf um das goldene Zepter.</example>
+            <example correction="Protagonisten|Hauptcharakters">Der König vereitelte die Pläne des <marker>Hauptprotagonisten</marker>.</example>
+        </rule>
         <rule id="TAEGLICHER_ALLTAG" name="täglicher Alltag">
             <pattern>
                 <token inflected="yes" regexp="yes">(all)?täglich</token>
