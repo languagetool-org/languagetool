@@ -2290,6 +2290,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     switch (word) {
       case "Reiszwecke": return topMatch("Reißzwecke", "kurzer Nagel mit flachem Kopf");
       case "Reiszwecken": return topMatch("Reißzwecken", "kurzer Nagel mit flachem Kopf");
+      case "up-to-date": return topMatch("up to date");
       case "daß": return topMatch("dass");
       case "mußt": return topMatch("musst");
       case "mußten": return topMatch("mussten");
