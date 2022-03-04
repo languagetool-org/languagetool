@@ -713,9 +713,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="SPINNE_SINNE" name="Spinne vs Sinne" default="temp_off">
             <rule>
                 <pattern>
-                    <marker><token case_sensitive="yes" regexp="yes">(Assel|Baumwoll|Haus|Maschinen|Plastik|Prozessions|Riesenkrabben|Riesen|Spring|Vogel|Wäsche|Web|Winkel|Zahn)sinnen?</token></marker>
+                    <marker><token case_sensitive="yes" regexp="yes">(Haus|Plastik|Radnetz|Riesenkrabben|Riesen|Spring|Vogel|Wäsche|Web|Winkel)sinnen?</token></marker>
                 </pattern>
-                <message>Meinten Sie <suggestion><match no="1" regexp_match="sinne" regexp_replace="spinne"/></suggestion>?</message>
+                <message>Meinten Sie <suggestion><match no="1" regexp_match="sinne" regexp_replace="spinne"/></suggestion> (Spinne = achtbeiniges Tier)?</message>
                 <short>&typo;</short>
                 <example correction="Vogelspinnen">Er hält drei <marker>Vogelsinnen</marker>.</example>
             </rule>
@@ -6192,7 +6192,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="verhalte|verwalte">Dann <marker>veralte</marker> dich nicht so!</example>
             </rule>
         </rulegroup>
-<!--        <rulegroup id="VERALTEN_VERHALTEN" name="das Veralten (Verhalten)" default="temp_off">
+        <rulegroup id="VERALTEN_VERHALTEN" name="das Veralten (Verhalten)" default="temp_off">
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag_regexp="yes" postag="PRO:POS:[ADN].+|ADJ.+"></token>
@@ -6203,7 +6203,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Verhalten">Sein <marker>Veralten</marker> war stets tadellos.</example>
                 <example correction="Verhalten">Der Hund zeigte ein sehr ängstliches <marker>Veralten</marker>.</example>
             </rule>
-        </rulegroup>-->
+        </rulegroup>
         <rule id="MITTELOHRENZUENDUNG" name="'Mittelohrenzündung (Mittelohrentzündung)'">
             <regexp>Mittelohrenzündung(en)?</regexp>
             <message>Meinten Sie <suggestion><match no="0" regexp_match="enz" regexp_replace="entz"/></suggestion>?</message>
@@ -6777,6 +6777,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="einweihst">Wenn du mich in dieses Geheimnis <marker>einweist</marker>, werde ich weiser.</example>
             <example correction="einweihst">Wenn du mich in diese Geheimnisse <marker>einweist</marker>, werde ich weiser.</example>
         </rule>
+        <rulegroup id="WAENDE_WENDE" name="Wände vs Wende" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker><token case_sensitive="yes" regexp="yes">(Agrar|Ertrags|Jahres|Kehrt|Kriegs|Kurs|Links|Mond|Mond|Sonnen|Trend|Verkehrs|Zeiten)wänden?</token></marker>
+                </pattern>
+                <message>&verw;Meinten Sie <suggestion><match no="1" regexp_match="wän" regexp_replace="wen"/></suggestion>?</message>
+                <example correction="Agrarwende">Die <marker>Agrarwände</marker> darf nicht auf dem Rücken der Bauern erfolgen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker><token case_sensitive="yes" regexp="yes">(Aussen|Außen|Behälter|Betonschutz|Bord|Burg|Darm|Ein|Eis|Felsen|Fels|Gefäßinnen|Gefäß|Grab|Haupt|Häuser|Haustrenn|Haus|Holz|Innen|Kammer|Keller|Kessel|Klang|Lager|Lärmschutz|Lehm|Loch|Mittel|Nischenrück|Quer|Rück|Sandsteinfels|Schiebe|Schild|Schlitz|Seiten|Splitterschutz|Stein|Stellwenden|Stirn|Stütz|Trennungs|Trenn|Vor|Wohn|Zell|Zwischen)wenden?<exception>Steinwenden</exception></token></marker>
+                </pattern>
+                <message>&verw;Meinten Sie <suggestion><match no="1" regexp_match="wen" regexp_replace="wän"/></suggestion>?</message>
+                <example correction="Außenwände">Die <marker>Außenwende</marker> wurden gestern verputzt.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="HER_HERR" name="Her Müller (Herr Müller)">
             <rule>
                 <pattern>
