@@ -46521,8 +46521,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
-        <rulegroup id="HANDELN_DARUM_DARÜBER" name="handeln darum/darüber (davon)" default="temp_off">
+        <rulegroup id="HANDELN_DARUM_DARUEBER" name="handeln darum/darüber (davon)" default="temp_off">
             <rule>
+                <antipattern>
+                    <token>es</token>
+                    <token inflected="yes">handeln</token>
+                    <token skip="-1">sich</token>
+                    <token>darum</token>
+                </antipattern>
                 <pattern>
                     <token skip="-1" inflected="yes">handeln</token>
                     <marker>
@@ -46531,11 +46537,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>,</token>
                     <token>dass</token>
                 </pattern>
-                <message>Wenn es um ein Thema geht, heißt es standardsprachlich 'handeln von'.</message>
+                <message>Wenn es um ein Thema geht, heißt es standardsprachlich 'handeln von (davon)'.</message>
                 <suggestion>davon</suggestion>
                 <example correction="davon">Die Geschichte handelt <marker>darum</marker>, dass ein Mann nach dem Sinn des Lebens sucht.</example>
                 <example correction="davon">Der Text handelt <marker>darüber</marker>, dass ein Mädchen seine Eltern sucht.</example>
                 <example>Das Buch handelt davon, dass eine Frau ihren weg zurück nach Hause findet.</example>
+                <example>Es handelt sich dabei darum, dass es nicht immer erforderlich ist, die bestehende Situation zu ändern.</example>
             </rule>
             <rule>
                 <pattern>
