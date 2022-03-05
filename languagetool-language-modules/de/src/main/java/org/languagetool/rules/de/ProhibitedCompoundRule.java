@@ -1298,7 +1298,8 @@ public class ProhibitedCompoundRule extends Rule {
         int fromPos = readings.getStartPos() + partsStartPos;
         int toPos = fromPos + wordPart.length() + toPosCorrection;
         String id = getId() + "_" + cleanId(pair.part1) + "_" + cleanId(pair.part2);
-        RuleMatch match = new RuleMatch(new SpecificIdRule(id, pair.part1, pair.part2, messages, isPremium()), sentence, fromPos, toPos, msg);
+        SpecificIdRule idRule = new SpecificIdRule(id, pair.part1, pair.part2, messages, isPremium(), getTags());
+        RuleMatch match = new RuleMatch(idRule, sentence, fromPos, toPos, msg);
         match.setSuggestedReplacement(variant);
         weightedMatches.add(new WeightedRuleMatch(variantCount, match));
       }
@@ -1380,11 +1381,12 @@ public class ProhibitedCompoundRule extends Rule {
   static private class SpecificIdRule extends Rule {  // don't extend ProhibitedCompoundRule for performance reasons (speller would get re-initialized a lot)
     private final String id;
     private final String desc;
-    SpecificIdRule(String id, String part1, String part2, ResourceBundle messages, boolean isPremium) {
+    SpecificIdRule(String id, String part1, String part2, ResourceBundle messages, boolean isPremium, List<Tag> tags) {
       this.setPremium(isPremium);
       this.id = Objects.requireNonNull(id);
       this.desc = "Markiert wahrscheinlich falsche Komposita mit Teilwort '" + uppercaseFirstChar(part1) + "' statt '" + uppercaseFirstChar(part2) + "' und umgekehrt";
       setCategory(Categories.TYPOS.getCategory(messages));
+      setTags(tags);
     }
     @Override
     public String getId() {
