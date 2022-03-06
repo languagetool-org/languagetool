@@ -105,7 +105,7 @@ public class ProhibitedCompoundRule extends Rule {
           new Pair("wieder", "erneut, wiederholt, nochmal (Wiederholung, Wiedervorlage, ...)", "wider", "gegen, entgegen (Widerwille, Widerstand, Widerspruch, ...)"),
           new Pair("leer", "ohne Inhalt", "lehr", "bezogen auf Ausbildung und Wissen"),
           new Pair("gewerbe", "wirtschaftliche Tätigkeit", "gewebe", "gewebter Stoff; Verbund ähnlicher Zellen"),
-          new Pair("schuh", "Fußbekleidung", "schul", "auf die Schule bezogen"),
+          //new Pair("schuh", "Fußbekleidung", "schul", "auf die Schule bezogen"),  // tends to have false alarms
           new Pair("klima", "langfristige Wetterzustände", "lima", "Hauptstadt von Peru"),
           new Pair("modell", "vereinfachtes Abbild der Wirklichkeit", "model", "Fotomodell"),
           new Pair("treppen", "Folge von Stufen (Mehrzahl)", "truppen", "Armee oder Teil einer Armee (Mehrzahl)"),
@@ -142,6 +142,18 @@ public class ProhibitedCompoundRule extends Rule {
     "Gra(ph|f)it"   // Grafit/Graphit
   );
   private static final Set<String> blacklist = new HashSet<>(Arrays.asList(
+          "Turmbewegung",  // vs. Turn
+          "Turmbewegungen",  // vs. Turn
+          "Turmwart",  // vs. Turn
+          "Turmwarts",  // vs. Turn
+          "Reisblatt",  // vs. Kreis
+          "Reisblatts",  // vs. Kreis
+          "Reisblätter",  // vs. Kreis
+          "Reisblättern",  // vs. Kreis
+          "Reisgetränk",  // vs. Eis
+          "Reisgetränks",  // vs. Eis
+          "Reisgetränke",  // vs. Eis
+          "Reisgetränken",  // vs. Eis
           "Reiszwecke",  // vs. Reise -- handled by speller
           "Reiszwecken",  // vs. Reise -- handled by speller
           "Bankangabe",  // vs. band
