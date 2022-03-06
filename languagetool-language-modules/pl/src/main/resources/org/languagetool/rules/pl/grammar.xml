@@ -676,7 +676,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                   <rulegroup id="BEZOKOLICZNIKI" name="Dwa bezokoliczniki bez przecinka">
                     <rule>
                         <antipattern>
-                            <token>chodzić</token>
+                            <token regexp="yes">chodzić|kłaść|położyć</token>
                             <token>spać</token>
                         </antipattern>
                     <pattern>
@@ -687,7 +687,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <short>Błąd interpunkcyjny</short>
                     <example correction="Zrobić, wywiercić"><marker>Zrobić wywiercić</marker> dziurę.</example>
                     <example>Zrobić, wywiercić dziurę.</example>
-                        <example>Lubię chodzić spać późno.</example>
+                    <example>Lubię chodzić spać późno.</example>
+                    <example>Zamierzam się dziś wcześniej położyć spać.</example>
+                    <example>Można uniknąć zatruć pokarmowych, mając dwie deski do krojenia, do mięsa i do warzyw.</example>
                     </rule>
                     <rule>
                         <antipattern>
@@ -9104,7 +9106,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </marker>
     </antipattern>        
     <antipattern> <!-- czasowniki wymagające dopełniacza -->
-      <token skip="-1" regexp="yes" inflected="yes">dokonać|dokonywać|dosłuchać|dosłuchiwać|dotyczyć|dowieść|dowodzić|nienawidzić|oczekiwać|pilnować|potrzebować|pozbawić|sięgać|sięgnąć|słuchać|udzielać|udzielić|unikać|uniknąć|użyć|używać|zażądać|żądać
+      <token skip="-1" regexp="yes" inflected="yes">dokonać|dokonywać|dosłuchać|dosłuchiwać|dotyczyć|dowieść|dowodzić|nienawidzić|oczekiwać|pilnować|poszukiwać|potrzebować|pozbawić|pożądać|przestrzegać|przydać|przydawać|sięgać|sięgnąć|słuchać|szukać|udzielać|udzielić|unikać|uniknąć|użyć|używać|zażądać|żądać
       <exception scope="next" postag="verb:.*sg.*:ter.*|pcon.*|pa[cn]t.*|verb:imps.*" postag_regexp="yes"/>
       </token>
       <marker>
