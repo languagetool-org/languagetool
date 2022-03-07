@@ -508,6 +508,13 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       tokenRegex("turn|walk|go|drive")
     ),
     Arrays.asList(
+      // Or go to the individual site and then click on the icon, from there turn it to standard.
+      posRegex("IN|CC"),
+      token("there"), // vs their
+      posRegex("VB"),
+      posRegex("PRP_O.*|DT")
+    ),
+    Arrays.asList(
       // "I just can't tell them no when they look at me with those puppy dog eyes"
       tokenRegex("tells?|told|telling|answers?|answering|answered|reply|replies|replied|replying"),
       tokenRegex("them|him|her"),
