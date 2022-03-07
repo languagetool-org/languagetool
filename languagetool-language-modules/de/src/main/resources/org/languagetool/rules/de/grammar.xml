@@ -53346,6 +53346,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="WORDEN_WURDEN" name="'worden (wurden)'">
             <rule>
+                <antipattern><!-- sind ... gemacht worden -->
+                    <token skip="-1" inflected="yes" postag="VER.*" postag_regexp="yes">sein</token>
+                    <token postag="PA2:PRD:GRU.*" postag_regexp="yes"/>
+                    <token skip="5">worden</token>
+                    <token postag_regexp="yes" postag="PA2:PRD.*"/>
+                </antipattern>
+                <antipattern><!-- gemacht worden sind -->
+                    <token postag="PA2:PRD:GRU:VER"/>
+                    <token>worden</token>
+                    <token skip="4" inflected="yes" postag="VER.*" postag_regexp="yes">sein</token>
+                    <token postag_regexp="yes" postag="PA2:PRD.*"/>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <marker>
                         <token regexp="yes" skip="5">worden?<exception scope="next" regexp="yes">bzw|/|\-|—|–|\,|;|\:|und|oder|&klam;|&anf;</exception></token>
@@ -53356,7 +53368,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="wurde">Das Essen <marker>worde</marker> gegessen.</example>
                 <example correction="wurden">Das Sachen <marker>worden</marker> gegessen.</example>
                 <example correction="wurde">Die Tür <marker>worde</marker> auf den Boden gelegt.</example>
-            </rule>
+                <example>Es ist mehr Wald abgeholzt worden als neue Bäume gepflanzt wurden.</example>
+                <example>Oder es waren schlechtere Dämmstoffe eingesetzt worden als vereinbart.</example>
+                <example>Ich hab sie auch sperren lassen, weil sie mir samt Geldbeutel geklaut worden ist Die bank hat gesagt.</example>
+                <example>Die Gehälter kürzen\nelchico1 ist von Walter vom Knebel befreit worden\nwas hat die vorher gemacht?</example>
+                <example>und daran war nichts gesetzeswidrig\n*frag*\ndarin eingeschlossen: Beleidigungen anderer Nutzer sowie Personen des öffentlichen Lebens\noldman, du must richtig alt sein, wenn du so ein blödsin hier schreibst, guck nur das was in den letzten jahren für die familien gemacht worden ist dann weisst du bestimmt warm die Spd und Grünen gewonnen haben\nman sollte sich dieses immer wieder in erinnerung rufen.</example>
+             </rule>
         </rulegroup>
         <rule id="WURDEN_WORDEN_1" name="'wurden (worden)'">
             <antipattern>
@@ -53402,6 +53419,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="ADV.*" postag_regexp="yes" />
                 <token postag="PRP.*" postag_regexp="yes" />
             </antipattern>
+            <antipattern><!-- gemacht werden ist ... klar. -->
+                <token postag_regexp="yes" postag="PA2:PRD.*"/>
+                <token regexp="yes">w[euü]rden</token>
+                <token skip="-1">ist</token>
+                <token max="2" postag="ADJ:PRD.*" postag_regexp="yes"/>
+                <token postag="(KON|PKT).*" postag_regexp="yes"/>
+            </antipattern>
             <pattern case_sensitive="yes">
                 <token postag_regexp="yes" postag="PA2:PRD.*"/>
                 <marker>
@@ -53416,6 +53440,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="worden">Nachdem du besiegt <marker>würden</marker> bist, gabst du völlig auf.</example>
             <example>Wenn dann noch Wäschehaken in den Kabinen angebracht werden ist die Sache rund.</example><!-- missing comma -->
             <example>Lieben und nicht geliebt werden ist verlorene Zeit.</example><!-- missing comma -->
+            <example>Wie Kapellmeister und GMDs usw. gewählt werden ist mir sehr wohl klar.</example>
+            <example>Und glaube nicht, ich komme, weil ich nicht zurück kann: vier Boten und Briefe hat mir mein Bruder nachgesandt schon bis Genua, meine Rückkehr erflehend, mir vollste Herrschaft in Palast und Reich versprechend: ich aber – will zu dir, dir dienen als dein schmiegsam Weib: dich lieben, von dir geliebt werden ist köstlicher als den ganzen Erdkreis beherrschen!«</example>
         </rule>
         <rule id="WURDEN_WORDEN_2" name="'wurden (worden)'">
             <antipattern>
@@ -53426,7 +53452,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">bin|b?ist|sind|seid|war(st|en|t)?</token>
                 <token postag="VER:MOD.*" postag_regexp="yes" />
             </antipattern>
+            <antipattern>
+                <token skip="3" regexp="yes">bin|b?ist|sind|seid|war(st|en|t)?</token>
+                <token>das</token>
+                <token postag="(PRO:IND|SUB).*PLU.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern><!-- Reisen ist ... (schön/leben). -->
+                <token postag="VER.*INF.*" postag_regexp="yes"/>
+                <token skip="-1">ist</token>
+                <token postag="(ADJ:PRD|VER.*INF).*" postag_regexp="yes"/>
+                <token regexp="yes">\.|!|oder|und</token>
+            </antipattern>
             <pattern case_sensitive="yes">
+                <token><exception postag="(ADJ:PRD|VER:PA2).*" postag_regexp="yes"/></token>
                 <token skip="-1" regexp="yes">bin|b?ist|sind|seid|war(st|en|t)?
                     <exception scope="next" regexp="yes">bzw|/|\-|—|–|\,|;|\:|\?|\.|und|&amp;|oder|&klam;|&anf;|dass|wie|umso|ob|wenn|weil|aber|welche[rnm]?</exception>
                     <exception scope="next" postag="VER:MOD.*" postag_regexp="yes" />
@@ -53446,6 +53484,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Die Tür soll auf den Boden gelegt werden.</example>
             <example>Operatoren die nicht reserviert sind können nicht implementiert werden.</example><!-- fehlendes Komma -->
             <example>Leider sind die gebotenen Lösungen aber nicht so sicher wie sie beschrieben werden.</example><!-- fehlendes Komma -->
+            <example>Darüber hinaus sollen Erfahrungen, die während des Praktikums gewonnen worden sind einbezogen werden.</example>
+            <example>Was wir aber nicht wollen, ist das Dateien von unserem Server zum Download angeboten werden.</example>
+            <example>Reisen ist in jedem Augenblick geboren werden und sterben.</example>
         </rule>
         <rulegroup id="SPRECH_NICHT" name="'bitte sprech (sprich)'">
             <rule>
