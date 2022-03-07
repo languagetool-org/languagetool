@@ -541,7 +541,7 @@ class CheckRequestAnalysis {
       return -1;
     }
     if (viewCursor == null) {
-      viewCursor = new ViewCursorTools(xContext);
+      viewCursor = new ViewCursorTools(xComponent);
     }
     int nPara;
     String vcText = SingleCheck.removeFootnotes(viewCursor.getViewCursorParagraphText(), footnotePositions);

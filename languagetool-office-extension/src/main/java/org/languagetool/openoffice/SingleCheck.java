@@ -416,12 +416,21 @@ class SingleCheck {
           mDocHandler.activateTextRulesByIndex(i, lt);
           if (debugMode > 1) {
             MessageHandler.printToLogFile("SingleCheck: checkTextRules: Index: " + i + "/" + minToCheckPara.size() 
-            + "; paraNum: " + paraNum + "; numParasToCheck: " + parasToCheck);
+            + "; paraNum: " + paraNum + "; numParasToCheck: " + parasToCheck + "; useQueue: " + useQueue);
           }
           if (textIsChanged && !useQueue && parasToCheck != 0 ) {
+            if (debugMode > 1) {
+              MessageHandler.printToLogFile("SingleCheck: checkTextRules: Copy old cache!");
+            }
             oldCache = new ResultCache(paragraphsCache.get(i));
+            if (debugMode > 1) {
+              MessageHandler.printToLogFile("SingleCheck: checkTextRules: Old cache copied!");
+            }
           }
           pErrors.add(checkParaRules(paraText, locale, footnotePos, paraNum, startSentencePos, lt, i, parasToCheck, textIsChanged, isIntern));
+          if (debugMode > 1) {
+            MessageHandler.printToLogFile("SingleCheck: checkTextRules: Error Cache added!");
+          }
           if (!isDisposed() && textIsChanged && !useQueue) {
             if (parasToCheck != 0) {
               tmpChangedParas = paragraphsCache.get(i).differenceInCaches(oldCache);
@@ -443,6 +452,9 @@ class SingleCheck {
         }
       }
       mDocHandler.reactivateTextRules(lt);
+      if (debugMode > 1) {
+        MessageHandler.printToLogFile("SingleCheck: checkTextRules: Text rules reactivated");
+      }
     }
     return pErrors;
   }

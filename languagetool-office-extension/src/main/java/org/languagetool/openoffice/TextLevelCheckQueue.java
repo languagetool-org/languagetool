@@ -312,7 +312,7 @@ public class TextLevelCheckQueue {
   QueueEntry getNextQueueEntry(TextParagraph nPara, String docId) {
     List<SingleDocument> documents = multiDocHandler.getDocuments();
     XComponent xComponent = OfficeTools.getCurrentComponent(multiDocHandler.getContext());
-    ViewCursorTools viewCursor = new ViewCursorTools(multiDocHandler.getContext());
+    ViewCursorTools viewCursor = new ViewCursorTools(xComponent);
     TextParagraph cursorPara = viewCursor.getViewCursorParagraph();
     if (cursorPara.type != DocumentCache.CURSOR_TYPE_UNKNOWN) {
       if (lastCursorPara < 0 || cursorPara.number != lastCursorPara || lastCursorComponent == null || !lastCursorComponent.equals(xComponent)) {

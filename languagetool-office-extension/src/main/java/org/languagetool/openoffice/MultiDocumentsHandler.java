@@ -890,7 +890,7 @@ public class MultiDocumentsHandler {
         lt.disableRule(id);
       }
     }
-    handleLtDictionary();
+//    handleLtDictionary();
   }
   
   /**
@@ -1365,7 +1365,7 @@ public class MultiDocumentsHandler {
             XComponent currentComponent = document.getXComponent();
             if (currentComponent != null) {
               if (document.getDocumentType() == DocumentType.WRITER) {
-                ViewCursorTools viewCursor = new ViewCursorTools(xContext);
+                ViewCursorTools viewCursor = new ViewCursorTools(currentComponent);
                 SpellAndGrammarCheckDialog.setTextViewCursor(0, new TextParagraph (DocumentCache.CURSOR_TYPE_TEXT ,0), viewCursor);
               } else if (document.getDocumentType() == DocumentType.IMPRESS){
                 OfficeDrawTools.setCurrentPage(0, currentComponent);

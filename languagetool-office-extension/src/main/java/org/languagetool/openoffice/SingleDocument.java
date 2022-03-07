@@ -225,6 +225,9 @@ class SingleDocument {
     if (disposed) {
       return paRes;
     }
+//    if (docType == DocumentType.WRITER && ltMenus == null) {
+//      ltMenus = new LanguageToolMenus(xContext, xComponent, this, config);
+//    }
     try {
       if (docReset) {
         numLastVCPara = 0;
@@ -274,8 +277,8 @@ class SingleDocument {
     } catch (Throwable t) {
       MessageHandler.showError(t);
     }
-    if (docType == DocumentType.WRITER && ltMenus == null && paraText.length() > 4) {
-      ltMenus = new LanguageToolMenus(xContext, this, config);
+    if (docType == DocumentType.WRITER && ltMenus == null && paraText.length() > 0) {
+      ltMenus = new LanguageToolMenus(xContext, xComponent, this, config);
     }
     return paRes;
   }
@@ -325,6 +328,8 @@ class SingleDocument {
       if (flatPara != null) {
         flatPara.setDisposed();
       }
+      ltMenus.removeListener();
+      ltMenus = null;
     }
   }
   
@@ -674,7 +679,7 @@ class SingleDocument {
     if (disposed) {
       return null;
     }
-    ViewCursorTools viewCursor = new ViewCursorTools(xContext);
+    ViewCursorTools viewCursor = new ViewCursorTools(xComponent);
     int y = docCache.getFlatParagraphNumber(viewCursor.getViewCursorParagraph());
     int x = viewCursor.getViewCursorCharacter();
     String ruleId = getRuleIdFromCache(y, x);
@@ -831,7 +836,7 @@ class SingleDocument {
     if (disposed) {
       return null;
     }
-    ViewCursorTools viewCursor = new ViewCursorTools(xContext);
+    ViewCursorTools viewCursor = new ViewCursorTools(xComponent);
     int x = viewCursor.getViewCursorCharacter();
     if (numParasToCheck == 0) {
       return getRuleIdFromCache(x, viewCursor);
@@ -994,11 +999,11 @@ class SingleDocument {
       } else {
         MessageHandler.printToLogFile("SingleDocument: setDokumentListener: Could not add document event listener!");
       }
-      XTextDocument curDoc = UnoRuntime.queryInterface(XTextDocument.class, xComponent);
-      if (curDoc == null) {
-        MessageHandler.printToLogFile("SingleDocument: setDokumentListener: XTextDocument not found!");
-        return;
-      }
+//      XTextDocument curDoc = UnoRuntime.queryInterface(XTextDocument.class, xComponent);
+//      if (curDoc == null) {
+//        MessageHandler.printToLogFile("SingleDocument: setDokumentListener: XTextDocument not found!");
+//        return;
+//      }
       XModel xModel = UnoRuntime.queryInterface(XModel.class, xComponent);
       if (xModel == null) {
         MessageHandler.printToLogFile("SingleDocument: setDokumentListener: XModel not found!");

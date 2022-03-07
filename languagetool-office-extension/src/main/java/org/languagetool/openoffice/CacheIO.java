@@ -80,6 +80,7 @@ public class CacheIO implements Serializable {
    */
   private static String getDocumentPath(XComponent xComponent) {
     try {
+/*      
       XTextDocument curDoc = UnoRuntime.queryInterface(XTextDocument.class, xComponent);
       if (curDoc == null) {
         MessageHandler.printToLogFile("CacheIO: getDocumentPath: XTextDocument not found!");
@@ -91,6 +92,8 @@ public class CacheIO implements Serializable {
         return null;
       }
       XModel xModel = xController.getModel();
+*/
+      XModel xModel = UnoRuntime.queryInterface(XModel.class, xComponent);
       if (xModel == null) {
         MessageHandler.printToLogFile("CacheIO: getDocumentPath: XModel not found!");
         return null;

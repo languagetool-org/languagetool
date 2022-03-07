@@ -317,7 +317,7 @@ public class DocumentCache implements Serializable {
         for (int i = 0; i < toTextMapping.size(); i++) {
           MessageHandler.printToLogFile("DocumentCache: mapParagraphs: Flat: " + i + " Doc: "
               + toTextMapping.get(i).number + " Type: " + toTextMapping.get(i).type + "; locale: "
-              + locales.get(i).Language + "-" + locales.get(i).Country + "; '" + getFlatParagraph(i) + "'");
+              + locales.get(i).Language + "-" + locales.get(i).Country + "; '" + paragraphs.get(i) + "'");
         }
         MessageHandler.printToLogFile("\nDocumentCache: mapParagraphs: headings:");
         for (int n = 0; n < NUMBER_CURSOR_TYPES; n++) {

@@ -39,6 +39,7 @@ import com.sun.star.container.XIndexContainer;
 import com.sun.star.frame.XController;
 import com.sun.star.lang.EventObject;
 import com.sun.star.lang.WrappedTargetException;
+import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XMultiServiceFactory;
 import com.sun.star.text.XTextDocument;
 import com.sun.star.ui.ActionTriggerSeparatorType;
@@ -73,13 +74,13 @@ public class LanguageToolMenus {
   @SuppressWarnings("unused")
   private ContextMenuInterceptor ltContextMenu;
 
-  LanguageToolMenus(XComponentContext xContext, SingleDocument document, Configuration config) {
+  LanguageToolMenus(XComponentContext xContext, XComponent xComponent, SingleDocument document, Configuration config) {
     debugMode = OfficeTools.DEBUG_MODE_LM;
     this.document = document;
     this.xContext = xContext;
     setConfigValues(config);
-    ltHeadMenu = new LTHeadMenu();
-    ltContextMenu = new ContextMenuInterceptor(xContext);
+    ltHeadMenu = new LTHeadMenu(xComponent);
+    ltContextMenu = new ContextMenuInterceptor();
     if (debugMode) {
       MessageHandler.printToLogFile("LanguageToolMenus initialised");
     }
@@ -92,6 +93,11 @@ public class LanguageToolMenus {
   }
   
   void removeListener() {
+    ltHeadMenu.removeListener();
+  }
+  
+  void addListener() {
+    ltHeadMenu.addListener();
   }
   
   /**
@@ -118,9 +124,9 @@ public class LanguageToolMenus {
     private List<String> definedProfiles = null;
     private String currentProfile = null;
     
-    public LTHeadMenu() {
+    public LTHeadMenu(XComponent xComponent) {
       XMenuBar menubar = null;
-      menubar = OfficeTools.getMenuBar(xContext);
+      menubar = OfficeTools.getMenuBar(xComponent);
       if (menubar == null) {
         MessageHandler.printToLogFile("LanguageToolMenus: LTHeadMenu: Menubar is null");
         return;
@@ -174,7 +180,14 @@ public class LanguageToolMenus {
       if (debugMode) {
         MessageHandler.printToLogFile("LanguageToolMenus: LTHeadMenu: Menu listener set");
       }
-      
+    }
+    
+    void removeListener() {
+      toolsMenu.removeMenuListener(this);
+    }
+    
+    void addListener() {
+      toolsMenu.addMenuListener(this);
     }
     
     /**

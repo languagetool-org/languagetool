@@ -262,7 +262,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
     if (docCache == null || docCache.size() <= 0) {
       return;
     }
-    ViewCursorTools viewCursor = new ViewCursorTools(xContext);
+    ViewCursorTools viewCursor = new ViewCursorTools(xComponent);
     int yFlat = getCurrentFlatParagraphNumber(viewCursor, docCache);
     if (yFlat < 0) {
       MessageHandler.showClosingInformationDialog(messages.getString("loNextErrorUnsupported"));
@@ -1177,7 +1177,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
      */
     private boolean initCursor() {
       if (docType == DocumentType.WRITER) {
-        viewCursor = new ViewCursorTools(xContext);
+        viewCursor = new ViewCursorTools(currentDocument.getXComponent());
         if (debugMode) {
           MessageHandler.printToLogFile("CheckDialog: initCursor: viewCursor initialized: docId: " + docId);
         }

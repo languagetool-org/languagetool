@@ -36,11 +36,13 @@ import com.sun.star.beans.Property;
 import com.sun.star.beans.PropertyValue;
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.beans.XPropertySetInfo;
+import com.sun.star.frame.XController;
 import com.sun.star.frame.XDesktop;
 import com.sun.star.frame.XDispatchHelper;
 import com.sun.star.frame.XDispatchProvider;
 import com.sun.star.frame.XFrame;
 import com.sun.star.frame.XLayoutManager;
+import com.sun.star.frame.XModel;
 import com.sun.star.lang.Locale;
 import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XMultiComponentFactory;
@@ -223,13 +225,27 @@ class OfficeTools {
    * Get the menu bar of LO/OO
    * Returns null if it fails
    */
-  static XMenuBar getMenuBar(XComponentContext xContext) {
+/*  static XMenuBar getMenuBar(XComponentContext xContext) {
     try {
       XDesktop desktop = OfficeTools.getDesktop(xContext);
       if (desktop == null) {
         return null;
       }
       XFrame frame = desktop.getCurrentFrame();
+*/
+  static XMenuBar getMenuBar(XComponent xComponent) {
+    try {
+      XModel xModel = UnoRuntime.queryInterface(XModel.class, xComponent);
+      if (xModel == null) {
+        MessageHandler.printToLogFile("SingleDocument: setDokumentListener: XModel not found!");
+        return null;
+      }
+      XController xController = xModel.getCurrentController();
+      if (xController == null) {
+        MessageHandler.printToLogFile("SingleDocument: setDokumentListener: XController not found!");
+        return null;
+      }
+      XFrame frame = xController.getFrame();
       if (frame == null) {
         return null;
       }
