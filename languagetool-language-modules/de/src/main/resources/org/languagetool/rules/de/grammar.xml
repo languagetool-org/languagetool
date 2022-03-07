@@ -55658,6 +55658,69 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Zeichensetzung -->
     <!-- ====================================================================== -->
     <category id="PUNCTUATION" name="Zeichensetzung">
+        <rulegroup id="WEISST_DU_WARUM_KOMMA" name="Weißt du(,) warum?" default="temp_off">
+            <rule>
+                <pattern>
+                    <token postag="PKT|SENT_START|KON:NEB" postag_regexp="yes" />
+                    <token regexp="yes">weisst|weißt|wusstest</token>
+                    <token>du</token>
+                    <token min="0" regexp="yes">vielleicht|mittlerweile|schon|bereits|nicht</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">wieso|wann|warum|weshalb|wo|wie|woher|worin|wer|wozu</token>
+                    </marker>
+                </pattern>
+                <message>Hier scheint ein Komma zu fehlen.</message>
+                <suggestion>, \5</suggestion>
+                <example correction=", warum">Weißt du<marker> warum</marker> die Kosten so hoch sind?</example>
+                <example correction=", warum">Weißt du schon<marker> warum</marker> die Kosten so hoch sind?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="PKT|SENT_START|KON:NEB" postag_regexp="yes" />
+                    <token regexp="yes">wei(ss|ß)|wusste</token>
+                    <token regexp="yes" min="0">Herr|Frau</token>
+                    <token postag="EIG.*" postag_regexp="yes" />
+                    <token min="0" regexp="yes">vielleicht|mittlerweile|schon|bereits|nicht</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">wieso|wann|warum|weshalb|wo|wie|woher|worin|wer|wozu</token>
+                    </marker>
+                </pattern>
+                <message>Hier scheint ein Komma zu fehlen.</message>
+                <suggestion>, \6</suggestion>
+                <example correction=", warum">Weiß Herr Peters<marker> warum</marker> die Kosten so hoch sind?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="PKT|SENT_START|KON:NEB" postag_regexp="yes" />
+                    <token regexp="yes">wei(ss|ß)|wusste</token>
+                    <token postag="PRO:POS.*|ART.*" postag_regexp="yes" />
+                    <token postag="ADJ.*|PA[12].*" postag_regexp="yes" min="0" />
+                    <token postag="SUB.*" postag_regexp="yes" />
+                    <token min="0" regexp="yes">vielleicht|mittlerweile|schon|bereits|nicht</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">wieso|wann|warum|weshalb|wo|wie|woher|worin|wer|wozu</token>
+                    </marker>
+                </pattern>
+                <message>Hier scheint ein Komma zu fehlen.</message>
+                <suggestion>, \7</suggestion>
+                <example correction=", warum">Weiß der Geier<marker> warum</marker>.</example>
+                <example correction=", warum">Weiß die Finanzabteilung<marker> warum</marker> die Kosten so hoch sind?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="PKT|SENT_START|KON:NEB" postag_regexp="yes" />
+                    <token regexp="yes">wissen|wussten</token>
+                    <token regexp="yes">sie|wir</token>
+                    <token min="0" regexp="yes">vielleicht|mittlerweile|schon|bereits|nicht</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">wieso|wann|warum|weshalb|wo|wie|woher|worin|wer|wozu</token>
+                    </marker>
+                </pattern>
+                <message>Hier scheint ein Komma zu fehlen.</message>
+                <suggestion>, \5</suggestion>
+                <example correction=", warum">Wissen Sie<marker> warum</marker> die Kosten so hoch sind?</example>
+            </rule>
+        </rulegroup>
         <rule id="DIE_FRAGE_IST_KOMMA" name="die Frage ist(,) wem">
             <pattern>
                 <token>die</token>

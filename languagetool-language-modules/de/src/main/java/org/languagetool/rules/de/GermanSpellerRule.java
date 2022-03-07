@@ -1232,6 +1232,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("gäng", w -> Arrays.asList("ging", "gang"));
     put("di", w -> Arrays.asList("du", "die", "Di.", "der", "den"));
     put("Di", w -> Arrays.asList("Du", "Die", "Di.", "Der", "Den"));
+    put("Aufn", w -> Arrays.asList("Auf den", "Auf einen", "Auf"));
+    put("aufn", w -> Arrays.asList("auf den", "auf einen", "auf"));
+    put("Aufm", w -> Arrays.asList("Auf dem", "Auf einem", "Auf"));
+    put("aufm", w -> Arrays.asList("auf dem", "auf einem", "auf"));
+    put("Ausm", w -> Arrays.asList("Aus dem", "Aus einem", "Aus"));
+    put("ausm", w -> Arrays.asList("aus dem", "aus einem", "aus"));
     put("mußt", "musst");
     put("müßtest", "müsstest");
     put("müßten", "müssten");

@@ -273,6 +273,8 @@ public class CaseRule extends Rule {
     "Oberkommandierende",
     "Oberkommandierender",
     "Oberkommandierenden",
+    "Werbungtreibende",
+    "Werbungtreibenden",
     "Mitangeklagte",
     "Schuhfilz",
     "Mix",
