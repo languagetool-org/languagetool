@@ -21,7 +21,8 @@
 
 package org.languagetool.rules;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
@@ -30,12 +31,10 @@ import org.languagetool.rules.patterns.AbstractPatternRule;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
-import java.util.regex.Pattern;
-
-import static org.junit.Assert.*;
 
 /**
  * test the filtering logic implemented in RemoteRuleFilters
@@ -48,8 +47,8 @@ public class RemoteRuleFiltersTest {
   @Test
   public void load() throws Exception {
     Map<String, List<AbstractPatternRule>> rules = RemoteRuleFilters.load(testLang);
-    assertTrue("loaded test rule", rules.containsKey(TEST_RULE));
-    assertEquals("loaded test rule", rules.get(TEST_RULE).size(), 1);
+    Assertions.assertTrue(rules.containsKey(TEST_RULE), "loaded test rule");
+    Assertions.assertEquals(rules.get(TEST_RULE).size(), 1, "loaded test rule");
   }
 
   private RuleMatch matchSubstring(String ruleId, AnalyzedSentence sentence, String substring) {
@@ -68,12 +67,11 @@ public class RemoteRuleFiltersTest {
   public void testSimpleFilter() throws IOException, ExecutionException {
     JLanguageTool lt = new JLanguageTool(testLang);
     AnalyzedSentence s = lt.getAnalyzedSentence("This is a test.");
-    assertTrue("Simple filter works", RemoteRuleFilters.filterMatches(testLang, s,
-      Arrays.asList(matchSubstring(TEST_RULE, s, "test"))
-      ).isEmpty());
-    assertFalse("Filter respects IDs", RemoteRuleFilters.filterMatches(testLang, s,
-      Arrays.asList(matchSubstring(TEST_RULE + "_NEW", s, "test"))).isEmpty()
-    );
+    Assertions.assertTrue(RemoteRuleFilters.filterMatches(testLang, s,
+            Collections.singletonList(matchSubstring(TEST_RULE, s, "test"))
+      ).isEmpty(), "Simple filter works");
+    Assertions.assertFalse(RemoteRuleFilters.filterMatches(testLang, s,
+            Collections.singletonList(matchSubstring(TEST_RULE + "_NEW", s, "test"))).isEmpty(), "Filter respects IDs");
   }
 
   @Test
@@ -84,21 +82,21 @@ public class RemoteRuleFiltersTest {
 
     sub = "foo bar";
     s = lt.getAnalyzedSentence("This is " + sub + " test.");
-    assertTrue("Filter works", RemoteRuleFilters.filterMatches(testLang, s,
-      Arrays.asList(matchSubstring(ruleId, s, "foo bar"))
-    ).isEmpty());
+    Assertions.assertTrue(RemoteRuleFilters.filterMatches(testLang, s,
+            Collections.singletonList(matchSubstring(ruleId, s, "foo bar"))
+    ).isEmpty(), "Filter works");
 
     sub = "foo   bar";
     s = lt.getAnalyzedSentence("This is " + sub +  " test.");
-    assertTrue("Filter works with multiple spaces", RemoteRuleFilters.filterMatches(testLang, s,
-      Arrays.asList(matchSubstring(ruleId, s, sub))
-    ).isEmpty());
+    Assertions.assertTrue(RemoteRuleFilters.filterMatches(testLang, s,
+            Collections.singletonList(matchSubstring(ruleId, s, sub))
+    ).isEmpty(), "Filter works with multiple spaces");
 
     sub = "foo \n bar";
     s = lt.getAnalyzedSentence("This is " + sub +  " test.");
-    assertTrue("Filter works with newlines", RemoteRuleFilters.filterMatches(testLang, s,
-      Arrays.asList(matchSubstring(ruleId, s, sub))
-    ).isEmpty());
+    Assertions.assertTrue(RemoteRuleFilters.filterMatches(testLang, s,
+            Collections.singletonList(matchSubstring(ruleId, s, sub))
+    ).isEmpty(), "Filter works with newlines");
   }
 
   @Test
@@ -108,14 +106,14 @@ public class RemoteRuleFiltersTest {
     String sub; AnalyzedSentence s;
 
     s = lt.getAnalyzedSentence("I went to the bar.");
-    assertFalse("Filter doesn't apply because of pre-marker context", RemoteRuleFilters.filterMatches(testLang, s,
-      Arrays.asList(matchSubstring(ruleId, s, "bar"))
-    ).isEmpty());
+    Assertions.assertFalse(RemoteRuleFilters.filterMatches(testLang, s,
+            Collections.singletonList(matchSubstring(ruleId, s, "bar"))
+    ).isEmpty(), "Filter doesn't apply because of pre-marker context");
 
     s = lt.getAnalyzedSentence("I went to the foo bar.");
-    assertTrue("Filter applies, marker wroks", RemoteRuleFilters.filterMatches(testLang, s,
-      Arrays.asList(matchSubstring(ruleId, s, "bar"))
-    ).isEmpty());
+    Assertions.assertTrue(RemoteRuleFilters.filterMatches(testLang, s,
+            Collections.singletonList(matchSubstring(ruleId, s, "bar"))
+    ).isEmpty(), "Filter applies, marker wroks");
   }
 
   @Test
@@ -125,14 +123,14 @@ public class RemoteRuleFiltersTest {
     String sub; AnalyzedSentence s;
 
     s = lt.getAnalyzedSentence("I went to the test bar.");
-    assertFalse("Filter doesn't apply because of antipattern", RemoteRuleFilters.filterMatches(testLang, s,
-      Arrays.asList(matchSubstring(ruleId, s, "test bar"))
-    ).isEmpty());
+    Assertions.assertFalse(RemoteRuleFilters.filterMatches(testLang, s,
+            Collections.singletonList(matchSubstring(ruleId, s, "test bar"))
+    ).isEmpty(), "Filter doesn't apply because of antipattern");
 
     s = lt.getAnalyzedSentence("I went to the best bar.");
-    assertTrue("Filter applies, antipattern did not match", RemoteRuleFilters.filterMatches(testLang, s,
-      Arrays.asList(matchSubstring(ruleId, s, "best bar"))
-    ).isEmpty());
+    Assertions.assertTrue(RemoteRuleFilters.filterMatches(testLang, s,
+            Collections.singletonList(matchSubstring(ruleId, s, "best bar"))
+    ).isEmpty(), "Filter applies, antipattern did not match");
   }
 
   @Test
@@ -141,22 +139,22 @@ public class RemoteRuleFiltersTest {
     JLanguageTool lt = new JLanguageTool(testLang);
     AnalyzedSentence s = lt.getAnalyzedSentence("This is a foo.");
 
-    assertFalse("Regex doesn't match", RemoteRuleFilters.filterMatches(testLang, s,
-      Arrays.asList(matchSubstring(ruleId, s, "foo"))
-      ).isEmpty());
+    Assertions.assertFalse(RemoteRuleFilters.filterMatches(testLang, s,
+            Collections.singletonList(matchSubstring(ruleId, s, "foo"))
+      ).isEmpty(), "Regex doesn't match");
 
-    assertTrue("Regex matches 1", RemoteRuleFilters.filterMatches(testLang, s,
-      Arrays.asList(matchSubstring(ruleId + "1", s, "foo"))
-      ).isEmpty());
-    assertTrue("Regex matches 2", RemoteRuleFilters.filterMatches(testLang, s,
-      Arrays.asList(matchSubstring(ruleId + "2", s, "foo"))
-      ).isEmpty());
-    assertTrue("Regex matches 3", RemoteRuleFilters.filterMatches(testLang, s,
-      Arrays.asList(matchSubstring(ruleId + "99", s, "foo"))
-      ).isEmpty());
+    Assertions.assertTrue(RemoteRuleFilters.filterMatches(testLang, s,
+            Collections.singletonList(matchSubstring(ruleId + "1", s, "foo"))
+      ).isEmpty(), "Regex matches 1");
+    Assertions.assertTrue(RemoteRuleFilters.filterMatches(testLang, s,
+            Collections.singletonList(matchSubstring(ruleId + "2", s, "foo"))
+      ).isEmpty(), "Regex matches 2");
+    Assertions.assertTrue(RemoteRuleFilters.filterMatches(testLang, s,
+            Collections.singletonList(matchSubstring(ruleId + "99", s, "foo"))
+      ).isEmpty(), "Regex matches 3");
 
-    assertFalse("Regex must match complete string", RemoteRuleFilters.filterMatches(testLang, s,
-      Arrays.asList(matchSubstring(ruleId + "100", s, "foo"))
-      ).isEmpty());
+    Assertions.assertFalse(RemoteRuleFilters.filterMatches(testLang, s,
+            Collections.singletonList(matchSubstring(ruleId + "100", s, "foo"))
+      ).isEmpty(), "Regex must match complete string");
   }
 }

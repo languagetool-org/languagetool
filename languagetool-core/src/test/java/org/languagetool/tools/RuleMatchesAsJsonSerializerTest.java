@@ -18,7 +18,8 @@
  */
 package org.languagetool.tools;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 import org.languagetool.*;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
@@ -26,29 +27,28 @@ import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 public class RuleMatchesAsJsonSerializerTest {
 
   private final RuleMatchesAsJsonSerializer serializer = new RuleMatchesAsJsonSerializer();
   
-  private final List<RuleMatch> matches = Arrays.asList(
+  private final List<RuleMatch> matches = Collections.singletonList(
           new RuleMatch(new FakeRule(),
-          new JLanguageTool(Languages.getLanguageForShortCode("xx")).getAnalyzedSentence("This is an test sentence."),
-          1, 3, "My Message, use <suggestion>foo</suggestion> instead", "short message")
+                  new JLanguageTool(Languages.getLanguageForShortCode("xx")).getAnalyzedSentence("This is an test sentence."),
+                  1, 3, "My Message, use <suggestion>foo</suggestion> instead", "short message")
   );
 
   private final List<RuleMatch> matches2;
   {
     FakeRule rule = new FakeRule();
-    rule.setTags(Arrays.asList(Tag.picky));
-    matches2 = Arrays.asList(
-              new RuleMatch(rule,
-              new JLanguageTool(Languages.getLanguageForShortCode("xx")).getAnalyzedSentence("This is an test sentence."),
-              1, 3, "My Message, use <suggestion>foo</suggestion> instead", "short message")
-      );
+    rule.setTags(Collections.singletonList(Tag.picky));
+    matches2 = Collections.singletonList(
+            new RuleMatch(rule,
+                    new JLanguageTool(Languages.getLanguageForShortCode("xx")).getAnalyzedSentence("This is an test sentence."),
+                    1, 3, "My Message, use <suggestion>foo</suggestion> instead", "short message")
+    );
   }
 
   public RuleMatchesAsJsonSerializerTest() throws IOException {
@@ -86,25 +86,25 @@ public class RuleMatchesAsJsonSerializerTest {
   }
 
   private void assertContains(String expectedSubstring, String json) {
-    assertTrue("Did not find expected string '" + expectedSubstring + "' in JSON:\n" + json, json.contains(expectedSubstring));
+    Assertions.assertTrue(json.contains(expectedSubstring), "Did not find expected string '" + expectedSubstring + "' in JSON:\n" + json);
   }
 
   private void assertNotContains(String unexpectedSubstring, String json) {
-    assertFalse("Found unexpected string '" + unexpectedSubstring + "' in JSON:\n" + json, json.contains(unexpectedSubstring));
+    Assertions.assertFalse(json.contains(unexpectedSubstring), "Found unexpected string '" + unexpectedSubstring + "' in JSON:\n" + json);
   }
 
   @Test
   public void testJsonWithUnixLinebreak() {
     DetectedLanguage lang = new DetectedLanguage(Languages.getLanguageForShortCode("xx-XX"), Languages.getLanguageForShortCode("xx-XX")) ;
     String json = serializer.ruleMatchesToJson(matches, "This\nis an text.", 5, lang);
-    assertTrue(json.contains("This is ..."));  // got filtered out by ContextTools
+    Assertions.assertTrue(json.contains("This is ..."));  // got filtered out by ContextTools
   }
   
   @Test
   public void testJsonWithWindowsLinebreak() {
     DetectedLanguage lang = new DetectedLanguage(Languages.getLanguageForShortCode("xx-XX"), Languages.getLanguageForShortCode("xx-XX")) ;
     String json = serializer.ruleMatchesToJson(matches, "This\ris an text.", 5, lang);
-    assertTrue(json.contains("This\\ris ..."));
+    Assertions.assertTrue(json.contains("This\\ris ..."));
   }
   
   static class FakeRule extends Rule {

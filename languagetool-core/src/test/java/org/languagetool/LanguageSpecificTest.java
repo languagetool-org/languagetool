@@ -18,6 +18,7 @@
  */
 package org.languagetool;
 
+import org.junit.jupiter.api.Assertions;
 import org.languagetool.language.Demo;
 import org.languagetool.rules.*;
 import org.languagetool.rules.ngrams.FakeLanguageModel;
@@ -32,8 +33,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static junit.framework.Assert.fail;
-import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
 
 public class LanguageSpecificTest {
 
@@ -148,7 +147,7 @@ public class LanguageSpecificTest {
         if (!(rule instanceof AbstractPatternRule)) {
           assertIdUniqueness(idsToClassName, ruleClasses, language, rule);
           assertIdValidity(language, rule);
-          assertTrue(rule.supportsLanguage(language));
+          Assertions.assertTrue(rule.supportsLanguage(language));
           rule.setTags(rule.getTags().stream().filter(k -> !k.equals(Tag.picky)).collect(Collectors.toList()));  // make sure "picky" rules also run
           testExamples(rule, lt);
         }
@@ -279,10 +278,10 @@ public class LanguageSpecificTest {
       String input = ExampleSentence.cleanMarkersInExample(correctExample.getExample());
       enableOnlyOneRule(lt, rule);
       List<RuleMatch> ruleMatches = lt.check(input);
-      assertEquals("Got unexpected rule match for correct example sentence:\n"
+      Assertions.assertEquals(0, ruleMatches.size(),"Got unexpected rule match for correct example sentence:\n"
               + "Text: " + input + "\n"
               + "Rule: " + rule.getId() + "\n"
-              + "Matches: " + ruleMatches, 0, ruleMatches.size());
+              + "Matches: " + ruleMatches);
     }
   }
 
@@ -292,10 +291,10 @@ public class LanguageSpecificTest {
       String input = ExampleSentence.cleanMarkersInExample(incorrectExample.getExample());
       enableOnlyOneRule(lt, rule);
       List<RuleMatch> ruleMatches = lt.check(input);
-      assertEquals("Did not get the expected rule match for the incorrect example sentence:\n"
+      Assertions.assertEquals((int)idToExpectedMatches.getOrDefault(rule.getId(), 1), ruleMatches.size(), "Did not get the expected rule match for the incorrect example sentence:\n"
               + "Text: " + input + "\n"
               + "Rule: " + rule.getId() + "\n"
-              + "Matches: " + ruleMatches, (int)idToExpectedMatches.getOrDefault(rule.getId(), 1), ruleMatches.size());
+              + "Matches: " + ruleMatches);
     }
   }
 

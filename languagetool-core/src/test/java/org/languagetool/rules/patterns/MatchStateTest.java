@@ -18,42 +18,42 @@
  */
 package org.languagetool.rules.patterns;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Assertions;
 import org.languagetool.FakeLanguage;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
 
 public class MatchStateTest {
   
   @Test
   public void testConvertCase() {
     MatchState startUpper = getMatchState(Match.CaseConversion.STARTUPPER);
-    assertNull(startUpper.convertCase(null, "Y", new FakeLanguage("en")));
-    assertThat(startUpper.convertCase("", "Y", new FakeLanguage("en")), is(""));
-    assertThat(startUpper.convertCase("x", "Y", new FakeLanguage("en")), is("X"));
-    assertThat(startUpper.convertCase("xxx", "Yyy", new FakeLanguage("en")), is("Xxx"));
+    Assertions.assertNull(startUpper.convertCase(null, "Y", new FakeLanguage("en")));
+    MatcherAssert.assertThat(startUpper.convertCase("", "Y", new FakeLanguage("en")), is(""));
+    MatcherAssert.assertThat(startUpper.convertCase("x", "Y", new FakeLanguage("en")), is("X"));
+    MatcherAssert.assertThat(startUpper.convertCase("xxx", "Yyy", new FakeLanguage("en")), is("Xxx"));
     // special case for Dutch:
-    assertThat(startUpper.convertCase("ijsselmeer", "Uppercase", new FakeLanguage("nl")), is("IJsselmeer"));
-    assertThat(startUpper.convertCase("ijsselmeer", "lowercase", new FakeLanguage("nl")), is("IJsselmeer"));
-    assertThat(startUpper.convertCase("ij", "Uppercase", new FakeLanguage("nl")), is("IJ"));
+    MatcherAssert.assertThat(startUpper.convertCase("ijsselmeer", "Uppercase", new FakeLanguage("nl")), is("IJsselmeer"));
+    MatcherAssert.assertThat(startUpper.convertCase("ijsselmeer", "lowercase", new FakeLanguage("nl")), is("IJsselmeer"));
+    MatcherAssert.assertThat(startUpper.convertCase("ij", "Uppercase", new FakeLanguage("nl")), is("IJ"));
 
     MatchState preserve = getMatchState(Match.CaseConversion.PRESERVE);
-    assertThat(preserve.convertCase("xxx", "Yyy", new FakeLanguage("en")), is("Xxx"));
-    assertThat(preserve.convertCase("xxx", "yyy", new FakeLanguage("en")), is("xxx"));
-    assertThat(preserve.convertCase("xxx", "YYY", new FakeLanguage("en")), is("XXX"));
+    MatcherAssert.assertThat(preserve.convertCase("xxx", "Yyy", new FakeLanguage("en")), is("Xxx"));
+    MatcherAssert.assertThat(preserve.convertCase("xxx", "yyy", new FakeLanguage("en")), is("xxx"));
+    MatcherAssert.assertThat(preserve.convertCase("xxx", "YYY", new FakeLanguage("en")), is("XXX"));
     // special case for Dutch:
-    assertThat(preserve.convertCase("ijsselmeer", "Uppercase", new FakeLanguage("nl")), is("IJsselmeer"));
-    assertThat(preserve.convertCase("ijsselmeer", "lowercase", new FakeLanguage("nl")), is("ijsselmeer"));
-    assertThat(preserve.convertCase("ijsselmeer", "ALLUPPER", new FakeLanguage("nl")), is("IJSSELMEER"));
+    MatcherAssert.assertThat(preserve.convertCase("ijsselmeer", "Uppercase", new FakeLanguage("nl")), is("IJsselmeer"));
+    MatcherAssert.assertThat(preserve.convertCase("ijsselmeer", "lowercase", new FakeLanguage("nl")), is("ijsselmeer"));
+    MatcherAssert.assertThat(preserve.convertCase("ijsselmeer", "ALLUPPER", new FakeLanguage("nl")), is("IJSSELMEER"));
 
     MatchState startLower = getMatchState(Match.CaseConversion.STARTLOWER);
-    assertThat(startLower.convertCase("xxx", "YYY", new FakeLanguage("en")), is("xxx"));
-    assertThat(startLower.convertCase("xxx", "yyy", new FakeLanguage("en")), is("xxx"));
-    assertThat(startLower.convertCase("xxx", "Yyy", new FakeLanguage("en")), is("xxx"));
-    assertThat(startLower.convertCase("XXX", "Yyy", new FakeLanguage("en")), is("xXX"));
-    assertThat(startLower.convertCase("Xxx", "Yyy", new FakeLanguage("en")), is("xxx"));
+    MatcherAssert.assertThat(startLower.convertCase("xxx", "YYY", new FakeLanguage("en")), is("xxx"));
+    MatcherAssert.assertThat(startLower.convertCase("xxx", "yyy", new FakeLanguage("en")), is("xxx"));
+    MatcherAssert.assertThat(startLower.convertCase("xxx", "Yyy", new FakeLanguage("en")), is("xxx"));
+    MatcherAssert.assertThat(startLower.convertCase("XXX", "Yyy", new FakeLanguage("en")), is("xXX"));
+    MatcherAssert.assertThat(startLower.convertCase("Xxx", "Yyy", new FakeLanguage("en")), is("xxx"));
   }
 
   private MatchState getMatchState(Match.CaseConversion conversion) {

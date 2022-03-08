@@ -22,10 +22,11 @@
 package org.languagetool.rules;
 
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
-import org.junit.After;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.Demo;
@@ -37,7 +38,6 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
 
-import static org.junit.Assert.assertEquals;
 
 public class RemoteRuleTest {
 
@@ -113,7 +113,7 @@ public class RemoteRuleTest {
     }
   }
 
-  @BeforeClass
+  @BeforeAll
   public static void setUp() throws IOException {
     lt = new JLanguageTool(new Demo());
     lt.getAllActiveRules().forEach(r -> lt.disableRule(r.getId()));
@@ -122,7 +122,7 @@ public class RemoteRuleTest {
     lt.addRule(rule);
   }
 
-  @After
+  @AfterEach
   public void tearDown() {
     rule.circuitBreaker().reset();
     waitTime = 0;
@@ -133,7 +133,7 @@ public class RemoteRuleTest {
 
   private void assertMatches(String msg, int expected) throws IOException {
     List<RuleMatch> matches = lt.check(sentence);
-    assertEquals(msg, expected, matches.size());
+    Assertions.assertEquals(expected, matches.size(), msg);
   }
 
   @Test
@@ -151,7 +151,7 @@ public class RemoteRuleTest {
   }
 
   @Test
-  @Ignore("Unstable in CI because of reliance on timings, for local testing only")
+  @Disabled("Unstable in CI because of reliance on timings, for local testing only")
   public void testCircuitbreaker() throws IOException, InterruptedException {
     waitTime = config.baseTimeoutMilliseconds * 2;
     assertMatches("timeouts work", 0);
@@ -160,11 +160,11 @@ public class RemoteRuleTest {
     waitTime = 0;
     int callsBefore = calls;
     assertMatches("No matches when circuitbreaker open", 0);
-    assertEquals("No calls when circuitbreaker open", callsBefore, calls);
+    Assertions.assertEquals(callsBefore, calls, "No calls when circuitbreaker open");
 
     Thread.sleep(config.downMilliseconds);
     assertMatches("matches when circuitbreaker half-open", 1);
-    assertEquals("calls when circuitbreaker half-open", callsBefore+1, calls);
+    Assertions.assertEquals(callsBefore+1, calls, "calls when circuitbreaker half-open");
   }
 
   @Test

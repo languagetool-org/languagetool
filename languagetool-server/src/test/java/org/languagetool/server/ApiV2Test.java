@@ -21,8 +21,9 @@ package org.languagetool.server;
 import com.sun.net.httpserver.HttpExchange;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 import org.languagetool.CheckResults;
 import org.languagetool.DetectedLanguage;
 import org.languagetool.FakeLanguage;
@@ -34,17 +35,15 @@ import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import static org.junit.Assert.*;
-
 public class ApiV2Test {
 
   @Test
   public void testLanguages() throws IOException {
     String json = new ApiV2(null, null).getLanguages();
-    assertTrue(json.contains("\"German (Germany)\""));
-    assertTrue(json.contains("\"de\""));
-    assertTrue(json.contains("\"de-DE\""));
-    assertTrue(StringUtils.countMatches(json, "\"name\"") >= 43);
+    Assertions.assertTrue(json.contains("\"German (Germany)\""));
+    Assertions.assertTrue(json.contains("\"de\""));
+    Assertions.assertTrue(json.contains("\"de-DE\""));
+    Assertions.assertTrue(StringUtils.countMatches(json, "\"name\"") >= 43);
   }
   
   @Test
@@ -52,7 +51,7 @@ public class ApiV2Test {
     ApiV2 apiV2 = new ApiV2(null, null);
     try {
       apiV2.handleRequest("unknown", new FakeHttpExchange(), null, null, null, new HTTPServerConfig());
-      fail();
+      Assertions.fail();
     } catch (PathNotFoundException ignored) {}
   }
   
@@ -63,12 +62,12 @@ public class ApiV2Test {
       Map<String, String> params = new HashMap<>();
       params.put("data", "{\"annotation\":{\"text\": \"A \"}]}");
       apiV2.handleRequest("check", new FakeHttpExchange(), params, null, null, new HTTPServerConfig());
-      fail();
+      Assertions.fail();
     } catch (BadRequestException ignored) {}
   }
   
   @Test
-  @Ignore("code is currently commented out")
+  @Disabled("code is currently commented out")
   public void testRuleExamples() throws Exception {
     HTTPServerConfig config = new HTTPServerConfig();
     ApiV2 apiV2 = new ApiV2(new V2TextChecker(config, false, new LinkedBlockingQueue<>(), new RequestCounter()), null);
@@ -78,8 +77,8 @@ public class ApiV2Test {
     params.put("ruleId", "EN_A_VS_AN");
     apiV2.handleRequest("rule/examples", httpExchange, params, null, null, config);
     //System.out.println(httpExchange.getOutput());
-    assertTrue(httpExchange.getOutput().contains("The train arrived <marker>an hour</marker> ago."));
-    assertTrue(httpExchange.getOutput().contains("The train arrived <marker>a hour</marker> ago."));
+    Assertions.assertTrue(httpExchange.getOutput().contains("The train arrived <marker>an hour</marker> ago."));
+    Assertions.assertTrue(httpExchange.getOutput().contains("The train arrived <marker>a hour</marker> ago."));
   }
   
   static class FakeTextChecker extends TextChecker {

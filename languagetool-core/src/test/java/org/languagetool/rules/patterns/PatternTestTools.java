@@ -26,9 +26,9 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.junit.jupiter.api.Assertions;
 import org.languagetool.Language;
 
-import static org.junit.Assert.fail;
 
 /**
  * Common pattern test routines (usable for Disambiguation rules as well).
@@ -67,7 +67,7 @@ public final class PatternTestTools {
     if (patternTokens != null) {
       for (PatternToken token : patternTokens) {
         if (token.getString() != null && token.getString().matches(".*\\s.*")) {
-          fail("Whitespace found in token '" + token.getString() + "' of rule " + rule.getFullId() +
+          Assertions.fail("Whitespace found in token '" + token.getString() + "' of rule " + rule.getFullId() +
                " (language " + lang.getShortCodeWithCountryAndVariant() + "): " +
                "Using whitespace in a token will not work, as text gets split at whitespace. " +
                "Use a new <token> element instead.");

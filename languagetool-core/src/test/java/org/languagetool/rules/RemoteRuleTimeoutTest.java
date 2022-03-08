@@ -23,10 +23,11 @@ package org.languagetool.rules;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.jetbrains.annotations.NotNull;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.RuleMatchListener;
@@ -42,9 +43,8 @@ import java.util.List;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
-import static org.junit.Assert.assertTrue;
 
-@Ignore("For interactive use")
+@Disabled("For interactive use")
 public class RemoteRuleTimeoutTest {
   private static final long TIMEOUT = 50L;
 
@@ -105,7 +105,7 @@ public class RemoteRuleTimeoutTest {
   JLanguageTool lt;
   AnnotatedText text;
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     rule = getTestRemoteRule();
     lt = new JLanguageTool(TestTools.getDemoLanguage());
@@ -123,7 +123,7 @@ public class RemoteRuleTimeoutTest {
     //  true, "AI", "Test rule").get(0);
   }
 
-  @After
+  @AfterEach
   public void tearDown() throws Exception {
   }
 
@@ -152,7 +152,7 @@ public class RemoteRuleTimeoutTest {
         pool.submit(task);
         try {
           List<RuleMatch> matches = task.get(TIMEOUT, TimeUnit.MILLISECONDS);
-          assertTrue(matches.isEmpty());
+          Assertions.assertTrue(matches.isEmpty());
         } catch (ExecutionException | TimeoutException e) {
           task.cancel(true);
         }

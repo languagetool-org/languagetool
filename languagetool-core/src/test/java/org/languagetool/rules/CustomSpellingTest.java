@@ -18,7 +18,7 @@
  */
 package org.languagetool.rules;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.*;
 import org.languagetool.language.Demo;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;

@@ -18,19 +18,19 @@
  */
 package org.languagetool.rules;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Assertions;
 import org.languagetool.FakeLanguage;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.TestTools;
 
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 
 public class GenericUnpairedBracketsRuleTest {
 
@@ -84,24 +84,24 @@ public class GenericUnpairedBracketsRuleTest {
   public void testRuleMatchPositions() throws IOException {
     setUpRule(new FakeLanguage());
     RuleMatch match1 = lt.check("This »is a test.").get(0);
-    assertThat(match1.getFromPos(), is(5));
-    assertThat(match1.getToPos(), is(6));
-    assertThat(match1.getLine(), is(0));
-    assertThat(match1.getEndLine(), is(0));
-    assertThat(match1.getColumn(), is(5));
-    assertThat(match1.getEndColumn(), is(6));
+    MatcherAssert.assertThat(match1.getFromPos(), is(5));
+    MatcherAssert.assertThat(match1.getToPos(), is(6));
+    MatcherAssert.assertThat(match1.getLine(), is(0));
+    MatcherAssert.assertThat(match1.getEndLine(), is(0));
+    MatcherAssert.assertThat(match1.getColumn(), is(5));
+    MatcherAssert.assertThat(match1.getEndColumn(), is(6));
 
     RuleMatch match2 = lt.check("This.\nSome stuff.\nIt »is a test.").get(0);
-    assertThat(match2.getFromPos(), is(21));
-    assertThat(match2.getToPos(), is(22));
-    assertThat(match2.getLine(), is(2));  // first line is 0
-    assertThat(match2.getEndLine(), is(2));
-    assertThat(match2.getColumn(), is(4));
-    assertThat(match2.getEndColumn(), is(5));
+    MatcherAssert.assertThat(match2.getFromPos(), is(21));
+    MatcherAssert.assertThat(match2.getToPos(), is(22));
+    MatcherAssert.assertThat(match2.getLine(), is(2));  // first line is 0
+    MatcherAssert.assertThat(match2.getEndLine(), is(2));
+    MatcherAssert.assertThat(match2.getColumn(), is(4));
+    MatcherAssert.assertThat(match2.getEndColumn(), is(5));
 
     RuleMatch match3 = lt.check("Th\u00ADis »is a test.").get(0);
-    assertThat(match3.getFromPos(), is(6));
-    assertThat(match3.getToPos(), is(7));
+    MatcherAssert.assertThat(match3.getFromPos(), is(6));
+    MatcherAssert.assertThat(match3.getToPos(), is(7));
   }
 
   private void setUpRule(Language language) {
@@ -110,13 +110,13 @@ public class GenericUnpairedBracketsRuleTest {
       lt.disableRule(rule.getId());
     }
     GenericUnpairedBracketsRule rule = new GenericUnpairedBracketsRule(TestTools.getEnglishMessages(),
-            Arrays.asList("»"), Arrays.asList("«"));
+            Collections.singletonList("»"), Collections.singletonList("«"));
     lt.addRule(rule);
   }
 
   private void assertMatches(int expectedMatches, String input) throws IOException {
     List<RuleMatch> ruleMatches = lt.check(input);
-    assertEquals("Expected " + expectedMatches + " matches, got: " + ruleMatches, expectedMatches, ruleMatches.size());
+    Assertions.assertEquals(expectedMatches, ruleMatches.size(), "Expected " + expectedMatches + " matches, got: " + ruleMatches);
   }
 
   public static GenericUnpairedBracketsRule getBracketsRule(JLanguageTool lt) {

@@ -18,7 +18,10 @@
  */
 package org.languagetool.dev.errorcorpus;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Assertions;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,9 +29,7 @@ import java.net.URL;
 import java.util.Iterator;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+
 
 public class PedlerCorpusTest {
 
@@ -37,22 +38,18 @@ public class PedlerCorpusTest {
     URL errors = PedlerCorpusTest.class.getResource("/org/languagetool/dev/eval");
     PedlerCorpus corpus = new PedlerCorpus(new File(errors.getFile()));
     Iterator<ErrorSentence> iterator = corpus.iterator();
-    assertTrue(iterator.hasNext());
+    Assertions.assertTrue(iterator.hasNext());
     ErrorSentence sentence1 = iterator.next();
-    assertThat(sentence1.getAnnotatedText().getPlainText(),
-            is("But also please not that grammar checkers aren't perfect."));
-    assertThat(sentence1.getMarkupText(),
-            is("But <ERR targ=foo>also</ERR> please <ERR targ=note>not</ERR> that grammar checkers aren't perfect."));
+    MatcherAssert.assertThat(sentence1.getAnnotatedText().getPlainText(), is("But also please not that grammar checkers aren't perfect."));
+    MatcherAssert.assertThat(sentence1.getMarkupText(), is("But <ERR targ=foo>also</ERR> please <ERR targ=note>not</ERR> that grammar checkers aren't perfect."));
 
     ErrorSentence sentence2 = iterator.next();
-    assertThat(sentence2.getAnnotatedText().getPlainText(),
-            is("But also also please note note that grammar checkers aren't perfect."));
-    assertThat(sentence2.getMarkupText(),
-            is("But <ERR targ=bad suggestion>also also</ERR> please <ERR targ=note>note note</ERR> that grammar checkers aren't perfect."));
+    MatcherAssert.assertThat(sentence2.getAnnotatedText().getPlainText(), is("But also also please note note that grammar checkers aren't perfect."));
+    MatcherAssert.assertThat(sentence2.getMarkupText(), is("But <ERR targ=bad suggestion>also also</ERR> please <ERR targ=note>note note</ERR> that grammar checkers aren't perfect."));
 
-    assertTrue(iterator.hasNext());
+    Assertions.assertTrue(iterator.hasNext());
     iterator.next();
-    assertFalse(iterator.hasNext());
+    Assertions.assertFalse(iterator.hasNext());
   } 
 
 }

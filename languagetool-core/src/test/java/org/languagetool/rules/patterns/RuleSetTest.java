@@ -18,7 +18,8 @@
  */
 package org.languagetool.rules.patterns;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
@@ -27,7 +28,6 @@ import org.languagetool.FakeLanguage;
 import java.util.Arrays;
 import java.util.Collections;
 
-import static org.junit.Assert.assertEquals;
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
 import static org.languagetool.rules.patterns.RuleSet.textLemmaHinted;
 
@@ -69,7 +69,7 @@ public class RuleSetTest {
   }
 
   private static void assertRulesForSentence(RuleSet ruleSet, PatternRule... expected) {
-    assertEquals(Arrays.asList(expected), ruleSet.rulesForSentence(sampleSentence));
+    Assertions.assertEquals(Arrays.asList(expected), ruleSet.rulesForSentence(sampleSentence));
   }
 
   private static PatternRule ruleOf(PatternToken token) {

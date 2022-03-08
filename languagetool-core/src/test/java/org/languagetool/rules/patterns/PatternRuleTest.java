@@ -19,7 +19,8 @@
 package org.languagetool.rules.patterns;
 
 import org.jetbrains.annotations.NotNull;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.junit.rules.ErrorCollector;
 import org.languagetool.*;
 import org.languagetool.rules.*;
@@ -34,7 +35,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static org.junit.Assert.*;
 
 /**
  * @author Daniel Naber
@@ -84,15 +84,15 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
     FakeLanguage fakeLanguage1 = new FakeLanguage("yy");
     FakeLanguage fakeLanguage2 = new FakeLanguage("zz");
     PatternRule patternRule1 = new PatternRule("ID", fakeLanguage1, Collections.emptyList(), "", "", "");
-    assertTrue(patternRule1.supportsLanguage(fakeLanguage1)); 
-    assertFalse(patternRule1.supportsLanguage(fakeLanguage2));
+    Assertions.assertTrue(patternRule1.supportsLanguage(fakeLanguage1)); 
+    Assertions.assertFalse(patternRule1.supportsLanguage(fakeLanguage2));
     FakeLanguage fakeLanguage1WithVariant1 = new FakeLanguage("zz", "VAR1");
     FakeLanguage fakeLanguage1WithVariant2 = new FakeLanguage("zz", "VAR2");
     PatternRule patternRuleVariant1 = new PatternRule("ID", fakeLanguage1WithVariant1, Collections.emptyList(), "", "", "");
-    assertTrue(patternRuleVariant1.supportsLanguage(fakeLanguage1WithVariant1));    
-    assertFalse(patternRuleVariant1.supportsLanguage(fakeLanguage1));
-    assertFalse(patternRuleVariant1.supportsLanguage(fakeLanguage2));
-    assertFalse(patternRuleVariant1.supportsLanguage(fakeLanguage1WithVariant2));
+    Assertions.assertTrue(patternRuleVariant1.supportsLanguage(fakeLanguage1WithVariant1));    
+    Assertions.assertFalse(patternRuleVariant1.supportsLanguage(fakeLanguage1));
+    Assertions.assertFalse(patternRuleVariant1.supportsLanguage(fakeLanguage2));
+    Assertions.assertFalse(patternRuleVariant1.supportsLanguage(fakeLanguage1WithVariant2));
   }
 
   /**
@@ -221,16 +221,16 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
         System.err.println("WARNING: " + lang.getShortCodeWithCountryAndVariant() + " has a rule with id 'ID', this should probably be changed");
       }
       if (rule.getId().startsWith("DB_")) {
-        fail("Rule ID must not start with 'DB_', this prefix is reserved for internal use: " + rule.getId());
+        Assertions.fail("Rule ID must not start with 'DB_', this prefix is reserved for internal use: " + rule.getId());
       }
       if (rule.getId().contains("[") || rule.getId().contains("]")) {
-        fail("Rule ID must not contain '[...]': " + rule.getId());
+        Assertions.fail("Rule ID must not contain '[...]': " + rule.getId());
       }
       if (rule.getId().contains(" ")) {
-        fail("Rule ID must not contain a space: '" + rule.getId() + "'");
+        Assertions.fail("Rule ID must not contain a space: '" + rule.getId() + "'");
       }
       if (rule.getId().length() > 79) {  // limit needed so the Grafana import script works
-        fail("Rule ID too long, keep it <= 79 chars: " + rule.getId());
+        Assertions.fail("Rule ID too long, keep it <= 79 chars: " + rule.getId());
       }
       Category category = rule.getCategory();
       String catId = category.getId().toString();

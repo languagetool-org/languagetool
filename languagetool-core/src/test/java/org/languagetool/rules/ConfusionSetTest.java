@@ -18,22 +18,24 @@
  */
 package org.languagetool.rules;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Assertions;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
 
 public class ConfusionSetTest {
   
   @Test
   public void testGet() {
     ConfusionSet confusionSet = new ConfusionSet(1, "one", "two");
-    assertThat(confusionSet.getSet().size(), is(2));
-    assertTrue(confusionSet.getSet().toString().contains("one"));
-    assertTrue(confusionSet.getSet().toString().contains("two"));
-    assertThat(confusionSet.getUppercaseFirstCharSet().size(), is(2));
-    assertTrue(confusionSet.getUppercaseFirstCharSet().toString().contains("One"));
-    assertTrue(confusionSet.getUppercaseFirstCharSet().toString().contains("Two"));
+    MatcherAssert.assertThat(confusionSet.getSet().size(), is(2));
+    Assertions.assertTrue(confusionSet.getSet().toString().contains("one"));
+    Assertions.assertTrue(confusionSet.getSet().toString().contains("two"));
+    MatcherAssert.assertThat(confusionSet.getUppercaseFirstCharSet().size(), is(2));
+    Assertions.assertTrue(confusionSet.getUppercaseFirstCharSet().toString().contains("One"));
+    Assertions.assertTrue(confusionSet.getUppercaseFirstCharSet().toString().contains("Two"));
   }
 
   @Test
@@ -42,10 +44,10 @@ public class ConfusionSetTest {
     ConfusionSet confusionSet1b = new ConfusionSet(1, "two", "one");
     ConfusionSet confusionSet3 = new ConfusionSet(1, "Two", "one");
     ConfusionSet confusionSet4 = new ConfusionSet(2, "Two", "one");
-    assertTrue(confusionSet1a.equals(confusionSet1b));
-    assertFalse(confusionSet1a.equals(confusionSet3));
-    assertFalse(confusionSet1b.equals(confusionSet3));
-    assertFalse(confusionSet3.equals(confusionSet4));
+    Assertions.assertEquals(confusionSet1a, confusionSet1b);
+    Assertions.assertNotEquals(confusionSet1a, confusionSet3);
+    Assertions.assertNotEquals(confusionSet1b, confusionSet3);
+    Assertions.assertNotEquals(confusionSet3, confusionSet4);
   }
 
 }

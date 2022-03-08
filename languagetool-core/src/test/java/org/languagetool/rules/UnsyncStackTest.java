@@ -19,23 +19,23 @@
 
 package org.languagetool.rules;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import org.junit.jupiter.api.Assertions;
 
 import java.util.EmptyStackException;
-
-import static org.junit.Assert.*;
 
 public class UnsyncStackTest {
 
   @Test
   public void testStack() {
     UnsyncStack<String> stack = new UnsyncStack<>();
-    assertTrue(stack.empty());
+    Assertions.assertTrue(stack.empty());
     stack.push("test");
-    assertEquals("test", stack.peek());
-    assertFalse(stack.empty());
-    assertEquals("test", stack.pop());
-    assertTrue(stack.empty());
+    Assertions.assertEquals("test", stack.peek());
+    Assertions.assertFalse(stack.empty());
+    Assertions.assertEquals("test", stack.pop());
+    Assertions.assertTrue(stack.empty());
     try {
       stack.pop();
     } catch (EmptyStackException ignored) {}

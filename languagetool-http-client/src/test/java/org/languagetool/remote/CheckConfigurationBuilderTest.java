@@ -18,12 +18,14 @@
  */
 package org.languagetool.remote;
 
-import org.junit.Test;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class CheckConfigurationBuilderTest {
   
@@ -31,7 +33,7 @@ public class CheckConfigurationBuilderTest {
   public void test() {
     CheckConfiguration config1 = new CheckConfigurationBuilder("xx").build();
     assertThat(config1.getLangCode().get(), is("xx"));
-    assertNull(config1.getMotherTongueLangCode());
+    Assertions.assertNull(config1.getMotherTongueLangCode());
     assertThat(config1.getEnabledRuleIds().size(), is(0));
     assertThat(config1.enabledOnly(), is(false));
     assertThat(config1.guessLanguage(), is(false));
@@ -42,7 +44,7 @@ public class CheckConfigurationBuilderTest {
             .enabledRuleIds(Arrays.asList("RULE1", "RULE2"))
             .disabledRuleIds(Arrays.asList("RULE3", "RULE4"))
             .build();
-    assertFalse(config2.getLangCode().isPresent());
+    Assertions.assertFalse(config2.getLangCode().isPresent());
     assertThat(config2.getMotherTongueLangCode(), is("mm"));
     assertThat(config2.getEnabledRuleIds().toString(), is("[RULE1, RULE2]"));
     assertThat(config2.getDisabledRuleIds().toString(), is("[RULE3, RULE4]"));
@@ -50,9 +52,10 @@ public class CheckConfigurationBuilderTest {
     assertThat(config2.guessLanguage(), is(true));
   }
 
-  @Test(expected = IllegalStateException.class)
+  @Test
   public void testInvalidConfig() {
-    new CheckConfigurationBuilder("xx").enabledOnly().build();
+    IllegalStateException thrown = Assertions.assertThrows(IllegalStateException.class, () -> {
+          new CheckConfigurationBuilder("xx").enabledOnly().build();
+    });
   }
-
 }

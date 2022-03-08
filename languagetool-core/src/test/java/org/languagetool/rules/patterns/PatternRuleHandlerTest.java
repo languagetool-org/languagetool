@@ -18,10 +18,11 @@
  */
 package org.languagetool.rules.patterns;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import org.hamcrest.MatcherAssert;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
 
 public class PatternRuleHandlerTest {
   
@@ -29,10 +30,10 @@ public class PatternRuleHandlerTest {
   public void testReplaceSpacesInRegex() {
     PatternRuleHandler handler = new PatternRuleHandler();
     String s = "(?:[\\s\u00A0\u202F]+)";
-    assertThat(handler.replaceSpacesInRegex("foo bar"), is("foo" + s + "bar"));
-    assertThat(handler.replaceSpacesInRegex("foo bar x"), is("foo" + s + "bar" + s + "x"));
-    assertThat(handler.replaceSpacesInRegex("foo  bar"), is("foo" + s + s + "bar"));  // well, does not really make sense
-    assertThat(handler.replaceSpacesInRegex("fo[xy ] bar"), is("fo[xy ]" + s + "bar"));
+    MatcherAssert.assertThat(handler.replaceSpacesInRegex("foo bar"), is("foo" + s + "bar"));
+    MatcherAssert.assertThat(handler.replaceSpacesInRegex("foo bar x"), is("foo" + s + "bar" + s + "x"));
+    MatcherAssert.assertThat(handler.replaceSpacesInRegex("foo  bar"), is("foo" + s + s + "bar"));  // well, does not really make sense
+    MatcherAssert.assertThat(handler.replaceSpacesInRegex("fo[xy ] bar"), is("fo[xy ]" + s + "bar"));
   }
 
 }

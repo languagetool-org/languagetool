@@ -18,13 +18,12 @@
  */
 package org.languagetool.rules;
 
+import org.junit.jupiter.api.Assertions;
 import org.languagetool.JLanguageTool;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 /**
  * Abstract test case for CompoundRule.
@@ -50,11 +49,10 @@ public abstract class AbstractCompoundRuleTest {
    * @param expSuggestions the expected suggestions
    */
   public void check(int expectedErrors, String text, String... expSuggestions) throws IOException {
-    assertNotNull("Please initialize langTool!", lt);
-    assertNotNull("Please initialize 'rule'!", rule);
+    Assertions.assertNotNull(lt, "Please initialize langTool!");
+    Assertions.assertNotNull(rule, "Please initialize 'rule'!");
     RuleMatch[] ruleMatches = rule.match(lt.getAnalyzedSentence(text));
-    assertEquals("Expected " + expectedErrors + " error(s), but got: " + Arrays.toString(ruleMatches),
-            expectedErrors, ruleMatches.length);
+    Assertions.assertEquals(expectedErrors, ruleMatches.length, "Expected " + expectedErrors + " error(s), but got: " + Arrays.toString(ruleMatches));
     if (expSuggestions != null && expectedErrors != 1) {
       throw new RuntimeException("Sorry, test case can only check suggestion if there's one rule match");
     }
@@ -63,10 +61,10 @@ public abstract class AbstractCompoundRuleTest {
       String errorMessage =
               String.format("Got these suggestions: %s, expected %s ", ruleMatch.getSuggestedReplacements(),
               Arrays.toString(expSuggestions));
-      assertEquals(errorMessage, expSuggestions.length, ruleMatch.getSuggestedReplacements().size());
+      Assertions.assertEquals(expSuggestions.length, ruleMatch.getSuggestedReplacements().size(), errorMessage);
       int i = 0;
       for (String element : ruleMatch.getSuggestedReplacements()) {
-        assertEquals(expSuggestions[i], element);
+        Assertions.assertEquals(expSuggestions[i], element);
         i++;
       }
     }

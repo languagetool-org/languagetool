@@ -20,17 +20,19 @@
 
 package org.languagetool;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+
+import org.junit.jupiter.api.Assertions;
 
 import static junit.framework.Assert.assertTrue;
 
 public class FailTest {
   
   @Test
-  @Ignore //just for circleci tests
+  @Disabled //just for circleci tests
   public void fail() {
-    assertTrue(false);
+    Assertions.fail();
   }
 
 }

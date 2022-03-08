@@ -18,7 +18,8 @@
  */
 package org.languagetool;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 import org.languagetool.language.Demo;
 import org.languagetool.rules.MultipleWhitespaceRule;
 import org.languagetool.rules.Rule;
@@ -32,8 +33,6 @@ import java.util.concurrent.RejectedExecutionException;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 @SuppressWarnings("ResultOfObjectAllocationIgnored")
 public class MultiThreadedJLanguageToolTest {
@@ -43,13 +42,13 @@ public class MultiThreadedJLanguageToolTest {
     MultiThreadedJLanguageTool lt1 = new MultiThreadedJLanguageTool(new Demo());
     lt1.setCleanOverlappingMatches(false);
     List<String> ruleMatchIds1 = getRuleMatchIds(lt1);
-    assertEquals(9, ruleMatchIds1.size()); 
+    Assertions.assertEquals(9, ruleMatchIds1.size()); 
     lt1.shutdown();
 
     JLanguageTool lt2 = new JLanguageTool(new Demo());
     lt2.setCleanOverlappingMatches(false);
     List<String> ruleMatchIds2 = getRuleMatchIds(lt2);
-    assertEquals(ruleMatchIds1, ruleMatchIds2);
+    Assertions.assertEquals(ruleMatchIds1, ruleMatchIds2);
   }
   
   @Test
@@ -59,7 +58,7 @@ public class MultiThreadedJLanguageToolTest {
     tool.shutdown();
     try {
       getRuleMatchIds(tool);
-      fail("should have been rejected as the thread pool has been shut down");
+      Assertions.fail("should have been rejected as the thread pool has been shut down");
     } catch (RejectedExecutionException ignore) {}
   }
   
@@ -78,7 +77,7 @@ public class MultiThreadedJLanguageToolTest {
   @Test
   public void testConfigurableThreadPoolSize() throws IOException {
     MultiThreadedJLanguageTool lt = new MultiThreadedJLanguageTool(new Demo());
-    assertEquals(Runtime.getRuntime().availableProcessors(), lt.getThreadPoolSize());
+    Assertions.assertEquals(Runtime.getRuntime().availableProcessors(), lt.getThreadPoolSize());
     lt.shutdown();
   }
 

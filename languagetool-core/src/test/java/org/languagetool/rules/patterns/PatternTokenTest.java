@@ -20,10 +20,10 @@
 package org.languagetool.rules.patterns;
 
 import com.google.common.collect.Sets;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 import org.languagetool.AnalyzedToken;
 
-import static org.junit.Assert.*;
 import static org.languagetool.JLanguageTool.*;
 import static org.languagetool.rules.patterns.PatternToken.UNKNOWN_TAG;
 
@@ -33,17 +33,17 @@ public class PatternTokenTest {
   public void testSentenceStart() {
     PatternToken patternToken = new PatternToken("", false, false, false);
     patternToken.setPosToken(new PatternToken.PosToken(SENTENCE_START_TAGNAME, false, false));
-    assertTrue(patternToken.isSentenceStart());
+    Assertions.assertTrue(patternToken.isSentenceStart());
     patternToken.setPosToken(new PatternToken.PosToken(SENTENCE_START_TAGNAME, false, true));
-    assertFalse(patternToken.isSentenceStart());
+    Assertions.assertFalse(patternToken.isSentenceStart());
     patternToken.setPosToken(new PatternToken.PosToken(SENTENCE_START_TAGNAME, true, false));
-    assertTrue(patternToken.isSentenceStart());
+    Assertions.assertTrue(patternToken.isSentenceStart());
     patternToken.setPosToken(new PatternToken.PosToken(SENTENCE_START_TAGNAME, true, true));
-    assertFalse(patternToken.isSentenceStart());
+    Assertions.assertFalse(patternToken.isSentenceStart());
 
     PatternToken patternToken2 = new PatternToken("bla|blah", false, true, false);
     patternToken2.setPosToken(new PatternToken.PosToken("foo", true, true));
-    assertFalse(patternToken2.isSentenceStart());
+    Assertions.assertFalse(patternToken2.isSentenceStart());
   }
 
   @Test
@@ -64,117 +64,117 @@ public class PatternTokenTest {
     patternToken5.setPosToken(new PatternToken.PosToken(UNKNOWN_TAG, false, false));
 
     AnalyzedToken an = new AnalyzedToken("schword", null, null);
-    assertTrue(patternToken.isMatched(an));
-    assertFalse(patternToken2.isMatched(an));
-    assertTrue(patternToken3.isMatched(an));
-    assertFalse(patternToken4.isMatched(an));
-    assertTrue(patternToken5.isMatched(an));
+    Assertions.assertTrue(patternToken.isMatched(an));
+    Assertions.assertFalse(patternToken2.isMatched(an));
+    Assertions.assertTrue(patternToken3.isMatched(an));
+    Assertions.assertFalse(patternToken4.isMatched(an));
+    Assertions.assertTrue(patternToken5.isMatched(an));
 
     // if the AnalyzedToken is in the set of readings that have
     //non-null tags...
     an.setNoPOSTag(false);
-    assertFalse(patternToken.isMatched(an));
-    assertTrue(patternToken2.isMatched(an));
-    assertFalse(patternToken3.isMatched(an));
-    assertTrue(patternToken4.isMatched(an));
-    assertFalse(patternToken5.isMatched(an));
+    Assertions.assertFalse(patternToken.isMatched(an));
+    Assertions.assertTrue(patternToken2.isMatched(an));
+    Assertions.assertFalse(patternToken3.isMatched(an));
+    Assertions.assertTrue(patternToken4.isMatched(an));
+    Assertions.assertFalse(patternToken5.isMatched(an));
 
     AnalyzedToken anSentEnd = new AnalyzedToken("schword", SENTENCE_END_TAGNAME, null);
-    assertTrue(patternToken.isMatched(anSentEnd));
-    assertFalse(patternToken2.isMatched(anSentEnd));
-    assertTrue(patternToken3.isMatched(anSentEnd));
-    assertFalse(patternToken4.isMatched(anSentEnd));
-    assertTrue(patternToken5.isMatched(anSentEnd));
+    Assertions.assertTrue(patternToken.isMatched(anSentEnd));
+    Assertions.assertFalse(patternToken2.isMatched(anSentEnd));
+    Assertions.assertTrue(patternToken3.isMatched(anSentEnd));
+    Assertions.assertFalse(patternToken4.isMatched(anSentEnd));
+    Assertions.assertTrue(patternToken5.isMatched(anSentEnd));
 
     PatternToken patternToken6 = new PatternToken("\\p{Ll}+", false, true, false);
     patternToken6.setPosToken(new PatternToken.PosToken(SENTENCE_END_TAGNAME, false, false));
-    assertTrue(patternToken6.isMatched(anSentEnd));
+    Assertions.assertTrue(patternToken6.isMatched(anSentEnd));
 
     PatternToken patternToken7 = new PatternToken("\\p{Ll}+", false, true, false);
     patternToken7.setPosToken(new PatternToken.PosToken(SENTENCE_END_TAGNAME + "|BLABLA", true, false));
-    assertTrue(patternToken7.isMatched(anSentEnd));
+    Assertions.assertTrue(patternToken7.isMatched(anSentEnd));
 
     // if the AnalyzedToken is in the set of readings that have
     //non-null tags...
     anSentEnd.setNoPOSTag(false);
-    assertFalse(patternToken.isMatched(anSentEnd));
-    assertTrue(patternToken2.isMatched(anSentEnd));
-    assertFalse(patternToken3.isMatched(anSentEnd));
-    assertTrue(patternToken4.isMatched(anSentEnd));
-    assertFalse(patternToken5.isMatched(anSentEnd));
+    Assertions.assertFalse(patternToken.isMatched(anSentEnd));
+    Assertions.assertTrue(patternToken2.isMatched(anSentEnd));
+    Assertions.assertFalse(patternToken3.isMatched(anSentEnd));
+    Assertions.assertTrue(patternToken4.isMatched(anSentEnd));
+    Assertions.assertFalse(patternToken5.isMatched(anSentEnd));
 
     AnalyzedToken anParaEnd = new AnalyzedToken("schword", PARAGRAPH_END_TAGNAME, null);
-    assertTrue(patternToken.isMatched(anParaEnd));
-    assertFalse(patternToken2.isMatched(anParaEnd));
-    assertTrue(patternToken3.isMatched(anParaEnd));
-    assertFalse(patternToken4.isMatched(anParaEnd));
-    assertTrue(patternToken5.isMatched(anParaEnd));
+    Assertions.assertTrue(patternToken.isMatched(anParaEnd));
+    Assertions.assertFalse(patternToken2.isMatched(anParaEnd));
+    Assertions.assertTrue(patternToken3.isMatched(anParaEnd));
+    Assertions.assertFalse(patternToken4.isMatched(anParaEnd));
+    Assertions.assertTrue(patternToken5.isMatched(anParaEnd));
 
     // if the AnalyzedToken is in the set of readings that have
     //non-null tags...
     anParaEnd.setNoPOSTag(false);
-    assertFalse(patternToken.isMatched(anParaEnd));
-    assertTrue(patternToken2.isMatched(anParaEnd));
-    assertFalse(patternToken3.isMatched(anParaEnd));
-    assertTrue(patternToken4.isMatched(anParaEnd));
-    assertFalse(patternToken5.isMatched(anParaEnd));
+    Assertions.assertFalse(patternToken.isMatched(anParaEnd));
+    Assertions.assertTrue(patternToken2.isMatched(anParaEnd));
+    Assertions.assertFalse(patternToken3.isMatched(anParaEnd));
+    Assertions.assertTrue(patternToken4.isMatched(anParaEnd));
+    Assertions.assertFalse(patternToken5.isMatched(anParaEnd));
 
     AnalyzedToken anWithPOS = new AnalyzedToken("schword", "POS", null);
-    assertFalse(patternToken.isMatched(anWithPOS));
-    assertTrue(patternToken2.isMatched(anWithPOS));
-    assertFalse(patternToken3.isMatched(anWithPOS));
-    assertTrue(patternToken4.isMatched(anWithPOS));
-    assertFalse(patternToken5.isMatched(anWithPOS));
+    Assertions.assertFalse(patternToken.isMatched(anWithPOS));
+    Assertions.assertTrue(patternToken2.isMatched(anWithPOS));
+    Assertions.assertFalse(patternToken3.isMatched(anWithPOS));
+    Assertions.assertTrue(patternToken4.isMatched(anWithPOS));
+    Assertions.assertFalse(patternToken5.isMatched(anWithPOS));
   }
 
   @Test
   public void testNegation() {
 
     PatternToken token = new PatternTokenBuilder().tokenRegex("an?|the").negate().build();
-    assertTrue(token.getNegation());
+    Assertions.assertTrue(token.getNegation());
 
     token = new PatternTokenBuilder().tokenRegex("an?|the").build();
-    assertFalse(token.getNegation());
+    Assertions.assertFalse(token.getNegation());
 
     token = new PatternTokenBuilder().pos("NNS").negate().build();
-    assertTrue(token.getNegation());
+    Assertions.assertTrue(token.getNegation());
 
     token = new PatternTokenBuilder().pos("NNS").build();
-    assertFalse(token.getNegation());
+    Assertions.assertFalse(token.getNegation());
 
     token = new PatternTokenBuilder().token("text").negate().build();
-    assertTrue(token.getNegation());
+    Assertions.assertTrue(token.getNegation());
 
     token = new PatternTokenBuilder().token("text").build();
-    assertFalse(token.getNegation());
+    Assertions.assertFalse(token.getNegation());
 
   }
 
   @Test
   public void testFormHints() {
     PatternToken token = new PatternTokenBuilder().tokenRegex("an?|the|th[eo]se").build();
-    assertEquals(Sets.newHashSet("a", "an", "the", "these", "those"), token.calcFormHints());
+    Assertions.assertEquals(Sets.newHashSet("a", "an", "the", "these", "those"), token.calcFormHints());
 
     token = new PatternTokenBuilder().token("foo").build();
-    assertEquals(Sets.newHashSet("foo"), token.calcFormHints());
+    Assertions.assertEquals(Sets.newHashSet("foo"), token.calcFormHints());
 
     token = new PatternTokenBuilder().tokenRegex("(foo)?.*").build();
-    assertNull(token.calcFormHints());
+    Assertions.assertNull(token.calcFormHints());
 
     token = new PatternTokenBuilder().csTokenRegex("a|b").build();
-    assertEquals(Sets.newHashSet("a", "b"), token.calcFormHints());
+    Assertions.assertEquals(Sets.newHashSet("a", "b"), token.calcFormHints());
 
     token = new PatternTokenBuilder().token("a").min(0).build();
-    assertNull(token.calcFormHints());
+    Assertions.assertNull(token.calcFormHints());
 
     token = new PatternTokenBuilder().tokenRegex("an|the").build();
     token.setOrGroupElement(new PatternTokenBuilder().tokenRegex("foo|bar").build());
-    assertEquals(Sets.newHashSet("an", "the", "foo", "bar"), token.calcFormHints());
+    Assertions.assertEquals(Sets.newHashSet("an", "the", "foo", "bar"), token.calcFormHints());
     token.setOrGroupElement(new PatternTokenBuilder().tokenRegex("foo.*|bar").build());
-    assertNull(token.calcFormHints());
+    Assertions.assertNull(token.calcFormHints());
 
     token = new PatternTokenBuilder().tokenRegex("an|the").build();
     token.setAndGroupElement(new PatternTokenBuilder().tokenRegex("foo|an").build());
-    assertEquals(Sets.newHashSet("an"), token.calcFormHints());
+    Assertions.assertEquals(Sets.newHashSet("an"), token.calcFormHints());
   }
 }

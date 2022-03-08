@@ -18,31 +18,30 @@
  */
 package org.languagetool.language;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 
 import java.io.File;
 import java.util.Collections;
 
-import static org.junit.Assert.*;
-
 public class LanguageBuilderTest {
 
   @Test
   public void testMakeAdditionalLanguage() throws Exception {
     Language language = LanguageBuilder.makeAdditionalLanguage(new File("rules-xy-Fakelanguage.xml"));
-    assertEquals("Fakelanguage", language.getName());
-    assertEquals("xy", language.getShortCode());
-    assertEquals(0, language.getRelevantRules(JLanguageTool.getMessageBundle(), null, null, Collections.emptyList()).size());
-    assertTrue(language.isExternal());
+    Assertions.assertEquals("Fakelanguage", language.getName());
+    Assertions.assertEquals("xy", language.getShortCode());
+    Assertions.assertEquals(0, language.getRelevantRules(JLanguageTool.getMessageBundle(), null, null, Collections.emptyList()).size());
+    Assertions.assertTrue(language.isExternal());
   }
 
   @Test
   public void testIllegalFileName() throws Exception {
     try {
       LanguageBuilder.makeAdditionalLanguage(new File("foo"));
-      fail();
+      Assertions.fail();
     } catch (RuleFilenameException ignored) {}
   }
   

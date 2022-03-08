@@ -18,7 +18,9 @@
  */
 package org.languagetool.remote;
 
-import org.junit.Test;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 
@@ -40,9 +42,11 @@ public class CheckConfigurationTest {
   }
 
   @SuppressWarnings("ResultOfObjectAllocationIgnored")
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testNull() {
-    new CheckConfiguration(null, null, false, null, false, null, null, null, null);
+    IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+          new CheckConfiguration(null, null, false, null, false, null, null, null, null);
+    });
   }
 
 }

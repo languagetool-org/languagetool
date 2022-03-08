@@ -18,7 +18,7 @@
  */
 package org.languagetool.rules.patterns;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.*;
 import org.languagetool.broker.ResourceDataBroker;
 

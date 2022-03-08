@@ -18,8 +18,8 @@
  */
 package org.languagetool.rules.spelling;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.languagemodel.LuceneLanguageModel;
 
@@ -33,7 +33,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class SuggestionSorterTest {
   
   @Test
-  @Ignore("interferes with LuceneSingleIndexLanguageModel")
+  @Disabled("interferes with LuceneSingleIndexLanguageModel")
   public void testSort() {
     URL ngramUrl = JLanguageTool.getDataBroker().getFromResourceDirAsUrl("/yy/ngram-index");
     try (LuceneLanguageModel model = new LuceneLanguageModel(new File(ngramUrl.getFile()))) {
@@ -47,7 +47,7 @@ public class SuggestionSorterTest {
   }
 
   @Test
-  @Ignore("needs full index")
+  @Disabled("needs full index")
   public void testSortWithFullNgrams() {
     String ngramIndex = "/home/dnaber/data/google-ngram-index/de";
     try (LuceneLanguageModel model = new LuceneLanguageModel(new File(ngramIndex))) {

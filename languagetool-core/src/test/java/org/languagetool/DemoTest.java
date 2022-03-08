@@ -18,7 +18,8 @@
  */
 package org.languagetool;
 
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 import org.languagetool.language.Demo;
 
 import java.io.IOException;

@@ -18,13 +18,14 @@
  */
 package org.languagetool.rules.spelling.morfologik;
 
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
 import static java.util.Collections.*;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
 
 public class MorfologikMultiSpellerTest {
 
@@ -32,44 +33,48 @@ public class MorfologikMultiSpellerTest {
   public void testIsMisspelled() throws IOException {
     MorfologikMultiSpeller speller = getSpeller();
     // from test.dict:
-    assertFalse(speller.isMisspelled("wordone"));
-    assertFalse(speller.isMisspelled("wordtwo"));
+    Assertions.assertFalse(speller.isMisspelled("wordone"));
+    Assertions.assertFalse(speller.isMisspelled("wordtwo"));
     // from test2.txt:
-    assertFalse(speller.isMisspelled("Abc"));
-    assertFalse(speller.isMisspelled("wordthree"));
-    assertFalse(speller.isMisspelled("wordfour"));
-    assertFalse(speller.isMisspelled("üblich"));
-    assertFalse(speller.isMisspelled("schön"));
-    assertFalse(speller.isMisspelled("Fön"));
-    assertFalse(speller.isMisspelled("Fün"));
-    assertFalse(speller.isMisspelled("Fän"));
+    Assertions.assertFalse(speller.isMisspelled("Abc"));
+    Assertions.assertFalse(speller.isMisspelled("wordthree"));
+    Assertions.assertFalse(speller.isMisspelled("wordfour"));
+    Assertions.assertFalse(speller.isMisspelled("üblich"));
+    Assertions.assertFalse(speller.isMisspelled("schön"));
+    Assertions.assertFalse(speller.isMisspelled("Fön"));
+    Assertions.assertFalse(speller.isMisspelled("Fün"));
+    Assertions.assertFalse(speller.isMisspelled("Fän"));
     // from both test.dict and test2.txt:
-    assertFalse(speller.isMisspelled("Häuser"));
+    Assertions.assertFalse(speller.isMisspelled("Häuser"));
     // not in any of the files:
-    assertTrue(speller.isMisspelled("notthere"));
-    assertTrue(speller.isMisspelled("Fun"));
-    assertTrue(speller.isMisspelled("Füns"));
-    assertTrue(speller.isMisspelled("AFün"));
+    Assertions.assertTrue(speller.isMisspelled("notthere"));
+    Assertions.assertTrue(speller.isMisspelled("Fun"));
+    Assertions.assertTrue(speller.isMisspelled("Füns"));
+    Assertions.assertTrue(speller.isMisspelled("AFün"));
   }
 
   @Test
   public void testGetSuggestions() throws IOException {
     MorfologikMultiSpeller speller = getSpeller();
-    assertThat(speller.getSuggestions("wordone").toString(), is("[]"));  // a non-misspelled word
-    assertThat(speller.getSuggestions("wordones").toString(), is("[wordone]"));
-    assertThat(speller.getSuggestions("Abd").toString(), is("[Abc]"));
-    assertThat(speller.getSuggestions("Fxn").toString(), is("[Fän, Fön, Fün]"));
-    assertThat(speller.getSuggestions("Häusers").toString(), is("[Häuser]"));
+    MatcherAssert.assertThat(speller.getSuggestions("wordone").toString(), is("[]"));  // a non-misspelled word
+    MatcherAssert.assertThat(speller.getSuggestions("wordones").toString(), is("[wordone]"));
+    MatcherAssert.assertThat(speller.getSuggestions("Abd").toString(), is("[Abc]"));
+    MatcherAssert.assertThat(speller.getSuggestions("Fxn").toString(), is("[Fän, Fön, Fün]"));
+    MatcherAssert.assertThat(speller.getSuggestions("Häusers").toString(), is("[Häuser]"));
   }
 
-  @Test(expected = RuntimeException.class)
+  @Test
   public void testInvalidFileName() throws IOException {
-    new MorfologikMultiSpeller("/xx/spelling/test.dict.README", singletonList("/xx/spelling/test2.txt"), null, 1);
+    RuntimeException thrown = Assertions.assertThrows(RuntimeException.class, () -> {
+      new MorfologikMultiSpeller("/xx/spelling/test.dict.README", singletonList("/xx/spelling/test2.txt"), null, 1);
+    });
   }
 
-  @Test(expected = RuntimeException.class)
+  @Test
   public void testInvalidFile() throws IOException {
-    new MorfologikMultiSpeller("/xx/spelling/no-such-file", singletonList("/xx/spelling/test2.txt"), null, 1);
+    RuntimeException thrown = Assertions.assertThrows(RuntimeException.class, () -> {
+          new MorfologikMultiSpeller("/xx/spelling/no-such-file", singletonList("/xx/spelling/test2.txt"), null, 1);
+    });
   }
 
   private MorfologikMultiSpeller getSpeller() throws IOException {

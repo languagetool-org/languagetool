@@ -18,9 +18,8 @@
  */
 package org.languagetool.server;
 
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.tools.StringTools;
@@ -37,7 +36,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Test HTTP server access from multiple threads with multiple languages.
  * Sends random texts but doesn't really check the results.
  */
-@Ignore("for interactive use; requires local Tatoeba data")
+@Disabled("for interactive use; requires local Tatoeba data")
 public class HTTPServerMultiLangLoadTest extends HTTPServerLoadTest {
 
   private static final String DATA_PATH = "/home/fabian/Downloads/tatoeba";

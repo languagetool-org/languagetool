@@ -20,8 +20,9 @@
 
 package org.languagetool.tools;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 import java.util.concurrent.RejectedExecutionException;
@@ -32,7 +33,6 @@ import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.lessThan;
-import static org.junit.Assert.*;
 
 public class LtThreadPoolFactoryTest {
   
@@ -47,7 +47,7 @@ public class LtThreadPoolFactoryTest {
         System.out.println(throwable.getClass());
       },
       true);
-    assertEquals(myThreadPool, LtThreadPoolFactory.getFixedThreadPoolExecutor("Test-Pool-cached").get());
+    Assertions.assertEquals(myThreadPool, LtThreadPoolFactory.getFixedThreadPoolExecutor("Test-Pool-cached").get());
   }
 
   @Test
@@ -61,11 +61,11 @@ public class LtThreadPoolFactoryTest {
         System.out.println(throwable.getClass());
       },
       false);
-    assertEquals(LtThreadPoolFactory.defaultPool, LtThreadPoolFactory.getFixedThreadPoolExecutor("Test-Pool-notCached").get());
+    Assertions.assertEquals(LtThreadPoolFactory.defaultPool, LtThreadPoolFactory.getFixedThreadPoolExecutor("Test-Pool-notCached").get());
   }
 
   @Test
-  @Ignore //Could fail if CI is to slow and will slow down the CI build; test local
+  @Disabled //Could fail if CI is to slow and will slow down the CI build; test local
   public void stressedQueueTest() {
     ThreadPoolExecutor myThreadPool = LtThreadPoolFactory.createFixedThreadPoolExecutor(
       "Test-Pool-stressed",
@@ -86,7 +86,7 @@ public class LtThreadPoolFactoryTest {
         }
       });
     }
-    assertThrows(Exception.class, () -> myThreadPool.submit(() -> {
+    Assertions.assertThrows(Exception.class, () -> myThreadPool.submit(() -> {
       System.out.println("Should fail.");
     }));
     for (int i = 0; i < 100; i++) {
@@ -108,7 +108,7 @@ public class LtThreadPoolFactoryTest {
   }
 
   @Test
-  @Ignore //Could fail if CI is to slow and will slow down the CI build; test local
+  @Disabled //Could fail if CI is to slow and will slow down the CI build; test local
   public void normalUsageThreadPoolTest() {
     ThreadPoolExecutor myThreadPool = LtThreadPoolFactory.createFixedThreadPoolExecutor(
       "Test-Pool-snt",
@@ -120,9 +120,9 @@ public class LtThreadPoolFactoryTest {
       },
       true);
     Optional<ThreadPoolExecutor> fixedThreadPoolExecutor = LtThreadPoolFactory.getFixedThreadPoolExecutor("Test-Pool-snt");
-    assertTrue(fixedThreadPoolExecutor.isPresent());
+    Assertions.assertTrue(fixedThreadPoolExecutor.isPresent());
     ThreadPoolExecutor sameAsMyThreadPool = fixedThreadPoolExecutor.get();
-    assertEquals(sameAsMyThreadPool, myThreadPool);
+    Assertions.assertEquals(sameAsMyThreadPool, myThreadPool);
     for (int i = 0; i < 30; i++) {
       sameAsMyThreadPool.submit(() -> {
         try {
@@ -132,19 +132,19 @@ public class LtThreadPoolFactoryTest {
         }
       });
     }
-    assertEquals(10, myThreadPool.getActiveCount());
-    assertFalse(myThreadPool.getQueue().isEmpty());
+    Assertions.assertEquals(10, myThreadPool.getActiveCount());
+    Assertions.assertFalse(myThreadPool.getQueue().isEmpty());
     long startTime = System.currentTimeMillis();
     await().until(() -> myThreadPool.getActiveCount() == 0);
     long endTime = System.currentTimeMillis();
     //should be something between 9s and 10s
     assertThat(endTime - startTime, allOf(greaterThan(6000l), lessThan(7000l)));
-    assertEquals(0, myThreadPool.getActiveCount());
-    assertTrue(myThreadPool.getQueue().isEmpty());
+    Assertions.assertEquals(0, myThreadPool.getActiveCount());
+    Assertions.assertTrue(myThreadPool.getQueue().isEmpty());
   }
 
   @Test
-  @Ignore //Could fail if CI is to slow and will slow down the CI build; test local
+  @Disabled //Could fail if CI is to slow and will slow down the CI build; test local
   public void normalMultiUsageThreadPoolTest() {
     ThreadPoolExecutor myThreadPool = LtThreadPoolFactory.createFixedThreadPoolExecutor(
       "Test-Pool-mnp",
@@ -158,9 +158,9 @@ public class LtThreadPoolFactoryTest {
     for (int i = 0; i < 30; i++) {
       new Thread(() -> {
         Optional<ThreadPoolExecutor> fixedThreadPoolExecutor = LtThreadPoolFactory.getFixedThreadPoolExecutor("Test-Pool-mnp");
-        assertTrue(fixedThreadPoolExecutor.isPresent());
+        Assertions.assertTrue(fixedThreadPoolExecutor.isPresent());
         ThreadPoolExecutor multiThreadedAccessOnMyThreadPool = fixedThreadPoolExecutor.get();
-        assertEquals(multiThreadedAccessOnMyThreadPool, myThreadPool);
+        Assertions.assertEquals(multiThreadedAccessOnMyThreadPool, myThreadPool);
         multiThreadedAccessOnMyThreadPool.submit(() -> {
           try {
             Thread.sleep(2000);
@@ -170,18 +170,18 @@ public class LtThreadPoolFactoryTest {
         });
       }).start();
     }
-    assertFalse(myThreadPool.getQueue().isEmpty());
+    Assertions.assertFalse(myThreadPool.getQueue().isEmpty());
     long startTime = System.currentTimeMillis();
     await().until(() -> myThreadPool.getActiveCount() == 0);
     long endTime = System.currentTimeMillis();
     //should be something between 9s and 10s
     assertThat(endTime - startTime, allOf(greaterThan(6000l), lessThan(7000l)));
-    assertEquals(0, myThreadPool.getActiveCount());
-    assertTrue(myThreadPool.getQueue().isEmpty());
+    Assertions.assertEquals(0, myThreadPool.getActiveCount());
+    Assertions.assertTrue(myThreadPool.getQueue().isEmpty());
   }
 
   @Test
-  @Ignore //Could fail if CI is to slow and will slow down the CI build; test local
+  @Disabled //Could fail if CI is to slow and will slow down the CI build; test local
   public void overloadingUsageThreadPoolTest() {
     ThreadPoolExecutor myThreadPool = LtThreadPoolFactory.createFixedThreadPoolExecutor(
       "Test-Pool-osp",
@@ -193,13 +193,13 @@ public class LtThreadPoolFactoryTest {
       },
       true);
     Optional<ThreadPoolExecutor> fixedThreadPoolExecutor = LtThreadPoolFactory.getFixedThreadPoolExecutor("Test-Pool-osp");
-    assertTrue(fixedThreadPoolExecutor.isPresent());
+    Assertions.assertTrue(fixedThreadPoolExecutor.isPresent());
     ThreadPoolExecutor sameAsMyThreadPool = fixedThreadPoolExecutor.get();
-    assertEquals(sameAsMyThreadPool, myThreadPool);
+    Assertions.assertEquals(sameAsMyThreadPool, myThreadPool);
 
     for (int i = 0; i < 31; i++) {
       if (i == 30) {
-        assertThrows(RejectedExecutionException.class, () -> {
+        Assertions.assertThrows(RejectedExecutionException.class, () -> {
           sameAsMyThreadPool.submit(() -> {
           });
         });
@@ -213,18 +213,18 @@ public class LtThreadPoolFactoryTest {
         }
       });
     }
-    assertFalse(myThreadPool.getQueue().isEmpty());
+    Assertions.assertFalse(myThreadPool.getQueue().isEmpty());
     long startTime = System.currentTimeMillis();
     await().until(() -> myThreadPool.getActiveCount() == 0);
     long endTime = System.currentTimeMillis();
     //should be something between 9s and 10s
     assertThat(endTime - startTime, allOf(greaterThan(6000l), lessThan(7000l)));
-    assertEquals(0, myThreadPool.getActiveCount());
-    assertTrue(myThreadPool.getQueue().isEmpty());
+    Assertions.assertEquals(0, myThreadPool.getActiveCount());
+    Assertions.assertTrue(myThreadPool.getQueue().isEmpty());
   }
 
   @Test
-  @Ignore //Could fail if CI is to slow and will slow down the CI build; test local
+  @Disabled //Could fail if CI is to slow and will slow down the CI build; test local
   public void overloadedMultiUsageThreadPoolTest() {
     ThreadPoolExecutor myThreadPool = LtThreadPoolFactory.createFixedThreadPoolExecutor(
       "Test-Pool-omp",
@@ -239,11 +239,11 @@ public class LtThreadPoolFactoryTest {
       int finalI = i;
       new Thread(() -> {
         Optional<ThreadPoolExecutor> fixedThreadPoolExecutor = LtThreadPoolFactory.getFixedThreadPoolExecutor("Test-Pool-omp");
-        assertTrue(fixedThreadPoolExecutor.isPresent());
+        Assertions.assertTrue(fixedThreadPoolExecutor.isPresent());
         ThreadPoolExecutor multiThreadedAccessOnMyThreadPool = fixedThreadPoolExecutor.get();
-        assertEquals(multiThreadedAccessOnMyThreadPool, myThreadPool);
+        Assertions.assertEquals(multiThreadedAccessOnMyThreadPool, myThreadPool);
         if (finalI == 30) {
-          assertThrows(RejectedExecutionException.class, () -> {
+          Assertions.assertThrows(RejectedExecutionException.class, () -> {
             multiThreadedAccessOnMyThreadPool.submit(() -> {
             });
           });
@@ -258,13 +258,13 @@ public class LtThreadPoolFactoryTest {
         }
       }).start();
     }
-    assertFalse(myThreadPool.getQueue().isEmpty());
+    Assertions.assertFalse(myThreadPool.getQueue().isEmpty());
     long startTime = System.currentTimeMillis();
     await().until(() -> myThreadPool.getActiveCount() == 0);
     long endTime = System.currentTimeMillis();
     //should be something between 9s and 10s
     assertThat(endTime - startTime, allOf(greaterThan(6000l), lessThan(7000l)));
-    assertEquals(0, myThreadPool.getActiveCount());
-    assertTrue(myThreadPool.getQueue().isEmpty());
+    Assertions.assertEquals(0, myThreadPool.getActiveCount());
+    Assertions.assertTrue(myThreadPool.getQueue().isEmpty());
   }
 }

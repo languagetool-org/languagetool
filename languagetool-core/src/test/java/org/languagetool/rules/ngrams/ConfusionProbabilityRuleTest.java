@@ -18,7 +18,8 @@
  */
 package org.languagetool.rules.ngrams;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.hamcrest.MatcherAssert;
 import org.languagetool.FakeLanguage;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
@@ -31,7 +32,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
 
 public class ConfusionProbabilityRuleTest {
 
@@ -71,7 +71,7 @@ public class ConfusionProbabilityRuleTest {
 
   private void assertMatch(String input, Rule rule) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
-    assertThat("Did not find match in: " + input, matches.length, is(1));
+    MatcherAssert.assertThat("Did not find match in: " + input, matches.length, is(1));
   }
 
   private void assertMatch(String input) throws IOException {
@@ -80,7 +80,7 @@ public class ConfusionProbabilityRuleTest {
 
   private void assertGood(String input, Rule rule) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
-    assertThat("Got unexpected match in: " + input, matches.length, is(0));
+    MatcherAssert.assertThat("Got unexpected match in: " + input, matches.length, is(0));
   }
 
   private void assertGood(String input) throws IOException {

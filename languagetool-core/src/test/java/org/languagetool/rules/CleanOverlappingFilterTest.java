@@ -18,7 +18,8 @@
  */
 package org.languagetool.rules;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
@@ -31,7 +32,6 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.fail;
 
 public class CleanOverlappingFilterTest {
 
@@ -140,7 +140,7 @@ public class CleanOverlappingFilterTest {
         new RuleMatch(new FakeRule("P1_RULE"), sentence, 11, 12, "msg2"),
         new RuleMatch(new FakeRule("P2_RULE", Tag.picky), sentence, 9, 10, "msg1"));
       filter.filter(unordered);
-      fail();
+      Assertions.fail();
     } catch (IllegalArgumentException expected) {}
 
   }

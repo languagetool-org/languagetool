@@ -19,16 +19,15 @@
 
 package org.languagetool.bitext;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import org.junit.jupiter.api.Assertions;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class WordFastTMReaderTest {
 
@@ -48,12 +47,12 @@ public class WordFastTMReaderTest {
     WordFastTMReader reader = new WordFastTMReader(input.getAbsolutePath(), "UTF-8");
     int i = 1;
     for (StringPair srcAndTrg : reader) {
-      assertTrue(srcAndTrg.getSource() != null);
-      assertTrue(srcAndTrg.getTarget() != null);
+      Assertions.assertNotNull(srcAndTrg.getSource());
+      Assertions.assertNotNull(srcAndTrg.getTarget());
       if (i == 1) {
-        assertEquals("Objection:", srcAndTrg.getSource());
+        Assertions.assertEquals("Objection:", srcAndTrg.getSource());
       } else if (i == 2) {
-        assertEquals("Why not?&tA;", srcAndTrg.getSource());
+        Assertions.assertEquals("Why not?&tA;", srcAndTrg.getSource());
       }
       i++;
     }

@@ -18,8 +18,9 @@
  */
 package org.languagetool.rules.patterns;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 import org.languagetool.JLanguageTool;
 import org.languagetool.chunking.ChunkTag;
 import org.languagetool.rules.ITSIssueType;
@@ -30,14 +31,11 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.ByteArrayInputStream;
 import java.io.FileWriter;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.Key;
 import java.util.*;
-
-import static org.junit.Assert.*;
 
 public class PatternRuleLoaderTest {
 
@@ -46,59 +44,59 @@ public class PatternRuleLoaderTest {
     PatternRuleLoader prg = new PatternRuleLoader();
     String name = "/xx/grammar.xml";
     List<AbstractPatternRule> rules = prg.getRules(JLanguageTool.getDataBroker().getFromRulesDirAsStream(name), name);
-    assertTrue(rules.size() >= 30);
+    Assertions.assertTrue(rules.size() >= 30);
 
     Rule demoRule1 = getRuleById("DEMO_RULE", rules);
-    assertEquals("http://fake-server.org/foo-bar-error-explained", demoRule1.getUrl().toString());
-    assertEquals("[This is <marker>fuu bah</marker>.]", demoRule1.getCorrectExamples().toString());
+    Assertions.assertEquals("http://fake-server.org/foo-bar-error-explained", demoRule1.getUrl().toString());
+    Assertions.assertEquals("[This is <marker>fuu bah</marker>.]", demoRule1.getCorrectExamples().toString());
     List<IncorrectExample> incorrectExamples = demoRule1.getIncorrectExamples();
-    assertEquals(1, incorrectExamples.size());
-    assertEquals("This is <marker>foo bar</marker>.", incorrectExamples.get(0).getExample());
+    Assertions.assertEquals(1, incorrectExamples.size());
+    Assertions.assertEquals("This is <marker>foo bar</marker>.", incorrectExamples.get(0).getExample());
 
     Rule demoRule2 = getRuleById("API_OUTPUT_TEST_RULE", rules);
-    assertNull(demoRule2.getUrl());
+    Assertions.assertNull(demoRule2.getUrl());
 
-    assertEquals(ITSIssueType.Uncategorized, demoRule1.getLocQualityIssueType());
-    assertEquals("tag inheritance failed", ITSIssueType.Addition, getRuleById("TEST_GO", rules).getLocQualityIssueType());
-    assertEquals("tag inheritance overwrite failed", ITSIssueType.Uncategorized, getRuleById("TEST_PHRASES1", rules).getLocQualityIssueType());
-    assertEquals("tag inheritance overwrite failed", ITSIssueType.Characters, getRuleById("test_include", rules).getLocQualityIssueType());
+    Assertions.assertEquals(ITSIssueType.Uncategorized, demoRule1.getLocQualityIssueType());
+    Assertions.assertEquals(ITSIssueType.Addition, getRuleById("TEST_GO", rules).getLocQualityIssueType(), "tag inheritance failed");
+    Assertions.assertEquals(ITSIssueType.Uncategorized, getRuleById("TEST_PHRASES1", rules).getLocQualityIssueType(), "tag inheritance overwrite failed");
+    Assertions.assertEquals(ITSIssueType.Characters, getRuleById("test_include", rules).getLocQualityIssueType(), "tag inheritance overwrite failed");
 
     List<Rule> groupRules1 = getRulesById("test_spacebefore", rules);
-    assertEquals("tag inheritance form category failed", ITSIssueType.Addition, groupRules1.get(0).getLocQualityIssueType());
-    assertEquals("tag inheritance overwrite failed", ITSIssueType.Duplication, groupRules1.get(1).getLocQualityIssueType());
+    Assertions.assertEquals(ITSIssueType.Addition, groupRules1.get(0).getLocQualityIssueType(), "tag inheritance form category failed");
+    Assertions.assertEquals(ITSIssueType.Duplication, groupRules1.get(1).getLocQualityIssueType(), "tag inheritance overwrite failed");
     List<Rule> groupRules2 = getRulesById("test_unification_with_negation", rules);
-    assertEquals("tag inheritance from rulegroup failed", ITSIssueType.Grammar, groupRules2.get(0).getLocQualityIssueType());
+    Assertions.assertEquals(ITSIssueType.Grammar, groupRules2.get(0).getLocQualityIssueType(), "tag inheritance from rulegroup failed");
 
     Set<String> categories = getCategoryNames(rules);
-    assertEquals(5, categories.size());
-    assertTrue(categories.contains("misc"));
-    assertTrue(categories.contains("otherCategory"));
-    assertTrue(categories.contains("Test tokens with min and max attributes"));
-    assertTrue(categories.contains("A category that's off by default"));
+    Assertions.assertEquals(5, categories.size());
+    Assertions.assertTrue(categories.contains("misc"));
+    Assertions.assertTrue(categories.contains("otherCategory"));
+    Assertions.assertTrue(categories.contains("Test tokens with min and max attributes"));
+    Assertions.assertTrue(categories.contains("A category that's off by default"));
 
     PatternRule demoRuleWithChunk = (PatternRule) getRuleById("DEMO_CHUNK_RULE", rules);
     List<PatternToken> patternTokens = demoRuleWithChunk.getPatternTokens();
-    assertEquals(2, patternTokens.size());
-    assertEquals(null, patternTokens.get(1).getPOStag());
-    assertEquals(new ChunkTag("B-NP-singular"), patternTokens.get(1).getChunkTag());
+    Assertions.assertEquals(2, patternTokens.size());
+    Assertions.assertNull(patternTokens.get(1).getPOStag());
+    Assertions.assertEquals(new ChunkTag("B-NP-singular"), patternTokens.get(1).getChunkTag());
 
     List<Rule> orRules = getRulesById("GROUP_WITH_URL", rules);
-    assertEquals(3, orRules.size());
-    assertEquals("http://fake-server.org/rule-group-url", orRules.get(0).getUrl().toString());
-    assertEquals("http://fake-server.org/rule-group-url-overwrite", orRules.get(1).getUrl().toString());
-    assertEquals("http://fake-server.org/rule-group-url", orRules.get(2).getUrl().toString());
+    Assertions.assertEquals(3, orRules.size());
+    Assertions.assertEquals("http://fake-server.org/rule-group-url", orRules.get(0).getUrl().toString());
+    Assertions.assertEquals("http://fake-server.org/rule-group-url-overwrite", orRules.get(1).getUrl().toString());
+    Assertions.assertEquals("http://fake-server.org/rule-group-url", orRules.get(2).getUrl().toString());
     
-    assertEquals("short message on rule group", ((PatternRule)orRules.get(0)).getShortMessage());
-    assertEquals("overwriting short message", ((PatternRule)orRules.get(1)).getShortMessage());
-    assertEquals("short message on rule group", ((PatternRule)orRules.get(2)).getShortMessage());
+    Assertions.assertEquals("short message on rule group", ((PatternRule)orRules.get(0)).getShortMessage());
+    Assertions.assertEquals("overwriting short message", ((PatternRule)orRules.get(1)).getShortMessage());
+    Assertions.assertEquals("short message on rule group", ((PatternRule)orRules.get(2)).getShortMessage());
     
     // make sure URLs don't leak to the next rule:
     List<Rule> orRules2 = getRulesById("OR_GROUPS", rules);
     for (Rule rule : orRules2) {
-      assertNull("http://fake-server.org/rule-group-url", rule.getUrl());
+      Assertions.assertNull(rule.getUrl(), "http://fake-server.org/rule-group-url");
     }
     Rule nextRule = getRuleById("DEMO_CHUNK_RULE", rules);
-    assertNull("http://fake-server.org/rule-group-url", nextRule.getUrl());
+    Assertions.assertNull(nextRule.getUrl(), "http://fake-server.org/rule-group-url");
   }
 
   private Set<String> getCategoryNames(List<AbstractPatternRule> rules) {
@@ -129,7 +127,7 @@ public class PatternRuleLoaderTest {
   }
 
   @Test
-  @Ignore
+  @Disabled
   public void testEncryptDecrypt() throws Exception {
     String encrypted = encrypt();
     System.out.println("encrypted: " + decrypt(encrypted));

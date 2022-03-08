@@ -18,9 +18,10 @@
  */
 package org.languagetool.rules.patterns;
 
-import org.junit.Test;
 
-import static org.junit.Assert.assertNotNull;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 
 public class RuleFilterCreatorTest {
 
@@ -29,12 +30,13 @@ public class RuleFilterCreatorTest {
   @Test
   public void testMockFilter() throws Exception {
     RuleFilter filter = creator.getFilter(MockFilter.class.getName());
-    assertNotNull(filter);
+    Assertions.assertNotNull(filter);
   }
 
-  @Test(expected = RuntimeException.class)
+  @Test
   public void testInvalidClassName() throws Exception {
-    creator.getFilter("MyInvalidClassName");
+    RuntimeException thrown = Assertions.assertThrows(RuntimeException.class, () -> {
+      creator.getFilter("MyInvalidClassName");
+    });
   }
-
 }

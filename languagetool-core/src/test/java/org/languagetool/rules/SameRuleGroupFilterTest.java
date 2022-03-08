@@ -18,7 +18,8 @@
  */
 package org.languagetool.rules;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 import org.languagetool.Language;
 import org.languagetool.TestTools;
 import org.languagetool.rules.patterns.PatternRule;
@@ -27,8 +28,6 @@ import org.languagetool.rules.patterns.PatternToken;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 @SuppressWarnings("MagicNumber")
 public class SameRuleGroupFilterTest {
@@ -44,8 +43,8 @@ public class SameRuleGroupFilterTest {
     RuleMatch match2 = new RuleMatch(rule2, null, 15, 25, "Match2");
     SameRuleGroupFilter filter = new SameRuleGroupFilter();
     List<RuleMatch> filteredMatches = filter.filter(Arrays.asList(match1, match2));
-    assertEquals(1, filteredMatches.size());
-    assertEquals("Match1", filteredMatches.get(0).getMessage());
+    Assertions.assertEquals(1, filteredMatches.size());
+    Assertions.assertEquals("Match1", filteredMatches.get(0).getMessage());
   }
 
   @Test
@@ -57,7 +56,7 @@ public class SameRuleGroupFilterTest {
     RuleMatch match2 = new RuleMatch(rule2, null, 21, 25, "Match2");
     SameRuleGroupFilter filter = new SameRuleGroupFilter();
     List<RuleMatch> filteredMatches = filter.filter(Arrays.asList(match1, match2));
-    assertEquals(2, filteredMatches.size());
+    Assertions.assertEquals(2, filteredMatches.size());
   }
 
   @Test
@@ -69,22 +68,22 @@ public class SameRuleGroupFilterTest {
     RuleMatch match2 = new RuleMatch(rule2, null, 15, 25, "Match2");
     SameRuleGroupFilter filter = new SameRuleGroupFilter();
     List<RuleMatch> filteredMatches = filter.filter(Arrays.asList(match1, match2));
-    assertEquals(2, filteredMatches.size());
+    Assertions.assertEquals(2, filteredMatches.size());
   }
 
   @Test
   public void testOverlaps() {
     SameRuleGroupFilter filter = new SameRuleGroupFilter();
 
-    assertTrue(filter.overlaps(makeRuleMatch(10, 20), makeRuleMatch(10, 20)));
-    assertTrue(filter.overlaps(makeRuleMatch(10, 20), makeRuleMatch(5, 11)));
-    assertTrue(filter.overlaps(makeRuleMatch(10, 20), makeRuleMatch(19, 21)));
-    assertTrue(filter.overlaps(makeRuleMatch(10, 20), makeRuleMatch(11, 19)));
-    assertTrue(filter.overlaps(makeRuleMatch(10, 20), makeRuleMatch(1, 10)));
-    assertTrue(filter.overlaps(makeRuleMatch(10, 20), makeRuleMatch(19, 20)));
+    Assertions.assertTrue(filter.overlaps(makeRuleMatch(10, 20), makeRuleMatch(10, 20)));
+    Assertions.assertTrue(filter.overlaps(makeRuleMatch(10, 20), makeRuleMatch(5, 11)));
+    Assertions.assertTrue(filter.overlaps(makeRuleMatch(10, 20), makeRuleMatch(19, 21)));
+    Assertions.assertTrue(filter.overlaps(makeRuleMatch(10, 20), makeRuleMatch(11, 19)));
+    Assertions.assertTrue(filter.overlaps(makeRuleMatch(10, 20), makeRuleMatch(1, 10)));
+    Assertions.assertTrue(filter.overlaps(makeRuleMatch(10, 20), makeRuleMatch(19, 20)));
 
-    assertFalse(filter.overlaps(makeRuleMatch(10, 20), makeRuleMatch(21, 30)));
-    assertFalse(filter.overlaps(makeRuleMatch(10, 20), makeRuleMatch(1, 9)));
+    Assertions.assertFalse(filter.overlaps(makeRuleMatch(10, 20), makeRuleMatch(21, 30)));
+    Assertions.assertFalse(filter.overlaps(makeRuleMatch(10, 20), makeRuleMatch(1, 9)));
   }
 
   private RuleMatch makeRuleMatch(int fromPos, int toPos) {

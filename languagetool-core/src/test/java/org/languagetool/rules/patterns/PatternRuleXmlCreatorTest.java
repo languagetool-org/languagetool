@@ -18,12 +18,11 @@
  */
 package org.languagetool.rules.patterns;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 import org.languagetool.language.Demo;
 
 import java.io.IOException;
-
-import static org.junit.Assert.*;
 
 public class PatternRuleXmlCreatorTest {
 
@@ -32,17 +31,16 @@ public class PatternRuleXmlCreatorTest {
     PatternRuleId ruleId = new PatternRuleId("DEMO_RULE");
     PatternRuleXmlCreator creator = new PatternRuleXmlCreator();
     String xml = creator.toXML(ruleId, new Demo());
-    assertEquals(
-            "<rule id=\"DEMO_RULE\" name=\"Find 'foo bar'\"><!-- a trivial demo rule that matches \"foo\" followed by \"bar\" -->\n" +
-            "  <pattern case_sensitive=\"no\">\n" +
-            "    <token>foo</token>\n" +
-            "    <token>bar</token>\n" +
-            "  </pattern>\n" +
-            "  <message>Did you mean <suggestion><match no=\"1\"/> fuu bah</suggestion>?</message>\n" +
-            "  <url>http://fake-server.org/foo-bar-error-explained</url>\n" +
-            "  <example>This is <marker>fuu bah</marker>.</example>\n" +
-            "  <example correction=\"foo fuu bah\">This is <marker>foo bar</marker>.</example>\n" +
-            "</rule>", xml);
+    Assertions.assertEquals("<rule id=\"DEMO_RULE\" name=\"Find 'foo bar'\"><!-- a trivial demo rule that matches \"foo\" followed by \"bar\" -->\n" +
+    "  <pattern case_sensitive=\"no\">\n" +
+    "    <token>foo</token>\n" +
+    "    <token>bar</token>\n" +
+    "  </pattern>\n" +
+    "  <message>Did you mean <suggestion><match no=\"1\"/> fuu bah</suggestion>?</message>\n" +
+    "  <url>http://fake-server.org/foo-bar-error-explained</url>\n" +
+    "  <example>This is <marker>fuu bah</marker>.</example>\n" +
+    "  <example correction=\"foo fuu bah\">This is <marker>foo bar</marker>.</example>\n" +
+    "</rule>", xml);
   }
 
   @Test
@@ -50,11 +48,11 @@ public class PatternRuleXmlCreatorTest {
     PatternRuleId ruleId = new PatternRuleId("test_spacebefore");
     PatternRuleXmlCreator creator = new PatternRuleXmlCreator();
     String xml = creator.toXML(ruleId, new Demo());
-    assertTrue(xml.contains("<rulegroup id=\"test_spacebefore\""));
-    assertTrue(xml.contains("</rulegroup>"));
-    assertTrue(xml.contains("<rule>"));
-    assertTrue(xml.contains("<rule type=\"duplication\">"));
-    assertTrue(xml.contains("<token>blah</token>"));
+    Assertions.assertTrue(xml.contains("<rulegroup id=\"test_spacebefore\""));
+    Assertions.assertTrue(xml.contains("</rulegroup>"));
+    Assertions.assertTrue(xml.contains("<rule>"));
+    Assertions.assertTrue(xml.contains("<rule type=\"duplication\">"));
+    Assertions.assertTrue(xml.contains("<token>blah</token>"));
   }
 
   @Test
@@ -62,9 +60,9 @@ public class PatternRuleXmlCreatorTest {
     PatternRuleId ruleId = new PatternRuleId("test_spacebefore", "1");
     PatternRuleXmlCreator creator = new PatternRuleXmlCreator();
     String xml = creator.toXML(ruleId, new Demo());
-    assertFalse(xml.contains("<rulegroup"));
-    assertFalse(xml.contains("</rulegroup>"));
-    assertTrue(xml.contains("<message>This is a dummy message 1.</message>"));
+    Assertions.assertFalse(xml.contains("<rulegroup"));
+    Assertions.assertFalse(xml.contains("</rulegroup>"));
+    Assertions.assertTrue(xml.contains("<message>This is a dummy message 1.</message>"));
   }
 
   @Test
@@ -72,9 +70,9 @@ public class PatternRuleXmlCreatorTest {
     PatternRuleId ruleId = new PatternRuleId("test_spacebefore", "2");
     PatternRuleXmlCreator creator = new PatternRuleXmlCreator();
     String xml = creator.toXML(ruleId, new Demo());
-    assertFalse(xml.contains("<rulegroup id=\"test_spacebefore\""));
-    assertFalse(xml.contains("</rulegroup>"));
-    assertTrue(xml.contains("<message>This is a dummy message 2.</message>"));
+    Assertions.assertFalse(xml.contains("<rulegroup id=\"test_spacebefore\""));
+    Assertions.assertFalse(xml.contains("</rulegroup>"));
+    Assertions.assertTrue(xml.contains("<message>This is a dummy message 2.</message>"));
   }
 
   @Test
@@ -82,7 +80,7 @@ public class PatternRuleXmlCreatorTest {
     PatternRuleId ruleId = new PatternRuleId("DEMO_RULE_ANTIPATTERN");
     PatternRuleXmlCreator creator = new PatternRuleXmlCreator();
     String xml = creator.toXML(ruleId, new Demo());
-    assertTrue(xml.contains(
+    Assertions.assertTrue(xml.contains(
             "  <antipattern>\n" +
             "    <token>bar</token>\n" +
             "    <token>,</token>\n" +
@@ -95,7 +93,7 @@ public class PatternRuleXmlCreatorTest {
     PatternRuleId fakeRuleId = new PatternRuleId("FAKE_ID");
     try {
       creator.toXML(fakeRuleId, new Demo());
-      fail();
+      Assertions.fail();
     } catch(RuntimeException ignored) {}
   }
 

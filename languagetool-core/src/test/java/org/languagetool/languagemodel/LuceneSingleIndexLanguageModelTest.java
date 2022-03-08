@@ -18,8 +18,8 @@
  */
 package org.languagetool.languagemodel;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 
 import java.io.File;
@@ -57,7 +57,7 @@ public class LuceneSingleIndexLanguageModelTest extends LanguageModelTest {
    * The tests have been performed on a Dell XSP13 (i7-3537U CPU) under Ubuntu 12.04, with Java 1.7.
    */
   @Test
-  @Ignore("for interactive use only")
+  @Disabled("for interactive use only")
   public void testPerformance() throws Exception {
     // 2grams:
     //LanguageModel model = new LuceneLanguageModel(new File("/media/Data/google-ngram/2gram/lucene-index/merged/"));

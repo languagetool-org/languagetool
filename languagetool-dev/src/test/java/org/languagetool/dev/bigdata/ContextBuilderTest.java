@@ -18,7 +18,8 @@
  */
 package org.languagetool.dev.bigdata;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.hamcrest.MatcherAssert;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.English;
@@ -27,7 +28,6 @@ import java.io.IOException;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
 
 public class ContextBuilderTest {
 
@@ -49,7 +49,7 @@ public class ContextBuilderTest {
   private void check(String input, int pos, int contextSize, String expected) throws IOException {
     AnalyzedSentence sentence = lt.getAnalyzedSentence(input);
     List<String> context = cb.getContext(sentence.getTokensWithoutWhitespace(), pos, contextSize);
-    assertThat(context.toString(), is(expected));
+    MatcherAssert.assertThat(context.toString(), is(expected));
   }
 
 }

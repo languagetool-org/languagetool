@@ -18,9 +18,9 @@
  */
 package org.languagetool.openoffice;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Assertions;
 
 public class KhmerDetectorTest {
 
@@ -28,18 +28,18 @@ public class KhmerDetectorTest {
   public void testIsThisLanguage() {
     KhmerDetector detector = new KhmerDetector();
     
-    assertTrue(detector.isThisLanguage("ប៉ុ"));
-    assertTrue(detector.isThisLanguage("ប៉ុន្តែ​តើ"));
-    assertTrue(detector.isThisLanguage("ហើយដោយ​ព្រោះ​"));
-    assertTrue(detector.isThisLanguage("«ទៅ​បាន​។ «"));
+    Assertions.assertTrue(detector.isThisLanguage("ប៉ុ"));
+    Assertions.assertTrue(detector.isThisLanguage("ប៉ុន្តែ​តើ"));
+    Assertions.assertTrue(detector.isThisLanguage("ហើយដោយ​ព្រោះ​"));
+    Assertions.assertTrue(detector.isThisLanguage("«ទៅ​បាន​។ «"));
 
-    assertFalse(detector.isThisLanguage("Hallo"));
-    assertFalse(detector.isThisLanguage("öäü"));
+    Assertions.assertFalse(detector.isThisLanguage("Hallo"));
+    Assertions.assertFalse(detector.isThisLanguage("öäü"));
 
-    assertFalse(detector.isThisLanguage(""));
+    Assertions.assertFalse(detector.isThisLanguage(""));
     try {
-      assertFalse(detector.isThisLanguage(null));
-      fail();
+      Assertions.assertFalse(detector.isThisLanguage(null));
+      Assertions.fail();
     } catch (NullPointerException ignored) {}
   }
   

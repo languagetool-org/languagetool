@@ -19,15 +19,14 @@
 
 package org.languagetool.rules.bitext;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.FakeLanguage;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
-
-import static org.junit.Assert.assertEquals;
 
 public class SameTranslationRuleTest {
 
@@ -42,19 +41,19 @@ public class SameTranslationRuleTest {
     matches = rule.match(
         srcLangTool.getAnalyzedSentence("This is a test sentence."),
         trgLangTool.getAnalyzedSentence("C'est la vie !"));
-    assertEquals(0, matches.length);
+    Assertions.assertEquals(0, matches.length);
     
     //tricky: proper names should be left as is!
     matches = rule.match(
         srcLangTool.getAnalyzedSentence("Elvis Presley"),
         trgLangTool.getAnalyzedSentence("Elvis Presley"));
-    assertEquals(0, matches.length);
+    Assertions.assertEquals(0, matches.length);
     
     // incorrect sentences:
     matches = rule.match(
         srcLangTool.getAnalyzedSentence("This this is a test sentence."),
         trgLangTool.getAnalyzedSentence("This this is a test sentence."));
-    assertEquals(1, matches.length);
+    Assertions.assertEquals(1, matches.length);
   }
 
 }

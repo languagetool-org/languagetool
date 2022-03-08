@@ -18,28 +18,29 @@
  */
 package org.languagetool.dev.eval;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+
+import org.hamcrest.MatcherAssert;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
 
 public class RealWordCorpusEvaluatorTest {
 
-  @Ignore("requires local ngram index")
+  @Disabled("requires local ngram index")
   @Test
   public void testCheck() throws IOException {
     RealWordCorpusEvaluator evaluator = new RealWordCorpusEvaluator(new File("/data/google-ngram-index/"));
     URL errors = RealWordCorpusEvaluatorTest.class.getResource("/org/languagetool/dev/eval");
     evaluator.run(new File(errors.getFile()));
-    assertThat(evaluator.getSentencesChecked(), is(3));
-    assertThat(evaluator.getErrorsChecked(), is(5));
-    assertThat(evaluator.getRealErrorsFound(), is(3));
-    assertThat(evaluator.getRealErrorsFoundWithGoodSuggestion(), is(2));
+    MatcherAssert.assertThat(evaluator.getSentencesChecked(), is(3));
+    MatcherAssert.assertThat(evaluator.getErrorsChecked(), is(5));
+    MatcherAssert.assertThat(evaluator.getRealErrorsFound(), is(3));
+    MatcherAssert.assertThat(evaluator.getRealErrorsFoundWithGoodSuggestion(), is(2));
   }
 
 }

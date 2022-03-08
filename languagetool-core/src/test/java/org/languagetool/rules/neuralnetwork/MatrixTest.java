@@ -18,11 +18,12 @@
  */
 package org.languagetool.rules.neuralnetwork;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import org.junit.jupiter.api.Assertions;
 
 import java.util.Arrays;
 
-import static org.junit.Assert.assertEquals;
 
 public class MatrixTest {
 
@@ -31,7 +32,7 @@ public class MatrixTest {
     String matrixString = "1 2\n3 4\n5 6";
     Matrix expectedMatrix = new Matrix(new float[][]{{1, 2}, {3, 4}, {5, 6}});
     Matrix matrix = new Matrix(Arrays.asList(matrixString.split("\n")));
-    assertEquals(expectedMatrix, matrix);
+    Assertions.assertEquals(expectedMatrix, matrix);
   }
 
 //    @Test
@@ -49,7 +50,7 @@ public class MatrixTest {
     final Matrix a = new Matrix(new float[][]{{1, 2}, {3, 4}, {5, 6}});
     final Matrix b = new Matrix(new float[][]{{1}, {2}});
     final Matrix c = new Matrix(new float[][]{{5}, {11}, {17}});
-    assertEquals(c, a.mul(b));
+    Assertions.assertEquals(c, a.mul(b));
   }
 
   @Test
@@ -57,14 +58,14 @@ public class MatrixTest {
     Matrix a = new Matrix(new float[][]{{1, 2}, {3, 4}, {5, 6}});
     Matrix b = new Matrix(new float[][]{{1, 2}, {3, 4}, {5, 7}});
     Matrix c = new Matrix(new float[][]{{2, 4}, {6, 8}, {10, 13}});
-    assertEquals(c, a.add(b));
+    Assertions.assertEquals(c, a.add(b));
   }
 
   @Test
   public void matReluTest() {
     Matrix a = new Matrix(new float[][]{{1, 2}, {-3, 0}});
     Matrix b = new Matrix(new float[][]{{1, 2}, {0, 0}});
-    assertEquals(b, a.relu());
+    Assertions.assertEquals(b, a.relu());
   }
 
 }

@@ -18,13 +18,14 @@
  */
 package org.languagetool.rules.neuralnetwork;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import org.junit.jupiter.api.Assertions;
 
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
-import static org.junit.Assert.assertEquals;
 
 public class TwoLayerClassifierTest {
 
@@ -40,8 +41,8 @@ public class TwoLayerClassifierTest {
 
     float[] scores = twoLayerClassifier.getScores(new String[]{"foo", "bar", "foo", "foo"});
 
-    assertEquals(1012.20f, scores[0], 0.01);
-    assertEquals(1043.60f, scores[1], 0.01);
+    Assertions.assertEquals(1012.20f, scores[0], 0.01);
+    Assertions.assertEquals(1043.60f, scores[1], 0.01);
   }
 
 }

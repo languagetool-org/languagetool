@@ -19,8 +19,8 @@
 package org.languagetool.server;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.net.URL;
@@ -37,7 +37,7 @@ import java.util.Map;
 public class LanguageIdentificationTest {
 
   @Test
-  @Ignore("for interactive use, to find cases where e.g. ngram-based language detection makes a difference")
+  @Disabled("for interactive use, to find cases where e.g. ngram-based language detection makes a difference")
   public void testEverShorterText() throws IOException {
     String expected = "de-DE";
     List<String> lines = Files.readAllLines(Paths.get("/home/dnaber/lt/lang-detect-test.txt"));

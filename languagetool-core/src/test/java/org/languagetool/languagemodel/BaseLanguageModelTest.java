@@ -18,7 +18,9 @@
  */
 package org.languagetool.languagemodel;
 
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.rules.ngrams.FakeLanguageModel;
 import org.languagetool.rules.ngrams.Probability;
 
@@ -27,8 +29,6 @@ import java.util.Arrays;
 import java.util.Collections;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 
 public class BaseLanguageModelTest {
 
@@ -37,22 +37,23 @@ public class BaseLanguageModelTest {
     try (FakeLanguageModel lm = new FakeLanguageModel()) {
       Probability prob1 = lm.getPseudoProbability(Arrays.asList("no", "data", "here"));
       double delta = 0.001;
-      assertEquals(0.0081, prob1.getProb(), delta);  // artificially not zero
-      assertThat(prob1.getCoverage(), is(0.0f));
+      Assertions.assertEquals(0.0081, prob1.getProb(), delta);  // artificially not zero
+      MatcherAssert.assertThat(prob1.getCoverage(), is(0.0f));
       Probability prob2 = lm.getPseudoProbability(Arrays.asList("1", "2", "3", "4"));
-      assertEquals(0.0081, prob2.getProb(), delta);  // artificially not zero
-      assertThat(prob2.getCoverage(), is(0.0f));
+      Assertions.assertEquals(0.0081, prob2.getProb(), delta);  // artificially not zero
+      MatcherAssert.assertThat(prob2.getCoverage(), is(0.0f));
       Probability prob3 = lm.getPseudoProbability(Arrays.asList("There", "are"));
-      assertEquals(0.082, prob3.getProb(), delta);
-      assertThat(prob3.getCoverage(), is(0.5f));
+      Assertions.assertEquals(0.082, prob3.getProb(), delta);
+      MatcherAssert.assertThat(prob3.getCoverage(), is(0.5f));
     }
   }
 
-  @Test(expected = IndexOutOfBoundsException.class)
+  @Test
   public void testPseudoProbabilityFail1() throws IOException {
-    try (FakeLanguageModel lm = new FakeLanguageModel()) {
-      lm.getPseudoProbability(Collections.emptyList());
-    }
+    IndexOutOfBoundsException thronw = Assertions.assertThrows(IndexOutOfBoundsException.class, () -> {
+        try (FakeLanguageModel lm = new FakeLanguageModel()) {
+        lm.getPseudoProbability(Collections.emptyList());
+      } 
+    });
   }
-
 }

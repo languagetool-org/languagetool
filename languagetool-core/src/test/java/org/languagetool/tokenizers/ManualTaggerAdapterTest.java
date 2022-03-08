@@ -18,8 +18,9 @@
  */
 package org.languagetool.tokenizers;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.tagging.ManualTagger;
@@ -27,10 +28,9 @@ import org.languagetool.tagging.Tagger;
 
 import java.io.ByteArrayInputStream;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 /**
  * @author Ionuț Păduraru
@@ -54,93 +54,93 @@ public class ManualTaggerAdapterTest {
 
   protected Tagger tagger;
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     tagger = new ManualTaggerAdapter(new ManualTagger(new ByteArrayInputStream(TEST_DATA.getBytes("UTF-8"))));
   }
 
   @Test
   public void testMultipleLemma() throws Exception {
-    List<String> l = Arrays.asList("inflectedform3");
+    List<String> l = Collections.singletonList("inflectedform3");
     List<AnalyzedTokenReadings> analyzedTokenReadings = tagger.tag(l);
-    assertNotNull(analyzedTokenReadings);
-    assertEquals(1, analyzedTokenReadings.size());
+    Assertions.assertNotNull(analyzedTokenReadings);
+    Assertions.assertEquals(1, analyzedTokenReadings.size());
 
     AnalyzedTokenReadings analyzedTokenReading = analyzedTokenReadings.get(0);
-    assertEquals("inflectedform3", analyzedTokenReading.getToken());
-    assertNotNull(analyzedTokenReading.getReadings());
-    assertEquals(4, analyzedTokenReading.getReadingsLength());
+    Assertions.assertEquals("inflectedform3", analyzedTokenReading.getToken());
+    Assertions.assertNotNull(analyzedTokenReading.getReadings());
+    Assertions.assertEquals(4, analyzedTokenReading.getReadingsLength());
 
     AnalyzedToken analyzedToken;
 
     analyzedToken = analyzedTokenReading.getReadings().get(0);
-    assertEquals("inflectedform3", analyzedToken.getToken());
-    assertEquals("lemma3a", analyzedToken.getLemma());
-    assertEquals("POS3a", analyzedToken.getPOSTag());
+    Assertions.assertEquals("inflectedform3", analyzedToken.getToken());
+    Assertions.assertEquals("lemma3a", analyzedToken.getLemma());
+    Assertions.assertEquals("POS3a", analyzedToken.getPOSTag());
 
     analyzedToken = analyzedTokenReading.getReadings().get(1);
-    assertEquals("inflectedform3", analyzedToken.getToken());
-    assertEquals("lemma3b", analyzedToken.getLemma());
-    assertEquals("POS3b", analyzedToken.getPOSTag());
+    Assertions.assertEquals("inflectedform3", analyzedToken.getToken());
+    Assertions.assertEquals("lemma3b", analyzedToken.getLemma());
+    Assertions.assertEquals("POS3b", analyzedToken.getPOSTag());
 
     analyzedToken = analyzedTokenReading.getReadings().get(2);
-    assertEquals("inflectedform3", analyzedToken.getToken());
-    assertEquals("lemma3c", analyzedToken.getLemma());
-    assertEquals("POS3c", analyzedToken.getPOSTag());
+    Assertions.assertEquals("inflectedform3", analyzedToken.getToken());
+    Assertions.assertEquals("lemma3c", analyzedToken.getLemma());
+    Assertions.assertEquals("POS3c", analyzedToken.getPOSTag());
 
     analyzedToken = analyzedTokenReading.getReadings().get(3);
-    assertEquals("inflectedform3", analyzedToken.getToken());
-    assertEquals("lemma3d", analyzedToken.getLemma());
-    assertEquals("POS3d", analyzedToken.getPOSTag());
+    Assertions.assertEquals("inflectedform3", analyzedToken.getToken());
+    Assertions.assertEquals("lemma3d", analyzedToken.getLemma());
+    Assertions.assertEquals("POS3d", analyzedToken.getPOSTag());
   }
 
   @Test
   public void testMultiplePOS() throws Exception {
-    List<String> l = Arrays.asList("inflectedform2");
+    List<String> l = Collections.singletonList("inflectedform2");
     List<AnalyzedTokenReadings> analyzedTokenReadings = tagger.tag(l);
-    assertNotNull(analyzedTokenReadings);
-    assertEquals(1, analyzedTokenReadings.size());
+    Assertions.assertNotNull(analyzedTokenReadings);
+    Assertions.assertEquals(1, analyzedTokenReadings.size());
     AnalyzedTokenReadings analyzedTokenReading = analyzedTokenReadings.get(0);
-    assertEquals("inflectedform2", analyzedTokenReading.getToken());
-    assertNotNull(analyzedTokenReading.getReadings());
-    assertEquals(3,analyzedTokenReading.getReadingsLength());
+    Assertions.assertEquals("inflectedform2", analyzedTokenReading.getToken());
+    Assertions.assertNotNull(analyzedTokenReading.getReadings());
+    Assertions.assertEquals(3, analyzedTokenReading.getReadingsLength());
     AnalyzedToken analyzedToken;
 
     analyzedToken = analyzedTokenReading.getReadings().get(0);
-    assertEquals("POS1a", analyzedToken.getPOSTag());
-    assertEquals("inflectedform2", analyzedToken.getToken());
-    assertEquals("lemma2", analyzedToken.getLemma());
+    Assertions.assertEquals("POS1a", analyzedToken.getPOSTag());
+    Assertions.assertEquals("inflectedform2", analyzedToken.getToken());
+    Assertions.assertEquals("lemma2", analyzedToken.getLemma());
 
     analyzedToken = analyzedTokenReading.getReadings().get(1);
-    assertEquals("POS1b", analyzedToken.getPOSTag());
-    assertEquals("inflectedform2", analyzedToken.getToken());
-    assertEquals("lemma2", analyzedToken.getLemma());
+    Assertions.assertEquals("POS1b", analyzedToken.getPOSTag());
+    Assertions.assertEquals("inflectedform2", analyzedToken.getToken());
+    Assertions.assertEquals("lemma2", analyzedToken.getLemma());
 
     analyzedToken = analyzedTokenReading.getReadings().get(2);
-    assertEquals("POS1c", analyzedToken.getPOSTag());
-    assertEquals("inflectedform2", analyzedToken.getToken());
-    assertEquals("lemma2", analyzedToken.getLemma());
+    Assertions.assertEquals("POS1c", analyzedToken.getPOSTag());
+    Assertions.assertEquals("inflectedform2", analyzedToken.getToken());
+    Assertions.assertEquals("lemma2", analyzedToken.getLemma());
   }
 
   @Test
   public void testMultipleWords() throws Exception {
     List<String> l = Arrays.asList("inflectedform2", "inflectedform3");
     List<AnalyzedTokenReadings> analyzedTokenReadings = tagger.tag(l);
-    assertNotNull(analyzedTokenReadings);
-    assertEquals(2, analyzedTokenReadings.size());
+    Assertions.assertNotNull(analyzedTokenReadings);
+    Assertions.assertEquals(2, analyzedTokenReadings.size());
 
     AnalyzedTokenReadings analyzedTokenReading;
 
     analyzedTokenReading = analyzedTokenReadings.get(0);
-    assertEquals("inflectedform2", analyzedTokenReading.getToken());
-    assertNotNull(analyzedTokenReading.getReadings());
-    assertEquals(3,analyzedTokenReading.getReadingsLength());
+    Assertions.assertEquals("inflectedform2", analyzedTokenReading.getToken());
+    Assertions.assertNotNull(analyzedTokenReading.getReadings());
+    Assertions.assertEquals(3, analyzedTokenReading.getReadingsLength());
     // analyzedTokenReading.getReadings are tested by #testMultipleLemma() 
 
     analyzedTokenReading = analyzedTokenReadings.get(1);
-    assertEquals("inflectedform3", analyzedTokenReading.getToken());
-    assertNotNull(analyzedTokenReading.getReadings());
-    assertEquals(4, analyzedTokenReading.getReadingsLength());
+    Assertions.assertEquals("inflectedform3", analyzedTokenReading.getToken());
+    Assertions.assertNotNull(analyzedTokenReading.getReadings());
+    Assertions.assertEquals(4, analyzedTokenReading.getReadingsLength());
     // analyzedTokenReading.getReadings are tested by #testMultiplePOS()  
   }
 

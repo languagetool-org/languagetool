@@ -18,13 +18,14 @@
  */
 package org.languagetool.server;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import org.hamcrest.MatcherAssert;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
 
 public class ServerToolsTest {
 
@@ -33,11 +34,11 @@ public class ServerToolsTest {
     Map<String, String> loggingOn = new HashMap<>();
     Map<String, String> loggingOff = new HashMap<>();
     loggingOff.put("inputLogging", "no");
-    assertThat(ServerTools.cleanUserTextFromMessage("my test", loggingOn), is("my test"));
-    assertThat(ServerTools.cleanUserTextFromMessage("my test", loggingOff), is("my test"));
-    assertThat(ServerTools.cleanUserTextFromMessage("<sentcontent>my test</sentcontent>", loggingOn), is("<sentcontent>my test</sentcontent>"));
-    assertThat(ServerTools.cleanUserTextFromMessage("<sentcontent>my test</sentcontent>", loggingOff), is("<< content removed >>"));
-    assertThat(ServerTools.cleanUserTextFromMessage("<sentcontent>my\ntest</sentcontent>", loggingOff), is("<< content removed >>"));
+    MatcherAssert.assertThat(ServerTools.cleanUserTextFromMessage("my test", loggingOn), is("my test"));
+    MatcherAssert.assertThat(ServerTools.cleanUserTextFromMessage("my test", loggingOff), is("my test"));
+    MatcherAssert.assertThat(ServerTools.cleanUserTextFromMessage("<sentcontent>my test</sentcontent>", loggingOn), is("<sentcontent>my test</sentcontent>"));
+    MatcherAssert.assertThat(ServerTools.cleanUserTextFromMessage("<sentcontent>my test</sentcontent>", loggingOff), is("<< content removed >>"));
+    MatcherAssert.assertThat(ServerTools.cleanUserTextFromMessage("<sentcontent>my\ntest</sentcontent>", loggingOff), is("<< content removed >>"));
   }
 
 }

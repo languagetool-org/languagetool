@@ -18,14 +18,13 @@
  */
 package org.languagetool.server;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 import org.languagetool.rules.FakeRule;
 import org.languagetool.rules.RuleMatch;
 
 import java.util.Arrays;
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 public class RemoteRuleMatchTest {
   
@@ -35,19 +34,19 @@ public class RemoteRuleMatchTest {
             new RuleMatch(new FakeRule(), null, 0, 3, "msg"),
             new RuleMatch(new FakeRule(), null, 10, 13, "msg")
     );
-    assertTrue(match(0, 5).isTouchedByOneOf(origMatches));
-    assertTrue(match(2, 3).isTouchedByOneOf(origMatches));
+    Assertions.assertTrue(match(0, 5).isTouchedByOneOf(origMatches));
+    Assertions.assertTrue(match(2, 3).isTouchedByOneOf(origMatches));
     
-    assertFalse(match(4, 5).isTouchedByOneOf(origMatches));
-    assertFalse(match(4, 9).isTouchedByOneOf(origMatches));
+    Assertions.assertFalse(match(4, 5).isTouchedByOneOf(origMatches));
+    Assertions.assertFalse(match(4, 9).isTouchedByOneOf(origMatches));
     
-    assertTrue(match( 8, 10).isTouchedByOneOf(origMatches));
-    assertTrue(match(10, 13).isTouchedByOneOf(origMatches));
-    assertTrue(match(12, 13).isTouchedByOneOf(origMatches));
-    assertTrue(match(12, 15).isTouchedByOneOf(origMatches));
-    assertTrue(match( 8, 15).isTouchedByOneOf(origMatches));
+    Assertions.assertTrue(match( 8, 10).isTouchedByOneOf(origMatches));
+    Assertions.assertTrue(match(10, 13).isTouchedByOneOf(origMatches));
+    Assertions.assertTrue(match(12, 13).isTouchedByOneOf(origMatches));
+    Assertions.assertTrue(match(12, 15).isTouchedByOneOf(origMatches));
+    Assertions.assertTrue(match( 8, 15).isTouchedByOneOf(origMatches));
 
-    assertFalse(match(14, 20).isTouchedByOneOf(origMatches));
+    Assertions.assertFalse(match(14, 20).isTouchedByOneOf(origMatches));
   }
 
   private RemoteRuleMatch match(int from, int to) {

@@ -18,13 +18,13 @@
  */
 package org.languagetool.rules;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 
 import java.io.IOException;
 
-import static org.junit.Assert.assertEquals;
 
 /**
  * @author Daniel Naber
@@ -39,27 +39,27 @@ public class DoublePunctuationRuleTest {
     
     // correct sentences:
     matches = rule.match(lt.getAnalyzedSentence("This is a test sentence..."));
-    assertEquals(0, matches.length);
+    Assertions.assertEquals(0, matches.length);
     matches = rule.match(lt.getAnalyzedSentence("Это тестовое предложение?.."));
-    assertEquals(0, matches.length);
+    Assertions.assertEquals(0, matches.length);
     matches = rule.match(lt.getAnalyzedSentence("Это тестовое предложение!.. "));
-    assertEquals(0, matches.length);
+    Assertions.assertEquals(0, matches.length);
     matches = rule.match(lt.getAnalyzedSentence("This is a test sentence... More stuff...."));
-    assertEquals(0, matches.length);
+    Assertions.assertEquals(0, matches.length);
     matches = rule.match(lt.getAnalyzedSentence("This is a test sentence..... More stuff...."));
-    assertEquals(0, matches.length);
+    Assertions.assertEquals(0, matches.length);
     matches = rule.match(lt.getAnalyzedSentence("This, is, a test sentence."));
-    assertEquals(0, matches.length);
+    Assertions.assertEquals(0, matches.length);
 
     // errors:
     matches = rule.match(lt.getAnalyzedSentence("This,, is a test sentence."));
-    assertEquals(1, matches.length);
-    assertEquals(4, matches[0].getFromPos());
-    assertEquals(6, matches[0].getToPos());
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals(4, matches[0].getFromPos());
+    Assertions.assertEquals(6, matches[0].getToPos());
     matches = rule.match(lt.getAnalyzedSentence("This is a test sentence.. Another sentence"));
-    assertEquals(1, matches.length);
-    assertEquals(23, matches[0].getFromPos());
-    assertEquals(25, matches[0].getToPos());
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals(23, matches[0].getFromPos());
+    Assertions.assertEquals(25, matches[0].getToPos());
   }
   
 }

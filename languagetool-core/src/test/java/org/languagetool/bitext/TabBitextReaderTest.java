@@ -19,16 +19,15 @@
 
 package org.languagetool.bitext;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import org.junit.jupiter.api.Assertions;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class TabBitextReaderTest {
 
@@ -48,15 +47,14 @@ public class TabBitextReaderTest {
     TabBitextReader reader = new TabBitextReader(input.getAbsolutePath(), "UTF-8");
     int i = 1;
     for (StringPair srcAndTrg : reader) {
-      assertTrue(srcAndTrg.getSource() != null);
-      assertTrue(srcAndTrg.getTarget() != null);
+      Assertions.assertNotNull(srcAndTrg.getSource());
+      Assertions.assertNotNull(srcAndTrg.getTarget());
       if (i == 1) {
-        assertEquals("This is not actual.", srcAndTrg.getSource());
+        Assertions.assertEquals("This is not actual.", srcAndTrg.getSource());
       } else if (i == 2) {
-        assertEquals("Test", srcAndTrg.getSource());
+        Assertions.assertEquals("Test", srcAndTrg.getSource());
       } else if (i == 3) {
-        assertEquals("Very strange data indeed, much longer than input",
-            srcAndTrg.getTarget());
+        Assertions.assertEquals("Very strange data indeed, much longer than input", srcAndTrg.getTarget());
       }
       i++;
     }

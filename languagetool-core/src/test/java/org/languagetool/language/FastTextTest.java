@@ -19,8 +19,9 @@
 package org.languagetool.language;
 
 import org.jetbrains.annotations.Nullable;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,8 +34,6 @@ import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 public class FastTextTest {
 
@@ -42,7 +41,7 @@ public class FastTextTest {
   private static final File BINARY_PATH = new File("/prg/fastText-0.1.0/fasttext");
 
   @Test
-  @Ignore("for interactive use")
+  @Disabled("for interactive use")
   public void testInteractively() throws Exception {
     FastText ft = new FastText(MODEL_PATH, BINARY_PATH);
     List<String> langCodes = Arrays.asList("en", "de", "fr", "es");
@@ -53,7 +52,7 @@ public class FastTextTest {
   }
   
   @Test
-  @Ignore("requires local FastText")
+  @Disabled("requires local FastText")
   public void testCaseShouldNotMatter() throws Exception {
     // all-uppercase yields bad results (also see https://github.com/facebookresearch/fastText/issues/1181),
     // so make sure we lowercase input internally
@@ -62,11 +61,11 @@ public class FastTextTest {
     String s = "project tagging criteria";
     Map<String, Double> res1 = ft.runFasttext(s, langCodes);
     Map<String, Double> res2 = ft.runFasttext(s.toUpperCase(Locale.ROOT), langCodes);
-    assertEquals(res1, res2);
+    Assertions.assertEquals(res1, res2);
   }
 
   @Test
-  @Ignore("for interactive use")
+  @Disabled("for interactive use")
   public void testEverShorterTextWithFastText() throws IOException {
     FastText ft = new FastText(new File("/prg/fastText-0.9.2/lid.176.bin"), new File("/prg/fastText-0.9.2/fasttext"));
     //FastText ft = new FastText(new File("/home/languagetool/fasttext/lid.176.bin"), new File("/prg/fastText/fasttext"));
@@ -132,11 +131,11 @@ public class FastTextTest {
     assertThat(res4.get("de"), is(1.00003));
     try {
       ft.parseBuffer("xxx", l);
-      fail();
+      Assertions.fail();
     } catch (RuntimeException expected) {}
     try {
       ft.parseBuffer("xxx foo", l);
-      fail();
+      Assertions.fail();
     } catch (RuntimeException expected) {}
     // this had happened in the past when somehow Fasttext received two texts and thus
     // responds with two lines of output:

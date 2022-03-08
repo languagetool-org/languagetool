@@ -18,7 +18,9 @@
  */
 package org.languagetool.tools;
 
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Demo;
@@ -36,9 +38,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 
 public class ToolsTest {
   
@@ -49,7 +48,7 @@ public class ToolsTest {
     RuleMatch match2 = new RuleMatch(new FakeRule(), null, 0, 9, "msg2");
     match2.setSuggestedReplacement("I have");
     List<RuleMatch> matches = Arrays.asList(match1, match2);
-    assertThat(Tools.correctTextFromMatches("I've have", matches), is("I've had"));
+    MatcherAssert.assertThat(Tools.correctTextFromMatches("I've have", matches), is("I've had"));
   }
 
   @Test
@@ -73,14 +72,14 @@ public class ToolsTest {
                                 Set<String> disabledRules, Set<String> enabledRules, boolean useEnabledOnly, Demo demo) {
     JLanguageTool lt = new JLanguageTool(demo);
     Tools.selectRules(lt, disabledCategories, enabledCategories, disabledRules, enabledRules, useEnabledOnly, false);
-    assertTrue(getRuleIds(lt).contains("DEMO_RULE"));
+    Assertions.assertTrue(getRuleIds(lt).contains("DEMO_RULE"));
   }
 
   private void expectNotDemoRuleId(Set<CategoryId> disabledCategories, Set<CategoryId> enabledCategories,
                                    Set<String> disabledRules, Set<String> enabledRules, boolean useEnabledOnly, Demo demo) {
     JLanguageTool lt = new JLanguageTool(demo);
     Tools.selectRules(lt, disabledCategories, enabledCategories, disabledRules, enabledRules, useEnabledOnly, false);
-    assertFalse(getRuleIds(lt).contains("DEMO_RULE"));
+    Assertions.assertFalse(getRuleIds(lt).contains("DEMO_RULE"));
   }
 
   private List<String> getRuleIds(JLanguageTool lt) {

@@ -24,9 +24,9 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 
@@ -37,7 +37,7 @@ public abstract class AbstractLanguageConcurrencyTest {
 
   volatile int failedTests;
   
-  @Ignore("too slow to run every time")
+  @Disabled("too slow to run every time")
   @Test
   public void testSpellCheckerFailure() throws Exception {
     String sampleText = createSampleText();
@@ -65,7 +65,7 @@ public abstract class AbstractLanguageConcurrencyTest {
       t.join();
     }
     
-    Assert.assertEquals(0, failedTests);
+    Assertions.assertEquals(0, failedTests);
   }
 
   final class TestRunner implements Runnable {
@@ -93,7 +93,7 @@ public abstract class AbstractLanguageConcurrencyTest {
       for (int i = 0; i < this.testRuns; i++) {
         try {
           JLanguageTool tool = new JLanguageTool(this.language);
-          Assert.assertNotNull(tool.check(this.sampleText));
+          Assertions.assertNotNull(tool.check(this.sampleText));
         } catch (Exception e) {          
           failedTests += 1;
           
