@@ -640,29 +640,6 @@ public class English extends Language implements AutoCloseable {
     };
   }
 
-  @Override
-  public List<Rule> getRelevantRemoteRules(ResourceBundle messageBundle, List<RemoteRuleConfig> configs, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages, boolean inputLogging) throws IOException {
-    List<Rule> rules = new ArrayList<>(super.getRelevantRemoteRules(
-      messageBundle, configs, globalConfig, userConfig, motherTongue, altLanguages, inputLogging));
-
-    RemoteRuleConfig resorting = RemoteRuleConfig.getRelevantConfig("AI_EN_RESORTING", configs);
-    if (resorting != null) {
-      GRPCPostProcessing.configure(this, resorting);
-    }
-
-    // no description needed - matches based on automatically created rules with descriptions provided by remote server
-    rules.addAll(GRPCRule.createAll(this, configs, inputLogging,
-      "AI_EN_", "INTERNAL - dynamically loaded rule supported by remote server"));
-
-    if (getCountries().length == 1) {
-      // automatically load any existing AI spelling models for all variants
-      String country = getCountries()[0];
-      rules.addAll(GRPCRule.createAll(this, configs, inputLogging,
-        "AI_SPELLING_RULE_EN_" + country, "INTERNAL - dynamically loaded rule supported by remote server"));
-    }
-    return rules;
-  }
-  
   public boolean hasMinMatchesRules() {
     return true;
   }

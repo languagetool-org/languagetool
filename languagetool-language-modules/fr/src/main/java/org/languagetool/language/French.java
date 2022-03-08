@@ -384,15 +384,4 @@ public class French extends Language implements AutoCloseable {
     return ruleMatches;
   }
 
-
-  @Override
-  public List<Rule> getRelevantRemoteRules(ResourceBundle messageBundle, List<RemoteRuleConfig> configs, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages, boolean inputLogging) throws IOException {
-    List<Rule> rules = new ArrayList<>(super.getRelevantRemoteRules(
-      messageBundle, configs, globalConfig, userConfig, motherTongue, altLanguages, inputLogging));
-
-    // no description needed - matches based on automatically created rules with descriptions provided by remote server
-    rules.addAll(GRPCRule.createAll(this, configs, inputLogging,
-      "AI_FR_", "INTERNAL - dynamically loaded rule supported by remote server"));
-    return rules;
-  }
 }

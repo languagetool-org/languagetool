@@ -25,10 +25,7 @@ import org.languagetool.chunking.Chunker;
 import org.languagetool.language.Contributor;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
-import org.languagetool.rules.RemoteRuleConfig;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.TestRemoteRule;
+import org.languagetool.rules.*;
 import org.languagetool.rules.neuralnetwork.Word2VecModel;
 import org.languagetool.rules.patterns.*;
 import org.languagetool.rules.spelling.SpellingCheckRule;
@@ -218,10 +215,16 @@ public abstract class Language {
   public List<Rule> getRelevantRemoteRules(ResourceBundle messageBundle, List<RemoteRuleConfig> configs,
                                            GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages, boolean inputLogging)
     throws IOException {
-    return configs.stream()
+    List<Rule> rules = new ArrayList<>();
+
+    rules.addAll(GRPCRule.createAll(this, configs, inputLogging));
+
+     configs.stream()
       .filter(config -> config.getRuleId().startsWith("TEST"))
       .map(c -> new TestRemoteRule(this, c))
-      .collect(Collectors.toList());
+      .forEach(rules::add);
+
+     return rules;
   }
 
   /**

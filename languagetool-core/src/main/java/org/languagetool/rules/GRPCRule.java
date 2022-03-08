@@ -80,9 +80,13 @@ import java.util.stream.Stream;
   </pre>
  */
 public abstract class GRPCRule extends RemoteRule {
+  public static final String CONFIG_TYPE = "grpc";
+
+
   private static final Logger logger = LoggerFactory.getLogger(GRPCRule.class);
   private static final int DEFAULT_BATCH_SIZE = 8;
   public static final String WHITESPACE_REGEX = "[\u00a0\u202f\ufeff\ufffd]";
+  private static final String DEFAULT_DESCRIPTION = "INTERNAL - dynamically loaded rule supported by remote server";
 
   public static String cleanID(String id) {
     return id.replaceAll("[^a-zA-Z0-9_]", "_").toUpperCase();
@@ -413,6 +417,13 @@ public abstract class GRPCRule extends RemoteRule {
     return configs.stream()
       .filter(cfg -> cfg.getRuleId().startsWith(prefix))
       .map(cfg -> create(language, cfg, inputLogging, cfg.getRuleId(), defaultDescription, Collections.emptyMap()))
+      .collect(Collectors.toList());
+  }
+
+  public static List<GRPCRule> createAll(Language language, List<RemoteRuleConfig> configs, boolean inputLogging) {
+    return configs.stream()
+      .filter(RemoteRuleConfig.isRelevantConfig(CONFIG_TYPE, language))
+      .map(cfg -> create(language, cfg, inputLogging, cfg.getRuleId(), DEFAULT_DESCRIPTION, Collections.emptyMap()))
       .collect(Collectors.toList());
   }
 }
