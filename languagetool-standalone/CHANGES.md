@@ -1383,7 +1383,7 @@
     - grammar: general agreement rules, 'crase', pronomial colocations, impersonal verbs, fragment, and paronyms detection improvements
     - capitalization: AO90 and AO45 rules
     - style: repetitions and barbarism detection
-    - typography: number formating, chemical formulas, degrees signs, dash signs, and punctuation
+    - typography: number formatting, chemical formulas, degrees signs, dash signs, and punctuation
     - semantics: wrong words in the context (22 confusion pairs), url validator and date checker improvements
     - registered brands category added
     - translation errors category added
