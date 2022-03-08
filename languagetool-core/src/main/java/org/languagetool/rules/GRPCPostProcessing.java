@@ -37,6 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class GRPCPostProcessing {
+  public static final String CONFIG_TYPE = "grpc-post";
 
   private final CircuitBreaker circuitBreaker;
   private ManagedChannel channel;
@@ -46,8 +47,10 @@ public class GRPCPostProcessing {
 
   // instances by rule ID in RemoteRuleConfig
   private static ConcurrentMap<String, GRPCPostProcessing> instances = new ConcurrentHashMap<>();
-  // configured rule IDs by language (multiple language variants can share an instance)
-  private static ConcurrentMap<Language, String> configIDs = new ConcurrentHashMap<>();
+  // configured rule IDs by language
+  // multiple language variants can share an instance
+  // there can be multiple IDs per language
+  private static ConcurrentMap<Language, Set<String>> configIDs = new ConcurrentHashMap<>();
 
 
   class RuleData extends Rule {
@@ -123,26 +126,28 @@ public class GRPCPostProcessing {
     stub = PostProcessingServerGrpc.newBlockingStub(channel);
   }
 
-  @Nullable
-  public static GRPCPostProcessing get(Language lang) {
-    String configID = configIDs.get(lang);
-    if (configID == null) {
-      return null;
-    }
-    return instances.get(configID);
+  @NotNull
+  public static List<GRPCPostProcessing> get(Language lang) {
+    return configIDs
+      .getOrDefault(lang, Collections.emptySet())
+      .stream().map(instances::get)
+      .filter(Objects::nonNull)
+      .collect(Collectors.toList());
   }
 
-  public static void configure(Language lang, RemoteRuleConfig config) {
-    String key = config.getRuleId();
-    configIDs.putIfAbsent(lang, key);
-    instances.computeIfAbsent(key, s -> {
-      try {
-        return new GRPCPostProcessing(config);
-      } catch (Exception e) {
-        log.warn(String.format("Couldn't initialize GRPCPostProcessing instance" +
-          " for language '%s' and configuration '%s'", lang, config), e);
-        return null;
-      }
+  public static void configure(Language lang, List<RemoteRuleConfig> configs) {
+    configs.stream().filter(RemoteRuleConfig.isRelevantConfig(CONFIG_TYPE, lang)).forEach(config -> {
+      String key = config.getRuleId();
+      configIDs.computeIfAbsent(lang, k -> new HashSet<>()).add(key);
+      instances.computeIfAbsent(key, k -> {
+        try {
+          return new GRPCPostProcessing(config);
+        } catch (Exception e) {
+          log.warn(String.format("Couldn't initialize GRPCPostProcessing instance" +
+            " for language '%s' and configuration '%s'", lang, config), e);
+          return null;
+        }
+      });
     });
   }
 
