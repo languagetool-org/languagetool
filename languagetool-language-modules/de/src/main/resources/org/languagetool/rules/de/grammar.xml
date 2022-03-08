@@ -46521,7 +46521,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
-        <rulegroup id="HANDELN_DARUM_DARUEBER" name="handeln darum/darüber (davon)" default="temp_off">
+        <rulegroup id="HANDELN_DARUM_DARÜBER" name="handeln darum/darüber (davon)" default="temp_off">
             <rule>
                 <antipattern>
                     <token>es</token>
@@ -46545,6 +46545,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Es handelt sich dabei darum, dass es nicht immer erforderlich ist, die bestehende Situation zu ändern.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token skip="-1" inflected="yes">handeln</token>
+                    <token>darum</token>
+                    <token>von</token>
+                </antipattern>
+                <antipattern>
+                    <token>darum</token>
+                    <token skip="-1" inflected="yes">handeln</token>
+                    <token>von</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">darum|darüber</token>
@@ -46555,8 +46565,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>davon</suggestion>
                 <example correction="Davon"><marker>Darum</marker> handelt die Geschichte.</example>
                 <example correction="Davon"><marker>Darüber</marker> handelt das Buch.</example>
-            </rule>
-        </rulegroup>
+                <example>Darum handelt das Buch hauptsächlich von Wildtieren.</example>
+                <example>Das Buch handelt darum nur von Natur und Tieren.</example>
+                </rule>
+        <rulegroup>
         <rule id="SATZSTELLUNG_KON_UNT_VERB_AM_ENDE" name="Ich gehe nicht ins Schwimmbad, weil ich will nicht (ich nicht will)." default="temp_off">
             <pattern>
                 <token>,</token>
