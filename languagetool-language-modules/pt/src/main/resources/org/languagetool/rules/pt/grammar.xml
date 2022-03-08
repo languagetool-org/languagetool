@@ -15115,7 +15115,7 @@ A definição genérica é que os terroristas são violentos. → A definição 
 
 	<!-- E QUE VERBO e verbo -->
     <rule id='E_QUE_VERBO_E_VERBO' name="E que + Verbo > E + Verbo" type='style'>
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-08-03 + 2021-08-04 (25-JUN-2021+)      -->
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-08-03 + 2021-08-04 + 2022-03-08 (25-JUN-2021+)      -->
 	<!--
 Ele é o Rui e que queria comer bem. → Ele é o Rui e queria comer bem.
 	-->
@@ -15127,7 +15127,7 @@ Uma população é um grupo de indivíduos pertencentes a determinada espécie e
 		<token>e</token>
 		<token>que</token>
 		<token postag='V.+' postag_regexp='yes'/>
-		<token postag='SPS.+|Z0.+' postag_regexp='yes'/>
+		<token postag='Z0.+' postag_regexp='yes'/> <!-- Removed "SPS.+" to hit also "à" and "a": ", e que levou à revolta em vários países árabes." -->
       </antipattern> 
 <!--
 Não esquecer os disparos e que são necessários para fragilizar o inimigo.
@@ -15149,7 +15149,43 @@ São usados vários programas escritos em Assembly, alguns escritos por humanos 
 		<token postag='CS' postag_regexp='no'/>
 		<token postag='V.+' postag_regexp='yes'/>
 		<token postag='CS|SPS.+' postag_regexp='yes'/>
-      </antipattern> 	  
+      </antipattern>
+
+<!--
+ADDED ON 2022-03-08 DUE TO THE FIX IN THE FIRST ANTIPATTERN WHERE I REMOVED SPS.+
+Imagens que me inspiram para a decoração da casa nova e que guardo no meu pinterest.
+-->
+      <antipattern>
+		<token>e</token>
+		<token>que</token>
+		<token postag='V.+' postag_regexp='yes'/>
+		<token postag='SPS.+' postag_regexp='yes'/>
+		<token postag='AP.+|DP.+' postag_regexp='yes'/>
+      </antipattern> 
+<!--
+ADDED ON 2022-03-08 DUE TO THE FIX IN THE FIRST ANTIPATTERN WHERE I REMOVED SPS.+
+A Suíça é um país muito bonito e que vale a pena visitar.
+Um sentimento que hoje tenho e que guardo no coração é o de LIBERDADE.
+Tenho um pastor belga com 12 anos, com displasia coxo femoral e que parou de andar há alguns dias.
+Ele acredita firmemente que foi abduzido por um OVNI e que serviu de experiências para os alienígenas.
+Antracito é uma carvão duro que contém carbono quase puro e que arde com chama e fumaça mínimas.
+Até fala do passadiço que foi construído e que unificava a praça com ligação de outras casas ao paço (nos estáus).
+Capa muito bonita e que remete a atmosfera da trama.
+Um amor doce como o mel de uma flor... que desabrochou numa estrela e que veio até nós num lindo sonho!
+Uma coisa é certa: é de uma criação diferente e que sai dos parâmetros da maioria das cervejas que já bebi.
+Ele vai indicar profissionais competentes e que levam a profissão a sério.
+-->
+      <antipattern>
+		<token>e</token>
+		<token>que</token>
+		<token postag='V.+' postag_regexp='yes'/>
+		<token postag='SPS.+' postag_regexp='yes'>
+			<exception postag_regexp='no' postag='RG'/>
+		</token>
+		<token postag='NC.+|AQ.+' postag_regexp='yes'/>
+		<token postag='V.+|CC|SPS.+' postag_regexp='yes'/>
+      </antipattern> 
+
       <pattern>
 	    <marker>
 			<token>e</token>
@@ -15162,13 +15198,25 @@ São usados vários programas escritos em Assembly, alguns escritos por humanos 
 	  <suggestion>e \3</suggestion>
       <example correction="e queria">Ele é o Rui <marker>e que queria</marker> comer bem.</example>
 	  <example>E que se supõe que devo fazer quando me xingar?</example>
-	  
+
 	  <example>Todos dizem que Kate é um gênio e que terá um futuro próspero.</example>
 	  <example>Uma população é um grupo de indivíduos pertencentes a determinada espécie e que ocupa um espaço delimitado.</example>
-	  
+
 	  <example>Não esquecer os disparos e que são necessários para fragilizar o inimigo.</example>
-	  
+
 	  <example>São usados vários programas escritos em Assembly, alguns escritos por humanos e que se duplicam na RAM.</example>
+
+	  <example>Imagens que me inspiram para a decoração da casa nova e que guardo no meu pinterest.</example>
+	  <example>A Suíça é um país muito bonito e que vale a pena visitar.</example>
+	  <example>Um sentimento que hoje tenho e que guardo no coração é o de LIBERDADE.</example>
+	  <example>Tenho um pastor belga com 12 anos, com displasia coxo femoral e que parou de andar há alguns dias.</example>
+	  <example>Ele acredita firmemente que foi abduzido por um OVNI e que serviu de experiências para os alienígenas.</example>
+	  <example>Antracito é uma carvão duro que contém carbono quase puro e que arde com chama e fumaça mínimas.</example>
+	  <example>Até fala do passadiço que foi construído e que unificava a praça com ligação de outras casas ao paço (nos estáus).</example>
+	  <example>Capa muito bonita e que remete a atmosfera da trama.</example>
+	  <example>Um amor doce como o mel de uma flor... que desabrochou numa estrela e que veio até nós num lindo sonho!</example>
+	  <example>Uma coisa é certa: é de uma criação diferente e que sai dos parâmetros da maioria das cervejas que já bebi.</example>
+	  <example>Ele vai indicar profissionais competentes e que levam a profissão a sério.</example>
     </rule>
 
 	<!-- QUE É/SÃO NC/ADJ COMO/POR nc/adj como/por -->
