@@ -60534,6 +60534,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="SPACE_AFTER_BEFORE_SLASH" name="Leerzeichen vor und nach Schrägstrich" default="temp_off">
             <rule>
                 <antipattern>
+                    <token regexp="yes">^https?:\/\/(www\.)?(.*)?\/?(.)*\/$</token>
+                    <token regexp="yes" spacebefore="yes">.*[\wüöäß].*</token>
+                </antipattern>
+                <antipattern>
                     <token regexp="yes">.*[\wüöäß].*</token>
                     <token spacebefore="yes">/</token>
                     <token regexp="yes" spacebefore="yes">.*[\wüöäß].*</token>
@@ -60551,14 +60555,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Bei einem Schrägstrich sind Leerzeichen in der Regel nur zulässig, wenn sie sowohl davor als auch dahinter stehen. Alternativ können sie auch ganz weggelassen werden.</message>
-                <suggestion>/</suggestion>
-                <suggestion> / </suggestion>
-                <example correction="/| / ">Ich ruf dich unter der Nummer <marker>010/ 5456846</marker> an.</example>
+                <suggestion>\1/\3</suggestion>
+                <suggestion>\1 / \3</suggestion>
+                <example correction="010/5456846|010 / 5456846">Ich ruf dich unter der Nummer <marker>010/ 5456846</marker> an.</example>
                 <example>Ich ruf dich unter der Nummer 010/5456846 an.</example>
                 <example>Ich ruf dich unter der Nummer 010 / 5456846 an.</example>
-                <example correction="/| / ">Ich mag <marker>Hunde/ Katzen</marker> nicht.</example>
+                <example correction="Hunde/Katzen|Hunde / Katzen">Ich mag <marker>Hunde/ Katzen</marker> nicht.</example>
                 <example>Ich mag Hunde/Katzen nicht.</example>
                 <example>Ich mag Hunde / Katzen nicht.</example>
+                <example>Ich glaube, auf der Webseite www.hausgemacht.de/kuchen/ kann man gute Rezepte finden.</example>
+                <example>Ich glaube, auf der Webseite https://www.hausgemacht.de/kuchen/rezepte/ gibt es gute Rezeptideen.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -60579,12 +60585,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Bei einem Schrägstrich sind Leerzeichen in der Regel nur zulässig, wenn sie sowohl davor als auch dahinter stehen. Alternativ können sie auch ganz weggelassen werden.</message>
-                <suggestion>/</suggestion>
-                <suggestion> / </suggestion>
-                <example correction="/| / ">Ich ruf dich unter der Nummer <marker>010 /5456846</marker> an.</example>
+                <suggestion>\1/\3</suggestion>
+                <suggestion>\1 / \3</suggestion>
+                <example correction="010/5456846|010 / 5456846">Ich ruf dich unter der Nummer <marker>010 /5456846</marker> an.</example>
                 <example>Ich ruf dich unter der Nummer 010/5456846 an.</example>
                 <example>Ich ruf dich unter der Nummer 010 / 5456846 an.</example>
-                <example correction="/| / ">Ich mag <marker>Hunde /Katzen</marker> nicht.</example>
+                <example correction="Hunde/Katzen|Hunde / Katzen">Ich mag <marker>Hunde /Katzen</marker> nicht.</example>
                 <example>Ich mag Hunde/Katzen nicht.</example>
                 <example>Ich mag Hunde / Katzen nicht.</example>
             </rule>
