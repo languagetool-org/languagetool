@@ -1670,6 +1670,26 @@ THIS ANTIPATTERN IS TO TRIGGER THE RULE: CONFUSÃO_ESTA_ESTÁ
       </antipattern>
 <!-- MARCOAGPINTO 2022-02-02 (1-JAN-2022+) *END* -->
 
+<!-- MARCOAGPINTO 2022-03-08 (1-JAN-2022+) *START* -->
+<!--
+THIS ANTIPATTERN FIXES THE ISSUE: VERB + FEMALE + MALE (VERB + programação + spaghetti)
+ONLY USED NOUNS SINCE ADJECTIVES PRODUCE FALSE HITS.
+
+Tive um professor na faculdade que disse que o BASIC era programação spaghetti.
+Iniciou o Chegou a Hora em parceria, mas conquistou carreira solo e agora decola com seus novos projetos.
+Molho para acompanhar massa esparguete.
+-->
+      <antipattern>
+		<token postag='V.+' postag_regexp='yes'/>
+		<token postag='NCF.+' postag_regexp='yes'>
+			<exception postag_regexp='yes' postag='AQ.+|DI.+|PI.+|Z0.+'/>
+		</token>
+		<token postag='NCM.+' postag_regexp='yes'>
+			<exception postag_regexp='yes' postag='AQ.+|DI.+|PI.+|Z0.+'/>
+		</token>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-03-08 (1-JAN-2022+) *END* -->
+
       <pattern>
           <token negate='yes' regexp='yes'>o|e|de|&hifen;</token> <!-- MARCOAGPINTO 2019-12-31 -->
         <marker>
@@ -1711,28 +1731,32 @@ THIS ANTIPATTERN IS TO TRIGGER THE RULE: CONFUSÃO_ESTA_ESTÁ
 	  <example type='correct'>Precisa agora de estar em <marker>plantão 14 horas</marker>.</example>
 	  <example type='correct'>Ao testar um modelo tendo <marker>por base dados</marker>.</example>
 	  <example type='correct'>Ao testar um modelo tendo <marker>por resultado dados</marker>.</example>
-	 
+
 	  <example type='correct'><marker>Dez funções</marker> da inteligência multifocal.</example>
-	 
+
 	  <example>O Isaac apanhou <marker>um escalda</marker> rabos tão grande.</example>
-	 
+
 	  <example>Ele confundiu o rapaz com um borrego, <marker>seu tira</marker> moncos.</example>
 	  <example>Ele confundiu o rapaz com um borrego, sua tira moncos.</example>
 	  <example>Ele confundiu o rapaz com um borrego, teu tira moncos.</example>
-	  
+
 	  <example type='correct'>Autentifique-se com a <marker>sua conta LanguageTool</marker>.</example>
 	  <example type='correct'>Autentifique-se com o <marker>seu cartão MUFON</marker>.</example>
 	  <example>Em resposta, a administração Bush lançou uma "Guerra ao Terror".</example>
 	  <example>A bacia Beethoven tem um tamanho similar de material ejetado e uma borda de 625 km de diâmetro.</example>
 	  <example>Durante a dinastia Ming (no início do século XV) havia a Cidade Proibida no centro de Pequim.</example>
 	  <example>A própria Jane escreveu a carta.</example>
-	  
+
 	  <example>Tive minhas primeiras experiências sexuais com uma mulher vários anos mais velha que eu.</example>
 	  <example>Em outra publicação sua no mesmo ano, Einstein pôs em dúvida vários princípios do eletromagnetismo clássico.</example>
 	  <example>Como incentivo a este tipo de música, a Câmara Municipal de Braga criou no estádio 1.º de Maio várias salas de ensaio.</example>
 	  <example>Série 9xx Cada série foca um determinado mercado, possuindo os aparelhos várias semelhanças entre si.</example>
-	  
-	  <example>A sua adopção no Pentium foi uma novidade significativa na linha da plataforma x86 que até então era totalmente CISC.</example>	  
+
+	  <example>A sua adopção no Pentium foi uma novidade significativa na linha da plataforma x86 que até então era totalmente CISC.</example>
+
+	  <example>Tive um professor na faculdade que disse que o BASIC era programação spaghetti.</example>
+	  <example>Iniciou o Chegou a Hora em parceria, mas conquistou carreira solo e agora decola com seus novos projetos.</example>
+	  <example>Molho para acompanhar massa esparguete.</example>
     </rule>
     <rule>
       <antipattern>
