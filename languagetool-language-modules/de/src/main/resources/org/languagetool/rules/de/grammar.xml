@@ -24328,6 +24328,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Stil -->
     <!-- ====================================================================== -->
     <category id="STYLE" name="Stil" type="style">
+        <rule id="SOWOHL_UND" name="sowohl...und (als auch)" default="temp_off">
+            <antipattern>
+                <token skip="-1">sowohl</token>
+                <token>als</token>
+                <token>auch</token>
+            </antipattern>
+            <pattern>
+                <token skip="-1">sowohl</token>
+                <marker>
+                    <token>und</token>
+                </marker>
+            </pattern>
+            <message>Die schriftsprachlich elegantere Form lautet 'sowohl ... als auch'.</message>
+            <suggestion>als auch</suggestion>
+            <example correction="als auch">Ich fahre sowohl Fahrrad <marker>und</marker> Auto.</example>
+            <example correction="als auch">Sowohl gestern <marker>und</marker> heute hat meine Schwester zu viel Geld ausgegeben.</example>
+            <example>Ich denke, dass sowohl Arbeiten als auch Lernen zum Leben gehören, und das jeden Tag.</example>
+            <example>Sowohl der Präsident als auch der Premierminister spielen eine wichtige Rolle, und zwar in politischen Fragen.</example>
+        </rule>
         <rule id="SICH_GEGENSEITIG" name="sich gegenseitig (einander)" default="temp_off" tags="picky">
             <pattern>
                 <token postag="PRO:REF.*" postag_regexp="yes"/>
