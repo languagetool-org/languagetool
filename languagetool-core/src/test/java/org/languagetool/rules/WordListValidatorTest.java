@@ -100,6 +100,7 @@ public class WordListValidatorTest {
           "Brač",
           "Forlì",
           "Qur’an",
+          "Kariņš",
           "Djuveč",
           "Djuvečreis",
           "Hidschāb/S",
