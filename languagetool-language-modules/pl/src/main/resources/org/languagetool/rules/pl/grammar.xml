@@ -20572,6 +20572,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
 		<category id="TYPOS" name="Prawdopodobne literówki" type="misspelling">
+		<rule id="KYSZ_A_KYSZ" name="„kysz” (a kysz)">
+		<antipattern>
+        <token>derogat</token>
+        <token>legi</token>
+        <marker>
+          <token>priori</token>        
+        </marker>
+		</antipattern>
+     <pattern>
+      <token regexp='yes'>cappella|fortiori|kysz|priori|posteriori|tergo<exception scope='previous'>a</exception></token>
+     </pattern>
+     <message>Czy chodziło o <suggestion>a <match case_conversion="alllower" no="1"/></suggestion>?</message>
+     <short>Literówka</short>
+     <example correction='A kysz'><marker>Kysz</marker>, zły duchu!</example>
+     <example>A kysz, zły duchu!</example>
+    </rule>
 		<rule id="FONETYCZNY_OM_A" name="Błędny zapis „-ą” (om) w końcówkach celownika">
 		<antipattern>
       <unify><feature id="gender"/><feature id="number"/><feature id="case"/>
