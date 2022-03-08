@@ -217,6 +217,8 @@ public abstract class Language {
     throws IOException {
     List<Rule> rules = new ArrayList<>();
 
+    GRPCPostProcessing.configure(this, configs);
+
     rules.addAll(GRPCRule.createAll(this, configs, inputLogging));
 
      configs.stream()

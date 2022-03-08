@@ -1031,8 +1031,7 @@ public class JLanguageTool {
     // decide if this should be done right after performCheck, before waiting for remote rule results
     // better for latency, remote rules probably don't need resorting
     // complications with application of other filters?
-    GRPCPostProcessing postProcessing = GRPCPostProcessing.get(language);
-    if (postProcessing != null) {
+    for (GRPCPostProcessing postProcessing : GRPCPostProcessing.get(language)) {
       ruleMatches = postProcessing.filter(analyzedSentences, ruleMatches);
     }
 
