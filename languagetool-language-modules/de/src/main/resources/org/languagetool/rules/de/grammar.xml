@@ -26196,15 +26196,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>auf</token>
-                    <token postag="EIG.*|UNKNOWN|PRO:REF.*|ART.*|SUB.*" postag_regexp="yes" regexp="yes">.*[a-z].*</token>
-                    <token regexp="yes">ist|war</token>
-                    <token regexp="yes" min="0">immer|stets|meist(ens)?|durchgehend</token>
+                    <token postag="EIG.*|UNKNOWN|PRO:(PER|REF).*|ART.*|SUB.*" postag_regexp="yes" regexp="yes">.*[a-z].*</token>
+                    <token inflected="yes">sein<exception>sein</exception></token>
+                    <or>
+                        <token postag="(ADV|NEG).*" postag_regexp="yes" min="0" />
+                        <token regexp="yes" min="0">durchgehend</token>
+                    </or>
                     <marker>
                         <token case_sensitive="yes">verlass</token>
                     </marker>
                 </pattern>
                 <message>In diesem Kontext wird <suggestion>Verlass</suggestion> als Nomen gebraucht und sollte großgeschrieben werden.</message>
                 <example correction="Verlass">Auf dich ist stets <marker>verlass</marker>.</example>
+                <example correction="Verlass">Auf ihn war durchgehend <marker>verlass</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="HALLO_ZUSAMMEN" name="Hallo Zusammen (zusammen)"><!-- höhere prio als DE_CASE-->
