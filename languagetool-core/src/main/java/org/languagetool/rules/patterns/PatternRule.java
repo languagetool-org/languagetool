@@ -211,7 +211,7 @@ public class PatternRule extends AbstractTokenBasedRule {
   }
 
   @Override
-  public final RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     if (canBeIgnoredFor(sentence)) return RuleMatch.EMPTY_ARRAY;
     
     RuleMatcher matcher = new PatternRuleMatcher(this, useList);
