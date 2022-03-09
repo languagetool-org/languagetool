@@ -50937,7 +50937,47 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="wegen des Geldes|wegen des Gelds">Tom kam <marker>wegen dem Geld</marker> hierher.</example>
                 <example correction="wegen meines Geburtstages|wegen meines Geburtstags">Ich bin <marker>wegen meinem Geburtstag</marker> sehr aufgeregt.</example>
                 <example correction="Trotz des Wortes|Trotz des Worts"><marker>Trotz dem Wort</marker> image beinhalten sie nur Musik und/oder Textpassagen</example>
-                <example correction="wegen des bundesweiten Pflegenotstandes|wegen des bundesweiten Pflegenotstands">Erst vor wenigen Wochen gab es <marker>wegen dem bundesweiten Pflegenotstand</marker> in Krankenhäusern Kritik von Patientenschützern.</example>
+                <example correction="wegen des bundesweiten Pflegenotstandes|wegen des bundesweiten Pflegenotstands">Erst vor Kurzem gab es <marker>wegen dem bundesweiten Pflegenotstand</marker> in Krankenhäusern Kritik von Patientenschützern.</example>
+                <example>von Rechts wegen die Bestrafung</example>
+                <example>Er widmete seine ganze Zeit dem Geschichtsstudium.</example>
+                <example>Er ist der Sache wegen dem Bruder begegnet.</example>
+                <example>Das war der Moment, wegen dem Kommissar Rex sein Leben fast verlor.</example>
+                <example>1880 erhielt die Ortschaft 1,5 km nördlich einen Eisenbahnanschluss mit Haltepunkt an der Strecke Ducherow-Swinemünde.</example>
+            </rule>
+            <rule default="temp_off"><!-- TODO this should replace the rule above-->
+                <antipattern>
+                    <token>dem</token>
+                    <token skip="3"/>
+                    <token postag="VER:AUX:.+" postag_regexp="yes"/>
+                    <token postag="ADJ:PRD:GRU"/>
+                    <token postag="ART:.+:AKK:.+" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern><!-- compound error "wegen des iPhone Angebots" -->
+                    <token regexp="yes">de[nm]|ihre[nm]|[dms]?eine[nm]|unse?re[nm]|diese[nm]|jene[nm]|eure[nm]</token>
+                    <token postag="(ADJ|PA[12]):DAT:SIN:(NEU|MAS):GRU:IND" postag_regexp="yes" min="0" />
+                    <token postag="SUB:(DAT|NOM|AKK):SIN:(MAS|FEM|NEU)" postag_regexp="yes" />
+                    <token postag="SUB:DAT:SIN:(MAS|FEM|NEU)" postag_regexp="yes" />
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">dem|[Ii]hre[nm]|[Ddms]?eine[nm]|unse?re[nm]|diese[nm]|jene[nm]|[Ee]ure[nm]</token>
+                    <token postag="SUB:(DAT|NOM|AKK):SIN:(MAS|FEM|NEU)" postag_regexp="yes" regexp="yes">.*[a-z].*</token>
+                    <token postag="UNKNOWN|EIG.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[A-ZÄÖÜ].+</token>
+                </antipattern>
+                <pattern case_sensitive="yes">
+                    <token><exception postag="SUB.*:GEN:.+" postag_regexp="yes"/></token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="no">abseits|abzüglich|angelegentlich|angesichts|anhand|anlässlich|anstelle|aufgrund|aufseiten|ausgangs|außerhalb|ausserhalb|ausweislich|behufs|beiderseits|beidseits|betreffs|bezüglich|dank|diesseits|eingangs|eingedenk|einschließlich|einschliesslich|fernab|hinsichtlich|infolge|inklusive|inmitten|innerhalb|innert|inpuncto|jenseits|kraft|längs|längsseits|mangels|mithilfe|mittels|namens|nördlich|oberhalb|östlich|rücksichtlich|seitens|seitlich|seitwärts|südlich|trotz|unbeschadet|uneingedenk|unerachtet|unfern|ungeachtet|ungerechnet|unterhalb|unweit|vermittels(t)|vermöge|vonseiten|vorbehaltlich|vorbehältlich|wegen|weitab|westlich|willen|zeit|zugunsten|zuhanden|zulasten|zuseiten|zuungunsten|zuzüglich|zwecks</token>
+                        <token regexp="yes">dem|[Ii]hre[nm]|[Ddms]?eine[nm]|unse?re[nm]|diese[nm]|jene[nm]|[Ee]ure[nm]</token>
+                        <token postag="(ADJ|PA[12]):DAT:SIN:(NEU|MAS):GRU:IND" postag_regexp="yes" min="0" />
+                        <token postag="SUB:(DAT|NOM|AKK):SIN:(MAS|FEM|NEU)" postag_regexp="yes" />
+                    </marker>
+                </pattern>
+                <message>Die Präposition '\2' erfordert in der Regel den Genitiv.</message>
+                <suggestion suppress_misspelled="yes">\2 <match no="3" regexp_match="(?i)e[mn]$" regexp_replace="es" /> \4 <match no="5" postag="SUB:GEN:SIN:.+" postag_regexp="yes" /></suggestion>
+                <example correction="wegen des Geldes|wegen des Gelds">Tom kam <marker>wegen dem Geld</marker> hierher.</example>
+                <example correction="wegen meines Geburtstages|wegen meines Geburtstags">Ich bin <marker>wegen meinem Geburtstag</marker> sehr aufgeregt.</example>
+                <example correction="Trotz des Wortes|Trotz des Worts"><marker>Trotz dem Wort</marker> image beinhalten sie nur Musik und/oder Textpassagen</example>
+                <example correction="wegen des bundesweiten Pflegenotstandes|wegen des bundesweiten Pflegenotstands">Erst vor Kurzem gab es <marker>wegen dem bundesweiten Pflegenotstand</marker> in Krankenhäusern Kritik von Patientenschützern.</example>
                 <example>von Rechts wegen die Bestrafung</example>
                 <example>Er widmete seine ganze Zeit dem Geschichtsstudium.</example>
                 <example>Er ist der Sache wegen dem Bruder begegnet.</example>
