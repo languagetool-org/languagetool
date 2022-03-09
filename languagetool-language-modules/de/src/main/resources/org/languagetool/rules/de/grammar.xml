@@ -26199,7 +26199,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="EIG.*|UNKNOWN|PRO:(PER|REF).*|ART.*|SUB.*" postag_regexp="yes" regexp="yes">.*[a-z].*</token>
                     <token inflected="yes">sein<exception>sein</exception></token>
                     <or>
-                        <token postag="(ADV|NEG).*" postag_regexp="yes" min="0" />
+                        <token postag="(ADV|NEG).*" postag_regexp="yes" min="0" max="-1" />
                         <token regexp="yes" min="0">durchgehend</token>
                     </or>
                     <marker>
@@ -26209,6 +26209,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>In diesem Kontext wird <suggestion>Verlass</suggestion> als Nomen gebraucht und sollte großgeschrieben werden.</message>
                 <example correction="Verlass">Auf dich ist stets <marker>verlass</marker>.</example>
                 <example correction="Verlass">Auf ihn war durchgehend <marker>verlass</marker>.</example>
+                <example correction="Verlass">Auf sie sei noch nie <marker>verlass</marker> gewesen.</example>
             </rule>
         </rulegroup>
         <rulegroup id="HALLO_ZUSAMMEN" name="Hallo Zusammen (zusammen)"><!-- höhere prio als DE_CASE-->
