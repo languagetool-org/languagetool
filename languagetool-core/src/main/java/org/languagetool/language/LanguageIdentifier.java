@@ -59,7 +59,7 @@ public class LanguageIdentifier {
   // languages that we offer profiles for as they are not yet supported by language-detector:
   private static final List<String> externalLangCodes = Arrays.asList("eo");
   // fall back to checking against list of common words if fasttext probability is lower than this:
-  private static final float THRESHOLD = 0.9f;      // 7.656
+  private static final float THRESHOLD = 0.85f;
   //private static final float THRESHOLD = 0.95f;   // 7.39
   //private static final float THRESHOLD = 0.975f;  // 7.228 
   //private static final float THRESHOLD = 1.0f;    // 7.0
