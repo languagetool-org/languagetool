@@ -146,6 +146,7 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
       firstMatchTokenObj = tokens[firstMatchToken + correctedStPos + 1];
       startsWithUppercase = StringTools.startsWithUppercase(firstMatchTokenObj.getToken());
     }
+    startsWithUppercase = startsWithUppercase && rule.isAdjustSuggestionCase();
     if (firstMarkerMatchToken == -1) {
       firstMarkerMatchToken = firstMatchToken;
     }

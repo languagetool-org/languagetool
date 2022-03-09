@@ -51,6 +51,7 @@ public abstract class AbstractPatternRule extends Rule {
   protected final boolean testUnification;
   protected final boolean sentStart;
   protected List<Match> suggestionMatches;
+  private boolean adjustSuggestionCase = true;
   protected List<Match> suggestionMatchesOutMsg;
   protected List<DisambiguationPatternRule> antiPatterns;
 
@@ -372,4 +373,19 @@ public abstract class AbstractPatternRule extends Rule {
     this.type = type;
   }
 
+  @Experimental
+  /**
+   * Allows adjusting the behavior of uppercasing suggestions when the matched text started with an upper-case letter
+   */
+  public boolean isAdjustSuggestionCase() {
+    return adjustSuggestionCase;
+  }
+
+  @Experimental
+  /**
+   * Allows adjusting the behavior of uppercasing suggestions when the matched text started with an upper-case letter
+   */
+  public void setAdjustSuggestionCase(boolean adjustSuggestionCase) {
+    this.adjustSuggestionCase = adjustSuggestionCase;
+  }
 }
