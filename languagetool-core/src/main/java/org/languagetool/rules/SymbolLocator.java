@@ -29,23 +29,25 @@ import org.languagetool.AnalyzedSentence;
  */
 public class SymbolLocator {
 
-  private final String symbol;
+  private final GenericUnpairedBracketsRule.Symbol symbol;
   private final int index;
   private final int startPos;
   private final AnalyzedSentence sentence;
+  private final int sentenceIndex;
 
-  SymbolLocator(String symbol, int index, int startPos, AnalyzedSentence sentence) {
+  SymbolLocator(GenericUnpairedBracketsRule.Symbol symbol, int index, int startPos, AnalyzedSentence sentence, int sentenceIndex) {
     this.symbol = symbol;
     this.index = index;
     this.startPos = startPos;
     this.sentence = sentence;
+    this.sentenceIndex = sentenceIndex;
   }
 
   /**
    * @return The symbol in the locator
-   * @since 2.5
+   * @since 2.5 - API changed in 5.3
    */
-  public String getSymbol() {
+  public GenericUnpairedBracketsRule.Symbol getSymbol() {
     return symbol;
   }
 
@@ -62,6 +64,13 @@ public class SymbolLocator {
   /** @since 4.0 */
   AnalyzedSentence getSentence() {
     return sentence;
+  }
+
+  /**
+   * @since 5.3
+   */
+  public int getSentenceIndex() {
+    return sentenceIndex;
   }
 
   @Override

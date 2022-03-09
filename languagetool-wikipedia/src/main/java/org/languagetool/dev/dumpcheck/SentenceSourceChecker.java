@@ -20,10 +20,7 @@ package org.languagetool.dev.dumpcheck;
 
 import org.apache.commons.cli.*;
 import org.apache.commons.lang3.StringUtils;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.Languages;
-import org.languagetool.MultiThreadedJLanguageTool;
+import org.languagetool.*;
 import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
@@ -70,10 +67,11 @@ public class SentenceSourceChecker {
         addDisabledRules(languageCode, disabledRuleIds, disabledRules);
       }
     }
+    String motherTongue = commandLine.getOptionValue('m');
     int maxArticles = Integer.parseInt(commandLine.getOptionValue("max-sentences", "0"));
     int maxErrors = Integer.parseInt(commandLine.getOptionValue("max-errors", "0"));
     int contextSize = Integer.parseInt(commandLine.getOptionValue("context-size", "50"));
-    prg.run(propFile, disabledRuleIds, languageCode, maxArticles,
+    prg.run(propFile, disabledRuleIds, languageCode, motherTongue, maxArticles,
       maxErrors, contextSize,
       commandLine);
   }
@@ -90,6 +88,8 @@ public class SentenceSourceChecker {
     Options options = new Options();
     options.addOption(Option.builder("l").longOpt("language").argName("code").hasArg()
             .desc("language code like 'en' or 'de'").required().build());
+    options.addOption(Option.builder("m").longOpt("mother-tongue").argName("code").hasArg()
+            .desc("language code like 'en' or 'de'").build());
     options.addOption(Option.builder("d").longOpt("db-properties").argName("file").hasArg()
             .desc("A file to set database access properties. If not set, the output will be written to STDOUT. " +
                   "The file needs to set the properties dbUrl ('jdbc:...'), dbUser, and dbPassword. " +
@@ -124,6 +124,10 @@ public class SentenceSourceChecker {
             .desc("Activate only rules from this XML file (e.g. 'grammar.xml')").build());
     options.addOption(Option.builder().longOpt("skip").hasArg()
             .desc("Skip this many sentences from input before actually checking sentences").build());
+    options.addOption(Option.builder().longOpt("print-duration")
+            .desc("Print the duration of analysis in milliseconds").build());
+    options.addOption(Option.builder().longOpt("nerUrl").argName("url").hasArg()
+            .desc("URL of a named entity recognition service").build());
     try {
       CommandLineParser parser = new DefaultParser();
       return parser.parse(options, args);
@@ -138,7 +142,7 @@ public class SentenceSourceChecker {
     throw new IllegalStateException();
   }
 
-  private void run(File propFile, Set<String> disabledRules, String langCode,
+  private void run(File propFile, Set<String> disabledRules, String langCode, String motherTongueCode,
                    int maxSentences, int maxErrors, int contextSize,
                    CommandLine options) throws IOException {
     long startTime = System.currentTimeMillis();
@@ -153,7 +157,13 @@ public class SentenceSourceChecker {
     String ruleSource = options.hasOption("rulesource") ? options.getOptionValue("rulesource") : null;
     int sentencesToSkip = options.hasOption("skip") ? Integer.parseInt(options.getOptionValue("skip")) : 0;
     Language lang = Languages.getLanguageForShortCode(langCode);
-    MultiThreadedJLanguageTool lt = new MultiThreadedJLanguageTool(lang);
+    Language motherTongue = motherTongueCode != null ? Languages.getLanguageForShortCode(motherTongueCode) : null;
+    GlobalConfig globalConfig = new GlobalConfig();
+    if (options.hasOption("nerUrl")) {
+      System.out.println("Using NER service: " + options.getOptionValue("nerUrl"));
+      globalConfig.setNERUrl(options.getOptionValue("nerUrl"));
+    }
+    MultiThreadedJLanguageTool lt = new MultiThreadedJLanguageTool(lang, motherTongue, -1, globalConfig, null);
     lt.setCleanOverlappingMatches(false);
     if (languageModelDir != null) {
       lt.activateLanguageModelRules(languageModelDir);
@@ -217,6 +227,7 @@ public class SentenceSourceChecker {
     int ruleMatchCount = 0;
     int sentenceCount = 0;
     int skipCount = 0;
+    int ignoredCount = 0;
     boolean skipMessageShown = false;
     try {
       if (propFile != null) {
@@ -251,6 +262,7 @@ public class SentenceSourceChecker {
           throw new RuntimeException("Check failed on sentence: " + StringUtils.abbreviate(sentence.getText(), 250), e);
         }
       }
+      ignoredCount = mixingSource.getIgnoredCount();
     } catch (DocumentLimitReachedException | ErrorLimitReachedException e) {
       System.out.println(getClass().getSimpleName() + ": " + e);
     } finally {
@@ -259,8 +271,11 @@ public class SentenceSourceChecker {
         float matchesPerSentence = (float)ruleMatchCount / sentenceCount;
         System.out.printf(lang + ": %d total matches\n", ruleMatchCount);
         System.out.printf(Locale.ENGLISH, lang + ": ø%.2f rule matches per sentence\n", matchesPerSentence);
-        //long runTimeMillis = System.currentTimeMillis() - startTime;
-        //System.out.printf(Locale.ENGLISH, lang + ": Time: %.2f minutes\n", runTimeMillis/1000.0/60.0);
+        System.out.printf(Locale.ENGLISH, lang + ": %d input lines ignored (e.g. not between %d and %d chars or at least %d tokens)\n", ignoredCount, 
+          SentenceSource.MIN_SENTENCE_LENGTH, SentenceSource.MAX_SENTENCE_LENGTH, SentenceSource.MIN_SENTENCE_TOKEN_COUNT);
+        if (options.hasOption("print-duration")) {
+          System.out.println("The analysis took " + (System.currentTimeMillis() - startTime) + "ms");
+        }
         try {
           resultHandler.close();
         } catch (Exception e) {
@@ -270,7 +285,7 @@ public class SentenceSourceChecker {
     }
   }
 
-  private void enableOnlySpecifiedRules(String[] ruleIds, JLanguageTool lt) {
+  private static void enableOnlySpecifiedRules(String[] ruleIds, JLanguageTool lt) {
     for (Rule rule : lt.getAllRules()) {
       lt.disableRule(rule.getId());
     }
@@ -281,7 +296,7 @@ public class SentenceSourceChecker {
     System.out.println("Only these rules are enabled: " + Arrays.toString(ruleIds));
   }
 
-  private void warnOnNonExistingRuleIds(String[] ruleIds, JLanguageTool lt) {
+  private static void warnOnNonExistingRuleIds(String[] ruleIds, JLanguageTool lt) {
     for (String ruleId : ruleIds) {
       boolean found = false;
       for (Rule rule : lt.getAllRules()) {
@@ -296,7 +311,7 @@ public class SentenceSourceChecker {
     }
   }
 
-  private void applyRuleDeactivation(JLanguageTool lt, Set<String> disabledRules) {
+  private static void applyRuleDeactivation(JLanguageTool lt, Set<String> disabledRules) {
     // disabled via config file, usually to avoid too many false alarms:
     for (String disabledRuleId : disabledRules) {
       lt.disableRule(disabledRuleId);
@@ -304,7 +319,7 @@ public class SentenceSourceChecker {
     System.out.println("These rules are disabled: " + lt.getDisabledRules());
   }
 
-  private void activateAdditionalCategories(String[] additionalCategoryIds, JLanguageTool lt) {
+  private static void activateAdditionalCategories(String[] additionalCategoryIds, JLanguageTool lt) {
     if (additionalCategoryIds != null) {
       for (String categoryId : additionalCategoryIds) {
         for (Rule rule : lt.getAllRules()) {
@@ -318,7 +333,7 @@ public class SentenceSourceChecker {
     }
   }
 
-  private void disableSpellingRules(JLanguageTool lt) {
+  private static void disableSpellingRules(JLanguageTool lt) {
     List<Rule> allActiveRules = lt.getAllActiveRules();
     for (Rule rule : allActiveRules) {
       if (rule.isDictionaryBasedSpellingRule()) {

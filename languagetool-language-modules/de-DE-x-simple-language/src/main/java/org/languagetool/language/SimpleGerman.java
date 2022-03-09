@@ -22,6 +22,7 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.GlobalConfig;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
+import org.languagetool.JLanguageTool;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.de.LongSentenceRule;
@@ -38,6 +39,11 @@ import java.util.ResourceBundle;
  * that only support rules specific to this variant, not the other German rules.
  */
 public class SimpleGerman extends GermanyGerman {
+
+  @Override
+  public boolean isVariant() {
+    return true;
+  }
 
   @Override
   public String getName() {
@@ -59,7 +65,7 @@ public class SimpleGerman extends GermanyGerman {
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     List<Rule> rules = new ArrayList<>();
-    LongSentenceRule lengthRule = new LongSentenceRule(messages, userConfig, 12, true, false);
+    LongSentenceRule lengthRule = new LongSentenceRule(messages, userConfig, 12);
     rules.add(lengthRule);
     return rules;
   }
@@ -81,12 +87,20 @@ public class SimpleGerman extends GermanyGerman {
 
   @Override
   protected int getPriorityForId(String id) {
-    if (id.equals(LongSentenceRule.RULE_ID)) {
+    if (id.equals("TOO_LONG_SENTENCE")) {
       return 10;
     } else if (id.equals("LANGES_WORT")) {
       return -1;
     }
     return super.getPriorityForId(id);
+  }
+
+  @Override
+  public List<String> getRuleFileNames() {
+    List<String> ruleFileNames = new ArrayList<>();
+    String dirBase = JLanguageTool.getDataBroker().getRulesDir() + "/" + getShortCode() + "/";
+    ruleFileNames.add(dirBase + "grammar.xml");
+    return ruleFileNames;
   }
 
 }

@@ -47,7 +47,7 @@ public class WordCoherencyRule extends AbstractWordCoherencyRule {
 
   @Override
   protected String getMessage(String word1, String word2) {
-    return "Gebruik liever geen verschillende spellingen ('" + word1 + "' en '" + word2 + "') door elkaar in een tekst.";
+    return "Gebruik liever niet '" + word1 + "' en '" + word2 + "' door elkaar in een tekst.";
   }
 
   @Override

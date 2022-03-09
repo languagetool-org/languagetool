@@ -39,22 +39,22 @@ public class SimpleReplaceRenamedRuleTest {
     SimpleReplaceRenamedRule rule = new SimpleReplaceRenamedRule(TestTools.getEnglishMessages());
 
     RuleMatch[] matches;
-    JLanguageTool langTool = new JLanguageTool(new Ukrainian());
+    JLanguageTool lt = new JLanguageTool(new Ukrainian());
 
     // correct sentences:
-    matches = rule.match(langTool.getAnalyzedSentence("Київ."));
+    matches = rule.match(lt.getAnalyzedSentence("Київ."));
     assertEquals(0, matches.length);
 
-    matches = rule.match(langTool.getAnalyzedSentence("Дніпродзержинська"));
+    matches = rule.match(lt.getAnalyzedSentence("Дніпродзержинська"));
     assertEquals(Arrays.asList(matches).toString(), 1, matches.length);
     assertEquals(Arrays.asList("Кам'янське", "кам'янський"), matches[0].getSuggestedReplacements());
     assertTrue(matches[0].getMessage().contains("2016"));
 
-    matches = rule.match(langTool.getAnalyzedSentence("дніпродзержинського."));
+    matches = rule.match(lt.getAnalyzedSentence("дніпродзержинського."));
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("кам'янський"), matches[0].getSuggestedReplacements());
 
-    matches = rule.match(langTool.getAnalyzedSentence("Червонознам'янка."));
+    matches = rule.match(lt.getAnalyzedSentence("Червонознам'янка."));
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("Знам'янка", "Знаменка"), matches[0].getSuggestedReplacements());
   }

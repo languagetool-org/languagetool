@@ -1,10 +1,10 @@
-This Russian dictionary is partially converted to morfologik-speller format by Yakov Reztsov in 2012, 2016 from
-http://www.aot.ru  (http://sourceforge.net/projects/seman/)
+This Russian dictionary is partially converted to morfologik-speller format by Yakov Reztsov in 2012, 2016, 2021 from
+http://www.aot.ru  (https://github.com/sokirko74/aot/)
 License: LGPL.
 Source dictionary:
-http://sourceforge.net/p/seman/svn/HEAD/tree/trunk/Dicts/SrcMorph/RusSrc/  file morphs.mrd  Revision 242
+https://github.com/sokirko74/aot/tree/master/Dicts/Morph/Russian  file  morphs.mrd
 Corrections:  Yakov Reztsov
-Updated 05.2020
-Added frequency information for spell-checking dictionary in 2014, 2016 by Yakov Reztsov from http://www.aot.ru  (http://sourceforge.net/projects/seman/)
-Source frequency information http://sourceforge.net/p/seman/svn/HEAD/tree/trunk/Dicts/SrcBinDict/  file   WordData.txt
-It was converted to use with spell-checking dictionary in 2014, 2016 by Yakov Reztsov. 
+Updated 09.2021
+Added frequency information for spell-checking dictionary in 2014, 2016, 2021 by Yakov Reztsov from http://www.aot.ru  (https://github.com/sokirko74/aot/)
+Source frequency information https://github.com/sokirko74/aot/tree/master/Dicts/SrcBinDict/  file   WordData.Russian
+It was converted to use with spell-checking dictionary in 2014, 2016, 2021 by Yakov Reztsov. 

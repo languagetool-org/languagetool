@@ -19,14 +19,12 @@
 package org.languagetool.rules;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
+import org.languagetool.Tag;
 import org.languagetool.tokenizers.WordTokenizer;
 import org.languagetool.tools.Tools;
 
@@ -50,6 +48,7 @@ public class PunctuationMarkAtParagraphEnd extends TextLevelRule {
     this.lang = Objects.requireNonNull(lang);
     super.setCategory(Categories.PUNCTUATION.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Grammar);
+    setTags(Collections.singletonList(Tag.picky));
     if (!defaultActive) {
       setDefaultOff();
     }
@@ -123,8 +122,8 @@ public class PunctuationMarkAtParagraphEnd extends TextLevelRule {
               RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos, toPos, 
                   messages.getString("punctuation_mark_paragraph_end_msg"));
               List<String> replacements = new ArrayList<>();
-              for (String PUNCTUATION_MARK : PUNCTUATION_MARKS) {
-                replacements.add(tokens[lastNWToken].getToken() + PUNCTUATION_MARK);
+              for (String mark : PUNCTUATION_MARKS) {
+                replacements.add(tokens[lastNWToken].getToken() + mark);
               }
               ruleMatch.setSuggestedReplacements(replacements);
               ruleMatches.add(ruleMatch);

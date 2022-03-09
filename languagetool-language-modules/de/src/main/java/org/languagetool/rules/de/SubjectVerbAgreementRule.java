@@ -36,6 +36,7 @@ import org.languagetool.tools.Tools;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+import java.util.function.Supplier;
 import java.util.regex.Pattern;
 
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
@@ -75,7 +76,15 @@ public class SubjectVerbAgreementRule extends Rule {
       // "Zwei Schülern war aufgefallen, dass man im Fernsehen..."
       pos("ZAL"),
       posRegex("SUB:DAT:PLU:.*"),
-      token("war")
+      csRegex("war|ist"),
+      new PatternTokenBuilder().posRegex("NEG|PA2:.+").build()
+    ),
+    Arrays.asList(
+      // "Glaubt wirklich jemand, dass gute Fotos keine Arbeit sind?"
+      posRegex("SUB:.*:PLU:.*"),
+      regex("keine|wenig|kaum|viel"),
+      posRegex("SUB:.*:SIN:.*"),
+      token("sind")
     ),
     Arrays.asList(
       // "Auch die Zehn Gebote sind Ausdruck davon."
@@ -87,6 +96,15 @@ public class SubjectVerbAgreementRule extends Rule {
       // "All diesen Stadtteilen ist die Nähe zum Hamburger Hafen..."
       token("all"),
       tokenRegex("den|diesen"),
+      posRegex("SUB:.*PLU.*"),
+      token("ist"),
+      posRegex("ART:.*"),
+      posRegex("SUB:.*SIN.*")
+    ),
+    Arrays.asList(
+      // "Personen ist der Zugriff auf diese Daten verboten."
+      pos(JLanguageTool.SENTENCE_START_TAGNAME),
+      new PatternTokenBuilder().token("Solchen").min(0).build(),
       posRegex("SUB:.*PLU.*"),
       token("ist"),
       posRegex("ART:.*"),
@@ -109,6 +127,13 @@ public class SubjectVerbAgreementRule extends Rule {
       posRegex("PA2:.*"),
       posRegex("SUB:.*PLU.*"),
       tokenRegex("sind")
+    ),
+    Arrays.asList(
+      // Gründer und Leiter des Zentrums ist der Rabbiner Marvin Hier, sein Stellvertreter ist Rabbi Abraham Cooper.
+      tokenRegex("Gründer(in)?|Gesellschafter(in)?|Leiter(in)?|Geschäftsführer(in)?|Chef(in)?"),
+      tokenRegex("und|sowie|&"),
+      new PatternTokenBuilder().tokenRegex("Gründer(in)?|Gesellschafter(in)?|Leiter(in)?|Geschäftsführer(in)?|Chef(in)?").setSkip(4).build(),
+      tokenRegex("ist")
     ),
     Arrays.asList(
       tokenRegex("ist|war"),
@@ -151,18 +176,126 @@ public class SubjectVerbAgreementRule extends Rule {
       tokenRegex("d(as|er)|eine?")
     ),
     Arrays.asList(
+      posRegex("SUB:NOM:PLU:.+"),
+      csToken("vor"),
+      csToken("Ort"),
+      tokenRegex("sind|waren")
+    ),
+    Arrays.asList(
       token("zu"),
-      csToken("Fuß"),
+      csRegex("Fuß|Hause"),
+      tokenRegex("sind|waren")
+    ),
+    Arrays.asList( //Eltern ist der bisherige Kita-Öffnungsplan zu unkonkret
+      pos(JLanguageTool.SENTENCE_START_TAGNAME),
+      pos("SUB:DAT:PLU:NOG"),
+      tokenRegex("ist|war"),
+      posRegex(".+:NOM:.+")
+    ),
+    Arrays.asList( // Das Gestell, sowie der komplette Tisch sind leicht zu montieren.
+      posRegex("SUB:.+"),
+      new PatternTokenBuilder().pos("PKT").min(0).build(),
+      token("sowie"),
+      posRegex("ART.*"),
+      new PatternTokenBuilder().posRegex("(ADJ|PA[12]).*").min(0).build(),
+      posRegex("SUB:.+"),
+      tokenRegex("sind|waren")
+    ),
+    Arrays.asList( // Das saisonale Obst und Gemüse ist köstlich und oft deutlich günstiger als in der Stadt.
+      tokenRegex("das"),
+      posRegex("(ADJ|PA[12]).*NEU.*"),
+      posRegex("SUB:.*NEU.*"),
+      tokenRegex("und"),
+      posRegex("SUB:.*NEU.*"),
+      tokenRegex("ist|war")
+    ),
+    Arrays.asList( // Das saisonale Obst und Gemüse ist köstlich und oft deutlich günstiger als in der Stadt.
+      tokenRegex("der"),
+      posRegex("(ADJ|PA[12]).*MAS.*"),
+      posRegex("SUB:.*MAS.*"),
+      tokenRegex("und"),
+      posRegex("SUB:.*MAS.*"),
+      tokenRegex("ist|war")
+    ),
+    Arrays.asList( // Das saisonale Obst und Gemüse ist köstlich und oft deutlich günstiger als in der Stadt.
+      tokenRegex("die"),
+      posRegex("(ADJ|PA[12]).*FEM.*"),
+      posRegex("SUB:.*FEM.*"),
+      tokenRegex("und"),
+      posRegex("SUB:.*FEM.*"),
+      tokenRegex("ist|war")
+    ),
+    Arrays.asList( // Einer der bedeutendsten Māori-Autoren der Gegenwart ist Witi Ihimaera.
+      tokenRegex("(irgend)?einer?|meisten|viele|einige|Betreiber|(Mit)?Gründer|Inhaber"),
+      new PatternTokenBuilder().tokenRegex("der|dieser").setSkip(4).build(),
+      tokenRegex("ist|war")
+    ),
+    Arrays.asList( // Start und Ziel ist Innsbruck
+      token("Start"),
+      token("und"),
+      token("Ziel"),
+      tokenRegex("ist|war")
+    ),
+    Arrays.asList( // Frisches Obst und Gemüse ist gut für die Gesundheit. 
+      token("Obst"),
+      token("und"),
+      token("Gemüse")
+    ),
+    Arrays.asList( // Frisches Obst und Gemüse ist gut für die Gesundheit. 
+      token("Sport"),
+      token("und"),
+      token("Spiel")
+    ),
+    Arrays.asList( // Das bedeutendste Bauwerk und Wahrzeichen der Stadt ist die …
+      token("das"),
+      posRegex("(ADJ|PA[12]).*NEU.*"),
+      posRegex("SUB.*NEU.*"),
+      token("und"),
+      posRegex("SUB.*NEU.*"),
+      tokenRegex("der|dieser"),
+      posRegex("SUB.*"),
+      tokenRegex("ist|war")
+    ),
+    Arrays.asList( // Die bedeutendsten Bauwerke und Wahrzeichen der Stadt ist die …
+      token("die"),
+      posRegex("(ADJ|PA[12]).*PLU.*"),
+      posRegex("SUB.*PLU.*"),
+      token("und"),
+      posRegex("SUB.*PLU.*"),
+      tokenRegex("der|dieser"),
+      posRegex("SUB.*"),
+      tokenRegex("sind|waren")
+    ),
+    Arrays.asList( // Die neueste Auflage von Toms Kindheitserinnerungen ist schon wieder vergriffen.
+      posRegex("(ADJ|PA[12]|ART).*SIN.*"),
+      posRegex("SUB.*SIN.*"),
+      posRegex("PRP.*"),
+      posRegex("EIG.*GEN.*"),
+      posRegex("SUB.*"),
+      tokenRegex("ist|war")
+    ),
+    Arrays.asList( // Die Aussichten für Japans Zukunft sind düster.
+      posRegex("(ADJ|PA[12]|ART).*PLU.*"),
+      posRegex("SUB.*PLU.*"),
+      posRegex("PRP.*"),
+      posRegex("EIG.*GEN.*"),
+      posRegex("SUB.*"),
+      tokenRegex("sind|waren")
+    ),
+    Arrays.asList( // Anfänger wie auch Fortgeschrittene sind herzlich willkommen!
+      posRegex("SUB.*PLU.*"),
+      token("wie"),
+      token("auch"),
+      tokenRegex(".+"),
       tokenRegex("sind|waren")
     )
   );
 
   private final GermanTagger tagger;
-  private final German language;
+  private final Supplier<List<DisambiguationPatternRule>> antiPatterns;
 
   public SubjectVerbAgreementRule(ResourceBundle messages, German language) {
     super.setCategory(Categories.GRAMMAR.getCategory(messages));
-    this.language = language;
     tagger = (GermanTagger) language.getTagger();
     for (SingularPluralPair pair : PAIRS) {
       singular.add(pair.singular);
@@ -170,6 +303,7 @@ public class SubjectVerbAgreementRule extends Rule {
     }
     addExamplePair(Example.wrong("Die Autos <marker>ist</marker> schnell."),
                    Example.fixed("Die Autos <marker>sind</marker> schnell."));
+    antiPatterns = cacheAntiPatterns(language, ANTI_PATTERNS);
   }
 
   @Override
@@ -189,7 +323,7 @@ public class SubjectVerbAgreementRule extends Rule {
 
   @Override
   public List<DisambiguationPatternRule> getAntiPatterns() {
-    return makeAntiPatterns(ANTI_PATTERNS, language);
+    return antiPatterns.get();
   }
 
   @Override

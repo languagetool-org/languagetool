@@ -75,7 +75,7 @@ public class ArabicWordinessRule extends AbstractSimpleReplaceRule2 {
   }
 
   @Override
-  public String getSuggestion() {
+  public String getMessage() {
     return "'$match' تعبير فيه حشو يفضل أن يقال $suggestions";
   }
 

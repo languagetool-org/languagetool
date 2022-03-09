@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.nl;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.Dutch;
@@ -30,9 +31,10 @@ import java.io.IOException;
 public class DutchWrongWordInContextRuleTest {
 
   @Test
+  @Ignore("no tests yet")
   public void testRule() throws IOException {
     DutchWrongWordInContextRule rule = new DutchWrongWordInContextRule(null);
-    JLanguageTool langTool = new JLanguageTool(new Dutch());
+    JLanguageTool lt = new JLanguageTool(new Dutch());
 
     // Mine/Miene (example, can be removed)
 //     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Die Explosion der Mine.")).length); // correct sentence

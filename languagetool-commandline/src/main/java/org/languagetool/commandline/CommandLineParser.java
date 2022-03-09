@@ -18,6 +18,7 @@
  */
 package org.languagetool.commandline;
 
+import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 
@@ -50,6 +51,13 @@ class CommandLineParser {
         options.setLineByLine(true);
       } else if (args[i].equals("--enable-temp-off")) {
         options.setEnableTempOff(true);
+      } else if (args[i].equals("--level")) {
+        String level = args[++i];
+        try {
+          options.setLevel(JLanguageTool.Level.valueOf(level));
+        } catch (IllegalArgumentException e) {
+          throw new IllegalArgumentException("Unknown level '" + level + "' - currently, only 'PICKY' is supported");
+        }
       } else if (args[i].equals("-t") || args[i].equals("--taggeronly")) {
         options.setTaggerOnly(true);
         if (options.isListUnknown()) {
@@ -188,10 +196,6 @@ class CommandLineParser {
     printUsage(System.out);
   }
 
-  /*
-   * NOTE: please keep http://wiki.languagetool.org/command-line-options
-   * up-to-date if you add an option
-   */
   void printUsage(PrintStream stream) {
     stream.println("Usage: java -jar languagetool-commandline.jar [OPTION]... FILE\n"
             + " FILE                      plain text file to be checked\n"
@@ -229,15 +233,16 @@ class CommandLineParser {
             + "  --languagemodel DIR      a directory with e.g. 'en' sub directory (i.e. a language code) that contains\n"
             + "                           '1grams'...'3grams' sub directories with Lucene indexes with\n"
             + "                           ngram occurrence counts; activates the confusion rule if supported;\n"
-            + "                           see http://wiki.languagetool.org/finding-errors-using-n-gram-data\n"
+            + "                           see https://dev.languagetool.org/finding-errors-using-n-gram-data\n"
             + "  --word2vecmodel DIR      a directory with e.g. 'en' sub directory (i.e. a language code) that contains\n"
             + "                           final_embeddings.txt and dictionary.txt; activates neural network based rules\n"
             + "  --neuralnetworkmodel DIR a base directory for various saved neural network models (deprecated)\n"
             + "  --fasttextmodel FILE     fasttext language detection model (optional), see https://fasttext.cc/docs/en/language-identification.html\n"
             + "  --fasttextbinary FILE    fasttext executable (optional), see https://fasttext.cc/docs/en/support.html\n"
             + "  --xmlfilter              remove XML/HTML elements from input before checking (deprecated)\n"
-            + "  --line-by-line           work on file line by line (for development, e.g. inside an IDE)"
-            + "  --enable-temp-off        enable all temp_off rules (for testing and development)"
+            + "  --line-by-line           work on file line by line (for development, e.g. inside an IDE)\n"
+            + "  --enable-temp-off        enable all temp_off rules (for testing and development)\n"
+            + "  --level level            enable the given level (currently only 'PICKY')"
     );
   }
 

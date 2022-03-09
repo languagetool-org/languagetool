@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker 
- * Copyright (C) 2020 Jaume Ortolà (http://www.danielnaber.de)
+ * Copyright (C) 2020 Jaume Ortolà
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -33,19 +33,19 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.language.French;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
+import org.languagetool.synthesis.FrenchSynthesizer;
 import org.languagetool.tagging.fr.FrenchTagger;
 
 /*
- * Get appropriate suggestions for French verbs in interrogative form
- * e.g. prérères-tu
+ * Get appropriate suggestions for French verbs in interrogative form (prérères-tu)
+ * and imperative (dépêche-toi)
  */
 
 public class InterrogativeVerbFilter extends RuleFilter {
 
   // private static final Pattern PronounSubject = Pattern.compile("R pers suj
   // ([123] [sp])");
-  //private static final FrenchSynthesizer synth = new FrenchSynthesizer(new French());
-  private static final FrenchTagger tagger = new FrenchTagger();
+  private static final FrenchSynthesizer synth = new FrenchSynthesizer(new French());
 
   private MorfologikFrenchSpellerRule morfologikRule;
 
@@ -58,12 +58,17 @@ public class InterrogativeVerbFilter extends RuleFilter {
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
+    
+//    if (match.getSentence().getText().contains("intelligence-je")) {
+//      int ii=0;
+//      ii++;
+//    }
 
     List<String> replacements = new ArrayList<>();
     String pronounFrom = getRequired("PronounFrom", arguments);
     String verbFrom = getRequired("VerbFrom", arguments);
     String desiredPostag = null;
-
+    String[] extraSuggestions = new String[0];
     if (pronounFrom != null && verbFrom != null) {
       int posPronoun = Integer.parseInt(pronounFrom);
       if (posPronoun < 1 || posPronoun > patternTokens.length) {
@@ -78,25 +83,57 @@ public class InterrogativeVerbFilter extends RuleFilter {
 
       //AnalyzedTokenReadings atrVerb = patternTokens[posVerb - 1];
       AnalyzedTokenReadings atrPronoun = patternTokens[posPronoun - 1];
-      if (atrPronoun.matchesPosTagRegex(".* 1 s")) {
-        desiredPostag = "V .*(ind|cond).* 1 s";
+      
+      // vous
+      if (atrPronoun.matchesPosTagRegex("R pers obj 2 p")) {
+        desiredPostag = "V.* (imp) [23] [sp]|V .*(ind|cond).* 2 p";
       }
-      if (atrPronoun.matchesPosTagRegex(".* 2 s")) {
+      // nous
+      else if (atrPronoun.matchesPosTagRegex("R pers obj 1 p")) {
+        desiredPostag = "V.* (imp) .*|V .*(ind|cond).* 1 p";
+      }
+      // moi, toi, le, la, lui, nous, vous, les, leur
+      else if (atrPronoun.matchesPosTagRegex("R pers obj.*")) {
+        desiredPostag = "V.* (imp) .*";
+      }
+      else if (atrPronoun.matchesPosTagRegex(".* 1 s")) {
+        desiredPostag = "V .*(ind|cond).* 1 s";
+        AnalyzedTokenReadings atrVerb = patternTokens[posVerb - 1];
+        AnalyzedToken reading = atrVerb.readingWithTagRegex("V ind pres 1 s");
+        if (reading!=null) {
+          desiredPostag="V ind pres 1 s";
+          if (atrVerb.getToken().endsWith("e")) {
+            extraSuggestions = synth.synthesize(reading, "V ppa [me] sp?|V ind pres 1 s", true);
+          }
+        }
+      }
+      else if (atrPronoun.matchesPosTagRegex(".* 2 s")) {
         desiredPostag = "V .*(ind|cond).* 2 s";
       }
-      if (atrPronoun.matchesPosTagRegex(".* 3( [mf])? s")) {
+      else if (atrPronoun.matchesPosTagRegex(".* 3( [mf])? s")) {
         desiredPostag = "V .*(ind|cond).* 3 s";
       }
-      if (atrPronoun.matchesPosTagRegex(".* 1 p")) {
+      else if (atrPronoun.matchesPosTagRegex(".* 1 p")) {
         desiredPostag = "V .*(ind|cond).* 1 p";
       }
-      if (atrPronoun.matchesPosTagRegex(".* 2 p")) {
+      else if (atrPronoun.matchesPosTagRegex(".* 2 p")) {
         desiredPostag = "V .*(ind|cond).* 2 p";
       }
-      if (atrPronoun.matchesPosTagRegex(".* 3( [mf])? p")) {
+      else if (atrPronoun.matchesPosTagRegex(".* 3( [mf])? p")) {
         desiredPostag = "V .*(ind|cond).* 3 p";
       }
-      if (desiredPostag != null) {
+      
+      // add: trompè-je and trompé-je for original sentence "trompe-je"
+      if (extraSuggestions.length > 0) {
+        for (String extraSuggestion : extraSuggestions) {
+          String completeSuggestion = extraSuggestion + atrPronoun.getToken();
+          if (!replacements.contains(completeSuggestion) 
+              && !completeSuggestion.endsWith("e-je")) { // exclude trompe-je
+            replacements.add(completeSuggestion);
+          } 
+        }
+      }
+      else if (desiredPostag != null) {
         AnalyzedTokenReadings[] auxPatternTokens = new AnalyzedTokenReadings[1];
         if (patternTokens[posVerb - 1].isTagged()) {
           auxPatternTokens[0] = new AnalyzedTokenReadings(
@@ -108,7 +145,7 @@ public class InterrogativeVerbFilter extends RuleFilter {
         RuleMatch[] matches = morfologikRule.match(sentence);
         if (matches.length > 0) {
           List<String> suggestions = matches[0].getSuggestedReplacements();
-          List<AnalyzedTokenReadings> analyzedSuggestions = tagger.tag(suggestions);
+          List<AnalyzedTokenReadings> analyzedSuggestions = FrenchTagger.INSTANCE.tag(suggestions);
           for (AnalyzedTokenReadings analyzedSuggestion : analyzedSuggestions) {
             if (analyzedSuggestion.matchesPosTagRegex(desiredPostag)) {
               String completeSuggestion = analyzedSuggestion.getToken() + atrPronoun.getToken();
@@ -121,6 +158,7 @@ public class InterrogativeVerbFilter extends RuleFilter {
         }
       }
     }
+   
     String message = match.getMessage();
     RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(),
         message, match.getShortMessage());

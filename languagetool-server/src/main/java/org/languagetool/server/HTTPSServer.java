@@ -47,7 +47,7 @@ import static org.languagetool.server.HTTPServerConfig.DEFAULT_HOST;
  */
 public class HTTPSServer extends Server {
 
-  private final ExecutorService executorService;
+  private final ThreadPoolExecutor executorService;
 
   /**
    * Prepare a server on the given host and port - use run() to start it.
@@ -70,10 +70,10 @@ public class HTTPSServer extends Server {
       ((HttpsServer)server).setHttpsConfigurator(configurator);
       RequestLimiter limiter = getRequestLimiterOrNull(config);
       ErrorRequestLimiter errorLimiter = getErrorRequestLimiterOrNull(config);
-      LinkedBlockingQueue<Runnable> workQueue = new LinkedBlockingQueue<>();
+      executorService = getExecutorService(config);
+      BlockingQueue<Runnable> workQueue = executorService.getQueue();
       httpHandler = new LanguageToolHttpHandler(config, allowedIps, runInternally, limiter, errorLimiter, workQueue, this);
       server.createContext("/", httpHandler);
-      executorService = getExecutorService(workQueue, config);
       server.setExecutor(executorService);
     } catch (BindException e) {
       ResourceBundle messages = JLanguageTool.getMessageBundle();
@@ -123,12 +123,12 @@ public class HTTPSServer extends Server {
   }
 
   public static void main(String[] args) {
-    if (args.length == 0 || args.length > 7 || usageRequested(args)) {
+    if (args.length == 0 || usageRequested(args)) {
       System.out.println("Usage: " + HTTPSServer.class.getSimpleName()
               + " --config propertyFile [--port|-p port] [--public]");
       System.out.println("  --config file  a Java property file (one key=value entry per line) with values for:");
-      System.out.println("                 'keystore' - a Java keystore with an SSL certificate");
-      System.out.println("                 'password' - the keystore's password");
+      System.out.println("                 'keystore' - a Java keystore with an SSL certificate (deprecated, use a reverse proxy to handle SSL)");
+      System.out.println("                 'password' - the keystore's password (deprecated, use a reverse proxy to handle SSL)");
       printCommonConfigFileOptions();
       printCommonOptions();
       System.exit(1);
@@ -150,7 +150,7 @@ public class HTTPSServer extends Server {
       }
     } catch (IllegalConfigurationException e) {
       System.out.println(e.getMessage());
-      System.out.println("Note: this is the HTTPS server - if you want to use plain HTTP instead, please see http://wiki.languagetool.org/http-server");
+      System.out.println("Note: this is the HTTPS server - if you want to use plain HTTP instead, please see https://dev.languagetool.org/http-server");
       System.exit(1);
     }
   }

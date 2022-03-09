@@ -57,28 +57,42 @@ public class QuestionWhitespaceRuleTest {
       TestTools.disableAllRulesExcept(lt, "FRENCH_WHITESPACE");
       assertEquals(0, lt.check("« Je suis Chris… »").size());
       assertEquals(0, lt.check("« Je suis Chris ! »").size());
-
+      assertEquals(0, lt.check("Je suis.[!]").size());
+      assertEquals(0, lt.check("Je suis[?]").size());
+      assertEquals(0, lt.check("Je suis(?)").size());
+      
       assertEquals(0, lt.check("1;2;3").size());
       assertEquals(0, lt.check("asd@dsa.fr;test@foo.com;").size());
       
       // errors:
-      assertThat(rule.match(lt.getAnalyzedSentence("C'est vrai!")).length, is(1));
-      assertThat(rule.match(lt.getAnalyzedSentence("Qu'est ce que c'est?")).length, is(1));
-      assertThat(rule.match(lt.getAnalyzedSentence("L'enjeu de ce livre est donc triple: philosophique;")).length, is(2));
+      assertEquals(rule.match(lt.getAnalyzedSentence("C'est vrai!")).length, 1);
+      assertEquals(rule.match(lt.getAnalyzedSentence("Qu'est ce que c'est?")).length, 1);
+      assertEquals(rule.match(lt.getAnalyzedSentence("L'enjeu de ce livre est donc triple: philosophique;")).length, 2);
       
       RuleMatch[] matches1 = rule.match(lt.getAnalyzedSentence("L'enjeu de ce livre est donc triple: philosophique ;"));
       assertEquals(1, matches1.length);
-      assertThat(matches1[0].getFromPos(), is(29));
-      assertThat(matches1[0].getToPos(), is(36));
-      assertThat(matches1[0].getSuggestedReplacements().toString(), is("[triple :]"));
+      assertEquals(matches1[0].getFromPos(), 29);
+      assertEquals(matches1[0].getToPos(), 36);
+      assertEquals(matches1[0].getSuggestedReplacements().toString(), "[triple\u00a0:]");
       
       //guillemets:
-      assertThat(rule.match(lt.getAnalyzedSentence("Le guillemet ouvrant est suivi d'un espace insécable : «mais le lieu [...] et le guillemet fermant est précédé d'un espace insécable : [...] littérature».")).length, is(1));
+      
       RuleMatch[] matches2 = rule.match(lt.getAnalyzedSentence("LanguageTool offre une «vérification» orthographique."));
-      assertThat(matches2.length, is(1));
-      assertThat(matches2[0].getFromPos(), is(23));
-      assertThat(matches2[0].getToPos(), is(37));
-      assertThat(matches2[0].getSuggestedReplacements().toString(), is("[« vérification »]"));
+      assertEquals(matches2.length, 1);
+      assertEquals(matches2[0].getFromPos(), 23);
+      assertEquals(matches2[0].getToPos(), 37);
+      assertEquals(matches2[0].getSuggestedReplacements().toString(), "[«\u00a0vérification\u00a0»]");
+      
+      RuleMatch[] matches3 = rule.match(lt.getAnalyzedSentence("Le guillemet ouvrant est suivi d'un espace insécable : «mais le lieu [...] et le guillemet fermant est précédé d'un espace insécable : [...] littérature»."));
+      assertEquals(matches3.length, 2);
+      assertEquals(matches3[0].getSuggestedReplacements().toString(), "[«\u00a0mais]");
+      assertEquals(matches3[0].getFromPos(), 55);
+      assertEquals(matches3[0].getToPos(), 60);
+      assertEquals(matches3[1].getSuggestedReplacements().toString(), "[littérature\u00a0»]");
+      assertEquals(matches3[1].getFromPos(), 141);
+      assertEquals(matches3[1].getToPos(), 153);
+      
+      
     }
     
 }

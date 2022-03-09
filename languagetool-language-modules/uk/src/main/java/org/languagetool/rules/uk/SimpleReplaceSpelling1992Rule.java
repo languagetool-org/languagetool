@@ -109,7 +109,7 @@ public class SimpleReplaceSpelling1992Rule extends AbstractSimpleReplaceRule {
 
   @Override
   public String getMessage(String tokenStr, List<String> replacements) {
-    return tokenStr + " — написання не відповідає чинній версії правопису, виправлення: "
+    return "«" + tokenStr + "» — написання не відповідає чинній версії правопису, виправлення: "
         + StringUtils.join(replacements, ",") + ".";
   }
 

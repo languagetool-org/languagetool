@@ -75,7 +75,7 @@ public class PortugueseAgreementReplaceRule extends AbstractSimpleReplaceRule {
   
   @Override
   public String getMessage(String tokenStr, List<String> replacements) {
-    return tokenStr + " é uma forma do antigo acordo ortográfico. No novo acordo ortográfico, a palavra escreve-se assim: "
+    return "'" + tokenStr + "' é uma forma do antigo acordo ortográfico. No novo acordo ortográfico, a palavra escreve-se assim: "
         + String.join(", ", replacements) + ".";
   }
 

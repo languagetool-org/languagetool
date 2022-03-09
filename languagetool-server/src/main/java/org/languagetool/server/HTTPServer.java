@@ -27,8 +27,8 @@ import java.lang.management.ManagementFactory;
 import java.net.InetSocketAddress;
 import java.util.ResourceBundle;
 import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
 
 import static org.languagetool.server.HTTPServerConfig.DEFAULT_HOST;
 
@@ -42,7 +42,7 @@ import static org.languagetool.server.HTTPServerConfig.DEFAULT_HOST;
  */
 public class HTTPServer extends Server {
 
-  private final ExecutorService executorService;
+  private final ThreadPoolExecutor executorService;
 
   /**
    * Prepare a server on the given port - use run() to start it. Accepts
@@ -101,17 +101,17 @@ public class HTTPServer extends Server {
       }
       RequestLimiter limiter = getRequestLimiterOrNull(config);
       ErrorRequestLimiter errorLimiter = getErrorRequestLimiterOrNull(config);
-      LinkedBlockingQueue<Runnable> workQueue = new LinkedBlockingQueue<>();
+      executorService = getExecutorService(config);
+      BlockingQueue<Runnable> workQueue = executorService.getQueue();
       httpHandler = new LanguageToolHttpHandler(config, allowedIps, runInternally, limiter, errorLimiter, workQueue, this);
 
       InetSocketAddress address = host != null ? new InetSocketAddress(host, port) : new InetSocketAddress(port);
       server = HttpServer.create(address, 0);
       server.createContext("/", httpHandler);
-      executorService = getExecutorService(workQueue, config);
       server.setExecutor(executorService);
 
       if (config.isPrometheusMonitoring()) {
-        ServerMetricsCollector.init(config.getPrometheusPort());
+        ServerMetricsCollector.init(config);
       }
     } catch (Exception e) {
       ResourceBundle messages = JLanguageTool.getMessageBundle();
@@ -129,7 +129,7 @@ public class HTTPServer extends Server {
   }
 
   public static void main(String[] args) {
-    if (args.length > 9 || usageRequested(args)) {
+    if (usageRequested(args)) {
       System.out.println("Usage: " + HTTPServer.class.getSimpleName() + " [--config propertyFile] [--port|-p port] [--public]");
       System.out.println("  --config FILE  a Java property file (one key=value entry per line) with values for:");
       printCommonConfigFileOptions();
@@ -141,8 +141,8 @@ public class HTTPServer extends Server {
     try {
       checkForNonRootUser();
       HTTPServer server;
-      ServerTools.print("WARNING: running in HTTP mode, consider running LanguageTool behind a reverse proxy that takes care of encryption (HTTPS)");
       if (config.isPublicAccess()) {
+        ServerTools.print("WARNING: running in HTTP mode, consider running LanguageTool behind a reverse proxy that takes care of encryption (HTTPS)");
         ServerTools.print("WARNING: running in public mode, LanguageTool API can be accessed without restrictions!");
         server = new HTTPServer(config, false, null, null);
       } else {

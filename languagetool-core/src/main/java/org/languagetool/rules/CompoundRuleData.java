@@ -32,9 +32,9 @@ import java.util.*;
 public class CompoundRuleData {
 
   private final Set<String> incorrectCompounds = new THashSet<>();
-  private final Set<String> noDashSuggestion = new THashSet<>();
-  private final Set<String> noDashLowerCaseSuggestion = new THashSet<>();
-  private final Set<String> onlyDashSuggestion = new THashSet<>();
+  private final Set<String> joinedSuggestion = new THashSet<>();
+  private final Set<String> joinedLowerCaseSuggestion = new THashSet<>();
+  private final Set<String> dashSuggestion = new THashSet<>();
   private final LineExpander expander;
 
   public CompoundRuleData(String path) {
@@ -56,20 +56,20 @@ public class CompoundRuleData {
     }
   }
 
-  Set<String> getIncorrectCompounds() {
+  public Set<String> getIncorrectCompounds() {
     return Collections.unmodifiableSet(incorrectCompounds);
   }
 
-  Set<String> getNoDashSuggestion() {
-    return Collections.unmodifiableSet(noDashSuggestion);
+  public Set<String> getJoinedSuggestion() {
+    return Collections.unmodifiableSet(joinedSuggestion);
   }
 
-  Set<String> getOnlyDashSuggestion() {
-    return Collections.unmodifiableSet(onlyDashSuggestion);
+  public Set<String> getDashSuggestion() {
+    return Collections.unmodifiableSet(dashSuggestion);
   }
 
-  Set<String> getNoDashLowerCaseSuggestion() {
-	return Collections.unmodifiableSet(noDashLowerCaseSuggestion);
+  public Set<String> getJoinedLowerCaseSuggestion() {
+	return Collections.unmodifiableSet(joinedLowerCaseSuggestion);
   }
 
   private void loadCompoundFile(String path) throws IOException {
@@ -78,6 +78,7 @@ public class CompoundRuleData {
       if (line.isEmpty() || line.startsWith("#")) {
         continue;     // ignore comments
       }
+      line = line.replaceFirst("#.*$", "").trim();
       List<String> expandedLines = new ArrayList<>();
       if (expander != null) {
         expandedLines = expander.expandLine(line);
@@ -89,17 +90,22 @@ public class CompoundRuleData {
         validateLine(path, expLine);
         if (expLine.endsWith("+")) {
           expLine = removeLastCharacter(expLine);
-          noDashSuggestion.add(expLine);
+          joinedSuggestion.add(expLine);
         } else if (expLine.endsWith("*")) {
           expLine = removeLastCharacter(expLine);
-          onlyDashSuggestion.add(expLine);
+          dashSuggestion.add(expLine);
         } else if (expLine.endsWith("?")) { // github issue #779
           expLine = removeLastCharacter(expLine);
-          noDashSuggestion.add(expLine);
-          noDashLowerCaseSuggestion.add(expLine);
+          joinedSuggestion.add(expLine);
+          joinedLowerCaseSuggestion.add(expLine);
         } else if (expLine.endsWith("$")) { // github issue #779
           expLine = removeLastCharacter(expLine);
-          noDashLowerCaseSuggestion.add(expLine);
+          joinedSuggestion.add(expLine);
+          dashSuggestion.add(expLine);
+          joinedLowerCaseSuggestion.add(expLine);
+        } else {
+          joinedSuggestion.add(expLine);
+          dashSuggestion.add(expLine);
         }
         incorrectCompounds.add(expLine);
       }

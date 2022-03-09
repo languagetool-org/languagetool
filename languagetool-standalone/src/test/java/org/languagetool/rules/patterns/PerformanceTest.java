@@ -79,7 +79,7 @@ final class PerformanceTest {
     JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode(languageCode));
     //JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode(languageCode), null, cache);
     //MultiThreadedJLanguageTool lt = new MultiThreadedJLanguageTool(Languages.getLanguageForShortCode(languageCode));
-    //MultiThreadedJLanguageTool langTool = new MultiThreadedJLanguageTool(Languages.getLanguageForShortCode(languageCode), null, cache);
+    //MultiThreadedJLanguageTool lt = new MultiThreadedJLanguageTool(Languages.getLanguageForShortCode(languageCode), null, cache);
     test.run(lt, textFile);
     //lt.shutdown();
   }

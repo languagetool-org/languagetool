@@ -74,8 +74,8 @@ public class HTTPServerOverheadTest {
 
   private String checkTextOnServer(Language lang, String text) throws IOException {
     String postData = "language=" + lang.getShortCodeWithCountryAndVariant() + "&text=" + URLEncoder.encode(text, "UTF-8");
-    URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + "/v2/check");
-    return HTTPTools.checkAtUrlByPost(url, postData);
+    URL url = new URL("http://localhost:" + HTTPTestTools.getDefaultPort() + "/v2/check");
+    return HTTPTestTools.checkAtUrlByPost(url, postData);
   }
 
 }

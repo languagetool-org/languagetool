@@ -130,7 +130,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <!-- GRAMMATICA AGGETTIVI - GR_01 -->
     <category id="CAT1" name="Grammatica - Aggettivi">
-        <rulegroup name="uso corretto" id="GR_01_001" default="temp_off">
+        <rulegroup name="uso corretto" id="GR_01_001" default="off">
             <!-- PB003 + -->
             <!-- meglio -->
             <rule>
@@ -173,7 +173,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <!-- GRAMMATICA ARTICOLI - GR_02 -->
     <category id="CAT2" name="Grammatica - Articoli">
-        <rulegroup name="uso corretto" id="GR_02_001" default="temp_off">
+        <rulegroup name="uso corretto" id="GR_02_001" default="off">
             <!-- la -->
             <rule>
                 <pattern>
@@ -342,6 +342,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup name="Elisioni" id="GR_04_002">
+            <antipattern>
+                <token>'</token>
+                <token spacebefore="no"/>
+                <token spacebefore="no">'</token>
+            </antipattern>
             <!-- togli togli di metti d' -->
             <rule>
                 <pattern>
@@ -355,9 +360,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <token>e</token>
-                    <token>'</token>
+                    <token spacebefore="no">'</token>
                 </pattern>
-                <message>Si suggerisce di non usare l'apostrofo per scrivere il verbo essere: <suggestion>è</suggestion>.</message>
+                <message>Si suggerisce di non usare l'apostrofo per scrivere il verbo essere.</message>
+                <suggestion>è</suggestion>
                 <example correction="è">L'uva <marker>e'</marker> sul tavolo.</example>
             </rule>
             <!-- perche' -->
@@ -367,27 +373,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <!--  token regexp="yes">perché|poiché|affinché|giacché|finché|altroché</token -->
                     <token regexp="yes">.*[àèéìòù]</token>
 <!-- PB011 - -->                    
-                    <token>'</token>
+                    <token spacebefore="no">'</token>
                 </pattern>
-                <message>Togliere l'apostrofo in quanto la parola è già accentata: <suggestion><match no="1"/></suggestion>.</message>
+                <message>Togliere l'apostrofo in quanto la parola è già accentata.</message>
+                <suggestion><match no="1"/></suggestion>
                 <example correction="perché">Ve lo dico solo <marker>perché'</marker> mi siete simpatici.</example>
             </rule>
             <!-- E' -->
             <rule>
                 <pattern case_sensitive="yes">
                     <token>E</token>
-                    <token>'</token>
+                    <token spacebefore="no">'</token>
                 </pattern>
-                <message>Si suggerisce di non usare l'apostrofo per il verbo essere: <suggestion>È</suggestion>.</message>
+                <message>Si suggerisce di non usare l'apostrofo per il verbo essere.</message>
+                <suggestion>È</suggestion>
                 <example correction="È"><marker>E'</marker> un peccato!</example>
             </rule>
             <!-- da' -->
             <rule>
                 <pattern>
                     <token>da</token>
-                    <token>'</token>
+                    <token spacebefore="no">'</token>
                 </pattern>
-                <message>Non utilizzare l'apostrofo per accentare: <suggestion>dà</suggestion>.</message>
+                <message>Non utilizzare l'apostrofo per accentare.</message>
+                <suggestion>dà</suggestion>
                 <example correction="dà">Mi <marker>da'</marker> una mano per favore?</example>
             </rule>
         </rulegroup>
@@ -397,7 +406,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="CAT4" name="Grammatica - Frase">
         <!-- TO DO	<rulegroup name="altri elementi" id="GR_05_001">
             </rulegroup> -->
-        <rulegroup name="struttura" id="GR_05_002" default="temp_off">
+        <rulegroup name="struttura" id="GR_05_002" default="off">
             <!-- non iniziare la frase con una congiunzione -->
             <rule>
                 <pattern>
@@ -474,14 +483,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup name="uso corretto" id="GR_07_001">
             <!-- da -->
             <rule>
-                <pattern>
+                <antipattern><!-- Se lo sai dà un pochino fastidio -->
+                    <token skip="3">dà</token>
+                    <token regexp="yes">fastidio|ragione|notizia|fiducia|vita|spazio|voce</token>
+                </antipattern>
+                <antipattern><!-- Chi vuole dà l'elemosina -->
+                    <token skip="2" postag=".*WH.*" postag_regexp="yes"/>
                     <token postag_regexp="yes" postag="VER:ind.*"/>
+                </antipattern>
+                <antipattern><!-- Chi lo vede dà per scontato che vincerà -->
+                    <token>dà</token>
+                    <token postag="PRE"/>
+                </antipattern>
+                <pattern>
+                    <token postag_regexp="yes" postag="VER:ind.*"><exception postag="(N.*)|(ADJ.*)" postag_regexp="yes"/></token>
                     <marker>
                         <token>dà</token>
                     </marker>
                 </pattern>
                 <message>Probabilmente si scrive senza accento: <suggestion>da</suggestion>.</message>
                 <example correction="da">Vengo <marker>dà</marker> Roma.</example>
+                <example correction="da">È <marker>dà</marker> due ore che ti aspetto.</example>
+                <example>L'opposizione russa dà voce alle sue inquietudini.</example>
+                <example>Sentirsi giudicati da chi non ti conosce dà un pochino fastidio.</example>
+                <example>Chi vuole dà l'elemosina.</example>
             </rule>
             <!-- PB002+ -->
             <!-- assolvere a... -->
@@ -834,7 +859,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction=''>non <marker>sono vengono</marker> preparate con le tecnologie e le infrastrutture adatte</example>
         </rule>
         
-	<rulegroup name="concordanza tempi delle coordinate" id="GR_10_001" default="temp_off">
+	<rulegroup name="concordanza tempi delle coordinate" id="GR_10_001" default="off">
 <!-- PB007 + -->	    
             <!-- IND PRESENTE -->
 	    <rule>
@@ -1284,7 +1309,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">anguria|angurie</token>
                 </pattern>
-                <message>Sostituire forme dialettali con l'equivalente Italiano per migliorare al leggibilità: <suggestion>cocomero</suggestion>.</message>
+                <message>Sostituire forme dialettali con l'equivalente Italiano per migliorare la leggibilità: <suggestion>cocomero</suggestion>.</message>
                 <example correction="cocomero">Abbiamo mangiato un'<marker>anguria</marker>.</example>
                 <example>Abbiamo mangiato un <marker>cocomero</marker>.</example>
             </rule>
@@ -1293,7 +1318,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>asparagio</token>
                 </pattern>
-                <message>Sostituire forme dialettali con l'equivalente Italiano per migliorare al leggibilità: <suggestion>asparago</suggestion>.</message>
+                <message>Sostituire forme dialettali con l'equivalente Italiano per migliorare la leggibilità: <suggestion>asparago</suggestion>.</message>
                 <example correction="asparago">Ho colto un <marker>asparagio</marker>.</example>
             </rule>
             <!-- pedalino -->
@@ -1301,7 +1326,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">pedalino|pedalini</token>
                 </pattern>
-                <message>Sostituire forme dialettali con l'equivalente Italiano per migliorare al leggibilità: <suggestion>calza</suggestion>.</message>
+                <message>Sostituire forme dialettali con l'equivalente Italiano per migliorare la leggibilità: <suggestion>calza</suggestion>.</message>
                 <example correction="calza">Mauro portava un paio di <marker>pedalini</marker> bianchi.</example>
                 <example>Mauro portava un paio di <marker>calze</marker> bianche.</example>
             </rule>
@@ -1310,7 +1335,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">pomidoro|pomidori</token>
                 </pattern>
-                <message>Sostituire forme dialettali con l'equivalente Italiano per migliorare al leggibilità: <suggestion>pomodoro</suggestion>.</message>
+                <message>Sostituire forme dialettali con l'equivalente Italiano per migliorare la leggibilità: <suggestion>pomodoro</suggestion>.</message>
                 <example correction="pomodoro">Il <marker>pomidoro</marker> era maturo.</example>
             </rule>
         </rulegroup>
@@ -1409,7 +1434,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>ad</token>
                     <token regexp="yes">[eiou].*<exception regexp="yes">esempio|es</exception></token>
                 </pattern>
-                <message>L'uso della d eufonica dovrebbe essere limitato ai casi di incontro della stessa vocale: <suggestion>a <match no="2"/></suggestion>.</message>
+                <message>L'uso della d eufonica dovrebbe essere limitato ai casi d'incontro della stessa vocale: <suggestion>a <match no="2"/></suggestion>.</message>
                 <example correction="a interpretare">Provo <marker>ad interpretare</marker> il tuo pensiero.</example>
                 <example>Io, <marker>ad esempio</marker>, non ci sono cascato.</example>
             </rule>
@@ -1419,7 +1444,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>ed</token>
                     <token regexp="yes">[aiou].*</token>
                 </pattern>
-                <message>L'uso della 'd' eufonica dovrebbe essere limitato ai casi di incontro della stessa vocale: <suggestion>e <match no="2"/></suggestion>.</message>
+                <message>L'uso della 'd' eufonica dovrebbe essere limitato ai casi d'incontro della stessa vocale: <suggestion>e <match no="2"/></suggestion>.</message>
                 <example correction="e insisto">Ti dico <marker>ed insisto</marker> che è vero.</example>
             </rule>
             <!-- togli od -->
@@ -1428,7 +1453,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>od</token>
                     <token regexp="yes">[aieu].*</token>
                 </pattern>
-                <message>L'uso della 'd' eufonica dovrebbe essere limitato ai casi di incontro della stessa vocale: <suggestion>o <match no="2"/></suggestion>.</message>
+                <message>L'uso della 'd' eufonica dovrebbe essere limitato ai casi d'incontro della stessa vocale: <suggestion>o <match no="2"/></suggestion>.</message>
                 <example correction="o un">Si consiglia un farmaco blando <marker>od un</marker> omeopatico.</example>
             </rule>
 
@@ -1462,7 +1487,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Puoi vederlo ogni mattina <marker>od ogni</marker> sera.</example>
             </rule>
         </rulegroup>
-        <rulegroup name="ripetizioni" id="ST_03_002" default="temp_off">
+        <rulegroup name="ripetizioni" id="ST_03_002" default="off">
             <rule>
                 <pattern>
 <!-- PB001 + -->
@@ -1663,7 +1688,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Dovrebbe andare a messa più spesso.</example>
                 <example>Esperienze diverse portano a scelte diverse.</example>
             </rule>
-            <rule default="temp_off">
+            <rule default="off">
                 <!-- "a" + un sostantivo plurale -->
                 <pattern>
                     <token>a</token>
@@ -1675,7 +1700,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Di esempi ce ne sono a volontà.</example>
                 <example correction="ha piedi" type="triggers_error" reason="to be fixed!">Preferirei andare <marker>a piedi</marker> che stare qua ad aspettare il bus.</example>
             </rule>
-            <rule default="temp_off" name="suggerisci sempre lo scambio di 'a' con 'ha'" id="ER_01_001a">
+            <rule default="off" name="suggerisci sempre lo scambio di 'a' con 'ha'" id="ER_01_001a">
                 <pattern>
                     <token>a</token>
                 </pattern>
@@ -1789,7 +1814,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="alla mia mamma">Ho dato un bacio <marker>ala mia mamma</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup name="scambio di 'la' e 'al'" id="ER_02_002" default="temp_off">
+        <rulegroup name="scambio di 'la' e 'al'" id="ER_02_002" default="off">
             <rule>
                 <!-- "la" + sostantivo maschile -->
                 <pattern>
@@ -1847,7 +1872,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="la tua">Ho mangiato <marker>al tua</marker> merenda.</example>
             </rule>
         </rulegroup>
-        <rulegroup name="scambio di 'li' e 'il'" id="ER_02_003" default="temp_off">
+        <rulegroup name="scambio di 'li' e 'il'" id="ER_02_003" default="off">
             <rule>
                 <!-- "li" + sostantivo maschile -->
                 <pattern>
@@ -1983,7 +2008,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Martedì 27 novembre 1922</example>
             </rule>
         </rulegroup>
-        <rulegroup  id="NUMBER_DAYS_MONTH" name="giorni massimi del mese (28, 29, 30, 31)" default="temp_off">
+        <rulegroup  id="NUMBER_DAYS_MONTH" name="giorni massimi del mese (28, 29, 30, 31)" default="off">
             <rule>
                 <pattern>
                     <marker>

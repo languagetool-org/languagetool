@@ -38,7 +38,6 @@ public class FrenchWordTokenizer extends WordTokenizer {
 
   private static final int maxPatterns = 7;
   private final Pattern[] patterns = new Pattern[maxPatterns];
-  private final FrenchTagger tagger;
 
   // Patterns to avoid splitting words in certain special cases
 
@@ -68,20 +67,26 @@ public class FrenchWordTokenizer extends WordTokenizer {
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern SPACE_DIGITS2 = Pattern.compile("([\\d]) ([\\d][\\d][\\d]) ([\\d][\\d][\\d])\\b",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  
+  private static final List<String> doNotSplit = Arrays.asList("mers-cov", "mcgraw-hill", "sars-cov-2", "sars-cov",
+      "ph-metre", "ph-metres", "anti-ivg", "anti-uv", "anti-vih", "al-qaïda", "c'est-à-dire", "add-on", "add-ons",
+      "rendez-vous", "garde-à-vous", "chez-eux", "chez-moi", "chez-nous", "chez-soi", "chez-toi", "chez-vous", "m'as-tu-vu");
+  
+  //the string used to tokenize characters
+  private final String frTokenizingChars = super.getTokenizingCharacters() + "-"; // hyphen
+
 
   public FrenchWordTokenizer() {
-    
-    tagger = new FrenchTagger();
 
     // words not to be split
-    patterns[0] = Pattern.compile("^(rendez-vous|garde-à-vous|chez-eux|chez-moi|chez-nous|chez-soi|chez-toi|chez-vous)$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+    patterns[0] = Pattern.compile("^(c['’]te?|m['’]as-tu-vu|c['’]est-à-dire|add-on|add-ons|rendez-vous|garde-à-vous|chez-eux|chez-moi|chez-nous|chez-soi|chez-toi|chez-vous)$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     patterns[1] = Pattern.compile(
-        "^(c['’]|j['’]|n['’]|m['’]|t['’]|s['’]|l['’]|d['’]|qu['’]|jusqu['’]|lorsqu['’]|puisqu['’]|quoiqu['’])([^\\-]*)(-ce|-elle|-t-elle|-elles|-t-elles|-en|-il|-t-il|-ils|-t-ils|-je|-la|-le|-les|-leur|-lui|-moi|-nous|-on|-t-on|-toi|-tu|-vous|-vs|-y)$",
+        "^([cç]['’]|j['’]|n['’]|m['’]|t['’]|s['’]|l['’]|d['’]|qu['’]|jusqu['’]|lorsqu['’]|puisqu['’]|quoiqu['’])([^\\-]*)(-ce|-elle|-t-elle|-elles|-t-elles|-en|-il|-t-il|-ils|-t-ils|-je|-la|-le|-les|-leur|-lui|-moi|-nous|-on|-t-on|-toi|-tu|-vous|-vs|-y)$",
         Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     // Apostrophe at the beginning of a word. ce, je, ne, me, te, se, le, la, de, que, si // NO: presqu['’] |quelqu['’]
     // It creates 2 tokens: <token>l'</token><token>homme</token>
     patterns[2] = Pattern.compile( 
-        "^(c['’]|j['’]|n['’]|m['’]|t['’]|s['’]|l['’]|d['’]|qu['’]|jusqu['’]|lorsqu['’]|puisqu['’]|quoiqu['’])([^'’\\-].*)$",
+        "^([cç]['’]|j['’]|n['’]|m['’]|t['’]|s['’]|l['’]|d['’]|qu['’]|jusqu['’]|lorsqu['’]|puisqu['’]|quoiqu['’])([^'’\\-].*)$",
         Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     patterns[3] = Pattern.compile(
         "^([^\\-]*)(-ce|-t-elle|-t-elles|-elle|-elles|-en|-il|-t-il|-ils|-t-ils|-je|-la|-le|-les|-leur|-lui|-moi|-nous|-on|-t-on|-toi|-tu|-vous|-vs|-y)(-ce|-elle|-t-elle|-elles|-t-elles|-en|-il|-t-il|-ils|-t-ils|-je|-la|-le|-les|-leur|-lui|-moi|-nous|-on|-t-on|-toi|-tu|-vous|-vs|-y)$",
@@ -101,7 +106,7 @@ public class FrenchWordTokenizer extends WordTokenizer {
     patterns[2] = Pattern.compile("^(d)(es)$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     patterns[3] = Pattern.compile("^(a)(ux)$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);*/
 
-  }
+  }  
 
   /**
    * @param text Text to tokenize
@@ -134,15 +139,7 @@ public class FrenchWordTokenizer extends WordTokenizer {
     auxText = matcher.replaceAll("$1\u0001\u0001FR_SPACE\u0001\u0001$2");
     auxText = auxText.replaceAll("\\u0001\\u0001FR_SPACE0\\u0001\\u0001", " ");
 
-    final StringTokenizer st = new StringTokenizer(auxText,
-        "\u0020\u00A0\u115f\u1160\u1680" + "\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007"
-            + "\u2008\u2009\u200A\u200B\u200c\u200d\u200e\u200f" + "\u2012\u2013\u2014\u2015\u2022"
-            + "\u2028\u2029\u202a\u202b\u202c\u202d\u202e\u202f"
-            + "\u205F\u2060\u2061\u2062\u2063\u206A\u206b\u206c\u206d"
-            + "\u206E\u206F\u3000\u3164\ufeff\uffa0\ufff9\ufffa\ufffb"
-            + "|,.;()[]{}=*#∗+×÷<>!?:~/\\\"'«»„”“‘’`´…¿¡\t\n\r-·"
-            + "\u2032", // prime...
-        true);
+    final StringTokenizer st = new StringTokenizer(auxText, frTokenizingChars, true);
     String s;
     String groupStr;
 
@@ -152,6 +149,15 @@ public class FrenchWordTokenizer extends WordTokenizer {
           .replace("\u0001\u0001FR_DECIMALPOINT\u0001\u0001", ".")
           .replace("\u0001\u0001FR_DECIMALCOMMA\u0001\u0001", ",").replace("\u0001\u0001FR_SPACE\u0001\u0001", " ");
       boolean matchFound = false;
+      while (s.length() > 1 && s.startsWith("-")) {
+        l.add("-");
+        s = s.substring(1);
+      }
+      int hyphensAtEnd = 0;
+      while (s.length() > 1 && s.endsWith("-")) {
+        s = s.substring(0, s.length() - 1);
+        hyphensAtEnd++;
+      }
       int j = 0;
       while (j < maxPatterns && !matchFound) {
         matcher = patterns[j].matcher(s);
@@ -166,6 +172,10 @@ public class FrenchWordTokenizer extends WordTokenizer {
       } else {
         l.addAll(wordsToAdd(s));
       }
+      while (hyphensAtEnd > 0) {
+        l.add("-");
+        hyphensAtEnd--;
+      }
     }
     return joinEMailsAndUrls(l);
   }
@@ -179,15 +189,12 @@ public class FrenchWordTokenizer extends WordTokenizer {
           l.add(s);
         } else {
           // words containing hyphen (-) are looked up in the dictionary
-          if (tagger.tag(Arrays.asList(s.replace("’", "'"))).get(0).isTagged()) {
+          if (FrenchTagger.INSTANCE.tag(Arrays.asList(s.replaceAll("\u00AD","").replace("’", "'"))).get(0).isTagged()) {
             // In the current POS tag, most apostrophes are curly: to be fixed
             l.add(s);
           }
           // some camel-case words containing hyphen (is there any better fix?)
-          else if (s.equalsIgnoreCase("mers-cov") || s.equalsIgnoreCase("mcgraw-hill")
-              || s.equalsIgnoreCase("sars-cov-2") || s.equalsIgnoreCase("sars-cov") || s.equalsIgnoreCase("ph-metre")
-              || s.equalsIgnoreCase("ph-metres") || s.equalsIgnoreCase("anti-ivg") || s.equalsIgnoreCase("anti-uv")
-              || s.equalsIgnoreCase("anti-vih") || s.equalsIgnoreCase("al-qaïda")) {
+          else if (doNotSplit.contains(s.toLowerCase())) {
             l.add(s);
           } else {
             // if not found, the word is split

@@ -106,12 +106,12 @@ final class DictionaryExporter extends DictionaryBuilder {
           }
           out.write(parts[1] + "\t" + parts[0] + "\t" + parts[2] + "\n");
         } else if (parts.length == 2) {
-          if (hasFrequency) {
-            out.write(parts[1] + "\n");
-          }
+//          if (hasFrequency) {
+//            out.write(parts[1] + "\n");
+//          }
           out.write(parts[1] + "\t" + parts[0] + "\n");
         } else if (parts.length == 1) {
-          out.write(parts[0]);
+          out.write(parts[0] + "\n");
         } else {
           System.err
               .println("Invalid input, expected one, two or three columns separated with "

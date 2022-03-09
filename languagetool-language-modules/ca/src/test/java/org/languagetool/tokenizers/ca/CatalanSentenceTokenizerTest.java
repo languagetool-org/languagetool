@@ -49,6 +49,7 @@ public class CatalanSentenceTokenizerTest {
             "»La Maria va engegar el cotxe");
     testSplit("diu que va dir. ", "A mi em feia estrany.");
     testSplit("Són del s. III dC. ", "Són importants les pintures.");
+    testSplit("Primera frase.[4] ", "Segona frase");
     
     // N., t.
     testSplit("Vés-te’n. ", "A mi em feia estrany.");  
@@ -92,6 +93,15 @@ public class CatalanSentenceTokenizerTest {
     testSplit("Arriba fins a les pp. XI-XII.");
     testSplit("i no ho vol. ", "Malgrat que és així.");
     testSplit("i és del vol. 3 de la col·lecció");
+    testSplit("Els EE. UU. són un país.");
+    testSplit("Els EE.UU. són un país.");
+    testSplit("Me'n vaig als EE.UU. ", "Bon viatge.");
+    testSplit("Garcia, Joan (coords.)");
+    testSplit("fins al curs de 8è. ", "\"No es pot oblidar allò\"");
+    testSplit("fins al curs de 8è. ", "-No es pot oblidar allò");
+    testSplit("Aprovació (ca. 2010), suspensió (c. 2011), segle (ca. XIX)");
+    testSplit("La Dra. Ma. Victòria.");
+    testSplit("la projectada Sta. Ma. de Gàllecs");
 
     // Exception to abbreviations
     testSplit("Ell és el número u. ", "Jo el dos.");
@@ -104,6 +114,7 @@ public class CatalanSentenceTokenizerTest {
     testSplit("Són d'1 m. ", "Han estat condicionades.");
     testSplit("Hi vivien 50 h. ", "Després el poble va créixer.");
     testSplit("L'acte serà a les 15.30 h. de la vesprada.");
+    testSplit("De 9:00 a 17:00 h. (aproximadament).");
     
     //Error: missing space. It is not split in order to trigger other errors. 
     testSplit("s'hi enfrontà quan G.Oueddei n'esdevingué líder");

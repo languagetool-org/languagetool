@@ -36,13 +36,14 @@
 				<xs:element ref="category"/>
 			</xs:choice>
 			<xs:attribute name="lang" type="xs:language" use="required" />
-			<xs:attribute name="idprefix" type="xs:string" use="optional" />
-			<xs:attribute name="integrate" use="optional">
-			<xs:simpleType>
-				<xs:restriction base="xs:NMTOKEN">
-					<xs:enumeration value="replace"/>
-					<xs:enumeration value="add"/>
-				</xs:restriction>
+			<xs:attribute name="idprefix" type="xs:string" />
+			<xs:attribute name="premium" type="binaryYesNo" default="no"/>
+			<xs:attribute name="integrate">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="replace"/>
+						<xs:enumeration value="add"/>
+					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
 		</xs:complexType>
@@ -59,7 +60,7 @@
 				<xs:element ref="rule" />
 				<xs:element ref="rulegroup" />
 			</xs:choice>
-			<xs:attribute name="default" use="optional">
+			<xs:attribute name="default">
 				<xs:simpleType>
 					<xs:restriction base="xs:NMTOKEN">
 						<xs:enumeration value="off" />
@@ -69,10 +70,11 @@
 			</xs:attribute>
 			<xs:attribute ref="name" use="required" />
 			<xs:attribute name="id" type="xs:ID" use="required" />
-			<xs:attribute ref="type" use="optional" />
-			<xs:attribute name="external" type="binaryYesNo" use="optional" />
-			<xs:attribute name="tab" use="optional" />
-			<xs:attribute name="tags" use="optional" />
+			<xs:attribute name="premium" type="binaryYesNo"/>
+			<xs:attribute ref="type" />
+			<xs:attribute name="external" type="binaryYesNo" />
+			<xs:attribute name="tab" />
+			<xs:attribute name="tags" />
 		</xs:complexType>
 	</xs:element>
 
@@ -89,7 +91,7 @@
 				<xs:element ref="antipattern" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element ref="rule" maxOccurs="unbounded" />
 			</xs:sequence>
-			<xs:attribute name="default" use="optional">
+			<xs:attribute name="default">
 				<xs:simpleType>
 					<xs:restriction base="xs:NMTOKEN">
 						<xs:enumeration value="off" />
@@ -99,9 +101,24 @@
 				</xs:simpleType>
 			</xs:attribute>
 			<xs:attribute ref="name" use="required" />
+			<xs:attribute name="premium" type="binaryYesNo"/>
 			<xs:attribute name="id" type="xs:ID" use="required" />
-			<xs:attribute ref="type" use="optional" />
-			<xs:attribute name="tags" use="optional" />
+			<xs:attribute ref="type" />
+			<xs:attribute name="tags" />
+		    <xs:attribute name="min_prev_matches" use="optional">
+		        <xs:simpleType>
+		            <xs:restriction base="xs:integer">
+		                <xs:minInclusive value="1" />
+		            </xs:restriction>
+		        </xs:simpleType>
+		    </xs:attribute>
+		    <xs:attribute name="distance_tokens" use="optional">
+		        <xs:simpleType>
+		            <xs:restriction base="xs:integer">
+		                <xs:minInclusive value="1" />
+		            </xs:restriction>
+		        </xs:simpleType>
+		    </xs:attribute>
 		</xs:complexType>
 	</xs:element>
 
@@ -167,7 +184,7 @@
 				<xs:element ref="short" minOccurs="0" />
 				<xs:element ref="example" minOccurs="1" maxOccurs="unbounded" />
 			</xs:sequence>
-			<xs:attribute name="default" use="optional">
+			<xs:attribute name="default">
 				<xs:simpleType>
 					<xs:restriction base="xs:NMTOKEN">
 						<xs:enumeration value="off" />
@@ -176,10 +193,25 @@
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
-			<xs:attribute name="name" type="xs:string" use="optional" />
-			<xs:attribute name="id" type="xs:ID" use="optional" />
-			<xs:attribute ref="type" use="optional" />
-			<xs:attribute name="tags" use="optional" />
+			<xs:attribute name="premium" type="binaryYesNo"/>
+			<xs:attribute name="name" type="xs:string" />
+			<xs:attribute name="id" type="xs:ID" />
+			<xs:attribute ref="type" />
+			<xs:attribute name="tags" />
+		    <xs:attribute name="min_prev_matches" use="optional">
+		        <xs:simpleType>
+		            <xs:restriction base="xs:integer">
+		                <xs:minInclusive value="1" />
+		            </xs:restriction>
+		        </xs:simpleType>
+		    </xs:attribute>
+		    <xs:attribute name="distance_tokens" use="optional">
+		        <xs:simpleType>
+		            <xs:restriction base="xs:integer">
+		                <xs:minInclusive value="1" />
+		            </xs:restriction>
+		        </xs:simpleType>
+		    </xs:attribute>
 		</xs:complexType>
 	</xs:element>
 
@@ -193,8 +225,8 @@
 				<xs:element ref="unify" />
 				<xs:element ref="marker" maxOccurs="1"/>
 			</xs:choice>
-			<xs:attribute name="case_sensitive" type="binaryYesNo" use="optional" />
-			<xs:attribute name="raw_pos" type="binaryYesNo" use="optional" />
+			<xs:attribute name="case_sensitive" type="binaryYesNo" />
+			<xs:attribute name="raw_pos" type="binaryYesNo" />
 		</xs:complexType>
 	</xs:element>
 
@@ -202,22 +234,22 @@
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="xs:string">
-					<xs:attribute name="case_sensitive" type="binaryYesNo" use="optional"/>
-                    <xs:attribute name="type" use="optional" default="smart">
-                        <xs:simpleType>
-                            <xs:restriction base="xs:NMTOKEN">
-                                <xs:enumeration value="smart" />
-                                <xs:enumeration value="exact" />
-                            </xs:restriction>
-                        </xs:simpleType>
-                    </xs:attribute>
-                    <xs:attribute name="mark" use="optional">
-                        <xs:simpleType>
+					<xs:attribute name="case_sensitive" type="binaryYesNo"/>
+					<xs:attribute name="type" default="smart">
+						<xs:simpleType>
+							<xs:restriction base="xs:NMTOKEN">
+								<xs:enumeration value="smart" />
+								<xs:enumeration value="exact" />
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attribute name="mark">
+						<xs:simpleType>
 							<xs:restriction base="xs:integer">
 								<xs:minInclusive value="1" />
 							</xs:restriction>
-                        </xs:simpleType>
-                    </xs:attribute>
+						</xs:simpleType>
+					</xs:attribute>
 				</xs:extension>
 			</xs:simpleContent>
 		</xs:complexType>
@@ -237,7 +269,7 @@
 				<xs:element ref="unify" />
 				<xs:element ref="marker" />
 			</xs:choice>
-			<xs:attribute name="case_sensitive" type="binaryYesNo" use="optional" />
+			<xs:attribute name="case_sensitive" type="binaryYesNo" />
 		</xs:complexType>
 	</xs:element>
 
@@ -258,7 +290,7 @@
 				<xs:element ref="suggestion" />
 				<xs:element ref="match" />
 			</xs:choice>
-		    <xs:attribute name="suppress_misspelled" type="binaryYesNo" use="optional"/>
+			<xs:attribute name="suppress_misspelled" type="binaryYesNo"/>
 		</xs:complexType>
 	</xs:element>
 
@@ -293,7 +325,7 @@
 			<xs:sequence minOccurs='0' maxOccurs='unbounded'>
 				<xs:element ref="match" />
 			</xs:sequence>
-			<xs:attribute name="suppress_misspelled" type="binaryYesNo" use="optional"/>
+			<xs:attribute name="suppress_misspelled" type="binaryYesNo"/>
 		</xs:complexType>
 	</xs:element>
 
@@ -317,8 +349,8 @@
 			</xs:complexType>
 		</xs:element>
 	  </xs:choice>
-	  <xs:attribute name="correction" type="xs:string" use="optional" />
-		<xs:attribute name="type" use="optional">
+	  <xs:attribute name="correction" type="xs:string" />
+		<xs:attribute name="type">
 		<xs:simpleType>
 		  <xs:restriction base="xs:NMTOKEN">
 			<xs:enumeration value="correct" />
@@ -327,16 +359,16 @@
 		  </xs:restriction>
 		</xs:simpleType>
 		</xs:attribute>
-	<xs:attribute name="reason" type="xs:string" use="optional" />
+	<xs:attribute name="reason" type="xs:string" />
 	</xs:complexType>
   </xs:element>
 
-    <xs:attribute name="name">
-        <xs:simpleType>
-            <xs:restriction base="xs:string">
-                <xs:minLength value="1"/>
-            </xs:restriction>
-        </xs:simpleType>
-    </xs:attribute>
+	<xs:attribute name="name">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:minLength value="1"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:attribute>
 
 </xs:schema>

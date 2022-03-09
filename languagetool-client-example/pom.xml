@@ -8,7 +8,7 @@
     <artifactId>languagetool-client-example</artifactId>
     <version>2.4</version>
     
-    <url>http://www.languagetool.org</url>
+    <url>https://www.languagetool.org</url>
     <name>LanguageTool client example</name>
     <description>An example on how to use LanguageTool from Java - used for internal testing to see if the published 
         Maven artifacts work before we make a real release</description>
@@ -24,8 +24,45 @@
         <dependency>
             <groupId>org.languagetool</groupId>
             <artifactId>language-all</artifactId>
-            <version>5.0</version>
+            <version>5.6</version>
         </dependency>
+        <!--
+        <dependency>
+            <groupId>org.languagetool</groupId>
+            <artifactId>languagetool-core</artifactId>
+            <version>5.5-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.languagetool</groupId>
+            <artifactId>languagetool-core-premium</artifactId>
+            <version>5.5-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.languagetool</groupId>
+            <artifactId>language-en-premium</artifactId>
+            <version>5.5-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.languagetool</groupId>
+            <artifactId>language-de-premium</artifactId>
+            <version>5.5-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.languagetool</groupId>
+            <artifactId>language-fr-premium</artifactId>
+            <version>5.5-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.languagetool</groupId>
+            <artifactId>language-es-premium</artifactId>
+            <version>5.5-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.languagetool</groupId>
+            <artifactId>language-nl-premium</artifactId>
+            <version>5.5-SNAPSHOT</version>
+        </dependency>
+        -->
     </dependencies>
 
     <build>
@@ -69,6 +106,15 @@
 
     <repositories>
         <repository>
+            <id>central</id>
+            <name>Default Repository</name>
+            <layout>default</layout>
+            <url>https://repo1.maven.org/maven2</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
             <id>sonatypeSnapshots</id>
             <name>Sonatype Snapshots</name>
             <releases>
@@ -85,6 +131,22 @@
             <layout>default</layout>
         </repository>
         <repository>
+            <id>artifactory-snapshots</id>
+            <name>Artifactory Snapshots</name>
+            <releases>
+                <enabled>false</enabled>
+                <updatePolicy>always</updatePolicy>
+                <checksumPolicy>warn</checksumPolicy>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+                <checksumPolicy>fail</checksumPolicy>
+            </snapshots>
+            <url>https://languagetool.jfrog.io/artifactory/languagetool-libs-snapshot/</url>
+            <layout>default</layout>
+        </repository>
+        <repository>
             <id>sonatypestaging</id>
             <name>Sonatype Staging</name>
             <releases>
@@ -98,9 +160,27 @@
                 <checksumPolicy>fail</checksumPolicy>
             </snapshots>
             <!-- use the url to which the artifacts have been copied after clicking "Close" in Sonatype: -->
-            <url>https://oss.sonatype.org/content/repositories/orglanguagetool-1035/</url>
+            <url>https://oss.sonatype.org/content/repositories/orglanguagetool-1055/</url>
             <layout>default</layout>
         </repository>
+        <!--
+        <repository>
+            <id>localtest</id>
+            <name>Local test</name>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+                <checksumPolicy>warn</checksumPolicy>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+                <checksumPolicy>warn</checksumPolicy>
+            </snapshots>
+            <url>http://localhost/maven/</url>
+            <layout>default</layout>
+        </repository>
+        -->
     </repositories>
     
 </project>

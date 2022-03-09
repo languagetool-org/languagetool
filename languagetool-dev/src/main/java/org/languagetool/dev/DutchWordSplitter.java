@@ -29,7 +29,7 @@ import java.util.List;
 public class DutchWordSplitter {
 
   public static void main(String[] args) throws IOException {
-    // exported as documented at http://wiki.languagetool.org/developing-a-tagger-dictionary#toc2,
+    // exported as documented at https://dev.languagetool.org/developing-a-tagger-dictionary,
     // then taking only the full form: awk '{print $1}' dictionary-nl.dump
     String filename = "/home/dnaber/lt/dictionary-nl.dump";
     MorfologikMultiSpeller speller = new MorfologikMultiSpeller("/nl/spelling/nl_NL.dict", Collections.singletonList("/nl/spelling/spelling.txt"), null, null, 1);

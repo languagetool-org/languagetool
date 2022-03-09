@@ -43,9 +43,9 @@ public class MorfologikBritishSpellerRuleTest extends AbstractEnglishSpellerRule
     Rule rule = new MorfologikBritishSpellerRule(TestTools.getMessages("en"), language, null, Collections.emptyList());
     super.testNonVariantSpecificSuggestions(rule, language);
 
-    JLanguageTool langTool = new JLanguageTool(language);
+    JLanguageTool lt = new JLanguageTool(language);
     // suggestions from language specific spelling_en-XX.txt
-    assertSuggestion(rule, langTool, "GBTestWordToBeIgnore", "GBTestWordToBeIgnored");
+    assertSuggestion(rule, lt, "GBTestWordToBeIgnore", "GBTestWordToBeIgnored");
   }
 
   @Test
@@ -67,53 +67,60 @@ public class MorfologikBritishSpellerRuleTest extends AbstractEnglishSpellerRule
     MorfologikBritishSpellerRule rule =
             new MorfologikBritishSpellerRule(TestTools.getMessages("en"), language, null, Collections.emptyList());
 
-    JLanguageTool langTool = new JLanguageTool(language);
+    JLanguageTool lt = new JLanguageTool(language);
 
     // correct sentences:
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("This is an example: we get behaviour as a dictionary word.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Why don't we speak today.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("This is an example: we get behaviour as a dictionary word.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Why don't we speak today.")).length);
     //with doesn't
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("He doesn't know what to do.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("He doesn't know what to do.")).length);
     //with diacritics 
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("The entrée at the café.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("The entrée at the café.")).length);
     //with an abbreviation:
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("This is my Ph.D. thesis.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence(",")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("123454")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("This is my Ph.D. thesis.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence(",")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("123454")).length);
     // Greek letters
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("μ")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("μ")).length);
     // With multiwords
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Ménage à trois")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("ménage à trois")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("The quid pro quo")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Ménage à trois")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("ménage à trois")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("The quid pro quo")).length);
+    // apostrophes
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Ma'am, O'Connell, O’Connell, O'Connor, O’Neill")).length);
 
     //incorrect sentences:
 
-    RuleMatch[] matches1 = rule.match(langTool.getAnalyzedSentence("Behavior"));
+    RuleMatch[] matches1 = rule.match(lt.getAnalyzedSentence("Behavior"));
     // check match positions:
     assertEquals(1, matches1.length);
     assertEquals(0, matches1[0].getFromPos());
     assertEquals(8, matches1[0].getToPos());
     assertEquals("Behaviour", matches1[0].getSuggestedReplacements().get(0));
 
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("aõh")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("a")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("aõh")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("a")).length);
     
     //based on replacement pairs:
 
-    RuleMatch[] matches2 = rule.match(langTool.getAnalyzedSentence("He teached us."));
+    RuleMatch[] matches2 = rule.match(lt.getAnalyzedSentence("He teached us."));
     // check match positions:
     assertEquals(1, matches2.length);
     assertEquals(3, matches2[0].getFromPos());
     assertEquals(10, matches2[0].getToPos());
     assertEquals("taught", matches2[0].getSuggestedReplacements().get(0));
     
-    RuleMatch[] matches3 = rule.match(langTool.getAnalyzedSentence("I'm g oing"));
+    RuleMatch[] matches3 = rule.match(lt.getAnalyzedSentence("I'm g oing"));
     Assert.assertThat(matches3.length, is(1));
     Assert.assertThat(matches3[0].getSuggestedReplacements().get(0), is("go ing"));
     Assert.assertThat(matches3[0].getSuggestedReplacements().get(1), is("going"));
     Assert.assertThat(matches3[0].getFromPos(), is(4));
     Assert.assertThat(matches3[0].getToPos(), is(10));
+    
+    // custom URLs
+    RuleMatch[] matches4 = rule.match(lt.getAnalyzedSentence("archeological"));
+    assertEquals("https://languagetool.org/insights/post/our-or/#likeable-vs-likable-judgement-vs-judgment-oestrogen-vs-estrogen",
+        matches4[0].getUrl().toString());
     
     
   }

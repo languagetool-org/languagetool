@@ -36,12 +36,12 @@ import static org.junit.Assert.assertEquals;
 public class CatalanUnpairedBracketsRuleTest {
 
   private TextLevelRule rule;
-  private JLanguageTool langTool;
+  private JLanguageTool lt;
   
   @Before
   public void setUp() throws IOException {
     rule = new CatalanUnpairedBracketsRule(TestTools.getEnglishMessages(), new Catalan());
-    langTool = new JLanguageTool(new Catalan());
+    lt = new JLanguageTool(new Catalan());
   }
 
   @Test
@@ -96,36 +96,45 @@ public class CatalanUnpairedBracketsRuleTest {
     //assertMatches("Paradise lost to the alleged water needs of Texas' big cities Thursday.", 0);
     assertMatches ("Porta'l cap ací.", 0);
     assertMatches ("Porta-me'n cinquanta!", 0);
+    // Saxon genitive
+    assertMatches("Harper's Dictionary of Classical Antiquities", 0);
+    assertMatches("Harper’s Dictionary of Classical Antiquities", 0);
 
     // incorrect sentences:
     assertMatches("(aquesta 'és la solució)", 1);
-    assertMatches("(L'\"especialista\"", 1);
-    assertMatches("L'«home és així", 1);
-    assertMatches("S'«esperava 'el' (segon) \"resultat\"", 1);
-    assertMatches("l'«home", 1);
+    assertMatches("(L'\"especialista\"", 0);
+    assertMatches("(L'\"especialista\".", 1);
+    assertMatches("L'«home és així", 0);
+    assertMatches("L'«home és així.", 1);
+    assertMatches("S'«esperava 'el' (segon) \"resultat\"", 0);
+    assertMatches("S'«esperava 'el' (segon) \"resultat\".", 1);
+    assertMatches("l'«home", 0);
+    assertMatches("l'«home.", 1);
     assertMatches("Ploraria.\"", 1);
     assertMatches("Aquesta és l555’hora de les decisions.", 1);
     assertMatches("Vine\", li va dir.", 1);
     assertMatches("Aquesta és l‘hora de les decisions.", 1);
     assertMatches("(This is a test sentence.", 1);
     assertMatches("This is a test with an apostrophe &'.", 1);
-    assertMatches("&'", 1);
-    assertMatches("!'", 1);
-    assertMatches("What?'", 1);
+    assertMatches("&'", 0);
+    assertMatches("&'.", 1);
+    assertMatches("!'", 0);
+    assertMatches("!'.", 1);
+    assertMatches("What?'", 0);
+    assertMatches("What?'.", 1);
 
     // this is currently considered incorrect... although people often use smileys this way:
-    assertMatches("Some text (and some funny remark :-) with more text to follow",1);
+    assertMatches("Some text (and some funny remark :-) with more text to follow", 0);
+    assertMatches("Some text (and some funny remark :-) with more text to follow?", 1);
 
-    
-    assertMatches("(This is a test” sentence.",2);
-    assertMatches("This [is (a test} sentence.",3);
+    assertMatches("(This is a test” sentence.", 2);
+    assertMatches("This [is (a test} sentence.", 3);
   }
   
   private void assertMatches(String input, int expectedMatches) throws IOException {
-    final RuleMatch[] matches = rule.match(Collections.singletonList(langTool.getAnalyzedSentence(input)));
+    final RuleMatch[] matches = rule.match(Collections.singletonList(lt.getAnalyzedSentence(input)));
     assertEquals(expectedMatches, matches.length);
   }
-
 
   @Test
   public void testMultipleSentences() throws IOException {
@@ -138,10 +147,10 @@ public class CatalanUnpairedBracketsRuleTest {
             + "[Ací hi ha un claudàtor. Amb algun text.] i ací continua.\n");
     assertEquals(0, matches.size());
     matches = tool
-        .check("\"Sóc la teva filla. El corcó no et rosegarà més.\"\n\n");
+        .check("\"Era la teva filla. El corcó no et rosegarà més.\"\n\n");
     assertEquals(0, matches.size());
     matches = tool
-        .check("\"Sóc la teva filla. El corcó no et rosegarà més\".\n\n");
+        .check("\"Era la teva filla. El corcó no et rosegarà més\".\n\n");
     assertEquals(0, matches.size());
     matches = tool
         .check("Aquesta és una sentència múltiple amb claudàtors: "

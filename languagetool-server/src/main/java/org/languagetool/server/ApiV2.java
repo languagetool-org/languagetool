@@ -20,6 +20,7 @@ package org.languagetool.server;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpExchange;
@@ -27,17 +28,23 @@ import org.jetbrains.annotations.NotNull;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
+import org.languagetool.Premium;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.CorrectExample;
 import org.languagetool.rules.IncorrectExample;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.TextLevelRule;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
+import java.net.InetSocketAddress;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import static org.languagetool.server.LanguageToolHttpHandler.API_DOC_URL;
 
@@ -46,6 +53,8 @@ import static org.languagetool.server.LanguageToolHttpHandler.API_DOC_URL;
  * @since 3.4
  */
 class ApiV2 {
+
+  private static final Logger logger = LoggerFactory.getLogger(ApiV2.class);
 
   private static final String JSON_CONTENT_TYPE = "application/json";
   private static final String TEXT_CONTENT_TYPE = "text/plain";
@@ -60,7 +69,8 @@ class ApiV2 {
     this.allowOriginUrl = allowOriginUrl;
   }
 
-  void handleRequest(String path, HttpExchange httpExchange, Map<String, String> parameters, ErrorRequestLimiter errorRequestLimiter, String remoteAddress, HTTPServerConfig config) throws Exception {
+  void handleRequest(String path, HttpExchange httpExchange, Map<String, String> parameters, ErrorRequestLimiter errorRequestLimiter,
+                     String remoteAddress, HTTPServerConfig config) throws Exception {
     if (path.equals("languages")) {
       handleLanguagesRequest(httpExchange);
     } else if (path.equals("maxtextlength")) {
@@ -68,21 +78,24 @@ class ApiV2 {
     } else if (path.equals("configinfo")) {
       handleGetConfigurationInfoRequest(httpExchange, parameters, config);
     } else if (path.equals("info")) {
-      handleSoftwareInfoRequest(httpExchange, parameters, config);
+      handleSoftwareInfoRequest(httpExchange);
     } else if (path.equals("check")) {
-      handleCheckRequest(httpExchange, parameters, errorRequestLimiter, remoteAddress);
+      handleCheckRequest(httpExchange, parameters, errorRequestLimiter, remoteAddress, config);
     } else if (path.equals("words")) {
       handleWordsRequest(httpExchange, parameters, config);
     } else if (path.equals("words/add")) {
       handleWordAddRequest(httpExchange, parameters, config);
     } else if (path.equals("words/delete")) {
       handleWordDeleteRequest(httpExchange, parameters, config);
-    } else if (path.equals("rule/examples")) {
+    //} else if (path.equals("rule/examples")) {
+    //  // private (i.e. undocumented) API for our own use only
+    //  handleRuleExamplesRequest(httpExchange, parameters);
+    } else if (path.equals("admin/refreshUser")) {
       // private (i.e. undocumented) API for our own use only
-      handleRuleExamplesRequest(httpExchange, parameters);
-    } else if (path.equals("log")) {
+      handleRefreshUserInfoRequest(httpExchange, parameters, config);
+    } else if (path.equals("users/me")) {
       // private (i.e. undocumented) API for our own use only
-      handleLogRequest(httpExchange, parameters);
+      handleGetUserInfoRequest(httpExchange, config);
     } else {
       throw new PathNotFoundException("Unsupported action: '" + path + "'. Please see " + API_DOC_URL);
     }
@@ -97,7 +110,7 @@ class ApiV2 {
   }
 
   private void handleMaxTextLengthRequest(HttpExchange httpExchange, HTTPServerConfig config) throws IOException {
-    String response = Integer.toString(config.maxTextLength);
+    String response = Integer.toString(config.getMaxTextLengthAnonymous());
     ServerTools.setCommonHeaders(httpExchange, TEXT_CONTENT_TYPE, allowOriginUrl);
     httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
     httpExchange.getResponseBody().write(response.getBytes(ENCODING));
@@ -106,7 +119,7 @@ class ApiV2 {
 
   private void handleGetConfigurationInfoRequest(HttpExchange httpExchange, Map<String, String> parameters, HTTPServerConfig config) throws IOException {
     if (parameters.get("language") == null) {
-      throw new IllegalArgumentException("'language' parameter missing");
+      throw new BadRequestException("'language' parameter missing");
     }
     Language lang = Languages.getLanguageForShortCode(parameters.get("language"));
     String response = getConfigurationInfo(lang, config);
@@ -116,7 +129,7 @@ class ApiV2 {
     ServerMetricsCollector.getInstance().logResponse(HttpURLConnection.HTTP_OK);
   }
 
-  private void handleSoftwareInfoRequest(HttpExchange httpExchange, Map<String, String> parameters, HTTPServerConfig config) throws IOException {
+  private void handleSoftwareInfoRequest(HttpExchange httpExchange) throws IOException {
     String response = getSoftwareInfo();
     ServerTools.setCommonHeaders(httpExchange, JSON_CONTENT_TYPE, allowOriginUrl);
     httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
@@ -124,28 +137,45 @@ class ApiV2 {
     ServerMetricsCollector.getInstance().logResponse(HttpURLConnection.HTTP_OK);
   }
 
-  private void handleCheckRequest(HttpExchange httpExchange, Map<String, String> parameters, ErrorRequestLimiter errorRequestLimiter, String remoteAddress) throws Exception {
+  private void handleCheckRequest(HttpExchange httpExchange, Map<String, String> parameters, ErrorRequestLimiter errorRequestLimiter, String remoteAddress, HTTPServerConfig config) throws Exception {
     AnnotatedText aText;
     if (parameters.containsKey("text") && parameters.containsKey("data")) {
-      throw new IllegalArgumentException("Set only 'text' or 'data' parameter, not both");
+      throw new BadRequestException("Set only 'text' or 'data' parameter, not both");
     } else if (parameters.containsKey("text")) {
       aText = new AnnotatedTextBuilder().addText(parameters.get("text")).build();
     } else if (parameters.containsKey("data")) {
       ObjectMapper mapper = new ObjectMapper();
-      JsonNode data = mapper.readTree(parameters.get("data"));
+      JsonNode data;
+      try {
+        data = mapper.readTree(parameters.get("data"));
+      } catch (JsonProcessingException e) {
+        throw new BadRequestException("Could not parse JSON from 'data' parameter", e);
+      }
       if (data.get("text") != null && data.get("annotation") != null) {
-        throw new IllegalArgumentException("'data' key in JSON requires either 'text' or 'annotation' key, not both");
+        throw new BadRequestException("'data' key in JSON requires either 'text' or 'annotation' key, not both");
       } else if (data.get("text") != null) {
         aText = getAnnotatedTextFromString(data, data.get("text").asText());
       } else if (data.get("annotation") != null) {
         aText = getAnnotatedTextFromJson(data);
       } else {
-        throw new IllegalArgumentException("'data' key in JSON requires 'text' or 'annotation' key");
+        throw new BadRequestException("'data' key in JSON requires 'text' or 'annotation' key");
       }
     } else {
-      throw new IllegalArgumentException("Missing 'text' or 'data' parameter");
+      throw new BadRequestException("Missing 'text' or 'data' parameter");
+    }
+    //get from config
+    if (config.logIp && aText.getPlainText().equals(config.logIpMatchingPattern)) {
+      handleIpLogMatch(httpExchange, remoteAddress);
+      //no need to check text again rules
+      return;
     }
     textChecker.checkText(aText, httpExchange, parameters, errorRequestLimiter, remoteAddress);
+  }
+
+  private void handleIpLogMatch(HttpExchange httpExchange, String remoteAddress) {
+    Logger logger = LoggerFactory.getLogger(ApiV2.class);
+    InetSocketAddress localAddress = httpExchange.getLocalAddress();
+    logger.info(String.format("Found log-my-IP text in request from: %s to: %s", remoteAddress, localAddress.toString()));
   }
 
   private void handleWordsRequest(HttpExchange httpExchange, Map<String, String> params, HTTPServerConfig config) throws Exception {
@@ -154,7 +184,24 @@ class ApiV2 {
     DatabaseAccess db = DatabaseAccess.getInstance();
     int offset = params.get("offset") != null ? Integer.parseInt(params.get("offset")) : 0;
     int limit = params.get("limit") != null ? Integer.parseInt(params.get("limit")) : 10;
-    List<UserDictEntry> words = db.getWords(limits.getPremiumUid(), offset, limit);
+    logger.info("Started reading dictionary for user: {}, offset: {}, limit: {}, dict_cache: {}, dict: {}",
+      limits.getPremiumUid(), offset, limit, limits.getDictCacheSize(), params.get("dict"));
+
+    if (params.containsKey("dict")) {
+      throw new IllegalArgumentException("Use parameter 'dicts', not 'dict' in GET /words API method.");
+    }
+
+    // optional parameter: groups in comma separated list
+    List<String> groups = null;
+    if (params.containsKey("dicts")) {
+      groups = Arrays.asList(params.get("dicts").split(","));
+    }
+    long start = System.nanoTime();
+    List<String> words = db.getWords(limits, groups, offset, limit);
+    //List<String> words = db.getWords(limits.getPremiumUid(), groups, offset, limit);
+    long durationMilliseconds = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - start);
+    logger.info("Finished reading dictionary for user: {}, offset: {}, limit: {}, dict_cache: {}, dict: {}, size: {} in {}ms",
+      limits.getPremiumUid(), offset, limit, limits.getDictCacheSize(), params.get("dict"), words.size(), durationMilliseconds);
     writeListResponse("words", words, httpExchange);
   }
   
@@ -162,25 +209,42 @@ class ApiV2 {
     ensurePostMethod(httpExchange, "/words/add");
     UserLimits limits = getUserLimits(parameters, config);
     DatabaseAccess db = DatabaseAccess.getInstance();
-    boolean added = db.addWord(parameters.get("word"), limits.getPremiumUid());
-    writeResponse("added", added, httpExchange);
+    /*
+     *  experimental batch mode for adding words,
+     *  use mode=batch, words="word1 word2 word3" (whitespace delimited list) instead of word paramater
+     */
+    if ("batch".equals(parameters.get("mode"))) {
+      List<String> words = Arrays.asList(parameters.get("words").split("\\s+"));
+      db.addWordBatch(words, limits.getPremiumUid(), parameters.get("dict"));
+      writeResponse("added", true, httpExchange);
+    } else {
+      boolean added = db.addWord(parameters.get("word"), limits.getPremiumUid(), parameters.get("dict"));
+      writeResponse("added", added, httpExchange);
+    }
   }
 
   private void handleWordDeleteRequest(HttpExchange httpExchange, Map<String, String> parameters, HTTPServerConfig config) throws Exception {
     ensurePostMethod(httpExchange, "/words/delete");
     UserLimits limits = getUserLimits(parameters, config);
     DatabaseAccess db = DatabaseAccess.getInstance();
-    boolean deleted = db.deleteWord(parameters.get("word"), limits.getPremiumUid());
-    writeResponse("deleted", deleted, httpExchange);
+    boolean deleted;
+    if("batch".equals(parameters.get("mode"))) { //Experimental
+      List<String> words = Arrays.asList(parameters.get("words").split("\\s+"));
+      deleted = db.deleteWordBatch(words, limits.getPremiumUid(),parameters.get("dict"));
+      writeResponse("deleted", deleted, httpExchange);
+    } else {
+      deleted = db.deleteWord(parameters.get("word"), limits.getPremiumUid(), parameters.get("dict"));
+      writeResponse("deleted", deleted, httpExchange);
+    }
   }
 
   private void handleRuleExamplesRequest(HttpExchange httpExchange, Map<String, String> params) throws Exception {
     ensureGetMethod(httpExchange, "/rule/examples");
     if (params.get("lang") == null) {
-      throw new IllegalArgumentException("'lang' parameter missing");
+      throw new BadRequestException("'lang' parameter missing");
     }
     if (params.get("ruleId") == null) {
-      throw new IllegalArgumentException("'ruleId' parameter missing");
+      throw new BadRequestException("'ruleId' parameter missing");
     }
     Language lang = Languages.getLanguageForShortCode(params.get("lang"));
     JLanguageTool lt = new JLanguageTool(lang);
@@ -230,15 +294,72 @@ class ApiV2 {
     sendJson(httpExchange, sw);
   }
 
+  /*
+   * Invalidate cached user information for this user, e.g. after a user has upgraded to premium
+   * -> for internal use
+   * Authentication avoids the concept of a admin account by requiring credentials for the affected user:
+   * -> api keys are available in plain text in database
+   */
+  private void handleRefreshUserInfoRequest(HttpExchange httpExchange, Map<String, String> params, HTTPServerConfig config) throws Exception {
+    ensurePostMethod(httpExchange, "/admin/refreshUser");
+    UserLimits limits = getUserLimits(params, config);
+    DatabaseAccess db = DatabaseAccess.getInstance();
+    if (limits.getPremiumUid() != null) {
+      String user = params.get("username");
+      if (user != null) {
+        db.invalidateUserInfoCache(user);
+        writeResponse("success", true, httpExchange);
+      } else {
+        writeResponse("success", false, httpExchange);
+      }
+    } else {
+      writeResponse("success", false, httpExchange);
+    }
+  }
+
+  /*
+   * Provide information on user that requests this, e.g. for add-on to acquire token + other information
+   * Expects user + password via HTTP Basic Auth
+   */
+  private void handleGetUserInfoRequest(HttpExchange httpExchange, HTTPServerConfig config) throws Exception {
+    if (httpExchange.getRequestMethod().equalsIgnoreCase("options")) {
+      ServerTools.setAllowOrigin(httpExchange, allowOriginUrl);
+      httpExchange.getResponseHeaders().put("Access-Control-Allow-Methods", Collections.singletonList("GET, OPTIONS"));
+      List<String> requestHeaders = httpExchange.getRequestHeaders().get("Access-Control-Request-Headers");
+      if (requestHeaders != null) {
+        httpExchange.getResponseHeaders().put("Access-Control-Allow-Headers", Collections.singletonList(String.join(", ", requestHeaders)));
+      }
+      httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_NO_CONTENT, -1);
+      ServerMetricsCollector.getInstance().logResponse(HttpURLConnection.HTTP_NO_CONTENT);
+    } else {
+      ensureGetMethod(httpExchange, "/users/me");
+      if (!httpExchange.getRequestHeaders().containsKey("Authorization")) {
+        throw new AuthException("Expected Basic Authentication");
+      }
+      String authHeader = httpExchange.getRequestHeaders().getFirst("Authorization");
+      BasicAuthentication basicAuthentication = new BasicAuthentication(authHeader);
+      String user = basicAuthentication.getUser();
+      String password = basicAuthentication.getPassword();
+      UserInfoEntry userInfo = DatabaseAccess.getInstance().getUserInfoWithPassword(user, password);
+      if (userInfo != null) {
+        StringWriter sw = new StringWriter();
+        new ObjectMapper().writeValue(sw, DatabaseAccess.getInstance().getExtendedUserInfo(user));
+        sendJson(httpExchange, sw);
+      } else {
+        throw new IllegalStateException("Could not fetch user information");
+      }
+    }
+  }
+
   private void ensureGetMethod(HttpExchange httpExchange, String url) {
     if (!httpExchange.getRequestMethod().equalsIgnoreCase("get")) {
-      throw new IllegalArgumentException(url + " needs to be called with GET");
+      throw new BadRequestException(url + " needs to be called with GET");
     }
   }
   
   private void ensurePostMethod(HttpExchange httpExchange, String url) {
     if (!httpExchange.getRequestMethod().equalsIgnoreCase("post")) {
-      throw new IllegalArgumentException(url + " needs to be called with POST");
+      throw new BadRequestException(url + " needs to be called with POST");
     }
   }
 
@@ -246,7 +367,7 @@ class ApiV2 {
   private UserLimits getUserLimits(Map<String, String> parameters, HTTPServerConfig config) {
     UserLimits limits = ServerTools.getUserLimits(parameters, config);
     if (limits.getPremiumUid() == null) {
-      throw new IllegalStateException("This end point needs a user id");
+      throw new BadRequestException("This end point needs a user id");
     }
     return limits;
   }
@@ -261,13 +382,13 @@ class ApiV2 {
     sendJson(httpExchange, sw);
   }
   
-  private void writeListResponse(String fieldName, List<UserDictEntry> words, HttpExchange httpExchange) throws IOException {
+  private void writeListResponse(String fieldName, List<String> words, HttpExchange httpExchange) throws IOException {
     StringWriter sw = new StringWriter();
     try (JsonGenerator g = factory.createGenerator(sw)) {
       g.writeStartObject();
       g.writeArrayFieldStart(fieldName);
-      for (UserDictEntry word : words) {
-        g.writeString(word.getWord());
+      for (String word : words) {
+        g.writeString(word);
       }
       g.writeEndArray();
       g.writeEndObject();
@@ -278,19 +399,6 @@ class ApiV2 {
   private void sendJson(HttpExchange httpExchange, StringWriter sw) throws IOException {
     String response = sw.toString();
     ServerTools.setCommonHeaders(httpExchange, JSON_CONTENT_TYPE, allowOriginUrl);
-    httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
-    httpExchange.getResponseBody().write(response.getBytes(ENCODING));
-    ServerMetricsCollector.getInstance().logResponse(HttpURLConnection.HTTP_OK);
-  }
-
-  private void handleLogRequest(HttpExchange httpExchange, Map<String, String> parameters) throws IOException {
-    // used so the client (especially the browser add-ons) can report internal issues:
-    String message = parameters.get("message");
-    if (message != null && message.length() > 250) {
-      message = message.substring(0, 250) + "...";
-    }
-    ServerTools.print("Log message from client: " + message + " - User-Agent: " + httpExchange.getRequestHeaders().getFirst("User-Agent"));
-    String response = "OK";
     httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
     httpExchange.getResponseBody().write(response.getBytes(ENCODING));
     ServerMetricsCollector.getInstance().logResponse(HttpURLConnection.HTTP_OK);
@@ -327,9 +435,9 @@ class ApiV2 {
     //
     for (JsonNode node : data.get("annotation")) {
       if (node.get("text") != null && node.get("markup") != null) {
-        throw new IllegalArgumentException("Only either 'text' or 'markup' are supported in an object in 'annotation' list, not both: " + node);
+        throw new BadRequestException("Only either 'text' or 'markup' are supported in an object in 'annotation' list, not both: " + node);
       } else if (node.get("text") != null && node.get("interpretAs") != null) {
-        throw new IllegalArgumentException("'text' cannot be used with 'interpretAs' (only 'markup' can): " + node);
+        throw new BadRequestException("'text' cannot be used with 'interpretAs' (only 'markup' can): " + node);
       } else if (node.get("text") != null) {
         atb.addText(node.get("text").asText());
       } else if (node.get("markup") != null) {
@@ -339,7 +447,7 @@ class ApiV2 {
           atb.addMarkup(node.get("markup").asText());
         }
       } else {
-        throw new IllegalArgumentException("Only 'text' and 'markup' are supported in 'annotation' list: " + node);
+        throw new BadRequestException("Only 'text' and 'markup' are supported in 'annotation' list: " + node);
       }
     }
     return atb.build();
@@ -372,7 +480,7 @@ class ApiV2 {
       g.writeStringField("version", JLanguageTool.VERSION);
       g.writeStringField("buildDate", JLanguageTool.BUILD_DATE);
       g.writeStringField("commit", JLanguageTool.GIT_SHORT_ID);
-      g.writeBooleanField("premium", JLanguageTool.isPremiumVersion());
+      g.writeBooleanField("premium", Premium.isPremiumVersion());
       g.writeEndObject();
       g.writeEndObject();
     }
@@ -389,6 +497,7 @@ class ApiV2 {
       lt.activateWord2VecModelRules(textChecker.config.word2vecModelDir);
     }
     List<Rule> rules = lt.getAllRules();
+    rules = rules.stream().filter(rule -> !Premium.get().isPremiumRule(rule)).collect(Collectors.toList());
     try (JsonGenerator g = factory.createGenerator(sw)) {
       g.writeStartObject();
 
@@ -396,11 +505,11 @@ class ApiV2 {
       g.writeStringField("name", "LanguageTool");
       g.writeStringField("version", JLanguageTool.VERSION);
       g.writeStringField("buildDate", JLanguageTool.BUILD_DATE);
-      g.writeBooleanField("premium", JLanguageTool.isPremiumVersion());
+      g.writeBooleanField("premium", Premium.isPremiumVersion());
       g.writeEndObject();
       
       g.writeObjectFieldStart("parameter");
-      g.writeNumberField("maxTextLength", config.maxTextLength);
+      g.writeNumberField("maxTextLength", config.getMaxTextHardLength());
       g.writeEndObject();
 
       g.writeArrayFieldStart("rules");
@@ -408,19 +517,19 @@ class ApiV2 {
         g.writeStartObject();
         g.writeStringField("ruleId", rule.getId());
         g.writeStringField("description", rule.getDescription());
-        if(rule.isDictionaryBasedSpellingRule()) {
+        if (rule.isDictionaryBasedSpellingRule()) {
           g.writeStringField("isDictionaryBasedSpellingRule", "yes");
         }
-        if(rule.isDefaultOff()) {
+        if (rule.isDefaultOff()) {
           g.writeStringField("isDefaultOff", "yes");
         }
-        if(rule.isOfficeDefaultOff()) {
+        if (rule.isOfficeDefaultOff()) {
           g.writeStringField("isOfficeDefaultOff", "yes");
         }
-        if(rule.isOfficeDefaultOn()) {
+        if (rule.isOfficeDefaultOn()) {
           g.writeStringField("isOfficeDefaultOn", "yes");
         }
-        if(rule.hasConfigurableValue()) {
+        if (rule.hasConfigurableValue()) {
           g.writeStringField("hasConfigurableValue", "yes");
           g.writeStringField("configureText", rule.getConfigureText());
           g.writeStringField("maxConfigurableValue", Integer.toString(rule.getMaxConfigurableValue()));
@@ -430,7 +539,7 @@ class ApiV2 {
         g.writeStringField("categoryId", rule.getCategory().getId().toString());
         g.writeStringField("categoryName", rule.getCategory().getName());
         g.writeStringField("locQualityIssueType", rule.getLocQualityIssueType().toString());
-        if(rule instanceof TextLevelRule) {
+        if (rule instanceof TextLevelRule) {
           g.writeStringField("isTextLevelRule", "yes");
           g.writeStringField("minToCheckParagraph", Integer.toString(((TextLevelRule) rule).minToCheckParagraph()));
         }

@@ -84,7 +84,7 @@ public abstract class AbstractUnitConversionRule extends Rule {
   private static final int MAX_SUGGESTIONS = 5;
   private static final int WHITESPACE_LIMIT = 5;
 
-  protected Map<Pattern, Unit> unitPatterns = new HashMap<>();
+  protected Map<Pattern, Unit> unitPatterns = new LinkedHashMap<>();  // use LinkedHashMap for stable iteration order
 
   // for patterns that require a custom number parsing function
   protected Map<Pattern, Map.Entry<Unit, Function<MatchResult, Double>>> specialPatterns = new HashMap<>();
@@ -100,6 +100,14 @@ public abstract class AbstractUnitConversionRule extends Rule {
     CHECK_UNKNOWN_UNIT,
     UNIT_MISMATCH
   }
+
+  private final static List<Pattern> antiPatterns = Arrays.asList(
+          Pattern.compile("\\s?\\d+'\\d\\d\\d\\s?"),   // "100'000", thousands separator in de-CH
+          Pattern.compile("\\d+[-‐–]\\d+"),   // "3-5 pounds"
+          Pattern.compile("\\d+/\\d+"),   // "1/4 mile"
+          Pattern.compile("\\d+:\\d+"),   // "A 2:1 cup"
+          Pattern.compile("\\d+⁄\\d+")    // "1⁄4 cup" (it's not the standard slash)
+  );
 
   private URL buildURLForExplanation(String original) {
     try {
@@ -127,11 +135,11 @@ public abstract class AbstractUnitConversionRule extends Rule {
   protected String getMessage(Message message) {
     switch(message) {
       case CHECK:
-        return "This conversion doesn't seem right. Do you want to correct it automatically?";
+        return "This unit conversion doesn't seem right. Do you want to correct it automatically?";
       case SUGGESTION:
         return "Writing for an international audience? Consider adding the metric equivalent.";
       case CHECK_UNKNOWN_UNIT:
-        return "This conversion doesn't seem right, unable to recognize the used unit.";
+        return "This unit conversion doesn't seem right, unable to recognize the used unit.";
       case UNIT_MISMATCH:
         return "These units don't seem to be compatible.";
       default:
@@ -145,7 +153,7 @@ public abstract class AbstractUnitConversionRule extends Rule {
   protected String getShortMessage(Message message) {
     switch(message) {
       case CHECK:
-        return "Incorrect conversion. Correct it?";
+        return "Incorrect unit conversion. Correct it?";
       case SUGGESTION:
         return "Add metric equivalent?";
       case CHECK_UNKNOWN_UNIT:
@@ -215,7 +223,7 @@ public abstract class AbstractUnitConversionRule extends Rule {
 
     addUnit("km", METRE, "km", 1e3, true);
     addUnit("m", METRE, "m",   1e0, true);
-    addUnit("dm", METRE, "dm", 1e-1,  false/*true*/); // Metric, but not commonly used
+    //addUnit("dm", METRE, "dm", 1e-1,  /*true*/); // Metric, but not commonly used
     addUnit("cm", METRE, "cm", 1e-2, true);
     addUnit("mm", METRE, "mm", 1e-3, true);
     addUnit("µm", METRE, "µm", 1e-6, true);
@@ -225,7 +233,7 @@ public abstract class AbstractUnitConversionRule extends Rule {
     addUnit("ha", SQUARE_METRE, "ha", 1e4, true);
     addUnit("a", SQUARE_METRE, "a", 1e2, true);
     addUnit("km(?:\\^2|2|²)", SQUARE_METRE, "km²", 1e6, true);
-    addUnit("dm(?:\\^2|2|²)", SQUARE_METRE, "dm²", 1e-2,  false/*true*/); // Metric, but not commonly used
+    //addUnit("dm(?:\\^2|2|²)", SQUARE_METRE, "dm²", 1e-2,  false/*true*/); // Metric, but not commonly used
     addUnit("cm(?:\\^2|2|²)", SQUARE_METRE, "cm²", 1e-4, true);
     addUnit("mm(?:\\^2|2|²)", SQUARE_METRE, "mm²", 1e-6, true);
     addUnit("µm(?:\\^2|2|²)", SQUARE_METRE, "µm²", 1e-12, true);
@@ -243,7 +251,7 @@ public abstract class AbstractUnitConversionRule extends Rule {
 
     addUnit("m(?:\\^3|3|³)", CUBIC_METRE, "m³", 1, true);
     addUnit("km(?:\\^3|3|³)", CUBIC_METRE, "km³", 1e9, true);
-    addUnit("dm(?:\\^3|3|³)", CUBIC_METRE, "dm³", 1e-3,  false/*true*/); // Metric, but not commonly used
+    //addUnit("dm(?:\\^3|3|³)", CUBIC_METRE, "dm³", 1e-3,  false/*true*/); // Metric, but not commonly used
     addUnit("cm(?:\\^3|3|³)", CUBIC_METRE, "cm³", 1e-6, true);
     addUnit("mm(?:\\^3|3|³)", CUBIC_METRE, "mm³", 1e-9, true);
     addUnit("µm(?:\\^3|3|³)", CUBIC_METRE, "µm³", 1e-18, true);
@@ -476,6 +484,10 @@ public abstract class AbstractUnitConversionRule extends Rule {
         Double convertedValueInText;
         try {
           convertedValueInText = getNumberFormat().parse(convertedMatcher.group(1)).doubleValue();
+          if (convertedMatcher.group().trim().matches("\\(\\d+ (feet|ft) \\d+ inch\\)")) {
+            // e.g. "(2 ft 6 inch)" would be interpreted as just "2 ft", given a wrong suggestion
+            return;
+          }
         } catch (ParseException e) {
           return;
         }
@@ -580,7 +592,25 @@ public abstract class AbstractUnitConversionRule extends Rule {
         other == null ? match :
         match.getToPos() > other.getToPos() ? match : other);
     }
+    if (matches.size() > 0) {
+      removeAntiPatternMatches(sentence, matchesByStart);
+    }
     return matchesByStart.values().toArray(new RuleMatch[0]);
   }
-  
+
+  private void removeAntiPatternMatches(AnalyzedSentence sentence, Map<Integer, RuleMatch> matchesByStart) {
+    for (Pattern antiPattern : antiPatterns) {
+      String text = sentence.getText();
+      Matcher matcher = antiPattern.matcher(text);
+      int pos = 0;
+      while (pos < text.length() && matcher.find(pos)) {
+        matchesByStart.entrySet().removeIf(entry ->
+                matcher.start() <= entry.getValue().getFromPos() && matcher.end() >= entry.getValue().getFromPos() ||
+                matcher.start() <= entry.getValue().getToPos() && matcher.end() >= entry.getValue().getToPos()
+        );
+        pos = matcher.end() + 1;
+      }
+    }
+  }
+
 }

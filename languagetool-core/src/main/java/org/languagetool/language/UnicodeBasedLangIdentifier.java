@@ -36,7 +36,10 @@ class UnicodeBasedLangIdentifier {
     this.maxCheckLength = maxCheckLength;
   }
 
-  List<String> getAdditionalLangCodes(String str) {
+  List<String> getDominantLangCodes(String str) {
+    // For a more complete list of script/language relations,
+    // see https://unicode-org.github.io/cldr-staging/charts/37/supplemental/scripts_and_languages.html
+    // Another more complete approach might be to use Character.UnicodeScript.of() for each character.
     int arabicChars = 0;
     int cyrillicChars = 0;
     int cjkChars = 0;
@@ -44,10 +47,13 @@ class UnicodeBasedLangIdentifier {
     int tamilChars = 0;
     int greekChars = 0;
     int devanagariChars = 0;
+    int thaiChars = 0;
+    int hebrewChars = 0;
+    int hangulChars = 0;
     int significantChars = 0;
     for (int i = 0; i < Math.min(str.length(), maxCheckLength); i++) {
       int val = str.charAt(i);
-      if (!Character.isWhitespace(val) && !Character.isDigit(val)) {
+      if (!Character.isWhitespace(val) && !Character.isDigit(val) && val != '.') {
         significantChars++;
       }
       if (val >= 0x0600 && val <= 0x06FF) {
@@ -75,6 +81,19 @@ class UnicodeBasedLangIdentifier {
       if (val >= 0x0900 && val <= 0x097F) {
         devanagariChars++;
       }
+      if (val >= 0x0E00 && val <= 0x0E7F) {
+        thaiChars++;
+      }
+      if (val >= 0x0590 && val <= 0x05FF || val >= 0xFB1D && val <= 0xFB40) {
+        hebrewChars++;
+      }
+      if (val >= 0xAC00 && val <= 0xD7AF ||  // https://en.wikipedia.org/wiki/Hangul
+          val >= 0x1100 && val <= 0x11FF ||
+          val >= 0x3130 && val <= 0x318F ||
+          val >= 0xA960 && val <= 0xA97F ||
+          val >= 0xD7B0 && val <= 0xD7FF) {
+        hangulChars++;
+      }
     }
     List<String> langCodes = new ArrayList<>();
     if ((float)arabicChars / significantChars >= THRESHOLD) {
@@ -89,7 +108,7 @@ class UnicodeBasedLangIdentifier {
     if ((float)cjkChars / significantChars >= THRESHOLD) {
       langCodes.add("zh");
       langCodes.add("ja");
-      // Korean is not supported by LT, do we don't add it
+      // Korean: see hangulChars
     }
     if ((float)khmerChars / significantChars >= THRESHOLD) {
       langCodes.add("km");
@@ -104,6 +123,22 @@ class UnicodeBasedLangIdentifier {
       langCodes.add("hi");
       langCodes.add("mr");
     }
+    if ((float)thaiChars / significantChars >= THRESHOLD) {
+      langCodes.add("th");
+    }
+    if ((float)hebrewChars / significantChars >= THRESHOLD) {
+      langCodes.add("he");
+    }
+    if ((float)hangulChars / significantChars >= THRESHOLD) {
+      langCodes.add("ko");
+    }
+    //System.out.println("CJK: " + cjkChars);
+    //System.out.println("Hangul: " + hangulChars);
+    //
+    // NOTE: if you add languages here that LT doesn't support, also update LanguageIdentifier.detectLanguage()
+    //       so it makes use of the fact that we have safely detected a language by its character set
+    //       (we can then directly assume it's not supported)
+    //
     return langCodes;
   }
 

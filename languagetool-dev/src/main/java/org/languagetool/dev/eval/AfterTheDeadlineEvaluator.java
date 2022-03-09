@@ -21,6 +21,7 @@ package org.languagetool.dev.eval;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
+import org.languagetool.rules.ExampleSentence;
 import org.languagetool.rules.IncorrectExample;
 import org.languagetool.rules.Rule;
 import org.languagetool.tools.StringTools;
@@ -94,12 +95,12 @@ class AfterTheDeadlineEvaluator {
   }
 
   private List<Rule> getRules(Language lang) throws IOException {
-    JLanguageTool langTool = new JLanguageTool(lang);
-    return langTool.getAllActiveRules();
+    JLanguageTool lt = new JLanguageTool(lang);
+    return lt.getAllActiveRules();
   }
 
   private boolean queryAtDServer(IncorrectExample example) {
-    String sentence = removeMarker(example.getExample());
+    String sentence = ExampleSentence.cleanMarkersInExample(example.getExample());
     try {
       URL url = new URL(urlPrefix + URLEncoder.encode(sentence, "UTF-8"));
       String result = getContent(url);
@@ -110,10 +111,6 @@ class AfterTheDeadlineEvaluator {
       throw new RuntimeException(e);
     }
     return false;
-  }
-
-  private String removeMarker(String sentence) {
-    return sentence.replace("<marker>", "").replace("</marker>", "");
   }
 
   private String getContent(URL url) throws IOException {
@@ -153,7 +150,7 @@ class AfterTheDeadlineEvaluator {
   private List<Integer> getStartPositions(IncorrectExample example, String searchStr) {
     List<Integer> posList = new ArrayList<>();
     int pos = 0;
-    String sentence = removeMarker(example.getExample());
+    String sentence = ExampleSentence.cleanMarkersInExample(example.getExample());
     while ((pos = sentence.indexOf(searchStr, pos)) != -1) {
       posList.add(pos);
       pos++;

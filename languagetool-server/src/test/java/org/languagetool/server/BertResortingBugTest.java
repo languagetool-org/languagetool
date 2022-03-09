@@ -38,7 +38,7 @@ public class BertResortingBugTest {
     String data = "{\"annotation\":[{\"text\":\"A teext.\"},{\"markup\":\"\\n\",\"interpretAs\":\"\\n\\n\"},{\"text\":\"An errör-free text.\"},{\"markup\":\"\\n\",\"interpretAs\":\"\\n\\n\"},{\"text\":\"So much teext.\"}]}";
     String server = "http://localhost:8081";
     String url = server + "/v2/check?data=" + URLEncoder.encode(data, "utf-8") + "&language=en-US";
-    String json = HTTPTools.checkAtUrl(Tools.getUrl(url));
+    String json = HTTPTestTools.checkAtUrl(Tools.getUrl(url));
     ObjectMapper mapper = new ObjectMapper();
     Map map = mapper.readValue(json, Map.class);
     List matches = (List) map.get("matches");

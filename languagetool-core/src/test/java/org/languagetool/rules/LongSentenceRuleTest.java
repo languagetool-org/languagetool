@@ -34,32 +34,46 @@ public class LongSentenceRuleTest {
   public void testMatch() throws Exception {
     JLanguageTool lt = new JLanguageTool(TestTools.getDemoLanguage());
     
-    LongSentenceRule rule = new LongSentenceRule(TestTools.getEnglishMessages(), new UserConfig());
+    LongSentenceRule rule = new LongSentenceRule(TestTools.getEnglishMessages(), new UserConfig(), 50);
     assertNoMatch(" is a rather short text.", rule, lt);
     assertMatch("Now this is not " +
             "a a a a a a a a a a a " +
             "a a a a a a a a a a a " +
             "a a a a a a a a a a a " +
             "a a a a a a a a a a a " +
-            "rather that short text.", 111, 121, rule, lt);
+            "rather that short text.", 0, 126, rule, lt);
+    
+    assertMatch("Now this is not " +
+            "a a a a a a a a a a a " +
+            "a a a a a a a a a a a " +
+            "a a a a a a a a a a a " +
+            "a a a a a a a a a a a " +
+            "rather that short text", 0, 125, rule, lt);
     
     LongSentenceRule shortRule = new LongSentenceRule(TestTools.getEnglishMessages(), new UserConfig(), 6);
 //    shortRule.setDefaultValue(6);
     assertNoMatch("This is a rather short text.", shortRule, lt);
-    assertMatch("This is also a rather short text.", 22, 32, shortRule, lt);
+    assertMatch("This is also a rather short text.", 0, 32, shortRule, lt);
     assertNoMatch("These ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ don't count.", shortRule, lt);
     assertNoMatch("one two three four five six.", shortRule, lt);
     assertNoMatch("one two three (four) five six.", shortRule, lt);
-    assertMatch("one two three four five six seven.", 24, 33, shortRule, lt);
+    assertMatch("one two three four five six seven.", 0, 33, shortRule, lt);
     assertNoMatch("Eins zwei drei vier fünf sechs.", shortRule, lt);
+    assertMatch("\n\n\nEins zwei drei vier fünf sechs seven", 3, 38, shortRule, lt);
+    assertMatch("Eins zwei drei vier fünf sechs seven\n\n\n", 0, 35, shortRule, lt);
+    assertMatch("\n\n\nEins zwei drei vier fünf sechs seven\n\n\n", 3, 38, shortRule, lt);
+    assertMatch("\n\n\nEins zwei drei vier fünf sechs seven.", 3, 39, shortRule, lt);
+    assertMatch("Eins zwei drei vier fünf sechs seven.\n\n\n", 0, 36, shortRule, lt);
+    assertMatch("\n\n\nEins zwei drei vier fünf sechs seven.\n\n\n", 3, 39, shortRule, lt);
+
   }
 
   protected void assertNoMatch(String input, LongSentenceRule rule, JLanguageTool lt) throws IOException {
-    assertThat(rule.match(lt.getAnalyzedSentence(input)).length, is(0));
+    assertThat(rule.match(lt.analyzeText(input)).length, is(0));
   }
 
   protected void assertMatch(String input, int from, int to, LongSentenceRule rule, JLanguageTool lt) throws IOException {
-    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
+    RuleMatch[] matches = rule.match(lt.analyzeText(input));
     assertThat(matches.length, is(1));
     assertThat(matches[0].getFromPos(), is(from));
     assertThat(matches[0].getToPos(), is(to));

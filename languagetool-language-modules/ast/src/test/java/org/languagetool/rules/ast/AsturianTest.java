@@ -29,7 +29,7 @@ public class AsturianTest extends LanguageSpecificTest {
   
   @Test
   public void testLanguage() throws IOException {
-    // NOTE: this text needs to be kept in sync with WelcomeController.php's getDefaultDemoTexts():
+    // NOTE: this text needs to be kept in sync with config.ts -> DEMO_TEXTS:
     String s = "Apega testu equí. o revisa toes les pallabres de esti testu pa ver dalgún de los problemis que LanguageTool ye pa deteutar. ¿Afáyeste con los correutores gramaticales? Has date cuenta de que entá nun son perfeutos.";
     Asturian lang = new Asturian();
     testDemoText(lang, s,

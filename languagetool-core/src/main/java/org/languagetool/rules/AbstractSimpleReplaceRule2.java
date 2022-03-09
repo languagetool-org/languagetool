@@ -49,7 +49,8 @@ import java.util.concurrent.TimeUnit;
 public abstract class AbstractSimpleReplaceRule2 extends Rule {
 
   private final Language language;
-
+  protected boolean subRuleSpecificIds;
+  
   public abstract List<String> getFileNames();
   @Override
   public abstract String getId();
@@ -61,11 +62,13 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
    * and {@code $suggestions} will be replaced with the alternatives. This is the string
    * shown to the user.
    */
-  public abstract String getSuggestion();
+  public abstract String getMessage();
   /**
    * @return the word used to separate multiple suggestions; used only before last suggestion, the rest are comma-separated.  
    */
-  public abstract String getSuggestionsSeparator();
+  public String getSuggestionsSeparator() {
+    return ", ";
+  };
   /**
    * locale used on case-conversion
    */
@@ -78,7 +81,7 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
             public List<Map<String, SuggestionWithMessage>> load(@NotNull PathsAndLanguage lap) throws IOException {
               List<Map<String, SuggestionWithMessage>> maps = new ArrayList<>();
               for (String path : lap.paths) {
-                List<Map<String, SuggestionWithMessage>> l = loadWords(path, lap.lang, lap.caseSensitive);
+                List<Map<String, SuggestionWithMessage>> l = loadWords(path, lap.lang, lap.caseSensitive, lap.checkingCase);
                 maps.addAll(l);
               }
               return maps;
@@ -92,18 +95,28 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
   }
 
   /**
+   * If this is set, each replacement pair will have its own rule ID, making rule deactivations more specific.
+   * @since 5.1
+   */
+  public void useSubRuleSpecificIds() {
+    subRuleSpecificIds = true;
+  }
+  
+  /**
    * use case-sensitive matching.
    */
   public boolean isCaseSensitive() {
     return false;
   }
 
+
+
   /**
    * @return the list of wrong words for which this rule can suggest corrections. The list cannot be modified.
    */
-  public List<Map<String, SuggestionWithMessage>> getWrongWords() {
+  public List<Map<String, SuggestionWithMessage>> getWrongWords(boolean checkingCase) {
     try {
-      return cache.get(new PathsAndLanguage(getFileNames(), language, isCaseSensitive()));
+      return cache.get(new PathsAndLanguage(getFileNames(), language, isCaseSensitive(), checkingCase));
     } catch (ExecutionException e) {
       throw new RuntimeException(e);
     }
@@ -115,7 +128,7 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
    * @param filename the file from classpath to load
    * @return the list of maps containing the error-corrections pairs. The n-th map contains key strings of (n+1) words.
    */
-  private static List<Map<String, SuggestionWithMessage>> loadWords(String filename, Language lang, boolean caseSensitive)
+  private static List<Map<String, SuggestionWithMessage>> loadWords(String filename, Language lang, boolean caseSensitive, boolean checkingCase)
           throws IOException {
     List<Map<String, SuggestionWithMessage>> list = new ArrayList<>();
     InputStream stream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(filename);
@@ -128,6 +141,14 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
         line = line.trim();
         if (line.isEmpty() || line.charAt(0) == '#') { // ignore comments
           continue;
+        }
+
+        if (checkingCase) {
+          String[] parts = line.split("=");
+          line = parts[0].toLowerCase().trim() + "=" + parts[0].trim();
+          if (parts.length == 2) {
+            line = line + "\t" + parts[1].trim();
+          } 
         }
 
         String[] parts = line.split("=");
@@ -172,7 +193,7 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
     return Collections.unmodifiableList(result);
   }
 
-  private void addToQueue(AnalyzedTokenReadings token,
+  protected void addToQueue(AnalyzedTokenReadings token,
                           Queue<AnalyzedTokenReadings> prevTokens) {
     boolean inserted = prevTokens.offer(token);
     if (!inserted) {
@@ -181,12 +202,19 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
     }
   }
 
+  /**
+   * Used if each input form the replacement file has its specific id.
+   */
+  public String getDescription(String details) {
+    return null;
+  }
+
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
 
-    List<Map<String, SuggestionWithMessage>> wrongWords = getWrongWords();
+    List<Map<String, SuggestionWithMessage>> wrongWords = getWrongWords(false);
     if (wrongWords.size() == 0) {
       return toRuleMatchArray(ruleMatches);
     }
@@ -224,13 +252,17 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
             }
             msgSuggestions += "<suggestion>" + replacements.get(k) + "</suggestion>";
           }
-          String msg = getSuggestion().replaceFirst("\\$match", crt).replaceFirst("\\$suggestions", msgSuggestions);
+          String msg = getMessage().replaceFirst("\\$match", crt).replaceFirst("\\$suggestions", msgSuggestions);
           if (crtMatch.getMessage() != null) {
             msg = crtMatch.getMessage();
           }
           int startPos = prevTokensList.get(len - crtWordCount).getStartPos();
           int endPos = prevTokensList.get(len - 1).getEndPos();
-          RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, endPos, msg, getShort());
+          RuleMatch ruleMatch;
+          ruleMatch = new RuleMatch(this, sentence, startPos, endPos, msg, getShort());
+          if (subRuleSpecificIds) {
+            ruleMatch.setSpecificRuleId(StringTools.toId(getId() + "_" + crt));
+          }
           if (!isCaseSensitive() && StringTools.startsWithUppercase(crt)) {
             for (int k = 0; k < replacements.size(); k++) {
               replacements.set(k, StringTools.uppercaseFirstChar(replacements.get(k)));
@@ -267,11 +299,13 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
     final List<String> paths;
     final Language lang;
     final boolean caseSensitive;
+    final boolean checkingCase;
 
-    PathsAndLanguage(List<String> fileNames, Language language, boolean caseSensitive) {
+    PathsAndLanguage(List<String> fileNames, Language language, boolean caseSensitive, boolean checkingCase) {
       this.paths = Objects.requireNonNull(fileNames);
       this.lang = Objects.requireNonNull(language);
       this.caseSensitive = caseSensitive;
+      this.checkingCase = checkingCase;
     }
 
     @Override
@@ -287,4 +321,5 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
       return Objects.hash(paths, lang, caseSensitive);
     }
   }
+
 }

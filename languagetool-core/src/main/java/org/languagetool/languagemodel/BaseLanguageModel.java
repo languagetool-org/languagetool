@@ -37,16 +37,6 @@ public abstract class BaseLanguageModel implements LanguageModel {
   public BaseLanguageModel()  {
   }
 
-
-  private long tryGetCount(List<String> context) {
-    try {
-      return getCount(context);
-    } catch(RuntimeException ignored) { // TODO: custom exception
-      return 0;
-    }
-  }
-
-  //@Override
   public Probability getPseudoProbabilityStupidBackoff(List<String> context) {
     // stupid backoff, see Brants et al. (2007)
     List<String> backoffContext = context;
@@ -70,6 +60,13 @@ public abstract class BaseLanguageModel implements LanguageModel {
     return new Probability(0.0, 0.0f);
   }
 
+  private long tryGetCount(List<String> context) {
+    try {
+      return getCount(context);
+    } catch (RuntimeException ignored) {
+      return 0;
+    }
+  }
 
   @Override
   public Probability getPseudoProbability(List<String> context) {

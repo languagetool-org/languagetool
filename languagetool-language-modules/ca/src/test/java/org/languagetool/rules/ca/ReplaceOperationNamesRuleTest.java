@@ -35,12 +35,12 @@ import static org.junit.Assert.assertEquals;
 public class ReplaceOperationNamesRuleTest {
 
   private ReplaceOperationNamesRule rule;
-  private JLanguageTool langTool;
+  private JLanguageTool lt;
 
   @Before
   public void setUp() throws IOException {
     rule = new ReplaceOperationNamesRule(TestTools.getEnglishMessages(), new Catalan());
-    langTool = new JLanguageTool(new Catalan());
+    lt = new JLanguageTool(new Catalan());
   }
 
   @Test
@@ -83,16 +83,16 @@ public class ReplaceOperationNamesRuleTest {
     assertIncorrect("El procés d'etiquetat de les ampolles");
     assertIncorrect("El rentat de cotes");
 
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("El repicat i el rejuntat."));
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("El repicat i el rejuntat."));
     assertEquals(2, matches.length);
     
-    matches = rule.match(langTool.getAnalyzedSentence("El procés de relligat dels llibres."));
+    matches = rule.match(lt.getAnalyzedSentence("El procés de relligat dels llibres."));
     assertEquals(1, matches.length);
     assertEquals ("relligadura", matches[0].getSuggestedReplacements().get(0));
     assertEquals ("relligament", matches[0].getSuggestedReplacements().get(1));
     assertEquals ("relligada", matches[0].getSuggestedReplacements().get(2));
     
-    matches = rule.match(langTool.getAnalyzedSentence("Els rentats de cervell."));
+    matches = rule.match(lt.getAnalyzedSentence("Els rentats de cervell."));
     assertEquals(1, matches.length);
     assertEquals ("rentades", matches[0].getSuggestedReplacements().get(0));
     assertEquals ("rentatges", matches[0].getSuggestedReplacements().get(1));
@@ -100,13 +100,13 @@ public class ReplaceOperationNamesRuleTest {
   }
 
   private void assertCorrect(String sentence) throws IOException {
-    final RuleMatch[] matches = rule.match(langTool
+    final RuleMatch[] matches = rule.match(lt
         .getAnalyzedSentence(sentence));
     assertEquals(0, matches.length);
   }
 
   private void assertIncorrect(String sentence) throws IOException {
-    final RuleMatch[] matches = rule.match(langTool
+    final RuleMatch[] matches = rule.match(lt
         .getAnalyzedSentence(sentence));
     assertEquals(1, matches.length);
   }

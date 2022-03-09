@@ -29,6 +29,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Converts plain text results of Main or SentenceSourceChecker to HTML, sorted by rule id.
@@ -52,7 +53,7 @@ public class ResultToHtml {
     try {
       fw = new FileWriter(outputFile);
       LightRuleMatchParser parser = new LightRuleMatchParser();
-      List<LightRuleMatch> matches = parser.parseOutput(new File(inputFile));
+      List<LightRuleMatch> matches = parser.parseOutput(new File(inputFile)).result;
       matches.sort((k, v) -> {
           String catIdK = getCategoryId(k);
           String catIdV = getCategoryId(v);
@@ -140,22 +141,38 @@ public class ResultToHtml {
     String prevRuleId = "";
     String prevCategoryId = "";
     print("<h1>TOC</h1>");
+    Map<String, Integer> rulesInCategory = new HashMap<>();
     for (LightRuleMatch match : matches) {
       String ruleId = match.getFullRuleId();
       String categoryId = getCategoryId(match);
       if (!ruleId.equals(prevRuleId)) {
         if (!categoryId.equals(prevCategoryId)) {
+          printRulesInCategory(rulesInCategory);
+          rulesInCategory.clear();
           print("<h3>Category " + categoryId + "</h3>");
         }
         Integer count = matchToCount.get(ruleId);
         if (count >= THRESHOLD) {
-          print("<a href='#" + ruleId + "'>" + ruleId + " (" + count + ")</a><br>");
+          rulesInCategory.put(ruleId, count);
+          //print("<a href='#" + ruleId + "'>" + ruleId + " (" + count + ")</a><br>");
         }
       }
       prevRuleId = ruleId;
       prevCategoryId = categoryId;
     }
+    printRulesInCategory(rulesInCategory);
     print("<br>");
+  }
+  
+  private void printRulesInCategory(Map<String, Integer> rulesInCategory) throws IOException {
+    if (rulesInCategory.size() > 0) {
+      Map<String, Integer> sorted = rulesInCategory.entrySet().stream()
+          .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+          .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+      for (Map.Entry<String, Integer> entry : sorted.entrySet()) {
+        print("<a href='#" + entry.getKey() + "'>" + entry.getKey() + " (" + entry.getValue() + ")</a><br>");
+      }
+    }
   }
 
   private Map<String, Integer> getMatchToCount(List<LightRuleMatch> matches) {

@@ -39,7 +39,7 @@ import java.util.*;
  */
 public class NoopLanguage extends Language {
 
-  private static final String SHORT_CODE = "zz";
+  public static final String SHORT_CODE = "zz";
 
   @Override
   public Locale getLocale() {

@@ -23,6 +23,7 @@ import org.jetbrains.annotations.NotNull;
 import org.languagetool.UserConfig;
 import org.languagetool.language.Arabic;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
+import org.languagetool.tools.ArabicStringTools;
 
 import java.io.IOException;
 import java.util.ResourceBundle;
@@ -57,20 +58,25 @@ public final class ArabicHunspellSpellerRule extends HunspellRule {
 
   @Override
   protected String[] tokenizeText(String sentence) {
-    Pattern pattern = Pattern.compile("[^\\p{L}" + Arabic.TASHKEEL_CHARS + "]");
+    Pattern pattern = Pattern.compile("[^\\p{L}" + ArabicStringTools.TASHKEEL_CHARS + "]");
     return pattern.split(sentence);
   }
 
   @Override
   protected boolean ignoreWord(String word) throws IOException {
-    String striped = word.replaceAll("[" + Arabic.TASHKEEL_CHARS + "]", "");
+    String striped = ArabicStringTools.removeTashkeel(word);
     return super.ignoreWord(striped);
   }
 
   @Override
   public boolean isMisspelled(String word) {
-    String striped = word.replaceAll("[" + Arabic.TASHKEEL_CHARS + "]", "");
+    String striped = ArabicStringTools.removeTashkeel(word);
     return super.isMisspelled(striped);
+  }
+  
+  @Override
+  protected boolean isLatinScript() {
+    return false;
   }
 
 }

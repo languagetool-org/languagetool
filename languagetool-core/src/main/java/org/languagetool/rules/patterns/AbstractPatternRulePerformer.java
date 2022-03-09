@@ -19,13 +19,15 @@
  */
 package org.languagetool.rules.patterns;
 
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.chunking.ChunkTag;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
-import org.languagetool.AnalyzedToken;
-import org.languagetool.AnalyzedTokenReadings;
 
 /**
  * @since 2.3
@@ -33,16 +35,22 @@ import org.languagetool.AnalyzedTokenReadings;
 public abstract class AbstractPatternRulePerformer {
 
   protected boolean prevMatched;
-  protected AbstractPatternRule rule;
+  protected AbstractTokenBasedRule rule;
   protected Unifier unifier;
   protected AnalyzedTokenReadings[] unifiedTokens;
+  private final List<PatternTokenMatcher> patternTokenMatchers;
+  private final int patternSize;
+  private final int minOccurCorrection;
 
-  protected AbstractPatternRulePerformer(AbstractPatternRule rule, Unifier unifier) {
+  protected AbstractPatternRulePerformer(AbstractTokenBasedRule rule, Unifier unifier) {
     this.rule = Objects.requireNonNull(rule);
     this.unifier = Objects.requireNonNull(unifier);
+    patternTokenMatchers = createElementMatchers();
+    patternSize = patternTokenMatchers.size();
+    minOccurCorrection = getMinOccurrenceCorrection();
   }
 
-  protected List<PatternTokenMatcher> createElementMatchers() {
+  private List<PatternTokenMatcher> createElementMatchers() {
     List<PatternTokenMatcher> patternTokenMatchers = new ArrayList<>(rule.patternTokens.size());
     for (PatternToken pToken : rule.patternTokens) {
       PatternTokenMatcher matcher = new PatternTokenMatcher(pToken);
@@ -51,9 +59,112 @@ public abstract class AbstractPatternRulePerformer {
     return patternTokenMatchers;
   }
 
+  protected void doMatch(AnalyzedSentence sentence, AnalyzedTokenReadings[] tokens, MatchConsumer consumer) throws IOException {
+    AbstractTokenBasedRule.TokenHint anchor = rule.anchorHint;
+    List<Integer> anchorIndices = anchor == null || isInterpretPosTagsPreDisambiguation() ? null : anchor.getPossibleIndices(sentence);
+
+    int[] tokenPositions = new int[patternTokenMatchers.size()];
+    int limit = rule.isSentStart() ? 1 : Math.max(0, tokens.length - patternSize + 1) + minOccurCorrection;
+    if (anchorIndices != null) {
+      for (Integer anchorIndex : anchorIndices) {
+        int i = anchorIndex - anchor.tokenIndex;
+        if (i >= 0 && i < limit) {
+          matchFrom(i, tokens, consumer, tokenPositions);
+        }
+      }
+    } else {
+      for (int i = 0; i < limit; i++) {
+        matchFrom(i, tokens, consumer, tokenPositions);
+      }
+    }
+  }
+
+  private void matchFrom(int startIndex, AnalyzedTokenReadings[] tokens, MatchConsumer consumer, int[] tokenPositions) throws IOException {
+    PatternTokenMatcher pTokenMatcher = null;
+    int skipShiftTotal = 0;
+    boolean allElementsMatch = false;
+    unifiedTokens = null;
+    int matchingTokens = 0;
+    int firstMatchToken = -1;
+    int lastMatchToken = -1;
+    int firstMarkerMatchToken = -1;
+    int lastMarkerMatchToken = -1;
+    int prevSkipNext = 0;
+    if (rule.isTestUnification()) {
+      unifier.reset();
+    }
+    int minOccurSkip = 0;
+    for (int k = 0; k < patternSize; k++) {
+      PatternTokenMatcher prevTokenMatcher = pTokenMatcher;
+      pTokenMatcher = patternTokenMatchers.get(k);
+      pTokenMatcher.resolveReference(firstMatchToken, tokens, rule.getLanguage());
+      int nextPos = startIndex + k + skipShiftTotal - minOccurSkip;
+      prevMatched = false;
+      if (prevSkipNext + nextPos >= tokens.length || prevSkipNext < 0) { // SENT_END?
+        prevSkipNext = tokens.length - (nextPos + 1);
+      }
+      int maxTok = Math.min(nextPos + prevSkipNext, tokens.length - (patternSize - k) + minOccurCorrection);
+      for (int m = nextPos; m <= maxTok; m++) {
+        allElementsMatch = testAllReadings(tokens, pTokenMatcher, prevTokenMatcher, m, firstMatchToken, prevSkipNext);
+
+        if (pTokenMatcher.getPatternToken().getMinOccurrence() == 0) {
+          boolean foundNext = false;
+          for (int k2 = k + 1; k2 < patternSize; k2++) {
+            PatternTokenMatcher nextElement = patternTokenMatchers.get(k2);
+            boolean nextElementMatch = testAllReadings(tokens, nextElement, pTokenMatcher, m,
+              firstMatchToken, prevSkipNext);
+            if (nextElementMatch) {
+              // this element doesn't match, but it's optional so accept this and continue
+              allElementsMatch = true;
+              minOccurSkip++;
+              tokenPositions[matchingTokens++] = 0;
+              foundNext = true;
+              break;
+            } else if (nextElement.getPatternToken().getMinOccurrence() > 0) {
+              break;
+            }
+          }
+          if (foundNext) {
+            break;
+          }
+        }
+
+        if (allElementsMatch) {
+          int skipForMax = skipMaxTokens(tokens, pTokenMatcher, firstMatchToken, prevSkipNext,
+            prevTokenMatcher, m, patternSize - k - 1);
+          lastMatchToken = m + skipForMax;
+          int skipShift = lastMatchToken - nextPos;
+          tokenPositions[matchingTokens++] = skipShift + 1;
+          prevSkipNext = translateElementNo(pTokenMatcher.getPatternToken().getSkipNext());
+          skipShiftTotal += skipShift;
+          if (firstMatchToken == -1) {
+            firstMatchToken = lastMatchToken - skipForMax;
+          }
+          if (firstMarkerMatchToken == -1 && pTokenMatcher.getPatternToken().isInsideMarker()) {
+            firstMarkerMatchToken = lastMatchToken - skipForMax;
+          }
+          if (pTokenMatcher.getPatternToken().isInsideMarker()) {
+            lastMarkerMatchToken = lastMatchToken;
+          }
+          break;
+        }
+      }
+      if (!allElementsMatch) {
+        break;
+      }
+    }
+    if (allElementsMatch && matchingTokens == patternSize) {
+      consumer.consume(tokenPositions, firstMatchToken, lastMatchToken, firstMarkerMatchToken, lastMarkerMatchToken);
+    }
+  }
+
+  protected boolean isInterpretPosTagsPreDisambiguation() {
+    return rule instanceof PatternRule && ((PatternRule) rule).isInterpretPosTagsPreDisambiguation();
+  }
+
   protected boolean testAllReadings(AnalyzedTokenReadings[] tokens,
-      PatternTokenMatcher matcher, PatternTokenMatcher prevElement,
-      int tokenNo, int firstMatchToken, int prevSkipNext)
+                                    PatternTokenMatcher matcher, PatternTokenMatcher prevElement,
+                                    int tokenNo, int firstMatchToken, int prevSkipNext)
           throws IOException {
     boolean thisMatched = false;
     int numberOfReadings = tokens[tokenNo].getReadingsLength();
@@ -82,8 +193,7 @@ public abstract class AbstractPatternRulePerformer {
       }
 
       //short-circuit when the search cannot possibly match
-      if (!thisMatched && (prevElement == null ||
-          prevElement.getPatternToken().getExceptionList() == null)) {
+      if (!thisMatched && (prevElement == null || !prevElement.getPatternToken().hasCurrentOrNextExceptions())) {
         if (matcher.getPatternToken().getPOStag() == null) {
           if (matcher.getPatternToken().isInflected()) {
             if (tokens[tokenNo].hasSameLemmas()) {
@@ -119,10 +229,15 @@ public abstract class AbstractPatternRulePerformer {
         unifier.addNeutralElement(tokens[tokenNo]);
       }
     }
-    if (matcher.getPatternToken().getChunkTag() != null) {
-      thisMatched &=
-          tokens[tokenNo].getChunkTags().contains(matcher.getPatternToken().getChunkTag())
-          ^ matcher.getPatternToken().getNegation();
+    ChunkTag chunkTag = matcher.getPatternToken().getChunkTag();
+    if (chunkTag != null) {
+      if (chunkTag.isRegexp()) {
+        thisMatched &= tokens[tokenNo].getChunkTags().stream().anyMatch(k -> k.getChunkTag().matches(chunkTag.getChunkTag()))
+                        ^ matcher.getPatternToken().getNegation();
+      } else {
+        thisMatched &= tokens[tokenNo].getChunkTags().contains(chunkTag)
+                        ^ matcher.getPatternToken().getNegation();
+      }
     }
     if (matcher.getPatternToken().hasAndGroup()) {
       for (PatternToken e : matcher.getPatternToken().getAndGroup()) {
@@ -175,10 +290,7 @@ public abstract class AbstractPatternRulePerformer {
     return thisMatched;
   }
 
-  /**
-   * @since 2.5
-   */
-  protected int getMinOccurrenceCorrection() {
+  private int getMinOccurrenceCorrection() {
     int minOccurCorrection = 0;
     for (PatternToken patternToken : rule.getPatternTokens()) {
       if (patternToken.getMinOccurrence() == 0) {
@@ -188,15 +300,11 @@ public abstract class AbstractPatternRulePerformer {
     return minOccurCorrection;
   }
 
-  /**
-   * @since 2.5
-   */
-  protected int skipMaxTokens(AnalyzedTokenReadings[] tokens, PatternTokenMatcher elem, int firstMatchToken, int prevSkipNext, PatternTokenMatcher prevElement, int m, int remainingElems) throws IOException {
+  private int skipMaxTokens(AnalyzedTokenReadings[] tokens, PatternTokenMatcher elem, int firstMatchToken, int prevSkipNext, PatternTokenMatcher prevElement, int m, int remainingElems) throws IOException {
     int maxSkip = 0;
     int maxOccurrences = elem.getPatternToken().getMaxOccurrence() == -1 ? Integer.MAX_VALUE : elem.getPatternToken().getMaxOccurrence();
     for (int j = 1; j < maxOccurrences && m+j < tokens.length - remainingElems; j++) {
-      boolean nextAllElementsMatch = !tokens[m+j].isImmunized() &&
-          testAllReadings(tokens, elem, prevElement, m+j, firstMatchToken, prevSkipNext);
+      boolean nextAllElementsMatch = testAllReadings(tokens, elem, prevElement, m+j, firstMatchToken, prevSkipNext);
       if (nextAllElementsMatch) {
         maxSkip++;
       } else {
@@ -206,4 +314,13 @@ public abstract class AbstractPatternRulePerformer {
     return maxSkip;
   }
 
+  int translateElementNo(int i) {
+    return i;
+  }
+
+  protected interface MatchConsumer {
+    void consume(int[] tokenPositions,
+                 int firstMatchToken,
+                 int lastMatchToken, int firstMarkerMatchToken, int lastMarkerMatchToken) throws IOException;
+  }
 }

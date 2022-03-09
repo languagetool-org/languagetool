@@ -60,7 +60,9 @@ public class SuggestionRegressionTest {
         continue;
       }
       List<String> oldSuggestions = parts.length > 1 ? Arrays.asList(parts[1].split(", ")) : Collections.emptyList();
+      oldSuggestions = oldSuggestions.subList(0, Math.min(5, oldSuggestions.size()));
       List<String> newSuggestions = rule.getSuggestions(word);
+      newSuggestions = newSuggestions.subList(0, Math.min(5, newSuggestions.size()));
       String thisResult = word + " => " + String.join(", ", newSuggestions);
       result.append(thisResult).append('\n');
       if (!oldSuggestions.equals(newSuggestions)) {

@@ -21,10 +21,7 @@ package org.languagetool.server;
 
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.*;
-import org.languagetool.rules.Category;
-import org.languagetool.rules.CategoryId;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.RuleMatchFilter;
+import org.languagetool.rules.*;
 import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.xml.sax.SAXException;
 
@@ -52,7 +49,6 @@ class Pipeline extends JLanguageTool {
   }
 
   private boolean setup = false;
-  private long lastUsedTimestamp;
 
   /**
    * Prevents any further changes after this method was called.
@@ -61,25 +57,8 @@ class Pipeline extends JLanguageTool {
    this.setup = true;
   }
 
-  /**
-   * Refresh expire timer of pipeline
-   */
-  void refreshExpireTimer() {
-    lastUsedTimestamp = System.currentTimeMillis();
-  }
-
-  /**
-   * Test if expire time has elapsed since last use.
-   * @return is pipeline expired?
-   */
-  boolean isExpired() {
-    long delta = System.currentTimeMillis() - lastUsedTimestamp;
-    return delta > PipelinePool.PIPELINE_EXPIRE_TIME;
-  }
-
   Pipeline(Language language, List<Language> altLanguages, Language motherTongue, ResultCache cache, GlobalConfig globalConfig, UserConfig userConfig, boolean inputLogging) {
     super(language, altLanguages, motherTongue, cache, globalConfig, userConfig, inputLogging);
-    lastUsedTimestamp = System.currentTimeMillis();
   }
 
   @Override
@@ -134,6 +113,12 @@ class Pipeline extends JLanguageTool {
   public void activateRemoteRules(File configFile) throws IOException {
     preventModificationAfterSetup();
     super.activateRemoteRules(configFile);
+  }
+
+  @Override
+  public void activateRemoteRules(List<RemoteRuleConfig> configs) throws IOException {
+    preventModificationAfterSetup();
+    super.activateRemoteRules(configs);
   }
 
   @Override

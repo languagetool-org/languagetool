@@ -23,6 +23,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrdererConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -36,6 +38,8 @@ import java.util.regex.Pattern;
  * @since 2.0
  */
 public class HTTPServerConfig {
+
+  private static final Logger logger = LoggerFactory.getLogger(HTTPServerConfig.class);
 
   enum Mode { LanguageTool }
 
@@ -53,14 +57,21 @@ public class HTTPServerConfig {
   protected int port = DEFAULT_PORT;
   protected String allowOriginUrl = null;
 
+  protected boolean logIp = true;
+  protected String logIpMatchingPattern = "__logIPNowForLanguageTool__";
+
   protected URI serverURL = null;
-  protected int maxTextLength = Integer.MAX_VALUE;
+  protected int maxTextLengthAnonymous = Integer.MAX_VALUE;
+  protected int maxTextLengthLoggedIn = Integer.MAX_VALUE;
+  protected int maxTextLengthPremium = Integer.MAX_VALUE;
   protected int maxTextHardLength = Integer.MAX_VALUE;
-  protected int maxTextLengthWithApiKey = Integer.MAX_VALUE;
   protected String secretTokenKey = null;
-  protected long maxCheckTimeMillis = -1;
-  protected long maxCheckTimeWithApiKeyMillis = -1;
+  protected long maxCheckTimeMillisAnonymous = -1;
+  protected long maxCheckTimeMillisLoggedIn = -1;
+  protected long maxCheckTimeMillisPremium = -1;
   protected int maxCheckThreads = 10;
+  protected int maxTextCheckerThreads; // default to same value as maxCheckThreads
+  protected int textCheckerQueueSize = 8;
   protected Mode mode;
   protected File languageModelDir = null;
   protected File word2vecModelDir = null;
@@ -76,6 +87,8 @@ public class HTTPServerConfig {
   protected int requestLimitInBytes;
   protected int timeoutRequestLimit;
   protected int requestLimitPeriodInSeconds;
+  protected List<String> requestLimitWhitelistUsers;
+  protected int requestLimitWhitelistLimit;
   protected int ipFingerprintFactor = 1;
   protected boolean trustXForwardForHeader;
   protected int maxWorkQueueSize;
@@ -86,21 +99,70 @@ public class HTTPServerConfig {
   protected float maxErrorsPerWordRate = 0;
   protected int maxSpellingSuggestions = 0;
   protected List<String> blockedReferrers = new ArrayList<>();
-  protected String hiddenMatchesServer;
-  protected int hiddenMatchesServerTimeout;
-  protected int hiddenMatchesServerFailTimeout;
-  protected int hiddenMatchesServerFall;
-  protected List<Language> hiddenMatchesLanguages = new ArrayList<>();
+  protected boolean premiumAlways;
+  protected boolean premiumOnly;
+
+  public void setPremiumOnly(boolean premiumOnly) {
+    this.premiumOnly = premiumOnly;
+  }
+  boolean anonymousAccessAllowed = true;
+  public boolean isAnonymousAccessAllowed() {
+    return anonymousAccessAllowed;
+  }
+  protected boolean gracefulDatabaseFailure = false;
+
+  /**
+   * @since 4.9
+   * @return whether user creation should be restricted (e.g. according to subscriptions in cloud usage) or be unlimited (for self-hosted installations)
+   */
+  public boolean isRestrictManagedAccounts() {
+    return restrictManagedAccounts;
+  }
+
+  public void setRestrictManagedAccounts(boolean restrictManagedAccounts) {
+    this.restrictManagedAccounts = restrictManagedAccounts;
+  }
+  // NOTE: offer option to set this in configuration file; document for customers
+  protected boolean restrictManagedAccounts = true;
   protected String dbDriver = null;
   protected String dbUrl = null;
   protected String dbUsername = null;
   protected String dbPassword = null;
+  protected long dbTimeoutSeconds = 10;
+  protected int databaseTimeoutRateThreshold = 100;
+  protected int databaseErrorRateThreshold = 50;
+  protected int databaseDownIntervalSeconds = 10;
+
   protected boolean dbLogging;
   protected boolean prometheusMonitoring = false;
   protected int prometheusPort = 9301;
   protected GlobalConfig globalConfig = new GlobalConfig();
   protected List<String> disabledRuleIds = new ArrayList<>();
   protected boolean stoppable = false;
+  
+  protected String passwortLoginAccessListPath = "";
+  /**
+   * caching to avoid database hits for e.g. dictionaries
+   * null -&gt; disabled
+   */
+  @Nullable
+  protected String redisHost = null;
+  protected int redisPort = 6379;
+  protected int redisDatabase = 0;
+  protected boolean redisUseSSL = true;
+  protected String redisCertificate;
+  protected String redisKey;
+  protected String redisKeyPassword;
+  @Nullable
+  protected String redisPassword = null;
+  protected long redisDictTTL = 600; // in seconds
+  protected long redisTimeout = 100; // in milliseconds
+  protected long redisConnectionTimeout = 5000; // in milliseconds
+  protected boolean redisUseSentinel = false;
+  protected String sentinelHost;
+  protected int sentinelPort = 26379;
+  protected String sentinelPassword;
+  protected String sentinelMasterId;
 
   protected boolean skipLoggingRuleMatches = false;
   protected boolean skipLoggingChecks = false;
@@ -110,19 +172,27 @@ public class HTTPServerConfig {
   protected String abTest = null;
   protected Pattern abTestClients = null;
   protected int abTestRollout = 100; // percentage [0,100]
+  protected File ngramLangIdentData;
 
   private static final List<String> KNOWN_OPTION_KEYS = Arrays.asList("abTest", "abTestClients", "abTestRollout",
     "beolingusFile", "blockedReferrers", "cacheSize", "cacheTTLSeconds",
     "dbDriver", "dbPassword", "dbUrl", "dbUsername", "disabledRuleIds", "fasttextBinary", "fasttextModel", "grammalectePassword",
-    "grammalecteServer", "grammalecteUser", "hiddenMatchesLanguages", "hiddenMatchesServer", "hiddenMatchesServerFailTimeout",
-    "hiddenMatchesServerTimeout", "hiddenMatchesServerFall", "ipFingerprintFactor", "languageModel", "maxCheckThreads", "maxCheckTimeMillis",
+    "grammalecteServer", "grammalecteUser", "ipFingerprintFactor", "languageModel", "maxCheckThreads", "maxTextCheckerThreads", "textCheckerQueueSize", "maxCheckTimeMillis",
     "maxCheckTimeWithApiKeyMillis", "maxErrorsPerWordRate", "maxPipelinePoolSize", "maxSpellingSuggestions", "maxTextHardLength",
     "maxTextLength", "maxTextLengthWithApiKey", "maxWorkQueueSize", "neuralNetworkModel", "pipelineCaching",
     "pipelineExpireTimeInSeconds", "pipelinePrewarming", "prometheusMonitoring", "prometheusPort", "remoteRulesFile",
-    "requestLimit", "requestLimitInBytes", "requestLimitPeriodInSeconds", "rulesFile", "secretTokenKey", "serverURL",
+    "requestLimit", "requestLimitInBytes", "requestLimitPeriodInSeconds", "requestLimitWhitelistUsers", "requestLimitWhitelistLimit",
+    "rulesFile", "secretTokenKey", "serverURL",
     "skipLoggingChecks", "skipLoggingRuleMatches", "timeoutRequestLimit", "trustXForwardForHeader", "warmUp", "word2vecModel",
     "keystore", "password", "maxTextLengthPremium", "maxTextLengthAnonymous", "maxTextLengthLoggedIn", "gracefulDatabaseFailure",
-    "redisPassword", "redisHost", "dbLogging", "premiumOnly");
+    "ngramLangIdentData",
+    "dbTimeoutSeconds", "dbErrorRateThreshold", "dbTimeoutRateThreshold", "dbDownIntervalSeconds",
+    "redisUseSSL", "redisTimeoutMilliseconds", "redisConnectionTimeoutMilliseconds",
+    "anonymousAccessAllowed",
+    "premiumAlways",
+    "redisPassword", "redisHost", "redisCertificate", "redisKey", "redisKeyPassword",
+    "redisUseSentinel", "sentinelHost", "sentinelPort", "sentinelPassword", "sentinelMasterId",
+    "dbLogging", "premiumOnly", "nerUrl");
 
   /**
    * Create a server configuration for the default port ({@link #DEFAULT_PORT}).
@@ -172,14 +242,21 @@ public class HTTPServerConfig {
         case "--public":
           publicAccess = true;
           break;
+        case "--premiumAlways":
+          if (!Premium.isPremiumVersion()) {
+            throw new IllegalArgumentException("Cannot use --premiumAlways with non-premium version");
+          }
+          premiumAlways = true;
+          System.out.println("*** Running in PREMIUM-ALWAYS mode, premium features are available without authentication");
+          break;
         case "--allow-origin":
           try {
             allowOriginUrl = args[++i];
             if (allowOriginUrl.startsWith("--")) {
-              throw new IllegalArgumentException("Missing argument for '--allow-origin' (e.g. an URL or '*')");
+              allowOriginUrl = "*";
             }
           } catch (ArrayIndexOutOfBoundsException e) {
-            throw new IllegalArgumentException("Missing argument for '--allow-origin' (e.g. an URL or '*')");
+            allowOriginUrl = "*";
           }
           break;
         case LANGUAGE_MODEL_OPTION:
@@ -193,6 +270,19 @@ public class HTTPServerConfig {
           break;
         case "--stoppable":  // internal only, doesn't need to be documented
           stoppable = true;
+          break;
+        case "--notLogIP":
+          logIp = false;
+          break;
+        case "--logIpMatchingPattern":
+          try {
+            logIpMatchingPattern = args[++i];
+            if (logIpMatchingPattern.startsWith("--")) {
+              throw new IllegalArgumentException("Missing argument for '--logIpMatchingPattern' (e.g. any random String)");
+            }
+          } catch (ArrayIndexOutOfBoundsException e) {
+            throw new IllegalArgumentException("Missing argument for '--logIpMatchingPattern' (e.g. any random String)");
+          }
           break;
         default:
           if (args[i].contains("=")) {
@@ -210,15 +300,23 @@ public class HTTPServerConfig {
       Properties props = new Properties();
       try (FileInputStream fis = new FileInputStream(file)) {
         props.load(fis);
-        maxTextLength = Integer.parseInt(getOptionalProperty(props, "maxTextLength", Integer.toString(Integer.MAX_VALUE)));
-        maxTextLengthWithApiKey = Integer.parseInt(getOptionalProperty(props, "maxTextLengthWithApiKey", Integer.toString(Integer.MAX_VALUE)));
         maxTextHardLength = Integer.parseInt(getOptionalProperty(props, "maxTextHardLength", Integer.toString(Integer.MAX_VALUE)));
         secretTokenKey = getOptionalProperty(props, "secretTokenKey", null);
-        maxCheckTimeMillis = Long.parseLong(getOptionalProperty(props, "maxCheckTimeMillis", "-1"));
-        maxCheckTimeWithApiKeyMillis = Long.parseLong(getOptionalProperty(props, "maxCheckTimeWithApiKeyMillis", "-1"));
+
+        maxTextLengthAnonymous = maxTextLengthLoggedIn = maxTextLengthPremium = Integer.parseInt(getOptionalProperty(props, "maxTextLength", Integer.toString(Integer.MAX_VALUE)));
+        maxTextLengthAnonymous = Integer.parseInt(getOptionalProperty(props, "maxTextLengthAnonymous", String.valueOf(maxTextLengthAnonymous)));
+        maxTextLengthLoggedIn = Integer.parseInt(getOptionalProperty(props, "maxTextLengthLoggedIn", String.valueOf(maxTextLengthLoggedIn)));
+        maxTextLengthPremium = Integer.parseInt(getOptionalProperty(props, "maxTextLengthPremium", String.valueOf(maxTextLengthPremium)));
+
+        maxCheckTimeMillisAnonymous = maxCheckTimeMillisLoggedIn = maxCheckTimeMillisPremium = Integer.parseInt(getOptionalProperty(props, "maxCheckTimeMillis", "-1"));
+        maxCheckTimeMillisAnonymous = Long.parseLong(getOptionalProperty(props, "maxCheckTimeMillisAnonymous", String.valueOf(maxCheckTimeMillisAnonymous)));
+        maxCheckTimeMillisLoggedIn = Long.parseLong(getOptionalProperty(props, "maxCheckTimeMillisLoggedIn", String.valueOf(maxCheckTimeMillisLoggedIn)));
+        maxCheckTimeMillisPremium = Long.parseLong(getOptionalProperty(props, "maxCheckTimeMillisPremium", String.valueOf(maxCheckTimeMillisPremium)));
         requestLimit = Integer.parseInt(getOptionalProperty(props, "requestLimit", "0"));
         requestLimitInBytes = Integer.parseInt(getOptionalProperty(props, "requestLimitInBytes", "0"));
         timeoutRequestLimit = Integer.parseInt(getOptionalProperty(props, "timeoutRequestLimit", "0"));
+        requestLimitWhitelistUsers = Arrays.asList(getOptionalProperty(props, "requestLimitWhitelistUsers", "").split(",\\s*"));
+        requestLimitWhitelistLimit = Integer.parseInt(getOptionalProperty(props, "requestLimitWhitelistLimit", "0"));
         pipelineCaching = Boolean.parseBoolean(getOptionalProperty(props, "pipelineCaching", "false").trim());
         pipelinePrewarming = Boolean.parseBoolean(getOptionalProperty(props, "pipelinePrewarming", "false").trim());
         maxPipelinePoolSize = Integer.parseInt(getOptionalProperty(props, "maxPipelinePoolSize", "5"));
@@ -253,6 +351,16 @@ public class HTTPServerConfig {
         if (maxCheckThreads < 1) {
           throw new IllegalArgumentException("Invalid value for maxCheckThreads, must be >= 1: " + maxCheckThreads);
         }
+        // default value 0 = use maxCheckThreads setting (for compatibility)
+        maxTextCheckerThreads = Integer.parseInt(getOptionalProperty(props, "maxTextCheckerThreads", "0"));
+        if (maxTextCheckerThreads < 0) {
+          throw new IllegalArgumentException("Invalid value for maxTextCheckerThreads, must be >= 1: " + maxTextCheckerThreads);
+        }
+        textCheckerQueueSize = Integer.parseInt(getOptionalProperty(props, "textCheckerQueueSize", "8"));
+        if (textCheckerQueueSize < 0) {
+          throw new IllegalArgumentException("Invalid value for textCheckerQueueSize, must be >= 1: " + textCheckerQueueSize);
+        }
+
         boolean atdMode = getOptionalProperty(props, "mode", "LanguageTool").equalsIgnoreCase("AfterTheDeadline");
         if (atdMode) {
           throw new IllegalArgumentException("The AfterTheDeadline mode is not supported anymore in LanguageTool 3.8 or later");
@@ -285,21 +393,55 @@ public class HTTPServerConfig {
         maxErrorsPerWordRate = Float.parseFloat(getOptionalProperty(props, "maxErrorsPerWordRate", "0"));
         maxSpellingSuggestions = Integer.parseInt(getOptionalProperty(props, "maxSpellingSuggestions", "0"));
         blockedReferrers = Arrays.asList(getOptionalProperty(props, "blockedReferrers", "").split(",\\s*"));
-        hiddenMatchesServer = getOptionalProperty(props, "hiddenMatchesServer", null);
-        hiddenMatchesServerTimeout = Integer.parseInt(getOptionalProperty(props, "hiddenMatchesServerTimeout", "1000"));
-        hiddenMatchesServerFailTimeout = Integer.parseInt(getOptionalProperty(props, "hiddenMatchesServerFailTimeout", "10000"));
-        hiddenMatchesServerFall = Integer.parseInt(getOptionalProperty(props, "hiddenMatchesServerFall", "1"));
-        String langCodes = getOptionalProperty(props, "hiddenMatchesLanguages", "");
-        for (String code : langCodes.split(",\\s*")) {
-          if (!code.isEmpty()) {
-            hiddenMatchesLanguages.add(Languages.getLanguageForShortCode(code));
+        String premiumAlwaysValue = props.getProperty("premiumAlways");
+        if (premiumAlwaysValue != null) {
+          premiumAlways = Boolean.parseBoolean(premiumAlwaysValue.trim());
+          if (premiumAlways) {
+            System.out.println("*** Running in PREMIUM-ALWAYS mode");
           }
         }
+        premiumOnly = Boolean.valueOf(getOptionalProperty(props, "premiumOnly", "false").trim());
+        if (premiumOnly) {
+          if (!Premium.isPremiumVersion()) {
+            throw new IllegalArgumentException("Cannot use premiumOnly=true with non-premium version");
+          }
+          System.out.println("*** Running in PREMIUM-ONLY mode");
+        }
+        anonymousAccessAllowed = Boolean.valueOf(getOptionalProperty(props, "anonymousAccessAllowed", "true").trim());
+        if (!anonymousAccessAllowed) {
+          System.out.println("*** Running in RESTRICTED-ACCESS mode");
+        }
+
+        redisHost = getOptionalProperty(props, "redisHost", null);
+        redisPort = Integer.parseInt(getOptionalProperty(props, "redisPort", "6379"));
+        redisDatabase = Integer.parseInt(getOptionalProperty(props, "redisDatabase", "0"));
+        redisUseSSL = Boolean.valueOf(getOptionalProperty(props, "redisUseSSL", "true").trim());
+        redisPassword = getOptionalProperty(props, "redisPassword", null);
+        redisDictTTL = Integer.parseInt(getOptionalProperty(props, "redisDictTTLSeconds", "600"));
+        redisTimeout = Integer.parseInt(getOptionalProperty(props, "redisTimeoutMilliseconds", "100"));
+        redisConnectionTimeout = Integer.parseInt(getOptionalProperty(props, "redisConnectionTimeoutMilliseconds", "5000"));
+
+        redisCertificate = getOptionalProperty(props, "redisCertificate", null);
+        redisKey = getOptionalProperty(props, "redisKey", null);
+        redisKeyPassword = getOptionalProperty(props, "redisKeyPassword", null);
+
+        redisUseSentinel = Boolean.parseBoolean(getOptionalProperty(props, "redisUseSentinel", "false").trim());
+        sentinelHost = getOptionalProperty(props, "sentinelHost", null);
+        sentinelPort = Integer.parseInt(getOptionalProperty(props, "sentinelPort", "26379"));
+        sentinelPassword = getOptionalProperty(props, "sentinelPassword", null);
+        sentinelMasterId = getOptionalProperty(props, "sentinelMasterId", null);
+
+        gracefulDatabaseFailure = Boolean.parseBoolean(getOptionalProperty(props, "gracefulDatabaseFailure", "false").trim());
         dbDriver = getOptionalProperty(props, "dbDriver", null);
         dbUrl = getOptionalProperty(props, "dbUrl", null);
         dbUsername = getOptionalProperty(props, "dbUsername", null);
         dbPassword = getOptionalProperty(props, "dbPassword", null);
+        dbTimeoutSeconds = Integer.parseInt(getOptionalProperty(props, "dbTimeoutSeconds", "10"));
+        databaseErrorRateThreshold = Integer.parseInt(getOptionalProperty(props, "dbErrorRateThreshold", "50"));
+        databaseTimeoutRateThreshold = Integer.parseInt(getOptionalProperty(props, "dbTimeoutRateThreshold", "100"));
+        databaseDownIntervalSeconds = Integer.parseInt(getOptionalProperty(props, "dbDownIntervalSeconds", "10"));
         dbLogging = Boolean.valueOf(getOptionalProperty(props, "dbLogging", "false").trim());
+        passwortLoginAccessListPath = getOptionalProperty(props, "passwortLoginAccessListPath", "");
         prometheusMonitoring = Boolean.valueOf(getOptionalProperty(props, "prometheusMonitoring", "false").trim());
         prometheusPort = Integer.parseInt(getOptionalProperty(props, "prometheusPort", "9301"));
         skipLoggingRuleMatches = Boolean.valueOf(getOptionalProperty(props, "skipLoggingRuleMatches", "false").trim());
@@ -320,6 +462,11 @@ public class HTTPServerConfig {
             throw new IllegalArgumentException("beolingusFile not found: " + beolingusFile);
           }
         }
+        String nerUrl = getOptionalProperty(props, "nerUrl", null);
+        if (nerUrl != null) {
+          globalConfig.setNERUrl(nerUrl);
+          logger.info("Using NER service: " + globalConfig.getNerUrl());
+        }
         for (Object o : props.keySet()) {
           String key = (String)o;
           if (!KNOWN_OPTION_KEYS.contains(key) && !key.matches("lang-[a-z]+-dictPath") && !key.matches("lang-[a-z]+")) {
@@ -333,6 +480,14 @@ public class HTTPServerConfig {
         setAbTest(getOptionalProperty(props, "abTest", null));
         setAbTestClients(getOptionalProperty(props, "abTestClients", null));
         setAbTestRollout(Integer.parseInt(getOptionalProperty(props, "abTestRollout", "100")));
+        String ngramLangIdentData = getOptionalProperty(props, "ngramLangIdentData", null);
+        if (ngramLangIdentData != null) {
+          File dir = new File(ngramLangIdentData);
+          if (!dir.exists() || dir.isDirectory()) {
+            throw new IllegalArgumentException("ngramLangIdentData does not exist or is a directory (needs to be a ZIP file): " + ngramLangIdentData);
+          }
+          setNgramLangIdentData(dir);
+        }
       }
     } catch (IOException e) {
       throw new RuntimeException("Could not load properties from '" + file + "'", e);
@@ -392,7 +547,7 @@ public class HTTPServerConfig {
     }
   }
 
-  private void setFasttextPaths(String fasttextModelPath, String fasttextBinaryPath) {
+  void setFasttextPaths(String fasttextModelPath, String fasttextBinaryPath) {
     fasttextModel = new File(fasttextModelPath);
     fasttextBinary = new File(fasttextBinaryPath);
     if (!fasttextModel.exists() || fasttextModel.isDirectory()) {
@@ -466,8 +621,16 @@ public class HTTPServerConfig {
    *            will cause an exception when being checked, unless the user can provide
    *            a JWT 'token' parameter with a 'maxTextLength' claim          
    */
-  public void setMaxTextLength(int len) {
-    this.maxTextLength = len;
+  public void setMaxTextLengthAnonymous(int len) {
+    this.maxTextLengthAnonymous = len;
+  }
+
+  public void setMaxTextLengthLoggedIn(int len) {
+    this.maxTextLengthLoggedIn = len;
+  }
+
+  public void setMaxTextLengthPremium(int len) {
+    this.maxTextLengthPremium = len;
   }
 
   /**
@@ -479,16 +642,19 @@ public class HTTPServerConfig {
     this.maxTextHardLength = len;
   }
 
-  int getMaxTextLength() {
-    return maxTextLength;
+  int getMaxTextLengthAnonymous() {
+    return maxTextLengthAnonymous;
   }
 
   /**
-   * Maximum text length for users that can identify themselves with an API key.
-   * @since 4.2
+   * For users that have an account, but no premium subscription
    */
-  int getMaxTextLengthWithApiKey() {
-    return maxTextLengthWithApiKey;
+  int getMaxTextLengthLoggedIn() {
+    return maxTextLengthLoggedIn;
+  }
+
+  int getMaxTextLengthPremium() {
+    return maxTextLengthPremium;
   }
 
   /**
@@ -515,9 +681,34 @@ public class HTTPServerConfig {
     this.secretTokenKey = secretTokenKey;
   }
 
+  /**
+    @since 5.3
+    use a higher request limit for a list of users
+   */
+  public List<String> getRequestLimitWhitelistUsers() {
+    return requestLimitWhitelistUsers;
+  }
+
+  public void setRequestLimitWhitelistUsers(List<String> requestLimitWhitelistUsers) {
+    this.requestLimitWhitelistUsers = requestLimitWhitelistUsers;
+  }
+
+  /**
+   @since 5.3
+   use a higher request limit for a list of users
+   */
+  public int getRequestLimitWhitelistLimit() {
+    return requestLimitWhitelistLimit;
+  }
+
+  public void setRequestLimitWhitelistLimit(int requestLimitWhitelistLimit) {
+    this.requestLimitWhitelistLimit = requestLimitWhitelistLimit;
+  }
+
   int getRequestLimit() {
     return requestLimit;
   }
+
 
   /** @since 4.0 */
   int getTimeoutRequestLimit() {
@@ -533,7 +724,11 @@ public class HTTPServerConfig {
     return requestLimitPeriodInSeconds;
   }
 
-  /** since 4.4 */
+  /** since 4.4
+   * @return
+   * if > 0: allow n more requests per IP if fingerprints differ
+   * if <= 0: disable fingerprinting, only rely on IP address
+   *  */
   int getIpFingerprintFactor() {
     return ipFingerprintFactor;
   }
@@ -541,20 +736,37 @@ public class HTTPServerConfig {
   /**
    * @param maxCheckTimeMillis The maximum duration allowed for a single check in milliseconds, checks that take longer
    *                      will stop with an exception. Use {@code -1} for no limit.
-   * @since 2.6
+   * @since 4.4
    */
-  void setMaxCheckTimeMillis(int maxCheckTimeMillis) {
-    this.maxCheckTimeMillis = maxCheckTimeMillis;
+  void setMaxCheckTimeMillisAnonymous(int maxCheckTimeMillis) {
+    this.maxCheckTimeMillisAnonymous = maxCheckTimeMillis;
   }
 
-  /** @since 2.6 */
-  long getMaxCheckTimeMillis() {
-    return maxCheckTimeMillis;
+  /** @since 4.4 */
+  long getMaxCheckTimeMillisAnonymous() {
+    return maxCheckTimeMillisAnonymous;
   }
 
-  /** @since 4.2 */
-  long getMaxCheckTimeWithApiKeyMillis() {
-    return maxCheckTimeWithApiKeyMillis;
+
+  /** @since 4.4 */
+  void setMaxCheckTimeMillisLoggedIn(int maxCheckTimeMillis) {
+    this.maxCheckTimeMillisLoggedIn = maxCheckTimeMillis;
+  }
+
+  /** @since 4.4 */
+  long getMaxCheckTimeMillisLoggedIn() {
+    return maxCheckTimeMillisLoggedIn;
+  }
+
+  /** @since 4.4 */
+  void setMaxCheckTimeMillisPremium(int maxCheckTimeMillis) {
+    this.maxCheckTimeMillisPremium = maxCheckTimeMillis;
+  }
+
+  /** @since 4.4 */
+  @Experimental
+  long getMaxCheckTimeMillisPremium() {
+    return maxCheckTimeMillisPremium;
   }
 
   /**
@@ -636,6 +848,28 @@ public class HTTPServerConfig {
   /** @since 2.7 */
   int getMaxCheckThreads() {
     return maxCheckThreads;
+  }
+
+  /**
+   * @param maxTextCheckerThreads The maximum number of threads in the worker pool processing text checks running at the same time.
+   * @since 5.6
+   */
+  void setMaxTextCheckerThreads(int maxTextCheckerThreads) {
+    this.maxTextCheckerThreads = maxTextCheckerThreads;
+  }
+
+  /** @since 5.6 */
+  int getMaxTextCheckerThreads() {
+    // unset - use maxCheckThreads
+    return maxTextCheckerThreads != 0 ? maxTextCheckerThreads : maxCheckThreads;
+  }
+
+  public int getTextCheckerQueueSize() {
+    return textCheckerQueueSize;
+  }
+
+  public void setTextCheckerQueueSize(int textCheckerQueueSize) {
+    this.textCheckerQueueSize = textCheckerQueueSize;
   }
 
   /**
@@ -784,48 +1018,6 @@ public class HTTPServerConfig {
   }
   
   /**
-   * URL of server that is queried to add additional (but hidden) matches to the result.
-   * @since 4.0
-   */
-  @Nullable
-  String getHiddenMatchesServer() {
-    return hiddenMatchesServer;
-  }
-
-  /**
-   * Timeout in milliseconds for querying {@link #getHiddenMatchesServer()}.
-   * @since 4.0
-   */
-  int getHiddenMatchesServerTimeout() {
-    return hiddenMatchesServerTimeout;
-  }
-
-  /**
-   * Period to skip requests to hidden matches server after a timeout (in milliseconds)
-   * @since 4.5
-   */
-  int getHiddenMatchesServerFailTimeout() {
-    return hiddenMatchesServerFailTimeout;
-  }
-
-  /**
-   * Languages for which {@link #getHiddenMatchesServer()} will be queried.
-   * @since 4.0
-   */
-  List<Language> getHiddenMatchesLanguages() {
-    return hiddenMatchesLanguages;
-  }
-
-  /**
-   * Number of failed/timed out requests after which server gets marked as down
-   * @since 5.1
-   */
-  @Experimental
-  int getHiddenMatchesServerFall() {
-    return hiddenMatchesServerFall;
-  }
-
-  /**
    * @return the file from which server rules configuration should be loaded, or {@code null}
    * @since 3.0
    */
@@ -924,6 +1116,79 @@ public class HTTPServerConfig {
 
 
   /**
+   * timeout for database requests (for now, only requests for credentials to log in)
+   * @since 4.7
+   */
+  public long getDbTimeoutSeconds() {
+    return dbTimeoutSeconds;
+  }
+
+  /**
+   * timeout for database requests (for now, only requests for credentials to log in)
+   * @since 4.7
+   */
+  public void setDbTimeoutSeconds(long dbTimeoutSeconds) {
+    this.dbTimeoutSeconds = dbTimeoutSeconds;
+  }
+
+
+  /**
+   * Rate in percent of requests (0-100) of timeouts during database queries until circuit breaker opens
+   * @since 5.5
+   */
+  public int getDatabaseTimeoutRateThreshold() {
+    return databaseTimeoutRateThreshold;
+  }
+
+  public void setDatabaseTimeoutRateThreshold(int databaseTimeoutRateThreshold) {
+    this.databaseTimeoutRateThreshold = databaseTimeoutRateThreshold;
+  }
+
+  /**
+   * Rate in percent of requests (0-100) of errors during database queries until circuit breaker opens
+   * @since 5.5
+   */
+  public int getDatabaseErrorRateThreshold() {
+    return databaseErrorRateThreshold;
+  }
+
+  public void setDatabaseErrorRateThreshold(int databaseErrorRateThreshold) {
+    this.databaseErrorRateThreshold = databaseErrorRateThreshold;
+  }
+
+  /**
+   * Number of seconds to skip database requests when a potential downtime has been detected
+   * @since 5.5
+   */
+  public int getDatabaseDownIntervalSeconds() {
+    return databaseDownIntervalSeconds;
+  }
+
+  public void setDatabaseDownIntervalSeconds(int databaseDownIntervalSeconds) {
+    this.databaseDownIntervalSeconds = databaseDownIntervalSeconds;
+  }
+
+
+  /**
+   * Whether requests with credentials should be treated as anonymous requests in case of DB errors/timeout or
+   * throw an error
+   * @since 4.7
+   */
+  public boolean getGracefulDatabaseFailure() {
+    return gracefulDatabaseFailure;
+  }
+
+  /**
+   * Whether requests with credentials should be treated as anonymous requests in case of DB errors/timeout or
+   * throw an error
+   * @since 4.7
+   */
+  public void setGracefulDatabaseFailure(boolean gracefulDatabaseFailure) {
+    this.gracefulDatabaseFailure = gracefulDatabaseFailure;
+  }
+
+
+  /**
    * @since 4.6
    */
   public boolean isPrometheusMonitoring() {
@@ -936,6 +1201,49 @@ public class HTTPServerConfig {
   public int getPrometheusPort() {
     return prometheusPort;
   }
+
+
+  @Nullable
+  public String getRedisHost() {
+    return redisHost;
+  }
+
+  public int getRedisPort() {
+    return redisPort;
+  }
+
+  public int getRedisDatabase() {
+    return redisDatabase;
+  }
+
+  public boolean isRedisUseSSL() {
+    return redisUseSSL;
+  }
+  @Nullable
+  public String getRedisPassword() {
+    return redisPassword;
+  }
+
+  public long getRedisDictTTLSeconds() {
+    return redisDictTTL;
+  }
+
+  /**
+   * Timeout for regular commands
+   * @return
+   */
+  public long getRedisTimeoutMilliseconds() {
+    return redisTimeout;
+  }
+
+  /**
+   * Timeout for establishing the initial connection, including e.g. SSL handshake
+   * and commands like SENTINEL, ...
+   */
+  public long getRedisConnectionMilliseconds() {
+    return redisConnectionTimeout;
+  }
+  // TODO could introduce 'expire after access' logic, i.e. refresh expire when reading
 
   /**
    * @since 4.5
@@ -1035,6 +1343,17 @@ public class HTTPServerConfig {
     return abTestRollout;
   }
 
+  /** @since 5.2 */
+  public void setNgramLangIdentData(File ngramLangIdentData) {
+    this.ngramLangIdentData = ngramLangIdentData;
+  }
+
+  /** @since 5.2 */
+  @Nullable
+  public File getNgramLangIdentData() {
+    return ngramLangIdentData;
+  }
+
   /**
    * @throws IllegalConfigurationException if property is not set 
    */
@@ -1054,4 +1373,85 @@ public class HTTPServerConfig {
     return propertyValue;
   }
 
+  /** @since 5.1 */
+  boolean isPremiumAlways() {
+    return premiumAlways;
+  }
+
+  /** @since 5.1 */
+  void setPremiumAlways(boolean premiumAlways) {
+    this.premiumAlways = premiumAlways;
+  }
+
+  public boolean isPremiumOnly() {
+    return premiumOnly;
+  }
+
+  /**
+   * Allow using redis sentinel for automated failover */
+  public boolean isRedisUseSentinel() {
+    return redisUseSentinel;
+  }
+
+  public void setRedisUseSentinel(boolean redisUseSentinel) {
+    this.redisUseSentinel = redisUseSentinel;
+  }
+
+  public String getSentinelHost() {
+    return sentinelHost;
+  }
+
+  public void setSentinelHost(String sentinelHost) {
+    this.sentinelHost = sentinelHost;
+  }
+
+  public int getSentinelPort() {
+    return sentinelPort;
+  }
+
+  public void setSentinelPort(int sentinelPort) {
+    this.sentinelPort = sentinelPort;
+  }
+
+  public String getSentinelPassword() {
+    return sentinelPassword;
+  }
+
+  public void setSentinelPassword(String sentinelPassword) {
+    this.sentinelPassword = sentinelPassword;
+  }
+
+  public String getSentinelMasterId() {
+    return sentinelMasterId;
+  }
+
+  public void setSentinelMasterId(String sentinelMasterId) {
+    this.sentinelMasterId = sentinelMasterId;
+  }
+
+  public String getRedisCertificate() {
+    return redisCertificate;
+  }
+
+  public void setRedisCertificate(String redisCertificate) {
+    this.redisCertificate = redisCertificate;
+  }
+
+  public String getRedisKey() {
+    return redisKey;
+  }
+
+  public void setRedisKey(String redisKey) {
+    this.redisKey = redisKey;
+  }
+
+  public String getRedisKeyPassword() {
+    return redisKeyPassword;
+  }
+
+  public void setRedisKeyPassword(String redisKeyPassword) {
+    this.redisKeyPassword = redisKeyPassword;
+  }
+  
+  public String getPasswortLoginAccessListPath() { return passwortLoginAccessListPath; }
 }

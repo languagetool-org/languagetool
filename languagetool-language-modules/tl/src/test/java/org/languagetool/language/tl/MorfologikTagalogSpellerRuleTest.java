@@ -35,11 +35,11 @@ public class MorfologikTagalogSpellerRuleTest {
   public void testMorfologikSpeller() throws IOException {
     Tagalog language = new Tagalog();
     MorfologikTagalogSpellerRule rule = new MorfologikTagalogSpellerRule(TestTools.getMessages("en"), language, null, Collections.emptyList());
-    JLanguageTool langTool = new JLanguageTool(language);
+    JLanguageTool lt = new JLanguageTool(language);
 
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Ang talatang ito ay nagpapakita ng ng kakayahan ng LanguageTool at halimbawa kung paano ito gamitin.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Ang talatang ito ay nagpapakita ng ng kakayahan ng LanguageTool at halimbawa kung paano ito gamitin.")).length);
 
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("Ang talatang ito ay nagpapakita ng ng kakayahan ng LanguageTool at hinahalimbawa kung paano ito gamitin."));
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("Ang talatang ito ay nagpapakita ng ng kakayahan ng LanguageTool at hinahalimbawa kung paano ito gamitin."));
     assertEquals(1, matches.length);
     assertEquals(67, matches[0].getFromPos());
     assertEquals(80, matches[0].getToPos());

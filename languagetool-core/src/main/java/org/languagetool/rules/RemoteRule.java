@@ -21,16 +21,27 @@
 
 package org.languagetool.rules;
 
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import io.github.resilience4j.circuitbreaker.CircuitBreaker;
+import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
-import org.languagetool.markup.AnnotatedText;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.tools.CircuitBreakers;
+import org.languagetool.tools.LtThreadPoolFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Predicate;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
+import java.util.stream.Collectors;
 
 /**
  * @since 4.9
@@ -39,108 +50,214 @@ public abstract class RemoteRule extends Rule {
   
   private static final Logger logger = LoggerFactory.getLogger(RemoteRule.class);
 
-  /* needs to be shared between rule instances because new instances may be created and discarded often
-     needs to be a map because 'static' and inheritance don't play nice in Java */
-  private static final ConcurrentMap<String, Long> lastFailure = new ConcurrentHashMap<>();
-  private static final ConcurrentMap<String, AtomicInteger> consecutiveFailures = new ConcurrentHashMap<>();
-  private static final ThreadFactory threadFactory = new ThreadFactoryBuilder()
-    .setNameFormat("remote-rule-pool-{}").setDaemon(true).build();
-
   protected static final List<Runnable> shutdownRoutines = new LinkedList<>();
-
-  // needed to run callables with timeout
-  private static final ConcurrentMap<String, ExecutorService> executors = new ConcurrentHashMap<>();
+  protected static final ConcurrentMap<String, CircuitBreaker> circuitBreakers = new ConcurrentHashMap<>();
 
   protected final RemoteRuleConfig serviceConfiguration;
   protected final boolean inputLogging;
-  private AnnotatedText annotatedText;
+  protected final boolean filterMatches;
+  protected final boolean fixOffsets;
+  protected final boolean whitespaceNormalisation; // implemented only in GRPCRule for now
+  protected final Language ruleLanguage;
+  protected final JLanguageTool lt;
+  protected final Pattern suppressMisspelledMatch;
+  protected final Pattern suppressMisspelledSuggestions;
 
-  public RemoteRule(ResourceBundle messages, RemoteRuleConfig config, boolean inputLogging) {
+  public RemoteRule(Language language, ResourceBundle messages, RemoteRuleConfig config, boolean inputLogging, @Nullable String ruleId) {
     super(messages);
     serviceConfiguration = config;
+    this.ruleLanguage = language;
+    this.lt = new JLanguageTool(ruleLanguage);
     this.inputLogging = inputLogging;
-    String ruleId = getId();
-    lastFailure.putIfAbsent(ruleId, 0L);
-    consecutiveFailures.putIfAbsent(ruleId, new AtomicInteger());
-    // TODO maybe use fixed pool, take number of concurrent requests from configuration?
-    executors.putIfAbsent(ruleId, Executors.newCachedThreadPool(threadFactory));
+    if (ruleId == null) { // allow both providing rule ID in constructor or overriding getId
+      ruleId = getId();
+    }
+    filterMatches = Boolean.parseBoolean(serviceConfiguration.getOptions().getOrDefault("filterMatches", "false"));
+    whitespaceNormalisation = Boolean.parseBoolean(serviceConfiguration.getOptions().getOrDefault("whitespaceNormalisation", "true"));
+    fixOffsets = Boolean.parseBoolean(serviceConfiguration.getOptions().getOrDefault("fixOffsets", "true"));
+    try {
+      if (serviceConfiguration.getOptions().containsKey("suppressMisspelledMatch")) {
+        suppressMisspelledMatch = Pattern.compile(serviceConfiguration.getOptions().get("suppressMisspelledMatch"));
+      } else {
+        suppressMisspelledMatch = null;
+      }
+    } catch(PatternSyntaxException e) {
+      throw new IllegalArgumentException("suppressMisspelledMatch must be a valid regex", e);
+    }
+    try {
+      if (serviceConfiguration.getOptions().containsKey("suppressMisspelledSuggestions")) {
+        suppressMisspelledSuggestions = Pattern.compile(serviceConfiguration.getOptions().get("suppressMisspelledSuggestions"));
+      } else {
+        suppressMisspelledSuggestions = null;
+      }
+    } catch(PatternSyntaxException e) {
+      throw new IllegalArgumentException("suppressMisspelledSuggestions must be a valid regex", e);
+    }
+  }
+
+  public RemoteRule(Language language, ResourceBundle messages, RemoteRuleConfig config, boolean inputLogging) {
+    this(language, messages, config, inputLogging, null);
   }
 
   public static void shutdown() {
     shutdownRoutines.forEach(Runnable::run);
   }
 
-  protected class RemoteRequest {}
+  public FutureTask<RemoteRuleResult> run(List<AnalyzedSentence> sentences) {
+    return run(sentences, null);
+  }
 
-  protected abstract RemoteRequest prepareRequest(List<AnalyzedSentence> sentences, AnnotatedText annotatedText);
-  protected abstract Callable<RemoteRuleResult> executeRequest(RemoteRequest request);
+  protected static class RemoteRequest {}
+
+  /**
+   * run local preprocessing steps (or just store sentences)
+   * @param sentences text to process
+   * @param textSessionId session ID for caching, partial rollout, A/B testing
+   * @return parameter for executeRequest/fallbackResults
+   */
+  protected abstract RemoteRequest prepareRequest(List<AnalyzedSentence> sentences, @Nullable Long textSessionId);
+
+  /**
+   * @param request returned by prepareRequest
+   * @param timeoutMilliseconds timeout for this operation, &lt;=0 -&gt; unlimited
+   * @return callable that sends request, parses and returns result for this remote rule
+   * @throws TimeoutException if timeout was exceeded
+   */
+  protected abstract Callable<RemoteRuleResult> executeRequest(RemoteRequest request, long timeoutMilliseconds) throws TimeoutException;
+
+  /**
+   * fallback if executeRequest times out or throws an error
+   * @param request returned by prepareRequest
+   * @return local results for this rule
+   */
   protected abstract RemoteRuleResult fallbackResults(RemoteRequest request);
 
-  public FutureTask<RemoteRuleResult> run(List<AnalyzedSentence> sentences) {
+  protected CircuitBreaker createCircuitBreaker(String id) {
+    CircuitBreakerConfig.SlidingWindowType type;
+    RemoteRuleConfig c = serviceConfiguration;
+    try {
+      type = CircuitBreakerConfig.SlidingWindowType.valueOf(serviceConfiguration.getSlidingWindowType());
+    } catch (IllegalArgumentException e) {
+      type = CircuitBreakerConfig.SlidingWindowType.COUNT_BASED;
+      logger.warn("Couldn't parse slidingWindowType value '{}' for rule '{}', use one of {}; defaulting to '{}'", serviceConfiguration.getSlidingWindowType(), id, Arrays.asList(CircuitBreakerConfig.SlidingWindowType.values()), type);
+    }
+
+    CircuitBreakerConfig config = CircuitBreakerConfig
+      .custom()
+      .failureRateThreshold(c.getFailureRateThreshold())
+      .slidingWindow(
+        c.getSlidingWindowSize(), c.getMinimumNumberOfCalls(), type)
+      .waitDurationInOpenState(Duration.ofMillis(Math.max(1, c.getDownMilliseconds())))
+      .enableAutomaticTransitionFromOpenToHalfOpen()
+      .build();
+    return CircuitBreakers.registry().circuitBreaker("remote-rule-" + id, config);
+  }
+
+  /**
+   * @param sentences text to check
+   * @param textSessionId ID for texts, should stay constant for a user session; used for A/B tests of experimental rules
+   * @return Future with result
+   */
+  public FutureTask<RemoteRuleResult> run(List<AnalyzedSentence> sentences, @Nullable Long textSessionId) {
+    if (sentences.isEmpty()) {
+      return new FutureTask<>(() -> new RemoteRuleResult(false, true, Collections.emptyList(), sentences));
+    }
+    Map<String, String> context = MDC.getCopyOfContextMap();
     return new FutureTask<>(() -> {
-      long startTime = System.nanoTime();
+      MDC.clear();
+      if (context != null) {
+        MDC.setContextMap(context);
+      }
       long characters = sentences.stream().mapToInt(sentence -> sentence.getText().length()).sum();
-      String ruleId = getId();
-      RemoteRequest req = prepareRequest(sentences, annotatedText);
+      long timeout = getTimeout(characters);
+      RemoteRequest req = prepareRequest(sentences, textSessionId);
       RemoteRuleResult result;
 
-      if (consecutiveFailures.get(ruleId).get() >= serviceConfiguration.getFall()) {
-        long failureInterval = System.currentTimeMillis() - lastFailure.get(ruleId);
-        if (failureInterval < serviceConfiguration.getDownMilliseconds()) {
-          RemoteRuleMetrics.request(ruleId, 0, 0, characters, RemoteRuleMetrics.RequestResult.DOWN);
-          result = fallbackResults(req);
-          return result;
+      result = executeRequest(req, timeout).call();
+
+      if (fixOffsets) {
+        for (AnalyzedSentence sentence : sentences) {
+          List<RuleMatch> toFix = result.matchesForSentence(sentence);
+          if (toFix != null) {
+            fixMatchOffsets(sentence, toFix);
+          }
         }
       }
-      RemoteRuleMetrics.up(ruleId, true);
 
-      for (int i = 0; i <= serviceConfiguration.getMaxRetries(); i++) {
-        Callable<RemoteRuleResult> task = executeRequest(req);
-        long timeout = serviceConfiguration.getBaseTimeoutMilliseconds() +
-          Math.round(characters * serviceConfiguration.getTimeoutPerCharacterMilliseconds());
-        try {
-          Future<RemoteRuleResult> future = executors.get(ruleId).submit(task);
-          if (timeout <= 0)  { // for debugging, disable timeout
-            result = future.get();
-          } else {
-            result = future.get(timeout, TimeUnit.MILLISECONDS);
+      if (filterMatches) {
+        List<RuleMatch> filteredMatches = new ArrayList<>();
+        for (AnalyzedSentence sentence : sentences) {
+          List<RuleMatch> sentenceMatches = result.matchesForSentence(sentence);
+          if (sentenceMatches != null) {
+            List<RuleMatch> filteredSentenceMatches = RemoteRuleFilters.filterMatches(
+              ruleLanguage, sentence, sentenceMatches);
+            filteredMatches.addAll(filteredSentenceMatches);
           }
-          future.cancel(true);
+        }
+        result = new RemoteRuleResult(result.isRemote(), result.isSuccess(), filteredMatches, sentences);
+      }
 
-          if (result.isRemote()) { // don't reset failures if no remote call took place
-            consecutiveFailures.get(ruleId).set(0);
-            RemoteRuleMetrics.failures(ruleId, 0);
-          }
-
-          RemoteRuleMetrics.RequestResult requestResult = result.isRemote() ?
-            RemoteRuleMetrics.RequestResult.SUCCESS : RemoteRuleMetrics.RequestResult.SKIPPED;
-          RemoteRuleMetrics.request(ruleId, i, System.nanoTime() - startTime, characters, requestResult);
-
-          return result;
-        } catch (InterruptedException | ExecutionException | TimeoutException e) {
-          logger.warn("Error while fetching results for remote rule " + ruleId + ", tried " + (i + 1) + " times, timeout: " + timeout + "ms" , e);
-
-          RemoteRuleMetrics.RequestResult status;
-          if (e instanceof TimeoutException || e instanceof InterruptedException) {
-            status = RemoteRuleMetrics.RequestResult.TIMEOUT;
-          } else {
-            status = RemoteRuleMetrics.RequestResult.ERROR;
-          }
-
-          RemoteRuleMetrics.request(ruleId, i, System.nanoTime() - startTime, characters, status);
+      List<RuleMatch> filteredMatches = new ArrayList<>();
+      for (AnalyzedSentence sentence : sentences) {
+        List<RuleMatch> sentenceMatches = result.matchesForSentence(sentence);
+        if (sentenceMatches != null) {
+          List<RuleMatch> filteredSentenceMatches = suppressMisspelled(sentenceMatches);
+          filteredMatches.addAll(filteredSentenceMatches);
         }
       }
-      RemoteRuleMetrics.failures(ruleId, consecutiveFailures.get(ruleId).incrementAndGet());
-      logger.warn("Fetching results for remote rule " + ruleId + " failed.");
-      if (consecutiveFailures.get(ruleId).get() >= serviceConfiguration.getFall()) {
-        lastFailure.put(ruleId, System.currentTimeMillis());
-        logger.warn("Remote rule " + ruleId + " marked as DOWN.");
-        RemoteRuleMetrics.downtime(ruleId, serviceConfiguration.getDownMilliseconds());
-        RemoteRuleMetrics.up(ruleId, false);
-      }
-      result = fallbackResults(req);
+      result = new RemoteRuleResult(result.isRemote(), result.isSuccess(), filteredMatches, sentences);
       return result;
     });
+  }
+
+  public long getTimeout(long characters) {
+    long timeout = serviceConfiguration.getBaseTimeoutMilliseconds() +
+      Math.round(characters * serviceConfiguration.getTimeoutPerCharacterMilliseconds());
+    return timeout;
+  }
+
+  public CircuitBreaker circuitBreaker() {
+    return circuitBreakers.computeIfAbsent(getId(), this::createCircuitBreaker);
+  }
+
+  private List<RuleMatch> suppressMisspelled(List<RuleMatch> sentenceMatches) {
+    List<RuleMatch> result = new ArrayList<>();
+    SpellingCheckRule speller = ruleLanguage.getDefaultSpellingRule(messages);
+    Predicate<SuggestedReplacement> checkSpelling = (s) -> {
+     try {
+       AnalyzedSentence sentence = lt.getRawAnalyzedSentence(s.getReplacement());
+       RuleMatch[] matches = speller.match(sentence);
+       return matches.length == 0;
+     } catch(IOException e) {
+       throw new RuntimeException(e);
+     }
+    };
+    if (speller == null) {
+      if (suppressMisspelledMatch != null || suppressMisspelledSuggestions != null) {
+        logger.warn("Cannot activate suppression of misspelled matches for rule {}, no spelling rule found for language {}.",
+          getId(), ruleLanguage.getShortCodeWithCountryAndVariant());
+      }
+      return sentenceMatches;
+    }
+
+    for (RuleMatch m : sentenceMatches) {
+        String id = m.getRule().getId();
+        if (suppressMisspelledMatch != null && suppressMisspelledMatch.matcher(id).matches()) {
+          if (!m.getSuggestedReplacementObjects().stream().allMatch(checkSpelling)) {
+            continue;
+          }
+        }
+        if (suppressMisspelledSuggestions != null && suppressMisspelledSuggestions.matcher(id).matches()) {
+          List<SuggestedReplacement> suggestedReplacements = m.getSuggestedReplacementObjects().stream()
+            .filter(checkSpelling).collect(Collectors.toList());
+          if (suggestedReplacements.isEmpty()) {
+            continue;
+          }
+          m.setSuggestedReplacementObjects(suggestedReplacements);
+        }
+        result.add(m);
+    }
+    return result;
   }
 
   @Override
@@ -151,12 +268,19 @@ public abstract class RemoteRule extends Rule {
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     FutureTask<RemoteRuleResult> task = run(Collections.singletonList(sentence));
-    task.run();
+    Optional<ThreadPoolExecutor> executor = LtThreadPoolFactory.getFixedThreadPoolExecutor(LtThreadPoolFactory.REMOTE_RULE_EXECUTING_POOL);
     try {
-      return task.get().getMatches().toArray(new RuleMatch[0]);
-    } catch (InterruptedException | ExecutionException e) {
-      logger.warn("Fetching results for remote rule " + getId() + " failed.", e);
-      return new RuleMatch[0];
+      long timeout = getTimeout(sentence.getText().length());
+      if (executor.isPresent()) {
+        executor.get().submit(task);
+      } else {
+        task.run();
+      }
+      RemoteRuleResult result = task.get(timeout, TimeUnit.MILLISECONDS);
+      return result.getMatches().toArray(RuleMatch.EMPTY_ARRAY);
+    } catch (InterruptedException | ExecutionException | TimeoutException e) {
+      logger.info("Fetching results for remote rule " + getId() + " failed.", e);
+      return RuleMatch.EMPTY_ARRAY;
     }
   }
 
@@ -165,4 +289,53 @@ public abstract class RemoteRule extends Rule {
   }
 
 
+  /**
+   *  Helper for {@link #fixMatchOffsets}
+   *  lookup table, find shifted index for i at shifts[i];
+   */
+  static int[] computeOffsetShifts(String s) {
+    int len = s.length() + 1;
+    int[] offsets = new int[len];
+    int shifted = 0, original = 0;
+
+    // go from codepoint to codepoint using shifted
+    // offset saved in original will correspond to Java string index shifted
+    while(shifted < s.length()) {
+      offsets[original] = shifted;
+      shifted = s.offsetByCodePoints(shifted, 1);
+      original++;
+    }
+    // save last shifted value if there is one remaining
+    if (original < len) {
+      offsets[original] = shifted;
+    }
+    // fill the rest of the array for exclusive toPos indices
+    for (int i = original + 1; i < len; i++) {
+      offsets[i] = offsets[i - 1] + 1;
+    }
+    return offsets;
+  }
+
+  /**
+   * Adapt match positions so that results from languages that thread emojis, etc. as length 1
+   * work for Java and match the normal offsets we use
+   * JavaScript also behaves like Java, so most clients will expect this behavior;
+   * but servers used for RemoteRules will often be written in Python (e.g. to access ML frameworks)
+   *
+   * based on offsetByCodePoints since codePointCount can be confusing,
+   * e.g. "👪".codePointCount(0,2) == 1, but length is 2
+   *
+   * Java substring methods use this length (which can be &gt;1 for a single character)
+   * whereas Python 3 indexing/slicing and len() in strings treat them as a single character
+   * so "😁foo".length() == 5, but len("😁foo") == 4;
+   * "😁foo".substring(2,5) == "foo" but "😁foo"[1:4] == 'foo'
+   */
+  public static void fixMatchOffsets(AnalyzedSentence sentence, List<RuleMatch> matches) {
+    int[] shifts = computeOffsetShifts(sentence.getText());
+    matches.forEach(m -> {
+      int from = shifts[m.getFromPos()];
+      int to = shifts[m.getToPos()];
+      m.setOffsetPosition(from, to);
+    });
+  }
 }

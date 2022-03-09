@@ -36,10 +36,14 @@ public class CommonWords {
   private final static Pattern numberPattern = Pattern.compile("[0-9.,%-]+");
   
   private final static Language esLang = Languages.getLanguageForShortCode("es");
+  private final static Language caLang = Languages.getLanguageForShortCode("ca");
+  private final static Language ptLang = Languages.getLanguageForShortCode("pt");
   // but -cion can be Esperanto; ía(n) can be Galician
   private final static Pattern spanishPattern = Pattern.compile("^[a-zñ]+(ón|cion|aban|ábamos|ábais|íamos|íais|[úí]a[sn]?|úe[ns]?)$");
-  private final static Pattern notSpanishPattern = Pattern.compile("^.*ns$|^.*(ss|[çàèòï]).*$");
-
+  private final static Pattern notSpanishPattern = Pattern.compile("^[lmndts]['’].*$|^.*(ns|[áéó].i[oa]s?)$|^.*(ss|[çàèòïâêôãõìù]|l·l).*$");
+  private final static Pattern notCatalanPattern = Pattern.compile("^.*([áéó].i[oa]s?|d[oa]s)$|^.*[áâêôãõìùñ].*$");
+  private final static Pattern portuguesePattern = Pattern.compile("^.*([áó]ri[oa]|ério)s?$"); // éria can be French
+  
   public CommonWords() throws IOException {
     synchronized (word2langs) {
       if (word2langs.isEmpty()) {
@@ -106,7 +110,7 @@ public class CommonWords {
     }
     // Proper per-language tokenizing might help, but then the common_words.txt
     // will also need to be tokenized the same way. Also, this is quite fast.
-    String[] words = auxText.split(" ");
+    String[] words = auxText.split("[ -]");
     for (String word : words) {
       if (numberPattern.matcher(word).matches()) {
         continue;
@@ -118,12 +122,20 @@ public class CommonWords {
           result.put(lang, result.getOrDefault(lang, 0) + 1);
         }
       }
+      //Portuguese
+      if ((languages == null || !languages.contains(ptLang)) && portuguesePattern.matcher(lcWord).matches()) {
+        result.put(ptLang, result.getOrDefault(ptLang, 0) + 1);
+      }
       //Spanish
       if ((languages == null || !languages.contains(esLang)) && spanishPattern.matcher(lcWord).matches()) {
         result.put(esLang, result.getOrDefault(esLang, 0) + 1);
       }
       if ((languages == null || !languages.contains(esLang)) && notSpanishPattern.matcher(lcWord).matches()) {
         result.put(esLang, result.getOrDefault(esLang, 0) - 1);
+      }
+      //Catalan
+      if ((languages == null || !languages.contains(caLang)) && notCatalanPattern.matcher(lcWord).matches()) {
+        result.put(caLang, result.getOrDefault(caLang, 0) - 1);
       }
     }
     return result;

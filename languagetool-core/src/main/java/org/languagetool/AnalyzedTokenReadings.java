@@ -43,6 +43,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   private final boolean isWhitespace;
   private final boolean isLinebreak;
   private final boolean isSentStart;
+  private final boolean isPosTagUnknown;
 
   private AnalyzedToken[] anTokReadings;
   private int startPos;
@@ -53,8 +54,8 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   private boolean isSentEnd;
   private boolean isParaEnd;
   private boolean isWhitespaceBefore;
-  private boolean isPosTagUnknown;
   private String whitespaceBeforeChar;
+  private boolean hasTypographicApostrophe = false;
 
   // If true, then the token is marked up as immune against tests:
   // it should never be matched by any rule. Used to have generalized
@@ -94,6 +95,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     setNoRealPOStag();
     hasSameLemmas = areLemmasSame();
     whitespaceBeforeChar = "";
+    hasTypographicApostrophe = hasTypographicApostrophe();
   }
   
   // Constructor from a previous AnalyzedTokenReadings with new readings, and annotation of the change  
@@ -112,6 +114,9 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     }
     if (oldAtr.isIgnoredBySpeller()) {
       this.ignoreSpelling();
+    }
+    if (oldAtr.hasTypographicApostrophe()) {
+      this.setTypographicApostrophe();
     }
     this.setHistoricalAnnotations(oldAtr.getHistoricalAnnotations());
     addHistoricalAnnotations(oldAtr.toString(), ruleApplied); 
@@ -279,6 +284,40 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
       }
     }
     return found;
+  }
+  
+  public boolean matchesChunkRegex(String chunkRegex) {
+    Pattern pattern = Pattern.compile(chunkRegex);
+    boolean found = false;
+    for ( ChunkTag chunk : getChunkTags()) {
+      if (chunk != null) {
+        found = pattern.matcher(chunk.getChunkTag()).matches();
+        if (found) {
+          break;
+        }
+      }
+    }
+    return found;
+  }
+  
+  /**
+   * Returns the first reading that matches a given POS tag regex.
+   *
+   * @param posTagRegex POS tag regular expression to look for
+   * @since 5.5
+   */
+  public AnalyzedToken readingWithTagRegex(String posTagRegex) {
+    Pattern pattern = Pattern.compile(posTagRegex);
+    boolean found = false;
+    for (AnalyzedToken reading : anTokReadings) {
+      if (reading.getPOSTag() != null) {
+        found = pattern.matcher(reading.getPOSTag()).matches();
+        if (found) {
+          return reading;
+        }
+      }
+    }
+    return null;
   }
 
   /**
@@ -683,6 +722,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
       .append(hasSameLemmas, other.hasSameLemmas)
       .append(isIgnoredBySpeller, other.isIgnoredBySpeller)
       .append(token, other.token)
+      .append(hasTypographicApostrophe, other.hasTypographicApostrophe)
       .isEquals();
   }
 
@@ -726,5 +766,19 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   @Experimental
   public String getCleanToken() {
     return cleanToken != null ? cleanToken : token;
+  }
+  
+  /**
+   * @since 5.2
+   */
+  public void setTypographicApostrophe() {
+    hasTypographicApostrophe = true;
+  }
+
+  /**
+   * @since 5.2
+   */
+  public boolean hasTypographicApostrophe() {
+    return hasTypographicApostrophe;
   }
 }

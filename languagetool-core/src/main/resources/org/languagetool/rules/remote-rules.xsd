@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<!-- 
+ * LanguageTool, a natural language style checker 
+ * Copyright (c) Marcin Miłkowski, 2014 (http://www.languagetool.org)
+ * 
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+ * USA
+ 
+ Schema for rule files
+ -->
+
+	<xs:include schemaLocation="pattern.xsd"/>
+
+	<xs:annotation>
+		<xs:documentation xml:lang="en">Main element</xs:documentation>
+	</xs:annotation>
+
+	<xs:element name="rules">
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded" >
+				<xs:element ref="category"/>
+			</xs:choice>
+			<xs:attribute name="lang" type="xs:language" use="required" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:annotation>
+		<xs:documentation xml:lang="en">Use the category element to group rules/rulegroups.</xs:documentation>
+		<xs:documentation xml:lang="en">The attribute name shows the category use, e.g. 'Grammar', 'Spelling', 'Style' etc.</xs:documentation>
+	</xs:annotation>
+
+	<xs:element name="category">
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element ref="rule" />
+				<xs:element ref="rulegroup" />
+			</xs:choice>
+			<xs:attribute name="default">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="off" />
+						<xs:enumeration value="on" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="name" use="required" type="xs:string"/>
+			<xs:attribute name="id" type="xs:ID" use="required" />
+			<xs:attribute name="tags"/>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:annotation>
+		<xs:documentation xml:lang="en"> Defines a group of rules
+			to display several rules as one in the configuration user interface. A group has a unique ID.
+			The whole rule group can be switched by default off using the attribute 'default'.</xs:documentation>
+	</xs:annotation>
+	<xs:element name="rulegroup">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="antipattern" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="rule" maxOccurs="unbounded" />
+			</xs:sequence>
+			<xs:attribute name="default">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="off" />
+						<xs:enumeration value="temp_off" />
+						<xs:enumeration value="on" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="name" use="required" type="xs:string"/>
+			<xs:attribute name="id" type="xs:string" use="required" />
+			<xs:attribute name="tags"/>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:annotation>
+		<xs:documentation xml:lang="en"> The rule element. The
+			unique ID is required only if the rule is not contained in a rule group.
+			The rule can be switched by default off (using the default attribute).
+		</xs:documentation>
+	</xs:annotation>
+	<xs:element name="rule">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="antipattern" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:choice>
+					<xs:element ref="pattern" />
+					<xs:element ref="regexp" />
+				</xs:choice>
+				<xs:element ref="example" maxOccurs="unbounded" />
+			</xs:sequence>
+			<xs:attribute name="default">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="off" />
+						<xs:enumeration value="temp_off" />
+						<xs:enumeration value="on" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="name" type="xs:string"/>
+			<xs:attribute name="id" type="xs:string"/>
+			<xs:attribute name="tags"/>
+		</xs:complexType>
+	</xs:element>
+
+ 	<xs:element name="pattern">
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element ref="token" />
+				<xs:element ref="phraseref" />
+				<xs:element ref="and" />
+				<xs:element ref="or" />
+				<xs:element ref="unify" />
+				<xs:element ref="marker"/>
+			</xs:choice>
+			<xs:attribute name="case_sensitive" type="binaryYesNo"/>
+			<xs:attribute name="raw_pos" type="binaryYesNo"/>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="regexp">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attribute name="case_sensitive" type="binaryYesNo"/>
+						<xs:attribute name="type" default="smart">
+							<xs:simpleType>
+								 <xs:restriction base="xs:NMTOKEN">
+									<xs:enumeration value="smart" />
+									<xs:enumeration value="exact" />
+								 </xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="mark">
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:minInclusive value="1" />
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:annotation>
+		<xs:documentation xml:lang="en">A negative-matching pattern used to
+			mark up complex exceptions in rules. Note: it does not support
+			phrases and OR operations for simplicity.
+		</xs:documentation>
+	</xs:annotation>
+	<xs:element name="antipattern">
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element ref="token" />
+				<xs:element ref="and" />
+				<xs:element ref="unify" />
+				<xs:element ref="marker" />
+			</xs:choice>
+			<xs:attribute name="case_sensitive" type="binaryYesNo"/>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:annotation>
+		<xs:documentation xml:lang="en">Specifies examples used
+			in JUnit tests and as documentation.
+			The attribute 'correction' is used to check if the suggested correction
+			is correct; multiple suggestions are joined with "|".
+			The attribute triggers_error is not used by the software.
+		</xs:documentation>
+	</xs:annotation>
+
+	<xs:element name="example" xml:space="preserve">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="marker" >
+					<xs:complexType>
+						<xs:simpleContent>
+							<xs:extension base="xs:string"/>
+						</xs:simpleContent>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+			<xs:attribute name="correction" type="xs:string"/>
+			<xs:attribute name="type">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="correct" />
+					<xs:enumeration value="incorrect" />
+					<xs:enumeration value="triggers_error" />
+				</xs:restriction>
+			</xs:simpleType>
+			</xs:attribute>
+		<xs:attribute name="reason" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

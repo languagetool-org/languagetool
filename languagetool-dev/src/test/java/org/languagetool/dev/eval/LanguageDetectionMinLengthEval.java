@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 /**
  * Evaluate the quality of our language detection - looking for shortest strings still being detected correctly.
@@ -49,11 +50,11 @@ class LanguageDetectionMinLengthEval {
 
   private LanguageDetectionMinLengthEval() {
     languageIdentifier = new LanguageIdentifier();
+    languageIdentifier.enableNgrams(new File("/home/languagetool/model_ml50_new.zip"));
     //languageIdentifier = new CLD2Identifier();
     //languageIdentifier.enableFasttext(new File("/path/to/fasttext/binary"), new File("/path/to/fasttext/model"));
     // Daniel's paths:
-    //languageIdentifier.enableFasttext(new File("/prg/fastText-0.1.0/fasttext"), new File("/prg/fastText-0.1.0/data/lid.176.bin"));
-    //languageIdentifier.enableFasttext(new File("/home/dnaber/lt/robert/langid_prod/start.sh"), new File("/prg/fastText-0.1.0/data/lid.176.bin"));
+    //languageIdentifier.enableFasttext(new File("/home/languagetool/fasttext/fasttext"), new File("/home/languagetool/fasttext/lid.176.bin"));
   }
 
   private float evaluate(Language language) throws IOException {
@@ -140,13 +141,7 @@ class LanguageDetectionMinLengthEval {
 
   private List<String> getLines(InputStream stream) throws IOException {
     List<String> lines = CharStreams.readLines(new InputStreamReader(stream));
-    List<String> result = new ArrayList<>();
-    for (String line : lines) {
-      if (!line.startsWith("#")) {
-        result.add(line);
-      }
-    }
-    return result;
+    return lines.stream().filter(k -> !k.startsWith("#")).collect(Collectors.toList());
   }
 
   public static void main(String[] args) throws IOException {

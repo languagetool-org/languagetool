@@ -18,21 +18,18 @@
  */
 package org.languagetool.rules;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Queue;
-import java.util.ResourceBundle;
-import java.util.concurrent.ArrayBlockingQueue;
-
 import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.LinguServices;
+import org.languagetool.UserConfig;
 import org.languagetool.tools.StringTools;
+
+import java.io.IOException;
+import java.util.*;
 
 /**
  * Checks that compounds (if in the list) are not written as separate words.
@@ -47,6 +44,8 @@ public abstract class AbstractCompoundRule extends Rule {
   private final String withoutHyphenMessage;
   private final String withOrWithoutHyphenMessage;
   private final String shortDesc;
+  protected final LinguServices linguServices;   // Linguistic Service of LO/OO used for LO/OO extension is null in other cases
+  protected final Language lang;                 // used by LO/OO Linguistic Service 
   // if true, the first word will be uncapitalized before compared to the entries in CompoundRuleData
   protected boolean sentenceStartsWithUpperCase = true;
 
@@ -62,20 +61,20 @@ public abstract class AbstractCompoundRule extends Rule {
   }
 
   /** @since 3.0 */
-  protected abstract CompoundRuleData getCompoundRuleData();
+  public abstract CompoundRuleData getCompoundRuleData();
 
   /**
    * @since 3.0
    */
-  public AbstractCompoundRule(ResourceBundle messages,
+  public AbstractCompoundRule(ResourceBundle messages, Language lang, UserConfig userConfig,
                               String withHyphenMessage, String withoutHyphenMessage, String withOrWithoutHyphenMessage) throws IOException {
-    this(messages, withHyphenMessage, withoutHyphenMessage, withOrWithoutHyphenMessage, null);
+    this(messages, lang, userConfig, withHyphenMessage, withoutHyphenMessage, withOrWithoutHyphenMessage, null);
   }
 
   /**
    * @since 3.0
    */
-  public AbstractCompoundRule(ResourceBundle messages,
+  public AbstractCompoundRule(ResourceBundle messages, Language lang, UserConfig userConfig,
                               String withHyphenMessage, String withoutHyphenMessage, String withOrWithoutHyphenMessage,
                               String shortMessage) throws IOException {
     super.setCategory(Categories.MISC.getCategory(messages));
@@ -84,27 +83,22 @@ public abstract class AbstractCompoundRule extends Rule {
     this.withOrWithoutHyphenMessage = withOrWithoutHyphenMessage;
     this.shortDesc = shortMessage;
     setLocQualityIssueType(ITSIssueType.Misspelling);
-  }
-
-  /**
-   * Flag to indicate if the hyphen is ignored in the text entered by the user.
-   * Set this to false if you want the rule to offer suggestions for words 
-   * like [ro] "câte-și-trei" (with hyphen), not only for "câte și trei" (with spaces)
-   * This is only available for languages with hyphen as a word separator (ie: not 
-   * available for English, available for Romanian). See Language.getWordTokenizer()
-   */
-  public boolean isHyphenIgnored() {
-    return true;
+    this.lang = lang;
+    if (userConfig != null) {
+      linguServices = userConfig.getLinguServices();
+    } else {
+      linguServices = null;
+    }
   }
 
   @Override
-  public RuleMatch[] match(AnalyzedSentence sentence) {
+  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();
 
     RuleMatch prevRuleMatch = null;
-    Queue<AnalyzedTokenReadings> prevTokens = new ArrayBlockingQueue<>(MAX_TERMS);
-    for (int i = 0; i < tokens.length + MAX_TERMS-1; i++) {
+    ArrayDeque<AnalyzedTokenReadings> prevTokens = new ArrayDeque<>(MAX_TERMS);
+    for (int i = 0; i < tokens.length + MAX_TERMS; i++) {
       AnalyzedTokenReadings token;
       // we need to extend the token list so we find matches at the end of the original list:
       if (i >= tokens.length) {
@@ -120,8 +114,8 @@ public abstract class AbstractCompoundRule extends Rule {
       }
 
       AnalyzedTokenReadings firstMatchToken = prevTokens.peek();
-      List<String> stringsToCheck = new ArrayList<>();
-      List<String> origStringsToCheck = new ArrayList<>();    // original upper/lowercase spelling
+      List<String> stringsToCheck = new ArrayList<>();      // no hyphens spelling
+      List<String> origStringsToCheck = new ArrayList<>();  // original upper/lowercase and hyphens spelling
       Map<String, AnalyzedTokenReadings> stringToToken =
               getStringToTokenMap(prevTokens, stringsToCheck, origStringsToCheck);
       // iterate backwards over all potentially incorrect strings to make
@@ -133,12 +127,16 @@ public abstract class AbstractCompoundRule extends Rule {
           AnalyzedTokenReadings atr = stringToToken.get(stringToCheck);
           String msg = null;
           List<String> replacement = new ArrayList<>();
-          if (!getCompoundRuleData().getNoDashSuggestion().contains(stringToCheck)) {
+          if (getCompoundRuleData().getDashSuggestion().contains(stringToCheck) && !origStringToCheck.contains(" ")) {
+            // It is already joined
+            break;
+          }
+          if (getCompoundRuleData().getDashSuggestion().contains(stringToCheck)) {
             replacement.add(origStringToCheck.replace(' ', '-'));
             msg = withHyphenMessage;
           }
-          if (isNotAllUppercase(origStringToCheck) && !getCompoundRuleData().getOnlyDashSuggestion().contains(stringToCheck)) {
-            replacement.add(mergeCompound(origStringToCheck, getCompoundRuleData().getNoDashLowerCaseSuggestion().stream().anyMatch(s -> origStringsToCheck.contains(s))));
+          if (isNotAllUppercase(origStringToCheck) && getCompoundRuleData().getJoinedSuggestion().contains(stringToCheck)) {
+            replacement.add(mergeCompound(origStringToCheck, getCompoundRuleData().getJoinedLowerCaseSuggestion().stream().anyMatch(s -> stringToCheck.contains(s))));
             msg = withoutHyphenMessage;
           }
           String[] parts = stringToCheck.split(" ");
@@ -148,6 +146,11 @@ public abstract class AbstractCompoundRule extends Rule {
             msg = withHyphenMessage;
           } else if (replacement.isEmpty() || replacement.size() == 2) {     // isEmpty shouldn't happen
             msg = withOrWithoutHyphenMessage;
+          }
+          replacement = filterReplacements(replacement,
+            sentence.getText().substring(firstMatchToken.getStartPos(), atr.getEndPos()));
+          if (replacement.isEmpty()) {
+            break;
           }
           RuleMatch ruleMatch = new RuleMatch(this, sentence, firstMatchToken.getStartPos(), atr.getEndPos(), msg, shortDesc);
           ruleMatch.setSuggestedReplacements(replacement);
@@ -166,6 +169,17 @@ public abstract class AbstractCompoundRule extends Rule {
     return toRuleMatchArray(ruleMatches);
   }
 
+  protected List<String> filterReplacements(List<String> replacements, String original) throws IOException {
+    List<String> newReplacements = new ArrayList<String>();
+    for (String replacement : replacements) {
+      String newReplacement = replacement.replaceAll("\\-\\-+", "-");
+      if (!newReplacement.equals(original) && isCorrectSpell(newReplacement)) {
+        newReplacements.add(newReplacement);
+      }
+    }
+    return newReplacements;
+  }
+
   private Map<String, AnalyzedTokenReadings> getStringToTokenMap(Queue<AnalyzedTokenReadings> prevTokens,
                                                                  List<String> stringsToCheck, List<String> origStringsToCheck) {
     StringBuilder sb = new StringBuilder();
@@ -173,12 +187,14 @@ public abstract class AbstractCompoundRule extends Rule {
     int j = 0;
     boolean isFirstSentStart = false;
     for (AnalyzedTokenReadings atr : prevTokens) {
-      sb.append(' ');
+      if (atr.isWhitespaceBefore()) {
+        sb.append(' ');  
+      }
       sb.append(atr.getToken());
       if (j == 0) {
         isFirstSentStart = atr.hasPosTag(JLanguageTool.SENTENCE_START_TAGNAME);
       }
-      if (j >= 1) {
+      if (j >= 1 || (j == 0 && !isFirstSentStart)) {
         String stringToCheck = normalize(sb.toString());
         if (sentenceStartsWithUpperCase && isFirstSentStart) {
           stringToCheck = StringUtils.uncapitalize(stringToCheck);
@@ -196,21 +212,16 @@ public abstract class AbstractCompoundRule extends Rule {
 
   private String normalize(String inStr) {
     String str = inStr.trim();
-    if (str.indexOf('-') != -1 && str.indexOf(' ') != -1) {
-      if (isHyphenIgnored()) {
-        // e.g. "E-Mail Adresse" -> "E Mail Adresse" so the error can be detected:
-        str = str.replace('-', ' ');
-      } else {
-        str = str.replace(" - ", " ");
-      }
-    }
+    str = str.replace(" - ", " ");
+    str = str.replace("-", " ");
+    str = str.replaceAll("\\s+", " ");
     return str;
   }
 
   private boolean isNotAllUppercase(String str) {
     String[] parts = str.split(" ");
     for (String part : parts) {
-      if (isHyphenIgnored() || !"-".equals(part)) { // do not treat '-' as an upper-case word
+      if (!"-".equals(part)) { // do not treat '-' as an upper-case word
         if (StringTools.isAllUppercase(part)) {
           return false;
         }
@@ -219,27 +230,35 @@ public abstract class AbstractCompoundRule extends Rule {
     return true;
   }
 
-  private String mergeCompound(String str, boolean uncapitalizeMidWords) {
-    String[] stringParts = str.split(" ");
+  public String mergeCompound(String str, boolean uncapitalizeMidWords) {
+    String[] stringParts = str.replaceAll("-", " ").split(" ");
     StringBuilder sb = new StringBuilder();
-    for (int k = 0; k < stringParts.length; k++) {
-      if (isHyphenIgnored() || !"-".equals(stringParts[k])) {
-        if (k == 0) {
-          sb.append(stringParts[0]);
-        } else {
-          sb.append(uncapitalizeMidWords ? StringUtils.uncapitalize(stringParts[k]) : stringParts[k]);
-        }
+    for (int k = 0; k < stringParts.length; k++) {  
+      if (k == 0) {
+        sb.append(stringParts[0]);
+      } else {
+        sb.append(uncapitalizeMidWords ? StringUtils.uncapitalize(stringParts[k]) : stringParts[k]);
       }
     }
     return sb.toString();
   }
 
-  private void addToQueue(AnalyzedTokenReadings token, Queue<AnalyzedTokenReadings> prevTokens) {
-    boolean inserted = prevTokens.offer(token);
-    if (!inserted) {
+  private static void addToQueue(AnalyzedTokenReadings token, ArrayDeque<AnalyzedTokenReadings> prevTokens) {
+    if (prevTokens.size() == MAX_TERMS) {
       prevTokens.poll();
-      prevTokens.offer(token);
     }
+    prevTokens.offer(token);
+  }
+  
+  private boolean isCorrectSpell(String word) throws IOException {
+    if (linguServices == null) {
+      return !isMisspelled(word);
+    }
+    return linguServices.isCorrectSpell(word, lang);
+  }
+  
+  public boolean isMisspelled(String word) throws IOException {
+    return false;
   }
 
 }

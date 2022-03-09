@@ -33,7 +33,7 @@ public class FalseFriendExporter {
           "/home/dnaber/lt/git/languagetool/languagetool-core/src/main/resources/org/languagetool/rules/false-friends.xml";
 
   public static void main(String[] args) throws IOException {
-    Language l1 = Languages.getLanguageForShortCode("de");
+    Language l1 = Languages.getLanguageForShortCode("nl");
     Language l2 = Languages.getLanguageForShortCode("en");
     listRuleMessages(l1, l2);
     //listRuleMessages(l2, l1);

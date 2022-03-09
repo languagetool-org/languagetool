@@ -24,14 +24,19 @@ import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Rule;
+import org.languagetool.rules.de.GermanCompoundRule;
 import org.languagetool.rules.de.GermanSpellerRule;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class GermanyGerman extends NonSwissGerman {
+import static org.languagetool.JLanguageTool.getDataBroker;
+
+public class GermanyGerman extends German {
 
   @Override
   public String[] getCountries() {
@@ -44,10 +49,35 @@ public class GermanyGerman extends NonSwissGerman {
   }
 
   @Override
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
+    List<Rule> rules = new ArrayList<>(super.getRelevantRules(messages, userConfig, motherTongue, altLanguages));
+    rules.add(new GermanCompoundRule(messages, this, userConfig));
+    return rules;
+  }
+
+  @Override
+  public SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
+    return new GermanSpellerRule(messages, this);
+  }
+
+  @Override
   public List<Rule> getRelevantLanguageModelCapableRules(ResourceBundle messages, @Nullable LanguageModel languageModel, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     List<Rule> rules = new ArrayList<>(super.getRelevantLanguageModelCapableRules(messages, languageModel, globalConfig, userConfig, motherTongue, altLanguages));
     rules.add(new GermanSpellerRule(messages, this,
       userConfig, null, altLanguages, languageModel));
     return rules;
   }
+
+  @Override
+  public List<String> getRuleFileNames() {
+    List<String> ruleFileNames = new ArrayList<>(super.getRuleFileNames());
+    ruleFileNames.add(getDataBroker().getRulesDir() + "/de/de-DE-AT/grammar.xml");
+    return Collections.unmodifiableList(ruleFileNames);
+  }
+
+  @Override
+  public boolean isVariant() {
+    return true;
+  }
+
 }

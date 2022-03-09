@@ -23,7 +23,7 @@ import org.junit.Test;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.TestTools;
 import org.languagetool.language.English;
-import org.languagetool.tokenizers.WordTokenizer;
+import org.languagetool.tokenizers.en.EnglishWordTokenizer;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,12 +34,12 @@ import static org.junit.Assert.assertEquals;
 public class EnglishTaggerTest {
 
   private EnglishTagger tagger;
-  private WordTokenizer tokenizer;
+  private EnglishWordTokenizer tokenizer;
   
   @Before
   public void setUp() {
     tagger = new EnglishTagger();
-    tokenizer = new WordTokenizer();
+    tokenizer = new EnglishWordTokenizer();
   }
 
   @Test
@@ -54,22 +54,25 @@ public class EnglishTaggerTest {
     TestTools.myAssert("Marketing do a lot of trouble.",
         "Marketing/[market]VBG|Marketing/[marketing]NN:U -- do/[do]VB|do/[do]VBP -- a/[a]DT -- lot/[lot]NN -- of/[of]IN -- trouble/[trouble]NN:UN|trouble/[trouble]VB|trouble/[trouble]VBP", tokenizer, tagger);
     TestTools.myAssert("Manager use his laptop every day.",
-        "Manager/[manager]NN -- use/[use]NN:UN|use/[use]VB|use/[use]VBP -- his/[hi]NNS|his/[his]PRP$ -- laptop/[laptop]NN -- every/[every]DT -- day/[day]NN:UN", tokenizer, tagger);
+      "Manager/[manager]NN -- use/[use]NN:UN|use/[use]VB|use/[use]VBP -- his/[he]PRP$_A3SM|his/[he]PRP$_P3SM|his/[hi]NNS|his/[his]PRP$ -- laptop/[laptop]NN -- every/[every]DT -- day/[day]NN:UN", tokenizer, tagger);
     TestTools.myAssert("This is a bigger house.",
         "This/[this]DT|This/[this]PDT -- is/[be]VBZ -- a/[a]DT -- bigger/[big]JJR -- house/[house]NN|house/[house]VB|house/[house]VBP", tokenizer, tagger);
     TestTools.myAssert("He doesn't believe me.",
-        "He/[he]PRP -- doesn/[do]VBZ -- t/[null]null -- believe/[believe]VB|believe/[believe]VBP -- me/[I]PRP", tokenizer, tagger);
+      "He/[he]PRP|He/[he]PRP_S3SM -- does/[do]VBZ|does/[doe]NNS -- n't/[not]RB -- believe/[believe]VB|believe/[believe]VBP -- me/[I]PRP|me/[I]PRP_O1S", tokenizer, tagger);
     TestTools.myAssert("It has become difficult.",
-        "It/[it]PRP -- has/[have]VBZ -- become/[become]VB|become/[become]VBN|become/[become]VBP -- difficult/[difficult]JJ", tokenizer, tagger); 
+      "It/[it]PRP|It/[it]PRP_O3SN|It/[it]PRP_S3SN -- has/[have]VBZ -- become/[become]VB|become/[become]VBN|become/[become]VBP -- difficult/[difficult]JJ", tokenizer, tagger);
+    TestTools.myAssert("You haven't.",
+      "You/[you]PRP|You/[you]PRP_O2P|You/[you]PRP_O2S|You/[you]PRP_S2P|You/[you]PRP_S2S -- have/[have]NN|have/[have]VB|have/[have]VBP -- n't/[not]RB", tokenizer, tagger);
+    TestTools.myAssert("You haven’t.",
+      "You/[you]PRP|You/[you]PRP_O2P|You/[you]PRP_O2S|You/[you]PRP_S2P|You/[you]PRP_S2S -- have/[have]NN|have/[have]VB|have/[have]VBP -- n't/[not]RB", tokenizer, tagger);
   }
 
   @Test
   public void testLemma() throws IOException {
-    EnglishTagger tagger = new EnglishTagger();
     List<String> words = new ArrayList<>();
     words.add("Trump");
     words.add("works");
-    List<AnalyzedTokenReadings> aToken = tagger.tag(words);
+    List<AnalyzedTokenReadings> aToken = EnglishTagger.INSTANCE.tag(words);
     
     assertEquals(2, aToken.size());
     assertEquals(4, aToken.get(0).getReadings().size());

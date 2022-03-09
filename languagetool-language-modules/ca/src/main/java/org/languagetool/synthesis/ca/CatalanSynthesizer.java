@@ -64,6 +64,8 @@ public class CatalanSynthesizer extends BaseSynthesizer {
   
   /** Patterns verb **/
   private static final Pattern pVerb = Pattern.compile("V.*[CVBXYZ0123456]");
+  
+  private static final Pattern pLemmaSpace = Pattern.compile("([^ ]+) (.+)");
 
   public CatalanSynthesizer(Language lang) {
     super("/ca/ca.sor", "/ca/ca-ES-valencia_synth.dict", "/ca/ca-ES-valencia_tags.txt", lang);
@@ -78,6 +80,16 @@ public class CatalanSynthesizer extends BaseSynthesizer {
         strToSpell = "feminine " + strToSpell;
       }
       return new String[] { getSpelledNumber(strToSpell) };
+    }
+    String lemma = token.getLemma();
+    String toAddAfter = "";
+    // verbs with noun
+    if (posTag.startsWith("V")) {
+      Matcher mLemmaSpace = pLemmaSpace.matcher(lemma);
+      if (mLemmaSpace.matches()) {
+        lemma = mLemmaSpace.group(1);
+        toAddAfter = mLemmaSpace.group(2);
+      }
     }
     initPossibleTags();
     Pattern p;
@@ -101,9 +113,9 @@ public class CatalanSynthesizer extends BaseSynthesizer {
       Matcher m = p.matcher(tag);
       if (m.matches()) {
         if (addDt) {
-          lookupWithEl(token.getLemma(), tag, prep, results);
+          lookupWithEl(lemma, tag, prep, results);
         } else {
-          results.addAll(lookup(token.getLemma(), tag));
+          results.addAll(lookup(lemma, tag));
         }
       }
     }       
@@ -111,16 +123,16 @@ public class CatalanSynthesizer extends BaseSynthesizer {
     // if not found, try verbs from any regional variant
     if (results.isEmpty() && posTag.startsWith("V")) {
       if (posTag.endsWith("V") || posTag.endsWith("B")) {
-        results.addAll(lookup(token.getLemma(), posTag.substring(0, posTag.length() - 1).concat("Z")));
+        results.addAll(lookup(lemma, posTag.substring(0, posTag.length() - 1).concat("Z")));
       }
       if (results.isEmpty() && !posTag.endsWith("0")) {
-        results.addAll(lookup(token.getLemma(), posTag.substring(0, posTag.length() - 1).concat("0")));
+        results.addAll(lookup(lemma, posTag.substring(0, posTag.length() - 1).concat("0")));
       }
       if (results.isEmpty()) { // another try
         return synthesize(token, posTag.substring(0, posTag.length() - 1).concat("."), true);
       }
     }
-    return results.toArray(new String[0]);
+    return addWordsAfter(results, toAddAfter).toArray(new String[0]);
   }
   
   @Override
@@ -129,6 +141,16 @@ public class CatalanSynthesizer extends BaseSynthesizer {
       return synthesize(token, posTag);
     }
     if (posTagRegExp) {
+      String lemma = token.getLemma();
+      String toAddAfter = "";
+      // verbs with noun
+      if (posTag.startsWith("V")) {
+        Matcher mLemmaSpace = pLemmaSpace.matcher(lemma);
+        if (mLemmaSpace.matches()) {
+          lemma = mLemmaSpace.group(1);
+          toAddAfter = mLemmaSpace.group(2);
+        }
+      }
       initPossibleTags();
       Pattern p;
       try {
@@ -142,7 +164,7 @@ public class CatalanSynthesizer extends BaseSynthesizer {
       for (String tag : possibleTags) {
         Matcher m = p.matcher(tag);
         if (m.matches()) {
-          results.addAll(lookup(token.getLemma(), tag));
+          results.addAll(lookup(lemma, tag));
         }
       }
       // if not found, try verbs from any regional variant
@@ -155,7 +177,7 @@ public class CatalanSynthesizer extends BaseSynthesizer {
             for (String tag : possibleTags) {
               Matcher m = p.matcher(tag);
               if (m.matches()) {
-                results.addAll(lookup(token.getLemma(), tag));
+                results.addAll(lookup(lemma, tag));
               }
             }
           }
@@ -165,13 +187,13 @@ public class CatalanSynthesizer extends BaseSynthesizer {
             for (String tag : possibleTags) {
               Matcher m = p.matcher(tag);
               if (m.matches()) {
-                results.addAll(lookup(token.getLemma(), tag));
+                results.addAll(lookup(lemma, tag));
               }
             }
           }
         }
       }
-      return results.toArray(new String[0]);
+      return addWordsAfter(results, toAddAfter).toArray(new String[0]);
     }
     return synthesize(token, posTag);
   }
@@ -216,5 +238,16 @@ public class CatalanSynthesizer extends BaseSynthesizer {
       }
     }
 
+  } 
+  
+  private List<String> addWordsAfter(List<String> results, String toAddAfter) {
+    if (!toAddAfter.isEmpty()) {
+      List<String> output = new ArrayList<>();
+      for (String result : results) {
+        output.add(result + " " + toAddAfter);
+      }
+      return output;
+    }
+    return results;
   }
 }

@@ -40,6 +40,12 @@ public class MultipleWhitespaceRuleTest {
 
     // correct sentences:
     assertGood("This is a test sentence.", lt);
+    assertGood("This\uFEFF is a test sentence.", lt);
+    assertGood("This\uFEFF\uFEFF is a test sentence.", lt);
+    assertGood("This \uFEFFis a test sentence.", lt);
+    assertGood("This\uFEFF\u2060 is a test sentence.", lt);
+    assertGood("This\uFEFF\u2060 is a test sentence.", lt);
+    assertGood("\uFEFF\uFEFFThis is a\n\u2060\ntest sentence...", lt);
     assertGood("This is a test sentence...", lt);
     assertGood("\n\tThis is a test sentence...", lt);
     assertGood("Multiple tabs\t\tare okay", lt);
@@ -79,8 +85,8 @@ public class MultipleWhitespaceRuleTest {
     assertEquals(6, matches.get(0).getToPos());    
   }
 
-  private void assertGood(String input, JLanguageTool langTool) throws IOException {
-    List<RuleMatch> ruleMatches = langTool.check(input);
+  private void assertGood(String input, JLanguageTool lt) throws IOException {
+    List<RuleMatch> ruleMatches = lt.check(input);
     assertEquals(0, ruleMatches.size());
   }
   
@@ -92,8 +98,8 @@ public class MultipleWhitespaceRuleTest {
     lt.addRule(rule);
   }
 
-  public static MultipleWhitespaceRule getMultipleWhitespaceRule(JLanguageTool langTool) {
-    for (Rule rule : langTool.getAllActiveRules()) {
+  public static MultipleWhitespaceRule getMultipleWhitespaceRule(JLanguageTool lt) {
+    for (Rule rule : lt.getAllActiveRules()) {
       if (rule instanceof MultipleWhitespaceRule) {
         return (MultipleWhitespaceRule)rule;
       }

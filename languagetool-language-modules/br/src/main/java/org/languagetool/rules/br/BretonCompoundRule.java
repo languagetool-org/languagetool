@@ -26,6 +26,8 @@
 
 package org.languagetool.rules.br;
 
+import org.languagetool.Language;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
 
 import java.io.IOException;
@@ -39,8 +41,8 @@ public class BretonCompoundRule extends AbstractCompoundRule {
 
   private static volatile CompoundRuleData compoundData;
 
-  public BretonCompoundRule(ResourceBundle messages) throws IOException {    
-    super(messages,
+  public BretonCompoundRule(ResourceBundle messages, Language lang, UserConfig userConfig) throws IOException {    
+    super(messages, lang, userConfig,
             "Skrivet e vez ar ger-mañ boaz gant ur varrennig-stagañ.",
             "Ar ger-mañ a zo skrivet boaz evel unan hepken.",
             "An droienn-mañ a zo skrivet evel ur ger hepken pe gant ur varrennig-stagañ.",
@@ -69,7 +71,7 @@ public class BretonCompoundRule extends AbstractCompoundRule {
 */
 
   @Override
-  protected CompoundRuleData getCompoundRuleData() {
+  public CompoundRuleData getCompoundRuleData() {
     CompoundRuleData data = compoundData;
     if (data == null) {
       synchronized (BretonCompoundRule.class) {

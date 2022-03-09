@@ -70,6 +70,7 @@ public class AbstractEnglishSpellerRuleTest {
     assertFirstMatch("mischevious", "mischievous");
     assertFirstMatch("hygeine", "hygiene");
     assertFirstMatch("ur", "your");
+    assertFirstMatch("doublecheck", "double-check");
     assertAllMatches(lt, rule, "campaignt", "campaign", "campaigns");
     assertAllMatches(lt, rule, "campaignd", "campaign", "campaigns", "campaigned");
     assertAllMatches(lt, rule, "campaignll");

@@ -18,6 +18,8 @@
  */
 package org.languagetool.rules.ru;
 
+import org.languagetool.Language;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
 
 import java.io.IOException;
@@ -37,8 +39,8 @@ public class RussianCompoundRule extends AbstractCompoundRule {
 
   private static volatile CompoundRuleData compoundData;
 
-  public RussianCompoundRule(ResourceBundle messages) throws IOException {
-    super(messages,
+  public RussianCompoundRule(ResourceBundle messages, Language lang, UserConfig userConfig) throws IOException {
+    super(messages, lang, userConfig,
             "Эти слова должны быть написаны через дефис.",
             "Эти слова должны быть написаны слитно.",
             "Эти слова могут быть написаны через дефис или слитно.");
@@ -59,7 +61,7 @@ public class RussianCompoundRule extends AbstractCompoundRule {
   }
 
   @Override
-  protected CompoundRuleData getCompoundRuleData() {
+  public CompoundRuleData getCompoundRuleData() {
     CompoundRuleData data = compoundData;
     if (data == null) {
       synchronized (RussianCompoundRule.class) {

@@ -23,6 +23,7 @@ import org.languagetool.*;
 import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 import org.languagetool.tagging.ca.CatalanTagger;
+import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.*;
@@ -39,23 +40,25 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
       "^(no|en|a|els?|als?|pels?|dels?|de|per|uns?|una|unes|la|les|[tms]eus?) (..+)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern PREFIX_AMB_ESPAI = Pattern.compile(
-      "^(des|avant|auto|ex|extra|macro|mega|meta|micro|multi|mono|mini|post|retro|semi|super|trans) (..+)$",
+      "^(tele|anti|re|des|avant|auto|ex|extra|macro|mega|meta|micro|multi|mono|mini|post|retro|semi|super|trans|pro|g) (..+)|.+ s$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
-  private static final Pattern APOSTROF_INICI_VERBS = Pattern.compile("^([lnts])(h?[aeiouàéèíòóú].*)$",
+  private static final Pattern APOSTROF_INICI_VERBS = Pattern.compile("^([lnts])[90]?(h?[aeiouàéèíòóú].*)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern APOSTROF_INICI_VERBS_M = Pattern.compile("^(m)(h?[aeiouàéèíòóú].*)$",
+  private static final Pattern APOSTROF_INICI_VERBS_M = Pattern.compile("^(m)[90]?(h?[aeiouàéèíòóú].*)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern APOSTROF_INICI_NOM_SING = Pattern.compile("^([ld])(h?[aeiouàéèíòóú]...+)$",
+  private static final Pattern APOSTROF_INICI_NOM_SING = Pattern.compile("^([ld])[90]?(h?[aeiouàéèíòóú]...+)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern APOSTROF_INICI_NOM_PLURAL = Pattern.compile("^(d)(h?[aeiouàéèíòóú].+)$",
+  private static final Pattern APOSTROF_INICI_NOM_PLURAL = Pattern.compile("^(d)[90]?(h?[aeiouàéèíòóú].+)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern APOSTROF_FINAL = Pattern.compile("^(...+[aei])(l|ls|m|ns|n|t)$",
+  private static final Pattern APOSTROF_FINAL = Pattern.compile("^(...+[aei])[90]?(l|ls|m|ns|n|t)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern APOSTROF_FINAL_S = Pattern.compile("^(.+e)(s)$",
+  private static final Pattern APOSTROF_FINAL_S = Pattern.compile("^(.+e)[90]?(s)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern GUIONET_FINAL = Pattern.compile(
       "^([\\p{L}·]+)[’']?(hi|ho|la|les|li|lo|los|me|ne|nos|se|te|vos)$",
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  private static final Pattern SPLIT_SUGGESTIONS = Pattern.compile("^(..+\\p{L}|en|de|del|al|dels|als|a|i|o|amb)(\\d+)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern MOVE_TO_SECOND_POS = Pattern.compile("^(.+'[nt])$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
@@ -65,13 +68,18 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   private static final Pattern NOM_PLURAL = Pattern.compile("V.P..P..|N..[PN].*|A...[PN].|PX..P...|DD..P.");
   private static final Pattern VERB_INFGERIMP = Pattern.compile("V.[NGM].*");
   private static final Pattern VERB_INF = Pattern.compile("V.N.*");
+  private static final Pattern ANY_TAG = Pattern.compile("[NVACPDRS].*");
   private CatalanTagger tagger;
 
   public MorfologikCatalanSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig,
       List<Language> altLanguages) throws IOException {
     super(messages, language, userConfig, altLanguages);
     this.setIgnoreTaggedWords();
-    tagger = new CatalanTagger(language);
+    if (language.getVariant() != null) {
+      tagger = CatalanTagger.INSTANCE_VAL;
+    } else {
+      tagger = CatalanTagger.INSTANCE_CAT;
+    }
     dictFilename = "/ca/" + language.getShortCodeWithCountryAndVariant() + JLanguageTool.DICTIONARY_FILENAME_EXTENSION;
   }
 
@@ -100,12 +108,20 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   protected List<SuggestedReplacement> orderSuggestions(List<SuggestedReplacement> suggestions, String word) {
     // move some run-on-words suggestions to the top
     List<SuggestedReplacement> newSuggestions = new ArrayList<>();
-    // for (SuggestedReplacement suggestion : suggestions) {
+    String wordWithouDiacriticsString = StringTools.removeDiacritics(word);
     for (int i = 0; i < suggestions.size(); i++) {
 
       // remove wrong split prefixes
       if (PREFIX_AMB_ESPAI.matcher(suggestions.get(i).getReplacement()).matches()) {
         continue;
+      }
+      
+   // Don't change first suggestions if they match word without diacritics
+      int posNewSugg = 0;
+      while (newSuggestions.size() > posNewSugg
+          && StringTools.removeDiacritics(newSuggestions.get(posNewSugg).getReplacement())
+              .equalsIgnoreCase(wordWithouDiacriticsString)) {
+        posNewSugg++;
       }
 
       // move some split words to first place
@@ -115,15 +131,24 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
         List<AnalyzedTokenReadings> atkn = tagger.tag(Arrays.asList(newSuggestion));
         boolean isBalear = atkn.get(0).hasPosTag("VMIP1S0B") && !atkn.get(0).hasPosTagStartingWith("N");
         if (!isBalear) {
-          newSuggestions.add(0, suggestions.get(i));
+          newSuggestions.add(posNewSugg, suggestions.get(i));
           continue;
         }
+      }
+      
+      String suggWithoutDiacritics = StringTools.removeDiacritics(suggestions.get(i).getReplacement());
+      if (word.equalsIgnoreCase(suggWithoutDiacritics)) {
+        newSuggestions.add(posNewSugg, suggestions.get(i));
+        continue;
       }
 
       // move words with apostrophe or hyphen to second position
       String cleanSuggestion = suggestions.get(i).getReplacement().replaceAll("'", "").replaceAll("-", "");
       if (i > 1 && suggestions.size() > 2 && cleanSuggestion.equalsIgnoreCase(word)) {
-        newSuggestions.add(1, suggestions.get(i));
+        if (posNewSugg == 0) {
+          posNewSugg = 1;
+        }
+        newSuggestions.add(posNewSugg, suggestions.get(i));
         continue;
       }
 
@@ -162,6 +187,7 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
     suggestion = findSuggestion(suggestion, word, APOSTROF_FINAL, VERB_INFGERIMP, 1, "'", true);
     suggestion = findSuggestion(suggestion, word, APOSTROF_FINAL_S, VERB_INF, 1, "'", true);
     suggestion = findSuggestion(suggestion, word, GUIONET_FINAL, VERB_INFGERIMP, 1, "-", true);
+    suggestion = findSuggestion(suggestion, word, SPLIT_SUGGESTIONS, ANY_TAG, 1, " ", true);
     if (!suggestion.isEmpty()) {
       return Collections.singletonList(suggestion);
     }
@@ -177,7 +203,7 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
     if (matcher.matches()) {
       String newSuggestion = matcher.group(suggestionPosition);
       AnalyzedTokenReadings newatr = tagger.tag(Arrays.asList(newSuggestion)).get(0);
-      if (!newatr.hasPosTag("VMIP1S0B") && matchPostagRegexp(newatr, postagPattern)) {
+      if ((!newatr.hasPosTag("VMIP1S0B") || newSuggestion.equals("fer")) && matchPostagRegexp(newatr, postagPattern)) {
         return matcher.group(1) + separator + matcher.group(2);
       }
       if (recursive) {
@@ -185,7 +211,7 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
         if (moresugg.size() > 0) {
           String newWord;
           if (suggestionPosition == 1) {
-            newWord = moresugg.get(0).toLowerCase() + matcher.group(2);
+            newWord = moresugg.get(0) + matcher.group(2); //.toLowerCase()
           } else {
             newWord = matcher.group(1) + moresugg.get(0).toLowerCase();
           }

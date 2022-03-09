@@ -18,6 +18,13 @@
  */
 package org.languagetool.tagging.eo;
 
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
+import org.languagetool.tagging.ManualTagger;
+import org.languagetool.tagging.TaggedWord;
+import org.languagetool.tagging.Tagger;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,13 +36,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.languagetool.AnalyzedToken;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
-import org.languagetool.tagging.ManualTagger;
-import org.languagetool.tagging.TaggedWord;
-import org.languagetool.tagging.Tagger;
 
 /**
  * A part-of-speech tagger for Esperanto.
@@ -127,7 +127,7 @@ public class EsperantoTagger implements Tagger {
     return words;
   }
 
-  private void lazyInit() throws IOException {
+  private synchronized void lazyInit() throws IOException {
     if (manualTagger != null) {
       return;
     }
@@ -210,9 +210,12 @@ public class EsperantoTagger implements Tagger {
     for (String word : sentenceTokens) {
       List<AnalyzedToken> l = new ArrayList<>();
 
-      // No Esperanto word is made of one letter only. This check avoids
-      // spurious tagging as single letter words "A", "O", "E", etc.
-      if (word.length() > 1) {
+      if (word.length() > 50) {
+        // avoid excessively long computation times for long (probably artificial) tokens:
+        l.add(new AnalyzedToken(word, null, null));
+      } else if (word.length() > 1) {
+        // No Esperanto word is made of one letter only. This check avoids
+        // spurious tagging as single letter words "A", "O", "E", etc.
         // Lemma contains words in lower case, and with Unicode transcription (as opposed
         // to x-system).
         String lWord = xSystemToUnicode(word.toLowerCase());

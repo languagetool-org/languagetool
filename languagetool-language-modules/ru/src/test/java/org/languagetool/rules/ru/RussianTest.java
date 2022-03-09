@@ -29,7 +29,7 @@ public class RussianTest extends LanguageSpecificTest {
   
   @Test
   public void testLanguage() throws IOException {
-    // NOTE: this text needs to be kept in sync with WelcomeController.php's getDefaultDemoTexts():
+    // NOTE: this text needs to be kept in sync with config.ts -> DEMO_TEXTS:
     String s = "Вставьте ваш текст сюда .. или проверьте этот текстт. Релиз LanguageTool 4.7 состоялся в четверг 28 сентября 2019 года.";
     Russian lang = new Russian();
     testDemoText(lang, s,

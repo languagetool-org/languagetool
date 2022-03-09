@@ -82,24 +82,33 @@ public class ConfusionSetLoader {
           confusionStrings.add(new ConfusionString(word, description));
           loadedForSet.add(word);
         }
-        ConfusionPair confusionSet = new ConfusionPair(confusionStrings.get(0), confusionStrings.get(1), Long.parseLong(parts[parts.length-1]), bidirectional);
-        for (ConfusionString confusionString : confusionStrings) {
-          String key = confusionString.getString();
-          List<ConfusionPair> existingEntry = map.get(key);
-          if (existingEntry != null) {
-            existingEntry.add(confusionSet);
-          } else {
-            List<ConfusionPair> pairs = new ArrayList<>();
-            pairs.add(confusionSet);
-            map.put(key, pairs);
-          }
-          if (!bidirectional) {
-            break;   // "A -> B", so only consider that direction
-          }
+        long factor = Long.parseLong(parts[parts.length - 1]);
+        if (bidirectional) {
+          ConfusionPair confusionSet1 = new ConfusionPair(confusionStrings.get(0), confusionStrings.get(1), factor, false);
+          addToMap(map, confusionStrings, confusionSet1);
+          ConfusionPair confusionSet2 = new ConfusionPair(confusionStrings.get(1), confusionStrings.get(0), factor, false);
+          addToMap(map, confusionStrings, confusionSet2);
+        } else {
+          ConfusionPair confusionSet = new ConfusionPair(confusionStrings.get(0), confusionStrings.get(1), factor, false);
+          addToMap(map, confusionStrings, confusionSet);
         }
       }
     }
     return map;
+  }
+
+  private void addToMap(Map<String, List<ConfusionPair>> map, List<ConfusionString> confusionStrings, ConfusionPair confusionSet) {
+    for (ConfusionString confusionString : confusionStrings) {
+      String key = confusionString.getString();
+      List<ConfusionPair> existingEntry = map.get(key);
+      if (existingEntry != null) {
+        existingEntry.add(confusionSet);
+      } else {
+        List<ConfusionPair> pairs = new ArrayList<>();
+        pairs.add(confusionSet);
+        map.put(key, pairs);
+      }
+    }
   }
 
 }

@@ -20,6 +20,7 @@ package org.languagetool.server;
 
 import com.sun.net.httpserver.HttpExchange;
 import org.jetbrains.annotations.NotNull;
+import org.languagetool.CheckResults;
 import org.languagetool.DetectedLanguage;
 import org.languagetool.Language;
 import org.languagetool.Languages;
@@ -50,10 +51,10 @@ class V2TextChecker extends TextChecker {
   }
 
   @Override
-  protected String getResponse(AnnotatedText text, Language usedLang, DetectedLanguage lang, Language motherTongue, List<RuleMatch> matches,
-                               List<RuleMatch> hiddenMatches, String incompleteResultsReason, int compactMode) {
+  protected String getResponse(AnnotatedText text, Language usedLang, DetectedLanguage lang, Language motherTongue, List<CheckResults> matches,
+                               List<RuleMatch> hiddenMatches, String incompleteResultsReason, int compactMode, boolean showPremiumHint) {
     RuleMatchesAsJsonSerializer serializer = new RuleMatchesAsJsonSerializer(compactMode, usedLang);
-    return serializer.ruleMatchesToJson(matches, hiddenMatches, text, CONTEXT_SIZE, lang, incompleteResultsReason);
+    return serializer.ruleMatchesToJson2(matches, hiddenMatches, text, CONTEXT_SIZE, lang, incompleteResultsReason, showPremiumHint);
   }
 
   @NotNull
@@ -82,33 +83,36 @@ class V2TextChecker extends TextChecker {
   protected void checkParams(Map<String, String> parameters) {
     super.checkParams(parameters);
     if (StringTools.isEmpty(parameters.get("language"))) {
-      throw new IllegalArgumentException("Missing 'language' parameter, e.g. 'language=en-US' for American English or 'language=fr' for French");
+      throw new BadRequestException("Missing 'language' parameter, e.g. 'language=en-US' for American English or 'language=fr' for French");
     }
     if (parameters.get("enabled") != null) {
-      throw new IllegalArgumentException("You specified 'enabled' but the parameter is now called 'enabledRules' in v2 of the API");
+      throw new BadRequestException("You specified 'enabled' but the parameter is now called 'enabledRules' in v2 of the API");
     }
     if (parameters.get("disabled") != null) {
-      throw new IllegalArgumentException("You specified 'disabled' but the parameter is now called 'disabledRules' in v2 of the API");
+      throw new BadRequestException("You specified 'disabled' but the parameter is now called 'disabledRules' in v2 of the API");
     }
     if (parameters.get("preferredvariants") != null) {
-      throw new IllegalArgumentException("You specified 'preferredvariants' but the parameter is now called 'preferredVariants' (uppercase 'V') in v2 of the API");
+      throw new BadRequestException("You specified 'preferredvariants' but the parameter is now called 'preferredVariants' (uppercase 'V') in v2 of the API");
     }
     if (parameters.get("autodetect") != null) {
-      throw new IllegalArgumentException("You specified 'autodetect' but automatic language detection is now activated with 'language=auto' in v2 of the API");
+      throw new BadRequestException("You specified 'autodetect' but automatic language detection is now activated with 'language=auto' in v2 of the API");
     }
   }
   
   @Override
   @NotNull
   protected DetectedLanguage getLanguage(String text, Map<String, String> parameters, List<String> preferredVariants,
-                                         List<String> noopLangs, List<String> preferredLangs) {
+                                         List<String> noopLangs, List<String> preferredLangs, boolean testMode) {
+    if ("true".equals(parameters.get("languageChanged"))) {
+      System.out.println("languageChanged, testMode: " + testMode);
+    }
     String langParam = parameters.get("language");
-    DetectedLanguage detectedLang = detectLanguageOfString(text, null, preferredVariants, noopLangs, preferredLangs);
+    DetectedLanguage detectedLang = detectLanguageOfString(text, null, preferredVariants, noopLangs, preferredLangs, testMode);
     Language givenLang;
     if (getLanguageAutoDetect(parameters)) {
       givenLang = detectedLang.getDetectedLanguage();
     } else {
-      givenLang = Languages.getLanguageForShortCode(langParam);
+      givenLang = parseLanguage(langParam);
     }
     return new DetectedLanguage(givenLang, detectedLang.getDetectedLanguage(), detectedLang.getDetectionConfidence());
   }
@@ -120,7 +124,7 @@ class V2TextChecker extends TextChecker {
     if (parameters.get("preferredVariants") != null) {
       preferredVariants = Arrays.asList(parameters.get("preferredVariants").split(",\\s*"));
       if (!"auto".equals(parameters.get("language")) && (parameters.get("multilingual") == null || parameters.get("multilingual").equals("false"))) {
-        throw new IllegalArgumentException("You specified 'preferredVariants' but you didn't specify 'language=auto'");
+        throw new BadRequestException("You specified 'preferredVariants' but you didn't specify 'language=auto'");
       }
     } else {
       preferredVariants = Collections.emptyList();

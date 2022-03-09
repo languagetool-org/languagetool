@@ -25,6 +25,8 @@ import org.languagetool.*;
 import org.languagetool.broker.ResourceDataBroker;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
+import org.languagetool.rules.patterns.PatternToken;
+import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
 
@@ -38,7 +40,7 @@ import java.util.regex.Pattern;
 /**
  * LanguageTool's homophone confusion check that uses ngram lookups
  * to decide which word in a confusion set (from {@code confusion_sets.txt}) suits best.
- * Also see <a href="http://wiki.languagetool.org/finding-errors-using-n-gram-data">http://wiki.languagetool.org/finding-errors-using-n-gram-data</a>.
+ * Also see <a href="https://dev.languagetool.org/finding-errors-using-n-gram-data">https://dev.languagetool.org/finding-errors-using-n-gram-data</a>.
  * @since 2.7
  */
 public abstract class ConfusionProbabilityRule extends Rule {
@@ -75,6 +77,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
   private final int grams;
   private final Language language;
   private final List<String> exceptions;
+  private final List<DisambiguationPatternRule> antiPatterns;
 
   public ConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
     this(messages, languageModel, language, 3);
@@ -88,6 +91,11 @@ public abstract class ConfusionProbabilityRule extends Rule {
    * @since 4.7
    */
   public ConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language, int grams, List<String> exceptions) {
+    this(messages, languageModel, language, grams, exceptions, Collections.emptyList());
+  }
+
+  public ConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language, int grams,
+                                  List<String> exceptions, List<List<PatternToken>> antiPatterns) {
     super(messages);
     setCategory(Categories.TYPOS.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.NonConformance);
@@ -102,6 +110,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
     }
     this.grams = grams;
     this.exceptions = exceptions;
+    this.antiPatterns = makeAntiPatterns(antiPatterns, language);
   }
 
   @NotNull
@@ -159,9 +168,12 @@ public abstract class ConfusionProbabilityRule extends Rule {
               if (!suggestions.contains(betterAlternative.getString())) {
                 suggestions.add(betterAlternative.getString());
               }
-              if (pos > 0 && "_START_".equals(tokens.get(pos-1).token) && tokens.size() > pos+1 && tokens.get(pos+1).token != null && !tokens.get(pos+1).token.matches("\\w+")) {
+              if (pos > 0 && "_START_".equals(tokens.get(pos-1).token) && tokens.size() > pos+1 && tokens.get(pos+1).token != null && !isCommonWord(tokens.get(pos+1).token)) {
                 // Let's assume there is not enough data for this. The original problem was a false alarm for
                 // "Resolves:" (-> "Resolved:")
+                continue;
+              }
+              if (isCoveredByAntiPattern(sentence, googleToken)) {
                 continue;
               }
               if (!isLocalException(sentence, googleToken)) {
@@ -169,7 +181,8 @@ public abstract class ConfusionProbabilityRule extends Rule {
                 String term2 = confusionPair.getTerms().get(1).getString();
                 String id = getId() + "_" + cleanId(term1) +  "_" + cleanId(term2);
                 String desc = getDescription(term1, term2);
-                RuleMatch match = new RuleMatch(new SpecificIdRule(id, desc, messages, lm, language), sentence, googleToken.startPos, googleToken.endPos, message);
+                String shortDesc = Tools.i18n(messages, "statistics_suggest_short_desc");
+                RuleMatch match = new RuleMatch(new SpecificIdRule(id, desc, messages, lm, language), sentence, googleToken.startPos, googleToken.endPos, message, shortDesc);
                 match.setSuggestedReplacements(suggestions);
                 matches.add(match);
               }
@@ -180,6 +193,20 @@ public abstract class ConfusionProbabilityRule extends Rule {
       pos++;
     }
     return matches.toArray(new RuleMatch[0]);
+  }
+
+  protected boolean isCommonWord(String token) {
+    return token.matches("\\w+");
+  }
+
+  private boolean isCoveredByAntiPattern(AnalyzedSentence sentence, GoogleToken googleToken) {
+    AnalyzedTokenReadings[] tmpTokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();
+    for (AnalyzedTokenReadings tmpToken : tmpTokens) {
+      if (tmpToken.isImmunized() && covers(tmpToken.getStartPos(), tmpToken.getEndPos(), googleToken.startPos, googleToken.endPos)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private String cleanId(String id) {
@@ -229,7 +256,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
 
   @Override
   public String getDescription() {
-    return null;  // the one from SpecificIdRule is used
+    return Tools.i18n(messages, "statistics_rule_description");  // the one from SpecificIdRule is used
   }
 
   private String getDescription(String word1, String word2) {
@@ -238,13 +265,13 @@ public abstract class ConfusionProbabilityRule extends Rule {
   
   protected String getMessage(ConfusionString textString, ConfusionString suggestion) {
     if (textString.getDescription() != null && suggestion.getDescription() != null) {
-      return Tools.i18n(messages, "statistics_suggest1", suggestion.getString(), suggestion.getDescription(), textString.getString(), textString.getDescription());
+      return Tools.i18n(messages, "statistics_suggest1_new", suggestion.getString(), suggestion.getDescription(), textString.getString(), textString.getDescription());
     } else if (textString.getDescription() != null) {
-      return Tools.i18n(messages, "statistics_suggest4", suggestion.getString(), textString, textString.getDescription());
+      return Tools.i18n(messages, "statistics_suggest4_new", suggestion.getString(), textString, textString.getDescription());
     } else if (suggestion.getDescription() != null) {
-      return Tools.i18n(messages, "statistics_suggest2", suggestion.getString(), suggestion.getDescription());
+      return Tools.i18n(messages, "statistics_suggest2_new", suggestion.getString(), suggestion.getDescription(), textString.getString());
     } else {
-      return Tools.i18n(messages, "statistics_suggest3", suggestion.getString());
+      return Tools.i18n(messages, "statistics_suggest3_new", suggestion.getString(), textString.getString());
     }
   }
   
@@ -314,10 +341,15 @@ public abstract class ConfusionProbabilityRule extends Rule {
       System.out.printf(Locale.ENGLISH, message, vars);
     }
   }
-  
+
+  @Override
+  public List<DisambiguationPatternRule> getAntiPatterns() {
+    return antiPatterns;
+  }
+
   private static class PathAndLanguage {
-    private String path;
-    private Language lang;
+    private final String path;
+    private final Language lang;
     PathAndLanguage(String path, Language lang) {
       this.path = Objects.requireNonNull(path);
       this.lang = Objects.requireNonNull(lang);

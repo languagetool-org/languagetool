@@ -191,31 +191,31 @@ public final class Tools {
   /**
    * @since 3.3
    */
-  public static void configureFromRules(JLanguageTool langTool, Configuration config) {
+  public static void configureFromRules(JLanguageTool lt, Configuration config) {
     Set<String> disabledRules = config.getDisabledRuleIds();
     if (disabledRules != null) {
       for (String ruleId : disabledRules) {
-        langTool.disableRule(ruleId);
+        lt.disableRule(ruleId);
       }
     }
     Set<String> disabledCategories = config.getDisabledCategoryNames();
     if (disabledCategories != null) {
       for (String categoryName : disabledCategories) {
-        langTool.disableCategory(new CategoryId(categoryName));
+        lt.disableCategory(new CategoryId(categoryName));
       }
     }
     if(config.getEnabledRulesOnly()) {
-      for (Rule rule : langTool.getAllRules()) {
-        langTool.disableRule(rule.getId());
+      for (Rule rule : lt.getAllRules()) {
+        lt.disableRule(rule.getId());
       }
     }
     Set<String> enabledRules = config.getEnabledRuleIds();
     if (enabledRules != null) {
       for (String ruleName : enabledRules) {
-        langTool.enableRule(ruleName);
+        lt.enableRule(ruleName);
       }
     }
-    langTool.setConfigValues(config.getConfigurableValues());
+    lt.setConfigValues(config.getConfigurableValues());
   }
   
   static void addHyperlinkListener(JTextPane pane) {

@@ -68,6 +68,7 @@ public class SimpleReplaceVerbsRule extends AbstractSimpleReplaceRule {
     super.setCategory(Categories.TYPOS.getCategory(messages));
     super.setLocQualityIssueType(ITSIssueType.Misspelling);
     super.setIgnoreTaggedWords();
+    super.useSubRuleSpecificIds();
     tagger = (SpanishTagger) language.getTagger();
     synth = (SpanishSynthesizer) language.getSynthesizer();
   }
@@ -195,7 +196,7 @@ public class SimpleReplaceVerbsRule extends AbstractSimpleReplaceRule {
           }
         }
         if (possibleReplacements.size() > 0) {
-          RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, possibleReplacements, sentence);
+          RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, possibleReplacements, sentence, infinitive);
           ruleMatches.add(potentialRuleMatch);
         }
       }

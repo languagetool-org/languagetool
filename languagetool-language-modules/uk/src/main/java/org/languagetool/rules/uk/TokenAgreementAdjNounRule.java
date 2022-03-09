@@ -41,6 +41,7 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.uk.InflectionHelper.Inflection;
 import org.languagetool.synthesis.Synthesizer;
+import org.languagetool.tagging.uk.IPOSTag;
 import org.languagetool.tagging.uk.PosTagHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,7 +54,7 @@ import org.slf4j.LoggerFactory;
 public class TokenAgreementAdjNounRule extends Rule {
   static final List<String> FAKE_FEM_LIST = Arrays.asList("ступінь", "степінь", "продаж", "собака", "дріб", "ярмарок", "нежить", "рукопис", "накип", "насип", "путь");
 
-  private static Logger logger = LoggerFactory.getLogger(TokenAgreementAdjNounRule.class);
+  private static final Logger logger = LoggerFactory.getLogger(TokenAgreementAdjNounRule.class);
 
   static final Pattern ADJ_INFLECTION_PATTERN = Pattern.compile(":([mfnp]):(v_...)(:r(in)?anim)?");
   static final Pattern NOUN_INFLECTION_PATTERN = Pattern.compile("((?:[iu]n)?anim):([mfnps]):(v_...)");
@@ -79,13 +80,26 @@ public class TokenAgreementAdjNounRule extends Rule {
     return "Узгодження прикметника та іменника";
   }
 
+  private static class State {
+    int adjPos;
+    List<AnalyzedToken> adjTokenReadings = new ArrayList<>(); 
+    AnalyzedTokenReadings adjAnalyzedTokenReadings = null;
+    
+    public boolean isEmpty() {
+      return adjTokenReadings.isEmpty();
+    }
+    public void reset() {
+      adjTokenReadings.clear();
+      adjAnalyzedTokenReadings = null;
+    }
+  }
+  
   @Override
   public final RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
 
-    List<AnalyzedToken> adjTokenReadings = new ArrayList<>(); 
-    AnalyzedTokenReadings adjAnalyzedTokenReadings = null;
+    State state = new State();
 
     for (int i = 1; i < tokens.length; i++) {
       AnalyzedTokenReadings tokenReadings = tokens[i];
@@ -93,18 +107,36 @@ public class TokenAgreementAdjNounRule extends Rule {
       String posTag0 = tokenReadings.getAnalyzedToken(0).getPOSTag();
 
       if( posTag0 == null ) {
-//          || posTag0.equals(JLanguageTool.SENTENCE_START_TAGNAME) ){
-        adjTokenReadings.clear();
+        state.reset();
         continue;
+      }
+
+      if( state.isEmpty() ) {
+        // no need to start checking on last token or if no noun
+        if( i == tokens.length - 1 )
+          continue;
+      }
+      else {
+
+        if( (PosTagHelper.hasPosTagPartAll(tokenReadings, "adv")
+             || Arrays.asList("дуже", "небагато", "багато").contains(tokenReadings.getCleanToken()) )
+            //TODO: temp for adv/prep
+            && ! ( i < tokens.length - 1
+//                && Arrays.asList("стосовно", "відносно", "усередині", "всередині", "неподалік").contains(tokenReadings.getCleanToken())
+//                 && PosTagHelper.hasPosTag(tokens[i+1], Pattern.compile(".*v_rod.*")) )
+                && PosTagHelper.hasPosTagStart(tokens[i], "prep")
+                && TokenAgreementPrepNounRule.hasVidmPosTag(
+                     CaseGovernmentHelper.getCaseGovernments(tokens[i], IPOSTag.prep.name()), tokens[i+1]))
+            && PosTagHelper.hasPosTagPart(state.adjTokenReadings, "adjp") ) {
+          continue;
+        }
+
       }
 
       // grab initial adjective inflections
 
-      if( adjTokenReadings.isEmpty() ) {
-
-        // no need to start checking on last token or if no noun
-        if( i == tokens.length - 1 )
-          continue;
+      if( PosTagHelper.hasPosTagStart(tokens[i], "adj") ) {
+        state.reset();
 
         //TODO: nv still can be wrong if :np/:ns is present to it's not much gain for lots of work
         if( PosTagHelper.hasPosTagPart(tokens[i], PosTagHelper.NO_VIDMINOK_SUBSTR)
@@ -113,21 +145,15 @@ public class TokenAgreementAdjNounRule extends Rule {
             || PosTagHelper.hasPosTagPart(tokens[i], "<") )
           continue;
 
-        if( ! PosTagHelper.hasPosTagPart(tokens[i+1], "noun:")
-            || PosTagHelper.hasPosTagPart(tokens[i+1], PosTagHelper.NO_VIDMINOK_SUBSTR)
-            || PosTagHelper.hasPosTagPart(tokens[i+1], "&pron")
-            || PosTagHelper.hasPosTagPart(tokens[i+1], "<") )
-          continue;
-
-//        if( LemmaHelper.hasLemma(tokens[i], Arrays.asList("червоний", "правий", "місцевий", "найсильніший", "найкращі"), ":p:")
-//            || LemmaHelper.hasLemma(tokens[i], Arrays.asList("новенький", "головний", "вибраний", "більший", "побачений", "подібний"), ":n:")
-//            || LemmaHelper.hasLemma(tokens[i], Arrays.asList("державний"), ":f:") ) {
-//          adjTokenReadings.clear();
-//          break;
-//        }
+        //        if( LemmaHelper.hasLemma(tokens[i], Arrays.asList("червоний", "правий", "місцевий", "найсильніший", "найкращі"), ":p:")
+        //            || LemmaHelper.hasLemma(tokens[i], Arrays.asList("новенький", "головний", "вибраний", "більший", "побачений", "подібний"), ":n:")
+        //            || LemmaHelper.hasLemma(tokens[i], Arrays.asList("державний"), ":f:") ) {
+        //          adjTokenReadings.clear();
+        //          break;
+        //        }
 
         if ( LemmaHelper.hasLemma(tokens[i], Arrays.asList("подібний"), ":n:") ) {
-          adjTokenReadings.clear();
+          state.reset();
           break;
         }
 
@@ -139,13 +165,14 @@ public class TokenAgreementAdjNounRule extends Rule {
           }
 
           if( adjPosTag.startsWith("adj") ) {
-
-            adjTokenReadings.add(token);
-            adjAnalyzedTokenReadings = tokenReadings;
+            state.adjPos = i;
+            state.adjTokenReadings.add(token);
+            state.adjAnalyzedTokenReadings = tokenReadings;
           }
           else if( ! LemmaHelper.hasLemma(tokenReadings, Arrays.asList("другий"), "adj:f:")
-                || ! LemmaHelper.hasLemma(tokens[i+1], FAKE_FEM_LIST, "noun:inanim:m:") ) {
-            adjTokenReadings.clear();
+              || (i + 1 < tokens.length && ! LemmaHelper.hasLemma(tokens[i+1], FAKE_FEM_LIST, "noun:inanim:m:"))
+              && ! PosTagHelper.isPredictOrInsert(token) ) {
+            state.reset();
             break;
           }
         }
@@ -153,8 +180,20 @@ public class TokenAgreementAdjNounRule extends Rule {
         continue;
       }
 
+      if( state.isEmpty() )
+        continue;
+      
+      if( // ! PosTagHelper.hasPosTagPart(tokens[i+1], "noun:")
+          PosTagHelper.hasPosTagPart(tokens[i], PosTagHelper.NO_VIDMINOK_SUBSTR)
+         || PosTagHelper.hasPosTagPart(tokens[i], "&pron")
+         || PosTagHelper.hasPosTagPart(tokens[i], "<") ) {
+        
+        state.reset();
+        continue;
+      }
 
-      List<AnalyzedToken> slaveTokenReadings = new ArrayList<>();
+
+      List<AnalyzedToken> nounTokenReadings = new ArrayList<>();
 
       for (AnalyzedToken token: tokenReadings) {
         String nounPosTag = token.getPOSTag();
@@ -166,14 +205,14 @@ public class TokenAgreementAdjNounRule extends Rule {
         if( nounPosTag.startsWith("noun") 
             && ! nounPosTag.contains(PosTagHelper.NO_VIDMINOK_SUBSTR) ) {
 
-          slaveTokenReadings.add(token);
+          nounTokenReadings.add(token);
         }
         else if ( nounPosTag.equals(JLanguageTool.SENTENCE_END_TAGNAME)
             || nounPosTag.equals(JLanguageTool.PARAGRAPH_END_TAGNAME) ) {
           continue;
         }
-        else {
-          slaveTokenReadings.clear();
+        else if( ! PosTagHelper.isPredictOrInsert(token) ) {
+          nounTokenReadings.clear();
           break;
         }
       }
@@ -181,56 +220,56 @@ public class TokenAgreementAdjNounRule extends Rule {
 
       // no slave token - restart
 
-      if( slaveTokenReadings.isEmpty() ) {
-        adjTokenReadings.clear();
+      if( nounTokenReadings.isEmpty() ) {
+        state.reset();
         continue;
       }
 
-      logger.debug("=== Checking:\n\t{}\n\t{}", adjTokenReadings, slaveTokenReadings);
+      logger.debug("=== Checking:\n\t{}\n\t{}", state.adjTokenReadings, nounTokenReadings);
 
       // perform the check
 
-      List<InflectionHelper.Inflection> masterInflections = InflectionHelper.getAdjInflections(adjTokenReadings);
+      List<InflectionHelper.Inflection> masterInflections = InflectionHelper.getAdjInflections(state.adjTokenReadings);
 
-      List<InflectionHelper.Inflection> slaveInflections = InflectionHelper.getNounInflections(slaveTokenReadings, "v_zna:var");
+      List<InflectionHelper.Inflection> slaveInflections = InflectionHelper.getNounInflections(nounTokenReadings, "v_zna:var");
 
       if( Collections.disjoint(masterInflections, slaveInflections) ) {
 
-        if( TokenAgreementAdjNounExceptionHelper.isException(tokens, i, masterInflections, slaveInflections, adjTokenReadings, slaveTokenReadings) ) {
-          adjTokenReadings.clear();
+        if( TokenAgreementAdjNounExceptionHelper.isException(tokens, state.adjPos, i, masterInflections, slaveInflections, state.adjTokenReadings, nounTokenReadings) ) {
+          state.reset();
           continue;
         }
 
         if( logger.isDebugEnabled()) {
           logger.debug(MessageFormat.format("=== Found:\n\t{0}\n\t",
-            adjAnalyzedTokenReadings.getToken() + ": " + masterInflections + " // " + adjAnalyzedTokenReadings,
-            slaveTokenReadings.get(0).getToken() + ": " + slaveInflections+ " // " + slaveTokenReadings));
+              state.adjAnalyzedTokenReadings.getToken() + ": " + masterInflections + " // " + state.adjAnalyzedTokenReadings,
+            nounTokenReadings.get(0).getToken() + ": " + slaveInflections+ " // " + nounTokenReadings));
         }
 
         String msg = String.format("Потенційна помилка: прикметник не узгоджений з іменником: \"%s\": [%s] і \"%s\": [%s]", 
-            adjTokenReadings.get(0).getToken(), formatInflections(masterInflections, true),
-            slaveTokenReadings.get(0).getToken(), formatInflections(slaveInflections, false));
+            state.adjTokenReadings.get(0).getToken(), formatInflections(masterInflections, true),
+            nounTokenReadings.get(0).getToken(), formatInflections(slaveInflections, false));
 
-        if( PosTagHelper.hasPosTagPart(adjTokenReadings, ":m:v_rod")
+        if( PosTagHelper.hasPosTagPart(state.adjTokenReadings, ":m:v_rod")
             && tokens[i].getToken().matches(".*[ую]")
-            && PosTagHelper.hasPosTag(slaveTokenReadings, "noun.*?:m:v_dav.*") ) {
+            && PosTagHelper.hasPosTag(nounTokenReadings, "noun.*?:m:v_dav.*") ) {
           msg += ". Можливо, вжито невнормований родовий відмінок ч.р. з закінченням -у/-ю замість -а/-я (така тенденція є в сучасній мові)?";
         }
-        else if( adjAnalyzedTokenReadings.getToken().contains("-")
-            && Pattern.compile(".*([23]-є|[02-9]-а|[0-9]-ма)").matcher(adjAnalyzedTokenReadings.getToken()).matches() ) {
+        else if( state.adjAnalyzedTokenReadings.getToken().contains("-")
+            && Pattern.compile(".*([23]-є|[02-9]-а|[0-9]-ма)").matcher(state.adjAnalyzedTokenReadings.getToken()).matches() ) {
           msg += ". Можливо, вжито зайве літерне нарощення після кількісного числівника?";
         }
-        else if( adjAnalyzedTokenReadings.getToken().startsWith("не")
+        else if( state.adjAnalyzedTokenReadings.getToken().startsWith("не")
         // TODO: && tag(adjAnalyzedTokenReadings.getToken().substring(2)) has adjp
-            && PosTagHelper.hasPosTag(slaveTokenReadings, "noun.*?:v_oru.*") ) {
+            && PosTagHelper.hasPosTag(nounTokenReadings, "noun.*?:v_oru.*") ) {
           msg += ". Можливо, тут «не» потрібно писати окремо?";
         }
-        else if( ! PosTagHelper.hasPosTag(adjTokenReadings, "adj.*?v_mis.*")
-            && PosTagHelper.hasPosTag(slaveTokenReadings, "noun.*?v_mis.*") ) {
+        else if( ! PosTagHelper.hasPosTag(state.adjTokenReadings, "adj.*?v_mis.*")
+            && PosTagHelper.hasPosTag(nounTokenReadings, "noun.*?v_mis.*") ) {
           msg += ". Можливо, пропущено прийменник на/в/у...?";
         }
 
-        RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, adjAnalyzedTokenReadings.getStartPos(), tokenReadings.getEndPos(), msg, getShort());
+        RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, state.adjAnalyzedTokenReadings.getStartPos(), tokenReadings.getEndPos(), msg, getShort());
 
         Synthesizer ukrainianSynthesizer = ukrainian.getSynthesizer();
         List<String> suggestions = new ArrayList<>();
@@ -245,8 +284,8 @@ public class TokenAgreementAdjNounRule extends Rule {
 
             if( ! adjInflection._case.equals("v_kly")
                 && (adjInflection.gender.equals("p")
-                || PosTagHelper.hasPosTagPart(slaveTokenReadings, genderTag)) ) {
-              for(AnalyzedToken nounToken: slaveTokenReadings) {
+                || PosTagHelper.hasPosTagPart(nounTokenReadings, genderTag)) ) {
+              for(AnalyzedToken nounToken: nounTokenReadings) {
 
                 if( adjInflection.animMatters() ) {
                   if( ! nounToken.getPOSTag().contains(":" + adjInflection.animTag) )
@@ -258,7 +297,7 @@ public class TokenAgreementAdjNounRule extends Rule {
                 String[] synthesized = ukrainianSynthesizer.synthesize(nounToken, newNounPosTag, false);
 
                 for (String s : synthesized) {
-                  String suggestion = adjAnalyzedTokenReadings.getToken() + " " + s;
+                  String suggestion = state.adjAnalyzedTokenReadings.getToken() + " " + s;
                   if( ! suggestions.contains(suggestion) ) {
                     suggestions.add(suggestion);
                   }
@@ -275,7 +314,7 @@ public class TokenAgreementAdjNounRule extends Rule {
             vidmTag += ":r" + nounInflection.animTag;
           }
 
-          for(AnalyzedToken adjToken: adjTokenReadings) {
+          for(AnalyzedToken adjToken: state.adjTokenReadings) {
             String newAdjTag = adjToken.getPOSTag().replaceFirst(":.:v_...(:r(in)?anim)?", genderTag + vidmTag);
 
             String[] synthesized = ukrainianSynthesizer.synthesize(adjToken, newAdjTag, false);
@@ -303,7 +342,7 @@ public class TokenAgreementAdjNounRule extends Rule {
         ruleMatches.add(potentialRuleMatch);
       }
 
-      adjTokenReadings.clear();
+      state.reset();
     }
 
     return toRuleMatchArray(ruleMatches);

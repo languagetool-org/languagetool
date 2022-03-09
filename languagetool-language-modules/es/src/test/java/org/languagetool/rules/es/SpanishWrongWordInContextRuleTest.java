@@ -35,22 +35,22 @@ public class SpanishWrongWordInContextRuleTest {
   @Test
   public void testRule() throws IOException {
     SpanishWrongWordInContextRule rule = new SpanishWrongWordInContextRule(null);
-    JLanguageTool langTool = new JLanguageTool(new Spanish());
+    JLanguageTool lt = new JLanguageTool(new Spanish());
     
     // infligir / infringir
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("Le infringió un duro castigo"));
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("Le infringió un duro castigo"));
     assertEquals(1, matches.length);
     assertEquals("infligió", matches[0].getSuggestedReplacements().get(0));
-    matches = rule.match(langTool.getAnalyzedSentence("Infligía todas las normas."));
+    matches = rule.match(lt.getAnalyzedSentence("Infligía todas las normas."));
     assertEquals(1, matches.length);
     assertEquals("Infringía", matches[0].getSuggestedReplacements().get(0));
     
     //baca /vaca
-    matches = rule.match(langTool.getAnalyzedSentence("La baca da leche."));
+    matches = rule.match(lt.getAnalyzedSentence("La baca da leche."));
     assertEquals(2, matches.length);
     assertEquals("vaca", matches[0].getSuggestedReplacements().get(0));
     
-    matches = rule.match(langTool.getAnalyzedSentence("Pon la maleta en la vaca."));
+    matches = rule.match(lt.getAnalyzedSentence("Pon la maleta en la vaca."));
     assertEquals(1, matches.length);
     assertEquals("baca", matches[0].getSuggestedReplacements().get(0));
     

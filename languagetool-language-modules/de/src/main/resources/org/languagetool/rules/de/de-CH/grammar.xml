@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" title="Pretty print"?>
+<?xml-stylesheet type="text/css" href="../../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet"?>
+
+<!--
+  ~ LanguageTool, a natural language style checker
+  ~ Copyright (C) 2021 Stefan Viol (https://stevio.de)
+  ~
+  ~ This library is free software; you can redistribute it and/or
+  ~ modify it under the terms of the GNU Lesser General Public
+  ~ License as published by the Free Software Foundation; either
+  ~ version 2.1 of the License, or (at your option) any later version.
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  ~ Lesser General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Lesser General Public
+  ~ License along with this library; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+  ~ USA
+  -->
+
+<!DOCTYPE rules [
+        <!ENTITY anfauf "„|&quot;|»|›|‚|'">
+        <!ENTITY anfzu "‘|“|‹|«|&quot;|'">
+        ]>
+
+<!--suppress ProblematicWhitespace -->
+<rules lang="de-CH" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="../../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
+
+    <!-- ====================================================================== -->
+    <!-- Tippfehler -->
+    <!-- ====================================================================== -->
+    <category id="TYPOS" name="Mögliche Tippfehler">
+        <rulegroup id="TYPOGRAPHIC_QUOTES_DE_CH" name="Anführungszeichen: &quot;xyz&quot; -> «xyz»">
+            <rule>
+                <!-- https://forum.languagetool.org/t/typografische-anfuhrungszeichen-fur-de-ch-mit-giullemets/7526/3 -->
+                <pattern>
+                    <token>"</token>
+                    <token spacebefore="no"/>
+                    <token spacebefore="no">"</token>
+                </pattern>
+                <message>Möchten Sie die typografisch korrekten schweizerdeutschen Anführungszeichen benutzen?</message>
+                <suggestion>«\2»</suggestion>
+                <example correction="«AGB»"><marker>"AGB"</marker>ist die Abkürzung für allgemeine Geschäftsbedingungen.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ANFUEHRUNGSZEICHEN_CH_FR" name="»wörtliche Rede« («wörtliche Rede»)">
+            <rule><!-- ANFUEHRUNGSZEICHEN_CH_FR[1] -->
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token>»</token>
+                    </marker>
+                    <token skip="-1" spacebefore="no" regexp="yes">(\p{L}|\d).*</token>
+                    <token regexp="yes">»|«</token>
+                    <token>,</token>
+                </pattern>
+                <message>Möchten Sie die schweizerische / französische Konvention für Spitzzeichen (im Gegensatz zu der hier verwendeten deutschen / österreichischen) benutzen?</message>
+                <suggestion>«</suggestion>
+                <example correction="«"><marker>»</marker>Ich trinke meinen Martini geschüttelt, nicht gerührt«, führte James Bond noch an.</example>
+            </rule>
+            <rule><!-- ANFUEHRUNGSZEICHEN_CH_FR[2] -->
+                <pattern>
+                    <token skip="-1" postag="VER.*" postag_regexp="yes"/>
+                    <token regexp="yes">,|:</token>
+                    <marker>
+                        <token>»</token>
+                    </marker>
+                    <token skip="-1" spacebefore="no" regexp="yes">(\p{L}|\d).*</token>
+                    <token regexp="yes">»|«</token>
+                </pattern>
+                <message>Möchten Sie die schweizerische / französische Konvention für Spitzzeichen (im Gegensatz zu der hier verwendeten deutschen / österreichischen) benutzen?</message>
+                <suggestion>«</suggestion>
+                <example correction="«">James Bond führte an: <marker>»</marker>Ich trinke meinen Martini geschüttelt, nicht gerührt.«</example>
+            </rule>
+            <rule><!-- ANFUEHRUNGSZEICHEN_CH_FR[3] -->
+                <pattern>
+                    <token regexp="yes">\?|\!|(\p{L}|\d).*</token>
+                    <marker>
+                        <token spacebefore="no" regexp="yes">«</token>
+                    </marker>
+                    <token>,</token>
+                    <token postag="VER.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Möchten Sie die schweizerische / französische Konvention für Spitzzeichen (im Gegensatz zu der hier verwendeten deutschen / österreichischen) benutzen?</message>
+                <suggestion>»</suggestion>
+                <example correction="»">»Ich trinke meinen Martini geschüttelt, nicht gerührt<marker>«</marker>, führte James Bond noch an.</example>
+            </rule>
+            <rule><!-- ANFUEHRUNGSZEICHEN_CH_FR[4] -->
+                <pattern>
+                    <token regexp="yes">\.</token>
+                    <marker>
+                        <token spacebefore="no" regexp="yes">«</token>
+                    </marker>
+                </pattern>
+                <message>Möchten Sie die schweizerische / französische Konvention für Spitzzeichen (im Gegensatz zu der hier verwendeten deutschen / österreichischen) benutzen?</message>
+                <suggestion>»</suggestion>
+                <example correction="»">James Bond führte noch an: »Ich trinke meinen Martini geschüttelt, nicht gerührt.<marker>«</marker></example>
+            </rule>
+        </rulegroup>
+    </category>
+</rules>

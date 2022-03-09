@@ -45,7 +45,6 @@ public interface RuleMatchFilter {
    * @return transformed matches
    */
   default List<RuleMatch> filter(List<RuleMatch> ruleMatches, AnnotatedText text) {
-    //noinspection deprecation
     return filter(ruleMatches);
   }
 

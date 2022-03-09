@@ -45,6 +45,11 @@ public class GermanWordRepeatRuleTest {
     assertThat(rule.match(lt.getAnalyzedSentence("Dann warfen sie sie weg.")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Dann konnte sie sie sehen.")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Er muss sein Essen essen.")).length, is(0));
+    assertThat(rule.match(lt.getAnalyzedSentence("Wahrscheinlich ist das das Problem.")).length, is(0));
+    assertThat(rule.match(lt.getAnalyzedSentence("Dann wäre das das erste Wirtschaftsmagazin mit mehr als 10.000 Lesern.")).length, is(0));
+    assertThat(rule.match(lt.getAnalyzedSentence("Für mich war das das Härteste.")).length, is(0));
+    assertThat(rule.match(lt.getAnalyzedSentence("Ich weiß, wer wer ist!")).length, is(0));
+    assertThat(rule.match(lt.getAnalyzedSentence("Als ich das das erste Mal gehört habe …")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Hat sie sie")).length, is(1));  // used to crash, issue #1010
     assertThat(rule.match(lt.getAnalyzedSentence("Hat hat")).length, is(1));
     assertThat(rule.match(lt.getAnalyzedSentence("hat hat")).length, is(1));

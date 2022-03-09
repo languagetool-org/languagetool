@@ -46,8 +46,12 @@ public class GermanFillerWordsRuleTest {
     assertEquals(2, lt.check("Der Satz enthält augenscheinlich relativ viele Füllwörter.").size());
     //  less than 8% filler words - don't show them
     assertEquals(0, lt.check("Der Satz enthält augenscheinlich ein Füllwort, aber es sind nicht genug um angezeigt zu werden.").size());
-    //  direct speach or citation - don't show filler words
+    //  direct speech or citation - don't show filler words
     assertEquals(0, lt.check("»Der Satz enthält augenscheinlich ein Füllwort«").size());
+    //  less than 8% filler words - but three in one sentence (show 3 instead of 4)
+    assertEquals(3, lt.check("Der Text enthält zu wenige Füllwörter, daher werden sie nicht angezeigt. Was sich an diesem Satz mit diesem relativ einfachen Füllwort zeigt. Dazu müssen noch eine Reihe von Sätzen geschrieben werden, um die Anzahl der Wörter zu erhöhen. Langsam sollten die Anzahl der Worte für das Drücken unter die kritische Grenze reichen. Jetzt schreibe ich allerdings einen Satz, der drei Füllwörter enthält, was allemal ziemlich ausreichend ist.").size());
+    //  less than 8% filler words - but two consecutively (show 2 instead of 3)
+    assertEquals(2, lt.check("Der Text enthält zu wenige Füllwörter, daher werden sie nicht angezeigt. Was sich an diesem Satz mit diesem relativ einfachen Füllwort zeigt. Dazu müssen noch eine Reihe von Sätzen geschrieben werden, um die Anzahl der Wörter zu erhöhen. Langsam sollten die Anzahl der Worte für das Drücken unter die kritische Grenze reichen. Jetzt schreibe ich einen Satz, der zwei Füllwörter hintereinander enthält, was allemal ziemlich ausreichend ist.").size());
     
     //  percentage set to zero - show all filler words
     Map<String, Integer> ruleValues = new HashMap<>();

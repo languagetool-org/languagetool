@@ -19,11 +19,17 @@
 package org.languagetool.tagging.disambiguation.rules;
 
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.*;
-import org.languagetool.rules.patterns.*;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.Language;
+import org.languagetool.rules.patterns.AbstractTokenBasedRule;
+import org.languagetool.rules.patterns.Match;
+import org.languagetool.rules.patterns.PatternToken;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * A Rule that describes a pattern of words or part-of-speech tags used for
@@ -31,7 +37,7 @@ import java.util.*;
  * 
  * @author Marcin Miłkowski
  */
-public class DisambiguationPatternRule extends AbstractPatternRule {
+public class DisambiguationPatternRule extends AbstractTokenBasedRule {
 
   /** Possible disambiguator actions. **/
   public enum DisambiguatorAction {
@@ -71,6 +77,8 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
     this.disambiguatedPOS = disambiguatedPOS;
     this.matchElement = posSelect;
     this.disAction = Objects.requireNonNull(disambAction);
+    setMessage("");
+    suggestionsOutMsg = "";
   }
 
   /**
@@ -90,8 +98,7 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
    * @return {@link AnalyzedSentence} Disambiguated sentence (might be unchanged).
    */
   public final AnalyzedSentence replace(AnalyzedSentence sentence) throws IOException {
-    DisambiguationPatternRuleReplacer replacer = new DisambiguationPatternRuleReplacer(this);
-    return replacer.replace(sentence);
+    return canBeIgnoredFor(sentence) ? sentence : new DisambiguationPatternRuleReplacer(this).replace(sentence);
   }
 
   public void setExamples(List<DisambiguatedExample> examples) {

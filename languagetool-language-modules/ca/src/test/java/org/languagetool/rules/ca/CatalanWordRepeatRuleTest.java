@@ -38,35 +38,37 @@ public class CatalanWordRepeatRuleTest {
   public void testRule() throws IOException {
     final CatalanWordRepeatRule rule = new CatalanWordRepeatRule(TestTools.getMessages("ca"), new Catalan());
     RuleMatch[] matches;
-    JLanguageTool langTool = new JLanguageTool(new Catalan());
+    JLanguageTool lt = new JLanguageTool(new Catalan());
     //correct
-    matches = rule.match(langTool.getAnalyzedSentence("Sempre pensa en en Joan."));
+    matches = rule.match(lt.getAnalyzedSentence("Sempre pensa en en Joan."));
     assertEquals(0, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("Els els portaré aviat."));
+    matches = rule.match(lt.getAnalyzedSentence("Els els portaré aviat."));
     assertEquals(0, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("Maximilià I i Maria de Borgonya"));
+    matches = rule.match(lt.getAnalyzedSentence("Maximilià I i Maria de Borgonya"));
     assertEquals(0, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("De la A a la z"));
+    matches = rule.match(lt.getAnalyzedSentence("De la A a la z"));
     assertEquals(0, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("Entre I i II."));
+    matches = rule.match(lt.getAnalyzedSentence("Entre I i II."));
     assertEquals(0, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("fills de Sigebert I i Brunegilda"));
+    matches = rule.match(lt.getAnalyzedSentence("fills de Sigebert I i Brunegilda"));
     assertEquals(0, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("del segle I i del segle II"));
+    matches = rule.match(lt.getAnalyzedSentence("del segle I i del segle II"));
     assertEquals(0, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("entre el capítol I i el II"));
+    matches = rule.match(lt.getAnalyzedSentence("entre el capítol I i el II"));
     assertEquals(0, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("cada una una casa"));
+    matches = rule.match(lt.getAnalyzedSentence("cada una una casa"));
     assertEquals(0, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("cada un un llibre"));
+    matches = rule.match(lt.getAnalyzedSentence("cada un un llibre"));
     assertEquals(0, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("Si no no es gaudeix."));
+    matches = rule.match(lt.getAnalyzedSentence("Si no no es gaudeix."));
+    assertEquals(0, matches.length);
+    matches = rule.match(lt.getAnalyzedSentence("HUCHA-GANGA.ES es presenta."));
     assertEquals(0, matches.length);
         
     //incorrect
-    matches = rule.match(langTool.getAnalyzedSentence("Tots els els homes són iguals."));
+    matches = rule.match(lt.getAnalyzedSentence("Tots els els homes són iguals."));
     assertEquals(1, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("Maximilià i i Maria de Borgonya"));
+    matches = rule.match(lt.getAnalyzedSentence("Maximilià i i Maria de Borgonya"));
     assertEquals(1, matches.length);
   }
 

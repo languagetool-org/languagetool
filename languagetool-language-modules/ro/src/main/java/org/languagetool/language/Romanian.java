@@ -86,7 +86,7 @@ public class Romanian extends Language {
             new MorfologikRomanianSpellerRule(messages, this, userConfig, altLanguages),
             new RomanianWordRepeatBeginningRule(messages, this),
             new SimpleReplaceRule(messages),
-            new CompoundRule(messages)
+            new CompoundRule(messages, this, userConfig)
     );
   }
 

@@ -73,7 +73,7 @@ public class Persian extends Language {
         new CommaWhitespaceRule(messages),
         new DoublePunctuationRule(messages),
         new MultipleWhitespaceRule(messages, this),
-        new LongSentenceRule(messages, userConfig),
+        new LongSentenceRule(messages, userConfig, 50),
         // specific to Persian:
         new PersianCommaWhitespaceRule(messages),
         new PersianDoublePunctuationRule(messages),

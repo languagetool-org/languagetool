@@ -18,12 +18,12 @@
  */
 package org.languagetool.rules.de;
 
-import org.languagetool.rules.AbstractSimpleReplaceRule;
-import org.languagetool.rules.Categories;
+import org.languagetool.Language;
+import org.languagetool.rules.AbstractSimpleReplaceRule2;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.ResourceBundle;
 
 /**
@@ -31,30 +31,43 @@ import java.util.ResourceBundle;
  * correct ones instead. German implementation.
  * Loads the relevant words from <code>rules/de/replace.txt</code>.
  */
-public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
+public class SimpleReplaceRule extends AbstractSimpleReplaceRule2 {
 
-  private static final Map<String, List<String>> wrongWords = loadFromPath("/de/replace.txt", "/de/replace_custom.txt");
   private static final Locale DE_LOCALE = new Locale("DE");
 
-  @Override
-  protected Map<String, List<String>> getWrongWords() {
-    return wrongWords;
-  }
-  
-  public SimpleReplaceRule(final ResourceBundle messages) {
-    super(messages);
-    super.setCategory(Categories.MISC.getCategory(messages));
-    this.setCheckLemmas(false);
+  public SimpleReplaceRule(ResourceBundle messages, Language language) {
+    super(messages, language);
   }
 
   @Override
-  public String getMessage(String tokenStr, List<String> replacements) {
-    return "'" + tokenStr + "' steht in der Liste der nicht erlaubten Wörter.";
+  public List<String> getFileNames() {
+    return Arrays.asList("/de/replace.txt", "/de/replace_custom.txt");
   }
 
   @Override
   public final String getId() {
     return "DE_SIMPLE_REPLACE";
+  }
+
+  @Override
+  public String getDescription() {
+    return "Prüft auf bestimmte falsche Wörter/Phrasen";
+  }
+
+  @Override
+  public String getShort() {
+    return "Wrong word";
+  }
+
+  @Override
+  public String getMessage() {
+    return "Meinten Sie vielleicht $suggestions?";
+    //return "Dieses Wort steht in der Liste der nicht erlaubten Wörter.";
+  }
+
+  @Override
+  public String getSuggestionsSeparator() {
+    return ", ";
   }
 
   @Override

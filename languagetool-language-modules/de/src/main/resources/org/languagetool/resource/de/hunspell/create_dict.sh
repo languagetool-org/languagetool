@@ -18,11 +18,11 @@ then
 fi
 
 REPO=/home/dnaber/.m2/repository
-LT_VERSION=4.8-SNAPSHOT
+LT_VERSION=5.3-SNAPSHOT
 # see https://sourceforge.net/projects/germandict/files/ (conversion to UTF-8 needed):
-ADDITIONAL_DICT_FILE=/home/dnaber/data/corpus/jan_schreiber/20170702/german/german.dic.utf8
+ADDITIONAL_DICT_FILE=/home/dnaber/data/corpus/jan_schreiber/german.txt
 # see https://sourceforge.net/p/germandict/code/HEAD/tree/hunspell_words.txt?format=raw (conversion to UTF-8 needed):
-UNKNOWN_TO_HUNSPELL=/home/dnaber/data/corpus/jan_schreiber/20170702/unknown_to_hunspell_words.txt.utf8
+UNKNOWN_TO_HUNSPELL=/home/dnaber/data/corpus/jan_schreiber/hunspell_words.txt
 # get frequency data from https://github.com/mozilla-b2g/gaia/tree/master/apps/keyboard/js/imes/latin/dictionaries -
 # this is optional, remove "-freq $FREQ_FILE" below for not using frequencies:
 FREQ_FILE=/home/dnaber/lt/occurrence_counts/de_wordlist.xml
@@ -32,7 +32,7 @@ TEMP_FILE=/tmp/lt-dictionary.dump
 FINAL_FILE=/tmp/lt-dictionary.new
 OUTPUT_FILE=/tmp/de_DE.dict
 
-CPATH=$REPO/com/carrotsearch/hppc/0.7.1/hppc-0.7.1.jar:$REPO/com/beust/jcommander/1.48/jcommander-1.48.jar:$REPO/org/carrot2/morfologik-fsa-builders/2.1.2/morfologik-fsa-builders-2.1.2.jar:$REPO/org/carrot2/morfologik-stemming/2.1.2/morfologik-stemming-2.1.2.jar:$REPO/org/carrot2/morfologik-fsa/2.1.2/morfologik-fsa-2.1.2.jar:$REPO/org/carrot2/morfologik-tools/2.1.2/morfologik-tools-2.1.2.jar:$REPO/commons-cli/commons-cli/1.2/commons-cli-1.2.jar:languagetool-tools/target/languagetool-tools-${LT_VERSION}.jar
+CPATH=$REPO/com/carrotsearch/hppc/0.8.2/hppc-0.8.2.jar:$REPO/org/carrot2/morfologik-fsa-builders/2.1.7/morfologik-fsa-builders-2.1.7.jar:$REPO/org/carrot2/morfologik-stemming/2.1.7/morfologik-stemming-2.1.7.jar:$REPO/org/carrot2/morfologik-fsa/2.1.7/morfologik-fsa-2.1.7.jar:$REPO/org/carrot2/morfologik-tools/2.1.7/morfologik-tools-2.1.7.jar:$REPO/commons-cli/commons-cli/1.4/commons-cli-1.4.jar:languagetool-tools/target/languagetool-tools-${LT_VERSION}.jar
 LANG_CODE=$1
 COUNTRY_CODE=$2
 PREFIX=${LANG_CODE}_${COUNTRY_CODE}
@@ -68,7 +68,7 @@ sort $UNKNOWN_TO_HUNSPELL >/tmp/unknown_to_hunspell_sorted
 # remove the words that hunspell wouldn't accept (see https://github.com/languagetool-org/languagetool/issues/725#issuecomment-312961626):
 comm -23 /tmp/additional_dict_file_sorted /tmp/unknown_to_hunspell_sorted >/tmp/additional_without_hunspell_unknown
 
-cat /tmp/additional_without_hunspell_unknown $TEMP_FILE | sort | uniq >$FINAL_FILE
+cat /tmp/additional_without_hunspell_unknown $TEMP_FILE | sed 's/\r//' | sort | uniq >$FINAL_FILE
 echo "Final size:"
 wc -l $FINAL_FILE
 

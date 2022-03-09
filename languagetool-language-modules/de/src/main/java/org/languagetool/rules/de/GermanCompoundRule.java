@@ -18,9 +18,14 @@
  */
 package org.languagetool.rules.de;
 
+import org.languagetool.Language;
+import org.languagetool.UserConfig;
+import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.*;
+import org.languagetool.tagging.de.GermanTagger;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 /**
@@ -32,9 +37,11 @@ import java.util.ResourceBundle;
 public class GermanCompoundRule extends AbstractCompoundRule {
 
   private static volatile CompoundRuleData compoundData;
+  
+  private static GermanSpellerRule germanSpellerRule;
  
-  public GermanCompoundRule(ResourceBundle messages) throws IOException {
-    super(messages,
+  public GermanCompoundRule(ResourceBundle messages, Language lang, UserConfig userConfig) throws IOException {
+    super(messages, lang, userConfig,
             "Dieses Wort wird mit Bindestrich geschrieben.",
             "Dieses Wort wird zusammengeschrieben.",
             "Diese Wörter werden zusammengeschrieben oder mit Bindestrich getrennt.",
@@ -42,6 +49,9 @@ public class GermanCompoundRule extends AbstractCompoundRule {
     super.setCategory(Categories.COMPOUNDING.getCategory(messages));
     addExamplePair(Example.wrong("Wenn es schlimmer wird, solltest Du zum <marker>HNO Arzt</marker> gehen."),
                    Example.fixed("Wenn es schlimmer wird, solltest Du zum <marker>HNO-Arzt</marker> gehen."));
+    if (germanSpellerRule == null) {
+      germanSpellerRule = new GermanSpellerRule(messages, new GermanyGerman());
+    }
   }
 
   @Override
@@ -55,7 +65,7 @@ public class GermanCompoundRule extends AbstractCompoundRule {
   }
 
   @Override
-  protected CompoundRuleData getCompoundRuleData() {
+  public CompoundRuleData getCompoundRuleData() {
     CompoundRuleData data = compoundData;
     if (data == null) {
       synchronized (GermanCompoundRule.class) {
@@ -67,5 +77,11 @@ public class GermanCompoundRule extends AbstractCompoundRule {
     }
 
     return data;
+  }
+  
+  @Override
+  public boolean isMisspelled(String word) throws IOException {
+    //return !GermanTagger.INSTANCE.tag(Arrays.asList(word)).get(0).isTagged();
+    return germanSpellerRule.isMisspelled(word);
   }
 }

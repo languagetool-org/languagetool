@@ -29,7 +29,7 @@ public class KhmerTest extends LanguageSpecificTest {
   
   @Test
   public void testLanguage() throws IOException {
-    // NOTE: this text needs to be kept in sync with WelcomeController.php's getDefaultDemoTexts():
+    // NOTE: this text needs to be kept in sync with config.ts -> DEMO_TEXTS:
     String s = "ឃ្លា\u200Bនេះ\u200Bបង្ហាញ\u200Bពី\u200Bពី\u200Bកំហុស\u200Bវេយ្យាករណ៍ ដើម្បី\u200Bបញ្ជាក់\u200Bពី\u200Bប្រសិទ្ធភាព\u200Bរបស់\u200Bកម្មវិធី LanguageTool សំរាប់\u200Bភាសាខ្មែរ។";
     Khmer lang = new Khmer();
     testDemoText(lang, s,

@@ -47,10 +47,10 @@ public class LineExpanderTest {
 
     assertThat(expand("rüber_machen  #bla #foo"), is("[rübermach, rübergemacht, rübermachest, rübermachst, rübermache, " +
                       "rübermachen, rübermachet, rübermachte, rübermachend, rübermachten, rübermacht, rübermachtest, " +
-                      "rübermachtet, rüberzumachen]"));
+                      "rübermachtet, rüberzumachen, Rübermachens]"));
     assertThat(expand("rüber_verschicken"), is("[rüberverschickend, rüberverschickst, rüberverschick, rüberverschickest, " +
                       "rüberverschicktest, rüberverschicke, rüberverschicket, rüberverschickte, rüberverschicktet, rüberverschickten, " +
-                      "rüberverschicken, rüberverschickt, rüberzuverschicken]"));
+                      "rüberverschicken, rüberverschickt, rüberzuverschicken, Rüberverschickens]"));
     assertThat(expand("escape\\_machen"), is("[escape_machen]"));
 
     try {

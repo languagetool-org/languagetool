@@ -18,6 +18,7 @@
  */
 package org.languagetool.dev.wikipedia;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import xtc.tree.Location;
 
@@ -25,6 +26,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
+@Ignore
 public class LocationHelperTest {
 
   @Test

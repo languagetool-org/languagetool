@@ -35,7 +35,7 @@ public class CompoundRuleTest extends AbstractCompoundRuleTest {
   @Before
   public void setUp() throws Exception {
     lt = new JLanguageTool(new Romanian());
-    rule = new CompoundRule(TestTools.getMessages("ro"));
+    rule = new CompoundRule(TestTools.getMessages("ro"), new Romanian(), null);
   }
 
   @Test
@@ -44,7 +44,8 @@ public class CompoundRuleTest extends AbstractCompoundRuleTest {
     check(0, "Au plecat câteșitrei.");
     // incorrect sentences:
     check(1, "câte și trei", "câteșitrei");
-//    check(1, "Câte și trei", new String[] { "Câteșitrei" });
+    check(1, "Câte și trei", "Câteșitrei");
+    // check(1, "Câte și trei", new String[] { "Câteșitrei" });
     check(1, "câte-și-trei", "câteșitrei");
 
     check(1, "tus trei", "tustrei");

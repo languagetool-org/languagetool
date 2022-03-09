@@ -36,22 +36,22 @@ import static org.junit.Assert.assertEquals;
 public class SimpleReplaceDNVSecondaryRuleTest {
 
   private SimpleReplaceDNVSecondaryRule rule;
-  private JLanguageTool langTool;
+  private JLanguageTool lt;
 
   @Before
   public void setUp() throws Exception {
     rule = new SimpleReplaceDNVSecondaryRule(TestTools.getMessages("ca"), new ValencianCatalan());
-    langTool = new JLanguageTool(new ValencianCatalan());
+    lt = new JLanguageTool(new ValencianCatalan());
   }
 
   @Test
   public void testRule() throws IOException {
 
     // correct sentences:
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Estan dispostes, estan indisposts, dispost a tot.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Estan dispostes, estan indisposts, dispost a tot.")).length);
 
     // incorrect sentences:
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("S'ha dispost a fer-ho."));
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("S'ha dispost a fer-ho."));
     assertEquals(1, matches.length);
     assertEquals("disposat", matches[0].getSuggestedReplacements().get(0));
     

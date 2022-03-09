@@ -33,8 +33,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Ignore("for interactive use; requires local Tatoeba data")
 public class HTTPServerLanguageIdentifierTest extends HTTPServerMultiLangLoadTest {
 
-  private final ObjectMapper mapper = new ObjectMapper();
   private static final int TOTAL_REPEATS = 150;
+  private final ObjectMapper mapper = new ObjectMapper();
 
   private final AtomicInteger numDetectionFailures = new AtomicInteger();
 
@@ -43,8 +43,7 @@ public class HTTPServerLanguageIdentifierTest extends HTTPServerMultiLangLoadTes
     Map map = mapper.readValue(json, Map.class);
     Map languageObj = (Map<String, String>) map.get("language");
     Map<String, String> detectedLanguageObj = (Map<String, String>) languageObj.get("detectedLanguage");
-    String languageDetectedCode = detectedLanguageObj.get("code");
-    return languageDetectedCode;
+    return detectedLanguageObj.get("code");
   }
 @Override
   protected int getRepeatCount() {

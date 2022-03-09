@@ -76,8 +76,8 @@ public class EnglishPlainEnglishRule extends AbstractSimpleReplaceRule2 {
   }
 
   @Override
-  public String getSuggestion() {
-    return "'$match' is a wordy or complex expression. In some cases, it might be preferable to use $suggestions";
+  public String getMessage() {
+    return "'$match' is a wordy or complex expression. In some cases, it might be preferable to use $suggestions.";
   }
 
   @Override

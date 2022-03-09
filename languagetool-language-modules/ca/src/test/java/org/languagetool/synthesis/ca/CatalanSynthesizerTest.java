@@ -59,6 +59,8 @@ public class CatalanSynthesizerTest {
     assertEquals("[arribe, arribi]", synth("arribar", "VMSP3S00"));
     assertEquals("[arribe, arribi]", synthRegex("arribar", "VMSP3S.0"));
     assertEquals("[albèrxics]", synthRegex("albèrxic", "NCMP000"));
+    
+    assertEquals("[faig servir]", synth("fer servir", "VMIP1S0C"));
 
     //with regular expressions:
     assertEquals("[comprovades, comprovats, comprovada, comprovat]", synthRegex("comprovar", "V.P.*"));

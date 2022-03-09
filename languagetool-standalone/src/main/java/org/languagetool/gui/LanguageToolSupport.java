@@ -308,7 +308,7 @@ class LanguageToolSupport {
         defaultLanguage = Languages.getLanguageForLocale(Locale.getDefault());
     }
 
-    /**
+    /*
      * Warm-up: we have a lot of lazy init in LT, which causes the first check to
      * be very slow (several seconds) for languages with a lot of data and a lot of
      * rules. We just assume that the default language is the language that the user
@@ -848,11 +848,10 @@ class LanguageToolSupport {
       try {
         if (span.start < span.end) { //to avoid the BadLocationException
           ITSIssueType issueType = span.rule.getLocQualityIssueType();
-          Color ulColor = config.getUnderlineColor(span.rule.getCategory().getName());
+          Color ulColor = config.getUnderlineColor(span.rule.getCategory().getName(), span.rule.getId());
           Color colorForIssueType = getConfig().getErrorColors().get(issueType);
-          Color bgColor = colorForIssueType != null ? colorForIssueType : null;
           Color underlineColor = ITSIssueType.Misspelling == span.rule.getLocQualityIssueType() ? Color.red : ulColor;
-          HighlightPainter painter = new HighlightPainter(bgColor, underlineColor);
+          HighlightPainter painter = new HighlightPainter(colorForIssueType, underlineColor);
           h.addHighlight(span.start, span.end, painter);
         }
       } catch (BadLocationException ex) {

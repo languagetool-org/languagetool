@@ -64,7 +64,7 @@ public class AboutDialog {
 
     aboutPane.setText(String.format("<html>"
             + "<p>LanguageTool %s (%s, %s)<br>"
-            + "Copyright (C) 2005-2020 the LanguageTool community and Daniel Naber<br>"
+            + "Copyright (C) 2005-2022 the LanguageTool community and Daniel Naber<br>"
             + "This software is licensed under the GNU Lesser General Public License.<br>"
             + "<a href=\"https://www.languagetool.org\">https://www.languagetool.org</a><br>"
             + "Java max/total/free memory: %sMB, %sMB, %sMB</p>"

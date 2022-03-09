@@ -44,7 +44,7 @@ public class FrenchRuleDisambiguatorTest {
 
   @Before
   public void setUp() throws IOException {
-    tagger = new FrenchTagger();
+    tagger = FrenchTagger.INSTANCE;
     tokenizer = new FrenchWordTokenizer();
     French language = new French();
     sentenceTokenizer = new SRXSentenceTokenizer(language);
@@ -58,10 +58,10 @@ public class FrenchRuleDisambiguatorTest {
         "/[null]SENT_START Il/[il]R pers suj 3 m s  /[null]null a/[avoir]V avoir ind pres 3 s  /[null]null enfin/[enfin]A  /[null]null publié/[publier]V ppa m s  /[null]null son/[son]D e s  /[null]null livre/[livre]N e s ./[null]null", 
         tokenizer, sentenceTokenizer, tagger, disambiguator);
     TestTools.myAssert("Je danse toutes les semaines au club.",
-        "/[null]SENT_START Je/[je]R pers suj 1 s  /[null]null danse/[danser]V ind pres 1 s|danse/[danser]V sub pres 1 s  /[null]null toutes/[tout]D f p|toutes/[tout]R f p  /[null]null les/[le]D e p  /[null]null semaines/[semaine]N f p  /[null]null au/[à+le]P+D m s  /[null]null club/[club]N m s ./[null]null",
+        "/[null]SENT_START Je/[je]R pers suj 1 s  /[null]null danse/[danser]V ind pres 1 s|danse/[danser]V sub pres 1 s  /[null]null toutes/[tout]D f p  /[null]null les/[le]D e p|les/[les]_GN_FP  /[null]null semaines/[semaine]N f p|semaines/[semaines]_GN_FP  /[null]null au/[à+le]P+D m s  /[null]null club/[club]N m s ./[null]null",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
     TestTools.myAssert("Je danse toutes les semaines au club.",
-        "/[null]SENT_START Je/[je]R pers suj 1 s  /[null]null danse/[danse]N f s|danse/[danser]V imp pres 2 s|danse/[danser]V ind pres 1 s|danse/[danser]V ind pres 3 s|danse/[danser]V sub pres 1 s|danse/[danser]V sub pres 3 s  /[null]null toutes/[tout]D f p|toutes/[tout]R f p  /[null]null les/[le]D e p|les/[les]R pers obj 3 e p  /[null]null semaines/[semaine]N f p  /[null]null au/[à+le]P+D m s  /[null]null club/[club]N m s ./[null]null", 
+        "/[null]SENT_START Je/[je]R pers suj 1 s  /[null]null danse/[danse]N f s|danse/[danser]V imp pres 2 s|danse/[danser]V ind pres 1 s|danse/[danser]V ind pres 3 s|danse/[danser]V sub pres 1 s|danse/[danser]V sub pres 3 s  /[null]null toutes/[tout]A|toutes/[tout]D f p|toutes/[tout]R f p  /[null]null les/[le]D e p|les/[les]R pers obj 3 e p  /[null]null semaines/[semaine]N f p  /[null]null au/[à+le]P+D m s  /[null]null club/[club]N m s ./[null]null", 
         tokenizer, sentenceTokenizer, tagger, disamb2);
     TestTools.myAssert("Quand j'étais petit, je jouais au football.",
         "/[null]SENT_START Quand/[quand]A inte|Quand/[quand]C sub  /[null]null j'/[je]R pers suj 1 s étais/[être]V etre ind impa 1 s  /[null]null petit/[petit]J m s ,/[null]null  /[null]null je/[je]R pers suj 1 s  /[null]null jouais/[jouer]V ind impa 1 s  /[null]null au/[à+le]P+D m s  /[null]null football/[football]N m s ./[null]null", 

@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    
+
     <parent>
-        <artifactId>languagetool-parent</artifactId>
         <groupId>org.languagetool</groupId>
-        <version>5.1-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
+        <artifactId>languagetool-parent</artifactId>
+        <version>${revision}</version>
     </parent>
 
     <artifactId>languagetool-tools</artifactId>
-    <url>http://www.languagetool.org</url>
+    <packaging>jar</packaging>
     <name>LanguageTool tools for building dictionaries</name>
     <description>Developer tools for building LanguageTool dictionaries</description>
-
+    <url>https://www.languagetool.org</url>
     <licenses>
         <license>
             <name>GNU Lesser General Public License</name>
@@ -22,40 +22,18 @@
         </license>
     </licenses>
 
-    <packaging>jar</packaging>
-
-
-  <build>
-    <plugins>
-      <!-- any other plugins -->
-      <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <version>${maven.assemby.plugin}</version>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>single</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <descriptorRefs>
-            <descriptorRef>jar-with-dependencies</descriptorRef>
-          </descriptorRefs>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
-
     <developers>
         <developer>
             <name>Daniel Naber</name>
-            <roles><role>Maintainer</role></roles>
+            <roles>
+                <role>Maintainer</role>
+            </roles>
         </developer>
         <developer>
             <name>Marcin Miłkowski</name>
-            <roles><role>Maintainer</role></roles>
+            <roles>
+                <role>Maintainer</role>
+            </roles>
         </developer>
     </developers>
 
@@ -63,7 +41,7 @@
         <dependency>
             <groupId>org.languagetool</groupId>
             <artifactId>languagetool-core</artifactId>
-            <version>${languagetool.version}</version>
+            <version>${revision}</version>
         </dependency>
         <dependency>
             <groupId>org.carrot2</groupId>
@@ -73,15 +51,8 @@
         <dependency>
             <groupId>commons-cli</groupId>
             <artifactId>commons-cli</artifactId>
-            <version>1.4</version>
+            <version>${commons-cli.version}</version>
         </dependency>
-        <!--
-        <dependency>
-            <groupId>org.encog</groupId>
-            <artifactId>encog-core</artifactId>
-            <version>3.2.0</version>
-        </dependency>
-        -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -90,4 +61,40 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>${maven-deploy-plugin.version}</version>
+            </plugin>
+        </plugins>
+    </build>
+    <profiles>
+        <!--https://stackoverflow.com/questions/17006405/exclude-jar-with-dependencies-from-deploying-to-nexus-->
+        <!--mvn clean package -P shade -pl languagetool-tools -->
+        <profile>
+            <id>shade</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <version>${maven-assembly-plugin.version}</version>
+                        <configuration>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                                <phase>package</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

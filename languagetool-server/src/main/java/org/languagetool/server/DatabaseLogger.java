@@ -140,6 +140,20 @@ class DatabaseLogger {
     }
   }
 
+  /**
+   * For testing; wait until queue is empty.
+   */
+  public void flush() {
+    try {
+      while (messages.peek() != null) {
+          Thread.sleep(100);
+      }
+      Thread.sleep(SQL_BATCH_WAITING_TIME + 5000);
+    } catch (InterruptedException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
   void createTestTables() {
     createTestTables(false);
   }

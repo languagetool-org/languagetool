@@ -55,13 +55,16 @@ public class MultipleWhitespaceRule extends TextLevelRule {
   // First White space is not a linebreak, function or footnote
   private static boolean isFirstWhite(AnalyzedTokenReadings token) {
     return (token.isWhitespace() || StringTools.isNonBreakingWhitespace(token.getToken())) 
-        && !token.isLinebreak() && !token.getToken().equals("\u200B"); 
+        && !token.isLinebreak()
+        && !token.getToken().contains("\u200B") && !token.getToken().contains("\uFEFF") && !token.getToken().contains("\u2060");
   }
 
   // Removable white space are not linebreaks, tabs, functions or footnotes
   private static boolean isRemovableWhite(AnalyzedTokenReadings token) {
     return (token.isWhitespace() || StringTools.isNonBreakingWhitespace(token.getToken())) 
-        && !token.isLinebreak() && !token.getToken().equals("\t") && !token.getToken().equals("\u200B"); 
+        && !token.isLinebreak() && !token.getToken().equals("\t")
+        // exclude invisible spaces:
+        && !token.getToken().contains("\u200B") && !token.getToken().contains("\uFEFF") && !token.getToken().contains("\u2060");
   }
 
   @Override

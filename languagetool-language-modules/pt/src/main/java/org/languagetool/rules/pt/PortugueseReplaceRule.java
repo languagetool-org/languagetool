@@ -75,7 +75,7 @@ public class PortugueseReplaceRule extends AbstractSimpleReplaceRule {
   
   @Override
   public String getMessage(String tokenStr, List<String> replacements) {
-    return tokenStr + " é um estrangeirismo. Em Português é mais comum usar: "
+    return "'" + tokenStr + "' é um estrangeirismo. Em Português é mais comum usar: "
         + String.join(", ", replacements) + ".";
   }
 

@@ -33,7 +33,7 @@ public class SpanishTaggerTest {
 
   @Before
   public void setUp() {
-    tagger = new SpanishTagger();
+    tagger = SpanishTagger.INSTANCE;
     tokenizer = new WordTokenizer();
   }
 
@@ -52,7 +52,7 @@ public class SpanishTaggerTest {
     // all-upper case that is common noun & proper noun
     TestTools.myAssert("RIOJA", "RIOJA/[Rioja]NPCNG00|RIOJA/[rioja]NCMS000", tokenizer, tagger);
     
-    TestTools.myAssert("dímelo", "dímelo/[decir]VMM02S0+PP1CS000+PP3MSA00", tokenizer, tagger);
+    TestTools.myAssert("dímelo", "dímelo/[decir]VMM02S0:PP1CS000:PP3MSA00", tokenizer, tagger);
 
     TestTools.myAssert("Soy un hombre muy honrado.",
         "Soy/[ser]VSIP1S0 -- un/[uno]DI0MS0 -- hombre/[hombre]I|hombre/[hombre]NCMS000 -- muy/[muy]RG -- honrado/[honrar]VMP00SM",
@@ -66,6 +66,8 @@ public class SpanishTaggerTest {
     TestTools.myAssert("autorralentizan", "autorralentizan/[autorralentizar]VMIP3P0", tokenizer, tagger);
     TestTools.myAssert("autoralentizan", "autoralentizan/[null]null", tokenizer, tagger);
     TestTools.myAssert("autoretratarán", "autoretratarán/[null]null", tokenizer, tagger);
+    TestTools.myAssert("económico-sociales", "económico-sociales/[económico-social]AQ0CP0", tokenizer, tagger);
+    TestTools.myAssert("jurídico-económicas", "jurídico-económicas/[jurídico-económico]AQ0FP0", tokenizer, tagger);
 
   }
 }

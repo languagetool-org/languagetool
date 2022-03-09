@@ -73,13 +73,13 @@ public class EnglishChunkerTest {
 
   @Test
   public void testContractions() throws Exception {
-    JLanguageTool langTool = new JLanguageTool(new English());
-    AnalyzedSentence analyzedSentence = langTool.getAnalyzedSentence("I'll be there");
+    JLanguageTool lt = new JLanguageTool(new English());
+    AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("I'll be there");
     AnalyzedTokenReadings[] tokens = analyzedSentence.getTokens();
     assertThat(tokens[1].getChunkTags().get(0), is(new ChunkTag("B-NP-singular")));
-    assertThat(tokens[2].getChunkTags().size(), is(0));  // "'" cannot be mapped as we tokenize differently
-    assertThat(tokens[3].getChunkTags().size(), is(0));  // "ll" cannot be mapped as we tokenize differently
-    assertThat(tokens[5].getChunkTags().get(0), is(new ChunkTag("I-VP")));
+    assertThat(tokens[2].getChunkTags().get(0), is(new ChunkTag("B-VP"))); 
+    assertThat(tokens[4].getChunkTags().get(0), is(new ChunkTag("I-VP"))); 
+    assertThat(tokens[6].getChunkTags().get(0), is(new ChunkTag("I-VP")));
   }
 
   @Test
@@ -93,7 +93,7 @@ public class EnglishChunkerTest {
   @Test
   public void testNonBreakingSpace() throws IOException {
     String expectedTags = "[[/SENT_START], [away/JJ, away/NN, away/RB, away/RP, away/UH], [from/IN, from/RP], " +
-      "[home/NN:UN], [often/JJ, often/RB], [?/SENT_END, ?/PCT]]";
+      "[home/NN:UN], [often/RB], [?/SENT_END, ?/PCT]]";
     String expectedChunks = "[[], [B-ADVP], [], [B-PP], [], [B-NP-singular, E-NP-singular], [], [B-ADVP], [O]]";
     EnglishChunker chunker = new EnglishChunker();
     JLanguageTool lt = new JLanguageTool(new English());

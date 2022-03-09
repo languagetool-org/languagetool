@@ -51,7 +51,7 @@ public class SimpleReplaceDiacriticsIEC extends AbstractSimpleReplaceRule {
     super(messages);
     super.setCategory(new Category(new CategoryId("DIACRITICS_IEC"), "Z) Accents diacrítics segons l'IEC"));
     super.setLocQualityIssueType(ITSIssueType.Misspelling);
-    super.setDefaultOff();
+    super.setDefaultOn();
     this.setCheckLemmas(false);
   }  
 
@@ -62,7 +62,7 @@ public class SimpleReplaceDiacriticsIEC extends AbstractSimpleReplaceRule {
 
  @Override
   public String getDescription() {
-    return "Diacrítics eliminats en la reforma del 2017.";
+    return "Accents diacrítics segons les normes noves (2017)";
   }
 
   @Override
@@ -72,7 +72,7 @@ public class SimpleReplaceDiacriticsIEC extends AbstractSimpleReplaceRule {
   
   @Override
   public String getMessage(String tokenStr,List<String> replacements) {
-    return "Hi sobra l'accent diacrític.";
+    return "Hi sobra l'accent diacrític (segons les normes noves; desactiveu la regla si voleu les normes tradicionals).";
   }
   
   @Override

@@ -37,13 +37,13 @@ public class SimpleReplaceSpelling2019RuleTest {
     SimpleReplaceSpelling2019Rule rule = new SimpleReplaceSpelling2019Rule(TestTools.getEnglishMessages());
 
     RuleMatch[] matches;
-    JLanguageTool langTool = new JLanguageTool(new Ukrainian1992());
+    JLanguageTool lt = new JLanguageTool(new Ukrainian1992());
 
     // correct sentences:
-    matches = rule.match(langTool.getAnalyzedSentence("Це — новий проект для фойє."));
+    matches = rule.match(lt.getAnalyzedSentence("Це — новий проект для фойє."));
     assertEquals(0, matches.length);
 
-    matches = rule.match(langTool.getAnalyzedSentence("Це — новий проєкт для фоє."));
+    matches = rule.match(lt.getAnalyzedSentence("Це — новий проєкт для фоє."));
     assertEquals(2, matches.length);
 //    assertEquals(Arrays.asList("проєкт"), matches[0].getSuggestedReplacements());
 //    assertEquals(Arrays.asList("фоє"), matches[1].getSuggestedReplacements());

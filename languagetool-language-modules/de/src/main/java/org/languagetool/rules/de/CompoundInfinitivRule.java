@@ -18,33 +18,24 @@
  */
 package org.languagetool.rules.de;
 
+import morfologik.speller.Speller;
+import org.apache.commons.lang3.StringUtils;
+import org.languagetool.*;
+import org.languagetool.rules.*;
+import org.languagetool.rules.patterns.PatternToken;
+import org.languagetool.rules.patterns.PatternTokenBuilder;
+import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
+import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
+import org.languagetool.tools.StringTools;
+import org.languagetool.tools.Tools;
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.tokenRegex;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
-
-import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedToken;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.LinguServices;
-import org.languagetool.UserConfig;
-import org.languagetool.rules.Categories;
-import org.languagetool.rules.Example;
-import org.languagetool.rules.ITSIssueType;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.patterns.PatternToken;
-import org.languagetool.rules.patterns.PatternTokenBuilder;
-import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
-import org.languagetool.tools.Tools;
-
-import morfologik.speller.Speller;
-import morfologik.stemming.Dictionary;
+import java.util.function.Supplier;
 
 /**
  * Checks the compound spelling of infinitive clause (Erweiterter Infinitiv mit zu)
@@ -53,11 +44,10 @@ import morfologik.stemming.Dictionary;
  * @since 4.4
  */
 public class CompoundInfinitivRule extends Rule {
-  
-  private static Dictionary dict;
-  
+
   private final LinguServices linguServices;
   private final Language lang;
+  private final Supplier<List<DisambiguationPatternRule>> antiPatterns;
 
   private Speller speller = null;
 
@@ -72,10 +62,21 @@ public class CompoundInfinitivRule extends Rule {
       token("zu")
     ),
     Arrays.asList(
+      token("kurz"),
+      token("zu"),
+      token("machen")
+    ),
+    Arrays.asList(
       // "ohne die Erlaubnis dazu zu haben"
       token("dazu"),
       token("zu"),
       token("haben")
+    ),
+    Arrays.asList(
+      // "Er hatte nichts weiter zu sagen"
+      tokenRegex("deutlich|viel|Stück|nichts|nix|noch"),
+      token("weiter"),
+      token("zu")
     )
   );
   
@@ -110,15 +111,7 @@ public class CompoundInfinitivRule extends Rule {
       linguServices = null;
     }
     setUrl(Tools.getUrl("https://www.duden.de/sprachwissen/sprachratgeber/Infinitiv-mit-zu"));
-  }
-
-  @NotNull
-  private static Dictionary getDictionary() throws IOException {
-    if (dict == null) {
-      // Dictionary is thread-safe, so we can re-use it (https://github.com/morfologik/morfologik-stemming/issues/69)
-      dict = Dictionary.read(JLanguageTool.getDataBroker().getFromResourceDirAsUrl("/de/hunspell/de_DE.dict"));
-    }
-    return dict;
+    antiPatterns = cacheAntiPatterns(lang, ANTI_PATTERNS);
   }
 
   @Override
@@ -136,12 +129,13 @@ public class CompoundInfinitivRule extends Rule {
   }
 
   private boolean isMisspelled(String word) {
+    word = StringTools.lowercaseFirstChar(word);
     if (linguServices == null && speller != null) {
       return speller.isMisspelled(word);
     } else if (linguServices != null) {
       return !linguServices.isCorrectSpell(word, lang);
     }
-    return false;
+    throw new IllegalStateException("LinguServices or Speller must be not null to check spelling in CompoundInfinitivRule");
   }
 
   private boolean isRelevant(AnalyzedTokenReadings token) {
@@ -188,7 +182,7 @@ public class CompoundInfinitivRule extends Rule {
       return true;
     }
     String verb = null;
-    for (int i = n - 2; i > 0 && !isPunctuation(tokens[i].getToken()) && verb == null; i--) {
+    for (int i = n - 2; i > 0 && !isPunctuation(tokens[i].getToken()); i--) {
       if (tokens[i].hasPosTagStartingWith("VER:IMP")) {
         verb = StringUtils.lowerCase(getLemma(tokens[i]));
       } else if (tokens[i].hasPosTagStartingWith("VER")) {
@@ -223,7 +217,7 @@ public class CompoundInfinitivRule extends Rule {
 
   @Override
   public List<DisambiguationPatternRule> getAntiPatterns() {
-    return makeAntiPatterns(ANTI_PATTERNS, lang);
+    return antiPatterns.get();
   }
 
   @Override
@@ -231,7 +225,7 @@ public class CompoundInfinitivRule extends Rule {
     if (linguServices == null && speller == null) {
       // speller can not initialized by constructor because of temporary initialization of LanguageTool in other rules,
       // which leads to problems in LO/OO extension
-      speller = new Speller(getDictionary());
+      speller = new Speller(MorfologikSpeller.getDictionaryWithCaching("/de/hunspell/de_DE.dict"));
     }
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();
@@ -242,7 +236,7 @@ public class CompoundInfinitivRule extends Rule {
         && !tokens[i].isImmunized()
         && !isException(tokens, i)
         && !isMisspelled(tokens[i - 1].getToken() + tokens[i + 1].getToken())) {
-        String msg = "Wenn der erweiterte Infinitv von dem Verb '" + tokens[i - 1].getToken() + tokens[i + 1].getToken()
+        String msg = "Wenn der erweiterte Infinitiv von dem Verb '" + tokens[i - 1].getToken() + tokens[i + 1].getToken()
                    + "' abgeleitet ist, sollte er zusammengeschrieben werden.";
         RuleMatch ruleMatch = new RuleMatch(this, sentence, tokens[i - 1].getStartPos(), tokens[i + 1].getEndPos(), msg);
         List<String> suggestions = new ArrayList<>();

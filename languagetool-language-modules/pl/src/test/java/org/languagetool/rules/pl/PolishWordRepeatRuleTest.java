@@ -35,22 +35,22 @@ public class PolishWordRepeatRuleTest {
   public void testRule() throws IOException {
     final PolishWordRepeatRule rule = new PolishWordRepeatRule(TestTools.getEnglishMessages());
     RuleMatch[] matches;
-    JLanguageTool langTool = new JLanguageTool(new Polish());
+    JLanguageTool lt = new JLanguageTool(new Polish());
     //correct
-    matches = rule.match(langTool.getAnalyzedSentence("To jest zdanie próbne."));
+    matches = rule.match(lt.getAnalyzedSentence("To jest zdanie próbne."));
     assertEquals(0, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("On tak się bardzo nie martwił, bo przecież musiał się umyć."));
+    matches = rule.match(lt.getAnalyzedSentence("On tak się bardzo nie martwił, bo przecież musiał się umyć."));
     assertEquals(0, matches.length);
     //repeated prepositions, don't count'em
-    matches = rule.match(langTool.getAnalyzedSentence("Na dyskotece tańczył jeszcze, choć był na bani."));
+    matches = rule.match(lt.getAnalyzedSentence("Na dyskotece tańczył jeszcze, choć był na bani."));
     assertEquals(0, matches.length);
     // sf bug report:
-    matches = rule.match(langTool.getAnalyzedSentence("Żadnych „ale”."));
+    matches = rule.match(lt.getAnalyzedSentence("Żadnych „ale”."));
     assertEquals(0, matches.length);
     //incorrect
-    matches = rule.match(langTool.getAnalyzedSentence("Był on bowiem pięknym strzelcem bowiem."));
+    matches = rule.match(lt.getAnalyzedSentence("Był on bowiem pięknym strzelcem bowiem."));
     assertEquals(1, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("Mówiła długo, żeby tylko mówić długo."));
+    matches = rule.match(lt.getAnalyzedSentence("Mówiła długo, żeby tylko mówić długo."));
     assertEquals(2, matches.length);
   }
 

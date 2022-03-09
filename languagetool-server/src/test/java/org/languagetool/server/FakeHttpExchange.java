@@ -29,9 +29,19 @@ import java.net.URI;
 import java.nio.charset.StandardCharsets;
 
 public class FakeHttpExchange extends HttpExchange {
+
+  public FakeHttpExchange() {
+    this("get");
+  }
+
+  public FakeHttpExchange(String method) {
+    this.method = method;
+  }
+
+  private final String method;
   
   private final ByteArrayOutputStream bos = new ByteArrayOutputStream();
-    
+
   @Override
   public Headers getRequestHeaders() {
     return new Headers();
@@ -46,7 +56,7 @@ public class FakeHttpExchange extends HttpExchange {
   }
   @Override
   public String getRequestMethod() {
-    return "get";
+    return method;
   }
   @Override
   public HttpContext getHttpContext() {
@@ -64,7 +74,7 @@ public class FakeHttpExchange extends HttpExchange {
     return bos;
   }
   @Override
-  public void sendResponseHeaders(int i, long l) throws IOException {
+  public void sendResponseHeaders(int i, long l) {
   }
   @Override
   public InetSocketAddress getRemoteAddress() {
@@ -97,7 +107,7 @@ public class FakeHttpExchange extends HttpExchange {
     return null;
   }
 
-  public String getOutput() throws UnsupportedEncodingException {
+  public String getOutput() {
     return new String(bos.toByteArray(), StandardCharsets.UTF_8);
   }
 

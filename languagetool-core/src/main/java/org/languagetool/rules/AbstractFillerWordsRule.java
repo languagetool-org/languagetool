@@ -44,8 +44,8 @@ public abstract class AbstractFillerWordsRule extends TextLevelRule {
   public static final String RULE_ID = "FILLER_WORDS";
   
   private static final int DEFAULT_MIN_PERCENT = 8;
-  private static final Pattern OPENING_QUOTES = Pattern.compile("[\"„”»«]");
-  private static final Pattern ENDING_QUOTES = Pattern.compile("[\"“»«]");
+  private static final Pattern OPENING_QUOTES = Pattern.compile("[\"“„”»«]");
+  private static final Pattern ENDING_QUOTES = Pattern.compile("[\"“”»«]");
   private static final boolean DEFAULT_ACTIVATION = false;
 
   private int minPercent = DEFAULT_MIN_PERCENT;
@@ -143,10 +143,10 @@ public abstract class AbstractFillerWordsRule extends TextLevelRule {
       for (int n = 1; n < tokens.length; n++) {
         AnalyzedTokenReadings token = tokens[n];
         String sToken = token.getToken();
-        if (OPENING_QUOTES.matcher(sToken).matches() && n < tokens.length -1 && !tokens[n + 1].isWhitespaceBefore()) {
+        if (!isDirectSpeech && OPENING_QUOTES.matcher(sToken).matches() && n < tokens.length -1 && !tokens[n + 1].isWhitespaceBefore()) {
           isDirectSpeech = true;
         }
-        else if (ENDING_QUOTES.matcher(sToken).matches() && n > 1 && !tokens[n].isWhitespaceBefore()) {
+        else if (isDirectSpeech && ENDING_QUOTES.matcher(sToken).matches() && n > 1 && !tokens[n].isWhitespaceBefore()) {
           isDirectSpeech = false;
         }
         else if ((!isDirectSpeech || minPercent == 0) && !token.isWhitespace() && !token.isNonWord()) {

@@ -18,15 +18,23 @@
  */
 package org.languagetool.tokenizers.de;
 
-import java.io.IOException;
-import java.util.*;
-
+import com.google.common.base.Suppliers;
 import de.danielnaber.jwordsplitter.EmbeddedGermanDictionary;
 import de.danielnaber.jwordsplitter.GermanWordSplitter;
 import de.danielnaber.jwordsplitter.InputTooLongException;
+import gnu.trove.THashSet;
 import org.languagetool.tokenizers.Tokenizer;
 
-import static java.util.Arrays.*;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+import java.util.function.Supplier;
+
+import static java.util.Arrays.asList;
 
 /**
  * Split German nouns using the jWordSplitter library.
@@ -34,6 +42,20 @@ import static java.util.Arrays.*;
  * @author Daniel Naber
  */
 public class GermanCompoundTokenizer implements Tokenizer {
+  private static final Supplier<GermanCompoundTokenizer> strictInstance = Suppliers.memoize(() -> {
+    try {
+      return new GermanCompoundTokenizer(true);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  });
+  private static final Supplier<GermanCompoundTokenizer> nonStrictInstance = Suppliers.memoize(() -> {
+    try {
+      return new GermanCompoundTokenizer(false);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  });
 
   private final ExtendedGermanWordSplitter wordSplitter;
   
@@ -46,78 +68,10 @@ public class GermanCompoundTokenizer implements Tokenizer {
       super(hideInterfixCharacters, extendedList());
     }
     static Set<String> extendedList() {
-      Set<String> words = new HashSet<>(EmbeddedGermanDictionary.getWords());
+      THashSet<String> words = new THashSet<>(EmbeddedGermanDictionary.getWords());
       // add compound parts here so we don't need to update JWordSplitter for every missing word we find:
-      words.add("online");
-      words.add("affin");
-      words.add("affine");
-      words.add("affiner");
-      words.add("affines");
-      words.add("affinen");
-      words.add("affinem");
-      words.add("trockner");
-      words.add("thermostat");
-      words.add("thermostats");
-      words.add("fehl");
-      words.add("circus");
-      words.add("schi");
-      words.add("codex");
-      words.add("crème");
-      words.add("crèmes");
-      words.add("sauce");
-      words.add("account");
-      words.add("accounts");
-      words.add("photograph");
-      words.add("oxyd");
-      words.add("playback");
-      words.add("playbacks");
-      words.add("blog");
-      words.add("durchsuchung");
-      words.add("durchsuchungen");
-      words.add("kritisch");
-      words.add("kritische");
-      words.add("kritisches");
-      words.add("kritischer");
-      words.add("kritischen");
-      words.add("kritischem");
-      words.add("fortbewegung");
-      words.add("freundlich");
-      words.add("freundliche");
-      words.add("freundliches");
-      words.add("freundlicher");
-      words.add("freundlichen");
-      words.add("freundlichem");
-      words.add("gelegenen");  // e.g. höchstgelegenen
-      words.add("gelegenes");
-      words.add("gelegene");
-      words.add("gelegen");
-      words.add("neurogen");
-      words.add("neurogene");
-      words.add("neurogenes");
-      words.add("neurogenen");
-      words.add("autogene");
-      words.add("autogenes");
-      words.add("autogenen");
-      words.add("biogenetisch");
-      words.add("biogenetische");
-      words.add("biogenetischen");
-      words.add("biogenetisches");
-      words.add("fotogene");
-      words.add("fotogenes");
-      words.add("fotogenen");
-      words.add("erlegene");
-      words.add("erlegenes");
-      words.add("erlegenen");
-      words.add("genesenden");
-      words.add("genesender");
-      words.add("geneset");
-      words.add("telegene");
-      words.add("telegenen");
-      words.add("telegenes");
-      words.add("genetisch");
-      words.add("genetische");
-      words.add("genetischen");
-      words.add("genetisches");
+      words.add("synonym");
+      words.trimToSize();
       return words;
     }
   }
@@ -125,35 +79,18 @@ public class GermanCompoundTokenizer implements Tokenizer {
   public GermanCompoundTokenizer(boolean strictMode) throws IOException {
     wordSplitter = new ExtendedGermanWordSplitter(false);
     // add exceptions here so we don't need to update JWordSplitter for every exception we find:  
-    wordSplitter.addException("Maskerade", Collections.singletonList("Maskerade"));
-    wordSplitter.addException("Sportshorts", asList("Sport", "shorts")); 
-    wordSplitter.addException("Bermudashorts", asList("Bermuda", "shorts"));
-    wordSplitter.addException("Laufshorts", asList("Lauf", "shorts"));
-    wordSplitter.addException("Badeshorts", asList("Bade", "shorts"));
-    wordSplitter.addException("Buchungstrick", asList("Buchungs", "trick"));
-    wordSplitter.addException("Buchungstricks", asList("Buchungs", "tricks"));
-    wordSplitter.addException("Rückzugsorte", asList("Rückzugs", "orte"));
-    wordSplitter.addException("Malerarbeiten", asList("Maler", "arbeiten"));
-    wordSplitter.addException("Siebengestirn", asList("Sieben", "gestirn"));
-    wordSplitter.addException("Siebengestirne", asList("Sieben", "gestirne"));
-    wordSplitter.addException("Siebengestirnen", asList("Sieben", "gestirnen"));
-    wordSplitter.addException("Siebengestirns", asList("Sieben", "gestirns"));
-    wordSplitter.addException("Siebengestirnes", asList("Sieben", "gestirnes"));
-    wordSplitter.addException("Alpinforum", asList("Alpin", "forum"));
-    wordSplitter.addException("Rollerskate", asList("Rollerskate"));
-    wordSplitter.addException("Baumeisterarbeiten", asList("Baumeister", "arbeiten"));
-    wordSplitter.addException("Bilderarbeiten", asList("Bilder", "arbeiten"));
-    wordSplitter.addException("Dachdeckerarbeiten", asList("Dachdecker", "arbeiten"));
-    wordSplitter.addException("Handlangerarbeiten", asList("Handlanger", "arbeiten"));
-    wordSplitter.addException("Handwerkerarbeiten", asList("Handwerker", "arbeiten"));
-    wordSplitter.addException("Kinderarbeiten", asList("Kinder", "arbeiten"));
-    wordSplitter.addException("Masterarbeiten", asList("Master", "arbeiten"));
-    wordSplitter.addException("Meisterarbeiten", asList("Meister", "arbeiten"));
-    wordSplitter.addException("Putzerarbeiten", asList("Putzer", "arbeiten"));
-    wordSplitter.addException("Schlosserarbeiten", asList("Schlosser", "arbeiten"));
-    wordSplitter.addException("Schneiderarbeiten", asList("Schneider", "arbeiten"));
-    wordSplitter.addException("Wanderarbeiten", asList("Wander", "arbeiten"));
-    wordSplitter.addException("Taucherarbeiten", asList("Taucher", "arbeiten"));
+    //wordSplitter.addException("Maskerade", Collections.singletonList("Maskerade"));
+    //wordSplitter.addException("Sportshorts", asList("Sport", "shorts")); 
+    wordSplitter.addException("Hallesche", asList("Hallesche"));
+    wordSplitter.addException("Halleschen", asList("Halleschen"));
+    wordSplitter.addException("Reinigungstab", asList("Reinigungs", "tab"));
+    wordSplitter.addException("Reinigungstabs", asList("Reinigungs", "tabs"));
+    wordSplitter.addException("Tauschwerte", asList("Tausch", "werte"));
+    wordSplitter.addException("Tauschwertes", asList("Tausch", "wertes"));
+    wordSplitter.addException("Kinderspielen", asList("Kinder", "spielen"));
+    wordSplitter.addException("Buchhaltungstrick", asList("Buchhaltungs", "trick"));
+    wordSplitter.addException("Buchhaltungstricks", asList("Buchhaltungs", "tricks"));
+    wordSplitter.addException("karamelligen", asList("karamelligen"));  // != Karamel+Ligen
     wordSplitter.setStrictMode(strictMode);
     wordSplitter.setMinimumWordLength(3);
   }
@@ -167,13 +104,31 @@ public class GermanCompoundTokenizer implements Tokenizer {
     }
   }
 
+  public static GermanCompoundTokenizer getStrictInstance() {
+    return strictInstance.get();
+  }
+
+  public static GermanCompoundTokenizer getNonStrictInstance() {
+    return nonStrictInstance.get();
+  }
+
   public static void main(String[] args) throws IOException {
-    if (args.length != 1) {
-      System.out.println("Usage: " + GermanCompoundTokenizer.class.getSimpleName() + " <wordToSplit>");
+    if (args.length == 0) {
+      System.out.println("Usage: " + GermanCompoundTokenizer.class.getSimpleName() + " <wordsToSplit... or file>");
       System.exit(1);
     }
     GermanCompoundTokenizer tokenizer = new GermanCompoundTokenizer();
-    System.out.println(tokenizer.tokenize(args[0]));
+    if (new File(args[0]).exists()) {
+      System.out.println("Working on lines from " + args[0] + ":");
+      List<String> lines = Files.readAllLines(Paths.get(args[0]));
+      for (String line : lines) {
+        System.out.println(tokenizer.tokenize(line));
+      }
+    } else {
+      for (String arg : args) {
+        System.out.println(tokenizer.tokenize(arg));
+      }
+    }
   }
 
 }

@@ -244,6 +244,9 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
         filterArgs = attrs.getValue("args");
         break;
       case MARKER:
+        if (inMarker) {
+          throw new IllegalStateException("'<marker>' may not be nested in rule '" + id + "'");
+        }
         example.append("<marker>");
         if (inPattern || inAntiPattern) {
           startPos = tokenCounter;
@@ -278,7 +281,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
           startPos = 0;
           endPos = tokenCountForMarker;
         }
-        rule.setSubId(inRuleGroup ? Integer.toString(subId) : "1");
+        rule.setSubId(inRuleGroup ? internString(Integer.toString(subId)) : "1");
 
         int matchedTokenCount = endPos - startPos;
         if (newWdList != null) {
@@ -346,84 +349,10 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
         tokenCounter++;
         break;
       case TOKEN:
-        if (!exceptionSet || patternToken == null) {
-          boolean tokenCase = caseSensitive;
-          if (tokenLevelCaseSet) {
-            tokenCase = tokenLevelCaseSensitive;
-          }
-          patternToken = new PatternToken(elements.toString(), tokenCase,
-                  regExpression, tokenInflected);
-          patternToken.setNegation(tokenNegated);
-        } else {
-          patternToken.setStringElement(elements.toString());
+        if (inUnification && !inAndGroup) {
+          uniCounter++;
         }
-        if (skipPos != 0) {
-          patternToken.setSkipNext(skipPos);
-          skipPos = 0;
-        }
-        if (minOccurrence == 0) {
-          patternToken.setMinOccurrence(0);
-        }
-        if (maxOccurrence != 1) {
-          patternToken.setMaxOccurrence(maxOccurrence);
-          maxOccurrence = 1;
-        }
-        if (posToken != null) {
-          patternToken.setPosToken(new PatternToken.PosToken(posToken, posRegExp, posNegation));
-          posToken = null;
-        }
-
-        if (chunkTag != null) {
-          patternToken.setChunkTag(chunkTag);
-          chunkTag = null;
-        }
-
-        if (tokenReference != null) {
-          patternToken.setMatch(tokenReference);
-        }
-
-        if (inAndGroup && andGroupCounter > 0) {
-          patternTokens.get(patternTokens.size() - 1)
-                  .setAndGroupElement(patternToken);
-          if (minOccurrence != 1 || maxOccurrence != 1) {
-            throw new SAXException("Please set min and max attributes on the " +
-                    "first token in the AND group.\n You attempted to set these " +
-                    "attributes on the token no. " + (andGroupCounter + 1) + "." + "\n Line: "
-                    + pLocator.getLineNumber() + ", column: "
-                    + pLocator.getColumnNumber() + ".");
-          }
-        } else {
-          if (minOccurrence < 1) {
-            patternTokens.add(patternToken);
-          }
-          for (int i = 1; i <= minOccurrence; i++) {
-            patternTokens.add(patternToken);
-          }
-          minOccurrence = 1;
-        }
-        if (inAndGroup) {
-          andGroupCounter++;
-        }
-        if (inUnification) {
-          patternToken.setUnification(equivalenceFeatures);
-          if (!inAndGroup) {
-            uniCounter++;
-          }
-          if (inUnificationNeutral) {
-            patternToken.setUnificationNeutral();
-          }
-        }
-        if (inUnificationDef) {
-          language.getDisambiguationUnifierConfiguration().setEquivalence(uFeature, uType, patternToken);
-          patternTokens.clear();
-        }
-
-        patternToken.setInsideMarker(inMarker);
-
-        if (tokenSpaceBeforeSet) {
-          patternToken.setWhitespaceBefore(tokenSpaceBefore);
-        }
-        resetToken();
+        finalizeTokens(language.getDisambiguationUnifierConfiguration());
         break;
       case PATTERN:
         inPattern = false;
@@ -444,7 +373,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
         inRuleGroup = false;
         break;
       case UNIFICATION:
-        if (inUnificationDef){
+        if (inUnificationDef) {
           inUnificationDef = false;
           tokenCounter = 0;
         }

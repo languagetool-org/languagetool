@@ -53,7 +53,7 @@ public class CachingWordListLoader {
             if (line.isEmpty() || line.startsWith("#")) {
               continue;
             }
-            result.add(StringUtils.substringBefore(line.trim(), "#"));
+            result.add(StringUtils.substringBefore(line.trim(), "#").trim());
           }
           return Collections.unmodifiableList(result);
         }

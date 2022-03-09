@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker
- * Copyright (C) 2016 Jaume Ortolà (http://www.languagetool.org)
+ * Copyright (C) 2016 Jaume Ortolà
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,6 +19,8 @@
 package org.languagetool.rules;
 
 import org.languagetool.Language;
+import org.languagetool.Premium;
+import org.languagetool.Tag;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,17 +33,21 @@ import java.util.List;
  */
 public class CleanOverlappingFilter implements RuleMatchFilter {
 
-  private Language language;
-  
-  public CleanOverlappingFilter(Language lang) {
+  private static final int negativeConstant = Integer.MIN_VALUE + 10000;
+
+  private final Language language;
+  private final boolean hidePremiumMatches;
+
+  public CleanOverlappingFilter(Language lang, boolean hidePremiumMatches) {
     this.language = lang;
+    this.hidePremiumMatches = hidePremiumMatches;
   }
   
   @Override
   public final List<RuleMatch> filter(List<RuleMatch> ruleMatches) {
     List<RuleMatch> cleanList = new ArrayList<>();
     RuleMatch prevRuleMatch = null;
-    for(RuleMatch ruleMatch: ruleMatches) {
+    for (RuleMatch ruleMatch: ruleMatches) {
       if (prevRuleMatch == null) {  // first item
         prevRuleMatch = ruleMatch;
         continue;
@@ -58,7 +64,21 @@ public class CleanOverlappingFilter implements RuleMatchFilter {
       }
       // overlapping
       int currentPriority = language.getRulePriority(ruleMatch.getRule());
+      if (isPremiumRule(ruleMatch) && hidePremiumMatches) {
+        // non-premium match should win, so the premium match does *not* become a hidden match
+        // (we'd show hidden matches for errors covered by an Open Source match)
+        currentPriority = Integer.MIN_VALUE;
+      }
+      if (ruleMatch.getRule().getTags().contains(Tag.picky) && currentPriority != Integer.MIN_VALUE) {
+        currentPriority += negativeConstant;
+      }
       int prevPriority = language.getRulePriority(prevRuleMatch.getRule());
+      if (isPremiumRule(prevRuleMatch) && hidePremiumMatches) {
+        prevPriority = Integer.MIN_VALUE;
+      }
+      if (prevRuleMatch.getRule().getTags().contains(Tag.picky) && prevPriority != Integer.MIN_VALUE) {
+        prevPriority += negativeConstant;
+      }
       if (currentPriority == prevPriority) {
         // take the longest error:
         currentPriority = ruleMatch.getToPos() - ruleMatch.getFromPos();
@@ -78,5 +98,8 @@ public class CleanOverlappingFilter implements RuleMatchFilter {
     return cleanList;
   }
 
-  
+  protected boolean isPremiumRule(RuleMatch ruleMatch) {
+    return Premium.get().isPremiumRule(ruleMatch.getRule());
+  }
+
 }

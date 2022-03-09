@@ -29,7 +29,7 @@ public class BelarusianTest extends LanguageSpecificTest {
   
   @Test
   public void testLanguage() throws IOException {
-    // NOTE: this text needs to be kept in sync with WelcomeController.php's getDefaultDemoTexts():
+    // NOTE: this text needs to be kept in sync with config.ts -> DEMO_TEXTS:
     String s = "Паспрабуйце напісаць нейкі тэкст з памылкамі, а LanguageTool паспрабуе паказаць нейкия найбольш распаусюджаныя памылки.";
     Belarusian lang = new Belarusian();
     testDemoText(lang, s,

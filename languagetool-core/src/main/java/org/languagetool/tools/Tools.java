@@ -34,6 +34,8 @@ import java.util.*;
 
 public final class Tools {
 
+  private static LinguServices linguServices = null;
+  
   private Tools() {
     // cannot construct, static methods only
   }
@@ -64,7 +66,7 @@ public final class Tools {
                                             List<BitextRule> bRules) throws IOException {
     AnalyzedSentence srcText = srcLt.getAnalyzedSentence(src);
     AnalyzedSentence trgText = trgLt.getAnalyzedSentence(trg);
-    List<Rule> nonBitextRules = trgLt.getAllRules();
+    List<Rule> nonBitextRules = trgLt.getAllActiveRules();
     List<RuleMatch> ruleMatches = trgLt.checkAnalyzedSentence(JLanguageTool.ParagraphHandling.NORMAL, nonBitextRules, trgText, true);
     for (BitextRule bRule : bRules) {
       RuleMatch[] curMatch = bRule.match(srcText, trgText);
@@ -290,7 +292,7 @@ public final class Tools {
       for (Rule rule : lt.getAllRules()) {
         if (rule.isDefaultTempOff()) {
           System.out.println("Activating " + rule.getFullId() + ", which is default='temp_off'");
-          lt.enableRule(rule.getId());
+          lt.enableRule(rule.getFullId());
         }
       }
     }
@@ -305,8 +307,8 @@ public final class Tools {
         // disable all rules except those in explicitly enabled categories, if any:
         for (Rule rule : lt.getAllRules()) {
           Category category = rule.getCategory();
-          if (category == null || !enabledCategories.contains(category.getId())) {
-            lt.disableRule(rule.getId());
+          if (!enabledCategories.contains(category.getId())) {
+            lt.disableRule(rule.getFullId());
           }
         }
       }
@@ -323,8 +325,8 @@ public final class Tools {
       if (useEnabledOnly) {
         // disable all rules except those enabled explicitly, if any:
         for (Rule rule : lt.getAllRules()) {
-          if (!enabledRules.contains(rule.getId())) {
-            lt.disableRule(rule.getId());
+          if (!(enabledRules.contains(rule.getFullId()) || enabledRules.contains(rule.getId()))) {
+            lt.disableRule(rule.getFullId());
           }
         }
       }
@@ -424,4 +426,26 @@ public final class Tools {
     return false;
   }
 
+  /**
+   * set linguistic services (only to introduce external speller for LT)
+   * since 5.7
+   */
+  public static void setLinguisticServices(LinguServices ls) {
+    linguServices = ls;
+  }
+  
+  /**
+   * since 5.7
+   */
+  public static boolean isExternSpeller() {
+    return linguServices != null;
+  }
+  
+  /**
+   * since 5.7
+   */
+  public static LinguServices getLinguisticServices() {
+    return linguServices;
+  }
+  
 }

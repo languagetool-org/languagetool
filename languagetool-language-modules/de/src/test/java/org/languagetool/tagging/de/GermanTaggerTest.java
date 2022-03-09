@@ -25,7 +25,6 @@ import org.junit.Test;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
-import org.languagetool.tagging.TaggedWord;
 
 import java.io.IOException;
 import java.util.*;
@@ -162,6 +161,20 @@ public class GermanTaggerTest {
 
     AnalyzedTokenReadings aToken15 = tagger.lookup("erzkatholisch");
     assertTrue(aToken15.getReadings().get(0).getPOSTag().equals("ADJ:PRD:GRU"));
+
+    AnalyzedTokenReadings aToken16 = tagger.lookup("unerbeten");
+    assertTrue(aToken16.getReadings().get(0).getPOSTag().equals("PA2:PRD:GRU:VER"));
+
+    AnalyzedTokenReadings aToken17 = tagger.lookup("under");
+    assertTrue(aToken17 == null);
+    
+    // tag old forms
+    AnalyzedTokenReadings aToken18 = tagger.lookup("Zuge");
+    assertEquals("Zuge[Zug/SUB:DAT:SIN:MAS]", toSortedString(aToken18));
+    AnalyzedTokenReadings aToken19 = tagger.lookup("Tische");
+    assertEquals("Tische[Tisch/SUB:AKK:PLU:MAS, Tisch/SUB:DAT:SIN:MAS, Tisch/SUB:GEN:PLU:MAS, Tisch/SUB:NOM:PLU:MAS]", toSortedString(aToken19));
+
+    assertNull(tagger.lookup("vanillig-karamelligen"));
   }
 
   // make sure we use the version of the POS data that was extended with post spelling reform data
@@ -286,6 +299,28 @@ public class GermanTaggerTest {
     assertTrue(res4.contains("abschicken/VER:3:PLU:KJ1:SFT*"));
     assertTrue(res4.contains("abschicken/VER:3:PLU:PRÄ:SFT*"));
     assertFalse(res4.contains("ADJ:"));
+
+    List<AnalyzedTokenReadings> result5 = tagger.tag(Collections.singletonList("Mitmanagen"));
+    assertThat(result5.size(), is(1));
+    assertThat(result5.get(0).getReadings().size(), is(3));
+    String res5 = result5.toString();
+    assertTrue(res5.contains("Mitmanagen/SUB:NOM:SIN:NEU:INF"));
+    assertTrue(res5.contains("Mitmanagen/SUB:AKK:SIN:NEU:INF"));
+    assertTrue(res5.contains("Mitmanagen/SUB:DAT:SIN:NEU:INF"));
+    assertFalse(res5.contains("ADJ:"));
+
+    List<AnalyzedTokenReadings> result6 = tagger.tag(Collections.singletonList("Mitmanagens"));
+    assertThat(result6.size(), is(1));
+    assertThat(result6.get(0).getReadings().size(), is(1));
+    String res6 = result6.toString();
+    assertTrue(res6.contains("Mitmanagen/SUB:GEN:SIN:NEU:INF"));
+    assertFalse(res6.contains("ADJ:"));
+
+    List<AnalyzedTokenReadings> result7 = tagger.tag(Collections.singletonList("Wegstrecken"));
+    assertThat(result7.size(), is(1));
+    assertThat(result7.get(0).getReadings().size(), is(7));
+    String res7 = result7.toString();
+    assertFalse(res7.contains("Wegstrecken/SUB:GEN:SIN:NEU:INF"));
   }
 
   /**

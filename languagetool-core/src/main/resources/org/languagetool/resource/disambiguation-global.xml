@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" title="Pretty print" ?>
+<?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet" ?>
+<!--
+Global Disambiguation Rules for LanguageTool
+Copyright (C) 2021 Jaume Ortolà
+
+  This library is free software; you can redistribute it and/or
+  modify it under the terms of the GNU Lesser General Public
+  License as published by the Free Software Foundation; either
+  version 2.1 of the License, or (at your option) any later version.
+
+  This library is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  Lesser General Public License for more details.
+
+  You should have received a copy of the GNU Lesser General Public
+  License along with this library; if not, write to the Free Software
+  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
+-->
+<!DOCTYPE rules [
+  <!ENTITY filename_extensions "ai|asp|aspx|avi|bak|bat|bmp|cab|cfg|cgi|com|css|csv|dat|db|dbf|dll|doc|docx|eps|exe|flv|gif|htm|html|ibooks|ico|ics|ini|jar|jpeg|jpg|js|jsp|lnk|md|mdb|mid|mov|mp3|mp4|mpa|mpg|ods|pdf|php|pl|png|pps|ppt|pptx|ps|psd|py|rar|rss|rtf|scss|sh|shtml|sql|svg|sys|tar|tif|tiff|tmp|ts|txt|wav|wma|xhtml|xls|xlsx|xml|xsl|yaml|yml|zip|zipx|7z|xsd">
+  <!ENTITY domain_names "ae|ag|ai|app|ar|asia|at|au|be|bid|bio|biz|br|ca|cat|cc|cf|ch|cl|cloud|club|cm|cn|co|com|consulting|cz|de|design|dev|digital|dk|edu|es|eu|fi|fm|fr|ga|games|gdn|gov|gq|gr|hk|hu|id|ie|il|in|info|int|io|ir|is|it|jp|kg|kiwi|kr|kz|lab|life|link|live|loan|local|lt|ly|me|men|mil|ml|mobi|mx|my|mz|name|net|ng|ngo|nl|no|nu|nz|online|org|party|pk|pl|pro|pt|pw|racing|ro|ru|se|services|sex|sg|shop|site|sk|space|store|su|tech|tk|to|top|tr|trade|tv|tw|ua|uk|us|ventures|vip|vn|wang|web|website|win|world|ws|xin|xyz|za">
+ ]>
+<rules lang="global" xsi:noNamespaceSchemaLocation="./disambiguation.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <rulegroup id="GLOBAL_PROPER_NOUNS" name="ignore spelling of some proper nouns">
+        <rule>
+            <pattern>
+                <token regexp="yes" skip="1">Rem|Lucas|Remment</token>
+                <marker>
+                    <token case_sensitive="yes">Koolhaas</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
+    <rule name="Ignore spelling of url protocols" id="GLOBAL_URI_PROTOCOL">
+        <pattern>
+            <!-- chrome://, ftp://, file:// -->
+            <token regexp="yes">[a-z\-]+</token>
+            <token spacebefore="no">:</token>
+            <token spacebefore="no">/</token>
+            <token spacebefore="no">/</token>
+            <token spacebefore="no" min="0">/</token>
+            <token spacebefore="no" regexp="yes">[a-z0-9\-]+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Ignore spelling of file names" id="GLOBAL_IGNORE_FILE_NAMES">
+        <pattern>
+            <token/>
+            <token spacebefore="no">.</token>
+            <token spacebefore="no" regexp="yes">&filename_extensions;</token>
+            <!-- For more extensions, refer to https://fileinfo.com -->
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Ignore spelling of file extensions" id="GLOBAL_IGNORE_FILE_EXTENSIONS">
+        <!-- A .txt file-->
+        <pattern>
+            <token spacebefore="yes">.</token>
+            <token spacebefore="no" regexp="yes">&filename_extensions;</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Ignore spelling of @user mentions" id="GLOBAL_IGNORE_USER_MENTION">
+        <pattern>
+            <token regexp="yes">@.+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rulegroup name="Ignore spelling of #hashtags" id="GLOBAL_IGNORE_HASHTAG">
+        <rule>
+            <pattern>
+                <token spacebefore="yes">#</token>
+                <token spacebefore="no"/>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="SENT_START"/>
+                <token>#</token>
+                <token spacebefore="no"/>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
+    <rulegroup name="Ignore spelling of domain names" id="GLOBAL_IGNORE_DOMAIN_NAMES">
+        <rule>
+            <pattern>
+                <token regexp="yes">[a-z0-9\-]+</token>
+                <token spacebefore="no">.</token>
+                <token spacebefore="no" regexp="yes">&domain_names;</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">[a-z0-9\-]+</token>
+                <token spacebefore="no">.</token>
+                <token spacebefore="no" regexp="yes">&domain_names;</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_IS_URL"/>
+            </disambig>
+        </rule>
+        <rule>
+            <!--  subdomains -->
+            <pattern>
+                <token regexp="yes">[a-z0-9\-]+</token>
+                <token spacebefore="no">.</token>
+                <token regexp="yes" spacebefore="no">[a-z0-9\-]+</token>
+                <token spacebefore="no">.</token>
+                <token regexp="yes" spacebefore="no">&domain_names;</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern case_sensitive="yes">
+                <token spacebefore="yes">.</token>
+                <token spacebefore="no" regexp="yes">&domain_names;</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
+    <rule name="Ignore spelling of acronym 'tl;dr'" id="GLOBAL_IGNORE_TL_DR">
+        <pattern case_sensitive="yes">
+            <token regexp="yes">tl|TL|Tl</token>
+            <token spacebefore="no">;</token>
+            <token spacebefore="no" regexp="yes">dr|DR</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Ignore common chemical formulas" id="GLOBAL_IGNORE_COMMON_CHEMICAL_FORMULAS">
+        <!-- List retreived and triaged from https://en.wikipedia.org/wiki/Glossary_of_chemical_formulas -->
+        <pattern case_sensitive="yes">
+            <token regexp="yes" case_sensitive="yes"
+                >H₁|H₂|NaOH|Ac₂O₃|Ag₂C₂|Ag₂C₂O₄|Ag₂Cl₂|Ag₂CO₃|Ag₂Cr₂O₇|Ag₂CrO₄|Ag₂F|Ag₂MoO₄|Ag₂O|Ag₂S|Ag₂Se|Ag₂SeO₃|Ag₂SeO₄|Ag₂SO₄|Ag₂Te|Ag₃Br₂|Ag₃Br₃|Ag₃Cl₃|Ag₃I₃|Ag₃PO₄|AgBF₄|AgBrO₂|AgBrO₃|AgBrO₄|AgCl₃Cu₂|AgClO₃|AgClO₄|AgF₂|AgIO₂|AgIO₃|AgIO₄|AgMnO₄|AgN₃|AgNO₃|AgPF₆|Al₂BeO₄|Al₂Br₆|Al₂Cl₉K₃|Al₂CoO₄|Al₂F₆|Al₂I₆|Al₂MgO₄|Al₂O|Al₂O₂|Al₂O₃|Al₂O₅Si|Al₂O₇Si₂|Al₂S|Al₂S₃|Al₂Se|Al₂Te|Al₃F₁₄Na₅|Al₄C₃|Al₆BeO₁₀|Al₆O₁₃Si₂|AlBO₃|AlBr₃|AlCl₂F|AlCl₂H|AlCl₃|AlCl₄Cs|AlCl₄K|AlCl₄Na|AlCl₄Rb|AlCl₆K₃|AlCl₆Na₃|AlF₂|AlF₂O|AlF₃|AlF₄K|AlF₄Li|AlF₆K₃|AlF₆Li₃|AlF₆Na₃|AlI₃|AlLiO₂|AlNaO₂|AlO₂|AlPO₄|AlTe₂|As₂I₄|As₂Mg₃|As₂O₃|As₂O₅|As₂P₂|As₂S₄|As₂S₅|As₂Se|As₂Se₃|As₂Se₅|As₃O₄|As₃P|As₄O₃|As₄O₅|As₄S₃|As₄S₄|AsBr₃|AsCl₃|AsCl₃O|AsCl₄F|AsF₃|AsF₅|AsH₃|AsI₃|AsO₂|AsP₃|Au₂O₃|Au₂S|Au₂S₃|Au₂Se₃|AuBr₃|AuCl₃|AuF₃|AuI₃|B₂Cl₄|B₂F₄|B₂H₆|B₂O₃|B₂S₃|B₂Se₃|B₃N₃H₆|B₄C|Ba₂P₂O₇|Ba₂V₂O₇|Ba₂XeO₆|Ba₃N₂|BaB₆|BaBr₂|BaC₂|BaC₂O₄|BaCl₂|BaCO₃|BaCrO₄|BaF₂|BaFeSi₄O₁₀|BaHfO₃|BaHgI₄|BaI₂|BaMnO₄|BaMoO₄|BaN₆|BaNb₂O₆|BaO₂|BaS₂O₃|BaSeO₃|BaSeO₄|BaSi₂|BaSi₂O₅|BaSiF₆|BaSiO₃|BaSnO₃|BaSO₃|BaSO₄|BAsO₄|BaTeO₃|BaTiO₃|BaU₂O₇|BaWO₄|BaZrO₃|BBr₃|BCl₃|Be₂C|Be₃N₂|BeB₂|BeBr₂|BeCl₂|BeCO₃|BeF₂|BeI₂|BeSO₃|BeSO₄|BF₃|Bi₂O₃|Bi₂S₃|Bi₂Se₃|BI₃|BiBO₃|BiBr₃|BiC₆H₅O₇|BiCl₃|BiF₃|BiI₃|BiPO₄|BPO₄|Br₂|Br₂O₅|BrCl₃|BrCl₅|BrF₃|BrF₅|C₁₀H₁₀N₂O|C₁₀H₁₀O₂|C₁₀H₁₀O₄|C₁₀H₁₁N₃O₃S|C₁₀H₁₂N₂|C₁₀H₁₂O|C₁₀H₁₂O₂|C₁₀H₁₂O₃|C₁₀H₁₃N₅O₄|C₁₀H₁₄O|C₁₀H₁₅ON|C₁₀H₁₆|C₁₀H₁₆O|C₁₀H₁₇NO₃|C₁₀H₁₉NO₃|C₁₀H₂₀N₂O₂|C₁₀H₂₂|C₁₀H₇N₃S|C₁₀H₇NO₂|C₁₀H₈|C₁₀H₈O₃|C₁₀H₉N₅O|C₁₀H₉NO₂|C₁₁H₁₁NO₂|C₁₁H₁₂N₂O₂|C₁₁H₁₂O₃|C₁₁H₁₄N₂O|C₁₁H₁₄O₂|C₁₁H₁₉NO₄|C₁₁H₂₄|C₁₁H₈O₂|C₁₂H₁₀|C₁₂H₁₀ClN₂O₅S|C₁₂H₁₁N₅|C₁₂H₁₁N₇|C₁₂H₁₃NO₂|C₁₂H₁₄O₄|C₁₂H₁₅NO|C₁₂H₁₆N₂|C₁₂H₁₆O₃|C₁₂H₁₆O₄|C₁₂H₁₆O₇|C₁₂H₁₈O|C₁₂H₂₂O₁₁|C₁₂H₂₆|C₁₂H₄N₄|C₁₂H₈O₄|C₁₃₁H₂₀₀N₃₀O₄₃S₂|C₁₃H₁₀O|C₁₃H₁₂F₂N₆O|C₁₃H₁₂O|C₁₃H₁₂O₂|C₁₃H₁₄N₂O|C₁₃H₁₆N₂O₂|C₁₃H₁₈O₂|C₁₃H₂₈|C₁₄H₁₀|C₁₄H₁₀O₁₄|C₁₄H₁₂O₃|C₁₄H₁₄Cl₂N₂O|C₁₄H₁₈N₂O₅|C₁₄H₁₈N₄O₃|C₁₄H₃₀|C₁₅₈H₂₅₁N₃₉O₄₆S|C₁₅H₁₀O₄|C₁₅H₁₀O₅|C₁₅H₁₀O₆|C₁₅H₁₀O₇|C₁₅H₁₂N₂O|C₁₅H₁₂N₂O₂|C₁₅H₃₂|C₁₆₁H₂₃₆N₄₂O₄₈|C₁₆₄H₂₅₆Na₂O₆₈S₂|C₁₆H₁₄O₃|C₁₆H₂₈N₂O₆Zn|C₁₆H₃₄|C₁₇H₁₃ClN₄|C₁₇H₁₄F₃N₃O₂S|C₁₇H₁₈N₂O₆|C₁₇H₁₉N₃O₃S|C₁₇H₂₂O₂|C₁₇H₂₄O|C₁₇H₂₄O₉|C₁₇H₃₆|C₁₈H₂₂O₂|C₁₈H₂₄O₂|C₁₈H₂₄O₃|C₁₈H₂₄O₄|C₁₈H₂₇NO₃|C₁₈H₃₂O₂|C₁₈H₃₆O₂|C₁₈H₃₈|C₁₉H₁₆ClNO₄|C₁₉H₂₆O₂|C₁₉H₂₈O₂|C₁₉H₃₀O₂|C₁₉H₄₀|C₂₀H₂₄O₂N₂|C₂₀H₂₇NO₁₁|C₂₀H₂₈O₂|C₂₀H₃₂O₅|C₂₀H₃₄O₅|C₂₀H₄₂|C₂₁H₂₀O₆|C₂₁H₃₀O₂|C₂₁H₃₆N₇O₁₆P₃S|C₂₂H₂₃ClN₂O₂|C₂₃H₁₉ClF₃NO₃|C₂F₄|C₂H₂|C₂H₂O₂|C₂H₃Cl|C₂H₃NO|C₂H₄|C₂H₄Cl₂|C₂H₄N₄|C₂H₄O|C₂H₄O₂|C₂H₅Br|C₂H₅NH₂|C₂H₅NO₂|C₂H₅OCs|C₂H₅OH|C₂H₅OK|C₂H₅ONa|C₂H₅ORb|C₂H₆|C₂H₆OS|C₂H₇NO|C₂H₇NO₂|C₂H₇NO₃S|C₃₀H₁₉NO₉|C₃₄H₄₆O₁₈|C₃₅H₆₀O₆|C₃H₃N|C₃H₄N₂|C₃H₄N₂S|C₃H₄O₃|C₃H₄O₄|C₃H₅N₃|C₃H₅N₃O₉|C₃H₅NO|C₃H₆|C₃H₆O₂|C₃H₆O₂S|C₃H₇N|C₃H₇NO₂|C₃H₇NO₂S|C₃H₇NO₃|C₃H₈|C₃H₈NO₅P|C₃H₈O|C₃H₈O₂|C₃H₈O₃|C₃H₉N₃|C₃HN|C₃N₁₂|C₄₀H₅₆|C₄₄H₆₉N₁₅O₉S|C₄H₁₀|C₄H₁₀O|C₄H₁₀O₂|C₄H₁₀O₃|C₄H₁₁NO₂|C₄H₂|C₄H₂BrClN₂|C₄H₂Cl₂N₂|C₄H₃Cl₂N₃|C₄H₃FN₂O₂|C₄H₄|C₄H₄FN₃O|C₄H₄N₂O₂|C₄H₄N₄|C₄H₄O|C₄H₅N₃O|C₄H₆N₂|C₄H₆N₂S|C₄H₆N₄O|C₄H₆O₂|C₄H₆O₄|C₄H₇BrO₂|C₄H₇KO₃|C₄H₇NaO₃|C₄H₇NO₂|C₄H₇NO₃|C₄H₇NO₄|C₄H₈|C₄H₈N₂O₃|C₄H₈O|C₄H₈O₂|C₄H₈O₃|C₄H₉Li|C₄H₉NO₂|C₄H₉NO₃|C₄H₉OH|C₄HCl₂FN₂|C₄I₂|C₅₅H₇₄IN₃O₂₁S₄|C₅₉H₈₀N₄O₂₂S₄|C₅H₁₀|C₅H₁₀N₂O₃|C₅H₁₀O₂|C₅H₁₀O₄|C₅H₁₁NO₂|C₅H₁₁NO₂S|C₅H₁₂|C₅H₁₂O₂|C₅H₁₂O₄|C₅H₁₂O₅|C₅H₃Br₂N|C₅H₃BrN₂O₂|C₅H₃ClN₂O₂|C₅H₃ClN₄|C₅H₄N₂O₂|C₅H₄N₂O₄|C₅H₄N₄O|C₅H₄N₄O₂|C₅H₄N₄S|C₅H₄NCOOH|C₅H₄O|C₅H₄O₂|C₅H₄O₂S|C₅H₅BrN₂|C₅H₅ClN₂|C₅H₅IN₂|C₅H₅N|C₅H₅N₃O|C₅H₅N₃O₂|C₅H₅N₅|C₅H₅N₅O|C₅H₅NO|C₅H₆BNO₂|C₅H₆N₂|C₅H₆N₂O₂|C₅H₆N₂OS|C₅H₆O|C₅H₆O₅|C₅H₇N₃|C₅H₈O₂|C₅H₉NO₂|C₅H₉NO₄|C₆₂H₈₉CoN₁₃O₁₅P|C₆₃H₈₈CoN₁₄O₁₄P|C₆₃H₉₁CoN₁₃O₁₄P|C₆F₅COOH|C₆H₁₀O₃|C₆H₁₀O₄|C₆H₁₁NO₂|C₆H₁₂|C₆H₁₂O₃|C₆H₁₂O₆|C₆H₁₃NO|C₆H₁₃NO₂|C₆H₁₄|C₆H₁₄N₂O₂|C₆H₁₄N₄O₂|C₆H₁₄O₂|C₆H₁₄O₃|C₆H₁₄O₄|C₆H₁₅NO₃|C₆H₃Br₃O|C₆H₃Cl₃O|C₆H₄BrNO₂|C₆H₄ClN₃|C₆H₄ClNO₂|C₆H₄N₄|C₆H₄O₂|C₆H₅Br|C₆H₅CH₂OH|C₆H₅CHO|C₆H₅Cl|C₆H₅COCl|C₆H₅COOH|C₆H₅F|C₆H₅I|C₆H₅NO₂|C₆H₅NO₃|C₆H₅OH|C₆H₆|C₆H₆BClO₂|C₆H₆BFO₂|C₆H₆IN|C₆H₆N₂O|C₆H₆N₂O₂|C₆H₆O|C₆H₆O₂|C₆H₆O₃|C₆H₇BO₂|C₆H₇CsO₆|C₆H₇KO₆|C₆H₇LiO₆|C₆H₇N₃O|C₆H₇NaO₆|C₆H₇RbO₆|C₆H₈N₂|C₆H₈N₂O₂S|C₆H₈O₇|C₆H₉N₃O₂|C₆H₉N₃O₃|C₆N₄|C₇₂H₁₀₀CoN₁₈O₁₇P|C₇₇H₁₂₀N₁₈O₂₆S|C₇H₁₀N₂|C₇H₁₁NO₅|C₇H₁₂N₂O₄|C₇H₁₂O₄|C₇H₁₄O₆|C₇H₁₆|C₇H₅Br₃O|C₇H₅Cl₃O|C₇H₅F₃O|C₇H₅FO₂|C₇H₅N₃O₂|C₇H₅NO₄|C₇H₅NS₂|C₇H₆N₂|C₇H₆O|C₇H₆O₂|C₇H₆O₃|C₇H₆O₄|C₇H₆O₅|C₇H₇BO₄|C₇H₇N₃|C₇H₇NO₂|C₇H₇NO₃|C₇H₈|C₇H₈ClN₃O₄S₂|C₇H₈N₄O₂|C₇H₉BO₂|C₇H₉BO₃|C₈₃H₁₃₁N₁₉O₂₇S|C₈H₁₀N₄O₂|C₈H₁₁N₅O₃|C₈H₁₁NO|C₈H₁₆O₂|C₈H₁₆O₆|C₈H₁₈|C₈H₅F₃N₂OS|C₈H₅NO₂|C₈H₆BrN|C₈H₆Cl₂O₃|C₈H₆ClN|C₈H₆N₂O|C₈H₆N₂O₂|C₈H₇N|C₈H₇NO|C₈H₈|C₈H₈N₂OS|C₈H₈O₃|C₈H₈O₄|C₈H₉NO₂|C₉H₁₀O|C₉H₁₀O₃|C₉H₁₁NO₂|C₉H₁₁NO₃|C₉H₁₁NO₄|C₉H₁₇NO₂|C₉H₁₈N₂O₂|C₉H₂₀|C₉H₆BrN|C₉H₆N₂|C₉H₆O₃|C₉H₆OS|C₉H₇NO|C₉H₇NO₂|C₉H₈N₂|C₉H₈O₂|C₉H₈O₃|C₉H₈O₄|C₉H₉N|C₉H₉NO|C₉H₉NO₃|Ca₃N₂|Ca₃P₂|CaAl₂O₄|CaB₆|CaBr₂|CaC₂|CaC₂O₄|CaCl₂|CaCN₂|CaCO₃|CaF₂|CaH₂|CaHPO₄|CaI₂|CaMoO₄|CaO₂|CaSeO₃|CaSeO₄|CaSiO₃|CaSO₃|CaSO₄|CaTeO₃|CaTeO₄|CaTiO₃|CaWO₄|CCl₂F₂|CCl₄|Cd₂Nb₂O₇|Cd₃As₂|Cd₃P₂|CdBr₂|CdC₂O₄|CdCl₂|CdCO₃|CdCrO₄|CdF₂|CdI₂|CdMoO₄|CdSeO₃|CdSiO₃|CdSO₃|CdSO₄|CdTeO₄|CdTiO₃|CdWO₄|CdZrO₃|Ce₂C₃|Ce₂O₃|Ce₂S₃|CeB₆|CeBr₃|CeCl₃|CeF₃|CeF₄|CeI₂|CeI₃|CeO₂|CeSi₂|CF₃Cl|CF₄|CFCl₂CF₂Cl|CFCl₃|CH₂CHCHCH₂|CH₂CHOH|CH₂Cl₂|CH₂ClCOOH|CH₂ClF|CH₂CO|CH₂O|CH₂OHCH₂OH|CH₃CCH|CH₃CdCH₃|CH₃CH₂Br|CH₃CH₂CH₂CH₂OH|CH₃CH₂CH₂OH|CH₃CH₂CONH₂|CH₃CH₂COOH|CH₃CH₂OCH₂CH₃|CH₃CH₂OH|CH₃CHCH₂|CH₃CHCHCH₃|CH₃CHO|CH₃Cl|CH₃CN|CH₃COCH₃|CH₃COCl|CH₃CONH₂|CH₃COOCH₂C₆H₅|CH₃COOCH₃|CH₃COOCHCH₂|CH₃COOCs|CH₃COOH|CH₃COOK|CH₃COONa|CH₃COORb|CH₃HgCH₃|CH₃I|CH₃NH₂|CH₃NO|CH₃OCH₃|CH₃OCs|CH₃OH|CH₃OK|CH₃OLi|CH₃ONa|CH₃ORb|CH₃SCH₃|CH₃SH|CH₄|CH₄N₂O₂|CH₅N₃|CHCl₃|CHClF₂|Cl₂|Cl₂O₃|Cl₂O₆|Cl₂O₇|Cl₂O₈|ClF₃|ClF₅|ClO₂|ClO₃F|ClOClO₃|CO₂|Co₂B|Co₂S₃|Co₂SiO₄|Co₂SnO₄|Co₂SO₄|Co₂TiO₄|CO₃|CoAl₂O₄|CoAs₂|CoBr₂|CoC₂O₄|CoCl₂|COCl₂|CoCr₂O₄|CoCrO₄|CoF₂|CoF₃|CoI₂|CoMoO₄|CoS₂|CoSeO₃|CoTiO₃|CoWO₄|Cr₂O₃|Cr₂S₃|Cr₂Se₃|Cr₂Te₃|Cr₃As₂|Cr₃C₂|Cr₃Sb₂|CrBr₂|CrBr₃|CrCl₂|CrCl₃|CrCl₄|CrF₂|CrF₃|CrF₄|CrF₅|CrF₆|CrI₂|CrI₃|CrO₂|CrO₂Cl₂|CrO₃|CrPO₄|CrSi₂|CrVO₄|CS₂|Cs₂C₂O₄|Cs₂CO₃|Cs₂Cr₂O₇|Cs₂CrO₄|Cs₂HPO₃|Cs₂HPO₄|Cs₂MoO₄|Cs₂NbO₃|Cs₂O|Cs₂O₂|Cs₂S|Cs₂SiO₃|Cs₂SO₃|Cs₂SO₄|Cs₂TeO₄|Cs₂TiO₃|Cs₂WO₄|Cs₃PO₃|Cs₃PO₄|Cs₃VO₄|CsBO₂|CsBr₃|CsBrO₂|CsBrO₃|CsBrO₄|CsC₂H₃O₂|CsClO₂|CsClO₃|CsClO₄|CsH₂PO₃|CsH₂PO₄|CsHCO₃|CsHSO₃|CsHSO₄|CsI₃|CsIO₂|CsIO₃|CsIO₄|CsN₃|CsNbO₃|CsNH₂|CsNO₂|CsNO₃|CsO₂|CsSeO₄|CsTaO₃|Cu₂O|Cu₂S|Cu₂Se|Cu₂Te|Cu₃As|Cu₃P|Cu₃Sb|Cu₉S₅|CuBr₂|CuC₂O₄|CuCl₂|CuF₂|CuFe₂O₄|CuFe₂S₃|CuFeS₂|CuIO₃|CuMoO₄|CuSiO₃|CuSO₄|CuTeO₃|CuTiO₃|CuWO₄|D₂O|Dy₂O₃|Dy₂S₃|DyBr₃|DyCl₂|DyCl₃|DySi₂|ErCl₃|ErF₂|ErF₃|ErI₃|ErI₄Na|Eu₂O|Eu₂O₂|Eu₂O₃|Eu₂S|Eu₂S₂|EuCl₂|EuCl₃|EuF₃|EuI₂|EuNb₂O₆|EuNbO₂|EuO₂V|EuO₃Ti|EuO₃V|EuO₄W|EuS₂|EuSO₄|F₁₀Mo₂|F₁₀S₂|F₁₅Mo₃|F₂|F₂Fe|F₂Ga|F₂Gd|F₂Ge|F₂GeO|F₂Hg|F₂Hg₂|F₂Ho|F₂IP|F₂K₂|F₂Kr|F₂La|F₂Li₂|F₂Mg|F₂Mn|F₂Mo|F₂MoO₂|F₂N|F₂N₂O|F₂Na₂|F₂Nd|F₂Ni|F₂O|F₂O₂|F₂O₂S|F₂O₂W|F₂O₅S₃|F₂OS|F₂OSi|F₂OTi|F₂P|F₂Pb|F₂Pt|F₂Pu|F₂S|F₂S₂|F₂S₂W|F₂Sc|F₂Se|F₂Si|F₂Sn|F₂Sr|F₂SW|F₂Th|F₂Ti|F₂Tl₂|F₂W|F₂Xe|F₂Y|F₂Zn|F₂Zr|F₃Fe|F₃Ga|F₃Gd|F₃Ho|F₃La|F₃Li₃|F₃Lu|F₃Mn|F₃Mo|F₃MoO|F₃MoS|F₃N|F₃NaSn|F₃Nd|F₃NO|F₃NO₂S|F₃NO₃S|F₃NS|F₃OP|F₃OTa|F₃OV|F₃P|F₃Pr|F₃PS|F₃Pu|F₃Rh|F₃S|F₃Sb|F₃Sc|F₃Si|F₃Sm|F₃SW|F₃Tb|F₃Th|F₃Ti|F₃Tl|F₃Tm|F₃W|F₃Y|F₃Yb|F₃Zr|F₄Ge|F₄Ge₂|F₄Hf|F₄Mg₂|F₄Mo|F₄MoO|F₄MoS|F₄N₂|F₄Na₂Sn|F₄OOs|F₄OP₂|F₄ORe|F₄OS|F₄OW|F₄OXe|F₄P₂|F₄Pb|F₄Pt|F₄Pu|F₄S|F₄Se|F₄Si|F₄Sn₂|F₄SW|F₄Ti|F₄U|F₄W|F₄Xe|F₄Zr|F₅I|F₅Mo|F₅ORe|F₅P|F₅Pu|F₅S|F₅Sb|F₅Ta|F₅U|F₅W|F₆Fe₂|F₆La₂|F₆Mo|F₆NP₃|F₆Os|F₆Pu|F₆Re|F₆S|F₆Se|F₆Si₂|F₆Sn₃|F₆Te|F₆U|F₆W|F₆Xe|F₇I|F₇NS|F₇Re|F₈Si₃|Fe₂I₂|Fe₂I₄|Fe₂O₁₂S₃|Fe₂O₁₂W₃|Fe₂O₃|Fe₂P|Fe₂SiO₄|Fe₃H₂Na₂O₄₅Si|Fe₃O₄|Fe₃P|Fe₇Si₈O₂₄H₂|FeBr₂|FeBr₃|FeC₁₀H₁₀|FeC₂O₄|FeC₅O₅|FeCl₂|FeCl₃|FeCO₃|FeCr₂O₄|FeF₂|FeI₂|FeI₃|FeMoO₄|FeO₂|FeO₂H|FeO₄S|FeO₄Se|FeO₈H₄P₂|FePO₄|FeS₂|FeTiO₃|FeVO₄|FeWO₄|FeZrO₃|FI₂|FLi₂|FMnO₃|FNa₂|FNO₂|FNO₃|FO₂|FO₃S|FPS₂|Ga₂O₃|Ga₂S₃|Ga₂Te₃|GaAsO₄|GaBr₃|GaCl₂|GaI₂|GaI₃|GaPO₄|GeBr₄|GeH₃COOH|GeI₂|GeI₄|H₂|H₂C₂O₄|H₂C₄H₄O₆|H₂C₈H₄O₄|H₂CO|H₂CO₃|H₂CrO₄|H₂CSO|H₂N₂O₂|H₂NCH₂COOH|H₂NNH₂|H₂O|H₂O₂|H₂S|H₂S₂O₂|H₂S₂O₃|H₂S₂O₄|H₂S₂O₅|H₂S₂O₆|H₂S₂O₇|H₂S₂O₈|H₂SeO₃|H₂SeO₄|H₂SiO₃|H₂SO₃|H₂SO₄|H₂TeO₃|H₂TiO₃|H₃AsO₄|H₃CCH₂CH₃|H₃PO₂|H₃PO₃|H₃PO₄|H₄XeO₆|H₆TeO₆|HBrO₂|HBrO₃|HBrO₄|HC₁₂H₁₇ON₄SCl₂|HC₃H₅O₃|HC₆H₇O₆|HC₉H₇O₄|HClO₂|HClO₃|HClO₄|HCONH₂|HCOONH₄|HfBr₄|HfF₄|Hg₂Br₂|Hg₂Cl₂|Hg₂I₂|HgBr₂|HgCl₂|HgI₂|HgSeO₃|HgTeO₃|HgWO₄|HIO₂|HIO₃|HIO₄|HN₃|HNO₂|HNO₃|I₂|I₂O₅|IBr₃|ICl₃|In₂O₃|In₂S₃|In₂Se₃|In₂Te₃|InBr₂I|InBr₃|InBrI₂|InCl₂|InCl₃|InI₂|InI₃|InPO₄|IrBr₃|K₂CO₃|K₂Cr₂O₇|K₂CrO₄|K₂HAsO₄|K₂HPO₃|K₂HPO₄|K₂MnO₄|K₂N₂O₂|K₂O|K₂O₂|K₂S|K₂S₂O₃|K₂S₂O₅|K₂S₂O₈|K₂SO₃|K₂SO₄|K₃AsO₄|K₃C₆H₅O₇|K₃PO₃|K₃PO₄|KAsO₂|KBrO₂|KBrO₃|KBrO₄|KClO₂|KClO₃|KClO₄|KH₂AsO₄|KH₂PO₃|KH₂PO₄|KHCO₃|KHSO₃|KHSO₄|KIO₂|KIO₃|KIO₄|KMnO₄|KNbO₃|KNO₂|KNO₃|La₂O₃|LaBr₃|LaCl₃|LaI₃|LaPO₄|Li₂CO₃|Li₂Cr₂O₇|Li₂CrO₄|Li₂HAsO₄|Li₂HPO₃|Li₂HPO₄|Li₂MoO₄|Li₂N₂O₂|Li₂NbO₃|Li₂O|Li₂O₂|Li₂S|Li₂SeO₃|Li₂SeO₄|Li₂SiO₃|Li₂SO₃|Li₂SO₄|Li₂TeO₃|Li₂TeO₄|Li₂TiO₃|Li₂WO₄|Li₂ZrO₃|Li₃AsO₄|Li₃PO₃|Li₃PO₄|LiAlH₄|LiBH₄|LiBrO₂|LiBrO₃|LiBrO₄|LiC₂H₅O|LiClO₂|LiClO₃|LiClO₄|LiH₂AsO₄|LiH₂PO₃|LiH₂PO₄|LiHCO₃|LiHSO₃|LiHSO₄|LiIO₂|LiIO₃|LiIO₄|LiNbO₃|LiNO₂|LiNO₃|LiTaO₃|Mg₂P₂O₇|Mg₂SiO₄|Mg₃As₂|Mg₃Bi₂|Mg₃P₂|MgBr₂|MgC₂O₄|MgCl₂|MgCO₃|MgCrO₄|MgF₂|MgHPO₄|MgI₂|MgMoO₄|MgSeO₃|MgSeO₄|MgSiO₃|MgSO₃|MgSO₄|MgTiO₃|MgWO₄|Mn₂O₃|Mn₃As₂|Mn₃O₄|Mn₃P₂|Mn₃Sb₂|MnBr₂|MnCl₂|MnCO₃|MnF₂|MnI₂|MnMoO₄|MnO₂|MnZrO₃|MoBr₂|MoBr₃|MoCl₂|MoCl₃|MoCl₅|MoO₂|MoO₃|MoS₂|MoSe₂|N₂|N₂H₂|N₂H₄|N₂O|N₂O₃|N₂O₄|N₂O₅|N₄H₄|Na₂C₂O₄|Na₂C₆H₆O₇|Na₂CO₃|Na₂HAsO₄|Na₂HPO₃|Na₂HPO₄|Na₂MoS₄|Na₂N₂O₂|Na₂O|Na₂O₂|Na₂S|Na₂S₂O₃|Na₂S₂O₅|Na₂S₂O₈|Na₂S₄|Na₂SeO₃|Na₂SeO₄|Na₂SO₃|Na₂SO₄|Na₂TeO₃|Na₂TeO₄|Na₂TiO₃|Na₂ZnO₂|Na₂ZrO₃|Na₃AlF₆|Na₃AsO₄|Na₃C₆H₅O₇|Na₃PO₃|Na₃PO₄|Na₃VO₄|Na₄V₂O₇|NaAlSi₃O₃|NaAsO₂|NaBrO₂|NaBrO₃|NaBrO₄|NaC₆F₅COO|NaC₆H₅COO|NaC₆H₇O₇|NaCl|NaClO₂|NaClO₃|NaClO₄|NaH₂AsO₄|NaH₂PO₃|NaH₂PO₄|NaHCO₃|NaHSO₃|NaHSO₄|NaIO₂|NaIO₃|NaIO₄|NaNbO₃|NaNH₂C₆H₄SO₃|NaNO₂|NaNO₃|NaSeO₃|NaTaO₃|NaVO₃|Nb₂O₃|NbBr₅|NbCl₃|NbCl₅|NbI₅|NCl₃|Nd₂O₃|NdCl₂|NdI₂|NH₂C₆H₄SO₃H|NH₂CH₂CH₂NH₂|NH₂CH₂CN|NH₂Cl|NH₂CONH₂|NH₂COOH|NH₂OH|NH₃|NH₄Br|NH₄Cl|NH₄ClO₄|NH₄CO₂NH₂|NH₄HS|NH₄NO₃|NH₄OCONH₂|NH₄OH|NHCl₂|Ni₂SiO₄|NI₃|Ni₃Sb₂|NiBr₂|NiCl₂|NiFe₂O₄|NiI₂|NiMoO₄|NiS₂|NiSO₄|NiTiO₃|NiWO₄|NO₂|NO₂Cl|O₂|O₂F₂|O₃|OF₂|P₂I₄|P₂O₅|P₂S₃|P₂Se₃|P₃N₅|PbC₂O₄|PbCl₂|PbCl₄|PbCO₃|PbCrO₄|PbF₂|PbHAsO₄|PbI₂|PbO₂|PbSO₄|PCl₃|PCl₅|PH₃|PoBr₂|PoCl₂|POCl₃|PoCl₄|PoF₆|PoH₂|PoO₂|PoO₃|RaCl₂|Rb₂CO₃|Rb₂HPO₃|Rb₂HPO₄|Rb₂O|Rb₂O₂|Rb₂S|Rb₂SO₃|Rb₂SO₄|Rb₃PO₃|Rb₃PO₄|RbBrO₂|RbBrO₃|RbBrO₄|RbClO₂|RbClO₃|RbClO₄|RbH₂PO₃|RbH₂PO₄|RbHCO₃|RbHSO₃|RbHSO₄|RbIO₂|RbIO₃|RbIO₄|RbNbO₃|RbNO₂|RbNO₃|RnF₂|RuCl₃|RuF₆|RuO₄|S₂Br₂|Sb₂O₃|Sb₂O₅|Sb₂OS₂|Sb₂S₃|Sb₂Se₃|Sb₂Se₅|Sb₂Te₃|SbBr₃|SbCl₃|SbCl₅|SbI₃|SbPO₄|Sc₂O₃|SeBr₄|SeCl₄|SeO₂|SeOCl₂|SeOF₂|SF₄|SF₆|Si₃N₄|SiBr₄|SiCl₄|SiH₄|SiI₄|SiO₂|Sn₃Sb₄|SnBr₂|SnBr₂Cl₂|SnBr₃Cl|SnBr₄|SnBrCl₃|SnCl₂|SnCl₂I₂|SnCl₄|SnI₄|SnO₂|SnS₂|SnSe₂|SnTe₄|SO₂|SO₂Cl₂|SO₂F₂|SO₃|SOF₂|Sr₂RuO₄|SrBr₂|SrC₂O₄|SrCl₂|SrCO₃|SrF₂|SrHfO₃|SrI₂|SrMoO₄|SrSeO₃|SrSeO₄|SrTeO₃|SrTeO₄|SrTiO₃|T₂O|TaBr₃|TaBr₅|TaCl₅|TaI₅|TeBr₂|TeBr₄|TeCl₂|TeCl₄|TeI₂|TeI₄|TeO₂|ThO₂|TiBr₄|TiCl₂I₂|TiCl₃I|TiCl₄|TiH₂|TiI₄|TiO₂|Tl₂MoO₄|Tl₂SeO₃|Tl₂TeO₃|Tl₂WO₄|Tl₃As|TlBr₃|TlC₂H₃O₂|TlCl₃|TlI₃|TlIO₃|TlNO₃|TlPF₆|TmCl₃|U₃O₈|UBr₂|UBr₃|UBr₅|UC₂|UCl₃|UCl₄|UF₄|UF₆|UI₃|UO₂|UO₂Cl₂|UO₂SO₄|UO₃|US₂|USe₂|UTe₂|V₂O₃|V₂O₅|VBr₂|VBr₃|VCl₂|VCl₃|VI₃|VOC₂O₄|VOSO₄|WBr₂|WBr₃|WBr₄|WBr₅|WBr₆|WCl₂|WCl₃|WCl₄|WCl₅|WCl₆|WF₄|WF₅|WF₆|WI₂|WI₄|WO₂|WO₂Br₂|WO₂Cl₂|WO₂I₂|WO₃|WOBr₃|WOBr₄|WOCl₃|WOCl₄|WOF₄|WS₂|WS₃|WSe₂|WTe₂|Y₂O₃|Y₂S₃|Yb₂O₃|Yb₂S₃|Yb₂Se₃|YB₆|YbBr₂|YbBr₃|YbCl₂|YbCl₃|YbF₂|YbF₃|YbI₂|YbI₃|YbPO₄|YBr₃|YbSi₂|YC₂|YCl₃|YF₃|YVO₄|Zn₂P₂O₇|Zn₂SiO₄|Zn₃As₂|Zn₃N₂|Zn₃P₂|Zn₃Sb₂|ZnBr₂|ZnCl₂|ZnCO₃|ZnCr₂O₄|ZnF₂|ZnI₂|ZnMoO₄|ZnO₂|ZnS₂O₃|ZnSeO₃|ZnSeO₄|ZnSnO₃|ZnSO₃|ZnSO₄|ZnTeO₃|ZnTeO₄|ZnTiO₃|ZnWO₄|ZnZrO₃|ZrB₂|ZrBr₄|ZrCl₄|ZrF₄|ZrI₄|ZrO₂|ZrP₂|ZrS₂|ZrSi₂|ZrSiO₄</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+</rules>

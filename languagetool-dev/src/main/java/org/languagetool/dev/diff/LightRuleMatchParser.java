@@ -24,9 +24,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -39,7 +37,7 @@ class LightRuleMatchParser {
   private final Pattern startPattern = Pattern.compile("^(?:\\d+\\.\\) )?Line (\\d+), column (\\d+), Rule ID: (.*)");
   private final Pattern coverPattern = Pattern.compile("^([ ^]+)$");
 
-  List<LightRuleMatch> parseOutput(File inputFile) throws IOException {
+  JsonParseResult parseOutput(File inputFile) throws IOException {
     if (inputFile.getName().endsWith(".json")) {
       return parseAggregatedJson(inputFile);
     } else {
@@ -51,16 +49,20 @@ class LightRuleMatchParser {
    * Parses LT JSON that has been appended into a large file (one JSON result per line).
    */
   @NotNull
-  private List<LightRuleMatch> parseAggregatedJson(File inputFile) {
+  private JsonParseResult parseAggregatedJson(File inputFile) {
     System.out.println("Parsing " + inputFile + "...");
     ObjectMapper mapper = new ObjectMapper();
     List<LightRuleMatch> ruleMatches = new ArrayList<>();
+    Set<String> buildDates = new HashSet<>();
     int lineCount = 1;
     try (Scanner scanner = new Scanner(inputFile)) {
       while (scanner.hasNextLine()) {
         String line = scanner.nextLine();
         JsonNode node = mapper.readTree(line);
         JsonNode matches = node.get("matches");
+        JsonNode software = node.get("software");
+        String buildDate = software != null ? software.get("buildDate").asText() : "unknown";
+        buildDates.add(buildDate);
         for (JsonNode match : matches) {
           ruleMatches.add(nodeToLightMatch(node.get("title").asText(), match));
         }
@@ -69,7 +71,7 @@ class LightRuleMatchParser {
     } catch (Exception e) {
       throw new RuntimeException("Failed to parse line " + lineCount + " of " + inputFile, e);
     }
-    return ruleMatches;
+    return new JsonParseResult(ruleMatches, buildDates);
   }
 
   @NotNull
@@ -79,6 +81,7 @@ class LightRuleMatchParser {
     String ruleId = rule.get("id").asText();
     String fullRuleId = rule.get("subId") != null ? ruleId + "[" + rule.get("subId").asText() + "]" : ruleId;
     String message = match.get("message").asText();
+    String category = rule.get("category") != null ? rule.get("category").get("name").asText() : "(unknown)";
     int contextOffset = match.get("context").get("offset").asInt();
     int contextLength = match.get("context").get("length").asInt();
     String context = match.get("context").get("text").asText();
@@ -90,6 +93,27 @@ class LightRuleMatchParser {
       if (StringUtils.countMatches(sentence, coveredText) == 1) {
         int idx = sentence.indexOf(coveredText);
         context = getContextWithSpan(sentence, idx, idx + coveredText.length());
+      } else {
+        String shortContext = match.get("context").get("text").asText();
+        int idxFix = 0;
+        if (shortContext.startsWith("...")) {
+          shortContext = shortContext.substring(3);
+          idxFix = 3;
+        }
+        if (shortContext.endsWith("...")) {
+          shortContext = shortContext.substring(0, shortContext.length()-3);
+        }
+        String noLinebreakSentence = sentence.replace('\n', ' ');
+        // NOTE: this won't always work (i.e. find the shortContext), as shortContext
+        // might contain the start of the next sentence... the reason we want a sentence-based
+        // context at all is that the "Maybe replaces" and "Maybe replaced by" information will
+        // be incomplete for matches if some contexts are based on the full sentence
+        // and others are not.
+        if (StringUtils.countMatches(noLinebreakSentence, shortContext) == 1) {
+          int idx = noLinebreakSentence.indexOf(shortContext);
+          idx = idx + contextOffset - idxFix;
+          context = getContextWithSpan(sentence, idx, idx + coveredText.length());
+        }
       }
     }
     JsonNode replacements = match.get("replacements");
@@ -104,16 +128,22 @@ class LightRuleMatchParser {
         }
       }
     }
-    String suggestions = String.join(", ", replacementList);
     String ruleSource = rule.get("sourceFile") != null ? rule.get("sourceFile").asText() : null;
     LightRuleMatch.Status status = LightRuleMatch.Status.on;
     if (rule.get("tempOff") != null && rule.get("tempOff").asBoolean()) {
       status = LightRuleMatch.Status.temp_off;
     }
-    return new LightRuleMatch(0, offset, fullRuleId, message, context, coveredText, suggestions, ruleSource, title, status);
+    JsonNode jsonTags = rule.get("tags");
+    List<String> tags = new ArrayList<>();
+    if (jsonTags != null) {
+      for (JsonNode tag : jsonTags) {
+        tags.add(tag.asText());
+      }
+    }
+    return new LightRuleMatch(0, offset, fullRuleId, message, category, context, coveredText, replacementList, ruleSource, title, status, tags);
   }
 
-  List<LightRuleMatch> parseOutput(Reader reader) {
+  JsonParseResult parseOutput(Reader reader) {
     List<LightRuleMatch> result = new ArrayList<>();
     int lineNum = -1;
     int columnNum = -1;
@@ -146,8 +176,8 @@ class LightRuleMatchParser {
         context = line;
       } else if (coverMatcher.matches() && line.contains("^")) {
         String cover = coverMatcher.group(1);
-        int startMarkerPos = cover.indexOf("^");
-        int endMarkerPos = cover.lastIndexOf("^") + 1;
+        int startMarkerPos = cover.indexOf('^');
+        int endMarkerPos = cover.lastIndexOf('^') + 1;
         String coveredText;
         String origContext = context;
         try {
@@ -162,7 +192,8 @@ class LightRuleMatchParser {
           coveredText = "???";
         }
         String cleanId = ruleId.replace("[off]", "").replace("[temp_off]", "");
-        result.add(makeMatch(lineNum, columnNum, ruleId, cleanId, message, suggestion, context, coveredText, title, source));
+        List<String> tags = new ArrayList<>();  // not supported yet...
+        result.add(makeMatch(lineNum, columnNum, ruleId, cleanId, message, Arrays.asList(suggestion), context, coveredText, title, source, tags));
         lineNum = -1;
         columnNum = -1;
         ruleId = null;
@@ -173,23 +204,31 @@ class LightRuleMatchParser {
         // don't reset title, can appear more than once per sentence
       }
     }
-    return result;
+    return new JsonParseResult(result, Collections.singleton("unknown"));
   }
 
   @NotNull
   private String getContextWithSpan(String context, int startMarkerPos, int maxEnd) {
     context = context.substring(0, startMarkerPos) +
-      "<span class='marker'> " +
+      "<span class='marker'>" +
       context.substring(startMarkerPos, maxEnd) +
       "</span>" +
       context.substring(maxEnd);
     return context;
   }
 
-  private LightRuleMatch makeMatch(int line, int column, String ruleId, String cleanId, String message, String suggestions,
-                                   String context, String coveredText, String title, String source) {
+  private LightRuleMatch makeMatch(int line, int column, String ruleId, String cleanId, String message, List<String> suggestions,
+                                   String context, String coveredText, String title, String source, List<String> tags) {
     LightRuleMatch.Status s = ruleId.contains("[temp_off]") ? LightRuleMatch.Status.temp_off : LightRuleMatch.Status.on;
-    return new LightRuleMatch(line, column, cleanId, message, context, coveredText, suggestions, source, title, s);
+    return new LightRuleMatch(line, column, cleanId, message, "", context, coveredText, suggestions, source, title, s, tags);
   }
-  
+
+  static class JsonParseResult {
+    List<LightRuleMatch> result;
+    Set<String> buildDates;
+    JsonParseResult(List<LightRuleMatch> result, Set<String> buildDates) {
+      this.result = result;
+      this.buildDates = buildDates;
+    }
+  }
 }

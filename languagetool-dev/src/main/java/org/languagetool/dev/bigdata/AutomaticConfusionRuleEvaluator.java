@@ -19,6 +19,7 @@
 package org.languagetool.dev.bigdata;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.*;
@@ -26,6 +27,7 @@ import org.apache.lucene.store.FSDirectory;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
+import org.languagetool.dev.index.Lucene;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.ConfusionPair;
@@ -44,11 +46,20 @@ import java.util.stream.Collectors;
 @SuppressWarnings({"resource", "CallToPrintStackTrace"})
 class AutomaticConfusionRuleEvaluator {
   
-  private static final int MAX_EXAMPLES = 1000;
+  private static final int MAX_EXAMPLES = 2000;
   private static final int MIN_EXAMPLES = 50;
-  private static final List<Long> EVAL_FACTORS = Arrays.asList(10L, 100L, 1_000L, 10_000L, 100_000L, 1_000_000L, 10_000_000L);
+  private static final long EVAL_FACTORS_MIN = 10;
+  private static final long EVAL_FACTORS_MAX = 10_000_000L;
+  //private static final long EVAL_FACTORS_MAX = 1_000_000_000L;
+  private static final List<Long> EVAL_FACTORS = new ArrayList<>();
+  static {
+    for (long i = EVAL_FACTORS_MIN; i < EVAL_FACTORS_MAX; i *= 10) {
+      EVAL_FACTORS.add(i);
+    }
+  }
   private static final float MIN_PRECISION = 0.95f;
   private static final float MIN_RECALL = 0.1f;
+  private static final Map<String,Map<String, Integer>> wordToSources = new HashMap<>();
 
   private final IndexSearcher searcher;
   private final Map<String, List<ConfusionPair>> knownSets;
@@ -145,11 +156,12 @@ class AutomaticConfusionRuleEvaluator {
       System.out.println("Skipping, evalNewsSets=false and pair not known yet");
       return;
     }
-    System.out.println("Working on: " + part1 + " / " + part2 + " from line: " + line + " (" + lineCount + " of " + totalLines + ")");
+    System.out.println("Working on: '" + part1 + "' / '" + part2 + "' from line: " + line + " (" + lineCount + " of " + totalLines + ")");
     try {
       File sentencesFile = writeExampleSentencesToTempFile(new String[]{part1, part2});
       List<String> input = Arrays.asList(sentencesFile.getAbsolutePath());
-      Map<Long, RuleEvalResult> results = evaluator.run(input, part1, part2, MAX_EXAMPLES, evalNewsSets ? EVAL_FACTORS : Collections.singletonList(existingFactor));
+      Map<Long, RuleEvalResult> results = evaluator.run(input, part1, part2, MAX_EXAMPLES, evalNewsSets ? EVAL_FACTORS : Collections.singletonList(existingFactor),
+              wordToSources.get(part1), wordToSources.get(part2));
       Map<Long, RuleEvalResult> bestResults = findBestFactor(results);
       if (bestResults.size() > 0) {
         for (Map.Entry<Long, RuleEvalResult> entry : bestResults.entrySet()) {
@@ -181,7 +193,9 @@ class AutomaticConfusionRuleEvaluator {
     int count = 0;
     try (FileWriter fw = new FileWriter(tempFile)) {
       for (String word : words) {
-        int tmpCount = findExampleSentences(word, fw);
+        Map<String, Integer> sourceToCount = findExampleSentences(word, fw);
+        wordToSources.put(word, sourceToCount);
+        int tmpCount = sourceToCount.values().stream().reduce(Integer::sum).get();
         if (tmpCount <= MIN_EXAMPLES) {
           throw new TooFewExamples(word, tmpCount);
         }
@@ -192,16 +206,20 @@ class AutomaticConfusionRuleEvaluator {
     return tempFile;
   }
 
-  private int findExampleSentences(String word, FileWriter fw) throws IOException {
+  private Map<String, Integer> findExampleSentences(String word, FileWriter fw) throws IOException {
     Term term = new Term(fieldName, caseInsensitive ? word.toLowerCase() : word);
     long t1 = System.currentTimeMillis();
     //TopDocs topDocs = searcher.search(new TermQuery(term), caseInsensitive ? Integer.MAX_VALUE : MAX_EXAMPLES);
-    TopDocs topDocs = searcher.search(new TermQuery(term), MAX_EXAMPLES);
+    TopDocs topDocs = searcher.search(new TermQuery(term),
+            MAX_EXAMPLES*10,  // search more, as we filter further down
+            new Sort(new SortedNumericSortField(Lucene.RANDOM_FIELD, SortField.Type.INT)));  // RELEVANCE prefers short docs (and thus colloquial style), INDEXORDER isn't random between sources :-( (like Wikipedia vs. Tatoeba)
     long t2 = System.currentTimeMillis();
     int count = 0;
     Set<String> foundSentences = new HashSet<>();
+    Map<String,Integer> sourceToCount = new HashMap<>();
     for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
-      String sentence = searcher.doc(scoreDoc.doc).get(fieldName);
+      Document doc = searcher.doc(scoreDoc.doc);
+      String sentence = doc.get(fieldName);
       int occCount = countRegexMatches(sentence, word);
       if (occCount > 1) {
         //System.out.println("Skipping, word '" + word + "' appears more than once: " + sentence);
@@ -209,14 +227,12 @@ class AutomaticConfusionRuleEvaluator {
       }
       if (caseInsensitive) {
         if (!foundSentences.contains(sentence)) {
-          fw.write(sentence + "\n");
-          foundSentences.add(sentence);
+          writeSentence(fw, foundSentences, sentence, doc, sourceToCount);
           count++;
         }
       } else {
         if (sentence.contains(word) && !foundSentences.contains(sentence)) {
-          fw.write(sentence + "\n");
-          foundSentences.add(sentence);
+          writeSentence(fw, foundSentences, sentence, doc, sourceToCount);
           count++;
         }
       }
@@ -228,15 +244,26 @@ class AutomaticConfusionRuleEvaluator {
     long searchTime = t2 - t1;
     long iterateTime = t3 - t2;
     System.out.println("Found " + count + " examples for " + word +
-            " (" + searchTime + "ms, " + iterateTime + "ms), case insensitive=" + caseInsensitive + ", totalHits: " + topDocs.totalHits);
-    return count;
+            " (" + searchTime + "ms, " + iterateTime + "ms), case insensitive=" + caseInsensitive +
+            ", totalHits: " + topDocs.totalHits + " for term '" + term + "'");
+    System.out.println("Sources: " + sourceToCount);
+    return sourceToCount;
+  }
+
+  private void writeSentence(FileWriter fw, Set<String> foundSentences, String sentence, Document doc, Map<String, Integer> sourceToCount) throws IOException {
+    fw.write(sentence + "\n");
+    foundSentences.add(sentence);
+    String source = doc.get(Lucene.SOURCE_FIELD_NAME);
+    //System.out.println("source: "+ source);
+    sourceToCount.put(source, sourceToCount.getOrDefault(source, 1) + 1);
   }
 
   private int countRegexMatches(String sentence, String word) {
     int count = 0;
     Matcher matcher = Pattern.compile("\\b" + word + "\\b").matcher(sentence);
-    while (matcher.find())
+    while (matcher.find()) {
       count++;
+    }
     return count;
   }
 
@@ -256,9 +283,9 @@ class AutomaticConfusionRuleEvaluator {
     eval.run(lines, new File(args[3]));
   }
 
-  class TooFewExamples extends RuntimeException {
-    private String word;
-    private int exampleCount;
+  static class TooFewExamples extends RuntimeException {
+    private final String word;
+    private final int exampleCount;
     TooFewExamples(String word, int exampleCount) {
       this.word = word;
       this.exampleCount = exampleCount;

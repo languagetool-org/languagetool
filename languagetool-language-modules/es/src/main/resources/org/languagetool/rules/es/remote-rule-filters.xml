@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" ?>
+<?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet" ?>
+<!--
+LanguageTool, a natural language style checker
+Copyright (C) 2021 Fabian Richter
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+USA
+-->
+
+<!--
+Filter for remote matches.
+To ignore a remote rule match, set the <marker> so that it exactly covers the text underlined by the remote rule.
+-->
+<rules lang="es" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/remote-rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <category name="Machine learning rules" id="AI_RULES">
+        <rulegroup id="AI_ES_HYDRA_LEO_MISSING_COMMA" name="">
+            <!-- ignore noun + adj if there is agreement -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="NC[MC][SN]000" postag_regexp="yes"><exception postag="A..[MC][SN].|V.P..SM" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="A..[MC][SN].|V.P..SM" postag_regexp="yes"><exception>otro</exception></token>
+                </pattern>
+                <example correction=""><marker>vino</marker> fresco</example>
+                <example>vidrios dobles, carpintería exterior aluminio, soleado</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="NC[FC][SN]000" postag_regexp="yes"><exception postag="A..[FC][SN].|V.P..SF" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="A..[FC][SN].|V.P..SF" postag_regexp="yes"><exception>otra</exception></token>
+                </pattern>
+                <example correction=""><marker>cervecita</marker> fresca</example>
+                <example correction="">vidrios dobles, <marker>carpintería</marker> exterior aluminio, soleado</example>
+                <example correction="">estudiante de <marker>enfermería</marker> médica enfermera y médico</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="NC[MC][PN]000" postag_regexp="yes"><exception postag="A..[MC][PN].|V.P..PM" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="A..[MC][PN].|V.P..PM" postag_regexp="yes"><exception>otros</exception></token>
+                </pattern>
+                <example correction=""><marker>vinos</marker> frescos</example>
+                <example correction=""><marker>fantasmas</marker> culturales, sociales políticos, religiosos,</example>
+                <example>culturales, sociales políticos, religiosos</example>
+                <example>En el fondo se trata de oponer a unos estereotipos otros estereotipos.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="NC[FC][PN]000" postag_regexp="yes"><exception postag="A..[FC][PN].|V.P..PF" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="A..[FC][PN].|V.P..PF" postag_regexp="yes"><exception>otras</exception></token>
+                </pattern>
+                <example correction=""><marker>cervecitas</marker> fresquitas</example>
+            </rule>
+            <!-- ignore adj + noun if there is agreement -->
+            <rule>
+                <pattern>
+                    <token><exception postag="NC[MC][SN]000" postag_regexp="yes"/></token>
+                    <marker>
+                        <token postag="A..[MC][SN].|V.P..SM" postag_regexp="yes"><exception postag="_GN_F.|_GN_.P" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="NC[MC][SN]000" postag_regexp="yes"><exception postag="A..[MC][SN].|V.P..SM" postag_regexp="yes"/></token>
+                </pattern>
+                <example correction=""><marker>buen</marker> vino</example>
+                <example>vidrios dobles, carpintería exterior aluminio, soleado</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception postag="NC[FC][SN]000" postag_regexp="yes"/></token>
+                    <marker>
+                        <token postag="A..[FC][SN].|V.P..SF" postag_regexp="yes"><exception postag="_GN_M.|_GN_.P" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="NC[FC][SN]000" postag_regexp="yes"><exception postag="A..[FC][SN].|V.P..SF" postag_regexp="yes"/></token>
+                </pattern>
+                <example correction="">la realidad de <marker>tamaña</marker> barbaridad</example>
+                <example>vidrios dobles, carpintería exterior aluminio, soleado</example>
+                <example>estudiante de enfermería médica enfermera y médico</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception postag="NC[MC][PN]000" postag_regexp="yes"/></token>
+                    <marker>
+                        <token postag="A..[MC][PN].|V.P..PM" postag_regexp="yes"><exception postag="_GN_F.|_GN_.S" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="NC[MC][PN]000" postag_regexp="yes"><exception postag="A..[MC][PN].|V.P..PM" postag_regexp="yes"/></token>
+                </pattern>
+                <example correction=""><marker>buenos</marker> vinos</example>
+                <example>fantasmas culturales, sociales políticos, religiosos,</example>
+                <example>culturales, sociales políticos, religiosos</example>
+                <example>en nuestra pagina web horarios, tarifas, ubicación</example>
+                <example>en nuestra página web horarios, tarifas, ubicación</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception postag="NC[FC][PN]000" postag_regexp="yes"/></token>
+                    <marker>
+                        <token postag="A..[FC][PN].|V.P..PF" postag_regexp="yes"><exception postag="_GN_M.|_GN_.S" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="NC[FC][PN]000" postag_regexp="yes"><exception postag="A..[FC][PN].|V.P..PF" postag_regexp="yes"/></token>
+                </pattern>
+                <example correction="">la realidad de <marker>tamañas</marker> barbaridades</example>
+                <example>donde se pueden contemplar decenas de piezas industriales vagones y locomotoras de vapor</example>
+            </rule>
+        </rulegroup>
+    </category>
+</rules>

@@ -36,18 +36,18 @@ import static org.junit.Assert.assertEquals;
 public class ArabicDiacriticsCheckRuleTest {
 
   private ArabicDiacriticsRule rule;
-  private JLanguageTool langTool;
+  private JLanguageTool lt;
 
   @Before
   public void setUp() {
     rule = new ArabicDiacriticsRule(TestTools.getEnglishMessages());
-    langTool = new JLanguageTool(new Arabic());
+    lt = new JLanguageTool(new Arabic());
   }
 
   @Test
   public void testRule() throws IOException {
     // incorrect sentences:
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("تجربة")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("تجربة")).length);
   }
 
 }

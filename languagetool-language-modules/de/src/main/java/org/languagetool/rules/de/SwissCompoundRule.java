@@ -18,6 +18,8 @@
  */
 package org.languagetool.rules.de;
 
+import org.languagetool.Language;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.CompoundRuleData;
 import org.languagetool.rules.LineExpander;
 
@@ -31,8 +33,8 @@ public class SwissCompoundRule extends GermanCompoundRule {
 
   private static volatile CompoundRuleData compoundData;
  
-  public SwissCompoundRule(ResourceBundle messages) throws IOException {
-    super(messages);
+  public SwissCompoundRule(ResourceBundle messages, Language lang, UserConfig userConfig) throws IOException {
+    super(messages, lang, userConfig);
   }
 
   @Override
@@ -41,7 +43,7 @@ public class SwissCompoundRule extends GermanCompoundRule {
   }
 
   @Override
-  protected CompoundRuleData getCompoundRuleData() {
+  public CompoundRuleData getCompoundRuleData() {
     CompoundRuleData data = compoundData;
     if (data == null) {
       synchronized (SwissCompoundRule.class) {

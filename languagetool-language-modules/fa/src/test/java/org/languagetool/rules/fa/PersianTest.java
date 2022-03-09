@@ -28,7 +28,7 @@ public class PersianTest extends LanguageSpecificTest {
   
   @Test
   public void testLanguage() throws IOException {
-    // NOTE: this text needs to be kept in sync with WelcomeController.php's getDefaultDemoTexts():
+    // NOTE: this text needs to be kept in sync with config.ts -> DEMO_TEXTS:
     // commented out, as some rules seem to cause many (false?) alarms:
     //String s = "لطفا متن خود را اینجا قرار دهید . یا بررسی کنید که این متن را\u200C برای دیدن بعضی بعضی از اشکال هایی که ابزار زبان توانسته تشخیس هدد. درباره ی نرم افزارهای بررسی کننده های گرامر چه فکر می کنید؟ لطفا در نظر داشته باشید که آن\u200Cها بی نقص نمی باشند.\u200E";
     Persian lang = new Persian();

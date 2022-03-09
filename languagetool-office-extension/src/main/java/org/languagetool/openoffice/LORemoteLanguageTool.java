@@ -28,9 +28,15 @@ import java.util.Map;
 import java.util.Set;
 
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.LinguServices;
+import org.languagetool.UserConfig;
 import org.languagetool.JLanguageTool.ParagraphHandling;
 import org.languagetool.gui.Configuration;
+import org.languagetool.openoffice.OfficeTools.RemoteCheck;
 import org.languagetool.remote.CheckConfiguration;
 import org.languagetool.remote.CheckConfigurationBuilder;
 import org.languagetool.remote.RemoteConfigurationInfo;
@@ -60,18 +66,24 @@ class LORemoteLanguageTool {
   private final Set<CategoryId> disabledRuleCategories = new HashSet<>();
   private final Set<CategoryId> enabledRuleCategories = new HashSet<>();
   private final List<Rule> allRules = new ArrayList<>();
+  private final List<Rule> spellingRules = new ArrayList<>();
   private final List<String> ruleValues = new ArrayList<>();
+  private final Language language;
+  private final Language motherTongue;
+  private final RemoteLanguageTool remoteLanguageTool;
+  private final UserConfig userConfig;
+  private final boolean addSynonyms;
+  private JLanguageTool lt = null;
 
-  private Language language;
-  private Language motherTongue;
-  private RemoteLanguageTool remoteLanguageTool;
   private int maxTextLength;
   private boolean remoteRun;
   
   LORemoteLanguageTool(Language language, Language motherTongue, Configuration config,
-                       List<Rule> extraRemoteRules) throws MalformedURLException {
+                       List<Rule> extraRemoteRules, UserConfig userConfig) throws MalformedURLException {
     this.language = language;
     this.motherTongue = motherTongue;
+    this.userConfig = userConfig;
+    addSynonyms = userConfig != null && userConfig.getLinguServices() != null && !config.noSynonymsAsSuggestions();
     String serverUrl = config.getServerUrl();
     setRuleValues(config.getConfigurableValues());
     URL serverBaseUrl = new URL(serverUrl == null ? SERVER_URL : serverUrl);
@@ -91,7 +103,10 @@ class LORemoteLanguageTool {
     }
   }
   
-  List<RuleMatch> check(String text, ParagraphHandling paraMode) throws IOException {
+  /**
+   * check a text by a remote LT server
+   */
+  List<RuleMatch> check(String text, ParagraphHandling paraMode, RemoteCheck checkMode) throws IOException {
     if (!remoteRun) {
       return null;
     }
@@ -105,17 +120,45 @@ class LORemoteLanguageTool {
     }
     if (paraMode == ParagraphHandling.ONLYPARA) {
       configBuilder.ruleValues(ruleValues);
-      if (enabledRules.size() > 0) {
-        configBuilder.enabledRuleIds(enabledRules.toArray(new String[0]));
+      Set<String> tmpEnabled = new HashSet<>();
+      if (checkMode == RemoteCheck.ALL || checkMode == RemoteCheck.ONLY_GRAMMAR) {
+        tmpEnabled.addAll(enabledRules);
+      }
+      if (checkMode == RemoteCheck.ALL || checkMode == RemoteCheck.ONLY_SPELL) {
+        for (Rule rule : spellingRules) {
+          tmpEnabled.add(rule.getId());
+        }
+      }
+      if (tmpEnabled.size() > 0) {
+        configBuilder.enabledRuleIds(tmpEnabled.toArray(new String[0]));
         configBuilder.enabledOnly();
       }
       configBuilder.mode("textLevelOnly");
     } else {
-      configBuilder.enabledRuleIds(enabledRules.toArray(new String[0]));
-      configBuilder.disabledRuleIds(disabledRules.toArray(new String[0]));
-      configBuilder.ruleValues(ruleValues);
-      configBuilder.mode("allButTextLevelOnly");
+      if (checkMode == RemoteCheck.ALL || checkMode == RemoteCheck.ONLY_GRAMMAR) {
+        Set<String> tmpDisabled = new HashSet<>(disabledRules);
+        if (checkMode == RemoteCheck.ALL) {
+          for (Rule rule : spellingRules) {
+            tmpDisabled.remove(rule.getId());
+          }
+        }
+        configBuilder.enabledRuleIds(enabledRules.toArray(new String[0]));
+        configBuilder.disabledRuleIds(tmpDisabled.toArray(new String[0]));
+        configBuilder.ruleValues(ruleValues);
+        configBuilder.mode("all");
+      } else if (checkMode == RemoteCheck.ONLY_SPELL) {
+        Set<String> tmpEnabled = new HashSet<>();
+        for (Rule rule : spellingRules) {
+          tmpEnabled.add(rule.getId());
+        }
+        if (tmpEnabled.size() > 0) {
+          configBuilder.enabledRuleIds(tmpEnabled.toArray(new String[0]));
+          configBuilder.enabledOnly();
+        }
+        configBuilder.mode("allButTextLevelOnly");
+      }
     }
+    configBuilder.level("default");
     CheckConfiguration remoteConfig = configBuilder.build();
     int limit;
     for (int nStart = 0; text.length() > nStart; nStart += limit) {
@@ -134,7 +177,7 @@ class LORemoteLanguageTool {
         subText = text.substring(nStart, nEnd);
         limit = nEnd;
       }
-      RemoteResult remoteResult = null;
+      RemoteResult remoteResult;
       try {
         remoteResult = remoteLanguageTool.check(subText, remoteConfig);
       } catch (Throwable t) {
@@ -142,23 +185,35 @@ class LORemoteLanguageTool {
         remoteRun = false;
         return null;
       }
-      ruleMatches.addAll(toRuleMatches(remoteResult.getMatches(), nStart));
+      ruleMatches.addAll(toRuleMatches(text, remoteResult.getMatches(), nStart));
     }
     return ruleMatches;
   }
   
+  /**
+   * Get the language the check will done for
+   */
   Language getLanguage() {
     return language;
   }
   
+  /**
+   * Get all rules 
+   */
   List<Rule> getAllRules() {
     return allRules;
   }
   
+  /**
+   * true if the check should be done by a remote server
+   */
   boolean remoteRun() {
     return remoteRun;
   }
   
+  /**
+   * true if the rule should be ignored
+   */
   private boolean ignoreRule(Rule rule) {
     Category ruleCategory = rule.getCategory();
     boolean isCategoryDisabled = (disabledRuleCategories.contains(ruleCategory.getId()) || rule.getCategory().isDefaultOff()) 
@@ -174,7 +229,10 @@ class LORemoteLanguageTool {
     return isDisabled;
   }
 
- public List<Rule> getAllActiveOfficeRules() {
+  /**
+   * get all active office rules
+   */
+  public List<Rule> getAllActiveOfficeRules() {
     List<Rule> rulesActive = new ArrayList<>();
     for (Rule rule : allRules) {
       if (!ignoreRule(rule) && !rule.isOfficeDefaultOff()) {
@@ -189,25 +247,40 @@ class LORemoteLanguageTool {
     return rulesActive;
   }
   
- public Set<String> getDisabledRules() {
-   return disabledRules;
- }
+  /**
+   * Get disabled rules
+   */
+  public Set<String> getDisabledRules() {
+    return disabledRules;
+  }
   
+  /**
+   * Enable the rule
+   */
   void enableRule (String ruleId) {
     disabledRules.remove(ruleId);
     enabledRules.add(ruleId);
   }
   
+  /**
+   * Disable the rule
+   */
   void disableRule (String ruleId) {
     disabledRules.add(ruleId);
     enabledRules.remove(ruleId);
   }
   
+  /**
+   * Disable the category
+   */
   public void disableCategory(CategoryId id) {
     disabledRuleCategories.add(id);
     enabledRuleCategories.remove(id);
   }
   
+  /**
+   * Set the values for rules
+   */
   private void setRuleValues(Map<String, Integer> configurableValues) {
     ruleValues.clear();
     Set<String> rules = configurableValues.keySet();
@@ -217,12 +290,81 @@ class LORemoteLanguageTool {
     }
   }
   
-  private RuleMatch toRuleMatch(RemoteRuleMatch remoteMatch, int nOffset) throws MalformedURLException {
+  /**
+   * get synonyms for a word
+   */
+  public List<String> getSynonymsForWord(String word, LinguServices linguServices) {
+    List<String> synonyms = new ArrayList<String>();
+    List<String> rawSynonyms = linguServices.getSynonyms(word, language);
+    for (String synonym : rawSynonyms) {
+      synonym = synonym.replaceAll("\\(.*\\)", "").trim();
+      if (!synonym.isEmpty() && !synonyms.contains(synonym)) {
+        synonyms.add(synonym);
+      }
+    }
+    return synonyms;
+  }
+
+  /**
+   * get synonyms for a repeated word
+   */
+  public List<String> getSynonymsForToken(AnalyzedTokenReadings token, LinguServices linguServices) {
+    List<String> synonyms = new ArrayList<String>();
+    if(linguServices == null || token == null) {
+      return synonyms;
+    }
+    List<AnalyzedToken> readings = token.getReadings();
+    for (AnalyzedToken reading : readings) {
+      String lemma = reading.getLemma();
+      if (lemma != null) {
+        List<String> newSynonyms = getSynonymsForWord(lemma, linguServices);
+        for (String synonym : newSynonyms) {
+          if (!synonyms.contains(synonym)) {
+            synonyms.add(synonym);
+          }
+        }
+      }
+    }
+    if(synonyms.isEmpty()) {
+      synonyms = getSynonymsForWord(token.getToken(), linguServices);
+    }
+    return synonyms;
+  }
+  /**
+   * get synonyms of a word
+   */
+  private List<String> getSynonyms(String word) {
+    if (!addSynonyms) {
+      return null;
+    }
+    if (lt == null) {
+      lt = new JLanguageTool(language, motherTongue, null, userConfig);
+    }
+    List<AnalyzedSentence> analyzedSentence;
+    try {
+      analyzedSentence = lt.analyzeText(word);
+      return getSynonymsForToken(analyzedSentence.get(0).getTokensWithoutWhitespace()[1], userConfig.getLinguServices());
+    } catch (Throwable t) {
+      MessageHandler.printException(t);
+      return null;
+    }
+  }
+  
+  /**
+   * Convert a remote rule match to a LT rule match 
+   */
+  private RuleMatch toRuleMatch(String text, RemoteRuleMatch remoteMatch, int nOffset) throws MalformedURLException {
     Rule matchRule = null;
     for (Rule rule : allRules) {
       if (remoteMatch.getRuleId().equals(rule.getId())) {
         matchRule = rule;
       }
+    }
+    if (matchRule == null) {
+      MessageHandler.printToLogFile("WARNING: Rule \"" + remoteMatch.getRuleDescription() + "(ID: " 
+                                    + remoteMatch.getRuleId() + ")\" may be not supported by option panel!");
+      matchRule = new RemoteRule(remoteMatch);
+      allRules.add(matchRule);
     }
     RuleMatch ruleMatch = new RuleMatch(matchRule, null, remoteMatch.getErrorOffset() + nOffset, 
         remoteMatch.getErrorOffset() + remoteMatch.getErrorLength() + nOffset, remoteMatch.getMessage(), 
@@ -230,26 +372,43 @@ class LORemoteLanguageTool {
     if (remoteMatch.getUrl().isPresent()) {
       ruleMatch.setUrl(new URL(remoteMatch.getUrl().get()));
     }
+    List<String> replacements = null;
     if (remoteMatch.getReplacements().isPresent()) {
+      replacements = remoteMatch.getReplacements().get();
+    }
+    if (replacements != null && !replacements.isEmpty()) {
       ruleMatch.setSuggestedReplacements(remoteMatch.getReplacements().get());
+    } else if (addSynonyms && remoteMatch.getRuleId().startsWith("STYLE_REPEATED_WORD_RULE")) {
+      String word = text.substring(ruleMatch.getFromPos(), ruleMatch.getToPos());
+      List<String> synonyms = getSynonyms(word);
+      if (synonyms != null && !synonyms.isEmpty()) {
+        ruleMatch.setSuggestedReplacements(synonyms);
+      }
     }
     return ruleMatch;
   }
   
-  private List<RuleMatch> toRuleMatches(List<RemoteRuleMatch> remoteRulematches, int nOffset) throws MalformedURLException {
+  /**
+   * Convert a list of remote rule matches to a list of LT rule matches
+   */
+  private List<RuleMatch> toRuleMatches(String text, List<RemoteRuleMatch> remoteRulematches, int nOffset) throws MalformedURLException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     if (remoteRulematches == null || remoteRulematches.isEmpty()) {
       return ruleMatches;
     }
     for (RemoteRuleMatch remoteMatch : remoteRulematches) {
-      RuleMatch ruleMatch = toRuleMatch(remoteMatch, nOffset);
+      RuleMatch ruleMatch = toRuleMatch(text, remoteMatch, nOffset);
       ruleMatches.add(ruleMatch);
     }
     return ruleMatches;
   }
   
+  /**
+   * store all rules in a list
+   */
   private void storeAllRules(List<Map<String,String>> listRuleMaps) {
     allRules.clear();
+    spellingRules.clear();
     for (Map<String,String> ruleMap : listRuleMaps) {
       Rule rule;
       if (ruleMap.containsKey("isTextLevelRule")) {
@@ -257,10 +416,16 @@ class LORemoteLanguageTool {
       } else {
         rule = new RemoteRule(ruleMap);
       }
+      if (rule.isDictionaryBasedSpellingRule()) {
+        spellingRules.add(rule);
+      }
       allRules.add(rule);
     }
   }
 
+  /**
+   * Class to define remote (sentence level) rules
+   */
   static class RemoteRule extends Rule {
     
     private final String ruleId;
@@ -284,11 +449,7 @@ class LORemoteLanguageTool {
       if (ruleMap.containsKey("isOfficeDefaultOff")) {
         setOfficeDefaultOff();
       }
-      if (ruleMap.containsKey("isDictionaryBasedSpellingRule")) {
-        isDictionaryBasedSpellingRule = true;
-      } else {
-        isDictionaryBasedSpellingRule = false;
-      }
+      isDictionaryBasedSpellingRule = ruleMap.containsKey("isDictionaryBasedSpellingRule");
       if (ruleMap.containsKey("hasConfigurableValue")) {
         hasConfigurableValue = true;
         defaultValue = Integer.parseInt(ruleMap.get("defaultValue"));
@@ -304,6 +465,26 @@ class LORemoteLanguageTool {
       }
       setCategory(new Category(new CategoryId(ruleMap.get("categoryId")), ruleMap.get("categoryName")));
       setLocQualityIssueType(ITSIssueType.getIssueType(ruleMap.get("locQualityIssueType")));
+    }
+
+    RemoteRule(RemoteRuleMatch remoteMatch) {
+      ruleId = remoteMatch.getRuleId();
+      description = remoteMatch.getRuleDescription();
+      isDictionaryBasedSpellingRule = false;
+      hasConfigurableValue = false;
+      defaultValue = 0;
+      minConfigurableValue = 0;
+      maxConfigurableValue = 100;
+      configureText = "";
+      String categoryId = remoteMatch.getCategoryId().orElse(null);
+      String categoryName = remoteMatch.getCategory().orElse(null);
+      if (categoryId != null && categoryName != null) {
+        setCategory(new Category(new CategoryId(categoryId), categoryName));
+      }
+      String locQualityIssueType = remoteMatch.getLocQualityIssueType().orElse(null);
+      if (locQualityIssueType != null) {
+        setLocQualityIssueType(ITSIssueType.getIssueType(locQualityIssueType));
+      }
     }
 
     @Override
@@ -347,12 +528,15 @@ class LORemoteLanguageTool {
     }
 
     @Override
-    public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+    public RuleMatch[] match(AnalyzedSentence sentence) {
       return null;
     }
     
   }
   
+  /**
+   * Class to define remote text level rules
+   */
   static class RemoteTextLevelRule extends TextLevelRule {
     
     private final String ruleId;
@@ -377,11 +561,7 @@ class LORemoteLanguageTool {
       if (ruleMap.containsKey("isOfficeDefaultOff")) {
         setOfficeDefaultOff();
       }
-      if (ruleMap.containsKey("isDictionaryBasedSpellingRule")) {
-        isDictionaryBasedSpellingRule = true;
-      } else {
-        isDictionaryBasedSpellingRule = false;
-      }
+      isDictionaryBasedSpellingRule = ruleMap.containsKey("isDictionaryBasedSpellingRule");
       if (ruleMap.containsKey("hasConfigurableValue")) {
         hasConfigurableValue = true;
         defaultValue = Integer.parseInt(ruleMap.get("defaultValue"));
@@ -441,7 +621,7 @@ class LORemoteLanguageTool {
     }
 
     @Override
-    public RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException {
+    public RuleMatch[] match(List<AnalyzedSentence> sentences) {
       return null;
     }
 

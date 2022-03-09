@@ -20,10 +20,7 @@ package org.languagetool.rules;
 
 import java.io.IOException;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import org.languagetool.*;
 import org.languagetool.tools.Tools;
@@ -43,13 +40,11 @@ public class LongParagraphRule extends TextLevelRule {
 
   private int maxWords = DEFAULT_MAX_WORDS;
 
-  public LongParagraphRule(ResourceBundle messages, Language lang, UserConfig userConfig, int defaultWords, boolean defaultActive, List<Tag> tags) {
+  public LongParagraphRule(ResourceBundle messages, Language lang, UserConfig userConfig, int defaultWords, boolean defaultActive) {
     super(messages);
     super.setCategory(Categories.STYLE.getCategory(messages));
     this.lang = lang;
-    if (!defaultActive) {
-      setDefaultOff();
-    }
+    setDefaultOff();
     if (defaultWords > 0) {
       this.maxWords = defaultWords;
     }
@@ -60,21 +55,16 @@ public class LongParagraphRule extends TextLevelRule {
       }
     }
     setLocQualityIssueType(ITSIssueType.Style);
-    setTags(tags);
+    setTags(Arrays.asList(Tag.picky));
   }
 
   /** Note: will be off by default. */
   public LongParagraphRule(ResourceBundle messages, Language lang, UserConfig userConfig, int defaultWords) {
-    this(messages, lang, userConfig, defaultWords, DEFAULT_ACTIVATION, Collections.emptyList());
+    this(messages, lang, userConfig, defaultWords, DEFAULT_ACTIVATION);
   }
 
-  /** Note: will be off by default. */
   public LongParagraphRule(ResourceBundle messages, Language lang, UserConfig userConfig) {
-    this(messages, lang, userConfig, -1, DEFAULT_ACTIVATION, Collections.emptyList());
-  }
-
-  public LongParagraphRule(ResourceBundle messages, Language lang, UserConfig userConfig, boolean defaultActive, List<Tag> tags) {
-    this(messages, lang, userConfig, DEFAULT_MAX_WORDS, defaultActive, tags);
+    this(messages, lang, userConfig, -1, true);
   }
 
   @Override
@@ -126,7 +116,7 @@ public class LongParagraphRule extends TextLevelRule {
     for (int n = 0; n < sentences.size(); n++) {
       AnalyzedSentence sentence = sentences.get(n);
       boolean paragraphEnd = Tools.isParagraphEnd(sentences, n, lang);
-      if (!paragraphEnd && sentence.getText().contains("\n")) {
+      if (!paragraphEnd && sentence.getText().replaceFirst("^\n+", "").contains("\n")) {
         // e.g. text with manually added line breaks (e.g. issues on github with "- [ ]" syntax)
         paraHasLinebreaks = true;
       }
@@ -141,7 +131,7 @@ public class LongParagraphRule extends TextLevelRule {
         }
       }
       if (paragraphEnd) {
-        if (wordCount > maxWords && !paraHasLinebreaks) {
+        if (wordCount > maxWords + 5 && !paraHasLinebreaks) {  // + 5: don't show match almost at end of paragraph
           RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, endPos, getMessage());
           ruleMatches.add(ruleMatch);
         }

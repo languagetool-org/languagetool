@@ -40,11 +40,11 @@ public class GermanTest extends LanguageSpecificTest {
   
   @Test
   public void testLanguage() throws IOException {
-    // NOTE: this text needs to be kept in sync with WelcomeController.php's getDefaultDemoTexts():
-    String s = "Fügen Sie hier Ihren Text ein. Klicken Sie nach der Prüfung auf die farbig unterlegten Textstellen. oder nutzen Sie diesen Text als Beispiel für ein Paar Fehler , die LanguageTool erkennen kann: Ihm wurde Angst und bange. Mögliche stilistische Probleme werden blau hervorgehoben: Das ist besser wie vor drei Jahren. Eine Rechtschreibprüfun findet findet übrigens auch statt. Donnerstag, den 23.01.2019 war gutes Wetter. Die Beispiel endet hier.";
+    // NOTE: this text needs to be kept in sync with config.ts -> DEMO_TEXTS:
+    String s = "Schreiben Sie in diesem Textfeld oder fügen Sie einen Text ein. Ihr Text wird kontinuierlich über prüft und Fehler werden farbig unterstrichen. Rechtshcreibfehler werden rot markirt, Grammatikfehler werden gelb hervor gehoben und Stilfehler werden, anders wie die anderen Fehler, blau unterstrichen. wussten Sie dass Synonyme per Doppelklick auf ein Wort aufgerufen werden können? Nutzen sie LanguageTool in allen Lebenslagen, etwa wenn Sie am Donnerstag, dem 13. Mai 2022, einen Basketballkorb in 10 Fuß Höhe montieren möchten.";
     Language lang = Languages.getLanguageForShortCode("de-DE");
     testDemoText(lang, s,
-      Arrays.asList("UPPERCASE_SENTENCE_START", "EIN_PAAR", "COMMA_PARENTHESIS_WHITESPACE", "ANGST_UND_BANGE", "KOMP_WIE", "GERMAN_SPELLER_RULE", "SAGT_RUFT", "DATUM_WOCHENTAG", "DE_AGREEMENT")
+      Arrays.asList("ZUSAMMENSCHREIBUNG_UEBER", "GERMAN_SPELLER_RULE", "GERMAN_SPELLER_RULE", "ZUSAMMENSCHREIBUNG_HER", "KOMP_WIE", "UPPERCASE_SENTENCE_START", "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2", "AUFFORDERUNG_SIE", "DATUM_WOCHENTAG", "EINHEITEN_METRISCH")
     );
     runTests(lang, null, "_");
   }
@@ -62,6 +62,14 @@ public class GermanTest extends LanguageSpecificTest {
         if (message.contains("Kommata")) {
           origWord = "Kommata";
           suggWord = "Kommas";
+        }
+        if (message.contains("Präfix")) {
+          origWord = "Präfix";
+          suggWord = "Vorsilbe";
+        }
+        if (message.contains("Suffix")) {
+          origWord = "Suffix";
+          suggWord = "Nachsilbe";
         }
         if (message.contains("Substantiv")) {
           origWord = "Substantiv";
@@ -106,6 +114,10 @@ public class GermanTest extends LanguageSpecificTest {
         if (message.contains("meinten sie")) {
           origWord = "meinten sie";
           suggWord = "meinten Sie";
+        }
+        if (message.toLowerCase().contains("wollen sie")) {
+          origWord = "Wollen Sie";
+          suggWord = "Möchten Sie";
         }
         if (origWord != null) {
           System.err.println("WARNING: Aus Gründen der Einheitlichkeit bitte '" + suggWord + "' nutzen statt '" + origWord + "' in der Regel " + patternRule.getFullId() + ", message: '" + message + "'");

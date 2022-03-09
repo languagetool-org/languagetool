@@ -21,6 +21,7 @@ package org.languagetool;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.Weigher;
+import org.jetbrains.annotations.NotNull;
 import org.languagetool.rules.RuleMatch;
 
 import java.util.List;
@@ -81,7 +82,7 @@ public class ResultCache {
             build();
   }
   
-  class MatchesWeigher implements Weigher<InputSentence, List<RuleMatch>> {
+  static class MatchesWeigher implements Weigher<InputSentence, List<RuleMatch>> {
     @Override
     public int weigh(InputSentence sentence, List<RuleMatch> matches) {
       // this is just a rough guesstimate so that the cacheSize given by the user
@@ -90,18 +91,18 @@ public class ResultCache {
     }
   }
 
-  class RemoteMatchesWeigher implements Weigher<InputSentence, Map<String, List<RuleMatch>>> {
+  static class RemoteMatchesWeigher implements Weigher<InputSentence, Map<String, List<RuleMatch>>> {
     @Override
-    public int weigh(InputSentence sentence, Map<String, List<RuleMatch>> matches) {
+    public int weigh(InputSentence sentence, @NotNull Map<String, List<RuleMatch>> matches) {
       // this is just a rough guesstimate so that the cacheSize given by the user
       // is very roughly the number of average sentences the cache can keep:
       return sentence.getText().length() / 75;
     }
   }
 
-  class SentenceWeigher implements Weigher<SimpleInputSentence, AnalyzedSentence> {
+  static class SentenceWeigher implements Weigher<SimpleInputSentence, AnalyzedSentence> {
     @Override
-    public int weigh(SimpleInputSentence sentence, AnalyzedSentence analyzedSentence) {
+    public int weigh(SimpleInputSentence sentence, @NotNull AnalyzedSentence analyzedSentence) {
       return sentence.getText().length() / 75;
     }
   }
@@ -139,9 +140,7 @@ public class ResultCache {
     return matchesCache;
   }
 
-  /** @since 5.0
-   * @return
-   * */
+  /** @since 5.0 */
   public Cache<InputSentence, Map<String, List<RuleMatch>>> getRemoteMatchesCache() {
     return remoteMatchesCache;
   }

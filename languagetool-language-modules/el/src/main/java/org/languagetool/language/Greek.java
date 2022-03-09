@@ -22,8 +22,12 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.rules.*;
+import org.languagetool.rules.el.GreekRedundancyRule;
+import org.languagetool.rules.el.GreekWordRepeatBeginningRule;
 import org.languagetool.rules.el.MorfologikGreekSpellerRule;
 import org.languagetool.rules.el.NumeralStressRule;
+import org.languagetool.rules.el.ReplaceHomonymsRule;
+import org.languagetool.rules.el.GreekSpecificCaseRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.el.GreekSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -74,15 +78,18 @@ public class Greek extends Language {
             new GenericUnpairedBracketsRule("EL_UNPAIRED_BRACKETS", messages,
                     Arrays.asList("[", "(", "{", "“", "\"", "«"),
                     Arrays.asList("]", ")", "}", "”", "\"", "»")),
-            new LongSentenceRule(messages, userConfig),
+            new LongSentenceRule(messages, userConfig, 50),
             new MorfologikGreekSpellerRule(messages, this, userConfig, altLanguages),
             new UppercaseSentenceStartRule(messages, this,
                     Example.wrong("Η τελεία είναι σημείο στίξης. <marker>δείχνει</marker> το τέλος μίας πρότασης."),
                     Example.fixed("Η τελεία είναι σημείο στίξης. <marker>Δείχνει</marker> το τέλος μίας πρότασης.")),
             new MultipleWhitespaceRule(messages, this),
-            new WordRepeatBeginningRule(messages, this),
+            new GreekWordRepeatBeginningRule(messages, this),
             new WordRepeatRule(messages, this),
-            new NumeralStressRule(messages)
+            new ReplaceHomonymsRule(messages, this),
+            new GreekSpecificCaseRule(messages),
+            new NumeralStressRule(messages),
+            new GreekRedundancyRule(messages, this)
     );
   }
 
@@ -115,6 +122,6 @@ public class Greek extends Language {
 
   @Override
   public LanguageMaintainedState getMaintainedState() {
-    return LanguageMaintainedState.ActivelyMaintained;
-  }
+		return LanguageMaintainedState.ActivelyMaintained;
+	}
 }

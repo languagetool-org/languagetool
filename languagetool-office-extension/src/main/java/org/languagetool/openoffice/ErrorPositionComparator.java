@@ -29,12 +29,6 @@ class ErrorPositionComparator implements Comparator<SingleProofreadingError> {
 
   @Override
   public int compare(SingleProofreadingError match1, SingleProofreadingError match2) {
-    if (match1.aSuggestions.length == 0 && match2.aSuggestions.length > 0) {
-      return 1;
-    }
-    if (match2.aSuggestions.length == 0 && match1.aSuggestions.length > 0) {
-      return -1;
-    }
     int error1pos = match1.nErrorStart;
     int error2pos = match2.nErrorStart;
     if (error1pos > error2pos) {
@@ -42,6 +36,18 @@ class ErrorPositionComparator implements Comparator<SingleProofreadingError> {
     } else if (error1pos < error2pos) {
       return -1;
     } else {
+      if (match1.nErrorLength > match2.nErrorLength) {
+        return 1;
+      }
+      if (match1.nErrorLength < match2.nErrorLength) {
+        return -1;
+      }
+      if (match1.aSuggestions.length == 0 && match2.aSuggestions.length > 0) {
+        return 1;
+      }
+      if (match2.aSuggestions.length == 0 && match1.aSuggestions.length > 0) {
+        return -1;
+      }
       if (match1.aSuggestions.length != 0 && match2.aSuggestions.length != 0
           && match1.aSuggestions.length != match2.aSuggestions.length) {
         return Integer.compare(match1.aSuggestions.length, match2.aSuggestions.length);

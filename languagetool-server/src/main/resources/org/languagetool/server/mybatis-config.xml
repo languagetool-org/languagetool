@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+  <settings>
+    <setting name="logImpl" value="SLF4J"/>
+  </settings>
+  <typeAliases>
+    <typeAlias type="org.languagetool.server.DBGroup" alias="Group"/>
+    <typeAlias type="org.languagetool.server.DBGroupMember" alias="GroupMember"/>
+    <typeAlias type="org.languagetool.server.DBInvite" alias="Invite"/>
+  </typeAliases>
+  <plugins>
+    <plugin interceptor="org.languagetool.server.LoggingInterceptor"/>
+  </plugins>
   <environments default="development">
     <environment id="development">
       <transactionManager type="JDBC"/>
@@ -17,7 +28,8 @@
     </environment>
   </environments>
   <mappers>
-    <mapper resource="org/languagetool/server/DictMapper.xml"/>
-    <mapper resource="org/languagetool/server/LogMapper.xml"/>
+    <mapper resource="org/languagetool/server/DictMapper${premium}.xml"/>
+    <mapper resource="org/languagetool/server/LogMapper${premium}.xml"/>
+    <mapper resource="org/languagetool/server/GroupMapper${premium}.xml"/>
   </mappers>
 </configuration>

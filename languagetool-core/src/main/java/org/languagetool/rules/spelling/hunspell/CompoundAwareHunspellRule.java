@@ -100,9 +100,7 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
    */
   @Override
   public List<String> getSuggestions(String word) throws IOException {
-    if (needsInit) {
-      init();
-    }
+    ensureInitialized();
     //System.out.println("Computing suggestions for " + word);
     List<String> candidates = getCandidates(word);
     List<String> simpleSuggestions = getCorrectWords(candidates);

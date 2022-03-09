@@ -48,12 +48,12 @@ public class DemoPatternRuleTest extends PatternRuleTest {
 
   @Test
   public void testMakeSuggestionUppercase() throws IOException {
-    JLanguageTool langTool = new JLanguageTool(language);
+    JLanguageTool lt = new JLanguageTool(language);
 
     PatternToken patternToken = new PatternToken("Were", false, false, false);
     String message = "Did you mean: <suggestion>where</suggestion> or <suggestion>we</suggestion>?";
     PatternRule rule = new PatternRule("MY_ID", language, Collections.singletonList(patternToken), "desc", message, "msg");
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("Were are in the process of ..."));
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("Were are in the process of ..."));
 
     assertEquals(1, matches.length);
     RuleMatch match = matches[0];
@@ -67,14 +67,12 @@ public class DemoPatternRuleTest extends PatternRuleTest {
   public void testRule() throws IOException {
     PatternRule pr;
     RuleMatch[] matches;
-    JLanguageTool langTool = new JLanguageTool(language);
+    JLanguageTool lt = new JLanguageTool(language);
 
     pr = makePatternRule("one");
-    matches = pr
-            .match(langTool.getAnalyzedSentence("A non-matching sentence."));
+    matches = pr.match(lt.getAnalyzedSentence("A non-matching sentence."));
     assertEquals(0, matches.length);
-    matches = pr.match(langTool
-            .getAnalyzedSentence("A matching sentence with one match."));
+    matches = pr.match(lt.getAnalyzedSentence("A matching sentence with one match."));
     assertEquals(1, matches.length);
     assertEquals(25, matches[0].getFromPos());
     assertEquals(28, matches[0].getToPos());
@@ -83,64 +81,62 @@ public class DemoPatternRuleTest extends PatternRuleTest {
     assertEquals(-1, matches[0].getColumn());
     assertEquals(-1, matches[0].getLine());
     assertEquals("ID1", matches[0].getRule().getId());
-    assertTrue(matches[0].getMessage().equals("user visible message"));
-    assertTrue(matches[0].getShortMessage().equals("short comment"));
-    matches = pr.match(langTool
+    assertEquals("user visible message", matches[0].getMessage());
+    assertEquals("short comment", matches[0].getShortMessage());
+    matches = pr.match(lt
             .getAnalyzedSentence("one one and one: three matches"));
     assertEquals(3, matches.length);
 
     pr = makePatternRule("one two");
-    matches = pr.match(langTool.getAnalyzedSentence("this is one not two"));
+    matches = pr.match(lt.getAnalyzedSentence("this is one not two"));
     assertEquals(0, matches.length);
-    matches = pr.match(langTool.getAnalyzedSentence("this is two one"));
+    matches = pr.match(lt.getAnalyzedSentence("this is two one"));
     assertEquals(0, matches.length);
-    matches = pr.match(langTool.getAnalyzedSentence("this is one two three"));
+    matches = pr.match(lt.getAnalyzedSentence("this is one two three"));
     assertEquals(1, matches.length);
-    matches = pr.match(langTool.getAnalyzedSentence("one two"));
+    matches = pr.match(lt.getAnalyzedSentence("one two"));
     assertEquals(1, matches.length);
 
     pr = makePatternRule("one|foo|xxxx two", false, true);
-    matches = pr.match(langTool.getAnalyzedSentence("one foo three"));
+    matches = pr.match(lt.getAnalyzedSentence("one foo three"));
     assertEquals(0, matches.length);
-    matches = pr.match(langTool.getAnalyzedSentence("one two"));
+    matches = pr.match(lt.getAnalyzedSentence("one two"));
     assertEquals(1, matches.length);
-    matches = pr.match(langTool.getAnalyzedSentence("foo two"));
+    matches = pr.match(lt.getAnalyzedSentence("foo two"));
     assertEquals(1, matches.length);
-    matches = pr.match(langTool.getAnalyzedSentence("one foo two"));
+    matches = pr.match(lt.getAnalyzedSentence("one foo two"));
     assertEquals(1, matches.length);
-    matches = pr.match(langTool.getAnalyzedSentence("y x z one two blah foo"));
+    matches = pr.match(lt.getAnalyzedSentence("y x z one two blah foo"));
     assertEquals(1, matches.length);
 
     pr = makePatternRule("one|foo|xxxx two|yyy", false, true);
-    matches = pr.match(langTool.getAnalyzedSentence("one, yyy"));
+    matches = pr.match(lt.getAnalyzedSentence("one, yyy"));
     assertEquals(0, matches.length);
-    matches = pr.match(langTool.getAnalyzedSentence("one yyy"));
+    matches = pr.match(lt.getAnalyzedSentence("one yyy"));
     assertEquals(1, matches.length);
-    matches = pr.match(langTool.getAnalyzedSentence("xxxx two"));
+    matches = pr.match(lt.getAnalyzedSentence("xxxx two"));
     assertEquals(1, matches.length);
-    matches = pr.match(langTool.getAnalyzedSentence("xxxx yyy"));
+    matches = pr.match(lt.getAnalyzedSentence("xxxx yyy"));
     assertEquals(1, matches.length);
   }
 
   @Test
   public void testSentenceStart() throws IOException {
-    JLanguageTool langTool = new JLanguageTool(language);
+    JLanguageTool lt = new JLanguageTool(language);
     PatternRule pr = makePatternRule("SENT_START One");
-    assertEquals(0, pr.match(langTool.getAnalyzedSentence("Not One word.")).length);
-    assertEquals(1, pr.match(langTool.getAnalyzedSentence("One word.")).length);
+    assertEquals(0, pr.match(lt.getAnalyzedSentence("Not One word.")).length);
+    assertEquals(1, pr.match(lt.getAnalyzedSentence("One word.")).length);
   }
 
   @Test
   public void testFormatMultipleSynthesis() throws Exception {
     String[] suggestions1 = { "blah blah", "foo bar" };
-    assertEquals(
-            "This is how you should write: <suggestion>blah blah</suggestion>, <suggestion>foo bar</suggestion>.",
+    assertEquals("This is how you should write: <suggestion>blah blah</suggestion>, <suggestion>foo bar</suggestion>.",
             PatternRuleMatcher.formatMultipleSynthesis(suggestions1,
                     "This is how you should write: <suggestion>", "</suggestion>."));
 
     String[] suggestions2 = { "test", " " };
-    assertEquals(
-            "This is how you should write: <suggestion>test</suggestion>, <suggestion> </suggestion>.",
+    assertEquals("This is how you should write: <suggestion>test</suggestion>, <suggestion> </suggestion>.",
             PatternRuleMatcher.formatMultipleSynthesis(suggestions2,
                     "This is how you should write: <suggestion>", "</suggestion>."));
   }

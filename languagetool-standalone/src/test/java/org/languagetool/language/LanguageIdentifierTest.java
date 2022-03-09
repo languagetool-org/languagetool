@@ -29,17 +29,38 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 public class LanguageIdentifierTest {
 
-  private final LanguageIdentifier identifier = new LanguageIdentifier();
-  private final static String fastTextBinary = "/prg/fastText-0.1.0/fasttext";
-  private final static String fastTextModel = "/prg/fastText-0.1.0/data/lid.176.bin";
+  private final static String fastTextBinary = "/home/languagetool/fasttext/fasttext";
+  private final static String fastTextModel = "/home/languagetool/fasttext/lid.176.bin";
+  private final static String ngramData = "/home/languagetool/model_ml50_new.zip";
   private final static String czech = "V současné době je označením Linux míněno nejen jádro operačního systému, " +
           "ale zahrnuje do něj též veškeré programové vybavení";
 
+  private final LanguageIdentifier identifier = new LanguageIdentifier();
+
+  @Test
+  @Ignore("requires ngram data from https://languagetool.org/download/ngram-lang-detect/")
+  public void cleanAndShortenText() {
+    LanguageIdentifier ident = new LanguageIdentifier(20);
+    assertThat(ident.cleanAndShortenText("foo"), is("foo"));
+    assertThat(ident.cleanAndShortenText("foo this is so long it will be cut off"), is("foo this is so long "));
+    assertThat(ident.cleanAndShortenText("clean\uFEFF\uFEFFme"), is("clean me"));
+    assertThat(ident.cleanAndShortenText("a https://x.com blah"), is("a https://x.com blah"));
+    LanguageIdentifier ident2 = new LanguageIdentifier(100);
+    ident2.enableNgrams(new File(ngramData));
+    assertThat(ident2.cleanAndShortenText("foo https://www.example.com blah"), is("foo   blah"));
+    assertThat(ident2.cleanAndShortenText("foo https://example.com?foo-bar blah"), is("foo   blah"));
+    assertThat(ident2.cleanAndShortenText("foo foo.bla@example.com blah"), is("foo   blah"));
+    assertThat(ident2.cleanAndShortenText("But @handle said so on twitter!"), is("But  said so on twitter!"));
+    assertThat(ident2.cleanAndShortenText("A non\u00A0breaking space."), is("A non breaking space."));
+  }
+  
   @Test
   public void testDetection() {
     langAssert("de", "Das ist ein deutscher Text");
@@ -73,6 +94,10 @@ public class LanguageIdentifierTest {
     langAssert("km", "អ្នក\u200Bអាច\u200Bជួយ\u200Bលើក\u200Bស្ទួយ\u200Bវិគីភីឌាភាសាខ្មែរ\u200Bនេះ\u200Bឱ្យ\u200Bមាន\u200Bលក្ខណៈ");
     // not yet in language-detector 0.5:
     langAssert("eo", "Imperiestraj pingvenoj manĝas ĉefe krustacojn kaj malgrandajn ...");
+    // detected as not supported by the unicode characters used:
+    langAssert("zz", "ลินุกซ์ (อังกฤษ: Linux)");  // Thai
+    langAssert("zz", "यूएसबी (अंग्रेज़ी: Live ...)");  // Hindi
+    langAssert("zz", "लिनक्स (इंग्लिश: Linux)");  // Marathi
   }
 
   @Test
@@ -192,8 +217,8 @@ public class LanguageIdentifierTest {
     List<String> noop = Arrays.asList();
     ident.enableFasttext(new File(fastTextBinary), new File(fastTextModel));
 
-    // neither en nor de, so we get null:
-    langAssert(null, "Зараз десь когось нема", ident, noop, enDePreferred);
+    // short, but has a specific character set that helps detection:
+    langAssert("uk", "Зараз десь когось нема", ident, noop, enDePreferred);
     // long enough to ignore the preferred languages:
     langAssert("da", "En to meter lang levende krokodille er blevet fundet i et drivhus i en have i Sveriges tredje største by", ident, noop, enDePreferred);
     langAssert("da", "Elektriske lamper, gemt bag et loft af mælkehvidt, gennemskinneligt glas, kastede et mildt lys på museets skatt", ident, noop, enDePreferred);

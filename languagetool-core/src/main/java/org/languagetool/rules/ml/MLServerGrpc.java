@@ -1,25 +1,13 @@
 package org.languagetool.rules.ml;
 
 import static io.grpc.MethodDescriptor.generateFullMethodName;
-import static io.grpc.stub.ClientCalls.asyncBidiStreamingCall;
-import static io.grpc.stub.ClientCalls.asyncClientStreamingCall;
-import static io.grpc.stub.ClientCalls.asyncServerStreamingCall;
-import static io.grpc.stub.ClientCalls.asyncUnaryCall;
-import static io.grpc.stub.ClientCalls.blockingServerStreamingCall;
-import static io.grpc.stub.ClientCalls.blockingUnaryCall;
-import static io.grpc.stub.ClientCalls.futureUnaryCall;
-import static io.grpc.stub.ServerCalls.asyncBidiStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncClientStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncServerStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncUnaryCall;
-import static io.grpc.stub.ServerCalls.asyncUnimplementedStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
 
 /**
  */
 @javax.annotation.Generated(
-    value = "by gRPC proto compiler (version 1.27.1)",
+    value = "by gRPC proto compiler (version 1.42.1)",
     comments = "Source: ml_server.proto")
+@io.grpc.stub.annotations.GrpcGenerated
 public final class MLServerGrpc {
 
   private MLServerGrpc() {}
@@ -110,14 +98,14 @@ public final class MLServerGrpc {
      */
     public void match(org.languagetool.rules.ml.MLServerProto.MatchRequest request,
         io.grpc.stub.StreamObserver<org.languagetool.rules.ml.MLServerProto.MatchResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getMatchMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getMatchMethod(), responseObserver);
     }
 
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
             getMatchMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 org.languagetool.rules.ml.MLServerProto.MatchRequest,
                 org.languagetool.rules.ml.MLServerProto.MatchResponse>(
@@ -144,7 +132,7 @@ public final class MLServerGrpc {
      */
     public void match(org.languagetool.rules.ml.MLServerProto.MatchRequest request,
         io.grpc.stub.StreamObserver<org.languagetool.rules.ml.MLServerProto.MatchResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getMatchMethod(), getCallOptions()), request, responseObserver);
     }
   }
@@ -166,7 +154,7 @@ public final class MLServerGrpc {
     /**
      */
     public org.languagetool.rules.ml.MLServerProto.MatchResponse match(org.languagetool.rules.ml.MLServerProto.MatchRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getMatchMethod(), getCallOptions(), request);
     }
   }
@@ -189,7 +177,7 @@ public final class MLServerGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<org.languagetool.rules.ml.MLServerProto.MatchResponse> match(
         org.languagetool.rules.ml.MLServerProto.MatchRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getMatchMethod(), getCallOptions()), request);
     }
   }

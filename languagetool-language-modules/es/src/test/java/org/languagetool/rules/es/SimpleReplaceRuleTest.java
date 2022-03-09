@@ -36,12 +36,12 @@ import static org.junit.Assert.assertEquals;
 public class SimpleReplaceRuleTest {
 
   private SimpleReplaceRule rule;
-  private JLanguageTool langTool;
+  private JLanguageTool lt;
 
   @Before
   public void setUp() throws Exception {
     rule = new SimpleReplaceRule(TestTools.getMessages("es"));
-    langTool = new JLanguageTool(new Spanish());
+    lt = new JLanguageTool(new Spanish());
   }
 
   @Test
@@ -49,7 +49,7 @@ public class SimpleReplaceRuleTest {
    
 
     // incorrect sentences:
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("sanitización"));
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("sanitización"));
     assertEquals(1, matches.length);
     assertEquals("desinfección", matches[0].getSuggestedReplacements().get(0));
     

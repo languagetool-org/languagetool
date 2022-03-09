@@ -25,6 +25,7 @@ import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -47,6 +48,9 @@ public class EnglishSynthesizer extends BaseSynthesizer {
 
   private static final String RESOURCE_FILENAME = "/en/english_synth.dict";
   private static final String TAGS_FILE_NAME = "/en/english_tags.txt";
+  private static final String SOR_FILE_NAME = "/en/en.sor";
+  
+  private static final List<String> exceptions = Arrays.asList("ne'er", "e'er", "o'er", "ol'", "ma'am", "n't", "informations");
 
   // A special tag to add determiners.
   private static final String ADD_DETERMINER = "+DT";
@@ -57,7 +61,7 @@ public class EnglishSynthesizer extends BaseSynthesizer {
   private final AvsAnRule aVsAnRule = new AvsAnRule(JLanguageTool.getMessageBundle(Languages.getLanguageForShortCode("en")));
 
   public EnglishSynthesizer(Language lang) {
-    super(RESOURCE_FILENAME, TAGS_FILE_NAME, lang);
+    super(SOR_FILE_NAME, RESOURCE_FILENAME, TAGS_FILE_NAME, lang);
   }
 
   /**
@@ -69,15 +73,17 @@ public class EnglishSynthesizer extends BaseSynthesizer {
    * @return String value - inflected word.
    */
   @Override
-  public String[] synthesize(AnalyzedToken token, String posTag)
-      throws IOException {
+  public String[] synthesize(AnalyzedToken token, String posTag) throws IOException {
+    if (posTag.startsWith(SPELLNUMBER_TAG)) {
+      return super.synthesize(token, posTag);
+    }
     String aOrAn = aVsAnRule.suggestAorAn(token.getToken());
     if (ADD_DETERMINER.equals(posTag)) {
       return new String[] { aOrAn, "the " + StringTools.lowercaseFirstCharIfCapitalized(token.getToken()) };
     } else if (ADD_IND_DETERMINER.equals(posTag)) {
       return new String[] { aOrAn };
     }
-    return super.synthesize(token, posTag);
+    return removeExceptions(super.synthesize(token, posTag));
   }
 
   /**
@@ -87,10 +93,11 @@ public class EnglishSynthesizer extends BaseSynthesizer {
    * @since 2.5
    */
   @Override
-  public String[] synthesize(AnalyzedToken token, String posTag,
-      boolean posTagRegExp) throws IOException {
-
-    if (posTag != null && posTagRegExp) {
+  public String[] synthesize(AnalyzedToken token, String posTag, boolean posTagRegExp) throws IOException {
+    if (posTag.startsWith(SPELLNUMBER_TAG)) {
+      return synthesize(token, posTag);
+    }
+    if (posTagRegExp) {
       String myPosTag = posTag;
       String det = "";
       if (posTag.endsWith(ADD_IND_DETERMINER)) {
@@ -112,18 +119,26 @@ public class EnglishSynthesizer extends BaseSynthesizer {
           lookup(token.getLemma(), tag, results, det);
         }
       }
-      return results.toArray(new String[0]);
+      return removeExceptions(results.toArray(new String[0]));
     }
-
-    return synthesize(token, posTag);
+    return removeExceptions(synthesize(token, posTag));
   }
 
   private void lookup(String lemma, String posTag, List<String> results, String determiner) {
     List<String> lookup = super.lookup(lemma, posTag);
     for (String result : lookup) {
-      results.add(determiner + StringTools.lowercaseFirstCharIfCapitalized(result));
+      //results.add(determiner + StringTools.lowercaseFirstCharIfCapitalized(result)); //why lowercase?
+      results.add(determiner + result);
     }
   }
+  
+  @Override
+  protected boolean isException(String w) {
+    // remove: 've, 's, 're...
+    return w.startsWith("'") || exceptions.contains(w);  
+  }
+
+
 
 }
 

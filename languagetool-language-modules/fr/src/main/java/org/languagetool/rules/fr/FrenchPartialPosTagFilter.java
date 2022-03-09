@@ -24,6 +24,7 @@ import org.languagetool.language.French;
 import org.languagetool.rules.PartialPosTagFilter;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
+import org.languagetool.tagging.fr.FrenchTagger;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -39,7 +40,7 @@ import java.util.List;
  */
 public class FrenchPartialPosTagFilter extends PartialPosTagFilter {
 
-  private final Tagger tagger = new French().getTagger();
+  private final Tagger tagger = FrenchTagger.INSTANCE;
   private final Disambiguator disambiguator = new French().getDisambiguator();
 
   @Override

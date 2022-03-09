@@ -36,28 +36,28 @@ import static org.junit.Assert.assertEquals;
 public class AnglicismReplaceRuleTest {
 
   private AnglicismReplaceRule rule;
-  private JLanguageTool langTool;
+  private JLanguageTool lt;
 
   @Before
   public void setUp() throws Exception {
     rule = new AnglicismReplaceRule(TestTools.getMessages("fr"));
-    langTool = new JLanguageTool(new French());
+    lt = new JLanguageTool(new French());
   }
 
   @Test
   public void testRule() throws IOException {
 
     // incorrect sentences:
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("Le group"));
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("Le group"));
     assertEquals(1, matches.length);
     assertEquals("groupe", matches[0].getSuggestedReplacements().get(0));
     
-    matches = rule.match(langTool.getAnalyzedSentence("community manager"));
+    matches = rule.match(lt.getAnalyzedSentence("community manager"));
     assertEquals(1, matches.length);
     assertEquals("animateur de communauté", matches[0].getSuggestedReplacements().get(0));
     
     // correct sentences:
-    matches = rule.match(langTool.getAnalyzedSentence("Blue Man Group. The Gale Group. Google Maps"));
+    matches = rule.match(lt.getAnalyzedSentence("Blue Man Group. The Gale Group. Google Maps"));
     assertEquals(0, matches.length);
     
  

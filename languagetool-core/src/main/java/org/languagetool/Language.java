@@ -27,19 +27,28 @@ import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.RemoteRuleConfig;
 import org.languagetool.rules.Rule;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.TestRemoteRule;
 import org.languagetool.rules.neuralnetwork.Word2VecModel;
 import org.languagetool.rules.patterns.*;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
 import org.languagetool.tagging.xx.DemoTagger;
 import org.languagetool.tokenizers.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Function;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * Base class for any supported language (English, German, etc). Language classes
@@ -53,11 +62,15 @@ import java.util.regex.Pattern;
  * This improves start up time for the LanguageTool stand-alone version.
  */
 public abstract class Language {
+  private static final Logger logger = LoggerFactory.getLogger(Language.class);
 
   private static final Disambiguator DEMO_DISAMBIGUATOR = new DemoDisambiguator();
   private static final Tagger DEMO_TAGGER = new DemoTagger();
   private static final SentenceTokenizer SENTENCE_TOKENIZER = new SimpleSentenceTokenizer();
   private static final WordTokenizer WORD_TOKENIZER = new WordTokenizer();
+  private static final Pattern INSIDE_SUGGESTION = Pattern.compile("<suggestion>(.+?)</suggestion>");
+  private static final Pattern APOSTROPHE = Pattern.compile("([\\p{L}\\d-])'([\\p{L}«])",
+    Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
   private final UnifierConfiguration unifierConfig = new UnifierConfiguration();
   private final UnifierConfiguration disambiguationUnifierConfig = new UnifierConfiguration();
@@ -65,7 +78,7 @@ public abstract class Language {
   private final Pattern ignoredCharactersRegex = Pattern.compile("[\u00AD]");  // soft hyphen
   
   private List<AbstractPatternRule> patternRules;
-  private boolean noLmWarningPrinted;
+  private final AtomicBoolean noLmWarningPrinted = new AtomicBoolean();
 
   private Disambiguator disambiguator;
   private Tagger tagger;
@@ -168,9 +181,8 @@ public abstract class Language {
       File topIndexDir = new File(indexDir, getShortCode());
       if (topIndexDir.exists()) {
         languageModel = new LuceneLanguageModel(topIndexDir);
-      } else if (!noLmWarningPrinted) {
+      } else if (noLmWarningPrinted.compareAndSet(false, true)) {
         System.err.println("WARN: ngram index dir " + topIndexDir + " not found for " + getName());
-        noLmWarningPrinted = true;
       }
     }
     return languageModel;
@@ -206,7 +218,10 @@ public abstract class Language {
   public List<Rule> getRelevantRemoteRules(ResourceBundle messageBundle, List<RemoteRuleConfig> configs,
                                            GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages, boolean inputLogging)
     throws IOException {
-    return Collections.emptyList();
+    return configs.stream()
+      .filter(config -> config.getRuleId().startsWith("TEST"))
+      .map(c -> new TestRemoteRule(this, c))
+      .collect(Collectors.toList());
   }
 
   /**
@@ -258,6 +273,34 @@ public abstract class Language {
   }
 
   /**
+   * Create an instance of the default spelling rule of this language
+   * Accessed (with caching) via getDefaultSpellingRule
+   * @since 5.5
+   */
+  private static final Map<Class<? extends Language>, SpellingCheckRule> spellingRules = new ConcurrentHashMap<>();
+  @Nullable
+  protected SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
+    return null;
+  }
+
+  /**
+   * Retrieve default spelling rule for this language
+   * Useful for rules to implement suppression of misspelled suggestions
+   * @since 5.5
+   */
+  @Nullable
+  public SpellingCheckRule getDefaultSpellingRule(ResourceBundle messages) {
+    return spellingRules.computeIfAbsent(this.getClass(), c -> {
+      try {
+        return createDefaultSpellingRule(messages);
+      } catch (IOException e) {
+        logger.warn("Failed to create default spelling rule", e);
+        return null;
+      }
+    }) ;
+  }
+
+  /**
    * Get this language's Java locale, not considering the country code.
    */
   public Locale getLocale() {
@@ -297,6 +340,10 @@ public abstract class Language {
       if (dataBroker.ruleFileExists(fileName)) {
         ruleFiles.add(dataBroker.getRulesDir() + "/" + fileName);
       }
+      String premiumFileName = getShortCode() + "/" + getShortCodeWithCountryAndVariant() + "/grammar-premium.xml";
+      if (dataBroker.ruleFileExists(premiumFileName)) {
+        ruleFiles.add(dataBroker.getRulesDir() + "/" + premiumFileName);
+      }
     }
     return ruleFiles;
   }
@@ -322,7 +369,7 @@ public abstract class Language {
   /**
    * Get this language's part-of-speech disambiguator implementation.
    */
-  public Disambiguator getDisambiguator() {
+  public synchronized Disambiguator getDisambiguator() {
     if (disambiguator == null) {
       disambiguator = createDefaultDisambiguator();
     }
@@ -351,7 +398,7 @@ public abstract class Language {
    * Get this language's part-of-speech tagger implementation.
    */
   @NotNull
-  public Tagger getTagger() {
+  public synchronized Tagger getTagger() {
     if (tagger == null) {
       tagger = createDefaultTagger();
     }
@@ -376,11 +423,10 @@ public abstract class Language {
   /**
    * Get this language's sentence tokenizer implementation.
    */
-  public SentenceTokenizer getSentenceTokenizer() {
+  public synchronized SentenceTokenizer getSentenceTokenizer() {
     if (sentenceTokenizer == null) {
       sentenceTokenizer = createDefaultSentenceTokenizer();
     }
-
     return sentenceTokenizer;
   }
 
@@ -402,7 +448,7 @@ public abstract class Language {
   /**
    * Get this language's word tokenizer implementation.
    */
-  public Tokenizer getWordTokenizer() {
+  public synchronized Tokenizer getWordTokenizer() {
     if (wordTokenizer == null) {
       wordTokenizer = createDefaultWordTokenizer();
     }
@@ -431,11 +477,10 @@ public abstract class Language {
    * @since 2.3
    */
   @Nullable
-  public Chunker getChunker() {
+  public synchronized Chunker getChunker() {
     if (chunker == null) {
       chunker = createDefaultChunker();
     }
-
     return chunker;
   }
 
@@ -460,11 +505,10 @@ public abstract class Language {
    * @since 2.9
    */
   @Nullable
-  public Chunker getPostDisambiguationChunker() {
+  public synchronized Chunker getPostDisambiguationChunker() {
     if (postDisambiguationChunker == null) {
       postDisambiguationChunker = createDefaultPostDisambiguationChunker();
     }
-
     return postDisambiguationChunker;
   }
 
@@ -488,7 +532,7 @@ public abstract class Language {
    * Get this language's part-of-speech synthesizer implementation or {@code null}.
    */
   @Nullable
-  public Synthesizer getSynthesizer() {
+  public synchronized Synthesizer getSynthesizer() {
     if (synthesizer == null) {
       synthesizer = createDefaultSynthesizer();
     }
@@ -617,7 +661,7 @@ public abstract class Language {
    * directly extend {@link Language}, but a subclass of {@link Language}.
    * @since 1.8
    */
-  public final boolean isVariant() {
+  public boolean isVariant() {
     for (Language language : Languages.get()) {
       boolean skip = language.getShortCodeWithCountryAndVariant().equals(getShortCodeWithCountryAndVariant());
       if (!skip && language.getClass().isAssignableFrom(getClass())) {
@@ -710,6 +754,12 @@ public abstract class Language {
    * @since 3.6
    */
   protected int getPriorityForId(String id) {
+    if (id.equalsIgnoreCase("TOO_LONG_SENTENCE")) {
+      return -101;  // don't hide spelling errors
+    }
+    if (id.equalsIgnoreCase("STYLE")) {  // category
+      return -50;  // don't let style issues hide more important errors
+    }
     return 0;
   }
   
@@ -719,11 +769,7 @@ public abstract class Language {
    * Negative integers have lower priority.
    * @since 5.0
    */
-  
   public int getRulePriority(Rule rule) {
-    if (rule.getCategory().getId() == null) {
-      return 0;
-    }
     int categoryPriority = this.getPriorityForId(rule.getCategory().getId().toString());
     int rulePriority = this.getPriorityForId(rule.getId());
     // if there is a priority defined for rule it takes precedence over category priority
@@ -752,13 +798,88 @@ public abstract class Language {
   }
 
   /** @since 5.1 */
-  public String getOpeningQuote() {
+  public String getOpeningDoubleQuote() {
     return "\"";
   }
 
   /** @since 5.1 */
-  public String getClosingQuote() {
+  public String getClosingDoubleQuote() {
     return "\"";
+  }
+  
+  /** @since 5.1 */
+  public String getOpeningSingleQuote() {
+    return "'";
+  }
+
+  /** @since 5.1 */
+  public String getClosingSingleQuote() {
+    return "'";
+  }
+  
+  /** @since 5.1 */
+  public boolean isAdvancedTypographyEnabled() {
+    return false;
+  }
+  
+  /** @since 5.1 */
+  public String toAdvancedTypography(String input) {
+    if (!isAdvancedTypographyEnabled()) {
+      return input.replaceAll("<suggestion>", getOpeningDoubleQuote()).replaceAll("</suggestion>", getClosingDoubleQuote());
+    }
+    String output = input;
+   
+    //Preserve content inside <suggestion></suggestion>
+    List<String> preservedStrings = new ArrayList<>();
+    int countPreserved = 0; 
+    Matcher m = INSIDE_SUGGESTION.matcher(output);
+    int offset = 0;
+    while (m.find(offset)) {
+      String group = m.group(1);
+      preservedStrings.add(group);
+      output = output.replaceFirst("<suggestion>" + Pattern.quote(group) + "</suggestion>", "\\\\" + String.valueOf(countPreserved));
+      countPreserved++;
+      offset = m.end();
+    }
+    
+    // Ellipsis (for all languages?)
+    output = output.replaceAll("\\.\\.\\.", "…");
+    
+    // non-breaking space
+    output = output.replaceAll("\\b([a-zA-Z]\\.) ([a-zA-Z]\\.)", "$1\u00a0$2");
+    output = output.replaceAll("\\b([a-zA-Z]\\.) ", "$1\u00a0");
+    
+    Matcher matcher = APOSTROPHE.matcher(output);
+    output = matcher.replaceAll("$1’$2");
+    
+    // single quotes
+    if (output.startsWith("'")) { 
+      output = output.replaceFirst("'", getOpeningSingleQuote());
+    }
+    if (output.endsWith("'")) { 
+      output = output.substring(0, output.length() - 1 ) + getClosingSingleQuote();
+    }
+    output = output.replaceAll(" '(.)'", " " + getOpeningSingleQuote()+"$1"+getClosingSingleQuote()); //exception single character
+    output = output.replaceAll("([\\u202f\\u00a0 «\"\\(])'", "$1" + getOpeningSingleQuote());
+    output = output.replaceAll("'([\u202f\u00a0 !\\?,\\.;:\"\\)])", getClosingSingleQuote() + "$1");
+    output = output.replaceAll("‘s\\b([^’])", "’s$1"); // exception genitive
+    
+    // double quotes
+    if (output.startsWith("\"")) { 
+      output = output.replaceFirst("\"", getOpeningDoubleQuote());
+    }
+    if (output.endsWith("\"")) { 
+      output = output.substring(0, output.length() - 1 ) + getClosingDoubleQuote();
+    }
+    output = output.replaceAll("([ \\(])\"", "$1" + getOpeningDoubleQuote());
+    output = output.replaceAll("\"([\\u202f\\u00a0 !\\?,\\.;:\\)])", getClosingDoubleQuote() + "$1");   
+    
+    //restore suggestions
+    for (int i = 0; i < preservedStrings.size(); i++) {
+      output = output.replaceFirst("\\\\" + i, getOpeningDoubleQuote() + Matcher.quoteReplacement(preservedStrings.get(i)) + getClosingDoubleQuote() );
+    }
+    
+    return output.replaceAll("<suggestion>", getOpeningDoubleQuote()).replaceAll("</suggestion>", getClosingDoubleQuote());
   }
 
   /**
@@ -776,4 +897,18 @@ public abstract class Language {
   public int hashCode() {
     return getShortCodeWithCountryAndVariant().hashCode();
   }
+  
+  /*
+   * @since 5.1 
+   * Some rules contain the field min_matches to check repeated patterns 
+   */
+  public boolean hasMinMatchesRules() {
+    return false;
+  }
+  
+  /** @since 5.6 */
+  public List<RuleMatch> adaptSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
+	  return ruleMatches;
+  }
+  
 }

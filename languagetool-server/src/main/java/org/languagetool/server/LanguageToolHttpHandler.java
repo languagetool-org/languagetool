@@ -25,9 +25,11 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.ErrorRateTooHighException;
+import org.languagetool.tools.LoggingTools;
 import org.languagetool.tools.StringTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -40,7 +42,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeoutException;
 
 import static java.net.HttpURLConnection.HTTP_UNAVAILABLE;
@@ -58,13 +60,13 @@ class LanguageToolHttpHandler implements HttpHandler {
   private final Set<String> allowedIps;  
   private final RequestLimiter requestLimiter;
   private final ErrorRequestLimiter errorRequestLimiter;
-  private final LinkedBlockingQueue<Runnable> workQueue;
+  private final BlockingQueue<Runnable> workQueue;
   private final Server httpServer;
   private final TextChecker textCheckerV2;
   private final HTTPServerConfig config;
   private final RequestCounter reqCounter = new RequestCounter();
   
-  LanguageToolHttpHandler(HTTPServerConfig config, Set<String> allowedIps, boolean internal, RequestLimiter requestLimiter, ErrorRequestLimiter errorLimiter, LinkedBlockingQueue<Runnable> workQueue, Server httpServer) {
+  LanguageToolHttpHandler(HTTPServerConfig config, Set<String> allowedIps, boolean internal, RequestLimiter requestLimiter, ErrorRequestLimiter errorLimiter, BlockingQueue<Runnable> workQueue, Server httpServer) {
     this.config = config;
     this.allowedIps = allowedIps;
     this.requestLimiter = requestLimiter;
@@ -87,9 +89,12 @@ class LanguageToolHttpHandler implements HttpHandler {
     int reqId = reqCounter.incrementRequestCount();
     ServerMetricsCollector.getInstance().logRequest();
     boolean incrementHandleCount = false;
+    String requestId = getRequestId(httpExchange);
+    MDC.MDCCloseable mdcRequestID = MDC.putCloseable("rID", requestId);
     try {
       URI requestedUri = httpExchange.getRequestURI();
       String path = requestedUri.getRawPath();
+      logger.info("Handling {} {}", httpExchange.getRequestMethod(), path);
       if (config.getServerURL() != null) {
         path = config.getServerURL().relativize(new URI(requestedUri.getPath())).getRawPath();
         if (!path.startsWith("/")) {
@@ -151,7 +156,7 @@ class LanguageToolHttpHandler implements HttpHandler {
           requestLimiter.checkAccess(remoteAddress, parameters, httpExchange.getRequestHeaders(), userLimits);
         } catch (TooManyRequestsException e) {
           String errorMessage = "Error: Access from " + remoteAddress + " denied: " + e.getMessage();
-          int code = HttpURLConnection.HTTP_FORBIDDEN;
+          int code = 429; // too many requests
           sendError(httpExchange, code, errorMessage);
           // already logged via DatabaseAccessLimitLogEntry
           logError(errorMessage, code, parameters, httpExchange, false);
@@ -164,7 +169,7 @@ class LanguageToolHttpHandler implements HttpHandler {
                 textSizeMessage +
                 " Allowed maximum timeouts: " + errorRequestLimiter.getRequestLimit() +
                 " per " + errorRequestLimiter.getRequestLimitPeriodInSeconds() + " seconds";
-        int code = HttpURLConnection.HTTP_FORBIDDEN;
+        int code = 429; // too many requests
         sendError(httpExchange, code, errorMessage);
         logError(errorMessage, code, parameters, httpExchange);
         return;
@@ -179,15 +184,15 @@ class LanguageToolHttpHandler implements HttpHandler {
           String pathWithoutVersion = path.substring("/v2/".length());
           apiV2.handleRequest(pathWithoutVersion, httpExchange, parameters, errorRequestLimiter, remoteAddress, config);
         } else if (path.endsWith("/Languages")) {
-          throw new IllegalArgumentException("You're using an old version of our API that's not supported anymore. Please see https://languagetool.org/http-api/migration.php");
+          throw new BadRequestException("You're using an old version of our API that's not supported anymore. Please see " + API_DOC_URL);
         } else if (path.equals("/")) {
-          throw new IllegalArgumentException("Missing arguments for LanguageTool API. Please see " + API_DOC_URL);
+          throw new BadRequestException("Missing arguments for LanguageTool API. Please see " + API_DOC_URL);
         } else if (path.contains("/v2/")) {
-          throw new IllegalArgumentException("You have '/v2/' in your path, but not at the root. Try an URL like 'http://server/v2/...' ");
+          throw new BadRequestException("You have '/v2/' in your path, but not at the root. Try an URL like 'http://server/v2/...' ");
         } else if (path.equals("/favicon.ico")) {
           sendError(httpExchange, HttpURLConnection.HTTP_NOT_FOUND, "Not found");
         } else {
-          throw new IllegalArgumentException("This is the LanguageTool API. You have not specified any parameters. Please see " + API_DOC_URL);
+          throw new BadRequestException("This is the LanguageTool API. You have not specified any parameters. Please see " + API_DOC_URL);
         }
       } else {
         String errorMessage = "Error: Access from " + StringTools.escapeXML(origAddress) + " denied";
@@ -212,7 +217,7 @@ class LanguageToolHttpHandler implements HttpHandler {
         errorCode = HttpURLConnection.HTTP_FORBIDDEN;
         response = AuthException.class.getName() + ": " + e.getMessage();
         logStacktrace = false;
-      } else if (e instanceof IllegalArgumentException || rootCause instanceof IllegalArgumentException) {
+      } else if (e instanceof BadRequestException || rootCause instanceof BadRequestException) {
         errorCode = HttpURLConnection.HTTP_BAD_REQUEST;
         response = e.getMessage();
       } else if (e instanceof PathNotFoundException || rootCause instanceof PathNotFoundException) {
@@ -220,8 +225,14 @@ class LanguageToolHttpHandler implements HttpHandler {
         response = e.getMessage();
       } else if (e instanceof TimeoutException || rootCause instanceof TimeoutException) {
         errorCode = HttpURLConnection.HTTP_INTERNAL_ERROR;
-        response = "Checking took longer than " + config.getMaxCheckTimeMillis()/1000.0f + " seconds, which is this server's limit. " +
-                   "Please make sure you have selected the proper language or consider submitting a shorter text.";
+        if (e.getMessage().contains("Checking took longer than")) {
+          response = e.getMessage(); // more specific information already provided
+        } else {
+          response = "Checking took longer than " + config.getMaxCheckTimeMillisAnonymous() / 1000.0f + " seconds, which is this server's limit. Please make sure you have selected the proper language or consider submitting a shorter text.";
+        }
+      } else if (e instanceof UnavailableException) {
+        errorCode = HTTP_UNAVAILABLE;
+        response = e.getMessage();
       } else {
         response = "Internal Error: " + e.getMessage();
         errorCode = HttpURLConnection.HTTP_INTERNAL_ERROR;
@@ -232,11 +243,22 @@ class LanguageToolHttpHandler implements HttpHandler {
       sendError(httpExchange, errorCode, "Error: " + response);
 
     } finally {
+      logger.info("Handled request in {}ms; sending code {}", System.currentTimeMillis() - startTime, httpExchange.getResponseCode());
       httpExchange.close();
+      mdcRequestID.close();
       if (incrementHandleCount) {
         reqCounter.decrementHandleCount(reqId);
       }
     }
+  }
+
+  @NotNull
+  static String getRequestId(HttpExchange httpExchange) {
+    String requestId = httpExchange.getRequestHeaders().getFirst("X-Request-ID");
+    if (requestId == null) {
+      requestId = "-";
+    }
+    return requestId;
   }
 
   private boolean hasCause(Exception e, Class<AuthException> clazz) {
@@ -310,12 +332,12 @@ class LanguageToolHttpHandler implements HttpHandler {
     }
     try {
       message += "m: " + ServerTools.getMode(params) + ", ";
-    } catch (IllegalArgumentException ex) {
+    } catch (BadRequestException ex) {
       message += "m: invalid, ";
     }
     try {
       message += "l: " + ServerTools.getLevel(params) + ", ";
-    } catch (IllegalArgumentException ex) {
+    } catch (BadRequestException ex) {
       message += "l: invalid, ";
     }
     if (params.containsKey("instanceId")) {
@@ -325,10 +347,15 @@ class LanguageToolHttpHandler implements HttpHandler {
       message += "Stacktrace follows:";
       String stackTrace = ExceptionUtils.getStackTrace(e);
       message += ServerTools.cleanUserTextFromMessage(stackTrace, params);
-      logger.error(message);
     } else {
       message += "(no stacktrace logged)";
-      logger.error(message);
+    }
+    if (errorCode < 500) {
+      logger.info(LoggingTools.BAD_REQUEST, message);
+    } else if (e.getMessage() != null && e.getMessage().contains("took longer than")) {
+      logger.warn(LoggingTools.REQUEST, message);
+    } else {
+      logger.error(LoggingTools.REQUEST, message);
     }
 
     if (!(e instanceof TextTooLongException || e instanceof TooManyRequestsException ||
@@ -353,8 +380,8 @@ class LanguageToolHttpHandler implements HttpHandler {
     Long client = db.getOrCreateClientId(params.get("agent"));
     Long user = null;
     try {
-      user = db.getUserId(params.get("username"), params.get("apiKey"));
-    } catch(IllegalArgumentException | IllegalStateException ignored) {
+      user = db.getUserInfoWithApiKey(params.get("username"), params.get("apiKey")).getUserId();
+    } catch(IllegalArgumentException | IllegalStateException | AuthException ignored) {
       // invalid username, api key or combination thereof - user stays null
     }
     logger.log(new DatabaseMiscLogEntry(server, client, user, message));
@@ -439,8 +466,8 @@ class LanguageToolHttpHandler implements HttpHandler {
           String value = URLDecoder.decode(pair.substring(delimPos + 1), ENCODING);
           parameters.put(key, value);
         } catch (IllegalArgumentException e) {
-          throw new RuntimeException("Could not decode query. Query length: " + query.length() +
-                                     " Request method: " + httpExchange.getRequestMethod(), e);
+          throw new BadRequestException("Could not decode query. Query length: " + query.length() +
+                                     " Request method: " + httpExchange.getRequestMethod());
         }
       }
     }

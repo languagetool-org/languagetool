@@ -79,7 +79,7 @@ public class Swedish extends Language {
             new UppercaseSentenceStartRule(messages, this),
             new WordRepeatRule(messages, this),
             new MultipleWhitespaceRule(messages, this),
-            new CompoundRule(messages)
+            new CompoundRule(messages, this, userConfig)
     );
   }
 

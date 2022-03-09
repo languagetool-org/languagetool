@@ -37,47 +37,18 @@ public class DateCheckFilter extends AbstractDateCheckFilter {
   @SuppressWarnings("ControlFlowStatementWithoutBraces")
   @Override
   protected int getDayOfWeek(String dayStr) {
-    String day = dayStr.toLowerCase();
-    if (day.equals("dom") || day.equals("domingo")) return Calendar.SUNDAY;
-    if (day.equals("seg") || day.equals("segunda")) return Calendar.MONDAY;
-    if (day.equals("ter") || day.equals("terça")) return Calendar.TUESDAY;
-    if (day.equals("qua") || day.equals("quarta")) return Calendar.WEDNESDAY;
-    if (day.equals("qui") || day.equals("quinta")) return Calendar.THURSDAY;
-    if (day.equals("sex") || day.equals("sexta")) return Calendar.FRIDAY;
-    if (day.equals("sáb") || day.equals("sábado")) return Calendar.SATURDAY;
-    throw new RuntimeException("Could not find day of week for '" + dayStr + "'");
+    return new DateFilterHelper().getDayOfWeek(dayStr);
   }
 
   @SuppressWarnings("ControlFlowStatementWithoutBraces")
   @Override
   protected String getDayOfWeek(Calendar date) {
-    String englishDay = date.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.UK);
-    if (englishDay.equals("Sunday")) return "domingo";
-    if (englishDay.equals("Monday")) return "segunda-feira";
-    if (englishDay.equals("Tuesday")) return "terça-feira";
-    if (englishDay.equals("Wednesday")) return "quarta-feira";
-    if (englishDay.equals("Thursday")) return "quinta-feira";
-    if (englishDay.equals("Friday")) return "sexta-feira";
-    if (englishDay.equals("Saturday")) return "sábado";
-    return "";
+    return new DateFilterHelper().getDayOfWeek(date);
   }
 
   @SuppressWarnings({"ControlFlowStatementWithoutBraces", "MagicNumber"})
   @Override
   protected int getMonth(String monthStr) {
-    String mon = monthStr.toLowerCase();
-    if (mon.startsWith("jan")) return 1;
-    if (mon.startsWith("fev")) return 2;
-    if (mon.startsWith("mar")) return 3;
-    if (mon.startsWith("abr")) return 4;
-    if (mon.startsWith("mai")) return 5;
-    if (mon.startsWith("jun")) return 6;
-    if (mon.startsWith("jul")) return 7;
-    if (mon.startsWith("ago")) return 8;
-    if (mon.startsWith("set")) return 9;
-    if (mon.startsWith("out")) return 10;
-    if (mon.startsWith("nov")) return 11;
-    if (mon.startsWith("dez")) return 12;
-    throw new RuntimeException("Could not find month '" + monthStr + "'");
+    return new DateFilterHelper().getMonth(monthStr);
   }
 }

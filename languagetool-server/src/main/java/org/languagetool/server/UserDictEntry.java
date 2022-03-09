@@ -21,7 +21,9 @@ package org.languagetool.server;
 /**
  * An item from a user's dictionary, fetched from a database.
  * @since 4.2
+ * @deprecated unused, slated for removal
  */
+@Deprecated
 public class UserDictEntry {
 
   private final String word;

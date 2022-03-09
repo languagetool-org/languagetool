@@ -23,8 +23,10 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Rule;
+import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.de.SwissCompoundRule;
 import org.languagetool.rules.de.SwissGermanSpellerRule;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.de.SwissGermanTagger;
 
@@ -53,8 +55,13 @@ public class SwissGerman extends German {
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     List<Rule> rules = new ArrayList<>(super.getRelevantRules(messages, userConfig, motherTongue, altLanguages));
-    rules.add(new SwissCompoundRule(messages));
+    rules.add(new SwissCompoundRule(messages, this, userConfig));
     return rules;
+  }
+
+  @Override
+  public SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
+    return new SwissGermanSpellerRule(messages, this);
   }
 
   @Override
@@ -65,4 +72,34 @@ public class SwissGerman extends German {
     return rules;
   }
 
+  @Override
+  public boolean isVariant() {
+    return true;
+  }
+  
+  @Override
+  public List<RuleMatch> adaptSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
+    List<RuleMatch> newRuleMatches = new ArrayList<>();
+    for (RuleMatch rm : ruleMatches) {
+      List<String> replacements = rm.getSuggestedReplacements();
+      List<String> newReplacements = new ArrayList<>();
+      for (String s : replacements) {
+        s = s.replaceAll("ß", "ss");
+        newReplacements.add(s);
+      }
+      RuleMatch newMatch = new RuleMatch(rm, newReplacements);
+      newRuleMatches.add(newMatch);
+    }
+    return newRuleMatches;
+  }
+
+  @Override
+  public String getOpeningDoubleQuote() {
+    return "«";
+  }
+
+  @Override
+  public String getClosingDoubleQuote() {
+    return "»";
+  }
 }

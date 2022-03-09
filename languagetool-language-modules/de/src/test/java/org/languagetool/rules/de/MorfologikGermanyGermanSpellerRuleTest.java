@@ -59,6 +59,14 @@ public class MorfologikGermanyGermanSpellerRuleTest {
     assertEquals(1, matches.length);
     assertEquals("das", matches[0].getSuggestedReplacements().get(0));  // "dass" would actually be better...
     assertEquals("dass", matches[0].getSuggestedReplacements().get(1));
+    
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("B(ℓ2)")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("🏽")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("🧡🚴🏽♂️ , 🎉💛✈️")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("компьютерная")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("中文維基百科 中文维基百科")).length);
+    
+    
   }
   
   @Test

@@ -96,7 +96,11 @@ public class DisambiguationRuleTest {
     if (",[,]".equals(wordForms)) {
       return wordForms;
     }
+    if (wordForms.length()==0) {
+      return wordForms;
+    }
     String word = wordForms.substring(0, wordForms.indexOf('[') + 1);
+    
     String forms = wordForms.substring(wordForms.indexOf('[') + 1, wordForms.length() -1);
     String[] formToSort = forms.split(",");
     Arrays.sort(formToSort);
@@ -171,7 +175,7 @@ public class DisambiguationRuleTest {
               int endPos = readings.getEndPos();
               assertTrue(
                   "Wrong marker position in the example for the rule " + id +
-                  ": got " + startPos + "-" + endPos + ", expected " + expectedMatchStart + "-" + expectedMatchEnd,
+                  ": got " + startPos + "-" + endPos + ", expected " + expectedMatchStart + "-" + expectedMatchEnd + ". Sentence: '" + sent + "'",
                   startPos == expectedMatchStart && endPos == expectedMatchEnd);
               break;
             }

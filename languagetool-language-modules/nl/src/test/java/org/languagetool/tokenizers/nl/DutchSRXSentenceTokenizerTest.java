@@ -39,11 +39,13 @@ public class DutchSRXSentenceTokenizerTest {
     testSplit("Dit is een zin.");
     testSplit("Dit is een zin. ", "Nog een.");
     testSplit("Een zin! ", "Nog een.");
+    testSplit("‘Dat meen je niet!’ kirde Mandy."); 
     testSplit("Een zin... ", "Nog een.");
+    testSplit("'En nu.. daden!' aan premier Mark Rutte.");
     testSplit("Op http://www.test.de vind je een website.");
     testSplit("De brief is op 3-10 gedateerd.");
     testSplit("De brief is op 31-1 gedateerd.");
-    testSplit("De breif is op 3-10-2000 gedateerd.");
+    testSplit("De brief is op 3-10-2000 gedateerd.");
 
     testSplit("Vandaag is het 13-12-2004.");
     testSplit("Op 24.09 begint het.");
@@ -114,6 +116,12 @@ public class DutchSRXSentenceTokenizerTest {
     testSplit("'Is Jan thuis?', vroeg Piet. ", "'Ik wil hem wat vragen.'");
     testSplit("'Ik denk er niet over!', riep ze. ", "'Dat gaat echt te ver, hoor!'");
     testSplit("'Ik vermoed', zei Piet, 'dat Jan al wel thuis is.'");
+    
+    testSplit("Het is een .Net programma. ", "Of een .NEt programma.");
+    testSplit("Het is een .Net-programma. ", "Of een .NEt-programma.");
+    
+    testSplit("SP werd in 2001 de sp.a (Socialistische Partij Anders) en heet sinds 2021 Vooruit.");
+    testSplit("SP.A grijpt terug naar naam met geschiedenis: VOORUIT.");
   }
 
   private void testSplit(String... sentences) {

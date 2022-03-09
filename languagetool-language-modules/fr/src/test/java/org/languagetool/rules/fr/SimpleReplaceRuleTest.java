@@ -36,29 +36,29 @@ import static org.junit.Assert.assertEquals;
 public class SimpleReplaceRuleTest {
 
   private SimpleReplaceRule rule;
-  private JLanguageTool langTool;
+  private JLanguageTool lt;
 
   @Before
   public void setUp() throws Exception {
     rule = new SimpleReplaceRule(TestTools.getMessages("fr"));
-    langTool = new JLanguageTool(new French());
+    lt = new JLanguageTool(new French());
   }
 
   @Test
   public void testRule() throws IOException {
 
-    // incorrect sentences:
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("Y'a pas de quoi"));
+    // correct sentences:
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("J'ai pas de quoi"));
     assertEquals(0, matches.length);
 
     // incorrect sentences:
-    matches = rule.match(langTool.getAnalyzedSentence("ya pas de quoi"));
+    matches = rule.match(lt.getAnalyzedSentence("jai pas de quoi"));
     assertEquals(1, matches.length);
-    assertEquals("y'a", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("j'ai", matches[0].getSuggestedReplacements().get(0));
     
-    matches = rule.match(langTool.getAnalyzedSentence("Ya pas da de quoi"));
+    matches = rule.match(lt.getAnalyzedSentence("Jai pas de quoi"));
     assertEquals(1, matches.length);
-    assertEquals("Y'a", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("J'ai", matches[0].getSuggestedReplacements().get(0));
  
 
   }

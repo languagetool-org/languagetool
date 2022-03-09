@@ -46,4 +46,11 @@ public class SwissGermanSpellerRuleTest {
             matches[0].getSuggestedReplacements(), matches[0].getSuggestedReplacements().get(0), is("Trottinetten"));
   }
 
+  // To reproduce unstable tests mentioned at https://github.com/languagetool-org/languagetool/issues/3779
+  /*public static void main(String[] args) throws Exception {
+    GermanTest test11 = new GermanTest();
+    test11.testLanguage();  // auskommentieren = geht
+    SwissGermanSpellerRuleTest test = new SwissGermanSpellerRuleTest();
+    test.testGetSuggestionsFromSpellingTxt();
+  }*/
 }

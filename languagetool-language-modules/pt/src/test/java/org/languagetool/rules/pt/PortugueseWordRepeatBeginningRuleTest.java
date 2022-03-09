@@ -20,6 +20,7 @@ package org.languagetool.rules.pt;
 
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
+import org.languagetool.TestTools;
 import org.languagetool.language.Portuguese;
 
 import java.io.IOException;
@@ -34,16 +35,17 @@ public class PortugueseWordRepeatBeginningRuleTest {
 
   @Test
   public void testRule() throws IOException {
-    JLanguageTool langTool = new JLanguageTool(new Portuguese());
+    JLanguageTool lt = new JLanguageTool(new Portuguese());
+    TestTools.disableAllRulesExcept(lt, "PORTUGUESE_WORD_REPEAT_BEGINNING_RULE");
     // correct sentences:
-    assertEquals(0, langTool.check("Este exemplo está correto. Este exemplo também está.").size());
-    assertEquals(0, langTool.check("2011: Setembro já passou. 2011: Outubro também já passou. 2011: Novembro já se foi.").size());
-    assertEquals(0, langTool.check("Certo, isto está bem. Este exemplo está correto. Certo que este também.").size()); // 1 error from NO_VERB
+    assertEquals(0, lt.check("Este exemplo está correto. Este exemplo também está.").size());
+    assertEquals(0, lt.check("2011: Setembro já passou. 2011: Outubro também já passou. 2011: Novembro já se foi.").size());
+    assertEquals(0, lt.check("Certo, isto está bem. Este exemplo está correto. Certo que este também.").size()); // 1 error from NO_VERB
     // errors:
-    assertEquals(1, langTool.check("Este exemplo está correto. Este segundo também. Este terceiro exemplo não.").size()); //1 error from NO_VERB
-    assertEquals(1, langTool.check("Então, este está correto. Então, este está errado, por causa da repetição.").size());
+    assertEquals(1, lt.check("Este exemplo está correto. Este segundo também. Este terceiro exemplo não.").size()); //1 error from NO_VERB
+    assertEquals(1, lt.check("Então, este está correto. Então, este está errado, por causa da repetição.").size());
     // this used to cause false alarms because reset() was not implemented
-    assertEquals(0, langTool.check("Então, este deve ser considerado uma nova frase.").size());
+    assertEquals(0, lt.check("Então, este deve ser considerado uma nova frase.").size());
   }
 
 }

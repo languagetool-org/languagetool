@@ -18,7 +18,6 @@
  */
 package org.languagetool.tagging.ru;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.Russian;
@@ -27,27 +26,25 @@ import org.languagetool.tokenizers.WordTokenizer;
 import java.io.IOException;
 
 public class RussianTaggerTest {
-    
-  private RussianTagger tagger;
-  private WordTokenizer tokenizer;
-      
-  @Before
-  public void setUp() {
-    tagger = new RussianTagger();
-    tokenizer = new WordTokenizer();
-  }
 
   @Test
   public void testDictionary() throws IOException {
-    TestTools.testDictionary(tagger, new Russian());
+    TestTools.testDictionary(RussianTagger.INSTANCE, new Russian());
   }
 
   @Test
   public void testTagger() throws IOException {
+    WordTokenizer tokenizer = new WordTokenizer();
+    RussianTagger tagger = RussianTagger.INSTANCE;
     TestTools.myAssert("Все счастливые семьи похожи друг на друга,  каждая  несчастливая  семья несчастлива по-своему.",
         "Все/[весь]ADJ:MPR:PL:Nom|Все/[весь]ADJ:MPR:PL:V|Все/[все]PNN:PL:Nom|Все/[все]PNN:PL:V|Все/[все]PNN:Sin:Nom|Все/[все]PNN:Sin:V -- счастливые/[счастливый]ADJ:Posit:PL:Nom|счастливые/[счастливый]ADJ:Posit:PL:V -- семьи/[семья]NN:Inanim:Fem:PL:Nom|семьи/[семья]NN:Inanim:Fem:PL:V|семьи/[семья]NN:Inanim:Fem:Sin:R -- похожи/[похожий]ADJ:Short:PL -- друг/[друг]NN:Anim:Masc:Sin:Nom -- на/[на]PREP -- друга/[друг]NN:Anim:Masc:Sin:R|друга/[друг]NN:Anim:Masc:Sin:V -- каждая/[каждый]ADJ:MPR:Fem:Nom -- несчастливая/[несчастливый]ADJ:Posit:Fem:Nom -- семья/[семья]NN:Inanim:Fem:Sin:Nom -- несчастлива/[несчастливый]ADJ:Short:Fem -- по-своему/[по-своему]ADV", tokenizer, tagger);
     TestTools.myAssert("Все смешалось в доме Облонских.",
         "Все/[весь]ADJ:MPR:PL:Nom|Все/[весь]ADJ:MPR:PL:V|Все/[все]PNN:PL:Nom|Все/[все]PNN:PL:V|Все/[все]PNN:Sin:Nom|Все/[все]PNN:Sin:V -- смешалось/[смешаться]VB:Past:INTR:PFV:Neut -- в/[в]PREP -- доме/[дом]NN:Inanim:Masc:Sin:P -- Облонских/[null]null", tokenizer, tagger);
+    TestTools.myAssert("Абдуллаевы",
+        "Абдуллаевы/[абдуллаев]NN:Fam:PL:Nom", tokenizer, tagger);
+    TestTools.myAssert("блукать",
+        "блукать/[блукать]VB:INF:", tokenizer, tagger);
+
   }
 
 }

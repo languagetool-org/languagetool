@@ -28,7 +28,7 @@ public class SlovakTest extends LanguageSpecificTest {
   
   @Test
   public void testLanguage() throws IOException {
-    // NOTE: this text needs to be kept in sync with WelcomeController.php's getDefaultDemoTexts():
+    // NOTE: this text needs to be kept in sync with config.ts -> DEMO_TEXTS:
     //String s = "Toto je ukážkový vstup, na predvedenie funkčnosti LanguageTool. Pamätajte si si, že neobsahuje \"kontrolu\" preklepo."; -- commented out, as it's outdated
     Slovak lang = new Slovak();
     runTests(lang);

@@ -76,7 +76,7 @@ public class ArabicRedundancyRule extends AbstractSimpleReplaceRule2 {
   }
 
   @Override
-  public String getSuggestion() {
+  public String getMessage() {
     return "'$match' تعبير فيه تكرار.في بعض الحالات، يستحسن استعمال $suggestions";
   }
 

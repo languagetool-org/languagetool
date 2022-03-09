@@ -45,5 +45,10 @@ public final class MorfologikGreekSpellerRule extends MorfologikSpellerRule {
   public String getId() {
     return "MORFOLOGIK_RULE_EL_GR";
   }
+  
+  @Override
+  protected boolean isLatinScript() {
+    return false;
+  }
 
 }

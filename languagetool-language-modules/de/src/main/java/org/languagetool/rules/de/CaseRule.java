@@ -19,14 +19,14 @@
 package org.languagetool.rules.de;
 
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.VisibleForTesting;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.German;
 import org.languagetool.rules.*;
-import org.languagetool.rules.patterns.PatternToken;
-import org.languagetool.rules.patterns.PatternTokenBuilder;
+import org.languagetool.rules.patterns.StringMatcher;
 import org.languagetool.tagging.de.GermanTagger;
 import org.languagetool.tagging.de.GermanToken;
 import org.languagetool.tagging.de.GermanToken.POSType;
@@ -37,11 +37,10 @@ import org.languagetool.tools.Tools;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+import java.util.function.Supplier;
 import java.util.regex.Pattern;
 
-import javax.annotation.RegEx;
-
-import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
+import static org.languagetool.rules.de.CaseRuleAntiPatterns.ANTI_PATTERNS;
 
 /**
  * Check that adjectives and verbs are not written with an uppercase
@@ -64,610 +63,6 @@ public class CaseRule extends Rule {
   private static final String LOWERCASE_MESSAGE = "Falls es sich um ein substantiviertes Verb handelt, wird es großgeschrieben.";
   private static final String COLON_MESSAGE = "Folgt dem Doppelpunkt weder ein Substantiv noch eine wörtliche Rede oder ein vollständiger Hauptsatz, schreibt man klein weiter.";
 
-  public static final PatternToken SENT_START = new PatternTokenBuilder().posRegex(JLanguageTool.SENTENCE_START_TAGNAME).build();
-  
-  // also see case_rule_exceptions.txt:
-  private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
-    Arrays.asList(
-      // "Tom ist ein engagierter, gutaussehender Vierzigjähriger, der..."
-      posRegex("(ADJ:|PA2).*"),
-      token(","),
-      posRegex("(ADJ:|PA2).*"),
-      regex("[A-ZÖÄÜ].+jährige[mnr]?"),
-      posRegex("(?!SUB).*")
-    ),
-    Arrays.asList(
-      token("Rock"),
-      regex("['’]"),
-      token("n"),
-      regex("['’]"),
-      token("Roll")
-    ),
-    Arrays.asList(
-      regex("Vitamin-[A-Z][0-9]?-reich(e|en|em|es)?")
-    ),
-    Arrays.asList(
-      // Auflistung
-      csRegex("[A-ZÖÄÜ][a-zöäüß]+"),
-      token(","),
-      csRegex("[A-ZÖÄÜ][a-zöäüß]+"),
-      tokenRegex(",|etc")
-    ),
-    Arrays.asList(
-      regex("erste[nr]?"),
-      csToken("Hilfe")
-    ),
-    Arrays.asList(
-      // Names
-      regex("Alfred|Emanuel|Günter|Immanuel|Johannes|Karl|Ludvig|Anton|Peter|Robert|Rolf"),
-      csToken("Nobel")
-    ),
-    Arrays.asList(
-      // https://github.com/languagetool-org/languagetool/issues/1663
-      token("Großes"),
-      new PatternTokenBuilder().tokenRegex("leisten|erreichen|schaffen").matchInflectedForms().build()
-    ),
-    Arrays.asList(
-      // https://github.com/languagetool-org/languagetool/issues/1515
-      SENT_START,
-      regex("[:;]"),
-      token(")"),
-      regex(".*")
-    ),
-    Arrays.asList(
-      // https://github.com/languagetool-org/languagetool/issues/1515
-      SENT_START,
-      regex("[;:]"),
-      token("-"),
-      token(")"),
-      regex(".*")
-    ),
-    Arrays.asList(
-      SENT_START,
-      regex("[A-Z]"),
-      token(")"),
-      regex("[A-ZÄÜÖ].*")
-    ),
-    Arrays.asList(
-      // Commas used as lower quotes
-      SENT_START,
-      token(","),
-      token(","),
-      regex("[A-ZÄÜÖ].*")
-    ),
-    Arrays.asList(
-      // https://github.com/languagetool-org/languagetool/issues/1515
-      SENT_START,
-      regex("▶︎|▶|▶️|→|\\*|•|-|★|⧪|⮞|✔︎|✓|✔️|✅|➡️|☛|%|◆|▪|☞|❤|/|_|✒︎"),
-      regex(".*")
-    ),
-    Arrays.asList(
-      // ignore uppercase word at beginning after a character that is not a letter or number (needed to ignore emojies or bullet points at the beginning of sentence)
-      SENT_START,
-      regex("^[^A-Za-z0-9ÄÖÜäöüàÀß]$"),
-      csRegex("[A-ZÖÜÄ].*")
-    ),
-    Arrays.asList(
-      SENT_START,
-      token("*"),
-      token("*"),
-      regex(".*")
-    ),
-    Arrays.asList( // two single quotes (’’) that create one double quote (needs different rule)
-      SENT_START,
-      token("’"),
-      token("’"),
-      regex(".*")
-    ),
-    Arrays.asList( // => Hallo test
-      SENT_START,
-      regex("=|-"),
-      token(">"),
-      regex(".*")
-    ),
-    Arrays.asList(
-      SENT_START,
-      token("#"),
-      regex("\\d+"),
-      regex(".*")
-    ),
-    Arrays.asList(
-      // GitHub / Markdown check lists
-      SENT_START,
-      regex("\\*|\\-"),
-      token("["),
-      regex("]"),
-      regex(".*")
-    ),
-    Arrays.asList(
-      // GitHub / Markdown check lists
-      SENT_START,
-      regex("\\*|\\-"),
-      token("["),
-      token("x"),
-      regex("]"),
-      regex(".*")
-    ),
-    Arrays.asList(
-      regex("Roten?"),
-      regex("Bete")
-    ),
-    Arrays.asList(
-      // see https://www.duden.de/suchen/dudenonline/u-f%C3%B6rmig
-      regex("[A-Z]-förmig(e[mnrs]?)?")
-    ),
-    Arrays.asList(
-      token("Geboten")
-    ),
-    Arrays.asList(
-      regex("vor|den"),
-      token("Gefahren")
-    ),
-    // names with english adjectives
-    Arrays.asList(
-      regex("Digital|Global|Smart|International|Trade|Private|Live|Urban|Man|Total|Native|Imperial|Modern|Responsive|Simple|Legend|Human|Light"),
-      pos("UNKNOWN")
-    ),
-    Arrays.asList(
-      token("International"),
-      regex("Managements?")
-    ),
-    Arrays.asList(
-      token("National"),
-      regex("Boards?")
-    ),
-    Arrays.asList(
-      regex("[kK]nock"),
-      regex("[oO]ut")
-    ),
-    Arrays.asList( // "was sie über das denken"
-      token("über"),
-      token("das"),
-      token("denken")
-    ),
-    // names with english adjectives
-    Arrays.asList(
-      pos("UNKNOWN"),
-      regex("Digital|Global|Smart|International|Trade|Private|Live|Urban|Man|Total|Native|Imperial|Modern|Responsive|Simple|Legend|Human|Light")
-    ),
-    // names with english adjectives
-    Arrays.asList(
-      token("Smart"),
-      posRegex("SUB.*")
-    ),
-    // names with english adjectives
-    Arrays.asList(
-      token("National"),
-      regex("Sales|University")
-    ),
-    Arrays.asList(
-      // see http://www.lektorenverband.de/die-deutsche-rechtschreibung-was-ist-neu/
-      // and http://www.rechtschreibrat.com/DOX/rfdr_Woerterverzeichnis_2017.pdf
-      regex("Goldenen?"),
-      regex("Hochzeit(en)?")
-    ),
-    Arrays.asList(
-      // see http://www.rechtschreibrat.com/DOX/rfdr_Woerterverzeichnis_2017.pdf
-      regex("Graue[nr]?"),
-      regex("Stars?|Eminenz")
-    ),
-    Arrays.asList(
-      // see http://www.rechtschreibrat.com/DOX/rfdr_Woerterverzeichnis_2017.pdf
-      regex("Große[nr]?"),
-      regex("Strafkammer|Latinums?|Rats?")
-    ),
-    Arrays.asList(
-      // see http://www.rechtschreibrat.com/DOX/rfdr_Woerterverzeichnis_2017.pdf
-      csToken("Guten"),
-      csToken("Tag")
-    ),
-    Arrays.asList(
-      // see http://www.rechtschreibrat.com/DOX/rfdr_Woerterverzeichnis_2017.pdf
-      regex("Höheren?"),
-      regex("Schule|Mathematik")
-    ),
-    Arrays.asList(
-      // see http://www.rechtschreibrat.com/DOX/rfdr_Woerterverzeichnis_2017.pdf
-      regex("Künstliche[nr]?"),
-      token("Intelligenz")
-    ),
-    Arrays.asList(
-      // see http://www.rechtschreibrat.com/DOX/rfdr_Woerterverzeichnis_2017.pdf
-      regex("Neue[ns]?"),
-      regex("Jahr(s|es)?|Linken?")
-    ),
-    Arrays.asList(
-      token("Neues"),
-      token("\\?")
-    ),
-    Arrays.asList(
-      token("Zahl"),
-      pos("UNKNOWN")
-    ),
-    Arrays.asList(
-      // "... und Expert*innnen ..."
-      regex("[A-Z].+"),
-      token("*"),
-      token("innen")
-    ),
-    Arrays.asList(
-      // Names: "Jeremy Schulte", "Alexa Jung", "Fiete Lang", ...
-      posRegex("UNKNOWN|EIG:.+"),
-      regex("Schulte|Junge?|Lange?|Braun|Groß|Gross|K(ü|ue)hne?|Schier|Becker|Sauer|Ernst|Fr(ö|oe)hlich|Kurz|Klein|Schick|Frisch|Weigert|D(ü|ue)rr|Nagele|Hoppe|D(ö|oe)rre|G(ö|oe)ttlich|Stark")
-    ),
-    Arrays.asList(
-      token(","),
-      posRegex(".*ADJ.*|UNKNOWN"),
-      regex("[\\.?!]")
-    ),
-    Arrays.asList(
-      csToken(","),
-      regex("[md]eine?|du"),
-      posRegex(".*ADJ.*|UNKNOWN"),
-      regex("[\\.?!]")
-    ),
-    Arrays.asList(
-      posRegex(".*ADJ.*|UNKNOWN"),
-      regex("Konstanten?")
-    ),
-    Arrays.asList(
-      token("das"),
-      posRegex("PA2:.+"),
-      posRegex("VER:AUX:.+")
-    ),
-    Arrays.asList(
-      // Er fragte,ob das gelingen wird.
-      csToken("das"),
-      posRegex("VER:.+"),
-      posRegex("VER:AUX:.+"),
-      posRegex("PKT|KON:NEB")
-    ),
-    Arrays.asList(
-      // Er fragte, ob das gelingen oder scheitern wird.
-      csToken("das"),
-      posRegex("VER:.+"),
-      new PatternTokenBuilder().pos("KON:NEB").setSkip(5).build(),
-      posRegex("VER:(AUX|MOD):.*"),
-      posRegex("PKT|KON:NEB")
-    ),
-    Arrays.asList(
-      // um ihren eigenen Glauben an das Gute, Wahre und Schöne zu stärken.
-      token("das"),
-      posRegex("SUB:.+"),
-      token(","),
-      regex("[A-ZÄÖÜ][a-zäöü]+"),
-      regex("und|oder")
-    ),
-    Arrays.asList(
-      // "... weshalb ihr das wissen wollt."
-      pos("VER:INF:NON"),
-      pos("VER:MOD:2:PLU:PRÄ")
-    ),
-    Arrays.asList(
-      pos("UNKNOWN"),
-      token("und"),
-      posRegex("SUB:.*")
-    ),
-    Arrays.asList(
-      // "... wie ich das prüfen sollte."
-      posRegex("VER:INF.+"),
-      posRegex("VER:MOD:.+")
-    ),
-    Arrays.asList(
-        // "... wie ich das prüfen würde."
-        posRegex("VER:INF.+"),
-        posRegex("VER:AUX:.:(SIN|PLU)(:KJ2)?")
-    ),
-    Arrays.asList(
-     // "... etwas Interessantes und Spannendes suchte"
-     regex("etwas|nichts|viel|wenig|allerlei|was"),
-     regex("[A-ZÄÖÜ].*es"),
-     regex("und|oder|,"),
-     regex("[A-ZÄÖÜ].*es")
-    ),
-    Arrays.asList(
-     // "... bringt Interessierte und Experten zusammen"
-     posRegex("VER:.*[1-3]:.*"),
-     posRegex("SUB:AKK:.+:ADJ"),
-     regex("und|oder|,"),
-     posRegex("SUB:AKK:.+:(NEU|FEM|MAS)|ART:.*")
-    ),
-    Arrays.asList(
-      // "Das südöstlich von Berlin gelegene"
-      regex("(süd|nord|ost|west).*lich"),
-      token("von")
-    ),
-    Arrays.asList(
-      // "Entscheiden 42,5 Millionen Stimmberechtigte über..."
-      regex("Million(en)?"),
-      posRegex("SUB:.*:ADJ")
-    ),
-    Arrays.asList(
-      // "Vor Betreten des" / "Trotz Verboten seiner Eltern"
-      posRegex("PRP:.+|ADV:MOD"),
-      pos("VER:PA2:NON"),
-      posRegex("(ART|PRO):(IND|DE[FM]|POS):GEN:.*")
-    ),
-    Arrays.asList(
-      // "Er liebt UV-bestrahltes, Na-haltiges und Makeup-freies Obst."
-      // "Er vertraut auf CO2-arme Wasserkraft"
-      regex("[A-ZÄÖÜ0-9]+[a-zäöüß0-9]-[a-zäöüß]+")
-    ),
-    Arrays.asList(
-     // "Das Aus für Italien kam unerwartet." / "Müller drängt auf Aus bei Pflichtmitgliedschaft"
-     regex("auf|das|vor|a[mn]"),
-     csToken("Aus"),
-     posRegex("^PRP:.+|VER:[1-3]:.+")
-    ),
-    Arrays.asList(
-      // Das ist das Aus des Airbus A380.
-      regex("das"),
-      csToken("Aus"),
-      tokenRegex("des|eines"),
-      posRegex("EIG:.+|SUB:.*|UNKNOWN")
-    ),
-    /*Arrays.asList(
-      // "...,die ins Nichts griff."
-      new PatternTokenBuilder().csTokenRegex("ins|ans|vors|durchs|hinters").setSkip(1).build(),
-      posRegex("^PRP:.+|VER:[1-3]:.+")
-    ),*/
-    Arrays.asList(
-     // "Bündnis 90/Die Grünen"
-     csToken("90"),
-     csToken("/"),
-     csToken("Die")
-    ),
-    Arrays.asList(
-     // https://de.wikipedia.org/wiki/Neue_Mittelschule
-     regex("Neue[nrs]?"),
-     new PatternTokenBuilder().tokenRegex("Mitte(lschule)?|Rathaus|Testament|Welt|Markt|Rundschau").matchInflectedForms().build()
-    ),
-    Arrays.asList( // "Das schließen Forscher aus ..."
-     token("das"),
-     posRegex("VER:INF:(SFT|NON)"),
-     posRegex("SUB:NOM:PLU:.+|ADV:MOD")
-    ),
-    Arrays.asList( // Das schaffen moderne E-Autos locker
-     token("das"),
-     posRegex("VER:INF:(SFT|NON)"),
-     posRegex("ADJ:.+"),
-     posRegex("SUB:NOM:PLU:.+|ADV:MOD")
-    ),
-    Arrays.asList( // Das schaffen moderne und effiziente E-Autos locker
-     token("das"),
-     posRegex("VER:INF:(SFT|NON)"),
-     posRegex("ADJ:.+"),
-     posRegex("KON:.+"),
-     posRegex("ADJ:.+"),
-     posRegex("SUB:NOM:PLU:.+|ADV:MOD")
-    ),
-    Arrays.asList( // "Tausende Gläubige kamen, um ihn zu sehen."
-      tokenRegex("[tT]ausende?"),
-      posRegex("SUB:NOM:.+"),
-      posRegex(JLanguageTool.SENTENCE_END_TAGNAME+"|VER:[1-3]:.+")
-    ),
-    Arrays.asList( // "Man kann das generalisieren"
-      posRegex("VER:MOD.*"),
-      token("das"),
-      posRegex("VER:INF:(SFT|NON)")
-    ),
-    Arrays.asList( // "Vielleicht kann er das generalisieren"
-      posRegex("VER:MOD.*"),
-      posRegex("PRO:.+"),
-      token("das"),
-      posRegex("VER:INF:(SFT|NON)")
-    ),
-    Arrays.asList( // "Er befürchtete Schlimmeres."
-      regex("Schlimm(er)?es"),
-      pos(JLanguageTool.SENTENCE_END_TAGNAME)
-    ),
-    Arrays.asList(
-      regex("Angehörige[nr]?")
-    ),
-    Arrays.asList( // aus Alt wird neu
-      csToken("Alt"),
-      regex("mach|w[iu]rde?"),
-      csToken("Neu")
-    ),
-    Arrays.asList( // see GermanTagger.getSubstantivatedForms
-      pos("SUB:NOM:SIN:MAS:ADJ"),
-      posRegex("PRP:.+")
-    ),
-    Arrays.asList( // Einen Tag nach Bekanntwerden des Skandals
-      pos("ZUS"),
-      csToken("Bekanntwerden")
-    ),
-    Arrays.asList( // Das ist also ihr Zuhause.
-      posRegex(".+:(POS|GEN):.+"),
-      csToken("Zuhause")
-    ),
-    Arrays.asList( // Ein anderes Zuhause habe ich nicht.
-      regex("altes|anderes|k?ein|neues"),
-      csToken("Zuhause")
-    ),
-    Arrays.asList( // Weil er das kommen sah, traf er Vorkehrungen.
-      csToken("das"),
-      csToken("kommen"),
-      new PatternTokenBuilder().csToken("sehen").matchInflectedForms().build()
-    ),
-    Arrays.asList(
-      token("auf"),
-      csToken("die"),
-      csToken("Schnelle")
-    ),
-    Arrays.asList( // denn es fehlt bis heute am Nötigsten
-      new PatternTokenBuilder().csToken("fehlen").matchInflectedForms().setSkip(3).build(),
-      csToken("am"),
-      csToken("Nötigsten")
-    ),
-    Arrays.asList(
-      csToken("am"),
-      csToken("Nötigsten"),
-      new PatternTokenBuilder().csToken("fehlen").matchInflectedForms().build()
-    ),
-    Arrays.asList(
-      token("im"),
-      csToken("Aus")
-    ),
-    Arrays.asList(
-      token("im"),
-      csToken("Ganzen")
-    ),
-    Arrays.asList( // Die Top Fünf (https://www.korrekturen.de/forum.pl/md/read/id/73791/sbj/top-top-fuenf-fuenf/)
-      csToken("Top"),
-      pos("ZAL")
-    ),
-    Arrays.asList( // Die Top Ten (https://www.korrekturen.de/forum.pl/md/read/id/73791/sbj/top-top-fuenf-fuenf/)
-      csToken("Top"),
-      csToken("Ten")
-    ),
-    Arrays.asList( // Dutch name (e.g. "Bert van den Brink")
-      csToken("Van"),
-      csToken("Den")
-    ),
-    Arrays.asList(
-      csToken("Lasse"),
-      posRegex("EIG:.*|UNKNOWN")
-    ),
-    Arrays.asList( // Spanish name (e.g. "Las Condes")
-      csToken("Las"),
-      new PatternTokenBuilder().pos("UNKNOWN").csTokenRegex("[A-Z].+").build()
-    ),
-    Arrays.asList(
-      csToken("Just"),
-      token("in"),
-      csToken("Time")
-    ),
-    Arrays.asList( // Hey Süßer,
-      regex("Hey|Hi|Hallo|Na|Moin|Servus"),
-      regex("Süßer?|Hübscher?|Liebster?|Liebes"),
-      pos("PKT")
-    ),
-    Arrays.asList( // Hey Matt (name),
-      regex("Hey|Hi|Hallo|Na|Moin|Servus"),
-      regex("Matt")
-    ),
-    Arrays.asList( // Hey mein Süßer,
-      regex("Hey|Hi|Hallo|Na|Moin|Servus"),
-      regex("du|meine?"),
-      regex("Süßer?|Hübscher?"),
-      pos("PKT")
-    ),
-    Arrays.asList( // Grüße aus Höchst, Ich wohne in Wohlen
-      regex("aus|in"),
-      regex("Höchst|Wohlen")
-    ),
-    Arrays.asList( // Am So. (Sonntag)
-      regex(",|/|-|am|bis|vor|\\("),
-      csToken("So"),
-      token(".")
-    ),
-    Arrays.asList(
-      // a.) Im Mittelpunkt ...
-      SENT_START,
-      regex("[a-z]"),
-      token("."),
-      token(")"),
-      regex("[A-ZÄÜÖ].*")
-    ),
-    Arrays.asList(
-      // ---> Der USB  ...
-      SENT_START,
-      regex("[-]{1,}"),
-      token(">"),
-      regex("[A-ZÄÜÖ].*")
-    ),
-    Arrays.asList(
-      // # Was macht eigentlich Karl
-      SENT_START,
-      regex("[#]{1,}"),
-      regex("[A-ZÄÜÖ].*")
-    ),
-    Arrays.asList(
-      // = Schrittweise Erklärung ()
-      SENT_START,
-      token("="),
-      regex("[A-ZÄÜÖ].*")
-    ),
-    Arrays.asList(
-      // == Schrittweise Erklärung
-      SENT_START,
-      token("="),
-      token("="),
-      regex("[A-ZÄÜÖ].*")
-    ),
-    Arrays.asList(
-      // === Schrittweise Erklärung
-      SENT_START,
-      token("="),
-      token("="),
-      token("="),
-      regex("[A-ZÄÜÖ].*")
-    ),
-    Arrays.asList(
-      // ==== Schrittweise Erklärung
-      SENT_START,
-      token("="),
-      token("="),
-      token("="),
-      token("="),
-      regex("[A-ZÄÜÖ].*")
-    ),
-    Arrays.asList(
-      // ===== Schrittweise Erklärung
-      SENT_START,
-      token("="),
-      token("="),
-      token("="),
-      token("="),
-      token("="),
-      regex("[A-ZÄÜÖ].*")
-    ),
-    Arrays.asList(
-      // § 1 Allgemeine Bedingungen
-      SENT_START,
-      token("§"),
-      regex("\\d"),
-      regex("[A-ZÄÜÖ].*")
-    ),
-    Arrays.asList(
-      // §1 Allgemeine Bedingungen
-      SENT_START,
-      regex("§\\d"),
-      regex("[A-ZÄÜÖ].*")
-    ),
-    Arrays.asList(
-      // 3a) Deine Idee ...
-      SENT_START,
-      regex("\\d+[a-z]"),
-      token(")"),
-      regex("[A-ZÄÜÖ].*")
-    ),
-    Arrays.asList(
-      // @Peter Hast du morgen Zeit?
-      SENT_START,
-      regex("@[a-zA-Z0-9]+"),
-      regex("[A-ZÄÜÖ].*")
-    ),
-    Arrays.asList(
-      // M3.2 Deine Idee ...
-      SENT_START,
-      regex("[A-Z]\\d+"),
-      token("."),
-      regex("\\d+"),
-      regex("[A-ZÄÜÖ].*")
-    ),
-    Arrays.asList(
-      csToken("Gefahren"),
-      csToken("lauern")
-    ),
-    Arrays.asList(
-      csRegex("[A-ZÄÜÖ].+"),
-      new PatternTokenBuilder().token("*").setIsWhiteSpaceBefore(false).build(),
-      csToken("innen")
-    )
-  );
-
   static {
     nounIndicators.add("das");
     nounIndicators.add("sein");
@@ -678,9 +73,9 @@ public class CaseRule extends Rule {
     nounIndicators.add("unser");
   }
 
-  private static final String[] sentenceStartExceptions = {"(", "\"", "'", "‘", "„", "«", "»", ".", "!", "?"};
+  private static final String[] SENTENCE_START_EXCEPTIONS = {"(", "\"", "'", "‘", "„", "«", "»", ".", "!", "?"};
 
-  private static final String[] UNDEFINED_QUANTIFIERS = {"viel", "nichts", "wenig", "allerlei"};
+  private static final String[] UNDEFINED_QUANTIFIERS = {"viel", "nichts", "nix", "wenig", "allerlei"};
 
   private static final String[] INTERROGATIVE_PARTICLES = {"was", "wodurch", "wofür", "womit", "woran", "worauf", "woraus", "wovon", "wie"};
 
@@ -694,7 +89,20 @@ public class CaseRule extends Rule {
    * workaround to avoid false alarms, these words can be added here.
    */
   private static final String[] exceptions = {
+    "Vertrauter",
     "Out", // eng
+    "Packet", // misspelling of "Paket" (caught by spell checker)
+    "Adult", // eng
+    "Apart", // eng
+    "Different", // eng
+    "Fair", // eng
+    "Viral", // eng
+    "Tough", // eng
+    "Superb", // eng und Automodell
+    "Resilient", // eng
+    "Hexagonal", // eng
+    "Responsive", // eng
+    "Anno", // Name
     "Mo",
     "Di",
     "Mi",
@@ -712,9 +120,14 @@ public class CaseRule extends Rule {
     "Schutzheiliger",
     "Schutzheiligen",
     "Lila",
+    "Langzeitarbeitslose",
+    "Langzeitarbeitslosen",
+    "Langzeitarbeitsloser",
     "Linksintellektuelle",
     "Linksintellektueller",
     "Linksintellektuellen",
+    "Beschuldigte",
+    "Beschuldigten",
     "Drogenabhängige",
     "Drogenabhängiger",
     "Drogenabhängiger",
@@ -734,9 +147,33 @@ public class CaseRule extends Rule {
     "Werbetreibende",
     "Werbetreibender",
     "Werbetreibenden",
+    "Verletzter",
+    "Verletzten",
     "Werktätige",
     "Werktätiger",
     "Werktätigen",
+    "Getestete", // temporary fix
+    "Getesteten", // temporary fix
+    "Genesene", // temporary fix
+    "Genesenen", // temporary fix
+    "Geimpfte", // temporary fix
+    "Geboosterte", // temporary fix
+    "Ungeimpfte", // temporary fix
+    "Geimpften", // temporary fix
+    "Geboosterten", // temporary fix
+    "Ungeimpften", // temporary fix
+    "Geflüchtete", // temporary fix
+    "Geflüchteten", // temporary fix
+    "Projektbeteiligte", // temporary fix
+    "Projektbeteiligten", // temporary fix
+    "Heranwachsende", // temporary fix
+    "Heranwachsenden", // temporary fix
+    "Interessierte", // temporary fix
+    "Interessierten", // temporary fix
+    "Infizierte", // temporary fix
+    "Infizierten", // temporary fix
+    "Gehörlose", // temporary fix
+    "Gehörlosen", // temporary fix
     "Drücke",
     "Klecks",
     "Quatsch",
@@ -776,6 +213,10 @@ public class CaseRule extends Rule {
     "Rutsch",
     "Spar",
     "Merz",
+    "Gefahren",
+    "Minderjährige",
+    "Minderjähriger",
+    "Minderjährigen",
     "Scheinselbstständige",
     "Bundestagsabgeordneter",
     "Bundestagsabgeordneten",
@@ -786,9 +227,15 @@ public class CaseRule extends Rule {
     "Medienschaffende",
     "Medienschaffenden",
     "Medienschaffender",
+    "Lehrende",
+    "Lehrenden",
+    "Vertretene",
+    "Vertretenen",
     "Vorstandsvorsitzender",
     "Vorstandsvorsitzenden",
     "Vorstandsvorsitzende",
+    "Demonstrierende",
+    "Demonstrierenden",
     "Marketingtreibende",
     "Marketingtreibender",
     "Marketingtreibenden",
@@ -826,6 +273,8 @@ public class CaseRule extends Rule {
     "Oberkommandierende",
     "Oberkommandierender",
     "Oberkommandierenden",
+    "Werbungtreibende",
+    "Werbungtreibenden",
     "Mitangeklagte",
     "Schuhfilz",
     "Mix",
@@ -833,6 +282,33 @@ public class CaseRule extends Rule {
     "Flansch",
     "WhatsApp",
     "Verschleiß",
+    "Schutzsuchende", // gendered form
+    "Schutzsuchenden", // gendered form
+    "Versicherte",
+    "Versicherten", // gendered form
+    "Cyberkriminelle",
+    "Cyberkriminellen",
+    "Kriminelle",
+    "Kriminellen",
+    "Auszubildenden",
+    "Auszubildende",
+    "Auszubildender",
+    "Lernende", // gendered form
+    "Lernender", // gendered form
+    "Lernenden", // gendered form
+    "Teilnehmende", // gendered form
+    "Teilnehmenden", // gendered form
+    "Radfahrende", // gendered form
+    "Radfahrenden", // gendered form
+    "Autofahrende", // gendered form
+    "Autofahrenden", // gendered form
+    "Auszubildene", // gendered form
+    "Auszubildenen", // gendered form
+    "Absolvierende", // gendered form
+    "Absolvierenden", // gendered form
+    "Einheimische",
+    "Einheimischen",
+    "Einheimischer",
     "Wehrbeauftragter",
     "Wehrbeauftragte",
     "Wehrbeauftragten",
@@ -853,6 +329,9 @@ public class CaseRule extends Rule {
     "Steuerbevollmächtigter",
     "Steuerbevollmächtigten",
     "Steuerbevollmächtigtem",
+    "Suchtkranken",
+    "Suchtkranke",
+    "Suchtkranker",
     "Filmschaffende",
     "Filmschaffender",
     "Filmschaffenden",
@@ -912,9 +391,22 @@ public class CaseRule extends Rule {
     "Mitwirkende",
     "Mitwirkender",
     "Mitwirkenden",
+    "Tabellenletzte",
+    "Tabellenletzter",
+    "Familienangehörige",
+    "Familienangehöriger",
+    "Zeitreisende",
+    "Zeitreisender",
+    "Zeitreisenden",
+    "Erwerbstätige",
+    "Erwerbstätigen",
+    "Erwerbstätiger",
     "Selbstständige",
     "Selbstständigen",
     "Selbstständiger",
+    "Selbständige",
+    "Selbständigen",
+    "Selbständiger",
     "Genaueres",
     "Äußersten",
     "Dienstreisender",
@@ -922,6 +414,12 @@ public class CaseRule extends Rule {
     "Vermisste",
     "Äußeres",
     "Abseits",
+    "Unschuldige",
+    "Unschuldiger",
+    "Unschuldigen",
+    "Mitarbeitende",
+    "Mitarbeitender",
+    "Mitarbeitenden",
     "Beschäftigter",
     "Beschäftigte",
     "Beschäftigten",
@@ -964,8 +462,15 @@ public class CaseRule extends Rule {
     "Belange",
     "Geistlicher",
     "Google",
+    "Hu", // name
     "Jenseits",
     "Abends",
+    "Stimmberechtigte",
+    "Stimmberechtigten",
+    "Stimmberechtigter",
+    "Alleinerziehende",
+    "Alleinerziehenden",
+    "Alleinerziehender",
     "Abgeordneter",
     "Abgeordnete",
     "Abgeordneten",
@@ -1102,10 +607,14 @@ public class CaseRule extends Rule {
     "Verantwortlicher",
     "Verlass",
     "Verwandter",
+    "Verstorbenen",
+    "Verstorbene",
     "Vielfache",
     "Vielfaches",
     "Vorsitzender",
     "Fraktionsvorsitzender",
+    "Verletzte",
+    "Verletzten",
     "Walt",
     "Weitem",
     "Weiteres",
@@ -1156,95 +665,7 @@ public class CaseRule extends Rule {
     "Eures"
   };
   
-  private static final Set<String> languages = new HashSet<>();
-    static {
-    languages.add("Angelsächsisch");
-    languages.add("Afrikanisch");
-    languages.add("Albanisch");
-    languages.add("Altarabisch");
-    languages.add("Altchinesisch");
-    languages.add("Altgriechisch");
-    languages.add("Althochdeutsch");
-    languages.add("Altpersisch");
-    languages.add("Amerikanisch");
-    languages.add("Arabisch");
-    languages.add("Armenisch");
-    languages.add("Bairisch");
-    languages.add("Baskisch");
-    languages.add("Bengalisch");
-    languages.add("Bulgarisch");
-    languages.add("Chinesisch");
-    languages.add("Dänisch");
-    languages.add("Deutsch");
-    languages.add("Englisch");
-    languages.add("Estnisch");
-    languages.add("Finnisch");
-    languages.add("Französisch");
-    languages.add("Frühneuhochdeutsch");
-    languages.add("Germanisch");
-    languages.add("Georgisch");
-    languages.add("Griechisch");
-    languages.add("Hebräisch");
-    languages.add("Hocharabisch");
-    languages.add("Hochchinesisch");
-    languages.add("Hochdeutsch");
-    languages.add("Holländisch");
-    languages.add("Indonesisch");
-    languages.add("Irisch");
-    languages.add("Isländisch");
-    languages.add("Italienisch");
-    languages.add("Japanisch");
-    languages.add("Jiddisch");
-    languages.add("Jugoslawisch");
-    languages.add("Kantonesisch");
-    languages.add("Katalanisch");
-    languages.add("Klingonisch");
-    languages.add("Koreanisch");
-    languages.add("Kroatisch");
-    languages.add("Kurdisch");
-    languages.add("Lateinisch");
-    languages.add("Lettisch");
-    languages.add("Litauisch");
-    languages.add("Luxemburgisch");
-    languages.add("Mittelhochdeutsch");
-    languages.add("Mongolisch");
-    languages.add("Neuhochdeutsch");
-    languages.add("Niederländisch");
-    languages.add("Norwegisch");
-    languages.add("Persisch");
-    languages.add("Plattdeutsch");
-    languages.add("Polnisch");
-    languages.add("Portugiesisch");
-    languages.add("Rätoromanisch");
-    languages.add("Rumänisch");
-    languages.add("Russisch");
-    languages.add("Sächsisch");
-    languages.add("Schwäbisch");
-    languages.add("Schwedisch");
-    languages.add("Schweizerisch");
-    languages.add("Serbisch");
-    languages.add("Serbokroatisch");
-    languages.add("Slawisch");
-    languages.add("Slowakisch");
-    languages.add("Slowenisch");
-    languages.add("Spanisch");
-    languages.add("Syrisch");
-    languages.add("Tamilisch");
-    languages.add("Tibetisch");
-    languages.add("Tschechisch");
-    languages.add("Tschetschenisch");
-    languages.add("Türkisch");
-    languages.add("Turkmenisch");
-    languages.add("Uigurisch");
-    languages.add("Ukrainisch");
-    languages.add("Ungarisch");
-    languages.add("Usbekisch");
-    languages.add("Vietnamesisch");
-    languages.add("Walisisch");
-    languages.add("Weißrussisch");
-  }
-
-  private static final Set<Pattern[]> exceptionPatterns = CaseRuleExceptions.getExceptionPatterns();
+  private static final Set<StringMatcher[]> exceptionPatterns = CaseRuleExceptions.getExceptionPatterns();
 
   private static final Set<String> substVerbenExceptions = new HashSet<>();
   static {
@@ -1288,12 +709,14 @@ public class CaseRule extends Rule {
   }
 
   private final GermanTagger tagger;
-  private final German german;
+  private final GermanSpellerRule speller;
+  private final Supplier<List<DisambiguationPatternRule>> antiPatterns;
 
   public CaseRule(ResourceBundle messages, German german) {
-    this.german = german;
     super.setCategory(Categories.CASING.getCategory(messages));
-    this.tagger = (GermanTagger) german.getTagger();
+    tagger = (GermanTagger) german.getTagger();
+    speller = new GermanSpellerRule(JLanguageTool.getMessageBundle(), german);
+    antiPatterns = cacheAntiPatterns(german, ANTI_PATTERNS);
     addExamplePair(Example.wrong("<marker>Das laufen</marker> fällt mir schwer."),
                    Example.fixed("<marker>Das Laufen</marker> fällt mir schwer."));
   }
@@ -1451,7 +874,7 @@ public class CaseRule extends Rule {
 
   @Override
   public List<DisambiguationPatternRule> getAntiPatterns() {
-    return makeAntiPatterns(ANTI_PATTERNS, german);
+    return antiPatterns.get();
   }
 
   // e.g. "Ein Kaninchen, das zaubern kann" - avoid false alarm here
@@ -1464,7 +887,7 @@ public class CaseRule extends Rule {
   }
 
   private boolean isSalutation(String token) {
-    return StringUtils.equalsAny(token, "Herr", "Herrn", "Frau", "Fräulein");
+    return StringUtils.equalsAny(token, "Herr", "Hr", "Herrn", "Frau", "Fr", "Fräulein");
   }
 
   private boolean isCompany(String token) {
@@ -1510,11 +933,12 @@ public class CaseRule extends Rule {
 
   private void potentiallyAddUppercaseMatch(List<RuleMatch> ruleMatches, AnalyzedTokenReadings[] tokens, int i, AnalyzedTokenReadings analyzedToken, String token, AnalyzedTokenReadings lowercaseReadings, AnalyzedSentence sentence) {
     boolean isUpperFirst = Character.isUpperCase(token.charAt(0));
+    String lcWord = StringTools.lowercaseFirstChar(tokens[i].getToken());
     if (isUpperFirst &&
         token.length() > 1 &&     // length limit = ignore abbreviations
         !tokens[i].isIgnoredBySpeller() &&
         !tokens[i].isImmunized() &&
-        !StringUtils.equalsAny(tokens[i - 1].getToken(), sentenceStartExceptions) &&
+        !StringUtils.equalsAny(tokens[i - 1].getToken(), SENTENCE_START_EXCEPTIONS) &&
         !StringUtils.equalsAny(token, exceptions) &&
         !StringTools.isAllUppercase(token) &&
         !isLanguage(i, tokens, token) &&
@@ -1531,20 +955,28 @@ public class CaseRule extends Rule {
         !isExceptionPhrase(i, tokens) &&
         !(i == 2 && "“".equals(tokens[i-1].getToken())) &&   // closing quote at sentence start (https://github.com/languagetool-org/languagetool/issues/2558)
         !isCaseTypo(tokens[i].getToken()) &&
-        !isNounWithVerbReading(i, tokens)) {
-      String fixedWord = StringTools.lowercaseFirstChar(tokens[i].getToken());
+        !followedByGenderGap(tokens, i) &&
+        !isNounWithVerbReading(i, tokens) &&
+        !speller.isMisspelled(lcWord)) {
       if (":".equals(tokens[i - 1].getToken())) {
         AnalyzedTokenReadings[] subarray = new AnalyzedTokenReadings[i];
         System.arraycopy(tokens, 0, subarray, 0, i);
         if (isVerbFollowing(i, tokens, lowercaseReadings) || getTokensWithPosTagStartingWithCount(subarray, "VER") == 0) {
           // no error
         } else {
-          addRuleMatch(ruleMatches, sentence, COLON_MESSAGE, tokens[i], fixedWord);
+          addRuleMatch(ruleMatches, sentence, COLON_MESSAGE, tokens[i], lcWord);
         }
         return;
       }
-      addRuleMatch(ruleMatches, sentence, UPPERCASE_MESSAGE, tokens[i], fixedWord);
+      addRuleMatch(ruleMatches, sentence, UPPERCASE_MESSAGE, tokens[i], lcWord);
     }
+  }
+
+  private boolean followedByGenderGap(AnalyzedTokenReadings[] tokens, int i) {
+    if (i + 2 < tokens.length && tokens[i+1].getToken().equals(":") && tokens[i+2].getToken().matches("in|innen")) {
+      return true;
+    }
+    return false;
   }
 
   private boolean isCaseTypo(String token) {
@@ -1618,7 +1050,8 @@ public class CaseRule extends Rule {
         // "aus sechs Überwiegend muslimischen Ländern"
         return false;
       }
-      return (prevToken != null && ("irgendwas".equals(prevTokenStr) || "aufs".equals(prevTokenStr) || isNumber(prevTokenStr))) ||
+      return ((prevToken != null && prevTokenStr.matches("irgendwelche|irgendwas|irgendein|weniger?|einiger?|mehr|aufs") && tokens[i].hasPartialPosTag("SUB"))
+              || isNumber(prevTokenStr)) ||
          (hasPartialTag(prevToken, "ART", "PRO:") && !(((i < 4 && tokens.length > 4) || prevToken.getReadings().size() == 1 || prevPrevToken.hasLemma("sein")) && prevToken.hasPosTagStartingWith("PRO:PER:NOM:"))  && !prevToken.hasPartialPosTag(":STD")) ||  // "die Verurteilten", "etwas Verrücktes", "ihr Bestes"
          (hasPartialTag(prevPrevPrevToken, "ART") && hasPartialTag(prevPrevToken, "PRP") && hasPartialTag(prevToken, "SUB")) || // "die zum Tode Verurteilten"
          (hasPartialTag(prevPrevToken, "PRO:", "PRP") && hasPartialTag(prevToken, "ADJ", "ADV", "PA2", "PA1")) ||  // "etwas schön Verrücktes", "mit aufgewühltem Innerem"
@@ -1670,7 +1103,7 @@ public class CaseRule extends Rule {
     AnalyzedTokenReadings nextReadings = i < tokens.length-1 ? tokens[i+1] : null;
     AnalyzedTokenReadings prevLowercaseReadings = null;
 
-    if (i > 1 && StringUtils.equalsAny(tokens[i-2].getToken(), sentenceStartExceptions)) {
+    if (i > 1 && StringUtils.equalsAny(tokens[i-2].getToken(), SENTENCE_START_EXCEPTIONS)) {
       prevLowercaseReadings = lookup(prevToken.getToken().toLowerCase());
     }
 
@@ -1722,8 +1155,8 @@ public class CaseRule extends Rule {
   }
 
   private boolean isLanguage(int i, AnalyzedTokenReadings[] tokens, String token) {
-    boolean maybeLanguage = (token.endsWith("sch") && languages.contains(token)) ||
-                            languages.contains(StringUtils.removeEnd(StringUtils.removeEnd(token, "n"), "e"));   // z.B. "im Japanischen" / z.B. "ins Japanische übersetzt"
+    boolean maybeLanguage = (token.endsWith("sch") && LanguageNames.get().contains(token)) ||
+                            LanguageNames.get().contains(StringUtils.removeEnd(StringUtils.removeEnd(token, "n"), "e"));   // z.B. "im Japanischen" / z.B. "ins Japanische übersetzt"
     AnalyzedTokenReadings prevToken = i > 0 ? tokens[i-1] : null;
     AnalyzedTokenReadings nextReadings = i < tokens.length-1 ? tokens[i+1] : null;
     return maybeLanguage && (!hasNounReading(nextReadings) || (prevToken != null && prevToken.getToken().equals("auf")));
@@ -1747,9 +1180,9 @@ public class CaseRule extends Rule {
   }
 
   private boolean isExceptionPhrase(int i, AnalyzedTokenReadings[] tokens) {
-    for (Pattern[] patterns : exceptionPatterns) {
+    for (StringMatcher[] patterns : exceptionPatterns) {
       for (int j = 0; j < patterns.length; j++) {
-        if (patterns[j].matcher(tokens[i].getToken()).matches()) {
+        if (patterns[j].matches(tokens[i].getToken())) {
           int startIndex = i-j;
           if (compareLists(tokens, startIndex, startIndex+patterns.length-1, patterns)) {
             return true;
@@ -1760,14 +1193,14 @@ public class CaseRule extends Rule {
     return false;
   }
 
-  // non-private for tests
-  boolean compareLists(AnalyzedTokenReadings[] tokens, int startIndex, int endIndex, Pattern[] patterns) {
+  @VisibleForTesting
+  static boolean compareLists(AnalyzedTokenReadings[] tokens, int startIndex, int endIndex, StringMatcher... patterns) {
     if (startIndex < 0) {
       return false;
     }
     int i = 0;
     for (int j = startIndex; j <= endIndex; j++) {
-      if (i >= patterns.length || j >= tokens.length || !patterns[i].matcher(tokens[j].getToken()).matches()) {
+      if (i >= patterns.length || j >= tokens.length || !patterns[i].matches(tokens[j].getToken())) {
         return false;
       }
       i++;

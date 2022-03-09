@@ -11,6 +11,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
@@ -63,6 +64,10 @@ public final class PosTagHelper {
     map3.put("p", "мн.");
     PERSON_MAP = Collections.unmodifiableMap(map3);
   }
+  public static final Pattern NOUN_V_NAZ_PATTERN = Pattern.compile("noun.*:v_naz.*");
+  public static final Pattern ADJ_V_NAZ_PATTERN = Pattern.compile("adj:.:v_naz.*");
+  public static final Pattern VERB_INF_PATTERN = Pattern.compile("verb.*:inf.*");
+  public static final Pattern ADJ_V_KLY_PATTERN = Pattern.compile("adj:.:v_kly.*");
   
   private PosTagHelper() {
   }
@@ -195,10 +200,15 @@ public final class PosTagHelper {
 
   public static boolean hasPosTagStart(List<AnalyzedToken> analyzedTokenReadings, String posTagPart) {
     for(AnalyzedToken analyzedToken: analyzedTokenReadings) {
-      if( analyzedToken.getPOSTag() != null && analyzedToken.getPOSTag().startsWith(posTagPart) )
+      if( hasPosTagStart(analyzedToken, posTagPart) )
         return true;
     }
     return false;
+  }
+
+  public static boolean hasPosTagStart(AnalyzedToken analyzedToken, String posTagPart) {
+    return analyzedToken.getPOSTag() != null 
+        && analyzedToken.getPOSTag().startsWith(posTagPart);
   }
 
   public static boolean hasPosTagPart2(List<TaggedWord> taggedWords, String posTagPart) {
@@ -217,15 +227,7 @@ public final class PosTagHelper {
     return false;
   }
 
-  public static boolean startsWithPosTag2(List<AnalyzedToken> analyzedTokenReadings, String posTagPart) {
-    for(AnalyzedToken analyzedToken: analyzedTokenReadings) {
-      if( analyzedToken.getPOSTag() != null && analyzedToken.getPOSTag().startsWith(posTagPart) )
-        return true;
-    }
-    return false;
-  }
-
-  public static boolean startsWithPosTag(List<TaggedWord> taggedWords, String posTagPart) {
+  public static boolean hasPosTagStart2(List<TaggedWord> taggedWords, String posTagPart) {
     for(TaggedWord analyzedToken: taggedWords) {
       if( analyzedToken.getPosTag() != null && analyzedToken.getPosTag().startsWith(posTagPart) )
         return true;
@@ -239,7 +241,7 @@ public final class PosTagHelper {
     StringBuilder sb = new StringBuilder(4);
     for (AnalyzedToken tokenReading: tokenReadings) {
       String posTag = tokenReading.getPOSTag();
-      if( posTagPattern.matcher(posTag).matches() ) {
+      if( posTag != null && posTagPattern.matcher(posTag).matches() ) {
         String gender = getGender(posTag);
         if( sb.indexOf(gender) == -1 ) {
           sb.append(gender);
@@ -273,8 +275,18 @@ public final class PosTagHelper {
 
   @NotNull
   public static String addIfNotContains(@NotNull String tag, @Nullable String addTag) {
-    if( addTag != null && ! tag.contains(addTag) )
+    if( StringUtils.isNotEmpty(addTag) && ! tag.contains(addTag) )
       return tag + addTag;
+    return tag;
+  }
+
+  @NotNull
+  public static String addIfNotContains(@NotNull String tag, @Nullable String... addTags) {
+    for(String addTag: addTags) {
+      if( ! tag.contains(addTag) ) {
+        tag += addTag;
+      }
+    }
     return tag;
   }
 
@@ -291,19 +303,17 @@ public final class PosTagHelper {
   }
 
   @NotNull
-  public static List<TaggedWord> adjust(@NotNull List<TaggedWord> taggedWords, @Nullable String addTag, @Nullable String lemmaPrefix) {
+  public static List<TaggedWord> adjust(@NotNull List<TaggedWord> taggedWords, @Nullable String lemmaPrefix, @Nullable String lemmaSuffix, @Nullable String... addTags) {
     return taggedWords.stream()
-        .map(w -> new TaggedWord(adjustLemma(w, lemmaPrefix), addIfNotContains(cleanExtraTags(w.getPosTag()), addTag)))
+        .map(w -> new TaggedWord(adjustLemma(w, lemmaPrefix, lemmaSuffix), addIfNotContains(cleanExtraTags(w.getPosTag()), addTags)))
         .collect(Collectors.toList());
   }
 
-  private static String adjustLemma(TaggedWord w, String lemmaPrefix) {
-    return lemmaPrefix != null 
-        ? lemmaPrefix + w.getLemma()
-//            ( lemmaPrefix.endsWith("-") || lemmaPrefix.endsWith("'") 
-//              ? w.getLemma() 
-//              : w.getLemma().toLowerCase() )
-        : w.getLemma();
+  private static String adjustLemma(TaggedWord w, String lemmaPrefix, String lemmaSuffix) {
+    String lemma = w.getLemma();
+    if( lemmaPrefix != null ) lemma = lemmaPrefix + lemma;
+    if( lemmaSuffix != null ) lemma += lemmaSuffix;
+    return lemma;
   }
 
   private static String cleanExtraTags(String tag) {
@@ -331,6 +341,11 @@ public final class PosTagHelper {
   public static boolean isUnknownWord(AnalyzedTokenReadings analyzedTokenReadings) {
     return analyzedTokenReadings.getAnalyzedToken(0).hasNoTag()
         && WORD_PATTERN.matcher(analyzedTokenReadings.getToken()).matches();
+  }
+
+  private static Pattern PREDICT_INSERT_PATTERN = Pattern.compile("noninfl:&(predic|insert).*");
+  public static boolean isPredictOrInsert(AnalyzedToken token) {
+    return PREDICT_INSERT_PATTERN.matcher(token.getPOSTag()).matches();
   }
 
 //private static String getNumAndConj(String posTag) {

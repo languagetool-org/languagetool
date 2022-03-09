@@ -23,17 +23,20 @@ package org.languagetool;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.languagetool.language.Demo;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
-import org.languagetool.rules.*;
+import org.languagetool.rules.RemoteRule;
+import org.languagetool.rules.RemoteRuleConfig;
+import org.languagetool.rules.RemoteRuleResult;
+import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -45,14 +48,16 @@ public class RemoteRuleCacheTest {
   private JLanguageTool lt;
   private ResultCache cache;
   private RemoteRule rule;
-  private final ExecutorService remoteRulePool = Executors.newCachedThreadPool();
 
   static class TestRemoteRule extends RemoteRule {
-    private static final RemoteRuleConfig testConfig = new RemoteRuleConfig(
-      "TEST_REMOTE_RULE", "example.com", 1234, 0, 0L, 0.0f, 1, 10L, Collections.emptyMap());
+    private static final RemoteRuleConfig testConfig = new RemoteRuleConfig();
+
+    static {
+      testConfig.ruleId = "TEST_REMOTE_RULE";
+    }
 
     TestRemoteRule() {
-      super(JLanguageTool.getMessageBundle(), testConfig, false);
+      super(new Demo(), JLanguageTool.getMessageBundle(), testConfig, false);
     }
 
     class TestRemoteRequest extends RemoteRequest {
@@ -64,7 +69,7 @@ public class RemoteRuleCacheTest {
     }
 
     @Override
-    protected RemoteRequest prepareRequest(List<AnalyzedSentence> sentences, AnnotatedText annotatedText) {
+    protected RemoteRequest prepareRequest(List<AnalyzedSentence> sentences, Long textSessionId) {
       return new TestRemoteRequest(sentences);
     }
 
@@ -73,17 +78,18 @@ public class RemoteRuleCacheTest {
     }
 
     @Override
-    protected Callable<RemoteRuleResult> executeRequest(RemoteRequest request) {
+    protected Callable<RemoteRuleResult> executeRequest(RemoteRequest request, long timeoutMilliseconds) throws TimeoutException {
       return () -> {
         TestRemoteRequest req = (TestRemoteRequest) request;
         List<RuleMatch> matches = req.sentences.stream().map(this::testMatch).collect(Collectors.toList());
-        return new RemoteRuleResult(true, true, matches);
+        return new RemoteRuleResult(true, true, matches, req.sentences);
       };
     }
 
     @Override
     protected RemoteRuleResult fallbackResults(RemoteRequest request) {
-      return new RemoteRuleResult(false, false, Collections.emptyList());
+      TestRemoteRequest req = (TestRemoteRequest) request;
+      return new RemoteRuleResult(false, false, Collections.emptyList(), req.sentences);
     }
 
     @Override
@@ -105,7 +111,7 @@ public class RemoteRuleCacheTest {
 
     try {
       return lt.check(annotatedText, true, JLanguageTool.ParagraphHandling.NORMAL, null,
-        JLanguageTool.Mode.ALL, JLanguageTool.Level.DEFAULT, remoteRulePool);
+        JLanguageTool.Mode.ALL, JLanguageTool.Level.DEFAULT);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }

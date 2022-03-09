@@ -24,6 +24,8 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.language.French;
 import org.languagetool.rules.AbstractSimpleReplaceRule2;
 import org.languagetool.rules.Categories;
+import org.languagetool.rules.Category;
+import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.ITSIssueType;
 
 import java.io.IOException;
@@ -48,9 +50,9 @@ public class AnglicismReplaceRule extends AbstractSimpleReplaceRule2 {
 
   public AnglicismReplaceRule(final ResourceBundle messages) throws IOException {
     super(messages, new French());
-    super.setCategory(Categories.STYLE.getCategory(messages));
+    super.setCategory(new Category(new CategoryId("CAT_ANGLICISMES"), this.getDescription()));
     setLocQualityIssueType(ITSIssueType.Style);
-
+    super.useSubRuleSpecificIds();
   }
 
   @Override
@@ -84,8 +86,8 @@ public class AnglicismReplaceRule extends AbstractSimpleReplaceRule2 {
   }
 
   @Override
-  public String getSuggestion() {
-    return "Cette expression est un anglicisme.";
+  public String getMessage() {
+    return "Alternatives possibles pour cet anglicisme :";
   }
 
   @Override

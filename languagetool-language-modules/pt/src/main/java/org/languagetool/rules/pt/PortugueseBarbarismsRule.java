@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.pt;
 
+import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.language.Portuguese;
 import org.languagetool.rules.AbstractSimpleReplaceRule2;
 import org.languagetool.rules.Categories;
@@ -75,7 +76,7 @@ public class PortugueseBarbarismsRule extends AbstractSimpleReplaceRule2 {
   }
 
   @Override
-  public String getSuggestion() {
+  public String getMessage() {
     return "'$match' é um estrangeirismo. É preferível dizer $suggestions";
   }
 
@@ -92,6 +93,12 @@ public class PortugueseBarbarismsRule extends AbstractSimpleReplaceRule2 {
   @Override
   public Locale getLocale() {
     return PT_LOCALE;
+  }
+  
+  @Override
+  protected boolean isTokenException(AnalyzedTokenReadings atr) {
+    // proper nouns tagged in multiwords are exceptions
+    return atr.hasPosTagStartingWith("NP") || atr.isImmunized();
   }
 
 }
