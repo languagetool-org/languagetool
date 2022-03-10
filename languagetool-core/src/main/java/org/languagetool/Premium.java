@@ -18,18 +18,38 @@
  */
 package org.languagetool;
 
+import lombok.extern.slf4j.Slf4j;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.Rule;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Constructor;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
+@Slf4j
 /**
  * Information about premium-only rules.
  */
 public abstract class Premium {
+  
+  private Optional<Properties> gitPremiumProps;
+
+
+  public Premium() {
+    try {
+      InputStream in = JLanguageTool.getDataBroker().getAsStream("/git-premium.properties");
+      if (in != null) {
+        Properties props = new Properties();
+        props.load(in);
+        gitPremiumProps = Optional.of(props);
+      } else {
+        gitPremiumProps = Optional.empty();       
+      }
+    } catch (IOException e) {
+      log.warn("Failed to read git-premium.properties file.");
+    }
+  }
 
   private static List<String> tempNotPremiumRules = Arrays.asList();
 
@@ -73,5 +93,18 @@ public abstract class Premium {
   }
 
   public abstract boolean isPremiumRule(Rule rule);
+  
+ 
+  public String getBuildDate() {
+    return gitPremiumProps.map(properties -> properties.getProperty("git.build.time")).orElse(null);
+  }
+  
+  public String getShortGitId() {
+    return gitPremiumProps.map(properties -> properties.getProperty("git.commit.id.abbrev")).orElse(null);
+  }
+  
+  public String getVersion() {
+    return gitPremiumProps.map(properties -> properties.getProperty("git.build.version")).orElse(null);
+  }
 
 }
