@@ -25844,6 +25844,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="ZUM_TROTZ" name="zum trotz (Trotz)" default="temp_off">
+            <pattern case_sensitive="yes">
+                <token regexp="yes">[Zz]um</token>
+                <marker>
+                    <token regexp="yes">dank|trotz</token>
+                </marker>
+            </pattern>
+            <message>Das Wort <suggestion><match no="2" case_conversion="startupper" /></suggestion> scheint hier als Nomen gebraucht zu werden und sollte daher großgeschrieben werden.</message>
+            <example correction="Trotz">Im Jahr 1979 beschließt ein wagemutiger Journalist, seinen Vorgesetzten zum <marker>trotz</marker>, dem berühmten Hudson-Fall auf den Grund zu gehen.</example>
+        </rule>
         <rule id="BEIDE_MALE" name="beide male (Male)">
             <pattern>
                 <token regexp="yes">beide|alle|(so)?viele|einige|diverse|häufige</token>
@@ -50746,9 +50756,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes" postag="PRO:PER:NOM:.+" postag_regexp="yes">ich</token>
                     <token case_sensitive="yes">das</token>
                 </pattern>
-                <message>Prüfen Sie, ob hier <suggestion>dass</suggestion> stehen sollte!</message>
+                <message>Prüfen Sie, ob hier <suggestion>dass</suggestion> stehen sollte.</message>
                 <example correction="dass">Sie wusste <marker>das</marker> er das schafft.</example>
                 <example>Das Gesicht, das ihm das Leben gegeben hat.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>nicht</token>
+                    <token min="0">,</token>
+                    <marker>
+                        <token>das</token>
+                    </marker>
+                    <token>ich</token>
+                    <token postag="ADV.*" postag_regexp="yes" min="0" />
+                    <token>wüsste</token>
+                </pattern>
+                <message>Prüfen Sie, ob hier <suggestion>dass</suggestion> stehen sollte.</message>
+                <example correction="dass">Nicht, <marker>das</marker> ich wüsste.</example>
             </rule>
         </rulegroup>
         <rule id="WIDER_BESSEREN_WISSENS" name="'wider besseren Wissens (wider besseres Wissen)'">
@@ -50946,6 +50970,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>von</token>
                 <token>wegen</token>
             </antipattern>
+            <antipattern>
+                <token>zum</token>
+                <token>trotz</token>
+            </antipattern>
             <rule>
                 <antipattern><!-- compound error "wegen des iPhone Angebots" -->
                     <token regexp="yes">de[nm]|ihre[nm]|[dms]?eine[nm]|unse?re[nm]|diese[nm]|jene[nm]|eure[nm]</token>
@@ -50996,7 +51024,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="UNKNOWN|EIG.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[A-ZÄÖÜ].+</token>
                 </antipattern>
                 <pattern case_sensitive="yes">
-                    <token skip="-1" postag="SENT_START"><exception scope="next" postag="SUB.*:GEN:.+" postag_regexp="yes"/></token>
+                    <token><exception postag="SUB.*:GEN:.+" postag_regexp="yes"/></token>
                     <marker>
                         <token regexp="yes" case_sensitive="no">abseits|abzüglich|angelegentlich|angesichts|anhand|anlässlich|anstelle|aufgrund|aufseiten|ausgangs|außerhalb|ausserhalb|ausweislich|behufs|beiderseits|beidseits|betreffs|bezüglich|dank|diesseits|eingangs|eingedenk|einschließlich|einschliesslich|fernab|hinsichtlich|infolge|inklusive|inmitten|innerhalb|innert|inpuncto|jenseits|kraft|längs|längsseits|mangels|mithilfe|mittels|namens|nördlich|oberhalb|östlich|rücksichtlich|seitens|seitlich|seitwärts|südlich|trotz|unbeschadet|uneingedenk|unerachtet|unfern|ungeachtet|ungerechnet|unterhalb|unweit|vermittels(t)|vermöge|vonseiten|vorbehaltlich|vorbehältlich|wegen|weitab|westlich|willen|zeit|zugunsten|zuhanden|zulasten|zuseiten|zuungunsten|zuzüglich|zwecks</token>
                         <token regexp="yes">dem|[Ii]hre[nm]|[Ddms]?eine[nm]|unse?re[nm]|diese[nm]|jene[nm]|[Ee]ure[nm]</token>
@@ -51015,8 +51043,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Er ist der Sache wegen dem Bruder begegnet.</example>
                 <example>Das war der Moment, wegen dem Kommissar Rex sein Leben fast verlor.</example>
                 <example>1880 erhielt die Ortschaft 1,5 km nördlich einen Eisenbahnanschluss mit Haltepunkt an der Strecke Ducherow-Swinemünde.</example>
+                <example>Im Jahr 1979 beschließt ein wagemutiger Journalist, seinen Vorgesetzten zum Trotz dem berühmten Hudson-Fall auf den Grund zu gehen.</example>
             </rule>
-            <rule default="temp_off"><!-- TODO this should replace the rule above-->
+            <rule>
                 <antipattern>
                     <token>dem</token>
                     <token skip="3"/>
@@ -51040,21 +51069,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token regexp="yes" case_sensitive="no">abseits|abzüglich|angelegentlich|angesichts|anhand|anlässlich|anstelle|aufgrund|aufseiten|ausgangs|außerhalb|ausserhalb|ausweislich|behufs|beiderseits|beidseits|betreffs|bezüglich|dank|diesseits|eingangs|eingedenk|einschließlich|einschliesslich|fernab|hinsichtlich|infolge|inklusive|inmitten|innerhalb|innert|inpuncto|jenseits|kraft|längs|längsseits|mangels|mithilfe|mittels|namens|nördlich|oberhalb|östlich|rücksichtlich|seitens|seitlich|seitwärts|südlich|trotz|unbeschadet|uneingedenk|unerachtet|unfern|ungeachtet|ungerechnet|unterhalb|unweit|vermittels(t)|vermöge|vonseiten|vorbehaltlich|vorbehältlich|wegen|weitab|westlich|willen|zeit|zugunsten|zuhanden|zulasten|zuseiten|zuungunsten|zuzüglich|zwecks</token>
                         <token regexp="yes">dem|[Ii]hre[nm]|[Ddms]?eine[nm]|unse?re[nm]|diese[nm]|jene[nm]|[Ee]ure[nm]</token>
-                        <token postag="(ADJ|PA[12]):DAT:SIN:(NEU|MAS):GRU:IND" postag_regexp="yes" min="0" />
+                        <token postag="(ADJ|PA[12]):DAT:SIN:(NEU|MAS):GRU:IND|ADV:MOD" postag_regexp="yes" />
+                        <token postag="(ADJ|PA[12]):DAT:SIN:(NEU|MAS):GRU:IND" postag_regexp="yes" />
                         <token postag="SUB:(DAT|NOM|AKK):SIN:(MAS|FEM|NEU)" postag_regexp="yes" />
                     </marker>
                 </pattern>
                 <message>Die Präposition '\2' erfordert in der Regel den Genitiv.</message>
-                <suggestion suppress_misspelled="yes">\2 <match no="3" regexp_match="(?i)e[mn]$" regexp_replace="es" /> \4 <match no="5" postag="SUB:GEN:SIN:.+" postag_regexp="yes" /></suggestion>
-                <example correction="wegen des Geldes|wegen des Gelds">Tom kam <marker>wegen dem Geld</marker> hierher.</example>
-                <example correction="wegen meines Geburtstages|wegen meines Geburtstags">Ich bin <marker>wegen meinem Geburtstag</marker> sehr aufgeregt.</example>
-                <example correction="Trotz des Wortes|Trotz des Worts"><marker>Trotz dem Wort</marker> image beinhalten sie nur Musik und/oder Textpassagen</example>
-                <example correction="wegen des bundesweiten Pflegenotstandes|wegen des bundesweiten Pflegenotstands">Erst vor Kurzem gab es <marker>wegen dem bundesweiten Pflegenotstand</marker> in Krankenhäusern Kritik von Patientenschützern.</example>
-                <example>von Rechts wegen die Bestrafung</example>
-                <example>Er widmete seine ganze Zeit dem Geschichtsstudium.</example>
-                <example>Er ist der Sache wegen dem Bruder begegnet.</example>
-                <example>Das war der Moment, wegen dem Kommissar Rex sein Leben fast verlor.</example>
-                <example>1880 erhielt die Ortschaft 1,5 km nördlich einen Eisenbahnanschluss mit Haltepunkt an der Strecke Ducherow-Swinemünde.</example>
+                <suggestion suppress_misspelled="yes">\2 <match no="3" regexp_match="(?i)e[mn]$" regexp_replace="es" /> \4 \5 <match no="6" postag="SUB:GEN:SIN:.+" postag_regexp="yes" /></suggestion>
+                <example correction="wegen des schönen tollen Geldes|wegen des schönen tollen Gelds">Tom kam <marker>wegen dem schönen tollen Geld</marker> hierher.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -55975,10 +55997,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Zeichensetzung -->
     <!-- ====================================================================== -->
     <category id="PUNCTUATION" name="Zeichensetzung">
+        <rule id="WIE_DER_DER_KOMMA" name="wie der(,) der damals" default="temp_off">
+            <pattern>
+                <token regexp="yes">als|wie</token>
+                <token regexp="yes">der|die|das</token>
+                <marker>
+                    <token><match no="1" /></token>
+                </marker>
+                <token postag="ADV.*" postag_regexp="yes" min="0" />
+                <token postag="PRO:REF.*|ART.*|PRO:(DEM|POS).*|EIG.*" postag_regexp="yes" skip="5" />
+                <token postag="VER.*" postag_regexp="yes" />
+            </pattern>
+            <message>Hier scheint ein Komma zu fehlen.</message>
+            <suggestion>, \3</suggestion>
+            <example correction=", der">Er verhält sich so wie der<marker> der</marker> damals den Krieg begonnen hat.</example>
+        </rule>
         <rulegroup id="IST_DER_TEST_DER_KOMMA" name="ist der Test(,) der …">
             <rule>
                 <pattern>
-                    <token regexp="yes">ist|w[äa]r</token>
+                    <token regexp="yes">ist|war|wäre?</token>
                     <token regexp="yes">der|unsr?er|[dsmk]?ein|euer|dieser|ihr</token>
                     <token postag="(ADJ|PA[12]).*SIN.*MAS.*" postag_regexp="yes" min="0" max="2" />
                     <token postag="SUB.*SIN.*MAS.*" postag_regexp="yes" />
@@ -55999,9 +56036,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>, \5 \6 \7 \8 \9 \10,</suggestion>
                 <example correction=", der im Firefox fehlschlägt,">Ist der Test<marker> der im Firefox fehlschlägt</marker> problematisch?</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
-                    <token regexp="yes">ist|w[äa]r</token>
+                    <token regexp="yes">ist|war|wäre?</token>
                     <token regexp="yes">der|unsr?er|[dsmk]?ein|euer|dieser|ihr</token>
                     <token postag="(ADJ|PA[12]).*SIN.*MAS.*" postag_regexp="yes" min="0" max="2" />
                     <token postag="SUB.*SIN.*MAS.*" postag_regexp="yes" />
@@ -56025,7 +56062,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">ist|w[äa]r</token>
+                    <token regexp="yes">ist|war|wäre?</token>
                     <token regexp="yes">das|unser|[dsmk]?ein|euer|dieses|ihr</token>
                     <token postag="(ADJ|PA[12]).*SIN.*NEU.*" postag_regexp="yes" min="0" max="2" />
                     <token postag="SUB.*SIN.*NEU.*" postag_regexp="yes" />
@@ -56046,9 +56083,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>, \5 \6 \7 \8 \9 \10,</suggestion>
                 <example correction=", das im Firefox fehlschlägt,">Ist das Szenario<marker> das im Firefox fehlschlägt</marker> problematisch?</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
-                    <token regexp="yes">ist|w[äa]r</token>
+                    <token regexp="yes">ist|war|wäre?</token>
                     <token regexp="yes">das|unser|[dsmk]?ein|euer|dieses|ihr</token>
                     <token postag="(ADJ|PA[12]).*SIN.*NEU.*" postag_regexp="yes" min="0" max="2" />
                     <token postag="SUB.*SIN.*NEU.*" postag_regexp="yes" />
@@ -56072,7 +56109,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">ist|w[äa]r</token>
+                    <token regexp="yes">ist|war|wäre?</token>
                     <token regexp="yes">die|unse?re|[dsmk]?eine|eure|diese|ihre</token>
                     <token postag="(ADJ|PA[12]).*SIN.*FEM.*" postag_regexp="yes" min="0" max="2" />
                     <token postag="SUB.*SIN.*FEM.*" postag_regexp="yes" />
@@ -56093,9 +56130,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>, \5 \6 \7 \8 \9 \10,</suggestion>
                 <example correction=", die im Firefox fehlschlägt,">Ist die Routine<marker> die im Firefox fehlschlägt</marker> problematisch?</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
-                    <token regexp="yes">ist|w[äa]r</token>
+                    <token regexp="yes">ist|war|wäre?</token>
                     <token regexp="yes">die|unse?re|[dsmk]?eine|eure|diese|ihre</token>
                     <token postag="(ADJ|PA[12]).*SIN.*FEM.*" postag_regexp="yes" min="0" max="2" />
                     <token postag="SUB.*SIN.*FEM.*" postag_regexp="yes" />

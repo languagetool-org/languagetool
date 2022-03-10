@@ -296,7 +296,7 @@ public class VerbAgreementRuleTest {
 //     assertBad("Ich geht jetzt nach Hause und dort gehe ich sofort unter die Dusche."); TODO
     assertBad("Ich kannst heute leider nicht kommen.", 2);
     assertBad("Ich leben.");
-    assertBad("Ich leben.", "Ich lebe", "Ich leb", "Ich lebte", "Wir leben", "Sie leben");
+    assertBad("Ich leben.", "Ich lebe", "Ich lebte", "Wir leben", "Sie leben");
     assertBad("Lebe du?");
     assertBad("Lebe du?", "Lebest du", "Lebst du", "Lebe er", "Lebe es", "Lebtest du", "Lebe ich", "Lebe sie");
     assertBad("Leben du?");
@@ -312,8 +312,8 @@ public class VerbAgreementRuleTest {
     assertBad("Wünscht du dir mehr Zeit?", "Subjekt (du) und Prädikat (Wünscht)");
     assertBad("Wir lebst noch.", 2);
     assertBad("Wir lebst noch.", 2, "Wir leben", "Wir lebten", "Du lebst");
-    assertBad("Er sagte düster: „Ich brauchen mich nicht schuldig fühlen.“", 1, "Ich brauche", "Ich brauchte", "Ich brauch", "Ich bräuchte", "Wir brauchen", "Sie brauchen");
-    assertBad("Er sagte: „Ich brauchen mich nicht schuldig fühlen.“", 1, "Ich brauche", "Ich brauchte", "Ich brauch", "Ich bräuchte", "Wir brauchen", "Sie brauchen");
+    assertBad("Er sagte düster: „Ich brauchen mich nicht schuldig fühlen.“", 1, "Ich brauche", "Ich brauchte", "Ich bräuchte", "Wir brauchen", "Sie brauchen");
+    assertBad("Er sagte: „Ich brauchen mich nicht schuldig fühlen.“", 1, "Ich brauche", "Ich brauchte", "Ich bräuchte", "Wir brauchen", "Sie brauchen");
   }
 
   private void assertGood(String s) throws IOException {

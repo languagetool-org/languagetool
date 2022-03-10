@@ -2323,6 +2323,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Johannesbeere": return topMatch("Johannisbeere");
       case "Johannesbeeren": return topMatch("Johannisbeeren");
       case "Endgeld": return topMatch("Entgeld");
+      case "wüßte": return topMatch("wüsste");
+      case "wüßten": return topMatch("wüssten");
       case "Entäuschung": return topMatch("Enttäuschung");
       case "Entäuschungen": return topMatch("Enttäuschungen");
       case "Triologie": return topMatch("Trilogie", "Werk (z.B. Film), das aus drei Teilen besteht");
