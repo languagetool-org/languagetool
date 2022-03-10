@@ -685,6 +685,8 @@ public class AgreementRuleTest {
     assertGood("...als auch die daraus jedem zukommende Freiheit.");
     assertGood("Damit zeigen wir, wie bedeutungsreich manche deutsche Begriffe sein können.");  // http://mediawiki.ids-mannheim.de/VarGra/index.php/Starke_/_schwache_Flexion_des_Adjektivs_und_Substantivs_nach_Artikelw%C3%B6rtern,_artikelartigen_W%C3%B6rtern_und_Pronomen
     assertGood("Damit zeigen wir, wie bedeutungsreich manche deutschen Begriffe sein können.");
+    assertGood("2009 gab es im Rathaus daher Bestrebungen ein leichter handhabbares Logo einzuführen.");
+    assertGood("Das ist eine leichter handhabbare Situation.");
 
     // incorrect sentences:
     assertBad("Er hatte ein anstrengenden Tag",

@@ -36,6 +36,18 @@ class AgreementRuleAntiPatterns1 {
       posRegex("SUB:.*")
     ),
     Arrays.asList(
+      tokenRegex("ein|das"),   // "ein leichter handhabbares Logo"
+      token("leichter"),
+      posRegex("ADJ:NOM:SIN:NEU:GRU:IND"),
+      pos("SUB:NOM:SIN:NEU")
+    ),
+    Arrays.asList(
+      tokenRegex("eine|die"),   // "eine leichter handhabbare Situation"
+      token("leichter"),
+      posRegex("ADJ:NOM:SIN:FEM:GRU:IND"),
+      pos("SUB:NOM:SIN:FEM")
+    ),
+    Arrays.asList(
       tokenRegex("der|die|das"),   // "Der solchen Einsätzen gegenüber kritische Müller ..."
       tokenRegex("solche[mn]|diese[mn]"),
       posRegex("SUB:.*"),
