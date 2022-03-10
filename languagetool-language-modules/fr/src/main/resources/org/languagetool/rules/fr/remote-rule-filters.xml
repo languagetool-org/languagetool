@@ -28,13 +28,23 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
 <rules lang="fr" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/remote-rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <category name="Machine learning rules" id="AI_RULES">
         <!-- FIXME: remove this once there is the first AP, only here so XML is valid -->
-        <rulegroup id="TEST_REMOTE_RULE" name="">
+        <rulegroup id="AI_FR_HYDRA_LEO_MISSING_COMMA" name="">
             <rule>
                 <pattern>
-                    <token>test</token>
+                    <marker>
+                        <token regexp="yes">de|pour</token>
+                    </marker>
                 </pattern>
-                <example correction=""><marker>test</marker></example>
-                <example>nottest</example>
+                <example correction="">Il le vend <marker>pour</marker> 20 €.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>comment</token>
+                    </marker>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </pattern>
+                <example correction=""><marker>Comment</marker> la boulangère a-t-elle fait le pain ?</example>
             </rule>
         </rulegroup>
     </category>
