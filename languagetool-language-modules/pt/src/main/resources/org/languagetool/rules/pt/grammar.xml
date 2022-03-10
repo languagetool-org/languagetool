@@ -25994,6 +25994,28 @@ Eu tive com dores de cabeça. → Eu estive com dores de cabeça.
     </rule>
 
 
+	<!-- TERA terá -->
+    <rule id='CONFUSÃO_TERA_TERÁ' name="Confusão: tera/terá">
+	<!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-03-10 (1-JAN-2022+)      -->
+	<!--
+Ele tera problemas com isso. → Ele terá problemas com isso.
+O Rui tera muitos problemas com o exame. → O Rui terá muitos problemas com o exame.
+A Ana tera um sonho. → A Ana terá um sonho.
+	-->	
+      <pattern>
+		  <token min="0" max="1" postag='PP3.S.+' postag_regexp='yes'/>
+		  <marker>
+			<token>tera</token>			
+		  </marker>
+		  <token min="1" max="2" postag='NC.+|AQ.+|DI.+' postag_regexp='yes'/>
+		  <token postag='SPS.+|CS|CC|_PUNCT' postag_regexp='yes'/>
+      </pattern>
+	  <message>Sem o acento, essa palavra é o substantivo 'tera'. Se pretende referir-se ao verbo ter no futuro, deve utilizar a forma acentuada.</message>
+      <suggestion>terá</suggestion>
+      <example correction="terá">Ele <marker>tera</marker> problemas com isso.</example>
+    </rule>
+
+
 	<!-- VESTIR calçar -->
     <rule id='CONFUSÃO_VESTIR_CALÇAR' name="Confusão: vestir/calçar">
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-01/02 (Checked/Enhanced) (1-JAN-2022+)      -->
