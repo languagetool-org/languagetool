@@ -385,6 +385,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().startsWith("ha ") &&
                    !k.getReplacement().startsWith("st ") &&
                    !k.getReplacement().toLowerCase().startsWith("dis ") &&
+                   !k.getReplacement().toLowerCase().startsWith("est ") &&
                    !k.getReplacement().toLowerCase().startsWith("mono ") &&
                    !k.getReplacement().toLowerCase().startsWith("trans ") &&
                    !k.getReplacement().toLowerCase().startsWith("neuro ") &&
@@ -440,6 +441,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().endsWith(" ize") && // "advertize"
                    !k.getReplacement().endsWith(" sh") &&
                    !k.getReplacement().endsWith(" st") &&
+                   !k.getReplacement().endsWith(" est") &&
                    !k.getReplacement().endsWith(" ward") &&
                    !k.getReplacement().endsWith(" ability") && // interruptability
                    !k.getReplacement().endsWith(" ware") && // drinkware
@@ -612,6 +614,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
 
   protected static Map<String, List<String>> getTopSuggestions() {
     Map<String, List<String>> s = new HashMap<>();
+    s.put("incase", Arrays.asList("in case"));
+    s.put("Incase", Arrays.asList("In case"));
     s.put("megatonne", Arrays.asList("megaton"));
     s.put("Megatonne", Arrays.asList("Megaton"));
     s.put("megatonnes", Arrays.asList("megatons"));
