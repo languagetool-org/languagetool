@@ -47,7 +47,7 @@ public abstract class Premium {
         gitPremiumProps = Optional.empty();       
       }
     } catch (IOException e) {
-      log.warn("Failed to read git-premium.properties file.");
+      log.warn("Failed to read git-premium.properties file.", e);
     }
   }
 

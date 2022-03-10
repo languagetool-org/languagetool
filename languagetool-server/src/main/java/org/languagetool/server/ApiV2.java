@@ -484,7 +484,7 @@ class ApiV2 {
       g.writeBooleanField("premium", Premium.isPremiumVersion());
       if (Premium.isPremiumVersion()) {
         Premium premium = Premium.get();
-        g.writeObjectFieldStart("premium");
+        g.writeObjectFieldStart("premiumBuildInfo");
         g.writeStringField("version", premium.getVersion());
         g.writeStringField("buildDate", premium.getBuildDate());
         g.writeStringField("commit", premium.getShortGitId());
