@@ -105,6 +105,8 @@ public class WordListValidatorTest {
           "Djuvečreis",
           "Hidschāb/S",
           "Dvořák/S",
+          "Constanța",
+          "Constanța/S",
           "Paul Erdős",
           "Erdoğan/S",
           "Sørensen/S",
