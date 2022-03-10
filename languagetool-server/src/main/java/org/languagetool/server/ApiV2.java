@@ -481,6 +481,7 @@ class ApiV2 {
       g.writeStringField("version", JLanguageTool.VERSION);
       g.writeStringField("buildDate", JLanguageTool.BUILD_DATE);
       g.writeStringField("commit", JLanguageTool.GIT_SHORT_ID);
+      g.writeBooleanField("premium", Premium.isPremiumVersion());
       if (Premium.isPremiumVersion()) {
         Premium premium = Premium.get();
         g.writeObjectFieldStart("premium");
