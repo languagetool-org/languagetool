@@ -22754,21 +22754,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <!-- TODO Make one Java-rule for context-independent, colloquial expressions and maintain a list -->
             <rule id="KRASS_STIL" name="krass (erstklassig, extrem)" default="temp_off">
                 <antipattern>
-                    <token postag="ABK.*SUB" postag_regexp="yes"/>
+                    <token postag="ABK.*SUB" postag_regexp="yes"></token>
                     <token min="0">.</token>
                     <token case_sensitive="yes">Krass</token>
                 </antipattern>
                 <antipattern>
-                    <token postag="EIG.*" postag_regexp="yes"/>
+                    <token postag="EIG.*" postag_regexp="yes"></token>
                     <token case_sensitive="yes">Krass</token>
                 </antipattern>
                 <antipattern>
-                    <token skip="-1" regexp="yes">Unterschiede?|Gegensatz|Gegensätze|Gegenteile?|Widerspruch|Widersprüche|Kontraste?|Veränderung(en)?</token>
+                    <token skip="-1" inflected="yes" case_sensitive="yes" regexp="yes">Unterschied|Gegensatz|Gegenteil|Widerspruch|Kontrast|Veränderung</token>
                     <token>krass</token>
                 </antipattern>
                 <antipattern>
                     <token skip="-1" inflected="yes">krass</token>
-                    <token regexp="yes">Unterschiede?|Gegensatz|Gegensätze|Gegenteile?|Widerspruch|Widersprüche|Kontraste?|Veränderung(en)?</token>
+                    <token skip="-1" inflected="yes" case_sensitive="yes" regexp="yes">Unterschied|Gegensatz|Gegenteil|Widerspruch|Kontrast|Veränderung</token>
                 </antipattern>
                 <pattern>
                     <marker>
