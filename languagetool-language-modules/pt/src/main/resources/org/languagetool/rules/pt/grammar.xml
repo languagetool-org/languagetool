@@ -25021,16 +25021,67 @@ Como nos canta Afonso X de Castela, o Rei Sábio.
 			</antipattern>		
 <!-- MARCOAGPINTO 2021-01-09 (1-JAN-2021+) *END* --> 
 
+<!-- MARCOAGPINTO 2022-03-09/10 (1-JAN-2022+) *START* -->
+<!--
+As carências de coordenadores até ontem ninguém sabia quando iam ser liberadas.
+Ninguém duvida que, no pensamento das massas, milagre implica a ideia de um fato extranatural.
+Tudo indica que vai chover esta tarde.
+Ninguém continua onde os valores e, portanto, os limites que acredita como corretos estejam distantes.
+-->
+      <antipattern>
+		<token negate_pos="yes" postag='V.+' postag_regexp='yes'/>
+		<token postag='PI.+' postag_regexp='yes'>
+			<exception postag_regexp="yes" postag="DI.+"/>
+		</token>
+		<token postag='V.+' postag_regexp='yes'/>
+		<token postag='CS|RG|SPS00' postag_regexp='yes'>
+			<exception postag_regexp="yes" postag="NC.+|AQ.+"/>
+			<exception regexp='yes'>com|d[aeo]s?</exception>
+		</token>
+      </antipattern>
+<!--
+Qualquer um seria melhor do que ninguém.
+Também esqueci de untar com azeite o papel alumínio pra enrolar o bolo, mas enfim, no final tudo deu certo e ficou realmente bem gostoso!
+Alguém fabrica aves que voam por entre as labaredas de azul.
+Tudo seria mais fácil se pudéssemos flutuar.
+Ninguém sabia nada sobre isso.
+-->
+      <antipattern>
+		<token postag='DI.+|NC.+|AQ.+|SENT_START|RG|CS' postag_regexp='yes'>
+			<exception postag_regexp="yes" postag="CC|V.+"/>
+			<exception regexp='no'>como</exception> <!-- "assim como" (RG) + "outras vitimas" - 2022-03-10 -->
+		</token>
+		<token postag='PI.+' postag_regexp='yes'/>
+		<token postag='V.+' postag_regexp='yes'/>
+		<token postag='CS|RG|NC.+|AQ.+|DI.+|_PUNCT' postag_regexp='yes'/>
+		<token negate_pos="yes" postag='SPS00' postag_regexp='no'/>
+      </antipattern> 
+<!--
+Isso também indica que ninguém pronuncia essa palavra há várias décadas.
+Enfim, na iminência da derrota total, teve ainda o desplante de declarar que nada ficaria na mesma depois do Apito, pois tinha conseguido incomodar e assustar... os inocentes.
+Esta pergunta era tão difícil que ninguém seria capaz de responder.
+Ninguém sabia disso a não ser o Tom.
+Ninguém duvida da sua aptidão para o posto.
+Não fazer nada seria impossível.
+O amor tudo supera.
+-->
+      <antipattern>
+		<token postag='CS|SENT_START|CC|RG|DI.+|DA.+|PI.+|PP.+|NC.+|AQ.+|V.+|SPS.+|_PUNCT|DD.+' postag_regexp='yes'/>
+		<token regexp='yes'>mesm[ao]s?|ninguém|nada|tudo</token>
+		<token postag='V.+' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-03-09/10 (1-JAN-2022+) *END* -->
+
              <!-- do paragrafo-->
              <pattern>
-                 <token postag="SPS.*" postag_regexp="yes"><exception postag="RG|.*\+P[PD].*" postag_regexp="yes"/></token>
+                 <token postag="SPS.*|PI.+" postag_regexp="yes"><exception postag="RG|.*\+P[PD].*" postag_regexp="yes"/></token> <!-- Improved by MARCOAGPINTO "Eu escrevi uma página do livro." (PI.+) 2022-03-09 -->
                  <token postag="D[AI].*" postag_regexp="yes" min="0"/>
                  <marker>
                      <token><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/><exception regexp="yes" case_sensitive="yes">\p{Lu}\p{Lu}+s|\p{Lu}\p{Lu}</exception></token>
                  </marker>
              </pattern>
              <filter class="org.languagetool.rules.pt.ConfusionCheckFilter" args="form:\3 postag:[AN].*"/>
-             <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+             <message>Sem o acento, essa é a forma verbal da palavra. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
              <suggestion>{suggestion}</suggestion>
              <example correction='parágrafo'>A excepção do <marker>paragrafo</marker>.</example>
              <example correction="amêijoas">Voltou com as <marker>ameijoas</marker> iguais e o cliente desistiu do artigo.</example>
@@ -25042,7 +25093,32 @@ Como nos canta Afonso X de Castela, o Rei Sábio.
              <example>Uma pedra nos servia de assento.</example>
              <example>Qual deles seria o rei?</example>
              <example>Além disso pratico yoga.</example>
+
+			 <example>À semelhança de uma estrela em céu noturno, ela nos indica a direção.</example>
+			 <example>Você nos canta umas músicas em inglês?</example>
+			 <example>Você nos incomoda com sua música.</example>
+			 <example>Como nos canta Afonso X de Castela, o Rei Sábio.</example>
+
+			 <example>As carências de coordenadores até ontem ninguém sabia quando iam ser liberadas.</example>
+			 <example>Ninguém duvida que, no pensamento das massas, milagre implica a ideia de um fato extranatural.</example>
+			 <example>Tudo indica que vai chover esta tarde.</example>
+			 <example>Ninguém continua onde os valores e, portanto, os limites que acredita como corretos estejam distantes.</example>
+
+			 <example>Qualquer um seria melhor do que ninguém.</example>
+			 <example>Também esqueci de untar com azeite o papel alumínio pra enrolar o bolo, mas enfim, no final tudo deu certo e ficou realmente bem gostoso!</example>
+			 <example>Alguém fabrica aves que voam por entre as labaredas de azul.</example>
+			 <example>Tudo seria mais fácil se pudéssemos flutuar.</example>
+			 <example>Ninguém sabia nada sobre isso.</example>
+
+			 <example>Isso também indica que ninguém pronuncia essa palavra há várias décadas.</example>
+			 <example>Enfim, na iminência da derrota total, teve ainda o desplante de declarar que nada ficaria na mesma depois do Apito, pois tinha conseguido incomodar e assustar... os inocentes.</example>
+			 <example>Esta pergunta era tão difícil que ninguém seria capaz de responder.</example>
+			 <example>Ninguém sabia disso a não ser o Tom.</example>
+			 <example>Ninguém duvida da sua aptidão para o posto.</example>
+			 <example>Não fazer nada seria impossível.</example>
+			 <example>O amor tudo supera.</example>
          </rule>
+
          <rule>
              <pattern>
                  <token>nos</token>
@@ -25051,7 +25127,7 @@ Como nos canta Afonso X de Castela, o Rei Sábio.
                  </marker>
              </pattern>
              <filter class="org.languagetool.rules.pt.ConfusionCheckFilter" args="form:\2 postag:N.[MC]P.*|A..[MC]P."/>
-             <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+             <message>Sem o acento, essa é a forma verbal da palavra. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
              <suggestion>{suggestion}</suggestion>
              <example correction='trâmites'>Um erro nos <marker>tramites</marker>.</example>
              <example>Uma pedra nos servia de assento.</example>
