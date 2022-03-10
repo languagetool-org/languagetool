@@ -890,7 +890,7 @@ public class MultiDocumentsHandler {
         lt.disableRule(id);
       }
     }
-//    handleLtDictionary();
+    handleLtDictionary();
   }
   
   /**
