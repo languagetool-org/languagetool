@@ -13018,7 +13018,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				<rule id="W_WEGRZECH" name="„w Węgrzech, w Białorusi” (na Węgrzech, na Białorusi)">
 						<pattern>
 								<token>w<exception scope="previous" inflected="yes">rozkochać</exception></token>
-								<token regexp="yes">Węgrzech|Białorusi|Ukrainie|Syberii|Bukowinie|Morawach|Wołoszczyźnie|Antarktydzie</token>
+								<token regexp="yes">Węgrzech|Białorusi|Syberii|Bukowinie|Morawach|Wołoszczyźnie|Antarktydzie</token>
 						</pattern>
 						<message>Z tą nazwą geograficzną używa się przyimka „na”: <suggestion>na \2</suggestion>.</message>
 						<short>Błąd leksykalny</short>
@@ -13053,7 +13053,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>Jarosław chce pojechać na Białoruś.</example>
 								<example correction="na Białoruś">Jarosław chce pojechać <marker>do Białorusi</marker> z Alikiem.</example>
 						</rule>
-						<rule>
+						<!-- rule>
 								<pattern>
 										<token inflected="yes" regexp="yes">jechać|podróżować|pojechać|wyjechać</token>
 										<marker>
@@ -13065,7 +13065,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<short>Błąd leksykalny</short>
 								<example>Jarosław chce pojechać na Ukrainę.</example>
 								<example correction="na Ukrainę">Jarosław chce pojechać <marker>do Ukrainy</marker> z Alikiem.</example>
-						</rule>
+						</rule -->
 						<rule>
 								<pattern>
 										<token inflected="yes" regexp="yes">jechać|podróżować|pojechać|wyjechać</token>
@@ -20572,6 +20572,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
 		<category id="TYPOS" name="Prawdopodobne literówki" type="misspelling">
+		<rule id="ZONA_ZONA" name="„zona” mylone z „żona”">
+        <pattern>
+            <unify><feature id="case"/><feature id="number"/><feature id="gender"/>
+            <token inflected="yes" postag="ppas.*|adj.*" postag_regexp="yes" regexp="yes">poślubić|kochać|zdradz[i]ć|porzucić|bić|mój|były|szczęśliwy|pański|przyszły|młody|ciężarny|najszczęśliwszy|śliczny|piękny|zazdrosny|kochany|niepracujący|wzorowy|cudzy|twój|modny|wierny|idealny|chory|zmarły|drugi|ukochany|mądry|ówczesny|przykładny|pierwszy|własny|trzeci</token>
+            <marker>
+              <token inflected="yes">zona</token>
+            </marker>
+            </unify>        
+        </pattern>
+        <message>Czy chodziło o <match no="2" regexp_match="^z" regexp_replace="ż"></match>?</message>
+        <short>Literówka</short>
+        <example correction="żona">To jest moja była <marker>zona</marker>.</example>
+		</rule>
 		<rule id="KYSZ_A_KYSZ" name="„kysz” (a kysz)">
 		<antipattern>
         <token>derogat</token>
