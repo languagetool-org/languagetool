@@ -24362,25 +24362,58 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Stil -->
     <!-- ====================================================================== -->
     <category id="STYLE" name="Stil" type="style">
-        <rule id="SOWOHL_UND" name="sowohl...und (als auch)" default="temp_off">
-            <antipattern>
-                <token skip="-1">sowohl</token>
-                <token>als</token>
-                <token>auch</token>
-            </antipattern>
-            <pattern>
-                <token skip="-1">sowohl</token>
-                <marker>
-                    <token>und</token>
-                </marker>
-            </pattern>
-            <message>Die schriftsprachlich elegantere Form lautet 'sowohl ... als auch'.</message>
-            <suggestion>als auch</suggestion>
-            <example correction="als auch">Ich fahre sowohl Fahrrad <marker>und</marker> Auto.</example>
-            <example correction="als auch">Sowohl gestern <marker>und</marker> heute hat meine Schwester zu viel Geld ausgegeben.</example>
-            <example>Ich denke, dass sowohl Arbeiten als auch Lernen zum Leben gehören, und das jeden Tag.</example>
-            <example>Sowohl der Präsident als auch der Premierminister spielen eine wichtige Rolle, und zwar in politischen Fragen.</example>
-        </rule>
+        <rulegroup id="SOWOHL_UND" name="sowohl...und (als auch)" default="temp_off">
+            <rule>
+                <antipattern>
+                    <token skip="-1">sowohl</token>
+                    <token regexp="yes">als|wie|oder</token>
+                    <token>auch</token>
+                </antipattern>
+                <pattern>
+                    <token skip="-1">sowohl</token>
+                    <marker>
+                        <token regexp="yes">als|wie|oder|und|&amp;|sowie|alsauch|aber|auch</token>
+                    </marker>
+                </pattern>
+                <message>Die schriftsprachlich elegantere Form lautet 'sowohl ... als auch'.</message>
+                <suggestion>als auch</suggestion>
+                <example correction="als auch">Ich fahre sowohl Fahrrad <marker>und</marker> Auto.</example>
+                <example correction="als auch">Ich fahre sowohl Fahrrad <marker>sowie</marker> Auto.</example>
+                <example correction="als auch">Ich fahre sowohl Fahrrad <marker>wie</marker> Auto.</example>
+                <example correction="als auch">Sowohl gestern <marker>und</marker> heute hat meine Schwester zu viel Geld ausgegeben.</example>
+                <example>Ich denke, dass sowohl Arbeiten als auch Lernen zum Leben gehören, und das jeden Tag.</example>
+                <example>Sowohl der Präsident als auch der Premierminister spielen eine wichtige Rolle, und zwar in politischen Fragen.</example>
+                <example>Sowohl im Einzel wie auch im Synchron-Wettbewerb habe ich damals verloren und bin ohne Medaille nach Hause gegangen.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token skip="-1">sowohl</token>
+                    <token>bis</token>
+                    <token regexp="yes">zu|hin</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1">sowohl</token>
+                    <token regexp="yes">als|wie|oder|und|&amp;|sowie|alsauch|aber|auch</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1">sowohl</token>
+                    <token regexp="yes">als|wie|oder|und|aber|also|sowie</token>
+                    <token>auch</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token skip="-1">sowohl</token>
+                    </marker>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>'Sowohl' ist ein Teil der Doppelverbindung 'sowohl...als auch'. Hier scheint '...als auch' zu fehlen.</message>
+                <suggestion></suggestion>
+                <example correction="">Ich fahre <marker>sowohl</marker> Fahrrad.</example>
+                <example>Ich spiele sowohl Fußball bis hin zu Tennis.</example>
+                <example>Ich mag sowohl Tennis, aber auch Fußball und Basketball.</example>
+                <example>Ich mag sowohl Tennis sowie Fußball und Basketball.</example>
+            </rule>
+        </rulegroup>
         <rule id="SICH_GEGENSEITIG" name="sich gegenseitig (einander)" default="temp_off" tags="picky">
             <pattern>
                 <token postag="PRO:REF.*" postag_regexp="yes"/>
