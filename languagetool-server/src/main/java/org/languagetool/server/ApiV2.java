@@ -40,6 +40,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.lang.reflect.Constructor;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.util.*;
@@ -481,6 +482,14 @@ class ApiV2 {
       g.writeStringField("buildDate", JLanguageTool.BUILD_DATE);
       g.writeStringField("commit", JLanguageTool.GIT_SHORT_ID);
       g.writeBooleanField("premium", Premium.isPremiumVersion());
+      if (Premium.isPremiumVersion()) {
+        Premium premium = Premium.get();
+        g.writeObjectFieldStart("premiumBuildInfo");
+        g.writeStringField("version", premium.getVersion());
+        g.writeStringField("buildDate", premium.getBuildDate());
+        g.writeStringField("commit", premium.getShortGitId());
+        g.writeEndObject();
+      }
       g.writeEndObject();
       g.writeEndObject();
     }

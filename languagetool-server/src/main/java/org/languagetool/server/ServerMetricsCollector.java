@@ -144,7 +144,15 @@ public class ServerMetricsCollector {
   }
 
   public ServerMetricsCollector() {
-    buildInfo.info("version", Objects.toString(JLanguageTool.VERSION), "buildDate", Objects.toString(JLanguageTool.BUILD_DATE), "revision", Objects.toString(JLanguageTool.GIT_SHORT_ID), "premium", Objects.toString(String.valueOf(Premium.isPremiumVersion())));
+    buildInfo.info(
+            "version", Objects.toString(JLanguageTool.VERSION), 
+            "buildDate", Objects.toString(JLanguageTool.BUILD_DATE), 
+            "revision", Objects.toString(JLanguageTool.GIT_SHORT_ID), 
+            "premium", Objects.toString(String.valueOf(Premium.isPremiumVersion())),
+            "premiumVersion", Objects.toString(Premium.get().getVersion()),
+            "premiumBuildDate",Objects.toString(Premium.get().getBuildDate()),
+            "premiumRevision",Objects.toString(Premium.get().getShortGitId())
+    );
   }
 
 
