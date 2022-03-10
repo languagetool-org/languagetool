@@ -22752,14 +22752,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category id="COLLOQUIALISMS" name="Umgangssprache" type="register">
         <!-- TODO Make one Java-rule for context-independent, colloquial expressions and maintain a list -->
-            <rule id="KRASS_STIL" name="krass (erstklassig, extrem)" default="temp_off" tags="picky">
+            <rule id="KRASS_STIL" name="krass (erstklassig, extrem)" default="temp_off">
                 <antipattern>
-                    <token skip="-1" regexp="yes">Unterschiede?|Gegensatz|Gegensätze|Gegenteile?|Widerspruch|Widersprüche|Kontraste?</token>
+                    <token postag="ABK.*SUB" postag_regexp="yes"/>
+                    <token min="0">.</token>
+                    <token case_sensitive="yes">Krass</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="EIG.*" postag_regexp="yes"/>
+                    <token case_sensitive="yes">Krass</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1" regexp="yes">Unterschiede?|Gegensatz|Gegensätze|Gegenteile?|Widerspruch|Widersprüche|Kontraste?|Veränderung(en)?</token>
                     <token>krass</token>
                 </antipattern>
                 <antipattern>
                     <token skip="-1" inflected="yes">krass</token>
-                    <token regexp="yes">Unterschiede?|Gegensatz|Gegensätze|Gegenteile?|Widerspruch|Widersprüche|Kontraste?</token>
+                    <token regexp="yes">Unterschiede?|Gegensatz|Gegensätze|Gegenteile?|Widerspruch|Widersprüche|Kontraste?|Veränderung(en)?</token>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -22779,6 +22788,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Krass ist der Unterschied zwischen heute und gestern.</example>
                 <example>Ich habe den krassen Widerspruch nicht bemerkt.</example>
                 <example>Zu krasse Unterschiede führen zu Inkonsistenzen.</example>
+                <example>Der Vortrag wurde präsentiert von Michael Krass.</example>
+                <example>Prof. Krass leitet heute das Seminar.</example>
             </rule>
             <rule id="KOMPLETT_STIL" name="komplett (völlig, vollkommen)" default="temp_off" tags="picky">
                 <pattern>
