@@ -25021,7 +25021,7 @@ Como nos canta Afonso X de Castela, o Rei Sábio.
 			</antipattern>		
 <!-- MARCOAGPINTO 2021-01-09 (1-JAN-2021+) *END* --> 
 
-<!-- MARCOAGPINTO 2022-03-09/10 (1-JAN-2022+) *START* -->
+<!-- MARCOAGPINTO 2022-03-09/10/11 (1-JAN-2022+) *START* -->
 <!--
 As carências de coordenadores até ontem ninguém sabia quando iam ser liberadas.
 Ninguém duvida que, no pensamento das massas, milagre implica a ideia de um fato extranatural.
@@ -25049,13 +25049,13 @@ Ninguém sabia nada sobre isso.
       <antipattern>
 		<token postag='DI.+|NC.+|AQ.+|SENT_START|RG|CS' postag_regexp='yes'>
 			<exception postag_regexp="yes" postag="CC|V.+"/>
-			<exception regexp='no'>como</exception> <!-- "assim como" (RG) + "outras vitimas" - 2022-03-10 -->
+			<exception regexp='no'>como</exception> <!-- "assim como" (RG+RG) + "outras vitimas" - 2022-03-10 -->
 		</token>
 		<token postag='PI.+' postag_regexp='yes'/>
 		<token postag='V.+' postag_regexp='yes'/>
-		<token postag='CS|RG|NC.+|AQ.+|DI.+|_PUNCT' postag_regexp='yes'/>
+		<token postag='RM|CS|RG|NC.+|AQ.+|DI.+|_PUNCT' postag_regexp='yes'/>
 		<token negate_pos="yes" postag='SPS00' postag_regexp='no'/>
-      </antipattern> 
+      </antipattern>
 <!--
 Isso também indica que ninguém pronuncia essa palavra há várias décadas.
 Enfim, na iminência da derrota total, teve ainda o desplante de declarar que nada ficaria na mesma depois do Apito, pois tinha conseguido incomodar e assustar... os inocentes.
@@ -25067,10 +25067,20 @@ O amor tudo supera.
 -->
       <antipattern>
 		<token postag='CS|SENT_START|CC|RG|DI.+|DA.+|PI.+|PP.+|NC.+|AQ.+|V.+|SPS.+|_PUNCT|DD.+' postag_regexp='yes'/>
-		<token regexp='yes'>mesm[ao]s?|ninguém|nada|tudo</token>
+		<token regexp='yes'>mesm[ao]s?|alguém|ninguém|nada|tudo</token>
 		<token postag='V.+' postag_regexp='yes'/>
       </antipattern>
-<!-- MARCOAGPINTO 2022-03-09/10 (1-JAN-2022+) *END* -->
+<!--
+WHEN WE WILL HAVE THE NEW POSes WITH ":" ("dess[ae]s?|dest[ae]s?") TRY TO MOVE TO ABOVE.
+Mas pq diabos uma figura dessas seria agora plasmada à imagem de um (ex)juiz em manifestações de rua?
+-->
+      <antipattern>
+		<token postag='CS|SENT_START|CC|RG|DI.+|DA.+|PI.+|PP.+|NC.+|AQ.+|V.+|SPS.+|_PUNCT|DD.+' postag_regexp='yes'/>
+		<token regexp='yes'>dess[ae]s?|dest[ae]s?</token>
+		<token postag='V.+' postag_regexp='yes'/>
+		<token postag='RG' postag_regexp='no'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-03-09/10/11 (1-JAN-2022+) *END* -->
 
              <!-- do paragrafo-->
              <pattern>
@@ -25117,6 +25127,8 @@ O amor tudo supera.
 			 <example>Ninguém duvida da sua aptidão para o posto.</example>
 			 <example>Não fazer nada seria impossível.</example>
 			 <example>O amor tudo supera.</example>
+
+			 <example>Mas pq diabos uma figura dessas seria agora plasmada à imagem de um (ex)juiz em manifestações de rua?</example>
          </rule>
 
          <rule>
