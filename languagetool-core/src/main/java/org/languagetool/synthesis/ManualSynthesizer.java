@@ -97,7 +97,8 @@ public final class ManualSynthesizer {
         line = StringUtils.substringBefore(line, "#").trim();
         String[] parts = line.split(separator);
         if (parts.length != 3) {
-          throw new IOException("Unknown line format when loading manual synthesizer dictionary: " + line);
+          throw new IOException("Unknown line format when loading manual synthesizer dictionary, " +
+            "expected 3 parts separated by '" + separator + "', found " + parts.length + ": '" + line + "'");
         }
 
         String form = parts[0];
