@@ -50,7 +50,6 @@ public final class ManualSynthesizer {
   private final Set<String> possibleTags;
   
   private final static String DEFAULT_SEPARATOR = "\t";
-  private static String separator;
 
   public ManualSynthesizer(InputStream inputStream) throws IOException {
     THashSet<String> tags = new THashSet<>();
@@ -84,7 +83,7 @@ public final class ManualSynthesizer {
     Map<TaggedWord, List<String>> mapping = new HashMap<>();
     Map<String, String> interned = new HashMap<>();
     try (Scanner scanner = new Scanner(inputStream, "utf8")) {
-      separator = DEFAULT_SEPARATOR;
+      String separator = DEFAULT_SEPARATOR;
       while (scanner.hasNextLine()) {
         String line = scanner.nextLine();
         line = line.trim();
