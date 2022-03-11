@@ -6438,6 +6438,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Verwechslungen -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
+        <rule id="MITTELSTAENDIGES_UNTERNEHMEN" name="mittelständig vs mittelständisch" default="temp_off">
+            <pattern>
+                <marker>
+                    <token inflected="yes" skip="1">mittelständig</token>
+                </marker>
+                <token regexp="yes" inflected="yes">.*Unternehmen|.*Unternehmer(in)?|.*Kunde|.*Kanzlei|.*Gesellschaft|.*Firma|.*Betrieb|.*Familie|Haushalt|.*Wirtschaft|.*Gewerbe|.*Geschäft|.*Zulieferer|.*Brauerei</token>
+            </pattern>
+            <message>Das Wort "mittelständig" kommt aus der Botanik. Wenn Sie sich auf den "Mittelstand" beziehen wollen, ist <suggestion><match no="1" regexp_match="ig" regexp_replace="isch" /></suggestion> korrekt.</message>
+            <url>https://www.steuerberater-braun.de/steuerwissen/gruendungen/unterschied-zwischen-mittelstaendig-und-mittelstaendisch/</url>
+            <short>Wortverwechslung</short>
+            <example correction="mittelständischen">Peter ist der Chef eines <marker>mittelständigen</marker> Unternehmens.</example>
+        </rule>
         <rule id="FAIL_FEHL" name="fail vs fehl">
             <pattern>
                 <token inflected="yes" skip="4">
@@ -25844,7 +25856,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
-        <rule id="ZUM_TROTZ" name="zum trotz (Trotz)" default="temp_off">
+        <rule id="ZUM_TROTZ" name="zum trotz (Trotz)">
             <pattern case_sensitive="yes">
                 <token regexp="yes">[Zz]um</token>
                 <marker>
@@ -35359,6 +35371,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>mühe</token>
                     </marker>
+                    <token min="0">zu</token>
                     <token inflected="yes">geben</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Mühe</suggestion>&subende;</message>
@@ -50760,7 +50773,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="dass">Sie wusste <marker>das</marker> er das schafft.</example>
                 <example>Das Gesicht, das ihm das Leben gegeben hat.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>nicht</token>
                     <token min="0">,</token>
@@ -50769,7 +50782,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token>ich</token>
                     <token postag="ADV.*" postag_regexp="yes" min="0" />
-                    <token>wüsste</token>
+                    <token regexp="yes">wü(ss|ß)te</token>
                 </pattern>
                 <message>Prüfen Sie, ob hier <suggestion>dass</suggestion> stehen sollte.</message>
                 <example correction="dass">Nicht, <marker>das</marker> ich wüsste.</example>
@@ -55997,7 +56010,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Zeichensetzung -->
     <!-- ====================================================================== -->
     <category id="PUNCTUATION" name="Zeichensetzung">
-        <rule id="WIE_DER_DER_KOMMA" name="wie der(,) der damals" default="temp_off">
+        <rule id="WIE_DER_DER_KOMMA" name="wie der(,) der damals">
             <pattern>
                 <token regexp="yes">als|wie</token>
                 <token regexp="yes">der|die|das</token>
@@ -60026,17 +60039,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START" skip="-1"/>
                     <token skip="-1" postag=".*VER.*" postag_regexp="yes"><exception scope="next" regexp="yes">(,|und|oder)</exception></token>
+                    <token skip="-1" regexp="yes">(nicht|kein.*|kaum|nie)<exception scope="next" regexp="yes">(,|;|und|oder|—|\-|\–|\()</exception></token>
                     <marker>
-                        <token skip="-1" regexp="yes">(nicht|kein.*|kaum|nie)<exception scope="next" regexp="yes">(,|;|und|oder|—|\-|\–|\()</exception></token>
                         <token>sondern</token>
                     </marker>
                 </pattern>
                 <message>Vor der Konjunktion 'sondern' steht immer ein Komma.</message>
-                <suggestion><match no="3" include_skipped="all"/>, \4</suggestion>
+                <suggestion>, \4</suggestion>
                 <url>https://www.duden.de/sprachwissen/sprachratgeber/Besonderheiten-von-sondern</url>
                 <example>Sie geht nicht, <marker>sondern</marker> schwimmt.</example>
                 <example>Sie laufen nicht und <marker>sondern</marker> trotzdem Schweiß ab.</example>
-                <example correction="nicht, sondern">Sie geht <marker>nicht sondern</marker> sie schwimmt.</example>
+                <example correction=", sondern">Sie geht nicht<marker> sondern</marker> sie schwimmt.</example>
                 <example>Sie geht nicht — <marker>sondern</marker> schwimmt</example>
             </rule>
             <rule>
@@ -60044,49 +60057,49 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SENT_START" skip="-1"/>
                     <token skip="-1">,</token>
                     <token skip="-1" postag=".*VER.*" postag_regexp="yes"><exception scope="next" regexp="yes">(,|und|oder)</exception></token>
+                    <token skip="-1" regexp="yes">(nicht|kein.*|kaum|nie)<exception scope="next" regexp="yes">(,|;|und|oder|—|\-|\–|\()</exception></token>
                     <marker>
-                        <token skip="-1" regexp="yes">(nicht|kein.*|kaum|nie)<exception scope="next" regexp="yes">(,|;|und|oder|—|\-|\–|\()</exception></token>
                         <token>sondern</token>
                     </marker>
                 </pattern>
                 <message>Vor der Konjunktion 'sondern' steht immer ein Komma.</message>
-                <suggestion><match no="4" include_skipped="all"/>, \5</suggestion>
+                <suggestion>, \5</suggestion>
                 <url>https://www.duden.de/sprachwissen/sprachratgeber/Besonderheiten-von-sondern</url>
                 <example>Sie läuft nicht, sie geht nicht, <marker>sondern</marker> schwimmt.</example>
                 <example>Sie schwimmt nicht, sie laufen nicht und <marker>sondern</marker> trotzdem Schweiß ab.</example>
-                <example correction="nicht, sondern">Sie läuft nicht, sie geht <marker>nicht sondern</marker> sie schwimmt.</example>
+                <example correction=", sondern">Sie läuft nicht, sie geht nicht<marker> sondern</marker> sie schwimmt.</example>
                 <example>Sie läuft nicht, sie geht nicht — <marker>sondern</marker> schwimmt</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START" skip="-1"/>
                     <token skip="-1" regexp="yes">(?iu)(nicht|kein.*|kaum|nie)<exception scope="next" regexp="yes">(,|und|oder)</exception></token>
+                    <token skip="-1" postag=".*VER.*" postag_regexp="yes"><exception scope="next" regexp="yes">(,|und|oder|—|\-|\–|\()</exception></token>
                     <marker>
-                        <token skip="-1" postag=".*VER.*" postag_regexp="yes"><exception scope="next" regexp="yes">(,|und|oder|—|\-|\–|\()</exception></token>
                         <token>sondern</token>
                     </marker>
                 </pattern>
                 <message>Vor der Konjunktion 'sondern' steht immer ein Komma.</message>
-                <suggestion><match no="3" include_skipped="all"/>, \4</suggestion>
+                <suggestion>, \4</suggestion>
                 <example>Kein Bisschen hat er getan, <marker>sondern</marker> nur herumgelegen.</example>
                 <example>Sie sind nicht auf Jagd gegangen und <marker>sondern</marker> trotzdem Schweiß ab.</example>
-                <example correction="hat er getan, sondern">Kein Bisschen <marker>hat er getan sondern</marker> nur herumgelegen.</example>
+                <example correction=", sondern">Kein Bisschen hat er getan<marker> sondern</marker> nur herumgelegen.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START" skip="-1"/>
                     <token skip="-1">,</token>
                     <token skip="-1" regexp="yes">(?iu)(nicht|kein.*|kaum|nie)<exception scope="next" regexp="yes">(,|und|oder)</exception></token>
+                    <token skip="-1" postag=".*VER.*" postag_regexp="yes"><exception scope="next" regexp="yes">(,|und|oder|—|\-|\–|\()</exception></token>
                     <marker>
-                        <token skip="-1" postag=".*VER.*" postag_regexp="yes"><exception scope="next" regexp="yes">(,|und|oder|—|\-|\–|\()</exception></token>
                         <token>sondern</token>
                     </marker>
                 </pattern>
                 <message>Vor der Konjunktion 'sondern' steht immer ein Komma.</message>
-                <suggestion><match no="4" include_skipped="all"/>, \5</suggestion>
+                <suggestion>, \5</suggestion>
                 <example>Er ist nie faul, kein Bisschen hat er getan, <marker>sondern</marker> nur herumgelegen.</example>
                 <example>Sie sind nie faul, sie sind nicht auf Jagd gegangen und <marker>sondern</marker> trotzdem Schweiß ab.</example>
-                <example correction="hat er getan, sondern">Er ist nie faul, kein Bisschen <marker>hat er getan sondern</marker> nur herumgelegen.</example>
+                <example correction=", sondern">Er ist nie faul, kein Bisschen hat er getan<marker> sondern</marker> nur herumgelegen.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SUBJUNKTION_KOMMA" name="Fehlendes Komma bei Subjunktion">
