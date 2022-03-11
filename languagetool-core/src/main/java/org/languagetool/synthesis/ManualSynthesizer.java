@@ -99,15 +99,13 @@ public final class ManualSynthesizer {
           throw new IOException("Unknown line format when loading manual synthesizer dictionary, " +
             "expected 3 parts separated by '" + separator + "', found " + parts.length + ": '" + line + "'");
         }
-
         String form = parts[0];
-
         String lemma = parts[1];
-        if (form.equals(lemma)) form = lemma;
+        if (form.equals(lemma)) {
+          form = lemma;
+        }
         lemma = interned.computeIfAbsent(lemma, Function.identity());
-
         String posTag = internedStrings.computeIfAbsent(parts[2], Function.identity());
-
         mapping.computeIfAbsent(new TaggedWord(lemma, posTag), __ -> new ArrayList<>()).add(form);
         outTags.add(posTag);
       }
