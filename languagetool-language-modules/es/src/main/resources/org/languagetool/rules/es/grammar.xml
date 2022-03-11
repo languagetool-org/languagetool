@@ -139,7 +139,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </phrase>
     </phrases>
     <category id="CASING" name="Mayúsculas y minúsculas" type="typographical">
-        <rule id="ESO" name="ESO (Educación Secundaria Obligatoria" default="temp_off">
+        <rule id="ESO" name="ESO (Educación Secundaria Obligatoria">
             <antipattern>
                 <token regexp="yes">una|esta|esa|aquella</token>
                 <token>eso</token>
@@ -19456,7 +19456,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS2" name="Confusiones (2)">
-        <rulegroup id="LA_ESTA" name="combinación imposible: la esta" default="temp_off">
+        <rulegroup id="LA_ESTA" name="combinación imposible: la esta">
             <!-- TODO: similar rules with el, los, las  -->
             <antipattern>
                 <token>la</token>
@@ -19493,13 +19493,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>la</token>
-                    <token postag="[PD]D.*" postag_regexp="yes"/>
+                    <token postag="[PD]D.*" postag_regexp="yes"><exception>tal</exception></token>
                 </pattern>
                 <message>Posible confusión. ¿Quería decir <suggestion>\1</suggestion> o <suggestion>\2</suggestion>?</message>
                 <example correction="la|esta">Quedó incorporado a <marker>la esta</marker> última en 1557.</example>
                 <example>El palacio consiste en cuatro fachadas: la oeste, la sur, la norte y la este. </example>
                 <example>La ética en la ESO.</example>
                 <example>Ahora escribe la ese.</example>
+                <example>Nada le ha importado, hasta ahora, que la tal acción fuera ilegal.</example>
             </rule>
         </rulegroup>
         <rulegroup id="EL_MENOS" name="el menos/al menos">
