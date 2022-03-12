@@ -5473,6 +5473,12 @@ Copyright (C) 2011 Juan Martorell
             <!-- error: esté -->
             <token postag="A.*" postag_regexp="yes"/>
         </antipattern>
+        <antipattern>
+            <token regexp="yes">estas|esta</token>
+            <!-- error: estás -->
+            <token postag="A.*" postag_regexp="yes"/>
+            <token regexp="yes">\?|\.</token>
+        </antipattern>
         <pattern>
             <token><exception postag="RG_before|LOC_ADV|_GV_|SPS00|CC|UNKNOWN|V.[SI].*|_PUNCT.*|&pronombre_personal_atono_POS;" postag_regexp="yes"/><exception inflected="yes" regexp="yes">ser|estar|parecer|considerar</exception><exception regexp="yes">super|súper</exception></token>
             <marker>

@@ -8006,6 +8006,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="estás">Ahora <marker>estas</marker> cansado.</example>
                 <example correction="estás">Si <marker>estas</marker> interesado escríbeme.</example>
                 <example correction="estás">Ahora <marker>estas</marker> un poco baja de moral.</example>
+                <example correction="estás">¿Ahora <marker>estas</marker> contenta?</example>
+                <example correction="estás">Se nota que <marker>estas</marker> inquieta.</example>
                 <example>Alguien desordena estas rosas.</example>
                 <example>Estas características añadidas son:</example>
                 <example>Estas ahora no están.</example>
@@ -8033,7 +8035,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¿Como estas?</example>
                 <example>de cómo estas células se regulan</example>
             </rule>
-            <rule default="on">
+            <rule>
                 <antipattern>
                     <token>como</token>
                     <token>estas</token>
@@ -8050,6 +8052,54 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Estás">¿<marker>Estas</marker> haciéndolo?</example>
                 <example>Ejemplos de estas cantando.</example>
                 <example>Algunas como estas corriendo.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>como</token>
+                    <token>estas</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" skip="3">ser<exception postag="PR.*|C.*|_PUNCT.*" postag_regexp="yes" scope="next"/></token>
+                    <token>estas</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.I.*" postag_regexp="yes"/>
+                    <token min="0" regexp="yes">a|que|de</token>
+                    <token min="0" postag="V.N.*" postag_regexp="yes"/>
+                    <token>estas</token>
+                </antipattern>
+                <antipattern>
+                    <token>estas</token>
+                    <token postag="V.I.[23].*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token skip="-1">estas<exception postag="_GN_FP"/></token>
+                    </marker>
+                    <token>?</token>
+                </pattern>
+                <message>Si es del verbo 'estar', se escribe con tilde.</message>
+                <suggestion>estás</suggestion>
+                <example correction="estás">¿Qué tal <marker>estas</marker>?</example>
+                <example correction="Estás">¿<marker>Estas</marker> despierto?</example>
+                <example>¿Podrías poner estas en una caja?</example>
+                <example>¿Reconoces estas?</example>
+                <example>¿Estas son las fotos que sacaste en Boston?</example>
+                <example>¿Son velas estas?</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">que|si|cual</token>
+                    <token min="0">no</token>
+                    <marker>
+                        <token>estas</token>
+                    </marker>
+                    <token postag="SPS00|LOC_PREP|A.*|V.P.*|CS|PR.*" postag_regexp="yes"><exception postag="A..[FC][PN].|V.P..PF" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Si es del verbo 'estar', se escribe con tilde.</message>
+                <suggestion>estás</suggestion>
+                <example correction="estás">Se nota que <marker>estas</marker> con él.</example>
+                <example correction="estás">Pues sí que <marker>estas</marker> como una regadera.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ESTAS_TILDE2" name="estas/estás">
@@ -8075,6 +8125,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Si es del verbo 'estar', se escribe con tilde.</message>
                 <suggestion>estás</suggestion>
                 <example correction="estás">Si tú <marker>estas</marker> contento yo soy feliz.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>estas</token>
+                    </marker>
+                    <token>tú</token>
+                    <token postag="RG|A.*|V.P.*" postag_regexp="yes"><exception postag="A..[FC][PN].*|V.P..PF" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Si es del verbo 'estar', se escribe con tilde.</message>
+                <suggestion>estás</suggestion>
+                <example correction="estás">¡Bueno <marker>estas</marker> tú hecho!</example>
             </rule>
         </rulegroup>
         <rulegroup id="ESTE_TILDE" name="*este/esté" default="on">
