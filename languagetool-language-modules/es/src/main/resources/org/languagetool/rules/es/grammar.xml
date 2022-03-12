@@ -1962,7 +1962,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>estado</token>
                 </antipattern>
                 <pattern>
-                    <token inflected="yes" regexp="yes">estar|ser|hacer<exception postag="_GN_MS"/></token>
+                    <token inflected="yes" regexp="yes">estar|ser|hacer<exception postag="_GN_MS|_possible_NP" postag_regexp="yes"/></token>
                     <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"><exception postag="C.*" postag_regexp="yes"/></token>
                     <marker>
                         <token><exception postag="RG|LOC_ADV|[NA].*" postag_regexp="yes"/></token>
@@ -1978,6 +1978,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>En el estado opera el nepotismo.</example>
                 <example>algo que hago sólo mientras termino mi doctorado</example>
                 <example>Los datos para que la fiscalía del estado tramite la orden para su detención.</example>
+                <example>Pedro Estala especifica que sus comedias de figurón no son en realidad comedias de carácter.</example>
             </rule>
             <rule>
                 <!-- Only noun + adj: with 2 errors: alivian la nauseas matutinas-->
@@ -2160,6 +2161,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Si es adjetivo o nombre, se escribe con tilde.</message>
                 <suggestion>{suggestion}</suggestion>
                 <example correction="Depósito">En el "<marker>Deposito</marker> de Archivo".</example>
+            </rule>
+            <rule default="temp_off">
+                <!-- muy especifica -->
+                <pattern>
+                    <token>muy</token>
+                    <token min="0" postag="_QM_OPEN"/>
+                    <marker>
+                        <token><exception postag="D.*|V.N.*|[NA].*|V.P.*|_QM_OPEN" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\3 postag:[AN].*"/>
+                <message>Si es adjetivo o nombre, se escribe con tilde.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="específica">Forma muy <marker>especifica</marker>.</example>
+                <example correction="específica">Forma muy "<marker>especifica</marker>".</example>
             </rule>
         </rulegroup>
         <rulegroup id="CELEBRE" name="celebre -> célebre">
