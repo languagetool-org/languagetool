@@ -80,7 +80,7 @@ public class LanguageToolMenus {
     this.xContext = xContext;
     setConfigValues(config);
     ltHeadMenu = new LTHeadMenu(xComponent);
-    ltContextMenu = new ContextMenuInterceptor();
+    ltContextMenu = new ContextMenuInterceptor(xContext);
     if (debugMode) {
       MessageHandler.printToLogFile("LanguageToolMenus initialised");
     }
