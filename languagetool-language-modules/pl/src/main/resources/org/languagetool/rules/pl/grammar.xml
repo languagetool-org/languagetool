@@ -9659,7 +9659,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				    <token regexp="yes">['’]</token>
 				    <token>s</token>
 				  </antipattern>
-						<rule>
+						<rule> <!-- 1 -->
                 <antipattern>    <!-- reguła: MIMO_CHODEM ma lepszą sugestię -->
                     <token>mimo</token>
                     <token>chodem</token>
@@ -9684,7 +9684,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>Oprócz pięćdziesięciu jeden wolnych miast Niemcy liczą w tym czasie ponad osiemdziesiąt terytoriów.</example>
 								<example>Kraj nasz ciągle atakują z zewnątrz ośrodki propagandowe imperialistycznej dywersji politycznej.</example>
 						</rule>
-						<rule>
+						<rule> <!-- 2 -->
 								<pattern>
 										<token postag="prep:dat.*" postag_regexp="yes"><exception postag="prep:(?!dat).*" postag_regexp="yes"/></token>
 										<marker>
@@ -9698,7 +9698,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>Akademia ku czci pięćdziesiątej rocznicy</example>
 								<example>Niejeden działacz bał się występować przeciw krzywdzie indywidualnej.</example>
 						</rule>
-						<rule>
+						<rule> <!-- 3 -->
 								<pattern>
 										<token postag="prep:nom.*" postag_regexp="yes"><exception>niby</exception><exception>jako</exception><exception>lada</exception><exception>a</exception><exception>aniżeli</exception><exception>niż</exception><exception>jak</exception><exception>niżeli</exception><exception>niźli</exception><exception postag="prep:(?!nom).*" postag_regexp="yes"/></token>
 										<marker>
@@ -9714,7 +9714,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>Określenie jej jako publicystyki ideologicznej jest słuszne.</example>
 								<example>Bo luka między teorią społeczną a praktyką jest spora - ta nadzieja okazała się płonna...</example>
 						</rule>
-						<rule>
+						<rule> <!-- 4 -->
                             <antipattern>
                                 <token>przy</token> <!-- nazwy ulic -->
                                 <marker>
@@ -9738,7 +9738,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>Ma na myśli na przykład Józia.</example>
                                 <example>Znajdował się w głównym gmachu muzeum przy Marcinkowskiego.</example>
 						</rule>
-						<rule>
+						<rule> <!-- 5 -->
                                 <antipattern>
                                     <token>przez</token>
                                     <token>Bóg</token>
@@ -9770,7 +9770,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <example>Upił się po przegranym meczu przez New York Islanders.</example>
                     		<example>W tym samym czasie prace artystki znalazły uznanie za granicą.</example>
 						</rule>
-            <rule>
+            <rule> <!-- 6 -->
               <pattern>                          
                 <token inflected="yes">z<exception scope="previous" regexp="yes">wraz|razem</exception></token>
                 <marker>
@@ -9788,7 +9788,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
               <example>Z grubo pokrajanych porcji chleba odłamywała małe kąski.</example>
               <example>Odbyli rozmowy z sir Patrickiem Mayhew.</example>
             </rule>
-            <rule>
+            <rule> <!-- 7 -->
               <antipattern case_sensitive="yes">
               <marker><token>Pol</token></marker>
               <token>Potem</token>
@@ -9811,7 +9811,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Poksiński zarzucił także Kulikowi, iż wraz z por. Mikołajem Majem, por. Lucjanem Bajraszewskim i płk. Stanisławem Zarakowskim stosował długotrwałe przesłuchania.</example>
                 <example>Przedstawiciel partii Razem z Kalisza pojechał do Rzeszowa.</example>
             </rule>            
-						<rule>
+						<rule> <!-- 8 -->
                             <antipattern>
                                 <token skip="4" postag="num:pl:nom.acc.*" postag_regexp="yes"></token>
                                 <marker>
@@ -9882,7 +9882,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     					<example>Odkryto pięć rodzajów wilków workowatych żyjących miliony lat temu.</example>
                     					<example>Było to tysiące (albo miliony lub miliardy) lat temu.</example>
 						</rule>
-                        <rule>
+                        <rule> <!-- 9 -->
                             <antipattern>
                                 <token postag="prep.*" postag_regexp="yes"><exception>a</exception></token>
                                 <marker><token>około</token></marker>
@@ -9903,7 +9903,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <example>Pociąg spóźnił się o około dwie godziny.</example>
                             <example>Za około dwa tygodnie.</example>
                         </rule>
-                        <rule>
+                        <rule> <!-- 10 -->
                             <antipattern>
                                 <token postag="prep.*" postag_regexp="yes"><exception postag="prep:gen.*" postag_regexp="yes"/><exception>a</exception></token>
                                 <marker><token>ok</token></marker>
@@ -9924,7 +9924,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <!-- tu ok. jest traktowane jako partykuła -->
                             <example>Pociąg spóźnił się o ok. dwie godziny.</example>
                         </rule>
-                        <rule>
+                        <rule> <!-- 11 -->
                             <pattern>
                                 <token postag="prep.*" postag_regexp="yes"><exception postag="prep:gen.*" postag_regexp="yes"/><exception>a</exception><exception>temu</exception></token>
                                 <marker><token>około</token>
@@ -9940,7 +9940,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <example>Narodziłem się w Anglii, skąd wyjechałem lat temu około pięciu.</example>
                             <example>Współpraca argentyńsko-egipska istnieje od około pięciu lat.</example>
                         </rule>
-                        <rule>
+                        <rule> <!-- 12 -->
                          <pattern>
                           <token inflected='yes'>jeden</token>
                           <token inflected="yes">z</token>
@@ -9957,7 +9957,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                          <example correction="największych">Wystawa paryska pozwala przywrócić opinię, że Chagall jest bez wątpienia jednym z <marker>największym</marker> malarzy XX wieku.</example> 
                          <example>Ostatnio jednak zobaczyliśmy owsiankę w menu jednego z super turbo bistro w cenie 15 złotych.</example>
                         </rule>
-                        <rule>
+                        <rule> <!-- 13 -->
                         <antipattern>
                           <token>o</token> <!-- o której los się martwię -->
                           <marker>
@@ -10029,7 +10029,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                          <!-- O_BAJ_OBAJ -->
                          <example>O baj długie lata pracowali na Ukrainie.</example>
                         </rule>
-                        <rule> <!-- „na”: z miejscownikiem lub biernikiem -->
+                        <rule> <!-- 14 „na”: z miejscownikiem lub biernikiem -->
                           <antipattern> <!-- na lat kilkanaście -->
                             <token>na</token>
                             <marker>
@@ -10047,7 +10047,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                           <antipattern>
                             <marker>
                             <token>na</token>
-                            <token>koń</token>
+                            <token regexp="yes">koń|papieże</token>
                             </marker>
                           </antipattern>
                           <antipattern>
@@ -15948,6 +15948,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example correction="Trzeciego Świata">Spotkaliśmy się z przedstawicielami <marker>trzeciego świata</marker>.</example>
 						<example>Spotkaliśmy się z przedstawicielami Trzeciego Świata.</example>
 				</rule>
+				<rule id="MOZE_BALTYCKIE" name="„Może Bałtyckie” (Morze Bałtyckie)">
+            <pattern>
+              <marker>
+              <token>może<exception scope="previous">a</exception></token>
+              </marker>
+              <token regexp="yes">adriatyckie|alandzkie|andamańskie|azowskie|arabskie|balearskie|balijskie|białe|bałtyckie|botnickie|celtyckie|egejskie|chilijskie|czerwone|filipińskie|grenlandzkie|hebrydzkie|irlandzkie|jońskie|karaibskie|kreteńskie|labradorskie|lakkadiwskie|lewantyńskie|libijskie|liguryjskie|mirtejskie|norweskie|nowogwinejskie|północne|sargassowe|sycylijskie|śródziemne|trackie|tyrreńskie|wattowe|czarne|koralowe|wschodniochińskie|jawajskie|moluckie|japońskie|ochockie|południowochińskie|wewnętrzne|żółte</token>
+            </pattern>
+            <message>Możliwy błąd ortograficzny. Czy chodziło o <suggestion>Morze</suggestion>?</message>
+            <short>Błąd ortograficzny</short>
+            <example correction="Morze">Jadę nad <marker>Może</marker> Bałtyckie.</example>
+            <example>A może czarne ravioli lub czarny makaron?</example>
+				</rule>
 				<rulegroup id="MORZE_BALTYCKIE" name="„morze bałtyckie” (Morze Bałtyckie)">
 						<rule>
 								<pattern case_sensitive="yes">
@@ -20572,6 +20584,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
 		<category id="TYPOS" name="Prawdopodobne literówki" type="misspelling">
+		<rule id="POMOZE_GDANSKIE" name="„Pomoże Zachodnie/Gdańskie” (Pomorze Zachodnie/Gdańskie)">
+        <pattern>
+          <marker>
+          <token>pomoże</token>
+          </marker>
+          <token regexp="yes">zachodnie|wschodnie|gdańskie</token>
+        </pattern>
+        <message>Błąd ortograficzny. Czy chodziło o <suggestion>Pomorze</suggestion>?</message>
+        <short>Błąd ortograficzny</short>
+        <example correction="Pomorze">Polacy odzyskali <marker>Pomoże</marker> Gdańskie.</example>
+		</rule>
+		<rule id="NA_PAPIEZE" name="„na papieże” (na papierze)">
+        <pattern>
+          <token>na</token>
+          <marker>
+            <token>papieże</token>          
+          </marker>        
+        </pattern>
+        <message>Błąd ortograficzny. Czy chodziło o <suggestion>papierze</suggestion>?</message>
+        <short>Błąd ortograficzny</short>
+        <example correction="papierze">To projekt tylko na <marker>papieże</marker>.</example>
+		</rule>
 		<rule id="ZONA_ZONA" name="„zona” mylone z „żona”">
         <pattern>
             <unify><feature id="case"/><feature id="number"/><feature id="gender"/>
