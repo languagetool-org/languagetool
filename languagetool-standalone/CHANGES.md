@@ -9,6 +9,11 @@
   * added a rule for spelling coherency (*menedżer* or *menadżer* but not both in the same document)
   * updated the user interface translation
 
+#### Portuguese
+  * added and improved rules
+  * added words and POS data
+  * fixed tons of false positives
+
 ## 5.6 (2021-12-29)
 
 #### Catalan
