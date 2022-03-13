@@ -682,7 +682,7 @@ class SingleDocument {
     ViewCursorTools viewCursor = new ViewCursorTools(xComponent);
     int y = docCache.getFlatParagraphNumber(viewCursor.getViewCursorParagraph());
     int x = viewCursor.getViewCursorCharacter();
-    String ruleId = getRuleIdFromCache(y, x);
+    String ruleId = getRuleIdFromCache(y, x).ruleID;
     setIgnoredMatch (x, y, ruleId, false);
     return docID;
   }
@@ -761,7 +761,7 @@ class SingleDocument {
    * get a rule ID of an error out of the cache 
    * by the position of the error (flat paragraph number and number of character)
    */
-  private String getRuleIdFromCache(int nPara, int nChar) {
+  private RuleDesc getRuleIdFromCache(int nPara, int nChar) {
     List<SingleProofreadingError> tmpErrors = new ArrayList<SingleProofreadingError>();
     if (nPara < 0 || nPara >= docCache.size()) {
       return null;
@@ -783,7 +783,7 @@ class SingleDocument {
           MessageHandler.printToLogFile("SingleDocument: getRuleIdFromCache: Error[" + i + "]: ruleID: " + errors[i].aRuleIdentifier + ", Start = " + errors[i].nErrorStart + ", Length = " + errors[i].nErrorLength);
         }
       }
-      return errors[0].aRuleIdentifier;
+      return new RuleDesc(docCache.getFlatParagraphLocale(nPara), errors[0].aRuleIdentifier);
     } else {
       return null;
     }
@@ -793,7 +793,7 @@ class SingleDocument {
    * get a rule ID of an error from a check 
    * by the position of the error (number of character)
    */
-  private String getRuleIdFromCache(int nChar, ViewCursorTools viewCursor) {
+  private RuleDesc getRuleIdFromCache(int nChar, ViewCursorTools viewCursor) {
     String text = viewCursor.getViewCursorParagraphText();
     if (text == null) {
       return null;
@@ -820,7 +820,7 @@ class SingleDocument {
         }
         for (SingleProofreadingError error : paRes.aErrors) {
           if (error.nErrorStart <= nChar && nChar < error.nErrorStart + error.nErrorLength) {
-            return error.aRuleIdentifier;
+            return new RuleDesc(paRes.aLocale, error.aRuleIdentifier);
           }
         }
       }
@@ -832,7 +832,7 @@ class SingleDocument {
   /**
    * get back the rule ID to deactivate a rule
    */
-  public String deactivateRule() {
+  public RuleDesc deactivateRule() {
     if (disposed) {
       return null;
     }
@@ -1020,6 +1020,16 @@ class SingleDocument {
         return;
       }
       xUserInputInterception.addMouseClickHandler(eventListener);
+    }
+  }
+  
+  class RuleDesc {
+    String langCode;
+    String ruleID;
+    
+    RuleDesc(Locale locale, String ruleID) {
+      langCode = OfficeTools.localeToString(locale);
+      this.ruleID = ruleID;
     }
   }
   

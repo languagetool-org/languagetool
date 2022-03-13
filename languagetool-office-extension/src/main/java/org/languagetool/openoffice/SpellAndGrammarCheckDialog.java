@@ -1775,10 +1775,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
      */
     private void deactivateRule() {
       if (!isSpellError) {
-        documents.deactivateRule(error.aRuleIdentifier, false);
-        documents.addDisabledRule(OfficeTools.localeToString(locale), error.aRuleIdentifier);
-        documents.initDocuments();
-        documents.resetDocument();
+        documents.deactivateRule(error.aRuleIdentifier, OfficeTools.localeToString(locale), false);
         addUndo(y, "deactivateRule", error.aRuleIdentifier);
         doInit = true;
       }
@@ -1966,25 +1963,21 @@ public class SpellAndGrammarCheckDialog extends Thread {
             }
             documents.getLtDictionary().removeIgnoredWord(wrongWord);
           } else {
-            documents.removeDisabledRule(lastUndo.ruleId);
+            Locale locale = docCache.getFlatParagraphLocale(yUndo);
+            documents.removeDisabledRule(OfficeTools.localeToString(locale), lastUndo.ruleId);
             documents.initDocuments();
             documents.resetDocument();
             doInit = true;
           }
         } else if (action.equals("deactivateRule")) {
           currentDocument.removeResultCache(yUndo);
-          documents.deactivateRule(lastUndo.ruleId, true);
-          documents.removeDisabledRule(lastUndo.ruleId);
-          documents.initDocuments();
-          documents.resetDocument();
+          Locale locale = docCache.getFlatParagraphLocale(yUndo);
+          documents.deactivateRule(lastUndo.ruleId, OfficeTools.localeToString(locale), true);
           doInit = true;
         } else if (action.equals("activateRule")) {
           currentDocument.removeResultCache(yUndo);
-          documents.deactivateRule(lastUndo.ruleId, false);
           Locale locale = docCache.getFlatParagraphLocale(yUndo);
-          documents.addDisabledRule(OfficeTools.localeToString(locale), lastUndo.ruleId);
-          documents.initDocuments();
-          documents.resetDocument();
+          documents.deactivateRule(lastUndo.ruleId, OfficeTools.localeToString(locale), false);
           doInit = true;
         } else if (action.equals("addToDictionary")) {
           documents.getLtDictionary().removeWordFromDictionary(lastUndo.ruleId, lastUndo.word, xContext);
