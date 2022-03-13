@@ -2162,7 +2162,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>{suggestion}</suggestion>
                 <example correction="Depósito">En el "<marker>Deposito</marker> de Archivo".</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <!-- muy especifica -->
                 <pattern>
                     <token>muy</token>
@@ -8001,7 +8001,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="RG|A.*|V.P.*|LOC_ADV" postag_regexp="yes"><exception postag="A..[FC][PN].*|V.P..PF" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Si es del verbo 'estar', se escribe con tilde.</message>
-                <suggestion>estás</suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
                 <example correction="Estás">¿<marker>Estas</marker> bien?</example>
                 <example correction="estás">Ahora <marker>estas</marker> cansado.</example>
                 <example correction="estás">Si <marker>estas</marker> interesado escríbeme.</example>
@@ -8028,7 +8028,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Si es del verbo 'estar', se escribe con tilde.</message>
-                <suggestion>estás</suggestion>
+                <suggestion><match no="2" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
                 <example correction="estás">¿Cómo <marker>estas</marker>?</example>
                 <example correction="estás">¿Dónde <marker>estas</marker>, Gabriela?</example>
                 <example correction="estás">¿Dónde <marker>estas</marker> Gabriela?</example>
@@ -8048,12 +8048,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="V.G.*" postag_regexp="yes"/>
                 </pattern>
                 <message>Si es del verbo 'estar', se escribe con tilde.</message>
-                <suggestion>estás</suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
                 <example correction="Estás">¿<marker>Estas</marker> haciéndolo?</example>
                 <example>Ejemplos de estas cantando.</example>
                 <example>Algunas como estas corriendo.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>como</token>
                     <token>estas</token>
@@ -8063,14 +8063,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>estas</token>
                 </antipattern>
                 <antipattern>
-                    <token postag="V.I.*" postag_regexp="yes"/>
+                    <token postag="V.[ISM].*" postag_regexp="yes"/>
                     <token min="0" regexp="yes">a|que|de</token>
                     <token min="0" postag="V.N.*" postag_regexp="yes"/>
                     <token>estas</token>
                 </antipattern>
                 <antipattern>
                     <token>estas</token>
-                    <token postag="V.I.[23].*" postag_regexp="yes"/>
+                    <token postag="V.[ISM].[23].*" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -8079,7 +8079,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>?</token>
                 </pattern>
                 <message>Si es del verbo 'estar', se escribe con tilde.</message>
-                <suggestion>estás</suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
                 <example correction="estás">¿Qué tal <marker>estas</marker>?</example>
                 <example correction="Estás">¿<marker>Estas</marker> despierto?</example>
                 <example>¿Podrías poner estas en una caja?</example>
@@ -8087,7 +8087,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¿Estas son las fotos que sacaste en Boston?</example>
                 <example>¿Son velas estas?</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">que|si|cual</token>
                     <token min="0">no</token>
@@ -8097,7 +8097,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SPS00|LOC_PREP|A.*|V.P.*|CS|PR.*" postag_regexp="yes"><exception postag="A..[FC][PN].|V.P..PF" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Si es del verbo 'estar', se escribe con tilde.</message>
-                <suggestion>estás</suggestion>
+                <suggestion><match no="3" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
                 <example correction="estás">Se nota que <marker>estas</marker> con él.</example>
                 <example correction="estás">Pues sí que <marker>estas</marker> como una regadera.</example>
             </rule>
@@ -8111,7 +8111,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">bien|mal</token>
                 </pattern>
                 <message>Si es del verbo 'estar', se escribe con tilde.</message>
-                <suggestion>estás</suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
                 <example correction="estás">Si tú <marker>estas</marker> bien soy feliz.</example>
             </rule>
             <rule>
@@ -8123,7 +8123,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="RG|A.*|V.P.*" postag_regexp="yes"><exception postag="A..[FC][PN].*|V.P..PF" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Si es del verbo 'estar', se escribe con tilde.</message>
-                <suggestion>estás</suggestion>
+                <suggestion><match no="2" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
                 <example correction="estás">Si tú <marker>estas</marker> contento yo soy feliz.</example>
             </rule>
             <rule>
@@ -8135,7 +8135,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="RG|A.*|V.P.*" postag_regexp="yes"><exception postag="A..[FC][PN].*|V.P..PF" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Si es del verbo 'estar', se escribe con tilde.</message>
-                <suggestion>estás</suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
                 <example correction="estás">¡Bueno <marker>estas</marker> tú hecho!</example>
             </rule>
         </rulegroup>
