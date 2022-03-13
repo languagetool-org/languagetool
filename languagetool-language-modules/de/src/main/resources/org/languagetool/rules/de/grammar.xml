@@ -25856,6 +25856,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="FEDERN_LASSEN" name="federn (Federn) lassen" default="temp_off">
+            <pattern>
+                <marker>
+                    <token case_sensitive="yes">federn</token>
+                </marker>
+                <token min="0">zu</token>
+                <token inflected="yes">lassen</token>
+            </pattern>
+            <message>In der Redewendung "Federn lassen" wird <suggestion><match no="1" case_conversion="startupper" /></suggestion> großgeschrieben.</message>
+            <example correction="Federn">Die CDU siegt, muss aber <marker>federn</marker> lassen.</example>
+        </rule>
         <rule id="ZUM_TROTZ" name="zum trotz (Trotz)">
             <pattern case_sensitive="yes">
                 <token regexp="yes">[Zz]um</token>
@@ -62849,16 +62860,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="PKT"/>
                 </antipattern>
                 <pattern>
-                    <token><exception regexp="yes">,|;|-|–|—|\(|„|“|"|»|«</exception><exception postag="SENT_START"/></token>
-                    <token>sondern</token>
+                    <token><exception regexp="yes">,|;|-|–|—|\(|„|“|"|»|«|\.|…</exception><exception postag="SENT_START"/></token>
+                    <marker>
+                        <token>sondern</token>
+                    </marker>
                 </pattern>
                 <message>Vor der Konjunktion 'sondern' steht immer ein Komma.</message>
-                <suggestion>\1, \2</suggestion>
-                <example correction="Sommer, sondern">Es ist nicht <marker>Sommer sondern</marker> Winter.</example>
+                <suggestion>, \2</suggestion>
+                <example correction=", sondern">Es ist nicht Sommer<marker> sondern</marker> Winter.</example>
                 <example>Es ist nicht <marker>Sommer, sondern</marker> Winter.</example>
                 <example>Diese <marker>Insekten sondern</marker> einen bestimmten Duftstoff ab.</example>
                 <example>Sie sondern nicht einmal den zweitaktertypischen Gestank ab.</example>
-                <example correction="zu, sondern">Warum nimmt er nicht <marker>zu sondern</marker> ab?</example>
+                <example correction=", sondern">Warum nimmt er nicht zu<marker> sondern</marker> ab?</example>
             </rule>
             <rule id="KOMMA_VOR_ERLAEUTERUNG" name="Komma vor nachgestellter Erläuterung">
                 <antipattern>
@@ -64610,7 +64623,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token case_sensitive="yes" regexp="yes">[Gg]eouted|[Gg]ekited|[Gg]edated|[Gg]ecasted|[Gg]evested|[Gg]eshorted|[Gg]ehighlighted</token>
+                    <token case_sensitive="yes" regexp="yes">[Gg]eouted|[Gg]ekited|[Gg]edated|[Gg]ecasted|[Gg]evested|[Gg]eshorted|[Gg]ehighlighted|[Ss]upported</token>
                 </pattern>
                 <message>Die empfohlene Schreibweise für diesen Anglizismus ist <suggestion><match no="1" regexp_match="ed$" regexp_replace="et" /></suggestion>.</message>
                 <example correction="gedatet">Sie haben sich 2 Wochen lang <marker>gedated</marker>.</example>
