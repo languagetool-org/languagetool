@@ -10687,12 +10687,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">super|súper<exception postag="NP.*" postag_regexp="yes"/></token>
                     <token min="0">-</token>
-                    <token postag="N.*" postag_regexp="yes"/>
+                    <token postag="N.*" postag_regexp="yes"><exception regexp="yes">\d+</exception></token>
                 </pattern>
                 <message>Como prefijo, 'super-' se escribe junto, aunque la palabra resultante no esté en el diccionario.</message>
                 <suggestion><match no="3" regexp_match="(.+)" regexp_replace="super$1" case_conversion="alllower"/></suggestion>
                 <example correction="supercamino">Son un <marker>super camino</marker></example>
                 <example>En la Super Bowl.</example>
+                <example>Super-8.</example>
             </rule>
             <rule>
                 <antipattern>
