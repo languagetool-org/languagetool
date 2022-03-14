@@ -2300,6 +2300,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "up-to-date": return topMatch("up to date");
       case "falscherweise": return topMatch("fälschlicherweise");
       case "daß": return topMatch("dass");
+      case "Daß": return topMatch("Dass");
       case "mußt": return topMatch("musst");
       case "mußten": return topMatch("mussten");
       case "mußte": return topMatch("musste");
@@ -2308,7 +2309,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "müßen": return topMatch("müssen");
       case "müßten": return topMatch("müssten");
       case "müßte": return topMatch("müsste");
-      case "Daß": return topMatch("Dass");
+      case "wüßte": return topMatch("wüsste");
+      case "wüßten": return topMatch("wüssten");
       case "bescheid": return topMatch("Bescheid");
       case "ausversehen": return topMatch("aus Versehen");
       case "Stückweit": return topMatch("Stück weit");
@@ -2324,8 +2326,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Johannesbeere": return topMatch("Johannisbeere");
       case "Johannesbeeren": return topMatch("Johannisbeeren");
       case "Endgeld": return topMatch("Entgeld");
-      case "wüßte": return topMatch("wüsste");
-      case "wüßten": return topMatch("wüssten");
       case "Entäuschung": return topMatch("Enttäuschung");
       case "Entäuschungen": return topMatch("Enttäuschungen");
       case "Triologie": return topMatch("Trilogie", "Werk (z.B. Film), das aus drei Teilen besteht");
