@@ -2294,6 +2294,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     if (word.matches("[Aa]utentisch(e[nmsr]?|ste[nmsr]?|ere[nmsr]?)?")) {
       return topMatch(word.replaceFirst("utent", "uthent"));
     }
+    if (word.matches("brilliant(e[nmsr]?|ere[nmsr]?|este[nmsr]?)?")) {
+      return topMatch(word.replaceFirst("brilliant", "brillant"));
+    }
     switch (word) {
       case "Reiszwecke": return topMatch("Reißzwecke", "kurzer Nagel mit flachem Kopf");
       case "Reiszwecken": return topMatch("Reißzwecken", "kurzer Nagel mit flachem Kopf");
@@ -2333,6 +2336,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Ausserdem": return topMatch("Außerdem");
       case "bischen": return topMatch("bisschen");
       case "bißchen": return topMatch("bisschen");
+      case "meißt": return topMatch("meist");
+      case "meißten": return topMatch("meisten");
+      case "meißtens": return topMatch("meistens");
     }
     return Collections.emptyList();
   }
