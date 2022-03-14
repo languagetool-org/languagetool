@@ -566,7 +566,8 @@ public class RuleMatchDiffFinder {
       "    col_2: 'none',\n" +
       "    col_3: 'none',\n" +
       "    col_4: 'select',\n" +
-      "    col_5: 'none',\n" +
+      "    col_5: 'select',\n" +
+      "    col_6: 'select',\n" +
       "    grid_layout: false,\n" +
       "    col_types: ['number', 'number', 'number', 'number', 'string', 'string'],\n" +
       "    extensions: [{ name: 'sort' }]\n" +
