@@ -220,6 +220,8 @@ public class AgreementRule extends Rule {
     "cm", // "Die letzten cm" können
     "km",
     "Nr",
+    "KSC", // Abk
+    "DJK", // Der DJK Schweinfurt
     "RP" // "Die RP (Rheinische Post)"
   ));
 

@@ -6438,6 +6438,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Verwechslungen -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
+        <rule id="DIFFUSER_DIFFUSOR" name="Diffuser vs Diffusor" default="temp_off">
+            <pattern>
+                <token regexp="yes">.*[a-z,\-–].*</token>
+                <marker>
+                    <token case_sensitive="yes">Diffuser</token>
+                </marker>
+            </pattern>
+            <message>"Diffuser" ist die Steigerung des Adjektivs "diffus". Meinten Sie das Nomen <suggestion>Diffusor</suggestion>?</message>
+            <example correction="Diffusor">Ein <marker>Diffuser</marker> ist ein Element zum Zerstreuen von Schall.</example>
+        </rule>
         <rule id="MITTELSTAENDIGES_UNTERNEHMEN" name="mittelständig vs mittelständisch">
             <pattern>
                 <marker>
@@ -12402,6 +12412,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rule id="STILL_LEGEN" name="still legen (stilllegen)" default="temp_off">
+            <pattern>
+                <token case_sensitive="yes">still</token>
+                <token min="0">zu</token>
+                <token inflected="yes">legen</token>
+            </pattern>
+            <message>Das Verb <suggestion>\1<match no="2" case_conversion="alllower" /><match no="3" case_conversion="alllower" /></suggestion> wird zusammengeschrieben.</message>
+            <example correction="stillgelegt">Das Atomkraftwerk wurde <marker>still gelegt</marker>.</example>
+        </rule>
         <rule id="ZU_FOLGE" name="zu folge (zufolge)">
             <antipattern>
                 <token>zur</token>
@@ -14084,6 +14103,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Regional<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Regionalzug">Der <marker>Regional Zug</marker> fährt in den Bahnhof ein.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>pauschal</token>
+                    <token regexp="yes" case_sensitive="yes">Urlaubs?|Reise</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>Pauschal<match no="2" case_conversion="alllower" /></suggestion>?</message>
+                <example correction="Pauschalurlaub">Wir haben einen <marker>pauschal Urlaub</marker> gebucht.</example>
             </rule>
         </rulegroup>
         <rule id="GEGEN_CHECKEN" name="gegen checken (gegenchecken)">
@@ -25867,7 +25894,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
-        <rule id="FEDERN_LASSEN" name="federn (Federn) lassen" default="temp_off">
+        <rule id="ZU_SEINEM_ENTSETZEN" name="zu seinem entsetzen (Entsetzen)" default="temp_off">
+            <pattern>
+                <token>zu</token>
+                <token regexp="yes">[smd]einem|ihrem|unse?rem</token>
+                <marker>
+                    <token case_sensitive="yes">entsetzen</token>
+                </marker>
+            </pattern>
+            <message>In dieser Redewendung wird <suggestion>Entsetzen</suggestion> großgeschrieben.</message>
+            <example correction="Entsetzen">Zu seinem <marker>entsetzen</marker> gab es weiterhin Probleme.</example>
+        </rule>
+        <rule id="FEDERN_LASSEN" name="federn (Federn) lassen">
             <pattern>
                 <marker>
                     <token case_sensitive="yes">federn</token>
@@ -46717,6 +46755,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
+        <rule id="ZU_UNSEREN_BEDAUERN" name="zu unseren (unserem) Bedauern" default="temp_off">
+            <pattern>
+                <token>zu</token>
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">unse?ren|[sdm]einen|ihren</token>
+                </marker>
+                <token regexp="yes">Bedauern|Leidwesen|Entsetzen</token>
+            </pattern>
+            <message>In der Redewendung "zu <match no="2" regexp_match="n$" regexp_replace="m" /> \3" wird der Dativ verwendet.</message>
+            <suggestion><match no="2" regexp_match="n$" regexp_replace="m" /></suggestion>
+            <example correction="unserem">Zu <marker>unseren</marker> Bedauern mussten wir feststellen, dass die Firma pleite ist.</example>
+        </rule>
         <rule id="FALSCHER_IMPERATIV" name="Machst du (Mach|Mache) die Tür zu." default="temp_off">
             <!--Ausruf-->
                 <antipattern>
@@ -60057,6 +60107,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="SONDERN_KOMMA" name="Fehlendes Komma vor 'sondern'">
             <!-- "vor die Konjunktion 'sondern' [ist] immer ein Komma zu setzen" (cf. url) -->
+            <antipattern>
+                <token>.</token>
+                <token>.</token>
+                <token>sondern</token>
+            </antipattern>
+            <antipattern>
+                <token>…</token>
+                <token>sondern</token>
+            </antipattern>
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START" skip="-1"/>
@@ -61002,6 +61061,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Typografie -->
     <!-- ====================================================================== -->
     <category id="TYPOGRAPHY" name="Typografie">
+        <rule id="DOPPELTES_LEERZEICHEN" name="Doppeltes Leerzeichen" default="temp_off">
+            <regexp type="exact" mark="1">[A-Za-zéèëêïîìáàâçôòüûùäöüß:,.;]([&nbsp; ]{2})[A-Za-zéèëêïîìáàâçôòüûùäöüß:,.;]</regexp><!-- TODO: add "nnbsp" -->
+            <message>Hier scheint ein Leerzeichen zu viel zu sein.</message>
+            <suggestion> </suggestion>
+            <example correction=" ">Ich bin<marker>  </marker>ein Satz mit zwei Leerzeichen.</example>
+        </rule>
         <rulegroup id="SPACE_AFTER_BEFORE_SLASH" name="Leerzeichen vor und nach Schrägstrich" default="temp_off">
             <rule>
                 <antipattern>
@@ -62871,8 +62936,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>ab</token>
                     <token postag="PKT"/>
                 </antipattern>
+                <antipattern>
+                    <token>.</token>
+                    <token>.</token>
+                    <token>sondern</token>
+                </antipattern>
+                <antipattern>
+                    <token>…</token>
+                    <token>sondern</token>
+                </antipattern>
                 <pattern>
-                    <token><exception regexp="yes">,|;|-|–|—|\(|„|“|"|»|«|\.|…</exception><exception postag="SENT_START"/></token>
+                    <token><exception regexp="yes">,|;|-|–|—|\(|„|“|"|»|«|…</exception><exception postag="SENT_START"/></token>
                     <marker>
                         <token>sondern</token>
                     </marker>
@@ -64611,6 +64685,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern><!-- Englische Sätze -->
                 <token regexp="yes">.+ed</token>
                 <token regexp="yes">by|from|with|off?|the|an?|my|y?our|his|her|their</token>
+            </antipattern>
+            <antipattern><!-- Englische Sätze -->
+                <token regexp="yes">by|from|with|off?|the|an?|my|y?our|his|her|their</token>
+                <token regexp="yes">.+ed</token>
             </antipattern>
             <antipattern>
                 <token>designed</token>
