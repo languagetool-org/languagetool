@@ -18,7 +18,8 @@
  */
 package org.languagetool.rules.en;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.LanguageSpecificTest;
@@ -31,8 +32,6 @@ import org.languagetool.rules.patterns.AbstractPatternRule;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-
-import static org.junit.Assert.assertEquals;
 
 public class EnglishTest extends LanguageSpecificTest {
   
@@ -53,10 +52,10 @@ public class EnglishTest extends LanguageSpecificTest {
     JLanguageTool lt = new JLanguageTool(lang);
 
     List<RuleMatch> matches = lt.check("Thank you for all your help. Here is another sentence. Thank you so much for all the fish.");
-    assertEquals("Matches when close together", 1, matches.size());
+    Assertions.assertEquals(1, matches.size(), "Matches when close together");
 
     matches = lt.check("Thank you for all your help. This is filler. Here are more words. There needs to be a certain distance between sentences so that this doesn't match again. How long does it need to be? The default setting is 350 characters. That's quite a lot. Here are some more words to fill up this text. Here are some more words to fill up this text. Now here are some more words to fill up this text. Thank you so much for all the fish.");
-    assertEquals("No matches when further apart", 0, matches.size());
+    Assertions.assertEquals(0, matches.size(), "No matches when further apart");
   }
 
   @Test

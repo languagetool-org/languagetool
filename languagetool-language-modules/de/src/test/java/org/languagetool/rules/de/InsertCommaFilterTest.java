@@ -18,7 +18,7 @@
  */
 package org.languagetool.rules.de;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
@@ -29,8 +29,8 @@ import org.languagetool.rules.RuleMatch;
 import java.io.IOException;
 import java.util.HashMap;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class InsertCommaFilterTest {
 

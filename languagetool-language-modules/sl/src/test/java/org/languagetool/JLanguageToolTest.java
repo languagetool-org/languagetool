@@ -18,19 +18,18 @@
  */
 package org.languagetool;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.language.Slovenian;
 
 import java.io.IOException;
-
-import static org.junit.Assert.assertEquals;
 
 public class JLanguageToolTest {
 
   @Test
   public void testSlovenian() throws IOException {
     final JLanguageTool tool = new JLanguageTool(new Slovenian());
-    assertEquals(1, tool.check("Kupil je npr. jajca, moko in mleko.").size());
+    Assertions.assertEquals(1, tool.check("Kupil je npr. jajca, moko in mleko.").size());
   }
   
 }

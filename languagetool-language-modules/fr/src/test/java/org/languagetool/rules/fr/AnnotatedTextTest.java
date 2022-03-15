@@ -18,7 +18,8 @@
  */
 package org.languagetool.rules.fr;
 
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.French;
 import org.languagetool.markup.AnnotatedTextBuilder;
@@ -27,7 +28,6 @@ import org.languagetool.rules.RuleMatch;
 import java.io.IOException;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
 
 public class AnnotatedTextTest {
 
@@ -45,7 +45,7 @@ public class AnnotatedTextTest {
 
     RuleMatch match = lt.check(builder.build()).get(0);
     String markedWord = textToCheck.substring(match.getFromPos(), match.getToPos());
-    assertThat(markedWord, is("&eacute;chapatoire"));
+    MatcherAssert.assertThat(markedWord, is("&eacute;chapatoire"));
   }
 
   @Test
@@ -60,7 +60,7 @@ public class AnnotatedTextTest {
     
     RuleMatch match = lt.check(builder.build()).get(0);
     String markedWord = textToCheck.substring(match.getFromPos(), match.getToPos());
-    assertThat(markedWord, is("trouuv&eacute;"));
+    MatcherAssert.assertThat(markedWord, is("trouuv&eacute;"));
   }
 
 
@@ -77,7 +77,7 @@ public class AnnotatedTextTest {
 
     RuleMatch match = lt.check(builder.build()).get(0);
     String markedWord = textToCheck.substring(match.getFromPos(), match.getToPos());
-    assertThat(markedWord, is("louper"));
+    MatcherAssert.assertThat(markedWord, is("louper"));
   }
 
   @Test
@@ -95,7 +95,7 @@ public class AnnotatedTextTest {
 
     RuleMatch match = lt.check(builder.build()).get(0);
     String markedWord = textToCheck.substring(match.getFromPos(), match.getToPos());
-    assertThat(markedWord, is("louper"));
+    MatcherAssert.assertThat(markedWord, is("louper"));
   }
 
   @Test
@@ -113,7 +113,7 @@ public class AnnotatedTextTest {
 
     RuleMatch match = lt.check(builder.build()).get(0);
     String markedWord = textToCheck.substring(match.getFromPos(), match.getToPos());
-    assertThat(markedWord, is("&eacute;chapatoire"));
+    MatcherAssert.assertThat(markedWord, is("&eacute;chapatoire"));
   }
 
 
@@ -129,7 +129,7 @@ public class AnnotatedTextTest {
 
     RuleMatch match = lt.check(builder.build()).get(0);
     String markedWord = textToCheck.substring(match.getFromPos(), match.getToPos());
-    assertThat(markedWord, is("louper"));
+    MatcherAssert.assertThat(markedWord, is("louper"));
   }
 
 }

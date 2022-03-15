@@ -19,16 +19,15 @@
 
 package org.languagetool.rules.pl;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Polish;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * @author Ionuț Păduraru
@@ -38,7 +37,7 @@ public class SimpleReplaceRuleTest {
   private SimpleReplaceRule rule;
   private JLanguageTool lt;
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     rule = new SimpleReplaceRule(TestTools.getMessages("pl"));
     lt = new JLanguageTool(new Polish());
@@ -47,13 +46,13 @@ public class SimpleReplaceRuleTest {
   @Test
   public void testRule() throws IOException {
     // correct sentences:
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Wszystko w porządku.")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Wszystko w porządku.")).length);
 
      // no checking lemmas:
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Pola lodowe")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Pola lodowe")).length);
 
     //with immunized tokens:
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Witamy prez. Komorowskiego!")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Witamy prez. Komorowskiego!")).length);
 
     // incorrect sentences:
     // at the beginning of a sentence (Romanian replace rule is case-sensitive)
@@ -70,11 +69,11 @@ public class SimpleReplaceRuleTest {
    */
   private void checkSimpleReplaceRule(String sentence, String word) throws IOException {
     final RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(sentence));
-    assertEquals("Invalid matches.length while checking sentence: "
-        + sentence, 1, matches.length);
-    assertEquals("Invalid replacement count wile checking sentence: "
-        + sentence, 1, matches[0].getSuggestedReplacements().size());
-    assertEquals("Invalid suggested replacement while checking sentence: "
-        + sentence, word, matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length, "Invalid matches.length while checking sentence: "
+        + sentence);
+    Assertions.assertEquals(1, matches[0].getSuggestedReplacements().size(), "Invalid replacement count wile checking sentence: "
+        + sentence);
+    Assertions.assertEquals(word, matches[0].getSuggestedReplacements().get(0), "Invalid suggested replacement while checking sentence: "
+        + sentence);
   }
 }

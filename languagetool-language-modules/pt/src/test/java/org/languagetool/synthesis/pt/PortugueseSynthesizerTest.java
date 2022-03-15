@@ -19,14 +19,13 @@
 
 package org.languagetool.synthesis.pt;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.language.Portuguese;
 
 import java.io.IOException;
 import java.util.Arrays;
-
-import static org.junit.Assert.assertEquals;
 
 public class PortugueseSynthesizerTest {
   private AnalyzedToken dummyToken(String tokenStr) {
@@ -36,16 +35,16 @@ public class PortugueseSynthesizerTest {
   @Test
   public final void testSynthesizeString() throws IOException {
     PortugueseSynthesizer synth = new PortugueseSynthesizer(new Portuguese());
-    assertEquals(synth.synthesize(dummyToken("blablabla"), "blablabla").length, 0);
+    Assertions.assertEquals(synth.synthesize(dummyToken("blablabla"), "blablabla").length, 0);
 
-    assertEquals("[bois]", Arrays.toString(
+    Assertions.assertEquals("[bois]", Arrays.toString(
             getSortedArray(synth.synthesize(dummyToken("boi"), "NCMP000", true))));
     
-    assertEquals("[tentar]", Arrays.toString(getSortedArray(synth.synthesize(dummyToken("tentar"), "VMN0000", true))));
-    assertEquals("[tentou]", Arrays.toString(getSortedArray(synth.synthesize(dummyToken("tentar"), "VMIS3S0", true))));
+    Assertions.assertEquals("[tentar]", Arrays.toString(getSortedArray(synth.synthesize(dummyToken("tentar"), "VMN0000", true))));
+    Assertions.assertEquals("[tentou]", Arrays.toString(getSortedArray(synth.synthesize(dummyToken("tentar"), "VMIS3S0", true))));
     
-    assertEquals("[resolver]", Arrays.toString(getSortedArray(synth.synthesize(dummyToken("resolver"), "VMN0000", true))));
-    assertEquals("[resolveu]", Arrays.toString(getSortedArray(synth.synthesize(dummyToken("resolver"), "VMIS3S0", true))));
+    Assertions.assertEquals("[resolver]", Arrays.toString(getSortedArray(synth.synthesize(dummyToken("resolver"), "VMN0000", true))));
+    Assertions.assertEquals("[resolveu]", Arrays.toString(getSortedArray(synth.synthesize(dummyToken("resolver"), "VMIS3S0", true))));
   }
 
   private String[] getSortedArray(String... ar) {

@@ -18,14 +18,15 @@
  */
 package org.languagetool.rules.el;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Greek;
 import org.languagetool.rules.RuleMatch;
+
 import java.io.IOException;
-import static org.junit.Assert.assertEquals;
 
 /**
  * ReplaceHomonymsRule TestCase.
@@ -37,7 +38,7 @@ public class ReplaceHomonymsRuleTest {
 	private ReplaceHomonymsRule rule;
 	private JLanguageTool langTool;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws IOException {
 		rule = new ReplaceHomonymsRule(TestTools.getMessages("el"), new Greek());
 		langTool = new JLanguageTool(new Greek());
@@ -46,16 +47,16 @@ public class ReplaceHomonymsRuleTest {
 	// correct sentences
 	@Test
 	public void testRule() throws IOException {
-		assertEquals(0, rule.match(langTool.getAnalyzedSentence("Στην Ελλάδα επικρατεί εύκρατο κλίμα.")).length);
-		assertEquals(0, rule.match(langTool.getAnalyzedSentence("Καλή τύχη σου εύχομαι.")).length);
+		Assertions.assertEquals(0, rule.match(langTool.getAnalyzedSentence("Στην Ελλάδα επικρατεί εύκρατο κλίμα.")).length);
+		Assertions.assertEquals(0, rule.match(langTool.getAnalyzedSentence("Καλή τύχη σου εύχομαι.")).length);
 	}
 
 	// test for a wrong usage of a word inside a sentence
 	@Test
 	public void testRuleInsideOfSentence() throws IOException {
 		RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("Του ευχήθηκα καλή τείχη για το διαγώνισμα."));
-		assertEquals(1, matches.length);
-		assertEquals("καλή τύχη", matches[0].getSuggestedReplacements().get(0));
+		Assertions.assertEquals(1, matches.length);
+		Assertions.assertEquals("καλή τύχη", matches[0].getSuggestedReplacements().get(0));
 	}
 
 	// test for a wrong usage of a word in the beggining of a sentence.
@@ -63,8 +64,8 @@ public class ReplaceHomonymsRuleTest {
 	public void testRuleBegginingOfSentence() throws IOException {
 		RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(
 				"Τεχνητό κόμμα είναι μια ακραία μορφή αναισθησίας."));
-		assertEquals(1, matches.length);
-		assertEquals("Τεχνητό κώμα", matches[0].getSuggestedReplacements().get(0));
+		Assertions.assertEquals(1, matches.length);
+		Assertions.assertEquals("Τεχνητό κώμα", matches[0].getSuggestedReplacements().get(0));
 	}
 	
 	// test for a wrong usage of a word in the beggining of a sentence while capitalizing letter if needed. 
@@ -72,8 +73,8 @@ public class ReplaceHomonymsRuleTest {
 	public void testRuleWithCapitalization() throws IOException {
 		RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(
 				"γάλος πρόεδρος."));
-		assertEquals(1, matches.length);
-		assertEquals("Γάλλος πρόεδρος", matches[0].getSuggestedReplacements().get(0));
+		Assertions.assertEquals(1, matches.length);
+		Assertions.assertEquals("Γάλλος πρόεδρος", matches[0].getSuggestedReplacements().get(0));
 	}
 
 }

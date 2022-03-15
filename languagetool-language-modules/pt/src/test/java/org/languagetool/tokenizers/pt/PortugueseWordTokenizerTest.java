@@ -19,10 +19,10 @@
 
 package org.languagetool.tokenizers.pt;
 
-import org.junit.Test;
-import java.util.List;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import java.util.List;
 
 /**
  * @author Tiago F. Santos
@@ -35,33 +35,33 @@ public class PortugueseWordTokenizerTest {
   public void testTokenize() {
     final PortugueseWordTokenizer wordTokenizer = new PortugueseWordTokenizer();
     final List <String> tokens = wordTokenizer.tokenize("Isto é\u00A0um teste");
-    assertEquals(tokens.size(), 7);
-    assertEquals("[Isto,  , é, \u00A0, um,  , teste]", tokens.toString());
+    Assertions.assertEquals(tokens.size(), 7);
+    Assertions.assertEquals("[Isto,  , é, \u00A0, um,  , teste]", tokens.toString());
     final List <String> tokens2 = wordTokenizer.tokenize("Isto\rquebra");
-    assertEquals(3, tokens2.size());
-    assertEquals("[Isto, \r, quebra]", tokens2.toString());
+    Assertions.assertEquals(3, tokens2.size());
+    Assertions.assertEquals("[Isto, \r, quebra]", tokens2.toString());
     //hyphen with no whitespace
     final List <String> tokens3 = wordTokenizer.tokenize("Agora isto sim é-mesmo!-um teste.");
-    assertEquals(tokens3.size(), 15);
-    assertEquals("[Agora,  , isto,  , sim,  , é, -, mesmo, !, -, um,  , teste, .]", tokens3.toString());
+    Assertions.assertEquals(tokens3.size(), 15);
+    Assertions.assertEquals("[Agora,  , isto,  , sim,  , é, -, mesmo, !, -, um,  , teste, .]", tokens3.toString());
     //hyphen at the end of the word
     final List <String> tokens4 = wordTokenizer.tokenize("Agora isto é- realmente!- um teste.");
-    assertEquals(tokens4.size(), 15);
-    assertEquals("[Agora,  , isto,  , é, -,  , realmente, !, -,  , um,  , teste, .]", tokens4.toString());
+    Assertions.assertEquals(tokens4.size(), 15);
+    Assertions.assertEquals("[Agora,  , isto,  , é, -,  , realmente, !, -,  , um,  , teste, .]", tokens4.toString());
     //mdash
     final List <String> tokens5 = wordTokenizer.tokenize("Agora isto é—realmente!—um teste.");
-    assertEquals(tokens5.size(), 13);
-    assertEquals("[Agora,  , isto,  , é, —, realmente, !, —, um,  , teste, .]", tokens5.toString());
+    Assertions.assertEquals(tokens5.size(), 13);
+    Assertions.assertEquals("[Agora,  , isto,  , é, —, realmente, !, —, um,  , teste, .]", tokens5.toString());
     
     final List <String> tokens6 = wordTokenizer.tokenize("sex-appeal");
-    assertEquals(tokens6.size(), 1);
-    assertEquals("[sex-appeal]", tokens6.toString());
+    Assertions.assertEquals(tokens6.size(), 1);
+    Assertions.assertEquals("[sex-appeal]", tokens6.toString());
     final List<String> tokens7 = wordTokenizer.tokenize("Aix-en-Provence");
-    assertEquals(tokens7.size(), 1);
-    assertEquals("[Aix-en-Provence]", tokens7.toString());
+    Assertions.assertEquals(tokens7.size(), 1);
+    Assertions.assertEquals("[Aix-en-Provence]", tokens7.toString());
     final List<String> tokens8 = wordTokenizer.tokenize("Montemor-o-Novo");
-    assertEquals(tokens8.size(), 1);
-    assertEquals("[Montemor-o-Novo]", tokens8.toString());
+    Assertions.assertEquals(tokens8.size(), 1);
+    Assertions.assertEquals("[Montemor-o-Novo]", tokens8.toString());
     
   }
 }

@@ -18,14 +18,13 @@
  */
 package org.languagetool;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.language.Catalan;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 import java.util.List;
-
-import static org.junit.Assert.assertEquals;
 
 public class JLanguageToolTest {
   
@@ -34,12 +33,12 @@ public class JLanguageToolTest {
     Language lang = new Catalan();
     JLanguageTool tool = new JLanguageTool(lang);
     List<RuleMatch> matches = tool.check("prosper");
-    assertEquals(1, matches.size());
-    assertEquals("CA_SIMPLE_REPLACE_BALEARIC", matches.get(0).getRule().getId());
+    Assertions.assertEquals(1, matches.size());
+    Assertions.assertEquals("CA_SIMPLE_REPLACE_BALEARIC", matches.get(0).getRule().getId());
     
     matches = tool.check("Potser siga el millor");
-    assertEquals(1, matches.size());
-    assertEquals("POTSER_SIGUI", matches.get(0).getRule().getId());
+    Assertions.assertEquals(1, matches.size());
+    Assertions.assertEquals("POTSER_SIGUI", matches.get(0).getRule().getId());
     
     /*tool.enableRule("CA_REPEAT_PATTERN_TEST");
     matches = tool.check("D'altra banda, això és així. Però, d'altra banda, canta.");
@@ -54,14 +53,14 @@ public class JLanguageToolTest {
   @Test
   public void testAdvancedTypography() throws IOException {
     Language lang = new Catalan();
-    assertEquals(lang.toAdvancedTypography("És l'\"hora\"!"), "És l’«hora»!");
-    assertEquals(lang.toAdvancedTypography("És l''hora'!"), "És l’‘hora’!");
-    assertEquals(lang.toAdvancedTypography("És l'«hora»!"), "És l’«hora»!");
-    assertEquals(lang.toAdvancedTypography("És l''hora'."), "És l’‘hora’.");
-    assertEquals(lang.toAdvancedTypography("Cal evitar el \"'lo' neutre\"."), "Cal evitar el «‘lo’ neutre».");
-    assertEquals(lang.toAdvancedTypography("És \"molt 'important'\"."), "És «molt ‘important’».");
-    assertEquals(lang.toAdvancedTypography("Si és del v. 'haver'."), "Si és del v.\u00a0‘haver’.");
-    assertEquals(lang.toAdvancedTypography("Amb el so de 's'."), "Amb el so de ‘s’.");
+    Assertions.assertEquals(lang.toAdvancedTypography("És l'\"hora\"!"), "És l’«hora»!");
+    Assertions.assertEquals(lang.toAdvancedTypography("És l''hora'!"), "És l’‘hora’!");
+    Assertions.assertEquals(lang.toAdvancedTypography("És l'«hora»!"), "És l’«hora»!");
+    Assertions.assertEquals(lang.toAdvancedTypography("És l''hora'."), "És l’‘hora’.");
+    Assertions.assertEquals(lang.toAdvancedTypography("Cal evitar el \"'lo' neutre\"."), "Cal evitar el «‘lo’ neutre».");
+    Assertions.assertEquals(lang.toAdvancedTypography("És \"molt 'important'\"."), "És «molt ‘important’».");
+    Assertions.assertEquals(lang.toAdvancedTypography("Si és del v. 'haver'."), "Si és del v.\u00a0‘haver’.");
+    Assertions.assertEquals(lang.toAdvancedTypography("Amb el so de 's'."), "Amb el so de ‘s’.");
   }
   
 }

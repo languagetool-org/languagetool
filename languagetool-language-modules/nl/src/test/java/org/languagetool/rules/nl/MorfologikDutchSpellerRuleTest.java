@@ -18,14 +18,13 @@
  */
 package org.languagetool.rules.nl;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
-
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Dutch;
+
+import java.io.IOException;
 
 public class MorfologikDutchSpellerRuleTest {
 
@@ -35,23 +34,23 @@ public class MorfologikDutchSpellerRuleTest {
     MorfologikDutchSpellerRule rule = new MorfologikDutchSpellerRule(TestTools.getEnglishMessages(), language, null);
     JLanguageTool lt = new JLanguageTool(language);
 
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Amsterdam")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("ipv")).length); // in ignore.txt
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("voorzover")).length); // in ignore.txt
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Amsterdam")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("ipv")).length); // in ignore.txt
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("voorzover")).length); // in ignore.txt
 
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("FoobarWrongxx")).length); // camel case is not ignored
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("foobarwrong")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("FoobarWrongxx")).length); // camel case is not ignored
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("foobarwrong")).length);
 
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("kómen")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("háár")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("kán")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("ín")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("kómen")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("háár")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("kán")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("ín")).length);
 
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("géén")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("géén")).length);
 
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("déúr")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("déur")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("deur-knop")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("déúr")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("déur")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("deur-knop")).length);
 
   }
 }

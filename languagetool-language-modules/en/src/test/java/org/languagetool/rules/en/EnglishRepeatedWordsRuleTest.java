@@ -18,12 +18,9 @@
  */
 package org.languagetool.rules.en;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
-
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
@@ -32,12 +29,14 @@ import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.TextLevelRule;
 
+import java.io.IOException;
+
 public class EnglishRepeatedWordsRuleTest {
 
   private TextLevelRule rule;
   private JLanguageTool lt;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     rule = new EnglishRepeatedWordsRule(TestTools.getEnglishMessages());
     lt = new JLanguageTool(Languages.getLanguageForShortCode("en"));
@@ -91,23 +90,23 @@ public class EnglishRepeatedWordsRuleTest {
     assertCorrectText("I suggested this. She suggests that");
 
     RuleMatch[] matches=getRuleMatches("I suggested this. She suggests that.");
-    assertEquals(1, matches.length);
-    assertEquals(22, matches[0].getFromPos());
-    assertEquals(30, matches[0].getToPos());
-    assertEquals("proposes", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("recommends", matches[0].getSuggestedReplacements().get(1));
-    assertEquals("submits", matches[0].getSuggestedReplacements().get(2));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals(22, matches[0].getFromPos());
+    Assertions.assertEquals(30, matches[0].getToPos());
+    Assertions.assertEquals("proposes", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals("recommends", matches[0].getSuggestedReplacements().get(1));
+    Assertions.assertEquals("submits", matches[0].getSuggestedReplacements().get(2));
     
     matches=getRuleMatches("I suggested this. She suggests that. And they suggested that.");
-    assertEquals(2, matches.length);
-    assertEquals(22, matches[0].getFromPos());
-    assertEquals(46, matches[1].getFromPos());
-    assertEquals("proposes", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("proposed", matches[1].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(2, matches.length);
+    Assertions.assertEquals(22, matches[0].getFromPos());
+    Assertions.assertEquals(46, matches[1].getFromPos());
+    Assertions.assertEquals("proposes", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals("proposed", matches[1].getSuggestedReplacements().get(0));
     
     matches=getRuleMatches ("The problem was weird. And the solutions needed to be weird.");
-    assertEquals(1, matches.length);
-    assertEquals("odd", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("odd", matches[0].getSuggestedReplacements().get(0));
     
     //matches=getRuleMatches("It needs to be done. That needs to be done.");
     //assertEquals(1, matches.length);
@@ -123,7 +122,7 @@ public class EnglishRepeatedWordsRuleTest {
   private void assertCorrectText(String sentences) throws IOException {
     AnnotatedText aText = new AnnotatedTextBuilder().addText(sentences).build();
     RuleMatch[] matches = rule.match(lt.analyzeText(sentences), aText);
-    assertEquals(0, matches.length);
+    Assertions.assertEquals(0, matches.length);
   }
 
 

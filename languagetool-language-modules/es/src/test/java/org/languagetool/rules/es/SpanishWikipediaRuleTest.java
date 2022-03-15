@@ -18,16 +18,15 @@
  */
 package org.languagetool.rules.es;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Spanish;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  *
@@ -39,7 +38,7 @@ public class SpanishWikipediaRuleTest {
   private SpanishWikipediaRule rule;
   private JLanguageTool lt;
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     rule = new SpanishWikipediaRule(TestTools.getMessages("es"));
     lt = new JLanguageTool(new Spanish());
@@ -49,7 +48,7 @@ public class SpanishWikipediaRuleTest {
   public void testRule() throws IOException {
 
     // correct sentences:
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Estas frases no tienen errores frecuentes en la Wikipedia.")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Estas frases no tienen errores frecuentes en la Wikipedia.")).length);
 
     // incorrect sentences:
 
@@ -66,11 +65,11 @@ public class SpanishWikipediaRuleTest {
    */
   private void checkSimpleReplaceRule(String sentence, String word) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(sentence));
-    assertEquals("Invalid matches.length while checking sentence: "
-            + sentence, 1, matches.length);
-    assertEquals("Invalid replacement count wile checking sentence: "
-            + sentence, 1, matches[0].getSuggestedReplacements().size());
-    assertEquals("Invalid suggested replacement while checking sentence: "
-            + sentence, word, matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length, "Invalid matches.length while checking sentence: "
+            + sentence);
+    Assertions.assertEquals(1, matches[0].getSuggestedReplacements().size(), "Invalid replacement count wile checking sentence: "
+            + sentence);
+    Assertions.assertEquals(word, matches[0].getSuggestedReplacements().get(0), "Invalid suggested replacement while checking sentence: "
+            + sentence);
   }
 }

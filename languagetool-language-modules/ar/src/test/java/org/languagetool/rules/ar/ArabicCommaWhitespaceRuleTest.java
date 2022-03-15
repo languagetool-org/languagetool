@@ -20,22 +20,21 @@
 
 package org.languagetool.rules.ar;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
 
 import java.io.IOException;
 
-import static org.junit.Assert.assertEquals;
-
 public class ArabicCommaWhitespaceRuleTest {
   
   private ArabicCommaWhitespaceRule rule;
   private JLanguageTool lt;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     rule = new ArabicCommaWhitespaceRule(TestTools.getEnglishMessages());
     lt = new JLanguageTool(Languages.getLanguageForShortCode("ar"));
@@ -66,6 +65,6 @@ public class ArabicCommaWhitespaceRuleTest {
   }
 
   private void assertMatches(String text, int expectedMatches) throws IOException {
-    assertEquals(expectedMatches, rule.match(lt.getAnalyzedSentence(text)).length);
+    Assertions.assertEquals(expectedMatches, rule.match(lt.getAnalyzedSentence(text)).length);
   }
 }

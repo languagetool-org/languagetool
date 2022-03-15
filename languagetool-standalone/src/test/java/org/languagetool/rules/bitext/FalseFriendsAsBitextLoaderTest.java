@@ -18,7 +18,8 @@
  */
 package org.languagetool.rules.bitext;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.English;
@@ -33,8 +34,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import static org.junit.Assert.assertEquals;
 
 public class FalseFriendsAsBitextLoaderTest {
 
@@ -81,6 +80,6 @@ public class FalseFriendsAsBitextLoaderTest {
       List<BitextPatternRule> rules, 
       String src, String trg, JLanguageTool srcTool, JLanguageTool trgTool) throws IOException {
     List<RuleMatch> matches = check(rules, src, trg, srcTool, trgTool);
-    assertEquals(errorCount, matches.size());
+    Assertions.assertEquals(errorCount, matches.size());
   }   
 }

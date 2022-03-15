@@ -18,7 +18,8 @@
  */
 package org.languagetool.rules.en;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
@@ -28,8 +29,6 @@ import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 import java.util.HashMap;
-
-import static org.junit.Assert.*;
 
 public class EnglishNumberInWordFilterTest {
 
@@ -46,7 +45,7 @@ public class EnglishNumberInWordFilterTest {
     HashMap<String, String> args = new HashMap<>();
     args.put("word", arg);
     RuleMatch matchTmp = filter.acceptRuleMatch(match, args, patternTokenPos, sentence.getTokensWithoutWhitespace());
-    assertNotNull(matchTmp);
-    assertTrue(matchTmp.getSuggestedReplacements().contains(newRepl));
+    Assertions.assertNotNull(matchTmp);
+    Assertions.assertTrue(matchTmp.getSuggestedReplacements().contains(newRepl));
   }
 }

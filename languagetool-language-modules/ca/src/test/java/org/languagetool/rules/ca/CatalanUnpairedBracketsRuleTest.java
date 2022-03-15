@@ -19,8 +19,9 @@
 
 package org.languagetool.rules.ca;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Catalan;
@@ -31,14 +32,12 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-
 public class CatalanUnpairedBracketsRuleTest {
 
   private TextLevelRule rule;
   private JLanguageTool lt;
   
-  @Before
+  @BeforeEach
   public void setUp() throws IOException {
     rule = new CatalanUnpairedBracketsRule(TestTools.getEnglishMessages(), new Catalan());
     lt = new JLanguageTool(new Catalan());
@@ -133,7 +132,7 @@ public class CatalanUnpairedBracketsRuleTest {
   
   private void assertMatches(String input, int expectedMatches) throws IOException {
     final RuleMatch[] matches = rule.match(Collections.singletonList(lt.getAnalyzedSentence(input)));
-    assertEquals(expectedMatches, matches.length);
+    Assertions.assertEquals(expectedMatches, matches.length);
   }
 
   @Test
@@ -145,17 +144,17 @@ public class CatalanUnpairedBracketsRuleTest {
     matches = tool
         .check("Aquesta és una sentència múltiple amb claudàtors: "
             + "[Ací hi ha un claudàtor. Amb algun text.] i ací continua.\n");
-    assertEquals(0, matches.size());
+    Assertions.assertEquals(0, matches.size());
     matches = tool
         .check("\"Era la teva filla. El corcó no et rosegarà més.\"\n\n");
-    assertEquals(0, matches.size());
+    Assertions.assertEquals(0, matches.size());
     matches = tool
         .check("\"Era la teva filla. El corcó no et rosegarà més\".\n\n");
-    assertEquals(0, matches.size());
+    Assertions.assertEquals(0, matches.size());
     matches = tool
         .check("Aquesta és una sentència múltiple amb claudàtors: "
             + "[Ací hi ha un claudàtor. Amb algun text. I ací continua.\n\n");
-    assertEquals(1, matches.size());
+    Assertions.assertEquals(1, matches.size());
     
     matches = tool
         .check("«Els manaments diuen: \"No desitjaràs la dona del teu veí\"»");
@@ -164,7 +163,7 @@ public class CatalanUnpairedBracketsRuleTest {
     matches = tool
         .check("Aquesta és una sentència múltiple amb parèntesis "
             + "(Ací hi ha un parèntesi. \n\n Amb algun text.) i ací continua.");
-    assertEquals(0, matches.size());
+    Assertions.assertEquals(0, matches.size());
   }
 
 }

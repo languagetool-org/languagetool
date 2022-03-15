@@ -19,15 +19,14 @@
 
 package org.languagetool.rules.pl;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Polish;
 
 import java.io.IOException;
 import java.util.Collections;
-
-import static org.junit.Assert.assertEquals;
 
 public class PolishUnpairedBracketsRuleTest {
 
@@ -37,12 +36,12 @@ public class PolishUnpairedBracketsRuleTest {
     PolishUnpairedBracketsRule rule = new PolishUnpairedBracketsRule(TestTools.getEnglishMessages(), language);
     JLanguageTool lt = new JLanguageTool(language);
 
-    assertEquals(0, getMatches("(To jest zdanie do testowania).", rule, lt));
-    assertEquals(0, getMatches("Piosenka ta trafiła na wiele list \"Best of...\", włączając w to te, które zostały utworzone przez magazyn Rolling Stone.", rule, lt));
-    assertEquals(0, getMatches("A \"B\" C.", rule, lt));
-    assertEquals(0, getMatches("\"A\" B \"C\".", rule, lt));
+    Assertions.assertEquals(0, getMatches("(To jest zdanie do testowania).", rule, lt));
+    Assertions.assertEquals(0, getMatches("Piosenka ta trafiła na wiele list \"Best of...\", włączając w to te, które zostały utworzone przez magazyn Rolling Stone.", rule, lt));
+    Assertions.assertEquals(0, getMatches("A \"B\" C.", rule, lt));
+    Assertions.assertEquals(0, getMatches("\"A\" B \"C\".", rule, lt));
 
-    assertEquals(1, getMatches("W tym zdaniu jest niesparowany „cudzysłów.", rule, lt));
+    Assertions.assertEquals(1, getMatches("W tym zdaniu jest niesparowany „cudzysłów.", rule, lt));
   }
 
   private int getMatches(String input, PolishUnpairedBracketsRule rule, JLanguageTool lt) throws IOException {

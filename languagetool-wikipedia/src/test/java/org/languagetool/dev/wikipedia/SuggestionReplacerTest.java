@@ -20,8 +20,9 @@ package org.languagetool.dev.wikipedia;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Premium;
@@ -39,9 +40,8 @@ import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertTrue;
 
-@Ignore
+@Disabled
 public class SuggestionReplacerTest {
 
   private final SwebleWikipediaTextFilter filter = new SwebleWikipediaTextFilter();
@@ -130,7 +130,7 @@ public class SuggestionReplacerTest {
   }
 
   @Test
-  @Ignore("fails for premium")
+  @Disabled("fails for premium")
   public void testCompleteText() throws Exception {
     InputStream stream = SuggestionReplacerTest.class.getResourceAsStream("/org/languagetool/dev/wikipedia/wikipedia.txt");
     String origMarkup = IOUtils.toString(stream, StandardCharsets.UTF_8);
@@ -170,7 +170,7 @@ public class SuggestionReplacerTest {
           // markup area varies because our mapping is sometimes a bit off:
           pos = ruleMatchApplication.getTextWithCorrection().indexOf("<s>absichtlicher Fehler</s>");
         }
-        assertTrue("Found correction at: " + pos, pos > oldPos);
+        Assertions.assertTrue(pos > oldPos, "Found correction at: " + pos);
         oldPos = pos;
       }
     }
@@ -184,7 +184,7 @@ public class SuggestionReplacerTest {
     PlainTextMapping mapping = filter.filter(origMarkup);
     lt.disableRule("PUNCTUATION_PARAGRAPH_END");  //  added to prevent crash; TODO: check if needed
     List<RuleMatch> matches = lt.check(mapping.getPlainText());
-    assertTrue("Expected >= 29 matches, got: " + matches, matches.size() >= 29);
+    Assertions.assertTrue(matches.size() >= 29, "Expected >= 29 matches, got: " + matches);
     for (RuleMatch match : matches) {
       SuggestionReplacer replacer = new SuggestionReplacer(mapping, origMarkup, new ErrorMarker("<s>", "</s>"));
       List<RuleMatchApplication> ruleMatchApplications = replacer.applySuggestionsToOriginalText(match);

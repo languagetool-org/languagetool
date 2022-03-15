@@ -18,7 +18,8 @@
  */
 package org.languagetool.rules.pl;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Polish;
@@ -26,8 +27,6 @@ import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 import java.util.Collections;
-
-import static org.junit.Assert.assertEquals;
 
 public class MorfologikPolishSpellerRuleTest {
 
@@ -39,71 +38,71 @@ public class MorfologikPolishSpellerRuleTest {
     final JLanguageTool lt = new JLanguageTool(new Polish());
 
     // correct sentences:
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("To jest test bez jakiegokolwiek błędu.")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Żółw na starość wydziela dziwną woń.")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Żółw na starość wydziela dziwną woń numer 1234.")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("To jest test bez jakiegokolwiek błędu.")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Żółw na starość wydziela dziwną woń.")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Żółw na starość wydziela dziwną woń numer 1234.")).length);
 
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("W MI-6 pracuje 15-letni agent.")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("W MI-6 pracuje 15-letni agent.")).length);
     //test for "LanguageTool":
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("LanguageTool jest świetny!")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("LanguageTool jest świetny!")).length);
 
     //test for the ignored uppercase word "Gdym":
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Gdym to zobaczył, zdębiałem.")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Gdym to zobaczył, zdębiałem.")).length);
 
-    assertEquals(0, rule.match(lt.getAnalyzedSentence(",")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("123454")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence(",")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("123454")).length);
 
     //compound word with ignored part "techniczno"
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Bogactwo nie rośnie proporcjonalnie do jej rozwoju techniczno-terytorialnego.")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Bogactwo nie rośnie proporcjonalnie do jej rozwoju techniczno-terytorialnego.")).length);
 
     //compound word with one of the compound prefixes:
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Antypostmodernistyczna batalia hiperfilozofów")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Antypostmodernistyczna batalia hiperfilozofów")).length);
    //compound words: "trzynastobitowy", "zgniłożółty"
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Trzynastobitowe przystawki w kolorze zgniłożółtym")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Trzynastobitowe przystawki w kolorze zgniłożółtym")).length);
 
     //incorrect sentences:
 
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("Zolw"));
     // check match positions:
-    assertEquals(1, matches.length);
-    assertEquals(0, matches[0].getFromPos());
-    assertEquals(4, matches[0].getToPos());
-    assertEquals("Żółw", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals(0, matches[0].getFromPos());
+    Assertions.assertEquals(4, matches[0].getToPos());
+    Assertions.assertEquals("Żółw", matches[0].getSuggestedReplacements().get(0));
 
     matches = rule.match(lt.getAnalyzedSentence("😂 Zolw"));
     // check match positions:
-    assertEquals(1, matches.length);
-    assertEquals(3, matches[0].getFromPos());
-    assertEquals(7, matches[0].getToPos());
-    assertEquals("Żółw", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals(3, matches[0].getFromPos());
+    Assertions.assertEquals(7, matches[0].getToPos());
+    Assertions.assertEquals("Żółw", matches[0].getSuggestedReplacements().get(0));
 
     matches = rule.match(lt.getAnalyzedSentence("😂😂 Zolw"));
     // check match positions:
-    assertEquals(1, matches.length);
-    assertEquals(5, matches[0].getFromPos());
-    assertEquals(9, matches[0].getToPos());
-    assertEquals("Żółw", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals(5, matches[0].getFromPos());
+    Assertions.assertEquals(9, matches[0].getToPos());
+    Assertions.assertEquals("Żółw", matches[0].getSuggestedReplacements().get(0));
 
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("aõh")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("aõh")).length);
 
     //tokenizing on prefixes niby- and quasi-
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Niby-artysta spotkał się z quasi-opiekunem i niby-Francuzem.")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Niby-artysta spotkał się z quasi-opiekunem i niby-Francuzem.")).length);
 
     final RuleMatch[] prunedMatches = rule.match(lt.getAnalyzedSentence("Clarkem"));
-    assertEquals(1, prunedMatches.length);
-    assertEquals(5, prunedMatches[0].getSuggestedReplacements().size());
-    assertEquals("Clarke", prunedMatches[0].getSuggestedReplacements().get(0));
-    assertEquals("Clarkiem", prunedMatches[0].getSuggestedReplacements().get(1));
-    assertEquals("Ciarkę", prunedMatches[0].getSuggestedReplacements().get(2));
-    assertEquals("Clarkom", prunedMatches[0].getSuggestedReplacements().get(3));
-    assertEquals("Czarkę", prunedMatches[0].getSuggestedReplacements().get(4));
+    Assertions.assertEquals(1, prunedMatches.length);
+    Assertions.assertEquals(5, prunedMatches[0].getSuggestedReplacements().size());
+    Assertions.assertEquals("Clarke", prunedMatches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals("Clarkiem", prunedMatches[0].getSuggestedReplacements().get(1));
+    Assertions.assertEquals("Ciarkę", prunedMatches[0].getSuggestedReplacements().get(2));
+    Assertions.assertEquals("Clarkom", prunedMatches[0].getSuggestedReplacements().get(3));
+    Assertions.assertEquals("Czarkę", prunedMatches[0].getSuggestedReplacements().get(4));
 
     // There should be a match, this is not a prefix!
 
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("premoc")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("premoc")).length);
 
     // "0" instead "o"...
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("dziwneg0")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("dziwneg0")).length);
   }
 
 }

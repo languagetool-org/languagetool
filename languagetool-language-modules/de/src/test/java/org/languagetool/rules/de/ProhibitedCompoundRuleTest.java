@@ -18,16 +18,9 @@
  */
 package org.languagetool.rules.de;
 
-import static junit.framework.Assert.assertNull;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
-
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
@@ -38,9 +31,16 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.ngrams.FakeLanguageModel;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+
 public class ProhibitedCompoundRuleTest {
 
-  private final static Map<String, Integer> map = new HashMap<>();
+  private static final Map<String, Integer> map = new HashMap<>();
   static {
     map.put("Mietauto",100);
     map.put("Leerzeile",100);
@@ -55,7 +55,7 @@ public class ProhibitedCompoundRuleTest {
   private final JLanguageTool testLt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
 
   @Test
-  @Ignore("for interactive use, e.g. after extending the list of pairs")
+  @Disabled("for interactive use, e.g. after extending the list of pairs")
   public void testListOfWords() throws IOException {
     //File input = new File("/home/dnaber/data/corpus/jan_schreiber/german.dic");
     File input = new File("/tmp/words.txt");
@@ -122,12 +122,12 @@ public class ProhibitedCompoundRuleTest {
 
   @Test
   public void testRemoveHyphensAndAdaptCase() {
-    assertNull(testRule.removeHyphensAndAdaptCase("Marathonläuse"));
+    Assertions.assertNull(testRule.removeHyphensAndAdaptCase("Marathonläuse"));
     assertThat(testRule.removeHyphensAndAdaptCase("Marathon-Läuse"), is("Marathonläuse"));
     assertThat(testRule.removeHyphensAndAdaptCase("Marathon-Läuse-Test"), is("Marathonläusetest"));
     assertThat(testRule.removeHyphensAndAdaptCase("Marathon-läuse-test"), is("Marathonläusetest"));
     assertThat(testRule.removeHyphensAndAdaptCase("viele-Läuse-Test"), is("vieleläusetest"));
-    assertNull(testRule.removeHyphensAndAdaptCase("S-Bahn"));
+    Assertions.assertNull(testRule.removeHyphensAndAdaptCase("S-Bahn"));
   }
 
   void assertMatches(String input, int expectedMatches) throws IOException {

@@ -18,14 +18,13 @@
  */
 package org.languagetool.rules.km;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Khmer;
 
 import java.io.IOException;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * @author Nathan Wells
@@ -38,12 +37,12 @@ public class KhmerWordRepeatRuleTest {
     KhmerWordRepeatRule rule = new KhmerWordRepeatRule(TestTools.getEnglishMessages(), language);
     JLanguageTool lt = new JLanguageTool(language);
     // correct sentences:
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("នេះ​ហើយៗ​នោះ។")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("គាត់​ហើយ ហើយ​ខ្ញុំ។")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("នេះ​ហើយៗ​នោះ។")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("គាត់​ហើយ ហើយ​ខ្ញុំ។")).length);
 
     // incorrect sentences:
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("នេះ​ហើយ​ហើយ​នោះ។")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("ខ្ញុំ​និង​និង​គាត់។")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("នេះ​ហើយ​ហើយ​នោះ។")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("ខ្ញុំ​និង​និង​គាត់។")).length);
   }
 
 }

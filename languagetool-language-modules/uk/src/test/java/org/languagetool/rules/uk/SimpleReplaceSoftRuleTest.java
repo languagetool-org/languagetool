@@ -19,7 +19,8 @@
 
 package org.languagetool.rules.uk;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Ukrainian;
@@ -27,9 +28,7 @@ import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 import java.util.Arrays;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import java.util.Collections;
 
 
 public class SimpleReplaceSoftRuleTest {
@@ -43,25 +42,25 @@ public class SimpleReplaceSoftRuleTest {
 
     // correct sentences:
     matches = rule.match(lt.getAnalyzedSentence("Ці рядки повинні збігатися."));
-    assertEquals(0, matches.length);
+    Assertions.assertEquals(0, matches.length);
 
     matches = rule.match(lt.getAnalyzedSentence("у Трускавці."));
-    assertEquals(0, matches.length);
+    Assertions.assertEquals(0, matches.length);
 
     matches = rule.match(lt.getAnalyzedSentence("Цей брелок"));
-    assertEquals(1, matches.length);
-    assertEquals(Arrays.asList("дармовис"), matches[0].getSuggestedReplacements());
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals(Collections.singletonList("дармовис"), matches[0].getSuggestedReplacements());
 
     matches = rule.match(lt.getAnalyzedSentence("Не знайде спасіння."));
-    assertEquals(1, matches.length);
-    assertEquals(Arrays.asList("рятування", "рятунок", "порятунок", "визволення"), matches[0].getSuggestedReplacements());
-    assertTrue(matches[0].getMessage().contains(": релігія"));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals(Arrays.asList("рятування", "рятунок", "порятунок", "визволення"), matches[0].getSuggestedReplacements());
+    Assertions.assertTrue(matches[0].getMessage().contains(": релігія"));
 
     //refl
     matches = rule.match(lt.getAnalyzedSentence("відображаються"));
-    assertEquals(1, matches.length);
-    assertEquals(Arrays.asList("показуватися", "зображатися", "відбиватися"), matches[0].getSuggestedReplacements());
-    assertTrue("No context: " + matches[0].getMessage(), matches[0].getMessage().contains(": математика"));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals(Arrays.asList("показуватися", "зображатися", "відбиватися"), matches[0].getSuggestedReplacements());
+    Assertions.assertTrue(matches[0].getMessage().contains(": математика"), "No context: " + matches[0].getMessage());
 
     // test ignoreTagged
 //    matches = rule.match(lt.getAnalyzedSentence("щедрота"));

@@ -18,9 +18,6 @@
  */
 package org.languagetool.dev.index;
 
-import java.io.IOException;
-import java.io.StringReader;
-
 import org.apache.lucene.analysis.BaseTokenStreamTestCase;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.Tokenizer;
@@ -28,11 +25,14 @@ import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
 import org.apache.lucene.analysis.tokenattributes.PositionIncrementAttribute;
 import org.apache.lucene.analysis.tokenattributes.TypeAttribute;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.English;
 
-@Ignore
+import java.io.IOException;
+import java.io.StringReader;
+
+@Disabled
 public class LanguageToolFilterTest extends BaseTokenStreamTestCase {
   
   public void testFilter() throws Exception {

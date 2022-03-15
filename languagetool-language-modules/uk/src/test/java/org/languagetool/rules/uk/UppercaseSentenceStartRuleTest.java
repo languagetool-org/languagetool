@@ -18,7 +18,8 @@
  */
 package org.languagetool.rules.uk;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Ukrainian;
@@ -28,8 +29,6 @@ import org.languagetool.rules.UppercaseSentenceStartRule;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
-import static org.junit.Assert.assertEquals;
 
 public class UppercaseSentenceStartRuleTest {
 
@@ -42,20 +41,20 @@ public class UppercaseSentenceStartRuleTest {
 
     JLanguageTool lt = new JLanguageTool(ukrainian);
 
-    assertEquals(0, rule.match(lt.analyzeText("Автор написав це речення з великої літери.")).length);
+    Assertions.assertEquals(0, rule.match(lt.analyzeText("Автор написав це речення з великої літери.")).length);
 
-    assertEquals(0, rule.match(lt.analyzeText("Він приїхав в с. Вижівка.")).length);
+    Assertions.assertEquals(0, rule.match(lt.analyzeText("Він приїхав в с. Вижівка.")).length);
 
-    assertEquals(0, rule.match(lt.analyzeText("         http://narodna.pravda.com.ua")).length);
+    Assertions.assertEquals(0, rule.match(lt.analyzeText("         http://narodna.pravda.com.ua")).length);
 
     RuleMatch[] matches = rule.match(lt.analyzeText("автор написав це речення з маленької літери."));
-    assertEquals(1, matches.length);
-    assertEquals(1, matches[0].getSuggestedReplacements().size());
-    assertEquals("Автор", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals(1, matches[0].getSuggestedReplacements().size());
+    Assertions.assertEquals("Автор", matches[0].getSuggestedReplacements().get(0));
 
-    assertEquals(new ArrayList<RuleMatch>(), lt.check("Цей список з декількох рядків:\n\nрядок 1,\n\nрядок 2,\n\nрядок 3."));
-    assertEquals(0, lt.check("Цей список з декількох рядків:\n\nрядок 1;\n\nрядок 2;\n\nрядок 3.").size());
-    assertEquals(0, lt.check("Цей список з декількох рядків:\n\n 1) рядок 1;\n\n2) рядок 2;\n\n3)рядок 3.").size());
+    Assertions.assertEquals(new ArrayList<RuleMatch>(), lt.check("Цей список з декількох рядків:\n\nрядок 1,\n\nрядок 2,\n\nрядок 3."));
+    Assertions.assertEquals(0, lt.check("Цей список з декількох рядків:\n\nрядок 1;\n\nрядок 2;\n\nрядок 3.").size());
+    Assertions.assertEquals(0, lt.check("Цей список з декількох рядків:\n\n 1) рядок 1;\n\n2) рядок 2;\n\n3)рядок 3.").size());
   }
 
 }

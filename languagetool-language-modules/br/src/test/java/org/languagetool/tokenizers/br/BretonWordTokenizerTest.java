@@ -19,11 +19,10 @@
 
 package org.languagetool.tokenizers.br;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
-
-import static org.junit.Assert.assertEquals;
 
 public class BretonWordTokenizerTest {
 
@@ -31,17 +30,17 @@ public class BretonWordTokenizerTest {
   public void testTokenize() {
     final BretonWordTokenizer wordTokenizer = new BretonWordTokenizer();
     List <String> tokens = wordTokenizer.tokenize("Test c'h");
-    assertEquals(3, tokens.size());
-    assertEquals("[Test,  , c’h]", tokens.toString());
+    Assertions.assertEquals(3, tokens.size());
+    Assertions.assertEquals("[Test,  , c’h]", tokens.toString());
     tokens = wordTokenizer.tokenize("Test c’h");
-    assertEquals(3, tokens.size());
-    assertEquals("[Test,  , c’h]", tokens.toString());
+    Assertions.assertEquals(3, tokens.size());
+    Assertions.assertEquals("[Test,  , c’h]", tokens.toString());
     tokens = wordTokenizer.tokenize("C'hwerc'h merc'h gwerc'h war c'hwerc'h marc'h kalloc'h");
-    assertEquals(13, tokens.size());
-    assertEquals("[C’hwerc’h,  , merc’h,  , gwerc’h,  , war,  , c’hwerc’h,  , marc’h,  , kalloc’h]", tokens.toString());
+    Assertions.assertEquals(13, tokens.size());
+    Assertions.assertEquals("[C’hwerc’h,  , merc’h,  , gwerc’h,  , war,  , c’hwerc’h,  , marc’h,  , kalloc’h]", tokens.toString());
     final List <String> tokens2 = wordTokenizer.tokenize("Test n’eo");
-    assertEquals(4, tokens2.size());
-    assertEquals("[Test,  , n’, eo]", tokens2.toString());
+    Assertions.assertEquals(4, tokens2.size());
+    Assertions.assertEquals("[Test,  , n’, eo]", tokens2.toString());
 
   }
 

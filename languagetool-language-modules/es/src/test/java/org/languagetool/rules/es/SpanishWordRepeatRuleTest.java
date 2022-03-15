@@ -19,15 +19,14 @@
 
 package org.languagetool.rules.es;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Spanish;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
-
-import static org.junit.Assert.assertEquals;
 
 public class SpanishWordRepeatRuleTest {
 
@@ -42,9 +41,9 @@ public class SpanishWordRepeatRuleTest {
     JLanguageTool lt = new JLanguageTool(new Spanish());
     // correct
     matches = rule.match(lt.getAnalyzedSentence("Bienvenido/a a LanguageTool."));
-    assertEquals(0, matches.length);
+    Assertions.assertEquals(0, matches.length);
     matches = rule.match(lt.getAnalyzedSentence("HUCHA-GANGA.ES es la web de referencia."));
-    assertEquals(0, matches.length);
+    Assertions.assertEquals(0, matches.length);
   }
 
 }

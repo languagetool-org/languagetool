@@ -18,16 +18,16 @@
  */
 package org.languagetool.rules.de;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertTrue;
-
-import java.io.IOException;
-
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
+
+import java.io.IOException;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class SentenceWhitespaceRuleTest {
 
@@ -47,8 +47,8 @@ public class SentenceWhitespaceRuleTest {
     assertGood("Am 28. September.", lt);
     assertBad("Am 28.September.", lt);
 
-    assertTrue(lt.check("Am 7.September 2014.").get(0).getMessage().contains("nach Ordnungszahlen"));
-    assertTrue(lt.check("Im September.Dann der nächste Satz.").get(0).getMessage().contains("zwischen Sätzen"));
+    Assertions.assertTrue(lt.check("Am 7.September 2014.").get(0).getMessage().contains("nach Ordnungszahlen"));
+    Assertions.assertTrue(lt.check("Im September.Dann der nächste Satz.").get(0).getMessage().contains("zwischen Sätzen"));
   }
 
   private void assertGood(String text, JLanguageTool lt) throws IOException {

@@ -18,8 +18,10 @@
  */
 package org.languagetool.rules.de;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.languagetool.*;
 import org.languagetool.rules.FakeRule;
 import org.languagetool.rules.RuleMatch;
@@ -31,14 +33,13 @@ import java.util.List;
 import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
 
 public class AdaptSuggestionFilterTest {
 
   private final AdaptSuggestionFilter filter = new AdaptSuggestionFilter();
   private final JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de"));
 
-  @Ignore("for development")
+  @Disabled("for development")
   @Test
   public void testAcceptRuleMatchDevTest() throws IOException {
     runAcceptRuleMatch("Hier steht unsere Roadmap.", "Roadmap", "Plan", "[unseren Plan, unser Plan]");
@@ -77,7 +78,7 @@ public class AdaptSuggestionFilterTest {
     runAcceptRuleMatch("Hier steht eure Roadmap.", "Roadmap",   "Verfahren", "[euer Verfahren]");
   }
 
-  @Ignore("WIP")
+  @Disabled("WIP")
   @Test
   public void testAcceptRuleMatchWithDetAdj() throws IOException {
     runAcceptRuleMatch("Hier steht die neue Roadmap.", "Roadmap",    "Plan", "[den neuen Plan, der neue Plan]");
@@ -111,8 +112,8 @@ public class AdaptSuggestionFilterTest {
     Map<String,String> map = new HashMap<>();
     map.put("sub", "\\1");
     RuleMatch newMatch = filter.acceptRuleMatch(match, map, i, Arrays.copyOfRange(sentence.getTokensWithoutWhitespace(), tokenPos, tokenPos+1));
-    assertNotNull(newMatch);
-    assertThat(newMatch.getSuggestedReplacements().toString(), is(newReplacements));
+    Assertions.assertNotNull(newMatch);
+    MatcherAssert.assertThat(newMatch.getSuggestedReplacements().toString(), is(newReplacements));
   }
   
   @Test
@@ -127,7 +128,7 @@ public class AdaptSuggestionFilterTest {
     assertDet(new AnalyzedToken("einer", "ART:IND:DAT:SIN:FEM", "ein"), "Plan", "[einem]");  // einer Roadmap -> einem Plan
   }
 
-  @Ignore("WIP")
+  @Disabled("WIP")
   @Test
   public void testdAdaptedDetAdj() {
     assertDetAdj(new AnalyzedToken("eine", "ART:IND:NOM:SIN:FEM", "ein"),
@@ -136,13 +137,13 @@ public class AdaptSuggestionFilterTest {
 
   private void assertDet(AnalyzedToken detToken, String replWord, String expectedDet) {
     List<String> adaptedDet = filter.getAdaptedDet(new AnalyzedTokenReadings(detToken, 0), replWord);
-    assertThat(adaptedDet.toString(), is(expectedDet));
+    MatcherAssert.assertThat(adaptedDet.toString(), is(expectedDet));
   }
   
   private void assertDetAdj(AnalyzedToken detToken, AnalyzedToken adjToken, String replWord, String expectedDet) {
     List<String> adaptedDet = filter.getAdaptedDetAdj(new AnalyzedTokenReadings(detToken, 0),
       new AnalyzedTokenReadings(adjToken, 0), replWord);
-    assertThat(adaptedDet.toString(), is(expectedDet));
+    MatcherAssert.assertThat(adaptedDet.toString(), is(expectedDet));
   }
   
 }

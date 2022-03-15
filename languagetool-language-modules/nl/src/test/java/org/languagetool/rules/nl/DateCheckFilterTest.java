@@ -18,15 +18,13 @@
  */
 package org.languagetool.rules.nl;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.rules.FakeRule;
 import org.languagetool.rules.RuleMatch;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
 public class DateCheckFilterTest {
 
@@ -35,8 +33,8 @@ public class DateCheckFilterTest {
 
   @Test
   public void testAccept() throws Exception {
-    assertNull(filter.acceptRuleMatch(match, makeMap("2014", "8" ,"23", "zaterdag"), -1, null));  // correct date
-    assertNotNull(filter.acceptRuleMatch(match, makeMap("2014", "8" ,"23", "zondag"), -1, null));  // incorrect date
+    Assertions.assertNull(filter.acceptRuleMatch(match, makeMap("2014", "8" ,"23", "zaterdag"), -1, null));  // correct date
+    Assertions.assertNotNull(filter.acceptRuleMatch(match, makeMap("2014", "8" ,"23", "zondag"), -1, null));  // incorrect date
   }
 
   private Map<String, String> makeMap(String year, String month, String dayOfMonth, String weekDay) {

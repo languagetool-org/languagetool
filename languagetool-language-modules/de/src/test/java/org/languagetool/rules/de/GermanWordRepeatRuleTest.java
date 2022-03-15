@@ -18,7 +18,8 @@
  */
 package org.languagetool.rules.de;
 
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
@@ -27,7 +28,6 @@ import org.languagetool.TestTools;
 import java.io.IOException;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
 
 public class GermanWordRepeatRuleTest {
   
@@ -36,23 +36,23 @@ public class GermanWordRepeatRuleTest {
     Language german = Languages.getLanguageForShortCode("de");
     GermanWordRepeatRule rule = new GermanWordRepeatRule(TestTools.getEnglishMessages(), german);
     JLanguageTool lt = new JLanguageTool(german);
-    assertThat(rule.match(lt.getAnalyzedSentence("Das ist gut so.")).length, is(0));
-    assertThat(rule.match(lt.getAnalyzedSentence("Das ist ist gut so.")).length, is(1));
-    assertThat(rule.match(lt.getAnalyzedSentence("Der der Mann")).length, is(1));
-    assertThat(rule.match(lt.getAnalyzedSentence("Warum fragen Sie sie nicht selbst?")).length, is(0));
-    assertThat(rule.match(lt.getAnalyzedSentence("Er will nur sein Leben leben.")).length, is(0));
-    assertThat(rule.match(lt.getAnalyzedSentence("Wie bei Honda, die die Bezahlung erhöht haben.")).length, is(0));
-    assertThat(rule.match(lt.getAnalyzedSentence("Dann warfen sie sie weg.")).length, is(0));
-    assertThat(rule.match(lt.getAnalyzedSentence("Dann konnte sie sie sehen.")).length, is(0));
-    assertThat(rule.match(lt.getAnalyzedSentence("Er muss sein Essen essen.")).length, is(0));
-    assertThat(rule.match(lt.getAnalyzedSentence("Wahrscheinlich ist das das Problem.")).length, is(0));
-    assertThat(rule.match(lt.getAnalyzedSentence("Dann wäre das das erste Wirtschaftsmagazin mit mehr als 10.000 Lesern.")).length, is(0));
-    assertThat(rule.match(lt.getAnalyzedSentence("Für mich war das das Härteste.")).length, is(0));
-    assertThat(rule.match(lt.getAnalyzedSentence("Ich weiß, wer wer ist!")).length, is(0));
-    assertThat(rule.match(lt.getAnalyzedSentence("Als ich das das erste Mal gehört habe …")).length, is(0));
-    assertThat(rule.match(lt.getAnalyzedSentence("Hat sie sie")).length, is(1));  // used to crash, issue #1010
-    assertThat(rule.match(lt.getAnalyzedSentence("Hat hat")).length, is(1));
-    assertThat(rule.match(lt.getAnalyzedSentence("hat hat")).length, is(1));
+    MatcherAssert.assertThat(rule.match(lt.getAnalyzedSentence("Das ist gut so.")).length, is(0));
+    MatcherAssert.assertThat(rule.match(lt.getAnalyzedSentence("Das ist ist gut so.")).length, is(1));
+    MatcherAssert.assertThat(rule.match(lt.getAnalyzedSentence("Der der Mann")).length, is(1));
+    MatcherAssert.assertThat(rule.match(lt.getAnalyzedSentence("Warum fragen Sie sie nicht selbst?")).length, is(0));
+    MatcherAssert.assertThat(rule.match(lt.getAnalyzedSentence("Er will nur sein Leben leben.")).length, is(0));
+    MatcherAssert.assertThat(rule.match(lt.getAnalyzedSentence("Wie bei Honda, die die Bezahlung erhöht haben.")).length, is(0));
+    MatcherAssert.assertThat(rule.match(lt.getAnalyzedSentence("Dann warfen sie sie weg.")).length, is(0));
+    MatcherAssert.assertThat(rule.match(lt.getAnalyzedSentence("Dann konnte sie sie sehen.")).length, is(0));
+    MatcherAssert.assertThat(rule.match(lt.getAnalyzedSentence("Er muss sein Essen essen.")).length, is(0));
+    MatcherAssert.assertThat(rule.match(lt.getAnalyzedSentence("Wahrscheinlich ist das das Problem.")).length, is(0));
+    MatcherAssert.assertThat(rule.match(lt.getAnalyzedSentence("Dann wäre das das erste Wirtschaftsmagazin mit mehr als 10.000 Lesern.")).length, is(0));
+    MatcherAssert.assertThat(rule.match(lt.getAnalyzedSentence("Für mich war das das Härteste.")).length, is(0));
+    MatcherAssert.assertThat(rule.match(lt.getAnalyzedSentence("Ich weiß, wer wer ist!")).length, is(0));
+    MatcherAssert.assertThat(rule.match(lt.getAnalyzedSentence("Als ich das das erste Mal gehört habe …")).length, is(0));
+    MatcherAssert.assertThat(rule.match(lt.getAnalyzedSentence("Hat sie sie")).length, is(1));  // used to crash, issue #1010
+    MatcherAssert.assertThat(rule.match(lt.getAnalyzedSentence("Hat hat")).length, is(1));
+    MatcherAssert.assertThat(rule.match(lt.getAnalyzedSentence("hat hat")).length, is(1));
   }
 
 }

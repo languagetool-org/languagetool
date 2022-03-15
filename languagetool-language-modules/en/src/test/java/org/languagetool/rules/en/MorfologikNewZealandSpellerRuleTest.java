@@ -18,18 +18,17 @@
  */
 package org.languagetool.rules.en;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
-import java.util.Collections;
-
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.TestTools;
 import org.languagetool.language.NewZealandEnglish;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+
+import java.io.IOException;
+import java.util.Collections;
 
 public class MorfologikNewZealandSpellerRuleTest extends AbstractEnglishSpellerRuleTest {
 
@@ -49,37 +48,37 @@ public class MorfologikNewZealandSpellerRuleTest extends AbstractEnglishSpellerR
     JLanguageTool lt = new JLanguageTool(language);
 
     // correct sentences:
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("This is an example: we get behaviour as a dictionary word.")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Why don't we speak today.")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("This is an example: we get behaviour as a dictionary word.")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Why don't we speak today.")).length);
     //with doesn't
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("He doesn't know what to do.")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence(",")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("123454")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("μ")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("He doesn't know what to do.")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence(",")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("123454")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("μ")).length);
 
     //special New Zealand content:
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Abercrombie")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Abercrombie")).length);
 
     //incorrect sentences:
 
     RuleMatch[] matches1 = rule.match(lt.getAnalyzedSentence("behavior"));
     // check match positions:
-    assertEquals(1, matches1.length);
-    assertEquals(0, matches1[0].getFromPos());
-    assertEquals(8, matches1[0].getToPos());
-    assertEquals("behaviour", matches1[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches1.length);
+    Assertions.assertEquals(0, matches1[0].getFromPos());
+    Assertions.assertEquals(8, matches1[0].getToPos());
+    Assertions.assertEquals("behaviour", matches1[0].getSuggestedReplacements().get(0));
 
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("aõh")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("a")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("aõh")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("a")).length);
            
     //based on replacement pairs:
 
     RuleMatch[] matches2 = rule.match(lt.getAnalyzedSentence("He teached us."));
     // check match positions:
-    assertEquals(1, matches2.length);
-    assertEquals(3, matches2[0].getFromPos());
-    assertEquals(10, matches2[0].getToPos());
-    assertEquals("taught", matches2[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches2.length);
+    Assertions.assertEquals(3, matches2[0].getFromPos());
+    Assertions.assertEquals(10, matches2[0].getToPos());
+    Assertions.assertEquals("taught", matches2[0].getSuggestedReplacements().get(0));
   }
 
 }

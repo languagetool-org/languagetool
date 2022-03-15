@@ -19,31 +19,30 @@
 
 package org.languagetool.synthesis.es;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.language.Spanish;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-import static org.junit.Assert.assertEquals;
-
 public class SpanishSynthesizerTest {
 
   @Test
   public final void testSynthesizeStringString() throws IOException {
     SpanishSynthesizer synth = new SpanishSynthesizer(new Spanish());
-    assertEquals(synth.synthesize(dummyToken("blablabla"),
+    Assertions.assertEquals(synth.synthesize(dummyToken("blablabla"),
             "blablabla").length, 0);
 
-    assertEquals("[temiera, temiese]", Arrays.toString(synth.synthesize(dummyToken("temer"), "VMSI3S0")));
-    assertEquals("[presidentes]", Arrays.toString(synth.synthesize(dummyToken("presidente"), "NCCP000")));
-    assertEquals("[contéis]", Arrays.toString(synth.synthesize(dummyToken("contar"), "VMSP2P0")));
-    assertEquals("[probado]", Arrays.toString(synth.synthesize(dummyToken("probar"), "VMP00SM")));
-    assertEquals("[probado]", Arrays.toString(synth.synthesize(dummyToken("probar"), "VMP00SM", false)));
+    Assertions.assertEquals("[temiera, temiese]", Arrays.toString(synth.synthesize(dummyToken("temer"), "VMSI3S0")));
+    Assertions.assertEquals("[presidentes]", Arrays.toString(synth.synthesize(dummyToken("presidente"), "NCCP000")));
+    Assertions.assertEquals("[contéis]", Arrays.toString(synth.synthesize(dummyToken("contar"), "VMSP2P0")));
+    Assertions.assertEquals("[probado]", Arrays.toString(synth.synthesize(dummyToken("probar"), "VMP00SM")));
+    Assertions.assertEquals("[probado]", Arrays.toString(synth.synthesize(dummyToken("probar"), "VMP00SM", false)));
     //with regular expressions
-    assertEquals("[probado]", Arrays.toString(synth.synthesize(dummyToken("probar"), "VMP00SM", true)));
-    assertEquals("[probando, probado]", Arrays.toString(synth.synthesize(dummyToken("probar"), "VMP00SM|VMG0000", true)));
+    Assertions.assertEquals("[probado]", Arrays.toString(synth.synthesize(dummyToken("probar"), "VMP00SM", true)));
+    Assertions.assertEquals("[probando, probado]", Arrays.toString(synth.synthesize(dummyToken("probar"), "VMP00SM|VMG0000", true)));
   }
 
   private AnalyzedToken dummyToken(String tokenStr) {

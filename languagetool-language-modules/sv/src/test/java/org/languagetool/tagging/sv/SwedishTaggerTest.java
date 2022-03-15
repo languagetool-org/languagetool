@@ -18,8 +18,8 @@
  */
 package org.languagetool.tagging.sv;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.Swedish;
 import org.languagetool.tokenizers.WordTokenizer;
@@ -31,7 +31,7 @@ public class SwedishTaggerTest {
   private SwedishTagger tagger;
   private WordTokenizer tokenizer;
       
-  @Before
+  @BeforeEach
   public void setUp() {
     tagger = new SwedishTagger();
     tokenizer = new WordTokenizer();

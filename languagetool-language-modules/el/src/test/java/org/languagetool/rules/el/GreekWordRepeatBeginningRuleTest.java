@@ -18,15 +18,14 @@
  */
 package org.languagetool.rules.el;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 
 public class GreekWordRepeatBeginningRuleTest {
@@ -37,23 +36,23 @@ public class GreekWordRepeatBeginningRuleTest {
     
     // ================== correct sentences ===================
     // two successive sentences that start with the same non-adverb word.
-    assertEquals(0, lt.check("Εγώ παίζω ποδόσφαιρο. Εγώ παίζω μπάσκετ").size());
+    Assertions.assertEquals(0, lt.check("Εγώ παίζω ποδόσφαιρο. Εγώ παίζω μπάσκετ").size());
     // three successive sentences that start with the same exception word ("Το").
-    assertEquals(0, lt.check("Το αυτοκίνητο είναι καινούργιο. Το ποδήλατο είναι παλιό. Το καράβι είναι καινούργιο.").size());
+    Assertions.assertEquals(0, lt.check("Το αυτοκίνητο είναι καινούργιο. Το ποδήλατο είναι παλιό. Το καράβι είναι καινούργιο.").size());
     
     // =================== errors =============================
     // two successive sentences that start with one of the saved adverbs ("Επίσης").
     List<RuleMatch> matches2 = lt.check("Επίσης, μιλάω Ελληνικά. Επίσης, μιλάω Αγγλικά.");
-    assertEquals(1, matches2.size());
+    Assertions.assertEquals(1, matches2.size());
     // check suggestions (because the adverbs are contained in a Set it is safer to check if the correct suggestions
     // are contained in the real suggestions)
-    assertTrue(matches2.get(0).getSuggestedReplacements().stream().anyMatch(sugg ->  sugg.equals("Επιπλέον")));
-    assertTrue(matches2.get(0).getSuggestedReplacements().stream().anyMatch(sugg ->  sugg.equals("Ακόμη")));
-    assertTrue(matches2.get(0).getSuggestedReplacements().stream().anyMatch(sugg ->  sugg.equals("Επιπρόσθετα")));
-    assertTrue(matches2.get(0).getSuggestedReplacements().stream().anyMatch(sugg ->  sugg.equals("Συμπληρωματικά")));
+    Assertions.assertTrue(matches2.get(0).getSuggestedReplacements().stream().anyMatch(sugg ->  sugg.equals("Επιπλέον")));
+    Assertions.assertTrue(matches2.get(0).getSuggestedReplacements().stream().anyMatch(sugg ->  sugg.equals("Ακόμη")));
+    Assertions.assertTrue(matches2.get(0).getSuggestedReplacements().stream().anyMatch(sugg ->  sugg.equals("Επιπρόσθετα")));
+    Assertions.assertTrue(matches2.get(0).getSuggestedReplacements().stream().anyMatch(sugg ->  sugg.equals("Συμπληρωματικά")));
     // three successive sentences that start with the same non-exception word (no suggestions to check).
     List<RuleMatch> matches1 = lt.check("Εγώ παίζω μπάσκετ. Εγώ παίζω ποδόσφαιρο. Εγώ παίζω βόλεϊ.");
-    assertEquals(1, matches1.size());
+    Assertions.assertEquals(1, matches1.size());
   }
 
 }

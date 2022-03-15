@@ -19,12 +19,9 @@
  */
 package org.languagetool.rules.es;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
-
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
@@ -33,12 +30,14 @@ import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.TextLevelRule;
 
+import java.io.IOException;
+
 public class SpanishRepeatedWordsRuleTest {
 
   private TextLevelRule rule;
   private JLanguageTool lt;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     rule = new SpanishRepeatedWordsRule(TestTools.getMessages("es"));
     lt = new JLanguageTool(Languages.getLanguageForShortCode("es"));
@@ -59,27 +58,27 @@ public class SpanishRepeatedWordsRuleTest {
     
     RuleMatch[] matches = getRuleMatches(
         "Yo propuse aquello. Pero la sugerencia propuesta por el presidente no fue acceptada.");
-    assertEquals(1, matches.length);
+    Assertions.assertEquals(1, matches.length);
 
     matches = getRuleMatches("Propuse aquello. Pero la sugerencia propuesta por el presidente no fue acceptada.");
-    assertEquals(1, matches.length);
+    Assertions.assertEquals(1, matches.length);
 
     matches = getRuleMatches("Fue excelente. Fue un resultado excelente.");
-    assertEquals(1, matches.length);
-    assertEquals("magnífico", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("fantástico", matches[0].getSuggestedReplacements().get(1));
-    assertEquals("maravilloso", matches[0].getSuggestedReplacements().get(2));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("magnífico", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals("fantástico", matches[0].getSuggestedReplacements().get(1));
+    Assertions.assertEquals("maravilloso", matches[0].getSuggestedReplacements().get(2));
 
     matches = getRuleMatches("Esto propuse. ¿Propones tu algo diferente?");
-    assertEquals(1, matches.length);
-    assertEquals("Sugieres", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("Recomiendas", matches[0].getSuggestedReplacements().get(1));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("Sugieres", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals("Recomiendas", matches[0].getSuggestedReplacements().get(1));
     
     matches = getRuleMatches("Inicia el debate. Inicia la conversación.");
-    assertEquals(1, matches.length);
-    assertEquals("Comienza", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("Empieza", matches[0].getSuggestedReplacements().get(1));
-    assertEquals("Pone en marcha", matches[0].getSuggestedReplacements().get(2));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("Comienza", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals("Empieza", matches[0].getSuggestedReplacements().get(1));
+    Assertions.assertEquals("Pone en marcha", matches[0].getSuggestedReplacements().get(2));
 
   }
 
@@ -91,7 +90,7 @@ public class SpanishRepeatedWordsRuleTest {
   private void assertCorrectText(String sentences) throws IOException {
     AnnotatedText aText = new AnnotatedTextBuilder().addText(sentences).build();
     RuleMatch[] matches = rule.match(lt.analyzeText(sentences), aText);
-    assertEquals(0, matches.length);
+    Assertions.assertEquals(0, matches.length);
   }
 
 }

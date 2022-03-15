@@ -18,12 +18,12 @@
  */
 package org.languagetool.rules.zh;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.LanguageSpecificTest;
 import org.languagetool.language.Chinese;
 
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.Collections;
 
 public class ChineseTest extends LanguageSpecificTest {
   
@@ -33,7 +33,7 @@ public class ChineseTest extends LanguageSpecificTest {
     String s = "将文本粘贴在此，或者检测以下文本：我和她去看了二部电影。";
     Chinese lang = new Chinese();
     testDemoText(lang, s,
-      Arrays.asList("wa5")
+            Collections.singletonList("wa5")
     );
     runTests(lang);
   }

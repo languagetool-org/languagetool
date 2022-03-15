@@ -21,7 +21,8 @@
 
 package org.languagetool.rules.it;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Italian;
@@ -29,8 +30,6 @@ import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 import java.util.Collections;
-
-import static org.junit.Assert.assertEquals;
 
 public class MorfologikItalianSpellerRuleTest {
 
@@ -43,9 +42,9 @@ public class MorfologikItalianSpellerRuleTest {
         JLanguageTool lt = new JLanguageTool(new Italian());
         
         matches = rule.match(lt.getAnalyzedSentence("esmpio"));
-        assertEquals(1, matches.length);
+        Assertions.assertEquals(1, matches.length);
         // TODO: another solution: remove capitalized words from the speller binary dictionary
-        assertEquals("[empio, esempio, espio, espiò]", matches[0].getSuggestedReplacements().toString());
+        Assertions.assertEquals("[empio, esempio, espio, espiò]", matches[0].getSuggestedReplacements().toString());
         
     }
 }

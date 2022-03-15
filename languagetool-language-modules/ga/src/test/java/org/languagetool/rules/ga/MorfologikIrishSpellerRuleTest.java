@@ -18,7 +18,8 @@
  */
 package org.languagetool.rules.ga;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Irish;
@@ -26,8 +27,6 @@ import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 import java.util.Collections;
-
-import static org.junit.Assert.assertEquals;
 
 public class MorfologikIrishSpellerRuleTest {
 
@@ -41,24 +40,24 @@ public class MorfologikIrishSpellerRuleTest {
     //incorrect sentences:
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("botun"));
     // check match positions:
-    assertEquals(1, matches.length);
-    assertEquals(0, matches[0].getFromPos());
-    assertEquals(5, matches[0].getToPos());
-    assertEquals("botún", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals(0, matches[0].getFromPos());
+    Assertions.assertEquals(5, matches[0].getToPos());
+    Assertions.assertEquals("botún", matches[0].getSuggestedReplacements().get(0));
 
     matches = rule.match(lt.getAnalyzedSentence("amaċ"));
     // check match positions:
-    assertEquals(1, matches.length);
-    assertEquals(0, matches[0].getFromPos());
-    assertEquals(4, matches[0].getToPos());
-    assertEquals("amach", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals(0, matches[0].getFromPos());
+    Assertions.assertEquals(4, matches[0].getToPos());
+    Assertions.assertEquals("amach", matches[0].getSuggestedReplacements().get(0));
 
     matches = rule.match(lt.getAnalyzedSentence("😂 botun"));
     // check match positions:
-    assertEquals(1, matches.length);
-    assertEquals(3, matches[0].getFromPos());
-    assertEquals(8, matches[0].getToPos());
-    assertEquals("botún", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals(3, matches[0].getFromPos());
+    Assertions.assertEquals(8, matches[0].getToPos());
+    Assertions.assertEquals("botún", matches[0].getSuggestedReplacements().get(0));
   }
 
 }

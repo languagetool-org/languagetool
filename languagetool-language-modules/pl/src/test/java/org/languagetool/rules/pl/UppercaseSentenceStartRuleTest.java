@@ -18,21 +18,20 @@
  */
 package org.languagetool.rules.pl;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.Polish;
 
 import java.io.IOException;
-
-import static org.junit.Assert.assertEquals;
 
 public class UppercaseSentenceStartRuleTest {
 
   @Test
   public void testPolishSpecialCases() throws IOException {
     final JLanguageTool lt = new JLanguageTool(new Polish());
-    assertEquals(0, lt.check("Zdanie.").size());
-    assertEquals(0, lt.check("To jest lista punktowana:\n\npunkt pierwszy,\n\npunkt drugi,\n\npunkt trzeci.").size());
+    Assertions.assertEquals(0, lt.check("Zdanie.").size());
+    Assertions.assertEquals(0, lt.check("To jest lista punktowana:\n\npunkt pierwszy,\n\npunkt drugi,\n\npunkt trzeci.").size());
   }
 
 }

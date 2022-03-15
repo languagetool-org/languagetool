@@ -19,7 +19,8 @@
 
 package org.languagetool.rules.uk;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Ukrainian;
@@ -27,9 +28,7 @@ import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 import java.util.Arrays;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import java.util.Collections;
 
 
 public class SimpleReplaceRenamedRuleTest {
@@ -43,19 +42,19 @@ public class SimpleReplaceRenamedRuleTest {
 
     // correct sentences:
     matches = rule.match(lt.getAnalyzedSentence("Київ."));
-    assertEquals(0, matches.length);
+    Assertions.assertEquals(0, matches.length);
 
     matches = rule.match(lt.getAnalyzedSentence("Дніпродзержинська"));
-    assertEquals(Arrays.asList(matches).toString(), 1, matches.length);
-    assertEquals(Arrays.asList("Кам'янське", "кам'янський"), matches[0].getSuggestedReplacements());
-    assertTrue(matches[0].getMessage().contains("2016"));
+    Assertions.assertEquals(1, matches.length, Arrays.asList(matches).toString());
+    Assertions.assertEquals(Arrays.asList("Кам'янське", "кам'янський"), matches[0].getSuggestedReplacements());
+    Assertions.assertTrue(matches[0].getMessage().contains("2016"));
 
     matches = rule.match(lt.getAnalyzedSentence("дніпродзержинського."));
-    assertEquals(1, matches.length);
-    assertEquals(Arrays.asList("кам'янський"), matches[0].getSuggestedReplacements());
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals(Collections.singletonList("кам'янський"), matches[0].getSuggestedReplacements());
 
     matches = rule.match(lt.getAnalyzedSentence("Червонознам'янка."));
-    assertEquals(1, matches.length);
-    assertEquals(Arrays.asList("Знам'янка", "Знаменка"), matches[0].getSuggestedReplacements());
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals(Arrays.asList("Знам'янка", "Знаменка"), matches[0].getSuggestedReplacements());
   }
 }

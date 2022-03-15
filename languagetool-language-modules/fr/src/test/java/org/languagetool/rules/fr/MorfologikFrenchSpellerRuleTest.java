@@ -19,7 +19,8 @@
 
 package org.languagetool.rules.fr;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.French;
@@ -27,8 +28,6 @@ import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 import java.util.Collections;
-
-import static org.junit.Assert.assertEquals;
 
 public class MorfologikFrenchSpellerRuleTest {
 
@@ -40,96 +39,96 @@ public class MorfologikFrenchSpellerRuleTest {
     RuleMatch[] matches;
     JLanguageTool lt = new JLanguageTool(new French());
 
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Écoute-moi.")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("35%")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("20$")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("4x4")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("300 000 yen")).length);   
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("20°C")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("même s'il coûte 10.000 yens")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("J'ai 38,9 de fièvre.")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Thunderbird 2.0.0.14")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Va-t’en !")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("-Je ne suis pas venu par manque de temps.")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("12hr-14hr")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Dominique Strauss-Kahn")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("L'ONU")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("d'1")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("L'email")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Et d'Harvard")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("déconfinement")).length);  // from spelling.txt
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Déconfinement")).length); 
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Le Déconfinement")).length); // Should be only lower-case??
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Cesse de t'autoflageller.")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("L'iPhone")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Une #sprache @mentioned mywebsite.org ereredd.7z, domaine .com, NH₄OH")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Écoute-moi.")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("35%")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("20$")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("4x4")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("300 000 yen")).length);   
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("20°C")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("même s'il coûte 10.000 yens")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("J'ai 38,9 de fièvre.")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Thunderbird 2.0.0.14")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Va-t’en !")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("-Je ne suis pas venu par manque de temps.")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("12hr-14hr")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Dominique Strauss-Kahn")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("L'ONU")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("d'1")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("L'email")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Et d'Harvard")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("déconfinement")).length);  // from spelling.txt
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Déconfinement")).length); 
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Le Déconfinement")).length); // Should be only lower-case??
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Cesse de t'autoflageller.")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("L'iPhone")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Une #sprache @mentioned mywebsite.org ereredd.7z, domaine .com, NH₄OH")).length);
     
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Un test simple.")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Le cœur, la sœur.")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("Un test simpple.")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Ç'avait")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("LanguageTool")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Un test simple.")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Le cœur, la sœur.")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("Un test simpple.")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Ç'avait")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("LanguageTool")).length);
     
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("L'ONU")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Il arrive après-demain.")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("L'Haÿ-les-Roses")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("L'Haÿ les Roses")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Aujourd'hui et jusqu'à demain.")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Aujourd’hui et jusqu’à demain.")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("L'Allemagne et l'Italie.")).length);
-    assertEquals(2, rule.match(lt.getAnalyzedSentence("L’allemagne et l’italie.")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("de Harvard ou d'Harvard")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("d'1")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("l'email")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("À propos de cette chose… ")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("L'ONU")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Il arrive après-demain.")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("L'Haÿ-les-Roses")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("L'Haÿ les Roses")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Aujourd'hui et jusqu'à demain.")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Aujourd’hui et jusqu’à demain.")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("L'Allemagne et l'Italie.")).length);
+    Assertions.assertEquals(2, rule.match(lt.getAnalyzedSentence("L’allemagne et l’italie.")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("de Harvard ou d'Harvard")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("d'1")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("l'email")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("À propos de cette chose… ")).length);
         
     // Test for Multiwords.
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("vox populi")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("statu quo.")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Bugs Bunny")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("vox populi")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("statu quo.")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Bugs Bunny")).length);
 
     // tests for mixed case words
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("pH")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("McDonald's")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("McDonald’s")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("McDonald")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("thisisanerror")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("thisIsAnError")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("Thisisanerror")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("ThisIsAnError")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("pH")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("McDonald's")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("McDonald’s")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("McDonald")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("thisisanerror")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("thisIsAnError")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("Thisisanerror")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("ThisIsAnError")).length);
 
     // incorrect words:
     matches = rule.match(lt.getAnalyzedSentence("ecoute-moi"));
-    assertEquals(1, matches.length);
-    assertEquals("écoute", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("écouté", matches[0].getSuggestedReplacements().get(1));
-    assertEquals("écoutè", matches[0].getSuggestedReplacements().get(2));
-    assertEquals("coûte", matches[0].getSuggestedReplacements().get(3));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("écoute", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals("écouté", matches[0].getSuggestedReplacements().get(1));
+    Assertions.assertEquals("écoutè", matches[0].getSuggestedReplacements().get(2));
+    Assertions.assertEquals("coûte", matches[0].getSuggestedReplacements().get(3));
 
     matches = rule.match(lt.getAnalyzedSentence("ecrit-il"));
-    assertEquals(1, matches.length);
-    assertEquals("écrit", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("décrit", matches[0].getSuggestedReplacements().get(1));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("écrit", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals("décrit", matches[0].getSuggestedReplacements().get(1));
 
     matches = rule.match(lt.getAnalyzedSentence("Mcdonald"));
-    assertEquals(1, matches.length);
-    assertEquals("McDonald", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("Macdonald", matches[0].getSuggestedReplacements().get(1));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("McDonald", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals("Macdonald", matches[0].getSuggestedReplacements().get(1));
 
     matches = rule.match(lt.getAnalyzedSentence("Lhomme"));
-    assertEquals(1, matches.length);
-    assertEquals("L'homme", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("L'homme", matches[0].getSuggestedReplacements().get(0));
     matches = rule.match(lt.getAnalyzedSentence("dhommes"));
-    assertEquals(1, matches.length);
-    assertEquals("d'hommes", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("d'hommes", matches[0].getSuggestedReplacements().get(0));
     
     matches = rule.match(lt.getAnalyzedSentence("ladolescence"));
     // no: "l adolescence" 
-    assertEquals(1, matches.length);
-    assertEquals(2, matches[0].getSuggestedReplacements().size());
-    assertEquals("l'adolescence", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("adolescence", matches[0].getSuggestedReplacements().get(1));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals(2, matches[0].getSuggestedReplacements().size());
+    Assertions.assertEquals("l'adolescence", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals("adolescence", matches[0].getSuggestedReplacements().get(1));
         
     assertSuggestion(rule, lt, "qu’il sagissait", "ils agissait", "il s'agissait"); // see #3068 TODO: change order
     assertSuggestion(rule, lt, "bonne sante", "bonnes ante", "bonne santé"); // see #3068 TODO: change order
@@ -182,23 +181,23 @@ public class MorfologikFrenchSpellerRuleTest {
     
     // don't split prefixes 
     matches = rule.match(lt.getAnalyzedSentence("macrodiscipline"));
-    assertEquals(1, matches.length);
-    assertEquals(0, matches[0].getSuggestedReplacements().size());
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals(0, matches[0].getSuggestedReplacements().size());
     
     // digits
     matches = rule.match(lt.getAnalyzedSentence("windows1"));
-    assertEquals(1, matches.length);
-    assertEquals("Windows 1", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("Windows", matches[0].getSuggestedReplacements().get(1));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("Windows 1", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals("Windows", matches[0].getSuggestedReplacements().get(1));
     
     matches = rule.match(lt.getAnalyzedSentence("windows10"));
-    assertEquals(1, matches.length);
-    assertEquals("Windows 10", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("Windows", matches[0].getSuggestedReplacements().get(1));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("Windows 10", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals("Windows", matches[0].getSuggestedReplacements().get(1));
     
     matches = rule.match(lt.getAnalyzedSentence("à1930"));
-    assertEquals(1, matches.length);
-    assertEquals("à 1930", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("à 1930", matches[0].getSuggestedReplacements().get(0));
       
 
   }
@@ -207,7 +206,7 @@ public class MorfologikFrenchSpellerRuleTest {
     RuleMatch[]  matches = rule.match(lt.getAnalyzedSentence(input));
     int i = 0;
     for (String s : expected) {
-      assertEquals(s, matches[0].getSuggestedReplacements().get(i));
+      Assertions.assertEquals(s, matches[0].getSuggestedReplacements().get(i));
       i++;
     }
     

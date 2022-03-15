@@ -18,8 +18,8 @@
  */
 package org.languagetool.tagging.ja;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.TestTools;
 import org.languagetool.tokenizers.ja.JapaneseWordTokenizer;
 
@@ -30,7 +30,7 @@ public class JapaneseTaggerTest {
   private JapaneseTagger tagger;
   private JapaneseWordTokenizer tokenizer;
   
-  @Before
+  @BeforeEach
   public void setUp() {
     tagger = new JapaneseTagger();
     tokenizer = new JapaneseWordTokenizer();

@@ -18,18 +18,18 @@
  */
 package org.languagetool.tagging.disambiguation.rules.ga;
 
-import java.io.IOException;
-
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.Irish;
-import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationRuleTest;
+import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 import org.languagetool.tagging.ga.IrishTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.WordTokenizer;
+
+import java.io.IOException;
 
 public class IrishDisambiguationRuleTest extends DisambiguationRuleTest {
 
@@ -38,7 +38,7 @@ public class IrishDisambiguationRuleTest extends DisambiguationRuleTest {
   private SentenceTokenizer sentenceTokenizer;
   private XmlRuleDisambiguator disambiguator;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     tagger = new IrishTagger();
     tokenizer = new WordTokenizer();

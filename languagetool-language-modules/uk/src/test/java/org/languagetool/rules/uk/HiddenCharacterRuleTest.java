@@ -18,7 +18,8 @@
  */
 package org.languagetool.rules.uk;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Ukrainian;
@@ -26,8 +27,6 @@ import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 import java.util.Arrays;
-
-import static org.junit.Assert.assertEquals;
 
 public class HiddenCharacterRuleTest {
 
@@ -37,14 +36,14 @@ public class HiddenCharacterRuleTest {
     JLanguageTool lt = new JLanguageTool(new Ukrainian());
 
     // correct sentences:
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("сміття")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("сміття")).length);
 
     //incorrect sentences:
 
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("смі\u00ADття"));
     // check match positions:
-    assertEquals(1, matches.length);
-    assertEquals(Arrays.asList("сміття"), matches[0].getSuggestedReplacements());
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals(Arrays.asList("сміття"), matches[0].getSuggestedReplacements());
   }
 
 }

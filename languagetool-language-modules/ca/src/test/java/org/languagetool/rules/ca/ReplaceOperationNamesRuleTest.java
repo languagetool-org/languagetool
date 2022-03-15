@@ -18,16 +18,15 @@
  */
 package org.languagetool.rules.ca;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Catalan;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * @author Jaume Ortolà
@@ -37,7 +36,7 @@ public class ReplaceOperationNamesRuleTest {
   private ReplaceOperationNamesRule rule;
   private JLanguageTool lt;
 
-  @Before
+  @BeforeEach
   public void setUp() throws IOException {
     rule = new ReplaceOperationNamesRule(TestTools.getEnglishMessages(), new Catalan());
     lt = new JLanguageTool(new Catalan());
@@ -84,31 +83,31 @@ public class ReplaceOperationNamesRuleTest {
     assertIncorrect("El rentat de cotes");
 
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("El repicat i el rejuntat."));
-    assertEquals(2, matches.length);
+    Assertions.assertEquals(2, matches.length);
     
     matches = rule.match(lt.getAnalyzedSentence("El procés de relligat dels llibres."));
-    assertEquals(1, matches.length);
-    assertEquals ("relligadura", matches[0].getSuggestedReplacements().get(0));
-    assertEquals ("relligament", matches[0].getSuggestedReplacements().get(1));
-    assertEquals ("relligada", matches[0].getSuggestedReplacements().get(2));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("relligadura", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals("relligament", matches[0].getSuggestedReplacements().get(1));
+    Assertions.assertEquals("relligada", matches[0].getSuggestedReplacements().get(2));
     
     matches = rule.match(lt.getAnalyzedSentence("Els rentats de cervell."));
-    assertEquals(1, matches.length);
-    assertEquals ("rentades", matches[0].getSuggestedReplacements().get(0));
-    assertEquals ("rentatges", matches[0].getSuggestedReplacements().get(1));
-    assertEquals ("rentaments", matches[0].getSuggestedReplacements().get(2));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("rentades", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals("rentatges", matches[0].getSuggestedReplacements().get(1));
+    Assertions.assertEquals("rentaments", matches[0].getSuggestedReplacements().get(2));
   }
 
   private void assertCorrect(String sentence) throws IOException {
     final RuleMatch[] matches = rule.match(lt
         .getAnalyzedSentence(sentence));
-    assertEquals(0, matches.length);
+    Assertions.assertEquals(0, matches.length);
   }
 
   private void assertIncorrect(String sentence) throws IOException {
     final RuleMatch[] matches = rule.match(lt
         .getAnalyzedSentence(sentence));
-    assertEquals(1, matches.length);
+    Assertions.assertEquals(1, matches.length);
   }
 
 

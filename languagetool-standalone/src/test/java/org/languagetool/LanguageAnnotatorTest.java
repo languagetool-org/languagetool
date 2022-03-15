@@ -18,12 +18,14 @@
  */
 package org.languagetool;
 
+import org.hamcrest.MatcherAssert;
 import org.jetbrains.annotations.NotNull;
-import org.junit.Test;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import org.junit.jupiter.api.Test;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.hamcrest.CoreMatchers.is;
 
 public class LanguageAnnotatorTest {
 
@@ -37,30 +39,24 @@ public class LanguageAnnotatorTest {
   public void testGetTokensWithPotentialLanguages() {
     LanguageAnnotator annotator = new LanguageAnnotator();
     List<LanguageAnnotator.TokenWithLanguages> tokens = annotator.getTokensWithPotentialLanguages("Der große Haus.", en, deList);
-    assertThat(tokens.toString(), is("[Der/de-DE,  , große,  , Haus/de-DE, .]"));   // TODO: why no lang for 'große'?
+    MatcherAssert.assertThat(tokens.toString(), is("[Der/de-DE,  , große,  , Haus/de-DE, .]"));   // TODO: why no lang for 'große'?
     List<LanguageAnnotator.TokenWithLanguages> tokens2 = annotator.getTokensWithPotentialLanguages("This is a new bicycle.", en, deList);
-    assertThat(tokens2.toString(), is("[This/en-US,  , is/en-US,  , a/en-US/de-DE,  , new/en-US,  , bicycle/en-US, .]"));
+    MatcherAssert.assertThat(tokens2.toString(), is("[This/en-US,  , is/en-US,  , a/en-US/de-DE,  , new/en-US,  , bicycle/en-US, .]"));
   }
 
   @Test
   public void testDetectLanguages() {
     LanguageAnnotator annotator = new LanguageAnnotator();
-    assertThat(annotator.detectLanguages("This is an English test. Hier kommt ein deutscher Satz.", en, deList).toString(),
-                                      is("[| en-US: This is an English test. |, | de-DE:  Hier kommt ein deutscher Satz. |]"));
-    assertThat(annotator.detectLanguages("This is an English test. Nun kommt ein deutscher Satz.", en, deList).toString(),  // "Nun" is also English
-                                      is("[| en-US: This is an English test. |, | de-DE:  Nun kommt ein deutscher Satz. |]"));
-    assertThat(annotator.detectLanguages("Nun kommt ein deutscher Satz. This is an English test.", en, deList).toString(),  // "Nun" is also English
-                                      is("[| en-US:  |, | de-DE: Nun kommt ein deutscher Satz. |, | en-US:  This is an English test. |]"));  // TODO: empty "en-US"
-    assertThat(annotator.detectLanguages("Hier steht was auf Deutsch. This is English text one. " +
-                                         "Hier steht was auf Deutsch. \"This is English text two.\"", en, deList).toString(),
-                                      is("[| en-US:  |, | de-DE: Hier steht was auf Deutsch. |, | en-US:  This is English text one. |, " +
-                                          "| de-DE:  Hier steht was auf Deutsch. |, | en-US:  \"This is English text two.\" |]"));  // TODO: empty "en-US"
-    assertThat(annotator.detectLanguages("Hier steht was auf Deutsch. This is English text one. " +
-                                         "Hier steht was auf Deutsch. \"This is English text two.\"", de, enList).toString(),
-                                      is("[| de-DE: Hier steht was auf Deutsch. |, | en-US:  This is English text one. |, " +
-                                          "| de-DE:  Hier steht was auf Deutsch. |, | en-US:  \"This is English text two.\" |]"));
-    assertThat(annotator.detectLanguages("Nutzen Sie es auf unserer Webseite foobar.com?", de, enList).toString(),
-                                      is("[| de-DE: Nutzen Sie es auf unserer Webseite foobar.com? |]"));
+    MatcherAssert.assertThat(annotator.detectLanguages("This is an English test. Hier kommt ein deutscher Satz.", en, deList).toString(), is("[| en-US: This is an English test. |, | de-DE:  Hier kommt ein deutscher Satz. |]"));
+    MatcherAssert.assertThat(annotator.detectLanguages("This is an English test. Nun kommt ein deutscher Satz.", en, deList).toString(), is("[| en-US: This is an English test. |, | de-DE:  Nun kommt ein deutscher Satz. |]"));
+    MatcherAssert.assertThat(annotator.detectLanguages("Nun kommt ein deutscher Satz. This is an English test.", en, deList).toString(), is("[| en-US:  |, | de-DE: Nun kommt ein deutscher Satz. |, | en-US:  This is an English test. |]"));  // TODO: empty "en-US"
+    MatcherAssert.assertThat(annotator.detectLanguages("Hier steht was auf Deutsch. This is English text one. " +
+                                         "Hier steht was auf Deutsch. \"This is English text two.\"", en, deList).toString(), is("[| en-US:  |, | de-DE: Hier steht was auf Deutsch. |, | en-US:  This is English text one. |, " +
+                                             "| de-DE:  Hier steht was auf Deutsch. |, | en-US:  \"This is English text two.\" |]"));  // TODO: empty "en-US"
+    MatcherAssert.assertThat(annotator.detectLanguages("Hier steht was auf Deutsch. This is English text one. " +
+                                         "Hier steht was auf Deutsch. \"This is English text two.\"", de, enList).toString(), is("[| de-DE: Hier steht was auf Deutsch. |, | en-US:  This is English text one. |, " +
+                                             "| de-DE:  Hier steht was auf Deutsch. |, | en-US:  \"This is English text two.\" |]"));
+    MatcherAssert.assertThat(annotator.detectLanguages("Nutzen Sie es auf unserer Webseite foobar.com?", de, enList).toString(), is("[| de-DE: Nutzen Sie es auf unserer Webseite foobar.com? |]"));
     // TODO: sentences with typos
   }
   
@@ -79,9 +75,8 @@ public class LanguageAnnotatorTest {
       token("weiter", de),
       token(".", de)
     ));
-    assertThat(getTokenRangeAsString(tokenRanges), is("[This is a test!][Hier geht es weiter.]"));
-    assertThat(annotator.getTokenRangesWithLang(tokenRanges, en, deList).toString(),
-      is("[en-US: [This,  , is,  , a,  , test, !], de-DE: [Hier,  , geht,  , es,  , weiter, .]]"));
+    MatcherAssert.assertThat(getTokenRangeAsString(tokenRanges), is("[This is a test!][Hier geht es weiter.]"));
+    MatcherAssert.assertThat(annotator.getTokenRangesWithLang(tokenRanges, en, deList).toString(), is("[en-US: [This,  , is,  , a,  , test, !], de-DE: [Hier,  , geht,  , es,  , weiter, .]]"));
 
     List<List<LanguageAnnotator.TokenWithLanguages>> tokenRanges2 = annotator.getTokenRanges(Arrays.asList(
       token("This", en), token(" ", en),
@@ -94,9 +89,8 @@ public class LanguageAnnotatorTest {
       token("es", de), token(" ", de),
       token("weiter", de)
     ));
-    assertThat(getTokenRangeAsString(tokenRanges2), is("[This is a test!][Hier geht es weiter]"));
-    assertThat(annotator.getTokenRangesWithLang(tokenRanges2, en, deList).toString(),
-      is("[en-US: [This,  , is,  , a,  , test, !], de-DE: [Hier,  , geht,  , es,  , weiter]]"));
+    MatcherAssert.assertThat(getTokenRangeAsString(tokenRanges2), is("[This is a test!][Hier geht es weiter]"));
+    MatcherAssert.assertThat(annotator.getTokenRangesWithLang(tokenRanges2, en, deList).toString(), is("[en-US: [This,  , is,  , a,  , test, !], de-DE: [Hier,  , geht,  , es,  , weiter]]"));
   }
 
   @Test
@@ -117,8 +111,7 @@ public class LanguageAnnotatorTest {
       token("weiter", de),
       token(".", de)
     ));
-    assertThat(annotator.getTokenRangesWithLang(tokenRanges, de, enList).toString(),
-      is("[en-US: [Hi, ,, \n], en-US: [\n], en-US: [this,  , is,  , a,  , test, .], de-DE: [Hier,  , geht,  , es,  , weiter, .]]"));
+    MatcherAssert.assertThat(annotator.getTokenRangesWithLang(tokenRanges, de, enList).toString(), is("[en-US: [Hi, ,, \n], en-US: [\n], en-US: [this,  , is,  , a,  , test, .], de-DE: [Hier,  , geht,  , es,  , weiter, .]]"));
   }
 
   @Test
@@ -137,7 +130,7 @@ public class LanguageAnnotatorTest {
       t("weiter"),
       t("\"")
     ));
-    assertThat(getTokenRangeAsString(tokenRanges3), is("[This is a test.][\"Hier geht es weiter\"]"));
+    MatcherAssert.assertThat(getTokenRangeAsString(tokenRanges3), is("[This is a test.][\"Hier geht es weiter\"]"));
   }
 
   @Test
@@ -157,7 +150,7 @@ public class LanguageAnnotatorTest {
       t("."),
       t("\"")
     ));
-    assertThat(getTokenRangeAsString(tokenRanges3), is("[This is a test.][\"Hier geht es weiter.][\"]"));
+    MatcherAssert.assertThat(getTokenRangeAsString(tokenRanges3), is("[This is a test.][\"Hier geht es weiter.][\"]"));
   }
 
   @NotNull

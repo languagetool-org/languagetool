@@ -18,8 +18,9 @@
  */
 package org.languagetool.rules.pl;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.language.Polish;
@@ -29,15 +30,12 @@ import org.languagetool.rules.RuleMatch;
 import java.io.IOException;
 import java.util.Arrays;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
 public class DashRuleTest {
 
   private JLanguageTool lt;
   private Rule rule;
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     Language lang = new Polish();
     lt = new JLanguageTool(lang);
@@ -68,11 +66,10 @@ public class DashRuleTest {
    * @param expSuggestions the expected suggestions
    */
   private void check(int expectedErrors, String text, String[] expSuggestions) throws IOException {
-    assertNotNull("Please initialize langTool!", lt);
-    assertNotNull("Please initialize 'rule'!", rule);
+    Assertions.assertNotNull(lt, "Please initialize langTool!");
+    Assertions.assertNotNull(rule, "Please initialize 'rule'!");
     RuleMatch[] ruleMatches = rule.match(lt.getAnalyzedSentence(text));
-    assertEquals("Expected " + expectedErrors + "errors, but got: " + Arrays.toString(ruleMatches),
-        expectedErrors, ruleMatches.length);
+    Assertions.assertEquals(expectedErrors, ruleMatches.length, "Expected " + expectedErrors + "errors, but got: " + Arrays.toString(ruleMatches));
     if (expSuggestions != null && expectedErrors != 1) {
       throw new RuntimeException("Sorry, test case can only check suggestion if there's one rule match");
     }
@@ -81,11 +78,11 @@ public class DashRuleTest {
       String errorMessage =
           String.format("Got these suggestions: %s, expected %s ", ruleMatch.getSuggestedReplacements(),
               Arrays.toString(expSuggestions));
-      assertEquals(errorMessage, expSuggestions.length, ruleMatch.getSuggestedReplacements().size());
+      Assertions.assertEquals(expSuggestions.length, ruleMatch.getSuggestedReplacements().size(), errorMessage);
       int i = 0;
       for (Object element : ruleMatch.getSuggestedReplacements()) {
         String suggestion = (String) element;
-        assertEquals(expSuggestions[i], suggestion);
+        Assertions.assertEquals(expSuggestions[i], suggestion);
         i++;
       }
     }

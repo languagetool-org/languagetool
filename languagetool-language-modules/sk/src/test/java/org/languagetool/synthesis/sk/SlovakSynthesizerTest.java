@@ -19,26 +19,25 @@
 
 package org.languagetool.synthesis.sk;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.language.Slovak;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-import static org.junit.Assert.assertEquals;
-
 public class SlovakSynthesizerTest {
 
   @Test
   public final void testSynthesizeStringString() throws IOException {
     SlovakSynthesizer synth = new SlovakSynthesizer(new Slovak());
-    assertEquals(synth.synthesize(dummyToken("blablabla"), 
+    Assertions.assertEquals(synth.synthesize(dummyToken("blablabla"), 
         "blablabla").length, 0);
     
-    assertEquals("[časopisu]", Arrays.toString(synth.synthesize(dummyToken("časopis"), "SSis2")));    
+    Assertions.assertEquals("[časopisu]", Arrays.toString(synth.synthesize(dummyToken("časopis"), "SSis2")));    
     //with regular expressions
-    assertEquals("[časopisy, časopisov, časopisom, časopisy, časopisy, časopisoch, časopismi, časopis, časopisu, časopisu, časopis, časopis, časopise, časopisom]", Arrays.toString(synth.synthesize(dummyToken("časopis"), "SS.*", true)));    
+    Assertions.assertEquals("[časopisy, časopisov, časopisom, časopisy, časopisy, časopisoch, časopismi, časopis, časopisu, časopisu, časopis, časopis, časopise, časopisom]", Arrays.toString(synth.synthesize(dummyToken("časopis"), "SS.*", true)));    
   }
   
   private AnalyzedToken dummyToken(String tokenStr) {

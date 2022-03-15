@@ -18,8 +18,9 @@
  */
 package org.languagetool.tagging.en;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.TestTools;
 import org.languagetool.language.English;
@@ -29,14 +30,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-
 public class EnglishTaggerTest {
 
   private EnglishTagger tagger;
   private EnglishWordTokenizer tokenizer;
   
-  @Before
+  @BeforeEach
   public void setUp() {
     tagger = new EnglishTagger();
     tokenizer = new EnglishWordTokenizer();
@@ -74,17 +73,17 @@ public class EnglishTaggerTest {
     words.add("works");
     List<AnalyzedTokenReadings> aToken = EnglishTagger.INSTANCE.tag(words);
     
-    assertEquals(2, aToken.size());
-    assertEquals(4, aToken.get(0).getReadings().size());
-    assertEquals(2, aToken.get(1).getReadings().size());
+    Assertions.assertEquals(2, aToken.size());
+    Assertions.assertEquals(4, aToken.get(0).getReadings().size());
+    Assertions.assertEquals(2, aToken.get(1).getReadings().size());
 
-    assertEquals("Trump", aToken.get(0).getReadings().get(0).getLemma());
-    assertEquals("trump", aToken.get(0).getReadings().get(1).getLemma());
-    assertEquals("trump", aToken.get(0).getReadings().get(2).getLemma());
-    assertEquals("trump", aToken.get(0).getReadings().get(3).getLemma());
+    Assertions.assertEquals("Trump", aToken.get(0).getReadings().get(0).getLemma());
+    Assertions.assertEquals("trump", aToken.get(0).getReadings().get(1).getLemma());
+    Assertions.assertEquals("trump", aToken.get(0).getReadings().get(2).getLemma());
+    Assertions.assertEquals("trump", aToken.get(0).getReadings().get(3).getLemma());
 
-    assertEquals("work", aToken.get(1).getReadings().get(0).getLemma());
-    assertEquals("work", aToken.get(1).getReadings().get(1).getLemma());
+    Assertions.assertEquals("work", aToken.get(1).getReadings().get(0).getLemma());
+    Assertions.assertEquals("work", aToken.get(1).getReadings().get(1).getLemma());
   }
 
 }

@@ -18,14 +18,14 @@
  */
 package org.languagetool.tagging;
 
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 
 import java.io.IOException;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 
 public class ManualTaggerTest {
 
@@ -34,13 +34,12 @@ public class ManualTaggerTest {
   @Test
   public void testTag() throws IOException {
     ManualTagger tagger = new ManualTagger(JLanguageTool.getDataBroker().getFromResourceDirAsStream(MANUAL_DICT_FILENAME));
-    assertThat(tagger.tag("").size(), is(0));
-    assertThat(tagger.tag("gibtsnicht").size(), is(0));
+    MatcherAssert.assertThat(tagger.tag("").size(), is(0));
+    MatcherAssert.assertThat(tagger.tag("gibtsnicht").size(), is(0));
 
-    assertEquals("[Equipment/SUB:NOM:SIN:NEU, Equipment/SUB:DAT:SIN:NEU, Equipment/SUB:AKK:SIN:NEU]",
-            tagger.tag("Equipment").toString());
+    Assertions.assertEquals("[Equipment/SUB:NOM:SIN:NEU, Equipment/SUB:DAT:SIN:NEU, Equipment/SUB:AKK:SIN:NEU]", tagger.tag("Equipment").toString());
     // lookup is case sensitive:
-    assertThat(tagger.tag("equipment").size(), is(0));
+    MatcherAssert.assertThat(tagger.tag("equipment").size(), is(0));
   }
 
 }

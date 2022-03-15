@@ -18,7 +18,8 @@
  */
 package org.languagetool.rules.pl;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.language.Polish;
@@ -28,8 +29,6 @@ import org.languagetool.rules.patterns.Match.IncludeRange;
 import org.languagetool.rules.patterns.MatchState;
 
 import java.util.Arrays;
-
-import static org.junit.Assert.assertEquals;
 
 public class MatchTest {
 
@@ -55,32 +54,32 @@ public class MatchTest {
     MatchState matchState = new MatchState(match, polish.getSynthesizer());
     matchState.setToken(getAnalyzedTokenReadings("inflectedform11", "POS1", "Lemma1"));
     //getting "<mistake/>" string, which is what we want. It will be removed later.
-    assertEquals("[<mistake/>]", Arrays.toString(matchState.toFinalString(polish)));
+    Assertions.assertEquals("[<mistake/>]", Arrays.toString(matchState.toFinalString(polish)));
 
     // contrast with a speller = false!
     match = getMatch("POS1", "POS2", false);
     matchState = new MatchState(match, polish.getSynthesizer());
     matchState.setToken(getAnalyzedTokenReadings("inflectedform11", "POS1", "Lemma1"));
-    assertEquals("[(inflectedform11)]", Arrays.toString(matchState.toFinalString(polish)));
+    Assertions.assertEquals("[(inflectedform11)]", Arrays.toString(matchState.toFinalString(polish)));
 
     //and now a real word - we should get something
     match = getMatch("subst:sg:acc.nom:m3", "subst:sg:gen:m3", true);
     matchState = new MatchState(match, polish.getSynthesizer());
     matchState.setToken(getAnalyzedTokenReadings("AON", "subst:sg:acc.nom:m3", "AON"));
-    assertEquals("[AON-u]", Arrays.toString(matchState.toFinalString(polish)));
+    Assertions.assertEquals("[AON-u]", Arrays.toString(matchState.toFinalString(polish)));
 
     //and now pure text changes        
     match = getTextMatch("^(.*)$", "$0-u", true);
     match.setLemmaString("AON");
     matchState = new MatchState(match, polish.getSynthesizer());
-    assertEquals("[AON-u]", Arrays.toString(matchState.toFinalString(polish)));
+    Assertions.assertEquals("[AON-u]", Arrays.toString(matchState.toFinalString(polish)));
     match.setLemmaString("batalion");
     //getting "<mistake/>" string, which is what we want. It will be removed later.
     matchState = new MatchState(match, polish.getSynthesizer());
-    assertEquals("[<mistake/>]", Arrays.toString(matchState.toFinalString(polish)));
+    Assertions.assertEquals("[<mistake/>]", Arrays.toString(matchState.toFinalString(polish)));
     match.setLemmaString("ASEAN");
     //and this one not
     matchState = new MatchState(match, polish.getSynthesizer());
-    assertEquals("[ASEAN-u]", Arrays.toString(matchState.toFinalString(polish)));
+    Assertions.assertEquals("[ASEAN-u]", Arrays.toString(matchState.toFinalString(polish)));
   }
 }

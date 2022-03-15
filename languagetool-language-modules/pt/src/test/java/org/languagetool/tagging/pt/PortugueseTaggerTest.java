@@ -18,8 +18,8 @@
  */
 package org.languagetool.tagging.pt;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.Portuguese;
 import org.languagetool.tokenizers.WordTokenizer;
@@ -31,7 +31,7 @@ public class PortugueseTaggerTest {
   private PortugueseTagger tagger;
   private WordTokenizer tokenizer;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     tagger = new PortugueseTagger();
     tokenizer = new WordTokenizer();

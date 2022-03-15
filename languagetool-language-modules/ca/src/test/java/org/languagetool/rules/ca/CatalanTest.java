@@ -18,14 +18,13 @@
  */
 package org.languagetool.rules.ca;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.LanguageSpecificTest;
 import org.languagetool.language.Catalan;
 import org.languagetool.rules.RuleMatch;
-
-import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -49,27 +48,27 @@ public class CatalanTest extends LanguageSpecificTest {
     Language lang = new Catalan();
     JLanguageTool lt = new JLanguageTool(lang);
     List<RuleMatch> matches = lt.check("Iniciem les converses. Llavors s'inicià una altra cosa.");
-    assertEquals("Matches across rules in a rule group", 1, matches.size());
-    assertEquals("Match ID", "REP_INICIAR[1]", matches.get(0).getRule().getFullId());
+    Assertions.assertEquals(1, matches.size(), "Matches across rules in a rule group");
+    Assertions.assertEquals("REP_INICIAR[1]", matches.get(0).getRule().getFullId(), "Match ID");
     
     matches = lt.check("Iniciem les converses. Llavors inicià una altra cosa.");
-    assertEquals("Matches across rules in a rule group", 1, matches.size());
-    assertEquals("Match ID", "REP_INICIAR[2]", matches.get(0).getRule().getFullId());
+    Assertions.assertEquals(1, matches.size(), "Matches across rules in a rule group");
+    Assertions.assertEquals("REP_INICIAR[2]", matches.get(0).getRule().getFullId(), "Match ID");
     
     matches = lt.check("Aleshores iniciem les converses. Llavors inicià una altra cosa.");
-    assertEquals("Matches across rules in a rule group", 1, matches.size());
-    assertEquals("Match ID", "REP_INICIAR[2]", matches.get(0).getRule().getFullId());
+    Assertions.assertEquals(1, matches.size(), "Matches across rules in a rule group");
+    Assertions.assertEquals("REP_INICIAR[2]", matches.get(0).getRule().getFullId(), "Match ID");
     
     matches = lt.check("S'inicia el debat. Llavors inicià una altra cosa.");
-    assertEquals("Matches across rules in a rule group", 1, matches.size());
-    assertEquals("Match ID", "REP_INICIAR[2]", matches.get(0).getRule().getFullId());
+    Assertions.assertEquals(1, matches.size(), "Matches across rules in a rule group");
+    Assertions.assertEquals("REP_INICIAR[2]", matches.get(0).getRule().getFullId(), "Match ID");
     
     matches = lt.check("S'inicia el debat. Llavors s'inicià una altra cosa.");
-    assertEquals("Matches across rules in a rule group", 1, matches.size());
-    assertEquals("Match ID", "REP_INICIAR[1]", matches.get(0).getRule().getFullId());   
+    Assertions.assertEquals(1, matches.size(), "Matches across rules in a rule group");
+    Assertions.assertEquals("REP_INICIAR[1]", matches.get(0).getRule().getFullId(), "Match ID");   
     
     matches = lt.check("Això no obstant, és clar. No obstant això, la cosa és clara.");
-    assertEquals("Matches across rules in a rule group", 1, matches.size());
-    assertEquals("Match ID", "REP_NO_OBSTANT_AIXO[1]", matches.get(0).getRule().getFullId());
+    Assertions.assertEquals(1, matches.size(), "Matches across rules in a rule group");
+    Assertions.assertEquals("REP_NO_OBSTANT_AIXO[1]", matches.get(0).getRule().getFullId(), "Match ID");
   }
 }

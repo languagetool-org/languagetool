@@ -18,14 +18,13 @@
  */
 package org.languagetool.tagging.disambiguation;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.English;
 import org.languagetool.language.Ukrainian;
-
-import static org.junit.Assert.assertTrue;
 
 public class MultiWordChunkerTest {
 
@@ -36,8 +35,8 @@ public class MultiWordChunkerTest {
     AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("A test... More.");
     AnalyzedSentence disambiguated = chunker.disambiguate(analyzedSentence);
     AnalyzedTokenReadings[] tokens = disambiguated.getTokens();
-    assertTrue(tokens[4].getReadings().toString().contains("<ELLIPSIS>"));
-    assertTrue(tokens[6].getReadings().toString().contains("</ELLIPSIS>"));
+    Assertions.assertTrue(tokens[4].getReadings().toString().contains("<ELLIPSIS>"));
+    Assertions.assertTrue(tokens[6].getReadings().toString().contains("</ELLIPSIS>"));
   }
 
   @Test
@@ -47,7 +46,7 @@ public class MultiWordChunkerTest {
     AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("для  годиться.");
     AnalyzedSentence disambiguated = chunker.disambiguate(analyzedSentence);
     AnalyzedTokenReadings[] tokens = disambiguated.getTokens();
-    assertTrue(tokens[1].getReadings().toString().contains("<adv>"));
-    assertTrue(tokens[4].getReadings().toString().contains("</adv>"));
+    Assertions.assertTrue(tokens[1].getReadings().toString().contains("<adv>"));
+    Assertions.assertTrue(tokens[4].getReadings().toString().contains("</adv>"));
   }
 }

@@ -18,15 +18,14 @@
  */
 package org.languagetool.rules.en;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.*;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 import static org.languagetool.rules.en.AvsAnRule.Determiner;
 
 public class AvsAnRuleTest {
@@ -34,7 +33,7 @@ public class AvsAnRuleTest {
   private AvsAnRule rule;
   private JLanguageTool lt;
 
-  @Before
+  @BeforeEach
   public void setUp() throws IOException {
     rule = new AvsAnRule(TestTools.getEnglishMessages());
     lt = new JLanguageTool(Languages.getLanguageForShortCode("en"));
@@ -74,7 +73,7 @@ public class AvsAnRuleTest {
     assertIncorrect("A hour's work ...");
     assertIncorrect("Going to a \"industry party\".");
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("It was a uninteresting talk with an long sentence."));
-    assertEquals(2, matches.length);
+    Assertions.assertEquals(2, matches.length);
 
     // With uppercase letters:
     assertCorrect("A University");
@@ -109,37 +108,37 @@ public class AvsAnRuleTest {
 
   private void assertCorrect(String sentence) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(sentence));
-    assertEquals(0, matches.length);
+    Assertions.assertEquals(0, matches.length);
   }
 
   private void assertIncorrect(String sentence) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(sentence));
-    assertEquals(1, matches.length);
+    Assertions.assertEquals(1, matches.length);
   }
 
   @Test
   public void testSuggestions() throws IOException {
-    assertEquals("a string", rule.suggestAorAn("string"));
-    assertEquals("a university", rule.suggestAorAn("university"));
-    assertEquals("an hour", rule.suggestAorAn("hour"));
-    assertEquals("an all-terrain", rule.suggestAorAn("all-terrain"));
-    assertEquals("a UNESCO", rule.suggestAorAn("UNESCO"));
-    assertEquals("a historical", rule.suggestAorAn("historical"));
+    Assertions.assertEquals("a string", rule.suggestAorAn("string"));
+    Assertions.assertEquals("a university", rule.suggestAorAn("university"));
+    Assertions.assertEquals("an hour", rule.suggestAorAn("hour"));
+    Assertions.assertEquals("an all-terrain", rule.suggestAorAn("all-terrain"));
+    Assertions.assertEquals("a UNESCO", rule.suggestAorAn("UNESCO"));
+    Assertions.assertEquals("a historical", rule.suggestAorAn("historical"));
   }
 
   @Test
   public void testGetCorrectDeterminerFor() throws IOException {
-    assertEquals(Determiner.A, getDeterminerFor("string"));
-    assertEquals(Determiner.A, getDeterminerFor("university"));
-    assertEquals(Determiner.A, getDeterminerFor("UNESCO"));
-    assertEquals(Determiner.A, getDeterminerFor("one-way"));
-    assertEquals(Determiner.AN, getDeterminerFor("interesting"));
-    assertEquals(Determiner.AN, getDeterminerFor("hour"));
-    assertEquals(Determiner.AN, getDeterminerFor("all-terrain"));
-    assertEquals(Determiner.A_OR_AN, getDeterminerFor("historical"));
-    assertEquals(Determiner.UNKNOWN, getDeterminerFor(""));
-    assertEquals(Determiner.UNKNOWN, getDeterminerFor("-way"));
-    assertEquals(Determiner.UNKNOWN, getDeterminerFor("camelCase"));
+    Assertions.assertEquals(Determiner.A, getDeterminerFor("string"));
+    Assertions.assertEquals(Determiner.A, getDeterminerFor("university"));
+    Assertions.assertEquals(Determiner.A, getDeterminerFor("UNESCO"));
+    Assertions.assertEquals(Determiner.A, getDeterminerFor("one-way"));
+    Assertions.assertEquals(Determiner.AN, getDeterminerFor("interesting"));
+    Assertions.assertEquals(Determiner.AN, getDeterminerFor("hour"));
+    Assertions.assertEquals(Determiner.AN, getDeterminerFor("all-terrain"));
+    Assertions.assertEquals(Determiner.A_OR_AN, getDeterminerFor("historical"));
+    Assertions.assertEquals(Determiner.UNKNOWN, getDeterminerFor(""));
+    Assertions.assertEquals(Determiner.UNKNOWN, getDeterminerFor("-way"));
+    Assertions.assertEquals(Determiner.UNKNOWN, getDeterminerFor("camelCase"));
   }
 
   private Determiner getDeterminerFor(String word) {
@@ -151,7 +150,7 @@ public class AvsAnRuleTest {
   public void testGetCorrectDeterminerForException() throws IOException {
     try {
       rule.getCorrectDeterminerFor(null);
-      fail();
+      Assertions.fail();
     } catch (NullPointerException ignored) {}
   }
 
@@ -161,32 +160,32 @@ public class AvsAnRuleTest {
     JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("en"));
     // no quotes etc.:
     matches = rule.match(lt.getAnalyzedSentence("a industry standard."));
-    assertEquals(0, matches[0].getFromPos());
-    assertEquals(1, matches[0].getToPos());
+    Assertions.assertEquals(0, matches[0].getFromPos());
+    Assertions.assertEquals(1, matches[0].getToPos());
 
     // quotes..
     matches = rule.match(lt.getAnalyzedSentence("a \"industry standard\"."));
-    assertEquals(0, matches[0].getFromPos());
-    assertEquals(1, matches[0].getToPos());
+    Assertions.assertEquals(0, matches[0].getFromPos());
+    Assertions.assertEquals(1, matches[0].getToPos());
 
     matches = rule.match(lt.getAnalyzedSentence("a - industry standard\"."));
-    assertEquals(0, matches[0].getFromPos());
-    assertEquals(1, matches[0].getToPos());
+    Assertions.assertEquals(0, matches[0].getFromPos());
+    Assertions.assertEquals(1, matches[0].getToPos());
 
     matches = rule.match(lt.getAnalyzedSentence("This is a \"industry standard\"."));
-    assertEquals(8, matches[0].getFromPos());
-    assertEquals(9, matches[0].getToPos());
+    Assertions.assertEquals(8, matches[0].getFromPos());
+    Assertions.assertEquals(9, matches[0].getToPos());
 
     matches = rule.match(lt.getAnalyzedSentence("\"a industry standard\"."));
-    assertEquals(1, matches[0].getFromPos());
-    assertEquals(2, matches[0].getToPos());
+    Assertions.assertEquals(1, matches[0].getFromPos());
+    Assertions.assertEquals(2, matches[0].getToPos());
 
     matches = rule.match(lt.getAnalyzedSentence("\"Many say this is a industry standard\"."));
-    assertEquals(18, matches[0].getFromPos());
-    assertEquals(19, matches[0].getToPos());
+    Assertions.assertEquals(18, matches[0].getFromPos());
+    Assertions.assertEquals(19, matches[0].getToPos());
 
     matches = rule.match(lt.getAnalyzedSentence("Like many \"an desperado\" before him, Bart headed south into Mexico."));
-    assertEquals(11, matches[0].getFromPos());
-    assertEquals(13, matches[0].getToPos());
+    Assertions.assertEquals(11, matches[0].getFromPos());
+    Assertions.assertEquals(13, matches[0].getToPos());
   }
 }

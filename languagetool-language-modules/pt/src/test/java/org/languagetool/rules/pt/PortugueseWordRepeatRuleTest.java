@@ -18,13 +18,11 @@
  */
 package org.languagetool.rules.pt;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.*;
 
 import java.io.IOException;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 public class PortugueseWordRepeatRuleTest {
 
@@ -33,9 +31,9 @@ public class PortugueseWordRepeatRuleTest {
     Language lang = Languages.getLanguageForShortCode("pt");
     JLanguageTool lt = new JLanguageTool(lang);
     PortugueseWordRepeatRule rule = new PortugueseWordRepeatRule(TestTools.getEnglishMessages(), lang);
-    assertFalse(ignore("no repetition", lt, rule));
-    assertTrue(ignore("blá blá", lt, rule));
-    assertTrue(ignore("Aaptos aaptos", lt, rule));
+    Assertions.assertFalse(ignore("no repetition", lt, rule));
+    Assertions.assertTrue(ignore("blá blá", lt, rule));
+    Assertions.assertTrue(ignore("Aaptos aaptos", lt, rule));
     // assertTrue(ignore("Coloquem-na na sala.", lt, rule)); XXX passes tests. TODO improve ignore function
   }
 

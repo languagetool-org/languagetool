@@ -18,14 +18,9 @@
  */
 package org.languagetool.rules.patterns;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.*;
 import org.languagetool.markup.AnnotatedText;
@@ -34,30 +29,34 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.en.MorfologikAmericanSpellerRule;
 import org.languagetool.rules.en.MorfologikBritishSpellerRule;
 
+import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
+
 public class FalseFriendRuleTest {
 
   @Test
-  @Ignore("not active for German anymore - replaced by ngram-based false friend rule")
+  @Disabled("not active for German anymore - replaced by ngram-based false friend rule")
   public void testHintsForGermanSpeakers() throws IOException {
     JLanguageTool lt = new JLanguageTool(new English(), new German());
     List<RuleMatch> matches = assertErrors(1, "We will berate you.", lt);
-    assertEquals(matches.get(0).getSuggestedReplacements().toString(), "[provide advice, give advice]");
+    Assertions.assertEquals(matches.get(0).getSuggestedReplacements().toString(), "[provide advice, give advice]");
     assertErrors(0, "We will give you advice.", lt);
     assertErrors(1, "I go to high school in Foocity.", lt);
     List<RuleMatch> matches2 = assertErrors(1, "The chef", lt);
-    assertEquals("[boss, chief]", matches2.get(0).getSuggestedReplacements().toString());
+    Assertions.assertEquals("[boss, chief]", matches2.get(0).getSuggestedReplacements().toString());
   }
 
   @Test
-  @Ignore("not active for German anymore - replaced by ngram-based false friend rule")
+  @Disabled("not active for German anymore - replaced by ngram-based false friend rule")
   public void testHintsForGermanSpeakersWithVariant() throws IOException {
     JLanguageTool lt = new JLanguageTool(new BritishEnglish(), new SwissGerman());
     List<RuleMatch> matches = assertErrors(1, "We will berate you.", lt);
-    assertEquals(matches.get(0).getSuggestedReplacements().toString(), "[provide advice, give advice]");
+    Assertions.assertEquals(matches.get(0).getSuggestedReplacements().toString(), "[provide advice, give advice]");
     assertErrors(0, "We will give you advice.", lt);
     assertErrors(1, "I go to high school in Berlin.", lt);
     List<RuleMatch> matches2 = assertErrors(1, "The chef", lt);
-    assertEquals("[boss, chief]", matches2.get(0).getSuggestedReplacements().toString());
+    Assertions.assertEquals("[boss, chief]", matches2.get(0).getSuggestedReplacements().toString());
   }
 
   @Test
@@ -65,12 +64,12 @@ public class FalseFriendRuleTest {
     JLanguageTool lt1 = new JLanguageTool(new BritishEnglish(), new Italian());
     lt1.disableRule(MorfologikBritishSpellerRule.RULE_ID);
     List<RuleMatch> matches1 = assertErrors(1, "And forDemoOnly.", lt1);
-    assertEquals("DEMO_ENTRY", matches1.get(0).getRule().getId());
+    Assertions.assertEquals("DEMO_ENTRY", matches1.get(0).getRule().getId());
 
     JLanguageTool lt2 = new JLanguageTool(new English(), new Italian());
     lt2.disableRule(MorfologikBritishSpellerRule.RULE_ID);
     List<RuleMatch> matches2 = assertErrors(1, "And forDemoOnly.", lt2);
-    assertEquals("DEMO_ENTRY", matches2.get(0).getRule().getId());
+    Assertions.assertEquals("DEMO_ENTRY", matches2.get(0).getRule().getId());
 
     JLanguageTool lt3 = new JLanguageTool(new AmericanEnglish(), new Italian());
     lt3.disableRule(MorfologikAmericanSpellerRule.RULE_ID);
@@ -105,7 +104,7 @@ public class FalseFriendRuleTest {
     List<RuleMatch> matches = lt.check(text, true, JLanguageTool.ParagraphHandling.NORMAL, null,
             JLanguageTool.Mode.ALL, JLanguageTool.Level.PICKY);
     //System.err.println(matches);
-    assertEquals("Matches found: " + matches, errorCount, matches.size());
+    Assertions.assertEquals(errorCount, matches.size(), "Matches found: " + matches);
     return matches;
   }
   
@@ -124,7 +123,7 @@ public class FalseFriendRuleTest {
     if (suggestionsFound > 0) {
       suggestionsFound--;
     }
-    assertEquals(suggestionCount, suggestionsFound);
+    Assertions.assertEquals(suggestionCount, suggestionsFound);
   }
   
 }

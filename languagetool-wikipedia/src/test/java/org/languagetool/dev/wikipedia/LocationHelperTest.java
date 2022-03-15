@@ -18,31 +18,31 @@
  */
 package org.languagetool.dev.wikipedia;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import xtc.tree.Location;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
 
-@Ignore
+@Disabled
 public class LocationHelperTest {
 
   @Test
   public void testAbsolutePositionFor() {
-    assertThat(checkLocation(1, 1, "hallo"), is(0));
-    assertThat(checkLocation(1, 2, "hallo"), is(1));
-    assertThat(checkLocation(2, 1, "hallo\nx"), is(6));
-    assertThat(checkLocation(3, 3, "\n\nxyz"), is(4));
+    MatcherAssert.assertThat(checkLocation(1, 1, "hallo"), is(0));
+    MatcherAssert.assertThat(checkLocation(1, 2, "hallo"), is(1));
+    MatcherAssert.assertThat(checkLocation(2, 1, "hallo\nx"), is(6));
+    MatcherAssert.assertThat(checkLocation(3, 3, "\n\nxyz"), is(4));
   }
 
   @Test
   public void testInvalidPosition() {
-    assertThat(checkLocation(1, 1, "hallo"), is(0));
+    MatcherAssert.assertThat(checkLocation(1, 1, "hallo"), is(0));
     try {
       checkLocation(2, 2, "hallo");
-      fail();
+      Assertions.fail();
     } catch (RuntimeException ignored) {}
   }
 

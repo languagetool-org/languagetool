@@ -18,8 +18,8 @@
  */
 package org.languagetool.synthesis;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedToken;
 
 import java.io.IOException;
@@ -32,7 +32,7 @@ public class GermanSynthesizerTest {
 
   private final GermanSynthesizer synthesizer = GermanSynthesizer.INSTANCE;
 
-  @Ignore("for interactive debugging only")
+  @Disabled("for interactive debugging only")
   @Test
   public void testSynthesizeX() throws IOException {
     String token = "musst";

@@ -19,16 +19,15 @@
 
 package org.languagetool.rules.es;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Spanish;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * @author Jaume Ortolà
@@ -38,7 +37,7 @@ public class SimpleReplaceRuleTest {
   private SimpleReplaceRule rule;
   private JLanguageTool lt;
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     rule = new SimpleReplaceRule(TestTools.getMessages("es"));
     lt = new JLanguageTool(new Spanish());
@@ -50,8 +49,8 @@ public class SimpleReplaceRuleTest {
 
     // incorrect sentences:
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("sanitización"));
-    assertEquals(1, matches.length);
-    assertEquals("desinfección", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("desinfección", matches[0].getSuggestedReplacements().get(0));
     
     
   }

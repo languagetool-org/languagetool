@@ -18,16 +18,14 @@
  */
 package org.languagetool.rules.de;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.languagetool.*;
+import org.languagetool.rules.Rule;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.junit.Test;
-import org.languagetool.*;
-import org.languagetool.language.GermanyGerman;
-import org.languagetool.rules.Rule;
 
 /**
  * @author Fred Kruse
@@ -42,24 +40,24 @@ public class GermanFillerWordsRuleTest {
     setUpRule(lt, null);
 
     //  more than 8% filler words (default)
-    assertEquals(1, lt.check("Der Satz enthält augenscheinlich ein Füllwort.").size());
-    assertEquals(2, lt.check("Der Satz enthält augenscheinlich relativ viele Füllwörter.").size());
+    Assertions.assertEquals(1, lt.check("Der Satz enthält augenscheinlich ein Füllwort.").size());
+    Assertions.assertEquals(2, lt.check("Der Satz enthält augenscheinlich relativ viele Füllwörter.").size());
     //  less than 8% filler words - don't show them
-    assertEquals(0, lt.check("Der Satz enthält augenscheinlich ein Füllwort, aber es sind nicht genug um angezeigt zu werden.").size());
+    Assertions.assertEquals(0, lt.check("Der Satz enthält augenscheinlich ein Füllwort, aber es sind nicht genug um angezeigt zu werden.").size());
     //  direct speech or citation - don't show filler words
-    assertEquals(0, lt.check("»Der Satz enthält augenscheinlich ein Füllwort«").size());
+    Assertions.assertEquals(0, lt.check("»Der Satz enthält augenscheinlich ein Füllwort«").size());
     //  less than 8% filler words - but three in one sentence (show 3 instead of 4)
-    assertEquals(3, lt.check("Der Text enthält zu wenige Füllwörter, daher werden sie nicht angezeigt. Was sich an diesem Satz mit diesem relativ einfachen Füllwort zeigt. Dazu müssen noch eine Reihe von Sätzen geschrieben werden, um die Anzahl der Wörter zu erhöhen. Langsam sollten die Anzahl der Worte für das Drücken unter die kritische Grenze reichen. Jetzt schreibe ich allerdings einen Satz, der drei Füllwörter enthält, was allemal ziemlich ausreichend ist.").size());
+    Assertions.assertEquals(3, lt.check("Der Text enthält zu wenige Füllwörter, daher werden sie nicht angezeigt. Was sich an diesem Satz mit diesem relativ einfachen Füllwort zeigt. Dazu müssen noch eine Reihe von Sätzen geschrieben werden, um die Anzahl der Wörter zu erhöhen. Langsam sollten die Anzahl der Worte für das Drücken unter die kritische Grenze reichen. Jetzt schreibe ich allerdings einen Satz, der drei Füllwörter enthält, was allemal ziemlich ausreichend ist.").size());
     //  less than 8% filler words - but two consecutively (show 2 instead of 3)
-    assertEquals(2, lt.check("Der Text enthält zu wenige Füllwörter, daher werden sie nicht angezeigt. Was sich an diesem Satz mit diesem relativ einfachen Füllwort zeigt. Dazu müssen noch eine Reihe von Sätzen geschrieben werden, um die Anzahl der Wörter zu erhöhen. Langsam sollten die Anzahl der Worte für das Drücken unter die kritische Grenze reichen. Jetzt schreibe ich einen Satz, der zwei Füllwörter hintereinander enthält, was allemal ziemlich ausreichend ist.").size());
+    Assertions.assertEquals(2, lt.check("Der Text enthält zu wenige Füllwörter, daher werden sie nicht angezeigt. Was sich an diesem Satz mit diesem relativ einfachen Füllwort zeigt. Dazu müssen noch eine Reihe von Sätzen geschrieben werden, um die Anzahl der Wörter zu erhöhen. Langsam sollten die Anzahl der Worte für das Drücken unter die kritische Grenze reichen. Jetzt schreibe ich einen Satz, der zwei Füllwörter hintereinander enthält, was allemal ziemlich ausreichend ist.").size());
     
     //  percentage set to zero - show all filler words
     Map<String, Integer> ruleValues = new HashMap<>();
     ruleValues.put("FILLER_WORDS_DE", 0);
     UserConfig userConfig = new UserConfig(ruleValues);
     setUpRule(lt, userConfig);
-    assertEquals(1, lt.check("»Der Satz enthält augenscheinlich ein Füllwort«").size());
-    assertEquals(1, lt.check("Der Satz enthält augenscheinlich ein Füllwort, aber es sind nicht genug um angezeigt zu werden.").size());
+    Assertions.assertEquals(1, lt.check("»Der Satz enthält augenscheinlich ein Füllwort«").size());
+    Assertions.assertEquals(1, lt.check("Der Satz enthält augenscheinlich ein Füllwort, aber es sind nicht genug um angezeigt zu werden.").size());
   }
 
   private void setUpRule(JLanguageTool lt, UserConfig userConfig) {

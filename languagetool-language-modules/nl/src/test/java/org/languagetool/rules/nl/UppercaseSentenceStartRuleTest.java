@@ -18,7 +18,8 @@
  */
 package org.languagetool.rules.nl;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.Dutch;
 import org.languagetool.rules.patterns.AbstractPatternRule;
@@ -26,8 +27,6 @@ import org.languagetool.rules.patterns.AbstractPatternRule;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
-
-import static org.junit.Assert.assertEquals;
 
 public class UppercaseSentenceStartRuleTest {
 
@@ -40,13 +39,13 @@ public class UppercaseSentenceStartRuleTest {
       }
     });
     
-    assertEquals(1, lt.check("A sentence.").size());
-    assertEquals(0, lt.check("'s Morgens...").size());
+    Assertions.assertEquals(1, lt.check("A sentence.").size());
+    Assertions.assertEquals(0, lt.check("'s Morgens...").size());
 
-    assertEquals(2, lt.check("a sentence.").size());
-    assertEquals(1, lt.check("'s morgens...").size());
-    assertEquals(2, lt.check("s sentence.").size());
-    assertEquals(1, lt.check("'t").size());
+    Assertions.assertEquals(2, lt.check("a sentence.").size());
+    Assertions.assertEquals(1, lt.check("'s morgens...").size());
+    Assertions.assertEquals(2, lt.check("s sentence.").size());
+    Assertions.assertEquals(1, lt.check("'t").size());
   }
   
 }

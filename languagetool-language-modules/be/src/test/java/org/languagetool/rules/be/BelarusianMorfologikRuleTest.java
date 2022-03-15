@@ -19,16 +19,15 @@
 
 package org.languagetool.rules.be;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
-import java.util.Collections;
-
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Belarusian;
 import org.languagetool.rules.RuleMatch;
+
+import java.io.IOException;
+import java.util.Collections;
 
 public class BelarusianMorfologikRuleTest {
   
@@ -38,11 +37,11 @@ public class BelarusianMorfologikRuleTest {
   JLanguageTool lt = new JLanguageTool(new Belarusian());
   // accent
   RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(" сумна знакаміты вялікімі стратамі"));
-  assertEquals(0, matches.length);
+  Assertions.assertEquals(0, matches.length);
 
   matches = rule.match(lt.getAnalyzedSentence("знакамты"));
-  assertEquals(1, matches.length);
-  assertEquals("[знакаміты, знакам ты]", matches[0].getSuggestedReplacements().toString());
+  Assertions.assertEquals(1, matches.length);
+  Assertions.assertEquals("[знакаміты, знакам ты]", matches[0].getSuggestedReplacements().toString());
   }
 }
 

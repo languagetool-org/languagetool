@@ -18,16 +18,15 @@
  */
 package org.languagetool.rules.el;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Greek;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * NumeralStressRule TestCase.
@@ -40,7 +39,7 @@ public class NumeralStressRuleTest {
   private NumeralStressRule rule;
   private JLanguageTool lt;
 
-  @Before
+  @BeforeEach
   public void setUp() throws IOException {
     rule = new NumeralStressRule(TestTools.getMessages("el"));
     lt = new JLanguageTool(new Greek());
@@ -72,14 +71,14 @@ public class NumeralStressRuleTest {
 
   private void assertCorrect(String sentence) throws IOException {
     final RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(sentence));
-    assertEquals(0, matches.length);
+    Assertions.assertEquals(0, matches.length);
   }
 
   private void assertIncorrect(String sentence, String correction) throws IOException {
     final RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(sentence));
-    assertEquals(1, matches.length);
-    assertEquals(1, matches[0].getSuggestedReplacements().size());
-    assertEquals(correction, matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals(1, matches[0].getSuggestedReplacements().size());
+    Assertions.assertEquals(correction, matches[0].getSuggestedReplacements().get(0));
   }
 
 }

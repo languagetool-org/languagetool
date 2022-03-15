@@ -18,7 +18,8 @@
  */
 package org.languagetool.rules.nl;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
@@ -28,9 +29,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import static junit.framework.Assert.assertTrue;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.languagetool.rules.nl.SpaceInCompoundRule.generateVariants;
 
 public class SpaceInCompoundRuleTest {
@@ -59,27 +59,27 @@ public class SpaceInCompoundRuleTest {
     Set<String> res1 = new HashSet<>();
     generateVariants("", Arrays.asList("a", "b"), res1);
     //assertTrue(res1.contains("ab"));
-    assertTrue(res1.contains("a b"));
+    Assertions.assertTrue(res1.contains("a b"));
     assertThat(res1.size(), is(1));
 
     Set<String> res2 = new HashSet<>();
     generateVariants("", Arrays.asList("a", "b", "c"), res2);
     //assertTrue(res2.contains("abc"));
-    assertTrue(res2.contains("a b c"));
-    assertTrue(res2.contains("ab c"));
-    assertTrue(res2.contains("a bc"));
+    Assertions.assertTrue(res2.contains("a b c"));
+    Assertions.assertTrue(res2.contains("ab c"));
+    Assertions.assertTrue(res2.contains("a bc"));
     assertThat(res2.size(), is(3));
 
     Set<String> res3 = new HashSet<>();
     generateVariants("", Arrays.asList("a", "b", "c", "d"), res3);
     //assertTrue(res3.contains("abcd"));
-    assertTrue(res3.contains("a b c d"));
-    assertTrue(res3.contains("a bc d"));
-    assertTrue(res3.contains("ab cd"));
-    assertTrue(res3.contains("ab c d"));
-    assertTrue(res3.contains("a b cd"));
-    assertTrue(res3.contains("abc d"));
-    assertTrue(res3.contains("a bcd"));
+    Assertions.assertTrue(res3.contains("a b c d"));
+    Assertions.assertTrue(res3.contains("a bc d"));
+    Assertions.assertTrue(res3.contains("ab cd"));
+    Assertions.assertTrue(res3.contains("ab c d"));
+    Assertions.assertTrue(res3.contains("a b cd"));
+    Assertions.assertTrue(res3.contains("abc d"));
+    Assertions.assertTrue(res3.contains("a bcd"));
     assertThat(res3.size(), is(7));
   }
 

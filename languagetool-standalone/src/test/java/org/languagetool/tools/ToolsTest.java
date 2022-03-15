@@ -18,9 +18,10 @@
  */
 package org.languagetool.tools;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
@@ -37,14 +38,13 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertEquals;
 
 public class ToolsTest {
 
   private PrintStream stdout;
   private PrintStream stderr;
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     this.stdout = System.out;
     this.stderr = System.err;
@@ -54,7 +54,7 @@ public class ToolsTest {
     System.setErr(new PrintStream(err));
   }
 
-  @After
+  @AfterEach
   public void tearDown() throws Exception {
     System.setOut(this.stdout);
     System.setErr(this.stderr);
@@ -76,13 +76,13 @@ public class ToolsTest {
     int matchCount = Tools.checkBitext(
         "This is a perfectly good sentence.",
         "To jest całkowicie prawidłowe zdanie.", srcTool, trgTool, rules).size();
-    assertEquals(0, matchCount);
+    Assertions.assertEquals(0, matchCount);
 
     List<RuleMatch> matches1 = Tools.checkBitext(
             "This is not actual.",
             "To nie jest aktualne.",
             srcTool, trgTool, rules);
-    assertEquals(1, matches1.size());
+    Assertions.assertEquals(1, matches1.size());
     assertThat(matches1.get(0).getRule().getId(), is("ACTUAL"));
     assertThat(matches1.get(0).getFromPos(), is(12));
     assertThat(matches1.get(0).getToPos(), is(20));
@@ -91,7 +91,7 @@ public class ToolsTest {
             "A sentence. This is not actual.",
             "Zdanie. To nie jest aktualne.",
             srcTool, trgTool, rules);
-    assertEquals(1, matches2.size());
+    Assertions.assertEquals(1, matches2.size());
     assertThat(matches2.get(0).getRule().getId(), is("ACTUAL"));
     assertThat(matches2.get(0).getFromPos(), is(20));
     assertThat(matches2.get(0).getToPos(), is(28));
@@ -100,7 +100,7 @@ public class ToolsTest {
             "A new sentence. This is not actual.",
             "Nowa zdanie. To nie jest aktualne.",
             srcTool, trgTool, rules);
-    assertEquals(1, matches3.size());
+    Assertions.assertEquals(1, matches3.size());
     assertThat(matches3.get(0).getRule().getId(), is("ACTUAL"));
     assertThat(matches3.get(0).getFromPos(), is(25));
     assertThat(matches3.get(0).getToPos(), is(33));

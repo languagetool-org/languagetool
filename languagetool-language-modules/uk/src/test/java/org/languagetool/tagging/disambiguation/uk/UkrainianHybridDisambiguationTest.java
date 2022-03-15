@@ -18,22 +18,10 @@
  */
 package org.languagetool.tagging.disambiguation.uk;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedToken;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
-import org.languagetool.TestTools;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.languagetool.*;
 import org.languagetool.language.Ukrainian;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.MultiWordChunker2;
@@ -42,6 +30,12 @@ import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
 import org.languagetool.tagging.uk.UkrainianTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.uk.UkrainianWordTokenizer;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class UkrainianHybridDisambiguationTest {
   
@@ -52,7 +46,7 @@ public class UkrainianHybridDisambiguationTest {
   private DemoDisambiguator demoDisambiguator;
   private Disambiguator chunker;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     tagger = new UkrainianTagger();
     tokenizer = new UkrainianWordTokenizer();
@@ -527,7 +521,7 @@ public class UkrainianHybridDisambiguationTest {
       AnalyzedTokenReadings taggedToken = tagged.get(0);
       TokenMatcher tokenMatcher = entry.getValue();
       
-      assertTrue(String.format("%s not found in dictionary, tags: %s", entry, tagged), matches(taggedToken, tokenMatcher));
+      Assertions.assertTrue(matches(taggedToken, tokenMatcher), String.format("%s not found in dictionary, tags: %s", entry, tagged));
     }
   }
 
@@ -546,16 +540,16 @@ public class UkrainianHybridDisambiguationTest {
     AnalyzedSentence disambiguated = chunker.disambiguate(analyzedSentence);
     AnalyzedTokenReadings[] tokens = disambiguated.getTokens();
     
-    assertTrue(tokens[1].getReadings().toString().contains("<adv>"));
-    assertTrue(tokens[4].getReadings().toString().contains("<adv>"));
+    Assertions.assertTrue(tokens[1].getReadings().toString().contains("<adv>"));
+    Assertions.assertTrue(tokens[4].getReadings().toString().contains("<adv>"));
 
     analyzedSentence = lt.getAnalyzedSentence("на його думку");
     disambiguated = chunker.disambiguate(analyzedSentence);
     tokens = disambiguated.getTokens();
     
-    assertTrue(tokens[1].getReadings().toString().contains("<insert>"));
-    assertTrue(tokens[3].getReadings().toString().contains("<insert>"));
-    assertTrue(tokens[5].getReadings().toString().contains("<insert>"));
+    Assertions.assertTrue(tokens[1].getReadings().toString().contains("<insert>"));
+    Assertions.assertTrue(tokens[3].getReadings().toString().contains("<insert>"));
+    Assertions.assertTrue(tokens[5].getReadings().toString().contains("<insert>"));
   }
 
   
@@ -565,10 +559,9 @@ public class UkrainianHybridDisambiguationTest {
     AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("Іва́н Петро́вич.");
 
     // TODO: fix disambiguator - it should be: Петро́вич[Петрович...
-    assertEquals("<S> Іва́н[Іван/noun:anim:m:v_naz:prop:fname,Іва́н/null]"
+    Assertions.assertEquals("<S> Іва́н[Іван/noun:anim:m:v_naz:prop:fname,Іва́н/null]"
         + " Петрович[Петрович/noun:anim:f:v_dav:nv:prop:lname,Петрович/noun:anim:f:v_naz:nv:prop:lname,Петрович/noun:anim:f:v_oru:nv:prop:lname,Петрович/noun:anim:f:v_rod:nv:prop:lname,Петрович/noun:anim:f:v_zna:nv:prop:lname,Петрович/noun:anim:m:v_naz:prop:lname,Петрович/noun:anim:m:v_naz:prop:pname]"
-        + ".[</S>]",
-        analyzedSentence.toString());
+        + ".[</S>]", analyzedSentence.toString());
 
   }
 
@@ -580,10 +573,10 @@ public class UkrainianHybridDisambiguationTest {
     AnalyzedSentence disambiged = disambiguator.disambiguate(new AnalyzedSentence(tagged.toArray(new AnalyzedTokenReadings[0])));
 
     AnalyzedTokenReadings dash = disambiged.getTokens()[4];
-    assertEquals("—", dash.getReadings().get(0).getToken());
-    assertEquals("", dash.getReadings().get(0).getLemma());
-    assertEquals("", dash.getReadings().get(0).getPOSTag());
-    assertTrue(dash.isPosTagUnknown());
+    Assertions.assertEquals("—", dash.getReadings().get(0).getToken());
+    Assertions.assertEquals("", dash.getReadings().get(0).getLemma());
+    Assertions.assertEquals("", dash.getReadings().get(0).getPOSTag());
+    Assertions.assertTrue(dash.isPosTagUnknown());
     
 //    tagged = tagger.tag(tokenizer.tokenize("1,5 раза"));
 //    disambiged = disambiguator.disambiguate(new AnalyzedSentence(tagged.toArray(new AnalyzedTokenReadings[0])));

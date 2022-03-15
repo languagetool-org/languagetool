@@ -18,12 +18,10 @@
  */
 package org.languagetool.rules.spelling;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.Language;
 import org.languagetool.Languages;
-
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
 
 public class VagueSpellCheckerTest {
   
@@ -35,20 +33,20 @@ public class VagueSpellCheckerTest {
     Language fr = Languages.getLanguageForShortCode("fr");
     VagueSpellChecker checker = new VagueSpellChecker();
     
-    assertTrue(checker.isValidWord("vacation", en));
-    assertTrue(checker.isValidWord("walks", en));
-    assertFalse(checker.isValidWord("vacationx", en));
+    Assertions.assertTrue(checker.isValidWord("vacation", en));
+    Assertions.assertTrue(checker.isValidWord("walks", en));
+    Assertions.assertFalse(checker.isValidWord("vacationx", en));
     
-    assertTrue(checker.isValidWord("Hütte", de));
-    assertTrue(checker.isValidWord("Hütten", de));
-    assertFalse(checker.isValidWord("sdasfd", de));
+    Assertions.assertTrue(checker.isValidWord("Hütte", de));
+    Assertions.assertTrue(checker.isValidWord("Hütten", de));
+    Assertions.assertFalse(checker.isValidWord("sdasfd", de));
     
-    assertTrue(checker.isValidWord("termo", pt));
-    assertFalse(checker.isValidWord("termoasq", pt));
-    assertFalse(checker.isValidWord("difdsf", pt));
+    Assertions.assertTrue(checker.isValidWord("termo", pt));
+    Assertions.assertFalse(checker.isValidWord("termoasq", pt));
+    Assertions.assertFalse(checker.isValidWord("difdsf", pt));
     
-    assertTrue(checker.isValidWord("voiture", fr));
-    assertFalse(checker.isValidWord("sduiofhdf", fr));
+    Assertions.assertTrue(checker.isValidWord("voiture", fr));
+    Assertions.assertFalse(checker.isValidWord("sduiofhdf", fr));
   }
 
 }

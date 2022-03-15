@@ -19,16 +19,15 @@
 
 package org.languagetool.rules.ca;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.ValencianCatalan;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * @author Jaume Ortolà
@@ -38,7 +37,7 @@ public class SimpleReplaceDNVRuleTest {
   private SimpleReplaceDNVRule rule;
   private JLanguageTool lt;
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     rule = new SimpleReplaceDNVRule(TestTools.getMessages("ca"), new ValencianCatalan());
     lt = new JLanguageTool(new ValencianCatalan());
@@ -48,48 +47,48 @@ public class SimpleReplaceDNVRuleTest {
   public void testRule() throws IOException {
 
     // correct sentences:
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Ella és molt incauta.")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Ella és molt incauta.")).length);
 
     // incorrect sentences:
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("L'arxipèleg."));
-    assertEquals(1, matches.length);
-    assertEquals("arxipèlag", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("arxipèlag", matches[0].getSuggestedReplacements().get(0));
     
     matches = rule.match(lt.getAnalyzedSentence("colmena"));
-    assertEquals(1, matches.length);
-    assertEquals("buc", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("rusc", matches[0].getSuggestedReplacements().get(1));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("buc", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals("rusc", matches[0].getSuggestedReplacements().get(1));
     
     matches = rule.match(lt.getAnalyzedSentence("colmenes"));
-    assertEquals(1, matches.length);
-    assertEquals("bucs", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("ruscos", matches[0].getSuggestedReplacements().get(1));
-    assertEquals("ruscs", matches[0].getSuggestedReplacements().get(2));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("bucs", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals("ruscos", matches[0].getSuggestedReplacements().get(1));
+    Assertions.assertEquals("ruscs", matches[0].getSuggestedReplacements().get(2));
     
     matches = rule.match(lt.getAnalyzedSentence("afincaments"));
-    assertEquals(1, matches.length);
-    assertEquals("establiments", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("instal·lacions", matches[0].getSuggestedReplacements().get(1));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("establiments", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals("instal·lacions", matches[0].getSuggestedReplacements().get(1));
     
     matches = rule.match(lt.getAnalyzedSentence("Els arxipèlegs"));
-    assertEquals(1, matches.length);
-    assertEquals("arxipèlags", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("arxipèlags", matches[0].getSuggestedReplacements().get(0));
     
     matches = rule.match(lt.getAnalyzedSentence("acevéssiu"));
-    assertEquals(1, matches.length);
-    assertEquals("encebéssiu", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("encebéssiu", matches[0].getSuggestedReplacements().get(0));
         
     matches = rule.match(lt.getAnalyzedSentence("S'arropeixen"));
-    assertEquals(1, matches.length);
-    assertEquals("arrupeixen", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("arrupen", matches[0].getSuggestedReplacements().get(1));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("arrupeixen", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals("arrupen", matches[0].getSuggestedReplacements().get(1));
     
     matches = rule.match(lt.getAnalyzedSentence("incautaren"));
-    assertEquals(1, matches.length);
-    assertEquals("confiscaren", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("requisaren", matches[0].getSuggestedReplacements().get(1));
-    assertEquals("comissaren", matches[0].getSuggestedReplacements().get(2));
-    assertEquals("decomissaren", matches[0].getSuggestedReplacements().get(3));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("confiscaren", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals("requisaren", matches[0].getSuggestedReplacements().get(1));
+    Assertions.assertEquals("comissaren", matches[0].getSuggestedReplacements().get(2));
+    Assertions.assertEquals("decomissaren", matches[0].getSuggestedReplacements().get(3));
   }
 
 }

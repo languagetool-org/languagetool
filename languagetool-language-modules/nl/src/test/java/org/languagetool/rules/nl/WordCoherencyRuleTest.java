@@ -18,8 +18,9 @@
  */
 package org.languagetool.rules.nl;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
@@ -28,13 +29,11 @@ import org.languagetool.language.Dutch;
 import java.io.IOException;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-
 public class WordCoherencyRuleTest {
 
   private final JLanguageTool lt = new JLanguageTool(new Dutch());
 
-  @Before
+  @BeforeEach
   public void before() throws IOException {
     TestTools.disableAllRulesExcept(lt, "NL_WORD_COHERENCY");
   }
@@ -47,13 +46,13 @@ public class WordCoherencyRuleTest {
   private void assertError(String s) throws IOException {
     WordCoherencyRule rule = new WordCoherencyRule(TestTools.getEnglishMessages());
     List<AnalyzedSentence> analyzedSentences = lt.analyzeText(s);
-    assertEquals(1, rule.match(analyzedSentences).length);
+    Assertions.assertEquals(1, rule.match(analyzedSentences).length);
   }
 
   private void assertGood(String s) throws IOException {
     WordCoherencyRule rule = new WordCoherencyRule(TestTools.getEnglishMessages());
     List<AnalyzedSentence> analyzedSentences = lt.analyzeText(s);
-    assertEquals(0, rule.match(analyzedSentences).length);
+    Assertions.assertEquals(0, rule.match(analyzedSentences).length);
   }
 
 }

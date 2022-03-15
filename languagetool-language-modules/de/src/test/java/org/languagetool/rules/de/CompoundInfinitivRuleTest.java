@@ -18,7 +18,8 @@
  */
 package org.languagetool.rules.de;
 
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
@@ -27,7 +28,6 @@ import org.languagetool.TestTools;
 import java.io.IOException;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
 
 /**
  * @author Fred Kruse
@@ -40,20 +40,20 @@ public class CompoundInfinitivRuleTest {
     CompoundInfinitivRule rule = new CompoundInfinitivRule(TestTools.getMessages("de"), german, null);
     JLanguageTool lt = new JLanguageTool(german);
 
-    assertThat(rule.match(lt.getAnalyzedSentence("Ich brachte ihn dazu, mein Zimmer sauber zu machen.")).length, is(1));
-    assertThat(rule.match(lt.getAnalyzedSentence("Du brauchst nicht bei mir vorbei zu kommen.")).length, is(1));
-    assertThat(rule.match(lt.getAnalyzedSentence("Ich ging zur Seite, um die alte Dame vorbei zu lassen.")).length, is(1));
+    MatcherAssert.assertThat(rule.match(lt.getAnalyzedSentence("Ich brachte ihn dazu, mein Zimmer sauber zu machen.")).length, is(1));
+    MatcherAssert.assertThat(rule.match(lt.getAnalyzedSentence("Du brauchst nicht bei mir vorbei zu kommen.")).length, is(1));
+    MatcherAssert.assertThat(rule.match(lt.getAnalyzedSentence("Ich ging zur Seite, um die alte Dame vorbei zu lassen.")).length, is(1));
 
-    assertThat(rule.match(lt.getAnalyzedSentence("Seine Frau gab vor zu schlafen.")).length, is(0));
-    assertThat(rule.match(lt.getAnalyzedSentence("Mein Herz hörte auf zu schlagen.")).length, is(0));
-    assertThat(rule.match(lt.getAnalyzedSentence("Den Sonnenaufgang von einem Berggipfel aus zu sehen, ist eine Wonne.")).length, is(0));
-    assertThat(rule.match(lt.getAnalyzedSentence("Hör auf zu schreien")).length, is(0));
-    assertThat(rule.match(lt.getAnalyzedSentence("Sie riss sich zusammen und fing wieder an zu reden.")).length, is(0));
-    assertThat(rule.match(lt.getAnalyzedSentence("Fang an zu zählen.")).length, is(0));
-    assertThat(rule.match(lt.getAnalyzedSentence("Er hatte nichts weiter zu sagen")).length, is(0));
-    assertThat(rule.match(lt.getAnalyzedSentence("Sie strengte sich an zu schwimmen.")).length, is(0));
-    assertThat(rule.match(lt.getAnalyzedSentence("Tom stand auf und fing an, auf und ab zu gehen.")).length, is(0));
-    assertThat(rule.match(lt.getAnalyzedSentence("Aber um auf Nummer sicher zu gehen, schrieb er es auf.")).length, is(0));
+    MatcherAssert.assertThat(rule.match(lt.getAnalyzedSentence("Seine Frau gab vor zu schlafen.")).length, is(0));
+    MatcherAssert.assertThat(rule.match(lt.getAnalyzedSentence("Mein Herz hörte auf zu schlagen.")).length, is(0));
+    MatcherAssert.assertThat(rule.match(lt.getAnalyzedSentence("Den Sonnenaufgang von einem Berggipfel aus zu sehen, ist eine Wonne.")).length, is(0));
+    MatcherAssert.assertThat(rule.match(lt.getAnalyzedSentence("Hör auf zu schreien")).length, is(0));
+    MatcherAssert.assertThat(rule.match(lt.getAnalyzedSentence("Sie riss sich zusammen und fing wieder an zu reden.")).length, is(0));
+    MatcherAssert.assertThat(rule.match(lt.getAnalyzedSentence("Fang an zu zählen.")).length, is(0));
+    MatcherAssert.assertThat(rule.match(lt.getAnalyzedSentence("Er hatte nichts weiter zu sagen")).length, is(0));
+    MatcherAssert.assertThat(rule.match(lt.getAnalyzedSentence("Sie strengte sich an zu schwimmen.")).length, is(0));
+    MatcherAssert.assertThat(rule.match(lt.getAnalyzedSentence("Tom stand auf und fing an, auf und ab zu gehen.")).length, is(0));
+    MatcherAssert.assertThat(rule.match(lt.getAnalyzedSentence("Aber um auf Nummer sicher zu gehen, schrieb er es auf.")).length, is(0));
   }
 
 }

@@ -18,11 +18,11 @@
  */
 package org.languagetool.rules.de;
 
-import java.io.IOException;
-
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.language.SimpleGerman;
 import org.languagetool.rules.patterns.PatternRuleTest;
+
+import java.io.IOException;
 
 public class SimpleGermanPatternRuleTest extends PatternRuleTest {
 

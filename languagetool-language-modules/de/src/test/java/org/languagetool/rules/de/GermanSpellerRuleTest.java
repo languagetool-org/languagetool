@@ -23,8 +23,9 @@ import morfologik.fsa.builders.CFSA2Serializer;
 import morfologik.fsa.builders.FSABuilder;
 import morfologik.speller.Speller;
 import morfologik.stemming.Dictionary;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
@@ -43,8 +44,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Stream;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.TestCase.*;
+import static junit.framework.TestCase.assertFalse;
+import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -597,7 +598,7 @@ public class GermanSpellerRuleTest {
   private void assertNotSuggestion(String input, String notExpected, GermanSpellerRule rule, JLanguageTool lt) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
     for (RuleMatch match : matches) {
-      assertFalse("Found unexpected suggestion '" + notExpected + "' for input '" + input + "'", match.getSuggestedReplacements().contains(notExpected));
+      Assertions.assertFalse(match.getSuggestedReplacements().contains(notExpected), "Found unexpected suggestion '" + notExpected + "' for input '" + input + "'");
     }
   }
 
@@ -607,130 +608,130 @@ public class GermanSpellerRuleTest {
     JLanguageTool lt = new JLanguageTool(GERMAN_DE);
     TestTools.disableAllRulesExcept(lt, GermanSpellerRule.RULE_ID);
 
-    assertEquals(2, lt.check("\uFEFF-Product Development Coordinator").size());
-    assertEquals(2, lt.check("-Product Development Coordinator").size());
-    assertEquals(1, lt.check("\uFEFF-Einx Test").size());
-    assertEquals(0, lt.check("\uFEFF-Ein Test").size());
-    assertEquals(0, lt.check("Gratis E\uFEFF-Book").size());
+    Assertions.assertEquals(2, lt.check("\uFEFF-Product Development Coordinator").size());
+    Assertions.assertEquals(2, lt.check("-Product Development Coordinator").size());
+    Assertions.assertEquals(1, lt.check("\uFEFF-Einx Test").size());
+    Assertions.assertEquals(0, lt.check("\uFEFF-Ein Test").size());
+    Assertions.assertEquals(0, lt.check("Gratis E\uFEFF-Book").size());
     
     // "-" as bullet point with no space:
-    assertEquals(0, lt.check("-Tee\n\n-Kaffee").size());
+    Assertions.assertEquals(0, lt.check("-Tee\n\n-Kaffee").size());
     List<RuleMatch> matches1 = lt.check("-Teex\n\n-Kaffee");
-    assertEquals(1, matches1.size());
-    assertEquals(1, matches1.get(0).getFromPos());
-    assertEquals(5, matches1.get(0).getToPos());
+    Assertions.assertEquals(1, matches1.size());
+    Assertions.assertEquals(1, matches1.get(0).getFromPos());
+    Assertions.assertEquals(5, matches1.get(0).getToPos());
     List<RuleMatch> matches2 = lt.check("- Teex\n\n-Kaffee");
-    assertEquals(1, matches2.size());
-    assertEquals(2, matches2.get(0).getFromPos());
-    assertEquals(6, matches2.get(0).getToPos());
+    Assertions.assertEquals(1, matches2.size());
+    Assertions.assertEquals(2, matches2.get(0).getFromPos());
+    Assertions.assertEquals(6, matches2.get(0).getToPos());
     
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Ist doch - gut")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Ist doch -- gut")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Stil- und Grammatikprüfung gut")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Oliven- und Mandelöl")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Stil-, Text- und Grammatikprüfung gut")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Er liebt die Stil-, Text- und Grammatikprüfung.")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Stil-, Text- und Grammatikprüfung")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Stil-, Text- oder Grammatikprüfung")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Hierzu zählen Einkommen-, Körperschaft- sowie Gewerbesteuer.")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Miet- und Zinseinkünfte")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("SPD- und CDU-Abgeordnete")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Haupt- und Nebensatz")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Vertuschungs- und Bespitzelungsmaßnahmen")).length); // remove "s" from "Vertuschungs" before spell check
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Ist doch - gut")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Ist doch -- gut")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Stil- und Grammatikprüfung gut")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Oliven- und Mandelöl")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Stil-, Text- und Grammatikprüfung gut")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Er liebt die Stil-, Text- und Grammatikprüfung.")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Stil-, Text- und Grammatikprüfung")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Stil-, Text- oder Grammatikprüfung")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Hierzu zählen Einkommen-, Körperschaft- sowie Gewerbesteuer.")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Miet- und Zinseinkünfte")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("SPD- und CDU-Abgeordnete")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Haupt- und Nebensatz")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Vertuschungs- und Bespitzelungsmaßnahmen")).length); // remove "s" from "Vertuschungs" before spell check
 //    assertEquals(0, rule.match(lt.getAnalyzedSentence("Au-pair-Agentur")).length); // compound with ignored word from spelling.txt
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Netflix-Film")).length); // compound with ignored word from spelling.txt
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Bund-Länder-Kommission")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Des World Wide Webs")).length); // expanded multi-word entry from spelling.txt
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Der westperuanische Ferienort.")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("„Pumpe“-Nachfolge")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("\"Pumpe\"-Nachfolge")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("ÖVP- und FPÖ-Chefverhandler")).length); // first part is from spelling.txt
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("α-Strahlung")).length); // compound with ignored word from spelling.txt
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Primär-α-Mischkristallen")).length); // compound with ignored word from spelling.txt
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("supergut")).length); // elativ meaning "sehr gut"
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("90°-Winkel")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Kosten- und Kreditmanagement")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Netflix-Film")).length); // compound with ignored word from spelling.txt
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Bund-Länder-Kommission")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Des World Wide Webs")).length); // expanded multi-word entry from spelling.txt
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Der westperuanische Ferienort.")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("„Pumpe“-Nachfolge")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("\"Pumpe\"-Nachfolge")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("ÖVP- und FPÖ-Chefverhandler")).length); // first part is from spelling.txt
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("α-Strahlung")).length); // compound with ignored word from spelling.txt
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Primär-α-Mischkristallen")).length); // compound with ignored word from spelling.txt
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("supergut")).length); // elativ meaning "sehr gut"
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("90°-Winkel")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Kosten- und Kreditmanagement")).length);
 
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("Miet und Zinseinkünfte")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("Stil- und Grammatik gut")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("Flasch- und Grammatikprüfung gut")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("Miet und Zinseinkünfte")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("Stil- und Grammatik gut")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("Flasch- und Grammatikprüfung gut")).length);
     //assertEquals(1, rule.match(langTool.getAnalyzedSentence("Haupt- und Neben")).length);  // hunspell accepts this :-(
 
     // check acceptance of words in ignore.txt ending with "-*"
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Dual-Use-Güter")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Dual-Use- und Wirtschaftsgüter")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Test-Dual-Use")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("Dual-Use")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Einpseudowortmitßfürlanguagetooltests-Auto")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Dual-Use-Güter")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Dual-Use- und Wirtschaftsgüter")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Test-Dual-Use")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("Dual-Use")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Einpseudowortmitßfürlanguagetooltests-Auto")).length);
 
     // from spelling.txt, also accepted as uppercase variant:
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("-ablenkungsfrei")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("-ablenkungsfreies")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("-Ablenkungsfrei")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("-Ablenkungsfreies")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("- Ablenkungsfrei")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("- Ablenkungsfreies")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("abmantelung")).length);  // only as uppercase in spelling.txt
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("- abmantelung")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("machtS")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("All-Inclusive-Preis")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("dRanging")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Das Draufklicken")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Des Draufklickens")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("Des draufklickens")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("-ablenkungsfrei")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("-ablenkungsfreies")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("-Ablenkungsfrei")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("-Ablenkungsfreies")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("- Ablenkungsfrei")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("- Ablenkungsfreies")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("abmantelung")).length);  // only as uppercase in spelling.txt
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("- abmantelung")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("machtS")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("All-Inclusive-Preis")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("dRanging")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Das Draufklicken")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Des Draufklickens")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("Des draufklickens")).length);
 
     // originally from spelling.txt:
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Wichtelmännchen")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Wichtelmännchens")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("wichtelmännchen")).length);  // no reason to accept it as lowercase
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("wichtelmännchens")).length);  // no reason to accept it as lowercase
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Wichtelmännchen")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Wichtelmännchens")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("wichtelmännchen")).length);  // no reason to accept it as lowercase
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("wichtelmännchens")).length);  // no reason to accept it as lowercase
 
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("vorgehängt")).length);  // from spelling.txt
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("vorgehängten")).length);  // from spelling.txt with suffix
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Vorgehängt")).length);  // from spelling.txt, it's lowercase there but we accept uppercase at idx = 0
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Vorgehängten")).length);  // from spelling.txt with suffix, it's lowercase there but we accept uppercase at idx = 0
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Wichtelmännchen-vorgehängt")).length);  // from spelling.txt formed hyphenated compound
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Wichtelmännchen-Au-pair")).length);  // from spelling.txt formed hyphenated compound
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("vorgehängt")).length);  // from spelling.txt
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("vorgehängten")).length);  // from spelling.txt with suffix
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Vorgehängt")).length);  // from spelling.txt, it's lowercase there but we accept uppercase at idx = 0
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Vorgehängten")).length);  // from spelling.txt with suffix, it's lowercase there but we accept uppercase at idx = 0
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Wichtelmännchen-vorgehängt")).length);  // from spelling.txt formed hyphenated compound
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Wichtelmännchen-Au-pair")).length);  // from spelling.txt formed hyphenated compound
 
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Fermi-Dirac-Statistik")).length);  // from spelling.txt formed hyphenated compound
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Fermi-Dirac-Statistik")).length);  // from spelling.txt formed hyphenated compound
 //    assertEquals(0, rule.match(lt.getAnalyzedSentence("Au-pair-Wichtelmännchen")).length);  // from spelling.txt formed hyphenated compound
 //    assertEquals(0, rule.match(lt.getAnalyzedSentence("Secondhandware")).length);  // from spelling.txt formed compound
 //    assertEquals(0, rule.match(lt.getAnalyzedSentence("Feynmandiagramme")).length);  // from spelling.txt formed compound
 //    assertEquals(0, rule.match(lt.getAnalyzedSentence("Helizitätsoperator")).length);  // from spelling.txt formed compound
 //    assertEquals(0, rule.match(lt.getAnalyzedSentence("Wodkaherstellung")).length);  // from spelling.txt formed compound
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Latte-macchiato-Glas")).length);  // formelery from spelling.txt formed compound
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Werkverträgler-Glas")).length);  // from spelling.txt formed compound
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Werkverträglerglas")).length);  // from spelling.txt formed compound
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("Werkverträglerdu")).length);  // from spelling.txt formed "compound" with last part too short
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Latte-macchiato-Glas")).length);  // formelery from spelling.txt formed compound
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Werkverträgler-Glas")).length);  // from spelling.txt formed compound
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Werkverträglerglas")).length);  // from spelling.txt formed compound
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("Werkverträglerdu")).length);  // from spelling.txt formed "compound" with last part too short
 //    assertEquals(0, rule.match(lt.getAnalyzedSentence("No-Name-Hersteller")).length);  // from spelling.txt formed compound
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("Helizitätso")).length);  // from spelling.txt formed compound (second part is too short)
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("Feynmand")).length);  // from spelling.txt formed compound (second part is too short)
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("Helizitätso")).length);  // from spelling.txt formed compound (second part is too short)
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("Feynmand")).length);  // from spelling.txt formed compound (second part is too short)
 
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("Einpseudowortmitssfürlanguagetooltests-Auto")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("Einpseudowortmitssfürlanguagetooltests-Auto")).length);
     HunspellRule ruleCH = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_CH);
-    assertEquals(1, ruleCH.match(lt.getAnalyzedSentence("Einpseudowortmitßfürlanguagetooltests-Auto")).length);
-    assertEquals(0, ruleCH.match(lt.getAnalyzedSentence("Einpseudowortmitssfürlanguagetooltests-Auto")).length);
+    Assertions.assertEquals(1, ruleCH.match(lt.getAnalyzedSentence("Einpseudowortmitßfürlanguagetooltests-Auto")).length);
+    Assertions.assertEquals(0, ruleCH.match(lt.getAnalyzedSentence("Einpseudowortmitssfürlanguagetooltests-Auto")).length);
 
     // bullet points in Google Docs:
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("\uFEFFAblenkungsfreie Schreibumgebung")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("\uFEFFAblenkungsfreie Schreibumgebung")).length);
     
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Die blablaxx.mp3 und das sdifguds.avi bzw. die XYZXYZ.AVI")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Ausgestrahlt von 3sat")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Ein 32stel eines Loses")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Der Verlust eines 32stels eines Loses")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Ein 5tel eines Loses")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Der Verlust eines 5tels eines Loses")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("ein 100stel-Millimeter")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("ein 5tel-Gramm")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("ein 100stel-Milimeter")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("ein 5tel-Grömm")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("ein 5tl-Gramm")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("ein 100stl-Millimeter")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("ein tl-Gramm")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("ein stl-Millimeter")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("ein tel-Gramm")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("ein stel-Millimeter")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("Bitte stel dich dazu")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Die blablaxx.mp3 und das sdifguds.avi bzw. die XYZXYZ.AVI")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Ausgestrahlt von 3sat")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Ein 32stel eines Loses")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Der Verlust eines 32stels eines Loses")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Ein 5tel eines Loses")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Der Verlust eines 5tels eines Loses")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("ein 100stel-Millimeter")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("ein 5tel-Gramm")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("ein 100stel-Milimeter")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("ein 5tel-Grömm")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("ein 5tl-Gramm")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("ein 100stl-Millimeter")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("ein tl-Gramm")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("ein stl-Millimeter")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("ein tel-Gramm")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("ein stel-Millimeter")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("Bitte stel dich dazu")).length);
   }
 
   @Test
@@ -748,16 +749,16 @@ public class GermanSpellerRuleTest {
   @Test
   public void testIgnoreWord() throws Exception {
     MyGermanSpellerRule ruleGermany = new MyGermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
-    assertTrue(ruleGermany.doIgnoreWord("einPseudoWortFürLanguageToolTests"));  // from ignore.txt
-    assertFalse(ruleGermany.doIgnoreWord("Hundhütte"));                 // compound formed from two valid words, but still incorrect
-    assertFalse(ruleGermany.doIgnoreWord("Frauversteher"));             // compound formed from two valid words, but still incorrect
-    assertFalse(ruleGermany.doIgnoreWord("Wodkasglas"));                // compound formed from two valid words, but still incorrect
-    assertFalse(ruleGermany.doIgnoreWord("Author"));
-    assertFalse(ruleGermany.doIgnoreWord("SecondhandWare"));            // from spelling.txt formed compound
-    assertFalse(ruleGermany.doIgnoreWord("MHDware"));                   // from spelling.txt formed compound
+    Assertions.assertTrue(ruleGermany.doIgnoreWord("einPseudoWortFürLanguageToolTests"));  // from ignore.txt
+    Assertions.assertFalse(ruleGermany.doIgnoreWord("Hundhütte"));                 // compound formed from two valid words, but still incorrect
+    Assertions.assertFalse(ruleGermany.doIgnoreWord("Frauversteher"));             // compound formed from two valid words, but still incorrect
+    Assertions.assertFalse(ruleGermany.doIgnoreWord("Wodkasglas"));                // compound formed from two valid words, but still incorrect
+    Assertions.assertFalse(ruleGermany.doIgnoreWord("Author"));
+    Assertions.assertFalse(ruleGermany.doIgnoreWord("SecondhandWare"));            // from spelling.txt formed compound
+    Assertions.assertFalse(ruleGermany.doIgnoreWord("MHDware"));                   // from spelling.txt formed compound
     MyGermanSpellerRule ruleSwiss = new MyGermanSpellerRule(TestTools.getMessages("de"), GERMAN_CH);
-    assertTrue(ruleSwiss.doIgnoreWord("einPseudoWortFürLanguageToolTests"));
-    assertFalse(ruleSwiss.doIgnoreWord("Ligafußball"));        // 'ß' never accepted for Swiss
+    Assertions.assertTrue(ruleSwiss.doIgnoreWord("einPseudoWortFürLanguageToolTests"));
+    Assertions.assertFalse(ruleSwiss.doIgnoreWord("Ligafußball"));        // 'ß' never accepted for Swiss
   }
 
   private static class MyGermanSpellerRule extends GermanSpellerRule {
@@ -776,9 +777,9 @@ public class GermanSpellerRuleTest {
     HunspellRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     JLanguageTool lt = new JLanguageTool(GERMAN_DE);
     commonGermanAsserts(rule, lt);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Der äußere Übeltäter.")).length);  // umlauts
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("Der äussere Übeltäter.")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Die Mozart'sche Sonate.")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Der äußere Übeltäter.")).length);  // umlauts
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("Der äussere Übeltäter.")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Die Mozart'sche Sonate.")).length);
   }
 
   // note: copied from HunspellRuleTest
@@ -788,8 +789,8 @@ public class GermanSpellerRuleTest {
     HunspellRule rule = new AustrianGermanSpellerRule(TestTools.getMessages("de"), language);
     JLanguageTool lt = new JLanguageTool(language);
     commonGermanAsserts(rule, lt);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Der äußere Übeltäter.")).length);  // umlauts
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("Der äussere Übeltäter.")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Der äußere Übeltäter.")).length);  // umlauts
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("Der äussere Übeltäter.")).length);
   }
 
   // note: copied from HunspellRuleTest
@@ -799,38 +800,38 @@ public class GermanSpellerRuleTest {
     HunspellRule rule = new SwissGermanSpellerRule(TestTools.getMessages("de"), language);
     JLanguageTool lt = new JLanguageTool(language);
     commonGermanAsserts(rule, lt);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("Der äußere Übeltäter.")).length);  // ß not allowed in Swiss
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Der äussere Übeltäter.")).length);  // ss is used instead of ß
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("Der äußere Übeltäter.")).length);  // ß not allowed in Swiss
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Der äussere Übeltäter.")).length);  // ss is used instead of ß
   }
   
   // note: copied from HunspellRuleTest
   private void commonGermanAsserts(HunspellRule rule, JLanguageTool lt) throws IOException {
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Der Waschmaschinentestversuch")).length);  // compound
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Der Waschmaschinentest-Versuch")).length);  // compound
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Der Arbeitnehmer")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Die Verhaltensänderung")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Er bzw. sie.")).length); // abbreviations
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Die Standarte")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Die Standarten")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Die Standartenführer")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Der Standard")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Der Standardversuch")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Der Waschmaschinentestversuch")).length);  // compound
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Der Waschmaschinentest-Versuch")).length);  // compound
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Der Arbeitnehmer")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Die Verhaltensänderung")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Er bzw. sie.")).length); // abbreviations
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Die Standarte")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Die Standarten")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Die Standartenführer")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Der Standard")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Der Standardversuch")).length);
 
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("Der Waschmaschinentest-Dftgedgs")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("Der Dftgedgs-Waschmaschinentest")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("Der Waschmaschinentestdftgedgs")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("Der Waschmaschinentestversuch orkt")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("Der Arbeitsnehmer")).length);  // wrong interfix
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("Die Verhaltenänderung")).length);  // missing interfix
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("Er bw. sie.")).length); // abbreviations (bzw.)
-    assertEquals(2, rule.match(lt.getAnalyzedSentence("Der asdegfue orkt")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("rumfangreichen")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("Der Standart")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("Der Standartversuch")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("Halterun")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("Wandhalterun")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Halterung")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Wandhalterung")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("Der Waschmaschinentest-Dftgedgs")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("Der Dftgedgs-Waschmaschinentest")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("Der Waschmaschinentestdftgedgs")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("Der Waschmaschinentestversuch orkt")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("Der Arbeitsnehmer")).length);  // wrong interfix
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("Die Verhaltenänderung")).length);  // missing interfix
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("Er bw. sie.")).length); // abbreviations (bzw.)
+    Assertions.assertEquals(2, rule.match(lt.getAnalyzedSentence("Der asdegfue orkt")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("rumfangreichen")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("Der Standart")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("Der Standartversuch")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("Halterun")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("Wandhalterun")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Halterung")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Wandhalterung")).length);
   }
   
   @Test
@@ -967,30 +968,30 @@ public class GermanSpellerRuleTest {
   @Test
   public void testIsMisspelled() {
     HunspellRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
-    assertTrue(rule.isMisspelled("dshfsdhsdf"));
-    assertTrue(rule.isMisspelled("Haussarbeit"));
-    assertTrue(rule.isMisspelled("Überschus"));
-    assertTrue(rule.isMisspelled("Überschussen"));
+    Assertions.assertTrue(rule.isMisspelled("dshfsdhsdf"));
+    Assertions.assertTrue(rule.isMisspelled("Haussarbeit"));
+    Assertions.assertTrue(rule.isMisspelled("Überschus"));
+    Assertions.assertTrue(rule.isMisspelled("Überschussen"));
 
-    assertFalse(rule.isMisspelled("Hausarbeit"));
-    assertFalse(rule.isMisspelled("Überschuss"));
-    assertFalse(rule.isMisspelled("Überschüsse"));
+    Assertions.assertFalse(rule.isMisspelled("Hausarbeit"));
+    Assertions.assertFalse(rule.isMisspelled("Überschuss"));
+    Assertions.assertFalse(rule.isMisspelled("Überschüsse"));
 
-    assertTrue(rule.isMisspelled("Spielzugcomputer"));
-    assertTrue(rule.isMisspelled("Spielzugcomputern"));
-    assertFalse(rule.isMisspelled("Spielzug"));
-    assertFalse(rule.isMisspelled("Spielzugs"));
+    Assertions.assertTrue(rule.isMisspelled("Spielzugcomputer"));
+    Assertions.assertTrue(rule.isMisspelled("Spielzugcomputern"));
+    Assertions.assertFalse(rule.isMisspelled("Spielzug"));
+    Assertions.assertFalse(rule.isMisspelled("Spielzugs"));
 
-    assertTrue(rule.isMisspelled("Studentenschafte"));
-    assertTrue(rule.isMisspelled("Steuereigenschafte"));
-    assertFalse(rule.isMisspelled("Studentenschaften"));
-    assertFalse(rule.isMisspelled("Steuereigenschaften"));
-    assertFalse(rule.isMisspelled("Eigenschaften"));
-    assertFalse(rule.isMisspelled("wirtschafte"));
+    Assertions.assertTrue(rule.isMisspelled("Studentenschafte"));
+    Assertions.assertTrue(rule.isMisspelled("Steuereigenschafte"));
+    Assertions.assertFalse(rule.isMisspelled("Studentenschaften"));
+    Assertions.assertFalse(rule.isMisspelled("Steuereigenschaften"));
+    Assertions.assertFalse(rule.isMisspelled("Eigenschaften"));
+    Assertions.assertFalse(rule.isMisspelled("wirtschafte"));
   }
   
   @Test
-  @Ignore("testing a potential bug in Morfologik")
+  @Disabled("testing a potential bug in Morfologik")
   public void testMorfologikSpeller() throws Exception {
     List<byte[]> lines = new ArrayList<>();
     lines.add("die".getBytes());
@@ -1005,14 +1006,14 @@ public class GermanSpellerRuleTest {
   }
 
   @Test
-  @Ignore("testing Morfologik directly, with LT dictionary (de_DE.dict) but no LT-specific code")
+  @Disabled("testing Morfologik directly, with LT dictionary (de_DE.dict) but no LT-specific code")
   public void testMorfologikSpeller2() throws Exception {
     Dictionary dict = Dictionary.read(JLanguageTool.getDataBroker().getFromResourceDirAsUrl("/de/hunspell/de_DE.dict"));
     runTests(dict, "Fux");
   }
 
   @Test
-  @Ignore("testing Morfologik directly, with hard-coded dictionary but no LT-specific code")
+  @Disabled("testing Morfologik directly, with hard-coded dictionary but no LT-specific code")
   public void testMorfologikSpellerWithSpellingTxt() throws Exception {
     String inputWord = "schänken";  // expected to work (i.e. also suggest 'schenken'), but doesn't
     List<String> dictWords = Arrays.asList("schenken", "Schänken");
@@ -1072,10 +1073,10 @@ public class GermanSpellerRuleTest {
   private void assertCorrection(HunspellRule rule, String input, String... expectedTerms) throws IOException {
     List<String> suggestions = rule.getSuggestions(input);
     for (String expectedTerm : expectedTerms) {
-      assertTrue("Not found: '" + expectedTerm + "' in: " + suggestions + " for input '" + input + "'", suggestions.contains(expectedTerm));
+      Assertions.assertTrue(suggestions.contains(expectedTerm), "Not found: '" + expectedTerm + "' in: " + suggestions + " for input '" + input + "'");
     }
     if (expectedTerms.length == 0 && suggestions.size() > 0) {
-      fail("Didn't expect suggestions at all for '" + input + "', got: " + suggestions);
+      Assertions.fail("Didn't expect suggestions at all for '" + input + "', got: " + suggestions);
     }
   }
   
@@ -1083,7 +1084,7 @@ public class GermanSpellerRuleTest {
     List<String> suggestions = rule.getSuggestions(input);
     int i = 0;
     for (String expectedTerm : expectedTerms) {
-      assertTrue("Not found at position " + i + ": '" + expectedTerm + "' in: " + suggestions + " for input '" + input + "'", suggestions.get(i).equals(expectedTerm));
+      Assertions.assertEquals(suggestions.get(i), expectedTerm, "Not found at position " + i + ": '" + expectedTerm + "' in: " + suggestions + " for input '" + input + "'");
       i++;
     }
   }
@@ -1096,12 +1097,12 @@ public class GermanSpellerRuleTest {
     assertThat(matches1.length, is(0));
     RuleMatch[] matches2 = rule1.match(lt.getAnalyzedSentence("But this is English."));
     assertThat(matches2.length, is(4));
-    assertNull(matches2[0].getErrorLimitLang());
-    assertNull(matches2[1].getErrorLimitLang());
+    Assertions.assertNull(matches2[0].getErrorLimitLang());
+    Assertions.assertNull(matches2[1].getErrorLimitLang());
     assertThat(matches2[2].getErrorLimitLang(), is("zz"));  // 'en' is not known in this module, thus 'zz'
     RuleMatch[] matches3 = rule1.match(lt.getAnalyzedSentence("Und er sagte, this is a good test."));
     assertThat(matches3.length, is(4));
-    assertNull(matches3[3].getErrorLimitLang());
+    Assertions.assertNull(matches3[3].getErrorLimitLang());
   }
 
   /**
@@ -1123,10 +1124,10 @@ public class GermanSpellerRuleTest {
     RuleMatch[] matches22 = rule2.match(lt.getAnalyzedSentence(sentence2));
     RuleMatch[] matches21 = rule2.match(lt.getAnalyzedSentence(sentence1));
 
-    assertTrue(Stream.of(matches11, matches12, matches21, matches22).allMatch(arr -> arr.length == 1));
+    Assertions.assertTrue(Stream.of(matches11, matches12, matches21, matches22).allMatch(arr -> arr.length == 1));
 
-    assertEquals(matches11[0].getSuggestedReplacements().size(), matches21[0].getSuggestedReplacements().size());
-    assertEquals(matches12[0].getSuggestedReplacements().size(), matches22[0].getSuggestedReplacements().size());
+    Assertions.assertEquals(matches11[0].getSuggestedReplacements().size(), matches21[0].getSuggestedReplacements().size());
+    Assertions.assertEquals(matches12[0].getSuggestedReplacements().size(), matches22[0].getSuggestedReplacements().size());
 
     // a bug caused "bie" to be ignored:
     RuleMatch[] matches20 = rule1.match(lt.getAnalyzedSentence("laut Beispielen bie"));

@@ -18,9 +18,10 @@
  */
 package org.languagetool.language.en.translation;
 
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.languagetool.GlobalConfig;
 import org.languagetool.rules.en.translation.BeoLingusTranslator;
 import org.languagetool.rules.translation.TranslationEntry;
@@ -31,13 +32,12 @@ import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertTrue;
 
 public class BeoLingusTranslatorTest {
 
   private BeoLingusTranslator translator;
   
-  @Before
+  @BeforeEach
   public void init() throws IOException {
     GlobalConfig globalConfig = new GlobalConfig();
     globalConfig.setBeolingusFile(new File("src/test/resources/beolingus_test.txt"));
@@ -45,7 +45,7 @@ public class BeoLingusTranslatorTest {
   }
 
   @Test
-  @Ignore("for interactive development only")
+  @Disabled("for interactive development only")
   public void testForDevelopment() {
     List<TranslationEntry> result1 = translator.translate("Luftpumpen", "de", "en");
     System.out.println(result1);
@@ -55,25 +55,25 @@ public class BeoLingusTranslatorTest {
   public void testTranslateInflectedForm() {
     List<TranslationEntry> result1 = translator.translate("Luftpumpen", "de", "en");
     assertThat(result1.size(), is(1));
-    assertTrue(result1.get(0).getL2().contains("tyre pumps [Br.]"));
-    assertTrue(result1.get(0).getL2().contains("tire pumps [Am.]"));
-    assertTrue(result1.get(0).getL2().contains("tyre inflators [Br.]"));
-    assertTrue(result1.get(0).getL2().contains("tire inflators [Am.]"));
+    Assertions.assertTrue(result1.get(0).getL2().contains("tyre pumps [Br.]"));
+    Assertions.assertTrue(result1.get(0).getL2().contains("tire pumps [Am.]"));
+    Assertions.assertTrue(result1.get(0).getL2().contains("tyre inflators [Br.]"));
+    Assertions.assertTrue(result1.get(0).getL2().contains("tire inflators [Am.]"));
   }
 
   @Test
   public void testTranslate() {
     List<TranslationEntry> result1 = translator.translate("Haus", "de", "en");
     assertThat(result1.size(), is(3));
-    assertTrue(result1.get(0).getL2().contains("house"));
-    assertTrue(result1.get(1).getL2().contains("home"));
-    assertTrue(result1.get(2).getL2().contains("volta bracket (sheet music)"));
+    Assertions.assertTrue(result1.get(0).getL2().contains("house"));
+    Assertions.assertTrue(result1.get(1).getL2().contains("home"));
+    Assertions.assertTrue(result1.get(2).getL2().contains("volta bracket (sheet music)"));
 
     List<TranslationEntry> result2 = translator.translate("haus", "de", "en");
     assertThat(result2.size(), is(3));
-    assertTrue(result2.get(0).getL2().contains("house"));
-    assertTrue(result2.get(1).getL2().contains("home"));
-    assertTrue(result2.get(2).getL2().contains("volta bracket (sheet music)"));
+    Assertions.assertTrue(result2.get(0).getL2().contains("house"));
+    Assertions.assertTrue(result2.get(1).getL2().contains("home"));
+    Assertions.assertTrue(result2.get(2).getL2().contains("volta bracket (sheet music)"));
 
     //direction not yet activated:
     //List<TranslationEntry> result3 = translator.translate("house", "en", "de");
@@ -83,8 +83,8 @@ public class BeoLingusTranslatorTest {
     List<TranslationEntry> result4 = translator.translate("suchwort", "de", "en");
     //for (TranslationEntry s : result4) { System.out.println("  " + s.getL1() + " <> " + String.join(" -- " , s.getL2())); }
     assertThat(result4.size(), is(1));
-    assertTrue(result4.get(0).getL2().contains("search word {one; to}"));
-    assertTrue(result4.get(0).getL2().contains("another item"));
+    Assertions.assertTrue(result4.get(0).getL2().contains("search word {one; to}"));
+    Assertions.assertTrue(result4.get(0).getL2().contains("another item"));
   }
 
   @Test
@@ -102,20 +102,20 @@ public class BeoLingusTranslatorTest {
   public void testAmericanBritishVariants() {
     List<TranslationEntry> result1 = translator.translate("Luftpumpe", "de", "en");
     assertThat(result1.size(), is(1));
-    assertTrue(result1.get(0).getL2().contains("tyre pump [Br.]"));
-    assertTrue(result1.get(0).getL2().contains("tire pump [Am.]"));
-    assertTrue(result1.get(0).getL2().contains("tyre inflator [Br.]"));
-    assertTrue(result1.get(0).getL2().contains("tire inflator [Am.]"));
+    Assertions.assertTrue(result1.get(0).getL2().contains("tyre pump [Br.]"));
+    Assertions.assertTrue(result1.get(0).getL2().contains("tire pump [Am.]"));
+    Assertions.assertTrue(result1.get(0).getL2().contains("tyre inflator [Br.]"));
+    Assertions.assertTrue(result1.get(0).getL2().contains("tire inflator [Am.]"));
 
     List<TranslationEntry> result2 = translator.translate("Testluftpumpe", "de", "en");
     assertThat(result2.size(), is(1));
-    assertTrue(result2.get(0).getL2().contains("tyre pump [Br.]"));
-    assertTrue(result2.get(0).getL2().contains("tire pump [Am.]"));
+    Assertions.assertTrue(result2.get(0).getL2().contains("tyre pump [Br.]"));
+    Assertions.assertTrue(result2.get(0).getL2().contains("tire pump [Am.]"));
 
     List<TranslationEntry> result3 = translator.translate("Reifen wechseln", "de", "en");
     assertThat(result3.size(), is(1));
-    assertTrue(result3.get(0).getL2().contains("to change the tyres [Br.]"));
-    assertTrue(result3.get(0).getL2().contains("to change the tires [Am.]"));
+    Assertions.assertTrue(result3.get(0).getL2().contains("to change the tyres [Br.]"));
+    Assertions.assertTrue(result3.get(0).getL2().contains("to change the tires [Am.]"));
   }
 
   @Test

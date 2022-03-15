@@ -18,21 +18,20 @@
  */
 package org.languagetool.rules.en;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
-
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
+
+import java.io.IOException;
 
 public class EnglishWrongWordInContextRuleTest {
 
   private JLanguageTool lt;
   private EnglishWrongWordInContextRule rule;
   
-  @Before
+  @BeforeEach
   public void setUp() throws IOException {
     lt = new JLanguageTool(Languages.getLanguageForShortCode("en-US"));
     rule = new EnglishWrongWordInContextRule(null);
@@ -45,7 +44,7 @@ public class EnglishWrongWordInContextRuleTest {
     assertGood("I have prescribed you a course of antibiotics.");
     assertGood("Name one country that does not proscribe theft.");
     assertBad("Name one country that does not prescribe theft.");
-    assertEquals("prescribed", rule.match(lt.getAnalyzedSentence("I have proscribed you a course of antibiotics."))[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals("prescribed", rule.match(lt.getAnalyzedSentence("I have proscribed you a course of antibiotics."))[0].getSuggestedReplacements().get(0));
     // herion/heroine
     assertBad("We know that heroine is highly addictive.");
     assertGood("He wrote about his addiction to heroin.");
@@ -77,10 +76,10 @@ public class EnglishWrongWordInContextRuleTest {
   }
 
   private void assertGood(String sentence) throws IOException {
-    assertEquals(0, rule.match(lt.getAnalyzedSentence(sentence)).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence(sentence)).length);
   }
 
   private void assertBad(String sentence) throws IOException {
-    assertEquals(1, rule.match(lt.getAnalyzedSentence(sentence)).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence(sentence)).length);
   }
 }

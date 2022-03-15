@@ -19,17 +19,16 @@
 
 package org.languagetool.rules.uk;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
-import java.util.Arrays;
-
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Ukrainian;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tagging.uk.UkrainianTagger;
+
+import java.io.IOException;
+import java.util.Collections;
 
 
 public class MissingHyphenRuleTest {
@@ -43,51 +42,51 @@ public class MissingHyphenRuleTest {
 
     // incorrect sentences:
     matches = rule.match(lt.getAnalyzedSentence("Поїхали у штаб квартиру."));
-    assertEquals(1, matches.length);
-    assertEquals(Arrays.asList("штаб-квартиру"), matches[0].getSuggestedReplacements());
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals(Collections.singletonList("штаб-квартиру"), matches[0].getSuggestedReplacements());
 
     matches = rule.match(lt.getAnalyzedSentence("Роблю «тайм аут»"));
-    assertEquals(1, matches.length);
-    assertEquals(Arrays.asList("тайм-аут"), matches[0].getSuggestedReplacements());
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals(Collections.singletonList("тайм-аут"), matches[0].getSuggestedReplacements());
 
     matches = rule.match(lt.getAnalyzedSentence("Такий компакт диск."));
-    assertEquals(1, matches.length);
-    assertEquals(Arrays.asList("компакт-диск"), matches[0].getSuggestedReplacements());
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals(Collections.singletonList("компакт-диск"), matches[0].getSuggestedReplacements());
 
     // spelling 2019 
 
     matches = rule.match(lt.getAnalyzedSentence("Такий міні автомобіль."));
-    assertEquals(1, matches.length);
-    assertEquals(Arrays.asList("мініавтомобіль"), matches[0].getSuggestedReplacements());
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals(Collections.singletonList("мініавтомобіль"), matches[0].getSuggestedReplacements());
 
     matches = rule.match(lt.getAnalyzedSentence("Арт проект вийшов провальним."));
-    assertEquals(1, matches.length);
-    assertEquals(Arrays.asList("Артпроект"), matches[0].getSuggestedReplacements());
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals(Collections.singletonList("Артпроект"), matches[0].getSuggestedReplacements());
 
     // TODO: hard - two errors, should be "ексвіцепрезидент"
     matches = rule.match(lt.getAnalyzedSentence("екс віце-президент"));
-    assertEquals(1, matches.length);
-    assertEquals(Arrays.asList("ексвіце-президент"), matches[0].getSuggestedReplacements());
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals(Collections.singletonList("ексвіце-президент"), matches[0].getSuggestedReplacements());
 
     matches = rule.match(lt.getAnalyzedSentence("всі медіа півострова."));
-    assertEquals(0, matches.length);
+    Assertions.assertEquals(0, matches.length);
 
     
     // correct sentences:
     matches = rule.match(lt.getAnalyzedSentence("Тут все гаразд."));
-    assertEquals(0, matches.length);
+    Assertions.assertEquals(0, matches.length);
 
     matches = rule.match(lt.getAnalyzedSentence("Такий блок схемі не потрібен."));
-    assertEquals(0, matches.length);
+    Assertions.assertEquals(0, matches.length);
 
     matches = rule.match(lt.getAnalyzedSentence("конгрес Трансваалю."));
-    assertEquals(0, matches.length);
+    Assertions.assertEquals(0, matches.length);
 
     matches = rule.match(lt.getAnalyzedSentence("конгрес профспілок."));
-    assertEquals(0, matches.length);
+    Assertions.assertEquals(0, matches.length);
 
     matches = rule.match(lt.getAnalyzedSentence("рентген п'яти."));
-    assertEquals(0, matches.length);
+    Assertions.assertEquals(0, matches.length);
 
   }
 }

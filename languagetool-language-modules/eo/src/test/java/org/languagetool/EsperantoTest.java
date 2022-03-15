@@ -18,7 +18,8 @@
  */
 package org.languagetool;
 
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Test;
 import org.languagetool.language.Esperanto;
 import org.languagetool.rules.RuleMatch;
 
@@ -26,19 +27,18 @@ import java.io.IOException;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
 
 public class EsperantoTest {
   
   @Test
   public void test() throws IOException {
     Esperanto language = new Esperanto();
-    assertThat(language.getCountries().length, is(0));
+    MatcherAssert.assertThat(language.getCountries().length, is(0));
     JLanguageTool languageTool = new JLanguageTool(language);
     String input = "La Mondaj Ludoj de 2013 estis plur-sporta evento...";
     List<RuleMatch> ruleMatches = languageTool.check(input);
-    assertThat(ruleMatches.size(), is(1));
-    assertThat(ruleMatches.get(0).getRule().getId(), is("HUNSPELL_RULE"));
+    MatcherAssert.assertThat(ruleMatches.size(), is(1));
+    MatcherAssert.assertThat(ruleMatches.get(0).getRule().getId(), is("HUNSPELL_RULE"));
   }
 
 }

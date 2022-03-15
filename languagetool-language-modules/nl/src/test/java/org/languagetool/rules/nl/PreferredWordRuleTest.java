@@ -18,17 +18,16 @@
  */
 package org.languagetool.rules.nl;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-
-import java.io.IOException;
-
-import org.junit.Ignore;
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
+
+import java.io.IOException;
+
+import static org.hamcrest.CoreMatchers.is;
 
 public class PreferredWordRuleTest {
   
@@ -39,8 +38,8 @@ public class PreferredWordRuleTest {
     JLanguageTool lt = new JLanguageTool(dutch);
 
     AnalyzedSentence sentence1 = lt.getAnalyzedSentence("rijwiel");
-    assertThat(rule.match(sentence1).length, is(1));
-    assertThat(rule.match(sentence1)[0].getSuggestedReplacements().toString(), is("[fiets]"));
+    MatcherAssert.assertThat(rule.match(sentence1).length, is(1));
+    MatcherAssert.assertThat(rule.match(sentence1)[0].getSuggestedReplacements().toString(), is("[fiets]"));
   }
 
 }

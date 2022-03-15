@@ -19,15 +19,14 @@
 
 package org.languagetool.rules.ru;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Russian;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
-
-import static org.junit.Assert.assertEquals;
 
 public class RussianSimpleReplaceRuleTest {
 
@@ -40,16 +39,16 @@ public class RussianSimpleReplaceRuleTest {
 
     // correct sentences:
     matches = rule.match(lt.getAnalyzedSentence("Рост кораллов тут самый быстрый,"));
-    assertEquals(0, matches.length);
+    Assertions.assertEquals(0, matches.length);
 
     matches = rule.match(lt.getAnalyzedSentence("Книга была порвана."));
-    assertEquals(0, matches.length);
+    Assertions.assertEquals(0, matches.length);
 
     // incorrect sentences:
     matches = rule.match(lt.getAnalyzedSentence("Книга была порвата."));
-    assertEquals(1, matches.length);
-    assertEquals(1, matches[0].getSuggestedReplacements().size());
-    assertEquals("порвана", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals(1, matches[0].getSuggestedReplacements().size());
+    Assertions.assertEquals("порвана", matches[0].getSuggestedReplacements().get(0));
   }
 
 }

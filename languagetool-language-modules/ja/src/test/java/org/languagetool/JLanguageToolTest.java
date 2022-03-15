@@ -18,20 +18,19 @@
  */
 package org.languagetool;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.language.Japanese;
 
 import java.io.IOException;
-
-import static org.junit.Assert.assertEquals;
 
 public class JLanguageToolTest {
 
   @Test
   public void testJapanese() throws IOException {
     final JLanguageTool tool = new JLanguageTool(new Japanese());
-    assertEquals(0, tool.check("エラーを含まないテスト文です。").size());
-    assertEquals(1, tool.check("エラーお含むテスト文です。").size());
+    Assertions.assertEquals(0, tool.check("エラーを含まないテスト文です。").size());
+    Assertions.assertEquals(1, tool.check("エラーお含むテスト文です。").size());
   }
   
 }

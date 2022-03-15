@@ -18,7 +18,8 @@
  */
 package org.languagetool.rules.ml;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Malayalam;
@@ -26,9 +27,6 @@ import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 import java.util.Collections;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class MorfologikMalayalamSpellerRuleTest {
 
@@ -42,30 +40,30 @@ public class MorfologikMalayalamSpellerRuleTest {
     JLanguageTool lt = new JLanguageTool(language);
 
     // correct sentences:
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("എന്തുകൊണ്ട്‌ അംഗത്വം")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("എങ്ങനെ അംഗമാകാം?")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("എന്തുകൊണ്ട്‌ അംഗത്വം")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("എങ്ങനെ അംഗമാകാം?")).length);
     //test for "LanguageTool":
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("LanguageTool")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence(",")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("123454")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("LanguageTool")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence(",")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("123454")).length);
 
     //incorrect sentences:
 
     matches = rule.match(lt.getAnalyzedSentence("Aagohw"));
     // check match positions:
-    assertEquals(1, matches.length);
-    assertEquals(0, matches[0].getFromPos());
-    assertEquals(6, matches[0].getToPos());
-    assertTrue(matches[0].getSuggestedReplacements().isEmpty());
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals(0, matches[0].getFromPos());
+    Assertions.assertEquals(6, matches[0].getToPos());
+    Assertions.assertTrue(matches[0].getSuggestedReplacements().isEmpty());
 
     matches = rule.match(lt.getAnalyzedSentence("എaങ്ങനെ"));
-    assertEquals(1, matches.length);
-    assertEquals(0, matches[0].getFromPos());
-    assertEquals(7, matches[0].getToPos());
-    assertEquals(matches[0].getSuggestedReplacements().get(0), "എങ്ങനെ");
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals(0, matches[0].getFromPos());
+    Assertions.assertEquals(7, matches[0].getToPos());
+    Assertions.assertEquals(matches[0].getSuggestedReplacements().get(0), "എങ്ങനെ");
 
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("aõh")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("a")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("aõh")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("a")).length);
   }
 
 }

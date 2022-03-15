@@ -18,7 +18,8 @@
  */
 package org.languagetool.rules.ru;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
@@ -26,8 +27,6 @@ import org.languagetool.language.Russian;
 
 import java.io.IOException;
 import java.util.Collections;
-
-import static org.junit.Assert.assertEquals;
 
 public class RussianWordCoherencyRuleTest {
 
@@ -49,21 +48,21 @@ public class RussianWordCoherencyRuleTest {
   private void assertError(String s) throws IOException {
     RussianWordCoherencyRule rule = new RussianWordCoherencyRule(TestTools.getEnglishMessages());
     AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(s);
-    assertEquals(1, rule.match(Collections.singletonList(analyzedSentence)).length);
+    Assertions.assertEquals(1, rule.match(Collections.singletonList(analyzedSentence)).length);
   }
 
   private void assertGood(String s) throws IOException {
     RussianWordCoherencyRule rule = new RussianWordCoherencyRule(TestTools.getEnglishMessages());
     AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(s);
-    assertEquals(0, rule.match(Collections.singletonList(analyzedSentence)).length);
+    Assertions.assertEquals(0, rule.match(Collections.singletonList(analyzedSentence)).length);
   }
 
   @Test
   public void testRuleCompleteTexts() throws IOException {
-    assertEquals(0, lt.check("По шкале Цельсия абсолютному нулю соответствует температура −273,15 °C или нуль по шкале Кельвина.").size());
-    assertEquals(1, lt.check("По шкале Цельсия абсолютному нулю соответствует температура −273,15 °C или ноль по шкале Кельвина.").size());
+    Assertions.assertEquals(0, lt.check("По шкале Цельсия абсолютному нулю соответствует температура −273,15 °C или нуль по шкале Кельвина.").size());
+    Assertions.assertEquals(1, lt.check("По шкале Цельсия абсолютному нулю соответствует температура −273,15 °C или ноль по шкале Кельвина.").size());
     // cross-paragraph checks:
-    assertEquals(1, lt.check("Абсолютный нуль.\n\nСовсем недостижим. И ноль по шкале Кельвина.").size());
+    Assertions.assertEquals(1, lt.check("Абсолютный нуль.\n\nСовсем недостижим. И ноль по шкале Кельвина.").size());
   }
 
 }

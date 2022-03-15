@@ -18,12 +18,11 @@
  */
 package org.languagetool.tokenizers.be;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
-
-import org.junit.Test;
 
 public class BelarusianWordTokenizerTest {
     private final BelarusianWordTokenizer tok = new BelarusianWordTokenizer();
@@ -31,6 +30,6 @@ public class BelarusianWordTokenizerTest {
     @Test
     public void testTokenizeUrl() {
         List<String> tokens = tok.tokenize("камп'ютар");
-        assertEquals(Arrays.asList("камп'ютар"), tokens);
+        Assertions.assertEquals(Arrays.asList("камп'ютар"), tokens);
     }
 }

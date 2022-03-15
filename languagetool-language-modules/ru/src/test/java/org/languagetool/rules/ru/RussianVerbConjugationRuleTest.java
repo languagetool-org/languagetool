@@ -19,7 +19,8 @@
 package org.languagetool.rules.ru;
 
 import com.google.common.collect.ImmutableSet;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
@@ -27,8 +28,6 @@ import org.languagetool.language.Russian;
 
 import java.io.IOException;
 import java.util.Set;
-
-import static org.junit.Assert.*;
 
 public class RussianVerbConjugationRuleTest {
 
@@ -49,12 +48,12 @@ public class RussianVerbConjugationRuleTest {
 
         for (String sentence : wrongSentences) {
             AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(sentence);
-            assertEquals("Expected error in sentence: " + sentence, 1, rule.match(analyzedSentence).length);
+            Assertions.assertEquals(1, rule.match(analyzedSentence).length, "Expected error in sentence: " + sentence);
         }
 
         for(String sentence : rightSentences) {
             AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(sentence);
-            assertEquals("Did not expect error in sentence: " + sentence, 0, rule.match(analyzedSentence).length);
+            Assertions.assertEquals(0, rule.match(analyzedSentence).length, "Did not expect error in sentence: " + sentence);
         }
     }
 }

@@ -19,16 +19,15 @@
 
 package org.languagetool.rules.ca;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Catalan;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * @author Jaume Ortolà
@@ -38,7 +37,7 @@ public class SimpleReplaceBalearicRuleTest {
   private SimpleReplaceBalearicRule rule;
   private JLanguageTool lt;
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     rule = new SimpleReplaceBalearicRule(TestTools.getMessages("ca"));
     lt = new JLanguageTool(new Catalan());
@@ -48,20 +47,20 @@ public class SimpleReplaceBalearicRuleTest {
   public void testRule() throws IOException {
 
     // correct sentences:
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Això està força bé.")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Joan Navarro no és de Navarra ni de Jerez.")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Prosper Mérimée.")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Això està força bé.")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Joan Navarro no és de Navarra ni de Jerez.")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Prosper Mérimée.")).length);
 
     // incorrect sentences:
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("El calcul del telefon."));
-    assertEquals(2, matches.length);
-    assertEquals("càlcul", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("telèfon", matches[1].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(2, matches.length);
+    Assertions.assertEquals("càlcul", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals("telèfon", matches[1].getSuggestedReplacements().get(0));
     
     matches = rule.match(lt.getAnalyzedSentence("EL CALCUL DEL TELEFON."));
-    assertEquals(2, matches.length);
-    assertEquals("CÀLCUL", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("TELÈFON", matches[1].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(2, matches.length);
+    Assertions.assertEquals("CÀLCUL", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals("TELÈFON", matches[1].getSuggestedReplacements().get(0));
         
   }
 

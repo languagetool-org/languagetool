@@ -18,21 +18,20 @@
  */
 package org.languagetool.rules.fr;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
-
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
 import org.languagetool.rules.AbstractCompoundRuleTest;
 import org.languagetool.rules.RuleMatch;
 
+import java.io.IOException;
+
 public class CompoundRuleTest extends AbstractCompoundRuleTest {
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     lt = new JLanguageTool(Languages.getLanguageForShortCode("fr"));
     rule = new CompoundRule(TestTools.getMessages("fr"), Languages.getLanguageForShortCode("fr"), null);
@@ -55,59 +54,59 @@ public class CompoundRuleTest extends AbstractCompoundRuleTest {
     check(1, "Congo -Brazzaville");
 
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("rez-de chaussée"));
-    assertEquals(1, matches.length);
-    assertEquals(1, matches[0].getSuggestedReplacements().size());
-    assertEquals("rez-de-chaussée", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals(1, matches[0].getSuggestedReplacements().size());
+    Assertions.assertEquals("rez-de-chaussée", matches[0].getSuggestedReplacements().get(0));
 
     matches = rule.match(lt.getAnalyzedSentence("Congo -Brazzaville"));
-    assertEquals(1, matches.length);
-    assertEquals(1, matches[0].getSuggestedReplacements().size());
-    assertEquals("Congo-Brazzaville", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals(1, matches[0].getSuggestedReplacements().size());
+    Assertions.assertEquals("Congo-Brazzaville", matches[0].getSuggestedReplacements().get(0));
 
     matches = rule.match(lt.getAnalyzedSentence("Congo- Brazzaville"));
-    assertEquals(1, matches.length);
-    assertEquals(1, matches[0].getSuggestedReplacements().size());
-    assertEquals("Congo-Brazzaville", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals(1, matches[0].getSuggestedReplacements().size());
+    Assertions.assertEquals("Congo-Brazzaville", matches[0].getSuggestedReplacements().get(0));
 
     matches = rule.match(lt.getAnalyzedSentence("Congo - Brazzaville"));
-    assertEquals(1, matches.length);
-    assertEquals(1, matches[0].getSuggestedReplacements().size());
-    assertEquals("Congo-Brazzaville", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals(1, matches[0].getSuggestedReplacements().size());
+    Assertions.assertEquals("Congo-Brazzaville", matches[0].getSuggestedReplacements().get(0));
 
     matches = rule.match(lt.getAnalyzedSentence("le - quel"));
-    assertEquals(1, matches.length);
-    assertEquals(1, matches[0].getSuggestedReplacements().size());
-    assertEquals("lequel", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals(1, matches[0].getSuggestedReplacements().size());
+    Assertions.assertEquals("lequel", matches[0].getSuggestedReplacements().get(0));
 
     matches = rule.match(lt.getAnalyzedSentence("le quel"));
-    assertEquals(1, matches.length);
-    assertEquals(1, matches[0].getSuggestedReplacements().size());
-    assertEquals("lequel", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals(1, matches[0].getSuggestedReplacements().size());
+    Assertions.assertEquals("lequel", matches[0].getSuggestedReplacements().get(0));
 
     matches = rule.match(lt.getAnalyzedSentence("le- quel"));
-    assertEquals(1, matches.length);
-    assertEquals(1, matches[0].getSuggestedReplacements().size());
-    assertEquals("lequel", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals(1, matches[0].getSuggestedReplacements().size());
+    Assertions.assertEquals("lequel", matches[0].getSuggestedReplacements().get(0));
 
     matches = rule.match(lt.getAnalyzedSentence("anglo saxon"));
-    assertEquals(1, matches.length);
-    assertEquals(1, matches[0].getSuggestedReplacements().size());
-    assertEquals("anglo-saxon", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals(1, matches[0].getSuggestedReplacements().size());
+    Assertions.assertEquals("anglo-saxon", matches[0].getSuggestedReplacements().get(0));
 
     matches = rule.match(lt.getAnalyzedSentence("anglo- saxon"));
-    assertEquals(1, matches.length);
-    assertEquals(1, matches[0].getSuggestedReplacements().size());
-    assertEquals("anglo-saxon", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals(1, matches[0].getSuggestedReplacements().size());
+    Assertions.assertEquals("anglo-saxon", matches[0].getSuggestedReplacements().get(0));
 
     matches = rule.match(lt.getAnalyzedSentence("anglo -saxon"));
-    assertEquals(1, matches.length);
-    assertEquals(1, matches[0].getSuggestedReplacements().size());
-    assertEquals("anglo-saxon", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals(1, matches[0].getSuggestedReplacements().size());
+    Assertions.assertEquals("anglo-saxon", matches[0].getSuggestedReplacements().get(0));
 
     matches = rule.match(lt.getAnalyzedSentence("anglo - saxon"));
-    assertEquals(1, matches.length);
-    assertEquals(1, matches[0].getSuggestedReplacements().size());
-    assertEquals("anglo-saxon", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals(1, matches[0].getSuggestedReplacements().size());
+    Assertions.assertEquals("anglo-saxon", matches[0].getSuggestedReplacements().get(0));
 
   }
 
