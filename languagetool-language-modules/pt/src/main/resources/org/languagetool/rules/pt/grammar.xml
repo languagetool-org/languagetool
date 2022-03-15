@@ -15641,10 +15641,12 @@ O edifício tem um grau de altura 5, que é também o mais alto da lista. → O 
     </rule>
   </rulegroup>	
 
+
     <!-- RULES TU/TI -> EU/MIM *START* -->
     <!-- ***************************** -->
   <rulegroup id='TU_TI_EU_MIM' name='Uso de pronomes obliquos (eu,mim;tu,ti)'>
       <url>https://duvidas.dicio.com.br/entre-mim-e-ti-ou-entre-tu-e-eu/</url>
+<!-- Rules below fixed by MARCOAGPINTO 2022-03-15 (1-JAN-2022+) -->
  
 <!-- MARCOAGPINTO 2022-03-15 (1-JAN-2022+) *START* -->
 <!--
@@ -15658,31 +15660,45 @@ PRODUCES 0 HITS IN 600 000 SENTENCES.
 		<token postag='PP3.+' postag_regexp='yes'/>
 		<token postag='V.+' postag_regexp='yes'/>
 	</antipattern>
+
+<!--
+...malizavam os contratos em Israel. Disse então a Boaz aquele que tinha o direito de resgate: "Compra-a tu!" E tirou a sandália.
+-->
+	<antipattern>
+		<token postag='V.+' postag_regexp='yes'/>
+		<token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
+		<token regexp='yes' spacebefore='no'>[ao]s?|l[ao]s?|lh[aeo]s?|n[ao]s?|me|se|te|vos</token>
+		<token postag='PP.+' postag_regexp='yes'/>
+	</antipattern>	
 <!-- MARCOAGPINTO 2022-03-15 (1-JAN-2022+) *END* -->
 
    <rule>
       <pattern>
           <token regexp='yes'>a|à</token>
-          <token>eu</token>
+		  <marker>
+			<token case_sensitive='yes'>eu</token>
+		  </marker>
       </pattern>
-      <message>Substitua por <suggestion>a mim</suggestion> ou <suggestion>a me</suggestion>.</message>
-      <example correction="a mim|a me">Isto deve-se <marker>a eu</marker>.</example>
+      <message>Substitua por <suggestion>mim</suggestion>.</message>
+      <example correction="mim">Isto deve-se a <marker>eu</marker>.</example>
     </rule>
+
     <rule>
       <pattern>
           <token regexp='yes'>a|à</token>
-          <token>tu</token>
+		  <marker>
+			<token case_sensitive='yes'>tu</token>
+		  </marker>
       </pattern>
-      <message>Substitua por <suggestion>a ti</suggestion> ou <suggestion>a te</suggestion>.</message>
-      <example correction="a ti|a te">Isto deve-se <marker>a tu</marker>.</example>
+      <message>Substitua por <suggestion>ti</suggestion>.</message>
+      <example correction="ti">Isto deve-se a <marker>tu</marker>.</example>
     </rule>
 
-<!-- Rule below fixed  by MARCOAGPINTO 2022-03-15 (1-JAN-2022+) -->
     <rule>
       <pattern>
         <token regexp='yes'>de|pa?ra|sem</token>
 		<marker>
-          <token>eu</token>
+          <token case_sensitive='yes'>eu</token>
         </marker>
         <token postag="_PUNCT|''|CC|SPS00" postag_regexp='yes'/>
       </pattern>
@@ -15695,70 +15711,77 @@ PRODUCES 0 HITS IN 600 000 SENTENCES.
       <pattern>
         <marker>
           <token>entre</token>
-          <token>eu</token>
+          <token case_sensitive='yes'>eu</token>
         </marker>
           <token>e</token>
       </pattern>
       <message>Substitua por <suggestion>entre mim</suggestion>.</message>
       <example correction="entre mim">O que se passou <marker>entre eu</marker> e o Rui?</example>
     </rule>
+	
     <rule>
       <pattern>
           <token>entre</token>
           <token/>
           <token>e</token>
-          <token>eu</token>
+          <token case_sensitive='yes'>eu</token>
       </pattern>
       <message>Substitua por <suggestion>\1 mim e \2</suggestion>.</message>
       <example correction="entre mim e você">O que se passou <marker>entre você e eu</marker>?</example>
     </rule>
+
     <rule>
       <pattern>
         <marker>
           <token>entre</token>
-          <token>tu</token>
+          <token case_sensitive='yes'>tu</token>
         </marker>
           <token>e</token>
       </pattern>
       <message>Substitua por <suggestion>entre ti</suggestion>.</message>
       <example correction="entre ti">O que se passou <marker>entre tu</marker> e o Rui?</example>
     </rule>
+	
     <rule>
       <pattern>
           <token>entre</token>
           <token/>
           <token>e</token>
-          <token>tu</token>
+          <token case_sensitive='yes'>tu</token>
       </pattern>
       <message>Substitua por <suggestion>\1 ti e \2</suggestion>.</message>
       <example correction="entre ti e ela">Isso é <marker>entre ela e tu</marker>.</example>
     </rule>
+	
     <rule>
       <pattern>
           <token>entre</token>
-          <token>tu</token>
+          <token case_sensitive='yes'>tu</token>
           <token>e</token>
-          <token>eu</token>
+          <token case_sensitive='yes'>eu</token>
       </pattern>
       <message>Substitua por <suggestion>entre mim e ti</suggestion>.</message>
       <example correction="entre mim e ti">O que se passou <marker>entre tu e eu</marker>?</example>
     </rule>
+
     <rule>
       <pattern>
+		<token regexp='yes'>de|pa?ra|sem</token>
         <marker>
-          <token regexp='yes'>de|pa?ra|sem</token>
-          <token>tu</token>
+          <token case_sensitive='yes'>tu</token>
         </marker>
-          <token postag="_PUNCT|''|CC|SPS00" postag_regexp='yes'/>
+        <token postag="_PUNCT|''|CC|SPS00" postag_regexp='yes'/>
       </pattern>
-      <message>Substitua por <suggestion>\1 ti</suggestion> ou <suggestion>\1 te</suggestion>.</message>
-      <example correction="para ti|para te">Isto é <marker>para tu</marker>.</example>
-      <example correction="sem ti|sem te">Isto não é o mesmo <marker>sem tu</marker>.</example>
-      <example> Para tu me dizeres isso, é porque é grave.</example>
+      <message>Substitua por <suggestion>ti</suggestion>.</message>
+      <example correction="ti">Isto é para <marker>tu</marker>.</example>
+      <example correction="ti">Isto não é o mesmo sem <marker>tu</marker>.</example>
+      <example>Para tu me dizeres isso, é porque é grave.</example>
     </rule>
+
   </rulegroup>
     <!-- *************************** -->
     <!-- RULES TU/TI -> EU/MIM *END* -->
+
 
     <rule id='VOTOS_BRANCOS' name="Votos em branco">
     <!-- Created by Marco A.G. Pinto, Portuguese rule -->
