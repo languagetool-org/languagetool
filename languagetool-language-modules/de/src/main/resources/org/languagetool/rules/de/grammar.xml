@@ -46471,12 +46471,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="GRAMMAR" name="Grammatik">
         <rule id="HANDELN_UEBER" name="handeln über (von)" default="temp_off">
             <antipattern>
-			<token skip="-1" inflected="yes">handeln</token>
-			<token>aus</token>
+                <token skip="-1" regexp="yes">Aufregung|Beschwerde|Diskussion|Freude|Information|Trauer|Verwunderung|Wissen|Wut|Unterhaltung|Streit|Information|Glück</token>
+                <token>über</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1">über</token>
+                <token>zu</token>
+                <token>handeln</token>
+            </antipattern>
+            <antipattern>
+                <token>zu</token>
+                <token>handeln</token>
+                <token postag="SENT_END|KON:.+" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token skip="-1" case_sensitive="yes" regexp="yes">Verhandeln|Verhandlung(en)?</token>
+                <token>über</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1" case_sensitive="yes">Handeln</token>
+                <token regexp="yes">mit|von</token>
             </antipattern>
             <antipattern>
                 <token skip="-1" inflected="yes">handeln</token>
-                <token>um</token>
+                <token>aus</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1" inflected="yes">handeln</token>
+                <token regexp="yes">um|vo[nm]</token>
             </antipattern>
             <antipattern>
                 <token skip="-1">um</token>
@@ -46497,6 +46519,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Die Länder handelten einen Vertrag über neue Lizenzen aus.</example>
             <example>Hierbei handelt es sich um einen neuen Forschungsansatz.</example>
             <example>Es ist ein neuer Forschungsansatz, um den es sich handelt.</example>
+            <example>Das Handeln oder Verkaufen von Eiern im Forum oder über das Forum ist ebenfalls nicht gestattet.</example>
+            <example>Das Besprechen von und das Verhandeln über Aktiengeschäfte ist untersagt.</example>
+            <example>Der Präsident appellierte dringlich, jetzt endlich zu handeln und nicht weiter nur über Onlinesicherheit von Jugendlichen zu reden.</example>
+            <example>Nur über Sicherheit zu reden und nicht zu handeln ist Zeitverschwendung.</example>
+            <example>Der Streit und die Diskussion gestern über den Film war sinnlos.</example>
         </rule>
         <rule id="MIR_NICHTS_DIR_NICHTS" name="mir nichts, dir nichts">
             <antipattern>
