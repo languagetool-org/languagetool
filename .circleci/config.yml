@@ -46,12 +46,12 @@ jobs:
       - run:
           name: test full
           command: |
-            cd $CIRCLE_WORKING_DIRECTORY && mvn -pl '!languagetool-rpm-package' test -fae
+            cd $CIRCLE_WORKING_DIRECTORY && mvn test -fae
       - save-test-results
       - run:
           name: deploy full
           command: |
-            cd $CIRCLE_WORKING_DIRECTORY && mvn -s .circleci.settings.xml -pl '!languagetool-rpm-package' -DskipTests deploy
+            cd $CIRCLE_WORKING_DIRECTORY && mvn -s .circleci.settings.xml -DskipTests deploy
       - save_cache:
           paths:
             - ~/.m2
@@ -104,7 +104,7 @@ commands:
   install-project:
     description: Run maven install
     steps:
-      - run: cd $CIRCLE_WORKING_DIRECTORY && mvn -pl '!languagetool-rpm-package' clean install -DskipTests
+      - run: cd $CIRCLE_WORKING_DIRECTORY && mvn clean install -DskipTests
       - run: cd $CIRCLE_WORKING_DIRECTORY && mvn dependency:go-offline
   save-test-results:
     steps:

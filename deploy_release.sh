@@ -41,17 +41,17 @@ TEST=$2
 
 case "$TEST" in
   "fae" | "fn")
-    COMMAND="mvn -Drevision=$VERSION clean package -$TEST"
+    COMMAND="mvn -Drevision=$VERSION clean deploy -$TEST"
     echo "$COMMAND"
     $COMMAND
     ;;
   "none")
-    COMMAND="mvn -Drevision=$VERSION clean package -DskipTests"
+    COMMAND="mvn -Drevision=$VERSION clean deploy -DskipTests"
     echo "$COMMAND"
     $COMMAND  
     ;;
   "full")
-    COMMAND="mvn -Drevision=$VERSION clean package"
+    COMMAND="mvn -Drevision=$VERSION clean deploy"
     echo "$COMMAND"
     $COMMAND
     ;;

@@ -49,7 +49,7 @@ PROJECTS=""
 TEST_COMMAND=""
 
 if grep -q -e "languagetool-core/.*" /home/circleci/git_diffs.txt; then
-  TEST_COMMAND=(mvn clean --projects '!languagetool-rpm-package' --also-make -fae test)
+  TEST_COMMAND=(mvn clean --also-make -fae test)
 else
   if grep -q -e "languagetool-commandline/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-commandline,$PROJECTS"; fi
   if grep -q -e "languagetool-dev/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-dev,$PROJECTS"; fi
