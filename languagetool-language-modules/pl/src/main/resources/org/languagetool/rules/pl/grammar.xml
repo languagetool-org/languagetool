@@ -20584,6 +20584,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
 		<category id="TYPOS" name="Prawdopodobne literówki" type="misspelling">
+		<rule id="ZA_STAZY" name="„za staży” (za starzy)">
+      <pattern>
+          <token>za</token>
+          <marker>
+          <token>staży</token>
+          </marker>
+      </pattern>
+      <message>Prawdopodobnie błąd ortograficzny. Czy chodziło o <suggestion>starzy</suggestion> (=niemłodzi)?</message>
+      <short>Błąd ortograficzny</short>
+      <example correction="starzy">Są już za <marker>staży</marker>.</example>
+		</rule>
+		<rule id="WADA_WZORKU" name="„wada wzorku” (wada wzroku)">
+      <pattern>
+        <token inflected="yes">wada</token>
+        <marker>
+          <token>wzorku</token>
+        </marker>
+      </pattern>
+      <message>Literówka. Czy chodziło o <suggestion>wzroku</suggestion>?</message>
+      <short>Literówka</short>
+      <example correction="wzroku">Naprawdę nie wiem, kogo w tym kraju stać na wadę <marker>wzorku</marker>.</example>
+		</rule>
+		<rule id="SOL_WAZONA" name="„sól ważona” (sól warzona)">
+      <pattern>
+        <unify><feature id="case"/><feature id="number"><type id="sg"/></feature><feature id="gender"/>
+          <token inflected="yes">sól</token>
+          <marker>
+            <token inflected="yes">ważyć</token>
+          </marker>
+        </unify>      
+      </pattern>
+      <message>Błąd ortograficzny. Powinno być: <suggestion><match no="2" regexp_match="waż" regexp_replace="warz"/></suggestion>.</message>
+      <short>Błąd ortograficzny</short>
+      <example correction="warzona">Sól <marker>ważona</marker> pozyskiwana jest z odparowanego roztworu solnego, tzw. solanki.</example>
+		</rule>
 		<rule id="POMOZE_GDANSKIE" name="„Pomoże Zachodnie/Gdańskie” (Pomorze Zachodnie/Gdańskie)">
         <pattern>
           <marker>
