@@ -289,6 +289,7 @@ public class German extends Language implements AutoCloseable {
       case "IRGEND_COMPOUND": return 10;
       case "DA_DURCH": return 2; // prefer over SUBSTANTIVIERUNG_NACH_DURCH and DURCH_SCHAUEN and DURCH_WACHSEN
       case "BEI_GOOGLE" : return 2;   // prefer over agreement rules and VOR_BEI
+      case "ERNEUERBARE_ENERGIEN": return 1; // prefer over VEREINBAREN
       case "VOR_BEI": return 1; // prefer over BEI_BEHALTEN
       case "VERWANDET_VERWANDTE": return 1; // prefer over DE_CASE
       case "EIN_LOGGEN": return 1; // prefer over most agreement rules

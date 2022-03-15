@@ -2329,6 +2329,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Entäuschung": return topMatch("Enttäuschung");
       case "Entäuschungen": return topMatch("Enttäuschungen");
       case "Triologie": return topMatch("Trilogie", "Werk (z.B. Film), das aus drei Teilen besteht");
+      case "ausserdem": return topMatch("außerdem");
+      case "Ausserdem": return topMatch("Außerdem");
       case "bischen": return topMatch("bisschen");
       case "bißchen": return topMatch("bisschen");
     }

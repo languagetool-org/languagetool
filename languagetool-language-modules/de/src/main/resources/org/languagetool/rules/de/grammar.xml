@@ -1526,6 +1526,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token regexp="yes">[A-Z]\w+baren
                         <exception>Barbaren</exception>
+                        <exception regexp="yes">Barbaren|Erneuerbaren|(Schwer|Leicht)erziehbaren</exception>
                         <exception regexp="yes">.+barbaren</exception>
                     </token>
                 </marker>
@@ -6438,9 +6439,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Verwechslungen -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
-        <rule id="DIFFUSER_DIFFUSOR" name="Diffuser vs Diffusor" default="temp_off">
+        <rule id="DIFFUSER_DIFFUSOR" name="Diffuser vs Diffusor">
             <pattern>
-                <token regexp="yes">.*[a-z,\-–].*</token>
+                <token regexp="yes">
+                    .*[a-z,\-–].*
+                    <exception regexp="yes">the|hooded|.+py|tea|my|y?our</exception>
+                </token>
                 <marker>
                     <token case_sensitive="yes">Diffuser</token>
                 </marker>
@@ -12412,14 +12416,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
-        <rule id="STILL_LEGEN" name="still legen (stilllegen)" default="temp_off">
+        <rule id="ALLER_HAND" name="aller Hand (allerhand)" default="temp_off">
             <pattern>
-                <token case_sensitive="yes">still</token>
-                <token min="0">zu</token>
-                <token inflected="yes">legen</token>
+                <token>aller</token>
+                <token>Hand</token>
             </pattern>
-            <message>Das Verb <suggestion>\1<match no="2" case_conversion="alllower" /><match no="3" case_conversion="alllower" /></suggestion> wird zusammengeschrieben.</message>
-            <example correction="stillgelegt">Das Atomkraftwerk wurde <marker>still gelegt</marker>.</example>
+            <message>Das Adverb <suggestion>allerhand</suggestion> wird zusammengeschrieben.</message>
+            <example correction="allerhand">Es gibt <marker>aller Hand</marker> zu tun.</example>
         </rule>
         <rule id="ZU_FOLGE" name="zu folge (zufolge)">
             <antipattern>
@@ -14104,7 +14107,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Meinten Sie das Nomen <suggestion>Regional<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Regionalzug">Der <marker>Regional Zug</marker> fährt in den Bahnhof ein.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>pauschal</token>
                     <token regexp="yes" case_sensitive="yes">Urlaubs?|Reise</token>
@@ -24464,7 +24467,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ich mag sowohl Tennis sowie Fußball und Basketball.</example>
             </rule>
         </rulegroup>
-        <rule id="SICH_GEGENSEITIG" name="sich gegenseitig (einander)" default="temp_off" tags="picky">
+        <rule id="SICH_GEGENSEITIG" name="sich gegenseitig (einander)" tags="picky">
             <pattern>
                 <token postag="PRO:REF.*" postag_regexp="yes"/>
                 <token>gegenseitig</token>
@@ -25894,7 +25897,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
-        <rule id="ZU_SEINEM_ENTSETZEN" name="zu seinem entsetzen (Entsetzen)" default="temp_off">
+        <rule id="ZU_SEINEM_ENTSETZEN" name="zu seinem entsetzen (Entsetzen)">
             <pattern>
                 <token>zu</token>
                 <token regexp="yes">[smd]einem|ihrem|unse?rem</token>
@@ -46755,7 +46758,62 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
-        <rule id="ZU_UNSEREN_BEDAUERN" name="zu unseren (unserem) Bedauern" default="temp_off">
+        <rulegroup id="IN_UKRAINE" name="in (der) Ukraine" default="temp_off">
+            <url>https://deutschtraining.org/deutsche-grammatik/artikel/laender-mit-artikel/</url>
+            <antipattern>
+                <token regexp="yes">aus|in</token>
+                <token />
+                <token case_sensitive="yes" regexp="yes" postag="UNKNOWN|SUB.*PLU.*" postag_regexp="yes">[A-ZÄÖÜ].+</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">[Aa]us</token>
+                        <token case_sensitive="yes" regexp="yes">Ukraine|Türkei|Schweiz|Slowakei|Mongolei</token>
+                    </marker>
+                </pattern>
+                <message>Einige Ländernamen, wie "\2", erfordern einen Artikel.</message>
+                <suggestion>\1 der \2</suggestion>
+                <example correction="aus der Türkei">Er kommt <marker>aus Türkei</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">[Aa]us</token>
+                        <token case_sensitive="yes" regexp="yes">Ira[nk]|Vatikan|Jemen|Tschad</token>
+                    </marker>
+                </pattern>
+                <message>Einige Ländernamen, wie "\2", erfordern einen Artikel.</message>
+                <suggestion>\1 dem \2</suggestion>
+                <example correction="aus dem Irak">Er kommt <marker>aus Irak</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">[Ii]n</token>
+                        <token case_sensitive="yes" regexp="yes">Ukraine|Türkei|Schweiz|Slowakei|Mongolei</token>
+                    </marker>
+                </pattern>
+                <message>Einige Ländernamen, wie "\2", erfordern einen Artikel.</message>
+                <suggestion>\1 die \2</suggestion>
+                <suggestion>\1 der \2</suggestion>
+                <example correction="in die Türkei|in der Türkei">Ich fliege <marker>in Türkei</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">[Ii]n</token>
+                        <token case_sensitive="yes" regexp="yes">Ira[nk]|Vatikan|Jemen|Tschad</token>
+                    </marker>
+                </pattern>
+                <message>Einige Ländernamen, wie "\2", erfordern einen Artikel.</message>
+                <suggestion>im \2</suggestion>
+                <suggestion>\1 den \2</suggestion>
+                <example correction="im Iran|in den Iran">Ich fliege <marker>in Iran</marker>.</example>
+                <example correction="im Jemen|in den Jemen"><marker>In Jemen</marker> gibt es eine große Wüste.</example>
+            </rule>
+        </rulegroup>
+        <rule id="ZU_UNSEREN_BEDAUERN" name="zu unseren (unserem) Bedauern">
             <pattern>
                 <token>zu</token>
                 <marker>
@@ -63741,7 +63799,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                     <token>
                         <exception postag="SENT_START"/>
-                        <exception regexp="yes">,|;|:|\.|\?|!|-|–|\)|\(|„|“|»|«|"|und|oder|aber|denn|doch</exception>
+                        <exception regexp="yes">,|;|:|\.|\?|!|-|–|\)|\(|„|“|»|«|"|und|&amp;|…|oder|aber|denn|doch</exception>
                        </token>
                     <token regexp="yes">nur|auch|selbst|aber|außer|ausser|schon</token>
                     <token skip="-1">wenn</token>
@@ -63758,8 +63816,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                     <token>
                         <exception postag="SENT_START"/>
-                        <exception regexp="yes">,|;|:|\.|\?|!|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
-                       </token>
+                        <exception regexp="yes">,|;|:|\.|\?|!|-|–|\)|\(|„|“|»|«|"|und|oder|&amp;|…</exception>
+                    </token>
                     <token regexp="yes">anstatt|ohne|so(ndern)?|außer|ausser|nicht</token>
                     <token skip="-1">dass</token>
                     </marker>
@@ -63873,7 +63931,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">
                             .*[a-zäöüß0-9].*
                             <exception postag="SENT_START"/>
-                            <exception regexp="yes">,|;|:|\.|\/|\?|!|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
+                            <exception regexp="yes">,|;|:|\.|\/|\?|!|-|–|\)|\(|„|“|»|«|"|und|oder|&amp;|…</exception>
                             <exception postag="ADV:INR"/>
                         </token>
                         <token regexp="yes" case_sensitive="yes">weil|ob(gleich|wohl)?|so(dass|bald)|dass|indem|wenn|falls|sofern|nachdem</token>
