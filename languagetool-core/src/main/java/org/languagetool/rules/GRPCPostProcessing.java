@@ -238,7 +238,9 @@ public class GRPCPostProcessing {
   }
 
   private PostProcessingRequest buildRequest(List<AnalyzedSentence> sentences, List<RuleMatch> ruleMatches,
-                                             List<Integer> offset) {
+                                             List<Integer> offset, Long textSessionId, boolean inputLogging) {
+    // don't modify passed rule matches list, used as fallback
+    ruleMatches = new ArrayList<>(ruleMatches);
     List<MatchList> matches = new ArrayList<>();
     for (int i = 0; i < sentences.size(); i++) {
       AnalyzedSentence sentence = sentences.get(i);
@@ -268,12 +270,16 @@ public class GRPCPostProcessing {
     }
     List<String> sentenceText = sentences.stream().map(AnalyzedSentence::getText).collect(Collectors.toList());
 
-    PostProcessingRequest req = PostProcessingRequest.newBuilder()
-      .addAllSentences(sentenceText).addAllMatches(matches).build();
-    return req;
+    PostProcessingRequest.Builder req = PostProcessingRequest.newBuilder()
+      .addAllSentences(sentenceText).addAllMatches(matches);
+    if (textSessionId != null) {
+      req.addAllTextSessionID(Collections.nCopies(sentenceText.size(), textSessionId));
+    }
+    req.setInputLogging(inputLogging);
+    return req.build();
   }
 
-  public List<RuleMatch> filter(List<AnalyzedSentence> sentences, List<RuleMatch> ruleMatches) {
+  public List<RuleMatch> filter(List<AnalyzedSentence> sentences, List<RuleMatch> ruleMatches, Long textSessionID, boolean inputLogging) {
     if (channel == null) {
       return ruleMatches;
     }
@@ -282,7 +288,7 @@ public class GRPCPostProcessing {
     List<RuleMatch> result;
     try {
       result = RemoteRuleMetrics.inCircuitBreaker(System.nanoTime(), circuitBreaker,
-        config.ruleId, chars, () -> runPostprocessing(sentences, ruleMatches));
+        config.ruleId, chars, () -> runPostprocessing(sentences, ruleMatches, textSessionID, inputLogging));
     } catch (InterruptedException e) {
       return ruleMatches;
     }
@@ -293,9 +299,10 @@ public class GRPCPostProcessing {
     }
   }
 
-  private List<RuleMatch> runPostprocessing(List<AnalyzedSentence> sentences, List<RuleMatch> ruleMatches) {
+  private List<RuleMatch> runPostprocessing(List<AnalyzedSentence> sentences, List<RuleMatch> ruleMatches,
+                                            Long textSessionID, boolean inputLogging) {
     List<Integer> offset = new ArrayList<>();
-    MatchResponse response = stub.process(buildRequest(sentences, ruleMatches, offset));
+    MatchResponse response = stub.process(buildRequest(sentences, ruleMatches, offset, textSessionID, inputLogging));
     List<RuleMatch> result = new ArrayList<>(response.getSentenceMatchesCount());
     for (int i = 0; i < response.getSentenceMatchesCount(); i++) {
       MatchList matchList = response.getSentenceMatches(i);

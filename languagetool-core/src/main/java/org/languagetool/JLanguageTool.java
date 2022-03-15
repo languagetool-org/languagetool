@@ -1032,7 +1032,7 @@ public class JLanguageTool {
     // better for latency, remote rules probably don't need resorting
     // complications with application of other filters?
     for (GRPCPostProcessing postProcessing : GRPCPostProcessing.get(language)) {
-      ruleMatches = postProcessing.filter(analyzedSentences, ruleMatches);
+      ruleMatches = postProcessing.filter(analyzedSentences, ruleMatches, textSessionID, inputLogging);
     }
 
     return new CheckResults(ruleMatches, res.getIgnoredRanges());
