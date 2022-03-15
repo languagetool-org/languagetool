@@ -42,9 +42,10 @@ class LightRuleMatch {
   private final String title;
   private final Status status;
   private final List<String> tags;
-
+  private final boolean isPremium;
+  
   LightRuleMatch(int line, int column, String ruleId, String message, String category, String context, String coveredText,
-                 List<String> suggestions, String ruleSource, String title, Status status, List<String> tags) {
+                 List<String> suggestions, String ruleSource, String title, Status status, List<String> tags, boolean isPremium) {
     this.line = line;
     this.column = column;
     this.fullRuleId = Objects.requireNonNull(ruleId);
@@ -57,6 +58,7 @@ class LightRuleMatch {
     this.title = title;
     this.status = Objects.requireNonNull(status);
     this.tags = Objects.requireNonNull(tags);
+    this.isPremium = isPremium;
   }
 
   int getLine() {
@@ -114,6 +116,10 @@ class LightRuleMatch {
 
   List<String> getTags() {
     return tags;
+  }
+
+  boolean isPremium() {
+    return isPremium;
   }
 
   @Override

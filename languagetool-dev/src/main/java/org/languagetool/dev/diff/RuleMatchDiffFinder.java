@@ -22,7 +22,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.tools.StringTools;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -427,6 +430,7 @@ public class RuleMatchDiffFinder {
       fw.write("  <td>Source</td>");
       fw.write("  <td title='Picky'>P</td>");
       fw.write("  <td title='temp_off'>T</td>");
+      fw.write("  <td title='Plus'>Plus</td>");
       fw.write("  <td>ID</td>");
       fw.write("  <td>Message of first match</td>");
       fw.write("</tr>");
@@ -458,6 +462,14 @@ public class RuleMatchDiffFinder {
         } else {
           fw.write("<td></td>");
         }
+        if (outputFile.items.size() > 0 && outputFile.items.get(0).getNewMatch() != null) {
+          fw.write("<td>" + (outputFile.items.get(0).getNewMatch().isPremium() ? "isPremium" : "") + "</td>");
+        } else if (outputFile.items.size() > 0 && outputFile.items.get(0).getOldMatch() != null) {
+          fw.write("<td>" + (outputFile.items.get(0).getOldMatch().isPremium() ? "isPremium" : "") + "</td>");
+        } else {
+          fw.write("<td></td>");
+        }
+        
         fw.write("<td>");
         String id = file.replaceFirst("result_.*?_", "").replace(".html", "");
         fw.write("  <a href='" + file + "'>" + id + "</a>");
@@ -568,6 +580,7 @@ public class RuleMatchDiffFinder {
       "    col_4: 'select',\n" +
       "    col_5: 'select',\n" +
       "    col_6: 'select',\n" +
+      "    col_7: 'select',\n" +
       "    grid_layout: false,\n" +
       "    col_types: ['number', 'number', 'number', 'number', 'string', 'string'],\n" +
       "    extensions: [{ name: 'sort' }]\n" +

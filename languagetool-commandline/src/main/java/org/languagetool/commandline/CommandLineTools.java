@@ -184,6 +184,7 @@ public final class CommandLineTools {
           output += "[" + pRule.getSubId() + "]";
         }
       }
+      output += " premium: " + Premium.get().isPremiumRule(match.getRule());
       int priorityForId = lang.getRulePriority(match.getRule());
       if (priorityForId != 0) {
         output += " prio=" + priorityForId;
