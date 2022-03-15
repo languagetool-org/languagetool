@@ -15645,7 +15645,22 @@ O edifício tem um grau de altura 5, que é também o mais alto da lista. → O 
     <!-- ***************************** -->
   <rulegroup id='TU_TI_EU_MIM' name='Uso de pronomes obliquos (eu,mim;tu,ti)'>
       <url>https://duvidas.dicio.com.br/entre-mim-e-ti-ou-entre-tu-e-eu/</url>
-    <rule>
+ 
+<!-- MARCOAGPINTO 2022-03-15 (1-JAN-2022+) *START* -->
+<!--
+Isso é para eu e ele fazermos.
+PRODUCES 0 HITS IN 600 000 SENTENCES.
+-->
+	<antipattern>
+		<token postag='CC' postag_regexp='no'/>
+		<token postag='PP1.+' postag_regexp='yes'/>
+		<token postag='CC' postag_regexp='no'/>
+		<token postag='PP3.+' postag_regexp='yes'/>
+		<token postag='V.+' postag_regexp='yes'/>
+	</antipattern>
+<!-- MARCOAGPINTO 2022-03-15 (1-JAN-2022+) *END* -->
+
+   <rule>
       <pattern>
           <token regexp='yes'>a|à</token>
           <token>eu</token>
