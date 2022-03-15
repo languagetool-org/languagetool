@@ -32,7 +32,7 @@ public class LightRuleMatchParserTest {
   public void testParse() {
     LightRuleMatchParser parser = new LightRuleMatchParser();
     String s =
-      "1.) Line 1, column 9, Rule ID: EN_A_VS_AN\n" +
+      "1.) Line 1, column 9, Rule ID: EN_A_VS_AN premium: false\n" +
       "Message: Use 'a' instead of 'an'\n" +
       "Suggestion: a\n" +
       "This is an test. \n" +
@@ -46,6 +46,7 @@ public class LightRuleMatchParserTest {
     assertThat(match.getColumn(), is(9));
     assertThat(match.getFullRuleId(), is("EN_A_VS_AN"));
     assertThat(match.getRuleId(), is("EN_A_VS_AN"));
+    assertFalse(match.isPremium());
     assertThat(match.getSuggestions().toString(), is("[a]"));
     assertThat(match.getMessage(), is("Use 'a' instead of 'an'"));
     assertThat(match.getCoveredText(), is("an"));
@@ -59,13 +60,13 @@ public class LightRuleMatchParserTest {
   public void testParseTwoMatches() {
     LightRuleMatchParser parser = new LightRuleMatchParser();
     String s = 
-      "1.) Line 1, column 9, Rule ID: EN_A_VS_AN\n" +
+      "1.) Line 1, column 9, Rule ID: EN_A_VS_AN premium: false\n" +
       "Message: Use 'a' instead of 'an'\n" +
       "Suggestion: a\n" +
       "This is an test. \n" +
       "        ^^       \n" +
       "\n" +
-      "2.) Line 5, column 6, Rule ID: FOO2\n" +
+      "2.) Line 5, column 6, Rule ID: FOO2 premium: true\n" +
       "Message: message2\n" +
       "Suggestion: something\n" +
       "This is somethink test. \n" +
@@ -78,6 +79,7 @@ public class LightRuleMatchParserTest {
     assertThat(match1.getColumn(), is(9));
     assertThat(match1.getFullRuleId(), is("EN_A_VS_AN"));
     assertThat(match1.getRuleId(), is("EN_A_VS_AN"));
+    assertFalse(match1.isPremium());
     assertThat(match1.getSuggestions().toString(), is("[a]"));
     assertThat(match1.getMessage(), is("Use 'a' instead of 'an'"));
     assertThat(match1.getCoveredText(), is("an"));
@@ -85,6 +87,7 @@ public class LightRuleMatchParserTest {
     assertThat(match2.getLine(), is(5));
     assertThat(match2.getColumn(), is(6));
     assertThat(match2.getRuleId(), is("FOO2"));
+    assertTrue(match2.isPremium());
     assertThat(match2.getSuggestions().toString(), is("[something]"));
     assertThat(match2.getMessage(), is("message2"));
     assertThat(match2.getCoveredText(), is("somethink"));
@@ -98,7 +101,7 @@ public class LightRuleMatchParserTest {
     LightRuleMatchParser parser = new LightRuleMatchParser();
     String s =
       "Title: Anarchism\n" +
-      "Line 1, column 35, Rule ID: EN_QUOTES[1]\n" +
+      "Line 1, column 35, Rule ID: EN_QUOTES[1] premium: false\n" +
       "Message: Use a smart opening quote here: '“'.\n" +
       "Suggestion: “\n" +
       "Rule source: /org/languagetool/rules/en/grammar.xml\n" +
@@ -111,6 +114,7 @@ public class LightRuleMatchParserTest {
     assertThat(match.getColumn(), is(35));
     assertThat(match.getFullRuleId(), is("EN_QUOTES[1]"));
     assertThat(match.getRuleId(), is("EN_QUOTES"));
+    assertFalse(match.isPremium());
     assertThat(match.getSubId(), is("1"));
     assertThat(match.getSuggestions().toString(), is("[“]"));
     assertThat(match.getMessage(), is("Use a smart opening quote here: '“'."));
@@ -125,7 +129,7 @@ public class LightRuleMatchParserTest {
     LightRuleMatchParser parser = new LightRuleMatchParser();
     String s =
       "Title: Anarchism\n" +
-      "Line 1, column 35, Rule ID: EN_QUOTES[1]\n" +
+      "Line 1, column 35, Rule ID: EN_QUOTES[1] premium: false\n" +
       "Message: Use a smart opening quote here: '“'.\n" +
       "Rule source: /org/languagetool/rules/en/grammar-testme.xml\n" +
       "Proponents of anarchism, known as \"anarchists\", advocate stateless societies based on...\n" +
@@ -137,6 +141,7 @@ public class LightRuleMatchParserTest {
     assertThat(match.getColumn(), is(35));
     assertThat(match.getFullRuleId(), is("EN_QUOTES[1]"));
     assertThat(match.getRuleId(), is("EN_QUOTES"));
+    assertFalse(match.isPremium());
     assertThat(match.getSubId(), is("1"));
     assertThat(match.getSuggestions().toString(), is("[null]"));
     assertThat(match.getMessage(), is("Use a smart opening quote here: '“'."));
