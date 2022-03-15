@@ -42125,23 +42125,41 @@ O objetivo é alcançar o terreno do inimigo. → O objetivo é alcançar o terr
 
 	<!-- FICOU DEMONSTRADO QUE demonstrámos que -->
     <rule id='TESE_PHD_FICOU_DEMONSTRADO_QUE_DEMONSTRÁMOS_QUE' name="Tese Doutoramento: Expressões do tipo 'ficou demonstrado que' → ‘demonstrámos que'">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-03-13 (1-JAN-2022+)      -->
+    <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-03-13/14 (1-JAN-2022+)      -->
 	<!--
 Ficou demonstrado que alterações nas baixas em combate degradaram a capacidade ofensiva. → Demonstrámos que alterações nas baixas em combate degradaram a capacidade ofensiva.
-	-->	
+Fica demonstrado que alterações nas baixas em combate degradaram a capacidade ofensiva. → Demonstrámos que alterações nas baixas em combate degradaram a capacidade ofensiva.
+Ficou provado que alterações nas baixas em combate degradaram a capacidade ofensiva. → Provámos que alterações nas baixas em combate degradaram a capacidade ofensiva.
+Fica provado que alterações nas baixas em combate degradaram a capacidade ofensiva. → Provámos que alterações nas baixas em combate degradaram a capacidade ofensiva.
+
+demonstramos
+VMIP1P0
+
+demonstrámos
+VMIS1P0
+
+demonstro
+VMIP1S0
+
+demonstrei
+VMIS1S0
+	-->
       <pattern>
 		<marker>
 			<and>
 				<token regexp='no' inflected='yes'>ficar</token>
-				<token postag='VMIS3S0' postag_regexp='no'/>
+				<token postag='VMI[SP]3S0' postag_regexp='yes'/>
 			</and>
 			<token postag='VMP00S.+' postag_regexp='yes'/>
 		</marker>
 		<token>que</token>
       </pattern>
       <message>Se for uma tese de doutoramento, verifique se o 'tom' de redação é o apropriado.</message>
+	  <suggestion><match no='2' postag='VMP00S.+' postag_regexp="yes" postag_replace='VMIP1P0'/></suggestion>
 	  <suggestion><match no='2' postag='VMP00S.+' postag_regexp="yes" postag_replace='VMIS1P0'/></suggestion>
-      <example correction="Demonstrámo|Demonstrámos"><marker>Ficou demonstrado</marker> que alterações nas baixas em combate degradaram a capacidade ofensiva.</example>
+	  <suggestion><match no='2' postag='VMP00S.+' postag_regexp="yes" postag_replace='VMIP1S0'/></suggestion>
+	  <suggestion><match no='2' postag='VMP00S.+' postag_regexp="yes" postag_replace='VMIS1S0'/></suggestion>
+      <example correction="Demonstramos|Demonstrámos|Demonstro|Demonstrei"><marker>Ficou demonstrado</marker> que alterações nas baixas em combate degradaram a capacidade ofensiva.</example>
     </rule>
 
 
@@ -43713,7 +43731,7 @@ Vamos dormir, tomámos a medicação demasiado cedo.
      <message>Se for uma tese de doutoramento, verifique se o 'tom' de redação é o apropriado.</message>
      <suggestion>{suggestion}</suggestion>	 
      <example correction="provará|prova">A nossa tese <marker>procura provar</marker> a métrica.</example>
-     <example correction="provaremos|provamo|provamos">Na nossa tese <marker>procuramos provar</marker> a métrica.</example>
+     <example correction="provaremos|provamos">Na nossa tese <marker>procuramos provar</marker> a métrica.</example>
      <example correction="provarei|provo">Na nossa tese <marker>procuro provar</marker> a métrica.</example>
 	</rule>
 <!--
@@ -43750,7 +43768,7 @@ A primeira função de Carvalho em Londres foi obter ajuda para as forças portu
       <message>Se for uma tese de doutoramento, verifique se o 'tom' de redação é o apropriado.</message>
       <suggestion>{suggestion}</suggestion>	 
       <example correction="provou">A nossa tese <marker>procurou provar</marker> a métrica.</example>
-      <example correction="provámo|provámos">Na nossa tese <marker>procurámos provar</marker> a métrica.</example>
+      <example correction="provámos">Na nossa tese <marker>procurámos provar</marker> a métrica.</example>
       <example correction="provei">Na nossa tese <marker>procurei provar</marker> a métrica.</example>
 	  <example correction="resolveu">como o <marker>tentou resolver</marker></example>
 	  <example>Uma das críticas a Ana <marker>foi escrever</marker> no seu livro de receitas o básico.</example>
