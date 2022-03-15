@@ -19,15 +19,14 @@
  */
 package org.languagetool.rules.ar;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
 
 import java.io.IOException;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * @author Sohaib AFIFI
@@ -37,7 +36,7 @@ public class ArabicWordinessRuleTest {
 
   private final JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("ar"));
 
-  @Before
+  @BeforeEach
   public void before() {
     TestTools.disableAllRulesExcept(lt, ArabicWordinessRule.AR_WORDINESS_REPLACE);
   }
@@ -50,7 +49,7 @@ public class ArabicWordinessRuleTest {
 
   private void assertError(String s) throws IOException {
     ArabicWordinessRule rule = new ArabicWordinessRule(TestTools.getEnglishMessages());
-    assertEquals(1, rule.match(lt.getAnalyzedSentence(s)).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence(s)).length);
   }
 
 }

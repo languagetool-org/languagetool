@@ -20,16 +20,15 @@
 
 package org.languagetool.rules.ar;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * @author Sohaib AFIFI
@@ -40,7 +39,7 @@ public class ArabicRedundancyRuleTest {
   private final JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("ar"));
   private ArabicRedundancyRule rule;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     rule = new ArabicRedundancyRule(TestTools.getMessages("ar"));
   }
@@ -49,7 +48,7 @@ public class ArabicRedundancyRuleTest {
   public void testRule() throws IOException {
     // incorrect sentences:
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("سوف لن"));
-    assertEquals(1, matches.length);
-    assertEquals("لن", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("لن", matches[0].getSuggestedReplacements().get(0));
   }
 }

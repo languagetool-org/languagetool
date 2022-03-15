@@ -18,7 +18,8 @@
  */
 package org.languagetool.rules.pt;
 
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
@@ -26,7 +27,6 @@ import org.languagetool.markup.AnnotatedTextBuilder;
 
 import java.io.IOException;
 
-import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.is;
 
 public class PostReformPortugueseDashRuleTest {
@@ -35,9 +35,9 @@ public class PostReformPortugueseDashRuleTest {
   public void test() throws IOException {
     JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("pt-PT"));
     TestTools.disableAllRulesExcept(lt, "PT_POSAO_DASH_RULE");
-    assertThat(lt.check(new AnnotatedTextBuilder().addText("ab-reação").build(), true,
+    MatcherAssert.assertThat(lt.check(new AnnotatedTextBuilder().addText("ab-reação").build(), true,
       JLanguageTool.ParagraphHandling.NORMAL, null, JLanguageTool.Mode.ALL, JLanguageTool.Level.PICKY).size(), is(0));
-    assertThat(lt.check(new AnnotatedTextBuilder().addText("ab—reação").build(), true,
+    MatcherAssert.assertThat(lt.check(new AnnotatedTextBuilder().addText("ab—reação").build(), true,
       JLanguageTool.ParagraphHandling.NORMAL, null, JLanguageTool.Mode.ALL, JLanguageTool.Level.PICKY).size(), is(1));
   }
 }

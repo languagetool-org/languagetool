@@ -19,16 +19,15 @@
 
 package org.languagetool.rules.ca;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.ValencianCatalan;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * @author Jaume Ortolà
@@ -38,7 +37,7 @@ public class SimpleReplaceDNVSecondaryRuleTest {
   private SimpleReplaceDNVSecondaryRule rule;
   private JLanguageTool lt;
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     rule = new SimpleReplaceDNVSecondaryRule(TestTools.getMessages("ca"), new ValencianCatalan());
     lt = new JLanguageTool(new ValencianCatalan());
@@ -48,12 +47,12 @@ public class SimpleReplaceDNVSecondaryRuleTest {
   public void testRule() throws IOException {
 
     // correct sentences:
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Estan dispostes, estan indisposts, dispost a tot.")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Estan dispostes, estan indisposts, dispost a tot.")).length);
 
     // incorrect sentences:
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("S'ha dispost a fer-ho."));
-    assertEquals(1, matches.length);
-    assertEquals("disposat", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("disposat", matches[0].getSuggestedReplacements().get(0));
     
   }
 

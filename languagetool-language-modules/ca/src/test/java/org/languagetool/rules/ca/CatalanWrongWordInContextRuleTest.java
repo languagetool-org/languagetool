@@ -18,13 +18,12 @@
  */
 package org.languagetool.rules.ca;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.Catalan;
 
 import java.io.IOException;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * @author Jaume Ortolà
@@ -40,21 +39,21 @@ public class CatalanWrongWordInContextRuleTest {
     //assertEquals(0, rule.match(lt.getAnalyzedSentence("La policia feia escoltes telefòniques.")).length);
     //assertEquals(0, rule.match(lt.getAnalyzedSentence("La policia feia escoltes il·legals.")).length);
     //assertEquals(1, rule.match(lt.getAnalyzedSentence("Van escoltar el detingut fins al calabós.")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("Li va infringir un mal terrible.")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("És un terreny abonat per als problemes.")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("No li va cosir bé les betes.")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("Sempre li seguia la beta.")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("Li va infringir un mal terrible.")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("És un terreny abonat per als problemes.")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("No li va cosir bé les betes.")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("Sempre li seguia la beta.")).length);
     //assertEquals(1, rule.match(lt.getAnalyzedSentence("un any en el qual la reina Victoria encara era al tro britànic")).length);
     
     //pali, pal·li
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("Sota els palis.")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Els pal·lis.")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("El pal·li i el sànscrit.")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("El pali i el sànscrit.")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("Sota els palis.")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Els pal·lis.")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("El pal·li i el sànscrit.")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("El pali i el sànscrit.")).length);
     
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("Vam comprar xocolate de mànec.")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("Vam comprar xocolate de mànec.")).length);
     
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("El pic de l'ocell.")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("El pic de l'ocell.")).length);
   }
   
 }

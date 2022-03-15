@@ -19,16 +19,15 @@
 
 package org.languagetool.rules.fr;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.French;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * @author Jaume Ortolà
@@ -38,7 +37,7 @@ public class AnglicismReplaceRuleTest {
   private AnglicismReplaceRule rule;
   private JLanguageTool lt;
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     rule = new AnglicismReplaceRule(TestTools.getMessages("fr"));
     lt = new JLanguageTool(new French());
@@ -49,16 +48,16 @@ public class AnglicismReplaceRuleTest {
 
     // incorrect sentences:
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("Le group"));
-    assertEquals(1, matches.length);
-    assertEquals("groupe", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("groupe", matches[0].getSuggestedReplacements().get(0));
     
     matches = rule.match(lt.getAnalyzedSentence("community manager"));
-    assertEquals(1, matches.length);
-    assertEquals("animateur de communauté", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("animateur de communauté", matches[0].getSuggestedReplacements().get(0));
     
     // correct sentences:
     matches = rule.match(lt.getAnalyzedSentence("Blue Man Group. The Gale Group. Google Maps"));
-    assertEquals(0, matches.length);
+    Assertions.assertEquals(0, matches.length);
     
  
 

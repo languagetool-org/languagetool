@@ -18,11 +18,11 @@
  */
 package org.languagetool.server;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.languagetool.Language;
 import org.languagetool.Languages;
-import org.languagetool.language.German;
 import org.languagetool.tools.StringTools;
 import org.xml.sax.SAXException;
 
@@ -31,7 +31,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.Assert.fail;
 
@@ -40,8 +39,8 @@ import static org.junit.Assert.fail;
  * Unlike HTTPServerMultiLangLoadTest, this always sends the same text 
  * but actually checks results (compares multi-thread results to non-multi-thread).
  */
-@Ignore("for interactive use; requires local Tatoeba data")
-public class HTTPServerMultiLangLoadTest2 extends HTTPServerMultiLangLoadTest {
+@Disabled("for interactive use; requires local Tatoeba data")
+public class HTTPServerMultiLangLoad2Test extends HTTPServerMultiLangLoadTest {
 
   private static final String DATA_PATH = "/media/Data/tatoeba/";
   private static final int MIN_TEXT_LENGTH = 500;
@@ -95,10 +94,9 @@ public class HTTPServerMultiLangLoadTest2 extends HTTPServerMultiLangLoadTest {
     String realResult = checkByPOST(language, text);
     String expectedResult = textToResult.get(language);
     if (!realResult.equals(expectedResult)) {
-      fail("Real result != expected result for " + language + ", input: " + text + "\n" +
+      Assertions.fail("Real result != expected result for " + language + ", input: " + text + "\n" +
            "Real result: " + realResult + "\n" +
-           "Exp. result: " + expectedResult
-      );
+           "Exp. result: " + expectedResult);
     }
     System.out.println(counter.get() + ". Sleep: " + sleepTime + "ms, Lang: " + language.getShortCodeWithCountryAndVariant()
             + ", Length: " + text.length() + ", Time: " + (System.currentTimeMillis()-startTime) + "ms");

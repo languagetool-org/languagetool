@@ -18,26 +18,26 @@
  */
 package org.languagetool.rules.de;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
-import java.util.List;
-
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
 import org.languagetool.rules.RuleMatch;
 
+import java.io.IOException;
+import java.util.List;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+
 public class WordCoherencyRuleTest {
 
   private final JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
 
-  @Before
+  @BeforeEach
   public void before() {
     TestTools.disableAllRulesExcept(lt, "DE_WORD_COHERENCY");
   }
@@ -131,38 +131,38 @@ public class WordCoherencyRuleTest {
     WordCoherencyRule rule = new WordCoherencyRule(TestTools.getEnglishMessages());
     List<AnalyzedSentence> analyzedSentences = lt.analyzeText(s);
     RuleMatch[] matches = rule.match(analyzedSentences);
-    assertEquals(1, matches.length);
-    assertEquals("[" + expectedSuggestion + "]", matches[0].getSuggestedReplacements().toString());
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("[" + expectedSuggestion + "]", matches[0].getSuggestedReplacements().toString());
   }
 
   private void assertError(String s) throws IOException {
     WordCoherencyRule rule = new WordCoherencyRule(TestTools.getEnglishMessages());
     List<AnalyzedSentence> analyzedSentences = lt.analyzeText(s);
-    assertEquals(1, rule.match(analyzedSentences).length);
+    Assertions.assertEquals(1, rule.match(analyzedSentences).length);
   }
 
   private void assertGood(String s) throws IOException {
     WordCoherencyRule rule = new WordCoherencyRule(TestTools.getEnglishMessages());
     List<AnalyzedSentence> analyzedSentences = lt.analyzeText(s);
-    assertEquals(0, rule.match(analyzedSentences).length);
+    Assertions.assertEquals(0, rule.match(analyzedSentences).length);
   }
 
   @Test
   public void testRuleCompleteTexts() throws IOException {
-    assertEquals(0, lt.check("Das ist aufwändig. Aber hallo. Es ist wirklich aufwändig.").size());
-    assertEquals(1, lt.check("Das ist aufwendig. Aber hallo. Es ist wirklich aufwändig.").size());
-    assertEquals(1, lt.check("Das ist aufwändig. Aber hallo. Es ist wirklich aufwendig.").size());
+    Assertions.assertEquals(0, lt.check("Das ist aufwändig. Aber hallo. Es ist wirklich aufwändig.").size());
+    Assertions.assertEquals(1, lt.check("Das ist aufwendig. Aber hallo. Es ist wirklich aufwändig.").size());
+    Assertions.assertEquals(1, lt.check("Das ist aufwändig. Aber hallo. Es ist wirklich aufwendig.").size());
     
     // also find full forms:
-    assertEquals(0, lt.check("Das ist aufwendig. Aber hallo. Es ist wirklich aufwendiger als so.").size());
-    assertEquals(1, lt.check("Das ist aufwendig. Aber hallo. Es ist wirklich aufwändiger als so.").size());
+    Assertions.assertEquals(0, lt.check("Das ist aufwendig. Aber hallo. Es ist wirklich aufwendiger als so.").size());
+    Assertions.assertEquals(1, lt.check("Das ist aufwendig. Aber hallo. Es ist wirklich aufwändiger als so.").size());
     
-    assertEquals(1, lt.check("Das ist aufwändig. Aber hallo. Es ist wirklich aufwendiger als so.").size());
-    assertEquals(1, lt.check("Das ist das aufwändigste. Aber hallo. Es ist wirklich aufwendiger als so.").size());
-    assertEquals(1, lt.check("Das ist das aufwändigste. Aber hallo. Es ist wirklich aufwendig.").size());
+    Assertions.assertEquals(1, lt.check("Das ist aufwändig. Aber hallo. Es ist wirklich aufwendiger als so.").size());
+    Assertions.assertEquals(1, lt.check("Das ist das aufwändigste. Aber hallo. Es ist wirklich aufwendiger als so.").size());
+    Assertions.assertEquals(1, lt.check("Das ist das aufwändigste. Aber hallo. Es ist wirklich aufwendig.").size());
 
     // cross-paragraph checks
-    assertEquals(1, lt.check("Das ist das aufwändigste.\n\nAber hallo. Es ist wirklich aufwendig.").size());
+    Assertions.assertEquals(1, lt.check("Das ist das aufwändigste.\n\nAber hallo. Es ist wirklich aufwendig.").size());
   }
 
 }

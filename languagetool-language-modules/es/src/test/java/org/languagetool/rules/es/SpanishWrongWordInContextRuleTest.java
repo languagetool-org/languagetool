@@ -18,14 +18,13 @@
  */
 package org.languagetool.rules.es;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.Spanish;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * @author Jaume Ortolà
@@ -39,20 +38,20 @@ public class SpanishWrongWordInContextRuleTest {
     
     // infligir / infringir
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("Le infringió un duro castigo"));
-    assertEquals(1, matches.length);
-    assertEquals("infligió", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("infligió", matches[0].getSuggestedReplacements().get(0));
     matches = rule.match(lt.getAnalyzedSentence("Infligía todas las normas."));
-    assertEquals(1, matches.length);
-    assertEquals("Infringía", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("Infringía", matches[0].getSuggestedReplacements().get(0));
     
     //baca /vaca
     matches = rule.match(lt.getAnalyzedSentence("La baca da leche."));
-    assertEquals(2, matches.length);
-    assertEquals("vaca", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(2, matches.length);
+    Assertions.assertEquals("vaca", matches[0].getSuggestedReplacements().get(0));
     
     matches = rule.match(lt.getAnalyzedSentence("Pon la maleta en la vaca."));
-    assertEquals(1, matches.length);
-    assertEquals("baca", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("baca", matches[0].getSuggestedReplacements().get(0));
     
   }
   

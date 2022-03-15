@@ -18,29 +18,26 @@
  */
 package org.languagetool.rules.de;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import morfologik.speller.Speller;
+import morfologik.stemming.Dictionary;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Languages;
+import org.languagetool.TestTools;
+import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.CharacterCodingException;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.Ignore;
-import org.junit.Test;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Languages;
-import org.languagetool.TestTools;
-import org.languagetool.language.German;
-import org.languagetool.rules.RuleMatch;
+import static org.hamcrest.CoreMatchers.is;
 
-import morfologik.speller.Speller;
-import morfologik.stemming.Dictionary;
-
-@Ignore
+@Disabled
 public class MorfologikGermanyGermanSpellerRuleTest {
 
   @Test
@@ -49,40 +46,40 @@ public class MorfologikGermanyGermanSpellerRuleTest {
           new MorfologikGermanyGermanSpellerRule(TestTools.getMessages("en"), Languages.getLanguageForShortCode("de-DE"), null, Collections.emptyList());
     JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de"));
 
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Hier stimmt jedes Wort!")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("Hir nicht so ganz.")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Hier stimmt jedes Wort!")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("Hir nicht so ganz.")).length);
 
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Überall äußerst böse Umlaute!")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("Üperall äußerst böse Umlaute!")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Überall äußerst böse Umlaute!")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("Üperall äußerst böse Umlaute!")).length);
     
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("daß"));
-    assertEquals(1, matches.length);
-    assertEquals("das", matches[0].getSuggestedReplacements().get(0));  // "dass" would actually be better...
-    assertEquals("dass", matches[0].getSuggestedReplacements().get(1));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("das", matches[0].getSuggestedReplacements().get(0));  // "dass" would actually be better...
+    Assertions.assertEquals("dass", matches[0].getSuggestedReplacements().get(1));
     
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("B(ℓ2)")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("🏽")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("🧡🚴🏽♂️ , 🎉💛✈️")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("компьютерная")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("中文維基百科 中文维基百科")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("B(ℓ2)")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("🏽")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("🧡🚴🏽♂️ , 🎉💛✈️")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("компьютерная")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("中文維基百科 中文维基百科")).length);
     
     
   }
   
   @Test
-  @Ignore("testing for https://github.com/languagetool-org/languagetool/issues/236")
+  @Disabled("testing for https://github.com/languagetool-org/languagetool/issues/236")
   public void testFrequency() throws IOException {
     URL fsaURL = JLanguageTool.getDataBroker().getFromResourceDirAsUrl("de/hunspell/de_DE.dict");
     Dictionary dictionary = Dictionary.read(fsaURL);
     Speller speller = new Speller(dictionary, 2);
-    assertThat(speller.getFrequency("der"), is(25));
-    assertThat(speller.getFrequency("Haus"), is(11));
-    assertThat(speller.getFrequency("schön"), is(9));
-    assertThat(speller.getFrequency("gippsnicht"), is(0));
+    MatcherAssert.assertThat(speller.getFrequency("der"), is(25));
+    MatcherAssert.assertThat(speller.getFrequency("Haus"), is(11));
+    MatcherAssert.assertThat(speller.getFrequency("schön"), is(9));
+    MatcherAssert.assertThat(speller.getFrequency("gippsnicht"), is(0));
   }
 
   @Test
-  @Ignore("help testing for https://github.com/morfologik/morfologik-stemming/issues/34")
+  @Disabled("help testing for https://github.com/morfologik/morfologik-stemming/issues/34")
   public void testCommonMisspellings() throws IOException {
     URL fsaURL = JLanguageTool.getDataBroker().getFromResourceDirAsUrl("de/hunspell/de_DE.dict");
     Dictionary dictionary = Dictionary.read(fsaURL);

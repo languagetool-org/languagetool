@@ -18,7 +18,9 @@
  */
 package org.languagetool.server;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import org.junit.jupiter.api.Assertions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,8 +30,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Test HTTP server access from multiple threads.
@@ -48,14 +48,14 @@ public class HTTPServerLoadTest extends HTTPServerTest {
     long startTime = System.currentTimeMillis();
     HTTPServerConfig config = new HTTPServerConfig(HTTPTestTools.getDefaultPort(), true);
     HTTPServer server = new HTTPServer(config);
-    assertFalse(server.isRunning());
+    Assertions.assertFalse(server.isRunning());
     try {
       server.run();
-      assertTrue(server.isRunning());
+      Assertions.assertTrue(server.isRunning());
       doTest();
     } finally {
       server.stop();
-      assertFalse(server.isRunning());
+      Assertions.assertFalse(server.isRunning());
       long runtime = System.currentTimeMillis() - startTime;
       System.out.println("Running with " + getThreadCount() + " threads in " + runtime + "ms");
     }

@@ -18,14 +18,14 @@
  */
 package org.languagetool.remote;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class RemoteRuleMatchTest {
 
   @Test
   public void testToStringOutput() {
-    Assert.assertEquals("ruleId@0-1", new RemoteRuleMatch("ruleId", "ruleName", "msg", "context", 0, 0, 1).toString());
+    Assertions.assertEquals("ruleId@0-1", new RemoteRuleMatch("ruleId", "ruleName", "msg", "context", 0, 0, 1).toString());
   }
 
 }

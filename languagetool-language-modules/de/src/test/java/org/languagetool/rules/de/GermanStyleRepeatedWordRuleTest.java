@@ -18,13 +18,12 @@
  */
 package org.languagetool.rules.de;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
-
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.*;
 import org.languagetool.rules.Rule;
+
+import java.io.IOException;
 
 /**
  * @author Fred Kruse
@@ -38,19 +37,19 @@ public class GermanStyleRepeatedWordRuleTest {
     JLanguageTool lt = new JLanguageTool(lang);
     setUpRule(lt);
 
-    assertEquals(2, lt.check("Der alte Mann wohnte in einem großen Haus. Es stand in einem großen Garten.").size());
-    assertEquals(0, lt.check("Der alte Mann wohnte in einem großen Haus. Es stand in einem weitläufigen Garten.").size());
-    assertEquals(0, lt.check("Endlos lang zog sich der Ton dahin, aber schließlich verklang er doch.").size());
-    assertEquals(0, lt.check("Die Au leuchtete im Blitz, die Glühwürmchen flimmerten vor Aufregung.").size());
-    assertEquals(0, lt.check("Sie sind alle in der gleichen Art hergestellt. Nur bei einem Artefakt wurde eine andere Vorgehensweise angewandt.").size());
-    assertEquals(0, lt.check("Ich erkannte keinen Lidschlag zu spät, dass es nicht in ihrer Absicht lag.").size());
-    assertEquals(0, lt.check("Dieser Schritt brachte uns näher an die Lösung. Der nächste würde das Problem für immer aus der Welt schaffen.").size());
-    assertEquals(0, lt.check("Er lehnte seinen Wanderstab gegen die Wand.").size());
-    assertEquals(0, lt.check("Zweifel lagen in der Luft, ob es richtig war, diesen Weg einzuschlagen.").size());
-    assertEquals(0, lt.check("Der Donnerhall verklang nur langsam in meinen Ohren. Das war mir in all den Jahren meines Lebens noch nicht passiert.").size());
-    assertEquals(3, lt.check("Der Schiffsmotor, der im Heck des Schiffs eingebaut war, röhrte. Auf Hochtouren lief der Motor.").size());
-    assertEquals(2, lt.check("Der Buntspecht stolzierte den Baum hoch. Schon klopfte der Specht.").size());
-    assertEquals(2, lt.check("Rotbraun war die Farbe der Haselnuss. Der Horizont schimmerte rot.").size());
+    Assertions.assertEquals(2, lt.check("Der alte Mann wohnte in einem großen Haus. Es stand in einem großen Garten.").size());
+    Assertions.assertEquals(0, lt.check("Der alte Mann wohnte in einem großen Haus. Es stand in einem weitläufigen Garten.").size());
+    Assertions.assertEquals(0, lt.check("Endlos lang zog sich der Ton dahin, aber schließlich verklang er doch.").size());
+    Assertions.assertEquals(0, lt.check("Die Au leuchtete im Blitz, die Glühwürmchen flimmerten vor Aufregung.").size());
+    Assertions.assertEquals(0, lt.check("Sie sind alle in der gleichen Art hergestellt. Nur bei einem Artefakt wurde eine andere Vorgehensweise angewandt.").size());
+    Assertions.assertEquals(0, lt.check("Ich erkannte keinen Lidschlag zu spät, dass es nicht in ihrer Absicht lag.").size());
+    Assertions.assertEquals(0, lt.check("Dieser Schritt brachte uns näher an die Lösung. Der nächste würde das Problem für immer aus der Welt schaffen.").size());
+    Assertions.assertEquals(0, lt.check("Er lehnte seinen Wanderstab gegen die Wand.").size());
+    Assertions.assertEquals(0, lt.check("Zweifel lagen in der Luft, ob es richtig war, diesen Weg einzuschlagen.").size());
+    Assertions.assertEquals(0, lt.check("Der Donnerhall verklang nur langsam in meinen Ohren. Das war mir in all den Jahren meines Lebens noch nicht passiert.").size());
+    Assertions.assertEquals(3, lt.check("Der Schiffsmotor, der im Heck des Schiffs eingebaut war, röhrte. Auf Hochtouren lief der Motor.").size());
+    Assertions.assertEquals(2, lt.check("Der Buntspecht stolzierte den Baum hoch. Schon klopfte der Specht.").size());
+    Assertions.assertEquals(2, lt.check("Rotbraun war die Farbe der Haselnuss. Der Horizont schimmerte rot.").size());
   }
 
   private void setUpRule(JLanguageTool lt) {

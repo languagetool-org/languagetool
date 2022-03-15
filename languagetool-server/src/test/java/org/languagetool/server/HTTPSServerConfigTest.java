@@ -18,11 +18,12 @@
  */
 package org.languagetool.server;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Assertions;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
 
 @SuppressWarnings("ResultOfObjectAllocationIgnored")
 public class HTTPSServerConfigTest {
@@ -31,38 +32,38 @@ public class HTTPSServerConfigTest {
   public void testArgumentParsing() {
     try {
       new HTTPSServerConfig(new String[]{});
-      fail();
+      Assertions.fail();
     } catch (IllegalConfigurationException ignored) {}
 
     String propertyFile = HTTPSServerConfigTest.class.getResource("/org/languagetool/server/https-server.properties").getFile();
 
     HTTPSServerConfig config1 = new HTTPSServerConfig(("--public --config " + propertyFile).split(" "));
-    assertThat(config1.getPort(), is(HTTPServerConfig.DEFAULT_PORT));
-    assertThat(config1.isPublicAccess(), is(true));
-    assertThat(config1.isVerbose(), is(false));
-    assertThat(config1.getKeystore().toString().replace('\\', '/'), is("src/test/resources/org/languagetool/server/test-keystore.jks"));
-    assertThat(config1.getKeyStorePassword(), is("mytest"));
-    assertThat(config1.getMaxTextLengthAnonymous(), is(50000));
+    MatcherAssert.assertThat(config1.getPort(), is(HTTPServerConfig.DEFAULT_PORT));
+    MatcherAssert.assertThat(config1.isPublicAccess(), is(true));
+    MatcherAssert.assertThat(config1.isVerbose(), is(false));
+    MatcherAssert.assertThat(config1.getKeystore().toString().replace('\\', '/'), is("src/test/resources/org/languagetool/server/test-keystore.jks"));
+    MatcherAssert.assertThat(config1.getKeyStorePassword(), is("mytest"));
+    MatcherAssert.assertThat(config1.getMaxTextLengthAnonymous(), is(50000));
 
     HTTPSServerConfig config2 = new HTTPSServerConfig(("-p 9999 --config " + propertyFile).split(" "));
-    assertThat(config2.getPort(), is(9999));
-    assertThat(config2.isPublicAccess(), is(false));
-    assertThat(config2.isVerbose(), is(false));
-    assertThat(config2.getKeystore().toString().replace('\\', '/'), is("src/test/resources/org/languagetool/server/test-keystore.jks"));
-    assertThat(config2.getKeyStorePassword(), is("mytest"));
-    assertThat(config2.getMaxTextLengthAnonymous(), is(50000));
+    MatcherAssert.assertThat(config2.getPort(), is(9999));
+    MatcherAssert.assertThat(config2.isPublicAccess(), is(false));
+    MatcherAssert.assertThat(config2.isVerbose(), is(false));
+    MatcherAssert.assertThat(config2.getKeystore().toString().replace('\\', '/'), is("src/test/resources/org/languagetool/server/test-keystore.jks"));
+    MatcherAssert.assertThat(config2.getKeyStorePassword(), is("mytest"));
+    MatcherAssert.assertThat(config2.getMaxTextLengthAnonymous(), is(50000));
   }
 
   @Test
   public void testMinimalPropertyFile() {
     String propertyFile = HTTPSServerConfigTest.class.getResource("/org/languagetool/server/https-server-minimal.properties").getFile();
     HTTPSServerConfig config = new HTTPSServerConfig(("--config " + propertyFile).split(" "));
-    assertThat(config.getPort(), is(8081));
-    assertThat(config.isPublicAccess(), is(false));
-    assertThat(config.isVerbose(), is(false));
-    assertThat(config.getKeystore().toString().replace('\\', '/'), is("src/test/resources/org/languagetool/server/test-keystore.jks"));
-    assertThat(config.getKeyStorePassword(), is("mytest"));
-    assertThat(config.getMaxTextLengthAnonymous(), is(Integer.MAX_VALUE));
+    MatcherAssert.assertThat(config.getPort(), is(8081));
+    MatcherAssert.assertThat(config.isPublicAccess(), is(false));
+    MatcherAssert.assertThat(config.isVerbose(), is(false));
+    MatcherAssert.assertThat(config.getKeystore().toString().replace('\\', '/'), is("src/test/resources/org/languagetool/server/test-keystore.jks"));
+    MatcherAssert.assertThat(config.getKeyStorePassword(), is("mytest"));
+    MatcherAssert.assertThat(config.getMaxTextLengthAnonymous(), is(Integer.MAX_VALUE));
   }
 
   @Test
@@ -70,7 +71,7 @@ public class HTTPSServerConfigTest {
     String propertyFile = "/does-not-exist";
     try {
       new HTTPSServerConfig(("--config " + propertyFile).split(" "));
-      fail();
+      Assertions.fail();
     } catch (Exception ignored) {}
   }
 
@@ -79,7 +80,7 @@ public class HTTPSServerConfigTest {
     String propertyFile = HTTPSServerConfigTest.class.getResource("/org/languagetool/server/https-server-incomplete.properties").getFile();
     try {
       new HTTPSServerConfig(("--config " + propertyFile).split(" "));
-      fail();
+      Assertions.fail();
     } catch (IllegalConfigurationException ignored) {}
   }
 

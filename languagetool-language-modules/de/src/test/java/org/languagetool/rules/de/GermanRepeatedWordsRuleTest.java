@@ -18,12 +18,9 @@
  */
 package org.languagetool.rules.de;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
-
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
@@ -32,12 +29,14 @@ import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.TextLevelRule;
 
+import java.io.IOException;
+
 public class GermanRepeatedWordsRuleTest {
 
   private TextLevelRule rule;
   private JLanguageTool lt;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     rule = new GermanRepeatedWordsRule(TestTools.getMessages("de"));
     lt = new JLanguageTool(Languages.getLanguageForShortCode("de"));
@@ -49,8 +48,8 @@ public class GermanRepeatedWordsRuleTest {
     assertCorrectText("Lauf so schnell wie möglich. Das ist MÖGLICH!");
         
     RuleMatch[] matches=getRuleMatches("Das ist hervorragende Arbeit. Die Ergebnisse sind hervorragend.");
-    assertEquals(1, matches.length);
-    assertEquals("[brillant, exzellent, perfekt, fantastisch, traumhaft]", matches[0].getSuggestedReplacements().toString());
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("[brillant, exzellent, perfekt, fantastisch, traumhaft]", matches[0].getSuggestedReplacements().toString());
             
   }
   
@@ -62,7 +61,7 @@ public class GermanRepeatedWordsRuleTest {
   private void assertCorrectText(String sentences) throws IOException {
     AnnotatedText aText = new AnnotatedTextBuilder().addText(sentences).build();
     RuleMatch[] matches = rule.match(lt.analyzeText(sentences), aText);
-    assertEquals(0, matches.length);
+    Assertions.assertEquals(0, matches.length);
   }
 
 

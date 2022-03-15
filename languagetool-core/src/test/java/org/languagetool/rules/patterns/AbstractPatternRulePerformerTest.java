@@ -18,7 +18,8 @@
  */
 package org.languagetool.rules.patterns;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.chunking.ChunkTag;
@@ -26,8 +27,6 @@ import org.languagetool.language.Demo;
 
 import java.util.Collections;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 public class AbstractPatternRulePerformerTest {
 
@@ -39,10 +38,10 @@ public class AbstractPatternRulePerformerTest {
 
     AbstractPatternRulePerformer p = new AbstractPatternRulePerformer(simpleRule, new Unifier(null, null)){};
 
-    assertTrue(p.testAllReadings(tokenReadings("foo", null), elemMatcher, null, 0, 0, 0));
-    assertFalse(p.testAllReadings(tokenReadings("bar", null), elemMatcher, null, 0, 0, 0));
-    assertTrue(p.testAllReadings(tokenReadings("foo", "myChunk"), elemMatcher, null, 0, 0, 0));
-    assertTrue(p.testAllReadings(tokenReadings("foo", "otherChunk"), elemMatcher, null, 0, 0, 0));
+    Assertions.assertTrue(p.testAllReadings(tokenReadings("foo", null), elemMatcher, null, 0, 0, 0));
+    Assertions.assertFalse(p.testAllReadings(tokenReadings("bar", null), elemMatcher, null, 0, 0, 0));
+    Assertions.assertTrue(p.testAllReadings(tokenReadings("foo", "myChunk"), elemMatcher, null, 0, 0, 0));
+    Assertions.assertTrue(p.testAllReadings(tokenReadings("foo", "otherChunk"), elemMatcher, null, 0, 0, 0));
   }
 
   @Test
@@ -54,9 +53,9 @@ public class AbstractPatternRulePerformerTest {
 
     AbstractPatternRulePerformer p = new AbstractPatternRulePerformer(simpleRule, new Unifier(null, null)){};
 
-    assertFalse(p.testAllReadings(tokenReadings("bar", null), elemMatcher, null, 0, 0, 0));
-    assertTrue(p.testAllReadings(tokenReadings("bar", "myChunk"), elemMatcher, null, 0, 0, 0));
-    assertFalse(p.testAllReadings(tokenReadings("bar", "otherChunk"), elemMatcher, null, 0, 0, 0));
+    Assertions.assertFalse(p.testAllReadings(tokenReadings("bar", null), elemMatcher, null, 0, 0, 0));
+    Assertions.assertTrue(p.testAllReadings(tokenReadings("bar", "myChunk"), elemMatcher, null, 0, 0, 0));
+    Assertions.assertFalse(p.testAllReadings(tokenReadings("bar", "otherChunk"), elemMatcher, null, 0, 0, 0));
   }
 
   private AnalyzedTokenReadings[] tokenReadings(String token, String chunkTag) {

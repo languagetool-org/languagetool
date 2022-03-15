@@ -22,7 +22,6 @@ import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.MultiThreadedJLanguageTool;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrdererConfig;
 import org.languagetool.tools.StringTools;
 
 import java.io.File;

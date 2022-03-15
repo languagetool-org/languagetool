@@ -18,14 +18,13 @@
  */
 package org.languagetool.chunking;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 
 import java.util.Arrays;
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 public class TokenPredicateTest {
 
@@ -51,7 +50,7 @@ public class TokenPredicateTest {
 
     try {
       assertNoMatch("invalid=token", chunkTaggedToken);
-      fail();
+      Assertions.fail();
     } catch (RuntimeException expected) {
       //expected
     }
@@ -59,11 +58,11 @@ public class TokenPredicateTest {
 
   private void assertMatch(String expr, ChunkTaggedToken chunkTaggedToken) {
     TokenPredicate predicate = new TokenPredicate(expr, false);
-    assertTrue(predicate.apply(chunkTaggedToken));
+    Assertions.assertTrue(predicate.apply(chunkTaggedToken));
   }
 
   private void assertNoMatch(String expr, ChunkTaggedToken chunkTaggedToken) {
     TokenPredicate predicate = new TokenPredicate(expr, false);
-    assertFalse(predicate.apply(chunkTaggedToken));
+    Assertions.assertFalse(predicate.apply(chunkTaggedToken));
   }
 }

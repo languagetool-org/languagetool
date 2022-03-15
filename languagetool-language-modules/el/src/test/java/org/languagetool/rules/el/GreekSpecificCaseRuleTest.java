@@ -19,7 +19,8 @@ package org.languagetool.rules.el;
  * USA
  */
 
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
@@ -28,7 +29,6 @@ import org.languagetool.rules.RuleMatch;
 import java.io.IOException;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
 
 public class GreekSpecificCaseRuleTest {
 
@@ -45,23 +45,23 @@ public class GreekSpecificCaseRuleTest {
     assertBad("Ηνωμένες πολιτείες");
 
     RuleMatch[] matches1 = assertBad("Κατοικώ στις Ηνωμένες πολιτείες.");
-    assertThat(matches1[0].getFromPos(), is(13));
-    assertThat(matches1[0].getToPos(), is(31));
-    assertThat(matches1[0].getSuggestedReplacements().toString(), is("[Ηνωμένες Πολιτείες]"));
-    assertThat(matches1[0].getMessage(), is("Οι λέξεις της συγκεκριμένης έκφρασης χρείαζεται να ξεκινούν με κεφαλαία γράμματα."));
+    MatcherAssert.assertThat(matches1[0].getFromPos(), is(13));
+    MatcherAssert.assertThat(matches1[0].getToPos(), is(31));
+    MatcherAssert.assertThat(matches1[0].getSuggestedReplacements().toString(), is("[Ηνωμένες Πολιτείες]"));
+    MatcherAssert.assertThat(matches1[0].getMessage(), is("Οι λέξεις της συγκεκριμένης έκφρασης χρείαζεται να ξεκινούν με κεφαλαία γράμματα."));
 
     RuleMatch[] matches3 = assertBad("Κατοικώ στις Ηνωμένες  πολιτείες."); // note the two spaces
-    assertThat(matches3[0].getFromPos(), is(13));
-    assertThat(matches3[0].getToPos(), is(32));
+    MatcherAssert.assertThat(matches3[0].getFromPos(), is(13));
+    MatcherAssert.assertThat(matches3[0].getToPos(), is(32));
   }
 
   private void assertGood(String input) throws IOException {
-    assertThat(rule.match(lt.getAnalyzedSentence(input)).length, is(0));
+    MatcherAssert.assertThat(rule.match(lt.getAnalyzedSentence(input)).length, is(0));
   }
 
   private RuleMatch[] assertBad(String input) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
-    assertThat(matches.length, is(1));
+    MatcherAssert.assertThat(matches.length, is(1));
     return matches;
   }
 }

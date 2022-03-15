@@ -19,15 +19,14 @@
 
 package org.languagetool.rules.uk;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Ukrainian;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
-
-import static org.junit.Assert.assertEquals;
 
 public class PunctuationCheckRuleTest {
 
@@ -40,40 +39,40 @@ public class PunctuationCheckRuleTest {
     
     // correct sentences:
     matches = rule.match(lt.getAnalyzedSentence("Дві, коми. Ось: дві!!!"));
-    assertEquals(0, matches.length);
+    Assertions.assertEquals(0, matches.length);
 
     // correct sentences:
     matches = rule.match(lt.getAnalyzedSentence("- Це ваша пряма мова?!!"));
-    assertEquals(0, matches.length);
+    Assertions.assertEquals(0, matches.length);
 
     // correct sentences:
     matches = rule.match(lt.getAnalyzedSentence("Дві,- коми!.."));
-    assertEquals(0, matches.length);
+    Assertions.assertEquals(0, matches.length);
 
     // correct sentences:
     matches = rule.match(lt.getAnalyzedSentence("Таке питання?.."));
-    assertEquals(0, matches.length);
+    Assertions.assertEquals(0, matches.length);
 
     // correct sentences:
     matches = rule.match(lt.getAnalyzedSentence("Два  пробіли."));  // поки що ігноруємо - не царська це справа :)
-    assertEquals(0, matches.length);
+    Assertions.assertEquals(0, matches.length);
 
     // incorrect sentences:
     matches = rule.match(lt.getAnalyzedSentence("Дві крапки.."));
-    assertEquals(1, matches.length);
-    assertEquals(1, matches[0].getSuggestedReplacements().size());
-    assertEquals(".", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals(1, matches[0].getSuggestedReplacements().size());
+    Assertions.assertEquals(".", matches[0].getSuggestedReplacements().get(0));
 
     // incorrect sentences:
     matches = rule.match(lt.getAnalyzedSentence("Дві,, коми."));
-    assertEquals(1, matches.length);
+    Assertions.assertEquals(1, matches.length);
 
     // incorrect sentences:
     matches = rule.match(lt.getAnalyzedSentence("Не там ,кома."));
-    assertEquals(1, matches.length);
+    Assertions.assertEquals(1, matches.length);
 
     // incorrect sentences:
     matches = rule.match(lt.getAnalyzedSentence("Двокрапка:- з тире."));
-    assertEquals(1, matches.length);
+    Assertions.assertEquals(1, matches.length);
   }
 }

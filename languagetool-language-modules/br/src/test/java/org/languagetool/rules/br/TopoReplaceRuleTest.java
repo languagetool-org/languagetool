@@ -18,14 +18,13 @@
  */
 package org.languagetool.rules.br;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Breton;
 
 import java.io.IOException;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * @author Dominique Pellé
@@ -38,10 +37,10 @@ public class TopoReplaceRuleTest {
     JLanguageTool lt = new JLanguageTool(new Breton());
 
     // Wrong sentences.
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("France a zo ur vro.")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("France a zo ur vro.")).length);
 
     // Correct sentences.
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("France 3 a zo ur chadenn skinwel.")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("France 3 a zo ur chadenn skinwel.")).length);
   }
 
 }

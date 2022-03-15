@@ -18,7 +18,9 @@
  */
 package org.languagetool.rules.de;
 
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.*;
 import org.languagetool.synthesis.Synthesizer;
 
@@ -26,9 +28,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-import static junit.framework.Assert.fail;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
 
 public class AgreementSuggestor2Test {
 
@@ -83,12 +83,12 @@ public class AgreementSuggestor2Test {
     AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("gehe zur Mann");
     List<AnalyzedTokenReadings> tags = Arrays.asList(analyzedSentence.getTokensWithoutWhitespace());
     AgreementSuggestor2 suggestor = new AgreementSuggestor2(synthesizer, tags.get(2), tags.get(3), AgreementRule.ReplacementType.Zur);
-    assertThat(suggestor.getSuggestions().toString(), is("[zum Mann, zu Männern]"));
+    MatcherAssert.assertThat(suggestor.getSuggestions().toString(), is("[zum Mann, zu Männern]"));
 
     analyzedSentence = lt.getAnalyzedSentence("gehe zur kuschelige Ferienwohnung");
     tags = Arrays.asList(analyzedSentence.getTokensWithoutWhitespace());
     suggestor = new AgreementSuggestor2(synthesizer, tags.get(2), tags.get(3), tags.get(4), AgreementRule.ReplacementType.Zur);
-    assertThat(suggestor.getSuggestions().toString(), is("[zur kuscheligen Ferienwohnung, zu kuscheligen Ferienwohnungen]"));
+    MatcherAssert.assertThat(suggestor.getSuggestions().toString(), is("[zur kuscheligen Ferienwohnung, zu kuscheligen Ferienwohnungen]"));
   }
 
   @Test
@@ -96,7 +96,7 @@ public class AgreementSuggestor2Test {
     AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("gehe ins Hauses");
     List<AnalyzedTokenReadings> tags = Arrays.asList(analyzedSentence.getTokensWithoutWhitespace());
     AgreementSuggestor2 suggestor = new AgreementSuggestor2(synthesizer, tags.get(2), tags.get(3), AgreementRule.ReplacementType.Ins);
-    assertThat(suggestor.getSuggestions().toString(), is("[ins Haus, im Hause, im Haus, in die Häuser, in den Häusern]"));
+    MatcherAssert.assertThat(suggestor.getSuggestions().toString(), is("[ins Haus, im Hause, im Haus, in die Häuser, in den Häusern]"));
   }
 
   @Test
@@ -104,7 +104,7 @@ public class AgreementSuggestor2Test {
     AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("gehe ins großen Haus");
     List<AnalyzedTokenReadings> tags = Arrays.asList(analyzedSentence.getTokensWithoutWhitespace());
     AgreementSuggestor2 suggestor = new AgreementSuggestor2(synthesizer, tags.get(2), tags.get(3), tags.get(4), AgreementRule.ReplacementType.Ins);
-    assertThat(suggestor.getSuggestions().toString(), is("[im großen Haus, ins große Haus, im großen Hause, in die großen Häuser, in den großen Häusern]"));
+    MatcherAssert.assertThat(suggestor.getSuggestions().toString(), is("[im großen Haus, ins große Haus, im großen Hause, in die großen Häuser, in den großen Häusern]"));
   }
 
   @Test
@@ -166,11 +166,11 @@ public class AgreementSuggestor2Test {
     AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("für dein Schmuck");
     List<AnalyzedTokenReadings> tags = Arrays.asList(analyzedSentence.getTokensWithoutWhitespace());
     AgreementSuggestor2 suggestor = new AgreementSuggestor2(synthesizer, tags.get(2), tags.get(3), null);
-    assertThat(suggestor.getSuggestions(false).toString(), is("[deinen Schmuck, deinem Schmuck, deines Schmucks, deines Schmuckes]"));
-    assertThat(suggestor.getSuggestions(true).toString(), is("[deinen Schmuck, deinem Schmuck]"));
+    MatcherAssert.assertThat(suggestor.getSuggestions(false).toString(), is("[deinen Schmuck, deinem Schmuck, deines Schmucks, deines Schmuckes]"));
+    MatcherAssert.assertThat(suggestor.getSuggestions(true).toString(), is("[deinen Schmuck, deinem Schmuck]"));
     suggestor.setPreposition(tags.get(1));  // "für"
-    assertThat(suggestor.getSuggestions(false).toString(), is("[deinen Schmuck]"));
-    assertThat(suggestor.getSuggestions(true).toString(), is("[deinen Schmuck]"));
+    MatcherAssert.assertThat(suggestor.getSuggestions(false).toString(), is("[deinen Schmuck]"));
+    MatcherAssert.assertThat(suggestor.getSuggestions(true).toString(), is("[deinen Schmuck]"));
   }
 
   @Test
@@ -178,18 +178,18 @@ public class AgreementSuggestor2Test {
     AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("über ein hilfreichen Tipp");
     List<AnalyzedTokenReadings> tags = Arrays.asList(analyzedSentence.getTokensWithoutWhitespace());
     AgreementSuggestor2 suggestor = new AgreementSuggestor2(synthesizer, tags.get(2), tags.get(3), tags.get(4), null);
-    assertThat(suggestor.getSuggestions().toString(), is("[ein hilfreicher Tipp, einen hilfreichen Tipp, einem hilfreichen Tipp, eines hilfreichen Tipps]"));
+    MatcherAssert.assertThat(suggestor.getSuggestions().toString(), is("[ein hilfreicher Tipp, einen hilfreichen Tipp, einem hilfreichen Tipp, eines hilfreichen Tipps]"));
     suggestor.setPreposition(tags.get(1));  // "über"
-    assertThat(suggestor.getSuggestions().toString(), is("[einen hilfreichen Tipp, einem hilfreichen Tipp]"));
+    MatcherAssert.assertThat(suggestor.getSuggestions().toString(), is("[einen hilfreichen Tipp, einem hilfreichen Tipp]"));
 
     analyzedSentence = lt.getAnalyzedSentence("an den stacheligen Pflanzenteile");
     tags = Arrays.asList(analyzedSentence.getTokensWithoutWhitespace());
     suggestor = new AgreementSuggestor2(synthesizer, tags.get(2), tags.get(3), tags.get(4), null);
-    assertThat(suggestor.getSuggestions().toString(), is("[den stacheligen Pflanzenteil, dem stacheligen Pflanzenteile, " +
+    MatcherAssert.assertThat(suggestor.getSuggestions().toString(), is("[den stacheligen Pflanzenteil, dem stacheligen Pflanzenteile, " +
       "den stacheligen Pflanzenteilen, der stacheligen Pflanzenteile, die stacheligen Pflanzenteile, dem stacheligen Pflanzenteil, " +
       "des stacheligen Pflanzenteiles, des stacheligen Pflanzenteils, der stachelige Pflanzenteil, das stachelige Pflanzenteil]"));
     suggestor.setPreposition(tags.get(1));  // "an"
-    assertThat(suggestor.getSuggestions().toString(), is("[den stacheligen Pflanzenteil, dem stacheligen Pflanzenteile, " +
+    MatcherAssert.assertThat(suggestor.getSuggestions().toString(), is("[den stacheligen Pflanzenteil, dem stacheligen Pflanzenteile, " +
       "den stacheligen Pflanzenteilen, die stacheligen Pflanzenteile, dem stacheligen Pflanzenteil, das stachelige Pflanzenteil]"));
   }
 
@@ -218,30 +218,30 @@ public class AgreementSuggestor2Test {
     AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(input);
     List<AnalyzedTokenReadings> tags = Arrays.asList(analyzedSentence.getTokensWithoutWhitespace());
     if (analyzedSentence.getTokensWithoutWhitespace().length != 3) {  // 2 tokens + sentence start token
-      fail("Please use 2 tokens (det, noun) as input: " + input);
+      Assertions.fail("Please use 2 tokens (det, noun) as input: " + input);
     }
     AgreementSuggestor2 suggestor = new AgreementSuggestor2(synthesizer, tags.get(1), tags.get(2), null);
-    assertThat(suggestor.getSuggestions(filter).toString(), is(expectedSuggestions));
+    MatcherAssert.assertThat(suggestor.getSuggestions(filter).toString(), is(expectedSuggestions));
   }
   
   private void assertSuggestion2(String input, String expectedSuggestions) throws IOException {
     AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(input);
     List<AnalyzedTokenReadings> tags = Arrays.asList(analyzedSentence.getTokensWithoutWhitespace());
     if (analyzedSentence.getTokensWithoutWhitespace().length != 4) {  // 3 tokens + sentence start token
-      fail("Please use 3 tokens (det, adj, noun) as input: " + input);
+      Assertions.fail("Please use 3 tokens (det, adj, noun) as input: " + input);
     }
     AgreementSuggestor2 suggestor = new AgreementSuggestor2(synthesizer, tags.get(1), tags.get(2), tags.get(3), null);
-    assertThat(suggestor.getSuggestions().toString(), is(expectedSuggestions));
+    MatcherAssert.assertThat(suggestor.getSuggestions().toString(), is(expectedSuggestions));
   }
   
   private void assertSuggestion3(String input, String expectedSuggestions, boolean filter) throws IOException {
     AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(input);
     List<AnalyzedTokenReadings> tags = Arrays.asList(analyzedSentence.getTokensWithoutWhitespace());
     if (analyzedSentence.getTokensWithoutWhitespace().length != 5) {  // 4 tokens + sentence start token
-      fail("Please use 4 tokens (det, adj, adj, noun) as input: " + input);
+      Assertions.fail("Please use 4 tokens (det, adj, adj, noun) as input: " + input);
     }
     AgreementSuggestor2 suggestor = new AgreementSuggestor2(synthesizer, tags.get(1), tags.get(2), tags.get(3), tags.get(4), null);
-    assertThat(suggestor.getSuggestions(filter).toString(), is(expectedSuggestions));
+    MatcherAssert.assertThat(suggestor.getSuggestions(filter).toString(), is(expectedSuggestions));
   }
 
 }

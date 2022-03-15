@@ -19,13 +19,12 @@
 
 package org.languagetool.tokenizers.pl;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.Language;
 import org.languagetool.language.Polish;
 
 import java.util.List;
-
-import static org.junit.Assert.assertEquals;
 
 public class PolishWordTokenizerTest {
 
@@ -33,59 +32,59 @@ public class PolishWordTokenizerTest {
   public void testTokenize() {
     final PolishWordTokenizer wordTokenizer = new PolishWordTokenizer();
     final List<String> tokens = wordTokenizer.tokenize("To jest\u00A0 test");
-    assertEquals(tokens.size(), 6);
-    assertEquals("[To,  , jest, \u00A0,  , test]", tokens.toString());
+    Assertions.assertEquals(tokens.size(), 6);
+    Assertions.assertEquals("[To,  , jest, \u00A0,  , test]", tokens.toString());
     final List<String> tokens2 = wordTokenizer.tokenize("To\rłamie");
-    assertEquals(3, tokens2.size());
-    assertEquals("[To, \r, łamie]", tokens2.toString());
+    Assertions.assertEquals(3, tokens2.size());
+    Assertions.assertEquals("[To, \r, łamie]", tokens2.toString());
     //hyphen with no whitespace
     final List<String> tokens3 = wordTokenizer.tokenize("A to jest-naprawdę-test!");
-    assertEquals(tokens3.size(), 6);
-    assertEquals("[A,  , to,  , jest-naprawdę-test, !]", tokens3.toString());
+    Assertions.assertEquals(tokens3.size(), 6);
+    Assertions.assertEquals("[A,  , to,  , jest-naprawdę-test, !]", tokens3.toString());
     //hyphen at the end of the word
     final List<String> tokens4 = wordTokenizer.tokenize("Niemiecko- i angielsko-polski");
-    assertEquals(tokens4.size(), 6);
-    assertEquals("[Niemiecko, -,  , i,  , angielsko-polski]", tokens4.toString());
+    Assertions.assertEquals(tokens4.size(), 6);
+    Assertions.assertEquals("[Niemiecko, -,  , i,  , angielsko-polski]", tokens4.toString());
 
     //hyphen probably instead of mdash
     final List<String> tokens5 = wordTokenizer.tokenize("Widzę krowę -i to dobrze!");
-    assertEquals(11, tokens5.size());
-    assertEquals("[Widzę,  , krowę,  , -, i,  , to,  , dobrze, !]", tokens5.toString());
+    Assertions.assertEquals(11, tokens5.size());
+    Assertions.assertEquals("[Widzę,  , krowę,  , -, i,  , to,  , dobrze, !]", tokens5.toString());
 
     //mdash
     final List<String> tokens6 = wordTokenizer.tokenize("A to jest zdanie—rzeczywiście—z wtrąceniem.");
-    assertEquals(tokens6.size(), 14);
-    assertEquals("[A,  , to,  , jest,  , zdanie, —, rzeczywiście, —, z,  , wtrąceniem, .]", tokens6.toString());
+    Assertions.assertEquals(tokens6.size(), 14);
+    Assertions.assertEquals("[A,  , to,  , jest,  , zdanie, —, rzeczywiście, —, z,  , wtrąceniem, .]", tokens6.toString());
 
     //compound words with hyphens
     final String compoundSentence = "To jest kobieta-wojownik w polsko-czeskim ubraniu, która wysłała dwa SMS-y.";
     List<String> compoundTokens = wordTokenizer.tokenize(compoundSentence);
-    assertEquals(21, compoundTokens.size());
-    assertEquals("[To,  , jest,  , kobieta-wojownik,  , w,  , polsko-czeskim,  , ubraniu, ,,  , która,  , wysłała,  , dwa,  , SMS-y, .]", compoundTokens.toString());
+    Assertions.assertEquals(21, compoundTokens.size());
+    Assertions.assertEquals("[To,  , jest,  , kobieta-wojownik,  , w,  , polsko-czeskim,  , ubraniu, ,,  , która,  , wysłała,  , dwa,  , SMS-y, .]", compoundTokens.toString());
     //now setup the tagger...
     Language pl = new Polish();
     wordTokenizer.setTagger(pl.getTagger());
     compoundTokens = wordTokenizer.tokenize(compoundSentence);
     //we should get 4 more tokens: two hyphen tokens and two for the split words
-    assertEquals(25, compoundTokens.size());
-    assertEquals("[To,  , jest,  , kobieta, -, wojownik,  , " +
+    Assertions.assertEquals(25, compoundTokens.size());
+    Assertions.assertEquals("[To,  , jest,  , kobieta, -, wojownik,  , " +
         "w,  , polsko, -, czeskim,  , ubraniu, ,,  " +
         ", która,  , wysłała,  , dwa,  , SMS-y, .]", compoundTokens.toString());
     compoundTokens = wordTokenizer.tokenize("Miała osiemnaście-dwadzieścia lat.");
-    assertEquals(8, compoundTokens.size());
-    assertEquals("[Miała,  , osiemnaście, -, dwadzieścia,  , lat, .]", compoundTokens.toString());
+    Assertions.assertEquals(8, compoundTokens.size());
+    Assertions.assertEquals("[Miała,  , osiemnaście, -, dwadzieścia,  , lat, .]", compoundTokens.toString());
     // now three-part adja-adja-adj...:
     compoundTokens = wordTokenizer.tokenize("Słownik polsko-niemiecko-indonezyjski");
-    assertEquals(7, compoundTokens.size());
-    assertEquals("[Słownik,  , polsko, -, niemiecko, -, indonezyjski]", compoundTokens.toString());
+    Assertions.assertEquals(7, compoundTokens.size());
+    Assertions.assertEquals("[Słownik,  , polsko, -, niemiecko, -, indonezyjski]", compoundTokens.toString());
     // number ranges:
     compoundTokens = wordTokenizer.tokenize("Impreza odbędzie się w dniach 1-23 maja.");
-    assertEquals(16, compoundTokens.size());
-    assertEquals("[Impreza,  , odbędzie,  , się,  , w,  , dniach,  , 1, -, 23,  , maja, .]", compoundTokens.toString());
+    Assertions.assertEquals(16, compoundTokens.size());
+    Assertions.assertEquals("[Impreza,  , odbędzie,  , się,  , w,  , dniach,  , 1, -, 23,  , maja, .]", compoundTokens.toString());
     // number ranges:
     compoundTokens = wordTokenizer.tokenize("Impreza odbędzie się w dniach 1--23 maja.");
-    assertEquals(18, compoundTokens.size());
-    assertEquals("[Impreza,  , odbędzie,  , się,  , w,  , dniach,  , 1, -, , -, 23,  , maja, .]", compoundTokens.toString());
+    Assertions.assertEquals(18, compoundTokens.size());
+    Assertions.assertEquals("[Impreza,  , odbędzie,  , się,  , w,  , dniach,  , 1, -, , -, 23,  , maja, .]", compoundTokens.toString());
   }
 
 }

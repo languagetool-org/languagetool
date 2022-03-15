@@ -18,21 +18,21 @@
  */
 package org.languagetool.rules;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 
 import java.io.IOException;
 
-import static org.junit.Assert.assertEquals;
 
 public class CommaWhitespaceRuleTest {
 
   private CommaWhitespaceRule rule;
   private JLanguageTool lt;
   
-  @Before
+  @BeforeEach
   public void setUp() {
     rule = new CommaWhitespaceRule(TestTools.getEnglishMessages());
     lt = new JLanguageTool(TestTools.getDemoLanguage());
@@ -80,41 +80,41 @@ public class CommaWhitespaceRuleTest {
     assertMatches("A sentence 'with ' one examples of wrong quotations marks in it.", 1);
 
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("ABB (  z.B. )"));
-    assertEquals(2, matches.length);
-    assertEquals(4, matches[0].getFromPos());
-    assertEquals(6, matches[0].getToPos());
-    assertEquals(11, matches[1].getFromPos());
-    assertEquals(13, matches[1].getToPos());
+    Assertions.assertEquals(2, matches.length);
+    Assertions.assertEquals(4, matches[0].getFromPos());
+    Assertions.assertEquals(6, matches[0].getToPos());
+    Assertions.assertEquals(11, matches[1].getFromPos());
+    Assertions.assertEquals(13, matches[1].getToPos());
     
     matches = rule.match(lt.getAnalyzedSentence("This ,"));
-    assertEquals(1, matches.length);
-    assertEquals(",", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals(",", matches[0].getSuggestedReplacements().get(0));
     matches = rule.match(lt.getAnalyzedSentence("This ,is a test sentence."));
-    assertEquals(2, matches.length);
-    assertEquals(", ", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(2, matches.length);
+    Assertions.assertEquals(", ", matches[0].getSuggestedReplacements().get(0));
     matches = rule.match(lt.getAnalyzedSentence("This , is a test sentence."));
-    assertEquals(1, matches.length);
-    assertEquals(",", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals(",", matches[0].getSuggestedReplacements().get(0));
 
     matches = rule.match(lt.getAnalyzedSentence("You \" fixed\" it."));
-    assertEquals(1, matches.length);
-    assertEquals("\" ", matches[0].getSuggestedReplacements().get(0));
-    assertEquals(" \"", matches[0].getSuggestedReplacements().get(1));
-    assertEquals(3, matches[0].getFromPos());
-    assertEquals(6, matches[0].getToPos());
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("\" ", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(" \"", matches[0].getSuggestedReplacements().get(1));
+    Assertions.assertEquals(3, matches[0].getFromPos());
+    Assertions.assertEquals(6, matches[0].getToPos());
     matches = rule.match(lt.getAnalyzedSentence("You \"fixed \" it."));
-    assertEquals(1, matches.length);
-    assertEquals("\" ", matches[0].getSuggestedReplacements().get(0));
-    assertEquals(" \"", matches[0].getSuggestedReplacements().get(1));
-    assertEquals(10, matches[0].getFromPos());
-    assertEquals(13, matches[0].getToPos());
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("\" ", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(" \"", matches[0].getSuggestedReplacements().get(1));
+    Assertions.assertEquals(10, matches[0].getFromPos());
+    Assertions.assertEquals(13, matches[0].getToPos());
 
     assertMatches("Ellipsis . . . as suggested by The Chicago Manual of Style", 3);
     assertMatches("Ellipsis . . . . as suggested by The Chicago Manual of Style", 4);
   }
 
   private void assertMatches(String text, int expectedMatches) throws IOException {
-    assertEquals(expectedMatches, rule.match(lt.getAnalyzedSentence(text)).length);
+    Assertions.assertEquals(expectedMatches, rule.match(lt.getAnalyzedSentence(text)).length);
   }
 
 }

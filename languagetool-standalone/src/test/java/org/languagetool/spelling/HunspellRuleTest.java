@@ -18,7 +18,9 @@
  */
 package org.languagetool.spelling;
 
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
@@ -28,7 +30,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
 
 public class HunspellRuleTest {
 
@@ -37,8 +38,8 @@ public class HunspellRuleTest {
     List<Language> altLangs = Arrays.asList(Languages.getLanguageForShortCode("en-US"));
     JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"), altLangs, null, null, null, null);
     List<RuleMatch> matches = lt.check("Der ROI ist schoon.");
-    assertThat(matches.size(), is(1));
-    assertTrue(matches.get(0).getMessage().contains("Tippfehler"));
+    MatcherAssert.assertThat(matches.size(), is(1));
+    Assertions.assertTrue(matches.get(0).getMessage().contains("Tippfehler"));
   }
   
 }

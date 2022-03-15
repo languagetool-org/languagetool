@@ -18,13 +18,12 @@
  */
 package org.languagetool.rules.de;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
-
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
+
+import java.io.IOException;
 
 /**
  * @author Markus Brenneis
@@ -36,16 +35,16 @@ public class GermanWordRepeatBeginningRuleTest {
     JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
     lt.disableRule("DE_REPEATEDWORDS");
     // correct sentences:
-    assertEquals(0, lt.check("Er ist nett. Er heißt Max.").size());
-    assertEquals(0, lt.check("Außerdem kommt er. Ferner kommt sie. Außerdem kommt es.").size());
-    assertEquals(0, lt.check("2011: Dieses passiert. 2011: Jenes passiert. 2011: Nicht passiert").size());
+    Assertions.assertEquals(0, lt.check("Er ist nett. Er heißt Max.").size());
+    Assertions.assertEquals(0, lt.check("Außerdem kommt er. Ferner kommt sie. Außerdem kommt es.").size());
+    Assertions.assertEquals(0, lt.check("2011: Dieses passiert. 2011: Jenes passiert. 2011: Nicht passiert").size());
     // errors:
-    assertEquals(1, lt.check("Er ist nett. Er heißt Max. Er ist 11.").size());
-    assertEquals(1, lt.check("Außerdem kommt er. Außerdem kommt sie.").size());
+    Assertions.assertEquals(1, lt.check("Er ist nett. Er heißt Max. Er ist 11.").size());
+    Assertions.assertEquals(1, lt.check("Außerdem kommt er. Außerdem kommt sie.").size());
     // this used to cause false alarms because reset() was not implemented
-    assertEquals(0, lt.check("Außerdem ist das ein neuer Text.").size());
+    Assertions.assertEquals(0, lt.check("Außerdem ist das ein neuer Text.").size());
     // only consider 'real' sentences that end in [.!?]:
-    assertEquals(0, lt.check("Außerdem ist das ein neuer Text\n\nAußerdem noch mehr ohne Punkt\n\nAußerdem schon wieder").size());
+    Assertions.assertEquals(0, lt.check("Außerdem ist das ein neuer Text\n\nAußerdem noch mehr ohne Punkt\n\nAußerdem schon wieder").size());
   }
 
 }

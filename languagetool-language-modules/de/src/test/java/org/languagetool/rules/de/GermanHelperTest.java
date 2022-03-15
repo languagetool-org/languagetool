@@ -18,45 +18,44 @@
  */
 package org.languagetool.rules.de;
 
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.tagging.de.GermanToken;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 
 public class GermanHelperTest {
   
   @Test
   public void testHasReadingOfType() throws Exception {
     AnalyzedTokenReadings readings = new AnalyzedTokenReadings(new AnalyzedToken("der", "ART:DEF:DAT:SIN:FEM", null), 0);
-    assertTrue(GermanHelper.hasReadingOfType(readings, GermanToken.POSType.DETERMINER));
-    assertFalse(GermanHelper.hasReadingOfType(readings, GermanToken.POSType.NOMEN));
+    Assertions.assertTrue(GermanHelper.hasReadingOfType(readings, GermanToken.POSType.DETERMINER));
+    Assertions.assertFalse(GermanHelper.hasReadingOfType(readings, GermanToken.POSType.NOMEN));
   }
   
   @Test
   public void testGetDeterminerNumber() throws Exception {
-    assertThat(GermanHelper.getDeterminerNumber("ART:DEF:DAT:SIN:FEM"), is("SIN"));
+    MatcherAssert.assertThat(GermanHelper.getDeterminerNumber("ART:DEF:DAT:SIN:FEM"), is("SIN"));
   }
 
   @Test
   public void testGetDeterminerDefiniteness() throws Exception {
-    assertThat(GermanHelper.getDeterminerDefiniteness("ART:DEF:DAT:SIN:FEM"), is("DEF"));
+    MatcherAssert.assertThat(GermanHelper.getDeterminerDefiniteness("ART:DEF:DAT:SIN:FEM"), is("DEF"));
   }
 
   @Test
   public void testGetDeterminerCase() throws Exception {
-    assertThat(GermanHelper.getDeterminerCase("ART:DEF:DAT:SIN:FEM"), is("DAT"));
+    MatcherAssert.assertThat(GermanHelper.getDeterminerCase("ART:DEF:DAT:SIN:FEM"), is("DAT"));
   }
 
   @Test
   public void testGetDeterminerGender() throws Exception {
-    assertThat(GermanHelper.getDeterminerGender(null), is(""));
-    assertThat(GermanHelper.getDeterminerGender(""), is(""));
-    assertThat(GermanHelper.getDeterminerGender("ART:DEF:DAT:SIN:FEM"), is("FEM"));
+    MatcherAssert.assertThat(GermanHelper.getDeterminerGender(null), is(""));
+    MatcherAssert.assertThat(GermanHelper.getDeterminerGender(""), is(""));
+    MatcherAssert.assertThat(GermanHelper.getDeterminerGender("ART:DEF:DAT:SIN:FEM"), is("FEM"));
   }
   
 }

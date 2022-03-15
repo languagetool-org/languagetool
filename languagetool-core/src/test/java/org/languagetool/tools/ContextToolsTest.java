@@ -18,9 +18,9 @@
  */
 package org.languagetool.tools;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.Assertions;
 
 public class ContextToolsTest {
 
@@ -28,9 +28,9 @@ public class ContextToolsTest {
   public void testGetContext() throws Exception {
     ContextTools contextTools = new ContextTools();
     String context = contextTools.getContext(4, 8, "Hi, this is some nice text waiting for its error markers.");
-    assertEquals("Hi, <b><font bgcolor=\"#ff8b8b\">this</font></b> is some nice text waiting for its error...", context);
+    Assertions.assertEquals("Hi, <b><font bgcolor=\"#ff8b8b\">this</font></b> is some nice text waiting for its error...", context);
     String context2 = contextTools.getContext(3, 5, "xxx\n \nyyy");
-    assertEquals("xxx<b><font bgcolor=\"#ff8b8b\">&nbsp;&nbsp;</font></b> yyy", context2);
+    Assertions.assertEquals("xxx<b><font bgcolor=\"#ff8b8b\">&nbsp;&nbsp;</font></b> yyy", context2);
   }
 
   @Test
@@ -39,7 +39,7 @@ public class ContextToolsTest {
     contextTools.setContextSize(5);
     String input = "This is a test sentence. Here's another sentence with more text.";
     String result = contextTools.getPlainTextContext(8, 14, input);
-    assertEquals("...s is a test sent...\n        ^^^^^^     ", result);
+    Assertions.assertEquals("...s is a test sent...\n        ^^^^^^     ", result);
   }
 
   @Test
@@ -48,7 +48,7 @@ public class ContextToolsTest {
     contextTools.setContextSize(5);
     String input = "One.\nThis is a test sentence.\nHere's another sentence.";
     String result = contextTools.getPlainTextContext(15, 19, input);
-    assertEquals("...is a test sent...\n        ^^^^     ", result);
+    Assertions.assertEquals("...is a test sent...\n        ^^^^     ", result);
   }
 
   @Test
@@ -57,7 +57,7 @@ public class ContextToolsTest {
     contextTools.setContextSize(5);
     String input = "One.\r\nThis is a test sentence.\r\nHere's another sentence.";
     String result = contextTools.getPlainTextContext(16, 20, input);
-    assertEquals("...is a test sent...\n        ^^^^     ", result);
+    Assertions.assertEquals("...is a test sent...\n        ^^^^     ", result);
   }
 
   @Test
@@ -65,18 +65,18 @@ public class ContextToolsTest {
     ContextTools contextTools = new ContextTools();
     contextTools.setContextSize(100);
     String context = contextTools.getContext(4, 8, "Hi, this is some nice text waiting for its error markers.");
-    assertEquals("Hi, <b><font bgcolor=\"#ff8b8b\">this</font></b> is some nice text waiting for its error markers.", context);
+    Assertions.assertEquals("Hi, <b><font bgcolor=\"#ff8b8b\">this</font></b> is some nice text waiting for its error markers.", context);
   }
 
   @Test
   public void testHtmlEscape() throws Exception {
     ContextTools contextTools = new ContextTools();
     String context1 = contextTools.getContext(0, 2, "Hi, this is <html>.");
-    assertEquals("<b><font bgcolor=\"#ff8b8b\">Hi</font></b>, this is &lt;html&gt;.", context1);
+    Assertions.assertEquals("<b><font bgcolor=\"#ff8b8b\">Hi</font></b>, this is &lt;html&gt;.", context1);
 
     contextTools.setEscapeHtml(false);
     String context2 = contextTools.getContext(0, 2, "Hi, this is <html>.");
-    assertEquals("<b><font bgcolor=\"#ff8b8b\">Hi</font></b>, this is <html>.", context2);
+    Assertions.assertEquals("<b><font bgcolor=\"#ff8b8b\">Hi</font></b>, this is <html>.", context2);
   }
 
   @Test
@@ -84,7 +84,7 @@ public class ContextToolsTest {
     ContextTools contextTools = new ContextTools();
     contextTools.setErrorMarker("<X>", "</X>");
     String context = contextTools.getContext(0, 2, "Hi, this is it.");
-    assertEquals("<X>Hi</X>, this is it.", context);
+    Assertions.assertEquals("<X>Hi</X>, this is it.", context);
   }
 
 }

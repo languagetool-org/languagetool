@@ -18,7 +18,8 @@
  */
 package org.languagetool.rules.pt;
 
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
@@ -27,7 +28,6 @@ import org.languagetool.markup.AnnotatedTextBuilder;
 import java.io.IOException;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
 
 public class PreReformPortugueseDashRuleTest {
 
@@ -35,9 +35,9 @@ public class PreReformPortugueseDashRuleTest {
   public void test() throws IOException {
     JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("pt-AO"));
     TestTools.disableAllRulesExcept(lt, "PT_PREAO_DASH_RULE");
-    assertThat(lt.check(new AnnotatedTextBuilder().addText("abaixa-língua").build(), true,
+    MatcherAssert.assertThat(lt.check(new AnnotatedTextBuilder().addText("abaixa-língua").build(), true,
       JLanguageTool.ParagraphHandling.NORMAL, null, JLanguageTool.Mode.ALL, JLanguageTool.Level.PICKY).size(), is(0));
-    assertThat(lt.check(new AnnotatedTextBuilder().addText("abaixa—língua").build(), true,
+    MatcherAssert.assertThat(lt.check(new AnnotatedTextBuilder().addText("abaixa—língua").build(), true,
       JLanguageTool.ParagraphHandling.NORMAL, null, JLanguageTool.Mode.ALL, JLanguageTool.Level.PICKY).size(), is(1));
   }
 }

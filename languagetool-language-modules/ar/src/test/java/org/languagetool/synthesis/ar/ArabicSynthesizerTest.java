@@ -19,13 +19,12 @@
  */
 package org.languagetool.synthesis.ar;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.language.Arabic;
 
 import java.util.Arrays;
-
-import static org.junit.Assert.assertEquals;
 
 public class ArabicSynthesizerTest {
 
@@ -33,22 +32,18 @@ public class ArabicSynthesizerTest {
   public final void testSynthesizeStringString() {
     ArabicSynthesizer synth = new ArabicSynthesizer(new Arabic());
 
-    assertEquals(Arrays.toString(synth.synthesize(dummyToken("خيار"), "NJ-;F2--;---")), "[خيارتان, خياريتان]");
+    Assertions.assertEquals(Arrays.toString(synth.synthesize(dummyToken("خيار"), "NJ-;F2--;---")), "[خيارتان, خياريتان]");
 
-    assertEquals(Arrays.toString(synth.synthesize(dummyToken("بلاد"), "NJ-;F3A-;--H")),
-      "[بلادت, بلادتي, بلاد, بلادي]");   // assertEquals(Arrays.toString(synth.synthesize(dummyToken("بلاد"), "NJ-;F3A-;--H\\+RP", true)),
+    Assertions.assertEquals(Arrays.toString(synth.synthesize(dummyToken("بلاد"), "NJ-;F3A-;--H")), "[بلادت, بلادتي, بلاد, بلادي]");   // assertEquals(Arrays.toString(synth.synthesize(dummyToken("بلاد"), "NJ-;F3A-;--H\\+RP", true)),
 
     // an example with specific postag with regex flag enabled
-    assertEquals(Arrays.toString(synth.synthesize(dummyToken("اِسْتَعْمَلَ"), "V61;M3Y-pa-;--H")),
-      "[استعملتمو]");
+    Assertions.assertEquals(Arrays.toString(synth.synthesize(dummyToken("اِسْتَعْمَلَ"), "V61;M3Y-pa-;--H")), "[استعملتمو]");
 
     // an example with specific postag without regex flag
-    assertEquals(Arrays.toString(synth.synthesize(dummyToken("اِسْتَكْمَلَ"), "V61;M3Y-pa-;---")),
-      "[استكملتم]");
+    Assertions.assertEquals(Arrays.toString(synth.synthesize(dummyToken("اِسْتَكْمَلَ"), "V61;M3Y-pa-;---")), "[استكملتم]");
 
     // an example with specific postag without regex flag + code flag
-    assertEquals(Arrays.toString(synth.synthesize(dummyToken("اِسْتَمَعَ"), "V51;M3Y-pa-;---")),
-      "[استمعتم]");
+    Assertions.assertEquals(Arrays.toString(synth.synthesize(dummyToken("اِسْتَمَعَ"), "V51;M3Y-pa-;---")), "[استمعتم]");
 
   }
 

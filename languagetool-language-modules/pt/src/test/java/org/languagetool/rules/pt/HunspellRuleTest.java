@@ -18,14 +18,13 @@
  */
 package org.languagetool.rules.pt;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
-
-import static org.junit.Assert.assertEquals;
 
 public class HunspellRuleTest {
 
@@ -34,25 +33,25 @@ public class HunspellRuleTest {
     HunspellRule rule = new HunspellRule(TestTools.getMessages("pt"), Languages.getLanguageForShortCode("pt-PT"), null);
     JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("pt-PT"));
     
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("A família.")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("A família.")).length);
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("A familia.")); 
-    assertEquals(1, matches.length);
-    assertEquals("família", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("familiar", matches[0].getSuggestedReplacements().get(1));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("família", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals("familiar", matches[0].getSuggestedReplacements().get(1));
     
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Covid-19, COVID-19, covid-19.")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Covid-19, COVID-19, covid-19.")).length);
     
     matches = rule.match(lt.getAnalyzedSentence("eu ja fiz isso.")); 
-    assertEquals(1, matches.length);
-    assertEquals("já", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("já", matches[0].getSuggestedReplacements().get(0));
     
     matches = rule.match(lt.getAnalyzedSentence("eu so")); 
-    assertEquals(1, matches.length);
-    assertEquals("só", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("só", matches[0].getSuggestedReplacements().get(0));
     
     matches = rule.match(lt.getAnalyzedSentence("é so")); 
-    assertEquals(1, matches.length);
-    assertEquals("só", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("só", matches[0].getSuggestedReplacements().get(0));
 
     lt.check("- Encontre no autoconheciemen");  // No "Could not map 29 to original position." issue
   }

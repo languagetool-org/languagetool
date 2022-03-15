@@ -18,14 +18,14 @@
  */
 package org.languagetool.rules;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 
 import java.io.IOException;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
 
 /**
  * @author Marcin Milkowski
@@ -57,37 +57,37 @@ public class MultipleWhitespaceRuleTest {
 
     // incorrect sentences:
     matches = lt.check("This  is a test sentence.");
-    assertEquals(1, matches.size());
-    assertEquals(4, matches.get(0).getFromPos());
-    assertEquals(6, matches.get(0).getToPos());
+    Assertions.assertEquals(1, matches.size());
+    Assertions.assertEquals(4, matches.get(0).getFromPos());
+    Assertions.assertEquals(6, matches.get(0).getToPos());
     matches = lt.check("\n   This  is a test sentence.");
-    assertEquals(1, matches.size());
-    assertEquals(8, matches.get(0).getFromPos());
-    assertEquals(10, matches.get(0).getToPos());
+    Assertions.assertEquals(1, matches.size());
+    Assertions.assertEquals(8, matches.get(0).getFromPos());
+    Assertions.assertEquals(10, matches.get(0).getToPos());
     matches = lt.check("This is a test   sentence.");
-    assertEquals(1, matches.size());
-    assertEquals(14, matches.get(0).getFromPos());
-    assertEquals(17, matches.get(0).getToPos());
+    Assertions.assertEquals(1, matches.size());
+    Assertions.assertEquals(14, matches.get(0).getFromPos());
+    Assertions.assertEquals(17, matches.get(0).getToPos());
     matches = lt.check("This is   a  test   sentence.");
-    assertEquals(3, matches.size());
-    assertEquals(7, matches.get(0).getFromPos());
-    assertEquals(10, matches.get(0).getToPos());
-    assertEquals(11, matches.get(1).getFromPos());
-    assertEquals(13, matches.get(1).getToPos());
-    assertEquals(17, matches.get(2).getFromPos());
-    assertEquals(20, matches.get(2).getToPos());
+    Assertions.assertEquals(3, matches.size());
+    Assertions.assertEquals(7, matches.get(0).getFromPos());
+    Assertions.assertEquals(10, matches.get(0).getToPos());
+    Assertions.assertEquals(11, matches.get(1).getFromPos());
+    Assertions.assertEquals(13, matches.get(1).getToPos());
+    Assertions.assertEquals(17, matches.get(2).getFromPos());
+    Assertions.assertEquals(20, matches.get(2).getToPos());
     matches = lt.check("\t\t\t    \t\t\t\t  ");
-    assertEquals(2, matches.size());
+    Assertions.assertEquals(2, matches.size());
     //with non-breakable spaces
     matches = lt.check("This \u00A0is a test sentence.");
-    assertEquals(1, matches.size());
-    assertEquals(4, matches.get(0).getFromPos());
-    assertEquals(6, matches.get(0).getToPos());    
+    Assertions.assertEquals(1, matches.size());
+    Assertions.assertEquals(4, matches.get(0).getFromPos());
+    Assertions.assertEquals(6, matches.get(0).getToPos());    
   }
 
   private void assertGood(String input, JLanguageTool lt) throws IOException {
     List<RuleMatch> ruleMatches = lt.check(input);
-    assertEquals(0, ruleMatches.size());
+    Assertions.assertEquals(0, ruleMatches.size());
   }
   
   private void setUpRule(JLanguageTool lt) {

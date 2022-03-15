@@ -19,35 +19,35 @@
 
 package org.languagetool;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Assertions;
 
 public class AnalyzedTokenTest {
 
   @Test
   public void testToString() {
     AnalyzedToken testToken = new AnalyzedToken("word", "POS", "lemma");
-    assertEquals("lemma/POS", testToken.toString());
-    assertEquals("lemma", testToken.getLemma());
+    Assertions.assertEquals("lemma/POS", testToken.toString());
+    Assertions.assertEquals("lemma", testToken.getLemma());
     AnalyzedToken testToken2 = new AnalyzedToken("word", "POS", null);
-    assertEquals("word/POS", testToken2.toString());
-    assertEquals(null, testToken2.getLemma());
-    assertEquals("word", testToken2.getToken());
+    Assertions.assertEquals("word/POS", testToken2.toString());
+    Assertions.assertNull(testToken2.getLemma());
+    Assertions.assertEquals("word", testToken2.getToken());
   }
 
   @Test
   public void testMatches() {
     AnalyzedToken testToken1 = new AnalyzedToken("word", "POS", "lemma");
-    assertFalse(testToken1.matches(new AnalyzedToken("", null, null)));
-    assertTrue(testToken1.matches(new AnalyzedToken("word", null, null)));
-    assertTrue(testToken1.matches(new AnalyzedToken("word", "POS", null)));
-    assertTrue(testToken1.matches(new AnalyzedToken("word", "POS", "lemma")));
-    assertFalse(testToken1.matches(new AnalyzedToken("word", "POS1", "lemma")));
-    assertFalse(testToken1.matches(new AnalyzedToken("word1", "POS", "lemma")));
-    assertFalse(testToken1.matches(new AnalyzedToken("word", "POS", "lemma1")));
-    assertTrue(testToken1.matches(new AnalyzedToken("", "POS", "lemma")));
-    assertTrue(testToken1.matches(new AnalyzedToken("", null, "lemma")));
+    Assertions.assertFalse(testToken1.matches(new AnalyzedToken("", null, null)));
+    Assertions.assertTrue(testToken1.matches(new AnalyzedToken("word", null, null)));
+    Assertions.assertTrue(testToken1.matches(new AnalyzedToken("word", "POS", null)));
+    Assertions.assertTrue(testToken1.matches(new AnalyzedToken("word", "POS", "lemma")));
+    Assertions.assertFalse(testToken1.matches(new AnalyzedToken("word", "POS1", "lemma")));
+    Assertions.assertFalse(testToken1.matches(new AnalyzedToken("word1", "POS", "lemma")));
+    Assertions.assertFalse(testToken1.matches(new AnalyzedToken("word", "POS", "lemma1")));
+    Assertions.assertTrue(testToken1.matches(new AnalyzedToken("", "POS", "lemma")));
+    Assertions.assertTrue(testToken1.matches(new AnalyzedToken("", null, "lemma")));
   }
   
 }

@@ -20,8 +20,9 @@ package org.languagetool.language;
 
 import com.optimaize.langdetect.text.TextObjectFactory;
 import com.optimaize.langdetect.text.TextObjectFactoryBuilder;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.languagetool.DetectedLanguage;
 
 import java.io.File;
@@ -31,21 +32,19 @@ import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 public class LanguageIdentifierTest {
 
-  private final static String fastTextBinary = "/home/languagetool/fasttext/fasttext";
-  private final static String fastTextModel = "/home/languagetool/fasttext/lid.176.bin";
-  private final static String ngramData = "/home/languagetool/model_ml50_new.zip";
-  private final static String czech = "V současné době je označením Linux míněno nejen jádro operačního systému, " +
+  private static final String fastTextBinary = "/home/languagetool/fasttext/fasttext";
+  private static final String fastTextModel = "/home/languagetool/fasttext/lid.176.bin";
+  private static final String ngramData = "/home/languagetool/model_ml50_new.zip";
+  private static final String czech = "V současné době je označením Linux míněno nejen jádro operačního systému, " +
           "ale zahrnuje do něj též veškeré programové vybavení";
 
   private final LanguageIdentifier identifier = new LanguageIdentifier();
 
   @Test
-  @Ignore("requires ngram data from https://languagetool.org/download/ngram-lang-detect/")
+  @Disabled("requires ngram data from https://languagetool.org/download/ngram-lang-detect/")
   public void cleanAndShortenText() {
     LanguageIdentifier ident = new LanguageIdentifier(20);
     assertThat(ident.cleanAndShortenText("foo"), is("foo"));
@@ -101,7 +100,7 @@ public class LanguageIdentifierTest {
   }
 
   @Test
-  @Ignore("disabled minimum length, instead now providing confidence score")
+  @Disabled("disabled minimum length, instead now providing confidence score")
   public void testShortAndLongText() {
     LanguageIdentifier id10 = new LanguageIdentifier(10);
     langAssert(null, "Das ist so ein Text, mit dem man testen kann", id10);  // too short when max length is applied
@@ -139,7 +138,7 @@ public class LanguageIdentifierTest {
   }
 
   @Test
-  @Ignore("Only works with locally installed fastText")
+  @Disabled("Only works with locally installed fastText")
   public void testAdditionalLanguagesFasttext() {
     LanguageIdentifier defaultIdent = new LanguageIdentifier();
     langAssert("sk", czech, defaultIdent);  // misdetected, as cz isn't supported by LT
@@ -150,7 +149,7 @@ public class LanguageIdentifierTest {
   }
 
   @Test
-  @Ignore("Only works with locally installed fastText, no test - for interactive use")
+  @Disabled("Only works with locally installed fastText, no test - for interactive use")
   public void testInteractively() {
     LanguageIdentifier ident = new LanguageIdentifier();
     ident.enableFasttext(new File(fastTextBinary), new File(fastTextModel));
@@ -183,7 +182,7 @@ public class LanguageIdentifierTest {
   }
 
   @Test
-  @Ignore("Only works with locally installed fastText")
+  @Disabled("Only works with locally installed fastText")
   public void testShortTexts() {
     LanguageIdentifier defaultIdent = new LanguageIdentifier();
     defaultIdent.enableFasttext(new File(fastTextBinary), new File(fastTextModel));
@@ -210,7 +209,7 @@ public class LanguageIdentifierTest {
   }
 
   @Test
-  @Ignore("Only works with locally installed fastText")
+  @Disabled("Only works with locally installed fastText")
   public void testShortTextsWithPreferredLanguage() {
     LanguageIdentifier ident = new LanguageIdentifier();
     List<String> enDePreferred = Arrays.asList("de", "en");
@@ -242,19 +241,19 @@ public class LanguageIdentifierTest {
     
     try {
       ident.detectLanguage("fake", noop, Arrays.asList("de", "en-US"));
-      fail("Expected exception");
+      Assertions.fail("Expected exception");
     } catch (IllegalArgumentException ignore) { }
   }
 
   @Test
-  @Ignore("Known to fail due to bug")
+  @Disabled("Known to fail due to bug")
   public void textObjectBugForJapanese() {
     // see https://github.com/languagetool-org/languagetool/issues/1278
     TextObjectFactory textObjectFactory  = new TextObjectFactoryBuilder().maxTextLength(1000).build();
     String inp = "一体日本人は生きるということを知っているだろうか。";
     String shortText = textObjectFactory.forText(inp).toString();
     System.out.println(shortText);
-    assertEquals(inp, shortText);
+    Assertions.assertEquals(inp, shortText);
   }
 
   @Test
@@ -281,14 +280,14 @@ public class LanguageIdentifierTest {
       : null;
     if (expectedLangCode == null) {
       if (detectedLangCode != null) {
-        fail("Got '" + detectedLangCode + "', expected null for '" + text + "'");
+        Assertions.fail("Got '" + detectedLangCode + "', expected null for '" + text + "'");
       }
     } else {
       if (!expectedLangCode.equals(detectedLangCode)) {
         if (detectedLang != null) {
-          fail("Got '" + detectedLangCode + "', expected '" + expectedLangCode + "' for '" + text + "'");
+          Assertions.fail("Got '" + detectedLangCode + "', expected '" + expectedLangCode + "' for '" + text + "'");
         } else {
-          fail("Got null, expected '" + expectedLangCode + "' for '" + text + "'");
+          Assertions.fail("Got null, expected '" + expectedLangCode + "' for '" + text + "'");
         }
       }
     }

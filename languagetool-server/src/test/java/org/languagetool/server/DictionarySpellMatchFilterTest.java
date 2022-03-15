@@ -18,8 +18,9 @@
  */
 package org.languagetool.server;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 import org.languagetool.*;
 import org.languagetool.language.Demo;
 import org.languagetool.markup.AnnotatedText;
@@ -35,8 +36,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.CoreMatchers.is;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -44,7 +43,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class DictionarySpellMatchFilterTest {
 
   @Test
-  @Ignore("Used to estimate performance of spell match filter")
+  @Disabled("Used to estimate performance of spell match filter")
   public void testLoading() throws IOException {
     List<String> phrases = JLanguageTool.getDataBroker()
       .getFromResourceDirAsLines("en/multiwords.txt")
@@ -95,9 +94,9 @@ public class DictionarySpellMatchFilterTest {
     DictionarySpellMatchFilter filter = new DictionarySpellMatchFilter(new UserConfig());
     Map<String, List<RuleMatch>> result = filter.getPhrases(matches, aText);
     assertThat(result.size(), is(3));
-    assertTrue(result.containsKey("aa bb"));
-    assertTrue(result.containsKey("xx yyy"));
-    assertTrue(result.containsKey("xx yyy zzzz"));
+    Assertions.assertTrue(result.containsKey("aa bb"));
+    Assertions.assertTrue(result.containsKey("xx yyy"));
+    Assertions.assertTrue(result.containsKey("xx yyy zzzz"));
   }
 
   // Testing languages with spellers based on MorfologikMultiSpeller and HunspellRule
@@ -106,16 +105,16 @@ public class DictionarySpellMatchFilterTest {
     Language english = Languages.getLanguageForShortCode("en-US");
 
     JLanguageTool lt = new JLanguageTool(english);
-    assertEquals(1, lt.check("This is a mistak.").size());
-    assertEquals(1, lt.check("This is baad.").size());
-    assertEquals(2, lt.check("This is a baad mistak.").size());
+    Assertions.assertEquals(1, lt.check("This is a mistak.").size());
+    Assertions.assertEquals(1, lt.check("This is baad.").size());
+    Assertions.assertEquals(2, lt.check("This is a baad mistak.").size());
 
     UserConfig userConfig = new UserConfig(Arrays.asList("baad mistak"));
     PipelinePool pool = new PipelinePool(new HTTPServerConfig(), null, true);
     JLanguageTool ltWithPhrase = pool.getPipeline(new PipelineSettings(english, userConfig));
-    assertEquals(1, ltWithPhrase.check("This is a mistak.").size());
-    assertEquals(1, ltWithPhrase.check("This is baad.").size());
-    assertEquals(0, ltWithPhrase.check("This is a baad mistak.").size());
+    Assertions.assertEquals(1, ltWithPhrase.check("This is a mistak.").size());
+    Assertions.assertEquals(1, ltWithPhrase.check("This is baad.").size());
+    Assertions.assertEquals(0, ltWithPhrase.check("This is a baad mistak.").size());
   }
 
   @Test
@@ -126,16 +125,16 @@ public class DictionarySpellMatchFilterTest {
     Language english = Languages.getLanguageForShortCode("en-US");
 
     JLanguageTool lt = new JLanguageTool(english);
-    assertEquals(0, lt.check("This is a mistake.").size());
-    assertEquals(1, lt.check("This is baad.").size());
-    assertEquals(1, lt.check("This is a baad mistake.").size());
+    Assertions.assertEquals(0, lt.check("This is a mistake.").size());
+    Assertions.assertEquals(1, lt.check("This is baad.").size());
+    Assertions.assertEquals(1, lt.check("This is a baad mistake.").size());
 
-    UserConfig userConfig = new UserConfig(Arrays.asList("baad mistake"));
+    UserConfig userConfig = new UserConfig(Collections.singletonList("baad mistake"));
     PipelinePool pool = new PipelinePool(new HTTPServerConfig(), null, true);
     JLanguageTool ltWithPhrase = pool.getPipeline(new PipelineSettings(english, userConfig));
-    assertEquals(0, ltWithPhrase.check("This is a mistake.").size());
-    assertEquals(1, ltWithPhrase.check("This is baad.").size());
-    assertEquals(0, ltWithPhrase.check("This is a baad mistake.").size());
+    Assertions.assertEquals(0, ltWithPhrase.check("This is a mistake.").size());
+    Assertions.assertEquals(1, ltWithPhrase.check("This is baad.").size());
+    Assertions.assertEquals(0, ltWithPhrase.check("This is a baad mistake.").size());
   }
 
   @Test
@@ -143,16 +142,16 @@ public class DictionarySpellMatchFilterTest {
     Language german = Languages.getLanguageForShortCode("de-DE");
 
     JLanguageTool lt = new JLanguageTool(german);
-    assertEquals(1, lt.check("Das ist ein Fehlar.").size());
-    assertEquals(1, lt.check("Das ist schlim.").size());
-    assertEquals(2, lt.check("Das ist ein schlim Fehlar.").size());
+    Assertions.assertEquals(1, lt.check("Das ist ein Fehlar.").size());
+    Assertions.assertEquals(1, lt.check("Das ist schlim.").size());
+    Assertions.assertEquals(2, lt.check("Das ist ein schlim Fehlar.").size());
 
-    UserConfig userConfig = new UserConfig(Arrays.asList("schlim Fehlar"));
+    UserConfig userConfig = new UserConfig(Collections.singletonList("schlim Fehlar"));
     PipelinePool pool = new PipelinePool(new HTTPServerConfig(), null, true);
     JLanguageTool ltWithPhrase = pool.getPipeline(new PipelineSettings(german, userConfig));
-    assertEquals(1, ltWithPhrase.check("Das ist ein Fehlar.").size());
-    assertEquals(1, ltWithPhrase.check("Das ist schlim.").size());
-    assertEquals(0, ltWithPhrase.check("Das ist ein schlim Fehlar.").size());
+    Assertions.assertEquals(1, ltWithPhrase.check("Das ist ein Fehlar.").size());
+    Assertions.assertEquals(1, ltWithPhrase.check("Das ist schlim.").size());
+    Assertions.assertEquals(0, ltWithPhrase.check("Das ist ein schlim Fehlar.").size());
   }
 
 

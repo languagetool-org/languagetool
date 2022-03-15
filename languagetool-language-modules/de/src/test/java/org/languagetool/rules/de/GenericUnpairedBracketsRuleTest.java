@@ -18,16 +18,15 @@
  */
 package org.languagetool.rules.de;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
-import java.util.Collections;
-
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.rules.GenericUnpairedBracketsRule;
 import org.languagetool.rules.RuleMatch;
+
+import java.io.IOException;
+import java.util.Collections;
 
 public class GenericUnpairedBracketsRuleTest {
 
@@ -69,6 +68,6 @@ public class GenericUnpairedBracketsRuleTest {
 
   private void assertMatches(String input, int expectedMatches) throws IOException {
     RuleMatch[] matches = rule.match(Collections.singletonList(lt.getAnalyzedSentence(input)));
-    assertEquals(expectedMatches, matches.length);
+    Assertions.assertEquals(expectedMatches, matches.length);
   }
 }

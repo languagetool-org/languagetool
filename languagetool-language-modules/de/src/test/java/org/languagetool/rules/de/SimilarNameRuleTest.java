@@ -18,18 +18,18 @@
  */
 package org.languagetool.rules.de;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
-
-import java.io.IOException;
-import java.util.Collections;
-
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
 import org.languagetool.rules.RuleMatch;
+
+import java.io.IOException;
+import java.util.Collections;
+
+import static org.hamcrest.core.Is.is;
 
 public class SimilarNameRuleTest {
 
@@ -47,9 +47,9 @@ public class SimilarNameRuleTest {
   private void assertErrors(String input, int expectedMatches, SimilarNameRule rule, JLanguageTool lt) throws IOException {
     AnalyzedSentence sentence = lt.getAnalyzedSentence(input);
     RuleMatch[] matches = rule.match(Collections.singletonList(sentence));
-    assertThat(matches.length, is(expectedMatches));
+    MatcherAssert.assertThat(matches.length, is(expectedMatches));
     if (expectedMatches == 1) {
-      assertThat(matches[0].getRule().getId(), is("DE_SIMILAR_NAMES"));
+      MatcherAssert.assertThat(matches[0].getRule().getId(), is("DE_SIMILAR_NAMES"));
     }
   }
 

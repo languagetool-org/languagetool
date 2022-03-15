@@ -18,15 +18,14 @@
  */
 package org.languagetool.rules;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 
 import java.io.IOException;
 import java.util.Collections;
-import java.util.List;
 
-import static org.junit.Assert.assertEquals;
 
 /**
  * @author Fred Kruse
@@ -38,20 +37,17 @@ public class PunctuationMarkAtParagraphEndTest {
     JLanguageTool lt = new JLanguageTool(TestTools.getDemoLanguage());
     setUpRule(lt);
 
-    assertEquals(0, lt.check("This is a test sentence.").size());
-    assertEquals(0, lt.check("This is a test headline").size());
-    assertEquals(0, lt.check("This is a test sentence. This is a link: http://example.com").size());  // no error because of colon
-    assertEquals(1, lt.check("This is a test sentence. It can be found at http://example.com/foobar").size());
-    assertEquals(1, lt.check("This is a test sentence. And this is a second test sentence").size());
-    assertEquals(1, lt.check("\"This is a test sentence. And this is a second test sentence").size());
-    assertEquals(0, lt.check("This is a test sentence. And this is a second test sentence.").size());
-    assertEquals(0, lt.check("B. v. – Beschluss vom").size());
-    assertEquals(1, 
-        lt.check("This is a test sentence.\nAnd this is a second test sentence. Here is a dot missing").size());
-    assertEquals(0, 
-        lt.check("This is a test sentence.\nAnd this is a second test sentence. Here is a dot missing.").size());
-    assertEquals(0, 
-        lt.check("This is a sentence. Another one: https://languagetool.org/foo\n\nAnother sentence\n").size());
+    Assertions.assertEquals(0, lt.check("This is a test sentence.").size());
+    Assertions.assertEquals(0, lt.check("This is a test headline").size());
+    Assertions.assertEquals(0, lt.check("This is a test sentence. This is a link: http://example.com").size());  // no error because of colon
+    Assertions.assertEquals(1, lt.check("This is a test sentence. It can be found at http://example.com/foobar").size());
+    Assertions.assertEquals(1, lt.check("This is a test sentence. And this is a second test sentence").size());
+    Assertions.assertEquals(1, lt.check("\"This is a test sentence. And this is a second test sentence").size());
+    Assertions.assertEquals(0, lt.check("This is a test sentence. And this is a second test sentence.").size());
+    Assertions.assertEquals(0, lt.check("B. v. – Beschluss vom").size());
+    Assertions.assertEquals(1, lt.check("This is a test sentence.\nAnd this is a second test sentence. Here is a dot missing").size());
+    Assertions.assertEquals(0, lt.check("This is a test sentence.\nAnd this is a second test sentence. Here is a dot missing.").size());
+    Assertions.assertEquals(0, lt.check("This is a sentence. Another one: https://languagetool.org/foo\n\nAnother sentence\n").size());
   }
 
   private void setUpRule(JLanguageTool lt) {

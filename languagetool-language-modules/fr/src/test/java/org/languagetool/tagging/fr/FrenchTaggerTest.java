@@ -18,8 +18,8 @@
  */
 package org.languagetool.tagging.fr;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.French;
 import org.languagetool.tokenizers.WordTokenizer;
@@ -32,7 +32,7 @@ public class FrenchTaggerTest {
   private FrenchTagger tagger;
   private WordTokenizer tokenizer;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     tagger = FrenchTagger.INSTANCE;;
     tokenizer = new FrenchWordTokenizer();

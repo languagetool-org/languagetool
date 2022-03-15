@@ -19,7 +19,7 @@
 
 package org.languagetool.tokenizers.ru;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.Russian;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;

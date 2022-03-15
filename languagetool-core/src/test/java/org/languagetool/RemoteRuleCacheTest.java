@@ -21,8 +21,9 @@
 
 package org.languagetool;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.hamcrest.MatcherAssert;
 import org.languagetool.language.Demo;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
@@ -41,7 +42,6 @@ import java.util.stream.Collectors;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
 
 public class RemoteRuleCacheTest {
 
@@ -98,7 +98,7 @@ public class RemoteRuleCacheTest {
     }
   }
 
-  @Before
+  @BeforeEach
   public void init() {
     cache = new ResultCache(1000);
     lt = new JLanguageTool(new FakeLanguage(), cache, new UserConfig());
@@ -126,7 +126,7 @@ public class RemoteRuleCacheTest {
     System.out.println("distinct sentences");
     distinct.forEach(System.out::println);
 
-    assertThat(distinct.size(), is(equalTo(2)));
+    MatcherAssert.assertThat(distinct.size(), is(equalTo(2)));
 
     List<RuleMatch> directMatches = sentences.stream().flatMap(s -> {
       try {
@@ -142,18 +142,16 @@ public class RemoteRuleCacheTest {
     directMatches.forEach(System.out::println);
     System.out.println("matches");
     matches.forEach(System.out::println);
-    assertThat("Test rule matches when called directly", directMatches.size(), is(equalTo(3)));
-    assertThat("Matches are collected and transformed correctly", matches.size(), is(equalTo(3)));
+    MatcherAssert.assertThat("Test rule matches when called directly", directMatches.size(), is(equalTo(3)));
+    MatcherAssert.assertThat("Matches are collected and transformed correctly", matches.size(), is(equalTo(3)));
 
-    assertThat("Correct offsets", matches.stream().map(RuleMatch::getFromPos).collect(Collectors.toList()),
-      equalTo(Arrays.asList(0, 5, 10)));
+    MatcherAssert.assertThat("Correct offsets", matches.stream().map(RuleMatch::getFromPos).collect(Collectors.toList()), equalTo(Arrays.asList(0, 5, 10)));
 
     List<RuleMatch> cachedMatches = check(text);
 
-    assertThat("Cached Matches are collected and transformed correctly", cachedMatches.size(), is(equalTo(3)));
+    MatcherAssert.assertThat("Cached Matches are collected and transformed correctly", cachedMatches.size(), is(equalTo(3)));
 
-    assertThat("Correct cached offsets", cachedMatches.stream().map(RuleMatch::getFromPos).collect(Collectors.toList()),
-      equalTo(Arrays.asList(0, 5, 10)));
+    MatcherAssert.assertThat("Correct cached offsets", cachedMatches.stream().map(RuleMatch::getFromPos).collect(Collectors.toList()), equalTo(Arrays.asList(0, 5, 10)));
 
   }
 }

@@ -18,7 +18,8 @@
  */
 package org.languagetool.tools;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 import org.languagetool.FakeLanguage;
 import org.languagetool.Language;
 import org.languagetool.TestTools;
@@ -29,8 +30,6 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
-
 /**
  * @author Daniel Naber
  */
@@ -40,15 +39,15 @@ public class StringToolsTest {
   public void testAssureSet() {
     try {
       StringTools.assureSet("", "varName");
-      fail();
+      Assertions.fail();
     } catch (IllegalArgumentException ignored) {}
     try {
       StringTools.assureSet(" \t", "varName");
-      fail();
+      Assertions.fail();
     } catch (IllegalArgumentException ignored) {}
     try {
       StringTools.assureSet(null, "varName");
-      fail();
+      Assertions.fail();
     } catch (NullPointerException ignored) {}
     StringTools.assureSet("foo", "varName");
   }
@@ -56,105 +55,105 @@ public class StringToolsTest {
   @Test
   public void testReadStream() throws IOException {
     String content = StringTools.readStream(new FileInputStream("src/test/resources/testinput.txt"), "utf-8");
-    assertEquals("one\ntwo\nöäüß\nșțîâăȘȚÎÂĂ\n", content);
+    Assertions.assertEquals("one\ntwo\nöäüß\nșțîâăȘȚÎÂĂ\n", content);
   }
 
   @Test
   public void testIsAllUppercase() {
-    assertTrue(StringTools.isAllUppercase("A"));
-    assertTrue(StringTools.isAllUppercase("ABC"));
-    assertTrue(StringTools.isAllUppercase("ASV-EDR"));
-    assertTrue(StringTools.isAllUppercase("ASV-ÖÄÜ"));
-    assertTrue(StringTools.isAllUppercase(""));
+    Assertions.assertTrue(StringTools.isAllUppercase("A"));
+    Assertions.assertTrue(StringTools.isAllUppercase("ABC"));
+    Assertions.assertTrue(StringTools.isAllUppercase("ASV-EDR"));
+    Assertions.assertTrue(StringTools.isAllUppercase("ASV-ÖÄÜ"));
+    Assertions.assertTrue(StringTools.isAllUppercase(""));
     
-    assertFalse(StringTools.isAllUppercase("ß"));
-    assertFalse(StringTools.isAllUppercase("AAAAAAAAAAAAq"));
-    assertFalse(StringTools.isAllUppercase("a"));
-    assertFalse(StringTools.isAllUppercase("abc"));
+    Assertions.assertFalse(StringTools.isAllUppercase("ß"));
+    Assertions.assertFalse(StringTools.isAllUppercase("AAAAAAAAAAAAq"));
+    Assertions.assertFalse(StringTools.isAllUppercase("a"));
+    Assertions.assertFalse(StringTools.isAllUppercase("abc"));
   }
 
   @Test
   public void testIsMixedCase() {
-    assertTrue(StringTools.isMixedCase("AbC"));
-    assertTrue(StringTools.isMixedCase("MixedCase"));
-    assertTrue(StringTools.isMixedCase("iPod"));
-    assertTrue(StringTools.isMixedCase("AbCdE"));
+    Assertions.assertTrue(StringTools.isMixedCase("AbC"));
+    Assertions.assertTrue(StringTools.isMixedCase("MixedCase"));
+    Assertions.assertTrue(StringTools.isMixedCase("iPod"));
+    Assertions.assertTrue(StringTools.isMixedCase("AbCdE"));
     
-    assertFalse(StringTools.isMixedCase(""));
-    assertFalse(StringTools.isMixedCase("ABC"));
-    assertFalse(StringTools.isMixedCase("abc"));
-    assertFalse(StringTools.isMixedCase("!"));
-    assertFalse(StringTools.isMixedCase("Word"));
+    Assertions.assertFalse(StringTools.isMixedCase(""));
+    Assertions.assertFalse(StringTools.isMixedCase("ABC"));
+    Assertions.assertFalse(StringTools.isMixedCase("abc"));
+    Assertions.assertFalse(StringTools.isMixedCase("!"));
+    Assertions.assertFalse(StringTools.isMixedCase("Word"));
   }
 
   @Test
   public void testIsCapitalizedWord() {
-    assertTrue(StringTools.isCapitalizedWord("Abc"));
-    assertTrue(StringTools.isCapitalizedWord("Uppercase"));
-    assertTrue(StringTools.isCapitalizedWord("Ipod"));
+    Assertions.assertTrue(StringTools.isCapitalizedWord("Abc"));
+    Assertions.assertTrue(StringTools.isCapitalizedWord("Uppercase"));
+    Assertions.assertTrue(StringTools.isCapitalizedWord("Ipod"));
     
-    assertFalse(StringTools.isCapitalizedWord(""));
-    assertFalse(StringTools.isCapitalizedWord("ABC"));
-    assertFalse(StringTools.isCapitalizedWord("abc"));
-    assertFalse(StringTools.isCapitalizedWord("!"));
-    assertFalse(StringTools.isCapitalizedWord("wOrD"));
+    Assertions.assertFalse(StringTools.isCapitalizedWord(""));
+    Assertions.assertFalse(StringTools.isCapitalizedWord("ABC"));
+    Assertions.assertFalse(StringTools.isCapitalizedWord("abc"));
+    Assertions.assertFalse(StringTools.isCapitalizedWord("!"));
+    Assertions.assertFalse(StringTools.isCapitalizedWord("wOrD"));
   }
 
   @Test
   public void testStartsWithUppercase() {
-    assertTrue(StringTools.startsWithUppercase("A"));
-    assertTrue(StringTools.startsWithUppercase("ÄÖ"));
+    Assertions.assertTrue(StringTools.startsWithUppercase("A"));
+    Assertions.assertTrue(StringTools.startsWithUppercase("ÄÖ"));
     
-    assertFalse(StringTools.startsWithUppercase(""));
-    assertFalse(StringTools.startsWithUppercase("ß"));
-    assertFalse(StringTools.startsWithUppercase("-"));
+    Assertions.assertFalse(StringTools.startsWithUppercase(""));
+    Assertions.assertFalse(StringTools.startsWithUppercase("ß"));
+    Assertions.assertFalse(StringTools.startsWithUppercase("-"));
   }
 
   @Test
   public void testUppercaseFirstChar() {
-    assertEquals(null, StringTools.uppercaseFirstChar(null));
-    assertEquals("", StringTools.uppercaseFirstChar(""));
-    assertEquals("A", StringTools.uppercaseFirstChar("A"));
-    assertEquals("Öäü", StringTools.uppercaseFirstChar("öäü"));
-    assertEquals("ßa", StringTools.uppercaseFirstChar("ßa"));
-    assertEquals("'Test'", StringTools.uppercaseFirstChar("'test'"));
-    assertEquals("''Test", StringTools.uppercaseFirstChar("''test"));
-    assertEquals("''T", StringTools.uppercaseFirstChar("''t"));
-    assertEquals("'''", StringTools.uppercaseFirstChar("'''"));
+    Assertions.assertNull(StringTools.uppercaseFirstChar(null));
+    Assertions.assertEquals("", StringTools.uppercaseFirstChar(""));
+    Assertions.assertEquals("A", StringTools.uppercaseFirstChar("A"));
+    Assertions.assertEquals("Öäü", StringTools.uppercaseFirstChar("öäü"));
+    Assertions.assertEquals("ßa", StringTools.uppercaseFirstChar("ßa"));
+    Assertions.assertEquals("'Test'", StringTools.uppercaseFirstChar("'test'"));
+    Assertions.assertEquals("''Test", StringTools.uppercaseFirstChar("''test"));
+    Assertions.assertEquals("''T", StringTools.uppercaseFirstChar("''t"));
+    Assertions.assertEquals("'''", StringTools.uppercaseFirstChar("'''"));
   }
 
   @Test
   public void testLowercaseFirstChar() {
-    assertEquals(null, StringTools.lowercaseFirstChar(null));
-    assertEquals("", StringTools.lowercaseFirstChar(""));
-    assertEquals("a", StringTools.lowercaseFirstChar("A"));
-    assertEquals("öäü", StringTools.lowercaseFirstChar("Öäü"));
-    assertEquals("ßa", StringTools.lowercaseFirstChar("ßa"));
-    assertEquals("'test'", StringTools.lowercaseFirstChar("'Test'"));
-    assertEquals("''test", StringTools.lowercaseFirstChar("''Test"));
-    assertEquals("''t", StringTools.lowercaseFirstChar("''T"));
-    assertEquals("'''", StringTools.lowercaseFirstChar("'''"));
+    Assertions.assertNull(StringTools.lowercaseFirstChar(null));
+    Assertions.assertEquals("", StringTools.lowercaseFirstChar(""));
+    Assertions.assertEquals("a", StringTools.lowercaseFirstChar("A"));
+    Assertions.assertEquals("öäü", StringTools.lowercaseFirstChar("Öäü"));
+    Assertions.assertEquals("ßa", StringTools.lowercaseFirstChar("ßa"));
+    Assertions.assertEquals("'test'", StringTools.lowercaseFirstChar("'Test'"));
+    Assertions.assertEquals("''test", StringTools.lowercaseFirstChar("''Test"));
+    Assertions.assertEquals("''t", StringTools.lowercaseFirstChar("''T"));
+    Assertions.assertEquals("'''", StringTools.lowercaseFirstChar("'''"));
   }
 
   @Test
   public void testReaderToString() throws IOException {
     String str = StringTools.readerToString(new StringReader("bla\nöäü"));
-    assertEquals("bla\nöäü", str);
+    Assertions.assertEquals("bla\nöäü", str);
     StringBuilder longStr = new StringBuilder();
     for (int i = 0; i < 4000; i++) {
       longStr.append('x');
     }
     longStr.append("1234567");
-    assertEquals(4007, longStr.length());
+    Assertions.assertEquals(4007, longStr.length());
     String str2 = StringTools.readerToString(new StringReader(longStr.toString()));
-    assertEquals(longStr.toString(), str2);
+    Assertions.assertEquals(longStr.toString(), str2);
   }
 
   @Test
   public void testEscapeXMLandHTML() {
-    assertEquals("foo bar", StringTools.escapeXML("foo bar"));
-    assertEquals("!ä&quot;&lt;&gt;&amp;&amp;", StringTools.escapeXML("!ä\"<>&&"));
-    assertEquals("!ä&quot;&lt;&gt;&amp;&amp;", StringTools.escapeHTML("!ä\"<>&&"));
+    Assertions.assertEquals("foo bar", StringTools.escapeXML("foo bar"));
+    Assertions.assertEquals("!ä&quot;&lt;&gt;&amp;&amp;", StringTools.escapeXML("!ä\"<>&&"));
+    Assertions.assertEquals("!ä&quot;&lt;&gt;&amp;&amp;", StringTools.escapeHTML("!ä\"<>&&"));
   }
 
   @Test
@@ -163,92 +162,92 @@ public class StringToolsTest {
     list.add("foo");
     list.add("bar");
     list.add(",");
-    assertEquals("foo,bar,,", String.join(",", list));
-    assertEquals("foo\tbar\t,", String.join("\t", list));
+    Assertions.assertEquals("foo,bar,,", String.join(",", list));
+    Assertions.assertEquals("foo\tbar\t,", String.join("\t", list));
   }
 
   @Test
   public void testTrimWhitespace() {
     try {
-      assertEquals(null, StringTools.trimWhitespace(null));
-      fail();
+      Assertions.assertNull(StringTools.trimWhitespace(null));
+      Assertions.fail();
     } catch (NullPointerException ignored) {}
-    assertEquals("", StringTools.trimWhitespace(""));
-    assertEquals("", StringTools.trimWhitespace(" "));
-    assertEquals("XXY", StringTools.trimWhitespace(" \nXX\t Y"));
-    assertEquals("XXY", StringTools.trimWhitespace(" \r\nXX\t Y"));
-    assertEquals("word", StringTools.trimWhitespace("word"));
+    Assertions.assertEquals("", StringTools.trimWhitespace(""));
+    Assertions.assertEquals("", StringTools.trimWhitespace(" "));
+    Assertions.assertEquals("XXY", StringTools.trimWhitespace(" \nXX\t Y"));
+    Assertions.assertEquals("XXY", StringTools.trimWhitespace(" \r\nXX\t Y"));
+    Assertions.assertEquals("word", StringTools.trimWhitespace("word"));
     //only one space in the middle of the word is significant:
-    assertEquals("1 234,56", StringTools.trimWhitespace("1 234,56"));
-    assertEquals("1234,56", StringTools.trimWhitespace("1  234,56"));
+    Assertions.assertEquals("1 234,56", StringTools.trimWhitespace("1 234,56"));
+    Assertions.assertEquals("1234,56", StringTools.trimWhitespace("1  234,56"));
   }
 
   @Test
   public void testAddSpace() {
     Language demoLanguage = TestTools.getDemoLanguage();
-    assertEquals(" ", StringTools.addSpace("word", demoLanguage));
-    assertEquals("", StringTools.addSpace(",", demoLanguage));
-    assertEquals("", StringTools.addSpace(",", demoLanguage));
-    assertEquals("", StringTools.addSpace(",", demoLanguage));
-    assertEquals("", StringTools.addSpace(".", new FakeLanguage("fr")));
-    assertEquals("", StringTools.addSpace(".", new FakeLanguage("de")));
-    assertEquals(" ", StringTools.addSpace("!", new FakeLanguage("fr")));
-    assertEquals("", StringTools.addSpace("!", new FakeLanguage("de")));
+    Assertions.assertEquals(" ", StringTools.addSpace("word", demoLanguage));
+    Assertions.assertEquals("", StringTools.addSpace(",", demoLanguage));
+    Assertions.assertEquals("", StringTools.addSpace(",", demoLanguage));
+    Assertions.assertEquals("", StringTools.addSpace(",", demoLanguage));
+    Assertions.assertEquals("", StringTools.addSpace(".", new FakeLanguage("fr")));
+    Assertions.assertEquals("", StringTools.addSpace(".", new FakeLanguage("de")));
+    Assertions.assertEquals(" ", StringTools.addSpace("!", new FakeLanguage("fr")));
+    Assertions.assertEquals("", StringTools.addSpace("!", new FakeLanguage("de")));
   }
 
   @Test
   public void testIsWhitespace() {
-    assertEquals(true, StringTools.isWhitespace("\uFEFF"));
-    assertEquals(true, StringTools.isWhitespace("  "));
-    assertEquals(true, StringTools.isWhitespace("\t"));
-    assertEquals(true, StringTools.isWhitespace("\u2002"));
+    Assertions.assertTrue(StringTools.isWhitespace("\uFEFF"));
+    Assertions.assertTrue(StringTools.isWhitespace("  "));
+    Assertions.assertTrue(StringTools.isWhitespace("\t"));
+    Assertions.assertTrue(StringTools.isWhitespace("\u2002"));
     //non-breaking space is also a whitespace
-    assertEquals(true, StringTools.isWhitespace("\u00a0"));
-    assertEquals(false, StringTools.isWhitespace("abc"));
+    Assertions.assertTrue(StringTools.isWhitespace("\u00a0"));
+    Assertions.assertFalse(StringTools.isWhitespace("abc"));
     //non-breaking OOo field
-    assertEquals(false, StringTools.isWhitespace("\\u02"));
-    assertEquals(false, StringTools.isWhitespace("\u0001"));
+    Assertions.assertFalse(StringTools.isWhitespace("\\u02"));
+    Assertions.assertFalse(StringTools.isWhitespace("\u0001"));
     // narrow nbsp:
-    assertEquals(true, StringTools.isWhitespace("\u202F"));
+    Assertions.assertTrue(StringTools.isWhitespace("\u202F"));
   }
 
   @Test
   public void testIsPositiveNumber() {
-    assertEquals(true, StringTools.isPositiveNumber('3'));
-    assertEquals(false, StringTools.isPositiveNumber('a'));
+    Assertions.assertTrue(StringTools.isPositiveNumber('3'));
+    Assertions.assertFalse(StringTools.isPositiveNumber('a'));
   }
 
   @Test
   public void testIsEmpty() {
-    assertEquals(true, StringTools.isEmpty(""));
-    assertEquals(true, StringTools.isEmpty(null));
-    assertEquals(false, StringTools.isEmpty("a"));
+    Assertions.assertTrue(StringTools.isEmpty(""));
+    Assertions.assertTrue(StringTools.isEmpty(null));
+    Assertions.assertFalse(StringTools.isEmpty("a"));
   }
 
   @Test
   public void testFilterXML() {
-    assertEquals("test", StringTools.filterXML("test"));
-    assertEquals("<<test>>", StringTools.filterXML("<<test>>"));
-    assertEquals("test", StringTools.filterXML("<b>test</b>"));
-    assertEquals("A sentence with a test", StringTools.filterXML("A sentence with a <em>test</em>"));
+    Assertions.assertEquals("test", StringTools.filterXML("test"));
+    Assertions.assertEquals("<<test>>", StringTools.filterXML("<<test>>"));
+    Assertions.assertEquals("test", StringTools.filterXML("<b>test</b>"));
+    Assertions.assertEquals("A sentence with a test", StringTools.filterXML("A sentence with a <em>test</em>"));
   }
 
   @Test
   public void testAsString() {
-    assertNull(StringTools.asString(null));
-    assertEquals("foo!", "foo!");
+    Assertions.assertNull(StringTools.asString(null));
+    Assertions.assertEquals("foo!", "foo!");
   }
 
   @Test
   public void testIsCamelCase() {
-    assertFalse(StringTools.isCamelCase("abc"));
-    assertFalse(StringTools.isCamelCase("ABC"));
-    assertTrue(StringTools.isCamelCase("iSomething"));
-    assertTrue(StringTools.isCamelCase("iSomeThing"));
-    assertTrue(StringTools.isCamelCase("mRNA"));
-    assertTrue(StringTools.isCamelCase("microRNA"));
-    assertTrue(StringTools.isCamelCase("microSomething"));
-    assertTrue(StringTools.isCamelCase("iSomeTHING"));
+    Assertions.assertFalse(StringTools.isCamelCase("abc"));
+    Assertions.assertFalse(StringTools.isCamelCase("ABC"));
+    Assertions.assertTrue(StringTools.isCamelCase("iSomething"));
+    Assertions.assertTrue(StringTools.isCamelCase("iSomeThing"));
+    Assertions.assertTrue(StringTools.isCamelCase("mRNA"));
+    Assertions.assertTrue(StringTools.isCamelCase("microRNA"));
+    Assertions.assertTrue(StringTools.isCamelCase("microSomething"));
+    Assertions.assertTrue(StringTools.isCamelCase("iSomeTHING"));
   }
 
 }

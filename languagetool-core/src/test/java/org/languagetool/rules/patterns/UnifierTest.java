@@ -19,14 +19,13 @@
 
 package org.languagetool.rules.patterns;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 
 import java.util.*;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class UnifierTest {
 
@@ -57,28 +56,28 @@ public class UnifierTest {
     satisfied &= uni.isSatisfied(lower2, equiv);
     uni.startUnify();
     satisfied &= uni.getFinalUnificationValue(equiv);
-    assertEquals(true, satisfied);
+    Assertions.assertTrue(satisfied);
     uni.reset();
 
     satisfied = uni.isSatisfied(upper2, equiv);
     uni.startUnify();
     satisfied &= uni.isSatisfied(lower2, equiv);
     satisfied &= uni.getFinalUnificationValue(equiv);
-    assertEquals(false, satisfied);
+    Assertions.assertFalse(satisfied);
     uni.reset();
 
     satisfied = uni.isSatisfied(upper1, equiv);
     uni.startUnify();
     satisfied &= uni.isSatisfied(lower1, equiv);
     satisfied &= uni.getFinalUnificationValue(equiv);
-    assertEquals(false, satisfied);
+    Assertions.assertFalse(satisfied);
     uni.reset();
 
     satisfied = uni.isSatisfied(upper2, equiv);
     uni.startUnify();
     satisfied &= uni.isSatisfied(upper1, equiv);
     satisfied &= uni.getFinalUnificationValue(equiv);
-    assertEquals(false, satisfied);
+    Assertions.assertFalse(satisfied);
     uni.reset();
     equiv.clear();
     list1.clear();
@@ -89,7 +88,7 @@ public class UnifierTest {
     uni.startUnify();
     satisfied &= uni.isSatisfied(upper1, equiv);
     satisfied &= uni.getFinalUnificationValue(equiv);
-    assertEquals(true, satisfied);
+    Assertions.assertTrue(satisfied);
     uni.reset();
     equiv.clear();
     list1.clear();
@@ -100,14 +99,14 @@ public class UnifierTest {
     uni.startUnify();
     satisfied &= uni.isSatisfied(upper1, equiv);
     satisfied &= uni.getFinalUnificationValue(equiv);
-    assertEquals(false, satisfied);
+    Assertions.assertFalse(satisfied);
     uni.reset();
 
     satisfied = uni.isSatisfied(upperAll2, equiv);
     uni.startUnify();
     satisfied &= uni.isSatisfied(upperAll1, equiv);
     satisfied &= uni.getFinalUnificationValue(equiv);
-    assertEquals(true, satisfied);
+    Assertions.assertTrue(satisfied);
   }
 
   // slightly non-trivial unification = test if the grammatical number is the same
@@ -133,7 +132,7 @@ public class UnifierTest {
     uni.startUnify();
     satisfied &= uni.isSatisfied(sing2, equiv);
     satisfied &= uni.getFinalUnificationValue(equiv);
-    assertEquals(true, satisfied);
+    Assertions.assertTrue(satisfied);
     uni.reset();
 
     //for multiple readings - OR for interpretations, AND for tokens
@@ -143,7 +142,7 @@ public class UnifierTest {
     uni.startUnify();
     satisfied &= uni.isSatisfied(sing2, equiv);
     satisfied &= uni.getFinalUnificationValue(equiv);
-    assertEquals(true, satisfied);
+    Assertions.assertTrue(satisfied);
     uni.reset();
 
     //check if any of the equivalences is there
@@ -156,7 +155,7 @@ public class UnifierTest {
     uni.startUnify();
     satisfied &= uni.isSatisfied(sing2, equiv);
     satisfied &= uni.getFinalUnificationValue(equiv);
-    assertEquals(true, satisfied);
+    Assertions.assertTrue(satisfied);
     uni.reset();
 
     //now test all possible feature equivalences by leaving type blank
@@ -168,7 +167,7 @@ public class UnifierTest {
     uni.startUnify();
     satisfied &= uni.isSatisfied(sing2, equiv);
     satisfied &= uni.getFinalUnificationValue(equiv);
-    assertEquals(true, satisfied);
+    Assertions.assertTrue(satisfied);
     uni.reset();
 
     //test non-agreeing tokens with blank types
@@ -176,7 +175,7 @@ public class UnifierTest {
     uni.startUnify();
     satisfied &= uni.isSatisfied(sing2, equiv);
     satisfied &= uni.getFinalUnificationValue(equiv);
-    assertEquals(false, satisfied);
+    Assertions.assertFalse(satisfied);
     uni.reset();
   }
 
@@ -218,8 +217,8 @@ public class UnifierTest {
     satisfied &= uni.isSatisfied(sing2, equiv);
     uni.startNextToken();
     satisfied &= uni.getFinalUnificationValue(equiv);
-    assertEquals(true, satisfied);
-    assertEquals("[mały[mały/adj:sg:blahblah:m*], człowiek[człowiek/subst:sg:blahblah:m*]]", Arrays.toString(uni.getUnifiedTokens()));
+    Assertions.assertTrue(satisfied);
+    Assertions.assertEquals("[mały[mały/adj:sg:blahblah:m*], człowiek[człowiek/subst:sg:blahblah:m*]]", Arrays.toString(uni.getUnifiedTokens()));
     uni.reset();
   }
 
@@ -259,7 +258,7 @@ public class UnifierTest {
     satisfied &= uni.isSatisfied(sing3, equiv);
     uni.startNextToken();
     satisfied &= uni.getFinalUnificationValue(equiv);
-    assertEquals(false, satisfied);
+    Assertions.assertFalse(satisfied);
     uni.reset();
 
     //now test the simplified interface
@@ -267,7 +266,7 @@ public class UnifierTest {
     uni.isUnified(sing1a, equiv, false);
     uni.isUnified(sing1b, equiv, true);
     uni.isUnified(sing2, equiv, true);
-    assertEquals(false, uni.isUnified(sing3, equiv, true));
+    Assertions.assertFalse(uni.isUnified(sing3, equiv, true));
     uni.reset();
 
     sing1a = new AnalyzedToken("osobiste", "adj:pl:nom.acc.voc:f.n.m2.m3:pos:aff", "osobisty");
@@ -276,8 +275,8 @@ public class UnifierTest {
 
     uni.isUnified(sing1a, equiv, false);
     uni.isUnified(sing1b, equiv, true);
-    assertEquals(true, uni.isUnified(sing2, equiv, true));
-    assertEquals("[osobiste[osobisty/adj:sg:nom.acc.voc:n:pos:aff*], godło[godło/subst:sg:nom.acc.voc:n*]]", Arrays.toString(uni.getFinalUnified()));
+    Assertions.assertTrue(uni.isUnified(sing2, equiv, true));
+    Assertions.assertEquals("[osobiste[osobisty/adj:sg:nom.acc.voc:n:pos:aff*], godło[godło/subst:sg:nom.acc.voc:n*]]", Arrays.toString(uni.getFinalUnified()));
     uni.reset();
 
     //now test a case when the last reading doesn't match at all
@@ -290,8 +289,8 @@ public class UnifierTest {
     uni.isUnified(sing1a, equiv, false);
     uni.isUnified(sing1b, equiv, true);
     uni.isUnified(sing2a, equiv, false);
-    assertEquals(true, uni.isUnified(sing2b, equiv, true));
-    assertEquals("[osobiste[osobisty/adj:sg:nom.acc.voc:n:pos:aff*], godło[godło/subst:sg:nom.acc.voc:n*]]", Arrays.toString(uni.getFinalUnified()));
+    Assertions.assertTrue(uni.isUnified(sing2b, equiv, true));
+    Assertions.assertEquals("[osobiste[osobisty/adj:sg:nom.acc.voc:n:pos:aff*], godło[godło/subst:sg:nom.acc.voc:n*]]", Arrays.toString(uni.getFinalUnified()));
     uni.reset();
 
     //check if two features are left out correctly (both match)
@@ -304,8 +303,8 @@ public class UnifierTest {
     uni.isUnified(plur1, equiv, false);
     uni.isUnified(plur2, equiv, true);
     uni.isUnified(plur3, equiv, false);
-    assertTrue(uni.isUnified(plur4, equiv, true));
-    assertEquals("[zgarbieni[zgarbiony/adj:pl:foobar:m*,zgarbiony/adj:pl:blabla:m*], " +
+    Assertions.assertTrue(uni.isUnified(plur4, equiv, true));
+    Assertions.assertEquals("[zgarbieni[zgarbiony/adj:pl:foobar:m*,zgarbiony/adj:pl:blabla:m*], " +
         "ludzie[człowiek/subst:pl:blabla:m*,człowiek/subst:pl:pampam:m*]]", Arrays.toString(uni.getFinalUnified()));
 
     //check with a sequence of many tokens
@@ -328,9 +327,8 @@ public class UnifierTest {
     uni.isUnified(case2b, equiv, false);
     uni.isUnified(case2c, equiv, false);
     uni.isUnified(case2d, equiv, false);
-    assertTrue(uni.isUnified(case2e, equiv, true));
-    assertEquals("[xx[xx/abc:sg:f*,xx/cde:pl:f*], yy[yy/abc:pl:f*,yy/abc:sg:f*]]",
-        Arrays.toString(uni.getFinalUnified()));
+    Assertions.assertTrue(uni.isUnified(case2e, equiv, true));
+    Assertions.assertEquals("[xx[xx/abc:sg:f*,xx/cde:pl:f*], yy[yy/abc:pl:f*,yy/abc:sg:f*]]", Arrays.toString(uni.getFinalUnified()));
 
     uni.reset();
 
@@ -349,12 +347,12 @@ public class UnifierTest {
     uni.isUnified(tokenComplex2_2, equiv, true);
 
     //both readings of tokenComplex1 and tokenComplex2 should be here:
-    assertEquals("[xx[xx1/abc:sg:f*,xx2/cde:pl:f*], yy[yy1/abc:sg:f*,yy2/cde:pl:f*]]", Arrays.toString(uni.getFinalUnified()));
+    Assertions.assertEquals("[xx[xx1/abc:sg:f*,xx2/cde:pl:f*], yy[yy1/abc:sg:f*,yy2/cde:pl:f*]]", Arrays.toString(uni.getFinalUnified()));
 
-    assertTrue(uni.isUnified(tokenComplex3, equiv, true));
+    Assertions.assertTrue(uni.isUnified(tokenComplex3, equiv, true));
 
     //only one reading of tokenComplex1 and tokenComplex2 - as only one agrees with tokenComplex3
-    assertEquals("[xx[xx1/abc:sg:f*], yy[yy1/abc:sg:f*], zz[zz/cde:sg:f*]]", Arrays.toString(uni.getFinalUnified()));
+    Assertions.assertEquals("[xx[xx1/abc:sg:f*], yy[yy1/abc:sg:f*], zz[zz/cde:sg:f*]]", Arrays.toString(uni.getFinalUnified()));
 
   }
 
@@ -410,8 +408,8 @@ public class UnifierTest {
     uni.isUnified(sing1c, equiv, true);
     uni.isUnified(sing2, equiv, false);
     uni.isUnified(sing2b, equiv, false);
-    assertEquals(true, uni.isUnified(sing2c, equiv, true));
-    assertEquals("[niezgorsze[niezgorszy/adj:sg:acc:n1.n2:pos*,niezgorszy/adj:sg:nom.voc:n1.n2:pos*], " +
+    Assertions.assertTrue(uni.isUnified(sing2c, equiv, true));
+    Assertions.assertEquals("[niezgorsze[niezgorszy/adj:sg:acc:n1.n2:pos*,niezgorszy/adj:sg:nom.voc:n1.n2:pos*], " +
         "lekarstwo[lekarstwo/subst:sg:acc:n2*,lekarstwo/subst:sg:nom:n2*,lekarstwo/subst:sg:voc:n2*]]", Arrays.toString(uni.getUnifiedTokens()));
     uni.reset();
 
@@ -422,8 +420,8 @@ public class UnifierTest {
     uni.isUnified(sing1b, equiv, true);
     uni.isUnified(sing2b, equiv, false);
     uni.isUnified(sing2c, equiv, false);
-    assertEquals(true, uni.isUnified(sing2, equiv, true));
-    assertEquals("[niezgorsze[niezgorszy/adj:sg:acc:n1.n2:pos*,niezgorszy/adj:sg:nom.voc:n1.n2:pos*], " +
+    Assertions.assertTrue(uni.isUnified(sing2, equiv, true));
+    Assertions.assertEquals("[niezgorsze[niezgorszy/adj:sg:acc:n1.n2:pos*,niezgorszy/adj:sg:nom.voc:n1.n2:pos*], " +
         "lekarstwo[lekarstwo/subst:sg:nom:n2*,lekarstwo/subst:sg:voc:n2*,lekarstwo/subst:sg:acc:n2*]]", Arrays.toString(uni.getUnifiedTokens()));
     uni.reset();
   }
@@ -480,13 +478,13 @@ public class UnifierTest {
     satisfied &= uni.isSatisfied(subst_sing_masc, equiv);
     uni.startNextToken();
     satisfied &= uni.getFinalUnificationValue(equiv);
-    assertEquals(true, satisfied);
+    Assertions.assertTrue(satisfied);
     uni.reset();
 
     //now test the simplified interface
     uni.isUnified(det_sing_masc, equiv, true);
     uni.isUnified(sing_masc, equiv, true);
-    assertEquals(true, uni.isUnified(subst_sing_masc, equiv, true));
+    Assertions.assertTrue(uni.isUnified(subst_sing_masc, equiv, true));
     uni.reset();
 
     //now let's negate this
@@ -499,67 +497,67 @@ public class UnifierTest {
     satisfied &= uni.isSatisfied(subst_sing_masc, equiv);
     uni.startNextToken();
     satisfied &= uni.getFinalUnificationValue(equiv);
-    assertEquals(false, !satisfied);
+    Assertions.assertTrue(satisfied);
     uni.reset();
 
     //now test the simplified interface
     uni.isUnified(det_sing_masc, equiv, true);
     uni.isUnified(sing_masc, equiv, true);
-    assertEquals(false, !uni.isUnified(subst_sing_masc, equiv, true));
+    Assertions.assertTrue(uni.isUnified(subst_sing_masc, equiv, true));
     uni.reset();
 
     //OK, so let's test it with something that is not correct
     uni.isUnified(det_sing_fem, equiv, true);
     uni.isUnified(sing_masc, equiv, true);
-    assertEquals(true, !uni.isUnified(subst_sing_masc, equiv, true));
+    Assertions.assertFalse(uni.isUnified(subst_sing_masc, equiv, true));
     uni.reset();
 
     //OK, so let's test it with something that is not correct
     uni.isUnified(det_sing_masc, equiv, true);
     uni.isUnified(sing_fem, equiv, true);
-    assertEquals(true, !uni.isUnified(subst_sing_masc, equiv, true));
+    Assertions.assertFalse(uni.isUnified(subst_sing_masc, equiv, true));
     uni.reset();
 
     //OK, second token does not match
     uni.isUnified(det_sing_masc, equiv, true);
     uni.isUnified(sing_masc, equiv, true);
-    assertEquals(true, !uni.isUnified(subst_sing_fem, equiv, true));
+    Assertions.assertFalse(uni.isUnified(subst_sing_fem, equiv, true));
     uni.reset();
 
     //OK, second token does not match
     uni.isUnified(det_sing_masc, equiv, true);
     uni.isUnified(plur_masc, equiv, true);
-    assertEquals(true, !uni.isUnified(subst_sing_fem, equiv, true));
+    Assertions.assertFalse(uni.isUnified(subst_sing_fem, equiv, true));
     uni.reset();
 
     //OK, second token does not match
     uni.isUnified(det_sing_masc, equiv, true);
     uni.isUnified(plur_fem, equiv, true);
-    assertEquals(true, !uni.isUnified(subst_sing_fem, equiv, true));
+    Assertions.assertFalse(uni.isUnified(subst_sing_fem, equiv, true));
     uni.reset();
 
     //and another one
     uni.isUnified(det_plur_fem, equiv, true);
     uni.isUnified(plur_fem, equiv, true);
-    assertEquals(true, !uni.isUnified(subst_sing_fem, equiv, true));
+    Assertions.assertFalse(uni.isUnified(subst_sing_fem, equiv, true));
     uni.reset();
 
     //and another one
     uni.isUnified(det_sing_fem, equiv, true);
     uni.isUnified(plur_fem, equiv, true);
-    assertEquals(true, !uni.isUnified(subst_plur_fem, equiv, true));
+    Assertions.assertFalse(uni.isUnified(subst_plur_fem, equiv, true));
     uni.reset();
 
     //and another one
     uni.isUnified(det_sing_fem, equiv, true);
     uni.isUnified(plur_fem, equiv, true);
-    assertEquals(true, !uni.isUnified(subst_plur_masc, equiv, true));
+    Assertions.assertFalse(uni.isUnified(subst_plur_masc, equiv, true));
     uni.reset();
 
     //and another one
     uni.isUnified(det_plur_masc, equiv, true);
     uni.isUnified(plur_fem, equiv, true);
-    assertEquals(true, !uni.isUnified(subst_plur_masc, equiv, true));
+    Assertions.assertFalse(uni.isUnified(subst_plur_masc, equiv, true));
     uni.reset();
   }
 
@@ -592,9 +590,8 @@ public class UnifierTest {
     uni.isUnified(sing1a, equiv, false);
     uni.isUnified(sing1b, equiv, true);
     uni.addNeutralElement(new AnalyzedTokenReadings(comma, 0));
-    assertEquals(true, uni.isUnified(sing2, equiv, true));
-    assertEquals("[osobiste[osobisty/adj:sg:nom.acc.voc:n:pos:aff*], ,[,/comma*], godło[godło/subst:sg:nom.acc.voc:n*]]",
-        Arrays.toString(uni.getFinalUnified()));
+    Assertions.assertTrue(uni.isUnified(sing2, equiv, true));
+    Assertions.assertEquals("[osobiste[osobisty/adj:sg:nom.acc.voc:n:pos:aff*], ,[,/comma*], godło[godło/subst:sg:nom.acc.voc:n*]]", Arrays.toString(uni.getFinalUnified()));
     uni.reset();
   }
 

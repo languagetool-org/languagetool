@@ -18,8 +18,9 @@
  */
 package org.languagetool.rules.en;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 import org.languagetool.*;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
@@ -34,7 +35,7 @@ public class EnglishDashRuleTest {
   private JLanguageTool lt;
   private Rule rule;
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     Language lang = Languages.getLanguageForShortCode("en-US");
     lt = new JLanguageTool(lang);
@@ -66,14 +67,13 @@ public class EnglishDashRuleTest {
 
   private void check(int expectedErrors, String text, String expectedSuggestion) throws IOException {
     RuleMatch[] ruleMatches = rule.match(lt.getAnalyzedSentence(text));
-    assertEquals("Expected " + expectedErrors + " errors, but got: " + Arrays.toString(ruleMatches),
-        expectedErrors, ruleMatches.length);
+    Assertions.assertEquals(expectedErrors, ruleMatches.length, "Expected " + expectedErrors + " errors, but got: " + Arrays.toString(ruleMatches));
     if (expectedSuggestion != null) {
       RuleMatch ruleMatch = ruleMatches[0];
       String errorMessage =
           String.format("Got these suggestions: %s, expected %s ", ruleMatch.getSuggestedReplacements(), expectedSuggestion);
-      assertEquals(errorMessage, 1, ruleMatch.getSuggestedReplacements().size());
-      assertEquals(expectedSuggestion, ruleMatch.getSuggestedReplacements().get(0));
+      Assertions.assertEquals(1, ruleMatch.getSuggestedReplacements().size(), errorMessage);
+      Assertions.assertEquals(expectedSuggestion, ruleMatch.getSuggestedReplacements().get(0));
     }
   }
 

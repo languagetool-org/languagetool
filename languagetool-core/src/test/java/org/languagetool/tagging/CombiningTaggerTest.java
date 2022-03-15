@@ -1,47 +1,46 @@
 package org.languagetool.tagging;
 
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 
 import java.io.IOException;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 
 public class CombiningTaggerTest {
 
   @Test
   public void testTagNoOverwrite() throws Exception {
     CombiningTagger tagger = getCombiningTagger(false, null);
-    assertThat(tagger.tag("nosuchword").size(), is(0));
+    MatcherAssert.assertThat(tagger.tag("nosuchword").size(), is(0));
     List<TaggedWord> result = tagger.tag("fullform");
-    assertThat(result.size(), is(2));
+    MatcherAssert.assertThat(result.size(), is(2));
     String asString = getAsString(result);
-    assertTrue(asString.contains("baseform1/POSTAG1"));
-    assertTrue(asString.contains("baseform2/POSTAG2"));
+    Assertions.assertTrue(asString.contains("baseform1/POSTAG1"));
+    Assertions.assertTrue(asString.contains("baseform2/POSTAG2"));
   }
 
   @Test
   public void testTagOverwrite() throws Exception {
     CombiningTagger tagger = getCombiningTagger(true, null);
-    assertThat(tagger.tag("nosuchword").size(), is(0));
+    MatcherAssert.assertThat(tagger.tag("nosuchword").size(), is(0));
     List<TaggedWord> result = tagger.tag("fullform");
-    assertThat(result.size(), is(1));
+    MatcherAssert.assertThat(result.size(), is(1));
     String asString = getAsString(result);
-    assertTrue(asString.contains("baseform2/POSTAG2"));
+    Assertions.assertTrue(asString.contains("baseform2/POSTAG2"));
   }
 
   @Test
   public void testTagRemoval() throws Exception {
     CombiningTagger tagger = getCombiningTagger(false, "/xx/removed.txt");
-    assertThat(tagger.tag("nosuchword").size(), is(0));
+    MatcherAssert.assertThat(tagger.tag("nosuchword").size(), is(0));
     List<TaggedWord> result = tagger.tag("fullform");
     String asString = getAsString(result);
-    assertFalse(asString.contains("baseform1/POSTAG1"));  // first tagged, but in removed.txt
-    assertTrue(asString.contains("baseform2/POSTAG2"));
+    Assertions.assertFalse(asString.contains("baseform1/POSTAG1"));  // first tagged, but in removed.txt
+    Assertions.assertTrue(asString.contains("baseform2/POSTAG2"));
   }
 
   private CombiningTagger getCombiningTagger(boolean overwrite, String removalPath) throws IOException {
@@ -65,9 +64,11 @@ public class CombiningTaggerTest {
     return sb.toString();
   }
 
-  @Test(expected = IOException.class)
+  @Test
   public void testInvalidFile() throws Exception {
-    new ManualTagger(JLanguageTool.getDataBroker().getFromResourceDirAsStream("/xx/added-invalid.txt"));
+    IOException thrown = Assertions.assertThrows(IOException.class, () -> {
+          new ManualTagger(JLanguageTool.getDataBroker().getFromResourceDirAsStream("/xx/added-invalid.txt"));
+    });
   }
 
 }

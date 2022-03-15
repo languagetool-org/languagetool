@@ -18,10 +18,10 @@
  */
 package org.languagetool.rules.ru;
 
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
 
 public class DateCheckFilterTest {
 
@@ -29,24 +29,24 @@ public class DateCheckFilterTest {
   public void testGetDayOfWeek() throws Exception {
     DateCheckFilter filter = new DateCheckFilter();
 //    assertThat(filter.getDayOfWeek("вс"), is(1));
-    assertThat(filter.getDayOfWeek("пн"), is(2));
+    MatcherAssert.assertThat(filter.getDayOfWeek("пн"), is(2));
 //    assertThat(filter.getDayOfWeek("понедельник"), is(2));
-    assertThat(filter.getDayOfWeek("пн."), is(2));
+    MatcherAssert.assertThat(filter.getDayOfWeek("пн."), is(2));
 //    assertThat(filter.getDayOfWeek("Понедельник"), is(2));
 //    assertThat(filter.getDayOfWeek("Пн"), is(2));
-    assertThat(filter.getDayOfWeek("вт"), is(3));
-    assertThat(filter.getDayOfWeek("пт"), is(6));
+    MatcherAssert.assertThat(filter.getDayOfWeek("вт"), is(3));
+    MatcherAssert.assertThat(filter.getDayOfWeek("пт"), is(6));
 //    assertThat(filter.getDayOfWeek("пятница"), is(6));
   }
 
   @Test
   public void testMonth() throws Exception {
     DateCheckFilter filter = new DateCheckFilter();
-    assertThat(filter.getMonth("I"), is(1));
-    assertThat(filter.getMonth("XII"), is(12));
-    assertThat(filter.getMonth("декабрь"), is(12));
-    assertThat(filter.getMonth("Декабрь"), is(12));
-    assertThat(filter.getMonth("ДЕКАБРЬ"), is(12));
+    MatcherAssert.assertThat(filter.getMonth("I"), is(1));
+    MatcherAssert.assertThat(filter.getMonth("XII"), is(12));
+    MatcherAssert.assertThat(filter.getMonth("декабрь"), is(12));
+    MatcherAssert.assertThat(filter.getMonth("Декабрь"), is(12));
+    MatcherAssert.assertThat(filter.getMonth("ДЕКАБРЬ"), is(12));
   }
 
 }

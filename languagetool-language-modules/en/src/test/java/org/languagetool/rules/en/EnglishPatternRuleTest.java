@@ -18,7 +18,7 @@
  */
 package org.languagetool.rules.en;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
@@ -39,8 +39,8 @@ public class EnglishPatternRuleTest extends PatternRuleTest {
   
   @Test
   public void testL2Languages() throws IOException {
-    validatePatternFile(Arrays.asList("en/grammar-l2-de.xml"));
-    validatePatternFile(Arrays.asList("en/grammar-l2-fr.xml"));
+    validatePatternFile(Collections.singletonList("en/grammar-l2-de.xml"));
+    validatePatternFile(Collections.singletonList("en/grammar-l2-fr.xml"));
     runTestForLanguage(new L2GermanRulesOnlyEnglish());
     runTestForLanguage(new L2FrenchRulesOnlyEnglish());
   }
@@ -59,7 +59,7 @@ public class EnglishPatternRuleTest extends PatternRuleTest {
     }
     @Override
     public List<String> getRuleFileNames() {
-      return Arrays.asList("/org/languagetool/rules/en/grammar-l2-de.xml");
+      return Collections.singletonList("/org/languagetool/rules/en/grammar-l2-de.xml");
     }
   }
 
@@ -70,7 +70,7 @@ public class EnglishPatternRuleTest extends PatternRuleTest {
     }
     @Override
     public List<String> getRuleFileNames() {
-      return Arrays.asList("/org/languagetool/rules/en/grammar-l2-fr.xml");
+      return Collections.singletonList("/org/languagetool/rules/en/grammar-l2-fr.xml");
     }
   }
 

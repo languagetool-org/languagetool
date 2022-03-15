@@ -18,8 +18,10 @@
  */
 package org.languagetool.remote;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.languagetool.server.HTTPSServer;
 import org.languagetool.server.HTTPSServerConfig;
 import org.languagetool.server.HTTPServer;
@@ -39,14 +41,13 @@ import java.security.cert.X509Certificate;
 import java.util.Collections;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
 
 public class RemoteLanguageToolIntegrationTest {
 
   private static final String serverUrl = "http://" + HTTPServerConfig.DEFAULT_HOST + ":" + HTTPTools.getDefaultPort();
 
   @Test
-  @Ignore("for interactive use only")
+  @Disabled("for interactive use only")
   public void testPublicServer() throws MalformedURLException {
     RemoteLanguageTool lt = new RemoteLanguageTool(new URL("https://languagetool.org/api"));
     RemoteResult matches = lt.check("This is an test.", "en");
@@ -60,50 +61,50 @@ public class RemoteLanguageToolIntegrationTest {
     try {
       server.run();
       RemoteLanguageTool lt = new RemoteLanguageTool(new URL(serverUrl));
-      assertThat(lt.check("This is a correct sentence.", "en").getMatches().size(), is(0));
-      assertThat(lt.check("Sentence wiht a typo not detected.", "en").getMatches().size(), is(0));
-      assertThat(lt.check("Sentence wiht a typo detected.", "en-US").getMatches().size(), is(1));
-      assertThat(lt.check("A sentence with a error.", "en").getMatches().size(), is(1));
-      assertThat(lt.check("Test escape: %", "en").getMatches().size(), is(0));
+      MatcherAssert.assertThat(lt.check("This is a correct sentence.", "en").getMatches().size(), is(0));
+      MatcherAssert.assertThat(lt.check("Sentence wiht a typo not detected.", "en").getMatches().size(), is(0));
+      MatcherAssert.assertThat(lt.check("Sentence wiht a typo detected.", "en-US").getMatches().size(), is(1));
+      MatcherAssert.assertThat(lt.check("A sentence with a error.", "en").getMatches().size(), is(1));
+      MatcherAssert.assertThat(lt.check("Test escape: %", "en").getMatches().size(), is(0));
 
       RemoteResult result1 = lt.check("A sentence with a error, and and another one", "en");
-      assertThat(result1.getLanguage(), is("English"));
-      assertThat(result1.getLanguageCode(), is("en"));
-      assertThat(result1.getRemoteServer().getSoftware(), is("LanguageTool"));
-      assertNotNull(result1.getRemoteServer().getVersion());
-      assertThat(result1.getMatches().size(), is(2));
-      assertThat(result1.getMatches().get(0).getRuleId(), is("EN_A_VS_AN"));
-      assertThat(result1.getMatches().get(1).getRuleId(), is("ENGLISH_WORD_REPEAT_RULE"));
+      MatcherAssert.assertThat(result1.getLanguage(), is("English"));
+      MatcherAssert.assertThat(result1.getLanguageCode(), is("en"));
+      MatcherAssert.assertThat(result1.getRemoteServer().getSoftware(), is("LanguageTool"));
+      Assertions.assertNotNull(result1.getRemoteServer().getVersion());
+      MatcherAssert.assertThat(result1.getMatches().size(), is(2));
+      MatcherAssert.assertThat(result1.getMatches().get(0).getRuleId(), is("EN_A_VS_AN"));
+      MatcherAssert.assertThat(result1.getMatches().get(1).getRuleId(), is("ENGLISH_WORD_REPEAT_RULE"));
 
       CheckConfiguration disabledConfig = new CheckConfigurationBuilder("en").disabledRuleIds("EN_A_VS_AN").build();
       RemoteResult result2 = lt.check("A sentence with a error, and and another one", disabledConfig);
-      assertThat(result2.getMatches().size(), is(1));
-      assertThat(result2.getMatches().get(0).getRuleId(), is("ENGLISH_WORD_REPEAT_RULE"));
+      MatcherAssert.assertThat(result2.getMatches().size(), is(1));
+      MatcherAssert.assertThat(result2.getMatches().get(0).getRuleId(), is("ENGLISH_WORD_REPEAT_RULE"));
 
       CheckConfiguration enabledConfig = new CheckConfigurationBuilder("en").enabledRuleIds("EN_A_VS_AN").build();
       RemoteResult result3 = lt.check("A sentence with a error, and and another one", enabledConfig);
-      assertThat(result3.getMatches().size(), is(2));
+      MatcherAssert.assertThat(result3.getMatches().size(), is(2));
 
       CheckConfiguration enabledOnlyConfig = new CheckConfigurationBuilder("en").enabledRuleIds("EN_A_VS_AN").enabledOnly().build();
       RemoteResult result4 = lt.check("A sentence with a error, and and another one", enabledOnlyConfig);
-      assertThat(result4.getMatches().size(), is(1));
-      assertThat(result4.getMatches().get(0).getRuleId(), is("EN_A_VS_AN"));
+      MatcherAssert.assertThat(result4.getMatches().size(), is(1));
+      MatcherAssert.assertThat(result4.getMatches().get(0).getRuleId(), is("EN_A_VS_AN"));
 
       CheckConfiguration config1 = new CheckConfigurationBuilder().build();
       RemoteResult result5 = lt.check("Ein Satz in Deutsch, mit etwas mehr Text, damit es auch geht.", config1);
-      assertThat(result5.getLanguage(), is("German (Germany)"));
-      assertThat(result5.getLanguageCode(), is("de-DE"));
+      MatcherAssert.assertThat(result5.getLanguage(), is("German (Germany)"));
+      MatcherAssert.assertThat(result5.getLanguageCode(), is("de-DE"));
 
       RemoteResult result7 = lt.check("Das Häuser ist schön.", "de");
-      assertThat(result7.getMatches().size(), is(1));
-      assertThat(result7.getMatches().get(0).getRuleId(), is("DE_AGREEMENT"));
+      MatcherAssert.assertThat(result7.getMatches().size(), is(1));
+      MatcherAssert.assertThat(result7.getMatches().get(0).getRuleId(), is("DE_AGREEMENT"));
 
       try {
         System.err.println("=== Testing invalid language code - ignore the following exception: ===");
         lt.check("foo", "xy");
-        fail();
+        Assertions.fail();
       } catch (RuntimeException e) {
-        assertTrue(e.getMessage().contains("is not a language code known to LanguageTool"));
+        Assertions.assertTrue(e.getMessage().contains("is not a language code known to LanguageTool"));
       }
     } finally {
       server.stop();
@@ -119,7 +120,7 @@ public class RemoteLanguageToolIntegrationTest {
     try {
       server.run();
       RemoteLanguageTool lt = new RemoteLanguageTool(new URL(serverUrl.replace("http:", "https:")));
-      assertThat(lt.check("This is a correct sentence.", "en").getMatches().size(), is(0));
+      MatcherAssert.assertThat(lt.check("This is a correct sentence.", "en").getMatches().size(), is(0));
     } finally {
       server.stop();
     }
@@ -143,31 +144,38 @@ public class RemoteLanguageToolIntegrationTest {
     HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
   }
 
-  @Test(expected=RuntimeException.class)
+  @Test
   public void testInvalidServer() throws MalformedURLException {
-    RemoteLanguageTool lt = new RemoteLanguageTool(new URL("http://does-not-exist"));
-    lt.check("foo", "en");
+    RuntimeException thrown =  Assertions.assertThrows(RuntimeException.class, () -> {
+      RemoteLanguageTool lt = new RemoteLanguageTool(new URL("http://does-not-exist"));
+      lt.check("foo", "en");
+    });
   }
 
-  @Test(expected=RuntimeException.class)
+  @Test
   public void testWrongProtocol() throws MalformedURLException {
-    String httpsUrl = "https://" + HTTPServerConfig.DEFAULT_HOST + ":" + HTTPServerConfig.DEFAULT_PORT;
-    RemoteLanguageTool lt = new RemoteLanguageTool(new URL(httpsUrl));
-    lt.check("foo", "en");
+    RuntimeException thrown = Assertions.assertThrows(RuntimeException.class, () -> {
+      String httpsUrl = "https://" + HTTPServerConfig.DEFAULT_HOST + ":" + HTTPServerConfig.DEFAULT_PORT;
+      RemoteLanguageTool lt = new RemoteLanguageTool(new URL(httpsUrl));
+      lt.check("foo", "en");
+    });
   }
 
-  @Test(expected=RuntimeException.class)
+  @Test
   public void testInvalidProtocol() throws MalformedURLException {
-    String httpsUrl = "ftp://" + HTTPServerConfig.DEFAULT_HOST + ":" + HTTPServerConfig.DEFAULT_PORT;
-    RemoteLanguageTool lt = new RemoteLanguageTool(new URL(httpsUrl));
-    lt.check("foo", "en");
+    RuntimeException thrown = Assertions.assertThrows(RuntimeException.class, () -> {
+      String httpsUrl = "ftp://" + HTTPServerConfig.DEFAULT_HOST + ":" + HTTPServerConfig.DEFAULT_PORT;
+      RemoteLanguageTool lt = new RemoteLanguageTool(new URL(httpsUrl));
+      lt.check("foo", "en");
+    });
   }
   
   @SuppressWarnings("ResultOfObjectAllocationIgnored")
-  @Test(expected=MalformedURLException.class)
+  @Test
   public void testProtocolTypo() throws MalformedURLException {
-    String httpsUrl = "htp://" + HTTPServerConfig.DEFAULT_HOST + ":" + HTTPServerConfig.DEFAULT_PORT;
-    new RemoteLanguageTool(new URL(httpsUrl));
+    MalformedURLException thrown = Assertions.assertThrows(MalformedURLException.class, () -> {
+      String httpsUrl = "htp://" + HTTPServerConfig.DEFAULT_HOST + ":" + HTTPServerConfig.DEFAULT_PORT;
+      new RemoteLanguageTool(new URL(httpsUrl));  
+    });
   }
-  
 }

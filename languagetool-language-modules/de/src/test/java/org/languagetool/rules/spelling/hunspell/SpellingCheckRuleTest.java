@@ -18,7 +18,8 @@
  */
 package org.languagetool.rules.spelling.hunspell;
 
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.rules.Rule;
@@ -31,7 +32,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
 
 public class SpellingCheckRuleTest {
 
@@ -39,17 +39,17 @@ public class SpellingCheckRuleTest {
   public void testIgnoreSuggestionsWithHunspell() throws IOException {
     JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
 
-    assertThat(lt.check("Das ist ein einPseudoWortFürLanguageToolTests").size(), is(0));   // no error, as this word is in ignore.txt
+    MatcherAssert.assertThat(lt.check("Das ist ein einPseudoWortFürLanguageToolTests").size(), is(0));   // no error, as this word is in ignore.txt
 
     List<RuleMatch> matches = lt.check("Das ist ein Tibbfehla");
-    assertThat(matches.size(), is(1));
-    assertThat(matches.get(0).getRule().getId(), is(GermanSpellerRule.RULE_ID));
+    MatcherAssert.assertThat(matches.size(), is(1));
+    MatcherAssert.assertThat(matches.get(0).getRule().getId(), is(GermanSpellerRule.RULE_ID));
   }
 
   @Test
   public void testIgnorePhrases() throws IOException {
     JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
-    assertThat(lt.check("Ein Test mit Auriensis Fantasiewortus").size(), is(2));
+    MatcherAssert.assertThat(lt.check("Ein Test mit Auriensis Fantasiewortus").size(), is(2));
     for (Rule rule : lt.getAllActiveRules()) {
       if (rule instanceof SpellingCheckRule) {
         ((SpellingCheckRule) rule).acceptPhrases(Arrays.asList("Auriensis Fantasiewortus", "fudeldu laberwort"));
@@ -57,11 +57,11 @@ public class SpellingCheckRuleTest {
         lt.disableRule(rule.getId());
       }
     }
-    assertThat(lt.check("Ein Test mit Auriensis Fantasiewortus").size(), is(0));
-    assertThat(lt.check("Ein Test mit Auriensis und Fantasiewortus").size(), is(2));  // the words on their own are not ignored
-    assertThat(lt.check("fudeldu laberwort").size(), is(0));
-    assertThat(lt.check("Fudeldu laberwort").size(), is(0));  // Uppercase at sentence start is okay
-    assertThat(lt.check("Fudeldu Laberwort").size(), is(2));  // Different case somewhere other than at sentence start is not okay
+    MatcherAssert.assertThat(lt.check("Ein Test mit Auriensis Fantasiewortus").size(), is(0));
+    MatcherAssert.assertThat(lt.check("Ein Test mit Auriensis und Fantasiewortus").size(), is(2));  // the words on their own are not ignored
+    MatcherAssert.assertThat(lt.check("fudeldu laberwort").size(), is(0));
+    MatcherAssert.assertThat(lt.check("Fudeldu laberwort").size(), is(0));  // Uppercase at sentence start is okay
+    MatcherAssert.assertThat(lt.check("Fudeldu Laberwort").size(), is(2));  // Different case somewhere other than at sentence start is not okay
   }
 
 }

@@ -18,27 +18,24 @@
  */
 package org.languagetool.rules.de;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.languagetool.*;
 import org.languagetool.chunking.GermanChunker;
 import org.languagetool.language.German;
 import org.languagetool.rules.RuleMatch;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 public class SubjectVerbAgreementRuleTest {
 
   private static SubjectVerbAgreementRule rule;
   private static JLanguageTool lt;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUp() {
     Language german = Languages.getLanguageForShortCode("de-DE");
     rule = new SubjectVerbAgreementRule(TestTools.getMessages("de"), (German) german);
@@ -95,13 +92,13 @@ public class SubjectVerbAgreementRuleTest {
 
   @Test
   public void testPrevChunkIsNominative() throws IOException {
-    assertTrue(rule.prevChunkIsNominative(getTokens("Die Katze ist süß"), 2));
-    assertTrue(rule.prevChunkIsNominative(getTokens("Das Fell der Katzen ist süß"), 4));
+    Assertions.assertTrue(rule.prevChunkIsNominative(getTokens("Die Katze ist süß"), 2));
+    Assertions.assertTrue(rule.prevChunkIsNominative(getTokens("Das Fell der Katzen ist süß"), 4));
 
-    assertFalse(rule.prevChunkIsNominative(getTokens("Dem Mann geht es gut."), 2));
-    assertFalse(rule.prevChunkIsNominative(getTokens("Dem alten Mann geht es gut."), 2));
-    assertFalse(rule.prevChunkIsNominative(getTokens("Beiden Filmen war kein Erfolg beschieden."), 2));
-    assertFalse(rule.prevChunkIsNominative(getTokens("Aber beiden Filmen war kein Erfolg beschieden."), 3));
+    Assertions.assertFalse(rule.prevChunkIsNominative(getTokens("Dem Mann geht es gut."), 2));
+    Assertions.assertFalse(rule.prevChunkIsNominative(getTokens("Dem alten Mann geht es gut."), 2));
+    Assertions.assertFalse(rule.prevChunkIsNominative(getTokens("Beiden Filmen war kein Erfolg beschieden."), 2));
+    Assertions.assertFalse(rule.prevChunkIsNominative(getTokens("Aber beiden Filmen war kein Erfolg beschieden."), 3));
     //assertFalse(rule.prevChunkIsNominative(getTokens("Der Katzen Fell ist süß"), 3));
   }
 
@@ -482,7 +479,7 @@ public class SubjectVerbAgreementRuleTest {
       GermanChunker.setDebug(true);
       getMatches(input);  // run again with debug mode
     }
-    Assert.fail(message);
+    Assertions.fail(message);
   }
 
   private RuleMatch[] getMatches(String input) throws IOException {

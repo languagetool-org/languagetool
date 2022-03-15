@@ -18,14 +18,14 @@
  */
 package org.languagetool.synthesis;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import org.junit.jupiter.api.Assertions;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 /**
  * @author Ionuț Păduraru
@@ -34,7 +34,7 @@ public class ManualSynthesizerTest {
 
   private ManualSynthesizer synthesizer;
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     String data = 
       "# some test data\n" +
@@ -47,11 +47,11 @@ public class ManualSynthesizerTest {
 
   @Test
   public void testLookupNonExisting() throws IOException {
-    assertNull(synthesizer.lookup("", ""));
-    assertNull(synthesizer.lookup("", null));
-    assertNull(synthesizer.lookup(null, ""));
-    assertNull(synthesizer.lookup(null, null));
-    assertNull(synthesizer.lookup("NONE", "UNKNOWN"));
+    Assertions.assertNull(synthesizer.lookup("", ""));
+    Assertions.assertNull(synthesizer.lookup("", null));
+    Assertions.assertNull(synthesizer.lookup(null, ""));
+    Assertions.assertNull(synthesizer.lookup(null, null));
+    Assertions.assertNull(synthesizer.lookup("NONE", "UNKNOWN"));
   }
 
   /**
@@ -59,23 +59,23 @@ public class ManualSynthesizerTest {
    */
   @Test
   public void testInvalidLookup() throws IOException {
-    assertNull(synthesizer.lookup("NONE", "POS1"));
-    assertNull(synthesizer.lookup("Lemma1", "UNKNOWN"));
-    assertNull(synthesizer.lookup("Lemma1", "POS.")); // no reg exp
-    assertNull(synthesizer.lookup("Lemma2", "POS2"));
+    Assertions.assertNull(synthesizer.lookup("NONE", "POS1"));
+    Assertions.assertNull(synthesizer.lookup("Lemma1", "UNKNOWN"));
+    Assertions.assertNull(synthesizer.lookup("Lemma1", "POS.")); // no reg exp
+    Assertions.assertNull(synthesizer.lookup("Lemma2", "POS2"));
   }
 
   @Test
   public void testValidLookup() throws IOException {
-    assertEquals("[InflectedForm11]", String.valueOf(synthesizer.lookup("Lemma1", "POS1")));
-    assertEquals("[InflectedForm121, InflectedForm122]", String.valueOf(synthesizer.lookup("Lemma1", "POS2")));
-    assertEquals("[InflectedForm2]", String.valueOf(synthesizer.lookup("Lemma2", "POS1")));
+    Assertions.assertEquals("[InflectedForm11]", String.valueOf(synthesizer.lookup("Lemma1", "POS1")));
+    Assertions.assertEquals("[InflectedForm121, InflectedForm122]", String.valueOf(synthesizer.lookup("Lemma1", "POS2")));
+    Assertions.assertEquals("[InflectedForm2]", String.valueOf(synthesizer.lookup("Lemma2", "POS1")));
   }
 
   @Test
   public void testCaseSensitive() throws IOException {
     // lookup is case sensitive:
-    assertNull(synthesizer.lookup("LEmma1", "POS1"));
+    Assertions.assertNull(synthesizer.lookup("LEmma1", "POS1"));
   }
   
 }

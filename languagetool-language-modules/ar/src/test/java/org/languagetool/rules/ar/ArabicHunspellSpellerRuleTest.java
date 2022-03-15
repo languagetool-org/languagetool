@@ -18,14 +18,15 @@
  */
 package org.languagetool.rules.ar;
 
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
 import org.languagetool.rules.RuleMatch;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
 
 public class ArabicHunspellSpellerRuleTest {
 
@@ -34,29 +35,29 @@ public class ArabicHunspellSpellerRuleTest {
     ArabicHunspellSpellerRule rule = new ArabicHunspellSpellerRule(TestTools.getMessages("ar"));
     JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("ar"));
 
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("السلام عليكم.")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("والبلاد")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("السلام عليكم.")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("والبلاد")).length);
     // ignore URLs:
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("تصفح http://foo.org/bar.")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("تصفح http://foo.org/bar.")).length);
 
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("السلام عليييكم."));
-    assertThat(matches.length, is(1));
+    MatcherAssert.assertThat(matches.length, is(1));
     //TODO fix flaky test
     //String exp = "عليميكم";
     //assertTrue("Expected '" + exp + "', got: " + matches[0].getSuggestedReplacements(), matches[0].getSuggestedReplacements().contains(exp));
 
     matches = rule.match(lt.getAnalyzedSentence("هذه العباره فيها أغلاط."));
-    assertThat(matches.length, is(1));
-    assertTrue(matches[0].getSuggestedReplacements().contains("العبارة"));
-    assertThat(matches[0].getFromPos(), is(4));
-    assertThat(matches[0].getToPos(), is(11));
+    MatcherAssert.assertThat(matches.length, is(1));
+    Assertions.assertTrue(matches[0].getSuggestedReplacements().contains("العبارة"));
+    MatcherAssert.assertThat(matches[0].getFromPos(), is(4));
+    MatcherAssert.assertThat(matches[0].getToPos(), is(11));
 
     matches = rule.match(lt.getAnalyzedSentence("تظاعف"));
-    assertTrue(matches[0].getSuggestedReplacements().contains("تساعف"));
-    assertTrue(matches[0].getSuggestedReplacements().contains("تضاعف"));
+    Assertions.assertTrue(matches[0].getSuggestedReplacements().contains("تساعف"));
+    Assertions.assertTrue(matches[0].getSuggestedReplacements().contains("تضاعف"));
 
     matches = rule.match(lt.getAnalyzedSentence("مساءل"));
-    assertTrue(matches[0].getSuggestedReplacements().contains("مسائل"));
+    Assertions.assertTrue(matches[0].getSuggestedReplacements().contains("مسائل"));
 
     /* commented out because multi-lingual feature breaks this:
     matches = rule.match(langTool.getAnalyzedSentence("مصر دوله افريقية اهلها بيتكلموا مصرى"));
@@ -70,33 +71,33 @@ public class ArabicHunspellSpellerRuleTest {
      */
 
     matches = rule.match(lt.getAnalyzedSentence("اذا اردت الذهاب الى المكتبه اذهب فى الضهيرة مادام حكامنا يغدقون الاموال على الارجل بدل الرءوس، فلن نتقّدم خطوة"));
-    assertThat(matches.length, is(9));
-    assertThat(matches[0].getFromPos(), is(0));
-    assertThat(matches[0].getToPos(), is(3));
-    assertTrue(matches[0].getSuggestedReplacements().contains("إذا"));
-    assertThat(matches[1].getFromPos(), is(4));
-    assertThat(matches[1].getToPos(), is(8));
-    assertTrue(matches[1].getSuggestedReplacements().contains("أردت"));
-    assertThat(matches[8].getFromPos(), is(87));
-    assertThat(matches[8].getToPos(), is(93));
-    assertTrue(matches[8].getSuggestedReplacements().contains("الرؤوس"));
+    MatcherAssert.assertThat(matches.length, is(9));
+    MatcherAssert.assertThat(matches[0].getFromPos(), is(0));
+    MatcherAssert.assertThat(matches[0].getToPos(), is(3));
+    Assertions.assertTrue(matches[0].getSuggestedReplacements().contains("إذا"));
+    MatcherAssert.assertThat(matches[1].getFromPos(), is(4));
+    MatcherAssert.assertThat(matches[1].getToPos(), is(8));
+    Assertions.assertTrue(matches[1].getSuggestedReplacements().contains("أردت"));
+    MatcherAssert.assertThat(matches[8].getFromPos(), is(87));
+    MatcherAssert.assertThat(matches[8].getToPos(), is(93));
+    Assertions.assertTrue(matches[8].getSuggestedReplacements().contains("الرؤوس"));
 
     matches = rule.match(lt.getAnalyzedSentence("مُقَدِّمَةُ الطَّبَرِيِّ شَيْخِ الدِّينِ فَجَاءَ فِيهِ بِالْعَجَبِ الْعُجَابِ"));
-    assertThat(matches.length, is(1));
-    assertThat(matches[0].getFromPos(), is(12));
-    assertThat(matches[0].getToPos(), is(24));
+    MatcherAssert.assertThat(matches.length, is(1));
+    MatcherAssert.assertThat(matches[0].getFromPos(), is(12));
+    MatcherAssert.assertThat(matches[0].getToPos(), is(24));
 
     matches = rule.match(lt.getAnalyzedSentence("سمّيت الإقتصادي."));
-    assertThat(matches.length, is(1));
-    assertThat(matches[0].getFromPos(), is(6));
+    MatcherAssert.assertThat(matches.length, is(1));
+    MatcherAssert.assertThat(matches[0].getFromPos(), is(6));
 
     matches = rule.match(lt.getAnalyzedSentence("وسمّيت الإقتصادي."));
-    assertThat(matches.length, is(1));
-    assertThat(matches[0].getFromPos(), is(7));
+    MatcherAssert.assertThat(matches.length, is(1));
+    MatcherAssert.assertThat(matches[0].getFromPos(), is(7));
 
     matches = rule.match(lt.getAnalyzedSentence("وسميت الإقتصادي."));
-    assertThat(matches.length, is(1));
-    assertThat(matches[0].getFromPos(), is(6));
+    MatcherAssert.assertThat(matches.length, is(1));
+    MatcherAssert.assertThat(matches[0].getFromPos(), is(6));
   }
 
 }

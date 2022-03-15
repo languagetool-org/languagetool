@@ -18,7 +18,8 @@
  */
 package org.languagetool.rules;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 import org.languagetool.Language;
 import org.languagetool.TestTools;
 import org.languagetool.rules.patterns.PatternRule;
@@ -27,8 +28,6 @@ import org.languagetool.rules.patterns.PatternToken;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 @SuppressWarnings("MagicNumber")
 public class RuleWithMaxFilterTest {
@@ -44,10 +43,10 @@ public class RuleWithMaxFilterTest {
     RuleMatch match2 = new RuleMatch(rule2, null, 15, 25, "Match2");
     RuleWithMaxFilter filter = new RuleWithMaxFilter();
     List<RuleMatch> filteredMatches1 = filter.filter(Arrays.asList(match1, match2));
-    assertEquals(2, filteredMatches1.size());
+    Assertions.assertEquals(2, filteredMatches1.size());
     RuleMatch match3 = new RuleMatch(rule2, null, 11, 19, "Match3");
     List<RuleMatch> filteredMatches2 = filter.filter(Arrays.asList(match1, match3));
-    assertEquals(1, filteredMatches2.size());
+    Assertions.assertEquals(1, filteredMatches2.size());
   }
 
   @Test
@@ -59,7 +58,7 @@ public class RuleWithMaxFilterTest {
     RuleMatch match2 = new RuleMatch(rule2, null, 21, 25, "Match2");
     RuleWithMaxFilter filter = new RuleWithMaxFilter();
     List<RuleMatch> filteredMatches = filter.filter(Arrays.asList(match1, match2));
-    assertEquals(2, filteredMatches.size());
+    Assertions.assertEquals(2, filteredMatches.size());
   }
 
   @Test
@@ -71,25 +70,25 @@ public class RuleWithMaxFilterTest {
     RuleMatch match2 = new RuleMatch(rule2, null, 15, 25, "Match2");
     RuleWithMaxFilter filter = new RuleWithMaxFilter();
     List<RuleMatch> filteredMatches1 = filter.filter(Arrays.asList(match1, match2));
-    assertEquals(2, filteredMatches1.size());
+    Assertions.assertEquals(2, filteredMatches1.size());
     RuleMatch match3 = new RuleMatch(rule2, null, 11, 19, "Match3");
     List<RuleMatch> filteredMatches2 = filter.filter(Arrays.asList(match1, match3));
-    assertEquals(2, filteredMatches2.size());
+    Assertions.assertEquals(2, filteredMatches2.size());
   }
 
   @Test
   public void testOverlaps() {
     RuleWithMaxFilter filter = new RuleWithMaxFilter();
 
-    assertTrue(filter.includes(makeRuleMatch(10, 20), makeRuleMatch(10, 20)));
-    assertFalse(filter.includes(makeRuleMatch(10, 20), makeRuleMatch(5, 11)));
-    assertFalse(filter.includes(makeRuleMatch(10, 20), makeRuleMatch(11, 21)));
-    assertTrue(filter.includes(makeRuleMatch(10, 20), makeRuleMatch(11, 19)));
-    assertFalse(filter.includes(makeRuleMatch(10, 20), makeRuleMatch(1, 10)));
-    assertTrue(filter.includes(makeRuleMatch(10, 20), makeRuleMatch(19, 20)));
+    Assertions.assertTrue(filter.includes(makeRuleMatch(10, 20), makeRuleMatch(10, 20)));
+    Assertions.assertFalse(filter.includes(makeRuleMatch(10, 20), makeRuleMatch(5, 11)));
+    Assertions.assertFalse(filter.includes(makeRuleMatch(10, 20), makeRuleMatch(11, 21)));
+    Assertions.assertTrue(filter.includes(makeRuleMatch(10, 20), makeRuleMatch(11, 19)));
+    Assertions.assertFalse(filter.includes(makeRuleMatch(10, 20), makeRuleMatch(1, 10)));
+    Assertions.assertTrue(filter.includes(makeRuleMatch(10, 20), makeRuleMatch(19, 20)));
 
-    assertFalse(filter.includes(makeRuleMatch(10, 20), makeRuleMatch(21, 30)));
-    assertFalse(filter.includes(makeRuleMatch(10, 20), makeRuleMatch(1, 9)));
+    Assertions.assertFalse(filter.includes(makeRuleMatch(10, 20), makeRuleMatch(21, 30)));
+    Assertions.assertFalse(filter.includes(makeRuleMatch(10, 20), makeRuleMatch(1, 9)));
   }
 
   private RuleMatch makeRuleMatch(int fromPos, int toPos) {

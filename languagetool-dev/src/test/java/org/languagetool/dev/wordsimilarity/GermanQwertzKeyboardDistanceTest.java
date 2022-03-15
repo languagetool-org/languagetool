@@ -18,32 +18,33 @@
  */
 package org.languagetool.dev.wordsimilarity;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import org.hamcrest.MatcherAssert;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
 
 public class GermanQwertzKeyboardDistanceTest {
 
     @Test
     public void testDistance() {
         GermanQwertzKeyboardDistance distance = new GermanQwertzKeyboardDistance();
-        assertThat(distance.getDistance('q', 'q'), is(0.0f));
-        assertThat(distance.getDistance('q', 'w'), is(1.0f));
-        assertThat(distance.getDistance('q', 'p'), is(9.0f));
-        assertThat(distance.getDistance('q', 'a'), is(1.0f));
-        assertThat(distance.getDistance('t', 'g'), is(1.0f));
-        assertThat(distance.getDistance('a', 's'), is(1.0f));
-        assertThat(distance.getDistance('a', 'g'), is(4.0f));
-        assertThat(distance.getDistance('y', 'x'), is(1.0f));
-        assertThat(distance.getDistance('c', 'n'), is(3.0f));
-        assertThat(distance.getDistance('q', 'y'), is(2.0f));
-        assertThat(distance.getDistance('q', 'm'), is(8.0f));
-        assertThat(distance.getDistance('p', 'ß'), is(2.0f));
-        assertThat(distance.getDistance('o', 'ß'), is(3.0f));
+        MatcherAssert.assertThat(distance.getDistance('q', 'q'), is(0.0f));
+        MatcherAssert.assertThat(distance.getDistance('q', 'w'), is(1.0f));
+        MatcherAssert.assertThat(distance.getDistance('q', 'p'), is(9.0f));
+        MatcherAssert.assertThat(distance.getDistance('q', 'a'), is(1.0f));
+        MatcherAssert.assertThat(distance.getDistance('t', 'g'), is(1.0f));
+        MatcherAssert.assertThat(distance.getDistance('a', 's'), is(1.0f));
+        MatcherAssert.assertThat(distance.getDistance('a', 'g'), is(4.0f));
+        MatcherAssert.assertThat(distance.getDistance('y', 'x'), is(1.0f));
+        MatcherAssert.assertThat(distance.getDistance('c', 'n'), is(3.0f));
+        MatcherAssert.assertThat(distance.getDistance('q', 'y'), is(2.0f));
+        MatcherAssert.assertThat(distance.getDistance('q', 'm'), is(8.0f));
+        MatcherAssert.assertThat(distance.getDistance('p', 'ß'), is(2.0f));
+        MatcherAssert.assertThat(distance.getDistance('o', 'ß'), is(3.0f));
         // uppercase:
-        assertThat(distance.getDistance('C', 'n'), is(3.0f));
-        assertThat(distance.getDistance('c', 'N'), is(3.0f));
-        assertThat(distance.getDistance('C', 'N'), is(3.0f));
+        MatcherAssert.assertThat(distance.getDistance('C', 'n'), is(3.0f));
+        MatcherAssert.assertThat(distance.getDistance('c', 'N'), is(3.0f));
+        MatcherAssert.assertThat(distance.getDistance('C', 'N'), is(3.0f));
     }
 }

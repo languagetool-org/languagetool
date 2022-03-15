@@ -19,14 +19,13 @@
 
 package org.languagetool.synthesis.en;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.language.English;
 
 import java.io.IOException;
 import java.util.Arrays;
-
-import static org.junit.Assert.assertEquals;
 
 public class EnglishSynthesizerTest {
 
@@ -41,40 +40,38 @@ public class EnglishSynthesizerTest {
   @Test
   public void testSynthesizeStringString() throws IOException {
     EnglishSynthesizer synth = new EnglishSynthesizer(new English());
-    assertEquals(synth.synthesize(dummyToken("blablabla"), "blablabla").length, 0);
+    Assertions.assertEquals(synth.synthesize(dummyToken("blablabla"), "blablabla").length, 0);
 
-    assertEquals("[was, were]", Arrays.toString(synth.synthesize(dummyToken("be"), "VBD")));
-    assertEquals("[presidents]", Arrays.toString(synth.synthesize(dummyToken("president"), "NNS")));
-    assertEquals("[tested]", Arrays.toString(synth.synthesize(dummyToken("test"), "VBD")));
-    assertEquals("[tested]", Arrays.toString(synth.synthesize(dummyToken("test"), "VBD", false)));
+    Assertions.assertEquals("[was, were]", Arrays.toString(synth.synthesize(dummyToken("be"), "VBD")));
+    Assertions.assertEquals("[presidents]", Arrays.toString(synth.synthesize(dummyToken("president"), "NNS")));
+    Assertions.assertEquals("[tested]", Arrays.toString(synth.synthesize(dummyToken("test"), "VBD")));
+    Assertions.assertEquals("[tested]", Arrays.toString(synth.synthesize(dummyToken("test"), "VBD", false)));
     // with regular expressions
-    assertEquals("[tested]", Arrays.toString(synth.synthesize(dummyToken("test"), "VBD", true)));
-    assertEquals("[tested, testing]", Arrays.toString(synth.synthesize(dummyToken("test"), "VBD|VBG", true)));
+    Assertions.assertEquals("[tested]", Arrays.toString(synth.synthesize(dummyToken("test"), "VBD", true)));
+    Assertions.assertEquals("[tested, testing]", Arrays.toString(synth.synthesize(dummyToken("test"), "VBD|VBG", true)));
     // with special indefinite article
-    assertEquals("[a university, the university]",
-        Arrays.toString(synth.synthesize(dummyToken("university"), "+DT", false)));
-    assertEquals("[an hour, the hour]", Arrays.toString(synth.synthesize(dummyToken("hour"), "+DT", false)));
-    assertEquals("[an hour]", Arrays.toString(synth.synthesize(dummyToken("hour"), "+INDT", false)));
+    Assertions.assertEquals("[a university, the university]", Arrays.toString(synth.synthesize(dummyToken("university"), "+DT", false)));
+    Assertions.assertEquals("[an hour, the hour]", Arrays.toString(synth.synthesize(dummyToken("hour"), "+DT", false)));
+    Assertions.assertEquals("[an hour]", Arrays.toString(synth.synthesize(dummyToken("hour"), "+INDT", false)));
     // indefinite article and other changes...
-    assertEquals("[an hour]", Arrays.toString(synth.synthesize(dummyToken("hours", "hour"), "NN\\+INDT", true)));
-    assertEquals("[a hexagon]", Arrays.toString(synth.synthesize(dummyToken("hexagon"), "NN|NN:.*\\+INDT", true)));
+    Assertions.assertEquals("[an hour]", Arrays.toString(synth.synthesize(dummyToken("hours", "hour"), "NN\\+INDT", true)));
+    Assertions.assertEquals("[a hexagon]", Arrays.toString(synth.synthesize(dummyToken("hexagon"), "NN|NN:.*\\+INDT", true)));
     // indefinite article and other changes...
-    assertEquals("[the hour]", Arrays.toString(synth.synthesize(dummyToken("hours", "hour"), "NN\\+DT", true)));
+    Assertions.assertEquals("[the hour]", Arrays.toString(synth.synthesize(dummyToken("hours", "hour"), "NN\\+DT", true)));
     // from added.txt:
-    assertEquals("[absolutized]", Arrays.toString(synth.synthesize(dummyToken("absolutize"), "VBD", false)));
-    assertEquals("[absolutized]", Arrays.toString(synth.synthesize(dummyToken("absolutize"), "VB[XD]", true)));
+    Assertions.assertEquals("[absolutized]", Arrays.toString(synth.synthesize(dummyToken("absolutize"), "VBD", false)));
+    Assertions.assertEquals("[absolutized]", Arrays.toString(synth.synthesize(dummyToken("absolutize"), "VB[XD]", true)));
     // from removed.txt:
-    assertEquals("[]", Arrays.toString(synth.synthesize(dummyToken("Christmas"), "VBZ", false)));
+    Assertions.assertEquals("[]", Arrays.toString(synth.synthesize(dummyToken("Christmas"), "VBZ", false)));
 
-    assertEquals("[twelve]", Arrays.toString(synth.synthesize(dummyToken("12"), "_spell_number_", false)));
-    assertEquals("[one thousand two hundred forty-three]",
-        Arrays.toString(synth.synthesize(dummyToken("1243"), "_spell_number_", false)));
-    assertEquals("[twelve]", Arrays.toString(synth.synthesize(dummyToken("12"), "_spell_number_", true)));
+    Assertions.assertEquals("[twelve]", Arrays.toString(synth.synthesize(dummyToken("12"), "_spell_number_", false)));
+    Assertions.assertEquals("[one thousand two hundred forty-three]", Arrays.toString(synth.synthesize(dummyToken("1243"), "_spell_number_", false)));
+    Assertions.assertEquals("[twelve]", Arrays.toString(synth.synthesize(dummyToken("12"), "_spell_number_", true)));
 
-    assertEquals("[I]", Arrays.toString(synth.synthesize(dummyToken("myself", "I"), "PRP_S1S", true)));
+    Assertions.assertEquals("[I]", Arrays.toString(synth.synthesize(dummyToken("myself", "I"), "PRP_S1S", true)));
 
-    assertEquals("[mixed]", Arrays.toString(synth.synthesize(dummyToken("mix"), "VBD")));
-    assertEquals("[mixed]", Arrays.toString(synth.synthesize(dummyToken("mix"), "VBN")));
+    Assertions.assertEquals("[mixed]", Arrays.toString(synth.synthesize(dummyToken("mix"), "VBD")));
+    Assertions.assertEquals("[mixed]", Arrays.toString(synth.synthesize(dummyToken("mix"), "VBN")));
   }
 
 }

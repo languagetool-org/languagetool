@@ -18,7 +18,8 @@
  */
 package org.languagetool.rules.de;
 
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
@@ -31,7 +32,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
 
 public class UpperCaseNgramRuleTest {
 
@@ -53,7 +53,7 @@ public class UpperCaseNgramRuleTest {
 
   private void assertMatch(int expectedMatches, String input, UpperCaseNgramRule rule) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
-    assertThat(matches.length, is(expectedMatches));
+    MatcherAssert.assertThat(matches.length, is(expectedMatches));
   }
 
 }

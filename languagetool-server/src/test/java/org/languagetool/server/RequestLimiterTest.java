@@ -18,14 +18,14 @@
  */
 package org.languagetool.server;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import org.junit.jupiter.api.Assertions;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static org.junit.Assert.fail;
 
 public class RequestLimiterTest {
 
@@ -153,7 +153,7 @@ public class RequestLimiterTest {
     try {
       limiter.checkAccess(ip, params, header, UserLimits.getDefaultLimits(config));
     } catch (TooManyRequestsException e) {
-      fail();
+      Assertions.fail();
     }
   }
 
@@ -161,14 +161,14 @@ public class RequestLimiterTest {
     try {
       limiter.checkAccess(ip, params, header, new UserLimits(true));
     } catch (TooManyRequestsException e) {
-      fail();
+      Assertions.fail();
     }
   }
 
   private void assertException(RequestLimiter limiter, String ip, Map<String, String> params, Map<String, List<String>> header) {
     try {
       limiter.checkAccess(ip, params, header, UserLimits.getDefaultLimits(config));
-      fail();
+      Assertions.fail();
     } catch (TooManyRequestsException ignored) {}
   }
   

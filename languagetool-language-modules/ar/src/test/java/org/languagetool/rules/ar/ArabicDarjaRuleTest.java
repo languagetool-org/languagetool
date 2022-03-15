@@ -20,8 +20,9 @@
 
 package org.languagetool.rules.ar;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
@@ -29,7 +30,6 @@ import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 
-import static org.junit.Assert.assertEquals;
 
 public class ArabicDarjaRuleTest {
 
@@ -37,7 +37,7 @@ public class ArabicDarjaRuleTest {
 
   private ArabicDarjaRule rule;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     rule = new ArabicDarjaRule(TestTools.getMessages("ar"));
   }
@@ -45,13 +45,13 @@ public class ArabicDarjaRuleTest {
   @Test
   public void testRule() throws IOException {
     // correct sentences:
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("إن شاء")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("إن شاء")).length);
 
     // incorrect sentences:
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("طرشي"));
-    assertEquals(1, matches.length);
-    assertEquals("فلفل حلو", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("فلفل حلو", matches[0].getSuggestedReplacements().get(0));
 
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("فايدة")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("فايدة")).length);
   }
 }

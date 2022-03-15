@@ -18,13 +18,12 @@
  */
 package org.languagetool.languagemodel;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 import org.languagetool.rules.ngrams.Probability;
 
 import java.util.Arrays;
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 @SuppressWarnings("MagicNumber")
 public class MultiLanguageModelTest {
@@ -36,8 +35,8 @@ public class MultiLanguageModelTest {
       LanguageModel lm2 = new FakeLanguageModel(0.2f);
       MultiLanguageModel lm = new MultiLanguageModel(Arrays.asList(lm1, lm2))) {
       List<String> ngram = Arrays.asList("foo", "bar", "blah");
-      assertEquals(0.7f, lm.getPseudoProbability(ngram).getProb(), 0.01f);
-      assertEquals(0.5f, lm.getPseudoProbability(ngram).getCoverage(), 0.01f);
+      Assertions.assertEquals(0.7f, lm.getPseudoProbability(ngram).getProb(), 0.01f);
+      Assertions.assertEquals(0.5f, lm.getPseudoProbability(ngram).getCoverage(), 0.01f);
     }
   }
 

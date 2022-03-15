@@ -21,6 +21,7 @@
 
 package org.languagetool.rules;
 
+import org.junit.jupiter.api.Assertions;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.MultiThreadedJLanguageTool;
@@ -34,7 +35,6 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 import java.util.stream.Collectors;
 
-import static org.junit.Assert.fail;
 
 /**
  * base class to test rules in remote-rule-filters.xml, like PatternRuleTest for grammar.xml
@@ -56,7 +56,7 @@ public class RemoteRuleFilterTest extends PatternRuleTest {
       try {
         Pattern.compile(rule.getId());
       } catch (PatternSyntaxException e) {
-        fail("Remote rule filter ID must be a valid regex; got " + rule.getId() + ": " + e);
+        Assertions.fail("Remote rule filter ID must be a valid regex; got " + rule.getId() + ": " + e);
       }
       if (rule.getId().equalsIgnoreCase("ID")) {
         System.err.println("WARNING: " + lang.getShortCodeWithCountryAndVariant() + " has a rule with id 'ID', this should probably be changed");

@@ -20,6 +20,7 @@ package org.languagetool;
 
 import morfologik.stemming.Dictionary;
 import morfologik.stemming.*;
+import org.junit.jupiter.api.Assertions;
 import org.languagetool.language.Demo;
 import org.languagetool.rules.Rule;
 import org.languagetool.tagging.BaseTagger;
@@ -30,8 +31,6 @@ import org.languagetool.tokenizers.Tokenizer;
 
 import java.io.IOException;
 import java.util.*;
-
-import static org.junit.Assert.assertEquals;
 
 public final class TestTools {
 
@@ -81,7 +80,7 @@ public final class TestTools {
     for (String s : input) {
       inputString.append(s);
     }
-    assertEquals(input, sTokenizer.tokenize(inputString.toString()));
+    Assertions.assertEquals(input, sTokenizer.tokenize(inputString.toString()));
   }
 
   public static void myAssert(String input, String expected,
@@ -98,7 +97,7 @@ public final class TestTools {
         outputStr.append(" -- ");
       }
     }
-    assertEquals(expected, outputStr.toString());
+    Assertions.assertEquals(expected, outputStr.toString());
   }
 
   public static void myAssert(String input, String expected,
@@ -146,7 +145,7 @@ public final class TestTools {
         }
       }
     }
-    assertEquals(expected, outputStr.toString());
+    Assertions.assertEquals(expected, outputStr.toString());
   }
 
   public static boolean isWord(String token) {

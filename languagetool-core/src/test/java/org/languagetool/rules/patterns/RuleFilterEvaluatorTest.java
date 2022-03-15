@@ -18,7 +18,9 @@
  */
 package org.languagetool.rules.patterns;
 
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 
@@ -28,7 +30,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
 
 public class RuleFilterEvaluatorTest {
 
@@ -41,9 +42,9 @@ public class RuleFilterEvaluatorTest {
             new AnalyzedTokenReadings(new AnalyzedToken("fake2", "pos", null), 0)
     };
     Map<String,String> map = eval.getResolvedArguments("year:\\1 month:\\2", readingsList, -1, Arrays.asList(1, 1));
-    assertThat(map.get("year"), is("fake1"));
-    assertThat(map.get("month"), is("fake2"));
-    assertThat(map.size(), is(2));
+    MatcherAssert.assertThat(map.get("year"), is("fake1"));
+    MatcherAssert.assertThat(map.get("month"), is("fake2"));
+    MatcherAssert.assertThat(map.size(), is(2));
   }
 
   @Test
@@ -52,18 +53,20 @@ public class RuleFilterEvaluatorTest {
             new AnalyzedTokenReadings(new AnalyzedToken("fake1", "pos", null), 0),
     };
     Map<String,String> map = eval.getResolvedArguments("regex:(?:foo[xyz])bar", readingsList, -1, Arrays.asList(1, 1));
-    assertThat(map.get("regex"), is("(?:foo[xyz])bar"));
-    assertThat(map.size(), is(1));
+    MatcherAssert.assertThat(map.get("regex"), is("(?:foo[xyz])bar"));
+    MatcherAssert.assertThat(map.size(), is(1));
   }
 
-  @Test(expected = RuntimeException.class)
+  @Test
   public void testDuplicateKey() throws Exception {
-    AnalyzedTokenReadings[] readingsList = {
+    RuntimeException thrown = Assertions.assertThrows(RuntimeException.class, () -> {
+      AnalyzedTokenReadings[] readingsList = {
             new AnalyzedTokenReadings(new AnalyzedToken("fake1", "SENT_START", null), 0),
             new AnalyzedTokenReadings(new AnalyzedToken("fake1", "pos", null), 0),
             new AnalyzedTokenReadings(new AnalyzedToken("fake2", "pos", null), 0)
-    };
-    eval.getResolvedArguments("year:\\1 year:\\2", readingsList, -1, Arrays.asList(1, 2));
+      };
+      eval.getResolvedArguments("year:\\1 year:\\2", readingsList, -1, Arrays.asList(1, 2));
+    });
   }
 
   @Test
@@ -72,12 +75,14 @@ public class RuleFilterEvaluatorTest {
     Map<String, String> expected = new HashMap<>();
     expected.put("year", "2");
     expected.put("foo", "bar");
-    assertThat(args, is(expected));
+    MatcherAssert.assertThat(args, is(expected));
   }
 
-  @Test(expected = RuntimeException.class)
+  @Test
   public void testTooLargeBackRef() throws Exception {
-    eval.getResolvedArguments("year:\\1 month:\\2 day:\\3 weekDay:\\4", null, -1, Collections.emptyList());
+    RuntimeException thrown = Assertions.assertThrows(RuntimeException.class, () -> {
+          eval.getResolvedArguments("year:\\1 month:\\2 day:\\3 weekDay:\\4", null, -1, Collections.emptyList());
+    });
   }
 
 }

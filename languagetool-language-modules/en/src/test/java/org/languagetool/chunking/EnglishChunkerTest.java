@@ -18,9 +18,10 @@
  */
 package org.languagetool.chunking;
 
+import org.hamcrest.MatcherAssert;
 import org.jetbrains.annotations.NotNull;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
@@ -35,7 +36,6 @@ import java.util.StringTokenizer;
 import java.util.stream.Collectors;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
 
 public class EnglishChunkerTest {
 
@@ -44,17 +44,17 @@ public class EnglishChunkerTest {
     EnglishChunker chunker = new EnglishChunker();
     List<AnalyzedTokenReadings> readingsList = createReadingsList("A short test of the bicycle is needed");
     chunker.addChunkTags(readingsList);
-    assertThat(readingsList.size(), is(15));
+    MatcherAssert.assertThat(readingsList.size(), is(15));
     // "A short test":
-    assertThat(readingsList.get(0).getChunkTags().toString(), is("[B-NP-singular]"));
-    assertThat(readingsList.get(2).getChunkTags().toString(), is("[I-NP-singular]"));
-    assertThat(readingsList.get(4).getChunkTags().toString(), is("[E-NP-singular]"));
+    MatcherAssert.assertThat(readingsList.get(0).getChunkTags().toString(), is("[B-NP-singular]"));
+    MatcherAssert.assertThat(readingsList.get(2).getChunkTags().toString(), is("[I-NP-singular]"));
+    MatcherAssert.assertThat(readingsList.get(4).getChunkTags().toString(), is("[E-NP-singular]"));
     // "the chunker":
-    assertThat(readingsList.get(8).getChunkTags().toString(), is("[B-NP-singular]"));
-    assertThat(readingsList.get(10).getChunkTags().toString(), is("[E-NP-singular]"));
+    MatcherAssert.assertThat(readingsList.get(8).getChunkTags().toString(), is("[B-NP-singular]"));
+    MatcherAssert.assertThat(readingsList.get(10).getChunkTags().toString(), is("[E-NP-singular]"));
     // "is"
-    assertThat(readingsList.get(12).getChunkTags().toString(), is("[B-VP]"));
-    assertThat(readingsList.get(14).getChunkTags().toString(), is("[I-VP]"));
+    MatcherAssert.assertThat(readingsList.get(12).getChunkTags().toString(), is("[B-VP]"));
+    MatcherAssert.assertThat(readingsList.get(14).getChunkTags().toString(), is("[I-VP]"));
   }
 
   @Test
@@ -65,10 +65,10 @@ public class EnglishChunkerTest {
     List<AnalyzedTokenReadings> readingsList = Arrays.asList(sentences.get(0).getTokens());
     chunker.addChunkTags(readingsList);
     // "The abacus":
-    assertThat(readingsList.get(1).getChunkTags().toString(), is("[B-NP-singular]"));
-    assertThat(readingsList.get(3).getChunkTags().toString(), is("[E-NP-singular]"));
+    MatcherAssert.assertThat(readingsList.get(1).getChunkTags().toString(), is("[B-NP-singular]"));
+    MatcherAssert.assertThat(readingsList.get(3).getChunkTags().toString(), is("[E-NP-singular]"));
     // "numbers":
-    assertThat(readingsList.get(9).getChunkTags().toString(), is("[B-NP-plural, E-NP-plural]"));
+    MatcherAssert.assertThat(readingsList.get(9).getChunkTags().toString(), is("[B-NP-plural, E-NP-plural]"));
   }
 
   @Test
@@ -76,18 +76,18 @@ public class EnglishChunkerTest {
     JLanguageTool lt = new JLanguageTool(new English());
     AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("I'll be there");
     AnalyzedTokenReadings[] tokens = analyzedSentence.getTokens();
-    assertThat(tokens[1].getChunkTags().get(0), is(new ChunkTag("B-NP-singular")));
-    assertThat(tokens[2].getChunkTags().get(0), is(new ChunkTag("B-VP"))); 
-    assertThat(tokens[4].getChunkTags().get(0), is(new ChunkTag("I-VP"))); 
-    assertThat(tokens[6].getChunkTags().get(0), is(new ChunkTag("I-VP")));
+    MatcherAssert.assertThat(tokens[1].getChunkTags().get(0), is(new ChunkTag("B-NP-singular")));
+    MatcherAssert.assertThat(tokens[2].getChunkTags().get(0), is(new ChunkTag("B-VP"))); 
+    MatcherAssert.assertThat(tokens[4].getChunkTags().get(0), is(new ChunkTag("I-VP"))); 
+    MatcherAssert.assertThat(tokens[6].getChunkTags().get(0), is(new ChunkTag("I-VP")));
   }
 
   @Test
   public void testTokenize() {
     EnglishChunker chunker = new EnglishChunker();
     String expected = "[I, 'm, going, to, London]";
-    assertThat(Arrays.toString(chunker.tokenize("I'm going to London")), is(expected));
-    assertThat(Arrays.toString(chunker.tokenize("I’m going to London")), is(expected));  // different apostrophe char
+    MatcherAssert.assertThat(Arrays.toString(chunker.tokenize("I'm going to London")), is(expected));
+    MatcherAssert.assertThat(Arrays.toString(chunker.tokenize("I’m going to London")), is(expected));  // different apostrophe char
   }
 
   @Test
@@ -98,23 +98,23 @@ public class EnglishChunkerTest {
     EnglishChunker chunker = new EnglishChunker();
     JLanguageTool lt = new JLanguageTool(new English());
     String input1 = "Away from home often?";
-    assertThat(getPosTagsAsString(input1, lt).toString().replaceAll("\\[./null\\], ", ""), is(expectedTags));
-    assertThat(getChunksAsString(input1, chunker, lt).toString(), is(expectedChunks));
+    MatcherAssert.assertThat(getPosTagsAsString(input1, lt).toString().replaceAll("\\[./null\\], ", ""), is(expectedTags));
+    MatcherAssert.assertThat(getChunksAsString(input1, chunker, lt).toString(), is(expectedChunks));
     String input2 = "Away from home\u00A0often?";
-    assertThat(getPosTagsAsString(input2, lt).toString().replaceAll("\\[./null\\], ", ""), is(expectedTags));
-    assertThat(getChunksAsString(input2, chunker, lt).toString(), is(expectedChunks));
+    MatcherAssert.assertThat(getPosTagsAsString(input2, lt).toString().replaceAll("\\[./null\\], ", ""), is(expectedTags));
+    MatcherAssert.assertThat(getChunksAsString(input2, chunker, lt).toString(), is(expectedChunks));
   }
 
   @Test
-  @Ignore("active when #2119 is fixed")
+  @Disabled("active when #2119 is fixed")
   public void testZeroWidthNoBreakSpace() throws IOException {
     String expected = "[[], [B-NP-singular], [], [I-NP-singular], [], [E-NP-singular]]";
     EnglishChunker chunker = new EnglishChunker();
     JLanguageTool lt = new JLanguageTool(new English());
     List<String> res1 = getChunksAsString("The long-term stability", chunker, lt);
-    assertThat(res1.toString(), is(expected));
+    MatcherAssert.assertThat(res1.toString(), is(expected));
     List<String> res2 = getChunksAsString("The\u200B \u200Blong-term\u200B \u200Bstability\u200B", chunker, lt);
-    assertThat(res2.toString(), is(expected));
+    MatcherAssert.assertThat(res2.toString(), is(expected));
   }
   
   @NotNull

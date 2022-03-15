@@ -19,103 +19,105 @@
 
 package org.languagetool;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Assertions;
 
 import java.util.Arrays;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
 
 public class AnalyzedTokenReadingsTest {
 
   @Test
   public void testNewTags() {
     AnalyzedTokenReadings tokenReadings = new AnalyzedTokenReadings(new AnalyzedToken("word", "POS", "lemma"));
-    assertEquals(false, tokenReadings.isLinebreak());
-    assertEquals(false, tokenReadings.isSentenceEnd());
-    assertEquals(false, tokenReadings.isParagraphEnd());
-    assertEquals(false, tokenReadings.isSentenceStart());
+    Assertions.assertFalse(tokenReadings.isLinebreak());
+    Assertions.assertFalse(tokenReadings.isSentenceEnd());
+    Assertions.assertFalse(tokenReadings.isParagraphEnd());
+    Assertions.assertFalse(tokenReadings.isSentenceStart());
     tokenReadings.setSentEnd();
-    assertEquals(false, tokenReadings.isSentenceStart());
-    assertEquals(true, tokenReadings.isSentenceEnd());
+    Assertions.assertFalse(tokenReadings.isSentenceStart());
+    Assertions.assertTrue(tokenReadings.isSentenceEnd());
     //test SEND_END or PARA_END added without directly via addReading
     //which is possible e.g. in rule disambiguator 
     tokenReadings = new AnalyzedTokenReadings(new AnalyzedToken("word", null, "lemma"));    
     tokenReadings.addReading(new AnalyzedToken("word", "SENT_END", null), "");
-    assertEquals(true, tokenReadings.isSentenceEnd());
-    assertEquals(false, tokenReadings.isParagraphEnd());
+    Assertions.assertTrue(tokenReadings.isSentenceEnd());
+    Assertions.assertFalse(tokenReadings.isParagraphEnd());
     tokenReadings.addReading(new AnalyzedToken("word", "PARA_END", null), "");
-    assertEquals(true, tokenReadings.isParagraphEnd());
-    assertEquals(false, tokenReadings.isSentenceStart());
+    Assertions.assertTrue(tokenReadings.isParagraphEnd());
+    Assertions.assertFalse(tokenReadings.isSentenceStart());
     //but you can't add SENT_START to a non-empty token
     //and get isSentStart == true
     tokenReadings.addReading(new AnalyzedToken("word", "SENT_START", null), "");
-    assertEquals(false, tokenReadings.isSentenceStart());
+    Assertions.assertFalse(tokenReadings.isSentenceStart());
     AnalyzedToken aTok = new AnalyzedToken("word", "POS", "lemma");
     aTok.setWhitespaceBefore(true);
     tokenReadings = new AnalyzedTokenReadings(aTok);       
-    assertEquals(aTok, tokenReadings.getAnalyzedToken(0));
+    Assertions.assertEquals(aTok, tokenReadings.getAnalyzedToken(0));
     AnalyzedToken aTok2 = new AnalyzedToken("word", "POS", "lemma");
-    assertTrue(!aTok2.equals(tokenReadings.getAnalyzedToken(0)));
+    Assertions.assertNotEquals(aTok2, tokenReadings.getAnalyzedToken(0));
     AnalyzedToken aTok3 = new AnalyzedToken("word", "POS", "lemma");
     aTok3.setWhitespaceBefore(true);
-    assertEquals(aTok3, tokenReadings.getAnalyzedToken(0));
+    Assertions.assertEquals(aTok3, tokenReadings.getAnalyzedToken(0));
     AnalyzedTokenReadings testReadings = new AnalyzedTokenReadings(aTok3);
     testReadings.removeReading(aTok3, "");
-    assertTrue(testReadings.getReadingsLength()==1);
-    assertEquals("word", testReadings.getToken());
-    assertTrue(!testReadings.hasPosTag("POS"));
+    Assertions.assertEquals(1, testReadings.getReadingsLength());
+    Assertions.assertEquals("word", testReadings.getToken());
+    Assertions.assertFalse(testReadings.hasPosTag("POS"));
     //now what about removing something that does not belong to testReadings?
     testReadings.leaveReading(aTok2);
-    assertEquals("word", testReadings.getToken());
-    assertTrue(!testReadings.hasPosTag("POS"));
+    Assertions.assertEquals("word", testReadings.getToken());
+    Assertions.assertFalse(testReadings.hasPosTag("POS"));
     
     testReadings.removeReading(aTok2, "");
-    assertEquals("word", testReadings.getToken());
-    assertTrue(!testReadings.hasPosTag("POS"));
+    Assertions.assertEquals("word", testReadings.getToken());
+    Assertions.assertFalse(testReadings.hasPosTag("POS"));
   }
 
   @Test
   public void testToString() {
     AnalyzedTokenReadings tokenReadings = new AnalyzedTokenReadings(new AnalyzedToken("word", "POS", "lemma"));
-    assertEquals("word[lemma/POS*]", tokenReadings.toString());
+    Assertions.assertEquals("word[lemma/POS*]", tokenReadings.toString());
     AnalyzedToken aTok2 = new AnalyzedToken("word", "POS2", "lemma2");
     tokenReadings.addReading(aTok2, "");
-    assertEquals("word[lemma/POS*,lemma2/POS2*]", tokenReadings.toString());
+    Assertions.assertEquals("word[lemma/POS*,lemma2/POS2*]", tokenReadings.toString());
   }
 
   @Test
   public void testHasPosTag() {
     AnalyzedTokenReadings tokenReadings = new AnalyzedTokenReadings(new AnalyzedToken("word", "POS:FOO:BAR", "lemma"));
-    assertTrue(tokenReadings.hasPosTag("POS:FOO:BAR"));
-    assertFalse(tokenReadings.hasPosTag("POS:FOO:bar"));
-    assertFalse(tokenReadings.hasPosTag("POS:FOO"));
-    assertFalse(tokenReadings.hasPosTag("xaz"));
+    Assertions.assertTrue(tokenReadings.hasPosTag("POS:FOO:BAR"));
+    Assertions.assertFalse(tokenReadings.hasPosTag("POS:FOO:bar"));
+    Assertions.assertFalse(tokenReadings.hasPosTag("POS:FOO"));
+    Assertions.assertFalse(tokenReadings.hasPosTag("xaz"));
   }
 
   @Test
   public void testHasPartialPosTag() {
     AnalyzedTokenReadings tokenReadings = new AnalyzedTokenReadings(new AnalyzedToken("word", "POS:FOO:BAR", "lemma"));
-    assertTrue(tokenReadings.hasPartialPosTag("POS:FOO:BAR"));
-    assertTrue(tokenReadings.hasPartialPosTag("POS:FOO:"));
-    assertTrue(tokenReadings.hasPartialPosTag("POS:FOO"));
-    assertTrue(tokenReadings.hasPartialPosTag(":FOO:"));
-    assertTrue(tokenReadings.hasPartialPosTag("FOO:BAR"));
+    Assertions.assertTrue(tokenReadings.hasPartialPosTag("POS:FOO:BAR"));
+    Assertions.assertTrue(tokenReadings.hasPartialPosTag("POS:FOO:"));
+    Assertions.assertTrue(tokenReadings.hasPartialPosTag("POS:FOO"));
+    Assertions.assertTrue(tokenReadings.hasPartialPosTag(":FOO:"));
+    Assertions.assertTrue(tokenReadings.hasPartialPosTag("FOO:BAR"));
 
-    assertFalse(tokenReadings.hasPartialPosTag("POS:FOO:BARX"));
-    assertFalse(tokenReadings.hasPartialPosTag("POS:foo:BAR"));
-    assertFalse(tokenReadings.hasPartialPosTag("xaz"));
+    Assertions.assertFalse(tokenReadings.hasPartialPosTag("POS:FOO:BARX"));
+    Assertions.assertFalse(tokenReadings.hasPartialPosTag("POS:foo:BAR"));
+    Assertions.assertFalse(tokenReadings.hasPartialPosTag("xaz"));
   }
 
   @Test
   public void testMatchesPosTagRegex() {
     AnalyzedTokenReadings tokenReadings = new AnalyzedTokenReadings(new AnalyzedToken("word", "POS:FOO:BAR", "lemma"));
-    assertTrue(tokenReadings.matchesPosTagRegex("POS:FOO:BAR"));
-    assertTrue(tokenReadings.matchesPosTagRegex("POS:...:BAR"));
-    assertTrue(tokenReadings.matchesPosTagRegex("POS:[A-Z]+:BAR"));
+    Assertions.assertTrue(tokenReadings.matchesPosTagRegex("POS:FOO:BAR"));
+    Assertions.assertTrue(tokenReadings.matchesPosTagRegex("POS:...:BAR"));
+    Assertions.assertTrue(tokenReadings.matchesPosTagRegex("POS:[A-Z]+:BAR"));
 
-    assertFalse(tokenReadings.matchesPosTagRegex("POS:[AB]OO:BAR"));
-    assertFalse(tokenReadings.matchesPosTagRegex("POS:FOO:BARX"));
+    Assertions.assertFalse(tokenReadings.matchesPosTagRegex("POS:[AB]OO:BAR"));
+    Assertions.assertFalse(tokenReadings.matchesPosTagRegex("POS:FOO:BARX"));
   }
 
   @Test
@@ -126,11 +128,11 @@ public class AnalyzedTokenReadingsTest {
     int i = 0;
     for (AnalyzedToken tokenReading : tokenReadings) {
       if (i == 0) {
-        assertThat(tokenReading.getToken(), is("word1"));
+        MatcherAssert.assertThat(tokenReading.getToken(), is("word1"));
       } else if (i == 1) {
-        assertThat(tokenReading.getToken(), is("word2"));
+        MatcherAssert.assertThat(tokenReading.getToken(), is("word2"));
       } else {
-        fail();
+        Assertions.fail();
       }
       i++;
     }

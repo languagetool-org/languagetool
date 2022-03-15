@@ -26,8 +26,8 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.store.FSDirectory;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,7 +38,7 @@ public class FrequencyIndexCreatorTest {
   private static final File INDEX_DIR = new File("/media/Data/google-ngram/3gram/lucene-index");
 
   @Test
-  @Ignore("Interactive use only")
+  @Disabled("Interactive use only")
   public void testReadPerformance() throws IOException {
     try (FSDirectory directory = FSDirectory.open(INDEX_DIR.toPath())) {
       DirectoryReader reader = DirectoryReader.open(directory);

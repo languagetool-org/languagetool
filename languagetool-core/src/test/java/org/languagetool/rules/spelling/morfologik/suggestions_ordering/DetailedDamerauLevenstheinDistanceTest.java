@@ -22,8 +22,9 @@
 package org.languagetool.rules.spelling.morfologik.suggestions_ordering;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 import org.languagetool.rules.spelling.symspell.implementation.EditDistance;
 
 import java.util.Random;
@@ -31,7 +32,6 @@ import java.util.Random;
 import static org.hamcrest.CoreMatchers.anyOf;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
 import static org.languagetool.rules.spelling.morfologik.suggestions_ordering.DetailedDamerauLevenstheinDistance.Distance;
 
 public class DetailedDamerauLevenstheinDistanceTest {
@@ -54,7 +54,7 @@ public class DetailedDamerauLevenstheinDistanceTest {
   }
 
   @Test
-  @Ignore("Needs further debugging, but since this is only used as a feature in ML models errors are tolerable for now.")
+  @Disabled("Needs further debugging, but since this is only used as a feature in ML models errors are tolerable for now.")
   public void testDistanceComputation() {
     String text = "This is a test text. Random edits will occur here. Foo bar baz. Bla bla. Lorem ipsum dolor sit amet.";
     Random random = new Random(0L);
@@ -79,15 +79,15 @@ public class DetailedDamerauLevenstheinDistanceTest {
   }
 
   @Test
-  @Ignore("WIP")
+  @Disabled("WIP")
   public void testDistanceDetails() {
-    assertEquals(new Distance().delete(), DetailedDamerauLevenstheinDistance.compare("Test", "Tet"));
-    assertEquals(new Distance().insert(), DetailedDamerauLevenstheinDistance.compare("Test", "Teste"));
-    assertEquals(new Distance().transpose(), DetailedDamerauLevenstheinDistance.compare("Test", "Tets"));
-    assertEquals(new Distance().replace(), DetailedDamerauLevenstheinDistance.compare("Test", "Tast"));
-    assertEquals(new Distance().replace().insert(), DetailedDamerauLevenstheinDistance.compare("Test", "Taste"));
-    assertEquals(new Distance().delete().transpose(), DetailedDamerauLevenstheinDistance.compare("Test", "Tts"));
-    assertEquals(new Distance().insert().insert(), DetailedDamerauLevenstheinDistance.compare("Test", "Teeste"));
+    Assertions.assertEquals(new Distance().delete(), DetailedDamerauLevenstheinDistance.compare("Test", "Tet"));
+    Assertions.assertEquals(new Distance().insert(), DetailedDamerauLevenstheinDistance.compare("Test", "Teste"));
+    Assertions.assertEquals(new Distance().transpose(), DetailedDamerauLevenstheinDistance.compare("Test", "Tets"));
+    Assertions.assertEquals(new Distance().replace(), DetailedDamerauLevenstheinDistance.compare("Test", "Tast"));
+    Assertions.assertEquals(new Distance().replace().insert(), DetailedDamerauLevenstheinDistance.compare("Test", "Taste"));
+    Assertions.assertEquals(new Distance().delete().transpose(), DetailedDamerauLevenstheinDistance.compare("Test", "Tts"));
+    Assertions.assertEquals(new Distance().insert().insert(), DetailedDamerauLevenstheinDistance.compare("Test", "Teeste"));
   }
 
 }

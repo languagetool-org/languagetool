@@ -1,7 +1,8 @@
 package org.languagetool.tagging.ner;
 
-import org.junit.Ignore;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.List;
@@ -12,7 +13,7 @@ import static org.hamcrest.core.Is.is;
 public class NERServiceTest {
   
   @Test
-  @Ignore("interactive testing only")
+  @Disabled("interactive testing only")
   public void testCommand() throws IOException {
     NERService pipe = new NERService("http://localhost:4567/ner/en");
     List<NERService.Span> res = pipe.runNER("This is a test with Peter Appleford.");

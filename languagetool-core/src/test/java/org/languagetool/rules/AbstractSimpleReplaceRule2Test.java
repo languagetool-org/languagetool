@@ -18,7 +18,8 @@
  */
 package org.languagetool.rules;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.hamcrest.MatcherAssert;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.language.Demo;
@@ -30,7 +31,6 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
 
 public class AbstractSimpleReplaceRule2Test {
   
@@ -39,20 +39,20 @@ public class AbstractSimpleReplaceRule2Test {
     Demo lang = new Demo();
     MyCaseSensitiveRule csRule = new MyCaseSensitiveRule(JLanguageTool.getMessageBundle(), lang);
     JLanguageTool lt = new JLanguageTool(lang);
-    assertThat(csRule.match(lt.getAnalyzedSentence("But a propos")).length, is(1));
-    assertThat(csRule.match(lt.getAnalyzedSentence("But A propos")).length, is(0));
-    assertThat(csRule.match(lt.getAnalyzedSentence("A propos")).length, is(0));
-    assertThat(csRule.match(lt.getAnalyzedSentence("a propos")).length, is(1));
-    assertThat(csRule.match(lt.getAnalyzedSentence("A Pokemon")).length, is(1));
-    assertThat(csRule.match(lt.getAnalyzedSentence("A pokemon")).length, is(0));
+    MatcherAssert.assertThat(csRule.match(lt.getAnalyzedSentence("But a propos")).length, is(1));
+    MatcherAssert.assertThat(csRule.match(lt.getAnalyzedSentence("But A propos")).length, is(0));
+    MatcherAssert.assertThat(csRule.match(lt.getAnalyzedSentence("A propos")).length, is(0));
+    MatcherAssert.assertThat(csRule.match(lt.getAnalyzedSentence("a propos")).length, is(1));
+    MatcherAssert.assertThat(csRule.match(lt.getAnalyzedSentence("A Pokemon")).length, is(1));
+    MatcherAssert.assertThat(csRule.match(lt.getAnalyzedSentence("A pokemon")).length, is(0));
 
     MyCaseInsensitiveRule ciRule = new MyCaseInsensitiveRule(JLanguageTool.getMessageBundle(), lang);
-    assertThat(ciRule.match(lt.getAnalyzedSentence("But a propos")).length, is(1));
-    assertThat(ciRule.match(lt.getAnalyzedSentence("But A propos")).length, is(1));
-    assertThat(ciRule.match(lt.getAnalyzedSentence("A propos")).length, is(1));
-    assertThat(ciRule.match(lt.getAnalyzedSentence("a propos")).length, is(1));
-    assertThat(ciRule.match(lt.getAnalyzedSentence("A Pokemon")).length, is(1));
-    assertThat(ciRule.match(lt.getAnalyzedSentence("A pokemon")).length, is(1));
+    MatcherAssert.assertThat(ciRule.match(lt.getAnalyzedSentence("But a propos")).length, is(1));
+    MatcherAssert.assertThat(ciRule.match(lt.getAnalyzedSentence("But A propos")).length, is(1));
+    MatcherAssert.assertThat(ciRule.match(lt.getAnalyzedSentence("A propos")).length, is(1));
+    MatcherAssert.assertThat(ciRule.match(lt.getAnalyzedSentence("a propos")).length, is(1));
+    MatcherAssert.assertThat(ciRule.match(lt.getAnalyzedSentence("A Pokemon")).length, is(1));
+    MatcherAssert.assertThat(ciRule.match(lt.getAnalyzedSentence("A pokemon")).length, is(1));
   }
   
   static class MyCaseSensitiveRule extends AbstractSimpleReplaceRule2 {

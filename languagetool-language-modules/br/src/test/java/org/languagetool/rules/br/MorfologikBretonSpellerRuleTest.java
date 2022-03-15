@@ -18,7 +18,8 @@
  */
 package org.languagetool.rules.br;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Breton;
@@ -26,8 +27,6 @@ import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 import java.util.Collections;
-
-import static org.junit.Assert.assertEquals;
 
 public class MorfologikBretonSpellerRuleTest {
 
@@ -40,48 +39,48 @@ public class MorfologikBretonSpellerRuleTest {
     final JLanguageTool lt = new JLanguageTool(new Breton());
 
     // correct sentences:
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Penaos emañ kont ganit?")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Penaos emañ kont ganit?")).length);
 
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("C'hwerc'h merc'h gwerc'h war c'hwerc'h marc'h kalloc'h")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("C’hwerc’h merc’h gwerc‘h war c‘hwerc‘h marc'h kalloc‘h")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("C'hwerc'h merc'h gwerc'h war c'hwerc'h marc'h kalloc'h")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("C’hwerc’h merc’h gwerc‘h war c‘hwerc‘h marc'h kalloc‘h")).length);
 
     //words with hyphens are tokenized internally...
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Evel-just")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Barrek-tre eo LanguageTool")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Evel-just")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Barrek-tre eo LanguageTool")).length);
 
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("C'hwerc'h merc'h gwerc'h war c'hwerc'h marc'h kalloc'h")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("C’hwerc’h merc’h gwerc‘h war c‘hwerc‘h marc'h kalloc‘h")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Evel-just")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("Evel-juste")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Barrek-tre eo LanguageTool")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("C'hwerc'h merc'h gwerc'h war c'hwerc'h marc'h kalloc'h")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("C’hwerc’h merc’h gwerc‘h war c‘hwerc‘h marc'h kalloc‘h")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Evel-just")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("Evel-juste")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Barrek-tre eo LanguageTool")).length);
 
     //test for "LanguageTool":
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("LanguageTool!")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence(",")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("123454")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("LanguageTool!")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence(",")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("123454")).length);
 
     //incorrect sentences:
 
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("Evel-juste")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("Evel-juste")).length);
 
     matches = rule.match(lt.getAnalyzedSentence("Evel-juste"));
 
     // check match positions:
-    assertEquals(1, matches.length);
-    assertEquals(5, matches[0].getFromPos());
-    assertEquals(10, matches[0].getToPos());
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals(5, matches[0].getFromPos());
+    Assertions.assertEquals(10, matches[0].getToPos());
 
     matches = rule.match(lt.getAnalyzedSentence("C’hreizhig-don"));
 
-    assertEquals(1, matches.length);
+    Assertions.assertEquals(1, matches.length);
 
     // check match positions:
-    assertEquals(1, matches.length);
-    assertEquals(0, matches[0].getFromPos());
-    assertEquals(10, matches[0].getToPos());
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals(0, matches[0].getFromPos());
+    Assertions.assertEquals(10, matches[0].getToPos());
 
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("aõh")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("a")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("aõh")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("a")).length);
   }
 
 }

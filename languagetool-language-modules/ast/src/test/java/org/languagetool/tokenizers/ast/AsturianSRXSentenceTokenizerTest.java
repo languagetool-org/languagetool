@@ -18,7 +18,7 @@
  */
 package org.languagetool.tokenizers.ast;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.Asturian;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;

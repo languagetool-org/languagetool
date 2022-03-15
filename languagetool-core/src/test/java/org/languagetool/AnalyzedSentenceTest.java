@@ -19,10 +19,8 @@
 
 package org.languagetool;
 
-import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class AnalyzedSentenceTest {
 
@@ -34,7 +32,7 @@ public class AnalyzedSentenceTest {
     words[2] = new AnalyzedTokenReadings(new AnalyzedToken(".", "INTERP", null));
     words[2].addReading(new AnalyzedToken(".", "SENT_END", null), "");
     AnalyzedSentence sentence = new AnalyzedSentence(words);
-    assertEquals("<S> word[lemma/POS].[./INTERP,</S>]", sentence.toString());
+    Assertions.assertEquals("<S> word[lemma/POS].[./INTERP,</S>]", sentence.toString());
   }
 
   @Test
@@ -46,11 +44,11 @@ public class AnalyzedSentenceTest {
     words[2].addReading(new AnalyzedToken(".", "SENT_END", null), "");
     AnalyzedSentence sentence = new AnalyzedSentence(words);
     AnalyzedSentence copySentence = sentence.copy(sentence);
-    assertEquals(sentence, copySentence);
+    Assertions.assertEquals(sentence, copySentence);
     //now change the first sentence
     words[1].immunize(); // this would not work if we stored a copy, which we probably should
-    assertEquals("<S> word[lemma/POS{!}].[./INTERP,</S>]", sentence.toString());
-    assertNotEquals(sentence, copySentence);
+    Assertions.assertEquals("<S> word[lemma/POS{!}].[./INTERP,</S>]", sentence.toString());
+    Assertions.assertNotEquals(sentence, copySentence);
   }
 
 }

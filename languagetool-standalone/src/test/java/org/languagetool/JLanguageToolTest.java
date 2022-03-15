@@ -19,8 +19,9 @@
 package org.languagetool;
 
 import org.hamcrest.CoreMatchers;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.languagetool.language.AmericanEnglish;
 import org.languagetool.language.Demo;
 import org.languagetool.language.English;
@@ -36,7 +37,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class JLanguageToolTest {
@@ -47,48 +47,48 @@ public class JLanguageToolTest {
   public void testGetAllActiveRules() {
     JLanguageTool lt = new JLanguageTool(new Demo());
     List<String> ruleIds = getActiveRuleIds(lt);
-    assertTrue(ruleIds.contains("DEMO_RULE"));
-    assertFalse(ruleIds.contains("DEMO_RULE_OFF"));
+    Assertions.assertTrue(ruleIds.contains("DEMO_RULE"));
+    Assertions.assertFalse(ruleIds.contains("DEMO_RULE_OFF"));
     for (Rule rule : lt.getAllRules()) {
       if (rule.getId().equals("DEMO_RULE_OFF")) {
         rule.setDefaultOn();
       }
     }
     List<String> ruleIds2 = getActiveRuleIds(lt);
-    assertTrue(ruleIds2.contains("DEMO_RULE_OFF"));
+    Assertions.assertTrue(ruleIds2.contains("DEMO_RULE_OFF"));
   }
 
   @Test
   public void testIsPremium() {
-    assertFalse(Premium.isPremiumVersion());
+    Assertions.assertFalse(Premium.isPremiumVersion());
   }
 
   @Test
   public void testEnableRulesCategories() {
     JLanguageTool lt = new JLanguageTool(new Demo());
     List<String> ruleIds = getActiveRuleIds(lt);
-    assertTrue(ruleIds.contains("DEMO_RULE"));
-    assertFalse(ruleIds.contains("IN_OFF_CATEGORY"));
+    Assertions.assertTrue(ruleIds.contains("DEMO_RULE"));
+    Assertions.assertFalse(ruleIds.contains("IN_OFF_CATEGORY"));
     
     lt.disableCategory(new CategoryId("MISC"));
     List<String> ruleIds2 = getActiveRuleIds(lt);
-    assertFalse(ruleIds2.contains("DEMO_RULE"));
-    assertFalse(ruleIds2.contains("IN_OFF_CATEGORY"));
+    Assertions.assertFalse(ruleIds2.contains("DEMO_RULE"));
+    Assertions.assertFalse(ruleIds2.contains("IN_OFF_CATEGORY"));
     
     lt.enableRuleCategory(new CategoryId("MISC"));
     List<String> ruleIds3 = getActiveRuleIds(lt);
-    assertTrue(ruleIds3.contains("DEMO_RULE"));
-    assertFalse(ruleIds3.contains("IN_OFF_CATEGORY"));
+    Assertions.assertTrue(ruleIds3.contains("DEMO_RULE"));
+    Assertions.assertFalse(ruleIds3.contains("IN_OFF_CATEGORY"));
     
     lt.enableRuleCategory(new CategoryId("DEFAULT_OFF"));
     List<String> ruleIds4 = getActiveRuleIds(lt);
-    assertTrue(ruleIds4.contains("DEMO_RULE"));
-    assertTrue(ruleIds4.contains("IN_OFF_CATEGORY"));
-    assertFalse(ruleIds4.contains("IN_OFF_CATEGORY_OFF_ITSELF"));
+    Assertions.assertTrue(ruleIds4.contains("DEMO_RULE"));
+    Assertions.assertTrue(ruleIds4.contains("IN_OFF_CATEGORY"));
+    Assertions.assertFalse(ruleIds4.contains("IN_OFF_CATEGORY_OFF_ITSELF"));
     
     lt.enableRule("IN_OFF_CATEGORY_OFF_ITSELF");
     List<String> ruleIds5 = getActiveRuleIds(lt);
-    assertTrue(ruleIds5.contains("IN_OFF_CATEGORY_OFF_ITSELF"));
+    Assertions.assertTrue(ruleIds5.contains("IN_OFF_CATEGORY_OFF_ITSELF"));
   }
 
   private List<String> getActiveRuleIds(JLanguageTool lt) {
@@ -113,19 +113,19 @@ public class JLanguageToolTest {
 
   @Test
   public void testCountLines() {
-    assertEquals(0, JLanguageTool.countLineBreaks(""));
-    assertEquals(1, JLanguageTool.countLineBreaks("Hallo,\nnächste Zeile"));
-    assertEquals(2, JLanguageTool.countLineBreaks("\nZweite\nDritte"));
-    assertEquals(4, JLanguageTool.countLineBreaks("\nZweite\nDritte\n\n"));
+    Assertions.assertEquals(0, JLanguageTool.countLineBreaks(""));
+    Assertions.assertEquals(1, JLanguageTool.countLineBreaks("Hallo,\nnächste Zeile"));
+    Assertions.assertEquals(2, JLanguageTool.countLineBreaks("\nZweite\nDritte"));
+    Assertions.assertEquals(4, JLanguageTool.countLineBreaks("\nZweite\nDritte\n\n"));
   }
 
   @Test
   public void testSentenceTokenize() {
     JLanguageTool lt = new JLanguageTool(english);
     List<String> sentences = lt.sentenceTokenize("This is a sentence! This is another one.");
-    assertEquals(2, sentences.size());
-    assertEquals("This is a sentence! ", sentences.get(0));
-    assertEquals("This is another one.", sentences.get(1));
+    Assertions.assertEquals(2, sentences.size());
+    Assertions.assertEquals("This is a sentence! ", sentences.get(0));
+    Assertions.assertEquals("This is another one.", sentences.get(1));
   }
 
   @Test
@@ -217,7 +217,7 @@ public class JLanguageToolTest {
     assertThat(cache.hitCount(), is(2L));
 
     JLanguageTool ltGerman = new JLanguageTool(new GermanyGerman(), null, cache);
-    assertTrue(ltGerman.check("This is an test").size() >= 3);
+    Assertions.assertTrue(ltGerman.check("This is an test").size() >= 3);
     assertThat(cache.hitCount(), is(2L));
 
     assertThat(ltEnglish.check("This is an test").size(), is(1));
@@ -348,29 +348,29 @@ public class JLanguageToolTest {
     JLanguageTool lt = new JLanguageTool(new Demo(), null);
     Rule testRule1 = new TestRule(1), testRule2 = new TestRule(2);
     // preconditions / sanity checks
-    assertEquals("ruleID equal", testRule1.getId(), testRule2.getId());
-    assertNotEquals("fullRuleID not equal", testRule1.getFullId(), testRule2.getFullId());
-    assertNotEquals("rule objects not equal", testRule1, testRule2);
+    Assertions.assertEquals(testRule1.getId(), testRule2.getId(), "ruleID equal");
+    Assertions.assertNotEquals(testRule1.getFullId(), testRule2.getFullId(), "fullRuleID not equal");
+    Assertions.assertNotEquals(testRule1, testRule2, "rule objects not equal");
 
     lt.addRule(testRule1);
     lt.addRule(testRule2);
 
     activeRules = lt.getAllActiveRules();
-    assertTrue("added rules are active", activeRules.contains(testRule1));
-    assertTrue("added rules are active", activeRules.contains(testRule2));
+    Assertions.assertTrue(activeRules.contains(testRule1), "added rules are active");
+    Assertions.assertTrue(activeRules.contains(testRule2), "added rules are active");
 
     // disable rule TEST_RULE -> both TEST_RULE[1] and TEST_RULE[2] should be disabled
     lt.disableRule(testRule1.getId());
     activeRules = lt.getAllActiveRules();
-    assertFalse("rules are disabled", activeRules.contains(testRule1));
-    assertFalse("rules are disabled", activeRules.contains(testRule2));
+    Assertions.assertFalse(activeRules.contains(testRule1), "rules are disabled");
+    Assertions.assertFalse(activeRules.contains(testRule2), "rules are disabled");
 
     // enable TEST_RULE, disable TEST_RULE[1] -> only TEST_RULE[2] active
     lt.enableRule(testRule1.getId());
     lt.disableRule(testRule1.getFullId());
     activeRules = lt.getAllActiveRules();
-    assertFalse("rule disabled by full ID", activeRules.contains(testRule1));
-    assertTrue("rule enabled by partial ID ", activeRules.contains(testRule2));
+    Assertions.assertFalse(activeRules.contains(testRule1), "rule disabled by full ID");
+    Assertions.assertTrue(activeRules.contains(testRule2), "rule enabled by partial ID ");
   }
 
   private class IgnoreInterval {
@@ -423,7 +423,7 @@ public class JLanguageToolTest {
   }
 
   @Test
-  @Ignore
+  @Disabled
   public void testRuleMessagesForSpellingErrors() throws Exception {
     JLanguageTool lt = new JLanguageTool(english);
     //JLanguageTool lt = new JLanguageTool(new GermanyGerman());

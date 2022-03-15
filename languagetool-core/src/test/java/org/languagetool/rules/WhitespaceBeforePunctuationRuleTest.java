@@ -18,11 +18,11 @@
  */
 package org.languagetool.rules;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.hamcrest.MatcherAssert;
 import org.languagetool.*;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
 
 public class WhitespaceBeforePunctuationRuleTest {
   
@@ -33,7 +33,7 @@ public class WhitespaceBeforePunctuationRuleTest {
             new AnalyzedTokenReadings(new AnalyzedToken(" ", null, null), 0),
             new AnalyzedTokenReadings(new AnalyzedToken("%", "SYM", null), 1)
     });
-    assertThat(rule.match(sentence).length, is(0));
+    MatcherAssert.assertThat(rule.match(sentence).length, is(0));
   }
 
   @Test
@@ -44,7 +44,7 @@ public class WhitespaceBeforePunctuationRuleTest {
             new AnalyzedTokenReadings(new AnalyzedToken(" ", null, null), 1),
             new AnalyzedTokenReadings(new AnalyzedToken("%", "SYM", null), 2)
     });
-    assertThat(rule.match(sentence).length, is(1));
+    MatcherAssert.assertThat(rule.match(sentence).length, is(1));
   }
 
 }

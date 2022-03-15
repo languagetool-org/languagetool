@@ -18,13 +18,14 @@
  */
 package org.languagetool.rules.de;
 
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
 import org.languagetool.language.German;
-import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
 
@@ -32,8 +33,6 @@ import java.io.IOException;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
 
 public class GermanSpellerRuleTest {
 
@@ -44,15 +43,15 @@ public class GermanSpellerRuleTest {
     HunspellRule rule1 = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     JLanguageTool lt = new JLanguageTool(GERMAN_DE);
     RuleMatch[] matches1 = rule1.match(lt.getAnalyzedSentence("Ein schöner Satz."));
-    assertThat(matches1.length, is(0));
+    MatcherAssert.assertThat(matches1.length, is(0));
     RuleMatch[] matches2 = rule1.match(lt.getAnalyzedSentence("But this is English."));
-    assertThat(matches2.length, is(4));
-    assertNull(matches2[0].getErrorLimitLang());
-    assertNull(matches2[1].getErrorLimitLang());
-    assertThat(matches2[2].getErrorLimitLang(), is("en"));
+    MatcherAssert.assertThat(matches2.length, is(4));
+    Assertions.assertNull(matches2[0].getErrorLimitLang());
+    Assertions.assertNull(matches2[1].getErrorLimitLang());
+    MatcherAssert.assertThat(matches2[2].getErrorLimitLang(), is("en"));
     RuleMatch[] matches3 = rule1.match(lt.getAnalyzedSentence("Und er sagte, this is a good test."));
-    assertThat(matches3.length, is(4));
-    assertNull(matches3[3].getErrorLimitLang());
+    MatcherAssert.assertThat(matches3.length, is(4));
+    Assertions.assertNull(matches3[3].getErrorLimitLang());
   }
 
   @Test
@@ -76,13 +75,13 @@ public class GermanSpellerRuleTest {
     for (RuleMatch ruleMatch : matches) {
       System.out.println(">>>" + ruleMatch.getRule().getId() + " " + ruleMatch.getErrorLimitLang());
     }*/
-    assertThat(analyzedSentences.size(), is(4));
-    assertThat(matches.length, is(5));
-    assertNull(matches[0].getErrorLimitLang());
-    assertNull(matches[1].getErrorLimitLang());
-    assertNull(matches[2].getErrorLimitLang());
-    assertThat(matches[3].getErrorLimitLang(), is("en"));
-    assertThat(matches[4].getErrorLimitLang(), is("en"));
+    MatcherAssert.assertThat(analyzedSentences.size(), is(4));
+    MatcherAssert.assertThat(matches.length, is(5));
+    Assertions.assertNull(matches[0].getErrorLimitLang());
+    Assertions.assertNull(matches[1].getErrorLimitLang());
+    Assertions.assertNull(matches[2].getErrorLimitLang());
+    MatcherAssert.assertThat(matches[3].getErrorLimitLang(), is("en"));
+    MatcherAssert.assertThat(matches[4].getErrorLimitLang(), is("en"));
   }
 
 }

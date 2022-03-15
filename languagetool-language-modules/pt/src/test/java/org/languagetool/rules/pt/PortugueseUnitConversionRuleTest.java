@@ -21,7 +21,7 @@
 
 package org.languagetool.rules.pt;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;

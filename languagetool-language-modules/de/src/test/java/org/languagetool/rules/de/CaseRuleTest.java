@@ -18,8 +18,9 @@
  */
 package org.languagetool.rules.de;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
@@ -28,7 +29,6 @@ import org.languagetool.language.German;
 
 import java.io.IOException;
 
-import static org.junit.Assert.*;
 import static org.languagetool.rules.patterns.StringMatcher.regexp;
 
 public class CaseRuleTest {
@@ -36,7 +36,7 @@ public class CaseRuleTest {
   private CaseRule rule;
   private JLanguageTool lt;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     rule = new CaseRule(TestTools.getMessages("de"), (German) Languages.getLanguageForShortCode("de-DE"));
     lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
@@ -44,7 +44,7 @@ public class CaseRuleTest {
 
   @Test
   public void testRuleActivation() {
-    assertTrue(rule.supportsLanguage(Languages.getLanguageForShortCode("de-DE")));
+    Assertions.assertTrue(rule.supportsLanguage(Languages.getLanguageForShortCode("de-DE")));
   }
 
   @Test
@@ -339,10 +339,10 @@ public class CaseRuleTest {
     assertBad("Er rennt Schneller als ich.");
     assertBad("Das Winseln Stört.");
     assertBad("Sein verhalten war okay.");
-    assertEquals(1, lt.check("Karten werden vom Auswahlstapel gezogen. Auch […] Der Auswahlstapel gehört zum Inhalt.").size());
+    Assertions.assertEquals(1, lt.check("Karten werden vom Auswahlstapel gezogen. Auch […] Der Auswahlstapel gehört zum Inhalt.").size());
     //assertEquals(2, lt.check("Karten werden vom Auswahlstapel gezogen. Auch [...] Der Auswahlstapel gehört zum Inhalt.").size());
 
-    assertEquals(0, lt.check("Karten werden vom Auswahlstapel gezogen. […] Der Auswahlstapel gehört zum Inhalt.").size());
+    Assertions.assertEquals(0, lt.check("Karten werden vom Auswahlstapel gezogen. […] Der Auswahlstapel gehört zum Inhalt.").size());
     //assertEquals(1, lt.check("Karten werden vom Auswahlstapel gezogen. [...] Der Auswahlstapel gehört zum Inhalt.").size());
     //TODO: error not found:
     //assertBad("So schwer, dass selbst Er ihn nicht hochheben kann.");
@@ -448,11 +448,11 @@ public class CaseRuleTest {
   }
 
   private void assertGood(String input) throws IOException {
-    assertEquals("Did not expect error in: '" + input + "'", 0, rule.match(lt.getAnalyzedSentence(input)).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence(input)).length, "Did not expect error in: '" + input + "'");
   }
 
   private void assertBad(String input) throws IOException {
-    assertEquals("Did not find expected error in: '" + input + "'", 1, rule.match(lt.getAnalyzedSentence(input)).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence(input)).length, "Did not find expected error in: '" + input + "'");
   }
 
   @Test
@@ -523,13 +523,13 @@ public class CaseRuleTest {
   @Test
   public void testCompareLists() throws IOException {
     AnalyzedSentence sentence1 = lt.getAnalyzedSentence("Hier ein Test");
-    assertTrue(CaseRule.compareLists(sentence1.getTokensWithoutWhitespace(), 0, 2, regexp(""), regexp("Hier"), regexp("ein")));
-    assertTrue(CaseRule.compareLists(sentence1.getTokensWithoutWhitespace(), 1, 2, regexp("Hier"), regexp("ein")));
-    assertTrue(CaseRule.compareLists(sentence1.getTokensWithoutWhitespace(), 0, 3, regexp(""), regexp("Hier"), regexp("ein"), regexp("Test")));
-    assertFalse(CaseRule.compareLists(sentence1.getTokensWithoutWhitespace(), 0, 4, regexp(""), regexp("Hier"), regexp("ein"), regexp("Test")));
+    Assertions.assertTrue(CaseRule.compareLists(sentence1.getTokensWithoutWhitespace(), 0, 2, regexp(""), regexp("Hier"), regexp("ein")));
+    Assertions.assertTrue(CaseRule.compareLists(sentence1.getTokensWithoutWhitespace(), 1, 2, regexp("Hier"), regexp("ein")));
+    Assertions.assertTrue(CaseRule.compareLists(sentence1.getTokensWithoutWhitespace(), 0, 3, regexp(""), regexp("Hier"), regexp("ein"), regexp("Test")));
+    Assertions.assertFalse(CaseRule.compareLists(sentence1.getTokensWithoutWhitespace(), 0, 4, regexp(""), regexp("Hier"), regexp("ein"), regexp("Test")));
 
     AnalyzedSentence sentence2 = lt.getAnalyzedSentence("das Heilige Römische Reich");
-    assertTrue(CaseRule.compareLists(sentence2.getTokensWithoutWhitespace(), 0, 4, regexp(""), regexp("das"), regexp("Heilige"), regexp("Römische"), regexp("Reich")));
-    assertFalse(CaseRule.compareLists(sentence2.getTokensWithoutWhitespace(), 8, 11, regexp(""), regexp("das"), regexp("Heilige"), regexp("Römische"), regexp("Reich")));
+    Assertions.assertTrue(CaseRule.compareLists(sentence2.getTokensWithoutWhitespace(), 0, 4, regexp(""), regexp("das"), regexp("Heilige"), regexp("Römische"), regexp("Reich")));
+    Assertions.assertFalse(CaseRule.compareLists(sentence2.getTokensWithoutWhitespace(), 8, 11, regexp(""), regexp("das"), regexp("Heilige"), regexp("Römische"), regexp("Reich")));
   }
 }

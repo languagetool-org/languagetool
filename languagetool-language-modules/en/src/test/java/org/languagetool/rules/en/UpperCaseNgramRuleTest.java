@@ -18,7 +18,8 @@
  */
 package org.languagetool.rules.en;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.*;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.RuleMatch;
@@ -29,9 +30,6 @@ import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 public class UpperCaseNgramRuleTest {
 
@@ -106,34 +104,34 @@ public class UpperCaseNgramRuleTest {
 
     AnalyzedTokenReadings[] tokens1 = lt.getAnalyzedSentence("As with Lifeboat and Rope, the principal characters were ...").getTokens();
     // left:
-    assertFalse(rule.firstLongWordToLeftIsUppercase(tokens1, 1));   // 1 = "As"
-    assertTrue(rule.firstLongWordToLeftIsUppercase(tokens1, 9));    // 9 = "Rope"
+    Assertions.assertFalse(rule.firstLongWordToLeftIsUppercase(tokens1, 1));   // 1 = "As"
+    Assertions.assertTrue(rule.firstLongWordToLeftIsUppercase(tokens1, 9));    // 9 = "Rope"
     // right:
-    assertTrue(rule.firstLongWordToRightIsUppercase(tokens1, 3));    // 3 = "with"
-    assertTrue(rule.firstLongWordToRightIsUppercase(tokens1, 5));    // 5 = "Lifeboat"
-    assertFalse(rule.firstLongWordToRightIsUppercase(tokens1, 10));  // 10 = ","
+    Assertions.assertTrue(rule.firstLongWordToRightIsUppercase(tokens1, 3));    // 3 = "with"
+    Assertions.assertTrue(rule.firstLongWordToRightIsUppercase(tokens1, 5));    // 5 = "Lifeboat"
+    Assertions.assertFalse(rule.firstLongWordToRightIsUppercase(tokens1, 10));  // 10 = ","
 
     AnalyzedTokenReadings[] tokens2 = lt.getAnalyzedSentence("From Theory to Practice, followed by some other words").getTokens();
     // left:
-    assertFalse(rule.firstLongWordToLeftIsUppercase(tokens2, 3));  // 3 = "Theory"
-    assertTrue(rule.firstLongWordToLeftIsUppercase(tokens2, 4));   // 4 = "to"
-    assertTrue(rule.firstLongWordToLeftIsUppercase(tokens2, 7));   // 7 = "Practice"
-    assertFalse(rule.firstLongWordToLeftIsUppercase(tokens2, 1));  // 1 = "From" (sentence start)
-    assertFalse(rule.firstLongWordToLeftIsUppercase(tokens2, 12)); // 12 = "by"
+    Assertions.assertFalse(rule.firstLongWordToLeftIsUppercase(tokens2, 3));  // 3 = "Theory"
+    Assertions.assertTrue(rule.firstLongWordToLeftIsUppercase(tokens2, 4));   // 4 = "to"
+    Assertions.assertTrue(rule.firstLongWordToLeftIsUppercase(tokens2, 7));   // 7 = "Practice"
+    Assertions.assertFalse(rule.firstLongWordToLeftIsUppercase(tokens2, 1));  // 1 = "From" (sentence start)
+    Assertions.assertFalse(rule.firstLongWordToLeftIsUppercase(tokens2, 12)); // 12 = "by"
     // right:
-    assertFalse(rule.firstLongWordToRightIsUppercase(tokens2, 8));   // 8 = ","
-    assertFalse(rule.firstLongWordToRightIsUppercase(tokens2, 10));  // 10 = "followed"
+    Assertions.assertFalse(rule.firstLongWordToRightIsUppercase(tokens2, 8));   // 8 = ","
+    Assertions.assertFalse(rule.firstLongWordToRightIsUppercase(tokens2, 10));  // 10 = "followed"
     //}
   }
 
   private void assertGood(String s) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(s));
-    assertTrue("Expected no matches, got: " + Arrays.toString(matches), matches.length == 0);
+    Assertions.assertTrue(matches.length == 0, "Expected no matches, got: " + Arrays.toString(matches));
   }
 
   private void assertMatch(String s) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(s));
-    assertTrue("Expected 1 match, got: " + Arrays.toString(matches), matches.length == 1);
+    Assertions.assertTrue(matches.length == 1, "Expected 1 match, got: " + Arrays.toString(matches));
   }
 
 }

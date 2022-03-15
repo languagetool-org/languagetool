@@ -18,7 +18,8 @@
  */
 package org.languagetool.rules;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.Demo;
 
@@ -29,8 +30,6 @@ import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 @SuppressWarnings("QuestionableName")
 public class ConfusionSetLoaderTest {
@@ -90,13 +89,13 @@ public class ConfusionSetLoaderTest {
       assertThat(map.get("four").get(1).getTerm2().toString(), is("five"));
 
       List<ConfusionString> there = map.get("there").get(0).getTerms();
-      assertTrue(getAsString(there).contains("there - example 1"));
-      assertTrue(getAsString(there).contains("their - example 2"));
+      Assertions.assertTrue(getAsString(there).contains("there - example 1"));
+      Assertions.assertTrue(getAsString(there).contains("their - example 2"));
 
       List<ConfusionString> their = map.get("their").get(0).getTerms();
-      assertTrue(getAsString(their).contains("there - example 1"));
-      assertTrue(getAsString(their).contains("their - example 2"));
-      assertFalse(getAsString(their).contains("comment"));
+      Assertions.assertTrue(getAsString(their).contains("there - example 1"));
+      Assertions.assertTrue(getAsString(their).contains("their - example 2"));
+      Assertions.assertFalse(getAsString(their).contains("comment"));
 
       assertThat(map.get("foo").toString(), is("[bar -> foo, foo -> bar, baz -> foo, foo -> baz]"));
     }

@@ -18,19 +18,19 @@
  */
 package org.languagetool.rules.de;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
-
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
 import org.languagetool.rules.RuleMatch;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
+
+import static org.hamcrest.core.Is.is;
 
 public class DuUpperLowerCaseRuleTest {
 
@@ -76,8 +76,7 @@ public class DuUpperLowerCaseRuleTest {
   private void assertErrors(String input, int expectedMatches) throws IOException {
     AnalyzedSentence sentence = lt.getAnalyzedSentence(input);
     RuleMatch[] matches = rule.match(Collections.singletonList(sentence));
-    assertThat("Expected " + expectedMatches + ", got " + matches.length + ": " + sentence.getText() + " -> " + Arrays.toString(matches),
-               matches.length, is(expectedMatches));
+    MatcherAssert.assertThat("Expected " + expectedMatches + ", got " + matches.length + ": " + sentence.getText() + " -> " + Arrays.toString(matches), matches.length, is(expectedMatches));
   }
 
 }

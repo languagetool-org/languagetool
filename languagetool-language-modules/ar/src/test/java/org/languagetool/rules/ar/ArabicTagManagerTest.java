@@ -19,11 +19,10 @@
  */
 package org.languagetool.rules.ar;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.tagging.ar.ArabicTagManager;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * @author Taha Zerrouki
@@ -33,21 +32,21 @@ public class ArabicTagManagerTest {
 
   private ArabicTagManager tagManager;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     tagManager = new ArabicTagManager();
   }
 
   @Test
   public void testTagger(){
-    assertEquals(tagManager.setJar("NJ-;M1I-;---","K"),"NJ-;M1I-;-K-");
-    assertEquals(tagManager.setJar("NJ-;M1I-;---","-"),"NJ-;M1I-;---");
-    assertEquals(tagManager.setDefinite("NJ-;M1I-;---","L"),"NJ-;M1I-;--L");
-    assertEquals(tagManager.setDefinite("NJ-;M1I-;--H","L"),"NJ-;M1I-;--H");
-    assertEquals(tagManager.setPronoun("NJ-;M1I-;---","H"),"NJ-;M1I-;--H");
-    assertEquals(tagManager.setConjunction("NJ-;M1I-;---","W"),"NJ-;M1I-;W--");
-    assertEquals(tagManager.setConjunction("V-1;M1I----;---","W"),"V-1;M1I----;W--");
-    assertEquals(tagManager.getConjunctionPrefix("V-1;M1I----;W--"),"و");
+    Assertions.assertEquals(tagManager.setJar("NJ-;M1I-;---","K"), "NJ-;M1I-;-K-");
+    Assertions.assertEquals(tagManager.setJar("NJ-;M1I-;---","-"), "NJ-;M1I-;---");
+    Assertions.assertEquals(tagManager.setDefinite("NJ-;M1I-;---","L"), "NJ-;M1I-;--L");
+    Assertions.assertEquals(tagManager.setDefinite("NJ-;M1I-;--H","L"), "NJ-;M1I-;--H");
+    Assertions.assertEquals(tagManager.setPronoun("NJ-;M1I-;---","H"), "NJ-;M1I-;--H");
+    Assertions.assertEquals(tagManager.setConjunction("NJ-;M1I-;---","W"), "NJ-;M1I-;W--");
+    Assertions.assertEquals(tagManager.setConjunction("V-1;M1I----;---","W"), "V-1;M1I----;W--");
+    Assertions.assertEquals(tagManager.getConjunctionPrefix("V-1;M1I----;W--"), "و");
   }
 
 }

@@ -21,7 +21,8 @@
 
 package org.languagetool.rules.en;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
@@ -35,8 +36,6 @@ import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeoutException;
-
-import static org.junit.Assert.assertEquals;
 
 public class EnglishRemoteRuleSuppressMisspelledTest {
   private static Language testLang = new AmericanEnglish();
@@ -106,25 +105,25 @@ public class EnglishRemoteRuleSuppressMisspelledTest {
 
     TestRule r = new TestRule(withOptions());
     RuleMatch[] m = r.match(s);
-    assertEquals("Test rule creates match without match suppression", 1, m.length);
-    assertEquals("Test rule creates match with two suggestions", 2, m[0].getSuggestedReplacements().size());
+    Assertions.assertEquals(1, m.length, "Test rule creates match without match suppression");
+    Assertions.assertEquals(2, m[0].getSuggestedReplacements().size(), "Test rule creates match with two suggestions");
 
     r = new TestRule(withOptions("suppressMisspelledMatch", TEST_RULE));
     m = r.match(s);
-    assertEquals("Test rule creates no match with match suppression", 0, m.length);
+    Assertions.assertEquals(0, m.length, "Test rule creates no match with match suppression");
 
     r = new TestRule(withOptions("suppressMisspelledSuggestions", TEST_RULE));
     m = r.match(s);
-    assertEquals("Test rule creates match with suggestion suppression", 1, m.length);
-    assertEquals("Test rule creates match with correctly spelled suggestions", Arrays.asList("mistake"), m[0].getSuggestedReplacements());
+    Assertions.assertEquals(1, m.length, "Test rule creates match with suggestion suppression");
+    Assertions.assertEquals(Collections.singletonList("mistake"), m[0].getSuggestedReplacements(), "Test rule creates match with correctly spelled suggestions");
 
     r = new TestRule(withOptions("suppressMisspelledMatch", ".*REMOTE.*"));
     m = r.match(s);
-    assertEquals("Test rule creates no match with match suppression (regex, full match)", 0, m.length);
+    Assertions.assertEquals(0, m.length, "Test rule creates no match with match suppression (regex, full match)");
 
     r = new TestRule(withOptions("suppressMisspelledMatch", ".*REMOTE"));
     m = r.match(s);
-    assertEquals("no match suppression (regex only partial match)", 1, m.length);
+    Assertions.assertEquals(1, m.length, "no match suppression (regex only partial match)");
   }
 
 }

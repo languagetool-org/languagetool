@@ -18,7 +18,7 @@
  */
 package org.languagetool;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.PatternRule;

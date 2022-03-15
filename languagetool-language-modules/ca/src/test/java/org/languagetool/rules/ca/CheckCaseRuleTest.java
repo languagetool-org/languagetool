@@ -18,22 +18,21 @@
  */
 package org.languagetool.rules.ca;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
-
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Catalan;
 import org.languagetool.rules.RuleMatch;
 
+import java.io.IOException;
+
 public class CheckCaseRuleTest {
   private CheckCaseRule rule;
   private JLanguageTool lt;
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     rule = new CheckCaseRule(TestTools.getMessages("ca"), new Catalan());
     lt = new JLanguageTool(new Catalan());
@@ -43,44 +42,44 @@ public class CheckCaseRuleTest {
   public void testRule() throws IOException {
 
     // correct sentences:
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("'Da Vinci'")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("‒ 'Da Vinci'")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("‒ ¡'Da Vinci'!")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("El Prat de Llobregat")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("08820 - El Prat de Llobregat")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("el Prat de Llobregat")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Da Vinci")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Amb Joan Pau i Josep Maria.")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("ESTAT D'ALARMA")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("educació secundària")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Educació Secundària Obligatòria")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("Educació Secundària obligatòria")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("d'educació secundària obligatòria")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("'Da Vinci'")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("‒ 'Da Vinci'")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("‒ ¡'Da Vinci'!")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("El Prat de Llobregat")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("08820 - El Prat de Llobregat")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("el Prat de Llobregat")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Da Vinci")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Amb Joan Pau i Josep Maria.")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("ESTAT D'ALARMA")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("educació secundària")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Educació Secundària Obligatòria")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("Educació Secundària obligatòria")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("d'educació secundària obligatòria")).length);
     
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Els drets humans")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Declaració Universal dels Drets Humans")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("El codi Da Vinci")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("Declaració Universal dels drets humans")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Els drets humans")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Declaració Universal dels Drets Humans")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("El codi Da Vinci")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("Declaració Universal dels drets humans")).length);
     
     // incorrect sentences:
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("Joan pau"));
-    assertEquals(1, matches.length);
-    assertEquals("Joan Pau", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("Joan Pau", matches[0].getSuggestedReplacements().get(0));
     matches = rule.match(lt.getAnalyzedSentence("Expedient de Regulació Temporal d'Ocupació"));
-    assertEquals(1, matches.length);
-    assertEquals("Expedient de regulació temporal d'ocupació", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("Expedient de regulació temporal d'ocupació", matches[0].getSuggestedReplacements().get(0));
     matches = rule.match(lt.getAnalyzedSentence("Em vaig entrevistar amb Joan maria"));
-    assertEquals(1, matches.length);
-    assertEquals("Joan Maria", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("Joan Maria", matches[0].getSuggestedReplacements().get(0));
     matches = rule.match(lt.getAnalyzedSentence("Em vaig entrevistar amb Leonardo Da Vinci"));
-    assertEquals(1, matches.length);
-    assertEquals("da Vinci", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("da Vinci", matches[0].getSuggestedReplacements().get(0));
     matches = rule.match(lt.getAnalyzedSentence("-\"Leonardo Da Vinci\""));
-    assertEquals(1, matches.length);
-    assertEquals("da Vinci", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("da Vinci", matches[0].getSuggestedReplacements().get(0));
     matches = rule.match(lt.getAnalyzedSentence("-\"¿Leonardo Da Vinci?\""));
-    assertEquals(1, matches.length);
-    assertEquals("da Vinci", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("da Vinci", matches[0].getSuggestedReplacements().get(0));
         
   }
 }

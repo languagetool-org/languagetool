@@ -19,11 +19,11 @@
 
 package org.languagetool.tokenizers;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import org.junit.jupiter.api.Assertions;
 
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 public class WordTokenizerTest {
 
@@ -33,97 +33,96 @@ public class WordTokenizerTest {
   public void testTokenize() {
     WordTokenizer wordTokenizer = new WordTokenizer();
     List <String> tokens = wordTokenizer.tokenize("This is\u00A0a test");
-    assertEquals(tokens.size(), 7);
-    assertEquals("[This,  , is, \u00A0, a,  , test]", tokens.toString());
+    Assertions.assertEquals(tokens.size(), 7);
+    Assertions.assertEquals("[This,  , is, \u00A0, a,  , test]", tokens.toString());
     tokens = wordTokenizer.tokenize("This\rbreaks");
-    assertEquals(3, tokens.size());
-    assertEquals("[This, \r, breaks]", tokens.toString());
+    Assertions.assertEquals(3, tokens.size());
+    Assertions.assertEquals("[This, \r, breaks]", tokens.toString());
     tokens = wordTokenizer.tokenize("dev.all@languagetool.org");
-    assertEquals(1, tokens.size());
+    Assertions.assertEquals(1, tokens.size());
     tokens = wordTokenizer.tokenize("dev.all@languagetool.org.");
-    assertEquals(2, tokens.size());
+    Assertions.assertEquals(2, tokens.size());
     tokens = wordTokenizer.tokenize("dev.all@languagetool.org:");
-    assertEquals(2, tokens.size());
+    Assertions.assertEquals(2, tokens.size());
     tokens = wordTokenizer.tokenize("Schreiben Sie Hr. Meier (meier@mail.com).");
-    assertEquals(tokens.size(), 13);
+    Assertions.assertEquals(tokens.size(), 13);
     tokens = wordTokenizer.tokenize("Get more at languagetool.org/foo, and via twitter");
-    assertEquals(14, tokens.size());
-    assertTrue(tokens.contains("languagetool.org/foo"));
+    Assertions.assertEquals(14, tokens.size());
+    Assertions.assertTrue(tokens.contains("languagetool.org/foo"));
     tokens = wordTokenizer.tokenize("Get more at sub.languagetool.org/foo, and via twitter");
-    assertEquals(14, tokens.size());
-    assertTrue(tokens.contains("sub.languagetool.org/foo"));
+    Assertions.assertEquals(14, tokens.size());
+    Assertions.assertTrue(tokens.contains("sub.languagetool.org/foo"));
   }
 
   @Test
   public void testIsUrl() {
-    assertTrue(WordTokenizer.isUrl("www.languagetool.org"));
-    assertTrue(WordTokenizer.isUrl("languagetool.org/"));
-    assertTrue(WordTokenizer.isUrl("languagetool.org/foo"));
-    assertTrue(WordTokenizer.isUrl("subdomain.languagetool.org/"));
-    assertTrue(WordTokenizer.isUrl("http://www.languagetool.org"));
-    assertTrue(WordTokenizer.isUrl("https://www.languagetool.org"));
-    assertFalse(WordTokenizer.isUrl("languagetool.org"));  // not detected yet
-    assertFalse(WordTokenizer.isUrl("sub.languagetool.org"));  // not detected yet
-    assertFalse(WordTokenizer.isUrl("something-else"));
+    Assertions.assertTrue(WordTokenizer.isUrl("www.languagetool.org"));
+    Assertions.assertTrue(WordTokenizer.isUrl("languagetool.org/"));
+    Assertions.assertTrue(WordTokenizer.isUrl("languagetool.org/foo"));
+    Assertions.assertTrue(WordTokenizer.isUrl("subdomain.languagetool.org/"));
+    Assertions.assertTrue(WordTokenizer.isUrl("http://www.languagetool.org"));
+    Assertions.assertTrue(WordTokenizer.isUrl("https://www.languagetool.org"));
+    Assertions.assertFalse(WordTokenizer.isUrl("languagetool.org"));  // not detected yet
+    Assertions.assertFalse(WordTokenizer.isUrl("sub.languagetool.org"));  // not detected yet
+    Assertions.assertFalse(WordTokenizer.isUrl("something-else"));
   }
 
   @Test
   public void testIsEMail() {
-    assertTrue(WordTokenizer.isEMail("martin.mustermann@test.de"));
-    assertTrue(WordTokenizer.isEMail("martin.mustermann@test.languagetool.de"));
-    assertTrue(WordTokenizer.isEMail("martin-mustermann@test.com"));
-    assertFalse(WordTokenizer.isEMail("@test.de"));
-    assertFalse(WordTokenizer.isEMail("f.test@test"));
-    assertFalse(WordTokenizer.isEMail("f@t.t"));
+    Assertions.assertTrue(WordTokenizer.isEMail("martin.mustermann@test.de"));
+    Assertions.assertTrue(WordTokenizer.isEMail("martin.mustermann@test.languagetool.de"));
+    Assertions.assertTrue(WordTokenizer.isEMail("martin-mustermann@test.com"));
+    Assertions.assertFalse(WordTokenizer.isEMail("@test.de"));
+    Assertions.assertFalse(WordTokenizer.isEMail("f.test@test"));
+    Assertions.assertFalse(WordTokenizer.isEMail("f@t.t"));
   }
 
   @Test
   public void testUrlTokenize() {
-    assertEquals("\"|This| |http://foo.org|.|\"", tokenize("\"This http://foo.org.\""));
-    assertEquals("«|This| |http://foo.org|.|»", tokenize("«This http://foo.org.»"));
-    assertEquals("This| |http://foo.org|.|.|.", tokenize("This http://foo.org..."));
-    assertEquals("This| |http://foo.org|.", tokenize("This http://foo.org."));
-    assertEquals("This| |http://foo.org| |blah", tokenize("This http://foo.org blah"));
-    assertEquals("This| |http://foo.org| |and| |ftp://bla.com| |blah", tokenize("This http://foo.org and ftp://bla.com blah"));
-    assertEquals("foo| |http://localhost:32000/?ch=1| |bar", tokenize("foo http://localhost:32000/?ch=1 bar"));
-    assertEquals("foo| |ftp://localhost:32000/| |bar", tokenize("foo ftp://localhost:32000/ bar"));
-    assertEquals("foo| |http://google.de/?aaa| |bar", tokenize("foo http://google.de/?aaa bar"));
-    assertEquals("foo| |http://www.flickr.com/123@N04/hallo#test| |bar", tokenize("foo http://www.flickr.com/123@N04/hallo#test bar"));
-    assertEquals("foo| |http://www.youtube.com/watch?v=wDN_EYUvUq0| |bar", tokenize("foo http://www.youtube.com/watch?v=wDN_EYUvUq0 bar"));
-    assertEquals("foo| |http://example.net/index.html?s=A54C6FE2%23info| |bar", tokenize("foo http://example.net/index.html?s=A54C6FE2%23info bar"));
-    assertEquals("foo| |https://writerduet.com/script/#V6922~***~branch=-MClu-LnPrTNz8oz_rJb| |bar", tokenize("foo https://writerduet.com/script/#V6922~***~branch=-MClu-LnPrTNz8oz_rJb bar"));
-    assertEquals("foo| |https://joe:passwd@example.net:8080/index.html?action=x&session=A54C6FE2#info| |bar",
-          tokenize("foo https://joe:passwd@example.net:8080/index.html?action=x&session=A54C6FE2#info bar"));
+    Assertions.assertEquals("\"|This| |http://foo.org|.|\"", tokenize("\"This http://foo.org.\""));
+    Assertions.assertEquals("«|This| |http://foo.org|.|»", tokenize("«This http://foo.org.»"));
+    Assertions.assertEquals("This| |http://foo.org|.|.|.", tokenize("This http://foo.org..."));
+    Assertions.assertEquals("This| |http://foo.org|.", tokenize("This http://foo.org."));
+    Assertions.assertEquals("This| |http://foo.org| |blah", tokenize("This http://foo.org blah"));
+    Assertions.assertEquals("This| |http://foo.org| |and| |ftp://bla.com| |blah", tokenize("This http://foo.org and ftp://bla.com blah"));
+    Assertions.assertEquals("foo| |http://localhost:32000/?ch=1| |bar", tokenize("foo http://localhost:32000/?ch=1 bar"));
+    Assertions.assertEquals("foo| |ftp://localhost:32000/| |bar", tokenize("foo ftp://localhost:32000/ bar"));
+    Assertions.assertEquals("foo| |http://google.de/?aaa| |bar", tokenize("foo http://google.de/?aaa bar"));
+    Assertions.assertEquals("foo| |http://www.flickr.com/123@N04/hallo#test| |bar", tokenize("foo http://www.flickr.com/123@N04/hallo#test bar"));
+    Assertions.assertEquals("foo| |http://www.youtube.com/watch?v=wDN_EYUvUq0| |bar", tokenize("foo http://www.youtube.com/watch?v=wDN_EYUvUq0 bar"));
+    Assertions.assertEquals("foo| |http://example.net/index.html?s=A54C6FE2%23info| |bar", tokenize("foo http://example.net/index.html?s=A54C6FE2%23info bar"));
+    Assertions.assertEquals("foo| |https://writerduet.com/script/#V6922~***~branch=-MClu-LnPrTNz8oz_rJb| |bar", tokenize("foo https://writerduet.com/script/#V6922~***~branch=-MClu-LnPrTNz8oz_rJb bar"));
+    Assertions.assertEquals("foo| |https://joe:passwd@example.net:8080/index.html?action=x&session=A54C6FE2#info| |bar", tokenize("foo https://joe:passwd@example.net:8080/index.html?action=x&session=A54C6FE2#info bar"));
   }
 
   @Test
   public void testUrlTokenizeWithQuote() {
-    assertEquals("This| |'|http://foo.org|'| |blah", tokenize("This 'http://foo.org' blah"));
-    assertEquals("This| |\"|http://foo.org|\"| |blah", tokenize("This \"http://foo.org\" blah"));
-    assertEquals("This| |(|\"|http://foo.org|\"|)| |blah", tokenize("This (\"http://foo.org\") blah"));   // issue #1226
+    Assertions.assertEquals("This| |'|http://foo.org|'| |blah", tokenize("This 'http://foo.org' blah"));
+    Assertions.assertEquals("This| |\"|http://foo.org|\"| |blah", tokenize("This \"http://foo.org\" blah"));
+    Assertions.assertEquals("This| |(|\"|http://foo.org|\"|)| |blah", tokenize("This (\"http://foo.org\") blah"));   // issue #1226
   }
 
   @Test
   public void testUrlTokenizeWithAppendedCharacter() {
-    assertEquals("foo| |(|http://ex.net/p?a=x#i|)| |bar", tokenize("foo (http://ex.net/p?a=x#i) bar"));
-    assertEquals("foo| |http://ex.net/p?a=x#i|,| |bar", tokenize("foo http://ex.net/p?a=x#i, bar"));
-    assertEquals("foo| |http://ex.net/p?a=x#i|.| |bar", tokenize("foo http://ex.net/p?a=x#i. bar"));
-    assertEquals("foo| |http://ex.net/p?a=x#i|:| |bar", tokenize("foo http://ex.net/p?a=x#i: bar"));
-    assertEquals("foo| |http://ex.net/p?a=x#i|?| |bar", tokenize("foo http://ex.net/p?a=x#i? bar"));
-    assertEquals("foo| |http://ex.net/p?a=x#i|!| |bar", tokenize("foo http://ex.net/p?a=x#i! bar"));
+    Assertions.assertEquals("foo| |(|http://ex.net/p?a=x#i|)| |bar", tokenize("foo (http://ex.net/p?a=x#i) bar"));
+    Assertions.assertEquals("foo| |http://ex.net/p?a=x#i|,| |bar", tokenize("foo http://ex.net/p?a=x#i, bar"));
+    Assertions.assertEquals("foo| |http://ex.net/p?a=x#i|.| |bar", tokenize("foo http://ex.net/p?a=x#i. bar"));
+    Assertions.assertEquals("foo| |http://ex.net/p?a=x#i|:| |bar", tokenize("foo http://ex.net/p?a=x#i: bar"));
+    Assertions.assertEquals("foo| |http://ex.net/p?a=x#i|?| |bar", tokenize("foo http://ex.net/p?a=x#i? bar"));
+    Assertions.assertEquals("foo| |http://ex.net/p?a=x#i|!| |bar", tokenize("foo http://ex.net/p?a=x#i! bar"));
   }
 
   @Test
   public void testIncompleteUrlTokenize() {
-    assertEquals("http|:|/", tokenize("http:/"));
-    assertEquals("http://", tokenize("http://"));
-    assertEquals("http://a", tokenize("http://a"));
-    assertEquals("foo| |http| |bar", tokenize("foo http bar"));
-    assertEquals("foo| |http|:| |bar", tokenize("foo http: bar"));
-    assertEquals("foo| |http|:|/| |bar", tokenize("foo http:/ bar"));
-    assertEquals("foo| |http://| |bar", tokenize("foo http:// bar"));
-    assertEquals("foo| |http://a| |bar", tokenize("foo http://a bar"));
-    assertEquals("foo| |http://|?| |bar", tokenize("foo http://? bar"));
+    Assertions.assertEquals("http|:|/", tokenize("http:/"));
+    Assertions.assertEquals("http://", tokenize("http://"));
+    Assertions.assertEquals("http://a", tokenize("http://a"));
+    Assertions.assertEquals("foo| |http| |bar", tokenize("foo http bar"));
+    Assertions.assertEquals("foo| |http|:| |bar", tokenize("foo http: bar"));
+    Assertions.assertEquals("foo| |http|:|/| |bar", tokenize("foo http:/ bar"));
+    Assertions.assertEquals("foo| |http://| |bar", tokenize("foo http:// bar"));
+    Assertions.assertEquals("foo| |http://a| |bar", tokenize("foo http://a bar"));
+    Assertions.assertEquals("foo| |http://|?| |bar", tokenize("foo http://? bar"));
   }
 
   private String tokenize(String text) {

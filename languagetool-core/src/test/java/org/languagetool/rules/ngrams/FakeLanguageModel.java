@@ -21,10 +21,7 @@ package org.languagetool.rules.ngrams;
 import org.languagetool.languagemodel.LuceneSingleIndexLanguageModel;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class FakeLanguageModel extends LuceneSingleIndexLanguageModel {
 
@@ -69,7 +66,7 @@ public class FakeLanguageModel extends LuceneSingleIndexLanguageModel {
 
   @Override
   public long getCount(String token1) {
-    return getCount(Arrays.asList(token1));
+    return getCount(Collections.singletonList(token1));
   }
 
   @Override

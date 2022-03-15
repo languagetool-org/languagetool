@@ -18,8 +18,9 @@
  */
 package org.languagetool.rules.de;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.*;
 import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.RuleMatch;
@@ -28,7 +29,6 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-import static junit.framework.TestCase.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
@@ -37,7 +37,7 @@ public class AgreementRuleTest {
   private AgreementRule rule;
   private JLanguageTool lt;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     rule = new AgreementRule(TestTools.getMessages("de"), (GermanyGerman)Languages.getLanguageForShortCode("de-DE"));
     lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
@@ -54,15 +54,15 @@ public class AgreementRuleTest {
 
     List<String> res1 = rule.getCategoriesCausingError(tokenDetFemPlu, tokenSubGenFemPlu);
     assertThat(res1.size(), is(1));
-    assertTrue(res1.get(0).contains("Kasus"));
+    Assertions.assertTrue(res1.get(0).contains("Kasus"));
 
     List<String> res2 = rule.getCategoriesCausingError(tokenDetMasSin, tokenSubNeuSin);
     assertThat(res2.size(), is(1));
-    assertTrue(res2.get(0).contains("Genus"));
+    Assertions.assertTrue(res2.get(0).contains("Genus"));
 
     List<String> res3 = rule.getCategoriesCausingError(tokenDetFemSin, tokenSubFemPlu);
     assertThat(res3.size(), is(1));
-    assertTrue(res3.get(0).contains("Numerus"));
+    Assertions.assertTrue(res3.get(0).contains("Numerus"));
 
     //List<String> res4 = rule.getCategoriesCausingError(tokenDetFemSin, tokenSubGenFemPlu);
     //assertThat(res4.size(), is(2));
@@ -99,7 +99,7 @@ public class AgreementRuleTest {
     //assertBad("Die Update Liste.", "Die Updateliste");  // not accepted by speller
     List<RuleMatch> matches = lt.check("Er folgt damit dem Tipp des Autoren Michael Müller.");
     assertThat(matches.size(), is(1));
-    assertFalse(matches.get(0).getMessage().contains("zusammengesetztes Nomen"));
+    Assertions.assertFalse(matches.get(0).getMessage().contains("zusammengesetztes Nomen"));
   }
   
   @Test
@@ -652,7 +652,7 @@ public class AgreementRuleTest {
     // used to be not detected > 1.0.1:
     String str = "Und so.\r\nDie Bier.";
     List<RuleMatch> matches = lt.check(str);
-    assertEquals(1, matches.size());
+    Assertions.assertEquals(1, matches.size());
   }
 
   @Test
@@ -756,12 +756,12 @@ public class AgreementRuleTest {
 
   private void assertGood(String s) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(s));
-    assertEquals("Found unexpected match in sentence '" + s + "': " + Arrays.toString(matches), 0, matches.length);
+    Assertions.assertEquals(0, matches.length, "Found unexpected match in sentence '" + s + "': " + Arrays.toString(matches));
   }
 
   private void assertBad(String s, String... expectedSuggestions) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(s));
-    assertEquals("Did not find one match in sentence '" + s + "'", 1, matches.length);
+    Assertions.assertEquals(1, matches.length, "Did not find one match in sentence '" + s + "'");
     if (expectedSuggestions.length > 0) {
       RuleMatch match = matches[0];
       List<String> suggestions = match.getSuggestedReplacements();
@@ -772,7 +772,7 @@ public class AgreementRuleTest {
   // test that a suggestion is there, no matter its position
   private void assertBad1(String s, String expectedSuggestion) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(s));
-    assertEquals("Did not find one match in sentence '" + s + "'", 1, matches.length);
+    Assertions.assertEquals(1, matches.length, "Did not find one match in sentence '" + s + "'");
     RuleMatch match = matches[0];
     List<String> suggestions = match.getSuggestedReplacements();
     boolean found = false;
@@ -783,26 +783,25 @@ public class AgreementRuleTest {
       }
     }
     if (!found) {
-      fail("Expected suggestion '" + expectedSuggestion + "' not found in first 5 suggestions for input '" + s + "'. " +
+      Assertions.fail("Expected suggestion '" + expectedSuggestion + "' not found in first 5 suggestions for input '" + s + "'. " +
         "Suggestions found: " + suggestions);
     }
   }
 
   private void assertBadWithNoSuggestion(String s) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(s));
-    assertEquals("Did not find one match in sentence '" + s + "'", 1, matches.length);
+    Assertions.assertEquals(1, matches.length, "Did not find one match in sentence '" + s + "'");
     RuleMatch match = matches[0];
     List<String> suggestions = match.getSuggestedReplacements();
     if (suggestions.size() != 0) {
-      fail("Expected 0 suggestions for: " + s + ", got: " + suggestions);
+      Assertions.fail("Expected 0 suggestions for: " + s + ", got: " + suggestions);
     }
   }
 
   private void assertBadWithMessage(String s, String expectedErrorSubstring) throws IOException {
-    assertEquals(1, rule.match(lt.getAnalyzedSentence(s)).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence(s)).length);
     String errorMessage = rule.match(lt.getAnalyzedSentence(s))[0].getMessage();
-    assertTrue("Got error '" + errorMessage + "', expected substring '" + expectedErrorSubstring + "'",
-            errorMessage.contains(expectedErrorSubstring));
+    Assertions.assertTrue(errorMessage.contains(expectedErrorSubstring), "Got error '" + errorMessage + "', expected substring '" + expectedErrorSubstring + "'");
   }
 
 }

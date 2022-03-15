@@ -18,15 +18,14 @@
  */
 package org.languagetool.tools;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.Polish;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 import java.util.List;
-
-import static org.junit.Assert.assertEquals;
 
 public class ToolsTest {
 
@@ -35,11 +34,11 @@ public class ToolsTest {
     final JLanguageTool tool = new JLanguageTool(new Polish());
 
     List<RuleMatch> matches = tool.check("To jest całkowicie prawidłowe zdanie.");
-    assertEquals(0, matches.size());
+    Assertions.assertEquals(0, matches.size());
 
     List<RuleMatch> matches2 = tool.check("To jest problem problem.");
-    assertEquals(1, matches2.size());
-    assertEquals("WORD_REPEAT_RULE", matches2.get(0).getRule().getId());
+    Assertions.assertEquals(1, matches2.size());
+    Assertions.assertEquals("WORD_REPEAT_RULE", matches2.get(0).getRule().getId());
   }
 
   @Test
@@ -48,15 +47,15 @@ public class ToolsTest {
     tool.setCleanOverlappingMatches(false);
 
     String correct = Tools.correctText("To jest całkowicie prawidłowe zdanie.", tool);
-    assertEquals("To jest całkowicie prawidłowe zdanie.", correct);
+    Assertions.assertEquals("To jest całkowicie prawidłowe zdanie.", correct);
     correct = Tools.correctText("To jest jest problem.", tool);
-    assertEquals("To jest problem.", correct);
+    Assertions.assertEquals("To jest problem.", correct);
 
     // more sentences, need to apply more suggestions > 1 in subsequent sentences
     correct = Tools.correctText("To jest jest problem. Ale to już już nie jest problem.", tool);
-    assertEquals("To jest problem. Ale to już nie jest problem.", correct);
+    Assertions.assertEquals("To jest problem. Ale to już nie jest problem.", correct);
     correct = Tools.correctText("To jest jest problem. Ale to już już nie jest problem. Tak sie nie robi. W tym zdaniu brakuje przecinka bo go zapomniałem.", tool);
-    assertEquals("To jest problem. Ale to już nie jest problem. Tak się nie robi. W tym zdaniu brakuje przecinka, bo go zapomniałem.", correct);
+    Assertions.assertEquals("To jest problem. Ale to już nie jest problem. Tak się nie robi. W tym zdaniu brakuje przecinka, bo go zapomniałem.", correct);
   }
   
 }

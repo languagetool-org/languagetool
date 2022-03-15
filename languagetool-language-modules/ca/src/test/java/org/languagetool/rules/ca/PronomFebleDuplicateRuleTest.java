@@ -1,21 +1,20 @@
 package org.languagetool.rules.ca;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
-
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Catalan;
 import org.languagetool.rules.RuleMatch;
 
+import java.io.IOException;
+
 public class PronomFebleDuplicateRuleTest {
   private PronomFebleDuplicateRule rule;
   private JLanguageTool lt;
 
-  @Before
+  @BeforeEach
   public void setUp() throws IOException {
     rule = new PronomFebleDuplicateRule(TestTools.getEnglishMessages());
     lt = new JLanguageTool(new Catalan());
@@ -75,82 +74,82 @@ public class PronomFebleDuplicateRuleTest {
     assertCorrect("En acostar-se va fer-se això.");
 
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("S'ha de fer-se"));
-    assertEquals(1, matches.length);
-    assertEquals("Ha de fer-se", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("S'ha de fer", matches[0].getSuggestedReplacements().get(1));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("Ha de fer-se", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals("S'ha de fer", matches[0].getSuggestedReplacements().get(1));
     
     matches = rule.match(lt.getAnalyzedSentence("N'ha d'haver-hi"));
-    assertEquals(1, matches.length);
+    Assertions.assertEquals(1, matches.length);
     
     matches = rule.match(lt.getAnalyzedSentence("Hi ha d'haver-ne"));
-    assertEquals(1, matches.length);
+    Assertions.assertEquals(1, matches.length);
     
     matches = rule.match(lt.getAnalyzedSentence("Es va continuar barallant-se amb el seu amic."));
-    assertEquals(1, matches.length);
-    assertEquals("Va continuar barallant-se", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("Es va continuar barallant", matches[0].getSuggestedReplacements().get(1));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("Va continuar barallant-se", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals("Es va continuar barallant", matches[0].getSuggestedReplacements().get(1));
     
     matches = rule.match(lt.getAnalyzedSentence("Hi podria haver-hi"));
-    assertEquals(1, matches.length);
-    assertEquals("Podria haver-hi", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("Hi podria haver", matches[0].getSuggestedReplacements().get(1));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("Podria haver-hi", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals("Hi podria haver", matches[0].getSuggestedReplacements().get(1));
     
     matches = rule.match(lt.getAnalyzedSentence("ho puc arreglar-ho"));
-    assertEquals(1, matches.length);
-    assertEquals("puc arreglar-ho", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("ho puc arreglar", matches[0].getSuggestedReplacements().get(1));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("puc arreglar-ho", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals("ho puc arreglar", matches[0].getSuggestedReplacements().get(1));
     
     matches = rule.match(lt.getAnalyzedSentence("La volia veure-la."));
-    assertEquals(1, matches.length);
-    assertEquals("Volia veure-la", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("La volia veure", matches[0].getSuggestedReplacements().get(1));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("Volia veure-la", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals("La volia veure", matches[0].getSuggestedReplacements().get(1));
     
     matches = rule.match(lt.getAnalyzedSentence("En vaig portar-ne quatre."));
-    assertEquals(1, matches.length);
-    assertEquals("Vaig portar-ne", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("En vaig portar", matches[0].getSuggestedReplacements().get(1));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("Vaig portar-ne", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals("En vaig portar", matches[0].getSuggestedReplacements().get(1));
     
     matches = rule.match(lt.getAnalyzedSentence("Ho hem hagut de fer-ho."));
-    assertEquals(1, matches.length);
-    assertEquals("Hem hagut de fer-ho", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("Ho hem hagut de fer", matches[0].getSuggestedReplacements().get(1));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("Hem hagut de fer-ho", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals("Ho hem hagut de fer", matches[0].getSuggestedReplacements().get(1));
     
     matches = rule.match(lt.getAnalyzedSentence("Hi hem hagut de continuar anant-hi."));
-    assertEquals(1, matches.length);
-    assertEquals("Hem hagut de continuar anant-hi", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("Hi hem hagut de continuar anant", matches[0].getSuggestedReplacements().get(1));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("Hem hagut de continuar anant-hi", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals("Hi hem hagut de continuar anant", matches[0].getSuggestedReplacements().get(1));
     
     matches = rule.match(lt.getAnalyzedSentence("M'he de rentar-me les dents."));
-    assertEquals(1, matches.length);
-    assertEquals("He de rentar-me", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("M'he de rentar", matches[0].getSuggestedReplacements().get(1));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("He de rentar-me", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals("M'he de rentar", matches[0].getSuggestedReplacements().get(1));
     
     matches = rule.match(lt.getAnalyzedSentence("Et deu enganyar-te."));
-    assertEquals(1, matches.length);
+    Assertions.assertEquals(1, matches.length);
     
     matches = rule.match(lt.getAnalyzedSentence("Et deu voler enganyar-te."));
-    assertEquals(1, matches.length);
+    Assertions.assertEquals(1, matches.length);
     
     matches = rule.match(lt.getAnalyzedSentence("Et deu haver de dir-te."));
-    assertEquals(1, matches.length);
+    Assertions.assertEquals(1, matches.length);
     
     matches = rule.match(lt.getAnalyzedSentence("Ho deu continuar dient-ho."));
-    assertEquals(1, matches.length);
+    Assertions.assertEquals(1, matches.length);
     
     matches = rule.match(lt.getAnalyzedSentence("S'està rebel·lant-se."));
-    assertEquals(1, matches.length);
+    Assertions.assertEquals(1, matches.length);
     
     matches = rule.match(lt.getAnalyzedSentence("Li va començar a dur-li problemes."));
-    assertEquals(1, matches.length);
+    Assertions.assertEquals(1, matches.length);
     
     matches = rule.match(lt.getAnalyzedSentence("S'acabarà carregant-se."));
-    assertEquals(1, matches.length);
+    Assertions.assertEquals(1, matches.length);
     
   }
     
     private void assertCorrect(String sentence) throws IOException {
       final RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(sentence));
-      assertEquals(0, matches.length);
+      Assertions.assertEquals(0, matches.length);
     }
 
 }

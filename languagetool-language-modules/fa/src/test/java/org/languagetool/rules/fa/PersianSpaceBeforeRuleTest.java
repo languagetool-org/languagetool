@@ -18,21 +18,20 @@
  */
 package org.languagetool.rules.fa;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 
 import java.io.IOException;
-
-import static org.junit.Assert.assertEquals;
 
 public class PersianSpaceBeforeRuleTest {
 
   private PersianSpaceBeforeRule rule;
   private JLanguageTool lt;
 
-  @Before
+  @BeforeEach
   public void setUp() throws IOException {
     rule = new PersianSpaceBeforeRule(TestTools.getEnglishMessages(), TestTools.getDemoLanguage());
     lt = new JLanguageTool(TestTools.getDemoLanguage());
@@ -46,7 +45,7 @@ public class PersianSpaceBeforeRuleTest {
   }
 
   private void assertMatches(String text, int expectedMatches) throws IOException {
-    assertEquals(expectedMatches, rule.match(lt.getAnalyzedSentence(text)).length);
+    Assertions.assertEquals(expectedMatches, rule.match(lt.getAnalyzedSentence(text)).length);
   }
 
 }

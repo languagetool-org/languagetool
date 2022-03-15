@@ -18,7 +18,8 @@
  */
 package org.languagetool.rules.patterns;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.hamcrest.MatcherAssert;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.rules.Rule;
@@ -27,7 +28,6 @@ import org.languagetool.rules.RuleMatch;
 import java.io.IOException;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
 
 @SuppressWarnings("MagicNumber")
 public class RegexPatternRuleTest {
@@ -38,25 +38,25 @@ public class RegexPatternRuleTest {
     Rule rule = lt.getPatternRulesByIdAndSubId("REGEX_PATTERN_RULE_DEMO_MARK_0", "1").get(0);
 
     RuleMatch[] matches1 = rule.match(lt.getAnalyzedSentence("This is a test"));
-    assertThat(matches1.length, is(0));
+    MatcherAssert.assertThat(matches1.length, is(0));
 
     RuleMatch[] matches2 = rule.match(lt.getAnalyzedSentence("This is foo bar"));
-    assertThat(matches2.length, is(1));
-    assertThat(matches2[0].getFromPos(), is(8));
-    assertThat(matches2[0].getToPos(), is(15));
+    MatcherAssert.assertThat(matches2.length, is(1));
+    MatcherAssert.assertThat(matches2[0].getFromPos(), is(8));
+    MatcherAssert.assertThat(matches2[0].getToPos(), is(15));
 
     RuleMatch[] matches3 = rule.match(lt.getAnalyzedSentence("This is foo bar and fou bar"));
-    assertThat(matches3.length, is(2));
+    MatcherAssert.assertThat(matches3.length, is(2));
     
-    assertThat(matches3[0].getFromPos(), is(8));
-    assertThat(matches3[0].getToPos(), is(15));
-    assertThat(matches3[0].getMessage(), is("msg: <suggestion>a suggestion foo</suggestion>"));
-    assertThat(matches3[0].getSuggestedReplacements().toString(), is("[a suggestion foo, another suggestion bar]"));
+    MatcherAssert.assertThat(matches3[0].getFromPos(), is(8));
+    MatcherAssert.assertThat(matches3[0].getToPos(), is(15));
+    MatcherAssert.assertThat(matches3[0].getMessage(), is("msg: <suggestion>a suggestion foo</suggestion>"));
+    MatcherAssert.assertThat(matches3[0].getSuggestedReplacements().toString(), is("[a suggestion foo, another suggestion bar]"));
 
-    assertThat(matches3[1].getFromPos(), is(20));
-    assertThat(matches3[1].getToPos(), is(27));
-    assertThat(matches3[1].getMessage(), is("msg: <suggestion>a suggestion fou</suggestion>"));
-    assertThat(matches3[1].getSuggestedReplacements().toString(), is("[a suggestion fou, another suggestion bar]"));
+    MatcherAssert.assertThat(matches3[1].getFromPos(), is(20));
+    MatcherAssert.assertThat(matches3[1].getToPos(), is(27));
+    MatcherAssert.assertThat(matches3[1].getMessage(), is("msg: <suggestion>a suggestion fou</suggestion>"));
+    MatcherAssert.assertThat(matches3[1].getSuggestedReplacements().toString(), is("[a suggestion fou, another suggestion bar]"));
   }
  
   @Test
@@ -65,8 +65,8 @@ public class RegexPatternRuleTest {
     Rule rule = lt.getPatternRulesByIdAndSubId("REGEX_PATTERN_RULE_DEMO_MARK_1", "1").get(0);
 
     RuleMatch[] matches2 = rule.match(lt.getAnalyzedSentence("This is foo bar"));
-    assertThat(matches2.length, is(1));
-    assertThat(matches2[0].getFromPos(), is(8));
-    assertThat(matches2[0].getToPos(), is(11));
+    MatcherAssert.assertThat(matches2.length, is(1));
+    MatcherAssert.assertThat(matches2[0].getFromPos(), is(8));
+    MatcherAssert.assertThat(matches2[0].getToPos(), is(11));
  }
 }

@@ -18,15 +18,15 @@
  */
 package org.languagetool.language;
 
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 
 import java.io.IOException;
 import java.util.Map;
 
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 
 public class CommonWordsTest {
@@ -41,39 +41,39 @@ public class CommonWordsTest {
     CommonWords cw = new CommonWords();
 
     Map<Language, Integer> res1 = cw.getKnownWordsPerLanguage("Das ist bequem");
-    assertNull(res1.get(en));
-    assertThat(res1.get(de), is(2));
+    Assertions.assertNull(res1.get(en));
+    MatcherAssert.assertThat(res1.get(de), is(2));
 
     Map<Language, Integer> res2 = cw.getKnownWordsPerLanguage("Das ist bequem ");
-    assertNull(res2.get(en));
-    assertThat(res2.get(de), is(3));
+    Assertions.assertNull(res2.get(en));
+    MatcherAssert.assertThat(res2.get(de), is(3));
 
     Map<Language, Integer> res3 = cw.getKnownWordsPerLanguage("bequem");
-    assertNull(res3.get(en));
-    assertThat(res3.get(de), is(1));
+    Assertions.assertNull(res3.get(en));
+    MatcherAssert.assertThat(res3.get(de), is(1));
 
     Map<Language, Integer> res4 = cw.getKnownWordsPerLanguage("this is a test");
-    assertThat(res4.get(en), is(3));
-    assertThat(res4.get(de), is(1));
+    MatcherAssert.assertThat(res4.get(en), is(3));
+    MatcherAssert.assertThat(res4.get(de), is(1));
     
     Map<Language, Integer> res5 = cw.getKnownWordsPerLanguage("Ideábamos una declaracion con el.");
-    assertThat(res5.get(es), is(5));
+    MatcherAssert.assertThat(res5.get(es), is(5));
     
     Map<Language, Integer> res6 = cw.getKnownWordsPerLanguage("Ideábamos una declaracion con el; desassigna mencions.");
-    assertThat(res6.get(es), is(3));
+    MatcherAssert.assertThat(res6.get(es), is(3));
     
     Map<Language, Integer> res7 = cw.getKnownWordsPerLanguage("Estagiário de desenvolvedor 'web' ou relacionados a programador.");
-    assertThat(res7.get(es), is(3));
-    assertThat(res7.get(pt), is(4));
-    assertThat(res7.get(ca), is(2));
+    MatcherAssert.assertThat(res7.get(es), is(3));
+    MatcherAssert.assertThat(res7.get(pt), is(4));
+    MatcherAssert.assertThat(res7.get(ca), is(2));
 
     Map<Language, Integer> res8 = cw.getKnownWordsPerLanguage("Autohaus-Wirklichkeit");  // "Wirklichkeit" is in common_words.txt
-    assertNull(res8.get(en));
-    assertThat(res8.get(de), is(1));
+    Assertions.assertNull(res8.get(en));
+    MatcherAssert.assertThat(res8.get(de), is(1));
 
     Map<Language, Integer> res9 = cw.getKnownWordsPerLanguage("Costum de certes cultures que imposa a un pare l’adopció d’un comportament idèntic al de la mare en el període anterior o posterior al part");
-    assertThat(res9.get(ca), is(20));
-    assertThat(res9.get(es), is(10));
+    MatcherAssert.assertThat(res9.get(ca), is(20));
+    MatcherAssert.assertThat(res9.get(es), is(10));
   }
 
 }

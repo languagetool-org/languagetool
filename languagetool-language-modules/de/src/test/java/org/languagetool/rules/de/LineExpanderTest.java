@@ -18,11 +18,11 @@
  */
 package org.languagetool.rules.de;
 
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-import static junit.framework.Assert.fail;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
 
 public class LineExpanderTest {
 
@@ -30,32 +30,32 @@ public class LineExpanderTest {
 
   @Test
   public void testExpansion() {
-    assertThat(expand(""), is("[]"));
-    assertThat(expand("Das"), is("[Das]"));
-    assertThat(expand("Tisch/E"), is("[Tisch, Tische]"));
-    assertThat(expand("Tische/N"), is("[Tische, Tischen]"));
-    assertThat(expand("Auto/S"), is("[Auto, Autos]"));
-    assertThat(expand("klein/A"), is("[klein, kleine, kleiner, kleines, kleinen, kleinem]"));
-    assertThat(expand("x/NSE"), is("[x, xn, xs, xe]"));
-    assertThat(expand("x/NA"), is("[x, xn, xe, xer, xes, xen, xem]"));
-    assertThat(expand("viertjüngste/A"), is("[viertjüngste, viertjüngster, viertjüngstes, viertjüngsten, viertjüngstem]"));
-    assertThat(expand("Das  #foo"), is("[Das]"));
-    assertThat(expand("Tisch/E  #bla #foo"), is("[Tisch, Tische]"));
+    MatcherAssert.assertThat(expand(""), is("[]"));
+    MatcherAssert.assertThat(expand("Das"), is("[Das]"));
+    MatcherAssert.assertThat(expand("Tisch/E"), is("[Tisch, Tische]"));
+    MatcherAssert.assertThat(expand("Tische/N"), is("[Tische, Tischen]"));
+    MatcherAssert.assertThat(expand("Auto/S"), is("[Auto, Autos]"));
+    MatcherAssert.assertThat(expand("klein/A"), is("[klein, kleine, kleiner, kleines, kleinen, kleinem]"));
+    MatcherAssert.assertThat(expand("x/NSE"), is("[x, xn, xs, xe]"));
+    MatcherAssert.assertThat(expand("x/NA"), is("[x, xn, xe, xer, xes, xen, xem]"));
+    MatcherAssert.assertThat(expand("viertjüngste/A"), is("[viertjüngste, viertjüngster, viertjüngstes, viertjüngsten, viertjüngstem]"));
+    MatcherAssert.assertThat(expand("Das  #foo"), is("[Das]"));
+    MatcherAssert.assertThat(expand("Tisch/E  #bla #foo"), is("[Tisch, Tische]"));
 
-    assertThat(expand("Escape\\/N"), is("[Escape/N]"));
+    MatcherAssert.assertThat(expand("Escape\\/N"), is("[Escape/N]"));
     //assertThat(expand("Escape\\/N/S"), is("[Escape/N, Escape/Ns]"));  // combination of escape and flag not supported yet
 
-    assertThat(expand("rüber_machen  #bla #foo"), is("[rübermach, rübergemacht, rübermachest, rübermachst, rübermache, " +
+    MatcherAssert.assertThat(expand("rüber_machen  #bla #foo"), is("[rübermach, rübergemacht, rübermachest, rübermachst, rübermache, " +
                       "rübermachen, rübermachet, rübermachte, rübermachend, rübermachten, rübermacht, rübermachtest, " +
                       "rübermachtet, rüberzumachen, Rübermachens]"));
-    assertThat(expand("rüber_verschicken"), is("[rüberverschickend, rüberverschickst, rüberverschick, rüberverschickest, " +
+    MatcherAssert.assertThat(expand("rüber_verschicken"), is("[rüberverschickend, rüberverschickst, rüberverschick, rüberverschickest, " +
                       "rüberverschicktest, rüberverschicke, rüberverschicket, rüberverschickte, rüberverschicktet, rüberverschickten, " +
                       "rüberverschicken, rüberverschickt, rüberzuverschicken, Rüberverschickens]"));
-    assertThat(expand("escape\\_machen"), is("[escape_machen]"));
+    MatcherAssert.assertThat(expand("escape\\_machen"), is("[escape_machen]"));
 
     try {
       expand("rüber/invalidword");
-      fail();
+      Assertions.fail();
     } catch (RuntimeException expected) {}
   }
 

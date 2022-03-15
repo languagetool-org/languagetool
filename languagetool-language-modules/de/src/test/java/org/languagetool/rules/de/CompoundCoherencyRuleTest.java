@@ -18,8 +18,9 @@
  */
 package org.languagetool.rules.de;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
@@ -30,7 +31,6 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
 
 public class CompoundCoherencyRuleTest {
 
@@ -69,28 +69,26 @@ public class CompoundCoherencyRuleTest {
   }
 
   @Test
-  @Ignore("for debugging")
+  @Disabled("for debugging")
   public void testRuleInteractive() throws IOException {
     RuleMatch[] matches = getMatches("Der Zahn-Ärzte-Verband.", "Der Zahn-Ärzteverband.");
-    assertThat("Got " + Arrays.toString(matches), matches.length, is(1));
+    MatcherAssert.assertThat("Got " + Arrays.toString(matches), matches.length, is(1));
   } 
 
   private void assertOkay(String s1, String s2) throws IOException {
     RuleMatch[] matches = getMatches(s1, s2);
-    assertThat("Got " + Arrays.toString(matches), matches.length, is(0));
+    MatcherAssert.assertThat("Got " + Arrays.toString(matches), matches.length, is(0));
   }
 
   private void assertError(String s1, String s2, int fromPos, int toPos, String suggestion) throws IOException {
     RuleMatch[] matches = getMatches(s1, s2);
-    assertThat("Got " + Arrays.toString(matches), matches.length, is(1));
-    assertThat(matches[0].getFromPos(), is(fromPos));
-    assertThat(matches[0].getToPos(), is(toPos));
+    MatcherAssert.assertThat("Got " + Arrays.toString(matches), matches.length, is(1));
+    MatcherAssert.assertThat(matches[0].getFromPos(), is(fromPos));
+    MatcherAssert.assertThat(matches[0].getToPos(), is(toPos));
     if (suggestion == null) {
-      assertThat("Did not expect suggestion, but got: " + matches[0].getSuggestedReplacements(),
-                 matches[0].getSuggestedReplacements().size(), is(0));
+      MatcherAssert.assertThat("Did not expect suggestion, but got: " + matches[0].getSuggestedReplacements(), matches[0].getSuggestedReplacements().size(), is(0));
     } else {
-      assertThat("Expected suggestion: " + suggestion + ", got: " + matches[0].getSuggestedReplacements(),
-                 matches[0].getSuggestedReplacements(), is(Arrays.asList(suggestion)));
+      MatcherAssert.assertThat("Expected suggestion: " + suggestion + ", got: " + matches[0].getSuggestedReplacements(), matches[0].getSuggestedReplacements(), is(Arrays.asList(suggestion)));
     }
   }
 

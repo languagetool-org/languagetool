@@ -18,16 +18,15 @@
  */
 package org.languagetool.language;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
-import java.util.List;
-
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tokenizers.SentenceTokenizer;
+
+import java.io.IOException;
+import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -46,16 +45,15 @@ public class FrenchTest {
   @Test
   public void testAdvancedTypography() {
     Language lang = new French();
-    assertEquals(lang.toAdvancedTypography("\"C'est\""), "«\u00a0C’est\u00a0»");
-    assertEquals(lang.toAdvancedTypography("\"C'est\" "), "«\u00a0C’est\u00a0» ");
-    assertEquals(lang.toAdvancedTypography("'C'est'"), "‘C’est’");
-    assertEquals(lang.toAdvancedTypography("Vouliez-vous dire 'C'est'?"), "Vouliez-vous dire ‘C’est’\u202f?");
-    assertEquals(lang.toAdvancedTypography("Vouliez-vous dire \"C'est\"?"), "Vouliez-vous dire «\u00a0C’est\u00a0»\u202f?");
-    assertEquals(lang.toAdvancedTypography("Vouliez-vous dire <suggestion>C'est</suggestion>?"), "Vouliez-vous dire «\u00a0C’est\u00a0»\u202f?");
-    assertEquals(lang.toAdvancedTypography("Confusion possible : \"a\" est une conjugaison du verbe avoir. Vouliez-vous dire « à »?"), 
-        "Confusion possible\u00a0: «\u00a0a\u00a0» est une conjugaison du verbe avoir. Vouliez-vous dire «\u00a0à\u00a0»\u202f?");
-    assertEquals(lang.toAdvancedTypography("C'est l'\"homme\"."), "C’est l’« homme ».");
-    assertEquals(lang.toAdvancedTypography("Vouliez-vous dire <suggestion>50\u00a0$</suggestion>?"), "Vouliez-vous dire «\u00a050\u00a0$\u00a0»\u202f?");
+    Assertions.assertEquals(lang.toAdvancedTypography("\"C'est\""), "«\u00a0C’est\u00a0»");
+    Assertions.assertEquals(lang.toAdvancedTypography("\"C'est\" "), "«\u00a0C’est\u00a0» ");
+    Assertions.assertEquals(lang.toAdvancedTypography("'C'est'"), "‘C’est’");
+    Assertions.assertEquals(lang.toAdvancedTypography("Vouliez-vous dire 'C'est'?"), "Vouliez-vous dire ‘C’est’\u202f?");
+    Assertions.assertEquals(lang.toAdvancedTypography("Vouliez-vous dire \"C'est\"?"), "Vouliez-vous dire «\u00a0C’est\u00a0»\u202f?");
+    Assertions.assertEquals(lang.toAdvancedTypography("Vouliez-vous dire <suggestion>C'est</suggestion>?"), "Vouliez-vous dire «\u00a0C’est\u00a0»\u202f?");
+    Assertions.assertEquals(lang.toAdvancedTypography("Confusion possible : \"a\" est une conjugaison du verbe avoir. Vouliez-vous dire « à »?"), "Confusion possible\u00a0: «\u00a0a\u00a0» est une conjugaison du verbe avoir. Vouliez-vous dire «\u00a0à\u00a0»\u202f?");
+    Assertions.assertEquals(lang.toAdvancedTypography("C'est l'\"homme\"."), "C’est l’« homme ».");
+    Assertions.assertEquals(lang.toAdvancedTypography("Vouliez-vous dire <suggestion>50\u00a0$</suggestion>?"), "Vouliez-vous dire «\u00a050\u00a0$\u00a0»\u202f?");
   }
   
   @Test
@@ -67,10 +65,10 @@ public class FrenchTest {
     
     // FRENCH_WORD_REPEAT_RULE[2]
     List<RuleMatch> matches = lt.check("Fête des mères et remise de l'insigne \" Morts pour la France \".");
-    assertEquals(0, matches.size());
+    Assertions.assertEquals(0, matches.size());
     // ACCORD_V_QUESTION2[1]
     List<RuleMatch> matches2 = lt.check("D'autre part je ne soutiens pas du tout le système actuel en france mais je sais qu'au train où l'on va que notre prochaine étape sera celle de la Grèce ou de l'Argentine.");
-    assertEquals(1, matches2.size());
+    Assertions.assertEquals(1, matches2.size());
   }
 
 }

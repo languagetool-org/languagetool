@@ -22,24 +22,23 @@
 package org.languagetool.server;
 
 import org.jetbrains.annotations.NotNull;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 import org.languagetool.*;
 import org.languagetool.markup.AnnotatedTextBuilder;
 
 import java.lang.reflect.Field;
 import java.util.*;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
-@Ignore
+@Disabled
 public class PipelinePoolTest {
 
   private final GlobalConfig gConfig = new GlobalConfig();
 
-  @Ignore("Interactive use only")
+  @Disabled("Interactive use only")
   @Test
   /**
    * run server, allow to test performance of requests with prewarmed pipelines
@@ -326,13 +325,13 @@ public class PipelinePoolTest {
     boolean thrown = false;
     try {
       pipeline.addRule(null);
-      fail("Expected IllegalPipelineMutationException to be thrown but nothing was thrown.");
+      Assertions.fail("Expected IllegalPipelineMutationException to be thrown but nothing was thrown.");
     } catch(Pipeline.IllegalPipelineMutationException ignored) {
       thrown = true;
     } catch(Exception e) {
-      fail("Expected IllegalPipelineMutationException to be thrown; got " + e);
+      Assertions.fail("Expected IllegalPipelineMutationException to be thrown; got " + e);
     } finally {
-      assertTrue("IllegalPipelineMutationException was thrown.", thrown);
+      Assertions.assertTrue(thrown, "IllegalPipelineMutationException was thrown.");
     }
   }
 

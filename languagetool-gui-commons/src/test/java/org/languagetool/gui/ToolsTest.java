@@ -18,9 +18,10 @@
  */
 package org.languagetool.gui;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.Assertions;
+
 
 public class ToolsTest {
 
@@ -33,30 +34,30 @@ public class ToolsTest {
     String testVeryLongString = "Lorem ipsum dolor sit amet, consectetur (adipisici elit), sed eiusmod (tempor incidunt [ut labore et dolore magna aliqua]).";
     String testVeryLongStringShortened = "Lorem ipsum dolor sit amet, consectetur (adipisici elit), sed eiusmod (tempor incidunt).";
     String shortenedString = Tools.shortenComment(testString);
-    assertEquals(testStringShortened, shortenedString);
+    Assertions.assertEquals(testStringShortened, shortenedString);
     String shortenedLongString = Tools.shortenComment(testLongString);
-    assertEquals(testLongStringShortened, shortenedLongString);
+    Assertions.assertEquals(testLongStringShortened, shortenedLongString);
     String shortenedVeryLongString = Tools.shortenComment(testVeryLongString);
-    assertEquals(testVeryLongStringShortened, shortenedVeryLongString);
+    Assertions.assertEquals(testVeryLongStringShortened, shortenedVeryLongString);
   }
 
   @Test
   public void testGetLabel() {
-    assertEquals("This is a Label", Tools.getLabel("This is a &Label"));
-    assertEquals("Bits & Pieces", Tools.getLabel("Bits && Pieces"));
+    Assertions.assertEquals("This is a Label", Tools.getLabel("This is a &Label"));
+    Assertions.assertEquals("Bits & Pieces", Tools.getLabel("Bits && Pieces"));
   }
 
   @Test
   public void testGetOOoLabel() {
-    assertEquals("Bits & Pieces", Tools.getLabel("Bits && Pieces"));
+    Assertions.assertEquals("Bits & Pieces", Tools.getLabel("Bits && Pieces"));
   }
 
   @Test
   public void testGetMnemonic() {
-    assertEquals('F', Tools.getMnemonic("&File"));
-    assertEquals('O', Tools.getMnemonic("&OK"));
-    assertEquals('\u0000', Tools.getMnemonic("File && String operations"));
-    assertEquals('O', Tools.getMnemonic("File && String &Operations"));
+    Assertions.assertEquals('F', Tools.getMnemonic("&File"));
+    Assertions.assertEquals('O', Tools.getMnemonic("&OK"));
+    Assertions.assertEquals('\u0000', Tools.getMnemonic("File && String operations"));
+    Assertions.assertEquals('O', Tools.getMnemonic("File && String &Operations"));
   }
 
 }

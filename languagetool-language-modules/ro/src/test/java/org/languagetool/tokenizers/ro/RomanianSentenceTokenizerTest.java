@@ -18,8 +18,8 @@
  */
 package org.languagetool.tokenizers.ro;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.Language;
 import org.languagetool.TestTools;
 import org.languagetool.language.Romanian;
@@ -37,7 +37,7 @@ public class RomanianSentenceTokenizerTest {
   // accept only \n\n as paragraph:
   private final SentenceTokenizer stokenizer2 = new SRXSentenceTokenizer(lang);
 
-  @Before
+  @BeforeEach
   public final void setUp() {
     stokenizer.setSingleLineBreaksMarksParagraph(true);
     stokenizer2.setSingleLineBreaksMarksParagraph(false);

@@ -19,15 +19,14 @@
  */
 package org.languagetool.rules.ar;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Arabic;
 
 import java.io.IOException;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * @author Taha Zerrouki
@@ -38,7 +37,7 @@ public class ArabicHomophonesCheckRuleTest {
   private ArabicHomophonesRule rule;
   private JLanguageTool lt;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     rule = new ArabicHomophonesRule(TestTools.getEnglishMessages());
     lt = new JLanguageTool(new Arabic());
@@ -47,9 +46,9 @@ public class ArabicHomophonesCheckRuleTest {
   @Test
   public void testRule() throws IOException {
     // incorrect sentences:
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("ضن")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("حاضر")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("حض")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("ضن")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("حاضر")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("حض")).length);
 
     // FIXME : AbstractSimpleReplaceRule2 doesn't support lemma checking
     // can find and replace words after stemming

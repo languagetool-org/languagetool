@@ -18,20 +18,19 @@
  */
 package org.languagetool.rules.nl;
 
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Test;
 import org.languagetool.rules.FakeRule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
 
 public class CompoundFilterTest {
 
@@ -55,8 +54,8 @@ public class CompoundFilterTest {
 
   private void assertSuggestion(List<String> words, String expectedSuggestion) throws IOException {
     RuleMatch ruleMatch = filter.acceptRuleMatch(match, makeMap(words), -1, null);
-    assertThat(ruleMatch.getSuggestedReplacements().size(), is(1));
-    assertThat(ruleMatch.getSuggestedReplacements().get(0), is(expectedSuggestion));
+    MatcherAssert.assertThat(ruleMatch.getSuggestedReplacements().size(), is(1));
+    MatcherAssert.assertThat(ruleMatch.getSuggestedReplacements().get(0), is(expectedSuggestion));
   }
 
   private Map<String, String> makeMap(List<String> words) {

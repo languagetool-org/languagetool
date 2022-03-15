@@ -18,12 +18,11 @@
  */
 package org.languagetool.tagging.de;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.languagetool.AnalyzedTokenReadings;
 
 import java.io.IOException;
-
-import org.junit.Test;
-import org.languagetool.AnalyzedTokenReadings;
 
 @SuppressWarnings("ConstantConditions")
 public class SwissGermanTaggerTest {
@@ -34,17 +33,17 @@ public class SwissGermanTaggerTest {
     GermanTagger germanTagger = new GermanTagger();
 
     AnalyzedTokenReadings aToken = swissTagger.lookup("gross");
-    assertEquals("gross[groß/ADJ:PRD:GRU]", GermanTaggerTest.toSortedString(aToken));
-    assertEquals("groß", aToken.getReadings().get(0).getLemma());
+    Assertions.assertEquals("gross[groß/ADJ:PRD:GRU]", GermanTaggerTest.toSortedString(aToken));
+    Assertions.assertEquals("groß", aToken.getReadings().get(0).getLemma());
 
     AnalyzedTokenReadings aToken2 = swissTagger.lookup("Anmassung");
-    assertEquals("Anmassung[Anmaßung/SUB:AKK:SIN:FEM, "
+    Assertions.assertEquals("Anmassung[Anmaßung/SUB:AKK:SIN:FEM, "
     		+ "Anmaßung/SUB:DAT:SIN:FEM, "
     		+ "Anmaßung/SUB:GEN:SIN:FEM, "
     		+ "Anmaßung/SUB:NOM:SIN:FEM]", GermanTaggerTest.toSortedString(aToken2));
-    assertEquals("Anmaßung", aToken2.getReadings().get(0).getLemma());
+    Assertions.assertEquals("Anmaßung", aToken2.getReadings().get(0).getLemma());
 
-    assertEquals(swissTagger.lookup("die"), germanTagger.lookup("die"));
-    assertEquals(swissTagger.lookup("Auto"), germanTagger.lookup("Auto"));
+    Assertions.assertEquals(swissTagger.lookup("die"), germanTagger.lookup("die"));
+    Assertions.assertEquals(swissTagger.lookup("Auto"), germanTagger.lookup("Auto"));
   }
 }

@@ -18,10 +18,10 @@
  */
 package org.languagetool.rules.patterns;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.FilePermission;
@@ -34,17 +34,18 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
 
+@Disabled("doesn't work with junit5")
 public class PatternRuleLoaderPermissionTest {
 
   private static final SecurityManager secManager = System.getSecurityManager();
 
-  @BeforeClass
+  @BeforeAll
   public static void startup() throws Exception {
     Policy.setPolicy(new MyPolicy());
     System.setSecurityManager(new SecurityManager());
   }
 
-  @Ignore("doesn't work with Gradle, see http://stackoverflow.com/questions/32584997/;" +
+  @Disabled("doesn't work with Gradle, see http://stackoverflow.com/questions/32584997/;" +
     " also caused seemingly random exceptions after PR #1443 was merged")
   @Test
   public void testPermissionManager() throws Exception {
@@ -58,7 +59,7 @@ public class PatternRuleLoaderPermissionTest {
     }
   }
 
-  @AfterClass
+  @AfterAll
   public static void shutdown(){
     System.setSecurityManager(secManager);
   }

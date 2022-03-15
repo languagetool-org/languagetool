@@ -19,16 +19,15 @@
 
 package org.languagetool.rules.ca;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Catalan;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * @author Jaume Ortolà
@@ -38,7 +37,7 @@ public class SimpleReplaceRuleTest {
   private SimpleReplaceRule rule;
   private JLanguageTool lt;
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     rule = new SimpleReplaceRule(TestTools.getMessages("ca"));
     lt = new JLanguageTool(new Catalan());
@@ -48,23 +47,23 @@ public class SimpleReplaceRuleTest {
   public void testRule() throws IOException {
 
     // correct sentences:
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Això està força bé.")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Joan Navarro no és de Navarra ni de Jerez.")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Això està força bé.")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Joan Navarro no és de Navarra ni de Jerez.")).length);
 
     // incorrect sentences:
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("El recader fa huelga."));
-    assertEquals(2, matches.length);
-    assertEquals("ordinari", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("transportista", matches[0].getSuggestedReplacements().get(1));
-    assertEquals("vaga", matches[1].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(2, matches.length);
+    Assertions.assertEquals("ordinari", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals("transportista", matches[0].getSuggestedReplacements().get(1));
+    Assertions.assertEquals("vaga", matches[1].getSuggestedReplacements().get(0));
     
     matches = rule.match(lt.getAnalyzedSentence("EEUU"));
-    assertEquals(1, matches.length);
-    assertEquals("EUA", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("EUA", matches[0].getSuggestedReplacements().get(0));
     
     matches = rule.match(lt.getAnalyzedSentence("Aconteixements"));
-    assertEquals(1, matches.length);
-    assertEquals("Esdeveniments", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("Esdeveniments", matches[0].getSuggestedReplacements().get(0));
     
   }
 

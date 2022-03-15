@@ -19,14 +19,13 @@
 
 package org.languagetool.synthesis.ca;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.language.Catalan;
 
 import java.io.IOException;
 import java.util.Arrays;
-
-import static org.junit.Assert.assertEquals;
 
 public class CatalanSynthesizerTest {
 
@@ -35,42 +34,42 @@ public class CatalanSynthesizerTest {
   @Test
   public final void testSynthesizeStringString() throws IOException {
       
-    assertEquals("[un]", synth("1", "_spell_number_"));
-    assertEquals("[onze]", synth("11", "_spell_number_"));
-    assertEquals("[vint-i-un]", synth("21", "_spell_number_"));
-    assertEquals("[vint-i-quatre]", synth("24", "_spell_number_"));
-    assertEquals("[vint-i-una]", synth("21", "_spell_number_:feminine"));
-    assertEquals("[vint-i-dues]", synth("22", "_spell_number_:feminine"));
-    assertEquals("[dos]", synth("2", "_spell_number_"));
-    assertEquals("[dues]", synth("2", "_spell_number_:feminine"));
-    assertEquals("[dues-centes quaranta-dues]", synth("242", "_spell_number_:feminine"));
-    assertEquals("[dos milions dues-centes cinquanta-una mil dues-centes quaranta-una]", synth("2251241", "_spell_number_:feminine"));
+    Assertions.assertEquals("[un]", synth("1", "_spell_number_"));
+    Assertions.assertEquals("[onze]", synth("11", "_spell_number_"));
+    Assertions.assertEquals("[vint-i-un]", synth("21", "_spell_number_"));
+    Assertions.assertEquals("[vint-i-quatre]", synth("24", "_spell_number_"));
+    Assertions.assertEquals("[vint-i-una]", synth("21", "_spell_number_:feminine"));
+    Assertions.assertEquals("[vint-i-dues]", synth("22", "_spell_number_:feminine"));
+    Assertions.assertEquals("[dos]", synth("2", "_spell_number_"));
+    Assertions.assertEquals("[dues]", synth("2", "_spell_number_:feminine"));
+    Assertions.assertEquals("[dues-centes quaranta-dues]", synth("242", "_spell_number_:feminine"));
+    Assertions.assertEquals("[dos milions dues-centes cinquanta-una mil dues-centes quaranta-una]", synth("2251241", "_spell_number_:feminine"));
     
-    assertEquals(0, synth.synthesize(dummyToken("blablabla"), "blablabla").length);
+    Assertions.assertEquals(0, synth.synthesize(dummyToken("blablabla"), "blablabla").length);
 
-    assertEquals("[sento]", synth("sentir", "VMIP1S0C"));
-    assertEquals("[sent]", synth("sentir", "VMIP1S0Z"));
-    assertEquals("[sent]", synth("sentir", "VMIP1S0V"));
-    assertEquals("[sent]", synth("sentir", "VMIP1S0B"));
-    assertEquals("[senta]", synth("sentir", "VMSP3S0V"));
-    assertEquals("[nostres]", synth("nostre", "PX1CP0P0"));
-    assertEquals("[presidents]", synth("president", "NCMP000"));
-    assertEquals("[comprovat]", synth("comprovar", "VMP00SM.?"));
-    assertEquals("[arribe, arribi]", synth("arribar", "VMSP3S00"));
-    assertEquals("[arribe, arribi]", synthRegex("arribar", "VMSP3S.0"));
-    assertEquals("[albèrxics]", synthRegex("albèrxic", "NCMP000"));
+    Assertions.assertEquals("[sento]", synth("sentir", "VMIP1S0C"));
+    Assertions.assertEquals("[sent]", synth("sentir", "VMIP1S0Z"));
+    Assertions.assertEquals("[sent]", synth("sentir", "VMIP1S0V"));
+    Assertions.assertEquals("[sent]", synth("sentir", "VMIP1S0B"));
+    Assertions.assertEquals("[senta]", synth("sentir", "VMSP3S0V"));
+    Assertions.assertEquals("[nostres]", synth("nostre", "PX1CP0P0"));
+    Assertions.assertEquals("[presidents]", synth("president", "NCMP000"));
+    Assertions.assertEquals("[comprovat]", synth("comprovar", "VMP00SM.?"));
+    Assertions.assertEquals("[arribe, arribi]", synth("arribar", "VMSP3S00"));
+    Assertions.assertEquals("[arribe, arribi]", synthRegex("arribar", "VMSP3S.0"));
+    Assertions.assertEquals("[albèrxics]", synthRegex("albèrxic", "NCMP000"));
     
-    assertEquals("[faig servir]", synth("fer servir", "VMIP1S0C"));
+    Assertions.assertEquals("[faig servir]", synth("fer servir", "VMIP1S0C"));
 
     //with regular expressions:
-    assertEquals("[comprovades, comprovats, comprovada, comprovat]", synthRegex("comprovar", "V.P.*"));
-    assertEquals("[contestant, contestar]", synthRegex("contestar", "VM[GN]0000.?"));
+    Assertions.assertEquals("[comprovades, comprovats, comprovada, comprovat]", synthRegex("comprovar", "V.P.*"));
+    Assertions.assertEquals("[contestant, contestar]", synthRegex("contestar", "VM[GN]0000.?"));
 
     //with special definite article:
-    assertEquals("[les universitats, la universitat]", synthNonRegex("universitat", "DT"));
-    assertEquals("[les úniques, l'única, els únics, l'únic]", synthNonRegex("únic", "DT"));
-    assertEquals("[per les úniques, per l'única, pels únics, per l'únic]", synthNonRegex("únic", "DTper"));
-    assertEquals("[per la covid]", synthNonRegex("covid", "DTper"));
+    Assertions.assertEquals("[les universitats, la universitat]", synthNonRegex("universitat", "DT"));
+    Assertions.assertEquals("[les úniques, l'única, els únics, l'únic]", synthNonRegex("únic", "DT"));
+    Assertions.assertEquals("[per les úniques, per l'única, pels únics, per l'únic]", synthNonRegex("únic", "DTper"));
+    Assertions.assertEquals("[per la covid]", synthNonRegex("covid", "DTper"));
   }
 
   private String synth(String word, String pos) throws IOException {

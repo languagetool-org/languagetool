@@ -19,11 +19,10 @@
 
 package org.languagetool.tokenizers.eo;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
-
-import static org.junit.Assert.assertEquals;
 
 public class EsperantoWordTokenizerTest {
 
@@ -31,10 +30,10 @@ public class EsperantoWordTokenizerTest {
   public void testTokenize() {
     EsperantoWordTokenizer wordTokenizer = new EsperantoWordTokenizer();
     List<String> testList = wordTokenizer.tokenize("Tio estas\u00A0testo");
-    assertEquals(testList.size(), 5);
-    assertEquals("[Tio,  , estas, \u00A0, testo]", testList.toString());
+    Assertions.assertEquals(testList.size(), 5);
+    Assertions.assertEquals("[Tio,  , estas, \u00A0, testo]", testList.toString());
     testList = wordTokenizer.tokenize("dank' al 'tio'");
-    assertEquals(testList.size(), 7);
-    assertEquals("[dank',  , al,  , ', tio, ']", testList.toString());
+    Assertions.assertEquals(testList.size(), 7);
+    Assertions.assertEquals("[dank',  , al,  , ', tio, ']", testList.toString());
   }
 }

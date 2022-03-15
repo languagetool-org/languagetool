@@ -18,14 +18,14 @@
  */
 package org.languagetool.rules.sv;
 
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.LanguageSpecificTest;
 import org.languagetool.language.Swedish;
 
 import java.io.IOException;
 
-import static org.junit.Assert.assertThat;
 import static org.hamcrest.core.Is.is;
 
 public class SwedishTest extends LanguageSpecificTest {
@@ -38,6 +38,6 @@ public class SwedishTest extends LanguageSpecificTest {
   @Test
   public void testSpellingAndColon() throws IOException {
     JLanguageTool lt = new JLanguageTool(new Swedish());
-    assertThat(lt.check("Arbeta med var:").size(), is(0));
+    MatcherAssert.assertThat(lt.check("Arbeta med var:").size(), is(0));
   }
 }

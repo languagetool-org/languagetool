@@ -18,7 +18,9 @@
  */
 package org.languagetool.rules.de;
 
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.rules.FakeRule;
 import org.languagetool.rules.RuleMatch;
 
@@ -27,9 +29,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
 
 public class DateCheckFilterTest {
 
@@ -38,50 +37,52 @@ public class DateCheckFilterTest {
 
   @Test
   public void testAccept() {
-    assertNull(filter.acceptRuleMatch(match, makeMap("2014", "8" ,"23", "Samstag"), -1, null));  // correct date
-    assertNotNull(filter.acceptRuleMatch(match, makeMap("2014", "8" ,"23", "Sonntag"), -1, null));  // incorrect date
+    Assertions.assertNull(filter.acceptRuleMatch(match, makeMap("2014", "8" ,"23", "Samstag"), -1, null));  // correct date
+    Assertions.assertNotNull(filter.acceptRuleMatch(match, makeMap("2014", "8" ,"23", "Sonntag"), -1, null));  // incorrect date
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testAcceptIncompleteArgs() {
-    Map<String,String> map = makeMap("2014", "8" ,"23", "Samstag");
-    map.remove("weekDay");
-    filter.acceptRuleMatch(match, map, -1, null);
+    IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+      Map<String,String> map = makeMap("2014", "8" ,"23", "Samstag");
+      map.remove("weekDay");
+      filter.acceptRuleMatch(match, map, -1, null);      
+    });
   }
 
   @Test
   public void testGetDayOfWeek1() {
-    assertThat(filter.getDayOfWeek("So"), is(1));
-    assertThat(filter.getDayOfWeek("Mo"), is(2));
-    assertThat(filter.getDayOfWeek("mo"), is(2));
-    assertThat(filter.getDayOfWeek("Mon."), is(2));
-    assertThat(filter.getDayOfWeek("Montag"), is(2));
-    assertThat(filter.getDayOfWeek("montag"), is(2));
-    assertThat(filter.getDayOfWeek("Di"), is(3));
-    assertThat(filter.getDayOfWeek("Fr"), is(6));
-    assertThat(filter.getDayOfWeek("Samstag"), is(7));
-    assertThat(filter.getDayOfWeek("Sonnabend"), is(7));
+    MatcherAssert.assertThat(filter.getDayOfWeek("So"), is(1));
+    MatcherAssert.assertThat(filter.getDayOfWeek("Mo"), is(2));
+    MatcherAssert.assertThat(filter.getDayOfWeek("mo"), is(2));
+    MatcherAssert.assertThat(filter.getDayOfWeek("Mon."), is(2));
+    MatcherAssert.assertThat(filter.getDayOfWeek("Montag"), is(2));
+    MatcherAssert.assertThat(filter.getDayOfWeek("montag"), is(2));
+    MatcherAssert.assertThat(filter.getDayOfWeek("Di"), is(3));
+    MatcherAssert.assertThat(filter.getDayOfWeek("Fr"), is(6));
+    MatcherAssert.assertThat(filter.getDayOfWeek("Samstag"), is(7));
+    MatcherAssert.assertThat(filter.getDayOfWeek("Sonnabend"), is(7));
   }
 
   @Test
   public void testGetDayOfWeek2() {
     Calendar calendar = Calendar.getInstance();
     calendar.set(2014, 8-1, 29);
-    assertThat(filter.getDayOfWeek(calendar), is("Freitag"));
+    MatcherAssert.assertThat(filter.getDayOfWeek(calendar), is("Freitag"));
     calendar.set(2014, 8-1, 30);
-    assertThat(filter.getDayOfWeek(calendar), is("Samstag"));
+    MatcherAssert.assertThat(filter.getDayOfWeek(calendar), is("Samstag"));
   }
 
   @Test
   public void testGetMonth() {
-    assertThat(filter.getMonth("Januar"), is(1));
-    assertThat(filter.getMonth("Jan"), is(1));
-    assertThat(filter.getMonth("Jan."), is(1));
-    assertThat(filter.getMonth("Dezember"), is(12));
-    assertThat(filter.getMonth("Dez"), is(12));
-    assertThat(filter.getMonth("dez"), is(12));
-    assertThat(filter.getMonth("DEZEMBER"), is(12));
-    assertThat(filter.getMonth("dezember"), is(12));
+    MatcherAssert.assertThat(filter.getMonth("Januar"), is(1));
+    MatcherAssert.assertThat(filter.getMonth("Jan"), is(1));
+    MatcherAssert.assertThat(filter.getMonth("Jan."), is(1));
+    MatcherAssert.assertThat(filter.getMonth("Dezember"), is(12));
+    MatcherAssert.assertThat(filter.getMonth("Dez"), is(12));
+    MatcherAssert.assertThat(filter.getMonth("dez"), is(12));
+    MatcherAssert.assertThat(filter.getMonth("DEZEMBER"), is(12));
+    MatcherAssert.assertThat(filter.getMonth("dezember"), is(12));
   }
 
   private Map<String, String> makeMap(String year, String month, String dayOfMonth, String weekDay) {

@@ -18,13 +18,12 @@
  */
 package org.languagetool.rules.de;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
-
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.*;
 import org.languagetool.rules.Rule;
+
+import java.io.IOException;
 
 /**
  * @author Fred Kruse
@@ -38,8 +37,8 @@ public class NonSignificantVerbsRuleTest {
     JLanguageTool lt = new JLanguageTool(lang);
     setUpRule(lt);
 
-    assertEquals(3, lt.check("Wenn man das machen kann, sollte man das tun. Das ist so.").size());
-    assertEquals(0, lt.check("Der Vorgang war abgeschlossen. Das hatte er nicht bedacht.").size());
+    Assertions.assertEquals(3, lt.check("Wenn man das machen kann, sollte man das tun. Das ist so.").size());
+    Assertions.assertEquals(0, lt.check("Der Vorgang war abgeschlossen. Das hatte er nicht bedacht.").size());
   }
 
   private void setUpRule(JLanguageTool lt) {

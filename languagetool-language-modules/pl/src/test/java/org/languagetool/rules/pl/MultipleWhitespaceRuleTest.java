@@ -18,7 +18,8 @@
  */
 package org.languagetool.rules.pl;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Polish;
@@ -27,16 +28,14 @@ import org.languagetool.rules.MultipleWhitespaceRule;
 import java.io.IOException;
 import java.util.Collections;
 
-import static org.junit.Assert.assertEquals;
-
 public class MultipleWhitespaceRuleTest {
 
   @Test
   public void testRule() throws IOException {
     MultipleWhitespaceRule rule = new MultipleWhitespaceRule(TestTools.getEnglishMessages(), new Polish());
     JLanguageTool lt = new JLanguageTool(new Polish());
-    assertEquals(0, getMatches("To jest test.", rule, lt));
-    assertEquals(1, getMatches("To jest   test.", rule, lt));
+    Assertions.assertEquals(0, getMatches("To jest test.", rule, lt));
+    Assertions.assertEquals(1, getMatches("To jest   test.", rule, lt));
   }
 
   private int getMatches(String input, MultipleWhitespaceRule rule, JLanguageTool lt) throws IOException {

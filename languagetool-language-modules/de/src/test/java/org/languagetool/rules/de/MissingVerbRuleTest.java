@@ -18,15 +18,14 @@
  */
 package org.languagetool.rules.de;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
-
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
 import org.languagetool.language.GermanyGerman;
+
+import java.io.IOException;
 
 public class MissingVerbRuleTest {
 
@@ -53,11 +52,11 @@ public class MissingVerbRuleTest {
   }
 
   private void assertGood(String text, JLanguageTool lt) throws IOException {
-    assertEquals("Found unexpected error in: '" + text + "'", 0, rule.match(lt.getAnalyzedSentence(text)).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence(text)).length, "Found unexpected error in: '" + text + "'");
   }
 
   private void assertBad(String text, JLanguageTool lt) throws IOException {
-    assertEquals("Did not find expected error in: '" + text + "'", 1, rule.match(lt.getAnalyzedSentence(text)).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence(text)).length, "Did not find expected error in: '" + text + "'");
   }
 
 }

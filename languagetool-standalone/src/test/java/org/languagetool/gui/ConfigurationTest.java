@@ -18,7 +18,8 @@
  */
 package org.languagetool.gui;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.Language;
 import org.languagetool.language.AmericanEnglish;
 import org.languagetool.language.French;
@@ -26,11 +27,9 @@ import org.languagetool.language.French;
 import java.io.File;
 import java.nio.file.Files;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class ConfigurationTest {
 
@@ -41,12 +40,12 @@ public class ConfigurationTest {
     try {
       Configuration conf = new Configuration(tempFile.getParentFile(), tempFile.getName(), null);
       Set<String> disabledRuleIds = conf.getDisabledRuleIds();
-      assertTrue(disabledRuleIds.contains("FOO1"));
-      assertTrue(disabledRuleIds.contains("Foo2"));
-      assertEquals(2, disabledRuleIds.size());
+      Assertions.assertTrue(disabledRuleIds.contains("FOO1"));
+      Assertions.assertTrue(disabledRuleIds.contains("Foo2"));
+      Assertions.assertEquals(2, disabledRuleIds.size());
       Set<String> enabledRuleIds = conf.getEnabledRuleIds();
-      assertTrue(enabledRuleIds.contains("enabledRule"));
-      assertEquals(1, enabledRuleIds.size());
+      Assertions.assertTrue(enabledRuleIds.contains("enabledRule"));
+      Assertions.assertEquals(1, enabledRuleIds.size());
     } finally {
       Files.delete(tempFile.toPath());
     }
@@ -55,7 +54,7 @@ public class ConfigurationTest {
   private void createConfiguration(File configFile, Language lang) throws Exception {
     Configuration conf = new Configuration(configFile.getParentFile(), configFile.getName(), lang);
     conf.setDisabledRuleIds(new HashSet<>(Arrays.asList("FOO1", "Foo2")));
-    conf.setEnabledRuleIds(new HashSet<>(Arrays.asList("enabledRule")));
+    conf.setEnabledRuleIds(new HashSet<>(Collections.singletonList("enabledRule")));
     conf.saveConfiguration(lang);
   }
 
@@ -67,34 +66,34 @@ public class ConfigurationTest {
       Configuration conf = new Configuration(tempFile.getParentFile(), tempFile.getName(),
               new AmericanEnglish());
       Set<String> disabledRuleIds = conf.getDisabledRuleIds();
-      assertTrue(disabledRuleIds.contains("FOO1"));
-      assertTrue(disabledRuleIds.contains("Foo2"));
-      assertEquals(2, disabledRuleIds.size());
+      Assertions.assertTrue(disabledRuleIds.contains("FOO1"));
+      Assertions.assertTrue(disabledRuleIds.contains("Foo2"));
+      Assertions.assertEquals(2, disabledRuleIds.size());
       Set<String> enabledRuleIds = conf.getEnabledRuleIds();
-      assertTrue(enabledRuleIds.contains("enabledRule"));
-      assertEquals(1, enabledRuleIds.size());
+      Assertions.assertTrue(enabledRuleIds.contains("enabledRule"));
+      Assertions.assertEquals(1, enabledRuleIds.size());
 
       //now change language
       conf = new Configuration(tempFile.getParentFile(), tempFile.getName(),
               new French());
       disabledRuleIds = conf.getDisabledRuleIds();
-      assertTrue(disabledRuleIds.isEmpty());
+      Assertions.assertTrue(disabledRuleIds.isEmpty());
       enabledRuleIds = conf.getEnabledRuleIds();
-      assertTrue(enabledRuleIds.isEmpty());
+      Assertions.assertTrue(enabledRuleIds.isEmpty());
 
-      conf.setEnabledRuleIds(new HashSet<>(Arrays.asList("enabledFRRule")));
+      conf.setEnabledRuleIds(new HashSet<>(Collections.singletonList("enabledFRRule")));
       conf.saveConfiguration(new French());
 
       //and back...
       conf = new Configuration(tempFile.getParentFile(), tempFile.getName(),
               new AmericanEnglish());
       disabledRuleIds = conf.getDisabledRuleIds();
-      assertTrue(disabledRuleIds.contains("FOO1"));
-      assertTrue(disabledRuleIds.contains("Foo2"));
-      assertEquals(2, disabledRuleIds.size());
+      Assertions.assertTrue(disabledRuleIds.contains("FOO1"));
+      Assertions.assertTrue(disabledRuleIds.contains("Foo2"));
+      Assertions.assertEquals(2, disabledRuleIds.size());
       enabledRuleIds = conf.getEnabledRuleIds();
-      assertTrue(enabledRuleIds.contains("enabledRule"));
-      assertEquals(1, enabledRuleIds.size());
+      Assertions.assertTrue(enabledRuleIds.contains("enabledRule"));
+      Assertions.assertEquals(1, enabledRuleIds.size());
     } finally {
       Files.delete(tempFile.toPath());
     }

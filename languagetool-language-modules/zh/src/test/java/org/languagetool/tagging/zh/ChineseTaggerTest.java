@@ -19,8 +19,8 @@
 
 package org.languagetool.tagging.zh;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.TestTools;
 import org.languagetool.tokenizers.zh.ChineseWordTokenizer;
 
@@ -39,7 +39,7 @@ public class ChineseTaggerTest {
   private ChineseTagger tagger;
   private ChineseWordTokenizer tokenizer;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     tagger = new ChineseTagger();
     tokenizer = new ChineseWordTokenizer();

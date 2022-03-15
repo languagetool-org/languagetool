@@ -18,7 +18,8 @@
  */
 package org.languagetool.rules.nl;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.Dutch;
 import org.languagetool.rules.GenericUnpairedBracketsRule;
@@ -26,8 +27,6 @@ import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 import java.util.Collections;
-
-import static org.junit.Assert.assertEquals;
 
 public class GenericUnpairedBracketsRuleTest {
 
@@ -50,6 +49,6 @@ public class GenericUnpairedBracketsRuleTest {
 
   private void assertMatches(String input, int expectedMatches) throws IOException {
     final RuleMatch[] matches = rule.match(Collections.singletonList(lt.getAnalyzedSentence(input)));
-    assertEquals(expectedMatches, matches.length);
+    Assertions.assertEquals(expectedMatches, matches.length);
   }
 }

@@ -19,14 +19,13 @@
 
 package org.languagetool.synthesis.uk;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.language.Ukrainian;
 
 import java.io.IOException;
 import java.util.Arrays;
-
-import static org.junit.Assert.assertEquals;
 
 public class UkrainianSynthesizerTest {
 
@@ -34,17 +33,17 @@ public class UkrainianSynthesizerTest {
   public final void testSynthesizeString() throws IOException {
     UkrainianSynthesizer synth = new UkrainianSynthesizer(new Ukrainian());
 
-    assertEquals(synth.synthesize(dummyToken("щосьтамтаке"), "щосьтамтаке").length, 0);
+    Assertions.assertEquals(synth.synthesize(dummyToken("щосьтамтаке"), "щосьтамтаке").length, 0);
 
 //    assertEquals("[Андрія]", Arrays.toString(synth.synthesize(dummyToken("Андрій"), "noun:m:v_rod")));
-    assertEquals("[міста]", Arrays.toString(synth.synthesize(dummyToken("місто"), "noun:inanim:n:v_rod")));
+    Assertions.assertEquals("[міста]", Arrays.toString(synth.synthesize(dummyToken("місто"), "noun:inanim:n:v_rod")));
 
     //with regular expressions
-    assertEquals("[червоної]", Arrays.toString(
+    Assertions.assertEquals("[червоної]", Arrays.toString(
             getSortedArray(synth.synthesize(dummyToken("червоний"), "adj:f:v_rod.*", true))));
-    assertEquals("[червоної]", Arrays.toString(
+    Assertions.assertEquals("[червоної]", Arrays.toString(
             getSortedArray(synth.synthesize(dummyToken("червоний"), "adj:f:v_rod:compb", true))));
-    assertEquals("[червоним, червоним, червоними, червоною]", Arrays.toString(
+    Assertions.assertEquals("[червоним, червоним, червоними, червоною]", Arrays.toString(
             getSortedArray(synth.synthesize(dummyToken("червоний"), "adj:.:v_oru:compb", true))));
   }
 

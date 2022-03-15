@@ -18,26 +18,25 @@
  */
 package org.languagetool.rules.uk;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Ukrainian;
 import org.languagetool.rules.RuleMatch;
 
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
+
 public class TokenAgreementNounVerbRuleTest {
 
   private JLanguageTool lt;
   private TokenAgreementNounVerbRule rule;
 
-  @Before
+  @BeforeEach
   public void setUp() throws IOException {
     rule = new TokenAgreementNounVerbRule(TestTools.getMessages("uk"));
     lt = new JLanguageTool(new Ukrainian());
@@ -485,7 +484,7 @@ public class TokenAgreementNounVerbRuleTest {
   private void assertEmptyMatch(String text) throws IOException {
     AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(text);
     try {
-      assertEquals(Collections.<RuleMatch>emptyList(), Arrays.asList(rule.match(analyzedSentence)));
+      Assertions.assertEquals(Collections.<RuleMatch>emptyList(), Arrays.asList(rule.match(analyzedSentence)));
     }
     catch (AssertionError e) {
       System.out.println("Sentence: " + analyzedSentence);
@@ -519,16 +518,16 @@ public class TokenAgreementNounVerbRuleTest {
     assertEmptyMatch("Тарас при\u00ADбіг.");
 
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("Тарас при\u00ADбігла."));
-    assertEquals(1, matches.length);
+    Assertions.assertEquals(1, matches.length);
 
     matches = rule.match(lt.getAnalyzedSentence("Та\u00ADрас прибігла."));
-    assertEquals(1, matches.length);
+    Assertions.assertEquals(1, matches.length);
   }
 
   
   private void assertMatches(int num, String text) throws IOException {
     RuleMatch[] match = rule.match(lt.getAnalyzedSentence(text));
-    assertEquals("Unexpected: " + Arrays.asList(match), num, match.length);
+    Assertions.assertEquals(num, match.length, "Unexpected: " + Arrays.asList(match));
   }
 
   private static final String GOOD_TEXT = "Хоча упродовж десятиліть ширилися численні історії про те, що я був у ряду наступників трону Тембу, щойно наведений простий генеалогічний екскурс викриває міфічність таких тверджень."

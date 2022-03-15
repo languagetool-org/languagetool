@@ -21,9 +21,9 @@
 
 package org.languagetool.rules;
 
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
@@ -33,14 +33,14 @@ import org.languagetool.rules.ml.MLServerProto;
 import java.io.IOException;
 import java.util.Arrays;
 
-@Ignore("Requires local ML server")
+@Disabled("Requires local ML server")
 public class GRPCRuleTest {
 
   public static final String RULE_ID = "REMOTE_ML_RULE";
   protected RemoteRuleConfig config;
   protected GRPCRule rule;
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     config = new RemoteRuleConfig();
 

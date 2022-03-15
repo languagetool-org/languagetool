@@ -18,10 +18,12 @@
  */
 package org.languagetool.language;
 
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -30,7 +32,6 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.Map.Entry;
-import static org.junit.Assert.assertEquals;
 
 /**
  * In some cases, it appears that the Fasttext integration can get into a state
@@ -38,7 +39,7 @@ import static org.junit.Assert.assertEquals;
  * This is a (failed) attempt at reproducing that.
  * Removing buffering from the communication with fasttext is an attempt at fixing it.
  */
-public class FastTextTest2 {
+public class FastText2Test {
   
   private static final List<String> languages = Arrays.asList("en", "es", "de", "fr");
   private static final List<Entry<String, String>> TESTED_ENTRIES =
@@ -50,13 +51,13 @@ public class FastTextTest2 {
 
   private FastText instance;
 
-  @Before
+  @BeforeEach
   public void setUp() throws IOException {
     instance = new FastText(new File("lid.176.bin"),
                             new File("fasttext"));
   }
 
-  @After
+  @AfterEach
   public void tearDown() {
     instance.destroy();
     instance = null;
@@ -69,7 +70,7 @@ public class FastTextTest2 {
           Map<String, Double> detected = instance.runFasttext(text, languages);
           System.out.printf("Detected '%s' as %s%n", text, detected);
           Entry<String, Double> highest = detected.entrySet().stream().max(Entry.comparingByValue()).get();
-          assertEquals("Expected language correctly detected", expectedLang, highest.getKey());
+          Assertions.assertEquals(expectedLang, highest.getKey(), "Expected language correctly detected");
           Thread.sleep(1);
         } catch (IOException | InterruptedException e) {
           throw new RuntimeException(e);
@@ -79,7 +80,7 @@ public class FastTextTest2 {
   }
 
   @Test
-  @Ignore("unable to reproduce bug")
+  @Disabled("unable to reproduce bug")
   public void testConcurrentUse() throws InterruptedException {
     List<Thread> threads = new ArrayList<>(THREAD_COUNT);
     for (int i = 0; i < THREAD_COUNT; i++) {

@@ -18,22 +18,21 @@
  */
 package org.languagetool.tagging.uk;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
-
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.Ukrainian;
 import org.languagetool.tokenizers.uk.UkrainianWordTokenizer;
+
+import java.io.IOException;
 
 public class UkrainianTaggerTest {
 
   private UkrainianTagger tagger;
   private UkrainianWordTokenizer tokenizer;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     tagger = new UkrainianTagger();
     tokenizer = new UkrainianWordTokenizer();
@@ -662,7 +661,7 @@ public class UkrainianTaggerTest {
     TestTools.myAssert("українсько-англійсько-французьким", "українсько-англійсько-французьким/[українсько-англійсько-французький]adj:m:v_oru|українсько-англійсько-французьким/[українсько-англійсько-французький]adj:n:v_oru|українсько-англійсько-французьким/[українсько-англійсько-французький]adj:p:v_dav", tokenizer, tagger);
     TestTools.myAssert("седативного-снодійного-антигістамінного", "седативного-снодійного-антигістамінного/[снодійний-антигістамінний]adj:m:v_rod|седативного-снодійного-антигістамінного/[снодійний-антигістамінний]adj:m:v_zna:ranim|седативного-снодійного-антигістамінного/[снодійний-антигістамінний]adj:n:v_rod", tokenizer, tagger);
 //    TestTools.myAssert ignores tokens with no letters, need to do manual steps here
-    assertEquals("[–---–[–---–/null*]]", tagger.tag(tokenizer.tokenize("–---–")).toString());
+    Assertions.assertEquals("[–---–[–---–/null*]]", tagger.tag(tokenizer.tokenize("–---–")).toString());
 
     assertNotTagged("військо-во-політичний");
 

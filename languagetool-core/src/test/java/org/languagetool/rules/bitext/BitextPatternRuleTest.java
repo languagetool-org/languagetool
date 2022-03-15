@@ -18,7 +18,8 @@
  */
 package org.languagetool.rules.bitext;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 import org.languagetool.*;
 import org.languagetool.bitext.StringPair;
 import org.languagetool.rules.Rule;
@@ -31,8 +32,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Set;
-
-import static org.junit.Assert.*;
 
 public class BitextPatternRuleTest {
 
@@ -79,7 +78,7 @@ public class BitextPatternRuleTest {
   private void testMarker(int expectedMatchStart,
       int expectedMatchEnd, Rule rule, Language lang) {
     if (expectedMatchStart == -1 || expectedMatchEnd == -1) {
-      fail(lang
+      Assertions.fail(lang
           + ": No error position markup ('<marker>...</marker>') in bad example in rule "
           + rule);
     }
@@ -91,27 +90,22 @@ public class BitextPatternRuleTest {
                                Language lang,
                                JLanguageTool lt) throws IOException {
     String badSentence = cleanXML(origBadSentence);
-    assertTrue(badSentence.trim().length() > 0);
+    Assertions.assertTrue(badSentence.trim().length() > 0);
     RuleMatch[] matches = getMatches(rule, badSentence, lt);
-    assertTrue(lang + ": Did expect one error in: \"" + badSentence
+    Assertions.assertEquals(1, matches.length, lang + ": Did expect one error in: \"" + badSentence
             + "\" (Rule: " + rule + "), got " + matches.length
-            + ". Additional info:" + rule.getMessage(), matches.length == 1);
-    assertEquals(lang
-            + ": Incorrect match position markup (start) for rule " + rule,
-            expectedMatchStart, matches[0].getFromPos());
-    assertEquals(lang
-            + ": Incorrect match position markup (end) for rule " + rule,
-            expectedMatchEnd, matches[0].getToPos());
+            + ". Additional info:" + rule.getMessage());
+    Assertions.assertEquals(expectedMatchStart, matches[0].getFromPos(), lang
+            + ": Incorrect match position markup (start) for rule " + rule);
+    Assertions.assertEquals(expectedMatchEnd, matches[0].getToPos(), lang
+            + ": Incorrect match position markup (end) for rule " + rule);
     // make sure suggestion is what we expect it to be
     if (suggestedCorrection != null && suggestedCorrection.size() > 0) {
-      assertTrue("You specified a correction but your message has no suggestions in rule " + rule,
-              rule.getMessage().contains("<suggestion>")
-      );
-      assertTrue(lang + ": Incorrect suggestions: "
+      Assertions.assertTrue(rule.getMessage().contains("<suggestion>"), "You specified a correction but your message has no suggestions in rule " + rule);
+      Assertions.assertEquals(suggestedCorrection, matches[0]
+              .getSuggestedReplacements(), lang + ": Incorrect suggestions: "
               + suggestedCorrection + " != "
-              + matches[0].getSuggestedReplacements() + " for rule " + rule,
-              suggestedCorrection.equals(matches[0]
-                      .getSuggestedReplacements()));
+              + matches[0].getSuggestedReplacements() + " for rule " + rule);
       if (matches[0].getSuggestedReplacements().size() > 0) {
         int fromPos = matches[0].getFromPos();
         int toPos = matches[0].getToPos();
@@ -120,7 +114,7 @@ public class BitextPatternRuleTest {
                   + repl + badSentence.substring(toPos);
           matches = getMatches(rule, fixedSentence, lt);
           if (matches.length > 0) {
-            fail("Incorrect input:\n"
+            Assertions.fail("Incorrect input:\n"
                     + "  " + badSentence
                     + "\nCorrected sentence:\n"
                     + "  " + fixedSentence
@@ -139,12 +133,11 @@ public class BitextPatternRuleTest {
     JLanguageTool srcTool = new JLanguageTool(rule.getSourceLanguage());
     List<StringPair> goodSentences = rule.getCorrectBitextExamples();
     for (StringPair goodSentence : goodSentences) {
-      assertTrue("Got good sentence: '" + goodSentence.getSource() + "'", cleanSentence(goodSentence.getSource()).trim().length() > 0);
-      assertTrue("Got good sentence: '" + goodSentence.getTarget() + "'", cleanSentence(goodSentence.getTarget()).trim().length() > 0);
-      assertFalse(lang + ": Did not expect error in: " + goodSentence
-              + " (Rule: " + rule + ")",
-              match(rule, goodSentence.getSource(), goodSentence.getTarget(),
-                      srcTool, lt));
+      Assertions.assertTrue(cleanSentence(goodSentence.getSource()).trim().length() > 0, "Got good sentence: '" + goodSentence.getSource() + "'");
+      Assertions.assertTrue(cleanSentence(goodSentence.getTarget()).trim().length() > 0, "Got good sentence: '" + goodSentence.getTarget() + "'");
+      Assertions.assertFalse(match(rule, goodSentence.getSource(), goodSentence.getTarget(),
+              srcTool, lt), lang + ": Did not expect error in: " + goodSentence
+                      + " (Rule: " + rule + ")");
     }
     List<IncorrectBitextExample> badSentences = rule.getIncorrectBitextExamples();
     for (IncorrectBitextExample origBadExample : badSentences) {

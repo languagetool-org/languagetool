@@ -18,7 +18,8 @@
  */
 package org.languagetool.rules.ru;
 
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
@@ -27,7 +28,6 @@ import org.languagetool.rules.RuleMatch;
 import java.io.IOException;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
 
 public class RussianSpecificCaseRuleTest {
 
@@ -42,19 +42,19 @@ public class RussianSpecificCaseRuleTest {
     assertBad("центральный банк РФ");
 
    RuleMatch[] matches1 = assertBad("I like air France.");
-    assertThat(matches1[0].getFromPos(), is(7));
-    assertThat(matches1[0].getToPos(), is(17));
-    assertThat(matches1[0].getSuggestedReplacements().toString(), is("[Air France]"));
-    assertThat(matches1[0].getMessage(), is("Для специальных наименований используйте начальную заглавную букву."));
+    MatcherAssert.assertThat(matches1[0].getFromPos(), is(7));
+    MatcherAssert.assertThat(matches1[0].getToPos(), is(17));
+    MatcherAssert.assertThat(matches1[0].getSuggestedReplacements().toString(), is("[Air France]"));
+    MatcherAssert.assertThat(matches1[0].getMessage(), is("Для специальных наименований используйте начальную заглавную букву."));
   }
 
   private void assertGood(String input) throws IOException {
-    assertThat(rule.match(lt.getAnalyzedSentence(input)).length, is(0));
+    MatcherAssert.assertThat(rule.match(lt.getAnalyzedSentence(input)).length, is(0));
   }
 
   private RuleMatch[] assertBad(String input) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
-    assertThat(matches.length, is(1));
+    MatcherAssert.assertThat(matches.length, is(1));
     return matches;
   }
 }

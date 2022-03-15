@@ -20,7 +20,8 @@ package org.languagetool.rules.patterns;
 
 import com.google.common.collect.Sets;
 import org.jetbrains.annotations.Nullable;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.regex.Pattern;
@@ -29,14 +30,15 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import static org.junit.Assert.*;
 import static org.languagetool.rules.patterns.StringMatcher.getPossibleRegexpValues;
 
 public class StringMatcherTest {
 
-  @Test(expected = PatternSyntaxException.class)
+  @Test
   public void syntaxIsValidated() {
-    StringMatcher.regexp("tú|?");
+    PatternSyntaxException thrown = Assertions.assertThrows(PatternSyntaxException.class, () -> {
+          StringMatcher.regexp("tú|?");
+    });
   }
 
   @Test
@@ -74,7 +76,7 @@ public class StringMatcherTest {
   }
 
   private static void assertPossibleValues(String regexp, String... expected) {
-    assertEquals(expected.length == 0 ? null : Sets.newHashSet(expected), getPossibleRegexpValues(regexp));
+    Assertions.assertEquals(expected.length == 0 ? null : Sets.newHashSet(expected), getPossibleRegexpValues(regexp));
 
     for (String s : expected) {
       trySomeMutations(regexp, s);
@@ -93,10 +95,8 @@ public class StringMatcherTest {
   }
 
   private static void assertStringMatcherConsistentWithPattern(String regexp, String s) {
-    assertEquals(StringMatcher.regexp(regexp).matches(s),
-      s.matches(regexp));
-    assertEquals(StringMatcher.create(regexp, true, false).matches(s),
-      Pattern.compile(regexp, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE).matcher(s).matches());
+    Assertions.assertEquals(StringMatcher.regexp(regexp).matches(s), s.matches(regexp));
+    Assertions.assertEquals(StringMatcher.create(regexp, true, false).matches(s), Pattern.compile(regexp, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE).matcher(s).matches());
   }
 
   @Test
@@ -127,14 +127,14 @@ public class StringMatcherTest {
     String pattern = IntStream.range(0, count).mapToObj(i -> "a" + i).collect(Collectors.joining("|"));
     StringMatcher matcher = StringMatcher.create(pattern, true, true);
     for (int i = 0; i < count; i++) {
-      assertTrue(matcher.matches("a" + i));
-      assertFalse(matcher.matches("b" + i));
+      Assertions.assertTrue(matcher.matches("a" + i));
+      Assertions.assertFalse(matcher.matches("b" + i));
     }
   }
 
   private static void assertRequiredSubstrings(String regexp, @Nullable String expected) {
     Substrings actual = StringMatcher.getRequiredSubstrings(regexp);
-    assertEquals(expected, actual == null ? null : actual.toString());
+    Assertions.assertEquals(expected, actual == null ? null : actual.toString());
 
     trySomeMutations(regexp, regexp);
     if (expected != null) {

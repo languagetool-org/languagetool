@@ -18,8 +18,10 @@
  */
 package org.languagetool;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Assertions;
 import org.languagetool.JLanguageTool.ParagraphHandling;
 import org.languagetool.language.AmericanEnglish;
 import org.languagetool.language.BritishEnglish;
@@ -34,14 +36,14 @@ import org.languagetool.rules.spelling.SpellingCheckRule;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
 
 public class JLanguageToolTest {
 
-  @Ignore("not a test, but used on https://dev.languagetool.org/java-api")
+  @Disabled("not a test, but used on https://dev.languagetool.org/java-api")
   @Test
   public void demoCodeForHomepage() throws IOException {
     JLanguageTool lt = new JLanguageTool(new BritishEnglish());
@@ -57,7 +59,7 @@ public class JLanguageToolTest {
     }
   }
 
-  @Ignore("not a test, but used on https://dev.languagetool.org/java-spell-checker")
+  @Disabled("not a test, but used on https://dev.languagetool.org/java-spell-checker")
   @Test
   public void spellCheckerDemoCodeForHomepage() throws IOException {
     JLanguageTool lt = new JLanguageTool(new BritishEnglish());
@@ -76,7 +78,7 @@ public class JLanguageToolTest {
     }
   }
 
-  @Ignore("not a test, but used on https://dev.languagetool.org/java-spell-checker")
+  @Disabled("not a test, but used on https://dev.languagetool.org/java-spell-checker")
   @Test
   public void spellCheckerDemoCodeForHomepageWithAddedWords() throws IOException {
     JLanguageTool lt = new JLanguageTool(new BritishEnglish());
@@ -113,9 +115,9 @@ public class JLanguageToolTest {
 
       assertOneError("A test test that should give errors.", lt);
       assertOneError("I can give you more a detailed description.", lt);
-      assertTrue(lt.getAllRules().size() > 1000);
+      Assertions.assertTrue(lt.getAllRules().size() > 1000);
       assertNoError("The sea ice is highly variable — frozen solid during cold, calm weather and broke...", lt);
-      assertTrue(lt.getAllRules().size() > 3);
+      Assertions.assertTrue(lt.getAllRules().size() > 3);
       assertOneError("I can give you more a detailed description.", lt);
       lt.disableRule("MORE_A_JJ");
       assertNoError("I can give you more a detailed description.", lt);
@@ -131,12 +133,12 @@ public class JLanguageToolTest {
 
   private void assertNoError(String input, JLanguageTool lt) throws IOException {
     List<RuleMatch> matches = lt.check(input);
-    assertEquals("Did not expect an error in test sentence: '" + input + "', but got: " + matches, 0, matches.size());
+    Assertions.assertEquals(0, matches.size(), "Did not expect an error in test sentence: '" + input + "', but got: " + matches);
   }
 
   private void assertOneError(String input, JLanguageTool lt) throws IOException {
     List<RuleMatch> matches = lt.check(input);
-    assertEquals("Did expect 1 error in test sentence: '" + input + "', but got: " + matches, 1, matches.size());
+    Assertions.assertEquals(1, matches.size(), "Did expect 1 error in test sentence: '" + input + "', but got: " + matches);
   }
 
   @Test
@@ -144,10 +146,10 @@ public class JLanguageToolTest {
     JLanguageTool tool = new JLanguageTool(new AmericanEnglish());
     List<RuleMatch> matches = tool.check("A sentence with no period\n" +
         "A sentence. A typoh.");
-    assertEquals(1, matches.size());
+    Assertions.assertEquals(1, matches.size());
     RuleMatch match = matches.get(0);
-    assertEquals(1, match.getLine());
-    assertEquals(15, match.getColumn());
+    Assertions.assertEquals(1, match.getLine());
+    Assertions.assertEquals(15, match.getColumn());
   }
 
   @Test
@@ -155,16 +157,16 @@ public class JLanguageToolTest {
     JLanguageTool tool = new JLanguageTool(new AmericanEnglish());
     List<RuleMatch> matches = tool.check("This sentence.\n\n" +
         "A sentence. A typoh.");
-    assertEquals(1, matches.size());
+    Assertions.assertEquals(1, matches.size());
     RuleMatch match = matches.get(0);
-    assertEquals(2, match.getLine());
+    Assertions.assertEquals(2, match.getLine());
     // It was 14. It should actually be 15, as in testPositionsWithEnglish(). 
     // Fixed thanks to a change in the sentence split.
     if (Premium.isPremiumVersion()) {
       // TODO: there should be no difference here
-      assertEquals(14, match.getColumn());
+      Assertions.assertEquals(14, match.getColumn());
     } else {
-      assertEquals(15, match.getColumn());
+      Assertions.assertEquals(15, match.getColumn());
     }
   }
 
@@ -172,13 +174,12 @@ public class JLanguageToolTest {
   public void testAnalyzedSentence() throws IOException {
     JLanguageTool tool = new JLanguageTool(new English());
     //test soft-hyphen ignoring:
-    assertEquals("<S> This[this/DT,B-NP-singular|E-NP-singular] " +
+    Assertions.assertEquals("<S> This[this/DT,B-NP-singular|E-NP-singular] " +
         "is[be/VBZ,B-VP] a[a/DT,B-NP-singular] " +
         "test­ed[tested/JJ,I-NP-singular] " +
-        "sentence[sentence/NN,E-NP-singular].[./.,</S>./PCT,O]",
-        tool.getAnalyzedSentence("This is a test\u00aded sentence.").toString());
+        "sentence[sentence/NN,E-NP-singular].[./.,</S>./PCT,O]", tool.getAnalyzedSentence("This is a test\u00aded sentence.").toString());
     //test paragraph ends adding
-    assertEquals("<S> </S><P/> ", tool.getAnalyzedSentence("\n").toString());
+    Assertions.assertEquals("<S> </S><P/> ", tool.getAnalyzedSentence("\n").toString());
   }
 
   @Test
@@ -187,22 +188,22 @@ public class JLanguageToolTest {
 
     //run normally
     List<RuleMatch> matches1 = tool.check("(This is an quote.\n It ends in the second sentence.");
-    assertEquals(2, matches1.size());
+    Assertions.assertEquals(2, matches1.size());
 
     //run in a sentence-only mode
     List<RuleMatch> matches2 = tool.check("(This is an quote.\n It ends in the second sentence.", false, ParagraphHandling.ONLYNONPARA);
-    assertEquals(1, matches2.size());
-    assertEquals("EN_A_VS_AN", matches2.get(0).getRule().getId());
+    Assertions.assertEquals(1, matches2.size());
+    Assertions.assertEquals("EN_A_VS_AN", matches2.get(0).getRule().getId());
 
     //run in a paragraph mode - single sentence
     List<RuleMatch> matches3 = tool.check("(This is an quote.\n It ends in the second sentence.", false, ParagraphHandling.ONLYPARA);
-    assertEquals(1, matches3.size());
-    assertEquals("EN_UNPAIRED_BRACKETS", matches3.get(0).getRule().getId());
+    Assertions.assertEquals(1, matches3.size());
+    Assertions.assertEquals("EN_UNPAIRED_BRACKETS", matches3.get(0).getRule().getId());
 
     //run in a paragraph mode - many sentences
     List<RuleMatch> matches4 = tool.check("(This is an quote.\n It ends in the second sentence.", true, ParagraphHandling.ONLYPARA);
-    assertEquals(1, matches4.size());
-    assertEquals("EN_UNPAIRED_BRACKETS", matches4.get(0).getRule().getId());
+    Assertions.assertEquals(1, matches4.size());
+    Assertions.assertEquals("EN_UNPAIRED_BRACKETS", matches4.get(0).getRule().getId());
   }
 
   @Test
@@ -211,13 +212,12 @@ public class JLanguageToolTest {
     AnalyzedSentence raw = tool.getRawAnalyzedSentence("Let's do a \"test\", do you understand?");
     AnalyzedSentence cooked = tool.getAnalyzedSentence("Let's do a \"test\", do you understand?");
     //test if there was a change
-    assertFalse(raw.equals(cooked));
+    Assertions.assertNotEquals(raw, cooked);
     //see if nothing has been deleted
-    assertEquals(raw.getTokens().length, cooked.getTokens().length);
+    Assertions.assertEquals(raw.getTokens().length, cooked.getTokens().length);
     int i = 0;
     for (AnalyzedTokenReadings atr : raw.getTokens()) {
-      assertEquals(atr.isWhitespaceBefore(),
-          cooked.getTokens()[i].isWhitespaceBefore());
+      Assertions.assertEquals(atr.isWhitespaceBefore(), cooked.getTokens()[i].isWhitespaceBefore());
       i++;
     }
   }
@@ -225,7 +225,7 @@ public class JLanguageToolTest {
   @Test
   public void testOverlapFilter() throws IOException {
     Category category = new Category(new CategoryId("TEST_ID"), "test category");
-    List<PatternToken> elements1 = Arrays.asList(new PatternToken("one", true, false, false));
+    List<PatternToken> elements1 = Collections.singletonList(new PatternToken("one", true, false, false));
     PatternRule rule1 = new PatternRule("id1", new English(), elements1, "desc1", "msg1", "shortMsg1");
     rule1.setSubId("1");
     rule1.setCategory(category);
@@ -240,15 +240,15 @@ public class JLanguageToolTest {
     tool.addRule(rule2);
 
     List<RuleMatch> ruleMatches1 = tool.check("And one two three.");
-    assertEquals("one overlapping rule must be filtered out", 1, ruleMatches1.size());
-    assertEquals("msg1", ruleMatches1.get(0).getMessage());
+    Assertions.assertEquals(1, ruleMatches1.size(), "one overlapping rule must be filtered out");
+    Assertions.assertEquals("msg1", ruleMatches1.get(0).getMessage());
 
     String sentence = "And one two three.";
     AnalyzedSentence analyzedSentence = tool.getAnalyzedSentence(sentence);
     List<Rule> bothRules = new ArrayList<>(Arrays.asList(rule1, rule2));
     List<RuleMatch> ruleMatches2 = tool.checkAnalyzedSentence(ParagraphHandling.NORMAL, bothRules, analyzedSentence, true);
-    assertEquals("one overlapping rule must be filtered out", 1, ruleMatches2.size());
-    assertEquals("msg1", ruleMatches2.get(0).getMessage());
+    Assertions.assertEquals(1, ruleMatches2.size(), "one overlapping rule must be filtered out");
+    Assertions.assertEquals("msg1", ruleMatches2.get(0).getMessage());
   }
   
   @Test
@@ -256,9 +256,9 @@ public class JLanguageToolTest {
     JLanguageTool tool = new JLanguageTool(new English());
     tool.addRule(new MyTextLevelRule());
     AnnotatedText text1 = new AnnotatedTextBuilder().addGlobalMetaData(AnnotatedText.MetaDataKey.EmailToAddress, "Foo Bar <foo@foo.de>").build();
-    assertThat(tool.check(text1).size(), is(1));
+    MatcherAssert.assertThat(tool.check(text1).size(), is(1));
     AnnotatedText text2 = new AnnotatedTextBuilder().addGlobalMetaData(AnnotatedText.MetaDataKey.EmailToAddress, "blah blah <foo@foo.de>").build();
-    assertThat(tool.check(text2).size(), is(0));
+    MatcherAssert.assertThat(tool.check(text2).size(), is(0));
   }
   
   class MyTextLevelRule extends TextLevelRule {
@@ -290,10 +290,10 @@ public class JLanguageToolTest {
   @Test
   public void testAdvancedTypography() {
     Language lang = new AmericanEnglish();
-    assertEquals(lang.toAdvancedTypography("The genitive ('s) may be missing."), "The genitive (’s) may be missing.");
-    assertEquals(lang.toAdvancedTypography("The word 'Language‘s' is not standard English"), "The word ‘Language‘s’ is not standard English");
-    assertEquals(lang.toAdvancedTypography("Did you mean <suggestion>Language's</suggestion> (straight apostrophe) or <suggestion>Language’s</suggestion> (curly apostrophe)?"), "Did you mean “Language's” (straight apostrophe) or “Language’s” (curly apostrophe)?");
-    assertEquals(lang.toAdvancedTypography("Did you mean <suggestion>Language’s</suggestion> (curly apostrophe) or <suggestion>Language's</suggestion> (straight apostrophe)?"), "Did you mean “Language’s” (curly apostrophe) or “Language's” (straight apostrophe)?");
-    assertEquals(lang.toAdvancedTypography("Did you mean <suggestion>|?</suggestion>"), "Did you mean “|?”");
+    Assertions.assertEquals(lang.toAdvancedTypography("The genitive ('s) may be missing."), "The genitive (’s) may be missing.");
+    Assertions.assertEquals(lang.toAdvancedTypography("The word 'Language‘s' is not standard English"), "The word ‘Language‘s’ is not standard English");
+    Assertions.assertEquals(lang.toAdvancedTypography("Did you mean <suggestion>Language's</suggestion> (straight apostrophe) or <suggestion>Language’s</suggestion> (curly apostrophe)?"), "Did you mean “Language's” (straight apostrophe) or “Language’s” (curly apostrophe)?");
+    Assertions.assertEquals(lang.toAdvancedTypography("Did you mean <suggestion>Language’s</suggestion> (curly apostrophe) or <suggestion>Language's</suggestion> (straight apostrophe)?"), "Did you mean “Language’s” (curly apostrophe) or “Language's” (straight apostrophe)?");
+    Assertions.assertEquals(lang.toAdvancedTypography("Did you mean <suggestion>|?</suggestion>"), "Did you mean “|?”");
   }
 }

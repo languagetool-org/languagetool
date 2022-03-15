@@ -18,8 +18,9 @@
  */
 package org.languagetool.server;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 import org.languagetool.Language;
 import org.languagetool.language.German;
 import org.languagetool.language.GermanyGerman;
@@ -33,15 +34,13 @@ import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 public class HTTPSServerTest {
 
   private static final String KEYSTORE = "/org/languagetool/server/test-keystore.jks";
   private static final String KEYSTORE_PASSWORD = "mytest";
 
-  @Before
+  @BeforeEach
   public void setup() {
     DatabaseLogger.getInstance().disableLogging();
   }
@@ -59,7 +58,7 @@ public class HTTPSServerTest {
       try {
         System.out.println("=== Testing too many requests now, please ignore the following error ===");
         String result = check(new German(), "foo");
-        fail("Expected exception not thrown, got this result instead: '" + result + "'");
+        Assertions.fail("Expected exception not thrown, got this result instead: '" + result + "'");
       } catch (IOException ignored) {}
     } finally {
       server.stop();
@@ -80,23 +79,23 @@ public class HTTPSServerTest {
       try {
         map.put("Referer", "http://foo.org/myref");
         HTTPTestTools.checkAtUrlByPost(url, "language=en&text=a test", map);
-        fail("Request should fail because of blocked referrer");
+        Assertions.fail("Request should fail because of blocked referrer");
       } catch (IOException ignored) {}
 
       try {
         map.put("Referer", "http://bar.org/myref");
         HTTPTestTools.checkAtUrlByPost(url, "language=en&text=a test", map);
-        fail("Request should fail because of blocked referrer");
+        Assertions.fail("Request should fail because of blocked referrer");
       } catch (IOException ignored) {}
       try {
         map.put("Referer", "https://bar.org/myref");
         HTTPTestTools.checkAtUrlByPost(url, "language=en&text=a test", map);
-        fail("Request should fail because of blocked referrer");
+        Assertions.fail("Request should fail because of blocked referrer");
       } catch (IOException ignored) {}
       try {
         map.put("Referer", "https://www.bar.org/myref");
         HTTPTestTools.checkAtUrlByPost(url, "language=en&text=a test", map);
-        fail("Request should fail because of blocked referrer");
+        Assertions.fail("Request should fail because of blocked referrer");
       } catch (IOException ignored) {}
       map.put("Referer", "https://www.something-else.org/myref");
       HTTPTestTools.checkAtUrlByPost(url, "language=en&text=a test", map);
@@ -132,44 +131,44 @@ public class HTTPSServerTest {
     try {
       String httpPrefix = "http://localhost:" + HTTPTestTools.getDefaultPort() + "/";
       HTTPTestTools.checkAtUrl(new URL(httpPrefix + "?text=a+test&language=en"));
-      fail("HTTP should not work, only HTTPS");
+      Assertions.fail("HTTP should not work, only HTTPS");
     } catch (SocketException ignored) {}
 
     String httpsPrefix = "https://localhost:" + HTTPTestTools.getDefaultPort() + "/v2/check";
 
     String result = HTTPTestTools.checkAtUrl(new URL(httpsPrefix + "?text=a+test.&language=en"));
-    assertTrue("Got " + result, result.contains("UPPERCASE_SENTENCE_START"));
+    Assertions.assertTrue(result.contains("UPPERCASE_SENTENCE_START"), "Got " + result);
 
     StringBuilder longText = new StringBuilder();
     while (longText.length() < 490) {
       longText.append("Run ");
     }
     String result2 = HTTPTestTools.checkAtUrl(new URL(httpsPrefix + "?text=" + encode(longText.toString()) + "&language=en"));
-    assertTrue("Got " + result2, !result2.contains("UPPERCASE_SENTENCE_START"));
-    assertTrue("Got " + result2, result2.contains("PHRASE_REPETITION"));
+    Assertions.assertFalse(result2.contains("UPPERCASE_SENTENCE_START"), "Got " + result2);
+    Assertions.assertTrue(result2.contains("PHRASE_REPETITION"), "Got " + result2);
 
     String overlyLongText = longText + " and some more to get over the limit of 500";
     try {
       System.out.println("=== Now checking text that is too long, please ignore the following exception ===");
       HTTPTestTools.checkAtUrl(new URL(httpsPrefix + "?text=" + encode(overlyLongText) + "&language=en"));
-      fail();
+      Assertions.fail();
     } catch (IOException expected) {
       if (!expected.toString().contains(" 413 ")) {
-        fail("Expected exception with error 413, got: " + expected);
+        Assertions.fail("Expected exception with error 413, got: " + expected);
       }
     }
     
     String json = check("de", "This is an English text, but we specify German anyway");
-    assertTrue("Got: " + json, json.contains("\"German\""));
-    assertTrue("Got: " + json, json.contains("\"de\""));
-    assertTrue("Got: " + json, json.contains("\"English (US)\""));
-    assertTrue("Got: " + json, json.contains("\"en-US\""));
+    Assertions.assertTrue(json.contains("\"German\""), "Got: " + json);
+    Assertions.assertTrue(json.contains("\"de\""), "Got: " + json);
+    Assertions.assertTrue(json.contains("\"English (US)\""), "Got: " + json);
+    Assertions.assertTrue(json.contains("\"en-US\""), "Got: " + json);
     
     String json2 = check("de-CH", "Die äußeren Wirklichkeit.");
-    assertTrue("Got: " + json2, json2.contains("replacements\":[{\"value\":\"Die äussere Wirklichkeit\""));
+    Assertions.assertTrue(json2.contains("replacements\":[{\"value\":\"Die äussere Wirklichkeit\""), "Got: " + json2);
     
     String json3 = check("de-DE", "Die äußeren Wirklichkeit.");
-    assertTrue("Got: " + json3, json3.contains("replacements\":[{\"value\":\"Die äußere Wirklichkeit\""));
+    Assertions.assertTrue(json3.contains("replacements\":[{\"value\":\"Die äußere Wirklichkeit\""), "Got: " + json3);
   }
 
   private String check(String langCode, String text) throws IOException {

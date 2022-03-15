@@ -18,7 +18,8 @@
  */
 package org.languagetool;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool.Level;
 import org.languagetool.JLanguageTool.Mode;
 import org.languagetool.JLanguageTool.ParagraphHandling;
@@ -29,8 +30,6 @@ import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 import java.util.List;
-
-import static org.junit.Assert.assertEquals;
 
 public class JLanguageToolTest {
 
@@ -45,16 +44,16 @@ public class JLanguageToolTest {
     RuleMatchListener listener = null;
     List<RuleMatch> matches = tool.check(annotatedText, true, ParagraphHandling.NORMAL, listener, Mode.ALL,
         Level.PICKY);
-    assertEquals(1, matches.size());
-    assertEquals("[D'homme]", matches.get(0).getSuggestedReplacements().toString());
+    Assertions.assertEquals(1, matches.size());
+    Assertions.assertEquals("[D'homme]", matches.get(0).getSuggestedReplacements().toString());
 
     // normal mode: suggestions with straight apostrophes
     analyzedSentence = tool.getAnalyzedSentence("De homme");
     annotatedText = new AnnotatedTextBuilder().addText(analyzedSentence.getText()).build();
     listener = null;
     matches = tool.check(annotatedText, true, ParagraphHandling.NORMAL, listener, Mode.ALL, Level.DEFAULT);
-    assertEquals(1, matches.size());
-    assertEquals("[D'homme]", matches.get(0).getSuggestedReplacements().toString());
+    Assertions.assertEquals(1, matches.size());
+    Assertions.assertEquals("[D'homme]", matches.get(0).getSuggestedReplacements().toString());
 
   }
 }

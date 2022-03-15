@@ -18,30 +18,32 @@
  */
 package org.languagetool.rules.spelling.morfologik;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Assertions;
 
 import java.io.IOException;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
 
 public class MorfologikSpellerTest {
 
   @Test
   public void testIsMisspelled() throws IOException {
     MorfologikSpeller speller = new MorfologikSpeller("/xx/spelling/test.dict");
-    assertTrue(speller.convertsCase());
+    Assertions.assertTrue(speller.convertsCase());
 
-    assertFalse(speller.isMisspelled("wordone"));
-    assertFalse(speller.isMisspelled("Wordone"));
-    assertFalse(speller.isMisspelled("wordtwo"));
-    assertFalse(speller.isMisspelled("Wordtwo"));
-    assertFalse(speller.isMisspelled("Uppercase"));
-    assertFalse(speller.isMisspelled("Häuser"));
+    Assertions.assertFalse(speller.isMisspelled("wordone"));
+    Assertions.assertFalse(speller.isMisspelled("Wordone"));
+    Assertions.assertFalse(speller.isMisspelled("wordtwo"));
+    Assertions.assertFalse(speller.isMisspelled("Wordtwo"));
+    Assertions.assertFalse(speller.isMisspelled("Uppercase"));
+    Assertions.assertFalse(speller.isMisspelled("Häuser"));
 
-    assertTrue(speller.isMisspelled("Hauser"));
-    assertTrue(speller.isMisspelled("wordones"));
-    assertTrue(speller.isMisspelled("nosuchword"));
+    Assertions.assertTrue(speller.isMisspelled("Hauser"));
+    Assertions.assertTrue(speller.isMisspelled("wordones"));
+    Assertions.assertTrue(speller.isMisspelled("nosuchword"));
   }
 
   @Test
@@ -49,14 +51,14 @@ public class MorfologikSpellerTest {
     MorfologikSpeller spellerDist1 = new MorfologikSpeller("/xx/spelling/test.dict", 1);
     MorfologikSpeller spellerDist2 = new MorfologikSpeller("/xx/spelling/test.dict", 2);
 
-    assertThat(spellerDist1.getSuggestions("wordone").toString(), is("[]"));
-    assertThat(spellerDist1.getSuggestions("wordonex").toString(), is("[wordone/51]"));
-    assertThat(spellerDist2.getSuggestions("wordone").toString(), is("[]"));
-    assertThat(spellerDist2.getSuggestions("wordonex").toString(), is("[wordone/51]"));
+    MatcherAssert.assertThat(spellerDist1.getSuggestions("wordone").toString(), is("[]"));
+    MatcherAssert.assertThat(spellerDist1.getSuggestions("wordonex").toString(), is("[wordone/51]"));
+    MatcherAssert.assertThat(spellerDist2.getSuggestions("wordone").toString(), is("[]"));
+    MatcherAssert.assertThat(spellerDist2.getSuggestions("wordonex").toString(), is("[wordone/51]"));
 
-    assertThat(spellerDist1.getSuggestions("wordonix").toString(), is("[]"));
-    assertThat(spellerDist2.getSuggestions("wordonix").toString(), is("[wordone/77]"));
+    MatcherAssert.assertThat(spellerDist1.getSuggestions("wordonix").toString(), is("[]"));
+    MatcherAssert.assertThat(spellerDist2.getSuggestions("wordonix").toString(), is("[wordone/77]"));
 
-    assertThat(spellerDist2.getSuggestions("wordoxix").toString(), is("[]"));
+    MatcherAssert.assertThat(spellerDist2.getSuggestions("wordoxix").toString(), is("[]"));
   }
 }

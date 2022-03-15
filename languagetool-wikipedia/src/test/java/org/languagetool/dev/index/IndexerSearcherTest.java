@@ -18,15 +18,6 @@
  */
 package org.languagetool.dev.index;
 
-import static org.languagetool.dev.index.Lucene.FIELD_NAME;
-import static org.languagetool.dev.index.Lucene.FIELD_NAME_LOWERCASE;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
@@ -35,7 +26,7 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.RAMDirectory;
 import org.apache.lucene.util.LuceneTestCase;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.language.English;
@@ -47,7 +38,16 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.PatternToken;
 
-@Ignore
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.languagetool.dev.index.Lucene.FIELD_NAME;
+import static org.languagetool.dev.index.Lucene.FIELD_NAME_LOWERCASE;
+
+@Disabled
 public class IndexerSearcherTest extends LuceneTestCase {
 
   private Searcher errorSearcher;
@@ -68,7 +68,7 @@ public class IndexerSearcherTest extends LuceneTestCase {
     }
   }
 
-  @Ignore("ignored as long as it doesn't work 100%")
+  @Disabled("ignored as long as it doesn't work 100%")
   public void testAllRules() throws Exception {
     long startTime = System.currentTimeMillis();
     // comment in to test with external index:
@@ -180,7 +180,7 @@ public class IndexerSearcherTest extends LuceneTestCase {
     return ruleCount;
   }
 
-  @Ignore("manual debugging only")
+  @Disabled("manual debugging only")
   public void testForDebugging() throws Exception {
     // Note that the second sentence ends with "lid" instead of "lids" (the inflated one)
     //createIndex("I thin so");
@@ -198,17 +198,17 @@ public class IndexerSearcherTest extends LuceneTestCase {
     SearcherResult searcherResult =
         errorSearcher.findRuleMatchesOnIndex(getFirstRule("BACK_AND_FOURTH", language), language);
     assertEquals(1, searcherResult.getCheckedSentences());
-    assertEquals(false, searcherResult.isResultIsTimeLimited());
+    assertFalse(searcherResult.isResultIsTimeLimited());
     assertEquals(1, searcherResult.getMatchingSentences().size());
 
     searcherResult = errorSearcher.findRuleMatchesOnIndex(getFirstRule("EYE_COMPOUNDS", language), language);
     assertEquals(1, searcherResult.getCheckedSentences());
-    assertEquals(false, searcherResult.isResultIsTimeLimited());
+    assertFalse(searcherResult.isResultIsTimeLimited());
     assertEquals(1, searcherResult.getMatchingSentences().size());
 
     searcherResult = errorSearcher.findRuleMatchesOnIndex(getFirstRule("ALL_OVER_THE_WORD", language), language);
     assertEquals(0, searcherResult.getCheckedSentences());
-    assertEquals(false, searcherResult.isResultIsTimeLimited());
+    assertFalse(searcherResult.isResultIsTimeLimited());
     assertEquals(0, searcherResult.getMatchingSentences().size());
 
     try {

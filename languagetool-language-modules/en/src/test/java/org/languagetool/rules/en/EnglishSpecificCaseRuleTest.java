@@ -18,7 +18,8 @@
  */
 package org.languagetool.rules.en;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.hamcrest.MatcherAssert;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
@@ -27,7 +28,6 @@ import org.languagetool.rules.RuleMatch;
 import java.io.IOException;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
 
 public class EnglishSpecificCaseRuleTest {
 
@@ -44,26 +44,26 @@ public class EnglishSpecificCaseRuleTest {
     assertBad("Harry potter");
 
     RuleMatch[] matches1 = assertBad("I like Harry potter.");
-    assertThat(matches1[0].getFromPos(), is(7));
-    assertThat(matches1[0].getToPos(), is(19));
-    assertThat(matches1[0].getSuggestedReplacements().toString(), is("[Harry Potter]"));
-    assertThat(matches1[0].getMessage(), is("If the term is a proper noun, use initial capitals."));
+    MatcherAssert.assertThat(matches1[0].getFromPos(), is(7));
+    MatcherAssert.assertThat(matches1[0].getToPos(), is(19));
+    MatcherAssert.assertThat(matches1[0].getSuggestedReplacements().toString(), is("[Harry Potter]"));
+    MatcherAssert.assertThat(matches1[0].getMessage(), is("If the term is a proper noun, use initial capitals."));
     
     RuleMatch[] matches2 = assertBad("Alexander The Great");
-    assertThat(matches2[0].getMessage(), is("If the term is a proper noun, use the suggested capitalization."));
+    MatcherAssert.assertThat(matches2[0].getMessage(), is("If the term is a proper noun, use the suggested capitalization."));
 
     RuleMatch[] matches3 = assertBad("I like Harry  potter.");  // note the two spaces
-    assertThat(matches3[0].getFromPos(), is(7));
-    assertThat(matches3[0].getToPos(), is(20));
+    MatcherAssert.assertThat(matches3[0].getFromPos(), is(7));
+    MatcherAssert.assertThat(matches3[0].getToPos(), is(20));
   }
 
   private void assertGood(String input) throws IOException {
-    assertThat(rule.match(lt.getAnalyzedSentence(input)).length, is(0));
+    MatcherAssert.assertThat(rule.match(lt.getAnalyzedSentence(input)).length, is(0));
   }
 
   private RuleMatch[] assertBad(String input) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
-    assertThat(matches.length, is(1));
+    MatcherAssert.assertThat(matches.length, is(1));
     return matches;
   }
 }

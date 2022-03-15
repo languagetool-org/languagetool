@@ -19,14 +19,16 @@
 package org.languagetool.tools;
 
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.languagetool.FakeLanguage;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.TestTools;
 import org.languagetool.rules.*;
-import org.languagetool.FakeLanguage;
-import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.PatternRule;
+import org.languagetool.rules.patterns.PatternToken;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -36,8 +38,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 import static org.languagetool.tools.StringTools.ApiPrintMode.*;
 
 @SuppressWarnings("MagicNumber")
@@ -49,31 +49,31 @@ public class RuleMatchAsXmlSerializerTest {
   @Test
   public void testLanguageAttributes() {
     String xml1 = SERIALIZER.ruleMatchesToXml(Collections.emptyList(), "Fake", 5, NORMAL_API, LANG, Collections.emptyList());
-    assertTrue(xml1.contains("shortname=\"xx-XX\""));
-    assertTrue(xml1.contains("name=\"Testlanguage\""));
+    Assertions.assertTrue(xml1.contains("shortname=\"xx-XX\""));
+    Assertions.assertTrue(xml1.contains("name=\"Testlanguage\""));
     String xml2 = SERIALIZER.ruleMatchesToXml(Collections.emptyList(), "Fake", 5, LANG, new FakeLanguage());
-    assertTrue(xml2.contains("shortname=\"xx-XX\""));
-    assertTrue(xml2.contains("name=\"Testlanguage\""));
-    assertTrue(xml2.contains("shortname=\"yy\""));
-    assertTrue(xml2.contains("name=\"FakeLanguage\""));
-    assertThat(StringUtils.countMatches(xml2, "<matches"), is(1));
-    assertThat(StringUtils.countMatches(xml2, "</matches>"), is(1));
+    Assertions.assertTrue(xml2.contains("shortname=\"xx-XX\""));
+    Assertions.assertTrue(xml2.contains("name=\"Testlanguage\""));
+    Assertions.assertTrue(xml2.contains("shortname=\"yy\""));
+    Assertions.assertTrue(xml2.contains("name=\"FakeLanguage\""));
+    MatcherAssert.assertThat(StringUtils.countMatches(xml2, "<matches"), is(1));
+    MatcherAssert.assertThat(StringUtils.countMatches(xml2, "</matches>"), is(1));
   }
 
   @Test
   public void testApiModes() {
     String xmlStart = SERIALIZER.ruleMatchesToXml(Collections.emptyList(), "Fake", 5, START_API, LANG, Collections.emptyList());
-    assertThat(StringUtils.countMatches(xmlStart, "<matches"), is(1));
-    assertThat(StringUtils.countMatches(xmlStart, "</matches>"), is(0));
+    MatcherAssert.assertThat(StringUtils.countMatches(xmlStart, "<matches"), is(1));
+    MatcherAssert.assertThat(StringUtils.countMatches(xmlStart, "</matches>"), is(0));
     String xmlMiddle = SERIALIZER.ruleMatchesToXml(Collections.emptyList(), "Fake", 5, CONTINUE_API, LANG, Collections.emptyList());
-    assertThat(StringUtils.countMatches(xmlMiddle, "<matches"), is(0));
-    assertThat(StringUtils.countMatches(xmlMiddle, "</matches>"), is(0));
+    MatcherAssert.assertThat(StringUtils.countMatches(xmlMiddle, "<matches"), is(0));
+    MatcherAssert.assertThat(StringUtils.countMatches(xmlMiddle, "</matches>"), is(0));
     String xmlEnd = SERIALIZER.ruleMatchesToXml(Collections.emptyList(), "Fake", 5, END_API, LANG, Collections.emptyList());
-    assertThat(StringUtils.countMatches(xmlEnd, "<matches"), is(0));
-    assertThat(StringUtils.countMatches(xmlEnd, "</matches>"), is(1));
+    MatcherAssert.assertThat(StringUtils.countMatches(xmlEnd, "<matches"), is(0));
+    MatcherAssert.assertThat(StringUtils.countMatches(xmlEnd, "</matches>"), is(1));
     String xml = SERIALIZER.ruleMatchesToXml(Collections.emptyList(), "Fake", 5, NORMAL_API, LANG, Collections.emptyList());
-    assertThat(StringUtils.countMatches(xml, "<matches"), is(1));
-    assertThat(StringUtils.countMatches(xml, "</matches>"), is(1));
+    MatcherAssert.assertThat(StringUtils.countMatches(xml, "<matches"), is(1));
+    MatcherAssert.assertThat(StringUtils.countMatches(xml, "</matches>"), is(1));
   }
 
   @Test
@@ -88,12 +88,12 @@ public class RuleMatchAsXmlSerializerTest {
     match.setEndLine(45);
     matches.add(match);
     String xml = SERIALIZER.ruleMatchesToXml(matches, text, 5, NORMAL_API, LANG, Collections.emptyList());
-    assertTrue(xml.startsWith("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"));
+    Assertions.assertTrue(xml.startsWith("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"));
     Pattern matchesPattern =
             Pattern.compile(".*<matches software=\"LanguageTool\" version=\"" + JLanguageTool.VERSION + "\" buildDate=\".*?\">.*", Pattern.DOTALL);
     Matcher matcher = matchesPattern.matcher(xml);
-    assertTrue("Did not find expected '<matches>' element ('" + matchesPattern + "'), got:\n" + xml, matcher.matches());
-    assertTrue(xml.contains(">\n" +
+    Assertions.assertTrue(matcher.matches(), "Did not find expected '<matches>' element ('" + matchesPattern + "'), got:\n" + xml);
+    Assertions.assertTrue(xml.contains(">\n" +
             "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"FAKE_ID\" msg=\"myMessage\" " +
             "replacements=\"\" context=\"...s is an test...\" contextoffset=\"8\" offset=\"8\" errorlength=\"2\" " +
             "category=\"Miscellaneous\" categoryid=\"MISC\" locqualityissuetype=\"misspelling\"/>\n" +
@@ -114,7 +114,7 @@ public class RuleMatchAsXmlSerializerTest {
     match.setEndLine(45);
     matches.add(match);
     String xml = SERIALIZER.ruleMatchesToXml(matches, text, 5, LANG, LANG);
-    assertTrue(xml.contains(">\n" +
+    Assertions.assertTrue(xml.contains(">\n" +
             "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"MY_ID\" msg=\"myMessage\" " +
             "replacements=\"\" context=\"...s is a test ...\" contextoffset=\"8\" offset=\"8\" errorlength=\"2\" category=\"MyCategory\" " +
             "categoryid=\"TEST_ID\" locqualityissuetype=\"uncategorized\"/>\n" +
@@ -123,8 +123,8 @@ public class RuleMatchAsXmlSerializerTest {
     patternRule.setCategory(new Category(new CategoryId("CAT_ID"), "MyCategory"));
     RuleMatch match2 = new RuleMatch(patternRule, null, 8, 10, "myMessage");
     String xml2 = SERIALIZER.ruleMatchesToXml(Collections.singletonList(match2), text, 5, LANG, LANG);
-    assertTrue(xml2.contains("category=\"MyCategory\""));
-    assertTrue(xml2.contains("categoryid=\"CAT_ID\""));
+    Assertions.assertTrue(xml2.contains("category=\"MyCategory\""));
+    Assertions.assertTrue(xml2.contains("categoryid=\"CAT_ID\""));
   }
 
   @Test
@@ -134,7 +134,7 @@ public class RuleMatchAsXmlSerializerTest {
     RuleMatch match = new RuleMatch(new FakeRule(), null, 8, 10, "myMessage", "short message");
     matches.add(match);
     String xml = SERIALIZER.ruleMatchesToXml(matches, text, 5, LANG, null);
-    assertTrue(xml.contains("shortmsg=\"short message\""));
+    Assertions.assertTrue(xml.contains("shortmsg=\"short message\""));
   }
 
   @Test
@@ -153,7 +153,7 @@ public class RuleMatchAsXmlSerializerTest {
     match.setEndLine(45);
     matches.add(match);
     String xml = SERIALIZER.ruleMatchesToXml(matches, text, 5, NORMAL_API, LANG, Collections.emptyList());
-    assertTrue(xml.contains(">\n" +
+    Assertions.assertTrue(xml.contains(">\n" +
             "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"FAKE_ID\" msg=\"myMessage\" " +
             "replacements=\"\" context=\"...s is an test...\" contextoffset=\"8\" offset=\"8\" errorlength=\"2\" url=\"http://server.org?id=1&amp;foo=bar\" " +
             "category=\"Miscellaneous\" categoryid=\"MISC\" locqualityissuetype=\"misspelling\"/>\n" +
@@ -171,7 +171,7 @@ public class RuleMatchAsXmlSerializerTest {
     match.setEndLine(45);
     matches.add(match);
     String xml = SERIALIZER.ruleMatchesToXml(matches, text, 5, NORMAL_API, LANG, Collections.emptyList());
-    assertTrue(xml.contains(">\n" +
+    Assertions.assertTrue(xml.contains(">\n" +
             "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"FAKE_ID\" msg=\"myMessage\" " +
             "replacements=\"\" context=\"... is &quot;an test...\" contextoffset=\"8\" offset=\"9\" errorlength=\"2\" " +
             "category=\"Miscellaneous\" categoryid=\"MISC\" locqualityissuetype=\"misspelling\"/>\n" +

@@ -18,12 +18,11 @@
  */
 package org.languagetool.dev.wikipedia;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-
-@Ignore
+@Disabled
 public class WikipediaTextFilterTest {
 
   private final SwebleWikipediaTextFilter swebleFilter = new SwebleWikipediaTextFilter();
@@ -78,7 +77,7 @@ public class WikipediaTextFilterTest {
   }
 
   private void assertExtract(String input, String expected) {
-    assertEquals(expected, swebleFilter.filter(input).getPlainText());
+    Assertions.assertEquals(expected, swebleFilter.filter(input).getPlainText());
   }
 
 }

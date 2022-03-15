@@ -18,7 +18,7 @@
  */
 package org.languagetool.tokenizers.da;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.Danish;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;

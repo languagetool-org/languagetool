@@ -18,7 +18,8 @@
  */
 package org.languagetool.language.tl;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Tagalog;
@@ -26,8 +27,6 @@ import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 import java.util.Collections;
-
-import static org.junit.Assert.assertEquals;
 
 public class MorfologikTagalogSpellerRuleTest {
 
@@ -37,13 +36,13 @@ public class MorfologikTagalogSpellerRuleTest {
     MorfologikTagalogSpellerRule rule = new MorfologikTagalogSpellerRule(TestTools.getMessages("en"), language, null, Collections.emptyList());
     JLanguageTool lt = new JLanguageTool(language);
 
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Ang talatang ito ay nagpapakita ng ng kakayahan ng LanguageTool at halimbawa kung paano ito gamitin.")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("Ang talatang ito ay nagpapakita ng ng kakayahan ng LanguageTool at halimbawa kung paano ito gamitin.")).length);
 
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("Ang talatang ito ay nagpapakita ng ng kakayahan ng LanguageTool at hinahalimbawa kung paano ito gamitin."));
-    assertEquals(1, matches.length);
-    assertEquals(67, matches[0].getFromPos());
-    assertEquals(80, matches[0].getToPos());
-    assertEquals("hina halimbawa", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals(67, matches[0].getFromPos());
+    Assertions.assertEquals(80, matches[0].getToPos());
+    Assertions.assertEquals("hina halimbawa", matches[0].getSuggestedReplacements().get(0));
   }
 
 }

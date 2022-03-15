@@ -18,12 +18,9 @@
  */
 package org.languagetool.rules.ca;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
-
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
@@ -32,12 +29,14 @@ import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.TextLevelRule;
 
+import java.io.IOException;
+
 public class CatalanRepeatedWordsRuleTest {
 
   private TextLevelRule rule;
   private JLanguageTool lt;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     rule = new CatalanRepeatedWordsRule(TestTools.getMessages("ca"));
     lt = new JLanguageTool(Languages.getLanguageForShortCode("ca"));
@@ -52,10 +51,10 @@ public class CatalanRepeatedWordsRuleTest {
     
     RuleMatch[] matches = getRuleMatches(
         "Realitzaven una cosa inesperada. Llavors en van realitzar una altra.");
-    assertEquals(1, matches.length);
-    assertEquals("fer", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("dur a terme", matches[0].getSuggestedReplacements().get(1));
-    assertEquals("portar a cap", matches[0].getSuggestedReplacements().get(2));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("fer", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals("dur a terme", matches[0].getSuggestedReplacements().get(1));
+    Assertions.assertEquals("portar a cap", matches[0].getSuggestedReplacements().get(2));
   
   }
 
@@ -67,7 +66,7 @@ public class CatalanRepeatedWordsRuleTest {
   private void assertCorrectText(String sentences) throws IOException {
     AnnotatedText aText = new AnnotatedTextBuilder().addText(sentences).build();
     RuleMatch[] matches = rule.match(lt.analyzeText(sentences), aText);
-    assertEquals(0, matches.length);
+    Assertions.assertEquals(0, matches.length);
   }
 
 }

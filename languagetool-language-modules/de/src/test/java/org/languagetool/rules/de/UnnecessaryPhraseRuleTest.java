@@ -18,13 +18,12 @@
  */
 package org.languagetool.rules.de;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
-
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.*;
 import org.languagetool.rules.Rule;
+
+import java.io.IOException;
 
 /**
  * @author Fred Kruse
@@ -38,10 +37,10 @@ public class UnnecessaryPhraseRuleTest {
     JLanguageTool lt = new JLanguageTool(lang);
     setUpRule(lt);
 
-    assertEquals(4, lt.check("In diesem Zusammenhang ist es im Allgemeinen voll und ganz zumindest mehr oder weniger sinnvoll.").size());
+    Assertions.assertEquals(4, lt.check("In diesem Zusammenhang ist es im Allgemeinen voll und ganz zumindest mehr oder weniger sinnvoll.").size());
     //  exclude direct speach:
-    assertEquals(0, lt.check("„In diesem Zusammenhang ist es im Allgemeinen voll und ganz zumindest mehr oder weniger sinnvoll.“").size());
-    assertEquals(0, lt.check("Es ist weniger sinnvoll.").size());
+    Assertions.assertEquals(0, lt.check("„In diesem Zusammenhang ist es im Allgemeinen voll und ganz zumindest mehr oder weniger sinnvoll.“").size());
+    Assertions.assertEquals(0, lt.check("Es ist weniger sinnvoll.").size());
   }
 
   private void setUpRule(JLanguageTool lt) {

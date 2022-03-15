@@ -18,12 +18,10 @@
  */
 package org.languagetool.tokenizers;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.Language;
 import org.languagetool.Languages;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 public class SRXSentenceTokenizerTest {
 
@@ -40,12 +38,11 @@ public class SRXSentenceTokenizerTest {
       }
       String input = "A sentence.\u0002 And another one.";
       SentenceTokenizer tokenizer = new SRXSentenceTokenizer(language);
-      assertEquals("Sentence not split correctly for " + language + ": '" + input + "'",
-              "[A sentence.\u0002 , And another one.]", tokenizer.tokenize(input).toString());
+      Assertions.assertEquals("[A sentence.\u0002 , And another one.]", tokenizer.tokenize(input).toString(), "Sentence not split correctly for " + language + ": '" + input + "'");
       count++;
     }
     if (count == 0) {
-      fail("No languages found for testing");
+      Assertions.fail("No languages found for testing");
     }
   }
 

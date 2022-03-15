@@ -18,8 +18,9 @@
  */
 package org.languagetool.rules.ga;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Irish;
@@ -27,14 +28,12 @@ import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 
-import static org.junit.Assert.assertEquals;
-
 public class DhaNoBeirtRuleTest {
   
   private DhaNoBeirtRule rule;
   private JLanguageTool lt;
 
-  @Before
+  @BeforeEach
   public void setUp() throws IOException {
     rule = new DhaNoBeirtRule(TestTools.getMessages("ga"));
     lt = new JLanguageTool(new Irish());
@@ -52,11 +51,11 @@ public class DhaNoBeirtRuleTest {
 
   private void assertCorrect(String sentence) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(sentence));
-    assertEquals(0, matches.length);
+    Assertions.assertEquals(0, matches.length);
   }
 
   private void assertIncorrect(String sentence, int expected) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(sentence));
-    assertEquals(expected, matches.length);
+    Assertions.assertEquals(expected, matches.length);
   }
 }

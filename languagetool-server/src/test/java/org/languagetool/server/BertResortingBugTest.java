@@ -20,8 +20,8 @@ package org.languagetool.server;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.languagetool.tools.Tools;
 
 import java.io.IOException;
@@ -32,7 +32,7 @@ import java.util.Map;
 public class BertResortingBugTest {
 
   @Test
-  @Ignore("used to show bug #2969 - for interactive use, requires server")
+  @Disabled("used to show bug #2969 - for interactive use, requires server")
   public void testHttpApi() throws IOException {
     String s = "A teext.\nAn errör-free text.\nSo much teext.";  // must exactly match 'data'
     String data = "{\"annotation\":[{\"text\":\"A teext.\"},{\"markup\":\"\\n\",\"interpretAs\":\"\\n\\n\"},{\"text\":\"An errör-free text.\"},{\"markup\":\"\\n\",\"interpretAs\":\"\\n\\n\"},{\"text\":\"So much teext.\"}]}";

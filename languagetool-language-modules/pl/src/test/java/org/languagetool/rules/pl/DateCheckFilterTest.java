@@ -18,35 +18,35 @@
  */
 package org.languagetool.rules.pl;
 
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
 
 public class DateCheckFilterTest {
 
   @Test
   public void testGetDayOfWeek() {
     DateCheckFilter filter = new DateCheckFilter();
-    assertThat(filter.getDayOfWeek("niedz"), is(1));
-    assertThat(filter.getDayOfWeek("pon"), is(2));
-    assertThat(filter.getDayOfWeek("Pon"), is(2));
-    assertThat(filter.getDayOfWeek("pon."), is(2));
-    assertThat(filter.getDayOfWeek("poniedziałek"), is(2));
-    assertThat(filter.getDayOfWeek("Poniedziałek"), is(2));
-    assertThat(filter.getDayOfWeek("wtorek"), is(3));
-    assertThat(filter.getDayOfWeek("pt"), is(6));
-    assertThat(filter.getDayOfWeek("piątek"), is(6));
+    MatcherAssert.assertThat(filter.getDayOfWeek("niedz"), is(1));
+    MatcherAssert.assertThat(filter.getDayOfWeek("pon"), is(2));
+    MatcherAssert.assertThat(filter.getDayOfWeek("Pon"), is(2));
+    MatcherAssert.assertThat(filter.getDayOfWeek("pon."), is(2));
+    MatcherAssert.assertThat(filter.getDayOfWeek("poniedziałek"), is(2));
+    MatcherAssert.assertThat(filter.getDayOfWeek("Poniedziałek"), is(2));
+    MatcherAssert.assertThat(filter.getDayOfWeek("wtorek"), is(3));
+    MatcherAssert.assertThat(filter.getDayOfWeek("pt"), is(6));
+    MatcherAssert.assertThat(filter.getDayOfWeek("piątek"), is(6));
   }
 
   @Test
   public void testMonth() {
     DateCheckFilter filter = new DateCheckFilter();
-    assertThat(filter.getMonth("I"), is(1));
-    assertThat(filter.getMonth("XII"), is(12));
-    assertThat(filter.getMonth("grudnia"), is(12));
-    assertThat(filter.getMonth("Grudnia"), is(12));
-    assertThat(filter.getMonth("GRUDNIA"), is(12));
+    MatcherAssert.assertThat(filter.getMonth("I"), is(1));
+    MatcherAssert.assertThat(filter.getMonth("XII"), is(12));
+    MatcherAssert.assertThat(filter.getMonth("grudnia"), is(12));
+    MatcherAssert.assertThat(filter.getMonth("Grudnia"), is(12));
+    MatcherAssert.assertThat(filter.getMonth("GRUDNIA"), is(12));
   }
 
 }

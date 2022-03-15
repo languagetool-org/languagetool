@@ -18,13 +18,12 @@
  */
 package org.languagetool.dev.eval;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 import org.languagetool.rules.IncorrectExample;
 
 import javax.xml.xpath.XPathExpressionException;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 public class AfterTheDeadlineEvaluatorTest {
   
@@ -32,10 +31,10 @@ public class AfterTheDeadlineEvaluatorTest {
   public void testIsExpectedErrorFound() throws XPathExpressionException {
     AfterTheDeadlineEvaluator evaluator = new AfterTheDeadlineEvaluator("fake");
     IncorrectExample example = new IncorrectExample("This <marker>is is</marker> a test");
-    assertTrue(evaluator.isExpectedErrorFound(example, "<results><error><string>is is</string></error></results>"));
-    assertFalse(evaluator.isExpectedErrorFound(example, "<results><error><string>This is</string></error></results>"));
-    assertFalse(evaluator.isExpectedErrorFound(example, "<results></results>"));
-    assertTrue(evaluator.isExpectedErrorFound(example,
+    Assertions.assertTrue(evaluator.isExpectedErrorFound(example, "<results><error><string>is is</string></error></results>"));
+    Assertions.assertFalse(evaluator.isExpectedErrorFound(example, "<results><error><string>This is</string></error></results>"));
+    Assertions.assertFalse(evaluator.isExpectedErrorFound(example, "<results></results>"));
+    Assertions.assertTrue(evaluator.isExpectedErrorFound(example,
             "<results>" +
             "<error><string>foo bar</string></error>" +
             "<error><string>is is</string></error>" +

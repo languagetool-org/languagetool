@@ -18,8 +18,10 @@
  */
 package org.languagetool.rules.en;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.languagetool.*;
 import org.languagetool.broker.ResourceDataBroker;
 import org.languagetool.rules.ConfusionPair;
@@ -38,13 +40,12 @@ import java.io.InputStream;
 import java.util.*;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
 import static org.languagetool.JLanguageTool.FALSE_FRIEND_FILE;
 
 public class EnglishForL2SpeakersFalseFriendRuleTest {
 
   @Test
-  @Ignore("had problems with running it locally (false-friends.xml not found)")
+  @Disabled("had problems with running it locally (false-friends.xml not found)")
   public void testMessageDetailData() throws IOException {
     List<String> langs = Arrays.asList("nl", "de", "fr", "es");
     //List<String> langs = Arrays.asList("es");
@@ -109,12 +110,12 @@ public class EnglishForL2SpeakersFalseFriendRuleTest {
     JLanguageTool lt = new JLanguageTool(en, fr);
 
     RuleMatch[] matches1 = rule.match(lt.getAnalyzedSentence("She will achieve her task."));
-    assertThat(matches1.length, is(1));
-    assertTrue(matches1[0].getMessage().contains("\"achieve\" (English) means \"réaliser\" (French)"));
+    MatcherAssert.assertThat(matches1.length, is(1));
+    Assertions.assertTrue(matches1[0].getMessage().contains("\"achieve\" (English) means \"réaliser\" (French)"));
 
     RuleMatch[] matches2 = rule.match(lt.getAnalyzedSentence("The code only worked if the form was achieved."));
-    assertThat(matches2.length, is(1));
-    assertTrue(matches2[0].getMessage().contains("\"achieve\" (English) means \"réaliser\" (French)"));
+    MatcherAssert.assertThat(matches2.length, is(1));
+    Assertions.assertTrue(matches2[0].getMessage().contains("\"achieve\" (English) means \"réaliser\" (French)"));
   }
 
 }

@@ -19,8 +19,9 @@
  */
 package org.languagetool.rules.ar;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
@@ -28,8 +29,6 @@ import org.languagetool.TestTools;
 
 import java.io.IOException;
 import java.util.List;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * @author Sohaib AFIFI
@@ -39,7 +38,7 @@ public class ArabicWordCoherencyRuleTest {
 
   private final JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("ar"));
 
-  @Before
+  @BeforeEach
   public void before() {
     TestTools.disableAllRulesExcept(lt, "AR_WORD_COHERENCY");
   }
@@ -53,7 +52,7 @@ public class ArabicWordCoherencyRuleTest {
   private void assertError(String s) throws IOException {
     ArabicWordCoherencyRule rule = new ArabicWordCoherencyRule(TestTools.getEnglishMessages());
     List<AnalyzedSentence> analyzedSentences = lt.analyzeText(s);
-    assertEquals(1, rule.match(analyzedSentences).length);
+    Assertions.assertEquals(1, rule.match(analyzedSentences).length);
   }
 
 }

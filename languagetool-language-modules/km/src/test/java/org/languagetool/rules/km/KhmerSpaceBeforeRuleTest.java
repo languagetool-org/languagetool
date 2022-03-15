@@ -18,14 +18,13 @@
  */
 package org.languagetool.rules.km;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Khmer;
 
 import java.io.IOException;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * @author Nathan Wells
@@ -38,13 +37,13 @@ public class KhmerSpaceBeforeRuleTest {
     KhmerSpaceBeforeRule rule = new KhmerSpaceBeforeRule(TestTools.getEnglishMessages(), language);
     JLanguageTool lt = new JLanguageTool(language);
     // correct sentences:
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("គាត់​បាន​ទៅ ដើម្បី​ទិញ​ម្ហូប។")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("ខ្ញុំ និង​គាត់។")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("គាត់​ចង់​បាន ពីព្រោះ​គាត់​អត់​មាន។")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("គាត់​បាន​ទៅ ដើម្បី​ទិញ​ម្ហូប។")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("ខ្ញុំ និង​គាត់។")).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence("គាត់​ចង់​បាន ពីព្រោះ​គាត់​អត់​មាន។")).length);
 
     // incorrect sentences:
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("គាត់​បាន​ទៅ​ដើម្បី​ទិញ​ម្ហូប។")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("ខ្ញុំ​និង​គាត់។")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("គាត់​ចង់​បាន​ពីព្រោះ​គាត់​អត់​មាន។")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("គាត់​បាន​ទៅ​ដើម្បី​ទិញ​ម្ហូប។")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("ខ្ញុំ​និង​គាត់។")).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence("គាត់​ចង់​បាន​ពីព្រោះ​គាត់​អត់​មាន។")).length);
   }
 }

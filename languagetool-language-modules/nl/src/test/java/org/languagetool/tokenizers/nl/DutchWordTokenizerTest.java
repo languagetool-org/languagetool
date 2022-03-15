@@ -19,11 +19,10 @@
 
 package org.languagetool.tokenizers.nl;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
-
-import static org.junit.Assert.assertEquals;
 
 public class DutchWordTokenizerTest {
 
@@ -65,6 +64,6 @@ public class DutchWordTokenizerTest {
 
   private void assertTokenize(String input, String expected) {
     List<String> result = wordTokenizer.tokenize(input);
-    assertEquals(expected, result.toString());
+    Assertions.assertEquals(expected, result.toString());
   }
 }

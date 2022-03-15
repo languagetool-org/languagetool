@@ -18,12 +18,11 @@
  */
 package org.languagetool;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Map;
-
-import static org.junit.Assert.*;
 
 public class ShortDescriptionProviderTest {
   
@@ -31,13 +30,13 @@ public class ShortDescriptionProviderTest {
   public void testGetShortDescription() {
     Language de = Languages.getLanguageForShortCode("de-DE");
     ShortDescriptionProvider providerDE = new ShortDescriptionProvider();
-    assertNotNull(providerDE.getShortDescription("fielen", de));
-    assertNull(providerDE.getShortDescription("fake-word-doesnt-exist", de));
+    Assertions.assertNotNull(providerDE.getShortDescription("fielen", de));
+    Assertions.assertNull(providerDE.getShortDescription("fake-word-doesnt-exist", de));
 
     Language en = Languages.getLanguageForShortCode("en-US");
     ShortDescriptionProvider providerEN = new ShortDescriptionProvider();
-    assertNotNull(providerEN.getShortDescription("adopting", en));
-    assertNull(providerEN.getShortDescription("fake-word-doesnt-exist", en));
+    Assertions.assertNotNull(providerEN.getShortDescription("adopting", en));
+    Assertions.assertNull(providerEN.getShortDescription("fake-word-doesnt-exist", en));
   }
 
   @Test
@@ -65,7 +64,7 @@ public class ShortDescriptionProviderTest {
       }
     }
     if (count == 0) {
-      fail("No word descriptions found at all for " + langs.size() + " languages");
+      Assertions.fail("No word descriptions found at all for " + langs.size() + " languages");
     }
   }
 

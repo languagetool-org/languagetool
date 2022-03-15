@@ -19,16 +19,15 @@
 
 package org.languagetool.rules.es;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Spanish;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * @author Jaume Ortolà
@@ -38,7 +37,7 @@ public class SimpleReplaceVerbsRuleTest {
   private SimpleReplaceVerbsRule rule;
   private JLanguageTool lt;
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     rule = new SimpleReplaceVerbsRule(TestTools.getMessages("ca"), new Spanish());
     lt = new JLanguageTool(new Spanish());
@@ -51,20 +50,20 @@ public class SimpleReplaceVerbsRuleTest {
 
     // incorrect sentences:
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("sanitizaban"));
-    assertEquals(1, matches.length);
-    assertEquals("desinfectaban", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("desinfectaban", matches[0].getSuggestedReplacements().get(0));
 
     matches = rule.match(lt.getAnalyzedSentence("saniticen"));
-    assertEquals(1, matches.length);
-    assertEquals("desinfecten", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("desinfecten", matches[0].getSuggestedReplacements().get(0));
     
     matches = rule.match(lt.getAnalyzedSentence("mutearse"));
-    assertEquals(1, matches.length);
-    assertEquals("silenciarse", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("silenciarse", matches[0].getSuggestedReplacements().get(0));
     
     matches = rule.match(lt.getAnalyzedSentence("mutearlos"));
-    assertEquals(1, matches.length);
-    assertEquals("silenciarlos", matches[0].getSuggestedReplacements().get(0));
+    Assertions.assertEquals(1, matches.length);
+    Assertions.assertEquals("silenciarlos", matches[0].getSuggestedReplacements().get(0));
     
     //matches = rule.match(langTool.getAnalyzedSentence("sanitícenla"));
     //assertEquals(1, matches.length);

@@ -19,11 +19,10 @@
 
 package org.languagetool.tokenizers.es;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
-
-import org.junit.Test;
 
 public class SpanishWordTokenizerTest {
 
@@ -31,51 +30,51 @@ public class SpanishWordTokenizerTest {
   public void testTokenize() {
     final SpanishWordTokenizer wordTokenizer = new SpanishWordTokenizer();
     List <String> tokens = wordTokenizer.tokenize("*test+");
-    assertEquals(tokens.size(), 3);
-    assertEquals("[*, test, +]", tokens.toString());
+    Assertions.assertEquals(tokens.size(), 3);
+    Assertions.assertEquals("[*, test, +]", tokens.toString());
     
     tokens = wordTokenizer.tokenize("best-seller Covid-19;sars-cov-2");
-    assertEquals(tokens.size(), 5);
-    assertEquals("[best-seller,  , Covid-19, ;, sars-cov-2]", tokens.toString());
+    Assertions.assertEquals(tokens.size(), 5);
+    Assertions.assertEquals("[best-seller,  , Covid-19, ;, sars-cov-2]", tokens.toString());
     
     tokens = wordTokenizer.tokenize("e-mails");
-    assertEquals(tokens.size(), 1);
-    assertEquals("[e-mails]", tokens.toString());
+    Assertions.assertEquals(tokens.size(), 1);
+    Assertions.assertEquals("[e-mails]", tokens.toString());
     
     tokens = wordTokenizer.tokenize("$100");
-    assertEquals(tokens.size(), 1);
-    assertEquals("[$100]", tokens.toString());
+    Assertions.assertEquals(tokens.size(), 1);
+    Assertions.assertEquals("[$100]", tokens.toString());
     
     tokens = wordTokenizer.tokenize("$1.000");
-    assertEquals(tokens.size(), 1);
-    assertEquals("[$1.000]", tokens.toString());
+    Assertions.assertEquals(tokens.size(), 1);
+    Assertions.assertEquals("[$1.000]", tokens.toString());
     
     tokens = wordTokenizer.tokenize("$1,400.50");
-    assertEquals(tokens.size(), 1);
-    assertEquals("[$1,400.50]", tokens.toString());
+    Assertions.assertEquals(tokens.size(), 1);
+    Assertions.assertEquals("[$1,400.50]", tokens.toString());
     
     tokens = wordTokenizer.tokenize("1,400.50$");
-    assertEquals(tokens.size(), 1);
-    assertEquals("[1,400.50$]", tokens.toString());
+    Assertions.assertEquals(tokens.size(), 1);
+    Assertions.assertEquals("[1,400.50$]", tokens.toString());
     
     tokens = wordTokenizer.tokenize("Ven ‒dijo."); // \u2012
-    assertEquals(tokens.size(), 5);
-    assertEquals("[Ven,  , ‒, dijo, .]", tokens.toString());
+    Assertions.assertEquals(tokens.size(), 5);
+    Assertions.assertEquals("[Ven,  , ‒, dijo, .]", tokens.toString());
     
     tokens = wordTokenizer.tokenize("1.º");
-    assertEquals(tokens.size(), 1);
+    Assertions.assertEquals(tokens.size(), 1);
     
     tokens = wordTokenizer.tokenize("Es la 21.ª y el 45.º");
-    assertEquals(tokens.size(), 11);
+    Assertions.assertEquals(tokens.size(), 11);
     
     tokens = wordTokenizer.tokenize("Es la 21.a y el 45.o");
-    assertEquals(tokens.size(), 11);
+    Assertions.assertEquals(tokens.size(), 11);
     
     tokens = wordTokenizer.tokenize("11.as Jornadas de Estudio");
-    assertEquals(tokens.size(), 7);
-    assertEquals("[11.as,  , Jornadas,  , de,  , Estudio]", tokens.toString());
+    Assertions.assertEquals(tokens.size(), 7);
+    Assertions.assertEquals("[11.as,  , Jornadas,  , de,  , Estudio]", tokens.toString());
     
     tokens = wordTokenizer.tokenize("al-Ándalus");
-    assertEquals(tokens.size(), 1);
+    Assertions.assertEquals(tokens.size(), 1);
   }
 }

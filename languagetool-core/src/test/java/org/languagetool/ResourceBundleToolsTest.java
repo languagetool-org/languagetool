@@ -18,15 +18,16 @@
  */
 package org.languagetool;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertNotNull;
+import org.junit.jupiter.api.Assertions;
+
 
 public class ResourceBundleToolsTest {
 
   @Test
   public void testGetMessageBundle() throws Exception {
-    assertNotNull(JLanguageTool.getMessageBundle());
+    Assertions.assertNotNull(JLanguageTool.getMessageBundle());
   }
 
 }

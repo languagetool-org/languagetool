@@ -18,8 +18,8 @@
  */
 package org.languagetool.server;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 
@@ -35,7 +35,7 @@ import java.util.*;
 public class HTTPServerOverheadTest {
   
   @Test
-  @Ignore("for interactive use only")
+  @Disabled("for interactive use only")
   public void test() throws IOException {
     HashMap<Language, Float> results = new LinkedHashMap<>();
     List<Language> languages = Languages.get();

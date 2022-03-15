@@ -18,17 +18,16 @@
  */
 package org.languagetool.tagging.de;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
-import java.util.List;
-
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.language.GermanyGerman;
+
+import java.io.IOException;
+import java.util.List;
 
 public class GermanDisambiguationTest {
 
@@ -39,7 +38,7 @@ public class GermanDisambiguationTest {
 //  private GermanRuleDisambiguator disambiguator;
 //  private GermanTagger tagger;
 
-  @Before
+  @BeforeEach
   public void setUp() throws IOException {
     language = new GermanyGerman();
 //    tagger = new GermanTagger();
@@ -54,15 +53,11 @@ public class GermanDisambiguationTest {
     List<AnalyzedSentence> tokens;
 
     tokens = lt.analyzeText("für Ihrer Sicherheit.");
-    assertEquals(
-        "[<S> für[für/PRP:TMP+MOD+CAU:AKK,für/PRP:TMP+MOD+CAU:AKK,PP] Ihrer[Ihr/PRO:POS:DAT:SIN:FEM:BEG,Ihr/PRO:POS:DAT:SIN:FEM:STV,Ihr/PRO:POS:GEN:SIN:FEM:BEG,Ihr/PRO:POS:GEN:SIN:FEM:STV,B-NP|NPS|PP] Sicherheit[Sicherheit/SUB:DAT:SIN:FEM,Sicherheit/SUB:GEN:SIN:FEM,I-NP|NPS|PP].[</S>./PKT,<P/>,O]]",
-        tokens.toString());
+    Assertions.assertEquals("[<S> für[für/PRP:TMP+MOD+CAU:AKK,für/PRP:TMP+MOD+CAU:AKK,PP] Ihrer[Ihr/PRO:POS:DAT:SIN:FEM:BEG,Ihr/PRO:POS:DAT:SIN:FEM:STV,Ihr/PRO:POS:GEN:SIN:FEM:BEG,Ihr/PRO:POS:GEN:SIN:FEM:STV,B-NP|NPS|PP] Sicherheit[Sicherheit/SUB:DAT:SIN:FEM,Sicherheit/SUB:GEN:SIN:FEM,I-NP|NPS|PP].[</S>./PKT,<P/>,O]]", tokens.toString());
 
     // FIXME: missing tags for "Ihrer"
     tokens = lt.analyzeText("Wir entwickeln ein Konzept für Ihrer Sicherheit.");
-    assertEquals(
-        "[<S> Wir[ich/PRO:PER:NOM:PLU:ALG,O] entwickeln[entwickeln/VER:1:PLU:KJ1:SFT,entwickeln/VER:1:PLU:PRÄ:SFT,entwickeln/VER:3:PLU:KJ1:SFT,entwickeln/VER:3:PLU:PRÄ:SFT,entwickeln/VER:INF:SFT,O] ein[ein/ART:IND:AKK:SIN:NEU,ein/ART:IND:NOM:SIN:NEU,B-NP|NPS] Konzept[Konzept/SUB:AKK:SIN:NEU,Konzept/SUB:NOM:SIN:NEU,I-NP|NPS] für[für/PRP:TMP+MOD+CAU:AKK,PP] Ihrer[Ihr/PRO:POS:DAT:SIN:FEM:BEG,Ihr/PRO:POS:DAT:SIN:FEM:STV,Ihr/PRO:POS:GEN:SIN:FEM:BEG,Ihr/PRO:POS:GEN:SIN:FEM:STV,B-NP|NPS|PP] Sicherheit[Sicherheit/SUB:DAT:SIN:FEM,Sicherheit/SUB:GEN:SIN:FEM,I-NP|NPS|PP].[</S>./PKT,<P/>,O]]",
-        tokens.toString());
+    Assertions.assertEquals("[<S> Wir[ich/PRO:PER:NOM:PLU:ALG,O] entwickeln[entwickeln/VER:1:PLU:KJ1:SFT,entwickeln/VER:1:PLU:PRÄ:SFT,entwickeln/VER:3:PLU:KJ1:SFT,entwickeln/VER:3:PLU:PRÄ:SFT,entwickeln/VER:INF:SFT,O] ein[ein/ART:IND:AKK:SIN:NEU,ein/ART:IND:NOM:SIN:NEU,B-NP|NPS] Konzept[Konzept/SUB:AKK:SIN:NEU,Konzept/SUB:NOM:SIN:NEU,I-NP|NPS] für[für/PRP:TMP+MOD+CAU:AKK,PP] Ihrer[Ihr/PRO:POS:DAT:SIN:FEM:BEG,Ihr/PRO:POS:DAT:SIN:FEM:STV,Ihr/PRO:POS:GEN:SIN:FEM:BEG,Ihr/PRO:POS:GEN:SIN:FEM:STV,B-NP|NPS|PP] Sicherheit[Sicherheit/SUB:DAT:SIN:FEM,Sicherheit/SUB:GEN:SIN:FEM,I-NP|NPS|PP].[</S>./PKT,<P/>,O]]", tokens.toString());
 
   }
 }

@@ -18,7 +18,8 @@
  */
 package org.languagetool.rules.de;
 
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
@@ -26,7 +27,6 @@ import org.languagetool.language.SwissGerman;
 import org.languagetool.rules.RuleMatch;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
 
 public class SwissGermanSpellerRuleTest {
 
@@ -36,13 +36,13 @@ public class SwissGermanSpellerRuleTest {
   public void testGetSuggestionsFromSpellingTxt() throws Exception {
     SwissGermanSpellerRule rule = new SwissGermanSpellerRule(TestTools.getEnglishMessages(), DE_CH);
     JLanguageTool lt = new JLanguageTool(DE_CH);
-    assertThat(rule.match(lt.getAnalyzedSentence("Shopbewertung")).length, is(0));  // from spelling.txt
-    assertThat(rule.match(lt.getAnalyzedSentence("Abwart")).length, is(0));
-    assertThat(rule.match(lt.getAnalyzedSentence("Abwarts")).length, is(0));
-    assertThat(rule.match(lt.getAnalyzedSentence("aifhdlidflifs")).length, is(1));
+    MatcherAssert.assertThat(rule.match(lt.getAnalyzedSentence("Shopbewertung")).length, is(0));  // from spelling.txt
+    MatcherAssert.assertThat(rule.match(lt.getAnalyzedSentence("Abwart")).length, is(0));
+    MatcherAssert.assertThat(rule.match(lt.getAnalyzedSentence("Abwarts")).length, is(0));
+    MatcherAssert.assertThat(rule.match(lt.getAnalyzedSentence("aifhdlidflifs")).length, is(1));
 
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("Trottinettens")); // from spelling-de-CH.txt
-    assertThat("Matches: " + matches.length + ", Suggestions of first match: " +
+    MatcherAssert.assertThat("Matches: " + matches.length + ", Suggestions of first match: " +
             matches[0].getSuggestedReplacements(), matches[0].getSuggestedReplacements().get(0), is("Trottinetten"));
   }
 

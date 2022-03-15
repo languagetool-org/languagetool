@@ -18,16 +18,15 @@
  */
 package org.languagetool.rules.de;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
-
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
 import org.languagetool.rules.WordRepeatRule;
+
+import java.io.IOException;
 
 public class WordRepeatRuleTest {
 
@@ -53,11 +52,11 @@ public class WordRepeatRuleTest {
   }
 
   private void assertGood(String text, JLanguageTool lt) throws IOException {
-    assertEquals(0, rule.match(lt.getAnalyzedSentence(text)).length);
+    Assertions.assertEquals(0, rule.match(lt.getAnalyzedSentence(text)).length);
   }
 
   private void assertBad(String text, JLanguageTool lt) throws IOException {
-    assertEquals(1, rule.match(lt.getAnalyzedSentence(text)).length);
+    Assertions.assertEquals(1, rule.match(lt.getAnalyzedSentence(text)).length);
   }
 
 }

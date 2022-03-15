@@ -19,8 +19,9 @@
 
 package org.languagetool.rules.en;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
@@ -32,14 +33,12 @@ import org.languagetool.rules.TextLevelRule;
 import java.io.IOException;
 import java.util.Collections;
 
-import static org.junit.Assert.assertEquals;
-
 public class EnglishUnpairedBracketsRuleTest {
 
   private TextLevelRule rule;
   private JLanguageTool lt;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     rule = new EnglishUnpairedBracketsRule(TestTools.getEnglishMessages(), Languages.getLanguageForShortCode("en"));
     lt = new JLanguageTool(Languages.getLanguageForShortCode("en"));
@@ -176,38 +175,38 @@ public class EnglishUnpairedBracketsRuleTest {
 
     RuleMatch[] matches;
     matches = rule.match(Collections.singletonList(lt.getAnalyzedSentence("(This is a test” sentence.")));
-    assertEquals(2, matches.length);
+    Assertions.assertEquals(2, matches.length);
     matches = rule.match(Collections.singletonList(lt.getAnalyzedSentence("This [is (a test} sentence.")));
-    assertEquals(3, matches.length);
+    Assertions.assertEquals(3, matches.length);
   }
 
   private void assertCorrect(String sentence) throws IOException {
     RuleMatch[] matches = rule.match(Collections.singletonList(lt.getAnalyzedSentence(sentence)));
-    assertEquals(0, matches.length);
+    Assertions.assertEquals(0, matches.length);
   }
 
   private void assertCorrectText(String sentences) throws IOException {
     AnnotatedText aText = new AnnotatedTextBuilder().addText(sentences).build();
     RuleMatch[] matches = rule.match(lt.analyzeText(sentences), aText);
-    assertEquals(0, matches.length);
+    Assertions.assertEquals(0, matches.length);
   }
 
   private void assertIncorrect(String sentence) throws IOException {
     RuleMatch[] matches = rule.match(Collections.singletonList(lt.getAnalyzedSentence(sentence)));
-    assertEquals(1, matches.length);
+    Assertions.assertEquals(1, matches.length);
   }
 
   @Test
   public void testMultipleSentences() throws IOException {
     JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("en"));
 
-    assertEquals(0, getMatches("This is multiple sentence text that contains a bracket: "
+    Assertions.assertEquals(0, getMatches("This is multiple sentence text that contains a bracket: "
                              + "[This is a bracket. With some text.] and this continues.\n", lt));
 
-    assertEquals(0, getMatches("This is multiple sentence text that contains a bracket. "
+    Assertions.assertEquals(0, getMatches("This is multiple sentence text that contains a bracket. "
                              + "(This is a bracket. \n\n With some text.) and this continues.", lt));
 
-    assertEquals(1, getMatches("This is multiple sentence text that contains a bracket: "
+    Assertions.assertEquals(1, getMatches("This is multiple sentence text that contains a bracket: "
                              + "[This is a bracket. With some text. And this continues.\n\n", lt));
   }
 

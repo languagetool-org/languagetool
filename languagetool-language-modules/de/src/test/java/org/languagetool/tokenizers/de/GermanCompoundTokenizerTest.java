@@ -18,28 +18,28 @@
  */
 package org.languagetool.tokenizers.de;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
 
 public class GermanCompoundTokenizerTest {
   
   @Test
   public void test() throws IOException {
     GermanCompoundTokenizer tokenizer = new GermanCompoundTokenizer(true);
-    assertThat(tokenizer.tokenize("Bahnhofsuhr").toString(), is("[Bahnhofs, uhr]"));
-    assertThat(tokenizer.tokenize("natofreundlich").toString(), is("[nato, freundlich]"));
-    assertThat(tokenizer.tokenize("natofreundliches").toString(), is("[nato, freundliches]"));
-    assertThat(tokenizer.tokenize("Firefox-Add-on").toString(), is("[Firefox, , Add-on]"));  // why the space?
+    MatcherAssert.assertThat(tokenizer.tokenize("Bahnhofsuhr").toString(), is("[Bahnhofs, uhr]"));
+    MatcherAssert.assertThat(tokenizer.tokenize("natofreundlich").toString(), is("[nato, freundlich]"));
+    MatcherAssert.assertThat(tokenizer.tokenize("natofreundliches").toString(), is("[nato, freundliches]"));
+    MatcherAssert.assertThat(tokenizer.tokenize("Firefox-Add-on").toString(), is("[Firefox, , Add-on]"));  // why the space?
   }
 
   @Test
-  @Ignore("for interactive use only")
+  @Disabled("for interactive use only")
   public void testInteractively() throws IOException {
     GermanCompoundTokenizer.ExtendedGermanWordSplitter splitter = new GermanCompoundTokenizer.ExtendedGermanWordSplitter(false);
     String wordsInput = "Bahnhofsuhr, Bahnhofssanierung, Thermostattest";

@@ -18,17 +18,16 @@
  */
 package org.languagetool.chunking;
 
-import static org.junit.Assert.fail;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class GermanChunkerTest {
 
@@ -222,7 +221,7 @@ public class GermanChunkerTest {
     for (String expectedChunk : expectedChunks) {
       ChunkTaggedToken outputChunksHere = chunks.get(i);
       if (!outputChunksHere.getChunkTags().contains(new ChunkTag(expectedChunk))) {
-        fail("Expected '" + expectedChunk + "' but got '" + outputChunksHere + "' at position " + i + " for input:\n  " + input +
+        Assertions.fail("Expected '" + expectedChunk + "' but got '" + outputChunksHere + "' at position " + i + " for input:\n  " + input +
              "\nPlain input:\n  " + plainInput +
              "\nChunks:\n  " + chunks +
              "\nExpected:\n  " + expectedChunks);

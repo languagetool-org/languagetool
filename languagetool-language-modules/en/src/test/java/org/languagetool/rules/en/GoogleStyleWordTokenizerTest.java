@@ -18,24 +18,25 @@
  */
 package org.languagetool.rules.en;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import org.hamcrest.MatcherAssert;
 
 import java.util.Arrays;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
 
 public class GoogleStyleWordTokenizerTest {
 
   @Test
   public void testTokenize() {
     GoogleStyleWordTokenizer tokenizer = new GoogleStyleWordTokenizer();
-    assertThat(tokenizer.tokenize("foo bar"), is(Arrays.asList("foo", " ", "bar")));
-    assertThat(tokenizer.tokenize("foo-bar"), is(Arrays.asList("foo", "-", "bar")));
-    assertThat(tokenizer.tokenize("I'm here."), is(Arrays.asList("I", "'m", " ", "here", ".")));
-    assertThat(tokenizer.tokenize("I'll do that"), is(Arrays.asList("I", "'ll", " ", "do", " " , "that")));
-    assertThat(tokenizer.tokenize("You're here"), is(Arrays.asList("You", "'re", " ", "here")));
-    assertThat(tokenizer.tokenize("You've done that"), is(Arrays.asList("You", "'ve", " ", "done", " " , "that")));
+    MatcherAssert.assertThat(tokenizer.tokenize("foo bar"), is(Arrays.asList("foo", " ", "bar")));
+    MatcherAssert.assertThat(tokenizer.tokenize("foo-bar"), is(Arrays.asList("foo", "-", "bar")));
+    MatcherAssert.assertThat(tokenizer.tokenize("I'm here."), is(Arrays.asList("I", "'m", " ", "here", ".")));
+    MatcherAssert.assertThat(tokenizer.tokenize("I'll do that"), is(Arrays.asList("I", "'ll", " ", "do", " " , "that")));
+    MatcherAssert.assertThat(tokenizer.tokenize("You're here"), is(Arrays.asList("You", "'re", " ", "here")));
+    MatcherAssert.assertThat(tokenizer.tokenize("You've done that"), is(Arrays.asList("You", "'ve", " ", "done", " " , "that")));
   }
   
 }

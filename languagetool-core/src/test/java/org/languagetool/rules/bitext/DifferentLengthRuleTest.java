@@ -19,15 +19,14 @@
 
 package org.languagetool.rules.bitext;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.FakeLanguage;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
-
-import static org.junit.Assert.assertEquals;
 
 public class DifferentLengthRuleTest {
 
@@ -42,18 +41,18 @@ public class DifferentLengthRuleTest {
     matches = rule.match(
         srcLangTool.getAnalyzedSentence("This is a test sentence."),
         trgLangTool.getAnalyzedSentence("To zdanie testowe."));
-    assertEquals(0, matches.length);
+    Assertions.assertEquals(0, matches.length);
     
     matches = rule.match(
         srcLangTool.getAnalyzedSentence("Click this button."),
         trgLangTool.getAnalyzedSentence("Kliknij ten przycisk."));
-    assertEquals(0, matches.length);
+    Assertions.assertEquals(0, matches.length);
     
     // incorrect sentences:
     matches = rule.match(
         srcLangTool.getAnalyzedSentence("Open a file, and check if it is corrupt."),
         trgLangTool.getAnalyzedSentence("Otwórz plik."));
-    assertEquals(1, matches.length);
+    Assertions.assertEquals(1, matches.length);
   }
 
 }

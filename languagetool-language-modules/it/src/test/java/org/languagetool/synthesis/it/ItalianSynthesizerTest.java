@@ -18,26 +18,24 @@
  */
 package org.languagetool.synthesis.it;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.language.Italian;
-import org.languagetool.synthesis.it.ItalianSynthesizer;
 
 import java.io.IOException;
 import java.util.Arrays;
-
-import static org.junit.Assert.assertEquals;
 
 public class ItalianSynthesizerTest {
 
   @Test
   public final void testSynthesizeStringString() throws IOException {
     ItalianSynthesizer synth = new ItalianSynthesizer(new Italian());
-    assertEquals(synth.synthesize(dummyToken("blablabla"), "blablabla").length, 0);
+    Assertions.assertEquals(synth.synthesize(dummyToken("blablabla"), "blablabla").length, 0);
     
-    assertEquals("[richiedi]", Arrays.toString(synth.synthesize(dummyToken("richiedere"), "VER:impr+pres+2+s")));
-    assertEquals("[esultata]", Arrays.toString(synth.synthesize(dummyToken("esultare"), "VER:part+past+s+f")));
-    assertEquals("[libri]", Arrays.toString(synth.synthesize(dummyToken("libro"), "NOUN-M:p")));
+    Assertions.assertEquals("[richiedi]", Arrays.toString(synth.synthesize(dummyToken("richiedere"), "VER:impr+pres+2+s")));
+    Assertions.assertEquals("[esultata]", Arrays.toString(synth.synthesize(dummyToken("esultare"), "VER:part+past+s+f")));
+    Assertions.assertEquals("[libri]", Arrays.toString(synth.synthesize(dummyToken("libro"), "NOUN-M:p")));
   }
 
   private AnalyzedToken dummyToken(String tokenStr) {

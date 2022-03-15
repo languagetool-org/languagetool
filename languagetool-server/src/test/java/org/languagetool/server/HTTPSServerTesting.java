@@ -18,8 +18,9 @@
  */
 package org.languagetool.server;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 
@@ -33,7 +34,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import static org.junit.Assert.assertTrue;
 
 /**
  * Load testing the HTTPS server. Start the server yourself.
@@ -49,7 +49,7 @@ public class HTTPSServerTesting {
   private final Random rnd = new Random(10);
   private int checkCount = 0;
 
-  @Ignore("For interactive testing, thus ignored for unit tests")
+  @Disabled("For interactive testing, thus ignored for unit tests")
   @Test
   public void interactiveHTTPServerTest() throws Exception {
     HTTPTestTools.disableCertChecks();
@@ -101,7 +101,7 @@ public class HTTPSServerTesting {
     String data = "language=" + lang.getShortCodeWithCountryAndVariant() + "&text=" + URLEncoder.encode(text, "utf-8");
     String resultXml = checkAtUrl(new URL(SERVER_URL), data, threadNumber);
     for (ExampleSentence sentence : sentences) {
-      assertTrue("Expected " + sentence.getRuleId() + " for '" + text + "' (" + sentences.size() + " sentences)", resultXml.contains(sentence.getRuleId()));
+      Assertions.assertTrue(resultXml.contains(sentence.getRuleId()), "Expected " + sentence.getRuleId() + " for '" + text + "' (" + sentences.size() + " sentences)");
     }
   }
 

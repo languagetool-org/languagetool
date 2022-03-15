@@ -18,13 +18,14 @@
  */
 package org.languagetool.dev.bigdata;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import org.hamcrest.MatcherAssert;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
 import static org.languagetool.dev.bigdata.NeuralNetworkRuleEvaluator.confusionSetConfig;
 
 public class NeuralNetworkRuleEvaluatorTest {
@@ -35,9 +36,9 @@ public class NeuralNetworkRuleEvaluatorTest {
     evaluationResults.put(1.0, new NeuralNetworkRuleEvaluator.EvalResult("summary 2", .99f, .7f));
     evaluationResults.put(1.5, new NeuralNetworkRuleEvaluator.EvalResult("summary 3", .998f, .5f));
 
-    assertThat(confusionSetConfig(evaluationResults, .9f), is("summary 2"));
-    assertThat(confusionSetConfig(evaluationResults, .99f), is("summary 2"));
-    assertThat(confusionSetConfig(evaluationResults, .999f), is("###"));
+    MatcherAssert.assertThat(confusionSetConfig(evaluationResults, .9f), is("summary 2"));
+    MatcherAssert.assertThat(confusionSetConfig(evaluationResults, .99f), is("summary 2"));
+    MatcherAssert.assertThat(confusionSetConfig(evaluationResults, .999f), is("###"));
   }
 
 }

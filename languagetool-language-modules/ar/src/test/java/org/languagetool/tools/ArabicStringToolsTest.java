@@ -18,18 +18,8 @@
  */
 package org.languagetool.tools;
 
-import org.junit.Test;
-import org.languagetool.FakeLanguage;
-import org.languagetool.Language;
-import org.languagetool.TestTools;
-
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Taha Zerrouki
@@ -38,10 +28,10 @@ public class ArabicStringToolsTest {
 
   @Test
   public void testRemoveTashkeel() {
-    assertEquals("", ArabicStringTools.removeTashkeel(""));
-    assertEquals("a", ArabicStringTools.removeTashkeel("a"));
-    assertEquals("öäü", ArabicStringTools.removeTashkeel("öäü"));
-    assertEquals("كتب", ArabicStringTools.removeTashkeel("كَتَب"));
+    Assertions.assertEquals("", ArabicStringTools.removeTashkeel(""));
+    Assertions.assertEquals("a", ArabicStringTools.removeTashkeel("a"));
+    Assertions.assertEquals("öäü", ArabicStringTools.removeTashkeel("öäü"));
+    Assertions.assertEquals("كتب", ArabicStringTools.removeTashkeel("كَتَب"));
   }
 
 }

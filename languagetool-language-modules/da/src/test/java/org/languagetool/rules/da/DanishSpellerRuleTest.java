@@ -18,12 +18,11 @@
  */
 package org.languagetool.rules.da;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
-
-import static junit.framework.Assert.assertEquals;
 
 public class DanishSpellerRuleTest {
 
@@ -32,6 +31,6 @@ public class DanishSpellerRuleTest {
   @Test
   public void testDashAndHyphenEtc() throws Exception {
     JLanguageTool lt = new JLanguageTool(LANG);
-    assertEquals(0, lt.check("De står under ----").size());
+    Assertions.assertEquals(0, lt.check("De står under ----").size());
   }
 }

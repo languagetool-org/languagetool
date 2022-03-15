@@ -18,7 +18,8 @@
  */
 package org.languagetool.rules.de;
 
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.GermanyGerman;
@@ -27,7 +28,6 @@ import org.languagetool.rules.RuleMatch;
 import java.io.IOException;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
 
 public class AgreementRule2Test {
 
@@ -68,12 +68,12 @@ public class AgreementRule2Test {
 
   private void assertGood(String s) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(s));
-    assertThat(matches.length, is(0));
+    MatcherAssert.assertThat(matches.length, is(0));
   }
 
   private void assertBad(String s) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(s));
-    assertThat(matches.length, is(1));
+    MatcherAssert.assertThat(matches.length, is(1));
   }
 
 }

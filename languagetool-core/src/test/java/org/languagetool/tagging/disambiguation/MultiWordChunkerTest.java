@@ -1,15 +1,14 @@
 package org.languagetool.tagging.disambiguation;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 import org.languagetool.*;
 import org.languagetool.tagging.xx.DemoTagger;
 
 import java.io.IOException;
 import java.util.List;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 
 public class MultiWordChunkerTest {
@@ -31,7 +30,7 @@ public class MultiWordChunkerTest {
     }
   });
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
   }
 
@@ -43,13 +42,13 @@ public class MultiWordChunkerTest {
     AnalyzedSentence disambiguated = multiWordChunker.disambiguate(analyzedSentence);
     AnalyzedTokenReadings[] tokens = disambiguated.getTokens();
     
-    assertTrue(tokens[1].getReadings().toString().contains("<adv>"));
-    assertFalse(tokens[3].getReadings().toString().contains("adv"));
-    assertTrue(tokens[5].getReadings().toString().contains("</adv>"));
+    Assertions.assertTrue(tokens[1].getReadings().toString().contains("<adv>"));
+    Assertions.assertFalse(tokens[3].getReadings().toString().contains("adv"));
+    Assertions.assertTrue(tokens[5].getReadings().toString().contains("</adv>"));
 
-    assertTrue(tokens[1].getReadings().toString().contains("FakePosTag"));
-    assertTrue(tokens[3].getReadings().toString().contains("FakePosTag"));
-    assertTrue(tokens[5].getReadings().toString().contains("FakePosTag"));
+    Assertions.assertTrue(tokens[1].getReadings().toString().contains("FakePosTag"));
+    Assertions.assertTrue(tokens[3].getReadings().toString().contains("FakePosTag"));
+    Assertions.assertTrue(tokens[5].getReadings().toString().contains("FakePosTag"));
   }
 
   @Test
@@ -60,13 +59,13 @@ public class MultiWordChunkerTest {
     AnalyzedSentence disambiguated = multiWordChunker.disambiguate(analyzedSentence);
     AnalyzedTokenReadings[] tokens = disambiguated.getTokens();
     
-    assertTrue(tokens[1].getReadings().toString().contains("<adv>"));
-    assertTrue(tokens[3].getReadings().toString().contains("<adv>"));
-    assertTrue(tokens[5].getReadings().toString().contains("<adv>"));
+    Assertions.assertTrue(tokens[1].getReadings().toString().contains("<adv>"));
+    Assertions.assertTrue(tokens[3].getReadings().toString().contains("<adv>"));
+    Assertions.assertTrue(tokens[5].getReadings().toString().contains("<adv>"));
 
-    assertTrue(tokens[1].getReadings().toString().contains("FakePosTag"));
-    assertTrue(tokens[3].getReadings().toString().contains("FakePosTag"));
-    assertTrue(tokens[5].getReadings().toString().contains("FakePosTag"));
+    Assertions.assertTrue(tokens[1].getReadings().toString().contains("FakePosTag"));
+    Assertions.assertTrue(tokens[3].getReadings().toString().contains("FakePosTag"));
+    Assertions.assertTrue(tokens[5].getReadings().toString().contains("FakePosTag"));
   }
 
   @Test
@@ -77,7 +76,7 @@ public class MultiWordChunkerTest {
     AnalyzedSentence disambiguated = multiWordChunker.disambiguate(analyzedSentence);
     AnalyzedTokenReadings[] tokens = disambiguated.getTokens();
     
-    assertFalse(tokens[1].getReadings().toString().contains("<adv>"));
+    Assertions.assertFalse(tokens[1].getReadings().toString().contains("<adv>"));
   }
   
   @Test
@@ -90,13 +89,13 @@ public class MultiWordChunkerTest {
     AnalyzedSentence disambiguated = multiWordChunker.disambiguate(analyzedSentence);
     AnalyzedTokenReadings[] tokens = disambiguated.getTokens();
     
-    assertTrue(tokens[1].getReadings().toString().contains("adv"));
-    assertTrue(tokens[3].getReadings().toString().contains("adv"));
-    assertTrue(tokens[5].getReadings().toString().contains("adv"));
+    Assertions.assertTrue(tokens[1].getReadings().toString().contains("adv"));
+    Assertions.assertTrue(tokens[3].getReadings().toString().contains("adv"));
+    Assertions.assertTrue(tokens[5].getReadings().toString().contains("adv"));
 
-    assertFalse(tokens[1].getReadings().toString().contains("FakePosTag"));
-    assertFalse(tokens[3].getReadings().toString().contains("FakePosTag"));
-    assertFalse(tokens[5].getReadings().toString().contains("FakePosTag"));
+    Assertions.assertFalse(tokens[1].getReadings().toString().contains("FakePosTag"));
+    Assertions.assertFalse(tokens[3].getReadings().toString().contains("FakePosTag"));
+    Assertions.assertFalse(tokens[5].getReadings().toString().contains("FakePosTag"));
   }
 
 }

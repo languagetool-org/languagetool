@@ -18,7 +18,8 @@
  */
 package org.languagetool.synthesis.fr;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.language.French;
 import org.languagetool.synthesis.FrenchSynthesizer;
@@ -26,20 +27,18 @@ import org.languagetool.synthesis.FrenchSynthesizer;
 import java.io.IOException;
 import java.util.Arrays;
 
-import static org.junit.Assert.assertEquals;
-
 public class FrenchSynthesizerTest {
 
   @Test
   public final void testSynthesizeStringString() throws IOException {
     FrenchSynthesizer synth = new FrenchSynthesizer(new French());
-    assertEquals(synth.synthesize(dummyToken("blablabla"), "blablabla").length, 0);
+    Assertions.assertEquals(synth.synthesize(dummyToken("blablabla"), "blablabla").length, 0);
     
-    assertEquals("[nagent]", Arrays.toString(synth.synthesize(dummyToken("nager"), "V ind pres 3 p")));
-    assertEquals("[les]", Arrays.toString(synth.synthesize(dummyToken("le"), "D (m|e) (p|sp)", true)));
-    assertEquals("[marins]", Arrays.toString(synth.synthesize(dummyToken("marin"), "J [me] (p|sp)", true)));
-    assertEquals("[marins]", Arrays.toString(synth.synthesize(new AnalyzedToken("marine", "J f s", "marin"), "J [me] (p|sp)", true)));
-    assertEquals("[marinés]", Arrays.toString(synth.synthesize(new AnalyzedToken("marine", "V ind pres 1 s", "mariner"), "V ppa [me] (p|sp)", true)));
+    Assertions.assertEquals("[nagent]", Arrays.toString(synth.synthesize(dummyToken("nager"), "V ind pres 3 p")));
+    Assertions.assertEquals("[les]", Arrays.toString(synth.synthesize(dummyToken("le"), "D (m|e) (p|sp)", true)));
+    Assertions.assertEquals("[marins]", Arrays.toString(synth.synthesize(dummyToken("marin"), "J [me] (p|sp)", true)));
+    Assertions.assertEquals("[marins]", Arrays.toString(synth.synthesize(new AnalyzedToken("marine", "J f s", "marin"), "J [me] (p|sp)", true)));
+    Assertions.assertEquals("[marinés]", Arrays.toString(synth.synthesize(new AnalyzedToken("marine", "V ind pres 1 s", "mariner"), "V ppa [me] (p|sp)", true)));
   }
 
   private AnalyzedToken dummyToken(String tokenStr) {

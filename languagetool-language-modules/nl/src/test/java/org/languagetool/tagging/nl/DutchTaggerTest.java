@@ -18,21 +18,21 @@
  */
 package org.languagetool.tagging.nl;
 
-import java.io.IOException;
-
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.Dutch;
 import org.languagetool.tokenizers.WordTokenizer;
 import org.languagetool.tokenizers.nl.DutchWordTokenizer;
+
+import java.io.IOException;
 
 public class DutchTaggerTest {
 
   private DutchTagger tagger;
   private WordTokenizer tokenizer;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     tagger = new DutchTagger();
     tokenizer = new DutchWordTokenizer();

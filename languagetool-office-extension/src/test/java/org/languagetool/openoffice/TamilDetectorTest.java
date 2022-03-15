@@ -18,11 +18,10 @@
  */
 package org.languagetool.openoffice;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import org.junit.jupiter.api.Assertions;
+
 
 
 public class TamilDetectorTest {
@@ -31,17 +30,17 @@ public class TamilDetectorTest {
   public void testIsThisLanguage() {
     TamilDetector detector = new TamilDetector();
 
-    assertTrue(detector.isThisLanguage("இந்த"));
-    assertTrue(detector.isThisLanguage("இ"));
-    assertTrue(detector.isThisLanguage("\"லேங்குவேஜ்"));
+    Assertions.assertTrue(detector.isThisLanguage("இந்த"));
+    Assertions.assertTrue(detector.isThisLanguage("இ"));
+    Assertions.assertTrue(detector.isThisLanguage("\"லேங்குவேஜ்"));
 
-    assertFalse(detector.isThisLanguage("Hallo"));
-    assertFalse(detector.isThisLanguage("öäü"));
+    Assertions.assertFalse(detector.isThisLanguage("Hallo"));
+    Assertions.assertFalse(detector.isThisLanguage("öäü"));
 
-    assertFalse(detector.isThisLanguage(""));
+    Assertions.assertFalse(detector.isThisLanguage(""));
     try {
-      assertFalse(detector.isThisLanguage(null));
-      fail();
+      Assertions.assertFalse(detector.isThisLanguage(null));
+      Assertions.fail();
     } catch (NullPointerException ignored) {}
   }
 

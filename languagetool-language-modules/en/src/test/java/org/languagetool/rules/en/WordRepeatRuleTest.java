@@ -18,7 +18,8 @@
  */
 package org.languagetool.rules.en;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
@@ -27,8 +28,6 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.WordRepeatRule;
 
 import java.io.IOException;
-
-import static org.junit.Assert.assertEquals;
 
 public class WordRepeatRuleTest {
 
@@ -51,7 +50,7 @@ public class WordRepeatRuleTest {
 
   private void assertMatches(String input, int expectedMatches) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
-    assertEquals(expectedMatches, matches.length);
+    Assertions.assertEquals(expectedMatches, matches.length);
   }
 
 }

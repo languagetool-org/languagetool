@@ -18,13 +18,13 @@
  */
 package org.languagetool.server;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import org.junit.jupiter.api.Assertions;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static org.junit.Assert.*;
 
 public class ErrorRequestLimiterTest {
   
@@ -35,16 +35,16 @@ public class ErrorRequestLimiterTest {
     Map<String, String> params = new HashMap<>(); // not relevant for test
     String ip1 = "192.168.0.1";
     String ip2 = "192.168.0.2";
-    assertTrue(limiter.wouldAccessBeOkay(ip1, params, header));
-    assertTrue(limiter.wouldAccessBeOkay(ip2, params, header));
+    Assertions.assertTrue(limiter.wouldAccessBeOkay(ip1, params, header));
+    Assertions.assertTrue(limiter.wouldAccessBeOkay(ip2, params, header));
     limiter.logAccess(ip1, header, params);
     limiter.logAccess(ip1, header, params);
     limiter.logAccess(ip1, header, params);
     limiter.logAccess(ip1, header, params);
-    assertFalse(limiter.wouldAccessBeOkay(ip1, params, header));
-    assertTrue(limiter.wouldAccessBeOkay(ip2, params, header));
+    Assertions.assertFalse(limiter.wouldAccessBeOkay(ip1, params, header));
+    Assertions.assertTrue(limiter.wouldAccessBeOkay(ip2, params, header));
     Thread.sleep(1050);
-    assertTrue(limiter.wouldAccessBeOkay(ip1, params, header));
+    Assertions.assertTrue(limiter.wouldAccessBeOkay(ip1, params, header));
   }
 
 }
