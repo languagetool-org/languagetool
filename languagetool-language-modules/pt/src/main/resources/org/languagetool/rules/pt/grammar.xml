@@ -15676,17 +15676,21 @@ PRODUCES 0 HITS IN 600 000 SENTENCES.
       <message>Substitua por <suggestion>a ti</suggestion> ou <suggestion>a te</suggestion>.</message>
       <example correction="a ti|a te">Isto deve-se <marker>a tu</marker>.</example>
     </rule>
+
+<!-- Rule below fixed  by MARCOAGPINTO 2022-03-15 (1-JAN-2022+) -->
     <rule>
       <pattern>
-        <marker>
-          <token regexp='yes'>de|pa?ra|sem</token>
+        <token regexp='yes'>de|pa?ra|sem</token>
+		<marker>
           <token>eu</token>
         </marker>
-          <token postag="_PUNCT|''|CC|SPS00" postag_regexp='yes'/>
+        <token postag="_PUNCT|''|CC|SPS00" postag_regexp='yes'/>
       </pattern>
-      <message>Substitua por <suggestion>de mim</suggestion> ou <suggestion>de me</suggestion>.</message>
-      <example correction="de mim|de me">Isto é <marker>de eu</marker> para o Rui.</example>
+      <message>Substitua por <suggestion>mim</suggestion>.</message>
+      <example correction="mim">Isto é de <marker>eu</marker> para o Rui.</example>
+	  <example correction="mim">Esse livro é para <marker>eu</marker>.</example>
     </rule>
+
     <rule>
       <pattern>
         <marker>
