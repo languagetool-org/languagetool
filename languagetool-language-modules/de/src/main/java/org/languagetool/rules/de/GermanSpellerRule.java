@@ -73,8 +73,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     "judensippe", "judensippen",
     "judensippschaft", "judensippschaften",
     "nigger", "niggern", "niggers",
-    "neger", "negern", "negers", "negerkind", "negerkinds", "negerkindes", "negerkinder", "negerkindern",
-    "negerin", "negerinnen",
     "rassejude", "rassejuden", "rassejüdin", "rassejüdinnen",
     "möse", "mösen", "fotze", "fotzen",
     "judenfrei", "judenfreie", "judenfreier", "judenfreies", "judenfreien", "judenfreiem",
@@ -2286,7 +2284,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   @Override
   protected List<SuggestedReplacement> filterNoSuggestWords(List<SuggestedReplacement> l) {
-    return l.stream().filter(k -> !lcDoNotSuggestWords.contains(k.getReplacement().toLowerCase())).collect(Collectors.toList());
+    return l.stream()
+      .filter(k -> !lcDoNotSuggestWords.contains(k.getReplacement().toLowerCase()))
+      .filter(k -> !k.getReplacement().toLowerCase().matches("neger.*"))
+      .filter(k -> !k.getReplacement().toLowerCase().matches(".+neger(s|n|in|innen)?"))
+      .collect(Collectors.toList());
   }
 
   @Override
