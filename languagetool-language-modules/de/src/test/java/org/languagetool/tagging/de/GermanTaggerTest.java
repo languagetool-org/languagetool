@@ -292,13 +292,25 @@ public class GermanTaggerTest {
 
     List<AnalyzedTokenReadings> result4 = tagger.tag(Collections.singletonList("abzuschicken"));
     assertThat(result4.size(), is(1));
-    assertThat(result4.get(0).getReadings().size(), is(5));
+    assertThat(result4.get(0).getReadings().size(), is(6));
     String res4 = result4.toString();
     assertTrue(res4.contains("abschicken/VER:1:PLU:KJ1:SFT*"));
     assertTrue(res4.contains("abschicken/VER:1:PLU:PRÄ:SFT*"));
     assertTrue(res4.contains("abschicken/VER:3:PLU:KJ1:SFT*"));
     assertTrue(res4.contains("abschicken/VER:3:PLU:PRÄ:SFT*"));
+    assertTrue(res4.contains("abschicken/VER:EIZ:SFT"));
     assertFalse(res4.contains("ADJ:"));
+
+    List<AnalyzedTokenReadings> result4b = tagger.tag(Collections.singletonList("reinzunehmen"));
+    assertThat(result4b.size(), is(1));
+    assertThat(result4b.get(0).getReadings().size(), is(6));
+    String res4b = result4b.toString();
+    assertTrue(res4b.contains("reinnehmen/VER:1:PLU:KJ1:NON*"));
+    assertTrue(res4b.contains("reinnehmen/VER:1:PLU:PRÄ:NON*"));
+    assertTrue(res4b.contains("reinnehmen/VER:3:PLU:KJ1:NON*"));
+    assertTrue(res4b.contains("reinnehmen/VER:3:PLU:PRÄ:NON*"));
+    assertTrue(res4b.contains("reinnehmen/VER:EIZ:NON"));
+    assertFalse(res4b.contains("ADJ:"));
 
     List<AnalyzedTokenReadings> result5 = tagger.tag(Collections.singletonList("Mitmanagen"));
     assertThat(result5.size(), is(1));

@@ -242,10 +242,17 @@ public class GermanTagger extends BaseTagger {
           if (StringTools.startsWithLowercase(verbInfo.prefix)) {
             String noPrefixForm = word.substring(verbInfo.prefix.length() + verbInfo.infix.length());   // infix can be "zu"
             List<TaggedWord> tags = tag(noPrefixForm);
+            boolean isSFT = false;  // SFT = schwaches Verb
             for (TaggedWord tag : tags) {
               if (tag.getPosTag() != null && (tag.getPosTag().startsWith("VER:") || tag.getPosTag().startsWith("PA2:"))) {  // e.g. "schicke" is verb and adjective
                 readings.add(new AnalyzedToken(word, tag.getPosTag(), verbInfo.prefix + tag.getLemma()));
+                if (tag.getPosTag().contains(":SFT")) {
+                  isSFT = true;
+                }
               }
+            }
+            if ("zu".equals(verbInfo.infix)) {
+              readings.add(new AnalyzedToken(word, "VER:EIZ:" + (isSFT ? "SFT" : "NON"), verbInfo.prefix + verbInfo.verbBaseform));
             }
           }
         } else if (nomVerbInfo != null && addNounTags) {
