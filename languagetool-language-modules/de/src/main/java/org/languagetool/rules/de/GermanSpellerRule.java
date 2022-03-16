@@ -73,10 +73,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     "judensippe", "judensippen",
     "judensippschaft", "judensippschaften",
     "nigger", "niggern", "niggers",
-    "neger", "negern", "negers",
+    "neger", "negern", "negers", "negerkind", "negerkinds", "negerkindes", "negerkinder", "negerkindern",
     "negerin", "negerinnen",
     "rassejude", "rassejuden", "rassejüdin", "rassejüdinnen",
-    "möse", "mösen",
+    "möse", "mösen", "fotze", "fotzen",
     "judenfrei", "judenfreie", "judenfreier", "judenfreies", "judenfreien", "judenfreiem",
     "judenrein", "judenreine", "judenreiner", "judenreines", "judenreinen", "judenreinem"
   ));
