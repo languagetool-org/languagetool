@@ -5671,6 +5671,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <wd pos="_GV_"/>
             </disambig>
         </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes">donar</token>
+                <token regexp="yes">de|d'</token>
+                <marker>
+                    <token regexp="yes">alta|baixa</token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_GV_"/>
+            </disambig>
+        </rule>
     </rulegroup>
     <rule id="seguit_nom" name="seguit: nom no participi">
         <pattern>
@@ -12628,7 +12640,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="no_GV" name="neteja GV">
         <rule>
             <pattern>
-                <token postag="_GV_"><exception postag="P[P0].*|V.*" postag_regexp="yes"/><exception regexp="yes">banda|part|llum|dubte|qüestió|pràctica|valor|marxa|escena|servei|servici|contacte|baixa|falta|terme|origen|camí|corrent|relleu|compte|consulta</exception></token>
+                <token postag="_GV_"><exception postag="P[P0].*|V.*" postag_regexp="yes"/><exception regexp="yes">banda|part|llum|dubte|qüestió|pràctica|valor|marxa|escena|servei|servici|contacte|baixa|falta|terme|origen|camí|corrent|relleu|compte|consulta|alta</exception></token>
             </pattern>
             <disambig action="remove">
                 <wd pos="_GV_"/>
