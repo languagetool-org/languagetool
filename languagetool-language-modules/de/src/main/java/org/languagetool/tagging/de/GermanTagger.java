@@ -252,6 +252,7 @@ public class GermanTagger extends BaseTagger {
               }
             }
             if ("zu".equals(verbInfo.infix)) {
+              readings.clear();
               readings.add(new AnalyzedToken(word, "VER:EIZ:" + (isSFT ? "SFT" : "NON"), verbInfo.prefix + verbInfo.verbBaseform));
             }
           }
