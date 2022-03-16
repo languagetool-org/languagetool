@@ -8101,7 +8101,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="estás">Se nota que <marker>estas</marker> con él.</example>
                 <example correction="estás">Pues sí que <marker>estas</marker> como una regadera.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">que|si|cual</token>
                     <token postag="D.*" postag_regexp="yes"/>
@@ -8115,7 +8115,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="4" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
                 <example correction="estás">Si alguna vez <marker>estas</marker> con él.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token skip="10">las</token>
                     <token skip="10">con</token>
@@ -8136,7 +8136,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="estás">Tú <marker>estas</marker> al mando.</example>
                 <example>La cueva estaba mal iluminada, las sombras se confundían con las tinieblas, y estas con los murciélagos.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>lo</token>
                     <token postag="A.*|V.P.*" postag_regexp="yes"/>
@@ -8150,7 +8150,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="4" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
                 <example correction="estás">Vieno lo moreno que <marker>estas</marker>, parece que hayas estado en la playa.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>estas</token>
@@ -8199,7 +8199,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
                 <example correction="estás">¡Bueno <marker>estas</marker> tú hecho!</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="C.*|PR.*|SENT_START|LOC_CS" postag_regexp="yes"/>
                     <marker>
@@ -8212,7 +8212,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="estás">Una vez que <marker>estas</marker> dentro ya no puedes salir.</example>
                 <example correction="estás">Pues sí que <marker>estas</marker> como una regadera.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
+                <antipattern>
+                    <token postag="NC[FC][PN].*|_GN_FP" postag_regexp="yes"/>
+                    <token>como</token>
+                    <token>estas</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">ahí|aquí|dentro|fuera|arriba|abajo|allí|allá|como</token>
                     <marker>
@@ -8223,6 +8228,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Si es del verbo 'estar', se escribe con tilde.</message>
                 <suggestion><match no="2" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
                 <example correction="estás">¡Ahí <marker>estas</marker>!</example>
+                <example>Pero de verdad, que con columnas como estas, no tiene nada de culto ni distinto.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ESTE_TILDE" name="*este/esté" default="on">
