@@ -8,14 +8,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
 import javax.net.ssl.SSLException;
 
+import io.grpc.Status;
+import io.grpc.StatusRuntimeException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
@@ -287,7 +286,7 @@ public class GRPCPostProcessing {
 
     int chars = sentences.stream().map(s -> s.getText().length()).reduce(0, Integer::sum);
     List<RuleMatch> result;
-    long start = System.currentTimeMillis();
+    long start = System.nanoTime();
     try {
       result = RemoteRuleMetrics.inCircuitBreaker(System.nanoTime(), circuitBreaker,
         config.ruleId, chars, () -> runPostprocessing(sentences, ruleMatches, textSessionID, inputLogging, chars));
@@ -297,31 +296,40 @@ public class GRPCPostProcessing {
     if (result == null) {
       return ruleMatches;
     } else {
-      long delta = System.currentTimeMillis() - start;
+      long delta = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - start);
       log.info("gRPC postprocessing chars={} sentences={} matches={} time={}ms",
                chars, sentences.size(), ruleMatches.size(), delta);
       RemoteRuleMetrics.wait(config.getRuleId(), delta);
+      RemoteRuleMetrics.request(config.getRuleId(), start, chars, RemoteRuleMetrics.RequestResult.SUCCESS);
       return result;
     }
   }
 
   private List<RuleMatch> runPostprocessing(List<AnalyzedSentence> sentences, List<RuleMatch> ruleMatches,
-                                            Long textSessionID, boolean inputLogging, int chars) {
+                                            Long textSessionID, boolean inputLogging, int chars) throws TimeoutException {
     List<Integer> offset = new ArrayList<>();
     long timeout = RemoteRule.getTimeout(config, chars);
-    MatchResponse response = stub.withDeadlineAfter(timeout, TimeUnit.MILLISECONDS)
-      .process(buildRequest(sentences, ruleMatches, offset, textSessionID, inputLogging));
-    List<RuleMatch> result = new ArrayList<>(response.getSentenceMatchesCount());
-    for (int i = 0; i < response.getSentenceMatchesCount(); i++) {
-      MatchList matchList = response.getSentenceMatches(i);
-      AnalyzedSentence sentence = sentences.get(i);
-      int offsetShift = offset.get(i);
-      for (int j = 0; j  < matchList.getMatchesCount(); j++) {
-        RuleMatch match = convertMatch(matchList.getMatches(j), sentence);
-        match.setOffsetPosition(match.getFromPos() + offsetShift, match.getToPos() + offsetShift);
-        result.add(match);
+    try {
+      MatchResponse response = stub.withDeadlineAfter(timeout, TimeUnit.MILLISECONDS)
+        .process(buildRequest(sentences, ruleMatches, offset, textSessionID, inputLogging));
+      List<RuleMatch> result = new ArrayList<>(response.getSentenceMatchesCount());
+      for (int i = 0; i < response.getSentenceMatchesCount(); i++) {
+        MatchList matchList = response.getSentenceMatches(i);
+        AnalyzedSentence sentence = sentences.get(i);
+        int offsetShift = offset.get(i);
+        for (int j = 0; j  < matchList.getMatchesCount(); j++) {
+          RuleMatch match = convertMatch(matchList.getMatches(j), sentence);
+          match.setOffsetPosition(match.getFromPos() + offsetShift, match.getToPos() + offsetShift);
+          result.add(match);
+        }
+      }
+      return result;
+    } catch (StatusRuntimeException e) {
+      if (e.getStatus().getCode() == Status.DEADLINE_EXCEEDED.getCode()) {
+        throw new TimeoutException("gRPC postprocessing timed out: " + e.getMessage());
+      } else {
+        throw e;
       }
     }
-    return result;
   }
 }
