@@ -21579,6 +21579,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Verdoppelung: meinten Sie <suggestion>\1</suggestion> oder <suggestion>\2</suggestion>?</message>
             <example correction='kein|ein'>Da steht <marker>kein ein</marker> Fahrrad.</example>
         </rule>
+        <rule id="ENUM_SUB_UND_VER" name="TODO">
+            <pattern>
+                <token>,</token>
+                <token postag="SUB.*" postag_regexp="yes"/>
+                <marker>
+                    <token>und</token>
+                    <token postag="VER.*" postag_regexp="yes">
+                        <!-- TODO: Ich möchte ALLE Tokens, die nicht eindeutig Verben sind, ausnehmen. -->
+                        <exception postag="(SUB|ADV).*" postag_regexp="yes"></exception>
+                    </token>
+                </marker>
+            </pattern>
+            <message>Haben Sie hier ein Wort vergessen?</message>
+            <example correction="">Äpfel, Birnen <marker>und kann</marker> man dort kaufen.</example>
+            <example correction="">Darüber hinausgehende Informationen, Kontaktstellen <marker>und finden</marker> Betroffene hier.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
