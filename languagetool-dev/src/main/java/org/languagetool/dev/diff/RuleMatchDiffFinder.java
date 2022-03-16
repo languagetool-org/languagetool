@@ -430,7 +430,7 @@ public class RuleMatchDiffFinder {
       fw.write("  <td>Source</td>");
       fw.write("  <td title='Picky'>P</td>");
       fw.write("  <td title='temp_off'>T</td>");
-      fw.write("  <td title='Plus'>Plus</td>");
+      fw.write("  <td title='Premium'>Prem</td>");
       fw.write("  <td>ID</td>");
       fw.write("  <td>Message of first match</td>");
       fw.write("</tr>");
@@ -463,9 +463,9 @@ public class RuleMatchDiffFinder {
           fw.write("<td></td>");
         }
         if (outputFile.items.size() > 0 && outputFile.items.get(0).getNewMatch() != null) {
-          fw.write("<td>" + (outputFile.items.get(0).getNewMatch().isPremium() ? "isPremium" : "") + "</td>");
+          fw.write("<td>" + (outputFile.items.get(0).getNewMatch().isPremium() ? "prem" : "") + "</td>");
         } else if (outputFile.items.size() > 0 && outputFile.items.get(0).getOldMatch() != null) {
-          fw.write("<td>" + (outputFile.items.get(0).getOldMatch().isPremium() ? "isPremium" : "") + "</td>");
+          fw.write("<td>" + (outputFile.items.get(0).getOldMatch().isPremium() ? "prem" : "") + "</td>");
         } else {
           fw.write("<td></td>");
         }
