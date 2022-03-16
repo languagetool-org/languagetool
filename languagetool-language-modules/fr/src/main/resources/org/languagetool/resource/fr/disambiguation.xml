@@ -141,6 +141,15 @@ RB => Règles Brutes
         </pattern>
         <disambig action="remove" postag="J e s"/>
     </rule>
+    <rule id="LAMPE_TORCHE" name="lampe torche">
+        <pattern>
+            <token regexp="yes">lampes?</token>
+            <marker>
+                <token>torche</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="V ind pres 3 s"/>
+    </rule>
     <rulegroup id="CEUX_QUI_L_ECOUTE" name="ceux qui l'écoute">
         <rule>
         <pattern>
@@ -6274,6 +6283,10 @@ RB => Règles Brutes
         <antipattern>
             <token regexp="yes">tout|frais</token>
             <token regexp="yes">de|d'|des</token>
+        </antipattern>
+        <antipattern>
+            <token regexp="yes">cette|cet</token>
+            <token>ensemble</token>
         </antipattern>
         <pattern>
             <marker>
