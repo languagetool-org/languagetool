@@ -286,6 +286,7 @@ public class GRPCPostProcessing {
 
     int chars = sentences.stream().map(s -> s.getText().length()).reduce(0, Integer::sum);
     List<RuleMatch> result;
+    long start = System.currentTimeMillis();
     try {
       result = RemoteRuleMetrics.inCircuitBreaker(System.nanoTime(), circuitBreaker,
         config.ruleId, chars, () -> runPostprocessing(sentences, ruleMatches, textSessionID, inputLogging));
@@ -295,6 +296,10 @@ public class GRPCPostProcessing {
     if (result == null) {
       return ruleMatches;
     } else {
+      long delta = System.currentTimeMillis() - start;
+      log.info("gRPC postprocessing chars={} sentences={} matches={} time={}ms",
+               chars, sentences.size(), ruleMatches.size(), delta);
+      RemoteRuleMetrics.wait(config.getRuleId(), delta);
       return result;
     }
   }
