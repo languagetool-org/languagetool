@@ -11,6 +11,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import javax.net.ssl.SSLException;
@@ -289,7 +290,7 @@ public class GRPCPostProcessing {
     long start = System.currentTimeMillis();
     try {
       result = RemoteRuleMetrics.inCircuitBreaker(System.nanoTime(), circuitBreaker,
-        config.ruleId, chars, () -> runPostprocessing(sentences, ruleMatches, textSessionID, inputLogging));
+        config.ruleId, chars, () -> runPostprocessing(sentences, ruleMatches, textSessionID, inputLogging, chars));
     } catch (InterruptedException e) {
       return ruleMatches;
     }
@@ -305,9 +306,11 @@ public class GRPCPostProcessing {
   }
 
   private List<RuleMatch> runPostprocessing(List<AnalyzedSentence> sentences, List<RuleMatch> ruleMatches,
-                                            Long textSessionID, boolean inputLogging) {
+                                            Long textSessionID, boolean inputLogging, int chars) {
     List<Integer> offset = new ArrayList<>();
-    MatchResponse response = stub.process(buildRequest(sentences, ruleMatches, offset, textSessionID, inputLogging));
+    long timeout = RemoteRule.getTimeout(config, chars);
+    MatchResponse response = stub.withDeadlineAfter(timeout, TimeUnit.MILLISECONDS)
+      .process(buildRequest(sentences, ruleMatches, offset, textSessionID, inputLogging));
     List<RuleMatch> result = new ArrayList<>(response.getSentenceMatchesCount());
     for (int i = 0; i < response.getSentenceMatchesCount(); i++) {
       MatchList matchList = response.getSentenceMatches(i);

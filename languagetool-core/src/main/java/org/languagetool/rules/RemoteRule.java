@@ -216,10 +216,14 @@ public abstract class RemoteRule extends Rule {
     });
   }
 
-  public long getTimeout(long characters) {
+  static long getTimeout(RemoteRuleConfig serviceConfiguration, long characters) {
     long timeout = serviceConfiguration.getBaseTimeoutMilliseconds() +
       Math.round(characters * serviceConfiguration.getTimeoutPerCharacterMilliseconds());
     return timeout;
+  }
+
+  public long getTimeout(long characters) {
+    return getTimeout(serviceConfiguration, characters);
   }
 
   public CircuitBreaker circuitBreaker() {
