@@ -103,6 +103,8 @@ public class WordListValidatorTest {
           "Kariņš",
           "Djuveč",
           "Djuvečreis",
+          "Çavuşoğlu",
+          "Çavuşoğlu/S",
           "Hidschāb/S",
           "Dvořák/S",
           "Constanța",
