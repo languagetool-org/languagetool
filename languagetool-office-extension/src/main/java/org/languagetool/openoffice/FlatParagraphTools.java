@@ -643,6 +643,9 @@ public class FlatParagraphTools {
         tmpFlatPara = xFlatParaIter.getParaAfter(tmpFlatPara);
         num++;
       }
+      if (debugMode && tmpFlatPara == null) {
+        MessageHandler.printToLogFile("FlatParagraphTools: markParagraphs: tmpFlatParagraph == null");
+      }
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
     }
@@ -718,9 +721,9 @@ public class FlatParagraphTools {
         props = flatPara.getMarkupInfoContainer();
         flatPara.commitStringMarkup(TextMarkupType.SENTENCE, "Sentence", errors.sentenceStart, errors.sentenceEnd - errors.sentenceStart, props);
       }
-      if (isChecked) {
-        flatPara.setChecked(TextMarkupType.PROOFREADING, true);
-      }
+    }
+    if (isChecked) {
+      flatPara.setChecked(TextMarkupType.PROOFREADING, true);
     }
   }
 

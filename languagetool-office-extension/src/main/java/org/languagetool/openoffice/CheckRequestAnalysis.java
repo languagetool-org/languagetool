@@ -424,6 +424,7 @@ class CheckRequestAnalysis {
     if (startPos != 0 && proofInfo == OfficeTools.PROOFINFO_MARK_PARAGRAPH) {
       if (debugMode > 0) {
         MessageHandler.printToLogFile("CheckRequestAnalysis: getParaFromFlatparagraph: Number of Paragraph: " + numLastFlPara 
+            + "; startPos = " + startPos
             + " (proofInfo == " + OfficeTools.PROOFINFO_MARK_PARAGRAPH + ")" + OfficeTools.LOG_LINE_BREAK);
       }
       return numLastFlPara;
@@ -441,12 +442,8 @@ class CheckRequestAnalysis {
     // number of paragraphs has changed? --> Update the internal information
     nPara = changesInNumberOfParagraph(true);
     if (nPara < 0) {
-      if (proofInfo == OfficeTools.PROOFINFO_UNKNOWN) {
-        //  problem with automatic iteration - try to get ViewCursor position
-        return getParaFromViewCursorOrDialog(chPara, locale, footnotePositions);
-      } else {
-        return nPara;
-      }
+      //  problem with automatic iteration - try to get ViewCursor position
+      return getParaFromViewCursorOrDialog(chPara, locale, footnotePositions);
     }
     if (isDisposed()) {
       return -1;
@@ -551,6 +548,9 @@ class CheckRequestAnalysis {
       if (tPara != null && tPara.type != DocumentCache.CURSOR_TYPE_UNKNOWN) {
         nPara = docCache.getFlatParagraphNumber(tPara);
         numLastVCPara = nPara;
+        if (proofInfo == OfficeTools.PROOFINFO_MARK_PARAGRAPH) {
+          numLastFlPara = nPara;
+        }
         if(!docCache.isEqual(nPara, chParaWithFootnotes, locale)) {
           actualizeDocumentCache(nPara, false);
           String dcText = SingleCheck.removeFootnotes(docCache.getFlatParagraph(nPara), footnotePositions);

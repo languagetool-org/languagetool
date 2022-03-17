@@ -220,7 +220,7 @@ public class MultiDocumentsHandler {
     }
     testHeapSpace();
     if (debugMode) {
-      MessageHandler.printToLogFile("MultiDocumentsHandler: getCheckResults: Start getCheckResults at single document!");
+      MessageHandler.printToLogFile("MultiDocumentsHandler: getCheckResults: Start getCheckResults at single document: " + paraText);
     }
     paRes = documents.get(docNum).getCheckResults(paraText, locale, paRes, propertyValues, docReset, lt);
     if (lt.doReset()) {
@@ -1064,6 +1064,17 @@ public class MultiDocumentsHandler {
   }
   
   /**
+   * Call method renewMarkups for concerned document 
+   */
+  public void renewMarkups() {
+    for (SingleDocument document : documents) {
+      if (menuDocId != null && menuDocId.equals(document.getDocID())) {
+        document.renewMarkups();
+      }
+    }
+  }
+  
+  /**
    * reset ignoreOnce information in all documents
    */
   public void resetIgnoreOnce() {
@@ -1361,6 +1372,8 @@ public class MultiDocumentsHandler {
       } else if (sEvent.startsWith("activateRule_")) {
         String ruleId = sEvent.substring(13);
         activateRule(ruleId);
+      } else if ("renewMarkups".equals(sEvent)) {
+        renewMarkups();
       } else if ("checkDialog".equals(sEvent) || "checkAgainDialog".equals(sEvent)) {
         if (useOrginalCheckDialog) {
           if ("checkDialog".equals(sEvent) ) {

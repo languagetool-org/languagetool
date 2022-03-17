@@ -375,6 +375,7 @@ public class LanguageToolMenus {
     private final static String LT_DEACTIVATE_RULE = "service:org.languagetool.openoffice.Main?deactivateRule";
     private final static String LT_ACTIVATE_RULE = "service:org.languagetool.openoffice.Main?activateRule_";
     private final static String LT_REMOTE_HINT = "service:org.languagetool.openoffice.Main?remoteHint";   
+    private final static String LT_RENEW_MARKUPS = "service:org.languagetool.openoffice.Main?renewMarkups";
 
     public ContextMenuInterceptor() {}
     
@@ -426,6 +427,7 @@ public class LanguageToolMenus {
           }
         }
         //  Add LT Options Item if a Grammar or Spell error was detected
+        document.setMenuDocId();
         for (int i = 0; i < count; i++) {
           Any a = (Any) xContextMenu.getByIndex(i);
           XPropertySet props = (XPropertySet) a.getObject();
@@ -446,7 +448,6 @@ public class LanguageToolMenus {
               }
             }
             if (n >= count) {
-              document.setMenuDocId();
               if (document.getCurrentNumberOfParagraph() >= 0) {
                 props.setPropertyValue("CommandURL", LT_IGNORE_ONCE);
               }
@@ -492,6 +493,13 @@ public class LanguageToolMenus {
                 nId++;
               }
               
+              XPropertySet xNewMenuEntry4 = UnoRuntime.queryInterface(XPropertySet.class,
+                  xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
+              xNewMenuEntry4.setPropertyValue("Text", MESSAGES.getString("loContextMenuRenewMarkups"));
+              xNewMenuEntry4.setPropertyValue("CommandURL", LT_RENEW_MARKUPS);
+              xContextMenu.insertByIndex(nId, xNewMenuEntry4);
+              nId++;
+
               XPropertySet xNewMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
                   xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
               xNewMenuEntry.setPropertyValue("Text", MESSAGES.getString("loContextMenuOptions"));
@@ -519,6 +527,13 @@ public class LanguageToolMenus {
           xContextMenu.insertByIndex(nId, xNewMenuEntry2);
           nId++;
         }
+
+        XPropertySet xNewMenuEntry4 = UnoRuntime.queryInterface(XPropertySet.class,
+            xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
+        xNewMenuEntry4.setPropertyValue("Text", MESSAGES.getString("loContextMenuRenewMarkups"));
+        xNewMenuEntry4.setPropertyValue("CommandURL", LT_RENEW_MARKUPS);
+        xContextMenu.insertByIndex(nId, xNewMenuEntry4);
+        nId++;
 
         XPropertySet xNewMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
             xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));

@@ -559,9 +559,9 @@ class SingleDocument {
     int nStart = docCache.getStartOfParaCheck(nPara, nCheck, false, true, false);
     int nEnd = docCache.getEndOfParaCheck(nPara, nCheck, false, true, false);
     if (nCheck > 0 && nStart + 1 < nEnd) {
-      if ((nStart == nPara.number 
-              || paragraphsCache.get(nCache).getCacheEntry(docCache.getFlatParagraphNumber(new TextParagraph(nPara.type, nPara.number - 1))) != null) 
-          && (nEnd == nPara.number 
+      if ((nStart == nPara.number || (nPara.number == 0
+              || paragraphsCache.get(nCache).getCacheEntry(docCache.getFlatParagraphNumber(new TextParagraph(nPara.type, nPara.number - 1))) != null)) 
+          && (nEnd == nPara.number || nPara.number == docCache.textSize(nPara) - 1
               || paragraphsCache.get(nCache).getCacheEntry(docCache.getFlatParagraphNumber(new TextParagraph(nPara.type, nPara.number + 1))) != null)) {
         nStart = nPara.number;
         nEnd = nStart + 1;
@@ -626,7 +626,8 @@ class SingleDocument {
           changedParas.remove(nPara);
           if (sChangedPara != null && !sChangedPara.equals(sPara)) {
             docCache.setFlatParagraph(nPara, sPara);
-            for (int i = 0; i < mDocHandler.getNumMinToCheckParas().size(); i++) {
+            //  NOTE: Don't remove paragraph cache 0. It is needed to set correct markups
+            for (int i = 1; i < mDocHandler.getNumMinToCheckParas().size(); i++) {
               paragraphsCache.get(i).remove(nPara);
             }
             return createQueueEntry(docCache.getNumberOfTextParagraph(nPara), 0);
@@ -650,12 +651,35 @@ class SingleDocument {
   
   private void remarkChangedParagraphs(List<Integer> changedParas, boolean isIntern) {
     if (!disposed) {
-      SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, docCursor, flatPara, docLanguage, ignoredMatches, numParasToCheck, true, false, isIntern);
+      SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, docCursor, flatPara, docLanguage, ignoredMatches, numParasToCheck, false, false, isIntern);
       if (docCursor == null) {
         docCursor = new DocumentCursorTools(xComponent);
       }
       singleCheck.remarkChangedParagraphs(changedParas, docCursor, flatPara, mDocHandler.getLanguageTool(), true);
     }
+  }
+
+/**
+ * Renew text markups for paragraphs under view cursor
+ */
+  public void renewMarkups() {
+    if (disposed) {
+      return;
+    }
+    ViewCursorTools viewCursor = new ViewCursorTools(xComponent);
+    int y = docCache.getFlatParagraphNumber(viewCursor.getViewCursorParagraph());
+    if (debugMode > 0) {
+      MessageHandler.printToLogFile("SingleDocument: renewMarkups: Number of Flat Paragraph = " + y);
+    }
+    List<Integer> changedParas = new ArrayList<Integer>();
+    changedParas.add(y);
+    remarkChangedParagraphs(changedParas, false);
+/*
+    for (int i = 1; i < mDocHandler.getNumMinToCheckParas().size(); i++) {
+      paragraphsCache.get(i).remove(y);
+    }
+    addQueueEntry(y, 0, 0, docID, true, true);
+*/
   }
 
   /**
