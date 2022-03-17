@@ -24163,6 +24163,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Sie probieren Rum.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token case_sensitive="yes">Rum</token>
+                </antipattern>
+                <pattern>
+                    <token skip="-1" postag="VER:.+" postag_regexp="yes"/>
+                    <marker>
+                        <token>rum</token>
+                    </marker>
+                </pattern>
+                <message>Möchten Sie 'rum' durch eine Alternative ersetzen, um Ihren Text formeller zu machen?</message>
+                <suggestion>herum</suggestion>
+                <example correction="herum">Heute saßen wir den ganzen Tag nur <marker>rum</marker>.</example>
+                <example>In der Karibik Rum zu trinken, wäre ein Traum.</example>
+            </rule>
+            <rule>
                 <pattern>
                     <token regexp="yes">ran(arbeite(te)?n?|bilde(te)?n?|brausen?|brausten?|brechen?|brachten?|bringen?|drängt?en|dränge|dürfen?|durften?|fahren?|fuhren|führen?|führten?|gleiten?|glitten|holt?en?|kämpft?en?|karrt?en?|könnt?en?|kommen?|kriechen?|kroch(en)?|lassen?|ließe?n?|liesse?n?|lockt?en?|macht?en?|müsst?en?|naht?en?|nehmen?|nahm(en)?|pfeifen?|pfiff(en)?|pirscht?en?|reicht?en?|reift?en?|rollt?en?|rückt?en?|rufen?|rief(en)?|stehen?|stand(en)?|schleicht?en?|schafft?en?|tasten?|tasteten?|tragt?en?|treten?|traten|traut?en?|wachsen?|wuchsen?|wagt?en?|winkt?en?|wollt?en?|zieht?en?|zoomt?en?|züchten?)</token>
                 </pattern>
