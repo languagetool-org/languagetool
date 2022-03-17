@@ -7998,7 +7998,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>estas</token>
                     </marker>
-                    <token postag="RG|A.*|V.P.*|LOC_ADV" postag_regexp="yes"><exception postag="A..[FC][PN].*|V.P..PF" postag_regexp="yes"/></token>
+                    <token postag="RG|A.*|V.P.*|LOC_ADV|LOC_PREP" postag_regexp="yes"><exception postag="A..[FC][PN].*|V.P..PF" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Si es del verbo 'estar', se escribe con tilde.</message>
                 <suggestion><match no="1" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
@@ -8009,6 +8009,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="estás">¿Ahora <marker>estas</marker> contenta?</example>
                 <example correction="estás">Se nota que <marker>estas</marker> inquieta.</example>
                 <example correction="estás">Piensas que <marker>estas</marker> despierto, pero estás soñando.</example>
+                <example correction="estás">Te crees perfecta, pero <marker>estas</marker> lejos de serlo.</example>
                 <example>Alguien desordena estas rosas.</example>
                 <example>Estas características añadidas son:</example>
                 <example>Estas ahora no están.</example>
@@ -8094,7 +8095,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>estas</token>
                     </marker>
-                    <token postag="SPS00|LOC_PREP|A.*|V.P.*|CS|PR.*|PP[12]CSO00|DA0NS0|SP:DA|RG" postag_regexp="yes"><exception postag="A..[FC][PN].|V.P..PF" postag_regexp="yes"/></token>
+                    <token postag="SPS00|LOC_PREP|A.*|V.P.*|CS|PR.*|PP[12]CSO00|DA0NS0|SP:DA|RG|DD.*" postag_regexp="yes"><exception postag="A..[FC][PN].|V.P..PF" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Si es del verbo 'estar', se escribe con tilde.</message>
                 <suggestion><match no="2" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
@@ -8109,7 +8110,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>estas</token>
                     </marker>
-                    <token postag="SPS00|LOC_PREP|A.*|V.P.*|CS|PR.*|PP[12]CSO00|DA0NS0|SP:DA|RG" postag_regexp="yes"><exception postag="A..[FC][PN].|V.P..PF" postag_regexp="yes"/></token>
+                    <token postag="SPS00|LOC_PREP|A.*|V.P.*|CS|PR.*|PP[12]CSO00|DA0NS0|SP:DA|RG|DD.*" postag_regexp="yes"><exception postag="A..[FC][PN].|V.P..PF" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Si es del verbo 'estar', se escribe con tilde.</message>
                 <suggestion><match no="4" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
@@ -8201,11 +8202,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="C.*|PR.*|SENT_START|LOC_CS" postag_regexp="yes"/>
+                    <token postag="C.*|PR.*|SENT_START|LOC_CS|_PUNCT.*" postag_regexp="yes"/>
                     <marker>
                         <token>estas</token>
                     </marker>
-                    <token regexp="yes">ahí|aquí|dentro|fuera|arriba|abajo|al|en|allí|allá|como</token>
+                    <token regexp="yes">ahí|aquí|dentro|fuera|arriba|abajo|al|en|a|allí|allá|como|contra</token>
                 </pattern>
                 <message>Si es del verbo 'estar', se escribe con tilde.</message>
                 <suggestion><match no="2" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
@@ -8219,14 +8220,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>estas</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">ahí|aquí|dentro|fuera|arriba|abajo|allí|allá|como</token>
+                    <token regexp="yes">ahí|aquí|dentro|fuera|arriba|abajo|allí|allá|como|cuando|quién|donde|dónde</token>
+                    <token min="0">no</token>
                     <marker>
                         <token>estas</token>
                     </marker>
                     <token regexp="yes">\p{P}</token>
                 </pattern>
                 <message>Si es del verbo 'estar', se escribe con tilde.</message>
-                <suggestion><match no="2" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
+                <suggestion><match no="3" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
                 <example correction="estás">¡Ahí <marker>estas</marker>!</example>
                 <example>Pero de verdad, que con columnas como estas, no tiene nada de culto ni distinto.</example>
             </rule>
