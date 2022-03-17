@@ -19,6 +19,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.Language;
+import org.languagetool.Premium;
 import org.languagetool.Tag;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.ml.MLServerProto;
@@ -210,7 +211,7 @@ public class GRPCPostProcessing {
           .setId(m.getRule().getCategory().getId().toString())
           .setName(m.getRule().getCategory().getName())
           .build())
-        .setIsPremium(m.getRule().isPremium())
+        .setIsPremium(Premium.get().isPremiumRule(m.getRule()))
         .addAllTags(m.getRule().getTags().stream()
           .map(t -> MLServerProto.Rule.Tag.valueOf(t.name()))
           .collect(Collectors.toList()))
