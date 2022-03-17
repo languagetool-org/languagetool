@@ -24203,6 +24203,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="heranzutasten">Er versuchte sich an das Problem <marker>ranzutasten</marker>.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token skip="-1">ran</token>
+                    <token skip="-1" regexp="yes">Telefon|Handy|Smartphone|Mobilgerät|Funktelefon|Handtelefon|Mobilfunktelefon|Taschentelefon</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1" regexp="yes">Telefon|Handy|Smartphone|Mobilgerät|Funktelefon|Handtelefon|Mobilfunktelefon|Taschentelefon</token>
+                    <token>ran</token>
+                </antipattern>
+                <antipattern>
+                    <token case_sensitive="yes" regexp="yes">Ran|RAN</token>
+                </antipattern>
+                <pattern>
+                    <token>ran</token>
+                </pattern>
+                <message>Möchten Sie 'ran' durch eine Alternative ersetzen, um Ihren Text formeller zu machen?</message>
+                <suggestion>heran</suggestion>
+                <example correction="heran">Fahr bitte ganz nah an den Gehweg <marker>ran</marker>.</example>
+                <example>Die berühmte Schriftstellerin heißt Ran Yun-Fei.</example>
+                <example>Das Telefon klingelt jetzt schon das zweite Mal, aber ich gehe nicht ran.</example>
+                <example>Ich gehe nicht ran, auch wenn das Telefon klingelt.</example>
+            </rule>
+            <rule>
                 <pattern>
                     <token regexp="yes">runter(baumeln|baumelten|drücken|drückten|fallen|fielen|fliegen|fließen|fliessen|flitzen|flitzten|flogen|flossen|fuhren|gefallen|gefallenen|geflogen|gegangen|gehangelt|gehauen|gehen|geholt|geholten|gehst|geht|geklappt|geklettert|gekommen|gekommenen|gekullert|gekurbelt|gekurbelten|geladen|geladenen|gelassen|gelassenen|gelaufen|geleiert|geleierten|geputzt|gerannt|gerasselt|gerissen|gerollt|gerutscht|geschluckt|geschluckten|geschraubt|geschraubten|getragen|getropft|geworfen|gewürgt|gewürgten|gezerrt|gezogen|gezogenen|gingen|handeln|hängen|hauen|hauten|holen|holten|kamen|kam|kippen|kippten|klappen|klappten|klettern|kletterten|knallen|knallten|kommen|kullern|kullerten|kurbeln|kurbelten|laden|lassen|leiern|leierten|ließen|liessen|machen|putzen|putzten|rasseln|rasselten|rissen|rutschen|rutschten|schlingen|schlucken|schluckten|schmeißen|schmeissen|schmissen|schrauben|schütten|setzen|spielen|spielten|spülen|spülten|tropfen|würgen|würgten|zubrechen|zugehen|zukommen|zukraxeln|zumachen|zurennen|zurinnen|zurutschen|zuschleppen|zuschlingen|zuschlucken|zuschmeißen|zuschmeissen|zusetzen|zuspringen|zuspülen|zusteigen|zuwerfen|zuwürgen|zuzerren)</token>
                 </pattern>
