@@ -14,6 +14,11 @@
   * added words and POS data
   * fixed tons of false positives
 
+#### Ukrainian
+  * new words in the POS dictionary
+  * added and improved rules
+  * improved tagging and disambiguation
+
 ## 5.6 (2021-12-29)
 
 #### Catalan
