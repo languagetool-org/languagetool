@@ -12416,7 +12416,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
-        <rule id="ALLER_HAND" name="aller Hand (allerhand)" default="temp_off">
+        <rule id="ALLER_HAND" name="aller Hand (allerhand)">
             <pattern>
                 <token>aller</token>
                 <token>Hand</token>
@@ -25897,6 +25897,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="JEDEM_DAS_SEINE" name="jedem das seine (Seine)" default="temp_off">
+            <pattern>
+                <token>jedem</token>
+                <token>das</token>
+                <marker>
+                    <token case_sensitive="yes">seine</token>
+                </marker>
+            </pattern>
+            <message>In dieser Redewendung wird <suggestion>Seine</suggestion> großgeschrieben.</message>
+            <url>https://en.wikipedia.org/wiki/Jedem_das_Seine</url>
+            <example correction="Seine">Jedem das <marker>seine</marker>.</example>
+        </rule>
         <rule id="ZU_SEINEM_ENTSETZEN" name="zu seinem entsetzen (Entsetzen)">
             <pattern>
                 <token>zu</token>
@@ -46758,7 +46770,60 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
-        <rulegroup id="IN_UKRAINE" name="in (der) Ukraine" default="temp_off">
+        <rulegroup id="IN_DER_USA" name="in (den) USA" default="temp_off">
+            <antipattern>
+                <token>USA</token>
+                <token min="0">-</token>
+                <token case_sensitive="yes" regexp="yes" postag="UNKNOWN|SUB.*" postag_regexp="yes">[A-ZÄÖÜ].+</token>
+            </antipattern>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[Ii]n|[Aa]us</token>
+                    <marker>
+                        <token>der</token>
+                        <token>USA</token>
+                    </marker>
+                </pattern>
+                <message>Hier scheint der Artikel nicht korrekt zu sein.</message>
+                <suggestion>den USA</suggestion>
+                <example correction="den USA">Ich lebe in <marker>der USA</marker>.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">born|made</token>
+                    <token>in</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="UNKNOWN" regexp="yes">.*[a-z].*</token>
+                    <token>in</token>
+                </antipattern>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">[Ii]n|[Aa]us</token>
+                        <token>USA</token>
+                    </marker>
+                </pattern>
+                <message>Hier scheint ein Artikel zu fehlen.</message>
+                <suggestion>\1 den USA</suggestion>
+                <suggestion>\1 die USA</suggestion>
+                <example correction="in den USA|in die USA">Ich lebe <marker>in USA</marker>.</example>
+                <example>Made in USA.</example>
+            </rule>
+        </rulegroup>
+        <rule id="JEDEN_DAS_SEINE" name="jeden (jedem) das Seine" default="temp_off">
+            <pattern>
+                <marker>
+                    <token>jeden</token>
+                </marker>
+                <token>das</token>
+                <token>seine</token>
+            </pattern>
+            <message>In dieser Redewendung wird in der Regel der Dativ verwendet.</message>
+            <suggestion>jedem</suggestion>
+            <url>https://en.wikipedia.org/wiki/Jedem_das_Seine</url>
+            <example correction="Jedem"><marker>Jeden</marker> das seine.</example>
+        </rule>
+        <rulegroup id="IN_UKRAINE" name="in (der) Ukraine">
             <url>https://deutschtraining.org/deutsche-grammatik/artikel/laender-mit-artikel/</url>
             <antipattern>
                 <token regexp="yes">aus|in</token>
@@ -46780,7 +46845,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <marker>
                         <token case_sensitive="yes" regexp="yes">[Aa]us</token>
-                        <token case_sensitive="yes" regexp="yes">Ira[nk]|Vatikan|Jemen|Tschad</token>
+                        <token case_sensitive="yes" regexp="yes">Ira[nk]|Vatikan|Jemen|Tschad|Libanon</token>
                     </marker>
                 </pattern>
                 <message>Einige Ländernamen, wie "\2", erfordern einen Artikel.</message>
@@ -46803,7 +46868,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <marker>
                         <token case_sensitive="yes" regexp="yes">[Ii]n</token>
-                        <token case_sensitive="yes" regexp="yes">Ira[nk]|Vatikan|Jemen|Tschad</token>
+                        <token case_sensitive="yes" regexp="yes">Ira[nk]|Vatikan|Jemen|Tschad|Libanon</token>
                     </marker>
                 </pattern>
                 <message>Einige Ländernamen, wie "\2", erfordern einen Artikel.</message>
@@ -61119,7 +61184,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Typografie -->
     <!-- ====================================================================== -->
     <category id="TYPOGRAPHY" name="Typografie">
-        <rule id="DOPPELTES_LEERZEICHEN" name="Doppeltes Leerzeichen" default="temp_off">
+        <rule id="DOPPELTES_LEERZEICHEN" name="Doppeltes Leerzeichen">
             <regexp type="exact" mark="1">[A-Za-zéèëêïîìáàâçôòüûùäöüß:,.;]([&nbsp; ]{2})[A-Za-zéèëêïîìáàâçôòüûùäöüß:,.;]</regexp><!-- TODO: add "nnbsp" -->
             <message>Hier scheint ein Leerzeichen zu viel zu sein.</message>
             <suggestion> </suggestion>
@@ -61929,6 +61994,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="BISSTRICH" name="Bis-Strich vs. Bindestrich" tags="picky">
+            <antipattern>
+                <token regexp="yes">\d{5,}\-\d{1,4}</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\d{4,}\-\d{1,3}</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\d{3,}\-\d{1,2}</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\d{2,}\-\d</token>
+            </antipattern>
             <pattern case_sensitive="yes">
                 <token negate="yes" regexp="yes">IS[BS]N|ISO|DIN|IEC</token>
                 <marker>
@@ -62611,7 +62688,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <antipattern>
                     <token regexp="yes">,|;|\.|:|\?|!|-|–|\)|\(|„|“|»|«|"|und|oder</token>
-                    <token skip="-1"><exception scope="next" postag="VER.*[1-3].*" postag_regexp="yes"/></token>
+                    <token skip="-1"><exception scope="next" postag="VER.*[1-3].*|VER:EIZ.*" postag_regexp="yes"/></token>
                     <token skip="-1" regexp="yes">a(ls|nstatt|ußer|usser)|ohne|statt|um<exception regexp="yes" scope="next">,|;|\.|:|-|–|\)|\(|„|“|»|«|"|und|oder|dass</exception></token>
                     <token>zu</token>
                     <token postag="VER:INF:.*" postag_regexp="yes"/>
@@ -62697,10 +62774,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="VER:.*" postag_regexp="yes" skip="-1">
                         <exception postag="VER:AUX:.*|SUB:.*|EIG:.*|PR[OP]:.*|AD[JV]:.*|ART:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                         <exception inflected="yes" regexp="yes">brauchen|pflegen|scheinen|wünschen|beginnen</exception>
-                        <exception regexp="yes" scope="next">,|;|\.|:|-|–|\)|\(|„|“|»|«|"|…|und|oder</exception>
+                        <exception regexp="yes" scope="next">,|;|\.|:|-|–|−|\)|\(|„|“|»|«|"|…|und|oder</exception>
                     </token>
                     <marker>
-                        <token skip="-1" regexp="yes">als|anstatt|außer|ausser|ohne|statt|um<exception regexp="yes" scope="next">,|;|\.|:|-|–|\)|\(|„|“|»|«|"|und|oder|dass</exception></token>
+                        <token skip="-1" regexp="yes">
+                            als|anstatt|außer|ausser|ohne|statt|um
+                            <exception regexp="yes" scope="next">,|;|\.|:|-|–|−|\)|\(|„|“|»|«|"|und|oder|dass</exception>
+                            <exception postag="VER:(\d).*" postag_regexp="yes" scope="next" />
+                        </token>
                     </marker>
                     <token>zu</token>
                     <token postag="VER:INF:.*" postag_regexp="yes"/>
@@ -62708,6 +62789,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Wenn es sich hier um eine Infinitivgruppe ('zu' + Grundform) handelt, muss in der Regel ein Komma gesetzt werden.</message>
                 <suggestion>, <match no="2" case_conversion="startlower"/></suggestion>
                 <example correction=", als">Ich kenne nichts Schöneres<marker> als</marker> mit einem guten Buch am Kamin zu sitzen</example>
+                <example correction=", anstatt">Diese ist ein Grund, das Insulin runterzudosieren<marker> anstatt</marker> es zu erhöhen!</example>
                 <example>Ich <marker>kenne nichts Schöneres, als</marker> mit einem guten Buch am Kamin zu sitzen</example>
                 <example>Es scheint sich um einen Fehler zu handeln.</example>
                 <example>Er braucht sich um diese Sache nicht zu kümmern.</example>
@@ -62759,10 +62841,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="VER:.*" postag_regexp="yes" skip="-1">
                         <exception postag="VER:AUX:.*|SUB:.*|EIG:.*|PR[OP]:.*|AD[JV]:.*|ART:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                         <exception inflected="yes" regexp="yes">brauchen|pflegen|scheinen|wünschen|beginnen</exception>
-                        <exception regexp="yes" scope="next">,|;|\.|:|\?|!|-|–|\)|\(|„|“|»|«|"|…|und|oder</exception>
+                        <exception regexp="yes" scope="next">,|;|\.|:|\?|!|-|–|−|\)|\(|„|“|»|«|"|…|und|oder|…</exception>
                     </token>
                     <marker>
-                        <token skip="-1" regexp="yes">als|anstatt|außer|ausser|ohne|statt|um<exception regexp="yes" scope="next">,|;|\.|:|-|–|\)|\(|„|“|»|«|"|und|oder|dass</exception></token>
+                        <token skip="-1" regexp="yes">
+                            als|anstatt|außer|ausser|ohne|statt|um
+                            <exception regexp="yes" scope="next">,|;|\.|:|-|–|−|\)|\(|„|“|»|«|"|und|oder|dass|…</exception>
+                            <exception postag="VER:(INF|\d).*" postag_regexp="yes" scope="next" />
+                        </token>
                     </marker>
                     <token postag="VER:EIZ:.*" postag_regexp="yes"/>
                 </pattern>
@@ -62771,6 +62857,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction=", um">Sie ging nach Hause<marker> um</marker> sich umzuziehen.</example>
                 <example>Sie <marker>ging nach Hause, um</marker> sich umzuziehen.</example>
                 <example>Es ist Ihre Pflicht als Bürger aufzupassen.</example>
+                <example>Es kann sich als sehr mühsam herausstellen ein Gasleck aufzufinden.</example><!-- Komma gehört nach herausstellen -->
                 <example>Natürlich nehmen wir uns gerne vorher die Zeit auf alle Ihre Fragen rund um Ihre Suche zu Dachbeschichtung Ummeln einzugehen.</example>
             </rule>
             <rule>
@@ -64933,7 +65020,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <antipattern>
-                    <token regexp="yes">Persephones?|Symphony|Softphones?|.*photograph.*|.*photon|.*photonen.*|.*phono.*|.*phone[mt].*|symphoni.*|(.+)?Smartphone.*|Allophon.*|Siphon</token>
+                    <token regexp="yes">Persephones?|Symphony|Babyphones?|Softphones?|.*photograph.*|.*photon|.*photonen.*|.*phono.*|.*phone[mt].*|symphoni.*|(.+)?Smartphone.*|Allophon.*|Siphon</token>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">https?.*|www.*</token>

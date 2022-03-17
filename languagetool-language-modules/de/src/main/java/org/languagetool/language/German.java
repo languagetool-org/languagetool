@@ -388,6 +388,7 @@ public class German extends Language implements AutoCloseable {
       case "SWISS_GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
       case "DE_VERBAGREEMENT": return -4; // prefer more specific rules (e.g DU_WUENSCHT) and speller
       case "IM_IHM": return -4;  // lower prio than spell checker
+      case "IN_UNKNOWNKLEIN_VER": return -4;  // lower prio than spell checker
       case "SEHR_GEEHRTER_NAME": return -4;  // lower prio than spell checker
       case "DE_PHRASE_REPETITION": return -4;  // lower prio than spell checker
       case "PUNCTUATION_PARAGRAPH_END": return -4;  // don't hide spelling mistakes

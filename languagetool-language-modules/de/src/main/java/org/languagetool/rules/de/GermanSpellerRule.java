@@ -876,6 +876,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("E-mail", "E-Mail");
     put("geleased", "geleast");
     put("released", "releast");
+    putRepl("Ballets?", "llet", "llett");
     putRepl("Saudiarabiens?", "Saudiarabien", "Saudi-Arabien");
     putRepl("eMail-Adressen?", "eMail-", "E-Mail-");
     putRepl("[hH]ats", "ats", "at es");
@@ -2341,6 +2342,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "meißt": return topMatch("meist");
       case "meißten": return topMatch("meisten");
       case "meißtens": return topMatch("meistens");
+      case "Babyphone": return topMatch("Babyfon");
+      case "Baby-Phone": return topMatch("Babyfon");
     }
     return Collections.emptyList();
   }
