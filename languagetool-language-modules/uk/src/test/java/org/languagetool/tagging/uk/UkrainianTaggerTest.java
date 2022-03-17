@@ -693,6 +693,8 @@ public class UkrainianTaggerTest {
     TestTools.myAssert("Тааак", "Тааак/[так]adv:&pron:dem:alt|Тааак/[так]conj:coord:alt|Тааак/[так]conj:subord:alt|Тааак/[так]part:alt", tokenizer, tagger);
     TestTools.myAssert("загубииилася", "загубииилася/[загубитися]verb:rev:perf:past:f:alt", tokenizer, tagger);
 
+    TestTools.myAssert("гаааа", "гаааа/[га]intj:alt", tokenizer, tagger);
+
     assertNotTagged("ііі");
     //TODO:
 //    TestTools.myAssert("та-ак", "", tokenizer, tagger);

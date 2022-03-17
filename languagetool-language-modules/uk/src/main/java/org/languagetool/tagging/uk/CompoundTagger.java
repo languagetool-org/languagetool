@@ -610,9 +610,11 @@ class CompoundTagger {
         && ! dashPrefixes.containsKey(parts[0])
         && ! dashPrefixesInvalid.contains(parts[0]) ) {
 
+
       // ва-ре-ни-ки
       String merged = word.replace("-", "");
       List<TaggedWord> tagged = tagBothCases(merged,  null);
+      tagged = PosTagHelper.filter2Negative(tagged, ABBR_PATTERN);
       if( ! tagged.isEmpty() ) {
         return ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(word, PosTagHelper.addIfNotContains(tagged, ":alt"));
       }
@@ -620,6 +622,7 @@ class CompoundTagger {
       // ду-у-у-же
       merged = collapseStretch(word);
       tagged = tagBothCases(merged, null);
+      tagged = PosTagHelper.filter2Negative(tagged, ABBR_PATTERN);
       if( ! tagged.isEmpty() ) {
         return ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(word, PosTagHelper.addIfNotContains(tagged, ":alt"));
       }
@@ -628,6 +631,7 @@ class CompoundTagger {
     return null;
   }
 
+  private final static Pattern ABBR_PATTERN = Pattern.compile(".*abbr.*");
   private final static Pattern STRETCH_PATTERN = Pattern.compile("([а-іяїєґА-ЯІЇЄҐ])\\1*-\\1+");
   
   private static String collapseStretch(String word) {

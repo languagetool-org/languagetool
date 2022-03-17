@@ -337,6 +337,13 @@ public final class PosTagHelper {
         .collect(Collectors.toList());
   }
 
+  public static List<TaggedWord> filter2Negative(List<TaggedWord> analyzedTokens, Pattern posTag) {
+    return 
+        analyzedTokens.stream()
+        .filter(token -> ! hasPosTag(token, posTag) )
+        .collect(Collectors.toList());
+  }
+
   private static Pattern WORD_PATTERN = Pattern.compile("[а-яіїєґa-z'-]+", Pattern.UNICODE_CASE|Pattern.CASE_INSENSITIVE);
   public static boolean isUnknownWord(AnalyzedTokenReadings analyzedTokenReadings) {
     return analyzedTokenReadings.getAnalyzedToken(0).hasNoTag()
