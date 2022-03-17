@@ -70,7 +70,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY diacritics_01 "capitulo|titulo|medico|nauseas|nausea|cubica|cubicas|cubico|intimo|ilegitimo|retrograda|retrogradas|ulcera|ulceras|ilegitima|ilegitimas|legitimo|legitimas">
     <!ENTITY diacritics_02 "maquina|maquinas|ejercito|genero|magnifica|articulo|barbara|domestico|capitulo|retrogrado|reciproca|reciprocas|reciproco|liquido|simultaneo|tremolo|triangulo|vehiculo|vinculo|transito|titulo|catalogo|dialogo|trafico|diagnostico|modulo|invalido">
     <!ENTITY diacritics_03 "incomoda|incomodas|lastima|lastimas|medica|medicas|simultanea|simultaneas">
-    <!ENTITY diacritics_04 "critica|criticas|limite|limites|purpura|purpuras|calculo|deposito|tramite|tramites|invalida|invalidas|legitima|especifica|especificas|prorroga|prorrogas">
+    <!ENTITY diacritics_04 "critica|criticas|limite|limites|purpura|purpuras|calculo|deposito|tramite|tramites|invalida|invalidas|legitima|especifica|especificas|prorroga|prorrogas|domestica|domesticas">
     <!ENTITY diacritics_05 "maquina|ultima|ultimas">
     <!ENTITY exceptions_ADO "apurado|lesionado|mecanizado|aislado|abarrotado|abrazado|abrigado|acicalado|acompañado|acurrucado|adelantado|adornado|afeitado|aferrado|agachado|agarrado|aparejado|apañado|apoyado|apretado|armado|arreglado|arremangado|arrodillado|aseado|asociado|atado|ataviado|atestado|atrasado|avergonzado|bordado|calado|callado|calzado|camuflado|cansado|caracterizado|cargado|chiflado|colgado|colocado|concentrado|condecorado|condenado|conectado|confiado|coronado|dedicado|desaliñado|desarmado|descaminado|descamisado|desencaminado|despeinado|destinado|disfrazado|disparado|doblado|drogado|embozado|empaquetado|encabezado|encajado|encaminado|encantado|encapuchado|encerrado|encorvado|enfadado|enfundado|engalanado|enganchado|enmascarado|enrollado|ensimismado|entusiasmado|equipado|equivocado|errado|escoltado|esposado|fechado|firmado|flanqueado|forrado|frustrado|guardado|guiado|holgado|implicado|impulsado|inclinado|instalado|invitado|lanzado|ligado|malhumorado|manchado|mandado|maquillado|mezclado|montado|ocupado|pegado|peinado|pintado|preocupado|preparado|propulsado|recomendado|recostado|repantigado|resguardado|resignado|respaldado|retrasado|rezagado|rodado|rodeado|sellado|sentado|situado|sobrado|sobrecargado|tapado|tirado|tocado|trajeado|tripulado|tumbado|uniformado">
     <!ENTITY exceptions_ADO2 "relacionado|alimentado|mentalizado|abismado|aceitado|acelerado|acoplado|acuclillado|adaptado|aderezado|adormilado|agazapado|agobiado|ahogado|airado|ajustado|aliviado|allanado|amarrado|amenazado|anexado|aparcado|apesadumbrado|apresurado|apretujado|apuntado|arrimado|arrugado|asustado|atemorizado|aterrado|atontado|aupado|aventajado|bronceado|cambiado|cautivado|certificado|clavado|comandado|comparado|completado|complicado|conjuntado|contrariado|cruzado|dado|decepcionado|decorado|deformado|demostrado|desarreglado|desaseado|desatado|desbocado|desbordado|descargado|descarriado|descuidado|desgraciado|desgreñado|desorientado|despistado|desplomado|desviado|determinado|dotado|duchado|echado|empatado|empolvado|empujado|encuadrado|engarzado|engañado|enjaezado|enmarcado|ensamblado|ensillado|entrecomillado|envarado|enviado|escayolado|esperanzado|estresado|exagerado|exclamado|expulsado|extraviado|fijado|flipado|grabado|hablado|hipnotizado|ilustrado|impregnado|incomunicado|incorporado|indignado|insultado|integrado|interesado|intrigado|inventado|lastrado|lavado|mamado|marcado|mareado|mojado|motivado|obnubilado|orientado|pagado|pensado|perfumado|pertrechado|pilotado|plagado|planchado|plateado|precintado|rapado|rasurado|realizado|reforzado|remangado|rematado|remolcado|repujado|rizado|separado|sincronizado|tatuado|tomado|vendado|vigilado|zarandeado|zumbado">
@@ -2177,6 +2177,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="específica">Forma muy <marker>especifica</marker>.</example>
                 <example correction="específica">Forma muy "<marker>especifica</marker>".</example>
             </rule>
+            <rule default="temp_off">
+                <!-- la especie domestica derivada de -->
+                <pattern>
+                    <unify>
+                        <feature id="genero"/>
+                        <feature id="numero"/>
+                        <token postag="D.*" postag_regexp="yes"/>
+                        <token postag="N.*" postag_regexp="yes"/>
+                        <marker>
+                            <unify-ignore>
+                                <token><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
+                            </unify-ignore>
+                        </marker>
+                        <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                    </unify>
+                </pattern>
+                <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\3 postag:A.* gendernumberFrom:2"/>
+                <message>Si es adjetivo o nombre, se escribe con tilde.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="doméstica">La especie <marker>domestica</marker> derivada de la otra.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="CELEBRE" name="celebre -> célebre">
             <rule>
@@ -2596,7 +2617,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- TODO: solo me faltan 2 practicas más -->
                 <!-- |invalida|invalidas -->
                 <marker>
-                    <token postag="V.[SI].*" postag_regexp="yes" regexp="yes">maquina|ada|animo|domestica|domesticas|idolatra|idolatras|lamina|laminas|liquida|liquidas|matricula|nomina|nominas|prestamos|revalida|revalidas|rondo<exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
+                    <token postag="V.[SI].*" postag_regexp="yes" regexp="yes">maquina|ada|animo|idolatra|idolatras|lamina|laminas|liquida|liquidas|matricula|nomina|nominas|prestamos|revalida|revalidas|rondo<exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
             <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\1 postag:NC.*|AQ.*"/>
