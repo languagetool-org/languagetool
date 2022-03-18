@@ -144,6 +144,12 @@ public class ProhibitedCompoundRule extends Rule {
   private static final Set<String> blacklist = new HashSet<>(Arrays.asList(
           "Stromernte",  // vs. Stroh
           "Stromernten",  // vs. Stroh
+          "Plastikspitze",  // vs. Spritze
+          "Plastikspitzen",  // vs. Spritze
+          "Speichenmuster",  // vs. Speicher
+          "Ticketverlauf",  // vs. verkauf
+          "Ticketverlaufs",  // vs. verkauf
+          "Immobilienwelt",  // vs. wert
           "Rhein-Ruhr",  // vs. ohr
           "Turmbewegung",  // vs. Turn
           "Turmbewegungen",  // vs. Turn
