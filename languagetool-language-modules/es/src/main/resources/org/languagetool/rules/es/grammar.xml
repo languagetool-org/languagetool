@@ -2177,7 +2177,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="específica">Forma muy <marker>especifica</marker>.</example>
                 <example correction="específica">Forma muy "<marker>especifica</marker>".</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <!-- la especie domestica derivada de -->
                 <pattern>
                     <unify>
@@ -2199,6 +2199,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="doméstica">La especie <marker>domestica</marker> derivada de la otra.</example>
             </rule>
         </rulegroup>
+        <rule id="PRORROGA" name="prorroga -> prórroga">
+            <antipattern>
+                <token>de</token>
+                <token regexp="yes">manera|forma</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token regexp="yes">prorrogas?</token>
+                </marker>
+                <token regexp="yes">de|del<exception postag="LOC_ADV"/></token>
+            </pattern>
+            <message>Si es nombre, se escribe con tilde.</message>
+            <suggestion><match no="1" regexp_match="(?iu)pro" regexp_replace="pró" case_conversion="preserve"/></suggestion>
+            <example correction="Prórroga"><marker>Prorroga</marker> de tiempo.</example>
+        </rule>
         <rulegroup id="CELEBRE" name="celebre -> célebre">
             <rule>
                 <pattern>
