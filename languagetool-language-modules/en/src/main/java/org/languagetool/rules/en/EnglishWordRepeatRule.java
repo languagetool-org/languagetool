@@ -94,6 +94,8 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
       return true;   // "uh uh"
     } else if (repetitionOf("paw", tokens, position)) {
       return true;   // "paw paw"
+    } else if (repetitionOf("cha", tokens, position)) {
+      return true;   // "cha cha"
     } else if (repetitionOf("yum", tokens, position)) {
       return true;   // "yum yum"
     } else if (repetitionOf("wop", tokens, position)) {
