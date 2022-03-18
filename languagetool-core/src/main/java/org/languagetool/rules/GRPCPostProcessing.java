@@ -111,7 +111,7 @@ public class GRPCPostProcessing {
     }
   }
 
-  private GRPCPostProcessing(RemoteRuleConfig config) throws Exception {
+  protected GRPCPostProcessing(RemoteRuleConfig config) throws Exception {
     this.config = config;
     CircuitBreakerConfig circuitBreakerConfig = RemoteRule.getCircuitBreakerConfig(config, config.getRuleId());
     circuitBreaker = CircuitBreakers.registry().circuitBreaker(
@@ -241,8 +241,9 @@ public class GRPCPostProcessing {
   private PostProcessingRequest buildRequest(List<AnalyzedSentence> sentences, List<RuleMatch> ruleMatches,
                                              List<Integer> offset, Long textSessionId, boolean inputLogging) {
     // don't modify passed rule matches list, used as fallback
-    ruleMatches = new ArrayList<>(ruleMatches);
+    ruleMatches = ruleMatches.stream().map(r -> new RuleMatch(r)).collect(Collectors.toList());
     List<MatchList> matches = new ArrayList<>();
+    // convert offsets so that they are relative to each sentence instead of the text
     for (int i = 0; i < sentences.size(); i++) {
       AnalyzedSentence sentence = sentences.get(i);
       if (i == 0) {
@@ -289,9 +290,14 @@ public class GRPCPostProcessing {
     List<RuleMatch> result;
     long start = System.nanoTime();
     try {
-      result = RemoteRuleMetrics.inCircuitBreaker(System.nanoTime(), circuitBreaker,
-        config.ruleId, chars, () -> runPostprocessing(sentences, ruleMatches, textSessionID, inputLogging, chars));
-    } catch (InterruptedException e) {
+      if (circuitBreaker != null) {
+        result = RemoteRuleMetrics.inCircuitBreaker(System.nanoTime(), circuitBreaker,
+          config.ruleId, chars, () -> runPostprocessing(sentences, ruleMatches, textSessionID, inputLogging, chars));
+      } else {
+        result = runPostprocessing(sentences, ruleMatches, textSessionID, inputLogging, chars);
+      }
+    } catch (Exception e) {
+      log.warn("gRPC postprocessing failed", e);
       return ruleMatches;
     }
     if (result == null) {
@@ -306,13 +312,18 @@ public class GRPCPostProcessing {
     }
   }
 
-  private List<RuleMatch> runPostprocessing(List<AnalyzedSentence> sentences, List<RuleMatch> ruleMatches,
-                                            Long textSessionID, boolean inputLogging, int chars) throws TimeoutException {
+  protected MatchResponse sendRequest(PostProcessingRequest req, long timeout) throws Exception {
+    return stub.withDeadlineAfter(timeout, TimeUnit.MILLISECONDS)
+      .process(req);
+  }
+
+  protected List<RuleMatch> runPostprocessing(List<AnalyzedSentence> sentences, List<RuleMatch> ruleMatches,
+                                            Long textSessionID, boolean inputLogging, int chars) throws Exception {
     List<Integer> offset = new ArrayList<>();
     long timeout = RemoteRule.getTimeout(config, chars);
     try {
-      MatchResponse response = stub.withDeadlineAfter(timeout, TimeUnit.MILLISECONDS)
-        .process(buildRequest(sentences, ruleMatches, offset, textSessionID, inputLogging));
+      PostProcessingRequest req = buildRequest(sentences, ruleMatches, offset, textSessionID, inputLogging);
+      MatchResponse response = sendRequest(req, timeout);
       List<RuleMatch> result = new ArrayList<>(response.getSentenceMatchesCount());
       for (int i = 0; i < response.getSentenceMatchesCount(); i++) {
         MatchList matchList = response.getSentenceMatches(i);
