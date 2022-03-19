@@ -57,7 +57,7 @@ public class ProhibitedCompoundRuleTest {
   @Test
   @Ignore("for interactive use, e.g. after extending the list of pairs")
   public void testListOfWords() throws IOException {
-    //File input = new File("/home/dnaber/data/corpus/jan_schreiber/german.dic");
+    //File input = new File("/home/dnaber/data/corpus/jan_schreiber/german.txt");
     File input = new File("/tmp/words.txt");
     LuceneLanguageModel lm = new LuceneLanguageModel(new File("/home/dnaber/data/google-ngram-index/de/"));
     System.out.println("Words matched by rule:");
