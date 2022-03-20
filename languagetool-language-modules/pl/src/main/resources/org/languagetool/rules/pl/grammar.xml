@@ -16428,7 +16428,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction='Europy Zachodniej'>Pojechałem do <marker>Europy zachodniej</marker>.</example>
                 <example>Pojechałem do Europy Zachodniej.</example>
             </rule>
-            <rule id="CZUL_SIE" name="„Czół się” (czuł się)">
+            <rulegroup id="CZUL_SIE" name="„Czół się” (czuł się)">
+            <rule>
                 <pattern>
                     <token>czół</token>
                     <token regexp='yes'>się|on|instynktownie|podświadomie|wstręt</token>
@@ -16438,6 +16439,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction='czuł się'>On <marker>czół się</marker> strasznie.</example>
                 <example>On czuł się strasznie.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>nie</token>
+                    <marker>
+                      <token>czół</token>
+                    </marker>
+                </pattern>
+                <message>Prawdopodobny błąd ortograficzny; czy chodziło o <suggestion>czuł</suggestion> (formę czasownika „czuć”)?</message>
+                <short>Błąd ortograficzny</short>
+                <example correction='czuł'>Ale nie <marker>czół</marker> żadnego smaku.</example>
+                <example>On czuł się strasznie.</example>
+                <example>Tarcica obrzynana posiada obrobione wszystkie płaszczyzny oraz krawędzie czół.</example>
+            </rule>
+            </rulegroup>
             <rule id="KROTKO_TRWALY" name="„krótko trwały” (krótkotrwały)">
                 <pattern>
                     <marker>
