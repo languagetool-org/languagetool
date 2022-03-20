@@ -268,7 +268,7 @@ public class TextLevelCheckQueue {
       DocumentCache docCache = document.getDocumentCache();
       if (docCache != null && nStart.number < docCache.textSize(nStart)) {
         Locale locale = docCache.getTextParagraphLocale(nStart);
-        if (multiDocHandler.hasLocale(locale)) {
+        if (locale != null && multiDocHandler.hasLocale(locale)) {
           return multiDocHandler.getLanguage(locale);
         }
         MessageHandler.printToLogFile("TextLevelCheckQueue: getLanguage: return null: locale = " + OfficeTools.localeToString(locale));
