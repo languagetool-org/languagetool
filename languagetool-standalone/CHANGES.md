@@ -14,6 +14,10 @@
   * added words and POS data
   * fixed tons of false positives
 
+#### Russian
+  * added and improved rules
+  * improved disambiguation
+
 #### Ukrainian
   * new words in the POS dictionary
   * added and improved rules
