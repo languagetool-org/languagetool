@@ -4,6 +4,10 @@
 
 ...
 
+#### Catalan
+  * added and improved rules
+  * updated dictionary (catalan-pos-dict-2.18)
+
 #### Polish
   * added and improved rules, especially for frequent mistakes
   * added a rule for spelling coherency (*menedżer* or *menadżer* but not both in the same document)
@@ -17,6 +21,10 @@
 #### Russian
   * added and improved rules
   * improved disambiguation
+
+#### Spanish
+  * added and improved rules
+  * updated dictionary (spanish-pos-dict-1.6)
 
 #### Ukrainian
   * new words in the POS dictionary
