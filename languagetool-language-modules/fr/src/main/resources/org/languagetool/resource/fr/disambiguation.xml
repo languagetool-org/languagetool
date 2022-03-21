@@ -1039,6 +1039,16 @@ RB => Règles Brutes
     </rule>
     <!-- END: Elements dans périphrases verbals -->
     <!-- CATEGORY: Périphrases verbals -->
+    <rule id="SOUDAIN" name="soudain">
+            <pattern>
+                <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">demeurer|être|devenir|para[îi]tre|rester|sembler</token>
+                <marker>
+                    <token>soudain</token>
+                </marker>
+                <token postag="(V ppa|J).*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="A"/>
+    </rule>
     <rulegroup id="FAIT0" name="fait">
         <rule>
             <pattern>
