@@ -24831,36 +24831,59 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Die gängigere Schreibweise ist <suggestion><match no="1" regexp_match="Tages" regexp_replace="Tage" /></suggestion>.</message>
             <example correction="7-Tage-Inzidenz">Die <marker>7-Tages-Inzidenz</marker> ist stark gesunken.</example>
         </rule>
-        <rule id="AN_FUER_SICH" name="an für sich (an und für sich)">
-            <antipattern>
-                <token>sich</token>
-                <token>zu</token>
-                <token postag="VER:.+" postag_regexp="yes" />
-            </antipattern>
-            <antipattern>
-                <token skip="3">von</token>
-                <token />
-                <token>an</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">Anfang|Beginn</token>
-                <token>an</token>
-            </antipattern>
-            <antipattern>
-                <token inflected="yes" regexp="yes" skip="5">fangen|feuern|halten</token>
-                <token>an</token>
-            </antipattern>
-            <pattern>
-                <token>an</token>
-                <token>für</token>
-                <token>sich</token>
-            </pattern>
-            <message>Standardsprachlich ist <suggestion>\1 und für sich</suggestion> korrekt. Alternativ kann hier auch das Synonym <suggestion>eigentlich</suggestion> verwendet werden.</message>
-            <url>https://www.duden.de/rechtschreibung/an_und_fuer_sich</url>
-            <example correction="An und für sich|Eigentlich"><marker>An für sich</marker> hast du recht.</example>
-            <example>Jeder ist verpflichtet, alle Information von Anfang an für sich zu behalten.</example>
-            <example>Es geht darum, sofort eine Mitarbeiterbindung herzustellen und die Leute von der ersten Sekunde an für sich zu begeistern.</example>
-        </rule>
+        <rulegroup id="AN_FUER_SICH" name="an für sich (an und für sich)">
+            <rule>
+                <antipattern>
+                    <token>sich</token>
+                    <token>zu</token>
+                    <token postag="VER:.+" postag_regexp="yes" />
+                </antipattern>
+                <antipattern>
+                    <token skip="3">von</token>
+                    <token />
+                    <token>an</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">Anfang|Beginn</token>
+                    <token>an</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" regexp="yes" skip="5">fangen|feuern|halten</token>
+                    <token>an</token>
+                </antipattern>
+                <pattern>
+                    <token>an</token>
+                    <token>für</token>
+                    <token>sich</token>
+                </pattern>
+                <message>Standardsprachlich ist <suggestion>\1 und für sich</suggestion> korrekt. Alternativ kann hier auch das Synonym <suggestion>eigentlich</suggestion> verwendet werden.</message>
+                <url>https://www.duden.de/rechtschreibung/an_und_fuer_sich</url>
+                <example correction="An und für sich|Eigentlich"><marker>An für sich</marker> hast du recht.</example>
+                <example>Jeder ist verpflichtet, alle Information von Anfang an für sich zu behalten.</example>
+                <example>Es geht darum, sofort eine Mitarbeiterbindung herzustellen und die Leute von der ersten Sekunde an für sich zu begeistern.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token min="0">schon</token>
+                    <token>an</token>
+                    <token>und</token>
+                    <token>für</token>
+                    <token>sich</token>
+                    <token inflected="yes">sein</token>
+                </antipattern>
+                <pattern>
+                    <token min="0">schon</token>
+                    <token>an</token>
+                    <token>und</token>
+                    <token>für</token>
+                    <token>sich</token>
+                </pattern>
+                <message>Die Formulierung 'an und für sich' wird häufig umgangssprachlich verwendet. Möchten Sie es durch eine Alternative ersetzen, um Ihren Text formeller und prägnanter zu machen?</message>
+                <suggestion>weitestgehend</suggestion>
+                <suggestion>im Grunde</suggestion>
+                <suggestion>letztlich</suggestion>
+                <example correction="weitestgehend|im Grunde|letztlich">Unser Urlaub war <marker>an und für sich</marker> in Ordnung.</example>
+            </rule>
         <rulegroup id="MEHR_ALS_ZAL_PLUS" name="mehr als 10+ (10)">
             <rule>
                 <pattern>
