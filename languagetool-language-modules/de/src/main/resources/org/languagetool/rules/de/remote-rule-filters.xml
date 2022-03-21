@@ -419,6 +419,28 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction=""><marker>Gerade</marker> wenn wir neue Bewegungsabläufe erlernen und praktizieren.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token skip="-1">weder</token>
+                    <marker>
+                        <token postag="(SUB|UNKNOWN).*" postag_regexp="yes" regexp="yes">\p{Lu}.+</token>
+                    </marker>
+                    <token>noch</token>
+                </pattern>
+                <example correction="">Es wird weder <marker>Arbeit</marker> noch Wärme mit der Umgebung ausgetauscht.</example>
+                <example correction="">Weder mein <marker>Bruder</marker> noch meine Schwester ist groß.</example>
+                <example correction="">Wir haben weder <marker>Webex</marker> noch Teams.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip="-1">sowohl</token>
+                    <marker>
+                        <token regexp="yes">als|wie</token>
+                    </marker>
+                    <token>auch</token>
+                </pattern>
+                <example correction="">Es wird sowohl in der Industrie <marker>wie</marker> auch in der Bauwirtschaft eingesetzt.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_DE_HYDRA_LEO_CPT_DIE_CDIE" name="">
             <rule>
@@ -493,6 +515,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     </marker>
                 </pattern>
                 <example correction="">Er spielt halt oft die Pässe, die einen Angriff einleiten (was von <marker>Links Außen</marker> schwer ist).</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_DE_HYDRA_LEO_MISSING_PERIOD" name="">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>.</token>
+                    </marker>
+                </pattern>
+                <example correction="">In diesen Studien wurde aber zumeist nicht der Einfluss von Antibiotika und antipyretischen Maßnahmen z<marker>.</marker> B durch Paracetamol berücksichtigt, denn letzteres hat einen asthmabegünstigenden Effekt</example>
             </rule>
         </rulegroup>
     </category>
