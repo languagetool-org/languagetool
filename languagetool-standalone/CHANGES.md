@@ -8,6 +8,10 @@
   * added and improved rules
   * updated dictionary (catalan-pos-dict-2.18)
 
+#### French
+  * added and improved rules
+  * updated dictionary (french-pos-dict-0.5)
+
 #### Polish
   * added and improved rules, especially for frequent mistakes
   * added a rule for spelling coherency (*menedżer* or *menadżer* but not both in the same document)
