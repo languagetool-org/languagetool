@@ -203,8 +203,8 @@ public class ArtificialErrorEval {
         try {
           subId = match.getRuleSubId().get();
         } catch (NoSuchElementException e) {
-          System.out.println("Exception, skipping '" + countLine + "': ");
-          e.printStackTrace();
+          //System.out.println("Exception, skipping '" + countLine + "': ");
+          //e.printStackTrace();
         }
         if (subId != null) {
           ruleIDs.add(match.getRuleId() + "[" + match.getRuleSubId().get() + "]");
