@@ -20152,7 +20152,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="ADV.*" postag_regexp="yes" />
                     <token regexp="yes">gestern|vorhin</token>
                     <token postag="VER:.*:PRÄ.*" postag_regexp="yes" />
-                    <token regexp="yes">hier|jetzt|nun|heute</token> 
+                    <token regexp="yes">hier|jetzt|nun|heute</token>
                 </antipattern>
                 <pattern>
                     <token postag="SENT_START" skip="-1">
@@ -60332,6 +60332,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Er macht seine Arbeit gut, nur dass er kein Japanisch kann, ist schade.</example>
                 <example>... weil er eben keine Kanji lernen will.</example>
                 <example>… weil er schon bei Hiragana Schwierigkeiten hat.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token postag="KON:NEB" postag_regexp="yes"/>
+                    <token>ohne</token>
+                    <token>dass</token>
+                </antipattern>
+                <pattern>
+                    <token postag="VER.*|SUB.*|PRO:PER.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>ohne</token>
+                        <token>dass</token>
+                    </marker>
+                </pattern>
+                <message>Der Konnektor 'ohne dass' leitet einen Nebensatz ein, der durch ein Komma getrennt werden muss.</message>
+                <suggestion>, ohne dass</suggestion>
+                <example correction=", ohne dass">Ich bin in die Schule gegangen<marker> ohne dass</marker> ich meine Hausaufgaben machen konnte.</example>
+                <example>Ich sage es ihr, ohne dass ich mich schlecht fühlen muss und ohne dass sie es falsch aufnimmt.</example>
             </rule>
         </rulegroup>
         <rule id="SUBJUNKTION_KOMMA_2" name="Fehlendes Komma bei Subjunktion">
