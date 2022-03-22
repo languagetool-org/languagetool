@@ -288,6 +288,24 @@ public class SubjectVerbAgreementRule extends Rule {
       token("auch"),
       tokenRegex(".+"),
       tokenRegex("sind|waren")
+    ),
+    Arrays.asList(
+      // "Heute ist sie lieb."
+      tokenRegex("ist|war|wäre?"),
+      posRegex("EIG:NOM:SIN.*|PRO:PER:NOM:SIN.*"),
+      posRegex("ADJ:PRD:GRU")
+    ),
+    Arrays.asList(
+      // "Heute bist du lieb."
+      tokenRegex("bist|w[äa]rst"),
+      tokenRegex("du"),
+      posRegex("ADJ:PRD:GRU")
+    ),
+    Arrays.asList(
+      // "Heute waren sie lieb."
+      tokenRegex("sind|w[äa]ren|seid"),
+      posRegex("PRO:PER:NOM:PLU.*"),
+      posRegex("ADJ:PRD:GRU")
     )
   );
 

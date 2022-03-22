@@ -305,6 +305,7 @@ public class SubjectVerbAgreementRuleTest {
         "Eltern ist der bisherige Kita-Öffnungsplan zu unkonkret",
         "Einer der bedeutendsten Māori-Autoren der Gegenwart ist Witi Ihimaera.",
         "Start und Ziel ist Innsbruck",
+        "Heute ist sie lieb.",
         "Anfänger wie auch Fortgeschrittene sind herzlich willkommen!",
         "Die Aussichten für Japans Zukunft sind düster.",
         "Das Angeln an Mallorcas Felsküsten ist überaus Erfolg versprechend.",

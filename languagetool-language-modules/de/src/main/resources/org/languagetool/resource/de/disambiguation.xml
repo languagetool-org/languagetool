@@ -1906,9 +1906,11 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     </rule>
     <rule name="Be- und ..." id="BE_HYPHEN">
         <pattern case_sensitive="yes">
-            <token>Be-</token>
-            <token regexp="yes">und|oder|&amp;</token>
-            <token regexp="yes">Entladen|Entladung</token>
+            <marker>
+                <token>Be-</token>
+            </marker>
+            <token regexp="yes">und|oder|&amp;|sowie</token>
+            <token regexp="yes">Ent.+</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>

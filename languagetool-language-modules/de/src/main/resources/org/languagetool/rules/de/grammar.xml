@@ -18917,6 +18917,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>auf</token>
                     <token>zunehmend</token>
                 </antipattern>
+                <antipattern><!-- Als Antiquar spezialisierst du dich auf gebrauchte, alte und vergriffene Bücher. -->
+                    <token postag="PRP.*" postag_regexp="yes" />
+                    <token postag="PA[12].*" postag_regexp="yes" />
+                    <token>,</token>
+                    <token postag="(ADJ|PA[12]).*" postag_regexp="yes" />
+                    <token regexp="yes">und|oder|&amp;</token>
+                    <token postag="(ADJ|PA[12]).*" postag_regexp="yes" />
+                    <token postag="SUB.*|UNKNOWN" postag_regexp="yes" />
+                </antipattern>
+                <antipattern><!-- Als Antiquar spezialisierst du dich auf gebrauchte und vergriffene Bücher. -->
+                    <token postag="PRP.*" postag_regexp="yes" />
+                    <token postag="PA2.*" postag_regexp="yes" />
+                    <token regexp="yes">und|oder|&amp;|,</token>
+                    <token postag="(ADJ|PA2).*" postag_regexp="yes" />
+                    <token postag="SUB.*|UNKNOWN" postag_regexp="yes" />
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <token><exception>;</exception><exception>:</exception><exception>,</exception></token>
                     <marker>
@@ -18943,6 +18959,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="losgingen">Als sie <marker>los gingen</marker>, merkten sie, dass etwas nicht stimmte.</example>
                 <example>Das habe ich von Anfang an gesagt.</example>
                 <example>Los geht's!</example>
+                <example>Als Antiquar spezialisierst du dich auf gebrauchte, alte und vergriffene Bücher.</example>
+                <example>Als Antiquar spezialisierst du dich auf gebrauchte und vergriffene Bücher.</example>
                 <example>Er ist nach wie vor beschäftigt.</example>
                 <example>Zu diesem Zweck werden sie in Gewächshäusern unter kontrollierten Bedingungen gezüchtet.</example>
                 <example>Sie beugt UV-bedingter Hautalterung vor dank Tahiti-Vanille.</example>
@@ -27433,7 +27451,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <pattern>
                 <token case_sensitive="yes" regexp="yes">[Ii]m</token>
-                <token regexp="yes" case_sensitive="yes">sitzen|singen|vertrauen|vertrieb|garten|nachhinein|stehen|leben|web|abstand|wohlwollen|vorstand|sterben|(durch)?schnitt|sinne?|kopf|unterschied|herzen|laufe?|liegen|betrieb|einklang|reisen|griff|vorbei(gehen|laufen|rennen|fahren)|falle|(tief)?schlaf|vergleich|verlaufe?|beruf|rahmen|fernsehen|wochenende|streit|ende|kreise|bilde|laden|(augen)?blick|anstarren|anrollen</token>
+                <token regexp="yes" case_sensitive="yes">sitzen|singen|vertrauen|verhör|vertrieb|garten|nachhinein|stehen|leben|web|abstand|wohlwollen|vorstand|sterben|(durch)?schnitt|sinne?|kopf|unterschied|herzen|laufe?|liegen|betrieb|einklang|reisen|griff|vorbei(gehen|laufen|rennen|fahren)|falle|(tief)?schlaf|vergleich|verlaufe?|beruf|rahmen|fernsehen|wochenende|streit|ende|kreise|bilde|laden|(augen)?blick|anstarren|anrollen</token>
             </pattern>
             <message>Bitte prüfen Sie die Groß- und Kleinschreibung.</message>
             <suggestion>\1 <match no="2" case_conversion="startupper" /></suggestion>
@@ -61973,16 +61991,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="BISSTRICH" name="Bis-Strich vs. Bindestrich" tags="picky">
             <antipattern>
-                <token regexp="yes">\d{5,}\-\d{1,4}</token>
+                <token regexp="yes">\d{5,30}\-\d{1,4}</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">\d{4,}\-\d{1,3}</token>
+                <token regexp="yes">\d{4,30}\-\d{1,3}</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">\d{3,}\-\d{1,2}</token>
+                <token regexp="yes">\d{3,30}\-\d{1,2}</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">\d{2,}\-\d</token>
+                <token regexp="yes">\d{2,30}\-\d</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">01[567]([0-9])-\d+</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">01[89]0-\d+</token>
             </antipattern>
             <pattern case_sensitive="yes">
                 <token negate="yes" regexp="yes">IS[BS]N|ISO|DIN|IEC</token>
@@ -62663,6 +62687,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup id="KOMMA_INFINITIVGRUPPEN" name="Komma vor Infinitivgruppen mit 'als', 'anstatt', 'außer', 'ohne', 'statt', 'um'">
             <url>https://languagetool.org/insights/de/beitrag/komma-zu-infinitiv/</url>
+            <antipattern>
+                <token regexp="yes">mehr|weniger</token>
+                <token>als</token>
+                <token regexp="yes">genug|nötig</token>
+            </antipattern>
             <rule>
                 <antipattern>
                     <token regexp="yes">,|;|\.|:|\?|!|-|–|\)|\(|„|“|»|«|"|und|oder</token>
