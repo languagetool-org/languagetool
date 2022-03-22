@@ -42425,11 +42425,32 @@ Grave as preferências para que tenha de as alterar constantemente. → Grave as
     </rulegroup>
 
 
+	<!-- O QUE ORIGINA A HISTÓRIA originando a história -->
+    <rule id='SIMPLIFICAR_O_QUE_VERBO_A_AS_O_OS' name="Simplificar: O + que + V. + [ao]s? → V. Gerúndio + [ao]s?" type="style">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-18 + 2022-02-12/14 (Checked/Enhanced) (1-JAN-2022+)      -->
+	<!--
+O que origina a sua desorganização. → Originando a sua desorganização.
+	-->
+      <pattern>
+		<marker>
+			<token>o</token>
+			<token>que</token>
+			<token postag='VMIP3S0' postag_regexp='no'/>
+		</marker>
+		<token regexp='yes'>[ao]s?</token>
+      </pattern>
+	  <message>Esta perífrase poderá ser simplificada.</message>
+	  <suggestion><match no='3' postag='VMIP3S0' postag_regexp="yes" postag_replace='VMG0000'/></suggestion>
+      <example correction="Originando"><marker>O que origina</marker> a sua desorganização.</example>
+    </rule>
+
+
 	<!-- O QUE ORIGINA originando -->
     <rule id='SIMPLIFICAR_O_QUE_VERBO_VERBOGERUNDIO' name="Simplificar: O que + V. → V. Gerúndio" type="style">
-    <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-02-08-13/15/17/19/21 (1-JAN-2022+)      -->
+    <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-02-08-13/15/17/19/21 + 2022-03-22 (1-JAN-2022+)      -->
 	<!--
 As regras estão erradas o que origina a sua desorganização. → As regras estão erradas originando a sua desorganização.
+O que origina a sua desorganização. → Originando a sua desorganização.
 	-->
 
 <!--
@@ -42445,6 +42466,7 @@ Dois homens estão checando o que está de errado com o carro.
 		<token postag='SPS00.*' postag_regexp='yes'>
 			<exception regexp='yes'>às?|[ao]s?|d[ao]s?|del[ae]s?|em|n[ao]s?|para|pel[ao]s?</exception>
 		</token>
+		<token negate_pos="yes" postag='DP.+' postag_regexp='yes'/>
 	  </antipattern>
 
 <!-- THE FIVE ANTIPATTERNS BELOW ARE SIMILAR WITH THE STARTING TOKEN
@@ -42669,6 +42691,7 @@ Pouco importam as notas na música, o que conta são as sensações produzidas p
 		<and>
 			<token negate_pos="yes" postag='_PUNCT|SENT_END|VMG0000|CC|VM[MNS].+|CS|RG|VMP00.+|DD.+|PD.+|PI.+|NP.+|PP.+|VMIP[^3].+|PE.+|PR.+|PT.+|UNKNOWN' postag_regexp='yes'/>
 			<token negate="yes" inflected='yes' regexp='yes'>haver|estar|existir|ser</token>
+			<token negate="yes" regexp='no'>por</token>
 		</and>
 		<token negate_pos="yes" postag='_PUNCT' postag_regexp='no'/>
       </pattern>
