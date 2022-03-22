@@ -20587,6 +20587,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
 		<category id="TYPOS" name="Prawdopodobne literówki" type="misspelling">
+		<rule id="CORAZ_ADJ_POS" name="„coraz mocnej” (coraz mocniej)">
+      <pattern>
+          <token>coraz</token>
+          <marker>
+            <token postag="adj:sg:gen:f:pos"><exception postag_regexp="yes" postag="adv:com|adj.*:com"/>
+            <exception>innej</exception></token>
+          </marker>
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion suppress_misspelled="yes"><match no="2" regexp_match="ej$" regexp_replace="iej"/></suggestion> lub jakiś inny wyraz?</message>
+      <example correction="skuteczniej">Bronią miasta coraz <marker>skutecznej</marker>.</example>
+      <example>A będzie z pewnością coraz odpowiedniej.</example>
+      <example>Szczyty gór płoną wieczyście w różowym obrzasku, który pada na nie z coraz innej strony.</example>
+		</rule>
 		<rulegroup id="ZLOBEK" name="„żłobek” mylone ze „żłóbek">
 		<rule>
 		  <pattern>
