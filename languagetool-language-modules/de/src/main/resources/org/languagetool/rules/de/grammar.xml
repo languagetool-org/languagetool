@@ -56179,25 +56179,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="WEISST_DU_WARUM_KOMMA" name="Weißt du(,) warum?">
-        <rule id="KOMMA_OHNE_DASS" name="Komma vor 'ohne dass'" default="temp_off">
-            <antipattern>
-                <token postag="KON:NEB" postag_regexp="yes"/>
-                <token>ohne</token>
-                <token>dass</token>
-            </antipattern>
-            <pattern>
-                <token postag="VER.*|SUB.*|PRO:PER.*" postag_regexp="yes"/>
-                <marker>
-                    <token>ohne</token>
-                    <token>dass</token>
-                </marker>
-            </pattern>
-            <message>Der Konnektor 'ohne dass' leitet einen Nebensatz ein, der durch ein Komma getrennt werden muss.</message>
-            <suggestion>, ohne dass</suggestion>
-            <example correction=", ohne dass">Ich bin in die Schule gegangen<marker> ohne dass</marker> ich meine Hausaufgaben machen konnte.</example>
-            <example>Ich sage es ihr, ohne dass ich mich schlecht fühlen muss und ohne dass sie es falsch aufnimmt..</example>
-        </rule>
-        <rulegroup id="WEISST_DU_WARUM_KOMMA" name="Weißt du(,) warum?" default="temp_off">
             <rule>
                 <pattern>
                     <token postag="PKT|SENT_START|KON:NEB" postag_regexp="yes" />
