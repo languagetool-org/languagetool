@@ -164,6 +164,11 @@ public class EnglishRepeatedWordsRule extends AbstractRepeatedWordsRule{
     Arrays.asList(
       token("literally"),
       posRegex("PCT|SENT_END")
+    ),
+
+    Arrays.asList(
+      posRegex("CC"),       // "Or maybe it's because I have eyes that see!"
+      token("maybe")
     )
 
   );
