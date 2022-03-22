@@ -16301,18 +16301,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          <example correction='wież'>Chciałbym, abyśmy w tym wątku oprócz <marker>wierz</marker> powstających w Paryżu, dyskutowali także o ich symbolice.</example>
          <example correction="wież">Oto pozostałości dwóch <marker>wierz</marker> u stóp wzgórza.</example>
         </rule>
-    		<rule id="STUP_STOP" name="„stup” (stóp)">
-         <pattern>
-          <token>u</token>
-          <marker>
-          <token>stup</token>
-          </marker>
-         </pattern>
-         <message>Czy chodziło o <suggestion>stóp</suggestion> (od „stopa”)?</message>
-         <short>Prawdopodobny błąd ortograficzny</short>
-         <example correction='stóp'>Pozostałości dwóch wież u <marker>stup</marker> wzgórza.</example>
-         <example>Pozostałości dwóch wież u stóp wzgórza.</example>
-        </rule>
 		      <rule id="PUKI_CO_NA_RAZIE" name="„puki co” (na razie)">
            <pattern>
             <token>puki</token>
@@ -20599,6 +20587,54 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
 		<category id="TYPOS" name="Prawdopodobne literówki" type="misspelling">
+		<rulegroup id="ZLOBEK" name="„żłobek” mylone ze „żłóbek">
+		<rule>
+		  <pattern>
+		    <unify><feature id="case"></feature><feature id="gender"></feature><feature id="number"></feature>
+		    <marker>
+        <token inflected="yes">żłóbek</token>
+        </marker>
+        <token inflected="yes" regexp="yes">prywatny|niepubliczny|przyzakładowy</token>
+		    </unify>
+		  </pattern>
+		  <message>Prawdopodobna literówka. Czy chodziło o <suggestion><match no="1" regexp_match="żłó" regexp_replace="żło"/></suggestion>?</message>
+		  <short>Literówka</short>
+		  <example correction="żłobka">Nasz syn chodzi do <marker>żłóbka</marker> przyzakładowego.</example>
+		</rule>
+		<rule>
+		  <pattern>
+		    <unify><feature id="case"></feature><feature id="gender"></feature><feature id="number"></feature>
+		    <marker>
+        <token inflected="yes">żłobek</token>
+        </marker>
+        <token inflected="yes" regexp="yes">Jezusowy|betlejemski|bożonarodzeniowy</token>
+		    </unify>
+    </pattern>
+		  <message>Prawdopodobna literówka. Czy chodziło o <suggestion><match no="1" regexp_match="żło" regexp_replace="żłó"/></suggestion>?</message>
+		  <short>Literówka</short>
+		  <example correction="żłóbka">Nasz syn zajrzał do <marker>żłobka</marker> betlejemskiego.</example>
+		</rule>
+		</rulegroup>
+		<rule id="STUP_STOP" name="„u stup” (u stóp">
+		<antipattern>
+        <marker>
+        <token>stup</token>
+        </marker>
+        <token>buddyjskich</token>
+		</antipattern>
+		<pattern>
+		  <token regexp="yes" inflected="yes">do|u|rozmiar|zapach|podwyższać|odparzenie</token>
+      <marker>
+      <token>stup</token>
+      </marker>
+		</pattern>
+		<message>Możliwy błąd ortograficzny. Czy chodziło o <suggestion>stóp</suggestion>?</message>
+		<short>Błąd ortograficzny</short>
+		<example correction="stóp">Natomiast u <marker>stup</marker> zapory są umiejscowione turbiny elektrowni.</example>
+		<example>Zgodnie ze zwyczajami wokół buddyjskich stup należy chodzić zgodnie z ruchem wskazówek zegara.</example>
+		<example correction='stóp'>Pozostałości dwóch wież u <marker>stup</marker> wzgórza.</example>
+    <example>Pozostałości dwóch wież u stóp wzgórza.</example>
+		</rule>
 		<rule id="ZA_STAZY" name="„za staży” (za starzy)">
       <pattern>
           <token>za</token>
