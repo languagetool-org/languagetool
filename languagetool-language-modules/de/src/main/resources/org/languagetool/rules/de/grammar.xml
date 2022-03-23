@@ -31504,10 +31504,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">wesentlichen|voraus|ungewissen|speziellen|(un)?klaren|guten|ganzen|dunkeln|argen|besonderen|übrigen|trüben|grünen|einzelnen|weitesten|entferntesten</token>
                     <token postag="ADV:.+" postag_regexp="yes"><exception postag="ZUS"/></token>
                 </antipattern>
+                <antipattern>
+                    <token>im</token>
+                    <token>vorab</token>
+                    <token postag="ADJ.*|PA[12].*|UNKNOWN" postag_regexp="yes" regexp="yes">.+en</token>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[iI]m</token>
                     <marker>
-                        <token regexp="yes">wesentlichen|voraus|ungewissen|speziellen|(un)?klaren|guten|ganzen|dunkeln|argen|besonderen|übrigen|trüben|grünen|einzelnen|weitesten|entferntesten</token>
+                        <token regexp="yes">wesentlichen|voraus|vorab|ungewissen|speziellen|(un)?klaren|guten|ganzen|dunkeln|argen|besonderen|übrigen|trüben|grünen|einzelnen|weitesten|entferntesten</token>
                     </marker>
                     <token><exception postag="(SUB|ADJ|EIG):.*|UNKNOWN" postag_regexp="yes"/></token>
                 </pattern>
@@ -60143,19 +60148,60 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="FEHLENDER_PUNKT_BEI_DATUM" name="Fehlender Punkt bei Datumsangabe (24.12)">
             <rule>
                 <pattern>
-                    <token postag="PRP:LOK\+TMP.*:DAT" postag_regexp="yes"/>
+                    <token postag="PRP:LOK\+TMP.*:DAT" postag_regexp="yes"><exception regexp="yes">von|bei|aus</exception></token>
                     <token regexp='yes'>[01]?[0-9]</token>
                     <token spacebefore="no">.</token>
                     <marker>
-                        <token regexp='yes' spacebefore="no">[01]?[0-9]</token>
+                        <token regexp='yes' spacebefore="no">
+                            [01]?[0-9]
+                            <exception>0</exception>
+                            <exception>00</exception>
+                            <exception regexp="yes">1[3-9]</exception>
+                        </token>
                     </marker>
-                    <token><exception>.</exception></token>
+                    <token><exception>.</exception><exception regexp="yes">[a-z]|Uhr|.*Volt|.*Metern?|.*Gramm|Zoll|Pixeln?|Punkten?|Inch|Fu(ss|ß)|ft|.*[bm]illion(en)?|tausend|hundert|[GM]?Hz|[cm]l|[kmc]?m|[km]?g</exception></token>
                 </pattern>
                 <message>Bei mehrteiligen Datumsangaben steht hinter der Monatsangabe ein Punkt.</message>
                 <suggestion>\4.</suggestion>
                 <short>Fehlender Punkt</short>
                 <example correction="12.">Ich komme am 13.<marker>12</marker> um 12 Uhr.</example>
                 <example correction="1.">Ferien sind vom 1.<marker>1</marker> bis 31.1.</example>
+                <example>Brunch von 8.00 Uhr bis 12.00 Uhr sowie Abendessen in Buffetform.</example>
+                <example>Läuft bei mir auf 4.5 GHz bei 1.15 Volt stabil.</example>
+                <example>Nun muss man einige Module aus 7.1 nachinstallieren…</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="PRP:LOK\+TMP.*:DAT" postag_regexp="yes"><exception regexp="yes">von|bei</exception></token>
+                    <token regexp='yes'>[01]?[0-9]</token>
+                    <token spacebefore="no">.</token>
+                    <token regexp='yes' spacebefore="no">
+                        [01]?[0-9]
+                        <exception>0</exception>
+                        <exception>00</exception>
+                        <exception regexp="yes">1[3-9]+</exception>
+                    </token>
+                    <token min="0">.</token>
+                    <token regexp="yes">–|-|bis</token>
+                    <token regexp='yes'>[01]?[0-9]</token>
+                    <token spacebefore="no">.</token>
+                    <marker>
+                        <token regexp='yes' spacebefore="no">
+                            [01]?[0-9]
+                            <exception>0</exception>
+                            <exception>00</exception>
+                            <exception regexp="yes">1[3-9]</exception>
+                        </token>
+                    </marker>
+                    <token>
+                        <exception>.</exception>
+                        <exception regexp="yes">[a-z]|Uhr|.*Volt|.*Metern?|.*Gramm|Zoll|Pixeln?|Punkten?|Inch|Fu(ss|ß)|ft|.*[bm]illion(en)?|tausend|hundert|[GM]?Hz|[cm]l|[kmc]?m|[km]?g</exception>
+                    </token>
+                </pattern>
+                <message>Bei mehrteiligen Datumsangaben steht hinter der Monatsangabe ein Punkt.</message>
+                <suggestion>\9.</suggestion>
+                <short>Fehlender Punkt</short>
+                <example correction="12.">Ich komme vom 11.12. bis 13.<marker>12</marker> vorbei.</example>
             </rule>
         </rulegroup>
         <rulegroup id="KOMMA_DATUM_WOCHENTAG" name="Fehlendes Komma zwischen Wochentag und Datumsangabe">
