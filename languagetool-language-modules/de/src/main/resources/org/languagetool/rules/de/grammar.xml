@@ -2641,15 +2641,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token>wie</token>
+                <token postag="ADV.*" postag_regexp="yes" min="0" max="2" />
                 <token>wir</token>
-                <token postag="PRP.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
                 <token>wir</token>
                 <token postag="PA2:.*" postag_regexp="yes"/>
             </antipattern>
+            <antipattern>
+                <token regexp="yes">und|aber|doch</token>
+                <token>wir</token>
+                <token regexp="yes">waren|sind</token>
+            </antipattern>
             <pattern>
-                <token regexp="yes">gleich.+|.*selbe.*<exception>gleichzeitig</exception></token>
+                <token regexp="yes">gleich.+|.*selbe.*<exception regexp="yes">gleich(zeitig|falls|wertig.*)</exception></token>
                 <token skip="1"><exception scope="next" postag="VER.*:1:PLU.*|UNKNOWN" postag_regexp="yes"/><exception>,</exception></token>
                 <marker>
                     <token>wir</token>
@@ -2667,6 +2672,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Diese Grundsätze der Gleichstellung halten wir ein, indem wir...</example>
             <example>Dann habt ihr die gleichen Settings wie wir im Add-on.</example>
             <example>Die Grundsätze der Gleichstellung haben wir eingehalten, indem ...</example>
+            <example>Tom hat die gleichen Probleme wie wir.</example>
         </rule>
         <rule id="DU_DIE" name="'du (die)'">
             <antipattern>
@@ -3797,6 +3803,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>aus</token>
                 </antipattern>
                 <antipattern>
+                    <token>von</token>
+                    <token regexp="yes">dort|denen|da|hier</token>
+                    <token>aus</token>
+                </antipattern>
+                <antipattern>
+                    <token>beim</token>
+                    <token case_sensitive="yes">Sie</token>
+                    <token min="0">zu</token>
+                    <token inflected="yes">bleiben</token>
+                </antipattern>
+                <antipattern>
+                    <token>von</token>
+                    <token skip="3">welcher</token>
+                    <token>aus</token>
+                </antipattern>
+                <antipattern>
                     <token postag="PRO:PER:AKK.*" postag_regexp="yes"><exception postag="PRO:PER:(DAT|NOM).*|ART:.+" postag_regexp="yes"/></token>
                     <token postag="PA1:.*" postag_regexp="yes"/>
                 </antipattern>
@@ -3809,6 +3831,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Es schwebt sozusagen schwerelos im ihn umgebenden Fluid.</example>
                 <example>Sie zog nach Nancy, von wo aus sie sich nach Paris begab.</example>
                 <example>Das Haus, von dem aus es sichtbar war, ...</example>
+                <example>Tom hat Maria das Du angeboten, doch Maria hielt es für passender, beim Sie zu bleiben.</example>
+                <example>Durch diesen Dienst kann Google ermitteln, von welcher Webseite eine Anfrage gesendet wird sowie von welcher IP-Adresse aus Sie …</example>
             </rule>
         </rulegroup>
         <rule id="ER_EINZIGE" name="'er (der) einzige'">
@@ -5904,23 +5928,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="WIE_WIR" name="'wie/wir'">
+            <antipattern>
+                <token>wie</token>
+                <token regexp="yes">und|oder</token>
+                <token>wie</token>
+                <token>viel</token>
+            </antipattern>
             <rule>
                 <pattern>
-                    <token>wie</token>
-                    <token regexp="yes">[a-zöäüß]+</token>
                     <marker>
+                        <token>wie</token>
+                        <token regexp="yes">[a-zöäüß]+</token>
                         <token>wie</token>
                     </marker>
                 </pattern>
-                <message>Meinten Sie <suggestion>wir</suggestion>?</message>
+                <message>Meinten Sie "wir"?</message>
+                <suggestion>wir \2 \3</suggestion>
+                <suggestion>\1 \2 wir</suggestion>
                 <example>Fragen wie: Wie können wir in Harmonie mit der Natur leben?</example>
-                <example correction="wir">Wie können <marker>wie</marker> vorgehen?</example>
+                <example correction="Wir können wie|Wie können wir"><marker>Wie können wie</marker> vorgehen?</example>
             </rule>
             <rule>
                 <antipattern><!-- caught by DE_VERBAGREEMENT -->
                     <token regexp="yes">konnte|wollte|sollte|möchte</token>
                     <token>wir</token>
-                    <token regexp="yes">euch|ihn|ihnen</token>
+                    <token regexp="yes">euch|ih[nr]|ih[rn]en</token>
+                </antipattern>
+                <antipattern>
+                    <token>so</token>
+                    <token>wir</token>
+                    <token regexp="yes">sind|w[äa]ren|werden|gehen|haben|machen</token>
                 </antipattern>
                 <pattern>
                     <token regexp="yes">so|genauso|nach|sie|konnte|wollte|sollte|möchte</token>
@@ -28846,17 +28883,61 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Schärfste">Wir verurteilen diese Aussagen aufs <marker>schärfste</marker>.</example>
             </rule>
         </rulegroup>
-        <rule id="WERT_SEIN" name="was das Wert (wert) ist">
-            <pattern>
-                <token regexp="yes">das|die|es|etwas|Geld|Sache|Tausende?|Hunderte?|Millionen</token>
-                <marker>
-                    <token case_sensitive="yes">Wert</token>
-                </marker>
-                <token inflected="yes">sein</token>
-            </pattern>
-            <message>Das Adjektiv <suggestion><match no="2" case_conversion="alllower" /></suggestion> wird in diesem Kontext kleingeschrieben.</message>
-            <example correction="wert">Er wollte wissen was das <marker>Wert</marker> ist.</example>
-        </rule>
+        <rulegroup id="WERT_SEIN" name="was das Wert (wert) ist">
+            <rule>
+                <pattern>
+                    <token regexp="yes">das|die|es|(irgend)?etwas|nichts|nix|irgendwas|Geld|Sache|Tausende?|Hunderte?|[BM]illionen|mehr|weniger</token>
+                    <marker>
+                        <token case_sensitive="yes">Wert</token>
+                    </marker>
+                    <token min="0">zu</token>
+                    <token inflected="yes">sein</token>
+                </pattern>
+                <message>Das Adjektiv <suggestion><match no="2" case_conversion="alllower" /></suggestion> wird in diesem Kontext kleingeschrieben.</message>
+                <example correction="wert">Er wollte wissen was das <marker>Wert</marker> ist.</example>
+                <example correction="wert">Eine Uhr die nichts <marker>Wert</marker> ist.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token inflected="yes">sein</token>
+                    <token min="0">sehr</token>
+                    <token min="0">viel</token>
+                    <token regexp="yes">mehr|weniger</token>
+                    <marker>
+                        <token case_sensitive="yes">Wert</token>
+                    </marker>
+                    <token case_sensitive="yes" regexp="yes">als|wie|denn</token>
+                </pattern>
+                <message>Das Adjektiv <suggestion><match no="5" case_conversion="alllower" /></suggestion> wird in diesem Kontext kleingeschrieben.</message>
+                <example correction="wert">Es ist mehr <marker>Wert</marker> als je zuvor.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token inflected="yes">sein</token>
+                    <token>nicht</token>
+                    <token min="0">sehr</token>
+                    <token>viel</token>
+                    <marker>
+                        <token case_sensitive="yes">Wert</token>
+                    </marker>
+                </pattern>
+                <message>Das Adjektiv <suggestion><match no="5" case_conversion="alllower" /></suggestion> wird in diesem Kontext kleingeschrieben.</message>
+                <example correction="wert">Die Uhr ist nicht viel <marker>Wert</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token inflected="yes">sein</token>
+                    <token postag="ADV.*" postag_regexp="yes" min="0" />
+                    <token regexp="yes">nichts|nix|(irgend)?(et)?was</token>
+                    <marker>
+                        <token case_sensitive="yes">Wert</token>
+                    </marker>
+                </pattern>
+                <message>Das Adjektiv <suggestion><match no="4" case_conversion="alllower" /></suggestion> wird in diesem Kontext kleingeschrieben.</message>
+                <example correction="wert">Die Uhr ist nichts <marker>Wert</marker>.</example>
+                <example correction="wert">Die Uhr ist kaum was <marker>Wert</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="PAUSE_MACHEN" name="pause (Pause) machen">
             <antipattern><!-- Ohne das ab zu pausen machten wir Fortschritte -->
                 <token>zu</token>
@@ -52672,6 +52753,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes" skip="4">und|oder|&amp;|/|,</token>
                     <token postag="SUB.*PLU.*" postag_regexp="yes" />
                 </antipattern>
+                <antipattern>
+                    <token skip="-1" inflected="yes">sein</token>
+                    <token>mit</token>
+                    <token>das</token>
+                    <token regexp="yes">schwierigste|härteste|beste|schlechteste</token>
+                </antipattern>
+                <antipattern>
+                    <token>mit</token>
+                    <token>das</token>
+                    <token regexp="yes">schwierigste|härteste|beste|schlechteste</token>
+                    <token inflected="yes">sein</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">gemä(ß|ss)|von|zu|bei|nahe|nebst|mit(samt)?|samt</token>
@@ -52696,6 +52789,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Mit den coolen Pop &amp; Jazz Grooves entspannt die wichtigsten Vokabeln, Redewendungen sowie smarte Sprüche für die Reise lernen.</example>
                 <example>Dein DJ-Mix Webradio mit den besten Hip-Hop, Rap und RnB Tracks!</example>
                 <example>… doch der persönliche Eindruck lässt es zu diesen Ort als untersuchenswert einzustufen.</example>
+                <example>Das wissen zwar die meisten Menschen, dennoch sind Veränderungsprozesse ob im privaten Umfeld oder in Unternehmen mit das Schwierigste.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -60170,7 +60264,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Läuft bei mir auf 4.5 GHz bei 1.15 Volt stabil.</example>
                 <example>Nun muss man einige Module aus 7.1 nachinstallieren…</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="PRP:LOK\+TMP.*:DAT" postag_regexp="yes"><exception regexp="yes">von|bei</exception></token>
                     <token regexp='yes'>[01]?[0-9]</token>
