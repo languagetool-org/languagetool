@@ -1253,6 +1253,10 @@ public class ProhibitedCompoundRule extends Rule {
         // assume name, e.g. "Bianca Baalhorn" (avoid: Baalhorn => Ballhorn)
         continue;
       }
+      if (prevReadings != null && prevReadings.getToken().matches("Herrn?|Frau")) {
+        // assume name, e.g. "Herr Eiswert" (avoid: Eiswert -> Eiswelt)
+        continue;
+      }
       List<String> wordsParts = new ArrayList<>(Arrays.asList(tmpWord.split("-")));
       int partsStartPos = 0;
       for (String wordPart : wordsParts) {
