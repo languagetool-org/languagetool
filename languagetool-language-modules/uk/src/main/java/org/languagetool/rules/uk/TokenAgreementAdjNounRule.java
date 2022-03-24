@@ -141,7 +141,9 @@ public class TokenAgreementAdjNounRule extends Rule {
         //TODO: nv still can be wrong if :np/:ns is present to it's not much gain for lots of work
         if( PosTagHelper.hasPosTagPart(tokens[i], PosTagHelper.NO_VIDMINOK_SUBSTR)
             //TODO: turn back on when we can handle pron
-            || PosTagHelper.hasPosTagPart(tokens[i], "&pron")
+//            || PosTagHelper.hasPosTagPart(tokens[i], "&pron")
+//            || Arrays.asList("сам").contains(tokens[i].getCleanToken())
+            || LemmaHelper.hasLemma(tokens[i], Arrays.asList("який", "котрий", "сам"))
             || PosTagHelper.hasPosTagPart(tokens[i], "<") )
           continue;
 

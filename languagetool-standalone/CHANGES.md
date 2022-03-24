@@ -32,7 +32,8 @@
 
 #### Ukrainian
   * new words in the POS dictionary
-  * added and improved rules
+  * added and improved several rules
+  * added pronoun checking for adj/noun agreement
   * improved tagging and disambiguation
 
 ## 5.6 (2021-12-29)

@@ -238,6 +238,8 @@ public class TokenAgreementAdjNounRuleTest {
     assertEquals(1, rule.match(lt.getAnalyzedSentence("як боротьбу сунітської більшість")).length);
     
     assertEquals(1, rule.match(lt.getAnalyzedSentence("найцікавішій час")).length);
+    
+//    assertEmptyMatch("Ти, сякий-такий сину!");
   }
   
   @Test
@@ -906,9 +908,29 @@ public class TokenAgreementAdjNounRuleTest {
     
     assertEmptyMatch("стільки само свідків");
 
+    assertEmptyMatch("що таке звук?");
+
+    assertEmptyMatch("обстрілює один за одним охоронців.");
+
+    assertEmptyMatch("повів сам військо");
+    assertEmptyMatch("що ж таке геноцид");
+    assertEmptyMatch("що воно таке еліта");
+    assertEmptyMatch("Таких меншість.");
+    
+    assertEmptyMatch("той родом з Білорусі");
+    assertEmptyMatch("в нашу Богом забуту Данину");
+    
+    assertEmptyMatch("той кібернетикою займається");
+    
+  assertEmptyMatch("такого світ ще не бачив");
+//  assertEmptyMatch("на таке Євросоюз напевне не наважиться");
+    assertHasError("позицію у такій спосіб, — ділиться думками");
+    
+//    assertEmptyMatch("до такого студенти не готові");
+    
     //TODO: turn back on when we can handle pron
 //    assertEquals(1, rule.match(langTool.getAnalyzedSentence("із такою самого зневагою")).length);
-//    assertEquals(1, rule.match(langTool.getAnalyzedSentence("на вибори само висуванцем")).length);
+//    assertHasError("на вибори само висуванцем");
   }
   
   @Test
