@@ -588,6 +588,26 @@ RB => Règles Brutes
         </pattern>
         <disambig action="remove" postag="N.*"/>
     </rule>
+    <rulegroup id="PARTICIPES" name="participes">
+        <rule>
+        <pattern>
+            <marker>
+                <token>participe</token>
+            </marker>
+            <token regexp="yes">à|aux</token>
+        </pattern>
+        <disambig action="remove" postag="N m s"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>participe</token>
+                </marker>
+                <token regexp="yes">à|aux</token>
+            </pattern>
+            <disambig action="remove" postag="N m p"/>
+        </rule>
+    </rulegroup>
     <rule id="NEUF_CENT" name="neuf cent">
         <pattern>
             <marker>
