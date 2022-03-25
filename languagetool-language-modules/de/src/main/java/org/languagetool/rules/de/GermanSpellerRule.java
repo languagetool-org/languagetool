@@ -2345,6 +2345,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "meißtens": return topMatch("meistens");
       case "Babyphone": return topMatch("Babyfon");
       case "Baby-Phone": return topMatch("Babyfon");
+      case "gescheint": return topMatch("geschienen");
       case "staubgesaugt": return topMatch("gestaubsaugt");
     }
     return Collections.emptyList();

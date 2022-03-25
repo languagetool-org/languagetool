@@ -444,6 +444,7 @@ public class CaseRuleTest {
     assertGood("Das ist ein zwingendes Muss.");
     assertGood("Er hält eine Handbreit Abstand.");
     assertGood("Das ist das Debakel und Aus für Podolski.");
+    assertGood("Ein Highlight für Klein und Groß!");
     assertGood("Der schwedische Psychologe Dan Katz, Autor von 'Angst kocht auch nur mit Wasser', sieht in der Corona-Krise dennoch nicht nur Negatives.");
   }
 
