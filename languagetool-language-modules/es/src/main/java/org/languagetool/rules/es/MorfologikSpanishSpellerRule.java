@@ -42,7 +42,7 @@ import java.util.stream.Collectors;
 public class MorfologikSpanishSpellerRule extends MorfologikSpellerRule {
 
   private static final Pattern PREFIX_WITH_WHITESPACE = Pattern.compile(
-      "^(tele|anti|auto|ex|extra|macro|mega|meta|micro|multi|mono|mini|post|retro|semi|super|hiper|trans|re|g) (..+)|.+ s$",
+      "^(eco|tele|anti|auto|ex|extra|macro|mega|meta|micro|multi|mono|mini|post|retro|semi|super|hiper|trans|re|g) (..+)|.+ s$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern PARTICULA_FINAL = Pattern.compile("^(..+) (que|cual)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
