@@ -141,15 +141,6 @@ RB => Règles Brutes
         </pattern>
         <disambig action="remove" postag="J e s"/>
     </rule>
-    <rule id="LAMPE_TORCHE" name="lampe torche">
-        <pattern>
-            <token regexp="yes">lampes?</token>
-            <marker>
-                <token>torche</token>
-            </marker>
-        </pattern>
-        <disambig action="remove" postag="V ind pres 3 s"/>
-    </rule>
     <rulegroup id="CEUX_QUI_L_ECOUTE" name="ceux qui l'écoute">
         <rule>
         <pattern>
@@ -588,6 +579,26 @@ RB => Règles Brutes
         </pattern>
         <disambig action="remove" postag="N.*"/>
     </rule>
+    <rulegroup id="LAMPE_TORCHE" name="lampe torche">
+        <rule>
+        <pattern>
+            <token postag="N f s">lampe</token>
+            <marker>
+                <token postag="N f s">torche</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="N f p">lampes</token>
+                <marker>
+                    <token postag="N f s">torche</token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="PARTICIPES" name="participes">
         <rule>
         <pattern>
