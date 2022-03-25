@@ -51,6 +51,8 @@ public class LanguageIdentifier {
   private static final int SHORT_ALGO_THRESHOLD = 50;
   // texts shorter than this will *only* consider preferred languages (if set):
   private static final int CONSIDER_ONLY_PREFERRED_THRESHOLD = 50;
+  private static final List<String> RARE_LANGUAGES = Arrays.asList(
+    "eo", "ast", "be", "br", "da", "gl", "ga", "km", "fa", "ro", "sk", "sl", "sv", "tl", "ta", "no", "nb");
 
   // ast and gl often prevent the correct detection of Spanish (as they are quite similar
   // to Spanish, I assume) so we disable them for now. See LanguageDetectionEval.java:
@@ -289,6 +291,17 @@ public class LanguageIdentifier {
           //System.out.println("-> " + b + " ==> " + scores);
           result = getHighestScoringResult(scores);
         }
+        /*if (cleanText.length() >= CONSIDER_ONLY_PREFERRED_THRESHOLD && cleanText.length() < 200 && preferredLangs.size() > 0) {
+          Set<String> old = new HashSet<>(scores.keySet());
+          Map<String, Double> scoresOld = new HashMap<>(scores);
+          scores.keySet().removeIf(k -> !preferredLangs.contains(k) && RARE_LANGUAGES.contains(k));
+          result = getHighestScoringResult(scores);
+          Map.Entry<String, Double> altResult = getHighestScoringResult(scoresOld);
+          if (old.size() != scores.keySet().size()) {
+            boolean change = result.getKey() != null && !result.getKey().equals(altResult.getKey());
+            System.out.println("#clean " + old + " => " + scores.keySet() + " --> " + result + " instead of " + altResult + " (len: " + cleanText.length() + ", pref: " + preferredLangs + ", change: " + change + ")");
+          }
+        }*/
         // Calculate a trivial confidence value because fasttext's confidence is often
         // wrong for short cleanText (e.g. 0.99 for a test that's misclassified). Don't
         // use 1.0 because we can never be totally sure...
