@@ -10768,6 +10768,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="apagafuegos">Un <marker>apaga fuegos</marker>.</example>
                 <example correction="apagafuegos">Un «<marker>apaga fuegos</marker>».</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="D.*" postag_regexp="yes"/>
+                    <token postag="_QM_OPEN" min="0"/>
+                    <marker>
+                        <token>pasa</token>
+                        <token min="0">-</token>
+                        <token regexp="yes">tiempos?</token>
+                    </marker>
+                </pattern>
+                <message>Se escribe junto.</message>
+                <suggestion>pasa\4</suggestion>
+                <example correction="pasatiempo">Un <marker>pasa tiempo</marker>.</example>
+                <example correction="pasatiempos">Los «<marker>pasa tiempos</marker>».</example>
+            </rule>
         </rulegroup>
         <rule id="TIK_TOK" name="TikTok">
             <pattern>
@@ -15026,6 +15041,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Las mil y dos noches.</example>
                 <example>Una vez que la canceles, puedes volver.</example>
                 <example>Se dirige al/la trabajador/a y le pregunta.</example>
+                <example>que tanto trata de determinar</example>
                 <!-- <example>no esta claro</example> better: other rule-->
                 <!-- que una espacio y tiempo (possible but rare) -->
             </rule>

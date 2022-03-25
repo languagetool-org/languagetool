@@ -2409,6 +2409,14 @@ Copyright (C) 2011 Juan Martorell
             <wd lemma="pudrir"/>
         </disambig>
     </rule>
+    <rule id="TRATAR" name="tratar de">
+        <pattern>
+            <token postag="V.*" postag_regexp="yes" inflected="yes">tratar</token>
+            <token>de</token>
+            <token postag="V.N.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filter" postag="V.*"/>
+    </rule>
     <rulegroup id="HABER_PARTICIPO" name=" haver + participio">
         <rule>
             <pattern>
@@ -5108,7 +5116,7 @@ Copyright (C) 2011 Juan Martorell
             </marker>
             <token>como</token>
         </pattern>
-        <disambig action="remove" postag="N.*|V.[SI].*"></disambig>
+        <disambig action="remove" postag="N.*|V.[SI].*"/>
     </rule>
     <rule id="not_noun_no_agreement1" name="not noun if no agreement">
         <pattern>
