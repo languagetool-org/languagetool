@@ -6476,6 +6476,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Verwechslungen -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
+        <rule id="STATISCHE_BUNDESAMT" name="Statisches (Statistisches) Bundesamt" default="temp_off">
+            <pattern>
+                <token regexp="yes">statische[snm]?</token>
+                <token regexp="yes" inflected="yes">Bundesamt|Landesamt</token>
+            </pattern>
+            <message>Meinten Sie 'statistisch' (auf Statistik bezogen) statt 'statisch' (unverändert) ?</message>
+            <suggestion><match regexp_match="[Ss]tatisch" regexp_replace="Statistisch" no="1"/> \2</suggestion>
+            <url>https://de.wikipedia.org/wiki/Statistisches_Bundesamt</url>
+            <example correction="Statistische Bundesamt">Das <marker>Statische Bundesamt</marker> hat neue Zahlen veröffentlicht.</example>
+            <example correction="Statistischen Bundesamtes">Die neuen Zahlen des <marker>statischen Bundesamtes</marker> liegen vor.</example>
+        </rule>
         <rule id="GESCHAEFTIG_GESCHAEFTLICH" name="geschäftig vs geschäftlich" default="temp_off">
             <pattern>
                 <marker>
