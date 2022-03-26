@@ -4630,12 +4630,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">.*[а-яё]-</token>
-                    <token spacebefore="yes" regexp="yes">[а-яё][а-яё].*</token>
+                    <token spacebefore="yes" regexp="yes">[а-яё][а-яё].*<exception>или</exception></token>
                 </pattern>
                 <message>После дефиса не должно быть пробела: <suggestion>\1\2</suggestion></message>
                 <url>http://ru.wikipedia.org/wiki/%D0%94%D0%B5%D1%84%D0%B8%D1%81</url>
                 <short>Лишний пробел</short>
                 <example>Кое-кто пошёл в магазин.</example>
+                <example>Это будет караться различными санкциями – от дисциплинарных до административно- или иных.</example>
                 <example correction="Кое-кто"><marker>Кое- кто</marker> пошёл в магазин.</example>
             </rule>
         </rulegroup>
