@@ -3497,18 +3497,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             
             <rule>
                 <pattern case_sensitive="yes">
-                    <!--  removed как сейчас (#1127)   -->
+                    <!--  removed как сейчас (#1127),  как обычно (#6439) -->
                     <token postag="SENT_START"></token>
                     <marker>
                         <token>Как</token>
-                        <token regexp="yes">обычно|всегда|правило|исключение|нарочно</token>
-                        <token negate="yes" regexp="yes">&pnct;</token>
+                        <token regexp="yes">всегда|правило|исключение|нарочно</token>
+                        <token negate="yes" regexp="yes">&pnct;<exception postag="VB:.*" postag_regexp="yes"></exception></token>
                     </marker>
                 </pattern>
                 <message>Пропущена запятая: <suggestion>\2 \3, \4</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
                 <short>Пропущена запятая</short>
                 <example><marker>Как правило,</marker> мы ходим в походы летом.</example>
+                <example>Как правило может быть таким сложным?</example>
+                <example>Как обычно Вы готовите переговоры?</example>
                 <example correction="Как правило, мы"><marker>Как правило мы</marker> ходим в походы летом.</example>
             </rule>
         </rulegroup>
