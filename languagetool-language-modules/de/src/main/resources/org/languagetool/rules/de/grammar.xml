@@ -8609,6 +8609,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Meinten Sie <suggestion><match no="1" regexp_match="sch" regexp_replace="schl"/></suggestion>?</message>
                 <example correction="schlossen">Nach langen Verhandlungen <marker>schossen</marker> sie sich zusammen.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token inflected="yes" regexp="yes" skip="1">hinter|fest|(luft|staub|wasser)?dicht|Naht|Tür|innen|Schloss|Wunde|Gitter|Faden|Oberfläche</token>
+                    <marker><token regexp="yes">verschossene?[nms]?</token></marker>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="2" regexp_match="sch" regexp_replace="schl"/></suggestion>?</message>
+                <example correction="verschlossen">Es wurde luftdicht <marker>verschossen</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker><token regexp="yes">verschossene?[nms]?</token></marker>
+                    <token inflected="yes" regexp="yes" skip="1">Tür|Brief(umschlag)?|Dose|Sack|Treppenaufgang|Zimmer|Truhe|Mund|Giftschrank|Herz(kranzgefäß)?|Behälter</token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="1" regexp_match="sch" regexp_replace="schl"/></suggestion>?</message>
+                <example correction="verschlossenen">Er öffnete den <marker>verschossenen</marker> Briefumschlag.</example>
+            </rule>
         </rulegroup>
         <rule id="HINTERS_ICH" name="hinters ich/hinter sich">
             <pattern case_sensitive="yes">
