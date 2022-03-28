@@ -7643,7 +7643,7 @@ RB => Règles Brutes
                 <marker>
                     <token postag="V (ind|sub) pres 3 ." postag_regexp="yes">
                         <exception scope="previous" regexp="yes">&prefixes;</exception>
-                        <exception regexp="yes">politique|adjoint|externe|fait</exception>
+                        <exception regexp="yes">politique|adjoint|externe|fait|style</exception>
                         <exception postag="_GN_.*" postag_regexp="yes"/></token>
                 </marker>
                 <token postag="A" min="0"/>
@@ -7714,6 +7714,52 @@ RB => Règles Brutes
         <disambig action="filter" postag="V.*"/>
     </rule>
     <!-- CATEGORY: complementary rules -->
+    <rulegroup id="NOMS_EPICENES" name="noms épicènes">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="N m s"/>
+                </marker>
+                <token regexp="yes">[\[\(\-\.\·]</token>
+                <token regexp="yes">es|e</token>
+            </pattern>
+            <disambig action="replace" postag="N e s"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="N e s"/>
+                <token regexp="yes">[\[\(\-\.\·]</token>
+                <marker>
+                    <token postag="N e s" regexp="yes">es|e</token>
+                </marker>
+                <token regexp="yes">[\[\(\-\.\·]</token>
+                <token postag="N e s" regexp="yes">s</token>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="N e s"/>
+                <token regexp="yes">[\[\(\-\.\·]</token>
+                <marker>
+                    <token regexp="yes">[a-z].*</token>
+                </marker>
+                <token regexp="yes">[\[\(\-\.\·]</token>
+                <token>s</token>
+            </pattern>
+            <disambig action="replace" postag="N e s"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="N e s"/>
+                <token regexp="yes">[\[\(\-\.\·]</token>
+                <marker>
+                    <token regexp="yes">[^àâaêèéeiîoôòóöŌuœä]es</token>
+                </marker>
+            </pattern>
+            <disambig action="replace" postag="N e s"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="SENT_START2" name="possible sentence start">
         <rule>
             <pattern>
