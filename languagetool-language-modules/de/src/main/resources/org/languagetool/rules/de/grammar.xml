@@ -255,6 +255,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Mögliche Tippfehler">
+        <rule id="WAR_FUER" name="War (was) für ein…" default="temp_off">
+            <pattern>
+                <token postag="SENT_START|KON" postag_regexp="yes"/>
+                <marker>
+                    <token>war</token>
+                </marker>
+                <token>für</token>
+                <token postag="ART:IND:(NOM|AKK).*" postag_regexp="yes"/>
+                <token postag="ADJ:(NOM|AKK).*" postag_regexp="yes" min="0"/>
+                <token postag="SUB:(NOM|AKK).*" postag_regexp="yes"/>
+                <token postag="SENT_END" regexp="yes">[\.!…]</token>
+            </pattern>
+            <message>Möglicher Tippfehler gefunden: Meinten Sie <suggestion>was</suggestion>?</message>
+            <example correction="Was"><marker>War</marker> für eine riesige Überraschung!</example>
+        </rule>
         <rule id="IMP_AUX" name="abonnier (abonniert) haben etc." default="off">
             <!-- erstmal off, zu viele Fehlalarme wie 'Bohr hatte die Medaillen von...' -->
             <antipattern>
