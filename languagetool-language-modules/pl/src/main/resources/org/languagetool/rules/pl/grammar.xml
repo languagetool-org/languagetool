@@ -20587,6 +20587,77 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
 		<category id="TYPOS" name="Prawdopodobne literówki" type="misspelling">
+		<rulegroup id="WIEKU_Z_NICH" name="„wieku z nich” (wielu z nich)">
+		<rule>
+		<antipattern>
+		    <token postag="(adj|pact):sg:(loc|gen):m1.m2.m3.n1.n2:.*|ppron3:.*:gen:.*|num:pl:.*:rec" postag_regexp="yes"/>
+		    <marker>
+          <token>wieku</token>		    
+		    </marker>
+  	</antipattern>
+  	<antipattern>
+      <marker>
+        <token>wieku</token>
+      </marker>
+        <token>z</token>
+        <token regexp="yes">\d+</token>
+        <token>do</token>
+        <token regexp="yes">\d+</token>
+  	</antipattern>
+      <pattern>
+          <marker>
+              <token>wieku<exception scope="previous" regexp="yes" case_sensitive="yes">([XVI]*\-)?(?:I{2,3}|I?([XV]+)|([XV]+I{0,3}[VX]?))</exception></token>          
+          </marker>
+          <token inflected="yes">z</token>
+      </pattern>
+      <message>Czy chodziło o <suggestion>wielu</suggestion>?</message>
+      <short>Prawdopodobna literówka</short>
+      <example correction="wielu">Po zabiegu zanika menstruacja, co dla <marker>wieku</marker> z nich jest wielką ulgą.</example>
+      <example>Dlatego osoby w rożnym wieku z nich korzystają.</example>
+      <example>Przez ponad pół wieku z jego mieszkania nie została wyrzucona żadna zadrukowana kartka.</example>
+      <example correction="wielu">I <marker>wieku</marker> z nich to kretyni.</example>
+    </rule>
+    <rule>
+      <pattern>
+      <token>od</token>
+      <marker><token>wieku</token></marker>
+      <token>lat</token>
+      <token><exception regexp="yes">\d+</exception><exception postag="num:pl:gen.*:congr" postag_regexp="yes"></exception></token>
+      </pattern>
+      <message>Czy chodziło o <suggestion>wielu</suggestion>?</message>
+      <short>Prawdopodobna literówka</short>
+      <example correction="wielu">Od <marker>wieku</marker> lat jadam rosoły.</example>
+      <example>Od wieku lat 5 wszystkie dzieci są zobowiązane do odbycia rocznego bezpłatnego przygotowania przedszkolnego do nauki w szkole.</example>
+      <example>Od wieku lat pięciu wszystkie dzieci są zobowiązane do odbycia rocznego bezpłatnego przygotowania przedszkolnego do nauki w szkole.</example>    
+    </rule>
+     <rule>
+     <antipattern>
+		    <token postag="adj:sg:(loc|gen):m1.m2.m3.n1.n2:.*:pos" postag_regexp="yes"/>
+		    <token>bardzo</token>
+		    <marker>
+          <token>wieku</token>
+		    </marker>
+  	</antipattern>
+  <antipattern>
+        <marker>
+          <token>wieku</token>
+		    </marker>
+		    <token min="0" regexp="yes">[&quot;”«»]</token>
+		    <token postag="(adj|pact):sg:(loc|gen):m1.m2.m3.n1.n2:.*|ppron3:.*:gen:.*|num:pl:.*:rec" postag_regexp="yes"/>
+  	</antipattern>	
+      <pattern>
+      <token regexp="yes">tak|bardzo|zbyt|wśród</token>
+      <marker><token>wieku<exception scope="previous" regexp="yes" case_sensitive="yes">([XVI]*\-)?(?:I{2,3}|I?([XV]+)|([XV]+I{0,3}[VX]?))</exception></token></marker>
+      </pattern>
+      <message>Czy chodziło o <suggestion>wielu</suggestion>?</message>
+      <short>Prawdopodobna literówka</short>
+      <example correction="wielu">Od bardzo <marker>wieku</marker> osób słyszałem już te bzdury.</example>
+      <example>Od wieku lat 5 wszystkie dzieci są zobowiązane do odbycia rocznego bezpłatnego przygotowania przedszkolnego do nauki w szkole.</example>
+      <example>Od wieku lat pięciu wszystkie dzieci są zobowiązane do odbycia rocznego bezpłatnego przygotowania przedszkolnego do nauki w szkole.</example>
+      <example>Warto zwrócić uwagę na trzy chaty mazurskie z XIX wieku z ciemnych drewnianych bali.</example>
+      <example>Ale i tak wieku "produkcyjnego" dożywa kilka procent narybku.</example>
+    </rule>
+		</rulegroup>
 		<rule id="CORAZ_ADJ_POS" name="„coraz mocnej” (coraz mocniej)">
       <pattern>
           <token>coraz</token>

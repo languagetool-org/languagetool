@@ -255,6 +255,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Mögliche Tippfehler">
+        <rule id="WAR_FUER" name="War (was) für ein…" default="temp_off">
+            <pattern>
+                <token postag="SENT_START|KON" postag_regexp="yes"/>
+                <marker>
+                    <token>war</token>
+                </marker>
+                <token>für</token>
+                <token postag="ART:IND:(NOM|AKK).*" postag_regexp="yes"/>
+                <token postag="ADJ:(NOM|AKK).*" postag_regexp="yes" min="0"/>
+                <token postag="SUB:(NOM|AKK).*" postag_regexp="yes"/>
+                <token postag="SENT_END" regexp="yes">[\.!…]</token>
+            </pattern>
+            <message>Möglicher Tippfehler gefunden: Meinten Sie <suggestion>was</suggestion>?</message>
+            <example correction="Was"><marker>War</marker> für eine riesige Überraschung!</example>
+        </rule>
         <rule id="IMP_AUX" name="abonnier (abonniert) haben etc." default="off">
             <!-- erstmal off, zu viele Fehlalarme wie 'Bohr hatte die Medaillen von...' -->
             <antipattern>
@@ -278,7 +293,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Fisch ist heute billig.</example>
             <example>William Penn war nicht von Geburt an Quäker.</example>
         </rule>
-        <rule id="IM_ENDDEFEKT" name="im Enddefekt (Endeffekt)" default="temp_off">
+        <rule id="IM_ENDDEFEKT" name="im Enddefekt (Endeffekt)">
             <pattern>
                 <token>im</token>
                 <marker>
@@ -21571,7 +21586,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Redundanz -->
     <!-- ====================================================================== -->
     <category id="REDUNDANCY" name="Redundanz" type="style">
-        <rule id="HAUPTPROTAGONIST" name="Hauptprotagonist (Protagonist)" default="temp_off" tags="picky">
+        <rule id="HAUPTPROTAGONIST" name="Hauptprotagonist (Protagonist)" tags="picky">
             <pattern>
               <token inflected="yes">Hauptprotagonist</token>
             </pattern>
@@ -24341,6 +24356,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="herunterbaumeln">Er ließ die Beine <marker>runterbaumeln</marker>.</example>
                 <example>Er ließ die Beine <marker>herunterbaumeln</marker>.</example>
             </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token case_sensitive="yes">Rum</token>
+                </antipattern>
+                <pattern>
+                    <token skip="-1" postag="VER:.+" postag_regexp="yes"/>
+                    <marker>
+                        <token>rum</token>
+                    </marker>
+                </pattern>
+                <message>Möchten Sie 'rum' durch eine Alternative ersetzen, um Ihren Text formeller zu machen?</message>
+                <suggestion>herum</suggestion>
+                <example correction="herum">Heute saßen wir den ganzen Tag nur <marker>rum</marker>.</example>
+                <example>In der Karibik Rum zu trinken, wäre ein Traum.</example>
+            </rule>
         </rulegroup>
         <rule id="UND_SATZANFANG" name="'Und' am Satzanfang" default="off">
             <pattern case_sensitive="yes">
@@ -24507,6 +24537,54 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Stil -->
     <!-- ====================================================================== -->
     <category id="STYLE" name="Stil" type="style">
+        <rulegroup id="HANDELN_DARUM_DARÜBER" name="handeln darum/darüber (davon)" default="temp_off">
+            <rule>
+                <antipattern>
+                    <token>es</token>
+                    <token inflected="yes">handeln</token>
+                    <token skip="-1">sich</token>
+                    <token>darum</token>
+                </antipattern>
+                <pattern>
+                    <token skip="-1" inflected="yes">handeln</token>
+                    <marker>
+                        <token regexp="yes">darum|darüber</token>
+                    </marker>
+                    <token>,</token>
+                    <token>dass</token>
+                </pattern>
+                <message>Wenn es um ein Thema geht, heißt es standardsprachlich 'handeln von (davon)'.</message>
+                <suggestion>davon</suggestion>
+                <example correction="davon">Die Geschichte handelt <marker>darum</marker>, dass ein Mann nach dem Sinn des Lebens sucht.</example>
+                <example correction="davon">Der Text handelt <marker>darüber</marker>, dass ein Mädchen seine Eltern sucht.</example>
+                <example>Das Buch handelt davon, dass eine Frau ihren weg zurück nach Hause findet.</example>
+                <example>Es handelt sich dabei darum, dass es nicht immer erforderlich ist, die bestehende Situation zu ändern.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token skip="-1" inflected="yes">handeln</token>
+                    <token>darum</token>
+                    <token>von</token>
+                </antipattern>
+                <antipattern>
+                    <token>darum</token>
+                    <token skip="-1" inflected="yes">handeln</token>
+                    <token>von</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">darum|darüber</token>
+                    </marker>
+                    <token inflected="yes">handeln</token>
+                </pattern>
+                <message>Wenn es um ein Thema geht, heißt es standardsprachlich 'handeln von (davon)'.</message>
+                <suggestion>davon</suggestion>
+                <example correction="Davon"><marker>Darum</marker> handelt die Geschichte.</example>
+                <example correction="Davon"><marker>Darüber</marker> handelt das Buch.</example>
+                <example>Darum handelt das Buch hauptsächlich von Wildtieren.</example>
+                <example>Das Buch handelt darum nur von Natur und Tieren.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="SOWOHL_UND" name="sowohl...und (als auch)" default="temp_off">
             <rule>
                 <antipattern>
@@ -24612,6 +24690,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token skip="-1" postag="ART.*DAT.*|PRO.*DAT.*|SUB:DAT.*|EIG.*" postag_regexp="yes"></token>
                     <token>egal</token>
                 </antipattern>
+                <antipattern>
+                    <token skip="-1" postag="ART.*DAT.*|PRO.*DAT.*|SUB:DAT.*|EIG.*" postag_regexp="yes"></token>
+                    <token>egal</token>
+                    <token postag="VER.*" postag_regexp="yes" inflected="yes">sein</token>
+                </antipattern>
                 <pattern>
                     <token postag="VER.*" postag_regexp="yes" inflected="yes" skip="-1">sein</token>
                     <marker>
@@ -24621,11 +24704,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Möglicherweise ist es stilistisch besser, eine standardsprachliche Formulierung zu benutzen.</message>
                 <suggestion>gleichgültig</suggestion>
                 <suggestion>unerheblich</suggestion>
-                <suggestion>bedeutungslos</suggestion>
                 <suggestion>irrelevant</suggestion>
-                <example correction="gleichgültig|unerheblich|bedeutungslos|irrelevant">Für die Entscheidung ist das, wie ich schon sagte, <marker>egal</marker>.</example>
+                <example correction="gleichgültig|unerheblich|irrelevant">Für die Entscheidung ist das, wie ich schon sagte, <marker>egal</marker>.</example>
                 <example>Mir ist egal, ob du jetzt oder später vorbeikommst.</example>
                 <example>Ob du heute oder morgen einkaufst, ist mir egal.</example>
+                <example>Ich lerne heute nicht, weil es mir egal ist, ob ich die Prüfung bestehe.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -24638,6 +24721,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token skip="-1" postag="ART.*DAT.*|PRO.*DAT.*|SUB:DAT.*|EIG.*" postag_regexp="yes"></token>
                     <token>egal</token>
                 </antipattern>
+                <antipattern>
+                    <token>egal</token>
+                    <token postag="VER.*" postag_regexp="yes" inflected="yes" skip="-1">sein</token>
+                    <token postag="ART.*DAT.*|PRO.*DAT.*|SUB:DAT.*|EIG.*" postag_regexp="yes"></token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>egal</token>
@@ -24647,28 +24735,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Möglicherweise ist es stilistisch besser, eine standardsprachliche Formulierung zu benutzen.</message>
                 <suggestion>gleichgültig</suggestion>
                 <suggestion>unerheblich</suggestion>
-                <suggestion>bedeutungslos</suggestion>
                 <suggestion>irrelevant</suggestion>
-                <example correction="Gleichgültig|Unerheblich|Bedeutungslos|Irrelevant"><marker>Egal</marker> ist die Entscheidung keineswegs.</example>
+                <example correction="Gleichgültig|Unerheblich|Irrelevant"><marker>Egal</marker> ist die Entscheidung keineswegs.</example>
                 <example>Ich kümmere mich nicht darum, weil es mir egal ist.</example>
                 <example>Ob du heute oder morgen vorbeikommst, ist mir egal.</example>
+                <example>Egal ist mir unsere Beziehung nicht.</example>
             </rule>
             <rule>
                 <pattern>
                     <token postag="ART.*DAT.*|PRO.*DAT.*|SUB:DAT.*|EIG.*" postag_regexp="yes"></token>
-                    <token postag="VER.*" postag_regexp="yes" inflected="yes">sein</token>
+                    <token postag="VER.*" postag_regexp="yes" inflected="yes" skip="-1">sein</token>
                         <marker>
                             <token>egal</token>
                         </marker>
                 </pattern>
                 <message>Möglicherweise ist es stilistisch besser, eine standardsprachliche Formulierung zu benutzen.</message>
                 <suggestion>gleichgültig</suggestion>
-                <example correction="gleichgültig">Mir ist <marker>egal</marker>, welche Entscheidung ihr trefft.</example>
+                <example correction="gleichgültig">Mir ist völlig <marker>egal</marker>, welche Entscheidung ihr trefft.</example>
             </rule>
             <rule>
                 <pattern>
                     <token postag="VER.*" postag_regexp="yes" inflected="yes">sein</token>
-                    <token postag="ART.*DAT.*|PRO.*DAT.*|SUB:DAT.*|EIG.*" postag_regexp="yes"></token>
+                    <token postag="ART.*DAT.*|PRO.*DAT.*|SUB:DAT.*|EIG.*" postag_regexp="yes" skip="-1"></token>
                     <marker>
                         <token>egal</token>
                     </marker>
@@ -24676,6 +24764,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Möglicherweise ist es stilistisch besser, eine standardsprachliche Formulierung zu benutzen.</message>
                 <suggestion>gleichgültig</suggestion>
                 <example correction="gleichgültig">Welche Entscheidungen getroffen werden, ist mir <marker>egal</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip="-1" postag="ART.*DAT.*|PRO.*DAT.*|SUB:DAT.*|EIG.*" postag_regexp="yes"></token>
+                    <marker>
+                        <token>egal</token>
+                    </marker>
+                    <token postag="VER.*" postag_regexp="yes" inflected="yes">sein</token>
+                </pattern>
+                <message>Möglicherweise ist es stilistisch besser, eine standardsprachliche Formulierung zu benutzen.</message>
+                <suggestion>gleichgültig</suggestion>
+                <example correction="gleichgültig">Ich mache nie Hausaufgaben, weil mir der Unterricht völlig <marker>egal</marker> ist.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>egal</token>
+                    </marker>
+                    <token postag="VER.*" postag_regexp="yes" inflected="yes">sein</token>
+                    <token postag="ART.*DAT.*|PRO.*DAT.*|SUB:DAT.*|EIG.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Möglicherweise ist es stilistisch besser, eine standardsprachliche Formulierung zu benutzen.</message>
+                <suggestion>gleichgültig</suggestion>
+                <example correction="Gleichgültig"><marker>Egal</marker> ist mir die Prüfung nicht.</example>
             </rule>
         </rulegroup>
         <rule id="EXTRA_STIL" name="extra" default="temp_off">
@@ -24996,36 +25108,60 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Die gängigere Schreibweise ist <suggestion><match no="1" regexp_match="Tages" regexp_replace="Tage" /></suggestion>.</message>
             <example correction="7-Tage-Inzidenz">Die <marker>7-Tages-Inzidenz</marker> ist stark gesunken.</example>
         </rule>
-        <rule id="AN_FUER_SICH" name="an für sich (an und für sich)">
-            <antipattern>
-                <token>sich</token>
-                <token>zu</token>
-                <token postag="VER:.+" postag_regexp="yes" />
-            </antipattern>
-            <antipattern>
-                <token skip="3">von</token>
-                <token />
-                <token>an</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">Anfang|Beginn</token>
-                <token>an</token>
-            </antipattern>
-            <antipattern>
-                <token inflected="yes" regexp="yes" skip="5">fangen|feuern|halten</token>
-                <token>an</token>
-            </antipattern>
-            <pattern>
-                <token>an</token>
-                <token>für</token>
-                <token>sich</token>
-            </pattern>
-            <message>Standardsprachlich ist <suggestion>\1 und für sich</suggestion> korrekt. Alternativ kann hier auch das Synonym <suggestion>eigentlich</suggestion> verwendet werden.</message>
-            <url>https://www.duden.de/rechtschreibung/an_und_fuer_sich</url>
-            <example correction="An und für sich|Eigentlich"><marker>An für sich</marker> hast du recht.</example>
-            <example>Jeder ist verpflichtet, alle Information von Anfang an für sich zu behalten.</example>
-            <example>Es geht darum, sofort eine Mitarbeiterbindung herzustellen und die Leute von der ersten Sekunde an für sich zu begeistern.</example>
-        </rule>
+        <rulegroup id="AN_FUER_SICH" name="an für sich (an und für sich)">
+            <rule>
+                <antipattern>
+                    <token>sich</token>
+                    <token>zu</token>
+                    <token postag="VER:.+" postag_regexp="yes" />
+                </antipattern>
+                <antipattern>
+                    <token skip="3">von</token>
+                    <token />
+                    <token>an</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">Anfang|Beginn</token>
+                    <token>an</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" regexp="yes" skip="5">fangen|feuern|halten</token>
+                    <token>an</token>
+                </antipattern>
+                <pattern>
+                    <token>an</token>
+                    <token>für</token>
+                    <token>sich</token>
+                </pattern>
+                <message>Standardsprachlich ist <suggestion>\1 und für sich</suggestion> korrekt. Alternativ kann hier auch das Synonym <suggestion>eigentlich</suggestion> verwendet werden.</message>
+                <url>https://de.wiktionary.org/wiki/an_und_f%C3%BCr_sich</url>
+                <example correction="An und für sich|Eigentlich"><marker>An für sich</marker> hast du recht.</example>
+                <example>Jeder ist verpflichtet, alle Information von Anfang an für sich zu behalten.</example>
+                <example>Es geht darum, sofort eine Mitarbeiterbindung herzustellen und die Leute von der ersten Sekunde an für sich zu begeistern.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token min="0">schon</token>
+                    <token>an</token>
+                    <token>und</token>
+                    <token>für</token>
+                    <token>sich</token>
+                    <token inflected="yes">sein</token>
+                </antipattern>
+                <pattern>
+                    <token min="0">schon</token>
+                    <token>an</token>
+                    <token>und</token>
+                    <token>für</token>
+                    <token>sich</token>
+                </pattern>
+                <message>Die Formulierung 'an und für sich' wird häufig umgangssprachlich verwendet. Möchten Sie es durch eine Alternative ersetzen, um Ihren Text formeller und prägnanter zu machen?</message>
+                <suggestion>weitestgehend</suggestion>
+                <suggestion>im Grunde</suggestion>
+                <suggestion>letztlich</suggestion>
+                <example correction="weitestgehend|im Grunde|letztlich">Unser Urlaub war <marker>an und für sich</marker> in Ordnung.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="MEHR_ALS_ZAL_PLUS" name="mehr als 10+ (10)">
             <rule>
                 <pattern>
