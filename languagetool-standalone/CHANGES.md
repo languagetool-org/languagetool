@@ -1,5 +1,10 @@
 # LanguageTool Change Log
 
+## 5.8-SNAPSHOT (replease planned for 2022-06-28)
+
+...
+
+
 ## 5.7 (2022-03-28)
 
 #### Catalan

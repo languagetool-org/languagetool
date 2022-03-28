@@ -4,7 +4,7 @@
 Polish, Chinese, French, Russian, Italian, Dutch, Ukrainian
 and [more languages](https://dev.languagetool.org/languages)**
 
-Version 5.7 (2022-03-28)
+Version 5.8-SNAPSHOT (xxx-xx-xx)
 Copyright (C) 2005-2022 the LanguageTool community and Daniel Naber (www.danielnaber.de)  
 https://www.languagetool.org
 
