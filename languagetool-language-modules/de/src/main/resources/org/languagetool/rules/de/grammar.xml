@@ -46975,95 +46975,120 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="unserem">Zu <marker>unseren</marker> Bedauern mussten wir feststellen, dass die Firma pleite ist.</example>
         </rule>
         <rule id="FALSCHER_IMPERATIV" name="Machst du (Mach|Mache) die Tür zu." default="temp_off">
-            <!--Ausruf-->
-                <antipattern>
-                    <token postag="SENT_START"/>
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token postag="VER:2:SIN.*" postag_regexp="yes"/>
+                <token skip="-1">du</token>
+                <token>[0-9].*</token>
+                <token>.</token>
+                <token skip="-1" postag="SUB:.+" postag_regexp="yes"/>
+                <token>?</token>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token postag="VER:2:SIN.*" postag_regexp="yes"/>
+                <token>du</token>
+                <token>aber</token>
+            </antipattern>
+        <!--Ausruf-->
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token regexp="yes">kennst|weißt|siehst</token>
+                <token>du</token>
+                <token postag="ADV:MOD" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token postag="VER:2:SIN.*" postag_regexp="yes"/>
+                <token>du</token>
+                <token min="0" postag="ADV.*" postag_regexp="yes"/>
+                <token postag="ADJ.*" postag_regexp="yes"></token>
+                <token postag="PKT"/>
+            </antipattern>
+        <!--Frage-->
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token postag="VER:2:SIN.*" postag_regexp="yes"/>
+                <token skip="-1">du</token>
+                <token>?</token>
+            </antipattern>
+        <!--Konjunktiv-->
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token postag="VER:2:SIN.*KJ2.*" postag_regexp="yes"/>
+                <token skip="-1">du</token>
+                <token>.</token>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token postag="VER:2:SIN.*KJ2.*" postag_regexp="yes"/>
+                <token skip="-1">du</token>
+                <token postag="PA2.*" postag_regexp="yes"/>
+                <token postag="SENT_END"/>
+            </antipattern>
+        <!--Konditionalsatz ohne wenn-->
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token postag="VER:2:SIN.*" postag_regexp="yes"/>
+                <token skip="-1">du</token>
+                <token regexp="yes">–|-</token>
+                <token min="0">dann</token>
+                <token postag="VER:IMP:.*|VER:2:SIN.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token postag="VER:2:SIN.*" postag_regexp="yes"/>
+                <token skip="-1">du</token>
+                <token>,</token>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token postag="VER:2:SIN.*" postag_regexp="yes"/>
+                <token skip="-1">du</token>
+                <token min="0">dann</token>
+                <token postag="VER:[123]:SIN:.*|VER:[123]:PLU:.*" postag_regexp="yes"></token>
+            </antipattern>
+        <!--Anrede-->
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token postag="VER:2:SIN.*" postag_regexp="yes"/>
+                <token>du</token>
+                <token min="0" postag="EIG.*" postag_regexp="yes"/>
+                <token regexp="yes">,|:|;|–</token>
+            </antipattern>
+        <!--mit Abkürzung-->
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token postag="VER:2:SIN.*" postag_regexp="yes"/>
+                <token skip="-1">du</token>
+                <token postag="ABK.*" postag_regexp="yes"/>
+                <token>.</token>
+            </antipattern>
+            <pattern>
+                <token postag="SENT_START"/>
+                <marker>
                     <token postag="VER:2:SIN.*" postag_regexp="yes"/>
                     <token>du</token>
-                    <token min="0" postag="ADV.*" postag_regexp="yes"/>
-                    <token postag="ADJ.*" postag_regexp="yes"></token>
-                    <token postag="PKT"/>
-                </antipattern>
-            <!--Frage-->
-                <antipattern>
-                    <token postag="SENT_START"/>
-                    <token postag="VER:2:SIN.*" postag_regexp="yes"/>
-                    <token skip="-1">du</token>
-                    <token>?</token>
-                </antipattern>
-            <!--Konjunktiv-->
-                <antipattern>
-                    <token postag="SENT_START"/>
-                    <token postag="VER:2:SIN.*KJ2.*" postag_regexp="yes"/>
-                    <token skip="-1">du</token>
-                    <token>.</token>
-                </antipattern>
-                <antipattern>
-                    <token postag="SENT_START"/>
-                    <token postag="VER:2:SIN.*KJ2.*" postag_regexp="yes"/>
-                    <token skip="-1">du</token>
-                    <token postag="PA2.*" postag_regexp="yes"/>
-                    <token postag="SENT_END"/>
-                </antipattern>
-            <!--Konditionalsatz ohne wenn-->
-                <antipattern>
-                    <token postag="SENT_START"/>
-                    <token postag="VER:2:SIN.*" postag_regexp="yes"/>
-                    <token skip="-1">du</token>
-                    <token regexp="yes">–|-</token>
-                    <token min="0">dann</token>
-                    <token postag="VER.*" postag_regexp="yes"/>
-                </antipattern>
-                <antipattern>
-                    <token postag="SENT_START"/>
-                    <token postag="VER:2:SIN.*" postag_regexp="yes"/>
-                    <token skip="-1">du</token>
-                    <token>,</token>
-                </antipattern>
-                <antipattern>
-                    <token postag="SENT_START"/>
-                    <token postag="VER:2:SIN.*" postag_regexp="yes"/>
-                    <token skip="-1">du</token>
-                    <token>dann</token>
-                </antipattern>
-            <!--Anrede-->
-                <antipattern>
-                    <token postag="SENT_START"/>
-                    <token postag="VER:2:SIN.*" postag_regexp="yes"/>
-                    <token>du</token>
-                    <token min="0" postag="EIG.*" postag_regexp="yes"/>
-                    <token regexp="yes">,|:|;|–</token>
-                </antipattern>
-            <!--mit Abkürzung-->
-                <antipattern>
-                    <token postag="SENT_START"/>
-                    <token postag="VER:2:SIN.*" postag_regexp="yes"/>
-                    <token skip="-1">du</token>
-                    <token postag="ABK.*" postag_regexp="yes"/>
-                    <token>.</token>
-                </antipattern>
-                <pattern>
-                    <token postag="SENT_START"/>
-                    <marker>
-                        <token postag="VER:2:SIN.*" postag_regexp="yes"/>
-                        <token>du</token>
-                    </marker>
-                </pattern>
-                <message>Ist dies eine Frage? Falls ja, setzen Sie ein Fragezeichen. Falls es sich um eine Aufforderung handelt, verwenden Sie den Imperativ.</message>
-                <suggestion><match no="2" postag_regexp="yes" postag="VER:2:SIN.*" postag_replace="VER:IMP:SIN.*"/></suggestion>
-                <example correction="Mach|Mache"><marker>Machst du</marker> die Tür zu.</example>
-                <example correction="Räum|Räume"><marker>Räumst du</marker> bitte dein Zimmer auf.</example>
-                <example>Mach sofort die Tür zu.</example>
-                <example>Hast du kurz Zeit für mich?</example>
-                <example>Hättest du mehr Geld gespart, könntest du dir jetzt eine neues Handy kaufen.</example>
-                <example>Hast du viel Geld, bist du reich.</example>
-                <example>Siehst du Tom, ich habe es dir doch gesagt</example>
-                <example>Bist du schon mal ca. 1000m gerannt?</example>
-                <example>Entscheidest du dich dafür, dann ist das deine Sache.</example>
-                <example>Begegnest du der Einsamkeit – hab keine Angst!</example>
-                <example>Bist du aber unfreundlich, wenn du sauer bist.</example>
-                <example>Hättest du mich doch daran erinnert!</example>
-            </rule>
+                </marker>
+            </pattern>
+            <message>Ist dies eine Frage? Falls ja, setzen Sie ein Fragezeichen. Falls es sich um eine Aufforderung handelt, verwenden Sie den Imperativ.</message>
+            <suggestion><match no="2" postag_regexp="yes" postag="VER:2:SIN.*" postag_replace="VER:IMP:SIN.*"/></suggestion>
+            <example correction="Mach|Mache"><marker>Machst du</marker> die Tür zu.</example>
+            <example correction="Räum|Räume"><marker>Räumst du</marker> dein Zimmer auf.</example>
+            <example>Mach sofort die Tür zu.</example>
+            <example>Hast du kurz Zeit für mich?</example>
+            <example>Hättest du mehr Geld gespart, könntest du dir jetzt eine neues Handy kaufen.</example>
+            <example>Hast du viel Geld, bist du reich.</example>
+            <example>Siehst du Tom, ich habe es dir doch gesagt</example>
+            <example>Bist du schon mal ca. 1000m gerannt?</example>
+            <example>Entscheidest du dich dafür, dann ist das deine Sache.</example>
+            <example>Begegnest du der Einsamkeit – hab keine Angst!</example>
+            <example>Bist du unfreundlich, wenn du sauer bist.</example>
+            <example>Hättest du mich doch daran erinnert!</example>
+            <example>Kennst du doch!</example>
+            <example>Kennst du bestimmt nicht.</example>
+            <example>Kommst du mit zum 100. Jubiläum der Firma?</example>
+        </rule>
         <rule id="SATZSTELLUNG_KON_UNT_VERB_AM_ENDE" name="Ich gehe nicht ins Schwimmbad, weil ich will nicht (ich nicht will)." default="temp_off">
             <pattern>
                 <token>,</token>
