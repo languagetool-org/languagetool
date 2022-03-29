@@ -68,7 +68,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY words_H_ASPIRADA "Harris|Harvey|Hunspell|Hassan|Haddock|Haarle[mn].*|Hainan|haendel.*|händel.*|habermas.*|hadits?|Hanuk?kà|hack.*|Harlem|Harper|Hartford|Haifa|haikus?|haima|haimes|Haikou|halal|halar|Halifax|Halmstad|halls?|Halle|Halley|Hallstatt|Hallstein|Halloweens?|Hals|herr|Herut|Hamadan|Hamas|Hamàs|hamilton.*|Hamlet.*|hammams?|Hammond|Hampton|hàmsters?|h[aà]ndicaps?|Hangzhou|Hannover|Hanoi|Hans|Hansa|hanseàti[cq].*|happenings?|Harbin|hardware|Haneke|harolds?|Hatay|Hamleigh|Harrisburg|Harrison|harrods?|harry|Hartley|Hartmann?|Hartree|Haruki|Har[td]?vard|Harz|hash.*|Hastings|Havel|Havilland|hawai.*|hawk.*|Hayek|Haydn.*|Hayworth|Heard|hearst|Heathrow|heav.*|hegel.*|Hebei|Hedmark|Heerenveen|Hedw.*|Heerlen|Hefei|Heidelberg|Heide[gn].*|Heilbronn|Heilongjiang|Heilig.*|hei[nk].*|Heisen.*|Heitz|Helmand|Helmholtz|Helen|Helsingborg|Hèlsinki|Heming.*|Henan|henna|hennes|Henry|Hepburn|herbert.*|Herder|Hereford|Herford|Herning|Hertfordshire|Herzog|Hesse|Hessen|Hewlett.*|Hezboll.+|high.*|hilbert.*|Hilda|Hillingdon|hinden.*|Hilton|hinterlands?|Hirsch.*|Hitch.*|hitler.*|Hilversum|Hobart|Hockenheim|Hodeida|Hohhot|Hokkaido|hobbes.*|hobby|Hogw.*|hobbies|Hodgkin|Hohen.*|Hölderlin|h[òo]ldings?|holy.*|hollywood.*|Holmes.*|Holstein|Hong|Hong-Kong|hongk.+|Honolu.+|Honsh[uū]|h[òo]bbits?|hooligan.*|hoover.*|hopkins|Hork.*|Horowitz|horst|H[ou]f.*|Houla|house|Houston|Howard|Hoyerswerda|Hunan|Huddersfield|Hunedoara|huskys?|huskies|hubs?|Hubble|humbold.*|Hume|hunting.*|Hussein|husseinit.+|university|united|(?-i)Hagen|Hamada">
     <!ENTITY diacritics_00 "linea|lineas|entrelinea|entrelineas|arboles|lagrima|lagrimas|victima|victimas|solida|solidas|solido|autentica|autenticas|autentico|adan|magnifico|oleo|ovulo|oxido|oxigeno|pacifico|petroleo|pixeles|petalo|azucares|canceres|capsula|capsulas|indice|indices|espontaneo|espontanea|espontaneas|bufalo|bufala|bufalas|ovalo|ovalos|astrologo|astrologa|astrologas|petalos|clausula|clausulas|decrepito|decrepita|decrepitas|tempano|purpurea|purpureas|recamara|recamaras|embolo|epitome|epitomes|estomago|debito|ignifuga|ignifugas|ignifugo|epilogo">
     <!ENTITY diacritics_01 "capitulo|titulo|medico|nauseas|nausea|cubica|cubicas|cubico|intimo|ilegitimo|retrograda|retrogradas|ulcera|ulceras|ilegitima|ilegitimas|legitimo|legitimas|matriculas">
-    <!ENTITY diacritics_02 "maquina|maquinas|ejercito|genero|magnifica|articulo|barbara|domestico|capitulo|retrogrado|reciproca|reciprocas|reciproco|liquido|simultaneo|tremolo|triangulo|vehiculo|vinculo|transito|titulo|catalogo|dialogo|trafico|diagnostico|modulo|invalido|matricula">
+    <!ENTITY diacritics_02 "maquina|maquinas|ejercito|genero|magnifica|articulo|barbara|domestico|capitulo|retrogrado|reciproca|reciprocas|reciproco|liquido|simultaneo|tremolo|triangulo|vehiculo|vinculo|transito|titulo|catalogo|dialogo|trafico|diagnostico|modulo|invalido|matricula|animo">
     <!ENTITY diacritics_03 "incomoda|incomodas|lastima|lastimas|medica|medicas|simultanea|simultaneas">
     <!ENTITY diacritics_04 "critica|criticas|limite|limites|purpura|purpuras|calculo|deposito|tramite|tramites|invalida|invalidas|legitima|especifica|especificas|prorroga|prorrogas|domestica|domesticas">
     <!ENTITY diacritics_05 "maquina|ultima|ultimas">
@@ -2215,6 +2215,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="doméstica">La especie <marker>domestica</marker> derivada de la otra.</example>
             </rule>
         </rulegroup>
+        <rule id="ANIMO" name="animo -> ánimo">
+            <pattern>
+                <token inflected="yes" regexp="yes">dar|poner|meter|insuflar|tran?smitir|enviar</token>
+                <token postag="RG|LOC_ADV" postag_regexp="yes" min="0" max="4"/>
+                <marker>
+                    <token>animo</token>
+                </marker>
+            </pattern>
+            <message>Si es un nombre, se escribe con tilde.</message>
+            <suggestion>ánimo</suggestion>
+            <example correction="ánimo">Daría <marker>animo</marker> a todos.</example>
+            <example correction="ánimo">Daría también <marker>animo</marker> a los demás.</example>
+        </rule>
         <rule id="LA_MATRICULA" name="matricula -> matrícula">
             <antipattern>
                 <token>matricula</token>
@@ -2664,7 +2677,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- TODO: solo me faltan 2 practicas más -->
                 <!-- |invalida|invalidas -->
                 <marker>
-                    <token postag="V.[SI].*" postag_regexp="yes" regexp="yes">maquina|ada|animo|idolatra|idolatras|lamina|laminas|liquida|liquidas|nomina|nominas|prestamos|revalida|revalidas|rondo<exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
+                    <token postag="V.[SI].*" postag_regexp="yes" regexp="yes">idolatra|idolatras|lamina|laminas|liquida|liquidas|nomina|nominas|prestamos|revalida|revalidas|rondo<exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
             <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\1 postag:NC.*|AQ.*"/>
@@ -2802,6 +2815,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>matricula</token>
                     <token regexp="yes">a|alrededor</token>
                 </antipattern>
+                <antipattern>
+                    <token>animo<exception scope="previous" postag="V.[IS].*" postag_regexp="yes"/><exception scope="previous" inflected="yes">dar</exception></token>
+                    <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                    <token regexp="yes">a|al</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">&diacritics_02;<exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
@@ -2820,6 +2838,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Maquina la destrucción del planeta.</example>
                 <example>Battle maquina algo.</example>
                 <example>Y no genero nada específico para ellos.</example>
+                <example>Animo a todos a participar.</example>
+                <example>Animo encarecidamente a todos a participar.</example>
+                <example>Animo siempre encarecidamente a todos a participar.</example>
             </rule>
             <rule id="DIACRITICS_03" name="verbo/adj o nombre 03">
                 <antipattern>
