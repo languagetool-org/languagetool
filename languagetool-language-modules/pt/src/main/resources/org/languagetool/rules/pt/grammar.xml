@@ -2466,15 +2466,8 @@ BEFORE:4586
       <antipattern>
           <token case_sensitive='yes'>Podemos</token>
       </antipattern>
-<!-- MARCOAGPINTO 2020-05-03 *START* -->
-<!-- "Quem quiser pode ficar. " -->
-      <antipattern>
-          <token postag_regexp="yes" postag="VMSF[13]S0"></token>
-		  <token postag_regexp="yes" postag="VMIP3S0|VMM0[23]S0|VMSP[13]S0"></token>
-          <token postag_regexp="no" postag="VMN0000"></token>
-      </antipattern>
-<!-- MARCOAGPINTO 2020-05-03 *END* -->
     <rule>
+
 <!-- MARCOAGPINTO 2020-07-14 (2-JUL-2020+) *START* -->
 <!-- "Na semana que vem vou ao cinema." -->
       <antipattern>
@@ -2525,14 +2518,14 @@ BEFORE:4586
 Já cá ando há mais de meio século.
 Foi nesse pequeno país que a civilização ocidental começou há mais de dois mil e oitocentos anos.
 -->
-      <antipattern>		  
+      <antipattern>
 		  <token postag='V.+' postag_regexp='yes'/>
 		  <and>
 			<token inflected='yes'>haver</token>
 			<token postag='VMIP3S0|VMM02S0' postag_regexp='yes'/>
 		  </and>
 		  <token postag='RG' postag_regexp='no'/>
-      </antipattern> 
+      </antipattern>
 <!-- MARCOAGPINTO 2021-01-24 (1-JAN-2021+) *END* -->
 <!-- MARCOAGPINTO 2021-01-26 (1-JAN-2021+) *START* -->
 <!--
@@ -2554,11 +2547,12 @@ Os que já vieram estão no salão.
 		  <token postag='DA.+|DD.+|DI.+|SPS.+|RG|VMN0000' postag_regexp='yes'>
             <exception postag_regexp='yes' postag='CC|AQ.+'/>
 		  </token>
-      </antipattern> 
+      </antipattern>
 <!-- MARCOAGPINTO 2021-01-26 (1-JAN-2021+) *END* -->
 
 <!-- MARCOAGPINTO 2022-03-29 (1-JAN-2022+) *START* -->
 <!--
+IT APPEAR IN TWO PLACES! 1/2
 Eu realmente quero ler esse livro, pois parece ter uma história que podemos aprecia-la.
 Caso o mesmo volte a ficar disponível, poderemos notifica-lo, bastando para tal que nos indique o seu endereço de email.
 Desculpe, mas não posso considera-los como irmãos em Cristo Jesus.
@@ -2566,9 +2560,11 @@ Quando poderei revê-lo?
 Tente envia-lo novamente, por favor.
 Agora imagine que esse é um anencéfalo: como devemos trata-lo?
 Quero revê-la.
+Se Jesus voltar fico-me pelas modalidades até ele sair.
+Apenas por curiosidade comecei a coloca-las em um mapa através do Google Maps.
 -->
       <antipattern>
-		<token postag='VMIP3S0|VMM02S0' postag_regexp='yes'/>
+		<token postag='VMIP[13]S0|VMM02S0' postag_regexp='yes'/>
 		<token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
 		<token regexp='yes' spacebefore='no'>[ao]s?|l[ao]s?|lh[aeo]s?|n[ao]s?|me|se|te|vos</token>
       </antipattern>
@@ -2597,10 +2593,10 @@ Quero revê-la.
       <example>Ela tentou persuadi-lo a ir com ela.</example>
       <example>Ele começou há seis anos.</example>
       <example>Não podem é impor que alguém seja forçado a trabalhar.</example>
-	  
+
 	  <example>Já cá <marker>ando há</marker> mais de meio século.</example>
 	  <example>Foi nesse pequeno país que a civilização ocidental começou há mais de dois mil e oitocentos anos.</example>
-	  
+
 	  <example>Tudo o que <marker>consegui foi</marker> um punhado de contratempos.</example>
 	  <example>Tudo o que conseguimos foi um punhado de contratempos.</example>
 	  <example>Nós conseguimos hoje o que não se conseguia há séculos.</example>
@@ -2615,8 +2611,31 @@ Quero revê-la.
 	  <example>Tente envia-lo novamente, por favor.</example>
 	  <example>Agora imagine que esse é um anencéfalo: como devemos trata-lo?</example>
 	  <example>Quero revê-la.</example>
+	  <example>Se Jesus voltar fico-me pelas modalidades até ele sair.</example>
+	  <example>Apenas por curiosidade comecei a coloca-las em um mapa através do Google Maps.</example>
     </rule>
     <rule>
+
+<!-- MARCOAGPINTO 2022-03-29 (1-JAN-2022+) *START* -->
+<!--
+IT APPEAR IN TWO PLACES! 2/2
+Eu realmente quero ler esse livro, pois parece ter uma história que podemos aprecia-la.
+Caso o mesmo volte a ficar disponível, poderemos notifica-lo, bastando para tal que nos indique o seu endereço de email.
+Desculpe, mas não posso considera-los como irmãos em Cristo Jesus.
+Quando poderei revê-lo?
+Tente envia-lo novamente, por favor.
+Agora imagine que esse é um anencéfalo: como devemos trata-lo?
+Quero revê-la.
+Se Jesus voltar fico-me pelas modalidades até ele sair.
+Apenas por curiosidade comecei a coloca-las em um mapa através do Google Maps.
+-->
+      <antipattern>
+		<token postag='VMIP[13]S0|VMM02S0' postag_regexp='yes'/>
+		<token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
+		<token regexp='yes' spacebefore='no'>[ao]s?|l[ao]s?|lh[aeo]s?|n[ao]s?|me|se|te|vos</token>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-03-29 (1-JAN-2022+) *END* -->
+
       <pattern>
           <token inflected="yes" regexp='yes'>&verbos_auxiliares_aspectuais;|&verbos_auxiliares_modais;
             <exception inflected='yes'>ser</exception>
@@ -2633,6 +2652,16 @@ Quero revê-la.
       <example correction="comecei a escrever">Já <marker>comecei a escrevendo</marker> o livro.</example>
     <!--example>No começo ele a odiava, mas aos poucos acabou a amando.</example--><!-- XXX This is correct but rare. Try to fix this -->
       <example>É um trabalho que vem de há muitos anos.</example>
+	  
+	  <example>Eu realmente quero ler esse livro, pois parece ter uma história que podemos aprecia-la.</example>
+	  <example>Caso o mesmo volte a ficar disponível, poderemos notifica-lo, bastando para tal que nos indique o seu endereço de email.</example>
+	  <example>Desculpe, mas não posso considera-los como irmãos em Cristo Jesus.</example>
+	  <example>Quando poderei revê-lo?</example>
+	  <example>Tente envia-lo novamente, por favor.</example>
+	  <example>Agora imagine que esse é um anencéfalo: como devemos trata-lo?</example>
+	  <example>Quero revê-la.</example>
+	  <example>Se Jesus voltar fico-me pelas modalidades até ele sair.</example>
+	  <example>Apenas por curiosidade comecei a coloca-las em um mapa através do Google Maps.</example>
     </rule>
   </rulegroup>
 
