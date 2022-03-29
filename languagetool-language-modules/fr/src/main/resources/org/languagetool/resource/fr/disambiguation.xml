@@ -132,6 +132,223 @@ RB => Règles Brutes
     </rule>
     <!-- END: numerals -->
     <!-- CATEGORY: remove unusual tags -->
+    <rule id="CELA_LA_DESSERT" name="cela la dessert">
+        <pattern>
+            <marker>
+                <token postag="R pers suj.*|R dem.*" postag_regexp="yes"/>
+                <token regexp="yes">la|les?</token>
+            </marker>
+            <and>
+                <token postag="N . s" postag_regexp="yes"/>
+                <token postag="V ind pres 3 s" postag_regexp="yes"/>
+            </and>
+        </pattern>
+        <disambig action="filter" postag="V ind pres 3 s"/>
+    </rule>
+    <rule id="EN_LA_COMMANDANT" name="en la commandant">
+        <pattern>
+            <token>en</token>
+            <token regexp="yes">la|les?</token>
+            <marker>
+                <and>
+                    <token postag="N m s"/>
+                    <token postag="V ppr"/>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="N m s"/>
+    </rule>
+    <rule id="LA_LOTUS" name="la lotus">
+        <pattern>
+            <token postag="D f s"/>
+            <marker>
+                <token case_sensitive="yes">Lotus</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="N f s"/>
+    </rule>
+    <rule id="EDITIONS" name="éditions">
+        <antipattern>
+            <token skip="20">nous</token>
+            <token postag="V sub pres 1 p"/>
+        </antipattern>
+        <pattern>
+            <marker>
+                <and>
+                    <token postag="N . p" postag_regexp="yes"/>
+                    <token postag="V sub pres 1 p"/>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="V sub pres 1 p"/>
+    </rule>
+    <rule id="TRILLIONS" name="trillions">
+        <pattern>
+            <token postag="[YK]" postag_regexp="yes"/>
+            <marker>
+                <and>
+                    <token>trillions</token>
+                    <token postag="V sub pres 1 p"/>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="V sub pres 1 p"/>
+    </rule>
+    <rule id="QUE_CE_SOIT" name="que ce soit">
+        <pattern>
+            <token>que</token>
+            <token>ce</token>
+            <marker>
+                <token>soit</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="V etre sub pres 3 s"/>
+    </rule>
+    <rule id="CITE1" name="cité1">
+        <pattern>
+            <token postag="D f s"/>
+            <marker>
+                <token regexp="yes">fin|cité</token>
+            </marker>
+            <token postag="J f s"/>
+        </pattern>
+        <disambig action="filter" postag="N f s"/>
+    </rule>
+    <rule id="QUI_DIT" name="qui">
+        <pattern>
+            <token postag="SENT_START|M nonfin|C coor" postag_regexp="yes"/>
+            <token>qui</token>
+            <marker>
+                <token>dit</token>
+            </marker>
+            <token postag="N.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filter" postag="V ind pres 3 s"/>
+    </rule>
+    <rule id="TOUT_DROIT" name="tout droit">
+        <pattern>
+            <token>tout</token>
+            <marker>
+                <token>droit</token>
+            </marker>
+            <token postag="V ppa.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filter" postag="A"/>
+    </rule>
+    <rule id="FAIT_AFFAIRE" name="fait affaire">
+        <pattern>
+            <token>tout</token>
+            <marker>
+                <token>fait</token>
+            </marker>
+            <token regexp="yes">affaire|fête|envie|plaisir|peur|honte|route|équipe|recette|polémique|halte|escale</token>
+        </pattern>
+        <disambig action="remove" postag="J m s"/>
+    </rule>
+    <rule id="COMPARATIF" name="comparatif">
+        <pattern>
+            <token postag=".*D m s" postag_regexp="yes"/>
+            <marker>
+                <token regexp="yes">correspondant|contractuel|contenu|constructeur|consultant|comparatif</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="N m s"/>
+    </rule>
+    <rule id="MALAISE_VAGAL" name="malaise vagal">
+        <pattern>
+            <marker>
+                <token>malaise</token>
+            </marker>
+            <token>vagal</token>
+        </pattern>
+        <disambig action="remove" postag="N f s"/>
+    </rule>
+    <rulegroup id="LITRE" name="litre">
+        <rule>
+        <pattern>
+            <token regexp="yes" skip="-1">chapelle|église|écu|monastère|funèbre|ornée?s?|décès|seigneuriales?|gisante?s?|défunts?|armoiries|obsèques|armes|blasons?|funéraire|rite|nef|crucifix|vestige|seigneurs?|seigneuries?|évêché|chœur|funérailles?</token>
+            <marker>
+                    <token>litre</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="N m s"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token skip="-1">litre</token>
+                </marker>
+                <token regexp="yes">chapelle|église|écu|monastère|funèbre|ornée?s?|décès|seigneuriales?|gisante?s?|défunts?|armoiries|obsèques|armes|blasons?|funéraire|rite|nef|crucifix|vestige|seigneurs?|seigneuries?|évêché|chœur|funérailles?</token>
+            </pattern>
+            <disambig action="remove" postag="N m s"/>
+        </rule>
+        <rule>
+            <antipattern>
+                <token regexp="yes" skip="-1">chapelle|funéraire|église|écu|monastère|funèbre|ornée?s?|décès|seigneuriales?|gisante?s?|défunts?|armoiries|obsèques|armes|blasons?|funéraire|rite|nef|crucifix|vestige|seigneurs?|seigneuries?|évêché|chœur|funérailles?</token>
+                <token>litre</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1">litre</token>
+                <token regexp="yes">chapelle|funéraire|église|écu|monastère|funèbre|ornée?s?|décès|seigneuriales?|gisante?s?|défunts?|armoiries|obsèques|armes|blasons?|funéraire|rite|nef|crucifix|vestige|seigneurs?|seigneuries?|évêché|chœur|funérailles?</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token skip="-1">litre</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="N f s"/>
+        </rule>
+    </rulegroup>
+    <rule id="QUI_LA_CONTROLE" name="qui la contrôle">
+        <pattern>
+            <token>qui</token>
+            <token regexp="yes">la|les?</token>
+            <marker>
+                <and>
+                    <token postag="N m s"/>
+                    <token postag="V ind pres 3 s"/>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="N m s"/>
+    </rule>
+    <rulegroup id="LA_POUSSA" name="la poussa">
+        <rule>
+        <pattern>
+            <token regexp="yes">la|les?</token>
+            <marker>
+                <token>poussa</token>
+            </marker>
+            <token postag="A" min="0" max="3"/>
+            <token postag="P"/>
+        </pattern>
+        <disambig action="remove" postag="N m s"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="SENT_START"/>
+                <token postag="[DP].*" postag_regexp="yes" min="0" max="2"/>
+                <token postag="[NJ].*" postag_regexp="yes" min="1" max="2"/>
+                <token regexp="yes">la|les?</token>
+                <marker>
+                    <token>poussa</token>
+                </marker>
+                <token postag="A" min="0" max="3"/>
+                <token postag="P"/>
+            </pattern>
+            <disambig action="remove" postag="N m s"/>
+        </rule>
+    </rulegroup>
+    
+    <rule id="LA_CRIBLE" name="la crible">
+        <pattern>
+            <token regexp="yes">la|les?</token>
+            <marker>
+                <token>crible</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="N m s"/>
+    </rule>
     <rule id="MEME" name="même">
         <pattern>
             <token regexp="yes">certaine?s?|quelques|plusieurs</token>
@@ -658,6 +875,20 @@ RB => Règles Brutes
         </rule>
         <rule>
             <pattern>
+                <token postag="[NJ].*" postag_regexp="yes"/>
+                <marker>
+                    <token regexp="yes">la|les</token>
+                    <and>
+                        <token postag="N.*" postag_regexp="yes"/>
+                        <token postag="V ppr" postag_regexp="yes"/>
+                    </and>
+                </marker>
+                <token postag="M fin"/>
+            </pattern>
+            <disambig action="remove" postag="N m s"/>
+        </rule>
+        <rule>
+            <pattern>
                 <token postag="[PD].*" postag_regexp="yes"/>
                 <token postag="N.*" postag_regexp="yes"/>
                 <token postag="J.*" postag_regexp="yes" inflected="yes" regexp="yes">propre|sale|vrai|petit|bon|meilleur|mauvais|nouveau|grand|vieux|long|ancien|haut|seul|beau|superbe|important|gentil|méchant|parfait|grave|rare|énorme|lourd|futur|cher|majeur|simple|joli|mineur|meme|immense|minsucule|lointain|proche|infime|gigantesque|étrange|hideux|ravissant|magnifique|sombre|timide|sympathique|généreux|fidèle|loyal</token>
@@ -698,7 +929,7 @@ RB => Règles Brutes
             <token postag="N f s">putain</token>
             </marker>
             <token>de</token>
-            <token postag="N m s|UNKNOWN|[YK]" postag_regexp="yes"/>
+            <token postag="N m s|UNKNOWN|[YK]|Z.*" postag_regexp="yes"/>
         </pattern>
         <disambig action="replace" postag="I"/>
     </rule>
@@ -7174,7 +7405,8 @@ RB => Règles Brutes
         </pattern>
         <disambig action="filter" postag="J.*"/>
     </rule>
-    <rule id="CERTAINS" name="certains">
+    <rulegroup id="CERTAINS" name="certains">
+        <rule>
         <pattern>
             <marker>
                 <token regexp="yes">certaine?s?
@@ -7184,7 +7416,18 @@ RB => Règles Brutes
             <token postag="V.*" postag_regexp="yes"/>
         </pattern>
         <disambig action="filter" postag="R.*"/>
-    </rule>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="V.*" postag_regexp="yes"/>
+                <marker>
+                    <token regexp="yes">certaine?s?</token>
+                </marker>
+                <token>parler</token>
+            </pattern>
+            <disambig action="filter" postag="R.*"/>
+        </rule>
+    </rulegroup>
     <rule id="CITE" name="cité">
         <pattern>
             <token postag="N.*" postag_regexp="yes"/>
@@ -7732,7 +7975,7 @@ RB => Règles Brutes
                 <marker>
                     <token postag="N e s" regexp="yes">es|e</token>
                 </marker>
-                <token regexp="yes">[\[\(\-\.\·]</token>
+                <token regexp="yes">[\]\)\-\.\·]</token>
                 <token postag="N e s" regexp="yes">s</token>
             </pattern>
             <disambig action="filterall"/>
@@ -7744,20 +7987,42 @@ RB => Règles Brutes
                 <marker>
                     <token regexp="yes">[a-z].*</token>
                 </marker>
-                <token regexp="yes">[\[\(\-\.\·]</token>
+                <token regexp="yes">[\]\)\-\.\·]</token>
                 <token>s</token>
             </pattern>
             <disambig action="replace" postag="N e s"/>
         </rule>
         <rule>
             <pattern>
+                <marker>
+                    <token postag="N e s"/>
+                </marker>
+                <token regexp="yes">[\[\(\-\.\·]</token>
+                <token regexp="yes">[a-z].*</token>
+                <token regexp="yes">[\]\)\-\.\·]</token>
+                <token>s</token>
+            </pattern>
+            <disambig action="replace" postag="N e p"/>
+        </rule>
+        <rule>
+            <pattern>
                 <token postag="N e s"/>
                 <token regexp="yes">[\[\(\-\.\·]</token>
                 <marker>
-                    <token regexp="yes">[^àâaêèéeiîoôòóöŌuœä]es</token>
+                    <token regexp="yes">[^àâaêèéeiîoôòóöŌuœä]?es</token>
                 </marker>
             </pattern>
             <disambig action="replace" postag="N e s"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                <token postag="N e s"/>
+                </marker>
+                <token regexp="yes">[\[\(\-\.\·]</token>
+                    <token regexp="yes">[^àâaêèéeiîoôòóöŌuœä]?es</token>
+            </pattern>
+            <disambig action="replace" postag="N e p"/>
         </rule>
     </rulegroup>
     <rulegroup id="SENT_START2" name="possible sentence start">
