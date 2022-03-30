@@ -768,13 +768,19 @@ class AgreementRuleAntiPatterns1 {
     Arrays.asList( // Die Otto Christ AG
       csRegex("[A-ZÄÖÜ].+"),
       csRegex("[A-ZÄÖÜ].+"),
-      csRegex("AG|GmbH|SE")
+      csRegex("AG|GmbH|SE|KG")
+    ),
+    Arrays.asList( // Die Otto Christ AG
+      posRegex("ART.*"),
+      csRegex("[A-ZÄÖÜ].+"),
+      csRegex("[A-ZÄÖÜ].+"),
+      csRegex("AG|GmbH|SE|KG")
     ),
     Arrays.asList(// Die Ernst Klett Schulbuch AG
       csRegex("[A-ZÄÖÜ].+"),
       csRegex("[A-ZÄÖÜ].+"),
       csRegex("[A-ZÄÖÜ].+"),
-      csRegex("AG|GmbH|SE")
+      csRegex("AG|GmbH|SE|KG")
     ),
     Arrays.asList( // Die damalige Klett AG
       token("die"),

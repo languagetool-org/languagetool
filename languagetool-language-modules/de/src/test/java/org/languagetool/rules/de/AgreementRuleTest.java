@@ -436,6 +436,7 @@ public class AgreementRuleTest {
     assertGood("Dies ermöglicht Forschern, neue Versuche durchzuführen.");
     assertGood("Je länger zugewartet wird, desto schwieriger dürfte es werden, die Jungtiere von den Elterntieren zu unterscheiden.");
     assertGood("Er schrieb ein von 1237 bis 1358 reichendes Geschichtswerk, dessen Schwerpunkt auf den Ereignissen in der Lombardei liegt.");
+    assertGood("Private Veranstaltungen waren, darauf hat die Strandhaus Norderstedt GmbH im Rahmen rechtlicher Klärungen selbst bestanden, nicht Bestandteil dieser Verträge.");
     assertBad("Die erwähnt Konferenz ist am Samstag.");
     assertBad("Die erwähntes Konferenz ist am Samstag.");
     assertBad("Die erwähnten Konferenz ist am Samstag.");
