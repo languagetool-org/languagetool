@@ -1,6 +1,6 @@
 # LanguageTool Change Log
 
-## 5.8-SNAPSHOT (replease planned for 2022-06-28)
+## 5.8-SNAPSHOT (release planned for 2022-06-28)
 
 ...
 
