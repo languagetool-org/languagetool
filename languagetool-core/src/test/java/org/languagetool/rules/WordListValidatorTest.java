@@ -64,6 +64,8 @@ public class WordListValidatorTest {
           "Tromsø/S",
           "Solidarność",
           "Salihamidžić/S",
+          "Porošenko",
+          "Porošenko/S",
           "Darʿā",  // de
           "veni, vidi, vici", // en
           "Food+Tech Connect", // en
