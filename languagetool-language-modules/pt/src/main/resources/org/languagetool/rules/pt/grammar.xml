@@ -2550,7 +2550,7 @@ Os que já vieram estão no salão.
       </antipattern>
 <!-- MARCOAGPINTO 2021-01-26 (1-JAN-2021+) *END* -->
 
-<!-- MARCOAGPINTO 2022-03-29 (1-JAN-2022+) *START* -->
+<!-- MARCOAGPINTO 2022-03-29/30 (1-JAN-2022+) *START* -->
 <!--
 IT APPEAR IN TWO PLACES! 1/2
 Eu realmente quero ler esse livro, pois parece ter uma história que podemos aprecia-la.
@@ -2564,11 +2564,15 @@ Se Jesus voltar fico-me pelas modalidades até ele sair.
 Apenas por curiosidade comecei a coloca-las em um mapa através do Google Maps.
 -->
       <antipattern>
-		<token postag='VMIP[13]S0|VMM02S0' postag_regexp='yes'/>
-		<token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
-		<token regexp='yes' spacebefore='no'>[ao]s?|l[ao]s?|lh[aeo]s?|n[ao]s?|me|se|te|vos</token>
+		<token postag='VMIP[13]S0|VMM02S0|VMII.S.+' postag_regexp='yes'/>
+		<token min="0" max="1" regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
+		<token min="0" max="1" regexp='yes'>l[ao]s?|lh[aeo]s?|n[ao]s?|me|se|te|vos</token>
       </antipattern>
-<!-- MARCOAGPINTO 2022-03-29 (1-JAN-2022+) *END* -->
+      <antipattern>
+		<token postag='VMG0000' postag_regexp='no'/>
+		<token postag='_PUNCT' postag_regexp='no'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-03-29/30 (1-JAN-2022+) *END* -->
 
       <pattern>
           <token inflected="yes" regexp='yes'>&verbos_auxiliares_aspectuais;|&verbos_auxiliares_modais;
@@ -2616,7 +2620,7 @@ Apenas por curiosidade comecei a coloca-las em um mapa através do Google Maps.
     </rule>
     <rule>
 
-<!-- MARCOAGPINTO 2022-03-29 (1-JAN-2022+) *START* -->
+<!-- MARCOAGPINTO 2022-03-29/30 (1-JAN-2022+) *START* -->
 <!--
 IT APPEAR IN TWO PLACES! 2/2
 Eu realmente quero ler esse livro, pois parece ter uma história que podemos aprecia-la.
@@ -2630,11 +2634,15 @@ Se Jesus voltar fico-me pelas modalidades até ele sair.
 Apenas por curiosidade comecei a coloca-las em um mapa através do Google Maps.
 -->
       <antipattern>
-		<token postag='VMIP[13]S0|VMM02S0' postag_regexp='yes'/>
-		<token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
-		<token regexp='yes' spacebefore='no'>[ao]s?|l[ao]s?|lh[aeo]s?|n[ao]s?|me|se|te|vos</token>
+		<token postag='VMIP[13]S0|VMM02S0|VMII.S.+' postag_regexp='yes'/>
+		<token min="0" max="1" regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
+		<token min="0" max="1" regexp='yes'>l[ao]s?|lh[aeo]s?|n[ao]s?|me|se|te|vos</token>
       </antipattern>
-<!-- MARCOAGPINTO 2022-03-29 (1-JAN-2022+) *END* -->
+      <antipattern>
+		<token postag='VMG0000' postag_regexp='no'/>
+		<token postag='_PUNCT' postag_regexp='no'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-03-29/30 (1-JAN-2022+) *END* -->
 
       <pattern>
           <token inflected="yes" regexp='yes'>&verbos_auxiliares_aspectuais;|&verbos_auxiliares_modais;
@@ -2643,7 +2651,7 @@ Apenas por curiosidade comecei a coloca-las em um mapa através do Google Maps.
     <!--exception regexp='yes'>quer|fora</exception--></token>
           <token regexp='yes'>de|a</token>
           <token postag="V.+" postag_regexp='yes'>
-            <exception postag="VMN0000"/>
+            <exception postag_regexp="no" postag="VMN0000"/>
             <exception negate_pos='yes' postag_regexp="yes" postag="V.+"/></token>
       </pattern>
       <message>Verbos auxiliares devem ser seguidos de formas verbais no infinitivo ou no gerúndio.</message>
@@ -2652,7 +2660,7 @@ Apenas por curiosidade comecei a coloca-las em um mapa através do Google Maps.
       <example correction="comecei a escrever">Já <marker>comecei a escrevendo</marker> o livro.</example>
     <!--example>No começo ele a odiava, mas aos poucos acabou a amando.</example--><!-- XXX This is correct but rare. Try to fix this -->
       <example>É um trabalho que vem de há muitos anos.</example>
-	  
+
 	  <example>Eu realmente quero ler esse livro, pois parece ter uma história que podemos aprecia-la.</example>
 	  <example>Caso o mesmo volte a ficar disponível, poderemos notifica-lo, bastando para tal que nos indique o seu endereço de email.</example>
 	  <example>Desculpe, mas não posso considera-los como irmãos em Cristo Jesus.</example>
