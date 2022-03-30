@@ -22941,19 +22941,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Prof. Krass leitet heute das Seminar.</example>
             </rule>
             <rule id="KOMPLETT_STIL" name="komplett (völlig, vollkommen)" default="temp_off" tags="picky">
+                <antipattern>
+                    <token>komplett</token>
+                    <token>daneben</token>
+                </antipattern>
+                <antipattern>
+                    <token>komplett</token>
+                    <token>alles</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>komplett</token>
                     </marker>
                 </pattern>
-                <message>Das Adverb 'komplett' im Sinne von 'vollkommen' ist sehr umgangssprachlich und könnte hier durch formellere Alternativen ersetzt werden.</message>
+                <message>Möchten Sie den Ausdruck 'komplett' durch eine formalere Formulierung ersetzen?</message>
                 <suggestion>vollkommen</suggestion>
                 <suggestion>gänzlich</suggestion>
-                <suggestion>völlig</suggestion>
-                <suggestion>umfassend</suggestion>
                 <suggestion>vollständig</suggestion>
-                <example correction="vollkommen|gänzlich|völlig|umfassend|vollständig">Ich habe das Formular <marker>komplett</marker> ausgefüllt.</example>
-                <example correction="vollkommen|gänzlich|völlig|umfassend|vollständig">Die Umgehungsstraße war wegen Bauarbeiten <marker>komplett</marker> gesperrt.</example>
+                <example correction="vollkommen|gänzlich|vollständig">Ich habe das Formular <marker>komplett</marker> ausgefüllt.</example>
+                <example correction="vollkommen|gänzlich|vollständig">Die Umgehungsstraße war wegen Bauarbeiten <marker>komplett</marker> gesperrt.</example>
+                <example>Ich habe komplett alles vertstanden.</example>
+                <example>Dein Benehmen ist echt komplett daneben.</example>
             </rule>
             <rulegroup id="ZUM_STATT_FUERS" name="fürs (zum) Schneiden" default="temp_off">
                 <rule>
