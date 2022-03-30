@@ -139,6 +139,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </phrase>
     </phrases>
     <category id="CASING" name="Mayúsculas y minúsculas" type="typographical">
+        <rule id="MAYUSCULAS_INICIO_FRASE" name="mayúsculas a principio de frase">
+            <antipattern>
+                <token regexp="yes">\p{Lu}\p{Lu}\p{Lu}?</token>
+                <token min="0" regexp="yes">\p{P}</token>
+                <token regexp="yes">\p{Lu}\p{Lu}\p{Lu}*</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\p{Lu}\p{Lu}\p{Lu}?</token>
+                <token>-</token>
+                <token regexp="yes">\d+</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\p{Lu}\p{Lu}\p{Lu}?</token>
+                <token postag="SENT_END" regexp="yes">\p{P}</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\p{Lu}\p{Lu}\p{Lu}?</token>
+                <token max="4" regexp="yes">\p{P}<exception postag="SENT_END"/></token>
+                <token postag="SENT_END" regexp="yes">\p{P}</token>
+            </antipattern>
+            <pattern>
+                <token postag="SENT_START"/>
+                <token min="0" max="3" regexp="yes">\p{P}</token>
+                <marker>
+                    <token postag="[DCSR].*|LOC_.*" postag_regexp="yes" regexp="yes">\p{Lu}\p{Lu}\p{Lu}?<exception postag="NP.*" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <message>Revise las mayúsculas a principio de frase.</message>
+            <suggestion><match no="3" regexp_match="^(.).*$" regexp_replace="$1"/><match no="3" regexp_match="^.(.*$)" regexp_replace="$1" case_conversion="alllower"/></suggestion>
+            <example correction="La"><marker>LA</marker> semana pasada no vino.</example>
+            <example>LA SEMANA PASADA NO VINO.</example>
+            <example>BBC, 3-4-2019</example>
+            <example>XXXI Olimpiadas.</example>
+            <example>AL-FAHARES COMPLEJO SOCIEDAD LIMITADA. </example>
+            <example>DE-JONS</example>
+            <example>¿QUÉ?</example>
+            <example>¡SÍ, ME PARECE BIEN!</example>
+            <example>¡¡¡SÍ!!!</example>
+        </rule>
         <rule id="ESO" name="ESO (Educación Secundaria Obligatoria">
             <antipattern>
                 <token regexp="yes">una|esta|esa|aquella</token>
