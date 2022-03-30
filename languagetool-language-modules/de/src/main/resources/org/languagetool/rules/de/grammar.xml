@@ -22958,6 +22958,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rulegroup id="ZUM_STATT_FUERS" name="fürs (zum) Schneiden" default="temp_off">
                 <rule>
                     <antipattern>
+                        <token>fürs</token>
+                        <token postag='SUB.*INF.*' postag_regexp='yes'></token>
+                        <token skip="-1" min="0" inflected='yes' regexp='yes'>brauchen|benötigen|nehmen</token>
+                        <token>Geld</token>
+                    </antipattern>
+                    <antipattern>
                         <token>danke</token>
                         <token min="0">schön</token>
                         <token>fürs</token>
@@ -22979,8 +22985,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example correction="Zum"><marker>Fürs</marker> Schneiden benötigt man eine Schere.</example>
                     <example>Danke schön fürs Schneiden.</example>
                     <example>Danke fürs Kommen.</example>
+                    <example>Fürs Helfen nehme ich kein Geld.</example>
                 </rule>
-                <rule>
+                    <rule>
                     <pattern>
                         <token skip="-1" inflected='yes' regexp='yes'>brauchen|benötigen|nehmen</token>
                         <marker>
