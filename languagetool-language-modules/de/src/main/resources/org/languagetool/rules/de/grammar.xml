@@ -24682,17 +24682,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Meine Eltern regen sich immer <marker>gegenseitig</marker> übereinander auf.</example>
             </rule>
         </rulegroup>
-        <rule id="NICHTS_FUER_UNGUT" name="nichts für Ungut (ungut)" default="temp_off">
-            <pattern>
-                <token>nichts</token>
-                <token>für</token>
-                <marker>
-                    <token case_sensitive="yes">Ungut</token>
-                </marker>
-            </pattern>
-            <message>In dieser Redewendung wird <suggestion><match no="3" case_conversion="startlower"/></suggestion> kleingeschrieben.</message>
-            <example correction="ungut">Nichts für <marker>Ungut</marker>.</example>
-        </rule>
         <rulegroup id="EGAL_STIL" name="egal (gleichgültig)" tags="picky" default="temp_off">
             <rule>
                 <antipattern>
@@ -26160,6 +26149,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="NICHTS_FUER_UNGUT" name="nichts für Ungut (ungut)">
+            <pattern>
+                <token>nichts</token>
+                <token>für</token>
+                <marker>
+                    <token case_sensitive="yes">Ungut</token>
+                </marker>
+            </pattern>
+            <message>In dieser Redewendung wird <suggestion><match no="3" case_conversion="startlower"/></suggestion> kleingeschrieben.</message>
+            <example correction="ungut">Nichts für <marker>Ungut</marker>.</example>
+        </rule>
         <rulegroup id="FUER_GROSS_UND_KLEIN" name="für groß (Groß) und klein (Klein)">
             <url>https://www.korrekturen.de/wortliste/gross_und_klein.shtml</url>
             <rule>
