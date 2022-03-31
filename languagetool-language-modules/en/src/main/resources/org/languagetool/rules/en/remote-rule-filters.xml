@@ -832,6 +832,19 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Peter ultimately bought <marker>£200</marker> (270 USD) portable units for each classroom.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token>It</token>
+                    <token inflected="yes">be</token>
+                    <token min="0" max="2" postag="RB"/>
+                    <marker>
+                        <token postag="JJR?" postag_regexp="yes"/>
+                    </marker>
+                    <token postag="VBG"/>
+                </pattern>
+                <example correction="">It’s not always <marker>easy</marker> adding signs or symbols that aren’t typical in the English language.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_EN_G_REPLACE_ORTH" name="">
             <rule>
