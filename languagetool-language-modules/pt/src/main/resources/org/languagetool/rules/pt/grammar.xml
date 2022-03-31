@@ -2448,6 +2448,7 @@ BEFORE:4586
 
   <rulegroup id='AUXILIARY_VERB_INFINITIVE' name="Erro de concordância: Verbo auxiliar + verbo no infinitivo">
     <!--      Created by Tiago F. Santos, 2019-03-16      -->
+	<!--      Improved by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-03-29/30/31 (1-JAN-2022+)      -->
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/o-conceito-de-verbo-auxiliar/24055</url>
       <antipattern>
           <token postag="VMX0000"/>
@@ -2584,13 +2585,9 @@ Apenas por curiosidade comecei a coloca-las em um mapa através do Google Maps.
             <exception postag="VM[NG]0000|VMP00.." postag_regexp="yes"/>
             <exception negate_pos='yes' postag_regexp="yes" postag="V.+"/></token>
       </pattern>
-      <message>Verbos auxiliares devem ser seguidos de formas verbais no infinitivo ou no gerúndio.</message>
+      <message>Verbos auxiliares devem ser seguidos de formas verbais no infinitivo ou no gerúndio. Se esse não é o caso, verifique se está faltando uma vírgula entre os dois verbos.</message>
         <suggestion>\1 <match no='2' postag='VMN0000'/></suggestion>
-        <suggestion>\1 a <match no='2' postag='VMN0000'/></suggestion>
-        <suggestion>\1 <match no='2' postag='VMG0000'/></suggestion>
-        <suggestion>\1, \2</suggestion>
-      <example correction="vão dormir|vão a dormir|vão dormindo|vão, dormi">Elas <marker>vão dormi</marker> agora.</example>
-      <example correction="continua dormir|continua a dormir|continua dormindo|continua, dormi">Ele <marker>continua dormi</marker> na cama.</example>
+      <example correction="vão dormir">Elas <marker>vão dormi</marker> agora.</example>
       <example>Podemos acompanhá-lo em sua caminhada?</example>
       <example>É claro que isso foi há muito tempo atrás.</example>
       <example>Seu poder prorrogou a partir de Mashhad, no oeste da Caxemira, para o…</example>
@@ -2654,7 +2651,7 @@ Apenas por curiosidade comecei a coloca-las em um mapa através do Google Maps.
             <exception postag_regexp="no" postag="VMN0000"/>
             <exception negate_pos='yes' postag_regexp="yes" postag="V.+"/></token>
       </pattern>
-      <message>Verbos auxiliares devem ser seguidos de formas verbais no infinitivo ou no gerúndio.</message>
+      <message>Verbos auxiliares devem ser seguidos de formas verbais no infinitivo ou no gerúndio. Se esse não é o caso, verifique se está faltando uma vírgula entre os dois verbos.</message>
         <suggestion>\1 \2 <match no='3' postag='VMN0000'/></suggestion>
       <example correction="comecei a escrever">Já <marker>comecei a escreve</marker> o livro.</example>
       <example correction="comecei a escrever">Já <marker>comecei a escrevendo</marker> o livro.</example>
