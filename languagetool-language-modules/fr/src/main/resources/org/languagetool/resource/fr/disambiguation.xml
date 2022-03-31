@@ -155,10 +155,15 @@ RB => Règles Brutes
         <disambig action="filter" postag="A"/>
     </rule>
     <rule id="PERSOS" name="persos">
+        <antipattern>
+            <token postag="V (avoir|etre).*" postag_regexp="yes"/>
+            <token postag="A" min="0" max="3"/>
+            <token regexp="yes" inflected="yes">point|directeur|produit|roman|entreprise|donnée|participant|distributeur|consommateur|pro|partie|permis|plan|accessoire|employé|rentrée|sortie|candidat|abonné|adaptateur|adhérent|ami|Beaujolais|bienvenue|caractéristique|chéri|Collégiale|Commune|imprimé|Logiciel|législative|Mathématiques|meuble|mobile|moteur|Perspective|Plastique|Sommaire|sorcier|spécialiste|suivi|technicien|tarte|tortue|malade|maréchal|Imprimantes|Composite|Concasseur|conduite|con|cuvée|descriptif|Détecteur|garantie|gironde|Handicapé-portable|perso|prostituée|animateur|armée|arrivée|artisan|cannelé|capital|action|comparatif|composant|contenu|contraite|courbe|crue|cube|enceinte|immobilier|impératif|manuel|manuscrit|pensée|pers|présidentielle|prêt|standard|statisitque|surprise|tapis|tissu|vernis|veuf|vidéo|adulte|amateur</token>
+            <token postag="[NJ].*" postag_regexp="yes"/>
+        </antipattern>
         <pattern>
-            <token><exception postag="V etre.*" postag_regexp="yes"/></token>
             <marker>
-                <token regexp="yes" inflected="yes">point|abonné|adaptateur|adhérent|ami|Beaujolais|bienvenue|caractéristique|chéri|Collégiale|Commune|imprimé|Logiciel|législative|Mathématiques|meuble|mobile|moteur|Perspective|Plastique|Sommaire|sorcier|spécialiste|suivi|technicien|tarte|tortue|malade|maréchal|Imprimantes|Composite|Concasseur|conduite|con|cuvée|descriptif|Détecteur|garantie|gironde|Handicapé-portable|perso|prostituée|animateur|armée|arrivée|artisan|cannelé|capital|action|comparatif|composant|contenu|contraite|courbe|crue|cube|enceinte|immobilier|impératif|manuel|manuscrit|pensée|pers|présidentielle|prêt|standard|statisitque|surprise|tapis|tissu|vernis|veuf|vidéo|adulte|amateur</token>
+                <token regexp="yes" inflected="yes">point|directeur|produit|roman|entreprise|donnée|participant|distributeur|consommateur|pro|partie|permis|plan|accessoire|employé|rentrée|sortie|candidat|abonné|adaptateur|adhérent|ami|Beaujolais|bienvenue|caractéristique|chéri|Collégiale|Commune|imprimé|Logiciel|législative|Mathématiques|meuble|mobile|moteur|Perspective|Plastique|Sommaire|sorcier|spécialiste|suivi|technicien|tarte|tortue|malade|maréchal|Imprimantes|Composite|Concasseur|conduite|con|cuvée|descriptif|Détecteur|garantie|gironde|Handicapé-portable|perso|prostituée|animateur|armée|arrivée|artisan|cannelé|capital|action|comparatif|composant|contenu|contraite|courbe|crue|cube|enceinte|immobilier|impératif|manuel|manuscrit|pensée|pers|présidentielle|prêt|standard|statisitque|surprise|tapis|tissu|vernis|veuf|vidéo|adulte|amateur</token>
             </marker>
             <token postag="[NJ].*" postag_regexp="yes"/>
         </pattern>
@@ -878,7 +883,17 @@ RB => Règles Brutes
         </pattern>
         <disambig action="filter" postag="J m s"/>
     </rule>
-    <rule id="VRAI1" name="vrai1">
+    <rule id="ALLANT" name="ALLANT">
+        <pattern>
+            <token postag="[NJ] . s" postag_regexp="yes"/>
+            <marker>
+                <token regexp="yes">prenant|allant</token>
+            </marker>
+            <token regexp="yes">de|d'</token>
+        </pattern>
+        <disambig action="filter" postag="V ppr"/>
+    </rule>
+    <rule id="CHOSES" name="choses">
         <pattern>
             <token postag="D.*" postag_regexp="yes"/>
             <token postag="J.*" postag_regexp="yes"/>
@@ -5656,6 +5671,24 @@ RB => Règles Brutes
                     <token>tu</token>
                 </marker>
                 <token postag="V.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig postag="R pers suj 2 s"/>
+        </rule>
+        <rule name="si tu">
+            <pattern>
+                <token>si</token>
+                <marker>
+                    <token>tu</token>
+                </marker>
+            </pattern>
+            <disambig postag="R pers suj 2 s"/>
+        </rule>
+        <rule name="si tu">
+            <pattern>
+                <token postag="R rel.*" postag_regexp="yes"/>
+                <marker>
+                    <token>tu</token>
+                </marker>
             </pattern>
             <disambig postag="R pers suj 2 s"/>
         </rule>
