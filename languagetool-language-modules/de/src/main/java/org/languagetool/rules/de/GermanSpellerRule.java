@@ -100,7 +100,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("wiederrum", "wiederum");
     put("ne", w -> Arrays.asList("'ne", "eine"));
     put("ner", "einer");
-    put("isses", w -> Arrays.asList("isses", "Risses"));
+    put("isses", w -> Arrays.asList("ist es", "Risses"));
     put("Vieleicht", "Vielleicht");
     put("inbetracht", "in Betracht");
     put("überwhatsapp", "über WhatsApp");
