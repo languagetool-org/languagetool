@@ -10731,7 +10731,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">frau|kanzlerin</token>
+                    <token regexp="yes">frau|kanzlerin|au(ß|ss)enminister(in)?</token>
                     <marker>
                         <token regexp="yes">b(ä|ae|e)rbocks?</token>
                     </marker>
@@ -24832,31 +24832,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="letzte">Es war das <marker>letzteste</marker> Alternative, die ihm blieb.</example>
             </rule>
         </rulegroup>
-        
-        <rulegroup id="KOFFERWOERTER" name="Gestern war das zumindestens so.">
-            <rule><!--1-->
-                <pattern>
-                    <marker>
-                        <token>zumindestens</token>
-                    </marker>
-                </pattern>
-                <message>Hier handelt sich um eine umgangssprachliche Wortkreuzung aus 'zumindest' und 'mindestens'. Möchten Sie sie durch eine Alternative ersetzen, um Ihren Text formeller zu machen?</message>
-                <suggestion><match no="1">zumindest</match></suggestion>
-                <suggestion><match no="1">mindestens</match></suggestion>
-                <example correction="zumindest|mindestens">Gestern war das <marker>zumindestens</marker> so.</example>
-            </rule>
-            <rule><!--2-->
-                <pattern>
-                    <marker>
-                        <token>zumeistens</token>
-                    </marker>
-                </pattern>
-                <message>Hier handelt sich um eine umgangssprachliche Wortkreuzung aus 'zumindest' und 'meistens'. Möchten Sie sie durch eine Alternative ersetzen, um Ihren Text formeller zu machen?</message>
-                <suggestion><match no="1">zumindest</match></suggestion>
-                <suggestion><match no="1">meistens</match></suggestion>
-                <example correction="zumindest|meistens">Gestern war das <marker>zumeistens</marker> so.</example>
-            </rule>
-        </rulegroup>        
         <rulegroup id="DAUERN_TUT" name="dauern tut -> dauert">
             <rule>
                 <pattern>
@@ -47113,6 +47088,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
+        <rulegroup id="KOFFERWOERTER" name="Gestern war das zumindestens so.">
+            <rule><!--1-->
+                <pattern>
+                    <marker>
+                        <token>zumindestens</token>
+                    </marker>
+                </pattern>
+                <message>Hier handelt sich um eine umgangssprachliche Wortkreuzung aus 'zumindest' und 'mindestens'. Möchten Sie sie durch eine Alternative ersetzen, um Ihren Text formeller zu machen?</message>
+                <suggestion><match no="1">zumindest</match></suggestion>
+                <suggestion><match no="1">mindestens</match></suggestion>
+                <example correction="zumindest|mindestens">Gestern war das <marker>zumindestens</marker> so.</example>
+            </rule>
+            <rule><!--2-->
+                <pattern>
+                    <marker>
+                        <token>zumeistens</token>
+                    </marker>
+                </pattern>
+                <message>Hier handelt sich um eine umgangssprachliche Wortkreuzung aus 'zumindest' und 'meistens'. Möchten Sie sie durch eine Alternative ersetzen, um Ihren Text formeller zu machen?</message>
+                <suggestion><match no="1">zumindest</match></suggestion>
+                <suggestion><match no="1">meistens</match></suggestion>
+                <example correction="zumindest|meistens">Gestern war das <marker>zumeistens</marker> so.</example>
+            </rule>
+        </rulegroup>
         <rule id="JEDEN_DAS_SEINE" name="jeden (jedem) das Seine">
             <pattern>
                 <marker>
@@ -64745,6 +64744,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>und</token>
                     <token>gut</token>
                 </antipattern>
+                <antipattern>
+                    <token regexp="yes">hätten?</token>
+                    <token>haben</token>
+                    <token regexp="yes">sollen|müssen|können</token>
+                </antipattern>
                 <pattern>
                     <token inflected="yes">haben<exception>gehabt</exception></token>
                     <token inflected="yes">haben<exception>gehabt</exception></token>
@@ -64936,7 +64940,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>,</token>
                 </antipattern>
                 <antipattern>
-                    <token>egal</token>
                     <token skip="4">ob</token>
                     <token skip="2">oder</token>
                     <token>,</token>
@@ -65007,7 +65010,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token>,</token>
                     <token>egal</token>
-                    <token regexp="yes">ob|wie|wann|wo|was|warum</token>
+                    <token regexp="yes">ob|wie|wann|wo|was|warum|wohin|woher|wieso|weshalb|welch.*</token>
                 </antipattern>
                 <pattern>
                     <token skip="-1" postag="SENT_START">
@@ -65053,6 +65056,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Wenn er zwei, drei verlässliche Leute findet für die Firma.</example>
                 <example>Einer wie Ahmed, egal wie klein und mickrig er den Nordmännern vorkommt.</example>
                 <example>Daher: Starten Sie mit der Umsetzung lieber jetzt, im Sommer oder gar erst Ende des Jahres.</example>
+                <example>Ob pflanzenbasiert oder ökologisch abbaubar, gerne beraten wir Sie zu den vielfältigen Möglichkeiten!</example>
             </rule>
         </rulegroup>
         <rulegroup id="KOMMA_VOR_INFINITIVGRUPPEN_OPT" name="Optional: Komma vor Infinitivgruppen" default="off">

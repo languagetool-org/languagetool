@@ -441,6 +441,35 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Es wird sowohl in der Industrie <marker>wie</marker> auch in der Bauwirtschaft eingesetzt.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>mit</token>
+                    <token regexp="yes">freundlichen|herzlichen|lieben(vollen)?|besten</token>
+                    <marker>
+                        <token regexp="yes">Grü(ß|ss)en</token>
+                    </marker>
+                </pattern>
+                <example correction="">Mit freundlichen <marker>Grüßen</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">freundlich(st)?e|herzlich(st)?e|liebe(volle)?|beste</token>
+                    <marker>
+                        <token regexp="yes">Grü(ß|ss)e</token>
+                    </marker>
+                </pattern>
+                <example correction="">Liebe <marker>Grüße</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">ok(ay)?</token>
+                    </marker>
+                    <token>für</token>
+                    <token regexp="yes">dich|euch</token>
+                </pattern>
+                <example correction=""><marker>Ok</marker> für dich, wenn ich das übernehme?</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_DE_HYDRA_LEO_CPT_DIE_CDIE" name="">
             <rule>

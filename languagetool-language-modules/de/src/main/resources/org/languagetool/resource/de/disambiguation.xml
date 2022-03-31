@@ -5801,7 +5801,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rulegroup id="HAEUFIGE_NACHNAMEN" name="Häufige Nachnamen, die nicht zur spelling.txt hhinzugefügt werden können">
         <rule>
             <pattern>
-                <token postag="EIG.*|UNKNOWN" case_sensitive="yes" regexp="yes">[A-ZÄÖÜ].*</token>
+                <token postag="EIG.*|UNKNOWN" postag_regexp="yes" case_sensitive="yes" regexp="yes">[A-ZÄÖÜ].*</token>
                 <marker>
                     <token regexp="yes" case_sensitive="yes">Ungers?|Bischoffs?|Schwaigers?|Baumgarts?|Behrendt?s?|Wüsts?</token>
                 </marker>
@@ -5819,6 +5819,16 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
+
+    <rule id="NEN_IGNORE_SPELLING" name="Ignore spelling of 'nen">
+        <pattern>
+            <token regexp="yes">[’']</token>
+            <marker>
+                <token case_sensitive="yes" spacebefore="no">ne[nm]?</token>
+            </marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
 
     <!-- TODO: (ohne meine neue ..., durch eine alte ...)-->
     <!-- <rulegroup id="EINE_ARTIKEL" name="eine/meine als Artikel">
