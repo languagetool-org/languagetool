@@ -142,12 +142,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="MAYUSCULAS_INICIO_FRASE" name="mayúsculas a principio de frase">
             <antipattern>
                 <token regexp="yes">\p{Lu}\p{Lu}\p{Lu}?</token>
-                <token min="0" regexp="yes">\p{P}</token>
-                <token regexp="yes">\p{Lu}\p{Lu}\p{Lu}*</token>
+                <token min="0" regexp="yes">\p{P}|\p{Lu}|\d+</token>
+                <token regexp="yes">\p{Lu}*</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">\p{Lu}\p{Lu}\p{Lu}?</token>
-                <token>-</token>
+                <token regexp="yes">\p{P}</token>
+                <token regexp="yes">\d+</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\p{Lu}\p{Lu}\p{Lu}?<exception regexp="yes">EL|UN</exception></token>
                 <token regexp="yes">\d+</token>
             </antipattern>
             <antipattern>
@@ -159,16 +163,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token max="4" regexp="yes">\p{P}<exception postag="SENT_END"/></token>
                 <token postag="SENT_END" regexp="yes">\p{P}</token>
             </antipattern>
+            <antipattern>
+                <token>LO</token>
+                <token regexp="yes">\d+</token>
+                <token>/</token>
+                <token regexp="yes">\d+</token>
+            </antipattern>
             <pattern>
                 <token postag="SENT_START"/>
                 <token min="0" max="3" regexp="yes">\p{P}</token>
                 <marker>
-                    <token postag="[DCSR].*|LOC_.*" postag_regexp="yes" regexp="yes">\p{Lu}\p{Lu}\p{Lu}?<exception postag="NP.*" postag_regexp="yes"/></token>
+                    <token postag="[DCSR].*|LOC_.*" postag_regexp="yes" regexp="yes">\p{Lu}\p{Lu}\p{Lu}?<exception postag="NP.*|SENT_END" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
             <message>Revise las mayúsculas a principio de frase.</message>
             <suggestion><match no="3" regexp_match="^(.).*$" regexp_replace="$1"/><match no="3" regexp_match="^.(.*$)" regexp_replace="$1" case_conversion="alllower"/></suggestion>
             <example correction="La"><marker>LA</marker> semana pasada no vino.</example>
+            <example correction="El"><marker>EL</marker> 2 de dicimebre.</example>
+            <example correction="Un"><marker>UN</marker> 2 de dicimebre.</example>
+            <example>EL 2 DE DICIEMBRE.</example>
             <example>LA SEMANA PASADA NO VINO.</example>
             <example>BBC, 3-4-2019</example>
             <example>XXXI Olimpiadas.</example>
@@ -177,6 +190,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>¿QUÉ?</example>
             <example>¡SÍ, ME PARECE BIEN!</example>
             <example>¡¡¡SÍ!!!</example>
+            <example>XVI</example>
+            <example>QUE A SU AMADO HIJO.</example>
+            <example>NI 22023340-013984</example>
+            <example>NI: 2240340-013984</example>
+            <example>SÍ, Y ÉL ES COMO</example>
+            <example>NFT</example>
+            <example>· NFT</example>
+            <example>• (LO 8/2015, de 22 de enero.)</example>
+            <example>LOS 8 TEMAS</example>
+            <example>MIS P A D R E S.</example>
+            <example>UN (01) PASAPORTE</example>
+            <example>LAS 3 LEYES</example>
+            <example>HOY A LAS 7 PM.</example>
         </rule>
         <rule id="ESO" name="ESO (Educación Secundaria Obligatoria">
             <antipattern>
