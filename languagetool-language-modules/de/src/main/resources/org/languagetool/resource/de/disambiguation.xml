@@ -4801,6 +4801,34 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="remove" postag="VER:.+" />
     </rule>
 
+    <rulegroup id="GEB_KEIN_VERB" name="Abkürzung 'geb.'"><!-- abk "geb." -->
+        <rule>
+            <pattern>
+                <marker>
+                    <token>geb</token>
+                </marker>
+                <token spacebefore="no">.</token>
+            </pattern>
+            <disambig action="remove" postag="VER:.+" />
+        </rule>
+        <rule>
+            <antipattern>
+                <token skip="2">ich</token>
+                <token>geb</token>
+            </antipattern>
+            <antipattern>
+                <token>geb</token>
+                <token>ich</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>geb</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="VER:.+" />
+        </rule>
+    </rulegroup>
+
     <rule id="WALT_DISNEY" name="'Walt' kein Verb">
         <pattern>
             <marker>
@@ -4827,6 +4855,16 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <marker>
                 <token regexp="yes">Unos?</token>
             </marker>
+        </pattern>
+        <disambig action="remove" postag="SUB:.+" />
+    </rule>
+
+    <rule id="PAGE_KEIN_SUB_MAS" name="'Page' kein Substantiv in 'Page View'">
+        <pattern>
+            <marker>
+                <token>Page</token>
+            </marker>
+            <token regexp="yes">Views?|Impressions?</token>
         </pattern>
         <disambig action="remove" postag="SUB:.+" />
     </rule>
@@ -5824,7 +5862,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <pattern>
             <token regexp="yes">[’']</token>
             <marker>
-                <token case_sensitive="yes" spacebefore="no">ne[nm]?</token>
+                <token case_sensitive="yes" spacebefore="no" regexp="yes">ne[nm]?</token>
             </marker>
         </pattern>
         <disambig action="ignore_spelling"/>

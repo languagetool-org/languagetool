@@ -49,6 +49,7 @@ public class GermanWordRepeatRuleTest {
     assertThat(rule.match(lt.getAnalyzedSentence("Dann wäre das das erste Wirtschaftsmagazin mit mehr als 10.000 Lesern.")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Für mich war das das Härteste.")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Ich weiß, wer wer ist!")).length, is(0));
+    assertThat(rule.match(lt.getAnalyzedSentence("Ich kann das machen, falls das das Problem ist.")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Als ich das das erste Mal gehört habe …")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Hat sie sie")).length, is(1));  // used to crash, issue #1010
     assertThat(rule.match(lt.getAnalyzedSentence("Hat hat")).length, is(1));

@@ -98,9 +98,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("daß", "dass");
     put("eien", "eine");
     put("wiederrum", "wiederum");
-    put("ne", w -> Arrays.asList("'ne", "eine"));
+    put("ne", w -> Arrays.asList("'ne", "eine", "nein", "oder"));
     put("ner", "einer");
     put("isses", w -> Arrays.asList("ist es", "Risses"));
+    put("isser", "ist er");
     put("Vieleicht", "Vielleicht");
     put("inbetracht", "in Betracht");
     put("überwhatsapp", "über WhatsApp");
@@ -1724,11 +1725,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       // "Ne einfach Frage!"
       // "Ne, das musst du machen!"
       return Arrays.asList("Nein", "Eine");
-    } else if ("ne".equals(word)) {
-      // "Das warst du, ne?"
-      // "Das ist ne einfache Aufgabe!"
-      // "Ne das würde ich anders machen."
-      return Arrays.asList("nein", "eine", "oder");
     } else if ("is".equals(word)) {
       return singletonList("ist");
     } else if ("Is".equals(word)) {

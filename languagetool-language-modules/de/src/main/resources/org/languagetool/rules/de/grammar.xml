@@ -1947,7 +1947,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token postag="VER:[123]:.*" postag_regexp="yes">
                         <exception postag="VER:.*" postag_regexp="yes" negate_pos="yes"/>
-                        <exception regexp="yes">regen|prallen|siebten|achten|web|wachen|trauten|ehelichen|Schweiße|Schweisse|stumpfen|.+bändigen|.+orientiert.*|.+vergleich|durchschnitt|stockdunkeln|leben|sitzen|garten|.*lauf|.+blick|weg|dunkeln|dunklen|hellen|wegstehen|.+gebiet|Skype|.+unterricht|.+steig|knie</exception>
+                        <exception regexp="yes">regen|zweifel|prallen|siebten|achten|web|wachen|trauten|ehelichen|Schweiße|Schweisse|stumpfen|.+bändigen|.+orientiert.*|.+vergleich|durchschnitt|stockdunkeln|leben|sitzen|garten|.*lauf|.+blick|weg|dunkeln|dunklen|hellen|wegstehen|.+gebiet|Skype|.+unterricht|.+steig|knie</exception>
                         <exception postag="VER:INF.*" postag_regexp="yes" case_sensitive="yes" regexp="yes">[A-ZÄÖÜ][a-zäöüß].*</exception>
                     </token>
                 </pattern>
@@ -6491,6 +6491,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Verwechslungen -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
+        <rulegroup id="TAETIGE_TAEGIGE" name="tägig vs tätig" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">\d{1,3}-?[Tt]ätig(e[rsnm]?)?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="1" regexp_match="(?i)-?tät" regexp_replace="-täg" /></suggestion>?</message>
+                <example correction="30-tägige">Ich hab eine <marker>30tätige</marker> Testversion gekauft.</example>
+                <example correction="30-tägige">Ich hab eine <marker>30-Tätige</marker> Testversion gekauft.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">1|2|3|4|5|6|7|10|14|30|31</token>
+                    <token regexp="yes" case_sensitive="yes">[Tt]ätig(e[rsnm]?)</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>\1-<match no="2" regexp_match="(?i)tät" regexp_replace="täg" /></suggestion>?</message>
+                <example correction="30-tägige">Ich hab eine <marker>30 tätige</marker> Testversion gekauft.</example>
+                <example correction="30-tägige">Ich hab eine <marker>30 Tätige</marker> Testversion gekauft.</example>
+                <example>1923 kam ein Schmied hinzu, der bis 1963 tätig war.</example>
+            </rule>
+        </rulegroup>
         <rule id="STATISCHE_BUNDESAMT" name="Statisches (Statistisches) Bundesamt">
             <pattern>
                 <token regexp="yes">statische[snm]?</token>
@@ -29773,6 +29793,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">au(ß|ss)en</token>
                 <token>vor</token>
             </antipattern>
+            <antipattern>
+                <token skip="8">da</token>
+                <token>für</token>
+                <token postag="VER:INF:.*" postag_regexp="yes" />
+            </antipattern>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[bB]ei</token>
@@ -29808,6 +29833,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Nach wie vor erscheinen FAZ-Bücher im so genannten FAZ-Institut.</example>
                 <example>Was ich mich nun frage ist, ob ich die Handbremse auch bei sagen wir mal 50 km/h betätigen kann und die dann voll reinkickt?</example>
                 <example>Zu unseren Kursen können Sie sich auch ohne Tanzpartner/in anmelden.</example>
+                <example>Die Integration kommt nicht von uns und wir können da leider keinen Support für geben.</example>
             </rule>
         </rulegroup>
         <rulegroup id="DAS_BESTE_AM" name="'das beste (Beste) am' etc.">

@@ -221,6 +221,21 @@ public class GermanWordRepeatRule extends WordRepeatRule {
       token("sie"),
       posRegex("VER:1:PLU:.*")
     ),
+    Arrays.asList( // Falls das das Problem ist, …
+      tokenRegex("wenn|falls|ob"),
+      token("das"),
+      token("das"),
+      posRegex("SUB:NOM:SIN:NEU.*"),
+      new PatternTokenBuilder().tokenRegex("sein|haben").matchInflectedForms().build()
+    ),
+    Arrays.asList( // Falls das das neue Problem ist, …
+      tokenRegex("wenn|falls|ob"),
+      token("das"),
+      token("das"),
+      posRegex("(ADJ|PA[12]).*NEU.*"),
+      posRegex("SUB:NOM:SIN:NEU.*"),
+      new PatternTokenBuilder().tokenRegex("sein|haben").matchInflectedForms().build()
+    ),
     Arrays.asList(// "wie Honda und Samsung, die die Bezahlung ihrer Firmenchefs..."
       csToken(","),
       new PatternTokenBuilder().csToken("der").matchInflectedForms().build(),
