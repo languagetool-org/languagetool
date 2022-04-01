@@ -53,24 +53,6 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <rule>
                 <pattern>
                     <marker>
-                        <token postag="N.* s" postag_regexp="yes"/>
-                    </marker>
-                    <token postag="V.* 3 s" postag_regexp="yes"/>
-                </pattern>
-                <example correction="">Le <marker>sablier</marker> flottait sur l'eau.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token postag="N.* p" postag_regexp="yes"/>
-                    </marker>
-                    <token postag="V.* 3 p" postag_regexp="yes"/>
-                </pattern>
-                <example correction="">Le <marker>sabliers</marker> flottaient sur l'eau.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
                         <token>comment</token>
                     </marker>
                     <token postag="D.*" postag_regexp="yes"/>
@@ -152,9 +134,9 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <marker>
                         <token postag="[YK]" postag_regexp="yes"/>
                     </marker>
-                    <token regexp="yes">(?-i)[A-Z].*|&unites_de_mesure;</token>
+                    <token regexp="yes">&unites_de_mesure;<exception>a</exception></token>
                 </pattern>
-                <example correction="">c.f p.96-<marker>97</marker> Les cahiers de Marine.</example>
+                <example correction="">Il fait <marker>97</marker> m de long.</example>
             </rule>
             <rule>
                 <pattern>
