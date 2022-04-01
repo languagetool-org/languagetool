@@ -9552,6 +9552,78 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="MISSPELLING" name="Ortografía" type="misspelling">
+        <rulegroup id="D_ELA" name="errores ortográficos varios" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>d</token>
+                    <token regexp="yes">ela|elas|eun|euna|eunos|eunas|elos</token>
+                </pattern>
+                <message>¿Quería decir <suggestion>de <match no="2" regexp_match="^[Ee]" regexp_replace=""/></suggestion>?</message>
+                <example correction="de la">Es el resultado <marker>d ela</marker> evaluación.</example>
+                <example correction="De la"><marker>D ela</marker> noche a la mañana.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>d</token>
+                    </marker>
+                    <token postag="[DAN].*" postag_regexp="yes"/>
+                </pattern>
+                <message>¿Quería decir <suggestion>de</suggestion>?</message>
+                <example correction="de">Es el resultado <marker>d</marker> esta evaluación.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>n</token>
+                    </marker>
+                    <token postag="(N.|A..)[MC][SN].*" postag_regexp="yes"/>
+                </pattern>
+                <message>¿Quería decir <suggestion>un</suggestion>?</message>
+                <suggestion>en</suggestion>
+                <example correction="un|en">Pero <marker>n</marker> caso no es el otro.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>n</token>
+                    </marker>
+                    <token postag="[DAN].*" postag_regexp="yes"/>
+                </pattern>
+                <message>¿Quería decir <suggestion>en</suggestion>?</message>
+                <example correction="en">Pero <marker>n</marker> este caso no es así.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>l</token>
+                    </marker>
+                    <token postag="(N.|A..)[MC][SN].*" postag_regexp="yes"/>
+                </pattern>
+                <message>¿Quería decir <suggestion>el</suggestion>?</message>
+                <example correction="el">Pero <marker>l</marker> caso no es el mismo.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>l</token>
+                    </marker>
+                    <token postag="(N.|A..)[FC][SN].*" postag_regexp="yes"/>
+                </pattern>
+                <message>¿Quería decir <suggestion>la</suggestion>?</message>
+                <example correction="la">Pero <marker>l</marker> mesa no está preparada.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>l</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>el</suggestion>?</message>
+                <suggestion>la</suggestion>
+                <example correction="el|la">Pero <marker>l</marker> coche no está preparado.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="SUGERENCIAS_ANTE" name="error de ortografía: -ante">
             <!-- improving the speller suggestions for words: imporntate, interensate... -->
             <rule>
@@ -11581,7 +11653,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="y">Ortega <marker>i</marker> Gasset.</example>
                 <example>Carlos I de España.</example>
             </rule>
-            <!--TODO: other suggestions: d > de, l > el/la, n > en/un...-->
             <rule>
                 <pattern>
                     <!-- Find only standard prose -->
