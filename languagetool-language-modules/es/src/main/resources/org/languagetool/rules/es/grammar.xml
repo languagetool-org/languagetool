@@ -20367,6 +20367,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
+        <rule id="CASA_CADA" name="casa -> cada" default="temp_off">
+            <pattern>
+                <marker>
+                    <token>casa</token>
+                </marker>
+                <token postag="NC.S.*" postag_regexp="yes" regexp="yes" inflected="yes">&unidades_tiempo;</token>
+            </pattern>
+            <message>¿Quería decir <suggestion>cada</suggestion>?</message>
+            <example correction="Cada"><marker>Casa</marker> día pasa lo mismo.</example>
+        </rule>
         <rule id="DES_DE" name="des -> de">
             <pattern>
                 <token postag="N.*|_GN_.*" postag_regexp="yes"/>
