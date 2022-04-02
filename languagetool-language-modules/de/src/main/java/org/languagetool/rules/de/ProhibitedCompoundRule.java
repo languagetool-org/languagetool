@@ -168,7 +168,7 @@ public class ProhibitedCompoundRule extends Rule {
           "Ticketverlauf",  // vs. verkauf
           "Ticketverlaufs",  // vs. verkauf
           "Immobilienwelt",  // vs. wert
-          "Rhein-Ruhr",  // vs. ohr
+          "Rheinruhr",  // vs. ohr (eigentlich "Rhein-Ruhr")
           "Turmbewegung",  // vs. Turn
           "Turmbewegungen",  // vs. Turn
           "Turmwart",  // vs. Turn
