@@ -329,7 +329,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
   protected void testMessages(Language lang, List<AbstractPatternRule> rules) {
     System.out.println("Checking messages for 'TBD' etc of " + rules.size() + " rules for " + lang + "...");
     for (AbstractPatternRule rule : rules) {
-      if (rule.isDefaultTempOff()) {
+      if (rule.isDefaultTempOff() || rule.isDefaultOff()) {
         continue;
       }
       String msg = rule.getMessage().trim();
