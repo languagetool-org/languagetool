@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -47,9 +48,10 @@ public class ArtificialErrorEval {
   static boolean undirectional = false;
   static Pattern pWordboundaries = Pattern.compile("\\b.+\\b");
   static int countLine = 0;
+  static List<String> onlyRules = new ArrayList<String>();
 
   public static void main(String[] args) throws IOException {
-    if (args.length < 4 || args.length > 6) {
+    if (args.length < 4 || args.length > 8) {
       System.out.println("Usage: " + ArtificialErrorEval.class.getSimpleName()
           + " <language code> <file> <string1> <string2> <options>");
       System.out.println("  <language code>, e.g. en, en-US, de, fr...");
@@ -60,6 +62,7 @@ public class ArtificialErrorEval {
       System.out.println("  <options>");
       System.out.println("    -v      verbose, print all false positive or false negative sentences");
       System.out.println("    -u      unidirectional, analyze only rules for string1 (wrong) -> string2 (correct)");
+      System.out.println("    -r      list of comma-separated rules to be considered");
       System.exit(1);
     }
     for (int k = 4; k < args.length; k++) {
@@ -68,6 +71,10 @@ public class ArtificialErrorEval {
       }
       if (args[k].contentEquals("-u")) {
         undirectional = true;
+      }
+      if (args[k].contentEquals("-r")) {
+
+        onlyRules = Arrays.asList(args[k + 1].split(","));
       }
     }
     long start = System.currentTimeMillis();
@@ -113,7 +120,7 @@ public class ArtificialErrorEval {
         }
       }
       if (!foundSomething) {
-        //printSentenceOutput("Ignored, no error", line, "");
+        // printSentenceOutput("Ignored, no error", line, "");
       }
     }
     // print results
@@ -129,7 +136,8 @@ public class ArtificialErrorEval {
           / (float) (results[i][classifyTypes.indexOf("TP")] + results[i][classifyTypes.indexOf("FP")]);
       float recall = results[i][classifyTypes.indexOf("TP")]
           / (float) (results[i][classifyTypes.indexOf("TP")] + results[i][classifyTypes.indexOf("FN")]);
-      float expectedSuggestionPercentage = (float) results[i][classifyTypes.indexOf("TPs")] / results[i][classifyTypes.indexOf("TP")];
+      float expectedSuggestionPercentage = (float) results[i][classifyTypes.indexOf("TPs")]
+          / results[i][classifyTypes.indexOf("TP")];
       System.out.println("Precision: " + String.format("%.4f", precision));
       System.out.println("Recall: " + String.format("%.4f", recall));
       System.out.println("TP with expected suggestion: " + String.format("%.4f", expectedSuggestionPercentage));
@@ -144,14 +152,14 @@ public class ArtificialErrorEval {
     // Correct sentence
     if (!undirectional || j == 0) {
       List<RemoteRuleMatch> matchesCorrect = lt.check(correctSentence, config).getMatches();
-      List<String> ruleIDs = ruleIDsAtPos(matchesCorrect, fromPos);
-      if (ruleIDs.size()>0) {
+      List<String> ruleIDs = ruleIDsAtPos(matchesCorrect, fromPos, words[1 - j]);
+      if (ruleIDs.size() > 0) {
         results[j][classifyTypes.indexOf("FP")]++;
         printSentenceOutput("FP", correctSentence, fakeRuleIDs[j] + ":" + String.join(",", ruleIDs));
       } else {
         results[j][classifyTypes.indexOf("TN")]++;
         // Too verbose...
-        //printSentenceOutput("TN", correctSentence, fakeRuleIDs[j]);
+        // printSentenceOutput("TN", correctSentence, fakeRuleIDs[j]);
       }
     }
 
@@ -173,14 +181,15 @@ public class ArtificialErrorEval {
         return;
       }
       List<RemoteRuleMatch> matchesWrong = lt.check(wrongSentence, config).getMatches();
-      List<String> ruleIDs = ruleIDsAtPos(matchesWrong, fromPos);
+      List<String> ruleIDs = ruleIDsAtPos(matchesWrong, fromPos, words[j]);
       if (ruleIDs.size() > 0) {
         results[1 - j][classifyTypes.indexOf("TP")]++;
         if (isExpectedSuggestionAtPos(matchesWrong, fromPos, words[j], wrongSentence, correctSentence)) {
           results[1 - j][classifyTypes.indexOf("TPs")]++;
           printSentenceOutput("TP", wrongSentence, fakeRuleIDs[1 - j] + ":" + String.join(",", ruleIDs));
         } else {
-          printSentenceOutput("TP no expected suggestion", wrongSentence, fakeRuleIDs[1 - j] + ":" + String.join(",", ruleIDs));
+          printSentenceOutput("TP no expected suggestion", wrongSentence,
+              fakeRuleIDs[1 - j] + ":" + String.join(",", ruleIDs));
         }
       } else {
         results[1 - j][classifyTypes.indexOf("FN")]++;
@@ -188,23 +197,42 @@ public class ArtificialErrorEval {
       }
     }
   }
-  
+
   private static void printSentenceOutput(String classification, String sentence, String ruleIds) {
     if (verboseOutput) {
       System.out.println(countLine + ". " + classification + ": " + sentence + " –– " + ruleIds);
     }
   }
 
-  private static List<String> ruleIDsAtPos(List<RemoteRuleMatch> matchesCorrect, int pos) {
+  private static List<String> ruleIDsAtPos(List<RemoteRuleMatch> matchesCorrect, int pos, String expectedSuggestion) {
     List<String> ruleIDs = new ArrayList<>();
     for (RemoteRuleMatch match : matchesCorrect) {
       if (match.getErrorOffset() <= pos && match.getErrorOffset() + match.getErrorLength() >= pos) {
+        if (!onlyRules.isEmpty() && !onlyRules.contains(match.getRuleId())) {
+          continue;
+        }
         String subId = null;
+        List<String> replacements = null;
         try {
           subId = match.getRuleSubId().get();
         } catch (NoSuchElementException e) {
-          //System.out.println("Exception, skipping '" + countLine + "': ");
-          //e.printStackTrace();
+          // System.out.println("Exception, skipping '" + countLine + "': ");
+          // e.printStackTrace();
+        }
+        try {
+          replacements = match.getReplacements().get();
+        } catch (NoSuchElementException e) {
+        }
+        boolean containsDesiredSuggestion = false;
+        if (replacements != null) {
+          for (String replacement : replacements) {
+            if (replacement.contains(expectedSuggestion.strip())) {
+              containsDesiredSuggestion = true;
+            }
+          }
+          if (!containsDesiredSuggestion) {
+            continue;
+          }
         }
         if (subId != null) {
           ruleIDs.add(match.getRuleId() + "[" + match.getRuleSubId().get() + "]");
