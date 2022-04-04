@@ -6491,7 +6491,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Verwechslungen -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
-        <rulegroup id="TAETIGE_TAEGIGE" name="tägig vs tätig" default="temp_off">
+        <rulegroup id="TAETIGE_TAEGIGE" name="tägig vs tätig">
             <rule>
                 <pattern>
                     <token regexp="yes" case_sensitive="yes">\d{1,3}-?[Tt]ätig(e[rsnm]?)?</token>
@@ -20575,35 +20575,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Am Nordpol ist es <marker>dreimal so kalt</marker> wie in Deutschland.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="KALTE_TEMPERATUR" name="heiße / kalte (hohe / niedrige) Temperatur">
-            <rule>
-                <pattern>
-                    <token inflected="yes" regexp="yes">heiß|heiss|warm</token>
-                    <token inflected="yes">Temperatur</token>
-                </pattern>
-                <message>Temperaturen sind weder heiß noch kalt oder warm, sondern hoch, tief, niedrig, sommerlich, etc.</message>
-                <suggestion><match no="1" postag="ADJ.*" postag_regexp="yes">hoch</match></suggestion>
-                <suggestion suppress_misspelled="yes"><match no="1" postag="ADJ.*" postag_regexp="yes">sommerlich</match></suggestion>
-                <short>Semantischer Fehler</short>
-                <example correction="hohen|sommerlichen">Bei <marker>warmen Temperaturen</marker> zieht es mich nach draußen.</example>
-                <example correction="höchsten">Nur bei den <marker>wärmsten Temperaturen</marker> zieht es mich nach draußen.</example>
-                <example>Bei Temperaturen um 25° C ist es warm.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token inflected="yes">kalt</token>
-                    <token inflected="yes">Temperatur</token>
-                </pattern>
-                <message>Temperaturen sind weder heiß noch kalt oder warm, sondern hoch, tief, niedrig, sommerlich, etc.</message>
-                <suggestion><match no="1" postag="ADJ.*" postag_regexp="yes">tief</match></suggestion>
-                <suggestion><match no="1" postag="ADJ.*" postag_regexp="yes">niedrig</match></suggestion>
-                <suggestion suppress_misspelled="yes"><match no="1" postag="ADJ.*" postag_regexp="yes">winterlich</match></suggestion>
-                <short>Semantischer Fehler</short>
-                <example correction="tiefen|niedrigen|winterlichen">Die <marker>kalten Temperaturen</marker> werden im Winter erreicht.</example>
-                <example correction="tiefsten|niedrigsten|winterlichsten">Die <marker>kältesten Temperaturen</marker> werden im Winter erreicht.</example>
-                <example>Bei Temperaturen um 25° C ist es warm.</example>
-            </rule>
-        </rulegroup>
 
         <rulegroup id="WINTER_DDDDD" name="Winter 20211 (2021)">
             <rule>
@@ -24572,6 +24543,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Stil -->
     <!-- ====================================================================== -->
     <category id="STYLE" name="Stil" type="style">
+        <rulegroup id="KALTE_TEMPERATUR" name="heiße / kalte (hohe / niedrige) Temperatur">
+            <short>Semantischer Fehler</short>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">heiß|heiss|warm</token>
+                    <token inflected="yes">Temperatur</token>
+                </pattern>
+                <message>Temperaturen sind weder heiß noch kalt oder warm, sondern hoch, tief, niedrig, sommerlich, etc.</message>
+                <suggestion><match no="1" postag="ADJ.*" postag_regexp="yes">hoch</match> \2</suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="ADJ.*" postag_regexp="yes">sommerlich</match> \2</suggestion>
+                <example correction="hohen Temperaturen|sommerlichen Temperaturen">Bei <marker>warmen Temperaturen</marker> zieht es mich nach draußen.</example>
+                <example correction="höchsten Temperaturen">Nur bei den <marker>wärmsten Temperaturen</marker> zieht es mich nach draußen.</example>
+                <example>Bei Temperaturen um 25° C ist es warm.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">kalt</token>
+                    <token inflected="yes">Temperatur</token>
+                </pattern>
+                <message>Temperaturen sind weder heiß noch kalt oder warm, sondern hoch, tief, niedrig, sommerlich, etc.</message>
+                <suggestion><match no="1" postag="ADJ.*" postag_regexp="yes">tief</match> \2</suggestion>
+                <suggestion><match no="1" postag="ADJ.*" postag_regexp="yes">niedrig</match> \2</suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="ADJ.*" postag_regexp="yes">winterlich</match> \2</suggestion>
+                <example correction="tiefen Temperaturen|niedrigen Temperaturen|winterlichen Temperaturen">Die <marker>kalten Temperaturen</marker> werden im Winter erreicht.</example>
+                <example correction="tiefsten Temperaturen|niedrigsten Temperaturen|winterlichsten Temperaturen">Die <marker>kältesten Temperaturen</marker> werden im Winter erreicht.</example>
+                <example>Bei Temperaturen um 25° C ist es warm.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="HANDELN_DARUM_DARÜBER" name="handeln darum/darüber (davon)" default="temp_off">
             <rule>
                 <antipattern>
@@ -43559,7 +43558,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>noch</token>
                     <token>mühen</token>
                 </pattern>
-                <message>&subanfang; <suggestion><match no="1"/> <match case_conversion="startupper" no="2"/> <match case_conversion="alllower" no="3"/> <match case_conversion="startupper" no="4"/></suggestion>&subende;</message>
+                <message>&subanfang;<suggestion><match no="1"/> <match case_conversion="startupper" no="2"/> <match case_conversion="alllower" no="3"/> <match case_conversion="startupper" no="4"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="weder Kosten noch Mühen">Wir haben <marker>weder Kosten noch mühen</marker> gescheut.</example>
             </rule>
@@ -47223,7 +47222,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="SENT_START"/>
                 <token postag="VER:2:SIN.*" postag_regexp="yes"/>
                 <token skip="-1">du</token>
-                <token>[0-9].*</token>
+                <token regexp="yes">[0-9].*</token>
                 <token>.</token>
                 <token skip="-1" postag="SUB:.+" postag_regexp="yes"/>
                 <token>?</token>
@@ -47239,7 +47238,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="SENT_START"/>
                 <token regexp="yes">kennst|weißt|siehst</token>
                 <token>du</token>
-                <token postag="ADV:MOD" postag_regexp="yes"/>
+                <token postag="ADV:MOD"/>
             </antipattern>
             <antipattern>
                 <token postag="SENT_START"/>

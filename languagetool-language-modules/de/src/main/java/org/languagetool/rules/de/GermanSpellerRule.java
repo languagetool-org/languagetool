@@ -124,6 +124,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("wiederhall(e|st|t|en|te|ten)?", "wieder", "wider");
     putRepl("wiedersetz(e|t|en|te|ten)?", "wieder", "wider");
     putRepl("wiederstreb(e|st|t|en|te|ten)?", "wieder", "wider");
+    put("bekomms", "bekomm es");
     put("gesynct", "synchronisiert");
     put("gesynced", "synchronisiert");
     put("gesyncht", "synchronisiert");
@@ -2387,6 +2388,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Sa-So": return topMatch("Sa.–So.");
       case "Achso": return topMatch("Ach so");
       case "achso": return topMatch("ach so");
+      case "unrelevant": return topMatch("irrelevant");
     }
     return Collections.emptyList();
   }
