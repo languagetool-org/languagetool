@@ -25140,6 +25140,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule default="temp_off">
                 <antipattern>
+                    <token>an</token>
+                    <token>und</token>
+                    <token>für</token>
+                    <token>sich</token>
+                    <token>schon</token>
+                </antipattern>
+                <antipattern>
+                    <token>an</token>
+                    <token>und</token>
+                    <token>für</token>
+                    <token>sich</token>
+                    <token skip="-1" inflected="yes">haben</token>
+                    <token postag="PRO:PER:.+" postag_regexp="yes"/>
+                    <token postag="PRO:POS:.+" postag_regexp="yes"/>
+                    <token postag="SUB:.+" postag_regexp="yes"/>
+                    <token postag="NEG"/>
+                </antipattern>
+                <antipattern>
+                    <token>an</token>
+                    <token>und</token>
+                    <token>für</token>
+                    <token>sich</token>
+                    <token skip="-1" inflected="yes">haben</token>
+                    <token postag="PRO:PER:.+" postag_regexp="yes"/>
+                    <token postag="PRO:PER:.+" postag_regexp="yes"/>
+                    <token postag="NEG"/>
+                </antipattern>
+                <antipattern>
                     <token min="0">schon</token>
                     <token>an</token>
                     <token>und</token>
@@ -25157,8 +25185,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Die Formulierung 'an und für sich' wird häufig umgangssprachlich verwendet. Möchten Sie es durch eine Alternative ersetzen, um Ihren Text formeller und prägnanter zu machen?</message>
                 <suggestion>weitestgehend</suggestion>
                 <suggestion>im Grunde</suggestion>
-                <suggestion>letztlich</suggestion>
-                <example correction="weitestgehend|im Grunde|letztlich">Unser Urlaub war <marker>an und für sich</marker> in Ordnung.</example>
+                <example correction="weitestgehend|im Grunde">Unser Urlaub war <marker>an und für sich</marker> in Ordnung.</example>
+                <example>An und für sich habe ich es nicht so mit der Pünktlichkeit.</example>
+                <example>An und für sich hat es meine Familie nicht so mit der Pünktlichkeit.</example>
+                <example>Der Lösungsweg ist an und für sich schon in Ordnung.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MEHR_ALS_ZAL_PLUS" name="mehr als 10+ (10)">
