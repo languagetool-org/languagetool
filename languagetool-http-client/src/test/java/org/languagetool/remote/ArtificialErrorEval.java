@@ -73,7 +73,6 @@ public class ArtificialErrorEval {
         undirectional = true;
       }
       if (args[k].contentEquals("-r")) {
-
         onlyRules = Arrays.asList(args[k + 1].split(","));
       }
     }
@@ -229,10 +228,10 @@ public class ArtificialErrorEval {
             if (replacement.contains(expectedSuggestion.strip())) {
               containsDesiredSuggestion = true;
             }
-          }
-          if (!containsDesiredSuggestion) {
-            continue;
-          }
+          } 
+        }
+        if (!containsDesiredSuggestion) {
+          continue;
         }
         if (subId != null) {
           ruleIDs.add(match.getRuleId() + "[" + match.getRuleSubId().get() + "]");
