@@ -219,6 +219,18 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">On a <marker>vu</marker> le chat partir.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="D.*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="N.*" postag_regexp="yes"/>
+                    </marker>
+                    <token regexp="yes">les?|la</token>
+                    <token regexp="yes">plus|moins|mieux</token>
+                    <token postag="V.* ppa.*|V.* inf" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">La différence est dans le fond de comparer les <marker>partis</marker> les mieux gérer.</example>
+            </rule>
         </rulegroup>
     </category>
 </rules>

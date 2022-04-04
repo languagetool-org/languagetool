@@ -132,6 +132,16 @@ RB => Règles Brutes
     </rule>
     <!-- END: numerals -->
     <!-- CATEGORY: remove unusual tags -->
+    <rule id="RACCOURCIS" name="raccourcis">
+        <pattern>
+            <token postag="(P\+)?D . s" postag_regexp="yes"/>
+            <token postag="J m sp"></token>
+            <marker>
+                <token postag="N m p"/>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="V (ind|imp|sub).*"/>
+    </rule>
     <rulegroup id="BANANES" name="bananes">
         <rule>
             <pattern>
