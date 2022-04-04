@@ -225,7 +225,8 @@ public class ArtificialErrorEval {
         boolean containsDesiredSuggestion = false;
         if (replacements != null) {
           for (String replacement : replacements) {
-            if (replacement.contains(expectedSuggestion.strip())) {
+            // FIXME; if (replacement.contains(expectedSuggestion.strip())) {
+            if (replacement.contains(expectedSuggestion.trim())) {
               containsDesiredSuggestion = true;
             }
           } 
