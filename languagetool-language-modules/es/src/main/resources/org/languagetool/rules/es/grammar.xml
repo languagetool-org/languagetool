@@ -142,17 +142,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="MAYUSCULAS_INICIO_FRASE" name="mayúsculas a principio de frase">
             <antipattern>
                 <token regexp="yes">\p{Lu}\p{Lu}\p{Lu}?</token>
-                <token min="0" regexp="yes">\p{P}|\p{Lu}|\d+</token>
-                <token regexp="yes">\p{Lu}*</token>
+                <token min="0" regexp="yes">\p{P}|\p{Lu}|[\dºª]+</token>
+                <token regexp="yes">\p{Lu}[\p{Lu}-]*</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">\p{Lu}\p{Lu}\p{Lu}?</token>
                 <token regexp="yes">\p{P}</token>
-                <token regexp="yes">\d+</token>
+                <token regexp="yes">[\dºª]+</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">\p{Lu}\p{Lu}\p{Lu}?<exception regexp="yes">EL|UN</exception></token>
-                <token regexp="yes">\d+</token>
+                <token regexp="yes">[\dºª]+</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">\p{Lu}\p{Lu}\p{Lu}?</token>
@@ -203,6 +203,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>UN (01) PASAPORTE</example>
             <example>LAS 3 LEYES</example>
             <example>HOY A LAS 7 PM.</example>
+            <example>LA 1ª PERSONA.</example>
+            <example>LOS E-BOOKS</example>
         </rule>
         <rule id="ESO" name="ESO (Educación Secundaria Obligatoria">
             <antipattern>
