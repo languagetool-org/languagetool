@@ -24543,6 +24543,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Stil -->
     <!-- ====================================================================== -->
     <category id="STYLE" name="Stil" type="style">
+        <rule id="ARGUMENT_ANBRINGEN" name="ein Argument anbringen" default="temp_off">
+            <antipattern>
+                <token inflected="yes" skip="-1">bringen</token>
+                <token inflected="yes" skip="-1">führen</token>
+                <token inflected="yes" skip="-1">Argument</token>
+                <token>an</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                <token inflected="yes" skip="-1">bringen</token>
+                </marker>
+                <token inflected="yes" skip="-1">Argument</token>
+                <token>an</token>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="1" postag="(.*)(NON|SFT)" postag_regexp="yes"  postag_replace="$1.*">führen</match></suggestion> ein Argument an?</message>
+            <example correction="führt">Der Artikel <marker>bringt</marker> das Argument an, dass...</example>
+            <example correction="führte">Der Artikel <marker>brachte</marker> ein Argument an.</example>
+            <example correction="führt">Der Autor <marker>bringt</marker> geschickt mehrere Argumente zum Thema an.</example>
+            <example correction="führen">Die Autoren des Artikels <marker>bringen</marker> geschickt mehrere Argumente zum Thema an.</example>
+        </rule>
         <rulegroup id="KALTE_TEMPERATUR" name="heiße / kalte (hohe / niedrige) Temperatur">
             <short>Semantischer Fehler</short>
             <rule>
