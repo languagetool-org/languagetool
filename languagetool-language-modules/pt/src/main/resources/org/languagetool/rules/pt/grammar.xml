@@ -338,6 +338,252 @@ title="Easy editing stylesheet" ?>
  <category id='GRAMMAR' name="Gramática Geral" type="grammar">
 
 
+	<!-- ESCREVE-LO escrevê-lo -->
+    <rule id='ACENTUAÇÃO_VOGAL_ÊNCLISE' name="Acentuação vogal ênclise">
+	<!--      Created by Marco A.G.Pinto and Jaume Ortolà with Ricardo Joseh Lima suggestions, Portuguese rule 2022-04-05 (1-JAN-2022+)      -->
+	<!--
+Quero escreve-lo amanhã. → Quero escrevê-lo amanhã.
+	-->	
+      <pattern>
+		  <marker>
+			<token postag='VMIP3S0|VMM02S0' postag_regexp='yes'>
+			<exception regexp='yes'>.*[àáãâèéêìíîòóõôùúû]</exception>
+		  </token>		
+		  </marker>
+		  <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
+		  <token regexp='yes' spacebefore='no'>l[ao]s?</token>
+      </pattern>
+	  <message>Quando a ênclise é formada por 'la', 'las', 'lo' ou 'los', a vogal que a precede, antes do hífen, é acentuada</message>
+      <suggestion><match no="1" postag="VMIP3S0|VMM02S0" postag_regexp="yes" postag_replace="VMX0000"/></suggestion>
+      <example correction="escrevê">Ele vai <marker>escreve</marker>-lo amanhã.</example>
+    </rule>
+
+
+  <rulegroup id='AUXILIARY_VERB_INFINITIVE' name="Erro de concordância: Verbo auxiliar + verbo no infinitivo">
+    <!--      Created by Tiago F. Santos, 2019-03-16      -->
+	<!--      Improved by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-03-29/30/31 (1-JAN-2022+)      -->
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/o-conceito-de-verbo-auxiliar/24055</url>
+      <antipattern>
+          <token postag="VMX0000"/>
+          <token spacebefore='no' regexp='yes'>&hifen;</token>
+          <token spacebefore='no' regexp='yes'>&pronomes_nao_ambiguos;|&pronomes_ambiguos;</token>
+      </antipattern>
+      <antipattern>
+          <token>há</token>
+          <token postag_regexp='yes' postag="Z.+"/>
+      </antipattern>
+      <antipattern>
+          <token>há</token>
+          <token min='0' postag_regexp='yes' postag="[DR].+"/>
+          <token regexp='yes'>&expressoes_de_tempo;</token>
+      </antipattern>
+      <antipattern>
+          <token case_sensitive='yes'>Podemos</token>
+      </antipattern>
+    <rule>
+
+<!-- MARCOAGPINTO 2020-07-14 (2-JUL-2020+) *START* -->
+<!-- "Na semana que vem vou ao cinema." -->
+      <antipattern>
+		  <token postag='CS|PE0CN000|PR0CN000|PT0CN000' postag_regexp='yes'/>
+		  <token postag='VMIP3S0|VMM02S0' postag_regexp='yes'/>
+		  <token postag='V.+' postag_regexp='yes'/>		  
+      </antipattern>	  
+<!-- MARCOAGPINTO 2020-07-14 (2-JUL-2020+) *END* -->
+<!-- MARCOAGPINTO 2020-07-14 (2-JUL-2020+) *START* -->
+<!-- "O que há de vir virá." -->
+<!-- "Se você puder venha conosco." -->
+<!-- "O primeiro a chegar foi Émile Levassor." -->
+<!-- "As entrelinhas do que estava por vir estavam se amarrando entre si." -->
+      <antipattern>
+		  <token postag='CS|PE0CN000|PR0CN000|PT0CN000|SPS00|PP3CS000|PD0FS000|PP3FSA00|CC|PD0CN000' postag_regexp='yes'/>
+		  <token postag='VMN0000|VMN0[13]S0|VMSF[13]S0' postag_regexp='yes'/>
+		  <token postag='V.+' postag_regexp='yes'/>		  
+      </antipattern>	  
+<!-- MARCOAGPINTO 2020-07-14 (2-JUL-2020+) *END* -->
+<!-- MARCOAGPINTO 2020-07-15 (2-JUL-2020+) *START* -->
+<!-- "Cristo não chegou aqui com Colombo, quem chegou foi o Anticristo." -->
+<!-- "Quando ele chegou viu que as Terras Natais tinham sido saqueadas." -->
+      <antipattern>
+	      <token postag='P[RTDE]0CN000|PP3[FM]S000' postag_regexp='yes'/>
+		  <token postag='VMIS3S0' postag_regexp='no'/>
+		  <token postag='VMIS3S0' postag_regexp='no'/>
+		  <token postag='DA0[FM]S0|CS|P[RTE]0CN000' postag_regexp='yes'/>
+      </antipattern>
+      <!-- "A primeira mulher que eu vi foi numa revista." -->
+      <antipattern>
+	      <token postag='CS|P[RTE]0CN000' postag_regexp='yes'/>
+		  <token min="0" max="1" postag='PP1CSN00' postag_regexp='no'/>
+		  <token postag='VMX0000|VMIS1S0' postag_regexp='yes'/>
+		  <token postag='VMIS3S0' postag_regexp='no'/>
+		  <token regexp='yes'>a|o|como|na|no|numa|num</token>
+      </antipattern>	  
+	  <!-- "A última vez que nos vimos foi no aniversário da Ana." -->
+      <antipattern>
+		  <token postag='CS|P[RTE]0CN000' postag_regexp='yes'/>
+	      <token min="0" max="1" regexp='no'>nos</token>
+		  <token postag='VMI[SP]1P0' postag_regexp='yes'/>
+		  <token postag='VMIS3S0' postag_regexp='no'/>
+		  <token regexp='yes'>a|o|como|na|no|numa|num</token>
+      </antipattern>	  
+<!-- MARCOAGPINTO 2020-07-15 (2-JUL-2020+) *END* -->
+<!-- MARCOAGPINTO 2021-01-24 (1-JAN-2021+) *START* -->
+<!--
+Já cá ando há mais de meio século.
+Foi nesse pequeno país que a civilização ocidental começou há mais de dois mil e oitocentos anos.
+-->
+      <antipattern>
+		  <token postag='V.+' postag_regexp='yes'/>
+		  <and>
+			<token inflected='yes'>haver</token>
+			<token postag='VMIP3S0|VMM02S0' postag_regexp='yes'/>
+		  </and>
+		  <token postag='RG' postag_regexp='no'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2021-01-24 (1-JAN-2021+) *END* -->
+<!-- MARCOAGPINTO 2021-01-26 (1-JAN-2021+) *START* -->
+<!--
+Tudo o que consegui foi um punhado de contratempos.
+Tudo o que conseguimos foi um punhado de contratempos.
+Nós conseguimos hoje o que não se conseguia há séculos.
+Você poderia refazer esse exercício?
+Acredita-se os que primeiros habitantes da Coreia chegaram há aproximadamente 500 mil anos.
+Os que já vieram estão no salão.
+-->
+      <antipattern>
+		  <token postag='V.+' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='NP.+|SPS.+|VMIF3S0|VMN03P0'/>
+		  </token>
+		  <token postag='V.+' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='NP.+|SPS.+|VMX0000|VMIP2P0|VMIS1S0|VMM02P0'/>
+			<exception postag_regexp='yes' postag='VMII[123]S0'/>
+		  </token>
+		  <token postag='DA.+|DD.+|DI.+|SPS.+|RG|VMN0000' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='CC|AQ.+'/>
+		  </token>
+      </antipattern>
+<!-- MARCOAGPINTO 2021-01-26 (1-JAN-2021+) *END* -->
+
+<!-- MARCOAGPINTO 2022-03-29/30 (1-JAN-2022+) *START* -->
+<!--
+IT APPEAR IN TWO PLACES! 1/2
+Eu realmente quero ler esse livro, pois parece ter uma história que podemos aprecia-la.
+Caso o mesmo volte a ficar disponível, poderemos notifica-lo, bastando para tal que nos indique o seu endereço de email.
+Desculpe, mas não posso considera-los como irmãos em Cristo Jesus.
+Quando poderei revê-lo?
+Tente envia-lo novamente, por favor.
+Agora imagine que esse é um anencéfalo: como devemos trata-lo?
+Quero revê-la.
+Se Jesus voltar fico-me pelas modalidades até ele sair.
+Apenas por curiosidade comecei a coloca-las em um mapa através do Google Maps.
+-->
+      <antipattern>
+		<token postag='VMIP[13]S0|VMM02S0|VMII.S.+' postag_regexp='yes'/>
+		<token min="0" max="1" regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
+		<token min="0" max="1" regexp='yes'>l[ao]s?|lh[aeo]s?|n[ao]s?|me|se|te|vos</token>
+      </antipattern>
+      <antipattern>
+		<token postag='VMG0000' postag_regexp='no'/>
+		<token postag='_PUNCT' postag_regexp='no'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-03-29/30 (1-JAN-2022+) *END* -->
+
+      <pattern>
+          <token inflected="yes" regexp='yes'>&verbos_auxiliares_aspectuais;|&verbos_auxiliares_modais;
+            <exception inflected='yes'>ser</exception>
+            <exception negate_pos='yes' postag_regexp="yes" postag="V.+"/>
+    <!--exception regexp='yes'>quer|fora</exception--></token>
+          <token postag="V.+" postag_regexp='yes'>
+            <exception regexp='yes'>é|há</exception><!-- XXX informal and only usually only used in spoken language --> <!-- MARCOAGPINTO 2021-01-26 (1-JAN-2021+) - Added "há" -->
+            <exception postag="VM[NG]0000|VMP00.." postag_regexp="yes"/>
+            <exception negate_pos='yes' postag_regexp="yes" postag="V.+"/></token>
+      </pattern>
+      <message>Verbos auxiliares devem ser seguidos de formas verbais no infinitivo ou no gerúndio. Se esse não é o caso, verifique se está faltando uma vírgula entre os dois verbos.</message>
+        <suggestion>\1 <match no='2' postag='VMN0000'/></suggestion>
+      <example correction="vão dormir">Elas <marker>vão dormi</marker> agora.</example>
+      <example>Podemos acompanhá-lo em sua caminhada?</example>
+      <example>É claro que isso foi há muito tempo atrás.</example>
+      <example>Seu poder prorrogou a partir de Mashhad, no oeste da Caxemira, para o…</example>
+      <example>Ela tentou persuadi-lo a ir com ela.</example>
+      <example>Ele começou há seis anos.</example>
+      <example>Não podem é impor que alguém seja forçado a trabalhar.</example>
+
+	  <example>Já cá <marker>ando há</marker> mais de meio século.</example>
+	  <example>Foi nesse pequeno país que a civilização ocidental começou há mais de dois mil e oitocentos anos.</example>
+
+	  <example>Tudo o que <marker>consegui foi</marker> um punhado de contratempos.</example>
+	  <example>Tudo o que conseguimos foi um punhado de contratempos.</example>
+	  <example>Nós conseguimos hoje o que não se conseguia há séculos.</example>
+	  <example>Você poderia refazer esse exercício?</example>
+	  <example>Acredita-se os que primeiros habitantes da Coreia chegaram há aproximadamente 500 mil anos.</example>
+	  <example>Os que já vieram estão no salão.</example>
+
+	  <example>Eu realmente quero ler esse livro, pois parece ter uma história que podemos aprecia-la.</example>
+	  <example>Caso o mesmo volte a ficar disponível, poderemos notifica-lo, bastando para tal que nos indique o seu endereço de email.</example>
+	  <example>Desculpe, mas não posso considera-los como irmãos em Cristo Jesus.</example>
+	  <example>Quando poderei revê-lo?</example>
+	  <example>Tente envia-lo novamente, por favor.</example>
+	  <example>Agora imagine que esse é um anencéfalo: como devemos trata-lo?</example>
+	  <example>Quero revê-la.</example>
+	  <example>Se Jesus voltar fico-me pelas modalidades até ele sair.</example>
+	  <example>Apenas por curiosidade comecei a coloca-las em um mapa através do Google Maps.</example>
+    </rule>
+    <rule>
+
+<!-- MARCOAGPINTO 2022-03-29/30 (1-JAN-2022+) *START* -->
+<!--
+IT APPEAR IN TWO PLACES! 2/2
+Eu realmente quero ler esse livro, pois parece ter uma história que podemos aprecia-la.
+Caso o mesmo volte a ficar disponível, poderemos notifica-lo, bastando para tal que nos indique o seu endereço de email.
+Desculpe, mas não posso considera-los como irmãos em Cristo Jesus.
+Quando poderei revê-lo?
+Tente envia-lo novamente, por favor.
+Agora imagine que esse é um anencéfalo: como devemos trata-lo?
+Quero revê-la.
+Se Jesus voltar fico-me pelas modalidades até ele sair.
+Apenas por curiosidade comecei a coloca-las em um mapa através do Google Maps.
+-->
+      <antipattern>
+		<token postag='VMIP[13]S0|VMM02S0|VMII.S.+' postag_regexp='yes'/>
+		<token min="0" max="1" regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
+		<token min="0" max="1" regexp='yes'>l[ao]s?|lh[aeo]s?|n[ao]s?|me|se|te|vos</token>
+      </antipattern>
+      <antipattern>
+		<token postag='VMG0000' postag_regexp='no'/>
+		<token postag='_PUNCT' postag_regexp='no'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-03-29/30 (1-JAN-2022+) *END* -->
+
+      <pattern>
+          <token inflected="yes" regexp='yes'>&verbos_auxiliares_aspectuais;|&verbos_auxiliares_modais;
+            <exception inflected='yes'>ser</exception>
+            <exception negate_pos='yes' postag_regexp="yes" postag="V.+"/>
+    <!--exception regexp='yes'>quer|fora</exception--></token>
+          <token regexp='yes'>de|a</token>
+          <token postag="V.+" postag_regexp='yes'>
+            <exception postag_regexp="no" postag="VMN0000"/>
+            <exception negate_pos='yes' postag_regexp="yes" postag="V.+"/></token>
+      </pattern>
+      <message>Verbos auxiliares devem ser seguidos de formas verbais no infinitivo ou no gerúndio. Se esse não é o caso, verifique se está faltando uma vírgula entre os dois verbos.</message>
+        <suggestion>\1 \2 <match no='3' postag='VMN0000'/></suggestion>
+      <example correction="comecei a escrever">Já <marker>comecei a escreve</marker> o livro.</example>
+      <example correction="comecei a escrever">Já <marker>comecei a escrevendo</marker> o livro.</example>
+    <!--example>No começo ele a odiava, mas aos poucos acabou a amando.</example--><!-- XXX This is correct but rare. Try to fix this -->
+      <example>É um trabalho que vem de há muitos anos.</example>
+
+	  <example>Eu realmente quero ler esse livro, pois parece ter uma história que podemos aprecia-la.</example>
+	  <example>Caso o mesmo volte a ficar disponível, poderemos notifica-lo, bastando para tal que nos indique o seu endereço de email.</example>
+	  <example>Desculpe, mas não posso considera-los como irmãos em Cristo Jesus.</example>
+	  <example>Quando poderei revê-lo?</example>
+	  <example>Tente envia-lo novamente, por favor.</example>
+	  <example>Agora imagine que esse é um anencéfalo: como devemos trata-lo?</example>
+	  <example>Quero revê-la.</example>
+	  <example>Se Jesus voltar fico-me pelas modalidades até ele sair.</example>
+	  <example>Apenas por curiosidade comecei a coloca-las em um mapa através do Google Maps.</example>
+    </rule>
+  </rulegroup>
+
+
 	<!-- A À -->
     <rulegroup id='ERROS_DE_CRASE_MARCOAGPINTO' name="Erros de crase (Marco A.G.Pinto)">
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-17 (1-JAN-2022+)      -->
@@ -2446,229 +2692,6 @@ BEFORE:4586
     </rule>
   </rulegroup>
 
-  <rulegroup id='AUXILIARY_VERB_INFINITIVE' name="Erro de concordância: Verbo auxiliar + verbo no infinitivo">
-    <!--      Created by Tiago F. Santos, 2019-03-16      -->
-	<!--      Improved by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-03-29/30/31 (1-JAN-2022+)      -->
-      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/o-conceito-de-verbo-auxiliar/24055</url>
-      <antipattern>
-          <token postag="VMX0000"/>
-          <token spacebefore='no' regexp='yes'>&hifen;</token>
-          <token spacebefore='no' regexp='yes'>&pronomes_nao_ambiguos;|&pronomes_ambiguos;</token>
-      </antipattern>
-      <antipattern>
-          <token>há</token>
-          <token postag_regexp='yes' postag="Z.+"/>
-      </antipattern>
-      <antipattern>
-          <token>há</token>
-          <token min='0' postag_regexp='yes' postag="[DR].+"/>
-          <token regexp='yes'>&expressoes_de_tempo;</token>
-      </antipattern>
-      <antipattern>
-          <token case_sensitive='yes'>Podemos</token>
-      </antipattern>
-    <rule>
-
-<!-- MARCOAGPINTO 2020-07-14 (2-JUL-2020+) *START* -->
-<!-- "Na semana que vem vou ao cinema." -->
-      <antipattern>
-		  <token postag='CS|PE0CN000|PR0CN000|PT0CN000' postag_regexp='yes'/>
-		  <token postag='VMIP3S0|VMM02S0' postag_regexp='yes'/>
-		  <token postag='V.+' postag_regexp='yes'/>		  
-      </antipattern>	  
-<!-- MARCOAGPINTO 2020-07-14 (2-JUL-2020+) *END* -->
-<!-- MARCOAGPINTO 2020-07-14 (2-JUL-2020+) *START* -->
-<!-- "O que há de vir virá." -->
-<!-- "Se você puder venha conosco." -->
-<!-- "O primeiro a chegar foi Émile Levassor." -->
-<!-- "As entrelinhas do que estava por vir estavam se amarrando entre si." -->
-      <antipattern>
-		  <token postag='CS|PE0CN000|PR0CN000|PT0CN000|SPS00|PP3CS000|PD0FS000|PP3FSA00|CC|PD0CN000' postag_regexp='yes'/>
-		  <token postag='VMN0000|VMN0[13]S0|VMSF[13]S0' postag_regexp='yes'/>
-		  <token postag='V.+' postag_regexp='yes'/>		  
-      </antipattern>	  
-<!-- MARCOAGPINTO 2020-07-14 (2-JUL-2020+) *END* -->
-<!-- MARCOAGPINTO 2020-07-15 (2-JUL-2020+) *START* -->
-<!-- "Cristo não chegou aqui com Colombo, quem chegou foi o Anticristo." -->
-<!-- "Quando ele chegou viu que as Terras Natais tinham sido saqueadas." -->
-      <antipattern>
-	      <token postag='P[RTDE]0CN000|PP3[FM]S000' postag_regexp='yes'/>
-		  <token postag='VMIS3S0' postag_regexp='no'/>
-		  <token postag='VMIS3S0' postag_regexp='no'/>
-		  <token postag='DA0[FM]S0|CS|P[RTE]0CN000' postag_regexp='yes'/>
-      </antipattern>
-      <!-- "A primeira mulher que eu vi foi numa revista." -->
-      <antipattern>
-	      <token postag='CS|P[RTE]0CN000' postag_regexp='yes'/>
-		  <token min="0" max="1" postag='PP1CSN00' postag_regexp='no'/>
-		  <token postag='VMX0000|VMIS1S0' postag_regexp='yes'/>
-		  <token postag='VMIS3S0' postag_regexp='no'/>
-		  <token regexp='yes'>a|o|como|na|no|numa|num</token>
-      </antipattern>	  
-	  <!-- "A última vez que nos vimos foi no aniversário da Ana." -->
-      <antipattern>
-		  <token postag='CS|P[RTE]0CN000' postag_regexp='yes'/>
-	      <token min="0" max="1" regexp='no'>nos</token>
-		  <token postag='VMI[SP]1P0' postag_regexp='yes'/>
-		  <token postag='VMIS3S0' postag_regexp='no'/>
-		  <token regexp='yes'>a|o|como|na|no|numa|num</token>
-      </antipattern>	  
-<!-- MARCOAGPINTO 2020-07-15 (2-JUL-2020+) *END* -->
-<!-- MARCOAGPINTO 2021-01-24 (1-JAN-2021+) *START* -->
-<!--
-Já cá ando há mais de meio século.
-Foi nesse pequeno país que a civilização ocidental começou há mais de dois mil e oitocentos anos.
--->
-      <antipattern>
-		  <token postag='V.+' postag_regexp='yes'/>
-		  <and>
-			<token inflected='yes'>haver</token>
-			<token postag='VMIP3S0|VMM02S0' postag_regexp='yes'/>
-		  </and>
-		  <token postag='RG' postag_regexp='no'/>
-      </antipattern>
-<!-- MARCOAGPINTO 2021-01-24 (1-JAN-2021+) *END* -->
-<!-- MARCOAGPINTO 2021-01-26 (1-JAN-2021+) *START* -->
-<!--
-Tudo o que consegui foi um punhado de contratempos.
-Tudo o que conseguimos foi um punhado de contratempos.
-Nós conseguimos hoje o que não se conseguia há séculos.
-Você poderia refazer esse exercício?
-Acredita-se os que primeiros habitantes da Coreia chegaram há aproximadamente 500 mil anos.
-Os que já vieram estão no salão.
--->
-      <antipattern>
-		  <token postag='V.+' postag_regexp='yes'>
-            <exception postag_regexp='yes' postag='NP.+|SPS.+|VMIF3S0|VMN03P0'/>
-		  </token>
-		  <token postag='V.+' postag_regexp='yes'>
-            <exception postag_regexp='yes' postag='NP.+|SPS.+|VMX0000|VMIP2P0|VMIS1S0|VMM02P0'/>
-			<exception postag_regexp='yes' postag='VMII[123]S0'/>
-		  </token>
-		  <token postag='DA.+|DD.+|DI.+|SPS.+|RG|VMN0000' postag_regexp='yes'>
-            <exception postag_regexp='yes' postag='CC|AQ.+'/>
-		  </token>
-      </antipattern>
-<!-- MARCOAGPINTO 2021-01-26 (1-JAN-2021+) *END* -->
-
-<!-- MARCOAGPINTO 2022-03-29/30 (1-JAN-2022+) *START* -->
-<!--
-IT APPEAR IN TWO PLACES! 1/2
-Eu realmente quero ler esse livro, pois parece ter uma história que podemos aprecia-la.
-Caso o mesmo volte a ficar disponível, poderemos notifica-lo, bastando para tal que nos indique o seu endereço de email.
-Desculpe, mas não posso considera-los como irmãos em Cristo Jesus.
-Quando poderei revê-lo?
-Tente envia-lo novamente, por favor.
-Agora imagine que esse é um anencéfalo: como devemos trata-lo?
-Quero revê-la.
-Se Jesus voltar fico-me pelas modalidades até ele sair.
-Apenas por curiosidade comecei a coloca-las em um mapa através do Google Maps.
--->
-      <antipattern>
-		<token postag='VMIP[13]S0|VMM02S0|VMII.S.+' postag_regexp='yes'/>
-		<token min="0" max="1" regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
-		<token min="0" max="1" regexp='yes'>l[ao]s?|lh[aeo]s?|n[ao]s?|me|se|te|vos</token>
-      </antipattern>
-      <antipattern>
-		<token postag='VMG0000' postag_regexp='no'/>
-		<token postag='_PUNCT' postag_regexp='no'/>
-      </antipattern>
-<!-- MARCOAGPINTO 2022-03-29/30 (1-JAN-2022+) *END* -->
-
-      <pattern>
-          <token inflected="yes" regexp='yes'>&verbos_auxiliares_aspectuais;|&verbos_auxiliares_modais;
-            <exception inflected='yes'>ser</exception>
-            <exception negate_pos='yes' postag_regexp="yes" postag="V.+"/>
-    <!--exception regexp='yes'>quer|fora</exception--></token>
-          <token postag="V.+" postag_regexp='yes'>
-            <exception regexp='yes'>é|há</exception><!-- XXX informal and only usually only used in spoken language --> <!-- MARCOAGPINTO 2021-01-26 (1-JAN-2021+) - Added "há" -->
-            <exception postag="VM[NG]0000|VMP00.." postag_regexp="yes"/>
-            <exception negate_pos='yes' postag_regexp="yes" postag="V.+"/></token>
-      </pattern>
-      <message>Verbos auxiliares devem ser seguidos de formas verbais no infinitivo ou no gerúndio. Se esse não é o caso, verifique se está faltando uma vírgula entre os dois verbos.</message>
-        <suggestion>\1 <match no='2' postag='VMN0000'/></suggestion>
-      <example correction="vão dormir">Elas <marker>vão dormi</marker> agora.</example>
-      <example>Podemos acompanhá-lo em sua caminhada?</example>
-      <example>É claro que isso foi há muito tempo atrás.</example>
-      <example>Seu poder prorrogou a partir de Mashhad, no oeste da Caxemira, para o…</example>
-      <example>Ela tentou persuadi-lo a ir com ela.</example>
-      <example>Ele começou há seis anos.</example>
-      <example>Não podem é impor que alguém seja forçado a trabalhar.</example>
-
-	  <example>Já cá <marker>ando há</marker> mais de meio século.</example>
-	  <example>Foi nesse pequeno país que a civilização ocidental começou há mais de dois mil e oitocentos anos.</example>
-
-	  <example>Tudo o que <marker>consegui foi</marker> um punhado de contratempos.</example>
-	  <example>Tudo o que conseguimos foi um punhado de contratempos.</example>
-	  <example>Nós conseguimos hoje o que não se conseguia há séculos.</example>
-	  <example>Você poderia refazer esse exercício?</example>
-	  <example>Acredita-se os que primeiros habitantes da Coreia chegaram há aproximadamente 500 mil anos.</example>
-	  <example>Os que já vieram estão no salão.</example>
-
-	  <example>Eu realmente quero ler esse livro, pois parece ter uma história que podemos aprecia-la.</example>
-	  <example>Caso o mesmo volte a ficar disponível, poderemos notifica-lo, bastando para tal que nos indique o seu endereço de email.</example>
-	  <example>Desculpe, mas não posso considera-los como irmãos em Cristo Jesus.</example>
-	  <example>Quando poderei revê-lo?</example>
-	  <example>Tente envia-lo novamente, por favor.</example>
-	  <example>Agora imagine que esse é um anencéfalo: como devemos trata-lo?</example>
-	  <example>Quero revê-la.</example>
-	  <example>Se Jesus voltar fico-me pelas modalidades até ele sair.</example>
-	  <example>Apenas por curiosidade comecei a coloca-las em um mapa através do Google Maps.</example>
-    </rule>
-    <rule>
-
-<!-- MARCOAGPINTO 2022-03-29/30 (1-JAN-2022+) *START* -->
-<!--
-IT APPEAR IN TWO PLACES! 2/2
-Eu realmente quero ler esse livro, pois parece ter uma história que podemos aprecia-la.
-Caso o mesmo volte a ficar disponível, poderemos notifica-lo, bastando para tal que nos indique o seu endereço de email.
-Desculpe, mas não posso considera-los como irmãos em Cristo Jesus.
-Quando poderei revê-lo?
-Tente envia-lo novamente, por favor.
-Agora imagine que esse é um anencéfalo: como devemos trata-lo?
-Quero revê-la.
-Se Jesus voltar fico-me pelas modalidades até ele sair.
-Apenas por curiosidade comecei a coloca-las em um mapa através do Google Maps.
--->
-      <antipattern>
-		<token postag='VMIP[13]S0|VMM02S0|VMII.S.+' postag_regexp='yes'/>
-		<token min="0" max="1" regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
-		<token min="0" max="1" regexp='yes'>l[ao]s?|lh[aeo]s?|n[ao]s?|me|se|te|vos</token>
-      </antipattern>
-      <antipattern>
-		<token postag='VMG0000' postag_regexp='no'/>
-		<token postag='_PUNCT' postag_regexp='no'/>
-      </antipattern>
-<!-- MARCOAGPINTO 2022-03-29/30 (1-JAN-2022+) *END* -->
-
-      <pattern>
-          <token inflected="yes" regexp='yes'>&verbos_auxiliares_aspectuais;|&verbos_auxiliares_modais;
-            <exception inflected='yes'>ser</exception>
-            <exception negate_pos='yes' postag_regexp="yes" postag="V.+"/>
-    <!--exception regexp='yes'>quer|fora</exception--></token>
-          <token regexp='yes'>de|a</token>
-          <token postag="V.+" postag_regexp='yes'>
-            <exception postag_regexp="no" postag="VMN0000"/>
-            <exception negate_pos='yes' postag_regexp="yes" postag="V.+"/></token>
-      </pattern>
-      <message>Verbos auxiliares devem ser seguidos de formas verbais no infinitivo ou no gerúndio. Se esse não é o caso, verifique se está faltando uma vírgula entre os dois verbos.</message>
-        <suggestion>\1 \2 <match no='3' postag='VMN0000'/></suggestion>
-      <example correction="comecei a escrever">Já <marker>comecei a escreve</marker> o livro.</example>
-      <example correction="comecei a escrever">Já <marker>comecei a escrevendo</marker> o livro.</example>
-    <!--example>No começo ele a odiava, mas aos poucos acabou a amando.</example--><!-- XXX This is correct but rare. Try to fix this -->
-      <example>É um trabalho que vem de há muitos anos.</example>
-
-	  <example>Eu realmente quero ler esse livro, pois parece ter uma história que podemos aprecia-la.</example>
-	  <example>Caso o mesmo volte a ficar disponível, poderemos notifica-lo, bastando para tal que nos indique o seu endereço de email.</example>
-	  <example>Desculpe, mas não posso considera-los como irmãos em Cristo Jesus.</example>
-	  <example>Quando poderei revê-lo?</example>
-	  <example>Tente envia-lo novamente, por favor.</example>
-	  <example>Agora imagine que esse é um anencéfalo: como devemos trata-lo?</example>
-	  <example>Quero revê-la.</example>
-	  <example>Se Jesus voltar fico-me pelas modalidades até ele sair.</example>
-	  <example>Apenas por curiosidade comecei a coloca-las em um mapa através do Google Maps.</example>
-    </rule>
-  </rulegroup>
 
 	<!-- COME comer-->
     <rule id='VERBO_INFINITIVO' name="Usar verbo no infinitivo" type="style">
