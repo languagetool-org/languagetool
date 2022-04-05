@@ -87,7 +87,7 @@ public class RuleMatchesAsJsonSerializer {
   public String ruleMatchesToJson(List<RuleMatch> matches, List<RuleMatch> hiddenMatches, AnnotatedText text, int contextSize,
                                   DetectedLanguage detectedLang, String incompleteResultsReason, boolean showPremiumHint) {
     return ruleMatchesToJson2(Collections.singletonList(new CheckResults(matches, Collections.emptyList())),
-            hiddenMatches, text, contextSize, detectedLang, incompleteResultsReason, showPremiumHint);
+            hiddenMatches, text, contextSize, detectedLang, incompleteResultsReason, showPremiumHint, null);
   }
 
     /**
@@ -96,7 +96,7 @@ public class RuleMatchesAsJsonSerializer {
      * @since 5.3
      */
   public String ruleMatchesToJson2(List<CheckResults> res, List<RuleMatch> hiddenMatches, AnnotatedText text, int contextSize,
-                                   DetectedLanguage detectedLang, String incompleteResultsReason, boolean showPremiumHint) {
+                                   DetectedLanguage detectedLang, String incompleteResultsReason, boolean showPremiumHint, JLanguageTool.Mode mode) {
     ContextTools contextTools = new ContextTools();
     contextTools.setEscapeHtml(false);
     contextTools.setContextSize(contextSize);
@@ -113,6 +113,9 @@ public class RuleMatchesAsJsonSerializer {
           writeMatchesSection("hiddenMatches", g, Collections.singletonList(new CheckResults(hiddenMatches, Collections.emptyList())), text, contextTools);
         }
         writeIgnoreRanges(g, res);
+        if (mode == JLanguageTool.Mode.TEXTLEVEL_ONLY) {
+          writeSentenceRanges(g, res);
+        }
         g.writeEndObject();
       }
     } catch (IOException e) {
@@ -212,6 +215,19 @@ public class RuleMatchesAsJsonSerializer {
         g.writeStringField("code", range.getLang());
         g.writeEndObject();
         g.writeEndObject();
+      }
+    }
+    g.writeEndArray();
+  }
+
+  private void writeSentenceRanges(JsonGenerator g, List<CheckResults> res) throws IOException {
+    g.writeArrayFieldStart("sentenceRanges");
+    for (CheckResults r : res) {
+      for (SentenceRange range : r.getSentenceRanges()) {
+        g.writeStartArray();
+        g.writeNumber(range.getFromPos());
+        g.writeNumber(range.getToPos());
+        g.writeEndArray();
       }
     }
     g.writeEndArray();
