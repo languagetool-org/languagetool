@@ -10983,6 +10983,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <url>https://www.duden.de/rechtschreibung/Coronavirus</url>
                 <example correction="Coronavirus">Das <marker>Corona Virus</marker> hat 2020 eine Pandemie ausgelöst.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>Long-Covid</token>
+                </pattern>
+                <message>Der Begriff <suggestion>Long Covid</suggestion> bzw. <suggestion>Long COVID</suggestion> wird ohne Bindestrich geschrieben.</message>
+                <url>https://www.duden.de/rechtschreibung/Long_Covid</url>
+                <example correction="Long Covid|Long COVID">Viele Coronaerkrankte leiden noch Wochen danach an <marker>Long-Covid</marker>.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="SOVIEL" name="so viel (soviel)">
             <url>https://www.korrekturen.de/wortliste/soviel.shtml</url>
@@ -26143,6 +26151,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rulegroup id="AL_DENTE" name="Kleinschreibung von 'al dente'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START" />
+                    <marker>
+                        <token>Al</token>
+                        <token>Dente</token>
+                    </marker>
+                </pattern>
+                <message>Diese Beschreibung für Nudeln oder Reis wird kleingeschrieben.</message>
+                <suggestion>Al dente</suggestion>
+                <example correction="Al dente"><marker>Al Dente</marker> ist, wenn der Reis nicht ganz weich ist.</example>
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token>al</token>
+                    <token>dente</token>
+                </antipattern>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">.*[a-z,].*</token>
+                    <marker>
+                        <token regexp="yes">[aA]l</token>
+                        <token regexp="yes">[dD]ente</token>
+                    </marker>
+                </pattern>
+                <message>Diese Beschreibung für Nudeln oder Reis wird kleingeschrieben.</message>
+                <suggestion><match no="2" case_conversion="alllower" /> <match no="3" case_conversion="alllower" /></suggestion>
+                <example correction="al dente">Der Reis ist <marker>Al Dente</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="NICHTS_FUER_UNGUT" name="nichts für Ungut (ungut)">
             <pattern>
                 <token>nichts</token>

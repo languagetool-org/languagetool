@@ -1710,8 +1710,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return singletonList("genommen");
     } else if ("Preis-Leistungsverhältnis".equals(word)) {
       return singletonList("Preis-Leistungs-Verhältnis");
-    } else if ("ausversehen".equals(word)) {
-      return singletonList("aus Versehen");
     } else if ("getz".equals(word)) {
       return Arrays.asList("jetzt", "geht's");
     } else if ("Trons".equals(word)) {
@@ -2388,6 +2386,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Sa-So": return topMatch("Sa.–So.");
       case "Achso": return topMatch("Ach so");
       case "achso": return topMatch("ach so");
+      case "Huskies": return topMatch("Huskys");
+      case "Jedesmal": return topMatch("Jedes Mal");
+      case "jedesmal": return topMatch("jedes Mal");
       case "unrelevant": return topMatch("irrelevant");
     }
     return Collections.emptyList();
