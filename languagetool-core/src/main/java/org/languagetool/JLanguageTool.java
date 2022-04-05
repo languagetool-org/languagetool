@@ -230,7 +230,8 @@ public class JLanguageTool {
 
   public enum Level {
     DEFAULT,
-    PICKY
+    PICKY,
+    ACADEMIC
   }
 
   private static final List<File> temporaryFiles = new ArrayList<>();

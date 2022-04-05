@@ -201,6 +201,8 @@ final class ServerTools {
         level = JLanguageTool.Level.DEFAULT;
       } else if ("picky".equals(param)) {
         level = JLanguageTool.Level.PICKY;
+      } else if ("academic".equals(param)) {
+        level = JLanguageTool.Level.ACADEMIC;
       } else {
         throw new BadRequestException("If 'level' is set, it must be set to 'default' or 'picky'");
       }
