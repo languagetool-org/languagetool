@@ -42481,6 +42481,28 @@ Isto resume todas as forças que atuam sobre o objeto. → Isto resume todas as 
     </rule>
 
 
+	<!-- COMO É O CASO DE como no caso de -->
+    <rule id='SIMPLIFICAR_COMO_É_O_CASO_DO_DA_DAS_DOS_DE_NO_CASO' name="Simplificar: Como é o caso d[ao](s)/de → Como no caso d[ao](s)/de" type="style">
+    <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-04-06 (1-JAN-2022+)      -->
+	<!--
+Como é o caso do Firefox. → Como no caso do Firefox.
+	-->
+      <pattern>
+		<token>como</token>
+		<marker>
+			<token>é</token>
+			<token>o</token>
+		</marker>
+		<token>caso</token>
+		<token regexp='yes'>d[ao]?|de</token>
+		<token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+	  <suggestion>no</suggestion>
+      <example correction="no">Como <marker>é o</marker> caso do Firefox.</example>
+    </rule>
+
+
 	<!-- USAR EXPRESSÕES MAIS SIMPLES SUGERINDO VERBOS NO INFINITIVO -->
     <rulegroup id='SIMPLIFICAR_CONVERTER_PARA_VERBO_INFINITIVO' name="Simplificar: Usar a versão com infinitivo da subordinada" type="style">
     <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-02-04 (1-JAN-2022+)      -->
