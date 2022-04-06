@@ -1243,6 +1243,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Definierungen", "Definitionen");
     putRepl("[Üü]bergrifflich(e[mnrs]?)?", "lich", "ig");
     put("löchen", w -> Arrays.asList("löschen", "löchern", "Köchen"));
+    put("wergen",  w -> Arrays.asList("werfen", "werben", "werten"));
   }
 
   private static void putRepl(String wordPattern, String pattern, String replacement) {
