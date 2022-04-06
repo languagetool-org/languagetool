@@ -142,6 +142,26 @@ RB => Règles Brutes
         </pattern>
         <disambig action="remove" postag="V (ind|imp|sub).*"/>
     </rule>
+    <rulegroup id="POINT1" name="point1">
+        <rule>
+        <pattern>
+            <token>à</token>
+            <marker>
+                <token>point</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="V (ind|imp|sub).*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="N m s">point</token>
+                    <token postag="N f s">barre</token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="BANANES" name="bananes">
         <rule>
             <pattern>
@@ -224,14 +244,14 @@ RB => Règles Brutes
     </rulegroup>
     <rule id="CELA_LA_DESSERT" name="cela la dessert">
         <pattern>
-            <marker>
-                <token postag="R pers suj.*|R dem.*" postag_regexp="yes"/>
+                <token postag="R pers suj 3 . s|R dem.*" postag_regexp="yes"/>
                 <token regexp="yes">la|les?</token>
-            </marker>
+            <marker>
             <and>
                 <token postag="N . s" postag_regexp="yes"/>
                 <token postag="V ind pres 3 s" postag_regexp="yes"/>
             </and>
+            </marker>
         </pattern>
         <disambig action="filter" postag="V ind pres 3 s"/>
     </rule>
@@ -2480,7 +2500,7 @@ RB => Règles Brutes
     </rule>
     <rule name="moteur" id="MOTEUR">
         <pattern>
-            <token postag="N.*" postag_regexp="yes" regexp="yes">pannes?|vidange|huile|essence|température|préparation</token>
+            <token postag="N.*" postag_regexp="yes" regexp="yes">pannes?|voyants?|vidange|huile|essence|température|préparation</token>
             <token postag="N m s">moteur</token>
         </pattern>
         <disambig action="filterall"/>
@@ -3018,8 +3038,7 @@ RB => Règles Brutes
     <rule id="NOM_SENT_START" name="nom sent start">
         <pattern>
             <marker>
-                <token case_sensitive="yes" regexp="yes">Abonnée?s?|Corrigé|Droit|Défilé|Adaptateurs?|Faits?|Junior|Logistique|Objectifs?|Wifi|Gestionnaires?|Adhérente?s?|Adultes?|Amante?s?|Amateurs?|Amatrices?|Animateurs?|Animatrices?|Amie?s?|Animaux|Animal|Apéritifs?|Arrivée|Baie?s?|Bambins?|Blondes?|Brunettes?|Caractéristiques?|Chérie?s?|Cité|Collétif|Collégiales?|Cornées?|Cuvée|Détecteurs?|Enceintes?|Garanties?|Handicapée?s?|Immobilier|Maréchal|Meubles?|Moteurs?|Perspectives?|Plastiques?|Plongée|Points?|Prématurée?s?|Spécialistes?|Techniciens?|Techniques?|Terminale|Thématiques?|Tissu|Vidéos|Parti|Métro</token>
-            </marker>
+                <token case_sensitive="yes" regexp="yes">Abonnée?s?|Corrigé|Droit|Défilé|Adaptateurs?|Faits|Junior|Logistique|Objectifs?|Wifi|Gestionnaires?|Adhérente?s?|Adultes?|Amante?s?|Amateurs?|Amatrices?|Animateurs?|Animatrices?|Amie?s?|Animaux|Animal|Apéritifs?|Arrivée|Baie?s?|Bambins?|Blondes?|Brunettes?|Caractéristiques?|Chérie?s?|Cité|Collétif|Collégiales?|Cornées?|Cuvée|Détecteurs?|Enceintes?|Garanties?|Handicapée?s?|Immobilier|Maréchal|Meubles?|Moteurs?|Perspectives?|Plastiques?|Plongée|Points?|Prématurée?s?|Spécialistes?|Techniciens?|Techniques?|Terminale|Thématiques?|Tissu|Vidéos|Parti|Métro</token></marker>
         </pattern>
         <disambig action="filter" postag="N.*"/>
     </rule>
@@ -6974,7 +6993,7 @@ RB => Règles Brutes
                     <exception regexp="yes">-.*</exception></token>
                 <marker>
                     <token postag="V .*" postag_regexp="yes">
-                        <exception regexp="yes">-.*</exception></token>
+                        <exception regexp="yes">-.*|faites</exception></token>
                 </marker>
             </pattern>
             <disambig action="remove" postag="V.* imp .*"/>
