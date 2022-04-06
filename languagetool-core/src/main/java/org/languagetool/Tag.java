@@ -21,6 +21,6 @@ package org.languagetool;
 public enum Tag {
 
   // use all-lowercase, as im XML:
-  picky, academic
+  picky, academic, clarity, professional, creative
 
 }
