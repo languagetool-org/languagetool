@@ -231,7 +231,10 @@ public class JLanguageTool {
   public enum Level {
     DEFAULT,
     PICKY,
-    ACADEMIC
+    ACADEMIC,
+    CLARITY,
+    PROFESSIONAL,
+    CREATIVE
   }
 
   private static final List<File> temporaryFiles = new ArrayList<>();
