@@ -2389,6 +2389,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Huskies": return topMatch("Huskys");
       case "Jedesmal": return topMatch("Jedes Mal");
       case "jedesmal": return topMatch("jedes Mal");
+      case "Lybien": return topMatch("Libyen");
+      case "Lybiens": return topMatch("Libyens");
       case "unrelevant": return topMatch("irrelevant");
     }
     return Collections.emptyList();

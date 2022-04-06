@@ -112,6 +112,7 @@ public class AgreementRule2 extends Rule {
     asList(token("voll"), token("Sorge")),
     asList(token("Total"), tokenRegex("Tankstellen?")),
     asList(token("Ganz"), token("Gentleman")),
+    asList(token("Kurz"), token("Zeit"), tokenRegex("für|um")), // Kurz Zeit für einen Call?
     asList(token("Golden"), token("Gate")),
     asList(token("Wirtschaftlich"), tokenRegex("Berechtigte[rn]?")),
     asList(token("Russisch"), token("Roulette")),
