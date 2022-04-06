@@ -43547,11 +43547,11 @@ Quer conhecer o mundo todo, mas se der para fazer escala em Paris, a cada voo, m
       </antipattern>
 <!-- MARCOAGPINTO 2022-01-26 (1-JAN-2022+) *END* -->
 
-<!-- MARCOAGPINTO 2022-02-06 (1-JAN-2022+) *START* -->
+<!-- MARCOAGPINTO 2022-02-06 + 2022-04-06 (1-JAN-2022+) *START* -->
 <!--
 HITS IN 600000 SENTENCES:
 BEFORE:8476
- AFTER:8311
+ AFTER:8310
 -->
 <!--
 Nós conseguimos fazê-lo entender.
@@ -43563,9 +43563,11 @@ Fizeram-me ir lá sozinho.
 		<token regexp='no' inflected='yes'>fazer</token>
 		<token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
 		<token regexp='yes' spacebefore='no'>[ao]s?|l[ao]s?|lh[aeo]s?|n[ao]s?|me|se|te|vos</token>
-		<token postag='VMN0000' postag_regexp='no'/>
+		<token postag='VMN0000|VMIP1.+' postag_regexp='yes'>
+			<exception postag_regexp='yes' postag='AQ.+|RG|CS'/> <!-- Can't use NC.+ because it removes the verb "USO", "FEZ-SE USO DE" - 2022-04-06 -->
+		</token>
       </antipattern>
-<!-- MARCOAGPINTO 2022-02-06 (1-JAN-2022+) *END* -->
+<!-- MARCOAGPINTO 2022-02-06 + 2022-04-06 (1-JAN-2022+) *END* -->
 
 <!--
 Ele a fez sua esposa.
