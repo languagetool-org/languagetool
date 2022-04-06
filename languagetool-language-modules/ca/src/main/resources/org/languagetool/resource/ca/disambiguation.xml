@@ -17,6 +17,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <!ENTITY pronom_feble "P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00">
     <!ENTITY mesos_any "gener|febrer|març|abril|maig|juny|juliol|agost|setembre|octubre|novembre|desembre">
     <!ENTITY dies_setmana "dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge">
+    <!ENTITY estacions "primavera|estiu|tardor|hivern">
     <!ENTITY parts_dia "matinada|matí|migdia|tarda|vesprada|horabaixa|vespre|capvespre|nit1|mitjanit">
     <!ENTITY elements_perifrasis_verbals "a|acabar|amb|anar|aplegar|arribar|començar|continuar|de|deixar|deure|en|estar|haver|intentar|mirar|parar|pas|pensar|poder|provar|prosseguir|prou|seguir|soler|tenir|tornar|tractar|venir|voler">
     <!ENTITY elements_perifrasis_verbals2 "aprendre|impedir|aspirar|saber|decidir|proposar|suggerir|semblar|parèixer|aconseguir|recomanar|procurar|tendir|acordar|optar|disposar|resistir|evitar|tardar|trigar|afanyar|fer|bé|consistir">
@@ -16570,13 +16571,13 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <antipattern>
                 <token>com</token>
-                <token postag="D.*" postag_regexp="yes"/>
-                <token regexp="yes" inflected="yes">any|mes|setmana|dècada</token>
+                <token postag="D.*" postag_regexp="yes" min="0"/>
+                <token regexp="yes" inflected="yes">&dies_setmana;|&mesos_any;|&unitats_temps;|&estacions;|&parts_dia;</token>
             </antipattern>
             <pattern>
-                <token regexp="yes" inflected="yes">any|mes|setmana|dècada</token>
+                <token regexp="yes" inflected="yes">&dies_setmana;|&mesos_any;|&unitats_temps;|&estacions;|&parts_dia;</token>
                 <marker>
-                    <token postag="V.P.*" postag_regexp="yes" inflected="yes">passar</token>
+                    <token regexp="yes">(prop)?passa(t|ts|da|des)</token>
                 </marker>
             </pattern>
             <disambig action="add">
