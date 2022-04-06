@@ -29,6 +29,7 @@ import org.languagetool.chunking.EnglishChunker;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.en.*;
+import org.languagetool.rules.en.LongSentenceRule;
 import org.languagetool.rules.neuralnetwork.NeuralNetworkRuleCreator;
 import org.languagetool.rules.neuralnetwork.Word2VecModel;
 import org.languagetool.rules.patterns.PatternRuleLoader;
