@@ -47,7 +47,6 @@ public class LongSentenceRule extends TextLevelRule {
     setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
     setTags(Collections.singletonList(Tag.picky));
-    setUrl(Tools.getUrl("https://languagetool.org/insights/post/sentence-length/"));
     int tmpMaxWords = maxWords;
     if (userConfig != null) {
       int confWords = userConfig.getConfigValueByID(getId());
