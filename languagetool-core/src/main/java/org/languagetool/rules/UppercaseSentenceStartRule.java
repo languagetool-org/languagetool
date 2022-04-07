@@ -43,6 +43,7 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
   private static final Pattern SENTENCE_END1 = Pattern.compile("[.?!…]|");
   private static final Set<String> EXCEPTIONS = new HashSet<>(Arrays.asList(
           "x86",
+          "ⓒ",
           "cc" // cc @daniel => "Cc @daniel" is strange
   ));
 

@@ -73,6 +73,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     "hands free",
     "faggot",
     "faggots",
+    "fuckable",
     "fuck",
     "fucker",
     "fuckhead",

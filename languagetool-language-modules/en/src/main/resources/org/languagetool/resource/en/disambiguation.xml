@@ -9916,10 +9916,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <exception scope="previous" regexp="yes">s?he|it</exception>
                 <exception postag_regexp="yes" postag="RB|NNP|ORD|UH"/>
                 <exception scope="previous" postag="JJ.*" postag_regexp="yes"/>
+                <exception regexp="yes">body|woman</exception>
             </token>
             <marker>
                 <and>
-                    <token postag="VBZ"><exception regexp="yes">is|does|says</exception></token>
+                    <token postag="VBZ"><exception regexp="yes">is|does|says|responds</exception></token>
                     <token postag="NNS">
                         <exception postag_regexp="yes" postag="NNPS?"/><!-- #2393 -->
                     </token>
@@ -10800,7 +10801,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <and>
                     <token postag="JJ.?" postag_regexp="yes">
                         <exception postag="JJ.?|NN.*" negate_pos="yes" postag_regexp="yes"/>
-                        <exception regexp="yes">woman|head|work|material|business</exception>
+                        <exception regexp="yes">woman|head|body|work|material|business</exception>
                     </token>
                     <token postag="NN.*" postag_regexp="yes">
                         <exception regexp="yes">\p{Lu}\p{Ll}+</exception>
