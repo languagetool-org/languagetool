@@ -25528,6 +25528,43 @@ Assistir à TV é um dos meus passatempos favoritos.
     </rule>
 
 
+	<!-- ATE ATÉ -->
+    <rulegroup id='CONFUSÃO_ATE_ATÉ' name="Confusão: ate/até">
+    <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-04-07 (1-JAN-2022+)      -->
+	<!--
+E ate o menino conseguiu fazer isso. → E até o menino conseguiu fazer isso.
+Vou ate minha casa e volto. → Vou até minha casa e volto.
+E vou ate ao mercado. → E vou até ao mercado.
+	-->
+		<rule>
+			<pattern>
+				<token postag='SENT_START' postag_regexp='no'/>
+				<token postag='V.+|CC' postag_regexp='yes'/>
+				<marker>
+					<token>ate</token>
+				</marker>
+			</pattern>
+			<message>Se pretende usar a preposição 'até', acrescente o acento agudo.</message>
+			<suggestion>até</suggestion>
+			<example correction="até">E <marker>ate</marker> o menino conseguiu fazer isso.</example>
+			<example correction="até">Vou <marker>ate</marker> minha casa e volto.</example>
+		</rule>
+		<rule>
+			<pattern>
+				<token postag='SENT_START' postag_regexp='no'/>
+				<token postag='V.+|CC' postag_regexp='yes'/>
+				<token postag='V.+|CC' postag_regexp='yes'/>
+				<marker>
+					<token>ate</token>
+				</marker>
+			</pattern>
+			<message>Se pretende usar a preposição 'até', acrescente o acento agudo.</message>
+			<suggestion>até</suggestion>
+			<example correction="até">E vou <marker>ate</marker> ao mercado.</example>
+		</rule>
+	</rulegroup>
+
+
 	<!-- CAPAS capaz -->
     <rule id='CONFUSÃO_CAPAS_CAPAZ' name="Confusão: capas/capaz">
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-13 (Checked/Enhanced) (1-JAN-2022+)      -->
