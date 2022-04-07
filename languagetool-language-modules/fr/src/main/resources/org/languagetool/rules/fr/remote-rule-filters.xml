@@ -172,6 +172,29 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
             <rule>
                 <pattern>
+                    <token>de</token>
+                    <token>quelle</token>
+                    <marker>
+                    <token>heure</token>
+                    </marker>
+                    <token>à</token>
+                    <token>quelle</token>
+                    <token>heure</token>
+                </pattern>
+                <example correction="">De quelle <marker>heure</marker> à quelle heure est le tournoi.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="[YK]" postag_regexp="yes"/>
+                    <marker>
+                        <token>fois</token>
+                    </marker>
+                    <token postag="[YK]" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">Trois <marker>fois</marker> quatre, douze.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <marker>
                         <token postag="Z.*" postag_regexp="yes"/>
                     </marker>
