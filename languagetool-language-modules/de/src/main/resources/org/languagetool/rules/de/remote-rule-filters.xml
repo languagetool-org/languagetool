@@ -136,6 +136,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <rulegroup id="AI_DE_HYDRA_LEO_MISSING_COMMA.*" name="">
             <rule>
                 <pattern>
+                    <token skip="1">weder</token>
+                    <marker>
+                        <token regexp="yes">\w+</token>
+                    </marker>
+                    <token>noch</token>
+                </pattern>
+                <example correction="">Die Bereitstellung Ihrer Daten ist weder <marker>gesetzlich</marker> noch vertraglich vorgeschrieben.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <marker>
                         <token/>
                     </marker>
