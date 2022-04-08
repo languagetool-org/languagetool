@@ -158,6 +158,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <marker>
                         <token/>
                     </marker>
+                    <token regexp="yes">[°\%\$€£¥฿₹\u8371]</token>
+                    <token regexp="yes">\d+</token>
+                </pattern>
+                <example correction="">Wir erhöhen die Zahlung zum 1.3. <marker>auf</marker> € 1000/Monat.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token/>
+                    </marker>
                     <token regexp="yes">[°\%\$€£¥฿₹\u8371]\d+</token>
                 </pattern>
                 <example correction="">Wir erhöhen die Zahlung zum 1.3. <marker>auf</marker> €1000/Monat.</example>
