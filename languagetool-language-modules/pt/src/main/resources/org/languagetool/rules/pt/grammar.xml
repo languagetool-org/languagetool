@@ -2047,6 +2047,19 @@ Isto acontece fora da área da casa.
 		<token>área</token>
 	  </antipattern>
 <!-- MARCOAGPINTO 2021-06-01 (17-MAR-2021+) *END* -->
+
+<!-- MARCOAGPINTO 2022-04-08 (1-JAN-2022+) *START* -->
+<!--
+THIS ANTIPATTERN FIXES THE RULE: id='CONFUSÃO_ATE_ATÉ'
+
+O atacante Gabriel Jesus, titular da equipe, foi decisivo na ate então inédita conquista.
+-->
+	<antipattern>
+		<token postag='SPS.+' postag_regexp='yes'/>
+		<token>ate</token>
+	</antipattern>
+<!-- MARCOAGPINTO 2022-04-08 (1-JAN-2022+) *END* -->
+
       <pattern>
           <token negate='yes' regexp='yes'>e|de|&hifen;</token>
         <marker>
@@ -2072,8 +2085,10 @@ Isto acontece fora da área da casa.
 	  <example>Tom perguntou à Mary onde John morava.</example>
 	  <example>O Tom fez à Mary muitas perguntas que ela não pôde responder.</example>
 	  <example>O Tom está à procura da Mary.</example>
-	  
+
 	  <example>Isto acontece fora da área da casa.</example>
+
+	  <example>O atacante Gabriel Jesus, titular da equipe, foi decisivo na ate então inédita conquista.</example>
     </rule>
     <rule>
       <antipattern>
