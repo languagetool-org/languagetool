@@ -136,6 +136,43 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <rulegroup id="AI_DE_HYDRA_LEO_MISSING_COMMA.*" name="">
             <rule>
                 <pattern>
+                    <marker>
+                        <token/>
+                    </marker>
+                    <token regexp="yes">\d+[°\%\$€£¥฿₹\u8371]</token>
+                </pattern>
+                <example correction="">Wir erhöhen die Zahlung zum 1.3. <marker>auf</marker> 1000€/Monat.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token/>
+                    </marker>
+                    <token regexp="yes">\d+</token>
+                    <token regexp="yes">[°\%\$€£¥฿₹\u8371](.*)?</token>
+                </pattern>
+                <example correction="">Wir erhöhen die Zahlung zum 1.3. <marker>auf</marker> 1000 €/Monat.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token/>
+                    </marker>
+                    <token regexp="yes">[°\%\$€£¥฿₹\u8371]\d+</token>
+                </pattern>
+                <example correction="">Wir erhöhen die Zahlung zum 1.3. <marker>auf</marker> €1000/Monat.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">\d+</token>
+                    </marker>
+                    <token regexp="yes" case_sensitive="yes">[A-Z]{3}(/.*)?</token>
+                </pattern>
+                <example correction="">Wir erhöhen die Zahlung zum 1.3. auf <marker>1000</marker> EUR/Monat.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token skip="1">weder</token>
                     <marker>
                         <token regexp="yes">\w+</token>
