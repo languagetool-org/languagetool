@@ -25530,11 +25530,12 @@ Assistir à TV é um dos meus passatempos favoritos.
 
 	<!-- ATE ATÉ -->
     <rulegroup id='CONFUSÃO_ATE_ATÉ' name="Confusão: ate/até">
-    <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-04-07 (1-JAN-2022+)      -->
+    <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-04-07/8 (1-JAN-2022+)      -->
 	<!--
 E ate o menino conseguiu fazer isso. → E até o menino conseguiu fazer isso.
 Vou ate minha casa e volto. → Vou até minha casa e volto.
 E vou ate ao mercado. → E vou até ao mercado.
+O Rui foi decisivo na ate então inédita conquista. → O Rui foi decisivo na até então inédita conquista.
 	-->
 		<rule>
 			<pattern>
@@ -25561,6 +25562,17 @@ E vou ate ao mercado. → E vou até ao mercado.
 			<message>Se pretende usar a preposição 'até', acrescente o acento agudo.</message>
 			<suggestion>até</suggestion>
 			<example correction="até">E vou <marker>ate</marker> ao mercado.</example>
+		</rule>
+		<rule>
+			<pattern>
+				<token postag='SPS.+' postag_regexp='yes'/>
+				<marker>
+					<token>ate</token>
+				</marker>
+			</pattern>
+			<message>Se pretende usar a preposição 'até', acrescente o acento agudo.</message>
+			<suggestion>até</suggestion>
+			<example correction="até">O Rui foi decisivo na <marker>ate</marker> então inédita conquista.</example>
 		</rule>
 	</rulegroup>
 
