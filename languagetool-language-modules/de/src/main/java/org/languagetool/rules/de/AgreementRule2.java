@@ -48,7 +48,7 @@ import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
 public class AgreementRule2 extends Rule {
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = asList(
-    asList(csRegex("Gelegentlich|Antizyklisch|Unbedingt|Zusätzlich|Natürlich|Äußerlich|Erfolgreich|Spät|Länger|Vorrangig|Rechtzeitig|Typisch|Wöchentlich|Inhaltlich|Täglich|Komplett|Genau|Gerade|Bewusst|Vereinzelt|Gänzlich|Ständig|Okay|Meist|Generell|Ausreichend|Genügend|Reichlich|Regelmäßig(e|es)?|Unregelmäßig|Hauptsächlich"), posRegex("SUB:.*")),  // "Regelmäßig Kiwis und Ananas zu essen...", "Reichlich Inspiration bietet..."
+    asList(csRegex("Gelegentlich|Antizyklisch|Unbedingt|Zusätzlich|Natürlich|Äußerlich|Erfolgreich|Spät|Länger|Vorrangig|Rechtzeitig|Typisch|Wöchentlich|Inhaltlich|Tagtäglich|Täglich|Komplett|Genau|Gerade|Bewusst|Vereinzelt|Gänzlich|Ständig|Okay|Meist|Generell|Ausreichend|Genügend|Reichlich|Regelmäßig(e|es)?|Unregelmäßig|Hauptsächlich"), posRegex("SUB:.*")),  // "Regelmäßig Kiwis und Ananas zu essen...", "Reichlich Inspiration bietet..."
     asList(csRegex("Überraschend"), posRegex("SUB:.*"), posRegex("VER:.*")),  // "Überraschend Besuch bekommt er dann von ..."
     asList(regex("Nachhaltig"), posRegex("SUB:NOM:.*"), pos("VER:INF:SFT")),  // 'nachhaltig Yoga praktizieren'
     asList(regex("\\d0er"), regex("Jahren?")),
