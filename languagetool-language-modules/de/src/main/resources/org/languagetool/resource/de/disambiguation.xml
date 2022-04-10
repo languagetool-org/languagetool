@@ -1663,6 +1663,18 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <example type="ambiguous" inputform="sagen[sagen/VER:1:PLU:KJ1:SFT,sagen/VER:1:PLU:PRÄ:SFT,sagen/VER:3:PLU:KJ1:SFT,sagen/VER:3:PLU:PRÄ:SFT,sagen/VER:INF:SFT]" outputform="sagen[sagen/VER:INF:SFT]">Wir können <marker>sagen</marker>, dass wir alles alles versucht haben.</example>
         </rule>
     </rulegroup>
+    <rulegroup id="VERB_AGREEMENT_ICH" name="Verbform: 1. Person Singular">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="VER:.*1:SIN:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+e</token>
+                </marker>
+                <token case_sensitive="yes">ich</token>
+            </pattern>
+            <disambig action="remove" postag="VER.*:(3|I..):.+"/>
+            <example type="ambiguous" inputform="singe[singen/VER:1:SIN:KJ1:NON,singen/VER:1:SIN:PRÄ:NON,singen/VER:3:SIN:KJ1:NON,singen/VER:IMP:SIN:NON]" outputform="singe[singen/VER:1:SIN:KJ1:NON,singen/VER:1:SIN:PRÄ:NON]">Dann <marker>singe</marker> ich jetzt ein Lied.</example>
+        </rule>
+    </rulegroup>
     <rulegroup id="KEIN_IMPERATIV_II" name="Entferne Imperativ von Verkürzungen wie 'ich geh', 'ich lauf'">
          <rule>
             <pattern>
