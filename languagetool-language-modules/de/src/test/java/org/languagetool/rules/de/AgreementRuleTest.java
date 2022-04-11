@@ -106,6 +106,7 @@ public class AgreementRuleTest {
   public void testDetNounRule() throws IOException {
     // correct sentences:
     assertGood("Der fließend Französisch sprechende Präsident dankt stilvoll ab.");
+    assertGood("Inwiefern soll denn das romantische Hoffnungen begründen?");
     assertGood("Spricht der fließend Französisch?");
     assertGood("Spricht dieser fließend Französisch, muss er viel Geld verdienen.");
     assertGood("Der letzte Woche beschlossene Etat ist unwirksam.");
