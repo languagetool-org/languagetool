@@ -854,6 +854,56 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">It is amaazing how I let so many things be missing in the <marker>thesis</marker>… was I blind?</example>
             </rule>
+            <rule>
+                <!-- copula adverb digit -->
+                <pattern>
+                    <token inflected="yes">be</token>
+                    <marker>
+                        <token regexp="yes" postag="RB">.*ly|about</token>
+                    </marker>
+                    <token regexp="yes">[$€£¥฿₹₿\u8371]?[0-9]*</token>
+                </pattern>
+                <example correction="">Your mailbox size is <marker>currently</marker> 102530 KB.</example>
+                <example correction="">I have checked our log files, and there are <marker>about</marker> 2600 requests on March 17 from your user account.</example>
+            </rule>
+            <rule>
+                <!-- preposition currency symbol digit -->
+                <pattern>
+                    <marker>
+                        <token chunk="B-PP" />
+                    </marker>
+                    <token min="0" postag="RB" />
+                    <token regexp="yes">[$€£¥฿₹₿\u8371][0-9]*</token>
+                </pattern>
+                <example correction="">There's no minimum contract length, but the minimum fee <marker>of</marker> €1500/month.</example>
+                <example correction="">The pricing for our on-premise solution starts <marker>at</marker> €7056 per year.</example>
+                <example correction="">The price for our on-premise version is €6427 per year plus a one-time payment <marker>of</marker> €1000 for support during set-up.</example>
+            </rule>
+            <rule>
+                <!-- preposition digit currency symbol -->
+                <pattern>
+                    <marker>
+                        <token chunk="B-PP" />
+                    </marker>
+                    <token min="0" postag="RB" />
+                    <token regexp="yes">[0-9]*[$€£¥฿₹₿\u8371]</token>
+                </pattern>
+                <example correction="">There's no minimum contract length, but the minimum fee <marker>of</marker> 1500€/month.</example>
+                <example correction="">The pricing for our on-premise solution starts <marker>at</marker> 7056€ per year.</example>
+                <example correction="">The price for our on-premise version is €6427 per year plus a one-time payment <marker>of</marker> 1000€ for support during set-up.</example>
+            </rule>
+            <rule>
+                <!-- copula currency acronym digit -->
+                <pattern>
+                    <token inflected="yes">be</token>
+                    <token min="0" postag="RB" />
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[A-Z]{3}</token>
+                    </marker>
+                     <token regexp="yes">[0-9]*</token>
+                </pattern>
+                <example correction="">The new monthly payment will be <marker>AUD</marker> 1152.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_EN_G_REPLACE_ORTH" name="">
             <rule>
