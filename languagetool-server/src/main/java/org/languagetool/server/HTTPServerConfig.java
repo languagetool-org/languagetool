@@ -55,6 +55,8 @@ public class HTTPServerConfig {
   protected boolean verbose = false;
   protected boolean publicAccess = false;
   protected int port = DEFAULT_PORT;
+  protected int minPort;
+  protected int maxPort;
   protected String allowOriginUrl = null;
 
   protected boolean logIp = true;
@@ -192,7 +194,7 @@ public class HTTPServerConfig {
     "premiumAlways",
     "redisPassword", "redisHost", "redisCertificate", "redisKey", "redisKeyPassword",
     "redisUseSentinel", "sentinelHost", "sentinelPort", "sentinelPassword", "sentinelMasterId",
-    "dbLogging", "premiumOnly", "nerUrl");
+    "dbLogging", "premiumOnly", "nerUrl", "min_port", "max_port" );
 
   /**
    * Create a server configuration for the default port ({@link #DEFAULT_PORT}).
@@ -328,6 +330,8 @@ public class HTTPServerConfig {
         if (maxWorkQueueSize < 0) {
           throw new IllegalArgumentException("maxWorkQueueSize must be >= 0: " + maxWorkQueueSize);
         }
+        minPort = Integer.parseInt(getOptionalProperty(props, "min_port", "0"));
+        maxPort = Integer.parseInt(getOptionalProperty(props, "max_port", "0"));
         String url = getOptionalProperty(props, "serverURL", null);
         setServerURL(url);
         String langModel = getOptionalProperty(props, "languageModel", null);
@@ -571,6 +575,14 @@ public class HTTPServerConfig {
 
   public int getPort() {
     return port;
+  }
+  
+  public int getMinPort() {
+    return minPort;
+  }
+
+  public int getMaxPort() {
+    return maxPort;
   }
 
   /**

@@ -68,6 +68,30 @@ public class HTTPServerTest {
       assertFalse(server.isRunning());
     }
   }
+  
+  @Test
+  public void testRandomPortHttpServer() {
+      HTTPServerConfig config = new HTTPServerConfig(0, true);
+      config.minPort = 8081;
+      config.maxPort = 8082;
+      HTTPServer server1 = new HTTPServer(config);
+      HTTPServer server2 = new HTTPServer(config);
+      assertFalse(server1.isRunning());
+      assertFalse(server2.isRunning());
+      
+      server1.run();
+      assertTrue(server1.isRunning());
+      server2.run();
+      assertTrue(server2.isRunning());
+      
+      assertThrows(PortBindingException.class, () -> {
+        new HTTPServer(config);
+      });
+      server1.stop();
+      server2.stop();
+      assertFalse(server1.isRunning());
+      assertFalse(server2.isRunning());
+  }
 
   @Test
   public void translationSuggestions() throws Exception {
