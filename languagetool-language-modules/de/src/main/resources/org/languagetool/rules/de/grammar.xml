@@ -21580,6 +21580,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction='kein|ein'>Da steht <marker>kein ein</marker> Fahrrad.</example>
         </rule>
         <rule id="ENUM_SUB_UND_VER" name="TODO">
+            <antipattern>
+                <token skip="-1" postag="SENT_START"/>
+                <token skip="-1" postag="VER.*:[123]:.*" postag_regexp="yes"/>
+                <token>und</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>,</token>
@@ -21594,6 +21599,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>und \2 \4</suggestion>
             <example correction="und Birnen kann">Äpfel<marker>, Birnen und kann</marker> man dort kaufen.</example>
             <example correction="und Kontaktstellen finden">Weitere Informationen<marker>, Kontaktstellen und finden</marker> Betroffene hier.</example>
+            <example>Als Sänger agiert er in musikalischen Komödien, Musicals, Shows und gibt Konzerte.</example>
         </rule>
     </category>
 
