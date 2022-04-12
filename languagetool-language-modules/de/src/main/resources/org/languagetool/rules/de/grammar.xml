@@ -20176,19 +20176,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="ZUSAMMENSCHREIBUNG_ADJEKTIV_NOMEN_KOMPOSITA" name="trocken Futter oder blau Kraut in einem Wort und groß schreiben" default="temp_off">
 	        <pattern>
-	            <unify negate="yes">
-			        <feature id="case"/>
-    			    <feature id="gender"/>
-      		        <feature id="number"/>
-      		        <marker>
-                    <token regexp="yes" case_sensitive="yes">klein|groß|halb|alt|neu|blau|rot|grün|gelb|braun|grau|weiß|schwarz|schwarzweiß|bunt|bitter|
-                    süß|sauer|mürbe|mager|frisch|trocken|nass|mehrfach|best|höchst|tiefst|kleinst|mindest|falsch|exklusiv|
-                    universal|alternativ|brachial|blind|gebraucht|gemischt|lebend|tot|weich|hart
-                    <exception scope="previous">wie</exception></token>
-                    <token postag="SUB:.*:.*:.*" postag_regexp="yes">
-                    <exception>Gott</exception></token>
-    			    </marker>
-    			</unify>
+                <marker>
+                <token regexp="yes" case_sensitive="yes">klein|gro(ß|ss)|halb|alt|neu|blau|rot|grün|gelb|braun|grau|wei(ß|ss)|schwarz|schwarzwei(ß|ss)|bunt|bitter|sü(ß|ss)|sauer|mürbe|mager|frisch|trocken|nass|mehrfach|best|höchst|tiefst|kleinst|mindest|falsch|exklusiv|universal|alternativ|brachial|blind|gebraucht|gemischt|lebend|tot|weich|hart
+                <exception scope="previous">wie</exception></token>
+                <token postag="SUB.*" postag_regexp="yes">
+                <exception>Gott</exception></token>
+                </marker>
 	        </pattern>
 	        <message> Meinten Sie <suggestion><match no="1" case_conversion="startupper"/><match no="2" case_conversion="alllower"/></suggestion> </message>
 	        <example correction="Grünkohl">Ich esse gerne <marker>grün Kohl</marker>.</example>
