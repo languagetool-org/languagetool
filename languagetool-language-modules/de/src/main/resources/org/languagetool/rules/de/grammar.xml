@@ -7774,6 +7774,65 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Meinten Sie <suggestion>wenn</suggestion>?</message>
                 <example correction="wenn">Selbst <marker>wen</marker> sie das getan hat, liebe ich sie.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker><token case_sensitive="yes" regexp="yes">[Ww]en</token></marker>
+                    <token regexp="yes">du|er|wir|sie|es|ich|das|der|die|man</token>
+                    <token postag="ADV.*" postag_regexp="yes" min="0" />
+                    <token postag="(ADJ|PA[12]):PRD:GRU.*" postag_regexp="yes" />
+                    <token postag="PA2:PRD:GRU:VER" min="0" />
+                    <token inflected="yes">
+                        sein
+                        <exception>sein</exception>
+                    </token>
+                </pattern>
+                <message>Meinten Sie <suggestion>wenn</suggestion>?</message>
+                <example correction="wenn">Kannst du mir Bescheid sagen <marker>wen</marker> das fertig ist?</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker><token case_sensitive="yes" regexp="yes">[Ww]en</token></marker>
+                    <token regexp="yes">der|die|das|[mks]eine?</token>
+                    <token postag="ADJ.*|PA[12].*" postag_regexp="yes" min="0" />
+                    <token postag="SUB.*" postag_regexp="yes" />
+                    <token postag="ADV.*" postag_regexp="yes" min="0" />
+                    <token postag="(ADJ|PA[12]):PRD:GRU.*" postag_regexp="yes" />
+                    <token postag="PA2:PRD:GRU:VER" min="0" />
+                    <token inflected="yes">
+                        sein
+                        <exception>sein</exception>
+                    </token>
+                </pattern>
+                <message>Meinten Sie <suggestion>wenn</suggestion>?</message>
+                <example correction="wenn">Kannst du mir Bescheid sagen <marker>wen</marker> das Projekt fertig ist?</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker><token case_sensitive="yes" regexp="yes">[Ww]en</token></marker>
+                    <token regexp="yes" min="0">Herr|Frau</token>
+                    <token postag="EIG.*" postag_regexp="yes" />
+                    <token postag="ADV.*" postag_regexp="yes" min="0" />
+                    <token postag="(ADJ|PA[12]):PRD:GRU.*" postag_regexp="yes" />
+                    <token postag="PA2:PRD:GRU:VER" min="0" />
+                    <token inflected="yes">
+                        sein
+                        <exception>sein</exception>
+                    </token>
+                </pattern>
+                <message>Meinten Sie <suggestion>wenn</suggestion>?</message>
+                <example correction="wenn">Kannst du mir Bescheid sagen <marker>wen</marker> Lukas fertig ist?</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">immer|selbst</token>
+                    <marker>
+                        <token case_sensitive="yes">wen</token>
+                    </marker>
+                    <token postag="PRO:PER:NOM.*|EIG.*" postag_regexp="yes" />
+                </pattern>
+                <message>Meinten Sie <suggestion>wenn</suggestion>?</message>
+                <example correction="wenn">Immer <marker>wen</marker> ich das mache, passiert was Schlimmes.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="WEN_WEM" name="wen/wem">
             <short>&verw;</short>
@@ -57464,7 +57523,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <token regexp="yes" min="0">übrigens|deswegen|immer|allerdings|durchaus|eher|mal|also|jedoch|jedenfalls</token>
                     <marker>
-                        <token regexp="yes" case_sensitive="yes">fürs?|zwischen|mit|gegen|bis|au(ß|ss)er|vo[mnr]|vor[sm]|wegen|dank|beim?|ohne|aufs?|unters?|übers?|nach|neben|hinters?|zwischen|an|zu[rm]?|i[nm]</token>
+                        <token regexp="yes" case_sensitive="yes">fürs?|zwischen|mit|gegen|bis|au(ß|ss)er|vo[mnr]|vor[sm]|wegen|dank|beim?|ohne|aufs?|unters?|übers?|nach|neben|hinter[ms]?|zwischen|an|zu[rm]?|i[nm]</token>
                     </marker>
                     <token postag="ART.*|PRO:(POS|DEM|IND).*|ZAL" postag_regexp="yes" min="0" />
                     <token postag="(ADJ|PA[12]).*" postag_regexp="yes" min="0" max="2" />
@@ -57488,6 +57547,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction=", für">Herr Peters denkt<marker> für</marker> nächste Woche sei ein großes Update geplant.</example>
                 <example correction=", in">Ich denke<marker> in</marker> zwei Monaten haben wir unser normales Leben zurück.</example>
                 <example correction=", bei">Ich meine<marker> bei</marker> solchen Aktionen ging es bekanntlich noch nie um Demokratie.</example>
+                <example correction=", hinter">Ich denke mal<marker> hinter</marker> den meisten Verkleidungen werde ich nicht viel vorfinden.</example>
                 <example>Ich denke für euch.</example>
                 <example>Ich denke wegen euch einen wirklich großen Schritt weiter.</example>
                 <example>Tom weiß mit Lasttieren umzugehen.</example>
@@ -57507,7 +57567,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <token regexp="yes" min="0">übrigens|deswegen|immer|allerdings|durchaus|eher|mal|also|jedoch|jedenfalls</token>
                     <marker>
-                        <token regexp="yes" case_sensitive="yes">fürs?|zwischen|mit|gegen|bis|au(ß|ss)er|vo[mnr]|vor[sm]|wegen|dank|beim?|ohne|aufs?|unters?|übers?|nach|neben|hinters?|zwischen|an|zu[rm]?|i[nm]</token>
+                        <token regexp="yes" case_sensitive="yes">fürs?|zwischen|mit|gegen|bis|au(ß|ss)er|vo[mnr]|vor[sm]|wegen|dank|beim?|ohne|aufs?|unters?|übers?|nach|neben|hinter[ms]?|zwischen|an|zu[rm]?|i[nm]</token>
                     </marker>
                     <token postag="ART.*|PRO:(POS|DEM).*|ZAL" postag_regexp="yes" min="0" />
                     <token postag="(ADJ|PA[12]).*|PRO:(POS|DEM|IND).*" postag_regexp="yes" min="0" max="2" />
@@ -60396,8 +60456,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <antipattern>
-                    <token>°</token>
-                    <token regexp="yes">[CFK]|Celcius|Fahrenheit</token>
+                    <token skip="5">°</token>
+                    <token regexp="yes">[CFK]|Cel[sc]ius|Fah?renheit</token>
                 </antipattern>
                 <pattern>
                     <token regexp="yes">(\-)?[0-9]+</token>
@@ -60411,7 +60471,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <antipattern>
-                    <token>°</token>
+                    <token skip="5">°</token>
                     <token regexp="yes">[CFK]|Cel[sc]ius|Fah?renheit</token>
                 </antipattern>
                 <pattern>
@@ -60425,6 +60485,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="25°|25 °C">Der Winkel ist <marker>25 °</marker> groß.</example>
                 <example correction="-25°|-25 °C">Es ist <marker>-25 °</marker> warm.</example>
                 <example>Die Pflanze ist winterhart bis zu -20 ° Celsius.</example>
+                <example>Die einfachen Bedienelemente ermögliche einen blitzschnellen Einsatz in einem Funktionsbereich von –30 ° bis +60 ° Celsius.</example>
             </rule>
             <rule>
                 <regexp>(\-?[0-9]{1,15}) (″)</regexp>
@@ -61588,6 +61649,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>was</token>
                     <token>was</token>
                 </antipattern>
+                <antipattern><!-- Die benutzen was selbst gebautes. -->
+                    <token>was</token>
+                    <token postag="ADV.*" postag_regexp="yes" />
+                    <token regexp="yes">.+es</token>
+                </antipattern>
+                <antipattern>
+                    <token>wer</token>
+                    <token postag="VER:[1-3].+" postag_regexp="yes"></token>
+                    <token min="0" postag="NEG"></token>
+                    <token regexp="yes">wem|wofür|wann|warum|womit|wogegen|wie</token>
+                </antipattern>
                 <pattern>
                     <token postag="VER:[1-3].+" postag_regexp="yes"></token>
                     <token min="0" postag="NEG"></token>
@@ -61605,6 +61677,54 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                <example correction=", an was">Denn sie wissen nicht<marker> an was</marker> sie glauben sollen.</example>
                <example correction=", an was">Denn sie wissen<marker> an was</marker> sie glauben sollen.</example>
                <example>Ich sehe was was du nicht siehst.</example>
+               <example>Die benutzen was selbst gebautes.</example>
+               <example>Wer hält wem die Tür auf?</example>
+               <example>wer ist wofür zuständig, wer übernimmt wofür die Verantwortung.</example>
+            </rule>
+            <rule default="temp_off"><!-- TODO: replace rule above with this one -->
+                <antipattern>
+                    <token>ob</token>
+                    <token postag='.*GEN.*|UNKNOWN' postag_regexp='yes'/>
+                </antipattern>
+                <antipattern>
+                    <token>was</token>
+                    <token>was</token>
+                </antipattern>
+                <antipattern><!-- Die benutzen was selbst gebautes. -->
+                    <token>was</token>
+                    <token postag="ADV.*" postag_regexp="yes" min="0" max="2" />
+                    <token regexp="yes">.+es</token>
+                </antipattern>
+                <antipattern>
+                    <token>wer</token>
+                    <token postag="VER:[1-3].+" postag_regexp="yes"></token>
+                    <token min="0" postag="NEG"></token>
+                    <token regexp="yes">wem|wofür|wann|warum|womit|wogegen|wie</token>
+                </antipattern>
+                <pattern>
+                    <token postag="VER:[1-3].+" postag_regexp="yes"></token>
+                    <token postag="ADV.*" postag_regexp="yes" min="0" />
+                    <token postag="NEG" min="0"></token>
+                    <marker>
+                        <token min="0" postag="PRP.+" postag_regexp="yes"></token>
+                        <token regexp="yes">inwie(fern|weit)|ob|wann|was|warum|we[mnr]|wes(halb|wegen|sen)|wieso|wo(durch|her|hin|für|mit|gegen|ran|rauf|von|zu)?</token>
+                    </marker>
+                    <token postag="(ADJ|PA[12]).*" postag_regexp="yes" min="0" />
+                    <token postag="PRO.+|EIG.+|SUB.+" postag_regexp="yes"></token>
+               </pattern>
+               <message>Indirekte Fragen und Relativsätze werden mit Komma vom Hauptsatz abgetrennt.</message>
+               <suggestion>, \4 \5</suggestion>
+               <short>Möglicherweise fehlendes Komma</short>
+               <example correction=", was">Denn sie wissen nicht<marker> was</marker> Eulen als nächstes tun.</example>
+               <example correction=", was">Denn sie wissen noch nicht<marker> was</marker> Eulen als nächstes tun.</example>
+               <example correction=", was">Denn sie wissen nicht<marker> was</marker> sie tun.</example>
+               <example correction=", was">Denn sie wissen<marker> was</marker> sie tun.</example>
+               <example correction=", an was">Denn sie wissen nicht<marker> an was</marker> sie glauben sollen.</example>
+               <example correction=", an was">Denn sie wissen<marker> an was</marker> sie glauben sollen.</example>
+               <example>Ich sehe was was du nicht siehst.</example>
+               <example>Die benutzen was selbst gebautes.</example>
+               <example>Wer hält wem die Tür auf?</example>
+               <example>wer ist wofür zuständig, wer übernimmt wofür die Verantwortung.</example>
             </rule>
             <rule>
                 <antipattern>
