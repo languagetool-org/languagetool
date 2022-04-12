@@ -1102,7 +1102,7 @@ class AgreementRuleAntiPatterns1 {
       token("ConnectedDrive")
     ),
     Arrays.asList(
-      // "Inwiefern soll denn das romantische Hoffnungen begründen?"
+      // Inwiefern soll denn das romantische Hoffnungen begründen?
       new PatternTokenBuilder().pos("ADV:MOD+INR").setSkip(-1).build(),
       new PatternTokenBuilder().posRegex("VER.*:[123]:SIN:.*").setSkip(1).build(),
       posRegex("PRO:DEM:.*SIN.*"),
