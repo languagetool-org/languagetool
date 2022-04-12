@@ -6281,6 +6281,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token chunk="I-NP-plural" case_sensitive="yes">IT</token>
             <token chunk="E-NP-plural" postag_regexp="yes" postag="NNS"/>
         </antipattern>
+        <antipattern><!-- It has it advantages (grammar error) -->
+            <token inflected="yes">have</token>
+            <token>it</token>
+            <token postag="NNS" />
+        </antipattern>
         <pattern>
             <token regexp="yes" postag="PRP|WP" postag_regexp="yes">it|he|she|(some)?one|nobody|who</token>
             <marker>

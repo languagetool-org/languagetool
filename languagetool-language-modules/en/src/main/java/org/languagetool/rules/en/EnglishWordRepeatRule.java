@@ -90,6 +90,8 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
       return true;
     } else if (repetitionOf("blah", tokens, position)) {
       return true;   // "blah blah"
+    } else if (repetitionOf("mau", tokens, position)) {
+      return true;   // "blah blah"
     } else if (repetitionOf("uh", tokens, position)) {
       return true;   // "uh uh"
     } else if (repetitionOf("paw", tokens, position)) {
@@ -218,6 +220,10 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
       return true;
     } else if (repetitionOf("yadda", tokens, position)) {
       return true;   // "yadda yadda"
+    } else if (repetitionOf("walla", tokens, position)) {
+      return true;   // "walla walla"
+    } else if (repetitionOf("doo", tokens, position)) {
+      return true;   // "doo doo"
     } else if (repetitionOf("sapiens", tokens, position)) {
       return true;   // "Homo sapiens sapiens"
     } else if (repetitionOf("tse", tokens, position)) {
