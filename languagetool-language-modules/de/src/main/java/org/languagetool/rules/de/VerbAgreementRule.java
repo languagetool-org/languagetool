@@ -359,6 +359,78 @@ public class VerbAgreementRule extends TextLevelRule {
     Arrays.asList( // -Du fühlst dich unsicher?
       tokenRegex("[^a-zäöüß]+du"),
       pos("VER:2:SIN:PRÄ:SFT")
+    ),
+    Arrays.asList( // Mir ist bewusst, dass viele Menschen wie du empfinden.
+      posRegex("PRO:IND.*"),
+      posRegex("SUB:.+:PLU.*"),
+      tokenRegex("wie|als"),
+      posRegex("PRO:PER.+"),
+      posRegex("VER:[1-3]:PLU.*")
+    ),
+    Arrays.asList( //Weniger als du arbeitet keiner.
+      pos("ADV:MOD"),
+      tokenRegex("als"),
+      posRegex("PRO:PER.+"),
+      posRegex("VER:3:SIN.*"),
+      posRegex("PRO:IND:NOM:SIN.*")
+    ),
+    Arrays.asList( //So was wie er könnte ich nicht machen, dich einfach dann zu verlassen
+      posRegex("PRO:IND.*"),
+      tokenRegex("wie"),
+      posRegex("PRO:PER.+"),
+      posRegex("VER:.*:SIN.*"),
+      posRegex("PRO:PER:NOM:SIN.*")
+    ),
+    Arrays.asList( //Kein anderer als du kann mich glücklich machen
+      tokenRegex("kein|keine"),
+      tokenRegex("anderer|andere"),
+      token("als"),
+      tokenRegex("ich|du|er|sie|es"),
+      posRegex("VER:MOD.*:PRÄ")
+    ),
+    Arrays.asList( // Ich will nicht die gleiche Luft wie er einatmen
+      posRegex("ART:DEF.*"),
+      tokenRegex("gleich(e|en)|selb(e|en)"),
+      posRegex("SUB:.+"),
+      token("wie"),
+      posRegex("PRO:PER:NOM:SIN.*"),
+      posRegex("VER:INF.*")
+    ),
+    Arrays.asList( // Was würdest du sagen, wenn du ich wärst?
+      token("wenn"),
+      posRegex("PRO:PER:NOM:SIN.+"),
+      posRegex("PRO:PER:NOM.+"),
+      posRegex("VER:AUX:[1-3]:SIN:KJ2")
+    ),
+    Arrays.asList( // Was würdet ihr sagen, wenn ihr ich wärt?
+      token("wenn"),
+      posRegex("PRO:PER:NOM:PLU.+"),
+      posRegex("PRO:PER:NOM.+"),
+      posRegex("VER:AUX:[1-3]:PLU:KJ2")
+    ),
+    Arrays.asList( //Wenn du gehen willst, dann geh!
+      token("wenn"),
+      token("du"),
+      token("gehen"),
+      token("willst"),
+      token(","),
+      token("dann"),
+      token("geh")
+    ),
+    Arrays.asList( //Ich habe mich noch nicht entschieden, ob ich studieren oder arbeiten gehen soll.
+      token("ob"),
+      token("ich"),
+      posRegex("VER:1.+"),
+      token("oder"),
+      posRegex("VER:1.+"),
+      new PatternTokenBuilder().token("gehen").matchInflectedForms().build(),
+      posRegex("VER:MOD:1.*")
+    ),
+    Arrays.asList( //Mal seh’n, wie’s Wetter wird.
+      token("mal"),
+      token("seh"),
+      tokenRegex("’|'"),
+      token("n")
     )
   );
 
