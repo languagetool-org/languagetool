@@ -60619,20 +60619,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token skip="-1">teils</token>
-                    <token skip="-1" regexp="yes">[,;]</token>
+                    <token skip="-1" regexp="yes">[,;—–-]</token>
+                    <token>teils</token>
+                </antipattern>
+                <antipattern>
+                    <token>teils</token>
                     <token>teils</token>
                 </antipattern>
                 <pattern>
                     <token skip="-1">teils</token>
                     <marker>
-                    <token>teils</token>
+                    <token case_sensitive="yes">teils<exception regexp="yes" scope="previous">.*[^\w]</exception></token>
                     </marker>
                 </pattern>
-                <message>Gleichrangige Wortgruppen grenzt man mit einem Komma voneinander ab.</message>
-                <suggestion><match no="3" regexp_match="teils$" regexp_replace=", teils"/></suggestion>
+                <message>Im Ausdruck "teils…, teils…" muss ein Komma gesetzt werden.</message>
+                <suggestion><match no="2" regexp_match="teils$" regexp_replace=", teils"/></suggestion>
                 <example correction=", teils">Der Film war teils lustig<marker> teils</marker> traurig.</example>
                 <example correction=", teils">Er lebt teils bei seinem Vater<marker> teils</marker> bei seiner Mutter.</example>
                 <example>Ich lebe teils von meinem Minijob und teils von meiner Geldanlage.</example>
+                <example>Die Gastronomien sind teils teils hundefreundlich, da muss man etwas schauen.</example>
+                <example>Ich möchte mit dieser Serie unsere alltäglichen Lebensmittel, teils heimisch - teils exotisch, auf eine uns sonst ungewohnte Art und Weise darstellen.</example>
+                <example>Das ist teils dem Wetter geschuldet: teils dem Regen, aber auch dem Wind.</example>
             </rule>
             <rule>
                 <pattern>
