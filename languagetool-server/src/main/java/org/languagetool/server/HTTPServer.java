@@ -144,9 +144,10 @@ public class HTTPServer extends Server {
              log.debug("Port {} is not available.", p);
            }
          }
-         throw new IOException("No free port in range found.");
+         throw new IOException("No free port in range ("+ minPort + " - " + maxPort + ") found.");
     } else {
-      throw new IOException("Invalid port configuration found. Please specify a valid port or port range.");
+      throw new IOException("Invalid port configuration found. " +
+                            "The value for '--port' need to be greater than 0 or if set to 0 you need to specify a minPort and maxPort in your properties file (minPort must be lower that maxPort).");
     }
   }
 
