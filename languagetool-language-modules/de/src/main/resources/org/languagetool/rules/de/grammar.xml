@@ -138,7 +138,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
 <!--suppress ProblematicWhitespace -->
 <rules lang="de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
-
+    <!--Übereinstimmung von Kasus, Genus und Numerus-->
+    <unification feature="case">
+      	<equivalence type="Nominativ">
+            	<token postag=".*NOM.*" postag_regexp="yes"/>
+        	</equivalence>
+        	<equivalence type="Genitiv">
+            	<token postag=".*GEN.*" postag_regexp="yes"/>
+        	</equivalence>
+		<equivalence type="Dativ">
+			<token postag=".*DAT.*" postag_regexp="yes"/>
+		</equivalence>
+		<equivalence type="Akkusativ">
+			<token postag=".*AKK.*" postag_regexp="yes"/>
+		</equivalence>
+    </unification>
+	<unification feature="number">
+      	<equivalence type="Singular">
+            	<token postag=".*SIN.*" postag_regexp="yes"/>
+        	</equivalence>
+        	<equivalence type="Plural">
+            	<token postag=".*PLU.*" postag_regexp="yes"/>
+        	</equivalence>
+	</unification>
+	<unification feature="gender">
+      	<equivalence type="femininum">
+            	<token postag=".*FEM.*" postag_regexp="yes"/>
+        	</equivalence>
+        	<equivalence type="maskulinum">
+            	<token postag=".*MAS.*" postag_regexp="yes"/>
+        	</equivalence>
+		<equivalence type="neutrum">
+            	<token postag=".*NEU.*" postag_regexp="yes"/>
+        	</equivalence>
+	</unification>
     <!--
     for local testing of an external file (also see above):
     &UserRules;
@@ -20141,6 +20174,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="zu raten">Es mühte sie, es <marker>zuraten</marker>.</example>
             </rule>
         </rulegroup>
+        <rule id="ZUSAMMENSCHREIBUNG_ADJEKTIV_NOMEN_KOMPOSITA" name="trocken Futter oder blau Kraut in einem Wort und groß schreiben" default="temp_off">
+	        <pattern>
+	            <unify negate="yes">
+			        <feature id="case"/>
+    			    <feature id="gender"/>
+      		        <feature id="number"/>
+      		        <marker>
+                    <token regexp="yes" case_sensitive="yes">klein|groß|halb|alt|neu|blau|rot|grün|gelb|braun|grau|weiß|schwarz|schwarzweiß|bunt|bitter|
+                    süß|sauer|mürbe|mager|frisch|trocken|nass|mehrfach|best|höchst|tiefst|kleinst|mindest|falsch|exklusiv|
+                    universal|alternativ|brachial|blind|gebraucht|gemischt|lebend|tot|weich|hart
+                    <exception scope="previous">wie</exception></token>
+                    <token postag="SUB:.*:.*:.*" postag_regexp="yes">
+                    <exception>Gott</exception></token>
+    			    </marker>
+    			</unify>
+	        </pattern>
+	        <message> Meinten Sie <suggestion><match no="1" case_conversion="startupper"/><match no="2" case_conversion="alllower"/></suggestion> </message>
+	        <example correction="Grünkohl">Ich esse gerne <marker>grün Kohl</marker>.</example>
+	        <example correction="Blaumeisen">Im Garten gibt es <marker>blau Meisen</marker>.</example>
+	        <example correction="Trockenfutter">Die Katzen bekommen morgens <marker>trocken Futter</marker>.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
