@@ -60670,6 +60670,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="KOMMA_KONJ_ADV" name="Fehlendes Komma vor bestimmten Adverbien und Konjunktionen">
             <!-- TODO zum einen/anderen; nicht nur/sondern auch; suggestion -->
             <rule>
+                <antipattern>
+                    <token skip="-1">einerseits</token>
+                    <token skip="-1" regexp="yes">[,;—–-]|und</token>
+                    <token regexp="yes">andererseits|andr?erseits</token>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token skip="-1">einerseits<exception scope="next" regexp="yes">[,;]</exception></token>
@@ -60681,7 +60686,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Fehlendes Komma</short>
                 <example correction="">Einerseits ist er gut <marker>andererseits</marker> nicht.</example>
                 <example>Einerseits ist er gut<marker>, andererseits</marker> nicht.</example>
-                <example>Enzyklopädien standen zwischen Lehrbüchern einerseits und Wörterbüchern <marker>andererseits</marker>. </example>
+                <example>Enzyklopädien standen zwischen Lehrbüchern einerseits und Wörterbüchern <marker>andererseits</marker>.</example>
+                <example>Einerseits wurde das streng geahndet und andererseits in Filmen romantisiert.</example>
             </rule>
             <rule>
                 <pattern>
@@ -60702,7 +60708,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token skip="-1">teils</token>
-                    <token skip="-1" regexp="yes">[,;—–-]</token>
+                    <token skip="-1" regexp="yes">[,;—–-]|und</token>
                     <token>teils</token>
                 </antipattern>
                 <antipattern>
@@ -60723,6 +60729,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Die Gastronomien sind teils teils hundefreundlich, da muss man etwas schauen.</example>
                 <example>Ich möchte mit dieser Serie unsere alltäglichen Lebensmittel, teils heimisch - teils exotisch, auf eine uns sonst ungewohnte Art und Weise darstellen.</example>
                 <example>Das ist teils dem Wetter geschuldet: teils dem Regen, aber auch dem Wind.</example>
+                <example>Wir haben teils Autos genutzt und teils Lastenfahrräder.</example>
             </rule>
             <rule>
                 <pattern>
