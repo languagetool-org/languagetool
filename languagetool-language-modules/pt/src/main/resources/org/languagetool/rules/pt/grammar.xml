@@ -6715,7 +6715,7 @@ Deveríamos dar a ela flores.
       <pattern>
           <token>nós</token>
           <token min="0" max="3" postag='R.+' postag_regexp='yes'>
-            <exception scope='next'>,</exception></token>
+            <exception>,</exception></token> <!-- REMOVED: scope='next' - MARCOAGPINTO 2022-04-13 -->
           <token postag='V.[CIS].([23]P|[123]S).' postag_regexp='yes'>
             <exception>como</exception>
             <exception postag='V.[CIS].1P0' postag_regexp='yes'/></token>
@@ -6786,6 +6786,7 @@ Deveríamos dar a ela flores.
       <example type="correct">Vós passeais na praia.</example>
       <example>A maioria de vós passeia na praia.</example>
     </rule>
+
     <rule>
       <antipattern>
           <token>eu</token>
@@ -6800,51 +6801,47 @@ Deveríamos dar a ela flores.
           <token regexp='yes'>de|entre</token>
           <token regexp='yes'>el[ea]s|vocês</token>
       </antipattern> 
-<!-- MARCOAGPINTO 2020-05-04 *START* -->
-<!-- "Agradeço a você pelo empréstimo." -->
-<!-- "Agradeço a vocês pelo empréstimo." -->
-<!-- "Ela pelo mundo todo irá." -->
-<!-- "Elas pelo mundo todo irão." -->
-<!-- "Falei com ele pelo telefone." -->
-<!-- "Falei com eles pelo telefone." -->
+
+<!-- MARCOAGPINTO 2022-04-13 (Checked/Enhanced) (1-JAN-2022+) *START* -->
+<!--
+NOTICE THAT postag='PP..P.+' DOESN'T AFFECT SINGULAR PRONOUNS SINCE THIS RULE IS ONLY FOR PLURAL.
+Agradeço a você pelo empréstimo.
+Agradeço a vocês pelo empréstimo.
+Ela pelo mundo todo irá.
+Elas pelo mundo todo irão.
+Falei com ele pelo telefone.
+Falei com eles pelo telefone.
+-->
       <antipattern>
-			<token  postag_regexp="yes" postag="PP3[FMC][SP]000"/>
-			<token  postag_regexp="no" postag="VMIP1S0"/>
-			<token  postag_regexp="no" postag="NCMS000"/>			
+			<token postag='PP..P.+' postag_regexp='yes'/>
+			<token postag='SPS00.DA' postag_regexp='yes'/>
+			<token postag='AQ..S.+|NC.S.+|SPS.+' postag_regexp='yes'/>		
       </antipattern>
-<!-- MARCOAGPINTO 2020-05-04 *END* -->
-<!-- MARCOAGPINTO 2020-05-12 *START* -->
-<!-- "E entre/dentre eles/elas destacamos/destacámos/destacaremos a/o capital/dinheiro." -->
-	  <antipattern>
-		  <token regexp='yes'>entre|dentre</token>
-		  <token postag='PP3[FM]P000' postag_regexp='yes'/>
-		  <token postag='VMI[FSP]1P0' postag_regexp='yes'/>
+<!-- MARCOAGPINTO 2022-04-13 (Checked/Enhanced) (1-JAN-2022+) *END* -->
+
+<!-- MARCOAGPINTO 2022-04-13 (Checked/Enhanced) (1-JAN-2022+) *START* -->
+<!--
+A necessidade de a eles recorrer como terapêutica.
+Poderão vocês vir em grupos de qualquer número.
+Iam eles entrar na segunda semana de treinos.
+-->
+      <antipattern>
+		  <token postag='PP..P.+' postag_regexp='yes'/>
+		  <token postag='VMN0000' postag_regexp='no'/>
+		  <token postag='CS|RG|SPS.+' postag_regexp='yes'/>
       </antipattern>
-<!-- MARCOAGPINTO 2020-05-12 *END* -->
-<!-- MARCOAGPINTO 2020-07-12 (2-JUL-2020+) *START* -->
-<!-- "A necessidade de a eles recorrer como terapêutica." -->
-      <antipattern>	  
-		  <token postag='PP3[FM][SP]000|PP3C[SP]000|PD0NN000' postag_regexp='yes'/>
-		  <token postag='VMN0000|VMSF[13]S0' postag_regexp='yes'/>
-		  <token regexp='yes'>com|como|em|muitas|muitos|nas?|nos?|para</token>
-      </antipattern>	  
-<!-- MARCOAGPINTO 2020-07-12 (2-JUL-2020+) *END* -->
+<!-- MARCOAGPINTO 2022-04-13 (Checked/Enhanced) (1-JAN-2022+) *END* -->
+
 <!-- MARCOAGPINTO 2020-08-07 (2-JUL-2020+) *START* -->
-<!-- "Entre eles há duas torres de escritórios." -->
+<!--
+Entre eles há duas torres de escritórios.
+-->
       <antipattern>
 		<token regexp='yes'>há|havia|haverá|houve|houvesse</token>
-      </antipattern>	  
-<!-- MARCOAGPINTO 2020-08-07 (2-JUL-2020+) *END* -->
-<!-- MARCOAGPINTO 2020-08-12 (2-JUL-2020+) *START* -->
-<!-- "Com ela mede uma probabilidade." -->
-<!-- "Com elas mede uma probabilidade." -->
-      <antipattern>
-	    <token regexp='yes'>a|com|de|entre|para|por|que|sejam?</token>
-		<token postag='PP3[FM][SP]000' postag_regexp='yes'/>
-		<token postag='VMIP3S0|VMM02S0' postag_regexp='yes'/>
       </antipattern>
-<!-- MARCOAGPINTO 2020-08-12 (2-JUL-2020+) *END* -->
-<!-- MARCOAGPINTO 2020-12-15 (21-OCT-2020+) *START* -->
+<!-- MARCOAGPINTO 2020-08-07 (2-JUL-2020+) *END* -->
+
+<!-- MARCOAGPINTO 2022-04-13 (Checked/Enhanced) (1-JAN-2022+) *START* -->
 <!--
 Temos saudades de vocês como era de esperar.
 Temos saudades de vocês como era expetável.
@@ -6853,13 +6850,14 @@ Temos saudades de vocês como seria de esperar.
 Temos saudades de vocês como seria expetável.
 -->
       <antipattern>
-		  <token postag='PP.+|DP.+' postag_regexp='yes'/>
-		  <token postag='CS|RG' postag_regexp='yes'/>
-		  <token postag='VMII[123]S0|VMIP3S0|VMM02S0|VMIC1S0|VMIC3S0' postag_regexp='yes'/>
-	      <token postag='AQ0.S0|NC.S000|SPS.+' postag_regexp='yes'/>
+		  <token postag='PP..P.+|DI.+' postag_regexp='yes'/>
+		  <token postag='CS|RG|CC' postag_regexp='yes'/>
+		  <token postag='V....S.+' postag_regexp='yes'/>
+	      <token postag='AQ..S.+|NC.S.+|SPS.+' postag_regexp='yes'/>
       </antipattern>
-<!-- MARCOAGPINTO 2020-12-15 (21-OCT-2020+) *END* -->
-<!-- MARCOAGPINTO 2021-02-11 (1-JAN-2021+) *START* -->
+<!-- MARCOAGPINTO 2022-04-13 (Checked/Enhanced) (1-JAN-2022+) *END* -->
+
+<!-- MARCOAGPINTO 2022-04-13 (Checked/Enhanced) (1-JAN-2022+) *START* -->
 <!--
 Por eles nutro um grande respeito.
 Outra forma de arte bastante desenvolvida por eles era a escultura.
@@ -6868,14 +6866,15 @@ Quem de vocês deseja falar?
 -->
       <antipattern>
         <token postag='SPS.+' postag_regexp='yes'/>
-		<token postag='PP.+' postag_regexp='yes'/>
+		<token postag='PP..P.+' postag_regexp='yes'/>
         <token postag='V.+' postag_regexp='yes'/>
       </antipattern> 
-<!-- MARCOAGPINTO 2021-02-11 (1-JAN-2021+) *END* -->
+<!-- MARCOAGPINTO 2022-04-13 (Checked/Enhanced) (1-JAN-2022+) *END* -->
+
       <pattern>
           <token regexp='yes'>el[ea]s|vocês</token>
           <token min="0" max="3" postag='R.+' postag_regexp='yes'>
-            <exception scope='next'>,</exception></token>
+            <exception>,</exception></token> <!-- REMOVED: scope='next' - MARCOAGPINTO 2022-04-13 -->
           <token postag='V.[CIS].([12]P|[123]S).' postag_regexp='yes'>
             <exception postag='V.[CIS].3P0' postag_regexp='yes'/>
             <exception>como</exception></token>
@@ -6890,19 +6889,32 @@ Quem de vocês deseja falar?
       <example>Vocês preocupar-se-iam, talvez, com esta manifestação de ignorância.</example>
       <example>Um de vocês não leu as notícias.</example>
       <example>Alguns colegas meus são noobs totais; eles não sabem nada de ciência da computação.</example>
+
+	  <example>Agradeço a você pelo empréstimo.</example>
+	  <example>Agradeço a vocês pelo empréstimo.</example>
+	  <example>Ela pelo mundo todo irá.</example>
+	  <example>Elas pelo mundo todo irão.</example>
+	  <example>Falei com ele pelo telefone.</example>
+	  <example>Falei com eles pelo telefone.</example>
+
+	  <example>A necessidade de a eles recorrer como terapêutica.</example>
+	  <example>Poderão vocês vir em grupos de qualquer número.</example>
+	  <example>Iam eles entrar na segunda semana de treinos.</example>
+
 	  <example type='correct'>Entre eles <marker>há</marker> duas torres de escritórios.</example>
-	  <example type='correct'>Com <marker>ela mede</marker> uma probabilidade.</example>
-	  <example type='correct'>Com <marker>elas mede</marker> uma probabilidade.</example>
-	  <example type='correct'>Temos saudades de <marker>vocês como era</marker> de esperar.</example>
-	  <example type='correct'>Temos saudades de <marker>vocês como seria</marker> de esperar.</example>
-	  <example type='correct'>Temos saudades de <marker>vocês como era</marker> expetável.</example>
-	  <example type='correct'>Temos saudades de <marker>vocês como seria</marker> expetável.</example>
-	  
+
+	  <example>Temos saudades de vocês como era de esperar.</example>
+	  <example>Temos saudades de vocês como era expetável.</example>
+	  <example>Temos saudades de vocês como era bom.</example>
+	  <example>Temos saudades de vocês como seria de esperar.</example>
+	  <example>Temos saudades de vocês como seria expetável.</example>
+
 	  <example>Por <marker>eles nutro</marker> um grande respeito.</example>
 	  <example>Outra forma de arte bastante desenvolvida por eles era a escultura.</example>
 	  <example>Metade de vocês é idiota.</example>
 	  <example>Quem de vocês deseja falar?</example>
     </rule>
+
     <rule>
       <antipattern>
           <token regexp='yes'>(?:alg|n|nenh)?uma?|maioria|ninguém|nada|tudo</token>
