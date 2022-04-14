@@ -35,65 +35,59 @@ import java.util.concurrent.TimeUnit;
  */
 public class LineExpander implements org.languagetool.rules.LineExpander {
 
-  private static final LoadingCache<String, List<String>> cache = CacheBuilder.newBuilder()
+  private static final LoadingCache<String, String[]> verbFormCache = CacheBuilder.newBuilder()
     .expireAfterAccess(10, TimeUnit.MINUTES)
-    .build(new CacheLoader<String, List<String>>() {
+    .build(new CacheLoader<String, String[]>() {
       @Override
-      public List<String> load(@NotNull String line) {
-        List<String> result = new ArrayList<>();
-        String[] parts = cleanTagsAndEscapeChars(line).split("_");
-        if (parts.length != 2) {
-          throw new IllegalArgumentException("Unexpected line format, expected at most one '_': " + line);
-        }
-        if (parts[0].contains("/") || parts[1].contains("/")) {
-          throw new IllegalArgumentException("Unexpected line format, '_' cannot be combined with '/': " + line);
-        }
-        if (parts[1].equals("in")) {
-          // special case for the common gender gap characters:
-          result.add(parts[0] + "_in");
-          result.add(parts[0] + "_innen");
-          result.add(parts[0] + "*in");
-          result.add(parts[0] + "*innen");
-          result.add(parts[0] + ":in");
-          result.add(parts[0] + ":innen");
-          //result.add(parts[0] + "in");   // see if we can comment in these cases, too
-          //result.add(parts[0] + "innen");
-          //result.add(parts[0] + "e");
-          //result.add(parts[0] + "en");
-        } else {
-          try {
-            String[] forms = GermanSynthesizer.INSTANCE.synthesizeForPosTags(parts[1], s -> s.startsWith("VER:"));
-            if (forms.length == 0) {
-              throw new RuntimeException("Could not expand '" + parts[1] + "' from line '" + line + "', no forms found");
-            }
-            Set<String> formSet = new HashSet<>(Arrays.asList(forms));
-            for (String form : formSet) {
-              if (!form.contains("ß") && form.length() > 0 && Character.isLowerCase(form.charAt(0))) {
-                // skip these, it's too risky to introduce old spellings like "gewußt" from the synthesizer
-                result.add(parts[0] + form);
-              }
-            }
-            result.add(parts[0] + "zu" + parts[1]);  //  "zu<verb>" is not part of forms from synthesizer
-            result.add(StringTools.uppercaseFirstChar(parts[0]) + parts[1] + "s");  //  Genitiv, e.g. "des Weitergehens"
-          } catch (IOException e) {
-            throw new RuntimeException(e);
-          }
-        }
-        return result;
+      public String[] load(@NotNull String verb) throws IOException {
+        return GermanSynthesizer.INSTANCE.synthesizeForPosTags(verb, s -> s.startsWith("VER:"));
       }
     });
 
-  @Override
-  public List<String> expandLine(String line) {
+  private static List<String> handleLineWithPrefix(String line) {
     List<String> result = new ArrayList<>();
-    if (isLineWithVerbPrefix(line)) {
-      handleLineWithPrefix(line, result);
-    } else if (isLineWithFlag(line)) {
-      handleLineWithFlags(line, result);
+    String[] parts = cleanTagsAndEscapeChars(line).split("_");
+    if (parts.length != 2) {
+      throw new IllegalArgumentException("Unexpected line format, expected at most one '_': " + line);
+    }
+    if (parts[0].contains("/") || parts[1].contains("/")) {
+      throw new IllegalArgumentException("Unexpected line format, '_' cannot be combined with '/': " + line);
+    }
+    if (parts[1].equals("in")) {
+      // special case for the common gender gap characters:
+      result.add(parts[0] + "_in");
+      result.add(parts[0] + "_innen");
+      result.add(parts[0] + "*in");
+      result.add(parts[0] + "*innen");
+      result.add(parts[0] + ":in");
+      result.add(parts[0] + ":innen");
+      //result.add(parts[0] + "in");   // see if we can comment in these cases, too
+      //result.add(parts[0] + "innen");
+      //result.add(parts[0] + "e");
+      //result.add(parts[0] + "en");
     } else {
-      result.add(cleanTagsAndEscapeChars(line));
+      String[] forms = verbFormCache.getUnchecked(parts[1]);
+      if (forms.length == 0) {
+        throw new RuntimeException("Could not expand '" + parts[1] + "' from line '" + line + "', no forms found");
+      }
+      Set<String> formSet = new HashSet<>(Arrays.asList(forms));
+      for (String form : formSet) {
+        if (!form.contains("ß") && form.length() > 0 && Character.isLowerCase(form.charAt(0))) {
+          // skip these, it's too risky to introduce old spellings like "gewußt" from the synthesizer
+          result.add(parts[0] + form);
+        }
+      }
+      result.add(parts[0] + "zu" + parts[1]);  //  "zu<verb>" is not part of forms from synthesizer
+      result.add(StringTools.uppercaseFirstChar(parts[0]) + parts[1] + "s");  //  Genitiv, e.g. "des Weitergehens"
     }
     return result;
+  }
+
+  @Override
+  public List<String> expandLine(String line) {
+    return isLineWithVerbPrefix(line) ? handleLineWithPrefix(line) :
+           isLineWithFlag(line) ? handleLineWithFlags(line) :
+           Collections.singletonList(cleanTagsAndEscapeChars(line));
   }
 
   private boolean isLineWithFlag(String line) {
@@ -106,11 +100,8 @@ public class LineExpander implements org.languagetool.rules.LineExpander {
     return !line.startsWith("#") && idx > 0 && line.charAt(idx-1) != '\\';
   }
 
-  private void handleLineWithPrefix(String line, List<String> result) {
-    result.addAll(cache.getUnchecked(line));
-  }
-
-  private void handleLineWithFlags(String line, List<String> result) {
+  private List<String> handleLineWithFlags(String line) {
+    List<String> result = new ArrayList<>();
     String[] parts = cleanTagsAndEscapeChars(line).split("/");
     if (parts.length != 2) {
       throw new IllegalArgumentException("Unexpected line format, expected at most one slash: " + line);
@@ -149,6 +140,7 @@ public class LineExpander implements org.languagetool.rules.LineExpander {
         throw new IllegalArgumentException("Unknown suffix: " + suffix + " in line: " + line);
       }
     }
+    return result;
   }
 
   private void add(List<String> result, String word) {
