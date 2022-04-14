@@ -6802,7 +6802,7 @@ Deveríamos dar a ela flores.
           <token regexp='yes'>el[ea]s|vocês</token>
       </antipattern> 
 
-<!-- MARCOAGPINTO 2022-04-13 (Checked/Enhanced) (1-JAN-2022+) *START* -->
+<!-- MARCOAGPINTO 2022-04-13/14 (Checked/Enhanced) (1-JAN-2022+) *START* -->
 <!--
 NOTICE THAT postag='PP..P.+' DOESN'T AFFECT SINGULAR PRONOUNS SINCE THIS RULE IS ONLY FOR PLURAL.
 Agradeço a você pelo empréstimo.
@@ -6811,13 +6811,15 @@ Ela pelo mundo todo irá.
 Elas pelo mundo todo irão.
 Falei com ele pelo telefone.
 Falei com eles pelo telefone.
+Sócrates disse: Eu sei que nada sei; mas muitas pessoas não sabem que elas nada sabem.
+Elas nada sabem.
 -->
       <antipattern>
 			<token postag='PP..P.+' postag_regexp='yes'/>
-			<token postag='SPS00.DA' postag_regexp='yes'/>
-			<token postag='AQ..S.+|NC.S.+|SPS.+' postag_regexp='yes'/>		
+			<token regexp='yes'>pel[ao]s?|nada</token>
+			<token postag='AQ..S.+|NC.S.+|SPS.+|V.+' postag_regexp='yes'/>		
       </antipattern>
-<!-- MARCOAGPINTO 2022-04-13 (Checked/Enhanced) (1-JAN-2022+) *END* -->
+<!-- MARCOAGPINTO 2022-04-13/14 (Checked/Enhanced) (1-JAN-2022+) *END* -->
 
 <!-- MARCOAGPINTO 2022-04-13 (Checked/Enhanced) (1-JAN-2022+) *START* -->
 <!--
@@ -6896,6 +6898,8 @@ Quem de vocês deseja falar?
 	  <example>Elas pelo mundo todo irão.</example>
 	  <example>Falei com ele pelo telefone.</example>
 	  <example>Falei com eles pelo telefone.</example>
+	  <example>Sócrates disse: Eu sei que nada sei; mas muitas pessoas não sabem que elas nada sabem.</example>
+	  <example>Elas nada sabem.</example>
 
 	  <example>A necessidade de a eles recorrer como terapêutica.</example>
 	  <example>Poderão vocês vir em grupos de qualquer número.</example>
