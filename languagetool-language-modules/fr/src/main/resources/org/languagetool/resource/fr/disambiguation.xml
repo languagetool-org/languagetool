@@ -141,6 +141,17 @@ RB => Règles Brutes
         </pattern>
         <disambig action="filter" postag="N m p"/>
     </rule>
+    <rule id="TRANSIT" name="transit">
+        <pattern>
+            <token postag="V.*" postag_regexp="yes">
+                <exception inflected="yes">faire</exception>
+            </token>
+            <marker>
+                <token>transit</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="N m s"/>
+    </rule>
     <rule id="RACCOURCIS" name="raccourcis">
         <pattern>
             <token postag="(P\+)?D . s" postag_regexp="yes"/>
@@ -7811,6 +7822,18 @@ RB => Règles Brutes
                 <token postag="D e p"/>
             </pattern>
             <disambig postag="C coor"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token>
+                    <exception>ne</exception>
+                    <exception postag="R.*" postag_regexp="yes"/></token>
+                <marker>
+                    <token>puis</token>
+                </marker>
+                <token><exception postag="R.*" postag_regexp="yes"/></token>
+            </pattern>
+            <disambig action="remove" postag="V ind pres 1 s"/>
         </rule>
     </rulegroup>
     <rulegroup id="METTEUR_EN_SCENE" name="metteur en scène">
