@@ -824,6 +824,11 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <token postag="SUB:.*" postag_regexp="yes"/>
         </antipattern>
         <antipattern>
+            <token postag="ART:.*" postag_regexp="yes" regexp="yes">die|diese|[dmsk]eine|alle|einige|viele|manche</token>
+            <token regexp="yes">anderen|beiden</token>
+            <token postag="SUB:NOM.*PLU.*" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
             <token postag="PKT|SENT_START|KON:NEB" postag_regexp="yes" />
             <token>ich</token>
             <token>meine</token>
@@ -846,6 +851,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="unify"/>
         <example type="untouched">Das andere Gebäude war um ein Beträchtliches höher.</example>
         <example type="untouched">Ich meine Grammatik-Regeln sind auch wichtig.</example>
+        <example type="untouched">Das sind die anderen Variablen.</example>
     </rule>
     <!-- TODO: this would fix false alarm for 'die ältere der beiden Töchter' but causes other problems
     <rule name="NP unify 1c" id="UNIFY_DET_ADJ">

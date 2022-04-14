@@ -363,7 +363,6 @@ public class German extends Language implements AutoCloseable {
       case "DE_AGREEMENT": return -1;  // prefer RECHT_MACHEN, MONTAGS, KONJUNKTION_DASS_DAS, DESWEITEREN, DIES_BEZUEGLICH and other
       case "DE_AGREEMENT2": return -1;  // prefer WILLKOMMEN_GROSS and other rules that offer suggestions
       case "MEIN_KLEIN_HAUS": return -1; // prefer more specific rules that offer a suggestion (e.g. DIES_BEZÜGLICH)
-      case "COMMA_IN_FRONT_RELATIVE_CLAUSE": return -1; // prefer other rules (KONJUNKTION_DASS_DAS, ALL_DAS_WAS_KOMMA)
       case "CONFUSION_RULE": return -1;  // probably less specific than the rules from grammar.xml
       case "KOMMA_NEBEN_UND_HAUPTSATZ": return -1;  // prefer SAGT_RUFT
       case "FALSCHES_RELATIVPRONOMEN": return -1; // prefer dass/das rules
@@ -406,6 +405,7 @@ public class German extends Language implements AutoCloseable {
       case "MODALVERB_FLEKT_VERB": return -14; // prefer case, spelling and AI rules
       case "TOO_LONG_PARAGRAPH": return -15;
       case "ALL_UPPERCASE": return -15;
+      case "COMMA_IN_FRONT_RELATIVE_CLAUSE": return -16; // prefer other rules (KONJUNKTION_DASS_DAS, ALL_DAS_WAS_KOMMA, AI)
       case "ANFUEHRUNGSZEICHEN_CH_FR": return -49; // prefer over AT/DE quote conventions (is in CH grammar)
       case "COMMA_BEHIND_RELATIVE_CLAUSE": return -52; // less prio than AI_DE_HYDRA_LEO
       case "DOPPELUNG_MODALVERB": return -52; // prefer comma rules (DOPPELUNG_MODALVERB, AI)

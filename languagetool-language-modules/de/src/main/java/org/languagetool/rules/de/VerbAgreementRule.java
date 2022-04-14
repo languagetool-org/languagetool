@@ -227,7 +227,7 @@ public class VerbAgreementRule extends TextLevelRule {
       ),
     Arrays.asList(
       // "Einer wie du kennt ...", "Aber wenn jemand wie Du daherkommt"
-      tokenRegex("einer?|jemand"),
+      tokenRegex("(irgend)?einer?|(irgend)?jemand"),
       token("wie"),
       token("du"),
       posRegex("VER:3:.*")
@@ -257,6 +257,10 @@ public class VerbAgreementRule extends TextLevelRule {
       token("das"),
       csToken("Du"),
       new PatternTokenBuilder().token("anbieten").matchInflectedForms().build()
+    ),
+    Arrays.asList(
+      token("würd"),
+      tokenRegex("[nm]ich|man|ichs|'")
     ),
     Arrays.asList(
       token(","),

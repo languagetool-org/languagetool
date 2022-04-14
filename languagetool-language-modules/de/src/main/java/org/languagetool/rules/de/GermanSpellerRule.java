@@ -2392,6 +2392,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "jedesmal": return topMatch("jedes Mal");
       case "Lybien": return topMatch("Libyen");
       case "Lybiens": return topMatch("Libyens");
+      case "Youtube": return topMatch("YouTube");
       case "Reflektion": return topMatch("Reflexion");
       case "Reflektionen": return topMatch("Reflexionen");
       case "unrelevant": return topMatch("irrelevant");

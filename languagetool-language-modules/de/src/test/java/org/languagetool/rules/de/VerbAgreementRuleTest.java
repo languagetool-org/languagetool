@@ -179,6 +179,8 @@ public class VerbAgreementRuleTest {
     assertGood("Der Bescheid lasse im übrigen die Abwägungen vermissen, wie die Betriebsprüfung zu den Sachverhaltsbeurteilungen gelange, die den von ihr bekämpften Bescheiden zugrundegelegt worden seien.");
     assertGood("Die Bildung des Samens erfolgte laut Alkmaion im Gehirn, von wo aus er durch die Adern in den Hoden gelange.");
     assertGood("Michael Redmond (geb. 1963, USA).");
+    assertGood("Würd mich sehr freuen drüber.");
+    assertGood("Es würd' ein jeder Doktor sein, wenn's Wissen einging wie der Wein.");
     // incorrect sentences:
     assertBad("Als Borcarbid weißt es eine hohe Härte auf.");
     assertBad("Das greift auf Vorläuferinstitutionen bist auf die Zeit von 1234 zurück.");
