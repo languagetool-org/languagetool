@@ -3054,6 +3054,16 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="ignore_spelling"/>
     </rule>
 
+    <rule name="Air China (Air kein SUB)" id="AIR_CHINA">
+        <pattern>
+            <marker>
+                <token case_sensitive="yes">Air</token>
+            </marker>
+            <token postag="SUB.*|UNKNOWN|EIG.*" postag_regexp="yes" />
+        </pattern>
+        <disambig action="remove" postag="SUB:.+" />
+    </rule>
+
     <rule name="Air Force One" id="AIR_FORCE_ONE">
         <pattern case_sensitive="yes">
             <token>Air</token>
@@ -5852,6 +5862,16 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <token regexp="yes">.+zeit</token>
         </pattern>
         <disambig action="remove" postag="PRP.*"/>
+    </rule>
+
+    <rule id="WILLIGEN_KEIN_VB" name="'Einkaufswilligen' kein VB">
+        <pattern>
+            <token regexp="yes">
+                .+willigen
+                <exception regexp="yes">(ein|be|darein|nachbe)willigen</exception>
+            </token>
+        </pattern>
+        <disambig action="remove" postag="VB.*"/>
     </rule>
 
     <rulegroup id="HAEUFIGE_NACHNAMEN" name="Häufige Nachnamen, die nicht zur spelling.txt hhinzugefügt werden können">

@@ -2338,6 +2338,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "hälst": return topMatch("hältst");
       case "Rythmus": return topMatch("Rhythmus");
       case "Rhytmus": return topMatch("Rhythmus");
+      case "Rhytmen": return topMatch("Rhythmen");
       case "Hobbies": return topMatch("Hobbys");
       case "Stehgreif": return topMatch("Stegreif");
       case "brilliant": return topMatch("brillant");
