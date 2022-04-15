@@ -91,7 +91,7 @@ public class MorfologikPolishSpellerRuleTest {
 
     final RuleMatch[] prunedMatches = rule.match(lt.getAnalyzedSentence("Clarkem"));
     assertEquals(1, prunedMatches.length);
-    assertEquals(5, prunedMatches[0].getSuggestedReplacements().size());
+    assertEquals(6, prunedMatches[0].getSuggestedReplacements().size());
     assertEquals("Clarke", prunedMatches[0].getSuggestedReplacements().get(0));
     assertEquals("Clarkiem", prunedMatches[0].getSuggestedReplacements().get(1));
     assertEquals("Ciarkę", prunedMatches[0].getSuggestedReplacements().get(2));
