@@ -15911,6 +15911,16 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig action="remove" postag="DT"/>
     </rule>
 
+    <rule id="MOST_NO_NOUN" name="remove 'NN' from 'most'">
+        <pattern>
+            <marker>
+                <token>most</token>
+            </marker>
+            <token>likely</token>
+        </pattern>
+        <disambig action="remove" postag="NN.*" />
+    </rule>
+
     <rulegroup id="GERMAN_STREET_NAMES" name="ignore spelling of German street names">
         <rule>
             <pattern case_sensitive="yes">
