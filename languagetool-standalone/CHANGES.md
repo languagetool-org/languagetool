@@ -23,7 +23,6 @@
   * added and improved rules, especially for frequent mistakes
   * added a rule for spelling coherency (*menedżer* or *menadżer* but not both in the same document)
   * updated the user interface translation
-  * updated the spelling dictionary to match changes in language (the current version is in sync with sjp.pl as of April 1, 2022)
 
 #### Portuguese
   * added and improved rules
