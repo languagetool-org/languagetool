@@ -25562,27 +25562,26 @@ Assistir à TV é um dos meus passatempos favoritos.
 
   <rulegroup id='CONFUSÃO_AONDE_ONDE' name="Confusão: onde/aonde/donde">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2019-03-10 -->
-	<!--      Improved by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-04-15 (1-JAN-2022+)      -->
+	<!--      Improved by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-04-15/16 (1-JAN-2022+)      -->
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/onde-e-aonde/548</url>
+
+	<!-- aonde/donde  → onde -->
     <rule>
       <pattern>
-          <token>aonde</token>
+		  <marker>
+			<token regexp='yes'>aonde|donde</token>
+		  </marker>
           <token regexp='yes' inflected='yes'>estar|viver|morar|trabalhar</token>
       </pattern>
-      <message>\1 pode ser subsituido 'para que lugar'. Pretende dizer:<suggestion>onde \2</suggestion>?</message>
-      <example correction="Onde trabalha"><marker>Aonde trabalha</marker>?</example>
+      <message>'\1' pode ser substituído 'de que lugar'/'para que lugar' (verbo 'estar'). Pretende dizer:<suggestion>onde</suggestion>?</message>
+      <example correction="Onde"><marker>Aonde</marker> trabalha?</example>
+	  <example correction="Onde"><marker>Donde</marker> vives?</example>
     </rule>
-    <rule>
-      <pattern>
-          <token>donde</token>
-          <token regexp='yes' inflected='yes'>estar|viver|morar|trabalhar</token>
-      </pattern>
-      <message>\1 pode ser subsituido 'de que lugar'. Pretende dizer: <suggestion>onde \2</suggestion>?</message>
-      <example correction="Onde vives"><marker>Donde vives</marker>?</example>
-    </rule>
+
+	<!-- onde → aonde -->
     <rule>
       <antipattern>
-          <token regexp='yes'>até|de</token>
+          <token regexp='yes'>até|de|para|pra|por</token> <!-- MARCOAGPINTO - 2022-04-16 -->
           <token>onde</token>
       </antipattern>
       <antipattern><!-- futuro perifrásico -->
@@ -25590,16 +25589,19 @@ Assistir à TV é um dos meus passatempos favoritos.
           <token postag='VMN0000'/><!-- TODO add exceptions. e.g. "Onde vamos comer?" "Nós não decidimos onde vamos descansar."-->
       </antipattern>
       <pattern>
-		  <token negate_pos="yes" postag='RG'/> <!-- MARCOAGPINTO - 2022-04-15 -->
-          <token>onde</token>
+		  <marker>
+			<token>onde</token>
+		  </marker>
           <token regexp='yes' inflected='yes'>ir|partir|voar|navegar|voltar
             <exception inflected='yes'>ser</exception></token>
       </pattern>
-      <message>'<match no='2' case_conversion='startupper'/>' pode ser subsituido 'em que lugar'. Pretende dizer: <suggestion>aonde \3</suggestion> ou <suggestion>donde \3</suggestion>?</message>
-      <example correction="Aonde vais|Donde vais"><marker>Onde vais</marker>?</example>
+      <message>'<match no='1' case_conversion='startupper'/>' pode ser substituído 'em que lugar' (verbo 'ir'). Pretende dizer: <suggestion>aonde</suggestion>?</message>
+      <example correction="Aonde"><marker>Onde</marker> vais?</example>
       <example>É servida pelo terminal rodoviário de Retiro, de onde partem e chegam linhas de autocarros para todas…</example>
       <example>…o invólucro onde vão assentar os livros encaixa dentro do tronco da árvore.</example>
     </rule>
+
+	<!-- aonde/onde → donde/de onde -->
     <rule>
       <antipattern>
           <token regexp='yes'>até|de</token>
@@ -25612,12 +25614,15 @@ Assistir à TV é um dos meus passatempos favoritos.
           <token postag='VMN0000'/>
       </antipattern>
       <pattern>
-          <token>onde</token>
+		  <marker>
+			<token regexp='yes'>aonde|onde</token>
+		  </marker>
           <token inflected='yes'>vir</token>
       </pattern>
-      <message>'<match no='1' case_conversion='startupper'/>' pode ser subsituido 'em que lugar'. Pretende dizer: <suggestion>donde \2</suggestion> ou <suggestion>de onde \2</suggestion>?</message>
-      <example correction="Donde vens|De onde vens"><marker>Onde vens</marker>?</example>
+      <message>'<match no='1' case_conversion='startupper'/>' pode ser substituído 'em que lugar' (verbo 'vir'-Portugal). Pretende dizer: <suggestion>donde</suggestion> ou <suggestion>de onde</suggestion>?</message>
+      <example correction="Donde|De onde"><marker>Onde</marker> vens?</example>
     </rule>
+
   </rulegroup>
 
 
@@ -42946,7 +42951,7 @@ Pouco importam as notas na música, o que conta são as sensações produzidas p
 
 	<!-- PARA O DOMINGO DE HOJE para este domingo -->
     <rulegroup id='SIMPLIFICAR_PARA_DIA_SEMANA_PARA_ESTE_DIA' name="Simplificar: Para dia semana → Para este dia" type="style">
-	<!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-04-14/15 (1-JAN-2022+)      -->
+	<!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-04-14 (1-JAN-2022+)      -->
 	<!--
 Quero isto para o domingo de hoje. → Quero isto para este domingo.
 Quero isto para a terça-feira de hoje. → Quero isto para esta terça-feira.
@@ -42957,7 +42962,7 @@ Quero isto para o dia de hoje. → Quero isto para este dia.
 		  <token>para</token>
 		  <marker>
 			<token regexp='yes'>[ao]</token>
-			<token regexp='yes'>segunda|terça|quarta|quinta|sexta|sábado|domingo</token>
+			<token regexp='yes'>dia|segunda|terça|quarta|quinta|sexta|sábado|domingo</token>
 			<token>de</token>
 			<token>hoje</token>
 		  </marker>
