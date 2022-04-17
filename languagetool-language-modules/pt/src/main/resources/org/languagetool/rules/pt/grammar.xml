@@ -25562,7 +25562,7 @@ Assistir à TV é um dos meus passatempos favoritos.
 
   <rulegroup id='CONFUSÃO_AONDE_ONDE' name="Confusão: onde/aonde/donde">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2019-03-10 -->
-	<!--      Improved by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-04-15/16 (1-JAN-2022+)      -->
+	<!--      Improved by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-04-15/16/17 (1-JAN-2022+)      -->
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/onde-e-aonde/548</url>
 
 	<!-- aonde/donde  → onde -->
@@ -25571,6 +25571,7 @@ Assistir à TV é um dos meus passatempos favoritos.
 		  <marker>
 			<token regexp='yes'>aonde|donde</token>
 		  </marker>
+		  <token min="0" max="1" negate_pos="yes" postag_regexp='yes' postag='V.+'/>
           <token regexp='yes' inflected='yes'>estar|viver|morar|trabalhar</token>
       </pattern>
       <message>'\1' pode ser substituído 'de que lugar'/'para que lugar' (verbo 'estar'). Pretende dizer:<suggestion>onde</suggestion>?</message>
@@ -25592,6 +25593,7 @@ Assistir à TV é um dos meus passatempos favoritos.
 		  <marker>
 			<token>onde</token>
 		  </marker>
+		  <token min="0" max="1" negate_pos="yes" postag_regexp='yes' postag='V.+'/>
           <token regexp='yes' inflected='yes'>ir|partir|voar|navegar|voltar
             <exception inflected='yes'>ser</exception></token>
       </pattern>
@@ -25617,9 +25619,10 @@ Assistir à TV é um dos meus passatempos favoritos.
 		  <marker>
 			<token regexp='yes'>aonde|onde</token>
 		  </marker>
+		  <token min="0" max="1" negate_pos="yes" postag_regexp='yes' postag='V.+'/>
           <token inflected='yes'>vir</token>
       </pattern>
-      <message>'<match no='1' case_conversion='startupper'/>' pode ser substituído 'em que lugar' (verbo 'vir'-Portugal). Pretende dizer: <suggestion>donde</suggestion> ou <suggestion>de onde</suggestion>?</message>
+      <message>'<match no='1' case_conversion='startupper'/>' pode ser substituído 'em que lugar' (verbo 'vir'). Pretende dizer: <suggestion>donde</suggestion> (Portugal) ou <suggestion>de onde</suggestion>?</message>
       <example correction="Donde|De onde"><marker>Onde</marker> vens?</example>
     </rule>
 
