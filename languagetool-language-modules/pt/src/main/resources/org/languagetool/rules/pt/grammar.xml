@@ -2993,15 +2993,29 @@ Havia o receio que causem problemas. → Havia o receio que causassem problemas.
 	
 	<!-- QUE CADA VEZ SERÃO que serão cada vez -->
     <rule id='COLOCACAO_ADVERBIO' name="Colocação de advérbio" type="style">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-04-26 + 2021-04-27 + 2021-04-28 + 2021-07-11 (17-MAR-2021+)      -->
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-04-26 + 2021-04-27 + 2021-04-28 + 2021-07-11 + 2022-04-17 (17-MAR-2021+)      -->
 	<!--
 Vamos usar resoluções que cada vez serão mais comuns nos computadores recentes. → Vamos usar resoluções que serão cada vez mais comuns nos computadores recentes.
-	-->	
+	-->
+
+<!-- MARCOAGPINTO 2022-04-17 (1-JAN-2022+) *START* -->
+<!--
+Você é ilusionista? Porque sempre que olho para você, todas as outras pessoas desaparecem.
+Lembremos o ambiente tenebroso de “Resident Evil” original, em que sempre que abríamos uma porta e entrávamos numa sala corria um arrepio na espinha.
+É a pusilanimidade do pensamento pseudo-esquerdista que sempre que vê a oportunidade cai de boca no reacionarismo e na manutenção das estruturas do capital.
+-->
+      <antipattern>
+		<token>sempre</token>
+		<token>que</token>
+		<token postag='V.+' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-04-17 (1-JAN-2022+) *END* -->
+
 		<pattern>
 			<token postag='CS' postag_regexp='no'>
 				<exception regexp='no'>já</exception>
 				<exception postag_regexp='yes' postag='V.+'/>
-			</token>			
+			</token>
 			<marker>
 				<token postag='RG' postag_regexp='no'>
 					<exception regexp='yes'>aí|ainda|ali|amanhã|aqui|até|completamente|dificilmente|embora|hoje|já|nunca|onde|ontem|ponto|praticamente|provavelmente|quando|quanto|talvez</exception>
@@ -3015,10 +3029,10 @@ Vamos usar resoluções que cada vez serão mais comuns nos computadores recente
 				</token>
 				<token postag='V.+' postag_regexp='yes'>
 					<exception postag_regexp='yes' postag='RG|CC|Z0.+'/>
-				</token>				
+				</token>
 			</marker>
 			<token negate_pos="yes" postag='V.+|RG|CC|Z0.+|_PUNCT|RM' postag_regexp='yes'/>
-		</pattern>		
+		</pattern>
 		<message>Esta frase poderia soar melhor com o verbo antes de \2.</message>
 		<suggestion>\4 \2 \3</suggestion>
 		<example correction="serão cada vez">Vamos usar resoluções que <marker>cada vez serão</marker> mais comuns nos computadores recentes.</example>
@@ -3044,6 +3058,10 @@ Vamos usar resoluções que cada vez serão mais comuns nos computadores recente
 		<example>Ela o cumprimentou alegremente como sempre fez.</example>
 		<example>Seja sempre feita a vontade de Deus.</example>
 		<example>Francisco, pensei que ontem era dia 11.</example>
+
+		<example>Você é ilusionista? Porque sempre que olho para você, todas as outras pessoas desaparecem.</example>
+		<example>Lembremos o ambiente tenebroso de “Resident Evil” original, em que sempre que abríamos uma porta e entrávamos numa sala corria um arrepio na espinha.</example>
+		<example>É a pusilanimidade do pensamento pseudo-esquerdista que sempre que vê a oportunidade cai de boca no reacionarismo e na manutenção das estruturas do capital.</example>
     </rule>
 
 	<!-- APARECE NO ECRÃ UM NÚMERO aparece um número no ecrã -->
