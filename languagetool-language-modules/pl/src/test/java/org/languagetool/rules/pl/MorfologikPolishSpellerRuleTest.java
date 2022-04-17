@@ -61,6 +61,11 @@ public class MorfologikPolishSpellerRuleTest {
    //compound words: "trzynastobitowy", "zgniłożółty"
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Trzynastobitowe przystawki w kolorze zgniłożółtym")).length);
 
+    //compound word that failed test when CamelCase was on:
+
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Nie spotkałem tutaj Saint-Exupérych")).length);
+
+
     //incorrect sentences:
 
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("Zolw"));
@@ -97,6 +102,9 @@ public class MorfologikPolishSpellerRuleTest {
     assertEquals("Ciarkę", prunedMatches[0].getSuggestedReplacements().get(2));
     assertEquals("Clarkom", prunedMatches[0].getSuggestedReplacements().get(3));
     assertEquals("Czarkę", prunedMatches[0].getSuggestedReplacements().get(4));
+
+    //with default ignore-camel-case == yes this was not catched at all
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("Saint-Exupérymu")).length);
 
     // There should be a match, this is not a prefix!
 
