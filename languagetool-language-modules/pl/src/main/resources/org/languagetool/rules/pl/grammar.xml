@@ -16939,20 +16939,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example correction="wieżą Eiffla">Spędźmy dziką noc pod <marker>wieżą Eiffela</marker>!</example>
 						<example>W Warszawie nie ma nic, co przypominałoby wieżę Eiffla.</example>
 				    </rule>
-                    <rule>
-                        <pattern case_sensitive="yes">
-                            <token regexp="yes">\p{Ll}+|[;,:]</token>
-                            <marker>
-                                <token inflected="yes">wieża<exception regexp="yes">w.*</exception></token>
-                                <token>Eiffla</token>
-                            </marker>
-                        </pattern>
-                        <message>Nieprawidłowa pisownia. Poprawnie: <suggestion><match no="2" case_conversion="alllower"/> Eiffla</suggestion>.</message>
-                        <url>https://sjp.pwn.pl/poradnia/haslo/;14712.html</url>
-                        <short>Błąd ortograficzny</short>
-                        <example correction="wieży Eiffla">W związku z remontem części wind na <marker>Wieży Eiffla</marker> bilety dostępne są na zapytanie.</example>
-                    </rule>
-                </rulegroup>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">\p{Ll}+|[;,:]</token>
+                    <marker>
+                        <token inflected="yes">wieża<exception regexp="yes">w.*</exception></token>
+                        <token>Eiffla</token>
+                    </marker>
+                </pattern>
+                <message>Nieprawidłowa pisownia. Poprawnie: <suggestion><match no="2" case_conversion="alllower"/> Eiffla</suggestion>.</message>
+                <url>https://sjp.pwn.pl/poradnia/haslo/;14712.html</url>
+                <short>Błąd ortograficzny</short>
+                <example correction="wieży Eiffla">W związku z remontem części wind na <marker>Wieży Eiffla</marker> bilety dostępne są na zapytanie.</example>
+            </rule>
+            <rule>
+            <pattern>
+              <token>Eiffla<exception scope="previous" inflected="yes">wieża</exception></token>
+            </pattern>            
+            <message>Nieprawidłowa pisownia nazwiska. Jeśli nie chodzi o wieżę Eiffla, piszemy <suggestion>Eiffela</suggestion>.</message>
+            <url>https://sjp.pwn.pl/slowniki/Eiffel.html</url>
+            <short>Błąd ortograficzny</short>
+            <example correction="Eiffela">Spotkałem wczoraj w kawiarni pana <marker>Eiffla</marker>.</example>
+            </rule>
+        </rulegroup>
 				<rule id="PAR_EXCELLENCE" name="„par excellance” (par excellence)">
 						<pattern>
 								<token>par</token>
@@ -18684,12 +18693,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				<rule id="NIE_OMAL" name="„nie omal” (nieomal)">
 						<pattern>
 								<token>nie</token>
-								<token>omal</token>
+								<token regexp="yes">omal|prawdaż</token>
 						</pattern>
-						<message>Ten wyraz piszemy łącznie: <suggestion>nieomal</suggestion>.</message>
+						<message>Ten wyraz piszemy łącznie: <suggestion>\1\2</suggestion>.</message>
 						<short>Błąd ortograficzny</short>
 						<example>Nieomal kupiłem mercedesa za bezcen.</example>
 						<example correction="Nieomal"><marker>Nie omal</marker> kupiłem mercedesa za bezcen.</example>
+						<example correction="nieprawdaż">Teściowa ma gest, <marker>nie prawdaż</marker>?</example>
 				</rule>
 				<rule id="NIE_OPODAL" name="„nie opodal” (nieopodal)">
 						<pattern>
