@@ -673,9 +673,9 @@ A fé está neles próprias. → A fé está neles próprios.
 
   <!-- ESTE/ESTA concordância de género -->
   <rulegroup id='GENDER_ESTE_ESTA' name="Concordância de género: Este(s)/esta(s)">
-  <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-27 (1-JAN-2022+)      -->
+  <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-27 + 2022-04-19 (1-JAN-2022+)      -->
   <!--
-HITS IN 600000 SENTENCES:24
+HITS IN 600000 SENTENCES:18
 SOME HITS HAPPEN DUE TO MISSING POS INFORMATION FOR THE WORDS.
 
 E este tese foi redigida por mim. → E esta tese foi redigida por mim.
@@ -695,15 +695,33 @@ Todo mundo esta ferido.
 Vocês só sabem dizer (perguntar) onde esta escrito isto na bíblia?
 O que esta morto, não pode morrer!
 A beleza é o sorriso da verdade quando esta vê seu próprio rosto em um espelho perfeito.
--->		
+-->
 		<antipattern>
 			<token postag='N[CP].+|RG|CS' postag_regexp='yes'/>
 			<token regexp="yes">est[ae]s?</token>
 			<token postag='VMP00.+|VMIP3.+|VMM03.+' postag_regexp='yes'/>
 		</antipattern>
 
+<!--
+O estranho disso tudo é que o pânico agora esta fraco, mas mesmo assim persiste, outro dia olhei pro meu pai e fiquei com muita do dele e chorei.
+É realmente uma religião diabólica isso esta claro.
+Mas esta claro que Moro tinha interesses em.usar a lava katonpara beneficios proprios.
+
+THE THREE SENTENCES BELOW ARE IGNORED BECAUSE OF "UNKNOWN" BEFORE "ESTA".
+Porem não precisa levar muito, uns 300,00 ja esta bom, evidentemente se vc pretende comprar bastante nos free shop, ou jogar muito no casino, é inter...
+Ate ai o seu comentario esta perfeito.
+tenho um modelo que amo de montão... a aste quebrou e a jf sun consertou e meu oculos esta perfeito.
+-->
+		<antipattern>
+			<token postag='RG|CC|PD.+|UNKNOWN' postag_regexp='yes'/>
+			<token>esta</token>
+			<token postag='AQ.[MC].+|NC[MC].+' postag_regexp='yes'/>
+			<token postag='_PUNCT|CS' postag_regexp='yes'/>
+		</antipattern>
+
 		<rule>
-			<pattern>	
+			<pattern>
+				<token negate_pos="yes" postag='NP[MN].+|AQ.[MC].+|NC[MC].+' postag_regexp='yes'/>
 				<marker>
 					<token regexp="yes">estes?</token>
 				</marker>
@@ -712,12 +730,13 @@ A beleza é o sorriso da verdade quando esta vê seu próprio rosto em um espelh
 				</token>
 			</pattern>
 			<message>&MSG_ECG;</message>
-			<suggestion><match no='1' postag='DD0M(.)0' postag_regexp="yes" postag_replace='DD0F$10'>este</match></suggestion>
+			<suggestion><match no='2' postag='DD0M(.)0' postag_regexp="yes" postag_replace='DD0F$10'>este</match></suggestion>
 			<example correction="esta">E <marker>este</marker> tese foi redigida por mim.</example>
 			<example correction="estas">E <marker>estes</marker> teses foram redigidas por mim.</example>
         </rule>
 		<rule>
 			<pattern>
+				<token negate_pos="yes" postag='NP[FN].+|AQ.[FC].+|NC[FC].+' postag_regexp='yes'/>
 				<marker>
 					<token regexp="yes">estas?</token>
 				</marker>
@@ -726,7 +745,7 @@ A beleza é o sorriso da verdade quando esta vê seu próprio rosto em um espelh
 				</token>
 			</pattern>
 			<message>&MSG_ECG;</message>
-			<suggestion><match no='1' postag='DD0F(.)0' postag_regexp="yes" postag_replace='DD0M$10'>este</match></suggestion>
+			<suggestion><match no='2' postag='DD0F(.)0' postag_regexp="yes" postag_replace='DD0M$10'>este</match></suggestion>
 			<example correction="este">E <marker>esta</marker> documento foi redigido por mim.</example>
 			<example correction="estes">E <marker>estas</marker> documentos foram redigidas por mim.</example>
 		</rule>
