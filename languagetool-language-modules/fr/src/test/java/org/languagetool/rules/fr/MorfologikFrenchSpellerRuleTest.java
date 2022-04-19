@@ -199,7 +199,11 @@ public class MorfologikFrenchSpellerRuleTest {
     matches = rule.match(lt.getAnalyzedSentence("à1930"));
     assertEquals(1, matches.length);
     assertEquals("à 1930", matches[0].getSuggestedReplacements().get(0));
-      
+    
+    //BretagneItinéraire
+    matches = rule.match(lt.getAnalyzedSentence("BretagneItinéraire"));
+    assertEquals(1, matches.length);
+    assertEquals("Bretagne Itinéraire", matches[0].getSuggestedReplacements().get(0));
 
   }
   

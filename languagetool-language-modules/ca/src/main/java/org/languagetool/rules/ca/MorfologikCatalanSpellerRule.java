@@ -39,6 +39,7 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   private static final Pattern PARTICULA_INICIAL = Pattern.compile(
       "^(no|en|a|els?|als?|pels?|dels?|de|per|uns?|una|unes|la|les|[tms]eus?) (..+)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  private static final Pattern CAMEL_CASE = Pattern.compile("^(.[\\p{Ll}·]+)(\\p{Lu}[\\p{Ll}·]+)$", Pattern.UNICODE_CASE);
   private static final Pattern PREFIX_AMB_ESPAI = Pattern.compile(
       "^(eco|tele|anti|re|des|avant|auto|ex|extra|macro|mega|meta|micro|multi|mono|mini|post|retro|semi|super|trans|pro|g) (..+)|.+ s$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
@@ -180,6 +181,7 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
      * if (word.length() < 5) { return Collections.emptyList(); }
      */
     String suggestion = "";
+    suggestion = findSuggestion(suggestion, word, CAMEL_CASE, ANY_TAG, 1, " ", true);
     suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_VERBS, VERB_INDSUBJ, 2, "'", true);
     suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_VERBS_M, VERB_INDSUBJ_M, 2, "'", true);
     suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_NOM_SING, NOM_SING, 2, "'", true);
@@ -203,7 +205,7 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
     if (matcher.matches()) {
       String newSuggestion = matcher.group(suggestionPosition);
       AnalyzedTokenReadings newatr = tagger.tag(Arrays.asList(newSuggestion)).get(0);
-      if ((!newatr.hasPosTag("VMIP1S0B") || newSuggestion.equals("fer")) && matchPostagRegexp(newatr, postagPattern)) {
+      if ((!newatr.hasPosTag("VMIP1S0B") || newSuggestion.equalsIgnoreCase("fer") || newSuggestion.equalsIgnoreCase("gran")) && matchPostagRegexp(newatr, postagPattern)) {
         return matcher.group(1) + separator + matcher.group(2);
       }
       if (recursive) {
