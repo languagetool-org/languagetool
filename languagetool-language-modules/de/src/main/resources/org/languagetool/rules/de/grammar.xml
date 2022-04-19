@@ -6491,6 +6491,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Verwechslungen -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
+        <rule id="ZEIHEN_ZIEHEN" name="zeihen vs ziehen" default="temp_off">
+            <antipattern>
+                <token regexp="yes" inflected="yes" skip="-1">Verrat|Lüge|Feigheit|Heuchelei|Raub|Diebstahl|Vermessenheit</token>
+                <token inflected="yes">zeihen</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" skip="-1">zeihen</token>
+                <token regexp="yes" inflected="yes">Verrat|Lüge|Feigheit|Heuchelei|Raub|Diebstahl|Vermessenheit</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes" case_sensitive="yes">zeihen|zeiht|zeihe</token>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="1" regexp_match="ei" regexp_replace="ie" /></suggestion>?</message>
+            <example correction="zieht">Er <marker>zeiht</marker> am gleichen Seil.</example>
+        </rule>
         <rulegroup id="TAETIGE_TAEGIGE" name="tägig vs tätig">
             <rule>
                 <pattern>
@@ -14345,6 +14360,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Pauschal<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Pauschalurlaub">Wir haben einen <marker>pauschal Urlaub</marker> gebucht.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>trans</token>
+                    <token regexp="yes" case_sensitive="yes">Frau(en)?|Mann|Männern?|Person(en)?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>Trans<match no="2" case_conversion="alllower" /></suggestion>?</message>
+                <example correction="Transfrau">Sie ist eine <marker>trans Frau</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="GEGEN_CHECKEN" name="gegen checken (gegenchecken)">
@@ -61735,47 +61758,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern><!-- Die benutzen was selbst gebautes. -->
                     <token>was</token>
-                    <token postag="ADV.*" postag_regexp="yes" />
-                    <token regexp="yes">.+es</token>
-                </antipattern>
-                <antipattern>
-                    <token>wer</token>
-                    <token postag="VER:[1-3].+" postag_regexp="yes"></token>
-                    <token min="0" postag="NEG"></token>
-                    <token regexp="yes">wem|wofür|wann|warum|womit|wogegen|wie</token>
-                </antipattern>
-                <pattern>
-                    <token postag="VER:[1-3].+" postag_regexp="yes"></token>
-                    <token min="0" postag="NEG"></token>
-                    <marker>
-                        <token min="0" postag="PRP.+" postag_regexp="yes"></token>
-                        <token regexp="yes">inwie(fern|weit)|ob|wann|was|warum|we[mnr]|wes(halb|wegen|sen)|wieso|wo(durch|her|hin|für|mit|gegen|ran|rauf|von|zu)?</token>
-                    </marker>
-                    <token postag="PRO.+|EIG.+" postag_regexp="yes"></token>
-               </pattern>
-               <message>Indirekte Fragen und Relativsätze werden mit Komma vom Hauptsatz abgetrennt.</message>
-               <suggestion>, \3 \4</suggestion>
-               <short>Möglicherweise fehlendes Komma</short>
-               <example correction=", was">Denn sie wissen nicht<marker> was</marker> sie tun.</example>
-               <example correction=", was">Denn sie wissen<marker> was</marker> sie tun.</example>
-               <example correction=", an was">Denn sie wissen nicht<marker> an was</marker> sie glauben sollen.</example>
-               <example correction=", an was">Denn sie wissen<marker> an was</marker> sie glauben sollen.</example>
-               <example>Ich sehe was was du nicht siehst.</example>
-               <example>Die benutzen was selbst gebautes.</example>
-               <example>Wer hält wem die Tür auf?</example>
-               <example>wer ist wofür zuständig, wer übernimmt wofür die Verantwortung.</example>
-            </rule>
-            <rule default="temp_off"><!-- TODO: replace rule above with this one -->
-                <antipattern>
-                    <token>ob</token>
-                    <token postag='.*GEN.*|UNKNOWN' postag_regexp='yes'/>
-                </antipattern>
-                <antipattern>
-                    <token>was</token>
-                    <token>was</token>
-                </antipattern>
-                <antipattern><!-- Die benutzen was selbst gebautes. -->
-                    <token>was</token>
                     <token postag="ADV.*" postag_regexp="yes" min="0" max="2" />
                     <token regexp="yes">.+es</token>
                 </antipattern>
@@ -61784,6 +61766,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="VER:[1-3].+" postag_regexp="yes"></token>
                     <token min="0" postag="NEG"></token>
                     <token regexp="yes">wem|wofür|wann|warum|womit|wogegen|wie</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">hängen</token>
+                    <token>davon</token>
+                    <token>ab</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">zeigen</token>
+                    <token>auch</token>
+                    <token>auf</token>
                 </antipattern>
                 <pattern>
                     <token postag="VER:[1-3].+" postag_regexp="yes"></token>
@@ -61808,6 +61800,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                <example>Ich sehe was was du nicht siehst.</example>
                <example>Die benutzen was selbst gebautes.</example>
                <example>Wer hält wem die Tür auf?</example>
+               <example>Vielleicht ist der sorgenvolle Teil zu lang geworden, aber er zeigt auch auf was beeinträchtigte Menschen erleben können.</example>
+               <example>Hängt davon ab wann ich aufstehe und wie die Strassen sind.</example>
                <example>wer ist wofür zuständig, wer übernimmt wofür die Verantwortung.</example>
             </rule>
             <rule>
@@ -62230,7 +62224,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="LEERZEICHEN_VOR_AUSRUFEZEICHEN_ETC" name="Falsches Leerzeichen vor Ausrufezeichen etc.">
-            <regexp>(\w+) ([!?:])(?!(-?[()/DO]|\s\d|(?i)[a-z]{1,20}))</regexp>
+            <regexp>(\w+) ([!?:])(?!(-?[()/DO=]|\s\d|(?i)[a-z]{1,20}))</regexp>
             <message>Vor Satzzeichen steht kein Leerzeichen (dahinter allerdings schon).</message>
             <suggestion>\1\2</suggestion>
             <example correction="erschaffen!">Wir haben den Design-Klassiker der Zukunft <marker>erschaffen !</marker></example>
@@ -62241,6 +62235,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>So sieht’s aus :(</example>
             <example>So sieht’s aus :-/</example>
             <example>So sieht’s aus :/</example>
+            <example>Vermieter != Inhaber</example>
             <example>Das Ergebnis von 4 : 2 ist 2.</example>
         </rule>
         <rule id="FALSCHE_VERWENDUNG_DES_BINDESTRICHS" name="Mögliche falsche Verwendung des Bindestrichs" tags="picky">

@@ -1078,6 +1078,17 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("mch", w -> Arrays.asList("mich", "ich", "ach"));
     put("Ihc", w -> Arrays.asList("Ich", "Ihr", "Ihm"));
     put("ihc", w -> Arrays.asList("ich", "ihr", "ihm"));
+    put("wier", w -> Arrays.asList("wie", "wir", "vier", "hier"));
+    put("ander", w -> Arrays.asList("an der", "andere", "änder", "anders"));
+    put("ech", w -> Arrays.asList("euch", "ich"));
+    put("letzt", w -> Arrays.asList("letzte", "jetzt"));
+    put("beu", w -> Arrays.asList("bei", "peu", "neu"));
+    put("darn", w -> Arrays.asList("daran", "darin", "dann", "dar"));
+    put("zwie", w -> Arrays.asList("zwei", "wie", "sie", "sowie"));
+    put("gebten", w -> Arrays.asList("gebeten", "gaben", "geboten", "gelten"));
+    put("Spß", "Spaß");
+    put("kanst", "kannst");
+    put("fregen", "fragen");
     put("Bingerloch", "Binger Loch");
     put("[nN]or[dt]rh?einwest(f|ph)alen", "Nordrhein-Westfalen");
     put("abzusolvieren", "zu absolvieren");
