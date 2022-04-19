@@ -43142,6 +43142,24 @@ As balas de borracha reduzem os danos que causam nos manifestantes atingidos. �
     </rule>
 
 
+	<!-- ARRANJADOS É QUE PODEM arranjados podem -->
+    <rule id='SIMPLIFICAR_REMOVER_É_QUE_PARTICÍPIO' name="Simplificar: Part. Passado + é + que → Part. Passado" type="style">
+	<!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-04-19 (1-JAN-2022+)      -->
+	<!--
+Os dados só após serem organizados é que podem ser usados. → Os dados só após serem organizados podem ser usados.
+	-->
+      <pattern>
+		<token postag='VMP00.+' postag_regexp='yes'/>
+		<token>é</token>
+		<token>que</token>
+		<token postag='VMIP3.+|VMM03.+|VMSP3.+' postag_regexp='yes'/>
+      </pattern>
+	  <message>Remova a partícula de realce 'é que' para tornar o texto mais fluído.</message>
+	  <suggestion>\1 \4</suggestion>
+	  <example correction="organizados podem">Os dados só após serem <marker>organizados é que podem</marker> ser usados.</example>
+    </rule>
+
+
     <!-- 	VERBO TER + PARTICÍPIO PASSADO Pret. Perf. Ind. Part. Passado -->
     <rulegroup id='SIMPLIFICAR_VERBO_TER_MAIS_PARTICIPIO_PASSADO' name="Simplificar: V. Ter + Part. Passado → V. Pret. Perf. Ind. Part. Passado" type="style">
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2022-02-23 (Checked/Enhanced) (1-JAN-2022+)      -->
