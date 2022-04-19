@@ -49,7 +49,7 @@ public class WordCoherencyRule extends AbstractWordCoherencyRule {
 
   @Override
   protected String getMessage(String word1, String word2) {
-    return "'" + word1 + "' i '" + word2 + "' nie powinny być używane jednocześnie.";
+    return "Formy „" + word1 + "” i „" + word2 + "” zwykle nie powinny być używane jednocześnie.";
   }
   
   @Override
