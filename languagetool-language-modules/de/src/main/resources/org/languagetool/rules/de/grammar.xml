@@ -6491,21 +6491,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Verwechslungen -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
-        <rule id="ZEIHEN_ZIEHEN" name="zeihen vs ziehen" default="temp_off">
-            <antipattern>
-                <token regexp="yes" inflected="yes" skip="-1">Verrat|Lüge|Feigheit|Heuchelei|Raub|Diebstahl|Vermessenheit</token>
-                <token inflected="yes">zeihen</token>
-            </antipattern>
-            <antipattern>
-                <token inflected="yes" skip="-1">zeihen</token>
-                <token regexp="yes" inflected="yes">Verrat|Lüge|Feigheit|Heuchelei|Raub|Diebstahl|Vermessenheit</token>
-            </antipattern>
-            <pattern>
-                <token regexp="yes" case_sensitive="yes">zeihen|zeiht|zeihe</token>
-            </pattern>
-            <message>Meinten Sie <suggestion><match no="1" regexp_match="ei" regexp_replace="ie" /></suggestion>?</message>
-            <example correction="zieht">Er <marker>zeiht</marker> am gleichen Seil.</example>
-        </rule>
         <rulegroup id="TAETIGE_TAEGIGE" name="tägig vs tätig">
             <rule>
                 <pattern>
