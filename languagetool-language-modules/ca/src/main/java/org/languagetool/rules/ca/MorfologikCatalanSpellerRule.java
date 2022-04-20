@@ -181,7 +181,7 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
      * if (word.length() < 5) { return Collections.emptyList(); }
      */
     String suggestion = "";
-    suggestion = findSuggestion(suggestion, word, CAMEL_CASE, ANY_TAG, 1, " ", true);
+    suggestion = findSuggestion(suggestion, word, CAMEL_CASE, ANY_TAG, 1, " ", false);
     suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_VERBS, VERB_INDSUBJ, 2, "'", true);
     suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_VERBS_M, VERB_INDSUBJ_M, 2, "'", true);
     suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_NOM_SING, NOM_SING, 2, "'", true);

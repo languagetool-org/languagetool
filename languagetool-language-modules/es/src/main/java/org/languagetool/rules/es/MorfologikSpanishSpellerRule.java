@@ -103,7 +103,7 @@ public class MorfologikSpanishSpellerRule extends MorfologikSpellerRule {
   
   private List<String> getAdditionalTopSuggestionsString(List<String> suggestions, String word) throws IOException {
     String suggestion = "";
-    suggestion = findSuggestion(suggestion, word, CAMEL_CASE, ANY_TAG, 1, " ", true);
+    suggestion = findSuggestion(suggestion, word, CAMEL_CASE, ANY_TAG, 1, " ", false);
     suggestion = findSuggestion(suggestion, word, SPLIT_SUGGESTIONS, ANY_TAG, 1, " ", true);
     if (!suggestion.isEmpty()) {
       return Collections.singletonList(suggestion);

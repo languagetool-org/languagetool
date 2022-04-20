@@ -208,7 +208,7 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
      * if (word.length() < 5) { return Collections.emptyList(); }
      */
     List<String> newSuggestions = new ArrayList<>();
-    newSuggestions.addAll(findSuggestion(word, CAMEL_CASE, ANY_TAG, 1, " ", true));
+    newSuggestions.addAll(findSuggestion(word, CAMEL_CASE, ANY_TAG, 1, " ", false));
     newSuggestions.addAll(findSuggestion(word, SPLIT_SUGGESTIONS, ANY_TAG, 1, " ", true));
     newSuggestions.addAll(findSuggestion(word, APOSTROF_INICI_VERBS, VERB_INDSUBJ, 2, "'", true));
     newSuggestions.addAll(findSuggestion(word, APOSTROF_INICI_VERBS_M, VERB_INDSUBJ_M, 2, "'", true));
