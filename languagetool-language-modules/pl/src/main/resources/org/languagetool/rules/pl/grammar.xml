@@ -20626,7 +20626,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
 		<category id="TYPOS" name="Prawdopodobne literówki" type="misspelling">
-		<rulegroup id="WIEKU_Z_NICH" name="„wieku z nich” (wielu z nich)">
+		<rule id="TO_ZE_TO_E" name="„to, ze” (to, że)">
+      <pattern>
+      <token>to</token>
+      <token>,</token>
+      <marker>
+      <token>ze</token>
+      </marker>
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>że</suggestion>?</message>
+      <short>Literówka</short>
+      <example correction='że'>Wygląda na to, <marker>ze</marker> źle robię.</example>
+      <example>Wygląda na to, że źle robię.</example>
+    </rule>
+  <rulegroup id="WIEKU_Z_NICH" name="„wieku z nich” (wielu z nich)">
 		<rule>
 		<antipattern>
 		    <token postag="(adj|pact):sg:(loc|gen):m1.m2.m3.n1.n2:.*|ppron3:.*:gen:.*|num:pl:.*:rec" postag_regexp="yes"/>
