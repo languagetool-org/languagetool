@@ -27,6 +27,18 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
 -->
 <rules lang="en" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/remote-rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <category name="Machine learning rules" id="AI_RULES">
+        <rulegroup id="AI_HYDRA_LEO_APOSTROPHE_S_XS" name="">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>Teams</token>
+                    </marker>
+                    <token min="0">video</token>
+                    <token regexp="yes">chats?|calls?|meetings?|messages?</token>
+                </pattern>
+                <example correction="">I have a <marker>Teams</marker> call at 12.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AI_HYDRA_LEO_CPT_NOW_KNOW" name="">
             <rule>
                 <pattern>
