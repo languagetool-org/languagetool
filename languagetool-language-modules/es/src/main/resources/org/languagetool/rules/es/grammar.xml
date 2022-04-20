@@ -169,6 +169,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>/</token>
                 <token regexp="yes">\d+</token>
             </antipattern>
+            <antipattern case_sensitive="yes">
+                <token>SOS</token>
+                <token regexp="yes">\p{Lu}.*</token>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token>VI</token>
+                <token postag="[NA].*|UNKNOWN" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\(|\[|\{</token>
+                <token regexp="yes">\p{Lu}\p{Lu}\p{Lu}?</token>
+                <token regexp="yes">\)|\]|\}</token>
+            </antipattern>
             <pattern>
                 <token postag="SENT_START"/>
                 <token min="0" max="3" regexp="yes">\p{P}</token>
@@ -207,6 +220,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>HOY A LAS 7 PM.</example>
             <example>LA 1ª PERSONA.</example>
             <example>LOS E-BOOKS</example>
+            <example>SOS Albaicín asegura que llega para solucionar los problemas del barrio</example>
+            <example>VI Coloquio de Historia de la Educación</example>
+            <example>VI edición</example>
         </rule>
         <rule id="ESO" name="ESO (Educación Secundaria Obligatoria">
             <antipattern>
