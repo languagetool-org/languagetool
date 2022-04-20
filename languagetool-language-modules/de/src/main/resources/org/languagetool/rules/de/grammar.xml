@@ -10674,6 +10674,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category id="PROPER_NOUNS" name="Prominente/geographische Eigennamen">
         <!-- geographische Namen u. ä. -->
+        <rule id="HERBERT_DIES" name="Herbert Dies (Diess)" default="temp_off">
+            <pattern>
+                <token case_sensitive="yes">Herbert</token>
+                <token case_sensitive="yes">Dies</token>
+            </pattern>
+            <message>Meinten Sie den Auto-Manager <suggestion>Herbert Diess</suggestion>?</message>
+            <url>https://de.wikipedia.org/wiki/Herbert_Diess</url>
+            <example correction="Herbert Diess"><marker>Herbert Dies</marker> ist der CEO von Volkswagen.</example>
+        </rule>
         <rulegroup id="SAUCE_HOLLANDAISE" name="Sauce hollandaise">
             <rule>
                 <antipattern case_sensitive="yes">
@@ -14346,7 +14355,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Meinten Sie das Nomen <suggestion>Pauschal<match no="2" case_conversion="alllower" /></suggestion>?</message>
                 <example correction="Pauschalurlaub">Wir haben einen <marker>pauschal Urlaub</marker> gebucht.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>trans</token>
                     <token regexp="yes" case_sensitive="yes">Frau(en)?|Mann|Männern?|Person(en)?</token>
@@ -26345,6 +26354,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="ZU_GUTER_LETZT" name="zu guter letzt (Letzt)">
+            <pattern>
+                <token>zu</token>
+                <token>guter</token>
+                <marker>
+                    <token case_sensitive="yes">letzt</token>
+                </marker>
+            </pattern>
+            <message>In dieser Redewendung wird <suggestion><match no="3" case_conversion="startupper" /></suggestion> großgeschrieben.</message>
+            <example correction="Letzt">Zu guter <marker>letzt</marker> müssen wir das Produkt überprüfen.</example>
+        </rule>
         <rule id="EIN_DUTZEND_MAL" name="ein dutzend Mal (Dutzend Mal)">
             <antipattern case_sensitive="yes">
                 <token>Dutzend</token>
@@ -47377,6 +47397,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
+        <rule id="ZWEI_DUMME_EIN_GEDANKE" name="zwei Dumme, ein Gedanke">
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">[Zz]wei|ZWEI</token>
+                <token regexp="yes">Dumme|DUMME</token>
+                <token>,</token>
+                <token regexp="yes">ein|EIN</token>
+                <token regexp="yes">Gedanke|GEDANKE</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">2|zwei</token>
+                <token>dumme</token>
+                <token min="0">,</token>
+                <token regexp="yes">1|ein</token>
+                <token regexp="yes">Gedanke</token>
+            </pattern>
+            <message>Meinten Sie die Redewendung <suggestion>zwei Dumme, ein Gedanke</suggestion>?</message>
+            <url>https://www.antenneunna.de/artikel/woher-kommt-zwei-dumme-ein-gedanke-889525.html</url>
+            <example correction="zwei Dumme, ein Gedanke">Wie heißt es so schön: <marker>zwei dumme ein Gedanke</marker>.</example>
+        </rule>
+        <rule id="EIN_ANDER_MAL" name="ein ander Mal (anderes Mal)">
+            <pattern>
+                <token>ein</token>
+                <marker>
+                    <token>ander</token>
+                    <token>mal</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="2" case_conversion="alllower" />es Mal</suggestion>?</message>
+            <example correction="anderes Mal">Vielleicht ein <marker>ander mal</marker>.</example>
+        </rule>
         <rulegroup id="KOFFERWOERTER" name="Gestern war das zumindestens so.">
             <rule><!--1-->
                 <pattern>
@@ -56191,8 +56241,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>nach</token>
             </pattern>
             <message>Die feste Wendung lautet <suggestion>\1 Erachtens</suggestion>, ohne 'nach'.</message>
+            <suggestion>meinem Erachten nach</suggestion>
             <url>https://www.korrekturen.de/beliebte_fehler/meines_erachtens_nach.shtml</url>
-            <example correction="Meines Erachtens"><marker>Meines Erachtens nach</marker> hätte der Richter den Angeklagten freisprechen müssen.</example>
+            <example correction="Meines Erachtens|Meinem Erachten nach"><marker>Meines Erachtens nach</marker> hätte der Richter den Angeklagten freisprechen müssen.</example>
         </rule>
         <rule id="FUENFTES_RAD" name="drittes (fünftes) Rad am Wagen">
             <regexp>(drittes?) (Rad) (am) (Wagen)</regexp>
@@ -61744,7 +61795,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern><!-- Die benutzen was selbst gebautes. -->
                     <token>was</token>
                     <token postag="ADV.*" postag_regexp="yes" min="0" max="2" />
-                    <token regexp="yes">.+es</token>
+                    <token regexp="yes" postag="UNKNOWN|ADJ.*|PA[12].*" postag_regexp="yes">
+                        .+es
+                    </token>
                 </antipattern>
                 <antipattern>
                     <token>wer</token>
@@ -61782,6 +61835,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                <example correction=", was">Denn sie wissen<marker> was</marker> sie tun.</example>
                <example correction=", an was">Denn sie wissen nicht<marker> an was</marker> sie glauben sollen.</example>
                <example correction=", an was">Denn sie wissen<marker> an was</marker> sie glauben sollen.</example>
+               <example correction=", was">Als ich fragte<marker> was</marker> dieses Phänomen denn wirklich sei bekam ich keine Antwort.</example>
                <example>Ich sehe was was du nicht siehst.</example>
                <example>Die benutzen was selbst gebautes.</example>
                <example>Wer hält wem die Tür auf?</example>
@@ -65545,7 +65599,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <rule>
                 <pattern>
-                    <token case_sensitive="yes" regexp="yes">[Gg]epatched|[Gg]etracked|[Gg]eteased|[Gg]ereviewed|[Gg]eshuffeled|[Gg]eboostered|[Gg]ecrawled|[Gg]efracked|[Gg]espoilered|[Gg]ematched|[Aa]ngeteasered|[Gg]eteasered|[Gg]eskyped|[Gg]ezapped|[Gg]etaped|[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]etagged|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched|[Gg]etuned|[Gg]ecrashed|[Gg]ecat?ched|[Cc]hecked|[Ee]ntertained|[Gg]egoogled|[Gg]ecoached|[Gg]eblogged|[Gg]ebeamed|[Gg]echipped|[Pp]erformed|[Gg]eswiped|[Mm]atched|[Gg]eschocked|[Gg]epitched|[Pp]itched|[Gg]emapped</token>
+                    <token case_sensitive="yes" regexp="yes">[Gg]epatched|[Gg]etracked|[Gg]eteased|[Gg]ereviewed|[Gg]eshuffeled|[Gg]eboostered|[Gg]ecrawled|[Gg]efracked|[Gg]espoilered|[Gg]ematched|[Aa]ngeteasered|[Gg]eteasered|[Gg]eskyped|[Gg]ezapped|[Gg]etaped|[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]etagged|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched|[Gg]etuned|[Gg]ecrashed|[Gg]ecat?ched|[Cc]hecked|[Ee]ntertained|[Gg]egoogled|[Gg]ecoached|[Gg]eblogged|[Gg]ebeamed|[Gg]echipped|[Pp]erformed|[Gg]eswiped|[Mm]atched|[Gg]eschocked|[Gg]epitched|[Pp]itched|[Gg]emapped|[Oo]utgesourced</token>
                 </pattern>
                 <message>Die empfohlene Schreibweise für diesen Anglizismus ist <suggestion><match no="1" regexp_match="ed$" regexp_replace="t" /></suggestion>.</message>
                 <example correction="gefeaturt">Wir wurden auf der Startseite des App Stores <marker>gefeatured</marker>.</example>

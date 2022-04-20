@@ -1078,7 +1078,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("mch", w -> Arrays.asList("mich", "ich", "ach"));
     put("Ihc", w -> Arrays.asList("Ich", "Ihr", "Ihm"));
     put("ihc", w -> Arrays.asList("ich", "ihr", "ihm"));
-    put("wier", w -> Arrays.asList("wie", "wir", "vier", "hier"));
+    put("ioch", "ich");
+    put("wier", w -> Arrays.asList("wie", "wir", "vier", "hier", "wer"));
     put("ander", w -> Arrays.asList("an der", "andere", "änder", "anders"));
     put("ech", w -> Arrays.asList("euch", "ich"));
     put("letzt", w -> Arrays.asList("letzte", "jetzt"));
@@ -1086,6 +1087,16 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("darn", w -> Arrays.asList("daran", "darin", "dann", "dar"));
     put("zwie", w -> Arrays.asList("zwei", "wie", "sie", "sowie"));
     put("gebten", w -> Arrays.asList("gebeten", "gaben", "geboten", "gelten"));
+    put("dea", w -> Arrays.asList("der", "den", "des", "dem"));
+    put("neune", w -> Arrays.asList("neuen", "neue", "Neune"));
+    put("soche", "solche");
+    put("verückt", "verrückt");
+    put("austellen", "ausstellen");
+    put("klapt", w -> Arrays.asList("klappt", "klagt"));
+    put("denks", w -> Arrays.asList("denkst", "denkt", "denke", "denk"));
+    put("geerhte", "geehrte");
+    put("geerte", "geehrte");
+    put("gehn", "gehen");
     put("Spß", "Spaß");
     put("kanst", "kannst");
     put("fregen", "fragen");

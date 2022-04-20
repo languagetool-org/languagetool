@@ -292,6 +292,7 @@ public class German extends Language implements AutoCloseable {
       case "ERNEUERBARE_ENERGIEN": return 1; // prefer over VEREINBAREN
       case "VOR_BEI": return 1; // prefer over BEI_BEHALTEN
       case "VERWANDET_VERWANDTE": return 1; // prefer over DE_CASE
+      case "SEIT_LAENGEREN": return 1; // prefer over DE_CASE
       case "EIN_LOGGEN": return 1; // prefer over most agreement rules
       case "ZU_GENÜGE" : return 1;   // prefer over ZU_KOENNE
       case "IMPFLICHT" : return 1;   // prefer over agreement rules DE_AGREEMENT

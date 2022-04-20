@@ -279,6 +279,23 @@ class CaseRuleAntiPatterns {
       posRegex("KON:NEB|PKT")
     ),
     Arrays.asList(
+      // wenn sie das beantworten
+      regex("wenn|falls|sobald"),
+      posRegex("PRO.*|EIG.*"),
+      csToken("das"),
+      posRegex("VER:INF:.+"),
+      regex("dann|,|und|oder|\\.|\\!|\\:")
+    ),
+    Arrays.asList(
+      // wenn sie mir das beantworten
+      regex("wenn|falls|sobald"),
+      posRegex("PRO.*|EIG.*"),
+      csRegex("mir|uns|ih[rm]"),
+      csToken("das"),
+      posRegex("VER:INF:.+"),
+      regex("dann|,|und|oder|\\.|\\!|\\:")
+    ),
+    Arrays.asList(
       // Ich hatte das vergessen oder nicht ganz verstanden.
       csToken("das"),
       posRegex("ADV.*"),
@@ -1220,8 +1237,13 @@ class CaseRuleAntiPatterns {
       csRegex("[a-zäöü…\\.!:;,\\?…\\)].*")
     ),
     Arrays.asList( // Ich habe noch Dringendes mitzuteilen
-      csRegex("Dringendes|Bares|Vertrautes|Positives|Negatives|Gelerntes|Neues|Altes|Besseres|Schlechteres|Schöneres|Schlimmeres|Zutreffendes|Gesehenes|Abgerissenes|Versoffenes|Entnommenes|Sü(ß|ss)es|Saures|Gegenteiliges|Wegweisendes|Hochprozentiges|Erlerntes|Vergangenes|Unglaubliches|Schlimmes|Eingemachtes|Rares"),
+      csRegex("Dringendes|Bares|Vertrautes|Positives|Negatives|Gelerntes|Neues|Altes|Besseres|Schlechteres|Schönes|Schöneres|Schlimmeres|Zutreffendes|Gesehenes|Abgerissenes|Versoffenes|Entnommenes|Sü(ß|ss)es|Saures|Gegenteiliges|Wegweisendes|Hochprozentiges|Erlerntes|Vergangenes|Unglaubliches|Schlimmes|Eingemachtes|Rares"),
       csRegex("(?!(und|oder))[a-zäöü…\\.!,\\?…\\)].*")
+    ),
+    Arrays.asList(
+      // Already caught by SEIT_LAENGEREN
+      token("seit"),
+      token("Längeren")
     ),
     Arrays.asList( // Immer mehr Ältere erkranken daran
       csRegex("[a-zäöü…\\.,:;0-9\\/$%].*"),

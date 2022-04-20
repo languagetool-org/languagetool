@@ -112,12 +112,6 @@ public class MissingCommaRelativeClauseRule extends Rule {
         token("werden"),
         new PatternTokenBuilder().posRegex("SENT_END").matchInflectedForms().tokenRegex("sollen|können|müssen").build()
       ),
-      // Arrays.asList( // Nach dem Abzug russischer Truppen aus der Region Kiew sind in den ehemals besetzten und umkämpften ukrainischen Gebieten inzwischen Hunderte Leichen von Bewohnern gefunden worden.
-      //   pos("SENT_START")
-      //   new PatternTokenBuilder().posRegex("PRP.*").setSkip(-1).build()
-      //   posRegex("VER.*"),
-      //   posRegex("PRP.*")
-      // ),
       Arrays.asList(
         posRegex("VER:.*1:SIN:KJ1:.+"),
         posRegex("VER:MOD:[12]:.+"),
