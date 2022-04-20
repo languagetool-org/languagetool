@@ -35150,10 +35150,29 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
-  <rulegroup id='HOMOPHONE_AS_CARD' name='Homófonas: ás -> às'>
+
+  <rulegroup id='HOMOPHONE_AS_CARD' name='Homófonas: ás → às'>
     <!-- Created by Tiago F. Santos, 2017-08-05 -->
       <url>https://pt.wiktionary.org/wiki/senso</url>
       <short>Possível confusão de termos</short>
+	  
+<!-- MARCOAGPINTO 2022-04-20 (1-JAN-2022+) *START* -->
+<!--
+FIX FOR: https://github.com/languagetool-org/languagetool/issues/6559
+"Essas situações permitem deias e compará-las ás dos colegas."
+
+IN 600 000 SENTENCES, IT PRODUCES NO HITS.
+-->
+      <antipattern>
+		<token postag='V.+' postag_regexp='yes'/>
+		<token min="0" max="1" regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
+		<token min="0" max="1" regexp='yes' spacebefore='no'>[ao]s?|l[ao]s?|lh[aeo]s?|n[ao]s?|me|se|te|vos</token>
+		<token>às</token>
+		<token regexp='yes'>d[ao]s?</token>
+		<token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-04-20 (1-JAN-2022+) *END* -->
+	  
     <rule>
       <pattern>
           <token>às</token>
