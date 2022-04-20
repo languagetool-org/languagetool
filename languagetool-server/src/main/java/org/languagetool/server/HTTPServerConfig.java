@@ -254,8 +254,9 @@ public class HTTPServerConfig {
         case "--allow-origin":
           try {
             allowOriginUrl = args[++i];
-            if (allowOriginUrl.startsWith("--")) {
+            if (allowOriginUrl.startsWith("--")) {  // no parameter, next option starts instead
               allowOriginUrl = "*";
+              i--;
             }
           } catch (ArrayIndexOutOfBoundsException e) {
             allowOriginUrl = "*";
