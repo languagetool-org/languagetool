@@ -9065,19 +9065,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="JE_DESTO" name="je/desto">
             <rule>
+                <antipattern>
+                    <token>je</token>
+                    <token regexp="yes">.+mal</token>
+                </antipattern>
+                <antipattern>
+                    <token>je</token>
+                    <token postag="ADJ:PRD:KOM|PA2:PRD:KOM:.*|ADV:.*" postag_regexp="yes" skip="-1"/>
+                    <token min="0">je</token>
+                    <token min="0" postag="ADJ:PRD:KOM|PA2:PRD:KOM:.*|ADV:.*" postag_regexp="yes" skip="-1"/>
+                    <token min="0">je</token>
+                    <token min="0" postag="ADJ:PRD:KOM|PA2:PRD:KOM:.*|ADV:.*" postag_regexp="yes" skip="-1"/>
+                    <token min="0">je</token>
+                    <token min="0" postag="ADJ:PRD:KOM|PA2:PRD:KOM:.*|ADV:.*" postag_regexp="yes" skip="-1"/>
+                    <token regexp="yes">desto|umso</token>
+                </antipattern>
                 <pattern>
                     <token>je</token>
-                    <token postag="ADJ:PRD:KOM" skip="-1"><exception regexp="yes" scope="next">bzw|und</exception></token>
+                    <token postag="ADJ:PRD:KOM|PA2:PRD:KOM:.*|ADV:.*" postag_regexp="yes" skip="-1"/>
                     <marker>
                         <token>je</token>
                     </marker>
-                    <token postag="ADJ:PRD:KOM"/>
+                    <token postag="ADJ:PRD:KOM|PA2:PRD:KOM:.*|ADV:.*" postag_regexp="yes"/>
                 </pattern>
                 <message>Die Konjunktion 'je' wird standardsprachlich mit den Partnerwörtern <suggestion>desto</suggestion> oder <suggestion>umso</suggestion> verwendet. 'je ... je ...' gilt als altertümlich und ist nur noch in einzelnen festen Wendungen wie 'je länger, je lieber' oder 'je oller, je doller' gebräuchlich.</message>
                 <url>http://www.spiegel.de/kultur/zwiebelfisch/zwiebelfisch-abc-je-je-desto-umso-a-435248.html</url>
                 <short>Je ... desto ...</short>
                 <example correction="desto|umso">Je größer, <marker>je</marker> besser.</example>
-                <example>Je größer und je besser wir bauen, <marker>desto</marker> beeindruckter werden die Besucher sein.</example>
+                <example>Je größer und je besser wir bauen, desto beeindruckter werden die Besucher sein.</example>
+                <example>Je öfter man investiert, je größer dieses Investment wird, desto reicher ist man.</example>
             </rule>
         </rulegroup>
         <rulegroup id="CHAMPIGNON_CHAMPION" name="Champignon/Champion">
