@@ -49,7 +49,6 @@ import com.sun.star.lang.Locale;
 import com.sun.star.lang.XComponent;
 import com.sun.star.linguistic2.ProofreadingResult;
 import com.sun.star.linguistic2.SingleProofreadingError;
-import com.sun.star.text.XTextDocument;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
 
@@ -788,6 +787,7 @@ class SingleDocument {
   private RuleDesc getRuleIdFromCache(int nPara, int nChar) {
     List<SingleProofreadingError> tmpErrors = new ArrayList<SingleProofreadingError>();
     if (nPara < 0 || nPara >= docCache.size()) {
+      MessageHandler.printToLogFile("SingleDocument: getRuleIdFromCache(nPara = " + nPara + ", docCache.size() = " + docCache.size() + "): nPara out of range!");
       return null;
     }
     for (ResultCache paraCache : paragraphsCache) {
@@ -809,6 +809,7 @@ class SingleDocument {
       }
       return new RuleDesc(docCache.getFlatParagraphLocale(nPara), errors[0].aRuleIdentifier);
     } else {
+      MessageHandler.printToLogFile("SingleDocument: getRuleIdFromCache(nPara = " + nPara + ", nChar = " + nChar + "): No ruleId found!");
       return null;
     }
   }
@@ -817,7 +818,7 @@ class SingleDocument {
    * get a rule ID of an error from a check 
    * by the position of the error (number of character)
    */
-  private RuleDesc getRuleIdFromCache(int nChar, ViewCursorTools viewCursor) {
+  private RuleDesc getRuleIdFromCheck(int nChar, ViewCursorTools viewCursor) {
     String text = viewCursor.getViewCursorParagraphText();
     if (text == null) {
       return null;
@@ -863,7 +864,7 @@ class SingleDocument {
     ViewCursorTools viewCursor = new ViewCursorTools(xComponent);
     int x = viewCursor.getViewCursorCharacter();
     if (numParasToCheck == 0) {
-      return getRuleIdFromCache(x, viewCursor);
+      return getRuleIdFromCheck(x, viewCursor);
     }
     int y = docCache.getFlatParagraphNumber(viewCursor.getViewCursorParagraph());
     return getRuleIdFromCache(y, x);

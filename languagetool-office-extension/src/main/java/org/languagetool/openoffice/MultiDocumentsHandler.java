@@ -1105,7 +1105,12 @@ public class MultiDocumentsHandler {
     for (SingleDocument document : documents) {
       if (menuDocId.equals(document.getDocID())) {
         RuleDesc ruleDesc = document.deactivateRule();
-        deactivateRule(ruleDesc.ruleID, ruleDesc.langCode, false);
+        if (ruleDesc != null) {
+          if (debugMode) {
+            MessageHandler.printToLogFile("MultiDocumentsHandler: deactivateRule: ruleID = "+ ruleDesc.ruleID + "langCode = " + ruleDesc.langCode);
+          }
+          deactivateRule(ruleDesc.ruleID, ruleDesc.langCode, false);
+        }
         return;
       }
     }
