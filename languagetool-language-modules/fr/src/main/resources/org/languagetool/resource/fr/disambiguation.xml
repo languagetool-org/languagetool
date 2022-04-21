@@ -4577,6 +4577,16 @@ RB => Règles Brutes
         </pattern>
         <disambig action="remove" postag="N f s"/>
     </rule>
+    <rule id="PEUX" name="peux">
+        <pattern>
+            <token>je</token>
+            <token inflected="yes" min="0" max="1">ne</token>
+            <marker>
+                <token>peux</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="V ind pres 2 s"/>
+    </rule>
     <rulegroup id="FAITES1" name="FAITES">
         <rule>
         <pattern>
@@ -4606,6 +4616,15 @@ RB => Règles Brutes
                     <token>faites</token>
                 </marker>
                 <token postag="R pers obj.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="V imp pres 2 p"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>faites</token>
+                </marker>
+                <token regexp="yes">vos|votre</token>
             </pattern>
             <disambig action="filter" postag="V imp pres 2 p"/>
         </rule>
