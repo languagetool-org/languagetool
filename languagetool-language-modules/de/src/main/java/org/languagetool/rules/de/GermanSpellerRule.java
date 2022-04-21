@@ -1070,15 +1070,24 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Oster", w -> Arrays.asList("Ostern", "Osten"));
     put("richen", w -> Arrays.asList("riechen", "reichen", "richten"));
     put("deien", w -> Arrays.asList("deine", "dein"));
+    put("meien", w -> Arrays.asList("meine", "mein"));
     put("berüht", w -> Arrays.asList("berühmt", "berührt", "bemüht"));
     put("herlich", w -> Arrays.asList("ehrlich", "herrlich"));
     put("erzeiht", w -> Arrays.asList("erzieht", "verzeiht"));
     put("schalfen", w -> Arrays.asList("schlafen", "schaffen", "scharfen"));
+    put("Anfage", w -> Arrays.asList("Anfrage", "Anlage"));
+    put("Formulares", "Formulars");
+    put("Danl", "Dank");
+    put("umbennen", "umbenennen");
+    put("bevorzugs", "bevorzugst");
+    put("einhergend", "einhergehend");
     put("dos", w -> Arrays.asList("das", "des", "DOS", "DoS"));
     put("mch", w -> Arrays.asList("mich", "ich", "ach"));
     put("Ihc", w -> Arrays.asList("Ich", "Ihr", "Ihm"));
     put("ihc", w -> Arrays.asList("ich", "ihr", "ihm"));
     put("ioch", "ich");
+    put("of", "oft");
+    put("mi", w -> Arrays.asList("im", "mit", "mir"));
     put("wier", w -> Arrays.asList("wie", "wir", "vier", "hier", "wer"));
     put("ander", w -> Arrays.asList("an der", "andere", "änder", "anders"));
     put("ech", w -> Arrays.asList("euch", "ich"));
@@ -1089,6 +1098,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("gebten", w -> Arrays.asList("gebeten", "gaben", "geboten", "gelten"));
     put("dea", w -> Arrays.asList("der", "den", "des", "dem"));
     put("neune", w -> Arrays.asList("neuen", "neue", "Neune"));
+    put("geren", w -> Arrays.asList("gegen", "gerne", "gären"));
     put("soche", "solche");
     put("verückt", "verrückt");
     put("austellen", "ausstellen");
@@ -1209,7 +1219,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Refelektion", "Reflexion");
     put("Refelektionen", "Reflexionen");
     put("[sS]chanse", "Chance");
-    put("nich", "nicht");
+    put("nich", w -> Arrays.asList("nicht", "noch"));
     put("wat", "was");
     put("[Ee][Ss]ports", "E-Sports");
     put("gerelaunch(ed|t)", "relauncht");
@@ -1913,18 +1923,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     } else if (word.equals("nanten")) {
       return singletonList("nannten");
     } else if (word.endsWith("ies")) {
-      if (word.equals("Stories")) {
-        return singletonList("Storys");
-      } else if (word.equals("Lobbies")) {
+      if (word.equals("Lobbies")) {
         return singletonList("Lobbys");
-      } else if (word.equals("Hobbies")) {
-        return singletonList("Hobbys");
       } else if (word.equals("Parties")) {
         return singletonList("Partys");
       } else if (word.equals("Babies")) {
         return singletonList("Babys");
-      } else if (word.equals("Ladies")) {
-        return singletonList("Ladys");
       } else if (word.endsWith("derbies")) {
         suggestion = word.replaceFirst("derbies$", "derbys");
         if (hunspell.spell(suggestion)) {
@@ -2433,6 +2437,14 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Reflektion": return topMatch("Reflexion");
       case "Reflektionen": return topMatch("Reflexionen");
       case "unrelevant": return topMatch("irrelevant");
+      case "inflagranti": return topMatch("in flagranti");
+      case "Storie": return topMatch("Story");
+      case "Stories": return topMatch("Storys");
+      case "Ladies": return topMatch("Ladys");
+      case "Parties": return topMatch("Partys");
+      case "Lobbies": return topMatch("Lobbys");
+      case "Nestle": return topMatch("Nestlé");
+      case "Nestles": return topMatch("Nestlés");
     }
     return Collections.emptyList();
   }

@@ -10674,7 +10674,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category id="PROPER_NOUNS" name="Prominente/geographische Eigennamen">
         <!-- geographische Namen u. ä. -->
-        <rule id="HERBERT_DIES" name="Herbert Dies (Diess)" default="temp_off">
+        <rule id="HERBERT_DIES" name="Herbert Dies (Diess)">
             <pattern>
                 <token case_sensitive="yes">Herbert</token>
                 <token case_sensitive="yes">Dies</token>
@@ -27616,7 +27616,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>In diesem Kontext wird "zuhause" als Adverb verwendet und sollte klein- oder getrennt (empfohlen) geschrieben werden.</message>
             <suggestion><match no="2" case_conversion="alllower">zu</match> Hause</suggestion>
             <suggestion><match no="2" case_conversion="alllower" /></suggestion>
-            <url>https://languagetool.org/insights/de/beitrag/bunte-tute-august-2021/#wie-lautet-die-korrekte-schreibung-von-%E2%80%9Ezu-hause%E2%80%9C</url>
+            <url>https://languagetool.org/insights/de/beitrag/rechtschreibung-zuhause/</url>
             <example correction="zu Hause|zuhause">Ich freue mich auf <marker>Zuhause</marker>.</example>
         </rule>
         <rule id="AUF_DAHEIM" name="auf Daheim (daheim)">
@@ -41138,7 +41138,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Großen und Ganzen">Im <marker>großen und ganzen</marker> war es ein gelungener Abend.</example>
         </rule>
         <rulegroup id="ZU_HAUSE" name="'zu hause (Hause)'">
-            <url>https://languagetool.org/insights/de/beitrag/bunte-tute-august-2021/#wie-lautet-die-korrekte-schreibung-von-%E2%80%9Ezu-hause%E2%80%9C</url>
+            <url>https://languagetool.org/insights/de/beitrag/rechtschreibung-zuhause/</url>
             <antipattern>
                 <token>ab</token>
                 <token regexp="yes">und|&amp;</token>
@@ -57586,6 +57586,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                  "Ich denke momentan kann man noch einiges positiv beeinflussen. "
                  "Ich denke Milchpulver für drei Tage sollte auch kein Problem sein."
                 -->
+            <url>https://languagetool.org/insights/de/beitrag/grammatik-ich-weiss-kommasetzung/</url>
             <antipattern><!-- Tom weiß mit Lasttieren umzugehen. -->
                 <token inflected="yes" skip="12">wissen</token>
                 <token postag="VER:EIZ.*" postag_regexp="yes" />
@@ -61795,7 +61796,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern><!-- Die benutzen was selbst gebautes. -->
                     <token>was</token>
                     <token postag="ADV.*" postag_regexp="yes" min="0" max="2" />
-                    <token regexp="yes" postag="UNKNOWN|ADJ.*|PA[12].*" postag_regexp="yes">
+                    <token regexp="yes" postag="UNKNOWN|ADJ.*|PA[12].*|SUB.*" postag_regexp="yes">
                         .+es
                     </token>
                 </antipattern>
@@ -61814,6 +61815,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">zeigen</token>
                     <token>auch</token>
                     <token>auf</token>
+                </antipattern>
+                <antipattern><!-- denk mal nach was ... -->
+                    <token inflected="yes">denken</token>
+                    <token postag="ADV.*" postag_regexp="yes" min="0" max="2" />
+                    <token>nach</token>
                 </antipattern>
                 <pattern>
                     <token postag="VER:[1-3].+" postag_regexp="yes"></token>
@@ -61842,6 +61848,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                <example>Vielleicht ist der sorgenvolle Teil zu lang geworden, aber er zeigt auch auf was beeinträchtigte Menschen erleben können.</example>
                <example>Hängt davon ab wann ich aufstehe und wie die Strassen sind.</example>
                <example>wer ist wofür zuständig, wer übernimmt wofür die Verantwortung.</example>
+               <example>Mir ist was Gutes eingefallen.</example>
             </rule>
             <rule>
                 <antipattern>
