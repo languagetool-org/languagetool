@@ -1428,6 +1428,8 @@ public class MultiDocumentsHandler {
         resetIgnoredMatches();
         resetDocumentCaches();
         resetDocument();
+      } else if ("writeAnalyzedParagraphs".equals(sEvent)) {
+        new AnalyzedParagraphsCache(this); 
       } else if ("remoteHint".equals(sEvent)) {
         if (getConfiguration().useOtherServer()) {
           MessageHandler.showMessage(MessageFormat.format(messages.getString("loRemoteInfoOtherServer"), 
