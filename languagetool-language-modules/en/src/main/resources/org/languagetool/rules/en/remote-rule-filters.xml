@@ -916,6 +916,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">The new monthly payment will be <marker>AUD</marker> 1152.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token skip="1">a</token>
+                    <marker>
+                        <token postag="NN.*" postag_regexp="yes"/>
+                    </marker>
+                    <token>like</token>
+                </pattern>
+                <example correction="">A <marker>phrase</marker> like “I appreciate your prompt response,” tells the recipient that you’re waiting for a response sooner rather than later.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_EN_G_REPLACE_ORTH" name="">
             <rule>
