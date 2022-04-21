@@ -927,6 +927,19 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">A <marker>phrase</marker> like “I appreciate your prompt response,” tells the recipient that you’re waiting for a response sooner rather than later.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token skip="1" postag="SENT_START"/>
+                    <marker>
+                        <token skip="1" postag="NN.*" postag_regexp="yes"/>
+                    </marker>
+                    <token skip="-1" regexp="yes">[“«‹„"]</token>
+                    <token>,</token>
+                    <token regexp="yes">[”″›»"]</token>
+                </pattern>
+                <example correction="">The <marker>phrase</marker> “I appreciate your prompt response,” tells the recipient that you’re waiting for a response sooner rather than later.</example>
+                <example correction="">A <marker>phrase</marker> like “I appreciate your prompt response,” tells the recipient that you’re waiting for a response sooner rather than later.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_EN_G_REPLACE_ORTH" name="">
             <rule>
