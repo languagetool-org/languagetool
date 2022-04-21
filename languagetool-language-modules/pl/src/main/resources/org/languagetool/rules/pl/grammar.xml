@@ -14153,6 +14153,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						</rule>
 				</rulegroup>
 				<rulegroup id="ZE_Z_SPOL" name="„ze” nie przed spółgłoską (z)">
+				  <antipattern> <!-- to avoid duplicate matches with TO_ZE_TO_E -->
+            <token>to</token>
+            <token>,</token>
+            <marker><token>ze</token></marker>
+				  </antipattern>
 						<rule>
 								<pattern>
 										<token>ze<exception scope="previous" spacebefore="no" regexp="yes">&apost;</exception></token>
@@ -20625,20 +20630,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example>Józek upadł na zad.</example>
 				</rule>
 		</category>
-		<category id="TYPOS" name="Prawdopodobne literówki" type="misspelling">
+    <category id="TYPOS" name="Prawdopodobne literówki" type="misspelling">
 		<rule id="TO_ZE_TO_E" name="„to, ze” (to, że)">
-      <pattern>
-      <token>to</token>
-      <token>,</token>
-      <marker>
-      <token>ze</token>
-      </marker>
-      </pattern>
-      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>że</suggestion>?</message>
-      <short>Literówka</short>
-      <example correction='że'>Wygląda na to, <marker>ze</marker> źle robię.</example>
-      <example>Wygląda na to, że źle robię.</example>
-    </rule>
+          <pattern>
+          <token>to</token>
+          <token>,</token>
+          <marker>
+          <token>ze</token>
+          </marker>
+          </pattern>
+          <message>Prawdopodobna literówka. Czy chodziło o <suggestion>że</suggestion>?</message>
+          <short>Literówka</short>
+          <example correction='że'>Wygląda na to, <marker>ze</marker> źle robię.</example>
+          <example>Wygląda na to, że źle robię.</example>
+        </rule>
   <rulegroup id="WIEKU_Z_NICH" name="„wieku z nich” (wielu z nich)">
 		<rule>
 		<antipattern>
