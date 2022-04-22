@@ -20408,15 +20408,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
-        <rule id="DESDE" name="des de -> desde" default="temp_off">
+        <rule id="DESDE" name="des de -> desde">
+            <antipattern>
+                <token regexp="yes">no|nunca</token>
+                <token min="1" max="3" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                <token>des</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">no|nunca</token>
+                <token min="0" max="3" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                <token>des</token>
+                <token>de</token>
+                <token regexp="yes">beber|comer|mamar</token>
+            </antipattern>
             <pattern>
                 <token>des</token>
                 <token>de</token>
             </pattern>
             <message>¿Quería decir <suggestion>desde</suggestion>?</message>
             <example correction="Desde"><marker>Des de</marker> otra parte.</example>
+            <example>No te las des de valiente.</example>
+            <example>No des de comer a los gatos callejeros.</example>
+            <example>Nunca des de comer a un animal salvaje.</example>
         </rule>
-        <rule id="DESDE_EL" name="des del -> desde el" default="temp_off">
+        <rule id="DESDE_EL" name="des del -> desde el">
             <pattern>
                 <token>des</token>
                 <token>del</token>
