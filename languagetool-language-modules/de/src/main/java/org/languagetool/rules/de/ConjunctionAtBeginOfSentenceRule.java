@@ -80,7 +80,7 @@ public class ConjunctionAtBeginOfSentenceRule extends AbstractStatisticSentenceS
     } else if (isOpeningQuote(sentence.get(0)) && isConjunction(sentence.get(1))) {
       token = sentence.get(1);
     }
-    if (token == null) {
+    if (token == null || token.getToken().equals("Wie") || token.getToken().equals("Seit")) {
       return null;
     }
     if (!token.hasPosTagStartingWith("KON:UNT") || token.getToken().equals("Sondern")) {
@@ -102,10 +102,6 @@ public class ConjunctionAtBeginOfSentenceRule extends AbstractStatisticSentenceS
             return null;
           }
         }
-      } else if (token.getToken().equals("Wie")) {
-//        if(sentence.get(sentence.size() - 1).getToken().equals("?")) {
-            return null;
-//        }
       } else {
         if(sentence.get(sentence.size() - 1).getToken().equals("?")) {
           return null;
