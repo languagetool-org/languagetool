@@ -13903,7 +13903,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token>durch</token>
                 <!-- many verbs missing -->
-                <token inflected="yes" regexp="yes" case_sensitive="yes">schauen|steigen|stehen|se?uchen|graben|atmen|beißen|beissen|bekommen|checken|denken|drehen|fahren|fallen|fegen|feiern|gehen|laufen|halten|impfen|jagen|kauen|kämpfen|kitzeln|klettern|lassen|leben|machen|mischen|nehmen|nummerieren|nässen|pauken|planen|rauschen|rechnen|testen|tasten|vögeln|setzen|fluten|flie(ß|ss)en|bohren</token>
+                <token inflected="yes" regexp="yes" case_sensitive="yes">schauen|steigen|stehen|se?uchen|graben|atmen|beißen|beissen|bekommen|checken|denken|drehen|fahren|fallen|fegen|feiern|gehen|laufen|halten|impfen|jagen|kauen|kämpfen|kitzeln|klettern|lassen|leben|machen|mischen|nehmen|nummerieren|nässen|pauken|planen|rauschen|rechnen|testen|tasten|vögeln|setzen|fluten|flie(ß|ss)en|bohren|winken|schleudern|sickern</token>
             </pattern>
             <message>Das Verb <suggestion>durch<match no="2" case_conversion="alllower" /></suggestion> wird als ein Wort geschrieben.</message>
             <example correction="durchschaut">Er hat mich <marker>durch schaut</marker>!</example>
@@ -25505,6 +25505,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Woraus"><marker>Aus was</marker> besteht es?</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token inflected="yes" regexp="yes" skip="2">denken|forschen|schauen|prüfen</token>
+                    <token>nach</token>
+                </antipattern>
                 <antipattern><!-- Ich bin für was neues! -->
                     <token postag="VER:.+|UNKNOWN" postag_regexp="yes" />
                     <token />
@@ -25536,10 +25540,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern><!-- Was schlägst du vor was wir ... (fehlendes Komma) -->
                     <token skip="2" inflected="yes">schlagen</token>
                     <token>vor</token>
-                </antipattern>
-                <antipattern><!-- Warum schaut niemand nach was in der ... -->
-                    <token skip="2" inflected="yes">schauen</token>
-                    <token>nach</token>
                 </antipattern>
                 <antipattern><!-- Warum niemand niemand mit was noch übrig ist ... -->
                     <token skip="2" inflected="yes">nehmen</token>
@@ -25575,6 +25575,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>was</token>
                     <token regexp="yes">ver.+es</token>
                 </antipattern>
+                <antipattern>
+                    <token regexp="yes">zu|mit</token>
+                    <token>was</token>
+                    <token postag="ADJ.*|PA[12].*|UNKNOWN" postag_regexp="yes" regexp="yes">.+em</token>
+                </antipattern>
                <pattern>
                     <token regexp="yes" case_sensitive="yes">bei|für|gegen|hinter|mit|nach|neben|vo[nr]|zu|zwischen</token>
                     <token case_sensitive="yes">was</token>
@@ -25596,6 +25601,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ich bin mit was Wichtigerem beschäftigt.</example>
                 <example>Ich rieche den Duft von was verbrannten.</example>
                 <example>Wieso riecht es nach was verbrannten?</example>
+                <example>Warum schaust du dich also nicht mal woanders um und machst deinen Städtetrip zu was besonderem?</example>
             </rule>
             <rule>
                 <pattern>
@@ -26354,6 +26360,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="AUF_DEN_ERSTEN_BLICK" name="auf den ersten blick (Blick)" default="temp_off">
+            <antipattern>
+                <token>blick</token>
+                <token regexp="yes" min="0">'</token>
+                <token>ich</token>
+            </antipattern>
+            <pattern>
+                <token>auf</token>
+                <token regexp="yes">de[mn]</token>
+                <token regexp="yes">ersten|zweiten</token>
+                <marker>
+                    <token case_sensitive="yes">blick</token>
+                </marker>
+            </pattern>
+            <message><suggestion><match no="4" case_conversion="startupper" /></suggestion> wird hier als Nomen verwendet und sollte daher großgeschrieben werden.</message>
+            <example correction="Blick">Das habe ich erst auf den zweiten <marker>blick</marker> gesehen.</example>
+        </rule>
         <rule id="ZU_GUTER_LETZT" name="zu guter letzt (Letzt)">
             <pattern>
                 <token>zu</token>
@@ -61817,7 +61840,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>auf</token>
                 </antipattern>
                 <antipattern><!-- denk mal nach was ... -->
-                    <token inflected="yes">denken</token>
+                    <token inflected="yes" regexp="yes">denken|forschen|schauen|prüfen</token>
                     <token postag="ADV.*" postag_regexp="yes" min="0" max="2" />
                     <token>nach</token>
                 </antipattern>
