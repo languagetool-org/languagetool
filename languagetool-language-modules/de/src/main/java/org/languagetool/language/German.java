@@ -157,6 +157,10 @@ public class German extends Language implements AutoCloseable {
             new CompoundCoherencyRule(messages),
             new LongSentenceRule(messages, userConfig, 40),
             new GermanFillerWordsRule(messages, this, userConfig),
+            new PassiveSentenceRule(messages, this, userConfig),
+            new SentenceWithModalVerbRule(messages, this, userConfig),
+            new SentenceWithManRule(messages, this, userConfig),
+            new ConjunctionAtBeginOfSentenceRule(messages, this, userConfig),
             new NonSignificantVerbsRule(messages, this, userConfig),
             new UnnecessaryPhraseRule(messages, this, userConfig),
             new GermanParagraphRepeatBeginningRule(messages, this),
@@ -169,7 +173,7 @@ public class German extends Language implements AutoCloseable {
             new GermanReadabilityRule(messages, this, userConfig, false),
             new CompoundInfinitivRule(messages, this, userConfig),
             new StyleRepeatedVeryShortSentences(messages, this),
-            new StyleRepeatedSentenceBeginning(messages), 
+            new StyleRepeatedSentenceBeginning(messages),
             new GermanRepeatedWordsRule(messages)
     );
   }

@@ -66533,41 +66533,4 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
-    <category id="CREATIVE_WRITING" name="Stiltipps für kreatives Schreiben" type="style" default="off">
-        <rule id="BINDEWOERTER_SATZANFANG" name="Bindewörter am Satzanfang" default="off">
-            <pattern>
-                <token postag="SENT_START"/>
-                <token min="0" regexp="yes">„|“|»|«|"</token>
-                <marker>
-                <token skip="-1" regexp="yes">aber|also?|andererseits|anschließend|anschliessend|anstatt|außer|ausserdem|bevor|beziehungsweise|bis|da|dadurch|dafür|dagegen|damit|danach|dann|darauf|darum|dass|davor|dazu|denn|deshalb|dessen|desto|desungeachtet|deswegen|doch|ehe?|entweder|falls|ferner|folglich|genauso|geschweige|immerhin|indem|indes|indessen|insofern|insoweit|inzwischen|je|jedoch|nachdem|ob|obgleich|obschon|obwohl|obzwar|oder|respektive|seit|seitdem|so|sodass|sofern|solange?|sondern|sooft|soviel|soweit|sowie|sowohl|später|statt|trotzdem|um|umso|und|ungeachtet|vorher|während|währenddem|währenddessen|weder|weil|wenn|wenngleich|wennschon|wie|wiewohl|wobei|wohingegen|zumal|zuvor|zwar
-                    <exception scope="next" regexp="yes">,|;|–|-|\?|\!</exception>
-                </token>
-                </marker>
-                <token postag="SENT_END" regexp="yes">[\.\!\?«“"]</token>
-            </pattern>
-            <message>Ein Bindewort wie '\3' sollte nur in Ausnahmefällen am Satzanfang verwendet werden. Formulieren Sie den Satz um, falls möglich.</message>
-            <example correction=""><marker>Also</marker> ging er.</example>
-            <example correction="">»<marker>Also</marker> ging er.«</example>
-            <example ><marker>Als</marker> er ging, graute schon der Morgen.</example>
-        </rule>
-        <rule id="SAETZE_MIT_MAN" name="Sätze mit man" default="off">
-            <pattern>
-                <token>man</token>
-            </pattern>
-            <message>Sätze mit der indirekten Leseransprache '\1' sind stilistisch wenig elegant formuliert. Lässt sich das Wort vermeiden?</message>
-            <example correction=""><marker>Man</marker> sollte genauer hinsehen.</example>
-        </rule>
-        <rule id="PASSIV_SAETZE" name="Passivsätze">
-           	<pattern>
-                <marker>
-   	                <token skip="-1" inflected="yes">werden
-                        <exception scope="next" regexp="yes">,|;|–|-|\?|\!</exception>
-                    </token>
-                </marker>
-                <token postag="VER:PA2:.*" postag_regexp="yes"/>
-           	</pattern>
-            <message>Passivsatz: Aktiv formulierte Sätze sprechen im Regelfall den Leser stärker an.</message>
-   	        <example correction="">Der Kuchen <marker>wird</marker> gebacken.</example>
-        </rule>
-    </category>
 </rules>
