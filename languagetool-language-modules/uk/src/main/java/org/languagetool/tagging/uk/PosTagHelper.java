@@ -355,6 +355,17 @@ public final class PosTagHelper {
     return PREDICT_INSERT_PATTERN.matcher(token.getPOSTag()).matches();
   }
 
+  public static boolean hasPosTagAndToken(AnalyzedTokenReadings tokens, Pattern postag, Pattern token) {
+    return tokens.getReadings().stream().anyMatch(t -> 
+      t.getPOSTag() != null && postag.matcher(t.getPOSTag()).matches() 
+      && t.getToken() != null && token.matcher(t.getToken()).matches());
+  }
+
+  public static boolean hasMaleUA(AnalyzedTokenReadings tokenReadings) {
+    return PosTagHelper.hasPosTagAndToken(tokenReadings, Pattern.compile("noun:inanim:m:v_dav(?!:nv).*"), Pattern.compile(".*[ую]"));
+//        && ! PosTagHelper.hasPosTagAndToken(tokenReadings, Pattern.compile("noun:inanim:m:v_rod.*"), Pattern.compile(".*у"));
+  }
+  
 //private static String getNumAndConj(String posTag) {
 //  Matcher pos4matcher = GENDER_CONJ_REGEX.matcher(posTag);
 //  if( pos4matcher.matches() ) {

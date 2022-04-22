@@ -216,7 +216,7 @@ public class UkrainianTaggerTest {
 
   @Test
   public void testNumberedEntities() throws IOException {
-    TestTools.myAssert("Євро-2014", "Євро-2014/[Євро-2014]noun:inanim:m:v_dav:nv:prop|Євро-2014/[Євро-2014]noun:inanim:m:v_mis:nv:prop|Євро-2014/[Євро-2014]noun:inanim:m:v_naz:nv:prop|Євро-2014/[Євро-2014]noun:inanim:m:v_oru:nv:prop|Євро-2014/[Євро-2014]noun:inanim:m:v_rod:nv:prop|Євро-2014/[Євро-2014]noun:inanim:m:v_zna:nv:prop", tokenizer, tagger);
+    TestTools.myAssert("Євро-2014", "Євро-2014/[Євро-2014]noun:inanim:n:v_dav:nv:prop|Євро-2014/[Євро-2014]noun:inanim:n:v_mis:nv:prop|Євро-2014/[Євро-2014]noun:inanim:n:v_naz:nv:prop|Євро-2014/[Євро-2014]noun:inanim:n:v_oru:nv:prop|Євро-2014/[Євро-2014]noun:inanim:n:v_rod:nv:prop|Євро-2014/[Євро-2014]noun:inanim:n:v_zna:nv:prop", tokenizer, tagger);
     TestTools.myAssert("Ігри-2014", "Ігри-2014/[Гра-2014]noun:inanim:p:v_naz:prop|Ігри-2014/[Гра-2014]noun:inanim:p:v_zna:prop", tokenizer, tagger);
     TestTools.myAssert("ЧЄ-2014", "ЧЄ-2014/[ЧЄ-2014]noun:inanim:m:v_dav:nv:abbr:prop|ЧЄ-2014/[ЧЄ-2014]noun:inanim:m:v_mis:nv:abbr:prop|ЧЄ-2014/[ЧЄ-2014]noun:inanim:m:v_naz:nv:abbr:prop|ЧЄ-2014/[ЧЄ-2014]noun:inanim:m:v_oru:nv:abbr:prop|ЧЄ-2014/[ЧЄ-2014]noun:inanim:m:v_rod:nv:abbr:prop|ЧЄ-2014/[ЧЄ-2014]noun:inanim:m:v_zna:nv:abbr:prop", tokenizer, tagger);
     TestTools.myAssert("Лондон-2014", "Лондон-2014/[Лондон-2014]noun:inanim:m:v_naz:prop|Лондон-2014/[Лондон-2014]noun:inanim:m:v_zna:prop", tokenizer, tagger);
@@ -241,7 +241,10 @@ public class UkrainianTaggerTest {
     TestTools.myAssert("омега-3", "омега-3/[омега-3]noninfl", tokenizer, tagger);
 
     TestTools.myAssert("потік-2", "потік-2/[потік-2]noun:inanim:m:v_naz|потік-2/[потік-2]noun:inanim:m:v_zna", tokenizer, tagger);
-
+    
+    TestTools.myAssert("СДПУ(о)", "СДПУ(о)/[СДПУ(о)]noun:inanim:f:v_dav:nv:prop|СДПУ(о)/[СДПУ(о)]noun:inanim:f:v_mis:nv:prop|СДПУ(о)/[СДПУ(о)]noun:inanim:f:v_naz:nv:prop|СДПУ(о)/[СДПУ(о)]noun:inanim:f:v_oru:nv:prop|СДПУ(о)/[СДПУ(о)]noun:inanim:f:v_rod:nv:prop|СДПУ(о)/[СДПУ(о)]noun:inanim:f:v_zna:nv:prop", tokenizer, tagger);
+//    TestTools.myAssert("К°", "", tokenizer, tagger);
+    
     assertNotTagged("Берлін-7");
   }
 

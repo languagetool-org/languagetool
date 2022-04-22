@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import java.util.function.UnaryOperator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -97,6 +98,13 @@ public class UkrainianTagger extends BaseTagger {
       return additionalTaggedTokens;
     }
 
+    if ( word.indexOf('(') > 0 || word.indexOf('/') > 0 ) {
+      Set<AnalyzedToken> newAnalyzedTokens = compoundTagger.generateEntities(word);
+
+      if (newAnalyzedTokens.size() > 0)
+        return new ArrayList<>(newAnalyzedTokens);
+    }
+    
     if ( word.startsWith("#") && HASHTAG.matcher(word).matches() ) {
       List<AnalyzedToken> additionalTaggedTokens = new ArrayList<>();
       additionalTaggedTokens.add(new AnalyzedToken(word, IPOSTag.hashtag.getText(), word));

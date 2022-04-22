@@ -734,28 +734,7 @@ class CompoundTagger {
 
     // Ан-140
     if( NOUN_SUFFIX_NUMBER_LETTER.matcher(rightWord).matches() ) {
-      Set<AnalyzedToken> newAnalyzedTokens = new LinkedHashSet<>();
-
-      for(Map.Entry<String, List<String>> entry: numberedEntities.entrySet()) {
-        if( word.matches(entry.getKey()) ) {
-            for(String tag: entry.getValue()) {
-                if( tag.contains(":nv") ) {
-                  String[] tagParts = tag.split(":");
-                  String extraTags = tag.replaceFirst(".*?:nv", "").replace(":np", "");
-                  List<AnalyzedToken> newTokens = PosTagHelper.generateTokensForNv(word, tagParts[1], extraTags);
-                  newAnalyzedTokens.addAll(newTokens);
-
-                  if( ! tag.contains(":np") && ! tag.contains(":p") ) {
-                    newTokens = PosTagHelper.generateTokensForNv(word, "p", extraTags);
-                    newAnalyzedTokens.addAll(newTokens);
-                  }
-                }
-                else {
-                    newAnalyzedTokens.add(new AnalyzedToken(word, tag, word));
-                }
-            }
-        }
-      }
+      Set<AnalyzedToken> newAnalyzedTokens = generateEntities(word);
 
       if (newAnalyzedTokens.size() > 0)
         return new ArrayList<>(newAnalyzedTokens);
@@ -851,6 +830,33 @@ class CompoundTagger {
     }
 
     return null;
+  }
+
+
+  Set<AnalyzedToken> generateEntities(String word) {
+    Set<AnalyzedToken> newAnalyzedTokens = new LinkedHashSet<>();
+
+    for(Map.Entry<String, List<String>> entry: numberedEntities.entrySet()) {
+      if( word.matches(entry.getKey()) ) {
+        for(String tag: entry.getValue()) {
+          if( tag.contains(":nv") ) {
+            String[] tagParts = tag.split(":");
+            String extraTags = tag.replaceFirst(".*?:nv", "").replace(":np", "");
+            List<AnalyzedToken> newTokens = PosTagHelper.generateTokensForNv(word, tagParts[1], extraTags);
+            newAnalyzedTokens.addAll(newTokens);
+
+            if( ! tag.contains(":np") && ! tag.contains(":p") ) {
+              newTokens = PosTagHelper.generateTokensForNv(word, "p", extraTags);
+              newAnalyzedTokens.addAll(newTokens);
+            }
+          }
+          else {
+            newAnalyzedTokens.add(new AnalyzedToken(word, tag, word));
+          }
+        }
+      }
+    }
+    return newAnalyzedTokens;
   }
 
 

@@ -44,6 +44,14 @@ final class TokenAgreementAdjNounExceptionHelper {
 
     AnalyzedTokenReadings adjAnalyzedTokenReadings = tokens[adjPos];
 
+    // наступні півроку
+//    if( PosTagHelper.hasPosTag(tokens[adjPos], Pattern.compile("adj:p:v_(naz|zna:rinanim).*"))
+//        && tokens[nounPos].getCleanToken().toLowerCase().startsWith("пів")
+//        && PosTagHelper.hasPosTagPart(tokens[nounPos], ":v_zna") ) {
+//      logException();
+//      return true;
+//    }
+
 
     if( adjPos > 1
         && LemmaHelper.isCapitalized(tokens[adjPos].getCleanToken())
@@ -74,12 +82,12 @@ final class TokenAgreementAdjNounExceptionHelper {
 //      logException();
 //      return true;
 //    }
-
-    if( LemmaHelper.hasLemma(tokens[adjPos], "північний")
-        && LemmaHelper.hasLemma(tokens[nounPos], "Рейн-Вестфалія") ) {
-      logException();
-      return true;
-    }
+//
+//    if( LemmaHelper.hasLemma(tokens[adjPos], "північний")
+//        && LemmaHelper.hasLemma(tokens[nounPos], "Рейн-Вестфалія") ) {
+//      logException();
+//      return true;
+//    }
 
     //  в день Хрещення Господнього священики
     if( LemmaHelper.hasLemma(tokens[adjPos], Arrays.asList("божий", "господній", "Христовий"))
