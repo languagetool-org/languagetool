@@ -936,6 +936,11 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">A <marker>phrase</marker> like “I appreciate your prompt response,” tells the recipient that you’re waiting for a response sooner rather than later.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp="yes" skip="-1">[„⹂“″‟”«‹›»"]</token>
+                    <token regexp="yes" skip="-1">[„⹂“″‟”«‹›»"]</token>
+                    <token regexp="yes">[„⹂“″‟”«‹›»"]</token>
+                </antipattern>
                 <pattern>
                     <token skip="1" postag="SENT_START"/>
                     <marker>
@@ -943,10 +948,29 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     </marker>
                     <token skip="-1" regexp="yes">[“«‹„"]</token>
                     <token>,</token>
-                    <token regexp="yes">[”″›»"]</token>
+                    <token regexp="yes" spacebefore="no">[”″›»"]</token>
                 </pattern>
                 <example correction="">The <marker>phrase</marker> “I appreciate your prompt response,” tells the recipient that you’re waiting for a response sooner rather than later.</example>
                 <example correction="">A <marker>phrase</marker> like “I appreciate your prompt response,” tells the recipient that you’re waiting for a response sooner rather than later.</example>
+                <example>My child " he said, "God paid your bill a long, long time ago."</example><!-- Characters missing, but rule should still match -->
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="IN|VB.*" postag_regexp="yes"/>
+                    </marker>
+                    <token regexp="yes">\d+</token>
+                    <token postag="NN.*|SENT_END|PCT|POS" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">It reached an all-time high <marker>of</marker> 425000.</example>
+                <example correction="">Over <marker>past</marker> 18000 years, they migrated north.</example>
+                <example correction="">And then it went up <marker>from</marker> 10000 hectares.</example>
+                <example correction="">Affected more <marker>than</marker> 8000 people</example>
+                <example correction="">It's not as old as Yamaha FZ6 <marker>with</marker> 9000 miles on it.</example>
+                <example correction="">There are an <marker>estimated</marker> 300000 ships in the gulf.</example>
+                <example correction="">It links the article which <marker>has</marker> 1674 words.</example>
+                <example correction="">We are <marker>selling</marker> 2022's (with the bonus editions included)</example>
+                <example correction="">It was calculated by <marker>feeding</marker> 32128 tokens.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AI_EN_G_REPLACE_ORTH" name="">
