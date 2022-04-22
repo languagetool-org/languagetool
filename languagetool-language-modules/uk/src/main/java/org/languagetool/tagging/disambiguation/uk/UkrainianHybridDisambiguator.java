@@ -22,6 +22,7 @@ package org.languagetool.tagging.disambiguation.uk;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -35,6 +36,8 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.Ukrainian;
 import org.languagetool.rules.uk.CaseGovernmentHelper;
+import org.languagetool.rules.uk.InflectionHelper;
+import org.languagetool.rules.uk.InflectionHelper.Inflection;
 import org.languagetool.rules.uk.LemmaHelper;
 import org.languagetool.tagging.disambiguation.AbstractDisambiguator;
 import org.languagetool.tagging.disambiguation.Disambiguator;
@@ -97,6 +100,8 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
     removeLowerCaseHomonymsForAbbreviations(input);
     removeLowerCaseBadForUpperCaseGood(input);
     disambiguateSt(input);
+    disambiguatePronPos(input);
+    retagPulralProp(input);
 
     return input;
   }
@@ -207,6 +212,47 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
         break;
     }
     return foundVmis && foundOther;
+  }
+
+  private void disambiguatePronPos(AnalyzedSentence input) {
+    AnalyzedTokenReadings[] tokens = input.getTokensWithoutWhitespace();
+    
+    for (int i = 1; i < tokens.length; i++) {
+      List<AnalyzedToken> analyzedTokens = tokens[i].getReadings();
+
+      if (tokens[i].getToken() == null )
+        continue;
+      
+      String lowerCaseToken = tokens[i].getCleanToken().toLowerCase();
+      
+      if( Arrays.asList("його", "її", "їх").contains(lowerCaseToken) ) {
+        
+        if( PosTagHelper.hasPosTag(tokens[i], Pattern.compile("adj.*pron:pos.*")) ) {
+        
+          List<InflectionHelper.Inflection> nounInflections = new ArrayList<>();
+          if( i > 1 ) {
+            List<Inflection> nounInflections_ = InflectionHelper.getNounInflections(tokens[i-1].getReadings(), "pron");
+            nounInflections.addAll( nounInflections_ );
+          }
+          if( i < tokens.length-1 ) {
+            List<Inflection> nounInflections_ = InflectionHelper.getNounInflections(tokens[i+1].getReadings(), "pron");
+            nounInflections.addAll( nounInflections_ );
+          }
+
+          if( nounInflections.size() > 0 ) {
+
+            for (AnalyzedToken analyzedToken : analyzedTokens) {
+              if( PosTagHelper.hasPosTagStart(analyzedToken, "adj") ) {
+                List<Inflection> adjInflections = InflectionHelper.getAdjInflections(Arrays.asList(analyzedToken));
+                if( Collections.disjoint(nounInflections, adjInflections)  ) {
+                  tokens[i].removeReading(analyzedToken, "dis_pron_pos");
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   }
 
   // correct: Єврокомісія, but often written: єврокомісія
@@ -514,7 +560,41 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
 
     }
   }
-  
+
+  private void retagPulralProp(AnalyzedSentence input) {
+    AnalyzedTokenReadings[] tokens = input.getTokensWithoutWhitespace();
+
+    // дві Франції, три Катерини, два Володьки
+    for (int i = 2; i < tokens.length; i++) {
+      AnalyzedTokenReadings propTokens = tokens[i];
+      if( tokens[i-1].getCleanToken().toLowerCase().matches("два|дві|три|чотири")
+          && ! PosTagHelper.hasPosTag(propTokens, "noun.*:p:v_naz.*:prop.*")
+          && ! PosTagHelper.hasPosTag(propTokens, "noun.*:[mfn]:v_naz.*:prop.*")) { 
+        
+        List<AnalyzedToken> propOnly = PosTagHelper.filter(propTokens.getReadings(), Pattern.compile("noun:.*:[fmn]:v_rod.*prop.*"));
+        
+        propOnly = propOnly.stream()
+            .filter(s -> !s.getPOSTag().contains(":m:") || s.getLemma().endsWith("а") || s.getLemma().endsWith("о") )
+            .collect(Collectors.toList());
+        
+        
+        if( propOnly.size() > 0 ) {
+
+          String postag = propOnly.get(0).getPOSTag().replaceFirst(":[mfn]:v_rod", ":p:v_naz");
+          String lemma = propOnly.get(0).getLemma();
+
+          for(AnalyzedToken tokenReading: propTokens.getReadings()) {
+            propTokens.removeReading(tokenReading, "dis_plural_prop");
+          }
+
+          AnalyzedToken newToken = new AnalyzedToken(propTokens.getToken(), postag, lemma);
+          propTokens.addReading(newToken, "dis_plural_prop");
+          i++;
+        }
+      }
+    }
+  }
+
 /*
 TODO:
 рт.ст.

@@ -164,12 +164,10 @@ public class UkrainianTaggerTest {
   @Test
   public void testDynamicTaggingNumeric() throws IOException {
     // numr-numr
-    TestTools.myAssert("одним-двома", "одним-двома/[один-два]numr:p:v_oru", tokenizer, tagger);
+    TestTools.myAssert("одним-трьома", "одним-трьома/[один-три]numr:p:v_oru|одним-трьома/[один-троє]numr:p:v_oru", tokenizer, tagger);
     TestTools.myAssert("одного-другого", "одного-другого/[один-другий]numr:m:v_rod:&numr|одного-другого/[один-другий]numr:m:v_zna:ranim:&numr|одного-другого/[один-другий]numr:n:v_rod:&numr", tokenizer, tagger);
     //TODO: бере іменник п’ята
-//    TestTools.myAssert("п'яти-шести", "п'яти-шести/[п'ять-шість]numr:v_dav|п'яти-шести/[п'ять-шість]numr:v_mis|п'яти-шести/[п'ять-шість]numr:v_rod", tokenizer, tagger);
-    TestTools.myAssert("п'яти-шести", "п'яти-шести/[п'ята-шість]noun:inanim:f:v_rod|п'яти-шести/[п'ята-шість]noun:inanim:p:v_rod|п'яти-шести/[п'ять-шість]numr:p:v_dav|п'яти-шести/[п'ять-шість]numr:p:v_mis|п'яти-шести/[п'ять-шість]numr:p:v_rod", tokenizer, tagger);
-//    TestTools.myAssert("півтори-дві", "півтори-дві/[півтори-два]numr:f:v_naz|півтори-дві/[півтори-два]numr:f:v_zna", tokenizer, tagger);
+    TestTools.myAssert("п'яти-шести", "п'яти-шести/[п'ять-шість]numr:p:v_dav|п'яти-шести/[п'ять-шість]numr:p:v_mis|п'яти-шести/[п'ять-шість]numr:p:v_rod", tokenizer, tagger);
     TestTools.myAssert("три-чотири", "три-чотири/[три-чотири]numr:p:v_naz|три-чотири/[три-чотири]numr:p:v_zna", tokenizer, tagger);
     TestTools.myAssert("два-чотири", "два-чотири/[два-чотири]numr:p:v_naz|два-чотири/[два-чотири]numr:p:v_zna", tokenizer, tagger);
     TestTools.myAssert("одному-двох", "одному-двох/[один-два]numr:p:v_mis", tokenizer, tagger);
@@ -264,7 +262,7 @@ public class UkrainianTaggerTest {
     TestTools.myAssert("буде-таки", "буде-таки/[бути]verb:imperf:futr:s:3", tokenizer, tagger);
     TestTools.myAssert("там-таки", "там-таки/[там]adv:&pron:dem|там-таки/[там]part", tokenizer, tagger);
     TestTools.myAssert("зразу-таки", "зразу-таки/[зразу]adv", tokenizer, tagger);
-    TestTools.myAssert("першого-таки", "першого-таки/[перший]adj:m:v_rod:compb:&numr|першого-таки/[перший]adj:m:v_zna:ranim:compb:&numr|першого-таки/[перший]adj:n:v_rod:compb:&numr", tokenizer, tagger);
+    TestTools.myAssert("першого-таки", "першого-таки/[перший]adj:m:v_rod:&numr|першого-таки/[перший]adj:m:v_zna:ranim:&numr|першого-таки/[перший]adj:n:v_rod:&numr", tokenizer, tagger);
     TestTools.myAssert("варто-таки", "варто-таки/[варто]noninfl:&predic", tokenizer, tagger);
 //    TestTools.myAssert("добряче-таки", "добряче-таки/[добряче]adv", tokenizer, tagger);
     
@@ -336,8 +334,8 @@ public class UkrainianTaggerTest {
   
   @Test
   public void testDynamicTaggingFixedParts() throws IOException {
-    TestTools.myAssert("пів-України", "пів-України/[пів-України]noun:inanim:f:v_dav:prop:geo:ua_1992|пів-України/[пів-України]noun:inanim:f:v_mis:prop:geo:ua_1992|пів-України/[пів-України]noun:inanim:f:v_naz:prop:geo:ua_1992"
-        + "|пів-України/[пів-України]noun:inanim:f:v_oru:prop:geo:ua_1992|пів-України/[пів-України]noun:inanim:f:v_rod:prop:geo:ua_1992|пів-України/[пів-України]noun:inanim:f:v_zna:prop:geo:ua_1992"
+    TestTools.myAssert("пів-України", "пів-України/[пів-України]noun:inanim:p:v_dav:prop:geo:ua_1992|пів-України/[пів-України]noun:inanim:p:v_mis:prop:geo:ua_1992|пів-України/[пів-України]noun:inanim:p:v_naz:prop:geo:ua_1992"
+        + "|пів-України/[пів-України]noun:inanim:p:v_oru:prop:geo:ua_1992|пів-України/[пів-України]noun:inanim:p:v_rod:prop:geo:ua_1992|пів-України/[пів-України]noun:inanim:p:v_zna:prop:geo:ua_1992"
         , tokenizer, tagger);
 
     TestTools.myAssert("Пенсильванія-авеню", "Пенсильванія-авеню/[Пенсильванія-авеню]noun:inanim:f:v_dav:nv:prop|Пенсильванія-авеню/[Пенсильванія-авеню]noun:inanim:f:v_mis:nv:prop"
@@ -348,6 +346,11 @@ public class UkrainianTaggerTest {
         , tokenizer, tagger);
   }        
 
+  @Test
+  public void testDynamicTaggingPiv() throws IOException {
+    TestTools.myAssert("півгодини-годину", "півгодини-годину/[півгодини-годину]noun:inanim:p:v_zna", tokenizer, tagger);
+  }
+  
   @Test
   public void testDynamicTaggingFullTagMatch() throws IOException {
 

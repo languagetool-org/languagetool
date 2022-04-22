@@ -119,6 +119,9 @@ public class UkrainianWordTokenizerTest {
 
     testList = w.tokenize("3,5-5,6% 7° 7,4°С");
     assertEquals(Arrays.asList("3,5-5,6", "%", " ", "7", "°", " ", "7,4", "°", "С"), testList);
+
+    testList = w.tokenize("відбулася 17.8.1245");
+    assertEquals(Arrays.asList("відбулася", " ", "17.8.1245"), testList);
   }
 
   @Test

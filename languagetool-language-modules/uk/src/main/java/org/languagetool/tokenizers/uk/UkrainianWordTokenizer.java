@@ -88,11 +88,11 @@ public class UkrainianWordTokenizer implements Tokenizer {
   private static final String N_DASH_SPACE_REPL = "$1" + BREAKING_PLACEHOLDER + "$2";
 
   // dots in numbers
-  private static final Pattern DOTTED_NUMBERS_PATTERN = Pattern.compile("([\\d])\\.([\\d])", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-  private static final String DOTTED_NUMBERS_REPL = "$1" + NON_BREAKING_DOT_SUBST + "$2";
+  private static final Pattern DOTTED_NUMBERS_PATTERN = Pattern.compile("([\\d])\\.([\\d])");
+  private static final Pattern DOTTED_NUMBERS_PATTERN3 = Pattern.compile("([\\d])\\.([\\d]+)\\.([\\d])");
 
   // colon in numbers
-  private static final Pattern COLON_NUMBERS_PATTERN = Pattern.compile("([\\d]):([\\d])", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern COLON_NUMBERS_PATTERN = Pattern.compile("([\\d]):([\\d])");
   private static final String COLON_NUMBERS_REPL = "$1" + NON_BREAKING_COLON_SUBST + "$2";
 
   // dates
@@ -145,7 +145,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
   private static final Pattern ABBR_DOT_NON_ENDING_PATTERN = Pattern.compile("(?<![а-яіїєґА-ЯІЇЄҐ'\u0301-])(абз|австрал|амер|англ|акад(ем)?|арк|ауд|бл(?:изьк)?|буд|в(?!\\.+)|вип|вірм|грец(?:ьк)"
       + "|держ|див|діал|дод|дол|досл|доц|доп|екон|ел|жін|зав|заст|зах|зб|зв|зневажл?|зовн|ім|івр|ісп|іст|італ"
       + "|к|каб|каф|канд|кв|[1-9]-кімн|кімн|кл|кн|коеф|латин|мал|моб|н|[Нн]апр|нац|образн|оп|оф|п|пен|перекл|перен|пл|пол|пов|пор|поч|пп|прибл|прикм|прим|присл|пров|пром|просп"
-      + "|[Рр]ед|[Рр]еж|розд|розм|рт|рум|с|[Сс]вв?|скор|соц|співавт|ст|стор|сх|табл|тт|[тТ]ел|техн|укр|філол|фр|франц|худ|ч|чайн|част|ц|яп)\\.(?!\uE120|\\.+[\\h\\v]*$)");
+      + "|[Рр]ед|[Рр]еж|розд|розм|рт|рум|с|[Сс]вв?|скор|соц|співавт|[сС]т|стор|сх|табл|тт|[тТ]ел|техн|укр|філол|фр|франц|худ|ч|чайн|част|ц|яп)\\.(?!\uE120|\\.+[\\h\\v]*$)");
   private static final Pattern ABBR_DOT_NON_ENDING_PATTERN_2 = Pattern.compile("([^а-яіїєґА-ЯІЇЄҐ'-]м\\.)([\\h\\v]*[А-ЯІЇЄҐ])");
   // скорочення що можуть бути в кінці речення
   private static final Pattern ABBR_DOT_ENDING_PATTERN = Pattern.compile("([^а-яіїєґА-ЯІЇЄҐ'\u0301-]((та|й|і) (інш?|под)|атм|відс|гр|коп|обл|р|рр|РР|руб|ст|стол|стор|чол|шт))\\.(?!\uE120)");
@@ -319,7 +319,8 @@ public class UkrainianWordTokenizer implements Tokenizer {
             && ABBR_AT_THE_END.matcher(text).find()) ) {  // ugly - special case for тис. та ініціалів
 
       text = DATE_PATTERN.matcher(text).replaceAll(DATE_PATTERN_REPL);
-      text = DOTTED_NUMBERS_PATTERN.matcher(text).replaceAll(DOTTED_NUMBERS_REPL);
+      text = DOTTED_NUMBERS_PATTERN3.matcher(text).replaceAll("$1.\uE120$2.\uE120$3");
+      text = DOTTED_NUMBERS_PATTERN.matcher(text).replaceAll("$1.\uE120$2");
 
       text = ABBR_DOT_2_SMALL_LETTERS_PATTERN.matcher(text).replaceAll("$1.\uE120\uE110$2.\uE120\uE110"); //.replaceFirst("(([смкд]|мк)?м\\.[\\h\\v]*)\uE120\uE110$", "$1");
       text = ABBR_DOT_VO_PATTERN1.matcher(text).replaceAll(ABBR_DOT_2_SMALL_LETTERS_REPL);

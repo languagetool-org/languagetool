@@ -103,11 +103,11 @@ class CompoundTagger {
       "єврокубок", "єврокваліфікація", "євровідбір", "єврофорум",
       "конкурс", "кінофестиваль", "кубок", "мундіаль", "м'яч", "олімпіада", "оцінювання", "оскар",
       "пектораль", "перегони", "першість", "політреформа", "премія", "рейтинг", "реформа", "сезон", 
-      "турнір", "універсіада", "фестиваль", "форум", "чемпіонат", "чемпіон", "чемпіонка", "ярмарок");
+      "турнір", "універсіада", "фестиваль", "форум", "чемпіонат", "чемпіон", "чемпіонка", "ярмарок", "ЧУ", "ЧЄ");
   private static final List<String> WORDS_WITH_NUM = Arrays.asList(
       "Формула", "Карпати", "Динамо", "Шахтар", "Фукусіма", "Квартал", "Золоте", "Мінськ", "Нюренберг",
       "омега", "плутоній", "полоній", "стронцій", "уран", "потік"); //TODO: потік-2 - prop
-  private static final List<String> NAME_SUFFIX = Arrays.asList("ага", "ефенді", "бек", "сан");
+  private static final List<String> NAME_SUFFIX = Arrays.asList("ага", "ефенді", "бек", "сан", "сенсей");
   private static final List<String> BAD_SUFFIX = Arrays.asList("б", "би", "ж", "же");
   private static final Pattern SKY_PATTERN = Pattern.compile(".*[сзц]ьки");
   private static final Pattern SKYI_PATTERN = Pattern.compile(".*[сзц]ький");
@@ -322,12 +322,12 @@ class CompoundTagger {
     }
 
     Pattern TAGS_TO_REMOVE = Pattern.compile(":comp.|:&predic|:&insert");
+    List<AnalyzedToken> leftAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(leftWord, leftWdList);
     
     // гірко-прегірко
     if( rightWord.startsWith("пре") && leftWord.toLowerCase().equals(rightWord.substring(3).toLowerCase()) ) {
       if (PosTagHelper.hasPosTagStart2(leftWdList, "adv")) {
 
-        List<AnalyzedToken> leftAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(leftWord, leftWdList);
         return leftAnalyzedTokens.stream()
             .filter(a -> a.getPOSTag() != null && a.getPOSTag().startsWith("adv") )
             .map(a -> new AnalyzedToken(word, TAGS_TO_REMOVE.matcher(a.getPOSTag()).replaceAll(""), word))
@@ -336,7 +336,6 @@ class CompoundTagger {
       // гіркий-прегіркий
       else if( PosTagHelper.hasPosTagStart2(leftWdList, "adj") ) {
 
-        List<AnalyzedToken> leftAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(leftWord, leftWdList);
         return leftAnalyzedTokens.stream()
             .filter(a -> a.getPOSTag() != null && a.getPOSTag().startsWith("adj") )
             .map(a -> new AnalyzedToken(word, TAGS_TO_REMOVE.matcher(a.getPOSTag()).replaceAll(""), a.getLemma()+"-пре"+a.getLemma()))
@@ -350,6 +349,15 @@ class CompoundTagger {
 
     List<AnalyzedToken> rightAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(rightWord, rightWdList);
 
+    // півгодини-годину
+    if( word.startsWith("пів") && PosTagHelper.hasPosTag(leftAnalyzedTokens, Pattern.compile("noun:inanim:p:v_...:nv.*")) ) {
+      
+      return rightAnalyzedTokens.stream()
+          .filter(a -> a.getPOSTag() != null && a.getPOSTag().startsWith("noun:inanim:") )
+          .map(a -> new AnalyzedToken(word, a.getPOSTag().replaceFirst(":[mfn]:", ":p:"), word))
+          .collect(Collectors.toList());
+      
+    }
 
     // Ш-подібний
     if( leftWord.length() == 1
@@ -372,7 +380,7 @@ class CompoundTagger {
 
     // exclude: Малишко-це, відносини-коли
 
-    List<AnalyzedToken> leftAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(leftWord, leftWdList);
+//    List<AnalyzedToken> leftAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(leftWord, leftWdList);
 
     // був-би, but not м-б
     if( leftWord.length() > 1 && BAD_SUFFIX.contains(rightWord) ) {
@@ -461,7 +469,7 @@ class CompoundTagger {
             for(String vid: PosTagHelper.VIDMINKY_MAP.keySet()) {
               if( vid.equals("v_kly") )
                 continue;
-              String posTag = rightPosTag.replace("v_rod", vid) + ":ua_1992";
+              String posTag = rightPosTag.replace("v_rod", vid).replaceFirst(":[mfn]:v_", ":p:v_") + ":ua_1992";
               newAnalyzedTokens.add(new AnalyzedToken(word, posTag, word));
             }
           }
@@ -1066,32 +1074,39 @@ class CompoundTagger {
             newAnalyzedTokens.add(new AnalyzedToken(word, agreedPosTag + extraNvTag + leftPosTagExtra, leftAnalyzedToken.getLemma() + "-" + rightAnalyzedToken.getLemma()));
           }
         }
-        // numr-numr: один-два
+        // numr-numr: один-три
         else if ( leftPosTag.startsWith(IPOSTag.numr.getText()) && rightPosTag.startsWith(IPOSTag.numr.getText()) ) {
             String agreedPosTag = getNumAgreedPosTag(leftPosTag, rightPosTag, leftNv);
             if( agreedPosTag != null ) {
+              
+              if( rightPosTag.contains(":p:") && ! agreedPosTag.contains(":p:") ) {
+                agreedPosTag = agreedPosTag.replaceFirst(":[mfn]:", ":p:");
+              }
+              
               newAnalyzedTokens.add(new AnalyzedToken(word, agreedPosTag + extraNvTag + leftPosTagExtra, leftAnalyzedToken.getLemma() + "-" + rightAnalyzedToken.getLemma()));
             }
         }
         // noun-numr match
         else if ( IPOSTag.startsWith(leftPosTag, IPOSTag.noun) && IPOSTag.startsWith(rightPosTag, IPOSTag.numr) ) {
-          // gender tags match
-          String leftGenderConj = PosTagHelper.getGenderConj(leftPosTag);
-          if( leftGenderConj != null && leftGenderConj.equals(PosTagHelper.getGenderConj(rightPosTag)) ) {
-            newAnalyzedTokens.add(new AnalyzedToken(word, leftPosTag + extraNvTag + leftPosTagExtra, leftAnalyzedToken.getLemma() + "-" + rightAnalyzedToken.getLemma()));
-            // година-півтори може бути як одниною так і множиною: минула година-півтори, минулі година-півтори
-            if( ! leftPosTag.contains(":p:") ) {
-              newAnalyzedTokens.add(new AnalyzedToken(word, leftPosTag.replaceAll(":[mfn]:", ":p:") + extraNvTag + leftPosTagExtra, leftAnalyzedToken.getLemma() + "-" + rightAnalyzedToken.getLemma()));
+          if( ! leftAnalyzedToken.getLemma().equals("п'ята") ) {
+            // gender tags match
+            String leftGenderConj = PosTagHelper.getGenderConj(leftPosTag);
+            if( leftGenderConj != null && leftGenderConj.equals(PosTagHelper.getGenderConj(rightPosTag)) ) {
+              newAnalyzedTokens.add(new AnalyzedToken(word, leftPosTag + extraNvTag + leftPosTagExtra, leftAnalyzedToken.getLemma() + "-" + rightAnalyzedToken.getLemma()));
+              // година-півтори може бути як одниною так і множиною: минула година-півтори, минули година-півтори
+              if( ! leftPosTag.contains(":p:") ) {
+                newAnalyzedTokens.add(new AnalyzedToken(word, leftPosTag.replaceAll(":[mfn]:", ":p:") + extraNvTag + leftPosTagExtra, leftAnalyzedToken.getLemma() + "-" + rightAnalyzedToken.getLemma()));
+              }
             }
-          }
-          else {
-            // (with different gender tags): сотні (:p:) - дві (:f:)
-            String agreedPosTag = getNumAgreedPosTag(leftPosTag, rightPosTag, leftNv);
-            if( agreedPosTag != null ) {
-              newAnalyzedTokens.add(new AnalyzedToken(word, agreedPosTag + extraNvTag + leftPosTagExtra, leftAnalyzedToken.getLemma() + "-" + rightAnalyzedToken.getLemma()));
-              // рік-два може бути як одниною так і множиною: минулий рік-два, минулі рік-два
-              if( ! agreedPosTag.contains(":p:") ) {
-                newAnalyzedTokens.add(new AnalyzedToken(word, agreedPosTag.replaceAll(":[mfn]:", ":p:") + extraNvTag + leftPosTagExtra, leftAnalyzedToken.getLemma() + "-" + rightAnalyzedToken.getLemma()));
+            else {
+              // (with different gender tags): сотні (:p:) - дві (:f:)
+              String agreedPosTag = getNumAgreedPosTag(leftPosTag, rightPosTag, leftNv);
+              if( agreedPosTag != null ) {
+                newAnalyzedTokens.add(new AnalyzedToken(word, agreedPosTag + extraNvTag + leftPosTagExtra, leftAnalyzedToken.getLemma() + "-" + rightAnalyzedToken.getLemma()));
+                // рік-два може бути як одниною так і множиною: минулий рік-два, минули рік-два
+                if( ! agreedPosTag.contains(":p:") ) {
+                  newAnalyzedTokens.add(new AnalyzedToken(word, agreedPosTag.replaceAll(":[mfn]:", ":p:") + extraNvTag + leftPosTagExtra, leftAnalyzedToken.getLemma() + "-" + rightAnalyzedToken.getLemma()));
+                }
               }
             }
           }
