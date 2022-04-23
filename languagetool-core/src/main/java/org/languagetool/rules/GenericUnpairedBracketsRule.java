@@ -253,7 +253,12 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
               return true;
             } else {
               if (isEndSymbolUnique(endSymbols.get(j))) {
-                symbolStack.push(new SymbolLocator(new Symbol(endSymbols.get(j), Symbol.Type.Closing), i, startPos, sentence, sentenceIdx));
+                if (isInterval(endSymbols.get(j), symbolStack, tokens, i, j)) {
+                  symbolStack.pop();
+                  return true;
+                }
+                else
+                  symbolStack.push(new SymbolLocator(new Symbol(endSymbols.get(j), Symbol.Type.Closing), i, startPos, sentence, sentenceIdx));
                 return true;
               } else {
                 if (j == endSymbols.size() - 1) {
@@ -269,6 +274,28 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
     return false;
   }
 
+  private boolean isInterval(String endSymbol, UnsyncStack<SymbolLocator> symbolStack, AnalyzedTokenReadings[] tokens, int i, int j) {
+    SymbolLocator leftBracket = symbolStack.peek();
+    String leftBracketSymbol = leftBracket.getSymbol().symbol;
+    int leftBracketPos = leftBracket.getIndex();
+    String rightBracketSymbol = endSymbol;
+    int rightBracketPos = i;
+
+    if ((leftBracketSymbol.equals("[")&&rightBracketSymbol.equals(")")) ||
+        (leftBracketSymbol.equals("(")&&rightBracketSymbol.equals("]"))) {}
+    else return false;
+
+    int countCommaNumber = 0;
+    for (int pos = leftBracketPos; pos < rightBracketPos; pos++) {
+      if (tokens[pos].getToken().equals(","))
+        countCommaNumber += 1;
+    }
+
+    if (countCommaNumber == 0 || countCommaNumber > 1)
+      return false;
+    return true;
+  }
+  
   private boolean getPrecededByWhitespace(AnalyzedTokenReadings[] tokens, int i, int j) {
     boolean precededByWhitespace = true;
     if (startSymbols.get(j).equals(endSymbols.get(j))) {
