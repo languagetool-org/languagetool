@@ -173,6 +173,12 @@ public class EnglishUnpairedBracketsRuleTest {
     assertCorrect("Some text. This is 12345\", a number.");  // could be "inch", so no error
     assertCorrect("\"When you bring someone,\" he said.\n" +
       "Gibson introduced the short-scale (30.5\") bass in 1961.");  // could be "inch", so no error
+    
+    // this test is for intervals which left bracket not matches right bracket, like "[0, 100)"
+    assertCorrect("The range is [start, end)");
+    assertCorrect("The index is in the range (0, 100]");
+    assertCorrect("The range should be (number of apples, number of bananas]");
+    assertCorrect("The domain of the function is [twenty two, thirty five)");
 
     RuleMatch[] matches;
     matches = rule.match(Collections.singletonList(lt.getAnalyzedSentence("(This is a test” sentence.")));
