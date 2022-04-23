@@ -8757,7 +8757,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker><token regexp="yes">verschossene?[nms]?</token></marker>
-                    <token inflected="yes" regexp="yes" skip="1">Tür|Brief(umschlag)?|Dose|Sack|Treppenaufgang|Zimmer|Truhe|Mund|Giftschrank|Herz(kranzgefäß)?|Behälter</token>
+                    <token inflected="yes" regexp="yes" skip="1">Tür|Brief(umschlag)?|Dose|Sack|Treppenaufgang|Zimmer|Truhe|Mund|Giftschrank|Herz(kranzgefä(ß|ss))?|Behälter</token>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="1" regexp_match="sch" regexp_replace="schl"/></suggestion>?</message>
                 <example correction="verschlossenen">Er öffnete den <marker>verschossenen</marker> Briefumschlag.</example>
@@ -25442,11 +25442,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://deutschlernerblog.de/allein-oder-alleine/</url>
             <example correction="allein">Er lebt <marker>alleine</marker>.</example>
        </rule>
-       <rule id="NICHTSDESTOTROTZ_II" name="nichtsdestotrotz (nichtsdestoweniger)" default="temp_off" tags="picky">
+       <rule id="NICHTSDESTOTROTZ_II" name="nichtsdestotrotz (nichtsdestoweniger)" tags="picky">
            <pattern>
                <token>nichtsdestotrotz</token>
             </pattern>
-            <message>'\1' ist umgangssprachlich. Wollen Sie besser das standardsprachliche <suggestion><match no="1" regexp_match="trotz" regexp_replace="weniger"/></suggestion>, <suggestion>dennoch</suggestion> oder <suggestion>trotzdem</suggestion> verwenden?</message>
+            <message>'\1' ist umgangssprachlich. Möchten Sie stattdessen das standardsprachliche <suggestion><match no="1" regexp_match="trotz" regexp_replace="weniger"/></suggestion>, <suggestion>dennoch</suggestion> oder <suggestion>trotzdem</suggestion> verwenden?</message>
             <url>https://gfds.de/nichtsdestotrotz/</url>
             <example correction="Nichtsdestoweniger|Dennoch|Trotzdem"><marker>Nichtsdestotrotz</marker> ist das Thema umstritten.</example>
         </rule>
@@ -38349,7 +38349,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SUB:.*" postag_regexp="yes" />
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">in|auf|zu|korrekte[ms]|akzentfrei(e[snm])?|richtige[ms]|[mds]ein|euer|mit</token>
+                    <token regexp="yes">in|auf|korrekte[ms]|akzentfrei(e[snm])?|richtige[ms]|[mds]ein|euer|mit</token>
                     <marker>
                         <token regexp="yes" case_sensitive="yes">&sprachadj1;</token>
                     </marker>
@@ -38363,6 +38363,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Er schreibt den Text auf <marker>englischem</marker> Boden.</example>
                 <example>Nach einem erfolgreichen Angriff auf <marker>türkisch</marker> besetztes Territorium.</example>
                 <example>Meine Frau und ich gehen gerne ab und zu chinesisch essen.</example>
+                <example>Sein Verhalten ist mir zu deutsch.</example>
                 <example>Sein Lehrer Elsner bestärkte Chopin in der Hinwendung zu polnisch nationaler Musik, namentlich zu den polnischen Volkstänzen und -liedern.</example>
             </rule>
             <rule>
@@ -38467,7 +38468,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://www.duden.de/rechtschreibung/Deutsch</url>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token inflected="yes" regexp="yes">können|sprechen|reden|schreiben|verstehen|übersetzen|akzentfrei|unterrichten|lernen|entziffern|kommunizieren|korrigieren</token>
+                    <token inflected="yes" regexp="yes">können|sprechen|reden|schreiben|verstehen|übersetzen|akzentfrei|unterrichten|lernen|entziffern|kommunizieren|korrigieren|fließend</token>
                     <token min="0">noch</token>
                     <token min="0" regexp="yes">kein|kaum|(gar)?nicht|oft|meistens</token>
                     <marker>
@@ -47441,7 +47442,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>dumme</token>
                 <token min="0">,</token>
                 <token regexp="yes">1|ein</token>
-                <token regexp="yes">Gedanke</token>
+                <token case_sensitive="yes">Gedanke</token>
             </pattern>
             <message>Meinten Sie die Redewendung <suggestion>zwei Dumme, ein Gedanke</suggestion>?</message>
             <url>https://www.antenneunna.de/artikel/woher-kommt-zwei-dumme-ein-gedanke-889525.html</url>
@@ -47586,7 +47587,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <!--Ausruf-->
             <antipattern>
                 <token postag="SENT_START"/>
-                <token regexp="yes">kennst|weißt|siehst</token>
+                <token regexp="yes">kennst|wei(ß|ss)t|siehst</token>
                 <token>du</token>
                 <token postag="ADV:MOD"/>
             </antipattern>
@@ -65558,6 +65559,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Möchten Sie ein Komma hinter der Infinitivgruppe einfügen? (In den meisten Fällen ist dies optional)</message>
                 <suggestion>\1,</suggestion>
                 <example correction="auszudenken,">Sich einen Alternativplan <marker>auszudenken</marker> ist häufig schwierig.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="KOMMA_NACH_AUSRUF" name="Komma nach betonten Ausrufen" default="off">
+                        <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">Oh?|Ac?h|Na</token>
+                    <marker>
+                        <token regexp="yes">ja|nein</token>
+                    </marker>
+                    <token regexp="yes">\w+</token>
+                </pattern>
+                <message>Nach einem betonten Ausruf folgt ein Komma.</message>
+                <suggestion>\2,</suggestion>
+                <url>https://grammis.ids-mannheim.de/rechtschreibung/6201</url>
+                <example correction="nein,">Oh <marker>nein</marker> das ist aber ärgerlich.</example>
+                <example correction="ja,">Na <marker>ja</marker> Steffi hätte das besser gelöst.</example>
             </rule>
         </rulegroup>
     </category>
