@@ -13215,15 +13215,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion><match no="1" case_conversion="startupper" />-<match no="2" case_conversion="startupper" /></suggestion>
             <example correction="Content-Marketing">Wir bloggen jetzt, um besseres <marker>Content Marketing</marker> zu machen.</example>
         </rule>
-        <rule id="NULL_KOMMA_NICHTS" name="Nullkommanichts">
-            <pattern>
-                <token regexp="yes">null|0</token>
-                <token regexp="yes">kom?ma</token>
-                <token regexp="yes">nichts|nix</token>
-            </pattern>
-            <message>Das Wort <suggestion>Nullkomma<match no="3" case_conversion="alllower" /></suggestion> wird zusammengeschrieben.</message>
-            <example correction="Nullkommanichts">Im <marker>Null Komma Nichts</marker> bin ich weg!</example>
-        </rule>
+        <rulegroup id="NULL_KOMMA_NICHTS" name="Nullkommanichts">
+            <url>https://de.wiktionary.org/wiki/in_null_Komma_nichts</url>
+            <rule>
+                <pattern>
+                    <token>im</token>
+                    <marker>
+                        <token regexp="yes">null|0</token>
+                        <token regexp="yes">kom?ma</token>
+                        <token regexp="yes">nichts|nix</token>
+                    </marker>
+                </pattern>
+                <message>&inwend;'im Nullkommanichts' wird <suggestion>Nullkomma<match no="4" case_conversion="alllower" /></suggestion> zusammengeschrieben.</message>
+                <example correction="Nullkommanichts">Im <marker>Null Komma Nichts</marker> bin ich weg!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>in</token>
+                    <marker>
+                        <token case_sensitive="yes">Null</token>
+                        <token regexp="yes" case_sensitive="yes">Komm?a</token>
+                        <token regexp="yes">ni(chts|x)</token>
+                    </marker>
+                </pattern>
+                <message>&inwend;'in <suggestion><match no="2" case_conversion="startlower" /> Komma <match no="4" case_conversion="startlower" /></suggestion>' werden 'null' und 'nichts' kleingeschrieben.</message>
+                <example correction="null Komma nichts">In <marker>Null Komma nichts</marker> bin ich weg!</example>
+            </rule>
+        </rulegroup>
         <rule id="ZWISCHEN_DURCH" name="zwischendurch">
             <pattern>
                 <token>zwischen</token>
@@ -38468,7 +38486,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://www.duden.de/rechtschreibung/Deutsch</url>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token inflected="yes" regexp="yes">können|sprechen|reden|schreiben|verstehen|übersetzen|akzentfrei|unterrichten|lernen|entziffern|kommunizieren|korrigieren|fließend</token>
+                    <token inflected="yes" regexp="yes">können|sprechen|reden|schreiben|verstehen|übersetzen|akzentfrei|unterrichten|lernen|entziffern|kommunizieren|korrigieren|flie(ß|ss)end</token>
                     <token min="0">noch</token>
                     <token min="0" regexp="yes">kein|kaum|(gar)?nicht|oft|meistens</token>
                     <marker>
