@@ -13234,7 +13234,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>in</token>
                     <marker>
                         <token case_sensitive="yes">Null</token>
-                        <token regexp="yes" case_sensitive="yes">Komm?a</token>
+                        <token regexp="yes">Komm?a</token>
                         <token regexp="yes">ni(chts|x)</token>
                     </marker>
                 </pattern>
@@ -38356,6 +38356,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <rule>
                 <antipattern>
+                    <token inflected="yes" skip="1" regexp="yes">sein|werden</token>
+                    <token>zu</token>
+                    <token regexp="yes" case_sensitive="yes">&sprachadj1;</token>
+                </antipattern>
+                <antipattern>
+                    <token>zu</token>
+                    <token regexp="yes" case_sensitive="yes">&sprachadj1;</token>
+                    <token inflected="yes" regexp="yes">sein|werden</token>
+                </antipattern>
+                <antipattern>
+                    <token>zu</token>
+                    <token regexp="yes" case_sensitive="yes">&sprachadj1;</token>
+                    <token postag="UNKNOWN" regexp="yes">\w+</token>
+                </antipattern>
+                <antipattern>
                     <token>ab</token>
                     <token regexp="yes">und|&amp;</token>
                     <token>zu</token>
@@ -38367,7 +38382,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SUB:.*" postag_regexp="yes" />
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">in|auf|korrekte[ms]|akzentfrei(e[snm])?|richtige[ms]|[mds]ein|euer|mit</token>
+                    <token regexp="yes">zu|in|auf|korrekte[ms]|akzentfrei(e[snm])?|richtige[ms]|[mds]ein|euer|mit</token>
                     <marker>
                         <token regexp="yes" case_sensitive="yes">&sprachadj1;</token>
                     </marker>
@@ -38382,6 +38397,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Nach einem erfolgreichen Angriff auf <marker>türkisch</marker> besetztes Territorium.</example>
                 <example>Meine Frau und ich gehen gerne ab und zu chinesisch essen.</example>
                 <example>Sein Verhalten ist mir zu deutsch.</example>
+                <example>Wenn einem das Essen mal zu spanisch wird...</example>
+                <example>Als Handwerk (von mittelhochdeutsch hant-werc, eine Lehnübersetzung zu lateinisch opus manuum und griechisch χειρουργία cheirurgía) werden zahlreiche gewerbliche Tätigkeiten bezeichnet.</example>
+                <example>Kultur (zu lateinisch cultura „Bearbeitung, Pflege, Ackerbau“, von colere „pflegen, verehren, den Acker bestellen“)</example>
+                <example>Koseform zum Rufnamen Blogoslaw zu polnisch blogi (glücklich, behaglich)</example>
                 <example>Sein Lehrer Elsner bestärkte Chopin in der Hinwendung zu polnisch nationaler Musik, namentlich zu den polnischen Volkstänzen und -liedern.</example>
             </rule>
             <rule>
