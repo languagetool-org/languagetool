@@ -18589,12 +18589,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				<rulegroup id="KROTNY" name="„3 krotnie” (3-krotnie)">
 				<rule>
             <pattern>
-                <token regexp="yes">\d+|(?:.*)(?:jedno|dwu|trzy|cztero|pięcio|sześcio|siedmio|ośmio|dziewięcio|dziesięcio|jedenasto|stu|dwustu)</token>
+                <token regexp="yes">\d+</token>
                 <token regexp="yes" inflected="yes">krotn(y|ie)</token>            
             </pattern>
             <message>Ten wyraz piszemy razem i z łącznikiem: <suggestion>\1-\2</suggestion>.</message>
+            <url>http://www.poradnia-jezykowa.uz.zgora.pl/wordpress/?p=701</url>            
             <short>Błędna pisownia rozłączna</short>
             <example correction="3-krotnie">Zagniatać ciasto <marker>3 krotnie</marker> podczas wyrastania.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">\d+|(?:.*)(?:jedno|niejedno|dwu|trzy|cztero|pięcio|sześcio|siedmio|ośmio|dziewięcio|dziesięcio|jedenasto|stu|dwustu|kilk[aou]|kilkuset|wielo|paro|kilkunasto)</token>
+                <token regexp="yes">[–—\.&apos;]</token>
+                <token regexp="yes" inflected="yes">krotn(y|ie)</token>            
+            </pattern>
+            <message>Ten wyraz piszemy z łącznikiem: <suggestion>\1-\3</suggestion>.</message>
+            <url>http://www.poradnia-jezykowa.uz.zgora.pl/wordpress/?p=701</url>            
+            <short>Pisownia wymaga dywizu</short>
+            <example correction="3-krotnie">Zagniatać ciasto <marker>3 — krotnie</marker> podczas wyrastania.</example>
+            <example correction="5-krotnie">Sygnały pozawerbalne mają <marker>5. krotnie</marker> większy wpływ na rozmówcę, niż to, co mówimy.</example>
+            <example correction="9-krotny"><marker>9&apos; krotny</marker> Mistrz Świata był całkiem zadowolony z tego swojego, bądź co bądź, najlepszego finiszu w tym roku.</example>
         </rule>
 				<rule>
             <pattern>
@@ -18602,9 +18616,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes" inflected="yes">krotn(y|ie)</token>            
             </pattern>
             <message>Ten wyraz piszemy razem: <suggestion>\1\2</suggestion>.</message>
+            <url>http://www.poradnia-jezykowa.uz.zgora.pl/wordpress/?p=701</url>            
             <short>Błędna pisownia rozłączna</short>
             <example correction="dwukrotnie">Zagniatać ciasto <marker>dwu krotnie</marker> podczas wyrastania.</example>
 				</rule>
+				<rule>
+            <pattern>
+                <token regexp="yes">il[uo]</token>
+                <token regexp="yes" inflected="yes">krotn(y|ie)</token>            
+            </pattern>
+            <message>Ten wyraz piszemy razem i z łącznikiem: <suggestion>ilo\2</suggestion>.</message>
+            <url>http://www.poradnia-jezykowa.uz.zgora.pl/wordpress/?p=701</url>            
+            <short>Błędna pisownia rozłączna</short>
+            <example correction="ilokrotnie">Wiesz, <marker>ilu krotnie</marker> może się zwrócić inwestycja?</example>
+        </rule>
 				</rulegroup>
 				<rule id="DATA_KROPKA_PO_DNIU" name="Zbędne kropki w liczebniku w dacie">
 						<pattern>
