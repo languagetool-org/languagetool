@@ -36,14 +36,14 @@ public class KhmerWordRepeatRuleTest {
   public void testWordRepeatRule() throws IOException {
     final Khmer language = new Khmer();
     KhmerWordRepeatRule rule = new KhmerWordRepeatRule(TestTools.getEnglishMessages(), language);
-    JLanguageTool langTool = new JLanguageTool(language);
+    JLanguageTool lt = new JLanguageTool(language);
     // correct sentences:
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("នេះ​ហើយៗ​នោះ។")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("គាត់​ហើយ ហើយ​ខ្ញុំ។")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("នេះ​ហើយៗ​នោះ។")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("គាត់​ហើយ ហើយ​ខ្ញុំ។")).length);
 
     // incorrect sentences:
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("នេះ​ហើយ​ហើយ​នោះ។")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("ខ្ញុំ​និង​និង​គាត់។")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("នេះ​ហើយ​ហើយ​នោះ។")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("ខ្ញុំ​និង​និង​គាត់។")).length);
   }
 
 }

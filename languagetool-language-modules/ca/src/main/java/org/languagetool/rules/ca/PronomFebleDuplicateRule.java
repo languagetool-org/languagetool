@@ -26,8 +26,9 @@ public class PronomFebleDuplicateRule extends Rule {
   private static final Pattern INFINITIU = Pattern.compile("V.N.*");
   private static final Pattern PARTICIPI = Pattern.compile("V.P..SM.");
   private static final Pattern GERUNDI = Pattern.compile("V.G.*");
-  private static final String[] ABANS_DE_GERUNDI = { "continuar", "seguir", "prosseguir", "anar" };
+  private static final String[] ABANS_DE_GERUNDI = { "continuar", "seguir", "prosseguir", "anar", "estar", "acabar" };
   private static final String[] ABANS_DE_INFINITIU = { "anar", "poder", "voler", "deure" };
+  private static final String[] ABANS_DE_A = { "començar", "tornar" }; //"ajudar", "atrevir" , "acostumar"
   //private static final String[] VERBS_IMPERSONAL = new String[] { "ordenar", "recomanar" };
 
   @Override
@@ -131,6 +132,9 @@ public class PronomFebleDuplicateRule extends Rule {
     if (tokens[i].hasLemma("de")) {
       return tokens[i - 1].hasLemma("haver");
     }
+    if (tokens[i].hasLemma("a")) {
+      return tokens[i - 1].hasAnyLemma(ABANS_DE_A);
+    }
     if (matchPostagRegexp(tokens[i], PARTICIPI)) {
       return tokens[i - 1].hasLemma("haver");
     }
@@ -138,7 +142,7 @@ public class PronomFebleDuplicateRule extends Rule {
       return tokens[i - 1].hasAnyLemma(ABANS_DE_GERUNDI);
     }
     if (matchPostagRegexp(tokens[i], INFINITIU)) {
-      return tokens[i - 1].hasAnyLemma(ABANS_DE_INFINITIU) || tokens[i - 1].hasLemma("de");
+      return tokens[i - 1].hasAnyLemma(ABANS_DE_INFINITIU) || tokens[i - 1].hasLemma("de") || tokens[i - 1].hasLemma("a");
     }
     return false;
   }

@@ -28,9 +28,11 @@ import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
 import org.apache.lucene.analysis.tokenattributes.PositionIncrementAttribute;
 import org.apache.lucene.analysis.tokenattributes.TypeAttribute;
+import org.junit.Ignore;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.English;
 
+@Ignore
 public class LanguageToolFilterTest extends BaseTokenStreamTestCase {
   
   public void testFilter() throws Exception {

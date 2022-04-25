@@ -18,6 +18,7 @@
  */
 package org.languagetool.openoffice;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -37,40 +38,47 @@ class ConfigThread extends Thread {
 
   private final Language docLanguage;
   private final Configuration config;
-  private final Main mainThread;
+  private final SwJLanguageTool lt;
+  private final MultiDocumentsHandler documents;
   private final ConfigurationDialog cfgDialog;
   
-  ConfigThread(Language docLanguage, Configuration config, Main main) {
+  ConfigThread(Language docLanguage, Configuration config, SwJLanguageTool lt, MultiDocumentsHandler documents) {
     if (config.getDefaultLanguage() == null) {
       this.docLanguage = docLanguage;
     } else {
       this.docLanguage = config.getDefaultLanguage();
     }
     this.config = config;
-    this.mainThread = main; 
+    this.lt = lt;
+    this.documents = documents; 
     cfgDialog = new ConfigurationDialog(null, true, config);
   }
 
   @Override
   public void run() {
+    if(!documents.javaVersionOkay()) {
+      return;
+    }
     try {
-      List<Rule> allRules = mainThread.getJLanguageTool().getAllRules();
-      Set<String> disabledRulesUI = mainThread.getDisabledRules();
+      List<Rule> allRules = lt.getAllRules();
+      Set<String> disabledRulesUI = documents.getDisabledRules(docLanguage.getShortCodeWithCountryAndVariant());
       config.addDisabledRuleIds(disabledRulesUI);
       boolean configChanged = cfgDialog.show(allRules);
       if (configChanged) {
         Set<String> disabledRules = config.getDisabledRuleIds();
-        for(String ruleId : disabledRulesUI) {
+        Set<String> tmpDisabledRules = new HashSet<>(disabledRulesUI);
+        for (String ruleId : tmpDisabledRules) {
           if(!disabledRules.contains(ruleId)) {
             disabledRulesUI.remove(ruleId);
           }
         }
-        mainThread.setDisabledRules(disabledRulesUI);
+        documents.setDisabledRules(docLanguage.getShortCodeWithCountryAndVariant(), disabledRulesUI);
         config.removeDisabledRuleIds(disabledRulesUI);
         config.saveConfiguration(docLanguage);
-        mainThread.resetDocument();
+        documents.resetDocumentCaches();
+        documents.resetConfiguration();
       } else {
-        config.removeDisabledRuleIds(mainThread.getDisabledRules());
+        config.removeDisabledRuleIds(documents.getDisabledRules(docLanguage.getShortCodeWithCountryAndVariant()));
       }
     } catch (Throwable e) {
       MessageHandler.showError(e);

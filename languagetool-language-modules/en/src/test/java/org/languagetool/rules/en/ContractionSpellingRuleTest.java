@@ -33,35 +33,37 @@ import static org.junit.Assert.assertEquals;
 public class ContractionSpellingRuleTest {
 
   private ContractionSpellingRule rule;
-  private JLanguageTool langTool;
+  private JLanguageTool lt;
 
   @Before
   public void setUp() throws Exception {
     rule = new ContractionSpellingRule(TestTools.getMessages("en"));
-    langTool = new JLanguageTool(Languages.getLanguageForShortCode("en"));
+    lt = new JLanguageTool(Languages.getLanguageForShortCode("en"));
   }
 
   @Test
   public void testRule() throws IOException {
 
     // correct sentences:
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("It wasn't me.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("I'm ill.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Staatszerfall im südlichen Afrika.")).length);
-
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("It wasn't me.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("I'm ill.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Staatszerfall im südlichen Afrika.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("by IVE")).length);
+    
     // incorrect sentences:
 
     // at the beginning of a sentence
     checkSimpleReplaceRule("Wasnt this great", "Wasn't");
     checkSimpleReplaceRule("YOURE WRONG", "YOU'RE");
     checkSimpleReplaceRule("Dont do this", "Don't");
+    //checkSimpleReplaceRule("Ive been doing", "I've");
     // inside sentence
     checkSimpleReplaceRule("It wasnt me", "wasn't");
     checkSimpleReplaceRule("You neednt do this", "needn't");
     checkSimpleReplaceRule("I know Im wrong", "I'm");
 
     //two suggestions
-    final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("Whereve you are"));
+    final RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("Whereve you are"));
     assertEquals(2, matches[0].getSuggestedReplacements().size());
     assertEquals("Where've", matches[0].getSuggestedReplacements().get(0));
     assertEquals("Wherever", matches[0].getSuggestedReplacements().get(1));
@@ -74,7 +76,7 @@ public class ContractionSpellingRuleTest {
    * @param word the word that is correct (the suggested replacement).
    */
   private void checkSimpleReplaceRule(String sentence, String word) throws IOException {
-    final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(sentence));
+    final RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(sentence));
     assertEquals("Invalid matches.length while checking sentence: "
         + sentence, 1, matches.length);
     assertEquals("Invalid replacement count wile checking sentence: "

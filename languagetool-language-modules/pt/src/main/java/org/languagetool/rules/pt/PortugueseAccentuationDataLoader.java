@@ -28,7 +28,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 /**
- * Load data for {@link AccentuationCheckRule}.
+ * Load data for {@link PortugueseAccentuationCheckRule}.
  * localized from Catalan version by Tiago F. Santos
  * @since 3.6
  */
@@ -37,21 +37,21 @@ class PortugueseAccentuationDataLoader {
   private static final String FILE_ENCODING = "utf-8";
 
   Map<String, AnalyzedTokenReadings> loadWords(String path) {
-    final Map<String, AnalyzedTokenReadings> map = new HashMap<>();
-    final InputStream inputStream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(path);
+    Map<String, AnalyzedTokenReadings> map = new HashMap<>();
+    InputStream inputStream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(path);
     try (Scanner scanner = new Scanner(inputStream, FILE_ENCODING)) {
       while (scanner.hasNextLine()) {
-        final String line = scanner.nextLine().trim();
+        String line = scanner.nextLine().trim();
         if (line.isEmpty() || line.charAt(0) == '#') {  // ignore comments
           continue;
         }
-        final String[] parts = line.split(";");
+        String[] parts = line.split(";");
         if (parts.length != 3) {
           throw new RuntimeException("Format error in file " + path + ", line: "
                   + line + ", " + "expected 3 semicolon-separated parts, got "
                   + parts.length);
         }
-        final AnalyzedToken analyzedToken = new AnalyzedToken(parts[1], parts[2], null);
+        AnalyzedToken analyzedToken = new AnalyzedToken(parts[1], parts[2], null);
         map.put(parts[0], new AnalyzedTokenReadings(analyzedToken, 0));
       }
     }

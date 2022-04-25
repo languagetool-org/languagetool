@@ -84,7 +84,7 @@ public class Irish extends Language implements AutoCloseable {
                     Arrays.asList("]", ")", "}", "\"", "”")),
       new DoublePunctuationRule(messages),
       new UppercaseSentenceStartRule(messages, this),
-      new LongSentenceRule(messages, userConfig, -1, true),
+      new LongSentenceRule(messages, userConfig, 50),
       new LongParagraphRule(messages, this, userConfig),
       new UppercaseSentenceStartRule(messages, this),
       new MultipleWhitespaceRule(messages, this),
@@ -97,7 +97,7 @@ public class Irish extends Language implements AutoCloseable {
       new LogainmRule(messages),
       new PeopleRule(messages),
       new SpacesRule(messages),
-      new CompoundRule(messages),
+      new CompoundRule(messages, this, userConfig),
       new PrestandardReplaceRule(messages),
       new IrishReplaceRule(messages),
       new IrishFGBEqReplaceRule(messages),
@@ -151,5 +151,14 @@ public class Irish extends Language implements AutoCloseable {
     if (languageModel != null) {
       languageModel.close();
     }
-  } 
+  }
+
+  @Override
+  protected int getPriorityForId(String id) {
+    switch (id) {
+      case "TOO_LONG_PARAGRAPH": return -15;
+    }
+    return super.getPriorityForId(id);
+  }
+
 }

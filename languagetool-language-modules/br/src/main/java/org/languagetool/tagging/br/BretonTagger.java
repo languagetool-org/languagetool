@@ -70,6 +70,14 @@ public class BretonTagger extends BaseTagger {
     Matcher matcher;
     for (String word : sentenceTokens) {
       String probeWord = word;
+      if (probeWord.length() > 50) {
+        // avoid excessively long computation times for long (probably artificial) tokens:
+        List<AnalyzedToken> l = new ArrayList<>();
+        l.add(new AnalyzedToken(word, null, null));
+        tokenReadings.add(new AnalyzedTokenReadings(l, pos));
+        pos += word.length();
+        continue;
+      }
 
       // This loop happens when we need to retry probing the dictionary
       // which happens rarely when trying to remove suffixes -mañ, -se, etc.

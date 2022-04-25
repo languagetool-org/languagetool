@@ -21,6 +21,7 @@ package org.languagetool.language;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -33,6 +34,7 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.en.BritishReplaceRule;
 import org.languagetool.rules.en.MorfologikBritishSpellerRule;
 import org.languagetool.rules.en.UnitConversionRuleImperial;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 
 public class BritishEnglish extends English {
 
@@ -50,20 +52,25 @@ public class BritishEnglish extends English {
   public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     List<Rule> rules = new ArrayList<>();
     rules.addAll(super.getRelevantRules(messages, userConfig, motherTongue, altLanguages));
-    rules.add(new BritishReplaceRule(messages));
+    rules.add(new BritishReplaceRule(messages, "/en/en-GB/replace.txt"));
     rules.add(new UnitConversionRuleImperial(messages));
     return rules;
   }
 
   @Override
-  public List<Rule> getRelevantLanguageModelCapableRules(ResourceBundle messages, @Nullable LanguageModel languageModel, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
-    List<Rule> rules = new ArrayList<>(super.getRelevantLanguageModelCapableRules(messages, languageModel, globalConfig, userConfig, motherTongue, altLanguages));
-    rules.add(new MorfologikBritishSpellerRule(messages, this, globalConfig, userConfig, altLanguages, languageModel, motherTongue));
+  public SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
+    return new MorfologikBritishSpellerRule(messages, this, null, Collections.emptyList());
+  }
+
+  @Override
+  public List<Rule> getRelevantLanguageModelCapableRules(ResourceBundle messages, @Nullable LanguageModel lm, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
+    List<Rule> rules = new ArrayList<>(super.getRelevantLanguageModelCapableRules(messages, lm, globalConfig, userConfig, motherTongue, altLanguages));
+    rules.add(new MorfologikBritishSpellerRule(messages, this, globalConfig, userConfig, altLanguages, lm, motherTongue));
     return rules;
   }
 
   @Override
-  public int getPriorityForId(String id) {
+  protected int getPriorityForId(String id) {
     switch (id) {
       case "OXFORD_SPELLING_ISATION_NOUNS": return -20;
       case "OXFORD_SPELLING_ISE_VERBS":     return -21;

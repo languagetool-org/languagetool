@@ -61,6 +61,7 @@ public class Searcher {
   private static final boolean WIKITEXT_OUTPUT = false;
   
   private final Directory directory;
+  private final String fieldName;
 
   private int skipHits = 0;
   private int maxHits = 1000;
@@ -68,7 +69,6 @@ public class Searcher {
   private IndexSearcher indexSearcher;
   private DirectoryReader reader;
   private boolean limitSearch = true;
-  private String fieldName;
 
   public Searcher(Directory directory) {
     this(directory, FIELD_NAME_LOWERCASE);
@@ -163,7 +163,7 @@ public class Searcher {
         } else {
           searchThread.join(Integer.MAX_VALUE);
         }
-        searchThread.interrupt();
+        //searchThread.interrupt();
       } catch (InterruptedException e) {
         throw new RuntimeException("Search thread got interrupted for query " + query, e);
       }
@@ -239,8 +239,8 @@ public class Searcher {
 
   List<PatternRule> getRuleById(String ruleId, Language language) throws IOException {
     List<PatternRule> rules = new ArrayList<>();
-    JLanguageTool langTool = new JLanguageTool(language);
-    for (Rule rule : langTool.getAllRules()) {
+    JLanguageTool lt = new JLanguageTool(language);
+    for (Rule rule : lt.getAllRules()) {
       if (rule.getId().equals(ruleId) && rule instanceof PatternRule) {
         rules.add((PatternRule) rule);
       }
@@ -292,15 +292,15 @@ public class Searcher {
   }
 
   private JLanguageTool getLanguageToolWithOneRule(Language lang, PatternRule patternRule) {
-    JLanguageTool langTool = new JLanguageTool(lang);
-    for (Rule rule : langTool.getAllActiveRules()) {
+    JLanguageTool lt = new JLanguageTool(lang);
+    for (Rule rule : lt.getAllActiveRules()) {
       if (!rule.getId().equals(patternRule.getId())) {
-        langTool.disableRule(rule.getId());
+        lt.disableRule(rule.getId());
       }
     }
-    langTool.addRule(patternRule);
-    langTool.enableRule(patternRule.getId()); // rule might be off by default
-    return langTool;
+    lt.addRule(patternRule);
+    lt.enableRule(patternRule.getId()); // rule might be off by default
+    return lt;
   }
 
   static class PossiblyLimitedTopDocs {
@@ -399,8 +399,7 @@ public class Searcher {
     ContextTools contextTools = new ContextTools();
     contextTools.setEscapeHtml(false);
     contextTools.setContextSize(contextSize);
-    contextTools.setErrorMarkerStart("**");
-    contextTools.setErrorMarkerEnd("**");
+    contextTools.setErrorMarker("**", "**");
     return contextTools;
   }
 

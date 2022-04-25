@@ -18,11 +18,13 @@
  */
 package org.languagetool.rules.de;
 
+import com.google.common.base.Suppliers;
 import com.hankcs.algorithm.AhoCorasickDoubleArrayTrie;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.rules.*;
 
 import java.util.*;
+import java.util.function.Supplier;
 
 /**
  * Finds spellings that were only correct in the pre-reform orthography.
@@ -32,7 +34,7 @@ public class OldSpellingRule extends Rule {
 
   private static final String FILE_PATH = "/de/alt_neu.csv";
   private static final List<String> exceptions = Arrays.asList("Schloß Holte");
-  private static final SpellingData DATA = new SpellingData(FILE_PATH);
+  private static final Supplier<SpellingData> DATA = Suppliers.memoize(() -> new SpellingData(FILE_PATH));
 
   public OldSpellingRule(ResourceBundle messages) {
     super.setCategory(Categories.TYPOS.getCategory(messages));
@@ -55,7 +57,7 @@ public class OldSpellingRule extends Rule {
   public RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> matches = new ArrayList<>();
     String text = sentence.getText();
-    List<AhoCorasickDoubleArrayTrie.Hit<String>> hits = DATA.getTrie().parseText(text);
+    List<AhoCorasickDoubleArrayTrie.Hit<String>> hits = DATA.get().getTrie().parseText(text);
     Set<Integer> startPositions = new HashSet<>();
     Collections.reverse(hits);  // work on longest matches first
     for (AhoCorasickDoubleArrayTrie.Hit<String> hit : hits) {
@@ -82,7 +84,7 @@ public class OldSpellingRule extends Rule {
       }
       if (!ignore) {
         RuleMatch match = new RuleMatch(this, sentence, hit.begin, hit.end,
-          "Diese Schreibweise war nur in der alten Rechtschreibung korrekt.", "alte Rechtschreibung");
+          "Diese Schreibweise war nur in der alten Rechtschreibung korrekt.", "Alte Rechtschreibung");
         String[] suggestions = hit.value.split("\\|");
         match.setSuggestedReplacements(Arrays.asList(suggestions));
         matches.add(match);

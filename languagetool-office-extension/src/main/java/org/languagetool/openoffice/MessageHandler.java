@@ -18,12 +18,15 @@
  */
 package org.languagetool.openoffice;
 
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileWriter;
 import java.util.Date;
 
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.tools.Tools;
@@ -37,15 +40,11 @@ class MessageHandler {
   
   private static final String logLineBreak = System.lineSeparator();  //  LineBreak in Log-File (MS-Windows compatible)
   
-  private static String homeDir;
-  private static String logFileName;
   private static boolean isOpen = false;
   
   private static boolean testMode;
   
-  MessageHandler(String homeDir, String logFileName) {
-    MessageHandler.homeDir = homeDir;
-    MessageHandler.logFileName = logFileName;
+  MessageHandler() {
     initLogFile();
   }
 
@@ -53,25 +52,30 @@ class MessageHandler {
    * Initialize log-file
    */
   private static void initLogFile() {
-    try (BufferedWriter bw = new BufferedWriter(new FileWriter(getLogPath()))) {
+    try (BufferedWriter bw = new BufferedWriter(new FileWriter(OfficeTools.getLogFilePath()))) {
       Date date = new Date();
       bw.write("LT office integration log from " + date + logLineBreak);
+      bw.write(OfficeTools.getJavaInformation() + logLineBreak);
     } catch (Throwable t) {
       showError(t);
     }
   }
   
-  static void init(String homeDir, String logFileName) {
-    MessageHandler.homeDir = homeDir;
-    MessageHandler.logFileName = logFileName;
+  /**
+   * Initialize MessageHandler
+   */
+  static void init() {
     initLogFile();
   }
 
+  /**
+   * Show an error in a dialog
+   */
   static void showError(Throwable e) {
+    printException(e);
     if (testMode) {
       throw new RuntimeException(e);
     }
-    printException(e);
     String msg = "An error has occurred in LanguageTool "
         + JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + "):\n" + e + "\nStacktrace:\n";
     msg += Tools.getFullStackTrace(e);
@@ -86,10 +90,10 @@ class MessageHandler {
   }
 
   /**
-   * write to log-file
+   * Write to log-file
    */
   static void printToLogFile(String str) {
-    try (BufferedWriter bw = new BufferedWriter(new FileWriter(getLogPath(), true))) {
+    try (BufferedWriter bw = new BufferedWriter(new FileWriter(OfficeTools.getLogFilePath(), true))) {
       bw.write(str + logLineBreak);
     } catch (Throwable t) {
       showError(t);
@@ -103,22 +107,6 @@ class MessageHandler {
    printToLogFile(Tools.getFullStackTrace(t));
   }
 
-  private static String getLogPath() {
-    String xdgDataHome = System.getenv().get("XDG_DATA_HOME");
-    String logHome = xdgDataHome != null ? xdgDataHome + "/LanguageTool" : homeDir;
-    String path = logHome + "/" + logFileName;
-    File parentDir = new File(path).getParentFile();
-    if (parentDir != null && !testMode) {
-      if(!parentDir.exists()) {
-        boolean success = parentDir.mkdirs();
-        if(!success) {
-          showMessage("Can't create directory: " + parentDir);
-        }
-      }
-    }
-    return path;
-  }
-  
   /**
    * Will throw exception instead of showing errors as dialogs - use only for test cases.
    */
@@ -131,11 +119,29 @@ class MessageHandler {
    * @param txt message to be shown
    */
   static void showMessage(String txt) {
-    printToLogFile(txt);
+    showMessage(txt, true);
+  }
+
+  static void showMessage(String txt, boolean toLogFile) {
+    if (toLogFile) {
+      printToLogFile(txt);
+    }
     DialogThread dt = new DialogThread(txt, false);
     dt.run();
   }
 
+  /**
+   * run an information message in a separate thread
+   * closing if lost focus
+   */
+  static void showClosingInformationDialog(String text) {
+    ClosingInformationThread informationDialog = new ClosingInformationThread(text);
+    informationDialog.start();
+  }
+  
+  /**
+   * class to run a dialog in a separate thread
+   */
   private static class DialogThread extends Thread {
     private final String text;
     private boolean isException;
@@ -156,6 +162,37 @@ class MessageHandler {
       } else {
         JOptionPane.showMessageDialog(null, text);
       }
+    }
+  }
+  
+  /**
+   * class to run a dialog in a separate thread
+   * closing if lost focus
+   */
+  private static class ClosingInformationThread extends Thread {
+    private final String text;
+    JDialog dialog;
+
+    ClosingInformationThread(String text) {
+      this.text = text;
+    }
+
+    @Override
+    public void run() {
+      JOptionPane pane = new JOptionPane(text, JOptionPane.INFORMATION_MESSAGE);
+      dialog = pane.createDialog(null, UIManager.getString("OptionPane.messageDialogTitle", null));
+      dialog.setModal(false);
+      dialog.setAlwaysOnTop(true);
+      dialog.addWindowFocusListener(new WindowFocusListener() {
+        @Override
+        public void windowGainedFocus(WindowEvent e) {
+        }
+        @Override
+        public void windowLostFocus(WindowEvent e) {
+          dialog.setVisible(false);
+        }
+      });
+      dialog.setVisible(true);
     }
   }
   

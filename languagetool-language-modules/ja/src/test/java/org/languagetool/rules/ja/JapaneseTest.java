@@ -29,12 +29,12 @@ public class JapaneseTest extends LanguageSpecificTest {
   
   @Test
   public void testLanguage() throws IOException {
-    // NOTE: this text needs to be kept in sync with WelcomeController.php's getDefaultDemoTexts():
-    String s = "これわ文章を入力して'Check Text'をクリックすると、誤記を探すことができる。着色した文字をクリックすると、間違いの詳細の表示する。";
     Japanese lang = new Japanese();
+    // NOTE: this text needs to be kept in sync with config.ts -> DEMO_TEXTS:
+    /*String s = "これわ文章を入力して'Check Text'をクリックすると、誤記を探すことができる。着色した文字をクリックすると、間違いの詳細の表示する。";
     testDemoText(lang, s,
       Arrays.asList("KOREWA", "DOUSI_KOTOGADEKIRU", "NO_SURU")
-    );
+    );*/
     runTests(lang);
   }
 }

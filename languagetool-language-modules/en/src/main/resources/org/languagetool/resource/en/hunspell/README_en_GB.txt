@@ -125,14 +125,16 @@ to
 			  — Flag "2" increased the wordlist in ~400 valid words;
 			  — Flag "i" increased the wordlist in ~200 valid words;
 			  — Flag "n" increased the wordlist in ~1000 valid words.
+2020-11-01 — Added the State and union territory capitals in India:
+			  — https://en.wikipedia.org/wiki/List_of_state_and_union_territory_capitals_in_India		  
 2019-11-01
 to
-2020-04-01 — Added thousands of possessives and plurals.
-		   — Improved flags: "O", "W".
+2022-03-01 — Added thousands of possessives and plurals.
+		   — Improved flags: "3", "N", "O", "W".
 -------
 
 MARCO A.G.PINTO:
-Since the dictionary wasn't updated for many years, I forked it to add new words and fixes.
+Since the dictionary wasn't updated for many years, I forked it in 2013 to add new words and fixes.
 
 I grabbed Mozilla's version since it wasn't obfuscated. Alexandro Colorado and I
 tried to unmunch the OpenOffice version but all we got was rubbish.

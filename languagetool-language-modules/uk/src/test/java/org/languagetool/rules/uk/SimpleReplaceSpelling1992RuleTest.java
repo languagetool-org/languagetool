@@ -38,34 +38,37 @@ public class SimpleReplaceSpelling1992RuleTest {
     SimpleReplaceSpelling1992Rule rule = new SimpleReplaceSpelling1992Rule(TestTools.getEnglishMessages());
 
     RuleMatch[] matches;
-    JLanguageTool langTool = new JLanguageTool(Ukrainian.DEFAULT_VARIANT);
+    JLanguageTool lt = new JLanguageTool(Ukrainian.DEFAULT_VARIANT);
 
     // correct sentences:
-    matches = rule.match(langTool.getAnalyzedSentence("Це — новий проєкт для фоє."));
+    matches = rule.match(lt.getAnalyzedSentence("Це — новий проєкт для фоє."));
     assertEquals(0, matches.length);
 
-    matches = rule.match(langTool.getAnalyzedSentence("на півночі"));
+    matches = rule.match(lt.getAnalyzedSentence("на півночі"));
     assertEquals(0, matches.length);
 
     
-    matches = rule.match(langTool.getAnalyzedSentence("Це — новий проект для фойє."));
+    matches = rule.match(lt.getAnalyzedSentence("Це — новий проект для фойє."));
     assertEquals(2, matches.length);
 //    assertEquals(Arrays.asList("проєкт"), matches[0].getSuggestedReplacements());
 //    assertEquals(Arrays.asList("фоє"), matches[1].getSuggestedReplacements());
 
-    matches = rule.match(langTool.getAnalyzedSentence("Топменеджер."));
+    matches = rule.match(lt.getAnalyzedSentence("Це — бізнес-проект."));
+    assertEquals(1, matches.length);
+
+    matches = rule.match(lt.getAnalyzedSentence("Топменеджер."));
     assertEquals(0, matches.length);
 
-    matches = rule.match(langTool.getAnalyzedSentence("Топ-менеджер."));
+    matches = rule.match(lt.getAnalyzedSentence("Топ-менеджер."));
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("Топменеджер"), matches[0].getSuggestedReplacements());
 
     // dynamic tagging
-    matches = rule.match(langTool.getAnalyzedSentence("веб-додаток"));
+    matches = rule.match(lt.getAnalyzedSentence("веб-додаток"));
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("вебдодаток"), matches[0].getSuggestedReplacements());
     
-    matches = rule.match(langTool.getAnalyzedSentence("веб- "));
+    matches = rule.match(lt.getAnalyzedSentence("веб- "));
     assertEquals(0, matches.length);
   }
 }

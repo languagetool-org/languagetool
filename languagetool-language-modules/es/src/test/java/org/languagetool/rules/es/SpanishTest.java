@@ -29,11 +29,11 @@ public class SpanishTest extends LanguageSpecificTest {
   
   @Test
   public void testLanguage() throws IOException {
-    // NOTE: this text needs to be kept in sync with WelcomeController.php's getDefaultDemoTexts():
-    String s = "Escriba un texto aquí. LanguageTool le ayudará a afrentar algunas dificultades propias de la escritura. Se a hecho un esfuerzo para detectar errores tipográficos, ortograficos y incluso gramaticales. También algunos errores de estilo, a grosso modo.";
+    // NOTE: this text needs to be kept in sync with config.ts -> DEMO_TEXTS:
+    String s = "Escribe o pega tu texto aqui para tenerlo revisado contínuamente. los errores se subrayaran en diferentes colores: marcaremos los errores ortograficos en rojo; los errores de gramática son resaltado en amarillo; los problemas relacionados al estilo serán marcados en azul. Sabías que te proponemos sinónimos al hacer doble clic sobre una palabra? LanguageTool es un herramienta para textos impecables, sean e-mails, artículos, blogs o otros, incluso cuando el texto se complejice.";
     Spanish lang = new Spanish();
     testDemoText(lang, s,
-      Arrays.asList("AFRENTAR_DIFICULTADES", "PRON_HABER_PARTICIPIO", "MORFOLOGIK_RULE_ES", "Y_E", "GROSSO_MODO")
+      Arrays.asList("MORFOLOGIK_RULE_ES", "MORFOLOGIK_RULE_ES", "UPPERCASE_SENTENCE_START", "SUBJUNTIVO_FUTURO", "MORFOLOGIK_RULE_ES", "AGREEMENT_VERB_PARTICIPLE", "RELACIONADO_A", "ES_QUESTION_MARK", "AGREEMENT_DET_NOUN", "Y_E_O_U", "COMPLEJIZAR")
     );
     // , "ES_WIKIPEDIA_COMMON_ERRORS"
     runTests(lang, null, "ÍÚÑ");

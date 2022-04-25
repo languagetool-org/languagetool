@@ -11,9 +11,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.uk.InflectionHelper.Inflection;
+import org.languagetool.rules.uk.SearchHelper.Condition;
+import org.languagetool.rules.uk.SearchHelper.Match;
 import org.languagetool.tagging.uk.IPOSTag;
 import org.languagetool.tagging.uk.PosTagHelper;
-import org.languagetool.tools.StringTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,13 +22,14 @@ import org.slf4j.LoggerFactory;
  * @since 3.6
  */
 final class TokenAgreementAdjNounExceptionHelper {
-  private static Logger logger = LoggerFactory.getLogger(TokenAgreementAdjNounExceptionHelper.class);
+  private static final Logger logger = LoggerFactory.getLogger(TokenAgreementAdjNounExceptionHelper.class);
 
   private static final Pattern NUMBER_V_NAZ = Pattern.compile("number|numr:p:v_naz|noun.*?:p:v_naz:&numr.*");
   // including latin 'a' and 'i' so the rules don't trip on them in Ukrainian sentences
-  static final List<String> CONJ_FOR_PLURAL_WITH_COMMA = Arrays.asList("і", "й", "та", "чи", "або", "ані", "також", "плюс", "то", "a", "i", ",");
-  static final List<String> CONJ_FOR_PLURAL = Arrays.asList("і", "й", "та", "чи", "або", "ані", "також", "то", "a", "i");
-  static final Pattern CONJ_FOR_PLULAR_PATTERN = Pattern.compile(StringUtils.join(CONJ_FOR_PLURAL, "|"));
+  static final List<String> CONJ_FOR_PLURAL_WITH_COMMA = Arrays.asList("і", "а", "й", "та", "чи", "або", "ані", "також", "плюс", "то", "a", "i", ",");
+  static final List<String> CONJ_FOR_PLURAL = Arrays.asList("і", "а", "й", "та", "чи", "або", "ані", "також", "то", "a", "i");
+  static final Pattern CONJ_FOR_PLURAL_PATTERN = Pattern.compile(StringUtils.join(CONJ_FOR_PLURAL, "|"));
+  static final Pattern CONJ_FOR_PLURAL_WITH_COMMA_PATTERN = Pattern.compile(StringUtils.join(CONJ_FOR_PLURAL_WITH_COMMA, "|"));
   private static final Pattern DOVYE_TROYE = Pattern.compile(".*[2-4]|.*[2-4][\u2013\u2014-].*[2-4]|два|обидва|двоє|три|троє|чотири|один[\u2013\u2014-]два|два[\u2013\u2014-]три|три[\u2013\u2014-]чотири|двоє[\u2013\u2014-]троє|троє[\u2013\u2014-]четверо");
   private static final Pattern VERB_NOT_INSERT_PATTERN = Pattern.compile("verb(?!.*insert)");
 
@@ -36,57 +38,68 @@ final class TokenAgreementAdjNounExceptionHelper {
   }
 
 
-  public static boolean isException(AnalyzedTokenReadings[] tokens, int i, 
+  public static boolean isException(AnalyzedTokenReadings[] tokens, int adjPos, int nounPos, 
       List<InflectionHelper.Inflection> masterInflections, List<InflectionHelper.Inflection> slaveInflections, 
       List<AnalyzedToken> adjTokenReadings, List<AnalyzedToken> slaveTokenReadings) {
 
-    AnalyzedTokenReadings adjAnalyzedTokenReadings = tokens[i-1];
+    AnalyzedTokenReadings adjAnalyzedTokenReadings = tokens[adjPos];
 
 
-    if( i > 1
-        && StringTools.isCapitalizedWord(tokens[i-1].getToken())
-        && StringTools.isCapitalizedWord(tokens[i-2].getToken())
-        && (LemmaHelper.hasLemma(tokens[i-1], "вітчизняний") || LemmaHelper.hasLemma(tokens[i-1], "житомирський"))
-        && LemmaHelper.hasLemma(tokens[i-2], "великий")
-        && ! LemmaHelper.hasLemma(tokens[i], "війна") ) {
+    if( adjPos > 1
+        && LemmaHelper.isCapitalized(tokens[adjPos].getCleanToken())
+        && LemmaHelper.isCapitalized(tokens[adjPos-1].getCleanToken())
+        && (LemmaHelper.hasLemma(tokens[adjPos], "вітчизняний") || LemmaHelper.hasLemma(tokens[adjPos], "житомирський"))
+        && LemmaHelper.hasLemma(tokens[adjPos-1], "великий")
+        && ! LemmaHelper.hasLemma(tokens[nounPos], "війна") ) {
       logException();
       return true;
     }
 
-    if( i > 1
-        && LemmaHelper.hasLemma(tokens[i-1], "національний")
-        && LemmaHelper.hasLemma(tokens[i-2], "перший")
-        && Character.isUpperCase(tokens[i-1].getToken().charAt(0))
-        && Character.isUpperCase(tokens[i-2].getToken().charAt(0))) {
+    if( adjPos > 1
+        && LemmaHelper.hasLemma(tokens[adjPos], "національний")
+        && LemmaHelper.hasLemma(tokens[adjPos-1], "перший")
+        && Character.isUpperCase(tokens[adjPos].getToken().charAt(0))
+        && Character.isUpperCase(tokens[adjPos-1].getToken().charAt(0))) {
       logException();
       return true;
     }
 
-    if( LemmaHelper.hasLemma(tokens[i-1], "північний")
-        && LemmaHelper.hasLemma(tokens[i], "Рейн-Вестфалія") ) {
+    // по Підвальній трамваї можуть
+    // TODO: забагато FN
+//    if( adjPos > 1
+//        && PosTagHelper.hasPosTagStart(tokens[adjPos-1], "prep")
+//        && LemmaHelper.isCapitalized(tokens[adjPos].getCleanToken())
+//        && ! LemmaHelper.isCapitalized(tokens[nounPos].getCleanToken())
+//        && PosTagHelper.hasPosTagPart(tokens[adjPos], "v_mis") ) {
+//      logException();
+//      return true;
+//    }
+
+    if( LemmaHelper.hasLemma(tokens[adjPos], "північний")
+        && LemmaHelper.hasLemma(tokens[nounPos], "Рейн-Вестфалія") ) {
       logException();
       return true;
     }
 
     //  в день Хрещення Господнього священики
-    if( LemmaHelper.hasLemma(tokens[i-1], Arrays.asList("божий", "господній", "Христовий"))
-        && Character.isUpperCase(tokens[i-1].getToken().charAt(0))) {
+    if( LemmaHelper.hasLemma(tokens[adjPos], Arrays.asList("божий", "господній", "Христовий"))
+        && Character.isUpperCase(tokens[adjPos].getToken().charAt(0))) {
       logException();
       return true;
     }
 
     // князівством Литовським подоляни
-    if( i > 1
-        && PosTagHelper.hasPosTagPart(tokens[i-2], "noun")
-        && Character.isUpperCase(tokens[i-1].getToken().charAt(0))  //TODO: 2nd char is lowercase?
-        && ! Collections.disjoint(masterInflections, InflectionHelper.getNounInflections(tokens[i-2].getReadings())) ) {
+    if( adjPos > 1
+        && PosTagHelper.hasPosTagPart(tokens[adjPos-1], "noun")
+        && Character.isUpperCase(tokens[adjPos].getToken().charAt(0))  //TODO: 2nd char is lowercase?
+        && ! Collections.disjoint(masterInflections, InflectionHelper.getNounInflections(tokens[adjPos-1].getReadings())) ) {
       logException();
       return true;
     }
 
     // 5-а клас
     if( Pattern.compile("([1-9]|1[0-2])[\u2018-][а-д]").matcher(adjAnalyzedTokenReadings.getToken()).matches()
-        && LemmaHelper.hasLemma(tokens[i], "клас") ) {
+        && LemmaHelper.hasLemma(tokens[nounPos], "клас") ) {
       logException();
       return true;
     }
@@ -95,7 +108,7 @@ final class TokenAgreementAdjNounExceptionHelper {
 //    // маршрутка номер 29-а фірми
 //    if( i > 2
 //        && Pattern.compile("[0-9]+[\u2018-][а-яіїєґ]").matcher(adjAnalyzedTokenReadings.getToken()).matches()
-//        && LemmaHelper.hasLemma(tokens[i-2], Arrays.asList("номер", "пункт", "№")) ) {
+//        && LemmaHelper.hasLemma(tokens[adjPos-1], Arrays.asList("номер", "пункт", "№")) ) {
 //      logException();
 //      return true;
 //    }
@@ -110,8 +123,9 @@ final class TokenAgreementAdjNounExceptionHelper {
     
     // Першими голодування оголосили
     // одним із перших
-    if( i > 1
-        && LemmaHelper.hasLemma(adjAnalyzedTokenReadings, Arrays.asList("перший")) ) { 
+    if( nounPos > 1
+        && LemmaHelper.hasLemma(adjAnalyzedTokenReadings, Arrays.asList("перший")) 
+        && ! LemmaHelper.hasLemma(tokens[nounPos], TokenAgreementAdjNounRule.FAKE_FEM_LIST, "noun:inanim:m:") ) {
       //                && PosTagHelper.hasPosTag(slaveTokenReadings, ".*v_naz.*")) ) {
       logException();
       return true;
@@ -119,11 +133,11 @@ final class TokenAgreementAdjNounExceptionHelper {
 
     // абзац другий частини першої
     // пункт третій рішення міськради
-    if( i > 2 && i < tokens.length -1
+    if( adjPos > 1 && nounPos < tokens.length -1
         && PosTagHelper.hasPosTag(adjAnalyzedTokenReadings, Pattern.compile("adj:[mf]:.*&numr.*|number.*")) 
         && PosTagHelper.hasPosTag(slaveTokenReadings, Pattern.compile("noun:inanim:.:v_rod.*"))
 //        && PosTagHelper.hasPosTag(tokens[i+1], Pattern.compile("adj:.:v_rod.*&numr.*|number.*"))
-        && LemmaHelper.hasLemma(tokens[i-2], Arrays.asList("абзац", "розділ", "пункт", "підпункт", "частина", "стаття"))
+        && LemmaHelper.hasLemma(tokens[adjPos-1], Arrays.asList("абзац", "розділ", "пункт", "підпункт", "частина", "стаття"))
 //        && LemmaHelper.hasLemma(tokens[i], Arrays.asList("абзац", "розділ", "пункт", "підпункт", "частина", "стаття"))
         ) { 
       logException();
@@ -131,184 +145,182 @@ final class TokenAgreementAdjNounExceptionHelper {
     }
 
     // статтю 6-ту закону
-    if( i > 1
+    if( adjPos > 1
         && PosTagHelper.hasPosTagPart(adjAnalyzedTokenReadings, "num")
-        && LemmaHelper.hasLemma(tokens[i-2], "стаття")
-        && ! Collections.disjoint(masterInflections, InflectionHelper.getNounInflections(tokens[i-2].getReadings())) ) {
+        && LemmaHelper.hasLemma(tokens[adjPos-1], "стаття")
+        && ! Collections.disjoint(masterInflections, InflectionHelper.getNounInflections(tokens[adjPos-1].getReadings())) ) {
       logException();
       return true;
     }
 
     // лава запасних партії
-    if( i > 1
-        && tokens[i-1].getToken().equals("запасних")
-        && LemmaHelper.hasLemma(tokens[i-2], "лава")) {
+    if( adjPos > 1
+        && tokens[adjPos].getToken().equals("запасних")
+        && LemmaHelper.hasLemma(tokens[adjPos-1], "лава")) {
       logException();
       return true;
     }
 
     // старший зміни
-    if( i > 1
-        && tokens[i].getToken().equals("зміни")
-        && LemmaHelper.hasLemma(tokens[i-1], "старший")) {
+    if( Arrays.asList("зміни", "групи").contains(tokens[nounPos].getCleanToken())
+        && LemmaHelper.hasLemma(tokens[adjPos], "старший")) {
       logException();
       return true;
     }
 
     // на повну людей розкрутили
-    if( i > 1
-        && tokens[i-1].getToken().equals("повну")
-        && tokens[i-2].getToken().equalsIgnoreCase("на")) {
+    if( adjPos > 1
+        && tokens[adjPos].getToken().equals("повну")
+        && tokens[adjPos-1].getToken().equalsIgnoreCase("на")) {
       logException();
       return true;
     }
 
     // у Другій світовій участь
-    if( i > 1
-        && LemmaHelper.hasLemma(tokens[i-1], Arrays.asList("світовий"), ":f:")
-        && LemmaHelper.hasLemma(tokens[i-2], Arrays.asList("другий", "перший"), ":f:") ) {
+    if( adjPos > 1
+        && LemmaHelper.hasLemma(tokens[adjPos], Arrays.asList("світовий"), ":f:")
+        && LemmaHelper.hasLemma(tokens[adjPos-1], Arrays.asList("другий", "перший"), ":f:") ) {
       logException();
       return true;
     }
-    
+
+    // знайдений увечері понеділка
+    if( nounPos > 1
+        && LemmaHelper.hasLemma(tokens[nounPos-1], Arrays.asList("увечері", "уранці", "ввечері", "вранці"))
+        && PosTagHelper.hasPosTag(tokens[nounPos], Pattern.compile("noun.*v_rod.*")) ) {
+      logException();
+      return true;
+    }
+
     // площею 100 кв. м
     // довжиною до 500
-    if( i < tokens.length -1
-        && Arrays.asList("площею", "об'ємом", "довжиною", "висотою", "зростом").contains(tokens[i].getToken())
-        && PosTagHelper.hasPosTag(tokens[i+1], "prep.*|.*num.*") ) {
+    if( nounPos < tokens.length -1
+        && Arrays.asList("площею", "об'ємом", "довжиною", "висотою", "зростом").contains(tokens[nounPos].getToken())
+        && PosTagHelper.hasPosTag(tokens[nounPos+1], "prep.*|.*num.*") ) {
       logException();
       return true;
     }
 
     // 10 метрів квадратних води
-    if( i > 3
-        && LemmaHelper.hasLemma(tokens[i-2], Pattern.compile(".*метр.*"))
-        && LemmaHelper.hasLemma(tokens[i-1], Pattern.compile("квадратний|кубічний"))
-        && PosTagHelper.hasPosTagPart(tokens[i], "v_rod") ) {
+    if( adjPos > 1
+        && LemmaHelper.hasLemma(tokens[adjPos-1], Pattern.compile(".*метр.*"))
+        && LemmaHelper.hasLemma(tokens[adjPos], Pattern.compile("квадратний|кубічний"))
+        && PosTagHelper.hasPosTagPart(tokens[nounPos], "v_rod") ) {
       logException();
       return true;
     }
 
     // молодшого гвардії сержанта
-    if( i > 1 && i < tokens.length - 1
-        && tokens[i].getToken().equals("гвардії")
-        && PosTagHelper.hasPosTag(tokens[i+1], "noun.*")
-        && ! Collections.disjoint(masterInflections, InflectionHelper.getNounInflections(tokens[i+1].getReadings())) ) {
+    if( nounPos < tokens.length - 1
+        && tokens[nounPos].getToken().equals("гвардії")
+        && PosTagHelper.hasPosTag(tokens[nounPos+1], "noun.*")
+        && ! Collections.disjoint(masterInflections, InflectionHelper.getNounInflections(tokens[nounPos+1].getReadings())) ) {
       logException();
       return true;
     }
 
     // 200% річних прибутку
-    if( i > 1
-        && tokens[i-2].getToken().endsWith("%") 
-        && tokens[i-1].getToken().equals("річних") ) {
+    if( adjPos > 1
+        && tokens[adjPos-1].getToken().endsWith("%") 
+        && tokens[adjPos].getToken().equals("річних") ) {
       logException();
       return true;
     }
 
     // пасли задніх
-    if( i > 2
-        && LemmaHelper.hasLemma(tokens[i-2], "пасти")
-        && tokens[i-1].getToken().equals("задніх") ) {
-      logException();
-      return true;
-    }
-
-    // старший групи
-    if( i > 1
-        && LemmaHelper.hasLemma(tokens[i-1], "старший")
-        && tokens[i].getToken().equals("групи") ) {
+    if( adjPos > 1
+        && LemmaHelper.hasLemma(tokens[adjPos-1], "пасти")
+        && tokens[adjPos].getToken().equals("задніх") ) {
       logException();
       return true;
     }
 
     // не мати рівних
-    if( i > 2
-        && LemmaHelper.hasLemma(tokens[i-2], "мати")
-        && tokens[i-1].getToken().equals("рівних") ) {
+    if( adjPos > 1
+        && LemmaHelper.hasLemma(tokens[adjPos-1], "мати")
+        && tokens[adjPos].getToken().equals("рівних") ) {
       logException();
       return true;
     }
 
     // taken care by barbarism rule
     // на манер
-    if( i > 1 
-        && tokens[i].getToken().equals("манер")
-        && tokens[i-2].getToken().equalsIgnoreCase("на") ) {
+    if( adjPos > 1 
+        && tokens[nounPos].getToken().equals("манер")
+        && tokens[adjPos-1].getToken().equalsIgnoreCase("на") ) {
       logException();
       return true;
     }
 
     // taken care by barbarism rule
     // усі до єдиного
-    if( i > 2 
-        && tokens[i-1].getToken().equals("єдиного")
-        && tokens[i-2].getToken().equals("до")
-        && LemmaHelper.hasLemma(tokens[i-3], Arrays.asList("весь", "увесь"), ":p:") ) {
+    if( adjPos > 2
+        && tokens[adjPos].getToken().equals("єдиного")
+        && tokens[adjPos-1].getToken().equals("до")
+        && LemmaHelper.hasLemma(tokens[adjPos-2], Arrays.asList("весь", "увесь"), ":p:") ) {
       logException();
       return true;
     }
 
     // сильні світу цього
-    if( i < tokens.length -1
-        && (tokens[i].getToken().equals("світу") || tokens[i].getToken().equals("миру"))
+    if( nounPos < tokens.length -1
+        && Arrays.asList("миру", "світу").contains(tokens[nounPos].getCleanToken())
         && ( LemmaHelper.hasLemma(adjAnalyzedTokenReadings, Arrays.asList("сильний", "могутній", "великий"))
-          || LemmaHelper.hasLemma(tokens[i+1], Arrays.asList("цей", "сей"), ":m:v_rod") ) ) {
+          || LemmaHelper.hasLemma(tokens[nounPos+1], Arrays.asList("цей", "сей"), ":m:v_rod") ) ) {
       logException();
       return true;
     }
 
     // колишня Маяковського
-    if( LemmaHelper.hasLemma(tokens[i-1], Arrays.asList("колишній", "тодішній", "теперішній", "нинішній"), Pattern.compile("adj.*:f:.*")) 
-        && Character.isUpperCase(tokens[i].getToken().charAt(0)) ) {
+    if( LemmaHelper.hasLemma(tokens[adjPos], Arrays.asList("колишній", "тодішній", "теперішній", "нинішній"), Pattern.compile("adj.*:f:.*")) 
+        && Character.isUpperCase(tokens[nounPos].getToken().charAt(0)) ) {
       logException();
       return true;
     }
 
     // імені Шевченка
     // 4-й Запорізький ім. гетьмана Б. Хмельницького
-    if( i < tokens.length -1
-        && Arrays.asList("ім.", "імені", "ордена").contains(tokens[i].getToken()) ) { 
+    if( nounPos < tokens.length -1
+        && Arrays.asList("ім.", "імені", "ордена").contains(tokens[nounPos].getToken()) ) { 
 //        && Character.isUpperCase(tokens[i+1].getToken().charAt(0)) ) {
       logException();
       return true;
     }
 
     // на дівоче Анна
-    if( i > 1
-        && Arrays.asList("дівоче").contains(tokens[i-1].getToken()) 
-        && PosTagHelper.hasPosTagPart(tokens[i], "name") ) {
+    if( Arrays.asList("дівоче").contains(tokens[adjPos].getToken()) 
+        && PosTagHelper.hasPosTagPart(tokens[nounPos], "name") ) {
       logException();
       return true;
     }
 
     // вольному воля
     if( Arrays.asList("вольному", "вільному").contains(adjAnalyzedTokenReadings.getToken().toLowerCase())
-        && tokens[i].getToken().equals("воля") ) {
+        && tokens[nounPos].getToken().equals("воля") ) {
       logException();
       return true;
     }
 
     // порядок денний
-    if( i > 1
+    if( adjPos > 1
         && LemmaHelper.hasLemma(adjAnalyzedTokenReadings, "денний")
-        && LemmaHelper.hasLemma(tokens[i-2], "порядок")
-        && ! Collections.disjoint(masterInflections, InflectionHelper.getNounInflections(tokens[i-2].getReadings())) ) {
+        && LemmaHelper.hasLemma(tokens[adjPos-1], "порядок")
+        && ! Collections.disjoint(masterInflections, InflectionHelper.getNounInflections(tokens[adjPos-1].getReadings())) ) {
       logException();
       return true;
     }
 
     // Вони здатні екскаватором переорювати
-    if( LemmaHelper.hasLemma(tokens[i-1], Arrays.asList("здатний", "змушений", "винний", "повинний", "готовий", "спроможний")) ) {
+    if( LemmaHelper.hasLemma(tokens[adjPos], Arrays.asList("здатний", "змушений", "винний", "повинний", "готовий", "спроможний")) ) {
       logException();
       return true;
     }
 
     // протягом минулих травня – липня
-    if( i < tokens.length - 2
+    if( nounPos < tokens.length - 2
         && PosTagHelper.hasPosTag(adjAnalyzedTokenReadings, "adj:p:.*")
-        && tokens[i+1].getToken().matches("[\u2014\u2013-]")
-        && PosTagHelper.hasPosTag(tokens[i+2], "(adj|noun).*")
+        && tokens[nounPos+1].getToken().matches("[\u2014\u2013-]")
+        && PosTagHelper.hasPosTag(tokens[nounPos+2], "(adj|noun).*")
         //TODO: hasOverlapIgnoreGender(masterInflections, tokens[i+2])
         && hasOverlapIgnoreGender(masterInflections, slaveInflections) ) {
       logException();
@@ -316,9 +328,9 @@ final class TokenAgreementAdjNounExceptionHelper {
     }
 
     // моїх маму й сестер
-    if( i < tokens.length - 2
+    if( nounPos < tokens.length - 2
         && PosTagHelper.hasPosTag(adjAnalyzedTokenReadings, "adj:p:.*")
-        && forwardConjFind(tokens, i+1, 2)
+        && forwardConjFind(tokens, nounPos+1, 2)
         && hasOverlapIgnoreGender(masterInflections, slaveInflections, "p", null) ) {
       logException();
       return true;
@@ -326,121 +338,206 @@ final class TokenAgreementAdjNounExceptionHelper {
 
     // зв'язаних ченця з черницею
     // на зарубаних матір з двома синами
-    if( i < tokens.length - 2
+    if( nounPos < tokens.length - 2
         && PosTagHelper.hasPosTag(adjAnalyzedTokenReadings, "adj:p:.*")
-        && Arrays.asList("з", "із", "зі").contains(tokens[i+1].getToken())
-        && PosTagHelper.hasPosTag(tokens[i+2], "(noun|numr).*:v_oru.*")
+        && Arrays.asList("з", "із", "зі").contains(tokens[nounPos+1].getToken())
+        && PosTagHelper.hasPosTag(tokens[nounPos+2], "(noun|numr).*:v_oru.*")
         && hasOverlapIgnoreGender(masterInflections, slaveInflections) ) {
       logException();
       return true;
     }
 
     // навчальної та середньої шкіл
-    if( i > 2 
-        && PosTagHelper.hasPosTag(tokens[i], "noun:.*:p:.*")
-        && (reverseConjFind(tokens, i-2, 3) || reverseConjAdvFind(tokens, i-2, 3))
+    if( adjPos > 2 
+        && PosTagHelper.hasPosTag(tokens[nounPos], "noun:.*:p:.*")
+        && (reverseConjFind(tokens, adjPos-1, 3) || reverseConjAdvFind(tokens, adjPos-1, 3))
         && hasOverlapIgnoreGender(masterInflections, slaveInflections, null, "p") 
-        && LemmaHelper.reverseSearch(tokens, i-3, 100, null, Pattern.compile("adj.*")) ) {
+        && LemmaHelper.reverseSearch(tokens, adjPos-2, 100, null, Pattern.compile("adj.*")) ) {
       logException();
       return true;
     }
 
     // Большого та Маріїнського театрів
     // Пляжі 3, 4 і 5-ї категорій
-    if( i > 2 
-        && PosTagHelper.hasPosTag(tokens[i], "noun:.*:p:.*")
-        && (reverseConjFind2(tokens, i-2, 3) )
+    if( adjPos > 2 
+        && PosTagHelper.hasPosTag(tokens[nounPos], "noun:.*:p:.*")
+        && (reverseConjFind2(tokens, adjPos-1, 3) )
         && hasOverlapIgnoreGender(masterInflections, slaveInflections, null, "p") ) {
       logException();
       return true;
     }
 
     // ні у методологічному, ні у практичному аспектах
-    if( i > 7
-        && PosTagHelper.hasPosTag(tokens[i], "noun:.*:p:.*")
-        && PosTagHelper.hasPosTag(tokens[i-1], "adj:.*")
-        && PosTagHelper.hasPosTag(tokens[i-2], "prep.*")
-        && LemmaHelper.hasLemma(tokens[i-3], Arrays.asList("ні", "ані", "хоч", "що", "як"))
-        && tokens[i-4].getToken().equals(",")
+    if( adjPos > 6
+        && PosTagHelper.hasPosTag(tokens[nounPos], "noun:.*:p:.*")
+        && PosTagHelper.hasPosTag(tokens[adjPos], "adj:.*")
+        && PosTagHelper.hasPosTag(tokens[adjPos-1], "prep.*")
+        && LemmaHelper.hasLemma(tokens[adjPos-2], Arrays.asList("ні", "ані", "хоч", "що", "як"))
+        && tokens[adjPos-3].getToken().equals(",")
         && hasOverlapIgnoreGender(masterInflections, slaveInflections) ) {
       logException();
       return true;
     }
 
+    Pattern afterPredicVerbTags = Pattern.compile(".*(inf|past:n|futr:s:3).*");
+    if( nounPos < tokens.length - 1 
+        && PosTagHelper.hasPosTagPart(tokens[nounPos], "predic")
+        && (PosTagHelper.hasPosTag(tokens[nounPos+1], afterPredicVerbTags)
+           || nounPos < tokens.length - 2
+                && PosTagHelper.hasPosTagStart(tokens[nounPos+1], "adv")
+                && PosTagHelper.hasPosTag(tokens[nounPos+2], afterPredicVerbTags)) ) {
+      logException();
+      return true;
+    }
+    
     // на проурядову і, здається, пропрезидентську частини
-    if( i > 6
-        && PosTagHelper.hasPosTag(tokens[i], "noun:.*:p:.*")
-        && PosTagHelper.hasPosTag(tokens[i-1], "adj:.*")
-        && tokens[i-2].getToken().equals(",")
-        && ( (tokens[i-4].getToken().equals(",") && CONJ_FOR_PLURAL_WITH_COMMA.contains(tokens[i-5].getToken().toLowerCase())
-                && ! PosTagHelper.hasPosTag(tokens[i-3], VERB_NOT_INSERT_PATTERN))
-            || (tokens[i-5].getToken().equals(",") && CONJ_FOR_PLURAL_WITH_COMMA.contains(tokens[i-6].getToken().toLowerCase())
-                            && ! PosTagHelper.hasPosTag(tokens[i-3], VERB_NOT_INSERT_PATTERN)
-                            && ! PosTagHelper.hasPosTag(tokens[i-4], VERB_NOT_INSERT_PATTERN)) )
+    if( adjPos > 5
+        && PosTagHelper.hasPosTag(tokens[nounPos], "noun:.*:p:.*")
+        && PosTagHelper.hasPosTag(tokens[adjPos], "adj:.*")
+        && tokens[adjPos-1].getToken().equals(",")
+        && ( (tokens[adjPos-3].getToken().equals(",") && CONJ_FOR_PLURAL_WITH_COMMA.contains(tokens[adjPos-4].getToken().toLowerCase())
+                && ! PosTagHelper.hasPosTag(tokens[adjPos-2], VERB_NOT_INSERT_PATTERN))
+            || (tokens[adjPos-4].getToken().equals(",") && CONJ_FOR_PLURAL_WITH_COMMA.contains(tokens[adjPos-5].getToken().toLowerCase())
+                            && ! PosTagHelper.hasPosTag(tokens[adjPos-2], VERB_NOT_INSERT_PATTERN)
+                            && ! PosTagHelper.hasPosTag(tokens[adjPos-3], VERB_NOT_INSERT_PATTERN)) )
         && hasOverlapIgnoreGender(masterInflections, slaveInflections) ) {
       logException();
       return true;
     }
 
     // коринфський з іонійським ордери
-    if( i > 2 
-        && PosTagHelper.hasPosTag(tokens[i], "noun:.*:p:.*")
-        && tokens[i-2].getToken().matches("з|із|зі")
-        && PosTagHelper.hasPosTag(tokens[i-1], "adj.*v_oru.*")
-        && hasOverlapIgnoreGender(InflectionHelper.getAdjInflections(tokens[i-3].getReadings()), slaveInflections) ) {
+    if( adjPos > 2 
+        && PosTagHelper.hasPosTag(tokens[nounPos], "noun:.*:p:.*")
+        && tokens[adjPos-1].getToken().matches("з|із|зі")
+        && PosTagHelper.hasPosTag(tokens[adjPos], "adj.*v_oru.*")
+        && hasOverlapIgnoreGender(InflectionHelper.getAdjInflections(tokens[adjPos-2].getReadings()), slaveInflections) ) {
       logException();
       return true;
     }
 
     // на довгих півстоліття
     if( PosTagHelper.hasPosTag(adjAnalyzedTokenReadings, "adj:p:v_rod.*")
-        && tokens[i].getToken().startsWith("пів")
-        && PosTagHelper.hasPosTag(tokens[i], "noun.*v_rod.*") ) {
+        && tokens[nounPos].getToken().startsWith("пів")
+        && PosTagHelper.hasPosTag(tokens[nounPos], "noun.*v_rod.*") ) {
       logException();
       return true;
     }
 
     // на довгих чверть століття
-    if( i < tokens.length-1
+    if( nounPos < tokens.length-1
         && PosTagHelper.hasPosTag(adjAnalyzedTokenReadings, "adj:p:v_rod.*")
-        && tokens[i].getToken().equals("чверть")
-        && PosTagHelper.hasPosTag(tokens[i+1], "noun.*v_rod.*") ) {
+        && tokens[nounPos].getToken().equals("чверть")
+        && PosTagHelper.hasPosTag(tokens[nounPos+1], "noun.*v_rod.*") ) {
+      logException();
+      return true;
+    }
+
+    // розділеного вже чверть століття
+    // створених близько чверті століття
+    if( nounPos < tokens.length-1
+        && PosTagHelper.hasPosTagPart(adjAnalyzedTokenReadings, "adjp")
+        && LemmaHelper.hasLemma(tokens[nounPos], Arrays.asList("чверть", "третина"))
+        && PosTagHelper.hasPosTag(tokens[nounPos+1], "noun.*v_rod.*") ) {
+      logException();
+      return true;
+    }
+
+    // заклопотані чимало людей
+    // NOTE: мало abmigs with verb
+    if( PosTagHelper.hasPosTagPart(adjAnalyzedTokenReadings, "adjp")
+        && LemmaHelper.hasLemma(tokens[nounPos-1], Arrays.asList("чимало", "багато", "небагато", "немало", /*"мало",*/ "обмаль"))
+        && PosTagHelper.hasPosTag(tokens[nounPos], "noun.*:p:v_rod.*") ) {
       logException();
       return true;
     }
 
     // присудок ж.р. + професія ч.р.
     if( Arrays.asList("переконана", "впевнена", "упевнена", "годна", "ладна", "певна", "причетна", "обрана", "призначена").contains(adjAnalyzedTokenReadings.getToken())
-        && PosTagHelper.hasPosTag(tokens[i], "noun:anim:m:v_naz.*") ) {
+        && PosTagHelper.hasPosTag(tokens[nounPos], "noun:anim:m:v_naz.*") ) {
       logException();
       return true;
     }
 
     // чинних станом на
-    if( i < tokens.length-1
-        && tokens[i].getToken().equals("станом")
-        && tokens[i+1].getToken().equals("на") ) {
+    if( nounPos < tokens.length-1
+        && tokens[nounPos].getToken().equals("станом")
+        && tokens[nounPos+1].getToken().equals("на") ) {
       logException();
       return true;
     }
-    
+
+    // pron section 
+
+    // на таку Богом забуту
+    if( PosTagHelper.hasPosTagPart(tokens[adjPos], "pron")
+        && tokens[nounPos].getCleanToken().equalsIgnoreCase("богом") ) {
+      logException();
+      return true;
+    }
+
+    // той родом з
+    if( LemmaHelper.hasLemma(tokens[adjPos], "той")
+        && Arrays.asList("родом", "кулею", "розміром").contains(tokens[nounPos].getCleanToken().toLowerCase()) ) {
+      logException();
+      return true;
+    }
+
+    // такого світ ще не бачив
+    if( Arrays.asList("таке", "такого").contains(tokens[adjPos].getCleanToken().toLowerCase())
+        && PosTagHelper.hasPosTag(tokens[nounPos], Pattern.compile("noun.*:v_naz.*"))
+        && new Match()
+            .target(Condition.postag(Pattern.compile("verb.*")))
+            .limit(2)
+            .skip(Condition.postag(Pattern.compile("(part|adv).*")))
+            .mAfter(tokens, nounPos+1) > 0 ) {
+//        && SearchHelper. // (tokens, nounPos+1, "verb", 2) ) {
+      logException();
+      return true;
+    }
+
+    // той мантію надів
+    if( nounPos < tokens.length - 1
+        && tokens[adjPos].getCleanToken().toLowerCase().equals("той")
+        && PosTagHelper.hasPosTag(tokens[nounPos], Pattern.compile("noun.*:v_(zna|oru).*"))
+        && PosTagHelper.hasPosTagStart(tokens[nounPos+1], "verb") ) {
+      logException();
+      return true;
+    }
+
+    // що таке звук
+    if( adjPos > 1
+        && tokens[adjPos].getToken().equals("таке")
+//        && (tokens[adjPos-1].getToken().equalsIgnoreCase("що")
+        && LemmaHelper.reverseSearch(tokens, adjPos-1, 3, Pattern.compile("що"), null)
+            ) {
+      logException();
+      return true;
+    }
+
+    if( tokens[adjPos].getToken().equalsIgnoreCase("таких")
+        && (PosTagHelper.hasPosTagPart(tokens[nounPos], ":p:v_naz")
+         || Arrays.asList("меншість", "більшість").contains(tokens[nounPos].getCleanToken().toLowerCase())) ) {
+      logException();
+      return true;
+    }
+
     // постійно на рівних міністри, президенти
-    if( i > 1
-        && tokens[i-1].getToken().equals("рівних")
-        && tokens[i-2].getToken().equalsIgnoreCase("на") ) {
+    if( adjPos > 1
+        && tokens[adjPos].getToken().equals("рівних")
+        && tokens[adjPos-1].getToken().equalsIgnoreCase("на") ) {
       logException();
       return true;
     }
 
     // польські зразка 1620—1650 років
-    if( i < tokens.length-1
-        && tokens[i].getToken().equals("зразка") ) {
+    if( nounPos < tokens.length-1
+        && tokens[nounPos].getToken().equals("зразка") ) {
       logException();
       return true;
     }
 
     // три зелених плюс два червоних
-    if( Arrays.asList("мінус", "плюс").contains(tokens[i].getToken()) ) {
+    if( Arrays.asList("мінус", "плюс").contains(tokens[nounPos].getToken()) ) {
       logException();
       return true;
     }
@@ -448,79 +545,80 @@ final class TokenAgreementAdjNounExceptionHelper {
     // важкими пару років
     // неконституційними низку законів
     // природний тисячею років підтверджений
-    if( i < tokens.length-1 
-        && LemmaHelper.hasLemma(tokens[i], Arrays.asList("пара", "низка", "ряд", "купа", "більшість", "десятка", "сотня", "тисяча", "мільйон"))
-        && (PosTagHelper.hasPosTag(tokens[i+1], "noun.*?:p:v_rod.*")
-          || (i < tokens.length-2
-            && PosTagHelper.hasPosTag(tokens[i+1], "adj:p:v_rod.*")
-            && PosTagHelper.hasPosTag(tokens[i+2], "noun.*?:p:v_rod.*")) ) ) {
+    if( nounPos < tokens.length-1 
+        && LemmaHelper.hasLemma(tokens[nounPos], Arrays.asList("пара", "низка", "ряд", "купа", "більшість", "десятка", "сотня", "тисяча", "мільйон"))
+        && (PosTagHelper.hasPosTag(tokens[nounPos+1], "noun.*?:p:v_rod.*")
+          || (nounPos < tokens.length-2
+            && PosTagHelper.hasPosTag(tokens[nounPos+1], "adj:p:v_rod.*")
+            && PosTagHelper.hasPosTag(tokens[nounPos+2], "noun.*?:p:v_rod.*")) ) ) {
       logException();
       return true;
     }
 
     // разів (у) десять
-    if( i < tokens.length-1
-        && LemmaHelper.hasLemma(tokens[i], Arrays.asList("раз"), Pattern.compile(".*p:v_(naz|rod).*"))
-        && (PosTagHelper.hasPosTag(tokens[i+1], "number|numr:p:v_naz|noun.*?:p:v_naz:&numr.*")
-            || PosTagHelper.hasPosTagPart(tokens[i+1], "prep")) ) {
+    if( nounPos < tokens.length-1
+        && LemmaHelper.hasLemma(tokens[nounPos], Arrays.asList("раз"), Pattern.compile(".*p:v_(naz|rod).*"))
+        && (PosTagHelper.hasPosTag(tokens[nounPos+1], "number|numr:p:v_naz|noun.*?:p:v_naz:&numr.*")
+            || PosTagHelper.hasPosTagPart(tokens[nounPos+1], "prep")) ) {
       logException();
       return true;
     }
 
     // років 6, відсотків зо два
-    if( i < tokens.length-1
-        && LemmaHelper.hasLemma(tokens[i], LemmaHelper.TIME_PLUS_LEMMAS, Pattern.compile("noun.*?p:v_(naz|rod).*"))
-        && (PosTagHelper.hasPosTag(tokens[i+1], NUMBER_V_NAZ)
-            || (i < tokens.length-2
-              && LemmaHelper.hasLemma(tokens[i+1], Arrays.asList("на", "за", "з", "із", "зо", "через", "під"), "prep")
-                && PosTagHelper.hasPosTag(tokens[i+2], NUMBER_V_NAZ))) ) {
+    if( nounPos < tokens.length-1
+        && LemmaHelper.hasLemma(tokens[nounPos], LemmaHelper.TIME_PLUS_LEMMAS, Pattern.compile("noun.*?p:v_(naz|rod).*"))
+        && (PosTagHelper.hasPosTag(tokens[nounPos+1], NUMBER_V_NAZ)
+            || (nounPos < tokens.length-2
+              && LemmaHelper.hasLemma(tokens[nounPos+1], Arrays.asList("на", "за", "з", "із", "зо", "через", "під"), "prep")
+                && PosTagHelper.hasPosTag(tokens[nounPos+2], NUMBER_V_NAZ))) ) {
       logException();
       return true;
     }
 
     // осіб на 30
-    if( i < tokens.length-2
-        && LemmaHelper.hasLemma(tokens[i], Arrays.asList("особа"), Pattern.compile("noun.*?p:v_(naz|rod).*"))
-        && LemmaHelper.hasLemma(tokens[i+1], Arrays.asList("на", "з", "із", "зо", "під"), "prep")
-        && PosTagHelper.hasPosTag(tokens[i+2], NUMBER_V_NAZ) ) {
+    if( nounPos < tokens.length-2
+        && LemmaHelper.hasLemma(tokens[nounPos], Arrays.asList("особа"), Pattern.compile("noun.*?p:v_(naz|rod).*"))
+        && LemmaHelper.hasLemma(tokens[nounPos+1], Arrays.asList("на", "з", "із", "зо", "під"), "prep")
+        && PosTagHelper.hasPosTag(tokens[nounPos+2], NUMBER_V_NAZ) ) {
       logException();
       return true;
     }
 
     // хвилини з 55-ї вірмени почали
-    if( i > 3
-        && LemmaHelper.hasLemma(tokens[i-3], LemmaHelper.TIME_LEMMAS_SHORT)
-        && PosTagHelper.hasPosTagPart(tokens[i-2], "prep")
-        && PosTagHelper.hasPosTagPart(tokens[i-1], "num")) {
+    if( adjPos > 2
+        && LemmaHelper.hasLemma(tokens[adjPos-2], LemmaHelper.TIME_LEMMAS_SHORT)
+        && PosTagHelper.hasPosTagStart(tokens[adjPos-1], "prep")
+        && PosTagHelper.hasPosTagPart(tokens[adjPos], "num")) {
 
-      Collection<String> prepGovernedCases = CaseGovernmentHelper.getCaseGovernments(tokens[i-2], IPOSTag.prep.name());
-      if( TokenAgreementPrepNounRule.hasVidmPosTag(prepGovernedCases, tokens[i-3])
-          && TokenAgreementPrepNounRule.hasVidmPosTag(prepGovernedCases, tokens[i-1]) ) {
+      Collection<String> prepGovernedCases = CaseGovernmentHelper.getCaseGovernments(tokens[adjPos-1], IPOSTag.prep.name());
+      if( TokenAgreementPrepNounRule.hasVidmPosTag(prepGovernedCases, tokens[adjPos-2])
+          && TokenAgreementPrepNounRule.hasVidmPosTag(prepGovernedCases, tokens[adjPos]) ) {
         logException();
         return true;
       }
     }
 
     // пофарбований рік тому
-    if( i < tokens.length-1
-        && LemmaHelper.hasLemma(tokens[i], LemmaHelper.TIME_LEMMAS) 
-        && LemmaHelper.hasLemma(tokens[i+1], "тому") ) {
+    // TODO: переміщені вже місяць
+    if( nounPos < tokens.length-1
+        && LemmaHelper.hasLemma(tokens[nounPos], LemmaHelper.TIME_LEMMAS) 
+        && LemmaHelper.hasLemma(tokens[nounPos+1], "тому") ) {
       logException();
       return true;
     }
 
     // замість звичного десятиліттями
-    if( i < tokens.length-1
-        && LemmaHelper.hasLemma(tokens[i], LemmaHelper.TIME_PLUS_LEMMAS, Pattern.compile("noun:inanim:p:v_oru.*")) ) {
+    if( nounPos < tokens.length-1
+        && LemmaHelper.hasLemma(tokens[nounPos], LemmaHelper.TIME_PLUS_LEMMAS, Pattern.compile("noun:inanim:p:v_oru.*")) ) {
       logException();
       return true;
     }
 
     
     // кількох десятих відсотка
-    if( LemmaHelper.hasLemma(tokens[i-1], Arrays.asList("десятий", "сотий", "тисячний", "десятитисячний", "стотитисячний", "мільйонний", "мільярдний"))
+    if( LemmaHelper.hasLemma(tokens[adjPos], Arrays.asList("десятий", "сотий", "тисячний", "десятитисячний", "стотитисячний", "мільйонний", "мільярдний"))
         && PosTagHelper.hasPosTag(adjAnalyzedTokenReadings, ".*:[fp]:.*")
-        && PosTagHelper.hasPosTag(tokens[i], "noun.*v_rod.*") ) {
+        && PosTagHelper.hasPosTag(tokens[nounPos], "noun.*v_rod.*") ) {
       logException();
       return true;
     }
@@ -529,20 +627,18 @@ final class TokenAgreementAdjNounExceptionHelper {
     // два нових горнятка (див. #1 нижче)
     // два відомих імені
     // 33 народних обранці
-    // TODO: два великих комфортних піщаних пляжі
-    // TODO: два закинутих, похмурих палаци
-    if( i>1 && i<tokens.length
+    if( adjPos > 1 && nounPos < tokens.length
         && PosTagHelper.hasPosTag(adjAnalyzedTokenReadings, ".*:p:v_(rod|naz).*")
-        && LemmaHelper.reverseSearch(tokens, i-2, 5, DOVYE_TROYE, null)
-//        && ( LemmaHelper.hasLemma(tokens[i-2], DOVYE_TROYE)
+        && LemmaHelper.reverseSearch(tokens, adjPos-1, 5, DOVYE_TROYE, null)
+//        && ( LemmaHelper.hasLemma(tokens[adjPos-1], DOVYE_TROYE)
 //            // три жовтих обірваних чоловіки
 //            // три предкові слов’янські племені
-//            || (i>2 && LemmaHelper.hasLemma(tokens[i-3], DOVYE_TROYE) 
-//                && (PosTagHelper.hasPosTag(tokens[i-2], "adv.*|adj.*:p:v_(rod|naz).*")
+//            || (i>2 && LemmaHelper.hasLemma(tokens[adjPos-2], DOVYE_TROYE) 
+//                && (PosTagHelper.hasPosTag(tokens[adjPos-1], "adv.*|adj.*:p:v_(rod|naz).*")
 //                    // два «круглих столи»
-//                    || tokens[i-2].getToken().matches("[«„\"]"))) ) 
-        && (PosTagHelper.hasPosTag(tokens[i], ".*(:p:v_naz|:n:v_rod).*") 
-            || Arrays.asList("імені", "ока").contains(tokens[i].getToken())) ) {
+//                    || tokens[adjPos-1].getToken().matches("[«„\"]"))) ) 
+        && (PosTagHelper.hasPosTag(tokens[nounPos], ".*(:p:v_naz|:n:v_rod).*") 
+            || Arrays.asList("імені", "ока").contains(tokens[nounPos].getToken())) ) {
       logException();
       return true;
     }
@@ -550,21 +646,22 @@ final class TokenAgreementAdjNounExceptionHelper {
 
     // 1-3-й класи
     // на сьомому–восьмому поверхах
-    if( (adjAnalyzedTokenReadings.getToken().matches("[0-9]+[\u2014\u2013-][0-9]+[\u2013-][а-яіїєґ]{1,3}")
-        || (adjAnalyzedTokenReadings.getToken().matches(".*[а-яїієґ][\u2014\u2013-].*")
+    if( (adjAnalyzedTokenReadings.getCleanToken().matches("[0-9]+[\u2014\u2013-][0-9]+[\u2013-][а-яіїєґ]{1,3}")
+        || (adjAnalyzedTokenReadings.getCleanToken().matches(".*[а-яїієґ][\u2014\u2013-].*")
             && PosTagHelper.hasPosTagPart(adjAnalyzedTokenReadings, "&numr"))) 
-        && PosTagHelper.hasPosTag(slaveTokenReadings, ".*:p:.*")
+        && PosTagHelper.hasPosTagPart(slaveTokenReadings, ":p:")
         && hasOverlapIgnoreGender(masterInflections, slaveInflections) ) {
       logException();
       return true;
     }
     // восьмого – дев’ятого класів
-    if( i > 2 
-        && Arrays.asList("\u2013", "\u2014").contains(tokens[i-2].getToken())
-        && PosTagHelper.hasPosTag(adjAnalyzedTokenReadings, ".*num.*")
-        && PosTagHelper.hasPosTag(tokens[i-3], ".*num.*")
-        && PosTagHelper.hasPosTag(slaveTokenReadings, ".*:p:.*")
-        && hasOverlapIgnoreGender(InflectionHelper.getAdjInflections(tokens[i-3].getReadings()), slaveInflections)
+    if( nounPos > 2 
+        && Arrays.asList("\u2013", "\u2014").contains(tokens[adjPos-1].getToken())
+        && PosTagHelper.hasPosTagPart(adjAnalyzedTokenReadings, "num")
+        && PosTagHelper.hasPosTagPart(tokens[adjPos-2], "num")
+        && PosTagHelper.hasPosTagPart(slaveTokenReadings, ":p:")
+        && (PosTagHelper.hasPosTagStart(tokens[adjPos-2], "number")
+              || hasOverlapIgnoreGender(InflectionHelper.getAdjInflections(tokens[adjPos-2].getReadings()), slaveInflections))
         && hasOverlapIgnoreGender(masterInflections, slaveInflections) ) {
       logException();
       return true;
@@ -575,8 +672,8 @@ final class TokenAgreementAdjNounExceptionHelper {
     // суперкризовими січнем–лютим
 //    if( LemmaHelper.hasLemma(adjAnalyzedTokenReadins, Arrays.asList("найближчий", "минулий"), ":p:") 
     if( PosTagHelper.hasPosTag(adjAnalyzedTokenReadings, "adj.*:p:.*") 
-        && tokens[i].getToken().matches(".*[\u2014\u2013-].*")
-        && (LemmaHelper.TIME_PLUS_LEMMAS.contains(tokens[i].getAnalyzedToken(0).getLemma().split("[\u2014\u2013-]")[0])
+        && tokens[nounPos].getToken().matches(".*[\u2014\u2013-].*")
+        && (LemmaHelper.TIME_PLUS_LEMMAS.contains(tokens[nounPos].getAnalyzedToken(0).getLemma().split("[\u2014\u2013-]")[0])
         // does not work for тиждень-два due to dynamic tagging returning singular
           || hasOverlapIgnoreGender(masterInflections, slaveInflections)) ) {
       logException();
@@ -584,45 +681,45 @@ final class TokenAgreementAdjNounExceptionHelper {
     }
 
     // Від наступних пари десятків
-    if( i < tokens.length - 1
-        && LemmaHelper.hasLemma(tokens[i], "пара")
+    if( nounPos < tokens.length - 1
+        && LemmaHelper.hasLemma(tokens[nounPos], "пара")
         && PosTagHelper.hasPosTag(adjAnalyzedTokenReadings, "adj.*:p:.*")
-        && PosTagHelper.hasPosTag(tokens[i+1], ".*:p:v_rod.*") ) {      // adding "num" fails "десятків" тощо 
+        && PosTagHelper.hasPosTag(tokens[nounPos+1], ".*:p:v_rod.*") ) {      // adding "num" fails "десятків" тощо 
       logException();
       return true;
     }
 
-    if( i > 1
-        && PosTagHelper.hasPosTagPart(tokens[i-2], "num")
-        && PosTagHelper.hasPosTag(tokens[i-1], "adj.*num.*")
+    if( nounPos > 1
+        && PosTagHelper.hasPosTagPart(tokens[adjPos-1], "num")
+        && PosTagHelper.hasPosTag(tokens[adjPos], "adj.*num.*")
         ) {
       // п'ять шостих світу
-      if( PosTagHelper.hasPosTag(tokens[i-2], "(noun|numr).*") 
-          && PosTagHelper.hasPosTag(tokens[i-1], "adj:p:v_rod.*") ) {
+      if( PosTagHelper.hasPosTag(tokens[adjPos-1], "(noun|numr).*") 
+          && PosTagHelper.hasPosTag(tokens[adjPos], "adj:p:v_rod.*") ) {
         
         // (вона й) дві других дівчини
-        if( LemmaHelper.hasLemma(tokens[i-1], "другий") 
-            && ! LemmaHelper.hasLemma(tokens[i-2], "один") )
+        if( LemmaHelper.hasLemma(tokens[adjPos], "другий") 
+            && ! LemmaHelper.hasLemma(tokens[adjPos-1], "один") )
           return false;
         
         logException();
         return true;
       }
       // одній восьмій
-      if( PosTagHelper.hasPosTag(tokens[i-2], "adj:f:.*pron.*")
-          && LemmaHelper.hasLemma(tokens[i-2], "один")
+      if( PosTagHelper.hasPosTag(tokens[adjPos-1], "adj:f:.*pron.*")
+          && LemmaHelper.hasLemma(tokens[adjPos-1], "один")
           && ! Collections.disjoint(
-              InflectionHelper.getAdjInflections(tokens[i-2].getReadings()),
-              InflectionHelper.getAdjInflections(tokens[i-1].getReadings())) ) {
+              InflectionHelper.getAdjInflections(tokens[adjPos-1].getReadings()),
+              InflectionHelper.getAdjInflections(tokens[adjPos].getReadings())) ) {
         logException();
         return true;
       }
     }
     
     // 1/8-ї фіналу
-    if( i > 3
-        && "/".equals(tokens[i-2].getToken())
-        && PosTagHelper.hasPosTagPart(tokens[i-3], "numb")
+    if( nounPos > 3
+        && "/".equals(tokens[adjPos-1].getToken())
+        && PosTagHelper.hasPosTagPart(tokens[adjPos-2], "numb")
         && hasOverlapIgnoreGender(masterInflections, slaveInflections) ) {
       logException();
       return true;
@@ -647,23 +744,23 @@ final class TokenAgreementAdjNounExceptionHelper {
         return true;
       }
       // Призначений на 11-ту похід
-      if( i > 1 
+      if( nounPos > 1 
           && PosTagHelper.hasPosTagPart(adjAnalyzedTokenReadings, ":f:")
-          && LemmaHelper.hasLemma(tokens[i-2], Arrays.asList("на", "в", "у", "за", "о", "до", "після", "близько", "раніше"))
-          && ! LemmaHelper.hasLemma(tokens[i], Arrays.asList("хвилина", "година")) ) {
+          && LemmaHelper.hasLemma(tokens[adjPos-1], Arrays.asList("на", "в", "у", "за", "о", "до", "після", "близько", "раніше"))
+          && ! LemmaHelper.hasLemma(tokens[nounPos], Arrays.asList("хвилина", "година")) ) {
         logException();
         return true;
       }
       // 11-й ранку
       // Arrays.asList("ранок", "день", "вечір", "ніч", "пополудень") + "v_rod"
       if( PosTagHelper.hasPosTagPart(adjAnalyzedTokenReadings, ":f:") 
-          && tokens[i].getToken().matches("ранку|дня|вечора|ночі|пополудня") ) {
+          && tokens[nounPos].getToken().matches("ранку|дня|вечора|ночі|пополудня") ) {
         logException();
         return true;
       }
       // дев'яте травня
       if( PosTagHelper.hasPosTagPart(adjAnalyzedTokenReadings, ":n:")
-          && LemmaHelper.hasLemma(tokens[i], LemmaHelper.MONTH_LEMMAS, "v_rod") ) {
+          && LemmaHelper.hasLemma(tokens[nounPos], LemmaHelper.MONTH_LEMMAS, "v_rod") ) {
         logException();
         return true;
       }
@@ -682,11 +779,11 @@ final class TokenAgreementAdjNounExceptionHelper {
     // нічого поганого людям не зробили
     // що нічим дієвим ініціативи не завершаться
     // писав про щось подібне Юрій
-    if( i > 2 && i <= tokens.length - 1
-        && LemmaHelper.hasLemma(tokens[i-2], Arrays.asList("ніщо", "щось", "ніхто", "хтось"))
-//        && PosTagHelper.hasPosTag(tokens[i-1], "adj:.*v_rod.*")
+    if( nounPos > 2 && nounPos <= tokens.length - 1
+        && LemmaHelper.hasLemma(tokens[adjPos-1], Arrays.asList("ніщо", "щось", "ніхто", "хтось"))
+//        && PosTagHelper.hasPosTag(tokens[adjPos], "adj:.*v_rod.*")
         // we now have gender for pron
-        && ! Collections.disjoint(InflectionHelper.getNounInflections(tokens[i-2].getReadings()), masterInflections)
+        && ! Collections.disjoint(InflectionHelper.getNounInflections(tokens[adjPos-1].getReadings()), masterInflections)
         //&& tokens[i+1].getToken().equals("не")
         ) {
       logException();
@@ -695,17 +792,17 @@ final class TokenAgreementAdjNounExceptionHelper {
 
     // визнання неконституційним закону
     // визнання тут шкідливою орієнтацію
-    if( i > 1
-        && LemmaHelper.revSearch(tokens, i-2, Pattern.compile(".*(ння|ття)"), null)
-        && PosTagHelper.hasPosTag(tokens[i-1], "adj.*:v_oru.*")
-        && PosTagHelper.hasPosTag(tokens[i], "noun:.*:v_rod.*") 
+    if( adjPos > 1
+        && LemmaHelper.revSearch(tokens, adjPos-1, Pattern.compile(".*(ння|ття)"), null)
+        && PosTagHelper.hasPosTag(tokens[adjPos], "adj.*:v_oru.*")
+        && PosTagHelper.hasPosTag(tokens[nounPos], "noun:.*:v_rod.*") 
         && genderMatches(masterInflections, slaveInflections, "v_oru", "v_rod") ) {
       logException();
       return true;
     }
    
     
-    int verbPos = LemmaHelper.revSearchIdx(tokens, i-2, Pattern.compile("бути|ставати|стати|залишатися|залишитися"), null);
+    int verbPos = LemmaHelper.revSearchIdx(tokens, adjPos-1, Pattern.compile("бути|ставати|стати|залишатися|залишитися"), null);
     if( verbPos != -1 ) {
       if( PosTagHelper.hasPosTag(adjAnalyzedTokenReadings, "adj.*v_naz.*adjp:pasv.*") ) {
         // був змушений
@@ -725,15 +822,15 @@ final class TokenAgreementAdjNounExceptionHelper {
           if( genderMatches(masterInflections, slaveInflections, "v_oru", "v_naz") ) {
             // не можуть бути толерантними ізраїльтяни
             if( PosTagHelper.hasPosTagPart(tokens[verbPos], ":inf")
-                || TokenAgreementNounVerbRule.inflectionsOverlap(tokens[verbPos].getReadings(), tokens[i].getReadings()) ) {
+                || VerbInflectionHelper.inflectionsOverlap(tokens[verbPos].getReadings(), tokens[nounPos].getReadings()) ) {
                   logException();
                   return true;
             }
           }
           // Стали дорожчими хліб чи бензин
-          else if( i < tokens.length -1 
-              && PosTagHelper.hasPosTagPart(tokens[i-1], "adj:p:")
-              && CONJ_FOR_PLURAL_WITH_COMMA.contains(tokens[i+1].getToken().toLowerCase()) ) {
+          else if( nounPos < tokens.length -1 
+              && PosTagHelper.hasPosTagPart(tokens[adjPos], "adj:p:")
+              && CONJ_FOR_PLURAL_WITH_COMMA.contains(tokens[nounPos+1].getToken().toLowerCase()) ) {
             logException();
             return true;
           }
@@ -748,12 +845,12 @@ final class TokenAgreementAdjNounExceptionHelper {
       }
     }
 
-    verbPos = LemmaHelper.revSearchIdx(tokens, i-2, null, "verb.*");
+    verbPos = LemmaHelper.revSearchIdx(tokens, adjPos-1, null, "verb.*");
     if( verbPos != -1 ) {
       if( PosTagHelper.hasPosTag(adjAnalyzedTokenReadings, "adj.*v_oru.*") ) {
         // визнали справедливою наставники обох команд
         if( PosTagHelper.hasPosTag(slaveTokenReadings, "noun.*v_naz.*")
-              && TokenAgreementNounVerbRule.inflectionsOverlap(tokens[verbPos].getReadings(), tokens[i].getReadings()) ) {
+              && VerbInflectionHelper.inflectionsOverlap(tokens[verbPos].getReadings(), tokens[nounPos].getReadings()) ) {
           logException();
           return true;
         }
@@ -762,24 +859,24 @@ final class TokenAgreementAdjNounExceptionHelper {
 
     
     // помальована в (усе) біле кімната
-    if( i > 2
-        && Arrays.asList("біле", "чорне", "оранжеве", "червоне", "жовте", "синє", "зелене", "фіолетове").contains(tokens[i-1].getToken())
-        && Arrays.asList("в", "у").contains(tokens[i-2].getToken())
-        && PosTagHelper.hasPosTagPart(tokens[i-3], "adjp:pasv") ) {
+    if( adjPos > 2
+        && Arrays.asList("біле", "чорне", "оранжеве", "червоне", "жовте", "синє", "зелене", "фіолетове").contains(tokens[adjPos].getToken())
+        && Arrays.asList("в", "у").contains(tokens[adjPos-1].getToken())
+        && PosTagHelper.hasPosTagPart(tokens[adjPos-2], "adjp:pasv") ) {
 
-      List<InflectionHelper.Inflection> masterInflections_ = InflectionHelper.getAdjInflections(tokens[i-3].getReadings());
+      List<InflectionHelper.Inflection> masterInflections_ = InflectionHelper.getAdjInflections(tokens[adjPos-2].getReadings());
       if( ! Collections.disjoint(masterInflections_, slaveInflections) ) {
         logException();
         return true;
       }
     }
-    if( i > 3
-        && Arrays.asList("біле", "чорне").contains(tokens[i-1].getToken())
-        && Arrays.asList("усе", "все").contains(tokens[i-2].getToken())
-        && Arrays.asList("в", "у").contains(tokens[i-3].getToken())
-        && PosTagHelper.hasPosTagPart(tokens[i-4], "adjp:pasv") ) {
+    if( adjPos > 3
+        && Arrays.asList("біле", "чорне").contains(tokens[adjPos].getToken())
+        && Arrays.asList("усе", "все").contains(tokens[adjPos-1].getToken())
+        && Arrays.asList("в", "у").contains(tokens[adjPos-2].getToken())
+        && PosTagHelper.hasPosTagPart(tokens[adjPos-3], "adjp:pasv") ) {
 
-      List<InflectionHelper.Inflection> masterInflections_ = InflectionHelper.getAdjInflections(tokens[i-4].getReadings());
+      List<InflectionHelper.Inflection> masterInflections_ = InflectionHelper.getAdjInflections(tokens[adjPos-3].getReadings());
       if( ! Collections.disjoint(masterInflections_, slaveInflections) ) {
         logException();
         return true;
@@ -787,45 +884,46 @@ final class TokenAgreementAdjNounExceptionHelper {
     }
 
     // повторена тисячу разів
-    if( i < tokens.length - 1
+    if( nounPos < tokens.length - 1
         && PosTagHelper.hasPosTagPart(adjAnalyzedTokenReadings, "adjp:pasv")
-        && Arrays.asList("тисячу", "сотню", "десятки").contains(tokens[i].getToken())
-        && Arrays.asList("разів", "раз", "років").contains(tokens[i+1].getToken()) ) {
+        && Arrays.asList("тисячу", "сотню", "десятки").contains(tokens[nounPos].getToken())
+        && Arrays.asList("разів", "раз", "років").contains(tokens[nounPos+1].getToken()) ) {
       logException();
       return true;
     }
 
 
-    if( i > 2 ) {
+    if( adjPos > 2 ) {
 //      // порівняно з попереднім
 //      if( PosTagHelper.hasPosTag(adjAnalyzedTokenReadins, "adj.*v_oru")
-//          && LemmaHelper.hasLemma(tokens[i-3], Arrays.asList("порівняно", "аналогічно")) 
-//          && LemmaHelper.hasLemma(tokens[i-2], Pattern.compile("з|із|зі")) ) {
+//          && LemmaHelper.hasLemma(tokens[adjPos-2], Arrays.asList("порівняно", "аналогічно")) 
+//          && LemmaHelper.hasLemma(tokens[adjPos-1], Pattern.compile("з|із|зі")) ) {
 //        logException();
 //        return true;
 //      }
       
       // наближена до сімейної форма
-      if( PosTagHelper.hasPosTagPart(tokens[i-2], "prep") ) {
-        if (PosTagHelper.hasPosTag(tokens[i-3], "(adj|verb|part|noun|adv).*")) {
+      if( PosTagHelper.hasPosTagPart(tokens[adjPos-1], "prep") ) {
+        if (PosTagHelper.hasPosTag(tokens[adjPos-2], "(adj|verb|part|noun|adv).*")) {
 
-          Collection<String> prepGovernedCases = CaseGovernmentHelper.getCaseGovernments(tokens[i-2], IPOSTag.prep.name());
-          if( TokenAgreementPrepNounRule.hasVidmPosTag(prepGovernedCases, tokens[i-1]) ) {
+          Collection<String> prepGovernedCases = CaseGovernmentHelper.getCaseGovernments(tokens[adjPos-1], IPOSTag.prep.name());
+          if( TokenAgreementPrepNounRule.hasVidmPosTag(prepGovernedCases, tokens[adjPos]) ) {
 
             // відрізнялася (б) від нинішньої ситуація
             // відрізнялося від російського способом
             // поряд з енергетичними Москва висувала
-            // а відміну від європейських санкції США
+            // на відміну від європейських санкції США
             // can't just ignore noun: ігнорує "асоціюється в нас із сучасною цивілізацію"
-            if( (PosTagHelper.hasPosTag(tokens[i-3], "(verb|part).*")
-                  || Arrays.asList("поряд", "відміну", "порівнянні").contains(tokens[i-3].getToken().toLowerCase()) )
-                && PosTagHelper.hasPosTag(tokens[i], "noun.*v_(naz|zna|oru).*") ) {
+            // TODO: search verb backwards ignore "бЄ
+            if( ((PosTagHelper.hasPosTagStart(tokens[adjPos-2], "verb") || LemmaHelper.hasLemma(tokens[adjPos-2], Arrays.asList("би", "б")))
+                  || Arrays.asList("поряд", "відміну", "порівнянні").contains(tokens[adjPos-2].getToken().toLowerCase()) )
+                && PosTagHelper.hasPosTag(tokens[nounPos], "noun.*v_(naz|zna|oru).*") ) {
               //TODO: check noun case agreement with verb
               logException();
               return true;
             }
             
-            List<InflectionHelper.Inflection> masterInflections_ = InflectionHelper.getAdjInflections(tokens[i-3].getReadings());
+            List<InflectionHelper.Inflection> masterInflections_ = InflectionHelper.getAdjInflections(tokens[adjPos-2].getReadings());
 
             if( ! Collections.disjoint(masterInflections_, slaveInflections) ) {
               logException();
@@ -833,11 +931,11 @@ final class TokenAgreementAdjNounExceptionHelper {
             }
             
             // тотожні із загальносоюзними герб і прапор
-            if( i < tokens.length - 1
-                && PosTagHelper.hasPosTagPart(tokens[i-1], "adj:p:")
-                && CONJ_FOR_PLURAL_WITH_COMMA.contains(tokens[i+1].getToken().toLowerCase()) 
-                && PosTagHelper.hasPosTagPart(tokens[i-3], "adj:p:")
-                && hasOverlapIgnoreGender(InflectionHelper.getAdjInflections(tokens[i-3].getReadings()), slaveInflections, "p", null)) {
+            if( nounPos < tokens.length - 1
+                && PosTagHelper.hasPosTagPart(tokens[adjPos], "adj:p:")
+                && CONJ_FOR_PLURAL_WITH_COMMA.contains(tokens[nounPos+1].getToken().toLowerCase()) 
+                && PosTagHelper.hasPosTagPart(tokens[adjPos-2], "adj:p:")
+                && hasOverlapIgnoreGender(InflectionHelper.getAdjInflections(tokens[adjPos-2].getReadings()), slaveInflections, "p", null)) {
               logException();
               return true;
             }
@@ -849,10 +947,10 @@ final class TokenAgreementAdjNounExceptionHelper {
     
     // adjp:pasv + adj:v_oru + noun (case governed by adjp)
     // підсвічений синім діамант
-    if( i > 1
-        && PosTagHelper.hasPosTagPart(tokens[i-2], "adjp:pasv") // could be :&adjp or :&&adjp
-        && PosTagHelper.hasPosTag(tokens[i-1], "adj.*v_oru.*")
-        && ! Collections.disjoint(InflectionHelper.getAdjInflections(tokens[i-2].getReadings()), slaveInflections) ) {
+    if( adjPos > 1
+        && PosTagHelper.hasPosTagPart(tokens[adjPos-1], "adjp:pasv") // could be :&adjp or :&&adjp
+        && PosTagHelper.hasPosTag(tokens[adjPos], "adj.*v_oru.*")
+        && ! Collections.disjoint(InflectionHelper.getAdjInflections(tokens[adjPos-1].getReadings()), slaveInflections) ) {
       logException();
       return true;
     }
@@ -864,7 +962,7 @@ final class TokenAgreementAdjNounExceptionHelper {
     // вкриті плющем будинки
     // всі вкриті плющем
     if( PosTagHelper.hasPosTagPart(adjAnalyzedTokenReadings, "adjp:pasv") // could be :&adjp or :&&adjp
-        && PosTagHelper.hasPosTagPart(tokens[i], "v_oru") ) {
+        && PosTagHelper.hasPosTagPart(tokens[nounPos], "v_oru") ) {
       logException();
       return true;
     }
@@ -872,11 +970,10 @@ final class TokenAgreementAdjNounExceptionHelper {
     // adj:v_oru + noun:v_naz + (verb)
     // Найнижчою частка таких є на Півдні
     // Слабшою критики вважають
-    if( i > 1
-        && ! PosTagHelper.hasPosTag(tokens[i-2], ".*adjp:pasv.*|prep.*") 
+    if( ! PosTagHelper.hasPosTag(tokens[adjPos-1], ".*adjp:pasv.*|prep.*") 
         && PosTagHelper.hasPosTag(adjAnalyzedTokenReadings, "adj.*v_oru.*") 
         && PosTagHelper.hasPosTag(slaveTokenReadings, "noun.*v_naz.*") 
-        && LemmaHelper.forwardPosTagSearch(tokens, i+1, "verb", 3)) {
+        && LemmaHelper.forwardPosTagSearch(tokens, nounPos+1, "verb", 3)) {
       logException();
       return true;
     }
@@ -884,7 +981,7 @@ final class TokenAgreementAdjNounExceptionHelper {
     // verb + adj:v_oru + noun:v_zna
     // зроблять неможливою ротацію влади
     // we still want to trigger on: за наявною інформацію
-    if( (i < 3 || ! CaseGovernmentHelper.hasCaseGovernment(tokens[i-2], "v_oru"))
+    if( (nounPos < 3 || ! CaseGovernmentHelper.hasCaseGovernment(tokens[adjPos-1], "v_oru"))
         && PosTagHelper.hasPosTagPart(adjAnalyzedTokenReadings, "v_oru") 
         && PosTagHelper.hasPosTag(slaveTokenReadings, ".*v_zna.*") 
         && genderMatches(masterInflections, slaveInflections, "v_oru", "v_zna") ) {
@@ -895,8 +992,8 @@ final class TokenAgreementAdjNounExceptionHelper {
 
     if( caseGovernmentMatches(adjTokenReadings, slaveInflections) ) {
 
-      if( i < tokens.length - 1 
-          && PosTagHelper.hasPosTagPart(tokens[i+1], "noun:") ) {
+      if( nounPos < tokens.length - 1 
+          && PosTagHelper.hasPosTagPart(tokens[nounPos+1], "noun:") ) {
 
         // вдячний редакторові Вільяму
 //        if( PosTagHelper.hasPosTag(tokens[i+1], "noun:anim.*?[flp]name.*")
@@ -909,14 +1006,14 @@ final class TokenAgreementAdjNounExceptionHelper {
         // будуть вдячні державі Україна
         // мають бути підпорядковані служінню
         // радий присутності генерала
-        if( PosTagHelper.hasPosTag(tokens[i+1], "noun.*v_(rod|oru|naz|dav).*") ) {
+        if( PosTagHelper.hasPosTag(tokens[nounPos+1], "noun.*v_(rod|oru|naz|dav).*") ) {
 //            && ! PosTagHelper.hasPosTag(adjAnalyzedTokenReadins, "adj.*v_oru.*") ) {
           logException();
           return true;
         }
 
         // Нав’язаний Австрії нейтралитет
-        List<InflectionHelper.Inflection> slave2Inflections = InflectionHelper.getNounInflections(tokens[i+1].getReadings());
+        List<InflectionHelper.Inflection> slave2Inflections = InflectionHelper.getNounInflections(tokens[nounPos+1].getReadings());
 
         if( ! Collections.disjoint(masterInflections, slave2Inflections) ) {
           logException();
@@ -932,11 +1029,11 @@ final class TokenAgreementAdjNounExceptionHelper {
 
     // альтернативну олігархічній модель
     // альтернативні газовому варіанти
-    if( i > 1
-        && PosTagHelper.hasPosTagPart(tokens[i-2], "adj")
-        && caseGovernmentMatches(tokens[i-2].getReadings(), masterInflections) ) {
+    if( adjPos > 1
+        && PosTagHelper.hasPosTagPart(tokens[adjPos-1], "adj")
+        && caseGovernmentMatches(tokens[adjPos-1].getReadings(), masterInflections) ) {
 
-      List<Inflection> preAdjInflections = InflectionHelper.getAdjInflections(tokens[i-2].getReadings());
+      List<Inflection> preAdjInflections = InflectionHelper.getAdjInflections(tokens[adjPos-1].getReadings());
 
       if( //genderMatches(masterInflections, slaveInflections, null, null)
           ! Collections.disjoint(preAdjInflections, slaveInflections) ) {
@@ -1005,6 +1102,8 @@ final class TokenAgreementAdjNounExceptionHelper {
     for(int i=pos; i>pos-depth && i>=1; i--) {
 
       if( CONJ_FOR_PLURAL_WITH_COMMA.contains(tokens[i].getToken().toLowerCase()) ) {
+        if( TokenAgreementNounVerbExceptionHelper.isNonPluralA(tokens, i) )
+          return false;
 
         if( i < 2
             || ( (! tokens[i-1].hasPosTag("number") || ! PosTagHelper.hasPosTag(tokens[i+1], Pattern.compile("adj.*?&numr.*"))) // 1, 2 та 3-й 
@@ -1052,7 +1151,7 @@ final class TokenAgreementAdjNounExceptionHelper {
 
         if( i==tokens.length-1
             || (! PosTagHelper.hasPosTag(tokens[i+1], Pattern.compile("(noun|adj|num|adv(?!p)).*"))
-                && ! StringTools.isCapitalizedWord(tokens[i+1].getToken())
+                && ! LemmaHelper.isCapitalized(tokens[i+1].getCleanToken())
                 && ! tokens[i+1].getToken().matches("[\"«“„]") ) )
           return false;
 
@@ -1060,7 +1159,7 @@ final class TokenAgreementAdjNounExceptionHelper {
       }
 
       if( ! PosTagHelper.hasPosTag(tokens[i], Pattern.compile("(noun|adj|prep|adv(?!p)|number:latin).*"))
-            && ! StringTools.isCapitalizedWord(tokens[i].getToken()) )  // for unknown last names: згадувані Костянтин Скоркін та Олена Заславська
+            && ! LemmaHelper.isCapitalized(tokens[i].getCleanToken()) )  // for unknown last names: згадувані Костянтин Скоркін та Олена Заславська
         return false;
     }
 

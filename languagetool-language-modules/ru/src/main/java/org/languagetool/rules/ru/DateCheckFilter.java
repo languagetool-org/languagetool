@@ -40,8 +40,8 @@ public class DateCheckFilter extends AbstractDateCheckFilter {
     if (day.startsWith("вт")) return Calendar.TUESDAY;
     if (day.startsWith("ср")) return Calendar.WEDNESDAY;
     if (day.startsWith("чт") || day.equals("четверг")) return Calendar.THURSDAY;
-    if (day.equals("пт") || day.equals("пятница")) return Calendar.FRIDAY;
-    if (day.startsWith("сб") || day.equals("суббота")) return Calendar.SATURDAY;
+    if (day.equals("пт") || day.startsWith ("пятниц")) return Calendar.FRIDAY;
+    if (day.startsWith("сб") || day.startsWith ("суббот")) return Calendar.SATURDAY;
     if (day.startsWith("вс") || day.equals("воскресенье")) return Calendar.SUNDAY;
     throw new RuntimeException("Could not find day of week for '" + dayStr + "'");
   }

@@ -18,13 +18,11 @@
  */
 package org.languagetool.rules.spelling;
 
-import gnu.trove.THashMap;
+import com.google.common.base.Strings;
 import gnu.trove.THashSet;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
-import org.languagetool.languagemodel.BaseLanguageModel;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.patterns.PatternToken;
@@ -36,6 +34,8 @@ import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -44,6 +44,12 @@ import java.util.stream.Collectors;
  * @author Marcin Miłkowski
  */
 public abstract class SpellingCheckRule extends Rule {
+
+  /**
+   * The confidence value for a suggestion with high confidence. Not 1.0, as even with a high confidence,
+   * we might still be wrong.
+   */
+  public static final float HIGH_CONFIDENCE = 0.99f;
 
   /**
    * The string {@code LanguageTool}.
@@ -55,6 +61,7 @@ public abstract class SpellingCheckRule extends Rule {
    * @since 4.4
    */
   public static final String LANGUAGETOOLER = "LanguageTooler";
+  public static final int MAX_TOKEN_LENGTH = 200;
 
   protected final Language language;
 
@@ -74,19 +81,20 @@ public abstract class SpellingCheckRule extends Rule {
   private static final String SPELLING_PROHIBIT_FILE = "/hunspell/prohibit.txt";
   private static final String CUSTOM_SPELLING_PROHIBIT_FILE = "/hunspell/prohibit_custom.txt";
   private static final String SPELLING_FILE_VARIANT = null;
-  private static final Comparator<String> STRING_LENGTH_COMPARATOR = Comparator.comparingInt(String::length);
 
-  private final UserConfig userConfig;
   private final Set<String> wordsToBeProhibited = new THashSet<>();
 
-  private Map<String,Set<String>> wordsToBeIgnoredDictionary = new THashMap<>();
-  private Map<String,Set<String>> wordsToBeIgnoredDictionaryIgnoreCase = new THashMap<>();
-  
+  private volatile String[] wordsToBeIgnoredDictionary = null;
+  private volatile String[] wordsToBeIgnoredDictionaryIgnoreCase = null;
+
   private List<DisambiguationPatternRule> antiPatterns = new ArrayList<>();
   private boolean considerIgnoreWords = true;
   private boolean convertsCase = false;
-  protected final Set<String> wordsToBeIgnored = new HashSet<>();
+  protected final Set<String> wordsToBeIgnored = new THashSet<>();
   protected int ignoreWordsWithLength = 0;
+  
+  private final Pattern pHasNoLetterLatin = Pattern.compile("^[^\\p{script=latin}]+$");
+  private final Pattern pHasNoLetter = Pattern.compile("^[^\\p{L}]+$");
 
   public SpellingCheckRule(ResourceBundle messages, Language language, UserConfig userConfig) {
     this(messages, language, userConfig, Collections.emptyList());
@@ -105,7 +113,6 @@ public abstract class SpellingCheckRule extends Rule {
   public SpellingCheckRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages, @Nullable LanguageModel languageModel) {
     super(messages);
     this.language = language;
-    this.userConfig = userConfig;
     this.languageModel = languageModel;
     if (userConfig != null) {
       wordsToBeIgnored.addAll(userConfig.getAcceptedWords());
@@ -114,7 +121,7 @@ public abstract class SpellingCheckRule extends Rule {
   }
 
   /**
-   *  @param word misspelled word that suggestions should be generated for
+   * @param word misspelled word that suggestions should be generated for
    * @param userCandidatesList candidates from personal dictionary
    * @param candidatesList candidates from default dictionary
    * @param orderer model to rank suggestions / extract features, or null
@@ -223,19 +230,11 @@ public abstract class SpellingCheckRule extends Rule {
    */
   public void addIgnoreTokens(List<String> tokens) {
     wordsToBeIgnored.addAll(tokens);
-    updateIgnoredWordDictionary();
   }
 
-  //(re)create a Map<String, Set<String>> of all words to be ignored:
-  // The words' first char serves as key, and the Set<String> contains all Strings starting with this char
   private void updateIgnoredWordDictionary() {
-    wordsToBeIgnoredDictionary = wordsToBeIgnored
-                                   .stream()
-                                   .collect(Collectors.groupingBy(s -> s.substring(0,1), Collectors.toCollection(THashSet::new)));
-    wordsToBeIgnoredDictionaryIgnoreCase = wordsToBeIgnored
-                                             .stream()
-                                             .map(String::toLowerCase)
-                                             .collect(Collectors.groupingBy(s -> s.substring(0,1), Collectors.toCollection(THashSet::new)));
+    wordsToBeIgnoredDictionaryIgnoreCase = null;
+    wordsToBeIgnoredDictionary = null;
   }
 
   /**
@@ -262,6 +261,15 @@ public abstract class SpellingCheckRule extends Rule {
   }
 
   /**
+   * Get suggestions that will replace all other suggestions.
+   * Only add suggestions here that you know are spelled correctly,
+   * they will not be checked again before being shown to the user.
+   */
+  protected List<SuggestedReplacement> getOnlySuggestions(String word) {
+    return Collections.emptyList();
+  }
+
+  /**
    * Get additional suggestions added after other suggestions (note the rule may choose to
    * re-order the suggestions anyway).
    */
@@ -285,18 +293,35 @@ public abstract class SpellingCheckRule extends Rule {
    * If possible, use {@link #ignoreToken(AnalyzedTokenReadings[], int)} instead.
    */
   protected boolean ignoreWord(String word) throws IOException {
+    if (word.length() > MAX_TOKEN_LENGTH) {
+      return true;
+    }
     if (!considerIgnoreWords) {
       return false;
+    } 
+    // Tokens with no letters cannot have spelling errors. So ignore them. 
+    Matcher mHasNoLetter;
+    if (isLatinScript()) {
+      mHasNoLetter = pHasNoLetterLatin.matcher(word);
+    } else {
+      mHasNoLetter = pHasNoLetter.matcher(word);
     }
-    if (word.endsWith(".") && !wordsToBeIgnored.contains(word)) {
+    if (mHasNoLetter.matches()) {
+      return true;
+    }
+    if (word.endsWith(".") && !isInIgnoredSet(word)) {
       return isIgnoredNoCase(word.substring(0, word.length()-1));  // e.g. word at end of sentence
     }
     return isIgnoredNoCase(word);
   }
 
-  private boolean isIgnoredNoCase(String word) {
-    return wordsToBeIgnored.contains(word) ||
-           (convertsCase && wordsToBeIgnored.contains(word.toLowerCase(language.getLocale()))) ||
+  protected boolean isInIgnoredSet(String word) {
+    return wordsToBeIgnored.contains(word);
+  }
+
+  protected boolean isIgnoredNoCase(String word) {
+    return isInIgnoredSet(word) ||
+           (convertsCase && isInIgnoredSet(word.toLowerCase(language.getLocale()))) ||
            (ignoreWordsWithLength > 0 && word.length() <= ignoreWordsWithLength);
   }
 
@@ -320,15 +345,15 @@ public abstract class SpellingCheckRule extends Rule {
   }
 
 
-  protected boolean isUrl(String token) {
+  protected static boolean isUrl(String token) {
     return WordTokenizer.isUrl(token);
   }
 
-  protected boolean isEMail(String token) {
+  protected static boolean isEMail(String token) {
     return WordTokenizer.isEMail(token);
   }
 
-  protected <T> List<T> filterDupes(List<T> words) {
+  protected static <T> List<T> filterDupes(List<T> words) {
     return words.stream().distinct().collect(Collectors.toList());
   }
 
@@ -414,7 +439,7 @@ public abstract class SpellingCheckRule extends Rule {
    * @since 2.8
    */
   protected List<String> getAdditionalProhibitFileNames() {
-    return Arrays.asList(language.getShortCode() + CUSTOM_SPELLING_PROHIBIT_FILE);
+    return Collections.singletonList(language.getShortCode() + CUSTOM_SPELLING_PROHIBIT_FILE);
   }
 
   /**
@@ -431,7 +456,7 @@ public abstract class SpellingCheckRule extends Rule {
    * Remove prohibited words from suggestions.
    * @since 2.8
    */
-  protected List<SuggestedReplacement> filterSuggestions(List<SuggestedReplacement> suggestions, AnalyzedSentence sentence, int i) {
+  protected List<SuggestedReplacement> filterSuggestions(List<SuggestedReplacement> suggestions) {
     suggestions.removeIf(suggestion -> isProhibited(suggestion.getReplacement()));
     List<SuggestedReplacement> newSuggestions = new ArrayList<>();
     for (SuggestedReplacement suggestion : suggestions) {
@@ -451,7 +476,12 @@ public abstract class SpellingCheckRule extends Rule {
       }
     }
     newSuggestions = filterDupes(newSuggestions);
+    newSuggestions = filterNoSuggestWords(newSuggestions);
     return newSuggestions;
+  }
+
+  protected List<SuggestedReplacement> filterNoSuggestWords(List<SuggestedReplacement> l) {
+    return l;
   }
 
   private boolean isProperNoun(String wordWithoutS) {
@@ -468,22 +498,28 @@ public abstract class SpellingCheckRule extends Rule {
    * @since 2.9, signature modified in 3.9
    */
   protected void addIgnoreWords(String line) {
-    // if line consists of several words (separated by " "), a DisambiguationPatternRule
-    // will be created where each words serves as a case-sensitive and non-inflected PatternToken
-    // so that the entire multi-word entry is ignored by the spell checker
-    List<String> tokens = language.getWordTokenizer().tokenize(line);
-    if (tokens.size() > 1) {
-      List<PatternToken> patternTokens = new ArrayList<>(tokens.size());
-      for(String token : tokens) {
-        if (token.trim().isEmpty()) {
-          continue;
-        }
-        patternTokens.add(new PatternToken(token, true, false, false));
-      }
-      antiPatterns.add(new DisambiguationPatternRule("INTERNAL_ANTIPATTERN", "(no description)", language,
-        patternTokens, null, null, DisambiguationPatternRule.DisambiguatorAction.IGNORE_SPELLING));
-    } else {
+    if (!tokenizeNewWords()) {
       wordsToBeIgnored.add(line);
+    }
+    else {
+      // if line consists of several words (separated by " "), a DisambiguationPatternRule
+      // will be created where each words serves as a case-sensitive and non-inflected PatternToken
+      // so that the entire multi-word entry is ignored by the spell checker
+      List<String> tokens = language.getWordTokenizer().tokenize(line);
+      if (tokens.size() > 1) {
+        //System.out.println("Tokenized multi-token: " + line);
+        List<PatternToken> patternTokens = new ArrayList<>(tokens.size());
+        for(String token : tokens) {
+          if (token.trim().isEmpty()) {
+            continue;
+          }
+          patternTokens.add(new PatternToken(token, true, false, false));
+        }
+        antiPatterns.add(new DisambiguationPatternRule("INTERNAL_ANTIPATTERN", "(no description)", language,
+          patternTokens, null, null, DisambiguationPatternRule.DisambiguatorAction.IGNORE_SPELLING));
+      } else {
+        wordsToBeIgnored.add(line);
+      }
     }
   }
 
@@ -504,26 +540,6 @@ public abstract class SpellingCheckRule extends Rule {
     return Collections.singletonList(line);
   }
 
-  protected List<RuleWithLanguage> getAlternativeLangSpellingRules(List<Language> alternativeLanguages) {
-    List<RuleWithLanguage> spellingRules = new ArrayList<>();
-    for (Language altLanguage : alternativeLanguages) {
-      List<Rule> rules;
-      try {
-        rules = new ArrayList<>(altLanguage.getRelevantRules(messages, userConfig, null, Collections.emptyList()));
-        rules.addAll(altLanguage.getRelevantLanguageModelCapableRules(messages, null,
-          null, userConfig, null, Collections.emptyList()));
-      } catch (IOException e) {
-        throw new RuntimeException(e);
-      }
-      for (Rule rule : rules) {
-        if (rule.isDictionaryBasedSpellingRule()) {
-          spellingRules.add(new RuleWithLanguage(rule, altLanguage));
-        }
-      }
-    }
-    return spellingRules;
-  }
-
   /**
    * Accept (case-sensitively, unless at the start of a sentence) the given phrases even though they
    * are not in the built-in dictionary.
@@ -542,11 +558,8 @@ public abstract class SpellingCheckRule extends Rule {
       int i = 0;
       boolean startsLowercase = false;
       for (String part : parts) {
-        if (i == 0) {
-          String uppercased = StringTools.uppercaseFirstChar(part);
-          if (!uppercased.equals(part)) {
-            startsLowercase = true;
-          }
+        if (i == 0 && !part.equals(StringTools.uppercaseFirstChar(part))) {
+          startsLowercase = true;
         }
         patternTokens.add(new PatternTokenBuilder().csToken(part).build());
         i++;
@@ -559,7 +572,7 @@ public abstract class SpellingCheckRule extends Rule {
     this.antiPatterns = makeAntiPatterns(antiPatterns, language);
   }
 
-  private List<PatternToken> getTokensForSentenceStart(String[] parts) {
+  private static List<PatternToken> getTokensForSentenceStart(String[] parts) {
     List<PatternToken> ucPatternTokens = new ArrayList<>();
     int j = 0;
     for (String part : parts) {
@@ -595,45 +608,40 @@ public abstract class SpellingCheckRule extends Rule {
     if (word.length() < 4) {
       return 0;
     }
-    Optional<String> match = Optional.empty();
-    if(caseSensitive) {
-      Set<String> subset = wordsToBeIgnoredDictionary.get(word.substring(0, 1));
-      if (subset != null) {
-        match = subset.stream().filter(s -> word.startsWith(s)).max(STRING_LENGTH_COMPARATOR);
-      }
-    } else {
-      String lowerCaseWord = word.toLowerCase();
-      Set<String> subset = wordsToBeIgnoredDictionaryIgnoreCase.get(lowerCaseWord.substring(0, 1));
-      if (subset != null) {
-        match = subset.stream().filter(s -> lowerCaseWord.startsWith(s)).max(STRING_LENGTH_COMPARATOR);
+    Comparator<String> comparator = caseSensitive ? Comparator.naturalOrder() : String.CASE_INSENSITIVE_ORDER;
+    String[] array = caseSensitive ? wordsToBeIgnoredDictionary : wordsToBeIgnoredDictionaryIgnoreCase;
+    if (array == null) {
+      array = wordsToBeIgnored.stream().sorted(comparator).toArray(String[]::new);
+      if (caseSensitive) {
+        wordsToBeIgnoredDictionary = array;
+      } else {
+        wordsToBeIgnoredDictionaryIgnoreCase = array;
       }
     }
-    return match.isPresent() ? match.get().length() : 0;
+
+    while (!word.isEmpty()) {
+      int result = Arrays.binarySearch(array, word, comparator);
+      if (result >= 0) break;
+
+      int prev = -result - 2;
+      if (prev < 0) return 0;
+
+      String commonPrefix = caseSensitive
+                            ? Strings.commonPrefix(word, array[prev])
+                            : Strings.commonPrefix(word.toLowerCase(Locale.ROOT), array[prev].toLowerCase(Locale.ROOT));
+      assert commonPrefix.length() < word.length();
+      word = caseSensitive ? commonPrefix : word.substring(0, commonPrefix.length());
+    }
+    return word.length();
+  }
+  
+  // tokenize words from files spelling.txt, prohibit.txt...
+  protected boolean tokenizeNewWords() {
+    return true;
   }
 
-
-  @Experimental
-  protected List<String> reorderSuggestions(List<String> suggestions, String word) {
-    // WORK IN PROGRESS
-    if (languageModel == null) {
-      return suggestions;
-    }
-    BaseLanguageModel lm = (BaseLanguageModel) languageModel;
-    List<Integer> levenshteinDistances = suggestions.stream().map(suggestion -> StringUtils.getLevenshteinDistance(word, suggestion)).collect(Collectors.toList());
-    List<Long> frequencies = suggestions.stream().map(lm::getCount).collect(Collectors.toList());
-    Long frequenciesSum = frequencies.stream().reduce((a, b) -> a + b).orElse(1L);
-    List<Float> normalizedFrequencies = frequencies.stream().map(f -> (float) f / frequenciesSum).collect(Collectors.toList());
-    System.out.println("frequencies: " + frequencies + " / normalized: " + normalizedFrequencies);
-
-    List<Pair<String, Float>> scoredSuggestions = new ArrayList<>(suggestions.size());
-    for (int i = 0; i < suggestions.size(); i++) {
-      float score = (1f / normalizedFrequencies.get(i)) * levenshteinDistances.get(i);
-      scoredSuggestions.add(Pair.of(suggestions.get(i), score));
-    }
-    scoredSuggestions.sort(Comparator.comparing(Pair::getRight));
-
-    System.out.println("Before reordering: " + suggestions.subList(0, 5) + " / After: " + scoredSuggestions.subList(0, 5));
-
-    return scoredSuggestions.stream().map(Pair::getLeft).collect(Collectors.toList());
+  protected boolean isLatinScript() {
+    return true;
   }
+
 }

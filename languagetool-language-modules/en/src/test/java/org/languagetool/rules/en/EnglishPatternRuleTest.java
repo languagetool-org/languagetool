@@ -48,8 +48,8 @@ public class EnglishPatternRuleTest extends PatternRuleTest {
   // used to cause an ArrayIndexOutOfBoundsException in MatchState.setToken()
   @Test
   public void testBug() throws Exception {
-    JLanguageTool langTool = new JLanguageTool(Languages.getLanguageForShortCode("en"));
-    langTool.check("Alexander between 369 and 358 BC\n\nAlexander");
+    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("en"));
+    lt.check("Alexander between 369 and 358 BC\n\nAlexander");
   }
   
   private static class L2GermanRulesOnlyEnglish extends AmericanEnglish {

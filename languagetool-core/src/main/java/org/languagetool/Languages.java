@@ -52,7 +52,7 @@ public final class Languages {
    */
   public static Language addLanguage(String name, String code, File dictPath) {
     Language lang;
-    if (dictPath.getName().endsWith(".dict")) {
+    if (dictPath.getName().endsWith(JLanguageTool.DICTIONARY_FILENAME_EXTENSION)) {
       lang = new DynamicMorfologikLanguage(name, code, dictPath);
     } else if (dictPath.getName().endsWith(".dic")) {
       lang = new DynamicHunspellLanguage(name, code, dictPath);
@@ -132,6 +132,9 @@ public final class Languages {
 
   private static Language createLanguageObjects(URL url, String className) {
     try {
+      if (Premium.isPremiumVersion() && hasPremium(className)) {
+        className = className + "Premium";
+      }
       Class<?> aClass = JLanguageTool.getClassBroker().forName(className);
       Constructor<?> constructor = aClass.getConstructor();
       return (Language) constructor.newInstance();
@@ -140,6 +143,10 @@ public final class Languages {
     } catch (Exception e) {
       throw new RuntimeException("Object for class '" + className + "' specified in " + url + " could not be created", e);
     }
+  }
+
+  private static boolean hasPremium(String className) {
+    return className.matches("org\\.languagetool\\.language\\.(German|GermanyGerman|AustrianGerman|SwissGerman|Dutch|French|Spanish|English|AustralianEnglish|AmericanEnglish|BritishEnglish|CanadianEnglish|NewZealandEnglish|SouthAfricanEnglish)");
   }
 
   /**
@@ -216,7 +223,7 @@ public final class Languages {
         Collections.sort(codes);
         throw new IllegalArgumentException("'" + langCode + "' is not a language code known to LanguageTool." +
                 " Supported language codes are: " + String.join(", ", codes) + ". The list of languages is read from " + PROPERTIES_PATH +
-                " in the Java classpath. See http://wiki.languagetool.org/java-api for details.");
+                " in the Java classpath. See https://dev.languagetool.org/java-api for details.");
       }
     }
     return language;
@@ -295,6 +302,11 @@ public final class Languages {
       }
     } else {
       for (Language element : getStaticAndDynamicLanguages()) {
+        if (langCode.equals("global")) {
+          // for disambiguation-global.xml take any language
+          result = element;
+          break;
+        }
         if (langCode.equalsIgnoreCase(element.getShortCode())) {
           result = element;
             /* TODO: It should return the DefaultLanguageVariant,

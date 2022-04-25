@@ -21,11 +21,22 @@
 
 package org.languagetool.rules;
 
-import io.prometheus.client.Counter;
-import io.prometheus.client.Gauge;
+import io.github.resilience4j.circuitbreaker.CallNotPermittedException;
+import io.github.resilience4j.circuitbreaker.CircuitBreaker;
 import io.prometheus.client.Histogram;
+import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.concurrent.Callable;
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 public final class RemoteRuleMetrics {
+  private static final Logger logger = LoggerFactory.getLogger(RemoteRuleMetrics.class);
 
   private RemoteRuleMetrics() {
     throw new IllegalStateException("RemoteRuleMetrics should only be used via static methods.");
@@ -42,30 +53,24 @@ public final class RemoteRuleMetrics {
 
   // TODO: provide configuration as info?
 
+  private static final double[] WAIT_BUCKETS = {
+    .05, .1, .2, .3, .4, .5, .75, 1., 2., 5., 7.5, 10., 15.
+  };
+
   private static final double[] LATENCY_BUCKETS = {
-    .01, .02, .03, .04, .05, .06, .07, .08, .09,
-    .10, .11, .12, .13, .14, .15, .16, .17, .18, .19,
-    .20, .22, .24, .26, .28, .30, .32, .34, .36, .38,
-    .40, .42, .44, .46, .48, .50, .52, .54, .56, .58,
-    .60, .62, .64, .66, .68, .70, .72, .74, .76, .78,
-    .80, .82, .84, .86, .88, .90, .92, .94, .96, .98,
-    1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9,
-    2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9,
-    3.0, 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8, 3.9,
-    4.0, 4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7, 4.8, 4.9,
-    5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0, 9.5,
-    10., 11., 12., 13., 14., 15., 16., 17., 18., 19.,
+    0.025, 0.05, .1, .25, .5, .75, 1., 2., 4., 6., 8., 10., 15.
   };
 
   private static final double[] SIZE_BUCKETS = {
-    25, 50, 100, 150, 200, 250, 300, 400, 500, 750, 1000, 2000, 3000, 4000, 5000, 7500, 10000, 15000, 20000, 30000, 40000
+    25, 100, 500, 1000, 2500, 5000, 10000, 20000, 40000
   };
 
-  private static final Counter retries = Counter.build("languagetool_remote_rule_retries_total",
-    "Amount of retries for the given rule").labelNames("rule_id").register();
 
-  private static final Counter downtime = Counter.build("languagetool_remote_rule_downtime_seconds_total",
-    "Time remote rules were deactivated because of errors").labelNames("rule_id").register();
+  private static final Histogram wait = Histogram
+    .build("languagetool_remote_rule_wait_seconds", "Time spent waiting on remote rule results/timeouts")
+    .labelNames("language")
+    .buckets(WAIT_BUCKETS)
+    .register();
 
   private static final Histogram requestLatency = Histogram
     .build("languagetool_remote_rule_request_latency_seconds", "Request duration summary")
@@ -79,28 +84,47 @@ public final class RemoteRuleMetrics {
     .buckets(SIZE_BUCKETS)
     .register();
 
-  private static final Gauge failures = Gauge.build("languagetool_remote_rule_consecutive_failures",
-    "Amount of consecutive failures").labelNames("rule_id").register();
-
-  private static final Gauge up = Gauge.build("languagetool_remote_rule_up",
-    "Status of remote rule").labelNames("rule_id").register();
-
-  public static void request(String rule, int numRetries, long nanoseconds, long characters, RequestResult result) {
-    requestLatency.labels(rule, result.name().toLowerCase()).observe((double) nanoseconds / 1e9);
+  public static void request(String rule, long startNanos, long characters, RequestResult result) {
+    long delta = System.nanoTime() - startNanos;
+    requestLatency.labels(rule, result.name().toLowerCase()).observe((double) delta / 1e9);
     requestThroughput.labels(rule, result.name().toLowerCase()).observe(characters);
-    retries.labels(rule).inc(numRetries);
   }
 
-  public static void failures(String rule, int count) {
-    failures.labels(rule).set(count);
+  public static void wait(String langCode, long milliseconds) {
+    wait.labels(langCode).observe(milliseconds / 1000.0);
   }
 
-  public static void up(String rule, boolean isUp) {
-    up.labels(rule).set(isUp ? 1 : 0);
+  @ApiStatus.Internal
+  @Nullable
+  public static <T> T inCircuitBreaker(long deadlineStartNanos, CircuitBreaker circuitBreaker, String ruleKey, long chars, Callable<T> fetchResults) throws InterruptedException {
+    try {
+      return circuitBreaker.executeCallable(fetchResults);
+    } catch (InterruptedException e) {
+      logger.info("Failed to fetch result from remote rule '{}' - interrupted.", ruleKey);
+      request(ruleKey, deadlineStartNanos, chars, RequestResult.INTERRUPTED);
+      throw e;
+    } catch (CancellationException e) {
+      logger.info("Failed to fetch result from remote rule '{}' - cancelled.", ruleKey);
+      request(ruleKey, deadlineStartNanos, chars, RequestResult.INTERRUPTED);
+    } catch (TimeoutException e) {
+      long timeout = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - deadlineStartNanos);
+      logger.info("Failed to fetch result from remote rule '{}' - timed out ({}ms, {} chars).",
+        ruleKey, timeout, chars);
+      request(ruleKey, deadlineStartNanos, chars, RequestResult.TIMEOUT);
+    } catch (CallNotPermittedException e) {
+      logger.info("Failed to fetch result from remote rule '{}' - circuitbreaker active, rule marked as down.", ruleKey);
+      request(ruleKey, deadlineStartNanos, chars, RequestResult.DOWN);
+    } catch (Exception e) {
+      if (ExceptionUtils.indexOfThrowable(e, TimeoutException.class) != -1) {
+        long timeout = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - deadlineStartNanos);
+        logger.info("Failed to fetch result from remote rule '{}' - timed out with exception {} ({}ms, {} chars).",
+          ruleKey, e, timeout, chars);
+        request(ruleKey, deadlineStartNanos, chars, RequestResult.TIMEOUT);
+      } else {
+        logger.warn("Failed to fetch result from remote rule '" + ruleKey + "' - error while executing rule.", e);
+        request(ruleKey, deadlineStartNanos, chars, RequestResult.ERROR);
+      }
+    }
+    return null;
   }
-
-  public static void downtime(String rule, long milliseconds) {
-    downtime.labels(rule).inc(milliseconds / 1000.0);
-  }
-
 }

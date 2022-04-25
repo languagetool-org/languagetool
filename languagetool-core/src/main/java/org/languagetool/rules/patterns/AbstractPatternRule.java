@@ -23,14 +23,18 @@ import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.Experimental;
 import org.languagetool.Language;
+import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 
 import java.io.IOException;
-import java.util.*;
-import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * An Abstract Pattern Rule that describes a pattern of words or part-of-speech tags 
@@ -44,11 +48,10 @@ public abstract class AbstractPatternRule extends Rule {
 
   protected final Language language;
   protected final List<PatternToken> patternTokens;
-  protected final Pattern regex;
-  protected final int regexMark;
   protected final boolean testUnification;
   protected final boolean sentStart;
   protected List<Match> suggestionMatches;
+  private boolean adjustSuggestionCase = true;
   protected List<Match> suggestionMatchesOutMsg;
   protected List<DisambiguationPatternRule> antiPatterns;
 
@@ -60,36 +63,27 @@ public abstract class AbstractPatternRule extends Rule {
   protected String filterArgs;
   protected String message;
   protected String sourceFile = null;
+  protected RuleMatch.Type type = null; // allow setting custom match types without relying on IssueType
 
   private final String id;
   private final String description;
   private final boolean getUnified;
   private final boolean groupsOrUnification;
 
-  /**
-   * @since 3.2
-   */
-  public AbstractPatternRule(String id, String description, Language language, Pattern regex, int regexMark) {
-    this(id, description, language, null, regex, regexMark, false);
+  protected AbstractPatternRule(String id, String description, Language language) {
+    this(id, description, language, null, false);
   }
 
   public AbstractPatternRule(String id, String description, Language language, List<PatternToken> patternTokens, boolean getUnified, String message) {
-    this(id, description, language, patternTokens, null, 0, getUnified);
+    this(id, description, language, patternTokens, getUnified);
     this.message = message;
   }
 
   public AbstractPatternRule(String id, String description, Language language, List<PatternToken> patternTokens, boolean getUnified) {
-    this(id, description, language, patternTokens, null, 0, getUnified);
-  }
-
-  private AbstractPatternRule(String id, String description, Language language, List<PatternToken> patternTokens, Pattern regex, int regexMark, boolean getUnified) {
     this.id = Objects.requireNonNull(id, "id cannot be null");
     this.description = Objects.requireNonNull(description, "description ('name' in XML) cannot be null");
     this.language = Objects.requireNonNull(language, "language cannot be null");
     this.getUnified = getUnified;
-    if (patternTokens == null && regex == null) {
-      throw new IllegalArgumentException("patternTokens and regex cannot both be null");
-    }
     if (patternTokens != null) {
       this.patternTokens = new ArrayList<>(patternTokens);
       testUnification = initUnifier();
@@ -106,14 +100,7 @@ public abstract class AbstractPatternRule extends Rule {
       } else {
         groupsOrUnification = true;
       }
-      this.regex = null;
-      this.regexMark = 0;
     } else {
-      this.regex = regex;
-      if (regexMark < 0) {
-        throw new IllegalArgumentException("mark must be >= 0: " + regexMark);
-      }
-      this.regexMark = regexMark;
       this.patternTokens = null;
       groupsOrUnification = false;
       sentStart = false;
@@ -196,6 +183,7 @@ public abstract class AbstractPatternRule extends Rule {
    * @since 3.2
    * @see #getId()
    */
+  @Override
   public String getFullId() {
     if (subId != null) {
       return id + "[" + subId + "]";
@@ -352,5 +340,52 @@ public abstract class AbstractPatternRule extends Rule {
    */
   String getShortMessage() {
   	return StringUtils.EMPTY;
+  }
+
+  /**
+   * Determines the match type, based on the type variable if set (to allow overriding) or {@link org.languagetool.rules.Rule#getLocQualityIssueType()}
+   * @since 5.7
+   * @return The match type for the matches created by this rule
+   */
+  @Nullable
+  @Experimental
+  public RuleMatch.Type getType() {
+    if (type == null) {
+      ITSIssueType issueType = getLocQualityIssueType();
+      if (issueType == ITSIssueType.Style || issueType == ITSIssueType.LocaleViolation || issueType == ITSIssueType.Register) {
+        // interpret the issue type - this is what the clients have done so far before there was RuleMatch.Type
+        return RuleMatch.Type.Hint;
+      } else {
+        // default type as defined in RuleMatch
+        return RuleMatch.Type.Other;
+      }
+    }
+    return type;
+  }
+
+  /**
+   * Allows overriding the match type, otherwise determined by {@link org.languagetool.rules.Rule#getLocQualityIssueType()}
+   * @since 5.7
+   * @param type the desired match type
+   */
+  @Experimental
+  public void setType(RuleMatch.Type type) {
+    this.type = type;
+  }
+
+  @Experimental
+  /**
+   * Allows adjusting the behavior of uppercasing suggestions when the matched text started with an upper-case letter
+   */
+  public boolean isAdjustSuggestionCase() {
+    return adjustSuggestionCase;
+  }
+
+  @Experimental
+  /**
+   * Allows adjusting the behavior of uppercasing suggestions when the matched text started with an upper-case letter
+   */
+  public void setAdjustSuggestionCase(boolean adjustSuggestionCase) {
+    this.adjustSuggestionCase = adjustSuggestionCase;
   }
 }

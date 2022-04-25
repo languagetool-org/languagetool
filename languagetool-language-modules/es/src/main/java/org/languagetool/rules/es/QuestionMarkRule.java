@@ -110,7 +110,7 @@ public class QuestionMarkRule extends TextLevelRule {
           }
         }
       }
-      pos += sentence.getText().length();
+      pos += sentence.getCorrectedTextLength();
       prevSentEndsWithColon = endsWithColon;
     }
     return toRuleMatchArray(matches);

@@ -23,6 +23,7 @@ import morfologik.stemming.WordData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
+import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
 import org.languagetool.tools.StringTools;
 
 import java.io.*;
@@ -84,12 +85,7 @@ public abstract class BaseTagger implements Tagger {
     this.dictionaryPath = filename;
     this.locale = locale;
     this.tagLowercaseWithUppercase = tagLowercaseWithUppercase;
-    try {
-      URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(filename);
-      this.dictionary = Dictionary.read(url);
-    } catch (IOException e) {
-      throw new RuntimeException("Could not load dictionary from " + filename, e);
-    }
+    this.dictionary = MorfologikSpeller.getDictionaryWithCaching(filename);
     this.wordTagger = initWordTagger(internTags);
   }
 

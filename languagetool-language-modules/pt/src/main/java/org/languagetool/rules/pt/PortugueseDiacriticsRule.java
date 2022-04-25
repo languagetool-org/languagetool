@@ -25,7 +25,8 @@ import org.languagetool.rules.Example;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.tools.Tools;
 
-import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -45,11 +46,11 @@ public class PortugueseDiacriticsRule extends AbstractSimpleReplaceRule2 {
   private static final Locale PT_LOCALE = new Locale("pt");  // locale used on case-conversion
 
   @Override
-  public final String getFileName() {
-    return FILE_NAME;
+  public List<String> getFileNames() {
+    return Collections.singletonList(FILE_NAME);
   }
 
-  public PortugueseDiacriticsRule(ResourceBundle messages) throws IOException {
+  public PortugueseDiacriticsRule(ResourceBundle messages) {
     super(messages, new Portuguese());
     setDefaultOff();
     super.setCategory(Categories.TYPOS.getCategory(messages));
@@ -59,7 +60,7 @@ public class PortugueseDiacriticsRule extends AbstractSimpleReplaceRule2 {
   }
 
   @Override
-  public final String getId() {
+  public String getId() {
     return PT_DIACRITICS_REPLACE;
   }
 
@@ -74,7 +75,7 @@ public class PortugueseDiacriticsRule extends AbstractSimpleReplaceRule2 {
   }
 
   @Override
-  public String getSuggestion() {
+  public String getMessage() {
     return "'$match' é uma expressão estrangeira importada cuja grafia tem diacríticos. É preferível escrever $suggestions";
   }
 

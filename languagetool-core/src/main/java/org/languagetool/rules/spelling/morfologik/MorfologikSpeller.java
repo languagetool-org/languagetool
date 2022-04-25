@@ -24,6 +24,7 @@ import morfologik.stemming.Dictionary;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.JLanguageTool;
 import org.languagetool.broker.ResourceDataBroker;
+import org.languagetool.rules.patterns.StringMatcher;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.tools.StringTools;
 
@@ -65,7 +66,7 @@ public class MorfologikSpeller {
    * @param fileInClassPath path in classpath to morfologik dictionary
    */
   public MorfologikSpeller(String fileInClassPath, int maxEditDistance) {
-    this(dictCache.getUnchecked(fileInClassPath), maxEditDistance);
+    this(getDictionaryWithCaching(fileInClassPath), maxEditDistance);
   }
 
   /**
@@ -86,19 +87,40 @@ public class MorfologikSpeller {
     speller = new Speller(dictionary, maxEditDistance);
   }
 
-  public boolean isMisspelled(String word) {
-    return word.length() > 0 
-            && !SpellingCheckRule.LANGUAGETOOL.equals(word)
-            && !SpellingCheckRule.LANGUAGETOOLER.equals(word)
-            && speller.isMisspelled(word);
+  /**
+   * Load a dictionary from the given path or reuse a cached instance, if present.
+   * @param fileInClassPath path in classpath to morfologik dictionary
+   */
+  public static Dictionary getDictionaryWithCaching(@NotNull String fileInClassPath) {
+    return dictCache.getUnchecked(fileInClassPath);
   }
 
+  public boolean isMisspelled(String word) {
+    if (word.isEmpty() || SpellingCheckRule.LANGUAGETOOL.equals(word) || SpellingCheckRule.LANGUAGETOOLER.equals(word)) {
+      return false;
+    }
+    synchronized (this) {
+      return speller.isMisspelled(word);
+    }
+  }
+
+  public synchronized List<String> findReplacements(String word) {
+    return speller.findReplacements(word);
+  }
+
+  /**
+   * @deprecated use (or introduce) other methods to this class which would take care of the necessary synchronization
+   */
+  @Deprecated
   public Speller getSpeller() {
     return speller;
   }
 
   public List<WeightedSuggestion> getSuggestions(String word) {
     List<WeightedSuggestion> suggestions = new ArrayList<>();
+    if (word.length() > StringMatcher.MAX_MATCH_LENGTH) {
+      return suggestions;
+    }
     // needs to be reset every time, possible bug: HMatrix for distance computation is not reset;
     // output changes when reused
     Speller speller = new Speller(dictionary, maxEditDistance);
@@ -114,8 +136,30 @@ public class MorfologikSpeller {
       suggestions.add(new WeightedSuggestion(runOnCandidate.getWord(), runOnCandidate.getDistance()));
     }
     
+    // all upper-case suggestions if necessary
+    if (dictionary.metadata.isConvertingCase() && StringTools.isAllUppercase(word)) {
+      for (int i = 0; i < suggestions.size(); i++) {
+        WeightedSuggestion sugg = suggestions.get(i);
+        String allUppercase = sugg.getWord().toUpperCase();
+        // do not use capitalized word if it matches the original word or it's mixed case
+        if (allUppercase.equals(word) || StringTools.isMixedCase(suggestions.get(i).getWord())) {
+          allUppercase = sugg.getWord();
+        }
+        // remove duplicates
+        int auxIndex = getSuggestionIndex(suggestions, allUppercase);
+        if (auxIndex > i) {
+          suggestions.remove(auxIndex);
+        }
+        if (auxIndex > -1 && auxIndex < i) {
+          suggestions.remove(i);
+          i--;
+        } else {
+          suggestions.set(i, new WeightedSuggestion(allUppercase, sugg.getWeight()));
+        }
+      }
+    }
     // capitalize suggestions if necessary
-    if (dictionary.metadata.isConvertingCase() && StringTools.startsWithUppercase(word)) {
+    else if (dictionary.metadata.isConvertingCase() && StringTools.startsWithUppercase(word)) {
       for (int i = 0; i < suggestions.size(); i++) {
         WeightedSuggestion sugg = suggestions.get(i);
         String uppercaseFirst = StringTools.uppercaseFirstChar(sugg.getWord());
@@ -164,7 +208,7 @@ public class MorfologikSpeller {
     return "dist=" + maxEditDistance;
   }
 
-  public int getFrequency(String word) {
+  public synchronized int getFrequency(String word) {
     int freq = speller.getFrequency(word);
     if (freq == 0 && !word.equals(word.toLowerCase())) {
       freq = speller.getFrequency(word.toLowerCase());

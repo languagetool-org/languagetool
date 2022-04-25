@@ -33,19 +33,19 @@ public class WordRepeatRuleTest {
 
   @Test
   public void testRulePolish() throws IOException {
-    final Polish polish = new Polish();
-    final WordRepeatRule rule = new WordRepeatRule(TestTools.getEnglishMessages(), polish);
+    Polish polish = new Polish();
+    WordRepeatRule rule = new WordRepeatRule(TestTools.getEnglishMessages(), polish);
     RuleMatch[] matches;
-    final JLanguageTool langTool = new JLanguageTool(polish);
+    JLanguageTool lt = new JLanguageTool(polish);
     // correct sentences:
-    matches = rule.match(langTool.getAnalyzedSentence("To jest zdanie."));
+    matches = rule.match(lt.getAnalyzedSentence("To jest zdanie."));
     assertEquals(0, matches.length);
     // with immunized words:
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("W w. XVI język jest jak kipiący kocioł.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Co jeszcze było smutniejsze, to to, że im się jeść chciało potężnie.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Tra ta ta!")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("W w. XVI język jest jak kipiący kocioł.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Co jeszcze było smutniejsze, to to, że im się jeść chciało potężnie.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Tra ta ta!")).length);
     // incorrect sentences:
-    matches = rule.match(langTool.getAnalyzedSentence("To jest jest zdanie."));
+    matches = rule.match(lt.getAnalyzedSentence("To jest jest zdanie."));
     assertEquals(1, matches.length);
   }
 

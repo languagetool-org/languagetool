@@ -98,8 +98,9 @@ public class Polish extends Language {
         new PolishUnpairedBracketsRule(messages, this),
         new MorfologikPolishSpellerRule(messages, this, userConfig, altLanguages),
         new PolishWordRepeatRule(messages),
-        new CompoundRule(messages),
+        new CompoundRule(messages, this, userConfig),
         new SimpleReplaceRule(messages),
+        new WordCoherencyRule(messages),
         new DashRule(messages)
         );
   }
@@ -109,4 +110,11 @@ public class Polish extends Language {
     return LanguageMaintainedState.ActivelyMaintained;
   }
 
+  @Override
+  protected int getPriorityForId(String id) {
+    switch (id) {
+      case "ZDANIA_ZLOZONE": return -1;  //so that it does not override more important rules
+    }
+    return super.getPriorityForId(id);
+  }
 }

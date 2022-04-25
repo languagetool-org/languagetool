@@ -27,6 +27,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.tools.StringTools;
+import org.languagetool.tools.Tools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -96,6 +97,7 @@ public abstract class AbstractDateCheckFilter extends RuleFilter {
           .replace("{currentYear}", Integer.toString(Calendar.getInstance().get(Calendar.YEAR)));
         RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(), message, match.getShortMessage());
         ruleMatch.setType(match.getType());
+        ruleMatch.setUrl(Tools.getUrl("https://www.timeanddate.com/calendar/?year=" + dateFromDate.get(Calendar.YEAR)));
         return ruleMatch;
       } else {
         return null;

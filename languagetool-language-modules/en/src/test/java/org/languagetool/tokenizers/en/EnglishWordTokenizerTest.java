@@ -38,8 +38,8 @@ public class EnglishWordTokenizerTest {
     assertEquals("[This, \r, breaks]", tokens2.toString());
     //hyphen with no whitespace
     final List <String> tokens3 = wordTokenizer.tokenize("Now this is-really!-a test.");
-    assertEquals(tokens3.size(), 10);
-    assertEquals("[Now,  , this,  , is-really, !, -a,  , test, .]", tokens3.toString());
+    assertEquals(tokens3.size(), 11);
+    assertEquals("[Now,  , this,  , is-really, !, -, a,  , test, .]", tokens3.toString());
     //hyphen at the end of the word
     final List <String> tokens4 = wordTokenizer.tokenize("Now this is- really!- a test.");
     assertEquals(tokens4.size(), 15);
@@ -48,7 +48,49 @@ public class EnglishWordTokenizerTest {
     final List <String> tokens5 = wordTokenizer.tokenize("Now this is—really!—a test.");
     assertEquals(tokens5.size(), 13);
     assertEquals("[Now,  , this,  , is, —, really, !, —, a,  , test, .]", tokens5.toString());
+    //exception
     final List <String> tokens6 = wordTokenizer.tokenize("fo'c'sle");
     assertEquals(tokens6.size(), 1);
+    //contractions
+    final List <String> tokens7 = wordTokenizer.tokenize("I'm John.");
+    assertEquals("[I, 'm,  , John, .]", tokens7.toString());
+    assertEquals(tokens7.size(), 5);
+    final List <String> tokens8 = wordTokenizer.tokenize("You hadn’t.");
+    assertEquals("[You,  , had, n’t, .]", tokens8.toString());
+    assertEquals(tokens7.size(), 5);
+    final List <String> tokens9 = wordTokenizer.tokenize("We'are");
+    assertEquals("[We, ', are]", tokens9.toString());
+    assertEquals(tokens9.size(), 3);
+    final List <String> tokens10 = wordTokenizer.tokenize("'We're'");
+    assertEquals("[', We, 're, ']", tokens10.toString());
+    assertEquals(tokens10.size(), 4);
+    final List <String> tokens11 = wordTokenizer.tokenize("'We’re the best.'");
+    assertEquals("[', We, ’re,  , the,  , best, ., ']", tokens11.toString());
+    assertEquals(tokens11.size(), 9);
+    final List <String> tokens12 = wordTokenizer.tokenize("'Don't do it'");
+    assertEquals("[', Do, n't,  , do,  , it, ']", tokens12.toString());
+    assertEquals(tokens12.size(), 8);
+    final List <String> tokens13 = wordTokenizer.tokenize("‘Don’t do it’");
+    assertEquals("[‘, Do, n’t,  , do,  , it, ’]", tokens13.toString());
+    assertEquals(tokens13.size(), 8);
+    final List <String> tokens14 = wordTokenizer.tokenize("Don't do it");
+    assertEquals("[Do, n't,  , do,  , it]", tokens14.toString());
+    assertEquals(tokens14.size(), 6);
+    final List<String> tokens15 = wordTokenizer.tokenize("My address is address@email.com");
+    assertEquals("[My,  , address,  , is,  , address@email.com]", tokens15.toString());
+    assertEquals(tokens15.size(), 7);
+    final List<String> tokens16 = wordTokenizer.tokenize("@test@test.social you are aweesome!");
+    assertEquals("[@test@test.social,  , you,  , are,  , aweesome, !]", tokens16.toString());
+    assertEquals(tokens16.size(), 8);
+    final List<String> tokens17 = wordTokenizer.tokenize("My address is address@email.com or other@email.com.");
+    assertEquals("[My,  , address,  , is,  , address@email.com,  , or,  , other@email.com, .]", tokens17.toString());
+    assertEquals(tokens17.size(), 12);
+    final List <String> tokens18 = wordTokenizer.tokenize("doin' that");
+    assertEquals("[doin',  , that]", tokens18.toString());
+    assertEquals(tokens18.size(), 3);
+    final List <String> tokens19 = wordTokenizer.tokenize("ne’er e'er o’er jack-o'-lantern");
+    assertEquals("[ne’er,  , e'er,  , o’er,  , jack-o'-lantern]", tokens19.toString());
+    assertEquals(tokens19.size(), 7);
+    
   }
 }

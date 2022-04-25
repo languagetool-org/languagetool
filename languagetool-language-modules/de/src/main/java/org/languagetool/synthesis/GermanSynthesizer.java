@@ -21,11 +21,15 @@ package org.languagetool.synthesis;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.tokenizers.de.GermanCompoundTokenizer;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * German word form synthesizer. Also supports compounds.
@@ -33,18 +37,28 @@ import java.util.*;
  * @since 2.4
  */
 public class GermanSynthesizer extends BaseSynthesizer {
+  public static final GermanSynthesizer INSTANCE = new GermanSynthesizer(Languages.getLanguageForShortCode("de-DE"));
 
-  private final GermanCompoundTokenizer splitter;
-  
   public GermanSynthesizer(Language lang) {
-    super("/de/german_synth.dict", "/de/german_tags.txt", lang);
-    try {
-      splitter = new GermanCompoundTokenizer();
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+    super("de/de.sor", "/de/german_synth.dict", "/de/german_tags.txt", lang);
   }
 
+  @Override
+  protected List<String> lookup(String lemma, String posTag) {
+    List<String> lookup = super.lookup(lemma, posTag);
+    List<String> results = new ArrayList<>();
+    for (String s : lookup) {
+      // don't inflect a lowercase lemma to an uppercase word and vice versa
+      // https://github.com/languagetool-org/languagetool/issues/4712
+      boolean lcLemma = StringTools.startsWithLowercase(lemma);
+      boolean lcLookup = StringTools.startsWithLowercase(s);
+      if (lcLemma == lcLookup || lemma.equals("mein") || lemma.equals("ich")) {  // mein/ich wegen Ihr/Sie
+        results.add(s);
+      }
+    }
+    return results;
+  }
+  
   @Override
   public String[] synthesize(AnalyzedToken token, String posTag) throws IOException {
     String[] result = super.synthesize(token, posTag);
@@ -65,7 +79,10 @@ public class GermanSynthesizer extends BaseSynthesizer {
 
   @NotNull
   private String[] getCompoundForms(AnalyzedToken token, String posTag, boolean posTagRegExp) throws IOException {
-    List<String> parts = splitter.tokenize(token.getToken());
+    List<String> parts = GermanCompoundTokenizer.getStrictInstance().tokenize(token.getLemma());
+    if (parts.size() == 0) {
+      return parts.toArray(new String[0]);
+    }
     String firstPart = String.join("", parts.subList(0, parts.size() - 1));
     String lastPart = StringTools.uppercaseFirstChar(parts.get(parts.size() - 1));
     AnalyzedToken lastPartToken = new AnalyzedToken(lastPart, posTag, lastPart);

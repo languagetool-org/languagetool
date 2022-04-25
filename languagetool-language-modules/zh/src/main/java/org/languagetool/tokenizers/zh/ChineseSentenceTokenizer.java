@@ -18,6 +18,7 @@
  */
 package org.languagetool.tokenizers.zh;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.hankcs.hanlp.utility.SentencesUtil;
@@ -27,7 +28,32 @@ public class ChineseSentenceTokenizer implements SentenceTokenizer {
 
   @Override
   public List<String> tokenize(String text) {
-    return SentencesUtil.toSentenceList(text);
+    List<String> result = new ArrayList<>();
+    StringBuilder whitespace = new StringBuilder();
+    StringBuilder nonWhitespace = new StringBuilder();
+    // SentencesUtil.toSentenceList() ignores whitespace, so we add it ourselves so match positions are not messed up:
+    for (int i = 0; i < text.length(); i++) {
+      if (Character.isWhitespace(text.charAt(i))) {
+        if (nonWhitespace.length() > 0) {
+          result.addAll(SentencesUtil.toSentenceList(nonWhitespace.toString()));
+          nonWhitespace.setLength(0);
+        }
+        whitespace.append(text.charAt(i));  // keep collecting whitespaces
+      } else {
+        if (whitespace.length() > 0) {
+          result.add(whitespace.toString());
+          whitespace.setLength(0);
+        }
+        nonWhitespace.append(text.charAt(i));
+      }
+    }
+    if (whitespace.length() > 0) {
+      result.add(whitespace.toString());
+    }
+    if (nonWhitespace.length() > 0) {
+      result.addAll(SentencesUtil.toSentenceList(nonWhitespace.toString()));
+    }
+    return result;
   }
 
   /** Note: does have no effect for Chinese */

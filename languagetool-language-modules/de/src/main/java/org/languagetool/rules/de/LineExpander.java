@@ -18,12 +18,16 @@
  */
 package org.languagetool.rules.de;
 
-import org.languagetool.AnalyzedToken;
-import org.languagetool.language.GermanyGerman;
-import org.languagetool.synthesis.Synthesizer;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+import org.jetbrains.annotations.NotNull;
+import org.languagetool.synthesis.GermanSynthesizer;
+import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Expand lines according to their suffix, e.g. {@code foo/S} becomes {@code [foo, foos]}.
@@ -31,49 +35,83 @@ import java.util.*;
  */
 public class LineExpander implements org.languagetool.rules.LineExpander {
 
-  private final static Synthesizer synthesizer = new GermanyGerman().getSynthesizer();
+  private static final LoadingCache<String, List<String>> cache = CacheBuilder.newBuilder()
+    .expireAfterAccess(10, TimeUnit.MINUTES)
+    .build(new CacheLoader<String, List<String>>() {
+      @Override
+      public List<String> load(@NotNull String line) {
+        List<String> result = new ArrayList<>();
+        String[] parts = cleanTagsAndEscapeChars(line).split("_");
+        if (parts.length != 2) {
+          throw new IllegalArgumentException("Unexpected line format, expected at most one '_': " + line);
+        }
+        if (parts[0].contains("/") || parts[1].contains("/")) {
+          throw new IllegalArgumentException("Unexpected line format, '_' cannot be combined with '/': " + line);
+        }
+        if (parts[1].equals("in")) {
+          // special case for the common gender gap characters:
+          result.add(parts[0] + "_in");
+          result.add(parts[0] + "_innen");
+          result.add(parts[0] + "*in");
+          result.add(parts[0] + "*innen");
+          result.add(parts[0] + ":in");
+          result.add(parts[0] + ":innen");
+          //result.add(parts[0] + "in");   // see if we can comment in these cases, too
+          //result.add(parts[0] + "innen");
+          //result.add(parts[0] + "e");
+          //result.add(parts[0] + "en");
+        } else {
+          try {
+            String[] forms = GermanSynthesizer.INSTANCE.synthesizeForPosTags(parts[1], s -> s.startsWith("VER:"));
+            if (forms.length == 0) {
+              throw new RuntimeException("Could not expand '" + parts[1] + "' from line '" + line + "', no forms found");
+            }
+            Set<String> formSet = new HashSet<>(Arrays.asList(forms));
+            for (String form : formSet) {
+              if (!form.contains("ß") && form.length() > 0 && Character.isLowerCase(form.charAt(0))) {
+                // skip these, it's too risky to introduce old spellings like "gewußt" from the synthesizer
+                result.add(parts[0] + form);
+              }
+            }
+            result.add(parts[0] + "zu" + parts[1]);  //  "zu<verb>" is not part of forms from synthesizer
+            result.add(StringTools.uppercaseFirstChar(parts[0]) + parts[1] + "s");  //  Genitiv, e.g. "des Weitergehens"
+          } catch (IOException e) {
+            throw new RuntimeException(e);
+          }
+        }
+        return result;
+      }
+    });
 
   @Override
   public List<String> expandLine(String line) {
     List<String> result = new ArrayList<>();
-    if (!line.startsWith("#") && line.contains("_")) {
+    if (isLineWithVerbPrefix(line)) {
       handleLineWithPrefix(line, result);
-    } else if (!line.startsWith("#") && line.contains("/")) {
+    } else if (isLineWithFlag(line)) {
       handleLineWithFlags(line, result);
     } else {
-      result.add(cleanTags(line));
+      result.add(cleanTagsAndEscapeChars(line));
     }
     return result;
   }
 
+  private boolean isLineWithFlag(String line) {
+    int idx = line.indexOf('/');
+    return !line.startsWith("#") && idx > 0 && line.charAt(idx-1) != '\\';
+  }
+
+  private boolean isLineWithVerbPrefix(String line) {
+    int idx = line.indexOf('_');
+    return !line.startsWith("#") && idx > 0 && line.charAt(idx-1) != '\\';
+  }
+
   private void handleLineWithPrefix(String line, List<String> result) {
-    String[] parts = cleanTags(line).split("_");
-    if (parts.length != 2) {
-      throw new IllegalArgumentException("Unexpected line format, expected at most one '_': " + line);
-    }
-    if (parts[0].contains("/") || parts[1].contains("/")) {
-      throw new IllegalArgumentException("Unexpected line format, '_' cannot be combined with '/': " + line);
-    }
-    try {
-      String[] forms = synthesizer.synthesize(new AnalyzedToken(parts[1], "FAKE", parts[1]), "VER:.*", true);
-      if (forms.length == 0) {
-        throw new RuntimeException("Could not expand '" + parts[1] + "' from line '" + line + "', no forms found");
-      }
-      Set<String> formSet = new HashSet<>(Arrays.asList(forms));
-      for (String form : formSet) {
-        if (!form.contains("ß")) {
-          // skip these, it's too risky to introduce old spellings like "gewußt" from the synthesizer
-          result.add(parts[0] + form);
-        }
-      }
-      result.add(parts[0] + "zu" + parts[1]);  //  "zu<verb>" is not part of forms from synthesizer
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+    result.addAll(cache.getUnchecked(line));
   }
 
   private void handleLineWithFlags(String line, List<String> result) {
-    String[] parts = cleanTags(line).split("/");
+    String[] parts = cleanTagsAndEscapeChars(line).split("/");
     if (parts.length != 2) {
       throw new IllegalArgumentException("Unexpected line format, expected at most one slash: " + line);
     }
@@ -120,11 +158,11 @@ public class LineExpander implements org.languagetool.rules.LineExpander {
   }
 
   // ignore "#..." so it can be used as a tag:
-  private String cleanTags(String s) {
+  private static String cleanTagsAndEscapeChars(String s) {
     int idx = s.indexOf('#');
     if (idx != -1) {
       s = s.substring(0, idx);
     }
-    return s.trim();
+    return s.replaceAll("\\\\", "").trim();
   }
 }

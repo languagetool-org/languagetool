@@ -21,11 +21,13 @@ package org.languagetool.rules.de;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
+import org.languagetool.rules.RuleMatch;
 
 public class UppercaseSentenceStartRuleTest {
 
@@ -55,7 +57,27 @@ public class UppercaseSentenceStartRuleTest {
     assertEquals(1, lt.check("Dies ist ein Satz. „aber der hier auch!“").size());
     assertEquals(1, lt.check("\"dies ist ein Satz!\"").size());
     assertEquals(1, lt.check("'dies ist ein Satz!'").size());
-    
+
+    // Test soft hyphen removal / position fixing:
+    List<RuleMatch> matches0 = lt.check("Ein Test. was?");  // no soft hyphen yet
+    assertEquals(1, matches0.size());
+    assertEquals(10, matches0.get(0).getFromPos());
+    assertEquals(13, matches0.get(0).getToPos());
+
+    List<RuleMatch> matches1 = lt.check("Ein \u00ADTest. was?");
+    assertEquals(1, matches1.size());
+    assertEquals(11, matches1.get(0).getFromPos());
+    assertEquals(14, matches1.get(0).getToPos());
+
+    List<RuleMatch> matches2 = lt.check("Ein \u00ADTe\u00ADst. was?");
+    assertEquals(1, matches2.size());
+    assertEquals(12, matches2.get(0).getFromPos());
+    assertEquals(15, matches2.get(0).getToPos());
+
+    List<RuleMatch> matches3 = lt.check("Ein \u00ADTe\u00ADst. Te\u00ADst. was?");
+    assertEquals(1, matches3.size());
+    assertEquals(19, matches3.get(0).getFromPos());
+    assertEquals(22, matches3.get(0).getToPos());
   }
 
 }

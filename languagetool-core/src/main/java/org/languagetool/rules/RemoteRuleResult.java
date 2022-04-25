@@ -21,22 +21,68 @@
 
 package org.languagetool.rules;
 
-import java.util.List;
+import org.jetbrains.annotations.Nullable;
+import org.languagetool.AnalyzedSentence;
+
+import java.util.*;
 
 public class RemoteRuleResult {
-  private final boolean remote; // was remote needed/involved? rules may filter input sentences and only call remote on some
+  private final boolean remote; // was remote needed/involved? rules may filter input sentences and only call remote on some; for metrics
+  private final boolean success; // successful -> for caching, so that we can cache: remote not needed for this sentence
   private final List<RuleMatch> matches;
+  private final Set<AnalyzedSentence> processedSentences;
+  // which sentences were processed? to distinguish between no matches because not processed (e.g. cached)
+  // and no errors/corrections found
 
-  public RemoteRuleResult(boolean remote, List<RuleMatch> matches) {
+  private final Map<AnalyzedSentence, List<RuleMatch>> sentenceMatches = new HashMap<>();
+
+  public RemoteRuleResult(boolean remote, boolean success, List<RuleMatch> matches, List<AnalyzedSentence> processedSentences) {
     this.remote = remote;
+    this.success = success;
     this.matches = matches;
+    this.processedSentences = Collections.unmodifiableSet(new HashSet<>(processedSentences));
+
+    for (RuleMatch match : matches) {
+      sentenceMatches.compute(match.getSentence(), (sentence, ruleMatches) -> {
+        if (ruleMatches == null) {
+          return new ArrayList<>(Collections.singletonList(match));
+        } else {
+          ruleMatches.add(match);
+          return ruleMatches;
+        }
+      });
+    }
   }
 
   public boolean isRemote() {
     return remote;
   }
 
+  public boolean isSuccess() {
+    return success;
+  }
+
   public List<RuleMatch> getMatches() {
     return matches;
+  }
+
+  public Set<AnalyzedSentence> matchedSentences() {
+    return sentenceMatches.keySet();
+  }
+
+  public Set<AnalyzedSentence> processedSentences() {
+    return processedSentences;
+  }
+
+  /**
+   * get matches for a specific sentence
+   * @param sentence sentence to look up
+   * @return null if sentence not processed, else returned matches
+   */
+  @Nullable
+  public List<RuleMatch> matchesForSentence(AnalyzedSentence sentence) {
+    List<RuleMatch> defaultValue = processedSentences.contains(sentence) ?
+      Collections.emptyList() : null;
+    return sentenceMatches.getOrDefault(sentence, defaultValue);
   }
 }

@@ -72,7 +72,7 @@ class InflectionHelper {
     }
   
     boolean animMatters() {
-      return _case.equals("v_zna") && isAnimalSensitive();
+      return ! "unanim".equals(animTag) && _case.equals("v_zna") && isAnimalSensitive();
     }
   
     private boolean isAnimalSensitive() {

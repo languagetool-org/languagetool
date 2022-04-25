@@ -33,22 +33,24 @@ import static org.junit.Assert.assertEquals;
 public class NewZealandReplaceRuleTest {
 
   private NewZealandReplaceRule rule;
-  private JLanguageTool langTool;
+  private JLanguageTool lt;
 
   @Before
   public void setUp() throws Exception {
-    rule = new NewZealandReplaceRule(TestTools.getMessages("en"));
-    langTool = new JLanguageTool(new NewZealandEnglish());
+    rule = new NewZealandReplaceRule(TestTools.getMessages("en"), "/en/en-NZ/replace.txt");
+    lt = new JLanguageTool(new NewZealandEnglish());
   }
 
   @Test
   public void testRule() throws IOException {
 
     // correct sentences:
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Walk on the footpath.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Walk on the footpath.")).length);
 
     // incorrect sentences:
-
+    
+    // at the beginning of a sentence (Romanian replace rule is case-sensitive)
+    checkSimpleReplaceRule("Sidewalk is not a place to park your car!", "Footpath");
     // inside sentence
     checkSimpleReplaceRule("I walked on the sidewalk", "footpath");
   }
@@ -59,7 +61,7 @@ public class NewZealandReplaceRuleTest {
    * @param word the word that is correct (the suggested replacement).
    */
   private void checkSimpleReplaceRule(String sentence, String word) throws IOException {
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(sentence));
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(sentence));
     assertEquals("Invalid matches.length while checking sentence: "
             + sentence, 1, matches.length);
     assertEquals("Invalid replacement count wile checking sentence: "

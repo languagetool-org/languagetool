@@ -50,6 +50,7 @@ public class ContractionSpellingRule extends AbstractSimpleReplaceRule {
     setLocQualityIssueType(ITSIssueType.Misspelling);
     addExamplePair(Example.wrong("We <marker>havent</marker> earned anything."),
                    Example.fixed("We <marker>haven't</marker> earned anything."));
+    super.setCheckLemmas(false);
   }
 
   @Override
@@ -69,7 +70,7 @@ public class ContractionSpellingRule extends AbstractSimpleReplaceRule {
 
   @Override
   public String getMessage(String tokenStr, List<String> replacements) {
-    return "Possible spelling mistake found";
+    return "Possible spelling mistake found.";
   }
 
   @Override

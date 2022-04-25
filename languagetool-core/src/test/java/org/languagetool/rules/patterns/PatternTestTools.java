@@ -18,15 +18,11 @@
  */
 package org.languagetool.rules.patterns;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import org.languagetool.Language;
+
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.languagetool.Language;
 
 import static org.junit.Assert.fail;
 
@@ -49,12 +45,14 @@ public final class PatternTestTools {
 
   private static final Pattern CHAR_SET_PATTERN = Pattern.compile("\\[^?([^\\]]+)\\]");
   private static final Pattern STRICT_CHAR_SET_PATTERN = Pattern.compile("(\\(\\?-i\\))?.*(?<!\\\\)\\[^?([^\\]]+)\\]");
+  private static final Pattern UNBOUND_REPEAT = Pattern.compile(".*\\{\\d+,\\}.*");
 
   /*
    * These strings are not be recognized as a regular expression
    */
   private static final Set<String> NO_REGEXP = new HashSet<>(Arrays.asList(
-    "PRP:LOK+TMP+MOD:DAT+AKK", "AUX:ind+pres+3+p", "PRP:TMP+MOD+CAU:DAT", "PRP:LOK+TMP:DAT"
+    "PRP:LOK+TMP+MOD:DAT+AKK", "AUX:ind+pres+3+p", "PRP:TMP+MOD+CAU:DAT", "PRP:LOK+TMP:DAT", "PRP:LOK+TMP+CAU:DAT+AKK",
+    "PRP:MOD:GEN+DAT", "PRP:LOK+TMP+CAU:DAT"
     ));
 
 
@@ -113,7 +111,7 @@ public final class PatternTestTools {
               i);
 
       List<PatternToken> exceptionPatternTokens = new ArrayList<>();
-      if (pToken.getExceptionList() != null) {
+      if (!pToken.getExceptionList().isEmpty()) {
         for (PatternToken exception: pToken.getExceptionList()) {
           // Detect useless exception or missing skip="...". I.e. things like this:
           // <token postag="..."><exception scope="next">foo</exception</token>
@@ -389,6 +387,9 @@ public final class PatternTestTools {
     }
 
     if (isRegularExpression) {
+      if (UNBOUND_REPEAT.matcher(stringValue).matches()) {
+        warn(lang + ": Please limit repetition in regex, e.g. use '{2,30}' instead of '{2,}': " + stringValue +  " (" + ruleId + ")");
+      }
       Matcher matcher = CHAR_SET_PATTERN.matcher(stringValue);
       if (matcher.find()) {
         Matcher strictMatcher = STRICT_CHAR_SET_PATTERN.matcher(stringValue);  // for performance reasons, only now use the strict pattern

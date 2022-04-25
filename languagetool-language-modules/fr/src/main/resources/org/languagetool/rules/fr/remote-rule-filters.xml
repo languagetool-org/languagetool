@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" ?>
+<?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet" ?>
+<!--
+LanguageTool, a natural language style checker
+Copyright (C) 2021 Fabian Richter
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+USA
+-->
+
+<!--
+Filter for remote matches.
+To ignore a remote rule match, set the <marker> so that it exactly covers the text underlined by the remote rule.
+-->
+<!DOCTYPE rules [
+<!ENTITY unites_de_mesure "min|(centi|milli|déci|déca|hecto|kilo|atto|exa|mega|giga|tera|peta|zetta|yotta|micro|nano|pico|femto|zepto|yocto)?[mètre|gramme|litre]|degré|[mchkd][wglm]|dag|dal|dam|volt|watt|hz|hertz|bits?|ms|s|cs|cc|dB|go|kw">
+<!ENTITY monnaies "afghani|rand|lek|d[ie]nar|euro|kwanza|dollar|florin|riyal|peso|dram|manat|taka|rouble|franc|r(h)?oupie|boliviano|mark|pula|couronne|real|(bulgarian)? lev|riel|peso|escudo|yuan|livre|won|kuna|colon|dirham|birr|dalasi|lari|ghana cedi|quetzal|gourde|lempira|forint|rupiah|rial|yen|tenge|shilling|som|kip|rans|loti|lats|litas|pataca|malagasy|ringgit|kwacha|rufiyaa|ouguija|leu|tugrik|metical|kyat|rand|cordoba|naira|soum|balboa|kina|guarani|(nouveau)? sol|zloty|tala|dobra|leone|lilangeni|somoni|baht|pa'anga|manat|hryvnia|vatu|bolivar|dong|kwacha">
+        ]>
+<rules lang="fr" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/remote-rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <category name="Machine learning rules" id="AI_RULES">
+        <rulegroup id="AI_FR_HYDRA_LEO_MISSING_COMMA" name="">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">de|pour</token>
+                    </marker>
+                </pattern>
+                <example correction="">Il le vend <marker>pour</marker> 20 €.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes"/>
+                    </marker>
+                    <token regexp="yes">["«]</token>
+                    <token postag="J.*|V.* ppa.*" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">Il le  <marker>vend</marker> "arrivé" hier.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>comment</token>
+                    </marker>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </pattern>
+                <example correction=""><marker>Comment</marker> la boulangère a-t-elle fait le pain ?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">XX?X?</token>
+                    </marker>
+                    <token regexp="yes">centièmes?|mille|&monnaies;|milliards?|millions?|milliers?|dizaines?|douzaines?|quinzaines?|trillions?|trilliards?|$|£|€|元|¥|₡|₹|₸|₩|ден|₮|रु|₦|₲|₱|฿|₴|₫|đ|°F|°C</token>
+                </pattern>
+                <example correction="">Voici comment <marker>XXX</marker> millions de bébés fourmis virent le jour.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="[YK]" postag_regexp="yes"/>
+                    </marker>
+                    <token regexp="yes">centièmes?|mille|&monnaies;|milliards?|millions?|milliers?|dizaines?|douzaines?|quinzaines?|trillions?|trilliards?|$|£|€|元|¥|₡|₹|₸|₩|ден|₮|रु|₦|₲|₱|฿|₴|₫|đ|°F|°C</token>
+                </pattern>
+                <example correction="">Voici comment <marker>15</marker> millions de bébés fourmis virent le jour.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token/>
+                    </marker>
+                    <token>qui</token>
+                </pattern>
+                <example correction="">Il a présenté le sujet à des <marker>enfants</marker> qui étaient à la maternelle.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token/>
+                    </marker>
+                    <token regexp="yes">telles?|tels?</token>
+                    <token inflected="yes" skip="-1">que</token>
+                    <token skip="-1">,</token>
+                    <token regexp="yes">et|ou</token>
+                </pattern>
+                <example correction="">Il a présenté plusieurs <marker>sujets</marker> tels que les sciences, le français et les mathématiques.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>encore</token>
+                    <token>et</token>
+                    <marker>
+                        <token>encore</token>
+                    </marker>
+                    <token postag="[PD].*" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">Il a dit encore et <marker>encore</marker> son nom.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="D.*" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <example correction=""><marker>La</marker> marque.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token postag="D.*" postag_regexp="yes"/>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <marker>
+                        <token regexp="yes">elles?</token>
+                    </marker>
+                    <token postag="V.* 3 ." postag_regexp="yes"/>
+                </pattern>
+                <example correction="">Ces filles <marker>elles</marker> sont grandes.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="[YK]" postag_regexp="yes"/>
+                    </marker>
+                    <token regexp="yes">&unites_de_mesure;<exception>a</exception></token>
+                </pattern>
+                <example correction="">Il fait <marker>97</marker> m de long.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="N.*" postag_regexp="yes"/>
+                    </marker>
+                    <token postag="R pers obj.*" postag_regexp="yes"/>
+                    <token postag="V.* ppr" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">J'ai envoyé un <marker>message</marker> lui expliquant mon projet.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes"/>
+                    </marker>
+                    <token regexp="yes">toute?s?|tous</token>
+                </pattern>
+                <example correction="">J'ai <marker>supprimé</marker> toute la partie en gras.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>de</token>
+                    <token>quelle</token>
+                    <token>heure</token>
+                    <token>à</token>
+                    <token>quelle</token>
+                    <marker>
+                        <token>heure</token>
+                    </marker>
+                </pattern>
+                <example correction="">De quelle heure à quelle <marker>heure</marker> est le tournoi.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">branchée?s?|calée?s?</token>
+                    </marker>
+                    <token postag="N.*" postag_regexp="yes"/>
+                </pattern>
+                <example correction=""><marker>Branché</marker> babioles ou pas, on en sort jamais les mains vides.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>de</token>
+                    <token>quelle</token>
+                    <marker>
+                    <token>heure</token>
+                    </marker>
+                    <token>à</token>
+                    <token>quelle</token>
+                    <token>heure</token>
+                </pattern>
+                <example correction="">De quelle <marker>heure</marker> à quelle heure est le tournoi.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="[YK]" postag_regexp="yes"/>
+                    <marker>
+                        <token>fois</token>
+                    </marker>
+                    <token postag="[YK]" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">Trois <marker>fois</marker> quatre, douze.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="Z.*" postag_regexp="yes"/>
+                    </marker>
+                    <token postag="R pers obj.*" postag_regexp="yes"/>
+                    <token postag="V.*" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">Le ministre des finances, <marker>Fouquet</marker> la prend.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="Z.*" postag_regexp="yes"/>
+                    </marker>
+                    <token>la</token>
+                    <token>dédicace</token>
+                </pattern>
+                <example correction="">Le ministre des finances, <marker>Fouquet</marker> la dédicace.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">car|mais|ou</token>
+                    </marker>
+                </pattern>
+                <example correction="">Il doit le faire <marker>car</marker> son frère n'est pas là.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">_.*|___|[\{\(\|\+\=\*\/\:\;\-]</token>
+                    </marker>
+                </pattern>
+                <example correction="">J'ai <marker>___</marker> enfants.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token postag="R pers suj.*" postag_regexp="yes"/>
+                    <token postag="V (avoir|etre).*" postag_regexp="yes"/>
+                    <token postag="A" min="0" max="4"/>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes"/>
+                    </marker>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">On a <marker>vu</marker> le chat partir.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="D.*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="N.*" postag_regexp="yes"/>
+                    </marker>
+                    <token regexp="yes">les?|la</token>
+                    <token regexp="yes">plus|moins|mieux</token>
+                    <token postag="V.* ppa.*|V.* inf" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">La différence est dans le fond de comparer les <marker>partis</marker> les mieux gérer.</example>
+            </rule>
+        </rulegroup>
+    </category>
+</rules>

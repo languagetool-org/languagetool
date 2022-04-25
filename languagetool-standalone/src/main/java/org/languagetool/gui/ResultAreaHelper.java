@@ -83,7 +83,7 @@ class ResultAreaHelper implements LanguageToolListener, HyperlinkListener {
 
   static void install(ResourceBundle messages, LanguageToolSupport ltSupport, JTextPane pane) {
     Object prev = pane.getClientProperty(KEY);
-    if (prev != null && prev instanceof ResultAreaHelper) {
+    if (prev instanceof ResultAreaHelper) {
       enable(pane);
       return;
     }
@@ -93,21 +93,21 @@ class ResultAreaHelper implements LanguageToolListener, HyperlinkListener {
 
   static void enable(JTextPane pane) {
     Object helper = pane.getClientProperty(KEY);
-    if (helper != null && helper instanceof ResultAreaHelper) {
+    if (helper instanceof ResultAreaHelper) {
       ((ResultAreaHelper) helper).enable();
     }
   }
 
   static void disable(JTextPane pane) {
     Object helper = pane.getClientProperty(KEY);
-    if (helper != null && helper instanceof ResultAreaHelper) {
+    if (helper instanceof ResultAreaHelper) {
       ((ResultAreaHelper) helper).disable();
     }
   }
 
   static void uninstall(JTextPane pane) {
     Object helper = pane.getClientProperty(KEY);
-    if (helper != null && helper instanceof ResultAreaHelper) {
+    if (helper instanceof ResultAreaHelper) {
       ((ResultAreaHelper) helper).disable();
       pane.putClientProperty(KEY, null);
     }
@@ -184,9 +184,7 @@ class ResultAreaHelper implements LanguageToolListener, HyperlinkListener {
     Element e = d.getElement(HEADER);
     try {
       d.setInnerHTML(e, "<p class=\"grayed\">" + txt + "</p>");
-    } catch (BadLocationException ex) {
-      Tools.showError(ex);
-    } catch (IOException ex) {
+    } catch (BadLocationException | IOException ex) {
       Tools.showError(ex);
     }
   }
@@ -196,9 +194,7 @@ class ResultAreaHelper implements LanguageToolListener, HyperlinkListener {
     Element e = d.getElement(MAIN);
     try {
       d.setInnerHTML(e, html);
-    } catch (BadLocationException ex) {
-      Tools.showError(ex);
-    } catch (IOException ex) {
+    } catch (BadLocationException | IOException ex) {
       Tools.showError(ex);
     }
   }
@@ -208,9 +204,7 @@ class ResultAreaHelper implements LanguageToolListener, HyperlinkListener {
     Element e = d.getElement(MAIN);
     try {
       d.insertBeforeEnd(e, html);
-    } catch (BadLocationException ex) {
-      Tools.showError(ex);
-    } catch (IOException ex) {
+    } catch (BadLocationException | IOException ex) {
       Tools.showError(ex);
     }
   }
@@ -272,8 +266,6 @@ class ResultAreaHelper implements LanguageToolListener, HyperlinkListener {
     String checkDone = org.languagetool.tools.Tools.i18n(messages, "checkDone",
             ruleMatches.size(), runTime);
     sb.append("<br>\n").append(checkDone);
-    sb.append("<br>\n").append(messages.getString("makeLanguageToolBetter"));
-    sb.append("<br>\n");
     sb.append("</p>");
     appendMain(sb.toString());
   }

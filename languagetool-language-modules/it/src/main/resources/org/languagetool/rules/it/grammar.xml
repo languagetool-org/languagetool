@@ -119,12 +119,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
  PB014    We don't need the skip in article rules since we are unifying adj and noun 
  ======== ==================================================================================
 -->
+<!DOCTYPE rules [
+    <!ENTITY days_week "domenica|giovedì|lunedì|martedì|mercoledì|sabato|venerdì">
+    <!ENTITY days_week_abr "do|gi|lu|ma|me|sa|ve">
+    <!ENTITY months_year "gennaio|febbraio|marzo|aprile|maggio|giugno|luglio|agosto|settembre|ottobre|novembre|dicembre">
+    <!ENTITY months_year_abr "gen|feb|mar|apr|mag|giu|lug|ago|set|ott|nov|dic">
+]>
 
 <rules lang="it" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
 
     <!-- GRAMMATICA AGGETTIVI - GR_01 -->
     <category id="CAT1" name="Grammatica - Aggettivi">
-        <rulegroup name="uso corretto" id="GR_01_001">
+        <rulegroup name="uso corretto" id="GR_01_001" default="off">
             <!-- PB003 + -->
             <!-- meglio -->
             <rule>
@@ -167,7 +173,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <!-- GRAMMATICA ARTICOLI - GR_02 -->
     <category id="CAT2" name="Grammatica - Articoli">
-        <rulegroup name="uso corretto" id="GR_02_001">
+        <rulegroup name="uso corretto" id="GR_02_001" default="off">
             <!-- la -->
             <rule>
                 <pattern>
@@ -336,6 +342,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup name="Elisioni" id="GR_04_002">
+            <antipattern>
+                <token>'</token>
+                <token spacebefore="no"/>
+                <token spacebefore="no">'</token>
+            </antipattern>
             <!-- togli togli di metti d' -->
             <rule>
                 <pattern>
@@ -349,9 +360,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <token>e</token>
-                    <token>'</token>
+                    <token spacebefore="no">'</token>
                 </pattern>
-                <message>Si suggerisce di non usare l'apostrofo per scrivere il verbo essere: <suggestion>è</suggestion>.</message>
+                <message>Si suggerisce di non usare l'apostrofo per scrivere il verbo essere.</message>
+                <suggestion>è</suggestion>
                 <example correction="è">L'uva <marker>e'</marker> sul tavolo.</example>
             </rule>
             <!-- perche' -->
@@ -361,27 +373,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <!--  token regexp="yes">perché|poiché|affinché|giacché|finché|altroché</token -->
                     <token regexp="yes">.*[àèéìòù]</token>
 <!-- PB011 - -->                    
-                    <token>'</token>
+                    <token spacebefore="no">'</token>
                 </pattern>
-                <message>Togliere l'apostrofo in quanto la parola è già accentata: <suggestion><match no="1"/></suggestion>.</message>
+                <message>Togliere l'apostrofo in quanto la parola è già accentata.</message>
+                <suggestion><match no="1"/></suggestion>
                 <example correction="perché">Ve lo dico solo <marker>perché'</marker> mi siete simpatici.</example>
             </rule>
             <!-- E' -->
             <rule>
                 <pattern case_sensitive="yes">
                     <token>E</token>
-                    <token>'</token>
+                    <token spacebefore="no">'</token>
                 </pattern>
-                <message>Si suggerisce di non usare l'apostrofo per il verbo essere: <suggestion>È</suggestion>.</message>
+                <message>Si suggerisce di non usare l'apostrofo per il verbo essere.</message>
+                <suggestion>È</suggestion>
                 <example correction="È"><marker>E'</marker> un peccato!</example>
             </rule>
             <!-- da' -->
             <rule>
                 <pattern>
                     <token>da</token>
-                    <token>'</token>
+                    <token spacebefore="no">'</token>
                 </pattern>
-                <message>Non utilizzare l'apostrofo per accentare: <suggestion>dà</suggestion>.</message>
+                <message>Non utilizzare l'apostrofo per accentare.</message>
+                <suggestion>dà</suggestion>
                 <example correction="dà">Mi <marker>da'</marker> una mano per favore?</example>
             </rule>
         </rulegroup>
@@ -391,7 +406,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="CAT4" name="Grammatica - Frase">
         <!-- TO DO	<rulegroup name="altri elementi" id="GR_05_001">
             </rulegroup> -->
-        <rulegroup name="struttura" id="GR_05_002">
+        <rulegroup name="struttura" id="GR_05_002" default="off">
             <!-- non iniziare la frase con una congiunzione -->
             <rule>
                 <pattern>
@@ -428,11 +443,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag='ARTPRE-M:s'/>
-                    <token postag='NOUN-M:p'><exception postag="NOUN-M:s"/></token>
+                    <token postag='NOUN-M:p|NOUN-F:[sp]' postag_regexp="yes"><exception postag="NOUN-M:s|ADJ:pos\+m\+s" postag_regexp="yes"/></token>
                 </pattern>
                 <message>La preposizione articolata non concorda con il sostantivo che la segue</message>
                 <example type="correct">Il libro <marker>dell'amico amici</marker>.</example>
                 <example type="incorrect">Il libro <marker>dello amici</marker></example>
+                <example correction=""><marker>sul prodotti</marker></example>
+                <example correction=""><marker>nel terra</marker></example>
+                <example correction=""><marker>nel amica</marker></example>
+                <example correction=""><marker>nel amiche</marker></example>
+                <example>dal problema</example>
+                <example>nel panorama</example>
+                <example>sul pianeta</example>
+                <example>sul tema</example>
+                <example>del programma</example>
+                <example>dal verde</example>
+                <example>dal sistema</example>
+                <example>al cinema</example>
             </rule>
             <rule>
                 <pattern>
@@ -453,34 +480,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect">Il libro <marker>della amiche</marker></example>
             </rule>
         </rulegroup>
-        <rule id="CONCORDANZA_PREPOSIZIONE" name="Concordanza preposizione articolata maschile - genere parola seguente">
-            <pattern case_sensitive='yes'>
-                <token regexp='yes'>del|al|dal|nel|sul</token>
-                <token regexp='yes'>[^A-Z].*i|[a-z].*a
-                    <exception>sistema</exception>
-                    <exception>pianeta</exception>
-                    <exception>programma</exception>
-                    <exception>cinema</exception>
-                    <exception>panorama</exception>
-                    <exception>tema</exception>
-                    <exception>patriarca</exception>
-                </token>
-            </pattern>
-            <message>Concordanza preposizione articolata maschile - genere parola seguente</message>
-            <example correction=''>leader <marker>sul prodotti</marker></example>
-            <example>leader sui prodotti</example>
-        </rule>
         <rulegroup name="uso corretto" id="GR_07_001">
             <!-- da -->
             <rule>
-                <pattern>
+                <antipattern><!-- Se lo sai dà un pochino fastidio -->
+                    <token skip="3">dà</token>
+                    <token regexp="yes">fastidio|ragione|notizia|fiducia|vita|spazio|voce</token>
+                </antipattern>
+                <antipattern><!-- Chi vuole dà l'elemosina -->
+                    <token skip="2" postag=".*WH.*" postag_regexp="yes"/>
                     <token postag_regexp="yes" postag="VER:ind.*"/>
+                </antipattern>
+                <antipattern><!-- Chi lo vede dà per scontato che vincerà -->
+                    <token>dà</token>
+                    <token postag="PRE"/>
+                </antipattern>
+                <pattern>
+                    <token postag_regexp="yes" postag="VER:ind.*"><exception postag="(N.*)|(ADJ.*)" postag_regexp="yes"/></token>
                     <marker>
                         <token>dà</token>
                     </marker>
                 </pattern>
                 <message>Probabilmente si scrive senza accento: <suggestion>da</suggestion>.</message>
                 <example correction="da">Vengo <marker>dà</marker> Roma.</example>
+                <example correction="da">È <marker>dà</marker> due ore che ti aspetto.</example>
+                <example>L'opposizione russa dà voce alle sue inquietudini.</example>
+                <example>Sentirsi giudicati da chi non ti conosce dà un pochino fastidio.</example>
+                <example>Chi vuole dà l'elemosina.</example>
             </rule>
             <!-- PB002+ -->
             <!-- assolvere a... -->
@@ -833,7 +859,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction=''>non <marker>sono vengono</marker> preparate con le tecnologie e le infrastrutture adatte</example>
         </rule>
         
-	<rulegroup name="concordanza tempi delle coordinate" id="GR_10_001">
+	<rulegroup name="concordanza tempi delle coordinate" id="GR_10_001" default="off">
 <!-- PB007 + -->	    
             <!-- IND PRESENTE -->
 	    <rule>
@@ -988,7 +1014,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!--  congiunzioni subordinanti -->
             <rule>
                 <pattern>
-                    <token skip="2" regexp="yes">affinché|acciocché|purché|benché|sebbene|quantunque|qualora</token>
+                    <token regexp="yes">affinché|acciocché|purché|benché|sebbene|quantunque|qualora</token>
+                    <token min="0" max="3" postag="PRO-PERS-.*|ADV" postag_regexp="yes"/>
                     <marker>
                     	<token postag="VER.*" postag_regexp="yes">
                     	    <exception postag="(VER.sub.*)|(NOUN.*)" postag_regexp="yes"/>
@@ -1004,7 +1031,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>a</token>
                     <token>meno</token>
-                    <token skip="2">che</token>
+                    <token>che</token>
+                    <token min="0" max="3" postag="PRO-PERS-.*|ADV" postag_regexp="yes"/>
                     <marker>
                     	<token postag="VER.*" postag_regexp="yes">
                     	    <exception postag="(VER.sub.*)|(NOUN.*)" postag_regexp="yes"/>
@@ -1020,7 +1048,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>nel</token>
                     <token>caso</token>
-                    <token skip="2">che</token>
+                    <token>che</token>
+                    <token min="0" max="3" postag="PRO-PERS-.*|ADV" postag_regexp="yes"/>
                     <marker>
                     	<token postag="VER.*" postag_regexp="yes">
                     	    <exception postag="(VER.sub.*)|(NOUN.*)" postag_regexp="yes"/>
@@ -1035,7 +1064,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">prima|senza</token>
-                    <token skip="2">che</token>
+                    <token>che</token>
+                    <token min="0" max="3" postag="PRO-PERS-.*|ADV" postag_regexp="yes"/>
                     <marker>
                     	<token postag="VER.*" postag_regexp="yes">
                     	    <exception postag="(VER.sub.*)|(NOUN.*)" postag_regexp="yes"/>
@@ -1050,7 +1080,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- aggettivi o pronomi indefiniti -->
 			<rule>
                 <pattern>
-                    <token skip="2" regexp="yes">qualunque|chiunque|qualsiasi|ovunque|dovunque</token>
+                    <token regexp="yes">qualunque|qualsiasi|ovunque|dovunque</token> <!--chiunque-->
+                    <token min="0" max="3" postag="PRO-PERS-.*|ADV" postag_regexp="yes"/>
                     <marker>
                     	<token postag="VER.*" postag_regexp="yes">
                     	    <exception postag="(VER.sub.*)|(NOUN.*)" postag_regexp="yes"/>
@@ -1061,13 +1092,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>L'aggettivo '<match no="1"/>' richiede il congiuntivo.</message>
                 <example correction="">Ti troverò ovunque tu <marker>sei</marker>.</example>
                 <example>Ti troverò ovunque tu <marker>sia</marker>.</example>
+			    <example>Chiunque può apprezzare i risultati ottenuti.</example>
+			    <example>Qualunque cosa dirai, non ti crederò.</example>
+			    <example>Qualsiasi modo mi va bene.</example>
             </rule>
             <!-- espressioni impersonali è bene che, è meglio che -->
 			<rule>
                 <pattern>
                     <token>è</token>
-                    <token/>
-                    <token skip="2">che</token>
+                    <token regexp="yes">bene|meglio</token>
+                    <token>che</token>
+                    <token min="0" max="3" postag="PRO-PERS-.*|ADV" postag_regexp="yes"/>
                     <marker>
                     	<token postag="VER.*" postag_regexp="yes">
                     	    <exception postag="(VER.sub.*)|(NOUN.*)" postag_regexp="yes"/>                    	    
@@ -1078,6 +1113,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>L'espressione impersonale 'è <match no="2"/> che' richiede il congiuntivo.</message>
                 <example correction="">Credimi, è meglio che tu <marker>sei</marker> vicino.</example>
                 <example>Credimi, è meglio che tu <marker>sia</marker> vicino.</example>
+                <example>È così che funziona.</example>
             </rule>
 <!-- PB008 - -->
         </rulegroup>
@@ -1273,7 +1309,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">anguria|angurie</token>
                 </pattern>
-                <message>Sostituire forme dialettali con l'equivalente Italiano per migliorare al leggibilità: <suggestion>cocomero</suggestion>.</message>
+                <message>Sostituire forme dialettali con l'equivalente Italiano per migliorare la leggibilità: <suggestion>cocomero</suggestion>.</message>
                 <example correction="cocomero">Abbiamo mangiato un'<marker>anguria</marker>.</example>
                 <example>Abbiamo mangiato un <marker>cocomero</marker>.</example>
             </rule>
@@ -1282,7 +1318,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>asparagio</token>
                 </pattern>
-                <message>Sostituire forme dialettali con l'equivalente Italiano per migliorare al leggibilità: <suggestion>asparago</suggestion>.</message>
+                <message>Sostituire forme dialettali con l'equivalente Italiano per migliorare la leggibilità: <suggestion>asparago</suggestion>.</message>
                 <example correction="asparago">Ho colto un <marker>asparagio</marker>.</example>
             </rule>
             <!-- pedalino -->
@@ -1290,7 +1326,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">pedalino|pedalini</token>
                 </pattern>
-                <message>Sostituire forme dialettali con l'equivalente Italiano per migliorare al leggibilità: <suggestion>calza</suggestion>.</message>
+                <message>Sostituire forme dialettali con l'equivalente Italiano per migliorare la leggibilità: <suggestion>calza</suggestion>.</message>
                 <example correction="calza">Mauro portava un paio di <marker>pedalini</marker> bianchi.</example>
                 <example>Mauro portava un paio di <marker>calze</marker> bianche.</example>
             </rule>
@@ -1299,7 +1335,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">pomidoro|pomidori</token>
                 </pattern>
-                <message>Sostituire forme dialettali con l'equivalente Italiano per migliorare al leggibilità: <suggestion>pomodoro</suggestion>.</message>
+                <message>Sostituire forme dialettali con l'equivalente Italiano per migliorare la leggibilità: <suggestion>pomodoro</suggestion>.</message>
                 <example correction="pomodoro">Il <marker>pomidoro</marker> era maturo.</example>
             </rule>
         </rulegroup>
@@ -1398,7 +1434,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>ad</token>
                     <token regexp="yes">[eiou].*<exception regexp="yes">esempio|es</exception></token>
                 </pattern>
-                <message>L'uso della d eufonica dovrebbe essere limitato ai casi di incontro della stessa vocale: <suggestion>a <match no="2"/></suggestion>.</message>
+                <message>L'uso della d eufonica dovrebbe essere limitato ai casi d'incontro della stessa vocale: <suggestion>a <match no="2"/></suggestion>.</message>
                 <example correction="a interpretare">Provo <marker>ad interpretare</marker> il tuo pensiero.</example>
                 <example>Io, <marker>ad esempio</marker>, non ci sono cascato.</example>
             </rule>
@@ -1408,7 +1444,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>ed</token>
                     <token regexp="yes">[aiou].*</token>
                 </pattern>
-                <message>L'uso della 'd' eufonica dovrebbe essere limitato ai casi di incontro della stessa vocale: <suggestion>e <match no="2"/></suggestion>.</message>
+                <message>L'uso della 'd' eufonica dovrebbe essere limitato ai casi d'incontro della stessa vocale: <suggestion>e <match no="2"/></suggestion>.</message>
                 <example correction="e insisto">Ti dico <marker>ed insisto</marker> che è vero.</example>
             </rule>
             <!-- togli od -->
@@ -1417,7 +1453,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>od</token>
                     <token regexp="yes">[aieu].*</token>
                 </pattern>
-                <message>L'uso della 'd' eufonica dovrebbe essere limitato ai casi di incontro della stessa vocale: <suggestion>o <match no="2"/></suggestion>.</message>
+                <message>L'uso della 'd' eufonica dovrebbe essere limitato ai casi d'incontro della stessa vocale: <suggestion>o <match no="2"/></suggestion>.</message>
                 <example correction="o un">Si consiglia un farmaco blando <marker>od un</marker> omeopatico.</example>
             </rule>
 
@@ -1451,7 +1487,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Puoi vederlo ogni mattina <marker>od ogni</marker> sera.</example>
             </rule>
         </rulegroup>
-        <rulegroup name="ripetizioni" id="ST_03_002">
+        <rulegroup name="ripetizioni" id="ST_03_002" default="off">
             <rule>
                 <pattern>
 <!-- PB001 + -->
@@ -1488,7 +1524,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup name="in cifre se minori di 10" id="ST_04_001">
             <antipattern>
                 <token regexp="yes">\d+</token>
-                <token regexp="yes">[:\.]</token>
+                <token regexp="yes">[:\.aoe]|dei|da</token>
+                <token regexp="yes">\d+</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\d+</token>
+                <token regexp="yes" spacebefore="no">[,\.]</token>
+                <token regexp="yes" spacebefore="no">\d+</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">[\+\-=]</token>
+                <token regexp="yes">\d+</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\d+</token>
+                <token regexp="yes">[\+\-=]</token> 
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\p{Lu}.*</token>
                 <token regexp="yes">\d+</token>
             </antipattern>
             <rule>
@@ -1616,6 +1669,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="CAT12" name="Ulteriori errori comuni - voci del verbo 'avere'">
         <rulegroup name="scambio di 'a' ed 'ha'" id="ER_01_001">
             <rule>
+                <antipattern>
+                    <token>a</token>
+                    <token regexp="yes">volte|letto|posto|morte|punti|punta</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" regexp="yes">andare|portare</token>
+                    <token>a</token>
+                </antipattern>
                 <!-- "a" + un participio passato -->
                 <pattern>
                     <token>a</token>
@@ -1624,8 +1685,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Forse volevi dire <suggestion>ha <match no="2"/></suggestion>?</message>
                 <example correction="ha fatto">La mamma <marker>a fatto</marker> la spesa.</example>
                 <example>Tutte le informazioni del mondo a portata di mano</example>
+                <example>Dovrebbe andare a messa più spesso.</example>
+                <example>Esperienze diverse portano a scelte diverse.</example>
             </rule>
-            <rule>
+            <rule default="off">
                 <!-- "a" + un sostantivo plurale -->
                 <pattern>
                     <token>a</token>
@@ -1635,6 +1698,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="ha soldi">Piero <marker>a soldi</marker> con sé?.</example>
                 <example>Piero <marker>ha soldi</marker> con se?.</example>
                 <example>Di esempi ce ne sono a volontà.</example>
+                <example correction="ha piedi" type="triggers_error" reason="to be fixed!">Preferirei andare <marker>a piedi</marker> che stare qua ad aspettare il bus.</example>
             </rule>
             <rule default="off" name="suggerisci sempre lo scambio di 'a' con 'ha'" id="ER_01_001a">
                 <pattern>
@@ -1693,12 +1757,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- "anno" + un participio passato -->
                 <pattern>
                     <token>anno</token>
-                    <token postag="VER:part.+past.*" postag_regexp="yes"/>
+                    <token postag="VER:part.+past.*" postag_regexp="yes"><exception>scorso</exception></token>
                 </pattern>
                 <message>Forse volevi dire <suggestion>hanno <match no="2"/></suggestion>?</message>
                 <example correction="Hanno fatto"><marker>Anno fatto</marker> i compiti?</example>
+                <example>Non conoscevo Tom l' anno scorso.</example>
             </rule>
-            <rule>
+            <rule default="off">
                 <!-- "anno" + articolo -->
                 <pattern>
                     <token>anno</token>
@@ -1707,9 +1772,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Forse volevi dire <suggestion>ha <match no="2"/></suggestion>?</message>
                 <example correction="ha un">Piero e Cinzia <marker>anno un</marker> bel cane.</example>
                 <example>Piero e Cinzia <marker>hanno un</marker> bel cane.</example>
+                <!--In che anno sei nato?-->
             </rule>
         </rulegroup>
-        <rule name="scambio di 'o' ed 'ho'" id="ER_01_004">
+        <rule name="scambio di 'o' ed 'ho'" id="ER_01_004" default="off">
             <!-- "o" + un participio passato -->
             <pattern>
                 <token>o</token>
@@ -1717,6 +1783,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Forse volevi dire <suggestion>ho <match no="2"/></suggestion>?</message>
             <example correction="ho fatto">Non <marker>o fatto</marker> i compiti.</example>
+            <!--<example>Il serpente è vivo o morto?</example>-->
         </rule>
     </category>
 
@@ -1747,7 +1814,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="alla mia mamma">Ho dato un bacio <marker>ala mia mamma</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup name="scambio di 'la' e 'al'" id="ER_02_002">
+        <rulegroup name="scambio di 'la' e 'al'" id="ER_02_002" default="off">
             <rule>
                 <!-- "la" + sostantivo maschile -->
                 <pattern>
@@ -1805,7 +1872,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="la tua">Ho mangiato <marker>al tua</marker> merenda.</example>
             </rule>
         </rulegroup>
-        <rulegroup name="scambio di 'li' e 'il'" id="ER_02_003">
+        <rulegroup name="scambio di 'li' e 'il'" id="ER_02_003" default="off">
             <rule>
                 <!-- "li" + sostantivo maschile -->
                 <pattern>
@@ -1885,5 +1952,134 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
-
+    <category id="SEMANTICS" name="Semantica" type="inconsistency">
+        <rule id="ANNO20011_2011" name="*20011/2011">
+            <pattern>
+                <token regexp="yes">da|dal|del|corso|anno|accademico|&months_year;|&months_year_abr;</token>
+                <marker>
+                    <token regexp="yes">200[12]\d</token>
+                </marker>
+            </pattern>
+            <message>Forse volevi dire <suggestion><match no="2" regexp_match="200(..)" regexp_replace="20$1"/></suggestion>?</message>
+            <example correction="2014">È dal <marker>20014</marker>.</example>
+            <example correction="2014">Del corso <marker>20014</marker>.</example>
+            <example>Es del 2015.</example>
+        </rule>
+        <rulegroup id="DATE_WEEKDAY" name="Data incorrecta">
+            <rule>
+                <pattern>
+                    <token regexp="yes">&days_week;|(&days_week_abr;).*</token>
+                    <token min="0">,</token>
+                    <token regexp="yes">\d\d?</token>
+                    <token min="0" regexp="yes">[\.\-/]</token>
+                    <token regexp="yes">&months_year;|&months_year_abr;</token>
+                    <token min="0" regexp="yes">[\.\-/]|del</token>
+                    <token regexp="yes">\d\d\d\d</token>
+                </pattern>
+                <filter class="org.languagetool.rules.it.DateCheckFilter" args="year:\7 month:\5 day:\3 weekDay:\1"/>
+                <message>Questa data non è un {day} ma un {realDay}.</message>
+                <!-- TODO: tokenization <example correction=""><marker>Lunedì, 7-ottobre-2014</marker></example> -->
+                <example correction=""><marker>Lunedì 7 ottobre 2014</marker></example>
+                <example><marker>Martedì, 7 ottobre 2014</marker></example>
+                <example correction=""><marker>Lunedì, 7.ott.2014</marker></example>
+                <example correction=""><marker>Lunedì 7/ottobre/2014</marker></example>
+                <example><marker>Martedì, 7 ottobre 2014</marker></example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">&months_year;|&months_year_abr;</token>
+                    <token min="0" regexp="yes">[\.\-/]|del</token>
+                    <token regexp="yes">\d\d\d\d</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">&days_week;|(&days_week_abr;).*</token>
+                    <token min="0">,</token>
+                    <token regexp="yes">\d\d?</token>
+                    <token min="0" regexp="yes">[\.\-/]</token>
+                    <token regexp="yes">&months_year;|&months_year_abr;</token>
+                </pattern>
+                <filter class="org.languagetool.rules.it.DateCheckFilter" args="month:\5 day:\3 weekDay:\1"/>
+                <message>Se si riferisce all'anno in corso ({currentYear}), questa data non è un {day} ma un {realDay}.</message>
+                <example correction=""><marker>Lunedì 7 ottobre</marker></example>
+                <example correction=""><marker>Lunedì, 7 ottobre</marker></example>
+                <example><marker>Martedì, 7 ottobre</marker></example>
+                <example>Martedì 27 novembre 1922</example>
+                <example>Martedì 27 novembre del 1922</example>
+                <example>Martedì 27 novembre 1922</example>
+            </rule>
+        </rulegroup>
+        <rulegroup  id="NUMBER_DAYS_MONTH" name="giorni massimi del mese (28, 29, 30, 31)" default="off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>31</token>
+                    </marker>
+                    <token min="0" regexp="yes">[-/]|de</token>
+                    <token regexp="yes">aprile|apr|giugno|giu|settembre|set|novembre|nov|0?[469]|11</token>
+                </pattern>
+                <message>Il mese «\3» ha solo <suggestion>30</suggestion> giorni.</message>
+                <example correction="30">È nato il <marker>31</marker> settembre.</example>
+                <example correction="30">È nato il  <marker>31</marker>/11/1988.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">3[01]</token>
+                    </marker>
+                    <token min="0" regexp="yes">[-/]|de</token>
+                    <token regexp="yes">febbraio|feb|0?2</token>
+                </pattern>
+                <message>Il mese di febbraio ha solo <suggestion>28</suggestion> o <suggestion>29</suggestion> giorni.</message>
+                <example correction="28|29">È nato il <marker>31</marker> febbraio.</example>
+                <example correction="28|29">È nato il <marker>30</marker>/2/1988.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>29</token>
+                    </marker>
+                    <token min="0" regexp="yes">[-/]|de</token>
+                    <token regexp="yes">febbraio|feb|0?2</token>
+                    <token min="0" regexp="yes">[-/]|de|del|da|dal</token>
+                    <token regexp="yes">\d\d(00|\d[13579]|[02468][26]|[13579][048])
+                        <exception regexp="yes">[13579][26]00|[2468][048]00</exception>
+                    </token>
+                </pattern>
+                <message>Il mese di febbraio ha solo <suggestion>28</suggestion> giorni, perché l'anno \5 non è un anno bisestile.</message>
+                <example correction="28">El <marker>29</marker> febbraio de 1900.</example>
+                <example correction="28">El <marker>29</marker>/febbraio/1900.</example>
+                <example correction="28">El <marker>29</marker>/02/1900.</example>
+                <example correction="28">El <marker>29</marker>/2/1900.</example>
+                <!-- 2000 is a leap year (divisible by 400) -->
+                <example>El <marker>29</marker> febbraio 2000.</example>
+                <example>El <marker>29</marker>/febbraio/2000.</example>
+                <example>El <marker>29</marker>/02/2000.</example>
+                <example>El <marker>29</marker>/2/2000.</example>
+                <example correction="28">El <marker>29</marker> febbraio 2001.</example>
+                <example correction="28">El <marker>29</marker> febbraio 2002.</example>
+                <example correction="28">El <marker>29</marker> febbraio 2003.</example>
+                <!-- 2004 is a leap year (divisible by 4) -->
+                <example>El <marker>29</marker> febbraio 2004.</example>
+                <example correction="28">El <marker>29</marker> febbraio 2005.</example>
+                <example correction="28">El <marker>29</marker> febbraio del 2006.</example>
+                <example correction="28">El <marker>29</marker> febbraio 2007.</example>
+                <!-- 2008 is a leap year (divisible by 4) -->
+                <example>El <marker>29</marker> febbraio 2008.</example>
+                <example correction="28">El <marker>29</marker> febbraio del 2009.</example>
+                <example correction="28">El <marker>29</marker> febbraio de 2010.</example>
+                <example correction="28">El <marker>29</marker> febbraio 2011.</example>
+                <!-- 2012 is a leap year (divisible by 4) -->
+                <example>El <marker>29</marker> febbraio 2012.</example>
+                <example correction="28">El <marker>29</marker> febbraio del 2014.</example>
+                <example>El <marker>29</marker> febbraio 2016.</example>
+                <example correction="28">El <marker>29</marker> febbraio 2018.</example>
+                <example>El <marker>29</marker> febbraio 2020.</example>
+                <!-- 2100 is not a leap year (divisible by 100) -->
+                <example correction="28">El <marker>29</marker> febbraio del 2100.</example>
+                <!-- TOKENIZER: <example correction="28">El <marker>29</marker>-02-1900</marker></example>
+                <example correction="28">El <marker>29</marker>-feb-2005</marker></example>-->
+                <example>El 29-feb-2004</example>
+            </rule>
+        </rulegroup>
+    </category>
 </rules>

@@ -209,7 +209,7 @@ public class MainTest extends AbstractSecurityTestCase {
   public void testStdInWithExternalFalseFriends() throws Exception {
     String test = "Láska!\n";
     System.setIn(new ByteArrayInputStream(test.getBytes()));
-    String[] args = {"-l", "sk", "--falsefriends", getExternalFalseFriends(), "-m", "pl", "-"};
+    String[] args = {"-l", "sk", "--falsefriends", getExternalFalseFriends(), "--level", "PICKY", "-m", "pl", "-"};
 
     Main.main(args);
     String stdout = new String(this.out.toByteArray());
@@ -239,8 +239,8 @@ public class MainTest extends AbstractSecurityTestCase {
     Main.main(args);
     String output = new String(this.out.toByteArray());
     assertTrue(output.contains("This is a test.\n\n" +
-        "This is a test of language tool.\n\n" +
-        "This is a test of language tool.")); // \r\n in Windows tests at the end...
+        "This is a test of LanguageTool.\n\n" +
+        "This is a test of LanguageTool.")); // \r\n in Windows tests at the end...
   }
 
   @Test
@@ -312,8 +312,8 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue("Got: " + output, output.contains("\"message\":\"Possible typo: you repeated a word\""));
     assertTrue("Got: " + output, output.contains("\"sentence\":\"This is an test.\""));
     assertTrue("Doesn't display Time", !output.contains("Time: "));
-    assertTrue("Json start check",output.startsWith("{\"software\":{\"name\":\"LanguageTool\",\"version\":"));
-    assertTrue("Json end check",output.endsWith("}]}"));
+    assertTrue("Json start check", output.contains("{\"software\":{\"name\":\"LanguageTool\",\"version\":"));
+    assertTrue("Json end check", output.endsWith("}]}"));
   }
 
   //test line mode vs. para mode
@@ -433,10 +433,10 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(output.indexOf("<?xml version=\"1.0\" encoding=\"UTF-8\"?>") == 0);
     assertTrue(output.contains("<error fromy=\"0\" fromx=\"8\" toy=\"0\" tox=\"10\" ruleId=\"EN_A_VS_AN\" " +
         "msg=\"Use &apos;a&apos; instead of &apos;an&apos; if the following word doesn&apos;t start with a vowel sound, e.g. &apos;a sentence&apos;, " +
-        "&apos;a university&apos;\" " +
+        "&apos;a university&apos;.\" " +
         "shortmsg=\"Wrong article\" " +
         "replacements=\"a\" context=\"This is an test.  This is a test of of language tool.  ...\" " +
-        "contextoffset=\"8\" offset=\"8\" errorlength=\"2\" category=\"Miscellaneous\" categoryid=\"MISC\" locqualityissuetype=\"misspelling\"/>"));
+        "contextoffset=\"8\" offset=\"8\" errorlength=\"2\" url=\"https://languagetool.org/insights/post/indefinite-articles/\" category=\"Miscellaneous\" categoryid=\"MISC\" locqualityissuetype=\"misspelling\"/>"));
   }
 
   @Test
@@ -514,7 +514,7 @@ public class MainTest extends AbstractSecurityTestCase {
     String stdout = new String(this.out.toByteArray());
     String stderr = new String(this.err.toByteArray());
     assertTrue(stderr.indexOf("Expected text language: Polish") == 0);
-    assertTrue(stdout.contains("Message: Hint: \"aktualny\" (Polish) means \"current\", \"(the) latest\", \"up-to-date\" (English). Did you mean 'rzeczywisty'?"));
+    assertTrue(stdout.contains("Message: Hint: \"aktualny\" (Polish) means \"current\", \"(the) latest\", \"up-to-date\" (English). Did you mean \"rzeczywisty\"?"));
     assertTrue(stdout.contains("Line 1, column 32, Rule ID: ACTUAL"));
     assertTrue(stdout.contains("Line 3, column 3, Rule ID: TRANSLATION_LENGTH"));
   }
@@ -531,7 +531,7 @@ public class MainTest extends AbstractSecurityTestCase {
     String stdout = new String(this.out.toByteArray());
     String stderr = new String(this.err.toByteArray());
     assertTrue(stderr.indexOf("Expected text language: Polish") == 0);
-    assertTrue(stdout.contains("Message: Hint: \"aktualny\" (Polish) means \"current\", \"(the) latest\", \"up-to-date\" (English). Did you mean 'rzeczywisty'?"));
+    assertTrue(stdout.contains("Message: Hint: \"aktualny\" (Polish) means \"current\", \"(the) latest\", \"up-to-date\" (English). Did you mean \"rzeczywisty\"?"));
     assertTrue(stdout.contains("Line 1, column 32, Rule ID: ACTUAL"));
     assertFalse(stdout.contains("Rule ID: TRANSLATION_LENGTH"));
   }

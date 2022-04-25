@@ -46,7 +46,7 @@ public class MozambiquePortuguese extends Portuguese {
   public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     List<Rule> rules = new ArrayList<>();
     rules.addAll(super.getRelevantRules(messages, userConfig, motherTongue, altLanguages));
-    rules.add(new PreReformPortugueseCompoundRule(messages));
+    rules.add(new PreReformPortugueseCompoundRule(messages, this, userConfig));
     rules.add(new PreReformPortugueseDashRule(messages));
     return rules;
   }

@@ -18,6 +18,8 @@
  */
 package org.languagetool.rules.pt;
 
+import org.languagetool.Language;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
 
 import java.io.IOException;
@@ -31,8 +33,8 @@ public class PreReformPortugueseCompoundRule extends AbstractCompoundRule {
 
   private static volatile CompoundRuleData compoundData;
 
-  public PreReformPortugueseCompoundRule(ResourceBundle messages) throws IOException {    
-    super(messages,
+  public PreReformPortugueseCompoundRule(ResourceBundle messages, Language lang, UserConfig userConfig) throws IOException {    
+    super(messages, lang, userConfig,
             "Esta palavra é hifenizada.",
             "Esta palavra é composta por justaposição.",
             "Esta palavra pode ser composta por justaposição ou hifenizada.",
@@ -52,7 +54,7 @@ public class PreReformPortugueseCompoundRule extends AbstractCompoundRule {
   }
 
   @Override
-  protected CompoundRuleData getCompoundRuleData() {
+  public CompoundRuleData getCompoundRuleData() {
     CompoundRuleData data = compoundData;
     if (data == null) {
       synchronized (PreReformPortugueseCompoundRule.class) {

@@ -30,8 +30,11 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import static junit.framework.Assert.fail;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Markus Brenneis
@@ -48,6 +51,14 @@ public class VerbAgreementRuleTest {
   }
 
   @Test
+  public void testSuggestionSorting() throws IOException {
+    RuleMatch[] match1 = rule.match(lt.analyzeText("Wir nenne ihn mal „wild“."));
+    assertThat(match1.length, is(1));
+    assertThat(match1[0].getSuggestedReplacements().toString(),
+      is("[Wir nennen, Wir nennten, Er nenne, Sie nenne, Wir nannten, Ich nenne, Es nenne]"));
+  }
+
+  @Test
   public void testPositions() throws IOException {
     RuleMatch[] match1 = rule.match(lt.analyzeText("Du erreichst ich unter 12345"));
     assertThat(match1.length, is(1));
@@ -61,6 +72,12 @@ public class VerbAgreementRuleTest {
     assertThat(match3.length, is(1));
     assertThat(match3[0].getFromPos(), is(97));
     assertThat(match3[0].getToPos(), is(107));
+    
+    //TODO: This is a FP to be fixed
+    RuleMatch[] match4 = rule.match(lt.analyzeText("Mir ist bewusst, dass viele Menschen wie du empfinden."));
+    assertThat(match4.length, is(1));
+    assertThat(match4[0].getFromPos(), is(41));
+    assertThat(match4[0].getToPos(), is(53));
   }
   
   @Test
@@ -120,6 +137,50 @@ public class VerbAgreementRuleTest {
     assertGood("Ich hoffe ihr auch.");
     assertGood("Wird hoffen du auch.");
     assertGood("Hab einen schönen Tag!");
+    assertGood("Tom traue ich mehr als Maria.");
+    assertGood("Tom kenne ich nicht besonders gut, dafür aber seine Frau.");
+    assertGood("Tom habe ich heute noch nicht gesehen.");
+    assertGood("Tom bezahle ich gut.");
+    assertGood("Tom werde ich nicht noch mal um Hilfe bitten.");
+    assertGood("Tom konnte ich überzeugen, nicht aber Maria.");
+    assertGood("Mach du mal!");
+    assertGood("Das bekomme ich nicht hin.");
+    assertGood("Dies betreffe insbesondere Nietzsches Aussagen zu Kant und der Evolutionslehre.");
+    assertGood("❌Du fühlst Dich unsicher?");
+    assertGood("Bringst nicht einmal so etwas Einfaches zustande!");
+    assertGood("Bekommst sogar eine Sicherheitszulage");
+    assertGood("Dallun sagte nur, dass er gleich kommen wird und legte wieder auf.");
+    assertGood("Tinne, Elvis und auch ich werden gerne wiederkommen!");
+    assertGood("Du bist Lehrer und weißt diese Dinge nicht?");
+    assertGood("Die Frage lautet: Bist du bereit zu helfen?");
+    assertGood("Ich will nicht so wie er enden.");
+    assertGood("Das heißt, wir geben einander oft nach als gute Freunde, ob wir gleich nicht einer Meinung sind.");
+    assertGood("Wir seh'n uns in Berlin.");
+    assertGood("Bist du bereit, darüber zu sprechen?");
+    assertGood("Bist du schnell eingeschlafen?");
+    assertGood("Im Gegenzug bin ich bereit, beim Türkischlernen zu helfen.");
+    assertGood("Das habe ich lange gesucht.");
+    assertGood("Dann solltest du schnell eine Nummer der sexy Omas wählen.");
+    assertGood("Vielleicht würdest du bereit sein, ehrenamtlich zu helfen.");
+    assertGood("Werde nicht alt, egal wie lange du lebst.");
+    assertGood("Du bist hingefallen und hast dir das Bein gebrochen.");
+    assertGood("Mögest du lange leben!");
+    assertGood("Planst du lange hier zu bleiben?");
+    assertGood("Du bist zwischen 11 und 12 Jahren alt und spielst gern Fußball bzw. möchtest damit anfangen?");
+    assertGood("Ein großer Hadithwissenschaftler, Scheich Şemseddin Mehmed bin Muhammed-ül Cezri, kam in der Zeit von Mirza Uluğ Bey nach Semerkant.");
+    assertGood("Die Prüfbescheinigung bekommst du gleich nach der bestanden Prüfung vom Prüfer.");
+    assertGood("Du bist sehr schön und brauchst überhaupt gar keine Schminke zu verwenden.");
+    assertGood("Ist das so schnell, wie du gehen kannst?");
+    assertGood("Egal wie lange du versuchst, die Leute davon zu überzeugen");
+    assertGood("Du bist verheiratet und hast zwei Kinder.");
+    assertGood("Du bist aus Berlin und wohnst in Bonn.");
+    assertGood("Sie befestigen die Regalbretter vermittelst dreier Schrauben.");
+    assertGood("Meine Familie & ich haben uns ein neues Auto gekauft.");
+    assertGood("Der Bescheid lasse im übrigen die Abwägungen vermissen, wie die Betriebsprüfung zu den Sachverhaltsbeurteilungen gelange, die den von ihr bekämpften Bescheiden zugrundegelegt worden seien.");
+    assertGood("Die Bildung des Samens erfolgte laut Alkmaion im Gehirn, von wo aus er durch die Adern in den Hoden gelange.");
+    assertGood("Michael Redmond (geb. 1963, USA).");
+    assertGood("Würd mich sehr freuen drüber.");
+    assertGood("Es würd' ein jeder Doktor sein, wenn's Wissen einging wie der Wein.");
     // incorrect sentences:
     assertBad("Als Borcarbid weißt es eine hohe Härte auf.");
     assertBad("Das greift auf Vorläuferinstitutionen bist auf die Zeit von 1234 zurück.");
@@ -134,6 +195,12 @@ public class VerbAgreementRuleTest {
     assertBad("Sie sagte zu mir: „Du muss gehen.“");
     assertBad("„Ich müsst alles machen.“");
     assertBad("„Ich könnt mich sowieso nicht verstehen.“");
+    assertBad("Er sagte düster: Ich brauchen mich nicht böse angucken.");
+    assertBad("David sagte düster: Ich brauchen mich nicht böse angucken.");
+    assertBad("Ich setzet mich auf den weichen Teppich und kreuzte die Unterschenkel wie ein Japaner.");
+    assertBad("Ich brauchen einen Karren mit zwei Ochsen.");
+    assertBad("Ich haben meinen Ohrring fallen lassen.");
+    assertBad("Ich stehen Ihnen gerne für Rückfragen zur Verfügung.");
   }
 
   @Test
@@ -208,8 +275,10 @@ public class VerbAgreementRuleTest {
     assertGood("Ja sind ab morgen dabei.");
     assertGood("Oh bin überfragt.");
     // TODO: assertBad("Er fragte irritiert: „Darf ich fragen, die an dich gerichtet werden, beantworten?“");
-//     assertGood("Angenommen, du wärst ich."); TODO
+    assertGood("Angenommen, du wärst ich.");
     assertGood("Ich denke, dass das Haus, in das er gehen will, heute Morgen gestrichen worden ist.");
+    assertGood("Ich hab mein Leben, leb du deines!");
+    assertGood("Da freut er sich, wenn er schlafen geht und was findet.");
     // incorrect sentences:
     assertBad("Auch morgen leben du.");
     assertBad("Du weiß noch, dass du das gestern gesagt hast.");
@@ -219,7 +288,7 @@ public class VerbAgreementRuleTest {
     assertBad("Auch morgen lebte wir noch.");
     assertBad("Du bin nett.", 2); // TODO 2 errors
     assertBad("Du können heute leider nicht kommen.");
-    assertBad("Du können heute leider nicht kommen.", "Du kannst", "Du konntest", "Du könnest", "Du könntest", "Wir können", "Sie können");
+    assertBad("Du können heute leider nicht kommen.", "Du könnest", "Du kannst", "Du könntest", "Wir können", "Sie können", "Du konntest");
     assertBad("Du leben.");
     assertBad("Du wünscht dir so viel.");
     assertBad("Er bin nett.", 2);
@@ -232,13 +301,13 @@ public class VerbAgreementRuleTest {
     assertBad("Ich leben.");
     assertBad("Ich leben.", "Ich lebe", "Ich lebte", "Wir leben", "Sie leben");
     assertBad("Lebe du?");
-    assertBad("Lebe du?", "Lebest du", "Lebst du", "Lebtest du", "Lebe ich", "Lebe er", "Lebe sie", "Lebe es");
+    assertBad("Lebe du?", "Lebest du", "Lebst du", "Lebe er", "Lebe es", "Lebtest du", "Lebe ich", "Lebe sie");
     assertBad("Leben du?");
     assertBad("Nett bist ich nicht.", 2);
-    assertBad("Nett bist ich nicht.", 2, "bin ich", "sei ich", "war ich", "wäre ich", "bist du");
+    assertBad("Nett bist ich nicht.", 2, "bin ich", "bist du", "sei ich", "wäre ich", "war ich");
     assertBad("Nett sind du.");
     assertBad("Nett sind er.");
-    assertBad("Nett sind er.", "ist er", "sei er", "war er", "wäre er", "sind wir", "sind sie");
+    assertBad("Nett sind er.", "sind wir", "sei er", "ist er", "sind sie", "wäre er", "war er");
     assertBad("Nett warst wir.", 2);
     assertBad("Wir bin nett.", 2);
     assertBad("Wir gelangst zu ihr.", 2);
@@ -246,6 +315,8 @@ public class VerbAgreementRuleTest {
     assertBad("Wünscht du dir mehr Zeit?", "Subjekt (du) und Prädikat (Wünscht)");
     assertBad("Wir lebst noch.", 2);
     assertBad("Wir lebst noch.", 2, "Wir leben", "Wir lebten", "Du lebst");
+    assertBad("Er sagte düster: „Ich brauchen mich nicht schuldig fühlen.“", 1, "Ich brauche", "Ich brauchte", "Ich bräuchte", "Wir brauchen", "Sie brauchen");
+    assertBad("Er sagte: „Ich brauchen mich nicht schuldig fühlen.“", 1, "Ich brauche", "Ich brauchte", "Ich bräuchte", "Wir brauchen", "Sie brauchen");
   }
 
   private void assertGood(String s) throws IOException {
@@ -270,9 +341,9 @@ public class VerbAgreementRuleTest {
             errorMessage.contains(expectedErrorSubstring));
   }
 
-  private void assertBad(String s, int n, String... expectedSuggestions) throws IOException {
-    RuleMatch[] matches = rule.match(lt.analyzeText(s));
-    assertEquals("Did not find " + n + " match(es) in sentence '" + s + "'", n, matches.length);
+  private void assertBad(String input, int expectedMatches, String... expectedSuggestions) throws IOException {
+    RuleMatch[] matches = rule.match(lt.analyzeText(input));
+    assertEquals("Did not find " + expectedMatches + " match(es) in sentence '" + input + "'", expectedMatches, matches.length);
     if (expectedSuggestions.length > 0) {
       RuleMatch match = matches[0];
       // When two errors are reported by the rule (so TODO above), it might happen that the first match does not have the suggestions, but the second one

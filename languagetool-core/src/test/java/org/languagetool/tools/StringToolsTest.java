@@ -239,4 +239,16 @@ public class StringToolsTest {
     assertEquals("foo!", "foo!");
   }
 
+  @Test
+  public void testIsCamelCase() {
+    assertFalse(StringTools.isCamelCase("abc"));
+    assertFalse(StringTools.isCamelCase("ABC"));
+    assertTrue(StringTools.isCamelCase("iSomething"));
+    assertTrue(StringTools.isCamelCase("iSomeThing"));
+    assertTrue(StringTools.isCamelCase("mRNA"));
+    assertTrue(StringTools.isCamelCase("microRNA"));
+    assertTrue(StringTools.isCamelCase("microSomething"));
+    assertTrue(StringTools.isCamelCase("iSomeTHING"));
+  }
+
 }

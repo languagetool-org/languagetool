@@ -33,8 +33,9 @@ import java.util.*;
  * See readme.txt for details, the POS tagset is described in tagset.txt
  */
 public class RussianTagger extends BaseTagger {
+  public static final RussianTagger INSTANCE = new RussianTagger();
 
-  public RussianTagger() {
+  private RussianTagger() {
     super("/ru/russian.dict", new Locale("ru"));
   }
 
@@ -70,8 +71,8 @@ public class RussianTagger extends BaseTagger {
                 word = word.replace("я̀", "я");
                 word = word.replace("ʼ", "ъ");
             }
-                word_ie=word.replace("е","ё");
-                word_ie=word_ie.toLowerCase();
+                word_ie=word.toLowerCase();
+                word_ie=word_ie.replace("е","ё");
 
             List<AnalyzedToken> l = getAnalyzedTokens(word);
 

@@ -21,6 +21,8 @@ package org.languagetool.language;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
+import org.languagetool.chunking.Chunker;
+import org.languagetool.chunking.RussianChunker;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.ru.*;
@@ -65,13 +67,21 @@ public class Russian extends Language implements AutoCloseable {
   @NotNull
   @Override
   public Tagger createDefaultTagger() {
-    return new RussianTagger();
+    return RussianTagger.INSTANCE;
   }
 
   @Override
   public Disambiguator createDefaultDisambiguator() {
-    return new RussianHybridDisambiguator();
+    return RussianHybridDisambiguator.INSTANCE;
   }
+
+
+  @Nullable
+  @Override
+  public Chunker createDefaultPostDisambiguationChunker() {
+    return new RussianChunker();
+  }
+
 
   @Nullable
   @Override
@@ -90,6 +100,36 @@ public class Russian extends Language implements AutoCloseable {
             new Contributor("Yakov Reztsov", "http://myooo.ru/content/view/83/43/")
     };
   }
+  
+  /** @since 5.1 */
+  @Override
+  public String getOpeningDoubleQuote() {
+    return "«";
+  }
+
+  /** @since 5.1 */
+  @Override
+  public String getClosingDoubleQuote() {
+    return "»";
+  }
+  
+  /** @since 5.1 */
+  @Override
+  public String getOpeningSingleQuote() {
+    return "‘";
+  }
+
+  /** @since 5.1 */
+  @Override
+  public String getClosingSingleQuote() {
+    return "’";
+  }
+  
+  /** @since 5.1 */
+  @Override
+  public boolean isAdvancedTypographyEnabled() {
+    return true;
+  }
 
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
@@ -105,26 +145,27 @@ public class Russian extends Language implements AutoCloseable {
             new WordRepeatRule(messages, this),
             new MultipleWhitespaceRule(messages, this),
 	    new SentenceWhitespaceRule(messages),
-        //  new WhiteSpaceBeforeParagraphEnd(messages, this),
+            new WhiteSpaceBeforeParagraphEnd(messages, this),  
             new WhiteSpaceAtBeginOfParagraph(messages),
-        //  new EmptyLineRule(messages, this),
-            new LongSentenceRule(messages, userConfig),
+        //  new EmptyLineRule(messages, this),  // too picky rule 
+            new LongSentenceRule(messages, userConfig, 50),
             new LongParagraphRule(messages, this, userConfig),
-            new ParagraphRepeatBeginningRule(messages, this),
+            new ParagraphRepeatBeginningRule(messages, this),   //re-activate rule, issue #3509
             new RussianFillerWordsRule(messages, this, userConfig),
         //  new PunctuationMarkAtParagraphEnd(messages, this),
-        //  new PunctuationMarkAtParagraphEnd2(messages, this),
+            new PunctuationMarkAtParagraphEnd2(messages, this),  //
         //  new ReadabilityRule(messages, this, userConfig, false), // need use localise rule
         //  new ReadabilityRule(messages, this, userConfig, true),  // need use localise rule
-     
+      
             
                 // specific to Russian :
             new MorfologikRussianYOSpellerRule(messages, this, userConfig, altLanguages), // This rule must set off by default!!!
             new RussianUnpairedBracketsRule(messages, this),
-            new RussianCompoundRule(messages),
+            new RussianCompoundRule(messages, this, userConfig),
             new RussianSimpleReplaceRule(messages),
             new RussianWordCoherencyRule(messages),
             new RussianWordRepeatRule(messages),
+            new RussianWordRootRepeatRule(messages),
             new RussianVerbConjugationRule(messages),
             new RussianDashRule(messages),
             new RussianSpecificCaseRule(messages)
@@ -162,4 +203,23 @@ public class Russian extends Language implements AutoCloseable {
   public LanguageMaintainedState getMaintainedState() {
     return LanguageMaintainedState.ActivelyMaintained;
   }
+
+  @Override
+  protected int getPriorityForId(String id) {
+    switch (id) {
+      case "RU_DASH_RULE":                  return 12;   // higher prio than RU_COMPOUNDS
+      case "RU_COMPOUNDS":                  return 11;
+      case "RUSSIAN_SIMPLE_REPLACE_RULE":   return 10;   // higher prio than spell checker
+      case "RUSSIAN_SPECIFIC_CASE":         return 9;   // higher prio than spell checker
+      case "MORFOLOGIC_RULE_RU_RU_YO":      return 2;   //  spell checker yo
+      case "MORFOLOGIC_RULE_RU_RU":         return 1;   //  standard spell checker yo+ie
+
+
+      case "Word_root_repeat":              return -1;
+
+      case "TOO_LONG_PARAGRAPH":            return -15;
+    }
+    return super.getPriorityForId(id);
+  }
+
 }

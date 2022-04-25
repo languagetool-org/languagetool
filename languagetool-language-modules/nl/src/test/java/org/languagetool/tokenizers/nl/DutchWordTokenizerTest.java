@@ -43,8 +43,16 @@ public class DutchWordTokenizerTest {
                    "[Ik,  , zie,  , het, `, `]");
     assertTokenize("''Ik zie het",
                    "[', ', Ik,  , zie,  , het]");
-    assertTokenize("Ik 'zie' het",
-                   "[Ik,  , ', zie, ',  , het]");
+    
+    assertTokenize("Ik 'zie' het", "[Ik,  , ', zie, ',  , het]");
+    assertTokenize("Ik ‘zie’ het", "[Ik,  , ‘, zie, ’,  , het]");
+    assertTokenize("Ik \"zie\" het", "[Ik,  , \", zie, \",  , het]");
+    assertTokenize("Ik “zie” het", "[Ik,  , “, zie, ”,  , het]");
+    assertTokenize("'zie'", "[', zie, ']");
+    assertTokenize("‘zie’", "[‘, zie, ’]");
+    assertTokenize("\"zie\"", "[\", zie, \"]");
+    assertTokenize("“zie”", "[“, zie, ”]");
+    
     assertTokenize("Ik `zie het",
                    "[Ik,  , `, zie,  , het]");
     assertTokenize("Ik ``zie het",

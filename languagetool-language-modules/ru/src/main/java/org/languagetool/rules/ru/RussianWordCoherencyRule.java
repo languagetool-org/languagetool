@@ -50,7 +50,7 @@ public class RussianWordCoherencyRule extends AbstractWordCoherencyRule {
 
   @Override
   protected String getMessage(String word1, String word2) {
-    return "'" + word1 + "' и '" + word2 + "' не следует использовать одновременно";
+    return "«" + word1 + "» и «" + word2 + "» не следует использовать одновременно";
   }
   
   @Override

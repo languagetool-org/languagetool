@@ -18,6 +18,8 @@
  */
 package org.languagetool.rules.ro;
 
+import org.languagetool.Language;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.AbstractCompoundRule;
 import org.languagetool.rules.CompoundRuleData;
 
@@ -33,17 +35,12 @@ public class CompoundRule extends AbstractCompoundRule {
 
   private static volatile CompoundRuleData compoundData;
 
-  public CompoundRule(ResourceBundle messages) throws IOException {
-    super(messages,
+  public CompoundRule(ResourceBundle messages, Language lang, UserConfig userConfig) throws IOException {
+    super(messages, lang, userConfig,
             "Cuvântul se scrie cu cratimă.",
             "Cuvântul se scrie legat.",
             "Cuvântul se scrie legat sau cu cratimă.",
             "Problemă de scriere (cratimă, spațiu, etc.)");
-  }
-
-  @Override
-  public boolean isHyphenIgnored() {
-    return false;
   }
 
   @Override
@@ -57,7 +54,7 @@ public class CompoundRule extends AbstractCompoundRule {
   }
 
   @Override
-  protected CompoundRuleData getCompoundRuleData() {
+  public CompoundRuleData getCompoundRuleData() {
     CompoundRuleData data = compoundData;
     if (data == null) {
       synchronized (CompoundRule.class) {

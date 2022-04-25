@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" ?>
+<?xml-stylesheet type="text/css" href="../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css"
+        title="Easy editing stylesheet" ?>
+<!--
+  ~ /* LanguageTool, a natural language style checker
+  ~  * Copyright (C) 2021 Fabian Richter
+  ~  *
+  ~  * This library is free software; you can redistribute it and/or
+  ~  * modify it under the terms of the GNU Lesser General Public
+  ~  * License as published by the Free Software Foundation; either
+  ~  * version 2.1 of the License, or (at your option) any later version.
+  ~  *
+  ~  * This library is distributed in the hope that it will be useful,
+  ~  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  ~  * Lesser General Public License for more details.
+  ~  *
+  ~  * You should have received a copy of the GNU Lesser General Public
+  ~  * License along with this library; if not, write to the Free Software
+  ~  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+  ~  * USA
+  ~  */
+  -->
+<rules lang="xx" xsi:noNamespaceSchemaLocation="../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <category name="Test rules" id="TEST_RULES">
+        <rulegroup id="TEST_REMOTE_RULE" name="">
+            <rule>
+                <pattern>
+                    <token>test</token>
+                </pattern>
+                <example correction=""><marker>test</marker></example>
+                <example>nottest</example>
+            </rule>
+        </rulegroup>
+        <rule id="TEST_WHITESPACE" name="">
+            <pattern>
+                <token>foo</token>
+                <token>bar</token>
+            </pattern>
+            <example correction=""><marker>foo bar</marker></example>
+            <example>foo baz</example>
+        </rule>
+        <rule id="TEST_MARKER" name="">
+            <pattern>
+                <token>foo</token>
+                <marker><token>bar</token></marker>
+            </pattern>
+            <example correction="">foo <marker>bar</marker></example>
+            <example>foo baz</example>
+            <example>bar fight</example>
+        </rule>
+        <rule id="TEST_ANTIPATTERN" name="">
+            <antipattern>
+                <token>test</token>
+                <token>bar</token>
+            </antipattern>
+            <pattern>
+                <token/>
+                <token>bar</token>
+            </pattern>
+            <example correction="">I went to the <marker>best bar</marker>.</example>
+            <example>I went to the test bar.</example>
+        </rule>
+        <rule id="TEST_ID_REGEX[0-9]{1,2}" name="">
+            <pattern>
+                <token>foo</token>
+            </pattern>
+            <example correction="">Lorem ipsum <marker>foo</marker>.</example>
+            <example>I went to the test bar.</example>
+        </rule>
+    </category>
+</rules>

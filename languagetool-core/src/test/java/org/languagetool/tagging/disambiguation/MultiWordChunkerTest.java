@@ -37,7 +37,7 @@ public class MultiWordChunkerTest {
 
   @Test
   public void testDisambiguate1() throws IOException {
-    MultiWordChunker multiWordChunker = new MultiWordChunker("/yy/multiwords.txt", true);
+    MultiWordChunker multiWordChunker = new MultiWordChunker("/yy/multiwords.txt", true, true);
 
     AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("ah for shame");
     AnalyzedSentence disambiguated = multiWordChunker.disambiguate(analyzedSentence);

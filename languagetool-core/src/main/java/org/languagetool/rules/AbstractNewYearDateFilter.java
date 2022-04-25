@@ -110,7 +110,7 @@ public abstract class AbstractNewYearDateFilter extends RuleFilter {
   }
 
   private int getDayOfMonthFromArguments(Map<String, String> args) {
-    String dayOfMonthString = getRequired("day", args);
+    String dayOfMonthString = getRequired("day", args).replace("\u00AD", "");  // replace soft hyphen
     int dayOfMonth;
     Matcher matcherDayOfMonth = DAY_OF_MONTH_PATTERN.matcher(dayOfMonthString);
     if (matcherDayOfMonth.matches()) {
@@ -126,7 +126,7 @@ public abstract class AbstractNewYearDateFilter extends RuleFilter {
   }
 
   private int getMonthFromArguments(Map<String, String> args) {
-    String monthStr = getRequired("month", args);
+    String monthStr = getRequired("month", args).replace("\u00AD", "");  // replace soft hyphen
     int month;
     if (StringUtils.isNumeric(monthStr)) {
       month = Integer.parseInt(monthStr);

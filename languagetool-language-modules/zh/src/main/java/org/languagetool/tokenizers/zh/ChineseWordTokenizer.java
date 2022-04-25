@@ -18,38 +18,26 @@
  */
 package org.languagetool.tokenizers.zh;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import com.hankcs.hanlp.HanLP;
+import com.hankcs.hanlp.seg.Segment;
 import org.languagetool.tokenizers.Tokenizer;
 
 import com.hankcs.hanlp.seg.common.Term;
-import com.hankcs.hanlp.tokenizer.BasicTokenizer;
-import cn.com.cjf.CJFBeanFactory;
-import cn.com.cjf.ChineseJF;
 
 public class ChineseWordTokenizer implements Tokenizer {
 
-  private ChineseJF chinesdJF;
-
-  private void init() {
-    if (chinesdJF == null) {
-      chinesdJF = CJFBeanFactory.getChineseJF();
-    }
-  }
+  private static final Segment SEGMENT = HanLP.newSegment()
+    .enableAllNamedEntityRecognize(false)
+    .enableCustomDictionary(false)
+    .enablePartOfSpeechTagging(true);
 
   @Override
   public List<String> tokenize(String text) {
-    init();
-    try {
-      List<Term> termList = BasicTokenizer.segment(text);
-      List<String> words = new ArrayList<>(termList.size());
-      for (Term term : termList) {
-        words.add(term.toString());
-      }
-      return words;
-    } catch (Exception e) {
-      return new ArrayList<>(0);
-    }
+    List<Term> termList = SEGMENT.seg(text);
+
+    return termList.stream().map(Term::toString).collect(Collectors.toList());
   }
 }

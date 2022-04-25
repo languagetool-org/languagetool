@@ -111,4 +111,13 @@ public class MixingSentenceSource extends SentenceSource {
   public String getSource() {
     return StringUtils.join(sources, ", ");
   }
+
+  int getIgnoredCount() {
+    int sum = 0;
+    for (SentenceSource source : sources) {
+      sum += source.getIgnoredCount();
+    }
+    return sum;
+  }
+
 }

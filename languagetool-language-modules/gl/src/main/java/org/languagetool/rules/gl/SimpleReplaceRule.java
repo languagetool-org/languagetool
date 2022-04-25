@@ -70,7 +70,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
   
   @Override
   public String getMessage(String tokenStr, List<String> replacements) {
-    return tokenStr + " non existe en galego. Talvez quería vostede dicir: "
+    return "'" + tokenStr + "' non existe en galego. Talvez quería vostede dicir: "
         + String.join(", ", replacements) + ".";
   }
 

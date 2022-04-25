@@ -35,6 +35,7 @@ public class PersianSpaceBeforeRule extends AbstractSpaceBeforeRule {
 
   public PersianSpaceBeforeRule(ResourceBundle messages, Language language) {
     super(messages, language);
+    setDefaultOff();
   }
 
   @Override

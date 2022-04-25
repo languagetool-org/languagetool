@@ -18,7 +18,6 @@
  */
 package org.languagetool.language.en.translation;
 
-import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -30,8 +29,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 public class BeoLingusTranslatorTest {
@@ -121,24 +120,27 @@ public class BeoLingusTranslatorTest {
 
   @Test
   public void testCleanTranslationForReplace() {
-    assertThat(translator.cleanTranslationForReplace("", null), CoreMatchers.is(""));
-    assertThat(translator.cleanTranslationForReplace("to go", null), CoreMatchers.is("go"));
-    assertThat(translator.cleanTranslationForReplace("to go", "need"), CoreMatchers.is("to go"));
-    assertThat(translator.cleanTranslationForReplace("to go", "will"), CoreMatchers.is("go"));
-    assertThat(translator.cleanTranslationForReplace("to go", "foo"), CoreMatchers.is("go"));
-    assertThat(translator.cleanTranslationForReplace("to go", "to"), CoreMatchers.is("go"));
-    assertThat(translator.cleanTranslationForReplace("foo (bar) {mus}", null), CoreMatchers.is("foo"));
-    assertThat(translator.cleanTranslationForReplace("some thing [Br.], something", null), CoreMatchers.is("some thing , something"));  // not quite clean yet...
+    assertThat(translator.cleanTranslationForReplace("", null), is(""));
+    assertThat(translator.cleanTranslationForReplace("to go", null), is("go"));
+    assertThat(translator.cleanTranslationForReplace("to go", "need"), is("to go"));
+    assertThat(translator.cleanTranslationForReplace("to go", "will"), is("go"));
+    assertThat(translator.cleanTranslationForReplace("to go", "foo"), is("go"));
+    assertThat(translator.cleanTranslationForReplace("to go", "to"), is("go"));
+    assertThat(translator.cleanTranslationForReplace("foo (bar) {mus}", null), is("foo"));
+    assertThat(translator.cleanTranslationForReplace("some thing [Br.], something", null), is("some thing , something"));  // not quite clean yet...
+    assertThat(translator.cleanTranslationForReplace("Friday /Fri/", null), is("Friday"));
+    assertThat(translator.cleanTranslationForReplace("demise [poet.] <death>", null), is("demise"));
   }
 
   @Test
   public void testGetTranslationSuffix() {
-    assertThat(translator.getTranslationSuffix(""), CoreMatchers.is(""));
-    assertThat(translator.getTranslationSuffix(" "), CoreMatchers.is(""));
-    assertThat(translator.getTranslationSuffix("foo bar"), CoreMatchers.is(""));
-    assertThat(translator.getTranslationSuffix("foo bar [Br.]"), CoreMatchers.is("[Br.]"));
-    assertThat(translator.getTranslationSuffix("foo bar {ugs} [Br.]"), CoreMatchers.is("{ugs} [Br.]"));
-    assertThat(translator.getTranslationSuffix("foo bar {ugs} [Br.] (Blah)"), CoreMatchers.is("{ugs} [Br.] (Blah)"));
+    assertThat(translator.getTranslationSuffix(""), is(""));
+    assertThat(translator.getTranslationSuffix(" "), is(""));
+    assertThat(translator.getTranslationSuffix("foo bar"), is(""));
+    assertThat(translator.getTranslationSuffix("foo bar [Br.]"), is("[Br.]"));
+    assertThat(translator.getTranslationSuffix("foo bar {ugs} [Br.]"), is("{ugs} [Br.]"));
+    assertThat(translator.getTranslationSuffix("foo bar {ugs} [Br.] (Blah)"), is("{ugs} [Br.] (Blah)"));
+    assertThat(translator.getTranslationSuffix("foo bar <blah>"), is("<blah>"));
     //assertThat(rule.cleanTranslationForAddition("foo (Blah {m})"), is("(Blah {m})"));  // nesting not supported yet
   }
 

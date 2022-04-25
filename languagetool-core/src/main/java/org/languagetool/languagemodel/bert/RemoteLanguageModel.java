@@ -20,26 +20,35 @@
  */
 package org.languagetool.languagemodel.bert;
 
-
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import io.grpc.ManagedChannel;
+import io.grpc.Status;
+import io.grpc.StatusRuntimeException;
 import io.grpc.netty.shaded.io.grpc.netty.GrpcSslContexts;
 import io.grpc.netty.shaded.io.grpc.netty.NegotiationType;
 import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
 import io.grpc.netty.shaded.io.netty.handler.ssl.SslContextBuilder;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.languagemodel.bert.grpc.BertLmGrpc;
+import org.languagetool.languagemodel.bert.grpc.BertLmGrpc.BertLmBlockingStub;
 
 import javax.net.ssl.SSLException;
 import java.io.File;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
 
 import static org.languagetool.languagemodel.bert.grpc.BertLmProto.*;
 
 public class RemoteLanguageModel {
+
   private final BertLmGrpc.BertLmBlockingStub model;
   private final ManagedChannel channel;
+  private final Cache<Request, List<Double>> cache = CacheBuilder.newBuilder()
+    .maximumSize(1000)
+    .build();
 
   public static class Request {
     public String text;
@@ -62,6 +71,23 @@ public class RemoteLanguageModel {
         .build());
       return ScoreRequest.newBuilder().setText(text).addAllMask(masks).build();
     }
+
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) return true;
+      if (o == null || getClass() != o.getClass()) return false;
+      Request request = (Request) o;
+      return start == request.start &&
+        end == request.end &&
+        text.equals(request.text) &&
+        candidates.equals(request.candidates);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(text, start, end, candidates);
+    }
+
   }
 
   public RemoteLanguageModel(String host, int port, boolean useSSL,
@@ -97,14 +123,61 @@ public class RemoteLanguageModel {
     }
   }
 
-
-  public List<List<Double>> batchScore(List<Request> requests) {
+  public List<List<Double>> batchScore(List<Request> requests, long timeoutMilliseconds) throws TimeoutException {
+    Map<Request, List<Double>> cachedRequests = new HashMap<>();
+    List<Request> uncachedRequests = new ArrayList<>();
+    for (Request request : requests) {
+      List<Double> result = cache.getIfPresent(request);
+      if (result == null) {
+        uncachedRequests.add(request);
+      } else {
+        cachedRequests.put(request, result);
+      }
+    }
     BatchScoreRequest batch = BatchScoreRequest.newBuilder().addAllRequests(
-      requests.stream().map(Request::convert).collect(Collectors.toList())
+      uncachedRequests.stream().map(Request::convert).collect(Collectors.toList())
     ).build();
     // TODO multiple masks
-    return model.batchScore(batch).getResponsesList().stream().map(r ->
-      r.getScoresList().get(0).getScoreList()).collect(Collectors.toList());
+    List<List<Double>> nonCacheResult;
+    try {
+      BertLmBlockingStub stub;
+      if (timeoutMilliseconds > 0) {
+        stub = model.withDeadlineAfter(timeoutMilliseconds, TimeUnit.MILLISECONDS);
+      } else {
+        stub = model;
+      }
+      nonCacheResult = stub.batchScore(batch)
+        .getResponsesList().stream().map(r ->
+          r.getScoresList().get(0).getScoreList()).collect(Collectors.toList());
+    } catch (StatusRuntimeException e) {
+      if (e.getStatus().getCode() == Status.DEADLINE_EXCEEDED.getCode()) {
+        throw new TimeoutException(e.getMessage());
+      } else {
+        throw e;
+      }
+    }
+    //
+    List<List<Double>> allResults = new ArrayList<>();
+    int i = 0;
+    for (Request request : requests) {
+      List<Double> result = cachedRequests.get(request);
+      if (result != null) {
+        //System.out.println("Adding result from cache");
+        allResults.add(result);
+      } else {
+        //System.out.println("Adding result from remote");
+        allResults.add(nonCacheResult.get(i++));
+      }
+    }
+
+    int j = 0;
+    for (List<Double> re : nonCacheResult) {
+      // a CacheLoader doesn't work with batching, so add manually:
+      //System.out.println("Adding request to cache");
+      cache.put(uncachedRequests.get(j), re);
+      j++;
+    }
+    return allResults;
   }
 
   public List<Double> score(Request req) {

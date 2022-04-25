@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.pt;
 
+import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.language.Portuguese;
 import org.languagetool.rules.AbstractSimpleReplaceRule2;
 import org.languagetool.rules.Categories;
@@ -25,9 +26,7 @@ import org.languagetool.rules.Example;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.tools.Tools;
 
-import java.io.IOException;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import java.net.URL;
 
@@ -43,16 +42,18 @@ public class PortugueseBarbarismsRule extends AbstractSimpleReplaceRule2 {
 
   public static final String PT_BARBARISMS_REPLACE = "PT_BARBARISMS_REPLACE";
 
-  private static final String FILE_NAME = "/pt/barbarisms.txt";
   private static final Locale PT_LOCALE = new Locale("pt");  // locale used on case-conversion
 
+  private final String path;
+
   @Override
-  public final String getFileName() {
-    return FILE_NAME;
+  public List<String> getFileNames() {
+    return Collections.singletonList(path);
   }
 
-  public PortugueseBarbarismsRule(ResourceBundle messages) throws IOException {
+  public PortugueseBarbarismsRule(ResourceBundle messages, String path) {
     super(messages, new Portuguese());
+    this.path = Objects.requireNonNull(path);
     super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
     addExamplePair(Example.wrong("<marker>curriculum vitae</marker>"),
@@ -60,7 +61,7 @@ public class PortugueseBarbarismsRule extends AbstractSimpleReplaceRule2 {
   }
 
   @Override
-  public final String getId() {
+  public String getId() {
     return PT_BARBARISMS_REPLACE;
   }
 
@@ -75,7 +76,7 @@ public class PortugueseBarbarismsRule extends AbstractSimpleReplaceRule2 {
   }
 
   @Override
-  public String getSuggestion() {
+  public String getMessage() {
     return "'$match' é um estrangeirismo. É preferível dizer $suggestions";
   }
 
@@ -92,6 +93,12 @@ public class PortugueseBarbarismsRule extends AbstractSimpleReplaceRule2 {
   @Override
   public Locale getLocale() {
     return PT_LOCALE;
+  }
+  
+  @Override
+  protected boolean isTokenException(AnalyzedTokenReadings atr) {
+    // proper nouns tagged in multiwords are exceptions
+    return atr.hasPosTagStartingWith("NP") || atr.isImmunized();
   }
 
 }

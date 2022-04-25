@@ -19,11 +19,11 @@
 package org.languagetool.dev.wikipedia;
 
 import org.apache.commons.lang3.StringUtils;
-import org.sweble.wikitext.engine.CompiledPage;
-import org.sweble.wikitext.engine.Compiler;
+//import org.sweble.wikitext.engine.CompiledPage;
+//import org.sweble.wikitext.engine.Compiler;
 import org.sweble.wikitext.engine.PageId;
 import org.sweble.wikitext.engine.PageTitle;
-import org.sweble.wikitext.engine.utils.SimpleWikiConfiguration;
+//import org.sweble.wikitext.engine.utils.SimpleWikiConfiguration;
 
 /**
  * Convert Wikipedia syntax to HTML using Sweble.
@@ -32,40 +32,41 @@ public class SwebleWikipediaTextFilter implements TextMapFilter {
 
   private static final int WRAP_COL = Integer.MAX_VALUE;
 
-  private final SimpleWikiConfiguration config;
-  private final Compiler compiler;
-  private final PageId pageId;
+  //private final SimpleWikiConfiguration config;
+//  private final Compiler compiler;
+//  private final PageId pageId;
   
   private boolean enableMapping = true;
   
   public SwebleWikipediaTextFilter() {
-    try {
-      config = new SimpleWikiConfiguration(
-              "classpath:/org/languagetool/resource/dev/SimpleWikiConfiguration.xml");
-      compiler = new Compiler(config);
-      PageTitle pageTitle = PageTitle.make(config, "fileTitle");
-      pageId = new PageId(pageTitle, -1);
-    } catch (Exception e) {
-      throw new RuntimeException("Could not set up text filter", e);
-    }
+//    try {
+//      config = new SimpleWikiConfiguration(
+//              "classpath:/org/languagetool/resource/dev/SimpleWikiConfiguration.xml");
+//      compiler = new Compiler(config);
+//      PageTitle pageTitle = PageTitle.make(config, "fileTitle");
+//      pageId = new PageId(pageTitle, -1);
+//    } catch (Exception e) {
+//      throw new RuntimeException("Could not set up text filter", e);
+//    }
   }
 
   @Override
   public PlainTextMapping filter(String wikiText) {
-    try {
-      CompiledPage compiledPage = compiler.postprocess(pageId, wikiText, null);
-      TextConverter textConverter = new TextConverter(config, WRAP_COL);
-      textConverter.enableMapping(enableMapping);
-      String plainText = (String) textConverter.go(compiledPage.getPage());
-      if (enableMapping) {
-        return new PlainTextMapping(plainText, textConverter.getMapping());
-      } else {
-        return new PlainTextMapping(plainText, null);
-      }
-    } catch (Exception e) {
-      throw new RuntimeException("Could not extract plain text from MediaWiki syntax: '"
-              + StringUtils.abbreviate(wikiText, 500) + "'", e);
-    }
+//    try {
+//      CompiledPage compiledPage = compiler.postprocess(pageId, wikiText, null);
+//      TextConverter textConverter = new TextConverter(config, WRAP_COL);
+//      textConverter.enableMapping(enableMapping);
+//      String plainText = (String) textConverter.go(compiledPage.getPage());
+//      if (enableMapping) {
+//        return new PlainTextMapping(plainText, textConverter.getMapping());
+//      } else {
+//        return new PlainTextMapping(plainText, null);
+//      }
+//    } catch (Exception e) {
+//      throw new RuntimeException("Could not extract plain text from MediaWiki syntax: '"
+//              + StringUtils.abbreviate(wikiText, 500) + "'", e);
+//    }
+    return new PlainTextMapping("", null);
   }
 
   /**

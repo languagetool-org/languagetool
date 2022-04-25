@@ -35,7 +35,7 @@ import org.languagetool.rules.RuleMatch;
 
 public class TokenAgreementAdjNounRuleTest {
 
-  private JLanguageTool langTool;
+  private JLanguageTool lt;
   private TokenAgreementAdjNounRule rule;
 
 //  static {
@@ -45,7 +45,7 @@ public class TokenAgreementAdjNounRuleTest {
   @Before
   public void setUp() throws IOException {
     rule = new TokenAgreementAdjNounRule(TestTools.getMessages("uk"));
-    langTool = new JLanguageTool(new Ukrainian());
+    lt = new JLanguageTool(new Ukrainian());
 //    TokenInflectionAgreementRule.DEBUG = true;
   }
   
@@ -65,97 +65,125 @@ public class TokenAgreementAdjNounRuleTest {
     assertEmptyMatch("(Пізніше Вальтер став першим");
     assertEmptyMatch("складовою успіху");
     assertEmptyMatch("про екс-першого віце-спікера.");
+    assertEmptyMatch("Маю лишній квиток і подумав за свого найкращого друга");
 
 
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("скрутна справі")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("район імпозантних віл")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("офіційний статистика")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("зелена яблуко.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("сп’янілі свободою")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("кволий депутата")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("кволого тюльпан")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("цинічна винахідливості")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("наступній рік свого життя")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("жодного кубічного метру в Україні не буде")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("складний рік на фондовим ринку")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("є найкращий засобом для очистки")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("має вчену ступінь з хімії")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("розкішні чорні коси й, засукавши широкі рукава своєї сорочки,")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("то коло стола її вишивані рукава мають, то коло печі")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("валялись одірвані рукава кунтушів та поли жупанів")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("вчинили страшенний диплома тичний галас")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Раймон Бенжамен і керівник європейського філії")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("обвинувачення у вчинені злочину, передбаченого")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("скрутна справі")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("район імпозантних віл")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("офіційний статистика")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("зелена яблуко.")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("сп’янілі свободою")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("кволий депутата")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("кволого тюльпан")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("цинічна винахідливості")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("наступній рік свого життя")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("жодного кубічного метру в Україні не буде")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("складний рік на фондовим ринку")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("є найкращий засобом для очистки")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("має вчену ступінь з хімії")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("розкішні чорні коси й, засукавши широкі рукава своєї сорочки,")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("то коло стола її вишивані рукава мають, то коло печі")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("валялись одірвані рукава кунтушів та поли жупанів")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("вчинили страшенний диплома тичний галас")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("Раймон Бенжамен і керівник європейського філії")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("обвинувачення у вчинені злочину, передбаченого")).length);
 
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("перша ступінь")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("друга ступінь")).length);
+
+    assertHasError("встановлена Верховної Радою 17 січня 2017 року");
+    assertHasError("фракцію у Верховні Раді й мати");
+    
     // не працює через іменник "французька" (мова)
 //    assertEquals(1, rule.match(langTool.getAnalyzedSentence("французька політик")).length);
 
-    RuleMatch[] matches0 = rule.match(langTool.getAnalyzedSentence("4 російських винищувача"));
+    RuleMatch[] matches0 = rule.match(lt.getAnalyzedSentence("4 російських винищувача"));
     assertEquals(1, matches0.length);
     assertTrue("Message is wrong: " + matches0[0].getMessage(),
         matches0[0].getMessage().contains("[ч.р.: родовий, знахідний]"));
     assertEquals(Arrays.asList("російських винищувачів", "російського винищувача"), matches0[0].getSuggestedReplacements());
 
+    assertEmptyMatch("Засвідчувана досить часто наукою «гнучкість» — один із коренів\n" + 
+        "паранаукових явищ на кшталт «нової хронології» Фоменка.");
+
+    // skip adv after adjp
+    assertEmptyMatch("прикрита швидко рука");
+    assertHasError("прикрита швидко руку");
+    assertEmptyMatch("надана як раз");
+    assertEmptyMatch("прикрита отруйливо гарячим");
+    assertEmptyMatch("після короткого резюме справи");
+    assertEmptyMatch("білий як полотно");
+    assertHasError("відкинутий набагато років назад"); // should be "на багато"
+    assertEmptyMatch("розділеного вже чверть століття");
+    assertEmptyMatch("розділеного третину століття");
+    assertEmptyMatch("заклопотані чимало людей");
+    assertEmptyMatch("заклопотані дуже обмаль людей");
+//    assertEmptyMatch("З усіх опитаних майже половина відверто");
+    assertEmptyMatch("заданою відносно спостерігача");
+    assertEmptyMatch("опублікований увечері понеділка");
+    
+    assertEmptyMatch("зареєстровані зокрема БЮТівець Микола Булатецький та самовисуванець");
+    
     // from real examples
     
     // і-и
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("під зеківській нуль")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("у повітряній простір")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("в дитячий лікарні")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("у Київський філармонії")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("на керівні посаді")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("незворотній процес")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("під зеківській нуль")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("у повітряній простір")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("в дитячий лікарні")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("у Київський філармонії")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("на керівні посаді")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("незворотній процес")).length);
     // taken care by xml rule
 //    assertEquals(1, rule.match(langTool.getAnalyzedSentence("408 зниклих безвісті")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("нинішній російські владі")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("заробітної платі")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("сталеві панцирі")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("нинішній російські владі")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("заробітної платі")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("сталеві панцирі")).length);
 //    assertEquals(1, rule.match(langTool.getAnalyzedSentence("бейсбольною битою машини")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("У львівській та київський Книгарнях")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("У львівській та київський Книгарнях")).length);
     // relies on disambiguation
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("— робочій день.")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("— робочій день.")).length);
     assertEmptyMatch("президентів Леонідів Кравчука та Кучму");
 
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("угода на 30 років зі щорічного поставкою росіянами ...")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("угода на 30 років зі щорічного поставкою росіянами ...")).length);
     
     // missing/extra letter
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("сприймали так власні громадян")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("прокатні транспорті засоби")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Ви не притягнене капіталу")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("потрібна змін поколінь")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Незадовільне забезпеченням паливом")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("сочиться коштовний камінням")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("будь-якої демократичної крани")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("сприймали так власні громадян")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("прокатні транспорті засоби")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("Ви не притягнене капіталу")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("потрібна змін поколінь")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("Незадовільне забезпеченням паливом")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("сочиться коштовний камінням")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("будь-якої демократичної крани")).length);
     // case government
 //    assertEquals(1, rule.match(langTool.getAnalyzedSentence("що найбільший досягненням")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Генеральній прокураторі")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("була низька передумов")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("після смерті легендарного Фреді Меркюрі")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("юна викрадача й не здогадувалася")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("Генеральній прокураторі")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("була низька передумов")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("після смерті легендарного Фреді Меркюрі")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("юна викрадача й не здогадувалася")).length);
 
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("По повернені кореспондентів")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("в очікувані експериментатора")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("По повернені кореспондентів")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("в очікувані експериментатора")).length);
 
     // wrong letter
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("певної мірою")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("люмпенізується дедалі більша частини")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Державна фіскальну служба")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Як правило, це чоловіки, годувальними сімей")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("з московською боку")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("певної мірою")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("люмпенізується дедалі більша частини")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("Державна фіскальну служба")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("Як правило, це чоловіки, годувальними сімей")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("з московською боку")).length);
 
 //    assertEquals(1, rule.match(langTool.getAnalyzedSentence("від войовничих хозар")).length);
 
     // wrong gender
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("з насиджених барліг")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("У польському Лодзі")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("панування зимових сутінок")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("з насиджених барліг")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("У польському Лодзі")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("панування зимових сутінок")).length);
     
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("за наявною інформацію")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("асоціюється в нас із сучасною цивілізацію")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("за наявною інформацію")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("асоціюється в нас із сучасною цивілізацію")).length);
 //    assertEquals(1, rule.match(langTool.getAnalyzedSentence("які вимагалися за тендерною документацію")).length);
 
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("зловживання монопольних становищем")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("проживання та дворазове харчуванням")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("зловживання монопольних становищем")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("проживання та дворазове харчуванням")).length);
 
     // we don't care much about adjp:actv:imperf
     // FIXME: ignored by adjp:actv:imperf + noun.*v_naz 
@@ -163,16 +191,16 @@ public class TokenAgreementAdjNounRuleTest {
 //    assertEquals(1, rule.match(langTool.getAnalyzedSentence("паралельно приймаючі пацієнтів")).length);
 
     // false v_rod with -у
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("кримського безсмертнику"));
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("кримського безсмертнику"));
     assertEquals(1, matches.length);
     assertTrue("Missing message for v_rod/v_dav -у/ю", matches[0].getMessage().contains("Можливо"));
 
-    matches = rule.match(langTool.getAnalyzedSentence("Та пахових ділянках"));
+    matches = rule.match(lt.getAnalyzedSentence("Та пахових ділянках"));
     assertEquals(1, matches.length);
     assertTrue("Missing message for v_mis", matches[0].getMessage().contains("Можливо"));
 
     // false v_rod with -а
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("федерального округа")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("федерального округа")).length);
 
     // ne- together
     //TODO: fix later
@@ -182,32 +210,36 @@ public class TokenAgreementAdjNounRuleTest {
      
 
     // false :nv
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("затверджений народним віче")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("На великому родинному віче")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("в листопаді 2015 року на народні віче до Кривого Рогу")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("як японські ніндзя")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("приталені пальто")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("затверджений народним віче")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("На великому родинному віче")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("в листопаді 2015 року на народні віче до Кривого Рогу")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("як японські ніндзя")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("приталені пальто")).length);
     
     // missing/extra space, dash etc
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("соціальними мережа ми")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("принциповими країна ми")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("отримала мандатна ведення")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("по вуличному Копійчина")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("соціальними мережа ми")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("принциповими країна ми")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("отримала мандатна ведення")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("по вуличному Копійчина")).length);
 
     // lowercase city
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("У мінську влада")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("У мінську влада")).length);
 
     // barbarism
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("двометрові забори")).length);
     // will be caught by barbarism rule
+//    assertEquals(1, rule.match(langTool.getAnalyzedSentence("двометрові забори")).length);
     assertEmptyMatch("на пострадянський манер");
 
     
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("вздовж дніпровської вісі")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("ніщо так не зближає приморських партизан")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("вздовж дніпровської вісі")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("ніщо так не зближає приморських партизан")).length);
     //FIXME: FN due to ignoring adj.v_oru + noun.*v_naz/zna
 //    assertEquals(1, rule.match(langTool.getAnalyzedSentence("що робить її найвищою будівля")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("як боротьбу сунітської більшість")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("як боротьбу сунітської більшість")).length);
+    
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("найцікавішій час")).length);
+    
+//    assertEmptyMatch("Ти, сякий-такий сину!");
   }
   
   @Test
@@ -265,10 +297,12 @@ public class TokenAgreementAdjNounRuleTest {
     // «низка» тут, як і пара, дозволяє множинний іменник
     assertEmptyMatch("Суд визнав неконституційними низку положень");
 
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("від наступних пари")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("від наступних пари")).length);
 
     assertEmptyMatch("Північний Рейн-Вестфалія");
-
+    
+    //TODO: too many FN with this exception
+//    assertEmptyMatch("тепер хоч по Підвальній трамваї можуть пройти");
   }
   
   @Test
@@ -293,25 +327,25 @@ public class TokenAgreementAdjNounRuleTest {
     
     assertEmptyMatch("два «круглих столи»");
     
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("два високих депутат")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("дві високих дівчині")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("83,7 квадратних кілометра")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("два високих депутат")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("дві високих дівчині")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("83,7 квадратних кілометра")).length);
 
     // дріб
     assertEmptyMatch("дві мільярдних метра");
     assertEmptyMatch("п’ять шостих населення");
     assertEmptyMatch("чотирьох п’ятих прибутку");
 
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("п'ять шості світу")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("п'ять шості світу")).length);
 
     assertEmptyMatch("1/8-ї фіналу");
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("1/8-ї фіналом")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("1/8-ї фіналом")).length);
 
     assertEmptyMatch("В одній другій українка здолала");
     assertEmptyMatch("поступився в одній восьмій французу");
 
     assertEmptyMatch("дві других дівчини");
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("дві других дівчині")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("дві других дівчині")).length);
     
 
     // 1–3-й класи
@@ -320,10 +354,10 @@ public class TokenAgreementAdjNounRuleTest {
     assertEmptyMatch("на сьомому–восьмому поверхах");
     assertEmptyMatch("на 14—16-те місця");
 
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("3-й класи поснідали")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("одному-два непоганих шанси")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("3-й класи поснідали")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("одному-два непоганих шанси")).length);
     
-    RuleMatch[] match = rule.match(langTool.getAnalyzedSentence("залишилося сиротами 22-є дітей"));
+    RuleMatch[] match = rule.match(lt.getAnalyzedSentence("залишилося сиротами 22-є дітей"));
     assertEquals(1, match.length);
     assertTrue(match[0].getMessage().contains("літерне нарощення після кількісного числівника"));
     
@@ -356,8 +390,8 @@ public class TokenAgreementAdjNounRuleTest {
     assertEmptyMatch("замість звичного десятиліттями «Українського»");
     assertEmptyMatch("природний тисячею років підтверджений");
     
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("на 131-му хвилині")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("О 12–ї годині")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("на 131-му хвилині")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("О 12–ї годині")).length);
 
 
     assertEmptyMatch("Анонсована тиждень тому домовленість");
@@ -404,8 +438,8 @@ public class TokenAgreementAdjNounRuleTest {
     assertEmptyMatch("Львівської ім. С. Крушельницької");
     assertEmptyMatch("4-й Запорізький ім. гетьмана Б. Хмельницького");
 
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("у Великій Вітчизняній Війн")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("у Великій Вітчизняній війна")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("у Великій Вітчизняній Війн")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("у Великій Вітчизняній війна")).length);
     assertEmptyMatch("Після Великої Вітчизняної будівництво істотно розширилося");
 
     // зразка
@@ -462,7 +496,7 @@ public class TokenAgreementAdjNounRuleTest {
     // TODO: streets
 //    assertEmptyMatch("бачити на Різницький представника донецького регіону");
 
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("на Західній України")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("на Західній України")).length);
     
     
     // присудок ж.р. + професія
@@ -485,6 +519,12 @@ public class TokenAgreementAdjNounRuleTest {
   }
   
   @Test
+  public void testExceptionsPredic() throws IOException {
+    assertEmptyMatch("всі сумнівні слід викинути");
+    assertEmptyMatch("все зроблене слід обов'язково перетворити");
+  }
+  
+  @Test
   public void testExceptionsAdjp() throws IOException {
     
     //////// adjp ////////////
@@ -499,7 +539,7 @@ public class TokenAgreementAdjNounRuleTest {
     assertEmptyMatch("Помальована в біле кімната");
     assertEmptyMatch("Помальована в усе біле кімната");
 
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("помальований в біле кімната")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("помальований в біле кімната")).length);
 
     // adjp + noun.*v_oru
     assertEmptyMatch("вкриті плющем будинки");
@@ -528,7 +568,7 @@ public class TokenAgreementAdjNounRuleTest {
     // adjp + a:v_oru + noun: (case from adjp)
     assertEmptyMatch("підсвічений синім діамант");
 
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("підсвічений синім діамантів")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("підсвічений синім діамантів")).length);
 
 
     // adjp + noun (case government)
@@ -542,7 +582,7 @@ public class TokenAgreementAdjNounRuleTest {
     assertEmptyMatch("мають бути підпорядковані служінню чоловікові");
     assertEmptyMatch("більше відомої загалу як");   //TODO: теоретично має бути кома перед «як»
     
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Нав’язаний Австрії нейтралітеті")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("Нав’язаний Австрії нейтралітеті")).length);
     //TODO:
 //    assertEquals(1, rule.match(langTool.getAnalyzedSentence("змучений тягарем життю")).length);
     
@@ -554,7 +594,7 @@ public class TokenAgreementAdjNounRuleTest {
     // бути/стати/лишитися + adj:v_oru + noun:v_dav (gender matches adj)
     assertEmptyMatch("слід бути обережними туристам у горах");
 
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("слід бути обережною туристам у горах")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("слід бути обережною туристам у горах")).length);
 
     
     // modal
@@ -605,8 +645,8 @@ public class TokenAgreementAdjNounRuleTest {
   
     //TODO:
 //    assertEquals(1, rule.match(langTool.getAnalyzedSentence("партія вважає доцільним участь у списку осіб")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("вважають нелегітимними анексію")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("не залишили байдужими адміністрацію")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("вважають нелегітимними анексію")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("не залишили байдужими адміністрацію")).length);
     // ignored by verb + adj:v_oru + noun:v_naz
 //    assertEquals(1, rule.match(langTool.getAnalyzedSentence("визнають регіональною облради")).length);
 
@@ -616,13 +656,18 @@ public class TokenAgreementAdjNounRuleTest {
     assertEmptyMatch("визнання недійсним рішення");
     assertEmptyMatch("через визнання тут шкідливою орієнтацію на народну мову");
 
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("визнання неконституційними закону")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("визнання недійсним рішенню")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("визнання неконституційними закону")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("визнання недійсним рішенню")).length);
     //TODO: FN due to ignoring adj.v_oru + noun.*v_naz/zna
 //    assertEquals(1, rule.match(langTool.getAnalyzedSentence("визнання неконституційним закон")).length);
     //TODO:
 //  assertEmptyMatch("визнання легітимними президента і прем'єра");        // v_rod??
 
+  }
+
+  @Test
+  public void testExceptionsAdv() throws IOException {
+//    assertEmptyMatch("cюди Більше порад");
   }
   
   @Test
@@ -641,14 +686,14 @@ public class TokenAgreementAdjNounRuleTest {
     assertEmptyMatch("експозиція, присвячена Леоніду Іллічу");
     assertEmptyMatch("печаткою та вручене платнику");
 
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("жадібна землею")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("жадібна землею")).length);
 
     // adj + (case government) adj + noun (case match 1st adj)
     assertEmptyMatch("протилежний очікуваному результат");
     assertEmptyMatch("альтернативну олігархічній модель");
     assertEmptyMatch("альтернативні газовому варіанти");
 
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("альтернативну олігархічній порядку")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("альтернативну олігархічній порядку")).length);
 //    assertEquals(1, rule.match(langTool.getAnalyzedSentence("альтернативну олігархічному модель")).length);
 
     // adj.*v_oru + noun.*v_naz (case matches adj) (+ verb)
@@ -706,12 +751,12 @@ public class TokenAgreementAdjNounRuleTest {
     assertEmptyMatch("порівняно з попереднім результат");
     assertEmptyMatch("порівняно із 1999-им доходи автопідприємств");
 
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("він є одним із найстаріший амфітеатрів")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("подібний до попереднього закони")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("порівняний з попереднім результатів")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Схожої з тамтешньою концепція")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("протилежний до загальнодержавному процес")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("вдалися до збройної боротьбі")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("він є одним із найстаріший амфітеатрів")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("подібний до попереднього закони")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("порівняний з попереднім результатів")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("Схожої з тамтешньою концепція")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("протилежний до загальнодержавному процес")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("вдалися до збройної боротьбі")).length);
 
 //  assertEmptyMatch("її острови відрізняються від Південної природою");
   }
@@ -726,8 +771,10 @@ public class TokenAgreementAdjNounRuleTest {
     assertEmptyMatch("цілих півмісяця");
     assertEmptyMatch("на довгих чверть століття");
 
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("на довгих місяця")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("на довгих місяця")).length);
 
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("продукту, а просунути український фільми")).length);
+    
     // plural
     
     // adj:.:p + multiple nouns
@@ -742,7 +789,7 @@ public class TokenAgreementAdjNounRuleTest {
     assertEmptyMatch("називає й традиційні корупцію, «відкати», хабарі");
     assertEmptyMatch("державні Ощадбанк, «Укргазбанк»");
     assertEmptyMatch("коринфський з іонійським ордери");
-    assertEmptyMatch("можуть зробити доступнішими фосфор чи калій");
+//    assertEmptyMatch("можуть зробити доступнішими фосфор чи калій");
     assertEmptyMatch("зв'язаних ченця з черницею");
     assertEmptyMatch("на зарубаних матір з двома синами");
     assertEmptyMatch("повоєнні Австрія з Фінляндією");
@@ -861,9 +908,29 @@ public class TokenAgreementAdjNounRuleTest {
     
     assertEmptyMatch("стільки само свідків");
 
+    assertEmptyMatch("що таке звук?");
+
+    assertEmptyMatch("обстрілює один за одним охоронців.");
+
+    assertEmptyMatch("повів сам військо");
+    assertEmptyMatch("що ж таке геноцид");
+    assertEmptyMatch("що воно таке еліта");
+    assertEmptyMatch("Таких меншість.");
+    
+    assertEmptyMatch("той родом з Білорусі");
+    assertEmptyMatch("в нашу Богом забуту Данину");
+    
+    assertEmptyMatch("той кібернетикою займається");
+    
+  assertEmptyMatch("такого світ ще не бачив");
+//  assertEmptyMatch("на таке Євросоюз напевне не наважиться");
+    assertHasError("позицію у такій спосіб, — ділиться думками");
+    
+//    assertEmptyMatch("до такого студенти не готові");
+    
     //TODO: turn back on when we can handle pron
 //    assertEquals(1, rule.match(langTool.getAnalyzedSentence("із такою самого зневагою")).length);
-//    assertEquals(1, rule.match(langTool.getAnalyzedSentence("на вибори само висуванцем")).length);
+//    assertHasError("на вибори само висуванцем");
   }
   
   @Test
@@ -877,7 +944,7 @@ public class TokenAgreementAdjNounRuleTest {
   
   private void assertEmptyMatch(String text) {
     try {
-      assertEquals(Collections.<RuleMatch>emptyList(), Arrays.asList(rule.match(langTool.getAnalyzedSentence(text))));
+      assertEquals(Collections.<RuleMatch>emptyList(), Arrays.asList(rule.match(lt.getAnalyzedSentence(text))));
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -885,7 +952,7 @@ public class TokenAgreementAdjNounRuleTest {
 
   private void assertHasError(String text) {
     try {
-      AnalyzedSentence sent = langTool.getAnalyzedSentence(text);
+      AnalyzedSentence sent = lt.getAnalyzedSentence(text);
       assertEquals(1, rule.match(sent).length);
     } catch (IOException e) {
       throw new RuntimeException(e);

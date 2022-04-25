@@ -58,10 +58,11 @@ public class UnitConversionRuleTest {
     assertMatches("Der Weg ist 100 Meilen lang.", 1, "160,93 Kilometer", rule, lt);
     assertMatches("Der Weg ist 10 km (20 Meilen) lang.", 1, "6,21", rule, lt);
     assertMatches("Der Weg ist 10 km (6,21 Meilen) lang.", 0, null, rule, lt);
-      assertMatches("Der Weg ist 100 Meilen (160,93 Kilometer) lang.", 0, null, rule, lt);
+    assertMatches("Der Weg ist 100 Meilen (160,93 Kilometer) lang.", 0, null, rule, lt);
     assertMatches("Die Ladung ist 10.000,75 Pfund schwer.", 1, "4,54 Tonnen", rule, lt);
     assertMatches("Sie ist 5'6\" groß.", 1, "1,68 m", rule, lt);
     assertMatches("Meine neue Wohnung ist 500 sq ft groß.", 1, "46,45 Quadratmeter", rule, lt);
+    assertMatches("Zwischen 330'000 und 500'000/600", 0, null, rule, lt);
   }
 
   private void assertMatches(String input, int expectedMatches, String converted, AbstractUnitConversionRule rule, JLanguageTool lt) throws IOException {

@@ -26,11 +26,15 @@ import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.de.GermanCompoundRule;
 import org.languagetool.rules.de.GermanSpellerRule;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import static org.languagetool.JLanguageTool.getDataBroker;
 
 public class GermanyGerman extends German {
 
@@ -47,8 +51,13 @@ public class GermanyGerman extends German {
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     List<Rule> rules = new ArrayList<>(super.getRelevantRules(messages, userConfig, motherTongue, altLanguages));
-    rules.add(new GermanCompoundRule(messages));
+    rules.add(new GermanCompoundRule(messages, this, userConfig));
     return rules;
+  }
+
+  @Override
+  public SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
+    return new GermanSpellerRule(messages, this);
   }
 
   @Override
@@ -58,4 +67,17 @@ public class GermanyGerman extends German {
       userConfig, null, altLanguages, languageModel));
     return rules;
   }
+
+  @Override
+  public List<String> getRuleFileNames() {
+    List<String> ruleFileNames = new ArrayList<>(super.getRuleFileNames());
+    ruleFileNames.add(getDataBroker().getRulesDir() + "/de/de-DE-AT/grammar.xml");
+    return Collections.unmodifiableList(ruleFileNames);
+  }
+
+  @Override
+  public boolean isVariant() {
+    return true;
+  }
+
 }

@@ -30,7 +30,6 @@ import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.dev.index.Indexer;
 import org.xml.sax.helpers.DefaultHandler;
-//import sun.misc.Signal;
 
 import java.io.File;
 import java.io.IOException;
@@ -68,17 +67,20 @@ public class SentenceSourceIndexer extends DefaultHandler implements AutoCloseab
     }
     this.indexer.setLowercaseOnly(LC_ONLY);
     this.maxSentences = maxSentences;
-/*    Signal.handle(new Signal("HUP"), signal -> {
-      stopped = true;
-      System.out.println("----- Got SIGHUP, will commit and exit ----");
-      try {
-        indexer.commit();
-        System.out.println("----- commit done, will exit now ----");
-      } catch (Exception e) {
-        e.printStackTrace();
+    Runtime.getRuntime().addShutdownHook(new Thread() {
+      @Override
+      public void run() {
+        super.run();
+        stopped = true;
+        System.out.println("----- Got SIGHUP, will commit and exit ----");
+        try {
+          indexer.commit();
+          System.out.println("----- commit done, will exit now ----");
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
       }
-      System.exit(1);
-    });*/
+    });
   }
 
   SentenceSourceIndexer(Directory dir, Language language, int maxSentences) {

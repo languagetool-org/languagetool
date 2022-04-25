@@ -27,10 +27,19 @@ public class LanguageTest {
 
   @Test
   public void testRuleFileName() {
-    assertEquals("[/org/languagetool/rules/en/grammar.xml, /org/languagetool/rules/en/en-GB/grammar.xml]", new BritishEnglish().getRuleFileNames().toString());
-    assertEquals("[/org/languagetool/rules/en/grammar.xml, /org/languagetool/rules/en/en-US/grammar.xml]", new AmericanEnglish().getRuleFileNames().toString());
-    assertEquals("[/org/languagetool/rules/en/grammar.xml]", new English().getRuleFileNames().toString());
-    assertEquals("[/org/languagetool/rules/de/grammar.xml]", new German().getRuleFileNames().toString());
+    if (Premium.isPremiumVersion()) {
+      assertTrue(new BritishEnglish().getRuleFileNames().contains("/org/languagetool/rules/en/grammar.xml"));
+      assertTrue(new BritishEnglish().getRuleFileNames().contains("/org/languagetool/rules/en/en-GB/grammar.xml"));
+      assertTrue(new AmericanEnglish().getRuleFileNames().contains("/org/languagetool/rules/en/grammar.xml"));
+      assertTrue(new AmericanEnglish().getRuleFileNames().contains("/org/languagetool/rules/en/en-US/grammar.xml"));
+      assertTrue(new BritishEnglish().getRuleFileNames().contains("/src/main/resources/org/languagetool/rules/en/grammar-premium.xml"));
+      assertTrue(new AmericanEnglish().getRuleFileNames().contains("/src/main/resources/org/languagetool/rules/en/grammar-premium.xml"));
+    } else {
+      assertEquals("[/org/languagetool/rules/en/grammar.xml, /org/languagetool/rules/en/en-GB/grammar.xml]", new BritishEnglish().getRuleFileNames().toString());
+      assertEquals("[/org/languagetool/rules/en/grammar.xml, /org/languagetool/rules/en/en-US/grammar.xml]", new AmericanEnglish().getRuleFileNames().toString());
+      assertEquals("[/org/languagetool/rules/en/grammar.xml]", new English().getRuleFileNames().toString());
+      assertEquals("[/org/languagetool/rules/de/grammar.xml]", new German().getRuleFileNames().toString());
+    }
   }
 
   @Test

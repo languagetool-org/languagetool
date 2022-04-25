@@ -19,6 +19,7 @@
 package org.languagetool.dev;
 
 import org.languagetool.rules.spelling.hunspell.Hunspell;
+import org.languagetool.rules.spelling.hunspell.HunspellDictionary;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
 
 import java.io.File;
@@ -39,10 +40,10 @@ final class RareWordsFinder {
 
   private static final String dictInClassPath = "/en/hunspell/en_US.dict";
   
-  private final Hunspell hunspell;
+  private final HunspellDictionary hunspell;
   
   private RareWordsFinder(String hunspellBase) throws IOException {
-    hunspell = new Hunspell(Paths.get(hunspellBase + ".dic"), Paths.get(hunspellBase + ".aff"));
+    hunspell = Hunspell.getDictionary(Paths.get(hunspellBase + ".dic"), Paths.get(hunspellBase + ".aff"));
   }
   
   private void run(File input, int minimum) throws FileNotFoundException, CharacterCodingException {

@@ -23,6 +23,8 @@ import morfologik.stemming.IStemmer;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.chunking.ChunkTag;
+import org.languagetool.language.Catalan;
+import org.languagetool.language.ValencianCatalan;
 import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tools.StringTools;
 
@@ -37,13 +39,15 @@ import java.util.regex.Pattern;
  */
 public class CatalanTagger extends BaseTagger {
 
-  private static final Pattern ADJ_PART_FS = Pattern.compile("VMP00SF.|A[QO].[FC][SN].");
+  public static final CatalanTagger INSTANCE_VAL = new CatalanTagger(new ValencianCatalan());
+  public static final CatalanTagger INSTANCE_CAT = new CatalanTagger(new Catalan());
+  
+  private static final Pattern ADJ_PART_FS = Pattern.compile("VMP00SF.|A[QO].[FC]S.");
   private static final Pattern VERB = Pattern.compile("V.+");
-  //private static final Pattern NOUN = Pattern.compile("NC.+");
-  private String variant;
-
   private static final Pattern PREFIXES_FOR_VERBS = Pattern.compile("(auto)(.*[aeiouàéèíòóïü].+[aeiouàéèíòóïü].*)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-
+  
+  private String variant;
+    
   public CatalanTagger(Language language) {
     super("/ca/" + language.getShortCodeWithCountryAndVariant() + JLanguageTool.DICTIONARY_FILENAME_EXTENSION,  new Locale("ca"), false);
     variant = language.getVariant();
@@ -118,7 +122,6 @@ public class CatalanTagger extends BaseTagger {
         listChunkTags.add(new ChunkTag("containsTypographicApostrophe"));
         atr.setChunkTags(listChunkTags);
       }
-
       tokenReadings.add(atr);
       pos += word.length();
     }

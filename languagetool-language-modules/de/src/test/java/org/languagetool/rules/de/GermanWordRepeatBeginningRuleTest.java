@@ -34,6 +34,7 @@ public class GermanWordRepeatBeginningRuleTest {
   @Test
   public void testRule() throws IOException {
     JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
+    lt.disableRule("DE_REPEATEDWORDS");
     // correct sentences:
     assertEquals(0, lt.check("Er ist nett. Er heißt Max.").size());
     assertEquals(0, lt.check("Außerdem kommt er. Ferner kommt sie. Außerdem kommt es.").size());
@@ -43,6 +44,8 @@ public class GermanWordRepeatBeginningRuleTest {
     assertEquals(1, lt.check("Außerdem kommt er. Außerdem kommt sie.").size());
     // this used to cause false alarms because reset() was not implemented
     assertEquals(0, lt.check("Außerdem ist das ein neuer Text.").size());
+    // only consider 'real' sentences that end in [.!?]:
+    assertEquals(0, lt.check("Außerdem ist das ein neuer Text\n\nAußerdem noch mehr ohne Punkt\n\nAußerdem schon wieder").size());
   }
 
 }

@@ -25,7 +25,8 @@ import org.languagetool.rules.Example;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.tools.Tools;
 
-import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -47,11 +48,11 @@ public class PortugueseWeaselWordsRule extends AbstractSimpleReplaceRule2 {
   private static final Locale PT_LOCALE = new Locale("pt");  // locale used on case-conversion
 
   @Override
-  public final String getFileName() {
-    return FILE_NAME;
+  public List<String> getFileNames() {
+    return Collections.singletonList(FILE_NAME);
   }
 
-  public PortugueseWeaselWordsRule(ResourceBundle messages) throws IOException {
+  public PortugueseWeaselWordsRule(ResourceBundle messages) {
     super(messages, new Portuguese());
     super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
@@ -60,7 +61,7 @@ public class PortugueseWeaselWordsRule extends AbstractSimpleReplaceRule2 {
   }
 
   @Override
-  public final String getId() {
+  public String getId() {
     return PT_WEASELWORD_REPLACE;
   }
 
@@ -75,7 +76,7 @@ public class PortugueseWeaselWordsRule extends AbstractSimpleReplaceRule2 {
   }
 
   @Override
-  public String getSuggestion() {
+  public String getMessage() {
     return "'$match' é uma expressão ambígua e evasiva. Reconsidere o seu uso, de acordo com o objetivo do seu texto.";
   }
 

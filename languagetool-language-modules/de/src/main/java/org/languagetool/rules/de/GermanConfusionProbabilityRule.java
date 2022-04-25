@@ -43,8 +43,16 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
   private static final List<String> EXCEPTIONS = Arrays.asList(
     // Use all-lowercase, matches will be case-insensitive.
     // See https://github.com/languagetool-org/languagetool/issues/1516
+    "möglichkeit weißt",
+    "du doch trotzdem",
+    "wir stark ausgelastet sind",
+    "wir entwickeln für",
+    "nutzen wir Google",
+    "vertreiben wir",
+    "wir auch nicht",
     ", dir bei",  // "froh, dir bei deiner Arbeit zu helfen"
     "fiel hinaus",
+    "setz dir",  // "Setz dir doch bitte einen Termin am Donnerstag"
     "du hast dir",
     "vielen als held",
     "seht gut",  // "Ihr seht gut aus"
@@ -65,19 +73,50 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
     "da mir der",
     "das wir uns",
     "so wir können",
+    "bestellt Botschafter ein",
+    "bestellt Botschafterin ein",
     "wie zahlen sie",
+    "unser business",
+    "journalisten gefiltert worden",
+    "für uns filtern",
+    "leinwand gezeigte",
     "war sich für nichts", // war sich für nichts zu schade
+    "dover corporation",
+    "bringt dich ein",
+    "bringt dich eine",
+    "womit arbeitet",
+    "womit arbeiten",
     "ich drei bin", // seit ich drei bin.
     "was wird unser",
     "die wird wieder",
     "damit wir für",
     "wie finden sie",
     "ach die armen",
+    "wie stehen da die", // vs wir
     "wir würden sie", // vs wird
     "damit wir ihre daten", // vs wird
     "kannst du doch gerne", // vs dich
     "wie ist hier der Stand", // vs Sand
-    "wie ist der Stand" // vs Sand
+    "wie ist der Stand", // vs Sand
+    "dass da Potenzial zu",
+    "das auch hergibt", // vs ergibt
+    "hat mich angeschrieben", // vs abgeschrieben
+    "sehe gerade", // vs siehe gerade
+    "hole dich auch ab", // vs dir
+    "würdest du dich vorstellen", // vs dir
+    "daten wir über", // "welche Daten wir über unsere Nutzer erfassen"
+    "anders seht", // falls ihr das anders seht (weht)
+    "weit fallendem", // vs weiht
+    "weit fallenden", // vs weiht
+    "weit fallendes", // vs weiht
+    "weit fallende", // vs weiht
+    "weit fallender", // vs weiht
+    "wir ja.", // vs wie
+    "weißt, wie", // vs weist
+    "weißt ja, wie", // vs weist
+    "weißt, dass", // vs weist
+    "weißt ja, dass", // vs weist
+    "Vorgestern und Gestern" // vs Gesten
   );
 
   public GermanConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
@@ -99,6 +138,10 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
       }
     }
     return false;
+  }
+
+  protected boolean isCommonWord(String token) {
+    return token.matches("[\\wöäüßÖÄÜ]+");
   }
 
 }

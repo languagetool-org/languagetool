@@ -31,10 +31,10 @@ public class SwissCompoundRuleTest extends AbstractCompoundRuleTest {
   @Test
   public void testRule() throws IOException {
     lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
-    rule = new SwissCompoundRule(TestTools.getMessages("de"));
-    check(0, "Ente süss-sauer");
-    check(0, "Ente süß-sauer");
-    check(1, "Ente süss sauer");
+    rule = new SwissCompoundRule(TestTools.getMessages("de"), Languages.getLanguageForShortCode("de-DE"), null);
+    //check(1, "Ente süss-sauer");
+    check(1, "Ente süß-sauer");
+    //check(1, "Ente süss sauer");
     check(1, "Ente süß sauer");
   }
 

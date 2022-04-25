@@ -1,17 +1,19 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    
+
     <parent>
         <groupId>org.languagetool</groupId>
         <artifactId>languagetool-parent</artifactId>
-        <version>5.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
+        <version>${revision}</version>
     </parent>
-    
+
     <artifactId>languagetool-gui-commons</artifactId>
-    <url>http://www.languagetool.org</url>
+    <packaging>jar</packaging>
     <name>LanguageTool common GUI classes</name>
     <description>GUI classes for both stand-alone and LibreOffice/OpenOffice extension use</description>
+    <url>https://www.languagetool.org</url>
 
     <licenses>
         <license>
@@ -20,28 +22,44 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
-    
-    <packaging>jar</packaging>
 
     <developers>
         <developer>
             <name>Daniel Naber</name>
-            <roles><role>Maintainer</role></roles>
+            <roles>
+                <role>Maintainer</role>
+            </roles>
         </developer>
         <developer>
             <name>Marcin Miłkowski</name>
-            <roles><role>Maintainer</role></roles>
+            <roles>
+                <role>Maintainer</role>
+            </roles>
         </developer>
     </developers>
-    
+
+    <dependencies>
+        <dependency>
+            <groupId>org.languagetool</groupId>
+            <artifactId>languagetool-core</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
     <build>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
             </resource>
             <resource>
-                <directory>${basedir}</directory>
                 <targetPath>META-INF</targetPath>
+                <directory>${basedir}</directory>
                 <includes>
                     <include>CHANGES.txt</include>
                     <include>COPYING.txt</include>
@@ -58,20 +76,4 @@
             </plugin>
         </plugins>
     </build>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.languagetool</groupId>
-            <artifactId>languagetool-core</artifactId>
-            <version>${languagetool.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
-
 </project>

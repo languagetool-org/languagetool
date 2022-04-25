@@ -19,6 +19,8 @@
 package org.languagetool.rules.nl;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -42,6 +44,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule2 {
 
   public SimpleReplaceRule(ResourceBundle messages) throws IOException {
     super(messages, new Dutch());
+    useSubRuleSpecificIds();
     setLocQualityIssueType(ITSIssueType.Misspelling);
     setCategory(new Category(new CategoryId("VERGISSINGEN"), "Vergissingen"));
     addExamplePair(Example.wrong("<marker>ofzo</marker>."),
@@ -49,8 +52,8 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule2 {
   }
 
   @Override
-  public String getFileName() {
-    return "/nl/replace.txt";
+  public List<String> getFileNames() {
+    return Collections.singletonList("/nl/replace.txt");
   }
 
   @Override
@@ -64,12 +67,21 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule2 {
   }
 
   @Override
-  public String getShort() {
-    return "Vergissing";
+  public String getDescription(String details) {
+    if (details != null) {
+      return "Snelle correctie van veel voorkomende vergissingen: " + details;
+    } else {
+      return getDescription();
+    }
   }
 
   @Override
-  public String getSuggestion() {
+  public String getShort() {
+    return "Vergissing?";
+  }
+
+  @Override
+  public String getMessage() {
     return "'$match' zou fout kunnen zijn. Misschien bedoelt u: $suggestions";
   }
 

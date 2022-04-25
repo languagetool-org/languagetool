@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.ca;
 
+import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
@@ -72,7 +73,7 @@ public class SimpleReplaceBalearicRule extends AbstractSimpleReplaceRule {
   
   @Override
   public String getMessage(String tokenStr,List<String> replacements) {
-    return "Possible error ortogràfic (forma verbal vàlida en la variant balear).";
+    return "Possible error ortogràfic (forma verbal vàlida en la varietat balear).";
   }
   
   @Override
@@ -83,6 +84,12 @@ public class SimpleReplaceBalearicRule extends AbstractSimpleReplaceRule {
   @Override
   public Locale getLocale() {
     return CA_LOCALE;
+  }
+  
+  @Override
+  protected boolean isTokenException(AnalyzedTokenReadings atr) {
+    // proper nouns tagged in multiwords are exceptions
+    return atr.hasPosTagStartingWith("NP") || atr.isImmunized() || atr.isIgnoredBySpeller();
   }
 
 }

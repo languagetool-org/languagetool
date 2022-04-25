@@ -22,19 +22,16 @@ import com.google.common.cache.Cache;
 import io.prometheus.client.Counter;
 import io.prometheus.client.Gauge;
 import io.prometheus.client.Histogram;
+import io.prometheus.client.Info;
 import io.prometheus.client.exporter.HTTPServer;
 import io.prometheus.client.guava.cache.CacheMetricsCollector;
 import io.prometheus.client.hotspot.DefaultExports;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.Premium;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.Objects;
 
 public class ServerMetricsCollector {
 
@@ -49,54 +46,39 @@ public class ServerMetricsCollector {
   }
 
   private static final double[] LATENCY_BUCKETS = {
-    .025, .05, .075, .1, .125, .15, .175, .2, .25, .3, .35, .4, .45, .5, .75, 1.,
-    1.25, 1.5, 1.75, 2., 2.5, 3., 4., 5., 7.5, 10., 15.
+    0.025, 0.05, .1, .25, .5, .75, 1., 2., 4., 6., 8., 10., 15.
   };
 
   private static final double[] SIZE_BUCKETS = {
-    25, 50, 100, 150, 200, 250, 300, 400, 500, 750, 1000, 2500, 5000, 7500, 10000, 15000, 20000, 30000, 40000
+    25, 100, 500, 1000, 2500, 5000, 10000, 20000, 40000
   };
 
-  // client is user-provided data, don't create unlimited amount of time series in prometheus
-  private static final Set<String> CLIENTS = new HashSet<>(Arrays.asList(
-    "webextension-chrome-ng",
-    "webextension-firefox-ng",
-    "ltorg",
-    "sdl-trados-addon-public",
-    "webextension-opera-ng",
-    "ltplus",
-    "googledocs",
-    "webextension-firefox",
-    "webextension-chrome",
-    "mswordpremiumJS-demo",
-    "webextension-unknown-ng",
-    "java-http-client",
-    "msword",
-    "androidspell",
-    "mswordpremiumJS",
-    "webextension-edge-ng"
-  ));
-  private static final String CLIENT_OTHER = "other";
+  // buckets for processing speed in chars/s;
+  private static final double[] SPEED_BUCKETS = {
+    10, 100, 500, 1000, 2500, 5000, 7500, 10000, 20000, 50000
+  };
 
   private static final ServerMetricsCollector collector = new ServerMetricsCollector();
   
   private static HTTPServer server;
 
-  private final Counter checkCounter = Counter
-    .build("languagetool_checks_total", "Total text checks")
-    .labelNames("language", "client", "mode").register();
-  private final Counter charactersCounter = Counter
-    .build("languagetool_characters_total", "Total processed characters")
-    .labelNames("language", "client", "mode").register();
   private final Counter matchCounter = Counter
     .build("languagetool_check_matches_total", "Total amount of rule matches")
-    .labelNames("language", "client", "mode").register();
+    .labelNames("language", "mode").register();
+
+  // TODO: deprecate - replaced by histograms below
+  private final Counter checkCounter = Counter
+    .build("languagetool_checks_total", "Total text checks")
+    .labelNames("language", "mode").register();
+  private final Counter charactersCounter = Counter
+    .build("languagetool_characters_total", "Total processed characters")
+    .labelNames("language", "mode").register();
   private final Counter computationTimeCounter = Counter
     .build("languagetool_computation_time_seconds_total", "Total computation time, in seconds")
-    .labelNames("language", "client", "mode").register();
+    .labelNames("language", "mode").register();
 
 
-  // no client label for these for now, combined with buckets -> combinatorial explosion
+  // need to be very careful about cardinality with those
   private final Histogram checkLatency = Histogram
     .build("languagetool_check_latency_seconds", "Histogram of check times")
     .buckets(LATENCY_BUCKETS)
@@ -104,10 +86,9 @@ public class ServerMetricsCollector {
   private final Histogram checkSize = Histogram
     .build("languagetool_check_size_characters", "Histogram of check sizes")
     .buckets(SIZE_BUCKETS).labelNames("language", "mode").register();
-
-  private final Counter ruleMatchCounter = Counter
-    .build("languagetool_rule_matches_total", "Total amount of matches of a given rule")
-    .labelNames("language", "rule_id").register();
+  private final Histogram checkSpeed = Histogram
+    .build("languagetool_check_speed_chars_per_second", "Histogram of relative check speed")
+    .buckets(SPEED_BUCKETS).labelNames("language", "mode").register();
 
   private final Counter requestErrorCounter = Counter
     .build("languagetool_request_errors_total", "Various request errors")
@@ -124,17 +105,34 @@ public class ServerMetricsCollector {
   private final Counter failedHealthcheckCounter = Counter
     .build("languagetool_failed_healthchecks_total", "Failed healthchecks").register();
 
-  private final Gauge hiddenMatchesServerEnabled = Gauge
-    .build("languagetool_hidden_matches_server_enabled", "Configuration of hidden matches server").register();
-  private final Gauge hiddenMatchesServerStatus = Gauge
-    .build("languagetool_hidden_matches_server_up", "Status of hidden matches server").register();
+  private final Info buildInfo = Info
+    .build("languagetool_build", "Build information").register();
+
+  private final Gauge configValues = Gauge
+    .build("languagetool_configuration_values", "Configuration settings").labelNames("name").register();
+
 
   private final CacheMetricsCollector cacheMetrics = new CacheMetricsCollector().register();
 
 
-  public static void init(int port) throws IOException {
+  public static void init(HTTPServerConfig config) throws IOException {
     DefaultExports.initialize();
-    server = new HTTPServer(port, true);
+    server = new HTTPServer(config.getPrometheusPort(), true);
+    Gauge c = getInstance().configValues;
+    exposeConfigurationValues(config, c);
+  }
+
+  private static void exposeConfigurationValues(HTTPServerConfig config, Gauge c) {
+    c.labels("maxCheckThreads").set(config.getMaxCheckThreads());
+    c.labels("maxWorkQueueSize").set(config.getMaxWorkQueueSize());
+    c.labels("cacheSize").set(config.getCacheSize());
+    c.labels("cacheTTLSeconds").set(config.getCacheTTLSeconds());
+    c.labels("maxCheckTimeMillisAnonymous").set(config.getMaxCheckTimeMillisAnonymous());
+    c.labels("maxCheckTimeMillisLoggedIn").set(config.getMaxCheckTimeMillisLoggedIn());
+    c.labels("maxCheckTimeMillisPremium").set(config.getMaxCheckTimeMillisPremium());
+    c.labels("maxTextLengthAnonymous").set(config.getMaxTextLengthAnonymous());
+    c.labels("maxTextLengthLoggedIn").set(config.getMaxTextLengthLoggedIn());
+    c.labels("maxTextLengthPremium").set(config.getMaxTextLengthPremium());
   }
 
   public static void stop() {
@@ -145,50 +143,47 @@ public class ServerMetricsCollector {
     return collector;
   }
 
+  public ServerMetricsCollector() {
+    buildInfo.info(
+            "version", Objects.toString(JLanguageTool.VERSION), 
+            "buildDate", Objects.toString(JLanguageTool.BUILD_DATE), 
+            "revision", Objects.toString(JLanguageTool.GIT_SHORT_ID), 
+            "premium", Objects.toString(String.valueOf(Premium.isPremiumVersion())),
+            "premiumVersion", Objects.toString(Premium.get().getVersion()),
+            "premiumBuildDate",Objects.toString(Premium.get().getBuildDate()),
+            "premiumRevision",Objects.toString(Premium.get().getShortGitId())
+    );
+  }
+
+
   public void monitorCache(String name, Cache cache) {
     cacheMetrics.addCache(name, cache);
   }
 
-  public void logHiddenServerConfiguration(boolean enabled) {
-    hiddenMatchesServerEnabled.set(enabled ? 1.0 : 0.0);
-  }
-
-  public void logHiddenServerStatus(boolean up) {
-    hiddenMatchesServerStatus.set(up ? 1.0 : 0.0);
-  }
-
   public void logCheck(Language language, long milliseconds, int textSize, int matchCount,
-                       JLanguageTool.Mode mode, @Nullable String client, Map<String, Integer> ruleMatches) {
-    String clientLabel = cleanClientLabel(client);
+                       JLanguageTool.Mode mode) {
     String langLabel = language != null ? language.getShortCode() : UNKNOWN;
     String modeLabel = mode != null ? mode.name() : UNKNOWN;
 
-    checkCounter.labels(langLabel, clientLabel, modeLabel).inc();
-    matchCounter.labels(langLabel, clientLabel, modeLabel).inc(matchCount);
+    checkCounter.labels(langLabel, modeLabel).inc();
+    matchCounter.labels(langLabel, modeLabel).inc(matchCount);
 
-    charactersCounter.labels(langLabel, clientLabel, modeLabel).inc(textSize);
-    checkSize.labels(langLabel, modeLabel).observe(textSize);
+    // split metrics: measure latency by language/mode, but not combined
+    // so we can e.g. notice latency increases in a language or
+    // create an alert for check speed of ALL_BUT_TEXT_LEVEL_ONLY requests
+
+    charactersCounter.labels(langLabel, modeLabel).inc(textSize);
+    checkSize.labels(langLabel, "").observe(textSize);
+    checkSize.labels("", modeLabel).observe(textSize);
 
     double seconds = (double) milliseconds / 1000.0;
-    computationTimeCounter.labels(langLabel, clientLabel, modeLabel).inc(seconds);
-    checkLatency.labels(langLabel, modeLabel).observe(seconds);
+    computationTimeCounter.labels(langLabel, modeLabel).inc(seconds);
+    checkLatency.labels(langLabel, "").observe(seconds);
+    checkLatency.labels("", modeLabel).observe(seconds);
 
-    ruleMatches.forEach((ruleId, ruleMatchCount) -> ruleMatchCounter.labels(langLabel, ruleId).inc(ruleMatchCount));
-  }
-
-  @NotNull
-  private String cleanClientLabel(@Nullable String client) {
-    String clientLabel;
-    if (client != null && !client.equals("-")) {
-      if (CLIENTS.contains(client)) {
-        clientLabel = client;
-      } else {
-        clientLabel = CLIENT_OTHER;
-      }
-    } else {
-      clientLabel = UNKNOWN;
-    }
-    return clientLabel;
+    double speed = textSize / seconds;
+    checkSpeed.labels(langLabel, "").observe(speed);
+    checkSpeed.labels("", modeLabel).observe(speed);
   }
 
   public void logRequestError(RequestErrorType type) {

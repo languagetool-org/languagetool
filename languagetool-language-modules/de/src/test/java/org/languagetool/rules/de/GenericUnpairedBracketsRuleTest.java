@@ -47,10 +47,24 @@ public class GenericUnpairedBracketsRuleTest {
     assertMatches("Das ist auch ein Satz mit Smiley ;-)", 0);
     assertMatches("Das ist ein Satz mit Smiley :)", 0);
     assertMatches("Das ist ein Satz mit Smiley :(", 0);
+    assertMatches("Die URL lautet https://de.wikipedia.org/wiki/Schlammersdorf_(Adelsgeschlecht)", 0);
+    assertMatches("Die URL lautet https://de.wikipedia.org/wiki/Schlammersdorf_(Adelsgeschlecht).", 0);
+    assertMatches("(Die URL lautet https://de.wikipedia.org/wiki/Schlammersdorf_(Adelsgeschlecht))", 0);
+    assertMatches("(Die URL lautet https://de.wikipedia.org/wiki/Schlammersdorf)", 0);
+    assertMatches("(Die URL lautet https://de.wikipedia.org/wiki/Schlammersdorf oder so)", 0);
+    assertMatches("(Die URL lautet: http://www.pariscinema.org/).", 0);
+    assertMatches("Drücken Sie auf den \"Jetzt Starten\"-Knopf.", 0);
+    assertMatches("Welches ist dein Lieblings-\"Star Wars\"-Charakter?", 0);
     // incorrect sentences:
     assertMatches("Die „Sätze zum Testen.", 1);
     assertMatches("Die «Sätze zum Testen.", 1);
     assertMatches("Die »Sätze zum Testen.", 1);
+    // these used to have wrong positions, causing "Could not map ... to original position":
+    lt.check("Im Kran\u00ADken\u00ADhaus. Auch)");
+    lt.check("Ein Kran\u00ADken\u00ADhaus. Auch)");
+    lt.check("Das Kran\u00ADken\u00ADhaus. Auch)");
+    lt.check("Kran\u00ADken\u00ADhaus. Auch)");
+    lt.check("Kran\u00ADken\u00ADhaus. (Auch");
   }
 
   private void assertMatches(String input, int expectedMatches) throws IOException {

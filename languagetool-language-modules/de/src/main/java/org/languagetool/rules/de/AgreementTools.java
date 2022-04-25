@@ -21,13 +21,17 @@ package org.languagetool.rules.de;
 import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.rules.de.AgreementRule.GrammarCategory;
 import org.languagetool.tagging.de.AnalyzedGermanToken;
 import org.languagetool.tagging.de.GermanToken;
+import org.languagetool.tagging.de.GermanToken.Determination;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import static org.languagetool.tagging.de.GermanToken.Genus.*;
 
 class AgreementTools {
 
@@ -35,7 +39,7 @@ class AgreementTools {
   }
 
   /** Return Kasus, Numerus, Genus of those forms with a determiner. */
-  static Set<String> getAgreementCategories(AnalyzedTokenReadings aToken, Set<AgreementRule.GrammarCategory> omit, boolean skipSol) {
+  static Set<String> getAgreementCategories(AnalyzedTokenReadings aToken, Set<GrammarCategory> omit, boolean skipSol) {
     Set<String> set = new HashSet<>();
     List<AnalyzedToken> readings = aToken.getReadings();
     for (AnalyzedToken tmpReading : readings) {
@@ -48,7 +52,7 @@ class AgreementTools {
         reading.getGenus() == null) {
         continue;
       }
-      if (reading.getGenus() == GermanToken.Genus.ALLGEMEIN &&
+      if (reading.getGenus() == ALLGEMEIN &&
         tmpReading.getPOSTag() != null && !tmpReading.getPOSTag().endsWith(":STV") &&  // STV: stellvertretend (!= begleitend)
         !possessiveSpecialCase(aToken, tmpReading)) {
         // genus=ALG in the original data. Not sure if this is allowed, but expand this so
@@ -56,21 +60,21 @@ class AgreementTools {
         if (reading.getDetermination() == null) {
           // Nouns don't have the determination property (definite/indefinite), and as we don't want to
           // introduce a special case for that, we just pretend they always fulfill both properties:
-          set.add(makeString(reading.getCasus(), reading.getNumerus(), GermanToken.Genus.MASKULINUM, GermanToken.Determination.DEFINITE, omit));
-          set.add(makeString(reading.getCasus(), reading.getNumerus(), GermanToken.Genus.MASKULINUM, GermanToken.Determination.INDEFINITE, omit));
-          set.add(makeString(reading.getCasus(), reading.getNumerus(), GermanToken.Genus.FEMININUM, GermanToken.Determination.DEFINITE, omit));
-          set.add(makeString(reading.getCasus(), reading.getNumerus(), GermanToken.Genus.FEMININUM, GermanToken.Determination.INDEFINITE, omit));
-          set.add(makeString(reading.getCasus(), reading.getNumerus(), GermanToken.Genus.NEUTRUM, GermanToken.Determination.DEFINITE, omit));
-          set.add(makeString(reading.getCasus(), reading.getNumerus(), GermanToken.Genus.NEUTRUM, GermanToken.Determination.INDEFINITE, omit));
+          set.add(makeString(reading.getCasus(), reading.getNumerus(), MASKULINUM, Determination.DEFINITE, omit));
+          set.add(makeString(reading.getCasus(), reading.getNumerus(), MASKULINUM, Determination.INDEFINITE, omit));
+          set.add(makeString(reading.getCasus(), reading.getNumerus(), FEMININUM, Determination.DEFINITE, omit));
+          set.add(makeString(reading.getCasus(), reading.getNumerus(), FEMININUM, Determination.INDEFINITE, omit));
+          set.add(makeString(reading.getCasus(), reading.getNumerus(), NEUTRUM, Determination.DEFINITE, omit));
+          set.add(makeString(reading.getCasus(), reading.getNumerus(), NEUTRUM, Determination.INDEFINITE, omit));
         } else {
-          set.add(makeString(reading.getCasus(), reading.getNumerus(), GermanToken.Genus.MASKULINUM, reading.getDetermination(), omit));
-          set.add(makeString(reading.getCasus(), reading.getNumerus(), GermanToken.Genus.FEMININUM, reading.getDetermination(), omit));
-          set.add(makeString(reading.getCasus(), reading.getNumerus(), GermanToken.Genus.NEUTRUM, reading.getDetermination(), omit));
+          set.add(makeString(reading.getCasus(), reading.getNumerus(), MASKULINUM, reading.getDetermination(), omit));
+          set.add(makeString(reading.getCasus(), reading.getNumerus(), FEMININUM, reading.getDetermination(), omit));
+          set.add(makeString(reading.getCasus(), reading.getNumerus(), NEUTRUM, reading.getDetermination(), omit));
         }
       } else {
         if (reading.getDetermination() == null || "jed".equals(tmpReading.getLemma()) || "manch".equals(tmpReading.getLemma())) {  // "jeder" etc. needs a special case to avoid false alarm
-          set.add(makeString(reading.getCasus(), reading.getNumerus(), reading.getGenus(), GermanToken.Determination.DEFINITE, omit));
-          set.add(makeString(reading.getCasus(), reading.getNumerus(), reading.getGenus(), GermanToken.Determination.INDEFINITE, omit));
+          set.add(makeString(reading.getCasus(), reading.getNumerus(), reading.getGenus(), Determination.DEFINITE, omit));
+          set.add(makeString(reading.getCasus(), reading.getNumerus(), reading.getGenus(), Determination.INDEFINITE, omit));
         } else {
           set.add(makeString(reading.getCasus(), reading.getNumerus(), reading.getGenus(), reading.getDetermination(), omit));
         }
@@ -85,15 +89,15 @@ class AgreementTools {
   }
 
   private static String makeString(GermanToken.Kasus casus, GermanToken.Numerus num, GermanToken.Genus gen,
-                            GermanToken.Determination determination, Set<AgreementRule.GrammarCategory> omit) {
+                            Determination determination, Set<GrammarCategory> omit) {
     List<String> l = new ArrayList<>();
-    if (casus != null && !omit.contains(AgreementRule.GrammarCategory.KASUS)) {
+    if (casus != null && !omit.contains(GrammarCategory.KASUS)) {
       l.add(casus.toString());
     }
-    if (num != null && !omit.contains(AgreementRule.GrammarCategory.NUMERUS)) {
+    if (num != null && !omit.contains(GrammarCategory.NUMERUS)) {
       l.add(num.toString());
     }
-    if (gen != null && !omit.contains(AgreementRule.GrammarCategory.GENUS)) {
+    if (gen != null && !omit.contains(GrammarCategory.GENUS)) {
       l.add(gen.toString());
     }
     if (determination != null) {

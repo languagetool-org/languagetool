@@ -18,26 +18,7 @@
  */
 package org.languagetool.openoffice;
 
-import java.io.File;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.Set;
-
-import javax.swing.UIManager;
-
 import com.sun.star.lang.*;
-import com.sun.star.linguistic2.LinguServiceEvent;
-import com.sun.star.linguistic2.LinguServiceEventFlags;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.SystemUtils;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.Languages;
-import org.languagetool.gui.AboutDialog;
-import org.languagetool.gui.Configuration;
 
 import com.sun.star.beans.PropertyValue;
 import com.sun.star.lib.uno.helper.Factory;
@@ -48,7 +29,6 @@ import com.sun.star.linguistic2.XLinguServiceEventListener;
 import com.sun.star.linguistic2.XProofreader;
 import com.sun.star.registry.XRegistryKey;
 import com.sun.star.task.XJobExecutor;
-import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
 
 /**
@@ -63,51 +43,29 @@ public class Main extends WeakBase implements XJobExecutor,
   // Service name required by the OOo API && our own name.
   private static final String[] SERVICE_NAMES = {
           "com.sun.star.linguistic2.Proofreader",
-          "org.languagetool.openoffice.Main" };
-
-  private static final String VENDOR_ID = "languagetool.org";
-  private static final String APPLICATION_ID = "LanguageTool";
-  private static final String OFFICE_EXTENSION_ID = "LibreOffice";
-  private static final String CONFIG_FILE = "Languagetool.cfg";
-  private static final String OLD_CONFIG_FILE = ".languagetool-ooo.cfg";
-  private static final String LOG_FILE = "LanguageTool.log";
-
-  private static final ResourceBundle MESSAGES = JLanguageTool.getMessageBundle();
-
-  // LibreOffice (since 4.2.0) special tag for locale with variant 
-  // e.g. language ="qlt" country="ES" variant="ca-ES-valencia":
-  private static final String LIBREOFFICE_SPECIAL_LANGUAGE_TAG = "qlt";
-
-  private final List<XLinguServiceEventListener> xEventListeners;
-
-  private boolean docReset = false;
+          OfficeTools.LT_SERVICE_NAME };
 
   private XComponentContext xContext;
-  
-  private MultiDocumentsHandler documents = null;
-
+  private MultiDocumentsHandler documents;
 
   public Main(XComponentContext xCompContext) {
     changeContext(xCompContext);
-    xEventListeners = new ArrayList<>();
-    File homeDir = getHomeDir();
-    File configDir = getLOConfigDir();
-    String configDirName = configDir == null ? "." : configDir.toString();
-    File oldConfigFile = homeDir == null ? null : new File(homeDir, OLD_CONFIG_FILE);
-    MessageHandler.init(configDirName, LOG_FILE);
-    documents = new MultiDocumentsHandler(xContext, configDir, CONFIG_FILE, oldConfigFile, MESSAGES, this);
+    documents = new MultiDocumentsHandler(xContext, this, this);
   }
 
+  /**
+   * Changes the XComponentContext
+   */
   void changeContext(XComponentContext xCompContext) {
     xContext = xCompContext;
-    if(documents != null) {
+    if (documents != null) {
       documents.setComponentContext(xCompContext);
     }
   }
 
   /**
    * Runs the grammar checker on paragraph text.
-   *
+   * interface: XProofreader
    * @param docID document ID
    * @param paraText paragraph text
    * @param locale Locale the text Locale
@@ -120,95 +78,32 @@ public class Main extends WeakBase implements XJobExecutor,
       String paraText, Locale locale, int startOfSentencePos,
       int nSuggestedBehindEndOfSentencePosition,
       PropertyValue[] propertyValues) {
-    ProofreadingResult paRes = new ProofreadingResult();
-    paRes.nStartOfSentencePosition = startOfSentencePos;
-    paRes.nStartOfNextSentencePosition = nSuggestedBehindEndOfSentencePosition;
-    paRes.nBehindEndOfSentencePosition = paRes.nStartOfNextSentencePosition;
-    paRes.xProofreader = this;
-    paRes.aLocale = locale;
-    paRes.aDocumentIdentifier = docID;
-    paRes.aText = paraText;
-    paRes.aProperties = propertyValues;
-    try {
-      paRes = documents.getCheckResults(paraText, locale, paRes, propertyValues, docReset);
-      docReset = false;
-    } catch (Throwable t) {
-      MessageHandler.showError(t);
-    }
-    return paRes;
-  }
-
-  public SwJLanguageTool getJLanguageTool() {
-    return documents.getLanguageTool();
+    return documents.doProofreading(docID, paraText, locale, startOfSentencePos, nSuggestedBehindEndOfSentencePosition, propertyValues);
   }
 
   /**
    * We leave spell checking to OpenOffice/LibreOffice.
+   * interface: XProofreader
    * @return false
    */
   @Override
   public final boolean isSpellChecker() {
-    return false;
+    return documents.isSpellChecker();
   }
   
   /**
-   * Returns xContext
-   */
-  public XComponentContext getContext() {
-    return xContext;
-  }
-
-  /**
-   * Runs LT options dialog box.
-   */
-  private void runOptionsDialog() {
-    Configuration config = documents.getConfiguration();
-    Language lang = config.getDefaultLanguage();
-    if (lang == null) {
-      lang = documents.getLanguage();
-    }
-    if (lang == null) {
-      return;
-    }
-    ConfigThread configThread = new ConfigThread(lang, config, this);
-    configThread.start();
-  }
-
-  /**
    * @return An array of Locales supported by LT
+   * interface: XProofreader
    */
   @Override
   public final Locale[] getLocales() {
-    try {
-      List<Locale> locales = new ArrayList<>();
-      for (Language lang : Languages.get()) {
-        if (lang.getCountries().length == 0) {
-          // e.g. Esperanto
-          if (lang.getVariant() != null) {
-            locales.add(new Locale(LIBREOFFICE_SPECIAL_LANGUAGE_TAG, "", lang.getShortCodeWithCountryAndVariant()));
-          } else {
-            locales.add(new Locale(lang.getShortCode(), "", ""));
-          }
-        } else {
-          for (String country : lang.getCountries()) {
-            if (lang.getVariant() != null) {
-              locales.add(new Locale(LIBREOFFICE_SPECIAL_LANGUAGE_TAG, country, lang.getShortCodeWithCountryAndVariant()));
-            } else {
-              locales.add(new Locale(lang.getShortCode(), country, ""));
-            }
-          }
-        }
-      }
-      return locales.toArray(new Locale[0]);
-    } catch (Throwable t) {
-      MessageHandler.showError(t);
-      return new Locale[0];
-    }
+    return MultiDocumentsHandler.getLocales();
   }
 
   /**
    * @return true if LT supports the language of a given locale
    * @param locale The Locale to check
+   * interface: XProofreader
    */
   @Override
   public final boolean hasLocale(Locale locale) {
@@ -218,72 +113,46 @@ public class Main extends WeakBase implements XJobExecutor,
   /**
    * Add a listener that allow re-checking the document after changing the
    * options in the configuration dialog box.
-   * 
+   * interface: XLinguServiceEventBroadcaster
    * @param eventListener the listener to be added
    * @return true if listener is non-null and has been added, false otherwise
    */
   @Override
   public final boolean addLinguServiceEventListener(XLinguServiceEventListener eventListener) {
-    if (eventListener == null) {
-      return false;
-    }
-    xEventListeners.add(eventListener);
-    return true;
+    return documents.addLinguServiceEventListener(eventListener);
   }
 
   /**
    * Remove a listener from the event listeners list.
-   * 
+   * interface: XLinguServiceEventBroadcaster
    * @param eventListener the listener to be removed
    * @return true if listener is non-null and has been removed, false otherwise
    */
   @Override
   public final boolean removeLinguServiceEventListener(XLinguServiceEventListener eventListener) {
-    if (eventListener == null) {
-      return false;
-    }
-    if (xEventListeners.contains(eventListener)) {
-      xEventListeners.remove(eventListener);
-      return true;
-    }
-    return false;
+    return documents.removeLinguServiceEventListener(eventListener);
   }
 
   /**
-   * Inform listener that the doc should be rechecked.
+   * Get the names of supported services
+   * interface: XServiceInfo
    */
-  public boolean resetCheck() {
-    if (!xEventListeners.isEmpty()) {
-      for (XLinguServiceEventListener xEvLis : xEventListeners) {
-        if (xEvLis != null) {
-          LinguServiceEvent xEvent = new LinguServiceEvent();
-          xEvent.nEvent = LinguServiceEventFlags.PROOFREAD_AGAIN;
-          xEvLis.processLinguServiceEvent(xEvent);
-        }
-      }
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * Inform listener (grammar checking iterator) that options have changed and
-   * the doc should be rechecked.
-   */
-  void resetDocument() {
-    documents.setRecheck();
-    resetCheck();
-  }
-
   @Override
   public String[] getSupportedServiceNames() {
     return getServiceNames();
   }
 
+  /**
+   * Get the LT service names
+   */
   static String[] getServiceNames() {
     return SERVICE_NAMES;
   }
 
+  /**
+   * Test if the service is supported by LT
+   * interface: XServiceInfo
+   */
   @Override
   public boolean supportsService(String sServiceName) {
     for (String sName : SERVICE_NAMES) {
@@ -294,11 +163,19 @@ public class Main extends WeakBase implements XJobExecutor,
     return false;
   }
 
+  /**
+   * Get the implementation name of the LT service
+   * interface: XServiceInfo
+   */
   @Override
   public String getImplementationName() {
     return Main.class.getName();
   }
 
+  /**
+   * Get XSingleComponentFactory
+   * Default method called by LO/OO extensions
+   */
   public static XSingleComponentFactory __getComponentFactory(String sImplName) {
     SingletonFactory xFactory = null;
     if (sImplName.equals(Main.class.getName())) {
@@ -307,159 +184,24 @@ public class Main extends WeakBase implements XJobExecutor,
     return xFactory;
   }
 
+  /**
+   * Write keys to registry
+   * Default method called by LO/OO extensions
+   */
   public static boolean __writeRegistryServiceInfo(XRegistryKey regKey) {
     return Factory.writeRegistryServiceInfo(Main.class.getName(), Main.getServiceNames(), regKey);
   }
 
+  /**
+   * Triggers a registered event
+   * interface: XJobExecutor
+   */
   @Override
   public void trigger(String sEvent) {
     if (Thread.currentThread().getContextClassLoader() == null) {
       Thread.currentThread().setContextClassLoader(Main.class.getClassLoader());
     }
-    if (!javaVersionOkay()) {
-      return;
-    }
-    try {
-      if ("configure".equals(sEvent)) {
-        runOptionsDialog();
-      } else if ("about".equals(sEvent)) {
-        AboutDialogThread aboutThread = new AboutDialogThread(MESSAGES);
-        aboutThread.start();
-      } else if ("switchOff".equals(sEvent)) {
-        if(documents.toggleSwitchedOff()) {
-          resetCheck();
-        }
-      } else if ("ignoreOnce".equals(sEvent)) {
-        documents.ignoreOnce();
-/*        
-        String docId = documents.ignoreOnce();
-        if(docId != null) {
-          documents.resetCheck(docId);
-          documents.optimizeReset();
-        }
-*/
-      } else if ("deactivateRule".equals(sEvent)) {
-        documents.deactivateRule();
-        resetDocument();
-      } else if ("remoteHint".equals(sEvent)) {
-        if(documents.getConfiguration().useOtherServer()) {
-          MessageHandler.showMessage(MessageFormat.format(MESSAGES.getString("loRemoteInfoOtherServer"), 
-              documents.getConfiguration().getServerUrl()));
-        } else {
-          MessageHandler.showMessage(MESSAGES.getString("loRemoteInfoDefaultServer"));
-        }
-      } else {
-        MessageHandler.printToLogFile("Sorry, don't know what to do, sEvent = " + sEvent);
-      }
-    } catch (Throwable e) {
-      MessageHandler.showError(e);
-    }
-  }
-
-  private boolean javaVersionOkay() {
-    String version = System.getProperty("java.version");
-    if (version != null
-        && (version.startsWith("1.0") || version.startsWith("1.1")
-            || version.startsWith("1.2") || version.startsWith("1.3")
-            || version.startsWith("1.4") || version.startsWith("1.5")
-            || version.startsWith("1.6") || version.startsWith("1.7"))) {
-      MessageHandler.showMessage("Error: LanguageTool requires Java 8 or later. Current version: " + version);
-      return false;
-    }
-    try {
-      // do not set look and feel for on Mac OS X as it causes the following error:
-      // soffice[2149:2703] Apple AWT Java VM was loaded on first thread -- can't start AWT.
-      if (!System.getProperty("os.name").contains("OS X")) {
-         // Cross-Platform Look And Feel @since 3.7
-         if (System.getProperty("os.name").contains("Linux")) {
-         UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
-         }
-         else {
-         UIManager.setLookAndFeel(
-            UIManager.getSystemLookAndFeelClassName());
-         }
-      }
-    } catch (Exception ignored) {
-      // Well, what can we do...
-    }
-    return true;
-  }
-
-  private File getHomeDir() {
-    String homeDir = System.getProperty("user.home");
-    if (homeDir == null) {
-      MessageHandler.showError(new RuntimeException("Could not get home directory"));
-      return null;
-    }
-    return new File(homeDir);
-  }
-
-  /**
-   * Returns directory to store every information for LT office extension
-   * @since 4.7
-   */
-  private File getLOConfigDir() {
-      String userHome = null;
-      File directory;
-      try {
-        userHome = System.getProperty("user.home");
-      } catch (SecurityException ex) {
-      }
-      if (userHome == null) {
-        MessageHandler.showError(new RuntimeException("Could not get home directory"));
-        directory = null;
-      } else if (SystemUtils.IS_OS_WINDOWS) {
-        // Path: \\user\<YourUserName>\AppData\Roaming\languagetool.org\LanguageTool\LibreOffice  
-        File appDataDir = null;
-        try {
-          String appData = System.getenv("APPDATA");
-          if (!StringUtils.isEmpty(appData)) {
-            appDataDir = new File(appData);
-          }
-        } catch (SecurityException ex) {
-        }
-        if (appDataDir != null && appDataDir.isDirectory()) {
-          String path = VENDOR_ID + "\\" + APPLICATION_ID + "\\" + OFFICE_EXTENSION_ID + "\\";
-          directory = new File(appDataDir, path);
-        } else {
-          String path = "Application Data\\" + VENDOR_ID + "\\" + APPLICATION_ID + "\\" + OFFICE_EXTENSION_ID + "\\";
-          directory = new File(userHome, path);
-        }
-      } else if (SystemUtils.IS_OS_LINUX) {
-        // Path: /home/<YourUserName>/.config/LanguageTool/LibreOffice  
-        File appDataDir = null;
-        try {
-          String xdgConfigHome = System.getenv("XDG_CONFIG_HOME");
-          if (!StringUtils.isEmpty(xdgConfigHome)) {
-            appDataDir = new File(xdgConfigHome);
-            if (!appDataDir.isAbsolute()) {
-              //https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
-              //All paths set in these environment variables must be absolute.
-              //If an implementation encounters a relative path in any of these
-              //variables it should consider the path invalid and ignore it.
-              appDataDir = null;
-            }
-          }
-        } catch (SecurityException ex) {
-        }
-        if (appDataDir != null && appDataDir.isDirectory()) {
-          String path = APPLICATION_ID + "/" + OFFICE_EXTENSION_ID + "/";
-          directory = new File(appDataDir, path);
-        } else {
-          String path = ".config/" + APPLICATION_ID + "/" + OFFICE_EXTENSION_ID + "/";
-          directory = new File(userHome, path);
-        }
-      } else if (SystemUtils.IS_OS_MAC_OSX) {
-        String path = "Library/Application Support/" + APPLICATION_ID + "/" + OFFICE_EXTENSION_ID + "/";
-        directory = new File(userHome, path);
-      } else {
-        String path = "." + APPLICATION_ID + "/" + OFFICE_EXTENSION_ID + "/";
-        directory = new File(userHome, path);
-      }
-      if (directory != null && !directory.exists()) {
-        directory.mkdirs();
-      }
-      return directory;
+    documents.trigger(sEvent);
   }
 
   /**
@@ -468,51 +210,23 @@ public class Main extends WeakBase implements XJobExecutor,
    */
   void setTestMode(boolean mode) {
     documents.setTestMode(mode);
-    MessageHandler.setTestMode(mode);
   }
   
   /**
-   *  get all disabled rules by context menu or spell dialog
+   * Give back the MultiDocumentsHandler - use only for test cases.
+   * @since 5.3
    */
-  public Set<String> getDisabledRules() {
-    return documents.getDisabledRules();
+  MultiDocumentsHandler getMultiDocumentsHandler() {
+    return documents;
   }
   
-  /**
-   *  set disabled rules by context menu or spell dialog
-   */
-  public void setDisabledRules(Set<String> ruleIds) {
-    documents.setDisabledRules(ruleIds);;
-  }
-  
-
-
-  private static class AboutDialogThread extends Thread {
-
-    private final ResourceBundle messages;
-
-    AboutDialogThread(ResourceBundle messages) {
-      this.messages = messages;
-    }
-
-    @Override
-    public void run() {
-      // Note: null can cause the dialog to appear on the wrong screen in a
-      // multi-monitor setup, but we just don't have a proper java.awt.Component
-      // here which we could use instead:
-      AboutDialog about = new AboutDialog(messages, null);
-      about.show();
-    }
-  }
-
   /**
    * Called when "Ignore" is selected e.g. in the context menu for an error.
+   * interface: XProofreader
    */
   @Override
   public void ignoreRule(String ruleId, Locale locale) {
-    /* TODO: config should be locale-dependent */
-    documents.addDisabledRule(ruleId);
-    documents.setRecheck();
+    documents.ignoreRule(ruleId, locale);;
   }
 
   /**
@@ -520,35 +234,29 @@ public class Main extends WeakBase implements XJobExecutor,
    * was set in the spelling dialog box or in the context menu.
    * 
    * The rules disabled in the config dialog box are left as intact.
+   * interface: XProofreader
    */
   @Override
   public void resetIgnoreRules() {
-    documents.resetDisabledRules();
-    documents.setRecheck();
-    documents.resetIgnoreOnce();
-    docReset = true;
-  }
-
-  @Override
-  public String getServiceDisplayName(Locale locale) {
-    return "LanguageTool";
+    documents.resetIgnoreRules();
   }
 
   /**
-   * remove internal stored text if document disposes
+   * Get the display name of the LT service
+   * Interface: XServiceDisplayName
+   */
+  @Override
+  public String getServiceDisplayName(Locale locale) {
+    return documents.getServiceDisplayName(locale);
+  }
+
+  /**
+   * Remove internal stored text if document disposes
+   * Interface: XEventListener
    */
   @Override
   public void disposing(EventObject source) {
-    //  the data of document will be removed by next call of getNumDocID
-    //  to finish checking thread without crashing
-    XComponent goneContext = UnoRuntime.queryInterface(XComponent.class, source.Source);
-    if(goneContext == null) {
-      MessageHandler.printToLogFile("xComponent of closed document is null");
-    } else {
-      documents.setContextOfClosedDoc(goneContext);
-//      documents.removeMenuListener(goneContext);
-    }
-    goneContext.removeEventListener(this); 
+    documents.disposing(source);
   }
 
 }

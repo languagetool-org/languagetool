@@ -1,11 +1,11 @@
 # LanguageTool
 
 **A proof-reading tool for English, Spanish, German,
-Polish, Chinese, French, Russian, Italian, Dutch
-and [more languages](https://www.languagetool.org/languages/)**
+Polish, Chinese, French, Russian, Italian, Dutch, Ukrainian
+and [more languages](https://dev.languagetool.org/languages)**
 
-Version 5.0-SNAPSHOT, 2020-xx-xx  
-Copyright (C) 2005-2020 the LanguageTool community and Daniel Naber (www.danielnaber.de)  
+Version 5.8-SNAPSHOT (xxx-xx-xx)
+Copyright (C) 2005-2022 the LanguageTool community and Daniel Naber (www.danielnaber.de)  
 https://www.languagetool.org
 
 
@@ -23,12 +23,12 @@ https://www.languagetool.org
 
 To integrate LanguageTool into LibreOffice or OpenOffice.org, you can use two methods:
 
-* Double-click `LanguageTool-4.9.oxt`. The extension should
+* Double-click `LanguageTool-5.7.oxt`. The extension should
    start installing. Follow the on-screen instructions.
 
 * If the above method doesn't work, call `Tools > Extension
    Manager > Add...` in LibreOffice/OpenOffice.org and browse for the
-   `LanguageTool-4.9.oxt` file.
+   `LanguageTool-5.7.oxt` file.
 
 Close and restart LibreOffice/OpenOffice.org Writer. Remember to close
 the QuickStarter as well if you use it. Type text with
@@ -59,7 +59,7 @@ Please see https://www.languagetool.org/issues/ if you experience problems.
 
 ### Stand-alone version
 
-To use the stand-alone version, double click on the `languagetool.jar` file
+To use the stand-alone version, double-click on the `languagetool.jar` file
 or call `java -jar languagetool.jar` from the command line.
 
 ### Command-line version
@@ -71,13 +71,19 @@ To check plain text files from the command line, use
 with `xx` being the code for your language, e.g. `en-US` for American English
 or just `en` for English without spell checking activated.
 
+If you get a `java.lang.OutOfMemory` error, try increasing the Java
+heap size as follows, where `4096` is the size in megabytes (use more
+or less, depending on your file size and memory available).
+
+    java -Xmx4096M -jar languagetool-commandline.jar -l xx <filename>
+
 ### Java API
 
-See http://wiki.languagetool.org/java-api
+See https://dev.languagetool.org/java-api
 
 ### HTTP API
 
-See http://wiki.languagetool.org/public-http-api and
+See https://dev.languagetool.org/public-http-api and
 https://languagetool.org/http-api/swagger-ui/#/default
 
 

@@ -18,6 +18,7 @@
  */
 package org.languagetool.openoffice;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -26,6 +27,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.sun.star.beans.PropertyState;
+import com.sun.star.beans.PropertyValue;
 import com.sun.star.linguistic2.SingleProofreadingError;
 
 /**
@@ -34,135 +37,170 @@ import com.sun.star.linguistic2.SingleProofreadingError;
  * @author Fred Kruse
  * @since 4.3
  */
-class ResultCache {
+class ResultCache implements Serializable {
 
-  private Map<Integer, CacheSentenceEntries> entries;
+  private static final long serialVersionUID = 1L;
+  private Map<Integer, CacheEntry> entries;
 
   ResultCache() {
     this(null);
   }
 
-  ResultCache(ResultCache cache) {
+  public ResultCache(ResultCache cache) {
     this.entries = Collections.synchronizedMap(new HashMap<>());
-    if(cache != null) {
-      synchronized(cache.entries) {
+    replace(cache);
+  }
+
+  /**
+   * Replace the cache content
+   */
+  synchronized void replace(ResultCache cache) {
+    entries.clear();
+    if (cache != null) {
+      synchronized(cache) {
         this.entries.putAll(cache.entries);
       }
     }
   }
 
   /**
-   * Remove a cache entry for a sentence
-   */
-  void remove(int numberOfParagraph, int startOfSentencePosition) {
-    CacheSentenceEntries sentenceEntries = entries.get(numberOfParagraph);
-    if(sentenceEntries != null) {
-      sentenceEntries.remove(startOfSentencePosition);
-    }
-  }
-
-  /**
    * Remove all cache entries for a paragraph
    */
-  void remove(int numberOfParagraph) {
+  synchronized void remove(int numberOfParagraph) {
     entries.remove(numberOfParagraph);
   }
 
   /**
    * Remove all cache entries between firstParagraph and lastParagraph
    */
-  void removeRange(int firstParagraph, int lastParagraph) {
+  synchronized void removeRange(int firstParagraph, int lastParagraph) {
     for (int i = firstParagraph; i <= lastParagraph; i++) {
       entries.remove(i);
     }
   }
 
   /**
-   * Remove all cache entries between firstPara (included) and lastPara (included)
+   * Remove all cache entries between firstPara (included) and lastPara (excluded)
    * shift all numberOfParagraph by 'shift'
    */
-  void removeAndShift(int firstParagraph, int lastParagraph, int shift) {
-    for (int i = firstParagraph; i <= lastParagraph; i++) {
+  synchronized void removeAndShift(int firstParagraph, int lastParagraph, int shift) {
+    if (lastParagraph < firstParagraph || shift == 0) {
+      return;
+    }
+    for (int i = firstParagraph; i < lastParagraph - shift - 1; i++) {
       entries.remove(i);
     }
-    
-    Map<Integer, CacheSentenceEntries> tmpEntries = entries;
+    Map<Integer, CacheEntry> tmpEntries = entries;
     entries = Collections.synchronizedMap(new HashMap<>());
     synchronized (tmpEntries) {
-      for(int i : tmpEntries.keySet()) {
-        if(i > lastParagraph) {
-          entries.put(i + shift, tmpEntries.get(i));
-        } else {
-          entries.put(i, tmpEntries.get(i));
-        } 
+      if (shift > 0) {
+        for (int i : tmpEntries.keySet()) {
+          if (i >= firstParagraph) {
+            entries.put(i + shift, tmpEntries.get(i));
+          } else {
+            entries.put(i, tmpEntries.get(i));
+          } 
+        }
+      } else {
+        for (int i : tmpEntries.keySet()) {
+          if (i >= lastParagraph && i + shift >= 0) {
+            entries.put(i + shift, tmpEntries.get(i));
+          } else if (i < firstParagraph) {
+            entries.put(i, tmpEntries.get(i));
+          } 
+        }
       }
     }
   }
 
   /**
-   * add / replace a cache entry
+   * add or replace a cache entry
    */
-  void put(int numberOfParagraph, int startOfSentencePosition, int nextSentencePosition, SingleProofreadingError[] errorArray) {
-    CacheSentenceEntries sentenceEntries = entries.get(numberOfParagraph);
-    if(sentenceEntries == null) {
-      entries.put(numberOfParagraph, new CacheSentenceEntries(startOfSentencePosition, nextSentencePosition, errorArray));
-    } else {
-      sentenceEntries.put(startOfSentencePosition, nextSentencePosition, errorArray);
-    }
+  synchronized void put(int numberOfParagraph, List<Integer> nextSentencePositions, SingleProofreadingError[] errorArray) {
+    entries.put(numberOfParagraph, new CacheEntry(nextSentencePositions, errorArray));
   }
 
   /**
-   * add / replace a cache entry for paragraph
+   * add or replace a cache entry for paragraph
    */
-  void put(int numberOfParagraph, SingleProofreadingError[] errorArray) {
-    entries.put(numberOfParagraph, new CacheSentenceEntries(0, 0, errorArray));
+  synchronized void put(int numberOfParagraph, SingleProofreadingError[] errorArray) {
+    entries.put(numberOfParagraph, new CacheEntry(null, errorArray));
+  }
+
+  /**
+   * add proof reading errors to a cache entry for paragraph
+   */
+  synchronized void add(int numberOfParagraph, SingleProofreadingError[] errorArray) {
+    CacheEntry cacheEntry = entries.get(numberOfParagraph);
+    cacheEntry.addErrorArray(errorArray);
+    entries.put(numberOfParagraph, cacheEntry);
   }
 
   /**
    * Remove all cache entries
    */
-  void removeAll() {
+  synchronized void removeAll() {
     entries.clear();
   }
 
   /**
-   * get Proofreading errors from cache
+   * get cache entry of paragraph
    */
-  SingleProofreadingError[] getMatches(int numberOfParagraph, int startOfSentencePosition) {
-    CacheSentenceEntries sentenceEntries = entries.get(numberOfParagraph);
-    if(sentenceEntries == null) {
-      return null;
-    }
-    return sentenceEntries.getErrorArray(startOfSentencePosition);
+  CacheEntry getCacheEntry(int numberOfParagraph) {
+    return entries.get(numberOfParagraph);
   }
 
   /**
-   * get all Proofreading errors of on paragraph from cache
+   * get Proofreading errors of on paragraph from cache
    */
   SingleProofreadingError[] getMatches(int numberOfParagraph) {
-    CacheSentenceEntries sentenceEntries = entries.get(numberOfParagraph);
-    if(sentenceEntries == null) {
+    CacheEntry entry = getCacheEntry(numberOfParagraph);
+    if (entry == null) {
       return null;
     }
-    List<SingleProofreadingError> allErrors = new ArrayList<>();
-    for (int pos : sentenceEntries.keySet()) {
-      SingleProofreadingError[] errors = sentenceEntries.getErrorArray(pos);
-      for (SingleProofreadingError error : errors) {
-        allErrors.add(error);
-      }
+    return entry.getErrorArray();
+  }
+
+  /**
+   * get start sentence position from cache
+   */
+  int getStartSentencePosition(int numberOfParagraph, int sentencePosition) {
+    CacheEntry entry = entries.get(numberOfParagraph);
+    if (entry == null) {
+      return 0;
     }
-    return allErrors.toArray(new SingleProofreadingError[0]);
+    List<Integer> nextSentencePositions = entry.nextSentencePositions;
+    if (nextSentencePositions == null || nextSentencePositions.size() < 2) {
+      return 0;
+    }
+    int startPosition = 0;
+    for (int position : nextSentencePositions) {
+      if (position >= sentencePosition) {
+        return position == sentencePosition ? position : startPosition;
+      }
+      startPosition = position;
+    }
+    return nextSentencePositions.get(nextSentencePositions.size() - 2);
   }
 
   /**
    * get next sentence position from cache
    */
-  int getNextSentencePosition(int numberOfParagraph, int startOfSentencePosition) {
-    CacheSentenceEntries sentenceEntries = entries.get(numberOfParagraph);
-    if(sentenceEntries == null) {
-      return -1;
+  int getNextSentencePosition(int numberOfParagraph, int sentencePosition) {
+    CacheEntry entry = entries.get(numberOfParagraph);
+    if (entry == null) {
+      return 0;
     }
-    return sentenceEntries.getNextSentencePosition(startOfSentencePosition);
+    List<Integer> nextSentencePositions = entry.nextSentencePositions;
+    if (nextSentencePositions == null || nextSentencePositions.size() == 0) {
+      return 0;
+    }
+    for (int position : nextSentencePositions) {
+      if (position > sentencePosition) {
+        return position;
+      }
+    }
+    return nextSentencePositions.get(nextSentencePositions.size() - 1);
   }
 
   /**
@@ -170,54 +208,43 @@ class ResultCache {
    */
   SingleProofreadingError[] getFromPara(int numberOfParagraph,
                                         int startOfSentencePosition, int endOfSentencePosition) {
-    CacheSentenceEntries sentenceEntries = entries.get(numberOfParagraph);
-    if(sentenceEntries == null) {
+    CacheEntry entry = entries.get(numberOfParagraph);
+    if (entry == null) {
       return null;
     }
     List<SingleProofreadingError> errorList = new ArrayList<>();
-    for (int i : sentenceEntries.keySet()) {
-      for (SingleProofreadingError eArray : sentenceEntries.getErrorArray(i)) {
-        if (eArray.nErrorStart >= startOfSentencePosition && eArray.nErrorStart < endOfSentencePosition) {
-          errorList.add(eArray);
-        }
+    for (SingleProofreadingError eArray : entry.getErrorArray()) {
+      if (eArray.nErrorStart >= startOfSentencePosition && eArray.nErrorStart < endOfSentencePosition) {
+        errorList.add(eArray);
       }
     }
     return errorList.toArray(new SingleProofreadingError[0]);
   }
 
   /**
-   * get an ResultCache entry by the number of paragraph
-   */
-  CacheSentenceEntries getEntryByParagraph(int numberOfParagraph) {
-    return entries.get(numberOfParagraph);
-  }
-
-  /**
    * Compares to Entries
    * true if the both entries are identically
    */
-  private boolean areDifferentEntries(CacheSentenceEntries newEntries, CacheSentenceEntries oldEntries) {
-    if (newEntries == null || oldEntries == null || newEntries.size() != oldEntries.size()) {
+  static boolean areDifferentEntries(CacheEntry newEntries, CacheEntry oldEntries) {
+    if (newEntries == null || oldEntries == null) {
       return true;
     }
-    for(int startSentence : newEntries.keySet()) {
-      SingleProofreadingError[] oldErrorArray = oldEntries.getErrorArray(startSentence);
-      SingleProofreadingError[] newErrorArray = newEntries.getErrorArray(startSentence);
-      if(oldErrorArray == null || newErrorArray == null || oldErrorArray.length != newErrorArray.length) {
-        return true;
+    SingleProofreadingError[] oldErrorArray = oldEntries.getErrorArray();
+    SingleProofreadingError[] newErrorArray = newEntries.getErrorArray();
+    if (oldErrorArray == null || newErrorArray == null || oldErrorArray.length != newErrorArray.length) {
+      return true;
+    }
+    for (SingleProofreadingError nError : newErrorArray) {
+      boolean found = false;
+      for (SingleProofreadingError oError : oldErrorArray) {
+        if (nError.nErrorStart == oError.nErrorStart && nError.nErrorLength == oError.nErrorLength
+                && nError.aRuleIdentifier.equals(oError.aRuleIdentifier)) {
+          found = true;
+          break;
+        }
       }
-      for (SingleProofreadingError nError : newErrorArray) {
-        boolean found = false;
-        for (SingleProofreadingError oError : oldErrorArray) {
-          if (nError.nErrorStart == oError.nErrorStart && nError.nErrorLength == oError.nErrorLength
-                  && nError.aRuleIdentifier.equals(oError.aRuleIdentifier)) {
-            found = true;
-            break;
-          }
-        }
-        if (!found) {
-          return true;
-        }
+      if (!found) {
+        return true;
       }
     }
     return false;
@@ -229,15 +256,15 @@ class ResultCache {
    */
   List<Integer> differenceInCaches(ResultCache oldCache) {
     List<Integer> differentParas = new ArrayList<>();
-    CacheSentenceEntries oEntry;
-    CacheSentenceEntries nEntry;
+    CacheEntry oEntry;
+    CacheEntry nEntry;
     boolean isDifferent = true;
     synchronized(entries) {
       Set<Integer> entrySet = new HashSet<>(entries.keySet());
       for (int nPara : entrySet) {
-        if(oldCache != null) {
+        if (oldCache != null) {
           nEntry = entries.get(nPara);
-          oEntry = oldCache.getEntryByParagraph(nPara);
+          oEntry = oldCache.getCacheEntry(nPara);
           isDifferent = areDifferentEntries(nEntry, oEntry);
         }
         if (isDifferent) {
@@ -259,9 +286,16 @@ class ResultCache {
    * get number of entries
    */
   int getNumberOfEntries() {
+    return entries.size();
+  }
+
+  /**
+   * get number of matches
+   */
+  int getNumberOfMatches() {
     int number = 0;
-    for(int n : entries.keySet()) {
-      number += entries.get(n).size();
+    for (int n : entries.keySet()) {
+      number += entries.get(n).errorArray.length;
     }
     return number;
   }
@@ -272,82 +306,142 @@ class ResultCache {
    * if there are more than one that begins at the same position return the one with the smallest size
    */
   SingleProofreadingError getErrorAtPosition(int numPara, int numChar) {
-    CacheSentenceEntries sentenceEntries = entries.get(numPara);
-    if(sentenceEntries == null) {
+    CacheEntry entry = entries.get(numPara);
+    if (entry == null) {
       return null;
     }
     SingleProofreadingError error = null;
-    for(int sentenceStart : sentenceEntries.keySet()) {
-      int sentenceNext = sentenceEntries.getNextSentencePosition(sentenceStart);
-      if(sentenceStart <= numChar &&  (sentenceNext == 0 || sentenceNext <= numChar)) {
-        for(SingleProofreadingError err : sentenceEntries.getErrorArray(sentenceStart)) {
-          if(numChar >= err.nErrorStart && numChar <= err.nErrorStart + err.nErrorLength) {
-            if(error == null || error.nErrorStart < err.nErrorStart
-                || (error.nErrorStart == err.nErrorStart && error.nErrorLength > err.nErrorLength)) {
-              error = err;
-            } 
-          }
-        }
+    for (SingleProofreadingError err : entry.getErrorArray()) {
+      if (numChar >= err.nErrorStart && numChar <= err.nErrorStart + err.nErrorLength) {
+        if (error == null || error.nErrorStart < err.nErrorStart
+            || (error.nErrorStart == err.nErrorStart && error.nErrorLength > err.nErrorLength)) {
+          error = err;
+        } 
       }
     }
     return error;
   }
 
-  static class CacheSentenceEntries {
-    private Map<Integer, CacheEntry> sentenceEntry;
+  /**
+   * Class of serializable cache entries
+   */
+  public class CacheEntry implements Serializable {
+    private static final long serialVersionUID = 2L;
+    SerialProofreadingError[] errorArray;
+    List<Integer> nextSentencePositions = null;
 
-    CacheSentenceEntries() {
-      sentenceEntry = new HashMap<>();
-    }
-    
-    CacheSentenceEntries(int startOfSentencePosition, int nextSentencePosition, SingleProofreadingError[] errorArray) {
-      sentenceEntry = new HashMap<>();
-      sentenceEntry.put(startOfSentencePosition, new CacheEntry(nextSentencePosition, errorArray));
-    }
-    
-    void remove(int startOfSentencePosition) {
-      sentenceEntry.remove(startOfSentencePosition);
-    }
-    
-    void put(int startOfSentencePosition, int nextSentencePosition, SingleProofreadingError[] errorArray) {
-      sentenceEntry.put(startOfSentencePosition, new CacheEntry(nextSentencePosition, errorArray));
-    }
-    
-    Set<Integer> keySet() {
-      return sentenceEntry.keySet();
-    }
-    
-    int size() {
-      return sentenceEntry.size();
-    }
-    
-    
-    SingleProofreadingError[] getErrorArray(int startOfSentencePosition) {
-      CacheEntry entry = sentenceEntry.get(startOfSentencePosition);
-      if (entry == null) {
-        return null;
+    CacheEntry(List<Integer> nextSentencePositions, SingleProofreadingError[] sErrorArray) {
+      if (nextSentencePositions != null) {
+        this.nextSentencePositions = new ArrayList<Integer>(nextSentencePositions);
       }
-      return entry.errorArray;
-    }
-    
-    int getNextSentencePosition(int startOfSentencePosition) {
-      CacheEntry entry = sentenceEntry.get(startOfSentencePosition);
-      if (entry == null) {
-        return -1;
-      }
-      return entry.nextSentencePosition;
-    }
-    
-    private static class CacheEntry {
-      final int nextSentencePosition;
-      final SingleProofreadingError[] errorArray;
-
-      CacheEntry(int nextSentencePosition, SingleProofreadingError[] errorArray) {
-        this.nextSentencePosition = nextSentencePosition;
-        this.errorArray = errorArray;
+      this.errorArray = new SerialProofreadingError[sErrorArray.length];
+      for (int i = 0; i < sErrorArray.length; i++) {
+        this.errorArray[i] = new SerialProofreadingError(sErrorArray[i]);
       }
     }
+    
+    /**
+     * Get an SingleProofreadingError array for one entry
+     */
+    SingleProofreadingError[] getErrorArray() {
+      SingleProofreadingError[] eArray = new SingleProofreadingError[errorArray.length];
+      for (int i = 0; i < errorArray.length; i++) {
+        eArray[i] = errorArray[i].toSingleProofreadingError();
+      }
+      return eArray;
+    }
+    
+    /**
+     * Add an SingleProofreadingError array to an existing one
+     */
+    void addErrorArray(SingleProofreadingError[] errors) {
+      if (errors == null || errors.length == 0) {
+        return;
+      }
+      SerialProofreadingError newErrorArray[] = new SerialProofreadingError[errorArray.length + errors.length];
+      for (int i = 0; i < errorArray.length; i++) {
+        newErrorArray[i] = errorArray[i];
+      }
+      for (int i = 0; i < errors.length; i++) {
+        newErrorArray[errorArray.length + i] = new SerialProofreadingError(errors[i]);
+      }
+    }
+  }
+  
+  /**
+   * Class of serializable proofreading errors
+   */
+  class SerialProofreadingError implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+    int nErrorStart;
+    int nErrorLength;
+    int nErrorType;
+    String aFullComment;
+    String aRuleIdentifier;
+    String aShortComment;
+    String[] aSuggestions;
+    SerialPropertyValue[] aProperties = null;
+    
+    SerialProofreadingError(SingleProofreadingError error) {
+      nErrorStart = error.nErrorStart;
+      nErrorLength = error.nErrorLength;
+      nErrorType = error.nErrorType;
+      aFullComment = error.aFullComment;
+      aRuleIdentifier = error.aRuleIdentifier;
+      aShortComment = error.aShortComment;
+      aSuggestions = error.aSuggestions;
+      if (error.aProperties != null) {
+        aProperties = new SerialPropertyValue[error.aProperties.length];
+        for (int i = 0; i < error.aProperties.length; i++) {
+          aProperties[i] = new SerialPropertyValue(error.aProperties[i]);
+        }
+      }
+    }
+    
+    SingleProofreadingError toSingleProofreadingError () {
+      SingleProofreadingError error = new SingleProofreadingError();
+      error.nErrorStart = nErrorStart;
+      error.nErrorLength = nErrorLength;
+      error.nErrorType = nErrorType;
+      error.aFullComment = aFullComment;
+      error.aRuleIdentifier = aRuleIdentifier;
+      error.aShortComment = aShortComment;
+      error.aSuggestions = aSuggestions;
+      if (aProperties != null) {
+        error.aProperties = new PropertyValue[aProperties.length];
+        for (int i = 0; i < aProperties.length; i++) {
+          error.aProperties[i] = aProperties[i].toPropertyValue();
+        }
+      } else {
+        error.aProperties = null;
+      }
+      return error;
+    }
+  }
+  
+  /**
+   * Class of serializable property values
+   */
+  class SerialPropertyValue implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    String name;
+    Object value;
+    
+    SerialPropertyValue(PropertyValue properties) {
+      name = properties.Name;
+      value = properties.Value;
+    }
+    
+    PropertyValue toPropertyValue() {
+      PropertyValue properties = new PropertyValue();
+      properties.Name = name;
+      properties.Value = value;
+      properties.Handle = -1;
+      properties.State = PropertyState.DIRECT_VALUE;
+      return properties;
+    }
   }
 
-} 
+}

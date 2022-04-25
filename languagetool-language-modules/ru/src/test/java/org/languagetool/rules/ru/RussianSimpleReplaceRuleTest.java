@@ -36,17 +36,17 @@ public class RussianSimpleReplaceRuleTest {
     RussianSimpleReplaceRule rule = new RussianSimpleReplaceRule(TestTools.getMessages("ru"));
 
     RuleMatch[] matches;
-    JLanguageTool langTool = new JLanguageTool(new Russian());
+    JLanguageTool lt = new JLanguageTool(new Russian());
 
     // correct sentences:
-    matches = rule.match(langTool.getAnalyzedSentence("Рост кораллов тут самый быстрый,"));
+    matches = rule.match(lt.getAnalyzedSentence("Рост кораллов тут самый быстрый,"));
     assertEquals(0, matches.length);
 
-    matches = rule.match(langTool.getAnalyzedSentence("Книга была порвана."));
+    matches = rule.match(lt.getAnalyzedSentence("Книга была порвана."));
     assertEquals(0, matches.length);
 
     // incorrect sentences:
-    matches = rule.match(langTool.getAnalyzedSentence("Книга была порвата."));
+    matches = rule.match(lt.getAnalyzedSentence("Книга была порвата."));
     assertEquals(1, matches.length);
     assertEquals(1, matches[0].getSuggestedReplacements().size());
     assertEquals("порвана", matches[0].getSuggestedReplacements().get(0));

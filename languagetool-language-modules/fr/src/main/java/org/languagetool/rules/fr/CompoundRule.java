@@ -18,9 +18,13 @@
  */
 package org.languagetool.rules.fr;
 
+import org.languagetool.Language;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
+import org.languagetool.tagging.fr.FrenchTagger;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 /**
@@ -30,8 +34,8 @@ public class CompoundRule extends AbstractCompoundRule {
 
   private static volatile CompoundRuleData compoundData;
 
-  public CompoundRule(ResourceBundle messages) throws IOException {
-    super(messages,
+  public CompoundRule(ResourceBundle messages, Language lang, UserConfig userConfig) throws IOException {
+    super(messages, lang, userConfig,
             "Écrivez avec un trait d’union.",
             "Écrivez avec un mot seul sans espace ni trait d’union.",
             "Écrivez avec un mot seul ou avec trait d’union.",
@@ -51,7 +55,7 @@ public class CompoundRule extends AbstractCompoundRule {
   }
 
   @Override
-  protected CompoundRuleData getCompoundRuleData() {
+  public CompoundRuleData getCompoundRuleData() {
     CompoundRuleData data = compoundData;
     if (data == null) {
       synchronized (CompoundRule.class) {
@@ -61,8 +65,12 @@ public class CompoundRule extends AbstractCompoundRule {
         }
       }
     }
-
     return data;
+  }
+  
+  @Override
+  public boolean isMisspelled (String word) throws IOException {
+    return !FrenchTagger.INSTANCE.tag(Arrays.asList(word)).get(0).isTagged();
   }
 
 }

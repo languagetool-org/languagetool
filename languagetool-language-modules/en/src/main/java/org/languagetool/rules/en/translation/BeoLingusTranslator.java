@@ -91,7 +91,7 @@ public class BeoLingusTranslator implements Translator {
       String[] germanParts = german.split("\\|");
       String[] englishParts = english.split("\\|");
       if (germanParts.length != englishParts.length) {
-        throw new IOException("Invalid line format: " + line);
+        throw new IOException("Invalid line format (DE item count != EN item count): " + line);
       }
       int i = 0;
       for (String germanPart : germanParts) {
@@ -109,12 +109,16 @@ public class BeoLingusTranslator implements Translator {
       String key = cleanForLookup(germanSubPart);
       List<TranslationEntry> oldEntries = map.get(key);
       if (oldEntries != null) {
-        oldEntries.add(new TranslationEntry(split(germanPart), split(englishParts[i].trim()), germanParts.length));
-        map.put(key, oldEntries);
+        if (!englishParts[i].trim().isEmpty()) {
+          oldEntries.add(new TranslationEntry(split(germanPart), split(englishParts[i].trim()), germanParts.length));
+          map.put(key, oldEntries);
+        }
       } else {
         List<TranslationEntry> l = new ArrayList<>();
-        l.add(new TranslationEntry(split(germanPart), split(englishParts[i]), germanParts.length));
-        map.put(key, l);
+        if (!englishParts[i].trim().isEmpty()) {
+          l.add(new TranslationEntry(split(germanPart), split(englishParts[i]), germanParts.length));
+          map.put(key, l);
+        }
       }
       //System.out.println(cleanForLookup(germanSubPart) + " ==> " + new TranslationEntry(split(germanPart), split(englishParts[i]), germanParts.length));
     }
@@ -148,8 +152,8 @@ public class BeoLingusTranslator implements Translator {
     int mergeListPos = 0;
     boolean merging = false;
     for (String item : list) {
-      int openPos = item.indexOf("{");
-      int closePos = item.indexOf("}");
+      int openPos = item.indexOf('{');
+      int closePos = item.indexOf('}');
       if (merging) {
         mergedList.set(mergeListPos-1, mergedList.get(mergeListPos-1) + "; " + item);
         mergeListPos--;
@@ -275,6 +279,10 @@ public class BeoLingusTranslator implements Translator {
       .replace("sth.", "")
       .replace("sb.", "")
       .replaceAll("/[A-Z]+/", "")    // e.g. "heavy goods vehicle /HGV/"
+      .replaceAll(" /[A-Z][a-z]+\\.?/", "")    // e.g. "Tuesday /Tue/", "station /Sta./"
+      .replaceAll("<> ", "")  // "to fathom out <> sth."
+      .replaceAll("<(.*)>", "")  // "decease [adm.]; demise [poet.] <death>"
+      .replaceAll("\\s+", " ")
       .trim();
     if ("to".equals(prevWord) && clean.startsWith("to ")) {
       return clean.substring(3);
@@ -302,6 +310,12 @@ public class BeoLingusTranslator implements Translator {
         sb.append(c);
         sb.append(' ');
         lookingFor.remove("]");
+      } else if (c == '<') {
+        lookingFor.add(">");
+      } else if (c == '>' && lookingFor.contains(">")) {
+        sb.append(c);
+        sb.append(' ');
+        lookingFor.remove(">");
       } else if (c == '(') {
         lookingFor.add(")");
       } else if (c == ')') {

@@ -60,7 +60,7 @@ public class UnitConversionRule extends AbstractUnitConversionRule {
 
     addUnit("Meter", METRE, "Meter", 1, true);
     addUnit("Kilometer", METRE, "Kilometer", 1e3, true);
-    addUnit("Dezimeter", METRE, "Dezimeter", 1e-1, false); // metric, but should not be suggested
+    //addUnit("Dezimeter", METRE, "Dezimeter", 1e-1, false); // metric, but should not be suggested
     addUnit("Zentimeter", METRE, "Zentimeter", 1e-2, true);
     addUnit("Millimeter", METRE, "Millimeter", 1e-3, true);
     addUnit("Mikrometer", METRE, "Mikrometer", 1e-6, true);
@@ -72,7 +72,7 @@ public class UnitConversionRule extends AbstractUnitConversionRule {
     addUnit("Hektar", SQUARE_METRE, "Hektar", 1e4, true);
     addUnit("Ar", SQUARE_METRE, "Ar", 1e2, true);
     addUnit("Quadratkilometer", SQUARE_METRE,  "Quadratkilometer",  1e6, true);
-    addUnit("Quadratdezimeter", SQUARE_METRE,  "Quadratdezimeter",  1e-2, false/*true*/); // Metric, but not commonly used
+    //addUnit("Quadratdezimeter", SQUARE_METRE,  "Quadratdezimeter",  1e-2, false/*true*/); // Metric, but not commonly used
     addUnit("Quadratzentimeter", SQUARE_METRE, "Quadratzentimeter", 1e-4, true);
     addUnit("Quadratmillimeter", SQUARE_METRE, "Quadratmillimeter", 1e-6, true);
     addUnit("Quadratmikrometer", SQUARE_METRE, "Quadratmikrometer", 1e-12, true);
@@ -80,7 +80,7 @@ public class UnitConversionRule extends AbstractUnitConversionRule {
 
     addUnit("Kubikmeter", CUBIC_METRE,     "Kubikmeter",      1, true);
     addUnit("Kubikkilometer", CUBIC_METRE, "Kubikkilometer",  1e9, true);
-    addUnit("Kubikdezimeter", CUBIC_METRE, "Kubikdezimeter",  1e-3, false/*true*/); // Metric, but not commonly used
+    //addUnit("Kubikdezimeter", CUBIC_METRE, "Kubikdezimeter",  1e-3, false/*true*/); // Metric, but not commonly used
     addUnit("Kubikzentimeter", CUBIC_METRE,"Kubikzentimeter", 1e-6, true);
     addUnit("Kubikmillimeter", CUBIC_METRE,"Kubikmillimeter", 1e-9, true);
     addUnit("Kubikmikrometer", CUBIC_METRE,"Kubikmikrometer", 1e-18, true);
@@ -123,7 +123,7 @@ public class UnitConversionRule extends AbstractUnitConversionRule {
   protected String getShortMessage(Message message) {
     switch(message) {
       case CHECK:
-        return "Falsche Umrechung. Automatisch korrigieren?";
+        return "Falsche Umrechnung. Automatisch korrigieren?";
       case SUGGESTION:
         return "Metrisches Äquivalent hinzufügen?";
       case CHECK_UNKNOWN_UNIT:

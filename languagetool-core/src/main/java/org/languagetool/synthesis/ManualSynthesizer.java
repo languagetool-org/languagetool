@@ -18,14 +18,19 @@
  */
 package org.languagetool.synthesis;
 
-import gnu.trove.THashMap;
 import gnu.trove.THashSet;
+
+import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.tagging.ManualTagger;
+import org.languagetool.tagging.TaggedWord;
+import org.languagetool.tools.MostlySingularMultiMap;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
+import java.util.function.Function;
 
 /**
  * A synthesizer that reads the inflected form and POS information from a plain (UTF-8) text file.
@@ -40,14 +45,17 @@ import java.util.*;
  */
 public final class ManualSynthesizer {
 
-  /** a map with the key composed by the lemma and POS (separated by "|"). The values are lists of inflected forms. */ 
-  private final Map<String, List<String>> mapping;
+  /** a map with the key composed by the lemma and POS. The values are inflected forms. */
+  private final MostlySingularMultiMap<TaggedWord, String> mapping;
   private final Set<String> possibleTags;
+  
+  private final static String DEFAULT_SEPARATOR = "\t";
 
   public ManualSynthesizer(InputStream inputStream) throws IOException {
-    MappingAndTags mappingAndTags = loadMapping(inputStream, "utf8");
-    mapping = mappingAndTags.mapping;
-    possibleTags = Collections.unmodifiableSet(mappingAndTags.tags); // lock
+    THashSet<String> tags = new THashSet<>();
+    mapping = new MostlySingularMultiMap<>(loadMapping(inputStream, tags));
+    tags.trimToSize();
+    possibleTags = Collections.unmodifiableSet(tags);
   }
 
   /**
@@ -65,36 +73,44 @@ public final class ManualSynthesizer {
    * @return a list with all the inflected forms of the specified lemma having the specified POS tag.
    * If no inflected form is found, the function returns <code>null</code>.
    */
+  @Nullable
   public List<String> lookup(String lemma, String posTag) {
-    return mapping.get(lemma + "|" + posTag);
+    return mapping.getList(new TaggedWord(lemma, posTag));
   }
 
-  private MappingAndTags loadMapping(InputStream inputStream, String encoding) throws IOException {
-    MappingAndTags result = new MappingAndTags();
-    try (Scanner scanner = new Scanner(inputStream, encoding)) {
+  private static Map<TaggedWord, List<String>> loadMapping(InputStream inputStream, Set<String> outTags) throws IOException {
+    Map<String, String> internedStrings = new HashMap<>();
+    Map<TaggedWord, List<String>> mapping = new HashMap<>();
+    Map<String, String> interned = new HashMap<>();
+    try (Scanner scanner = new Scanner(inputStream, "utf8")) {
+      String separator = DEFAULT_SEPARATOR;
       while (scanner.hasNextLine()) {
         String line = scanner.nextLine();
+        line = line.trim();
+        if (line.startsWith("#separatorRegExp=")) {
+          separator = line.replace("#separatorRegExp=", "");
+        }
         if (StringTools.isEmpty(line) || line.charAt(0) == '#') {
           continue;
         }
-        String[] parts = line.split("\t");
+        line = StringUtils.substringBefore(line, "#").trim();
+        String[] parts = line.split(separator);
         if (parts.length != 3) {
-          throw new IOException("Unknown line format when loading manual synthesizer dictionary: " + line);
+          throw new IOException("Unknown line format when loading manual synthesizer dictionary, " +
+            "expected 3 parts separated by '" + separator + "', found " + parts.length + ": '" + line + "'");
         }
-        String key = parts[1] + "|" + parts[2];
-        if (!result.mapping.containsKey(key)) {
-          result.mapping.put(key, new ArrayList<>());
+        String form = parts[0];
+        String lemma = parts[1];
+        if (form.equals(lemma)) {
+          form = lemma;
         }
-        result.mapping.get(key).add(parts[0]);
-        result.tags.add(parts[2]); // POS
+        lemma = interned.computeIfAbsent(lemma, Function.identity());
+        String posTag = internedStrings.computeIfAbsent(parts[2], Function.identity());
+        mapping.computeIfAbsent(new TaggedWord(lemma, posTag), __ -> new ArrayList<>()).add(form);
+        outTags.add(posTag);
       }
     }
-    return result;
-  }
-
-  static class MappingAndTags {
-    Map<String, List<String>> mapping = new THashMap<>();
-    Set<String> tags = new THashSet<>();
+    return mapping;
   }
 
 }

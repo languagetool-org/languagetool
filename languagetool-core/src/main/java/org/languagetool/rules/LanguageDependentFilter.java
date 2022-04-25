@@ -19,56 +19,31 @@
 package org.languagetool.rules;
 
 import org.languagetool.Language;
+import org.languagetool.rules.patterns.RuleSet;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 /* 
- * Adjust rule matches for some languages  
+ * Adjust rule suggestions for some languages  
  * 
  * @since 4.6
  */
 public class LanguageDependentFilter implements RuleMatchFilter {
 
   protected Language language;
-  protected Set<String> enabledRules;
-  protected Set<CategoryId> disabledCategories;
-  
-  public LanguageDependentFilter(Language lang, Set<String> enabledRules, Set<CategoryId> disabledRuleCategories) {
-    this.language = lang;
-    this.enabledRules = enabledRules;
-    this.disabledCategories = disabledRuleCategories;
+  protected Set<String> enabledRules; 
+
+  public LanguageDependentFilter(Language lang, RuleSet rules) {
+    language = lang;
+    enabledRules = rules.allRuleIds();
   }
 
   @Override
   public List<RuleMatch> filter(List<RuleMatch> ruleMatches) {
-    if (language.getShortCode() == "ca") {
-      // Use typographic apostrophe in suggestions
-      CategoryId catID = new CategoryId("DIACRITICS_TRADITIONAL");
-      if (this.enabledRules.contains("APOSTROF_TIPOGRAFIC") 
-          || this.disabledCategories.contains(catID)) {
-        List<RuleMatch> newRuleMatches = new ArrayList<>();
-        for (RuleMatch rm : ruleMatches) {
-          List<String> replacements = rm.getSuggestedReplacements();
-          List<String> newReplacements = new ArrayList<>();
-          for (String s: replacements) {
-            if (this.enabledRules.contains("APOSTROF_TIPOGRAFIC") && s.length() > 1) {
-              s = s.replace("'", "’");
-            }
-            if (this.disabledCategories.contains(catID) && s.matches(".*\\b([Dd]óna|[Vv]énen|[Vv]éns|[Ff]óra)\\b.*")) {
-              // skip this suggestion with traditional diacritics
-            } else {
-              newReplacements.add(s);
-            }
-          }
-          RuleMatch newrm = new RuleMatch(rm, newReplacements);
-          newRuleMatches.add(newrm);
-        }
-        return newRuleMatches;
-      }
-    }
-    return ruleMatches;
-  }  
-  
+	  return language.adaptSuggestions(ruleMatches, enabledRules);
+  }
 }
+
+	  
+	

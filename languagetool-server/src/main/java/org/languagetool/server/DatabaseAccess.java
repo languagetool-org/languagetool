@@ -19,342 +19,179 @@
 package org.languagetool.server;
 
 import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.apache.ibatis.datasource.pooled.PooledDataSource;
-import org.apache.ibatis.exceptions.PersistenceException;
-import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.jdbc.SQL;
-import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.jetbrains.annotations.Nullable;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.Premium;
+import org.languagetool.rules.Rule;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.*;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-
-import static org.languagetool.server.ServerTools.print;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Encapsulate database access. Will do nothing if database access is not configured.
+ *
  * @since 4.2
  */
-class DatabaseAccess {
-
+abstract class DatabaseAccess {
   private static DatabaseAccess instance;
-  private static SqlSessionFactory sqlSessionFactory;
-  private static final Logger logger = LoggerFactory.getLogger(DatabaseAccess.class);
+  protected SqlSessionFactory sqlSessionFactory;
 
-  private final Cache<Long, List<UserDictEntry>> userDictCache = CacheBuilder.newBuilder()
-          .maximumSize(1000)
-          .expireAfterWrite(24, TimeUnit.HOURS)
-          .build();
-
-  private final Cache<String, Long> dbLoggingCache = CacheBuilder.newBuilder()
-    .expireAfterAccess(1, TimeUnit.HOURS)
-    .maximumSize(5000)
-    .build();
-
-  private DatabaseAccess(HTTPServerConfig config) {
-    if (config.getDatabaseDriver() != null) {
-      try {
-        logger.info("Setting up database access, URL " + config.getDatabaseUrl() + ", driver: " + config.getDatabaseDriver() + ", user: " + config.getDatabaseUsername());
-        InputStream inputStream = Resources.getResourceAsStream("org/languagetool/server/mybatis-config.xml");
-        Properties properties = new Properties();
-        properties.setProperty("driver", config.getDatabaseDriver());
-        properties.setProperty("url", config.getDatabaseUrl());
-        properties.setProperty("username", config.getDatabaseUsername());
-        properties.setProperty("password", config.getDatabasePassword());
-        sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream, properties);
-
-        // try to close connections even on hard restart
-        // workaround as described in https://github.com/mybatis/mybatis-3/issues/821
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> ((PooledDataSource)sqlSessionFactory
-          .getConfiguration().getEnvironment().getDataSource()).forceCloseAll()));
-
-        DatabaseLogger.init(sqlSessionFactory);
-        if (!config.getDatabaseLogging()) {
-          logger.info("dbLogging not set to true, turning off logging");
-          DatabaseLogger.getInstance().disableLogging();
-        }
-      } catch (IOException e) {
-        throw new RuntimeException(e);
-      }
-    } else {
-      logger.info("Not setting up database access, dbDriver is not configured");
-    }
+  /**
+   * Implementations required to provide a constructor with the same signature
+   */
+  protected DatabaseAccess(HTTPServerConfig config) {
   }
   
   static synchronized void init(HTTPServerConfig config) {
     if (instance == null) {
-      instance = new DatabaseAccess(config);
+      String className = "org.languagetool.server.DatabaseAccess";
+      if (Premium.isPremiumVersion()) {
+        className += "Premium";
+      } else {
+        className += "OpenSource";
+      }
+      try {
+        Class<DatabaseAccess> clazz = (Class<DatabaseAccess>) JLanguageTool.getClassBroker().forName(className);
+        instance = clazz.getConstructor(HTTPServerConfig.class).newInstance(config);
+      } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+        throw new RuntimeException(e);
+      }
     }
+  }
+
+  static synchronized void reset() {
+    if (instance != null) {
+      instance.sqlSessionFactory = null;
+    }
+    instance = null;
   }
 
   static synchronized DatabaseAccess getInstance() {
     if (instance == null) {
-      throw new IllegalStateException("DatabaseAccess.init() has not been called yet");
+      throw new IllegalStateException("DatabaseAccess.init() has not been called yet or failed");
     }
     return instance;
   }
 
-  List<String> getUserDictWords(Long userId) {
-    List<String> dictEntries = new ArrayList<>();
-    if (sqlSessionFactory == null) {
-      return dictEntries;
-    }
-    try (SqlSession session = sqlSessionFactory.openSession()) {
-      try {
-        List<UserDictEntry> dict = session.selectList("org.languagetool.server.UserDictMapper.selectWordList", userId);
-        for (UserDictEntry userDictEntry : dict) {
-          dictEntries.add(userDictEntry.getWord());
-        }
-        if (dict.size() <= 1000) {  // make sure users with huge dict don't blow up the cache
-          userDictCache.put(userId, dict);
-        } else {
-          logger.info("WARN: Large dict size " + dict.size() + " for user " + userId + " - will not put user's dict in cache");
-        }
-      } catch (Exception e) {
-        // try to be more robust when database is down, i.e. don't just crash but try to use cache:
-        List<UserDictEntry> cachedDictOrNull = userDictCache.getIfPresent(userId);
-        if (cachedDictOrNull != null) {
-          logger.error("ERROR: Could not get words from database for user " + userId + ": " + e.getMessage() + ", will use cached version (" + cachedDictOrNull.size() + " items). Full stack trace follows:" + ExceptionUtils.getStackTrace(e));
-          for (UserDictEntry userDictEntry : cachedDictOrNull) {
-            dictEntries.add(userDictEntry.getWord());
-          }
-        } else {
-          logger.error("ERROR: Could not get words from database for user " + userId + ": " + e.getMessage() + " - also, could not use version from cache, user id not found in cache, will use empty dict. Full stack trace follows:" + ExceptionUtils.getStackTrace(e));
-        }
-      }
-    }
-    return dictEntries;
-  }
-
-  List<UserDictEntry> getWords(Long userId, int offset, int limit) {
-    if (sqlSessionFactory == null) {
-      return new ArrayList<>();
-    }
-    try (SqlSession session = sqlSessionFactory.openSession(true)) {
-      Map<Object, Object> map = new HashMap<>();
-      map.put("userId", userId);
-      return session.selectList("org.languagetool.server.UserDictMapper.selectWordList", map, new RowBounds(offset, limit));
-    }
-  }
-  
-  boolean addWord(String word, Long userId) {
-    validateWord(word);
-    if (sqlSessionFactory == null) {
-      return false;
-    }
-    try (SqlSession session = sqlSessionFactory.openSession(true)) {
-      Map<Object, Object> map = new HashMap<>();
-      map.put("word", word);
-      map.put("userId", userId);
-      List<UserDictEntry> existingWords = session.selectList("org.languagetool.server.UserDictMapper.selectWord", map);
-      if (existingWords.size() >= 1) {
-        logger.info("Did not add '" + word + "' for user " + userId + " to list of ignored words, already exists");
-        return false;
-      } else {
-        Date now = new Date();
-        map.put("created_at", now);
-        map.put("updated_at", now);
-        int affectedRows = session.insert("org.languagetool.server.UserDictMapper.addWord", map);
-        logger.info("Added '" + word + "' for user " + userId + " to list of ignored words, affectedRows: " + affectedRows);
-        return affectedRows == 1;
-      }
-    }
-  }
-
-  Long getUserId(String username, String apiKey) {
-    if (username == null || username.trim().isEmpty()) {
-      throw new IllegalArgumentException("username must be set");
-    }
-    if (apiKey == null || apiKey.trim().isEmpty()) {
-      throw new IllegalArgumentException("apiKey must be set");
-    }
-    if (sqlSessionFactory ==  null) {
-      throw new IllegalStateException("sqlSessionFactory not initialized - has the database been configured?");
-    }
-    try {
-      Long value = dbLoggingCache.get(String.format("user_%s_%s", username, apiKey), () -> {
-        try (SqlSession session = sqlSessionFactory.openSession()) {
-          Map<Object, Object> map = new HashMap<>();
-          map.put("username", username);
-          map.put("apiKey", apiKey);
-          Long id = session.selectOne("org.languagetool.server.UserDictMapper.getUserIdByApiKey", map);
-          if (id == null) {
-            return -1L;
-          }
-          return id;
-        }
-      });
-      if (value == -1) {
-        throw new IllegalArgumentException("No user found for given username '" + username + "' and given api key");
-      } else {
-        return value;
-      }
-    } catch (ExecutionException e) {
-      throw new IllegalStateException("Could not fetch given user '" + username + "' from cache", e);
-    }
-  }
-
-  boolean deleteWord(String word, Long userId) {
-    if (sqlSessionFactory == null) {
-      return false;
-    }
-    try (SqlSession session = sqlSessionFactory.openSession(true)) {
-      Map<Object, Object> map = new HashMap<>();
-      map.put("word", word);
-      map.put("userId", userId);
-      int count = session.delete("org.languagetool.server.UserDictMapper.selectWord", map);
-      if (count == 0) {
-        logger.info("Did not delete '" + word + "' for user " + userId + " from list of ignored words, does not exist");
-        return false;
-      } else {
-        int affectedRows = session.delete("org.languagetool.server.UserDictMapper.deleteWord", map);
-        logger.info("Deleted '" + word + "' for user " + userId + " from list of ignored words, affectedRows: " + affectedRows);
-        return affectedRows >= 1;
-      }
-    }
+  /**
+   * @since 5.7
+   * Test if instance is configured and can be used
+   */
+  static synchronized boolean isReady() {
+    return instance != null;
   }
 
   /**
-   * @since 4.3
+   * For tests, to avoid waiting for the invalidation period.
    */
-  Long getOrCreateServerId() {
-    if (sqlSessionFactory == null) {
-      return null;
-    }
-    try {
-      String hostname = InetAddress.getLocalHost().getHostName();
-      Long id = dbLoggingCache.get("server_" + hostname, () -> {
-        try (SqlSession session = sqlSessionFactory.openSession(true)) {
-          Map<Object, Object> parameters = new HashMap<>();
-          parameters.put("hostname", hostname);
-          List<Long> result = session.selectList("org.languagetool.server.LogMapper.findServer", parameters);
-          if (result.size() > 0) {
-            return result.get(0);
-          } else {
-            session.insert("org.languagetool.server.LogMapper.newServer", parameters);
-            Object value = parameters.get("id");
-            if (value == null) {
-              //System.err.println("Could not get new server id for this host.");
-              return -1L;
-            } else {
-              return (Long) value;
-            }
-          }
-        } catch (PersistenceException e) {
-          logger.warn("Error: Could not fetch/register server id from database for server: " + hostname, e);
-          return -1L;
-        }
-      });
-      if (id == -1L) { // loaders can't return null, so using -1 instead
-        return null;
-      } else {
-        return id;
-      }
-    } catch (UnknownHostException | ExecutionException e) {
-      logger.warn("Error: Could not get hostname to fetch/register server id: ", e);
-      return null;
-    }
-  }
+  abstract void invalidateCaches();
+
+  abstract boolean addWord(String word, Long userId, String groupName);
+
+  abstract boolean deleteWord(String word, Long userId, String groupName);
 
   /**
-   * @since 4.3
+   * remove words in sql batch mode, no auto commit for better performance with large lists
+   * also suppresses uniqueness checks
    */
-  Long getOrCreateClientId(String client) {
-    if (sqlSessionFactory == null || client == null) {
-      return null;
-    }
-    try {
-      Long id = dbLoggingCache.get("client_" + client, () -> {
-        try (SqlSession session = sqlSessionFactory.openSession(true)) {
-          Map<Object, Object> parameters = new HashMap<>();
-          parameters.put("name", client);
-          List<Long> result = session.selectList("org.languagetool.server.LogMapper.findClient", parameters);
-          if (result.size() > 0) {
-            return result.get(0);
-          } else {
-            session.insert("org.languagetool.server.LogMapper.newClient", parameters);
-            Object value = parameters.get("id");
-            if (value == null) {
-              //System.err.println("Could not get/register id for this client.");
-              return -1L;
-            } else {
-              return (Long) value;
-            }
-          }
-        } catch (PersistenceException e) {
-          logger.warn("Error: Could not get/register id for this client: " + client, e);
-          return -1L;
-        }
-      });
-      if (id == -1L) { // loaders can't return null, so using -1 instead
-        return null;
-      } else {
-        return id;
-      }
-    } catch (ExecutionException e) {
-      logger.warn("Failure in getOrCreateClientId with client '" + client + "': ", e);
-      return null;
-    }
-  }
-  
-  private void validateWord(String word) {
-    if (word == null || word.trim().isEmpty()) {
-      throw new IllegalArgumentException("Invalid word, cannot be empty or whitespace only");
-    }
-    if (word.matches(".*\\s.*")) {
-      throw new IllegalArgumentException("Invalid word, you can only words that don't contain spaces: '" + word + "'");
-    }
-  }
+  abstract boolean deleteWordBatch(List<String> words, Long userId, String groupName);
 
-  /** For unit tests only! */
-  public static void createAndFillTestTables() {
+  /**
+   * add words in sql batch mode, no auto commit for better performance with large lists
+   * also suppresses uniqueness checks
+   */
+  abstract void addWordBatch(List<String> words, Long userId, String groupName);
+
+  abstract UserInfoEntry getUserInfoWithPassword(String username, String password);
+
+  /**
+   * Get more general information on a user
+   * Expects access to already be authorized
+   *
+   * @param user email address of user
+   * @return POJO with user information
+   */
+  abstract ExtendedUserInfo getExtendedUserInfo(String user);
+
+  /**
+   * Get more general information on a user.
+   * Expects access to already be authorized.
+   *
+   * @param userId user id
+   * @return POJO with more user information
+   */
+  abstract ExtendedUserInfo getExtendedUserInfo(long userId);
+
+  abstract UserInfoEntry getUserInfoWithApiKey(String username, String apiKey);
+
+  abstract UserInfoEntry getUserInfoWithAddonToken(String username, String apiKey);
+
+  abstract void invalidateUserInfoCache(String user);
+
+  abstract Long getUserRequestCount(Long userId);
+
+  abstract Long getOrCreateServerId();
+
+  abstract Long getOrCreateClientId(String client);
+
+
+  /**
+   * get all dictionary groups belonging to a user
+   */
+  abstract List<DictGroupEntry> getDictGroups(Long userId);
+
+  /**
+   * get or create a group with this name if it doesn't exist
+   *
+   * @return id of the created/existing group
+   */
+  abstract Long getOrCreateDictGroup(Long userId, String groupName);
+
+  /**
+   * For unit tests only!
+   */
+  public void createAndFillTestTables() {
     createAndFillTestTables(false);
   }
 
-  /** For unit tests only! */
-  public static void createAndFillTestTables(boolean mysql) {
-    try (SqlSession session = sqlSessionFactory.openSession(true)) {
-      System.out.println("Setting up tables and adding test user...");
-      String[] statements = { "org.languagetool.server.UserDictMapper.createUserTable",
-        "org.languagetool.server.UserDictMapper.createIgnoreWordTable" };
-      for (String statement : statements) {
-        if (mysql) {
-          session.insert(statement + "MySQL");
-        } else {
-          session.insert(statement);
-        }
-      }
-      session.insert("org.languagetool.server.UserDictMapper.createTestUser1");
-      session.insert("org.languagetool.server.UserDictMapper.createTestUser2");
-    }
+  /**
+   * For unit tests only!
+   */
+  public void createAndFillTestTables(boolean mysql) {
+    createAndFillTestTables(false, Collections.emptyList());
   }
-  
-  /** For unit tests only! */
-  public static void deleteTestTables() {
+
+  /**
+   * For unit tests only!
+   */
+  public abstract void createAndFillTestTables(boolean mysql, List<String> skipStatements);
+
+  /**
+   * For unit tests only!
+   */
+  public void shutdownCompact() {
     try (SqlSession session = sqlSessionFactory.openSession(true)) {
-      System.out.println("Deleting tables...");
-      session.delete("org.languagetool.server.UserDictMapper.deleteUsersTable");
-      session.delete("org.languagetool.server.UserDictMapper.deleteIgnoreWordsTable");
+      System.out.println("Running shutdownCompact...");
+      session.update("shutdownCompact");
     }
   }
 
-  /** For unit tests only */
-  static ResultSet executeStatement(SQL sql) throws SQLException {
+  /**
+   * For unit tests only!
+   */
+  abstract void deleteTestTables();
+
+  /** For unit tests only! */
+  ResultSet executeStatement(SQL sql) throws SQLException {
     try (SqlSession session = sqlSessionFactory.openSession(true)) {
       try (Connection conn = session.getConnection()) {
         try (Statement stmt = conn.createStatement()) {
@@ -364,4 +201,31 @@ class DatabaseAccess {
     }
   }
 
+  /** For unit tests only! */
+  void execute(SQL sql) throws SQLException {
+    try (SqlSession session = sqlSessionFactory.openSession(true)) {
+      try (Connection conn = session.getConnection()) {
+        try (Statement stmt = conn.createStatement()) {
+          stmt.execute(sql.toString());
+        }
+      }
+    }
+  }
+
+  /**
+   * @param limits user account and settings for e.g. caching
+   * @param groups names of dictionaries to be fetched, or null for default dictionary
+   * @param offset use offset with limit for an ordered list of words in the dictionary, or RowBounds.NO_ROW_OFFSET
+   * @param limit use limit with offset for an ordered list of words in the dictionary, or use RowBounds.NO_ROW_LIMIT
+   * @return a list of words from the user's dictionary (complete, or from the given range)
+   */
+  public abstract List<String> getWords(UserLimits limits, List<String> groups, int offset, int limit);
+
+  /**
+   * @param limits user account and settings for e.g. caching
+   * @param lang language of rules to fetch; fetches global rules and language-specific rules for that language
+   * @param groups names of groups of rules to be fetched, or null for default set of rules
+   * @return a list of user rules (complete, or from the given range)
+   */
+  public abstract List<Rule> getRules(UserLimits limits, Language lang, @Nullable List<String> groups);
 }

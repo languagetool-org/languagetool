@@ -59,6 +59,8 @@ public class CatalanSynthesizerTest {
     assertEquals("[arribe, arribi]", synth("arribar", "VMSP3S00"));
     assertEquals("[arribe, arribi]", synthRegex("arribar", "VMSP3S.0"));
     assertEquals("[albèrxics]", synthRegex("albèrxic", "NCMP000"));
+    
+    assertEquals("[faig servir]", synth("fer servir", "VMIP1S0C"));
 
     //with regular expressions:
     assertEquals("[comprovades, comprovats, comprovada, comprovat]", synthRegex("comprovar", "V.P.*"));
@@ -68,6 +70,7 @@ public class CatalanSynthesizerTest {
     assertEquals("[les universitats, la universitat]", synthNonRegex("universitat", "DT"));
     assertEquals("[les úniques, l'única, els únics, l'únic]", synthNonRegex("únic", "DT"));
     assertEquals("[per les úniques, per l'única, pels únics, per l'únic]", synthNonRegex("únic", "DTper"));
+    assertEquals("[per la covid]", synthNonRegex("covid", "DTper"));
   }
 
   private String synth(String word, String pos) throws IOException {

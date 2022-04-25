@@ -18,59 +18,82 @@
  */
 package org.languagetool.rules.ca;
 
-import org.languagetool.rules.AbstractSimpleReplaceRule;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.language.Catalan;
+import org.languagetool.rules.AbstractSimpleReplaceRule2;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
- * A rule that matches lemmas found only in DNV (AVL dictionary) and suggests
- * alternative words. 
+ * A rule that matches words which should not be used and suggests correct ones
+ * instead.
  * 
- * Catalan implementations. Loads the
- * relevant lemmas from <code>rules/ca/replace_dnv_secondary.txt</code>.
+ * Loads the relevant words from <code>rules/ca/replace_anglicism.txt</code>.
  * 
  * @author Jaume Ortolà
  */
-public class SimpleReplaceAnglicism extends AbstractSimpleReplaceRule {
+public class SimpleReplaceAnglicism extends AbstractSimpleReplaceRule2 {
 
-  private static final Map<String, List<String>> wrongWords = loadFromPath("/ca/replace_anglicism.txt");
-  
-  @Override
-  protected Map<String, List<String>> getWrongWords() {
-    return wrongWords;
-  }
-  
+  private static final String FILE_NAME = "/ca/replace_anglicism.txt";
+  private static final Locale CA_LOCALE = new Locale("ca");
+
   public SimpleReplaceAnglicism(final ResourceBundle messages) throws IOException {
-    super(messages);
-    super.setCategory(Categories.TYPOS.getCategory(messages));
-    super.setLocQualityIssueType(ITSIssueType.Misspelling);
-    //this.setIgnoreTaggedWords(); Some anglicisms can be in the dictionary
-    this.setCheckLemmas(false);
-  }  
+    super(messages, new Catalan());
+    super.setCategory(Categories.STYLE.getCategory(messages));
+    setLocQualityIssueType(ITSIssueType.Style);
+  }
 
   @Override
   public final String getId() {
-    return "CA_SIMPLE_REPLACE_ANGLICIMS";
+    return "CA_SIMPLE_REPLACE_ANGLICISM";
   }
 
- @Override
+  @Override
   public String getDescription() {
-    return "Recomana alternatives a anglicismes.";
+    return "Anglicismes innecessaris";
   }
 
   @Override
   public String getShort() {
     return "Anglicisme innecessari";
   }
-  
+
   @Override
-  public String getMessage(String tokenStr,List<String> replacements) {
-    return "Anglicisme innecessari.";
+  public boolean isCaseSensitive() {
+    return false;
+  }
+
+  @Override
+  public Locale getLocale() {
+    return CA_LOCALE;
+  }
+
+  @Override
+  public List<String> getFileNames() {
+    return Arrays.asList(FILE_NAME);
+  }
+
+  @Override
+  public String getMessage() {
+    return "Anglicisme innecessari. Considereu fer servir una altra paraula.";
+  }
+
+  @Override
+  public URL getUrl() {
+    return null;
   }
   
+  @Override
+  protected boolean isTokenException(AnalyzedTokenReadings atr) {
+    // proper nouns tagged in multiwords are exceptions
+    return atr.hasPosTagStartingWith("NP") || atr.isImmunized() || atr.isIgnoredBySpeller();
+  }
+
 }

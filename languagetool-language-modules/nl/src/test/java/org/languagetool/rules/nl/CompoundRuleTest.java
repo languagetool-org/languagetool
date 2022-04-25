@@ -31,7 +31,7 @@ public class CompoundRuleTest extends AbstractCompoundRuleTest {
   @Before
   public void setUp() throws Exception {
     lt = new JLanguageTool(new Dutch());
-    rule = new CompoundRule(JLanguageTool.getMessageBundle());
+    rule = new CompoundRule(JLanguageTool.getMessageBundle(), new Dutch(), null);
   }
 
   @Test

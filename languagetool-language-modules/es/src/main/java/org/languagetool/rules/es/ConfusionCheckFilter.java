@@ -36,6 +36,8 @@ public class ConfusionCheckFilter extends RuleFilter {
   private static final Pattern FS = Pattern.compile("NC[FC][SN]000|A..[FC][SN].|V.P..SF");
   private static final Pattern MP = Pattern.compile("NC[MC][PN]000|A..[MC][PN].|V.P..PM");
   private static final Pattern FP = Pattern.compile("NC[FC][PN]000|A..[FC][PN].|V.P..PF");
+  private static final Pattern CP = Pattern.compile("NC[MFC][PN]000|A..[MFC][PN].|V.P..P.");
+  private static final Pattern CS = Pattern.compile("NC[MFC][SN]000|A..[MFC][SN].|V.P..S.");
 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
@@ -44,19 +46,23 @@ public class ConfusionCheckFilter extends RuleFilter {
     Pattern desiredGenderNumberPattern = null;
     String replacement = null;
     String postag = getRequired("postag", arguments);
-    String form = getRequired("form", arguments).toLowerCase();
-    String gendernumber_from = getOptional("gendernumber_from", arguments);
-    if (gendernumber_from != null) {
-      int i = Integer.parseInt(gendernumber_from);
+    String originalForm = getRequired("form", arguments);
+    boolean isAllUppercase = StringTools.isAllUppercase(originalForm);
+    String form = originalForm.toLowerCase();
+    String gendernumberFrom = getOptional("gendernumberFrom", arguments);
+    if (gendernumberFrom != null) {
+      int i = Integer.parseInt(gendernumberFrom);
       if (i < 1 || i > patternTokens.length) {
         throw new IllegalArgumentException(
             "ConfusionCheckFilter: Index out of bounds in " + match.getRule().getFullId() + ", value: " + i);
       }
       AnalyzedTokenReadings atr = patternTokens[i - 1];
-      if (atr.matchesPosTagRegex(".+MS.*")) { desiredGenderNumberPattern = MS;}
-      if (atr.matchesPosTagRegex(".+MP.*")) { desiredGenderNumberPattern = MP;}
-      if (atr.matchesPosTagRegex(".+FS.*")) { desiredGenderNumberPattern = FS;}
-      if (atr.matchesPosTagRegex(".+FP.*")) { desiredGenderNumberPattern = FP;}
+      if (atr.matchesPosTagRegex("[NAPD].+MS.*|V.P..SM")) { desiredGenderNumberPattern = MS;}
+      else if (atr.matchesPosTagRegex("[NAPD].+MP.*|V.P..PM")) { desiredGenderNumberPattern = MP;}
+      else if (atr.matchesPosTagRegex("[NAPD].+FS.*|V.P..SF")) { desiredGenderNumberPattern = FS;}
+      else if (atr.matchesPosTagRegex("[NAPD].+FP.*|V.P..PF")) { desiredGenderNumberPattern = FP;}
+      else if (atr.matchesPosTagRegex("[NAPD].+CP.*|V.P..P.")) { desiredGenderNumberPattern = CP;}
+      else if (atr.matchesPosTagRegex("[NAPD].+CS.*|V.P..S.")) { desiredGenderNumberPattern = CS;}
     }
     
     if (relevantWords.containsKey(form)) {
@@ -66,8 +72,11 @@ public class ConfusionCheckFilter extends RuleFilter {
           if (!m.matches()) {
             return null;
           }
+          replacement = relevantWords.get(form).getToken();
+        } else if (gendernumberFrom == null) {
+          // there is no desired gender number defined
+          replacement = relevantWords.get(form).getToken();
         }
-        replacement = relevantWords.get(form).getToken(); 
       }
     }
     if (replacement != null) {
@@ -79,6 +88,9 @@ public class ConfusionCheckFilter extends RuleFilter {
       RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(),
           message, match.getShortMessage());
       ruleMatch.setType(match.getType());
+      if (isAllUppercase) {
+        replacement = replacement.toUpperCase();
+      }
       String suggestion = match.getSuggestedReplacements().get(0).replace("{suggestion}", replacement);
       suggestion = suggestion.replace("{Suggestion}", StringTools.uppercaseFirstChar(replacement));
       ruleMatch.setSuggestedReplacement(suggestion);

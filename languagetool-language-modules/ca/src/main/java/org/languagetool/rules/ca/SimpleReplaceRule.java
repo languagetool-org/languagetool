@@ -29,11 +29,11 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 /**
- * A rule that matches words which should not be used and suggests
- * correct ones instead. 
+ * A rule that matches words which should not be used and suggests correct ones
+ * instead.
  * 
- * Catalan implementations. Loads the
- * relevant words from <code>rules/ca/replace.txt</code>.
+ * Catalan implementations. Loads the relevant words from
+ * <code>rules/ca/replace.txt</code>.
  * 
  * @author Jaume Ortolà
  */
@@ -46,21 +46,21 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
   protected Map<String, List<String>> getWrongWords() {
     return wrongWords;
   }
-  
+
   public SimpleReplaceRule(final ResourceBundle messages) throws IOException {
     super(messages);
     super.setCategory(Categories.TYPOS.getCategory(messages));
     super.setLocQualityIssueType(ITSIssueType.Misspelling);
     this.setIgnoreTaggedWords();
     this.setCheckLemmas(false);
-  }  
+  }
 
   @Override
   public final String getId() {
     return "CA_SIMPLE_REPLACE";
   }
 
- @Override
+  @Override
   public String getDescription() {
     return "Detecta paraules incorrectes i proposa suggeriments de canvi";
   }
@@ -69,17 +69,20 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
   public String getShort() {
     return "Paraula incorrecta";
   }
-  
+
   @Override
-  public String getMessage(String tokenStr,List<String> replacements) {
-    return "Paraula incorrecta.";
+  public String getMessage(String tokenStr, List<String> replacements) {
+    if (replacements.size() > 0) {
+      return "¿Volíeu dir «" + replacements.get(0) + "»?";
+    }
+    return getShort();
   }
-  
+
   @Override
   public boolean isCaseSensitive() {
     return false;
   }
-  
+
   @Override
   public Locale getLocale() {
     return CA_LOCALE;

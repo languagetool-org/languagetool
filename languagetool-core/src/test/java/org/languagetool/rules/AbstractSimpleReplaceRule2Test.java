@@ -24,6 +24,8 @@ import org.languagetool.Language;
 import org.languagetool.language.Demo;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -58,8 +60,8 @@ public class AbstractSimpleReplaceRule2Test {
       super(messages, language);
     }
     @Override
-    public String getFileName() {
-      return "/xx/abstract_simple_replace2.txt";
+    public List<String> getFileNames() {
+      return Collections.singletonList("/xx/abstract_simple_replace2.txt");
     }
     @Override
     public String getId() {
@@ -74,7 +76,7 @@ public class AbstractSimpleReplaceRule2Test {
       return "internal test rule";
     }
     @Override
-    public String getSuggestion() {
+    public String getMessage() {
       return "fake suggestion";
     }
     @Override

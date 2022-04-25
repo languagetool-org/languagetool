@@ -102,9 +102,11 @@ public class SpaceInCompoundRule extends Rule {
       String covered = text.substring(hit.begin, hit.end);
       String coveredNoSpaces = Tools.glueParts(covered.split(" "));
       String message = normalizedCompound2message.get(coveredNoSpaces);
-      RuleMatch match = new RuleMatch(this, sentence, hit.begin, hit.end, hit.begin, hit.end, message, null, false, "");
-      match.setSuggestedReplacement(coveredNoSpaces);
-      matches.add(match);
+      if (message != null) {
+        RuleMatch match = new RuleMatch(this, sentence, hit.begin, hit.end, hit.begin, hit.end, message, null, false, "");
+        match.setSuggestedReplacement(coveredNoSpaces);
+        matches.add(match);
+      }
     }
     return toRuleMatchArray(matches);
   }

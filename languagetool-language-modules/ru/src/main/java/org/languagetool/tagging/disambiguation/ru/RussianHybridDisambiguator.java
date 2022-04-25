@@ -19,14 +19,16 @@
 
 package org.languagetool.tagging.disambiguation.ru;
 
-import java.io.IOException;
-
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.JLanguageTool;
 import org.languagetool.language.Russian;
 import org.languagetool.tagging.disambiguation.AbstractDisambiguator;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.MultiWordChunker;
 import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
+
+import java.io.IOException;
 
 /**
  * Hybrid chunker-disambiguator for Russian.
@@ -35,18 +37,21 @@ import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
  */
 
 public class RussianHybridDisambiguator extends AbstractDisambiguator {
+  public static final RussianHybridDisambiguator INSTANCE = new RussianHybridDisambiguator();
 
   private final Disambiguator chunker = new MultiWordChunker("/ru/multiwords.txt");
   private final Disambiguator disambiguator = new XmlRuleDisambiguator(new Russian());
 
-  /**
-   * Calls two disambiguator classes: (1) a chunker; (2) a rule-based
-   * disambiguator.
-   */
   @Override
-  public final AnalyzedSentence disambiguate(AnalyzedSentence input)
-      throws IOException {
-    return disambiguator.disambiguate(chunker.disambiguate(input));
+  public final AnalyzedSentence disambiguate(AnalyzedSentence input) throws IOException {
+    return disambiguate(input, null);
   }
 
+  /**
+   * Calls two disambiguator classes: (1) a chunker; (2) a rule-based disambiguator.
+   */
+  @Override
+  public AnalyzedSentence disambiguate(AnalyzedSentence input, @Nullable JLanguageTool.CheckCancelledCallback checkCanceled) throws IOException {
+    return disambiguator.disambiguate(chunker.disambiguate(input, checkCanceled), checkCanceled);
+  }
 }

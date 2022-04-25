@@ -33,6 +33,7 @@ public class PersianCommaWhitespaceRule extends CommaWhitespaceRule {
 
   public PersianCommaWhitespaceRule(ResourceBundle messages) {
     super(messages);
+    setDefaultOff();
   }
   
   @Override

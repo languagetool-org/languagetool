@@ -40,7 +40,12 @@ public class PortugueseSynthesizerTest {
 
     assertEquals("[bois]", Arrays.toString(
             getSortedArray(synth.synthesize(dummyToken("boi"), "NCMP000", true))));
-
+    
+    assertEquals("[tentar]", Arrays.toString(getSortedArray(synth.synthesize(dummyToken("tentar"), "VMN0000", true))));
+    assertEquals("[tentou]", Arrays.toString(getSortedArray(synth.synthesize(dummyToken("tentar"), "VMIS3S0", true))));
+    
+    assertEquals("[resolver]", Arrays.toString(getSortedArray(synth.synthesize(dummyToken("resolver"), "VMN0000", true))));
+    assertEquals("[resolveu]", Arrays.toString(getSortedArray(synth.synthesize(dummyToken("resolver"), "VMIS3S0", true))));
   }
 
   private String[] getSortedArray(String... ar) {

@@ -38,7 +38,7 @@ public class RussianCompoundRuleTest extends AbstractCompoundRuleTest {
   @Before
   public void setUp() throws Exception {
     lt = new JLanguageTool(new Russian());
-    rule = new RussianCompoundRule(TestTools.getEnglishMessages());
+    rule = new RussianCompoundRule(TestTools.getEnglishMessages(), new Russian(), null);
   }
 
   @Test

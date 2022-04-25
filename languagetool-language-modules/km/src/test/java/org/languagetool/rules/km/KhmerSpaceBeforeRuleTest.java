@@ -36,15 +36,15 @@ public class KhmerSpaceBeforeRuleTest {
   public void testSpaceBeforeRule() throws IOException {
     final Khmer language = new Khmer();
     KhmerSpaceBeforeRule rule = new KhmerSpaceBeforeRule(TestTools.getEnglishMessages(), language);
-    JLanguageTool langTool = new JLanguageTool(language);
+    JLanguageTool lt = new JLanguageTool(language);
     // correct sentences:
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("គាត់​បាន​ទៅ ដើម្បី​ទិញ​ម្ហូប។")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("ខ្ញុំ និង​គាត់។")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("គាត់​ចង់​បាន ពីព្រោះ​គាត់​អត់​មាន។")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("គាត់​បាន​ទៅ ដើម្បី​ទិញ​ម្ហូប។")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("ខ្ញុំ និង​គាត់។")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("គាត់​ចង់​បាន ពីព្រោះ​គាត់​អត់​មាន។")).length);
 
     // incorrect sentences:
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("គាត់​បាន​ទៅ​ដើម្បី​ទិញ​ម្ហូប។")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("ខ្ញុំ​និង​គាត់។")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("គាត់​ចង់​បាន​ពីព្រោះ​គាត់​អត់​មាន។")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("គាត់​បាន​ទៅ​ដើម្បី​ទិញ​ម្ហូប។")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("ខ្ញុំ​និង​គាត់។")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("គាត់​ចង់​បាន​ពីព្រោះ​គាត់​អត់​មាន។")).length);
   }
 }

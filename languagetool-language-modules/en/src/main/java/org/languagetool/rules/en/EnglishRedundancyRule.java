@@ -26,6 +26,8 @@ import org.languagetool.rules.ITSIssueType;
 import org.languagetool.tools.Tools;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.net.URL;
@@ -46,8 +48,8 @@ public class EnglishRedundancyRule extends AbstractSimpleReplaceRule2 {
   private static final Locale EN_LOCALE = new Locale("en");  // locale used on case-conversion
 
   @Override
-  public final String getFileName() {
-    return FILE_NAME;
+  public final List<String> getFileNames() {
+    return Collections.singletonList(FILE_NAME);
   }
 
   public EnglishRedundancyRule(ResourceBundle messages) throws IOException {
@@ -75,7 +77,7 @@ public class EnglishRedundancyRule extends AbstractSimpleReplaceRule2 {
   }
 
   @Override
-  public String getSuggestion() {
+  public String getMessage() {
     return "'$match' is a redundancy. In some cases, it might be preferable to use $suggestions";
   }
 

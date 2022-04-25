@@ -61,6 +61,18 @@ public class GermanTaggerTest {
   }
   
   @Test
+  public void testIgnoreDomain() throws IOException {
+    List<AnalyzedTokenReadings> aToken = tagger.tag(Arrays.asList("bundestag", ".", "de"));
+    assertFalse(aToken.get(0).isTagged());
+  }
+
+  @Test
+  public void testIgnoreImperative() throws IOException {
+    List<AnalyzedTokenReadings> aToken = tagger.tag(Arrays.asList("zehnfach"));
+    assertFalse(aToken.get(0).isTagged());
+  }
+
+  @Test
   public void testTagger() throws IOException {
     AnalyzedTokenReadings aToken = tagger.lookup("Haus");
     assertEquals("Haus[Haus/SUB:AKK:SIN:NEU, Haus/SUB:DAT:SIN:NEU, Haus/SUB:NOM:SIN:NEU]", toSortedString(aToken));
@@ -149,6 +161,20 @@ public class GermanTaggerTest {
 
     AnalyzedTokenReadings aToken15 = tagger.lookup("erzkatholisch");
     assertTrue(aToken15.getReadings().get(0).getPOSTag().equals("ADJ:PRD:GRU"));
+
+    AnalyzedTokenReadings aToken16 = tagger.lookup("unerbeten");
+    assertTrue(aToken16.getReadings().get(0).getPOSTag().equals("PA2:PRD:GRU:VER"));
+
+    AnalyzedTokenReadings aToken17 = tagger.lookup("under");
+    assertTrue(aToken17 == null);
+    
+    // tag old forms
+    AnalyzedTokenReadings aToken18 = tagger.lookup("Zuge");
+    assertEquals("Zuge[Zug/SUB:DAT:SIN:MAS]", toSortedString(aToken18));
+    AnalyzedTokenReadings aToken19 = tagger.lookup("Tische");
+    assertEquals("Tische[Tisch/SUB:AKK:PLU:MAS, Tisch/SUB:DAT:SIN:MAS, Tisch/SUB:GEN:PLU:MAS, Tisch/SUB:NOM:PLU:MAS]", toSortedString(aToken19));
+
+    assertNull(tagger.lookup("vanillig-karamelligen"));
   }
 
   // make sure we use the version of the POS data that was extended with post spelling reform data
@@ -258,20 +284,47 @@ public class GermanTaggerTest {
 
     List<AnalyzedTokenReadings> result3 = tagger.tag(Collections.singletonList("zurückgeschickt"));
     assertThat(result3.size(), is(1));
-    assertThat(result3.get(0).getReadings().size(), is(1));
+    assertThat(result3.get(0).getReadings().size(), is(2));
     String res3 = result3.toString();
     assertTrue(res3.contains("zurückschicken/VER:PA2:SFT*"));
+    assertTrue(res3.contains("PA2:PRD:GRU:VER*"));
     assertFalse(res3.contains("ADJ:"));
 
     List<AnalyzedTokenReadings> result4 = tagger.tag(Collections.singletonList("abzuschicken"));
     assertThat(result4.size(), is(1));
-    assertThat(result4.get(0).getReadings().size(), is(5));
+    assertThat(result4.get(0).getReadings().size(), is(1));
     String res4 = result4.toString();
-    assertTrue(res4.contains("abschicken/VER:1:PLU:KJ1:SFT*"));
-    assertTrue(res4.contains("abschicken/VER:1:PLU:PRÄ:SFT*"));
-    assertTrue(res4.contains("abschicken/VER:3:PLU:KJ1:SFT*"));
-    assertTrue(res4.contains("abschicken/VER:3:PLU:PRÄ:SFT*"));
+    assertTrue(res4.contains("abschicken/VER:EIZ:SFT"));
     assertFalse(res4.contains("ADJ:"));
+
+    List<AnalyzedTokenReadings> result4b = tagger.tag(Collections.singletonList("reinzunehmen"));
+    assertThat(result4b.size(), is(1));
+    assertThat(result4b.get(0).getReadings().size(), is(1));
+    String res4b = result4b.toString();
+    assertTrue(res4b.contains("reinnehmen/VER:EIZ:NON"));
+    assertFalse(res4b.contains("ADJ:"));
+
+    List<AnalyzedTokenReadings> result5 = tagger.tag(Collections.singletonList("Mitmanagen"));
+    assertThat(result5.size(), is(1));
+    assertThat(result5.get(0).getReadings().size(), is(3));
+    String res5 = result5.toString();
+    assertTrue(res5.contains("Mitmanagen/SUB:NOM:SIN:NEU:INF"));
+    assertTrue(res5.contains("Mitmanagen/SUB:AKK:SIN:NEU:INF"));
+    assertTrue(res5.contains("Mitmanagen/SUB:DAT:SIN:NEU:INF"));
+    assertFalse(res5.contains("ADJ:"));
+
+    List<AnalyzedTokenReadings> result6 = tagger.tag(Collections.singletonList("Mitmanagens"));
+    assertThat(result6.size(), is(1));
+    assertThat(result6.get(0).getReadings().size(), is(1));
+    String res6 = result6.toString();
+    assertTrue(res6.contains("Mitmanagen/SUB:GEN:SIN:NEU:INF"));
+    assertFalse(res6.contains("ADJ:"));
+
+    List<AnalyzedTokenReadings> result7 = tagger.tag(Collections.singletonList("Wegstrecken"));
+    assertThat(result7.size(), is(1));
+    assertThat(result7.get(0).getReadings().size(), is(7));
+    String res7 = result7.toString();
+    assertFalse(res7.contains("Wegstrecken/SUB:GEN:SIN:NEU:INF"));
   }
 
   /**

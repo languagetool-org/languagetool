@@ -42,6 +42,10 @@ public abstract class ExampleSentence {
     }
   }
 
+  public static String cleanMarkersInExample(String str) {
+    return str.replace("<marker>", "").replace("</marker>", "");
+  }
+
   /**
    * Return the example, typically one sentence.
    */

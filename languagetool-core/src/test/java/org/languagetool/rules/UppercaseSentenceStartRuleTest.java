@@ -49,6 +49,8 @@ public class UppercaseSentenceStartRuleTest {
     assertGood("");
     assertGood("http://www.languagetool.org");
     assertGood("eBay can be at sentence start in lowercase.");
+    assertGood("¿Esto es una pregunta?");
+    assertGood("¿Esto es una pregunta?, ¿y esto?");
     
     // incorrect sentences:
     RuleMatch[] matches = rule.match(lt.analyzeText("this is a test sentence."));
@@ -69,6 +71,10 @@ public class UppercaseSentenceStartRuleTest {
     assertEquals(1, matches6.length);
     RuleMatch[] matches7 = rule.match(lt.analyzeText("‘this is a sentence."));
     assertEquals(1, matches7.length);
+    RuleMatch[] matches8 = rule.match(lt.analyzeText("¿esto es una pregunta?"));
+    assertEquals(1, matches8.length);
+    RuleMatch[] matches9 = rule.match(lt.analyzeText("¿Esto es una pregunta? ¿y esto?"));
+    assertEquals(1, matches9.length);
   }
   
   private void assertGood(String  s) throws IOException {

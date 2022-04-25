@@ -18,20 +18,27 @@
  */
 package org.languagetool.tagging.de;
 
+import com.google.common.base.Suppliers;
+import gnu.trove.THashMap;
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.spelling.CachingWordListLoader;
-import org.languagetool.synthesis.Synthesizer;
-import org.languagetool.tagging.*;
+import org.languagetool.synthesis.GermanSynthesizer;
+import org.languagetool.tagging.BaseTagger;
+import org.languagetool.tagging.CombiningTagger;
+import org.languagetool.tagging.ManualTagger;
+import org.languagetool.tagging.TaggedWord;
 import org.languagetool.tokenizers.de.GermanCompoundTokenizer;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.function.Supplier;
+
+import static org.languagetool.tools.StringTools.uppercaseFirstChar;
 
 /**
  * German part-of-speech tagger, requires data file in <code>de/german.dict</code> in the classpath.
@@ -41,13 +48,6 @@ import java.util.*;
  * @author Marcin Milkowski, Daniel Naber
  */
 public class GermanTagger extends BaseTagger {
-
-  private final ManualTagger removalTagger;
-  private final Map<String, PrefixInfixVerb> verbInfos = new HashMap<>();
-
-  private GermanCompoundTokenizer compoundTokenizer;
-
-  private final static Synthesizer synthesizer = new GermanyGerman().getSynthesizer();
 
   private static final List<String> allAdjGruTags = new ArrayList<>();
   static {
@@ -61,6 +61,9 @@ public class GermanTagger extends BaseTagger {
       }
     }
   }
+
+  // do not add noun tags to these words, e.g. don't add noun tags to "Wegstrecken" for weg_strecken from spelling.txt:
+  private static final List<String> nounTagExpansionExceptions = Arrays.asList("Wegstrecken");
 
   private static final List<String> tagsForWeise = new ArrayList<>();
   static {
@@ -83,23 +86,30 @@ public class GermanTagger extends BaseTagger {
     tagsForWeise.add("ADJ:PRD:GRU");
   }
 
+  private final ManualTagger removalTagger;
+  private static final Supplier<ExpansionInfos> expansionInfos = Suppliers.memoize(GermanTagger::initExpansionInfos);
+
+  public static final GermanTagger INSTANCE = new GermanTagger();
+
   public GermanTagger() {
     super("/de/german.dict", Locale.GERMAN);
     removalTagger = (ManualTagger) ((CombiningTagger) getWordTagger()).getRemovalTagger();
-    initVerbInfos();
   }
 
-  private void initVerbInfos() {
+  private static ExpansionInfos initExpansionInfos() {
+    Map<String, PrefixInfixVerb> verbInfos = new THashMap<>();
+    Map<String, NominalizedVerb> nominalizedVerbInfos = new THashMap<>();
+    Map<String, NominalizedGenitiveVerb> nominalizedGenVerbInfos = new THashMap<>();
     List<String> spellingWords = new CachingWordListLoader().loadWords("de/hunspell/spelling.txt");
     for (String line : spellingWords) {
-      if (!line.contains("_")) {
+      if (!line.contains("_") || line.endsWith("_in")) {
         continue;
       }
       String[] parts = line.replace("#.*", "").trim().split("_");
       String prefix = parts[0];
       String verbBaseform = parts[1];
       try {
-        String[] forms = synthesizer.synthesize(new AnalyzedToken(verbBaseform, "FAKE", verbBaseform), "VER:.*", true);
+        String[] forms = GermanSynthesizer.INSTANCE.synthesizeForPosTags(verbBaseform, s -> s.startsWith("VER:"));
         for (String form : forms) {
           if (!form.contains("ß")) {  // skip these, it's too risky to introduce old spellings like "gewußt" from the synthesizer
             verbInfos.put(prefix + form, new PrefixInfixVerb(prefix, "", verbBaseform));
@@ -109,14 +119,19 @@ public class GermanTagger extends BaseTagger {
         throw new RuntimeException(e);
       }
       verbInfos.put(prefix + "zu" + verbBaseform, new PrefixInfixVerb(prefix, "zu", verbBaseform));  //  "zu<verb>" is not part of forms from synthesizer
+      nominalizedVerbInfos.put(uppercaseFirstChar(prefix) + verbBaseform,
+        new NominalizedVerb(uppercaseFirstChar(prefix), verbBaseform));
+      nominalizedGenVerbInfos.put(uppercaseFirstChar(prefix) + verbBaseform + "s",
+        new NominalizedGenitiveVerb(uppercaseFirstChar(prefix), verbBaseform));
     }
+    return new ExpansionInfos(verbInfos, nominalizedVerbInfos, nominalizedGenVerbInfos);
   }
 
   private List<TaggedWord> addStem(List<TaggedWord> analyzedWordResults, String stem) {
     List<TaggedWord> result = new ArrayList<>();
     for (TaggedWord tw : analyzedWordResults) {
       String lemma = tw.getLemma();
-      if (stem.length() > 0 && stem.charAt(stem.length() - 1) != '-' && tw.getPosTag().startsWith("SUB:")) {
+      if (stem.length() > 0 && stem.charAt(stem.length() - 1) != '-' && tw.getPosTag().startsWith("SUB")) {
         lemma = lemma.toLowerCase();
       }
       result.add(new TaggedWord(stem + lemma, tw.getPosTag()));
@@ -135,9 +150,9 @@ public class GermanTagger extends BaseTagger {
       String lastPart = splitWord.length > 1 && !splitWord[splitWord.length - 1].trim().equals("") ? splitWord[splitWord.length - 1] : word;
 
       //Find only the actual important part of the word
-      List<String> compoundedWord = compoundTokenizer.tokenize(lastPart);
-      if (compoundedWord.size() > 1) {
-        lastPart = StringTools.uppercaseFirstChar(compoundedWord.get(compoundedWord.size() - 1));
+      List<String> compoundedWord = GermanCompoundTokenizer.getStrictInstance().tokenize(lastPart);
+      if (compoundedWord.size() > 1 && StringTools.startsWithUppercase(word)) {  // don't uppercase last part of e.g. "vanillig-karamelligen"
+        lastPart = uppercaseFirstChar(compoundedWord.get(compoundedWord.size() - 1));
       } else {
         lastPart = compoundedWord.get(compoundedWord.size() - 1);
       }
@@ -179,8 +194,6 @@ public class GermanTagger extends BaseTagger {
   }
 
   public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens, boolean ignoreCase) throws IOException {
-    initializeIfRequired();
-
     boolean firstWord = true;
     List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
     int pos = 0;
@@ -193,7 +206,7 @@ public class GermanTagger extends BaseTagger {
       // Gender star etc:
       String genderGap = "[*:_/]";
       if (idxPos+2 < sentenceTokens.size() && sentenceTokens.get(idxPos+1).matches(genderGap)) {
-        if (sentenceTokens.get(idxPos+2).matches("in|innen|r|e")) {  // "jede*r", "sein*e"
+        if (sentenceTokens.get(idxPos+2).matches("in(nen)?|r|e")) {  // "jede*r", "sein*e"
           taggerTokens = new ArrayList<>();
           taggerTokens.addAll(getWordTagger().tag(word));
           taggerTokens.addAll(getWordTagger().tag(word + sentenceTokens.get(idxPos+2)));
@@ -220,16 +233,37 @@ public class GermanTagger extends BaseTagger {
       if (taggerTokens.size() > 0) { //Word known, just add analyzed token to readings
         readings.addAll(getAnalyzedTokens(taggerTokens, word));
       } else { // Word not known, try to decompose it and use the last part for POS tagging:
-        PrefixInfixVerb verbInfo = verbInfos.get(word);
+        PrefixInfixVerb verbInfo = expansionInfos.get().verbInfos.get(word);
+        NominalizedVerb nomVerbInfo = expansionInfos.get().nominalizedVerbInfos.get(word);
+        NominalizedGenitiveVerb nomGenVerbInfo = expansionInfos.get().nominalizedGenVerbInfos.get(word);
+        boolean addNounTags = !nounTagExpansionExceptions.contains(word);
         //String prefixVerbLastPart = prefixedVerbLastPart(word);   // see https://github.com/languagetool-org/languagetool/issues/2740
         if (verbInfo != null) {   // e.g. "herumgeben" with "herum_geben" in spelling.txt
-          String noPrefixForm = word.substring(verbInfo.prefix.length() + verbInfo.infix.length());   // infix can be "zu"
-          List<TaggedWord> tags = tag(noPrefixForm);
-          for (TaggedWord tag : tags) {
-            if (tag.getPosTag() != null && tag.getPosTag().startsWith("VER:")) {  // e.g. "schicke" is verb and adjective
-              readings.add(new AnalyzedToken(word, tag.getPosTag(), verbInfo.prefix + tag.getLemma()));
+          if (StringTools.startsWithLowercase(verbInfo.prefix)) {
+            String noPrefixForm = word.substring(verbInfo.prefix.length() + verbInfo.infix.length());   // infix can be "zu"
+            List<TaggedWord> tags = tag(noPrefixForm);
+            boolean isSFT = false;  // SFT = schwaches Verb
+            for (TaggedWord tag : tags) {
+              if (tag.getPosTag() != null && (tag.getPosTag().startsWith("VER:") || tag.getPosTag().startsWith("PA2:"))) {  // e.g. "schicke" is verb and adjective
+                readings.add(new AnalyzedToken(word, tag.getPosTag(), verbInfo.prefix + tag.getLemma()));
+                if (tag.getPosTag().contains(":SFT")) {
+                  isSFT = true;
+                }
+              }
+            }
+            if ("zu".equals(verbInfo.infix)) {
+              readings.clear();
+              readings.add(new AnalyzedToken(word, "VER:EIZ:" + (isSFT ? "SFT" : "NON"), verbInfo.prefix + verbInfo.verbBaseform));
             }
           }
+        } else if (nomVerbInfo != null && addNounTags) {
+          // e.g. "herum_geben" in spelling.txt -> "(das) Herumgeben"
+          readings.add(new AnalyzedToken(word, "SUB:NOM:SIN:NEU:INF", nomVerbInfo.prefix + nomVerbInfo.verbBaseform));
+          readings.add(new AnalyzedToken(word, "SUB:AKK:SIN:NEU:INF", nomVerbInfo.prefix + nomVerbInfo.verbBaseform));
+          readings.add(new AnalyzedToken(word, "SUB:DAT:SIN:NEU:INF", nomVerbInfo.prefix + nomVerbInfo.verbBaseform));
+        } else if (nomGenVerbInfo != null && addNounTags) {
+          // e.g. "herum_geben" in spelling.txt -> "(des) Herumgebens"
+          readings.add(new AnalyzedToken(word, "SUB:GEN:SIN:NEU:INF", nomGenVerbInfo.prefix + nomGenVerbInfo.verbBaseform));
         /*} else if (prefixVerbLastPart != null) {   // "aufstöhnen" etc.
           List<TaggedWord> taggedWords = getWordTagger().tag(prefixVerbLastPart);
           String firstPart = word.replaceFirst(prefixVerbLastPart + "$", "");
@@ -241,7 +275,7 @@ public class GermanTagger extends BaseTagger {
             readings.add(new AnalyzedToken(word, tag, word));
           }
         } else if (!StringUtils.isAllBlank(word)) {
-          List<String> compoundParts = compoundTokenizer.tokenize(word);
+          List<String> compoundParts = GermanCompoundTokenizer.getStrictInstance().tokenize(word);
           if (compoundParts.size() <= 1) {//Could not find simple compound parts
             // Recognize alternative imperative forms (e.g., "Geh bitte!" in addition to "Gehe bitte!")
             List<AnalyzedToken> imperativeFormList = getImperativeForm(word, sentenceTokens, pos);
@@ -252,13 +286,15 @@ public class GermanTagger extends BaseTagger {
               readings.addAll(substantivatedFormsList);
             } else {
               if (StringUtils.startsWithAny(word, "bitter", "dunkel", "erz", "extra", "früh",
-                "gemein", "hyper", "lau", "mega", "minder", "stock", "super", "tod", "ultra", "ur")) {
-                String lastPart = RegExUtils.removePattern(word, "^(bitter|dunkel|erz|extra|früh|gemein|grund|hyper|lau|mega|minder|stock|super|tod|ultra|ur|voll)");
-                if (lastPart.length() > 1) {
+                "gemein", "hyper", "lau", "mega", "minder", "stock", "super", "tod", "ultra", "un", "ur")) {
+                String lastPart = RegExUtils.removePattern(word, "^(bitter|dunkel|erz|extra|früh|gemein|grund|hyper|lau|mega|minder|stock|super|tod|ultra|u[nr]|voll)");
+                if (lastPart.length() > 3) {
                   String firstPart = StringUtils.removeEnd(word, lastPart);
                   List<TaggedWord> taggedWords = getWordTagger().tag(lastPart);
                   for (TaggedWord taggedWord : taggedWords) {
-                    readings.add(new AnalyzedToken(word, taggedWord.getPosTag(), firstPart+taggedWord.getLemma()));
+                    if (!(firstPart.length() == 2 && taggedWord.getPosTag().startsWith("VER"))) {
+                      readings.add(new AnalyzedToken(word, taggedWord.getPosTag(), firstPart+taggedWord.getLemma()));
+                    }
                   }
                 }
               }
@@ -270,9 +306,9 @@ public class GermanTagger extends BaseTagger {
                 String wordStem = wordOrig.substring(0, wordOrig.length() - word.length());
 
                 //Tokenize, start word uppercase if it's a result of splitting
-                List<String> compoundedWord = compoundTokenizer.tokenize(word);
+                List<String> compoundedWord = GermanCompoundTokenizer.getStrictInstance().tokenize(word);
                 if (compoundedWord.size() > 1) {
-                  word = StringTools.uppercaseFirstChar(compoundedWord.get(compoundedWord.size() - 1));
+                  word = uppercaseFirstChar(compoundedWord.get(compoundedWord.size() - 1));
                 } else {
                   word = compoundedWord.get(compoundedWord.size() - 1);
                 }
@@ -301,11 +337,11 @@ public class GermanTagger extends BaseTagger {
                 readings.add(getNoInfoToken(word));
               }
             }
-          } else {
+          } else if (!(idxPos+2 < sentenceTokens.size() && sentenceTokens.get(idxPos+1).equals(".") && sentenceTokens.get(idxPos+2).matches("com|net|org|de|at|ch|fr|uk|gov"))) {  // TODO: find better way to ignore domains
             // last part governs a word's POS:
             String lastPart = compoundParts.get(compoundParts.size() - 1);
             if (StringTools.startsWithUppercase(word)) {
-              lastPart = StringTools.uppercaseFirstChar(lastPart);
+              lastPart = uppercaseFirstChar(lastPart);
             }
             List<TaggedWord> partTaggerTokens = getWordTagger().tag(lastPart);
             if (partTaggerTokens.isEmpty()) {
@@ -314,7 +350,8 @@ public class GermanTagger extends BaseTagger {
               readings.addAll(getAnalyzedTokens(partTaggerTokens, word, compoundParts));
             }
           }
-        } else {
+        }
+        if (readings.isEmpty()) {
           readings.add(getNoInfoToken(word));
         }
       }
@@ -332,7 +369,7 @@ public class GermanTagger extends BaseTagger {
     for (String prefix : VerbPrefixes.get()) {
       if (word.startsWith(prefix)) {
         List<TaggedWord> tags = tag(word.replaceFirst("^" + prefix, ""));
-        if (tags.stream().anyMatch(k -> k.getPosTag() != null && k.getPosTag().startsWith("VER:"))) {
+        if (tags.stream().anyMatch(k -> k.getPosTag() != null && k.getPosTag().startsWith("VER"))) {
           return word.substring(prefix.length());
         }
       }
@@ -342,8 +379,8 @@ public class GermanTagger extends BaseTagger {
 
   boolean isWeiseException(String word) {
     if (word.endsWith("erweise")) {  // "idealerweise" etc.
-      List<TaggedWord> tags = tag(word.replaceFirst("erweise$", ""));
-      return tags.stream().anyMatch(k -> k.getPosTag() != null && k.getPosTag().startsWith("ADJ:"));
+      List<TaggedWord> tags = tag(StringUtils.removeEnd(word, "erweise"));
+      return tags.stream().anyMatch(k -> k.getPosTag() != null && k.getPosTag().startsWith("ADJ"));
     }
     return false;
   }
@@ -428,12 +465,6 @@ public class GermanTagger extends BaseTagger {
     return Collections.emptyList();
   }
 
-  private synchronized void initializeIfRequired() throws IOException {
-    if (compoundTokenizer == null) {
-      compoundTokenizer = new GermanCompoundTokenizer();
-    }
-  }
-
   private AnalyzedToken getNoInfoToken(String word) {
     return new AnalyzedToken(word, null, null);
   }
@@ -449,6 +480,10 @@ public class GermanTagger extends BaseTagger {
   private List<AnalyzedToken> getAnalyzedTokens(List<TaggedWord> taggedWords, String word, List<String> compoundParts) {
     List<AnalyzedToken> result = new ArrayList<>();
     for (TaggedWord taggedWord : taggedWords) {
+      if (taggedWord.getPosTag() != null && taggedWord.getPosTag().startsWith("VER:IMP")) {
+        // ignore imperative, as otherwise e.g. "zehnfach" will be interpreted as a verb (zehn + fach)
+        continue;
+      }
       List<String> allButLastPart = compoundParts.subList(0, compoundParts.size() - 1);
       StringBuilder lemma = new StringBuilder();
       int i = 0;
@@ -472,4 +507,35 @@ public class GermanTagger extends BaseTagger {
       this.verbBaseform = verbBaseform;
     }
   }
+
+  static class NominalizedVerb {
+    String prefix;
+    String verbBaseform;
+    NominalizedVerb(String prefix, String verbBaseform) {
+      this.prefix = prefix;
+      this.verbBaseform = verbBaseform;
+    }
+  }
+
+  static class NominalizedGenitiveVerb {
+    String prefix;
+    String verbBaseform;
+    NominalizedGenitiveVerb(String prefix, String verbBaseform) {
+      this.prefix = prefix;
+      this.verbBaseform = verbBaseform;
+    }
+  }
+
+  static class ExpansionInfos {
+    Map<String, PrefixInfixVerb> verbInfos;
+    Map<String, NominalizedVerb> nominalizedVerbInfos;
+    Map<String, NominalizedGenitiveVerb> nominalizedGenVerbInfos;
+    ExpansionInfos(Map<String, PrefixInfixVerb> verbInfos, Map<String, NominalizedVerb> nominalizedVerbInfos,
+                   Map<String, NominalizedGenitiveVerb> nominalizedGenVerbInfos) {
+      this.verbInfos = verbInfos;
+      this.nominalizedVerbInfos = nominalizedVerbInfos;
+      this.nominalizedGenVerbInfos = nominalizedGenVerbInfos;
+    }
+  }
+
 }

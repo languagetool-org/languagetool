@@ -20,9 +20,7 @@ package org.languagetool.markup;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * A text with markup and with a mapping so error positions will refer to the original
@@ -38,6 +36,7 @@ public class AnnotatedText {
   public enum MetaDataKey {
     DocumentTitle,
     EmailToAddress,
+    FullName,
     EmailNumberOfAttachments
   }
 
@@ -51,6 +50,13 @@ public class AnnotatedText {
     this.mapping = Objects.requireNonNull(mapping);
     this.metaData = Objects.requireNonNull(metaData);
     this.customMetaData = Objects.requireNonNull(customMetaData);
+  }
+
+  /**
+   * @since 5.4
+   */
+  public List<TextPart> getParts() {
+    return parts;
   }
 
   /**
@@ -121,7 +127,8 @@ public class AnnotatedText {
       }
     }
     if (bestMatch == null) {
-      throw new RuntimeException("Could not map " + plainTextPosition + " to original position");
+      String msg = "mappings: " + (mapping.size() < 5 ? mapping : mapping.size());
+      throw new RuntimeException("Could not map " + plainTextPosition + " to original position. isToPos: " + isToPos + ", " + msg);
     }
     // we remove markup total length if usage of fake markup and need from position
     if (!isToPos && bestMatch.getFakeMarkupLength() > 0) {
@@ -145,6 +152,16 @@ public class AnnotatedText {
    */
   public String getGlobalMetaData(MetaDataKey key, String defaultValue) {
     return metaData.getOrDefault(key, defaultValue);
+  }
+
+  /** @since 5.4 */
+  public Map<MetaDataKey, String> getGlobalMetaData() {
+    return metaData;
+  }
+
+  /** @since 5.4 */
+  public Map<String, String> getCustomMetaData() {
+    return customMetaData;
   }
 
   @Override

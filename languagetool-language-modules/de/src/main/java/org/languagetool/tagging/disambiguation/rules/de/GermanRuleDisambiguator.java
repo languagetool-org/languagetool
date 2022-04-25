@@ -19,17 +19,19 @@
 
 package org.languagetool.tagging.disambiguation.rules.de;
 
-import java.io.IOException;
-
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.JLanguageTool;
 import org.languagetool.language.GermanyGerman;
 import org.languagetool.tagging.disambiguation.AbstractDisambiguator;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 
+import java.io.IOException;
+
 public class GermanRuleDisambiguator extends AbstractDisambiguator {
   
-  private final Disambiguator disambiguator = new XmlRuleDisambiguator(new GermanyGerman());
+  private final Disambiguator disambiguator = new XmlRuleDisambiguator(new GermanyGerman(), true);
 
   @Override
   public final AnalyzedSentence disambiguate(AnalyzedSentence input)
@@ -37,4 +39,8 @@ public class GermanRuleDisambiguator extends AbstractDisambiguator {
     return disambiguator.disambiguate(input);
   }
 
+  @Override
+  public AnalyzedSentence disambiguate(AnalyzedSentence input, @Nullable JLanguageTool.CheckCancelledCallback checkCanceled) throws IOException {
+    return disambiguator.disambiguate(input, checkCanceled);
+  }
 }

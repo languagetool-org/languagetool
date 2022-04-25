@@ -35,13 +35,13 @@ public class TopoReplaceRuleTest {
   @Test
   public void testRule() throws IOException {
     TopoReplaceRule rule = new TopoReplaceRule(TestTools.getEnglishMessages());
-    JLanguageTool langTool = new JLanguageTool(new Breton());
+    JLanguageTool lt = new JLanguageTool(new Breton());
 
     // Wrong sentences.
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("France a zo ur vro.")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("France a zo ur vro.")).length);
 
     // Correct sentences.
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("France 3 a zo ur chadenn skinwel.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("France 3 a zo ur chadenn skinwel.")).length);
   }
 
 }

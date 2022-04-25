@@ -1,6 +1,7 @@
 package org.languagetool.rules.uk;
 
 import java.util.*;
+import java.util.regex.Pattern;
 
 import org.languagetool.*;
 import org.languagetool.rules.RuleMatch;
@@ -12,6 +13,7 @@ import org.languagetool.tagging.uk.PosTagHelper;
  * @since 2.9
  */
 public class UkrainianWordRepeatRule extends WordRepeatRule {
+  private static final Pattern DATE_TIME_NUM_PATTERN = Pattern.compile("date|time|number.*");
   private static final HashSet<String> REPEAT_ALLOWED_SET = new HashSet<>(
       Arrays.asList("ст.")
   );
@@ -58,7 +60,7 @@ public class UkrainianWordRepeatRule extends WordRepeatRule {
     if( REPEAT_ALLOWED_CAPS_SET.contains(token) )
       return true;
     
-    if( PosTagHelper.hasPosTag(analyzedTokenReadings, "date|time|number") )
+    if( PosTagHelper.hasPosTag(analyzedTokenReadings, DATE_TIME_NUM_PATTERN) )
       return true;
     
     for(AnalyzedToken analyzedToken: analyzedTokenReadings.getReadings()) {

@@ -4,10 +4,11 @@
 Polish, Russian, and [more than 20 other languages](https://languagetool.org/languages/).
 It finds many errors that a simple spell checker cannot detect.
 
-* [How to run your own LanguageTool server](http://wiki.languagetool.org/http-server)
+* **[Jobs at LanguageTool](https://languagetool.org/careers)**
+* [How to run your own LanguageTool server](https://dev.languagetool.org/http-server)
 * [HTTP API documentation](https://languagetool.org/http-api/swagger-ui/#!/default/post_check)
-* [How to use our public server via HTTP](http://wiki.languagetool.org/public-http-api)
-* [How to use LanguageTool from Java](http://wiki.languagetool.org/java-api) ([Javadoc](https://languagetool.org/development/api/index.html?org/languagetool/JLanguageTool.html))
+* [How to use our public server via HTTP](https://dev.languagetool.org/public-http-api)
+* [How to use LanguageTool from Java](https://dev.languagetool.org/java-api) ([Javadoc](https://languagetool.org/development/api/index.html?org/languagetool/JLanguageTool.html))
 
 For more information, please see our homepage at https://languagetool.org,
 [this README](https://github.com/languagetool-org/languagetool/blob/master/languagetool-standalone/README.md),
@@ -19,18 +20,18 @@ LanguageTool is freely available under the LGPL 2.1 or later.
 
 Try one of the following projects for a community-contributed Docker file:
 
-- https://github.com/silvio/docker-languagetool ([Docker Hub](https://hub.docker.com/r/silviof/docker-languagetool))
 - https://github.com/Erikvl87/docker-languagetool ([Docker Hub](https://hub.docker.com/r/erikvl87/languagetool))
+- https://github.com/silvio/docker-languagetool ([Docker Hub](https://hub.docker.com/r/silviof/docker-languagetool))
 
 ## Contributions
 
-[The development overview](http://wiki.languagetool.org/development-overview) describes
+[The development overview](https://dev.languagetool.org/development-overview) describes
 how you can contribute error detection rules.
 
 See ['easy fix' issues](https://github.com/languagetool-org/languagetool/issues?q=is%3Aopen+is%3Aissue+label%3A%22easy+fix%22)
 for issues to get started.
 
-For more technical details, see [our wiki](http://wiki.languagetool.org).
+For more technical details, see [our dev pages](https://dev.languagetool.org).
 
 ## Scripted installation and building
 To install or build using a script, simply type:

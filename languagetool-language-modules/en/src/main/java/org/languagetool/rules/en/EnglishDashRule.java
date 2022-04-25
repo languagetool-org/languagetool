@@ -22,6 +22,7 @@ package org.languagetool.rules.en;
 import com.hankcs.algorithm.AhoCorasickDoubleArrayTrie;
 import org.languagetool.rules.AbstractDashRule;
 import org.languagetool.rules.Example;
+import org.languagetool.tools.Tools;
 
 import java.util.ResourceBundle;
 
@@ -37,6 +38,7 @@ public class EnglishDashRule extends AbstractDashRule {
     super(messages);
     addExamplePair(Example.wrong("I'll buy a new <marker>T—shirt</marker>."),
                    Example.fixed("I'll buy a new <marker>T-shirt</marker>."));
+    setUrl(Tools.getUrl("https://languagetool.org/insights/post/hyphen/"));
   }
 
   @Override

@@ -18,7 +18,9 @@
  */
 package org.languagetool.rules;
 
-import java.util.ArrayList;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -27,8 +29,8 @@ import java.util.List;
  * @since 0.9.2
  */
 public final class IncorrectExample extends ExampleSentence {
-
-  private final List<String> corrections;
+  
+  private final Object corrections;
 
   public IncorrectExample(String example) {
     this(example, Collections.emptyList());
@@ -39,19 +41,24 @@ public final class IncorrectExample extends ExampleSentence {
    */
   public IncorrectExample(String example, List<String> corrections) {
     super(example);
-    this.corrections = Collections.unmodifiableList(new ArrayList<>(corrections));
+    this.corrections = corrections.isEmpty() ? null :
+                       corrections.size() == 1 ? corrections.get(0) :
+                       corrections.toArray(new String[0]);
   }
 
   /**
    * Return the possible corrections.
    */
+  @NotNull
   public List<String> getCorrections() {
-    return corrections;
+    return corrections == null ? Collections.emptyList() :
+           corrections instanceof String ? Collections.singletonList((String) corrections) :
+           Collections.unmodifiableList(Arrays.asList((String[])corrections));
   }
   
   @Override
   public String toString() {
-    return example + " " + corrections;
+    return example + " " + getCorrections();
   }
 
 }

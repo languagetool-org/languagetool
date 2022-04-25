@@ -96,8 +96,9 @@ USA
             <rule> <!-- We have visited the client on 27/10/2040 -->
                 <pattern>
                     <token inflected="yes" postag="VBD?" postag_regexp="yes" skip="-1">have</token>
-                    <token postag="VBN" skip="-1">
+                    <token postag="VBN" skip="-1" chunk_re=".-VP">
                         <exception>scheduled</exception>
+                        <exception regexp="yes">wed|sat</exception>
                         <exception scope='next' regexp='yes'>before|until|will</exception></token>
                     <marker> &date_dmy_numbers; </marker>
                 </pattern>
@@ -117,7 +118,9 @@ USA
                         <exception regexp='yes'>before|until</exception></token>
                     <marker> &date_dmy_numbers_skip; </marker>
                     <token inflected="yes" postag="VBD?" postag_regexp="yes" skip="-1">have</token>
-                    <token postag="VBN" skip="-1"/>
+                    <token postag="VBN" skip="-1" chunk_re=".-VP">
+                        <exception regexp="yes">wed|sat</exception>
+                    </token>
                 </pattern>
                 <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\6 month:\4 day:\2"/>
                 <message>The given date is in the future, but the verb is in past tense.</message>
@@ -130,8 +133,10 @@ USA
             </rule>
             <rule> <!-- We visited the client on 27/10/2040  -->
                 <pattern>
-                    <token postag="VBD" skip="-1">
-                        <exception scope='next' regexp='yes'>before|until|will</exception></token>
+                    <token postag="VBD" skip="-1" chunk_re=".-VP">
+                        <exception scope='next' regexp='yes'>before|until|will</exception>
+                        <exception regexp="yes">wed|sat</exception>
+                    </token>
                     <marker> &date_dmy_numbers; </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\6 month:\4 day:\2"/>
@@ -148,7 +153,9 @@ USA
                     <token>
                         <exception regexp='yes'>before|until</exception></token>
                     <marker> &date_dmy_numbers_skip; </marker>
-                    <token postag="VBD" skip="-1"/>
+                    <token postag="VBD" skip="-1" chunk_re=".-VP">
+                        <exception regexp="yes">wed|sat</exception>
+                    </token>
                 </pattern>
                 <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\6 month:\4 day:\2"/>
                 <message>The given date is in the future, but the verb is in past tense.</message>
@@ -160,5 +167,31 @@ USA
                 <example>He promised to do it before 30/08/2020.</example>
             </rule>
         </rulegroup>
+    </category>
+
+    <category id="STYLE" name="Style" type="style">
+        <rule id="FOR_EVER_GB" name="for ever (forever)">
+            <antipattern>
+                <token>ever</token>
+                <token regexp="yes">since|one|body|thing|glades?|bloomers?|changing</token>
+            </antipattern>
+            <antipattern>
+                <token>ever</token>
+                <token postag="JJR" />
+            </antipattern>
+            <antipattern>
+                <token>ever</token>
+                <token regexp="yes">and|&amp;|or</token>
+                <token>ever</token>
+            </antipattern>
+            <pattern>
+                <token>for</token>
+                <token>ever</token>
+            </pattern>
+            <message>It is more common to spell this adverb as one word.</message>
+            <suggestion>forever</suggestion>
+            <url>https://www.lexico.com/definition/forever</url>
+            <example correction="forever">Your texts are stored <marker>for ever</marker>.</example>
+        </rule>
     </category>
 </rules>

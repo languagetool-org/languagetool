@@ -23,6 +23,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -36,7 +37,11 @@ public class PunctuationMarkAtParagraphEndTest {
   public void testRule() throws IOException {
     JLanguageTool lt = new JLanguageTool(TestTools.getDemoLanguage());
     setUpRule(lt);
-
+    assertEquals(0, lt.check("2.2.2. This is an item in a list").size());
+    assertEquals(0, lt.check("a) This is an item in a list").size());
+    assertEquals(0, lt.check("a.) This is an item in a list").size());
+    assertEquals(0, lt.check("✓ This is an item in a list").size());
+    assertEquals(0, lt.check("* This is an item in a list").size());
     assertEquals(0, lt.check("This is a test sentence.").size());
     assertEquals(0, lt.check("This is a test headline").size());
     assertEquals(0, lt.check("This is a test sentence. This is a link: http://example.com").size());  // no error because of colon
@@ -46,9 +51,9 @@ public class PunctuationMarkAtParagraphEndTest {
     assertEquals(0, lt.check("This is a test sentence. And this is a second test sentence.").size());
     assertEquals(0, lt.check("B. v. – Beschluss vom").size());
     assertEquals(1, 
-        lt.check("This is a test sentence.\nAnd this is a second test sentence. Here is a quotation mark missing").size());
+        lt.check("This is a test sentence.\nAnd this is a second test sentence. Here is a dot missing").size());
     assertEquals(0, 
-        lt.check("This is a test sentence.\nAnd this is a second test sentence. Here is a quotation mark missing.").size());
+        lt.check("This is a test sentence.\nAnd this is a second test sentence. Here is a dot missing.").size());
     assertEquals(0, 
         lt.check("This is a sentence. Another one: https://languagetool.org/foo\n\nAnother sentence\n").size());
   }
@@ -58,6 +63,7 @@ public class PunctuationMarkAtParagraphEndTest {
       lt.disableRule(rule.getId());
     }
     PunctuationMarkAtParagraphEnd rule = new PunctuationMarkAtParagraphEnd(TestTools.getEnglishMessages(), TestTools.getDemoLanguage());
+    rule.setTags(Collections.emptyList());
     lt.addRule(rule);
   }
 

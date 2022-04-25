@@ -18,29 +18,32 @@
  */
 package org.languagetool.rules.spelling.morfologik;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.languagetool.JLanguageTool.*;
+import com.google.common.cache.*;
+import morfologik.fsa.FSA;
+import morfologik.fsa.builders.CFSA2Serializer;
+import morfologik.fsa.builders.FSABuilder;
+import morfologik.stemming.Dictionary;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.languagetool.UserConfig;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.languagetool.Experimental;
-import org.languagetool.UserConfig;
-import org.languagetool.rules.spelling.SpellingCheckRule;
-
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
-
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.languagetool.JLanguageTool.DICTIONARY_FILENAME_EXTENSION;
+import static org.languagetool.JLanguageTool.getDataBroker;
 import morfologik.fsa.FSA;
 import morfologik.fsa.builders.CFSA2Serializer;
 import morfologik.fsa.builders.FSABuilder;
 import morfologik.stemming.Dictionary;
-import org.languagetool.tools.StringTools;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Morfologik speller that merges results from binary (.dict) and plain text (.txt) dictionaries.
@@ -49,21 +52,60 @@ import org.languagetool.tools.StringTools;
  */
 public class MorfologikMultiSpeller {
 
+  private static class UserDictCacheKey {
+
+    private final long userId;
+    private final String binaryDictPath;
+
+    UserDictCacheKey(long userId, String binaryDictPath) {
+      this.userId = userId;
+      this.binaryDictPath = binaryDictPath;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) {
+        return true;
+      }
+
+      if (o == null || getClass() != o.getClass()) {
+        return false;
+      }
+
+      UserDictCacheKey that = (UserDictCacheKey) o;
+
+      return new EqualsBuilder()
+        .append(userId, that.userId)
+        .append(binaryDictPath, that.binaryDictPath)
+        .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+      return new HashCodeBuilder(43, 57)
+        .append(userId)
+        .append(binaryDictPath)
+        .toHashCode();
+    }
+  }
+
+  private static final Logger logger = LoggerFactory.getLogger(MorfologikMultiSpeller.class);
+
   private static final LoadingCache<BufferedReaderWithSource, List<byte[]>> dictCache = CacheBuilder.newBuilder()
           //.maximumSize(0)
           .expireAfterWrite(10, TimeUnit.MINUTES)
           .build(new CacheLoader<BufferedReaderWithSource, List<byte[]>>() {
             @Override
             public List<byte[]> load(@NotNull BufferedReaderWithSource reader) throws IOException {
-              List<byte[]> lines = getLines(reader.reader);
+              List<byte[]> lines = getLines(reader.reader, reader.readerPath);
               if (reader.languageVariantReader != null) {
-                lines.addAll(getLines(reader.languageVariantReader));
+                lines.addAll(getLines(reader.languageVariantReader, reader.readerPath));
                 lines.add(SpellingCheckRule.LANGUAGETOOL.getBytes());  // adding here so it's also used for suggestions
               }
               return lines;
             }
 
-            private List<byte[]> getLines(BufferedReader br) throws IOException {
+            private List<byte[]> getLines(BufferedReader br, String path) throws IOException {
               List<byte[]> lines = new ArrayList<>();
               String line;
               while ((line = br.readLine()) != null) {
@@ -75,11 +117,17 @@ public class MorfologikMultiSpeller {
             }
           });
   private static final Map<String,Dictionary> dicPathToDict = new HashMap<>();
-
+  private static final Map<UserDictCacheKey, Cache<String, Dictionary>> userDictCaches = new HashMap<>();
+  private static final Map<UserDictCacheKey, Map<String, Integer>> userDictSizes = new HashMap<>();
   private final List<MorfologikSpeller> spellers;
   private final List<MorfologikSpeller> defaultDictSpellers;
   private final List<MorfologikSpeller> userDictSpellers;
   private final boolean convertsCase;
+  private final Long premiumUid;
+  private final Long userDictCacheSize;
+  private final String userDictName;
+  private final UserDictCacheKey userDictCacheKey;
+  private static final int MAX_SUGGESTIONS = 20;
 
   public MorfologikMultiSpeller(String binaryDictPath, List<String> plainTextPaths, String languageVariantPlainTextPath, int maxEditDistance) throws IOException {
     this(binaryDictPath, plainTextPaths, languageVariantPlainTextPath, null, maxEditDistance);
@@ -98,8 +146,7 @@ public class MorfologikMultiSpeller {
          plainTextPaths,
          languageVariantPlainTextPath == null ? null : new BufferedReader(new InputStreamReader(getDataBroker().getFromResourceDirAsStream(languageVariantPlainTextPath), UTF_8)),
          languageVariantPlainTextPath,
-         userConfig != null ? userConfig.getAcceptedWords(): Collections.emptyList(),
-         maxEditDistance);
+         userConfig, maxEditDistance);
     for (String plainTextPath : plainTextPaths) {
       if (plainTextPath != null &&
         (!plainTextPath.endsWith(".txt") ||
@@ -121,17 +168,32 @@ public class MorfologikMultiSpeller {
   /**
    * @param binaryDictPath path in classpath to a {@code .dict} binary Morfologik file
    * @param plainTextReader reader with to a plain text {@code .txt} file (like from spelling.txt)
+   * @param userConfig
    * @param maxEditDistance maximum edit distance for accepting suggestions
    * @since 3.0
    */
   public MorfologikMultiSpeller(String binaryDictPath, BufferedReader plainTextReader, List<String> plainTextReaderPath,
-       BufferedReader languageVariantPlainTextReader, String languageVariantPlainTextPath, List<String> userWords,
-       int maxEditDistance) throws IOException {
+                                BufferedReader languageVariantPlainTextReader, String languageVariantPlainTextPath, UserConfig userConfig,
+                                int maxEditDistance) throws IOException {
+    if (userConfig == null || userConfig.getAcceptedWords() == null || userConfig.getAcceptedWords().isEmpty()) {
+      premiumUid = null;
+      userDictName = null;
+      userDictCacheSize = null;
+    } else {
+      premiumUid = userConfig.getPremiumUid();
+      userDictName = userConfig.getUserDictName();
+      userDictCacheSize = userConfig.getUserDictCacheSize();
+    }
+    if (premiumUid != null && userDictCacheSize != null) {
+      userDictCacheKey = new UserDictCacheKey(premiumUid, binaryDictPath);
+    } else {
+      userDictCacheKey = null;
+    }
     MorfologikSpeller speller = getBinaryDict(binaryDictPath, maxEditDistance);
     List<MorfologikSpeller> spellers = new ArrayList<>();
-    MorfologikSpeller userDictSpeller = getUserDictSpellerOrNull(userWords, binaryDictPath, maxEditDistance);
+    MorfologikSpeller userDictSpeller = getUserDictSpellerOrNull(userConfig, binaryDictPath, maxEditDistance);
     if (userDictSpeller != null) {
-      // add this first, as otherwise suggestions from user's won dictionary might drown in the mass of other suggestions
+      // add this first, as otherwise suggestions from user's own dictionary might drown in the mass of other suggestions
       spellers.add(userDictSpeller);
       userDictSpellers = Collections.singletonList(userDictSpeller);
     } else {
@@ -154,15 +216,45 @@ public class MorfologikMultiSpeller {
     this.spellers = Collections.unmodifiableList(spellers);
   }
 
-  private MorfologikSpeller getUserDictSpellerOrNull(List<String> userWords, String dictPath, int maxEditDistance) throws IOException {
-    if (userWords.isEmpty()) {
+  private static List<byte[]> getLines(BufferedReader br) throws IOException {
+    List<byte[]> lines = new ArrayList<>();
+    String line;
+    while ((line = br.readLine()) != null) {
+      if (!line.startsWith("#")) {
+        lines.add(line.replaceFirst("#.*", "").trim().getBytes("utf-8"));
+      }
+    }
+    return lines;
+  }
+
+  private Cache<String, Dictionary> getUserDictCache() {
+    if (premiumUid == null || userDictCacheSize == null || userDictName == null) {
+      throw new IllegalStateException("No user / dict caching / dict name configured: "
+        + "user = " + premiumUid +  ", cache size = " + userDictCacheSize + ", dict name = " + userDictName);
+    }
+    if (userDictCaches.containsKey(userDictCacheKey)) {
+      return userDictCaches.get(userDictCacheKey);
+    } else {
+      Cache<String, Dictionary> cache = CacheBuilder.newBuilder()
+        .concurrencyLevel(1) // makes eviction behavior easier to understand, makes choosing maximumWeight easier
+        .expireAfterWrite(10, TimeUnit.MINUTES)
+        .maximumWeight(userDictCacheSize)
+        .weigher((Weigher<String, Dictionary>) (k, v) -> userDictSizes.get(userDictCacheKey).get(k))
+        .build();
+      userDictCaches.put(userDictCacheKey, cache);
+      return cache;
+    }
+  }
+
+  private MorfologikSpeller getUserDictSpellerOrNull(UserConfig userConfig, String dictPath, int maxEditDistance) throws IOException {
+    if (premiumUid == null) {
       return null;
     }
     List<byte[]> byteLines = new ArrayList<>();
-    for (String line : userWords) {
+    for (String line : userConfig.getAcceptedWords()) {
       byteLines.add(line.getBytes(UTF_8));
     }
-    Dictionary dictionary = getDictionary(byteLines, dictPath, dictPath.replace(DICTIONARY_FILENAME_EXTENSION, ".info"), false);
+    Dictionary dictionary = getDictionary(byteLines, dictPath, dictPath.replace(DICTIONARY_FILENAME_EXTENSION, ".info"), true);
     return new MorfologikSpeller(dictionary, maxEditDistance);
   }
 
@@ -185,32 +277,53 @@ public class MorfologikMultiSpeller {
     if (lines.isEmpty()) {
       return null;
     }
-    Dictionary dictionary = getDictionary(lines, plainTextReaderPaths.toString(), dictPath.replace(DICTIONARY_FILENAME_EXTENSION, ".info"), true);
+    Dictionary dictionary = getDictionary(lines, plainTextReaderPaths.toString(), dictPath.replace(DICTIONARY_FILENAME_EXTENSION, ".info"), false);
     return new MorfologikSpeller(dictionary, maxEditDistance);
   }
 
-  private Dictionary getDictionary(List<byte[]> lines, String dictPath, String infoPath, boolean allowCache) throws IOException {
+  private Dictionary getDictionary(List<byte[]> lines, String dictPath, String infoPath, boolean isUserDict) throws IOException {
     String cacheKey = dictPath + "|" + infoPath;
     Dictionary dictFromCache = dicPathToDict.get(cacheKey);
-    if (allowCache && dictFromCache != null) {
+
+    if (!isUserDict && dictFromCache != null) {
       return dictFromCache;
     } else {
+      if (isUserDict && userDictCacheSize != null) {
+        // for cache weigher, save dictionary sizes
+        userDictSizes.putIfAbsent(userDictCacheKey, new HashMap<>());
+        userDictSizes.get(userDictCacheKey).put(userDictName, lines.size());
+        Cache<String, Dictionary> userDictCache = getUserDictCache();
+        Dictionary userDict = userDictCache.getIfPresent(userDictName);
+        if (userDict != null) {
+          return userDict;
+        }
+      }
       // Creating the dictionary at runtime can easily take 50ms for spelling.txt files
       // that are ~50KB. We don't want that overhead for every check of a short sentence,
-      // so we cache the result:
+      // so we cache the result
+      // Two caches exist: One for the standard dictionaries, which are static and in dicPathToDict
+      // Another one for user dictionaries, this is only enabled for selected users with huge and relatively static dictionaries
+
       List<byte[]> linesCopy = new ArrayList<>(lines);
-      Collections.sort(linesCopy, FSABuilder.LEXICAL_ORDERING);
+      linesCopy.sort(FSABuilder.LEXICAL_ORDERING);
       FSA fsa = FSABuilder.build(linesCopy);
       ByteArrayOutputStream fsaOutStream = new CFSA2Serializer().serialize(fsa, new ByteArrayOutputStream());
       ByteArrayInputStream fsaInStream = new ByteArrayInputStream(fsaOutStream.toByteArray());
-      Dictionary dict;
+      InputStream metadata;
+
       if (new File(infoPath).exists()) {
-        // e.g. when loading dynamic languages from outside the class path
-        dict = Dictionary.read(fsaInStream, new FileInputStream(infoPath));
+        metadata = new FileInputStream(infoPath);
       } else {
-        dict = Dictionary.read(fsaInStream, getDataBroker().getFromResourceDirAsStream(infoPath));
+        metadata = getDataBroker().getFromResourceDirAsStream(infoPath);
       }
-      dicPathToDict.put(cacheKey, dict);
+      Dictionary dict = Dictionary.read(fsaInStream, metadata);
+
+      if (!isUserDict) {
+        dicPathToDict.put(cacheKey, dict);
+      } else if(userDictCacheSize != null){
+        getUserDictCache().put(userDictName, dict);
+      }
+
       return dict;
     }
   }
@@ -296,10 +409,10 @@ public class MorfologikMultiSpeller {
   }
 
   static class BufferedReaderWithSource {
-    private BufferedReader reader;
-    private String readerPath;
-    private BufferedReader languageVariantReader;
-    private String languageVariantPath;
+    private final BufferedReader reader;
+    private final String readerPath;
+    private final BufferedReader languageVariantReader;
+    private final String languageVariantPath;
 
     BufferedReaderWithSource(BufferedReader reader, String readerPath, BufferedReader languageVariantReader, String languageVariantPath) {
       this.reader = Objects.requireNonNull(reader);
@@ -323,5 +436,13 @@ public class MorfologikMultiSpeller {
     public int hashCode() {
       return Objects.hash(readerPath, languageVariantPath);
     }
+  }
+
+  /**
+   * for tests only
+   */
+  public static void clearUserDictCache() {
+    userDictCaches.clear();
+    userDictSizes.clear();
   }
 }

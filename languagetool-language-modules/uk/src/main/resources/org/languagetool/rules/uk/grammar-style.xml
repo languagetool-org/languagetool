@@ -83,6 +83,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         </rulegroup>
     -->
+
     <rulegroup id="BILSHE_WITH_TIME_NOUNS" name="Більш з числівниками та іменниками часу">
       <rule>
         <pattern>
@@ -112,15 +113,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token regexp="yes" inflected="yes">більше?|більший
             <exception scope="previous">не</exception>
           </token>
+          <token min="0" regexp="yes">[$€]</token>
           <token postag="number"/>
         </pattern>
-        <message>З числівником замість «більше» краще вживати «понад», або «більше ніж/як»: <suggestion>понад <match no="2"/></suggestion></message>
-        <suggestion>більш як <match no="2"/></suggestion>
-        <suggestion>більше ніж <match no="2"/></suggestion>
+        <message>З числівником замість «більше» краще вживати «понад», або «більше ніж/як»: <suggestion>понад <match no="2"/><match no="3"/></suggestion></message>
+        <suggestion>більш як <match no="2"/><match no="3"/></suggestion>
+        <suggestion>більше ніж <match no="2"/><match no="3"/></suggestion>
         <example>Більш як 40</example>
         <example correction="понад 500|більш як 500|більше ніж 500"><marker>більше 500</marker>.</example>
         <example correction="понад 2,000|більш як 2,000|більше ніж 2,000"><marker>більшими 2,000</marker> слів.</example>
-        <example correction="Понад 10%|Більш як 10%|Більше ніж 10%">«<marker>Більше 10%</marker> людей</example>
+        <example correction="Понад 10|Більш як 10|Більше ніж 10">«<marker>Більше 10</marker>% людей</example>
+        <example correction="понад $1,5|більш як $1,5|більше ніж $1,5">трохи <marker>більше $1,5</marker> млрд</example>
         <!--
             <example correction="вище ніж 39"><marker>вище 39</marker> градусів.</example>
         -->
@@ -188,14 +191,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token regexp="yes" inflected="yes">менше?|менший
             <exception scope="previous">не</exception>
           </token>
+          <token min="0" regexp="yes">[%$€]</token>
           <token postag="number"/>
         </pattern>
-        <message>З числівником замість «менше» краще вживати «менше ніж/як»: <suggestion>менш як <match no="2"/></suggestion></message>
-        <suggestion>менше ніж <match no="2"/></suggestion>
+        <message>З числівником замість «менше» краще вживати «менше ніж/як»: <suggestion>менш як <match no="2"/><match no="3"/></suggestion></message>
+        <suggestion>менше ніж <match no="2"/><match no="3"/></suggestion>
         <example>Менш як 40</example>
         <example correction="менш як 500|менше ніж 500"><marker>менше 500</marker>.</example>
         <example correction="менш як 2,000|менше ніж 2,000"><marker>меншими 2,000</marker> слів.</example>
-        <example correction="Менш як 10%|Менше ніж 10%">«<marker>Менше 10%</marker> людей</example>
+        <example correction="Менш як 10|Менше ніж 10">«<marker>Менше 10</marker>% людей</example>
+        <example correction="менш як $1,5|менше ніж $1,5">трохи <marker>менше $1,5</marker> млрд</example>
+        <example correction="менш як 1,5|менше ніж 1,5">трохи <marker>менше 1,5</marker>% млрд</example>
         <example>Не менше 40</example>
         <example>Щонайменше 40</example>
       </rule>
@@ -410,7 +416,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       то тоді треба прийменника: старший за мене, цей стілець вищий від того тощо -->
       <example>старший працездатного віку</example>
     </rule>
-    </rulegroup>
+  </rulegroup>
 
     <!--
         <rulegroup name="Канцелярзми" id="KANZ">
@@ -508,8 +514,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token>в</token>
           </marker>
-          <token regexp="yes">2.*|[бгґджзйклмнпрстхчцшщqwrpsghkjlzxcbnm]ь?[вфvfw].*
+          <token regexp="yes">2.*|[бгґджзйклмнпрстхчцшщqwrpsghkjlzcxbnm]ь?[вфvfw].*
             <exception postag_regexp="yes" postag=".*:abbr"/>
+            <exception case_sensitive="yes" regexp="yes">[XVIХІ]+</exception>
           </token>
         </pattern>
         <message>Перед словами, що починаються на в, ф або збігом приголосних із в, ф пишемо у: <suggestion>у</suggestion> \2</message>
@@ -519,6 +526,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="у">парад <marker>в</marker> зворотному напрямку</example>
         <example correction="у">таких ознак <marker>в</marker> двійнятах</example>
         <example>В МВС.</example>
+        <example>в XV столітті.</example>
       </rule>
 
       <rule>
@@ -532,6 +540,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </marker>
           <token regexp="yes">[8вфvfw].*
             <exception postag_regexp="yes" postag=".*:abbr"/>
+            <exception case_sensitive="yes" regexp="yes">[XVIХІ]+</exception>
           </token>
         </pattern>
         <message>Перед словами, що починаються на в, ф або збігом приголосних із в, ф пишемо у: <suggestion>у</suggestion> \3</message>
@@ -544,7 +553,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>перевагу в швидкості</example>
         <example>сингулярності в квантовій</example>
         <example>В МВС.</example>
+        <example>в V столітті.</example>
       </rule>
+
       <!--
           <rule>
           <pattern>
@@ -614,7 +625,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         </rulegroup>
     -->
-    <rulegroup id="EUPHONY_CONJ_I_Y" name="Милозвучність">
+    <rulegroup id="EUPHONY_CONJ_I_Y" name="Милозвучність: і/й">
       <!-- TODO: і-/й- на початку слів лише для іти/йти, імовірність/ймовірність, імення/ймення, іменувати/йменуватися??? -->
 
       <!-- сполучники і/й -->
@@ -682,17 +693,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token case_sensitive="yes">і</token>
           </marker>
-          <token regexp="yes">[^йїюя].*</token>
+          <token regexp="yes">[^йїюяє].*</token>
         </pattern>
         <message>Після голосної зі звуком і/и варто писати й або та: \1 <suggestion>й</suggestion> \3, \1 <suggestion>та</suggestion> \3</message>
         <url>https://r2u.org.ua/pravopys/pravXXI/12.html</url>
         <example correction="й|та">увійти <marker>і</marker> обідати</example>
         <example>сісти і їхати</example>
+        <example>українці і євреї</example>
       </rule>
     </rulegroup>
 
     <!-- сполучники зі/із/з -->
-    <rulegroup id="EUPHONY_PREP_Z_IZ_ZI" name="Милозвучність">
+    <rulegroup id="EUPHONY_PREP_Z_IZ_ZI" name="Милозвучність: з/зі/із">
       <rule>
         <pattern>
           <marker>
@@ -716,7 +728,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token regexp="yes">зі|із</token>
           </marker>
           <token regexp="yes">[^зсшщ].*
-            <exception regexp="yes">(мн|вс|ст).*|1[0-9][0-9](-[а-яіїєґ]{1,3})?</exception>
+            <exception regexp="yes">(мн|вс|ль[вн]).*|1[0-9][0-9](-[а-яіїєґ]{1,3})?</exception>
           </token>
         </pattern>
         <message>Після голосної та на початку речення перед приголосною (крім с, ш) вживаємо з: <suggestion>з</suggestion> \3</message>
@@ -724,8 +736,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="З"><marker>Із</marker> її приходом.</example>
         <example>3 її приходом</example>
         <example>Зі всієї.</example>
+        <example>Зі старшим.</example>
         <example>Зі мною.</example>
         <example>Зі 104 стрічками.</example>
+        <example>зі Львова</example>
       </rule>
       <!--
           <rule>
@@ -769,15 +783,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <exception regexp="yes">\p{Lu}\p{Lu}.*</exception>
           </token>
         </pattern>
-        <message>Перед сполученням приголосних із початковим свистячим або шиплячим пишемо зі: <suggestion>зі</suggestion> \2</message>
+        <message>Перед сполученням приголосних із початковим свистячим або шиплячим пишемо: <suggestion>зі</suggestion></message>
         <url>https://r2u.org.ua/pravopys/pravXXI/13.html</url>
+        <example correction="зі">Бере книжку <marker>із</marker> стола.</example>
+        <example correction="зі">Бере книжку <marker>з</marker> стола.</example>
+        <example correction="Зі"><marker>З</marker> 104 інновацій.</example>
         <example>Бере книжку зі стола.</example>
         <example>Висновок із цього.</example>
         <example>Балада зі знаком запитання.</example>
         <example>Організація з США підкуплена.</example>
-        <example correction="зі">Бере книжку <marker>із</marker> стола.</example>
-        <example correction="зі">Бере книжку <marker>з</marker> стола.</example>
-        <example correction="Зі"><marker>З</marker> 104 інновацій.</example>
+        <example>з Львова</example>
       </rule>
     </rulegroup>
 
@@ -843,6 +858,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="би">Гуляв <marker>б</marker> усюди.</example>
         <example>Гуділи б голосно.</example>
       </rule>
+
       <rule>
         <antipattern>
           <token>би</token>
@@ -860,6 +876,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>Тікав би звідси.</example>
         <example>Могло би бути.</example>
         <example>Стався би скандал.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes">.*[баеєиіїоюя]</token>
+          <marker>
+            <token>би</token>
+          </marker>
+          <token regexp="yes">[бпдткґ].*|[бвгґджзйклмнпрстфхцчшщ]{2}.*</token>
+        </pattern>
+        <message>Згідно з чинним правописом, після голосної пишемо <suggestion>б</suggestion>. Однак «би» дозволяє уникати збігу приголосних б та б/п/д/т/к/ґ або двох приголосних.</message>
+        <example correction="б">Стався <marker>би</marker> скандал.</example>
+        <example correction="б">Могло <marker>би</marker> бути.</example>
       </rule>
     </rulegroup>
 
@@ -911,25 +940,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
       <rule>
         <pattern>
-          <marker>
-            <token>двічі</token>
-            <token inflected="yes">дублювати</token>
-          </marker>
-        </pattern>
-        <message>Надлишковість засобів, що використовуються для передачі змісту. Ви мали на увазі <suggestion>дублювати</suggestion>?</message>
-        <short>Правильно «дублювати»</short>
-        <example correction="дублювати">Не треба <marker>двічі дублювати</marker> цей текст.</example>
-        <example>Не треба дублювати цей текст.</example>
-      </rule>
-
-      <rule>
-        <pattern>
           <token inflected="yes" postag_regexp="yes">більший</token>
           <token inflected="yes">половина</token>
         </pattern>
         <message>Правильно: <suggestion>більша частина</suggestion>, <suggestion>більш ніж половина</suggestion></message>
         <example correction="Більша частина|Більш ніж половина"><marker>Більшої половини</marker> класу</example>
         <example>Більш ніж половина</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token>двічі</token>
+            <token inflected="yes" regexp="yes">дублювати(ся)?|дублюючи(сь)?|дублювавши(сь)?</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\2</suggestion></message>
+        <short>Правильно «дублювати»</short>
+        <example correction="дублювати">Не треба <marker>двічі дублювати</marker> цей текст.</example>
+        <example>Не треба дублювати цей текст.</example>
       </rule>
 
       <rule>
@@ -944,11 +973,693 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
       <rule>
         <pattern>
+          <token inflected="yes">звільнитися</token>
+          <token regexp="yes">вакансі(я|ї)</token>
+        </pattern>
+        <message>Правильно: <suggestion>з'явилася \2</suggestion>.</message>
+        <example correction="з'явилася вакансія"><marker>звільнилася вакансія</marker></example>
+      </rule>
+
+      <rule>
+        <pattern>
           <token inflected="yes">передовий</token>
           <token inflected="yes">авангард</token>
         </pattern>
         <message>Правильно: <suggestion><match no="2"/></suggestion>.</message>
         <example correction="авангард"><marker>передовий авангард</marker></example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">безкоштовний</token>
+            <token inflected="yes">подарунок</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\2</suggestion></message>
+        <example correction="подарунків">Не треба шукати <marker>безкоштовних подарунків</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">головний</token>
+            <token inflected="yes">суть</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\2</suggestion></message>
+        <example correction="суть">Не треба шукати <marker>головну суть</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">популярний</token>
+            <token inflected="yes">шлягер</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\2</suggestion></message>
+        <example correction="шлягер">Не треба шукати <marker>популярний шлягер</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes" regexp="yes">з?акцентувати|з?акцентувавши|акцентуючи</token>
+            <token>увагу</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>наголошувати</suggestion></message>
+        <suggestion>\1</suggestion>
+        <suggestion>звернути увагу (на)</suggestion>
+        <example correction="наголошувати|акцентувати|звернути увагу (на)">Не треба <marker>акцентувати увагу</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">арсенал</token>
+            <token>зброї</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\1</suggestion></message>
+        <suggestion>склад зброї</suggestion>
+        <example correction="арсенали|склад зброї">Великі <marker>арсенали зброї</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">базовий</token>
+            <token inflected="yes">основа</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\2</suggestion></message>
+        <example correction="основу">Не треба шукати <marker>базову основу</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">бестселер</token>
+            <token regexp="yes">продаж(у|ів)?</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\1</suggestion></message>
+        <example correction="бестселер">Не треба шукати <marker>бестселер продажів</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">бурхливий</token>
+            <token inflected="yes">овація</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\2</suggestion></message>
+        <example correction="овації">Не треба шукати <marker>бурхливі овації</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">великий</token>
+            <token inflected="yes" regexp="yes">мега(ло)?поліс</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\2</suggestion></message>
+        <example correction="мегаполіс">Не треба шукати <marker>великий мегаполіс</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">взаємозв'язок</token>
+            <token>між</token>
+            <token>собою</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\1</suggestion></message>
+        <example correction="взаємозв'язок">Не треба шукати <marker>взаємозв'язок між собою</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes" regexp="yes">відступати|відступити|відступаючи|відступавши|відступивши</token>
+            <token>назад</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\1</suggestion></message>
+        <example correction="відступав">він <marker>відступав назад</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">внутрішній</token>
+            <token inflected="yes">інтер'єр</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\2</suggestion></message>
+        <example correction="інтер'єр">облаштував <marker>внутрішній інтер'єр</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">[ву]перше</token>
+            <token inflected="yes">познайомитися</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\2</suggestion></message>
+        <suggestion>\1 зустрітися</suggestion>
+        <example correction="познайомився|вперше зустрітися">він <marker>вперше познайомився</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">гастрит</token>
+            <token regexp="yes">шлунк[ау]</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\1</suggestion></message>
+        <example correction="гастритом">він хворів <marker>гастритом шлунку</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">головний</token>
+            <token inflected="yes">лейтмотив</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\2</suggestion></message>
+        <example correction="лейтмотивом">був <marker>головним лейтмотивом</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes" regexp="yes">демобілізуватися|демобілізовуватися|демобілізувавшись|демобілізуючись</token>
+            <token regexp="yes">і?з</token>
+            <token regexp="yes">армії|війська</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\1</suggestion></message>
+        <example correction="демобілізувався">він <marker>демобілізувався з армії</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">депіляція</token>
+            <token>волосся</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\1</suggestion></message>
+        <example correction="депіляція"><marker>депіляція волосся</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">державний</token>
+            <token inflected="yes" regexp="yes">чиновник|урядовець</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\2</suggestion></message>
+        <example correction="чиновника"><marker>державного чиновника</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">дивний</token>
+            <token inflected="yes">парадокс</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\2</suggestion></message>
+        <example correction="парадокс"><marker>дивний парадокс</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">дитячий</token>
+            <token inflected="yes">лікар-педіатр</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\2</suggestion></message>
+        <example correction="лікаря-педіатра"><marker>дитячого лікаря-педіатра</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes" regexp="yes">долоня|кисть</token>
+            <token regexp="yes">руки?</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\1</suggestion></message>
+        <example correction="долоні"><marker>долоні рук</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">жестикулювати</token>
+            <token regexp="yes">рук(ою|ами)</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\1</suggestion></message>
+        <example correction="жестикулював"><marker>жестикулював руками</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">захисний</token>
+            <token inflected="yes">імунітет</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\2</suggestion></message>
+        <example correction="імунітету"><marker>захисного імунітету</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">колишній</token>
+            <!-- TODO: include екс* --> 
+            <token inflected="yes" postag_regexp="yes" postag="noun:anim:.*" regexp="yes">екс-.*</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\2</suggestion></message>
+        <example correction="екс-президент"><marker>колишній екс-президент</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes" regexp="yes">злітати|злетіти</token>
+            <token regexp="yes">[ву]гору</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\1</suggestion></message>
+        <example correction="злітав"><marker>злітав угору</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">знижка</token>
+            <token>мінус</token>
+            <token postag_regexp="yes" postag="num.*"/>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\1 \3</suggestion></message>
+        <example correction="знижка 10"><marker>знижка мінус 10</marker>%.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">кардіограма</token>
+            <token>серця</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\1</suggestion></message>
+        <example correction="кардіограму"><marker>кардіограму серця</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">міміка</token>
+            <token>обличчя</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\1</suggestion></message>
+        <example correction="міміку"><marker>міміку обличчя</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">місцевий</token>
+            <token inflected="yes">діалект</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\2</suggestion></message>
+        <suggestion>місцева говірка</suggestion>
+        <example correction="діалект|місцева говірка"><marker>місцевий діалект</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">місцевий</token>
+            <token inflected="yes">абориген</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\2</suggestion></message>
+        <example correction="абориген"><marker>місцевий абориген</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes" regexp="yes">моргнути|моргати|моргаючи|моргавши|моргнувши</token>
+            <token regexp="yes">оком|очима</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>кліпати</suggestion></message>
+        <suggestion>\1</suggestion>
+        <example correction="кліпати|моргати"><marker>моргати очима</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">наволочка</token>
+            <token>для</token>
+            <token regexp="yes">подушк(и|ок)</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\1</suggestion></message>
+        <example correction="наволочка"><marker>наволочка для подушки</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">народний</token>
+            <token inflected="yes" regexp="yes">фолькль?ор</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\2</suggestion></message>
+        <example correction="фольклор"><marker>народний фольклор</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">натовп</token>
+            <token>людей</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\1</suggestion></message>
+        <example correction="натовп"><marker>натовп людей</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">несподіваний</token>
+            <token inflected="yes">сюрприз</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\2</suggestion></message>
+        <example correction="сюрприз"><marker>несподіваний сюрприз</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">пам'ятний</token>
+            <token inflected="yes">сувенір</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\2</suggestion></message>
+        <example correction="сувенір"><marker>пам'ятний сувенір</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">попередній</token>
+            <token inflected="yes">анонс</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\2</suggestion></message>
+        <example correction="анонсу"><marker>попереднього анонсу</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">початковий</token>
+            <token inflected="yes">ази</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\2</suggestion></message>
+        <example correction="азів"><marker>початкових азів</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">промисловий</token>
+            <token inflected="yes">індустрія</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>промисловість</suggestion></message>
+        <suggestion>\2</suggestion>
+        <example correction="промисловість|індустрії"><marker>промислової індустрії</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">ранковий</token>
+            <token inflected="yes">світанок</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\2</suggestion></message>
+        <example correction="світанку"><marker>ранкового світанку</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">різнобарвний</token>
+            <token inflected="yes">колір</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>різні \2</suggestion></message>
+        <example correction="різні кольори"><marker>різнобарвні кольори</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">унікальний</token>
+            <token inflected="yes">раритет</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\2</suggestion></message>
+        <example correction="раритету"><marker>унікального раритету</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">швидкісний</token>
+            <token inflected="yes">експрес</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\2</suggestion></message>
+        <example correction="експресу"><marker>швидкісного експресу</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">юний</token>
+            <token inflected="yes">молодь</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\2</suggestion></message>
+        <example correction="молодь"><marker>юна молодь</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">юний</token>
+            <token inflected="yes">вундеркінд</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\2</suggestion></message>
+        <example correction="вундеркінд"><marker>юний вундеркінд</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes" regexp="yes">свій|мій|твій|його|її|наш|ваш|їхня</token>
+            <token inflected="yes">власний</token>
+            <token inflected="yes">думка</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\2 \3</suggestion></message>
+        <suggestion>\1 \3</suggestion>
+        <example correction="власна думка|своя думка"><marker>своя власна думка</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token>найбільш</token>
+            <token inflected="yes">оптимальний</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\2</suggestion></message>
+        <example correction="оптимального"><marker>найбільш оптимального</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">цінний
+              <exception scope="previous" postag_regexp="yes" postag="adv(?!p).*"></exception>
+            </token>
+            <token inflected="yes">скарб</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\2</suggestion></message>
+        <example correction="скарбів"><marker>цінних скарбів</marker>.</example>
+        <example>дуже цінних скарбів</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">унікальний</token>
+            <token regexp="yes">[ву]</token>
+            <token>своєму</token>
+            <token>роді</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\1</suggestion></message>
+        <suggestion>єдиний \2 \3 \4</suggestion>
+        <example correction="унікального|єдиний у своєму роді"><marker>унікального у своєму роді</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">період</token>
+            <token>часу</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\1</suggestion></message>
+        <suggestion>проміжок часу</suggestion>
+        <example correction="період|проміжок часу"><marker>період часу</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes" regexp="yes">топтати|розтоптати|топчучи|топтавши</token>
+            <token>ногами</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\1</suggestion></message>
+        <example correction="топчучи"><marker>топчучи ногами</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes" regexp="yes">піднятися|підніматися|піднімаючись|піднявшись</token>
+            <token regexp="yes">[ву]гору</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\1</suggestion></message>
+        <example correction="піднявся"><marker>піднявся угору</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">трохи|ледве|дещо</token>
+            <token inflected="yes" regexp="yes">прочинити|прочиняти|прочиняючи|прочинивши</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\2</suggestion></message>
+        <example correction="прочинивши"><marker>трохи прочинивши</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">раціон</token>
+            <token>харчування</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\1</suggestion></message>
+        <example correction="раціону"><marker>раціону харчування</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">прейскурант</token>
+            <token>цін</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\1</suggestion></message>
+        <example correction="прейскуранту"><marker>прейскуранту цін</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">перспектива</token>
+            <token>на</token>
+            <token>майбутнє</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\1</suggestion></message>
+        <suggestion>можливості на майбутнє</suggestion>
+        <example correction="перспективу|можливості на майбутнє"><marker>перспективу на майбутнє</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">підстрибнути</token>
+            <token regexp="yes">[ву]гору</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\1</suggestion></message>
+        <example correction="підстрибнув"><marker>підстрибнув угору</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes" regexp="yes">повертатися|повернутися|повертаючись|повернувшись|повертавшись</token>
+            <token>назад</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\1</suggestion></message>
+        <example correction="повернувшись"><marker>повернувшись назад</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">[ву]</token>
+            <token regexp="yes">січні|лютому|березні|квітні|травні|червні|липні|серпні|вересні|жовтні|листопаді|грудні</token>
+            <token>місяці</token>
+          </marker>
+        </pattern>
+        <message>Знайдено плеоназм, краще: <suggestion>\1 \2</suggestion></message>
+        <example correction="у грудні"><marker>у грудні місяці</marker>.</example>
       </rule>
     </rulegroup>
 
@@ -990,13 +1701,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token min="0" postag_regexp="yes" postag="adj.*"/>
           <token postag_regexp="yes" postag="noun.*"><exception regexp="yes">країни|ціноутворення</exception></token>
         </pattern>
-        <message>Правильно: <suggestion>економний</suggestion></message>
+        <message>Правильно: <suggestion><match no="1" postag_regexp="yes" postag="adj.*" postag_replace="$0.*">економний</match></suggestion></message>
         <example correction="економний"><marker>економічний</marker> двигун цієї машини</example>
         <example>економічну політику</example>
         <example>став економічним двигуном ціноутворення</example>
         <example>став економічним двигуном великого ціноутворення</example>
         <example>став економічним двигуном всієї країни</example>
       </rule>
+
       <rule>
         <pattern>
           <marker>
@@ -1004,7 +1716,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </marker>
           <token inflected="yes" regexp="yes">двигун|технологія</token>
         </pattern>
-        <message>Правильно: <suggestion>економний</suggestion></message>
+        <message>Правильно: <suggestion><match no="1" postag_regexp="yes" postag="adj.*" postag_replace="$0.*">економний</match></suggestion></message>
         <example correction="економний">поставили <marker>економічний</marker> двигун</example>
         <example>поставили економний двигун</example>
       </rule>
@@ -1015,12 +1727,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <marker>
             <token inflected="yes">громадянський</token>
-            <token inflected="yes">транспорт</token>
           </marker>
+          <token inflected="yes">транспорт</token>
         </pattern>
-        <message>Близькі за звучанням, але різні за значенням слова. Ви мали на увазі <suggestion>громадський транспорт</suggestion>?</message>
+        <message>Близькі за звучанням, але різні за значенням слова. Ви мали на увазі <suggestion><match no="1" postag_regexp="yes" postag="adj.*">громадський</match></suggestion> транспорт?</message>
         <short>Правильно «громадський транспорт»</short>
-        <example correction="Громадський транспорт"><marker>Громадянський транспорт</marker> став через снігопад.</example>
+        <example correction="Громадський"><marker>Громадянський</marker> транспорт став через снігопад.</example>
         <example>Громадський транспорт став через снігопад.</example>
       </rule>
 
@@ -1046,12 +1758,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </marker>
           <token inflected="yes" regexp="yes">конструкція|опалубка|руда|сітка|спіраль|стружка|термопара|гроші|відходи|порошок|покрив|виробництво|підшипник</token>
         </pattern>
-        <message>Правильно: <suggestion>металевий</suggestion></message>
+        <message>Правильно: <suggestion><match no="1" postag_regexp="yes" postag="adj.*">металевий</match></suggestion></message>
         <url>http://msu.kharkov.ua/tc/cons/metal.html</url>
-        <example correction="металевий"><marker>металічної</marker> руди</example>
+        <example correction="металевої"><marker>металічної</marker> руди</example>
         <example>металевої руди</example>
         <example>металічного присмаку</example>
       </rule>
+
       <rule>
         <pattern>
           <marker>
@@ -1059,9 +1772,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </marker>
           <token inflected="yes" regexp="yes">провідність|зв'язок|блиск|водень|кристал|присмак</token>
         </pattern>
-        <message>Правильно: <suggestion>металічний</suggestion></message>
+        <message>Правильно: <suggestion><match no="1" postag_regexp="yes" postag="adj.*">металічний</match></suggestion></message>
         <url>http://msu.kharkov.ua/tc/cons/metal.html</url>
-        <example correction="металічний"><marker>металевого</marker> блиску</example>
+        <example correction="металічного"><marker>металевого</marker> блиску</example>
         <example>металічного блиску</example>
         <example>металевої руди</example>
       </rule>
@@ -1075,9 +1788,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </marker>
           <token inflected="yes" regexp="yes">слух|здібність</token>
         </pattern>
-        <message>Правильно: <suggestion>музикальний</suggestion></message>
+        <message>Правильно: <suggestion><match no="1" postag_regexp="yes" postag="adj.*">музикальний</match></suggestion></message>
         <example correction="Музикальний"><marker>Музичний</marker> слух</example>
       </rule>
+
       <rule>
         <pattern>
           <marker>
@@ -1085,8 +1799,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </marker>
           <token inflected="yes" regexp="yes">вечір|гурт|училище|інструмент|нота|установка|автомат|форма</token>
         </pattern>
-        <message>Правильно: <suggestion>музичний</suggestion></message>
-        <example correction="Музичний"><marker>Музикального</marker> вечора</example>
+        <message>Правильно: <suggestion><match no="1" postag_regexp="yes" postag="adj.*">музичний</match></suggestion></message>
+        <example correction="Музичного"><marker>Музикального</marker> вечора</example>
       </rule>
     </rulegroup>
 
@@ -1095,17 +1809,79 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <marker>
             <token inflected="yes">жилий</token>
-            <token inflected="yes">будівництво</token>
           </marker>
+          <token inflected="yes" regexp="yes">будівництво|фонд</token>
         </pattern>
-        <message>Близькі за звучанням, але різні за значенням слова. Ви мали на увазі <suggestion>житлове будівництво</suggestion>?</message>
-        <short>Правильно «житлове будівництво»</short>
-        <example correction="житлове будівництво">Постанова про індивідуальне <marker>жиле будівництво</marker>.</example>
-        <example>Постанова про індивідуальне житлове будівництво.</example>
+        <message>Близькі за звучанням, але різні за значенням слова. Ви мали на увазі <suggestion><match no="1" postag_regexp="yes" postag="adj.*">житловий</match></suggestion>?</message>
+        <short>Правильно «житловий»</short>
+        <example correction="житлове">Постанова про індивідуальне <marker>жиле</marker> будівництво.</example>
+        <example>Постанова про індивідуальне жилий будинок.</example>
       </rule>
     </rulegroup>
 
-<!-- 
+    <rulegroup id="shkirnyi_shkiryanyi" name="Шкірний і шкіряний">
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">шкірний</token>
+          </marker>
+          <token inflected="yes" regexp="yes">завод|гаман(ець)?|міх|торб(инк)?а|пояс|пальто|диван|одяг|чобіт|меблі|виріб|річ|куртка|взуття|промисловість</token>
+        </pattern>
+        <message>Правильно: <suggestion><match no="1" postag_regexp="yes" postag="adj.*">шкіряний</match></suggestion></message>
+        <example correction="шкіряний"><marker>шкірний</marker> гаман</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">шкіряний</token>
+          </marker>
+          <token inflected="yes" regexp="yes">хвороба|захворювання|біль|висип|пігмент|покрив|жир|сало|порушення|чутливість|подразнення|диспансер</token>
+        </pattern>
+        <message>Правильно: <suggestion><match no="1" postag_regexp="yes" postag="adj.*">шкірний</match></suggestion></message>
+        <example correction="шкірна"><marker>шкіряна</marker> хвороба</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">шкіряний</token>
+          </marker>
+          <token postag="conj:coord"/>
+          <token postag_regexp="yes" postag="adj.*"/>
+          <token inflected="yes" regexp="yes">хвороба|захворювання|ускладнення|порушення</token>
+        </pattern>
+        <message>Правильно: <suggestion><match no="1" postag_regexp="yes" postag="adj.*">шкірний</match></suggestion></message>
+        <example correction="шкірні"><marker>шкіряні</marker> та інфекційні хвороби</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="richnyi_richkovyi" name="Річний і річковий">
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">річний</token>
+          </marker>
+          <token inflected="yes" regexp="yes">порт|вокзал|течія|піщаник|пісок|черепниця|пароплав|пляж|повітря</token>
+        </pattern>
+        <message>Краще: <suggestion><match no="1" postag_regexp="yes" postag="adj.*">річковий</match></suggestion></message>
+        <example correction="річкового"><marker>річного</marker> вокзалу</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">річний</token>
+          </marker>
+          <token postag="conj:coord"/>
+          <token inflected="yes" regexp="yes">морський|озерний</token>
+        </pattern>
+        <message>Краще: <suggestion><match no="1" postag_regexp="yes" postag="adj.*">річковий</match></suggestion></message>
+        <example correction="річковим"><marker>річним</marker> та морським</example>
+      </rule>
+    </rulegroup>
+
+<!--
     <rulegroup id="poverhnevyi_vs_poverhovyi" name="Поверхневий і поверховий">
       <rule>
         <pattern>
@@ -1137,6 +1913,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rule id="vchenyi_stupin" name="Вчений ступінь">
+      <pattern>
+        <marker>
+          <token inflected='yes' regexp='yes'>[ву]чений</token>
+        </marker>
+        <token inflected='yes' regexp="yes">ступінь|степінь</token>
+      </pattern>
+      <message>Правильно: <suggestion>науковий</suggestion></message>
+      <example correction="науковий"><marker>вчений</marker> ступінь</example>
+    </rule>
+
     <rule id="zirka_vs_zorya" name="Зірка і зоря">
       <pattern>
         <token inflected="yes" regexp="yes">яскравий|гарячий|далекий|ранній|ранішній|вечірній|падучий|полярний|щасливий|((що|як)?най)?яскравіший|((що|як)?най)?гарячіший|атмосфера|енергія|змінний|карликовий|надновий|нейтронний|коливання|температура|спектр|формування|с?формувати</token>
@@ -1164,6 +1951,67 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>всі частки майна</example>
     </rule>
 
+<!--
+    <rulegroup id="snihovyi_snizhnyi" name="Сніговий і сніжний">
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">сніжний</token>
+          </marker>
+          <token inflected="yes" regexp="yes">межа|гора|гірка|вода|намет|стіна|баба|пороша|буря|буран|колір|людина|плуг</token>
+        </pattern>
+        <message>У значеннях: який утворився зі снігу, зроблений зі снігу; який несе сніг; вкритий снігами; схожий на сніг тощо краще вжити <suggestion>сніговий</suggestion>?</message>
+        <example correction="сніговий"><marker>сніжний</marker> баба</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">сніжний</token>
+          </marker>
+          <token inflected="yes" regexp="yes">кальвіль|подорожник|плісень|барс|чайка</token>
+        </pattern>
+        <message>Як складова частина ботанічних і зоологічних назв краще вжити <suggestion>сніговий</suggestion>?</message>
+        <example correction="сніговий"><marker>сніжний</marker> барс</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">сніговий</token>
+          </marker>
+          <token inflected="yes" regexp="yes">вітер|курява|рівнина|поле|полотно</token>
+        </pattern>
+        <message>У значеннях: який несе сніг, укритий снігами, схожий на сніг тощо краще вжити <suggestion>сніжний</suggestion>?</message>
+        <example correction="сніжний"><marker>снігова</marker> зима</example>
+      </rule>
+    </rulegroup>
+-->
+<!--
+    <rulegroup id="pysemnist_pysmennist" name="Писемність і письменність">
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">письменність</token>
+          </marker>
+          <token inflected="yes" regexp="yes">межа|гора|гірка|вода|намет|стіна|баба|зима|пороша|буря|буран|колір|людина|плуг</token>
+        </pattern>
+        <message>У значеннях: який утворився зі снігу, зроблений зі снігу; який несе сніг; вкритий снігами; схожий на сніг тощо краще вжити <suggestion>сніговий</suggestion>?</message>
+        <example correction="сніговий"><marker>сніжний</marker> баба</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">писемність</token>
+          </marker>
+          <token inflected="yes" regexp="yes">зима|вітер|курява|рівнина|поле|полотно</token>
+        </pattern>
+        <message>У значеннях: який несе сніг, укритий снігами, схожий на сніг тощо краще вжити <suggestion>сніжний</suggestion>?</message>
+        <example correction="сніжний"><marker>снігова</marker> зима</example>
+      </rule>
+    </rulegroup>
+-->
     <rulegroup id="NETOCHNE_VZHYVANNYA" name="Неточне вживання слів">
       <rule>
         <pattern>
@@ -1252,7 +2100,43 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="їда">Випиту склянку 30 хвилин до <marker>їжі</marker>.</example>
         <example>Взявся до їжи.</example>
       </rule>
+    </rulegroup>
 
+    <rulegroup id="ceglovyi_ceglyanyi" name="Цегловий і цегляний">
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes" inflected="yes">цегляний|цегловий</token>
+          </marker>
+          <token regexp="yes" inflected="yes">завод|глина|виробництво|майстер</token>
+        </pattern>
+        <message>Для «призначений для виробництва цегли» краще: <suggestion><match no="1" postag_regexp="yes" postag="adj.*">цегельний</match></suggestion></message>
+        <example correction="цегельного">до <marker>цегляного</marker> заводу.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">цегельний</token>
+          </marker>
+          <token regexp="yes" inflected="yes">будинок|будівля|кладка|стінк?а|споруда|паркан</token>
+        </pattern>
+        <message>Для «зроблений з цегли» краще: <suggestion><match no="1" postag_regexp="yes" postag="adj.*">цегляний</match></suggestion></message>
+        <suggestion><match no="1" postag_regexp="yes" postag="adj.*">цегловий</match></suggestion>
+        <example correction="цегляної|цеглової">до <marker>цегельної</marker> стіни.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes" inflected="yes">цегельний|цегляний|цегловий</token>
+          </marker>
+          <token regexp="yes" inflected="yes">колір|барва|відтінок</token>
+        </pattern>
+        <message>Для кольору краще: <suggestion><match no="1" postag_regexp="yes" postag="adj.*">цеглястий</match></suggestion></message>
+        <suggestion><match no="1" postag_regexp="yes" postag="adj.*">цеглистий</match></suggestion>
+        <example correction="цеглястого|цеглистого">до <marker>цегляного</marker> кольору.</example>
+      </rule>
     </rulegroup>
 
     <rulegroup id="VIRNYI" name="Вірний">
@@ -1381,6 +2265,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="рідкісний">за <marker>рідкими</marker> винятками</example>
     </rule>
 
+    <rule id="konoplya" name="конопля">
+      <pattern>
+        <marker>
+          <token inflected="yes" postag_regexp="yes" postag="noun:inanim:f:.*">конопля
+            <exception postag_regexp="yes" postag="noun:inanim:p:.*"/>
+          </token>
+        </marker>
+      </pattern>
+      <message>Сучасні словники подають «коноплі» як можнинний іменник.</message>
+      <example correction="">отруєння <marker>коноплею</marker>.</example>
+      <example>різні коноплі</example>
+    </rule>
+
     <rule id="LAVKA" name="Лавка">
       <pattern>
         <unify>
@@ -1453,6 +2350,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <pattern>
         <token postag_regexp="yes" postag=".*:slang.*">
           <exception negate_pos="yes" postag_regexp="yes" postag=".*:slang.*|SENT_END|PARA_END"/>
+          <exception inflected="yes">чарт</exception>
         </token>
       </pattern>
       <message>Це слово є жаргонним</message>
@@ -1683,35 +2581,295 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rulegroup>
 
 
-    <rule id="DAVAITE_VERB" name="Давайте замість нумо">
+    <rulegroup id="DAVAITE_VERB" name="Давайте замість нумо">
+      <rule>
+        <antipattern>
+          <token regexp="yes">та|й|і</token>
+          <token>давай</token>
+          <token postag_regexp="yes" postag="verb(:rev)?:imperf:inf.*"/>
+        </antipattern>
+        <pattern>
+          <marker>
+            <token regexp="yes">давай(те)?</token>
+            <token postag_regexp="yes" postag="verb(:rev)?:imperf:inf(?!:arch:short).*"/>
+          </marker>
+        </pattern>
+        <message>Щоб висловити заклик до спільної дії, рекомендують вживати наказову форму дієслова</message>
+        <suggestion><match no="2" postag_regexp="yes" postag="(verb.*?):inf(?::&amp;insert)?(.*?)" postag_replace="$1:impr:p:1$2(?!.*:(coll|bad)).*"/></suggestion>
+        <suggestion>нумо <match no="3"/></suggestion>
+        <url>http://r2u.org.ua/node/216</url>
+        <example correction="Граймо|Нумо грати"><marker>Давай грати</marker> чесно...</example>
+        <example correction="вчімось|вчімося|вчімся|нумо вчитися">Тому <marker>давайте вчитися</marker> разом</example>
+        <example correction="знаймо|нумо знати"><marker>давайте знати</marker> про свої права</example>
+        <example correction="катаймось|катаймося|нумо кататися"><marker>давайте кататися</marker></example>
+        <example correction="Дивімось|Дивімося|Дивімся|Нумо дивитися"><marker>Давайте дивитися</marker>.</example>
+        <example>Давайте горілку</example>
+        <example>Давайте будем знов сміятись</example>
+        <example>Давай оброблятиму тобі землю</example>
+        <example>накидав зверху каміння та давай носити воду</example>
+        <!-- перев. рос. слова -->
+        <example>давайте ронять слова</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">давай(те)?</token>
+            <token postag_regexp="yes" postag="verb(:rev)?:perf:futr:p:1.*"/>
+          </marker>
+        </pattern>
+        <message>Щоб висловити заклик до спільної дії, рекомендують вживати наказову форму дієслова</message>
+        <suggestion><match no="2" postag_regexp="yes" postag="(verb.*?):futr:p:1(?::subst)?(.*?)" postag_replace="$1:impr:p:1$2(?!.*:(coll|bad)).*"/></suggestion>
+        <url>http://r2u.org.ua/node/216</url>
+        <example correction="Заспіваймо"><marker>Давайте заспіваємо</marker></example>
+        <example correction="Скажім|Скажімо">«<marker>Давайте скажемо</marker> чесно, що сьогодні ми в Україні не можемо</example>
+        <example correction="Пройдімось|Пройдімося|Пройдімся"><marker>Давайте пройдемося</marker></example>
+        <example correction="скажім|скажімо">Тому <marker>давайте скажем</marker> так</example>
+        <example correction="оформмо">Тому <marker>давай оформимо</marker> стосунки</example>
+        <example>Давайте горілку</example>
+        <example>Давайте будем знов сміятись</example>
+        <example>Давай оброблятиму тобі землю</example>
+        <example>накидав зверху каміння та давай носити воду</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">давай(те)?</token>
+            <token>не</token>
+            <token postag_regexp="yes" postag="verb(:rev)?:(imperf:inf(?!:arch:short)|perf:futr:p:1).*"/>
+          </marker>
+        </pattern>
+        <message>Щоб висловити заклик до спільної дії, рекомендують вживати наказову форму дієслова</message>
+        <suggestion><match no="2"/> <match no="3" postag_regexp="yes" postag="(verb.*?):(?:inf(?!:arch:short)|futr:p:1)(.*?)" postag_replace="$1:impr:p:1$2(?!.*:(coll|bad)).*"/></suggestion>
+        <url>http://r2u.org.ua/node/216</url>
+        <example correction="Не граймо"><marker>Давай не грати</marker> нечесно...</example>
+        <example correction="Не пустім|Не пустімо"><marker>Давай не пустимо</marker> їх...</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="zvertaty_uvagu" name="Звертати увагу">
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">звертати|звернути</token>
+          <token postag_regexp="yes" postag="adj:.:v_rod.*pron.*" min="0"/>
+          <token>увагу</token>
+          <token>на</token>
+          <token>себе</token>
+        </pattern>
+        <message>У значенні «зацікавлювати собою» краще вживати дієслово «привертати».</message>
+        <suggestion><match no="1">привертати</match> \2 \3 до \5</suggestion>
+        <example correction="привертати увагу до себе">Хотів <marker>звернути увагу на себе</marker>.</example>
+        <example correction="привертати її увагу до себе">Хотів <marker>звернути її увагу на себе</marker>.</example>
+        <example>звертати увагу на щось</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">звертати|звернути</token>
+          <token>на</token>
+          <token>себе</token>
+          <token postag_regexp="yes" postag="adj:.:v_rod.*pron.*" min="0"/>
+          <token>увагу</token>
+        </pattern>
+        <message>У значенні «зацікавлювати собою» краще вживати дієслово «привертати».</message>
+        <suggestion><match no="1">привертати</match> до \3 \4 \5</suggestion>
+        <example correction="привертати до себе увагу">Хотів <marker>звернути на себе увагу</marker>.</example>
+        <example correction="привертати до себе її увагу">Хотів <marker>звернути на себе її увагу</marker>.</example>
+        <example>звертати на щось увагу</example>
+      </rule>
+    </rulegroup>
+
+    <rule id="verb_short" name="Вкорочені форми дієслів">
       <antipattern>
-        <token regexp="yes">та|й|і</token>
-        <token>давай</token>
-        <token postag_regexp="yes" postag="verb(:rev)?:imperf:inf.*"/>
+        <token negate_pos="yes" postag="SENT_START"/>
+        <token case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ].*</token>
       </antipattern>
       <pattern>
-        <marker>
-          <token regexp="yes">давай(те)?</token>
-          <token postag_regexp="yes" postag="verb(:rev)?:imperf:inf.*|verb(:rev)?:perf:futr:p:1.*"/>
-        </marker>
+        <token postag_regexp="yes" postag="verb.*short.*">
+          <exception regexp="yes">бува|зна|[ву]?мить|занять|стать|постать|повість|знать|чуть|нить|понять</exception>
+          <exception case_sensitive="yes" regexp="yes">Міша|Кива|Чита</exception>
+          <exception postag_regexp="yes" postag="verb.*:3(?!.*short).*|verb.*impr.*"/>
+        </token>
       </pattern>
-      <message>Щоб висловити заклик до спільної дії, варто вживати наказову форму: <suggestion><match no="2" postag_regexp="yes" postag="(verb.*?):(?:futr:p:1(?::subst)?|inf)(.*?)" postag_replace="$1:impr:p:1$2(?!.*:coll).*"/></suggestion></message>
-      <suggestion>нумо <match no="2" postag_regexp="yes" postag="(verb.*?):(?:futr:p:1(?::subst)?|inf)(.*)" postag_replace="$1:impr:p:1$2(?!.*:coll).*"/></suggestion>
-      <url>http://r2u.org.ua/node/216</url>
-      <example correction="Заспіваймо|Нумо заспіваймо"><marker>Давайте заспіваємо</marker></example>
-      <example correction="Скажім|Скажімо|Нумо скажім|Нумо скажімо">«<marker>Давайте скажемо</marker> чесно, що сьогодні ми в Україні не можемо</example>
-      <example correction="Граймо|Нумо граймо"><marker>Давай грати</marker> чесно...</example>
-      <example correction="Пройдімось|Пройдімося|Пройдімся|Нумо пройдімось|Нумо пройдімося|Нумо пройдімся"><marker>Давайте пройдемося</marker></example>
-      <example correction="вчімось|вчімося|вчімся|нумо вчімось|нумо вчімося|нумо вчімся">Тому <marker>давайте вчитися</marker> разом</example>
-      <example correction="скажім|скажімо|нумо скажім|нумо скажімо">Тому <marker>давайте скажем</marker> так</example>
-      <!--
-      <example correction="катаймось|катаймося|катайсь|катайся|катайтесь|катайтеся|нумо катаймось|нумо катаймося|нумо катайсь|нумо катайся|нумо катайтесь|нумо катайтеся"><marker>давайте кататися</marker></example>
-      <example correction="Дивись|Дивися|Дивімось|Дивімося|Дивімся|Дивіться|Нумо диви|Нумо дивись|Нумо дивися|Нумо дивімось|Нумо дивімося|Нумо дивімся|Нумо дивіться"><marker>Давайте дивитися</marker>.</example>
-      -->
-      <example>Давайте горілку</example>
-      <example>Давайте будем знов сміятись</example>
-      <example>Давай оброблятиму тобі землю</example>
-      <example>накидав зверху каміння та давай носити воду</example>
+      <message>Ця дієслівна форма обмежена усним та поетичним мовленням.</message>
+      <suggestion><match no="1" postag_regexp="yes" postag="(verb.*):short(.*)" postag_replace="$1$2"/></suggestion>
+      <example correction="співає">Він <marker>співа</marker>.</example>
+      <example correction="співати">давай <marker>співать</marker>.</example>
+      <example correction="спадає">і він <marker>спада</marker></example>
+      <example>він дає.</example>
+      <example>й бува.</example>
+      <example>Ігоря Поклада</example>
+      <example>стрілять</example>
+      <example>зменшить</example>
+      <example>поясніть</example>
+      <!-- handled (as adv) by simple replace -->
+      <example>чуть</example>
+    </rule>
+
+    <rule id="ne_v_stani" name="Не в стані - не в змозі">
+      <pattern>
+        <marker>
+        <token>не</token>
+        <token regexp="yes">[ву]</token>
+        <token>стані</token>
+        </marker>
+        <token postag_regexp="yes" postag="verb.*inf.*">
+          <exception postag_regexp="yes" postag="noun:[mfn]:v_rod.*"/>
+        </token>
+      </pattern>
+      <message>Краще: <suggestion>не могти</suggestion></message>
+      <suggestion>неспроможний</suggestion>
+      <suggestion>не мати сили</suggestion>
+      <suggestion>не мати змоги</suggestion>
+      <example correction="не могти|неспроможний|не мати сили|не мати змоги">і він був <marker>не в стані</marker> пояснити</example>
+      <example>він був у стані війни</example>
+    </rule>
+
+    <rule id="verb_impr_long" name="Варіативні форми наказового способу">
+      <pattern>
+        <token postag_regexp="yes" postag="verb.*impr.*long.*"/>
+      </pattern>
+      <message>Ця дієслівна форма обмежена усним та поетичним мовленням.</message>
+      <suggestion><match no="1" postag_regexp="yes" postag="(verb.*):long(.*)" postag_replace="$1$2"/></suggestion>
+      <example correction="окропіть">І <marker>окропіте</marker>.</example>
+    </rule>
+
+    <rule id="adj_long" name="Нестягнені форми прикметників">
+      <pattern>
+        <token postag_regexp="yes" postag="adj.*long.*">
+          <exception regexp="yes">цілую|багатії</exception>
+          <exception case_sensitive="yes" regexp="yes">Малая|Тая</exception>
+        </token>
+      </pattern>
+      <message>Ця прикметникова форма обмежена усним та поетичним мовленням.</message>
+      <suggestion><match no="1" postag_regexp="yes" postag="(adj.*):long(.*)" postag_replace="$1$2"/></suggestion>
+      <example correction="гарна"><marker>гарная</marker> галявина.</example>
+      <example>Сирії</example>
+      <example>цілую</example>
+    </rule>
+
+    <rule id="adv_short" name="Вкорочені форми порівняльного ступеня прислівників">
+      <pattern>
+        <token postag_regexp="yes" postag="adv.*short.*">
+          <exception regexp="yes">((що(як)?)?най)?(більш|менш|скоріш|перш)</exception>
+          <exception case_sensitive="yes">Гірш</exception>
+        </token>
+      </pattern>
+      <message>Ця прикметникова форма обмежена усним та поетичним мовленням.</message>
+      <suggestion><match no="1" regexp_match=".*ш" regexp_replace="$0е"/></suggestion>
+      <example correction="гарніше">все <marker>гарніш</marker>.</example>
+      <example>більш і менш</example>
+      <example>щонайбільш</example>
+    </rule>
+
+    <rule id="apo_short" name="Вкорочені форми слів">
+      <pattern>
+        <token postag_regexp="yes" postag=".*short.*" regexp="yes">'.*|.*'</token>
+      </pattern>
+      <message>Ця форма обмежена усним та поетичним мовленням.</message>
+      <example correction="">все <marker>'дно</marker>.</example>
+    </rule>
+
+    <rule id="archaism" name="Архаїзми">
+      <antipattern>
+        <token case_sensitive="yes" regexp="yes">Мо|Сю</token>
+        <token case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ][а-яіїєґ'-]+</token>
+      </antipattern>
+      <antipattern>
+        <token>ні</token>
+        <token>з</token>
+        <token>сього</token>
+      </antipattern>
+      <pattern>
+        <token postag_regexp="yes" postag=".*:arch.*">
+          <exception negate_pos="yes" postag_regexp="yes" postag=".*:arch.*|.*_END"/>
+        </token>
+      </pattern>
+      <message>Це слово або форма є застарілою, архаїчною або діалектною.</message>
+      <example correction="">І <marker>сього</marker> дня.</example>
+      <example>довгу</example>
+      <example>Анголи</example>
+      <example>китаянку Сю Ян</example>
+      <example>бігуна Мо Кейна</example>
+      <example>ні з того ні з сього</example>
+    </rule>
+
+    <rule id="vulgar" name="Вульгаризми">
+      <pattern>
+        <token postag_regexp="yes" postag=".*:vulg.*">
+          <exception negate_pos="yes" postag_regexp="yes" postag=".*:vulg.*|.*_END"/>
+        </token>
+      </pattern>
+      <message>Це слово є вульгарним.</message>
+      <example correction="">«все до <marker>сраки</marker>!»</example>
+      <example correction="">все до <marker>сраки</marker></example>
+    </rule>
+
+    <rule id="vocative_inanim" name="Кличний для неістот">
+      <antipattern>
+        <token>,</token>
+        <unify>
+          <feature id="gender"/>
+          <feature id="case"/>
+          <token postag_regexp="yes" postag="adj:.:v_kly.*" min="0"/>
+          <token postag_regexp="yes" postag="noun:inanim:.:v_kly.*"/>
+        </unify>
+        <token>!</token>
+      </antipattern>
+      <antipattern>
+        <token postag_regexp="yes" postag="verb.*?:impr:.*"/>
+        <token>,</token>
+        <unify>
+          <feature id="gender"/>
+          <feature id="case"/>
+          <token postag_regexp="yes" postag="adj:.:v_kly.*" min="0"/>
+          <token postag_regexp="yes" postag="noun:inanim:.:v_kly.*"/>
+        </unify>
+      </antipattern>
+      <antipattern>
+        <token regexp="yes">ой|о|ох|агов|гей|нумо|годі|гудбай|привіт</token>
+        <unify>
+          <feature id="gender"/>
+          <feature id="case"/>
+          <token postag_regexp="yes" postag="adj:.:v_kly.*" min="0"/>
+          <token postag_regexp="yes" postag="noun:inanim:.:v_kly.*"/>
+        </unify>
+      </antipattern>
+      <antipattern>
+        <token regexp="yes">ой|о|ох|агов|гей|нумо|годі|гудбай|привіт</token>
+        <token min="0">ти</token>
+        <token>,</token>
+        <unify>
+          <feature id="gender"/>
+          <feature id="case"/>
+          <token postag_regexp="yes" postag="adj:.:v_kly.*" min="0"/>
+          <token postag_regexp="yes" postag="noun:inanim:.:v_kly.*"/>
+        </unify>
+      </antipattern>
+      <pattern>
+        <token postag_regexp="yes" postag="noun:inanim:.:v_kly.*">
+          <exception negate_pos="yes" postag_regexp="yes" postag="noun:inanim:.:v_kly.*|verb.*subst.*|.*_END"/>
+          <exception regexp="yes">народе|батьківщино|У?країно|(не)?доле|громадо|вітре|надіє|гол[оі]вонько|святосте|достойносте|красо|діброво|(все)?світе|лишко|братіє|вітчизно|мордо|квітко|зіронько|зірочко|святине|годинонько|хвилинонько|маро|зброє|весно|ноче|редакціє|(ред)?колегіє|думо|націє|владо|верше|душко|публіко</exception>
+          <!-- рідкіші
+          <exception regexp="yes">трояндо|долино|книго|суде|радосте|скорбото|красо|шкуро|втіхо|завірюхо|чарочко|кровиночко|холеро|шкапо|луже|вельможносте|веснонько|лапко|пучино|долино|молитво|хвиле|хмаро|згубо|славо|ніченько|березо|вербо|розпуко|худобо|вітре|морозе</exception>
+          -->
+          <exception case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ][а-яіїєґ'].*</exception>
+          <exception case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ]+</exception>
+        </token>
+      </pattern>
+      <message>Форми кличного відмінку для неістот мають обмежене вживання.</message>
+      <example correction=""><marker>автокомісійко</marker>.</example>
+      <example correction=""><marker>аберометре</marker></example>
+      <example correction=""><marker>роде</marker></example>
+      <example>того.</example>
+      <example>Матіоло.</example>
+      <example>ПАСЕ</example>
+      <example>прощавай, стара імперіє</example>
+      <example>ой, хато ти моя</example>
+      <example>агов тумане</example>
+      <example>Вітання, спільното!</example>
+      <example>... та інша високоповажна публіко!</example>
     </rule>
 
     <rule id="u_znak_vdiachnosti" name="У знак вдячності">
@@ -1762,7 +2920,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rulegroup id="passive_predicate" name="Замість пасивних конструкцій із діячем (наприклад, нами розглянуто) рекомендовано вживати активні конструкції (ми розглянули)">
       <rule>
         <pattern>
-          <token postag_regexp="yes" postag="noun.*v_zna.*|adj:n:v_zna:&amp;pron:(gen|dem).*"/>
+          <token postag_regexp="yes" postag="(noun|numr).*v_zna.*|adj:n:v_zna:&amp;pron:(gen|dem).*"/>
           <marker>
             <token min="0">було</token>
             <token postag_regexp="yes" postag="verb.*:impers.*">
@@ -1792,6 +2950,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="">Це <marker>зроблено шановним академіком</marker>.</example>
         <example correction="">Громадянство <marker>отримано ним</marker> законно.</example>
         <example correction="">Користувача <marker>авторизовано адміністратором</marker>.</example>
+        <example correction="">15 тис. <marker>отримано фахівцями</marker>.</example>
         <!-- TODO:
         <example correction="">про це <marker>було заявлено нашими міністрами </marker>.</example>
         -->
@@ -1847,7 +3006,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <or>
             <token postag_regexp="yes" postag="noun:anim:.:v_oru.*">
-              <exception negate_pos="yes" postag_regexp="yes" postag="noun:anim:.:v_oru.*"/>
+              <exception negate_pos="yes" postag_regexp="yes" postag="noun:anim:.:v_oru.*|.*_END"/>
               <exception postag_regexp="yes" postag="noun.*?pron.*"/>
               <exception postag_regexp="yes" postag="&lt;(adv|insert)&gt;"/>
               <exception>персоною</exception>
@@ -1887,26 +3046,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
 
     <rule id="cholovik_with_numr" name="«Чоловік» з числівниками">
+      <antipattern>
+        <token regexp="yes">чоловік[аи]?</token>
+        <token min="0" max="2"/>
+        <token regexp="yes">жінок|жінки|жінка</token>
+      </antipattern>
       <pattern>
-        <token postag=".*num.*" postag_regexp="yes">
-          <exception inflected="yes" regexp="yes">один|обидва</exception>
-          <exception postag_regexp="yes" postag="adj:m:.*"/>
-        </token>
-        <marker>
-          <token regexp="yes" skip="-1">чоловік|чоловіка|чоловіки
-            <exception scope="next" regexp="yes">жінок|жінки|жінка</exception>
+        <or>
+          <token postag=".*num.*" postag_regexp="yes">
+            <exception inflected="yes" regexp="yes">один|обидва|два</exception>
+            <exception postag_regexp="yes" postag="adj:m:.*"/>
           </token>
+          <token>%</token>
+        </or>
+        <marker>
+          <token regexp="yes">чоловік[аи]?</token>
         </marker>
-        <token postag="SENT_END"/>
       </pattern>
       <message>Деякі мовні стилісти радять вживати «осіб»: \1 <suggestion>осіб</suggestion></message>
       <url>http://mova.kreschatic.kiev.ua/32.php</url>
       <example correction="осіб">На заході побувало триста <marker>чоловік</marker>.</example>
       <example correction="осіб">280 мільйонів <marker>чоловік</marker>.</example>
+      <example correction="осіб">280% <marker>чоловік</marker>.</example>
       <example>На заході побувало 21 чоловік і 15 жінок.</example>
       <example>791 чоловік, 43 жінки</example>
       <example>Один чоловік сказав мені таке...</example>
       <example>Її першого чоловіка.</example>
+      <example>3703 чоловіки та 114 жінок</example>
+      <example>два чоловіки й жінка</example>
     </rule>
 
     <rule id="viyskova_pidgotovka" name="Військова підготовка">
@@ -1930,6 +3097,96 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="торік|минулого року|того року"><marker>в минулому році</marker></example>
     </rule>
 
+    <rule id="vuhan" name="Вухань">
+      <pattern>
+        <token inflected="yes">Ухань</token>
+      </pattern>
+      <message>За системою транскрипції Кірносової-Цісар, має бути <suggestion>Вухань</suggestion></message>
+      <url>https://uk.wikipedia.org/wiki/%D0%A1%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0_%D0%9A%D1%96%D1%80%D0%BD%D0%BE%D1%81%D0%BE%D0%B2%D0%BE%D1%97%E2%80%94%D0%A6%D1%96%D1%81%D0%B0%D1%80</url>
+      <example correction="Вухань"><marker>Ухань</marker></example>
+    </rule>
+
+    <rule id="korotshe_kazhychy" name="Коротше кажучи">
+      <pattern>
+        <token>коротше</token>
+        <token>кажучи</token>
+      </pattern>
+      <message>Краще: <suggestion>коротко кажучи</suggestion></message>
+      <suggestion>(одним) словом</suggestion>
+      <example correction="Коротко кажучи|(Одним) словом"><marker>Коротше кажучи</marker></example>
+      <example>Коротко кажучи</example>
+    </rule>
+
+
+    <!-- suggestions supported only by some (albeit popular) sources -->
+
+    <rulegroup id="buty_pravym" name="Бути правим">
+      <rule>
+        <antipattern>
+          <token inflected="yes">право</token>
+          <token postag_regexp="yes" postag="noun:.*:v_rod.*">
+          <!--
+            <exception postag_regexp="yes" postag="noun:.*:v_(naz|oru).*"/>
+          -->
+          </token>
+        </antipattern>
+        <antipattern>
+          <token inflected="yes">право</token>
+          <token>на</token>
+          <token postag_regexp="yes" postag="noun:.*:v_naz.*"/>
+        </antipattern>
+        <pattern>
+          <marker>
+            <unify>
+              <feature id="number"/>
+
+              <token inflected="yes" postag_regexp="yes" negate_pos="yes" postag="verb:imperf:.*?:n(:.*|$)">бути
+                <exception>суть</exception>
+              </token>
+              <token regexp="yes" min="0">би?</token>
+              <token inflected="yes" postag_regexp="yes" postag="adj:.:v_(naz|oru).*">правий</token>
+            </unify>
+          </marker>
+          <token>
+            <exception regexp="yes" inflected="yes" postag_regexp="yes" postag="noun.*?:v_(naz|oru).*">рука|політик|партія|сила|консерватор</exception>
+            <exception inflected="yes">качати</exception>
+            <exception postag_regexp="yes" postag="verb:.*?:inf.*"/>
+          </token>
+        </pattern>
+        <message>Деякі мовознавці вважають, що у значенні «такий, що правильно мислить, діє» правильно: <suggestion>мати рацію</suggestion></message>
+        <suggestion>мати слушність</suggestion>
+        <suggestion>(чиясь) правда</suggestion>
+        <example correction="мати рацію|мати слушність|(чиясь) правда">може <marker>бути правим</marker> лише тому.</example>
+        <example correction="мати рацію|мати слушність|(чиясь) правда">класики <marker>були праві</marker>.</example>
+        <example correction="мати рацію|мати слушність|(чиясь) правда">він <marker>був правий</marker>.</example>
+        <!--
+        <example correction="мати рацію|мати слушність|(чиясь) правда">вона <marker>буде права</marker>.</example>
+        -->
+        <example>співак є правою рукою дизайнера Анни</example>
+        <example>зверху була права рука</example>
+        <example>не було правого сидіння</example>
+        <example>буде права качати</example>
+        <example>у них не було права</example>
+        <example>у них були права й привілеї</example>
+        <example>завтра не буде права нарікати</example>
+        <example>у них не було права на смерть</example>
+        <example>найважливішими є права людини</example>
+      </rule>
+    </rulegroup>
+
+    <rule id="liky_vid" name="Ліки від">
+      <pattern>
+        <token inflected="yes">ліки</token>
+        <marker>
+          <token>від</token>
+        </marker>
+      </pattern>
+      <message>На думку Антоненка-Давидовича правильно: <suggestion>проти</suggestion>, але в мовній практиці переважає «від»</message>
+      <url>http://yak-my-hovorymo.wikidot.com/pryjmennyky#vid-proty-na-proty</url>
+      <example correction="проти">ліки <marker>від</marker> усяких хвороб</example>
+      <example>ліки проти усяких хвороб</example>
+    </rule>
+
     <rule id="na_protyazi" name="На протязі">
       <pattern>
         <marker>
@@ -1950,13 +3207,103 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>той стояв на протязі кілька хвилин.</example>
     </rule>
 
-    <rule id="vuhan" name="Вухань">
+    <rule id="pry_bazhanni" name="При бажанні">
       <pattern>
-        <token inflected="yes">Ухань</token>
+        <token>при</token>
+        <token>бажанні</token>
       </pattern>
-      <message>За системою транскрипції Кірносової-Цісар, має бути <suggestion>Вухань</suggestion></message>
-      <url>https://uk.wikipedia.org/wiki/%D0%A1%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0_%D0%9A%D1%96%D1%80%D0%BD%D0%BE%D1%81%D0%BE%D0%B2%D0%BE%D1%97%E2%80%94%D0%A6%D1%96%D1%81%D0%B0%D1%80</url>
-      <example correction="Вухань"><marker>Ухань</marker></example>
+      <message>На думку деяких мовознавців, слід вживати <suggestion>якщо є охота (бажання)</suggestion>, <suggestion>якщо (коли) маєш (маєте) бажання (охоту)</suggestion></message>
+      <example correction="Якщо є охота (бажання)|Якщо (коли) маєш (маєте) бажання (охоту)"><marker>При бажанні</marker> Блохін може залишитися в Динамо</example>
+      <example>Якщо Блохін має бажання він може залишитися в Динамо</example>
+    </rule>
+
+    <rulegroup id="vyglyadaty_vs_maty_vyglyad" name="Виглядати і мати вигляд">
+      <rule>
+        <pattern>
+         <token regexp='yes'>(не)?погано|(не)?добре|(не)?гарно|інакше|щасливо|смішно|чудово|страшно|розумно|краще|файно|кепсько</token>
+         <token inflected='yes'>виглядати</token>
+        </pattern>
+        <message>На думку деяких мовознавців, «виглядати» в цьому значенні вживати недоречно, але в загальній мовній практиці вживають обидва вислови.</message>
+        <suggestion>мати (який) вигляд (подобу, постать)</suggestion>
+        <example correction="мати (який) вигляд (подобу, постать)">Вона <marker>гарно виглядає</marker>.</example>
+        <example>Вона виглядає з вікна.</example>
+      </rule>
+      
+      <rule>
+        <pattern>
+          <token inflected='yes'>виглядати</token>
+          <token regexp='yes'>(не)?погано|(не)?добре|(не)?гарно|інакше|щасливо|смішно|чудово|страшно|розумно|краще|файно|кепсько</token>
+        </pattern>
+        <message>На думку деяких мовознавців, «виглядати» в цьому значенні вживати недоречно, але в загальній мовній практиці вживають обидва вислови.</message>
+        <suggestion>мати (який) вигляд (подобу, постать)</suggestion>
+       <example correction="мати (який) вигляд (подобу, постать)">Вона <marker>виглядає гарно</marker>.</example>
+        <example>Вона виглядає з вікна.</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="OBYEM_VS_OBSYAG" name="Об'єм замість обсяг">
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">об'єм</token>
+          </marker>
+          <token postag_regexp="yes" postag="adj:.:v_rod.*" min="0"/>
+          <token inflected="yes" postag_regexp="yes" postag="noun:inanim:.:v_rod.*" regexp="yes">будівництво|бюджет|знання|інформація|капіталовкладення|навантаженя|продукція|постачання|робота</token>
+        </pattern>
+        <message>Правильно: <suggestion>обсяг</suggestion></message>
+        <example correction="Обсяг"><marker>Об'єм</marker> продукції збільшився вдвічи</example>
+        <example>Об'єм двигуна - 3 кубічних дециметри</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">об'єм</token>
+          </marker>
+          <token postag_regexp="yes" postag="adj:.:v_rod.*" min="0"/>
+          <token>пам'яті</token>
+        </pattern>
+        <message>Правильно: <suggestion>місткість</suggestion></message>
+        <suggestion>обсяг</suggestion>
+        <example correction="місткість|обсяг"><marker>об'єм</marker> оперативної пам'яті</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">обсяг</token>
+          </marker>
+          <token postag_regexp="yes" postag="adj:.:v_rod.*" min="0"/>
+          <token inflected="yes" postag_regexp="yes" postag="noun:inanim:.:v_rod.*">рідина</token>
+        </pattern>
+        <message>Правильно: <suggestion>об'єм</suggestion></message>
+        <example correction="Об'єм"><marker>Обсяг</marker> рідини</example>
+      </rule>
+    </rulegroup>
+
+    <rule id="V_SHOCI" name="В шоці">
+      <pattern>
+        <token regexp="yes">[ув]</token>
+        <token postag_regexp="yes" postag="adj:m:v_mis.*" min="0"/>
+        <token>шоці</token>
+      </pattern>
+      <message>Деякі мовознавці вважають форму «шоці» небажаною</message>
+      <suggestion>шокований</suggestion>
+      <suggestion>(кого) взяв/охопив шок</suggestion>
+      <suggestion><match no="1"/> <match no="2"/> шоку</suggestion>
+      <example correction="шокований|(кого) взяв/охопив шок|в легкому шоку">я <marker>в легкому шоці</marker></example>
+      <example correction="шокований|(кого) взяв/охопив шок|в шоку">я <marker>в шоці</marker></example>
+    </rule>
+
+    <rule id="nadavaty_perevagu" name="Надавати перевагу" default="off">
+      <pattern>
+        <marker>
+          <token inflected="yes">надавати</token>
+        </marker>
+        <token>перевагу</token>
+      </pattern>
+      <message>Правильно: <suggestion>віддавати</suggestion></message>
+      <example correction="віддавати">Він <marker>надавав</marker> перевагу іншому способу.</example>
     </rule>
 
 <!--

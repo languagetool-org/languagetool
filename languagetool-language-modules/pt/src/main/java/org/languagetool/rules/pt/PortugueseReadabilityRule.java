@@ -16,11 +16,9 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-
 package org.languagetool.rules.pt;
 
 import java.util.ResourceBundle;
-import java.util.regex.Pattern;
 
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
@@ -38,7 +36,7 @@ import org.languagetool.rules.Category.Location;
  */
 public class PortugueseReadabilityRule extends ReadabilityRule {
   
-  boolean tooEasyTest;
+  private final boolean tooEasyTest;
 
   public PortugueseReadabilityRule(ResourceBundle messages, Language lang, UserConfig userConfig, boolean tooEasyTest) {
     this (messages, lang, userConfig, tooEasyTest, -1, false);
@@ -66,7 +64,7 @@ public class PortugueseReadabilityRule extends ReadabilityRule {
 
   @Override
   public String getId(boolean tooEasyTest) {
-    if(tooEasyTest) {
+    if (tooEasyTest) {
       return "READABILITY_RULE_SIMPLE_PT";
     } else {
       return "READABILITY_RULE_DIFFICULT_PT";
@@ -75,7 +73,7 @@ public class PortugueseReadabilityRule extends ReadabilityRule {
 
   @Override
   public String getDescription() {
-    if(tooEasyTest) {
+    if (tooEasyTest) {
       return "Legibilidade: texto demasiado simples";
     } else {
       return "Legibilidade: texto demasiado complexo";
@@ -106,18 +104,17 @@ public class PortugueseReadabilityRule extends ReadabilityRule {
   }
   
   @Override
-  protected String getMessage(int level, int FRE, int ASL, int ASW) {
+  protected String getMessage(int level, int fre, int asl, int asw) {
     String simple;
     String few;
-
-    if(tooEasyTest) {
+    if (tooEasyTest) {
       simple = "fácil";
       few = "poucas";
     } else {
       simple = "difícil";
       few = "muitas";
     }
-    return "Legibilidade {FRE: " + FRE +", ASL: " + ASL + ", ASW: " + ASW + "}: O texto deste parágrafo é " + simple + printMessageLevel(level) + ". Tem "
+    return "Legibilidade {FRE: " + fre +", ASL: " + asl + ", ASW: " + asw + "}: O texto deste parágrafo é " + simple + printMessageLevel(level) + ". Tem "
         + few + " palavras por frase e " + few + " sílabas por palavra.";
   }
 
@@ -126,17 +123,17 @@ public class PortugueseReadabilityRule extends ReadabilityRule {
     return "Nível de legibilidade 0 (muito difícil) a 6 (muito fácil):";
   }
 
+  /* Equation for readability
+   * FRE = Flesch-Reading-Ease
+   * ASL = Average Sentence Length
+   * ASW = Average Number of Syllables per Word
+   * English:    FRE= 206,835 - ( 1,015 * ASL ) - ( 84,6 * ASW )
+   * Portuguese: FRE= 206,840 - ( 1.020 * ASL ) - ( 60.0 * ASW )
+   * http://ridi.ibict.br/bitstream/123456789/273/1/EnyIS2007.pdf
+   */
   @Override
-          /* Equation for readability
-           * FRE = Flesch-Reading-Ease
-           * ASL = Average Sentence Length
-           * ASW = Average Number of Syllables per Word
-           * English:    FRE= 206,835 - ( 1,015 * ASL ) - ( 84,6 * ASW )
-           * Portuguese: FRE= 206,840 - ( 1.020 * ASL ) - ( 60.0 * ASW )
-           * http://ridi.ibict.br/bitstream/123456789/273/1/EnyIS2007.pdf
-           */
-  protected double getFleschReadingEase(double ASL, double ASW) {
-    return 206.84 - (1.02 * ASL) - ( 60.0 * ASW );  //  Portuguese
+  protected double getFleschReadingEase(double asl, double asw) {
+    return 206.84 - (1.02 * asl) - ( 60.0 * asw);  //  Portuguese
   }
   
   private static boolean isVowel(char c) {
@@ -151,22 +148,22 @@ public class PortugueseReadabilityRule extends ReadabilityRule {
   
   @Override
   protected int simpleSyllablesCount(String word) {
-    if(word.length() == 0) {
+    if (word.length() == 0) {
       return 0;
     }
     int nSyllables = 0;
-    if(isVowel(word.charAt(0))) {
+    if (isVowel(word.charAt(0))) {
       nSyllables++;
     }
     boolean lastDouble = false;
     for (int i = 1; i < word.length(); i++) {
       char c = word.charAt(i);
-      if(isVowel(c)) {
+      if (isVowel(c)) {
         char cl = word.charAt(i - 1);
-        if(lastDouble) {
+        if (lastDouble) {
           nSyllables++;
           lastDouble = false;
-        } else if(((c == 'ã' || c == 'õ') && (cl == 'e' || cl == 'o')) || 
+        } else if (((c == 'ã' || c == 'õ') && (cl == 'e' || cl == 'o')) || 
             (c == 'a' && (cl == 'e' || cl == 'i' || cl == 'í' || cl == 'o' || cl == 'u' || cl == 'ú')) ||
             (c == 'e' && (cl == 'e' || cl == 'i' || cl == 'í' || cl == 'o' || cl == 'a' || cl == 'u')) ||
             (c == 'i' && (cl == 'a' || cl == 'e' || cl == 'o' || cl == 'u' || cl == 'á' || cl == 'é')) ||
@@ -185,7 +182,5 @@ public class PortugueseReadabilityRule extends ReadabilityRule {
     }
     return nSyllables == 0 ? 1 : nSyllables;
   }
-
-
 
 }

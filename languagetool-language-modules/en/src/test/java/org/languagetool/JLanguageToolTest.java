@@ -41,13 +41,13 @@ import static org.junit.Assert.*;
 
 public class JLanguageToolTest {
 
-  @Ignore("not a test, but used on http://wiki.languagetool.org/java-api")
+  @Ignore("not a test, but used on https://dev.languagetool.org/java-api")
   @Test
   public void demoCodeForHomepage() throws IOException {
-    JLanguageTool langTool = new JLanguageTool(new BritishEnglish());
+    JLanguageTool lt = new JLanguageTool(new BritishEnglish());
     // comment in to use statistical ngram data:
-    //langTool.activateLanguageModelRules(new File("/data/google-ngram-data"));
-    List<RuleMatch> matches = langTool.check("A sentence with a error in the Hitchhiker's Guide tot he Galaxy");
+    //lt.activateLanguageModelRules(new File("/data/google-ngram-data"));
+    List<RuleMatch> matches = lt.check("A sentence with a error in the Hitchhiker's Guide tot he Galaxy");
     for (RuleMatch match : matches) {
       System.out.println("Potential error at characters " +
           match.getFromPos() + "-" + match.getToPos() + ": " +
@@ -57,16 +57,16 @@ public class JLanguageToolTest {
     }
   }
 
-  @Ignore("not a test, but used on http://wiki.languagetool.org/java-spell-checker")
+  @Ignore("not a test, but used on https://dev.languagetool.org/java-spell-checker")
   @Test
   public void spellCheckerDemoCodeForHomepage() throws IOException {
-    JLanguageTool langTool = new JLanguageTool(new BritishEnglish());
-    for (Rule rule : langTool.getAllRules()) {
+    JLanguageTool lt = new JLanguageTool(new BritishEnglish());
+    for (Rule rule : lt.getAllRules()) {
       if (!rule.isDictionaryBasedSpellingRule()) {
-        langTool.disableRule(rule.getId());
+        lt.disableRule(rule.getId());
       }
     }
-    List<RuleMatch> matches = langTool.check("A speling error");
+    List<RuleMatch> matches = lt.check("A speling error");
     for (RuleMatch match : matches) {
       System.out.println("Potential typo at characters " +
           match.getFromPos() + "-" + match.getToPos() + ": " +
@@ -76,16 +76,16 @@ public class JLanguageToolTest {
     }
   }
 
-  @Ignore("not a test, but used on http://wiki.languagetool.org/java-spell-checker")
+  @Ignore("not a test, but used on https://dev.languagetool.org/java-spell-checker")
   @Test
   public void spellCheckerDemoCodeForHomepageWithAddedWords() throws IOException {
-    JLanguageTool langTool = new JLanguageTool(new BritishEnglish());
-    for (Rule rule : langTool.getAllRules()) {
+    JLanguageTool lt = new JLanguageTool(new BritishEnglish());
+    for (Rule rule : lt.getAllRules()) {
       if (rule instanceof SpellingCheckRule) {
         ((SpellingCheckRule) rule).addIgnoreTokens(Arrays.asList("myspecialword", "anotherspecialword"));
       }
     }
-    List<RuleMatch> matches = langTool.check("These are myspecialword and anotherspecialword");
+    List<RuleMatch> matches = lt.check("These are myspecialword and anotherspecialword");
     System.out.println(matches.size() + " matches");   // => "0 matches"
   }
 
@@ -121,7 +121,11 @@ public class JLanguageToolTest {
       assertNoError("I can give you more a detailed description.", lt);
       assertOneError("I've go to go.", lt);
       lt.disableCategory(Categories.TYPOS.getId());
-      assertNoError("I've go to go.", lt);
+      if (Premium.isPremiumVersion()) {
+        assertOneError("I've go to go.", lt);
+      } else {
+        assertNoError("I've go to go.", lt);
+      }
     }
   }
 
@@ -154,7 +158,14 @@ public class JLanguageToolTest {
     assertEquals(1, matches.size());
     RuleMatch match = matches.get(0);
     assertEquals(2, match.getLine());
-    assertEquals(14, match.getColumn());   // TODO: should actually be 15, as in testPositionsWithEnglish()
+    // It was 14. It should actually be 15, as in testPositionsWithEnglish(). 
+    // Fixed thanks to a change in the sentence split.
+    if (Premium.isPremiumVersion()) {
+      // TODO: there should be no difference here
+      assertEquals(14, match.getColumn());
+    } else {
+      assertEquals(15, match.getColumn());
+    }
   }
 
   @Test
@@ -274,5 +285,15 @@ public class JLanguageToolTest {
     public int minToCheckParagraph() {
       return -1;
     }
+  }
+  
+  @Test
+  public void testAdvancedTypography() {
+    Language lang = new AmericanEnglish();
+    assertEquals(lang.toAdvancedTypography("The genitive ('s) may be missing."), "The genitive (’s) may be missing.");
+    assertEquals(lang.toAdvancedTypography("The word 'Language‘s' is not standard English"), "The word ‘Language‘s’ is not standard English");
+    assertEquals(lang.toAdvancedTypography("Did you mean <suggestion>Language's</suggestion> (straight apostrophe) or <suggestion>Language’s</suggestion> (curly apostrophe)?"), "Did you mean “Language's” (straight apostrophe) or “Language’s” (curly apostrophe)?");
+    assertEquals(lang.toAdvancedTypography("Did you mean <suggestion>Language’s</suggestion> (curly apostrophe) or <suggestion>Language's</suggestion> (straight apostrophe)?"), "Did you mean “Language’s” (curly apostrophe) or “Language's” (straight apostrophe)?");
+    assertEquals(lang.toAdvancedTypography("Did you mean <suggestion>|?</suggestion>"), "Did you mean “|?”");
   }
 }

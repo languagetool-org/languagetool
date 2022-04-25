@@ -1,0 +1,130 @@
+version: 2.1
+parameters:
+  run_on_pull:
+    default: true
+    type: boolean
+orbs:
+  shallow-checkout: expo/shallow-checkout@1.0.2
+workflows:
+  version: 2
+  scheduled-workflow:
+    # run when triggered by scheduled 
+    when:
+      and:
+        - equal: [ scheduled_pipeline, << pipeline.trigger_source >> ]
+        - equal: [ "RunFullTest", << pipeline.schedule.name >> ]
+    jobs:
+      - test-and-deploy-full
+  on-demand-workflow:
+    # run when triggered manual
+    when: 
+      and:
+        - not:
+            equal: [ scheduled_pipeline, << pipeline.trigger_source >> ]
+        - not:
+            equal:  [ true, << pipeline.parameters.run_on_pull >> ]
+    jobs:
+      - test-and-deploy-full
+  commit-triggerd-workflow:
+    # run on commit
+    when:
+      and:
+        - not:
+            equal: [ scheduled_pipeline, << pipeline.trigger_source >> ]
+        - equal: [ true, << pipeline.parameters.run_on_pull >> ]            
+    jobs:
+      - test-and-deploy-partial          
+jobs:
+  test-and-deploy-full:
+    resource_class: medium
+    executor:
+      name: docker-openjdk11
+    environment:
+      MAVEN_OPTS: -Xmx3200m
+    steps:
+      - custom-checkout
+      - install-project
+      - run:
+          name: test full
+          command: |
+            cd $CIRCLE_WORKING_DIRECTORY && mvn test -fae
+      - save-test-results
+      - run:
+          name: deploy full
+          command: |
+            cd $CIRCLE_WORKING_DIRECTORY && mvn -s .circleci.settings.xml -DskipTests deploy
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: v1-dependencies-{{ checksum "/home/circleci/project/~/project/pom.xml" }}
+  test-and-deploy-partial:
+    resource_class: medium
+    executor: 
+      name: docker-openjdk11
+    environment: 
+      MAVEN_OPTS: -Xmx3200m
+    steps:
+      - custom-checkout
+      - get-diffs
+      - install-project
+      - run:
+          name: test modules
+          command: |
+            cd $CIRCLE_WORKING_DIRECTORY && ./test-modules.sh
+      - save-test-results
+      - run:
+          name: deploy modules
+          command: |
+            cd $CIRCLE_WORKING_DIRECTORY && ./deploy-modules.sh
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: v1-dependencies-{{ checksum "/home/circleci/project/~/project/pom.xml" }}
+      - trigger-premium-pipeline
+commands:
+  custom-checkout:
+    description: My custom checkout
+    steps:
+      - shallow-checkout/checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "/home/circleci/project/~/project/pom.xml" }}
+            - v1-dependencies-
+  get-diffs:
+    description: Get files changed
+    steps:
+      - run: cd $CIRCLE_WORKING_DIRECTORY && git diff --name-only <<pipeline.git.base_revision>>..<<pipeline.git.revision>> > /home/circleci/git_diffs.txt || echo "languagetool-core/run_tests" > /home/circleci/git_diffs.txt
+      - run:
+          name: Check if diff file has content otherwise add core to force test all
+          command: |
+            if [ -s /home/circleci/git_diffs.txt ]
+            then
+              tail /home/circleci/git_diffs.txt
+            else
+              echo "languagetool-core/run_tests" > /home/circleci/git_diffs.txt
+            fi
+  install-project:
+    description: Run maven install
+    steps:
+      - run: cd $CIRCLE_WORKING_DIRECTORY && mvn clean install -DskipTests
+      - run: cd $CIRCLE_WORKING_DIRECTORY && mvn dependency:go-offline
+  save-test-results:
+    steps:
+      - run:
+          name: Save test results
+          command: |
+            mkdir -p ~/test-results/junit/
+            find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} ~/test-results/junit/ \;
+          when: always
+      - store_test_results: 
+          path: ~/test-results
+  trigger-premium-pipeline:
+    steps:
+      - run:
+          name: Kick off new premium pipeline
+          command: |
+            cd $CIRCLE_WORKING_DIRECTORY && .circleci/kick_off_premium.sh
+executors:
+  docker-openjdk11:
+    docker:
+      - image: cimg/openjdk:11.0

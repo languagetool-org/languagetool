@@ -18,26 +18,26 @@
  */
 package org.languagetool;
 
+import org.hamcrest.CoreMatchers;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.languagetool.language.*;
+import org.languagetool.language.AmericanEnglish;
+import org.languagetool.language.Demo;
+import org.languagetool.language.English;
+import org.languagetool.language.GermanyGerman;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
-import org.languagetool.rules.CategoryId;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.TextLevelRule;
+import org.languagetool.rules.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class JLanguageToolTest {
 
@@ -60,7 +60,7 @@ public class JLanguageToolTest {
 
   @Test
   public void testIsPremium() {
-    assertFalse(JLanguageTool.isPremiumVersion());
+    assertFalse(Premium.isPremiumVersion());
   }
 
   @Test
@@ -260,6 +260,117 @@ public class JLanguageToolTest {
     assertThat(cache.hitCount(), is(8L));
     assertThat(ltWithCache.check("Ein Delphin. Noch ein Delphin.").size(), is(0));   // try again - no state is kept
     assertThat(cache.hitCount(), is(12L));
+  }
+
+  class InternalRule extends Rule{
+    @Override
+    public String getId() {
+      return "INTERNAL_RULE";
+    }
+    @Override
+    public String getDescription() {
+      return "Internal rule";
+    }
+    @Override
+    public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+      throw new UnsupportedOperationException();
+    }
+  }
+
+  @Test
+  public void testDisableInternalRule() throws IOException {
+    JLanguageTool lt = new JLanguageTool(new Demo(), null);
+    lt.addRule(new DemoRule() {
+      @Override
+      public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+        return toRuleMatchArray(Arrays.stream(super.match(sentence)).map(match ->
+          new RuleMatch(new InternalRule(), sentence, match.getFromPos(), match.getToPos(), match.getMessage())
+        ).collect(Collectors.toList()));
+      }
+    });
+    List<RuleMatch> matches;
+    List<Rule> rules;
+
+    String text = "demo";
+    matches = lt.check(text);
+    rules = matches.stream().map(RuleMatch::getRule).collect(Collectors.toList());
+    assertThat(rules, is(not(hasItem(CoreMatchers.isA(DemoRule.class)))));
+    assertThat(rules, is(hasItem(CoreMatchers.isA(InternalRule.class))));
+
+    // disabling implementing rule works
+    lt.disableRule(new DemoRule().getId());
+    matches = lt.check(text);
+    assertThat(matches.size(), is(0));
+
+    // reset
+    lt.enableRule(new DemoRule().getId());
+    matches = lt.check(text);
+    assertThat(matches.size(), is(not(0)));
+
+    // disabling match rule works
+    lt.disableRule(new InternalRule().getId());
+    matches = lt.check(text);
+    assertThat(matches.size(), is(0));
+
+  }
+
+  class TestRule extends Rule{
+    private final int subId;
+
+    public TestRule(int subId) {
+      this.subId = subId;
+    }
+
+    @Override
+    public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+      return toRuleMatchArray(Collections.emptyList());
+    }
+
+    @Override
+    public String getFullId() {
+      return String.format("TEST_RULE[%d]", subId);
+    }
+
+    @Override
+    public String getDescription() {
+      return "Test rule";
+    }
+
+    @Override
+    public String getId() {
+      return "TEST_RULE";
+    }
+  }
+
+  @Test
+  public void testDisableFullId() {
+    List<Rule> activeRules;
+    JLanguageTool lt = new JLanguageTool(new Demo(), null);
+    Rule testRule1 = new TestRule(1), testRule2 = new TestRule(2);
+    // preconditions / sanity checks
+    assertEquals("ruleID equal", testRule1.getId(), testRule2.getId());
+    assertNotEquals("fullRuleID not equal", testRule1.getFullId(), testRule2.getFullId());
+    assertNotEquals("rule objects not equal", testRule1, testRule2);
+
+    lt.addRule(testRule1);
+    lt.addRule(testRule2);
+
+    activeRules = lt.getAllActiveRules();
+    assertTrue("added rules are active", activeRules.contains(testRule1));
+    assertTrue("added rules are active", activeRules.contains(testRule2));
+
+    // disable rule TEST_RULE -> both TEST_RULE[1] and TEST_RULE[2] should be disabled
+    lt.disableRule(testRule1.getId());
+    activeRules = lt.getAllActiveRules();
+    assertFalse("rules are disabled", activeRules.contains(testRule1));
+    assertFalse("rules are disabled", activeRules.contains(testRule2));
+
+    // enable TEST_RULE, disable TEST_RULE[1] -> only TEST_RULE[2] active
+    lt.enableRule(testRule1.getId());
+    lt.disableRule(testRule1.getFullId());
+    activeRules = lt.getAllActiveRules();
+    assertFalse("rule disabled by full ID", activeRules.contains(testRule1));
+    assertTrue("rule enabled by partial ID ", activeRules.contains(testRule2));
   }
 
   private class IgnoreInterval {

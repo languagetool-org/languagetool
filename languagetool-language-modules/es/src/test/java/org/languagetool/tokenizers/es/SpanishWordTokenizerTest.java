@@ -26,6 +26,7 @@ import java.util.List;
 import org.junit.Test;
 
 public class SpanishWordTokenizerTest {
+
   @Test
   public void testTokenize() {
     final SpanishWordTokenizer wordTokenizer = new SpanishWordTokenizer();
@@ -56,5 +57,25 @@ public class SpanishWordTokenizerTest {
     tokens = wordTokenizer.tokenize("1,400.50$");
     assertEquals(tokens.size(), 1);
     assertEquals("[1,400.50$]", tokens.toString());
+    
+    tokens = wordTokenizer.tokenize("Ven ‒dijo."); // \u2012
+    assertEquals(tokens.size(), 5);
+    assertEquals("[Ven,  , ‒, dijo, .]", tokens.toString());
+    
+    tokens = wordTokenizer.tokenize("1.º");
+    assertEquals(tokens.size(), 1);
+    
+    tokens = wordTokenizer.tokenize("Es la 21.ª y el 45.º");
+    assertEquals(tokens.size(), 11);
+    
+    tokens = wordTokenizer.tokenize("Es la 21.a y el 45.o");
+    assertEquals(tokens.size(), 11);
+    
+    tokens = wordTokenizer.tokenize("11.as Jornadas de Estudio");
+    assertEquals(tokens.size(), 7);
+    assertEquals("[11.as,  , Jornadas,  , de,  , Estudio]", tokens.toString());
+    
+    tokens = wordTokenizer.tokenize("al-Ándalus");
+    assertEquals(tokens.size(), 1);
   }
 }

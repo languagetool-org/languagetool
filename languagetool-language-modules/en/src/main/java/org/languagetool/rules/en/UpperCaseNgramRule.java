@@ -22,16 +22,20 @@ import com.hankcs.algorithm.AhoCorasickDoubleArrayTrie;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
+import org.languagetool.LinguServices;
+import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.ngrams.Probability;
 import org.languagetool.rules.patterns.PatternToken;
+import org.languagetool.rules.patterns.PatternTokenBuilder;
 import org.languagetool.rules.spelling.CachingWordListLoader;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.function.Supplier;
 
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.token;
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.pos;
@@ -46,7 +50,8 @@ public class UpperCaseNgramRule extends Rule {
 
   public static final int THRESHOLD = 50;
   private static MorfologikAmericanSpellerRule spellerRule;
-  private static Set<String> exceptions = new HashSet<>(Arrays.asList(
+  private static LinguServices linguServices = null;
+  private static final Set<String> exceptions = new HashSet<>(Arrays.asList(
     "Bin", "Spot",  // names
     "Go",           // common usage, as in "Go/No Go decision"
     "French", "Roman", "Hawking", "Square", "Japan", "Premier", "Allied"
@@ -71,12 +76,26 @@ public class UpperCaseNgramRule extends Rule {
       tokenRegex("[A-Z].+"),
       token(","),
       tokenRegex("[A-Z].+"),
-      tokenRegex("[Aa]nd|[Oo]r|&"),
+      tokenRegex("[Aa]nd|[Oo]r|&|,"),
+      tokenRegex("[A-Z].+")
+    ),
+    Arrays.asList( // "The goal is to Develop, Discuss and Learn.""
+      tokenRegex("[A-Z].+"),
+      token(")"),
+      token(","),
+      tokenRegex("[A-Z].+"),
+      tokenRegex("[Aa]nd|[Oo]r|&|,"),
       tokenRegex("[A-Z].+")
     ),
     Arrays.asList(
       csRegex("[A-Z].+"),
+      new PatternTokenBuilder().token("-").min(0).build(),
       token(">"),
+      csRegex("[A-Z].+")
+    ),
+    Arrays.asList(
+      csRegex("[A-Z].+"),
+      tokenRegex("[→⇾⇉⇒]"),
       csRegex("[A-Z].+")
     ),
     Arrays.asList(
@@ -99,6 +118,76 @@ public class UpperCaseNgramRule extends Rule {
       tokenRegex("[A-Z].+")
     ),
     Arrays.asList(
+      pos("SENT_START"), // Markdowm headline # Show some
+      token("#"),
+      tokenRegex("[A-Z].+")
+    ),
+    Arrays.asList(
+      pos("SENT_START"), // Markdowm headline ## Show some
+      token("#"),
+      token("#"),
+      tokenRegex("[A-Z].+")
+    ),
+    Arrays.asList(
+      pos("SENT_START"), // Markdowm headline ## Show some
+      token("#"),
+      token("#"),
+      token("#"),
+      tokenRegex("[A-Z].+")
+    ),
+    Arrays.asList( // Scene 4, Lines 93-96
+      tokenRegex("[A-Z].+"),
+      tokenRegex("\\d+"),
+      tokenRegex("-|–|,"),
+      tokenRegex("[A-Z].+"),
+      tokenRegex("\\d+")
+    ),
+    Arrays.asList( // 1.- Sign up for ...
+      tokenRegex("\\d+"),
+      token("."),
+      tokenRegex("-|–"),
+      tokenRegex("[A-Z].+")
+    ),
+    Arrays.asList( // French Quote + Uppercase word
+      tokenRegex("«"),
+      tokenRegex("[A-Z].+")
+    ),
+    Arrays.asList( // H1 What's wrong?
+      tokenRegex("H[1-6]"),
+      tokenRegex("[A-Z].+")
+    ),
+    Arrays.asList(
+      pos("SENT_START"), // ii) Enabling you to ...
+      tokenRegex("[a-z]{1,2}"),
+      token(")"),
+      tokenRegex("[A-Z].+")
+    ),
+    Arrays.asList(
+      pos("SENT_START"), // bullet point
+      token("•"),
+      tokenRegex("[A-Z].+")
+    ),
+    Arrays.asList( // Dash + Uppercase word
+      tokenRegex("-|–"),
+      tokenRegex("[A-Z].+")
+    ),
+    Arrays.asList(
+      tokenRegex("Step|Grade|Phase|Reason"), // I finished Step 6
+      tokenRegex("\\d+")
+    ),
+    Arrays.asList(
+      tokenRegex("the|our|their"), // Let's talk to the Onboarding team.
+      tokenRegex("[A-Z].+"),
+      tokenRegex("team|department")
+    ),
+    Arrays.asList(
+      pos("SENT_START"), // 12.3 Game.
+      tokenRegex("\\d+"),
+      tokenRegex("\\.|/"),
+      tokenRegex("\\d+"),
+      tokenRegex("[A-Z].+")
+    ),
+    Arrays.asList(
       pos("SENT_START"), // Lesson #1 - Learn the alphabet.
       tokenRegex(".*\\w.*"),
       token("#"),
@@ -110,6 +199,10 @@ public class UpperCaseNgramRule extends Rule {
       token("BBC"),
       token("Culture")
     ),
+    Arrays.asList(
+      token("Time"),
+      tokenRegex("magazines?")
+    ),
     Arrays.asList( // name of TV series
       token("Dublin"),
       token("Murders")
@@ -118,10 +211,75 @@ public class UpperCaseNgramRule extends Rule {
       token("Amazon"),
       token("Live")
     ),
+    Arrays.asList( // Company name
+      token("Volvo"),
+      token("Buses")
+    ),
+    Arrays.asList( // video game
+      token("Heavy"),
+      token("Rain")
+    ),
     Arrays.asList(
       csRegex("[A-Z].+"),
       token("/"),
       csRegex("[A-Z].+")
+    ),
+    Arrays.asList( // "Order #76540"
+      csRegex("[A-Z].+"),
+      token("#"),
+      tokenRegex("\\d+")
+    ),
+    Arrays.asList( // "He plays games at Games.co.uk."
+      csRegex("[A-Z].+"),
+      token("."),
+      tokenRegex("com?|de|us|gov|net|info|org|es|mx|ca|uk|at|ch|it|pl|ru|nl|ie|be|fr|ai|dev|io|pt|mil|club|jp|es|se|dk|no")
+    ),
+    Arrays.asList(
+      tokenRegex("[A-Z].+"),  // He's Ben (Been)
+      token("("),
+      tokenRegex("[A-Z].+"),
+      token(")")
+    ),
+    Arrays.asList(
+      token("["),
+      tokenRegex("[A-Z].+"),
+      token("]")
+    ),
+    Arrays.asList(
+      token("Pay"),
+      token("per"),
+      tokenRegex("[A-Z].+")
+    ),
+    Arrays.asList(
+      tokenRegex("Hi|Hello|Heya?"),
+      token(","),
+      tokenRegex("[A-Z].+")
+    ),
+    Arrays.asList( // "C stands for Curse."
+      tokenRegex("[A-Z]"),
+      tokenRegex("is|stands"),
+      token("for"),
+      tokenRegex("[A-Z].+")
+    ),
+    Arrays.asList(
+      pos("SENT_START"), // The Story: (short headlines with colon)
+      tokenRegex("[A-Z].+"),
+      tokenRegex("[A-Z].+"),
+      token(":")
+    ),
+    Arrays.asList(
+      pos("SENT_START"), // Stop & Jot: (short headlines with colon)
+      tokenRegex("[A-Z].+"),
+      token("&"),
+      tokenRegex("[A-Z].+"),
+      token(":")
+    ),
+    Arrays.asList(
+      pos("SENT_START"), // Easy to Use: (short headlines with colon)
+      tokenRegex("[A-Z].+"),
+      tokenRegex("[a-z].+"),
+      tokenRegex("[A-Z].+"),
+      token(":")
     ),
     Arrays.asList(
       tokenRegex("[A-Z].+"),  // e.g. "Top 10% Lunch Deals"
@@ -150,9 +308,9 @@ public class UpperCaseNgramRule extends Rule {
       tokenRegex("[0-9]+")
     ),
     Arrays.asList(
-      tokenRegex("[A-Z].+"),  // e.g. "You Don't Know" or "Kuiper’s Belt"
+      tokenRegex("[A-Z].*"),  // e.g. "You Don't Know" or "Kuiper’s Belt"
       tokenRegex("['’`´‘]"),
-      tokenRegex("t|d|ve|s|re|m"),
+      tokenRegex("t|d|ve|s|re|m|ll"),
       tokenRegex("[A-Z].+")
     ),
     Arrays.asList(
@@ -176,15 +334,146 @@ public class UpperCaseNgramRule extends Rule {
       token("Time"),
       token("magazine")
     ),
+    Arrays.asList( // My name is Gentle.
+      token("name"),
+      token("is"),
+      tokenRegex("[A-Z].+")
+    ),
+    Arrays.asList( // They called it Greet.
+      tokenRegex("calls?|called|calling|name[ds]?|naming"),
+      token("it|him|her|them|me|us|that|this"),
+      tokenRegex("[A-Z].+")
+    ),
+    Arrays.asList( // ... to something called Faded
+      tokenRegex("some(thing|body|one)"),
+      tokenRegex("called|named"),
+      csRegex("[A-Z].+")
+    ),
+    Arrays.asList( // It is called Ranked mode
+      csRegex("is|was|been|were|are"),
+      csRegex("calls?|called|calling|name[ds]?|naming"),
+      csRegex("[A-Z].+")
+    ),
+    Arrays.asList( // What is Foreshadowing?
+      tokenRegex("Who|What"),
+      tokenRegex("is|are|was|were"),
+      tokenRegex("[A-Z].+"),
+      token("?")
+    ),
+    Arrays.asList( // His name is Carp.
+      token("name"),
+      tokenRegex("is|was"),
+      tokenRegex("[A-Z].+")
+    ),
+    Arrays.asList( // FDM Group
+      tokenRegex("[A-Z].*"),
+      token("Group")
+    ),
+    Arrays.asList( // Enter key
+      tokenRegex("Enter|Escape|Shift|Control|Meta|Backspace"),
+      token("key")
+    ),
+    Arrays.asList( // Victor or Rabbit as everyone calls him.
+      pos("NNP"),
+      tokenRegex("or|and|&"),
+      tokenRegex("[A-Z].*")
+    ),
+    Arrays.asList( // Hashtags
+      token("#"),
+      tokenRegex("[A-Z].*")
+    ),
     Arrays.asList(
-      tokenRegex("Teams|Maps") // Microsoft Teams / Google Maps (not tagged as NNP)
+      tokenRegex("Teams|Maps|Canvas|Remind|Tile|Switch|Gems?|Glamour|Divvy|Solo|Splash|Phrase||Spotlight|Outreach|Grab") // Microsoft Teams, Google Maps, Remind App, Nintendo Switch (not tagged as NNP), Gems (Ruby Gems)
+    ),
+    Arrays.asList(
+      pos("SENT_START"), // Music and Concepts.
+      tokenRegex("[A-Z].*"),
+      tokenRegex("or|and|&"),
+      tokenRegex("[A-Z].*"),
+      pos("SENT_END")
+    ),
+    Arrays.asList( // Please click Send
+      csRegex("click(ed|s)?|type(d|s)|hit"),
+      tokenRegex("[A-Z].*")
+    ),
+    Arrays.asList( // Please click on Send
+      csRegex("click(ed|s)?"),
+      tokenRegex("on|at"),
+      tokenRegex("[A-Z].*")
+    ),
+    Arrays.asList( // Chronicle of a Death Foretold
+      csRegex("Chronicle"),
+      token("of"),
+      tokenRegex("the|an?"),
+      tokenRegex("[A-Z].*")
+    ),
+    Arrays.asList( // Please see Question 2, 
+      csRegex("[A-Z].*"),
+      tokenRegex("\\d+")
+    ),
+    Arrays.asList( // Please see Question #2, 
+      csRegex("[A-Z].*"),
+      token("#"),
+      tokenRegex("\\d+")
+    ),
+    Arrays.asList( // company departments used like proper nouns
+      csRegex("Finance|Marketing|Engineering|Controlling|Support|Accounting")
+    ),
+    Arrays.asList( // They used Draft.js to solve it.
+      csRegex("[A-Z].*"),
+      token("."),
+      tokenRegex("js")
+    ),
+    Arrays.asList( // And mine is Wed.
+      csRegex("Wed")
+    ),
+    Arrays.asList( // Ender's Game
+      new PatternTokenBuilder().posRegex("NN.*").csTokenRegex("[A-Z].+").build(),
+      token("'s"),
+      csRegex("[A-Z].+")
+    ),
+    Arrays.asList( // Title Case: How to Become an Millionaire
+      csRegex("How"),
+      csRegex("to"),
+      new PatternTokenBuilder().pos("VB").csTokenRegex("[A-Z].+").build(),
+      csRegex("an?|my|y?our|her|his|the|from|by|about"),
+      csRegex("[A-Z].+")
+    ),
+    Arrays.asList( // Do
+      csRegex("Do|Does|Did|Can|[CW]ould"),
+      csRegex("n't"),
+      new PatternTokenBuilder().pos("VB").csTokenRegex("[A-Z].+").build(),
+      pos("IN"),
+      csRegex("[A-Z].+")
+    ),
+    Arrays.asList( // Title Case: How to Become an Millionaire
+      csRegex("Let"),
+      csRegex("'s"),
+      new PatternTokenBuilder().pos("VB").csTokenRegex("[A-Z].+").build(),
+      pos("IN"),
+      csRegex("[A-Z].+")
+    ),
+    Arrays.asList( // Keys
+      csRegex("Enter|Return|Escape|Shift")
+    ),
+    Arrays.asList( // You Can't Judge a Book by the Cover
+      csRegex("[A-Z].+"),
+      csRegex("Ca|Wo|Do|Should|[CW]ould|Must|Did|Does|Need"),
+      csRegex("n't"),
+      csRegex("[A-Z].+")
+    ),
+    Arrays.asList( // You Can't Judge a Book by the Cover
+      csRegex("Ca|Wo|Do|Should|[CW]ould|Must|Did|Does|Need"),
+      csRegex("n't"),
+      csRegex("[A-Z].+")
     )
   );
 
   private final Language lang;
   private final LanguageModel lm;
+  private final Supplier<List<DisambiguationPatternRule>> antiPatterns;
 
-  public UpperCaseNgramRule(ResourceBundle messages, LanguageModel lm, Language lang) {
+  public UpperCaseNgramRule(ResourceBundle messages, LanguageModel lm, Language lang, UserConfig userConfig) {
     super(messages);
     super.setCategory(Categories.CASING.getCategory(messages));
     this.lm = lm;
@@ -192,6 +481,12 @@ public class UpperCaseNgramRule extends Rule {
     setLocQualityIssueType(ITSIssueType.Misspelling);
     addExamplePair(Example.wrong("This <marker>Prototype</marker> was developed by Miller et al."),
                    Example.fixed("This <marker>prototype</marker> was developed by Miller et al."));
+    antiPatterns = cacheAntiPatterns(lang, ANTI_PATTERNS);
+
+    if (userConfig != null && linguServices == null) {
+      linguServices = userConfig.getLinguServices();
+      initTrie();
+    }
     if (spellerRule == null) {
       initTrie();
       try {
@@ -218,7 +513,7 @@ public class UpperCaseNgramRule extends Rule {
 
   @Override
   public List<DisambiguationPatternRule> getAntiPatterns() {
-    return makeAntiPatterns(ANTI_PATTERNS, lang);
+    return antiPatterns.get();
   }
 
   @Override
@@ -261,9 +556,9 @@ public class UpperCaseNgramRule extends Rule {
           && !nextIsOneOfThenUppercase(tokens, i, Arrays.asList("of"))
           && !tokenStr.matches("I")
           && !exceptions.contains(tokenStr)
-          && !spellerRule.isMisspelled(StringTools.lowercaseFirstChar(tokenStr))    // e.g. "German" is correct, "german" isn't
           && !trieMatches(sentence.getText(), token)
           && !maybeTitle(tokens, i)
+          && !isMisspelled(StringTools.lowercaseFirstChar(tokenStr))    // e.g. "German" is correct, "german" isn't
       ) {
         if (i + 1 < tokens.length) {
           List<String> ucList = Arrays.asList(tokens[i - 1].getToken(), tokenStr, tokens[i + 1].getToken());
@@ -285,6 +580,12 @@ public class UpperCaseNgramRule extends Rule {
       }
     }
     return toRuleMatchArray(matches);
+  }
+  
+  boolean isMisspelled(String word) throws IOException {
+    synchronized (spellerRule) {
+      return linguServices == null ? spellerRule.isMisspelled(word) : !linguServices.isCorrectSpell(word, lang);
+    }
   }
 
   // a very rough guess whether the word at the given position might be part of a title

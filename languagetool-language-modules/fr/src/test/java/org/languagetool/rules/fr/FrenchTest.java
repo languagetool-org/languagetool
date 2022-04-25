@@ -29,11 +29,11 @@ public class FrenchTest extends LanguageSpecificTest {
   
   @Test
   public void testLanguage() throws IOException {
-    // NOTE: this text needs to be kept in sync with WelcomeController.php's getDefaultDemoTexts():
-    String s = "LanguageTool offre une vérification orthographique, grammaticale et de style. Il vous suffit de coller votre texte ici et de cliquer sur le bouton \\\"Vérifier le texte\\\". En voici quelques exemples : Cliqez sur les phrases en couleurs pour plus de détails sur les erreurs potentiels, ou utilisez ce texte pour voir quelques-uns des problèmes que LanguageTool Plus peut détecter. Que pensez vous des des correcteurs grammaticaux ? Non pas qu'ils soient parfaits bien sur. Également pour des erreurs plus communes : Il est 17h de l'après-midi. Il faisait beau le jeudi 27 juin 2017.";
+    // NOTE: this text needs to be kept in sync with config.ts -> DEMO_TEXTS:
+    String s = "Écrivez ou collez votre texte ici pour le faire vérifier en continue. Les erreurs seront soulignés de différentes couleurs : les erreurs d'orthografe en rouge et les erreurs grammaticaux en jaune. Les problèmes de style, comme par exemple ceci, seront marqués en bleu dans vos textes. Le saviez vous ? LanguageTool vous propose des synonymes lorsque vous double-cliquez sur un mot .  Découvrez la multitude de ses fonctions, parfoi inattendues, tel que ça vérification des date. Par exemple, le mercredi 28 août 2020 était en fait un vendredi !";
     French lang = new French();
     testDemoText(lang, s,
-      Arrays.asList("FR_SPELLING_RULE", "ACCORD_GENRE", "TRAIT_UNION_INVERSION", "FRENCH_WORD_REPEAT_RULE", "SUR_ACCENT", "HEURES", "DATE_JOUR")
+      Arrays.asList("EN_GENERALE", "ETRE_VPPA_OU_ADJ", "FR_SPELLING_RULE", "AGREEMENT_POSTPONED_ADJ", "COMME_PAR_EXEMPLE", "TRAIT_UNION_INVERSION", "COMMA_PARENTHESIS_WHITESPACE", "WHITESPACE_RULE", "FR_SPELLING_RULE", "CA_SA", "D_N", "DATE_JOUR")
     );
     runTests(lang);
   }

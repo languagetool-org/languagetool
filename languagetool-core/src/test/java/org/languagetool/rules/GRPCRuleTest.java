@@ -27,11 +27,11 @@ import org.junit.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
+import org.languagetool.language.Demo;
 import org.languagetool.rules.ml.MLServerProto;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Collections;
 
 @Ignore("Requires local ML server")
 public class GRPCRuleTest {
@@ -42,13 +42,16 @@ public class GRPCRuleTest {
 
   @Before
   public void setUp() throws Exception {
-    config = new RemoteRuleConfig(RULE_ID, "localhost", 50000,
-      0, 0L, 0.0f,
-      1, 0L, Collections.emptyMap());
+    config = new RemoteRuleConfig();
 
-    rule = new GRPCRule(JLanguageTool.getMessageBundle(), config) {
+    config.ruleId = RULE_ID;
+    config.url = "localhost";
+    config.port = 50000;
+
+
+    rule = new GRPCRule(new Demo(), JLanguageTool.getMessageBundle(), config, true) {
       @Override
-      protected String getMessage(MLServerProto.Match match) {
+      protected String getMessage(MLServerProto.Match match, AnalyzedSentence sentence) {
         return "Matched: " + match.toString().replaceAll("\n", " | ");
       }
 

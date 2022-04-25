@@ -40,8 +40,8 @@ import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
  */
 public class CatalanHybridDisambiguator extends AbstractDisambiguator {
 
-  private final Disambiguator chunker = new MultiWordChunker("/ca/multiwords.txt", true);
-  private final Disambiguator disambiguator = new XmlRuleDisambiguator(new Catalan());
+  private final Disambiguator chunker = new MultiWordChunker("/ca/multiwords.txt", true, true);
+  private final Disambiguator disambiguator = new XmlRuleDisambiguator(new Catalan(), true);
 
   /**
    * Calls two disambiguator classes: (1) a chunker; (2) a rule-based

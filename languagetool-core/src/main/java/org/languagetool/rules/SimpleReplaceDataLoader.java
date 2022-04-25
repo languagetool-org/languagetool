@@ -49,6 +49,10 @@ public final class SimpleReplaceDataLoader {
           throw new RuntimeException("Could not load simple replacement data from: " + path + ". " +
                   "Error in line '" + line + "', expected format 'word=replacement'");
         }
+        if (parts[1].trim().isEmpty()) {
+          throw new RuntimeException("Could not load simple replacement data from: " + path + ". " +
+            "Error in line '" + line + "', replacement cannot be empty");
+        }
         String[] wrongForms = parts[0].split("\\|");
         List<String> replacements = Arrays.asList(parts[1].split("\\|"));
         for (String wrongForm : wrongForms) {

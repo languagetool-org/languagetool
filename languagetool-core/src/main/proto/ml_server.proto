@@ -8,22 +8,87 @@ service MLServer {
     rpc Match (MatchRequest) returns (MatchResponse) {}
 }
 
+// for e.g. resorting suggestions
+service PostProcessingServer {
+    rpc Process(PostProcessingRequest) returns (MatchResponse) {}
+}
+
+message PostProcessingRequest {
+    repeated string sentences = 1; // input text to be analyzed
+    repeated MatchList matches = 2; // matches of input text, to be transformed
+    bool inputLogging = 3; // allow logging of input on error
+    repeated int64 textSessionID = 4; // session ID, for partial rollout & A/B tests
+}
+
 message MatchRequest {
-    repeated string sentences = 1;
+    repeated string sentences = 1; // input text to be analyzed
+    bool inputLogging = 2; // allow logging of input on error
+    repeated int64 textSessionID = 3; // session ID, for partial rollout & A/B tests
 }
 
 message MatchResponse {
-    repeated MatchList sentenceMatches = 1;
+    repeated MatchList sentenceMatches = 1; // results for each corresponding sentence in MatchRequest (aligned)
 }
 
 message MatchList {
-    repeated Match matches = 1;
+    repeated Match matches = 1; // list of matches
 }
 
 message Match {
-    uint32 offset = 1;
-    uint32 length = 2;
-    string id = 3;
-    string sub_id = 4;
-    repeated string suggestions = 5;
+    uint32 offset = 1; // start position in the sentence (i.e. not relative to whole text)
+    uint32 length = 2; // length of matched area; >0
+    string id = 3; // prefix for rule ids; should use a common value for one model/server
+    string sub_id = 4; // more specific suffix for rule ids; i.e. one model/server can return multiple values to distinguish between mach types
+    repeated string suggestions = 5; // legacy; use suggestedReplacements
+    // added later, optional (can be substituted by Java)
+    string ruleDescription = 6; // description of the rule; can be specific to rule_id + sub_id or shared for all sub_ids of one rule_id
+    string matchDescription = 7; // description of the match; displayed in e.g. the add-on pop-up
+    string matchShortDescription = 8; // shortened description of the match; displayed in e.g. LibreOffice context menu
+    string url = 9; // to show a link, e.g. with further explanations for this error
+    repeated SuggestedReplacement suggestedReplacements = 10; // new and extended suggestions; overwrite any values set in suggestions
+    bool autoCorrect = 11; // is this correction eligible for auto-correction?
+    enum MatchType {
+        /** Spelling errors, typically red. */
+        UnknownWord = 0;
+        /** Style errors, typically light blue. */
+        Hint = 1;
+        /** Other errors (including grammar), typically yellow/orange. */
+        Other = 2;
+    }
+    MatchType type = 12;
+    sint32 contextForSureMatch = 13;
+    Rule rule = 14;
+}
+
+message Rule {
+    // id, subId, description, url already in Match
+    string sourceFile = 1;
+    // see http://www.w3.org/International/multilingualweb/lt/drafts/its20/its20.html#lqissue-typevalues
+    string issueType = 2;
+    bool tempOff = 3;
+    RuleCategory category = 4;
+    bool isPremium = 5;
+    enum Tag {
+        picky = 0;
+    }
+    repeated Tag tags = 6;
+}
+
+message RuleCategory {
+    string id = 1;
+    string name = 2;
+}
+
+
+message SuggestedReplacement {
+    string replacement = 1;
+    string description = 2;
+    string suffix = 3; // Value shown in the UI after the replacement (but not part of it).
+    float confidence = 4; // from 0 (lowest) to 1 (highest)
+    enum SuggestionType {
+        Default = 0;
+        Translation = 1;
+        Curated = 2;
+    }
+    SuggestionType type = 5;
 }

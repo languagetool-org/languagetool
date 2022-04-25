@@ -32,12 +32,12 @@ import static org.languagetool.rules.en.AvsAnRule.Determiner;
 public class AvsAnRuleTest {
 
   private AvsAnRule rule;
-  private JLanguageTool langTool;
+  private JLanguageTool lt;
 
   @Before
   public void setUp() throws IOException {
     rule = new AvsAnRule(TestTools.getEnglishMessages());
-    langTool = new JLanguageTool(Languages.getLanguageForShortCode("en"));
+    lt = new JLanguageTool(Languages.getLanguageForShortCode("en"));
   }
 
   @Test
@@ -63,6 +63,7 @@ public class AvsAnRuleTest {
     assertCorrect("See an:Grammatica");
     assertCorrect("See http://www.an.com");
     assertCorrect("Station A equals station B.");
+    assertCorrect("e.g., the case endings -a -i -u and mood endings -u -a");
 
     // errors:
     assertIncorrect("It was a hour ago.");
@@ -72,7 +73,7 @@ public class AvsAnRuleTest {
     assertIncorrect("A unintersting ...");
     assertIncorrect("A hour's work ...");
     assertIncorrect("Going to a \"industry party\".");
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("It was a uninteresting talk with an long sentence."));
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("It was a uninteresting talk with an long sentence."));
     assertEquals(2, matches.length);
 
     // With uppercase letters:
@@ -87,6 +88,9 @@ public class AvsAnRuleTest {
 
     //Test on acronyms/initials:
     assertCorrect("A. R.J. Turgot");
+
+    // list items
+    assertCorrect("Make sure that 3.a as well as 3.b are correct.");
 
     //mixed case as dictionary-based exception
     assertCorrect("Anyone for an MSc?");
@@ -104,12 +108,12 @@ public class AvsAnRuleTest {
   }
 
   private void assertCorrect(String sentence) throws IOException {
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(sentence));
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(sentence));
     assertEquals(0, matches.length);
   }
 
   private void assertIncorrect(String sentence) throws IOException {
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(sentence));
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(sentence));
     assertEquals(1, matches.length);
   }
 
@@ -154,34 +158,34 @@ public class AvsAnRuleTest {
   @Test
   public void testPositions() throws IOException {
     RuleMatch[] matches;
-    JLanguageTool langTool = new JLanguageTool(Languages.getLanguageForShortCode("en"));
+    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("en"));
     // no quotes etc.:
-    matches = rule.match(langTool.getAnalyzedSentence("a industry standard."));
+    matches = rule.match(lt.getAnalyzedSentence("a industry standard."));
     assertEquals(0, matches[0].getFromPos());
     assertEquals(1, matches[0].getToPos());
 
     // quotes..
-    matches = rule.match(langTool.getAnalyzedSentence("a \"industry standard\"."));
+    matches = rule.match(lt.getAnalyzedSentence("a \"industry standard\"."));
     assertEquals(0, matches[0].getFromPos());
     assertEquals(1, matches[0].getToPos());
 
-    matches = rule.match(langTool.getAnalyzedSentence("a - industry standard\"."));
+    matches = rule.match(lt.getAnalyzedSentence("a - industry standard\"."));
     assertEquals(0, matches[0].getFromPos());
     assertEquals(1, matches[0].getToPos());
 
-    matches = rule.match(langTool.getAnalyzedSentence("This is a \"industry standard\"."));
+    matches = rule.match(lt.getAnalyzedSentence("This is a \"industry standard\"."));
     assertEquals(8, matches[0].getFromPos());
     assertEquals(9, matches[0].getToPos());
 
-    matches = rule.match(langTool.getAnalyzedSentence("\"a industry standard\"."));
+    matches = rule.match(lt.getAnalyzedSentence("\"a industry standard\"."));
     assertEquals(1, matches[0].getFromPos());
     assertEquals(2, matches[0].getToPos());
 
-    matches = rule.match(langTool.getAnalyzedSentence("\"Many say this is a industry standard\"."));
+    matches = rule.match(lt.getAnalyzedSentence("\"Many say this is a industry standard\"."));
     assertEquals(18, matches[0].getFromPos());
     assertEquals(19, matches[0].getToPos());
 
-    matches = rule.match(langTool.getAnalyzedSentence("Like many \"an desperado\" before him, Bart headed south into Mexico."));
+    matches = rule.match(lt.getAnalyzedSentence("Like many \"an desperado\" before him, Bart headed south into Mexico."));
     assertEquals(11, matches[0].getFromPos());
     assertEquals(13, matches[0].getToPos());
   }

@@ -40,6 +40,9 @@ class StdoutHandler extends ResultHandler {
   StdoutHandler(int maxSentences, int maxErrors, int contextSize) {
     super(maxSentences, maxErrors);
     contextTools.setContextSize(contextSize);
+    //contextTools.setContextSize(100);
+    //contextTools.setErrorMarker("**", "**");
+    //contextTools.setEscapeHtml(false);
   }
 
   @Override
@@ -49,7 +52,7 @@ class StdoutHandler extends ResultHandler {
       System.out.println("\nTitle: " + sentence.getTitle());
       for (RuleMatch match : ruleMatches) {
         String output = i + ".) Line " + (match.getLine() + 1) + ", column "
-                + match.getColumn() + ", Rule ID: " + match.getRule().getId();
+                + match.getColumn() + ", Rule ID: " + match.getSpecificRuleId(); //match.getRule().getId();
         if (match.getRule() instanceof AbstractPatternRule) {
           AbstractPatternRule pRule = (AbstractPatternRule) match.getRule();
           output += "[" + pRule.getSubId() + "]";
@@ -73,6 +76,7 @@ class StdoutHandler extends ResultHandler {
           }
         }
         System.out.println(contextTools.getPlainTextContext(match.getFromPos(), match.getToPos(), sentence.getText()));
+        //System.out.println(contextTools.getContext(match.getFromPos(), match.getToPos(), sentence.getText()));
         i++;
         checkMaxErrors(++errorCount);
       }

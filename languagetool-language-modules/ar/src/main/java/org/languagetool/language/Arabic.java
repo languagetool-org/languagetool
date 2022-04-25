@@ -19,7 +19,9 @@
 package org.languagetool.language;
 
 import org.jetbrains.annotations.NotNull;
-import org.languagetool.*;
+import org.languagetool.Language;
+import org.languagetool.LanguageMaintainedState;
+import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.ar.*;
@@ -29,19 +31,22 @@ import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.ar.ArabicHybridDisambiguator;
 import org.languagetool.tagging.ar.ArabicTagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
-import org.languagetool.tokenizers.*;
+import org.languagetool.tokenizers.ArabicWordTokenizer;
+import org.languagetool.tokenizers.SRXSentenceTokenizer;
+import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.Tokenizer;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
 
 /**
  * Support for Arabic.
  * @since 4.9
  */
 public class Arabic extends Language implements AutoCloseable {
-
-  private static final Language DEFAULT_ARABIC = new AlgerianArabic();
 
   private LanguageModel languageModel;
 
@@ -58,11 +63,6 @@ public class Arabic extends Language implements AutoCloseable {
   @Override
   public String[] getCountries() {
     return new String[]{"", "SA", "DZ", "BH", "EG", "IQ", "JO", "KW", "LB", "LY", "MA", "OM", "QA", "SD", "SY", "TN", "AE", "YE"};
-  }
-
-  @Override
-  public Language getDefaultLanguageVariant() {
-    return DEFAULT_ARABIC;
   }
 
   @Override
@@ -95,9 +95,7 @@ public class Arabic extends Language implements AutoCloseable {
   public Contributor[] getMaintainers() {
     return new Contributor[]{
       new Contributor("Taha Zerrouki"),
-      new Contributor("Sohaib Afifi"),
-      new Contributor("Imen Kali"),
-      new Contributor("Karima Tchoketch"),
+      new Contributor("Sohaib Afifi")
     };
   }
 
@@ -109,20 +107,30 @@ public class Arabic extends Language implements AutoCloseable {
       new GenericUnpairedBracketsRule(messages,
         Arrays.asList("[", "(", "{", "«", "﴾", "\"", "'"),
         Arrays.asList("]", ")", "}", "»", "﴿", "\"", "'")),
+      new CommaWhitespaceRule(messages, true),
+      new LongSentenceRule(messages, userConfig, 50),
 
       // specific to Arabic :
-      new ArabicHunspellSpellerRule(messages, this, userConfig, altLanguages),
-      //new MorfologikArabicSpellerRule(messages, this),
+      new ArabicHunspellSpellerRule(messages, userConfig),
       new ArabicCommaWhitespaceRule(messages),
+      new ArabicQuestionMarkWhitespaceRule(messages),
+      new ArabicSemiColonWhitespaceRule(messages),
       new ArabicDoublePunctuationRule(messages),
-      new LongSentenceRule(messages, userConfig, -1, false),
-      new ArabicWordRepeatRule(messages, this),
-      new ArabicSimpleReplaceRule(messages, this)
+      new ArabicWordRepeatRule(messages),
+      new ArabicSimpleReplaceRule(messages),
+      new ArabicDiacriticsRule(messages),
+      new ArabicDarjaRule(messages),
+      new ArabicHomophonesRule(messages),
+      new ArabicRedundancyRule(messages),
+      new ArabicWordCoherencyRule(messages),
+      new ArabicWordinessRule(messages),
+      new ArabicWrongWordInContextRule(messages),
+      new ArabicTransVerbRule(messages)
     );
   }
 
   @Override
-  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) throws IOException {
+  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) {
     return Arrays.asList(
       new ArabicConfusionProbabilityRule(messages, languageModel, this)
     );
@@ -134,13 +142,13 @@ public class Arabic extends Language implements AutoCloseable {
   }
 
   @Override
-  public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
+  public synchronized LanguageModel getLanguageModel(File indexDir) {
     languageModel = initLanguageModel(indexDir, languageModel);
     return languageModel;
   }
 
   @Override
-  public void close() throws Exception {
+  public void close() {
     if (languageModel != null) {
       languageModel.close();
     }

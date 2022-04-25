@@ -69,9 +69,11 @@ public class DashRule extends Rule {
             String shortMsg = "Fehlendes 'und' oder Komma oder überflüssiges Leerzeichen?";
             int fromPos = tokens[i - 1].getStartPos();
             RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos,
-                    fromPos +prevToken.length()+1, msg, shortMsg);
-            String prevTokenStr = tokens[i-1].getToken();
-            ruleMatch.setSuggestedReplacements(Arrays.asList(prevTokenStr, prevTokenStr + ", "));
+                    tokens[i].getEndPos(), msg, shortMsg);
+            ruleMatch.addSuggestedReplacement(tokens[i-1].getToken() + tokens[i].getToken());
+            if (StringUtils.countMatches(tokens[i-1].getToken(), "-") + StringUtils.countMatches(tokens[i].getToken(), "-") <= 1) {
+              ruleMatch.addSuggestedReplacement(tokens[i-1].getToken() + ", " + tokens[i].getToken());
+            }
             ruleMatches.add(ruleMatch);
           }
         }

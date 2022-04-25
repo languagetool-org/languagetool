@@ -32,12 +32,12 @@ import static org.junit.Assert.assertEquals;
 public class GenericUnpairedBracketsRuleTest {
 
   private GenericUnpairedBracketsRule rule;
-  private JLanguageTool langTool;
+  private JLanguageTool lt;
 
   @Test
   public void testDutchRule() throws IOException {
-    langTool = new JLanguageTool(new Dutch());
-    rule = org.languagetool.rules.GenericUnpairedBracketsRuleTest.getBracketsRule(langTool);
+    lt = new JLanguageTool(new Dutch());
+    rule = org.languagetool.rules.GenericUnpairedBracketsRuleTest.getBracketsRule(lt);
     // correct sentences:
     assertMatches("Het centrale probleem van het werk is de ‘dichterlijke kuischheid’.", 0);
     //this was a bug as there are several pairs that start with the same char:
@@ -49,7 +49,7 @@ public class GenericUnpairedBracketsRuleTest {
   }
 
   private void assertMatches(String input, int expectedMatches) throws IOException {
-    final RuleMatch[] matches = rule.match(Collections.singletonList(langTool.getAnalyzedSentence(input)));
+    final RuleMatch[] matches = rule.match(Collections.singletonList(lt.getAnalyzedSentence(input)));
     assertEquals(expectedMatches, matches.length);
   }
 }

@@ -50,6 +50,7 @@ public class GermanSRXSentenceTokenizerTest {
     testSplit("Das ist ja 1a. ", "Und das auch.");
     testSplit("Hallo, ich bin’s. ", "Könntest du kommen?");
     testSplit("In der 1. Bundesliga kam es zum Eklat.");
+    testSplit("Dies ist, z. B., ein Satz."); 
 
     testSplit("Friedrich I., auch bekannt als Friedrich der Große.");
     testSplit("Friedrich II., auch bekannt als Friedrich der Große.");
@@ -63,6 +64,9 @@ public class GermanSRXSentenceTokenizerTest {
     assertThat(stokenizer.tokenize("Dies ist ein Satz.   \u00A0Noch einer.").size(), is(2));
     assertThat(stokenizer.tokenize("Dies ist ein Satz.\u00A0 Noch einer.").size(), is(2));
     assertThat(stokenizer.tokenize("Dies ist ein Satz.\u00A0\u00A0\u00A0 Noch einer.").size(), is(2));
+    testSplit("Ein Satz!\u00A0", "Noch einer.");
+    testSplit("Dies ist, z.\u00A0B., ein Satz.");
+    testSplit("Hier steht was mit mehr Wörtern, weil wir mal sehen wollen, wie denn so die Erkennung der Satzlänge geht, wenn die Sätze doch deutlich länger werden, also wirklich deutlich länger als das normal.\u00A0", "Hier steht etwas anderes.");
 
     testSplit("Heute ist der 13.12.2004.");
     testSplit("Heute ist der 13. Dezember.");

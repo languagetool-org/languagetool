@@ -65,12 +65,33 @@ public abstract class AbstractCompoundRuleTest {
               Arrays.toString(expSuggestions));
       assertEquals(errorMessage, expSuggestions.length, ruleMatch.getSuggestedReplacements().size());
       int i = 0;
-      for (Object element : ruleMatch.getSuggestedReplacements()) {
-        String suggestion = (String) element;
-        assertEquals(expSuggestions[i], suggestion);
+      for (String element : ruleMatch.getSuggestedReplacements()) {
+        assertEquals(expSuggestions[i], element);
         i++;
       }
     }
+  }
+  
+  public void testAllCompounds() throws IOException {
+    for (String compound : rule.getCompoundRuleData().getIncorrectCompounds()) {
+      String suggestion ="";
+      if (rule.getCompoundRuleData().getDashSuggestion().contains(compound)) {
+        suggestion = compound.replace(" ", "-");
+        if (rule.isMisspelled(suggestion)) {
+          printWarning(suggestion);
+        }
+      }
+      if (rule.getCompoundRuleData().getJoinedSuggestion().contains(compound)) {
+        suggestion = rule.mergeCompound(compound, rule.getCompoundRuleData().getJoinedLowerCaseSuggestion().contains(compound));
+        if (rule.isMisspelled(suggestion)) {
+          printWarning(suggestion);
+        }
+      }
+    }
+  }
+  
+  private void printWarning(String suggestion) {
+    System.err.println("WARNING: Suggested compound word is possibly misspelled: "+suggestion);
   }
   
 }

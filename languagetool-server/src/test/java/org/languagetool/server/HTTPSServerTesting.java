@@ -52,16 +52,16 @@ public class HTTPSServerTesting {
   @Ignore("For interactive testing, thus ignored for unit tests")
   @Test
   public void interactiveHTTPServerTest() throws Exception {
-    HTTPTools.disableCertChecks();
+    HTTPTestTools.disableCertChecks();
     long startTime = System.currentTimeMillis();
     try {
       ExecutorService executorService = Executors.newFixedThreadPool(THREAD_COUNT);
-      List<Future> futures = new ArrayList<>();
+      List<Future<?>> futures = new ArrayList<>();
       for (int i = 0; i < THREAD_COUNT; i++) {
         Future<?> future = executorService.submit(new TestRunnable(i));
         futures.add(future);
       }
-      for (Future future : futures) {
+      for (Future<?> future : futures) {
         future.get();
       }
     } finally {
@@ -105,10 +105,10 @@ public class HTTPSServerTesting {
     }
   }
 
-  private String getSentencesAsText(List<ExampleSentence> sentences) {
+  private static String getSentencesAsText(List<ExampleSentence> sentences) {
     StringBuilder sb = new StringBuilder();
     for (ExampleSentence sentence : sentences) {
-      String sentenceStr = sentence.getSentence().replace("<marker>", "").replace("</marker>", "");
+      String sentenceStr = org.languagetool.rules.ExampleSentence.cleanMarkersInExample(sentence.getSentence());
       String cleanSentenceStr = sentenceStr.replaceAll("[\\n\\t]+", "");
       sb.append(cleanSentenceStr);
       sb.append("\n\n");
@@ -122,7 +122,7 @@ public class HTTPSServerTesting {
     synchronized(this) {
       checkCount++;
     }
-    String result = HTTPTools.checkAtUrlByPost(url, data);
+    String result = HTTPTestTools.checkAtUrlByPost(url, data);
     System.out.println(checkCount + ". [" + threadNumber + "] Got " + url + " with data (" + data.length() + " bytes) " + startOfData
             + "...: " + (System.currentTimeMillis() - startTime) + "ms");
     return result;

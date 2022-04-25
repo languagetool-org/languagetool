@@ -58,11 +58,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
         <rule id="FUSSNOTE" name="Leichte Sprache: Fußnote">
             <pattern>
-                <token regexp='yes'>.*[¹²³]</token>
+                <token regexp='yes'>[¹²³]</token>
             </pattern>
             <message>Benutzen Sie keine Fußnoten. Erklären Sie alles gleich im Text.</message>
             <short>Fußnoten vermeiden.</short>
-            <example correction=""><marker>Hallo¹</marker></example>
+            <example correction="">Hallo<marker>¹</marker></example>
             <example>Hallo, hier steht mehr</example>
         </rule>
 
@@ -81,11 +81,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="NEBENSAETZE" name="Leichte Sprache: Nebensätze">
             <rule>
                 <pattern>
-                    <token postag="SENT_START"></token>
-                    <marker><token postag="KON:UNT"></token></marker>
-                    <token skip="-1"></token>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token postag="KON:UNT"/></marker>
+                    <token skip="-1"/>
                     <token postag="PKT">,</token>
-                    <token postag="VER:.+" postag_regexp="yes" skip="-1"></token>
+                    <token postag="VER:.+" postag_regexp="yes" skip="-1"/>
                 </pattern>
                 <message>Vermeiden Sie Nebensätze.</message>
                 <example correction=""><marker>Weil</marker> sie krank ist, kommt sie nicht zur Schule.</example>
@@ -98,10 +99,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">wie|so</token>
                 </antipattern>
                 <pattern>
-                    <token postag="VER:.*[1-3]:.+" postag_regexp="yes" skip="-1"></token>
+                    <token postag="VER:.*[1-3]:.+" postag_regexp="yes" skip="-1"/>
                     <token postag="PKT">,</token>
-                    <marker><token postag="KON:UNT"></token></marker>
-                    <token skip="-1"></token>
+                    <marker>
+                        <token postag="KON:UNT"/></marker>
+                    <token skip="-1"/>
                     <token postag="SENT_END">.</token>
                 </pattern>
                 <message>Vermeiden Sie Nebensätze.</message>
@@ -113,15 +115,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <antipattern>
                     <token postag="SENT_START"/>
-                    <token postag="VER:IMP:.+" postag_regexp="yes" skip="2"></token>
+                    <token postag="VER:IMP:.+" postag_regexp="yes" skip="2"/>
                     <token postag="PKT">,</token>
-                    <token postag="PRO:RIN:.+" postag_regexp="yes"></token>
+                    <token postag="PRO:RIN:.+" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
-                    <token postag="VER:.*[1-3]:.+" postag_regexp="yes" skip="-1"></token>
+                    <token postag="VER:.*[1-3]:.+" postag_regexp="yes" skip="-1"/>
                     <token postag="PKT">,</token>
                     <marker><token postag="PRO:RIN:.+|ADV(:PRO|:INR)?" postag_regexp="yes" regexp="yes">w.+</token></marker>
-                    <token skip="-1"></token>
+                    <token skip="-1"/>
                     <token postag="SENT_END">.</token>
                 </pattern>
                 <message>Vermeiden Sie Nebensätze.</message>
@@ -130,19 +132,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <antipattern>
                     <token postag="SENT_START"/>
-                    <token postag="VER:IMP:.+" postag_regexp="yes" skip="2"></token>
+                    <token postag="VER:IMP:.+" postag_regexp="yes" skip="2"/>
                     <token postag="PKT">,</token>
-                    <token postag="PRP:.+" postag_regexp="yes"></token>
-                    <token postag="PRO:RIN:.+" postag_regexp="yes"></token>
+                    <token postag="PRP:.+" postag_regexp="yes"/>
+                    <token postag="PRO:RIN:.+" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
-                    <token postag="VER:.*[1-3]:.+" postag_regexp="yes" skip="-1"></token>
+                    <token postag="VER:.*[1-3]:.+" postag_regexp="yes" skip="-1"/>
                     <token postag="PKT">,</token>
                     <marker>
-                         <token postag="PRP:.+" postag_regexp="yes"></token>
+                        <token postag="PRP:.+" postag_regexp="yes"/>
                          <token postag="PRO:RIN:.+" postag_regexp="yes" regexp="yes">w.+</token>
                     </marker>
-                    <token skip="-1"></token>
+                    <token skip="-1"/>
                     <token postag="SENT_END">.</token>
                 </pattern>
                 <message>Vermeiden Sie Nebensätze.</message>
@@ -150,31 +152,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <antipattern>
-                    <token postag="SENT_START" skip="-1"></token>
+                    <token postag="SENT_START" skip="-1"/>
                     <token>?</token>
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token postag="PRP:.+" postag_regexp="yes"></token>
-                        <token postag="PRO:RIN:.+" postag_regexp="yes"></token>
+                        <token postag="PRP:.+" postag_regexp="yes"/>
+                        <token postag="PRO:RIN:.+" postag_regexp="yes"/>
                     </marker>
-                    <token skip="-1"></token>
+                    <token skip="-1"/>
                     <token postag="PKT">,</token>
-                    <token postag="VER:.+" postag_regexp="yes"></token>
+                    <token postag="VER:.+" postag_regexp="yes"/>
                 </pattern>
                 <message>Vermeiden Sie Nebensätze.</message>
                 <example correction=""><marker>Über wen</marker> du sprichst, weiß ich nicht.</example>
             </rule>
             <rule>
                 <antipattern>
-                    <token postag="SENT_START" skip="-1"></token>
+                    <token postag="SENT_START" skip="-1"/>
                     <token>?</token>
                 </antipattern>
                 <pattern>
-                    <marker><token postag="PRO:RIN:.+" postag_regexp="yes"></token></marker>
-                    <token skip="-1"></token>
+                    <marker>
+                        <token postag="PRO:RIN:.+" postag_regexp="yes"/></marker>
+                    <token skip="-1"/>
                     <token postag="PKT">,</token>
-                    <token postag="VER:.+" postag_regexp="yes"></token>
+                    <token postag="VER:.+" postag_regexp="yes"/>
                 </pattern>
                 <message>Vermeiden Sie Nebensätze.</message>
                 <example correction=""><marker>Was</marker> dieser Test bringt, weiß ich nicht.</example>
@@ -184,7 +187,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker><token postag="KON:INF" skip="-1"><exception scope="next" regexp="yes">,|\)</exception></token></marker>
                     <token>zu</token>
                     <token postag="VER:INF:.+" postag_regexp="yes"/>
-                    <token postag="PKT"></token>
+                    <token postag="PKT"/>
                 </pattern>
                 <message>Vermeiden Sie Nebensätze.</message>
                 <example correction="">Sie hat geschlafen, <marker>statt</marker> fleißig zu arbeiten.</example>
@@ -197,7 +200,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <marker><token postag="KON:INF" skip="-1"><exception scope="next" regexp="yes">,|\)</exception></token></marker>
                     <token postag="VER:EIZ:.+" postag_regexp="yes"/>
-                    <token postag="PKT"></token>
+                    <token postag="PKT"/>
                 </pattern>
                 <message>Vermeiden Sie Nebensätze.</message>
                 <example correction="">Sie hat geschalfen, <marker>statt</marker> aufzupassen.</example>
@@ -213,7 +216,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token skip="-1"><exception scope="next" regexp="yes">,|\)</exception></token>
                     </marker>
                     <token postag="VER:EIZ:.+" postag_regexp="yes"/>
-                    <token postag="PKT"></token>
+                    <token postag="PKT"/>
                 </pattern>
                 <message>Vermeiden Sie Infinitivsätze.</message>
                 <example correction="">Er hat ihr befohlen<marker>, auf</marker> das Geld aufzupassen.</example>
@@ -227,7 +230,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token>zu</token>
                     <token postag="VER:INF:.+" postag_regexp="yes"/>
-                    <token postag="PKT"></token>
+                    <token postag="PKT"/>
                 </pattern>
                 <message>Vermeiden Sie Infinitivsätze.</message>
                 <example correction="">Er hat vor<marker>, seine</marker> Tante zu besuchen.</example>
@@ -241,9 +244,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token>zu</token>
                     <token postag="VER:INF:.+" postag_regexp="yes"/>
-                    <token postag="KON:NEB" skip="-1"></token>
+                    <token postag="KON:NEB" skip="-1"/>
                     <token postag="VER:(INF|EIZ):.+" postag_regexp="yes"/>
-                    <token postag="PKT"></token>
+                    <token postag="PKT"/>
                 </pattern>
                 <message>Vermeiden Sie Infinitivsätze.</message>
                 <example correction="">Er hat vor<marker>, seine</marker> Tante zu besuchen und ihr bei der Gartenarbeit zu helfen.</example>
@@ -283,10 +286,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">wie|so</token>
                 </antipattern>
                 <pattern>
-                    <token postag="SUB:.+" postag_regexp="yes"><exception postag="ADV:MOD"></exception></token>
+                    <token postag="SUB:.+" postag_regexp="yes">
+                        <exception postag="ADV:MOD"/></token>
                     <token postag="PKT">,</token>
-                    <marker><token postag="KON:UNT"></token></marker>
-                    <token skip="-1"></token>
+                    <marker>
+                        <token postag="KON:UNT"/></marker>
+                    <token skip="-1"/>
                     <token postag="SENT_END">.</token>
                 </pattern>
                 <message>Vermeiden Sie Nebensätze.</message>
@@ -296,8 +301,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="SUB:.+" postag_regexp="yes"><exception postag="ADV:MOD"/></token>
                     <token postag="PKT">,</token>
-                    <marker><token postag="ADV:INR"></token></marker>
-                    <token skip="-1"></token>
+                    <marker>
+                        <token postag="ADV:INR"/></marker>
+                    <token skip="-1"/>
                     <token postag="SENT_END">.</token>
                 </pattern>
                 <message>Vermeiden Sie Nebensätze.</message>
@@ -311,7 +317,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">der</token>
                     <token postag="ADJ:.+" postag_regexp="yes" min="0"/>
                     <token postag="SUB:.+" postag_regexp="yes"/>
-                    <token postag="KON:NEB"></token>
+                    <token postag="KON:NEB"/>
                     <token inflected="yes">der</token>
                 </antipattern>
                 <pattern>
@@ -323,7 +329,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token postag="VER.*:[123]:.+" postag_regexp="yes"/>
                     <token postag="VER.*:[123]:.+" postag_regexp="yes" min="0"/>
-                    <token postag="PKT|KON:NEB" postag_regexp="yes"></token>
+                    <token postag="PKT|KON:NEB" postag_regexp="yes"/>
                 </pattern>
                 <message>Verzichten Sie auf Relativsätze.</message>
                 <example correction="">Der Mann<marker>, der</marker> gut singt, tritt heute abend auf.</example>
@@ -356,7 +362,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token skip="3">,</token>
                     <token inflected="yes" postag_regexp="yes" postag=".*:KJ.:.*" skip="-1">werden</token>
                     <token postag_regexp="yes" postag="VER:INF:.+"/>
-                    <token postag="PKT"></token>
+                    <token postag="PKT"/>
                 </antipattern>
                 <pattern>
                     <token inflected="yes" postag_regexp="yes" postag="VER:AUX:.*" skip="-1">werden</token>
@@ -433,10 +439,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="INDIREKTE_REDE" name="Leichte Sprache: Indirekte Rede">
             <rule>
                 <antipattern>
-                    <token postag="VER:.*[1-3]:.+" postag_regexp="yes" skip="-1"></token>
+                    <token postag="VER:.*[1-3]:.+" postag_regexp="yes" skip="-1"/>
                     <token postag="PKT">,</token>
                     <token postag="PRO:RIN:.+|ADV(:PRO|:INR)?|KON:UNT" postag_regexp="yes" regexp="yes">w.+</token>
-                    <token skip="-1"></token>
+                    <token skip="-1"/>
                     <token postag="SENT_END">.</token>
                 </antipattern>
                 <pattern>
@@ -452,7 +458,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Indirekte Rede gefunden. Benutzen Sie direkte Rede.</message>
                 <short>Vermeiden Sie Nebensätze.</short>
                 <example>Er sagte: ich bin 30 Jahre alt.</example>
-                <example correction="">Er sagte <marker>, er</marker> sei 30 Jahre alt.</example>
+                <example correction="">Er sagte<marker>, er</marker> sei 30 Jahre alt.</example>
                 <example>Weißt du zufälligerweise, wo sie wohnt?</example>
             </rule>
             <rule>
@@ -511,16 +517,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="SENT_START"></token>
-                    <token postag="(PRO|ART):.+" postag_regexp="yes"></token>
+                    <token postag="SENT_START"/>
+                    <token postag="(PRO|ART):.+" postag_regexp="yes"/>
                     <token postag="SUB:NOM:.+|UNKNOWN" postag_regexp="yes" regexp="yes">[A-ZÄÖÜ].+</token>
                     <marker>
                         <token>,</token>
-                        <token></token>
-                        <token min="0"></token>
+                        <token/>
+                        <token min="0"/>
                     </marker>
-                    <token postag="VER:.*KJ.*" postag_regexp="yes" skip="-1"></token>
-                    <token postag="VER:INF:.+|PA2:.+" postag_regexp="yes"></token>
+                    <token postag="VER:.*KJ.*" postag_regexp="yes" skip="-1"/>
+                    <token postag="VER:INF:.+|PA2:.+" postag_regexp="yes"/>
                     <token>,</token>
                 </pattern>
                 <message>Indirekte Rede gefunden. Benutzen Sie direkte Rede.</message>
@@ -529,13 +535,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="SENT_START"></token>
-                    <token postag="(PRO|ART):.+" postag_regexp="yes"></token>
+                    <token postag="SENT_START"/>
+                    <token postag="(PRO|ART):.+" postag_regexp="yes"/>
                     <token postag="SUB:NOM:.+|UNKNOWN" postag_regexp="yes" regexp="yes">[A-ZÄÖÜ].+</token>
                     <marker>
                         <token>,</token>
-                        <token></token>
-                        <token min="0"></token>
+                        <token/>
+                        <token min="0"/>
                     </marker>
                     <token postag="VER:.*KJ.*" postag_regexp="yes" skip="-1"><exception scope="next" postag="VER:.+" postag_regexp="yes"/></token>
                     <token>,</token>
@@ -545,14 +551,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="SENT_START"></token>
-                    <token postag="PRP:.+" postag_regexp="yes"></token>
-                    <token postag="(PRO|ART):.+" postag_regexp="yes"></token>
+                    <token postag="SENT_START"/>
+                    <token postag="PRP:.+" postag_regexp="yes"/>
+                    <token postag="(PRO|ART):.+" postag_regexp="yes"/>
                     <token postag="SUB:(AKK|DAT|GEN):.+|UNKNOWN" postag_regexp="yes" regexp="yes">[A-ZÄÖÜ].+</token>
                     <marker>
                         <token>,</token>
-                        <token></token>
-                        <token min="0"></token>
+                        <token/>
+                        <token min="0"/>
                     </marker>
                     <token postag="VER:.*KJ.*" postag_regexp="yes" skip="-1"><exception scope="next" postag="VER:.+" postag_regexp="yes"/></token>
                     <token>,</token>
@@ -562,17 +568,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="SENT_START"></token>
-                    <token postag="PRP:.+" postag_regexp="yes"></token>
-                    <token postag="(PRO|ART):.+" postag_regexp="yes"></token>
+                    <token postag="SENT_START"/>
+                    <token postag="PRP:.+" postag_regexp="yes"/>
+                    <token postag="(PRO|ART):.+" postag_regexp="yes"/>
                     <token postag="SUB:(AKK|DAT|GEN):.+|UNKNOWN" postag_regexp="yes" regexp="yes">[A-ZÄÖÜ].+</token>
                     <marker>
                         <token>,</token>
-                        <token></token>
-                        <token min="0"></token>
+                        <token/>
+                        <token min="0"/>
                     </marker>
-                    <token postag="VER:.*KJ.*" postag_regexp="yes" skip="-1"></token>
-                    <token postag="VER:INF:.+|PA2:.+" postag_regexp="yes"></token>
+                    <token postag="VER:.*KJ.*" postag_regexp="yes" skip="-1"/>
+                    <token postag="VER:INF:.+|PA2:.+" postag_regexp="yes"/>
                     <token>,</token>
                 </pattern>
                 <message>Indirekte Rede gefunden. Benutzen Sie direkte Rede.</message>
@@ -713,7 +719,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token regexp="yes">und|oder</token>
                     </marker>
-                    <token></token>
+                    <token/>
                     <token skip="-1"/>
                     <token postag="SENT_END"/>
                 </pattern>
@@ -811,7 +817,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <!-- Für SFT gibt es zu viele falsche Positive. -->
                     <token postag_regexp="yes" postag=".*:KJ(1|2)(:NON)?" skip="-1" inflected="yes">haben<exception scope="next" postag="PKT"/></token>
-                    <token postag="VER:PA2:NON"></token>
+                    <token postag="VER:PA2:NON"/>
                     <token postag="PKT"/>
                 </antipattern>
                 <antipattern>
@@ -825,6 +831,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag_regexp="yes" postag=".*:KJ(1|2)(:NON)?">
                         <exception postag_regexp="yes" postag="VER:(MOD:)?INF.*"/>
                         <exception postag="VER:1:SIN:PRÄ:NON"/>
+                        <exception postag="VER:MOD:1:PLU:PRÄ"/>
                         <!-- Gleiche Verbform VER:2:PLU:KJ1:NON und VER:3:SIN:PRÄ:NON. Die 2:PLU ist vermutlich sehr viel seltener, daher wird eine Ausnahme hinzugefügt. -->
                         <exception postag_regexp="yes" postag="VER:2:PLU:KJ1:.*"/>
                         <exception regexp="yes" case_sensitive="yes">[A-Z].+</exception>
@@ -842,7 +849,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>,</token>
                     <token skip="-1"><exception postag="PRO:RIN:.+|KON:UNT|PRP:.+" postag_regexp="yes"/></token>
-                    <token postag_regexp="yes" postag="VER:(MOD|AUX):.*:KJ2"></token>
+                    <token postag_regexp="yes" postag="VER:(MOD|AUX):.*:KJ2"/>
                 </pattern>
                 <message>Vermeiden Sie den Konjunktiv. Vermeiden Sie auch indirekte Rede.</message>
                 <example>Morgen regnet es vielleicht.</example>
@@ -850,7 +857,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag_regexp="yes" postag="VER:(MOD|AUX):.*:KJ2"></token>
+                    <token postag_regexp="yes" postag="VER:(MOD|AUX):.*:KJ2"/>
                 </pattern>
                 <message>Vermeiden Sie den Konjunktiv.</message>
                 <example>Morgen regnet es vielleicht.</example>
@@ -881,7 +888,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="ABKUERZUNG" name="Leichte Sprache: Abkürzung">
             <rule>
                 <pattern>
-                    <token regexp="yes">\p{Lu}{2,}</token>
+                    <token regexp="yes">\p{Lu}{2,30}</token>
                 </pattern>
                 <message>Verzichten Sie auf Abkürzungen.</message>
                 <example>Das <marker>Köchelverzeichnis</marker> ist ein Verzeichnis der Kompositionen von Mozart.</example>
@@ -963,7 +970,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="ABSTRAKTE_WOERTER" name="Leichte Sprache: abstrakte Wörter">
             <rule>
                 <pattern>
-                    <token postag="SUB:.+" postag_regexp="yes" inflected='yes' regexp='yes'>[A-ZÄÖÜ][a-zäöüß]{2,}(ität|ung|[hk]eit|sal|schaft|tum|wesen|nis)(s[a-zäöüß]{3,})?</token>
+                    <token postag="SUB:.+" postag_regexp="yes" inflected='yes' regexp='yes'>[A-ZÄÖÜ][a-zäöüß]{2,30}(ität|ung|[hk]eit|sal|schaft|tum|wesen|nis)(s[a-zäöüß]{3,30})?</token>
                 </pattern>
                 <message>Vermeiden Sie abstrakte Wörter. Benutzen Sie möglichst konkrete Aussagen.</message>
                 <short>Abstrakte Wörter vermeiden</short>
@@ -988,7 +995,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
         <rule id="LANGES_WORT" name="Leichte Sprache: Langes Wort">
             <pattern>
-                <token regexp="yes">\p{L}{14,}</token>
+                <token regexp="yes">\p{L}{14,30}</token>
             </pattern>
             <message>Dieses Wort hat mehr als dreizehn Buchstaben. Benutzen Sie kurze Wörter.</message>
             <example>Die Schifffahrt auf der Donau ist beliebt.</example>
@@ -1064,7 +1071,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Verwenden Sie keine schwierigen Wendungen.</message>
                 <example correction="">Sie ist das <marker>Zünglein an der Waage</marker>.</example>
-                <example correction="">Sie entscheidet.</example>
+                <example>Sie entscheidet.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -1130,10 +1137,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token regexp="yes">bis|im|zum</token>
                     <token regexp="yes" inflected="yes">Jahr|Januar|Februar|März|April|Mai|Ju[nl]i|August|September|Oktober|November|Dezember</token>
-                    <token spacebefore="yes" regexp="yes">\p{N}{3,}</token>
+                    <token spacebefore="yes" regexp="yes">\p{N}{3,30}</token>
                 </antipattern>
                 <pattern>
-                    <token spacebefore="yes" regexp="yes">\p{N}{3,}</token>
+                    <token spacebefore="yes" regexp="yes">\p{N}{3,30}</token>
                 </pattern>
                 <message>Vermeiden Sie hohe Zahlen.</message>
                 <example>Sehr viele Menschen</example>
@@ -1190,8 +1197,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token negate="yes">bis</token>
                 </pattern>
-                <message>Schreiben Sie 'bis' bei vorangehendem 'von' aus: <suggestion>A bis Z</suggestion>.</message>
-                <short>Schreiben Sie 'bis' bei vorhergehendem 'von' aus.</short>
+                <message>Schreiben Sie 'bis' bei vorangehendem 'von' aus.</message>
+                <suggestion>A bis Z</suggestion>
                 <example><marker>Pilze von A bis Z</marker>.</example>
                 <example>Die Buchstaben <marker>A–Z</marker>.</example>
                 <example correction="A bis Z">Pilze von <marker>A-Z</marker>.</example>
@@ -1206,8 +1213,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token negate="yes">bis</token>
                 </pattern>
-                <message>Schreiben Sie 'bis' bei vorhergehendem 'von' aus: <suggestion>\2 bis \4</suggestion>.</message>
-                <short>Schreiben Sie 'bis' bei vorhergehendem 'von' aus.</short>
+                <message>Schreiben Sie 'bis' bei vorhergehendem 'von' aus.</message>
+                <suggestion>\2 bis \4</suggestion>
                 <example><marker>Pilze von A bis Z</marker>.</example>
                 <example>Die Buchstaben <marker>A–Z</marker>.</example>
                 <example correction="A bis Z">Pilze von <marker>A - Z</marker>.</example>
@@ -1220,9 +1227,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">([0-9]{1,5})(\-|–)([0-9]{1,5})</token>
                     </marker>
                 </pattern>
-                <message>Schreiben Sie 'bis' bei vorhergehendem 'von' aus: <suggestion><match no="1"/> <match no="2" regexp_match="([0-9]{1,5})(\-|–)([0-9]{1,5})" regexp_replace="$1 bis $3"/></suggestion>.</message>
-                <short>Schreiben Sie 'bis' bei vorhergehendem 'von' aus.</short>
-                <example correction="Von 9 bis 10"><marker>Von 9–10</marker> Uhr.</example>
+                <message>Schreiben Sie 'bis' bei vorhergehendem 'von' aus.</message>
+                <suggestion><match no="1"/> <match no="2" regexp_match="([0-9]{1,5})(\-|–)([0-9]{1,5})" regexp_replace="$1 bis $3"/></suggestion>
+                <example correction="Von 9 bis 10"><marker>Von 9-10</marker> Uhr.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -1233,27 +1240,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">[0-9]{1,5}</token>
                     </marker>
                 </pattern>
-                <message>Schreiben Sie 'bis' bei vorhergehendem 'von' aus: <suggestion>\1 \2 bis \4</suggestion>.</message>
-                <short>Schreiben Sie 'bis' bei vorhergehendem 'von' aus.</short>
+                <message>Schreiben Sie 'bis' bei vorhergehendem 'von' aus.</message>
+                <suggestion>\1 \2 bis \4</suggestion>
                 <example correction="Von 9 bis 10"><marker>Von 9 – 10</marker> Uhr.</example>
+                <example correction="Von 9 bis 10"><marker>Von 9–10</marker> Uhr.</example>
             </rule>
             <rule>
                 <regexp case_sensitive='yes'>([vV]o[nm]) (Band|Blatt|Seite|Zeile) (([0-9]{1,5})(\-|–)([0-9]{1,5}))</regexp>
-                <message>Schreiben Sie 'bis' bei vorhergehendem 'von' aus: <suggestion><match no="1"/> <match no="2"/> <match no="3" regexp_match="([0-9]{1,5})(\-|–)([0-9]{1,5})" regexp_replace="$1 bis $3"/></suggestion>.</message>
-                <short>Schreiben Sie 'bis' bei vorhergehendem 'von' aus.</short>
+                <message>Schreiben Sie 'bis' bei vorhergehendem 'von' aus.</message>
+                <suggestion><match no="1"/> <match no="2"/> <match no="3" regexp_match="([0-9]{1,5})(\-|–)([0-9]{1,5})" regexp_replace="$1 bis $3"/></suggestion>
                 <example correction="Von Zeile 7 bis 11"><marker>Von Zeile 7-11</marker> wird geprüft, ob die Zahl eine Primzahl ist.</example>
                 <example correction="Von Zeile 7 bis 11"><marker>Von Zeile 7–11</marker> wird geprüft, ob die Zahl eine Primzahl ist.</example>
             </rule>
             <rule>
                 <regexp case_sensitive='yes'>([vV]o[nm]) (Band|Bänden?|Blatt|Blättern?|Seiten?|Zeilen?) ([0-9]{1,5}) (\-|–) ([0-9]{1,5})</regexp>
-                <message>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus: <suggestion>\1 \2 \3 bis \5</suggestion>.</message>
-                <short>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus.</short>
+                <message>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus.</message>
+                <suggestion>\1 \2 \3 bis \5</suggestion>
                 <example correction="Von Zeile 7 bis 11"><marker>Von Zeile 7 - 11</marker> wird geprüft, ob die Zahl eine Primzahl ist.</example>
                 <example correction="Von Zeile 7 bis 11"><marker>Von Zeile 7 – 11</marker> wird geprüft, ob die Zahl eine Primzahl ist.</example>
             </rule>
             <rule>
                 <regexp>(vo[nm]) ([0-9]{1,5})\.(\-|–)([0-9]{1,5})\.</regexp>
-                <message>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus: <suggestion>\1 \2. bis \4.</suggestion>.</message>
+                <message>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus.</message>
+                <suggestion>\1 \2. bis \4.</suggestion>
                 <example><marker>Vom 9. bis 10.</marker> April.</example>
                 <example correction="Vom 7. bis 10."><marker>Vom 7.-10.</marker> März.</example>
             </rule>

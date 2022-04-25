@@ -18,6 +18,7 @@
  */
 package org.languagetool.clientexample;
 
+import org.languagetool.Premium;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
@@ -33,14 +34,15 @@ public class Example {
 
   public static void main(String[] args) throws IOException {
     List<Language> realLanguages = Languages.get();
+    System.out.println("Premium version: " + Premium.isPremiumVersion());
     System.out.println("This example will test a short string with all languages known to LanguageTool.");
     System.out.println("It's just a test to make sure there's at least no crash.");
     System.out.println("Using LanguageTool " + JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + ")");
     System.out.println("Supported languages: " + realLanguages.size());
     for (Language language : realLanguages) {
-      JLanguageTool langTool = new JLanguageTool(language);
+      JLanguageTool lt = new JLanguageTool(language);
       String input = "And the the";
-      List<RuleMatch> result = langTool.check(input);
+      List<RuleMatch> result = lt.check(input);
       System.out.println("Checking '" + input + "' with " + language + ":");
       for (RuleMatch ruleMatch : result) {
         System.out.println("    " + ruleMatch);

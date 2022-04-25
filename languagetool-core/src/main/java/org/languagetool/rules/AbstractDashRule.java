@@ -22,6 +22,7 @@ package org.languagetool.rules;
 import com.hankcs.algorithm.AhoCorasickDoubleArrayTrie;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Tag;
 
 import java.io.IOException;
 import java.util.*;
@@ -36,6 +37,7 @@ public abstract class AbstractDashRule extends Rule {
   public AbstractDashRule(ResourceBundle messages) {
     super(messages);
     setCategory(Categories.TYPOGRAPHY.getCategory(messages));
+    setTags(Collections.singletonList(Tag.picky));
   }
 
   @Override

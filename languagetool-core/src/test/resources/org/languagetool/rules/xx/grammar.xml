@@ -144,6 +144,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>another suggestion \2 !</suggestion>
             <example correction="a suggestion fou !|another suggestion bar !">This is <marker>fou</marker> bar</example>
         </rule>
+        <rule id="REGEX_PATTERN_RULE_DEMO_ANTIPATTERN_1" name="see: RegexpPatternRuleTest">
+            <regexp mark="1">(fo.) (bar)</regexp>
+            <filter class="org.languagetool.rules.patterns.RegexAntiPatternFilter" args="antipatterns:xxx|fou|yyy"/>
+            <message>msg</message>
+            <example correction="">This is <marker>fox</marker> bar stuff</example>
+            <example>This is <marker>fou</marker> bar stuff</example>
+        </rule>
+        <rule id="REGEX_PATTERN_RULE_DEMO_ANTIPATTERN_2" name="see: RegexpPatternRuleTest">
+            <regexp>fox b[ae]r</regexp>
+            <filter class="org.languagetool.rules.patterns.RegexAntiPatternFilter" args="antipatterns:bar"/>
+            <message>msg</message>
+            <example correction="">This is <marker>fox ber</marker> stuff</example>
+            <example>This is <marker>fox bar</marker> stuff</example>
+        </rule>
+        <rule id="REGEX_PATTERN_RULE_DEMO_ANTIPATTERN_3" name="see: RegexpPatternRuleTest">
+            <regexp mark="1">(fo.) (bar)</regexp>
+            <filter class="org.languagetool.rules.patterns.RegexAntiPatternFilter" args="antipatterns:is|bar"/>
+            <message>msg</message>
+            <example correction="">This is <marker>fox</marker> bar stuff</example>
+        </rule>
         <rule id="DEMO_RULE" name="Find 'foo bar'">
             <!-- a trivial demo rule that matches "foo" followed by "bar" -->
             <pattern case_sensitive="no">
@@ -256,6 +276,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern case_sensitive="no">
                 <token>foo</token>
                 <token chunk="B-NP-singular"/>
+            </pattern>
+            <message>Did you mean <suggestion>foo bar</suggestion>?</message>
+            <example>This is <marker>foo bar</marker>.</example>
+            <example correction="foo bar">This is <marker>foo chunkbar</marker>.</example>
+        </rule>
+        <rule id="DEMO_CHUNK_REGEX_RULE" name="Rule with regex chunk attribute">
+            <pattern case_sensitive="no">
+                <token>foo</token>
+                <token chunk_re="B-(XXX|NP)-singular"/>
             </pattern>
             <message>Did you mean <suggestion>foo bar</suggestion>?</message>
             <example>This is <marker>foo bar</marker>.</example>
@@ -701,7 +730,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>a</token>
                 <and>
                 <token min="2" max="3">b</token>
-                <token regexp="yes">(?iu)\p{Ll}</token>
+                <token regexp="yes">(?u)\p{Ll}</token>
                 </and>
                 <token>c</token>
             </pattern>
@@ -721,7 +750,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <and>
                         NOTE: now the min/max token is the second one -
                         and this causes the exception to be thrown!
-                        <token regexp="yes">(?iu)\p{Ll}</token>
+                        <token regexp="yes">(?u)\p{Ll}</token>
                         <token min="2" max="3">b</token>
                     </and>
                     <token>c</token>
@@ -847,7 +876,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction=""><marker>5</marker></example>
         </rule>
     </category>
-    
+
     <category id="DEFAULT_OFF" name="A category that's off by default" default="off">
         <rule id="IN_OFF_CATEGORY" name="Rule 1">
             <pattern>

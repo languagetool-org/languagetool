@@ -23,44 +23,59 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.tools.StringTools;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.*;
-import java.net.*;
-import java.nio.charset.StandardCharsets;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @since 4.0
  */
 class UserLimits {
 
-  private int maxTextLength;
-  private long maxCheckTimeMillis;
-  private Long premiumUid;
+  private static final Logger logger = LoggerFactory.getLogger(UserLimits.class);
+  
+  @Nullable
+  private final UserInfoEntry account;
+
+  private final int maxTextLength;
+  private final long maxCheckTimeMillis;
+  // number of words from custom dictionaries that are cached, enabled only for selected users
+  private final boolean hasPremium;
+  private final Long dictionaryCacheSize;
+  private final Long premiumUid;
   private boolean skipLimits;
 
-  private static final LoadingCache<Account, String> cache = CacheBuilder.newBuilder()
-          .expireAfterWrite(15, TimeUnit.MINUTES)
-          .build(new CacheLoader<Account, String>() {
-            @Override
-            public String load(@NotNull Account account) throws IOException {
-              return getTokenFromServer(account.username, account.password);
-            }
-          });
+  private final Long requestsPerDay;
+  private final LimitEnforcementMode limitEnforcementMode;
 
   static UserLimits getDefaultLimits(HTTPServerConfig config) {
-    return new UserLimits(config.maxTextLength, config.maxCheckTimeMillis, null);
+    if (config.premiumAlways) {
+      return new UserLimits(config.getMaxTextLengthPremium(), config.getMaxCheckTimeMillisAnonymous(), 1L, true);
+    } else {
+      return new UserLimits(config.getMaxTextLengthAnonymous(), config.getMaxCheckTimeMillisAnonymous(), null, false);
+    }
   }
-  
+
+  /**
+   * @deprecated Use #getLimitsFromToken() instead
+   */
+  @Deprecated
+  static UserLimits getLimitsFromUserAccount(HTTPServerConfig config, @NotNull String username, @NotNull String password) {
+    UserInfoEntry entry = DatabaseAccess.getInstance().getUserInfoWithPassword(username, password);
+    if (entry == null) { // transparent fallback to anonymous user if DB down
+      return getDefaultLimits(config);
+    } if (entry.hasPremium() || config.isPremiumAlways()) {
+      logger.info("Access via username/password for " + username);
+      return new UserLimits(config.getMaxTextLengthPremium(), config.getMaxCheckTimeMillisPremium(), entry.getUserId(), true, entry.getUserDictCacheSize(), entry.getRequestsPerDay(), entry.getLimitEnforcement(), entry);
+    } else {
+      logger.info("Non-premium access via username/password for " + username);
+      return new UserLimits(config.getMaxTextLengthLoggedIn(), config.getMaxCheckTimeMillisLoggedIn(), entry.getUserId(), false, entry.getUserDictCacheSize(), entry.getRequestsPerDay(), entry.getLimitEnforcement(), entry);
+    }
+  }
   /**
    * Get limits from the JWT key itself, no database access needed.
    */
@@ -68,7 +83,7 @@ class UserLimits {
     Objects.requireNonNull(jwtToken);
     String secretKey = config.getSecretTokenKey();
     if (secretKey == null) {
-      throw new RuntimeException("You specified a 'token' parameter but this server doesn't accept tokens");
+      throw new RuntimeException("You specified a 'token' parameter but this server is not configured to accept tokens");
     }
     Algorithm algorithm = Algorithm.HMAC256(secretKey);
     DecodedJWT decodedToken;
@@ -80,13 +95,23 @@ class UserLimits {
     }
     Claim maxTextLengthClaim = decodedToken.getClaim("maxTextLength");
     Claim premiumClaim = decodedToken.getClaim("premium");
-    boolean hasPremium = !premiumClaim.isNull() && premiumClaim.asBoolean();
-    Claim uidClaim = decodedToken.getClaim("uid");
-    long uid = uidClaim.isNull() ? -1 : uidClaim.asLong();
-    UserLimits userLimits = new UserLimits(
-      maxTextLengthClaim.isNull() ? config.maxTextLength : maxTextLengthClaim.asInt(),
-      config.maxCheckTimeMillis,
-      hasPremium ? uid : null);
+    boolean hasPremium = config.isPremiumAlways() || (!premiumClaim.isNull() && premiumClaim.asBoolean());
+    Long uid = decodedToken.getClaim("uid").asLong();
+    if (config.isPremiumAlways() && uid == null) {
+      uid = 1L; // need uid to be recognized as premium
+    }
+    // START PREMIUM MODIFICATIONS
+    Claim dictCacheSizeClaim = decodedToken.getClaim("dictCacheSize");
+    Long dictCacheSize = dictCacheSizeClaim.asLong();
+    Claim requestsPerDayClaim = decodedToken.getClaim("requestsPerDay");
+    Long requestsPerDay = requestsPerDayClaim.asLong();
+    Claim limitEnforcementClaim = decodedToken.getClaim("limitEnforcement");
+    LimitEnforcementMode limitEnforcementMode = LimitEnforcementMode.parse(limitEnforcementClaim.asInt());
+    int maxTextLength = maxTextLengthClaim.isNull() ? hasPremium ? config.getMaxTextLengthPremium() : config.getMaxTextLengthLoggedIn() : maxTextLengthClaim.asInt();
+    long maxCheckTime = hasPremium ? config.getMaxCheckTimeMillisPremium() : config.getMaxCheckTimeMillisLoggedIn();
+    UserLimits userLimits = new UserLimits(maxTextLength, maxCheckTime, uid, hasPremium,
+      (dictCacheSize == null || dictCacheSize <= 0) ? null : dictCacheSize,
+      requestsPerDay, limitEnforcementMode);
     userLimits.skipLimits = decodedToken.getClaim("skipLimits").isNull() ? false : decodedToken.getClaim("skipLimits").asBoolean();
     return userLimits;
   }
@@ -96,65 +121,56 @@ class UserLimits {
    */
   public static UserLimits getLimitsByApiKey(HTTPServerConfig config, String username, String apiKey) {
     DatabaseAccess db = DatabaseAccess.getInstance();
-    Long id = db.getUserId(username, apiKey);
-    return new UserLimits(config.maxTextLengthWithApiKey, config.maxCheckTimeWithApiKeyMillis, id);
-  }
-
-  /**
-   * Special case that checks user on languagetoolplus.com.
-   */
-  static UserLimits getLimitsFromUserAccount(HTTPServerConfig config, String username, String password) {
-    Objects.requireNonNull(username);
-    Objects.requireNonNull(password);
-    String token = cache.getUnchecked(new Account(username, password));
-    return getLimitsFromToken(config, token);
-  }
-
-  @NotNull
-  private static String getTokenFromServer(String username, String password) {
-    String url = "https://languagetoolplus.com/token";
-    try {
-      Map<String,Object> params = new LinkedHashMap<>();
-      params.put("username", username);
-      params.put("password", password);
-      StringBuilder postData = new StringBuilder();
-      for (Map.Entry<String,Object> param : params.entrySet()) {
-        if (postData.length() != 0) {
-          postData.append('&');
-        }
-        postData.append(URLEncoder.encode(param.getKey(), "UTF-8"))
-                .append('=')
-                .append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
-      }
-      byte[] postDataBytes = postData.toString().getBytes(StandardCharsets.UTF_8);
-      HttpURLConnection conn = (HttpURLConnection)new URL(url).openConnection();
-      try {
-        conn.setRequestMethod("POST");
-        conn.setDoOutput(true);
-        conn.getOutputStream().write(postDataBytes);
-        return StringTools.streamToString(conn.getInputStream(), "UTF-8");
-      } catch (IOException e) {
-        if (conn.getResponseCode() == 403) {
-          throw new AuthException("Could not get token for user '" + username + "' from " + url + ", invalid username or password (code: 403)", e);
-        } else {
-          throw new RuntimeException("Could not get token for user '" + username + "' from " + url, e);
-        }
-      }
-    } catch (IOException e) {
-      throw new RuntimeException("Could not get token for user '" + username + "' from " + url, e);
+    UserInfoEntry data = db.getUserInfoWithApiKey(username, apiKey);
+    if (data == null) { // transparent fallback to anonymous user if DB down
+      return getDefaultLimits(config);
+    } else if (data.hasPremium() || config.isPremiumAlways()) {
+      return new UserLimits(config.getMaxTextLengthPremium(), config.getMaxCheckTimeMillisPremium(), data.getUserId(), true, data.getUserDictCacheSize(), data.getRequestsPerDay(), data.getLimitEnforcement(), data);
+    } else {
+      return new UserLimits(config.getMaxTextLengthLoggedIn(), config.getMaxCheckTimeMillisLoggedIn(), data.getUserId(), false, data.getUserDictCacheSize(), data.getRequestsPerDay(), data.getLimitEnforcement(), data);
     }
   }
 
-  private UserLimits(int maxTextLength, long maxCheckTimeMillis, Long premiumUid) {
+  /**
+   * Get limits from the addon token, needs DB access
+   */
+  public static UserLimits getLimitsByAddonToken(HTTPServerConfig config, String username, String addonToken) {
+    DatabaseAccess db = DatabaseAccess.getInstance();
+    UserInfoEntry data = db.getUserInfoWithAddonToken(username, addonToken);
+    if (data == null) { // transparent fallback to anonymous user if DB down
+      return getDefaultLimits(config);
+    } if (data.hasPremium() || config.isPremiumAlways()) {
+      return new UserLimits(config.getMaxTextLengthPremium(), config.getMaxCheckTimeMillisPremium(), data.getUserId(), true, data.getUserDictCacheSize(), data.getRequestsPerDay(), data.getLimitEnforcement(), data);
+    } else {
+      return new UserLimits(config.getMaxTextLengthLoggedIn(), config.getMaxCheckTimeMillisLoggedIn(), data.getUserId(), false, data.getUserDictCacheSize(), data.getRequestsPerDay(), data.getLimitEnforcement(), data);
+    }
+  }
+
+
+  private UserLimits(int maxTextLength, long maxCheckTimeMillis, Long premiumUid, boolean hasPremium) {
+    this(maxTextLength, maxCheckTimeMillis, premiumUid, hasPremium, null, null, null);
+  }
+
+  private UserLimits(int maxTextLength, long maxCheckTimeMillis, Long premiumUid, boolean hasPremium, Long dictCacheSize, Long requestsPerDay, LimitEnforcementMode limitEnforcement) {
+    this(maxTextLength, maxCheckTimeMillis, premiumUid, hasPremium, dictCacheSize, requestsPerDay, limitEnforcement, null);
+  }
+
+  private UserLimits(int maxTextLength, long maxCheckTimeMillis, Long premiumUid, boolean hasPremium, Long dictCacheSize, Long requestsPerDay, LimitEnforcementMode limitEnforcement, UserInfoEntry account) {
     this.maxTextLength = maxTextLength;
     this.maxCheckTimeMillis = maxCheckTimeMillis;
     this.premiumUid = premiumUid;
+    this.hasPremium = hasPremium;
+    this.dictionaryCacheSize = dictCacheSize;
+    this.requestsPerDay = requestsPerDay;
+    this.limitEnforcementMode = limitEnforcement != null ? limitEnforcement : LimitEnforcementMode.DISABLED;
+    this.account = account;
   }
 
   /**
    * Special case for internal use to skip all limits.
    */
   UserLimits(boolean skipLimits) {
+    this(0, 0, -1L, true);
     this.skipLimits = skipLimits;
   }
 
@@ -175,16 +191,43 @@ class UserLimits {
     return premiumUid;
   }
 
+  public boolean hasPremium() {
+    return hasPremium;
+  }
+
   @Override
   public String toString() {
-    return "premiumUid=" + premiumUid + ", maxTextLength=" + maxTextLength +
-            ", maxCheckTimeMillis=" + maxCheckTimeMillis;
+    return new ToStringBuilder(this)
+      .append("premiumUid", premiumUid)
+      .append("maxTextLength", maxTextLength)
+      .append("maxCheckTimeMillis", maxCheckTimeMillis)
+      .append("dictCacheSize", dictionaryCacheSize)
+      .append("requestsPerDay", requestsPerDay)
+      .append("limitEnforcement", limitEnforcementMode)
+      .build();
+  }
+
+  public Long getDictCacheSize() {
+    return dictionaryCacheSize;
+  }
+
+  public Long getRequestsPerDay() {
+    return requestsPerDay;
+  }
+
+  public LimitEnforcementMode getLimitEnforcementMode() {
+    return limitEnforcementMode;
+  }
+
+  @Nullable
+  UserInfoEntry getAccount() {
+    return account;
   }
 
   static class Account {
 
-    private String username;
-    private String password;
+    private final String username;
+    private final String password;
 
     Account(String username, String password) {
       this.username = Objects.requireNonNull(username);

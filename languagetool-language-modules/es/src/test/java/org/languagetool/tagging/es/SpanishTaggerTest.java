@@ -33,7 +33,7 @@ public class SpanishTaggerTest {
 
   @Before
   public void setUp() {
-    tagger = new SpanishTagger();
+    tagger = SpanishTagger.INSTANCE;
     tokenizer = new WordTokenizer();
   }
 
@@ -52,7 +52,7 @@ public class SpanishTaggerTest {
     // all-upper case that is common noun & proper noun
     TestTools.myAssert("RIOJA", "RIOJA/[Rioja]NPCNG00|RIOJA/[rioja]NCMS000", tokenizer, tagger);
     
-    TestTools.myAssert("dímelo", "dímelo/[decir]VMM02S0+PP1CS000+PP3MSA00", tokenizer, tagger);
+    TestTools.myAssert("dímelo", "dímelo/[decir]VMM02S0:PP1CS000:PP3MSA00", tokenizer, tagger);
 
     TestTools.myAssert("Soy un hombre muy honrado.",
         "Soy/[ser]VSIP1S0 -- un/[uno]DI0MS0 -- hombre/[hombre]I|hombre/[hombre]NCMS000 -- muy/[muy]RG -- honrado/[honrar]VMP00SM",
@@ -61,6 +61,13 @@ public class SpanishTaggerTest {
         "Tengo/[tener]VMIP1S0 -- que/[que]CS|que/[que]PR0CN000 -- ir/[ir]VMN0000 -- a/[a]NCFS000|a/[a]SPS00 -- mi/[mi]DP1CSS|mi/[mi]NCMS000 -- casa/[casa]NCFS000|casa/[casar]VMIP3S0|casa/[casar]VMM02S0",
         tokenizer, tagger);
     TestTools.myAssert("blablabla", "blablabla/[null]null", tokenizer, tagger);
+    TestTools.myAssert("autoeducan", "autoeducan/[autoeducar]VMIP3P0", tokenizer, tagger);
+    TestTools.myAssert("autorretratarán", "autorretratarán/[autorretratar]VMIF3P0", tokenizer, tagger);
+    TestTools.myAssert("autorralentizan", "autorralentizan/[autorralentizar]VMIP3P0", tokenizer, tagger);
+    TestTools.myAssert("autoralentizan", "autoralentizan/[null]null", tokenizer, tagger);
+    TestTools.myAssert("autoretratarán", "autoretratarán/[null]null", tokenizer, tagger);
+    TestTools.myAssert("económico-sociales", "económico-sociales/[económico-social]AQ0CP0", tokenizer, tagger);
+    TestTools.myAssert("jurídico-económicas", "jurídico-económicas/[jurídico-económico]AQ0FP0", tokenizer, tagger);
 
   }
 }
