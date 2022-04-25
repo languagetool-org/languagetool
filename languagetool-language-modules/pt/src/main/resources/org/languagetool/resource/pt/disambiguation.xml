@@ -105,14 +105,6 @@
   </unification>
     <!-- Unification rules retrieved from galician grammar.xml - END  -->
 
-    <!--rule id="WORKAROUND_MISSING_ADVERBS_POS" name="Fix missing POS in adverbes">
-    < Created by Tiago F. Santos, Portuguese rule, 2017-07-24>
-      <pattern>
-          <token regexp="yes" postag='I|RG' postag_regexp='yes'>.*mente$</token>
-      </pattern>
-      <disambig action="add"><wd pos="RM"/></disambig>
-      <example inputform="francamente[Francamente/I]" outputform="francamente[Francamente/I,francamente/RM]" type="ambiguous">Falou <marker>francamente</marker> em soluções.</example>
-    </rule  -->
 
     <!--		multiwords.txt related			-->
     <!-- 	Workaround retrieved from Catalan grammar.xml	>
@@ -140,7 +132,67 @@
       <disambig action="add"><wd pos="SENT_END"/></disambig>
     </rule>
   </rulegroup-->
-  
+  <rule id="SAIRA" name="saíra">
+    <pattern>
+      <token><exception postag=".*DA0FS0" postag_regexp="yes"/></token>
+      <marker>
+        <token regexp="yes">saíra</token> 
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="N.*"/>
+  </rule>
+  <rule id="SABE" name="sabe">
+    <!-- TODO: exceptions -->
+    <pattern>
+      <token>sabe</token>
+    </pattern>
+    <disambig action="remove" postag="[NA].*"/>
+  </rule>
+  <rule id="USUAL" name="usual">
+    <!-- TODO: exceptions -->
+    <pattern>
+      <token inflected="yes" regexp="yes">usual|embriagado|escasso</token>
+    </pattern>
+    <disambig action="remove" postag="N.*"/>
+  </rule>
+  <rule id="ESTE" name="este">
+    <!-- TODO: exceptions -->
+    <pattern>
+      <token regexp="yes">estes?</token>
+    </pattern>
+    <disambig action="filter" postag="[DP].*"/>
+  </rule>
+  <rule id="AQUELAR" name="aquelar/aquela">
+    <pattern>
+      <and>
+        <token inflected="yes">aquelar</token>
+        <token postag="DD.*" postag_regexp="yes"/>
+      </and>
+    </pattern>
+    <disambig action="filter" postag="DD.*"/>
+  </rule>
+  <rulegroup id="ELE" name="ele">
+    <!-- TODO: exceptions -->
+    <rule>
+      <pattern>
+        <marker>
+          <token regexp="yes">eles?|elas?</token>  
+        </marker>
+        <token postag="V.*" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="remove" postag="V.*"></disambig>  
+    </rule>
+    <rule>
+      <pattern>
+        <token postag="SPS.*" postag_regexp="yes"/>
+        <marker>
+          <token regexp="yes">eles?|elas?</token>  
+        </marker>
+      </pattern>
+      <disambig action="remove" postag="V.*"></disambig>  
+    </rule>
+    
+  </rulegroup>
   <rule id="SER_SERIAR" name="ser/seriar">
     <!-- more common: ser -->
     <pattern>
@@ -817,12 +869,24 @@
     <rule id="ADV_E_ADVMENTE" name="Advérbio curto + conjunção + advérbio de modo">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2019-08-19  -->
       <pattern>
+        <marker>
           <token postag="A..[FC].+" postag_regexp="yes"/>
+        </marker>
           <token regexp='yes'>e|ou</token>
           <token postag="R.+" postag_regexp="yes" regexp='yes'>.+mente</token>
       </pattern>
-      <disambig action="replace"><wd pos="RM"/><wd pos="RM"/><wd pos="RM"/></disambig>
+      <disambig action="replace"><wd pos="RG"/></disambig>
     </rule>
+  <rule id="ADV_E_ADVMENTE2" name="Advérbio curto + conjunção + advérbio de modo">
+    <pattern>
+      <marker>
+        <token postag="RG"/>
+      </marker>
+      <token regexp='yes'>e|ou</token>
+      <token postag="R.+" postag_regexp="yes" regexp='yes'>.+mente</token>
+    </pattern>
+    <disambig action="add"><wd pos="RM"/></disambig>
+  </rule>
 
   <rulegroup id="D_R_N" name="Det + Adv + Nom">
     <!-- 		Based on Spanish disambiguation.xml by Tiago F. Santos		-->
@@ -1442,6 +1506,10 @@
   <rulegroup id="PV" name="PP + VERBO ">
     <!-- 		Created by Tiago F. Santos, 2019-03-16		-->
     <rule>
+      <antipattern>
+        <token postag="SPS00"/>
+        <token regexp='yes'>eu|tu|el[ea]s?|[nv]ós|vocês?</token>
+      </antipattern>
       <pattern>
           <token regexp='yes'>eu|tu|el[ea]s?|[nv]ós|vocês?</token>
         <marker>
@@ -1931,6 +1999,15 @@
           <token postag_regexp="yes" postag='Z0F[SPN]0'/>
       </pattern>
       <disambig action="replace"><wd pos="Z0FP0"/><wd pos="Z0FP0"/><wd pos="Z0FP0"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token postag="Z.*" postag_regexp="yes"/>  
+        </marker>
+        <token postag="NC.*" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="filter" postag="Z.*"/>
     </rule>
   </rulegroup>
 
@@ -3163,4 +3240,12 @@
       <disambig action="immunize"/>  
     </rule>
   </rulegroup>-->
+  <rule id="WORKAROUND_MISSING_ADVERBS_POS" name="Fix missing POS in adverbes">
+    <!--Created by Tiago F. Santos, Portuguese rule, 2017-07-24-->
+    <pattern>
+      <token regexp="yes" postag='I|RG' postag_regexp='yes'>.*mente</token>
+    </pattern>
+    <disambig action="add"><wd pos="RM"/></disambig>
+    <example inputform="francamente[Francamente/I]" outputform="francamente[Francamente/I,francamente/RM]" type="ambiguous">Falou <marker>francamente</marker> em soluções.</example>
+  </rule>
 </rules>
