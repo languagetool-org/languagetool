@@ -18,15 +18,11 @@
  */
 package org.languagetool.rules.patterns;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import org.languagetool.Language;
+
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.languagetool.Language;
 
 import static org.junit.Assert.fail;
 
@@ -115,7 +111,7 @@ public final class PatternTestTools {
               i);
 
       List<PatternToken> exceptionPatternTokens = new ArrayList<>();
-      if (pToken.getExceptionList() != null) {
+      if (!pToken.getExceptionList().isEmpty()) {
         for (PatternToken exception: pToken.getExceptionList()) {
           // Detect useless exception or missing skip="...". I.e. things like this:
           // <token postag="..."><exception scope="next">foo</exception</token>
