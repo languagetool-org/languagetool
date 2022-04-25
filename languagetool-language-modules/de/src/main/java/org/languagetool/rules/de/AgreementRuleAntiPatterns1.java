@@ -1107,10 +1107,7 @@ class AgreementRuleAntiPatterns1 {
     Arrays.asList(
       csToken("BMW"),
       token("ConnectedDrive")
-    ),
-    Arrays.asList( // Die Koalition der Willigen
-      posRegex("ART:DEF:DAT:.+"),
-      token("Willigen")
-    ));
+    )
+  );
 
 }
