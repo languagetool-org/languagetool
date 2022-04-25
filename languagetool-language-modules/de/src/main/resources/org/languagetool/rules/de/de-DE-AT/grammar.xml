@@ -181,5 +181,61 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
 
     </category>
+
+    <category id="TYPOGRAPHY" name="Typografie">
+        <rulegroup id="ANFUEHRUNGSZEICHEN_DE_AT" name="«wörtliche Rede» (»wörtliche Rede«)" default="temp_off">
+        <rule><!-- ANFUEHRUNGSZEICHEN_DE_AT[1] -->
+          <pattern>
+            <token postag="SENT_START"/>
+            <marker>
+              <token>«</token>
+            </marker>
+            <token skip="-1" spacebefore="no" regexp="yes">(\p{L}|\d).*</token>
+            <token regexp="yes">»|«</token>
+            <token>,</token>
+          </pattern>
+          <message>Möchten Sie die deutsche / österreichische Konvention für Spitzzeichen (im Gegensatz zu der hier verwendeten schweizerischen / französischen) benutzen?</message>
+          <suggestion>»</suggestion>
+          <example correction="»"><marker>«</marker>Ich trinke meinen Martini geschüttelt, nicht gerührt», führte James Bond noch an.</example>
+        </rule>
+        <rule><!-- ANFUEHRUNGSZEICHEN_DE_AT[2] -->
+          <pattern>
+            <token regexp="yes">,|:</token>
+            <marker>
+              <token>«</token>
+            </marker>
+            <token skip="-1" spacebefore="no" regexp="yes">(\p{L}|\d).*</token>
+            <token regexp="yes">»|«</token>
+          </pattern>
+          <message>Möchten Sie die deutsche / österreichische Konvention für Spitzzeichen (im Gegensatz zu der hier verwendeten schweizerischen / französischen) benutzen?</message>
+          <suggestion>»</suggestion>
+          <example correction="»">James Bond führte an: <marker>«</marker>Ich trinke meinen Martini geschüttelt, nicht gerührt.»</example>
+        </rule>
+        <rule><!-- ANFUEHRUNGSZEICHEN_DE_AT[3] -->
+          <pattern>
+            <token regexp="yes">\?|\!|(\p{L}|\d).*</token>
+            <marker>
+              <token spacebefore="no" regexp="yes">»</token>
+            </marker>
+            <token>,</token>
+            <token postag="VER.*" postag_regexp="yes"/>
+          </pattern>
+          <message>Möchten Sie die deutsche / österreichische Konvention für Spitzzeichen (im Gegensatz zu der hier verwendeten schweizerischen / französischen) benutzen?</message>
+          <suggestion>«</suggestion>
+          <example correction="«">«Ich trinke meinen Martini geschüttelt, nicht gerührt<marker>»</marker>, führte James Bond noch an.</example>
+        </rule>
+        <rule><!-- ANFUEHRUNGSZEICHEN_DE_AT[4] -->
+          <pattern>
+            <token regexp="yes">\.</token>
+            <marker>
+              <token spacebefore="no" regexp="yes">»</token>
+            </marker>
+          </pattern>
+          <message>Möchten Sie die deutsche / österreichische Konvention für Spitzzeichen (im Gegensatz zu der hier verwendeten schweizerischen / französischen) benutzen?</message>
+          <suggestion>«</suggestion>
+          <example correction="«">James Bond führte noch an: «Ich trinke meinen Martini geschüttelt, nicht gerührt.<marker>»</marker></example>
+        </rule>
+      </rulegroup>
+    </category>
 </rules>
 

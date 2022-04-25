@@ -859,7 +859,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("Ballets?", "llet", "llett");
     putRepl("Saudiarabiens?", "Saudiarabien", "Saudi-Arabien");
     putRepl("eMail-Adressen?", "eMail-", "E-Mail-");
-    putRepl("[hH]ats", "ats", "at es");
     putRepl("[Ww]ieviele?", "ieviel", "ie viel");
     putRepl("[Aa]dhoc", "dhoc", "d hoc");
     put("As", "Ass");
@@ -1109,6 +1108,16 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Herlichen", w -> Arrays.asList("Herzlichen", "Ehrlichen", "Herrlichen"));
     put("herliche", w -> Arrays.asList("herzliche", "ehrliche", "herrliche"));
     put("Herliche", w -> Arrays.asList("Herzliche", "Ehrliche", "Herrliche"));
+    put("it", w -> Arrays.asList("ist", "IT", "in", "im"));
+    put("ads", w -> Arrays.asList("das", "ADS", "Ads", "als", "aus"));
+    put("hats", w -> Arrays.asList("hat es", "hast", "hat"));
+    put("Hats", w -> Arrays.asList("Hat es", "Hast", "Hat"));
+    put("och", w -> Arrays.asList("ich", "noch", "doch"));
+    put("bein", w -> Arrays.asList("Bein", "beim", "ein", "bei"));
+    put("ser", w -> Arrays.asList("der", "sehr", "er", "sei"));
+    put("Monatg", w -> Arrays.asList("Montag", "Monate", "Monats"));
+    put("leiben", w -> Arrays.asList("lieben", "bleiben", "leben"));
+    put("fargen", "fragen");
     put("abrechen", "abbrechen");
     put("aufzeichen", "aufzeichnen");
     put("Geraet", "Gerät");
