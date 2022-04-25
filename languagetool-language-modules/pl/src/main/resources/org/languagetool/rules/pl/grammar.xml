@@ -18586,6 +18586,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <example>- ego</example>
                     </rule>
 				</rulegroup>
+				<rulegroup id="KROTNY" name="„3 krotnie” (3-krotnie)">
+				<rule>
+            <pattern>
+                <token regexp="yes">\d+|(?:.*)(?:jedno|dwu|trzy|cztero|pięcio|sześcio|siedmio|ośmio|dziewięcio|dziesięcio|jedenasto|stu|dwustu)</token>
+                <token regexp="yes" inflected="yes">krotn(y|ie)</token>            
+            </pattern>
+            <message>Ten wyraz piszemy razem i z łącznikiem: <suggestion>\1-\2</suggestion>.</message>
+            <short>Błędna pisownia rozłączna</short>
+            <example correction="3-krotnie">Zagniatać ciasto <marker>3 krotnie</marker> podczas wyrastania.</example>
+        </rule>
+				<rule>
+            <pattern>
+                <token regexp="yes">(?:.*)(?:jedno|dwu|trzy|cztero|pięcio|sześcio|siedmio|ośmio|dziewięcio|dziesięcio|jedenasto|stu|dwustu)</token>
+                <token regexp="yes" inflected="yes">krotn(y|ie)</token>            
+            </pattern>
+            <message>Ten wyraz piszemy razem: <suggestion>\1\2</suggestion>.</message>
+            <short>Błędna pisownia rozłączna</short>
+            <example correction="dwukrotnie">Zagniatać ciasto <marker>dwu krotnie</marker> podczas wyrastania.</example>
+				</rule>
+				</rulegroup>
 				<rule id="DATA_KROPKA_PO_DNIU" name="Zbędne kropki w liczebniku w dacie">
 						<pattern>
 								<marker>
