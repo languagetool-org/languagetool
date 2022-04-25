@@ -42366,26 +42366,29 @@ São regras muito simples e que permitem agir corretamente. → São regras muit
 
 
 	<!-- E É/SÃO/FOI/FORAM VERBO sendo/sido/e verbo -->
-    <rule id='E_É_SÃO_FOI_FORAM_SENDO_SIDO' name="Simplificar: E é/são/foi/foram + V. → sendo/sido/e + V." type="style">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-18 (Checked/Enhanced) (1-JAN-2022+)      -->
+    <rule id='E_É_SÃO_FOI_FORAM_SENDO_SIDO' name="Simplificar: E é/são/foi/foram + V. → [sendo/sido/e] + V." type="style">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-18 + 2022-04-25 (Checked/Enhanced) (1-JAN-2022+)      -->
 	<!--
 Ele escondeu-se e foi capturado em maio. → Ele escondeu-se sendo capturado em maio.
-Einstein é um génio e é considerado o pai da relatividade. → Einstein é um génio e considerado o pai da relatividade.
+Einstein é um génio e é considerado o pai da relatividade. → Einstein é um génio considerado o pai da relatividade.
+A barra de status dá informação diversa e é atualizada em tempo real. → A barra de status dá informação diversa atualizada em tempo real.
 	-->
       <pattern>
+		<token negate_pos="yes" postag='SENT_START' postag_regexp='no'/>
 		<marker>
 			<token>e</token>
 			<token regexp='yes'>é|são|foi|foram</token>
+			<token postag='V.+' postag_regexp='yes'>
+				<exception postag_regexp='yes' postag='NP.+|SPS00.PD0NN00|VMG0000'/>
+			</token>
 		</marker>
-		<token postag='V.+' postag_regexp='yes'>
-			<exception postag_regexp='yes' postag='NP.+|SPS00.PD0NN00|VMG0000'/>
-		</token>		
       </pattern>
 	  <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
-	  <suggestion>sendo</suggestion>
-	  <suggestion>sido</suggestion>
-	  <suggestion>e</suggestion>
-      <example correction="sendo|sido|e">Einstein é um génio <marker>e é</marker> considerado o pai da relatividade.</example>
+	  <suggestion>sendo \4</suggestion>
+	  <suggestion>sido \4</suggestion>
+	  <suggestion>e \4</suggestion>
+	  <suggestion>\4</suggestion>
+      <example correction="sendo considerado|sido considerado|e considerado|considerado">Einstein é um génio <marker>e é considerado</marker> o pai da relatividade.</example>
 	  <example>Ele escondeu-se sendo capturado em maio.</example>
 	  <example>Começou tímido, e foi soltando uma lista que parecia não acabar, de tanto assunto.</example>
     </rule>
