@@ -74,7 +74,22 @@
 			<xs:attribute ref="type" />
 			<xs:attribute name="external" type="binaryYesNo" />
 			<xs:attribute name="tab" />
-			<xs:attribute name="tags" />
+			<xs:attribute name="tags" >
+			  <xs:simpleType>
+			    <xs:list>
+			      <xs:simpleType>
+			        <xs:restriction base="xs:NMTOKEN">
+			          <xs:enumeration value="default" />
+			          <xs:enumeration value="picky" />
+			          <xs:enumeration value="academic" />
+			          <xs:enumeration value="clarity" />
+			          <xs:enumeration value="professional" />
+			          <xs:enumeration value="creative" />
+			        </xs:restriction>
+			      </xs:simpleType>
+			    </xs:list>
+			  </xs:simpleType>
+			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
 
