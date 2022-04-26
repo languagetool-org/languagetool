@@ -3960,8 +3960,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </marker>
         </antipattern>
     <rule>
-      <pattern>
-        <token regexp="yes">\d+([mkc]?m|[Mk]Hz|[MKT]B|V|[mk]?g|m?l)</token>
+    <antipattern>
+      <token>art</token>
+      <token>.</token>
+      <token regexp="yes">\d+[a-z]</token>    
+    </antipattern>
+      <pattern case_sensitive="yes">
+        <token regexp="yes">\d+([mkc]?m|[Mk]Hz|[MKTd]B|k?Wh?|k?V|[mk]?g|m?l|mA]|k?cal|M?bit|euro|EUR|USD|PLN|zł|gr|m[li]n|mld|mpx|tys|pkt|sek|godz|tygodnie|lata?|razy|roku?)</token>
       </pattern>
       <message>Brak spacji po wartości liczbowej. Powinno być: <suggestion><match no="1" regexp_match="(\d+)(.*)" regexp_replace="$1 $2"></match></suggestion>.</message>
       <short>Zły format liczby</short>
@@ -3970,6 +3975,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>1600 śmigłowców szturmowych: Mi-24 i Mi-28 oraz Mi-8TB</example>
         <example correction="8 m">Mój starszy brat jest naprawdę wysoki, około 1,<marker>8m</marker>.</example>
         <example correction="30 g">Dałam łyżeczkę ekstraktu waniliowego i ok. <marker>30g</marker> cukru waniliowego.</example>
+        <example>ul. Sapieżyńska 10A, 00-215 Warszawa</example>
     </rule>
     <rule>
       <pattern case_sensitive="yes">

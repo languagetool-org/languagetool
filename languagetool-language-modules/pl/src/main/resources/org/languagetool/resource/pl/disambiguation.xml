@@ -13677,6 +13677,15 @@
         <disambig action="ignore_spelling"></disambig>
     </rule>
 
+    <rule id="nazwiska_angielskie" name="Pan Brown">
+        <pattern>
+            <token inflected="yes" regexp="yes">pani?</token>
+            <marker>
+                <token regexp="yes">White|Brown</token>
+            </marker>
+        </pattern>
+        <disambig action="ignore_spelling"></disambig>
+    </rule>
 
     <rule id="compounds" name="Przymiotniki złożone">
       <pattern>
@@ -13851,8 +13860,8 @@
     </rule>
 
     <rule id="ignore_unit_labels" name="pomijanie łącznie napisanych liczb, bo jest do tego reguła JEDNOSTKA_LICZBA">
-        <pattern>
-            <token regexp="yes">\d+([mkc]?m|[Mk]Hz|[MKT]B|V|[mk]?g|m?l)</token>
+        <pattern case_sensitive="yes">
+            <token regexp="yes">\d+([mkc]?m|[Mk]Hz|[MKTd]B|k?Wh?|k?V|[mk]?g|m?l|mA|k?cal|M?bit|euro|EUR|USD|PLN|zł|gr|m[li]n|mld|mpx|tys|pkt|sek|godz|tygodnie|lata?|razy|roku?)</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
