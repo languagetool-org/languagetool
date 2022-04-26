@@ -42691,6 +42691,32 @@ Como é o caso do Firefox. → Como no caso do Firefox.
     </rule>
 
 
+	<!-- COMO SENDO A(S)/O(S)/UM/UNS/UMA(S) a(s)/o(s)/um/uns/uma(s) -->
+    <rule id='SIMPLIFICAR_COMO_SENDO' name="Simplificar: Como sendo + a(s)/o(s)/um/uns/uma(s) → a(s)/o(s)/um/uns/uma(s)" type="style">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-04-26 (1-JAN-2022+)      -->
+	<!--
+Foi considerado por muitos cientistas como sendo o pai da Matemática. → Foi considerado por muitos cientistas o pai da Matemática.
+Uma sessão de login é considerada como sendo a vida útil de um processo de usuário. → Uma sessão de login é considerada a vida útil de um processo de usuário.
+	-->
+      <pattern>
+		<or>
+			<token negate_pos="yes" postag='V.+|SENT_START' postag_regexp='yes'/>
+			<token postag='VMP00.+' postag_regexp='yes'/>
+		</or>
+		<marker>
+			<token>como</token>
+			<token>sendo</token>
+			<token postag='DA.+|DI.+' postag_regexp='yes'/>
+		</marker>
+		<token postag='NC.+|AQ.+|NP.+|AO.+' postag_regexp='yes'/>
+      </pattern>
+      <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+	  <suggestion>\4</suggestion>
+      <example correction="o">Foi considerado por muitos cientistas <marker>como sendo o</marker> pai da Matemática</example>
+	  <example>Uma sessão de login é considerada a vida útil de um processo de usuário.</example>
+    </rule>
+
+
 	<!-- USAR EXPRESSÕES MAIS SIMPLES SUGERINDO VERBOS NO INFINITIVO -->
     <rulegroup id='SIMPLIFICAR_CONVERTER_PARA_VERBO_INFINITIVO' name="Simplificar: Usar a versão com infinitivo da subordinada" type="style">
     <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-02-04 (1-JAN-2022+)      -->
