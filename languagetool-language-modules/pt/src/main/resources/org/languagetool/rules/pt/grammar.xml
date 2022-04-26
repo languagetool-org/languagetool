@@ -41865,7 +41865,7 @@ O artesanato bracarense há muito tempo que ultrapassou as fronteiras do país. 
 	</rule>
 
     <rulegroup id='QUE_ADJ_NC_VERBO' name="Que + Adj/NC + Verbo" type="style">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-06-25 (25-JUN-2021+)      -->
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-06-25 + 2022-04-26 (25-JUN-2021+)      -->
 	<!--
 Isto serve para vermos o resultado que traria. → Isto serve para vermos que resultado traria.
 	-->
@@ -41922,7 +41922,7 @@ Isto serve para vermos o resultado que isso traria. → Isto serve para vermos q
 			<token postag='DA.+' postag_regexp='yes'/>
 			<token postag='AQ0.+|NC.+' postag_regexp='yes'/>
 			<token>que</token>
-			<token/>
+			<token negate_pos="yes" postag='SPS00.PP.+' postag_regexp='yes'/> <!-- It used to be <token/> now it is a negate to remove false positives, but zero hits in 600 000 sentences - 2022-04-26 -->
 			<token postag='V.+|AQ0.+|NC.+' postag_regexp='yes'/>
 		  </marker>
 		  <token postag='SPS.+|_PUNCT' postag_regexp='yes'/>
