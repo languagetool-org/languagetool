@@ -6491,6 +6491,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Verwechslungen -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
+        <rulegroup id="TRAB_TRAPP" name="Trab vs Trapp" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>auf</token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">[tT]rapp?|trab</token>
+                    </marker>
+                    <token min="0">zu</token>
+                    <token inflected="yes">halten</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Trab</suggestion> aus der Redewendung "auf Trab halten"?</message>
+                <example correction="Trab">Sie versuchten mich auf <marker>Trapp</marker> zu halten.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="4">halten</token>
+                    <token>auf</token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">[tT]rapp?|trab</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>Trab</suggestion> aus der Redewendung "auf Trab halten"?</message>
+                <example correction="Trab">Sie hielt mich ganz schön auf <marker>Trapp</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="TAETIGE_TAEGIGE" name="tägig vs tätig">
             <rule>
                 <pattern>
@@ -26737,23 +26762,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
-        <rule id="AUF_DEN_ERSTEN_BLICK" name="auf den ersten blick (Blick)">
-            <antipattern>
-                <token>blick</token>
-                <token regexp="yes" min="0">'</token>
-                <token>ich</token>
-            </antipattern>
-            <pattern>
-                <token>auf</token>
-                <token regexp="yes">de[mn]</token>
-                <token regexp="yes">ersten|zweiten</token>
-                <marker>
-                    <token case_sensitive="yes">blick</token>
-                </marker>
-            </pattern>
-            <message><suggestion><match no="4" case_conversion="startupper" /></suggestion> wird hier als Nomen verwendet und sollte daher großgeschrieben werden.</message>
-            <example correction="Blick">Das habe ich erst auf den zweiten <marker>blick</marker> gesehen.</example>
-        </rule>
         <rule id="ZU_GUTER_LETZT" name="zu guter letzt (Letzt)">
             <pattern>
                 <token>zu</token>
@@ -29068,6 +29076,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
                 <example correction="Blicke">Seine <marker>blicke</marker> ziehen mich aus.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>blick</token>
+                    <token regexp="yes" min="0">'</token>
+                    <token>ich</token>
+                </antipattern>
+                <pattern>
+                    <token>auf</token>
+                    <token regexp="yes">de[mn]</token>
+                    <token regexp="yes">ersten|zweiten</token>
+                    <marker>
+                        <token case_sensitive="yes">blick</token>
+                    </marker>
+                </pattern>
+                <message><suggestion><match no="4" case_conversion="startupper" /></suggestion> wird hier als Nomen verwendet und sollte daher großgeschrieben werden.</message>
+                <example correction="Blick">Das habe ich erst auf den zweiten <marker>blick</marker> gesehen.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>blick</token>
+                    <token regexp="yes">ic[kh]|&apostrophe;</token>
+                </antipattern>
+                <pattern>
+                    <token>auf</token>
+                    <token>einen</token>
+                    <marker>
+                        <token case_sensitive="yes">blick</token>
+                    </marker>
+                </pattern>
+                <message><suggestion><match no="3" case_conversion="startupper" /></suggestion> wird hier als Nomen verwendet und sollte daher großgeschrieben werden.</message>
+                <example correction="Blick">Hier können Sie alles auf einen <marker>blick</marker> sehen.</example>
             </rule>
         </rulegroup>
         <rulegroup id="NEUES_WAGEN" name="neues (Neues) wagen">
@@ -47817,6 +47857,57 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
+        <rulegroup id="MAX_MIN_PUNKT" name="max (max.)" default="temp_off">
+            <rule>
+                <antipattern>
+                    <token regexp="yes">[:_\/]</token>
+                    <token spacebefore="no">max</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">mad|hey|hi|hallo|air</token>
+                    <token>max</token>
+                </antipattern>
+                <antipattern>
+                    <token>
+                        <exception postag="SENT_START" />
+                    </token>
+                    <token case_sensitive="yes">Max</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>max</token>
+                    </marker>
+                    <token regexp="yes">zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf|zwölf|\d+</token>
+                </pattern>
+                <message>Die Abkürzung für "maximal" erfordert einen Punkt.</message>
+                <suggestion>\1.</suggestion>
+                <suggestion>maximal</suggestion>
+                <example correction="max.|maximal">In den Fahrstuhl passen <marker>max</marker> 5 Leute.</example>
+                <example>1813 begann Jean Paul mit seinem letzten großen Roman, Der Komet, doch der Tod seines Sohnes Max 1821 war ein Schicksalsschlag.</example>
+                <example>1985: Mad Max 3 (Beyond Thunderdome)</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">[:_\/]</token>
+                    <token spacebefore="no">min</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf|zwölf|\d+</token>
+                    <token>min</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>min</token>
+                    </marker>
+                    <token regexp="yes">zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf|zwölf|\d+</token>
+                </pattern>
+                <message>Die Abkürzung für "minimum" oder "mindestens" erfordert einen Punkt.</message>
+                <suggestion>\1.</suggestion>
+                <suggestion>mindestens</suggestion>
+                <suggestion>minimal</suggestion>
+                <example correction="min.|mindestens|minimal">Wir brauchen <marker>min</marker> 5 Brötchen zum satt werden.</example>
+            </rule>
+        </rulegroup>
         <rule id="ZWEI_DUMME_EIN_GEDANKE" name="zwei Dumme, ein Gedanke">
             <antipattern case_sensitive="yes">
                 <token regexp="yes">[Zz]wei|ZWEI</token>
