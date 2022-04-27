@@ -100,4 +100,18 @@
             </rule>
         </rulegroup>
     </category>
+    <category id="CAT2" name="Граматыка">
+      <rulegroup name="Ужываньне склонаў" id="SKLONY">
+        <rule default="on" id="pa_fakcie" name="Словазлучэньне: «па факце»">
+            <pattern>
+                    <token inflected="no">па</token>
+                    <token inflected="no">факту</token>
+             </pattern>
+            <message>Тут імаверна патрабуецца месны склон: <suggestion><match no="1" regexp_match="([пП])а" regexp_replace="$1а" /> факце</suggestion></message>
+            <short>«Па факце», а не «па факту»</short>
+            <example>Прыпыніць расьсьледаваньне па факце сьмерці пратэстоўца.</example>
+            <example correction="па факце">А <marker>па факту</marker> атрымалася, што сіл няма.</example>
+        </rule>
+      </rulegroup>
+    </category>
 </rules>
