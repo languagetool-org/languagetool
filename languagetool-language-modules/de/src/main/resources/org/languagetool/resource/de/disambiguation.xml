@@ -4829,6 +4829,16 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="remove" postag="VER:.+" />
     </rule>
 
+    <rule id="GUTES_KEIN_SUB" name="'kein/nichts Gutes' kein Substantiv Genitiv">
+        <pattern>
+            <token regexp="yes">k?ein|nichts|(et)?was|irgend(et)?was</token>
+            <marker>
+                <token case_sensitive="yes">Gutes</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="SUB:GEN.*" />
+    </rule>
+
     <rule id="ALBERT_KEIN_VERB" name="Name 'Albert'">
         <pattern>
             <marker>

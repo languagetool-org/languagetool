@@ -2669,7 +2669,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">waren|sind</token>
             </antipattern>
             <pattern>
-                <token regexp="yes">gleich.+|.*selbe.*<exception regexp="yes">gleich(zeitig|falls|wertig.*)</exception></token>
+                <token regexp="yes">gleiche[snmr]?|.*selbe.*</token>
                 <token skip="1"><exception scope="next" postag="VER.*:1:PLU.*|UNKNOWN" postag_regexp="yes"/><exception>,</exception></token>
                 <marker>
                     <token>wir</token>
@@ -5953,7 +5953,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <marker>
                         <token>wie</token>
-                        <token regexp="yes">[a-zöäüß]+</token>
+                        <token regexp="yes">
+                            [a-zöäüß]+
+                            <exception regexp="yes">gehts|stehts</exception>
+                        </token>
                         <token>wie</token>
                     </marker>
                 </pattern>
@@ -5962,6 +5965,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>\1 \2 wir</suggestion>
                 <example>Fragen wie: Wie können wir in Harmonie mit der Natur leben?</example>
                 <example correction="Wir können wie|Wie können wir"><marker>Wie können wie</marker> vorgehen?</example>
+                <example>Wie gehts wie stehts?</example>
             </rule>
             <rule>
                 <antipattern><!-- caught by DE_VERBAGREEMENT -->
@@ -6491,7 +6495,49 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Verwechslungen -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
-        <rulegroup id="TRAB_TRAPP" name="Trab vs Trapp" default="temp_off">
+        <rulegroup id="RAMMSTEIN_RAMSTEIN" name="Ramstein vs Rammstein" default="temp_off">
+            <rule>
+                <antipattern>
+                    <token>Rammstein</token>
+                    <token postag="UNKNOWN|SUB.*" postag_regexp="yes" />
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">in|aus|Luftwaffe.*|.*stützpunkt.*|airbase|.*militärbasis|.*flugplatz.*|.*pfälzisch.*</token>
+                    <marker>
+                        <token>Rammstein</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie die "Ramstein Air Base" (Militärstützpunkt)? "Rammstein" ist eine Rockband.</message>
+                <suggestion>Ramstein</suggestion>
+                <example correction="Ramstein">Die US-Armee ist in <marker>Rammstein</marker> stationiert.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>Rammstein</token>
+                    </marker>
+                    <token regexp="yes">Air.*|.*militär.*|.*stützpunkt.*|.*flugplatz.*</token>
+                </pattern>
+                <message>Meinten Sie die "Ramstein Air Base" (Militärstützpunkt)? "Rammstein" ist eine Rockband.</message>
+                <suggestion>Ramstein</suggestion>
+                <example correction="Ramstein">Die US-Armee ist in der <marker>Rammstein</marker> Air Base stationiert.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>in</token>
+                    <token>der</token>
+                    <token regexp="yes">Nähe|Region</token>
+                    <token regexp="yes">von|bei|zu</token>
+                    <marker>
+                        <token>Rammstein</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie die "Ramstein Air Base" (Militärstützpunkt)? "Rammstein" ist eine Rockband.</message>
+                <suggestion>Ramstein</suggestion>
+                <example correction="Ramstein">In der Nähe von <marker>Rammstein</marker> gibt es viele amerikanische Restaurants.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="TRAB_TRAPP" name="Trab vs Trapp">
             <rule>
                 <pattern>
                     <token>auf</token>
@@ -27836,19 +27882,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="PRIVATES_UND_BERUFLICHES" name="privates und berufliches (Privates und Berufliches)">
             <antipattern case_sensitive="yes">
-                <token regexp="yes">[PBG].+</token>
+                <token regexp="yes">[PBGF].+</token>
                 <token regexp="yes">und|UND|oder|ODER|sowie|SOWIE&amp;</token>
-                <token regexp="yes">[PBG].+</token>
+                <token regexp="yes">[PBGF].+</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">[pbg].+</token>
+                <token regexp="yes">[pbgf].+</token>
                 <token regexp="yes">und|oder|sowie|&amp;</token>
-                <token regexp="yes">[pbg].+</token>
+                <token regexp="yes">[pbgf].+</token>
                 <token postag="SUB.*|UNKNOWN|EIG.*" postag_regexp="yes" regexp="yes">.*[a-z].*</token>
             </antipattern>
             <rule>
                 <pattern>
-                    <token regexp="yes">private[snm]</token>
+                    <token regexp="yes">(private|familiäre)[snm]</token>
                     <token regexp="yes">und|oder|sowie|&amp;</token>
                     <token regexp="yes">berufliche[snm]|geschäftliche[snm]</token>
                 </pattern>
@@ -27861,7 +27907,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">berufliche[snm]|geschäftliche[snm]</token>
                     <token regexp="yes">und|oder|sowie|&amp;</token>
-                    <token regexp="yes">private[snm]</token>
+                    <token regexp="yes">(private|familiäre)[snm]</token>
                 </pattern>
                 <message>Nominalisierte Adjektive sollten in der Regel großgeschrieben werden.</message>
                 <suggestion><match no="1" case_conversion="startupper" /> \2 <match no="3" case_conversion="startupper" /></suggestion>
@@ -45748,6 +45794,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token><exception case_sensitive="yes" regexp="yes">[A-ZÖÄÜ].+</exception></token><!-- da wir nicht alle Nomen kennen lieber so -->
                 </pattern>
                 <message>&inwend;'auf dem Laufenden bleiben/sein/halten' wird <suggestion>Laufenden</suggestion> großgeschrieben.</message>
+                <url>https://languagetool.org/insights/de/beitrag/rechtschreibung-auf-dem-laufenden/</url>
                 <example correction="Laufenden">Man muss immer auf dem <marker>laufenden</marker> bleiben.</example>
                 <example correction="Laufenden">Bitte halte mich auf dem <marker>laufenden</marker>.</example>
                 <example correction="Laufenden">Bitte versucht, mich auf dem <marker>laufenden</marker> zu halten.</example>
@@ -47883,7 +47930,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
-        <rulegroup id="MAX_MIN_PUNKT" name="max (max.)" default="temp_off">
+        <rulegroup id="MAX_MIN_PUNKT" name="max (max.)">
             <rule>
                 <antipattern>
                     <token regexp="yes">[:_\/]</token>
@@ -47932,6 +47979,53 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>mindestens</suggestion>
                 <suggestion>minimal</suggestion>
                 <example correction="min.|mindestens|minimal">Wir brauchen <marker>min</marker> 5 Brötchen zum satt werden.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>min</token>
+                    <token spacebefore="no">.</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">in|nach|vor|dauer[nt]e?|von</token>
+                    <token regexp="yes">\d+|zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf|zwölf|zwanzig|dreissig|dreißig|vierzig|fünfzig</token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">[Mm]in</token>
+                    </marker>
+                </pattern>
+                <message>Die Abkürzung für "Minuten" wird groß und mit einem Punkt geschrieben.</message>
+                <suggestion>Min.</suggestion>
+                <example correction="Min.">Wir machen das in 10 <marker>min</marker>!</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">in|nach|vor|dauer[nt]e?|von</token>
+                    <token regexp="yes">\d+|zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf|zwölf|zwanzig|dreissig|dreißig|vierzig|fünfzig</token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">min</token>
+                        <token>.</token>
+                    </marker>
+                </pattern>
+                <message>Die Abkürzung für "Minuten" wird groß geschrieben.</message>
+                <suggestion>Min.</suggestion>
+                <example correction="Min.">Wir machen das in 10 <marker>min.</marker>!</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token case_sensitive="yes">Min|MIN</token>
+                    <token spacebefore="no">.</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">\d+|zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf|zwölf|zwanzig|dreissig|dreißig|vierzig|fünfzig</token>
+                    <marker>
+                        <token case_sensitive="yes">min</token>
+                        <token min="0">.</token>
+                    </marker>
+                    <token regexp="yes">später|danach|vor|nach|vorher|davor|früher|dauer[nt]e?|mehr|weniger|länger|kürzer|verlänger[nt]e?|Timer|timen|schnell(er)?|Zeit</token>
+                </pattern>
+                <message>Die Abkürzung für "Minuten" wird groß und mit einem Punkt geschrieben.</message>
+                <suggestion>Min.</suggestion>
+                <example correction="Min.">Wir machen das 10 <marker>min</marker> später!</example>
+                <example correction="Min.">Hast du 10 <marker>min</marker> Zeit?</example>
             </rule>
         </rulegroup>
         <rule id="ZWEI_DUMME_EIN_GEDANKE" name="zwei Dumme, ein Gedanke">
@@ -56744,6 +56838,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Meinten Sie die Wendung 'auf dem Laufenden bleiben/sein/halten'?</message>
                 <suggestion>dem</suggestion>
+                <url>https://languagetool.org/insights/de/beitrag/rechtschreibung-auf-dem-laufenden/</url>
                 <example correction="dem">Man muss immer auf <marker>den</marker> Laufenden bleiben.</example>
                 <example correction="dem">Bitte halte mich auf <marker>den</marker> Laufenden.</example>
                 <example correction="dem">Bitte versucht, mich auf <marker>den</marker> Laufenden zu halten.</example>

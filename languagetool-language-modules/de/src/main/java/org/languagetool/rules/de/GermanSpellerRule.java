@@ -1117,6 +1117,14 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("ser", w -> Arrays.asList("der", "sehr", "er", "sei"));
     put("Monatg", w -> Arrays.asList("Montag", "Monate", "Monats"));
     put("leiben", w -> Arrays.asList("lieben", "bleiben", "leben"));
+    put("grad", w -> Arrays.asList("grade", "Grad", "gerade"));
+    put("dnn", w -> Arrays.asList("dann", "denn", "den"));
+    put("vn", w -> Arrays.asList("von", "an", "in"));
+    put("sin", w -> Arrays.asList("ein", "sind", "sie", "in"));
+    put("schein", w -> Arrays.asList("scheine", "Schein", "scheint", "schien"));
+    put("wil", w -> Arrays.asList("will", "wie", "weil", "wir"));
+    put("Ihen", w -> Arrays.asList("Ihren", "Ihnen", "Ihn", "Iren"));
+    put("Bite", "Bitte");
     put("fargen", "fragen");
     put("abrechen", "abbrechen");
     put("aufzeichen", "aufzeichnen");
@@ -1298,7 +1306,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Müllhalte", "Müllhalde");
     put("Entäuschung", "Enttäuschung");
     put("Entäuschungen", "Enttäuschungen");
-    put("kanns", "kann es");
+    put("kanns", w -> Arrays.asList("kann es", "kannst"));
     put("funktionierts", "funktioniert es");
     put("hbat", "habt");
     put("ichs", "ich es");
@@ -2471,6 +2479,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Lobbies": return topMatch("Lobbys");
       case "Nestle": return topMatch("Nestlé");
       case "Nestles": return topMatch("Nestlés");
+      case "vollzeit": return topMatch("Vollzeit");
+      case "teilzeit": return topMatch("Teilzeit");
+      case "Dnake": return topMatch("Danke");
+      case "Muehe": return topMatch("Mühe");
+      case "Muehen": return topMatch("Mühen");
     }
     return Collections.emptyList();
   }

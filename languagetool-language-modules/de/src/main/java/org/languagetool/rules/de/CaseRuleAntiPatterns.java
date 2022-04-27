@@ -57,7 +57,7 @@ class CaseRuleAntiPatterns {
       csRegex("Jetzt")
     ),
     Arrays.asList(
-      csRegex("Private[snm]"),
+      csRegex("Private[snm]|Familiäre[snm]"),
       csRegex("und|&"),
       csRegex("Berufliche[snm]|Geschäftliche[snm]")
     ),
