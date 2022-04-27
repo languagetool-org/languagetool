@@ -356,7 +356,7 @@ Quero escreve-lo amanhã. → Quero escrevê-lo amanhã.
 		  <token regexp='yes' spacebefore='no'>l[ao]s?</token>
       </pattern>
 	  <message>Quando a ênclise é formada por 'la', 'las', 'lo' ou 'los', a vogal que a precede, antes do hífen, é acentuada</message>
-      <suggestion><match no="1" postag="VMIP3S0|VMM02S0" postag_regexp="yes" postag_replace="VMX0000"/></suggestion>
+      <suggestion><match no="1" postag="(VMIP3S0|VMM02S0)" postag_regexp="yes" postag_replace="V.N....X"/></suggestion>
       <example correction="escrevê">Ele vai <marker>escreve</marker>-lo amanhã.</example>
     </rule>
 
@@ -366,7 +366,7 @@ Quero escreve-lo amanhã. → Quero escrevê-lo amanhã.
 	<!--      Improved by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-03-29/30/31 (1-JAN-2022+)      -->
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/o-conceito-de-verbo-auxiliar/24055</url>
       <antipattern>
-          <token postag="VMX0000"/>
+          <token postag="VMN0000X"/>
           <token spacebefore='no' regexp='yes'>&hifen;</token>
           <token spacebefore='no' regexp='yes'>&pronomes_nao_ambiguos;|&pronomes_ambiguos;</token>
       </antipattern>
@@ -416,7 +416,7 @@ Quero escreve-lo amanhã. → Quero escrevê-lo amanhã.
       <antipattern>
 	      <token postag='CS|P[RTE]0CN000' postag_regexp='yes'/>
 		  <token min="0" max="1" postag='PP1CSN00' postag_regexp='no'/>
-		  <token postag='VMX0000|VMIS1S0' postag_regexp='yes'/>
+		  <token postag='VMN0000X|VMIS1S0' postag_regexp='yes'/>
 		  <token postag='VMIS3S0' postag_regexp='no'/>
 		  <token regexp='yes'>a|o|como|na|no|numa|num</token>
       </antipattern>	  
@@ -457,7 +457,7 @@ Os que já vieram estão no salão.
             <exception postag_regexp='yes' postag='NP.+|SPS.+|VMIF3S0|VMN03P0'/>
 		  </token>
 		  <token postag='V.+' postag_regexp='yes'>
-            <exception postag_regexp='yes' postag='NP.+|SPS.+|VMX0000|VMIP2P0|VMIS1S0|VMM02P0'/>
+            <exception postag_regexp='yes' postag='NP.+|SPS.+|VMN0000X|VMIP2P0|VMIS1S0|VMM02P0'/>
 			<exception postag_regexp='yes' postag='VMII[123]S0'/>
 		  </token>
 		  <token postag='DA.+|DD.+|DI.+|SPS.+|RG|VMN0000' postag_regexp='yes'>
@@ -489,7 +489,11 @@ Apenas por curiosidade comecei a coloca-las em um mapa através do Google Maps.
 		<token postag='_PUNCT' postag_regexp='no'/>
       </antipattern>
 <!-- MARCOAGPINTO 2022-03-29/30 (1-JAN-2022+) *END* -->
-
+      <antipattern>
+          <token postag="VMN0000X"/>
+          <token spacebefore="no">-</token>
+          <token spacebefore="no"/>
+      </antipattern>
       <pattern>
           <token inflected="yes" regexp='yes'>&verbos_auxiliares_aspectuais;|&verbos_auxiliares_modais;
             <exception inflected='yes'>ser</exception>
@@ -620,7 +624,7 @@ Por que a senhora resolveu ficar aqui?
 				<token min="0" max="1" postag='PP.+' postag_regexp='yes'/>
 				<token postag='V.+' postag_regexp='yes'/>
 				<token postag='VMN0000' postag_regexp='no'/>
-				<token postag='RG' postag_regexp='no'>
+				<token postag='RG|RM' postag_regexp='yes'>
 					<exception postag_regexp='yes' postag='CS|NC.+|AQ.+'/>
 					<exception>à</exception>
 				</token>
@@ -3518,7 +3522,7 @@ Em alusão ao dinheiro frequentemente é dado o exemplo do Tio Patinhas. → Em 
 		<pattern>
 			<token negate_pos="yes" postag='SENT_START' postag_regexp='no'/>
 			<marker>
-				<token postag='RG' regexp="yes">.+mente</token>
+				<token postag='RM' regexp="yes">.+mente</token>
 				<or>
 					<token postag='V.+' postag_regexp='yes'>
 						<exception postag_regexp='yes' postag='SPS.+|AQ0.+|NC.+'/>
@@ -6733,7 +6737,7 @@ Deveríamos dar a ela flores.
       </pattern>
       <message>&MSG_ECV;</message>
         <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='(V.[CIS].)..(.)' postag_replace='$1\1P$2' postag_regexp='yes'/></suggestion>
-      <example correction='Nós não passeamo|Nós não passeamos'><marker>Nós não passeia</marker> na praia.</example>
+      <example correction='Nós não passeamos'><marker>Nós não passeia</marker> na praia.</example>
     <!-- 	TODO 'Nós não passeamo' is a inflection for reflexive forms. Find a way to remove it from suggestions -->
       <example type="correct"><marker>Nós ainda não passeamos</marker> na praia.</example>
       <example>Nós preocupar-nos-iamos, talvez, com esta manifestação de ignorância.</example>
@@ -6754,7 +6758,7 @@ Deveríamos dar a ela flores.
       </pattern>
       <message>&MSG_ECV;</message>
         <suggestion>\1 <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/> <match no='6' include_skipped='all' postag='(V.[CIS].)..(.)' postag_replace='$1\1P$2' postag_regexp='yes'/></suggestion>
-      <example correction='Eu e Rita passeamo|Eu e Rita passeamos'><marker>Eu e Rita passeiam</marker> na praia.</example>
+      <example correction='Eu e Rita passeamos'><marker>Eu e Rita passeiam</marker> na praia.</example>
       <example type="correct"><marker>Eu e Rita passeiamos</marker> na praia.</example>
       <example>Eu e a Rita preocupar-nos-iamos, talvez, com esta manifestação de ignorância.</example>
     </rule>
@@ -6770,7 +6774,7 @@ Deveríamos dar a ela flores.
       </pattern>
       <message>&MSG_ECV;</message>
         <suggestion>\1 \2 <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all' postag='(V.[CIS].)..(.)' postag_replace='$1\1P$2' postag_regexp='yes'/></suggestion>
-      <example correction='Tu e eu passeamo|Tu e eu passeamos'><marker>Tu e eu passeio</marker> na praia.</example>
+      <example correction='Tu e eu passeamos'><marker>Tu e eu passeio</marker> na praia.</example>
       <example type="correct">Tu e eu passeamos na praia.</example>
       <example type="correct">Vós passeais na praia.</example>
       <example>Tu e eu preocupar-nos-iamos, talvez, com esta manifestação de ignorância.</example>
@@ -8521,7 +8525,7 @@ A realidade das pessoas mostram. → A realidade das pessoas mostra.
           <token min='0' regexp='yes'>d[eao]s?</token>
           <token min='0' postag_regexp='yes' postag='N.+'/>
           <token min="0" skip="3" postag_regexp='yes' postag='R.'/>
-          <token postag="VMX0000" postag_regexp="no"/>
+          <token postag="VMN0000X" postag_regexp="no"/>
 		  <token regexp='yes' spacebefore='no'>&hifen;</token>
 		  <token postag="PP3[FM]SA00" postag_regexp="yes"/>
       </antipattern>	  
@@ -9019,7 +9023,7 @@ Isto observa-se quando as forças avaliam mal o cenário.
       <message>Este não é um verbo impessoal.</message>
         <suggestion><match no='1' postag_regexp='yes' postag='(V...)3P(.+)' postag_replace='$13S$2'/> \2</suggestion>
         <suggestion>\1 <match no='2' postag_regexp='yes' postag='(D...|P...|N..|A...)S(.+)' postag_replace='$1P$2'/></suggestion>
-      <example correction="existe muita|existem muitas|existem muitíssimas">Na vida <marker>existem muita</marker> coisas boas.</example>
+      <example correction="existe muita|existem muitas">Na vida <marker>existem muita</marker> coisas boas.</example>
     </rule>
   </rulegroup>
 
@@ -11484,7 +11488,7 @@ Vamos minorar a dor.
         <marker>
           <token regexp='yes'>de|d?uma?</token>
           <token regexp="yes">maneira|forma|modo|jeito</token>
-          <token postag="RG" regexp="yes">.+mente</token><!-- XXX RG and UNKNOWN are included in the disambiguation step -->
+          <token postag="RM" regexp="yes">.+mente</token><!-- XXX RG and UNKNOWN are included in the disambiguation step -->
         </marker>
           <token>
             <exception postag="AQ.[CF][SN].|V.P..SF." postag_regexp="yes"/></token>
@@ -11506,10 +11510,10 @@ Vamos minorar a dor.
     <rule>
       <pattern>
         <marker>
-          <token postag="RG" regexp="yes">.+mente</token>
+          <token postag="RM" regexp="yes">.+mente</token>
         </marker>
           <token regexp='yes'>e|ou|nem</token>
-          <token postag="RG" regexp="yes">.+mente</token>
+          <token postag="RM" regexp="yes">.+mente</token>
       </pattern>
       <message>Quando os advérbio de modo aparecem em sequência, só o último deve ser afixado com -mente.</message>
         <suggestion><match no='1' regexp_match="(.+)mente" regexp_replace="$1"/></suggestion>
@@ -11518,10 +11522,10 @@ Vamos minorar a dor.
     <rule>
       <pattern>
         <marker>
-          <token postag="RG" regexp="yes">.+mente</token>
+          <token postag="RM" regexp="yes">.+mente</token>
         </marker>
           <token>,</token>
-          <token postag="RG" regexp="yes">.+mente</token>
+          <token postag="RM" regexp="yes">.+mente</token>
           <token regexp='yes'>e|ou|nem</token>
       </pattern>
       <message>Quando os advérbio de modo aparecem em sequência, só o último deve ser afixado com -mente.</message>
@@ -12570,7 +12574,7 @@ Com um PIB per capita aproximado em 7.300 dólares americanos, o país pertence 
 			</pattern>		
 			<message>Em certos contextos, esta perífrase pode ser simplificada.</message>
 			<suggestion><match no='4' postag='V.+' postag_regexp="yes" postag_replace='VMIP1P0'/> \2</suggestion>
-			<example correction="treinamo atualmente|treinamos atualmente">Por isso <marker>estamos atualmente a treinar</marker> para a guerra.</example> 
+			<example correction="treinamos atualmente">Por isso <marker>estamos atualmente a treinar</marker> para a guerra.</example> 
 		</rule>		
 
 	    <!-- ESTAIS -->
@@ -15625,7 +15629,7 @@ O edifício tem um grau de altura 5, que é também o mais alto da lista. → O 
 			</pattern>		
 			<message>Em certos contextos, esta perífrase pode ser simplificada.</message>
 			<suggestion><match no='4' postag='VMN0000' postag_regexp="yes" postag_replace='VMIP1P0'/></suggestion>
-			<example correction="orientamo|orientamos">Temos diferentes perspetivas mediante a lógica pela qual nos <marker>estamos a orientar</marker>.</example>
+			<example correction="orientamos">Temos diferentes perspetivas mediante a lógica pela qual nos <marker>estamos a orientar</marker>.</example>
 		</rule>
 
 	    <!-- estais -->
@@ -19659,17 +19663,27 @@ O quê?!
       <example correction="quadrilha">É uma perigosa <marker>quadrilha de ladrões</marker>.</example>
     </rule>
 
-    <rule id='BEBÉ-S_RECÉM-NASCIDO-S' name="recém-nascido(s)">
+    <rulegroup id='BEBÉ-S_RECÉM-NASCIDO-S' name="recém-nascido(s)">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-      <pattern>
+      <rule>
+        <pattern>
           <token regexp='yes'>bebés?</token>
           <token>recém</token>
           <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
           <token regexp='yes'>nascid[ao]s?</token>
-      </pattern>
-      <message>Substitua por <suggestion>\2-\4</suggestion>.</message>
-      <example correction="recém-nascido">Que bonito <marker>bebé recém-nascido</marker>.</example>
-    </rule>
+        </pattern>
+        <message>Substitua por <suggestion>\2-\4</suggestion>.</message>
+        <example correction="recém-nascido">Que bonito <marker>bebé recém nascido</marker>.</example>  
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp='yes'>bebés?</token>
+          <token regexp="yes">recém-nascid[ao]s?</token>
+        </pattern>
+        <message>Substitua por <suggestion>\2</suggestion>.</message>
+        <example correction="recém-nascido">Que bonito <marker>bebé recém-nascido</marker>.</example>  
+      </rule>
+    </rulegroup>
 
     <!--          Tiago F. Santos Rules Start         ****START**** -->
     <!-- ********************************************************** -->
@@ -19970,7 +19984,7 @@ tokenizer spreadsheet in the forum	     -->
       </pattern>
       <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
         <suggestion><match no='1' postag='V.+' postag_regexp='yes'>esclarecer</match></suggestion>
-      <example correction='(Esclarecer)'><marker>Ser útil na compreensão</marker>.</example>
+      <example correction='Esclarecer'><marker>Ser útil na compreensão</marker>.</example>
     </rule>
     <rule>
       <pattern>
@@ -21427,7 +21441,7 @@ tokenizer spreadsheet in the forum	     -->
     </rule>
     <rule id='REDUNDANCY_59_ÚLTIMA' name='Pleonasmo: Última versão definitiva'>
       <pattern>
-          <token inflected='yes'>última</token>
+          <token inflected='yes'>último</token>
           <token regexp='yes'>e|versão</token>
           <token>definitiva</token>
       </pattern>
@@ -22405,7 +22419,7 @@ Muitas coisas más aconteceram desde então e o meu estado psicológico agravou-
         <suggestion><match no='1' postag='V.+' postag_regexp='yes'>falhar</match></suggestion>
         <suggestion><match no='1' postag='V.+' postag_regexp='yes'>dar</match> errado</suggestion>
         <suggestion><match no='1' postag='V.+' postag_regexp='yes'>morrer</match></suggestion>
-      <example correction='não (funcionar)|(falhar)|dar errado|morrer'><marker>ir para o espaço</marker>.</example>
+      <example correction='não funcionar|falhar|dar errado|morrer'><marker>ir para o espaço</marker>.</example>
     </rule>
     <rule id='CLICHE_18_IR' name='Clichê: Ir para cucuia'>
       <pattern>
@@ -22419,7 +22433,7 @@ Muitas coisas más aconteceram desde então e o meu estado psicológico agravou-
         <suggestion><match no='1' postag='V.+' postag_regexp='yes'>falhar</match></suggestion>
         <suggestion><match no='1' postag='V.+' postag_regexp='yes'>dar</match> errado</suggestion>
         <suggestion><match no='1' postag='V.+' postag_regexp='yes'>morrer</match></suggestion>
-      <example correction='não (funcionar)|(falhar)|dar errado|morrer'><marker>ir para cucuia</marker>.</example>
+      <example correction='não funcionar|falhar|dar errado|morrer'><marker>ir para cucuia</marker>.</example>
     </rule>
     <rule id='CLICHE_20_IR' name='Clichê: Ir pentear macaco'>
       <pattern>
@@ -22431,7 +22445,7 @@ Muitas coisas más aconteceram desde então e o meu estado psicológico agravou-
       <message>Frase-feita. Procure alternativas.</message>
         <suggestion><match no='1' postag='V.+' postag_regexp='yes'>procurar</match> o que fazer</suggestion>
         <suggestion>não se <match no='1' postag='V.+' postag_regexp='yes'>intrometer</match></suggestion>
-      <example correction='procurar o que fazer|não se (intrometer)'><marker>ir pentear macaco</marker>.</example>
+      <example correction='procurar o que fazer|não se intrometer'><marker>ir pentear macaco</marker>.</example>
     </rule>
     <rule id='CLICHE_22_IR' name='Clichê: Ir por água abaixo'>
       <pattern>
@@ -22639,7 +22653,7 @@ Muitas coisas más aconteceram desde então e o meu estado psicológico agravou-
       <message>Frase-feita. Procure alternativas.</message>
         <suggestion><match no='1' postag='V.+' postag_regexp='yes'>cansar</match></suggestion>
         <suggestion><match no='1' postag='V.+' postag_regexp='yes'>acabar</match> com a paciência</suggestion>
-      <example correction='(cansar)|acabar com a paciência'><marker>pôr a cabeça em água</marker>.</example>
+      <example correction='cansar|acabar com a paciência'><marker>pôr a cabeça em água</marker>.</example>
     </rule>
     <rule id='CLICHE_119_POR' name='Clichê: Pôr a casa em ordem'>
       <pattern>
@@ -22762,7 +22776,7 @@ Muitas coisas más aconteceram desde então e o meu estado psicológico agravou-
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
         <suggestion><match no='1' postag='V.+' postag_regexp='yes'>criar</match> problemas onde não existem</suggestion>
-      <example correction='(criar) problemas onde não existem'><marker>pôr minhoca na cabeça</marker>.</example>
+      <example correction='criar problemas onde não existem'><marker>pôr minhoca na cabeça</marker>.</example>
     </rule>
     <rule id='CLICHE_129_POR' name='Clichê: Pôr os pontos nos is'>
       <pattern>
@@ -22774,7 +22788,7 @@ Muitas coisas más aconteceram desde então e o meu estado psicológico agravou-
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
         <suggestion><match no='1' postag='V.+' postag_regexp='yes'>esclarecer</match> a situação</suggestion>
-      <example correction='(esclarecer) a situação'><marker>pôr os pontos nos is</marker>.</example>
+      <example correction='esclarecer a situação'><marker>pôr os pontos nos is</marker>.</example>
     </rule>
     <rule id='CLICHE_21_ABALAR' name='Clichê: Abalar os alicerces'>
       <pattern>
@@ -23424,7 +23438,7 @@ Muitas coisas más aconteceram desde então e o meu estado psicológico agravou-
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
         <suggestion><match no='1' postag='V.+' postag_regexp='yes'>fazer</match> algo com extrema intensidade</suggestion>
-      <example correction='faze algo com extrema intensidade|fazes algo com extrema intensidade'><marker>botas para quebrar</marker>.</example>
+      <example correction='fazes algo com extrema intensidade'><marker>botas para quebrar</marker>.</example>
     </rule>
     <rule id='CLICHE_319_BOTAR_2' name='Clichê: Botar para quebrar|mandar ver'>
       <pattern>
@@ -23433,7 +23447,7 @@ Muitas coisas más aconteceram desde então e o meu estado psicológico agravou-
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
         <suggestion><match no='1' postag='V.+' postag_regexp='yes'>fazer</match> algo com extrema intensidade</suggestion>
-      <example correction='fi algo com extrema intensidade|fiz algo com extrema intensidade'><marker>mandei ver</marker>.</example>
+      <example correction='fiz algo com extrema intensidade'><marker>mandei ver</marker>.</example>
     </rule>
     <rule id='CLICHE_320_BRINCAR' name='Clichê: Brincar com fogo'>
       <pattern>
@@ -23530,7 +23544,7 @@ Muitas coisas más aconteceram desde então e o meu estado psicológico agravou-
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
         <suggestion><match no='1' postag='V.+' postag_regexp='yes'>fazer</match> confusão</suggestion>
-      <example correction='fi confusão|fiz confusão'><marker>causei espécie</marker>.</example>
+      <example correction='fiz confusão'><marker>causei espécie</marker>.</example>
     </rule>
     <rule id='CLICHE_330_CHEGAR' name='Clichê: Chegar a um denominador comum'>
       <pattern>
@@ -23632,7 +23646,7 @@ Muitas coisas más aconteceram desde então e o meu estado psicológico agravou-
     </rule>
     <rule id='CLICHE_339_COMER' name='Clichê: Comer água'>
       <antipattern>
-          <token inflected='yes'>claro</token>
+          <token inflected='yes' regexp="yes">claro|clarinho</token>
           <token>como</token>
           <token>água</token>
       </antipattern>
@@ -24002,8 +24016,8 @@ Muitas coisas más aconteceram desde então e o meu estado psicológico agravou-
           <token>máquina</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>dar</match> urgência</suggestion>
-      <example correction='dar urgência|der urgência'><marker>dar pau na máquina</marker>.</example>
+        <suggestion>\1 urgência</suggestion>
+      <example correction='dar urgência'><marker>dar pau na máquina</marker>.</example>
     </rule>
     <rule id='CLICHE_373_DAR' name='Clichê: Dar troco'>
       <pattern>
@@ -24011,8 +24025,8 @@ Muitas coisas más aconteceram desde então e o meu estado psicológico agravou-
           <token>troco</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>dar</match> conversa</suggestion>
-      <example correction='dar conversa|der conversa'><marker>dar troco</marker>.</example>
+        <suggestion>\1 conversa</suggestion>
+      <example correction='dar conversa'><marker>dar troco</marker>.</example>
     </rule>
     <rule id='CLICHE_374_DAR' name='Clichê: Dar uma de joão sem braço'>
       <pattern>
@@ -24024,8 +24038,9 @@ Muitas coisas más aconteceram desde então e o meu estado psicológico agravou-
           <token>braço</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>fazer</match>-se de desentendido</suggestion>
-      <example correction='fi-se de desentendido|fiz-se de desentendido'><marker>dei uma de joão sem braço</marker>.</example>
+      <!-- TODO: synthesize inflected forms -->
+        <suggestion>(fazer-se) de desentendido</suggestion>
+      <example correction='(fazer-se) de desentendido'><marker>dei uma de joão sem braço</marker>.</example>
     </rule>
     <rule id='CLICHE_375_DAR' name='Clichê: Dar uma mãozinha'>
       <pattern>
@@ -24044,8 +24059,8 @@ Muitas coisas más aconteceram desde então e o meu estado psicológico agravou-
           <token>mãozinha</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>dar</match> uma pequena ajuda</suggestion>
-      <example correction='dar uma pequena ajuda|der uma pequena ajuda'><marker>dar uma mãozinha</marker>.</example>
+        <suggestion>\1 uma pequena ajuda</suggestion>
+      <example correction='dar uma pequena ajuda'><marker>dar uma mãozinha</marker>.</example>
     </rule>
     <rule id='CLICHE_377_DEBELAR' name='Clichê: Debelar as chamas'>
       <pattern>
@@ -24341,7 +24356,7 @@ Muitas coisas más aconteceram desde então e o meu estado psicológico agravou-
       <message>Frase-feita. Procure alternativas.</message>
         <suggestion><match no='1' postag='V.+' postag_regexp='yes'>utilizar</match> emprestado</suggestion>
         <suggestion><match no='1' postag='V.+' postag_regexp='yes'>utilizar</match> de graça</suggestion>
-      <example correction='(utilizar) emprestado|(utilizar) de graça'><marker>estar na aba de alguém</marker>.</example>
+      <example correction='utilizar emprestado|utilizar de graça'><marker>estar na aba de alguém</marker>.</example>
     </rule>
     <rule id='CLICHE_3102_FAZER' name='Clichê: Fazer vista grossa'>
       <pattern>
@@ -24648,7 +24663,7 @@ Muitas coisas más aconteceram desde então e o meu estado psicológico agravou-
         <suggestion>não <match no='2' postag='V.+' postag_regexp='yes'>ouvir</match></suggestion>
         <suggestion>não <match no='2' postag='V.+' postag_regexp='yes'>servir</match></suggestion>
         <suggestion>não <match no='2' postag='V.+' postag_regexp='yes'>combinar</match> bem</suggestion>
-      <example correction='não ouvir|não servir|não (combinar) bem'><marker>não fazer bom cabelo</marker>.</example>
+      <example correction='não ouvir|não servir|não combinar bem'><marker>não fazer bom cabelo</marker>.</example>
     </rule>
     <rule id='CLICHE_48_NÃO' name='Clichê: Não fugir ao seu destino'>
       <pattern>
@@ -24919,9 +24934,7 @@ o tomate'>
       <pattern>
           <token inflected='yes'>ser</token>
           <token regexp='yes'>uma?s?|uns</token>
-          <token>troca</token>
-          <token regexp='yes' spacebefore='no'>&hifen;</token>
-          <token>tintas</token>
+          <token>troca-tintas</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
         <suggestion><match no='1' postag='V.+' postag_regexp='yes'>mudar</match> de ideias facilmente</suggestion>
@@ -24932,15 +24945,7 @@ o tomate'>
       <pattern>
           <token inflected='yes'>ser</token>
           <token regexp='yes'>uma?s?|uns</token>
-          <token>maria</token>
-          <token regexp='yes' spacebefore='no'>&hifen;</token>
-          <token>vai</token>
-          <token regexp='yes' spacebefore='no'>&hifen;</token>
-          <token>com</token>
-          <token regexp='yes' spacebefore='no'>&hifen;</token>
-          <token>as</token>
-          <token regexp='yes' spacebefore='no'>&hifen;</token>
-          <token>outras</token>
+          <token>maria-vai-com-as-outras</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
         <suggestion>não <match no='1' postag='V.+' postag_regexp='yes'>ter</match> personalidade própria</suggestion>
@@ -25300,8 +25305,13 @@ Mas pq diabos uma figura dessas seria agora plasmada à imagem de um (ex)juiz em
 
              <!-- do paragrafo-->
              <pattern>
-                 <token postag="SPS.*|PI.+" postag_regexp="yes"><exception postag="RG|.*\+P[PD].*" postag_regexp="yes"/></token> <!-- Improved by MARCOAGPINTO "Eu escrevi uma página do livro." (PI.+) 2022-03-09 -->
+<!--
+                 <token postag="SPS.*|PI.+" postag_regexp="yes"><exception postag="RG|.*\+P[PD].*" postag_regexp="yes"/></token> <!-\- Improved by MARCOAGPINTO "Eu escrevi uma página do livro." (PI.+) 2022-03-09 -\->
                  <token postag="D[ADIP].*" postag_regexp="yes" min="0"/>
+-->
+                 <token postag="SPS.*|PI.+" postag_regexp="yes"><exception postag="RG|.*\+P[PD].*|SPS00:P.*" postag_regexp="yes"/></token> <!-- Improved by MARCOAGPINTO "Eu escrevi uma página do livro." (PI.+) 2022-03-09 -->
+               <token postag="D[ADIP]].*" postag_regexp="yes" min="0"/>
+
                  <marker>
                      <token><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/><exception regexp="yes" case_sensitive="yes">\p{Lu}\p{Lu}+s|\p{Lu}\p{Lu}</exception></token>
                  </marker>
@@ -26153,7 +26163,7 @@ Você gostaria de que passássemos um tempo juntos esta noite?
 O fogo se apagou e esta sala está fria.
 -->
 	  <antipattern>
-		<token postag='V.+|SPS00.*|SPS00.DA|DA.+|PD.+|DI.+|CS|CC|RG' postag_regexp='yes'/>
+		<token postag='V.+|SPS00.*|SPS00.DA.*|DA.+|PD.+|DI.+|CS|CC|RG' postag_regexp='yes'/>
 		<token min="1" max="2" postag='NC.+|AQ.+|RG|CS|CC' postag_regexp='yes'>
 			<exception postag_regexp='yes' postag='V.+'/>
 		</token>
@@ -26200,7 +26210,7 @@ Temos uma salsicha com ervas da Provença, uma salsicha de javali, e esta, que �
 Resolvi liberar todas as minhas frases em inglês, inclusive esta.
 -->
 	  <antipattern>
-		<token postag='CC|DA.+|SPS00.DA|_PUNCT|PD.+|DI.+|CS' postag_regexp='yes'>
+		<token postag='CC|DA.+|SPS00.DA.*|_PUNCT|PD.+|DI.+|CS' postag_regexp='yes'>
 			<exception scope='previous' postag_regexp='yes' postag='NP.+'/>
 			<exception postag_regexp='yes' postag='PD.+'/>
 		</token>
@@ -37039,7 +37049,7 @@ As forças estão organizadas numa hierarquia C2.
       </pattern>
       <message>A contração d' não deve ser separada por espaços.</message>
         <suggestion>\1\2\3</suggestion>
-      <example correction="d'El">Aqui jaz <marker>d' El</marker>-rei D.Sebastião.</example>
+      <example correction="d'El-rei">Aqui jaz <marker>d' El-rei</marker> D.Sebastião.</example>
     </rule>
 
   <rulegroup id='PRIORITIZE_QUOTES' name="Prioritizar o tipo de aspas: «“‘...’”»." default="off">
@@ -37817,23 +37827,24 @@ O Rui esteve lá no período 2013 –2021. → O Rui esteve lá no período 2013
   <rulegroup id='POST-IT' name="Nome de Produto: Post-it">
     <rule>
       <pattern>
-          <token regexp="yes">posts?</token>
-          <token min='0' regexp='yes'>[-‑‐]</token>
-          <token regexp='yes'>its?</token>
+        <token regexp="yes">post-its?</token>
       </pattern>
       <message>Post-it é uma marca específica. Utilize:</message>
-        <suggestion>papel adesivo</suggestion>
+      <suggestion>papel adesivo</suggestion>
       <example correction="papel adesivo"><marker>post-it</marker></example>
       <example><marker>papel adesivo</marker></example>
     </rule>
     <rule>
       <pattern>
           <token regexp="yes">posts?</token>
-          <token regexp="yes">its?</token>
+          <token min='0' regexp='yes'>[-‑‐]</token>
+          <token regexp='yes'>its?</token>
       </pattern>
       <message>Post-it é uma marca específica. Utilize:</message>
         <suggestion>papel adesivo</suggestion>
+      <example correction="papel adesivo"><marker>post‐it</marker></example>
       <example correction="papel adesivo"><marker>post it</marker></example>
+      <example><marker>papel adesivo</marker></example>
     </rule>
   </rulegroup>
     <rule id='KLEENEX' name="Nome de Produto: Kleenex">
@@ -39147,10 +39158,10 @@ Ele nem sabe escrever o nome. → Ele nem o nome sabe escrever.
       </antipattern>
     <rule tags="picky">
       <pattern>
-          <token postag="(?:P.|N).FP.+" postag_regexp="yes"/>
-          <token postag="CC">
-            <exception>senão</exception></token>
-          <token><match no='0' postag="(P.|N)(.)F(.+)" postag_regexp="yes" postag_replace="$1$2M$3"/></token>
+        <token postag="(?:P.|N).FP.+" postag_regexp="yes"/>
+        <token postag="CC">
+          <exception>senão</exception></token>
+        <token><match no='0' postag="(P.|N)(.)F(.+)" postag_regexp="yes" postag_replace="$1$2M$3"/></token>
       </pattern>
       <message>Possível redundância. Se não pretende realçar a diferença de género, é suficiente utilizar <suggestion>\3</suggestion>.</message>
       <example correction="amigos">Chegamos <marker>amigas e amigos</marker></example>
@@ -39158,10 +39169,10 @@ Ele nem sabe escrever o nome. → Ele nem o nome sabe escrever.
     </rule>
     <rule tags="picky">
       <pattern>
-          <token postag="(?:P.|N).MP.+" postag_regexp="yes"/>
-          <token postag="CC">
-            <exception>sino</exception></token>
-          <token><match no='0' postag="(P.|N)(.)[MC](.+)" postag_regexp="yes" postag_replace="$1$2F$3"/></token>
+        <token postag="(?:P.|N).MP.+" postag_regexp="yes"/>
+        <token postag="CC">
+          <exception>sino</exception></token>
+        <token><match no='0' postag="(P.|N)(.)[MC](.+)" postag_regexp="yes" postag_replace="$1$2F$3"/></token>
       </pattern>
       <message>Possível redundância. Se não pretende realçar a diferença de género, é suficiente utilizar <suggestion>\1</suggestion>.</message>
       <example correction="amigos">Chegados <marker>amigos e amigas</marker></example>
@@ -39169,17 +39180,18 @@ Ele nem sabe escrever o nome. → Ele nem o nome sabe escrever.
     </rule>
     <rule tags="picky">
       <pattern>
-          <token postag="[DP].+" postag_regexp="yes">
-            <exception postag="N.+" postag_regexp="yes"/></token>
-          <token postag="(?:P.|N).FP.+" postag_regexp="yes"/>
-          <token postag="CC">
-            <exception>sino</exception></token>
-          <token postag="[DP].+" postag_regexp="yes">
-            <exception postag="N.+" postag_regexp="yes"/></token>
-          <token><match no='1' postag="(P.|N)(.)F(.+)" postag_regexp="yes" postag_replace="$1$2M$3"/></token>
+        <token postag="[DP].+" postag_regexp="yes">
+          <exception postag="N.+" postag_regexp="yes"/></token>
+        <token postag="(?:P.|N).FP.+" postag_regexp="yes"/>
+        <token postag="CC">
+          <exception>sino</exception></token>
+        <token postag="[DP].+" postag_regexp="yes">
+          <exception postag="N.+" postag_regexp="yes"/></token>
+        <token><match no='1' postag="(P.|N)(.)F(.+)" postag_regexp="yes" postag_replace="$1$2M$3"/></token>
       </pattern>
       <message>Possível redundância. Se não pretende realçar a diferença de género, é suficiente utilizar <suggestion><match include_skipped="following" no="4"/> <match no='5'/></suggestion>.</message>
-      <example correction="os rapazes">Olha como se divertem <marker>as raparigas e os rapazes</marker></example>
+      <!--<example correction="os rapazes">Olha como se divertem <marker>as raparigas e os rapazes</marker></example>-->
+      <example correction="os amigos">Olha como se divertem <marker>as amigas e os amigos</marker></example>
     </rule>
     <rule tags="picky">
       <pattern>
@@ -39347,9 +39359,7 @@ Ele nem sabe escrever o nome. → Ele nem o nome sabe escrever.
     </rule>
     <rule>
       <pattern>
-          <token>tão</token>
-          <token regexp='yes' spacebefore='no'>&hifen;</token>
-          <token>pouco</token>
+          <token>tão-pouco</token>
       </pattern>
       <message>Esta palavra é uma palavra de português arcaico.</message>
         <suggestion>tampouco</suggestion>
@@ -39362,7 +39372,8 @@ Ele nem sabe escrever o nome. → Ele nem o nome sabe escrever.
       </pattern>
       <message>Esta palavra é uma palavra de português arcaico.</message>
         <suggestion><match no='1' postag='V.+'>adicionar</match></suggestion>
-      <example correction='adicionas'>Se <marker>ades</marker> 2 com 3 e dá 5.</example>
+      <!--<example correction='adicionas'>Se <marker>ades</marker> 2 com 3 e dá 5.</example>-->
+      <example correction='adicionamos|adicionámos'>Se <marker>adimos</marker> 2 com 3 e dá 5.</example>
     </rule>
   </rulegroup>
 
@@ -39526,7 +39537,9 @@ USED IN ABBREVIATIONS, BARBARISMS AND ALSO IN SENTENCES STARTING WITH A NUMBER.
       <example type="correct">Os <marker>jovens</marker> lá da terra passam o dia a fumar.</example>
       <example>Leva as pás, ao Sr. António.</example>
     </rule>
-    <rule>
+    <!--
+      This rule needs special tagging for augmentatives and diminutives
+      <rule>
       <antipattern>
           <token regexp='yes'>soldadinhos?</token>
           <token regexp='yes' spacebefore='no' min='0'>&hifen;</token>
@@ -39538,7 +39551,7 @@ USED IN ABBREVIATIONS, BARBARISMS AND ALSO IN SENTENCES STARTING WITH A NUMBER.
           <token postag_regexp='yes' postag='AQC.+|N.....[AD]'>
             <exception negate_pos='yes' postag_regexp='yes' postag='AQC.+|N.....[AD]'/>
             <exception regexp='yes'>(?:burrito|ca(?:pita|[mn]arinh[ao])|finit[ao]|p(?:erita|intainho)|r(?:etinha|atinho)|sozinh[ao]|tainha)s?|quadrinhos?|covinhas?</exception></token>
-    <!-- TODO Improve tagger so that it recognizes missing aumentatives and diminutives -->
+    <!-\- TODO Improve tagger so that it recognizes missing aumentatives and diminutives -\->
       </pattern>
       <message>Linguagem informal. Considere as alternativas.</message>
       <example type="incorrect">O peixe era <marker>grandinho</marker>, mas não bati nenhum recorde.</example>
@@ -39546,7 +39559,7 @@ USED IN ABBREVIATIONS, BARBARISMS AND ALSO IN SENTENCES STARTING WITH A NUMBER.
       <example type="correct">água límpida da nascente brota entre as pedras e <marker>caminha</marker> por entre as árvores que agradecem.</example>
       <example type="correct">Ele sustentou <marker>sozinho</marker> três crianças. por entre as árvores que agradecem.</example>
       <example type="correct">A derrota <marker>canarinha</marker> não deixou repercussões apenas em terras brasileiras.</example>
-    </rule>
+    </rule>-->
     <rule>
       <pattern>
           <token>a</token>
@@ -39810,8 +39823,8 @@ USED IN ABBREVIATIONS, BARBARISMS AND ALSO IN SENTENCES STARTING WITH A NUMBER.
           <token>mal</token>
       </pattern>
       <message>Linguagem informal. Considere as alternativas.</message>
-        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>maldizer</match></suggestion>
-      <example correction='maldiga'><marker>fala mal</marker>.</example>
+        <suggestion><match no='1' postag='V.[SI].+' postag_regexp='yes'>maldizer</match></suggestion>
+      <example correction='maldiz'>Ele <marker>fala mal</marker>.</example>
     </rule>
     <!--rule>
       <pattern>
@@ -39889,8 +39902,8 @@ USED IN ABBREVIATIONS, BARBARISMS AND ALSO IN SENTENCES STARTING WITH A NUMBER.
           <token>cara</token>
       </pattern>
       <message>Linguagem informal. Considere as alternativas.</message>
-        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>ser</match> óbvio</suggestion>
-      <example correction='sejas óbvio|sê óbvio'><marker>está na cara</marker>.</example>
+        <suggestion><match no='1' postag='V.[^M]....' postag_regexp='yes'>ser</match> óbvio</suggestion>
+      <example correction='é óbvio'><marker>está na cara</marker>.</example>
     </rule>
     <rule>
       <pattern>
@@ -40941,7 +40954,7 @@ USED IN ABBREVIATIONS, BARBARISMS AND ALSO IN SENTENCES STARTING WITH A NUMBER.
       </pattern>
       <message>Esta expressão é de baixo calão. Considere as alternativas.</message>
         <suggestion><match no='1' postag='V(.+)' postag_replace='V$1'>fazer</match> sexo</suggestion>
-      <example correction='fez sexo|fê sexo'><marker>afogou o ganso</marker>.</example>
+      <example correction='fez sexo'><marker>afogou o ganso</marker>.</example>
     </rule>
     <rule>
       <pattern>
@@ -42278,7 +42291,7 @@ Elas têm umas sextas de vime. → Elas têm umas cestas de vime.
 		</pattern>
 		<message>Em certos contextos, esta perífrase pode ser simplificada.</message>
 		<suggestion><match no='2' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIP1P0'/></suggestion>
-		<example correction='pesquisamo|pesquisamos'>Nós <marker>temos pesquisado</marker> o assunto há décadas.</example>
+		<example correction='pesquisamos'>Nós <marker>temos pesquisado</marker> o assunto há décadas.</example>
 		<example type='correct'>Nós <marker>pesquisamos</marker> o assunto há décadas.</example>
       </rule>	  
 
@@ -42498,13 +42511,14 @@ Tempo e espaço são meras ilusões dos sentidos precários dos humanos. → Tem
 
 
 	<!-- E QUE que -->
-    <rule id='E_QUE_QUE' name="Simplificar: E que → que" type="style">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-19 (Checked/Enhanced) (1-JAN-2022+)      -->
-	<!--
+<!-- FIXME: This rule needs better disambiguation and a better pattern
+     <rule id='E_QUE_QUE' name="Simplificar: E que → que" type="style">
+    <!-\-      Created by Marco A.G.Pinto, Portuguese rule 2022-01-19 (Checked/Enhanced) (1-JAN-2022+)      -\->
+	<!-\-
 São regras muito simples e que permitem agir corretamente. → São regras muito simples que permitem agir corretamente.
-	-->
+	-\->
       <pattern>
-		<token negate_pos="yes" postag='SPS.+|Z0.+|RG|DA.+|CS|I|V.+' postag_regexp='yes'/>
+		<token><exception postag='SPS.+|Z0.+|RG|DA.+|CS|I|V.+' postag_regexp='yes'/></token>
 		<token postag='AQ.+|NC.+' postag_regexp='yes'/>
 		<marker>
 			<token>e</token>
@@ -42520,7 +42534,7 @@ São regras muito simples e que permitem agir corretamente. → São regras muit
 	  <example>Obras que custaram cerca de mil contos e que foram inauguradas a 21 de Outubro de 1951.</example>
 	  <example>Além disso, havia duas tribos que provavelmente eram relacionadas com os godos e que permaneceram na Escandinávia, os gotlanders e os gautas.</example>
 	  <example>O imperador ordenou a construção de hospedarias para os viajantes e que fosse proporcionado tratamento médico não só aos humanos, mas também aos animais.</example>
-    </rule>
+    </rule>-->
 
 
 	<!-- E É/SÃO/FOI/FORAM VERBO sendo/sido/e verbo -->
@@ -42981,7 +42995,7 @@ Aqui você vê quanto está bem informado sobre o que acontece no governo federa
 		<token>que</token>
 		<token min="0" max="1" postag='RN' postag_regexp='no'/>
 		<token postag='V.+' postag_regexp='yes'/>
-		<token postag='NC.+|AQ.+|CS|SPS00.DA|NP.+|PI.+|SPS00.*|AO.+' postag_regexp='yes'/>
+		<token postag='NC.+|AQ.+|CS|SPS00.DA.*|NP.+|PI.+|SPS00.*|AO.+' postag_regexp='yes'/>
 	  </antipattern>
 <!--
 Adicione o título do post e o nome do seu site ou blog para que as pessoas saibam sobre o que é o post.
@@ -43069,7 +43083,7 @@ Ei, o que pensa que está fazendo?
 		<token>que</token>
 		<token min="0" max="1" postag='RN' postag_regexp='no'/>
 		<token postag='V.+' postag_regexp='yes'/>
-		<token postag='NC.+|AQ.+|CS|SPS00.DA|NP.+|PI.+|SPS00.*|RM|AO.+' postag_regexp='yes'>
+		<token postag='NC.+|AQ.+|CS|SPS00.DA.*|NP.+|PI.+|SPS00.*|RM|AO.+' postag_regexp='yes'>
 			<exception postag_regexp='no' postag='RG'/>
 		</token>
 	  </antipattern>
@@ -43461,7 +43475,7 @@ Os dados só após serem organizados é que podem ser usados. → Os dados só a
 			</pattern>
 			<message>Em certos contextos, esta perífrase pode ser simplificada.</message>
 			<suggestion><match no='2' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIS1P0'/></suggestion>
-			<example correction="fomo|fomos">Nós <marker>tínhamos sido</marker> entregues à polícia.</example>
+			<example correction="fomos">Nós <marker>tínhamos sido</marker> entregues à polícia.</example>
 		</rule>
 	</rulegroup>
 
@@ -43540,7 +43554,7 @@ Acho pouco provável que alienígenas parecidos com os que vemos nos filmes já 
 		<token regexp='no' inflected='yes'>ver</token>
 		<token postag='DA.+|DI.+|DP.+|PP.+' postag_regexp='yes'/>
 		<token postag='AQ.+|NC.+|NP.+' postag_regexp='yes'/>
-		<token postag='SPS00.DA|CS|V.+' postag_regexp='yes'/>
+		<token postag='SPS00.DA.*|CS|V.+' postag_regexp='yes'/>
 	  </antipattern>	
 
 <!--
@@ -43914,8 +43928,8 @@ Isto deve ser feito com precisão científica. → Isto deve ser feito com rigor
       </pattern>
       <message>Num contexto formal ou académico, é preferível escrever 'empregar um termo'.</message>
 	  <suggestion><match no='1' postag='V.+' postag_regexp='yes'>empregar</match></suggestion>
-      <example correction="empregamo|empregamos">Na nossa investigação <marker>usamos</marker> o termo “terrorismo”.</example>
-	  <example correction="empregamo|empregamos">Na nossa investigação <marker>usamos</marker> termos caros.</example>
+	  <example correction="empregamos|empregámos">Na nossa investigação <marker>usamos</marker> o termo “terrorismo”.</example>
+	  <example correction="empregamos|empregámos">Na nossa investigação <marker>usamos</marker> termos caros.</example>
      </rule> 
 	 <rule>
       <pattern>
@@ -44433,7 +44447,7 @@ A primeira função de Carvalho em Londres foi obter ajuda para as forças portu
       <message>Se for uma tese de doutoramento, verifique se o 'tom' de redação é o apropriado.</message>
       <suggestion>{suggestion}</suggestion>	 
       <example correction="provou">A nossa tese <marker>procurou provar</marker> a métrica.</example>
-      <example correction="provámos">Na nossa tese <marker>procurámos provar</marker> a métrica.</example>
+      <example correction="provamos|provámos">Na nossa tese <marker>procurámos provar</marker> a métrica.</example>
       <example correction="provei">Na nossa tese <marker>procurei provar</marker> a métrica.</example>
 	  <example correction="resolveu">como o <marker>tentou resolver</marker></example>
 	  <example>Uma das críticas a Ana <marker>foi escrever</marker> no seu livro de receitas o básico.</example>

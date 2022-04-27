@@ -151,7 +151,7 @@
   <rule id="USUAL" name="usual">
     <!-- TODO: exceptions -->
     <pattern>
-      <token inflected="yes" regexp="yes">usual|embriagado|escasso</token>
+      <token inflected="yes" regexp="yes">usual|embriagado|escasso|essa</token>
     </pattern>
     <disambig action="remove" postag="N.*"/>
   </rule>
@@ -184,6 +184,16 @@
     </rule>
     <rule>
       <pattern>
+        <marker>
+          <token regexp="yes">eles?|elas?</token>  
+        </marker>
+        <token postag="P.*" postag_regexp="yes"/>
+        <token postag="V.*" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="remove" postag="V.*"></disambig>  
+    </rule>
+    <rule>
+      <pattern>
         <token postag="SPS.*" postag_regexp="yes"/>
         <marker>
           <token regexp="yes">eles?|elas?</token>  
@@ -191,8 +201,21 @@
       </pattern>
       <disambig action="remove" postag="V.*"></disambig>  
     </rule>
-    
   </rulegroup>
+  <rule id="PENSAR" name="pensar (not noun)">
+    <pattern>
+      <!-- TODO: exceptions -->
+      <token regexp="yes">pensar|achar|fez|ninguém</token>
+    </pattern>
+    <disambig action="remove" postag="NC.*"/>
+  </rule>
+  <rule id="QUE" name="que (not adverb)">
+    <pattern>
+      <!-- TODO: exceptions -->
+      <token>que</token>
+    </pattern>
+    <disambig action="remove" postag="RG"/>
+  </rule>
   <rule id="SER_SERIAR" name="ser/seriar">
     <!-- more common: ser -->
     <pattern>
@@ -384,8 +407,8 @@
         </marker>
       </pattern>
       <disambig action="filter" postag="V.+"/>
-      <example inputform="via[ver/VMII1S0,ver/VMII2S0,ver/VMII3S0,via/NCFS000,via/SPS00]" outputform="via[ver/VMII1S0,ver/VMII2S0,ver/VMII3S0]" type="ambiguous">Há muito tempo que não <marker>via</marker> publicações da Ana.</example>
-      <example type="untouched">>Nas Antilhas existem também <marker>ilhas</marker> que são possessões (britânicas, francesas, holand...</example>
+      <example inputform="via[ver/VMII1S0,ver/VMII3S0,via/NCFS000,via/SPS00]" outputform="via[ver/VMII1S0,ver/VMII3S0]" type="ambiguous">Há muito tempo que não <marker>via</marker> publicações da Ana.</example>
+      <example type="untouched">Nas Antilhas existem também <marker>ilhas</marker> que são possessões (britânicas, francesas, holand...</example>
     </rule>
     <rule>
       <pattern>
@@ -402,7 +425,7 @@
         </marker>
       </pattern>
       <disambig action="filter" postag="V.+"/>
-      <example type="untouched">>Nas Antilhas existem também <marker>ilhas</marker> que são possessões (britânicas, francesas, holand...</example>
+      <example type="untouched">Nas Antilhas existem também <marker>ilhas</marker> que são possessões (britânicas, francesas, holand...</example>
     </rule>
     <rule>
       <pattern>
@@ -418,8 +441,8 @@
         </marker>
       </pattern>
       <disambig action="filter" postag="V.+"/>
-      <example inputform="quebra[quebra/AQ0CS0,quebra/NCCS000,quebra/NCFS000,quebrar/VMIP3S0,quebrar/VMM02S0]" outputform="quebra[quebrar/VMIP3S0,quebrar/VMM02S0]" type="ambiguous">...odo estudante confia no Sr. Akai porque ele nunca <marker>quebra</marker> promessas.</example>
-      <example type="untouched">>Nas Antilhas existem também <marker>ilhas</marker> que são possessões (britânicas, francesas, holand...</example>
+      <example inputform="quebra[quebra/AQ0CS0,quebra/NCCS000,quebrar/VMIP3S0,quebrar/VMM02S0]" outputform="quebra[quebrar/VMIP3S0,quebrar/VMM02S0]" type="ambiguous">...odo estudante confia no Sr. Akai porque ele nunca <marker>quebra</marker> promessas.</example>
+      <example type="untouched">Nas Antilhas existem também <marker>ilhas</marker> que são possessões (britânicas, francesas, holand...</example>
     </rule>
   </rulegroup>
 
@@ -555,8 +578,8 @@
         </marker>
       </pattern>
       <disambig action="filter" postag="V.P.+"/>
-      <example inputform="cometido[cometer/VMP00SM,cometido/AQ0MS0]" outputform="cometido[cometer/VMP00SM]" type="ambiguous">Todos tinham <marker>cometido</marker> graves erros.</example>
-      <example inputform="desrespeitado[desrespeitado/AQ0MS0,desrespeitar/VMP00SM]" outputform="desrespeitado[desrespeitar/VMP00SM]" type="ambiguous">Ela tinha <marker>desrespeitado</marker> todos com a sua infantilidade.</example>
+      <!--<example inputform="cometido[cometer/VMP00SM,cometido/AQ0MS0]" outputform="cometido[cometer/VMP00SM]" type="ambiguous">Todos tinham <marker>cometido</marker> graves erros.</example>-->
+      <!--<example inputform="desrespeitado[desrespeitado/AQ0MS0,desrespeitar/VMP00SM]" outputform="desrespeitado[desrespeitar/VMP00SM]" type="ambiguous">Ela tinha <marker>desrespeitado</marker> todos com a sua infantilidade.</example>-->
     <!--example inputform="comprado[comprado/AQ0MS0,comprar/VMP00SM]" outputform="comprado[comprar/VMP00SM]" type="ambiguous">Tenho ao longo dos anos <marker>comprado</marker> livros.</example--> <!-- XXX testrules does not account for multiwords, but it is working -->
     </rule>
     <rule>
@@ -571,7 +594,7 @@
         </marker>
       </pattern>
       <disambig action="filter" postag="V.P.+"/>
-      <example inputform="recordado[recordado/AQ0MS0,recordar/VMP00SM]" outputform="recordado[recordar/VMP00SM]" type="ambiguous">Todos tinham-se <marker>recordado</marker> do sucedido.</example>
+      <!--<example inputform="recordado[recordado/AQ0MS0,recordar/VMP00SM]" outputform="recordado[recordar/VMP00SM]" type="ambiguous">Todos tinham-se <marker>recordado</marker> do sucedido.</example>-->
     </rule>
   </rulegroup>
 
@@ -885,7 +908,7 @@
       <token regexp='yes'>e|ou</token>
       <token postag="R.+" postag_regexp="yes" regexp='yes'>.+mente</token>
     </pattern>
-    <disambig action="add"><wd pos="RM"/></disambig>
+    <disambig action="replace"><wd pos="RM"/></disambig>
   </rule>
 
   <rulegroup id="D_R_N" name="Det + Adv + Nom">
@@ -1010,7 +1033,7 @@
         </marker>
       </pattern>
       <disambig action="unify"/>
-      <example inputform="uma[um/DI0FS0,um/NCFS000,um/PI0FS000]" outputform="uma[um/DI0FS0]" type="ambiguous">É <marker>uma</marker> ocasião romântica.</example>
+      <example inputform="uma[um/DI0FS0,um/PI0FS000]" outputform="uma[um/DI0FS0]" type="ambiguous">É <marker>uma</marker> ocasião romântica.</example>
       <example type="untouched">É o mais ambicioso projeto.</example>
       <example type="untouched">É uma romântica ocasião.</example>
       <example type="untouched">Um <marker>mal trabalhador</marker> reclama de suas ferramentas.</example><!-- triggers MAL_MAU_CONFUSION -->
@@ -1052,7 +1075,7 @@
         </marker>
       </pattern>
       <disambig action="unify"/>
-      <example inputform="uma[um/DI0FS0,um/NCFS000,um/PI0FS000]" outputform="uma[um/DI0FS0]" type="ambiguous">É <marker>uma</marker> romântica ocasião.</example>
+      <example inputform="uma[um/DI0FS0,um/PI0FS000]" outputform="uma[um/DI0FS0]" type="ambiguous">É <marker>uma</marker> romântica ocasião.</example>
       <example type="untouched">É uma ocasião romântica.</example>
       <example type="untouched">...em 112 Trajano fixa o procedimento contra os cristãos.</example>
     </rule>
@@ -1121,7 +1144,7 @@
       <disambig action="remove" postag="V.+"/>
     <!--example type="ambiguous" inputform="cerca[cerca/NCFS000,cerca/RG,cercar/VMIP3S0,cercar/VMM02S0]" outputform="cerca[cerca/NCFS000,cerca/RG]">Dos <marker>cerca</marker> de 416 mil soldados que serviram, cerca de 60 mil...</example--><!-- XXX disambiguated by more specific CERCA_DE -->
       <example type="ambiguous" inputform="carpinteiro[carpinteirar/VMIP1S0,carpinteiro/NCMS000]" outputform="carpinteiro[carpinteiro/NCMS000]">O <marker>carpinteiro</marker> serra-te isso à medida.</example>
-      <example type="untouched">Muitos destes “senhores dos mares” correm sérios riscos de deixarem de o <marker>ser</marker>.</example>
+<!--      <example type="untouched">Muitos destes “senhores dos mares” correm sérios riscos de deixarem de o <marker>ser</marker>.</example>-->
     </rule>
     <rule>
       <pattern>
@@ -1135,7 +1158,7 @@
         </marker>
       </pattern>
       <disambig action="remove" postag="V.+"/>
-      <example type="ambiguous" inputform="jantar[jantar/NCMS000,jantar/VMN0000,jantar/VMSF1S0,jantar/VMSF3S0]" outputform="jantar[jantar/NCMS000]">Um <marker>jantar</marker> à lareira parece-me bem.</example>
+      <example type="ambiguous" inputform="jantar[jantar/NCMS000,jantar/VMN0000,jantar/VMN01S0,jantar/VMN03S0,jantar/VMSF1S0,jantar/VMSF3S0]" outputform="jantar[jantar/NCMS000]">Um <marker>jantar</marker> à lareira parece-me bem.</example>
     </rule>
   </rulegroup>
 
@@ -1175,7 +1198,7 @@
       <pattern>
           <token postag="V.+" postag_regexp="yes">
             <exception>para</exception>
-            <exception inflected='yes' regexp='yes'>caminhar|correr|explicar|inaugurar|ver</exception></token>
+            <exception inflected='yes' regexp='yes'>caminhar|correr|explicar|inaugurar|ver|ele</exception></token>
           <token min='0' postag='R.' postag_regexp='yes'/>
         <marker>
           <token>a</token>
@@ -1354,8 +1377,8 @@
       <disambig action="filter" postag="D.+"/>
       <example type='untouched'>Éramos todos família.</example>
       <example type='untouched'>Quantos aderiram realmente a essa greve?</example>
-      <example type='untouched'>Os cigarros eletrónicos a vapor também comportam riscos.</example>
-      <example type='untouched'>Algo que nos une como plataforma a tantos continentes, a tantos oceanos, a tantas culturas, a tantas civilizações</example>
+      <!--<example type='untouched'>Os cigarros eletrónicos a vapor também comportam riscos.</example>-->
+      <!--<example type='untouched'>Algo que nos une como plataforma a tantos continentes, a tantos oceanos, a tantas culturas, a tantas civilizações</example>-->
       <!--example type='untouched'>A decisão de abrir espaço a eleições antecipadas é dele.</example-->
       <!-- TODO fix bug in antipattern. Antipattern does not trigger here -->
     </rule>
@@ -1480,7 +1503,7 @@
         </marker>
       </pattern>
       <disambig action="filter" postag="P.+"/>
-      <example inputform="todos[todo/DI0MP0,todo/PI0MP000]" outputform="todos[todo/PI0MP000]" type="ambiguous">Éramos <marker>todos</marker> família.</example>
+      <example inputform="todos[todo/AQ0MP0,todo/DI0MP0,todo/NCMP000,todo/PI0MP000]" outputform="todos[todo/PI0MP000]" type="ambiguous">Éramos <marker>todos</marker> família.</example>
     </rule>
 
     <!-- P_N Possesivo + nome -->
@@ -2007,7 +2030,7 @@
         </marker>
         <token postag="NC.*" postag_regexp="yes"/>
       </pattern>
-      <disambig action="filter" postag="Z.*"/>
+      <disambig action="remove" postag="NC.*"/>
     </rule>
   </rulegroup>
 
@@ -3240,12 +3263,22 @@
       <disambig action="immunize"/>  
     </rule>
   </rulegroup>-->
-  <rule id="WORKAROUND_MISSING_ADVERBS_POS" name="Fix missing POS in adverbes">
-    <!--Created by Tiago F. Santos, Portuguese rule, 2017-07-24-->
+  <rule id="DA" name="dá">
+    <antipattern>
+      <token>dá</token>
+      <token spacebefore="no">-</token>
+      <token spacebefore="no"/>
+    </antipattern>
     <pattern>
-      <token regexp="yes" postag='I|RG' postag_regexp='yes'>.*mente</token>
+      <token>dá</token>
     </pattern>
-    <disambig action="add"><wd pos="RM"/></disambig>
-    <example inputform="francamente[Francamente/I]" outputform="francamente[Francamente/I,francamente/RM]" type="ambiguous">Falou <marker>francamente</marker> em soluções.</example>
+    <disambig action="remove" postag="VMN0000X"/>
+  </rule>
+  <rule id="WORKAROUND_MISSING_ADVERBS_POS" name="convert RG + mente -> RM">
+    <pattern>
+      <token postag='RG' regexp='yes'>.*mente</token>
+    </pattern>
+    <disambig action="replace"><wd pos="RM"/></disambig>
+<!--    <example inputform="francamente[Francamente/I]" outputform="francamente[Francamente/I,francamente/RM]" type="ambiguous">Falou <marker>francamente</marker> em soluções.</example>-->
   </rule>
 </rules>
