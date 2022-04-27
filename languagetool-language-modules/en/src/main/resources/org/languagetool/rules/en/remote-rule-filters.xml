@@ -972,6 +972,36 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">We are <marker>selling</marker> 2022's (with the bonus editions included)</example>
                 <example correction="">It was calculated by <marker>feeding</marker> 32128 tokens.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>University</token>
+                    <token>of</token>
+                    <marker>
+                        <token postag="NNPS?" postag_regexp="yes"/>
+                    </marker>
+                    <token postag="NNPS?" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">University of <marker>Colorado</marker> Boulder</example>
+                <example correction="">University of <marker>Massachusetts</marker> Amherst</example>
+                <example correction="">University of <marker>Massachusetts</marker> Boston</example>
+                <example correction="">University of <marker>Massachusetts</marker> Lowell</example>
+                <example correction="">University of <marker>Illinois</marker> Chicago</example>
+                <example correction="">University of <marker>Texas</marker> Rio Grande Valley</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="NNPS?" postag_regexp="yes"/>
+                    </marker>
+                    <token regexp="yes">\d+</token>
+                    <token>)</token>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <example correction="">(Goodrich and <marker>Hackett</marker> 528).</example>
+                <example correction="">(Atshan &amp; <marker>Moore</marker> 681).</example>
+                <example correction="">...It’s a gift” (<marker>Golding</marker> 124).</example>
+                <example correction="">(Schroeder and <marker>Shah</marker> 2007).</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_EN_G_REPLACE_ORTH" name="">
             <rule>
