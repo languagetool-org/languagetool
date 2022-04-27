@@ -14524,6 +14524,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>10 millones de forma semestral.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="AGREEMENT_NUMERAL_GENDER" name="concordancia de género en numerales" default="temp_off">
+            <url>https://www.fundeu.es/recomendacion/numerales-concordancia-1411/</url>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>veintiún</token>
+                    </marker>
+                    <token postag="N.F[PN].*|_GN_FP" postag_regexp="yes"/>
+                </pattern>
+                <message>Error de concordancia.</message>
+                <suggestion>veintiuna</suggestion>
+                <example correction="veintiuna">Vinieron <marker>veintiún</marker> personas.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="DN.*" postag_regexp="yes"/>
+                    <token>y</token>
+                    <marker>
+                        <token>un</token>
+                    </marker>
+                    <token postag="N.F[PN].*|_GN_FP" postag_regexp="yes"/>
+                </pattern>
+                <message>Error de concordancia.</message>
+                <suggestion>una</suggestion>
+                <example correction="una">Vinieron treinta y <marker>un</marker> personas.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="NOUN_PLURAL" name="nombre en plural">
             <rule>
                 <pattern>
