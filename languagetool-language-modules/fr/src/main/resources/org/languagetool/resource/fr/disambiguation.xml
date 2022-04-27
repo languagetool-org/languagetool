@@ -132,6 +132,27 @@ RB => Règles Brutes
     </rule>
     <!-- END: numerals -->
     <!-- CATEGORY: remove unusual tags -->
+    <rule id="BIEN1" name="bien">
+        <pattern>
+            <token postag="V avoir.*" postag_regexp="yes"/>
+            <token postag="A"/>
+            <marker>
+                <token postag="A" regexp="yes">bien|vite</token>
+            </marker>
+            <token postag="V.* inf|V.* ppa.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filter" postag="A"/>
+    </rule>
+    <rule id="BIEN2" name="bien">
+        <pattern>
+            <token postag="V avoir.*" postag_regexp="yes"/>
+            <marker>
+                <token postag="A" regexp="yes">bien|vite</token>
+            </marker>
+            <token postag="V.* inf|V.* ppa.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filter" postag="A"/>
+    </rule>
     <rule id="DES_FAITS" name="des faits">
         <pattern>
             <token>des</token>
@@ -1639,16 +1660,18 @@ RB => Règles Brutes
         </pattern>
         <disambig action="filterall"/>
     </rule>
-    <rule id="BIEN" name="bien (adv)">
+    <rulegroup id="BIEN" name="bien (adv)">
+        <rule>
         <pattern>
-            <token regexp="yes" inflected="yes">avoir|être|puovoir|vouloir</token>
+            <token regexp="yes" inflected="yes">avoir|être|pouvoir|vouloir</token>
             <marker>
                 <token postag="A" regexp="yes">bien|vite</token>
             </marker>
             <token postag="V.* inf|V.* ppa.*" postag_regexp="yes"/>
         </pattern>
         <disambig action="filterall"/>
-    </rule>
+        </rule>
+    </rulegroup>
     <rule id="LE_PLUS" name="le plus (adv)">
         <pattern>
             <token inflected="yes">avoir</token>
