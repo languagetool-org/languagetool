@@ -977,7 +977,9 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token>University</token>
                     <token>of</token>
                     <marker>
-                        <token postag="NNPS?" postag_regexp="yes"/>
+                        <token postag="NNPS?" postag_regexp="yes">
+                            <exception>California</exception>
+                        </token>
                     </marker>
                     <token postag="NNPS?" postag_regexp="yes"/>
                 </pattern>
@@ -987,6 +989,9 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">University of <marker>Massachusetts</marker> Lowell</example>
                 <example correction="">University of <marker>Illinois</marker> Chicago</example>
                 <example correction="">University of <marker>Texas</marker> Rio Grande Valley</example>
+                <example>University of California Berkeley</example><!-- UC universities use a comma in the title -->
+                <example>University of California San Francisco</example>
+                <example>University of California Los Angeles</example>
             </rule>
             <rule>
                 <pattern>
