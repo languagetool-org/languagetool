@@ -9609,6 +9609,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="De la"><marker>D ela</marker> noche a la mañana.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token case_sensitive="yes">D<exception scope="previous" postag="SENT_STAT"/></token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">.</token>
+                    <token>d</token>
+                </antipattern>
+                <antipattern>
+                    <token>d</token>
+                    <token regexp="yes">.</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>d</token>
@@ -9619,6 +9630,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="de">Es el resultado <marker>d</marker> esta evaluación.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <tokne>n</tokne>
+                    <token regexp="yes">\.|º|ª|/|\d+</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">/|'</token>
+                    <token>n</token>
+                </antipattern>
+                <antipattern>
+                    <token case_sensitive="yes">N<exception scope="previous" postag="SENT_STAT"/></token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>n</token>
@@ -9630,6 +9652,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="un|en">Pero <marker>n</marker> caso no es el otro.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token case_sensitive="yes">N<exception scope="previous" postag="SENT_STAT"/></token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>n</token>
@@ -9640,6 +9665,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="en">Pero <marker>n</marker> este caso no es así.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp="yes">.</token>
+                    <token>l</token>
+                </antipattern>
+                <antipattern>
+                    <token>l</token>
+                    <token regexp="yes">.</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>l</token>
@@ -9650,6 +9683,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="el">Pero <marker>l</marker> caso no es el mismo.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp="yes">.</token>
+                    <token>l</token>
+                </antipattern>
+                <antipattern>
+                    <token>l</token>
+                    <token regexp="yes">.</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>l</token>
@@ -9660,6 +9701,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="la">Pero <marker>l</marker> mesa no está preparada.</example>
             </rule>
             <rule>
+                <antipattern case_sensitive="yes">
+                    <token>L</token>
+                    <token regexp="yes">.|’|'</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>l</token>
@@ -14524,7 +14569,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>10 millones de forma semestral.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="AGREEMENT_NUMERAL_GENDER" name="concordancia de género en numerales" default="temp_off">
+        <rulegroup id="AGREEMENT_NUMERAL_GENDER" name="concordancia de género en numerales">
             <url>https://www.fundeu.es/recomendacion/numerales-concordancia-1411/</url>
             <rule>
                 <pattern>
