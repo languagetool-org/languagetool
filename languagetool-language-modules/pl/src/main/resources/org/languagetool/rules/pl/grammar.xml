@@ -4063,13 +4063,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
      <example correction='. „'>Zrobił to<marker>.„</marker>Naprawdę?”</example>
      <example>Zrobił to. „Naprawdę?”</example>
     </rule>
-		<rulegroup id="NIEKONSEKWETNE_PAUZY" name="Niekonsekwetne pauzy i półpauzy">
+		<rulegroup id="NIEKONSEKWETNE_PAUZY" name="Niekonsekwentne pauzy i półpauzy">
 		<rule>
     <pattern>
     <token skip="-1"><exception scope="next">—</exception>—</token>    
     <token>–</token>
     </pattern>
-    <message>Niekonsekwetnie stosowane pauzy i półpauzy. Poprawnie: <suggestion>— <match no="1" include_skipped="following"/> —</suggestion> lub <suggestion>– <match no="1" include_skipped="following"/> <match no="2"/></suggestion>.</message>
+    <message>Niekonsekwentnie stosowane pauzy i półpauzy. Poprawnie: <suggestion>— <match no="1" include_skipped="following"/> —</suggestion> lub <suggestion>– <match no="1" include_skipped="following"/> <match no="2"/></suggestion>.</message>
     <example correction="— powiedział szybko —|– powiedział szybko –">To nowość <marker>— powiedział szybko –</marker> nigdy o tym nie słyszałem.</example>
     <example correction="— powiedział —|– powiedział –">To nowość <marker>— powiedział –</marker> nigdy o tym nie słyszałem.</example>    
 		</rule>
@@ -4078,7 +4078,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <token skip="-1"><exception scope="next">–</exception>–</token>    
     <token>—</token>
     </pattern>
-    <message>Niekonsekwetnie stosowane pauzy i półpauzy. Poprawnie: <suggestion>— <match no="1" include_skipped="following"/> —</suggestion> lub <suggestion>– <match no="1" include_skipped="following"/> –</suggestion>.</message>
+    <message>Niekonsekwentnie stosowane pauzy i półpauzy. Poprawnie: <suggestion>— <match no="1" include_skipped="following"/> —</suggestion> lub <suggestion>– <match no="1" include_skipped="following"/> –</suggestion>.</message>
     <example correction="— powiedział szybko —|– powiedział szybko –">To nowość <marker>– powiedział szybko —</marker> nigdy o tym nie słyszałem.</example>
     <example correction="— powiedział —|– powiedział –">To nowość <marker>– powiedział —</marker> nigdy o tym nie słyszałem.</example>    
 		</rule>
@@ -4211,7 +4211,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                   <token><exception regexp="yes">\d+|[\-,r/:]|tomy</exception></token>
               </pattern>
               <message>Prawdopodobnie zbędna spacja w liczebniku dziesiętnym: <suggestion>\1\2\3</suggestion>?</message>
-              <short>Błąd typogrficzny</short>
+              <short>Błąd typograficzny</short>
               <example correction="1,5">Film trwał <marker>1, 5</marker> godziny.</example>
               <example>W związku z tym Peralta wydał obowiązującą do dziś ustawę (ustawa nr 9, 1963 r.)</example>
               <example>Wygrała 6:4, 3:6, 6:3.</example>
@@ -4557,7 +4557,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                       <token spacebefore="yes">-</token>
                       <token spacebefore="ignore">„</token>
                     </pattern>
-                    <message>W tym miejscu prawdodpobnie powinien być myślnik: <suggestion>\1 — \3</suggestion>.</message>
+                    <message>W tym miejscu prawdopodobnie powinien być myślnik: <suggestion>\1 — \3</suggestion>.</message>
                     <short>Błąd typograficzny</short>
                     <example>W czerwcu 1943 „Osa” — „Kosa” uległa rozbiciu na skutek wielkiej „wsypy” w kościele św. Aleksandra w Warszawie.</example>
                     <example correction="” — „">W czerwcu 1943 „Osa<marker>” -„</marker>Kosa” uległa rozbiciu na skutek wielkiej „wsypy” w kościele św. Aleksandra w Warszawie.</example>
@@ -5748,7 +5748,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 												<token regexp="yes">wat|gram|amper|kilowat|kilogram|kiloamper|wolt|kilowolt|złoty|kilometr|metr|centymetr</token>
 										</marker>
 								</pattern>
-								<message>Nazwy jednostek miary odmienia się. W tym wypadku powinny być w dopełniaczu: <suggestion><match no="2" postag="subst:pl:.*gen.*:m[1-3].*" postag_regexp="yes"></match></suggestion>.</message>
+								<message>Nazwy jednostek miary się odmienia. W tym wypadku powinny być w dopełniaczu: <suggestion><match no="2" postag="subst:pl:.*gen.*:m[1-3].*" postag_regexp="yes"></match></suggestion>.</message>
 								<short>Błąd odmiany</short>
 								<example>Ludwik kupił sto gramów szyneczki.</example>
 								<example correction="woltów">Do zasilania wystarczy dziesięć <marker>wolt</marker>.</example>
@@ -5762,7 +5762,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 												<token regexp="yes">wat|gram|amper|kilowat|kilogram|kiloamper|wolt|kilowolt|złoty|kilometr|metr|centymetr</token>
 										</marker>
 								</pattern>
-								<message>Nazwy jednostek miary odmienia się. W tym wypadku powinny być w mianowniku liczby mnogiej:<suggestion><match no="2" postag="subst:pl:.*nom.*:m.*" postag_regexp="yes"></match></suggestion>.</message>
+								<message>Nazwy jednostek miary się odmienia. W tym wypadku powinny być w mianowniku liczby mnogiej:<suggestion><match no="2" postag="subst:pl:.*nom.*:m.*" postag_regexp="yes"></match></suggestion>.</message>
 								<short>Błąd odmiany</short>
 								<example>Ludwik kupił sto gramów szyneczki.</example>
 								<example correction="gramy">Ludwik miał ze sobą 2 <marker>gram</marker> tajemniczej białej substancji.</example>
@@ -5995,7 +5995,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 										<token>koniami</token>
 								</marker>
 						</pattern>
-						<message>Forma „koniami” jest używana tylko w znaczeniu „kolega”, „przyjaciel” („stary koń”), natomiast mówiąc o zwierzętach używamy formy <suggestion>końmi</suggestion>.</message>
+						<message>Forma „koniami” jest używana tylko w znaczeniu „kolega”, „przyjaciel” („stary koń”), natomiast mówiąc o zwierzętach, używamy formy <suggestion>końmi</suggestion>.</message>
 						<short>Błąd odmiany</short>
 						<example>Szejkowie uwielbiają handlować końmi.</example>
 						<example>My ze Zdzichem jesteśmy takimi starymi koniami, jak papużki nierozłączki, panie dziejaszku.</example>
@@ -6271,7 +6271,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example correction="procent">Dzisiaj indeks WIG-20 wzrósł o 15, 7 <marker>procenta</marker>.</example>
 						<example>Nie było dziś 1 procenta uczniów.</example>
 				</rule>
-				<rulegroup id="CUDZYSLOW_MNOGI" name="rzeczownik „cudzysłów” niepotrzebnie w liczbnie mnogiej">
+				<rulegroup id="CUDZYSLOW_MNOGI" name="rzeczownik „cudzysłów” niepotrzebnie w liczbie mnogiej">
 						<rule>
 								<pattern>
 										<token>w</token>
@@ -7522,7 +7522,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="(subst|ger).*" postag_regexp="yes"/>
                 </unify>
             </antipattern>
-            <antipattern> <!-- zdanie podrzędne z który lub jaki w liczbnie mnogiej jako podmiotem -->
+            <antipattern> <!-- zdanie podrzędne z który lub jaki w liczbie mnogiej jako podmiotem -->
             <token>,</token>
             <token skip="-1" postag="adj:pl:nom.*" postag_regexp="yes" inflected="yes" regexp="yes">który|jaki<exception scope="next" postag="interp:comma|conj|pred" postag_regexp="yes"/></token>
             <marker>
@@ -15335,12 +15335,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<short>Błąd ortograficzny</short>
 						<example correction="pięta achillesowa">Ortografia to jego <marker>pięta Achillesowa</marker>.</example>
 				</rule>
-                <rulegroup name="Zła pisownia jednostek herc, ohm i wat" id="herc_om">
+                <rulegroup name="Zła pisownia jednostek herc, om i wat" id="herc_om">
                     <rule>
                     <pattern case_sensitive="yes">
                         <token postag='num:.*' postag_regexp='yes'></token>
                         <marker>
-                            <token inflected='yes' regexp="yes">Hertz|Ohm</token>
+                            <token inflected='yes'>Hertz</token>
                         </marker>
                     </pattern>
                     <message>Ta jednostka miary pisana jest małą literą: <suggestion><match no="2" case_conversion="alllower" regexp_match="rtz" regexp_replace="rc"/></suggestion></message>
@@ -15352,13 +15352,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <pattern case_sensitive="yes">
                             <token regexp='yes'>\d+</token>
                             <marker>
-                                <token inflected='yes' regexp="yes">Hertz|Ohm</token>
+                                <token inflected='yes'>Hertz</token>
                             </marker>
                         </pattern>
                         <message>Ta jednostka miary pisana jest małą literą: <suggestion><match no="2" case_conversion="alllower" regexp_match="rtz" regexp_replace="rc"/></suggestion></message>
                         <short>Zbędna wielka litera</short>
-                        <example correction="ohmów">Czasy te odpowiadają częstotliwości 100 <marker>Ohmów</marker>.</example>
-                        <example>Czasy te odpowiadają częstotliwości kilkuset herców.</example>
+                        <example correction="herców">Czasy te odpowiadają częstotliwości 100 <marker>Hertzów</marker>.</example>
+                        <example>Czasy te odpowiadają częstotliwości 100 herców.</example>
+                    </rule>
+                     <rule>
+                    <pattern case_sensitive="yes">
+                        <token postag='num:.*' postag_regexp='yes'></token>
+                        <marker>
+                            <token inflected='yes' regexp="yes">Ohm</token>
+                        </marker>
+                    </pattern>
+                    <message>Ta jednostka miary pisana jest małą literą: <suggestion><match no="2" case_conversion="alllower" regexp_match="h" regexp_replace=""/></suggestion></message>
+                    <short>Zbędna wielka litera</short>
+                    <example correction="omów">Kup rezystor o oporności kilkuset <marker>Ohmów</marker>.</example>
+                    </rule>
+                    <rule>
+                        <pattern case_sensitive="yes">
+                            <token regexp='yes'>\d+</token>
+                            <marker>
+                                <token inflected='yes' regexp="yes">Ohm</token>
+                            </marker>
+                        </pattern>
+                        <message>Ta jednostka miary pisana jest małą literą: <suggestion><match no="2" case_conversion="alllower" regexp_match="h" regexp_replace=""/></suggestion></message>
+                        <short>Zbędna wielka litera</short>
+                        <example correction="omów">Potrzebujesz opornika na 100 <marker>Ohmów</marker>.</example>
                     </rule>
                     <rule>
                         <pattern>
