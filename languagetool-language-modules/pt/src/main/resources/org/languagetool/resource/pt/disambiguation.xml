@@ -205,7 +205,7 @@
   <rule id="PENSAR" name="pensar (not noun)">
     <pattern>
       <!-- TODO: exceptions -->
-      <token regexp="yes">pensar|achar|fez|ninguém</token>
+      <token regexp="yes">pensar|achar|fez|ninguém|sempre</token>
     </pattern>
     <disambig action="remove" postag="NC.*"/>
   </rule>
@@ -215,6 +215,13 @@
       <token>que</token>
     </pattern>
     <disambig action="remove" postag="RG"/>
+  </rule>
+  <rule id="COISA" name="coisa (not verb)">
+    <pattern>
+      <!-- TODO: exceptions -->
+      <token regexp="yes">coisas?</token>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
   </rule>
   <rule id="SER_SERIAR" name="ser/seriar">
     <!-- more common: ser -->
@@ -1282,6 +1289,11 @@
         <token>a</token>
         <token postag='VMN0000'/>
         <token postag='N.F.+' postag_regexp='yes'/>
+      </antipattern>
+      <antipattern>
+        <token postag="V.*" postag_regexp="yes"/>
+        <token spacebefore="no">-</token>
+        <token spacebefore="no" postag="P.*" postag_regexp="yes"/>
       </antipattern>
       <pattern>
           <token postag="SPS00" postag_regexp="no">

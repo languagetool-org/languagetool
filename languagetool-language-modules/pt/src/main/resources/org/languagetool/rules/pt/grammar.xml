@@ -358,6 +358,7 @@ Quero escreve-lo amanhã. → Quero escrevê-lo amanhã.
 	  <message>Quando a ênclise é formada por 'la', 'las', 'lo' ou 'los', a vogal que a precede, antes do hífen, é acentuada</message>
       <suggestion><match no="1" postag="(VMIP3S0|VMM02S0)" postag_regexp="yes" postag_replace="V.N....X"/></suggestion>
       <example correction="escrevê">Ele vai <marker>escreve</marker>-lo amanhã.</example>
+      <example correction="puxá">O ímpeto de <marker>puxa</marker>-las.</example>
     </rule>
 
 
@@ -7730,13 +7731,17 @@ ANTIPATTERN PRODUCES 1 HIT, SO IT IS MORE FOR SENTENCES OF THE KIND ABOVE.
 		<token postag='PP..S.+' postag_regexp='yes'/>
       </antipattern>
 <!-- MARCOAGPINTO 2022-03-02 (1-JAN-2022+) *END* -->
-
+      <antipattern>
+        <token>ao</token>
+        <token>meu</token>
+        <token>ver</token>
+      </antipattern>
       <pattern>
 <!-- MARCOAGPINTO 2020-05-09 *START* -->
 <!-- "As pessoas no meu trabalho infelizmente não falam Alemão, apenas português." -->	  
-		  <token negate_pos='yes' postag_regexp='yes' postag='NC.P.+'></token>
-		  <token negate_pos='yes' postag_regexp='no' postag='SPS00'></token>
-<!-- MARCOAGPINTO 2020-05-09 *END* -->	
+		  <token negate_pos='yes' postag_regexp='yes' postag='NC.P.+'/>
+		  <token><exception postag="SPS00"/></token>
+<!-- MARCOAGPINTO 2020-05-09 *END* -->
 <marker>
           <token postag_regexp='yes' postag='D...S.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='D...S.+'/></token>
@@ -7793,6 +7798,7 @@ ANTIPATTERN PRODUCES 1 HIT, SO IT IS MORE FOR SENTENCES OF THE KIND ABOVE.
 	  <example>A lidar com pessoas más, qualquer dia vou-me tornar como elas.</example>
 	  <example>A lidar com pessoas más, qualquer dia vais-te tornar como elas.</example>
 	  <example>Que outra escolha tive eu?</example>
+    <example>que ao meu ver estão em perfeita harmonia</example>
     </rule>
 	
     <!-- 	VERBO_SER + EU fui eu -->
@@ -11515,8 +11521,10 @@ Vamos minorar a dor.
           <token regexp='yes'>e|ou|nem</token>
           <token postag="RM" regexp="yes">.+mente</token>
       </pattern>
+      <!-- FIXME: create correct form: diariamente -> diária -->
+      <!--<filter class="org.languagetool.rules.pt.PortugueseSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>-->
       <message>Quando os advérbio de modo aparecem em sequência, só o último deve ser afixado com -mente.</message>
-        <suggestion><match no='1' regexp_match="(.+)mente" regexp_replace="$1"/></suggestion>
+        <suggestion ><match no='1' regexp_match="(.+)mente" regexp_replace="$1"/></suggestion>
       <example correction="eficiente">O processo foi resolvido <marker>eficientemente</marker> e permanentemente.</example>
     </rule>
     <rule>
@@ -11528,8 +11536,9 @@ Vamos minorar a dor.
           <token postag="RM" regexp="yes">.+mente</token>
           <token regexp='yes'>e|ou|nem</token>
       </pattern>
+      <!--<filter class="org.languagetool.rules.pt.PortugueseSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>-->
       <message>Quando os advérbio de modo aparecem em sequência, só o último deve ser afixado com -mente.</message>
-        <suggestion><match no='1' regexp_match="(.+)mente" regexp_replace="$1"/></suggestion>
+        <suggestion suppress_misspelled="yes"><match no='1' regexp_match="(.+)mente" regexp_replace="$1"/></suggestion>
       <example correction="eficiente">O processo foi resolvido <marker>eficientemente</marker>, permanentemente e consistentemente.</example>
     </rule>
   </rulegroup>
@@ -39368,7 +39377,7 @@ Ele nem sabe escrever o nome. → Ele nem o nome sabe escrever.
     <rule>
       <pattern>
           <token inflected='yes'>adir
-            <exception case_sensitive='yes' regexp='yes'>Ad(?:[ai]|idas)|[Aa]diras?</exception></token>
+            <exception case_sensitive='yes' regexp='yes'>Ad(?:[ai]|idas)|[Aa]diras?|ADI</exception></token>
       </pattern>
       <message>Esta palavra é uma palavra de português arcaico.</message>
         <suggestion><match no='1' postag='V.+'>adicionar</match></suggestion>
