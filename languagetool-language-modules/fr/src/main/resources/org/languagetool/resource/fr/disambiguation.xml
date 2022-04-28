@@ -132,6 +132,15 @@ RB => Règles Brutes
     </rule>
     <!-- END: numerals -->
     <!-- CATEGORY: remove unusual tags -->
+    <rule id="FIN" name="fin">
+        <pattern>
+            <marker>
+                <token>fin</token>
+            </marker>
+            <token regexp="yes">des?|d'|du</token>
+        </pattern>
+        <disambig action="filter" postag="N f s"/>
+    </rule>
     <rule id="BIEN1" name="bien">
         <pattern>
             <token postag="V avoir.*" postag_regexp="yes"/>
@@ -7353,7 +7362,7 @@ RB => Règles Brutes
         <pattern>
             <marker>
                 <token postag="A">
-                    <exception regexp="yes">causa|puis|soit|comme|si|frais|bas|par-derrière|net|au|même</exception>
+                    <exception regexp="yes">causa|puis|soit|comme|fin|si|frais|bas|par-derrière|net|au|même</exception>
                     <exception scope="previous">se</exception></token>
             </marker>
         </pattern>
