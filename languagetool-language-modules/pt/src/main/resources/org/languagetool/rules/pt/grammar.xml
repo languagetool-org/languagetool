@@ -19752,15 +19752,6 @@ O quê?!
         <suggestion>\1</suggestion>
       <example correction="Comeu"><marker>Comeu a refeição</marker> sem vontade.</example>
     </rule>
-    <rule>
-      <pattern>
-          <token inflected='yes'>comer</token>
-          <token regexp='yes'>os?</token>
-          <token regexp='yes'>(?:remédio|medicamento)s?</token>
-      </pattern>
-      <message>Substitua por <suggestion><match no='1' postag='V.+' postag_regexp='yes'>tomar</match> \2 \3</suggestion>.</message>
-      <example correction="Tome os medicamentos"><marker>Coma os medicamentos</marker> de acordo com as indicações do médico.</example>
-    </rule>
   </rulegroup>
 
   <rulegroup id='WORDINESS' name='Expressões prolixas' type='style'>
@@ -25737,6 +25728,26 @@ Este é capas de ser o pior port de sempre.
 	  <message>Possível confusão de termos.</message>
       <suggestion>capaz</suggestion>
       <example correction="capaz">Este é <marker>capas</marker> de ser o pior port de sempre.</example>
+    </rule>
+
+
+	<!-- BEBER/COMER FÁRMACOS tomar fármacos -->
+    <rule id='CONFUSÃO_BEBER_COMER_TOMAR_FÁRMACOS' name="Confusão: Beber/comer fármacos → tomar fármacos">
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2022-04-28 (1-JAN-2022+)      -->
+	<!--
+Vou comer os medicamentos. → Vou tomar os medicamentos.
+	-->	
+      <pattern>		  
+		  <marker>
+			<token regexp='yes' inflected='yes'>comer|beber</token>
+		  </marker>
+		  <token regexp='yes'>[ao]s?</token>
+		  <token min="0" max="1" negate="yes" regexp='yes'>comprimidos?|fármacos?|medicamentos?|remédios?|pílulas?</token> <!-- comer os teus medicamentos. -->
+		  <token regexp='yes'>comprimidos?|fármacos?|medicamentos?|remédios?|pílulas?</token>
+      </pattern>
+	  <message>Se estiver a referir-se a fármacos ou afins, empregue o termo 'tomar'.</message>
+      <suggestion><match no='1' postag='V.+' postag_regexp='yes'>tomar</match></suggestion>
+      <example correction="tomar">Vou <marker>comer</marker> os medicamentos.</example>
     </rule>
 
 
