@@ -4831,13 +4831,57 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
 
     <rule id="GUTES_KEIN_SUB" name="'kein/nichts Gutes' kein Substantiv Genitiv">
         <pattern>
-            <token regexp="yes">k?ein|nichts|(et)?was|irgend(et)?was</token>
+            <token regexp="yes">[mksd]?ein|ihr|nichts|(et)?was|irgend(et)?was</token>
             <marker>
-                <token case_sensitive="yes">Gutes</token>
+                <token case_sensitive="yes" regexp="yes">Gutes|Sinnloses|Wei(ß|ss)es|Festes|Objektives|Subjektives|Unrechtes|Hilfreiches|Wertloses|Kollektives</token>
             </marker>
         </pattern>
         <disambig action="remove" postag="SUB:GEN.*" />
     </rule>
+
+    <rulegroup id="A_KEIN_PRP" name="'A' keine Präposition in Abkürzungen">
+        <rule>
+            <pattern>
+                <marker>
+                    <token case_sensitive="yes">A</token>
+                </marker>
+                <token>.</token>
+                <token spacebefore="yes" />
+            </pattern>
+            <disambig action="remove" postag="PRP.*" />
+        </rule>
+        <rule>
+            <pattern>
+                <token>.</token>
+                <marker>
+                    <token spacebefore="no" case_sensitive="yes">A</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="PRP.*" />
+        </rule>
+    </rulegroup>
+
+    <rulegroup id="O_KEIN_SUB" name="'O' kein Substantiv in 'O.T.T.O.'">
+        <rule>
+            <pattern>
+                <marker>
+                    <token case_sensitive="yes">O</token>
+                </marker>
+                <token>.</token>
+                <token spacebefore="yes" />
+            </pattern>
+            <disambig action="remove" postag="SUB.*" />
+        </rule>
+        <rule>
+            <pattern>
+                <token>.</token>
+                <marker>
+                    <token spacebefore="no" case_sensitive="yes">O</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="SUB.*" />
+        </rule>
+    </rulegroup>
 
     <rule id="ALBERT_KEIN_VERB" name="Name 'Albert'">
         <pattern>

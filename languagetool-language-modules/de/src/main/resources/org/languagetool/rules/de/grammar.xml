@@ -6495,7 +6495,133 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Verwechslungen -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
-        <rulegroup id="RAMMSTEIN_RAMSTEIN" name="Ramstein vs Rammstein" default="temp_off">
+        <rulegroup id="DIENEN_DEINEN" name="dienen vs deinen" default="temp_off">
+            <rule>
+                <pattern>
+                    <token postag="VER.*" postag_regexp="yes">
+                        <exception postag="ADV.*|PRO.*|ART.*|PRP.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token>diene</token>
+                    </marker>
+                    <token postag="(ADJ|PA[12]).*PLU.*" postag_regexp="yes" min="0" />
+                    <token postag="SUB.*PLU.*" postag_regexp="yes" />
+                </pattern>
+                <message>Meinten Sie <suggestion>deine</suggestion>?</message>
+                <example correction="deine">Ich brauche <marker>diene</marker> Ratschläge nicht.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="VER:(AUX|MOD).*" postag_regexp="yes" />
+                    <token postag="PRO:PER:NOM.*|EIG.*|ADV.*" postag_regexp="yes" min="0" max="2" />
+                    <marker>
+                        <token>diene</token>
+                    </marker>
+                    <token postag="(ADJ|PA[12]).*PLU.*" postag_regexp="yes" min="0" />
+                    <token postag="SUB.*PLU.*" postag_regexp="yes" />
+                    <token postag="ADV.*" postag_regexp="yes" min="0" />
+                    <token postag="VER:INF:(SFT|NON)" postag_regexp="yes" />
+                </pattern>
+                <message>Meinten Sie <suggestion>deine</suggestion>?</message>
+                <example correction="deine">Wir müssen <marker>diene</marker> Haustiere schützen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>diene</token>
+                    </marker>
+                    <token postag="(ADJ|PA[12]):.*PLU.*" postag_regexp="yes" min="0" max="2" />
+                    <token postag="SUB:.*PLU.*" postag_regexp="yes" />
+                    <token postag="VER.*" postag_regexp="yes" />
+                </pattern>
+                <message>Meinten Sie <suggestion>deine</suggestion>?</message>
+                <example correction="Deine"><marker>Diene</marker> Katzen sehen glücklich aus.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="VER.*" postag_regexp="yes">
+                        <exception postag="ADV.*|PRO.*|ART.*|PRP.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token>diene</token>
+                    </marker>
+                    <token postag="(ADJ|PA[12]):AKK:SIN:FEM.*" postag_regexp="yes" min="0" max="2" />
+                    <token postag="SUB:AKK:SIN:FEM.*" postag_regexp="yes" />
+                </pattern>
+                <message>Meinten Sie <suggestion>deine</suggestion>?</message>
+                <example correction="deine">Wir brauchen <marker>diene</marker> Hilfe nicht.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="VER:(AUX|MOD).*" postag_regexp="yes" />
+                    <token postag="PRO:PER:NOM.*|EIG.*|ADV.*" postag_regexp="yes" min="0" />
+                    <marker>
+                        <token>diene</token>
+                    </marker>
+                    <token postag="(ADJ|PA[12]):AKK:SIN:FEM.*" postag_regexp="yes" min="0" max="2" />
+                    <token postag="SUB:AKK:SIN:FEM.*" postag_regexp="yes" />
+                    <token postag="ADV.*" postag_regexp="yes" min="0" />
+                    <token postag="VER:INF:(SFT|NON)" postag_regexp="yes" />
+                </pattern>
+                <message>Meinten Sie <suggestion>deine</suggestion>?</message>
+                <example correction="deine">Wir müssen <marker>diene</marker> Frau fragen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>diene</token>
+                    </marker>
+                    <token postag="(ADJ|PA[12]):AKK:SIN:FEM.*" postag_regexp="yes" min="0" max="2" />
+                    <token postag="SUB:AKK:SIN:FEM.*" postag_regexp="yes" />
+                    <token postag="VER.*" postag_regexp="yes" />
+                </pattern>
+                <message>Meinten Sie <suggestion>deine</suggestion>?</message>
+                <example correction="Deine"><marker>Diene</marker> Tochter geht dort zur Schule.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="VER.*" postag_regexp="yes">
+                        <exception postag="ADV.*|PRO.*|ART.*|PRP.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token>dienen</token>
+                    </marker>
+                    <token postag="(ADJ|PA[12]):AKK:SIN:MAS.*" postag_regexp="yes" min="0" max="2" />
+                    <token postag="SUB:AKK:SIN:MAS.*" postag_regexp="yes" />
+                </pattern>
+                <message>Meinten Sie <suggestion>deinen</suggestion>?</message>
+                <example correction="deinen">Wir brauchen <marker>dienen</marker> Tisch.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="VER:(AUX|MOD).*" postag_regexp="yes" />
+                    <token postag="PRO:PER:NOM.*|EIG.*|ADV.*" postag_regexp="yes" min="0" />
+                    <marker>
+                        <token>dienen</token>
+                    </marker>
+                    <token postag="(ADJ|PA[12]):AKK:SIN:MAS.*" postag_regexp="yes" min="0" max="2" />
+                    <token postag="SUB:AKK:SIN:MAS.*" postag_regexp="yes" />
+                    <token postag="ADV.*" postag_regexp="yes" min="0" />
+                    <token postag="VER:INF:(SFT|NON)" postag_regexp="yes" />
+                </pattern>
+                <message>Meinten Sie <suggestion>deinen</suggestion>?</message>
+                <example correction="deinen">Wir müssen <marker>dienen</marker> Tisch reparieren.</example>
+                <example correction="deinen">Kann ich <marker>dienen</marker> Tisch mal sehen?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>dienen</token>
+                    </marker>
+                    <token postag="(ADJ|PA[12]):AKK:SIN:MAS.*" postag_regexp="yes" min="0" max="2" />
+                    <token postag="SUB:AKK:SIN:MAS.*" postag_regexp="yes" />
+                    <token postag="VER.*" postag_regexp="yes" />
+                </pattern>
+                <message>Meinten Sie <suggestion>deinen</suggestion>?</message>
+                <example correction="Deinen"><marker>Dienen</marker> Tisch müssen wir reparieren.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="RAMMSTEIN_RAMSTEIN" name="Ramstein vs Rammstein">
             <rule>
                 <antipattern>
                     <token>Rammstein</token>
@@ -26281,8 +26407,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token regexp="yes">&maennerleute;</token>
-                <token regexp="yes">und|oder</token>
-                <token>-frauen</token>
+                <token regexp="yes">und|oder|&amp;|\/|\+</token>
+                <token regexp="yes">.*frauen</token>
             </antipattern>
             <pattern>
                 <token regexp="yes">&maennerleute;</token>
@@ -27155,18 +27281,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Lieben">Guten Morgen ihr <marker>lieben</marker></example>
             </rule>
         </rulegroup>
-        <rule id="MUSS_NOMEN" name="ein muss (Muss)">
-            <pattern>
-                <token regexp="yes">ist|war|wäre?</token>
-                <token regexp="yes">k?ein</token>
-                <token regexp="yes" min="0">absolutes|definitives</token>
-                <marker>
-                    <token case_sensitive="yes">muss</token>
-                </marker>
-            </pattern>
-            <message>Hier wird <suggestion>Muss</suggestion> als Nomen gebraucht und sollte daher großgeschrieben werden.</message>
-            <example correction="Muss">Das ist ein absolutes <marker>muss</marker>.</example>
-        </rule>
+        <rulegroup id="MUSS_NOMEN" name="ein muss (Muss)">
+            <rule>
+                <pattern>
+                    <token regexp="yes">ist|sind|war(en)?|wär|wären?</token>
+                    <token regexp="yes">k?ein</token>
+                    <token regexp="yes" min="0">absolutes|definitives</token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">muss|plus</token>
+                    </marker>
+                </pattern>
+                <message>Hier wird <suggestion><match no="4" case_conversion="startupper" /></suggestion> als Nomen gebraucht und sollte daher großgeschrieben werden.</message>
+                <example correction="Muss">Das ist ein absolutes <marker>muss</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">k?ein</token>
+                    <marker>
+                        <token case_sensitive="yes">muss</token>
+                    </marker>
+                    <token>für</token>
+                </pattern>
+                <message>Hier wird <suggestion><match no="2" case_conversion="startupper" /></suggestion> als Nomen gebraucht und sollte daher großgeschrieben werden.</message>
+                <example correction="Muss">Ein <marker>muss</marker> für jeden, der Fußball liebt.</example>
+            </rule>
+        </rulegroup>
                 
         <rule id="WAS_GIBTS_NEUES" name="was gibt's neues (Neues)">
             <pattern>
@@ -29166,7 +29305,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message><suggestion><match no="4" case_conversion="startupper" /></suggestion> wird hier als Nomen verwendet und sollte daher großgeschrieben werden.</message>
                 <example correction="Blick">Das habe ich erst auf den zweiten <marker>blick</marker> gesehen.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>blick</token>
                     <token regexp="yes">ic[kh]|&apostrophe;</token>
@@ -47980,13 +48119,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>minimal</suggestion>
                 <example correction="min.|mindestens|minimal">Wir brauchen <marker>min</marker> 5 Brötchen zum satt werden.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>min</token>
                     <token spacebefore="no">.</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">in|nach|vor|dauer[nt]e?|von</token>
+                    <token regexp="yes">in|nach|vor|dauer[nt]e?|von|weniger|mehr</token>
+                    <token regexp="yes" min="0">fast|nur|lediglich|circa|als</token>
                     <token regexp="yes">\d+|zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf|zwölf|zwanzig|dreissig|dreißig|vierzig|fünfzig</token>
                     <marker>
                         <token case_sensitive="yes" regexp="yes">[Mm]in</token>
@@ -47996,9 +48136,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>Min.</suggestion>
                 <example correction="Min.">Wir machen das in 10 <marker>min</marker>!</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
-                    <token regexp="yes">in|nach|vor|dauer[nt]e?|von</token>
+                    <token regexp="yes">in|nach|vor|dauer[nt]e?|von|weniger|mehr</token>
+                    <token regexp="yes" min="0">fast|nur|lediglich|circa|als</token>
                     <token regexp="yes">\d+|zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf|zwölf|zwanzig|dreissig|dreißig|vierzig|fünfzig</token>
                     <marker>
                         <token case_sensitive="yes" regexp="yes">min</token>
@@ -48009,7 +48150,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>Min.</suggestion>
                 <example correction="Min.">Wir machen das in 10 <marker>min.</marker>!</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token case_sensitive="yes">Min|MIN</token>
                     <token spacebefore="no">.</token>
