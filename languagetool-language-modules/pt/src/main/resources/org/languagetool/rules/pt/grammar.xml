@@ -22011,6 +22011,20 @@ tokenizer spreadsheet in the forum	     -->
           <token>e</token>
           <token spacebefore="no"/>
       </antipattern>
+
+<!-- MARCOAGPINTO 2022-04-29 (1-JAN-2022+) *START* -->
+<!--
+NO HITS IN 600000 SENTENCES.
+
+Muitas coisas más aconteceram desde então e o meu estado psicológico agravou-se.
+-->
+      <antipattern>
+		<token>desde</token>
+		<token>então</token>
+		<token>e</token>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-04-29 (1-JAN-2022+) *END* -->
+
       <pattern>
           <token regexp='yes'>&conjuncoes_coordenativas;</token>
           <token min='0'>,</token>
@@ -22022,7 +22036,9 @@ tokenizer spreadsheet in the forum	     -->
         <suggestion>\3</suggestion>
       <example correction='mas|contudo'>Este é um caminho promissor <marker>mas, contudo</marker> ainda há um grande caminho a percorrer.</example>
       <example>É só telefonemas e e-mails de clientes a reclamar.</example>
+	  <example>Muitas coisas más aconteceram desde então e o meu estado psicológico agravou-se.</example>
     </rule>
+
     <rule>
       <pattern>
           <token>e</token>
