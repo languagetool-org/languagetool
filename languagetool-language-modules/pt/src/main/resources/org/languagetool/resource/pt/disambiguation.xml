@@ -136,7 +136,7 @@
     <pattern>
       <token><exception postag=".*DA0FS0" postag_regexp="yes"/></token>
       <marker>
-        <token regexp="yes">saíra</token> 
+        <token>saíra</token> 
       </marker>
     </pattern>
     <disambig action="remove" postag="N.*"/>
@@ -187,7 +187,7 @@
         <marker>
           <token regexp="yes">eles?|elas?</token>  
         </marker>
-        <token postag="P.*" postag_regexp="yes"/>
+        <token postag="P.*|RN" postag_regexp="yes" max="3"/>
         <token postag="V.*" postag_regexp="yes"/>
       </pattern>
       <disambig action="remove" postag="V.*"></disambig>  
@@ -201,11 +201,17 @@
       </pattern>
       <disambig action="remove" postag="V.*"></disambig>  
     </rule>
+    <rule>
+      <pattern>
+        <token regexp="yes">dele|deles|dela|delas</token>
+      </pattern>
+      <disambig action="remove" postag="V.*"></disambig>
+    </rule>
   </rulegroup>
   <rule id="PENSAR" name="pensar (not noun)">
     <pattern>
       <!-- TODO: exceptions -->
-      <token regexp="yes">pensar|achar|fez|ninguém|sempre</token>
+      <token regexp="yes">pensar|achar|fez|ninguém|sempre|alguém</token>
     </pattern>
     <disambig action="remove" postag="NC.*"/>
   </rule>
@@ -401,6 +407,16 @@
       </pattern>
       <disambig action="filter" postag="PP.+"/>
     </rule>
+  
+  <rule id="A_SPS" name="a (preposition)">
+    <pattern>
+      <marker>
+        <token postag="SPS00">a</token>    
+      </marker>
+      <token regexp="yes">eu|tu</token>
+    </pattern>
+    <disambig action="filter" postag="SPS00"/>
+  </rule>
 
   <rulegroup id="ADVERB_VERB_NOUN" name="Via: Advérbio + Verbo/Nome">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2019-02-27 -->
@@ -924,7 +940,18 @@
     </pattern>
     <disambig action="replace"><wd pos="RM"/></disambig>
   </rule>
-
+  
+  <rulegroup id="MUITO" name="muito">
+    <rule>
+      <pattern>
+        <token postag="RG">muito</token>
+        <token postag="RG">mais</token>
+      </pattern>
+      <disambig action="filterall"/>
+    </rule>
+    
+  </rulegroup>
+  
   <rulegroup id="D_R_N" name="Det + Adv + Nom">
     <!-- 		Based on Spanish disambiguation.xml by Tiago F. Santos		-->
     <rule>
@@ -1062,7 +1089,7 @@
         <unify-ignore>
           <token postag="R.+" postag_regexp="yes"/>
         </unify-ignore>
-          <token postag="A.+" postag_regexp="yes"/>
+          <token postag="A.+" postag_regexp="yes"><exception>bem</exception></token>
           </unify>
         </marker>
       </pattern>
@@ -1389,6 +1416,10 @@
         <token regexp='yes'>[,;—]|&hifen;|e</token>
         <token>a</token>
         <token postag='N.(M.|FP).+' postag_regexp='yes'/>
+      </antipattern>
+      <antipattern>
+        <token>a</token>
+        <token postag="P.*" postag_regexp="yes"/>
       </antipattern>
       <pattern>
         <marker>
