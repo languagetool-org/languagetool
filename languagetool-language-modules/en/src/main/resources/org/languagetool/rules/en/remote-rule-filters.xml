@@ -1007,6 +1007,38 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">...It’s a gift” (<marker>Golding</marker> 124).</example>
                 <example correction="">(Schroeder and <marker>Shah</marker> 2007).</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>,</token>
+                    <marker>
+                        <token/>
+                    </marker>
+                    <token>however</token>
+                    <token>,</token>
+                </pattern>
+                <example correction="">It removes the sediment and minerals, <marker>without</marker> however, affecting the flavor.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token chunk_re="B-NP.*" skip="3"/>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">Acts?</token>
+                    </marker>
+                    <token regexp="yes">[12]?\d\d\d</token>
+                </pattern>
+                <example correction="">Mental health <marker>Acts</marker> 1983</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>read</token>
+                    <marker>
+                        <token>out</token>
+                    </marker>
+                    <token postag="RB" regexp="yes">\w+ly</token>
+                    <token>,</token>
+                </pattern>
+                <example correction=""> She read <marker>out</marker> loudly, so that the others could hear her</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_EN_G_REPLACE_ORTH" name="">
             <rule>
