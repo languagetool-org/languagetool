@@ -151,7 +151,7 @@
   <rule id="USUAL" name="usual">
     <!-- TODO: exceptions -->
     <pattern>
-      <token inflected="yes" regexp="yes">usual|embriagado|escasso|essa</token>
+      <token inflected="yes" regexp="yes">usual|embriagado|escasso|essa|observando</token>
     </pattern>
     <disambig action="remove" postag="N.*"/>
   </rule>
@@ -244,6 +244,13 @@
     <disambig action="remove"><wd lemma="valar"/></disambig>
   </rule>
   
+  <rule id="GERUND" name="auxiliar + gerund">
+    <pattern>
+      <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">continuar|estar|ir|ficar|andar|vir</token>
+      <token postag="V.G.*" postag_regexp="yes"/>
+    </pattern>
+    <disambig action="filterall"/>
+  </rule>
 
     <rule id="INTERJECTION" name="Interjeição">
       <pattern>
@@ -1134,6 +1141,11 @@
 
   <rulegroup id="DET_VERBONOME" name="Det + Ver/Nom">
     <!-- Created by Tiago F. Santos, Portuguese rule  	-->
+    <antipattern>
+      <token postag="V.*" postag_regexp="yes"/>
+      <token spacebefore="no">-</token>
+      <token postag="P.*" postag_regexp="yes" spacebefore="no"/>
+    </antipattern>
     <rule>
       <pattern>
           <token regexp="yes">&art_detecao_paronimos;
@@ -3277,12 +3289,12 @@
   </rulegroup>-->
   <rule id="DA" name="dá">
     <antipattern>
-      <token>dá</token>
+      <token regexp="yes">dá|vi|está</token>
       <token spacebefore="no">-</token>
       <token spacebefore="no"/>
     </antipattern>
     <pattern>
-      <token>dá</token>
+      <token regexp="yes">dá|vi|está</token>
     </pattern>
     <disambig action="remove" postag="VMN0000X"/>
   </rule>
