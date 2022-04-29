@@ -39383,7 +39383,7 @@ Ele nem sabe escrever o nome. → Ele nem o nome sabe escrever.
       <message>Esta palavra é uma palavra de português arcaico.</message>
         <suggestion><match no='1' postag='V.+'>adicionar</match></suggestion>
       <!--<example correction='adicionas'>Se <marker>ades</marker> 2 com 3 e dá 5.</example>-->
-      <example correction='adicionamos|adicionámos'>Se <marker>adimos</marker> 2 com 3 e dá 5.</example>
+      <example correction='adicionamos'>Se <marker>adimos</marker> 2 com 3 e dá 5.</example>
     </rule>
   </rulegroup>
 
@@ -42672,7 +42672,7 @@ VMIS1S0
 	  <suggestion><match no='2' postag='VMP00S.+' postag_regexp="yes" postag_replace='VMIS1P0'/></suggestion>
 	  <suggestion><match no='2' postag='VMP00S.+' postag_regexp="yes" postag_replace='VMIP1S0'/></suggestion>
 	  <suggestion><match no='2' postag='VMP00S.+' postag_regexp="yes" postag_replace='VMIS1S0'/></suggestion>
-      <example correction="Demonstramos|Demonstrámos|Demonstro|Demonstrei"><marker>Ficou demonstrado</marker> que alterações nas baixas em combate degradaram a capacidade ofensiva.</example>
+      <example correction="Demonstramos|Demonstro|Demonstrei"><marker>Ficou demonstrado</marker> que alterações nas baixas em combate degradaram a capacidade ofensiva.</example>
     </rule>
 
 
@@ -43938,8 +43938,8 @@ Isto deve ser feito com precisão científica. → Isto deve ser feito com rigor
       </pattern>
       <message>Num contexto formal ou académico, é preferível escrever 'empregar um termo'.</message>
 	  <suggestion><match no='1' postag='V.+' postag_regexp='yes'>empregar</match></suggestion>
-	  <example correction="empregamos|empregámos">Na nossa investigação <marker>usamos</marker> o termo “terrorismo”.</example>
-	  <example correction="empregamos|empregámos">Na nossa investigação <marker>usamos</marker> termos caros.</example>
+	  <example correction="empregamos">Na nossa investigação <marker>usamos</marker> o termo “terrorismo”.</example>
+	  <example correction="empregamos">Na nossa investigação <marker>usamos</marker> termos caros.</example>
      </rule> 
 	 <rule>
       <pattern>
@@ -44416,7 +44416,7 @@ Vamos dormir, tomámos a medicação demasiado cedo.
        </and>
        <token postag='VMN0000' postag_regexp='no'/>
      </pattern>
-     <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V(.)N.* postagFrom:1 postagSelect:V...(..).  postagReplace:V\a1(IP|IF)\b1."/>
+     <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V(.)N.* postagFrom:1 postagSelect:V...(..).*  postagReplace:V\a1(IP|IF)\b1."/>
      <message>Se for uma tese de doutoramento, verifique se o 'tom' de redação é o apropriado.</message>
      <suggestion>{suggestion}</suggestion>	 
      <example correction="provará|prova">A nossa tese <marker>procura provar</marker> a métrica.</example>
@@ -44447,17 +44447,17 @@ A primeira função de Carvalho em Londres foi obter ajuda para as forças portu
       <pattern>
         <and>
           <token regexp='yes' inflected="yes">procurar|buscar|pretender|tentar|ir</token>
-          <token postag='VMIS3S0|VMIS1[SP]0' postag_regexp='yes'>
+          <token postag='VMIS3S0|VMIS1[SP]0|VMIS1P0P' postag_regexp='yes'>
              <exception postag_regexp='no' postag='VMIF1S0'/>
 		  </token>
         </and>
         <token postag='VMN0000' postag_regexp='no'/>
       </pattern>
-      <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V(.)N.* postagFrom:1 postagSelect:V...(..).  postagReplace:V\a1IS\b1."/>
+      <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V(.)N.* postagFrom:1 postagSelect:V...(...*)  postagReplace:V\a1IS\b1"/>
       <message>Se for uma tese de doutoramento, verifique se o 'tom' de redação é o apropriado.</message>
       <suggestion>{suggestion}</suggestion>	 
       <example correction="provou">A nossa tese <marker>procurou provar</marker> a métrica.</example>
-      <example correction="provamos|provámos">Na nossa tese <marker>procurámos provar</marker> a métrica.</example>
+      <example correction="provámos">Na nossa tese <marker>procurámos provar</marker> a métrica.</example>
       <example correction="provei">Na nossa tese <marker>procurei provar</marker> a métrica.</example>
 	  <example correction="resolveu">como o <marker>tentou resolver</marker></example>
 	  <example>Uma das críticas a Ana <marker>foi escrever</marker> no seu livro de receitas o básico.</example>
