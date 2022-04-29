@@ -4868,7 +4868,17 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                     <token case_sensitive="yes">O</token>
                 </marker>
                 <token>.</token>
-                <token spacebefore="yes" />
+                <token spacebefore="no" />
+            </pattern>
+            <disambig action="remove" postag="SUB.*" />
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token case_sensitive="yes">O</token>
+                </marker>
+                <token>.</token>
+                <token regexp="yes" case_sensitive="yes">[A-Z]</token>
             </pattern>
             <disambig action="remove" postag="SUB.*" />
         </rule>
@@ -4996,7 +5006,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <marker>
                 <token>Grand</token>
             </marker>
-            <token regexp="yes">Canyons?|Theft|Tour|Budapest|Prix</token>
+            <token regexp="yes" case_sensitive="yes">[A-Z].*</token>
         </pattern>
         <disambig action="remove" postag="SUB:.+" />
     </rule>

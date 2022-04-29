@@ -48,7 +48,7 @@
                 <example correction="«AGB»"><marker>"AGB"</marker>ist die Abkürzung für allgemeine Geschäftsbedingungen.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ANFUEHRUNGSZEICHEN_CH_FR" name="»wörtliche Rede« («wörtliche Rede»)">
+        <rulegroup id="ANFUEHRUNGSZEICHEN_CH_FR" name="»wörtliche Rede« («wörtliche Rede»)" default="temp_off">
             <rule><!-- ANFUEHRUNGSZEICHEN_CH_FR[1] -->
                 <pattern>
                     <token postag="SENT_START"/>
@@ -100,6 +100,17 @@
                 <message>Möchten Sie die schweizerische / französische Konvention für Spitzzeichen (im Gegensatz zu der hier verwendeten deutschen / österreichischen) benutzen?</message>
                 <suggestion>»</suggestion>
                 <example correction="»">James Bond führte noch an: »Ich trinke meinen Martini geschüttelt, nicht gerührt.<marker>«</marker></example>
+            </rule>
+            <rule><!-- ANFUEHRUNGSZEICHEN_CH_FR[5] -->
+                <pattern>
+                    <token regexp="yes">.*[a-z].*</token>
+                    <marker>
+                        <token spacebefore="no" postag="SENT_END">«</token>
+                    </marker>
+                </pattern>
+                <message>Möchten Sie die schweizerische / französische Konvention für Spitzzeichen (im Gegensatz zu der hier verwendeten deutschen / österreichischen) benutzen?</message>
+                <suggestion>»</suggestion>
+                <example correction="»">James Bond führte noch an: »Ich trinke meinen Martini geschüttelt, nicht gerührt<marker>«</marker></example>
             </rule>
         </rulegroup>
     </category>
