@@ -1681,6 +1681,19 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <example type="ambiguous" inputform="singe[singen/VER:1:SIN:KJ1:NON,singen/VER:1:SIN:PRÄ:NON,singen/VER:3:SIN:KJ1:NON,singen/VER:IMP:SIN:NON]" outputform="singe[singen/VER:1:SIN:KJ1:NON,singen/VER:1:SIN:PRÄ:NON]">Dann <marker>singe</marker> ich jetzt ein Lied.</example>
         </rule>
     </rulegroup>
+    <rulegroup id="VERB_AGREEMENT_IHR" name="Verbform: 2. Person Plural">
+        <rule>
+            <pattern>
+                <token postag="KON:UNT"/>
+                <token case_sensitive="yes">ihr</token>
+                <marker>
+                    <token postag="VER:2:PLU:PRÄ.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+t</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="VER.*:(3|I..):.+"/>
+            <example type="ambiguous" inputform="singt[singen/VER:2:PLU:PRÄ:NON,singen/VER:3:SIN:PRÄ:NON,singen/VER:IMP:PLU:NON]" outputform="singt[singen/VER:2:PLU:PRÄ:NON]">Wenn ihr <marker>singt</marker>, dann bin ich zufrieden.</example>
+        </rule>
+    </rulegroup>
     <rulegroup id="KEIN_IMPERATIV_II" name="Entferne Imperativ von Verkürzungen wie 'ich geh', 'ich lauf'">
          <rule>
             <pattern>

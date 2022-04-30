@@ -7109,6 +7109,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Außenwände">Die <marker>Außenwende</marker> wurden gestern verputzt.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="BUECKE_BRUECK" name="Bücke vs Brücke" default="temp_off">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker><token regexp="yes" skip="3">Bücken?</token></marker>
+                    <token regexp="yes" inflected="yes">abbrechen|bauen|schlagen|sperren|überqueren</token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no ="1" regexp_match="Bü" regexp_replace="Brü"/></suggestion>?</message>
+                <example correction="Brücken">Er hat alle <marker>Bücken</marker> hinter sich abgebrochen.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="HER_HERR" name="Her Müller (Herr Müller)">
             <rule>
                 <pattern>
