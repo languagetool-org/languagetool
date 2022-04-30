@@ -4873,7 +4873,6 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
 
     <rule id="LAST_BUT_NOT_LEAST_KEIN_VERB" name="'least' kein Verb">
         <pattern>
-            <token regexp="yes">but|and|&amp;</token>
             <token>not</token>
             <marker>
                 <token>least</token>
@@ -5710,6 +5709,17 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             </marker>
             <token regexp="yes">und|oder|&amp;|\/|sowie</token>
             <token regexp="yes">(Weiter|Fort|Aus)bildung.*</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="IGNORE_SPELLING_OF_HOL_UND_BRINGDIENST" name="ignore 'Hol- und Bringdienst'">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token regexp="yes">Hol-</token>
+            </marker>
+            <token regexp="yes">und|oder|&amp;|\/|sowie</token>
+            <token regexp="yes">Bring.+</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
