@@ -26408,6 +26408,24 @@ A Ana tera um sonho. → A Ana terá um sonho.
     </rule>
 
 
+	<!-- VARIAS várias -->
+    <rule id='CONFUSÃO_VARIAS_VÁRIAS' name="Confusão: varias/várias">
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2022-04-30 (1-JAN-2022+)      -->
+	<!--
+Vi varias queixas do jornal. → Vi várias queixas do jornal.
+	-->
+      <pattern>
+		  <token postag='SENT_START|V.+|CS|I|CC' postag_regexp='yes'/>
+		  <marker>
+			<token>varias</token>
+		  </marker>
+      </pattern>
+	  <message>Possível confusão de termos.</message>
+      <suggestion>várias</suggestion>
+      <example correction="várias">Vi <marker>varias</marker> queixas do jornal.</example>
+    </rule>
+
+
 	<!-- VESTIR calçar -->
     <rule id='CONFUSÃO_VESTIR_CALÇAR' name="Confusão: vestir/calçar">
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-01/02 (Checked/Enhanced) (1-JAN-2022+)      -->
