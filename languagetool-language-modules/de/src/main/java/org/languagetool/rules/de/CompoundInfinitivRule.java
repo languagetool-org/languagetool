@@ -77,6 +77,20 @@ public class CompoundInfinitivRule extends Rule {
       tokenRegex("deutlich|viel|Stück|nichts|nix|noch"),
       token("weiter"),
       token("zu")
+    ),
+    Arrays.asList(
+      // "Auf und ab zu schreiten"
+      token("auf"),
+      tokenRegex("und|&|oder|\\/"),
+      token("ab"),
+      token("zu")
+    ),
+    Arrays.asList(
+      // "Hin und her zu laufen"
+      token("hin"),
+      tokenRegex("und|&|oder|\\/"),
+      token("her"),
+      token("zu")
     )
   );
   

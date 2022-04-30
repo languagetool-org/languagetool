@@ -3195,6 +3195,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Das, was <marker>erblich blieb</marker>, ist schlecht.</example>
                 <example>Er betreibt sog. Beatboxing.</example>
                 <example>Dieses Essen schmeckt scheiße!</example>
+                <example>Last but not least gab es auch noch einen Kirschentkerner.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -10094,6 +10095,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">.</token>
                     <token regexp="yes">[A-Z]</token>
                     <token regexp="yes" skip="-1">.</token>
+                    <token>,</token>
+                    <token>das</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">k?ein</token>
+                    <token>solches</token>
                     <token>,</token>
                     <token>das</token>
                 </antipattern>
@@ -17633,7 +17640,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="SO_FERN" name="so fern (sofern)">
             <url>https://www.korrekturen.de/forum.pl/md/read/id/36144/sbj/solange-so-lange-und-eine-weitere-frage/</url>
-            <rule>
+            <rule default="off"><!-- fast alles fehlalarme-->
                 <pattern>
                     <token><exception postag="PKT|SENT_START|UNKNOWN|KON:NEB" postag_regexp="yes"/></token>
                     <marker>
@@ -19547,7 +19554,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>auf</token>
                     <token postag="VER:INF:.*" postag_regexp="yes" />
                     <token min="0">zu</token>
-                    <token regexp="yes" inflected="yes">klicken|drücken</token>
+                    <token regexp="yes" inflected="yes">klicken|drücken|einstellen|stellen</token>
                 </antipattern>
                 <antipattern><!-- Klick mal auf speichern  -->
                     <token regexp="yes" inflected="yes" skip="3">klicken|drücken</token>
@@ -19765,7 +19772,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <exception inflected="yes" regexp="yes">fahren|meinen|sein|einen|sieben|achten|einigen|äußern|äussern|fernsehen|proben|maximieren|minimieren</exception>
                             <exception postag="AD[JV]:.*|VER:EIZ:.*" postag_regexp="yes"/>
                             <exception regexp="yes">whatsapp|langenweile|herzversagen|herz|trotz</exception>
-                            <exception regexp="yes">(a[bn]|au[fs]|nieder|be|los|unter|ein|ent|er|in|vor|über|um|zer|zwischen|ver|zurück|weiter|vorbei|wieder).*|null|genügend|.+suche|personalisierte[nsr]?|ästen?|gefährdet.*|klassenfahrt|.+verwandt.*|.+berechtigt.*|.*weihnachten|.*streifen|.*wochenende</exception>
+                            <exception regexp="yes">(a[bn]|au[fs]|nieder|be|los|unter|ein|ent|er|in|vor|über|um|zer|zwischen|ver|zurück|weiter|vorbei|wieder).*|null|genügend|.+suche|personalisierte[nsr]?|ästen?|gefährdet.*|klassenfahrt|.+verwandt.*|.+berechtigt.*|.*weihnachten|.*streifen|.*wochenende|.*einkommen</exception>
                         </token>
                     </marker>
                 </pattern>
@@ -19798,6 +19805,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Das ist Unsinn; hinzu kommt, dass es gelogen ist.</example>
                 <example>Hinzu kommt, dass es gelogen ist.</example>
                 <example>Denn hinzu kommt, dass es gelogen ist.</example>
+                <example>Nun muss ich es nur noch auf köcheln einstellen, so dass es nicht noch mehr kocht, bevor alle kommen.</example>
                 <example>Das ist Unsinn; und hinzu kommt, dass es gelogen ist.</example>
                 <example>Ich will ihn nicht außen vor lassen.</example>
                 <example>Wir treffen uns auf skype.</example>
@@ -32706,9 +32714,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token>das</token>
-                    <token case_sensitive="yes">aus</token>
-                    <token postag="PRO:POS:GEN:.+" postag_regexp="yes" skip="-1"/>
-                    <token>bestand</token>
+                    <token case_sensitive="yes" skip="-1">aus</token>
+                    <token regexp="yes">bestand|besteht</token>
+                </antipattern>
+                <antipattern>
+                    <token>das</token>
+                    <token>aus</token>
+                    <token postag="(ADJ|PA[12]).*" postag_regexp="yes" />
                 </antipattern>
                 <pattern>
                     <token>das</token>

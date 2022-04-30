@@ -4852,6 +4852,36 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="remove" postag="SUB:GEN.*" />
     </rule>
 
+    <rule id="TIME_KEIN_VERB" name="'Time' kein Verb">
+        <pattern>
+            <marker>
+                <token case_sensitive="yes">Time</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="VER.*" />
+    </rule>
+
+    <rule id="EINEN_TICKEN_KEIN_VERB" name="'Tick' kein Verb">
+        <pattern>
+            <token regexp="yes">(kl?)?ein|(kl?)?einen</token>
+            <marker>
+                <token regexp="yes">Tick(en)?</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="VER.*" />
+    </rule>
+
+    <rule id="LAST_BUT_NOT_LEAST_KEIN_VERB" name="'least' kein Verb">
+        <pattern>
+            <token regexp="yes">but|and|&amp;</token>
+            <token>not</token>
+            <marker>
+                <token>least</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="VER.*" />
+    </rule>
+
     <rulegroup id="A_KEIN_PRP" name="'A' keine Präposition in Abkürzungen">
         <rule>
             <pattern>
