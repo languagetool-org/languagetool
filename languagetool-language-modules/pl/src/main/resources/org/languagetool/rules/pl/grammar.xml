@@ -15364,7 +15364,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <pattern case_sensitive="yes">
                         <token postag='num:.*' postag_regexp='yes'></token>
                         <marker>
-                            <token inflected='yes' regexp="yes">Ohm</token>
+                            <token inflected='yes'>Ohm</token>
                         </marker>
                     </pattern>
                     <message>Ta jednostka miary pisana jest małą literą: <suggestion><match no="2" case_conversion="alllower" regexp_match="h" regexp_replace=""/></suggestion></message>
@@ -15375,7 +15375,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <pattern case_sensitive="yes">
                             <token regexp='yes'>\d+</token>
                             <marker>
-                                <token inflected='yes' regexp="yes">Ohm</token>
+                                <token inflected='yes'>Ohm</token>
                             </marker>
                         </pattern>
                         <message>Ta jednostka miary pisana jest małą literą: <suggestion><match no="2" case_conversion="alllower" regexp_match="h" regexp_replace=""/></suggestion></message>
@@ -16492,10 +16492,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">północno|południowo</token>
                 <token inflected="yes" regexp="yes">afrykański|amerykański</token>              
               </pattern>
-              <message>Ten wyraz pisze się łącznie: <suggestion>\1\2</suggestion>.</message>
+              <message>Ten wyraz pisze się łącznie: <suggestion><match case_conversion="startlower" no="1"/><match no="2" case_conversion="startlower"/></suggestion>.</message>
               <url>https://sjp.pwn.pl/zasady/136-26-Pisownia-przymiotnikow-zlozonych-typu-jasnoniebieski;629465</url>
               <short>Błąd ortograficzny</short>
               <example correction="północnoamerykańskim">Ta moda panuje na kontynencie <marker>północno amerykańskim</marker>.</example>            
+              <example correction="północnoamerykańskim">Ta moda panuje na kontynencie <marker>Północno Amerykańskim</marker>.</example>            
             </rule>
             <rulegroup id="CZUL_SIE" name="„Czół się” (czuł się)">
             <rule>
@@ -17224,6 +17225,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<short>Błąd ortograficzny</short>
 						<example correction="noworoczny">Wznieśmy toast <marker>nowo roczny</marker>!</example>
 						<example>Tegoroczne zbiory pszenicy są znakomite.</example>
+				</rule>
+				<rule id="ANGIELSKO_JEZYCZNY" name="„angielsko-języczny” (angielskojęzyczny)">
+            <pattern>
+                <token regexp="yes">(albańsko|angielsko|anglo|arabsko|cztero|długo|dwu|flamandzko|francusko|germańsko|grecko|hebrajsko|hispano|hiszpańsko|inno|jedno|kilku|niderlandzko|niemiecko|obco|ostro|ośmio|pędzelko|pięcio|polsko|portugalsko|rosyjsko|różno|siedmio|stu|sześcio|szwedzko|trój|trzy|turecko|ukraińsko|węgiersko|wielo|włosko)\-języczn.*</token>            
+            </pattern>
+            <message>Ten wyraz pisze się bez łącznika: <suggestion><match no="1" regexp_match="-" regexp_replace=""></match></suggestion>.</message>
+            <short>Błąd ortograficzny</short>
+            <example correction="anglojęzycznego">Pochodziła z kraju <marker>anglo-języcznego</marker>.</example>
 				</rule>
 				<rule id="TYM_NIE_MNIEJ" name="„tym nie mniej” (niemniej jednak)">
 						<pattern>
@@ -18660,7 +18669,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
 				<rule>
             <pattern>
-                <token regexp="yes">(?:.*)(?:jedno|dwu|trzy|cztero|pięcio|sześcio|siedmio|ośmio|dziewięcio|dziesięcio|jedenasto|stu|dwustu)</token>
+                <token regexp="yes">(?:.*)(?:jedno|dwu|trzy|cztero|pięcio|sześcio|siedmio|ośmio|dziewięcio|dziesięcio|jedenasto|stu|dwustu|kilk[aou]|kilkuset|wielo|paro|kilkunasto)</token>
                 <token regexp="yes" inflected="yes">krotn(y|ie)</token>            
             </pattern>
             <message>Ten wyraz piszemy razem: <suggestion>\1\2</suggestion>.</message>
