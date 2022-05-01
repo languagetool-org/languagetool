@@ -1330,18 +1330,11 @@ class CaseRuleAntiPatterns {
     Arrays.asList( // (Gelächter) Das sind die …
       posRegex("SENT_START"),
       csToken("("),
-      regex(".*"),
-      csToken("("),
-      csRegex("[A-ZÄÖÜ].*")
-    ),
-    Arrays.asList( // (Gelächter) Das sind die …
-      posRegex("SENT_START"),
-      csToken("("),
       csRegex("[A-ZÄÖÜ].*"),
-      csToken("("),
+      csToken(")"),
       csRegex("[A-ZÄÖÜ].*")
     ),
-    Arrays.asList( // (Gelächter) Das sind die …
+    Arrays.asList( // [Gelächter] Das sind die …
       posRegex("SENT_START"),
       csToken("["),
       csRegex("[A-ZÄÖÜ].*"),

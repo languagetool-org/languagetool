@@ -57700,6 +57700,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Zeichensetzung -->
     <!-- ====================================================================== -->
     <category id="PUNCTUATION" name="Zeichensetzung">
+        <rule id="SOFERN_KOMMA" name="Komma vor 'sofern'" default="temp_off">
+            <antipattern>
+                <token>in</token>
+                <token>sofern</token>
+            </antipattern>
+            <antipattern>
+                <token postag="KON.*" postag_regexp="yes" />
+                <token postag="ADV.*" postag_regexp="yes" min="0" max="2" />
+                <token>sofern</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">liegen</token>
+                <token postag="ADV.*" postag_regexp="yes" min="0" />
+                <token>sofern</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">.*[a-z0-9].*</token>
+                <marker>
+                    <token case_sensitive="yes" skip="-1">sofern</token>
+                </marker>
+                <token postag="VER.*" postag_regexp="yes" />
+            </pattern>
+            <message>Hier scheint ein Komma zu fehlen.</message>
+            <suggestion>, sofern</suggestion>
+            <example correction=", sofern">Alle weiteren Spieler sollten zur Verfügung stehen<marker> sofern</marker> es am Samstag keine verletzten Spieler zu verzeichnen gab.</example>
+        </rule>
         <rule id="WIE_DER_DER_KOMMA" name="wie der(,) der damals">
             <pattern>
                 <token regexp="yes">als|wie</token>

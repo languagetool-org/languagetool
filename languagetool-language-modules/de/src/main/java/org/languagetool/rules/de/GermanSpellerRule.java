@@ -2489,6 +2489,14 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Ggf": return topMatch("Ggf.");
       case "zzgl": return topMatch("zzgl.");
       case "Zzgl": return topMatch("Zzgl.");
+      case "Weißheitszahn": return topMatch("Weisheitszahn");
+      case "Weissheitszahn": return topMatch("Weisheitszahn");
+      case "Weißheitszahns": return topMatch("Weisheitszahns");
+      case "Weissheitszahns": return topMatch("Weisheitszahns");
+      case "Weißheitszähne": return topMatch("Weisheitszähne");
+      case "Weissheitszähne": return topMatch("Weisheitszähne");
+      case "Weißheitszähnen": return topMatch("Weisheitszähnen");
+      case "Weissheitszähnen": return topMatch("Weisheitszähnen");
     }
     return Collections.emptyList();
   }
