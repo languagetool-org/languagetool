@@ -50,7 +50,7 @@ public class LanguageIdentifier {
   private static final double MINIMAL_CONFIDENCE = 0.9;
   private static final int SHORT_ALGO_THRESHOLD = 50;
   // texts shorter than this will *only* consider preferred languages (if set):
-  private static final int CONSIDER_ONLY_PREFERRED_THRESHOLD = 50;
+  private static final int CONSIDER_ONLY_PREFERRED_THRESHOLD = 250;
   private static final List<String> RARE_LANGUAGES = Arrays.asList(
     "eo", "ast", "be", "br", "da", "gl", "ga", "km", "fa", "ro", "sk", "sl", "sv", "tl", "ta", "no", "nb");
 
