@@ -4852,14 +4852,34 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="remove" postag="SUB:GEN.*" />
     </rule>
 
-    <rule id="TIME_KEIN_VERB" name="'Time' kein Verb">
-        <pattern>
-            <marker>
-                <token case_sensitive="yes">Time</token>
-            </marker>
-        </pattern>
-        <disambig action="remove" postag="VER.*" />
-    </rule>
+    <rulegroup id="TIME_KEIN_VERB" name="'Time' kein Verb">
+        <rule>
+            <pattern>
+                <marker>
+                    <token case_sensitive="yes">Time</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="VER.*" />
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="UNKNOWN" regexp="yes">\p{L}.+</token>
+                <marker>
+                    <token case_sensitive="yes">time</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="VER.*" />
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token case_sensitive="yes">time</token>
+                </marker>
+                <token postag="UNKNOWN" regexp="yes">\p{L}.+</token>
+            </pattern>
+            <disambig action="remove" postag="VER.*" />
+        </rule>
+    </rulegroup>
 
     <rule id="EINEN_TICKEN_KEIN_VERB" name="'Tick' kein Verb">
         <pattern>
