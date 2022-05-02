@@ -9598,7 +9598,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="MISSPELLING" name="Ortografía" type="misspelling">
-        <rulegroup id="D_ELA" name="errores ortográficos varios" default="temp_off">
+        <rulegroup id="D_ELA" name="revisar letra suelta: d, l, n">
             <rule>
                 <pattern>
                     <token>d</token>
@@ -9643,26 +9643,44 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token>n</token>
+                        <token>n<exception inflected="yes" regexp="yes">rock.*</exception></token>
                     </marker>
                     <token postag="(N.|A..)[MC][SN].*" postag_regexp="yes"/>
                 </pattern>
                 <message>¿Quería decir <suggestion>un</suggestion>?</message>
                 <suggestion>en</suggestion>
                 <example correction="un|en">Pero <marker>n</marker> caso no es el otro.</example>
+                <example>rock’n’roll</example>
             </rule>
             <rule>
                 <antipattern>
+                    <token>n</token>
+                    <token regexp="yes">\.|º|ª|/|\d+</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">/|'</token>
+                    <token>n</token>
+                </antipattern>
+                <antipattern>
                     <token case_sensitive="yes">N<exception scope="previous" postag="SENT_STAT"/></token>
+                </antipattern>
+                <antipattern>
+                    <token skip="4">n</token>
+                    <token>m</token>
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token>n</token>
+                        <token>n<exception inflected="yes" regexp="yes">rock.*</exception></token>
                     </marker>
                     <token postag="[DAN].*" postag_regexp="yes"/>
                 </pattern>
                 <message>¿Quería decir <suggestion>en</suggestion>?</message>
                 <example correction="en">Pero <marker>n</marker> este caso no es así.</example>
+                <example>rock’n’roll</example>
+                <example>rock'n'roll</example>
+                <example>La Sonata para piano n.º 11 en la mayor, K. p. 155.</example>
+                <example>Andalucía s/n Polígono Ind.</example>
+                <example>n filas y m columnas</example>
             </rule>
             <rule>
                 <antipattern>
@@ -9672,6 +9690,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token>l</token>
                     <token regexp="yes">.</token>
+                </antipattern>
+                <antipattern>
+                    <token>en</token>
+                    <token case_sensitive="yes">L</token>
+                </antipattern>
+                <antipattern>
+                    <token case_sensitive="yes">L</token>
+                    <token regexp="yes">\d+</token>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -9701,9 +9727,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="la">Pero <marker>l</marker> mesa no está preparada.</example>
             </rule>
             <rule>
-                <antipattern case_sensitive="yes">
-                    <token>L</token>
+                <antipattern>
+                    <token>l</token>
                     <token regexp="yes">.|’|'</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">.</token>
+                    <token>l</token>
+                </antipattern>
+                <antipattern>
+                    <token>l</token>
+                    <token regexp="yes">.</token>
                 </antipattern>
                 <pattern>
                     <marker>
