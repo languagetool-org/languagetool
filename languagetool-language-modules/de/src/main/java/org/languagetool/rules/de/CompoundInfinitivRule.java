@@ -97,6 +97,13 @@ public class CompoundInfinitivRule extends Rule {
       tokenRegex("und|&|oder|\\/"),
       token("her"),
       token("zu")
+    ),
+    Arrays.asList(
+      // "Hoch und runter zu laufen"
+      token("hoch"),
+      tokenRegex("und|&|oder|\\/"),
+      token("runter"),
+      token("zu")
     )
   );
   
