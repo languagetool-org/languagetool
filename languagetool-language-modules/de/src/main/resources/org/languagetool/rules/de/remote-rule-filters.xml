@@ -149,9 +149,10 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                         <token/>
                     </marker>
                     <token regexp="yes">\d+</token>
-                    <token regexp="yes">[°\%\$¢€£₤¥฿₹₿₱₽₪₩\u8371](.*)?</token>
+                    <token regexp="yes">([°\%\$¢€£₤¥฿₹₿₱₽₪₩\u8371]|euros?|dollar|yuan|yen|prozent(punkte)?|promille)(.*)?</token>
                 </pattern>
                 <example correction="">Wir erhöhen die Zahlung zum 1.3. <marker>auf</marker> 1000 €/Monat.</example>
+                <example correction="">Maria hat sich für eine gesetzliche Krankenkasse entschieden und zahlt dafür <marker>monatlich</marker> 533 Euro.</example>
             </rule>
             <rule>
                 <pattern>
