@@ -358,8 +358,8 @@ public class German extends Language implements AutoCloseable {
       case "MIT_FREUNDLICHEN_GRUESSE": return 1; // higher prio than MEIN_KLEIN_HAUS
       case "OK": return 1; // higher prio than KOMMA_NACH_PARTIKEL_SENT_START[3]
       case "EINE_ORIGINAL_RECHNUNG": return 1; // higher prio than DE_CASE, DE_AGREEMENT and MEIN_KLEIN_HAUS
-      case "TYPOGRAPHIC_QUOTES": return 1; // higher prio than UNPAIRED_BRACKETS
       case "VALENZ_TEST": return 1; // see if this generates more corpus matches
+      case "FALSCHES_ANFUEHRUNGSZEICHEN": return 1; // higher prio than UNPAIRED_BRACKETS
       // default is 0
       case "VER_KOMMA_PRO_RIN": return -1; // prefer WENN_WEN
       case "DE_PROHIBITED_COMPOUNDS_PREMIUM": return -1; // prefer other rules (e.g. AUS_MITTEL)

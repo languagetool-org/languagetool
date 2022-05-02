@@ -62969,19 +62969,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>“</suggestion>
             <example correction="“">Das ist wertvoller „Content<marker>"</marker>.</example>
         </rule>
-        <rulegroup id="TYPOGRAPHIC_QUOTES" name="Anführungszeichen: “xyz” -> „xyz“" default="temp_off"><!--DO NOTE ACTIVATE: needs new Google Docs and browser add-on release first-->
-            <rule>
-                <!-- wird auch von UNPAIRED_BRACKETS gefunden, aber hier mit besserer suggestion -->
-                <pattern>
-                    <token>“</token>
-                    <token spacebefore="no"/>
-                    <token spacebefore="no">”</token>
-                </pattern>
-                <message>Möchten Sie die typografisch korrekten deutschen Anführungszeichen benutzen?</message>
-                <suggestion>„\2“</suggestion>
-                <example correction="„AGB“"><marker>“AGB”</marker> ist die Abkürzung für allgemeine Geschäftsbedingungen.</example>
-            </rule>
-        </rulegroup>
         <rule id="TRADEMARK" name="(TM) statt ™">
             <pattern case_sensitive='yes'>
                 <token regexp='yes'>\p{Lu}.*</token>
@@ -63169,7 +63156,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>‴</suggestion>
             <example correction="‴">f<marker>'''</marker> ist einfach zu berechnen.</example>
         </rule>
-        <rulegroup id="FALSCHE_ANFUEHRUNGSZEICHEN" name="Falsche Anführungszeichen ('” [99]' statt '“ [66]')" tags="picky" default="temp_off">
+        <rulegroup id="FALSCHES_ANFUEHRUNGSZEICHEN" name="Falsche Anführungszeichen ('” [99]' statt '“ [66]')">
             <!-- Amerikanische Anführungszeichen (TODO: dürfen auch in der Schweiz verwendet werden) -->
             <short>Möglicherweise falsches Anführungszeichen</short>
             <antipattern>
@@ -63357,7 +63344,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="“">Er sagte "Tschüssi<marker>”</marker></example>
             </rule>
         </rulegroup>
-        <rulegroup id="FALSCHE_ANFUEHRUNGSZEICHEN_2" name="Doppelte Kommas oder doppelte Apostrophe" default="temp_off">
+        <rulegroup id="FALSCHES_ANFUEHRUNGSZEICHEN_2" name="Doppelte Kommas oder doppelte Apostrophe" default="temp_off">
             <short>Falsche Anführungszeichen</short>
             <rule>
                 <pattern>
