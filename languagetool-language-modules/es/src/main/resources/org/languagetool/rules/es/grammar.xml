@@ -2756,6 +2756,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="NCM.*|NCFS000" postag_regexp="yes"/>
                 <token>practicas</token>
             </antipattern>
+            <antipattern>
+                <token skip="2">prestamos</token>
+                <token>atención</token>
+            </antipattern>
             <pattern>
                 <!-- NOT: domino, decimos, domine, escalamos, , echo, llamaron, piden, paramos, cede, solicita, solicito, termino, verifica, vienes, aman, borren, calan, capitula, crias, critica, criticas, critico |critica, cuajaron, cupe, calculo, envió, escalamos, estipula, habito, participe, platica, platicas, predica, predicas, patina, regulo, solicita, solicitas, solicito, suplico, suplica, suplicas, termino, verifica, indica, ulula publica|publicas|publico prospera|prosperas|prospero  especifica|especificas|especifico| |fabrica|fabricas |limite|limites
                          ???: pio, moran, indico, opera, anima, animas, replica, replicas,-->
@@ -2785,6 +2789,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>María publica continuamente fotos de ella misma en Instagram.</example>
             <example>Lee mucho y practica mucho.</example>
             <example>¿Qué clase de deportes practicas?</example>
+            <example>Con frecuencia no prestamos ni atención.</example>
         </rule>
         <rulegroup name="diacríticos" id="DIACRITICS_BY_GROUPS">
             <antipattern>
@@ -12857,6 +12862,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>y<exception scope="previous">¿</exception></token>
                     </marker>
+                    <token min="0" postag="_QM_OPEN"/>
                     <token regexp="yes">h?[ií].*|y<exception regexp="yes">h?ih?[aeouáéóú].*</exception><!--Números romanos--><exception regexp="yes">[ivxlcdm]+|&words_H_ASPIRADA;|&words_H_ASPIRADA2;</exception></token>
                 </pattern>
                 <message>Cuando precede a palabras que comienzan por 'i', la conjunción 'y' se transforma en 'e'.</message>
@@ -12874,6 +12880,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>e</token>
                     </marker>
+                    <token min="0" postag="_QM_OPEN"/>
                     <and>
                         <token regexp="yes">&words_H_ASPIRADA;|&words_H_ASPIRADA2;</token>
                         <token regexp="yes">hi.*</token>
@@ -12889,6 +12896,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>e</token>
                     </marker>
+                    <token min="0" postag="_QM_OPEN"/>
                     <token regexp="yes">h?ih?[aeoáéó].*<exception regexp="yes">ia|iOS</exception></token>
                 </pattern>
                 <message>Cuando precede a palabras que comienzan con diptongo, se usa la conjunción 'y', no 'e'.</message>
@@ -12908,6 +12916,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>o</token>
                     </marker>
+                    <token min="0" postag="_QM_OPEN"/>
                     <token regexp="yes">^h?[oó].*</token>
                 </pattern>
                 <message>Cuando precede a palabras que comienzan por 'o', la conjunción 'o' se transforma en 'u'.</message>
@@ -12920,6 +12929,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>o</token>
                     </marker>
+                    <token min="0" postag="_QM_OPEN"/>
                     <token regexp="yes">8[,.\d]*</token>
                 </pattern>
                 <message>Cuando precede a palabras que comienzan por 'o', la conjunción 'o' se transforma en 'u'.</message>
