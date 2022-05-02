@@ -20990,6 +20990,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
     <category id="TYPOS" name="Prawdopodobne literówki" type="misspelling">
+    <rule id="ROZLICZNIE" name="„rozlicznie z” (rozliczenie z)">
+      <pattern>
+        <marker><token>rozlicznie</token></marker>
+        <token min="0" postag="(subst|ger).*:gen.*" postag_regexp="yes"/>
+        <token inflected="yes">z</token>
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>rozliczenie</suggestion>?</message>
+      <example correction="rozliczenie">Twoje zadanie to <marker>rozlicznie</marker> handlowca z wyników pracy.</example>    
+      <example correction="rozliczenie">Wspólne <marker>rozlicznie</marker> z małżonkiem</example>
+    </rule>
 		<rule id="TO_ZE_TO_E" name="„to, ze” (to, że)">
         <antipattern>
           <marker><token>ze</token></marker>
