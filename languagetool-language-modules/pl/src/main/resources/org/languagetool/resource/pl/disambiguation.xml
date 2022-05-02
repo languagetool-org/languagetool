@@ -4064,19 +4064,49 @@
         <disambig action="filterall"/>
     </rule>
 
-    <rule id="NUM_REC" name="gen pl po liczebniku bez związku zgody">
+    <rule id="NUM_REC_SUBST_ADJ" name="gen pl po liczebniku bez związku zgody">
         <pattern>
             <marker>
                 <token postag="num.*:rec" postag_regexp="yes"><exception>jeden</exception><exception regexp="yes">siła|moc</exception></token>
-                <token postag="(?:adj|ger|subst):pl.*gen.*" postag_regexp="yes">
+                <token postag="(?:ger|subst):pl.*gen.*" postag_regexp="yes">
+                    <exception regexp="yes">wat|gram|amper|kilowat|kilogram|kiloamper|wolt|kilowolt|złoty|kilometr|metr|centymetr</exception>
+                </token>
+                <token postag="(?:adj|pact|ppas):pl.*gen.*" postag_regexp="yes"></token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="untouched">Mam wiele do zrobienia.</example>
+        <example type="ambiguous" inputform="ludzi[człowiek/subst:pl:acc:m1,człowiek/subst:pl:gen:m1,ludzie/subst:pl:acc:p1,ludzie/subst:pl:gen:p1]" outputform="ludzi[człowiek/subst:pl:gen:m1,ludzie/subst:pl:gen:p1]">Tu było tysiąc <marker>ludzi</marker> myślących.</example>
+    </rule>
+
+    <rule id="NUM_REC_ADJ_SUBST" name="gen pl po liczebniku bez związku zgody">
+        <pattern>
+            <marker>
+                <token postag="num.*:rec" postag_regexp="yes"><exception>jeden</exception><exception regexp="yes">siła|moc</exception></token>
+                <token postag="(?:adj|pact|ppas):pl.*gen.*" postag_regexp="yes"></token>
+                <token postag="(?:ger|subst):pl.*gen.*" postag_regexp="yes">
                     <exception regexp="yes">wat|gram|amper|kilowat|kilogram|kiloamper|wolt|kilowolt|złoty|kilometr|metr|centymetr</exception>
                 </token>
             </marker>
         </pattern>
         <disambig action="filterall"/>
         <example type="untouched">Mam wiele do zrobienia.</example>
-        <example type="ambiguous" inputform="ludzi[człowiek/subst:pl:acc:m1,człowiek/subst:pl:gen:m1,ludzie/subst:pl:acc:p1,ludzie/subst:pl:gen:p1]" outputform="ludzi[człowiek/subst:pl:gen:m1,ludzie/subst:pl:gen:p1]">Tu było tysiąc <marker>ludzi</marker>.</example>
+        <example type="ambiguous" inputform="ludzi[człowiek/subst:pl:acc:m1,człowiek/subst:pl:gen:m1,ludzie/subst:pl:acc:p1,ludzie/subst:pl:gen:p1]" outputform="ludzi[człowiek/subst:pl:gen:m1,ludzie/subst:pl:gen:p1]">Tu było tysiąc bezdomnych <marker>ludzi</marker>.</example>
     </rule>
+
+    <rule id="NUM_REC" name="gen pl po liczebniku bez związku zgody">
+    <pattern>
+        <marker>
+            <token postag="num.*:rec" postag_regexp="yes"><exception>jeden</exception><exception regexp="yes">siła|moc</exception></token>
+            <token postag="(?:adj|ger|subst|pact|ppas):pl.*gen.*" postag_regexp="yes">
+                <exception regexp="yes">wat|gram|amper|kilowat|kilogram|kiloamper|wolt|kilowolt|złoty|kilometr|metr|centymetr</exception>
+            </token>
+        </marker>
+    </pattern>
+    <disambig action="filterall"/>
+    <example type="untouched">Mam wiele do zrobienia.</example>
+    <example type="ambiguous" inputform="ludzi[człowiek/subst:pl:acc:m1,człowiek/subst:pl:gen:m1,ludzie/subst:pl:acc:p1,ludzie/subst:pl:gen:p1]" outputform="ludzi[człowiek/subst:pl:gen:m1,ludzie/subst:pl:gen:p1]">Tu było tysiąc <marker>ludzi</marker>.</example>
+</rule>
 
     <rule name="tym + com" id="tym_com"> <!-- W NKJP czasem conj, czasem adv... -->
         <pattern>

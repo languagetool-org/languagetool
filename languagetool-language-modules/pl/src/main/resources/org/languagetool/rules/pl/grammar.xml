@@ -6427,6 +6427,245 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </rule>
 		</category>
 		<category id="SYNTAX" name="Błędy składniowe" type="grammar">
+		<rule id="ADJ_SUBST_ADJ_UNIFY" name="Naruszenie związku zgody">
+      <pattern>
+        <marker>
+        <unify negate="yes"><feature id="gender"></feature><feature id="number"/><feature id="case"/>
+          <token postag="(adj|ppas|pact).*" postag_regexp="yes"><exception scope="previous" postag="(depr|ger|subst).*" postag_regexp="yes"/></token>
+          <token postag="(depr|ger|subst).*" postag_regexp="yes"/>
+          <token postag="(adj|ppas|pact).*" postag_regexp="yes"/>
+        </unify>
+        </marker>
+        <token><exception postag="(depr|ger|subst).*" postag_regexp="yes"/></token>
+      </pattern>
+      <message>Przypuszczalnie brak zgodności form przypadków przymiotników i rzeczownika: \1 \2 \3.</message>
+      <short>Niezgodne końcówki przymiotników i rzeczownika</short>
+      <example correction=""><marker>Beztlenowe bakterie magnetotaktyczna</marker> mają funkcję wykrywania tlenu.</example>
+      <example>Beztlenowe bakterie sprytna ryba pożre za chwilę.</example>
+      <example>Ryba hodowlana żabki wesołe pożera.</example>
+		</rule>
+		  <rulegroup id="DWA_LUB_WIECEJ" name="„dwa lub więcej” (co najmniej dwa)">
+      <rule>
+        <pattern>
+          <token postag="prep:gen.*|&lt;/PREP:GEN&gt;" postag_regexp="yes"></token>
+          <marker>
+          <token inflected="yes" regexp="yes">dwa|trzy|cztery</token>
+          <token>lub</token>
+          <token>więcej</token>
+          </marker>
+        </pattern>
+        <message>Konstrukcji tego typu nie da się użyć tak, aby nie budziła zastrzeżeń. Lepiej: <suggestion>co najmniej \2</suggestion>.</message>
+        <url>https://sjp.pwn.pl/poradnia/haslo/dwa-lub-wiecej;4999.html</url>
+        <example correction="co najmniej dwóch">Zadzwonił do <marker>dwóch lub więcej</marker> klientów.</example>
+      </rule>
+      <rule> <!-- acc -->
+        <pattern>
+          <token postag="prep:acc.*" postag_regexp="yes"><exception postag="prep:gen.*|&lt;/PREP:GEN&gt;" postag_regexp="yes"/></token>
+          <marker>
+          <token inflected="yes" regexp="yes">dwa|trzy|cztery</token>
+          <token>lub</token>
+          <token>więcej</token>
+          <token postag="(subst|ger).*gen.*" postag_regexp="yes"></token>
+          </marker>
+          <token><exception postag="(adj|pact|ppas).*gen.*" postag_regexp="yes"/></token>
+        </pattern>
+        <message>Konstrukcji tego typu nie da się użyć tak, aby nie budziła zastrzeżeń. Lepiej: <suggestion>co najmniej <match no="2"/> <match no="5" postag_regexp="yes" postag="(subst.*:)gen(:.*)" postag_replace="$1acc$2"/></suggestion>.</message>
+        <url>https://sjp.pwn.pl/poradnia/haslo/dwa-lub-wiecej;4999.html</url>
+        <example correction="co najmniej dwie godziny">Nudził mnie przez <marker>dwie lub więcej godzin</marker>.</example>
+      </rule>
+       <rule>
+        <pattern>
+          <token postag="prep:acc.*" postag_regexp="yes"><exception postag="prep:gen.*|&lt;/PREP:GEN&gt;" postag_regexp="yes"/></token>
+          <marker>
+          <token inflected="yes" regexp="yes">dwa|trzy|cztery</token>
+          <token>lub</token>
+          <token>więcej</token>
+          <token postag="(subst|ger).*gen.*" postag_regexp="yes"></token>
+          <token postag="(adj|pact|ppas).*gen.*" postag_regexp="yes"/>
+          </marker>
+        </pattern>
+        <message>Konstrukcji tego typu nie da się użyć tak, aby nie budziła zastrzeżeń. Lepiej: <suggestion>co najmniej <match no="2"/> <match no="5" postag_regexp="yes" postag="(subst.*:)gen(:.*)" postag_replace="$1acc$2"/> <match no="6" postag_regexp="yes" postag="(adj|ppas|pact)(.*:)gen:(m1\.)(.*)" postag_replace="$1$2acc:.*"/></suggestion>.</message>
+        <url>https://sjp.pwn.pl/poradnia/haslo/dwa-lub-wiecej;4999.html</url>
+        <example correction="co najmniej dwie godziny wieczorne|co najmniej dwie godziny wieczornych">Nudził mnie przez <marker>dwie lub więcej godzin wieczornych</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="prep:acc.*" postag_regexp="yes"><exception postag="prep:gen.*|&lt;/PREP:GEN&gt;" postag_regexp="yes"/></token>
+          <marker>
+          <token inflected="yes" regexp="yes">dwa|trzy|cztery</token>
+          <token>lub</token>
+          <token>więcej</token>
+          <token postag="(adj|pact|ppas).*gen.*" postag_regexp="yes"/>
+          <token postag="(subst|ger).*gen.*" postag_regexp="yes"></token>          
+          </marker>
+        </pattern>
+        <message>Konstrukcji tego typu nie da się użyć tak, aby nie budziła zastrzeżeń. Lepiej: <suggestion>co najmniej <match no="2"/> <match no="5" postag_regexp="yes" postag="(adj|ppas|pact)(.*:)gen:(m1\.)(.*)" postag_replace="$1$2acc:.*"/> <match no="6" postag_regexp="yes" postag="(subst.*:)gen(:.*)" postag_replace="$1acc$2"/></suggestion>.</message>
+        <url>https://sjp.pwn.pl/poradnia/haslo/dwa-lub-wiecej;4999.html</url>
+        <example correction="co najmniej dwie wieczorne godziny|co najmniej dwie wieczornych godziny">Nudził mnie przez <marker>dwie lub więcej wieczornych godzin</marker>.</example>
+      </rule>
+      <rule> <!-- dat-->
+        <pattern>
+          <token postag="prep:dat.*" postag_regexp="yes"><exception postag="prep:gen.*|&lt;/PREP:GEN&gt;" postag_regexp="yes"/></token>
+          <marker>
+          <token inflected="yes" regexp="yes">dwa|trzy|cztery</token>
+          <token>lub</token>
+          <token>więcej</token>
+          <token postag="(subst|ger).*gen.*" postag_regexp="yes"></token>
+          </marker>
+          <token><exception postag="(adj|pact|ppas).*gen.*" postag_regexp="yes"/></token>
+        </pattern>
+        <message>Konstrukcji tego typu nie da się użyć tak, aby nie budziła zastrzeżeń. Lepiej: <suggestion>co najmniej <match no="2"/> <match no="5" postag_regexp="yes" postag="(subst.*:)gen(:.*)" postag_replace="$1dat$2"/></suggestion>.</message>
+        <url>https://sjp.pwn.pl/poradnia/haslo/dwa-lub-wiecej;4999.html</url>
+        <example correction="co najmniej dwóm gwiazdom">Zwrócił oczy ku <marker>dwóm lub więcej gwiazd</marker>.</example>
+      </rule>
+       <rule>
+        <pattern>
+          <token postag="prep:dat.*" postag_regexp="yes"><exception postag="prep:gen.*|&lt;/PREP:GEN&gt;" postag_regexp="yes"/></token>
+          <marker>
+          <token inflected="yes" regexp="yes">dwa|trzy|cztery</token>
+          <token>lub</token>
+          <token>więcej</token>
+          <token postag="(subst|ger).*gen.*" postag_regexp="yes"></token>
+          <token postag="(adj|pact|ppas).*gen.*" postag_regexp="yes"/>
+          </marker>
+        </pattern>
+        <message>Konstrukcji tego typu nie da się użyć tak, aby nie budziła zastrzeżeń. Lepiej: <suggestion>co najmniej <match no="2"/> <match no="5" postag_regexp="yes" postag="(subst.*:)gen(:.*)" postag_replace="$1dat$2"/> <match no="6" postag_regexp="yes" postag="(adj|ppas|pact)(.*:)gen:(m1\.)(.*)" postag_replace="$1$2dat:.*"/></suggestion>.</message>
+        <url>https://sjp.pwn.pl/poradnia/haslo/dwa-lub-wiecej;4999.html</url>
+        <example correction="co najmniej dwóm gwiazdom wieczornym">Biegł myślą ku <marker>dwóm lub więcej gwiazd wieczornych</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="prep:dat.*" postag_regexp="yes"><exception postag="prep:gen.*|&lt;/PREP:GEN&gt;" postag_regexp="yes"/></token>
+          <marker>
+          <token inflected="yes" regexp="yes">dwa|trzy|cztery</token>
+          <token>lub</token>
+          <token>więcej</token>
+          <token postag="(adj|pact|ppas).*gen.*" postag_regexp="yes"/>
+          <token postag="(subst|ger).*gen.*" postag_regexp="yes"></token>          
+          </marker>
+        </pattern>
+        <message>Konstrukcji tego typu nie da się użyć tak, aby nie budziła zastrzeżeń. Lepiej: <suggestion>co najmniej <match no="2"/> <match no="5" postag_regexp="yes" postag="(adj|ppas|pact)(.*:)gen:(m1\.)(.*)" postag_replace="$1$2dat:.*"/> <match no="6" postag_regexp="yes" postag="(subst.*:)gen(:.*)" postag_replace="$1dat$2"/></suggestion>.</message>
+        <url>https://sjp.pwn.pl/poradnia/haslo/dwa-lub-wiecej;4999.html</url>
+        <example correction="co najmniej dwóm wygasłym gwiazdom">Poglądał ku <marker>dwóm lub więcej wygasłych gwiazd</marker>.</example>
+      </rule>
+       <rule> <!-- inst-->
+        <pattern>
+          <token postag="prep:inst.*" postag_regexp="yes"><exception postag="prep:gen.*|&lt;/PREP:GEN&gt;" postag_regexp="yes"/></token>
+          <marker>
+          <token inflected="yes" regexp="yes">dwa|trzy|cztery</token>
+          <token>lub</token>
+          <token>więcej</token>
+          <token postag="(subst|ger).*gen.*" postag_regexp="yes"></token>
+          </marker>
+          <token><exception postag="(adj|pact|ppas).*gen.*" postag_regexp="yes"/></token>
+        </pattern>
+        <message>Konstrukcji tego typu nie da się użyć tak, aby nie budziła zastrzeżeń. Lepiej: <suggestion>co najmniej <match no="2"/> <match no="5" postag_regexp="yes" postag="(subst.*:)gen(:.*)" postag_replace="$1inst$2"/></suggestion>.</message>
+        <url>https://sjp.pwn.pl/poradnia/haslo/dwa-lub-wiecej;4999.html</url>
+        <example correction="co najmniej dwoma bandytami">Uciekał przed <marker>dwoma lub więcej bandytów</marker>.</example>
+      </rule>
+       <rule>
+        <pattern>
+          <token postag="prep:inst.*" postag_regexp="yes"><exception postag="prep:gen.*|&lt;/PREP:GEN&gt;" postag_regexp="yes"/></token>
+          <marker>
+          <token inflected="yes" regexp="yes">dwa|trzy|cztery</token>
+          <token>lub</token>
+          <token>więcej</token>
+          <token postag="(subst|ger).*gen.*" postag_regexp="yes"></token>
+          <token postag="(adj|pact|ppas).*gen.*" postag_regexp="yes"/>
+          </marker>
+        </pattern>
+        <message>Konstrukcji tego typu nie da się użyć tak, aby nie budziła zastrzeżeń. Lepiej: <suggestion>co najmniej <match no="2"/> <match no="5" postag_regexp="yes" postag="(subst.*:)gen(:.*)" postag_replace="$1inst$2"/> <match no="6" postag_regexp="yes" postag="(adj|ppas|pact)(.*:)gen:(m1\.)(.*)" postag_replace="$1$2inst:.*"/></suggestion>.</message>
+        <url>https://sjp.pwn.pl/poradnia/haslo/dwa-lub-wiecej;4999.html</url>
+        <example correction="co najmniej dwoma bandytami mafijnymi">Uciekał przed <marker>dwoma lub więcej bandytów mafijnych</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="prep:inst.*" postag_regexp="yes"><exception postag="prep:gen.*|&lt;/PREP:GEN&gt;" postag_regexp="yes"/></token>
+          <marker>
+          <token inflected="yes" regexp="yes">dwa|trzy|cztery</token>
+          <token>lub</token>
+          <token>więcej</token>
+          <token postag="(adj|pact|ppas).*gen.*" postag_regexp="yes"/>
+          <token postag="(subst|ger).*gen.*" postag_regexp="yes"></token>          
+          </marker>
+        </pattern>
+        <message>Konstrukcji tego typu nie da się użyć tak, aby nie budziła zastrzeżeń. Lepiej: <suggestion>co najmniej <match no="2"/> <match no="5" postag_regexp="yes" postag="(adj|ppas|pact)(.*:)gen:(m1\.)(.*)" postag_replace="$1$2inst:.*"/> <match no="6" postag_regexp="yes" postag="(subst.*:)gen(:.*)" postag_replace="$1inst$2"/></suggestion>.</message>
+        <url>https://sjp.pwn.pl/poradnia/haslo/dwa-lub-wiecej;4999.html</url>
+        <example correction="co najmniej trzema mafijnymi bandytami">Uciekał przed <marker>trzema lub więcej mafijnych bandytów</marker>.</example>
+      </rule>
+      <rule> <!-- loc-->
+        <pattern>
+          <token postag="prep:loc.*" postag_regexp="yes"><exception postag="prep:gen.*|&lt;/PREP:GEN&gt;" postag_regexp="yes"/></token>
+          <marker>
+          <token inflected="yes" regexp="yes">dwa|trzy|cztery</token>
+          <token>lub</token>
+          <token>więcej</token>
+          <token postag="(subst|ger).*gen.*" postag_regexp="yes"></token>
+          </marker>
+          <token><exception postag="(adj|pact|ppas).*gen.*" postag_regexp="yes"/></token>
+        </pattern>
+        <message>Konstrukcji tego typu nie da się użyć tak, aby nie budziła zastrzeżeń. Lepiej: <suggestion>co najmniej <match no="2"/> <match no="5" postag_regexp="yes" postag="(subst.*:)gen(:.*)" postag_replace="$1loc$2"/></suggestion>.</message>
+        <url>https://sjp.pwn.pl/poradnia/haslo/dwa-lub-wiecej;4999.html</url>
+        <example correction="co najmniej dwóch krajach">Środki lokował w <marker>dwóch lub więcej krajów</marker>.</example>
+      </rule>
+       <rule>
+        <pattern>
+          <token postag="prep:loc.*" postag_regexp="yes"><exception postag="prep:gen.*|&lt;/PREP:GEN&gt;" postag_regexp="yes"/></token>
+          <marker>
+          <token inflected="yes" regexp="yes">dwa|trzy|cztery</token>
+          <token>lub</token>
+          <token>więcej</token>
+          <token postag="(subst|ger).*gen.*" postag_regexp="yes"></token>
+          <token postag="(adj|pact|ppas).*gen.*" postag_regexp="yes"/>
+          </marker>
+        </pattern>
+        <message>Konstrukcji tego typu nie da się użyć tak, aby nie budziła zastrzeżeń. Lepiej: <suggestion>co najmniej <match no="2"/> <match no="5" postag_regexp="yes" postag="(subst.*:)gen(:.*)" postag_replace="$1loc$2"/> <match no="6" postag_regexp="yes" postag="(adj|ppas|pact)(.*:)gen:(m1\.)(.*)" postag_replace="$1$2loc:.*"/></suggestion>.</message>
+        <url>https://sjp.pwn.pl/poradnia/haslo/dwa-lub-wiecej;4999.html</url>
+        <example correction="co najmniej czterech rajach podatkowych">Środki lokował w <marker>czterech lub więcej rajów podatkowych</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="prep:loc.*" postag_regexp="yes"><exception postag="prep:gen.*|&lt;/PREP:GEN&gt;" postag_regexp="yes"/></token>
+          <marker>
+          <token inflected="yes" regexp="yes">dwa|trzy|cztery</token>
+          <token>lub</token>
+          <token>więcej</token>
+          <token postag="(adj|pact|ppas).*gen.*" postag_regexp="yes"/>
+          <token postag="(subst|ger).*gen.*" postag_regexp="yes"></token>          
+          </marker>
+        </pattern>
+        <message>Konstrukcji tego typu nie da się użyć tak, aby nie budziła zastrzeżeń. Lepiej: <suggestion>co najmniej <match no="2"/> <match no="5" postag_regexp="yes" postag="(adj|ppas|pact)(.*:)gen:(m1\.)(.*)" postag_replace="$1$2loc:.*"/> <match no="6" postag_regexp="yes" postag="(subst.*:)gen(:.*)" postag_replace="$1loc$2"/></suggestion>.</message>
+        <url>https://sjp.pwn.pl/poradnia/haslo/dwa-lub-wiecej;4999.html</url>
+        <example correction="co najmniej czterech podatkowych rajach">Środki lokował w <marker>czterech lub więcej podatkowych rajów</marker>.</example>
+      </rule>
+      <rule> <!-- bez przyimka -->
+        <pattern>
+          <token><exception postag="prep.*" postag_regexp="yes"/></token>
+          <marker>
+          <token inflected="yes" regexp="yes">dwa|trzy|cztery</token>
+          <token>lub</token>
+          <token>więcej</token>
+          </marker>
+        </pattern>
+        <message>Konstrukcji tego typu nie da się użyć tak, aby nie budziła zastrzeżeń. Lepiej: <suggestion>co najmniej <match no="2"/></suggestion>. UWAGA: reszta zdania może wymagać dostosowania przypadków.</message>
+        <url>https://sjp.pwn.pl/poradnia/haslo/dwa-lub-wiecej;4999.html</url>
+        <example correction="co najmniej trzy">Domeny funkcjonalne mają <marker>trzy lub więcej</marker> litery.</example>
+      </rule>
+      <rule> <!-- z przyimkiem, ale przypadki przypuszczalnie dostosowane -->
+        <pattern>
+          <token postag="prep.*" postag_regexp="yes"/>
+          <marker>
+          <token inflected="yes" regexp="yes">dwa|trzy|cztery</token>
+          <token>lub</token>
+          <token>więcej</token>
+          </marker>
+          <token><exception postag="(adj|pact|ppas|depr|ger).*:gen.*" postag_regexp="yes"/></token>
+        </pattern>
+        <message>Konstrukcji tego typu nie da się użyć tak, aby nie budziła zastrzeżeń. Lepiej: <suggestion>co najmniej <match no="2"/></suggestion>. UWAGA: reszta zdania może wymagać dostosowania przypadków.</message>
+        <url>https://sjp.pwn.pl/poradnia/haslo/dwa-lub-wiecej;4999.html</url>
+        <example correction="co najmniej trzy">Domeny funkcjonalne obsługujemy przez <marker>trzy lub więcej</marker> dni.</example>
+      </rule>
+		  </rulegroup>
       <rulegroup id="CORAZ_NAJBARDZIEJ_CORAZ_BARDZIEJ" name="Coraz najbardziej (coraz bardziej)">
       <rule>
       <pattern>
@@ -16414,7 +16653,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token>masz</token>
            </pattern>
            <message>Ten wyraz pisze się łącznie: <suggestion><match no="1"/><match no="2"/></suggestion>.</message>
-           <url>http://portalwiedzy.onet.pl/140771,,,,miszmasz_mirszmasz_misz_masz,haslo.html</url>
+           <url>https://www.ortograf.pl/watpliwosci-jezykowe/jak-piszemy-miszmasz-czy-misz-masz-razem-czy-osobno</url>
            <short>Błąd ortograficzny</short>
            <example correction='Miszmasz'><marker>Misz masz</marker> 5 września</example>           
           </rule>
