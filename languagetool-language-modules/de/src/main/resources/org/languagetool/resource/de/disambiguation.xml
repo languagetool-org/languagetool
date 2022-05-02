@@ -6043,6 +6043,72 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="ignore_spelling"/>
     </rule>
 
+    <rule id="INDEFINITPRONOMEN_ALS_SUBJEKT" name="Bei Indefinitpronomen als Subjekt stimmt die finite Verbform und nicht das Partizip">
+       <antipattern>
+            <token postag="VER.*:PLU.*" postag_regexp="yes"/>
+            <token postag="PRO:IND:NOM:PLU.*" postag_regexp="yes"/>
+            <token postag="PA2:NOM:PLU.*" postag_regexp="yes"/>
+            <token postag="SUB:NOM:PLU.*" postag_regexp="yes"/>
+        </antipattern> <!-- Für Fälle wie "Dort finden viele bedrohte Pflanzenarten in den Hochgebirgen einen Lebensraum." -->
+        <antipattern>
+            <token postag="VER.*:SIN.*" postag_regexp="yes" skip="-1"/>
+            <token postag="PRO:IND:NOM:SIN.*" postag_regexp="yes"/>
+            <token postag="PA2:NOM:SIN.*" postag_regexp="yes"/>
+            <token postag="SUB:NOM:SIN.*" postag_regexp="yes"/>
+        </antipattern> <!-- Für Fälle wie "Es zählt jedes studierte Semester in Deutschland" oder "sie gibt den impliziert definierten Termen keine bestimmte Bedeutung" -->
+        <antipattern>
+            <token postag="PRO:IND:NOM:PLU.*" postag_regexp="yes"/>
+            <token postag="PA2:NOM:PLU.*" postag_regexp="yes"/>
+            <token postag="SUB:NOM:PLU.*" postag_regexp="yes"/>
+            <token postag="VER.*:PLU.*" postag_regexp="yes"/>
+        </antipattern> <!-- Für Fälle wie "Andere verwendete Zeichen sind eingetragene warenzeichen der jeweiligen Eigentümer." -->
+        <antipattern>
+            <token postag="PRO:IND:NOM.*" postag_regexp="yes"/>
+            <token postag="PA2.*" postag_regexp="yes"/>
+            <token postag="SUB:AKK:SIN.*" postag_regexp="yes"/>
+            <token postag="VER.*:3:SIN.*" postag_regexp="yes"/> <!--Wenn Verb in 3. Person Singular direkt folgt, spricht das für Partizip: Mancher erlangte Reichtum ist nicht verdient. -->
+        </antipattern>
+        <antipattern>
+            <token postag="PRO:IND:NOM.*" postag_regexp="yes"/>
+            <token postag="PA2.*" postag_regexp="yes"/>
+            <token postag="SUB:AKK:SIN.*" postag_regexp="yes"/>
+            <token postag="PKT" skip="-1"/>
+            <token postag="PKT"/>
+            <token postag="VER.*:3:SIN.*" postag_regexp="yes"/> <!--Wenn Einschub und direkt danach Verb in der 3. Person Singular folgt, spricht das für Partizip: Mancher erlangte Reichtum, obwohl verdient, ist unredlich. -->
+        </antipattern>
+        <antipattern>
+            <token postag="PRO:IND:NOM.*" postag_regexp="yes"/>
+            <token postag="PA2.*" postag_regexp="yes"/>
+            <token postag="SUB:AKK:SIN.*" postag_regexp="yes"/>
+            <token>und</token>
+            <token postag="SUB:AKK:SIN.*" postag_regexp="yes"/>
+            <token postag="VER.*:3:SIN.*" postag_regexp="yes"/>  <!--Wenn "und", Substantiv und direkt danach Verb in der 3. Person Singular folgt, spricht das für Partizip: Mancher erlangte Reichtum und Weltruhm ist verdient. -->
+        </antipattern>
+        <antipattern>
+            <token postag="PRO:IND:NOM.*" postag_regexp="yes"/>
+            <token postag="PA2.*" postag_regexp="yes"/>
+            <token postag="SUB:AKK:SIN.*" postag_regexp="yes"/>
+            <token postag="PRP.*" postag_regexp="yes" skip="1"/>
+            <token postag="SUB.*" postag_regexp="yes"/>
+            <token postag="VER.*:3:SIN.*" postag_regexp="yes"/>  <!--Wenn Präposition, Nomen und direkt danach Verb in der 3. Person Singular folgt, spricht das für Partizip: Manche entwickelte Angst vor großen Spinnen kann damit begründet werden. -->
+        </antipattern>
+        <pattern>
+            <token postag="PRO:IND:NOM.*" postag_regexp="yes"/>
+            <marker>
+                <and>
+                    <token postag="PA2.*" postag_regexp="yes"/>
+                    <token postag="VER:3:.*:PRT.*" postag_regexp="yes"/>
+                </and>
+            </marker>
+            <token postag="SUB:AKK:SIN.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="remove" postag="PA2:.*"/>
+        <example type="untouched">Mancher erlangte Reichtum ist nicht verdient.</example>
+        <example type="untouched">Mancher erlangte Reichtum, erklärt er, sei nicht verdient.</example>
+        <example type="untouched">Mancher erlangte Reichtum und Weltruhm kommt nicht von ungefähr.</example>
+        <example type="untouched">Manche entwickelte Angst vor großen Spinnen kann damit begründet werden.</example>
+    </rule>
+
     <!-- TODO: (ohne meine neue ..., durch eine alte ...)-->
     <!-- <rulegroup id="EINE_ARTIKEL" name="eine/meine als Artikel">
         <rule>
