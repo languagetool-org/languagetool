@@ -1144,7 +1144,9 @@ public class ProhibitedCompoundRule extends Rule {
           "Themenboxen", // vs bogen
           "Superyacht", // vs macht
           "Testbestellung", // vs fest
-          "Testbestellungen" // vs fest
+          "Testbestellungen", // vs fest
+          "Reisbeilage", // vs Reise
+          "Reisbeilagen" // vs Reise
   ));
 
   // have per-class static list of these and reference that in instance
