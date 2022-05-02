@@ -8853,14 +8853,25 @@ Isto observa-se quando as forças avaliam mal o cenário.
     </rule>
   </rulegroup>
 
-  <rulegroup id="PAST_FUTURE_CONFUSION" name="Confusão de sufixos: 3P - ouviram (passado) /ouvirão (futuro)">
+
+
+
+
+
+
+
+
+  <rulegroup id="PAST_FUTURE_CONFUSION_V2" name="Confusão de sufixos: 3P - ouviram (passado) /ouvirão (futuro)">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-08-11 -->
+	<!--      Improved by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-05-02 (1-JAN-2022+)      -->
     <!--short>Tempo verbal incorreto.</short-->
     <rule>
       <pattern>
           <phraseref idref="ALL_FUTURE_EXPRESSIONS"/>
           <token min='0' skip='4'/>
-          <token postag="V.I[PM]3P.+" postag_regexp="yes" regexp="yes">.+?ram</token>
+          <token postag="VMI[MS]3P0" postag_regexp="yes" regexp="yes">.+?ram
+				<exception scope='previous' postag_regexp='no' postag='VMN0000'/>
+		  </token>
       </pattern>
       <message>Esta inflexão refere-se ao passado. Se pretende referir-se ao futuro substitua '-am' por '-ão'.</message>
       <example correction="">Depois de <marker>amanhã, enviaram</marker> os livros antes do fecho.</example>
@@ -8872,7 +8883,103 @@ Isto observa-se quando as forças avaliam mal o cenário.
     <rule>
       <pattern>
         <marker>
-          <token postag="V.I[PM]3P.+" postag_regexp="yes" regexp="yes">.+?ram</token>
+          <token postag="VMI[MS]3P0" postag_regexp="yes" regexp="yes">.+?ram
+				<exception scope='previous' postag_regexp='no' postag='VMN0000'/>
+		  </token>
+        </marker>
+          <token min='0'>,</token>
+    <!--token min='0' max='3'/-->
+          <phraseref idref="ALL_FUTURE_EXPRESSIONS"/>
+      </pattern>
+      <message>Esta inflexão refere-se ao passado. Se pretende referir-se ao futuro substitua '-am' por '-ão'.</message>
+        <suggestion><match no='1' regexp_match='(.+?)(ram)' regexp_replace='$1rão'/></suggestion>
+      <example correction="Enviarão"><marker>Enviaram</marker> amanhã os livros.</example>
+    <!-- FIXME token index doesn't work with variable size phrases >
+      <example correction="enviarão">Os editores <marker>enviaram</marker> na próxima semana os livros antes do fecho.</example> XXX This suggestion doesn't work
+      <example correction="Enviarão"><marker>Enviaram</marker>, na próxima semana, os livros antes do fecho.</example> XXX This suggestion doesn't work -->
+      <example>Na semana passada enviaram os livros antes do fecho.</example>
+    </rule>
+
+    <rule>
+      <pattern>
+          <phraseref idref="ALL_FUTURE_EXPRESSIONS"/>
+          <token min='0' skip='4'/>
+          <token postag="VMIM.S.+" postag_regexp="yes">
+			<exception scope='previous' postag_regexp='no' postag='VMN0000'/>
+            <exception regexp='yes'>feira|para|fronteiras?</exception>
+		  </token>
+      </pattern>
+      <message>Esta inflexão refere-se ao passado. Se pretende referir-se ao futuro subsitua '-ra' por '-rá'.</message>
+      <example correction=""><marker>Amanhã, enviara</marker> os livros antes do fecho.</example>
+      <example correction=""><marker>Na próxima semana, o editor enviara</marker> os livros antes do fecho.</example>
+      <example correction=""><marker>Na próxima semana enviaras</marker> os livros antes do fecho.</example>
+      <example>A tendência na próxima década é para se acentuar o envelhecimento da população residen…</example>
+      <example>Na passada semana envirás os livros antes do fecho.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token postag="VMIM.S.+" postag_regexp="yes">
+			<exception scope='previous' postag_regexp='no' postag='VMN0000'/>
+            <exception regexp='yes'>para|fronteiras?</exception>
+		  </token>
+        </marker>
+          <token min='0'>,</token>
+    <!--token min='0' max='3'/-->
+          <phraseref idref="ALL_FUTURE_EXPRESSIONS"/>
+      </pattern>
+      <message>Esta inflexão refere-se ao passado. Se pretende referir-se ao futuro subsitua '-ra' por '-rá'.</message>
+        <suggestion><match no='1' regexp_match='ra(s?)' regexp_replace='rá$1'/></suggestion>
+      <example correction="Enviará"><marker>Enviara</marker> amanhã os livros.</example>
+    <!-- FIXME token index doesn't work with variable size phrases >
+      <example correction="enviarão">Os editores <marker>enviaram</marker> na próxima semana os livros antes do fecho.</example> XXX This suggestion doesn't work
+      <example correction="Enviarão"><marker>Enviaram</marker>, na próxima semana, os livros antes do fecho.</example> XXX This suggestion doesn't work -->
+      <example>Estou ocupado a preparar-me para amanhã.</example>
+      <example>Enviara, na semana passada, os livros antes do fecho.</example>
+    </rule>
+
+  </rulegroup>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <rulegroup id="PAST_FUTURE_CONFUSION" name="Confusão de sufixos: 3P - ouviram (passado) /ouvirão (futuro)">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-08-11 -->
+    <!--short>Tempo verbal incorreto.</short-->
+    <rule>
+      <pattern>
+          <phraseref idref="ALL_FUTURE_EXPRESSIONS"/>
+          <token min='0' skip='4'/>
+          <token postag="V.I[PM]3P.+" postag_regexp="yes" regexp="yes">.+?ram
+				<exception scope='previous' postag_regexp='no' postag='VMN0000'/>
+		  </token>
+      </pattern>
+      <message>Esta inflexão refere-se ao passado. Se pretende referir-se ao futuro substitua '-am' por '-ão'.</message>
+      <example correction="">Depois de <marker>amanhã, enviaram</marker> os livros antes do fecho.</example>
+    <!-- FIXME token index doesn't work with variable size phrases -->
+      <example correction=""><marker>Na próxima semana, os editores enviaram</marker> os livros antes do fecho.</example>
+      <example correction=""><marker>Na próxima semana enviaram</marker> os livros antes do fecho.</example>
+      <example>Na semana passada enviaram os livros antes do fecho.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token postag="V.I[PM]3P.+" postag_regexp="yes" regexp="yes">.+?ram
+				<exception scope='previous' postag_regexp='no' postag='VMN0000'/>
+		  </token>
         </marker>
           <token min='0'>,</token>
     <!--token min='0' max='3'/-->
@@ -8904,7 +9011,8 @@ Isto observa-se quando as forças avaliam mal o cenário.
       <pattern>
           <phraseref idref="ALL_FUTURE_EXPRESSIONS"/>
           <token min='0' skip='4'/>
-          <token postag="V.I[PM][23]S.+" postag_regexp="yes" regexp="yes">.+?ras?
+          <token postag="V.I[PM][23]S.+" postag_regexp="yes" regexp="yes">.+?ras?		  
+			<exception scope='previous' postag_regexp='no' postag='VMN0000'/>
             <exception regexp='yes'>feira|para|fronteiras?</exception></token>
       </pattern>
       <message>Esta inflexão refere-se ao passado. Se pretende referir-se ao futuro subsitua '-ra' por '-rá'.</message>
@@ -8918,7 +9026,8 @@ Isto observa-se quando as forças avaliam mal o cenário.
       <pattern>
         <marker>
           <token postag="V.I[PM][23]S.+" postag_regexp="yes" regexp="yes">.+?ras?
-            <exception regexp='yes'>para|fronteiras?</exception></token>
+            <exception scope='previous' postag_regexp='no' postag='VMN0000'/>
+			<exception regexp='yes'>para|fronteiras?</exception></token>
         </marker>
           <token min='0'>,</token>
     <!--token min='0' max='3'/-->
@@ -8937,7 +9046,9 @@ Isto observa-se quando as forças avaliam mal o cenário.
       <pattern>
           <phraseref idref="ALL_FUTURE_EXPRESSIONS"/>
           <token min='0' skip='4'/>
-          <token postag="V.I[PM]2P.+" postag_regexp="yes" regexp="yes">.+?[áêíéô]reis</token> <!-- TODO add a match function equivalent to 'tr' -->
+          <token postag="V.I[PM]2P.+" postag_regexp="yes" regexp="yes">.+?[áêíéô]reis <!-- </token> --> <!-- TODO add a match function equivalent to 'tr' -->
+				<exception scope='previous' postag_regexp='no' postag='VMN0000'/>
+		  </token>
       </pattern>
       <message>Esta inflexão refere-se ao passado. Se pretende referir-se ao futuro utilize a forma não acentuada.</message>
       <example correction=""><marker>Amanhã, enviáreis</marker> os livros antes do fecho.</example>
@@ -8948,7 +9059,9 @@ Isto observa-se quando as forças avaliam mal o cenário.
     <rule>
       <pattern>
         <marker>
-          <token postag="V.I[PM]2P.+" postag_regexp="yes" regexp="yes">.+?[áêíéô]reis</token>
+          <token postag="V.I[PM]2P.+" postag_regexp="yes" regexp="yes">.+?[áêíéô]reis
+			<exception scope='previous' postag_regexp='no' postag='VMN0000'/>
+		  </token>
         </marker>
           <token min='0'>,</token>
     <!--token min='0' max='3'/-->
@@ -8963,6 +9076,7 @@ Isto observa-se quando as forças avaliam mal o cenário.
       <example>Na semana passada enviara os livros antes do fecho.</example>
     </rule>
   </rulegroup>
+
 
   <rulegroup id='IMPERSONAL_FAZER_TIME_EXPRESSION' name='Concordância Verbal: Verbos impessoais: Fazer + Expressão de tempo'>
     <!--      Created by Tiago F. Santos, Portuguese rule, 2017-01-24      -->
