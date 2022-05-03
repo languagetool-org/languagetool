@@ -319,7 +319,6 @@ public class German extends Language implements AutoCloseable {
       case "UNTER_DRUCK" : return 1;   // prefer over ZUSAMMENGESETZTE_VERBEN
       case "ZUCCHINIS" : return 1;   // overwrite spell checker
       case "ANGL_PA_ED_UNANGEMESSEN" : return 1;   // overwrite spell checker
-      case "WRONG_UPPER_QUOTE": return 1; // higher prio than UNPAIRED_BRACKETS
       case "ANFUEHRUNGSZEICHEN_DE_AT": return 1; // higher prio than UNPAIRED_BRACKETS
       case "ANFUEHRUNGSZEICHEN_CH_FR": return 1; // higher prio than UNPAIRED_BRACKETS
       case "EMAIL": return 1;  // better suggestion than SIMPLE_AGREEMENT_*
@@ -359,8 +358,8 @@ public class German extends Language implements AutoCloseable {
       case "OK": return 1; // higher prio than KOMMA_NACH_PARTIKEL_SENT_START[3]
       case "EINE_ORIGINAL_RECHNUNG": return 1; // higher prio than DE_CASE, DE_AGREEMENT and MEIN_KLEIN_HAUS
       case "VALENZ_TEST": return 1; // see if this generates more corpus matches
-      case "FALSCHES_ANFUEHRUNGSZEICHEN": return 1; // higher prio than UNPAIRED_BRACKETS
       // default is 0
+      case "FALSCHES_ANFUEHRUNGSZEICHEN": return -1; // less prio than most grammar rules but higher prio than UNPAIRED_BRACKETS
       case "VER_KOMMA_PRO_RIN": return -1; // prefer WENN_WEN
       case "DE_PROHIBITED_COMPOUNDS_PREMIUM": return -1; // prefer other rules (e.g. AUS_MITTEL)
       case "VER_INF_VER_INF": return -1; // prefer case rules
@@ -376,6 +375,7 @@ public class German extends Language implements AutoCloseable {
       case "FALSCHES_RELATIVPRONOMEN": return -1; // prefer dass/das rules
       case "AKZENT_STATT_APOSTROPH": return -1;  // lower prio than PLURAL_APOSTROPH
       case "BEENDE_IST_SENTEND": return -1; // prefer more specific rules
+      case "UNPAIRED_BRACKETS": return -2;
       case "ICH_GEHE_DU_BLEIBST": return -2; // prefer ICH_GLAUBE_FUER_EUCH
       case "ICH_GLAUBE_FUER_EUCH": return -2; // prefer agreement rules
       case "OBJECT_AGREEMENT": return -2; // less prio than DE_AGREEMENT
@@ -395,6 +395,7 @@ public class German extends Language implements AutoCloseable {
       case "AUSTRIAN_GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
       case "SWISS_GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
       case "DE_VERBAGREEMENT": return -4; // prefer more specific rules (e.g DU_WUENSCHT) and speller
+      case "PUNKT_ENDE_DIREKTE_REDE": return -4; // prefer speller
       case "IM_IHM": return -4;  // lower prio than spell checker
       case "IN_UNKNOWNKLEIN_VER": return -4;  // lower prio than spell checker
       case "SEHR_GEEHRTER_NAME": return -4;  // lower prio than spell checker

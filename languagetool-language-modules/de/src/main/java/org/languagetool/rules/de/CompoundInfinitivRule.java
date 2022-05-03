@@ -88,6 +88,7 @@ public class CompoundInfinitivRule extends Rule {
       // "Auf und ab zu schreiten"
       token("auf"),
       tokenRegex("und|&|oder|\\/"),
+      new PatternTokenBuilder().posRegex("ADV.*").min(0).build(),
       token("ab"),
       token("zu")
     ),
@@ -95,13 +96,15 @@ public class CompoundInfinitivRule extends Rule {
       // "Hin und her zu laufen"
       token("hin"),
       tokenRegex("und|&|oder|\\/"),
+      new PatternTokenBuilder().posRegex("ADV.*").min(0).build(),
       token("her"),
       token("zu")
     ),
     Arrays.asList(
       // "Hoch und runter zu laufen"
-      token("hoch"),
+      tokenRegex("rauf|hoch"),
       tokenRegex("und|&|oder|\\/"),
+      new PatternTokenBuilder().posRegex("ADV.*").min(0).build(),
       token("runter"),
       token("zu")
     )
