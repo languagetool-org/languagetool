@@ -6622,7 +6622,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Deinen"><marker>Dienen</marker> Tisch müssen wir reparieren.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="RAMMSTEIN_RAMSTEIN" name="Ramstein vs Rammstein">
+        <rulegroup id="RAMMSTEIN_RAMSTEIN" name="Ramstein vs. Rammstein">
             <rule>
                 <antipattern>
                     <token>Rammstein</token>
@@ -61342,6 +61342,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">im|zum|beim|am</token>
                     <marker>
                         <token regexp="yes">[0-9]{1,2}</token>
+                        <token postag="SUB:DAT:SIN:(MAS|NEU)" postag_regexp="yes" regexp="yes">
+                            (Jahres|Monats|Sekunden|Minuten|Stunden|Wochen).+
+                            <exception postag="SUB:.+:PLU:.+" postag_regexp="yes"/>
+                        </token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>\2-\3</suggestion>? Möglicherweise haben Sie einen Punkt nach '\2' vergessen, oder '\3' müsste im Plural stehen.</message>
+                <short>Fehlender Bindestrich</short>
+                <example correction="15-Minutentakt">Die Züge der Linien S2 und S3 halten im <marker>15 Minutentakt</marker> und erreichen den Hauptbahnhof in wenigen Minuten.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">im|zum|beim|am</token>
+                    <marker>
+                        <token regexp="yes">[0-9]{1,2}</token>
                         <token postag="SUB:DAT:SIN:(MAS|NEU)" postag_regexp="yes"><exception postag="SUB:.+:PLU:.+" postag_regexp="yes"/><exception regexp="yes">Zoll|Grad</exception></token>
                     </marker>
                 </pattern>
@@ -61358,7 +61373,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>den</token>
                     <marker>
                         <token regexp="yes">[0-9]{1,2}</token>
-                        <token postag="SUB:AKK:SIN:(MAS|NEU)" postag_regexp="yes"><exception postag="SUB:.+:PLU:.+" postag_regexp="yes"/></token>
+                        <token postag="SUB:AKK:SIN:(MAS|NEU)" postag_regexp="yes">
+                            <exception postag="SUB:.+:PLU:.+" postag_regexp="yes"/>
+                            <exception regexp="yes">[MGKT]B-.*|[CMK]M-.*|(Giga|Mega|Kilo|Tera)(byte|bit|pixel).*</exception>
+                        </token>
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion>\3. \4</suggestion>? Möglicherweise haben Sie einen Punkt nach '\3' vergessen, oder '\4' müsste im Plural stehen.</message>
