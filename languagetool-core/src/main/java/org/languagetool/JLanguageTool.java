@@ -234,7 +234,11 @@ public class JLanguageTool {
     ACADEMIC,
     CLARITY,
     PROFESSIONAL,
-    CREATIVE
+    CREATIVE,
+    CUSTOMER,
+    JOBAPP,
+    OBJECTIVE,
+    ELEGANT
   }
 
   private static final List<File> temporaryFiles = new ArrayList<>();
