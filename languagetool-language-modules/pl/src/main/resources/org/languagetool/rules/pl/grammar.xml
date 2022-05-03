@@ -6428,21 +6428,83 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 		</category>
 		<category id="SYNTAX" name="Błędy składniowe" type="grammar">
 		<rule id="ADJ_SUBST_ADJ_UNIFY" name="Naruszenie związku zgody">
+      <antipattern>
+            <unify>
+                <feature id="number"/>
+                <token inflected="yes" postag="verb:fin.*:imperf:nonrefl" postag_regexp="yes">być</token>
+                <token postag="ppas:.*nom\..*" postag_regexp="yes"/>
+            </unify>
+        </antipattern>
+        <antipattern>
+          <token>cały</token>
+          <token regexp="yes">czas|dzień</token>        
+        </antipattern>
+        <antipattern>
+          <unify><feature id="number"></feature><feature id="gender"/>
+            <token inflected="yes" regexp="yes">zostać|być</token>
+            <marker>
+            <token postag="(adj|ppas|pact):.*" postag_regexp="yes"/>
+            </marker>          
+          </unify>        
+        </antipattern>
+        <antipattern>
+          <token>tym</token>
+          <token>razem</token>        
+        </antipattern>
+        <antipattern>
+          <token skip="-1">im</token>
+          <marker>
+            <token>tym</token>          
+          </marker>        
+        </antipattern>
+        <antipattern>
+          <token>w</token>
+          <marker>
+          <token>tym</token>
+          <token regexp="yes">miejscu|momencie|czasie</token>
+          </marker>        
+        </antipattern>
+        <antipattern>
+          <token>w</token>
+          <marker>
+          <token>tej</token>
+          <token>chwili</token>
+          </marker>
+        </antipattern>
+        <antipattern>
+          <token>w</token>
+          <token regexp="yes">pewnym|jakimś</token>
+          <token regexp="yes">sensie|znaczeniu</token>        
+        </antipattern>
+        <antipattern>
+            <token>wstęp</token>
+            <token>wzbroniony</token>        
+        </antipattern>
       <pattern>
         <marker>
         <unify negate="yes"><feature id="gender"></feature><feature id="number"/><feature id="case"/>
-          <token postag="(adj|ppas|pact).*" postag_regexp="yes"><exception scope="previous" postag="(depr|ger|subst).*" postag_regexp="yes"/></token>
-          <token postag="(depr|ger|subst).*" postag_regexp="yes"/>
-          <token postag="(adj|ppas|pact).*" postag_regexp="yes"/>
+          <token postag="(adj|ppas|pact):.*" postag_regexp="yes"><exception scope="previous" postag="(depr|ger|subst|prep).*" postag_regexp="yes"/><exception regexp="yes">to|ci|sie|którego|których</exception></token>
+          <token postag="(depr|ger|subst):.*" postag_regexp="yes"><exception regexp="yes">nic|coś?|zdaniem</exception></token>
+          <token postag="(adj|ppas|pact):.*" postag_regexp="yes">
+            <exception regexp="yes">to|ci|był[ya]|sam[ao]?</exception><exception inflected="yes" regexp="yes">ten|który|jaki|każdy</exception>
+            <exception postag="(subst|ger|adv|verb):.*" postag_regexp="yes"/>           
+            </token>
         </unify>
         </marker>
-        <token><exception postag="(depr|ger|subst).*" postag_regexp="yes"/></token>
+        <token><exception postag="(depr|ger|subst|adj|ppas|pact).*" postag_regexp="yes"/></token>
       </pattern>
       <message>Przypuszczalnie brak zgodności form przypadków przymiotników i rzeczownika: \1 \2 \3.</message>
       <short>Niezgodne końcówki przymiotników i rzeczownika</short>
       <example correction=""><marker>Beztlenowe bakterie magnetotaktyczna</marker> mają funkcję wykrywania tlenu.</example>
       <example>Beztlenowe bakterie sprytna ryba pożre za chwilę.</example>
       <example>Ryba hodowlana żabki wesołe pożera.</example>
+      <example>Mama kupiła żółty parasol mojemu młodszemu bratu.</example>
+      <example>Kolejny tłumacz internetowy zaczął funkcjonować.</example>
+      <example>Lubi piłkę nożną.</example>
+      <example>On jest po prostu znajomym biznesowym.</example>
+      <example>Tom został zatrzymany jako podejrzany.</example>
+      <example correction="">Wyszła do sklepu, zostawiając <marker>małe dziecko same</marker>.</example>
+      <example correction="">Sosna jest <marker>duży drzewem iglastym</marker>.</example>
 		</rule>
 		  <rulegroup id="DWA_LUB_WIECEJ" name="„dwa lub więcej” (co najmniej dwa)">
       <rule>
