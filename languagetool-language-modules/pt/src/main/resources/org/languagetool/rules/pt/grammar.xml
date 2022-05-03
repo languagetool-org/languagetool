@@ -26374,6 +26374,25 @@ THIS ANTIPATTERN WAS BASED ON TIAGO SANTO'S RULE WHICH WAS REPLACED BY MY OWN RU
 	</rulegroup>
 
 
+    <!-- 	TANTO tão -->
+    <rule id='CONFUSÃO_TANTO_TÃO' name="Confusão: tanto/tão" type="style">
+	<!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-05-04 (1-JAN-2022+)      -->
+<!--
+O que aconteceu para andares tanto carregado? → O que aconteceu para andares tão carregado?
+-->	
+		<pattern>
+			<token inflected='yes' regexp="yes">andar</token>
+			<marker>
+				<token>tanto</token>
+			</marker>
+			<token postag='NCM.+|AQ0M.+|VMP00.+' postag_regexp='yes'/>
+		</pattern>
+		<message>Possível confusão de termos.</message>
+		<suggestion>tão</suggestion>
+		<example correction="tão">O que aconteceu para andares <marker>tanto</marker> carregado?</example>
+    </rule>
+
+
 	<!-- TER estar -->
     <rule id='CONFUSÃO_TER_ESTAR' name="Confusão: ter/estar">
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-17 (Checked/Enhanced) (1-JAN-2022+)      -->
