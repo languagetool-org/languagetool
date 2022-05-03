@@ -6075,13 +6075,19 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <token postag="PRO:IND:NOM:SIN.*" postag_regexp="yes"/>
             <token postag="PA2:NOM:SIN.*" postag_regexp="yes"/>
             <token postag="SUB:NOM:SIN.*" postag_regexp="yes"/>
-        </antipattern> <!-- Für Fälle wie "Es zählt jedes studierte Semester in Deutschland" oder "sie gibt den impliziert definierten Termen keine bestimmte Bedeutung" -->
+        </antipattern> <!-- Für Fälle wie "Es zählt jedes studierte Semester in Deutschland" oder "Sie gibt den impliziert definierten Termen keine bestimmte Bedeutung" -->
         <antipattern>
             <token postag="PRO:IND:NOM:PLU.*" postag_regexp="yes"/>
             <token postag="PA2:NOM:PLU.*" postag_regexp="yes"/>
             <token postag="SUB:NOM:PLU.*" postag_regexp="yes"/>
             <token postag="VER.*:PLU.*" postag_regexp="yes"/>
-        </antipattern> <!-- Für Fälle wie "Andere verwendete Zeichen sind eingetragene warenzeichen der jeweiligen Eigentümer." -->
+        </antipattern> <!-- Für Fälle wie "Andere verwendete Zeichen sind eingetragene Warenzeichen der jeweiligen Eigentümer." -->
+        <antipattern>
+            <token postag="PRO:IND:NOM:SIN.*" postag_regexp="yes"/>
+            <token postag="PA2:NOM:SIN.*" postag_regexp="yes"/> <!--<token postag="VER:1:SIN:KJ2:SFT"/>--> <!-- postag="PA2:NOM:SIN.*|VER.*:SIN.*" postag_regexp="yes"/>-->
+            <token postag="SUB:NOM:SIN.*" postag_regexp="yes" skip="-1"/>
+            <token postag="VER.*" postag_regexp="yes"/> <!--Für Fälle wie "Wobei standardmäßig jede unterstützte Sprache enthalten ist." oder "Jedes studierte Semester in Deutschland zählt"-->
+        </antipattern>
         <antipattern>
             <token postag="PRO:IND:NOM.*" postag_regexp="yes"/>
             <token postag="PA2.*" postag_regexp="yes"/>
@@ -6123,6 +6129,12 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <token postag="SUB:AKK:SIN.*" postag_regexp="yes"/>
         </pattern>
         <disambig action="remove" postag="PA2:.*"/>
+        <example type="untouched">In Bosnien und Herzegowina finden viele bedrohte Pflanzenarten in den Hochgebirgen einen Lebensraum.</example>
+        <example type="untouched">Es waren viele begeisterte Anhänger im Stadion.</example>
+        <example type="untouched">Es zählt jedes studierte Semester in Deutschland.</example>
+        <example type="untouched">Andere verwendete Zeichen sind eingetragene Warenzeichen der jeweiligen Eigentümer.</example><!--neu-->
+        <example type="untouched">Wobei standardmäßig jede unterstützte Sprache enthalten ist.</example>
+        <example type="untouched">Jedes studierte Semester in Deutschland zählt.</example>
         <example type="untouched">Mancher erlangte Reichtum ist nicht verdient.</example>
         <example type="untouched">Mancher erlangte Reichtum, erklärt er, sei nicht verdient.</example>
         <example type="untouched">Mancher erlangte Reichtum und Weltruhm kommt nicht von ungefähr.</example>
