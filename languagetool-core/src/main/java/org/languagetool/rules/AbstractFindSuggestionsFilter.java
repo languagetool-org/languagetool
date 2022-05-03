@@ -24,6 +24,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.patterns.RuleFilter;
@@ -53,6 +54,7 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
     List<String> replacements = new ArrayList<>();
     String wordFrom = getRequired("wordFrom", arguments);
     String desiredPostag = getRequired("desiredPostag", arguments);
+    String priorityPostag = getOptional("priorityPostag", arguments);
     String removeSuggestionsRegexp = getOptional("removeSuggestionsRegexp", arguments);
     // diacriticsMode: return only changes in diacritics. If there is none, the
     // match is removed.
@@ -100,7 +102,7 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
             // TODO: do not tag capitalized words with tags for lower case
             List<AnalyzedTokenReadings> analyzedSuggestions = getTagger().tag(Collections.singletonList(cleanSuggestion(suggestion)));
             for (AnalyzedTokenReadings analyzedSuggestion : analyzedSuggestions) {
-              if (replacements.size() >= MAX_SUGGESTIONS) {
+              if (replacements.size() >= 2 * MAX_SUGGESTIONS) {
                 break;
               }
               if (!suggestion.equals(atrWord.getToken())
@@ -116,9 +118,13 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
                     if (isWordCapitalized) {
                       replacement = StringTools.uppercaseFirstChar(replacement);
                     }
-                    replacements.add(replacement);
+                    if (priorityPostag!= null && analyzedSuggestion.matchesPosTagRegex(priorityPostag)) {
+                      replacements.add(0, replacement);
+                    } else {
+                      replacements.add(replacement);
+                    }
                   }
-                } 
+                }
               }
             }
           }
@@ -153,7 +159,7 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
         }
       }
       if (!replacementsUsed) {
-        definitiveReplacements.addAll(replacements);
+        definitiveReplacements.addAll(replacements.stream().limit(MAX_SUGGESTIONS).collect(Collectors.toList()));
       }
     }
 
