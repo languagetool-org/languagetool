@@ -6163,6 +6163,19 @@ O plural de cavalo é cavalos.
             <exception regexp="yes">[-,.!?\(\)]</exception>
             <exception postag="C.|R.|S.+" postag_regexp="yes"/></token>
       </antipattern>
+	  
+<!-- MARCOAGPINTO 2022-05-04 (1-JAN-2022+) *START* -->
+<!--
+Fixed by Marco and Ricardo Joseh Lima "as pós" (pós-graduações).
+
+Atualmente cursando Engenharia de Produção e já sonhando com a pós em Engenharia de Segurança do Trabalho.
+-->
+      <antipattern>
+		<token regexp='yes'>as?</token>
+		<token regexp='no'>pós</token>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-05-04 (1-JAN-2022+) *END* -->
+	  
       <pattern case_sensitive='yes'>
           <token>
             <exception regexp='yes'>&hifen;</exception></token>
@@ -6179,6 +6192,8 @@ O plural de cavalo é cavalos.
       <example>Correntes pós-clássicas</example>
       <example>Tancredo Neves, morto antes da posse, foi substituído pelo seu…</example>
       <example>Saiu do pós operatório ontem.</example><!-- XXX This should be handled by hiphenation rules -->
+	  
+	  <example>Atualmente cursando Engenharia de Produção e já sonhando com a pós em Engenharia de Segurança do Trabalho.</example>
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
