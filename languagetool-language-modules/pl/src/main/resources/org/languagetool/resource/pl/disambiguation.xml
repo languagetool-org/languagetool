@@ -8024,6 +8024,16 @@
                  outputform="byli[być/verb:praet:pl:m1.p1:ter:imperf:nonrefl]">Ciągle wchodzili nowi, wszyscy, jacy <marker>byli</marker> od samego początku naszego klasztoru.</example>
     </rule>
 
+    <rule id="jako_conj" name="traktować/opisywać jako -> conj">
+        <pattern>
+            <token inflected="yes" regexp="yes">opis(:?yw)?ać|traktować|ocenia?ć|postrzegać|określać|(:?za)?pamiętać|pracować|służyć|rozumieć|spożytkować|użyć</token>
+            <marker>
+                <token postag="conj">jako</token>
+            </marker>
+        </pattern>
+        <disambig postag="conj"/>
+    </rule>
+
     <rule id="czas_zaprzeszly" name="czas zaprzeszły + był => verb">
         <pattern>
             <unify><feature id="gender"/><feature id="number"/>
@@ -9313,6 +9323,12 @@
                 <token inflected="yes">mieć</token>
                 <token min="0" postag="adv.*" postag_regexp="yes"></token>
                 <token>ochoty</token>
+                <token postag="verb:(imps|inf).*|pant:.*|pcon.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>nie</token>
+                <token postag="verb:winien.*" postag_regexp="yes"></token>
+                <token min="0" inflected="yes" postag="verb:praet.*" postag_regexp="yes">być</token>
                 <token postag="verb:(imps|inf).*|pant:.*|pcon.*" postag_regexp="yes"/>
             </antipattern>
             <pattern>

@@ -6496,15 +6496,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token inflected="yes">inny</token>
             </unify>            
       </antipattern>
+      <antipattern> <!-- to jest już w regule TA_KSIAZKA -->
+						<marker>
+						  <token>tą<exception scope="previous" postag="prep:inst.*" postag_regexp="yes"/><exception scope="previous">była</exception></token>
+            </marker>
+						<token postag="subst:sg:acc:f"><exception postag="subst:sg:inst:f"/></token>
+      </antipattern>
+      <antipattern>
+        <token regexp="yes" inflected="yes" postag="ppas.*" postag_regexp="yes">nazy?wać|doprawiać|pol(:?ew)?ać|pokry(:?wa)ć|wysypać|tknąć|zainteresować|s?powodować|określać</token>
+        <marker>
+          <token postag=".*inst.*" postag_regexp="yes"/>        
+        </marker>
+      </antipattern>
+      <antipattern>
+        <unify><feature id="case"><type id="gen"/></feature>
+          <token postag="adj.*" postag_regexp="yes"></token>
+          <token>dnia</token>        
+        </unify>      
+      </antipattern>
+      <antipattern>
+        <token regexp="yes">\d+</token>
+        <marker><token>złotych</token></marker>
+      </antipattern>
       <pattern>
         <marker>
         <unify negate="yes"><feature id="gender"></feature><feature id="number"/><feature id="case"/>
           <token postag="(adj|ppas|pact):.*" postag_regexp="yes"><exception scope="previous" postag="(depr|ger|subst|prep).*" postag_regexp="yes"/>
-            <exception regexp="yes">to|ci|sie</exception>
+            <exception regexp="yes">to|ci|sie|można</exception>
             <exception regexp="yes" inflected="yes">który|jaki</exception></token>
-          <token postag="(depr|ger|subst):.*" postag_regexp="yes"><exception regexp="yes">nic|coś?|zdaniem</exception></token>
+          <token postag="(depr|ger|subst):.*" postag_regexp="yes">
+            <exception regexp="yes">to|nic|coś?|zdaniem</exception></token>
           <token postag="(adj|ppas|pact):.*" postag_regexp="yes">
-            <exception regexp="yes">to|ci|był[ya]|sam[ao]?|samemu</exception><exception inflected="yes" regexp="yes">ten|który|jaki|każdy</exception>
+            <exception regexp="yes">to|ci|sie|był[ya]|sam[ao]?|samemu</exception><exception inflected="yes" regexp="yes">ten|który|jaki|każdy</exception>
             <exception postag="(subst|ger|adv|verb):.*" postag_regexp="yes"/>           
             </token>
         </unify>
@@ -6525,6 +6548,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="">Sosna jest <marker>duży drzewem iglastym</marker>.</example>
       <example>Zdradzilibyśmy byli sprawę robotniczą.</example>
       <example>Wtedy oddalą go jako jakobina, któremu zasady polityczne każą zapominać o obowiązkach generała.</example>
+      <example>Był opisywany jako zielony i zadrzewiony.</example>
+      <example>Wybrali tą zupę dyniową.</example>
+      <example>To staje się każdego dnia gorsze.</example>
 		</rule>
 		  <rulegroup id="DWA_LUB_WIECEJ" name="„dwa lub więcej” (co najmniej dwa)">
       <rule>
