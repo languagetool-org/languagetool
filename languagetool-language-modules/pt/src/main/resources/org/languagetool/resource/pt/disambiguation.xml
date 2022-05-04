@@ -151,7 +151,7 @@
   <rule id="USUAL" name="usual">
     <!-- TODO: exceptions -->
     <pattern>
-      <token inflected="yes" regexp="yes">usual|embriagado|escasso|essa|observando</token>
+      <token inflected="yes" regexp="yes">usual|embriagado|escasso|essa|observando|ver|dormir|entender</token>
     </pattern>
     <disambig action="remove" postag="N.*"/>
   </rule>
@@ -161,6 +161,13 @@
       <token regexp="yes">estes?</token>
     </pattern>
     <disambig action="filter" postag="[DP].*"/>
+  </rule>
+  <rule id="APENAS" name="apenas">
+    <!-- TODO: exceptions -->
+    <pattern>
+      <token>apenas</token>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
   </rule>
   <rule id="AQUELAR" name="aquelar/aquela">
     <pattern>
@@ -437,7 +444,7 @@
         </marker>
       </pattern>
       <disambig action="filter" postag="V.+"/>
-      <example inputform="via[ver/VMII1S0,ver/VMII3S0,via/NCFS000,via/SPS00]" outputform="via[ver/VMII1S0,ver/VMII3S0]" type="ambiguous">Há muito tempo que não <marker>via</marker> publicações da Ana.</example>
+      <!--<example inputform="via[ver/VMII1S0,ver/VMII3S0,via/NCFS000,via/SPS00]" outputform="via[ver/VMII1S0,ver/VMII3S0]" type="ambiguous">Há muito tempo que não <marker>via</marker> publicações da Ana.</example>-->
       <example type="untouched">Nas Antilhas existem também <marker>ilhas</marker> que são possessões (britânicas, francesas, holand...</example>
     </rule>
     <rule>

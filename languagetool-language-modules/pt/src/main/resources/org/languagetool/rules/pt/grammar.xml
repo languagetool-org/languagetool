@@ -2596,7 +2596,12 @@ A César o que é de César.
 		  <token regexp="no">a</token>
 		  <token postag='NP.+|NCF.+|AQ0F.+' postag_regexp='yes'/>
 		  <token postag='V.+|PP.+|CC|I|RG|SPS.+|_PUNCT|DA0MS0' postag_regexp='yes'/>
-	  </antipattern>	  
+	  </antipattern>
+      <antipattern>
+        <token>a</token>
+        <token>meu</token>
+        <token>ver</token>
+      </antipattern>
 <!-- MARCOAGPINTO 2021-05-14 (17-MAR-2021+) *END* -->  
       <pattern>
           <token>a
@@ -6469,7 +6474,7 @@ O plural de cavalo é cavalos.
           <token postag_regexp='yes' postag='SENT_START|_PUNCT|C.+'/>
         <marker>
           <token regexp='yes'>embora|tomara</token><!-- XXX reconsider tomara-->
-          <token postag_regexp='yes' postag='V.+'>
+          <token postag_regexp='yes' postag='V.I.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='V.+'/>
             <exception postag_regexp='yes' postag='V.S.+|VMN0000'/></token>
         </marker>
@@ -6478,6 +6483,7 @@ O plural de cavalo é cavalos.
         <suggestion>\2 <match no='3' postag='(V.).(.+)' postag_replace='$1S$2' postag_regexp='yes'/></suggestion>
       <example correction='Embora seja'><marker>Embora é</marker> verdade, não me agrada.</example>
       <example><marker>Embora levar</marker> o cão não seja má ideia, vou concordar contigo.</example>
+      <example>um bem que, embora destinado ao consumo, não chegue a entrar no circuito mercantil</example>
     </rule>
   </rulegroup>
 
@@ -10088,7 +10094,7 @@ Dados confusos resultam em má tomada de decisões quando for necessário.
           <token>devido</token>
           <token>a</token>
         </marker>
-          <token postag_regexp='yes' postag='N.FS.+'>
+          <token postag_regexp='yes' postag='N.[FC]S.+'>
             <exception postag='R.+' postag_regexp='yes'/></token>
       </pattern>
       <message>Neste contexto utiliza-se a crase.</message>
@@ -10117,7 +10123,7 @@ Dados confusos resultam em má tomada de decisões quando for necessário.
           <token>relação</token>
           <token regexp='yes'>as?</token>
         </marker>
-          <token postag_regexp='yes' postag='N.F.+'>
+          <token postag_regexp='yes' postag='N.[FC].+'>
             <exception postag='R.+' postag_regexp='yes'/></token>
       </pattern>
       <message>Neste contexto utiliza-se a crase.</message>
@@ -26896,6 +26902,8 @@ Os Russos conhecem a ilha desde pelo menos o século XI, quando caçadores de No
 	  <example>A literatura do Esperanto é já imensa e com enorme rapidez cresce a cada dia e hora.</example>
 	  <example>Anda com calma e gravidade, rodeado por suas mulheres e seus dignitários.</example>
 	  <example>O Tom toma suco de laranja e café à noite e vinho ou cerveja de manhã.</example>
+	   <example>É muito cómodo e prático lançar mão do automóvel.</example>
+	   <example>As pessoas não entendem o quanto é bom e importante amar e ser amado.</example>
 	 </rule>	 
     </rulegroup>
 
