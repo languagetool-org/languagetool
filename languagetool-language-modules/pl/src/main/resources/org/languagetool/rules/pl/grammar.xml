@@ -6480,13 +6480,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token>wstęp</token>
             <token>wzbroniony</token>        
         </antipattern>
+        <antipattern>
+                <unify>
+                    <feature id="case"><type id="acc"/><type id="inst"/><type id="gen"/><type id="dat"/><type id="loc"/><type id="nom"/></feature>
+                    <token postag="(?:adj|pact|ppas):.*" postag_regexp="yes"/>
+                    <unify-ignore>
+                        <token regexp="yes">[,i]|oraz|ani|lub|albo|bądź|czy</token>
+                    </unify-ignore>
+                    <token postag="(?:adj|pact|ppas):.*" postag_regexp="yes"/>
+                </unify>
+        </antipattern>
+        <antipattern>
+            <unify><feature id="gender"></feature><feature id="number"/><feature id="case"/>
+                <token inflected="yes">nikt</token>
+                <token inflected="yes">inny</token>
+            </unify>            
+      </antipattern>
       <pattern>
         <marker>
         <unify negate="yes"><feature id="gender"></feature><feature id="number"/><feature id="case"/>
           <token postag="(adj|ppas|pact):.*" postag_regexp="yes"><exception scope="previous" postag="(depr|ger|subst|prep).*" postag_regexp="yes"/><exception regexp="yes">to|ci|sie|którego|których</exception></token>
           <token postag="(depr|ger|subst):.*" postag_regexp="yes"><exception regexp="yes">nic|coś?|zdaniem</exception></token>
           <token postag="(adj|ppas|pact):.*" postag_regexp="yes">
-            <exception regexp="yes">to|ci|był[ya]|sam[ao]?</exception><exception inflected="yes" regexp="yes">ten|który|jaki|każdy</exception>
+            <exception regexp="yes">to|ci|był[ya]|sam[ao]?|samemu</exception><exception inflected="yes" regexp="yes">ten|który|jaki|każdy</exception>
             <exception postag="(subst|ger|adv|verb):.*" postag_regexp="yes"/>           
             </token>
         </unify>

@@ -9385,6 +9385,11 @@
             <disambig postag="subst:sg:acc:n2"/>
         </rule>
         <rule> <!-- 22 pact + subst -->
+            <antipattern>
+                    <token postag="pact.*gen.*" postag_regexp="yes"></token>
+                    <token postag="subst.*gen.*" postag_regexp="yes"/>
+                    <token postag="adj:.*gen.*" postag_regexp="yes"/>
+            </antipattern>
             <pattern>
                 <token skip="10" postag="pact:.*" postag_regexp="yes">
                     <exception inflected="yes" regexp="yes">&verb_obj_gen;|&verb_non_transitive;</exception>
@@ -9399,6 +9404,7 @@
             </pattern>
             <disambig action="filter" postag="(subst|ppron[1-3]|adj):.*:acc.*"></disambig>
             <example type="untouched">Pozwala mu na to art. 268 k. p. k. mówiący o prawach procesowych osoby.</example>
+            <example type="untouched">Zazdrość jest jedną z wielu najbardziej niszczących emocji ludzkich.</example>
         </rule>
         <rule> <!-- 23 subst + pcon-->
             <pattern>
