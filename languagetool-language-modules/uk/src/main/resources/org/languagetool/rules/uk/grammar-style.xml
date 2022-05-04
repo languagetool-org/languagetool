@@ -2295,6 +2295,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>паркова лавка</example>
     </rule>
 
+    <rule id="khalatnyi" name="халатний">
+      <pattern>
+        <token inflected="yes" regexp="yes">халатн(ий|ість)</token>
+      </pattern>
+      <message>Хоча в українському законодавстві вживають «халатний/халатність» правильним варіантом є «недбалий/недбалість»</message>
+      <suggestion><match no="1" regexp_match="(?iu)халатн(.*)" regexp_replace="недбал$1"/></suggestion>
+      <!--
+      <suggestion><match no="1" postag_regexp="yes" postag="(noun.*?|adj):f:(.*)" postag_replace="$1:n:$2">недбальство</match></suggestion>
+      -->
+      <example correction="недбалістю">службовою <marker>халатністю</marker></example>
+      <example correction="Недбале"><marker>Халатне</marker> відношення</example>
+    </rule>
+
 <!-- "ставити питання" є в АС та словнику Виргана, Пилинської -->
     <rulegroup id="ZADAVATY_PYTANNIA" name="Задавати питання">
       <rule>
