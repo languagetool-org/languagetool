@@ -6499,7 +6499,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <pattern>
         <marker>
         <unify negate="yes"><feature id="gender"></feature><feature id="number"/><feature id="case"/>
-          <token postag="(adj|ppas|pact):.*" postag_regexp="yes"><exception scope="previous" postag="(depr|ger|subst|prep).*" postag_regexp="yes"/><exception regexp="yes">to|ci|sie|którego|których</exception></token>
+          <token postag="(adj|ppas|pact):.*" postag_regexp="yes"><exception scope="previous" postag="(depr|ger|subst|prep).*" postag_regexp="yes"/>
+            <exception regexp="yes">to|ci|sie</exception>
+            <exception regexp="yes" inflected="yes">który|jaki</exception></token>
           <token postag="(depr|ger|subst):.*" postag_regexp="yes"><exception regexp="yes">nic|coś?|zdaniem</exception></token>
           <token postag="(adj|ppas|pact):.*" postag_regexp="yes">
             <exception regexp="yes">to|ci|był[ya]|sam[ao]?|samemu</exception><exception inflected="yes" regexp="yes">ten|który|jaki|każdy</exception>
@@ -6521,6 +6523,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>Tom został zatrzymany jako podejrzany.</example>
       <example correction="">Wyszła do sklepu, zostawiając <marker>małe dziecko same</marker>.</example>
       <example correction="">Sosna jest <marker>duży drzewem iglastym</marker>.</example>
+      <example>Zdradzilibyśmy byli sprawę robotniczą.</example>
+      <example>Wtedy oddalą go jako jakobina, któremu zasady polityczne każą zapominać o obowiązkach generała.</example>
 		</rule>
 		  <rulegroup id="DWA_LUB_WIECEJ" name="„dwa lub więcej” (co najmniej dwa)">
       <rule>

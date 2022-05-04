@@ -8024,6 +8024,16 @@
                  outputform="byli[być/verb:praet:pl:m1.p1:ter:imperf:nonrefl]">Ciągle wchodzili nowi, wszyscy, jacy <marker>byli</marker> od samego początku naszego klasztoru.</example>
     </rule>
 
+    <rule id="czas_zaprzeszly" name="czas zaprzeszły + był => verb">
+        <pattern>
+            <unify><feature id="gender"/><feature id="number"/>
+               <token postag="verb:(:?pot|praet|winien).*" postag_regexp="yes"/>
+                <token postag="verb.*" postag_regexp="yes" inflected="yes">być</token>
+            </unify>
+        </pattern>
+        <disambig action="unify"/>
+    </rule>
+
     <rule id="GO" name="go to nie rzeczownik">
         <pattern>
             <token>go<exception scope="previous">w</exception><exception scope="previous" postag="SENT_START"></exception></token>
@@ -8557,7 +8567,7 @@
 
     <rule id="angielski_subst" name="nauczyciel angielskiego -> subst:gen">
         <pattern>
-            <token inflected="yes" regexp="yes">nauczyciel(:?ka)?|znajomość|lekcja|kurs|opanowanie|klasa</token>
+            <token inflected="yes" regexp="yes">nauczyciel(:?ka)?|znajomość|lekcja|kurs|opanowanie|klasa|szkoła|nauka|tłumacz|nauczanie|słownik</token>
             <marker>
             <token postag="subst:sg:gen:m3" inflected="yes" regexp="yes">angielski|polski|rosyjski|niemiecki|francuski|hiszpański|łaciński|grecki|turecki|albański|kataloński|ukraiński|czeski|słowacki|szwedzki|niderlandzki|chiński|norweski|litewski|łotewski|estoński|rumuński|bułgarski|włoski|flamandzki|portugalski|kastylijski|fiński|duński|indonezyjski|hebrajski|koreański|serbski|chorwacki|słoweński|arabski|węgierski|wietnamski|newarski|perski|tajski|galicyjski|malajski|bośniacki|luksemburski|macedoński|gruziński|islandzki|walijski|serbsko-chorwacki</token>
             </marker>
