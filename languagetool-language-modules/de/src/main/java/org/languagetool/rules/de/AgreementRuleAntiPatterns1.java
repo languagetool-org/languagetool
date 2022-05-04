@@ -1107,6 +1107,15 @@ class AgreementRuleAntiPatterns1 {
     Arrays.asList(
       csToken("BMW"),
       token("ConnectedDrive")
+    ),
+    Arrays.asList(
+      // "Inwiefern soll denn das romantische Hoffnungen begründen?"
+      new PatternTokenBuilder().pos("ADV:MOD+INR").setSkip(-1).build(),
+      new PatternTokenBuilder().posRegex("VER.*:[123]:SIN:.*").setSkip(1).build(),
+      posRegex("PRO:DEM:.*SIN.*"),
+      new PatternTokenBuilder().posRegex("ADJ:.*PLU.*").min(0).build(),
+      posRegex("SUB:.*PLU.*"),
+      posRegex("VER.*INF:.*")
     )
   );
 
