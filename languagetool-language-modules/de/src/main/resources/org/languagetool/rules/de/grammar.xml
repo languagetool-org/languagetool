@@ -12858,7 +12858,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
-        <rulegroup id="TEILER_COMPOUND" name="3 Teiler (3-Teiler)" default="temp_off">
+        <rulegroup id="TEILER_COMPOUND" name="3 Teiler (3-Teiler)">
             <rule>
                 <pattern>
                     <token regexp="yes">
@@ -27032,24 +27032,43 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
-        <rule id="WEISE_SUBST" name="auf diese weise (Weise)" default="temp_off">
+        <rulegroup id="WEISE_SUBST" name="auf diese weise (Weise)">
             <antipattern>
                 <token>weise</token>
                 <token postag="(ADJ|PA[12]).*FEM.*" postag_regexp="yes" min="0" />
                 <token postag="SUB.*FEM.*" postag_regexp="yes" />
             </antipattern>
-            <pattern>
-                <token>auf</token>
-                <token regexp="yes">diese|[mdk]?eine|ihre|eure|unse?re|keinste</token>
-                <token regexp="yes" min="0">gewisse|besonde?re|bestimmte</token>
-                <marker>
-                    <token case_sensitive="yes">weise</token>
-                </marker>
-            </pattern>
-            <message>Das Nomen <suggestion>Weise</suggestion> wird großgeschrieben.</message>
-            <example correction="Weise">Auf diese <marker>weise</marker> habe ich das Problem gelöst.</example>
-            <example>Auf diese weise Entscheidung können wir uns verlassen.</example>
-        </rule>
+            <antipattern>
+                <token>weise</token>
+                <token>ich</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token>auf</token>
+                    <token regexp="yes">diese|[mdk]?eine|ihre|eure|unse?re|keinste|irgendeine</token>
+                    <token regexp="yes" min="0">gewisse|besonde?re|bestimmte|komische|merkwürdige</token>
+                    <marker>
+                        <token case_sensitive="yes">weise</token>
+                    </marker>
+                </pattern>
+                <message>Das Nomen <suggestion>Weise</suggestion> wird großgeschrieben.</message>
+                <example correction="Weise">Auf diese <marker>weise</marker> habe ich das Problem gelöst.</example>
+                <example>Auf diese weise Entscheidung können wir uns verlassen.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">[Ii]n</token>
+                    <token regexp="yes">dieser|[mdk]?einer|ihrer|eurer|unse?rer|keinster|irgendeiner</token>
+                    <token regexp="yes" min="0">gewissen|besonde?ren|bestimmten|komischen|merkwürdigen</token>
+                    <marker>
+                        <token case_sensitive="yes">weise</token>
+                    </marker>
+                </pattern>
+                <message>Das Nomen <suggestion>Weise</suggestion> wird großgeschrieben.</message>
+                <example correction="Weise">In irgendeiner <marker>weise</marker> habe ich das Problem gelöst.</example>
+                <example>Auf diese weise Entscheidung können wir uns verlassen.</example>
+            </rule>
+        </rulegroup>
         <rule id="ZU_GUTER_LETZT" name="zu guter letzt (Letzt)">
             <pattern>
                 <token>zu</token>
@@ -47635,7 +47654,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Mal zu Mal">Sie wird von <marker>mal zu mal</marker> besser.</example>
                 <example correction="Mal für Mal">Sie wird <marker>mal für mal</marker> besser.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
+                <antipattern>
+                    <token regexp="yes">male?</token>
+                    <token>ich</token>
+                </antipattern>
                 <pattern>
                     <token>zum</token>
                     <token>wiederholten</token>
@@ -60196,7 +60219,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception scope="next" regexp="yes">\?|!|:|\.</exception>
                     </token>
                     <marker>
-                    <token regexp="yes">“|»|«|"</token>
+                        <token regexp="yes" spacebefore="no">“|»|«|"</token>
                     </marker>
                 </pattern>
                 <message>Eine Frage bitte mit einem '?' abschließen, eine Aufforderung mit einem '!' oder '.'</message>
@@ -60205,6 +60228,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <url>https://languagetool.org/insights/de/beitrag/woertliche-rede/</url>
                 <example correction='?"|!"'>Ist der Mann schon nach Hause gegangen<marker>"</marker>, fragte sie.</example>
                 <example correction='?"|!"'>"Ist der Mann schon nach Hause gegangen<marker>"</marker>, fragte sie.</example>
+                <example>Ist es nicht eher eine Schande, sich wie ein “Tätervolk” aufzuführen?</example>
             </rule>
             <rule>
                 <antipattern>
@@ -60269,7 +60293,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception scope="next" regexp="yes">\?|!|:|\.</exception>
                     </token>
                     <marker>
-                    <token regexp="yes">“|»|«|"</token>
+                        <token regexp="yes" spacebefore="no">“|»|«|"</token>
                     </marker>
                 </pattern>
                 <message>Eine Frage bitte mit einem '?' abschließen, eine Aufforderung mit einem '!' oder '.'</message>
@@ -60278,13 +60302,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <url>https://languagetool.org/insights/de/beitrag/woertliche-rede/</url>
                 <example correction='?"|!"'>Wohin ist er gegangen<marker>"</marker>, fragte sie.</example>
                 <example correction='?"|!"'>"Wohin ist er gegangen<marker>"</marker>, fragte sie.</example>
+                <example>Wie kann es sein, dass der “Mittelwert Stimmende” nicht auf dem Schwerpunkt des Quadrates liegt?</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
                     <token><exception>?</exception></token>
                     <token min="0" max="1" regexp="yes">\.|!</token>
-                    <token regexp="yes">“|»|«|"</token>
+                    <token regexp="yes" spacebefore="no">“|»|«|"</token>
                     </marker>
                     <token>,</token>
                     <token skip="-1" inflected="yes" regexp="yes">fragen|erkundigen<exception scope="next" regexp="yes">„|»|«|"</exception></token>
@@ -60301,7 +60326,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token negate="yes">?</token>
                     <marker>
-                        <token regexp="yes">&anfzu;</token>
+                        <token regexp="yes" spacebefore="no">&anfzu;</token>
                     </marker>
                     <token>,</token>
                     <token inflected="yes">fragen</token>
@@ -63384,6 +63409,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token spacebefore="yes">”</token>
                     <token regexp="yes">\.|…</token>
                 </antipattern>
+                <antipattern>
+                    <token regexp="yes">\:|\(|\[</token>
+                    <token>”</token>
+                    <token regexp="yes">…|\.</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START" />
+                    <token spacebefore="no">”</token>
+                    <token spacebefore="no" regexp="yes">…|\.</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>”</token>
@@ -63394,6 +63429,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>“</suggestion>
                 <example correction="“">"Hallo<marker>”</marker>, sagte er zur Begrüßung.</example>
                 <example correction="“">“Wert höhersetzen (Nummern überspringen)<marker>”</marker>.</example>
+                <example>Bei uns gibt´s alles zum Nachlesen, hatte ich reingeschrieben:”…auch warum man Kinder nicht an den Ohren zieht“.</example>
             </rule>
             <rule><!-- [11] -->
                 <antipattern>
@@ -63439,11 +63475,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule><!-- [14] -->
                 <antipattern>
                     <token postag="SENT_START" />
-                    <token spacebefore="no" regexp="yes">[”“]</token>
+                    <token spacebefore="no" regexp="yes">”</token>
                 </antipattern>
                 <antipattern>
-                    <token>(</token>
-                    <token spacebefore="no" regexp="yes">[”“]</token>
+                    <token regexp="yes">\:|\(|\[</token>
+                    <token spacebefore="no" regexp="yes">”</token>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -63454,6 +63490,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Möchten Sie ein schließendes typografisches Anführungszeichen verwenden?</message>
                 <suggestion>“</suggestion>
                 <example correction="“">Er sagte Tschüss ("Tschüssi<marker>”</marker>)</example>
+                <example correction="“">Ihr Geschäftsmodell ist bekanntlich nicht die Problemlösung, sondern die Problemerfindung (u.a. als “Alarmismus<marker>”</marker>).</example>
             </rule>
             <rule><!-- [15] -->
                 <antipattern>
@@ -63506,11 +63543,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token spacebefore="no" skip="-1">
                         <exception regexp="yes">[\)!\?“]</exception>
                     </token>
-                    <token spacebefore="no" regexp="yes">["”]</token>
+                    <token spacebefore="no">”</token>
                 </pattern>
-                <message>Wollten Sie ein schließendes typografisches Anführungszeichen verwenden?</message>
+                <message>Möchten Sie ein öffnendes typografisches Anführungszeichen verwenden?</message>
                 <suggestion>„</suggestion>
                 <example correction="„">Scott Wood Band gab 2015 das Album <marker>”</marker>Upsurge” heraus.</example>
+            </rule>
+            <rule><!-- [19] -->
+                <pattern>
+                    <token>
+                        <exception postag="SENT_START" />
+                        <exception regexp="yes">\:|\(|\[</exception>
+                    </token>
+                    <marker>
+                        <token>”</token>
+                    </marker>
+                    <token spacebefore="no" postag="SENT_END" regexp="yes">[\)\.…\?\!\:\;]</token>
+                </pattern>
+                <message>Möchten Sie ein schließendes typografisches Anführungszeichen verwenden?</message>
+                <suggestion>“</suggestion>
+                <example correction="“">Scott Wood Band veröffentlichte das Album ”Upsurge<marker>”</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="FALSCHES_ANFUEHRUNGSZEICHEN_2" name="Doppelte Kommas oder doppelte Apostrophe">
@@ -63638,6 +63690,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token min="0">,</token>
                 <token regexp="yes" inflected="yes">sagen|rufen|schreien|brüllen|tönen|erwidern|versichern</token>
             </antipattern>
+            <antipattern><!-- Koordinaten -->
+                <token regexp="yes">\d+</token>
+                <token>'</token>
+                <token case_sensitive="yes" regexp="yes">[EN]</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">[A-Z].*</token>
+                    <marker>
+                        <token>'</token>
+                        <token spacebefore="no">n</token>
+                        <token spacebefore="no">'</token>
+                    </marker>
+                    <token case_sensitive="yes" regexp="yes">[A-Z].*</token>
+                </pattern>
+                <message>Möchten Sie statt der Ersatzzeichen typografische Apostrophe (’) verwenden?</message>
+                <suggestion>’n’</suggestion>
+                <example correction="’n’">Er mag Rock<marker>'n'</marker>Roll.</example>
+            </rule>
             <rule>           
                 <antipattern>
                     <token>'</token>
@@ -63672,6 +63743,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Möchten Sie statt des Ersatzzeichens einen Apostroph (’) verwenden?</message>
                 <suggestion>’</suggestion>
                 <example correction="’">Gefällt<marker>'</marker>s dir?</example>
+                <example>Position 54°14.03'N - 013°35.75'E</example>
             </rule>
         </rulegroup>
         <rulegroup id="TYPOGRAFISCHE_ANFUEHRUNGSZEICHEN" name="Typografische Anführungszeichen" tags="picky">
@@ -63692,7 +63764,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token min="0">'</token>
                 <token>'</token>
             </antipattern>
-            <rule>
+            <rule><!-- [1] -->
                 <pattern>
                     <marker>
                         <token spacebefore="yes">"</token>
@@ -63709,7 +63781,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="„Hallo“|»Hallo«">Dann sagte er nur <marker>"Hallo"</marker>.</example>
                 <example>Plugins[] = "CorePluginsAdmin"</example>
             </rule>
-            <rule>
+            <rule><!-- [2] -->
                 <pattern>
                     <token postag="SENT_START" />
                     <marker>
@@ -63726,7 +63798,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>»\3«</suggestion>
                 <example correction="„Ja“|»Ja«"><marker>"Ja"</marker> war seine Antwort.</example>
             </rule>
-            <rule>
+            <rule><!-- [3] -->
                 <pattern>
                     <marker>
                         <token spacebefore="yes">"</token>
@@ -63743,7 +63815,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="„Hallo“|»Hallo«">Dann sagte er nur <marker>"Hallo"</marker>.</example>
                 <example>Plugins[] = "CorePluginsAdmin"</example>
             </rule>
-            <rule>
+            <rule><!-- [4] -->
                 <pattern>
                     <token postag="SENT_START" />
                     <marker>
@@ -63764,7 +63836,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>»\3 \4«</suggestion>
                 <example correction="„Hallo du“|»Hallo du«"><marker>"Hallo du"</marker> sagte er.</example>
             </rule>
-            <rule>
+            <rule><!-- [5] -->
                 <pattern>
                     <marker>
                         <token spacebefore="yes">"</token>
@@ -63784,7 +63856,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>»\2 \3«</suggestion>
                 <example correction="„Hallo du“|»Hallo du«">Dann sagte er nur <marker>"Hallo du"</marker>.</example>
             </rule>
-            <rule>
+            <rule><!-- [6] -->
                 <pattern>
                     <token postag="SENT_START"/>
                     <marker>
@@ -63796,7 +63868,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>»</suggestion>
                 <example correction="„|»"><marker>"</marker>Hallo", sagte er zur Begrüßung.</example>
             </rule>
-            <rule>
+            <rule><!-- [7] -->
                 <pattern>
                     <marker>
                         <token spacebefore="yes">"</token>
@@ -63807,7 +63879,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>»</suggestion>
                 <example correction="„|»">Dann sagte er nur <marker>"</marker>Hallo".</example>
             </rule>
-            <rule>
+            <rule><!-- [8] -->
                 <antipattern>
                     <token regexp="yes">.+</token>
                     <token spacebefore="no">(</token>
@@ -63823,7 +63895,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>»</suggestion>
                 <example correction="„|»">Das ist ein Haus (<marker>"</marker>Burg").</example>
             </rule>
-            <rule>
+            <rule><!-- [9] -->
                 <antipattern><!-- smilies: ":-)"-->
                     <token regexp="yes">[;:\)]</token>
                     <token spacebefore="no">
@@ -63841,7 +63913,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>«</suggestion>
                 <example correction="“|«">"Hallo<marker>"</marker>, sagte er zur Begrüßung.</example>
             </rule>
-            <rule>
+            <rule><!-- [10] -->
                 <antipattern>
                     <token postag="SENT_START" />
                     <token spacebefore="no">"</token>
@@ -63858,7 +63930,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>«</suggestion>
                 <example correction="“|«">"Hallo<marker>"</marker> - sagte er zur Begrüßung.</example>
             </rule>
-            <rule>
+            <rule><!-- [11] -->
                 <antipattern>
                     <token postag="SENT_START" />
                     <token postag="SENT_END" />
@@ -63873,7 +63945,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>«</suggestion>
                 <example correction="“|«">"Hallo<marker>"</marker></example>
             </rule>
-            <rule>
+            <rule><!-- [12] -->
+                <antipattern>
+                    <token regexp="yes">\:|\(|\[</token>
+                    <token>"</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START" />
+                    <token>"</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>"</token>
@@ -63885,7 +63965,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>«</suggestion>
                 <example correction="“|«">Er sagte "Tschüssi<marker>"</marker> und ging.</example>
             </rule>
-            <rule>
+            <rule><!-- [13] -->
                 <antipattern>
                     <token postag="SENT_START" />
                     <token postag="SENT_END" />
@@ -63898,9 +63978,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>«</suggestion>
                 <example correction="“|«">Er sagte "Tschüssi<marker>"</marker></example>
             </rule>
-            <rule>
+            <rule><!-- [14] -->
                 <antipattern>
-                    <token>(</token>
+                    <token regexp="yes">\:|\(|\[</token>
                     <token>"</token>
                 </antipattern>
                 <antipattern>
@@ -64481,6 +64561,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>,</token>
                     <token spacebefore="no" regexp="yes">»|«|"</token>
                 </antipattern>
+                <antipattern><!-- smilies -->
+                    <token regexp="yes">[;:]</token>
+                    <token spacebefore="no">(</token>
+                </antipattern>
                 <antipattern>
                     <token regexp="yes">„|»|«|"|\(|\{</token>
                     <token regexp="yes">:|,|;</token>
@@ -64569,6 +64653,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="„Der">Er sagte: <marker>„ Der</marker> Garten ist wirklich schön.“</example>
             </rule>
             <rule>
+                <antipattern><!-- Website-Navigation / Breadcrumb-->
+                    <token regexp="yes">Startseite|Home|Start</token>
+                    <token regexp="yes">›|»</token>
+                    <token spacebefore="yes" />
+                </antipattern>
+                <antipattern><!-- Website-Navigation / Breadcrumb-->
+                    <token regexp="yes">.*[a-z0-9].*</token>
+                    <token regexp="yes" spacebefore="yes" skip="3">
+                        ›|»
+                        <exception scope="next" regexp="yes">‹|«</exception>
+                    </token>
+                    <token regexp="yes" spacebefore="yes">›|»</token>
+                </antipattern>
                 <pattern>
                     <token/>
                     <token spacebefore="yes" regexp="yes">»|«|"|“|‹|›|‘|’|'</token>
@@ -64585,7 +64682,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- separate-token smiley -->
                 <token regexp="yes">[:;]</token>
                 <token spacebefore="no" min="0" regexp="yes">[o–—\-\']</token>
-                <token spacebefore="no" regexp="yes">[\(\)\\\/dpo]</token>
+                <token spacebefore="no" regexp="yes">[\(\)\\\/dpo\*\}\]]</token>
             </antipattern>
             <antipattern>
                 <token>tl</token>
@@ -64666,6 +64763,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>{</token>
                 <token skip="3">{</token>
                 <token>:</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">java|[tj]s|html|rb|s?css</token>
+                <token>:</token>
+                <token regexp="yes">\d+</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">&amp;</token>
+                <token>#</token>
+                <token regexp="yes">\d+</token>
+                <token>;</token>
             </antipattern>
             <pattern>
                 <marker>
