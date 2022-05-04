@@ -209,6 +209,14 @@ final class ServerTools {
         level = JLanguageTool.Level.PROFESSIONAL;
       } else if ("creative".equals(param)) {
         level = JLanguageTool.Level.CREATIVE;
+      } else if ("customer".equals(param)) {
+        level = JLanguageTool.Level.CUSTOMER;
+      } else if ("jobapp".equals(param)) {
+        level = JLanguageTool.Level.JOBAPP;
+      } else if ("objective".equals(param)) {
+        level = JLanguageTool.Level.OBJECTIVE;
+      } else if ("elegant".equals(param)) {
+        level = JLanguageTool.Level.ELEGANT;
       } else {
         throw new BadRequestException("If 'level' is set, it must be set to 'default' or 'picky'");
       }
