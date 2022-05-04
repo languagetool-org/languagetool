@@ -12858,6 +12858,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rulegroup id="WIEDER_GUT_MACHEN" name="wieder gut machen (wiedergutmachen)" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>wieder</token>
+                    <token inflected="yes">gutmachen</token>
+                </pattern>
+                <message>Das Verb <suggestion>wieder<match no="2" case_conversion="alllower" /></suggestion> wird zusammengeschrieben.</message>
+                <example correction="wiedergutmachen">Tom wollte es <marker>wieder gutmachen</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>wieder</token>
+                    <token>gut</token>
+                    <token min="0">zu</token>
+                    <token inflected="yes">machen</token>
+                </pattern>
+                <message>Das Verb <suggestion>wiedergut<match no="3" case_conversion="alllower" /><match no="4" case_conversion="alllower" /></suggestion> wird zusammengeschrieben.</message>
+                <example correction="wiedergutmachen">Tom wollte es <marker>wieder gut machen</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="TEILER_COMPOUND" name="3 Teiler (3-Teiler)">
             <rule>
                 <pattern>
@@ -59342,7 +59362,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="VER_INF_PKT_VER_INF" name="Komma zwischen Haupt- und Nebensatz, z. B. Um das herauszubekommen(,) diskutieren zwei Experten.">
             <antipattern>
-                <token postag="VER:INF:NON"/>
+                <token postag="VER:(INF|EIZ):NON" postag_regexp="yes"/>
                 <token postag="VER:INF:SFT"/>
                 <token>,</token>
             </antipattern>
@@ -59355,7 +59375,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <exception postag="KON:.+|PKT" postag_regexp="yes"/>
                 </token>
                 <marker>
-                    <token postag="VER:INF:NON">
+                    <token postag="VER:(INF|EIZ):NON" postag_regexp="yes">
                         <exception postag="VER:(AUX|MOD):.+" postag_regexp="yes"/>
                     </token>
                     <token postag="VER:INF:SFT">
@@ -60092,19 +60112,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="GROSSSCHREIBUNG_WOERTLICHER_REDE" name="Fälschliche Kleinschreibung des ersten Wortes wörtlicher Rede">
+            <antipattern><!-- nur matchen, wenn der Satz in Anführungszeichen ein Verb enthält -->
+                <token skip="-1" regexp="yes">
+                    „
+                    <exception postag="VER.*" postag_regexp="yes" scope="next" />
+                </token>
+                <token postag="SENT_END" />
+            </antipattern>
+            <antipattern>
+                <token skip="-1">„</token>
+                <token>“</token>
+                <token inflected="yes" regexp="yes">sein|werden</token>
+            </antipattern>
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START" skip="5"/>
                     <token>:</token>
                     <token>„</token>
                     <marker>
-                        <token regexp="yes">[a-zäöüß]+</token>
+                        <token regexp="yes" spacebefore="no">[a-zäöüß]+</token>
                     </marker>
                     <token><exception>“</exception></token>
                 </pattern>
                 <message>Das erste Wort der wörtlichen Rede schreibt man groß.</message>
                 <suggestion><match no="4" case_conversion="startupper"/></suggestion>
                 <example correction="Kommt">Sie fragte: „<marker>kommt</marker> er heute?“.</example>
+                <example>Das Motto des Gemeinschaftsstudios: „bewegen, berühren, begleiten“ ist Programm.</example>
             </rule>
         </rulegroup>
         <rule id="SEMIKOLON_VOR_ANFUEHRUNGSZEICHEN" name="Fälschliches Semikolon vor schließendem Anführungszeichen">

@@ -398,6 +398,7 @@ public class German extends Language implements AutoCloseable {
       case "PUNKT_ENDE_DIREKTE_REDE": return -4; // prefer speller
       case "LEERZEICHEN_NACH_VOR_ANFUEHRUNGSZEICHEN": return -4; // prefer speller
       case "ZEICHENSETZUNG_DIREKTE_REDE": return -4; // prefer speller
+      case "GROSSSCHREIBUNG_WOERTLICHER_REDE": return -4; // prefer speller
       case "IM_IHM": return -4;  // lower prio than spell checker
       case "IN_UNKNOWNKLEIN_VER": return -4;  // lower prio than spell checker
       case "SEHR_GEEHRTER_NAME": return -4;  // lower prio than spell checker
