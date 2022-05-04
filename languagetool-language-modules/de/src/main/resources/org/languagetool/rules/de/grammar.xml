@@ -27002,7 +27002,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>sie</token>
                     </marker>
-                    <token>bitte</token>
+                    <token min="0" regexp="yes">mal|(ein|noch)mal|mir|uns|sich|das|dieses</token>
+                    <token regexp="yes">bitte|freundlicherweise</token>
                 </pattern>
                 <message>Meinten Sie die Anrede <suggestion>Sie</suggestion> (großgeschrieben)?</message>
                 <example correction="Sie">Aber führen <marker>sie</marker> bitte die Bestellung so aus.</example>
@@ -27052,6 +27053,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="VIELE_LIEBE_GRUESSE" name="Viele Liebe (liebe) Grüße" default="temp_off">
+            <pattern>
+                <token regexp="yes">vielen?</token>
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">Herzlichen?|Lieben?</token>
+                </marker>
+                <token regexp="yes">Dank|Grü(ß|ss)e|Gru(ß|ss)</token>
+            </pattern>
+            <message>Das Adjektiv <suggestion><match no="2" case_conversion="alllower" /></suggestion> wird kleingeschrieben.</message>
+            <example correction="lieben">Vielen <marker>Lieben</marker> Dank für Ihre Hilfe.</example>
+        </rule>
         <rulegroup id="WEISE_SUBST" name="auf diese weise (Weise)">
             <antipattern>
                 <token>weise</token>

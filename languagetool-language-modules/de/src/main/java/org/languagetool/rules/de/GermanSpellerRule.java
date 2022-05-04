@@ -2489,6 +2489,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Ggf": return topMatch("Ggf.");
       case "zzgl": return topMatch("zzgl.");
       case "Zzgl": return topMatch("Zzgl.");
+      case "Pieks": return topMatch("Piks");
+      case "Piekse": return topMatch("Pikse");
+      case "Piekses": return topMatch("Pikses");
+      case "Pieksen": return topMatch("Piksen");
+      case "Annektion": return topMatch("Annexion");
+      case "Annektionen": return topMatch("Annexionen");
       case "unkonsistent": return topMatch("inkonsistent");
       case "Weißheitszahn": return topMatch("Weisheitszahn");
       case "Weissheitszahn": return topMatch("Weisheitszahn");
