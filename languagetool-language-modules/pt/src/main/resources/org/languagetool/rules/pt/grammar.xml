@@ -26381,7 +26381,7 @@ THIS ANTIPATTERN WAS BASED ON TIAGO SANTO'S RULE WHICH WAS REPLACED BY MY OWN RU
 O que aconteceu para andares tanto carregado? → O que aconteceu para andares tão carregado?
 -->	
 		<pattern>
-			<token inflected='yes' regexp="yes">andar</token>
+			<token inflected='yes' regexp="no">andar</token>
 			<marker>
 				<token>tanto</token>
 			</marker>
@@ -42785,11 +42785,25 @@ Como é o caso do Firefox. → Como no caso do Firefox.
 
 	<!-- COMO SENDO A(S)/O(S)/UM/UNS/UMA(S) a(s)/o(s)/um/uns/uma(s) -->
     <rule id='SIMPLIFICAR_COMO_SENDO' name="Simplificar: Como sendo + a(s)/o(s)/um/uns/uma(s) → a(s)/o(s)/um/uns/uma(s)" type="style">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-04-26 (1-JAN-2022+)      -->
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-04-26 + 2022-05-04 (1-JAN-2022+)      -->
 	<!--
 Foi considerado por muitos cientistas como sendo o pai da Matemática. → Foi considerado por muitos cientistas o pai da Matemática.
 Uma sessão de login é considerada como sendo a vida útil de um processo de usuário. → Uma sessão de login é considerada a vida útil de um processo de usuário.
 	-->
+<!--
+A polícia definiu o termo como sendo os atos de guerra contra os estados.
+de representações sociais como nesse trabalho, enfocam-se significações, sentimentos e conceitos como sendo a própria realidade.
+Os terroristas retaliam contra Estados encarados como sendo os inimigos.
+* (j) Monarca discutível como sendo o verdadeiro Chefe de Estado.
+-->
+	  <antipattern>
+		<token postag='DA.+|CC|NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+		<token postag='NC.+|AQ.+|NP.+|VMP00.+' postag_regexp='yes'/>
+		<token>como</token>
+		<token>sendo</token>
+		<token postag='DA.+' postag_regexp='yes'/>
+	  </antipattern>
+
       <pattern>
 		<or>
 			<token negate_pos="yes" postag='V.+|SENT_START' postag_regexp='yes'/>
@@ -42806,6 +42820,11 @@ Uma sessão de login é considerada como sendo a vida útil de um processo de us
 	  <suggestion>\4</suggestion>
       <example correction="o">Foi considerado por muitos cientistas <marker>como sendo o</marker> pai da Matemática</example>
 	  <example>Uma sessão de login é considerada a vida útil de um processo de usuário.</example>
+
+	  <example>A polícia definiu o termo como sendo os atos de guerra contra os estados.</example>
+	  <example>de representações sociais como nesse trabalho, enfocam-se significações, sentimentos e conceitos como sendo a própria realidade.</example>
+	  <example>Os terroristas retaliam contra Estados encarados como sendo os inimigos.</example>
+	  <example>* (j) Monarca discutível como sendo o verdadeiro Chefe de Estado.</example>
     </rule>
 
 
