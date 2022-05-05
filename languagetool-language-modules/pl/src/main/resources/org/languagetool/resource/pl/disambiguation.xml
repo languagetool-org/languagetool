@@ -161,12 +161,20 @@
 
     <!--  tagging punctuation -->
     <rule name="Interpunkcja - bez kropki" id="PUNCT_NO_DOT">
+        <antipattern>
+            <token/>
+            <marker>
+                <token spacebefore="no">'</token>
+            </marker>
+            <token spacebefore="no"/>
+        </antipattern>
         <pattern>
             <token regexp="yes">[\p{Punct}-−–—―„«»…”&amp;&amp;[^!\.]]<exception postag="SENT_END"/><exception postag="interp:nospace"/></token>
         </pattern>
         <disambig action="add"><wd pos="interp:comma"/></disambig>
         <example type="untouched">To jest głowa dr. Jekylla.</example>
         <example type="untouched">Pociąg odjeżdża o 15:45.</example>
+        
         <example type="ambiguous" inputform=",[,]" outputform=",[,/interp:comma]">To jest coś<marker>,</marker> co wiedziałem od dawna.</example>
     </rule>
 
