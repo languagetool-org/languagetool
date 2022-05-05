@@ -25622,6 +25622,28 @@ Vou comer os medicamentos. → Vou tomar os medicamentos.
     </rule>
 
 
+	<!-- CAIXA embalagem -->
+    <rule id='CONFUSÃO_CAIXA_EMBALAGEM' name="Confusão: Caixa/embalagem">
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2022-05-05 (1-JAN-2022+)      -->
+	<!--
+Vou tomar uma caixa de Xanax. → Vou tomar uma embalagem de Xanax.
+Vou tomar várias caixas de Xanax. → Vou tomar várias embalagens de Xanax.
+	-->
+      <pattern>
+		<token regexp='no' inflected='yes'>tomar</token>
+		<token min="0" max="1" negate="yes" regexp='yes'>caixas?</token>
+		<marker>
+			<token regexp='yes'>caixas?
+				<exception scope='previous' postag_regexp='no' postag='_PUNCT'/>
+			</token>
+		</marker>
+      </pattern>
+	  <message>Se estiver a referir-se a fármacos ou afins, empregue o termo 'embalagem'.</message>
+      <suggestion><match no='3' postag='NCF(.)000' postag_replace='NCF$1000'>embalagem</match></suggestion>
+      <example correction="embalagem">Vou tomar uma <marker>caixa</marker> de Xanax.</example>
+    </rule>
+
+
 	<!-- DÊS desde -->
     <rulegroup id='CONFUSÃO_DÊS_DESDE' name="Confusão: dês/desde">
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-03 (1-JAN-2022+)      -->
