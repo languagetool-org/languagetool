@@ -752,6 +752,56 @@ tenho um modelo que amo de montão... a aste quebrou e a jf sun consertou e meu 
   </rulegroup>
 
 
+	<!-- ISSO/ISTO/AQUILO ADJ FEMININO isso/isto/aquilo adj masculino -->
+    <rulegroup id='GENDER_ISSO_ISTO_AQUILO_VERBO_ADJFEMININO' name="Concordância de género: Isso/isto/aquilo + Verbo + Adjetivo">
+	<!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-05-05 (1-JAN-2022+)      -->
+	<!--
+Isto é muito engraçada. → Isto é muito engraçado.
+Isto é engraçada. → Isto é engraçado.
+Isto é boa. → Isto é bom.
+	-->
+	 <rule>
+      <pattern>
+		<token negate_pos="yes" postag_regexp='yes' postag="SPS.+|CS|PP3CN000|CC"/>
+		<token postag_regexp='no' postag="PD0NN000"/>
+		<token postag_regexp='yes' postag="V.+"/>
+		<token postag_regexp='yes' postag="DI0MS0|PI0MS000|RG|NCMS000"/>
+		<marker>
+			<token postag_regexp='no' postag="AQ0FS0">
+				<exception postag_regexp='yes' postag='AQ0[CM]S0|NCMS000'/>
+			</token>
+		</marker>
+		<token negate_pos="yes" postag_regexp='yes' postag="SPS00|AQ0FS0|NCFS000|VMIP3S0|VMM02S0|Z0FS0"/>
+      </pattern>
+	  <message>&MSG_ECG;</message>
+      <suggestion><match no='5' postag='AQ0FS0' postag_regexp="yes" postag_replace='AQ0MS0'/></suggestion>
+      <example correction="engraçado">Isto é muito <marker>engraçada</marker>.</example>
+	  <example correction="engraçado">Tudo isto é muito <marker>engraçada</marker>.</example>
+	  <example correction="engraçado">Mas isto é muito <marker>engraçada</marker>.</example>
+	  <example correction="engraçado">Vê que isto é muito <marker>engraçada</marker>.</example>
+	  <example correction="bonito">Embora isto seja muito <marker>bonita</marker>.</example>
+     </rule>
+
+	 <rule>
+      <pattern>
+		<token negate_pos="yes" postag_regexp='yes' postag="SPS.+|CS|PP3CN000|CC"/>
+		<token postag_regexp='no' postag="PD0NN000"/>
+		<token postag_regexp='yes' postag="V.+"/>
+		<marker>
+			<token postag_regexp='no' postag="AQ0FS0">
+				<exception postag_regexp='yes' postag='AQ0[CM]S0|NCMS000'/>
+			</token>
+		</marker>
+		<token negate_pos="yes" postag_regexp='yes' postag="SPS00|AQ0FS0|NCFS000|VMIP3S0|VMM02S0|Z0FS0"/>
+      </pattern>
+	  <message>&MSG_ECG;</message>
+      <suggestion><match no='4' postag='AQ0FS0' postag_regexp="yes" postag_replace='AQ0MS0'/></suggestion>
+      <example correction="bom">Isto é <marker>boa</marker>.</example>
+     </rule>
+
+	</rulegroup>
+
+
     <!--          Tiago F. Santos Rules Start         ****START**** -->
     <!-- ********************************************************** -->
   <rulegroup id='GENERAL_GENDER_AGREEMENT_ERRORS' name="Concordância de género: Geral">
