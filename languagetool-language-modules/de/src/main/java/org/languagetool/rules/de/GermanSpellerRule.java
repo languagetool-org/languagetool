@@ -125,6 +125,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("wiedersetz(e|t|en|te|ten)?", "wieder", "wider");
     putRepl("wiederstreb(e|st|t|en|te|ten)?", "wieder", "wider");
     put("bekomms", "bekomm es");
+    put("liegts", "liegt es");
     put("gesynct", "synchronisiert");
     put("gesynced", "synchronisiert");
     put("gesyncht", "synchronisiert");
@@ -2489,6 +2490,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Ggf": return topMatch("Ggf.");
       case "zzgl": return topMatch("zzgl.");
       case "Zzgl": return topMatch("Zzgl.");
+      case "aufgehangen": return topMatch("aufgehängt");
       case "Pieks": return topMatch("Piks");
       case "Piekse": return topMatch("Pikse");
       case "Piekses": return topMatch("Pikses");

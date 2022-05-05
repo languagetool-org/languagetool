@@ -13105,7 +13105,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
-        <rulegroup id="WIEDER_GUT_MACHEN" name="wieder gut machen (wiedergutmachen)" default="temp_off">
+        <rulegroup id="WIEDER_GUT_MACHEN" name="wieder gut machen (wiedergutmachen)">
             <rule>
                 <pattern>
                     <token>wieder</token>
@@ -20093,7 +20093,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <exception inflected="yes" regexp="yes">fahren|meinen|sein|einen|sieben|achten|einigen|äußern|äussern|fernsehen|proben|maximieren|minimieren</exception>
                             <exception postag="AD[JV]:.*|VER:EIZ:.*" postag_regexp="yes"/>
                             <exception regexp="yes">whatsapp|langenweile|herzversagen|herz|trotz</exception>
-                            <exception regexp="yes">(a[bn]|au[fs]|nieder|be|los|unter|ein|ent|er|in|vor|über|um|zer|zwischen|ver|zurück|weiter|vorbei|wieder).*|null|genügend|.+suche|personalisierte[nsr]?|ästen?|gefährdet.*|klassenfahrt|.+verwandt.*|.+berechtigt.*|.*weihnachten|.*streifen|.*wochenende|.*einkommen</exception>
+                            <exception regexp="yes">(a[bn]|au[fs]|nieder|be|los|unter|ein|ent|er|in|vor|über|um|zer|zwischen|ver|zurück|weiter|vorbei|wieder|raus|rein|heraus|herein|hinein|rum).*|null|genügend|.+suche|personalisierte[nsr]?|ästen?|gefährdet.*|klassenfahrt|.+verwandt.*|.+berechtigt.*|.*weihnachten|.*streifen|.*wochenende|.*einkommen</exception>
                         </token>
                     </marker>
                 </pattern>
@@ -25358,7 +25358,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             -->
             <rule>
                 <pattern>
-                    <token regexp="yes">raus(bekommen|gaben|ge(ben|bt|fahren|fahrenen|gangen|gangenen|geben|gebenen|hen|hst|ht|jagt|kitzelt|klettert|kommen|kriegt|krochen|lassen|laufen|legt|lesen|lockt|macht|nommen|pickt|platzt|putzt|quollen|rechnen|redet|rissen|rückt|rutscht|schaut|schickt|schlüpft|setzt|sprudelt|stellt|strömt|stürmt|stürzt|sucht|tragen|worfen|worfenen|zerrt|zogen)|gucken|guckten|haben|hauen|holen|klettern|kletterten|klingeln|klingelten|krabbeln|kriechen|kriegen|kriegten|lassen|laufen|legen|ließen|liessen|locken|nehmen|platzen|platzten|rannten|rannte|reden|redeten|reißen|reissen|rennen|riefen|rutschen|rutschten|schauen|schauten|schicken|schickten|schmeißen|schmeissen|schmuggeln|suchen|suchten|warfen|werfen|zerren|ziehen)</token>
+                    <token regexp="yes">raus(bringen|bekommen|finden|gaben|ge(ben|bt|fahren|fahrenen|gangen|gangenen|geben|gebenen|hen|hst|ht|jagt|kitzelt|klettert|kommen|kriegt|krochen|lassen|laufen|legt|lesen|lockt|macht|nommen|pickt|platzt|putzt|quollen|rechnen|redet|rissen|rückt|rutscht|schaut|schickt|schlüpft|setzt|sprudelt|stellt|strömt|stürmt|stürzt|sucht|tragen|worfen|worfenen|zerrt|zogen)|gucken|guckten|haben|hauen|holen|klettern|kletterten|klingeln|klingelten|krabbeln|kriechen|kriegen|kriegten|lassen|laufen|legen|ließen|liessen|locken|nehmen|platzen|platzten|rannten|rannte|reden|redeten|reißen|reissen|rennen|riefen|rutschen|rutschten|schauen|schauten|schicken|schickten|schmeißen|schmeissen|schmuggeln|suchen|suchten|warfen|werfen|zerren|ziehen)</token>
                 </pattern>
                 <message>'\1' ist umgangssprachlich.</message>
                 <suggestion><match no="1" regexp_match="^[Rr]aus" regexp_replace="heraus"/></suggestion>
@@ -25367,7 +25367,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">rauszu(bekommen|finden|fischen|fliegen|geben|gehen|greifen|gucken|hauen|heben|helfen|holen|klettern|kommen|kriegen|lassen|laufen|legen|pauken|pressen|putzen|quetschen|rechnen|reden|reißen|reissen|rennen|rücken|schauen|scheren|schicken|schieben|schlagen|schleppen|schleudern|schlüpfen|schmuggeln|schneiden|trennen|treten|trommeln|winden|zerren|ziehen)</token>
+                    <token regexp="yes">rauszu(bekommen|bringen|finden|fischen|fliegen|geben|gehen|greifen|gucken|hauen|heben|helfen|holen|klettern|kommen|kriegen|lassen|laufen|legen|pauken|pressen|putzen|quetschen|rechnen|reden|reißen|reissen|rennen|rücken|schauen|scheren|schicken|schieben|schlagen|schleppen|schleudern|schlüpfen|schmuggeln|schneiden|trennen|treten|trommeln|winden|zerren|ziehen)</token>
                 </pattern>
                 <message>'\1' ist umgangssprachlich.</message>
                 <suggestion><match no="1" regexp_match="^[Rr]aus" regexp_replace="heraus"/></suggestion>
@@ -27249,12 +27249,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>sie</token>
                     </marker>
-                    <token min="0" regexp="yes">mal|(ein|noch)mal|mir|uns|sich|das|dieses</token>
+                    <token min="0" regexp="yes">mal|(ein|noch)mal|mir|uns|sich|das|dieses|hier|nun|jetzt|noch|endlich</token>
                     <token regexp="yes">bitte|freundlicherweise</token>
                 </pattern>
                 <message>Meinten Sie die Anrede <suggestion>Sie</suggestion> (großgeschrieben)?</message>
                 <example correction="Sie">Aber führen <marker>sie</marker> bitte die Bestellung so aus.</example>
                 <example correction="Sie">Führen <marker>sie</marker> bitte die Bestellung so aus</example>
+                <example>Diese Seite wurde nicht sauber gedruckt, also druck sie bitte noch einmal aus.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern case_sensitive="yes">
+                    <token postag="VER:.*" postag_regexp="yes"><exception postag="VER:IMP.*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token>sie</token>
+                    </marker>
+                    <token postag="ADV.*" postag_regexp="yes" />
+                    <token postag="ADV.*" postag_regexp="yes" min="0" />
+                    <token regexp="yes">bitte|freundlicherweise</token>
+                </pattern>
+                <message>Meinten Sie die Anrede <suggestion>Sie</suggestion> (großgeschrieben)?</message>
+                <example correction="Sie">Führen <marker>sie</marker> doch bitte die Bestellung so aus</example>
                 <example>Diese Seite wurde nicht sauber gedruckt, also druck sie bitte noch einmal aus.</example>
             </rule>
         </rulegroup>
@@ -27300,7 +27314,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
-        <rule id="VIELE_LIEBE_GRUESSE" name="Viele Liebe (liebe) Grüße" default="temp_off">
+        <rule id="VIELE_LIEBE_GRUESSE" name="Viele Liebe (liebe) Grüße">
             <pattern>
                 <token regexp="yes">vielen?</token>
                 <marker>
@@ -27334,7 +27348,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Weise">Auf diese <marker>weise</marker> habe ich das Problem gelöst.</example>
                 <example>Auf diese weise Entscheidung können wir uns verlassen.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes" case_sensitive="yes">[Ii]n</token>
                     <token regexp="yes">dieser|[mdk]?einer|ihrer|eurer|unse?rer|keinster|irgendeiner</token>
@@ -63274,6 +63288,53 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Typografie -->
     <!-- ====================================================================== -->
     <category id="TYPOGRAPHY" name="Typografie">
+        <rule id="LEERZEICHEN_VOR_KLAMMER" name="Fehlendes Leerzeichen vor einer Klammer" default="temp_off">
+            <antipattern>
+                <token skip="5">(</token>
+                <token>;</token>
+            </antipattern>
+            <antipattern>
+                <token skip="5">=</token>
+                <token>(</token>
+            </antipattern>
+            <antipattern>
+                <token spacebefore="no">.</token>
+                <token spacebefore="no" />
+                <token spacebefore="no">(</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">new|def|private|public|static|class|raise|SELECT</token>
+                <token />
+                <token spacebefore="no">(</token>
+            </antipattern>
+            <antipattern>
+                <token spacebefore="no">(</token>
+                <token spacebefore="no" />
+                <token spacebefore="no">.</token>
+                <token spacebefore="no">
+                    <exception>)</exception>
+                </token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">
+                    .*[a-z0-9].*
+                    <exception case_sensitive="yes" regexp="yes">.*_.*|.*\$.*|.*[a-z][A-Z][a-z].*|function|int|if|while|for|return|resolve|reject|print|sleep|setTimeout|log|switch|min|max|foreach|each</exception>
+                </token>
+                <marker>
+                    <token spacebefore="no">(</token>
+                </marker>
+                <token regexp="yes">
+                    .*[a-z0-9]{2,30}.*
+                    <exception case_sensitive="yes" regexp="yes">.*_.*|0x.*|.*\$.*|.*[a-z][A-Z][a-z].*|function|true|false|0|e.?|in(nen)?</exception>
+                    <exception postag="UNKNOWN" />
+                    <exception scope="next" regexp="yes">\(|\=</exception>
+                </token>
+            </pattern>
+            <message>Hier scheint ein Leerzeichen vor der Klammer zu fehlen.</message>
+            <suggestion> (</suggestion>
+            <short>Fehlendes Leerzeichen</short>
+            <example correction=" (">Ich komme aus Altona<marker>(</marker>Hamburg).</example>
+        </rule>
         <rule id="DOPPELTES_LEERZEICHEN" name="Doppeltes Leerzeichen">
             <regexp type="exact" mark="1">[A-Za-zéèëêïîìáàâçôòüûùäöüß,.;]([&nbsp; ]{2})[A-Za-zéèëêïîìáàâçôòüûùäöüß,.;]</regexp><!-- TODO: add "nnbsp" -->
             <message>Hier scheint ein Leerzeichen zu viel zu sein.</message>
@@ -66247,6 +66308,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <exception postag="SUB:.*" postag_regexp="yes"/>
                 </token>
                 <token regexp="yes">,|\.|:|\?|!|;|-|–|\)|“|»|«|"|und|oder</token>
+            </antipattern>
+            <antipattern>
+                <token>Findet</token>
+                <token>Nemo</token>
             </antipattern>
             <antipattern>
                 <token skip="-1" postag="(VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*)" postag_regexp="yes">

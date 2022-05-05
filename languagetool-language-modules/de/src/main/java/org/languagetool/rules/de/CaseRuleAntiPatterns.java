@@ -744,7 +744,7 @@ class CaseRuleAntiPatterns {
     Arrays.asList(
       // @Peter Hast du morgen Zeit?
       SENT_START,
-      regex("@[a-zA-Z0-9]+"),
+      regex("@.+"),
       regex("[A-ZÄÜÖ].*")
     ),
     Arrays.asList(
@@ -1322,20 +1322,20 @@ class CaseRuleAntiPatterns {
       csToken("Klein")
     ),
     Arrays.asList( // Das sagen meine Kunden:
-      posRegex("SENT_START"),
+      SENT_START,
       csToken("Das"),
       csToken("sagen"),
       csRegex("[dms]eine|eure|die|unse?re")
     ),
     Arrays.asList( // (Gelächter) Das sind die …
-      posRegex("SENT_START"),
+      SENT_START,
       csToken("("),
       csRegex("[A-ZÄÖÜ].*"),
       csToken(")"),
       csRegex("[A-ZÄÖÜ].*")
     ),
     Arrays.asList( // [Gelächter] Das sind die …
-      posRegex("SENT_START"),
+      SENT_START,
       csToken("["),
       csRegex("[A-ZÄÖÜ].*"),
       csToken("]"),
