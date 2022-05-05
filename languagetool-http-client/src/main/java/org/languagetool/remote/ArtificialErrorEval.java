@@ -22,14 +22,19 @@ import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
 
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -44,32 +49,38 @@ public class ArtificialErrorEval {
   static List<String> classifyTypes = Arrays.asList("TP", "FP", "TN", "FN", "TPs");
   static int[][] results = new int[2][5]; // word0/word1 ; TP/FP/TN/FN/TP with expected suggestion
   static RemoteLanguageTool lt;
-  static int maxLines = 1000000; // decrease this number for testing
+  static int maxLines = 100;// 1000000; // decrease this number for testing
   static boolean verboseOutput = false;
   static boolean undirectional = false;
   static Pattern pWordboundaries = Pattern.compile("\\b.+\\b");
   static int countLine = 0;
   static List<String> onlyRules = new ArrayList<String>();
   static String summaryOutputFilename = "";
+  static String verboseOutputFilename = "";
   static String errorCategory = "";
+  static String langCode = "";
+  static String corpusFilePath = "";
+  static String outputPathRoot = "";
 
   public static void main(String[] args) throws IOException {
+    //use configuration file
+    if (args.length==1) {
+      String configurationFilename = args[0];
+      Properties prop = new Properties();
+      FileInputStream fis = new FileInputStream(configurationFilename);
+      prop.load(fis);
+      String inputFolder = prop.getProperty("inputFolder");
+      String outpuFolder = prop.getProperty("outputFolder");
+      String remoteServer = prop.getProperty("remoteServer");
+      runEvaluationOnFolders(inputFolder, outpuFolder, remoteServer);
+      System.exit(0);
+    }
     if (args.length < 4 || args.length > 11) {
-      System.out.println("Usage: " + ArtificialErrorEval.class.getSimpleName()
-          + " <language code> <file> <string1> <string2> <options>");
-      System.out.println("  <language code>, e.g. en, en-US, de, fr...");
-      System.out.println("  <file> is a file with correct sentences, once sentence per line; errors will be "
-          + "introduced and each line will be checked");
-      System.out.println("  <string1> is the string to be replaced by <string2>, word boundaries will be "
-          + "assumed at the start and the end of the strings");
-      System.out.println("  <options>");
-      System.out.println("    -v      verbose, print all false positive or false negative sentences");
-      System.out.println("    -u      unidirectional, analyze only rules for string1 (wrong) -> string2 (correct)");
-      System.out.println("    -r      list of comma-separated rules to be considered");
-      System.out.println("    -s      summary output file");
-      System.out.println("    -c      error category");
+      writeHelp();
       System.exit(1);
     }
+    
+    //Parse options from args
     for (int k = 4; k < args.length; k++) {
       if (args[k].contentEquals("-v")) {
         verboseOutput = true;
@@ -87,14 +98,63 @@ public class ArtificialErrorEval {
         errorCategory = args[k + 1];
       }
     }
-    long start = System.currentTimeMillis();
     words[0] = args[2];
     words[1] = args[3];
+    langCode = args[0];
+    corpusFilePath = args[1];
+    lt = new RemoteLanguageTool(Tools.getUrl("http://localhost:8081"));
+    run();
+    // end of parsing from args  
+  }
+  
+  private static void runEvaluationOnFolders(String inputFolder, String outputFolder, String remoteServer) throws IOException {
+    
+    verboseOutput = true;
+    SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd");
+    Date date = new Date(System.currentTimeMillis());
+    outputPathRoot = outputFolder+"/"+formatter.format(date);
+    Files.createDirectories(Paths.get(outputPathRoot));
+    //TODO: remove existing folder 
+    
+    lt = new RemoteLanguageTool(Tools.getUrl(remoteServer));
+    File[] languageDirectories = new File(inputFolder).listFiles(File::isDirectory);
+    for (File languageDirectory : languageDirectories) {
+      langCode = languageDirectory.getName();
+      Files.createDirectories(Paths.get(outputPathRoot+"/"+langCode));
+      summaryOutputFilename = outputPathRoot+"/"+langCode+".tsv";
+      
+      File[] categoryDirectories = languageDirectory.listFiles(File::isDirectory);
+      for (File categoryDirectory: categoryDirectories) {
+        errorCategory = categoryDirectory.getName();
+        Files.createDirectories(Paths.get(outputPathRoot+"/"+langCode+"/"+errorCategory));
+        File[] corpusFiles = categoryDirectory.listFiles(File::isFile);
+        for (File myCorpusFile: corpusFiles) {
+          corpusFilePath = myCorpusFile.getAbsolutePath(); 
+          String fileName = myCorpusFile.getName();
+          fileName = fileName.substring(0, fileName.lastIndexOf('.'));
+          String[] parts = fileName.split("~");
+          words[0] = parts[0].replaceAll("_", " ");
+          words[1] = parts[1].replaceAll("_", " ");
+          undirectional = false;
+          if (parts.length > 2) {
+            undirectional = parts[2].equals("u");
+          }
+          verboseOutputFilename = outputPathRoot+"/"+langCode+"/"+errorCategory+"/"+myCorpusFile.getName();
+          
+          run();
+        }
+      }
+    }
+  }
+  
+  private static void run() throws IOException {
+    Arrays.fill(results[0], 0);
+    Arrays.fill(results[1], 0);
     fakeRuleIDs[0] = "rules_" + words[0] + "->" + words[1]; // rules in one direction
     fakeRuleIDs[1] = "rules_" + words[1] + "->" + words[0]; // rules in the other direction
-    lt = new RemoteLanguageTool(Tools.getUrl("http://localhost:8081"));
-    CheckConfiguration config = new CheckConfigurationBuilder(args[0]).disabledRuleIds("WHITESPACE_RULE").build();
-    List<String> lines = Files.readAllLines(Paths.get(args[1]));
+    CheckConfiguration config = new CheckConfigurationBuilder(langCode).disabledRuleIds("WHITESPACE_RULE").build();
+    long start = System.currentTimeMillis();
+    List<String> lines = Files.readAllLines(Paths.get(corpusFilePath));
     final Pattern p0;
     Matcher mWordBoundaries = pWordboundaries.matcher(words[0]);
     if (mWordBoundaries.matches()) {
@@ -109,6 +169,7 @@ public class ArtificialErrorEval {
     } else {
       p1 = Pattern.compile(words[1], Pattern.CASE_INSENSITIVE);
     }
+    countLine = 0;
     for (String line : lines) {
       countLine++;
       if (countLine > maxLines) {
@@ -136,12 +197,6 @@ public class ArtificialErrorEval {
     // print results
     int oneOrTwo = (undirectional ? 1 : 2);
     for (int i = 0; i < oneOrTwo; i++) {
-      System.out.println("-------------------------------------");
-      System.out.println("Results for " + fakeRuleIDs[i]);
-      System.out.println("TP (with expected suggestion): " + results[i][4]);
-      for (int j = 0; j < 4; j++) {
-        System.out.println(classifyTypes.get(j) + ": " + results[i][j]);
-      }
       float precision = results[i][classifyTypes.indexOf("TP")]
           / (float) (results[i][classifyTypes.indexOf("TP")] + results[i][classifyTypes.indexOf("FP")]);
       float recall = results[i][classifyTypes.indexOf("TP")]
@@ -150,10 +205,43 @@ public class ArtificialErrorEval {
           / results[i][classifyTypes.indexOf("TP")];
       int errorsTotal = results[i][classifyTypes.indexOf("TP")] + results[i][classifyTypes.indexOf("FP")]
           + results[i][classifyTypes.indexOf("TN")] + results[i][classifyTypes.indexOf("FN")];
-      System.out.println("Precision: " + String.format("%.4f", precision));
-      System.out.println("Recall: " + String.format("%.4f", recall));
-      System.out.println("TP with expected suggestion: " + String.format("%.4f", expectedSuggestionPercentage));
-      System.out.println("Errors: " + String.valueOf(errorsTotal));
+      if (!verboseOutputFilename.isEmpty()) { 
+        try (BufferedWriter out = new BufferedWriter(new FileWriter(verboseOutputFilename, true))) {
+          out.write("-------------------------------------\n");
+          out.write("Results for " + fakeRuleIDs[i]+"\n");
+          out.write("TP (with expected suggestion): " + results[i][4] +"\n");
+          for (int j = 0; j < 4; j++) {
+            out.write(classifyTypes.get(j) + ": " + results[i][j] +"\n");
+          }
+          
+          out.write("Precision: " + String.format("%.4f", precision)+"\n");
+          out.write("Recall: " + String.format("%.4f", recall)+"\n");
+          out.write("TP with expected suggestion: " + String.format("%.4f", expectedSuggestionPercentage)+"\n");
+          out.write("Errors: " + String.valueOf(errorsTotal)+"\n");
+        }
+      }
+      
+//      System.out.println("-------------------------------------");
+//      System.out.println("Results for " + fakeRuleIDs[i]);
+//      System.out.println("TP (with expected suggestion): " + results[i][4]);
+//      for (int j = 0; j < 4; j++) {
+//        System.out.println(classifyTypes.get(j) + ": " + results[i][j]);
+//      }
+//      float precision = results[i][classifyTypes.indexOf("TP")]
+//          / (float) (results[i][classifyTypes.indexOf("TP")] + results[i][classifyTypes.indexOf("FP")]);
+//      float recall = results[i][classifyTypes.indexOf("TP")]
+//          / (float) (results[i][classifyTypes.indexOf("TP")] + results[i][classifyTypes.indexOf("FN")]);
+//      float expectedSuggestionPercentage = (float) results[i][classifyTypes.indexOf("TPs")]
+//          / results[i][classifyTypes.indexOf("TP")];
+//      int errorsTotal = results[i][classifyTypes.indexOf("TP")] + results[i][classifyTypes.indexOf("FP")]
+//          + results[i][classifyTypes.indexOf("TN")] + results[i][classifyTypes.indexOf("FN")];
+//      System.out.println("Precision: " + String.format("%.4f", precision));
+//      System.out.println("Recall: " + String.format("%.4f", recall));
+//      System.out.println("TP with expected suggestion: " + String.format("%.4f", expectedSuggestionPercentage));
+//      System.out.println("Errors: " + String.valueOf(errorsTotal));
+      
+      
+      
       if (!summaryOutputFilename.isEmpty()) { 
         try (BufferedWriter out = new BufferedWriter(new FileWriter(summaryOutputFilename, true))) {
           out.write(errorCategory + "\t" + fakeRuleIDs[i] + "\t" + errorsTotal + "\t" + String.format("%.4f", precision)
@@ -217,9 +305,11 @@ public class ArtificialErrorEval {
     }
   }
 
-  private static void printSentenceOutput(String classification, String sentence, String ruleIds) {
+  private static void printSentenceOutput(String classification, String sentence, String ruleIds) throws IOException {
     if (verboseOutput) {
-      System.out.println(countLine + ". " + classification + ": " + sentence + " –– " + ruleIds);
+      try (BufferedWriter out = new BufferedWriter(new FileWriter(verboseOutputFilename, true))) {
+        out.write(countLine + ". " + classification + ": " + sentence + " –– " + ruleIds+"\n");
+      }
     }
   }
 
@@ -279,5 +369,21 @@ public class ArtificialErrorEval {
       }
     }
     return false;
+  }
+  
+  private static void writeHelp() {
+    System.out.println("Usage: " + ArtificialErrorEval.class.getSimpleName()
+        + " <language code> <file> <string1> <string2> <options>");
+    System.out.println("  <language code>, e.g. en, en-US, de, fr...");
+    System.out.println("  <file> is a file with correct sentences, once sentence per line; errors will be "
+        + "introduced and each line will be checked");
+    System.out.println("  <string1> is the string to be replaced by <string2>, word boundaries will be "
+        + "assumed at the start and the end of the strings");
+    System.out.println("  <options>");
+    System.out.println("    -v      verbose, print all false positive or false negative sentences");
+    System.out.println("    -u      unidirectional, analyze only rules for string1 (wrong) -> string2 (correct)");
+    System.out.println("    -r      list of comma-separated rules to be considered");
+    System.out.println("    -s      summary output file");
+    System.out.println("    -c      error category");
   }
 }
