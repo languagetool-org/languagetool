@@ -255,6 +255,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Mögliche Tippfehler">
+        <rule id="MIT_ENSETZTEN" name="mit Entsetzten (Entsetzen)" default="temp_off">
+            <pattern>
+                <token>mit</token>
+                <marker>
+                    <token>entsetzten</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie das Nomen <suggestion>Entsetzen</suggestion>?</message>
+            <example correction="Entsetzen">Mit <marker>Entsetzten</marker> mussten wir feststellen, dass es gestohlen wurde.</example>
+        </rule>
         <rule id="WAR_FUER" name="War (was) für ein…">
             <pattern>
                 <token postag="SENT_START|KON" postag_regexp="yes"/>
@@ -8802,6 +8812,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Liebe"><marker>Leibe</marker> Maria,...</example>
                 <example correction="Lieber"><marker>Leiber</marker> Tom,...</example>
             </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token regexp="yes" skip="1">bei|im|zum|vom|dem|eurem|unse?rem|[dskm]?einem|zu</token>
+                    <token>Leibe</token>
+                </antipattern>
+                <pattern>
+                    <token case_sensitive="yes">Leibe</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Liebe</suggestion>?</message>
+                <example correction="Liebe">Ich wünsche dir viel <marker>Leibe</marker>.</example>
+                <example>Tom wurde bei lebendigem Leibe begraben.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="SACHEN_SACHSEN" name="Sachen (Sachsen)">
             <rule>
@@ -8886,6 +8908,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <url>https://www.korrekturen.de/beliebte_fehler/naja.shtml</url>
                 <short>&verw;</short>
                 <example correction="Na ja"><marker>Naja</marker>, ich weiß nicht.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes">naja</token>
+                </pattern>
+                <message>Meinten Sie die Interjektion <suggestion>na ja</suggestion> (im Gegensatz zur Giftnatter Naja)?</message>
+                <example correction="na ja">Hm <marker>naja</marker> schauen wir mal.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PRAESENS_PRAESENZ" name="Präsens (Präsenz)">
@@ -17873,6 +17902,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token><exception postag="(ADJ|SUB|PA[12]):DAT:SIN:(MAS|NEU).*|PRP.*" postag_regexp="yes"/></token>
             </pattern>
             <message>&inwend;<suggestion>je nachdem</suggestion> wird 'nachdem' in der Regel zusammengeschrieben.</message>
+            <url>https://languagetool.org/insights/de/beitrag/rechtschreibung-je-nach-dem-nachdem/</url>
             <example>Man konnte traurig oder fröhlich werden, <marker>je nach dem</marker> jeweiligen Gemütszustand.</example>
             <example>Man konnte traurig oder fröhlich werden, <marker>je nach dem</marker> betrachteten Zustand.</example>
             <example>Man konnte traurig oder fröhlich werden, <marker>je nach dem</marker> vom Lehrer betrachteten Zustand.</example>
@@ -27318,6 +27348,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="EINE_NEUE_BLEIBE" name="eine neue bleibe (Bleibe)" default="temp_off">
+            <antipattern>
+                <token>bleibe</token>
+                <token>ich</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">[dmk]?eine|die</token>
+                <token>neue</token>
+                <marker>
+                    <token case_sensitive="yes">bleibe</token>
+                </marker>
+            </pattern>
+            <message>Das Nomen <suggestion>Bleibe</suggestion> wird großgeschrieben.</message>
+            <example correction="Bleibe">Ich habe noch keine neue <marker>bleibe</marker> gefunden.</example>
+        </rule>
         <rule id="VIELE_LIEBE_GRUESSE" name="Viele Liebe (liebe) Grüße">
             <pattern>
                 <token regexp="yes">vielen?</token>
@@ -29996,25 +30041,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Ruf">Der <marker>ruf</marker> ist jetzt schon ruiniert.</example>
             <example>Das ruf ich ihr zu!</example>
         </rule>
-        <rule id="REISE_SUBST" name="ihre reise (Reise)">
-            <pattern>
-                <token postag="(PRO:POS|ART):.+" postag_regexp="yes">
-                    <exception>das</exception>
-                </token>
-                <token postag="(ADJ|PA[12]):.*" postag_regexp="yes" min="0" regexp="yes" case_sensitive="yes">
-                    [a-zöäü].*
-                    <exception postag="ADV:MOD" />
-                </token>
-                <marker>
-                    <token case_sensitive="yes" regexp="yes">reisen?</token>
-                </marker>
-                <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
-                <token postag="VER:.+" postag_regexp="yes" />
-            </pattern>
-            <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
-            <example correction="Reise">Meine <marker>reise</marker> war ein voller Erfolg.</example>
-            <example>Ich mache das damit ihr wirklich reisen könnt.</example>
-        </rule>
+        <rulegroup id="REISE_SUBST" name="ihre reise (Reise)">
+            <rule>
+                <pattern>
+                    <token postag="(PRO:POS|ART):.+" postag_regexp="yes">
+                        <exception>das</exception>
+                    </token>
+                    <token postag="(ADJ|PA[12]):.*" postag_regexp="yes" min="0" regexp="yes" case_sensitive="yes">
+                        [a-zöäü].*
+                        <exception postag="ADV:MOD" />
+                    </token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">reisen?</token>
+                    </marker>
+                    <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
+                    <token postag="VER:.+" postag_regexp="yes" />
+                </pattern>
+                <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
+                <example correction="Reise">Meine <marker>reise</marker> war ein voller Erfolg.</example>
+                <example>Ich mache das damit ihr wirklich reisen könnt.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>auf</token>
+                    <marker>
+                        <token case_sensitive="yes">reisen</token>
+                    </marker>
+                </pattern>
+                <message>Das Nomen <suggestion><match no="2" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
+                <example correction="Reisen">Ich gehe auf <marker>reisen</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="WELLEN_SUBST" name="Alle wellen (Wellen)">
             <pattern>
                 <token postag="(PRO|ART):.+" postag_regexp="yes">
@@ -46103,7 +46160,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
             </pattern>
             <message>&inwend;'des Nachts' bzw. 'eines Nachts' wird <suggestion>Nachts</suggestion> großgeschrieben.</message>
-            <url>https://dict.leo.org/grammatik/deutsch/Rechtschreibung/Regeln/Gross-klein/Denominalisierung.html#Anchor-In-11481</url>
+            <url>https://languagetool.org/insights/de/beitrag/rechtschreibung-des-nachts/</url>
             <short>&prgk;.</short>
             <example correction="Nachts">Des <marker>nachts</marker> sind alle Katzen blau.</example>
             <example correction="Nachts">Eines <marker>nachts</marker> sind alle Katzen blau.</example>
@@ -64485,7 +64542,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token skip="-1" postag="SENT_START"/>
-                    <token skip="-1">„<exception scope="next" regexp="yes">“|‚</exception></token>
+                    <token skip="-1">„<exception scope="next" regexp="yes">“|‚"|”</exception></token>
                     <marker>
                         <token skip="-1" spacebefore="yes">„</token>
                         <token skip="-1" spacebefore="no">“</token>
@@ -65654,6 +65711,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token skip="-1" postag="VER:EIZ:.*" postag_regexp="yes"><exception scope="next" postag="VER.*:[1-3]:.*" postag_regexp="yes"/></token>
                     <token regexp="yes">,|;|:|\.|\?|!|-|–|\)|\(|„|“|»|«|"|und|oder</token>
                 </antipattern>
+                <antipattern>
+                    <token inflected="yes" skip="10">haben</token>
+                    <token>Wunsch</token>
+                    <token postag="VER:EIZ.*" postag_regexp="yes" />
+                </antipattern>
                 <pattern>
                     <token skip="-1" regexp="yes">als|anstatt|außer|ausser|ohne|statt|um<exception regexp="yes" scope="next">,|;|\.|:|\?|!|-|–|\)|\(|„|“|»|«|"|und|oder|dass</exception></token>
                     <marker>
@@ -65669,6 +65731,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>\2,</suggestion>
                 <example correction="umzuziehen,">Um sich <marker>umzuziehen</marker> ging sie nach Hause.</example>
                 <example><marker>Um sich umzuziehen,</marker> ging sie nach Hause.</example>
+                <example>Ohne ihr Vorstellungsvermögen hätten die Menschen den Wunsch weiterzuleben schon seit Langem verloren.</example>
             </rule>
         </rulegroup>
         <rulegroup id="KOMMA_INFINITIVGRUPPE_II" name="Komma vor Infinitivgruppe, die von einem Korrelat (es) abhängt">
@@ -67204,6 +67267,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>,</token>
                     <token>egal</token>
                     <token regexp="yes">ob|wie|wann|wo|was|warum|wohin|woher|wieso|weshalb|welch.*</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">nö|ahoi</token>
+                    <token>,</token>
                 </antipattern>
                 <pattern>
                     <token skip="-1" postag="SENT_START">

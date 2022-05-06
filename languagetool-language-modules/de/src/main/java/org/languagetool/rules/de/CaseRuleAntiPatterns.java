@@ -1340,6 +1340,11 @@ class CaseRuleAntiPatterns {
       csRegex("[A-ZÄÖÜ].*"),
       csToken("]"),
       csRegex("[A-ZÄÖÜ].*")
+    ),
+    Arrays.asList( // ... ist das neue Normal.
+      csToken("das"),
+      csToken("neue"),
+      csToken("Normal")
     )
   );
 }
