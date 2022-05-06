@@ -4367,6 +4367,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                     <token spacebefore="no">:</token>
                                     <token spacebefore="no">]</token>
                                 </antipattern>
+                                <antipattern>
+                                    <token regexp="yes">[:;]</token>
+                                    <token spacebefore="no">)</token>                                
+                                </antipattern>
 								<pattern case_sensitive="yes">
 										<marker>
 												<token negate_pos="yes" postag="SENT_END" regexp="yes"><exception postag="interp:nospace"></exception>[;:]</token>
@@ -4378,6 +4382,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example correction="; ">To jest błąd<marker>;</marker>wiem to dobrze.</example>
 								<example>Jest godzina 8:42.</example>
 								<example>To jest błąd; wiem to dobrze.</example>
+								<example>To żart ;) – wiesz przecież!</example>
                                 <example>Piotr Chmielowski, Bolesław Prus, [w:] Nasi powieściopisarze. Zarysy literackie, s. 5.</example>
 						</rule>
 						<rule>
@@ -21245,7 +21250,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
     <category id="TYPOS" name="Prawdopodobne literówki" type="misspelling">
-    <rule id="LUBIA_LUBA" name="„lubą” (lubią)">
+    <rulegroup id="LUBIA_LUBA" name="„lubą” (lubią)">
+    <rule>
         <pattern>
             <token>nie</token>
             <marker><token>lubą</token></marker>
@@ -21254,6 +21260,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <short>Literówka</short>
         <example correction="lubią">Ogólnie młodzi ludzie nie <marker>lubą</marker> formalności.</example>
     </rule>
+    <rule>
+        <pattern>
+            <marker><token>lubą<exception scope="previous" regexp="yes">nie|mą|moją|swą</exception>
+            <exception scope="previous" postag="prep:(inst|acc).*" postag_regexp="yes"/></token></marker>
+            <token min="0">się</token>
+            <token min="0" postag="adv.*" postag_regexp="yes"/>
+            <token postag="verb:inf.*" postag_regexp="yes"/>
+        </pattern>    
+        <message>Typowa literówka. Czy chodziło o <suggestion>lubią</suggestion>?</message>
+        <short>Literówka</short>
+        <example correction="lubią">Młodzi ludzie <marker>lubą</marker> jeździć rowerami.</example>
+        <example>Lubię z moją lubą jeździć na wrotkach.</example>
+        <example>Lubię z lubą jeść lody o smaku dorsza.</example>
+    </rule>
+    </rulegroup>
     <rule id="ROZLICZNIE" name="„rozlicznie z” (rozliczenie z)">
       <pattern>
         <marker><token>rozlicznie</token></marker>
