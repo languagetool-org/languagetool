@@ -48,6 +48,7 @@ public class ArtificialErrorEval {
   static String[] fakeRuleIDs = new String[2];
   static List<String> classifyTypes = Arrays.asList("TP", "FP", "TN", "FN", "TPs");
   static int[][] results = new int[2][5]; // word0/word1 ; TP/FP/TN/FN/TP with expected suggestion
+  static int[] accumulateResults = new int[5]; // totalErrors/TP/FP/TN/FN
   static RemoteLanguageTool lt;
   static int maxLines = 100;// 1000000; // decrease this number for testing
   static boolean verboseOutput = false;
@@ -122,9 +123,10 @@ public class ArtificialErrorEval {
       langCode = languageDirectory.getName();
       Files.createDirectories(Paths.get(outputPathRoot+"/"+langCode));
       summaryOutputFilename = outputPathRoot+"/"+langCode+".tsv";
-      
+      appendToFile(summaryOutputFilename, "Category\tRules\tErrors\tPrecision\tRecall\tTP\tFP\tTN\tFN");
       File[] categoryDirectories = languageDirectory.listFiles(File::isDirectory);
       for (File categoryDirectory: categoryDirectories) {
+        Arrays.fill(accumulateResults, 0);
         errorCategory = categoryDirectory.getName();
         Files.createDirectories(Paths.get(outputPathRoot+"/"+langCode+"/"+errorCategory));
         File[] corpusFiles = categoryDirectory.listFiles(File::isFile);
@@ -140,9 +142,20 @@ public class ArtificialErrorEval {
             undirectional = parts[2].equals("u");
           }
           verboseOutputFilename = outputPathRoot+"/"+langCode+"/"+errorCategory+"/"+myCorpusFile.getName();
-          
           run();
         }
+        // total by category
+        float precision = accumulateResults[1] / (float) (accumulateResults[1] + accumulateResults[2]);
+        float recall = accumulateResults[1] / (float) (accumulateResults[1] + accumulateResults[4]);
+        appendToFile (summaryOutputFilename, errorCategory + "\t" + "TOTAL" + "\t" 
+            + accumulateResults[0] + "\t" 
+            + String.format("%.4f", precision) + "\t" 
+            + String.format("%.4f", recall) + "\t"
+            + accumulateResults[1] + "\t"
+            + accumulateResults[2] + "\t"
+            + accumulateResults[3] + "\t"
+            + accumulateResults[4] + "\t"
+            );
       }
     }
   }
@@ -201,8 +214,8 @@ public class ArtificialErrorEval {
           / (float) (results[i][classifyTypes.indexOf("TP")] + results[i][classifyTypes.indexOf("FP")]);
       float recall = results[i][classifyTypes.indexOf("TP")]
           / (float) (results[i][classifyTypes.indexOf("TP")] + results[i][classifyTypes.indexOf("FN")]);
-      float expectedSuggestionPercentage = (float) results[i][classifyTypes.indexOf("TPs")]
-          / results[i][classifyTypes.indexOf("TP")];
+      //float expectedSuggestionPercentage = (float) results[i][classifyTypes.indexOf("TPs")]
+      //    / results[i][classifyTypes.indexOf("TP")];
       int errorsTotal = results[i][classifyTypes.indexOf("TP")] + results[i][classifyTypes.indexOf("FP")]
           + results[i][classifyTypes.indexOf("TN")] + results[i][classifyTypes.indexOf("FN")];
       if (!verboseOutputFilename.isEmpty()) { 
@@ -216,7 +229,7 @@ public class ArtificialErrorEval {
           
           out.write("Precision: " + String.format("%.4f", precision)+"\n");
           out.write("Recall: " + String.format("%.4f", recall)+"\n");
-          out.write("TP with expected suggestion: " + String.format("%.4f", expectedSuggestionPercentage)+"\n");
+          //out.write("TP with expected suggestion: " + String.format("%.4f", expectedSuggestionPercentage)+"\n");
           out.write("Errors: " + String.valueOf(errorsTotal)+"\n");
         }
       }
@@ -241,17 +254,30 @@ public class ArtificialErrorEval {
 //      System.out.println("Errors: " + String.valueOf(errorsTotal));
       
       
+      appendToFile (summaryOutputFilename, errorCategory + "\t" + fakeRuleIDs[i] 
+          + "\t" + errorsTotal + "\t" + String.format("%.4f", precision)  + "\t" + String.format("%.4f", recall) + "\t"
+          + results[i][classifyTypes.indexOf("TP")] + "\t"
+          + results[i][classifyTypes.indexOf("FP")] + "\t"
+          + results[i][classifyTypes.indexOf("TN")] + "\t"
+          + results[i][classifyTypes.indexOf("FN")] + "\t");
+      accumulateResults[0] += errorsTotal;
+      accumulateResults[1] += results[i][classifyTypes.indexOf("TP")];
+      accumulateResults[2] += results[i][classifyTypes.indexOf("FP")];
+      accumulateResults[3] += results[i][classifyTypes.indexOf("TN")];
+      accumulateResults[4] += results[i][classifyTypes.indexOf("FN")];
       
-      if (!summaryOutputFilename.isEmpty()) { 
-        try (BufferedWriter out = new BufferedWriter(new FileWriter(summaryOutputFilename, true))) {
-          out.write(errorCategory + "\t" + fakeRuleIDs[i] + "\t" + errorsTotal + "\t" + String.format("%.4f", precision)
-              + "\t" + String.format("%.4f", recall) + "\n");
-        }
-      }
     }
     float time = (float) ((System.currentTimeMillis() - start) / 1000.0);
     System.out.println("-------------------------------------");
     System.out.println("Total time: " + String.format("%.2f", time) + " seconds");
+  }
+  
+  private static void appendToFile(String FilePath, String text) throws IOException {
+    if (!FilePath.isEmpty()) { 
+      try (BufferedWriter out = new BufferedWriter(new FileWriter(FilePath, true))) {
+        out.write(text + "\n");
+      }
+    }
   }
 
   private static void analyzeSentence(String correctSentence, int j, int fromPos, CheckConfiguration config)
@@ -269,7 +295,6 @@ public class ArtificialErrorEval {
         // printSentenceOutput("TN", correctSentence, fakeRuleIDs[j]);
       }
     }
-
     // Wrong sentence
     if (!undirectional || j == 1) {
       String replaceWith = words[1 - j];
@@ -290,13 +315,16 @@ public class ArtificialErrorEval {
       List<RemoteRuleMatch> matchesWrong = lt.check(wrongSentence, config).getMatches();
       List<String> ruleIDs = ruleIDsAtPos(matchesWrong, fromPos, words[j]);
       if (ruleIDs.size() > 0) {
-        results[1 - j][classifyTypes.indexOf("TP")]++;
+        //results[1 - j][classifyTypes.indexOf("TP")]++;
         if (isExpectedSuggestionAtPos(matchesWrong, fromPos, words[j], wrongSentence, correctSentence)) {
-          results[1 - j][classifyTypes.indexOf("TPs")]++;
+          //results[1 - j][classifyTypes.indexOf("TPs")]++;
+          results[1 - j][classifyTypes.indexOf("TP")]++;
           printSentenceOutput("TP", wrongSentence, fakeRuleIDs[1 - j] + ":" + String.join(",", ruleIDs));
         } else {
-          printSentenceOutput("TP no expected suggestion", wrongSentence,
-              fakeRuleIDs[1 - j] + ":" + String.join(",", ruleIDs));
+          //printSentenceOutput("TP no expected suggestion", wrongSentence,
+          //    fakeRuleIDs[1 - j] + ":" + String.join(",", ruleIDs));
+          results[1 - j][classifyTypes.indexOf("FN")]++;
+          printSentenceOutput("FN", wrongSentence, fakeRuleIDs[1 - j]);
         }
       } else {
         results[1 - j][classifyTypes.indexOf("FN")]++;
@@ -335,7 +363,6 @@ public class ArtificialErrorEval {
         boolean containsDesiredSuggestion = false;
         if (replacements != null) {
           for (String replacement : replacements) {
-            // FIXME; if (replacement.contains(expectedSuggestion.strip())) {
             if (replacement.contains(expectedSuggestion.trim())) {
               containsDesiredSuggestion = true;
             }
