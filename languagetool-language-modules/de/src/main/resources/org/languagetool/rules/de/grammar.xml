@@ -10914,15 +10914,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="CONFUSION_RULE_MIR_MIT_NEU" name="Mögliche Verwechslung von mir und mit" default="temp_off">
 	        <rule><!--1-->
+	            <antipattern>
+	                <token inflected="yes">können</token>
+	                <token skip="-1">mir</token>
+	                <token postag="VER.*" postag_regexp="yes"/>
+	            </antipattern>
 		        <pattern>
             	    <marker>
                 		<token>mir</token>
             	    </marker>
-            	    <token postag="PRO:RIN:DAT:.*|PRO:PER:DAT:.*|PRO:DEM:DAT:.*|PRO:IND:DAT:.*" postag_regexp="yes"/>
+            	    <token postag="PRO:RIN:DAT:.*|PRO:PER:DAT:.*|PRO:DEM:DAT:.*|PRO:IND:DAT:.*" postag_regexp="yes" skip="-1"/>
 			        <token inflected="yes" regexp="yes">fangen|hören|beeilen|beginnen|beschäftigen|einigen|essen|fahren|handeln|kommunizieren|rechnen|reden|schimpfen|spielen|sprechen|starten|streiten|telefonieren|treffen|trinken|unterhalten|verabreden|vertragen|vergleichen|verstehen</token>
                 </pattern>
-                <message>mir (Dativ) ist hier weniger wahrscheinlich als <suggestion>mit</suggestion>.</message>
+                <message>'mir' (Dativ) ist hier weniger wahrscheinlich als <suggestion>mit</suggestion>.</message>
                 <example correction="Mit"><marker>Mir</marker> wem redest du?</example>
+                <example correction="mit">Er lädt seine Gäste ein, <marker>mir</marker> ihm zu Abend zu essen.</example>
+                <example>Kann mir bitte jemand helfen?</example>
             </rule>
 	        <rule><!--2-->
 	            <antipattern>
@@ -10952,22 +10959,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         		    <token postag="ADJ:DAT.*" postag_regexp="yes" min="0"/>
         		    <token postag="SUB:DAT.*" postag_regexp="yes"/>
 		        </pattern>
-                <message>mir (Dativ) ist hier weniger wahrscheinlich als <suggestion>mit</suggestion>.</message>
+                <message>'mir' (Dativ) ist hier weniger wahrscheinlich als <suggestion>mit</suggestion>.</message>
                 <example correction="mit">Das Buch fängt <marker>mir</marker> einer Schilderung von London an.</example>
 	            <example correction="mit">Wir fahren <marker>mir</marker> dem Bus zur Schule.</example>
+	            <example>Mein Bruder spielte mir früher häufig Streiche.</example>
+	            <example>Die Aufgabe beginnt mir großen Spaß zu machen.</example>
+	            <example>Bitte sage mir endlich die Wahrheit!</example>
             </rule>
-            <rule> <!--3-->
-                <pattern>
-                    <marker>
-                        <token>mir</token>
-                    </marker>
-                    <token postag="PRO:PER:DAT.*" postag_regexp="yes" skip="-1"/>
-                    <token inflected="yes" regexp="yes">fangen|hören|beeilen|beginnen|beschäftigen|einigen|essen|fahren|handeln|kommunizieren|rechnen|reden|schimpfen|spielen|sprechen|starten|streiten|telefonieren|treffen|trinken|unterhalten|verabreden|vertragen|vergleichen|verstehen</token>
-                </pattern>
-                <message>mir (Dativ) ist hier weniger wahrscheinlich als <suggestion>mit</suggestion>.</message>
-                <example correction="mit">Er lädt seine Gäste ein, <marker>mir</marker> ihm zu Abend zu essen.</example>
-            </rule>
-            <rule><!--4-->
+            <rule> <!--3--><!--ehemals 4-->
                 <antipattern>
                     <token inflected="yes" regexp="yes" skip="1">bringen</token>
                     <token>mir</token>
@@ -10976,6 +10975,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="ADJ:DAT.*" postag_regexp="yes" min="0"/>
                     <token postag="SUB:DAT.*" postag_regexp="yes" skip="-1"/>
                     <token inflected="yes" regexp="yes">fahren</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">sein</token>
+                    <token>mir</token>
+                    <token>genug</token>
+                    <token postag="SUB:.*" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -10987,30 +10992,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SUB:DAT.*" postag_regexp="yes" skip="-1"/>
                     <token inflected="yes" regexp="yes">fahren</token>
                 </pattern>
-                <message>mir (Dativ) ist hier weniger wahrscheinlich als <suggestion>mit</suggestion>.</message>
-                <example correction="mit">Ich möchte lieber <marker>mir</marker> dem Bus zur Schule fahren.</example>
+                <message>'mir' (Dativ) ist hier weniger wahrscheinlich als <suggestion>mit</suggestion>.</message>
+                <example correction="mit">Ich glaube, bei dem starken Wind werde ich lieber nicht <marker>mir</marker> dem Fahrrad fahren.</example>
+                <example>Bringst du mir meine Lieblingsschokolade mit, wenn du einkaufen fährst?</example>
+                <example>Das ist mir genug.</example>
             </rule>
-            <rule><!--5-->
+            <rule><!--4-->
                 <pattern>
                     <marker>
                         <token>mir</token>
                     </marker>
                     <token regexp="yes" inflected="yes">einrechnen|einbeziehen</token>
                 </pattern>
-                <message>mir (Dativ) ist hier weniger wahrscheinlich als <suggestion>mit</suggestion>.</message>
+                <message>'mir' (Dativ) ist hier weniger wahrscheinlich als <suggestion>mit</suggestion>.</message>
                 <example correction="mit">Porto und Verpackung sind nicht <marker>mir</marker> eingerechnet.</example>
             </rule>
-            <rule><!--6-->
+            <rule><!--5-->
+                <antipattern>
+                    <token>mir</token>
+                    <token postag="PRO:POS.*|PRO:DEM.*|ART.*" postag_regexp="yes" skip="-1"/>
+                    <token postag="SUB.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" regexp="yes">erlauben|gestatten</token>
+                    <token>mir</token>
+                    <token postag="PRO:PER:DAT:.*" postag_regexp="yes"/>
+                    <token postag="VER:EIZ.*|VER:INF.*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <marker>
-                        <token postag="PRO:.*:DAT:.*" postag_regexp="yes">mir</token>
+                        <token>mir</token>
                     </marker>
                     <token postag="PRO:PER:DAT:.*" postag_regexp="yes"/>
                 </pattern>
-                <message>mir (Dativ) ist hier weniger wahrscheinlich als <suggestion>mit</suggestion>.</message>
+                <message>'mir' (Dativ) ist hier weniger wahrscheinlich als <suggestion>mit</suggestion>.</message>
                 <example correction="mit">Du verbringst zu wenig Zeit <marker>mir</marker> ihr.</example>
+                <example>Bitte teilen Sie mir Ihre Meinung zu diesem Thema bald mit.</example>
+                <example>Erlaube mir dir mitzuteilen, dass das nicht möglich ist.</example> <!--Komma fehlt-->
             </rule>
-            <rule><!--7-->
+            <rule><!--6-->
                 <pattern>
                     <marker>
                         <token>mir</token>
@@ -11019,12 +11039,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="ADJ:DAT.*" postag_regexp="yes"/>
                     <token regexp="yes">Wahrscheinlichkeit</token>
                 </pattern>
-                <message>mir (Dativ) ist hier weniger wahrscheinlich als <suggestion>mit</suggestion>.</message>
+                <message>'mir' (Dativ) ist hier weniger wahrscheinlich als <suggestion>mit</suggestion>.</message>
                 <example correction="mit">Es wird <marker>mir</marker> großer Wahrscheinlichkeit regnen.</example>
             </rule>
-            <rule><!--8-->
+            <rule><!--7-->
                 <antipattern>
-                    <token inflected="yes">kommen</token>
+                    <token inflected="yes" skip="-1">kommen</token>
                     <token>mir</token>
                     <token>zu</token>
                     <token>Hilfe</token>
@@ -11035,7 +11055,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes" regexp="yes">suchen|anbieten|holen</token>
                 </antipattern>
                 <antipattern>
-                    <token inflected="yes" regexp="yes" skip="-1">suchen|anbieten|holen</token>
+                    <token inflected="yes" regexp="yes" skip="-1">suchen|bieten|holen</token>
                     <token>mir</token>
                     <token regexp="yes" skip="-1">Hilfe</token>
                 </antipattern>
@@ -11048,16 +11068,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="ADJ:DAT.*" postag_regexp="yes" min="0"/>
                     <token regexp="yes">Überschrift|Routine|Hilfe|Zeilen</token>
                 </pattern>
-                <message>mir (Dativ) ist hier weniger wahrscheinlich als <suggestion>mit</suggestion>.</message>
+                <message>'mir' (Dativ) ist hier weniger wahrscheinlich als <suggestion>mit</suggestion>.</message>
                 <example correction="mit">Er erledigt seine Aufgaben <marker>mir</marker> einer gewissen Routine.</example>
                 <example correction="mit">Ich rechne nicht <marker>mir</marker> seiner Hilfe.</example>
                 <example correction="mit">Wir melden uns heute <marker>mir</marker> einigen Zeilen zu diesem Thema.</example>
+                <example>Zum Glück kam er mir zu Hilfe.</example>
+                <example>Mir Hilfe anzubieten bringt nichts.</example>
+                <example>Meine Familie bot mir Hilfe an.</example>
             </rule>
-            <rule><!--9-->
+            <rule><!--8-->
                 <antipattern>
                     <token postag="VER:IMP.*" postag_regexp="yes"/>
+                    <token skip="-1">mir</token>
+                    <token postag="SUB:.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START" />
+                    <token postag="VER:*" postag_regexp="yes"/>
                     <token>mir</token>
-                    <token postag="SUB:DAT.*" postag_regexp="yes"/>
+                    <token postag="SUB:AKK.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="SUB:NOM.*" postag_regexp="yes"/>
+                    <token>mir</token>
+                    <token postag="SUB:AKK.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>falls</token>
+                    <token>mir</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1">mir</token>
+                    <token regexp="yes">darüber|gegenüber</token>
                 </antipattern>
                 <pattern>
                     <token postag="SUB.*" postag_regexp="yes"/>
@@ -11069,10 +11111,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="ADJ:DAT.*" postag_regexp="yes" min="0"/>
                     <token postag="SUB:DAT.*" postag_regexp="yes"/>
                 </pattern>
-                <message>mir (Dativ) ist hier weniger wahrscheinlich als <suggestion>mit</suggestion>.</message>
+                <message>'mir' (Dativ) ist hier weniger wahrscheinlich als <suggestion>mit</suggestion>.</message>
                 <example correction="mit">Sie haben ein Haus <marker>mir</marker> einem großen Garten.</example>
+                <example>Leiste mir etwas Gesellschaft!</example>
+                <example>Habe mir neue Schuhe gekauft.</example><!--Subjekt fehlt-->
+                <example>In meiner Kindheit las der Vater mir Märchen mit glücklichem Ende vor.</example>
+                <example>Falls mir einmal Samt auf den Nähtisch kommen sollte, werde ich ein Kleid nähen. </example>
+                <example>Sie saß in einem Imbiss mir längere Zeit schräg gegenüber.</example> <!--Falsche Satzstellung-->
             </rule>
-            <rule> <!--10-->
+            <rule> <!--9-->
                 <pattern>
                     <token inflected="yes">kommen</token>
                     <marker>
@@ -11083,14 +11130,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SUB:DAT.*" postag_regexp="yes" skip="-1"/>
                     <token>aus</token>
                 </pattern>
-                <message>mir (Dativ) ist hier weniger wahrscheinlich als <suggestion>mit</suggestion>.</message>
+                <message>'mir' (Dativ) ist hier weniger wahrscheinlich als <suggestion>mit</suggestion>.</message>
                 <example correction="mit">Er kommt <marker>mir</marker> seiner ganzen Familie gut aus.</example>
             </rule>
-            <rule><!--11-->
+            <rule><!--10-->
                 <antipattern>
                     <token>mir</token>
                     <token postag="EIG:AKK.*" postag_regexp="yes"/>
                     <token inflected="yes">vorstellen</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1">mir</token>
+                    <token inflected="yes" regexp="yes">sympathisch|unsympathisch|bekannt|unbekannt|wichtig|unwichtig</token>
+                </antipattern>
+                <antipattern>
+                    <token>mir</token>
+                    <token inflected="yes" regexp="yes">zu</token>
+                    <token regexp="yes">Gebote?|Verfügung</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SUB.*|EIG.*|PRO:IND.*|ADJ.*|UNKNOWN" postag_regexp="yes" skip="-1"/>
+                    <token postag="PRO:DEM:.*" postag_regexp="yes"/>
+                    <token>mir</token>
+                    <token postag="ART:.*:DAT.*|PRO:DEM:DAT.*|PRO:POS:DAT.*|PRO:IND:DAT.*" postag_regexp="yes" min="0"/>
+                    <token postag="ADV.*" postag_regexp="yes" min="0"/>
+                    <token postag="ADJ:DAT.*" postag_regexp="yes" min="0"/>
+                    <token postag="SUB:DAT.*|EIG:DAT.*" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
                     <token postag="PRO:DEM:.*" postag_regexp="yes"/>
@@ -11102,21 +11167,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="ADJ:DAT.*" postag_regexp="yes" min="0"/>
                     <token postag="SUB:DAT.*|EIG:DAT.*" postag_regexp="yes"/>
                 </pattern>
-                <message>mir (Dativ) ist hier weniger wahrscheinlich als <suggestion>mit</suggestion>.</message>
+                <message>'mir' (Dativ) ist hier weniger wahrscheinlich als <suggestion>mit</suggestion>.</message>
                 <example correction="mit">Das <marker>mir</marker> deiner Mutter tut mir leid.</example>
-                <example correction="mit">Ich hätter gerne den <marker>mir</marker> viel Schokolade.</example>
+                <example correction="mit">Ich hätte gerne den <marker>mir</marker> viel Schokolade.</example>
+                <example>Tom war derjenige, der mir Mary vorstellte.</example>
+                <example>Der Schreibstil der mir bisher unbekannten Autorin hat mich vollends eingenommen.</example>
+                <example>Ich werde ihr mit allen mir zur Verfügung stehenden Mitteln helfen.</example>
+                <example>Ich will keine Übungen machen, die mir keinen Nutzen bringen.</example>
             </rule>
-	        <rule> <!--12-->
+	        <rule> <!--11-->
                 <pattern>
                     <marker>
                         <token>mir</token>
                     </marker>
                     <token>Hochdruck</token>
                 </pattern>
-                <message>mir (Dativ) ist hier weniger wahrscheinlich als <suggestion>mit</suggestion>.</message>
+                <message>'mir' (Dativ) ist hier weniger wahrscheinlich als <suggestion>mit</suggestion>.</message>
                 <example correction="mit">Wir arbeiten <marker>mir</marker> Hochdruck an diesem Problem.</example>
             </rule>
-            <rule> <!--13-->
+            <rule> <!--12-->
                 <pattern>
                     <marker>
                         <token>mir</token>
@@ -11126,10 +11195,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="ADJ.*|PRO:IND.*" postag_regexp="yes"/>
                     <token postag="SUB.*" postag_regexp="yes" min="0"/>
                 </pattern>
-                <message>mir (Dativ) ist hier weniger wahrscheinlich als <suggestion>mit</suggestion>.</message>
-                <example correction="Mit"><marker>Mir</marker> dem des anderen Teams geht es bessser.</example>
+                <message>'mir' (Dativ) ist hier weniger wahrscheinlich als <suggestion>mit</suggestion>.</message>
+                <example correction="Mit"><marker>Mir</marker> dem des anderen Teams geht es besser.</example>
             </rule>
-            <rule> <!--14-->
+            <rule> <!--13-->
                 <pattern>
                     <token inflected="yes">decken</token>
                     <token postag="PRO:REF.*" postag_regexp="yes" skip="-1"/>
@@ -11140,11 +11209,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="ADJ:DAT.*" postag_regexp="yes" min="0"/>
                     <token postag="SUB:DAT.*|EIG:DAT.*" postag_regexp="yes"/>
                 </pattern>
-                <message>mir (Dativ) ist hier weniger wahrscheinlich als <suggestion>mit</suggestion>.</message>
+                <message>'mir' (Dativ) ist hier weniger wahrscheinlich als <suggestion>mit</suggestion>.</message>
                 <example correction="mit">Das deckt sich <marker>mir</marker> meiner Erfahrung.</example>
-                <example correction="mit">Das deckt sich soweit doch <marker>mir</marker> den meisten Leaks.</example>
+                <example correction="mit">Das deckt sich doch <marker>mir</marker> den meisten Leaks.</example>
             </rule>
-            <rule> <!--15-->
+            <rule> <!--14-->
+                <antipattern>
+                    <token postag="VER.*|UNKNOWN" postag_regexp="yes"/>
+                    <token postag="PRO:PER.*" postag_regexp="yes" min="0"/>
+                    <token>mir</token>
+                    <token>ein</token>
+                    <token>paar</token>
+                    <token postag="ADV.*" postag_regexp="yes" min="0"/>
+                    <token postag="ADJ:DAT.*" postag_regexp="yes" min="0"/>
+                    <token postag="SUB:DAT.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1">dass</token>
+                    <token>mir</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1">mir</token>
+                    <token inflected="yes">geben</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>mir</token>
@@ -11153,10 +11240,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>paar</token>
                     <token postag="ADV.*" postag_regexp="yes" min="0"/>
                     <token postag="ADJ:DAT.*" postag_regexp="yes" min="0"/>
-                    <token regexp="yes" inflected="yes">Gebrauchsspur</token>
+                    <token postag="SUB:DAT.*" postag_regexp="yes"/>
                 </pattern>
-                <message>mir (Dativ) ist hier weniger wahrscheinlich als <suggestion>mit</suggestion>.</message>
+                <message>'mir' (Dativ) ist hier weniger wahrscheinlich als <suggestion>mit</suggestion>.</message>
                 <example correction="mit">Ich verkaufe eine alte Kommode <marker>mir</marker> ein paar Gebrauchsspuren.</example>
+                <example>Erzähle mir ein paar Neuigkeiten!</example>
+                <example>Würdest du mir ein paar Fragen beantworten?</example>
+                <example>Du verstehst, dass ich mir ein paar Freunde erhalten möchte.</example>
+                <example>Ich würde mich freuen, wenn mir jemand ein paar Informationen dazu geben könnte.</example>
             </rule>
         </rulegroup>
     </category>
