@@ -261,9 +261,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>entsetzten</token>
                 </marker>
+                <token postag="VER.*|PKT" postag_regexp="yes" />
             </pattern>
             <message>Meinten Sie das Nomen <suggestion>Entsetzen</suggestion>?</message>
             <example correction="Entsetzen">Mit <marker>Entsetzten</marker> mussten wir feststellen, dass es gestohlen wurde.</example>
+            <example>Mit entsetzten Blicken schaute er mich an.</example>
         </rule>
         <rule id="WAR_FUER" name="War (was) für ein…">
             <pattern>
@@ -13134,6 +13136,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rulegroup id="NEUN_EURO_TICKET" name="9-Euro-Ticket" default="temp_off">
+            <url>https://de.wikipedia.org/wiki/9-Euro-Ticket</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes">9|neun</token>
+                    <token regexp="yes">euro|€</token>
+                    <token regexp="yes">tickets?</token>
+                </pattern>
+                <message>Dieses Wort wird mit Bindestrichen geschrieben.</message>
+                <suggestion>9-Euro-<match no="3" case_conversion="startupper" /></suggestion>
+                <suggestion>Neun-Euro-<match no="3" case_conversion="startupper" /></suggestion>
+                <example correction="9-Euro-Ticket|Neun-Euro-Ticket">Ich kaufe mir ein <marker>9 Euro Ticket</marker> und mache Urlaub auf Sylt.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>9€</token>
+                    <token regexp="yes">tickets?</token>
+                </pattern>
+                <message>Dieses Wort wird mit Bindestrichen geschrieben.</message>
+                <suggestion>9-Euro-<match no="3" case_conversion="startupper" /></suggestion>
+                <suggestion>Neun-Euro-<match no="3" case_conversion="startupper" /></suggestion>
+                <example correction="9-Euro-Ticket|Neun-Euro-Ticket">Ich kaufe mir ein <marker>9€ Ticket</marker> und mache Urlaub auf Sylt.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="WIEDER_GUT_MACHEN" name="wieder gut machen (wiedergutmachen)">
             <rule>
                 <pattern>
