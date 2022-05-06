@@ -1295,6 +1295,15 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="remove" postag="VER:.+"/>
     </rule>
+    <rule id="EX_LEGE" name="kein Verb: charismatischen / hochdramatischen">
+        <pattern case_sensitive="yes">
+            <token inflected="yes" regexp="yes">de|ex|sine</token>
+            <marker>
+                <token>lege</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="VER:.+"/>
+    </rule>
     <rule id="FASSUNGSLOS" name="kein Substantiv: Fassungslos">
         <pattern case_sensitive="yes">
             <token>
@@ -2915,7 +2924,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="ex nihilo" id="EX_NIHILO">
         <pattern>
             <token>ex</token>
-            <token regexp="yes">aequo|nihilo|nunc|tunc</token>
+            <token regexp="yes">aequo|eventu|officio|nihilo|nunc|tunc|voto</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
