@@ -1191,7 +1191,94 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>Premier powołał go na stanowisko, jeszcze zanim odwołał go z funkcji przewodniczącego klubu</example>
 								<example correction="jeszcze zanim">Premier powołał go na stanowisko, jeszcze<marker>, zanim</marker> odwołał go z funkcji przewodniczącego klubu.</example>
 						</rule>
+						<rule>
+								<pattern>
+										<token regexp="yes">&interp_conj;</token>
+										<token>o</token>
+										<marker>
+												<token>,</token>
+												<token>ile</token>
+										</marker>
+										<token><exception postag="subst:pl:gen.*" postag_regexp="yes"/></token>
+								</pattern>
+								<message>Spójników złożonych nie rozdziela się:<suggestion>\2 \4</suggestion>. Wyjątkiem mogą być tutaj wtrącenia.</message>
+								<short>Błąd interpunkcyjny</short>
+								<example correction="o ile">Podaj adres e-mail, o<marker>, ile</marker> go posiadasz.</example>
+								<example>O, ile much tu lata!</example>
+						</rule>
+						<rule>
+								<pattern>
+                    <marker>
+										<token><exception postag="SENT_START"></exception><exception regexp="yes">&interp;</exception></token>
+										<token>o</token>
+										<token>,</token>
+										<token>ile</token>
+                    </marker>
+                    <token><exception postag="subst:pl:gen.*" postag_regexp="yes"/></token>
+								</pattern>
+								<message>Spójników złożonych nie rozdziela się, przecinek stawia się przed nimi: <suggestion>\1, \2 \4</suggestion>. Wyjątkiem mogą być tutaj wtrącenia.</message>
+								<short>Błąd interpunkcyjny</short>
+								<example>O, ile tu much!</example>
+								<example correction="e-mail, o ile">Podaj adres <marker>e-mail o, ile</marker> go posiadasz.</example>
+						</rule>
 				</rulegroup>
+				<rulegroup id="BRAK_PRZECINKA_O_ILE" name="Brak przecinka przed „o ile”">
+				<rule>
+				<antipattern>
+              <token>tak</token>
+              <token>więc</token>
+				  </antipattern>
+				  <antipattern>
+            <token>z</token>
+            <token>tym</token>
+            <token>że</token>
+				  </antipattern>
+								<pattern>
+								    <marker>
+										<token>
+										<exception postag="SENT_START"></exception>
+										<exception regexp="yes" inflected="yes">&interp_conj;|zwłaszcza|a|ale|iż|że|bo|lecz|więc|który|jaki|gdyż|ponieważ|tylko|wyłącznie|przynajmniej|jednak(?:że)?|w|oczywiście|choć|chociaż</exception></token>
+										<token>o</token>
+                    <token>ile</token>
+                    </marker>
+                    <token><exception postag="subst:pl:gen.*|adj.*:com" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Brak przecinka przed spójnikiem złożonym: <suggestion>\1, \2 \3</suggestion>.</message>
+								<short>Brak przecinka</short>
+								<example correction="e-mail, o ile">Podaj adres <marker>e-mail o ile</marker> go posiadasz.</example>
+								<example correction="organizmów, o ile">Aż do hipotetycznie bardziej złożonych <marker>organizmów o ile</marker> nie ma ono bezpośredniego kontaktu.</example>
+								<example>Była to praca nie tylko ciężka, ale także skomplikowana, zwłaszcza o ile szło o ścinanie drzew w lesie, utwierdzanie pali i zaciosywanie ich na końcach.</example>
+								<example>*O ile więc nie jest to znów jakiś erotyczny rytuał wymyślony na Kubie Fidela Castro, ugryzienie cudzego języka jest jedną z praktyk santerii.</example>
+        </rule>
+				<rule>
+				  <antipattern>
+              <token>tak</token>
+              <token>więc</token>
+				  </antipattern>
+				  <antipattern>
+            <token>z</token>
+            <token>tym</token>
+            <token>że</token>
+				  </antipattern>
+								<pattern>
+								    <marker>
+										<token>
+										<exception postag="SENT_START"></exception>
+										<exception regexp="yes">&interp_conj;</exception>
+										</token>
+										<token regexp="yes" inflected="yes">zwłaszcza|a|ale|iż|że|bo|lecz|więc|który|jaki|gdyż|ponieważ|tylko|wyłącznie|przynajmniej|jednak(?:że)?|oczywiście|choć|chociaż</token>
+										<token>o</token>
+                    <token>ile</token>
+                    </marker>
+                    <token><exception postag="subst:pl:gen.*|adj.*:com" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Brak przecinka przed spójnikiem złożonym: <suggestion>\1, \2 \3 \4</suggestion>.</message>
+								<short>Brak przecinka</short>
+								<example correction="skomplikowana, zwłaszcza o ile">Była to praca nie tylko ciężka, ale także <marker>skomplikowana zwłaszcza o ile</marker> szło o ścinanie drzew w lesie, utwierdzanie pali i zaciosywanie ich na końcach.</example>
+								<example>*O ile więc nie jest to znów jakiś erotyczny rytuał wymyślony na Kubie Fidela Castro, ugryzienie cudzego języka jest jedną z praktyk santerii.</example>
+        </rule>
+
+        </rulegroup>
 				<rulegroup id="BRAK_PRZECINKA_ZE" name="Brak przecinka przed „że” i „iż”">
                         <antipattern>
                             <token regexp="yes">gdzie|skąd</token>
@@ -10072,7 +10159,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>Było tak od tysiąc dziewięćset ósmego roku.</example>
 								<example>Oprócz pięćdziesięciu jeden wolnych miast Niemcy liczą w tym czasie ponad osiemdziesiąt terytoriów.</example>
 								<example>Kraj nasz ciągle atakują z zewnątrz ośrodki propagandowe imperialistycznej dywersji politycznej.</example>
-								<example correction=''>Jednym z <marker>pierwszym</marker> posunięć nowego zarządcy było powołanie specjalnego działu ds. marketingu i sprzedaży.</example>                         
+								<example correction=''>Jednym z <marker>pierwszym</marker> posunięć nowego zarządcy było powołanie specjalnego działu ds. marketingu i sprzedaży.</example>
+								<example>Morze nieledwie stapiało się w jedno z niebiosami.</example>                         
 						</rule>
 						<rule> <!-- 2 -->
 								<pattern>
@@ -15273,6 +15361,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<message>Ten rzeczownik ma inny rodzaj gramatyczny i występuje tylko w liczbie mnogiej. Poprawnie: <suggestion><match no="1" postag="(adj|ppas|pact):sg(.*)" postag_regexp="yes" postag_replace="$1:pl:nom\.voc:m2\.m3\.f\.n1\.n2\.p2\.p3:pos"></match> perfumy</suggestion>.</message>
 								<short>Błędny rodzaj gramatyczny</short>
 								<example correction="te perfumy">Uwielbiam <marker>ten perfum</marker>...</example>
+								<example correction="nowe perfumy">Czy to <marker>nowy perfum</marker>?</example>
 						</rule>
 						<rule>
 								<pattern>
@@ -20417,12 +20506,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				<rule id="DS" name="„d/s” (ds.)">
 						<pattern>
 								<token>d</token>
-								<token>/</token>
+								<token regexp="yes">[/\.]</token>
 								<token>s</token>
 						</pattern>
 						<message>Ten skrót piszemy: <suggestion>ds.</suggestion>.</message>
 						<short>Błąd ortograficzny</short>
 						<example correction="ds.">Pełnomocnik rządu <marker>d/s</marker> miłości narodu do premiera.</example>
+            <example correction="ds.">Pełnomocnik rządu <marker>d.s</marker> miłości narodu do premiera.</example>
 						<example>Pełnomocnik rządu ds. miłości narodu do premiera.</example>
 				</rule>
 				<rule id="K" name="„k/” (k.)">
@@ -21155,6 +21245,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
     <category id="TYPOS" name="Prawdopodobne literówki" type="misspelling">
+    <rule id="LUBIA_LUBA" name="„lubą” (lubią)">
+        <pattern>
+            <token>nie</token>
+            <marker><token>lubą</token></marker>
+        </pattern>    
+        <message>Typowa literówka. Czy chodziło o <suggestion>lubią</suggestion>?</message>
+        <short>Literówka</short>
+        <example correction="lubią">Ogólnie młodzi ludzie nie <marker>lubą</marker> formalności.</example>
+    </rule>
     <rule id="ROZLICZNIE" name="„rozlicznie z” (rozliczenie z)">
       <pattern>
         <marker><token>rozlicznie</token></marker>
@@ -21162,6 +21261,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token inflected="yes">z</token>
       </pattern>
       <message>Prawdopodobna literówka. Czy chodziło o <suggestion>rozliczenie</suggestion>?</message>
+      <short>Literówka</short>      
       <example correction="rozliczenie">Twoje zadanie to <marker>rozlicznie</marker> handlowca z wyników pracy.</example>    
       <example correction="rozliczenie">Wspólne <marker>rozlicznie</marker> z małżonkiem</example>
     </rule>

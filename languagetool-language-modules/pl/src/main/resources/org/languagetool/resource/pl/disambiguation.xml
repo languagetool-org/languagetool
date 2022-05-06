@@ -4591,6 +4591,28 @@
         </rule>
     </rulegroup>
 
+    <rulegroup id="ZLAC_W_JEDNO" name="zlać w jedno -> subst">
+        <rule>
+            <pattern>
+                <token inflected="yes" regexp="yes">zlać|zlewać|(?:po)?łączyć|stopić|stapiać|spajać|scal[ia]ć|splatać|spleść</token>
+                <token>w</token>
+                <marker><token>jedno</token></marker>
+                <token>z</token>
+            </pattern>
+            <disambig postag="subst:sg:acc:n2"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes" regexp="yes">zlać|zlewać|(?:po)?łączyć|stopić|stapiać|spajać|scal[ai]ć|splatać|spleść</token>
+                <token>się</token>
+                <token>w</token>
+                <marker><token>jedno</token></marker>
+                <token>z</token>
+            </pattern>
+            <disambig postag="subst:sg:acc:n2"></disambig>
+        </rule>
+    </rulegroup>
+
     <rule id="JEDEN_Z_GEN" name="„jeden z” -> przymiotnik">
         <pattern>
             <marker>
@@ -9724,6 +9746,14 @@
                  outputform="lata[rok/subst:pl:acc:m3,rok/subst:pl:nom:m3,rok/subst:pl:voc:m3]">Ech, <marker>lata</marker> dziewięćdziesiąte!</example>
     </rule>
 
+    <rule id="O_ILE" name="o ile">
+        <pattern>
+            <token postag="prep:acc">o</token>
+            <token postag="num:pl:nom.acc.voc:m2.m3.f.n1.n2.p1.p2:rec">ile</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
 
     <!-- now not that greedy :) -->
     <rulegroup name="unifikacja przymiotnika z rzeczownikiem" id="unify_adj_subst">
@@ -10066,7 +10096,7 @@
                 <and>
                     <token postag="subst.*" postag_regexp="yes"></token>
                     <token postag="adj.*" postag_regexp="yes"><exception postag="conj|prep:gen.*" postag_regexp="yes"/>
-                    <exception inflected="yes">dobry</exception>
+                    <exception inflected="yes" regexp="yes">dobry|nowy|stary|były|trwały</exception>
                     </token>
                 </and>
                 </marker>
