@@ -3538,6 +3538,23 @@ O que o torna perigoso é haver civis inocentes.
     <!--            General number concordance errors            -->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-19 -->
       <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Concord%C3%A2ncia/Concord%C3%A2ncia_nominal</url>
+
+<!-- MARCOAGPINTO 2022-05-07 (1-JAN-2022+) *START* -->
+<!--
+APPLY TO ALL RULE ID: GENERAL_NUMBER_AGREEMENT_ERRORS
+
+Para isso sou todo ouvidos.
+-->
+      <antipattern>
+		  <and>
+			<token inflected='yes'>ser</token>
+			<token postag='V....S.+' postag_regexp='yes'/>
+		  </and>
+          <token regexp='yes'>tod[oa]</token>
+          <token>ouvidos</token>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-05-07 (1-JAN-2022+) *END* -->
+
       <antipattern case_sensitive='yes'>
           <unify negate='yes'><!-- XXX Proper names exception -->
             <feature id="gender"/><feature id="number"/>
@@ -4128,10 +4145,6 @@ Gostei bastante também de tuas colocações e “com que olhos vê o mundo e a 
           <token regexp='yes' case_sensitive='yes'>\p{Lu}.+</token>
       </antipattern>
       <antipattern>
-          <token regexp='yes'>tod[oa]</token>
-          <token>ouvidos</token>
-      </antipattern>
-      <antipattern>
           <token>o</token>
           <token>quão</token>
       </antipattern>
@@ -4589,7 +4602,6 @@ Tom e Maria foram ao jardim zoológico juntos.
         <suggestion><match no='2' postag="(D[ADIP].|N.|A..|P[^IDP].|Z.)[MC]S(.+)" postag_replace='$1[MC]P$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
         <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/>, <match no='5' include_skipped='all'/></suggestion>
       <example correction='Este gato|Estes gatos|Este, gatos'><marker>Este gatos</marker> estão no pasto.</example>
-      <example>Sou todo ouvidos.</example>
       <example>Uso óculos desde os 6 anos,</example>
       <example>Calças, o mais possível rasgadas.</example>
       <example>O Monte Camarões é o vulcão mais ativo do oeste africano, tendo numerosas erupções registadas.</example>
@@ -4627,11 +4639,7 @@ Tom e Maria foram ao jardim zoológico juntos.
 	 <example>1 garrafa de ácido muriático 33%, que pode ser encontrado em uma loja de ferragens ou em uma loja de departamento.</example>
 	 <example>Tom e Maria foram ao jardim zoológico juntos.</example>
     </rule>
-    <rule>	
-      <antipattern>
-          <token regexp='yes'>tod[oa]</token>
-          <token>ouvidos</token>
-      </antipattern>
+    <rule>
       <antipattern>
           <token>do</token>
           <token regexp='yes'>8|oito</token>
