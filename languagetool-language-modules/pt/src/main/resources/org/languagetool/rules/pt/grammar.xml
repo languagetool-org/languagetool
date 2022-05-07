@@ -1538,15 +1538,7 @@ Série 9xx Cada série foca um determinado mercado, possuindo os aparelhos vári
 		<token postag='V.+' postag_regexp='yes'/>
       </antipattern>	  
 <!-- MARCOAGPINTO 2020-08-01 (2-JUL-2020+) *END* -->
-<!-- MARCOAGPINTO 2020-12-17 (21-OCT-2020+) *START* -->
-<!--
-Muitos parabéns galinha.
--->
-      <antipattern>
-		  <token postag='DI0MP0' postag_regexp='no'/>
-	      <token postag='AQ0[CM]P0|NC[CM]P000' postag_regexp='yes'/>
-      </antipattern>
-<!-- MARCOAGPINTO 2020-12-17 (21-OCT-2020+) *END* -->
+
 <!-- MARCOAGPINTO 2021-05-07 (17-MAR-2021+) *START* -->
 <!--
 A Ana anulou os talões duas ou três vezes.
@@ -1558,36 +1550,40 @@ Ela deve ser uns cinco anos mais velha que ele.
 		<token postag='Z0.+' postag_regexp='yes'/>
       </antipattern>  
 <!-- MARCOAGPINTO 2021-05-07 (17-MAR-2021+) *END* -->
-<!-- MARCOAGPINTO 2021-08-17 (25-JUN-2021+) *START* -->
-<!--
-Tive minhas primeiras experiências sexuais com uma mulher vários anos mais velha que eu.
-Em outra publicação sua no mesmo ano, Einstein pôs em dúvida vários princípios do eletromagnetismo clássico.
--->
-      <antipattern>
-		<token/>
-		<token regexp='yes'>vários?</token>
-		<token postag='AQ0[CM].+|NC[CM].+' postag_regexp='yes'/>
-      </antipattern>
-<!--
-Como incentivo a este tipo de música, a Câmara Municipal de Braga criou no estádio 1.º de Maio várias salas de ensaio.
-Série 9xx Cada série foca um determinado mercado, possuindo os aparelhos várias semelhanças entre si.
--->
-      <antipattern>
-		<token/>
-		<token regexp='yes'>várias?</token>
-		<token postag='AQ0[CF].+|NC[CF].+' postag_regexp='yes'/>
-      </antipattern>	  
-<!-- MARCOAGPINTO 2021-08-17 (25-JUN-2021+) *END* -->
 
 <!-- MARCOAGPINTO 2022-05-07 (1-JAN-2022+) *START* -->
 <!--
+THE FIRST TWO BLOCKS BELOW WERE TAKEN FROM TWO DELETED ANTIPATTERNS REPLACED BY THIS NEW ONE.
+
+Em outra publicação sua no mesmo ano, Einstein pôs em dúvida vários princípios do eletromagnetismo clássico.
+
+Como incentivo a este tipo de música, a Câmara Municipal de Braga criou no estádio 1.º de Maio várias salas de ensaio.
+Série 9xx Cada série foca um determinado mercado, possuindo os aparelhos várias semelhanças entre si.
+
 Em dez anos muita coisa mudou.
 No decorrer desses 4 anos muita coisa aconteceu.
 -->
       <antipattern>
-		  <token postag='Z0C.+' postag_regexp='yes'/>
-		  <token postag='NC[CM].+|AQ0[CM].+' postag_regexp='yes'/>
+		  <token/>
+		  <token postag='NC[CM].+|AQ0[CM].+|NP.+' postag_regexp='yes'/>
 		  <token postag='D[ADIP]0[CF].+' postag_regexp='yes'/>
+		  <token postag='NC[CF].+|AQ0[CF].+' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-05-07 (1-JAN-2022+) *END* -->
+
+<!-- MARCOAGPINTO 2022-05-07 (1-JAN-2022+) *START* -->
+<!--
+Muitos parabéns galinha.
+Tive minhas primeiras experiências sexuais com uma mulher vários anos mais velha que eu.
+Abram os olhos porra!
+O carinho sem terremoto, os amigos ausência de terremoto, o vazio da emoção permitindo permanecer.
+Com que frequência você lava os lençóis cama?
+Os bois vez por outra paravam, quando encontravam capim novo em algum local.
+-->
+      <antipattern>
+		  <token postag='D[ADIP]0[CM].+' postag_regexp='yes'/>
+		  <token postag='NC[CM].+|AQ0[CM].+' postag_regexp='yes'/>
+		  <token min="0" max="1" postag='RG' postag_regexp='no'/>
 		  <token postag='NC[CF].+|AQ0[CF].+' postag_regexp='yes'/>
       </antipattern>
 <!-- MARCOAGPINTO 2022-05-07 (1-JAN-2022+) *END* -->
@@ -1628,19 +1624,24 @@ No decorrer desses 4 anos muita coisa aconteceu.
 	  <example type='correct'>Foram muitos os <marker>portugueses vítimas</marker> da seca.</example>
 	  <example type='correct'>Eu vi-os <marker>juntos várias</marker> vezes e em diversos lugares.</example>
 <!--	  <example type='correct'>O Marco comeu <marker>duas sanduíches</marker> de queijo.</example> -->
-	  
+
 	  <example type='correct'>A Ana anulou os <marker>talões duas</marker> ou três vezes.</example>
 	  <example>Ele acabou casando com uma mulher italiana dez anos mais nova.</example>
 	  <example>Ela deve ser uns cinco anos mais velha que ele.</example>
-	  
-	  <example>Tive minhas primeiras experiências sexuais com uma mulher vários anos mais velha que eu.</example>
+
 	  <example>Em outra publicação sua no mesmo ano, Einstein pôs em dúvida vários princípios do eletromagnetismo clássico.</example>
 	  <example>Como incentivo a este tipo de música, a Câmara Municipal de Braga criou no estádio 1.º de Maio várias salas de ensaio.</example>
 	  <example>Série 9xx Cada série foca um determinado mercado, possuindo os aparelhos várias semelhanças entre si.</example>
-
 	  <example>Em dez anos muita coisa mudou.</example>
 	  <example>No decorrer desses 4 anos muita coisa aconteceu.</example>
+
+	  <example>Muitos parabéns galinha.</example>
+	  <example>Tive minhas primeiras experiências sexuais com uma mulher vários anos mais velha que eu.</example>
+	  <example>O carinho sem terremoto, os amigos ausência de terremoto, o vazio da emoção permitindo permanecer.</example>
+	  <example>Com que frequência você lava os lençóis cama?</example>
+	  <example>Os bois vez por outra paravam, quando encontravam capim novo em algum local.</example>
     </rule>
+
     <rule>
 <!-- MARCOAGPINTO 2020-05-16 *START* -->
 <!-- "A água é nos trazida até à porta." -->
