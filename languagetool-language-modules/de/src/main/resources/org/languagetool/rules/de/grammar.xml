@@ -19650,6 +19650,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="rotzusehen">Statt <marker>rot zu sehen</marker>, zähle erst bis zehn.</example>
            </rule>
         </rulegroup>
+        <rulegroup id="KLEINREDEN" name="klein reden (kleinreden)" default="temp_off">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>klein</token>
+                        <token inflected="yes">reden</token>
+                    </marker>
+                </pattern>
+                <message>Falls Sie eine Form des Verbs 'kleinreden' (= herunterspielne) meinten, muss vermutlich das Leerzeichen entfernt werden.</message>
+                <suggestion>\1\2</suggestion>
+                <short>&getrennt;.</short>
+                <example correction="kleinreden">Man sollte diese Gefahr nicht <marker>klein reden</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>klein</token>
+                    <token>zu</token>
+                    <token>reden</token>
+                </pattern>
+                <message>Das Verb 'kleinreden' (= herunterspielen) wird zusammengeschrieben.</message>
+                <suggestion>kleinzureden</suggestion>
+                <short>&getrennt;.</short>
+                <example correction="kleinzureden">Statt Gefahren <marker>klein zu reden</marker>, sollte man sie akzeptieren.</example>
+           </rule>
+        </rulegroup>
         <rulegroup id="SICHERSTELLEN" name="sicher stellen (sicherstellen)">
             <rule>
                 <pattern case_sensitive="yes">
