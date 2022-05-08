@@ -41538,17 +41538,24 @@ Vou bazar. → Vou embora.
  <category id='EGGCORNS' name="Calinadas">
 
 
-    <rule id='EM_LONGO_PRAZO' name='Expressão: a largo prazo'>
+    <rule id='EM_CURTO_MÉDIO_LONGO_PRAZO_TERMO' name='Calinada: a curto/médio/longo prazo/termo'>
     <!--       Created by Tiago F. Santos, 2019-03-17 -->
+	<!--      Improved by Marco A.G.Pinto, Portuguese rule 2022-05-08 (1-JAN-2022+)      -->
       <pattern>
-          <token>em</token>
-          <token regexp='yes'>longo|largo</token>
-          <token>prazo</token>
+		  <marker>
+			<token>em</token>
+		  </marker>
+          <token regexp='yes'>curto|médio|longo|largo</token>
+		  <token regexp='yes'>prazo|termo</token>
       </pattern>
       <message>Esta expressão utiliza a preposição "a".</message>
-        <suggestion>a \2 \3</suggestion>
-      <example correction='a longo prazo'><marker>em longo prazo</marker></example>
+        <suggestion>a</suggestion>
+      <example correction='a'>É um investimento <marker>em</marker> longo prazo.</example>
+	  <example>Reutilizar livros e itens de objetos que não acabam a curto prazo, também é uma das alternativas oferecidas.</example>
+	  <example>Com aptidão para ouvir e mais flexíveis, as mulheres têm serenidade para esperar resultados a longo prazo.</example>
+	  <example>A longo prazo, serão necessárias mudanças.</example>
     </rule>
+
 
   <rulegroup id="KOALA_LUMPUR" name="Calinada: Koala Lumpur / Kuala Lumpur ">
     <!-- Localized from Dutch grammar.xml by Tiago F. Santos, 2018-07-07-->
