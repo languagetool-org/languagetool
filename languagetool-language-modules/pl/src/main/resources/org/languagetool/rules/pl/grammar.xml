@@ -660,7 +660,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <token>będzie</token>
                         </antipattern>
                         <pattern>
-                            <token postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|adv:.*|prep.*|qub|conj|comp|verb:praet.*imperf.*|verb:inf.*|&lt;/TO_(ZNACZY|JEST)&gt;" postag_regexp="yes" scope="current"></exception><exception regexp="yes" scope="current">może|dość</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"></exception></token>
+                            <token postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|adv:.*|prep.*|qub|conj|comp|verb:praet.*imperf.*|verb:inf.*|&lt;/TO_(ZNACZY|JEST)&gt;" postag_regexp="yes" scope="current"></exception><exception regexp="yes" scope="current">może|dość</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"/></token>
                             <token postag="verb:bedzie.*|pcon:imperf.*" postag_regexp="yes" regexp="yes" skip="-1">będ.*</token>
                             <token regexp="yes">&interp_conj;</token>
                         </pattern>
@@ -674,6 +674,103 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <example correction="">Analiza, która <marker>zignorowała stronę doświadczeniową będzie jedynie analizą czegoś nieistotnego.</marker></example>
                         <example>Telefon to coś, bez czego nie sposób będzie się obejść.</example>
                         <example>Na bazie rozmów telefonicznych podczas przerw lunchowych (samochodem pod McDonald’s i potem w przerwach pomiędzy kęsami dzwonienie z zeszytem przed sobą) selekcjonowałem te, które uznałem, że warto będzie zobaczyć.</example>
+                    </rule>
+                    <rule id="PRZYSLOWKI_PREDYKATYWNE_BEZ_PRZECINKOW">
+                    <antipattern>
+                         <token regexp="yes">trudno|łatwo|dobrze|ciężko|miło|przyjemnie|niełatwo|wygodnie|nietrudno|prosto|bezpiecznie|fajnie|korzystnie|tanio|źle|przykro|rozsądnie|niebezpiecznie|próżno|cudownie|pięknie|niedobrze|wspaniale|dziwnie|ciekawie|głupio|niezręcznie|praktycznie|zdrowo|zabawnie|smutno|mądrze</token>
+                        <marker>
+                        <token postag="verb:inf.*" postag_regexp="yes"/>
+                        <token min="0">nie</token>                         
+                         <token regexp="yes">jest|było(?:by)?|można</token>
+                        </marker>      
+                    </antipattern>
+                        <pattern>
+                          <token regexp="yes">trudno|łatwo|dobrze|ciężko|miło|przyjemnie|niełatwo|wygodnie|nietrudno|prosto|bezpiecznie|fajnie|korzystnie|tanio|źle|przykro|rozsądnie|niebezpiecznie|próżno|cudownie|pięknie|niedobrze|wspaniale|dziwnie|ciekawie|głupio|niezręcznie|praktycznie|zdrowo|zabawnie|smutno|mądrze</token>
+                          <marker>
+                          <token postag="verb:inf.*" postag_regexp="yes" skip="-1">
+                            <exception scope="current">widać</exception>
+                            <exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"/>
+                            <exception scope="next" regexp="yes">&interp;</exception>
+                          </token>
+                          <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*|pred" postag_regexp="yes">
+                              <exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|adv.*|conj|comp" postag_regexp="yes" scope="current"/>
+                              <exception inflected="yes">gotów</exception>
+                          </token>
+                          </marker>
+                        </pattern>
+                        <message>Prawdopodobnie brak przecinka w zdaniu złożonym.</message>
+                        <short>Błąd interpunkcyjny</short>
+                        <example correction="">Trudno <marker>stwierdzić co miałoby</marker> dać włączenie jej do naszego grona.</example>
+                        <example correction="">Przekonaniu, że tak ciężko <marker>zacząć wszystko od nowa towarzyszyło</marker> uczucie zagubienia.</example>
+                    </rule>
+                    <rule id="PRZYSLOWKI_PREDYKATYWNE_BEZ_PRZECINKOW_2">
+                    <antipattern>
+                         <token regexp="yes">jest|było(?:by)?|można|warto|trzeba|należy|należało|widać|wystarczy</token>
+                         <marker>
+                         <token regexp="yes">trudno|łatwo|dobrze|ciężko|miło|przyjemnie|niełatwo|wygodnie|nietrudno|prosto|bezpiecznie|fajnie|korzystnie|tanio|źle|przykro|rozsądnie|niebezpiecznie|próżno|cudownie|pięknie|niedobrze|wspaniale|dziwnie|ciekawie|głupio|niezręcznie|praktycznie|zdrowo|zabawnie|smutno|mądrze</token>
+                        </marker>
+                    </antipattern>
+                    <antipattern>
+                        <unify>
+                            <feature id="number"/><feature id="gender"/>
+                            <token skip="7" inflected="yes">powinien<exception scope="next" postag="verb:(?:pot|fin|bedzie|imp[st]|pred|winien).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes"/><exception postag="SENT_END|&lt;ELLIPSIS&gt;|comp:comma|interp:comma" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">&interp;</exception></token>
+                            <marker>
+                                <token inflected="yes" postag_regexp="yes" postag="verb:praet.*">być</token>
+                            </marker>
+                        </unify>
+                        <marker>
+                         <token regexp="yes">trudno|łatwo|dobrze|ciężko|miło|przyjemnie|niełatwo|wygodnie|nietrudno|prosto|bezpiecznie|fajnie|korzystnie|tanio|źle|przykro|rozsądnie|niebezpiecznie|próżno|cudownie|pięknie|niedobrze|wspaniale|dziwnie|ciekawie|głupio|niezręcznie|praktycznie|zdrowo|zabawnie|smutno|mądrze</token>
+                          <token postag="verb:inf.*" postag_regexp="yes"/>
+                        </marker>
+                    </antipattern>                        
+                    <antipattern>
+                      <token inflected="yes">powinien</token>
+                        <marker>
+                         <token regexp="yes">trudno|łatwo|dobrze|ciężko|miło|przyjemnie|niełatwo|wygodnie|nietrudno|prosto|bezpiecznie|fajnie|korzystnie|tanio|źle|przykro|rozsądnie|niebezpiecznie|próżno|cudownie|pięknie|niedobrze|wspaniale|dziwnie|ciekawie|głupio|niezręcznie|praktycznie|zdrowo|zabawnie|smutno|mądrze</token>
+                          <token postag="verb:inf.*" postag_regexp="yes"/>
+                        </marker>
+                    </antipattern>
+                    <antipattern>
+                         <token inflected="yes" regexp="yes">umieć|móc|musieć|chcieć|pozwalać|potrafić|zacząć|lubić|mieć|pójść|zaczynać|śmieć|poczynać|kazać|zapomnieć|rozkazać|począć|zdążyć</token>
+                         <marker>
+                         <token regexp="yes">trudno|łatwo|dobrze|ciężko|miło|przyjemnie|niełatwo|wygodnie|nietrudno|prosto|bezpiecznie|fajnie|korzystnie|tanio|źle|przykro|rozsądnie|niebezpiecznie|próżno|cudownie|pięknie|niedobrze|wspaniale|dziwnie|ciekawie|głupio|niezręcznie|praktycznie|zdrowo|zabawnie|smutno|mądrze</token>
+                        </marker>
+                    </antipattern>
+                    <antipattern>
+                          <token>proszę</token>
+                          <marker><token regexp="yes">dobrze|rozsądnie|praktycznie</token></marker> 
+                    </antipattern>
+                    <antipattern>
+                          <token>się</token>
+                          <token inflected="yes">dać</token>
+                          <marker>
+                          <token>głupio</token>
+                          </marker>
+                    </antipattern>
+                    <antipattern>
+                          <token inflected="yes">dać</token>
+                          <token>się</token>
+                          <marker>
+                          <token>głupio</token>
+                          </marker>
+                    </antipattern>
+                        <pattern>
+                          <marker>
+                          <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*|pred" postag_regexp="yes" skip="-1">
+                              <exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|adv.*|conj|comp" postag_regexp="yes" scope="current"/>
+                              <exception inflected="yes">gotów</exception>
+                              <exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"/>
+                              <exception scope="next" regexp="yes">&interp;</exception>
+                          </token>
+                          <token regexp="yes">trudno|łatwo|dobrze|ciężko|miło|przyjemnie|niełatwo|wygodnie|nietrudno|prosto|bezpiecznie|fajnie|korzystnie|tanio|źle|przykro|rozsądnie|niebezpiecznie|próżno|cudownie|pięknie|niedobrze|wspaniale|dziwnie|ciekawie|głupio|niezręcznie|praktycznie|zdrowo|zabawnie|smutno|mądrze</token>
+                          </marker>
+                          <token postag="verb:inf.*" postag_regexp="yes" skip="-1"> 
+                            <exception scope="current">widać</exception>
+                          </token>
+                        </pattern>
+                        <message>Prawdopodobnie brak przecinka w tym zdaniu złożonym.</message>
+                        <short>Błąd interpunkcyjny</short>
+                        <example correction="">Co <marker>miałoby dać włączenie jej do naszego grona trudno</marker> stwierdzić.</example>
                     </rule>
                 </rulegroup>
                 <rule id="BRAK_PRZECINKA_PRZED_IMIESLOWEM_PRZYSLOWKOWYM" name="Brak przecinka przed imiesłowem -ąc lub -wszy">
