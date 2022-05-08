@@ -2130,8 +2130,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <rule>
                       <pattern>
                       <marker>
-                          <token inflected="yes" regexp="yes">(?:po)?wiedzieć|wiadomo|zastanawia?ć|[dp]oradzić|myśleć|podpowiedzieć</token>
-                          <token skip="-1">co
+                          <token inflected="yes" regexp="yes">(?:po|podpo)?wiedzieć|wiadomo|zastanawia?ć|[dp]oradzić|myśleć|zobaczyć|(?:s|za|pod)pytać</token>
+                          <token skip="-1" regexp="yes">co|jak
                            <exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes"/>
                           </token>
                       </marker>
@@ -2140,6 +2140,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                       <message>Prawdopodobnie brak przecinka. Powinno być: <suggestion>\1, \2</suggestion>.</message>
                       <short>Błąd interpunkcyjny</short>
                       <example correction="wiem, co">Nie <marker>wiem co</marker> robić.</example>
+                      <example correction="Spytam, jak"><marker>Spytam jak</marker> to zrobić.</example>
                     </rule>                
                 </rulegroup>
             <rule id="BRAK_PRZECINKA_PRZED_GDZIE" name="Brak przecinka przed „gdzie”">
