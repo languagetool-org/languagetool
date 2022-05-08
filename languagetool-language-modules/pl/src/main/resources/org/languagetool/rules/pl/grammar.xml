@@ -705,7 +705,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </rule>
                     <rule id="PRZYSLOWKI_PREDYKATYWNE_BEZ_PRZECINKOW_2">
                     <antipattern>
-                         <token regexp="yes">jest|było(?:by)?|można|warto|trzeba|należy|należało|widać|wystarczy</token>
+                         <token skip="10" regexp="yes">jest|było(?:by)?|można|warto|trzeba|należy|należało(?:by)?|widać|wystarczy(?:ło(?:by)?)?
+                            <exception scope="next" postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma|verb:.*(sg|pl).*|verb:(imps|inf).*|pcon:imperf.*|pant:perf.*|pred"/>
+                            <exception scope="next" regexp="yes">&interp;</exception>                         
+                         </token>
                          <marker>
                          <token regexp="yes">trudno|łatwo|dobrze|ciężko|miło|przyjemnie|niełatwo|wygodnie|nietrudno|prosto|bezpiecznie|fajnie|korzystnie|tanio|źle|przykro|rozsądnie|niebezpiecznie|próżno|cudownie|pięknie|niedobrze|wspaniale|dziwnie|ciekawie|głupio|niezręcznie|praktycznie|zdrowo|zabawnie|smutno|mądrze</token>
                         </marker>
@@ -724,34 +727,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </marker>
                     </antipattern>                        
                     <antipattern>
-                      <token inflected="yes">powinien</token>
+                      <token skip="2" inflected="yes">powinien</token>
                         <marker>
                          <token regexp="yes">trudno|łatwo|dobrze|ciężko|miło|przyjemnie|niełatwo|wygodnie|nietrudno|prosto|bezpiecznie|fajnie|korzystnie|tanio|źle|przykro|rozsądnie|niebezpiecznie|próżno|cudownie|pięknie|niedobrze|wspaniale|dziwnie|ciekawie|głupio|niezręcznie|praktycznie|zdrowo|zabawnie|smutno|mądrze</token>
                           <token postag="verb:inf.*" postag_regexp="yes"/>
                         </marker>
                     </antipattern>
                     <antipattern>
-                         <token inflected="yes" regexp="yes">umieć|móc|musieć|chcieć|pozwalać|potrafić|zacząć|lubić|mieć|pójść|zaczynać|śmieć|poczynać|kazać|zapomnieć|rozkazać|począć|zdążyć</token>
+                         <token inflected="yes" regexp="yes" skip="10">umieć|móc|musieć|chcieć|pozw(?:alać|olić)|potrafić|zacząć|lubić|mieć|pójść|zaczynać|śmieć|poczynać|kazać|zapomnieć|rozkazać|począć|zdążyć|radzić|usiłować|(?:na|wy)uczyć|przyzwyczajać|polecać|silić|zdawać|starać|jąć|postanowić|pomagać|udać|pomóc
+                            <exception scope="next" postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma|verb:.*(sg|pl).*|verb:(imps|inf).*|pcon:imperf.*|pant:perf.*|pred" postag_regexp="yes"/>
+                            <exception scope="next" regexp="yes">&interp;</exception>                             
+                         </token>
                          <marker>
                          <token regexp="yes">trudno|łatwo|dobrze|ciężko|miło|przyjemnie|niełatwo|wygodnie|nietrudno|prosto|bezpiecznie|fajnie|korzystnie|tanio|źle|przykro|rozsądnie|niebezpiecznie|próżno|cudownie|pięknie|niedobrze|wspaniale|dziwnie|ciekawie|głupio|niezręcznie|praktycznie|zdrowo|zabawnie|smutno|mądrze</token>
                         </marker>
                     </antipattern>
                     <antipattern>
-                          <token>proszę</token>
+                          <token skip="2">proszę</token>
                           <marker><token regexp="yes">dobrze|rozsądnie|praktycznie</token></marker> 
                     </antipattern>
                     <antipattern>
                           <token>się</token>
-                          <token inflected="yes">dać</token>
+                          <token skip="2" inflected="yes" regexp="yes">d(?:aw)?ać</token>
                           <marker>
-                          <token>głupio</token>
+                          <token regexp="yes">głupio|łatwo|wygodnie|prosto</token>
                           </marker>
                     </antipattern>
                     <antipattern>
-                          <token inflected="yes">dać</token>
-                          <token>się</token>
+                          <token inflected="yes" regexp="yes">d(?:aw)?ać</token>
+                          <token skip="2">się</token>
                           <marker>
-                          <token>głupio</token>
+                          <token regexp="yes">głupio|łatwo|wygodnie|prosto</token>
                           </marker>
                     </antipattern>
                         <pattern>
@@ -759,6 +765,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                           <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*|pred" postag_regexp="yes" skip="-1">
                               <exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|adv.*|conj|comp" postag_regexp="yes" scope="current"/>
                               <exception inflected="yes">gotów</exception>
+                              <exception>je</exception>
                               <exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"/>
                               <exception scope="next" regexp="yes">&interp;</exception>
                           </token>
@@ -10951,7 +10958,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
               </rule>
               <rule id="PREP_WG"> <!-- wg -->
               	<pattern>
-										<token regexp="yes">wg<exception case_sensitive="yes">WG</exception></token>
+										<token>wg<exception case_sensitive="yes">WG</exception></token>
 										<marker>
 												<token postag="(subst:|ppron).*" postag_regexp="yes"><exception postag=".*gen.*|conj|comp|adv.*|num:.*" postag_regexp="yes"></exception><exception regexp="yes">minus|plus|lada|(?-iu)Don|Los|GUS|CMYK</exception><exception postag="&lt;/?ADV&gt;" postag_regexp="yes"></exception></token>
 										</marker>

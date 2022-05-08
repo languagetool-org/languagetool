@@ -11563,12 +11563,15 @@
     <rule name='się po czasowniku zwrotnym' id="refl_sie">
         <pattern>
             <marker>
-                <token postag=".*:refl.*" postag_regexp="yes"/>
+                <token postag=".*:refl.*" postag_regexp="yes">
+                    <exception inflected="yes">musieć</exception>
+                </token>
                 <token postag="qub">się</token>
             </marker>
             <token><exception postag=".*:refl.*" postag_regexp="yes"/></token>
         </pattern>
         <disambig action="filterall"/>
+        <example type="untouched">Muszę się w tym dobrze zorientować.</example>
     </rule>
 
     <rule name='się przed czasownikiem zwrotnym' id="sie_refl">
