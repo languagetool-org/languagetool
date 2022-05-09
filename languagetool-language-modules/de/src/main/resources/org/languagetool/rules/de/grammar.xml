@@ -10919,6 +10919,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 	                <token skip="-1">mir</token>
 	                <token postag="VER.*" postag_regexp="yes"/>
 	            </antipattern>
+	            <antipattern>
+	                <token regexp="yes">ob|warum</token>
+	                <token>mir</token>
+	            </antipattern>
 		        <pattern>
             	    <marker>
                 		<token>mir</token>
@@ -10930,6 +10934,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Mit"><marker>Mir</marker> wem redest du?</example>
                 <example correction="mit">Er lädt seine Gäste ein, <marker>mir</marker> ihm zu Abend zu essen.</example>
                 <example>Kann mir bitte jemand helfen?</example>
+                <example>Sie fragte mich, ob mir jemand bei meinen Hausaufgaben geholfen habe.</example>
             </rule>
 	        <rule><!--2-->
 	            <antipattern>
@@ -11011,7 +11016,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token>mir</token>
                     <token postag="PRO:POS.*|PRO:DEM.*|ART.*" postag_regexp="yes" skip="-1"/>
-                    <token postag="SUB.*" postag_regexp="yes"/>
+                    <token postag="SUB.*|UNKNOWN" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
                     <token inflected="yes" regexp="yes">erlauben|gestatten</token>
@@ -11221,8 +11226,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>ein</token>
                     <token>paar</token>
                     <token postag="ADV.*" postag_regexp="yes" min="0"/>
-                    <token postag="ADJ:DAT.*" postag_regexp="yes" min="0"/>
-                    <token postag="SUB:DAT.*" postag_regexp="yes"/>
+                    <token postag="ADJ.*" postag_regexp="yes" min="0"/>
+                    <token postag="SUB.*" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
                     <token skip="-1">dass</token>
@@ -11231,6 +11236,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token skip="-1">mir</token>
                     <token inflected="yes">geben</token>
+                </antipattern>
+                <antipattern>
+                    <token>mir</token>
+                    <token>ein</token>
+                    <token>paar</token>
+                    <token postag="ADV.*" postag_regexp="yes" min="0"/>
+                    <token postag="ADJ.*" postag_regexp="yes" min="0"/>
+                    <token postag="SUB.*" postag_regexp="yes" skip="-1"/>
+                    <token regexp="yes" inflected="yes">überlegen|wünschen|raussuchen</token>
+                </antipattern>
+                <antipattern>
+                    <token>bei</token>
+                    <token>mir</token>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -11248,6 +11266,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Würdest du mir ein paar Fragen beantworten?</example>
                 <example>Du verstehst, dass ich mir ein paar Freunde erhalten möchte.</example>
                 <example>Ich würde mich freuen, wenn mir jemand ein paar Informationen dazu geben könnte.</example>
+                <example>Ich habe mir ein paar Stichpunkte für unser Gespräch überlegt.</example>
+                <example>Deshalb stehen bei mir ein paar Pflanzen auf dem Balkon.</example>
             </rule>
         </rulegroup>
     </category>
