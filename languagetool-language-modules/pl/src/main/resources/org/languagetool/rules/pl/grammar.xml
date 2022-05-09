@@ -725,6 +725,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </marker>
                     </antipattern>
                     <antipattern>
+                          <token>nie</token>                    
+                         <token skip="10">sposób
+                            <exception scope="next" postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma|verb:.*(sg|pl).*|verb:(imps|inf).*|pcon:imperf.*|pant:perf.*|pred"/>
+                            <exception scope="next" regexp="yes">&interp;</exception>                         
+                         </token>
+                         <marker>
+                         <token regexp="yes">trudno|łatwo|dobrze|ciężko|miło|przyjemnie|niełatwo|wygodnie|nietrudno|prosto|bezpiecznie|fajnie|korzystnie|tanio|źle|przykro|rozsądnie|niebezpiecznie|próżno|cudownie|pięknie|niedobrze|wspaniale|dziwnie|ciekawie|głupio|niezręcznie|praktycznie|zdrowo|zabawnie|smutno|mądrze</token>
+                        </marker>
+                    </antipattern>
+                    <antipattern>
                         <unify>
                             <feature id="number"/><feature id="gender"/>
                             <token skip="7" inflected="yes">powinien<exception scope="next" postag="verb:(?:pot|fin|bedzie|imp[st]|pred|winien).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes"/><exception postag="SENT_END|&lt;ELLIPSIS&gt;|comp:comma|interp:comma" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">&interp;</exception></token>
@@ -745,7 +755,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </marker>
                     </antipattern>
                     <antipattern>
-                         <token inflected="yes" regexp="yes" skip="10">umieć|móc|musieć|chcieć|pozw(?:alać|olić)|potrafić|zacząć|lubić|mieć|pójść|zaczynać|śmieć|poczynać|kazać|zapomnieć|rozkazać|począć|zdążyć|radzić|usiłować|(?:na|wy)uczyć|przyzwyczajać|polecać|silić|zdawać|starać|jąć|postanowić|pomagać|udać|pomóc|zdołać|przesta(?:wa)?ć
+                         <token inflected="yes" regexp="yes" skip="10">umieć|móc|musieć|chcieć|pozw(?:alać|olić)|potrafić|zacząć|lubić|mieć|pójść|zaczynać|śmieć|poczynać|kazać|zapomnieć|rozkazać|począć|zdążyć|radzić|usiłować|(?:na|wy)uczyć|przyzwyczajać|polecać|silić|zdawać|starać|jąć|postanowić|pomagać|udać|pomóc|zdołać|przesta(?:wa)?ć|uda(?:wa)?ć|przeszkadzać
                             <exception scope="next" postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma|verb:.*(sg|pl).*|verb:(imps|inf).*|pcon:imperf.*|pant:perf.*|pred" postag_regexp="yes"/>
                             <exception scope="next" regexp="yes">&interp;</exception>                             
                          </token>
@@ -790,6 +800,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <short>Błąd interpunkcyjny</short>
                         <example correction="">Co <marker>miałoby dać włączenie jej do naszego grona trudno</marker> stwierdzić.</example>
                         <example>Dodać żółtka, jajko, aromat i tyle śmietany, aby ciasto dało się dobrze zagnieść i było w miarę elastyczne.</example>
+                        <example>Jednakże nie sposób tak łatwo ogłosić sukces.</example>
                     </rule>
                 </rulegroup>
                 <rule id="BRAK_PRZECINKA_PRZED_IMIESLOWEM_PRZYSLOWKOWYM" name="Brak przecinka przed imiesłowem -ąc lub -wszy">
@@ -16991,6 +17002,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rulegroup>
 		</category>
 		<category id="SPELLING" name="Błędy ortograficzne" type="misspelling">
+		<rule id="NIE_TRUDNO_NIETRUDNO" name="„nie trudno” (nietrudno)">
+    <antipattern>
+        <marker>
+          <token regexp="yes">trudno|jasno</token>
+        </marker>
+        <token>,</token>
+        <token regexp="yes">lecz|ale</token>
+    </antipattern>
+     <pattern>
+      <token>Nie</token>
+      <token regexp='yes'>trudno|jasno|mile|drogo</token>
+     </pattern>
+     <message>Partykułę nie jako wykładnik zaprzeczenia piszemy łącznie z tym przysłówkiem: <suggestion><match no="1"/><match no="2"/></suggestion></message>
+     <url>https://sjp.pwn.pl/zasady/169-45-4-Z-przyslowkami-utworzonymi-od-przymiotnikow;629517</url>
+     <short>Błąd ortograficzny</short>
+     <example correction='Nietrudno'><marker>Nie trudno</marker> dostrzec, że rodzeństwo jest nam potrzebne.</example>
+     <example>Nietrudno dostrzec, że rodzeństwo jest nam potrzebne.</example>
+     <example>Szło nie trudno, lecz całkiem łatwo.</example>
+    </rule>
 		<rule id="BYL_OBY_BYLOBY" name="„był oby” (byłoby)">
 		<antipattern>
         <marker><token>oby</token></marker>
