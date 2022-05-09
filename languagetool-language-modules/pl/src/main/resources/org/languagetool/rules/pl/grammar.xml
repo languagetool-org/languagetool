@@ -704,8 +704,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <example correction="">Przekonaniu, że tak ciężko <marker>zacząć wszystko od nowa towarzyszyło</marker> uczucie zagubienia.</example>
                     </rule>
                     <rule id="PRZYSLOWKI_PREDYKATYWNE_BEZ_PRZECINKOW_2">
+                    <antipattern> <!-- reguła BRAK_PRZECINKA_ZEBY -->
+		                <token inflected="yes" skip="-1" postag="comp">by
+                        <exception scope="previous" regexp="yes" inflected="yes">rad|który|co</exception>
+                        <exception scope="previous">należało</exception>
+                        <exception scope="previous" postag="SENT_START|conj|comp|pred|adv.*|verb:imps:.*" postag_regexp="yes"/>
+                        <exception inflected="yes" regexp="yes" scope="next">bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|a|jeśli|jeżeli|gdyby|aby|żeby|ażeby|zanim|dopóki</exception>
+                        <exception postag="&lt;ELLIPSIS&gt;|verb:praet:.*|interp:comma|pred" postag_regexp="yes" scope="next"></exception></token>
+                    <marker>
+										  <token postag="verb:inf.*" postag_regexp="yes"/>
+										</marker>
+                    </antipattern>
                     <antipattern>
-                         <token skip="10" regexp="yes">jest|było(?:by)?|można|warto|trzeba|należy|należało(?:by)?|widać|wystarczy(?:ło(?:by)?)?
+                         <token skip="10" regexp="yes">jest|było(?:by)?|można|warto|trzeba|należy|należało(?:by)?|widać|wolno|wystarczy(?:ło(?:by)?)?
                             <exception scope="next" postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma|verb:.*(sg|pl).*|verb:(imps|inf).*|pcon:imperf.*|pant:perf.*|pred"/>
                             <exception scope="next" regexp="yes">&interp;</exception>                         
                          </token>
@@ -734,7 +745,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </marker>
                     </antipattern>
                     <antipattern>
-                         <token inflected="yes" regexp="yes" skip="10">umieć|móc|musieć|chcieć|pozw(?:alać|olić)|potrafić|zacząć|lubić|mieć|pójść|zaczynać|śmieć|poczynać|kazać|zapomnieć|rozkazać|począć|zdążyć|radzić|usiłować|(?:na|wy)uczyć|przyzwyczajać|polecać|silić|zdawać|starać|jąć|postanowić|pomagać|udać|pomóc
+                         <token inflected="yes" regexp="yes" skip="10">umieć|móc|musieć|chcieć|pozw(?:alać|olić)|potrafić|zacząć|lubić|mieć|pójść|zaczynać|śmieć|poczynać|kazać|zapomnieć|rozkazać|począć|zdążyć|radzić|usiłować|(?:na|wy)uczyć|przyzwyczajać|polecać|silić|zdawać|starać|jąć|postanowić|pomagać|udać|pomóc|zdołać|przesta(?:wa)?ć
                             <exception scope="next" postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma|verb:.*(sg|pl).*|verb:(imps|inf).*|pcon:imperf.*|pant:perf.*|pred" postag_regexp="yes"/>
                             <exception scope="next" regexp="yes">&interp;</exception>                             
                          </token>
@@ -750,14 +761,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                           <token>się</token>
                           <token skip="2" inflected="yes" regexp="yes">d(?:aw)?ać</token>
                           <marker>
-                          <token regexp="yes">głupio|łatwo|wygodnie|prosto</token>
+                          <token regexp="yes">głupio|łatwo|wygodnie|prosto|dobrze|praktycznie</token>
                           </marker>
                     </antipattern>
                     <antipattern>
                           <token inflected="yes" regexp="yes">d(?:aw)?ać</token>
                           <token skip="2">się</token>
                           <marker>
-                          <token regexp="yes">głupio|łatwo|wygodnie|prosto</token>
+                          <token regexp="yes">głupio|łatwo|wygodnie|prosto|dobrze|praktycznie</token>
                           </marker>
                     </antipattern>
                         <pattern>
@@ -778,6 +789,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <message>Prawdopodobnie brak przecinka w tym zdaniu złożonym.</message>
                         <short>Błąd interpunkcyjny</short>
                         <example correction="">Co <marker>miałoby dać włączenie jej do naszego grona trudno</marker> stwierdzić.</example>
+                        <example>Dodać żółtka, jajko, aromat i tyle śmietany, aby ciasto dało się dobrze zagnieść i było w miarę elastyczne.</example>
                     </rule>
                 </rulegroup>
                 <rule id="BRAK_PRZECINKA_PRZED_IMIESLOWEM_PRZYSLOWKOWYM" name="Brak przecinka przed imiesłowem -ąc lub -wszy">
@@ -16979,7 +16991,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rulegroup>
 		</category>
 		<category id="SPELLING" name="Błędy ortograficzne" type="misspelling">
-		<rule id="WIERZ_WIEZ" name="„wierz” (wież)">
+		<rule id="BYL_OBY_BYLOBY" name="„był oby” (byłoby)">
+		<antipattern>
+        <marker><token>oby</token></marker>
+        <token>na</token>
+        <token>pewno</token>
+		</antipattern>
+    <pattern>
+    <token>był</token>
+    <token>oby</token>
+    </pattern>
+    <message>Ten wyraz piszemy łącznie: <suggestion><match no="1"/><match no="2"/></suggestion></message>
+    <short>Błąd ortograficzny</short>
+    <example correction='byłoby'>Autor badał jedynie objawy depresyjne, co warto <marker>był oby</marker> rozróżnić.</example>
+    <example>Autor badał jedynie objawy depresyjne, co warto byłoby rozróżnić.</example>
+    </rule>
+    <rule id="WIERZ_WIEZ" name="„wierz” (wież)">
          <pattern>
           <token postag='prep:gen.*|num:pl:gen.*:congr|(adj|pact):pl:gen.*' postag_regexp='yes'></token>
           <marker>
