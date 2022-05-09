@@ -2031,6 +2031,21 @@ Molho para acompanhar massa esparguete.
       </antipattern>
 <!-- MARCOAGPINTO 2022-03-08 (1-JAN-2022+) *END* -->
 
+<!-- MARCOAGPINTO 2022-05-09 (1-JAN-2022+) *START* -->
+<!--
+O cartão refeição imposto pela chefia reduz o salário.
+Cravejado por cristal safira envolto por zirconias brancas.
+O homem é uma pobre criatura comparado com a mulher.
+-->
+      <antipattern>
+		<token postag='NC[CM].+|AQ0[CM].+' postag_regexp='yes'/>
+		<token postag='NC[CF].+|AQ0[CF].+' postag_regexp='yes'>
+			<exception regexp='yes'>&partes_do_dia;</exception> <!-- to remove false positives: "Sentiu o terremoto noite passado?" -->
+		</token>	  
+		<token postag='V.....M' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-05-09 (1-JAN-2022+) *END* -->
+
       <pattern>
           <token negate='yes' regexp='yes'>o|e|de|&hifen;</token> <!-- MARCOAGPINTO 2019-12-31 -->
         <marker>
@@ -2098,7 +2113,12 @@ Molho para acompanhar massa esparguete.
 	  <example>Tive um professor na faculdade que disse que o BASIC era programação spaghetti.</example>
 	  <example>Iniciou o Chegou a Hora em parceria, mas conquistou carreira solo e agora decola com seus novos projetos.</example>
 	  <example>Molho para acompanhar massa esparguete.</example>
+
+	  <example>O cartão refeição imposto pela chefia reduz o salário.</example>
+	  <example>Cravejado por cristal safira envolto por zirconias brancas.</example>
+	  <example>O homem é uma pobre criatura comparado com a mulher.</example>
     </rule>
+
     <rule>
       <antipattern>
           <token>à</token>
