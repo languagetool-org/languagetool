@@ -255,7 +255,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Mögliche Tippfehler">
-        <rule id="MIT_ENSETZTEN" name="mit Entsetzten (Entsetzen)" default="temp_off">
+        <rule id="MIT_ENSETZTEN" name="mit Entsetzten (Entsetzen)">
             <pattern>
                 <token>mit</token>
                 <marker>
@@ -8804,8 +8804,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"/>
-                    <token min="0">„</token>
-                    <marker><token inflected="yes">Leib</token></marker>
+                    <token min="0" regexp="yes">„|«|»</token>
+                    <marker>
+                        <token inflected="yes">
+                            Leib
+                            <exception>Leib</exception>
+                        </token>
+                    </marker>
                     <token postag_regexp="yes" postag="EIG:.+|SUB:.+"/>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="3" regexp_match="ei" regexp_replace="ie"/></suggestion>?</message>
@@ -8814,9 +8819,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Liebe"><marker>Leibe</marker> Maria,...</example>
                 <example correction="Lieber"><marker>Leiber</marker> Tom,...</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
-                    <token regexp="yes" skip="1">bei|im|zum|vom|dem|eurem|unse?rem|[dskm]?einem|zu</token>
+                    <token regexp="yes" skip="1">bei|[ai]m|zum|vom|dem|eurem|unse?rem|[dskm]?einem|zu|eigenen</token>
                     <token>Leibe</token>
                 </antipattern>
                 <pattern>
@@ -8825,6 +8830,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Meinten Sie <suggestion>Liebe</suggestion>?</message>
                 <example correction="Liebe">Ich wünsche dir viel <marker>Leibe</marker>.</example>
                 <example>Tom wurde bei lebendigem Leibe begraben.</example>
+                <example>Der muss bald am eigenen Leibe erfahren, dass mit dem Tod gern auch mal Geschäfte gemacht werden.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SACHEN_SACHSEN" name="Sachen (Sachsen)">
@@ -13247,7 +13253,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
-        <rulegroup id="NEUN_EURO_TICKET" name="9-Euro-Ticket" default="temp_off">
+        <rule id="ZU_LEGEN" name="Zahn zu legen (zulegen)" default="temp_off">
+            <pattern>
+                <token>einen</token>
+                <token>Zahn</token>
+                <marker>
+                    <token case_sensitive="yes">zu</token>
+                    <token case_sensitive="yes">legen</token>
+                </marker>
+            </pattern>
+            <message>Das Verb <suggestion>zu<match no="4" case_conversion="alllower" /></suggestion> wird zusammengeschrieben.</message>
+            <example correction="zulegen">Wir müssen einen Zahn <marker>zu legen</marker>.</example>
+        </rule>
+        <rulegroup id="NEUN_EURO_TICKET" name="9-Euro-Ticket">
             <url>https://de.wikipedia.org/wiki/9-Euro-Ticket</url>
             <rule>
                 <pattern>
@@ -27453,7 +27471,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Sie">Führen <marker>sie</marker> bitte die Bestellung so aus</example>
                 <example>Diese Seite wurde nicht sauber gedruckt, also druck sie bitte noch einmal aus.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern case_sensitive="yes">
                     <token postag="VER:.*" postag_regexp="yes"><exception postag="VER:IMP.*" postag_regexp="yes"/></token>
                     <marker>
@@ -27510,7 +27528,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
-        <rule id="EINE_NEUE_BLEIBE" name="eine neue bleibe (Bleibe)" default="temp_off">
+        <rule id="EINE_NEUE_BLEIBE" name="eine neue bleibe (Bleibe)">
             <antipattern>
                 <token>bleibe</token>
                 <token>ich</token>
@@ -30223,7 +30241,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Reise">Meine <marker>reise</marker> war ein voller Erfolg.</example>
                 <example>Ich mache das damit ihr wirklich reisen könnt.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>auf</token>
                     <marker>
@@ -54120,6 +54138,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Bei ihr hat der Blitz eingeschlagen.</example>
                 <example>Als ich erkältet war, habe ich wie ein Rabe gekrächzt.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes">ich|du|e[rs]|sie|wir|ihr</token>
+                    <token inflected="yes">haben</token>
+                    <token postag="ADV.*" postag_regexp="yes" min="0"/>
+                    <marker>
+                        <token postag="PRO:POS.*" postag_regexp="yes"><exception postag=".*:(DAT|AKK):.*" postag_regexp="yes"/></token>
+                        <token postag="ADJ:.*" postag_regexp="yes" min="0"/>
+                        <token postag="SUB:.*" postag_regexp="yes"/>
+                    </marker>
+                    <token postag="PA2:PRD:GRU:VER"/>
+                </pattern>
+                <message>Prüfen Sie, ob hier der Akkusativ oder Dativ zu verwenden ist.</message>
+                <example correction="">Ich habe <marker>mein Regenschirm</marker> vergessen.</example>
+                <example>Ich habe <marker>der Frau</marker> geholfen.</example>
+            </rule>
             <rule>
                 <antipattern>
                     <token regexp="yes">um|vor|nach</token>
@@ -63511,10 +63546,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Typografie -->
     <!-- ====================================================================== -->
     <category id="TYPOGRAPHY" name="Typografie">
-        <rule id="LEERZEICHEN_VOR_KLAMMER" name="Fehlendes Leerzeichen vor einer Klammer" default="temp_off">
+        <rule id="LEERZEICHEN_VOR_KLAMMER" name="Fehlendes Leerzeichen vor einer Klammer">
             <antipattern>
                 <token skip="5">(</token>
-                <token>;</token>
+                <token regexp="yes">;|=</token>
             </antipattern>
             <antipattern>
                 <token skip="5">=</token>
@@ -63548,7 +63583,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
                 <token regexp="yes">
                     .*[a-z0-9]{2,30}.*
-                    <exception case_sensitive="yes" regexp="yes">.*_.*|0x.*|.*\$.*|.*[a-z][A-Z][a-z].*|function|true|false|0|e.?|in(nen)?</exception>
+                    <exception case_sensitive="yes" regexp="yes">.*_.*|[A-Z]{2,3}|0[Xx].*|.*\$.*|.*[a-z][A-Z][a-z].*|function|true|false|0|e.?|in(nen)?</exception>
                     <exception postag="UNKNOWN" />
                     <exception scope="next" regexp="yes">\(|\=</exception>
                 </token>
