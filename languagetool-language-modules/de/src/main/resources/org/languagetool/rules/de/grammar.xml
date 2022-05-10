@@ -11027,19 +11027,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token inflected="yes" regexp="yes">erlauben|gestatten</token>
                     <token>mir</token>
-                    <token postag="PRO:PER:DAT:.*" postag_regexp="yes"/>
+                    <token postag="PRO:PER:DAT.*" postag_regexp="yes"/>
                     <token postag="VER:EIZ.*|VER:INF.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>mir</token>
+                    <token postag="PRO:PER:DAT.*|PRO:POS:DAT.*" postag_regexp="yes"/>
+                    <token postag="SUB:NOM:SIN:FEM|SUB:AKK:SIN:FEM|SUB:NOM:PLU.*|SUB:AKK:PLU.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1">Sie</token>
+                    <token>mir</token>
+                    <token postag="PRO:PER:DAT:SIN:FEM" postag_regexp="yes"/>
+                    <token postag="SUB:DAT:SIN:FEM" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
                     <marker>
                         <token>mir</token>
                     </marker>
-                    <token postag="PRO:PER:DAT:.*" postag_regexp="yes"/>
+                    <token postag="PRO:PER:DAT.*" postag_regexp="yes"/>
                 </pattern>
                 <message>'mir' (Dativ) ist hier weniger wahrscheinlich als <suggestion>mit</suggestion>.</message>
                 <example correction="mit">Du verbringst zu wenig Zeit <marker>mir</marker> ihr.</example>
-                <example>Bitte teilen Sie mir Ihre Meinung zu diesem Thema bald mit.</example>
-                <example>Erlaube mir dir mitzuteilen, dass das nicht möglich ist.</example> <!--Komma fehlt-->
+                <example>Bitte nenne mir deinen Namen.</example>
+                <example>Erlaube mir dir mitzuteilen, dass das nicht möglich ist.</example>
+                <example>Ich sah mir dir Aufstellung der Verluste und Gewinne durch.</example> <!--Richtig: "mir die" -->
+                <example>Bitten teilen Sie mir ihr Meinung mit.</example> <!--Richtig: "Ihre Meinung" -->
             </rule>
             <rule><!--6-->
                 <pattern>
@@ -11168,6 +11181,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="ADJ:DAT.*" postag_regexp="yes" min="0"/>
                     <token postag="SUB:DAT.*|EIG:DAT.*" postag_regexp="yes"/>
                 </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token case_sensitive="yes">Das</token>
+                    <token skip="-1">mir</token>
+                    <token postag="SUB:NOM.*|PRO:DEM:NOM.*|PRO:IND:NOM" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token postag="PRO:DEM:.*" postag_regexp="yes"/>
                     <marker>
@@ -11185,6 +11204,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Der Schreibstil der mir bisher unbekannten Autorin hat mich vollends eingenommen.</example>
                 <example>Ich werde ihr mit allen mir zur Verfügung stehenden Mitteln helfen.</example>
                 <example>Ich will keine Übungen machen, die mir keinen Nutzen bringen.</example>
+                <example>Das mir Bernsteine nicht vor die Füße rollen, war klar.</example> <!--Richtig: "Dass mir"-->
             </rule>
 	        <rule> <!--11-->
                 <pattern>
