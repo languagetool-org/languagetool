@@ -130,7 +130,7 @@ public class ProhibitedCompoundRule extends Rule {
   private static final List<String> blacklistRegex = Arrays.asList(
     "stromkreis",  // vs. reis/reise
     "Lande(basis|basen|region|gebiets?|gebieten?|regionen|betriebs?|betrieben?|offizieren?|bereichs?|bereichen?|einrichtung|einrichtungen|massen?|plans?|versuchs?|versuchen?)",  // vs. Landes
-    "Model(vertrags?|verträgen?|erfahrung|erfahrungen|szene)",
+    "Model(vertrags?|verträgen?|erfahrung|erfahrungen|szene|welt)",
     "(Raum|Surf|Jazz|Herbst|Gymnastik|Normal)schuhen?",
     "preis",  // Getränkepreis etc.
     "reisähnlich(e|e[nmrs])?",
@@ -143,7 +143,8 @@ public class ProhibitedCompoundRule extends Rule {
     "gra(ph|f)in",  // Demographin/Demografin
     "gra(ph|f)ik",  // Kunstgrafik
     "gra(ph|f)ie",  // Geographie
-    "Gra(ph|f)it"   // Grafit/Graphit
+    "Gra(ph|f)its?",   // Grafit/Graphit
+    ".+gra(ph|f)its?"   // ...grafit/graphit
   );
   private static final Set<String> blacklist = new HashSet<>(Arrays.asList(
           "Leerbestände",  // vs. Lehr
