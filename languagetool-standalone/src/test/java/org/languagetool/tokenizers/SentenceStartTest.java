@@ -100,25 +100,39 @@ public class SentenceStartTest {
 
   /**
    * This test case would failed before fixing the bug.
-   * (Two or more consecutive line breaks need to be considered to start a new sentence)
+   * (Should two or more consecutive line breaks be considered to start a new sentence?)
    */
+//  @Test
+//  public void testSentenceStartWithMultipleLineBreak() throws IOException {
+//    {
+//      AnnotatedText txt = new AnnotatedTextBuilder()
+//        .addText("Hello and welcome, \n\n\nsorry I have to reply in English.").build();
+//      List<RuleMatch> matches = lt.check(txt);
+//      assertEquals(1, matches.size());
+//      assertEquals("This sentence does not start with an uppercase letter.", matches.get(0).getMessage());
+//    }
+//    {
+//      AnnotatedText txt = new AnnotatedTextBuilder()
+//        .addText("Hello and welcome,\n\t \n \r\nsorry I have to reply in English.").build();
+//      List<RuleMatch> matches = lt.check(txt);
+//      assertEquals(1, matches.size());
+//      assertEquals("This sentence does not start with an uppercase letter.", matches.get(0).getMessage());
+//
+//    }
+//  }
   @Test
-  public void testSentenceStartWithMultipleLineBreak() throws IOException {
-
+  public void testSentenceWithComma() throws IOException {
     {
       AnnotatedText txt  = new AnnotatedTextBuilder()
-        .addText("Hello and welcome, \n\n\nsorry I have to reply in English.").build();
+        .addText("Hello and welcome, sorry I have to reply in English.").build();
       List<RuleMatch> matches = lt.check(txt);
-      assertEquals(1, matches.size());
-      assertEquals("This sentence does not start with an uppercase letter.",matches.get(0).getMessage());
+      assertEquals(0, matches.size());
     }
     {
       AnnotatedText txt  = new AnnotatedTextBuilder()
-        .addText("Hello and welcome,\n\t \n \r\nsorry I have to reply in English.").build();
+        .addText("Hello and welcome, \n sorry I have to reply in English.").build();
       List<RuleMatch> matches = lt.check(txt);
-      assertEquals(1, matches.size());
-      assertEquals("This sentence does not start with an uppercase letter.",matches.get(0).getMessage());
-
+      assertEquals(0, matches.size());
     }
   }
 
