@@ -1435,6 +1435,23 @@
 <beforebreak>[\s\u00A0]\p{L}[\.!?…][\s\u00A0]</beforebreak>
 <afterbreak>\p{Lu}\p{Ll}</afterbreak>
 </rule>
+
+<rule break="yes">
+<!--./!/? with line break should always be the end of sentence(end of paragraph)-->
+<beforebreak>\w[\.\!\?][\s\u00A0]*\r?\n</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="yes">
+<!--more than one line break can start a new sentence, no matter whether the last sentence end-->
+<beforebreak>(\n[\s\u00A0\t\r]*){2}</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="yes">
+<!--section title should be recognized as the end of sentence. i.e. (a) English\n It is good.-->
+<beforebreak>^\([\w\s]{1,16}\)[\w\s]*[\s\r]*\n</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+
 </languagerule>
 <languagerule languagerulename="Romanian">
 <rule break="no">
