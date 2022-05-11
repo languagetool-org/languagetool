@@ -352,10 +352,7 @@ public class French extends Language implements AutoCloseable {
     }
 
     if (id.startsWith("AI_FR_HYDRA_LEO")) { // prefer more specific rules (also speller)
-      if (id.startsWith("AI_FR_HYDRA_LEO_MISSING_COMMA")) {
-        return -51; // prefer comma style rules.
-      }
-      return -11;
+      return -101;
     }
 
     return super.getPriorityForId(id);
