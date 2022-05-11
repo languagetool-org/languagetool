@@ -1102,14 +1102,21 @@
 </rule>
 </languagerule>
 <languagerule languagerulename="English">
-<rule break="no">
-<beforebreak>[\u00A0\s]</beforebreak>
-<afterbreak>\n</afterbreak>
+
+<rule break="yes"><!--./!/? with line break should always be the end of sentence(end of paragraph)-->
+<beforebreak>\w[\.\!\?][\s\u00A0]*\r?\n</beforebreak>
+<afterbreak></afterbreak>
 </rule>
-<rule break="no"><!-- Hello (Hi! ) my name is Chris -->
-<beforebreak>[a-zA-Z][!\?][\s\u00A0]</beforebreak>
-<afterbreak>\)[\s\u00A0][a-zA-Z]</afterbreak>
+<rule break="yes"><!--more than one line break can start a new sentence, no matter whether the last sentence end-->
+<beforebreak>(\n[\s\u00A0\t\r]*){2}</beforebreak>
+<afterbreak></afterbreak>
 </rule>
+
+<rule break="yes"><!--section title should be recognized as the end of sentence. i.e. (a) English\n It is good.-->
+<beforebreak>^\([\w\s]{1,16}\)[\w\s]*[\s\r]*\n</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+
 <rule break="no">
 <beforebreak>Yahoo![\s\u00A0]</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
