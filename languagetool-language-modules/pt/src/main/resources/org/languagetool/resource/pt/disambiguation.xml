@@ -48,7 +48,7 @@
     <!ENTITY verbos_auxiliares_part_passado "(?:ser|estar|ter|haver|ficar)">
 
     <!ENTITY pontos_cardeais "norte|sul|este|oeste|ocidente|oriente|nascente|poente|nordeste|sudeste|noroeste|sudoeste">
-    <!ENTITY numero_por_extenso_CP "zero|três|quatro|cinco|seis|sete|oito|nove|dez|onze|doze|treze|catorze|quinze|dez[ae]sseis|dez[ae]ssete|dezoito|dezanove|vinte|trinta|quarenta|cinquenta|sessenta|setenta|oitenta|noventa|cem|mil">
+    <!ENTITY numero_por_extenso_CP "zero|três|quatro|cinco|seis|sete|oito|nove|dez|onze|doze|treze|catorze|quatorze|quinze|dez[ae]sseis|dez[ae]ssete|dezoito|dezanove|vinte|trinta|quarenta|cinquenta|sessenta|setenta|oitenta|noventa|cem|mil">
     <!ENTITY numero_por_extenso_MS "um|(mi|bi|tri|quadri)lh?ião">
     <!ENTITY numero_por_extenso_FS "uma|dezena">
     <!ENTITY numero_por_extenso_MP "uns|dois|centos?|(duzent|trezent|quatrocent|quinhent|seiscent|setecent|oitocent|novecent)os|(mi|bi|tri|quadri)lh?i?ões">
@@ -151,7 +151,7 @@
   <rule id="USUAL" name="usual">
     <!-- TODO: exceptions -->
     <pattern>
-      <token inflected="yes" regexp="yes">usual|embriagado|escasso|essa|observando|ver|dormir|entender</token>
+      <token inflected="yes" regexp="yes">usual|embriagado|escasso|essa|observando|ver|dormir|entender|beber</token>
     </pattern>
     <disambig action="remove" postag="N.*"/>
   </rule>
@@ -187,7 +187,7 @@
         </marker>
         <token postag="V.*" postag_regexp="yes"/>
       </pattern>
-      <disambig action="remove" postag="V.*"></disambig>  
+      <disambig action="remove" postag="[VN].*"></disambig>  
     </rule>
     <rule>
       <pattern>
@@ -236,6 +236,13 @@
     </pattern>
     <disambig action="remove" postag="V.*"/>
   </rule>
+  <rule id="LA_FORA" name="lá fora">
+    <pattern>
+      <token postag="RG">lá</token>
+      <token postag="RG">fora</token>
+    </pattern>
+    <disambig action="filterall"/>
+  </rule>
   <rule id="SER_SERIAR" name="ser/seriar">
     <!-- more common: ser -->
     <pattern>
@@ -256,7 +263,24 @@
     </pattern>
     <disambig action="remove"><wd lemma="valar"/></disambig>
   </rule>
-  
+  <rulegroup id="REVISTA" name="revista">
+    <rule>
+      <pattern>
+        <token>esta</token>
+        <marker>
+          <token>revista</token>
+        </marker>
+      </pattern>
+      <disambig action="filter" postag="NCFS000"/>
+    </rule>
+  </rulegroup>
+  <rule id="SABER" name="saber + infinitive">
+    <pattern>
+      <token inflected="yes" postag="V.*" postag_regexp="yes">saber</token>
+      <token postag="V.N.*" postag_regexp="yes"/>
+    </pattern>
+    <disambig action="filterall"/>
+  </rule>
   <rule id="GERUND" name="auxiliar + gerund">
     <pattern>
       <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">continuar|estar|ir|ficar|andar|vir</token>
