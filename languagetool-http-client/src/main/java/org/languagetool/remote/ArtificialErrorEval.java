@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
@@ -50,7 +51,7 @@ public class ArtificialErrorEval {
   static int[][] results = new int[2][5]; // word0/word1 ; TP/FP/TN/FN/TP with expected suggestion
   static int[] accumulateResults = new int[5]; // totalErrors/TP/FP/TN/FN
   static RemoteLanguageTool lt;
-  static int maxLines = 100;// 1000000; // decrease this number for testing
+  static int maxLines = 1000000; // decrease this number for testing
   static boolean verboseOutput = false;
   static boolean undirectional = false;
   static Pattern pWordboundaries = Pattern.compile("\\b.+\\b");
@@ -218,21 +219,21 @@ public class ArtificialErrorEval {
       //    / results[i][classifyTypes.indexOf("TP")];
       int errorsTotal = results[i][classifyTypes.indexOf("TP")] + results[i][classifyTypes.indexOf("FP")]
           + results[i][classifyTypes.indexOf("TN")] + results[i][classifyTypes.indexOf("FN")];
-      if (!verboseOutputFilename.isEmpty()) { 
-        try (BufferedWriter out = new BufferedWriter(new FileWriter(verboseOutputFilename, true))) {
-          out.write("-------------------------------------\n");
-          out.write("Results for " + fakeRuleIDs[i]+"\n");
-          out.write("TP (with expected suggestion): " + results[i][4] +"\n");
-          for (int j = 0; j < 4; j++) {
-            out.write(classifyTypes.get(j) + ": " + results[i][j] +"\n");
-          }
-          
-          out.write("Precision: " + String.format("%.4f", precision)+"\n");
-          out.write("Recall: " + String.format("%.4f", recall)+"\n");
-          //out.write("TP with expected suggestion: " + String.format("%.4f", expectedSuggestionPercentage)+"\n");
-          out.write("Errors: " + String.valueOf(errorsTotal)+"\n");
-        }
+      StringWriter resultsString = new StringWriter();
+
+      resultsString.append("-------------------------------------\n");
+      resultsString.append("Results for " + fakeRuleIDs[i] + "\n");
+      resultsString.append("TP (with expected suggestion): " + results[i][4] + "\n");
+      for (int j = 0; j < 4; j++) {
+        resultsString.append(classifyTypes.get(j) + ": " + results[i][j] + "\n");
       }
+
+      resultsString.append("Precision: " + String.format("%.4f", precision) + "\n");
+      resultsString.append("Recall: " + String.format("%.4f", recall) + "\n");
+      // out.write("TP with expected suggestion: " + String.format("%.4f",
+      // expectedSuggestionPercentage)+"\n");
+      resultsString.append("Errors: " + String.valueOf(errorsTotal) + "\n");
+      appendToFile(verboseOutputFilename, resultsString.toString());
       
 //      System.out.println("-------------------------------------");
 //      System.out.println("Results for " + fakeRuleIDs[i]);
@@ -277,6 +278,8 @@ public class ArtificialErrorEval {
       try (BufferedWriter out = new BufferedWriter(new FileWriter(FilePath, true))) {
         out.write(text + "\n");
       }
+    } else {
+      System.out.println(text);
     }
   }
 
@@ -335,9 +338,14 @@ public class ArtificialErrorEval {
 
   private static void printSentenceOutput(String classification, String sentence, String ruleIds) throws IOException {
     if (verboseOutput) {
-      try (BufferedWriter out = new BufferedWriter(new FileWriter(verboseOutputFilename, true))) {
-        out.write(countLine + ". " + classification + ": " + sentence + " –– " + ruleIds+"\n");
+      if (verboseOutputFilename.isEmpty()) {
+        System.out.println(countLine + ". " + classification + ": " + sentence + " –– " + ruleIds);
+      } else {
+        try (BufferedWriter out = new BufferedWriter(new FileWriter(verboseOutputFilename, true))) {
+          out.write(countLine + ". " + classification + ": " + sentence + " –– " + ruleIds+"\n");
+        }  
       }
+      
     }
   }
 
