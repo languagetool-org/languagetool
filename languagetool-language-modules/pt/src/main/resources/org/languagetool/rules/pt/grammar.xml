@@ -25209,7 +25209,7 @@ o tomate'>
      <rulegroup id="DIACRITICS" name="Confusão com diacríticos">
 	 <!--      Created by Jaume Ortolà, Portuguese rule 2021-01-08      -->
          <rule>
-<!-- MARCOAGPINTO 2021-01-09 (1-JAN-2021+) *START* -->
+<!-- MARCOAGPINTO 2021-01-09 + 2022-05-11 (1-JAN-2021+) *START* -->
 <!--
 À semelhança de uma estrela em céu noturno, ela nos indica a direção.
 Você nos canta umas músicas em inglês?
@@ -25219,11 +25219,11 @@ Como nos canta Afonso X de Castela, o Rei Sábio.
 			<antipattern>
 				<token regexp='yes'>n[ao]s</token>
 				<token postag='VMIP[23]S0|VMM02S0' postag_regexp='yes'/>
-				<token postag='SPS.+|DA.+|DI.+|NP.+' postag_regexp='yes'/>
+				<token postag='SPS.+|D[ADIP].+|NP.+' postag_regexp='yes'/>
 			</antipattern>		
-<!-- MARCOAGPINTO 2021-01-09 (1-JAN-2021+) *END* --> 
+<!-- MARCOAGPINTO 2021-01-09 + 2022-05-11 (1-JAN-2021+) *END* --> 
 
-<!-- MARCOAGPINTO 2022-03-09/10/11 (1-JAN-2022+) *START* -->
+<!-- MARCOAGPINTO 2022-03-09/10/11 + 2022-05-11 (1-JAN-2022+) *START* -->
 <!--
 As carências de coordenadores até ontem ninguém sabia quando iam ser liberadas.
 Ninguém duvida que, no pensamento das massas, milagre implica a ideia de um fato extranatural.
@@ -25233,7 +25233,7 @@ Ninguém continua onde os valores e, portanto, os limites que acredita como corr
       <antipattern>
 		<token negate_pos="yes" postag='V.+' postag_regexp='yes'/>
 		<token postag='PI.+' postag_regexp='yes'>
-			<exception postag_regexp="yes" postag="DI.+"/>
+			<exception postag_regexp="yes" postag="D[ADIP].+"/>
 		</token>
 		<token postag='V.+' postag_regexp='yes'/>
 		<token postag='CS|RG|SPS00' postag_regexp='yes'>
@@ -25249,13 +25249,13 @@ Tudo seria mais fácil se pudéssemos flutuar.
 Ninguém sabia nada sobre isso.
 -->
       <antipattern>
-		<token postag='DI.+|NC.+|AQ.+|SENT_START|RG|CS' postag_regexp='yes'>
+		<token postag='D[ADIP].+|NC.+|AQ.+|SENT_START|RG|CS' postag_regexp='yes'>
 			<exception postag_regexp="yes" postag="CC|V.+"/>
 			<exception regexp='no'>como</exception> <!-- "assim como" (RG+RG) + "outras vitimas" - 2022-03-10 -->
 		</token>
 		<token postag='PI.+' postag_regexp='yes'/>
 		<token postag='V.+' postag_regexp='yes'/>
-		<token postag='RM|CS|RG|NC.+|AQ.+|DI.+|_PUNCT' postag_regexp='yes'/>
+		<token postag='RM|CS|RG|NC.+|AQ.+|D[ADIP].+|_PUNCT' postag_regexp='yes'/>
 		<token negate_pos="yes" postag='SPS00' postag_regexp='no'/>
       </antipattern>
 <!--
@@ -25268,7 +25268,7 @@ Não fazer nada seria impossível.
 O amor tudo supera.
 -->
       <antipattern>
-		<token postag='CS|SENT_START|CC|RG|DI.+|DA.+|PI.+|PP.+|NC.+|AQ.+|V.+|SPS.+|_PUNCT|DD.+' postag_regexp='yes'/>
+		<token postag='CS|SENT_START|CC|RG|D[ADIP].+|PI.+|PP.+|NC.+|AQ.+|V.+|SPS.+|_PUNCT' postag_regexp='yes'/>
 		<token regexp='yes'>mesm[ao]s?|alguém|ninguém|nada|tudo|tod[ao]</token>
 		<token postag='V.+' postag_regexp='yes'/>
       </antipattern>
@@ -25277,17 +25277,17 @@ WHEN WE WILL HAVE THE NEW POSes WITH ":" ("dess[ae]s?|dest[ae]s?") TRY TO MOVE T
 Mas pq diabos uma figura dessas seria agora plasmada à imagem de um (ex)juiz em manifestações de rua?
 -->
       <antipattern>
-		<token postag='CS|SENT_START|CC|RG|DI.+|DA.+|PI.+|PP.+|NC.+|AQ.+|V.+|SPS.+|_PUNCT|DD.+' postag_regexp='yes'/>
+		<token postag='CS|SENT_START|CC|RG|D[ADIP].+|PI.+|PP.+|NC.+|AQ.+|V.+|SPS.+|_PUNCT' postag_regexp='yes'/>
 		<token regexp='yes'>dess[ae]s?|dest[ae]s?</token>
 		<token postag='V.+' postag_regexp='yes'/>
 		<token postag='RG' postag_regexp='no'/>
       </antipattern>
-<!-- MARCOAGPINTO 2022-03-09/10/11 (1-JAN-2022+) *END* -->
+<!-- MARCOAGPINTO 2022-03-09/10/11 + 2022-05-11 (1-JAN-2022+) *END* -->
 
              <!-- do paragrafo-->
              <pattern>
                  <token postag="SPS.*|PI.+" postag_regexp="yes"><exception postag="RG|.*\+P[PD].*" postag_regexp="yes"/></token> <!-- Improved by MARCOAGPINTO "Eu escrevi uma página do livro." (PI.+) 2022-03-09 -->
-                 <token postag="D[AI].*" postag_regexp="yes" min="0"/>
+                 <token postag="D[ADIP].*" postag_regexp="yes" min="0"/>
                  <marker>
                      <token><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/><exception regexp="yes" case_sensitive="yes">\p{Lu}\p{Lu}+s|\p{Lu}\p{Lu}</exception></token>
                  </marker>
@@ -25335,7 +25335,12 @@ Mas pq diabos uma figura dessas seria agora plasmada à imagem de um (ex)juiz em
 
          <rule>
              <pattern>
-                 <token>nos</token>
+				 <or>
+					<token regexp='yes'>nos|são</token>
+					<token postag='V.+' postag_regexp='yes'>
+						<exception postag_regexp='yes' postag='AQ.+|NP.+|NC.+'/>
+					</token>
+				 </or>
                  <marker>
                      <token><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/><exception regexp="yes" case_sensitive="yes">\p{Lu}\p{Lu}+s|\p{Lu}\p{Lu}</exception></token>
                  </marker>
@@ -25347,6 +25352,31 @@ Mas pq diabos uma figura dessas seria agora plasmada à imagem de um (ex)juiz em
              <example>Uma pedra nos servia de assento.</example>
              <example>Você nos incomoda com sua música.</example>
          </rule>
+
+		 <!-- Fix for "matricula" -> "matrícula" - https://github.com/languagetool-org/languagetool/issues/6492 - 2022-05-11 -->
+         <rule>
+             <pattern>
+				 <token negate_pos="yes" postag='NC.+|AQ.+|SPS00.PP.+|PP.+' postag_regexp='yes'/>
+                 <marker>
+				    <token postag='VMIP[23]S.+' postag_regexp='yes'>
+						<exception regexp="yes" case_sensitive="no">\p{Lu}\p{Lu}+s|\p{Lu}\p{Lu}</exception>
+						<exception scope='previous' postag_regexp='yes' postag='VMP00SF|VMN02S0|DP.[^F]SP|RN'/>
+					</token>
+                 </marker>
+				 <token postag='SPS.+|CC' postag_regexp='yes'>
+					<exception postag_regexp='yes' postag='VMSP[13].+|RG'/>
+				 </token>
+				 <token negate_pos="yes" postag='VMN0000|DP3MSS' postag_regexp='yes'/>
+             </pattern>
+             <filter class="org.languagetool.rules.pt.ConfusionCheckFilter" args="form:\2 postag:N.[MFC][SP].*|A..[MC]P."/>
+             <message>Sem o acento, essa é a forma verbal da palavra. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+             <suggestion>{suggestion}</suggestion>
+             <example correction='matrículas'>Quero  <marker>matriculas</marker> de automóveis em Portugal.</example>
+             <example>Matrículas de automóveis em Portugal.</example>
+			 <example>Matrículas para automóveis em Portugal.</example>
+			 <example>Matrícula de Angola.</example>
+         </rule>
+
      </rulegroup>
 
 
