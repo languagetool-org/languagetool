@@ -5961,7 +5961,7 @@ Foram lançadas novas rendas.
       <pattern>
 		<token negate_pos="yes" postag='SPS.+|DI.+|DP.+|CC|PP.+' postag_regexp='yes'/>
 		<token postag='NC.P.+' postag_regexp='yes'>
-			<exception postag_regexp='yes' postag='Z0.+|V.+'/>
+			<exception postag_regexp='yes' postag='Z0.+|V.+|P[ET].*|D.*'/>
 		</token>
 		<marker>
 			<and>
@@ -6026,6 +6026,8 @@ Foram lançadas novas rendas.
 	  <example>No seu interior existem dobras chamadas conchas nasais.</example>
 	  <example>Foram lançadas novas rendas.</example>
 	  <example>É preciso produzir bons vinhos.</example>
+	  <example>Quantas laranjas você tem?</example>
+	  <example>Como os bons vinhos.</example>
     </rule>	  
     </rulegroup>
 
@@ -7887,6 +7889,21 @@ Nos poderiam escrever uma carta? → Poder-nos-iam escrever uma carta?
 	-->
 	
 	    <!-- simple verbs -->
+      <rule>
+        <pattern>
+          <token postag='SENT_START' postag_regexp='no'/>
+          <marker>
+            <token spacebefore='no'>nos</token>
+            <token postag='VMIP1P0'>
+              <exception postag_regexp='no' postag='VMIF1S0'/>
+            </token>
+          </marker>
+        </pattern>
+        <message>Em escrita formal não se começa uma frase com pronome átono. Coloque o pronome após o verbo.</message>
+        <suggestion><match no='3' case_conversion='startupper' postag="VMIP1P0" postag_regexp="yes" postag_replace="VMIP1P0X"/>-<match no='2' case_conversion='startlower'/></suggestion>
+        <example correction="Acostumamo-nos"><marker>Nos acostumamos</marker> com tudo.</example>
+      </rule>
+      
 		<rule>
 			<pattern>
 				<token postag='SENT_START' postag_regexp='no'/>
@@ -10543,7 +10560,8 @@ Temos desequilíbrios sucessivos que por si devem-se à ganância e ao medo.
       <example>A sua namorada já deu à luz as gémeas.</example>
     </rule>
 
-    <rule id='TODOS_FOLLOWED_BY_NOUN_PLURAL' name="Expressão: Todos + 'nome sem artigo'">
+    <rule id='TODOS_FOLLOWED_BY_NOUN_PLURAL' name="Expressão: Todos + 'nome sem artigo'" default="temp_off">
+      <!-- FIXME: too many matches -->
     <!-- Created by Tiago F. Santos, 2017-03-12 -->
     <!-- XXX Brazilian portuguese has as different interpretations for tod[ao] -->
       <antipattern>
@@ -12456,7 +12474,7 @@ Com um PIB per capita aproximado em 7.300 dólares americanos, o país pertence 
 		  <marker>
 			<token>à</token>
 			<token postag='VMIP3S0' postag_regexp='no'>
-				<exception regexp='yes'>academia|aldeia|banda|bandeira|boca|casa|comarca|condessa|data|empresa|estrada|faixa|figura|ideia|ilha|pena|porta|vida|zona</exception>
+				<exception regexp='yes'>academia|aldeia|banda|bandeira|boca|casa|comarca|condessa|data|empresa|estrada|faixa|figura|ideia|ilha|pena|porta|vida|zona|palavra|terra|seu|meu|sala|força</exception>
 			</token>
 			<token>de</token>
 		  </marker>
@@ -19479,7 +19497,7 @@ O quê?!
           <token><match no='1'/>
             <exception postag='(?:C|D|NP|P|SP|Z).+|R[GN].*|_PUNCT|_GN_' postag_regexp='yes'/>
             <exception inflected='yes' regexp='yes'>&verbos_auxiliares_part_passado;</exception>
-            <exception regexp='yes'>e|d[aeo]s?|ou|são|&divisas;|&unidades_de_medida_por_extenso;|&expressoes_de_tempo;</exception>
+            <exception regexp='yes'>que|e|d[aeo]s?|ou|são|&divisas;|&unidades_de_medida_por_extenso;|&expressoes_de_tempo;</exception>
             <exception regexp='yes'>[\d,. ]*['"/\|%º°′″‴]*(&unidades_de_medida;){0,1}</exception>
           </token>
         </marker>
@@ -41008,13 +41026,14 @@ USED IN ABBREVIATIONS, BARBARISMS AND ALSO IN SENTENCES STARTING WITH A NUMBER.
       <pattern>
           <token inflected="yes" regexp="yes">(?:&obscenidades;)s?
             <exception postag_regexp='yes' postag='NP.+'/>
-			<exception regexp='yes'>fufas?|rabetas?</exception>
+			<exception regexp='yes'>fufas?|rabetas?|cadelas?</exception>
 		  </token>
       </pattern>
       <message>Esta palavra é de baixo calão. Considere as alternativas.</message>
         <suggestion>#¿$?%!¡</suggestion>
       <example correction="#¿$?%!¡"><marker>Merda</marker>!</example>
       <example type="correct">Porra!</example>
+      <example>A cadela, com pressa, pariu os cachorros cegos. </example>
     </rule>
     <rule>
       <pattern>
@@ -41393,7 +41412,11 @@ pediu a eles → pediu-lhes
 			<token postag='V.+' postag_regexp='yes'/>
 			<token regexp='no'>a</token>
 			<token regexp='yes'>el[ae]s?</token>			
-	  </antipattern>	
+	  </antipattern>
+      <antipattern>
+        <token postag="V.*" postag_regexp="yes"/>
+        <token postag="N.*" postag_regexp="yes"/>
+      </antipattern>
 	  <rule>
 		<pattern>
 			<token negate="yes" regexp='yes'>me|se|ser|está</token>
@@ -41410,7 +41433,8 @@ pediu a eles → pediu-lhes
 		<suggestion>\2-lhe</suggestion>
 		<example correction="pediu-lhe">O Rui <marker>pediu a ele</marker> para comprar o livro.</example>
 		<example>Eu dei muito trabalho a ele.</example>
-		<example>Eu expliquei a regra a ele.</example>		
+		<example>Eu expliquei a regra a ele.</example>
+	    <example>Queria dar aulas a ela de graça, mas entendo o que é orgulho.</example>
 	  </rule>
 	  <rule>
 		<pattern>
@@ -43017,6 +43041,7 @@ Grave as preferências para que não tenha de as alterar constantemente. → Gra
 				<token>para</token>
 				<token>que</token>
 				<token postag='RN' postag_regexp='no'/>
+			  <!-- FIXME: VMS instead of VMM? -->
 				<token postag='VMM0.+' postag_regexp='yes'>
 					<exception postag_regexp='yes' postag='VM[^MS].+'/>
 				</token>
@@ -43471,7 +43496,7 @@ FIXES IN MY THESIS: "Contudo, os simuladores não são perfeitos e têm limitaç
 			<token regexp="yes">t[eê]m</token>
 		  </marker>
 		  <token postag='NC.+|AQ.+|DI.+|Z0.+|SPS00' postag_regexp='yes'>
-			<exception regexp='yes'>com|de|disponível|disponíveis|em|lá|nel[ae]s?|para|por|são|sobre</exception>
+			<exception regexp='yes'>como|com|de|disponível|disponíveis|em|lá|nel[ae]s?|para|por|são|sobre</exception>
 		  </token>
 		  <token negate_pos="yes" postag='_PUNCT|SENT_END' postag_regexp='yes'/>
       </pattern>

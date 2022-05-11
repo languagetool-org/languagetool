@@ -360,7 +360,8 @@ O Jogo da Vida de John Conway é também conhecido por “zero player game”.
 	  <example>O Jogo da Vida de John Conway é também conhecido por “zero player game”.</example>
     </rule>
 
-    <rule id='TODOS_FOLLOWED_BY_NOUN_SINGULAR' name="Expressão: Todo + 'nome sem artigo'">
+    <rule id='TODOS_FOLLOWED_BY_NOUN_SINGULAR' name="Expressão: Todo + 'nome sem artigo'" default="temp_off">
+      <!-- FIXME: too many matches -->
     <!-- Created by Tiago F. Santos, 2017-10-12 -->
       <antipattern>
           <token regexp='yes'>tod[ao]</token>
@@ -1134,6 +1135,14 @@ NO HITS IN 600000 SENTENCES.
 		<token postag='DP.+' postag_regexp='yes'/>
       </antipattern>
 <!-- MARCOAGPINTO 2022-04-25 (1-JAN-2022+) *END* -->
+      <antipattern>
+        <unify>
+          <feature id="number"/>
+          <feature id="gender"/>
+          <token postag="NC.*" postag_regexp="yes"/>
+          <token postag="AP.*" postag_regexp="yes"/>
+        </unify>
+      </antipattern>
 
       <pattern>
           <token>
@@ -1214,6 +1223,7 @@ NO HITS IN 600000 SENTENCES.
 	  <example>Não posso te culpar. Foi culpa minha.</example>
 
 	  <example>O  teor desrespeita os (seus) "padrões da comunidade".</example>
+      <example>Eu preciso de uma ajuda sua.</example>
     </rule>
     <rule>
       <antipattern>

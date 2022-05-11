@@ -151,7 +151,7 @@
   <rule id="USUAL" name="usual">
     <!-- TODO: exceptions -->
     <pattern>
-      <token inflected="yes" regexp="yes">usual|embriagado|escasso|essa|observando|ver|dormir|entender|beber</token>
+      <token inflected="yes" regexp="yes">usual|embriagado|escasso|essa|observando|ver|dormir|entender|beber|esse</token>
     </pattern>
     <disambig action="remove" postag="N.*"/>
   </rule>
@@ -161,6 +161,13 @@
       <token regexp="yes">estes?</token>
     </pattern>
     <disambig action="filter" postag="[DP].*"/>
+  </rule>
+  <rule id="CONTRA" name="contra">
+    <!-- TODO: exceptions -->
+    <pattern>
+      <token>contra</token>
+    </pattern>
+    <disambig action="remove" postag="RG"/>
   </rule>
   <rule id="APENAS" name="apenas">
     <!-- TODO: exceptions -->
@@ -197,7 +204,7 @@
         <token postag="P.*|RN" postag_regexp="yes" max="3"/>
         <token postag="V.*" postag_regexp="yes"/>
       </pattern>
-      <disambig action="remove" postag="V.*"></disambig>  
+      <disambig action="remove" postag="[NV].*"></disambig>  
     </rule>
     <rule>
       <pattern>
@@ -206,7 +213,7 @@
           <token regexp="yes">eles?|elas?</token>  
         </marker>
       </pattern>
-      <disambig action="remove" postag="V.*"></disambig>  
+      <disambig action="remove" postag="[VN].*"></disambig>  
     </rule>
     <rule>
       <pattern>
@@ -274,6 +281,13 @@
       <disambig action="filter" postag="NCFS000"/>
     </rule>
   </rulegroup>
+  <rule id="PELO_VISTO" name="pelo visto">
+    <pattern>
+      <token postag="SPS00:DA0MS0">pelo</token>
+      <token postag="VMP00SM">visto</token>
+    </pattern>
+    <disambig action="filterall"></disambig>
+  </rule>
   <rule id="SABER" name="saber + infinitive">
     <pattern>
       <token inflected="yes" postag="V.*" postag_regexp="yes">saber</token>
@@ -426,6 +440,14 @@
       </pattern>
       <disambig action="filter" postag="V.+"/>
     </rule>
+  
+  <rule id="JUNTO_A" name="junto a">
+    <pattern>
+      <token postag="RG">junto</token>
+      <token postag="SPS00">a|com</token>
+    </pattern>
+    <disambig action="filterall"></disambig>
+  </rule>
 
     <rule id="SPS_SI" name="Preposição + Si">
     <!-- Si : Pronoun or Musical note				-->
@@ -635,7 +657,7 @@
           <token postag='R.+' postag_regexp="yes" min='0' max='4'>
             <exception negate_pos='yes' postag='R.+' postag_regexp="yes"/></token>
         <marker>
-          <token postag="V.P.+" postag_regexp="yes"/>
+          <token postag="V.P.+" postag_regexp="yes"><exception>junto</exception></token>
         </marker>
       </pattern>
       <disambig action="filter" postag="V.P.+"/>
@@ -687,7 +709,28 @@
       <disambig action="filter" postag="VMN0000"/>
     </rule>
   </rulegroup>
-
+  
+  <rulegroup id="SER_FEITO" name="ser feito">
+    <rule>
+      <pattern>
+        <marker>
+          <token inflected="yes">ser</token>  
+        </marker>
+        <token postag="V.P...." postag_regexp="yes"/>
+      </pattern>
+      <disambig action="remove"><wd lemma="fossar"/></disambig>  
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token inflected="yes">ser</token>  
+        </marker>
+        <token postag="V.P...." postag_regexp="yes"/>
+      </pattern>
+      <disambig action="remove"><wd lemma="ir"/></disambig>  
+    </rule>
+    
+  </rulegroup>
   <rulegroup id="SER_NOUN" name="'ser' como substantivo">
     <!-- Localized from Catalan by Tiago F. Santos, 2017-05-16  -->
     <rule>
@@ -1189,9 +1232,9 @@
     <rule id="INFINITIVE_NOUN" name="saber, comer (infinitive / noun)">
         <!-- exception to DET_VERBONOME -->
         <pattern>
-            <token>para</token>
+            <token regexp="yes">para|de</token>
             <marker>
-                <token postag="V.N.*" postag_regexp="yes" regexp="yes">saber|comer</token>    
+                <token postag="V.N.*" postag_regexp="yes"/><!-- regexp="yes">saber|comer|manipular</token>-->    
             </marker>
         </pattern>
         <disambig action="filter" postag="V.N.*"/>
