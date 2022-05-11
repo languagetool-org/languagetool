@@ -5996,7 +5996,7 @@ Foram lançadas novas rendas.
       <pattern>
 		<token negate_pos="yes" postag='SPS.+|DI.+|DP.+|CC|PP.+' postag_regexp='yes'/>
 		<token postag='NC.P.+' postag_regexp='yes'>
-			<exception postag_regexp='yes' postag='Z0.+|V.+'/>
+			<exception postag_regexp='yes' postag='Z0.+|V.+|P[ET].*'/>
 		</token>
 		<marker>
 			<and>
@@ -25398,7 +25398,7 @@ Mas pq diabos uma figura dessas seria agora plasmada à imagem de um (ex)juiz em
                  <token postag="D[ADIP].*" postag_regexp="yes" min="0"/>
 -->
                  <token postag="SPS.*|PI.+" postag_regexp="yes"><exception postag="RG|.*\+P[PD].*|SPS00:P.*" postag_regexp="yes"/></token> <!-- Improved by MARCOAGPINTO "Eu escrevi uma página do livro." (PI.+) 2022-03-09 -->
-               <token postag="D[ADIP]].*" postag_regexp="yes" min="0"/>
+                 <token postag="D[ADIP].*" postag_regexp="yes" min="0"/>
 
                  <marker>
                      <token><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/><exception regexp="yes" case_sensitive="yes">\p{Lu}\p{Lu}+s|\p{Lu}\p{Lu}</exception></token>
@@ -25951,7 +25951,7 @@ Vou tomar várias caixas de Xanax. → Vou tomar várias embalagens de Xanax.
 		</marker>
       </pattern>
 	  <message>Se estiver a referir-se a fármacos ou afins, empregue o termo 'embalagem'.</message>
-      <suggestion><match no='3' postag='NCF(.)000' postag_replace='NCF$1000'>embalagem</match></suggestion>
+      <suggestion><match no='3' postag='NC.(.)000' postag_replace='NCF$1000'>embalagem</match></suggestion>
       <example correction="embalagem">Vou tomar uma <marker>caixa</marker> de Xanax.</example>
     </rule>
 
