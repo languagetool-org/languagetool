@@ -13273,7 +13273,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
-        <rule id="ZU_LEGEN" name="Zahn zu legen (zulegen)" default="temp_off">
+        <rule id="ZU_LEGEN" name="Zahn zu legen (zulegen)">
             <pattern>
                 <token>einen</token>
                 <token>Zahn</token>
@@ -34811,6 +34811,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Band">Der letzte Opel wird in Bochum 2016 vom <marker>band</marker> rollen.</example>
                 <example correction="Band">Die Stimme kommt vom <marker>band</marker>.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>am</token>
+                    <token>laufenden</token>
+                    <marker>
+                        <token case_sensitive="yes">band</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Band</suggestion>&subende;</message>
+                <example correction="Band">Er beschwerte sich am laufenden <marker>band</marker>.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="MASS_SUBST" name="'das maß (Maß) aller Dinge' etc.">
             <rule>
@@ -54158,7 +54169,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Bei ihr hat der Blitz eingeschlagen.</example>
                 <example>Als ich erkältet war, habe ich wie ein Rabe gekrächzt.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token regexp="yes">ich|du|e[rs]|sie|wir|ihr</token>
@@ -63593,17 +63604,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <exception>)</exception>
                 </token>
             </antipattern>
+            <antipattern>
+                <token>(</token>
+                <token regexp="yes" case_sensitive="yes">
+                    [A-Z]{2,3}
+                    <exception regexp="yes">SPD|C[SD]U|AFD|FDP|ARD|ZDF|RTL|FBI|CIA|USA|HSV|ETF|NRW</exception>
+                </token>
+            </antipattern>
             <pattern>
                 <token regexp="yes">
                     .*[a-z0-9].*
-                    <exception case_sensitive="yes" regexp="yes">.*_.*|.*\$.*|.*[a-z][A-Z][a-z].*|function|int|if|while|for|return|resolve|reject|print|sleep|setTimeout|log|switch|min|max|foreach|each</exception>
+                    <exception case_sensitive="yes" regexp="yes">.*_.*|.*\$.*|.*[a-z][A-Z][a-z].*|function|int|if|while|for|return|resolve|reject|print|sleep|setTimeout|log|switch|min|max|foreach|each|exp|ever|.*-</exception>
+                    <exception postag="UNKNOWN" regexp="yes">.*[a-zA-Z][0-9].*</exception>
                 </token>
                 <marker>
                     <token spacebefore="no">(</token>
                 </marker>
                 <token regexp="yes">
                     .*[a-z0-9]{2,30}.*
-                    <exception case_sensitive="yes" regexp="yes">.*_.*|[A-Z]{2,3}|0[Xx].*|.*\$.*|.*[a-z][A-Z][a-z].*|function|true|false|0|e.?|in(nen)?</exception>
+                    <exception case_sensitive="yes" regexp="yes">.*_.*|0[Xx].*|.*\$.*|.*[a-z][A-Z][a-z].*|function|true|false|0|e.?|in(nen)?</exception>
                     <exception postag="UNKNOWN" />
                     <exception scope="next" regexp="yes">\(|\=</exception>
                 </token>
