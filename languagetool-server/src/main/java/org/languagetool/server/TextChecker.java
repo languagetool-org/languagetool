@@ -886,7 +886,8 @@ abstract class TextChecker {
         lang = lang.getDefaultLanguageVariant();
       }
     }
-    return new DetectedLanguage(null, lang, detected != null ? detected.getDetectionConfidence() : 0f);
+    return new DetectedLanguage(null, lang, detected != null ? detected.getDetectionConfidence() : 0f,
+      detected != null ? detected.getDetectionSource() : null);
   }
 
   static class QueryParams {

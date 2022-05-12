@@ -243,15 +243,18 @@ public class LanguageIdentifier {
     }
     Map.Entry<String,Double> result = null;
     boolean fasttextFailed = false;
+    String source = "";
     if (fastText != null || ngram != null) {
       try {
         Map<String, Double> scores;
         boolean usingFastText = false;
         if ((cleanText.length() <= SHORT_ALGO_THRESHOLD || fastText == null) && ngram != null) {
           scores = ngram.detectLanguages(cleanText.trim(), additionalLangs);
+          source += "ngram";
         } else {
           usingFastText = true;
           scores = fastText.runFasttext(cleanText, additionalLangs);
+          source += "fasttext";
         }
         result = getHighestScoringResult(scores);
         /*if (result.getValue().floatValue() < THRESHOLD) {
@@ -277,6 +280,7 @@ public class LanguageIdentifier {
             } else {
               scores.put(langCode, Double.valueOf(entry.getValue()));
             }
+            source += "+ngram";
           }
           result = getHighestScoringResult(scores);
         }
@@ -290,6 +294,7 @@ public class LanguageIdentifier {
           scores.keySet().removeIf(k -> !preferredLangs.contains(k));
           //System.out.println("-> " + b + " ==> " + scores);
           result = getHighestScoringResult(scores);
+          source += "+prefLang";
         }
         /*if (cleanText.length() >= CONSIDER_ONLY_PREFERRED_THRESHOLD && cleanText.length() < 200 && preferredLangs.size() > 0) {
           Set<String> old = new HashSet<>(scores.keySet());
@@ -333,7 +338,7 @@ public class LanguageIdentifier {
     if (result != null && result.getKey() != null && canLanguageBeDetected(result.getKey(), additionalLangs)) {
       return new DetectedLanguage(null,
         Languages.getLanguageForShortCode(result.getKey(), additionalLangs),
-        result.getValue().floatValue());
+        result.getValue().floatValue(), source);
     } else {
       return null;
     }
