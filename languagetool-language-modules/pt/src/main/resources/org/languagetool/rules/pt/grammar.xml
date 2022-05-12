@@ -25355,8 +25355,53 @@ Mas pq diabos uma figura dessas seria agora plasmada à imagem de um (ex)juiz em
 
 		 <!-- Fix for "matricula" -> "matrícula" - https://github.com/languagetool-org/languagetool/issues/6492 - 2022-05-11 -->
          <rule>
+
+<!--
+Ela se magoa com muita facilidade.
+Inicialmente, amigo de Basil, ele o negligencia pela beleza de Dorian.
+-->
+			<antipattern>
+				<token postag='PP.+|CC' postag_regexp='yes'>
+					<exception postag_regexp='yes' postag='CS|P[ERT].+'/>
+				 </token>
+				<token postag='PP.+|CS|PD.+' postag_regexp='yes'/>
+				<token postag='VMIP[23]S.+|VMM02S0' postag_regexp='yes'/>
+				<token postag='SPS.+' postag_regexp='yes'/>
+				<token negate_pos="yes" postag='DA.+' postag_regexp='yes'/>
+			</antipattern>
+
+<!--
+Quem gloria a si mesmo cheira mal.
+Garantia varia consoante as peças substituídas.
+E a vida continua nos surpreendendo!
+O Gaspar come e bebe por dois.
+Alguém duvida da capacidade de Aguinaldo Silva para criar vilões?
+Não interessa à política democrática julgar os ensinamentos de Maomé ou o que se ensina e pratica nas mesquitas.
+Os clubes da Challenge League irão receber uma quantia que varia dos 470 mil aos 750 mil euros.
+Ele diz que bebe para esquecer.
+Quem renuncia à esperança renuncia à vida.
+-->
+			<antipattern>
+				<token negate_pos="yes" postag='VMN0000' postag_regexp='no'/>
+				<token postag='NC.+|AQ.+|NP.+|PI.+|CS|RG' postag_regexp='yes'>
+					<exception postag_regexp='yes' postag='AO.+|VMM03S0'/>
+				</token>
+				<token postag='VMIP[23]S.+|VMM02S0' postag_regexp='yes'/>
+				<token postag='NC.+|AQ.+|CC|SPS00.DA|SPS00..' postag_regexp='yes'/>
+			</antipattern>
+
+<!--
+Não sei te dizer como se pronuncia a palavra.
+Como se pronuncia a palavra "centimes"?
+-->
+			<antipattern>
+				<token>como</token>
+				<token>se</token>
+				<token postag='VMIP[23]S.+|VMM02S0' postag_regexp='yes'/>
+			</antipattern>
+
              <pattern>
-				 <token negate_pos="yes" postag='NC.+|AQ.+|SPS00.PP.+|PP.+' postag_regexp='yes'/>
+				 <token negate_pos="yes" postag='NC.+|AQ.+|SPS00.PP.+|PP.+|Z0.+|NP.+' postag_regexp='yes'/>
                  <marker>
 				    <token postag='VMIP[23]S.+' postag_regexp='yes'>
 						<exception regexp="yes" case_sensitive="no">\p{Lu}\p{Lu}+s|\p{Lu}\p{Lu}</exception>
@@ -25375,6 +25420,25 @@ Mas pq diabos uma figura dessas seria agora plasmada à imagem de um (ex)juiz em
              <example>Matrículas de automóveis em Portugal.</example>
 			 <example>Matrículas para automóveis em Portugal.</example>
 			 <example>Matrícula de Angola.</example>
+			 <example>Tom sofre de asma.</example>
+			 <example>A fábrica de São Bernardo opera com menos da metade de sua capacidade de produção.</example>
+			 <example>Às vezes o Tom canta em francês.</example>
+
+			 <example>Ela se magoa com muita facilidade.</example>
+			 <example>Inicialmente, amigo de Basil, ele o negligencia pela beleza de Dorian.</example>
+
+			 <example>Quem gloria a si mesmo cheira mal.</example>
+			 <example>Garantia varia consoante as peças substituídas.</example>
+			 <example>E a vida continua nos surpreendendo!</example>
+			 <example>O Gaspar come e bebe por dois.</example>
+			 <example>Alguém duvida da capacidade de Aguinaldo Silva para criar vilões?</example>
+			 <example>Não interessa à política democrática julgar os ensinamentos de Maomé ou o que se ensina e pratica nas mesquitas.</example>
+			 <example>Os clubes da Challenge League irão receber uma quantia que varia dos 470 mil aos 750 mil euros.</example>
+			 <example>Ele diz que bebe para esquecer.</example>
+			 <example>Quem renuncia à esperança renuncia à vida.</example>
+
+			 <example>Não sei te dizer como se pronuncia a palavra.</example>
+			 <example>Como se pronuncia a palavra "centimes"?</example>
          </rule>
 
      </rulegroup>
