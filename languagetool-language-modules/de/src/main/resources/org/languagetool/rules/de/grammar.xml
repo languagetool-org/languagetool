@@ -1975,7 +1975,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token postag="VER:[123]:.*" postag_regexp="yes">
                         <exception postag="VER:.*" postag_regexp="yes" negate_pos="yes"/>
-                        <exception regexp="yes">crash|regen|zweifel|prallen|siebten|achten|web|wachen|trauten|ehelichen|Schweiße|Schweisse|stumpfen|.+bändigen|.+orientiert.*|.+vergleich|durchschnitt|stockdunkeln|leben|sitzen|garten|.*lauf|.+blick|weg|dunkeln|dunklen|hellen|wegstehen|.+gebiet|Skype|.+unterricht|.+steig|knie</exception>
+                        <exception regexp="yes">crash|regen|zweifel|prallen|siebten|achten|web|wachen|trauten|ehelichen|Schweiße|Schweisse|stumpfen|.+bändigen|.+orientiert.*|.+vergleich|durchschnitt|stockdunkeln|leben|sitzen|garten|.*lauf|.+blick|weg|dunkeln|dunklen|hellen|wegstehen|.+gebiet|Skype|.+unterricht|.+steig|.*spiel|knie</exception>
                         <exception postag="VER:INF.*" postag_regexp="yes" case_sensitive="yes" regexp="yes">[A-ZÄÖÜ][a-zäöüß].*</exception>
                     </token>
                 </pattern>
@@ -6690,6 +6690,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Meinten Sie die "Ramstein Air Base" (Militärstützpunkt)? "Rammstein" ist eine Rockband.</message>
                 <suggestion>Ramstein</suggestion>
                 <example correction="Ramstein">In der Nähe von <marker>Rammstein</marker> gibt es viele amerikanische Restaurants.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes" skip="2">.*Band|.*Musik.*|.*Songs?</token>
+                    <marker>
+                        <token>Ramstein</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie die Musikband "Rammstein"?</message>
+                <suggestion>Rammstein</suggestion>
+                <example correction="Rammstein">Die Band <marker>Ramstein</marker> hat viele Jahre die Musikcharts beherrscht.</example>
             </rule>
         </rulegroup>
         <rulegroup id="TRAB_TRAPP" name="Trab vs. Trapp">
@@ -13313,6 +13324,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rule id="DRAUF_KLICKEN" name="drauf klicken (draufklicken)" default="temp_off">
+            <antipattern>
+                <token regexp="yes" skip="2">da|dort|hier</token>
+                <token>drauf</token>
+            </antipattern>
+            <pattern>
+                <token>drauf</token>
+                <token min="0">zu</token>
+                <token regexp="yes" inflected="yes">gehen|klicken|knallen|schauen|hauen|schlagen|gucken|stehen|halten|schreiben|kritzeln|malen|packen|schrauben|satteln|legen|springen</token>
+            </pattern>
+            <message>Das Verb <suggestion>\1<match no="2" case_conversion="alllower" /><match no="3" case_conversion="alllower" /></suggestion> wird in der Regel zusammengeschrieben.</message>
+            <example correction="draufgeklickt">Ich habe auf den Link <marker>drauf geklickt</marker>.</example>
+        </rule>
         <rule id="ZU_LEGEN" name="Zahn zu legen (zulegen)">
             <pattern>
                 <token>einen</token>
@@ -64391,6 +64415,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>'</token>
                 <token case_sensitive="yes" regexp="yes">[EN]</token>
             </antipattern>
+            <antipattern>
+                <token>'</token>
+                <token spacebefore="no">'</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token case_sensitive="yes" regexp="yes">[A-Z].*</token>
@@ -64434,12 +64462,65 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token spacebefore="no">'</token>
                     </marker>
-                    <token spacebefore="no" regexp="yes">s(-.+)?|n</token>
+                    <token spacebefore="no" regexp="yes">s(-.+)?|n|m</token>
                 </pattern>
                 <message>Möchten Sie statt des Ersatzzeichens einen Apostroph (’) verwenden?</message>
                 <suggestion>’</suggestion>
                 <example correction="’">Gefällt<marker>'</marker>s dir?</example>
+                <example correction="’">Er ist auf<marker>'</marker>m Bau!</example>
                 <example>Position 54°14.03'N - 013°35.75'E</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token spacebefore="yes" skip="-1">'</token>
+                    <token spacebefore="no">'</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START" />
+                    <token skip="-1">'</token>
+                    <token spacebefore="no">'</token>
+                </antipattern>
+                <antipattern>
+                    <token>'</token>
+                    <token spacebefore="no" regexp="yes">.*[a-z0-9].*</token>
+                </antipattern>
+                <pattern>
+                    <token postag="VER:1:SIN:PRÄ.*" postag_regexp="yes" regexp="yes">.+[^e]</token>
+                    <marker>
+                        <token spacebefore="no">'</token>
+                    </marker>
+                    <token />
+                </pattern>
+                <message>Möchten Sie statt des Ersatzzeichens einen Apostroph (’) verwenden?</message>
+                <suggestion>’</suggestion>
+                <example correction="’">Ich geb<marker>'</marker> mir Mühe.</example>
+                <example correction="’">Er fragte, ob ich noch alle Tassen im Schrank hab<marker>'</marker>.</example>
+                <example correction="’">Bitte geh<marker>'</marker> jetzt.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token spacebefore="yes" skip="-1">'</token>
+                    <token spacebefore="no">'</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START" />
+                    <token skip="-1">'</token>
+                    <token spacebefore="no">'</token>
+                </antipattern>
+                <antipattern>
+                    <token>'</token>
+                    <token spacebefore="no" regexp="yes">.*[a-z0-9].*</token>
+                </antipattern>
+                <pattern>
+                    <token>heut</token>
+                    <marker>
+                        <token spacebefore="no">'</token>
+                    </marker>
+                    <token />
+                </pattern>
+                <message>Möchten Sie statt des Ersatzzeichens einen Apostroph (’) verwenden?</message>
+                <suggestion>’</suggestion>
+                <example correction="’">Ich stehe heut<marker>'</marker> neben mir.</example>
             </rule>
         </rulegroup>
         <rulegroup id="TYPOGRAFISCHE_ANFUEHRUNGSZEICHEN_2" name="Typografische Anführungszeichen" tags="picky">

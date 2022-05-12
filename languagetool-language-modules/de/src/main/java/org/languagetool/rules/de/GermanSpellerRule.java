@@ -2519,6 +2519,32 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Weissheitszähne": return topMatch("Weisheitszähne");
       case "Weißheitszähnen": return topMatch("Weisheitszähnen");
       case "Weissheitszähnen": return topMatch("Weisheitszähnen");
+      case "raufschauen": return topMatch("draufschauen");
+      case "raufzuschauen": return topMatch("draufzuschauen");
+      case "raufgeschaut": return topMatch("draufgeschaut");
+      case "raufschaue": return topMatch("draufschaue");
+      case "raufschaust": return topMatch("draufschaust");
+      case "raufschaut": return topMatch("draufschaut");
+      case "raufschaute": return topMatch("draufschaute");
+      case "raufschauten": return topMatch("draufschauten");
+      case "raufgucken": return topMatch("draufgucken");
+      case "raufzugucken": return topMatch("draufzugucken");
+      case "raufgeguckt": return topMatch("draufgeguckt");
+      case "raufgucke": return topMatch("draufgucke");
+      case "raufguckst": return topMatch("draufguckst");
+      case "raufguckt": return topMatch("draufguckt");
+      case "raufguckte": return topMatch("draufguckte");
+      case "raufguckten": return topMatch("draufguckten");
+      case "raufhauen": return topMatch("draufhauen");
+      case "raufzuhauen": return topMatch("draufzuhauen");
+      case "raufgehaut": return topMatch("draufgehaut");
+      case "raufhaue": return topMatch("draufhaue");
+      case "raufhaust": return topMatch("draufhaust");
+      case "raufhaut": return topMatch("draufhaut");
+      case "raufhaute": return topMatch("draufhaute");
+      case "raufhauten": return topMatch("draufhauten");
+      case "Click": return topMatch("Klick");
+      case "Clicks": return topMatch("Klicks");
     }
     return Collections.emptyList();
   }

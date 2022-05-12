@@ -1345,6 +1345,12 @@ class CaseRuleAntiPatterns {
       csToken("das"),
       csToken("neue"),
       csToken("Normal")
+    ),
+    Arrays.asList(
+      // Bei der Fülle an Vorgaben kann das schnell vergessen werden.
+      csToken("das"),
+      csRegex("halt|schnell|gar|sicher|bitte|gleich"),
+      posRegex("VER:INF.*")
     )
   );
 }
