@@ -453,6 +453,9 @@ public class German extends Language implements AutoCloseable {
       if (id.startsWith("AI_DE_HYDRA_LEO_CP")) {
         return 2;
       }
+      if (id.startsWith("AI_DE_HYDRA_LEO_DATAKK")) {
+        return 1;
+      }
       return -11;
     }
     if (id.startsWith("AI_DE_KOMMA")) { // TODO: A high priority for our initial testing, afterwards we will give it a smaller priority.
