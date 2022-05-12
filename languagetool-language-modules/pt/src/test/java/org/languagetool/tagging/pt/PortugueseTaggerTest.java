@@ -45,14 +45,14 @@ public class PortugueseTaggerTest {
   @Test
   public void testTagger() throws IOException {
     TestTools.myAssert("Estes são os meus amigos.",
-        "Estes/[este]DD0MP0|Estes/[este]PD0MP000 -- "
+        "Estes/[este]AQ0CP0|Estes/[este]DD0MP0|Estes/[este]NCMP000|Estes/[este]PD0MP000 -- "
             + "são/[ser]VMIP3P0|são/[são]AQ0MS0|são/[são]NCMS000 -- "
             + "os/[o]DA0MP0|os/[o]PD0MP000|os/[o]PP3MPA00 -- "
             + "meus/[meu]AP0MP1S|meus/[meu]DP1MPS -- "
             + "amigos/[amigo]AQ0MP0|amigos/[amigo]NCMP000", tokenizer, tagger);
     
     TestTools.myAssert("tentou resolver",
-        "tentou/[tentar]VMIS3S0 -- resolver/[resolver]VMN0000|resolver/[resolver]VMSF1S0|resolver/[resolver]VMSF3S0"
+        "tentou/[tentar]VMIS3S0 -- resolver/[resolver]VMN0000|resolver/[resolver]VMN01S0|resolver/[resolver]VMN03S0|resolver/[resolver]VMSF1S0|resolver/[resolver]VMSF3S0"
         , tokenizer, tagger);
   }
 }
