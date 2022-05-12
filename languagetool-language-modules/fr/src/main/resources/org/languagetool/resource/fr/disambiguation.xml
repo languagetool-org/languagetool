@@ -5007,6 +5007,18 @@ RB => Règles Brutes
             </pattern>
             <disambig action="filter" postag="V ind pres 3 s"/>
         </rule>
+        <rule>
+            <pattern>
+                <token postag="V.* (ind|con|sub).*" postag_regexp="yes"/>
+                <marker>
+                    <token>fait
+                        <exception scope="next" regexp="yes">-il|-elle|-on|il|elle|on</exception></token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="V ppa m s"/>
+            </disambig>
+        </rule>
     </rulegroup>
     <rule id="DECRIT" name="décrit">
         <pattern>
