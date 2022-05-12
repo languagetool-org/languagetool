@@ -1769,9 +1769,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="paar kleine|Paar keine">... nur weil ein <marker>paar keine</marker> Kinder möchte.</example>
         </rule>
         <rule id="MIR_DIR" name="Wiederholung Dativ: mir dir/uns">
-            <regexp>\bmir (dir|ihm|euch|ihnen|[dms]einem|uns(erem)?|(eu|ih)rem)\b</regexp>
-            <message>Hier wird ein Dativ-Pronomen wiederholt. Meinten Sie vielleicht <suggestion>mit \1</suggestion>?</message>
+            <antipattern>
+                  <token>mir</token>
+                  <token postag="PRO:PER:DAT.*|PRO:POS:DAT.*" postag_regexp="yes"/>
+                  <token postag="SUB:NOM:SIN:FEM|SUB:AKK:SIN:FEM|SUB:NOM:PLU.*|SUB:AKK:PLU.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" regexp="yes">erlauben|gestatten</token>
+                <token>mir</token>
+                <token postag="PRO:PER:DAT.*" postag_regexp="yes"/>
+                <token postag="VER:EIZ.*|VER:INF.*" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+                <token>mir</token>
+                <token regexp="yes">dir|ihm|euch|ihnen|[dms]einem|uns(erem)?|(eu|ih)rem</token>
+            </pattern>
+            <message>Hier wird ein Dativ-Pronomen wiederholt. Meinten Sie vielleicht <suggestion>mit \2</suggestion>?</message>
             <example correction="mit dir">Ich will <marker>mir dir</marker> reden.</example>
+            <example>Ich sah mir dir Aufstellung der Verluste und Gewinne durch.</example> <!--Richtig: "mir die" -->
+            <example>Erlaube mir dir mitzuteilen, dass das nicht möglich ist.</example>
         </rule>
         <rule id="MIR_MIR" name="Wiederholung Dativ: mir mir">
             <antipattern><!-- "mit mir mir" is found by GERMAN_WORD_REPEAT rule -->
