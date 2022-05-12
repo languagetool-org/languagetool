@@ -11296,6 +11296,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Deshalb stehen bei mir ein paar Pflanzen auf dem Balkon.</example>
             </rule>
         </rulegroup>
+        <rule id="VERWECHSLUNG_MIR_IHR_MIR_IHRE" name="Mögliche Verwechslung von ihr und Ihre nach mir" default="temp_off">
+            <pattern>
+                <token skip="-1">Sie</token>
+                <token>mir</token>
+                <marker>
+                    <token postag="PRO:PER:DAT:SIN:FEM" postag_regexp="yes"/>
+                </marker>
+                <token postag="SUB:DAT:SIN:FEM" postag_regexp="yes"/>
+            </pattern>
+            <message>'ihr' ist hier weniger wahrscheinlich als <suggestion>Ihre</suggestion> oder <suggestion>ihre</suggestion>.</message>
+            <example correction="Ihre|ihre">Bitte teilen Sie mir <marker>ihr</marker> Meinung dazu bald mit.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
