@@ -22,16 +22,13 @@ import com.google.common.io.CharStreams;
 import org.languagetool.DetectedLanguage;
 import org.languagetool.Language;
 import org.languagetool.Languages;
-import org.languagetool.language.LanguageIdentifier;
+import org.languagetool.language.identifier.LanguageDetectionService;
+import org.languagetool.language.identifier.SpellcheckLangIdentifier;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -40,7 +37,7 @@ import java.util.stream.Collectors;
  */
 class LanguageDetectionMinLengthEval {
 
-  private final LanguageIdentifier languageIdentifier;
+  //private final LanguageIdentifier languageIdentifier;
 
   private static final int MIN_INPUT_LEN = 5;
   private static final int MAX_INPUT_LEN = 30;
@@ -49,8 +46,9 @@ class LanguageDetectionMinLengthEval {
   private int totalFailures = 0;
 
   private LanguageDetectionMinLengthEval() {
-    languageIdentifier = new LanguageIdentifier();
-    languageIdentifier.enableNgrams(new File("/home/languagetool/model_ml50_new.zip"));
+    LanguageDetectionService.INSTANCE.setLanguageIdentifier(new SpellcheckLangIdentifier());
+    //languageIdentifier = new LanguageIdentifier();
+    //languageIdentifier.enableNgrams(new File("/home/languagetool/model_ml50_new.zip"));
     //languageIdentifier = new CLD2Identifier();
     //languageIdentifier.enableFasttext(new File("/path/to/fasttext/binary"), new File("/path/to/fasttext/model"));
     // Daniel's paths:
@@ -115,7 +113,9 @@ class LanguageDetectionMinLengthEval {
       if (stillOkay) {
         textLength = text.length();
       }
-      DetectedLanguage detectedLangObj = languageIdentifier.detectLanguage(text, Collections.emptyList(), Collections.emptyList());
+      //DetectedLanguage detectedLangObj = 
+      Optional<DetectedLanguage> detectedLanguage = LanguageDetectionService.INSTANCE.detectLanguage(text, Collections.emptyList(), Collections.emptyList());
+      DetectedLanguage detectedLangObj = detectedLanguage.orElse(null);
       //System.out.println("INPUT: " + text + " - " + text.length() + " - " + detectedLangObj);
       String detectedLang = null;
       if (detectedLangObj != null) {
@@ -130,6 +130,11 @@ class LanguageDetectionMinLengthEval {
         stillOkay = false;
       } else if (!expectedLanguage.getShortCode().equals(detectedLang)){
         //System.out.printf(Locale.ENGLISH, "WRONG: Expected %s, but got %s -> %s (%.2f)%n", expectedLanguage.getShortCode(), detectedLang, text, detectedLangObj.getDetectionConfidence());
+        System.out.print("detectedLang: " + detectedLang + " does not match with expectedLanguage: " + expectedLanguage.getShortCode());
+        System.out.print(" Text: \""  + text + "\" Scores: ");
+        System.out.println(LanguageDetectionService.INSTANCE.getTmpResultSC().entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).collect(Collectors.toList()));
+        System.out.println(LanguageDetectionService.INSTANCE.getTmpResultAll().entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).collect(Collectors.toList()));
+
         stillOkay = false;
       } else {
         //System.out.println("STILL OKAY: " + text + " => " + detectedLang);

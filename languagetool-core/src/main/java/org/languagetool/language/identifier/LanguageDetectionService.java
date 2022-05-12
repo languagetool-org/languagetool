@@ -1,15 +1,14 @@
 package org.languagetool.language.identifier;
 
+import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.languagetool.DetectedLanguage;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.language.CommonWords;
-import org.languagetool.language.FastText;
-import org.languagetool.language.LanguageIdentifier;
-import org.languagetool.language.UnicodeBasedLangIdentifier;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -26,19 +25,21 @@ public enum LanguageDetectionService {
     public static final char WHITESPACE = '\u00A0';
     private static final int MAX_LENGTH = 1000;
     private static final int SHORT_ALGO_THRESHOLD = 50;
-
-    private UnicodeBasedLangIdentifier unicodeIdentifier;
-
+    private static final float THRESHOLD = 0.85f; //TODO move to real langidentier
+    private static final int CONSIDER_ONLY_PREFERRED_THRESHOLD = 50;
     @Setter
     private LangIdentifier languageIdentifier;
+    
+    @Getter
+    private Map<String, Double> tmpResultSC = new HashMap<>();
 
-    LanguageDetectionService() {
-        this.unicodeIdentifier = new UnicodeBasedLangIdentifier();
-    }
+    @Getter
+    private Map<String, Double> tmpResultAll = new HashMap<>();
 
     public Optional<DetectedLanguage> detectLanguage(String text, List<String> noopLangsTmp, List<String> preferredLangsTmp) {
         Objects.requireNonNull(noopLangsTmp);
         Objects.requireNonNull(preferredLangsTmp);
+
         // Chrome sends 'nn' (Nynorsk) or 'nb' (Bokmal), but fasttext detects 'no', so we have to map, and 
         // Bokmal seems to be the standard variant:
         List<String> additionalLangs = noopLangsTmp.stream().map(k -> k.equals("nb") ? "no" : k).collect(Collectors.toList());
@@ -48,13 +49,13 @@ public enum LanguageDetectionService {
                     preferredLangs + ". Use 'preferredVariants' to specify variants.");
         }
 
-        List<String> domLangCodes = unicodeIdentifier.getDominantLangCodes(text);
+        List<String> domLangCodes = UnicodeCounter.INSTANCE.getDominantLangCodes(text);
         String domLangStr = String.join(",", domLangCodes);
         if (domLangStr.equals("th") || domLangStr.equals("he") || domLangStr.equals("ko") || domLangStr.equals("hi,mr")) {
             // more than 50% of characters are ..., so assume we don't support this cleanText:
             return Optional.empty();
         }
-        if (!preferredLangs.contains("ru") && 
+        if (!preferredLangs.contains("ru") &&
                 !preferredLangs.contains("uk") &&
                 !preferredLangs.contains("be") &&
                 !preferredLangs.contains("zh") &&
@@ -65,10 +66,67 @@ public enum LanguageDetectionService {
             additionalLangs.addAll(domLangCodes);
         }
         String cleanText = cleanAndShortenText(text);
-        Map<String, Double> scores = this.languageIdentifier.detectLanguages(cleanText, preferredLangs, additionalLangs);
+        Map<String, Double> scores = new HashMap<>();
+        try {
+            scores.putAll(this.languageIdentifier.detectLanguages(cleanText, preferredLangs, additionalLangs));
+        } catch (IOException ex) {
+            log.error(ex.getMessage());
+        }
+        this.tmpResultSC.clear();
+        this.tmpResultSC.putAll(scores);
+        //Check if languages have the same value
+        double maxValue = 0;
+        int countFullScore=0;
+        for (Map.Entry<String, Double> entry :scores.entrySet()) {
+            if (entry.getValue() > maxValue) {
+                countFullScore=1;
+                maxValue= entry.getValue();
+            } else if(entry.getValue() == maxValue) {
+                countFullScore++;
+            }
+        }
+        
         Map.Entry<String, Double> highestScoringResult = getHighestScoringResult(scores);
 
+        if ( highestScoringResult.getValue() < THRESHOLD || highestScoringResult.getKey().equals("zz") || countFullScore > 1) {
+            try {
+                CommonWords commonWords = new CommonWords();
+                Map<Language, Integer> lang2Count = commonWords.getKnownWordsPerLanguage(cleanText);
+                Set<String> baseLangAlreadyHandled = new HashSet<>();
+                for (Map.Entry<Language, Integer> entry : lang2Count.entrySet()) {
+                    String langCode = entry.getKey().getShortCode();
+                    if (baseLangAlreadyHandled.contains(langCode)) {
+                        // quick hack to fix #5772
+                        continue;
+                    }
+                    baseLangAlreadyHandled.add(langCode);
+                    if (scores.containsKey(langCode)) {
+                        // this looks arbitrary, but gave best results with evaluation (LanguageDetectionMinLengthEval):
+                        scores.put(langCode, scores.get(langCode) + Double.valueOf(entry.getValue()));
+                    } else {
+                        scores.put(langCode, Double.valueOf(entry.getValue()));
+                    }
+                }
+                highestScoringResult = getHighestScoringResult(scores);
+            } catch (IOException ex) {
+                log.error(ex.getMessage());
+            }
+        }
+        if (preferredLangs.contains("no") && !preferredLangs.contains("da")) {
+            // Special case, as Norwegian easily gets detected as Danish (https://github.com/languagetool-org/languagetool/issues/5520).
+            scores.keySet().removeIf(k -> k.equals("da"));
+            highestScoringResult = getHighestScoringResult(scores);
+        }
+        if (cleanText.length() < CONSIDER_ONLY_PREFERRED_THRESHOLD && preferredLangs.size() > 0) {
+            //System.out.println("remove? " + preferredLangs + " <-> " + scores);
+            scores.keySet().removeIf(k -> !preferredLangs.contains(k));
+            //System.out.println("-> " + b + " ==> " + scores);
+            highestScoringResult = getHighestScoringResult(scores);
+        }
+
         if (highestScoringResult.getKey() != null && canLanguageBeDetected(highestScoringResult.getKey(), additionalLangs)) {
+            this.tmpResultAll.clear();
+            this.tmpResultAll.putAll(scores);
             return Optional.of(new DetectedLanguage(null,
                     Languages.getLanguageForShortCode(highestScoringResult.getKey(), additionalLangs),
                     highestScoringResult.getValue().floatValue()));

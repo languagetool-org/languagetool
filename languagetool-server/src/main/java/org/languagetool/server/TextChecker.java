@@ -29,6 +29,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.language.LanguageIdentifier;
+import org.languagetool.language.identifier.SimpleLangIdentifier;
+import org.languagetool.language.identifier.LanguageDetectionService;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.*;
@@ -86,7 +88,7 @@ abstract class TextChecker {
   private final Map<String,Integer> languageCheckCounts = new HashMap<>();
   private final Queue<Runnable> workQueue;
   private final RequestCounter reqCounter;
-    private final LanguageIdentifier languageIdentifier;
+  private LanguageIdentifier languageIdentifier;
   private final ExecutorService executorService;
   private final ResultCache cache;
   private final DatabaseLogger databaseLogger;
@@ -100,13 +102,16 @@ abstract class TextChecker {
     this.config = config;
     this.workQueue = workQueue;
     this.reqCounter = reqCounter;
-        this.languageIdentifier = new LanguageIdentifier();
-
-        if (config.getFasttextBinary() != null && config.getFasttextModel() != null) {
-            this.languageIdentifier.enableFasttext(config.getFasttextBinary(), config.getFasttextModel());
-        }
-    if (config.getNgramLangIdentData() != null) {
+    if (config.isLocalApiMode()) {
+      LanguageDetectionService.INSTANCE.setLanguageIdentifier(new SimpleLangIdentifier(config.preferredLanguages));
+    } else {
+      this.languageIdentifier = new LanguageIdentifier();
+      if (config.getFasttextBinary() != null && config.getFasttextModel() != null) {
+         this.languageIdentifier.enableFasttext(config.getFasttextBinary(), config.getFasttextModel());
+      }
+      if (config.getNgramLangIdentData() != null) {
             this.languageIdentifier.enableNgrams(config.getNgramLangIdentData());
+      }
     }
     this.executorService = LtThreadPoolFactory.createFixedThreadPoolExecutor(
       LtThreadPoolFactory.TEXT_CHECKER_POOL,
@@ -859,20 +864,35 @@ abstract class TextChecker {
 
   DetectedLanguage detectLanguageOfString(String text, String fallbackLanguage, List<String> preferredVariants,
                                           List<String> noopLangs, List<String> preferredLangs, boolean testMode) {
-    DetectedLanguage detected;
+        
+    DetectedLanguage detected = null;
+    Language lang;
     //String mode;
     //long t1 = System.nanoTime();
-    String cleanText = languageIdentifier.cleanAndShortenText(text);
-    detected = languageIdentifier.detectLanguage(cleanText, noopLangs, preferredLangs);
+    if (languageIdentifier != null) {
+      
+      String cleanText = languageIdentifier.cleanAndShortenText(text);
+      detected = languageIdentifier.detectLanguage(cleanText, noopLangs, preferredLangs);
+      if (detected == null) {
+         lang = parseLanguage(fallbackLanguage != null ? fallbackLanguage : "en");
+       } else {
+         lang = detected.getDetectedLanguage();
+       }
+    } else {
+      Optional<DetectedLanguage> detectedLanguage = LanguageDetectionService.INSTANCE.detectLanguage(text, noopLangs, preferredLangs);
+      if (detectedLanguage.isPresent()) {
+        detected = detectedLanguage.get();
+        lang = detectedLanguage.get().getDetectedLanguage();
+      } else {
+        lang = parseLanguage(fallbackLanguage != null ? fallbackLanguage : "en");
+      }
+    }
+    
     //long t2 = System.nanoTime();
     //float runTime = (t2-t1)/1000.0f/1000.0f;
     //System.out.printf(Locale.ENGLISH, "detected " + detected + " using " + mode + " in %.2fms for %d chars\n", runTime, text.length());
-    Language lang;
-    if (detected == null) {
-      lang = parseLanguage(fallbackLanguage != null ? fallbackLanguage : "en");
-    } else {
-      lang = detected.getDetectedLanguage();
-    }
+    
+   
     if (preferredVariants.size() > 0) {
       for (String preferredVariant : preferredVariants) {
         if (!preferredVariant.contains("-")) {

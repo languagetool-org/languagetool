@@ -16,27 +16,18 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.language;
+package org.languagetool.language.identifier;
 
 import java.util.ArrayList;
 import java.util.List;
 
-class UnicodeBasedLangIdentifier {
+public enum UnicodeCounter {
+    
+    INSTANCE;
 
-  private static final int DEFAULT_MAX_CHECK_LENGTH = 50;
-  private static final float THRESHOLD = 0.5f;
-
-    private final int maxCheckLength;
-
-  UnicodeBasedLangIdentifier() {
-    this(DEFAULT_MAX_CHECK_LENGTH);
-    }
-
-  UnicodeBasedLangIdentifier(int maxCheckLength) {
-        this.maxCheckLength = maxCheckLength;
-    }
-
-  List<String> getDominantLangCodes(String str) {
+    public List<String> getDominantLangCodes(String str) {
+        int maxCheckLength = 50;
+        float threshold = 0.5f;
         // For a more complete list of script/language relations,
         // see https://unicode-org.github.io/cldr-staging/charts/37/supplemental/scripts_and_languages.html
         // Another more complete approach might be to use Character.UnicodeScript.of() for each character.
@@ -96,40 +87,41 @@ class UnicodeBasedLangIdentifier {
             }
         }
         List<String> langCodes = new ArrayList<>();
-    if ((float)arabicChars / significantChars >= THRESHOLD) {
+        
+        if ((float) arabicChars / significantChars >= threshold) {
             langCodes.add("ar");
             langCodes.add("fa");
         }
-    if ((float)cyrillicChars / significantChars >= THRESHOLD) {
+        if ((float) cyrillicChars / significantChars >= threshold) {
             langCodes.add("ru");
             langCodes.add("uk");
             langCodes.add("be");
         }
-    if ((float)cjkChars / significantChars >= THRESHOLD) {
+        if ((float) cjkChars / significantChars >= threshold) {
             langCodes.add("zh");
             langCodes.add("ja");
             // Korean: see hangulChars
         }
-    if ((float)khmerChars / significantChars >= THRESHOLD) {
+        if ((float) khmerChars / significantChars >= threshold) {
             langCodes.add("km");
         }
-    if ((float)tamilChars / significantChars >= THRESHOLD) {
+        if ((float) tamilChars / significantChars >= threshold) {
             langCodes.add("ta");
         }
-    if ((float)greekChars / significantChars >= THRESHOLD) {
+        if ((float) greekChars / significantChars >= threshold) {
             langCodes.add("el");
         }
-    if ((float)devanagariChars / significantChars >= THRESHOLD) {
+        if ((float) devanagariChars / significantChars >= threshold) {
             langCodes.add("hi");
             langCodes.add("mr");
         }
-    if ((float)thaiChars / significantChars >= THRESHOLD) {
+        if ((float) thaiChars / significantChars >= threshold) {
             langCodes.add("th");
         }
-    if ((float)hebrewChars / significantChars >= THRESHOLD) {
+        if ((float) hebrewChars / significantChars >= threshold) {
             langCodes.add("he");
         }
-    if ((float)hangulChars / significantChars >= THRESHOLD) {
+        if ((float) hangulChars / significantChars >= threshold) {
             langCodes.add("ko");
         }
         //System.out.println("CJK: " + cjkChars);

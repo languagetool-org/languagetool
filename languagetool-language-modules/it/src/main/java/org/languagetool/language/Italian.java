@@ -24,6 +24,7 @@ import org.languagetool.*;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.it.*;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.rules.it.ItalianRuleDisambiguator;
@@ -131,4 +132,9 @@ public class Italian extends Language implements AutoCloseable {
     return LanguageMaintainedState.ActivelyMaintained;
   }
 
+  @Nullable
+  @Override
+  protected SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
+    return new MorfologikItalianSpellerRule(messages, this, null, null);
+  }
 }
