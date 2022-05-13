@@ -65039,6 +65039,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>(A+B+<marker>…</marker>+Z)</example>
                 <example correction="&nbsp;…">Er geht nach Hause<marker>…</marker></example>
             </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>:</token>
+                    <token>.</token>
+                    <token spacebefore="no">.</token>
+                    <token spacebefore="no">.</token>
+                    <token postag="SENT_END">.</token>
+                </antipattern>
+                <antipattern>
+                    <token>.</token>
+                    <token spacebefore="no">.</token>
+                    <token spacebefore="no">.</token>
+                    <token spacebefore="no">.</token>
+                    <token postag="SENT_END">.</token>
+                </antipattern>
+                <pattern>
+                    <token>.</token>
+                    <token spacebefore="no">.</token>
+                    <token spacebefore="no">.</token>
+                    <token postag="SENT_END">.</token>
+                </pattern>
+                <message>Falls es sich hier um Auslassungspunkte handelt, folgt darauf kein Schlusspunkt.</message>
+                <suggestion>…</suggestion>
+                <example correction="…">Er geht nach Hause <marker>....</marker></example>
+            </rule>
         </rulegroup>
         <rulegroup id="ABKUERZUNG_LEERZEICHEN" name="geschütztes Leerzeichen bei Abkürzungen wie 'z. B.'" tags="picky">
             <!-- Generalize? How can we make sure we're not only replacing part of an abbreviation? -->
