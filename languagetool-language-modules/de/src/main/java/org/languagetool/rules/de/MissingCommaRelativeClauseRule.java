@@ -129,13 +129,6 @@ public class MissingCommaRelativeClauseRule extends Rule {
         regex("haben?|hatten?"),
         posRegex("VER:EIZ.*"),
         pos("PKT")
-      ),
-      // Der Beitrag, den Sie versucht haben aufzurufen, existiert nicht mehr oder wurde verschoben.
-      Arrays.asList(
-        pos("PA2:PRD:GRU:VER"),
-        regex("haben?|hatten?"),
-        posRegex("VER:EIZ.*"),
-        pos("PKT")
       )
   ), GERMAN);
 
