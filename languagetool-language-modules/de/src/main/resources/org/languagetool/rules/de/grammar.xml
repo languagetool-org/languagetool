@@ -60326,6 +60326,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction=" und">Ich bin schon lange unterwegs<marker>, und</marker> nutze ausschließlich öffentliche Verkehrsmittel.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="FEHLERHAFTES_KOMMA_IN_WENDUNG" name="Fehlerhaftes Komma in Wendungen (sowohl - als auch)" default="temp_off">
+            <rule>
+                <pattern>
+                    <token skip="-1">sowohl<exception scope="next">,</exception></token>
+                    <marker>
+                        <token></token>
+                        <token>,</token>
+                    </marker>
+                    <token>als</token>
+                    <token>auch</token>
+                </pattern>
+                <message>Normalerweise erfordert die Wendung 'sowohl ... als auch' kein Komma.</message>
+                <suggestion>\2</suggestion>
+                <url>https://korrekturlesen-lektorat.at/2019/10/03/komma-bei-sowohl-als-auch/</url>
+                <example correction="groß">Er ist sowohl <marker>groß,</marker> als auch gebildet.</example>
+                <example>Sowohl die Giraffe, groß und stolz, als auch der die Fische sind im Zoo zu bestaunen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip="2">weder<exception scope="next">,</exception></token>
+                    <marker>
+                        <token></token>
+                        <token>,</token>
+                    </marker>
+                    <token>noch</token>
+                    <token></token>
+                </pattern>
+                <message>Normalerweise erfordert die Wendung 'weder ... noch' kein Komma.</message>
+                <suggestion>\2</suggestion>
+                <url>http://www.neue-rechtschreibung.net/2011/07/04/das-duo-wedernoch/</url>
+                <example correction="groß">Er ist weder <marker>groß,</marker> noch gebildet.</example>
+                <example>Weder die Giraffe, groß und stolz, noch die Fische sind im Zoo zu bestaunen.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="XJAEHRIG" name="Xjährig (X-jährig)">
             <url>https://www.duden.de/rechtschreibung/_jaehrig</url>
             <rule>
