@@ -10322,7 +10322,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message suppress_misspelled="yes">Probablemente se escribe junto.</message>
                 <suggestion><match no="3" regexp_match="(.+)" regexp_replace="anti$1"/></suggestion>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="antir$1"/></suggestion>
                 <example correction="anticariógenas">Son <marker>anti cariógenas</marker>.</example>
+                <example correction="antirruso"><marker>anti ruso</marker></example>
+                <example correction="antirrusas"><marker>anti-rusas</marker></example>
             </rule>
             <rule>
                 <pattern>
@@ -20533,6 +20536,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
+        <rule id="U_NO" name="u no -> uno" default="off">
+            <pattern>
+                <token>u</token>
+                <token>no</token>
+            </pattern>
+            <message>¿Quería decir <suggestion>uno</suggestion>?</message>
+            <example correction="Uno"><marker>U no</marker> de los casos más habituales.</example>
+        </rule>
         <rule id="DESDE" name="des de -> desde">
             <antipattern>
                 <token regexp="yes">no|nunca</token>
@@ -22721,6 +22732,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
+                    <token regexp="yes">les|os|le|nos<exception postag="[NA].*|_possible_NP|LOC_ADV" postag_regexp="yes"/></token>
+                    <token postag="N.C[PN].*|DN.*" postag_regexp="yes"/>
+                </pattern>
+                <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.[SI].*"/>
+                <message>Posible confusión. Pronombre átono sin verbo.</message>
+                <suggestion>los \2</suggestion>
+                <suggestion>las \2</suggestion>
+                <suggestion>\1 {suggestion}</suggestion>
+                <example correction="Los 20|Las 20"><marker>Les 20</marker>.</example>
+                <example correction="Los 20|Las 20"><marker>Les 20</marker> primeros.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token>te<exception postag="[NA].*|_possible_NP|LOC_ADV" postag_regexp="yes"/></token>
                     <token/>
                 </pattern>
@@ -22762,7 +22786,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token>les<exception postag="[NA].*|_possible_NP|LOC_ADV" postag_regexp="yes"/></token>
-                    <token postag="N.FP.*|A..[FC]P.|V.P..PF" postag_regexp="yes"/>
+                    <token postag="N.FP.*|A..[FC]P.|V.P..PF|NCCN000" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">les|os|le|nos<exception postag="[NA].*|_possible_NP|LOC_ADV" postag_regexp="yes"/></token>
@@ -24824,6 +24848,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes" min="0" max="3">\p{P}</token>
                 <token regexp="yes" postag="RG">.*mente<exception>actualmente</exception></token>
                 <token regexp="yes">en|con|como</token>
+            </antipattern>
+            <antipattern>
+                <token>exactamente</token>
+                <token>así</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">inmediatamente|mayoritariamente|totalmente|temporalmente</token>

@@ -1039,6 +1039,26 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction=""> She read <marker>out</marker> loudly, so that the others could hear her</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token chunk="B-PP" />
+                    <marker>
+                        <token regexp="yes">singular|plural</token>
+                    </marker>
+                    <token>they</token>
+                </pattern>
+                <example correction="">The use of <marker>singular</marker> they has been around for a long time.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="P?DT|PRP\$.*" postag_regexp="yes" chunk_re="B-NP.*" />
+                    <marker>
+                        <token regexp="yes">singular|plural</token>
+                    </marker>
+                    <token>they</token>
+                </pattern>
+                <example correction="">The use of a <marker>singular</marker> they sparks a lot of debate.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_EN_G_REPLACE_ORTH" name="">
             <rule>

@@ -47,7 +47,7 @@ public class WiederVsWiderRule extends Rule {
 
   @Override
   public String getDescription() {
-    return "Möglicher Tippfehler 'spiegeln ... wieder(wider)'";
+    return "Möglicher Tippfehler 'spiegeln ... wieder (wider)'";
   }
 
   @Override

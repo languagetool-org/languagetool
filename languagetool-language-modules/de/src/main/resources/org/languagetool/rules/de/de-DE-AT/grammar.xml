@@ -183,6 +183,259 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
 
     <category id="TYPOGRAPHY" name="Typografie">
+        <rulegroup id="TYPOGRAFISCHE_ANFUEHRUNGSZEICHEN" name="Typografische Anführungszeichen" tags="picky">
+            <url>https://de.wikipedia.org/wiki/Anf%C3%BChrungszeichen</url>
+            <short>Typografische Anführungszeichen</short>
+            <antipattern>
+                <token skip="-1">=</token>
+                <token>"</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1">=</token>
+                <token skip="-1">"</token>
+                <token>"</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1">=</token>
+                <token>'</token>
+                <token min="0">'</token>
+                <token>'</token>
+            </antipattern>
+            <rule><!-- [1] -->
+                <pattern>
+                    <marker>
+                        <token spacebefore="yes">"</token>
+                        <token regexp="yes" spacebefore="no">
+                            .*[a-zäöüß0-9].*
+                            <exception postag="UNKNOWN" regexp="yes">.*[a-zäöüß]{2,30}.*</exception>
+                        </token>
+                        <token spacebefore="no">"</token>
+                    </marker>
+                </pattern>
+                <message>Möchten Sie typografische Anführungszeichen verwenden?</message>
+                <suggestion>„\2“</suggestion>
+                <suggestion>»\2«</suggestion>
+                <example correction="„Hallo“|»Hallo«">Dann sagte er nur <marker>"Hallo"</marker>.</example>
+                <example>Plugins[] = "CorePluginsAdmin"</example>
+            </rule>
+            <rule><!-- [2] -->
+                <pattern>
+                    <token postag="SENT_START" />
+                    <marker>
+                        <token>"</token>
+                        <token regexp="yes" spacebefore="no">
+                            .*[a-zäöüß0-9].*
+                            <exception postag="UNKNOWN" regexp="yes">.*[a-zäöüß]{2,30}.*</exception>
+                        </token>
+                        <token spacebefore="no">"</token>
+                    </marker>
+                </pattern>
+                <message>Möchten Sie typografische Anführungszeichen verwenden?</message>
+                <suggestion>„\3“</suggestion>
+                <suggestion>»\3«</suggestion>
+                <example correction="„Ja“|»Ja«"><marker>"Ja"</marker> war seine Antwort.</example>
+            </rule>
+            <rule><!-- [3] -->
+                <pattern>
+                    <marker>
+                        <token spacebefore="yes">"</token>
+                        <token regexp="yes" spacebefore="no">
+                            .*[a-zäöüß0-9].*
+                            <exception postag="UNKNOWN" regexp="yes">.*[a-zäöüß]{2,30}.*</exception>
+                        </token>
+                        <token spacebefore="no">"</token>
+                    </marker>
+                </pattern>
+                <message>Möchten Sie typografische Anführungszeichen verwenden?</message>
+                <suggestion>„\2“</suggestion>
+                <suggestion>»\2«</suggestion>
+                <example correction="„Hallo“|»Hallo«">Dann sagte er nur <marker>"Hallo"</marker>.</example>
+                <example>Plugins[] = "CorePluginsAdmin"</example>
+            </rule>
+            <rule><!-- [4] -->
+                <pattern>
+                    <token postag="SENT_START" />
+                    <marker>
+                        <token>"</token>
+                        <token regexp="yes" spacebefore="no">
+                            .*[a-zäöüß0-9].*
+                            <exception postag="UNKNOWN" regexp="yes">.*[a-zäöüß]{2,30}.*</exception>
+                        </token>
+                        <token regexp="yes" spacebefore="yes">
+                            .*[a-zäöüß0-9].*
+                            <exception postag="UNKNOWN" regexp="yes">.*[a-zäöüß]{2,30}.*</exception>
+                        </token>
+                        <token spacebefore="no">"</token>
+                    </marker>
+                </pattern>
+                <message>Möchten Sie typografische Anführungszeichen verwenden?</message>
+                <suggestion>„\3 \4“</suggestion>
+                <suggestion>»\3 \4«</suggestion>
+                <example correction="„Hallo du“|»Hallo du«"><marker>"Hallo du"</marker> sagte er.</example>
+            </rule>
+            <rule><!-- [5] -->
+                <pattern>
+                    <marker>
+                        <token spacebefore="yes">"</token>
+                        <token regexp="yes" spacebefore="no">
+                            .*[a-zäöüß0-9].*
+                            <exception postag="UNKNOWN" regexp="yes">.*[a-zäöüß]{2,30}.*</exception>
+                        </token>
+                        <token regexp="yes" spacebefore="yes">
+                            .*[a-zäöüß0-9].*
+                            <exception postag="UNKNOWN" regexp="yes">.*[a-zäöüß]{2,30}.*</exception>
+                        </token>
+                        <token spacebefore="no">"</token>
+                    </marker>
+                </pattern>
+                <message>Möchten Sie typografische Anführungszeichen verwenden?</message>
+                <suggestion>„\2 \3“</suggestion>
+                <suggestion>»\2 \3«</suggestion>
+                <example correction="„Hallo du“|»Hallo du«">Dann sagte er nur <marker>"Hallo du"</marker>.</example>
+            </rule>
+            <rule><!-- [6] -->
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token>"</token>
+                    </marker>
+                </pattern>
+                <message>Möchten Sie ein öffnendes typografisches Anführungszeichen verwenden?</message>
+                <suggestion>„</suggestion>
+                <suggestion>»</suggestion>
+                <example correction="„|»"><marker>"</marker>Hallo", sagte er zur Begrüßung.</example>
+            </rule>
+            <rule><!-- [7] -->
+                <pattern>
+                    <marker>
+                        <token spacebefore="yes">"</token>
+                    </marker>
+                </pattern>
+                <message>Möchten Sie ein öffnendes typografisches Anführungszeichen verwenden?</message>
+                <suggestion>„</suggestion>
+                <suggestion>»</suggestion>
+                <example correction="„|»">Dann sagte er nur <marker>"</marker>Hallo".</example>
+            </rule>
+            <rule><!-- [8] -->
+                <antipattern>
+                    <token regexp="yes">.+</token>
+                    <token spacebefore="no">(</token>
+                </antipattern>
+                <pattern>
+                    <token>(</token>
+                    <marker>
+                        <token spacebefore="no">"</token>
+                    </marker>
+                </pattern>
+                <message>Möchten Sie ein öffnendes typografisches Anführungszeichen verwenden?</message>
+                <suggestion>„</suggestion>
+                <suggestion>»</suggestion>
+                <example correction="„|»">Das ist ein Haus (<marker>"</marker>Burg").</example>
+            </rule>
+            <rule><!-- [9] -->
+                <antipattern><!-- smilies: ":-)"-->
+                    <token regexp="yes">[;:\)]</token>
+                    <token spacebefore="no">
+                        <exception>"</exception>
+                    </token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>"</token>
+                    </marker>
+                    <token regexp="yes">[,.;:\)].*</token>
+                </pattern>
+                <message>Möchten Sie ein schließendes typografisches Anführungszeichen verwenden?</message>
+                <suggestion>“</suggestion>
+                <suggestion>«</suggestion>
+                <example correction="“|«">"Hallo<marker>"</marker>, sagte er zur Begrüßung.</example>
+            </rule>
+            <rule><!-- [10] -->
+                <antipattern>
+                    <token postag="SENT_START" />
+                    <token spacebefore="no">"</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token spacebefore="no">"</token>
+                    </marker>
+                    <token spacebefore="yes" regexp="yes">[–\-]</token>
+                    <token spacebefore="yes" />
+                </pattern>
+                <message>Möchten Sie ein schließendes typografisches Anführungszeichen verwenden?</message>
+                <suggestion>“</suggestion>
+                <suggestion>«</suggestion>
+                <example correction="“|«">"Hallo<marker>"</marker> - sagte er zur Begrüßung.</example>
+            </rule>
+            <rule><!-- [11] -->
+                <antipattern>
+                    <token postag="SENT_START" />
+                    <token postag="SENT_END" />
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token spacebefore="no" postag="SENT_END">"</token>
+                    </marker>
+                </pattern>
+                <message>Möchten Sie ein schließendes typografisches Anführungszeichen verwenden?</message>
+                <suggestion>“</suggestion>
+                <suggestion>«</suggestion>
+                <example correction="“|«">"Hallo<marker>"</marker></example>
+            </rule>
+            <rule><!-- [12] -->
+                <antipattern>
+                    <token regexp="yes">\:|\(|\[</token>
+                    <token>"</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START" />
+                    <token>"</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>"</token>
+                    </marker>
+                    <token spacebefore="yes"/>
+                </pattern>
+                <message>Möchten Sie ein schließendes typografisches Anführungszeichen verwenden?</message>
+                <suggestion>“</suggestion>
+                <suggestion>«</suggestion>
+                <example correction="“|«">Er sagte "Tschüssi<marker>"</marker> und ging.</example>
+            </rule>
+            <rule><!-- [13] -->
+                <antipattern>
+                    <token postag="SENT_START" />
+                    <token postag="SENT_END" />
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_END">"</token>
+                </pattern>
+                <message>Möchten Sie ein schließendes typografisches Anführungszeichen verwenden?</message>
+                <suggestion>“</suggestion>
+                <suggestion>«</suggestion>
+                <example correction="“|«">Er sagte "Tschüssi<marker>"</marker></example>
+            </rule>
+            <rule><!-- [14] -->
+                <antipattern>
+                    <token regexp="yes">\:|\(|\[</token>
+                    <token>"</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START" />
+                    <token>"</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token spacebefore="no">"</token>
+                    </marker>
+                    <token regexp="yes" spacebefore="no">[…\.\!\?\)\]\:;]</token>
+                </pattern>
+                <message>Möchten Sie ein schließendes typografisches Anführungszeichen verwenden?</message>
+                <suggestion>“</suggestion>
+                <suggestion>«</suggestion>
+                <example correction="“|«">Er sagte "Tschüssi<marker>"</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ANFUEHRUNGSZEICHEN_DE_AT" name="«wörtliche Rede» (»wörtliche Rede«)" default="temp_off">
         <rule><!-- ANFUEHRUNGSZEICHEN_DE_AT[1] -->
           <pattern>

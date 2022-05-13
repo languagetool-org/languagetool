@@ -251,6 +251,7 @@ public class French extends Language implements AutoCloseable {
       case "J_N2": return 100; // greater than J_N
       case "CEST_A_DIRE": return 100; // greater than A_A_ACCENT
       case "FAIRE_VPPA": return 100; // greater than A_ACCENT_A
+      case "D_N_E_OU_E": return 100; // greater than D_N
       case "GENS_ACCORD": return 100; // greater than AGREEMENT_POSTPONED_ADJ
       case "VIRGULE_EXPRESSIONS_FIGEES": return 100; // greater than agreement rules
       case "TRAIT_UNION": return 100; // greater than other rules for trait d'union
@@ -351,10 +352,7 @@ public class French extends Language implements AutoCloseable {
     }
 
     if (id.startsWith("AI_FR_HYDRA_LEO")) { // prefer more specific rules (also speller)
-      if (id.startsWith("AI_FR_HYDRA_LEO_MISSING_COMMA")) {
-        return -51; // prefer comma style rules.
-      }
-      return -11;
+      return -101;
     }
 
     return super.getPriorityForId(id);

@@ -143,7 +143,7 @@ public class Unifier {
           equivList.add(equivalencesMatched.get(tokCnt));
           tokSequenceEquivalences.add(equivList);
         } else {
-          tokSequence.get(0).addReading(aToken, "Unifier");
+          tokSequence.get(0).addReading(aToken, "");
           tokSequenceEquivalences.get(0).add(equivalencesMatched.get(tokCnt));
         }
         tokCnt++;
@@ -192,7 +192,7 @@ public class Unifier {
           tokSequenceEquivalences.add(equivList);
         } else {
           if (readingsCounter < tokSequence.size()) {
-            tokSequence.get(readingsCounter).addReading(aToken, "Unifier");
+            tokSequence.get(readingsCounter).addReading(aToken, "");
             tokSequenceEquivalences.get(readingsCounter).add(equivalencesMatchedHere);
           } else {
             anyFeatUnified = false;
@@ -349,7 +349,7 @@ public class Unifier {
       AnalyzedTokenReadings tmpATR = new AnalyzedTokenReadings(token, 0);
       tokenSequence.add(tmpATR);
     } else {
-      tokenSequence.get(pos).addReading(token, "Unifier");
+      tokenSequence.get(pos).addReading(token, "");
     }
   }
 

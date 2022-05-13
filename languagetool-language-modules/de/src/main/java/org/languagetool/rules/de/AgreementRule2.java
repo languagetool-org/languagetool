@@ -138,7 +138,7 @@ public class AgreementRule2 extends Rule {
 
   @Override
   public String getDescription() {
-    return "Kongruenz von Adjektiv und Nomen (unvollständig!), z.B. 'kleiner(kleines) Haus'";
+    return "Kongruenz von Adjektiv und Nomen (unvollständig!), z.B. 'kleiner (kleines) Haus'";
   }
 
   @Override

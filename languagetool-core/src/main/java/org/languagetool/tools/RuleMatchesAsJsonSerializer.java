@@ -167,6 +167,7 @@ public class RuleMatchesAsJsonSerializer {
     if (detectedLang.getDetectedLanguage().isSpellcheckOnlyLanguage()) {
       g.writeBooleanField("spellCheckOnly", true);
     }
+    g.writeStringField("source", detectedLang.getDetectionSource());
     g.writeEndObject();
     g.writeEndObject();
   }

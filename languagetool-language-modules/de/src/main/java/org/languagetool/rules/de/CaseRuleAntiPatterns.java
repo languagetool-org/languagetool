@@ -744,7 +744,7 @@ class CaseRuleAntiPatterns {
     Arrays.asList(
       // @Peter Hast du morgen Zeit?
       SENT_START,
-      regex("@[a-zA-Z0-9]+"),
+      regex("@.+"),
       regex("[A-ZÄÜÖ].*")
     ),
     Arrays.asList(
@@ -1237,7 +1237,7 @@ class CaseRuleAntiPatterns {
       csRegex("[a-zäöü…\\.!:;,\\?…\\)].*")
     ),
     Arrays.asList( // Ich habe noch Dringendes mitzuteilen
-      csRegex("Dringendes|Bares|Vertrautes|Positives|Negatives|Gelerntes|Neues|Altes|Besseres|Schlechteres|Schönes|Schöneres|Schlimmeres|Zutreffendes|Gesehenes|Abgerissenes|Versoffenes|Entnommenes|Sü(ß|ss)es|Saures|Gegenteiliges|Wegweisendes|Hochprozentiges|Erlerntes|Vergangenes|Unglaubliches|Schlimmes|Eingemachtes|Rares|Brauchbares|Unbrauchbares|Gesehenes|Erlebtes|Privates|Berufliches|Ungeheuerliches"),
+      csRegex("Dringendes|Bares|Vertrautes|Positives|Negatives|Gelerntes|Neues|Altes|Besseres|Schlechteres|Schönes|Schöneres|Schlimmeres|Zutreffendes|Gesehenes|Abgerissenes|Versoffenes|Entnommenes|Sü(ß|ss)es|Saures|Gegenteiliges|Wegweisendes|Hochprozentiges|Erlerntes|Vergangenes|Unglaubliches|Schlimmes|Eingemachtes|Rares|Brauchbares|Unbrauchbares|Gesehenes|Erlebtes|Privates|Berufliches|Ungeheuerliches|Veganes|Vegetarisches|Eingemachtes"),
       csRegex("(?!(und|oder))[a-zäöü…\\.!,\\?…\\)].*")
     ),
     Arrays.asList(
@@ -1322,24 +1322,35 @@ class CaseRuleAntiPatterns {
       csToken("Klein")
     ),
     Arrays.asList( // Das sagen meine Kunden:
-      posRegex("SENT_START"),
+      SENT_START,
       csToken("Das"),
       csToken("sagen"),
       csRegex("[dms]eine|eure|die|unse?re")
     ),
     Arrays.asList( // (Gelächter) Das sind die …
-      posRegex("SENT_START"),
+      SENT_START,
       csToken("("),
       csRegex("[A-ZÄÖÜ].*"),
       csToken(")"),
       csRegex("[A-ZÄÖÜ].*")
     ),
     Arrays.asList( // [Gelächter] Das sind die …
-      posRegex("SENT_START"),
+      SENT_START,
       csToken("["),
       csRegex("[A-ZÄÖÜ].*"),
       csToken("]"),
       csRegex("[A-ZÄÖÜ].*")
+    ),
+    Arrays.asList( // ... ist das neue Normal.
+      csToken("das"),
+      csToken("neue"),
+      csToken("Normal")
+    ),
+    Arrays.asList(
+      // Bei der Fülle an Vorgaben kann das schnell vergessen werden.
+      csToken("das"),
+      csRegex("halt|schnell|gar|sicher|bitte|gleich"),
+      posRegex("VER:INF.*")
     )
   );
 }

@@ -75,6 +75,8 @@ title="Easy editing stylesheet" ?>
 	<!-- Estrangeirismos específicos pt_PT -->
 	<!ENTITY barbarismos_pt_pt "suspenses?">
 	
+    <!ENTITY expressoes_invariaveis_pt_pt "(?:algema|afazere|alvíssara|anai|antolho|apetrecho|arra|arredore|boda|brócol[io]|cã|calça|calenda|ceroula|cócega|condolência|confin|endoença|esponsai|esposório|exéquia|fasto|féria|feze|finança|hemorróida|mane|matina|nádega|núpcia|óculo|olheira|pantalona|parabén|pêsame|petrecho|pi[ck]le|primícia|reticência|suspensório|treva|víscera|vívere)">
+	
 ]>
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -112,6 +114,222 @@ title="Easy editing stylesheet" ?>
 
  <category id="EUROPEAN_PORTUGUESE" name="Português de Portugal">
 
+
+  <rulegroup id='INVARIABLE_NOUNS' name="Substantivos invariáveis">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-06-18 -->
+      <short>Expressão invariável</short>
+    <rule>
+      <antipattern>
+          <token>calça</token>
+          <token regexp='yes'>umas?</token>
+      </antipattern>
+      <antipattern>
+          <token>alta</token>
+          <token>finança</token>
+      </antipattern>
+      <pattern>
+          <token regexp='yes'>&expressoes_invariaveis_pt_pt;</token>
+      </pattern>
+      <message>Esta expressão é invariável.</message>
+        <suggestion>\1s</suggestion>
+      <url>https://pt.wikipedia.org/wiki/Plural#Apenas_plural</url>
+      <example correction="bodas">Fizeram a <marker>boda</marker> de ouro a semana passada.</example>
+      <example correction="óculos">Parti <marker>óculo</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>belas?</token>
+          <token regexp='yes' spacebefore='no'>&hifen;</token>
+          <token>arte</token>
+      </pattern>
+      <message>Esta expressão é invariável.</message>
+        <suggestion>belas-artes</suggestion>
+      <url>https://pt.wikipedia.org/wiki/Plural#Apenas_plural</url>
+      <example correction="belas-artes">É uma bom exemple de <marker>bela-arte</marker>.</example>
+    </rule>
+    <rule>
+      <pattern case_sensitive='yes'>
+          <token>Estado</token>
+          <token>Unido</token>
+      </pattern>
+      <message>Esta expressão é invariável.</message>
+        <suggestion>Estados Unidos</suggestion>
+      <url>https://pt.wikipedia.org/wiki/Plural#Apenas_plural</url>
+      <example correction="Estados Unidos">A sul do Canadá está o <marker>Estado Unido</marker>.</example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token regexp='yes'>Gran(?:de)?</token>
+          <token>Canária</token>
+      </antipattern>
+      <pattern case_sensitive='yes'>
+          <token regexp='yes'>B[aá]lcã|Canária</token>
+      </pattern>
+      <message>Esta expressão é invariável.</message>
+        <suggestion>\1s</suggestion>
+      <url>https://pt.wikipedia.org/wiki/Plural#Apenas_plural</url>
+      <example correction="Balcãs">A Bósnia situa-se no <marker>Balcã</marker>.</example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token regexp='yes'>óleos?</token>
+          <token>de</token>
+          <token>palma</token>
+      </antipattern>
+      <pattern case_sensitive='yes'>
+          <token skip='-1' inflected='yes'>bater</token>
+          <token>palma</token>
+      </pattern>
+      <message>Esta expressão é invariável.</message>
+        <suggestion><match no='1' include_skipped='all'/> \2s</suggestion>
+      <url>https://pt.wikipedia.org/wiki/Plural#Apenas_plural</url>
+      <example correction="bateram palmas">No fim, <marker>bateram palma</marker>.</example>
+      <example>Piero Pollaiuolo, Dosso Dossi, Palma il Giovane</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>por</token>
+          <token regexp='yes'>(?:ali|aqui|certo|completo|dentro|entre|exemplo|fora|onde|perto|que)s</token>
+      </pattern>
+      <message>Esta expressão é invariável.</message>
+        <suggestion>por <match no='2' regexp_match='(.+)s$' regexp_replace='$1'/></suggestion>
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/por-exemplo/10225</url>
+      <example correction="Por exemplo"><marker>Por exemplos</marker>, cães, gatos e ratos.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>por</token>
+          <token regexp='yes'>(?:causa|cima|conta|iniciativa|meio|parte|via|volta)s</token>
+          <token>de</token>
+      </pattern>
+      <message>Esta expressão é invariável.</message>
+        <suggestion>por <match no='2' regexp_match='(.+)s$' regexp_replace='$1'/> de</suggestion>
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/por-exemplo/10225</url>
+      <example correction="Por causa de"><marker>Por causas de</marker> cães, gatos e ratos.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>por</token>
+          <token>ocasiões</token>
+          <token>de</token>
+      </pattern>
+      <message>Esta expressão é invariável.</message>
+        <suggestion>por ocasião de</suggestion>
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/por-exemplo/10225</url>
+      <example correction="Por ocasião de"><marker>Por ocasiões de</marker> dar a vacina a cães, gatos e ratos.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>tempos?</token>
+          <token>ido</token>
+      </pattern>
+      <message>Esta expressão é invariável.</message>
+        <suggestion>tempos idos</suggestion>
+      <url>https://pt.wikipedia.org/wiki/Plural#Apenas_plural</url>
+      <example correction="tempos idos">É uma bom exemple dos <marker>tempo ido</marker>.</example>
+      <example>Depois de ter ido ao Convénio, teve novas ideias e projetos.</example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token case_sensitive='yes' regexp='yes'>\p{Lu}\p{Ll}+</token>
+          <token case_sensitive='yes' >Pratas</token>
+      </antipattern>
+      <pattern>
+          <token regexp='yes'>(?:falsi|humil|sinceri|leal|bon|cari|mal)dades|fés|pratas|cobres|platinas|brisas|fomes|lenhas|oxig[éê]nios|plebes|profundidades|(cristian|islam|protestant|bud|hindu|xaman|satan|naz)[ií]smos</token>
+      </pattern>
+      <message>Esta palavra costuma ser apenas referida no singular.</message>
+        <suggestion><match no='1' regexp_match='(.+)s$' regexp_replace='$1'/></suggestion>
+      <url>https://pt.wikipedia.org/wiki/Singular#Apenas_singular</url>
+      <example correction="prata">Ele tinha muitas <marker>pratas</marker> da casa.</example>
+      <example>Mafalda Pratas</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>xadrezes</token>
+      </pattern>
+      <message>Esta expressão é invariável.</message>
+        <suggestion>xadrez</suggestion>
+      <example correction="xadrez">...os <marker>xadrezes</marker> partidário.</example>
+    </rule>
+    <rule>
+      <antipattern><!-- XXX 'pós' as prefix handled by hiphenation rules -->
+          <token>pós</token>
+          <token>
+            <exception regexp="yes">[-,.!?\(\)]</exception>
+            <exception postag="C.|R.|S.+" postag_regexp="yes"/></token>
+      </antipattern>
+	  
+<!-- MARCOAGPINTO 2022-05-04 (1-JAN-2022+) *START* -->
+<!--
+Fixed by Marco and Ricardo Joseh Lima "as pós" (pós-graduações).
+
+Outra pergunta: posso fazer uma pós que me autorize a demolir e construir auxiliando melhorar ambientes somente?
+Na pós, você pode continuar a desenvolver o que aprendeu na graduação, focando em uma área específica do s...
+Atualmente cursando Engenharia de Produção e já sonhando com a pós em Engenharia de Segurança do Trabalho.
+-->
+      <antipattern>
+		<token postag='SPS.+|DA0F.+|DI0F.+|Z0.+' postag_regexp='yes'/>
+		<token regexp='no'>pós</token>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-05-04 (1-JAN-2022+) *END* -->
+
+      <pattern case_sensitive='yes'>
+          <token>
+            <exception regexp='yes'>&hifen;</exception></token>
+        <marker>
+          <token regexp='yes'>pós|neves</token>
+        </marker>
+          <token>
+            <exception regexp='yes'>&hifen;</exception></token>
+      </pattern>
+      <message>Esta expressão é invariável.</message>
+        <suggestion><match no='2' regexp_match='(.+)s$' regexp_replace='$1'/></suggestion>
+      <url>https://pt.wikipedia.org/wiki/Singular#Apenas_singular</url>
+      <example correction="pó">Passou o dia a limpar os <marker>pós</marker> da casa.</example>
+      <example>Correntes pós-clássicas</example>
+      <example>Tancredo Neves, morto antes da posse, foi substituído pelo seu…</example>
+      <example>Saiu do pós operatório ontem.</example><!-- XXX This should be handled by hiphenation rules -->
+
+	  <example>Outra pergunta: posso fazer uma pós que me autorize a demolir e construir auxiliando melhorar ambientes somente?</example>
+	  <example>Na pós, você pode continuar a desenvolver o que aprendeu na graduação, focando em uma área específica do s...</example>
+	  <example>Atualmente cursando Engenharia de Produção e já sonhando com a pós em Engenharia de Segurança do Trabalho.</example>
+    </rule>
+    <rule>
+      <pattern case_sensitive='yes'>
+          <token>Reinos</token>
+          <token>Unidos</token>
+      </pattern>
+      <message>Esta expressão é invariável.</message>
+        <suggestion>Reino Unido</suggestion>
+      <url>https://pt.wikipedia.org/wiki/Singular#Apenas_singular</url>
+      <example correction="Reino Unido">A norte de França estão os <marker>Reinos Unidos</marker>.</example>
+    </rule>
+    <rule>
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+      <pattern>
+          <token>preste</token>
+          <token>a</token>
+      </pattern>
+      <message>Substitua por <suggestion>prestes a</suggestion>.</message>
+      <example correction="prestes a">Está <marker>preste a</marker> acontecer.</example>
+    </rule>
+	
+    <rule id='ÀS_CUSTAS_DA_DAS_DO_DOS' name="Confusão: às custas/à custa">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+      <pattern>
+        <marker>
+          <token>às</token>
+          <token>custas</token>
+        </marker>
+          <token regexp="yes">d[eao]s?</token>
+      </pattern>
+      <message>Esta expressão é invariável.</message>
+        <suggestion>à custa</suggestion>
+      <example correction="à custa">Ele fê-lo <marker>às custas</marker> do filho.</example>
+    </rule>
+  </rulegroup>
+
+
     <rule id="ZERO_MEDIDA_SINGULAR" name="Concordância de número: 'zero grau'">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-09-23 -->
 <!-- MARCOAGPINTO 2021-10-21 (25-JUN-2021+) *START* -->
@@ -142,7 +360,8 @@ O Jogo da Vida de John Conway é também conhecido por “zero player game”.
 	  <example>O Jogo da Vida de John Conway é também conhecido por “zero player game”.</example>
     </rule>
 
-    <rule id='TODOS_FOLLOWED_BY_NOUN_SINGULAR' name="Expressão: Todo + 'nome sem artigo'">
+    <rule id='TODOS_FOLLOWED_BY_NOUN_SINGULAR' name="Expressão: Todo + 'nome sem artigo'" default="temp_off">
+      <!-- FIXME: too many matches -->
     <!-- Created by Tiago F. Santos, 2017-10-12 -->
       <antipattern>
           <token regexp='yes'>tod[ao]</token>
@@ -916,6 +1135,14 @@ NO HITS IN 600000 SENTENCES.
 		<token postag='DP.+' postag_regexp='yes'/>
       </antipattern>
 <!-- MARCOAGPINTO 2022-04-25 (1-JAN-2022+) *END* -->
+      <antipattern>
+        <unify>
+          <feature id="number"/>
+          <feature id="gender"/>
+          <token postag="NC.*" postag_regexp="yes"/>
+          <token postag="AP.*" postag_regexp="yes"/>
+        </unify>
+      </antipattern>
 
       <pattern>
           <token>
@@ -996,6 +1223,7 @@ NO HITS IN 600000 SENTENCES.
 	  <example>Não posso te culpar. Foi culpa minha.</example>
 
 	  <example>O  teor desrespeita os (seus) "padrões da comunidade".</example>
+      <example>Eu preciso de uma ajuda sua.</example>
     </rule>
     <rule>
       <antipattern>
@@ -1131,7 +1359,7 @@ Com efeito, vinham-se acumulando estudos e testemunhos.
     </rule>
     <rule>
         <pattern>
-          <token postag='V.+' postag_regexp='yes'>
+          <token postag='V.+' postag_regexp='yes' inflected="yes" regexp="yes">continuar|estar|ir|ficar
             <exception inflected='yes' regexp='yes'>medida|votar</exception>
             <exception negate_pos='yes' postag='V.+' postag_regexp='yes'/></token>
           <token postag='V.G0+' postag_regexp='yes'>
@@ -1149,7 +1377,7 @@ Com efeito, vinham-se acumulando estudos e testemunhos.
 	  <example>Em França existe um limite que é aumentado usando carregadores de munição.</example>
 	  <example>E mesmo aqueles que não estejam muito interessados em participar podem ajudar fazendo chegar esta ideia a outras pessoas.</example>
 	  <example>O número de desenvolvedores vem aumentando.</example>
-	  
+    <example>A expedição recebeu a visita de duas nave não-tripuladas trazendo mantimentos e eletrônica.</example>
 	  <example type='correct'>Com efeito, <marker>vinham-se acumulando</marker> estudos e testemunhos.</example>
     </rule>
   </rulegroup>
@@ -1514,7 +1742,7 @@ Com efeito, vinham-se acumulando estudos e testemunhos.
           <token inflected='yes'>revisar</token>
       </pattern>
       <message>Esta é uma expressão de Português do Brasil para <suggestion><match no='1' postag='V.+' postag_regexp='yes'>rever</match></suggestion>.</message>
-      <example correction='(Rever)'><marker>Revisaste</marker> o texto antes de enviar.</example>
+      <example correction='Reviste'><marker>Revisaste</marker> o texto antes de enviar.</example>
     </rule>
     <rule id='BRASILEIRISMO_21_EXPERIMENTO' name='Brasileirismo: experimento - experiência'>
       <pattern>
@@ -1977,7 +2205,7 @@ Ambrósio responde-lhe por um tratado "Sobre a fé para Graciano Augusto", em ci
 		<token regexp='yes' spacebefore='no'>&hifen;</token>
 		<token regexp='yes' spacebefore='no'>me|lhes?|nos</token>
 		<token postag='SPS.+' postag_regexp='yes'/>
-		<token postag='NC.+|AQ.+' postag_regexp='yes'/>
+		<token postag='NC.+|AQ.+|DI.+' postag_regexp='yes'/>
 	    <token postag='DA.+|NC.+|AQ.+|V.+' postag_regexp='yes'/>	  
 	  </antipattern>
 <!-- MARCOAGPINTO 2021-07-16 (25-JUN-2021+) *END* -->
@@ -2157,18 +2385,28 @@ Ele evita-me.
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/prefixos-e-hifen/17908</url>
       <url>https://ciberduvidas.iscte-iul.pt/artigos/rubricas/idioma/o-uso-do-hifen-segundo-o-acordo-ortografico/3195</url>-->
       <url>https://pt.wikipedia.org/wiki/Uso_do_h%C3%ADfen_conforme_o_Acordo_Ortogr%C3%A1fico_de_1990</url>
-	  
+
 <!-- MARCOAGPINTO 2022-01-12 (Checked/Enhanced) (1-JAN-2022+) *START* -->
 <!--
 As atualizações do extra são automáticas.
 O extra está desativado.
 O extra sugere correções/melhorias ortográficas e gramaticais.
 O CardBook (extra Thunderbird) é ótimo.
+
+Na pós é que senti um pouco dessa "bobice".
+Pós é o que gosto de fazer, já vendo estes tipos de produtos mas pretendo colocar uma empresa e pretendo ...
+As pós são boas.
 -->
       <antipattern>
-	    <token regexp='no'>extra</token>
-	    <token postag='SPS.+|CS|CC|V.+|NP.+' postag_regexp='yes'/>
-      </antipattern> 
+	    <token regexp='yes'>extra|pós</token>
+	    <token postag='SPS.+|CS|CC|V.+|NP.+' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='VMN0000|VMP00.+|NC.+|AQ.+'/>
+		</token>
+      </antipattern>
+      <antipattern>
+	    <token>pós</token>
+		<token>são</token>
+      </antipattern>
 <!-- MARCOAGPINTO 2022-01-12 (Checked/Enhanced) (1-JAN-2022+) *END* -->
 
 <!-- MARCOAGPINTO 2022-01-12 (1-JAN-2022+) *START* -->
@@ -2306,7 +2544,7 @@ Trabalhadores do mundo, uni-vos!
       </pattern>
       <message>Este prefixo não é hifenizado neste contexto.</message>
         <suggestion>\1<match no='3' case_conversion="startlower"/></suggestion>
-      <example correction='paraquedistas'>São <marker>para-quedistas</marker>.</example>
+      <!--TODO: move to a new rule, compounds.txt? <example correction='paraquedistas'>São <marker>para-quedistas</marker>.</example>-->
       <example correction='pentacampeões'>São <marker>penta-campeões</marker>.</example>
     </rule>
     <rule>
@@ -2668,14 +2906,12 @@ Fiquei super sem jeito quando a minha mãe me beijou perto dos meus amigos.
       <pattern>
           <token postag='SENT_START'/>
           <marker>
-              <token>bem</token>
-              <token regexp='yes' spacebefore='no'>&hifen;</token>
-              <token regexp='yes'>feit[ao]</token>
+              <token regexp="yes">bem-feit[ao]</token>
               <token regexp='yes'>[!\?]</token>
           </marker>
       </pattern>
       <message>Segundo o Acordo Ortográfico de 90, o adjetivo deve ser hifenizado, enquanto que a interjeição não deve ser hifenizada.</message>
-        <suggestion>\2 \4\5</suggestion>
+        <suggestion><match no="2" regexp_match="-" regexp_replace=" "/>\3</suggestion>
       <example correction='Bem feito!'><marker>Bem-feito!</marker></example>
       <example>Este programa está mesmo <marker>bem-feito</marker>!</example>
     </rule>
@@ -2964,9 +3200,7 @@ Fiquei super sem jeito quando a minha mãe me beijou perto dos meus amigos.
     <rulegroup id="EMAIL" name="E-mail (correio eletrónico)">
       <rule>
         <pattern>
-		      <token>e</token>
-		      <token spacebefore="no">-</token>
-          <token spacebefore="no">book</token>
+		      <token>e-book</token>
         </pattern>
         <message>'e-book' é um estrangeirismo. É preferível dizer <suggestion>livro eletrónico</suggestion>.</message>
         <url>https://pt.wikipedia.org/wiki/Livro_digital</url>
@@ -2974,9 +3208,7 @@ Fiquei super sem jeito quando a minha mãe me beijou perto dos meus amigos.
       </rule>
       <rule>
         <pattern>
-		      <token>e</token>
-		      <token spacebefore="no">-</token>
-          <token spacebefore="no">books</token>
+		      <token>e-books</token>
         </pattern>
         <message>'e-book' é um estrangeirismo. É preferível dizer <suggestion>livros eletrónicos</suggestion>.</message>
         <url>https://pt.wikipedia.org/wiki/Livro_digital</url>
@@ -2984,9 +3216,7 @@ Fiquei super sem jeito quando a minha mãe me beijou perto dos meus amigos.
       </rule>
       <rule>
         <pattern>
-		      <token>e</token>
-		      <token spacebefore="no">-</token>
-          <token spacebefore="no">zine</token>
+          <token>e-zine</token>
         </pattern>
         <message>'e-zine' é um estrangeirismo. É preferível dizer <suggestion>revista eletrónica</suggestion>.</message>
         <url>https://pt.wikipedia.org/wiki/E-zine</url>
@@ -2994,9 +3224,7 @@ Fiquei super sem jeito quando a minha mãe me beijou perto dos meus amigos.
       </rule>
       <rule>
         <pattern>
-		      <token>e</token>
-		      <token spacebefore="no">-</token>
-          <token spacebefore="no">zines</token>
+          <token>e-zines</token>
         </pattern>
         <message>'e-zine' é um estrangeirismo. É preferível dizer <suggestion>revistas eletrónicas</suggestion>.</message>
         <url>https://pt.wikipedia.org/wiki/E-zine</url>

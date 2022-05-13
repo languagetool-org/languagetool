@@ -1295,6 +1295,15 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="remove" postag="VER:.+"/>
     </rule>
+    <rule id="EX_LEGE" name="kein Verb: charismatischen / hochdramatischen">
+        <pattern case_sensitive="yes">
+            <token regexp="yes">de|ex|sine</token>
+            <marker>
+                <token>lege</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="VER:.+"/>
+    </rule>
     <rule id="FASSUNGSLOS" name="kein Substantiv: Fassungslos">
         <pattern case_sensitive="yes">
             <token>
@@ -2915,7 +2924,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="ex nihilo" id="EX_NIHILO">
         <pattern>
             <token>ex</token>
-            <token regexp="yes">aequo|nihilo|nunc|tunc</token>
+            <token regexp="yes">aequo|eventu|officio|nihilo|nunc|tunc|voto</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -6084,7 +6093,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </antipattern> <!-- Für Fälle wie "Andere verwendete Zeichen sind eingetragene Warenzeichen der jeweiligen Eigentümer." -->
         <antipattern>
             <token postag="PRO:IND:NOM:SIN.*" postag_regexp="yes"/>
-            <token postag="PA2:NOM:SIN.*" postag_regexp="yes"/> <!--<token postag="VER:1:SIN:KJ2:SFT"/>--> <!-- postag="PA2:NOM:SIN.*|VER.*:SIN.*" postag_regexp="yes"/>-->
+            <token postag="PA2:NOM:SIN.*" postag_regexp="yes"/>
             <token postag="SUB:NOM:SIN.*" postag_regexp="yes" skip="-1"/>
             <token postag="VER.*" postag_regexp="yes"/> <!--Für Fälle wie "Wobei standardmäßig jede unterstützte Sprache enthalten ist." oder "Jedes studierte Semester in Deutschland zählt"-->
         </antipattern>
