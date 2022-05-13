@@ -102,6 +102,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY possessiv_lemma "dein|euer|Ihr|ihr|mein|sein|unser">
     <!ENTITY bivalent "achten|amüsieren|analysieren|ändern|antworten|arbeiten|ärgern|atmen|backen|baden|bauen|beachten|beantragen|bedeuten|bedienen|beeinflussen|befassen|befinden|befolgen|beginnen|begründen|begrü(ß|ss)en|behalten|behandeln|behaupten|behindern|beleidigen|bemerken|benutzen|beobachten|beraten|berichten|berücksichtigen|beruhigen|beschädigen|beschäftigen|beschlie(ß|ss)en|beschreiben|besichtigen|besitzen|besorgen|bestätigen|bestehen|bestellen|bestimmen|bestrafen|besuchen|betrügen|bezeichnen|bilden|brauchen|bremsen|brennen|buchstabieren|bürsten|differenzieren|diskutieren|ehren|empfehlen|entdecken|enthalten|entlassen|entscheiden|entschuldigen|enttäuschen|entwickeln|erfahren|erfinden|erhalten|erhöhen|erinnern|erkennen|erleben|erledigen|ernähren|eröffnen|erreichen|erwarten|erziehen|essen|feiern|finden|fliegen|folgern|fordern|fotografieren|fragen|fressen|frisieren|frühstücken|fühlen|führen|fürchten|gebären|gebrauchen|gewinnen|gewöhnen|gliedern|gründen|grü(ß|ss)en|hassen|heben|heiraten|hindern|holen|hören|husten|informieren|interessieren|kämmen|kennen|klappen|kriegen|leben|leisten|leiten|lernen|lieben|loben|lösen|markieren|meinen|merken|messen|mieten|missverstehen|nutzen|operieren|organisieren|parken|passen|pflegen|planen|probieren|produzieren|prüfen|rauchen|regeln|regieren|retten|riechen|sammeln|schalten|scheiden|schieben|schimpfen|schlussfolgern|schmecken|schreien|schützen|schwimmen|schwitzen|sehen|sparen|sprechen|springen|spülen|stoppen|stören|studieren|suchen|tanken|tanzen|telefonieren|töten|trainieren|transportieren|träumen|treffen|trennen|trinken|turnen|überfahren|überholen|überlegen|übernehmen|überqueren|überraschen|überreden|überzeugen|umtauschen|unterrichten|unterscheiden|unterschreiben|unterstützen|untersuchen|verändern|verbessern|verbrauchen|verbringen|verdienen|vergessen|vergleichen|verhaften|verhindern|verlangen|verlängern|verlassen|verletzen|verlieren|vermuten|veröffentlichen|verschlechtern|versichern|verstehen|versuchen|verteilen|vertreten|verwechseln|verwenden|verwickeln|verzollen|wählen|warnen|wecken|werfen|wiederholen|wiegen|wissen|zählen|zerstören|zwingen">
     <!ENTITY sinnmachen "Der Ausdruck 'Sinn machen' kann umgangssprachlich wirken. Möchten Sie eine alternative Formulierung verwenden?">
+    <!ENTITY drauflos_verben "reden|gehen|arbeiten|fabulieren|feuern|schwatzen|fahren|reiten|schießen|rennen|schwimmen|schimpfen|laufen|schlagen|bauen|führen|sprechen|hämmern|watscheln|wirtschaften|raten|starten|klicken|posten|schreiben">
     <!--
     for local testing of an external file - also see below:
     <!ENTITY UserRules SYSTEM "file:///lt/git/languagetool/languagetool-language-modules/de/src/main/resources/org/languagetool/rules/de/grammar-test.xml">
@@ -6691,7 +6692,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>Ramstein</suggestion>
                 <example correction="Ramstein">In der Nähe von <marker>Rammstein</marker> gibt es viele amerikanische Restaurants.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes" skip="2">.*Band|.*Musik.*|.*Songs?</token>
                     <marker>
@@ -13324,19 +13325,48 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
-        <rule id="DRAUF_KLICKEN" name="drauf klicken (draufklicken)" default="temp_off">
+        <rule id="DRAUF_KLICKEN" name="drauf klicken (draufklicken)">
             <antipattern>
-                <token regexp="yes" skip="2">da|dort|hier</token>
+                <token regexp="yes" skip="2">da|dort|hier|wo</token>
                 <token>drauf</token>
             </antipattern>
             <pattern>
                 <token>drauf</token>
                 <token min="0">zu</token>
-                <token regexp="yes" inflected="yes">gehen|klicken|knallen|schauen|hauen|schlagen|gucken|stehen|halten|schreiben|kritzeln|malen|packen|schrauben|satteln|legen|springen</token>
+                <token regexp="yes" inflected="yes">gehen|klicken|knallen|schauen|hauen|schlagen|gucken|stehen|halten|schreiben|kritzeln|malen|packen|schrauben|satteln|legen|springen|hämmern</token>
             </pattern>
             <message>Das Verb <suggestion>\1<match no="2" case_conversion="alllower" /><match no="3" case_conversion="alllower" /></suggestion> wird in der Regel zusammengeschrieben.</message>
             <example correction="draufgeklickt">Ich habe auf den Link <marker>drauf geklickt</marker>.</example>
         </rule>
+        <rulegroup id="DRAUF_LOS" name="drauf los (drauflos)" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>drauflos</token>
+                    <token min="0">zu</token>
+                    <token regexp="yes">&drauflos_verben;</token>
+                </pattern>
+                <message>Das Verb <suggestion>\1<match no="2" case_conversion="alllower" /><match no="3" case_conversion="alllower" /></suggestion> wird in der Regel zusammengeschrieben.</message>
+                <example correction="draufloszureden">Er begann einfach so <marker>drauflos zu reden</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>drauf</token>
+                    <token>los</token>
+                    <token min="0">zu</token>
+                    <token regexp="yes">&drauflos_verben;</token>
+                </pattern>
+                <message>Das Verb <suggestion>\1<match no="2" case_conversion="alllower" /><match no="3" case_conversion="alllower" /><match no="4" case_conversion="alllower" /></suggestion> wird in der Regel zusammengeschrieben.</message>
+                <example correction="draufloszureden">Er begann einfach so <marker>drauf los zu reden</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>drauf</token>
+                    <token case_sensitive="yes">los</token>
+                </pattern>
+                <message>Das Adverb <suggestion>drauflos</suggestion> wird zusammengeschrieben.</message>
+                <example correction="drauflos">Immer <marker>drauf los</marker>, keine Schwäche zeigen!</example>
+            </rule>
+        </rulegroup>
         <rule id="ZU_LEGEN" name="Zahn zu legen (zulegen)">
             <pattern>
                 <token>einen</token>
@@ -20038,6 +20068,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>lachen</token>
                 </antipattern>
                 <antipattern>
+                    <token>drauf</token>
+                    <token>los</token>
+                </antipattern>
+                <antipattern>
                     <token>vor</token>
                     <token regexp="yes">schmerz(en)?</token>
                 </antipattern>
@@ -25924,6 +25958,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">.*(Geschwindigkeit|Speed)</token>
                     <token>drauf</token>
                 </antipattern>
+                <antipattern>
+                    <token>drauf</token>
+                    <token inflected="yes">haben</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" skip="6">haben</token>
+                    <token>drauf</token>
+                </antipattern>
+                <antipattern>
+                    <token>Hand</token>
+                    <token>drauf</token>
+                </antipattern>
+                <antipattern>
+                    <token>drauf</token>
+                    <token>los</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">sein</token>
+                    <token postag="(ADV|ADJ).*" postag_regexp="yes" min="0" max="2" />
+                    <token>drauf</token>
+                </antipattern>
                 <pattern>
                     <token>drauf</token>
                 </pattern>
@@ -25932,6 +25987,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="darauf">Ich komme einfach nicht <marker>drauf</marker>.</example>
                 <example>Schau doch mal bitte da drauf.</example>
                 <example>Da bekommt man scheinbar ganz schön Speed drauf!</example>
+                <example>Und ich muss sagen, wenn es eine drauf hat dann Beatrice mit ihrem Podcast.</example>
+                <example>Hast du die Grundübungen wirklich drauf und sie sitzen?</example>
+                <example>Er ist ganz schön drauf!</example>
             </rule>
         </rulegroup>
     </category>
@@ -27618,6 +27676,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="IM_HIER_UND_JETZT" name="im Hier und Jetzt" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">Hier|HIER</token>
+                <token regexp="yes">und|UND|&amp;</token>
+                <token regexp="yes">Jetzt|JETZT</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">im|das|dem</token>
+                <marker>
+                    <token>hier</token>
+                    <token regexp="yes">und|&amp;</token>
+                    <token>jetzt</token>
+                </marker>
+            </pattern>
+            <message>In dieser Redewendung werden "Hier" und "Jetzt" großgeschrieben.</message>
+            <suggestion>Hier \3 Jetzt</suggestion>
+            <example correction="Hier und Jetzt">Wir leben im <marker>hier und jetzt</marker>.</example>
+        </rule>
         <rule id="EINE_NEUE_BLEIBE" name="eine neue bleibe (Bleibe)">
             <antipattern>
                 <token>bleibe</token>
@@ -34881,7 +34957,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Band">Der letzte Opel wird in Bochum 2016 vom <marker>band</marker> rollen.</example>
                 <example correction="Band">Die Stimme kommt vom <marker>band</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>am</token>
                     <token>laufenden</token>
@@ -61877,9 +61953,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception>Paul</exception>
                         <exception>Edward</exception>
                         <exception>Brinkhoff</exception>
+                        <exception regexp="yes">.+(x|s|z)</exception><!-- siehe Regel unten -->
                     </token>
-                    <token regexp="yes">'|’</token>
-                    <token>s</token>
+                    <token regexp="yes" spacebefore="no">'|’</token>
+                    <token spacebefore="no">s</token>
                 </pattern>
                 <message>Normalerweise wird im Deutschen vor einem Genitiv-s kein Apostroph gesetzt. Ausnahmen sind möglich bei Firmennamen wie 'McDonald’s' oder 'Andrea’s Blumenladen'.</message>
                 <suggestion>\1s</suggestion>
@@ -61891,6 +61968,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>St Paul's Cathedral</example>
                 <example>Nach seinem zweiwöchigen Sommerurlaub 1912, den er bei King Edward’s Horse, einem Kavallerieregiment, hauptsächlich im Pferdesattel verbrachte</example>
                 <example>Die Familie zog kurz darauf in die Gilbert Street und etwa fünf Jahre später in die Jacob’s Well Mews.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token regexp="yes">King|Queen|Lord|Saint|St</token>
+                    <token min="0">.</token>
+                    <token postag="EIG:.*" postag_regexp="yes" />
+                    <token regexp="yes">'|’</token>
+                    <token>s</token>
+                    <token postag="UNKNOWN|SUB:.*" postag_regexp="yes" regexp="yes">.*[a-z].*</token>
+                </antipattern>
+                <pattern>
+                    <token postag="EIG:.*" postag_regexp="yes" regexp="yes">
+                        .+(x|s|z)
+                    </token>
+                    <token regexp="yes" spacebefore="no">'|’</token>
+                    <token spacebefore="no">s</token>
+                </pattern>
+                <message>Normalerweise wird im Deutschen vor einem Genitiv-s kein Apostroph gesetzt. Ausnahmen sind möglich bei Firmennamen wie 'McDonald’s' oder 'Andrea’s Blumenladen'.</message>
+                <suggestion>\1\2</suggestion>
+                <example correction="Alex'"><marker>Alex's</marker> Haus steht in Flammen.</example>
+                <example>Im Englisch-Niederländischen Krieg endet der St. James’s Day Fight mit einem Erfolg der Engländer.</example>
             </rule>
             <rule>
                 <pattern>
@@ -64470,7 +64568,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="’">Er ist auf<marker>'</marker>m Bau!</example>
                 <example>Position 54°14.03'N - 013°35.75'E</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token spacebefore="yes" skip="-1">'</token>
                     <token spacebefore="no">'</token>
@@ -64485,7 +64583,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token spacebefore="no" regexp="yes">.*[a-z0-9].*</token>
                 </antipattern>
                 <pattern>
-                    <token postag="VER:1:SIN:PRÄ.*" postag_regexp="yes" regexp="yes">.+[^e]</token>
+                    <token postag="(VER:1:SIN:PRÄ|VER:IMP:SIN).*" postag_regexp="yes" regexp="yes">.+[^e]</token>
                     <marker>
                         <token spacebefore="no">'</token>
                     </marker>
@@ -64497,7 +64595,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="’">Er fragte, ob ich noch alle Tassen im Schrank hab<marker>'</marker>.</example>
                 <example correction="’">Bitte geh<marker>'</marker> jetzt.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token spacebefore="yes" skip="-1">'</token>
                     <token spacebefore="no">'</token>
@@ -64521,6 +64619,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Möchten Sie statt des Ersatzzeichens einen Apostroph (’) verwenden?</message>
                 <suggestion>’</suggestion>
                 <example correction="’">Ich stehe heut<marker>'</marker> neben mir.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>'</token>
+                    </marker>
+                    <token regexp="yes" spacebefore="no" case_sensitive="yes">nen?</token>
+                </pattern>
+                <message>Möchten Sie statt des Ersatzzeichens einen Apostroph (’) verwenden?</message>
+                <suggestion>’</suggestion>
+                <example correction="’">Ich nehm <marker>'</marker>ne Bratwurst.</example>
             </rule>
         </rulegroup>
         <rulegroup id="TYPOGRAFISCHE_ANFUEHRUNGSZEICHEN_2" name="Typografische Anführungszeichen" tags="picky">

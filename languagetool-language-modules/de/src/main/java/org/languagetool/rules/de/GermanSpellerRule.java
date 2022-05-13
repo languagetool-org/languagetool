@@ -1132,6 +1132,13 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("schöen", w -> Arrays.asList("schönen", "schön"));
     put("ihne", w -> Arrays.asList("ihn", "ihnen"));
     put("af", w -> Arrays.asList("auf", "an", "an", "als"));
+    put("mächte", w -> Arrays.asList("möchte", "Mächte"));
+    put("öffen", w -> Arrays.asList("öffnen", "offen"));
+    put("Biite", "Bitte");
+    put("Gutn", "Guten");
+    put("gutn", "guten");
+    put("Ettiket", "Etikett");
+    put("iht", "ihr");
     put("ligt", "liegt");
     put("gester", "gestern");
     put("veraten", "verraten");
@@ -1268,6 +1275,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Refelektionen", "Reflexionen");
     put("[sS]chanse", "Chance");
     put("nich", w -> Arrays.asList("nicht", "noch"));
+    put("Nich", w -> Arrays.asList("Nicht", "Noch"));
     put("wat", "was");
     put("[Ee][Ss]ports", "E-Sports");
     put("gerelaunch(ed|t)", "relauncht");
