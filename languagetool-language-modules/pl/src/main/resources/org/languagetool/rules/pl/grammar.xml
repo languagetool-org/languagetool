@@ -716,7 +716,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 										</marker>
                     </antipattern>
                     <antipattern>
-                         <token skip="10" regexp="yes">jest|było(?:by)?|być|można|warto|trzeba|należy|należało(?:by)?|widać|wolno|wystarczy(?:ło(?:by)?)?|wydaj[eą]|okazuj[eą]
+                         <token skip="10" regexp="yes">jest|było(?:by)?|być|można|warto|trzeba|należy|należało(?:by)?|widać|wolno|wystarczy(?:ło(?:by)?)?|wydaj[eą]|okazuj[eą]|pozosta(?:ło|je)
                             <exception scope="next" postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma|verb:.*(sg|pl).*|verb:(imps|inf).*|pcon:imperf.*|pant:perf.*|pred"/>
                             <exception scope="next" regexp="yes">&interp;</exception>                         
                          </token>
@@ -755,7 +755,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </marker>
                     </antipattern>
                     <antipattern>
-                         <token inflected="yes" regexp="yes" skip="10">umieć|móc|musieć|chcieć|pozw(?:alać|olić)|potrafić|zacząć|lubić|mieć|pójść|zaczynać|śmieć|poczynać|kazać|zapomnieć|rozkazać|począć|zdążyć|radzić|usiłować|(?:na|wy)uczyć|przyzwyczajać|polecać|silić|zdawać|starać|jąć|postanowić|pomagać|udać|pomóc|zdołać|przesta(?:wa)?ć|uda(?:wa)?ć|przeszkadzać|przestać|postarać|próbować
+                         <token inflected="yes" regexp="yes" skip="10">umieć|móc|musieć|chcieć|pozw(?:alać|olić)|potrafić|zacząć|lubić|mieć|pójść|zaczynać|śmieć|poczynać|kazać|zapomnieć|rozkazać|począć|zdążyć|radzić|usiłować|(?:na|wy)uczyć|przyzwyczajać|polecać|silić|zdawać|starać|jąć|postanowić|pomagać|udać|pomóc|zdołać|przesta(?:wa)?ć|uda(?:wa)?ć|przeszkadzać|przestać|postarać|próbować|proponować|przyjść
                             <exception scope="next" postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma|verb:.*(sg|pl).*|verb:(imps|inf).*|pcon:imperf.*|pant:perf.*|pred" postag_regexp="yes"/>
                             <exception scope="next" regexp="yes">&interp;</exception>                             
                          </token>
@@ -769,9 +769,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </antipattern>
                     <antipattern>
                           <token>się</token>
+                          <token min="0">nie</token>
                           <token skip="2" inflected="yes" regexp="yes">d(?:aw)?ać</token>
                           <marker>
-                          <token regexp="yes">głupio|łatwo|wygodnie|prosto|dobrze|praktycznie|tanio|rozsądnie</token>
+                          <token regexp="yes">źle|głupio|łatwo|wygodnie|prosto|dobrze|praktycznie|tanio|rozsądnie</token>
                           </marker>
                     </antipattern>
                     <antipattern>
@@ -779,8 +780,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                           <token skip="2">się</token>
                           <token min="0">nawet</token>
                           <marker>
-                          <token regexp="yes">głupio|łatwo|wygodnie|prosto|dobrze|praktycznie|tanio|rozsądnie</token>
+                          <token regexp="yes">źle|głupio|łatwo|wygodnie|prosto|dobrze|praktycznie|tanio|rozsądnie</token>
                           </marker>
+                    </antipattern>
+                    <antipattern>
+                          <marker>
+                            <token regexp="yes">daje|da(?:wa)?ł[oay]?</token>
+                          </marker>
+                          <token>o</token>
+                          <token>sobie</token>
+                          <token regexp="yes">trudno|łatwo|dobrze|ciężko|niełatwo|nietrudno|prosto|bezpiecznie|niebezpiecznie|niedobrze|dziwnie|głupio|niezręcznie|praktycznie|zdrowo</token>
+                          <token regexp="yes">znać|zapomnieć</token>
+                    </antipattern>
+                    <antipattern>
+                      <marker>
+                        <token inflected="yes">być</token>
+                      </marker>
+                      <token>w</token>
+                      <token>stanie</token>
                     </antipattern>
                         <pattern>
                           <marker>
@@ -805,6 +822,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <example>Wydaje się trudno ubrać w taką pogodę.</example>
                         <example>Dziesiąty rok wyobrażam sobie, że musi być pioruńsko przyjemnie śmiać się głośno, płakać cicho, uprawiać seks na plaży, pić zimne piwo wieczorową porą, snuć się nocą miastem pełnym zapachów i dźwięków.</example>
                         <example>Tego typu poradniki pozwalają dość wygodnie przyswoić sobie podstawy.</example>
+                        <example>Pozostało już tylko je dobrze obsmażyć z każdej strony na małym ogniu.</example>
+                        <example>A i potem ta historia długo siedzi w czytelniku, nie daje o sobie łatwo zapomnieć.</example>
+                        <example>Tego się nie da łatwo opowiedzieć, bo jak opowiedzieć tyle przeszłych trudnych historii.</example>
+                        <example>A pani konsultantka nie była w stanie tego dobrze wyartykułować.</example>
+                        <example>Inaczej mówiąc, nie da się go źle podłączyć.</example>
                     </rule>
                 </rulegroup>
                 <rule id="BRAK_PRZECINKA_PRZED_IMIESLOWEM_PRZYSLOWKOWYM" name="Brak przecinka przed imiesłowem -ąc lub -wszy">
@@ -13873,22 +13895,56 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </rule>
 		</category>
 		<category id="REDUNDANCY" name="Pleonazmy" type="style">
-                <rule id="DOBRA_RENOMA" name="„dobra renoma” (renoma)">
-                    <pattern>
-                        <unify>
-                            <feature id="number"></feature>
-                            <feature id="gender"></feature>
-                            <feature id="case"></feature>
-                            <token inflected="yes">dobry</token>
-                            <token inflected="yes">renoma</token>
-                        </unify>
-                    </pattern>
-                    <message>To pleonazm. Renoma jest zawsze dobra. Wystarczy: <suggestion>\2</suggestion>.</message>
-                    <short>Pleonazm</short>
-                    <example>Nadszarpnięta została renoma saabów jako wozów w pełni niezawodnych i bezpiecznych.</example>
-                    <example correction="renoma">Nadszarpnięta została <marker>dobra renoma</marker> saabów jako wozów w pełni niezawodnych i bezpiecznych.</example>
-                </rule>
-				<rule id="EFEKT_KONCOWY" name="„efekt końcowy” (efekt)">
+		<rulegroup id="adaptacja_i_przystosowanie" name="„adaptacja i przystosowanie” (adaptacja)">
+      <rule>
+      <pattern>
+        <marker>
+          <unify><feature id="number"></feature><feature id="case"/>
+          <token inflected="yes">adaptacja</token>
+          <unify-ignore>
+              <token regexp="yes">i|oraz</token>          
+          </unify-ignore>
+          <token inflected="yes">przystosować</token>
+          </unify>
+        </marker>
+          <token><exception regexp="yes">do|się</exception></token>      
+      </pattern>
+      <message>To pleonazm. Wystarczy: <suggestion>\1</suggestion>.</message>
+      <short>Pleonazm</short>
+      <example correction="adaptacji">Pierwsza z nich obejmuje koszt <marker>adaptacji i przystosowania</marker> lokalu, który uzależniony jest od jego wielkości i standardu wykończenia.</example>
+      <example>Zajmuje się również dystrybucją projektów powtarzalnych wraz z ich adaptacją i przystosowaniem do miejscowych warunków zabudowy.</example>
+      </rule>
+      <rule>
+      <pattern>
+          <unify><feature id="number"></feature><feature id="case"/>
+          <token inflected="yes">przystosować</token>                    
+          <unify-ignore>
+              <token regexp="yes">i|oraz</token>          
+          </unify-ignore>
+          <token inflected="yes">adaptacja</token>
+          </unify>
+      </pattern>
+      <message>To pleonazm. Wystarczy: <suggestion>\1</suggestion>.</message>
+      <short>Pleonazm</short>
+      <example correction="przystosowania">W polskiej normalizacji podjęto szerokie działania w kierunku <marker>przystosowania i adaptacji</marker> swojego systemu wewnętrznego do zasad, jakie obowiązują w krajach UE.</example>
+      </rule>
+		</rulegroup>
+    <rule id="DOBRA_RENOMA" name="„dobra renoma” (renoma)">
+        <pattern>
+            <unify>
+                <feature id="number"></feature>
+                <feature id="gender"></feature>
+                <feature id="case"></feature>
+                <token inflected="yes">dobry</token>
+                <token inflected="yes">renoma</token>
+            </unify>
+        </pattern>
+        <message>To pleonazm. Renoma jest zawsze dobra. Wystarczy: <suggestion>\2</suggestion>.</message>
+        <short>Pleonazm</short>
+        <example>Nadszarpnięta została renoma saabów jako wozów w pełni niezawodnych i bezpiecznych.</example>
+        <example correction="renoma">Nadszarpnięta została <marker>dobra renoma</marker> saabów jako wozów w pełni niezawodnych i bezpiecznych.</example>
+    </rule>
+      <rule id="EFEKT_KONCOWY" name="„efekt końcowy” (efekt)">
 						<pattern>
 								<unify>
 										<feature id="number"></feature>
