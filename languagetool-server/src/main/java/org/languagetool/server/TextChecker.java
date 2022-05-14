@@ -258,9 +258,9 @@ abstract class TextChecker {
     }
 
     int length = aText.getPlainText().length();
-    /*if ("true".equals(params.get("languageChanged"))) {
-      System.out.println("languageChanged to " + params.get("language") + " for text with length " + length + " - length <= 50? " + (length <= 50));
-    }*/
+    if ("true".equals(params.get("languageChanged"))) {
+      log.info("languageChanged to " + params.get("language") + " for text with length " + aText.getPlainText().trim().length());
+    }
     if (length > limits.getMaxTextLength()) {
       String msg = "limit: " + limits.getMaxTextLength() + ", size: " + length;
       databaseLogger.log(new DatabaseAccessLimitLogEntry("MaxCharacterSizeExceeded", logServerId, agentId, userId, msg, referrer, userAgent));
