@@ -17091,7 +17091,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rulegroup>
 		</category>
 		<category id="SPELLING" name="Błędy ortograficzne" type="misspelling">
-		<rule id="NIE_TRUDNO_NIETRUDNO" name="„nie trudno” (nietrudno)">
+		<rule id="ZEBYS_MY_ZEBYSMY" name="„żebyś my” (żebyśmy)">
+      <pattern>
+      <token regexp='yes'>(?:że|a)byś</token>
+      <token regexp='yes'>my|cie</token>
+      </pattern>
+      <message>Ten wyraz piszemy łącznie: <suggestion><match no="1"/><match no="2"/></suggestion>.</message>
+      <short>Błąd ortograficzny</short>
+      <example correction='żebyśmy'>Szymon nalegał, <marker>żebyś my</marker> je także umieścili.</example>
+      <example>Szymon nalegał, żebyśmy je także umieścili.</example>
+    </rule>
+    <rule id="NIE_TRUDNO_NIETRUDNO" name="„nie trudno” (nietrudno)">
     <antipattern>
         <marker>
           <token regexp="yes">trudno|jasno</token>
