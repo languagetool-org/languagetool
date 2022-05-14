@@ -62,9 +62,13 @@ public class LanguageIdentifier {
   private static final List<String> externalLangCodes = Arrays.asList("eo");
   // fall back to checking against list of common words if fasttext probability is lower than this:
   private static final float THRESHOLD = 0.85f;
-  //private static final float THRESHOLD = 0.95f;   // 7.39
-  //private static final float THRESHOLD = 0.975f;  // 7.228 
-  //private static final float THRESHOLD = 1.0f;    // 7.0
+  // Result ('Avg. minimum chars') of LanguageDetectionMinLengthEval with MIN_INPUT_LEN=5 and MAX_INPUT_LEN=100,
+  // lower values = better:
+  //private static final float THRESHOLD = 0.7f;    // 8.363
+  //private static final float THRESHOLD = 0.85f;   // 8.282
+  //private static final float THRESHOLD = 0.90f;   // 8.271
+  //private static final float THRESHOLD = 0.95f;   // 8.249
+  //private static final float THRESHOLD = 1.0f;    // 8.282
 
   private final LanguageDetector languageDetector;
   private final TextObjectFactory textObjectFactory;
