@@ -755,7 +755,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </marker>
                     </antipattern>
                     <antipattern>
-                         <token inflected="yes" regexp="yes" skip="10">umieć|móc|musieć|chcieć|pozw(?:alać|olić)|potrafić|zacząć|lubić|mieć|pójść|zaczynać|śmieć|poczynać|kazać|zapomnieć|rozkazać|począć|zdążyć|radzić|usiłować|(?:na|wy)uczyć|przyzwyczajać|polecać|silić|zdawać|starać|jąć|postanowić|pomagać|udać|pomóc|zdołać|przesta(?:wa)?ć|uda(?:wa)?ć|przeszkadzać|przestać|postarać|próbować|proponować|przyjść
+                         <token inflected="yes" regexp="yes" skip="10">umieć|móc|musieć|chcieć|pozw(?:alać|olić)|potrafić|zacząć|lubić|mieć|pójść|zaczynać|śmieć|poczynać|kazać|zapomnieć|rozkazać|począć|zdążyć|radzić|usiłować|(?:na|wy)uczyć|przyzwyczajać|polecać|silić|zdawać|starać|jąć|postanowić|pomagać|udać|pomóc|zdołać|przesta(?:wa)?ć|uda(?:wa)?ć|przeszkadzać|przestać|postarać|próbować|proponować|przyjść|uczyć
                             <exception scope="next" postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma|verb:.*(sg|pl).*|verb:(imps|inf).*|pcon:imperf.*|pant:perf.*|pred" postag_regexp="yes"/>
                             <exception scope="next" regexp="yes">&interp;</exception>                             
                          </token>
@@ -778,10 +778,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <antipattern>
                           <token inflected="yes" regexp="yes">d(?:aw)?ać</token>
                           <token skip="2">się</token>
-                          <token min="0">nawet</token>
+                          <token min="0" regexp="yes">nawet|tak</token>
                           <marker>
                           <token regexp="yes">źle|głupio|łatwo|wygodnie|prosto|dobrze|praktycznie|tanio|rozsądnie</token>
                           </marker>
+                    </antipattern>
+                    <antipattern>
+                          <token inflected="yes" regexp="yes">d(?:aw)?ać</token>
+                          <token min="0" regexp="yes">nawet|tak</token>
+                          <marker>
+                          <token regexp="yes">źle|głupio|łatwo|wygodnie|prosto|dobrze|praktycznie|tanio|rozsądnie</token>                          
+                          </marker>
+                          <token postag="verb:inf.*[\.:]refl.*" postag_regexp="yes"/> 
+                          <token>się</token>
                     </antipattern>
                     <antipattern>
                           <marker>
@@ -827,6 +836,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <example>Tego się nie da łatwo opowiedzieć, bo jak opowiedzieć tyle przeszłych trudnych historii.</example>
                         <example>A pani konsultantka nie była w stanie tego dobrze wyartykułować.</example>
                         <example>Inaczej mówiąc, nie da się go źle podłączyć.</example>
+                        <example>Rozwódka z traumatycznymi przejściami nie da tak łatwo zbliżyć się do siebie kolejnemu mężczyźnie.</example>
                     </rule>
                 </rulegroup>
                 <rule id="BRAK_PRZECINKA_PRZED_IMIESLOWEM_PRZYSLOWKOWYM" name="Brak przecinka przed imiesłowem -ąc lub -wszy">
@@ -7801,6 +7811,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <example>Powierzchnia Ziemi to w 70% woda.</example>
           <example>Szampon to RENE FURTERER OKARA przedłużający o 80% trwałość koloru włosów farbowanych.</example>
         </rule>
+        <rule>
+        <pattern>
+        <token regexp="yes">\d+</token>
+          <token regexp="yes">ml[dn]
+            <exception postag='adv.*|qub|num.*:congr' postag_regexp='yes'></exception>
+            <exception scope="previous" regexp="yes">1|temu|lat|godzin|chwil|n?ich|nas</exception>            
+          </token>
+          <token postag='(subst|ger|adj|pact|ppas).*nom.*' postag_regexp='yes'>
+            <exception postag='.*:pl:gen.*' postag_regexp='yes'/>
+            <exception postag='prep.*|num.*|adv.*' postag_regexp='yes'/>
+            <exception regexp="yes">to|plus|emerytury|fot|\p{Lu}+</exception>
+            <exception regexp="yes" inflected="yes">&numord;</exception>
+          </token>
+         </pattern>
+         <message>Po tym liczebniku (<match no="1"/> <match no="2"/>) powinien prawdopodobnie występować dopełniacz.</message>
+         <url>http://grzegorj.w.interiowo.pl/gram/pl/liczeb02.html</url>
+         <short>Błąd składniowy</short>
+         <example correction="">Mam <marker>5 mld złoty</marker>.</example>
+          </rule>
         </rulegroup>
         
         <rule id="IMIESLOW_POMYLONY_PODMIOT" name="Imiesłów przysłówkowy z innym podmiotem niż orzeczenie główne">        
