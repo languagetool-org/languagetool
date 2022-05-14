@@ -558,6 +558,8 @@ public class English extends Language implements AutoCloseable {
       case "GIMME":                     return -4;  // prefer over spelling rules
       case "LEMME":                     return -4;  // prefer over spelling rules
       case "POSSESSIVE_APOSTROPHE":     return -4;  // prefer some agreement rules
+      case "EN_GB_SIMPLE_REPLACE":      return -5;  // higher prio than Speller
+      case "EN_US_SIMPLE_REPLACE":      return -5;  // higher prio than Speller
       case "HAVE_PART_AGREEMENT":       return -9;  // prefer HYDRA_LEO
       case "BEEN_PART_AGREEMENT":       return -9;  // prefer HYDRA_LEO
       case "MORFOLOGIK_RULE_EN_US":     return -10;  // more specific rules (e.g. L2 rules) have priority

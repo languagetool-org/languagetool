@@ -21,6 +21,7 @@ package org.languagetool.rules.es;
 import java.io.IOException;
 import java.util.List;
 
+import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.rules.AbstractFindSuggestionsFilter;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
@@ -47,8 +48,8 @@ public class FindSuggestionsFilter extends AbstractFindSuggestionsFilter {
   }
 
   @Override
-  protected List<String> getSpellingSuggestions(String w) throws IOException {
-    return speller.findReplacements(w);
+  protected List<String> getSpellingSuggestions(AnalyzedTokenReadings atr) throws IOException {
+    return speller.findSimilarWords(atr.getToken());
   }
 
 }

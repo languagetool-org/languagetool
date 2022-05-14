@@ -3,12 +3,14 @@ package org.languagetool.rules;
 import org.junit.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Tag;
 import org.languagetool.language.Demo;
 import org.languagetool.rules.ml.MLServerProto;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 
@@ -49,4 +51,33 @@ public class GRPCPostProcessingTest {
     assertEquals("matches are equal after postprocessing", original, transformed);
   }
 
+  @Test
+  public void testTagEnums() {
+    Tag[] javaValues = Tag.values();
+    MLServerProto.Rule.Tag[] protoValues = MLServerProto.Rule.Tag.values();
+
+    assertEquals("Tags in Java and Protobuf are equal",
+      Arrays.stream(javaValues).map(t -> t.name()).sorted().collect(Collectors.toList()),
+      Arrays.stream(protoValues).map(t -> t.name()).filter(s -> !s.equals("UNRECOGNIZED")).sorted().collect(Collectors.toList()));
+  }
+
+  @Test
+  public void testMatchTypeEnums() {
+    RuleMatch.Type[] javaValues = RuleMatch.Type.values();
+    MLServerProto.Match.MatchType[] protoValues = MLServerProto.Match.MatchType.values();
+
+    assertEquals("Match types in Java and Protobuf are equal",
+      Arrays.stream(javaValues).map(t -> t.name()).sorted().collect(Collectors.toList()),
+      Arrays.stream(protoValues).map(t -> t.name()).filter(s -> !s.equals("UNRECOGNIZED")).sorted().collect(Collectors.toList()));
+  }
+
+  @Test
+  public void testSuggestionTypeEnums() {
+    SuggestedReplacement.SuggestionType[] javaValues = SuggestedReplacement.SuggestionType.values();
+    MLServerProto.SuggestedReplacement.SuggestionType[] protoValues = MLServerProto.SuggestedReplacement.SuggestionType.values();
+
+    assertEquals("Suggestion types in Java and Protobuf are equal",
+      Arrays.stream(javaValues).map(t -> t.name()).sorted().collect(Collectors.toList()),
+      Arrays.stream(protoValues).map(t -> t.name()).filter(s -> !s.equals("UNRECOGNIZED")).sorted().collect(Collectors.toList()));
+  }
 }

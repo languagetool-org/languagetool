@@ -19,6 +19,8 @@
  */
 package org.languagetool;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * @since 4.2
  */
@@ -27,18 +29,20 @@ public class DetectedLanguage {
   private final Language givenLanguage;
   private final Language detectedLanguage;
   private final float detectionConfidence;
+  private final String detectionSource;
 
   public DetectedLanguage(Language givenLanguage, Language detectedLanguage) {
-    this(givenLanguage, detectedLanguage, 1.0f);
+    this(givenLanguage, detectedLanguage, 1.0f, null);
   }
 
   /**
    * @since 4.4
    */
-  public DetectedLanguage(Language givenLanguage, Language detectedLanguage, float detectionConfidence) {
+  public DetectedLanguage(Language givenLanguage, Language detectedLanguage, float detectionConfidence, String detectionSource) {
     this.givenLanguage = givenLanguage;
     this.detectedLanguage = detectedLanguage;
     this.detectionConfidence = detectionConfidence;
+    this.detectionSource = detectionSource;
   }
 
   public Language getGivenLanguage() {
@@ -55,7 +59,12 @@ public class DetectedLanguage {
   public float getDetectionConfidence() {
     return detectionConfidence;
   }
-  
+
+  @Nullable
+  public String getDetectionSource() {
+    return detectionSource;
+  }
+
   @Override
   public String toString() {
     return detectedLanguage.getShortCodeWithCountryAndVariant();

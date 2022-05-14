@@ -511,6 +511,21 @@ public class UkrainianHybridDisambiguationTest {
   }
 
   @Test
+  public void testPronPos() throws IOException {
+    TestTools.myAssert("його машина", "/[null]SENT_START його/[воно]noun:unanim:n:v_rod:&pron:pers:3|його/[воно]noun:unanim:n:v_zna:&pron:pers:3|його/[він]noun:unanim:m:v_rod:&pron:pers:3|його/[він]noun:unanim:m:v_zna:&pron:pers:3|його/[його]adj:f:v_naz:nv:&pron:pos"
+        + "  /[null]null машина/[машина]noun:inanim:f:v_naz",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+    TestTools.myAssert("машина його мами", "/[null]SENT_START машина/[машина]noun:inanim:f:v_naz"
+        + "  /[null]null його/[воно]noun:unanim:n:v_rod:&pron:pers:3|його/[воно]noun:unanim:n:v_zna:&pron:pers:3|його/[він]noun:unanim:m:v_rod:&pron:pers:3|його/[він]noun:unanim:m:v_zna:&pron:pers:3|його/[його]adj:f:v_naz:nv:&pron:pos|його/[його]adj:f:v_rod:nv:&pron:pos|його/[його]adj:p:v_naz:nv:&pron:pos"
+        + "  /[null]null мами/[мама]noun:anim:f:v_rod|мами/[мама]noun:anim:p:v_kly|мами/[мама]noun:anim:p:v_naz",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+    TestTools.myAssert("прийняв її до уваги", "/[null]SENT_START прийняв/[прийняти]verb:perf:past:m"
+        + "  /[null]null її/[вона]noun:unanim:f:v_rod:&pron:pers:3|її/[вона]noun:unanim:f:v_zna:&pron:pers:3|її/[її]adj:n:v_dav:nv:&pron:pos|її/[її]adj:n:v_naz:nv:&pron:pos|її/[її]adj:n:v_oru:nv:&pron:pos|її/[її]adj:n:v_rod:nv:&pron:pos|її/[її]adj:n:v_zna:nv:&pron:pos|її/[її]adj:p:v_dav:nv:&pron:pos|її/[її]adj:p:v_naz:nv:&pron:pos|її/[її]adj:p:v_oru:nv:&pron:pos|її/[її]adj:p:v_rod:nv:&pron:pos|її/[її]adj:p:v_zna:rinanim:nv:&pron:pos"
+        + "  /[null]null до/[до]prep  /[null]null уваги/[увага]noun:inanim:f:v_rod|уваги/[увага]noun:inanim:p:v_naz|уваги/[увага]noun:inanim:p:v_zna",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+  }
+
+  @Test
   public void testSimpleRemove() throws IOException {
     TestTools.myAssert("була", "/[null]SENT_START була/[бути]verb:imperf:past:f",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
@@ -591,6 +606,35 @@ public class UkrainianHybridDisambiguationTest {
 //    AnalyzedTokenReadings raza = disambiged.getTokens()[2];
 //    assertEquals("раз", raza.getReadings().get(0).getLemma());
 //    assertFalse(raza.isPosTagUnknown());
+  }
+
+  @Test
+  public void testPluralProp() throws IOException {
+
+    TestTools.myAssert("дві Франції", 
+        "/[null]SENT_START "
+        + "дві/[два]numr:p:v_naz|дві/[два]numr:p:v_zna  "
+        + "/[null]null Франції/[Франція]noun:inanim:p:v_naz:prop:geo",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+
+    TestTools.myAssert("два Володьки", 
+        "/[null]SENT_START "
+        + "два/[два]numr:p:v_naz|два/[два]numr:p:v_zna  "
+        + "/[null]null Володьки/[Володька]noun:anim:p:v_naz:prop:fname:coll",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+
+    TestTools.myAssert("два Бойка", 
+        "/[null]SENT_START "
+        + "два/[два]numr:p:v_naz|два/[два]numr:p:v_zna  "
+        + "/[null]null Бойка/[Бойко]noun:anim:p:v_naz:prop:lname",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+
+    // don't handle yet
+    TestTools.myAssert("два Рима", 
+        "/[null]SENT_START "
+        + "два/[два]numr:p:v_naz|два/[два]numr:p:v_zna  "
+        + "/[null]null Рима/[Рим]noun:inanim:m:v_rod:prop:geo:xp1|Рима/[рим]noun:inanim:m:v_rod|Рима/[рима]noun:inanim:f:v_naz",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
   }
 }
 

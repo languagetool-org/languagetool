@@ -7743,6 +7743,38 @@ public final class MLServerProto {
        * <code>picky = 0;</code>
        */
       picky(0),
+      /**
+       * <code>academic = 1;</code>
+       */
+      academic(1),
+      /**
+       * <code>clarity = 2;</code>
+       */
+      clarity(2),
+      /**
+       * <code>professional = 3;</code>
+       */
+      professional(3),
+      /**
+       * <code>creative = 4;</code>
+       */
+      creative(4),
+      /**
+       * <code>customer = 5;</code>
+       */
+      customer(5),
+      /**
+       * <code>jobapp = 6;</code>
+       */
+      jobapp(6),
+      /**
+       * <code>objective = 7;</code>
+       */
+      objective(7),
+      /**
+       * <code>elegant = 8;</code>
+       */
+      elegant(8),
       UNRECOGNIZED(-1),
       ;
 
@@ -7750,6 +7782,38 @@ public final class MLServerProto {
        * <code>picky = 0;</code>
        */
       public static final int picky_VALUE = 0;
+      /**
+       * <code>academic = 1;</code>
+       */
+      public static final int academic_VALUE = 1;
+      /**
+       * <code>clarity = 2;</code>
+       */
+      public static final int clarity_VALUE = 2;
+      /**
+       * <code>professional = 3;</code>
+       */
+      public static final int professional_VALUE = 3;
+      /**
+       * <code>creative = 4;</code>
+       */
+      public static final int creative_VALUE = 4;
+      /**
+       * <code>customer = 5;</code>
+       */
+      public static final int customer_VALUE = 5;
+      /**
+       * <code>jobapp = 6;</code>
+       */
+      public static final int jobapp_VALUE = 6;
+      /**
+       * <code>objective = 7;</code>
+       */
+      public static final int objective_VALUE = 7;
+      /**
+       * <code>elegant = 8;</code>
+       */
+      public static final int elegant_VALUE = 8;
 
 
       public final int getNumber() {
@@ -7777,6 +7841,14 @@ public final class MLServerProto {
       public static Tag forNumber(int value) {
         switch (value) {
           case 0: return picky;
+          case 1: return academic;
+          case 2: return clarity;
+          case 3: return professional;
+          case 4: return creative;
+          case 5: return customer;
+          case 6: return jobapp;
+          case 7: return objective;
+          case 8: return elegant;
           default: return null;
         }
       }
@@ -11031,25 +11103,27 @@ public final class MLServerProto {
       "ype\030\014 \001(\0162\035.lt_ml_server.Match.MatchType" +
       "\022\033\n\023contextForSureMatch\030\r \001(\021\022 \n\004rule\030\016 " +
       "\001(\0132\022.lt_ml_server.Rule\"1\n\tMatchType\022\017\n\013" +
-      "UnknownWord\020\000\022\010\n\004Hint\020\001\022\t\n\005Other\020\002\"\267\001\n\004R" +
+      "UnknownWord\020\000\022\010\n\004Hint\020\001\022\t\n\005Other\020\002\"\251\002\n\004R" +
       "ule\022\022\n\nsourceFile\030\001 \001(\t\022\021\n\tissueType\030\002 \001" +
       "(\t\022\017\n\007tempOff\030\003 \001(\010\022,\n\010category\030\004 \001(\0132\032." +
       "lt_ml_server.RuleCategory\022\021\n\tisPremium\030\005" +
       " \001(\010\022$\n\004tags\030\006 \003(\0162\026.lt_ml_server.Rule.T" +
-      "ag\"\020\n\003Tag\022\t\n\005picky\020\000\"(\n\014RuleCategory\022\n\n\002" +
-      "id\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\"\342\001\n\024SuggestedRepl" +
-      "acement\022\023\n\013replacement\030\001 \001(\t\022\023\n\013descript" +
-      "ion\030\002 \001(\t\022\016\n\006suffix\030\003 \001(\t\022\022\n\nconfidence\030" +
-      "\004 \001(\002\022?\n\004type\030\005 \001(\01621.lt_ml_server.Sugge" +
-      "stedReplacement.SuggestionType\";\n\016Sugges" +
-      "tionType\022\013\n\007Default\020\000\022\017\n\013Translation\020\001\022\013" +
-      "\n\007Curated\020\0022N\n\010MLServer\022B\n\005Match\022\032.lt_ml" +
-      "_server.MatchRequest\032\033.lt_ml_server.Matc" +
-      "hResponse\"\0002e\n\024PostProcessingServer\022M\n\007P" +
-      "rocess\022#.lt_ml_server.PostProcessingRequ" +
-      "est\032\033.lt_ml_server.MatchResponse\"\000B*\n\031or" +
-      "g.languagetool.rules.mlB\rMLServerProtob\006" +
-      "proto3"
+      "ag\"\201\001\n\003Tag\022\t\n\005picky\020\000\022\014\n\010academic\020\001\022\013\n\007c" +
+      "larity\020\002\022\020\n\014professional\020\003\022\014\n\010creative\020\004" +
+      "\022\014\n\010customer\020\005\022\n\n\006jobapp\020\006\022\r\n\tobjective\020" +
+      "\007\022\013\n\007elegant\020\010\"(\n\014RuleCategory\022\n\n\002id\030\001 \001" +
+      "(\t\022\014\n\004name\030\002 \001(\t\"\342\001\n\024SuggestedReplacemen" +
+      "t\022\023\n\013replacement\030\001 \001(\t\022\023\n\013description\030\002 " +
+      "\001(\t\022\016\n\006suffix\030\003 \001(\t\022\022\n\nconfidence\030\004 \001(\002\022" +
+      "?\n\004type\030\005 \001(\01621.lt_ml_server.SuggestedRe" +
+      "placement.SuggestionType\";\n\016SuggestionTy" +
+      "pe\022\013\n\007Default\020\000\022\017\n\013Translation\020\001\022\013\n\007Cura" +
+      "ted\020\0022N\n\010MLServer\022B\n\005Match\022\032.lt_ml_serve" +
+      "r.MatchRequest\032\033.lt_ml_server.MatchRespo" +
+      "nse\"\0002e\n\024PostProcessingServer\022M\n\007Process" +
+      "\022#.lt_ml_server.PostProcessingRequest\032\033." +
+      "lt_ml_server.MatchResponse\"\000B*\n\031org.lang" +
+      "uagetool.rules.mlB\rMLServerProtob\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

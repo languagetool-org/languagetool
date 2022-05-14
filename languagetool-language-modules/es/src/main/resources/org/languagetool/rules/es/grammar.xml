@@ -2756,6 +2756,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="NCM.*|NCFS000" postag_regexp="yes"/>
                 <token>practicas</token>
             </antipattern>
+            <antipattern>
+                <token skip="2">prestamos</token>
+                <token>atención</token>
+            </antipattern>
             <pattern>
                 <!-- NOT: domino, decimos, domine, escalamos, , echo, llamaron, piden, paramos, cede, solicita, solicito, termino, verifica, vienes, aman, borren, calan, capitula, crias, critica, criticas, critico |critica, cuajaron, cupe, calculo, envió, escalamos, estipula, habito, participe, platica, platicas, predica, predicas, patina, regulo, solicita, solicitas, solicito, suplico, suplica, suplicas, termino, verifica, indica, ulula publica|publicas|publico prospera|prosperas|prospero  especifica|especificas|especifico| |fabrica|fabricas |limite|limites
                          ???: pio, moran, indico, opera, anima, animas, replica, replicas,-->
@@ -2785,6 +2789,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>María publica continuamente fotos de ella misma en Instagram.</example>
             <example>Lee mucho y practica mucho.</example>
             <example>¿Qué clase de deportes practicas?</example>
+            <example>Con frecuencia no prestamos ni atención.</example>
         </rule>
         <rulegroup name="diacríticos" id="DIACRITICS_BY_GROUPS">
             <antipattern>
@@ -9598,7 +9603,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="MISSPELLING" name="Ortografía" type="misspelling">
-        <rulegroup id="D_ELA" name="errores ortográficos varios" default="temp_off">
+        <rulegroup id="D_ELA" name="revisar letra suelta: d, l, n">
             <rule>
                 <pattern>
                     <token>d</token>
@@ -9609,6 +9614,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="De la"><marker>D ela</marker> noche a la mañana.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token case_sensitive="yes">D<exception scope="previous" postag="SENT_STAT"/></token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">.</token>
+                    <token>d</token>
+                </antipattern>
+                <antipattern>
+                    <token>d</token>
+                    <token regexp="yes">.</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>d</token>
@@ -9619,27 +9635,75 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="de">Es el resultado <marker>d</marker> esta evaluación.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>n</token>
+                    <token regexp="yes">\.|º|ª|/|\d+</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">/|'</token>
+                    <token>n</token>
+                </antipattern>
+                <antipattern>
+                    <token case_sensitive="yes">N<exception scope="previous" postag="SENT_STAT"/></token>
+                </antipattern>
                 <pattern>
                     <marker>
-                        <token>n</token>
+                        <token>n<exception inflected="yes" regexp="yes">rock.*</exception></token>
                     </marker>
                     <token postag="(N.|A..)[MC][SN].*" postag_regexp="yes"/>
                 </pattern>
                 <message>¿Quería decir <suggestion>un</suggestion>?</message>
                 <suggestion>en</suggestion>
                 <example correction="un|en">Pero <marker>n</marker> caso no es el otro.</example>
+                <example>rock’n’roll</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>n</token>
+                    <token regexp="yes">\.|º|ª|/|\d+</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">/|'</token>
+                    <token>n</token>
+                </antipattern>
+                <antipattern>
+                    <token case_sensitive="yes">N<exception scope="previous" postag="SENT_STAT"/></token>
+                </antipattern>
+                <antipattern>
+                    <token skip="4">n</token>
+                    <token>m</token>
+                </antipattern>
                 <pattern>
                     <marker>
-                        <token>n</token>
+                        <token>n<exception inflected="yes" regexp="yes">rock.*</exception></token>
                     </marker>
                     <token postag="[DAN].*" postag_regexp="yes"/>
                 </pattern>
                 <message>¿Quería decir <suggestion>en</suggestion>?</message>
                 <example correction="en">Pero <marker>n</marker> este caso no es así.</example>
+                <example>rock’n’roll</example>
+                <example>rock'n'roll</example>
+                <example>La Sonata para piano n.º 11 en la mayor, K. p. 155.</example>
+                <example>Andalucía s/n Polígono Ind.</example>
+                <example>n filas y m columnas</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp="yes">.</token>
+                    <token>l</token>
+                </antipattern>
+                <antipattern>
+                    <token>l</token>
+                    <token regexp="yes">.</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">en|la</token>
+                    <token case_sensitive="yes">L</token>
+                </antipattern>
+                <antipattern>
+                    <token case_sensitive="yes">L</token>
+                    <token regexp="yes">\d+</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>l</token>
@@ -9650,6 +9714,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="el">Pero <marker>l</marker> caso no es el mismo.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp="yes">.</token>
+                    <token>l</token>
+                </antipattern>
+                <antipattern>
+                    <token>l</token>
+                    <token regexp="yes">.</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">en|la</token>
+                    <token case_sensitive="yes">L</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>l</token>
@@ -9660,6 +9736,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="la">Pero <marker>l</marker> mesa no está preparada.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>l</token>
+                    <token regexp="yes">\.|’|'</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">.</token>
+                    <token>l</token>
+                </antipattern>
+                <antipattern>
+                    <token>l</token>
+                    <token regexp="yes">.</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">en|la</token>
+                    <token case_sensitive="yes">L</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>l</token>
@@ -9668,6 +9760,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>¿Quería decir <suggestion>el</suggestion>?</message>
                 <suggestion>la</suggestion>
                 <example correction="el|la">Pero <marker>l</marker> coche no está preparado.</example>
+                <example>Cuatro Caballetes de chapa en L de 1,75x1,50 m.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SUGERENCIAS_ANTE" name="error de ortografía: -ante">
@@ -10229,7 +10322,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message suppress_misspelled="yes">Probablemente se escribe junto.</message>
                 <suggestion><match no="3" regexp_match="(.+)" regexp_replace="anti$1"/></suggestion>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="antir$1"/></suggestion>
                 <example correction="anticariógenas">Son <marker>anti cariógenas</marker>.</example>
+                <example correction="antirruso"><marker>anti ruso</marker></example>
+                <example correction="antirrusas"><marker>anti-rusas</marker></example>
             </rule>
             <rule>
                 <pattern>
@@ -12778,6 +12874,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>y<exception scope="previous">¿</exception></token>
                     </marker>
+                    <token min="0" postag="_QM_OPEN"/>
                     <token regexp="yes">h?[ií].*|y<exception regexp="yes">h?ih?[aeouáéóú].*</exception><!--Números romanos--><exception regexp="yes">[ivxlcdm]+|&words_H_ASPIRADA;|&words_H_ASPIRADA2;</exception></token>
                 </pattern>
                 <message>Cuando precede a palabras que comienzan por 'i', la conjunción 'y' se transforma en 'e'.</message>
@@ -12795,6 +12892,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>e</token>
                     </marker>
+                    <token min="0" postag="_QM_OPEN"/>
                     <and>
                         <token regexp="yes">&words_H_ASPIRADA;|&words_H_ASPIRADA2;</token>
                         <token regexp="yes">hi.*</token>
@@ -12810,6 +12908,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>e</token>
                     </marker>
+                    <token min="0" postag="_QM_OPEN"/>
                     <token regexp="yes">h?ih?[aeoáéó].*<exception regexp="yes">ia|iOS</exception></token>
                 </pattern>
                 <message>Cuando precede a palabras que comienzan con diptongo, se usa la conjunción 'y', no 'e'.</message>
@@ -12829,6 +12928,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>o</token>
                     </marker>
+                    <token min="0" postag="_QM_OPEN"/>
                     <token regexp="yes">^h?[oó].*</token>
                 </pattern>
                 <message>Cuando precede a palabras que comienzan por 'o', la conjunción 'o' se transforma en 'u'.</message>
@@ -12841,6 +12941,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>o</token>
                     </marker>
+                    <token min="0" postag="_QM_OPEN"/>
                     <token regexp="yes">8[,.\d]*</token>
                 </pattern>
                 <message>Cuando precede a palabras que comienzan por 'o', la conjunción 'o' se transforma en 'u'.</message>
@@ -14522,6 +14623,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="personas">Son un conjunto de <marker>persona</marker>.</example>
                 <example>Participa en un grupo de teatro.</example>
                 <example>10 millones de forma semestral.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AGREEMENT_NUMERAL_GENDER" name="concordancia de género en numerales">
+            <url>https://www.fundeu.es/recomendacion/numerales-concordancia-1411/</url>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>veintiún</token>
+                    </marker>
+                    <token postag="N.F[PN].*|_GN_FP" postag_regexp="yes"/>
+                </pattern>
+                <message>Error de concordancia.</message>
+                <suggestion>veintiuna</suggestion>
+                <example correction="veintiuna">Vinieron <marker>veintiún</marker> personas.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="DN.*" postag_regexp="yes"/>
+                    <token>y</token>
+                    <marker>
+                        <token>un</token>
+                    </marker>
+                    <token postag="N.F[PN].*|_GN_FP" postag_regexp="yes"/>
+                </pattern>
+                <message>Error de concordancia.</message>
+                <suggestion>una</suggestion>
+                <example correction="una">Vinieron treinta y <marker>un</marker> personas.</example>
             </rule>
         </rulegroup>
         <rulegroup id="NOUN_PLURAL" name="nombre en plural">
@@ -20408,6 +20536,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
+        <rule id="U_NO" name="u no -> uno" default="off">
+            <pattern>
+                <token>u</token>
+                <token>no</token>
+            </pattern>
+            <message>¿Quería decir <suggestion>uno</suggestion>?</message>
+            <example correction="Uno"><marker>U no</marker> de los casos más habituales.</example>
+        </rule>
         <rule id="DESDE" name="des de -> desde">
             <antipattern>
                 <token regexp="yes">no|nunca</token>
@@ -22596,6 +22732,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
+                    <token regexp="yes">les|os|le|nos<exception postag="[NA].*|_possible_NP|LOC_ADV" postag_regexp="yes"/></token>
+                    <token postag="N.C[PN].*|DN.*" postag_regexp="yes"/>
+                </pattern>
+                <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.[SI].*"/>
+                <message>Posible confusión. Pronombre átono sin verbo.</message>
+                <suggestion>los \2</suggestion>
+                <suggestion>las \2</suggestion>
+                <suggestion>\1 {suggestion}</suggestion>
+                <example correction="Los 20|Las 20"><marker>Les 20</marker>.</example>
+                <example correction="Los 20|Las 20"><marker>Les 20</marker> primeros.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token>te<exception postag="[NA].*|_possible_NP|LOC_ADV" postag_regexp="yes"/></token>
                     <token/>
                 </pattern>
@@ -22605,9 +22754,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>el \2</suggestion>
                 <suggestion>\1 {suggestion}</suggestion>
                 <!-- TODO: remove "te hay" -->
-                <example correction="de hoy|el hoy|te hay|te soy|te voy|te doy|te hollé|te holló|te hui">Es <marker>te hoy</marker>.</example>
+                <example correction="de hoy|el hoy|te hay|te huella|te soy|te voy|te doy|te huelle|te hollé|te holló">Es <marker>te hoy</marker>.</example>
                 <example correction="de augur|el augur|te augura|te auguró|te auguro|te augure|te auguré">Yo <marker>te augur</marker> buenos resultados.</example>
-                <example correction="de cortés|el cortés|te cortes|te corte|te cortas|te corten|te portes|te corres|te corté|te acortes">No <marker>te cortés</marker>.</example>
+                <example correction="de cortés|el cortés|te cortes|te corte|te cortas|te corten|te portes|te corres|te corté|te cuentes">No <marker>te cortés</marker>.</example>
                 <example correction="De augur|El augur|Te augura|Te auguró|Te auguro|Te augure|Te auguré"><marker>Te augur</marker> cosas interesantes.</example>
                 <example>se te "compensará"</example>
                 <example>dale que te dale</example>
@@ -22637,7 +22786,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token>les<exception postag="[NA].*|_possible_NP|LOC_ADV" postag_regexp="yes"/></token>
-                    <token postag="N.FP.*|A..[FC]P.|V.P..PF" postag_regexp="yes"/>
+                    <token postag="N.FP.*|A..[FC]P.|V.P..PF|NCCN000" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">les|os|le|nos<exception postag="[NA].*|_possible_NP|LOC_ADV" postag_regexp="yes"/></token>
@@ -24699,6 +24848,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes" min="0" max="3">\p{P}</token>
                 <token regexp="yes" postag="RG">.*mente<exception>actualmente</exception></token>
                 <token regexp="yes">en|con|como</token>
+            </antipattern>
+            <antipattern>
+                <token>exactamente</token>
+                <token>así</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">inmediatamente|mayoritariamente|totalmente|temporalmente</token>
