@@ -57,7 +57,11 @@ public class ChineseTagger implements Tagger {
       return new AnalyzedToken(" ", null, null);
     }
     String[] parts = word.split("/");
-    return new AnalyzedToken(parts[0], parts[1], null);
+    if(parts[0].equals("") && parts[parts.length - 1].equals("w")){
+        return new AnalyzedToken(word.substring(0, word.length() - 2), word.substring(word.length() - 1, word.length()), null);
+    }else{
+        return new AnalyzedToken(parts[0], parts[1], null);
+    }
   }
 
 }

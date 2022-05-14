@@ -53,6 +53,9 @@ public class MorfologikPolishSpellerRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence(",")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("123454")).length);
 
+    //test for accentuated (foreign) words, such as "purée"
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Roztrzepać widelcem jajka razem z purée z dyni.")).length);
+
     //compound word with ignored part "techniczno"
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Bogactwo nie rośnie proporcjonalnie do jej rozwoju techniczno-terytorialnego.")).length);
 

@@ -333,9 +333,12 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
         continue;
       }
       String msg = rule.getMessage().trim();
-      if (msg.equalsIgnoreCase("tbd") || msg.equalsIgnoreCase("todo")) {
+      if (msg.equalsIgnoreCase("tbd") || msg.equalsIgnoreCase("todo") || msg.equalsIgnoreCase("lorem ipsum")) {
         fail("Unfinished message of rule " + rule.getFullId() + ": '" + msg + "'");
       }
+      //if (msg.matches(".*[^\"'>)?!.]$")) {
+      //  System.err.println("Warning: Message of " + rule.getFullId() + " doesn't end in [.!?]: " + msg);
+      //}
     }
   }
   

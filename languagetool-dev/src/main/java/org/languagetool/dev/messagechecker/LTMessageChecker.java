@@ -27,6 +27,7 @@ import java.util.List;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
+import org.languagetool.rules.IncorrectExample;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.ContextTools;
@@ -107,10 +108,14 @@ public class LTMessageChecker {
             lang.getClosingDoubleQuote());
         message = message.replaceAll("<[^>]+>", "");
       }
+      String corrections = "";
+      for (IncorrectExample ie : r.getIncorrectExamples()) {
+        corrections = corrections + String.join("; ", ie.getCorrections()) + "; ";
+      }
       // don't require upper case sentence start in description (?)
       // Advanced typography in rule description is not used in production. Here is used to avoid too many positives.
       String ruleDescription = lang.toAdvancedTypography(StringTools.uppercaseFirstChar(r.getDescription()));
-      String textToCheck = message + "\n\n" + shortMessage + "\n\n" + ruleDescription;
+      String textToCheck = message + "\n\n" + shortMessage + "\n\n" + ruleDescription + "\n\n" + corrections;
       if (!textToCheck.isEmpty()) {
         List<RuleMatch> matches = lt.check(textToCheck);
         if (matches.size() > 0) {

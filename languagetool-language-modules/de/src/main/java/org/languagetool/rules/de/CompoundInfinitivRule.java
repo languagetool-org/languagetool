@@ -61,6 +61,12 @@ public class CompoundInfinitivRule extends Rule {
       token("sicher"),
       token("zu")
     ),
+    Arrays.asList(  // "um dort die Nacht über zu stehen."
+      tokenRegex("Spiel|Tag|Nacht|Morgen|Nachmittag|Abend|Zeit|.+zeit"),
+      token("über"),
+      token("zu"),
+      token("stehen")
+    ),
     Arrays.asList(
       token("kurz"),
       token("zu"),
@@ -76,6 +82,30 @@ public class CompoundInfinitivRule extends Rule {
       // "Er hatte nichts weiter zu sagen"
       tokenRegex("deutlich|viel|Stück|nichts|nix|noch"),
       token("weiter"),
+      token("zu")
+    ),
+    Arrays.asList(
+      // "Auf und ab zu schreiten"
+      token("auf"),
+      tokenRegex("und|&|oder|\\/"),
+      new PatternTokenBuilder().posRegex("ADV.*").min(0).build(),
+      token("ab"),
+      token("zu")
+    ),
+    Arrays.asList(
+      // "Hin und her zu laufen"
+      token("hin"),
+      tokenRegex("und|&|oder|\\/"),
+      new PatternTokenBuilder().posRegex("ADV.*").min(0).build(),
+      token("her"),
+      token("zu")
+    ),
+    Arrays.asList(
+      // "Hoch und runter zu laufen"
+      tokenRegex("rauf|hoch"),
+      tokenRegex("und|&|oder|\\/"),
+      new PatternTokenBuilder().posRegex("ADV.*").min(0).build(),
+      token("runter"),
       token("zu")
     )
   );

@@ -21,6 +21,8 @@ package org.languagetool.remote;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -28,7 +30,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -36,7 +37,7 @@ import java.util.regex.Pattern;
  * Takes correct sentences, introduces errors (e.g. confusion pairs), and
  * evaluates the LT rules.
  */
-public class ArtificialErrorEval {
+public class ArtificialErrorEval1 {
 
   static String[] words = new String[2];
   static String[] fakeRuleIDs = new String[2];
@@ -49,9 +50,11 @@ public class ArtificialErrorEval {
   static Pattern pWordboundaries = Pattern.compile("\\b.+\\b");
   static int countLine = 0;
   static List<String> onlyRules = new ArrayList<String>();
+  static String summaryOutputFilename = "";
+  static String errorCategory = "";
 
   public static void main(String[] args) throws IOException {
-    if (args.length < 4 || args.length > 8) {
+    if (args.length < 4 || args.length > 11) {
       System.out.println("Usage: " + ArtificialErrorEval.class.getSimpleName()
           + " <language code> <file> <string1> <string2> <options>");
       System.out.println("  <language code>, e.g. en, en-US, de, fr...");
@@ -63,6 +66,8 @@ public class ArtificialErrorEval {
       System.out.println("    -v      verbose, print all false positive or false negative sentences");
       System.out.println("    -u      unidirectional, analyze only rules for string1 (wrong) -> string2 (correct)");
       System.out.println("    -r      list of comma-separated rules to be considered");
+      System.out.println("    -s      summary output file");
+      System.out.println("    -c      error category");
       System.exit(1);
     }
     for (int k = 4; k < args.length; k++) {
@@ -74,6 +79,12 @@ public class ArtificialErrorEval {
       }
       if (args[k].contentEquals("-r")) {
         onlyRules = Arrays.asList(args[k + 1].split(","));
+      }
+      if (args[k].contentEquals("-s")) {
+        summaryOutputFilename = args[k + 1];
+      }
+      if (args[k].contentEquals("-c")) {
+        errorCategory = args[k + 1];
       }
     }
     long start = System.currentTimeMillis();
@@ -137,9 +148,18 @@ public class ArtificialErrorEval {
           / (float) (results[i][classifyTypes.indexOf("TP")] + results[i][classifyTypes.indexOf("FN")]);
       float expectedSuggestionPercentage = (float) results[i][classifyTypes.indexOf("TPs")]
           / results[i][classifyTypes.indexOf("TP")];
+      int errorsTotal = results[i][classifyTypes.indexOf("TP")] + results[i][classifyTypes.indexOf("FP")]
+          + results[i][classifyTypes.indexOf("TN")] + results[i][classifyTypes.indexOf("FN")];
       System.out.println("Precision: " + String.format("%.4f", precision));
       System.out.println("Recall: " + String.format("%.4f", recall));
       System.out.println("TP with expected suggestion: " + String.format("%.4f", expectedSuggestionPercentage));
+      System.out.println("Errors: " + String.valueOf(errorsTotal));
+      if (!summaryOutputFilename.isEmpty()) { 
+        try (BufferedWriter out = new BufferedWriter(new FileWriter(summaryOutputFilename, true))) {
+          out.write(errorCategory + "\t" + fakeRuleIDs[i] + "\t" + errorsTotal + "\t" + String.format("%.4f", precision)
+              + "\t" + String.format("%.4f", recall) + "\n");
+        }
+      }
     }
     float time = (float) ((System.currentTimeMillis() - start) / 1000.0);
     System.out.println("-------------------------------------");

@@ -42,7 +42,20 @@ public class BelarusianMorfologikRuleTest {
 
   matches = rule.match(lt.getAnalyzedSentence("знакамты"));
   assertEquals(1, matches.length);
-  assertEquals("[знакаміты, знакам ты]", matches[0].getSuggestedReplacements().toString());
+  assertEquals("[знакаміты, знакам ты]", matches[0].getSuggestedReplacements().toString()); 
+  
+  matches = rule.match(lt.getAnalyzedSentence("З’яўляцца"));
+  assertEquals(0, matches.length);
+  
+  matches = rule.match(lt.getAnalyzedSentence("З'яўляцца"));
+  assertEquals(0, matches.length);
+  
+  matches = rule.match(lt.getAnalyzedSentence("п'яны"));
+  assertEquals(0, matches.length);
+  
+  matches = rule.match(lt.getAnalyzedSentence("п’яны"));
+  assertEquals(0, matches.length);
+  
   }
 }
 

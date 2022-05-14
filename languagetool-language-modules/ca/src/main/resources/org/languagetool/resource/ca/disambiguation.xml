@@ -3302,6 +3302,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
+                <token>un</token>
+                <marker>
+                    <token postag="SPS00">sobre</token>
+                </marker>
+                <token postag="[NDP].*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="SPS00"/>
+        </rule>
+        <rule>
+            <pattern>
                 <marker>
                     <token>contra</token>
                 </marker>
@@ -3913,6 +3923,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <disambig action="filterall"/>
     </rule>
     <rulegroup id="noms_aposicio" name="noms en aposició">
+        <rule>
+            <pattern>
+                <token inflected="yes" regexp="yes">acció|guerra|manifestació|intervenció|batalla|invasió</token>
+                <marker>
+                    <token>llampec</token>
+                </marker>
+            </pattern>
+            <disambig action="replace" postag="AQ0CN0"/>
+        </rule>
         <rule>
             <pattern>
                 <token inflected="yes" regexp="yes">ós|óssos|óssa|ósses|os|ossos|ossa|osses</token>
@@ -13764,7 +13783,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                    <token postag="DI.*" postag_regexp="yes">força</token>
+                    <token postag="DI.*" postag_regexp="yes">força<exception postag="_GN_FS"/></token>
                 </marker>
                 <token postag="NC.*" postag_regexp="yes"/>
             </pattern>

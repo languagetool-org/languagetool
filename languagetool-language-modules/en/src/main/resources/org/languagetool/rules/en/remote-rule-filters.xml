@@ -873,48 +873,191 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <marker>
                         <token regexp="yes" postag="RB">.*ly|about</token>
                     </marker>
-                    <token regexp="yes">[$€£¥฿₹₿\u8371]?[0-9]*</token>
+                    <token regexp="yes">[$€£¥฿₹₿\u8371]?\d+</token>
                 </pattern>
                 <example correction="">Your mailbox size is <marker>currently</marker> 102530 KB.</example>
                 <example correction="">I have checked our log files, and there are <marker>about</marker> 2600 requests on March 17 from your user account.</example>
             </rule>
             <rule>
-                <!-- preposition currency symbol digit -->
+                <!-- currency symbol digit -->
                 <pattern>
                     <marker>
-                        <token chunk="B-PP" />
+                        <token />
                     </marker>
-                    <token min="0" postag="RB" />
-                    <token regexp="yes">[$€£¥฿₹₿\u8371][0-9]*</token>
+                    <token regexp="yes">[$€£¥฿₹₿\u8371]\d+</token>
                 </pattern>
                 <example correction="">There's no minimum contract length, but the minimum fee <marker>of</marker> €1500/month.</example>
                 <example correction="">The pricing for our on-premise solution starts <marker>at</marker> €7056 per year.</example>
-                <example correction="">The price for our on-premise version is €6427 per year plus a one-time payment <marker>of</marker> €1000 for support during set-up.</example>
+                <example correction="">The price for our on-premise version a one-time payment <marker>of</marker> €1000 for support during set-up.</example>
             </rule>
             <rule>
-                <!-- preposition digit currency symbol -->
+                <!-- digit currency symbol -->
                 <pattern>
                     <marker>
-                        <token chunk="B-PP" />
+                        <token />
                     </marker>
-                    <token min="0" postag="RB" />
-                    <token regexp="yes">[0-9]*[$€£¥฿₹₿\u8371]</token>
+                    <token regexp="yes">\d+[$€£¥฿₹₿\u8371]</token>
                 </pattern>
                 <example correction="">There's no minimum contract length, but the minimum fee <marker>of</marker> 1500€/month.</example>
                 <example correction="">The pricing for our on-premise solution starts <marker>at</marker> 7056€ per year.</example>
                 <example correction="">The price for our on-premise version is €6427 per year plus a one-time payment <marker>of</marker> 1000€ for support during set-up.</example>
             </rule>
             <rule>
-                <!-- copula currency acronym digit -->
+                <!-- currency acronym digit -->
                 <pattern>
-                    <token inflected="yes">be</token>
-                    <token min="0" postag="RB" />
                     <marker>
                         <token regexp="yes" case_sensitive="yes">[A-Z]{3}</token>
                     </marker>
-                     <token regexp="yes">[0-9]*</token>
+                     <token regexp="yes">\d+</token>
                 </pattern>
                 <example correction="">The new monthly payment will be <marker>AUD</marker> 1152.</example>
+                <example correction="">Thanks, we've wired about <marker>USD</marker> 8229.</example>
+            </rule>
+            <rule>
+                <!-- digit currency acronym -->
+                <pattern>
+                    <marker>
+                        <token />
+                    </marker>
+                    <token regexp="yes">\d+</token>
+                    <token regexp="yes" case_sensitive="yes">[A-Z]{3}</token>
+                </pattern>
+                <example correction="">Thanks, we've wired <marker>about</marker> 8229 USD.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token skip="1">a</token>
+                    <marker>
+                        <token postag="NN.*" postag_regexp="yes"/>
+                    </marker>
+                    <token>like</token>
+                </pattern>
+                <example correction="">A <marker>phrase</marker> like “I appreciate your prompt response,” tells the recipient that you’re waiting for a response sooner rather than later.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes" skip="-1">[„⹂“″‟”«‹›»"]</token>
+                    <token regexp="yes" skip="-1">[„⹂“″‟”«‹›»"]</token>
+                    <token regexp="yes">[„⹂“″‟”«‹›»"]</token>
+                </antipattern>
+                <pattern>
+                    <token skip="1" postag="SENT_START"/>
+                    <marker>
+                        <token skip="1" postag="NN.*" postag_regexp="yes"/>
+                    </marker>
+                    <token skip="-1" regexp="yes">[“«‹„"]</token>
+                    <token>,</token>
+                    <token regexp="yes" spacebefore="no">[”″›»"]</token>
+                </pattern>
+                <example correction="">The <marker>phrase</marker> “I appreciate your prompt response,” tells the recipient that you’re waiting for a response sooner rather than later.</example>
+                <example correction="">A <marker>phrase</marker> like “I appreciate your prompt response,” tells the recipient that you’re waiting for a response sooner rather than later.</example>
+                <example>My child " he said, "God paid your bill a long, long time ago."</example><!-- Characters missing, but rule should still match -->
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="IN|VB.*" postag_regexp="yes"/>
+                    </marker>
+                    <token regexp="yes">\d+</token>
+                    <token postag="NN.*|SENT_END|PCT|POS" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">It reached an all-time high <marker>of</marker> 425000.</example>
+                <example correction="">Over <marker>past</marker> 18000 years, they migrated north.</example>
+                <example correction="">And then it went up <marker>from</marker> 10000 hectares.</example>
+                <example correction="">Affected more <marker>than</marker> 8000 people</example>
+                <example correction="">It's not as old as Yamaha FZ6 <marker>with</marker> 9000 miles on it.</example>
+                <example correction="">There are an <marker>estimated</marker> 300000 ships in the gulf.</example>
+                <example correction="">It links the article which <marker>has</marker> 1674 words.</example>
+                <example correction="">We are <marker>selling</marker> 2022's (with the bonus editions included)</example>
+                <example correction="">It was calculated by <marker>feeding</marker> 32128 tokens.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>University</token>
+                    <token>of</token>
+                    <marker>
+                        <token postag="NNPS?" postag_regexp="yes">
+                            <exception>California</exception>
+                        </token>
+                    </marker>
+                    <token postag="NNPS?" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">University of <marker>Colorado</marker> Boulder</example>
+                <example correction="">University of <marker>Massachusetts</marker> Amherst</example>
+                <example correction="">University of <marker>Massachusetts</marker> Boston</example>
+                <example correction="">University of <marker>Massachusetts</marker> Lowell</example>
+                <example correction="">University of <marker>Illinois</marker> Chicago</example>
+                <example correction="">University of <marker>Texas</marker> Rio Grande Valley</example>
+                <example>University of California Berkeley</example><!-- UC universities use a comma in the title -->
+                <example>University of California San Francisco</example>
+                <example>University of California Los Angeles</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="NNPS?" postag_regexp="yes"/>
+                    </marker>
+                    <token regexp="yes">\d+</token>
+                    <token>)</token>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <example correction="">(Goodrich and <marker>Hackett</marker> 528).</example>
+                <example correction="">(Atshan &amp; <marker>Moore</marker> 681).</example>
+                <example correction="">...It’s a gift” (<marker>Golding</marker> 124).</example>
+                <example correction="">(Schroeder and <marker>Shah</marker> 2007).</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>,</token>
+                    <marker>
+                        <token/>
+                    </marker>
+                    <token>however</token>
+                    <token>,</token>
+                </pattern>
+                <example correction="">It removes the sediment and minerals, <marker>without</marker> however, affecting the flavor.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token chunk_re="B-NP.*" skip="3"/>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">Acts?</token>
+                    </marker>
+                    <token regexp="yes">[12]?\d\d\d</token>
+                </pattern>
+                <example correction="">Mental health <marker>Acts</marker> 1983</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>read</token>
+                    <marker>
+                        <token>out</token>
+                    </marker>
+                    <token postag="RB" regexp="yes">\w+ly</token>
+                    <token>,</token>
+                </pattern>
+                <example correction=""> She read <marker>out</marker> loudly, so that the others could hear her</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token chunk="B-PP" />
+                    <marker>
+                        <token regexp="yes">singular|plural</token>
+                    </marker>
+                    <token>they</token>
+                </pattern>
+                <example correction="">The use of <marker>singular</marker> they has been around for a long time.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="P?DT|PRP\$.*" postag_regexp="yes" chunk_re="B-NP.*" />
+                    <marker>
+                        <token regexp="yes">singular|plural</token>
+                    </marker>
+                    <token>they</token>
+                </pattern>
+                <example correction="">The use of a <marker>singular</marker> they sparks a lot of debate.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AI_EN_G_REPLACE_ORTH" name="">

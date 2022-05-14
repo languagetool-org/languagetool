@@ -113,7 +113,7 @@ public class PortugueseTagger extends BaseTagger {
   protected List<AnalyzedToken> additionalTags(String word, IStemmer stemmer) {
     IStemmer dictLookup = new DictionaryLookup(getDictionary());
     List<AnalyzedToken> additionalTaggedTokens = new ArrayList<>();
-    //Any well-formed adverb with suffix -mente is tagged as an adverb of manner (RM)
+    //Any well-formed adverb with suffix -mente is tagged as an adverb of manner (RG)
     if (word.endsWith("mente")){
       String lowerWord = word.toLowerCase(locale);
       String possibleAdj = lowerWord.replaceAll("^(.+)mente$", "$1");
@@ -124,7 +124,7 @@ public class PortugueseTagger extends BaseTagger {
         if (posTag != null) {
           Matcher m = ADJ_PART_FS.matcher(posTag);
           if (m.matches()) {
-            additionalTaggedTokens.add(new AnalyzedToken(word, "RM", lowerWord));
+            additionalTaggedTokens.add(new AnalyzedToken(word, "RG", lowerWord));
             return additionalTaggedTokens;
           }
         }

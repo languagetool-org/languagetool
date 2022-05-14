@@ -55,7 +55,7 @@ public abstract class BaseTagger implements Tagger {
    */
   @NotNull
   public List<String> getManualAdditionsFileNames() {
-    return Arrays.asList(locale.getLanguage() +  MANUAL_ADDITIONS_FILE, locale.getLanguage() + CUSTOM_MANUAL_ADDITIONS_FILE);
+    return Arrays.asList(locale.getLanguage() + MANUAL_ADDITIONS_FILE, locale.getLanguage() + CUSTOM_MANUAL_ADDITIONS_FILE);
   }
 
   /**
@@ -64,7 +64,7 @@ public abstract class BaseTagger implements Tagger {
    */
   @NotNull
   public List<String> getManualRemovalsFileNames() {
-    return Arrays.asList(locale.getLanguage() +  MANUAL_REMOVALS_FILE, locale.getLanguage() + CUSTOM_MANUAL_REMOVALS_FILE);
+    return Arrays.asList(locale.getLanguage() + MANUAL_REMOVALS_FILE, locale.getLanguage() + CUSTOM_MANUAL_REMOVALS_FILE);
   }
 
   /** @since 2.9 */
@@ -135,6 +135,7 @@ public abstract class BaseTagger implements Tagger {
 
       stream = null;
       try {
+        //long startTime = System.currentTimeMillis();
         for (String file : getManualAdditionsFileNames()) {
           for (URL url : JLanguageTool.getDataBroker().getFromResourceDirAsUrls(file)) {
             if (stream == null) {
@@ -146,6 +147,8 @@ public abstract class BaseTagger implements Tagger {
         }
         if (stream != null) {
           ManualTagger manualTagger = new ManualTagger(stream, internTags);
+          //long loadTime = System.currentTimeMillis() - startTime;
+          //System.out.println("Loading " + getManualAdditionsFileNames() + " took " + loadTime + "ms");
           return new CombiningTagger(morfologikTagger, manualTagger, removalTagger, overwriteWithManualTagger());
         } else {
           return morfologikTagger;

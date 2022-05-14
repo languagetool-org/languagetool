@@ -569,4 +569,60 @@ public final class StringTools {
   public static boolean isPunctuationMark(String input) {
     return PUNCTUATION_PATTERN.matcher(input).matches();
   }
+  
+  /*
+   * Invent a wrong word to find possible replacements. 
+   */
+  
+  public static String makeWrong(String s) {
+    if (s.contains("a")) {
+      return s.replace("a", "ä");
+    }
+    if (s.contains("e")) {
+      return s.replace("e", "ë");
+    }
+    if (s.contains("i")) {
+      return s.replace("i", "ï");
+    }
+    if (s.contains("o")) {
+      return s.replace("o", "ö");
+    }
+    if (s.contains("u")) {
+      return s.replace("u", "ù");
+    }
+    if (s.contains("á")) {
+      return s.replace("á", "ä");
+    }
+    if (s.contains("é")) {
+      return s.replace("é", "ë");
+    }
+    if (s.contains("í")) {
+      return s.replace("í", "ï");
+    }
+    if (s.contains("ó")) {
+      return s.replace("ó", "ö");
+    }
+    if (s.contains("ú")) {
+      return s.replace("ú", "ù");
+    }
+    if (s.contains("à")) {
+      return s.replace("à", "ä");
+    }
+    if (s.contains("è")) {
+      return s.replace("è", "ë");
+    }
+    if (s.contains("ì")) {
+      return s.replace("ì", "i");
+    }
+    if (s.contains("ò")) {
+      return s.replace("ò", "ö");
+    }
+    if (s.contains("ï")) {
+      return s.replace("ï", "ì");
+    }
+    if (s.contains("ü")) {
+      return s.replace("ü", "ù");
+    }
+    return s + "-";
+  }
 }

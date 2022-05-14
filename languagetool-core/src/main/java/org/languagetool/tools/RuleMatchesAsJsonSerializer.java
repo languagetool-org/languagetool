@@ -113,9 +113,7 @@ public class RuleMatchesAsJsonSerializer {
           writeMatchesSection("hiddenMatches", g, Collections.singletonList(new CheckResults(hiddenMatches, Collections.emptyList())), text, contextTools);
         }
         writeIgnoreRanges(g, res);
-        if (mode == JLanguageTool.Mode.TEXTLEVEL_ONLY) {
-          writeSentenceRanges(g, res);
-        }
+        writeSentenceRanges(g, res);
         g.writeEndObject();
       }
     } catch (IOException e) {
@@ -169,6 +167,7 @@ public class RuleMatchesAsJsonSerializer {
     if (detectedLang.getDetectedLanguage().isSpellcheckOnlyLanguage()) {
       g.writeBooleanField("spellCheckOnly", true);
     }
+    g.writeStringField("source", detectedLang.getDetectionSource());
     g.writeEndObject();
     g.writeEndObject();
   }

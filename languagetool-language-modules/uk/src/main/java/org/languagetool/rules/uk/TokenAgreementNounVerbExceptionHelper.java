@@ -132,6 +132,15 @@ public final class TokenAgreementNounVerbExceptionHelper {
       logException();
       return true;
     }
+
+    // чотири дні був
+    if( nounPos > 1
+        && PosTagHelper.hasPosTag(tokens[nounPos], Pattern.compile("noun:.*:p:v_naz(?!.*pron).*") ) 
+        && LemmaHelper.hasLemma(tokens[nounPos-1], Arrays.asList("два", "три", "чотири"), Pattern.compile("numr:p:v_zna")) ) {
+      logException();
+      return true;
+    }
+
     
     // кандидат в президенти поїхав
     // вона межі люди пішла

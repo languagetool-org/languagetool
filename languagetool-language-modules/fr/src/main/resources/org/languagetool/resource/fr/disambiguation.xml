@@ -132,6 +132,37 @@ RB => Règles Brutes
     </rule>
     <!-- END: numerals -->
     <!-- CATEGORY: remove unusual tags -->
+    <rule id="FIN" name="fin">
+        <pattern>
+            <token><exception>en</exception></token>
+            <marker>
+                <token>fin</token>
+            </marker>
+            <token regexp="yes">des?|d'|du</token>
+        </pattern>
+        <disambig action="filter" postag="N f s"/>
+    </rule>
+    <rule id="BIEN1" name="bien">
+        <pattern>
+            <token postag="V avoir.*" postag_regexp="yes"/>
+            <token postag="A"/>
+            <marker>
+                <token postag="A" regexp="yes">bien|vite</token>
+            </marker>
+            <token postag="V.* inf|V.* ppa.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filter" postag="A"/>
+    </rule>
+    <rule id="BIEN2" name="bien">
+        <pattern>
+            <token postag="V avoir.*" postag_regexp="yes"/>
+            <marker>
+                <token postag="A" regexp="yes">bien|vite</token>
+            </marker>
+            <token postag="V.* inf|V.* ppa.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filter" postag="A"/>
+    </rule>
     <rule id="DES_FAITS" name="des faits">
         <pattern>
             <token>des</token>
@@ -1639,16 +1670,18 @@ RB => Règles Brutes
         </pattern>
         <disambig action="filterall"/>
     </rule>
-    <rule id="BIEN" name="bien (adv)">
+    <rulegroup id="BIEN" name="bien (adv)">
+        <rule>
         <pattern>
-            <token regexp="yes" inflected="yes">avoir|être|puovoir|vouloir</token>
+            <token regexp="yes" inflected="yes">avoir|être|pouvoir|vouloir</token>
             <marker>
                 <token postag="A" regexp="yes">bien|vite</token>
             </marker>
             <token postag="V.* inf|V.* ppa.*" postag_regexp="yes"/>
         </pattern>
         <disambig action="filterall"/>
-    </rule>
+        </rule>
+    </rulegroup>
     <rule id="LE_PLUS" name="le plus (adv)">
         <pattern>
             <token inflected="yes">avoir</token>
@@ -4577,6 +4610,16 @@ RB => Règles Brutes
         </pattern>
         <disambig action="remove" postag="N f s"/>
     </rule>
+    <rule id="PEUX" name="peux">
+        <pattern>
+            <token>je</token>
+            <token inflected="yes" min="0" max="1">ne</token>
+            <marker>
+                <token>peux</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="V ind pres 2 s"/>
+    </rule>
     <rulegroup id="FAITES1" name="FAITES">
         <rule>
         <pattern>
@@ -4606,6 +4649,15 @@ RB => Règles Brutes
                     <token>faites</token>
                 </marker>
                 <token postag="R pers obj.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="V imp pres 2 p"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>faites</token>
+                </marker>
+                <token regexp="yes">vos|votre</token>
             </pattern>
             <disambig action="filter" postag="V imp pres 2 p"/>
         </rule>
@@ -4954,6 +5006,18 @@ RB => Règles Brutes
                 <token postag="D.*" postag_regexp="yes"/>
             </pattern>
             <disambig action="filter" postag="V ind pres 3 s"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="V.* (ind|con|sub).*" postag_regexp="yes"/>
+                <marker>
+                    <token>fait
+                        <exception scope="next" regexp="yes">-il|-elle|-on|il|elle|on</exception></token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="V ppa m s"/>
+            </disambig>
         </rule>
     </rulegroup>
     <rule id="DECRIT" name="décrit">
@@ -7104,8 +7168,9 @@ RB => Règles Brutes
     <rulegroup id="not_imperative" name="not imperative">
         <rule>
             <antipattern>
-                <token>ne</token>
-                <token postag="R pers obj.*" postag_regexp="yes"/>
+                <token><exception postag="R pers suj.*" postag_regexp="yes"/></token>
+                <token inflected="yes">ne</token>
+                <token postag="R pers obj.*" postag_regexp="yes" min="1" max="3"/>
                 <token postag="V .*" postag_regexp="yes"/>
             </antipattern>
             <pattern>
@@ -7310,7 +7375,7 @@ RB => Règles Brutes
         <pattern>
             <marker>
                 <token postag="A">
-                    <exception regexp="yes">causa|puis|soit|comme|si|frais|bas|par-derrière|net|au|même</exception>
+                    <exception regexp="yes">causa|puis|soit|comme|fin|si|frais|bas|par-derrière|net|au|même</exception>
                     <exception scope="previous">se</exception></token>
             </marker>
         </pattern>
@@ -8633,6 +8698,12 @@ RB => Règles Brutes
             <antipattern>
                 <token inflected="yes">être</token>
                 <token postag="V ppa.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>président</token>
+                <token regexp="yes">aux?|des?|d'|du</token>
+                <token postag="D.*" postag_regexp="yes" min="0" max="1"/>
+                <token postag="N.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
                 <token postag="N . s" postag_regexp="yes"/>

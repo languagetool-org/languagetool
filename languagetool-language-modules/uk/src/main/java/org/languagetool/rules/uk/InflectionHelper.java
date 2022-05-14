@@ -11,12 +11,12 @@ import org.languagetool.AnalyzedToken;
 /**
  * @since 3.6
  */
-class InflectionHelper {
+public class InflectionHelper {
 
   private InflectionHelper() {
   }
 
-  static class Inflection implements Comparable<Inflection> {
+  public static class Inflection implements Comparable<Inflection> {
     final String gender;
     final String _case;
     final String animTag;
@@ -32,7 +32,7 @@ class InflectionHelper {
       final int prime = 31;
       int result = 1;
       result = prime * result + ((_case == null) ? 0 : _case.hashCode());
-      result = prime * result + ((animTag == null) ? 0 : animTag.hashCode());
+//      result = prime * result + ((animTag == null) ? 0 : animTag.hashCode());
       result = prime * result + ((gender == null) ? 0 : gender.hashCode());
       return result;
     }
@@ -72,7 +72,7 @@ class InflectionHelper {
     }
   
     boolean animMatters() {
-      return ! "unanim".equals(animTag) && _case.equals("v_zna") && isAnimalSensitive();
+      return animTag != null && ! "unanim".equals(animTag) && _case.equals("v_zna") && isAnimalSensitive();
     }
   
     private boolean isAnimalSensitive() {
@@ -87,6 +87,8 @@ class InflectionHelper {
 
     @Override
     public int compareTo(Inflection o) {
+      if( GEN_ORDER.get(gender) == null ) System.err.println ("unknown gender for " + gender + " for " + o);
+      
       int compared = GEN_ORDER.get(gender).compareTo(GEN_ORDER.get(o.gender));
       if( compared != 0 )
         return compared;
@@ -97,12 +99,20 @@ class InflectionHelper {
   
   }
 
-  static List<Inflection> getAdjInflections(List<AnalyzedToken> adjTokenReadings) {
+  public static List<Inflection> getAdjInflections(List<AnalyzedToken> adjTokenReadings) {
+    return getAdjInflections(adjTokenReadings, "adj");
+  }
+
+  public static List<Inflection> getNumrInflections(List<AnalyzedToken> adjTokenReadings) {
+    return getAdjInflections(adjTokenReadings, "numr");
+  }
+
+  public static List<Inflection> getAdjInflections(List<AnalyzedToken> adjTokenReadings, String postagStart) {
     List<Inflection> masterInflections = new ArrayList<>();
     for (AnalyzedToken token: adjTokenReadings) {
       String posTag = token.getPOSTag();
   
-      if( posTag == null || ! posTag.startsWith("adj") )
+      if( posTag == null || ! posTag.startsWith(postagStart) )
         continue;
   
       Matcher matcher = TokenAgreementAdjNounRule.ADJ_INFLECTION_PATTERN.matcher(posTag);
@@ -127,7 +137,7 @@ class InflectionHelper {
     return getNounInflections(nounTokenReadings, null);
   }
 
-  static List<Inflection> getNounInflections(List<AnalyzedToken> nounTokenReadings, String ignoreTag) {
+  public static List<Inflection> getNounInflections(List<AnalyzedToken> nounTokenReadings, String ignoreTag) {
     List<Inflection> slaveInflections = new ArrayList<>();
     for (AnalyzedToken token: nounTokenReadings) {
       String posTag2 = token.getPOSTag();
@@ -162,7 +172,7 @@ class InflectionHelper {
     GEN_ORDER.put("m", 0);
     GEN_ORDER.put("f", 1);
     GEN_ORDER.put("n", 3);
-//    GEN_ORDER.put("s", 4);
+    GEN_ORDER.put("s", 4);      // for pron
     GEN_ORDER.put("p", 5);
     GEN_ORDER.put("i", 6);      // verb:inf
     GEN_ORDER.put("o", 7);      // verb:impers

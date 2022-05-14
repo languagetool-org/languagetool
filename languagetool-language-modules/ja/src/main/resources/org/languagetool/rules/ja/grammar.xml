@@ -103,15 +103,17 @@ Japanese Grammar and Typo Rules file for LanguageTool
 			<message>文法ミスがあります。<suggestion>に参加して</suggestion>の間違いです。</message>
 			<example correction="に参加して"><marker>を参加し</marker>て</example>
 		</rule>
-		<rule id="DOUSI_KOTOGADEKIRU" name="動詞_ことができる">
+		<rule id="DOUSI_KOTOGADEKIRU" name="動詞+ことができる">
 			<pattern>
 				<token postag="動詞.*" postag_regexp="yes"/>
-				<token>こと</token>
-				<token>が</token>
-				<token>できる</token>
+				<marker>
+					<token>こと</token>
+					<token>が</token>
+					<token inflected="yes" regexp="yes">できる|出来る</token>
+				</marker>
 			</pattern>
-			<message>省略が可能です。暮<suggestion>らせる</suggestion></message>
-			<example correction="らせる"><marker>暮らすことができる</marker></example>
+			<message>「ことができる」という表現は冗長な可能性があります。</message>
+			<example correction="">暮らす<marker>ことができる</marker></example>
 		</rule>
 		<rule id="KINNJOHE" name="近所へ">
 			<pattern>

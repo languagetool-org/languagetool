@@ -107,6 +107,10 @@ public class MorfologikSpeller {
   public synchronized List<String> findReplacements(String word) {
     return speller.findReplacements(word);
   }
+  
+  public synchronized List<String> findSimilarWords(String word) {
+    return speller.findSimilarWords(word);
+  }
 
   /**
    * @deprecated use (or introduce) other methods to this class which would take care of the necessary synchronization
