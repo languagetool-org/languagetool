@@ -280,8 +280,8 @@ public class LanguageIdentifier {
             } else {
               scores.put(langCode, Double.valueOf(entry.getValue()));
             }
-            source += "+ngram";
           }
+          source += "+commonwords";
           result = getHighestScoringResult(scores);
         }
         if (preferredLangs.contains("no") && !preferredLangs.contains("da")) {
