@@ -6724,6 +6724,58 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </rule>
 		</category>
 		<category id="SYNTAX" name="Błędy składniowe" type="grammar">
+		<rulegroup id="ZEBY_PRI_SEC" name="Błędna forma spójnika „żeby” z czasownikiem w pierwszej lub drugiej osobie">
+		<antipattern>
+        <token skip="1">czy</token>
+        <marker>
+          <token>aby</token>
+        </marker>
+		</antipattern>
+		<antipattern> <!-- inna reguła -->
+        <token inflected="yes">ten</token>
+        <token inflected="yes">co</token>
+		</antipattern>
+		  <rule>
+        <pattern>
+        <token regexp='yes' skip='-1'>(?:że|a)by<exception postag='comp:comma|interp:comma|verb:inf.*|verb:praet.*:ter:.*' postag_regexp='yes' scope='next'></exception></token>
+        <token postag='verb:praet:sg.*:pri:.*' postag_regexp='yes'></token>
+        </pattern>
+        <message>Błędna forma spójnika i czasownika (lub literówka). Powinno prawdopodobnie być: <suggestion><match no="1"/>m <match no="1" include_skipped="following"/> <match no="2" regexp_match="e?m$" regexp_replace=""/></suggestion>.</message>
+        <short>Błąd gramatyczny</short>
+        <example correction='żebym je także umieścił'>Szymon nalegał, <marker>żeby je także umieściłem</marker>.</example>
+        <example>Szymon nalegał, żebyśmy je także umieścili.</example>
+      </rule>
+      <rule>
+        <pattern>
+        <token regexp='yes' skip='-1'>(?:że|a)by<exception postag='comp:comma|interp:comma|verb:inf.*|verb:praet.*:ter:.*' postag_regexp='yes' scope='next'></exception></token>
+        <token postag='verb:praet:pl.*:pri:.*' postag_regexp='yes'></token>
+        </pattern>
+        <message>Błędna forma spójnika i czasownika (lub literówka). Powinno prawdopodobnie być: <suggestion><match no="1"/>śmy <match no="1" include_skipped="following"/> <match no="2" regexp_match="śmy$" regexp_replace=""/></suggestion>.</message>
+        <short>Błąd gramatyczny</short>
+        <example correction='żebyśmy je także umieścili'>Szymon nalegał, <marker>żeby je także umieściliśmy</marker>.</example>
+        <example>Szymon nalegał, żebyśmy je także umieścili.</example>
+      </rule>
+       <rule>
+        <pattern>
+        <token regexp='yes' skip='-1'>(?:że|a)by<exception postag='comp:comma|interp:comma|verb:inf.*|verb:praet.*:ter:.*' postag_regexp='yes' scope='next'></exception></token>
+        <token postag='verb:praet:sg.*:sec:.*' postag_regexp='yes'></token>
+        </pattern>
+        <message>Błędna forma spójnika i czasownika (lub literówka). Powinno prawdopodobnie być: <suggestion><match no="1"/>ś <match no="1" include_skipped="following"/> <match no="2" regexp_match="e?ś$" regexp_replace=""/></suggestion>.</message>
+        <short>Błąd gramatyczny</short>
+        <example correction='żebyś je także umieścił'>Szymon nalegał, <marker>żeby je także umieściłeś</marker>.</example>
+        <example>Szymon nalegał, żebyśmy je także umieścili.</example>
+      </rule>
+      <rule>
+        <pattern>
+        <token regexp='yes' skip='-1'>(?:że|a)by<exception postag='comp:comma|interp:comma|verb:inf.*|verb:praet.*:ter:.*' postag_regexp='yes' scope='next'></exception></token>
+        <token postag='verb:praet:pl.*:sec:.*' postag_regexp='yes'></token>
+        </pattern>
+        <message>Błędna forma spójnika i czasownika (lub literówka). Powinno prawdopodobnie być: <suggestion><match no="1"/>ście <match no="1" include_skipped="following"/> <match no="2" regexp_match="ście$" regexp_replace=""/></suggestion>.</message>
+        <short>Błąd gramatyczny</short>
+        <example correction='żebyście je także umieścili'>Szymon nalegał, <marker>żeby je także umieściliście</marker>.</example>
+        <example>Szymon nalegał, żebyśmy je także umieścili.</example>
+      </rule>
+		</rulegroup>
 		<rule id="ADJ_SUBST_ADJ_UNIFY" name="Naruszenie związku zgody">
       <antipattern>
             <unify>
@@ -17120,14 +17172,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
      <example>Nietrudno dostrzec, że rodzeństwo jest nam potrzebne.</example>
      <example>Szło nie trudno, lecz całkiem łatwo.</example>
     </rule>
-		<rule id="BYL_OBY_BYLOBY" name="„był oby” (byłoby)">
+		<rulegroup id="BYL_OBY_BYLOBY" name="„był oby, był o by” (byłoby)">
+		<rule>
 		<antipattern>
         <marker><token>oby</token></marker>
         <token>na</token>
         <token>pewno</token>
 		</antipattern>
     <pattern>
-    <token>był</token>
+    <token postag="verb:praet:sg:m1.m2.m3:ter:.*" postag_regexp="yes"/>
     <token>oby</token>
     </pattern>
     <message>Ten wyraz piszemy łącznie: <suggestion><match no="1"/><match no="2"/></suggestion></message>
@@ -17135,6 +17188,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <example correction='byłoby'>Autor badał jedynie objawy depresyjne, co warto <marker>był oby</marker> rozróżnić.</example>
     <example>Autor badał jedynie objawy depresyjne, co warto byłoby rozróżnić.</example>
     </rule>
+    <rule>
+		<pattern>
+    <token postag="verb:praet:sg:m1.m2.m3:ter:.*" postag_regexp="yes"/>
+    <token>o</token>    
+    <token>by</token>
+    </pattern>
+    <message>Ten wyraz piszemy łącznie: <suggestion><match no="1"/><match no="2"/><match no="3"/></suggestion></message>
+    <short>Błąd ortograficzny</short>
+    <example correction='byłoby'>Autor badał jedynie objawy depresyjne, co warto <marker>był o by</marker> rozróżnić.</example>
+    <example>Autor badał jedynie objawy depresyjne, co warto byłoby rozróżnić.</example>
+    </rule>
+    </rulegroup>
     <rule id="WIERZ_WIEZ" name="„wierz” (wież)">
          <pattern>
           <token postag='prep:gen.*|num:pl:gen.*:congr|(adj|pact):pl:gen.*' postag_regexp='yes'></token>
