@@ -102,7 +102,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY possessiv_lemma "dein|euer|Ihr|ihr|mein|sein|unser">
     <!ENTITY bivalent "achten|amüsieren|analysieren|ändern|antworten|arbeiten|ärgern|atmen|backen|baden|bauen|beachten|beantragen|bedeuten|bedienen|beeinflussen|befassen|befinden|befolgen|beginnen|begründen|begrü(ß|ss)en|behalten|behandeln|behaupten|behindern|beleidigen|bemerken|benutzen|beobachten|beraten|berichten|berücksichtigen|beruhigen|beschädigen|beschäftigen|beschlie(ß|ss)en|beschreiben|besichtigen|besitzen|besorgen|bestätigen|bestehen|bestellen|bestimmen|bestrafen|besuchen|betrügen|bezeichnen|bilden|brauchen|bremsen|brennen|buchstabieren|bürsten|differenzieren|diskutieren|ehren|empfehlen|entdecken|enthalten|entlassen|entscheiden|entschuldigen|enttäuschen|entwickeln|erfahren|erfinden|erhalten|erhöhen|erinnern|erkennen|erleben|erledigen|ernähren|eröffnen|erreichen|erwarten|erziehen|essen|feiern|finden|fliegen|folgern|fordern|fotografieren|fragen|fressen|frisieren|frühstücken|fühlen|führen|fürchten|gebären|gebrauchen|gewinnen|gewöhnen|gliedern|gründen|grü(ß|ss)en|hassen|heben|heiraten|hindern|holen|hören|husten|informieren|interessieren|kämmen|kennen|klappen|kriegen|leben|leisten|leiten|lernen|lieben|loben|lösen|markieren|meinen|merken|messen|mieten|missverstehen|nutzen|operieren|organisieren|parken|passen|pflegen|planen|probieren|produzieren|prüfen|rauchen|regeln|regieren|retten|riechen|sammeln|schalten|scheiden|schieben|schimpfen|schlussfolgern|schmecken|schreien|schützen|schwimmen|schwitzen|sehen|sparen|sprechen|springen|spülen|stoppen|stören|studieren|suchen|tanken|tanzen|telefonieren|töten|trainieren|transportieren|träumen|treffen|trennen|trinken|turnen|überfahren|überholen|überlegen|übernehmen|überqueren|überraschen|überreden|überzeugen|umtauschen|unterrichten|unterscheiden|unterschreiben|unterstützen|untersuchen|verändern|verbessern|verbrauchen|verbringen|verdienen|vergessen|vergleichen|verhaften|verhindern|verlangen|verlängern|verlassen|verletzen|verlieren|vermuten|veröffentlichen|verschlechtern|versichern|verstehen|versuchen|verteilen|vertreten|verwechseln|verwenden|verwickeln|verzollen|wählen|warnen|wecken|werfen|wiederholen|wiegen|wissen|zählen|zerstören|zwingen">
     <!ENTITY sinnmachen "Der Ausdruck 'Sinn machen' kann umgangssprachlich wirken. Möchten Sie eine alternative Formulierung verwenden?">
-    <!ENTITY drauflos_verben "reden|gehen|arbeiten|fabulieren|feuern|schwatzen|fahren|reiten|schießen|rennen|schwimmen|schimpfen|laufen|schlagen|bauen|führen|sprechen|hämmern|watscheln|wirtschaften|raten|starten|klicken|posten|schreiben">
+    <!ENTITY drauflos_verben "reden|gehen|arbeiten|fabulieren|feuern|schwatzen|fahren|reiten|schie(ß|ss)en|rennen|schwimmen|schimpfen|laufen|schlagen|bauen|führen|sprechen|hämmern|watscheln|wirtschaften|raten|starten|klicken|posten|schreiben|malen|plappern">
     <!--
     for local testing of an external file - also see below:
     <!ENTITY UserRules SYSTEM "file:///lt/git/languagetool/languagetool-language-modules/de/src/main/resources/org/languagetool/rules/de/grammar-test.xml">
@@ -13349,7 +13349,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
         <rule id="DRAUF_KLICKEN" name="drauf klicken (draufklicken)">
             <antipattern>
-                <token regexp="yes" skip="2">da|dort|hier|wo</token>
+                <token regexp="yes" skip="2">da|dort|hier</token>
                 <token>drauf</token>
             </antipattern>
             <pattern>
@@ -13360,7 +13360,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Das Verb <suggestion>\1<match no="2" case_conversion="alllower" /><match no="3" case_conversion="alllower" /></suggestion> wird in der Regel zusammengeschrieben.</message>
             <example correction="draufgeklickt">Ich habe auf den Link <marker>drauf geklickt</marker>.</example>
         </rule>
-        <rulegroup id="DRAUF_LOS" name="drauf los (drauflos)" default="temp_off">
+        <rulegroup id="DRAUF_LOS" name="drauf los (drauflos)">
             <rule>
                 <pattern>
                     <token>drauflos</token>
@@ -25985,7 +25985,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">haben</token>
                 </antipattern>
                 <antipattern>
-                    <token inflected="yes" skip="6">haben</token>
+                    <token inflected="yes" skip="6">
+                        haben
+                        <exception scope="next">,</exception>
+                    </token>
                     <token>drauf</token>
                 </antipattern>
                 <antipattern>
@@ -26007,6 +26010,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Meinten Sie <suggestion>darauf</suggestion>? 'Drauf'&umgangsspr;</message>
                 <url>https://www.duden.de/rechtschreibung/drauf</url>
                 <example correction="darauf">Ich komme einfach nicht <marker>drauf</marker>.</example>
+                <example correction="darauf">Woher er die Idee hat, oder was ihn <marker>drauf</marker> gebracht hat, wird nicht berichtet.</example>
                 <example>Schau doch mal bitte da drauf.</example>
                 <example>Da bekommt man scheinbar ganz schön Speed drauf!</example>
                 <example>Und ich muss sagen, wenn es eine drauf hat dann Beatrice mit ihrem Podcast.</example>
@@ -27698,7 +27702,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
-        <rule id="IM_HIER_UND_JETZT" name="im Hier und Jetzt" default="temp_off">
+        <rule id="IM_HIER_UND_JETZT" name="im Hier und Jetzt">
             <antipattern case_sensitive="yes">
                 <token regexp="yes">Hier|HIER</token>
                 <token regexp="yes">und|UND|&amp;</token>
@@ -62025,7 +62029,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Nach seinem zweiwöchigen Sommerurlaub 1912, den er bei King Edward’s Horse, einem Kavallerieregiment, hauptsächlich im Pferdesattel verbrachte</example>
                 <example>Die Familie zog kurz darauf in die Gilbert Street und etwa fünf Jahre später in die Jacob’s Well Mews.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token regexp="yes">King|Queen|Lord|Saint|St</token>
                     <token min="0">.</token>
@@ -64666,7 +64670,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token spacebefore="no" regexp="yes">.*[a-z0-9].*</token>
                 </antipattern>
                 <pattern>
-                    <token>heut</token>
+                    <token regexp="yes">heut|Müh|lang</token>
                     <marker>
                         <token spacebefore="no">'</token>
                     </marker>
@@ -64676,7 +64680,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>’</suggestion>
                 <example correction="’">Ich stehe heut<marker>'</marker> neben mir.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>'</token>
