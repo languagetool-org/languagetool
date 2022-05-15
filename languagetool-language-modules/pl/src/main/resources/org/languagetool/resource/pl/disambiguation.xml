@@ -786,7 +786,9 @@
     <rule id="tak_adv" name="tak + adj => adv">
         <pattern>
             <token postag="adv:pos">tak</token>
-            <token postag="ad[jv].*:pos|verb.*|ppas.*" postag_regexp="yes"/>
+            <token postag="ad[jv].*:pos|verb.*|ppas.*" postag_regexp="yes">
+                    <exception>można</exception>
+            </token>
         </pattern>
         <disambig action="filterall"/>
     </rule>
@@ -1468,12 +1470,32 @@
                  outputform="czyż[czyż/qub]">Odrzuciliście jedno, a zachowali drugie: <marker>czyż</marker> kochacie z racji rozumu?</example>
     </rule>
 
+    <rule id="ZE_IMPT_SUBST" name="po „że” to raczej rzeczowniki niż tryb rozkazujący">
+        <pattern>
+            <token regexp="yes">że|iż</token>
+            <marker>
+            <and>
+                 <token postag="verb:impt.*" postag_regexp="yes"/>
+                <token postag="subst.*|qub" postag_regexp="yes"/>
+            </and>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="subst.*|qub"/>
+    </rule>
+
     <rule name="gorzej to nie czasownik" id="GORZEJ">
         <pattern>
             <token regexp="yes">odrobinę|znacznie|nieco|coraz|jeszcze|trochę|dużo|zdecydowanie|stokroć|wiele|im|lub|niewiele</token>
             <marker><token>gorzej</token></marker>
         </pattern>
         <disambig action="remove"><wd lemma="gorzeć"/></disambig>
+    </rule>
+
+    <rule id="isc_inf" name="iść to nie iścić">
+        <pattern>
+            <token>iść</token>
+        </pattern>
+        <disambig action="filter" postag="verb:inf.*"/>
     </rule>
 
     <rule name="jaki to nie jaki" id="jaki_to_nie_jak">
@@ -10120,7 +10142,9 @@
                     </token>
                 </and>
                 </marker>
-                <token postag=".*gen.*" postag_regexp="yes"><exception postag="prep:gen.*" postag_regexp="yes"/></token>
+                <token postag=".*gen.*" postag_regexp="yes"><exception postag="prep:gen.*" postag_regexp="yes"/>
+                    <exception>się</exception>
+                </token>
             </unify>
         </pattern>
         <disambig action="filter" postag="subst.*"/>
@@ -11423,8 +11447,8 @@
             <token postag="verb:.*(?:sg|pl|imp[st]).*|pred" postag_regexp="yes" inflected="yes" regexp="yes">mieć|móc|musieć|potrafić|pozwolić|pozwalać|zdołać|umieć|ośmielić|powinien|gotów|ważyć|raczyć|usiłować|rozkazać|śmieć|zacząć|uczyć|dozwolić|(?:po)?móc|s?próbować|chcieć|da(?:wa)?ć|iść|pójść|ośmielić|umieć|kazać|mieć|zacząć|przestać|zaczynać|przestawać|pozwolić|pozwalać|starać|jechać|nauczyć|biec|położyć|zdążyć</token>
         </pattern>
         <disambig action="filterall"/>
-        <example type="ambiguous" inputform="iść[iścić/verb:impt:sg:sec:imperf:nonrefl,iścić/verb:impt:sg:sec:imperf:refl.nonrefl,iść/verb:inf:imperf:nonrefl]"
-                 outputform="iść[iść/verb:inf:imperf:nonrefl]">... znaleźć nawet śladu drogi, po której by się <marker>iść</marker> chciało.</example>
+        <!-- example type="ambiguous" inputform="iść[iścić/verb:impt:sg:sec:imperf:nonrefl,iścić/verb:impt:sg:sec:imperf:refl.nonrefl,iść/verb:inf:imperf:nonrefl]"
+                 outputform="iść[iść/verb:inf:imperf:nonrefl]">... znaleźć nawet śladu drogi, po której by się <marker>iść</marker> chciało.</example -->
     </rule>
 
     <rule id="nastroj" name="zmienia ci się nastrój">
@@ -11540,6 +11564,21 @@
                  outputform="sposób[sposób/pred]">Telefon to coś, bez czego nie <marker>sposób</marker> się obejść.</example>
     </rule>
 
+    <rule id="NIE_QUB_SPOSOB_SIE" name="nie sposób jest się + zwrotny">
+        <pattern>
+            <marker>
+                <token postag="qub">nie</token>
+                <token skip="1" postag="pred">sposób</token>
+            </marker>
+            <token skip="4">się</token>
+            <token postag="verb:inf.*:refl.*" postag_regexp="yes"></token>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="ambiguous" inputform="sposób[sposobić/verb:impt:sg:sec:imperf:refl.nonrefl,sposób/pred,sposób/subst:sg:acc:m3,sposób/subst:sg:nom:m3]"
+                 outputform="sposób[sposób/pred]">Nie <marker>sposób</marker> się w nim pogubić.</example>
+        <example type="untouched">Nie sposób się do wojny.</example>
+    </rule>
+
     <rule id="NIE_QUB_SPOSOB_INF" name="nie sposób jest - do końca zdania">
         <pattern>
             <marker>
@@ -11552,19 +11591,19 @@
         </pattern>
         <disambig action="filterall"/>
         <example type="ambiguous" inputform="sposób[sposobić/verb:impt:sg:sec:imperf:refl.nonrefl,sposób/pred,sposób/subst:sg:acc:m3,sposób/subst:sg:nom:m3]"
-                 outputform="sposób[sposób/pred]">Nie <marker>sposób</marker> jest się cieszyć z cudzego nieszczęścia.</example>
+                 outputform="sposób[sposób/pred]">Nie <marker>sposób</marker> jest chętnie korzystać z cudzego nieszczęścia.</example>
         <example type="untouched">Nie sposób się do wojny.</example>
         <example type="ambiguous" inputform="sposób[sposobić/verb:impt:sg:sec:imperf:refl.nonrefl,sposób/pred,sposób/subst:sg:acc:m3,sposób/subst:sg:nom:m3]"
-                 outputform="sposób[sposób/pred]">Nie <marker>sposób</marker> było się cieszyć z cudzego nieszczęścia.</example>
+                 outputform="sposób[sposób/pred]">Nie <marker>sposób</marker> było wczoraj cieszyć się z cudzego nieszczęścia.</example>
         <example type="ambiguous" inputform="sposób[sposobić/verb:impt:sg:sec:imperf:refl.nonrefl,sposób/pred,sposób/subst:sg:acc:m3,sposób/subst:sg:nom:m3]"
-                 outputform="sposób[sposób/pred]">Telefon to coś, bez czego nie <marker>sposób</marker> będzie się obejść.</example>
+                 outputform="sposób[sposób/pred]">Telefon to coś, bez czego nie <marker>sposób</marker> będzie tak czy inaczej się obejść.</example>
     </rule>
 
     <rule name='się po czasowniku zwrotnym' id="refl_sie">
         <pattern>
             <marker>
                 <token postag=".*:refl.*" postag_regexp="yes">
-                    <exception inflected="yes">musieć</exception>
+                    <exception inflected="yes" regexp="yes">musieć|umieć</exception>
                 </token>
                 <token postag="qub">się</token>
             </marker>

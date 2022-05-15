@@ -755,7 +755,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </marker>
                     </antipattern>
                     <antipattern>
-                         <token inflected="yes" regexp="yes" skip="10">umieć|móc|musieć|chcieć|pozw(?:alać|olić)|potrafić|zacząć|lubić|mieć|pójść|zaczynać|śmieć|poczynać|kazać|zapomnieć|rozkazać|począć|zdążyć|radzić|usiłować|(?:na|wy)uczyć|przyzwyczajać|polecać|silić|zdawać|starać|jąć|postanowić|pomagać|udać|pomóc|zdołać|przesta(?:wa)?ć|uda(?:wa)?ć|przeszkadzać|przestać|postarać|próbować|proponować|przyjść|uczyć
+                         <token inflected="yes" regexp="yes" skip="10">umieć|móc|musieć|chcieć|pozw(?:alać|olić)|potrafić|zacząć|lubić|mieć|pójść|zaczynać|śmieć|poczynać|kazać|zapomnieć|rozkazać|począć|zdążyć|radzić|usiłować|(?:na|wy)uczyć|przyzwyczajać|polecać|silić|zdawać|starać|jąć|postanowić|pomagać|udać|pomóc|zdołać|przesta(?:wa)?ć|uda(?:wa)?ć|przeszkadzać|przestać|postarać|próbować|proponować|przyjść|uczyć|umieć
                             <exception scope="next" postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma|verb:.*(sg|pl).*|verb:(imps|inf).*|pcon:imperf.*|pant:perf.*|pred" postag_regexp="yes"/>
                             <exception scope="next" regexp="yes">&interp;</exception>                             
                          </token>
@@ -772,7 +772,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                           <token min="0">nie</token>
                           <token skip="2" inflected="yes" regexp="yes">d(?:aw)?ać</token>
                           <marker>
-                          <token regexp="yes">źle|głupio|łatwo|wygodnie|prosto|dobrze|praktycznie|tanio|rozsądnie</token>
+                          <token regexp="yes">źle|głupio|łatwo|wygodnie|prosto|dobrze|praktycznie|tanio|rozsądnie|bezpiecznie</token>
                           </marker>
                     </antipattern>
                     <antipattern>
@@ -780,14 +780,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                           <token skip="2">się</token>
                           <token min="0" regexp="yes">nawet|tak</token>
                           <marker>
-                          <token regexp="yes">źle|głupio|łatwo|wygodnie|prosto|dobrze|praktycznie|tanio|rozsądnie</token>
+                          <token regexp="yes">źle|głupio|łatwo|wygodnie|prosto|dobrze|praktycznie|tanio|rozsądnie|bezpiecznie</token>
                           </marker>
                     </antipattern>
                     <antipattern>
                           <token inflected="yes" regexp="yes">d(?:aw)?ać</token>
                           <token min="0" regexp="yes">nawet|tak</token>
                           <marker>
-                          <token regexp="yes">źle|głupio|łatwo|wygodnie|prosto|dobrze|praktycznie|tanio|rozsądnie</token>                          
+                          <token regexp="yes">źle|głupio|łatwo|wygodnie|prosto|dobrze|praktycznie|tanio|rozsądnie|bezpiecznie</token>                          
                           </marker>
                           <token postag="verb:inf.*[\.:]refl.*" postag_regexp="yes"/> 
                           <token>się</token>
@@ -805,6 +805,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                       <marker>
                         <token inflected="yes">być</token>
                       </marker>
+                      <token min="0" max="2" postag="qub"/>
                       <token>w</token>
                       <token>stanie</token>
                     </antipattern>
@@ -837,6 +838,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <example>A pani konsultantka nie była w stanie tego dobrze wyartykułować.</example>
                         <example>Inaczej mówiąc, nie da się go źle podłączyć.</example>
                         <example>Rozwódka z traumatycznymi przejściami nie da tak łatwo zbliżyć się do siebie kolejnemu mężczyźnie.</example>
+                        <example>Nie jestem już w stanie rozsądnie myśleć.</example>
                     </rule>
                 </rulegroup>
                 <rule id="BRAK_PRZECINKA_PRZED_IMIESLOWEM_PRZYSLOWKOWYM" name="Brak przecinka przed imiesłowem -ąc lub -wszy">
@@ -6724,6 +6726,92 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </rule>
 		</category>
 		<category id="SYNTAX" name="Błędy składniowe" type="grammar">
+		<rulegroup id="ZE_INF_IMPT" name="Błędna forma czasownika w zdaniu podrzędnym z „że”">
+        <rule>
+        <antipattern>
+        <marker>
+          <token>stać</token>
+        </marker>
+          <token postag=".*gen.*" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
+          <token skip="1" postag="adv:(?:com|sup)" postag_regexp="yes"/>
+          <token>nie</token>
+          <marker>
+            <token postag="verb:inf.*" postag_regexp="yes"/>
+          </marker>        
+        </antipattern>
+        <antipattern>
+          <marker>
+            <token postag="verb:inf.*" postag_regexp="yes"/>
+          </marker>
+          <token regexp="yes">[,i]</token>
+          <token postag="verb:inf.*" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
+        <marker>
+          <token>być</token>
+        </marker>
+          <token>może</token>
+        </antipattern>
+        <antipattern>
+          <token>może</token>
+          <token skip="-1">by</token>
+          <marker>
+          <token postag="verb:inf.*" postag_regexp="yes"/>
+          </marker>
+        </antipattern>
+          <pattern>
+            <token skip="-1" regexp="yes" inflected="yes">że|iż
+            <exception scope="previous">prawie</exception>
+            <exception scope="next" regexp="yes">lepiej|najlepiej|trudno|łatwo|dobrze|ciężko|miło|przyjemnie|niełatwo|wygodnie|nietrudno|prosto|bezpiecznie|fajnie|korzystnie|tanio|źle|przykro|rozsądnie|niebezpiecznie|próżno|cudownie|pięknie|niedobrze|wspaniale|dziwnie|ciekawie|głupio|niezręcznie|praktycznie|zdrowo|zabawnie|smutno|mądrze</exception>
+            <exception scope="next" postag="conj|comp.*|interp|pred|verb:(?:fin.*|praet.*|bedzie.*|winien.*|imps.*|pot.*)|pcon.*" postag_regexp="yes"></exception>            
+            </token>
+            <marker>
+            <token skip="-1" postag="verb:inf.*" postag_regexp="yes">
+            <exception scope="previous" postag="adv:(?:com|sup)" postag_regexp="yes"/>
+            <exception postag="subst.*" postag_regexp="yes"/>
+            <exception scope="next" regexp="yes">trudno|łatwo|dobrze|ciężko|miło|przyjemnie|niełatwo|wygodnie|nietrudno|prosto|bezpiecznie|fajnie|korzystnie|tanio|źle|przykro|rozsądnie|niebezpiecznie|próżno|cudownie|pięknie|niedobrze|wspaniale|dziwnie|ciekawie|głupio|niezręcznie|praktycznie|zdrowo|zabawnie|smutno|mądrze</exception>
+            <exception scope="next" postag="conj|comp.*|interp|pred|verb:(?:fin.*|praet.*|bedzie.*|winien.*|imps.*|pot.*)" postag_regexp="yes"></exception>            
+            </token>
+            </marker>
+            <token regexp="yes">&interp_conj;</token>
+          </pattern>
+          <message>W tym zdaniu podrzędnym występuje tylko bezokolicznik „\2”. Prawdopodobnie to błąd gramatyczny.</message>
+          <short>Błąd gramatyczny</short>
+          <example correction="">Wiem, że <marker>przeczytać</marker> książkę.</example>
+          <example>Wiem, że trzeba przeczytać książkę.</example>
+          <example>Uważam, że lepiej mieć sprawdzonego kierownika budowy.</example>
+          <example>Wszystkie damy są zainteresowane pańskimi cierpieniami i założę się, że niejedna chciałaby odegrać rolę pocieszycielki.</example>
+          <example>Stróż był w kuchni po jedzenie dla psów i powiada, że go musiał prawie że zanieść do mieszkania.</example>
+          <example>O Widziu, Widziu, ty mi niebo na ziemi ukazujesz i czuję sama, wiem, że na nie zapracować, zasłużyć powinnam!</example>
+        </rule>
+         <rule>
+         <antipattern>
+            <token regexp="yes">[\-–−—―]</token>
+            <marker>
+              <token>powiedzmy</token>            
+            </marker>
+         </antipattern>
+          <pattern>
+            <token skip="-1" regexp="yes" inflected="yes">że|iż
+            <exception scope="previous">prawie</exception>
+            <exception scope="next" postag="conj|comp|interp|pred|verb:(?:fin.*|praet.*|bedzie.*|winien.*|imps.*|pot.*)|pcon.*" postag_regexp="yes"></exception>            
+            </token>
+            <marker>
+            <token skip="-1" postag="verb:impt.*" postag_regexp="yes">
+            <exception postag="subst.*" postag_regexp="yes"/>
+            <exception scope="next" postag="conj|comp|interp|pred|verb:(?:fin.*|praet.*|bedzie.*|winien.*|imps.*|pot.*)" postag_regexp="yes"></exception>            
+            </token>
+            </marker>
+            <token regexp="yes">&interp_conj;</token>
+          </pattern>
+          <message>W tym zdaniu podrzędnym występuje tylko czasownik w trybie rozkazującym „\2”. Prawdopodobnie to błąd gramatyczny.</message>
+          <short>Błąd gramatyczny</short>
+          <example correction="">Wiem, że <marker>przeczytaj</marker> książkę.</example>
+          <example>Jestem zwolenniczką tej starej teorii, która mówi, że kucharz, gotując, przekazuje swoje złe lub dobre emocje.</example>
+          </rule>
+		</rulegroup>
 		<rulegroup id="ZEBY_PRI_SEC" name="Błędna forma spójnika „żeby” z czasownikiem w pierwszej lub drugiej osobie">
 		<antipattern>
         <token skip="1">czy</token>
