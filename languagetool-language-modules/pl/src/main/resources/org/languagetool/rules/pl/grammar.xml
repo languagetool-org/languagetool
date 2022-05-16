@@ -6761,18 +6761,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token postag="verb:inf.*" postag_regexp="yes"/>
           </marker>
         </antipattern>
+        <antipattern> <!-- idiom o funkcji predykatywnej -->
+            <token>boki</token>
+            <marker>
+              <token>zrywać</token>            
+            </marker>        
+        </antipattern>
+        <antipattern>
+          <token>najwyższy</token>
+          <token skip="-1">czas</token>
+          <marker>
+            <token postag="verb:inf.*" postag_regexp="yes"/>
+          </marker>
+        </antipattern>
           <pattern>
             <token skip="-1" regexp="yes" inflected="yes">że|iż
-            <exception scope="previous">prawie</exception>
+            <exception scope="previous" regexp="yes">prawie|tyle</exception>
             <exception scope="next" regexp="yes">lepiej|najlepiej|trudno|łatwo|dobrze|ciężko|miło|przyjemnie|niełatwo|wygodnie|nietrudno|prosto|bezpiecznie|fajnie|korzystnie|tanio|źle|przykro|rozsądnie|niebezpiecznie|próżno|cudownie|pięknie|niedobrze|wspaniale|dziwnie|ciekawie|głupio|niezręcznie|praktycznie|zdrowo|zabawnie|smutno|mądrze</exception>
-            <exception scope="next" postag="conj|comp.*|interp|pred|verb:(?:fin.*|praet.*|bedzie.*|winien.*|imps.*|pot.*)|pcon.*" postag_regexp="yes"></exception>            
+            <exception scope="next" postag="conj|comp.*|interp:comma|pred|verb:(?:fin.*|praet.*|bedzie.*|winien.*|imps.*|pot.*)|pcon.*|adv:(?:com|sup)" postag_regexp="yes"></exception>            
             </token>
             <marker>
             <token skip="-1" postag="verb:inf.*" postag_regexp="yes">
-            <exception scope="previous" postag="adv:(?:com|sup)" postag_regexp="yes"/>
             <exception postag="subst.*" postag_regexp="yes"/>
             <exception scope="next" regexp="yes">trudno|łatwo|dobrze|ciężko|miło|przyjemnie|niełatwo|wygodnie|nietrudno|prosto|bezpiecznie|fajnie|korzystnie|tanio|źle|przykro|rozsądnie|niebezpiecznie|próżno|cudownie|pięknie|niedobrze|wspaniale|dziwnie|ciekawie|głupio|niezręcznie|praktycznie|zdrowo|zabawnie|smutno|mądrze</exception>
-            <exception scope="next" postag="conj|comp.*|interp|pred|verb:(?:fin.*|praet.*|bedzie.*|winien.*|imps.*|pot.*)" postag_regexp="yes"></exception>            
+            <exception scope="next" postag="conj|comp.*|interp:comma|pred|verb:(?:fin.*|praet.*|bedzie.*|winien.*|imps.*|pot.*)" postag_regexp="yes"></exception>            
             </token>
             </marker>
             <token regexp="yes">&interp_conj;</token>
@@ -6795,13 +6807,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          </antipattern>
           <pattern>
             <token skip="-1" regexp="yes" inflected="yes">że|iż
-            <exception scope="previous">prawie</exception>
-            <exception scope="next" postag="conj|comp|interp|pred|verb:(?:fin.*|praet.*|bedzie.*|winien.*|imps.*|pot.*)|pcon.*" postag_regexp="yes"></exception>            
+            <exception scope="previous" regexp="yes">prawie|tyle</exception>
+            <exception scope="next" postag="conj|comp.*|interp:comma|pred|verb:(?:fin.*|praet.*|bedzie.*|winien.*|imps.*|pot.*)|pcon.*" postag_regexp="yes"></exception>            
             </token>
             <marker>
             <token skip="-1" postag="verb:impt.*" postag_regexp="yes">
-            <exception postag="subst.*" postag_regexp="yes"/>
-            <exception scope="next" postag="conj|comp|interp|pred|verb:(?:fin.*|praet.*|bedzie.*|winien.*|imps.*|pot.*)" postag_regexp="yes"></exception>            
+            <exception postag="subst.*|adv:com" postag_regexp="yes"/>
+            <exception regexp="yes">bądź|mial|mniejszej</exception>
+            <exception scope="next" postag="conj|comp.*|interp:comma|pred|verb:(?:fin.*|praet.*|bedzie.*|winien.*|imps.*|pot.*)" postag_regexp="yes"></exception>            
             </token>
             </marker>
             <token regexp="yes">&interp_conj;</token>
@@ -21680,6 +21693,74 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
     <category id="TYPOS" name="Prawdopodobne literówki" type="misspelling">
+    <rulegroup id="BOJE_BOJĘ" name="„boje się” (boję się">
+        <rule>
+            <pattern>
+                <token skip="-1">się<exception postag="interp:comma|comp:comma|verb.*" postag_regexp="yes"/></token>
+                <marker>
+                  <token>boje</token>                
+                </marker>
+            </pattern>
+            <message>Prawdopodobna literówka. Czy chodziło o <suggestion>boję</suggestion>?</message>
+            <short>Literówka</short>
+            <example correction="boję">Ja się tego właśnie <marker>boje</marker>.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                  <token skip="-1">boje<exception postag="interp:comma|comp:comma|verb.*" postag_regexp="yes"/></token>                
+                </marker>
+                <token>się</token>
+            </pattern>
+            <message>Prawdopodobna literówka. Czy chodziło o <suggestion>boję</suggestion>?</message>
+            <short>Literówka</short>
+            <example correction="boję">Dzisiaj <marker>boje</marker> się o Ciebie.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token>nie</token>
+                <marker>
+                  <token>boje</token>                
+                </marker>
+            </pattern>
+            <message>Prawdopodobna literówka. Czy chodziło o <suggestion>boję</suggestion>?</message>
+            <short>Literówka</short>
+            <example correction="boję">Ja się, proszę pana, nie <marker>boje</marker>.</example>
+        </rule>
+         <rule>
+            <pattern>
+                <token skip="-1">się<exception postag="interp:comma|comp:comma|verb.*" postag_regexp="yes"/></token>
+                <marker>
+                  <token>boja</token>                
+                </marker>
+            </pattern>
+            <message>Prawdopodobna literówka. Czy chodziło o <suggestion>boją</suggestion>?</message>
+            <short>Literówka</short>
+            <example correction="boją">Oni się tego właśnie <marker>boja</marker>.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                  <token skip="-1">boja<exception postag="interp:comma|comp:comma|verb.*" postag_regexp="yes"/></token>                
+                </marker>
+                <token>się</token>
+            </pattern>
+            <message>Prawdopodobna literówka. Czy chodziło o <suggestion>boją</suggestion>?</message>
+            <short>Literówka</short>
+            <example correction="boją">Dzisiaj <marker>boja</marker> się o Ciebie.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token>nie</token>
+                <marker>
+                  <token>boja</token>                
+                </marker>
+            </pattern>
+            <message>Prawdopodobna literówka. Czy chodziło o <suggestion>boją</suggestion>?</message>
+            <short>Literówka</short>
+            <example correction="boją">Oni się, proszę pana, nie <marker>boja</marker>.</example>
+        </rule>
+    </rulegroup>
     <rulegroup id="LUBIA_LUBA" name="„lubą” (lubią)">
     <rule>
         <pattern>
