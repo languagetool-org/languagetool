@@ -33,6 +33,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Properties;
@@ -63,6 +64,7 @@ public class ArtificialErrorEval {
   static String langCode = "";
   static String corpusFilePath = "";
   static String outputPathRoot = "";
+  static HashMap<String, List<RemoteRuleMatch>> cachedMatches; 
 
   public static void main(String[] args) throws IOException {
     //use configuration file
@@ -185,6 +187,7 @@ public class ArtificialErrorEval {
     }
     countLine = 0;
     for (String line : lines) {
+      cachedMatches = new HashMap<>();
       countLine++;
       if (countLine > maxLines) {
         break;
@@ -287,7 +290,13 @@ public class ArtificialErrorEval {
       throws IOException {
     // Correct sentence
     if (!undirectional || j == 0) {
-      List<RemoteRuleMatch> matchesCorrect = lt.check(correctSentence, config).getMatches();
+      List<RemoteRuleMatch> matchesCorrect;
+      if (cachedMatches.containsKey(correctSentence)) {
+        matchesCorrect = cachedMatches.get(correctSentence);
+      } else {
+        matchesCorrect = lt.check(correctSentence, config).getMatches();
+      }
+      cachedMatches.put(correctSentence, matchesCorrect);
       List<String> ruleIDs = ruleIDsAtPos(matchesCorrect, fromPos, words[1 - j]);
       if (ruleIDs.size() > 0) {
         results[j][classifyTypes.indexOf("FP")]++;
@@ -314,8 +323,13 @@ public class ArtificialErrorEval {
         // Should not happen
         printSentenceOutput("Error: word cannot be replaced", correctSentence, "");
         return;
+      }    
+      List<RemoteRuleMatch> matchesWrong;
+      if (cachedMatches.containsKey(correctSentence)) {
+        matchesWrong = cachedMatches.get(wrongSentence);
+      } else {
+        matchesWrong = lt.check(wrongSentence, config).getMatches();
       }
-      List<RemoteRuleMatch> matchesWrong = lt.check(wrongSentence, config).getMatches();
       List<String> ruleIDs = ruleIDsAtPos(matchesWrong, fromPos, words[j]);
       if (ruleIDs.size() > 0) {
         //results[1 - j][classifyTypes.indexOf("TP")]++;
