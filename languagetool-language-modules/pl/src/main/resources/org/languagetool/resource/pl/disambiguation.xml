@@ -5509,19 +5509,35 @@
             <disambig action="unify"/>
         </rule>
 
-        <rule> <!-- dwa przymiotniki + rzeczownik po przyimku -->
-            <pattern>
+        <rule> <!-- 26: dwa przymiotniki + rzeczownik po przyimku, liczba pojedyncza -->
+            <pattern> <!-- sg -->
                 <unify> <feature id="case"/>
                     <token postag="prep.*" postag_regexp="yes"><exception postag="prep.*|burk" negate_pos="yes" postag_regexp="yes"/><exception postag="qub">co</exception></token>
-                    <token postag="(?:adj|ppas|pact):.*" postag_regexp="yes"><exception>co</exception><exception postag="qub|adv.*" postag_regexp="yes"/></token>
-                    <token postag="(?:adj|ppas|pact):.*" postag_regexp="yes"><exception>co</exception><exception postag="qub|adv.*" postag_regexp="yes"/></token>
-                    <token postag="(?:adj|depr|ger|num|subst|ppron.*|ppas|pact):.*" postag_regexp="yes"><exception>co</exception><exception postag="qub|adv.*" postag_regexp="yes"/></token>
+                    <token postag="(?:adj|ppas|pact):sg:.*" postag_regexp="yes"><exception>co</exception><exception postag="qub|adv.*" postag_regexp="yes"/></token>
+                    <token postag="(?:adj|ppas|pact):sg:.*" postag_regexp="yes"><exception>co</exception><exception postag="qub|adv.*" postag_regexp="yes"/></token>
+                    <token postag="(?:adj|depr|ger|num|subst|ppron.*|ppas|pact):sg:.*" postag_regexp="yes"><exception>co</exception><exception postag="qub|adv.*" postag_regexp="yes"/></token>
                 </unify>
             </pattern>
             <disambig action="unify"/>
             <example type="untouched">Tu mamy piękny przykład.</example>
             <example type="untouched">Łaciny używamy na co dzień.</example>
+            <example type="untouched">Od tych mocniejszych mamy prawo oczekiwać zwycięstwa.</example>
             <example type="ambiguous" inputform="szkolarską[szkolarski/adj:sg:acc:f:pos,szkolarski/adj:sg:inst:f:pos]" outputform="szkolarską[szkolarski/adj:sg:inst:f:pos]">z waszą <marker>szkolarską</marker> nomenklaturą medyczną</example>
+        </rule>
+        <rule> <!-- 27: dwa przymiotniki + rzeczownik po przyimku, liczba mnoga -->
+            <pattern> <!-- pl -->
+                <unify> <feature id="case"/>
+                    <token postag="prep.*" postag_regexp="yes"><exception postag="prep.*|burk" negate_pos="yes" postag_regexp="yes"/><exception postag="qub">co</exception></token>
+                    <token postag="(?:adj|ppas|pact):pl:.*" postag_regexp="yes"><exception>co</exception><exception postag="qub|adv.*" postag_regexp="yes"/></token>
+                    <token postag="(?:adj|ppas|pact):pl:.*" postag_regexp="yes"><exception>co</exception><exception postag="qub|adv.*" postag_regexp="yes"/></token>
+                    <token postag="(?:adj|depr|ger|num|subst|ppron.*|ppas|pact):pl:.*" postag_regexp="yes"><exception>co</exception><exception postag="qub|adv.*" postag_regexp="yes"/></token>
+                </unify>
+            </pattern>
+            <disambig action="unify"/>
+            <example type="untouched">Tu mamy piękny przykład.</example>
+            <example type="untouched">Łaciny używamy na co dzień.</example>
+            <example type="untouched">Od tych mocniejszych mamy prawo oczekiwać zwycięstwa.</example>
+            <example type="ambiguous" inputform="szkolarskie[szkolarski/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos,szkolarski/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos,szkolarski/adj:sg:acc:n1.n2:pos,szkolarski/adj:sg:nom.voc:n1.n2:pos]" outputform="szkolarskie[szkolarski/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos]">przez wasze <marker>szkolarskie</marker> koncepcje medyczne</example>
         </rule>
         <rule> <!-- wg -->
             <pattern>
@@ -7274,7 +7290,10 @@
         </rule>
         <rule>
             <pattern>
-                <token skip="-1" postag="verb.*sg:.*" postag_regexp="yes"><exception scope="next" regexp="yes">&interp;</exception></token>
+                <token skip="-1" postag="verb.*sg:.*" postag_regexp="yes">
+                    <exception>mieć</exception>
+                    <exception scope="next" regexp="yes">&interp;</exception>
+                    <exception scope="next" postag="comp:comma"/></token>
                 <marker><token>winny</token></marker>
             </pattern>
             <disambig action="filter" postag="adj:sg.*"></disambig>
@@ -7948,6 +7967,7 @@
         <example type="ambiguous" inputform="duszę[dusić/verb:fin:sg:pri:imperf:nonrefl,dusić/verb:fin:sg:pri:imperf:refl.nonrefl,dusza/subst:sg:acc:f]"
                  outputform="duszę[dusza/subst:sg:acc:f]">To jakby się zaprzedawało <marker>duszę</marker> dzikiej bestii.</example>
     </rule>
+
 
     <rule id="MIEC_NADZIEJE" name="mieć + nadzieję -> rzeczownik">
         <pattern>
@@ -10205,7 +10225,9 @@
         </rule>
         <rule>
             <pattern>
-                <token skip="-1" postag="verb:.*(?:sg|pl|imp[st]).*|pred" postag_regexp="yes"><exception scope="next" postag_regexp="yes" postag="interp:comma|comp:comma|conj"/></token>
+                <token skip="-1" postag="verb:.*(?:sg|pl|imp[st]).*|pred" postag_regexp="yes">
+                    <exception>mieć</exception>
+                    <exception scope="next" postag_regexp="yes" postag="interp:comma|comp:comma|conj"/></token>
                 <marker>
                     <token skip="-1">może
                         <exception scope="next" postag="verb:inf.*" postag_regexp="yes" />
@@ -11618,7 +11640,7 @@
             <token><exception postag=".*:refl.*" postag_regexp="yes"/></token>
             <marker>
                 <token postag="qub">się</token>
-                <token postag=".*:refl.*" postag_regexp="yes"><exception>iść</exception></token>
+                <token postag=".*:refl.*" postag_regexp="yes"><exception inflected="yes">musieć</exception><exception>iść</exception></token>
             </marker>
         </pattern>
         <disambig action="filterall"/>
@@ -11654,6 +11676,13 @@
         <example type="ambiguous" inputform="żeś[że/comp,żeś/comp:comma]" outputform="żeś[że/qub]">I cóż, stary Balu — dodała — jak <marker>żeś</marker> wyszedł z tej przygody?</example>
     </rule>
 
+    <rule name="mieć to nie miecić" id="miec_inf">
+        <pattern>
+            <token>mieć</token>
+        </pattern>
+        <disambig action="filter" postag="verb:inf.*"/>
+    </rule>
+
     <rule name="mieć to do siebie" id="ma_to_do_siebie">
         <pattern>
             <marker>
@@ -11687,7 +11716,7 @@
         <pattern>
             <marker>
             <token postag="verb.*" postag_regexp="yes" inflected="yes">mieć</token>
-            <token postag="subst.*acc.*" postag_regexp="yes" regexp="yes">ochotę|wrażenie|nadzieję|moc|zamiar|pojęcie|gorączkę|rację|przeczucie|pewność|odwagę|szansę|zwyczaj|rozkaz|wątpliwości|wątpliwość|polecenie|wadę|słuszność|siedzibę|problem|cechę|zaletę</token>
+            <token postag="subst.*acc.*" postag_regexp="yes" regexp="yes">ochotę|wrażenie|nadzieję|moc|zamiar|pojęcie|gorączkę|rację|przeczucie|pewność|odwagę|szansę|zwyczaj|rozkaz|wątpliwości|wątpliwość|polecenie|wadę|słuszność|siedzibę|problem|cechę|zaletę|prawo</token>
             </marker>
         </pattern>
         <disambig action="filterall"/>
@@ -11696,7 +11725,7 @@
     <rule name="kolokaty mieć" id="kolokaty_nominatywne_miec">
         <pattern>
             <marker>
-                <token postag="subst.*acc.*" postag_regexp="yes" regexp="yes">ochotę|wrażenie|nadzieję|moc|zamiar|pojęcie|gorączkę|rację|przeczucie|pewność|odwagę|zwyczaj|rozkaz|wątpliwości|wątpliwość|polecenie|wadę|słuszność|siedzibę|problem|cechę|zaletę</token>
+                <token postag="subst.*acc.*" postag_regexp="yes" regexp="yes">ochotę|wrażenie|nadzieję|moc|zamiar|pojęcie|gorączkę|rację|przeczucie|pewność|odwagę|zwyczaj|rozkaz|wątpliwości|wątpliwość|polecenie|wadę|słuszność|siedzibę|problem|cechę|zaletę|prawo</token>
                 <token postag="verb.*" postag_regexp="yes" inflected="yes">mieć</token>
             </marker>
         </pattern>
