@@ -76,7 +76,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     "rassejude", "rassejuden", "rassejüdin", "rassejüdinnen",
     "möse", "mösen", "fotze", "fotzen",
     "judenfrei", "judenfreie", "judenfreier", "judenfreies", "judenfreien", "judenfreiem",
-    "judenrein", "judenreine", "judenreiner", "judenreines", "judenreinen", "judenreinem"
+    "judenrein", "judenreine", "judenreiner", "judenreines", "judenreinen", "judenreinem",
+    "judenmord", "judenmorden", "judenmörder"
   ));
   
   // some exceptions for changes to the spelling in 2017 - just a workaround so we don't have to touch the binary dict:
