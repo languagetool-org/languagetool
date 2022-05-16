@@ -22,6 +22,8 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
 <!DOCTYPE rules [
+    <!ENTITY nbsp "&#x00A0;"> <!-- no-break space -->
+    <!ENTITY nnbsp "&#x202F;"> <!-- narrow no-break space -->
     <!ENTITY msg_semicolon_comma "Esta locución se escribe normalmente entre comas. Use un punto y coma para empezar una nueva frase que contrasta con la anterior.">
     <!ENTITY dashes "[–—―‒-]"> 
     <!ENTITY msg_repeated_pattern "Esta expresión ya ha aparecido antes. Puede sustituirla por otra para hacer más variado el texto.">
@@ -139,6 +141,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </phrase>
     </phrases>
     <category id="CASING" name="Mayúsculas y minúsculas" type="typographical">
+        <rule id="DOBLE_ESPACIO" name="doble espacio" default="temp_off">
+            <regexp type="exact" mark="1">[A-Za-záéíóúÁÉÍÓÚñÑ\p{P}]([&nbsp; ]{2})[A-Za-záéíóúÁÉÍÓÚñÑ\p{P}]</regexp><!-- TODO: add "nnbsp" -->
+            <message>Sobra un espacio.</message>
+            <suggestion> </suggestion>
+            <example correction=" ">Esto es una<marker>  </marker>frase con dos espacios.</example>
+            <example correction=" ">Esto es una frase,<marker>  </marker>que tiene dos espacios.</example>
+        </rule>
         <rule id="MAYUSCULAS_INICIO_FRASE" name="mayúsculas a principio de frase">
             <antipattern>
                 <token regexp="yes">\p{Lu}\p{Lu}\p{Lu}?</token>
