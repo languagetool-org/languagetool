@@ -9051,15 +9051,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker><token>Sei</token></marker>
                 <token postag="VER.*[1-3]:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöüß]+
                     <exception postag="ADV.*|.*PA[12].*|ART:IND:.+|ADJ.*" postag_regexp="yes"/>
-                    <exception regexp="yes">bereit|lieb|mein</exception>
+                    <exception regexp="yes">bereit|lieb|mein|dank</exception>
                 </token>
             </pattern>
-            <message>Meinten Sie <suggestion>Sie</suggestion>?</message>
+            <message>Meinten Sie <suggestion>sie</suggestion>?</message>
             <example correction="Sie"><marker>Sei</marker> ließ sich scheiden.</example>
             <example>Sei bitte ruhig!</example>
             <example>Sei bereit!</example>
             <example>Sei lieb!</example>
             <example>Sei mein!</example>
+            <example>Gott sei dank!</example>
         </rule>
         <rulegroup id="WAISE_WEISE" name="Waise/Weise/Wiese">
             <url>https://languagetool.org/insights/de/beitrag/ai-vs-ei/</url>
@@ -42353,6 +42354,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="LAUFE_SUBST" name="'im laufe (Laufe) des Tages'">
+            <url>https://languagetool.org/insights/de/beitrag/rechtschreibung-im-laufe/</url>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[iI]m</token>
@@ -47041,7 +47043,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="ALLES_GUTE" name="'alles gute (Gute)' [Glückwunschformel]">
-            <url>https://languagetool.org/insights/de/beitrag/nominalisierte-adjektive/</url>
+            <url>https://languagetool.org/insights/de/beitrag/rechtschreibung-alles-gute/</url>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[aA]lles</token>
@@ -57377,7 +57379,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">damit|indem|weil|obwohl|nachdem</token>
                         <token postag="PRO:PER:NOM:.*" postag_regexp="yes"/>
                         <token postag="VER:[123]:.*PRÄ:.*" postag_regexp="yes">
-                            <exception postag="SUB:.+|VER:(INF|EIZ):.*|PA[12]:.*|AD[JV]:.*|PRO:.+" postag_regexp="yes"/>
+                            <exception postag="SUB:.+|VER:(INF|EIZ):.*|PA[12]:.*|AD[JV]:.*|PRO:.+|PRP.*" postag_regexp="yes"/>
                             <exception inflected="yes" regexp="yes">sieben|achten|einen</exception>
                         </token>
                     </marker>
@@ -57390,6 +57392,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Er ist nicht mehr da, <marker>weil er ist</marker> gegangen.</example>
                 <example>Papa ist in der Küche, weil er kocht.</example>
                 <example>Diese Übersetzung gefällt mir, weil ich fühle, dass sie zum Singen geeignet ist.</example>
+                <example>Die sich bedanken, weil sie dank des Festivals Filme gesehen haben, die sie sich sonst vielleicht nie ausgesucht hätten.</example>
                 <example>Niemand wird alt, weil er eine bestimmte Anzahl von Jahren gelebt hat.</example>
                 <example>Warum spricht Tom so schlecht Koreanisch, obwohl er eine koreanische Freundin hat?</example>
                 <example>Er tut das, weil er Beweise sammeln muss.</example>
@@ -60332,6 +60335,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token postag="VER:(1|2|3):.+" postag_regexp="yes">
                         <exception scope="next" postag="PRO:PER:.+" postag_regexp="yes"/>
+                        <exception>dank</exception>
                     </token>
                 </pattern>
                 <message>Wenn es sich nachfolgend um einen Teilsatz ohne Subjekt handelt, wird in der Regel kein Komma vor '\6' gesetzt.</message>

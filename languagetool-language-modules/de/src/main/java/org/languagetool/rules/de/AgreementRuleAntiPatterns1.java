@@ -121,9 +121,9 @@ class AgreementRuleAntiPatterns1 {
       posRegex("ADJ:.*")
     ),
     Arrays.asList(
-      // "Die ersten Drei bekommen einen Preis."
+      // "Die ersten Drei bekommen einen Preis." / "Die geheimen Sechs"
       tokenRegex("den|die"),
-      tokenRegex("ersten|nächsten|vorherigen|letzten"),
+      tokenRegex(".+n"),
       csRegex("Zwei|Drei|Vier|Fünf|Sechs|Sieben|Acht|Neun|Zehn|Elf|Zwölf|Zwanzig|Dreißig|Vierzig|Fünzig|Hundert|Tausend")
     ),
     Arrays.asList(
