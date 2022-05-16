@@ -10954,7 +10954,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 	                <token postag="VER.*" postag_regexp="yes"/>
 	            </antipattern>
 	            <antipattern>
-	                <token regexp="yes">ob|warum</token>
+	                <token postag="KON:UNT|ADV:INR|PRO:RIN:AKK:NEU" postag_regexp="yes"/>
 	                <token>mir</token>
 	            </antipattern>
 		        <pattern>
@@ -11009,23 +11009,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token inflected="yes" skip="1">bringen</token>
                     <token>mir</token>
-                    <token postag="ART:.*:DAT.*|PRO:DEM:DAT.*|PRO:POS:DAT.*|PRO:IND:DAT.*" postag_regexp="yes" min="0"/>
+                    <token postag="ART:.*:AKK.*|PRO:DEM:AKK.*|PRO:POS:AKK.*|PRO:IND:AKK.*" postag_regexp="yes" min="0"/>
                     <token postag="ADV.*" postag_regexp="yes" min="0"/>
-                    <token postag="ADJ:DAT.*" postag_regexp="yes" min="0"/>
-                    <token postag="SUB:DAT.*" postag_regexp="yes" skip="-1"/>
-                    <token inflected="yes" regexp="yes">fahren</token>
+                    <token postag="ADJ:AKK.*" postag_regexp="yes" min="0"/>
+                    <token postag="SUB:AKK.*" postag_regexp="yes" skip="-1"/>
+                    <token inflected="yes">fahren</token>
                 </antipattern>
                 <antipattern>
-                    <token inflected="yes">sein</token>
+                    <token postag="VER.*" postag_regexp="yes"/>
                     <token>mir</token>
-                    <token>genug</token>
-                    <token postag="SUB:.*" postag_regexp="yes"/>
+                    <token postag="ADV:MOD"/>
+                    <token postag="SUB.*" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
                     <token>mir</token>
                     <token postag="ADV.*" postag_regexp="yes" min="0"/>
                     <token postag="PRP.*" postag_regexp="yes"/>
-                    <token postag="SUB:.*" postag_regexp="yes"/>
+                    <token postag="SUB.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="VER.*" postag_regexp="yes" skip="-1"/>
+                    <token>mir</token>
+                    <token postag="SUB:AKK.*" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -11035,13 +11040,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="ADV.*" postag_regexp="yes" min="0"/>
                     <token postag="ADJ:DAT.*" postag_regexp="yes" min="0"/>
                     <token postag="SUB:DAT.*" postag_regexp="yes" skip="-1"/>
-                    <token inflected="yes" regexp="yes">fahren</token>
+                    <token inflected="yes">fahren</token>
                 </pattern>
                 <message>'mir' (Dativ) ist hier weniger wahrscheinlich als <suggestion>mit</suggestion>.</message>
                 <example correction="mit">Ich glaube, bei dem starken Wind werde ich lieber nicht <marker>mir</marker> dem Fahrrad fahren.</example>
                 <example>Bringst du mir meine Lieblingsschokolade mit, wenn du einkaufen fährst?</example>
-                <example>Das ist mir genug.</example>
+                <example>Das ist mir genug Bußgeld.</example>
                 <example>Ich muss mir erst wieder ins Gedächtnis rufen, wie das geht.</example>
+                <example>Vielleicht macht es mir Spaß und ich fahre hin.</example>
             </rule>
             <rule><!--4-->
                 <pattern>
@@ -11073,8 +11079,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token skip="-1">Sie</token>
                     <token>mir</token>
-                    <token postag="PRO:PER:DAT:SIN:FEM" postag_regexp="yes"/>
-                    <token postag="SUB:DAT:SIN:FEM" postag_regexp="yes"/>
+                    <token postag="PRO:PER:DAT:SIN:FEM"/>
+                    <token postag="SUB:DAT:SIN:FEM"/>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -11150,10 +11156,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token postag="SUB:NOM.*" postag_regexp="yes"/>
                     <token>mir</token>
+                    <token postag="ADV.*" postag_regexp="yes" min="0"/>
+                    <token postag="ADJ:AKK.*" postag_regexp="yes" min="0"/>
                     <token postag="SUB:AKK.*" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
-                    <token>falls</token>
+                    <token postag="KON:UNT"/>
                     <token>mir</token>
                 </antipattern>
                 <antipattern>
@@ -11163,7 +11171,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token postag="SUB.*" postag_regexp="yes"/>
                     <token>mir</token>
-                    <token postag="SUB.*" postag_regexp="yes"/>
+                    <token postag="SUB:AKK.*" postag_regexp="yes" skip="-1"/>
+                    <token min="0">zu</token>
                     <token postag="V.*" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
@@ -11263,7 +11272,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>mir</token>
                     </marker>
-                    <token postag="PRO:DEM:DAT:.*" postag_regexp="yes"/>
+                    <token postag="PRO:DEM:DAT.*" postag_regexp="yes"/>
                     <token postag="ART:.*:GEN.*" postag_regexp="yes"/>
                     <token postag="ADJ.*|PRO:IND.*" postag_regexp="yes"/>
                     <token postag="SUB.*" postag_regexp="yes" min="0"/>
