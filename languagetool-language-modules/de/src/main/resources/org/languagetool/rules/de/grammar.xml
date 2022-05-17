@@ -11239,6 +11239,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token skip="-1">mir</token>
                     <token postag="SUB:NOM.*|PRO:DEM:NOM.*|PRO:IND:NOM" postag_regexp="yes"/>
                 </antipattern>
+                <antipattern>
+                    <token postag="KON:UNT"/>
+                    <token postag="PRO:DEM.*" postag_regexp="yes"/>
+                    <token skip="-1">mir</token>
+                    <token postag="SUB.*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token postag="PRO:DEM:.*" postag_regexp="yes"/>
                     <marker>
@@ -11257,6 +11263,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ich werde ihr mit allen mir zur Verfügung stehenden Mitteln helfen.</example>
                 <example>Ich will keine Übungen machen, die mir keinen Nutzen bringen.</example>
                 <example>Das mir Bernsteine nicht vor die Füße rollen, war klar.</example> <!--Richtig: "Dass mir"-->
+                <example>Wenn die mir Wochenenden streichen, widerspreche ich.</example>
             </rule>
 	        <rule> <!--11-->
                 <pattern>
@@ -11308,7 +11315,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SUB.*" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
-                    <token skip="-1">dass</token>
+                    <token postag="KON:UNT" skip="-1"/>
                     <token>mir</token>
                 </antipattern>
                 <antipattern>
