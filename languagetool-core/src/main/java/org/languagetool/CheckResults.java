@@ -18,6 +18,7 @@
  */
 package org.languagetool;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.rules.RuleMatch;
 
@@ -33,6 +34,8 @@ public class CheckResults {
   private List<RuleMatch> ruleMatches;
   private List<Range> ignoredRanges;
   private final List<SentenceRange> sentenceRanges = new ArrayList<>();
+  
+  private final List<SentenceRange> cleanSentenceRanges = new ArrayList<>();
 
   public CheckResults(List<RuleMatch> ruleMatches, List<Range> ignoredRanges) {
     this.ruleMatches = Objects.requireNonNull(ruleMatches);
@@ -51,12 +54,32 @@ public class CheckResults {
   public List<SentenceRange> getSentenceRanges() {
     return sentenceRanges;
   }
+  
+  @NotNull
+  public List<SentenceRange> getCleanSentenceRanges() {
+    return cleanSentenceRanges;
+  }
 
   public void setSentenceRanges(List<String> sentences) {
     int pos = 0;
     for (String sentence : sentences) {
       sentenceRanges.add(new SentenceRange(pos, pos + sentence.length()));
       pos += sentence.length();
+    }
+    setCleanSentenceRanges(sentences);
+  }
+  
+  private void setCleanSentenceRanges(List<String> sentences) {
+    if (sentences.size() == sentenceRanges.size()) {
+      for (int i = 0; i < sentences.size(); i++) {
+        String sentence = sentences.get(i);
+        SentenceRange range = sentenceRanges.get(i);
+        String trimStart = StringUtils.stripStart(sentence, null);
+        String trimEnd = StringUtils.stripEnd(sentence, null);
+        int newFromPosOffset = sentence.length() - trimStart.length();
+        int newToPosOffset = sentence.length() - trimEnd.length();
+        cleanSentenceRanges.add(new SentenceRange(range.getFromPos() + newFromPosOffset, range.getToPos() -newToPosOffset));
+      }
     }
   }
 
