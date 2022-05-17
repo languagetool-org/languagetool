@@ -19,12 +19,15 @@
 package org.languagetool.dev.eval;
 
 import com.google.common.io.CharStreams;
+import org.apache.commons.codec.language.bm.Lang;
 import org.languagetool.DetectedLanguage;
 import org.languagetool.Language;
 import org.languagetool.Languages;
+import org.languagetool.language.LanguageIdentifier;
 import org.languagetool.language.identifier.LanguageDetectionService;
 import org.languagetool.language.identifier.SpellcheckLangIdentifier;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -37,7 +40,7 @@ import java.util.stream.Collectors;
  */
 class LanguageDetectionMinLengthEval {
 
-  //private final LanguageIdentifier languageIdentifier;
+  private final LanguageIdentifier languageIdentifier;
 
   private static final int MIN_INPUT_LEN = 5;
   private static final int MAX_INPUT_LEN = 30;
@@ -47,10 +50,13 @@ class LanguageDetectionMinLengthEval {
 
   private LanguageDetectionMinLengthEval() {
     LanguageDetectionService.INSTANCE.setLanguageIdentifier(new SpellcheckLangIdentifier());
-    //languageIdentifier = new LanguageIdentifier();
-    //languageIdentifier.enableNgrams(new File("/home/languagetool/model_ml50_new.zip"));
+    //LanguageDetectionService.INSTANCE.setLanguageIdentifier(new SpellcheckLangIdentifier(Arrays.asList("de-DE", "en-US")));
+    //LanguageDetectionService.INSTANCE.setLanguageIdentifier(new SpellcheckLangIdentifier(Arrays.asList()));
+
+    languageIdentifier = new LanguageIdentifier();
+    languageIdentifier.enableNgrams(new File("/home/stefan/Dokumente/languagetool/data/model_ml50_new.zip"));
     //languageIdentifier = new CLD2Identifier();
-    //languageIdentifier.enableFasttext(new File("/path/to/fasttext/binary"), new File("/path/to/fasttext/model"));
+    languageIdentifier.enableFasttext(new File("/home/stefan/Dokumente/languagetool/data/fasttext/fasttext"), new File("/home/stefan/Dokumente/languagetool/data/fasttext/lid.176.bin"));
     // Daniel's paths:
     //languageIdentifier.enableFasttext(new File("/home/languagetool/fasttext/fasttext"), new File("/home/languagetool/fasttext/lid.176.bin"));
   }
@@ -116,6 +122,7 @@ class LanguageDetectionMinLengthEval {
       //DetectedLanguage detectedLangObj = 
       Optional<DetectedLanguage> detectedLanguage = LanguageDetectionService.INSTANCE.detectLanguage(text, Collections.emptyList(), Collections.emptyList());
       DetectedLanguage detectedLangObj = detectedLanguage.orElse(null);
+      //DetectedLanguage detectedLangObj = languageIdentifier.detectLanguage(text, Collections.emptyList(), Collections.emptyList());
       //System.out.println("INPUT: " + text + " - " + text.length() + " - " + detectedLangObj);
       String detectedLang = null;
       if (detectedLangObj != null) {
@@ -130,10 +137,10 @@ class LanguageDetectionMinLengthEval {
         stillOkay = false;
       } else if (!expectedLanguage.getShortCode().equals(detectedLang)){
         //System.out.printf(Locale.ENGLISH, "WRONG: Expected %s, but got %s -> %s (%.2f)%n", expectedLanguage.getShortCode(), detectedLang, text, detectedLangObj.getDetectionConfidence());
-        System.out.print("detectedLang: " + detectedLang + " does not match with expectedLanguage: " + expectedLanguage.getShortCode());
-        System.out.print(" Text: \""  + text + "\" Scores: ");
-        System.out.println(LanguageDetectionService.INSTANCE.getTmpResultSC().entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).collect(Collectors.toList()));
-        System.out.println(LanguageDetectionService.INSTANCE.getTmpResultAll().entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).collect(Collectors.toList()));
+        //System.out.print("detectedLang: " + detectedLang + " does not match with expectedLanguage: " + expectedLanguage.getShortCode());
+        //System.out.print(" Text: \""  + text + "\" Scores: ");
+        //System.out.println(LanguageDetectionService.INSTANCE.getTmpResultSC().entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).collect(Collectors.toList()));
+        //System.out.println(LanguageDetectionService.INSTANCE.getTmpResultAll().entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).collect(Collectors.toList()));
 
         stillOkay = false;
       } else {
@@ -156,7 +163,9 @@ class LanguageDetectionMinLengthEval {
     float minCharsTotal = 0;
     int languageCount = 0;
     List<Language> languages = new ArrayList<>();
-    languages.addAll(Languages.get());
+    languages.add(Languages.getLanguageForShortCode("de"));
+    languages.add(Languages.getLanguageForShortCode("en"));
+    //languages.addAll(Languages.get());
     //languages.add(new DynamicMorfologikLanguage("Norwegian (Bokmal)", "nb", new File("/home/dnaber/lt/dynamic-languages/no/nb_NO.dict")));
     //languages.add(new DynamicMorfologikLanguage("Norwegian (Nynorsk)", "nn", new File("/home/dnaber/lt/dynamic-languages/no/nn_NO.dict")));
     for (Language language : languages) {
