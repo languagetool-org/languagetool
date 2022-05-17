@@ -897,6 +897,17 @@ Daqui não saio, daqui ninguém me tira.
 	<!-- Created by  Tiago F. Santos , Portuguese rule, 2017-01-26 -->
     <rule>
 
+      <antipattern>
+          <token postag='SENT_START'/>
+          <token regexp='yes'>[“«&quot;]</token>
+          <token>Ter</token>
+      </antipattern>
+
+      <antipattern>
+          <token>Ter</token>
+          <token>Stegen</token>
+      </antipattern>
+
 <!-- MARCOAGPINTO 2022-05-17 (15-MAY-2022+) *START* -->
 <!--
 Os principais cuidados com seu pet Ter um cachorrinho em casa para te fazer companhia é muito bom!
@@ -919,7 +930,7 @@ Vinte e três Plantas Pra Ter Dentro De Apartamento Com Muito Charme!
        <marker>
         <token regexp='yes'>Sábados?|Domingo|(Seg|Ter|Qua|Qui|Sex|S[aá]b|Dom)</token>
        </marker>
-        <token><exception postag_regexp='yes' postag='NP.+'/></token>
+        <token><exception postag_regexp='yes' postag='NP.+|UNKNOWN'/></token>
       </pattern>
       <message>Segundo o Acordo Ortográfico de 90, os dias da semana deixam de ser capitalizados.</message>
       <suggestion><match no='2' case_conversion='alllower'/></suggestion>
