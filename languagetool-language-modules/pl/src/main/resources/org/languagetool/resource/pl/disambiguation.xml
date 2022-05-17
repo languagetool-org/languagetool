@@ -1483,6 +1483,19 @@
         <disambig action="remove" postag="verb:impt.*"/>
     </rule>
 
+    <rule id="ZEBY_IMPT_INF" name="po „by” raczej infinitiwus niż imperatyw">
+        <pattern>
+            <token regexp="yes" inflected="yes">(?:że|a)?by</token>
+            <marker>
+                <and>
+                    <token postag="verb:impt.*" postag_regexp="yes"/>
+                    <token postag="verb:inf.*" postag_regexp="yes"/>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="verb:impt.*"/>
+    </rule>
+
     <rule name="gorzej to nie czasownik" id="GORZEJ">
         <pattern>
             <token regexp="yes">odrobinę|znacznie|nieco|coraz|jeszcze|trochę|dużo|zdecydowanie|stokroć|wiele|im|lub|niewiele</token>

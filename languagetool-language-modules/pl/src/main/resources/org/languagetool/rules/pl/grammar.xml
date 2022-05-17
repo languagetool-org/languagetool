@@ -6788,6 +6788,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
               <token postag="verb:inf.*" postag_regexp="yes"/>
           </marker>        
         </antipattern>
+        <antipattern>
+          <token>palce</token>
+          <token>lizać</token>
+        </antipattern>
           <pattern>
             <token skip="-1" regexp="yes" inflected="yes">że|iż
             <exception scope="previous" regexp="yes">prawie|tyle</exception>
@@ -6840,6 +6844,66 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <example>Jestem zwolenniczką tej starej teorii, która mówi, że kucharz, gotując, przekazuje swoje złe lub dobre emocje.</example>
           </rule>
 		</rulegroup>
+		<rulegroup id="ZEBY_IMPT" name="Błędna forma czasownika po spójniku „żeby”">
+      <rule>
+        <pattern>
+            <token skip="-1" regexp="yes" inflected="yes">(?:że|a)?by
+            <exception scope="next" postag="conj|comp.*|interp:comma|pred|verb:(?:fin.*|praet.*|bedzie.*|winien.*|imps.*|pot.*|inf.*)|pcon.*" postag_regexp="yes"></exception>            
+            </token>
+            <marker>
+            <token skip="-1" postag="verb:impt.*" postag_regexp="yes">
+            <exception postag="subst.*|adv:com|verb:inf.*" postag_regexp="yes"/>
+            <exception regexp="yes">bądź|mial|mniejszej</exception>
+            <exception scope="next" postag="conj|comp.*|interp:comma|pred|verb:(?:fin.*|praet.*|bedzie.*|winien.*|imps.*|pot.*)" postag_regexp="yes"></exception>            
+            </token>
+            </marker>
+            <token regexp="yes">&interp_conj;</token>
+          </pattern>
+          <message>W tym zdaniu podrzędnym występuje tylko czasownik w trybie rozkazującym „\2”. Prawdopodobnie to błąd gramatyczny lub literówka.</message>
+          <short>Błąd gramatyczny</short>
+          <example correction="">Prosił, żebyś <marker>przeczytaj</marker> tę książkę.</example>
+      </rule>
+      <rule>
+        <pattern>
+        <token regexp='yes' skip='-1'>(?:że|a)?by<exception postag='comp:comma|interp:comma|verb:inf.*|verb:praet.*:ter:.*' postag_regexp='yes' scope='next'></exception></token>
+        <token postag='verb:pot:sg.*:pri:.*' postag_regexp='yes'></token>
+        </pattern>
+        <message>Błędna forma spójnika i czasownika (lub literówka). Powinno prawdopodobnie być: <suggestion><match no="1"/>m <match no="1" include_skipped="following"/> <match no="2" regexp_match="bym$" regexp_replace=""/></suggestion>.</message>
+        <short>Błąd gramatyczny</short>
+        <example correction='żebym je także umieścił'>Szymon nalegał, <marker>żeby je także umieściłbym</marker>.</example>
+        <example>Szymon nalegał, żebyśmy je także umieścili.</example>
+      </rule>
+      <rule>
+        <pattern>
+        <token regexp='yes' skip='-1'>(?:że|a)?by<exception postag='comp:comma|interp:comma|verb:inf.*|verb:praet.*:ter:.*' postag_regexp='yes' scope='next'></exception></token>
+        <token postag='verb:pot:pl.*:pri:.*' postag_regexp='yes'></token>
+        </pattern>
+        <message>Błędna forma spójnika i czasownika (lub literówka). Powinno prawdopodobnie być: <suggestion><match no="1"/>śmy <match no="1" include_skipped="following"/> <match no="2" regexp_match="byśmy$" regexp_replace=""/></suggestion>.</message>
+        <short>Błąd gramatyczny</short>
+        <example correction='żebyśmy je także umieścili'>Szymon nalegał, <marker>żeby je także umieścilibyśmy</marker>.</example>
+        <example>Szymon nalegał, żebyśmy je także umieścili.</example>
+      </rule>
+       <rule>
+        <pattern>
+        <token regexp='yes' skip='-1'>(?:że|a)?by<exception postag='comp:comma|interp:comma|verb:inf.*|verb:praet.*:ter:.*' postag_regexp='yes' scope='next'></exception></token>
+        <token postag='verb:pot:sg.*:sec:.*' postag_regexp='yes'></token>
+        </pattern>
+        <message>Błędna forma spójnika i czasownika (lub literówka). Powinno prawdopodobnie być: <suggestion><match no="1"/>ś <match no="1" include_skipped="following"/> <match no="2" regexp_match="byś$" regexp_replace=""/></suggestion>.</message>
+        <short>Błąd gramatyczny</short>
+        <example correction='żebyś je także umieścił'>Szymon nalegał, <marker>żeby je także umieściłbyś</marker>.</example>
+        <example>Szymon nalegał, żebyśmy je także umieścili.</example>
+      </rule>
+      <rule>
+        <pattern>
+        <token regexp='yes' skip='-1'>(?:że|a)?by<exception postag='comp:comma|interp:comma|verb:inf.*|verb:praet.*:ter:.*' postag_regexp='yes' scope='next'></exception></token>
+        <token postag='verb:pot:pl.*:sec:.*' postag_regexp='yes'></token>
+        </pattern>
+        <message>Błędna forma spójnika i czasownika (lub literówka). Powinno prawdopodobnie być: <suggestion><match no="1"/>ście <match no="1" include_skipped="following"/> <match no="2" regexp_match="byście$" regexp_replace=""/></suggestion>.</message>
+        <short>Błąd gramatyczny</short>
+        <example correction='żebyście je także umieścili'>Szymon nalegał, <marker>żeby je także umieścilibyście</marker>.</example>
+        <example>Szymon nalegał, żebyśmy je także umieścili.</example>
+      </rule>
+		</rulegroup>
 		<rulegroup id="ZEBY_PRI_SEC" name="Błędna forma spójnika „żeby” z czasownikiem w pierwszej lub drugiej osobie">
 		<antipattern>
         <token skip="1">czy</token>
@@ -6853,7 +6917,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 		</antipattern>
 		  <rule>
         <pattern>
-        <token regexp='yes' skip='-1'>(?:że|a)by<exception postag='comp:comma|interp:comma|verb:inf.*|verb:praet.*:ter:.*' postag_regexp='yes' scope='next'></exception></token>
+        <token regexp='yes' skip='-1'>(?:że|a)?by<exception postag='comp:comma|interp:comma|verb:inf.*|verb:praet.*:ter:.*' postag_regexp='yes' scope='next'></exception></token>
         <token postag='verb:praet:sg.*:pri:.*' postag_regexp='yes'></token>
         </pattern>
         <message>Błędna forma spójnika i czasownika (lub literówka). Powinno prawdopodobnie być: <suggestion><match no="1"/>m <match no="1" include_skipped="following"/> <match no="2" regexp_match="e?m$" regexp_replace=""/></suggestion>.</message>
@@ -6863,7 +6927,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
       <rule>
         <pattern>
-        <token regexp='yes' skip='-1'>(?:że|a)by<exception postag='comp:comma|interp:comma|verb:inf.*|verb:praet.*:ter:.*' postag_regexp='yes' scope='next'></exception></token>
+        <token regexp='yes' skip='-1'>(?:że|a)?by<exception postag='comp:comma|interp:comma|verb:inf.*|verb:praet.*:ter:.*' postag_regexp='yes' scope='next'></exception></token>
         <token postag='verb:praet:pl.*:pri:.*' postag_regexp='yes'></token>
         </pattern>
         <message>Błędna forma spójnika i czasownika (lub literówka). Powinno prawdopodobnie być: <suggestion><match no="1"/>śmy <match no="1" include_skipped="following"/> <match no="2" regexp_match="śmy$" regexp_replace=""/></suggestion>.</message>
@@ -6873,7 +6937,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
        <rule>
         <pattern>
-        <token regexp='yes' skip='-1'>(?:że|a)by<exception postag='comp:comma|interp:comma|verb:inf.*|verb:praet.*:ter:.*' postag_regexp='yes' scope='next'></exception></token>
+        <token regexp='yes' skip='-1'>(?:że|a)?by<exception postag='comp:comma|interp:comma|verb:inf.*|verb:praet.*:ter:.*' postag_regexp='yes' scope='next'></exception></token>
         <token postag='verb:praet:sg.*:sec:.*' postag_regexp='yes'></token>
         </pattern>
         <message>Błędna forma spójnika i czasownika (lub literówka). Powinno prawdopodobnie być: <suggestion><match no="1"/>ś <match no="1" include_skipped="following"/> <match no="2" regexp_match="e?ś$" regexp_replace=""/></suggestion>.</message>
@@ -6883,7 +6947,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
       <rule>
         <pattern>
-        <token regexp='yes' skip='-1'>(?:że|a)by<exception postag='comp:comma|interp:comma|verb:inf.*|verb:praet.*:ter:.*' postag_regexp='yes' scope='next'></exception></token>
+        <token regexp='yes' skip='-1'>(?:że|a)?by<exception postag='comp:comma|interp:comma|verb:inf.*|verb:praet.*:ter:.*' postag_regexp='yes' scope='next'></exception></token>
         <token postag='verb:praet:pl.*:sec:.*' postag_regexp='yes'></token>
         </pattern>
         <message>Błędna forma spójnika i czasownika (lub literówka). Powinno prawdopodobnie być: <suggestion><match no="1"/>ście <match no="1" include_skipped="following"/> <match no="2" regexp_match="ście$" regexp_replace=""/></suggestion>.</message>
