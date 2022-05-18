@@ -142,7 +142,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </phrases>
     <category id="CASING" name="Mayúsculas y minúsculas" type="typographical">
         <rule id="DOBLE_ESPACIO" name="doble espacio" default="temp_off">
-            <regexp type="exact" mark="1">[A-Za-záéíóúÁÉÍÓÚñÑ\p{P}]([&nbsp; ]{2})[A-Za-záéíóúÁÉÍÓÚñÑ\p{P}]</regexp><!-- TODO: add "nnbsp" -->
+            <regexp type="exact" mark="1">[A-Za-záéíóúÁÉÍÓÚñÑ\p{P}]([&nbsp; ]{2})[A-Za-záéíóúÁÉÍÓÚñÑ\p{P}]</regexp>
+            <!-- TODO: add "nnbsp" -->
             <message>Sobra un espacio.</message>
             <suggestion> </suggestion>
             <example correction=" ">Esto es una<marker>  </marker>frase con dos espacios.</example>
@@ -9595,6 +9596,54 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>¿Quería decir <suggestion>consigo</suggestion>?</message>
                 <example correction="consigo">Estaba satisfecho <marker>con sí</marker> mismo.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="SI_AFIRMACION" name="si -> sí" default="temp_off">
+            <url>https://www.rae.es/dpd/s%C3%AD</url>
+            <antipattern>
+                <token>si</token>
+                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0" max="2"/>
+                <token skip="-1" postag="V.[SI].*" postag_regexp="yes"/>
+                <token postag="V.[MSI].*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>si</token>
+                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0" max="2"/>
+                <token skip="-1" postag="V.[SI].*" postag_regexp="yes"/>
+                <token skip="-1">,</token>
+                <token regexp="yes">también|mejor</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1" postag="V.[MNGSI].*" postag_regexp="yes"/>
+                <token>si</token>
+                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0" max="2"/>
+                <token postag="V.[SI].*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>si</token>
+                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0" max="2"/>
+                <token skip="-1" postag="V.I.*" postag_regexp="yes"><exception postag="V.S.*" postag_regexp="yes"/></token>
+                <token regexp="yes">!|\?</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token>si</token>
+                    </marker>
+                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0" max="2"/>
+                    <token postag="V.I.*" postag_regexp="yes"><exception postag="V.S.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Se escribe con tilde si es una afirmación.</message>
+                <suggestion>sí</suggestion>
+                <example correction="Sí"><marker>Si</marker> hice el trabajo.</example>
+                <example>Si quieres vivir mucho tiempo, deja de fumar.</example>
+                <example>Si eres feliz, yo también.</example>
+                <example>Si es así, tanto mejor.</example>
+                <example>Si pudiera comprar esa guitarra...</example>
+                <example>Si tuvo todas las oportunidades antes de inmigrar!</example>
+                <example type="triggers_error" reason="ambiguous">Si tuvo todas las oportunidades antes de inmigrar.</example>
+                <example>Si ayer lo aseguraste una y otra vez delante de todos, ¿cómo lo niegas hoy?</example>
             </rule>
         </rulegroup>
         <rulegroup id="PASO" name="paso/pasó">
