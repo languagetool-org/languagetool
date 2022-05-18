@@ -968,7 +968,7 @@ public class JLanguageTool {
         while (st.hasMoreElements()) {
           Object next = st.nextElement();
           if (next.equals(byteOrderMark)) {
-            atb.addMarkup(byteOrderMark);
+            atb.addMarkup(byteOrderMark, "\u2063"); //INVISIBLE SEPARATOR to not trigger MultipleWhitespaceRule
           } else {
             atb.addText(next.toString());
           }
