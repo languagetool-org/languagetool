@@ -6150,6 +6150,21 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <example type="untouched">Manche entwickelte Angst vor großen Spinnen kann damit begründet werden.</example>
     </rule>
 
+    <rule id="DANK_KEIN_VERB" name="'dank' kein Verb">
+        <antipattern>
+            <token regexp="yes">ich|bitte</token>
+            <token>dank</token>
+        </antipattern>
+        <antipattern>
+            <token>dank</token>
+            <token>ich</token>
+        </antipattern>
+        <pattern>
+            <token>dank</token>
+        </pattern>
+        <disambig action="remove" postag="VER:1.*"/>
+    </rule>
+
     <!-- TODO: (ohne meine neue ..., durch eine alte ...)-->
     <!-- <rulegroup id="EINE_ARTIKEL" name="eine/meine als Artikel">
         <rule>

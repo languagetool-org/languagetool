@@ -48963,6 +48963,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
+        <rule id="AUF_DER_SCHLICHE" name="auf der Schliche (Spur)" default="temp_off">
+            <antipattern>
+                <token inflected="yes" skip="6">kommen</token>
+                <token>Schliche</token>
+            </antipattern>
+            <antipattern>
+                <token skip="4">Schliche</token>
+                <token inflected="yes">kommen</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>auf</token>
+                    <token>der</token>
+                    <token>Schliche</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie die Redewendung <suggestion>auf der Spur</suggestion>?</message>
+            <url>https://de.wiktionary.org/wiki/jemandem_auf_die_Schliche_kommen</url>
+            <example correction="auf der Spur">Ich bin dem Fehler <marker>auf der Schliche</marker>.</example>
+        </rule>
         <rulegroup id="MAX_MIN_PUNKT" name="max (max.)">
             <rule>
                 <antipattern>

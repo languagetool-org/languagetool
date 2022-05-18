@@ -2554,6 +2554,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "raufhauten": return topMatch("draufhauten");
       case "Click": return topMatch("Klick");
       case "Clicks": return topMatch("Klicks");
+      case "jenachdem": return topMatch("je nachdem");
     }
     return Collections.emptyList();
   }
