@@ -11172,9 +11172,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token postag="SUB.*" postag_regexp="yes"/>
                     <token>mir</token>
+                    <token postag="ART:.*:AKK.*|PRO:DEM:AKK.*|PRO:POS:AKK.*|PRO:IND:AKK.*" postag_regexp="yes" min="0"/>
+                    <token postag="ADV.*" postag_regexp="yes" min="0"/>
+                    <token postag="ADJ:AKK.*" postag_regexp="yes" min="0"/>
                     <token postag="SUB:AKK.*" postag_regexp="yes" skip="-1"/>
-                    <token min="0">zu</token>
                     <token postag="V.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="SUB.*" postag_regexp="yes"/>
+                    <token>mir</token>
+                    <token postag="PRP.*" postag_regexp="yes"/>
+                    <token postag="SUB.*" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
                     <token postag="SUB.*" postag_regexp="yes"/>
@@ -11194,6 +11202,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Falls mir einmal Samt auf den Nähtisch kommen sollte, werde ich ein Kleid nähen. </example>
                 <example>Sie saß in einem Imbiss mir längere Zeit schräg gegenüber.</example> <!--Falsche Satzstellung-->
                 <example>Ich habe in aller Ruhe mir Gedanken gemacht.</example> <!--Falsche Satzstellung-->
+                <example>Sie scheiterte an dem Versuch mir Freude zu vermitteln.</example>
+                <example>Damals hat meine Familie mir den Glauben beigebracht.</example>
+                <example>Ich bitte Sie, den Brief mir zur Verfügung zu stellen.</example> <!--Falsche Satzstellung-->
             </rule>
             <rule> <!--9-->
                 <pattern>
@@ -11317,10 +11328,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token postag="KON:UNT" skip="-1"/>
                     <token>mir</token>
-                </antipattern>
-                <antipattern>
-                    <token skip="-1">mir</token>
-                    <token inflected="yes">geben</token>
                 </antipattern>
                 <antipattern>
                     <token>mir</token>
