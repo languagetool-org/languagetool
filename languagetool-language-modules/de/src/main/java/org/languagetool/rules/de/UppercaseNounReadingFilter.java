@@ -20,10 +20,9 @@ package org.languagetool.rules.de;
 
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.Languages;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
-import org.languagetool.tagging.Tagger;
+import org.languagetool.tagging.de.GermanTagger;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
@@ -39,11 +38,6 @@ import java.util.Map;
  */
 public class UppercaseNounReadingFilter extends RuleFilter {
 
-  private final static Tagger tagger = Languages.getLanguageForShortCode("de").getTagger();
-
-  public UppercaseNounReadingFilter() {
-  }
-
   @Nullable
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens) {
@@ -53,7 +47,7 @@ public class UppercaseNounReadingFilter extends RuleFilter {
     }
     try {
       String uppercase = StringTools.uppercaseFirstChar(token);
-      List<AnalyzedTokenReadings> tags = tagger.tag(Collections.singletonList(uppercase));
+      List<AnalyzedTokenReadings> tags = GermanTagger.INSTANCE.tag(Collections.singletonList(uppercase));
       boolean hasNounReading = false;
       for (AnalyzedTokenReadings tag : tags) {
         if (tag.hasPartialPosTag("SUB:") && !tag.hasPartialPosTag("ADJ")) {

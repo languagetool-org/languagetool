@@ -710,13 +710,13 @@ public class CaseRule extends Rule {
     substVerbenExceptions.add("bedeuten");
   }
 
-  private final GermanTagger tagger;
   private final GermanSpellerRule speller;
   private final Supplier<List<DisambiguationPatternRule>> antiPatterns;
+  private German language;
 
   public CaseRule(ResourceBundle messages, German german) {
+    language = german;
     super.setCategory(Categories.CASING.getCategory(messages));
-    tagger = (GermanTagger) german.getTagger();
     speller = new GermanSpellerRule(JLanguageTool.getMessageBundle(), german);
     antiPatterns = cacheAntiPatterns(german, ANTI_PATTERNS);
     addExamplePair(Example.wrong("<marker>Das laufen</marker> fällt mir schwer."),
@@ -806,7 +806,7 @@ public class CaseRule extends Rule {
       if (analyzedToken.matchesPosTagRegex("VER:(MOD|AUX):[1-3]:.*")) {
         isPrecededByModalOrAuxiliary = true;
       }
-      AnalyzedTokenReadings lowercaseReadings = tagger.lookup(token.toLowerCase());
+      AnalyzedTokenReadings lowercaseReadings = ((GermanTagger) language.getTagger()).lookup(token.toLowerCase());
       if (hasNounReading(analyzedToken)) { // it's the spell checker's task to check that nouns are uppercase
         if (!isPotentialUpperCaseError(i, tokens, lowercaseReadings, isPrecededByModalOrAuxiliary)) {
           continue;
@@ -1212,7 +1212,7 @@ public class CaseRule extends Rule {
 
   private AnalyzedTokenReadings lookup(String word) {
     try {
-      return tagger.lookup(word);
+      return ((GermanTagger) language.getTagger()).lookup(word);
     } catch (IOException e) {
       throw new RuntimeException("Could not lookup '" + word + "'.", e);
     }

@@ -309,12 +309,12 @@ public class SubjectVerbAgreementRule extends Rule {
     )
   );
 
-  private final GermanTagger tagger;
   private final Supplier<List<DisambiguationPatternRule>> antiPatterns;
+  private German language;
 
   public SubjectVerbAgreementRule(ResourceBundle messages, German language) {
+    this.language = language;
     super.setCategory(Categories.GRAMMAR.getCategory(messages));
-    tagger = (GermanTagger) language.getTagger();
     for (SingularPluralPair pair : PAIRS) {
       singular.add(pair.singular);
       plural.add(pair.plural);
@@ -494,7 +494,7 @@ public class SubjectVerbAgreementRule extends Rule {
     for (int i = startPos; i > 0; i--) {
       String token = tokens[i].getToken();
       if (tokens[i].hasPartialPosTag("SUB:")) {
-        AnalyzedTokenReadings lookup = tagger.lookup(token.toLowerCase());
+        AnalyzedTokenReadings lookup = ((GermanTagger) language.getTagger()).lookup(token.toLowerCase());
         if (lookup != null && lookup.hasPosTagStartingWith("VER:INF")) {
           infinitives++;
         } else {

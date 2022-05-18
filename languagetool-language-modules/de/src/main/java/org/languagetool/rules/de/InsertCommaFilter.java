@@ -20,23 +20,23 @@ package org.languagetool.rules.de;
 
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.Languages;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
-import org.languagetool.tagging.Tagger;
+import org.languagetool.tagging.de.GermanTagger;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
-import static java.util.Collections.*;
+import static java.util.Collections.singletonList;
 
 /**
  * Specific to {@code KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ} - helps setting the comma suggestion, if easily possible.
  * @since 4.5
  */
 public class InsertCommaFilter extends RuleFilter {
-
-  private final static Tagger tagger = Languages.getLanguageForShortCode("de").getTagger();
 
   @Nullable
   @Override
@@ -105,8 +105,8 @@ public class InsertCommaFilter extends RuleFilter {
     return ruleMatch;
   }
 
-  private List<AnalyzedTokenReadings> getTag(int i, String[] parts) throws IOException {
-    return tagger.tag(singletonList(parts[i]));
+  private static List<AnalyzedTokenReadings> getTag(int i, String[] parts) throws IOException {
+    return GermanTagger.INSTANCE.tag(singletonList(parts[i]));
   }
 
   private boolean hasTag(List<AnalyzedTokenReadings> tags, String tagStart) {
