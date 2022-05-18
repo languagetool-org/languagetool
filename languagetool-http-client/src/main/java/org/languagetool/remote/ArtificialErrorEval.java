@@ -226,7 +226,7 @@ public class ArtificialErrorEval {
 
       resultsString.append("-------------------------------------\n");
       resultsString.append("Results for " + fakeRuleIDs[i] + "\n");
-      resultsString.append("TP (with expected suggestion): " + results[i][4] + "\n");
+      //resultsString.append("TP (with expected suggestion): " + results[i][4] + "\n");
       for (int j = 0; j < 4; j++) {
         resultsString.append(classifyTypes.get(j) + ": " + results[i][j] + "\n");
       }
@@ -295,8 +295,8 @@ public class ArtificialErrorEval {
         matchesCorrect = cachedMatches.get(correctSentence);
       } else {
         matchesCorrect = lt.check(correctSentence, config).getMatches();
+        cachedMatches.put(correctSentence, matchesCorrect);
       }
-      cachedMatches.put(correctSentence, matchesCorrect);
       List<String> ruleIDs = ruleIDsAtPos(matchesCorrect, fromPos, words[1 - j]);
       if (ruleIDs.size() > 0) {
         results[j][classifyTypes.indexOf("FP")]++;
@@ -325,11 +325,13 @@ public class ArtificialErrorEval {
         return;
       }    
       List<RemoteRuleMatch> matchesWrong;
-      if (cachedMatches.containsKey(correctSentence)) {
+      if (cachedMatches.containsKey(wrongSentence)) {
         matchesWrong = cachedMatches.get(wrongSentence);
       } else {
         matchesWrong = lt.check(wrongSentence, config).getMatches();
+        cachedMatches.put(wrongSentence, matchesWrong);
       }
+      
       List<String> ruleIDs = ruleIDsAtPos(matchesWrong, fromPos, words[j]);
       if (ruleIDs.size() > 0) {
         //results[1 - j][classifyTypes.indexOf("TP")]++;
