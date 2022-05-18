@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * Configuration for checking a text with {@link RemoteLanguageTool}.
  * Use {@link CheckConfigurationBuilder} to create a configuration.
@@ -38,9 +40,11 @@ public class CheckConfiguration {
   private final String mode;
   private final String level;
   private final List<String> ruleValues;
+  @Nullable
+  private final String textSessionID;
   
   CheckConfiguration(String langCode, String motherTongueLangCode, boolean guessLanguage, List<String> enabledRuleIds, boolean enabledOnly, 
-      List<String> disabledRuleIds, String mode, String level, List<String> ruleValues) {
+                     List<String> disabledRuleIds, String mode, String level, List<String> ruleValues, String textSessionID) {
     if (langCode == null && !guessLanguage) {
       throw new IllegalArgumentException("No language was set but language guessing was not activated either");
     }
@@ -56,6 +60,7 @@ public class CheckConfiguration {
     this.mode = mode;
     this.level = level;
     this.ruleValues = Objects.requireNonNull(ruleValues);
+    this.textSessionID = textSessionID;
   }
 
   public Optional<String> getLangCode() {
@@ -92,6 +97,11 @@ public class CheckConfiguration {
 
   public List<String> getRuleValues() {
     return ruleValues;
+  }
+
+  @Nullable
+  public String getTextSessionID() {
+    return textSessionID;
   }
 
 }
