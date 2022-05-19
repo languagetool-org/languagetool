@@ -55,9 +55,8 @@ public class CheckResults {
     return sentenceRanges;
   }
   
-  @NotNull
-  public List<SentenceRange> getCleanSentenceRanges() {
-    return cleanSentenceRanges;
+  public void addSentenceRanges(List<SentenceRange> sentenceRanges) {
+    this.sentenceRanges.addAll(sentenceRanges);
   }
 
   public void setSentenceRanges(List<String> sentences) {

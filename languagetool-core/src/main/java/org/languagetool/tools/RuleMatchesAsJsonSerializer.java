@@ -230,16 +230,6 @@ public class RuleMatchesAsJsonSerializer {
       }
     }
     g.writeEndArray();
-    g.writeArrayFieldStart("cleanSentenceRanges");
-    for (CheckResults r : res) {
-      for (SentenceRange range : r.getCleanSentenceRanges()) {
-        g.writeStartArray();
-        g.writeNumber(range.getFromPos());
-        g.writeNumber(range.getToPos());
-        g.writeEndArray();
-      }
-    }
-    g.writeEndArray();
   }
 
   private String cleanSuggestion(String s) {
