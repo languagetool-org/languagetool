@@ -5492,6 +5492,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="filterall"/>
         </rule>
     </rulegroup>
+    <rule id="masses" name="masses (incorrecte)">
+        <pattern>
+            <token>masses</token>
+            <marker>
+                <token postag="N.*" postag_regexp="yes" inflected="yes" regexp="yes">mentida|dificultat|pecat|dada</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="N.*"/>
+    </rule>
     <!-- ser + participi-->
     <rulegroup id="ser_participi" name="ser + participi">
         <rule>
