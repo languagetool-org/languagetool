@@ -509,6 +509,7 @@ public class CaseRule extends Rule {
     "Folgendes",   // je nach Kontext groß (TODO)...
     "Fort",
     "Fraß",
+    "Fristende",
     "Frevel",
     "Genüge",
     "Gefallen", // Gefallen finden

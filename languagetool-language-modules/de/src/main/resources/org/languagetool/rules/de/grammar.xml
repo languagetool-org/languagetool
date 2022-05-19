@@ -24962,6 +24962,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup id="KOMP_WIE" name="'besser wie (als)'">
             <url>https://languagetool.org/insights/de/beitrag/vergleiche-wie-als/</url>
+            <antipattern>
+                <token>wie</token>
+                <token regexp="yes">ihr|du</token>
+                <token regexp="yes">meins?t</token>
+            </antipattern>
+            <antipattern>
+                <token>früher</token>
+                <token>wie</token>
+                <token>heute</token>
+            </antipattern>
+            <antipattern>
+                <token>lieber</token>
+                <token>wie</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token postag=".*ADJ.*KOM.*" postag_regexp="yes"/>
@@ -25043,6 +25057,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token skip="-1"/>
                     <token>wie</token>
                 </antipattern>
+                <antipattern>
+                    <token>weiter</token>
+                    <token>wie</token>
+                    <token postag="ADV.*" postag_regexp="yes" min="0" />
+                    <token regexp="yes">gew[öo]hnt|geplant</token>
+                </antipattern>
                     <pattern>
                         <token postag="ADJ:PRD:KOM">
                             <exception postag="ADV:TMP"/>
@@ -25071,6 +25091,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ich mache weiter wie bisher.</example>
                 <example>Auch nach dem Schlaganfall rauchte er weiter wie vorher.</example>
                 <example>Er wird im gleichen Maße besser wie sie.</example>
+                <example>Aber falls nicht, machen wir trotzdem weiter wie geplant.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SINN_MACHEN" name="'Sinn machen'" tags="picky">
@@ -31212,10 +31233,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Frage">Ich habe noch eine <marker>frage</marker>.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp="yes">.*nummer|.*nr</token>
+                    <token min="0">.</token>
+                    <token regexp="yes">[0-9]+</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">.*nummer|.*nr</token>
+                    <token min="0">.</token>
+                    <token postag="ZAL" />
+                </antipattern>
+                <antipattern>
+                    <token postag="VER:MOD.*" postag_regexp="yes" skip="6">
+                        <exception scope="next" postag="VER.*" postag_regexp="yes" />
+                        <exception>,</exception>
+                    </token>
+                    <token regexp="yes">[0-9]{1,3}</token>
+                </antipattern>
                 <pattern>
                     <or>
                         <token postag="ZAL"></token>
-                        <token regexp="yes">[0-9]+</token>
+                        <token regexp="yes">[0-9]{1,3}</token>
                     </or>
                     <marker>
                         <token case_sensitive="yes">fragen</token>
@@ -31224,6 +31262,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Meinten Sie das Nomen <suggestion>Fragen</suggestion> (als Nomen großgeschrieben)?</message>
                 <example correction="Fragen">Ich habe noch ein, zwei <marker>fragen</marker>.</example>
                 <example correction="Fragen">Die Liste enthielt 5 <marker>fragen</marker>.</example>
+                <example>Wir müssen nach Stufe 2 fragen.</example>
             </rule>
             <rule>
                 <pattern>
@@ -48963,7 +49002,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
-        <rule id="AUF_DER_SCHLICHE" name="auf der Schliche (Spur)" default="temp_off">
+        <rule id="ZWEI_GESCHOESSIG" name="3-geschössig -> 3-geschossig" default="temp_off">
+            <pattern>
+                <token regexp="yes" case_sensitive="yes">(\d+-?)gesch(ö|oe)ssig(e[srnm]?)?</token>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="1" regexp_match="-?gesch(ö|oe)ssig" regexp_replace="-geschossig" /></suggestion>?</message>
+            <example correction="3-geschossigen">Er lebt in einem <marker>3-geschössigen</marker> Haus.</example>
+        </rule>
+        <rule id="AUF_DER_SCHLICHE" name="auf der Schliche (Spur)">
             <antipattern>
                 <token inflected="yes" skip="6">kommen</token>
                 <token>Schliche</token>
