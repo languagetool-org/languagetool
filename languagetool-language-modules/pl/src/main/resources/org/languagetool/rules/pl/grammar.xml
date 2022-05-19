@@ -21514,10 +21514,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example correction="Hongkongu">Całe terytorium <marker>Hong Kongu</marker> stało się jednym obszarem miejskim.</example>
 				</rule>
 				<rule id="ZAGRANICA-ZA_GRANICA" name="„zagranicą” (za granicą)">
+				    <antipattern>
+              <token postag="prep:.*inst(:n?wok)?" postag_regexp="yes"/>
+              <token postag="subst:.*inst.*" postag_regexp="yes"></token>
+              <token regexp="yes">[ia]|lub|oraz</token>
+              <marker>
+                <token>zagranicą</token>
+              </marker>
+				    </antipattern>
 						<pattern>
-								<token postag="SENT_START" skip="-1"><exception postag="prep:.*inst(:n?wok)?" postag_regexp="yes" scope="next"></exception><exception inflected="yes" regexp="yes">zainteresowanie|zainteresowany|nazywany</exception></token>
+								<token postag="SENT_START|comp:comma" postag_regexp="yes" skip="-1">
+								  <exception postag="prep:.*inst(:n?wok)?" postag_regexp="yes" scope="next"></exception><exception inflected="yes" regexp="yes">zainteresowanie|zainteresowany|nazywany</exception></token>
 								<marker>
-										<token>zagranicą</token>
+										<token>zagranicą
+										<exception scope="previous" postag="adj:sg:inst:f.*" postag_regexp="yes"/></token>
 								</marker>
 						</pattern>
 						<message>W tym wypadku prawdopodobnie należy napisać rozłącznie: <suggestion>za granicą</suggestion> (gdzie? za granicą! czym? zagranicą!).</message>
@@ -21525,7 +21535,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example>Polacy za granicą</example>
 						<example>Nie ma różnicy między krajem a zagranicą.</example>
 						<example>To człowiek od kontaktów z zagranicą</example>
+						<example>My jesteśmy bliską zagranicą dla Rosji i Rosja dla nas jest bliską zagranicą.</example>
+						<example>Co pięćdziesiąty badany wiąże działalność mafijną tylko z obcokrajowcami i zagranicą.</example>
 						<example correction="za granicą">Polacy <marker>zagranicą</marker></example>
+						<example correction="za granicą">To dobrze, że wydajemy pieniądze na różnego typu imprezy polskie czy z polskim akcentem, które odbywają się <marker>zagranicą</marker>, ale to nie może być główna działalność tego typu agencji — mówił wicepremier.</example>
 				</rule>
 				<rule id="ZA_GRANICA-ZAGRANICA" name="„za granicą” (zagranicą)">
 						<pattern>
