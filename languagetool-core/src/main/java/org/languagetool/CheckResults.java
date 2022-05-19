@@ -18,7 +18,6 @@
  */
 package org.languagetool;
 
-import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.rules.RuleMatch;
 
@@ -34,8 +33,6 @@ public class CheckResults {
   private List<RuleMatch> ruleMatches;
   private List<Range> ignoredRanges;
   private final List<SentenceRange> sentenceRanges = new ArrayList<>();
-  
-  private final List<SentenceRange> cleanSentenceRanges = new ArrayList<>();
 
   public CheckResults(List<RuleMatch> ruleMatches, List<Range> ignoredRanges) {
     this.ruleMatches = Objects.requireNonNull(ruleMatches);
@@ -57,10 +54,6 @@ public class CheckResults {
   
   public void addSentenceRanges(List<SentenceRange> sentenceRanges) {
     this.sentenceRanges.addAll(sentenceRanges);
-  }
-  
-  public void setIgnoredRanges(List<Range> ignoredRanges) {
-    this.ignoredRanges = Objects.requireNonNull(ignoredRanges);
   }
 
   public void setRuleMatches(List<RuleMatch> ruleMatches) {
