@@ -51,6 +51,9 @@ public class CheckResults {
   public List<SentenceRange> getSentenceRanges() {
     return sentenceRanges;
   }
+  public void addSentenceRanges(List<SentenceRange> sentenceRanges) {
+    this.sentenceRanges.addAll(sentenceRanges);
+  }
   
   public void setIgnoredRanges(List<Range> ignoredRanges) {
     this.ignoredRanges = Objects.requireNonNull(ignoredRanges);
