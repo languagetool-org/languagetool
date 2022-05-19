@@ -3,6 +3,35 @@ package lt_ml_server;
 option java_package = "org.languagetool.rules.ml";
 option java_outer_classname = "MLServerProto";
 
+// NOTE: should this be split this up into different packages?
+message AnalyzeRequest {
+    string text = 1;
+    ProcessingOptions options = 2;
+}
+
+message ProcessingOptions {
+    string language = 1;
+}
+
+message AnalyzeResponse {
+    repeated AnalyzedSentence sentences = 1;
+}
+
+message ProcessRequest {
+    repeated AnalyzedSentence sentences = 1;
+    ProcessingOptions options = 2;
+}
+
+message TransformRequest {
+    MatchList matches = 1;
+    ProcessingOptions options = 2;
+}
+
+service ProcessingServer {
+    rpc Analyze (AnalyzeRequest) returns (AnalyzeResponse) {}
+    rpc Process (ProcessRequest) returns (MatchList) {}
+    rpc Transform (TransformRequest) returns (MatchList) {}
+}
 
 service MLServer {
     rpc Match (MatchRequest) returns (MatchResponse) {}
