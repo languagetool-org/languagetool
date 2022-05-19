@@ -58,30 +58,7 @@ public class CheckResults {
   public void addSentenceRanges(List<SentenceRange> sentenceRanges) {
     this.sentenceRanges.addAll(sentenceRanges);
   }
-
-  public void setSentenceRanges(List<String> sentences) {
-    int pos = 0;
-    for (String sentence : sentences) {
-      sentenceRanges.add(new SentenceRange(pos, pos + sentence.length()));
-      pos += sentence.length();
-    }
-    setCleanSentenceRanges(sentences);
-  }
   
-  private void setCleanSentenceRanges(List<String> sentences) {
-    if (sentences.size() == sentenceRanges.size()) {
-      for (int i = 0; i < sentences.size(); i++) {
-        String sentence = sentences.get(i);
-        SentenceRange range = sentenceRanges.get(i);
-        String trimStart = StringUtils.stripStart(sentence, null);
-        String trimEnd = StringUtils.stripEnd(sentence, null);
-        int newFromPosOffset = sentence.length() - trimStart.length();
-        int newToPosOffset = sentence.length() - trimEnd.length();
-        cleanSentenceRanges.add(new SentenceRange(range.getFromPos() + newFromPosOffset, range.getToPos() -newToPosOffset));
-      }
-    }
-  }
-
   public void setIgnoredRanges(List<Range> ignoredRanges) {
     this.ignoredRanges = Objects.requireNonNull(ignoredRanges);
   }
