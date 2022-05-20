@@ -980,8 +980,8 @@ public class JLanguageTool {
     }
     return atb.build();
   }
-  
-  private CheckResults checkInternal(AnnotatedText annotatedText, ParagraphHandling paraMode, RuleMatchListener listener,
+
+  protected CheckResults checkInternal(AnnotatedText annotatedText, ParagraphHandling paraMode, RuleMatchListener listener,
                                      Mode mode, Level level,
                                      @Nullable Long textSessionID, List<String> sentences, List<AnalyzedSentence> analyzedSentences) throws IOException {
     RuleSet rules = getActiveRulesForLevel(level);
