@@ -9598,7 +9598,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="consigo">Estaba satisfecho <marker>con sí</marker> mismo.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="SI_AFIRMACION" name="si -> sí" default="temp_off">
+        <rulegroup id="SI_AFIRMACION" name="si -> sí">
+            <!-- Perhaps still too many FPs. Usually, they are incomplete sentences. -->
             <url>https://www.rae.es/dpd/s%C3%AD</url>
             <antipattern>
                 <token>si</token>
@@ -9625,6 +9626,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token skip="-1" postag="V.I.*" postag_regexp="yes"><exception postag="V.S.*" postag_regexp="yes"/></token>
                 <token regexp="yes">!|\?</token>
             </antipattern>
+            <antipattern>
+                <token>si</token>
+                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0" max="2"/>
+                <token skip="-1" postag="V.I.2.*" postag_regexp="yes"/>
+                <!--<token>.</token>
+                <token>.</token>
+                <token>.</token>
+                <token>…</token>-->
+            </antipattern>
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
@@ -9634,9 +9644,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0" max="2"/>
                     <token postag="V.I.*" postag_regexp="yes"><exception postag="V.S.*" postag_regexp="yes"/></token>
                 </pattern>
-                <message>Se escribe con tilde si es una afirmación.</message>
+                <message>Se escribe con tilde si es una afirmación. Correcto si es una frase condicional.</message>
                 <suggestion>sí</suggestion>
                 <example correction="Sí"><marker>Si</marker> hice el trabajo.</example>
+                <example correction="Sí"><marker>Si</marker> se puede, chicas.</example>
                 <example>Si quieres vivir mucho tiempo, deja de fumar.</example>
                 <example>Si eres feliz, yo también.</example>
                 <example>Si es así, tanto mejor.</example>
@@ -9644,6 +9655,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Si tuvo todas las oportunidades antes de inmigrar!</example>
                 <example type="triggers_error" reason="ambiguous">Si tuvo todas las oportunidades antes de inmigrar.</example>
                 <example>Si ayer lo aseguraste una y otra vez delante de todos, ¿cómo lo niegas hoy?</example>
+                <example>Si vas a la playa cuenta conmigo.</example>
+                <example>Si deseas saber más de recetas tradicionales...</example>
+                <example>Si buscáis algo de marcha o vida nocturna olvidaos de bajar al sur.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PASO" name="paso/pasó">
