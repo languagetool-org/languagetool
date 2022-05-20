@@ -18,6 +18,10 @@
  */
 package org.languagetool;
 
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -32,6 +36,24 @@ public class SentenceRange {
   SentenceRange(int fromPos, int toPos) {
     this.fromPos = fromPos;
     this.toPos = toPos;
+  }
+  
+  public static List<SentenceRange> getRangesFromSentences(List<String> sentences) {
+    List<SentenceRange> sentenceRanges = new ArrayList<>();
+    int pos = 0;
+    for (int i = 0; i < sentences.size(); i++) {
+        String sentence = sentences.get(i);
+        int origFromPos = pos;
+        int origToPos = pos + sentence.length();
+        
+        String trimStart = StringUtils.stripStart(sentence, null);
+        String trimEnd = StringUtils.stripEnd(sentence, null);
+        int newFromPosOffset = sentence.length() - trimStart.length();
+        int newToPosOffset = sentence.length() - trimEnd.length();
+        sentenceRanges.add(new SentenceRange(origFromPos + newFromPosOffset, origToPos - newToPosOffset));
+        pos += sentence.length();  
+    }
+    return sentenceRanges;
   }
 
   public int getFromPos() {

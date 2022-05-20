@@ -937,11 +937,12 @@ public class JLanguageTool {
 
   public CheckResults check2(AnnotatedText annotatedText, boolean tokenizeText, ParagraphHandling paraMode, RuleMatchListener listener,
                              Mode mode, Level level, @Nullable Long textSessionID) throws IOException {
+    List<String> unmodifiedSentences = getSentences(annotatedText, tokenizeText);
     annotatedText = cleanText(annotatedText);
     List<String> sentences = getSentences(annotatedText, tokenizeText);
     List<AnalyzedSentence> analyzedSentences = analyzeSentences(sentences);
     CheckResults checkResults = checkInternal(annotatedText, paraMode, listener, mode, level, textSessionID, sentences, analyzedSentences);
-    checkResults.setSentenceRanges(sentences);
+    checkResults.addSentenceRanges(SentenceRange.getRangesFromSentences(unmodifiedSentences));
     return checkResults;
   }
 
