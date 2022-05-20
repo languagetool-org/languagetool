@@ -17342,6 +17342,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rulegroup>
 		</category>
 		<category id="SPELLING" name="Błędy ortograficzne" type="misspelling">
+    <rule id="nie_mniej_jednak" name="„nie mniej jednak” (niemniej jednak)">
+      <pattern>
+        <marker>
+          <token>nie</token>
+          <token>mniej</token>
+        </marker>
+          <token>jednak</token>        
+          <token><exception>niż</exception></token>
+      </pattern>
+      <message>Ten wyraz prawdopodobnie należy zapisać łącznie: <suggestion>\1\2</suggestion>.</message>
+      <url>https://jaksiepisze.pl/niemniej-jednak-czy-nie-mniej-jednak/</url>        
+      <short>Błąd ortograficzny</short>
+      <example correction="Niemniej"><marker>Nie mniej</marker> jednak Kołakowski był filozofem.</example>
+      <example>Skazany w pierwszej instancji na karę grzywny obowiązany jest uiścić opłatę w wysokości 10%, nie mniej jednak niż 30 zł.</example>
+    </rule>
 		<rule id="ZEBYS_MY_ZEBYSMY" name="„żebyś my” (żebyśmy)">
       <pattern>
       <token regexp='yes'>(?:że|a)byś</token>
@@ -21834,6 +21849,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <short>Literówka</short>
       <example correction="mniej">Dostałem <marker>mnie</marker> więcej tysiąc zł.</example>
       <example>Dostał ode mnie więcej niż 5 zł.</example>
+      </rule>    
+    </rulegroup>
+    <rulegroup id="MNIEJ_MNIE" name="„nie mnie niż” (nie mniej niż)">
+      <rule>
+        <pattern>
+            <token>nie</token>
+            <marker>
+              <token>mnie</token>            
+            </marker>
+            <token min="0">jednak</token>
+            <token>niż</token>
+        </pattern>
+        <message>Prawdopodobna literówka. Czy chodziło o <suggestion>mniej</suggestion>?</message>
+        <short>Literówka</short>
+        <example correction="mniej">Nie <marker>mnie</marker> niż 100 g.</example>           
       </rule>    
     </rulegroup>
     <rulegroup id="BOJE_BOJĘ" name="„boje się” (boję się">
