@@ -2544,6 +2544,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
             </pattern>
             <message>Meinten Sie die Redewendung <suggestion>von ganzem Herzen</suggestion>?</message>
+            <url>https://languagetool.org/insights/de/beitrag/von-ganzem-ganzen-herzen/</url>
             <short>&typo;</short>
             <example correction='von ganzem Herzen'>Das wünsche ich dir <marker>von ganzen Herzen</marker>.</example>
             <example>Ich danke dir von ganzem Herzen.</example>
@@ -27763,6 +27764,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rulegroup id="KOMMT_MIR_SPANISCH_VOR" name="kommt mir Spanisch (spanisch) vor" default="temp_off">
+            <url>https://de.wikipedia.org/wiki/Das_kommt_mir_spanisch_vor</url>
+            <rule>
+                <pattern>
+                    <token inflected="yes">kommen</token>
+                    <token regexp="yes">mir|uns|ih[mr]|euch|ihnen</token>
+                    <token postag="ADV.*" postag_regexp="yes" min="0" />
+                    <marker>
+                        <token case_sensitive="yes">Spanisch</token>
+                    </marker>
+                    <token>vor</token>
+                </pattern>
+                <message>In dieser Redewendung wird <suggestion><match no="4" case_conversion="alllower" /></suggestion> kleingeschrieben.</message>
+                <example correction="spanisch">Das kommt mir <marker>Spanisch</marker> vor.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">mir|uns|ih[mr]|euch|ihnen</token>
+                    <token postag="ADV.*" postag_regexp="yes" min="0" />
+                    <marker>
+                        <token case_sensitive="yes">Spanisch</token>
+                    </marker>
+                    <token inflected="yes">vorkommen</token>
+                </pattern>
+                <message>In dieser Redewendung wird <suggestion><match no="3" case_conversion="alllower" /></suggestion> kleingeschrieben.</message>
+                <example correction="spanisch">Auch wenn es mir <marker>Spanisch</marker> vorkommt.</example>
+            </rule>
+        </rulegroup>
         <rule id="IM_HIER_UND_JETZT" name="im Hier und Jetzt">
             <antipattern case_sensitive="yes">
                 <token regexp="yes">Hier|HIER</token>
@@ -49017,7 +49046,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
-        <rule id="ZWEI_GESCHOESSIG" name="3-geschössig -> 3-geschossig" default="temp_off">
+        <rule id="ZWEI_GESCHOESSIG" name="3-geschössig -> 3-geschossig">
             <pattern>
                 <token regexp="yes" case_sensitive="yes">(\d+-?)gesch(ö|oe)ssig(e[srnm]?)?</token>
             </pattern>
@@ -58131,7 +58160,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="zu seinen Lebzeiten">Seine Werke waren <marker>zu seiner Lebenszeit</marker> nicht besonders erfolgreich.</example>
         </rule>
         <rulegroup id="INSOFERN_ALS_DASS" name="'insofern, als dass (als)'">
-            <url>http://www.spiegel.de/kultur/zwiebelfisch/zwiebelfisch-abc-insofern-als-insofern-dass-a-340036.html</url>
+            <url>https://languagetool.org/insights/de/beitrag/rechtschreibung-insofern-insoweit/</url>
             <rule>
                 <pattern>
                     <token skip="2" regexp="yes">inso(fern|weit)</token>
@@ -58678,6 +58707,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token inflected="yes">liegen</token>
                 <token postag="ADV.*" postag_regexp="yes" min="0" />
+                <token>sofern</token>
+            </antipattern>
+            <antipattern>
+                <token postag="KON.*|PKT" postag_regexp="yes" />
+                <token>nicht</token>
                 <token>sofern</token>
             </antipattern>
             <pattern>

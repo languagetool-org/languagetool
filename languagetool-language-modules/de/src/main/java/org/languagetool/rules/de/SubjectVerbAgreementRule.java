@@ -230,6 +230,11 @@ public class SubjectVerbAgreementRule extends Rule {
       new PatternTokenBuilder().tokenRegex("der|dieser").setSkip(4).build(),
       tokenRegex("ist|war")
     ),
+    Arrays.asList( // Dank unserer Kunden, Freunde, Partner und unserer Mitarbeiter ist Alpenwahnsinn zur Heimatadresse für schöne Trachtenmode geworden.
+      new PatternTokenBuilder().token("dank").setSkip(-1).build(),
+      tokenRegex("ist|war"),
+      posRegex("EIG.*|SUB.*SIN.*")
+    ),
     Arrays.asList( // Start und Ziel ist Innsbruck
       token("Start"),
       token("und"),

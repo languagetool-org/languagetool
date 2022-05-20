@@ -1011,6 +1011,15 @@ class AgreementRuleAntiPatterns1 {
       csToken("veranlasste"),
       posRegex("SUB.*")
     ),
+    Arrays.asList(
+      // …, kann das Infektionen möglicherweise verhindern
+      posRegex("KON.*|PKT"),
+      posRegex("VER:MOD:3:SIN.*"),
+      csToken("das"),
+      posRegex("SUB.*"),
+      new PatternTokenBuilder().posRegex("ADV.*").min(0).max(2).build(),
+      posRegex("VER:INF:.*")
+    ),
     // TODO: comment in
     // Arrays.asList(
     //   // die gegnerischen Shooting Guards
