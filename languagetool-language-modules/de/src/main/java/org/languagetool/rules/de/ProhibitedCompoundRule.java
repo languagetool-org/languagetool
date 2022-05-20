@@ -147,6 +147,8 @@ public class ProhibitedCompoundRule extends Rule {
     ".+gra(ph|f)its?"   // ...grafit/graphit
   );
   private static final Set<String> blacklist = new HashSet<>(Arrays.asList(
+          "Mikrolage",  // vs. alge
+          "Mikrolagen",  // vs. algen
           "Sichtnutzer",  // vs. Nicht
           "Sichtnutzers",  // vs. Nicht
           "Sichtnutzern",  // vs. Nicht
