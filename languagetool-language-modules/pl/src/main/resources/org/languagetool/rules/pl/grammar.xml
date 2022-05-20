@@ -21828,12 +21828,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </token>
         </marker>
         <token>więcej</token>
+        <token min="0">co</token>
         <token regexp="yes" inflected="yes">\d+|rok|godzina|połowa</token>
       </pattern>
       <message>Prawdopodobna literówka. Czy chodziło o <suggestion>mniej</suggestion>?</message>
       <short>Literówka</short>
       <example correction="mniej">Dostałem <marker>mnie</marker> więcej 1000 zł.</example>
       <example>Dostał ode mnie więcej niż 5 zł.</example>
+      </rule>      
+      <rule>
+        <pattern>
+        <token>ni</token>
+        <marker>
+        <token>mnie</token>
+        </marker>
+        <token min="0">,</token>
+        <token>ni</token>
+        <token>więcej</token>
+        </pattern>
+        <message>Prawdopodobna literówka. Czy chodziło o <suggestion>mniej</suggestion>?</message>
+        <short>Literówka</short>
+        <example correction="mniej">Dostałem ni <marker>mnie</marker>, ni więcej jak stary sedes.</example>
       </rule>   
       <rule>
       <pattern>
@@ -21843,18 +21858,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          </token>
         </marker>
         <token>więcej</token>
+        <token min="0">co</token>
         <token postag_regexp="yes" postag="num.*"/>
       </pattern>
       <message>Prawdopodobna literówka. Czy chodziło o <suggestion>mniej</suggestion>?</message>
       <short>Literówka</short>
       <example correction="mniej">Dostałem <marker>mnie</marker> więcej tysiąc zł.</example>
       <example>Dostał ode mnie więcej niż 5 zł.</example>
-      </rule>    
-    </rulegroup>
-    <rulegroup id="MNIEJ_MNIE" name="„nie mnie niż” (nie mniej niż)">
+      <example correction="mniej">Dla niezmotoryzowanych odjeżdża <marker>mnie</marker> więcej co pół godziny autobus.</example>
+      </rule>
       <rule>
         <pattern>
-            <token>nie</token>
+            <token regexp="yes">nie|znacznie|\d+%|razy|za|w|dużo</token>
             <marker>
               <token>mnie</token>            
             </marker>
@@ -21863,7 +21878,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </pattern>
         <message>Prawdopodobna literówka. Czy chodziło o <suggestion>mniej</suggestion>?</message>
         <short>Literówka</short>
-        <example correction="mniej">Nie <marker>mnie</marker> niż 100 g.</example>           
+        <example correction="mniej">Nie <marker>mnie</marker> niż 100 g.</example>
+        <example correction="mniej">Płacą nawet 40% <marker>mnie</marker> niż w sklepie.</example>           
+      </rule>
+      <rule>
+        <pattern>
+            <token>coraz</token>
+            <marker>
+              <token>mnie</token>            
+            </marker>
+            <token><exception postag=".*:com" postag_regexp="yes"/></token>        
+        </pattern>
+        <message>Prawdopodobna literówka. Czy chodziło o <suggestion>mniej</suggestion>?</message>
+        <short>Literówka</short>
+        <example>I coraz mnie mniej.</example>
+        <example correction="mniej">W toku coraz <marker>mnie</marker> eleganckiej dyskusji rozmyło się bestialstwo zabójców, najważniejsza stała się obrona honoru podejrzanych.</example>
+      </rule>
+       <rule>
+        <pattern>
+            <marker>
+              <token>mnie</token>            
+            </marker>
+            <token>lub</token>
+            <token>bardziej</token>        
+        </pattern>
+        <message>Prawdopodobna literówka. Czy chodziło o <suggestion>mniej</suggestion>?</message>
+        <short>Literówka</short>
+        <example>I coraz mnie mniej.</example>
+        <example correction="mniej">W toku <marker>mnie</marker> lub bardziej eleganckiej dyskusji rozmyło się bestialstwo zabójców, najważniejsza stała się obrona honoru podejrzanych.</example>
       </rule>    
     </rulegroup>
     <rulegroup id="BOJE_BOJĘ" name="„boje się” (boję się">
