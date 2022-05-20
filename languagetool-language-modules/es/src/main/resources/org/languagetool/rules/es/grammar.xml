@@ -18110,20 +18110,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="conscientes">Acabarán por ser <marker>consciente</marker> de ello.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="AGREEMENT_SER_ADJ_SG" name="concordancia: soy consciente" default="temp_off">
+        <rulegroup id="AGREEMENT_SER_ADJ_SG" name="concordancia: soy consciente">
             <rule>
                 <pattern>
                     <token postag="V.[SIM]..S." postag_regexp="yes" regexp="yes" inflected="yes">ser|estar|parecer</token>
-                    <marker>
-                        <token postag="AQ..P.|V.P..P." postag_regexp="yes"/>
-                    </marker>
+                    <token postag="AQ..P.|V.P..P." postag_regexp="yes"/>
                 </pattern>
                 <message>Posible error de concordancia.</message>
-                <suggestion suppress_misspelled="yes"><match no="2" postag="(AQ..|V.P..)P(.*)" postag_regexp="yes" postag_replace="$1S$2"/></suggestion>
-                <example correction="consciente">Soy <marker>conscientes</marker> de ello.</example>
-                <example correction="consciente">Sé <marker>conscientes</marker> de ello.</example>
+                <suggestion suppress_misspelled="yes">\1 <match no="2" postag="(AQ..|V.P..)P(.*)" postag_regexp="yes" postag_replace="$1S$2"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="(V.[SIM]..)S(.)" postag_regexp="yes" postag_replace="$1P$2" case_conversion="preserve"/> \2</suggestion>
+                <example correction="Soy consciente|Somos conscientes"><marker>Soy conscientes</marker> de ello.</example>
+                <example correction="Sé consciente|Sabemos conscientes|Sed conscientes"><marker>Sé conscientes</marker> de ello.</example>
             </rule>
-            <rule>
+            <rule default="temp_off">
                 <pattern>
                     <token postag="V.[SIM]..S." postag_regexp="yes"/>
                     <token min="0" regexp="yes">a|de|que|en|por</token>
