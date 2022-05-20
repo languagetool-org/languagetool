@@ -47,65 +47,34 @@ public final class ProcessingServerGrpc {
   }
 
   private static volatile io.grpc.MethodDescriptor<org.languagetool.rules.ml.MLServerProto.ProcessRequest,
-      org.languagetool.rules.ml.MLServerProto.MatchList> getProcessMethod;
+      org.languagetool.rules.ml.MLServerProto.ProcessResponse> getProcessMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
       fullMethodName = SERVICE_NAME + '/' + "Process",
       requestType = org.languagetool.rules.ml.MLServerProto.ProcessRequest.class,
-      responseType = org.languagetool.rules.ml.MLServerProto.MatchList.class,
+      responseType = org.languagetool.rules.ml.MLServerProto.ProcessResponse.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
   public static io.grpc.MethodDescriptor<org.languagetool.rules.ml.MLServerProto.ProcessRequest,
-      org.languagetool.rules.ml.MLServerProto.MatchList> getProcessMethod() {
-    io.grpc.MethodDescriptor<org.languagetool.rules.ml.MLServerProto.ProcessRequest, org.languagetool.rules.ml.MLServerProto.MatchList> getProcessMethod;
+      org.languagetool.rules.ml.MLServerProto.ProcessResponse> getProcessMethod() {
+    io.grpc.MethodDescriptor<org.languagetool.rules.ml.MLServerProto.ProcessRequest, org.languagetool.rules.ml.MLServerProto.ProcessResponse> getProcessMethod;
     if ((getProcessMethod = ProcessingServerGrpc.getProcessMethod) == null) {
       synchronized (ProcessingServerGrpc.class) {
         if ((getProcessMethod = ProcessingServerGrpc.getProcessMethod) == null) {
           ProcessingServerGrpc.getProcessMethod = getProcessMethod =
-              io.grpc.MethodDescriptor.<org.languagetool.rules.ml.MLServerProto.ProcessRequest, org.languagetool.rules.ml.MLServerProto.MatchList>newBuilder()
+              io.grpc.MethodDescriptor.<org.languagetool.rules.ml.MLServerProto.ProcessRequest, org.languagetool.rules.ml.MLServerProto.ProcessResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(SERVICE_NAME, "Process"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   org.languagetool.rules.ml.MLServerProto.ProcessRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  org.languagetool.rules.ml.MLServerProto.MatchList.getDefaultInstance()))
+                  org.languagetool.rules.ml.MLServerProto.ProcessResponse.getDefaultInstance()))
               .setSchemaDescriptor(new ProcessingServerMethodDescriptorSupplier("Process"))
               .build();
         }
       }
     }
     return getProcessMethod;
-  }
-
-  private static volatile io.grpc.MethodDescriptor<org.languagetool.rules.ml.MLServerProto.TransformRequest,
-      org.languagetool.rules.ml.MLServerProto.MatchList> getTransformMethod;
-
-  @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "Transform",
-      requestType = org.languagetool.rules.ml.MLServerProto.TransformRequest.class,
-      responseType = org.languagetool.rules.ml.MLServerProto.MatchList.class,
-      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<org.languagetool.rules.ml.MLServerProto.TransformRequest,
-      org.languagetool.rules.ml.MLServerProto.MatchList> getTransformMethod() {
-    io.grpc.MethodDescriptor<org.languagetool.rules.ml.MLServerProto.TransformRequest, org.languagetool.rules.ml.MLServerProto.MatchList> getTransformMethod;
-    if ((getTransformMethod = ProcessingServerGrpc.getTransformMethod) == null) {
-      synchronized (ProcessingServerGrpc.class) {
-        if ((getTransformMethod = ProcessingServerGrpc.getTransformMethod) == null) {
-          ProcessingServerGrpc.getTransformMethod = getTransformMethod =
-              io.grpc.MethodDescriptor.<org.languagetool.rules.ml.MLServerProto.TransformRequest, org.languagetool.rules.ml.MLServerProto.MatchList>newBuilder()
-              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "Transform"))
-              .setSampledToLocalTracing(true)
-              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  org.languagetool.rules.ml.MLServerProto.TransformRequest.getDefaultInstance()))
-              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  org.languagetool.rules.ml.MLServerProto.MatchList.getDefaultInstance()))
-              .setSchemaDescriptor(new ProcessingServerMethodDescriptorSupplier("Transform"))
-              .build();
-        }
-      }
-    }
-    return getTransformMethod;
   }
 
   /**
@@ -166,15 +135,8 @@ public final class ProcessingServerGrpc {
     /**
      */
     public void process(org.languagetool.rules.ml.MLServerProto.ProcessRequest request,
-        io.grpc.stub.StreamObserver<org.languagetool.rules.ml.MLServerProto.MatchList> responseObserver) {
+        io.grpc.stub.StreamObserver<org.languagetool.rules.ml.MLServerProto.ProcessResponse> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getProcessMethod(), responseObserver);
-    }
-
-    /**
-     */
-    public void transform(org.languagetool.rules.ml.MLServerProto.TransformRequest request,
-        io.grpc.stub.StreamObserver<org.languagetool.rules.ml.MLServerProto.MatchList> responseObserver) {
-      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getTransformMethod(), responseObserver);
     }
 
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
@@ -191,15 +153,8 @@ public final class ProcessingServerGrpc {
             io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 org.languagetool.rules.ml.MLServerProto.ProcessRequest,
-                org.languagetool.rules.ml.MLServerProto.MatchList>(
+                org.languagetool.rules.ml.MLServerProto.ProcessResponse>(
                   this, METHODID_PROCESS)))
-          .addMethod(
-            getTransformMethod(),
-            io.grpc.stub.ServerCalls.asyncUnaryCall(
-              new MethodHandlers<
-                org.languagetool.rules.ml.MLServerProto.TransformRequest,
-                org.languagetool.rules.ml.MLServerProto.MatchList>(
-                  this, METHODID_TRANSFORM)))
           .build();
     }
   }
@@ -229,17 +184,9 @@ public final class ProcessingServerGrpc {
     /**
      */
     public void process(org.languagetool.rules.ml.MLServerProto.ProcessRequest request,
-        io.grpc.stub.StreamObserver<org.languagetool.rules.ml.MLServerProto.MatchList> responseObserver) {
+        io.grpc.stub.StreamObserver<org.languagetool.rules.ml.MLServerProto.ProcessResponse> responseObserver) {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getProcessMethod(), getCallOptions()), request, responseObserver);
-    }
-
-    /**
-     */
-    public void transform(org.languagetool.rules.ml.MLServerProto.TransformRequest request,
-        io.grpc.stub.StreamObserver<org.languagetool.rules.ml.MLServerProto.MatchList> responseObserver) {
-      io.grpc.stub.ClientCalls.asyncUnaryCall(
-          getChannel().newCall(getTransformMethod(), getCallOptions()), request, responseObserver);
     }
   }
 
@@ -266,16 +213,9 @@ public final class ProcessingServerGrpc {
 
     /**
      */
-    public org.languagetool.rules.ml.MLServerProto.MatchList process(org.languagetool.rules.ml.MLServerProto.ProcessRequest request) {
+    public org.languagetool.rules.ml.MLServerProto.ProcessResponse process(org.languagetool.rules.ml.MLServerProto.ProcessRequest request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getProcessMethod(), getCallOptions(), request);
-    }
-
-    /**
-     */
-    public org.languagetool.rules.ml.MLServerProto.MatchList transform(org.languagetool.rules.ml.MLServerProto.TransformRequest request) {
-      return io.grpc.stub.ClientCalls.blockingUnaryCall(
-          getChannel(), getTransformMethod(), getCallOptions(), request);
     }
   }
 
@@ -303,24 +243,15 @@ public final class ProcessingServerGrpc {
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<org.languagetool.rules.ml.MLServerProto.MatchList> process(
+    public com.google.common.util.concurrent.ListenableFuture<org.languagetool.rules.ml.MLServerProto.ProcessResponse> process(
         org.languagetool.rules.ml.MLServerProto.ProcessRequest request) {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getProcessMethod(), getCallOptions()), request);
-    }
-
-    /**
-     */
-    public com.google.common.util.concurrent.ListenableFuture<org.languagetool.rules.ml.MLServerProto.MatchList> transform(
-        org.languagetool.rules.ml.MLServerProto.TransformRequest request) {
-      return io.grpc.stub.ClientCalls.futureUnaryCall(
-          getChannel().newCall(getTransformMethod(), getCallOptions()), request);
     }
   }
 
   private static final int METHODID_ANALYZE = 0;
   private static final int METHODID_PROCESS = 1;
-  private static final int METHODID_TRANSFORM = 2;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -345,11 +276,7 @@ public final class ProcessingServerGrpc {
           break;
         case METHODID_PROCESS:
           serviceImpl.process((org.languagetool.rules.ml.MLServerProto.ProcessRequest) request,
-              (io.grpc.stub.StreamObserver<org.languagetool.rules.ml.MLServerProto.MatchList>) responseObserver);
-          break;
-        case METHODID_TRANSFORM:
-          serviceImpl.transform((org.languagetool.rules.ml.MLServerProto.TransformRequest) request,
-              (io.grpc.stub.StreamObserver<org.languagetool.rules.ml.MLServerProto.MatchList>) responseObserver);
+              (io.grpc.stub.StreamObserver<org.languagetool.rules.ml.MLServerProto.ProcessResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -414,7 +341,6 @@ public final class ProcessingServerGrpc {
               .setSchemaDescriptor(new ProcessingServerFileDescriptorSupplier())
               .addMethod(getAnalyzeMethod())
               .addMethod(getProcessMethod())
-              .addMethod(getTransformMethod())
               .build();
         }
       }
