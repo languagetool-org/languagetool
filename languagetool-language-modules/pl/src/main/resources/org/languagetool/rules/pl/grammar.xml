@@ -2352,7 +2352,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				<rulegroup id="BRAK_PRZECINKA_KTORY" name="Brak przecinka przed „który” i „jaki”">
             <antipattern>
                 <unify>
-                    <feature id="case"/><feature id="gender"/><feature id="number"/>
+                    <feature id="case">
+                      <type id="acc"/><type id="gen"/><type id="dat"/><type id="inst"/><type id="loc"/><type id="voc"/>
+                    </feature>
+                    <feature id="gender"/><feature id="number"/>
                     <marker>
                         <token inflected="yes" postag="adj.*" postag_regexp="yes" regexp="yes">jaki|który</token>
                     </marker>
@@ -2389,7 +2392,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>Nie wiedziałem, do którego rozporządzenia zgłosił on uwagę.</example>
 								<example>Istnieją dwa powody, z uwagi na które może on tak myśleć.</example>
 								<example correction="wiedziałem, do którego">Nie <marker>wiedziałem do którego</marker> rozporządzenia zgłosił on uwagę.</example>
-                                <example>Gdzie tam, w lada jakiej sprawie musi jeszcze nieborak dawać.</example>
+                <example>Gdzie tam, w lada jakiej sprawie musi jeszcze nieborak dawać.</example>
 						</rule>
 						<rule>
                                 <antipattern>
@@ -15190,6 +15193,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example>Jak będziesz w szpitalu wariatów, pozdrów Antoniego od Aleksandra!</example>
 						<example correction="od|odę">Jak będziesz w szpitalu wariatów, pozdrów Antoniego <marker>ode</marker> Aleksandra!</example>
 				</rule>
+				<rule id="PRZEZ_MNIE" name="„przez mnie” (przeze mnie)">
+          <pattern>
+              <marker>
+                <token>przez</token>              
+              </marker>
+              <token>mnie</token>     
+          </pattern>
+          <message>Ten przyimek należy zapisać tak: <suggestion>przeze</suggestion>.</message>
+          <short>Błąd fonetyczny</short>
+					<example correction="przeze">To wszystko <marker>przez</marker> mnie.</example>	
+				</rule>
 				<rule id="SPOD_LBA" name="„spod łba” (spode łba)">
 						<pattern>
 								<marker>
@@ -15205,7 +15219,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				<rule id="SPODE_CZEGO" name="„spode/znade czego” (spod/znad czego)">
 						<pattern>
 								<marker>
-										<token regexp="yes">spode|znade</token>
+										<token regexp="yes">spode|znade|przeze</token>
 								</marker>
 								<token><exception regexp="yes">mnie|łba</exception></token>
 						</pattern>
@@ -15227,17 +15241,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example>Kopał dołki pode mną.</example>
 						<example correction="pod">Włazł <marker>pode</marker> kamień.</example>
 				</rule>
-				<rule id="BEZE_CZEGO" name="„beze czego” (bez czego)">
+				<rule id="BEZE_CZEGO" name="„beze/przeze czego” (bez czego)">
 						<pattern>
 								<marker>
-										<token>beze</token>
+										<token regexp="yes">(?:b|prz)eze</token>
 								</marker>
 								<token><exception>mnie</exception></token>
 						</pattern>
-						<message>Ten przyimek należy zapisać tak: <suggestion>bez</suggestion>.</message>
+						<message>Ten przyimek należy zapisać tak: <suggestion><match no="1" regexp_match="e$" regexp_replace=""/></suggestion>.</message>
 						<short>Błąd fonetyczny</short>
 						<example correction="bez">Teraz nie mogę dnia zacząć <marker>beze</marker> tego</example>
 						<example>Teraz nie mogę dnia zacząć bez tego.</example>
+						<example>To przeze mnie.</example>
+						<example correction="przez">To wszystko działo się <marker>przeze</marker> cały wrzesień.</example>
 				</rule>
 				<rule id="PRZEDE_CZYM" name="„przede czym” (przed czym)">
 						<pattern>
@@ -21785,6 +21801,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
     <category id="TYPOS" name="Prawdopodobne literówki" type="misspelling">
+    <rulegroup id="MNIE_MNIEJ" name="„mnie więcej” (mniej więcej)">
+      <rule>
+      <pattern>
+        <marker>
+        <token>mnie
+          <exception scope="previous" regexp="yes">(?:sp)?ode|(?:prze|be)?ze</exception>
+          </token>
+        </marker>
+        <token>więcej</token>
+        <token regexp="yes" inflected="yes">\d+|rok|godzina|połowa</token>
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>mniej</suggestion>?</message>
+      <short>Literówka</short>
+      <example correction="mniej">Dostałem <marker>mnie</marker> więcej 1000 zł.</example>
+      <example>Dostał ode mnie więcej niż 5 zł.</example>
+      </rule>   
+      <rule>
+      <pattern>
+        <marker>
+        <token>mnie
+          <exception scope="previous" regexp="yes">(?:sp)?ode|(?:prze|be)?ze</exception>
+         </token>
+        </marker>
+        <token>więcej</token>
+        <token postag_regexp="yes" postag="num.*"/>
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>mniej</suggestion>?</message>
+      <short>Literówka</short>
+      <example correction="mniej">Dostałem <marker>mnie</marker> więcej tysiąc zł.</example>
+      <example>Dostał ode mnie więcej niż 5 zł.</example>
+      </rule>    
+    </rulegroup>
     <rulegroup id="BOJE_BOJĘ" name="„boje się” (boję się">
         <rule>
             <pattern>
