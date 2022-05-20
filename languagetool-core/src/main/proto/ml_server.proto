@@ -22,15 +22,14 @@ message ProcessRequest {
     ProcessingOptions options = 2;
 }
 
-message TransformRequest {
-    MatchList matches = 1;
-    ProcessingOptions options = 2;
+message ProcessResponse {
+    repeated Match rawMatches = 1;
+    repeated Match matches = 2;
 }
 
 service ProcessingServer {
     rpc Analyze (AnalyzeRequest) returns (AnalyzeResponse) {}
-    rpc Process (ProcessRequest) returns (MatchList) {}
-    rpc Transform (TransformRequest) returns (MatchList) {}
+    rpc Process (ProcessRequest) returns (ProcessResponse) {}
 }
 
 service MLServer {
@@ -52,6 +51,7 @@ message AnalyzedSentence {
 message AnalyzedTokenReadings {
     repeated AnalyzedToken readings = 1;
     repeated string chunkTags = 2;
+    int32 startPos = 3;
 }
 
 message AnalyzedToken {

@@ -21,39 +21,16 @@
 
 package org.languagetool.rules;
 
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
-import com.google.common.collect.Streams;
-import com.google.common.util.concurrent.ListenableFuture;
-import io.grpc.ManagedChannel;
-import io.grpc.Status;
-import io.grpc.StatusRuntimeException;
-import io.grpc.netty.shaded.io.grpc.netty.GrpcSslContexts;
-import io.grpc.netty.shaded.io.grpc.netty.NegotiationType;
-import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
-import io.grpc.netty.shaded.io.netty.handler.ssl.SslContextBuilder;
-import org.jetbrains.annotations.Nullable;
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedToken;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
-import org.languagetool.chunking.ChunkTag;
-import org.languagetool.Language;
-import org.languagetool.rules.ml.MLServerGrpc;
-import org.languagetool.rules.ml.MLServerGrpc.MLServerFutureStub;
-import org.languagetool.rules.ml.MLServerProto;
-import org.languagetool.rules.ml.MLServerProto.MatchRequest;
-import org.languagetool.rules.ml.MLServerProto.MatchResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.net.ssl.SSLException;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.ResourceBundle;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -62,6 +39,33 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import javax.net.ssl.SSLException;
+
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+import com.google.common.collect.Streams;
+import com.google.common.util.concurrent.ListenableFuture;
+
+import org.jetbrains.annotations.Nullable;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.rules.ml.MLServerGrpc;
+import org.languagetool.rules.ml.MLServerGrpc.MLServerFutureStub;
+import org.languagetool.rules.ml.MLServerProto;
+import org.languagetool.rules.ml.MLServerProto.MatchResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import io.grpc.ManagedChannel;
+import io.grpc.Status;
+import io.grpc.StatusRuntimeException;
+import io.grpc.netty.shaded.io.grpc.netty.GrpcSslContexts;
+import io.grpc.netty.shaded.io.grpc.netty.NegotiationType;
+import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
+import io.grpc.netty.shaded.io.netty.handler.ssl.SslContextBuilder;
 
 /**
  * Base class fur rules running on external servers;
@@ -216,32 +220,6 @@ public abstract class GRPCRule extends RemoteRule {
     }
   }
 
-  private static MLServerProto.AnalyzedToken convertToGRPC(AnalyzedToken token) {
-      MLServerProto.AnalyzedToken.Builder t = MLServerProto.AnalyzedToken.newBuilder();
-      if (token.getLemma() != null) {
-        t.setLemma(token.getLemma());
-      }
-      if (token.getPOSTag() != null) {
-        t.setPosTag(token.getPOSTag());
-      }
-      t.setToken(token.getToken());
-      return t.build();
-  }
-
-  private static MLServerProto.AnalyzedTokenReadings convertToGRPC(AnalyzedTokenReadings readings) {
-    return MLServerProto.AnalyzedTokenReadings.newBuilder()
-      .addAllChunkTags(readings.getChunkTags().stream().map(ChunkTag::getChunkTag).collect(Collectors.toList()))
-      .addAllReadings(readings.getReadings().stream().map(GRPCRule::convertToGRPC).collect(Collectors.toList()))
-      .build();
-
-  }
-
-  private static MLServerProto.AnalyzedSentence convertToGRPC(AnalyzedSentence sentence) {
-    return MLServerProto.AnalyzedSentence.newBuilder()
-      .setText(sentence.getText())
-      .addAllTokens(Arrays.stream(sentence.getTokens()).map(GRPCRule::convertToGRPC).collect(Collectors.toList()))
-      .build();
-  }
 
   protected class AnalyzedMLRuleRequest extends RemoteRule.RemoteRequest {
     final List<MLServerProto.AnalyzedMatchRequest> requests;
@@ -267,7 +245,7 @@ public abstract class GRPCRule extends RemoteRule {
         MLServerProto.AnalyzedMatchRequest req = MLServerProto.AnalyzedMatchRequest.newBuilder()
           .addAllSentences(sentences
             .subList(offset, Math.min(sentences.size(), offset + batchSize))
-            .stream().map(GRPCRule::convertToGRPC).collect(Collectors.toList()))
+            .stream().map(GRPCUtils::toGRPC).collect(Collectors.toList()))
           .setInputLogging(inputLogging)
           .addAllTextSessionID(textSessionId != null ?
             ids.subList(offset, Math.min(sentences.size(), offset + batchSize))
