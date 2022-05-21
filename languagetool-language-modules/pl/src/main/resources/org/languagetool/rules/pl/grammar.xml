@@ -6962,6 +6962,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>Szymon nalegał, żebyśmy je także umieścili.</example>
       </rule>
 		</rulegroup>
+		<rule id="CZY_IMPT" name="Błędna forma czasownika po spójniku „czy”">
+        <pattern>
+            <token postag="SENT_START"></token>
+            <token skip="-1" inflected="yes">czy
+            <exception scope="next" postag="conj|comp.*|interp:comma|pred|verb:(?:fin.*|praet.*|bedzie.*|winien.*|imps.*|pot.*|inf.*)|pcon.*" postag_regexp="yes"></exception>            
+            </token>
+            <marker>
+            <token skip="-1" postag="verb:impt.*" postag_regexp="yes">
+            <exception postag="subst.*|adv:com|verb:inf.*" postag_regexp="yes"/>
+            <exception regexp="yes">bądź|mial|mniejszej</exception>
+            <exception scope="next" postag="conj|comp.*|interp:comma|pred|verb:(?:fin.*|praet.*|bedzie.*|winien.*|imps.*|pot.*)" postag_regexp="yes"></exception>            
+            </token>
+            </marker>
+            <token regexp="yes">&interp_conj;</token>
+          </pattern>
+          <message>W tym zdaniu podrzędnym występuje tylko czasownik w trybie rozkazującym „\2”. Prawdopodobnie błąd gramatyczny, brak znaku interpunkcyjnego lub literówka.</message>
+          <short>Błąd gramatyczny</short>
+          <example correction="">Czy <marker>przeczytaj</marker> tę książkę?</example>
+      </rule>
 		<rule id="ADJ_SUBST_ADJ_UNIFY" name="Naruszenie związku zgody">
       <antipattern>
             <unify>
@@ -9136,6 +9155,48 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Może okaże się, że jestem <marker>jakimiś potworem</marker>.</example>
               </rule>
             </rulegroup>
+            <rule id="NIEZGODNOSC_RODZAJU_PODMIOTU_Z_ORZECZENIEM" name="Niezgodność rodzaju gramatycznego z orzeczeniem w czasie przeszłym i trybie przypuszczającym">
+            <antipattern>
+              <unify>
+                <feature id="gender"></feature><feature id="number"></feature>
+                <marker>
+                  <token postag="verb:(?:praet|pot):pl.*:ter.*" postag_regexp="yes" inflected="yes">być</token>
+                </marker>
+                <unify-ignore><token>to</token></unify-ignore>
+                <token min="0" postag="(?:pact|ppas|adj):.*" postag_regexp="yes"/>
+                <token postag="(?:subst|depr):.*:nom.*" postag_regexp="yes"/>
+              </unify>
+            </antipattern>
+            <antipattern> <!-- koordynacja - podmiot jest wyrażeniem ze spójnikiem -->
+              <unify><feature id="gender"/>
+              <token postag="subst:.*" postag_regexp="yes"></token>
+              <unify-ignore>
+                <token postag="conj"/>
+                <token postag="(?:subst|depr):pl:nom.*" postag_regexp="yes"/>
+              </unify-ignore>
+                <token postag="verb:(?:praet|pot):pl.*:ter.*" postag_regexp="yes" inflected="yes">być</token>
+              </unify>
+            </antipattern>
+              <pattern>
+              <unify negate="yes"><feature id="gender"/>
+                <token postag="(?:subst|depr):pl:nom.*" postag_regexp="yes">
+                  <exception postag="subst:sg:gen.*" postag_regexp="yes"/>
+                  <exception>razy</exception>
+                </token>
+                <marker>
+                  <token postag="verb:(?:praet|pot):pl.*:ter.*" postag_regexp="yes" inflected="yes">być</token>
+                </marker>
+              </unify>
+              </pattern>
+              <message>Niezgodność rodzaju orzeczenia (\2) z podmiotem (\1).</message>
+              <short>Błąd gramatyczny</short>
+              <example correction="">Dzieci <marker>byli</marker> tutaj.</example>
+              <example>Trochę mądrości i cnoty posiadali.</example>
+              <example>Dwa razy byli u nas.</example>
+              <example>I ojciec i dzieci byli wspólnikami tej małej zbrodni.</example>
+              <example>Po większej części byli to zdrajcy, łotrzy, zabójcy, złodzieje.</example>
+              <example>Palmy, tamaryndusy, cyprysy i mirty byli to żołnierze uszykowani szeregami.</example>
+            </rule>
             <rule id="NIEWLASCIWA_KONCOWKA_PRZYPADKU_ORZECZNIKA" name="Niewłaściwa końcówka przypadku orzecznika">
                 <antipattern>
                     <token regexp="yes">jest(?:e[mś])?</token>
@@ -21824,7 +21885,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <pattern>
         <marker>
         <token>mnie
-          <exception scope="previous" regexp="yes">(?:sp)?ode|(?:prze|be)?ze</exception>
+          <exception scope="previous" regexp="yes">(?:sp)?ode|(?:prze|be)?ze|u</exception>
           </token>
         </marker>
         <token>więcej</token>
@@ -21907,6 +21968,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>I coraz mnie mniej.</example>
         <example correction="mniej">W toku <marker>mnie</marker> lub bardziej eleganckiej dyskusji rozmyło się bestialstwo zabójców, najważniejsza stała się obrona honoru podejrzanych.</example>
       </rule>    
+    </rulegroup>
+    <rulegroup id="MNIEJ_MNIE" name="„u mniej” (u mnie)">
+        <rule>
+          <pattern>
+            <token>u</token>
+            <marker>
+              <token>mniej</token>
+            </marker>
+            <token regexp="yes">w|jest</token>
+          </pattern>
+          <message>Prawdopodobna literówka. Czy chodziło o <suggestion>mnie</suggestion>?</message>
+          <short>Literówka</short>
+          <example correction="mnie">U <marker>mniej</marker> w szkole była wszawica.</example>        
+        </rule>
     </rulegroup>
     <rulegroup id="BOJE_BOJĘ" name="„boje się” (boję się">
         <rule>

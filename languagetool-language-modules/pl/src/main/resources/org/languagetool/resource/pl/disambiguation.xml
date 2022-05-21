@@ -482,6 +482,14 @@
         <disambig postag="prep:acc"/> <!-- za NKJP, w Innym słowniku to jest przysłówek, w Uniwersalnym – partykuła -->
     </rule>
 
+    <rule name="co dzisiaj, wczoraj…" id="co_dzis">
+        <pattern>
+        <marker><token>co</token></marker>
+        <token regexp="yes">dziś|dzisiaj|wczoraj</token>
+        </pattern>
+        <disambig action="remove" postag="prep:.*"/>
+    </rule>
+
     <rule name="dzisiaj, dziś, wczoraj jako przysłówek" id="dzis_adv">
         <pattern>
             <marker><token regexp="yes">dziś|dzisiaj|wczoraj<exception scope="previous" postag_regexp="yes" postag="prep.*"></exception></token></marker>
@@ -11184,6 +11192,17 @@
         <disambig action="unify"/>
     </rule>
 
+    <rule name="w gruncie rzeczy" id="W_GRUNCIE_RZECZY">
+        <pattern>
+            <token>w</token>
+            <token>gruncie</token>
+            <marker>
+                <token>rzeczy</token>
+            </marker>
+        </pattern>
+        <disambig postag="subst:sg:gen:f"/>
+    </rule>
+
     <rule name="Jaki z przymiotnikiem i rzeczownikiem po unifikacji" id="PREP_JAKI_ADV_SUBST">
         <pattern>
             <unify> <feature id="case"/>
@@ -11420,6 +11439,18 @@
         <example type="ambiguous" inputform="pięciu[piąć/ger:sg:dat.loc:n2:imperf:aff:refl,pięć/num:pl:acc:m1:rec,pięć/num:pl:gen.dat.inst.loc:m1.m2.m3.f.n2:congr,pięć/num:pl:nom.voc:m1:rec]"
                  outputform="pięciu[pięć/num:pl:acc:m1:rec,pięć/num:pl:gen.dat.inst.loc:m1.m2.m3.f.n2:congr,pięć/num:pl:nom.voc:m1:rec]">Widzę ich tu <marker>pięciu</marker>.</example>
         <example type="untouched">O pięciu się w górę nie słyszałem.</example>
+    </rule>
+
+    <rule name="oboje jako podmiot" id="oboje_verb_praet">
+        <pattern>
+            <unify>
+                <feature id="gender"></feature>
+                <feature id="number"/>
+                <token postag="num:.*nom.*:rec" postag_regexp="yes"></token>
+                <token postag="verb:(?:pot|praet):.*ter.*" postag_regexp="yes"/>
+            </unify>
+        </pattern>
+        <disambig action="unify"/>
     </rule>
 
     <rule name="niechaj jako kublik" id="niechaj">
