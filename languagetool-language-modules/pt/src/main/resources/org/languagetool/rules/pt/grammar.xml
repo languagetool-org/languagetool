@@ -8615,11 +8615,13 @@ A realidade das pessoas mostram. → A realidade das pessoas mostra.
     <!--url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/os-participios-passados-regulares-e-irregulares/20960</url-->
     <!--url>https://www.conjugacao.com.br/</url-->
     <rule>
+
       <antipattern>
           <token>há</token>
           <token>volta</token>
           <token>de</token>
       </antipattern>
+
       <antipattern>
           <token inflected='yes'>ter</token>
           <token regexp='yes'>seguros?</token>
@@ -8627,6 +8629,18 @@ A realidade das pessoas mostram. → A realidade das pessoas mostra.
             <exception>a</exception>
             <exception postag_regexp='yes' postag='D.+'/></token>
       </antipattern>
+
+<!-- MARCOAGPINTO 2022-05-21 (15-MAY-2022+) *START* -->
+<!--
+NO HITS IN 600 000 SENTENCES.
+Estou de baixa até haver Junta Médica.
+-->
+      <antipattern>
+          <token regexp='yes'>juntas?</token>
+          <token regexp='yes'>médicas?</token>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-05-21 (15-MAY-2022+) *END* -->
+
       <pattern>
           <token regexp='yes' inflected='yes'>ter|haver</token><!-- TODO testar chegar -->
           <token min="0" max="3" postag_regexp='yes' postag='R.+'/>
@@ -8645,6 +8659,8 @@ A realidade das pessoas mostram. → A realidade das pessoas mostra.
       <example correction='segurado'>Ainda bem que tinha <marker>seguro</marker> a casa.</example>
       <example correction="imprimido">Percebi que tinha <marker>impresso</marker> o documento errado.</example>
       <example>Tenho morto muitas moscas.</example>
+
+	  <example>Estou de baixa até haver Junta Médica.</example>
     </rule>
 
     <rule>
