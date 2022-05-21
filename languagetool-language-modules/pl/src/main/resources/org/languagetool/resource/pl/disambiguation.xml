@@ -3996,6 +3996,16 @@
 
     </rule>
 
+    <rule id="CI_NIEZNANY" name="ci + adj wymagający dat -> ppron">
+          <pattern>
+              <marker>
+                <token postag="ppron12:sg:dat:m1.m2.m3.f.n1.n2:sec:nakc"/>
+              </marker>
+                <token inflected="yes" regexp="yes">(?:nie)?(?:znany|obojętny|potrzebny|wdzięczny|wierny|obcy|drogi|zbędny|rad|wstrętny|straszny)</token>
+          </pattern>
+        <disambig postag="ppron12:sg:dat:m1.m2.m3.f.n1.n2:sec:nakc"/>
+    </rule>
+
     <rule id="BRYLA_ZLOTA" name="złota jako rzeczownik">
         <pattern>
             <token regexp="yes" inflected="yes">bryła|bryłka|cena|garstka|góra|waga|piramida|kopalnia|sztuka|reszta</token>
@@ -4381,7 +4391,19 @@
                 <exception scope="next" postag="(subst|ger|pact|ppas):pl:gen.*" postag_regexp="yes"/>
             </token>
             <marker>
-            <token postag="verb:praet:pl:m1.p1:ter.*|verb:fin:pl:ter.*" postag_regexp="yes"/>
+            <token postag="verb:(?:praet|pot):pl:m1.p1:ter.*|verb:fin:pl:ter.*" postag_regexp="yes"/>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+    <rule id="verbter_oboje_numcol" name="oboje byli => czasownik">
+        <pattern>
+                <token skip="5" postag="verb:(?:praet|pot):pl:m1.p1:ter.*|verb:fin:pl:ter.*" postag_regexp="yes">
+                    <exception scope="next" postag="(subst|ger|pact|ppas):pl:gen.*" postag_regexp="yes"/>
+                </token>
+            <marker>
+            <token postag="num:pl:nom.acc.voc:n1.p1.p2:rec">oboje</token>
             </marker>
         </pattern>
         <disambig action="filterall"/>

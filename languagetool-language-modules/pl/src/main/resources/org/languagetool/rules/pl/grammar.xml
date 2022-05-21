@@ -9177,6 +9177,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="verb:(?:praet|pot):pl.*:ter.*" postag_regexp="yes" inflected="yes">być</token>
               </unify>
             </antipattern>
+            <antipattern case_sensitive="yes"> <!-- koordynacja - podmiot jest złożony z dwóch obcych nazw własnych ze spójnikiem -->
+                <token postag="UNKNOWN" regexp="yes">\p{Lu}\p{Ll}+</token>
+                <token postag="conj"/>
+                <token min="0" regexp="yes">\p{Lu}\p{Ll}+</token>
+                <token postag="(?:subst|depr):pl:nom.*" postag_regexp="yes"/>
+                <marker>          
+                <token postag="verb:(?:praet|pot):pl.*:ter.*" postag_regexp="yes" inflected="yes">być</token>
+                </marker>
+            </antipattern>
               <pattern>
               <unify negate="yes"><feature id="gender"/>
                 <token postag="(?:subst|depr):pl:nom.*" postag_regexp="yes">
@@ -9196,6 +9205,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
               <example>I ojciec i dzieci byli wspólnikami tej małej zbrodni.</example>
               <example>Po większej części byli to zdrajcy, łotrzy, zabójcy, złodzieje.</example>
               <example>Palmy, tamaryndusy, cyprysy i mirty byli to żołnierze uszykowani szeregami.</example>
+              <example>Zahary Quinto i Jessica Lange byli wychwalani pod niebiosa.</example>
+            </rule>
+            <rule id="NIEZGODNA_FORMA_ORZECZNIKA_POT_PRAET" name="Niezgodność formy orzecznika przymiotnikowego z czasownikiem „być”">
+            <antipattern>
+              <unify><feature id="gender"></feature><feature id="case"/><feature id="number"/>
+              <marker>
+                <token postag="adj:pl.*nom.*" postag_regexp="yes"/>
+              </marker>
+              <token postag="(?:subst|depr).*" postag_regexp="yes"/>
+              </unify>
+            </antipattern>
+              <pattern>
+              <unify negate="yes"><feature id="gender"/>
+                <token postag="verb:(?:praet|pot):pl.*:ter.*" postag_regexp="yes" inflected="yes">być</token>
+                <marker>                
+                  <token postag="adj:pl.*nom.*" postag_regexp="yes"/>
+                </marker>
+              </unify>
+              </pattern>
+              <message>Niezgodna forma przymiotnika (\2) i orzeczenia (\1).</message>
+              <example correction="">Oficerowie byli <marker>nieobecne</marker>.</example>
+              <example>Dali ojcowskie błogosławieństwo, byli oboje w kościele.</example>
             </rule>
             <rule id="NIEWLASCIWA_KONCOWKA_PRZYPADKU_ORZECZNIKA" name="Niewłaściwa końcówka przypadku orzecznika">
                 <antipattern>
