@@ -6364,6 +6364,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </token>
                 <token postag="VER:(AUX:|MOD:)?[123]:SIN.*" postag_regexp="yes"/>
             </antipattern>
+            <antipattern>
+                <token postag="VER:MOD:3:SIN.*" postag_regexp="yes" />
+                <token skip="-1">dies</token>
+                <token postag="VER:INF.*" postag_regexp="yes" />
+            </antipattern>
             <pattern>
                 <token>
                     <exception postag_regexp="yes" postag="VER:[123].*"/>
@@ -6383,6 +6388,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Erik sagt, dass dies gute Nachrichten seien.</example>
             <example>Maria war sich nicht sicher, ob sie träumte, oder ob all dies Realität war.</example>
             <example>Es ist durchaus möglich, dass dies unerwünschte Nebenwirkungen haben wird.</example>
+            <example>Für die Menschen im Nahen Osten und in Nordafrika (MENA) soll dies Arbeitsplätze, Einkommen, Meerwasserentsalzung ohne CO2-Emissionen und eine Verbesserung der Infrastruktur bedeuten.</example>
         </rule>
         <rule id="ZU_NEIGE" name="zu Neige (zur Neige)">
             <regexp>\bzu Neige\b</regexp>
@@ -11494,6 +11500,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Meinten Sie das Gericht <suggestion>Chili con Carne</suggestion>?</message>
             <example correction="Chili con Carne">Ich mag <marker>Chilli Con Carne</marker>.</example>
+        </rule>
+        <rule id="CORDON_BLEU" name="Cordon bleu">
+            <antipattern><!-- https://en.wikipedia.org/wiki/Le_Cordon_Bleu -->
+                <token>le</token>
+                <token>cordon</token>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">Cordon|CORDON</token>
+                <token regexp="yes">bleus?|BLEUS?</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">[KCG]ordon</token>
+                <token regexp="yes">Bl[ae]us?</token>
+            </pattern>
+            <message>Meinten Sie das Gericht <suggestion>Cordon <match no="2" regexp_match="(?i)l[ae]u" regexp_replace="leu" case_conversion="alllower" /></suggestion> ("bleu" wird hier kleingeschrieben)?</message>
+            <example correction="Cordon bleu">Ich mag <marker>Cordon Bleu</marker>.</example>
         </rule>
         <rule id="CHILI_SIN_CARNE" name="Chili sin Carne">
             <antipattern case_sensitive="yes">
@@ -67086,6 +67108,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Das hatte die Folge, dass er beschuldigt wurde, wofür es keine Antworten gab.</example>
             <example>Verdächtig sind vier Männer.</example>
             <example>Ihre Blätter sind schon welk.</example>
+            <example>Ich esse Cordon bleu.</example>
             <example>Das ist mal zum Brüllen komisch und mal rührt es zu Tränen.</example>
             <example>Da ist zum einen die Lage: Auch wenn sich Berlin über einen Mangel an Bühnen sicher nicht beklagen kann, nimmt sich die Spielstättendichte im Südwesten der Stadt doch eher bescheiden aus.</example>
             <example>Wir „Neuen“ wurden herzlichst empfangen und schnell ging es zum Einstufungstest.</example>

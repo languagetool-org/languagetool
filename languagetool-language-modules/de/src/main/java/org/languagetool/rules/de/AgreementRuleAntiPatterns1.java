@@ -1013,7 +1013,8 @@ class AgreementRuleAntiPatterns1 {
     ),
     Arrays.asList(
       // …, kann das Infektionen möglicherweise verhindern
-      posRegex("KON.*|PKT"),
+      posRegex("KON.*|PKT|SENT_START"),
+      new PatternTokenBuilder().posRegex("ADV.*").min(0).build(),
       posRegex("VER:MOD:3:SIN.*"),
       csToken("das"),
       posRegex("SUB.*"),
