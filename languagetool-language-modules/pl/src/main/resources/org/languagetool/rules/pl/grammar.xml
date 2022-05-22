@@ -470,6 +470,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <example>Zarzuca mu się sposób zachowania charakterystyczny dla pokerzysty.</example>
                         <example>Mają być one gotowe do 2003 roku.</example>
                         <example correction="">A jednak łatwo wyobrażamy sobie istoty ludzkie jako świadome, nawet jeśli nadal nie <marker>potrafimy wyobrazić sobie jak może się to dziać.</marker></example>
+                        <example>Nie jest to może ostrość paląca.</example>
                     </rule>
                     <!--powinien + exception: powinien był-->
                     <rule>
@@ -9227,6 +9228,48 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
               <message>Niezgodna forma przymiotnika (\2) i orzeczenia (\1).</message>
               <example correction="">Oficerowie byli <marker>nieobecne</marker>.</example>
               <example>Dali ojcowskie błogosławieństwo, byli oboje w kościele.</example>
+            </rule>
+            <rule id="DWA_PODMIOTY_FIN" name="Za dużo potencjalnych podmiotów zdania">
+            <antipattern>
+              <token>rzecz</token>
+              <token>jasna</token>
+            </antipattern>
+            <antipattern>
+              <token>to</token>
+              <token>znaczy</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">pani?</token>
+                <token>jest</token>
+                <token case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}+</token>            
+            </antipattern>
+            <antipattern>
+              <token postag="prep:nom.*" postag_regexp="yes"></token>
+              <unify><feature id="gender"/><feature id="number"/>
+                <token postag="adj.*nom.*" postag_regexp="yes"/>
+                <marker>
+                  <token postag="subst.*nom.*" postag_regexp="yes"/>
+                </marker>
+              </unify>
+            </antipattern>
+              <pattern>
+                <!-- unify><feature id="number"/ -->
+                <token postag="subst:sg:nom.*|ppron3:sg:nom.*" postag_regexp="yes">
+                  <exception inflected="yes">co</exception>
+                  <exception scope="previous" postag="prep:nom"/>                  
+                  </token>
+                <token postag="verb:fin:sg:ter.*" postag_regexp="yes"/>
+                <token postag="subst:sg:nom.*|ppron3:sg:nom.*" postag_regexp="yes"><exception postag=".*acc.*" postag_regexp="yes"></exception></token>
+                <!-- /unify-->
+              </pattern>
+              <message>W tym fragmencie zdania występują dwa potencjalne podmioty (\1, \3) jednego orzeczenia (\2). Prawdopodobnie błąd gramatyczny, interpunkcyjny lub literówka.</message>
+              <short>Błąd gramatyczny</short>
+              <example correction=""><marker>Ona uwielbia pizza</marker>.</example>
+              <example>Co powie matka?</example>
+              <example>Zwycięstwo jest nasze.</example>            
+              <example>W środku wygląd przypomina rzecz jasna ten znany z Google Maps.</example>
+              <example>To pani jest Róża Iksińska?</example>
+              <example>Jak turecki pasza siedzi on.</example>
             </rule>
             <rule id="NIEWLASCIWA_KONCOWKA_PRZYPADKU_ORZECZNIKA" name="Niewłaściwa końcówka przypadku orzecznika">
                 <antipattern>
