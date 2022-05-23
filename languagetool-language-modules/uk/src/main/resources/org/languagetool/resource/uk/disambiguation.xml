@@ -119,6 +119,23 @@
     <example type="untouched">дорожному</example>
   </rule>
 
+<!--
+  <rule name="Точок і точка" id="tochok">
+    <pattern>
+      <marker>
+        <and>
+          <token inflected="yes">точок</token>
+          <token inflected="yes">точка</token>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="noun:inanim:m:.*" />
+    <example type="ambiguous"
+        inputform="точок[точка/noun:inanim:p:v_rod,точок/noun:inanim:m:v_naz,точок/noun:inanim:m:v_zna]"
+        outputform="точок[точка/noun:inanim:p:v_rod]">20 <marker>точок</marker>.</example>
+  </rule>
+-->
+
   <rule name="Дуже і дужий" id="duzhe_adv">
     <antipattern>
       <token>дуже</token>
@@ -800,7 +817,6 @@
     <example type="untouched">І тому і цьому.</example>
     <example type="untouched">Дякуючи тому, що ...</example>
   </rule>
--->
   <rule name="Тому - не сполучник 1" id="tomu_non_conj_1">
     <pattern>
       <marker>
@@ -831,6 +847,7 @@
         >Відбулося саме <marker>тому</marker>, і </example>
     <example type="untouched">І тому, що.</example>
   </rule>
+-->
 
   <rule name="Тому: не іменник «том»" id="tomu_not_noun_tom">
     <pattern>
@@ -843,12 +860,12 @@
     </pattern>
     <disambig action="remove" postag="noun:inanim:m:v_(rod|dav|mis)"/>
     <example type="ambiguous"
-        inputform="тому[те/noun:inanim:n:v_dav:&amp;pron:dem,той/adj:m:v_dav:&amp;pron:dem,той/adj:n:v_dav:&amp;pron:dem,том/noun:inanim:m:v_dav,том/noun:inanim:m:v_rod,тому/adv]"
-        outputform="тому[те/noun:inanim:n:v_dav:&amp;pron:dem,той/adj:m:v_dav:&amp;pron:dem,той/adj:n:v_dav:&amp;pron:dem,тому/adv]"
+        inputform="тому[те/noun:inanim:n:v_dav:&amp;pron:dem,той/adj:m:v_dav:&amp;pron:dem,той/adj:n:v_dav:&amp;pron:dem,том/noun:inanim:m:v_dav,том/noun:inanim:m:v_rod,тому/adv,тому/conj:subord]"
+        outputform="тому[те/noun:inanim:n:v_dav:&amp;pron:dem,той/adj:m:v_dav:&amp;pron:dem,той/adj:n:v_dav:&amp;pron:dem,тому/adv,тому/conj:subord]"
             >Даю волю всьому <marker>тому</marker> злу</example>
     <example type="ambiguous"
-        inputform="Тому[Том/noun:anim:m:v_dav:prop:fname,Тома/noun:anim:m:v_zna:prop:fname,те/noun:inanim:n:v_dav:&amp;pron:dem,той/adj:m:v_dav:&amp;pron:dem,той/adj:n:v_dav:&amp;pron:dem,том/noun:inanim:m:v_dav,том/noun:inanim:m:v_rod,тому/adv]"
-        outputform="Тому[Том/noun:anim:m:v_dav:prop:fname,Тома/noun:anim:m:v_zna:prop:fname,те/noun:inanim:n:v_dav:&amp;pron:dem,той/adj:m:v_dav:&amp;pron:dem,той/adj:n:v_dav:&amp;pron:dem,тому/adv]"
+        inputform="Тому[Том/noun:anim:m:v_dav:prop:fname,Тома/noun:anim:m:v_zna:prop:fname,те/noun:inanim:n:v_dav:&amp;pron:dem,той/adj:m:v_dav:&amp;pron:dem,той/adj:n:v_dav:&amp;pron:dem,том/noun:inanim:m:v_dav,том/noun:inanim:m:v_rod,тому/adv,тому/conj:subord]"
+        outputform="Тому[Том/noun:anim:m:v_dav:prop:fname,Тома/noun:anim:m:v_zna:prop:fname,те/noun:inanim:n:v_dav:&amp;pron:dem,той/adj:m:v_dav:&amp;pron:dem,той/adj:n:v_dav:&amp;pron:dem,тому/adv,тому/conj:subord]"
             ><marker>Тому</marker> це не відбулося</example>
             <!-- років 5 тому, -->
     <example type="untouched">частину четвертого тому,</example>
@@ -868,12 +885,12 @@
     </pattern>
     <disambig action="remove" postag="noun:inanim:n:v_...:&amp;pron.*"/>
     <example type="ambiguous"
-        inputform="тому[те/noun:inanim:n:v_dav:&amp;pron:dem,той/adj:m:v_dav:&amp;pron:dem,той/adj:n:v_dav:&amp;pron:dem,тому/adv]"
-        outputform="тому[той/adj:m:v_dav:&amp;pron:dem,той/adj:n:v_dav:&amp;pron:dem,тому/adv]"
+        inputform="тому[те/noun:inanim:n:v_dav:&amp;pron:dem,той/adj:m:v_dav:&amp;pron:dem,той/adj:n:v_dav:&amp;pron:dem,тому/adv,тому/conj:subord]"
+        outputform="тому[той/adj:m:v_dav:&amp;pron:dem,той/adj:n:v_dav:&amp;pron:dem,тому/adv,тому/conj:subord]"
             >Роки півтора <marker>тому</marker>.</example>
     <example type="ambiguous"
-        inputform="тому[те/noun:inanim:n:v_dav:&amp;pron:dem,той/adj:m:v_dav:&amp;pron:dem,той/adj:n:v_dav:&amp;pron:dem,тому/adv]"
-        outputform="тому[той/adj:m:v_dav:&amp;pron:dem,той/adj:n:v_dav:&amp;pron:dem,тому/adv]"
+        inputform="тому[те/noun:inanim:n:v_dav:&amp;pron:dem,той/adj:m:v_dav:&amp;pron:dem,той/adj:n:v_dav:&amp;pron:dem,тому/adv,тому/conj:subord]"
+        outputform="тому[той/adj:m:v_dav:&amp;pron:dem,той/adj:n:v_dav:&amp;pron:dem,тому/adv,тому/conj:subord]"
             >Тижні 3 <marker>тому</marker>.</example>
     <example type="untouched">і при тому, не залежав від них</example>
   </rule>
