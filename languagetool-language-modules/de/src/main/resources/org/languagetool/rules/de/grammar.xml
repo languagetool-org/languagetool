@@ -57383,6 +57383,195 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Texte, von denen einige verbindliche Bedeutung erlangten </example>
                 <example>In den 1950ern kam es zu einem Dixieland-Revival, der einige deutsche Titel in die Spitze der Plattenverkäufe brachte.</example>
             </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">\d+</token>
+                    <token regexp="yes">Anfang|Mitte|Ende</token>
+                    <token>des</token>
+                    <token regexp="yes">\d+</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\d+</token>
+                    <token>Aufsehen</token>
+                    <token regexp="yes">erregende[nrs]?</token>
+                </antipattern>
+                <antipattern>
+                    <token>Mitte</token>
+                    <token>der</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">Runde|Staffel|Folge</token>
+                    <token regexp="yes">\d+</token>
+                </antipattern>
+                <antipattern>
+                    <token>in</token>
+                    <token regexp="yes">\d+</token>
+                    <token regexp="yes">Anfang|Mitte|Ende|&monate;</token>
+                    <token regexp="yes">\d\d\d\d</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">(zwei-?|drei-?)?viertel|halb</token>
+                    <token regexp="yes" min="0">nach|vor</token>
+                    <token regexp="yes">\d+</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SUB:.+:SIN:.+" postag_regexp="yes" />
+                    <token regexp="yes">fähigen|basierten|unterstützten</token>
+                    <token postag="SUB.*PLU.*|UNKNOWN" postag_regexp="yes" />
+                </antipattern>
+                <antipattern>
+                    <token postag="SUB:.+:SIN:.+" postag_regexp="yes" />
+                    <token postag="SUB:.+:SIN:.+" postag_regexp="yes" />
+                    <token postag="SUB.*PLU.*|UNKNOWN" postag_regexp="yes" />
+                </antipattern>
+                <antipattern><!-- Tom lernte erst mit dreißig Fahren. -->
+                    <token>mit</token>
+                    <token regexp="yes">\d+</token>
+                    <token postag="SUB.*INF" postag_regexp="yes" />
+                </antipattern>
+                <antipattern><!-- Tom lernte erst mit dreißig Französisch. -->
+                    <token>mit</token>
+                    <token regexp="yes">\d+</token>
+                    <token postag="SUB.*" postag_regexp="yes" />
+                    <token inflected="yes">lernen</token>
+                </antipattern>
+                <antipattern><!-- Tom lernte erst mit dreißig Französisch. -->
+                    <token inflected="yes" skip="5">lernen</token>
+                    <token>mit</token>
+                    <token regexp="yes">\d+</token>
+                    <token postag="SUB.*" postag_regexp="yes" />
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">Vormittag|Abend|Mittag|Nachmittag|Morgen|Nacht</token>
+                    <token>um</token>
+                    <token min="0" regexp="yes">halb|Punkt</token>
+                    <token regexp="yes">\d+</token>
+                </antipattern>
+                <antipattern>
+                    <token>um</token>
+                    <token regexp="yes">\d+</token>
+                    <token min="0">Uhr</token>
+                    <token postag="SUB.*SIN.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\d+</token>
+                    <token regexp="yes">Uhr</token>
+                    <token regexp="yes">\d+</token>
+                </antipattern>
+                <antipattern> <!--Jahreszahl, PLZ oder verkürzte Faxnummer-->
+                    <token regexp="yes">\d{6}|\d{5}|\d{4}|\d{3}</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">§|#|Abs|Paragraf|CD|Highway|Teil|Linie|Art|Nr</token>
+                    <token regexp="yes">\d+</token>
+                    <token postag="SUB.*|EIG.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\d+</token>
+                    <token regexp="yes">DSGVO|BGB|StGB|DSG-EKD|.*verordnung|.*gesetz|.*mark|\$|Dollar|Euro|€|EU|%.Stelle|cm|m|Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember|Lebensjahr|Jahr-Feier|Jahrhundert|cm.*|Grad.*|Zimmerwohnung|KB|Schock|Bitcoin</token>
+                </antipattern>
+                <antipattern>
+                    <token>Abs</token>
+                    <token regexp="yes">\.</token>
+                    <token>2</token>
+                    <token>Buchstabe</token>
+                </antipattern>
+                <antipattern> <!--Telefonnummern-->
+                    <token regexp="yes">(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*</token>
+                </antipattern>
+                <antipattern> <!--BLZ-->
+                    <token min="0">BLZ</token>
+                    <token postag="PKT" min="0"/>
+                    <token regexp="yes">\d{3}</token>
+                    <token regexp="yes">\d{3}</token>
+                    <token regexp="yes">\d{2}</token>
+                </antipattern>
+                <antipattern> <!--Uhrzeiten, 1:3-->
+                    <token regexp="yes">\d+</token>
+                    <token regexp="yes">\:|\.|,|X|x|\/|//|-|–</token>
+                    <token regexp="yes">\d+</token>
+                </antipattern>
+                <antipattern> <!--15:30-16:30-->
+                    <token regexp="yes">\d+</token>
+                    <token regexp="yes">\:|\.|,|X|x|\/|//|-|–</token>
+                    <token regexp="yes">\d+</token>
+                    <token regexp="yes" min="0">X|x|-|–</token>
+                    <token regexp="yes" min="0">\d+</token>
+                    <token regexp="yes" min="0">:|\.|,</token>
+                    <token regexp="yes" min="0">\d+</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="ART.*SIN.*" postag_regexp="yes"/>
+                    <token postag="SUB.*SIN.*" postag_regexp="yes"/>
+                    <token regexp="yes">\d+</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="ADJ.*SIN.*|ART.*SIN.*|PRO:POS.*SIN.*" postag_regexp="yes"/>
+                    <token regexp="yes" skip="2">\d+</token>
+                    <token postag="SUB.*SIN.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes">\d+</token>
+                    <token postag="SUB.*SIN.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\(</token>
+                    <token regexp="yes">\d+</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">\d+<exception postag="ART:.*" postag_regexp="yes"/><exception regexp="yes">erstens|zweitens|drittens|null|eins|0|1</exception></token>
+                    <marker>
+                        <token postag="SUB:.+:SIN:.+" postag_regexp="yes">
+                            <exception postag=".+:ADJ" postag_regexp="yes"/>
+                            <exception postag="SUB:(.+):PLU:.+" postag_regexp="yes"/>
+                            <exception regexp="yes">Balls|Dank|Eis|Tee|Kaffee|Bier|Wasser|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Fuß|Fuss|Paar|Mark|D-?Mark|Reichsmark|Rentenmark|Pfund|Dollar|US-Dollar|DM|Euro|Pfennig|Stück|Goldmark|Grad|Gramm|Kilo.*|Milli.+|.+beamte|Mann|Schuss|Uhr|Zoll|Bar|Promille|Barrel|Schilling|Sigma|Charisma|Komma|Donnerwetter|Fieber</exception>
+                        </token>
+                    </marker>
+                    <token>
+                        <exception postag="SUB:.+:PLU:.+" postag_regexp="yes"/>
+                        <exception regexp="yes">\(|\/|'|#</exception>
+                        <exception postag="UNKNOWN" regexp="yes">.*[a-z0-9].*</exception>
+                    </token>
+                </pattern>
+                <message>Möglicher Tippfehler: Müsste dieses Wort im Plural stehen?</message>
+                <suggestion><match no="2" postag=".*:PLU:.*" postag_regexp="yes"/></suggestion>
+                <example correction="Möglichkeiten">Wir haben 3 <marker>Möglichkeit</marker>.</example>
+                <example>Wir haben hier 3 <marker>Möglichkeiten</marker>.</example>
+                <example>2 <marker>Game</marker> Boys können verbunden werden.</example>
+                <example>Es war schon in Runde 1 Endstation.</example>
+                <example>In 2 Anfang 2009 veröffentlichten Studien...</example>
+                <example>In 2 2009 veröffentlichten Studien...</example>
+                <example correction="Screens">Das waren 2 <marker>Screen</marker>!</example>
+                <example>Es zeigte auch 2 Mitte der 1960er im Boden gefundene Platten.</example>
+                <example>Mit ihren schauspielerischen Leistungen gewann Jolie 3 Golden Globe Awards, 2 Screen Actors Guild Awards und für ihre Rolle einer psychisch Kranken in dem Film Durchgeknallt.</example>
+                <example>Daraus wurde ein 3 Stunden langer Kinofilm.</example>
+                <example>Er hatte in 2 Aufsehen erregenden Nature-Veröffentlichungen drüber berichtet.</example>
+                <example>Die Biene Maja ist die Hauptfigur in 2 Anfang des 20. Jahrhunderts erschienenen Romanen.</example>
+                <example>In Zahlen: 5 Komma 8.</example>
+                <example>Mittelfristig soll die Bundeswehr also über 3 A 350 verfügen, die auf der Langstrecke eingesetzt werden können.</example>
+                <example>Das waren etwa 10 US-Dollar.</example>
+                <example>Ich esse um viertel 8 Abendbrot.</example>
+                <example>Tom lernte erst mit 30 Fahren.</example>
+                <example>Pairing (paaren) der 2 Bluetooth fähigen Geräte, welche man miteinander verbinden möchte, durch und schon kann man Daten wie Musik, Videos, Bilder austauschen.</example>
+                <example>Ich esse Viertel nach 7 Abendbrot.</example>
+                <example>Sie haben 0 Bock und 0 Ahnung.</example>
+                <example>Diese Dame war heute Nachmittag um 3 Zeugin eines Unfalls.</example>
+                <example>Seit mehr als zwei Jahren ist bekannt, dass nach Staffel 8 Schluss ist.</example>
+                <example>Ich hätte gerne pünktlich um 8 Uhr Frühstück auf meinem Zimmer.</example>
+                <example>Du musst den 8 Uhr 15 Zug nach Paris nehmen.</example>
+                <example>Ich wurde 1980 Mitglied dieses Klubs.</example>
+                <example>Die Rechtsgrundlage für die Verarbeitung zur Erfüllung unserer Leistungen und Durchführung vertraglicher Maßnahmen sowie Beantwortung von Anfragen ist § 6 DSG-EKD Art.</example>
+                <example>§ 2 Zustandekommen des Vertrages (1)</example>
+                <example>Dort umsteigen in Linie 2 Richtung Messe, Haltestelle MDR/ Kinderkanal aussteigen.</example>
+                <example>Mobil: 0171/ 41 37 503 Postbank Köln Konto-Nr.: ...</example>
+                <example>Der Sitz des Unternehmens ist: Hauptstraße 11 - 42579 Heiligenhaus - Deutschland. </example>
+                <example>BLZ: 456 789 10 Finanzamt Köln-West</example>
+                <example>15:00, 15. Jan 2022: Begrüßung und Ankunft bei den Gastfamilien.</example>
+                <example>Mit dem iPhone 11 Pro Max kann man vom Teleobjektiv bis zum neuen Ultraweitwinkel-Objektiv auszoomen. </example>
+                <example>2 Können mehrere SIP-Provider Profile eingerichtet und parallel betrieben werden?</example>
+                <example>Sporthafen 5 km, Golfplatz (9 Loch) 4 km, Segelschule 5 km...</example>
+            </rule>
         </rulegroup>
         <rulegroup id="USA_PLURAL" name="'Die USA ist (sind)' etc. (falscher Singular)">
         <!-- TODO (July 2015): test and possibly remove if it overlaps with DE_SUBJECT_VERB_AGREEMENT after dictionary update -->
