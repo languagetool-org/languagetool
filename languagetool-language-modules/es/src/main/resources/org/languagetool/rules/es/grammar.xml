@@ -25082,6 +25082,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
+                    <token>así</token>
+                    <token>pues</token>
+                </pattern>
+                <filter class="org.languagetool.rules.AddCommasFilter" args="suggestSemicolon:true"/>
+                <message>&msg_semicolon_comma;</message>
+                <example correction="pues,">Así <marker>pues</marker> no logró ganar.</example>
+                <example correction="; así pues,|, así pues,">No me gusta mucho este<marker>, así pues</marker> me quedaré el otro.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token postag="SENT_START"/>
                     <token min="0" max="3" postag="_PUNCT.*" postag_regexp="yes"/>
                     <marker>
