@@ -2518,7 +2518,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>To Marek, którego Jurek nienawidzi.</example>
 								<example>Mało który spełnia warunki formalne.</example>
 								<example>To młotek, za pomocą którego Przemysław zamęczał kotka.</example>
-								<example correction="coś, na którego bazie">To <marker>coś na bazie którego</marker> Jurek zbuduje imperium.</example>
+								<example correction="coś, na którego gruzach">To <marker>coś na gruzach którego</marker> Jurek zbuduje imperium.</example>
 								<example>Po upływie jakiej pół godziny dojechaliśmy do miejsca, w którym się szczelina kończyła.</example>
 						</rule>
 						<rule>
@@ -6856,20 +6856,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
             <token skip="-1" regexp="yes" inflected="yes">(?:że|a)?by
-            <exception scope="next" postag="conj|comp.*|interp:comma|pred|verb:(?:fin.*|praet.*|bedzie.*|winien.*|imps.*|pot.*|inf.*)|pcon.*" postag_regexp="yes"></exception>            
+            <exception scope="next" postag="conj|comp.*|interp:comma|pred|verb:(?:praet.*|bedzie.*|winien.*|imps.*|pot.*|inf.*)|pcon.*" postag_regexp="yes"></exception>            
             </token>
             <marker>
-            <token skip="-1" postag="verb:impt.*" postag_regexp="yes">
+            <token skip="-1" postag="verb:(?:fin|impt).*" postag_regexp="yes">
             <exception postag="subst.*|adv:com|verb:inf.*" postag_regexp="yes"/>
             <exception regexp="yes">bądź|mial|mniejszej</exception>
-            <exception scope="next" postag="conj|comp.*|interp:comma|pred|verb:(?:fin.*|praet.*|bedzie.*|winien.*|imps.*|pot.*)" postag_regexp="yes"></exception>            
+            <exception scope="next" postag="conj|comp.*|interp:comma|pred|verb:(?:praet.*|bedzie.*|winien.*|imps.*|pot.*)" postag_regexp="yes"></exception>            
             </token>
             </marker>
             <token regexp="yes">&interp_conj;</token>
           </pattern>
-          <message>W tym zdaniu podrzędnym występuje tylko czasownik w trybie rozkazującym „\2”. Prawdopodobnie to błąd gramatyczny lub literówka.</message>
+          <message>W tym zdaniu podrzędnym występuje tylko czasownik w błędnej formie: „\2”. Prawdopodobnie to błąd gramatyczny lub literówka.</message>
           <short>Błąd gramatyczny</short>
           <example correction="">Prosił, żebyś <marker>przeczytaj</marker> tę książkę.</example>
+          <example correction="">Prosił, żebyś <marker>przeczyta</marker> tę książkę.</example>
       </rule>
       <rule>
         <pattern>
@@ -10451,7 +10452,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						</pattern>
 						<message>Ten szyk wyrazów jest błędny. Poprawnie: <suggestion>\2 \4 \3</suggestion>.</message>
 						<short>Błąd składniowy</short>
-						<example correction="w którego czasie">Zesłanie, <marker>w czasie którego</marker> musiał imać się wielu prac, było mordęgą.</example>
+						<example correction="w którego skupiskach">Ubóstwo, <marker>w skupiskach którego</marker> musiał imać się wielu prac, było mordęgą.</example>
 						<example>To jest ustawa, na podstawie której skazano zbrodniarza.</example>
                         <example>Gdzie tam, w lada jakiej sprawie musi jeszcze nieborak dawać poręczyć.</example>
                         <example>Spała se i tylko jej łzy płynęły, a co która upadła, czy na jej koszulę...</example>
