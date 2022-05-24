@@ -390,6 +390,9 @@ public class TokenAgreementNumrNounRule extends Rule {
           else if( DVA_PATTERN.matcher(numrToken).matches() ) {
             masterInflections.removeAll(pVnazZna);
             masterInflections.add(new Inflection("p", "v_naz", null));
+            if( PosTagHelper.hasPosTag(nounTokenReadings, Pattern.compile("(noun:inanim:p:v_zna).*")) ) {
+              masterInflections.add(new Inflection("p", "v_zna", null));
+            }
           }
         }
         else {

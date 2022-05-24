@@ -43,9 +43,10 @@ public class UkrainianWordTokenizer implements Tokenizer {
             + ",.;!?\u2014:()\\[\\]{}<>/|\\\\…°$€₴=¿¡]" // what about: №§
             + "|%(?![-\u2013][а-яіїєґ])" // allow 5%-й
             + "|(?<!\uE109)[\"«»„”“]"                       // quotes have special cases
+            + "|(?<=[а-яіїєґА-ЯІЇЄҐ])[\u00B9\u00B2\u2070-\u2079]"  // superscript for regular words only // 
             + "|[\u2000-\u200F"
             + "\u201A\u2020-\u202F\u2030\u2031\u2033-\u206F"
-            + "\u2400-\u27FF"                                                       // Control Pictures
+            + "\u2400-\u27FF"    // Control Pictures
             + String.valueOf(Character.toChars(0x1F000)) + "-" + String.valueOf(Character.toChars(0x1FFFF))          // Emojis
             + "\uf000-\uffff" // private unicode area: U+E000..U+F8FF
             + "\uE110])(?!\uE120)";
@@ -176,7 +177,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
   private static final Pattern LEADING_DASH_PATTERN = Pattern.compile("^([\u2014\u2013])([а-яіїєґА-ЯІЇЄҐA-Z])");
   private static final Pattern LEADING_DASH_PATTERN_2 = Pattern.compile("^(-)([А-ЯІЇЄҐA-Z])");
 
-  private static final Pattern NUMBER_MISSING_SPACE = Pattern.compile("((?:[\\h\\v\uE110]|^)(?!(?:[кдсмн]|мк)?м[23])[а-яїієґА-ЯІЇЄҐ'-]*[а-яїієґ]'?[а-яїієґ])([0-9]+(?![а-яіїєґА-ЯІЇЄҐa-zA-Z»\"“]))");
+  private static final Pattern NUMBER_MISSING_SPACE = Pattern.compile("((?:[\\h\\v\uE110]|^)[а-яїієґА-ЯІЇЄҐ'-]*[а-яїієґ']?[а-яїієґ])([0-9]+(?![а-яіїєґА-ЯІЇЄҐa-zA-Z»\"“]))");
 
 
   public UkrainianWordTokenizer() {

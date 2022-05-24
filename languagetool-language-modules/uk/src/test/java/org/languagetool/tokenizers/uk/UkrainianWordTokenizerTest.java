@@ -28,6 +28,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
+import org.languagetool.TestTools;
 
 public class UkrainianWordTokenizerTest {
   private final UkrainianWordTokenizer w = new UkrainianWordTokenizer();
@@ -142,7 +143,10 @@ public class UkrainianWordTokenizerTest {
     assertEquals(Arrays.asList("«", "Мак2", "»"), testList);
 
     testList = w.tokenize("км2");
-    assertEquals(Arrays.asList("км2"), testList);
+    assertEquals(Arrays.asList("км", "2"), testList);
+
+    testList = w.tokenize("Мі17");
+    assertEquals(Arrays.asList("Мі", "17"), testList);
 
     testList = w.tokenize("000ххх000");
     assertEquals(Arrays.asList("000ххх000"), testList);
@@ -161,6 +165,18 @@ public class UkrainianWordTokenizerTest {
 
     testList = w.tokenize("Роттердам+ ");
     assertEquals(Arrays.asList("Роттердам+", " "), testList);
+  }
+
+  @Test
+  public void testSuperscript() {
+    List<String> testList = w.tokenize("дружини¹");
+    assertEquals(Arrays.asList("дружини", "¹"), testList);
+
+//    testList = w.tokenize("км²");
+//    assertEquals(Arrays.asList("км²"), testList);
+
+    testList = w.tokenize("X²");
+    assertEquals(Arrays.asList("X²"), testList);
   }
   
   @Test

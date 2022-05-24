@@ -342,23 +342,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <rulegroup id="DIGITS_AND_LETTERS" name="Цифри та літери">
       <rule>
+      <!--
         <antipattern>
           <token regexp="yes">[«"„]</token>
-          <token regexp="yes" spacebefore="no">[а-яіїєґ'-][а-яіїєґ]+[0-9]+[^а-яіїєґ]+</token>
-          <!-- 
-          <token regexp="yes">[»"“]</token>
-           -->
+          <token regexp="yes" spacebefore="no">[а-яіїєґ'-][а-яіїєґ]+[0-9]</token>
         </antipattern>
+        -->
         <pattern>
           <marker>
-            <token case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ][а-яіїєґ'-]*[а-яіїєґ]+[0-9]+[^а-яіїєґА-ЯІЇЄҐ–-][^а-яіїєґА-ЯІЇЄҐ]*
-              <exception regexp="yes" case_sensitive="yes">[А-ЯІЇЄҐ-]+[0-9]+</exception>
-            </token>
+            <token case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ][а-яіїєґ'-]*[а-яіїєґ]+</token>
+            <token regexp="yes" spacebefore="no">[0-9]+</token>
           </marker>
         </pattern>
         <message>Відсутній дефіс або пробіл між словом і числом</message>
-        <suggestion><match no="1" regexp_match="([А-ЯІЇЄҐа-яіїєґ'-])([0-9]+)" regexp_replace="$1-$2"/></suggestion>
-        <suggestion><match no="1" regexp_match="([А-ЯІЇЄҐа-яіїєґ'-])([0-9]+)" regexp_replace="$1 $2"/></suggestion>
+        <suggestion><match no="1"/>-<match no="2"/></suggestion>
+        <suggestion><match no="1"/> <match no="2"/></suggestion>
         <example correction="Мі-17|Мі 17"><marker>Мі17</marker></example>
         <example>СО2</example>
         <example>абстракція11</example>
@@ -367,6 +365,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
 
       <rule>
+        <antipattern>
+          <token regexp="yes">([кдсмн]|мк)?м</token>
+          <token regexp="yes" spacebefore="no">[23]</token>
+        </antipattern>
         <pattern>
           <marker>
             <token regexp="yes">[а-яіїєґ][а-яіїєґ'.-]*</token>
@@ -1468,11 +1470,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <rule id="UPPER_INDEX_FOR_M" name="Верхній індекс для метрів" default="off">
       <pattern>
-        <token regexp="yes">([кдсмн]|мк)?м[23]</token>
+        <token regexp="yes">([кдсмн]|мк)?м</token>
+        <token regexp="yes" spacebefore="no">[23]</token>
       </pattern>
       <message>Можливо, потрібен верхній індекс?</message>
-      <suggestion><match no="1" regexp_match="([а-я]+)([23])" regexp_replace="$1²"/></suggestion>
-      <suggestion><match no="1" regexp_match="([а-я]+)([23])" regexp_replace="$1³"/></suggestion>
+      <suggestion><match no="1"/>²</suggestion>
+      <suggestion><match no="1"/>³</suggestion>
       <example correction="км²|км³">900 тис. <marker>км2</marker></example>
       <example correction="м²|м³">900 <marker>м3</marker></example>
       <example>20 скм3</example>
