@@ -43,20 +43,20 @@ jobs:
       MAVEN_OPTS: -Xmx3200m
     steps:
       - custom-checkout
+      - install-project
       - run:
           name: test full
           command: |
-            cd $CIRCLE_WORKING_DIRECTORY && mvn -pl '!languagetool-rpm-package' test -fae
+            cd $CIRCLE_WORKING_DIRECTORY && mvn test -fae
       - save-test-results
       - run:
           name: deploy full
           command: |
-            cd $CIRCLE_WORKING_DIRECTORY && mvn -s .circleci.settings.xml -pl '!languagetool-rpm-package' -DskipTests deploy
+            cd $CIRCLE_WORKING_DIRECTORY && mvn -s .circleci.settings.xml -DskipTests deploy
       - save_cache:
           paths:
             - ~/.m2
           key: v1-dependencies-{{ checksum "/home/circleci/project/~/project/pom.xml" }}
-      - trigger-premium-pipeline
   test-and-deploy-partial:
     resource_class: medium
     executor: 
@@ -66,6 +66,7 @@ jobs:
     steps:
       - custom-checkout
       - get-diffs
+      - install-project
       - run:
           name: test modules
           command: |
@@ -79,6 +80,7 @@ jobs:
           paths:
             - ~/.m2
           key: v1-dependencies-{{ checksum "/home/circleci/project/~/project/pom.xml" }}
+      - trigger-premium-pipeline
 commands:
   custom-checkout:
     description: My custom checkout
@@ -104,7 +106,7 @@ commands:
   install-project:
     description: Run maven install
     steps:
-      - run: cd $CIRCLE_WORKING_DIRECTORY && mvn -pl '!languagetool-rpm-package' clean install -DskipTests
+      - run: cd $CIRCLE_WORKING_DIRECTORY && mvn clean install -DskipTests
       - run: cd $CIRCLE_WORKING_DIRECTORY && mvn dependency:go-offline
   save-test-results:
     steps:
@@ -121,11 +123,7 @@ commands:
       - run:
           name: Kick off new premium pipeline
           command: |
-            curl --request POST \
-            --url https://circleci.com/api/v2/project/gh/languagetooler-gmbh/languagetool-premium/pipeline \
-            --header "Circle-Token: ${API_TOKEN}" \
-            --header "Content-Type: application/json" \
-            --data '{"branch":"master","parameters":{"run_on_pull":false, "os-sha": "${CIRCLE_SHA1}"}}'
+            cd $CIRCLE_WORKING_DIRECTORY && .circleci/kick_off_premium.sh
 executors:
   docker-openjdk11:
     docker:

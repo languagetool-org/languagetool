@@ -109,6 +109,11 @@ public class CompoundRule extends AbstractCompoundRule {
         new PatternTokenBuilder().token("first").build(),
         new PatternTokenBuilder().tokenRegex("ever").build(),
         new PatternTokenBuilder().tokenRegex("green").build()
+      ),
+      Arrays.asList( // inter-state.com
+        new PatternTokenBuilder().tokenRegex(".+").build(),
+        new PatternTokenBuilder().token(".").build(),
+        new PatternTokenBuilder().tokenRegex("(com|io|de|nl|co|net|org|es)").build()
       )
   ), AMERICAN_ENGLISH);
 

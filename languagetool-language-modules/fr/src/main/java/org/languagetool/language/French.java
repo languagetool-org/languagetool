@@ -251,6 +251,7 @@ public class French extends Language implements AutoCloseable {
       case "J_N2": return 100; // greater than J_N
       case "CEST_A_DIRE": return 100; // greater than A_A_ACCENT
       case "FAIRE_VPPA": return 100; // greater than A_ACCENT_A
+      case "D_N_E_OU_E": return 100; // greater than D_N
       case "GENS_ACCORD": return 100; // greater than AGREEMENT_POSTPONED_ADJ
       case "VIRGULE_EXPRESSIONS_FIGEES": return 100; // greater than agreement rules
       case "TRAIT_UNION": return 100; // greater than other rules for trait d'union
@@ -293,7 +294,7 @@ public class French extends Language implements AutoCloseable {
       //case "PRONSUJ_NONVERBE": return 10; // needs higher priority than AUXILIAIRE_MANQUANT
       //case "AUXILIAIRE_MANQUANT": return 5; // needs higher priority than ACCORD_NOM_VERBE
       case "CONFUSION_PAR_PART": return -5;  // turn off completely when PART_OU_PAR is activated
-      case "SONT_SON": return -5; // less than ETRE_VPPA_OU_ADJ
+      case "SON": return -5; // less than ETRE_VPPA_OU_ADJ
       case "FR_SIMPLE_REPLACE": return -10;
       case "J_N": return -10; // needs lesser priority than D_J
       case "TE_NV": return -20; // less than SE_CE, SE_SA and SE_SES
@@ -318,6 +319,7 @@ public class French extends Language implements AutoCloseable {
       case "ILS_VERBE": return -50; // greater than FR_SPELLING_RULE
       case "AGREEMENT_POSTPONED_ADJ": return -50;
       case "MULTI_ADJ": return -50;
+      case "PARENTHESES": return -50;// less than grammar rules
       case "ESSENTIEL": return -50; // lesser than grammar rules
       case "CONFUSION_AL_LA": return -50; // lesser than AUX_AVOIR_VCONJ
       case "IMPORTANT": return -50; // lesser than grammar rules
@@ -350,10 +352,7 @@ public class French extends Language implements AutoCloseable {
     }
 
     if (id.startsWith("AI_FR_HYDRA_LEO")) { // prefer more specific rules (also speller)
-      if (id.startsWith("AI_FR_HYDRA_LEO_MISSING_COMMA")) {
-        return -51; // prefer comma style rules.
-      }
-      return -11;
+      return -101;
     }
 
     return super.getPriorityForId(id);
@@ -384,15 +383,4 @@ public class French extends Language implements AutoCloseable {
     return ruleMatches;
   }
 
-
-  @Override
-  public List<Rule> getRelevantRemoteRules(ResourceBundle messageBundle, List<RemoteRuleConfig> configs, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages, boolean inputLogging) throws IOException {
-    List<Rule> rules = new ArrayList<>(super.getRelevantRemoteRules(
-      messageBundle, configs, globalConfig, userConfig, motherTongue, altLanguages, inputLogging));
-
-    // no description needed - matches based on automatically created rules with descriptions provided by remote server
-    rules.addAll(GRPCRule.createAll(this, configs, inputLogging,
-      "AI_FR_", "INTERNAL - dynamically loaded rule supported by remote server"));
-    return rules;
-  }
 }

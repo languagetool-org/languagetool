@@ -18,13 +18,11 @@
  */
 package org.languagetool.rules.en;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.function.Supplier;
 
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Tag;
 import org.languagetool.language.AmericanEnglish;
 import org.languagetool.rules.AbstractRepeatedWordsRule;
 import org.languagetool.rules.SynonymsData;
@@ -164,6 +162,11 @@ public class EnglishRepeatedWordsRule extends AbstractRepeatedWordsRule{
     Arrays.asList(
       token("literally"),
       posRegex("PCT|SENT_END")
+    ),
+
+    Arrays.asList(
+      posRegex("CC"),       // "Or maybe it's because I have eyes that see!"
+      token("maybe")
     )
 
   );
@@ -175,6 +178,7 @@ public class EnglishRepeatedWordsRule extends AbstractRepeatedWordsRule{
 
   public EnglishRepeatedWordsRule(ResourceBundle messages) {
     super(messages, new AmericanEnglish());
+    setTags(Collections.singletonList(Tag.picky));
     antiPatterns = cacheAntiPatterns(new AmericanEnglish(), ANTI_PATTERNS);
     //super.setDefaultTempOff();
   }

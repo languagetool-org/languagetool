@@ -49,7 +49,6 @@ import com.sun.star.lang.Locale;
 import com.sun.star.lang.XComponent;
 import com.sun.star.linguistic2.ProofreadingResult;
 import com.sun.star.linguistic2.SingleProofreadingError;
-import com.sun.star.text.XTextDocument;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
 
@@ -559,9 +558,9 @@ class SingleDocument {
     int nStart = docCache.getStartOfParaCheck(nPara, nCheck, false, true, false);
     int nEnd = docCache.getEndOfParaCheck(nPara, nCheck, false, true, false);
     if (nCheck > 0 && nStart + 1 < nEnd) {
-      if ((nStart == nPara.number 
-              || paragraphsCache.get(nCache).getCacheEntry(docCache.getFlatParagraphNumber(new TextParagraph(nPara.type, nPara.number - 1))) != null) 
-          && (nEnd == nPara.number 
+      if ((nStart == nPara.number || (nPara.number == 0
+              || paragraphsCache.get(nCache).getCacheEntry(docCache.getFlatParagraphNumber(new TextParagraph(nPara.type, nPara.number - 1))) != null)) 
+          && (nEnd == nPara.number || nPara.number == docCache.textSize(nPara) - 1
               || paragraphsCache.get(nCache).getCacheEntry(docCache.getFlatParagraphNumber(new TextParagraph(nPara.type, nPara.number + 1))) != null)) {
         nStart = nPara.number;
         nEnd = nStart + 1;
@@ -626,7 +625,8 @@ class SingleDocument {
           changedParas.remove(nPara);
           if (sChangedPara != null && !sChangedPara.equals(sPara)) {
             docCache.setFlatParagraph(nPara, sPara);
-            for (int i = 0; i < mDocHandler.getNumMinToCheckParas().size(); i++) {
+            //  NOTE: Don't remove paragraph cache 0. It is needed to set correct markups
+            for (int i = 1; i < mDocHandler.getNumMinToCheckParas().size(); i++) {
               paragraphsCache.get(i).remove(nPara);
             }
             return createQueueEntry(docCache.getNumberOfTextParagraph(nPara), 0);
@@ -650,12 +650,35 @@ class SingleDocument {
   
   private void remarkChangedParagraphs(List<Integer> changedParas, boolean isIntern) {
     if (!disposed) {
-      SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, docCursor, flatPara, docLanguage, ignoredMatches, numParasToCheck, true, false, isIntern);
+      SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, docCursor, flatPara, docLanguage, ignoredMatches, numParasToCheck, false, false, isIntern);
       if (docCursor == null) {
         docCursor = new DocumentCursorTools(xComponent);
       }
       singleCheck.remarkChangedParagraphs(changedParas, docCursor, flatPara, mDocHandler.getLanguageTool(), true);
     }
+  }
+
+/**
+ * Renew text markups for paragraphs under view cursor
+ */
+  public void renewMarkups() {
+    if (disposed) {
+      return;
+    }
+    ViewCursorTools viewCursor = new ViewCursorTools(xComponent);
+    int y = docCache.getFlatParagraphNumber(viewCursor.getViewCursorParagraph());
+    if (debugMode > 0) {
+      MessageHandler.printToLogFile("SingleDocument: renewMarkups: Number of Flat Paragraph = " + y);
+    }
+    List<Integer> changedParas = new ArrayList<Integer>();
+    changedParas.add(y);
+    remarkChangedParagraphs(changedParas, false);
+/*
+    for (int i = 1; i < mDocHandler.getNumMinToCheckParas().size(); i++) {
+      paragraphsCache.get(i).remove(y);
+    }
+    addQueueEntry(y, 0, 0, docID, true, true);
+*/
   }
 
   /**
@@ -682,7 +705,7 @@ class SingleDocument {
     ViewCursorTools viewCursor = new ViewCursorTools(xComponent);
     int y = docCache.getFlatParagraphNumber(viewCursor.getViewCursorParagraph());
     int x = viewCursor.getViewCursorCharacter();
-    String ruleId = getRuleIdFromCache(y, x);
+    String ruleId = getRuleIdFromCache(y, x).ruleID;
     setIgnoredMatch (x, y, ruleId, false);
     return docID;
   }
@@ -761,9 +784,10 @@ class SingleDocument {
    * get a rule ID of an error out of the cache 
    * by the position of the error (flat paragraph number and number of character)
    */
-  private String getRuleIdFromCache(int nPara, int nChar) {
+  private RuleDesc getRuleIdFromCache(int nPara, int nChar) {
     List<SingleProofreadingError> tmpErrors = new ArrayList<SingleProofreadingError>();
     if (nPara < 0 || nPara >= docCache.size()) {
+      MessageHandler.printToLogFile("SingleDocument: getRuleIdFromCache(nPara = " + nPara + ", docCache.size() = " + docCache.size() + "): nPara out of range!");
       return null;
     }
     for (ResultCache paraCache : paragraphsCache) {
@@ -783,8 +807,9 @@ class SingleDocument {
           MessageHandler.printToLogFile("SingleDocument: getRuleIdFromCache: Error[" + i + "]: ruleID: " + errors[i].aRuleIdentifier + ", Start = " + errors[i].nErrorStart + ", Length = " + errors[i].nErrorLength);
         }
       }
-      return errors[0].aRuleIdentifier;
+      return new RuleDesc(docCache.getFlatParagraphLocale(nPara), errors[0].aRuleIdentifier);
     } else {
+      MessageHandler.printToLogFile("SingleDocument: getRuleIdFromCache(nPara = " + nPara + ", nChar = " + nChar + "): No ruleId found!");
       return null;
     }
   }
@@ -793,7 +818,7 @@ class SingleDocument {
    * get a rule ID of an error from a check 
    * by the position of the error (number of character)
    */
-  private String getRuleIdFromCache(int nChar, ViewCursorTools viewCursor) {
+  private RuleDesc getRuleIdFromCheck(int nChar, ViewCursorTools viewCursor) {
     String text = viewCursor.getViewCursorParagraphText();
     if (text == null) {
       return null;
@@ -820,7 +845,7 @@ class SingleDocument {
         }
         for (SingleProofreadingError error : paRes.aErrors) {
           if (error.nErrorStart <= nChar && nChar < error.nErrorStart + error.nErrorLength) {
-            return error.aRuleIdentifier;
+            return new RuleDesc(paRes.aLocale, error.aRuleIdentifier);
           }
         }
       }
@@ -832,14 +857,14 @@ class SingleDocument {
   /**
    * get back the rule ID to deactivate a rule
    */
-  public String deactivateRule() {
+  public RuleDesc deactivateRule() {
     if (disposed) {
       return null;
     }
     ViewCursorTools viewCursor = new ViewCursorTools(xComponent);
     int x = viewCursor.getViewCursorCharacter();
     if (numParasToCheck == 0) {
-      return getRuleIdFromCache(x, viewCursor);
+      return getRuleIdFromCheck(x, viewCursor);
     }
     int y = docCache.getFlatParagraphNumber(viewCursor.getViewCursorParagraph());
     return getRuleIdFromCache(y, x);
@@ -1020,6 +1045,16 @@ class SingleDocument {
         return;
       }
       xUserInputInterception.addMouseClickHandler(eventListener);
+    }
+  }
+  
+  class RuleDesc {
+    String langCode;
+    String ruleID;
+    
+    RuleDesc(Locale locale, String ruleID) {
+      langCode = OfficeTools.localeToString(locale);
+      this.ruleID = ruleID;
     }
   }
   

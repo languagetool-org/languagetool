@@ -34,7 +34,7 @@ import java.util.regex.Pattern;
  */
 class LightRuleMatchParser {
 
-  private final Pattern startPattern = Pattern.compile("^(?:\\d+\\.\\) )?Line (\\d+), column (\\d+), Rule ID: (.*)");
+  private final Pattern startPattern = Pattern.compile("^(?:\\d+\\.\\) )?Line (\\d+), column (\\d+), Rule ID: (.*) premium: (false|true)");
   private final Pattern coverPattern = Pattern.compile("^([ ^]+)$");
 
   JsonParseResult parseOutput(File inputFile) throws IOException {
@@ -82,6 +82,8 @@ class LightRuleMatchParser {
     String fullRuleId = rule.get("subId") != null ? ruleId + "[" + rule.get("subId").asText() + "]" : ruleId;
     String message = match.get("message").asText();
     String category = rule.get("category") != null ? rule.get("category").get("name").asText() : "(unknown)";
+    //TODO: Maybe just works for xml rules
+    boolean isPremium = rule.get("isPremium") != null && rule.get("isPremium").asBoolean(false);
     int contextOffset = match.get("context").get("offset").asInt();
     int contextLength = match.get("context").get("length").asInt();
     String context = match.get("context").get("text").asText();
@@ -140,7 +142,7 @@ class LightRuleMatchParser {
         tags.add(tag.asText());
       }
     }
-    return new LightRuleMatch(0, offset, fullRuleId, message, category, context, coveredText, replacementList, ruleSource, title, status, tags);
+    return new LightRuleMatch(0, offset, fullRuleId, message, category, context, coveredText, replacementList, ruleSource, title, status, tags, isPremium);
   }
 
   JsonParseResult parseOutput(Reader reader) {
@@ -153,6 +155,7 @@ class LightRuleMatchParser {
     String suggestion = null;
     String source = null;
     String title = null;
+    boolean isPremium = false;
     Scanner sc = new Scanner(reader);
     while (sc.hasNextLine()) {
       String line = sc.nextLine();
@@ -171,6 +174,7 @@ class LightRuleMatchParser {
         lineNum = Integer.parseInt(startMatcher.group(1));
         columnNum = Integer.parseInt(startMatcher.group(2));
         ruleId = startMatcher.group(3);
+        isPremium = Boolean.parseBoolean(startMatcher.group(4));
       } else if ((suggestion != null || message != null) && context == null) {
         // context comes directly after suggestion (if any)
         context = line;
@@ -193,7 +197,7 @@ class LightRuleMatchParser {
         }
         String cleanId = ruleId.replace("[off]", "").replace("[temp_off]", "");
         List<String> tags = new ArrayList<>();  // not supported yet...
-        result.add(makeMatch(lineNum, columnNum, ruleId, cleanId, message, Arrays.asList(suggestion), context, coveredText, title, source, tags));
+        result.add(makeMatch(lineNum, columnNum, ruleId, cleanId, message, Arrays.asList(suggestion), context, coveredText, title, source, tags, isPremium));
         lineNum = -1;
         columnNum = -1;
         ruleId = null;
@@ -218,9 +222,9 @@ class LightRuleMatchParser {
   }
 
   private LightRuleMatch makeMatch(int line, int column, String ruleId, String cleanId, String message, List<String> suggestions,
-                                   String context, String coveredText, String title, String source, List<String> tags) {
+                                   String context, String coveredText, String title, String source, List<String> tags , boolean isPremium) {
     LightRuleMatch.Status s = ruleId.contains("[temp_off]") ? LightRuleMatch.Status.temp_off : LightRuleMatch.Status.on;
-    return new LightRuleMatch(line, column, cleanId, message, "", context, coveredText, suggestions, source, title, s, tags);
+    return new LightRuleMatch(line, column, cleanId, message, "", context, coveredText, suggestions, source, title, s, tags, isPremium);
   }
 
   static class JsonParseResult {

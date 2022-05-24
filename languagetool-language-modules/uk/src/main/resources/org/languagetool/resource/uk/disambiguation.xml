@@ -272,8 +272,8 @@
     </pattern>
     <disambig action="remove" postag="verb:imperf:impr:s:2"/>
     <example type="ambiguous"
-        inputform="коли[кола/noun:inanim:f:v_rod,коли/adv:&amp;pron:int:rel,коли/conj:subord,коли/part,колоти/verb:imperf:impr:s:2,кіл/noun:inanim:p:v_naz,кіл/noun:inanim:p:v_zna]"
-        outputform="коли[кола/noun:inanim:f:v_rod,коли/adv:&amp;pron:int:rel,коли/conj:subord,коли/part,кіл/noun:inanim:p:v_naz,кіл/noun:inanim:p:v_zna]"
+        inputform="коли[кола/noun:inanim:f:v_rod,коли/adv:&amp;pron:int:rel,коли/conj:subord,колоти/verb:imperf:impr:s:2,кіл/noun:inanim:p:v_naz,кіл/noun:inanim:p:v_zna]"
+        outputform="коли[кола/noun:inanim:f:v_rod,коли/adv:&amp;pron:int:rel,коли/conj:subord,кіл/noun:inanim:p:v_naz,кіл/noun:inanim:p:v_zna]"
         >і <marker>коли</marker> те буде</example>
     <example type="untouched">Рви, ріж, коли!</example>
   </rule>
@@ -559,7 +559,7 @@
       <!--
         <exception negate_pos="yes" postag_regexp="yes" postag="noun:inanim:m:v_oru.*"/>
       -->
-        <exception postag_regexp="yes" postag="noun:inanim:(n:v_oru|p:v_dav|.:v_...:nv).*"/>
+        <exception postag_regexp="yes" postag="noun:inanim:(n:v_oru|p:v_dav|.:v_...:nv).*|.*_END"/>
       </token>
     </pattern>
     <disambig action="filter" postag="adj:m:v_oru.*"/>
@@ -1315,8 +1315,8 @@
     </pattern>
     <disambig action="remove" postag="noun:.*"/>
     <example type="ambiguous"
-        inputform="коли[кола/noun:inanim:f:v_rod,коли/adv:&amp;pron:int:rel,коли/conj:subord,коли/part,кіл/noun:inanim:p:v_naz,кіл/noun:inanim:p:v_zna]"
-        outputform="коли[коли/adv:&amp;pron:int:rel,коли/conj:subord,коли/part]">запитали <marker>коли</marker> він їде.</example>
+        inputform="коли[кола/noun:inanim:f:v_rod,коли/adv:&amp;pron:int:rel,коли/conj:subord,кіл/noun:inanim:p:v_naz,кіл/noun:inanim:p:v_zna]"
+        outputform="коли[коли/adv:&amp;pron:int:rel,коли/conj:subord]">запитали <marker>коли</marker> він їде.</example>
     <example type="untouched">дерев'яні коли.</example>
     <example type="untouched">позабивати коли.</example>
     <example type="untouched">від випитої коли.</example>
@@ -3538,7 +3538,7 @@
       <marker>
         <and>
           <token postag_regexp="yes" postag="verb.*?:inf:short.*"/>
-          <token negate_pos="yes" postag_regexp="yes" postag="verb.*:inf:short.*|SENT.*"/>
+          <token negate_pos="yes" postag_regexp="yes" postag="verb.*:inf:short.*|.*_END"/>
         </and>
       </marker>
     </pattern>
@@ -4369,10 +4369,61 @@
     </pattern>
     <disambig action="filter" postag="prep"/>
     <example type="ambiguous"
-      inputform="просто[просто/adv:compb:&amp;predic,просто/part,просто/prep]"
+      inputform="просто[просто/adv:compb:&amp;predic,просто/prep]"
       outputform="просто[просто/prep]">і <marker>просто</marker> неба.
     </example>
     <example type="untouched">просто туди</example>
+  </rule>
+
+  <rule name="сім - прикм." id="sim_adj">
+    <pattern>
+      <token regexp="yes">на|в|у|при|о</token>
+      <marker>
+        <token>сім</token>
+      </marker>
+      <token postag_regexp="yes" postag=".*?:[mn]:v_mis.*">
+        <exception postag_regexp="yes" postag="(noun.*?|adj):p:v_rod.*|.*(nv|abbr).*"/>
+      <!--
+        <exception negate_pos="yes" postag_regexp="yes" postag="(noun.*?|adj):[mn]:v_mis.*|SENT_END|PARA_END"/>
+       -->
+      </token>
+    </pattern>
+    <disambig action="filter" postag="adj.*"/>
+    <example type="ambiguous"
+      inputform="сім[сей/adj:m:v_mis:&amp;pron:dem:arch,сей/adj:n:v_mis:&amp;pron:dem:arch,сім/numr:p:v_naz,сім/numr:p:v_zna]"
+      outputform="сім[сей/adj:m:v_mis:&amp;pron:dem:arch,сей/adj:n:v_mis:&amp;pron:dem:arch]">на <marker>сім</marker> світі
+    </example>
+    <example type="untouched">на сім відсотків</example>
+    <example type="untouched">на сім кіно</example>
+    <example type="untouched">на сім млрд дол</example>
+  </rule>
+
+  <rule name="сім - числ." id="sim_numr">
+    <pattern>
+      <marker>
+        <token postag_regexp="yes" postag="numr.*">сім</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="numr.*"/>
+    <example type="ambiguous"
+      inputform="сім[сей/adj:m:v_mis:&amp;pron:dem:arch,сей/adj:n:v_mis:&amp;pron:dem:arch,сім/numr:p:v_naz,сім/numr:p:v_zna]"
+      outputform="сім[сім/numr:p:v_naz,сім/numr:p:v_zna]">на <marker>сім</marker> відсотків.
+    </example>
+  </rule>
+
+  <rule name="п'яти - іменн." id="pyaty_noun">
+    <pattern>
+      <token regexp="yes" postag_regexp="yes" postag="adj.*">ахіл.*</token>
+      <marker>
+        <token regexp="yes">п'ят[иау]</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun.*"/>
+    <example type="ambiguous"
+      inputform="п'ята[п'ята/noun:inanim:f:v_naz,п'ятий/adj:f:v_kly:&amp;numr,п'ятий/adj:f:v_naz:&amp;numr]"
+      outputform="п'ята[п'ята/noun:inanim:f:v_naz]">ахіллесова <marker>п'ята</marker>.
+    </example>
+    <example type="untouched">на п'яту вечора</example>
   </rule>
 
 

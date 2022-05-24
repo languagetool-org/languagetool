@@ -157,6 +157,10 @@ public class German extends Language implements AutoCloseable {
             new CompoundCoherencyRule(messages),
             new LongSentenceRule(messages, userConfig, 40),
             new GermanFillerWordsRule(messages, this, userConfig),
+            new PassiveSentenceRule(messages, this, userConfig),
+            new SentenceWithModalVerbRule(messages, this, userConfig),
+            new SentenceWithManRule(messages, this, userConfig),
+            new ConjunctionAtBeginOfSentenceRule(messages, this, userConfig),
             new NonSignificantVerbsRule(messages, this, userConfig),
             new UnnecessaryPhraseRule(messages, this, userConfig),
             new GermanParagraphRepeatBeginningRule(messages, this),
@@ -169,7 +173,7 @@ public class German extends Language implements AutoCloseable {
             new GermanReadabilityRule(messages, this, userConfig, false),
             new CompoundInfinitivRule(messages, this, userConfig),
             new StyleRepeatedVeryShortSentences(messages, this),
-            new StyleRepeatedSentenceBeginning(messages), 
+            new StyleRepeatedSentenceBeginning(messages),
             new GermanRepeatedWordsRule(messages)
     );
   }
@@ -289,8 +293,12 @@ public class German extends Language implements AutoCloseable {
       case "IRGEND_COMPOUND": return 10;
       case "DA_DURCH": return 2; // prefer over SUBSTANTIVIERUNG_NACH_DURCH and DURCH_SCHAUEN and DURCH_WACHSEN
       case "BEI_GOOGLE" : return 2;   // prefer over agreement rules and VOR_BEI
+      case "EINE_ORIGINAL_RECHNUNG_TEST" : return 2;   // prefer over EINE_ORIGINAL_RECHNUNG
+      case "VERWECHSLUNG_MIR_DIR_MIR_DIE": return 1; // prefer over MIR_DIR
+      case "ERNEUERBARE_ENERGIEN": return 1; // prefer over VEREINBAREN
       case "VOR_BEI": return 1; // prefer over BEI_BEHALTEN
       case "VERWANDET_VERWANDTE": return 1; // prefer over DE_CASE
+      case "SEIT_LAENGEREN": return 1; // prefer over DE_CASE
       case "EIN_LOGGEN": return 1; // prefer over most agreement rules
       case "ZU_GENÜGE" : return 1;   // prefer over ZU_KOENNE
       case "IMPFLICHT" : return 1;   // prefer over agreement rules DE_AGREEMENT
@@ -312,7 +320,8 @@ public class German extends Language implements AutoCloseable {
       case "UNTER_DRUCK" : return 1;   // prefer over ZUSAMMENGESETZTE_VERBEN
       case "ZUCCHINIS" : return 1;   // overwrite spell checker
       case "ANGL_PA_ED_UNANGEMESSEN" : return 1;   // overwrite spell checker
-      case "WRONG_UPPER_QUOTE": return 1; // higher prio than UNPAIRED_QUOTES
+      case "ANFUEHRUNGSZEICHEN_DE_AT": return 1; // higher prio than UNPAIRED_BRACKETS
+      case "ANFUEHRUNGSZEICHEN_CH_FR": return 1; // higher prio than UNPAIRED_BRACKETS
       case "EMAIL": return 1;  // better suggestion than SIMPLE_AGREEMENT_*
       case "ZULANGE": return 1;  // better suggestion than SAGT_RUFT
       case "ROCK_N_ROLL": return 1;  // better error than DE_CASE
@@ -349,9 +358,10 @@ public class German extends Language implements AutoCloseable {
       case "MIT_FREUNDLICHEN_GRUESSE": return 1; // higher prio than MEIN_KLEIN_HAUS
       case "OK": return 1; // higher prio than KOMMA_NACH_PARTIKEL_SENT_START[3]
       case "EINE_ORIGINAL_RECHNUNG": return 1; // higher prio than DE_CASE, DE_AGREEMENT and MEIN_KLEIN_HAUS
-      case "TYPOGRAPHIC_QUOTES": return 1; // higher prio than UNPAIRED_BRACKETS
       case "VALENZ_TEST": return 1; // see if this generates more corpus matches
       // default is 0
+      case "FALSCHES_ANFUEHRUNGSZEICHEN": return -1; // less prio than most grammar rules but higher prio than UNPAIRED_BRACKETS
+      case "VER_KOMMA_PRO_RIN": return -1; // prefer WENN_WEN
       case "DE_PROHIBITED_COMPOUNDS_PREMIUM": return -1; // prefer other rules (e.g. AUS_MITTEL)
       case "VER_INF_VER_INF": return -1; // prefer case rules
       case "DE_COMPOUND_COHERENCY": return -1;  // prefer EMAIL
@@ -361,12 +371,12 @@ public class German extends Language implements AutoCloseable {
       case "DE_AGREEMENT": return -1;  // prefer RECHT_MACHEN, MONTAGS, KONJUNKTION_DASS_DAS, DESWEITEREN, DIES_BEZUEGLICH and other
       case "DE_AGREEMENT2": return -1;  // prefer WILLKOMMEN_GROSS and other rules that offer suggestions
       case "MEIN_KLEIN_HAUS": return -1; // prefer more specific rules that offer a suggestion (e.g. DIES_BEZÜGLICH)
-      case "COMMA_IN_FRONT_RELATIVE_CLAUSE": return -1; // prefer other rules (KONJUNKTION_DASS_DAS, ALL_DAS_WAS_KOMMA)
       case "CONFUSION_RULE": return -1;  // probably less specific than the rules from grammar.xml
       case "KOMMA_NEBEN_UND_HAUPTSATZ": return -1;  // prefer SAGT_RUFT
       case "FALSCHES_RELATIVPRONOMEN": return -1; // prefer dass/das rules
       case "AKZENT_STATT_APOSTROPH": return -1;  // lower prio than PLURAL_APOSTROPH
       case "BEENDE_IST_SENTEND": return -1; // prefer more specific rules
+      case "UNPAIRED_BRACKETS": return -2;
       case "ICH_GEHE_DU_BLEIBST": return -2; // prefer ICH_GLAUBE_FUER_EUCH
       case "ICH_GLAUBE_FUER_EUCH": return -2; // prefer agreement rules
       case "OBJECT_AGREEMENT": return -2; // less prio than DE_AGREEMENT
@@ -386,24 +396,31 @@ public class German extends Language implements AutoCloseable {
       case "AUSTRIAN_GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
       case "SWISS_GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
       case "DE_VERBAGREEMENT": return -4; // prefer more specific rules (e.g DU_WUENSCHT) and speller
+      case "PUNKT_ENDE_DIREKTE_REDE": return -4; // prefer speller
+      case "LEERZEICHEN_NACH_VOR_ANFUEHRUNGSZEICHEN": return -4; // prefer speller
+      case "ZEICHENSETZUNG_DIREKTE_REDE": return -4; // prefer speller
+      case "GROSSSCHREIBUNG_WOERTLICHER_REDE": return -4; // prefer speller
       case "IM_IHM": return -4;  // lower prio than spell checker
+      case "IN_UNKNOWNKLEIN_VER": return -4;  // lower prio than spell checker
       case "SEHR_GEEHRTER_NAME": return -4;  // lower prio than spell checker
       case "DE_PHRASE_REPETITION": return -4;  // lower prio than spell checker
+      case "FRAGEZEICHEN_NACH_DIREKTER_REDE": return -4;  // lower prio than spell checker
       case "PUNCTUATION_PARAGRAPH_END": return -4;  // don't hide spelling mistakes
       case "TEST_F_ANSTATT_PH": return -4;  // don't hide spelling mistakes
+      case "ANFUEHRUNG_VERSCHACHTELT": return -5;  // lower prio than speller and FALSCHES_ANFUEHRUNGSZEICHEN
       case "SATZBAU_AN_DEN_KOMMT": return -5;  // lower prio than rules that give a suggestion
       case "SUBJECT_VERB_AGREEMENT": return -5; // prefer more specific rules that offer a suggestion (e.g. DE_VERBAGREEMENT)
       case "SAGT_SAGT": return -9; // higher pro than KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2 and GERMAN_WORD_REPEAT_RULE
       case "PUNKT_ENDE_ABSATZ": return -10;  // should never hide other errors, as chance for a false alarm is quite high
       case "KOMMA_VOR_RELATIVSATZ": return -10;
       case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2": return -12;
+      case "COMMA_IN_FRONT_RELATIVE_CLAUSE": return -13; // prefer other rules (KONJUNKTION_DASS_DAS, ALL_DAS_WAS_KOMMA, AI) but higher prio than style
       case "SAGT_RUFT": return -13; // prefer case rules, DE_VERBAGREEMENT, AI and speller
       case "GERMAN_WORD_REPEAT_RULE": return -14; // prefer SAGT_RUFT
       case "BEI_VERB": return -14; // prefer case, spelling and AI rules
       case "MODALVERB_FLEKT_VERB": return -14; // prefer case, spelling and AI rules
       case "TOO_LONG_PARAGRAPH": return -15;
       case "ALL_UPPERCASE": return -15;
-      case "ANFUEHRUNGSZEICHEN_CH_FR": return -49; // prefer over AT/DE quote conventions (is in CH grammar)
       case "COMMA_BEHIND_RELATIVE_CLAUSE": return -52; // less prio than AI_DE_HYDRA_LEO
       case "DOPPELUNG_MODALVERB": return -52; // prefer comma rules (DOPPELUNG_MODALVERB, AI)
       case "VER_DOPPELUNG": return -52; // prefer comma rules (including AI)
@@ -437,22 +454,17 @@ public class German extends Language implements AutoCloseable {
       if (id.startsWith("AI_DE_HYDRA_LEO_CP")) {
         return 2;
       }
+      if (id.startsWith("AI_DE_HYDRA_LEO_DATAKK")) {
+        return 1;
+      }
       return -11;
+    }
+    if (id.startsWith("AI_DE_KOMMA")) { // TODO: A high priority for our initial testing, afterwards we will give it a smaller priority.
+      return 50;
     }
     return super.getPriorityForId(id);
   }
 
-  @Override
-  public List<Rule> getRelevantRemoteRules(ResourceBundle messageBundle, List<RemoteRuleConfig> configs, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages, boolean inputLogging) throws IOException {
-    List<Rule> rules = new ArrayList<>(super.getRelevantRemoteRules(
-      messageBundle, configs, globalConfig, userConfig, motherTongue, altLanguages, inputLogging));
-
-    // no description needed - matches based on automatically created rules with descriptions provided by remote server
-    rules.addAll(GRPCRule.createAll(this, configs, inputLogging,
-            "AI_DE_", "INTERNAL - dynamically loaded rule supported by remote server"));
-    return rules;
-  }
-  
   public boolean hasMinMatchesRules() {
     return true;
   }

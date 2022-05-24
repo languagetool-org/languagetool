@@ -36,6 +36,12 @@ class AgreementRuleAntiPatterns1 {
       posRegex("SUB:.*")
     ),
     Arrays.asList(
+      tokenRegex("[(\\[]"),   // "... (ich meine Pfeil, nicht Raute) ..."
+      token("ich"),
+      token("meine"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(
       tokenRegex("ein|das"),   // "ein leichter handhabbares Logo"
       token("leichter"),
       posRegex("ADJ:NOM:SIN:NEU:GRU:IND"),
@@ -115,9 +121,9 @@ class AgreementRuleAntiPatterns1 {
       posRegex("ADJ:.*")
     ),
     Arrays.asList(
-      // "Die ersten Drei bekommen einen Preis."
+      // "Die ersten Drei bekommen einen Preis." / "Die geheimen Sechs"
       tokenRegex("den|die"),
-      tokenRegex("ersten|nächsten|vorherigen|letzten"),
+      tokenRegex(".+n"),
       csRegex("Zwei|Drei|Vier|Fünf|Sechs|Sieben|Acht|Neun|Zehn|Elf|Zwölf|Zwanzig|Dreißig|Vierzig|Fünzig|Hundert|Tausend")
     ),
     Arrays.asList(
@@ -762,13 +768,19 @@ class AgreementRuleAntiPatterns1 {
     Arrays.asList( // Die Otto Christ AG
       csRegex("[A-ZÄÖÜ].+"),
       csRegex("[A-ZÄÖÜ].+"),
-      csRegex("AG|GmbH|SE")
+      csRegex("AG|GmbH|SE|KG")
+    ),
+    Arrays.asList( // Die Otto Christ AG
+      posRegex("ART.*"),
+      csRegex("[A-ZÄÖÜ].+"),
+      csRegex("[A-ZÄÖÜ].+"),
+      csRegex("AG|GmbH|SE|KG")
     ),
     Arrays.asList(// Die Ernst Klett Schulbuch AG
       csRegex("[A-ZÄÖÜ].+"),
       csRegex("[A-ZÄÖÜ].+"),
       csRegex("[A-ZÄÖÜ].+"),
-      csRegex("AG|GmbH|SE")
+      csRegex("AG|GmbH|SE|KG")
     ),
     Arrays.asList( // Die damalige Klett AG
       token("die"),
@@ -899,6 +911,13 @@ class AgreementRuleAntiPatterns1 {
       token("die")
     ),
     Arrays.asList(
+      // Wir sind immer offen für Mitarbeiter die Teil eines der traditionellsten Malerbetriebe auf dem Platz Zürich werden möchten.
+      posRegex("PRP.*"),
+      posRegex("SUB.*PLU.*"),
+      token("die"),
+      posRegex("SUB.*SIN.*")
+    ),
+    Arrays.asList(
       posRegex("SUB.*MAS.*|EIG.*MAS.*|UNKNOWN"),
       token("("),
       token("de[rm]")
@@ -991,6 +1010,16 @@ class AgreementRuleAntiPatterns1 {
       tokenRegex("das|dies"),
       csToken("veranlasste"),
       posRegex("SUB.*")
+    ),
+    Arrays.asList(
+      // …, kann das Infektionen möglicherweise verhindern
+      posRegex("KON.*|PKT|SENT_START"),
+      new PatternTokenBuilder().posRegex("ADV.*").min(0).build(),
+      posRegex("VER:MOD:3:SIN.*"),
+      csToken("das"),
+      posRegex("SUB.*"),
+      new PatternTokenBuilder().posRegex("ADV.*").min(0).max(2).build(),
+      posRegex("VER:INF:.*")
     ),
     // TODO: comment in
     // Arrays.asList(
@@ -1088,6 +1117,16 @@ class AgreementRuleAntiPatterns1 {
     Arrays.asList(
       csToken("BMW"),
       token("ConnectedDrive")
-    ));
+    ),
+    Arrays.asList(
+      // "Inwiefern soll denn das romantische Hoffnungen begründen?"
+      new PatternTokenBuilder().pos("ADV:MOD+INR").setSkip(-1).build(),
+      new PatternTokenBuilder().posRegex("VER.*:[123]:SIN:.*").setSkip(1).build(),
+      posRegex("PRO:DEM:.*SIN.*"),
+      new PatternTokenBuilder().posRegex("ADJ:.*PLU.*").min(0).build(),
+      posRegex("SUB:.*PLU.*"),
+      posRegex("VER.*INF:.*")
+    )
+  );
 
 }

@@ -158,6 +158,7 @@ public class Ukrainian extends Language {
         new TokenAgreementNounVerbRule(messages),
         new TokenAgreementAdjNounRule(messages),
         new TokenAgreementPrepNounRule(messages),
+        new TokenAgreementNumrNounRule(messages),
 
         new MixedAlphabetsRule(messages),
 

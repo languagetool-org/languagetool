@@ -33,6 +33,7 @@ import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.languagetool.Language;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -43,6 +44,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 @SuppressWarnings("PublicField")
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -78,6 +81,8 @@ public class RemoteRuleConfig {
   public int slidingWindowSize = DEFAULT_SLIDING_WINDOW_SIZE;
   public int minimumNumberOfCalls = DEFAULT_MINIMUM_NUMBER_OF_CALLS;
   public Map<String, String> options = new HashMap<>();
+  public String language;
+  public String type;
 
   public RemoteRuleConfig() {
   }
@@ -94,10 +99,16 @@ public class RemoteRuleConfig {
     this.slidingWindowSize = copy.slidingWindowSize;
     this.minimumNumberOfCalls = copy.minimumNumberOfCalls;
     this.options = new HashMap<>(copy.options);
+    this.language = copy.language;
+    this.type = copy.type;
   }
 
   public static RemoteRuleConfig getRelevantConfig(String rule, List<RemoteRuleConfig> configs) {
     return configs.stream().filter(config -> config.getRuleId().equals(rule)).findFirst().orElse(null);
+  }
+  public static Predicate<RemoteRuleConfig> isRelevantConfig(String type, Language language) {
+    return (r) -> type.equals(r.type) &&
+      (r.language == null || language.getShortCodeWithCountryAndVariant().matches(r.language));
   }
 
   public static List<RemoteRuleConfig> parse(InputStream json) throws IOException {
@@ -162,6 +173,20 @@ public class RemoteRuleConfig {
     return options;
   }
 
+  /**
+   * Regex to match language codes for which this rule should be applied
+   */
+  public String getLanguage() {
+    return language;
+  }
+
+  /**
+   * Identifier for the implementation of RemoteRule that this configuration is meant for
+   */
+  public String getType() {
+    return type;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -174,12 +199,12 @@ public class RemoteRuleConfig {
 
     RemoteRuleConfig that = (RemoteRuleConfig) o;
 
-    return new EqualsBuilder().append(baseTimeoutMilliseconds, that.baseTimeoutMilliseconds).append(timeoutPerCharacterMilliseconds, that.timeoutPerCharacterMilliseconds).append(downMilliseconds, that.downMilliseconds).append(failureRateThreshold, that.failureRateThreshold).append(slidingWindowSize, that.slidingWindowSize).append(minimumNumberOfCalls, that.minimumNumberOfCalls).append(ruleId, that.ruleId).append(url, that.url).append(port, that.port).append(slidingWindowType, that.slidingWindowType).append(options, that.options).isEquals();
+    return new EqualsBuilder().append(baseTimeoutMilliseconds, that.baseTimeoutMilliseconds).append(timeoutPerCharacterMilliseconds, that.timeoutPerCharacterMilliseconds).append(downMilliseconds, that.downMilliseconds).append(failureRateThreshold, that.failureRateThreshold).append(slidingWindowSize, that.slidingWindowSize).append(minimumNumberOfCalls, that.minimumNumberOfCalls).append(ruleId, that.ruleId).append(url, that.url).append(port, that.port).append(slidingWindowType, that.slidingWindowType).append(options, that.options).append(language, that.language).append(type, that.type).isEquals();
   }
 
   @Override
   public int hashCode() {
-    return new HashCodeBuilder(17, 37).append(ruleId).append(url).append(port).append(baseTimeoutMilliseconds).append(timeoutPerCharacterMilliseconds).append(downMilliseconds).append(failureRateThreshold).append(slidingWindowType).append(slidingWindowSize).append(minimumNumberOfCalls).append(options).toHashCode();
+    return new HashCodeBuilder(17, 37).append(ruleId).append(url).append(port).append(baseTimeoutMilliseconds).append(timeoutPerCharacterMilliseconds).append(downMilliseconds).append(failureRateThreshold).append(slidingWindowType).append(slidingWindowSize).append(minimumNumberOfCalls).append(options).append(language).append(type).toHashCode();
   }
 
   @Override
@@ -196,6 +221,8 @@ public class RemoteRuleConfig {
       .append("slidingWindowSize", slidingWindowSize)
       .append("minimumNumberOfCalls", minimumNumberOfCalls)
       .append("options", options)
+      .append("language", language)
+      .append("type", type)
       .toString();
   }
 

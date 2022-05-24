@@ -18,8 +18,10 @@
  */
 package org.languagetool;
 
+import org.jetbrains.annotations.NotNull;
 import org.languagetool.rules.RuleMatch;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -30,6 +32,7 @@ public class CheckResults {
 
   private List<RuleMatch> ruleMatches;
   private List<Range> ignoredRanges;
+  private final List<SentenceRange> sentenceRanges = new ArrayList<>();
 
   public CheckResults(List<RuleMatch> ruleMatches, List<Range> ignoredRanges) {
     this.ruleMatches = Objects.requireNonNull(ruleMatches);
@@ -44,6 +47,14 @@ public class CheckResults {
     return ruleMatches;
   }
 
+  @NotNull
+  public List<SentenceRange> getSentenceRanges() {
+    return sentenceRanges;
+  }
+  public void addSentenceRanges(List<SentenceRange> sentenceRanges) {
+    this.sentenceRanges.addAll(sentenceRanges);
+  }
+  
   public void setIgnoredRanges(List<Range> ignoredRanges) {
     this.ignoredRanges = Objects.requireNonNull(ignoredRanges);
   }
@@ -51,5 +62,4 @@ public class CheckResults {
   public void setRuleMatches(List<RuleMatch> ruleMatches) {
     this.ruleMatches = Objects.requireNonNull(ruleMatches);
   }
-
 }

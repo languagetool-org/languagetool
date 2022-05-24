@@ -3338,7 +3338,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token min="0" max="1" regexp="yes">&pnct;</token>
                     <marker>
                         <token>Привет</token>
-                        <token negate="yes" regexp="yes">&pnct;<exception>и</exception><exception postag="PREP|NN:.*:D" postag_regexp="yes"></exception></token>
+                        <token negate="yes" regexp="yes">&pnct;<exception>и</exception><exception postag="PNN:.*:D|PREP|NN:.*:D" postag_regexp="yes"></exception></token>
                     </marker>
                 </pattern>
                 <message>Пропущена запятая: <suggestion>\3, \4</suggestion>.</message>
@@ -3347,6 +3347,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Привет, я"><marker>Привет я</marker> новенький.</example>
                 <example>Привет и пока!</example>
                 <example>Привет из Москвы!</example>
+                <example>Привет всем!</example>
                 <example>Привет зайцу.</example>
             </rule>
         </rulegroup>
@@ -3496,18 +3497,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             
             <rule>
                 <pattern case_sensitive="yes">
-                    <!--  removed как сейчас (#1127)   -->
+                    <!--  removed как сейчас (#1127),  как обычно (#6439) -->
                     <token postag="SENT_START"></token>
                     <marker>
                         <token>Как</token>
-                        <token regexp="yes">обычно|всегда|правило|исключение|нарочно</token>
-                        <token negate="yes" regexp="yes">&pnct;</token>
+                        <token regexp="yes">всегда|правило|исключение|нарочно</token>
+                        <token negate="yes" regexp="yes">&pnct;<exception postag="VB:.*" postag_regexp="yes"></exception></token>
                     </marker>
                 </pattern>
                 <message>Пропущена запятая: <suggestion>\2 \3, \4</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
                 <short>Пропущена запятая</short>
                 <example><marker>Как правило,</marker> мы ходим в походы летом.</example>
+                <example>Как правило может быть таким сложным?</example>
+                <example>Как обычно Вы готовите переговоры?</example>
                 <example correction="Как правило, мы"><marker>Как правило мы</marker> ходим в походы летом.</example>
             </rule>
         </rulegroup>
@@ -4097,11 +4100,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">счастью|несчастью|радости|ужасу|сожалению</token>
                     <token negate="yes">,</token>
                 </pattern>
-                <message>Пропущена запятая: <suggestion>\1, \2 \3,</suggestion>.</message>
+                <message>Пропущена запятая: <suggestion>\1, \2 \3, \4</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
                 <short>Пропущена запятая</short>
                 <example>Мы, к сожалению, не успели на поезд.</example>
-                <example correction="Мы, к сожалению,"><marker>Мы к сожалению не</marker> успели на поезд.</example>
+                <example correction="Мы, к сожалению, не"><marker>Мы к сожалению не</marker> успели на поезд.</example>
             </rule>
             
             <rule>
@@ -4333,11 +4336,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>сказать</token>
                     <token negate="yes" regexp="yes">[,.]</token>
                 </pattern>
-                <message>Пропущена запятая: <suggestion>\1, \2 \3,</suggestion>.</message>
+                <message>Пропущена запятая: <suggestion>\1, \2 \3, \4</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
                 <short>Пропущена запятая</short>
                 <example>Эта работа, так сказать, представляет огромную научную ценность.</example>
-                <example correction="работа, так сказать,">Эта <marker>работа так сказать представляет</marker> огромную научную ценность.</example>
+                <example correction="работа, так сказать, представляет">Эта <marker>работа так сказать представляет</marker> огромную научную ценность.</example>
             </rule>
             <rule>
                 <!-- Вводные слова:   одним словом, вообще, иначе говоря, так сказать, ...-->
@@ -4367,11 +4370,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>сказано</token>
                     <token negate="yes">,</token>
                 </pattern>
-                <message>Пропущена запятая: <suggestion>\1, \2 \3 \4 \5 \6,</suggestion>.</message>
+                <message>Пропущена запятая: <suggestion>\1, \2 \3 \4 \5 \6, \7</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
                 <short>Пропущена запятая</short>
                 <example>Этот метод, не в обиду будет сказано, представляет сомнительную ценность.</example>
-                <example correction="метод, не в обиду будет сказано,">Этот <marker>метод не в обиду будет сказано представляет</marker> сомнительную ценность.</example>
+                <example correction="метод, не в обиду будет сказано, представляет">Этот <marker>метод не в обиду будет сказано представляет</marker> сомнительную ценность.</example>
             </rule>
             <rule>
                 <!-- Вводные слова:   не в обиду будет сказано, ...-->
@@ -4630,12 +4633,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">.*[а-яё]-</token>
-                    <token spacebefore="yes" regexp="yes">[а-яё][а-яё].*</token>
+                    <token spacebefore="yes" regexp="yes">[а-яё][а-яё].*<exception>или</exception></token>
                 </pattern>
                 <message>После дефиса не должно быть пробела: <suggestion>\1\2</suggestion></message>
                 <url>http://ru.wikipedia.org/wiki/%D0%94%D0%B5%D1%84%D0%B8%D1%81</url>
                 <short>Лишний пробел</short>
                 <example>Кое-кто пошёл в магазин.</example>
+                <example>Это будет караться различными санкциями – от дисциплинарных до административно- или иных.</example>
                 <example correction="Кое-кто"><marker>Кое- кто</marker> пошёл в магазин.</example>
             </rule>
         </rulegroup>
@@ -4793,19 +4797,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>В</token>
                         <token regexp="yes">последнем|этом|том|противном|хорошем|худшем|плохом|любом</token>
                         <token>случае</token>
-                        <token>,</token>
-                    </marker>
+                        <token>,</token>                   
                     <token>
                         <exception regexp="yes">&start_vvodnoe;|как|если|когда|разумеется</exception>                        
                         <exception postag="PARENTHESIS"></exception>                    
                     </token>
+                    </marker>
                 </pattern>
-                <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3 \4</suggestion>.</message>
+                <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3 \4 \6</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
                 <short>Запятые не нужны</short>
                 <example>В противном случае о наличии сбоя можно будет судить только по итоговому результату работы программы.</example>
                 <example>В том случае, если я опоздаю, тебе не надо меня ждать.</example>
-                <example correction="В противном случае"><marker>В противном случае,</marker>о наличии сбоя можно будет судить только по итоговому результату работы программы.</example>
+                <example correction="В противном случае о"><marker>В противном случае,о</marker> наличии сбоя можно будет судить только по итоговому результату работы программы.</example>
             </rule>
             <rule>
                 <pattern>
@@ -4814,17 +4818,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>В</token>
                         <token regexp="yes">результате|действительности|итоге|особенности|остальном</token>
                         <token>,</token>
-                    </marker>
+                    
                     <token>
                         <exception regexp="yes">&start_vvodnoe;|как|если|когда|разумеется</exception>                        
                         <exception postag="PARENTHESIS"></exception>                    
                     </token>
+                    </marker>
                 </pattern>
-                <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3</suggestion>.</message>
+                <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3 \5</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
                 <short>Запятые не нужны</short>
                 <example>В результате приходится ограничить выбор.</example>
-                <example correction="В результате"><marker>В результате,</marker> приходится ограничить выбор</example>
+                <example correction="В результате приходится"><marker>В результате, приходится</marker> ограничить выбор</example>
             </rule>
             <rule>
                 <pattern>
@@ -4834,17 +4839,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>конечном</token>
                         <token>итоге</token>
                         <token>,</token>
-                    </marker>
                     <token>
                         <exception regexp="yes">&start_vvodnoe;|как|если|когда|разумеется</exception>                        
                         <exception postag="PARENTHESIS"></exception>                    
                     </token>
+                    </marker>
                 </pattern>
-                <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3 \4</suggestion>.</message>
+                <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3 \4 \6</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
                 <short>Запятые не нужны</short>
                 <example>В конечном итоге приходится ограничить выбор.</example>
-                <example correction="В конечном итоге"><marker>В конечном итоге,</marker> приходится ограничить выбор</example>
+                <example correction="В конечном итоге приходится"><marker>В конечном итоге, приходится</marker> ограничить выбор</example>
             </rule>
             <rule>
                 <pattern>
@@ -4854,17 +4859,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>любом</token>
                         <token>случае</token>
                         <token>,</token>
-                    </marker>
                     <token>
                         <exception regexp="yes">&start_vvodnoe;|как|если|когда|разумеется</exception>                        
                         <exception postag="PARENTHESIS"></exception>                    
                     </token>
+                    </marker>
                 </pattern>
-                <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3 \4</suggestion>.</message>
+                <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3 \4 \6</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
                 <short>Запятые не нужны</short>
                 <example>В любом случае приходится ограничить выбор.</example>
-                <example correction="В любом случае"><marker>В любом случае,</marker> приходится ограничить выбор</example>
+                <example correction="В любом случае приходится"><marker>В любом случае, приходится</marker> ограничить выбор</example>
             </rule>
             <rule>
                 <pattern>
@@ -4875,17 +4880,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>с</token>
                         <token>вышеизложенным</token>
                         <token>,</token>
-                    </marker>
                     <token>
                         <exception regexp="yes">&start_vvodnoe;|как|если|когда|разумеется</exception>                        
                         <exception postag="PARENTHESIS"></exception>                    
                     </token>
+                    </marker>
                 </pattern>
-                <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3 \4 \5</suggestion>.</message>
+                <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3 \4 \5 \7</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
                 <short>Запятые не нужны</short>
                 <example>В связи с вышеизложенным приходится ограничить выбор.</example>
-                <example correction="В связи с вышеизложенным"><marker>В связи с вышеизложенным,</marker> приходится ограничить выбор</example>
+                <example correction="В связи с вышеизложенным приходится"><marker>В связи с вышеизложенным, приходится</marker> ограничить выбор</example>
             </rule>
             <rule>
                 <pattern>
@@ -4895,17 +4900,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">всякий|данный</token>
                         <token regexp="yes">случай|момент</token>
                         <token>,</token>
-                    </marker>
                     <token>
                         <exception regexp="yes">&start_vvodnoe;|как|если|когда|разумеется</exception>                        
                         <exception postag="PARENTHESIS"></exception>                    
                     </token>
+                    </marker>
                 </pattern>
-                <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3 \4</suggestion>.</message>
+                <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3 \4 \6</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
                 <short>Запятые не нужны</short>
                 <example>На данный момент приходится ограничить выбор.</example>
-                <example correction="На данный момент"><marker>На данный момент,</marker> приходится ограничить выбор</example>
+                <example correction="На данный момент приходится"><marker>На данный момент, приходится</marker> ограничить выбор</example>
             </rule>         
             <rule>
                 <pattern>
@@ -4915,17 +4920,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>с</token>
                         <token>тем</token>
                         <token>,</token>
-                    </marker>
                     <token>
                         <exception regexp="yes">&start_vvodnoe;|как|если|когда|разумеется</exception>                        
                         <exception postag="PARENTHESIS"></exception>                    
                     </token>
+                    </marker>
                 </pattern>
-                <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3 \4</suggestion>.</message>
+                <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3 \4 \6</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
                 <short>Запятые не нужны</short>
                 <example>В конечном итоге приходится ограничить выбор.</example>
-                <example correction="Вместе с тем"><marker>Вместе с тем,</marker> приходится ограничить выбор</example>
+                <example correction="Вместе с тем приходится"><marker>Вместе с тем, приходится</marker> ограничить выбор</example>
             </rule>
             <rule>
                 <pattern>
@@ -4936,17 +4941,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>на</token>
                         <token>что</token>
                         <token>,</token>
-                    </marker>
                     <token>
                         <exception regexp="yes">&start_vvodnoe;|как|если|когда|разумеется</exception>                        
                         <exception postag="PARENTHESIS"></exception>                    
                     </token>
+                    </marker>
                 </pattern>
-                <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3 \4 \5</suggestion>.</message>
+                <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3 \4 \5 \7</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
                 <short>Запятые не нужны</short>
                 <example>Несмотря ни на что приходится ограничить выбор.</example>
-                <example correction="Несмотря ни на что"><marker>Несмотря ни на что,</marker> приходится ограничить выбор</example>
+                <example correction="Несмотря ни на что приходится"><marker>Несмотря ни на что, приходится</marker> ограничить выбор</example>
             </rule>
             
              
@@ -4974,17 +4979,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>того</token>          
                         <token>чтобы</token>
                         <token>,</token>
-                    </marker>
                     <token>
                         <exception regexp="yes">&start_vvodnoe;|как|если|когда|разумеется</exception>                        
                         <exception postag="PARENTHESIS"></exception>                    
                     </token>
+                    </marker>
                 </pattern>
-                <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3 \4</suggestion>.</message>
+                <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3 \4 \6</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
                 <short>Запятые не нужны</short>
                 <example>Для того чтобы желе застыло, нужно его около часа подержать в холодильнике.</example>
-                <example correction="Для того чтобы"><marker>Для того чтобы,</marker> желе застыло, нужно его около часа подержать в холодильнике.</example>
+                <example correction="Для того чтобы желе"><marker>Для того чтобы, желе</marker> застыло, нужно его около часа подержать в холодильнике.</example>
             </rule>
             <rule>
                 <pattern> 
@@ -4995,17 +5000,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>пор</token>
                         <token>как</token>
                         <token>,</token>
-                    </marker>
                     <token>
                         <exception regexp="yes">&start_vvodnoe;|как|если|когда|разумеется</exception>                        
                         <exception postag="PARENTHESIS"></exception>                    
                     </token>
+                    </marker>
                 </pattern>
-                <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3 \4 \5</suggestion>.</message>
+                <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3 \4 \5 \7</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
                 <short>Запятые не нужны</short>
                 <example>С тех пор как желе застыло, нужно его около часа подержать в холодильнике.</example>
-                <example correction="С тех пор как"><marker>С тех пор как,</marker> желе застыло, нужно его около часа подержать в холодильнике.</example>
+                <example correction="С тех пор как желе"><marker>С тех пор как, желе</marker> застыло, нужно его около часа подержать в холодильнике.</example>
             </rule>
             <rule>
                 <pattern> 
@@ -5015,17 +5020,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>того</token>          
                         <token>как</token>
                         <token>,</token>
-                    </marker>
                     <token>
                         <exception regexp="yes">&start_vvodnoe;|как|если|когда|разумеется</exception>                        
                         <exception postag="PARENTHESIS"></exception>                    
                     </token>
+                    </marker>
                 </pattern>
-                <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3 \4</suggestion>.</message>
+                <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3 \4 \6</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
                 <short>Запятые не нужны</short>
                 <example>После того как я вздремнул, взошла луна.</example>
-                <example correction="После того как"><marker>После того как,</marker>я вздремнул, взошла луна.</example>
+                <example correction="После того как я"><marker>После того как, я</marker> вздремнул, взошла луна.</example>
             </rule>          
             <rule>
                 <pattern> 
@@ -5036,17 +5041,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>время</token>
                         <token>как</token>
                         <token>,</token>
-                    </marker>
                     <token>
                         <exception regexp="yes">&start_vvodnoe;|как|если|когда|разумеется</exception>                        
                         <exception postag="PARENTHESIS"></exception>                    
                     </token>
+                    </marker>
                 </pattern>
-                <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3 \4 \5</suggestion>.</message>
+                <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3 \4 \5 \7</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
                 <short>Запятые не нужны</short>
                 <example>В то время как я вздремнул, взошла луна.</example>
-                <example correction="В то время как"><marker>В то время как,</marker>я вздремнул, взошла луна.</example>
+                <example correction="В то время как я"><marker>В то время как, я</marker> вздремнул, взошла луна.</example>
             </rule>
             <rule>
                 <pattern> 
@@ -5057,17 +5062,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>того</token>
                         <token>как</token>
                         <token>,</token>
-                    </marker>
                     <token>
                         <exception regexp="yes">&start_vvodnoe;|как|если|когда|разумеется</exception>                        
                         <exception postag="PARENTHESIS"></exception>                    
                     </token>
+                    </marker>
                 </pattern>
-                <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3 \4 \5</suggestion>.</message>
+                <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3 \4 \5 \7</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
                 <short>Запятые не нужны</short>
                 <example>По мере того как он ее слушал, насмешливая улыбка показывалась на его губах.</example>
-                <example correction="По мере того как"><marker>По мере того как,</marker> он ее слушал, насмешливая улыбка показывалась на его губах.</example>
+                <example correction="По мере того как он"><marker>По мере того как, он</marker> ее слушал, насмешливая улыбка показывалась на его губах.</example>
             </rule>
             <rule>
                 <pattern> 
@@ -5077,17 +5082,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>тем</token>
                         <token>как</token>
                         <token>,</token>
-                    </marker>
                     <token>
                         <exception regexp="yes">&start_vvodnoe;|как|если|когда|разумеется</exception>                        
                         <exception postag="PARENTHESIS"></exception>                    
                     </token>
+                    </marker>
                 </pattern>
-                <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3 \4</suggestion>.</message>
+                <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3 \4 \6</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
                 <short>Запятые не нужны</short>
                 <example>Перед тем как в стакан налить крутой кипяток, в него опускают ложку.</example>
-                <example correction="Перед тем как"><marker>Перед тем как,</marker> в стакан налить крутой кипяток, в него опускают ложку.</example>
+                <example correction="Перед тем как в"><marker>Перед тем как, в</marker> стакан налить крутой кипяток, в него опускают ложку.</example>
             </rule>
             <rule>
                 <pattern> 
@@ -5097,17 +5102,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>более</token>
                         <token>что</token>
                         <token>,</token>
-                    </marker>
                     <token>
                         <exception regexp="yes">&start_vvodnoe;|как|если|когда|разумеется</exception>                        
                         <exception postag="PARENTHESIS"></exception>                    
                     </token>
+                    </marker>
                 </pattern>
-                <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3 \4</suggestion>.</message>
+                <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3 \4 \6</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
                 <short>Запятые не нужны</short>
                 <example>Тем более что мыши являются переносчиком серьезных заболеваний.</example>
-                <example correction="Тем более что"><marker>Тем более что,</marker> мыши являются переносчиком серьезных заболеваний.</example>
+                <example correction="Тем более что мыши"><marker>Тем более что, мыши</marker> являются переносчиком серьезных заболеваний.</example>
             </rule>
             <rule>  <!-- #6119 -->
                 <pattern>
@@ -8959,6 +8964,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Слово пишется через дефис: <suggestion>\1-\2</suggestion>.</message>
                 <short>Пишется через дефис</short>
                 <example>Судя по мясному рагу на столе, вы застигли его за обедом.</example>
+                
                 <example correction="по-зимнему">Я оделся <marker>по зимнему</marker> тепло, так как было холодно.</example>
                 <example correction="по-хорошему">Давай <marker>по хорошему</marker> разберёмся, иначе будет грустно.</example>
                 <example correction="по-прежнему">Я поступлю <marker>по прежнему</marker> отчаянно, как бы вы меня ни уговаривали.</example>
@@ -8975,12 +8981,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception postag_regexp="yes" postag="NN:.*:Masc:.*:D|NN:.*:Neut:.*:D" />
                         <exception scope="next" postag_regexp="yes" postag="NN:.*:Masc:.*:D|NN:.*:Neut:.*:D" />
                         <exception>IP-адресу</exception>
+                        <exception>хэшу</exception>
+                        <exception>«</exception>
                     </token>
                     <token regexp="yes">[.!?]</token>
                 </pattern>
                 <message>Слово пишется через дефис: <suggestion>\1-\2</suggestion>.</message>
                 <short>Пишется через дефис</short>
                 <example>Он взял курс прямо на юг по местному шоссе N 11.</example>
+                <example>Надо перейти к коммиту в списке коммитов, кликнув по соответствующему коду.</example>
+                <example>Надо перейти к коммиту в списке коммитов, кликнув по соответствующему хэшу.</example>
+                <example>Это его бизнес-партнер по вышеупомянутому «Лео ойл».</example>
                 <example>Судя по мясному рагу на столе, вы застигли его за обедом.</example>
                 <example>Мне смутно помнилось, что ехать надо по федеральному шоссе №1.</example>
                 <example correction="по-зимнему">Я оделся <marker>по зимнему</marker> тепло.</example>

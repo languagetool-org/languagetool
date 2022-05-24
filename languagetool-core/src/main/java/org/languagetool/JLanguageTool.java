@@ -76,7 +76,7 @@ public class JLanguageTool {
   private static final Logger logger = LoggerFactory.getLogger(JLanguageTool.class);
 
   /** LanguageTool version as a string like {@code 2.3} or {@code 2.4-SNAPSHOT}. */
-  public static final String VERSION = "5.7-SNAPSHOT";
+  public static final String VERSION = "5.8-SNAPSHOT";
   /** LanguageTool build date and time like {@code 2013-10-17 16:10} or {@code null} if not run from JAR. */
   @Nullable public static final String BUILD_DATE = getBuildDate();
   /**
@@ -230,7 +230,15 @@ public class JLanguageTool {
 
   public enum Level {
     DEFAULT,
-    PICKY
+    PICKY,
+    ACADEMIC,
+    CLARITY,
+    PROFESSIONAL,
+    CREATIVE,
+    CUSTOMER,
+    JOBAPP,
+    OBJECTIVE,
+    ELEGANT
   }
 
   private static final List<File> temporaryFiles = new ArrayList<>();
@@ -929,10 +937,13 @@ public class JLanguageTool {
 
   public CheckResults check2(AnnotatedText annotatedText, boolean tokenizeText, ParagraphHandling paraMode, RuleMatchListener listener,
                              Mode mode, Level level, @Nullable Long textSessionID) throws IOException {
+    List<String> unmodifiedSentences = getSentences(annotatedText, tokenizeText);
     annotatedText = cleanText(annotatedText);
     List<String> sentences = getSentences(annotatedText, tokenizeText);
     List<AnalyzedSentence> analyzedSentences = analyzeSentences(sentences);
-    return checkInternal(annotatedText, paraMode, listener, mode, level, textSessionID, sentences, analyzedSentences);
+    CheckResults checkResults = checkInternal(annotatedText, paraMode, listener, mode, level, textSessionID, sentences, analyzedSentences);
+    checkResults.addSentenceRanges(SentenceRange.getRangesFromSentences(unmodifiedSentences));
+    return checkResults;
   }
 
   private List<String> getSentences(AnnotatedText annotatedText, boolean tokenizeText) {
@@ -1022,8 +1033,20 @@ public class JLanguageTool {
 
     ruleMatches.addAll(remoteMatches);
 
-    return ruleMatches.isEmpty() ? res :
-           new CheckResults(filterMatches(annotatedText, rules, ruleMatches), res.getIgnoredRanges());
+    if (ruleMatches.isEmpty()) {
+      return res;
+    }
+
+    ruleMatches = filterMatches(annotatedText, rules, ruleMatches);
+
+    // decide if this should be done right after performCheck, before waiting for remote rule results
+    // better for latency, remote rules probably don't need resorting
+    // complications with application of other filters?
+    for (GRPCPostProcessing postProcessing : GRPCPostProcessing.get(language)) {
+      ruleMatches = postProcessing.filter(analyzedSentences, ruleMatches, textSessionID, inputLogging);
+    }
+
+    return new CheckResults(ruleMatches, res.getIgnoredRanges());
   }
 
   private List<RuleMatch> filterMatches(AnnotatedText annotatedText, RuleSet rules, List<RuleMatch> ruleMatches) {
@@ -1083,7 +1106,7 @@ public class JLanguageTool {
         }
         try {
           //logger.info("Fetching results for remote rule for {} chars", chars);
-          RemoteRuleMetrics.inCircuitBreaker(deadlineStartNanos, rule, ruleKey, chars, () ->
+          RemoteRuleMetrics.inCircuitBreaker(deadlineStartNanos, rule.circuitBreaker(), ruleKey, chars, () ->
             fetchResults(deadlineStartNanos, mode, level, analyzedSentences, remoteMatches, matchOffset, annotatedText, textSessionID, chars, deadlineEndNanos, task, rule, ruleKey));
         } catch (InterruptedException e) {
           break;

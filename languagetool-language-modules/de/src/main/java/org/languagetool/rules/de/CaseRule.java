@@ -94,6 +94,7 @@ public class CaseRule extends Rule {
     "Packet", // misspelling of "Paket" (caught by spell checker)
     "Adult", // eng
     "Apart", // eng
+    "Smart", // eng
     "Different", // eng
     "Fair", // eng
     "Viral", // eng
@@ -508,6 +509,7 @@ public class CaseRule extends Rule {
     "Folgendes",   // je nach Kontext groß (TODO)...
     "Fort",
     "Fraß",
+    "Fristende",
     "Frevel",
     "Genüge",
     "Gefallen", // Gefallen finden
@@ -618,6 +620,7 @@ public class CaseRule extends Rule {
     "Walt",
     "Weitem",
     "Weiteres",
+    "Wohlen", // Stadt in der Schweiz
     "Wicht",
     "Wichtiges",
     "Wider",    // "das Für und Wider"

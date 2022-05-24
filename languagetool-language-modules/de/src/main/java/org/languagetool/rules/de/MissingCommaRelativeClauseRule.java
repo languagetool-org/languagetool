@@ -116,6 +116,19 @@ public class MissingCommaRelativeClauseRule extends Rule {
         posRegex("VER:.*1:SIN:KJ1:.+"),
         posRegex("VER:MOD:[12]:.+"),
         posRegex("PKT|KON:NEB")
+      ),
+      // … Planungen, die sich noch auf die ganze Stadt bezogen wurden aufgegeben.
+      Arrays.asList(
+        regex("w[eu]rden"),
+        pos("PA2:PRD:GRU:VER"),
+        pos("PKT")
+      ),
+      // Der Beitrag, den Sie versucht haben aufzurufen, existiert nicht mehr oder wurde verschoben.
+      Arrays.asList(
+        pos("PA2:PRD:GRU:VER"),
+        regex("haben?|hatten?"),
+        posRegex("VER:EIZ.*"),
+        pos("PKT")
       )
   ), GERMAN);
 
@@ -341,7 +354,7 @@ public class MissingCommaRelativeClauseRule extends Rule {
     if(gender.isEmpty()) {
       return false;
     }
-    return tokens[n].hasPosTagStartingWith("VER:") && tokens[n - 1].matchesPosTagRegex("(ADJ|PRO:POS):.*" + gender + ".*");
+    return tokens[n].hasPosTagStartingWith("VER:") && tokens[n - 1].matchesPosTagRegex("(ADJ|PA[12]|PRO:POS):.*" + gender + ".*");
   }
 
   /**

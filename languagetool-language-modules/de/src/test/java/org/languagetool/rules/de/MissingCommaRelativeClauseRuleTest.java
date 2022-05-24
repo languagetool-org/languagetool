@@ -75,6 +75,8 @@ public class MissingCommaRelativeClauseRuleTest {
     assertNoMatch("Aus diesem Grund sind die Wörter nicht direkt übersetzt, stattdessen wird der Zustand oder die Situation beschrieben in der die Wörter benutzt werden.", rule, lt);
     assertNoMatch("Kryptographisch sichere Verfahren sind dann solche, für die es keine bessere Methode zum Brechen der Sicherheit als das Faktorisieren einer großen Zahl gibt, insbesondere kann der private nicht aus dem öffentlichen Schlüssel errechnet werden.", rule, lt);
     assertNoMatch("Wayne Jancik begrenzt seine One-Hit-Wonders in den USA auf die Billboard-Top-40-Pop-Hitparade mit einer „Ruhe-Periode“ von 5 Jahren, innerhalb derer kein weiterer Hit desselben Interpreten in die Top 40 gelangen darf.", rule, lt);
+    assertNoMatch("Nach dem Abzug russischer Truppen aus der Region Kiew sind in den ehemals besetzten und umkämpften ukrainischen Gebieten inzwischen Hunderte Leichen von Bewohnern gefunden worden.", rule, lt);
+    assertNoMatch("»Alles, was wir dank dieses Projektes sehen werden, wird für uns neu sein«, so der renommierte Bienenforscher.", rule, lt);
   }
   
   protected void assertNoMatch(String input, MissingCommaRelativeClauseRule rule, JLanguageTool lt) throws IOException {

@@ -90,6 +90,8 @@ public class GermanSpellerRuleTest {
     GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     assertThat(rule.getOnlySuggestions("autentisch").size(), is(1));
     assertThat(rule.getOnlySuggestions("autentisch").get(0).getReplacement(), is("authentisch"));
+    assertThat(rule.getOnlySuggestions("brillianter").size(), is(1));
+    assertThat(rule.getOnlySuggestions("brillianter").get(0).getReplacement(), is("brillanter"));
     assertThat(rule.getOnlySuggestions("autentischeres").size(), is(1));
     assertThat(rule.getOnlySuggestions("autentischeres").get(0).getReplacement(), is("authentischeres"));
     assertThat(rule.getOnlySuggestions("Autentischere").size(), is(1));

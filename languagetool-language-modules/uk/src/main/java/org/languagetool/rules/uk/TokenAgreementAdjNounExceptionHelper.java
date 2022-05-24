@@ -11,6 +11,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.uk.InflectionHelper.Inflection;
+import org.languagetool.rules.uk.SearchHelper.Condition;
+import org.languagetool.rules.uk.SearchHelper.Match;
 import org.languagetool.tagging.uk.IPOSTag;
 import org.languagetool.tagging.uk.PosTagHelper;
 import org.slf4j.Logger;
@@ -42,6 +44,14 @@ final class TokenAgreementAdjNounExceptionHelper {
 
     AnalyzedTokenReadings adjAnalyzedTokenReadings = tokens[adjPos];
 
+    // наступні півроку
+//    if( PosTagHelper.hasPosTag(tokens[adjPos], Pattern.compile("adj:p:v_(naz|zna:rinanim).*"))
+//        && tokens[nounPos].getCleanToken().toLowerCase().startsWith("пів")
+//        && PosTagHelper.hasPosTagPart(tokens[nounPos], ":v_zna") ) {
+//      logException();
+//      return true;
+//    }
+
 
     if( adjPos > 1
         && LemmaHelper.isCapitalized(tokens[adjPos].getCleanToken())
@@ -72,12 +82,12 @@ final class TokenAgreementAdjNounExceptionHelper {
 //      logException();
 //      return true;
 //    }
-
-    if( LemmaHelper.hasLemma(tokens[adjPos], "північний")
-        && LemmaHelper.hasLemma(tokens[nounPos], "Рейн-Вестфалія") ) {
-      logException();
-      return true;
-    }
+//
+//    if( LemmaHelper.hasLemma(tokens[adjPos], "північний")
+//        && LemmaHelper.hasLemma(tokens[nounPos], "Рейн-Вестфалія") ) {
+//      logException();
+//      return true;
+//    }
 
     //  в день Хрещення Господнього священики
     if( LemmaHelper.hasLemma(tokens[adjPos], Arrays.asList("божий", "господній", "Христовий"))
@@ -463,7 +473,62 @@ final class TokenAgreementAdjNounExceptionHelper {
       logException();
       return true;
     }
-    
+
+    // pron section 
+
+    // на таку Богом забуту
+    if( PosTagHelper.hasPosTagPart(tokens[adjPos], "pron")
+        && tokens[nounPos].getCleanToken().equalsIgnoreCase("богом") ) {
+      logException();
+      return true;
+    }
+
+    // той родом з
+    if( LemmaHelper.hasLemma(tokens[adjPos], "той")
+        && Arrays.asList("родом", "кулею", "розміром").contains(tokens[nounPos].getCleanToken().toLowerCase()) ) {
+      logException();
+      return true;
+    }
+
+    // такого світ ще не бачив
+    if( Arrays.asList("таке", "такого").contains(tokens[adjPos].getCleanToken().toLowerCase())
+        && PosTagHelper.hasPosTag(tokens[nounPos], Pattern.compile("noun.*:v_naz.*"))
+        && new Match()
+            .target(Condition.postag(Pattern.compile("verb.*")))
+            .limit(2)
+            .skip(Condition.postag(Pattern.compile("(part|adv).*")))
+            .mAfter(tokens, nounPos+1) > 0 ) {
+//        && SearchHelper. // (tokens, nounPos+1, "verb", 2) ) {
+      logException();
+      return true;
+    }
+
+    // той мантію надів
+    if( nounPos < tokens.length - 1
+        && tokens[adjPos].getCleanToken().toLowerCase().equals("той")
+        && PosTagHelper.hasPosTag(tokens[nounPos], Pattern.compile("noun.*:v_(zna|oru).*"))
+        && PosTagHelper.hasPosTagStart(tokens[nounPos+1], "verb") ) {
+      logException();
+      return true;
+    }
+
+    // що таке звук
+    if( adjPos > 1
+        && tokens[adjPos].getToken().equals("таке")
+//        && (tokens[adjPos-1].getToken().equalsIgnoreCase("що")
+        && LemmaHelper.reverseSearch(tokens, adjPos-1, 3, Pattern.compile("що"), null)
+            ) {
+      logException();
+      return true;
+    }
+
+    if( tokens[adjPos].getToken().equalsIgnoreCase("таких")
+        && (PosTagHelper.hasPosTagPart(tokens[nounPos], ":p:v_naz")
+         || Arrays.asList("меншість", "більшість").contains(tokens[nounPos].getCleanToken().toLowerCase())) ) {
+      logException();
+      return true;
+    }
+
     // постійно на рівних міністри, президенти
     if( adjPos > 1
         && tokens[adjPos].getToken().equals("рівних")

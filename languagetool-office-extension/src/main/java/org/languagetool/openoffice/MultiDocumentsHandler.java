@@ -41,6 +41,7 @@ import org.languagetool.gui.AboutDialog;
 import org.languagetool.gui.Configuration;
 import org.languagetool.openoffice.DocumentCache.TextParagraph;
 import org.languagetool.openoffice.OfficeTools.DocumentType;
+import org.languagetool.openoffice.SingleDocument.RuleDesc;
 import org.languagetool.openoffice.SpellAndGrammarCheckDialog.LtCheckDialog;
 import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.Rule;
@@ -219,7 +220,7 @@ public class MultiDocumentsHandler {
     }
     testHeapSpace();
     if (debugMode) {
-      MessageHandler.printToLogFile("MultiDocumentsHandler: getCheckResults: Start getCheckResults at single document!");
+      MessageHandler.printToLogFile("MultiDocumentsHandler: getCheckResults: Start getCheckResults at single document: " + paraText);
     }
     paRes = documents.get(docNum).getCheckResults(paraText, locale, paRes, propertyValues, docReset, lt);
     if (lt.doReset()) {
@@ -393,8 +394,16 @@ public class MultiDocumentsHandler {
   /**
    *  Remove a rule from disabled rules by spell dialog
    */
-  void removeDisabledRule(String ruleId) {
-    disabledRulesUI.remove(ruleId);
+  void removeDisabledRule(String langCode, String ruleId) {
+    if (disabledRulesUI.containsKey(langCode)) {
+      Set<String >rulesIds = disabledRulesUI.get(langCode);
+      rulesIds.remove(ruleId);
+      if (rulesIds.isEmpty()) {
+        disabledRulesUI.remove(langCode);
+      } else {
+        disabledRulesUI.put(langCode, rulesIds);
+      }
+    }
   }
   
   /**
@@ -890,7 +899,7 @@ public class MultiDocumentsHandler {
         lt.disableRule(id);
       }
     }
-//    handleLtDictionary();
+    handleLtDictionary();
   }
   
   /**
@@ -1055,6 +1064,17 @@ public class MultiDocumentsHandler {
   }
   
   /**
+   * Call method renewMarkups for concerned document 
+   */
+  public void renewMarkups() {
+    for (SingleDocument document : documents) {
+      if (menuDocId != null && menuDocId.equals(document.getDocID())) {
+        document.renewMarkups();
+      }
+    }
+  }
+  
+  /**
    * reset ignoreOnce information in all documents
    */
   public void resetIgnoreOnce() {
@@ -1064,12 +1084,16 @@ public class MultiDocumentsHandler {
   }
 
   /**
-   * Deactivate a rule by rule iD
+   * Activate a rule by rule iD
    */
   public void activateRule(String ruleId) {
+    activateRule(OfficeTools.localeToString(locale), ruleId);
+  }
+  
+  public void activateRule(String langcode, String ruleId) {
     if (ruleId != null) {
-      removeDisabledRule(ruleId);
-      deactivateRule(ruleId, true);
+      removeDisabledRule(langcode, ruleId);
+      deactivateRule(ruleId, langcode, true);
       resetDocument();
     }
   }
@@ -1080,7 +1104,13 @@ public class MultiDocumentsHandler {
   public void deactivateRule() {
     for (SingleDocument document : documents) {
       if (menuDocId.equals(document.getDocID())) {
-        deactivateRule(document.deactivateRule(), false);
+        RuleDesc ruleDesc = document.deactivateRule();
+        if (ruleDesc != null) {
+          if (debugMode) {
+            MessageHandler.printToLogFile("MultiDocumentsHandler: deactivateRule: ruleID = "+ ruleDesc.ruleID + "langCode = " + ruleDesc.langCode);
+          }
+          deactivateRule(ruleDesc.ruleID, ruleDesc.langCode, false);
+        }
         return;
       }
     }
@@ -1089,7 +1119,7 @@ public class MultiDocumentsHandler {
   /**
    * Deactivate a rule by rule iD
    */
-  public void deactivateRule(String ruleId, boolean reactivate) {
+  public void deactivateRule(String ruleId, String langcode, boolean reactivate) {
     if (ruleId != null) {
       try {
         Configuration confg = new Configuration(configDir, configFile, oldConfigFile, docLanguage, true);
@@ -1097,12 +1127,17 @@ public class MultiDocumentsHandler {
         ruleIds.add(ruleId);
         if (reactivate) {
           confg.removeDisabledRuleIds(ruleIds);
+          removeDisabledRule(langcode, ruleId);
         } else {
           confg.addDisabledRuleIds(ruleIds);
+          addDisabledRule(langcode, ruleId);
         }
         confg.saveConfiguration(docLanguage);
+        initDocuments();
+        resetDocument();
         if (debugMode) {
-          MessageHandler.printToLogFile("MultiDocumentsHandler: deactivateRule: Rule Disabled: " + (ruleId == null ? "null" : ruleId));
+          MessageHandler.printToLogFile("MultiDocumentsHandler: deactivateRule: Rule " + (reactivate ? "enabled: " : "disabled: ") 
+              + (ruleId == null ? "null" : ruleId));
         }
       } catch (IOException e) {
         MessageHandler.printException(e);
@@ -1342,6 +1377,8 @@ public class MultiDocumentsHandler {
       } else if (sEvent.startsWith("activateRule_")) {
         String ruleId = sEvent.substring(13);
         activateRule(ruleId);
+      } else if ("renewMarkups".equals(sEvent)) {
+        renewMarkups();
       } else if ("checkDialog".equals(sEvent) || "checkAgainDialog".equals(sEvent)) {
         if (useOrginalCheckDialog) {
           if ("checkDialog".equals(sEvent) ) {
@@ -1396,6 +1433,8 @@ public class MultiDocumentsHandler {
         resetIgnoredMatches();
         resetDocumentCaches();
         resetDocument();
+      } else if ("writeAnalyzedParagraphs".equals(sEvent)) {
+        new AnalyzedParagraphsCache(this); 
       } else if ("remoteHint".equals(sEvent)) {
         if (getConfiguration().useOtherServer()) {
           MessageHandler.showMessage(MessageFormat.format(messages.getString("loRemoteInfoOtherServer"), 

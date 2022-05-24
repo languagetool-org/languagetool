@@ -29,6 +29,7 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.tokenizers.WordTokenizer;
 import org.languagetool.tools.StringTools;
+import org.languagetool.tools.Tools;
 
 /**
  * Checks that a sentence starts with an uppercase letter.
@@ -43,6 +44,7 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
   private static final Pattern SENTENCE_END1 = Pattern.compile("[.?!…]|");
   private static final Set<String> EXCEPTIONS = new HashSet<>(Arrays.asList(
           "x86",
+          "ⓒ",
           "cc" // cc @daniel => "Cc @daniel" is strange
   ));
 
@@ -54,6 +56,7 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
     super.setCategory(Categories.CASING.getCategory(messages));
     this.language = language;
     setLocQualityIssueType(ITSIssueType.Typographical);
+    setUrl(Tools.getUrl("https://languagetool.org/insights/post/spelling-capital-letters/"));
     if (incorrectExample != null && correctExample != null) {
       addExamplePair(incorrectExample, correctExample);
     }

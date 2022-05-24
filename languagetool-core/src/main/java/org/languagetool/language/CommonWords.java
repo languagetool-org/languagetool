@@ -119,6 +119,7 @@ public class CommonWords {
       List<Language> languages = word2langs.get(lcWord);
       if (languages != null) {
         for (Language lang : languages) {
+          //System.out.println(lcWord + " -> " + lang);
           result.put(lang, result.getOrDefault(lang, 0) + 1);
         }
       }
@@ -138,6 +139,7 @@ public class CommonWords {
         result.put(caLang, result.getOrDefault(caLang, 0) - 1);
       }
     }
+    //System.out.println("==> " + result);
     return result;
   }
   

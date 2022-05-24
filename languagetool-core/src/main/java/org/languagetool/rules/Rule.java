@@ -101,9 +101,31 @@ public abstract class Rule {
    * @since 4.9
    */
   public String getFullId() {
-    return getId();
+    if (getSubId() != null) {
+      return getId() + "[" + getSubId() + "]";
+    } else {
+      return getId();
+    }
   }
-  
+
+  @Nullable
+  /**
+   * Optional, mostly used for XML rules (pulled from there to all rules for uniformity)
+   * @since 5.7
+   */
+  public String getSubId() {
+    return null;
+  }
+
+  @Nullable
+  /**
+   * Optional, mostly used for XML rules (pulled from there to all rules for uniformity)
+   * For XML rules, this returns the file that this rule was loaded from
+   */
+  public String getSourceFile() {
+    return null;
+  }
+
   /**
    * A short description of the error this rule can detect, usually in the language of the text
    * that is checked.

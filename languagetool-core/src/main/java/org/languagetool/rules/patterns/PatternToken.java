@@ -22,7 +22,6 @@ import com.google.common.collect.ObjectArrays;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.jetbrains.annotations.VisibleForTesting;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
@@ -672,11 +671,10 @@ public class PatternToken implements Cloneable {
    * @return A List of Exceptions. Used for testing.
    * @since 1.0.0
    */
-  @Nullable
-  @VisibleForTesting
+  @NotNull
   public List<PatternToken> getExceptionList() {
     PatternToken[] array = rareFields == null ? EMPTY_ARRAY : rareFields.currentAndNextExceptions;
-    return array.length == 0 ? null : Arrays.asList(array);
+    return array.length == 0 ? Collections.emptyList() : Arrays.asList(array);
   }
 
   @ApiStatus.Internal
@@ -771,7 +769,7 @@ public class PatternToken implements Cloneable {
       sb.append(chunkTag);
     }
     List<PatternToken> exceptionList = getExceptionList();
-    if (exceptionList != null) {
+    if (!exceptionList.isEmpty()) {
       sb.append("/exceptions=");
       sb.append(exceptionList);
     }

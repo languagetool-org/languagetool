@@ -58,6 +58,21 @@
             <version>${revision}</version>
         </dependency>
         <dependency>
+            <groupId>org.languagetool</groupId>
+            <artifactId>portuguese-pos-dict</artifactId>
+            <version>${portuguese-pos-dict.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.carrot2</groupId>
+                    <artifactId>morfologik-stemming</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.carrot2</groupId>
+                    <artifactId>morfologik-fsa</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
             <!-- see http://stackoverflow.com/questions/174560/sharing-test-code-in-maven#174670 -->
             <groupId>org.languagetool</groupId>
             <artifactId>languagetool-core</artifactId>

@@ -56,6 +56,11 @@ public class PortugueseDisambiguationRuleTest {
     TestTools.myAssert("A cada semana.",
         "/[null]SENT_START A/[a cada semana]RG  /[null]null cada/[a cada semana]RG  /[null]null semana/[a cada semana]RG ./[.]_PUNCT", 
         tokenizer, sentenceTokenizer, tagger, hybridDisam);
+    TestTools.myAssert("Estes são os meus amigos.",
+              "/[null]SENT_START Estes/[este]DD0MP0|Estes/[este]PD0MP000  "
+            + "/[null]null são/[ser]VMIP3P0|são/[são]AQ0MS0|são/[são]NCMS000  "
+            + "/[null]null os/[o]DA0MP0  /[null]null meus/[meu]DP1MPS  "
+            + "/[null]null amigos/[amigo]NCMP000 ./[.]_PUNCT", tokenizer, sentenceTokenizer, tagger, hybridDisam);
     
   }
 

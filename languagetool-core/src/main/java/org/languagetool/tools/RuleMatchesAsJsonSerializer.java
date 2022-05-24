@@ -24,7 +24,6 @@ import org.languagetool.*;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.*;
-import org.languagetool.rules.patterns.AbstractPatternRule;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -88,7 +87,7 @@ public class RuleMatchesAsJsonSerializer {
   public String ruleMatchesToJson(List<RuleMatch> matches, List<RuleMatch> hiddenMatches, AnnotatedText text, int contextSize,
                                   DetectedLanguage detectedLang, String incompleteResultsReason, boolean showPremiumHint) {
     return ruleMatchesToJson2(Collections.singletonList(new CheckResults(matches, Collections.emptyList())),
-            hiddenMatches, text, contextSize, detectedLang, incompleteResultsReason, showPremiumHint);
+            hiddenMatches, text, contextSize, detectedLang, incompleteResultsReason, showPremiumHint, null);
   }
 
     /**
@@ -97,7 +96,7 @@ public class RuleMatchesAsJsonSerializer {
      * @since 5.3
      */
   public String ruleMatchesToJson2(List<CheckResults> res, List<RuleMatch> hiddenMatches, AnnotatedText text, int contextSize,
-                                   DetectedLanguage detectedLang, String incompleteResultsReason, boolean showPremiumHint) {
+                                   DetectedLanguage detectedLang, String incompleteResultsReason, boolean showPremiumHint, JLanguageTool.Mode mode) {
     ContextTools contextTools = new ContextTools();
     contextTools.setEscapeHtml(false);
     contextTools.setContextSize(contextSize);
@@ -114,6 +113,7 @@ public class RuleMatchesAsJsonSerializer {
           writeMatchesSection("hiddenMatches", g, Collections.singletonList(new CheckResults(hiddenMatches, Collections.emptyList())), text, contextTools);
         }
         writeIgnoreRanges(g, res);
+        writeSentenceRanges(g, res);
         g.writeEndObject();
       }
     } catch (IOException e) {
@@ -167,6 +167,7 @@ public class RuleMatchesAsJsonSerializer {
     if (detectedLang.getDetectedLanguage().isSpellcheckOnlyLanguage()) {
       g.writeBooleanField("spellCheckOnly", true);
     }
+    g.writeStringField("source", detectedLang.getDetectionSource());
     g.writeEndObject();
     g.writeEndObject();
   }
@@ -213,6 +214,19 @@ public class RuleMatchesAsJsonSerializer {
         g.writeStringField("code", range.getLang());
         g.writeEndObject();
         g.writeEndObject();
+      }
+    }
+    g.writeEndArray();
+  }
+
+  private void writeSentenceRanges(JsonGenerator g, List<CheckResults> res) throws IOException {
+    g.writeArrayFieldStart("sentenceRanges");
+    for (CheckResults r : res) {
+      for (SentenceRange range : r.getSentenceRanges()) {
+        g.writeStartArray();
+        g.writeNumber(range.getFromPos());
+        g.writeNumber(range.getToPos());
+        g.writeEndArray();
       }
     }
     g.writeEndArray();
@@ -278,14 +292,11 @@ public class RuleMatchesAsJsonSerializer {
     g.writeObjectFieldStart("rule");
     Rule rule = match.getRule();
     g.writeStringField("id", match.getSpecificRuleId()); // rule.getId()
-    if (rule instanceof AbstractPatternRule) {
-      AbstractPatternRule pRule = (AbstractPatternRule) rule;
-      if (pRule.getSubId() != null) {
-        g.writeStringField("subId", pRule.getSubId());
-      }
-      if (pRule.getSourceFile() != null && compactMode != 1) {
-        g.writeStringField("sourceFile", pRule.getSourceFile().replaceFirst(".*/", ""));
-      }
+    if (rule.getSubId() != null) {
+      g.writeStringField("subId", rule.getSubId());
+    }
+    if (rule.getSourceFile() != null && compactMode != 1) {
+      g.writeStringField("sourceFile", rule.getSourceFile().replaceFirst(".*/", ""));
     }
     g.writeStringField("description", rule.getDescription());
     g.writeStringField("issueType", rule.getLocQualityIssueType().toString());

@@ -22,9 +22,11 @@
 package org.languagetool.rules;
 
 import io.github.resilience4j.circuitbreaker.CallNotPermittedException;
+import io.github.resilience4j.circuitbreaker.CircuitBreaker;
 import io.prometheus.client.Histogram;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -93,9 +95,10 @@ public final class RemoteRuleMetrics {
   }
 
   @ApiStatus.Internal
-  public static void inCircuitBreaker(long deadlineStartNanos, RemoteRule rule, String ruleKey, long chars, Callable<RemoteRuleResult> fetchResults) throws InterruptedException {
+  @Nullable
+  public static <T> T inCircuitBreaker(long deadlineStartNanos, CircuitBreaker circuitBreaker, String ruleKey, long chars, Callable<T> fetchResults) throws InterruptedException {
     try {
-      rule.circuitBreaker().executeCallable(fetchResults);
+      return circuitBreaker.executeCallable(fetchResults);
     } catch (InterruptedException e) {
       logger.info("Failed to fetch result from remote rule '{}' - interrupted.", ruleKey);
       request(ruleKey, deadlineStartNanos, chars, RequestResult.INTERRUPTED);
@@ -122,5 +125,6 @@ public final class RemoteRuleMetrics {
         request(ruleKey, deadlineStartNanos, chars, RequestResult.ERROR);
       }
     }
+    return null;
   }
 }

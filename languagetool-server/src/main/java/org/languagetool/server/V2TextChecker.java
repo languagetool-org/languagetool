@@ -20,10 +20,7 @@ package org.languagetool.server;
 
 import com.sun.net.httpserver.HttpExchange;
 import org.jetbrains.annotations.NotNull;
-import org.languagetool.CheckResults;
-import org.languagetool.DetectedLanguage;
-import org.languagetool.Language;
-import org.languagetool.Languages;
+import org.languagetool.*;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.StringTools;
@@ -52,9 +49,10 @@ class V2TextChecker extends TextChecker {
 
   @Override
   protected String getResponse(AnnotatedText text, Language usedLang, DetectedLanguage lang, Language motherTongue, List<CheckResults> matches,
-                               List<RuleMatch> hiddenMatches, String incompleteResultsReason, int compactMode, boolean showPremiumHint) {
+                               List<RuleMatch> hiddenMatches, String incompleteResultsReason, int compactMode, boolean showPremiumHint, JLanguageTool.Mode mode) {
     RuleMatchesAsJsonSerializer serializer = new RuleMatchesAsJsonSerializer(compactMode, usedLang);
-    return serializer.ruleMatchesToJson2(matches, hiddenMatches, text, CONTEXT_SIZE, lang, incompleteResultsReason, showPremiumHint);
+    return serializer.ruleMatchesToJson2(matches, hiddenMatches, text, CONTEXT_SIZE, lang, incompleteResultsReason,
+      showPremiumHint, mode);
   }
 
   @NotNull
@@ -111,7 +109,8 @@ class V2TextChecker extends TextChecker {
     } else {
       givenLang = parseLanguage(langParam);
     }
-    return new DetectedLanguage(givenLang, detectedLang.getDetectedLanguage(), detectedLang.getDetectionConfidence());
+    return new DetectedLanguage(givenLang, detectedLang.getDetectedLanguage(), detectedLang.getDetectionConfidence(),
+      detectedLang.getDetectionSource());
   }
 
   @Override

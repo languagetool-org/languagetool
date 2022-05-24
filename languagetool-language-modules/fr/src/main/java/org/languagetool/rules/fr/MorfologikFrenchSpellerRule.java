@@ -38,6 +38,7 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
   private static final Pattern PARTICULA_INICIAL = Pattern.compile(
       "^(non|en|a|le|la|les|pour|de|du|des|un|une|mon|ma|mes|ton|ta|tes|son|sa|ses|leur|leurs|ce|cet) (..+)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  private static final Pattern CAMEL_CASE = Pattern.compile("^(.\\p{Ll}+)(\\p{Lu}.+)$", Pattern.UNICODE_CASE);
   private static final Pattern PREFIX_AMB_ESPAI = Pattern.compile(
       "^(agro|anti|archi|auto|aéro|cardio|co|cyber|demi|ex|extra|géo|hospitalo|hydro|hyper|hypo|infra|inter|macro|mega|meta|mi|micro|mini|mono|multi|musculo|méga|méta|néo|omni|pan|para|pluri|poly|post|prim|pro|proto|pré|pseudo|psycho|péri|re|retro|ré|semi|simili|socio|super|supra|sus|trans|tri|télé|ultra|uni|vice|éco|[^ayà]) (..+)$",
       //grand, haut, nord, sud, sous, sur l|d|s|t
@@ -207,6 +208,7 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
      * if (word.length() < 5) { return Collections.emptyList(); }
      */
     List<String> newSuggestions = new ArrayList<>();
+    newSuggestions.addAll(findSuggestion(word, CAMEL_CASE, ANY_TAG, 1, " ", false));
     newSuggestions.addAll(findSuggestion(word, SPLIT_SUGGESTIONS, ANY_TAG, 1, " ", true));
     newSuggestions.addAll(findSuggestion(word, APOSTROF_INICI_VERBS, VERB_INDSUBJ, 2, "'", true));
     newSuggestions.addAll(findSuggestion(word, APOSTROF_INICI_VERBS_M, VERB_INDSUBJ_M, 2, "'", true));

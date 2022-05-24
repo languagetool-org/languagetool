@@ -19,12 +19,15 @@
 package org.languagetool.server;
 
 import com.sun.net.httpserver.HttpServer;
+import lombok.extern.slf4j.Slf4j;
 import org.languagetool.JLanguageTool;
 import org.languagetool.tools.Tools;
 
 import javax.management.ObjectName;
+import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.net.InetSocketAddress;
+import java.net.ServerSocket;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.concurrent.BlockingQueue;
@@ -40,6 +43,7 @@ import static org.languagetool.server.HTTPServerConfig.DEFAULT_HOST;
  * @author Daniel Naber
  * @author Ankit
  */
+@Slf4j
 public class HTTPServer extends Server {
 
   private final ThreadPoolExecutor executorService;
@@ -104,7 +108,12 @@ public class HTTPServer extends Server {
       executorService = getExecutorService(config);
       BlockingQueue<Runnable> workQueue = executorService.getQueue();
       httpHandler = new LanguageToolHttpHandler(config, allowedIps, runInternally, limiter, errorLimiter, workQueue, this);
-
+      //check if port is 0 for get random port from range
+      if (port == 0) {
+        int minPort = config.getMinPort();
+        int maxPort = config.getMaxPort();
+        port = getPortFromRange(minPort, maxPort);
+      }
       InetSocketAddress address = host != null ? new InetSocketAddress(host, port) : new InetSocketAddress(port);
       server = HttpServer.create(address, 0);
       server.createContext("/", httpHandler);
@@ -117,6 +126,28 @@ public class HTTPServer extends Server {
       ResourceBundle messages = JLanguageTool.getMessageBundle();
       String message = Tools.i18n(messages, "http_server_start_failed", host, Integer.toString(port));
       throw new PortBindingException(message, e);
+    }
+  }
+  
+  private int getPortFromRange(int minPort, int maxPort) throws IOException {
+    if (minPort > 0 && minPort < maxPort) {
+         log.info("Try to find a free Port for Server in range {}-{}", minPort, maxPort);
+         for (int p = minPort; p <= maxPort; p++) {
+           try {
+             log.info("Check port {}", p);
+             ServerSocket serverSocket = new ServerSocket(p);
+             port = serverSocket.getLocalPort();
+             serverSocket.close();
+             log.info("Port {} is available.", p);
+             return p;
+           } catch (IOException ex) {
+             log.debug("Port {} is not available.", p);
+           }
+         }
+         throw new IOException("No free port in range ("+ minPort + " - " + maxPort + ") found.");
+    } else {
+      throw new IOException("Invalid port configuration found. " +
+                            "The value for '--port' need to be greater than 0 or if set to 0 you need to specify a minPort and maxPort in your properties file (minPort must be lower that maxPort).");
     }
   }
 

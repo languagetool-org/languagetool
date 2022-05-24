@@ -23,6 +23,7 @@ package org.languagetool.rules;
 
 import io.github.resilience4j.circuitbreaker.CircuitBreaker;
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
@@ -133,13 +134,18 @@ public abstract class RemoteRule extends Rule {
   protected abstract RemoteRuleResult fallbackResults(RemoteRequest request);
 
   protected CircuitBreaker createCircuitBreaker(String id) {
+    CircuitBreakerConfig config = getCircuitBreakerConfig(serviceConfiguration, id);
+    return CircuitBreakers.registry().circuitBreaker("remote-rule-" + id, config);
+  }
+
+  @NotNull
+  static CircuitBreakerConfig getCircuitBreakerConfig(RemoteRuleConfig c, String id) {
     CircuitBreakerConfig.SlidingWindowType type;
-    RemoteRuleConfig c = serviceConfiguration;
     try {
-      type = CircuitBreakerConfig.SlidingWindowType.valueOf(serviceConfiguration.getSlidingWindowType());
+      type = CircuitBreakerConfig.SlidingWindowType.valueOf(c.getSlidingWindowType());
     } catch (IllegalArgumentException e) {
       type = CircuitBreakerConfig.SlidingWindowType.COUNT_BASED;
-      logger.warn("Couldn't parse slidingWindowType value '{}' for rule '{}', use one of {}; defaulting to '{}'", serviceConfiguration.getSlidingWindowType(), id, Arrays.asList(CircuitBreakerConfig.SlidingWindowType.values()), type);
+      logger.warn("Couldn't parse slidingWindowType value '{}' for rule '{}', use one of {}; defaulting to '{}'", c.getSlidingWindowType(), id, Arrays.asList(CircuitBreakerConfig.SlidingWindowType.values()), type);
     }
 
     CircuitBreakerConfig config = CircuitBreakerConfig
@@ -150,7 +156,7 @@ public abstract class RemoteRule extends Rule {
       .waitDurationInOpenState(Duration.ofMillis(Math.max(1, c.getDownMilliseconds())))
       .enableAutomaticTransitionFromOpenToHalfOpen()
       .build();
-    return CircuitBreakers.registry().circuitBreaker("remote-rule-" + id, config);
+    return config;
   }
 
   /**
@@ -210,10 +216,14 @@ public abstract class RemoteRule extends Rule {
     });
   }
 
-  public long getTimeout(long characters) {
+  static long getTimeout(RemoteRuleConfig serviceConfiguration, long characters) {
     long timeout = serviceConfiguration.getBaseTimeoutMilliseconds() +
       Math.round(characters * serviceConfiguration.getTimeoutPerCharacterMilliseconds());
     return timeout;
+  }
+
+  public long getTimeout(long characters) {
+    return getTimeout(serviceConfiguration, characters);
   }
 
   public CircuitBreaker circuitBreaker() {

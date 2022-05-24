@@ -71,8 +71,11 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     "double check",
     "hard coded",
     "hands free",
+    "client side",
+    "server side",
     "faggot",
     "faggots",
+    "fuckable",
     "fuck",
     "fucker",
     "fuckhead",
@@ -356,10 +359,12 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       .filter(k -> !k.getReplacement().startsWith("re ") &&
                    !k.getReplacement().startsWith("en ") &&
                    !k.getReplacement().toLowerCase().startsWith("co ") &&
+                   !k.getReplacement().toLowerCase().startsWith("cl ") &&
                    !k.getReplacement().toLowerCase().startsWith("de ") &&
                    !k.getReplacement().toLowerCase().startsWith("ex ") &&
                    !k.getReplacement().toLowerCase().startsWith("es ") &&
                    !k.getReplacement().toLowerCase().startsWith("ab ") &&
+                   !k.getReplacement().toLowerCase().startsWith("ty ") &&
                    !k.getReplacement().toLowerCase().startsWith("mid ") &&
                    !k.getReplacement().toLowerCase().startsWith("non ") &&
                    !k.getReplacement().toLowerCase().startsWith("bio ") &&
@@ -380,11 +385,13 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("post ") &&
                    !k.getReplacement().toLowerCase().startsWith("sub ") &&
                    !k.getReplacement().toLowerCase().startsWith("auto ") &&
+                   !k.getReplacement().toLowerCase().startsWith("pl ") &&
                    !k.getReplacement().startsWith("sh ") &&
                    !k.getReplacement().startsWith("li ") &&
                    !k.getReplacement().startsWith("ha ") &&
                    !k.getReplacement().startsWith("st ") &&
                    !k.getReplacement().toLowerCase().startsWith("dis ") &&
+                   !k.getReplacement().toLowerCase().startsWith("est ") &&
                    !k.getReplacement().toLowerCase().startsWith("mono ") &&
                    !k.getReplacement().toLowerCase().startsWith("trans ") &&
                    !k.getReplacement().toLowerCase().startsWith("neuro ") &&
@@ -440,6 +447,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().endsWith(" ize") && // "advertize"
                    !k.getReplacement().endsWith(" sh") &&
                    !k.getReplacement().endsWith(" st") &&
+                   !k.getReplacement().endsWith(" est") &&
                    !k.getReplacement().endsWith(" ward") &&
                    !k.getReplacement().endsWith(" ability") && // interruptability
                    !k.getReplacement().endsWith(" ware") && // drinkware
@@ -607,11 +615,27 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("MWH", Arrays.asList("MWh"));
     s.put("xray", Arrays.asList("X-ray"));
     s.put("xrays", Arrays.asList("X-rays"));
+    s.put("soo", Arrays.asList("so", "too", "son"));
     return s;
   }
 
   protected static Map<String, List<String>> getTopSuggestions() {
     Map<String, List<String>> s = new HashMap<>();
+    s.put("enroute", Arrays.asList("en route"));
+    s.put("whaddya", Arrays.asList("what do you"));
+    s.put("Whaddya", Arrays.asList("What do you"));
+    s.put("ignight", Arrays.asList("ignite"));
+    s.put("Ignight", Arrays.asList("Ignite"));
+    s.put("ignights", Arrays.asList("ignites"));
+    s.put("Ignights", Arrays.asList("Ignites"));
+    s.put("ignighted", Arrays.asList("ignited"));
+    s.put("Ignighted", Arrays.asList("Ignited"));
+    s.put("ignighting", Arrays.asList("igniting"));
+    s.put("Ignighting", Arrays.asList("Igniting"));
+    s.put("transcripted", Arrays.asList("transcribed"));
+    s.put("transcripting", Arrays.asList("transcribing"));
+    s.put("incase", Arrays.asList("in case"));
+    s.put("Incase", Arrays.asList("In case"));
     s.put("megatonne", Arrays.asList("megaton"));
     s.put("Megatonne", Arrays.asList("Megaton"));
     s.put("megatonnes", Arrays.asList("megatons"));

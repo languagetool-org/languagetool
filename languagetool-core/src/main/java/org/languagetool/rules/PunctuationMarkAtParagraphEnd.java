@@ -20,6 +20,7 @@ package org.languagetool.rules;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
@@ -37,6 +38,7 @@ public class PunctuationMarkAtParagraphEnd extends TextLevelRule {
 
   private final static String[] PUNCTUATION_MARKS = {".", "!", "?", ":", ",", ";"};
   private final static String[] QUOTATION_MARKS = {"„", "»", "«", "\"", "”", "″", "’", "‚", "‘", "›", "‹", "′", "'"};
+  private final static Pattern pNumeric = Pattern.compile("[0-9.]+");
   
   private final Language lang;
 
@@ -88,6 +90,10 @@ public class PunctuationMarkAtParagraphEnd extends TextLevelRule {
   private static boolean isWord(AnalyzedTokenReadings tk) {
     return Character.isLetter(tk.getToken().charAt(0));
   }
+  
+  private static boolean isNumeric(String s) {
+   return pNumeric.matcher(s.trim()).matches(); 
+  }
 
   @Override
   public RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException {
@@ -102,8 +108,13 @@ public class PunctuationMarkAtParagraphEnd extends TextLevelRule {
         if (tokens.length > 2) {
           isFirstWord = (isWord(tokens[1]) && !isPunctuationMark(tokens[2]))
                 || (tokens.length > 3 && isQuotationMark(tokens[1]) && isWord(tokens[2]) && !isPunctuationMark(tokens[3]));
+          // ignore sentences like "2.2.2. This is an item" (two sentences, first sentence only numbers)
+          boolean ignoreSentence = false;
+          if (n==1 && isNumeric(sentences.get(0).getText())) {
+            ignoreSentence = true;
+          }
           // paragraphs containing less than two sentences (e.g. headlines, listings) are excluded from rule
-          if (n - lastPara > 1 && isFirstWord) {
+          if (n - lastPara > 1 && isFirstWord && !ignoreSentence) {
             int lastNWToken = tokens.length - 1;
             while (tokens[lastNWToken].isLinebreak()) {
               lastNWToken--;

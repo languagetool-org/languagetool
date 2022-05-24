@@ -220,6 +220,8 @@ public class AgreementRule extends Rule {
     "cm", // "Die letzten cm" können
     "km",
     "Nr",
+    "KSC", // Abk
+    "DJK", // Der DJK Schweinfurt
     "RP" // "Die RP (Rheinische Post)"
   ));
 
@@ -248,7 +250,7 @@ public class AgreementRule extends Rule {
 
   @Override
   public String getDescription() {
-    return "Kongruenz von Nominalphrasen (unvollständig!), z.B. 'mein kleiner(kleines) Haus'";
+    return "Kongruenz von Nominalphrasen (unvollständig!), z.B. 'mein kleiner (kleines) Haus'";
   }
 
   private Map<Integer,ReplacementType> replacePrepositionsByArticle (AnalyzedTokenReadings[] tokens) {

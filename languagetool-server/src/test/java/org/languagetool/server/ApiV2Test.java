@@ -23,10 +23,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.languagetool.CheckResults;
-import org.languagetool.DetectedLanguage;
-import org.languagetool.FakeLanguage;
-import org.languagetool.Language;
+import org.languagetool.*;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.RuleMatch;
 
@@ -90,7 +87,7 @@ public class ApiV2Test {
     protected void setHeaders(HttpExchange httpExchange) {
     }
     @Override
-    protected String getResponse(AnnotatedText text, Language language, DetectedLanguage lang, Language motherTongue, List<CheckResults> matches, List<RuleMatch> hiddenMatches, String incompleteResultReason, int compactMode, boolean showPremiumHint) {
+    protected String getResponse(AnnotatedText text, Language language, DetectedLanguage lang, Language motherTongue, List<CheckResults> matches, List<RuleMatch> hiddenMatches, String incompleteResultReason, int compactMode, boolean showPremiumHint, JLanguageTool.Mode mode) {
       return "";
     }
     @NotNull

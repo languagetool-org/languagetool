@@ -141,7 +141,9 @@ public class TokenAgreementAdjNounRule extends Rule {
         //TODO: nv still can be wrong if :np/:ns is present to it's not much gain for lots of work
         if( PosTagHelper.hasPosTagPart(tokens[i], PosTagHelper.NO_VIDMINOK_SUBSTR)
             //TODO: turn back on when we can handle pron
-            || PosTagHelper.hasPosTagPart(tokens[i], "&pron")
+//            || PosTagHelper.hasPosTagPart(tokens[i], "&pron")
+//            || Arrays.asList("сам").contains(tokens[i].getCleanToken())
+            || LemmaHelper.hasLemma(tokens[i], Arrays.asList("який", "котрий", "сам"))
             || PosTagHelper.hasPosTagPart(tokens[i], "<") )
           continue;
 
@@ -185,8 +187,9 @@ public class TokenAgreementAdjNounRule extends Rule {
       
       if( // ! PosTagHelper.hasPosTagPart(tokens[i+1], "noun:")
           PosTagHelper.hasPosTagPart(tokens[i], PosTagHelper.NO_VIDMINOK_SUBSTR)
-         || PosTagHelper.hasPosTagPart(tokens[i], "&pron")
-         || PosTagHelper.hasPosTagPart(tokens[i], "<") ) {
+          || PosTagHelper.hasPosTagPart(tokens[i], "&pron")
+         // || PosTagHelper.hasPosTagPart(tokens[i], "<") 
+         ) {
         
         state.reset();
         continue;
@@ -202,8 +205,8 @@ public class TokenAgreementAdjNounRule extends Rule {
           continue;
         }
 
-        if( nounPosTag.startsWith("noun") 
-            && ! nounPosTag.contains(PosTagHelper.NO_VIDMINOK_SUBSTR) ) {
+        if( nounPosTag.startsWith("noun") ) { 
+//            && ! nounPosTag.contains(PosTagHelper.NO_VIDMINOK_SUBSTR) ) {
 
           nounTokenReadings.add(token);
         }
@@ -348,7 +351,7 @@ public class TokenAgreementAdjNounRule extends Rule {
     return toRuleMatchArray(ruleMatches);
   }
 
-  private static String formatInflections(List<Inflection> inflections, boolean adj) {
+  static String formatInflections(List<Inflection> inflections, boolean adj) {
 
     Collections.sort(inflections);
     

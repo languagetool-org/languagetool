@@ -108,8 +108,10 @@ public class GermanSRXSentenceTokenizerTest {
     testSplit("Stimme am lautesten heraustönte …. ", "Sobald er auf der Straße war");
 //    testSplit(new String[] { "Aber nein doch, er hörte alles nur zu deutlich! ", "\n", "… ", "›Also, wenn's so ist" });
     testSplit("»Welche Wohnung?\" ", "»Die, wo wir arbeiten.");
-    testSplit("»Nun also, wie ist's?« ", "fragte Lushin und blickte sie fest an.");
-    testSplit("»Nun also, wie ist es?« ", "fragte Lushin und blickte sie fest an.");
+    testSplit("»Nun also, wie ist's?« fragte Lushin und blickte sie fest an.");
+    testSplit("»Nun also, wie ist es?« fragte Lushin und blickte sie fest an.");
+    testSplit("„Nun also, wie ist es?“ fragte Lushin und blickte sie fest an.");
+    testSplit("»Nun also, wie ist es?« ", "Dann ging er.");
 //    testSplit(new String[] { "gezeigt hat.« ", "… ", "Hm! " });
 
     testSplit("Dies ist ein Satz mit einer EMail.Addresse@example.com!");

@@ -166,6 +166,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
     validateUnifyIgnoreAtTheStartOfUnify(allRulesLt);
     List<AbstractPatternRule> rules = getAllPatternRules(lang, lt);
     testRegexSyntax(lang, rules);
+    testMessages(lang, rules);
     testGrammarRulesFromXML(rules, allRulesLt, lang);
     System.out.println(rules.size() + " rules tested.");
     allRulesLt.shutdown();
@@ -325,6 +326,22 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
     }
   }
 
+  protected void testMessages(Language lang, List<AbstractPatternRule> rules) {
+    System.out.println("Checking messages for 'TBD' etc of " + rules.size() + " rules for " + lang + "...");
+    for (AbstractPatternRule rule : rules) {
+      if (rule.isDefaultTempOff() || rule.isDefaultOff()) {
+        continue;
+      }
+      String msg = rule.getMessage().trim();
+      if (msg.equalsIgnoreCase("tbd") || msg.equalsIgnoreCase("todo") || msg.equalsIgnoreCase("lorem ipsum")) {
+        fail("Unfinished message of rule " + rule.getFullId() + ": '" + msg + "'");
+      }
+      //if (msg.matches(".*[^\"'>)?!.]$")) {
+      //  System.err.println("Warning: Message of " + rule.getFullId() + " doesn't end in [.!?]: " + msg);
+      //}
+    }
+  }
+  
   private void addError(AbstractPatternRule rule, String failure) {
     synchronized (ruleErrors) {
       ruleErrors.addError(new PatternRuleTestFailure(rule, failure));
@@ -472,7 +489,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
           Optional<Match> opt = rule.getSuggestionMatches().stream().max(MATCH_COMPARATOR);
           maxReference = opt.isPresent() ? opt.get().getTokenRef() : 0;
         }
-        maxReference = Math.max( rule.getMessage() != null ? findLargestReference(rule.getMessage()) : 0, maxReference);
+        maxReference = Math.max(rule.getMessage() != null ? findLargestReference(rule.getMessage()) : 0, maxReference);
         if (rule.getPatternTokens() != null && maxReference > rule.getPatternTokens().size()) {
           System.err.println("Warning: Rule "+rule.getFullId()+" refers to token \\"+(maxReference)+" but has only "+rule.getPatternTokens().size()+" tokens.");
         }

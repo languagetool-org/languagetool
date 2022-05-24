@@ -38,6 +38,7 @@ public class PunctuationMarkAtParagraphEnd2Test {
     PunctuationMarkAtParagraphEnd2 rule = new PunctuationMarkAtParagraphEnd2(TestTools.getEnglishMessages(), TestTools.getDemoLanguage());
     rule.setDefaultOn();
     lt.addRule(rule);
+    assertEquals(0, lt.check("2.2.2. This is an item in a list").size());
     assertThat(lt.check("This is a test.").size(), is(0));
     assertThat(lt.check("This is a test").size(), is(0));  // too short
     assertThat(lt.check("This is a really nice test").size(), is(0));  // no error, might not be finished

@@ -24,9 +24,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tools.StringTools;
@@ -38,7 +38,7 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
   abstract protected Tagger getTagger();
 
   //abstract protected MorfologikSpeller getSpeller();
-  abstract protected List<String> getSpellingSuggestions(String w) throws IOException; 
+  abstract protected List<String> getSpellingSuggestions(AnalyzedTokenReadings atr) throws IOException; 
 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
@@ -54,6 +54,7 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
     List<String> replacements = new ArrayList<>();
     String wordFrom = getRequired("wordFrom", arguments);
     String desiredPostag = getRequired("desiredPostag", arguments);
+    String priorityPostag = getOptional("priorityPostag", arguments);
     String removeSuggestionsRegexp = getOptional("removeSuggestionsRegexp", arguments);
     // diacriticsMode: return only changes in diacritics. If there is none, the
     // match is removed.
@@ -95,17 +96,13 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
         if (removeSuggestionsRegexp != null) {
           regexpPattern = Pattern.compile(removeSuggestionsRegexp, Pattern.UNICODE_CASE);
         }
-        String wordToCheck = atrWord.getToken();
-        if (atrWord.isTagged()) {
-          wordToCheck = makeWrong(atrWord.getToken());
-        }
-        List<String> suggestions = getSpellingSuggestions(wordToCheck); //getSpeller().findReplacements(wordToCheck);
+        List<String> suggestions = getSpellingSuggestions(atrWord);
         if (suggestions.size() > 0) {
           for (String suggestion : suggestions) {
             // TODO: do not tag capitalized words with tags for lower case
             List<AnalyzedTokenReadings> analyzedSuggestions = getTagger().tag(Collections.singletonList(cleanSuggestion(suggestion)));
             for (AnalyzedTokenReadings analyzedSuggestion : analyzedSuggestions) {
-              if (replacements.size() >= MAX_SUGGESTIONS) {
+              if (replacements.size() >= 2 * MAX_SUGGESTIONS) {
                 break;
               }
               if (!suggestion.equals(atrWord.getToken())
@@ -121,9 +118,13 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
                     if (isWordCapitalized) {
                       replacement = StringTools.uppercaseFirstChar(replacement);
                     }
-                    replacements.add(replacement);
+                    if (priorityPostag!= null && analyzedSuggestion.matchesPosTagRegex(priorityPostag)) {
+                      replacements.add(0, replacement);
+                    } else {
+                      replacements.add(replacement);
+                    }
                   }
-                } 
+                }
               }
             }
           }
@@ -158,7 +159,7 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
         }
       }
       if (!replacementsUsed) {
-        definitiveReplacements.addAll(replacements);
+        definitiveReplacements.addAll(replacements.stream().limit(MAX_SUGGESTIONS).collect(Collectors.toList()));
       }
     }
 
@@ -166,62 +167,6 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
       ruleMatch.setSuggestedReplacements(definitiveReplacements);
     }
     return ruleMatch;
-  }
-
-  /*
-   * Invent a wrong word to find possible replacements. This is a hack to obtain
-   * suggestions from the speller when the original word is a correct word.
-   */
-  private String makeWrong(String s) {
-    if (s.contains("a")) {
-      return s.replace("a", "ä");
-    }
-    if (s.contains("e")) {
-      return s.replace("e", "ë");
-    }
-    if (s.contains("i")) {
-      return s.replace("i", "ï");
-    }
-    if (s.contains("o")) {
-      return s.replace("o", "ö");
-    }
-    if (s.contains("u")) {
-      return s.replace("u", "ù");
-    }
-    if (s.contains("á")) {
-      return s.replace("á", "ä");
-    }
-    if (s.contains("é")) {
-      return s.replace("é", "ë");
-    }
-    if (s.contains("í")) {
-      return s.replace("í", "ï");
-    }
-    if (s.contains("ó")) {
-      return s.replace("ó", "ö");
-    }
-    if (s.contains("ú")) {
-      return s.replace("ú", "ù");
-    }
-    if (s.contains("à")) {
-      return s.replace("à", "ä");
-    }
-    if (s.contains("è")) {
-      return s.replace("è", "ë");
-    }
-    if (s.contains("ì")) {
-      return s.replace("ì", "i");
-    }
-    if (s.contains("ò")) {
-      return s.replace("ò", "ö");
-    }
-    if (s.contains("ï")) {
-      return s.replace("ï", "ì");
-    }
-    if (s.contains("ü")) {
-      return s.replace("ü", "ù");
-    }
-    return s + "-";
   }
 
   private boolean equalWithoutDiacritics(String s, String t) {

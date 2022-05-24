@@ -1,13 +1,52 @@
 # LanguageTool Change Log
 
-## 5.7 (release planned for 2022-03-28)
+## 5.8-SNAPSHOT (release planned for 2022-06-28)
+
+#### Polish
+* updated the spelling dictionary to match changes in language (the current version is in sync with sjp.pl as of April 1, 2022)
+* added and improved rules
 
 ...
+
+
+## 5.7 (2022-03-28)
+
+#### Catalan
+  * added and improved rules
+  * updated dictionary (catalan-pos-dict-2.18)
+
+#### French
+  * added and improved rules
+  * updated dictionary (french-pos-dict-0.5)
+
+#### German
+  * added and improved rules
+  * extended dictionary
 
 #### Polish
   * added and improved rules, especially for frequent mistakes
   * added a rule for spelling coherency (*menedżer* or *menadżer* but not both in the same document)
   * updated the user interface translation
+
+#### Portuguese
+  * added and improved rules
+  * added words and POS data
+  * fixed tons of false positives
+
+#### Russian
+  * added and improved rules
+  * improved disambiguation
+
+#### Spanish
+  * added and improved rules
+  * updated dictionary (spanish-pos-dict-1.6)
+
+#### Ukrainian
+  * new words in the POS dictionary
+  * added and improved several rules
+  * added pronoun checking for adj/noun agreement
+  * improved tagging and disambiguation
+
 
 ## 5.6 (2021-12-29)
 

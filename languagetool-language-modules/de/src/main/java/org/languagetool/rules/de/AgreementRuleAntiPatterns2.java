@@ -607,7 +607,12 @@ class AgreementRuleAntiPatterns2 {
     Arrays.asList(
       csRegex("das|es|dies"),
       csRegex("bedeutete?"),
-      token("Krieg")
+      csRegex("Krieg|Ärger")
+    ),
+    Arrays.asList(
+      // In der aktuellen Niedrigzinsphase bedeutet das sehr geringe Zinsen, die aber deutlich ansteigen können.
+      csRegex("bedeutete?"),
+      csRegex("das|dies")
     ),
     Arrays.asList(
       csRegex("das|es|dies"),

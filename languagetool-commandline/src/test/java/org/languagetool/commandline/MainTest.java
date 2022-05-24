@@ -313,7 +313,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue("Got: " + output, output.contains("\"sentence\":\"This is an test.\""));
     assertTrue("Doesn't display Time", !output.contains("Time: "));
     assertTrue("Json start check", output.contains("{\"software\":{\"name\":\"LanguageTool\",\"version\":"));
-    assertTrue("Json end check", output.endsWith("}]}"));
+    assertTrue("Json end check", output.endsWith("[]}"));
   }
 
   //test line mode vs. para mode

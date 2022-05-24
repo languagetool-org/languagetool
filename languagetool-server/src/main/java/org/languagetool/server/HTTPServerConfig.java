@@ -55,6 +55,8 @@ public class HTTPServerConfig {
   protected boolean verbose = false;
   protected boolean publicAccess = false;
   protected int port = DEFAULT_PORT;
+  protected int minPort;
+  protected int maxPort;
   protected String allowOriginUrl = null;
 
   protected boolean logIp = true;
@@ -187,12 +189,12 @@ public class HTTPServerConfig {
     "keystore", "password", "maxTextLengthPremium", "maxTextLengthAnonymous", "maxTextLengthLoggedIn", "gracefulDatabaseFailure",
     "ngramLangIdentData",
     "dbTimeoutSeconds", "dbErrorRateThreshold", "dbTimeoutRateThreshold", "dbDownIntervalSeconds",
-    "redisUseSSL", "redisTimeoutMilliseconds", "redisConnectionTimeoutMilliseconds",
+    "redisDatabase", "redisUseSSL", "redisTimeoutMilliseconds", "redisConnectionTimeoutMilliseconds",
     "anonymousAccessAllowed",
     "premiumAlways",
     "redisPassword", "redisHost", "redisCertificate", "redisKey", "redisKeyPassword",
     "redisUseSentinel", "sentinelHost", "sentinelPort", "sentinelPassword", "sentinelMasterId",
-    "dbLogging", "premiumOnly", "nerUrl");
+    "dbLogging", "premiumOnly", "nerUrl", "minPort", "maxPort" );
 
   /**
    * Create a server configuration for the default port ({@link #DEFAULT_PORT}).
@@ -252,8 +254,9 @@ public class HTTPServerConfig {
         case "--allow-origin":
           try {
             allowOriginUrl = args[++i];
-            if (allowOriginUrl.startsWith("--")) {
+            if (allowOriginUrl.startsWith("--")) {  // no parameter, next option starts instead
               allowOriginUrl = "*";
+              i--;
             }
           } catch (ArrayIndexOutOfBoundsException e) {
             allowOriginUrl = "*";
@@ -328,6 +331,8 @@ public class HTTPServerConfig {
         if (maxWorkQueueSize < 0) {
           throw new IllegalArgumentException("maxWorkQueueSize must be >= 0: " + maxWorkQueueSize);
         }
+        minPort = Integer.parseInt(getOptionalProperty(props, "minPort", "0"));
+        maxPort = Integer.parseInt(getOptionalProperty(props, "maxPort", "0"));
         String url = getOptionalProperty(props, "serverURL", null);
         setServerURL(url);
         String langModel = getOptionalProperty(props, "languageModel", null);
@@ -571,6 +576,14 @@ public class HTTPServerConfig {
 
   public int getPort() {
     return port;
+  }
+  
+  public int getMinPort() {
+    return minPort;
+  }
+
+  public int getMaxPort() {
+    return maxPort;
   }
 
   /**

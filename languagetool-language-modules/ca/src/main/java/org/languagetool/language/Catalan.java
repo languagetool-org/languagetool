@@ -188,6 +188,7 @@ public class Catalan extends Language {
       case "CONFUSIONS2": return 50;
       case "MOTS_NO_SEPARATS": return 40;
       case "REPETEAD_ELEMENTS": return 40;
+      case "ESPERANT_US_AGRADI": return 40;
       case "ESPAIS_SOBRANTS": return 40; // greater than L
       case "CONCORDANCES_CASOS_PARTICULARS": return 30;
       case "CONFUSIONS_PRONOMS_FEBLES": return 30; // greater than ES (DIACRITICS)
@@ -212,6 +213,7 @@ public class Catalan extends Language {
       case "CONCORDANCES_DET_NOM": return 5;
       case "DET_GN": return 5; // greater than DE_EL_S_APOSTROFEN
       case "VENIR_NO_REFLEXIU": return 5;
+      case "CASING_START": return -5;
       case "ARTICLE_TOPONIM_MIN": return -10; // lesser than CONTRACCIONS, CONCORDANCES_DET_NOM 
       case "PEL_QUE": return -10; // lesser than PEL_QUE_FA
       case "COMMA_LOCUTION": return -10;

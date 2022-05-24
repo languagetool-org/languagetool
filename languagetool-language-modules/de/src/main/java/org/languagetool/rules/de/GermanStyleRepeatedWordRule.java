@@ -175,7 +175,11 @@ public class GermanStyleRepeatedWordRule extends AbstractStyleRepeatedWordRule {
     if (testTokenText.length() - tokenText.length() < 3) {
       return false;
     }
-    if (StringTools.uppercaseFirstChar(testTokenText).startsWith(StringTools.uppercaseFirstChar(tokenText))) {
+    String lowerTokenText = StringTools.lowercaseFirstChar(tokenText);
+    if (lowerTokenText.equals("frei")) {
+      return false;
+    }
+    if (StringTools.lowercaseFirstChar(testTokenText).startsWith(lowerTokenText)) {
       String word = testTokenText.substring(tokenText.length());
       if (isCorrectSpell(word)) {
         return true;
@@ -187,7 +191,7 @@ public class GermanStyleRepeatedWordRule extends AbstractStyleRepeatedWordRule {
       }
 //      throw new IllegalStateException("Kein Wort 2. Teil gefunden: " + testTokenText + ", Wort: " + word);
       return false;
-    } else if (testTokenText.endsWith(StringTools.lowercaseFirstChar(tokenText))) {
+    } else if (testTokenText.endsWith(lowerTokenText)) {
       String word = testTokenText.substring(0, testTokenText.length() - tokenText.length());
       if (isCorrectSpell(word)) {
         return true;
@@ -224,6 +228,12 @@ public class GermanStyleRepeatedWordRule extends AbstractStyleRepeatedWordRule {
     if ((token1.hasLemma("nah") && token1.hasLemma("nächst") && !token2.hasLemma("nächst")) || 
         (token2.hasLemma("nah") && token2.hasLemma("nächst") && !token1.hasLemma("nächst"))) {
       return true;
+    } else {
+      if(token1.hasLemma("gut") && 
+          ((token1.getToken().startsWith("gut") && !token2.getToken().startsWith("gut")) || 
+           (token2.getToken().startsWith("gut") && !token1.getToken().startsWith("gut")))) {
+        return true;
+      }
     }
     return false;
   }

@@ -59,10 +59,14 @@ public class LanguageIdentifier {
   // languages that we offer profiles for as they are not yet supported by language-detector:
   private static final List<String> externalLangCodes = Arrays.asList("eo");
   // fall back to checking against list of common words if fasttext probability is lower than this:
-  private static final float THRESHOLD = 0.85f;
-  //private static final float THRESHOLD = 0.95f;   // 7.39
-  //private static final float THRESHOLD = 0.975f;  // 7.228 
-  //private static final float THRESHOLD = 1.0f;    // 7.0
+  private static final float FASTTEXT_CONFIDENCE_THRESHOLD = 0.85f;
+  // Result ('Avg. minimum chars') of LanguageDetectionMinLengthEval with MIN_INPUT_LEN=5 and MAX_INPUT_LEN=100,
+  // lower values = better:
+  //private static final float FASTTEXT_CONFIDENCE_THRESHOLD = 0.7f;    // 8.363
+  //private static final float FASTTEXT_CONFIDENCE_THRESHOLD = 0.85f;   // 8.282
+  //private static final float FASTTEXT_CONFIDENCE_THRESHOLD = 0.90f;   // 8.271
+  //private static final float FASTTEXT_CONFIDENCE_THRESHOLD = 0.95f;   // 8.249
+  //private static final float FASTTEXT_CONFIDENCE_THRESHOLD = 1.0f;    // 8.282
 
   private final LanguageDetector languageDetector;
   private final TextObjectFactory textObjectFactory;
@@ -241,15 +245,18 @@ public class LanguageIdentifier {
     }
     Map.Entry<String,Double> result = null;
     boolean fasttextFailed = false;
+    String source = "";
     if (fastText != null || ngram != null) {
       try {
         Map<String, Double> scores;
         boolean usingFastText = false;
         if ((cleanText.length() <= SHORT_ALGO_THRESHOLD || fastText == null) && ngram != null) {
           scores = ngram.detectLanguages(cleanText.trim(), additionalLangs);
+          source += "ngram";
         } else {
           usingFastText = true;
           scores = fastText.runFasttext(cleanText, additionalLangs);
+          source += "fasttext";
         }
         result = getHighestScoringResult(scores);
         /*if (result.getValue().floatValue() < THRESHOLD) {
@@ -257,7 +264,7 @@ public class LanguageIdentifier {
         } else {
           System.out.println("FastText above threshold: " + result.getValue().floatValue() + " for " + cleanText.length() + " chars");
         }*/
-        if ((usingFastText && result.getValue().floatValue() < THRESHOLD) || result.getKey().equals("zz")) {
+        if ((usingFastText && result.getValue().floatValue() < FASTTEXT_CONFIDENCE_THRESHOLD) || result.getKey().equals("zz")) {
           //System.out.println(cleanText + " ->" + result.getValue().floatValue() + " " + result.getKey());
           CommonWords commonWords = new CommonWords();
           Map<Language, Integer> lang2Count = commonWords.getKnownWordsPerLanguage(cleanText);
@@ -276,6 +283,7 @@ public class LanguageIdentifier {
               scores.put(langCode, Double.valueOf(entry.getValue()));
             }
           }
+          source += "+commonwords";
           result = getHighestScoringResult(scores);
         }
         if (preferredLangs.contains("no") && !preferredLangs.contains("da")) {
@@ -283,11 +291,12 @@ public class LanguageIdentifier {
           scores.keySet().removeIf(k -> k.equals("da"));
           result = getHighestScoringResult(scores);
         }
-        if (cleanText.length() < CONSIDER_ONLY_PREFERRED_THRESHOLD && preferredLangs.size() > 0) {
+        if (cleanText.length() <= CONSIDER_ONLY_PREFERRED_THRESHOLD && preferredLangs.size() > 0) {
           //System.out.println("remove? " + preferredLangs + " <-> " + scores);
           scores.keySet().removeIf(k -> !preferredLangs.contains(k));
           //System.out.println("-> " + b + " ==> " + scores);
           result = getHighestScoringResult(scores);
+          source += "+prefLang";
         }
         // Calculate a trivial confidence value because fasttext's confidence is often
         // wrong for short cleanText (e.g. 0.99 for a test that's misclassified). Don't
@@ -320,7 +329,7 @@ public class LanguageIdentifier {
     if (result != null && result.getKey() != null && canLanguageBeDetected(result.getKey(), additionalLangs)) {
       return new DetectedLanguage(null,
         Languages.getLanguageForShortCode(result.getKey(), additionalLangs),
-        result.getValue().floatValue());
+        result.getValue().floatValue(), source);
     } else {
       return null;
     }

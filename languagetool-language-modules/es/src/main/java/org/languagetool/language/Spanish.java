@@ -254,10 +254,7 @@ public class Spanish extends Language implements AutoCloseable {
     }
 
     if (id.startsWith("AI_ES_HYDRA_LEO")) { // prefer more specific rules (also speller)
-      if (id.startsWith("AI_ES_HYDRA_LEO_MISSING_COMMA")) {
-        return -51; // prefer comma style rules.
-      }
-      return -11;
+      return -101;
     }
 
     //STYLE is -50
@@ -285,16 +282,5 @@ public class Spanish extends Language implements AutoCloseable {
       newRuleMatches.add(newMatch);
     }
     return newRuleMatches;
-  }
-
-  @Override
-  public List<Rule> getRelevantRemoteRules(ResourceBundle messageBundle, List<RemoteRuleConfig> configs, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages, boolean inputLogging) throws IOException {
-    List<Rule> rules = new ArrayList<>(super.getRelevantRemoteRules(
-      messageBundle, configs, globalConfig, userConfig, motherTongue, altLanguages, inputLogging));
-
-    // no description needed - matches based on automatically created rules with descriptions provided by remote server
-    rules.addAll(GRPCRule.createAll(this, configs, inputLogging,
-      "AI_ES_", "INTERNAL - dynamically loaded rule supported by remote server"));
-    return rules;
   }
 }

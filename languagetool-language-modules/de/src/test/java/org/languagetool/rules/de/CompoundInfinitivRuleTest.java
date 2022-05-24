@@ -52,8 +52,10 @@ public class CompoundInfinitivRuleTest {
     assertThat(rule.match(lt.getAnalyzedSentence("Fang an zu zählen.")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Er hatte nichts weiter zu sagen")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Sie strengte sich an zu schwimmen.")).length, is(0));
+    assertThat(rule.match(lt.getAnalyzedSentence("Er erhob sich von dem Stuhl, auf dem er gesessen hatte, und begann im Zimmer auf und ab zu schreiten.")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Tom stand auf und fing an, auf und ab zu gehen.")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Aber um auf Nummer sicher zu gehen, schrieb er es auf.")).length, is(0));
+    assertThat(rule.match(lt.getAnalyzedSentence("Sie scheint aus Spanien heraus zu kaufen.")).length, is(0));
   }
 
 }
