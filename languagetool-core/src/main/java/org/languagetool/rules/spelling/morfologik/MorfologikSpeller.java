@@ -131,8 +131,18 @@ public class MorfologikSpeller {
     List<Speller.CandidateData> replacementCandidates;
     if (word.length() < 50) {   // slow for long words (the limit is arbitrary)
       replacementCandidates = speller.findReplacementCandidates(word);
+      //CS304 Issue link: https://github.com/languagetool-org/languagetool/issues/4704
+      final int commonProperNounMinFrequency = 10;
+      String lowerWord = word.toLowerCase();
+      String firstUpperWord = Character.toUpperCase(lowerWord.charAt(0)) + lowerWord.substring(1);
+      int currentProperNounFrequency = speller.getFrequency(firstUpperWord);
       for (Speller.CandidateData candidate : replacementCandidates) {
-        suggestions.add(new WeightedSuggestion(candidate.getWord(), candidate.getDistance()));
+        if (candidate.getWord().equals(firstUpperWord) && commonProperNounMinFrequency > currentProperNounFrequency) {
+          suggestions.add(new WeightedSuggestion(candidate.getWord(), candidate.getDistance() + 26));
+        }
+        else {
+          suggestions.add(new WeightedSuggestion(candidate.getWord(), candidate.getDistance()));
+        }
       }
     }
     List<Speller.CandidateData> runOnCandidates = speller.replaceRunOnWordCandidates(word);
