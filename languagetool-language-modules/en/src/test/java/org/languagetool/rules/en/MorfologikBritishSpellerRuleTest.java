@@ -137,36 +137,4 @@ public class MorfologikBritishSpellerRuleTest extends AbstractEnglishSpellerRule
     }
   }
 
-
-  //CS304 (manually written) Issue link: https://github.com/languagetool-org/languagetool/issues/4704
-  @Test
-  public void testMorfologikSpellerSuggestionOrder1() throws IOException {
-    JLanguageTool lt = new JLanguageTool(new BritishEnglish());
-    // comment in to use statistical ngram data:
-    //lt.activateLanguageModelRules(new File("/data/google-ngram-data"));
-    List<RuleMatch> matches = lt.check("I want to handel it.");
-    for (RuleMatch match : matches) {
-      System.out.println("Potential error at characters " +
-        match.getFromPos() + "-" + match.getToPos() + ": " +
-        match.getMessage());
-      System.out.println("Suggested correction(s): " +
-        match.getSuggestedReplacements());
-    }
-  }
-
-  //CS304 (manually written) Issue link: https://github.com/languagetool-org/languagetool/issues/4704
-  @Test
-  public void testMorfologikSpellerSuggestionOrder2() throws IOException {
-    JLanguageTool lt = new JLanguageTool(new BritishEnglish());
-    // comment in to use statistical ngram data:
-    //lt.activateLanguageModelRules(new File("/data/google-ngram-data"));
-    List<RuleMatch> matches = lt.check("Each monday is hard!");
-    for (RuleMatch match : matches) {
-      System.out.println("Potential error at characters " +
-        match.getFromPos() + "-" + match.getToPos() + ": " +
-        match.getMessage());
-      System.out.println("Suggested correction(s): " +
-        match.getSuggestedReplacements());
-    }
-  }
 }
