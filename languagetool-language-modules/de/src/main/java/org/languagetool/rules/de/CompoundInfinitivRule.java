@@ -107,6 +107,12 @@ public class CompoundInfinitivRule extends Rule {
       new PatternTokenBuilder().posRegex("ADV.*").min(0).build(),
       token("runter"),
       token("zu")
+    ),
+    Arrays.asList(
+      // Sie scheint aus Spanien heraus zu kaufen
+      new PatternTokenBuilder().token("aus").setSkip(3).build(),
+      token("heraus"),
+      token("zu")
     )
   );
   

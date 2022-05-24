@@ -18209,33 +18209,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example><marker>Nachdem</marker> Essen gegen Stuttgart verloren hatte, waren wir geknickt.</example>
                 <example> Im Schweizer Skiort Zermatt herrscht derzeit Hochbetrieb und trotzdem Stillstand.</example>
             </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token postag="SENT_START"/>
-                    <marker>
-                        <token>Seit</token>
-                        <token>dem</token>
-                    </marker>
-                    <token postag="PRO:PER:NOM:.+" postag_regexp="yes"/>
-                </pattern>
-                <message>Möglicherweise muss <suggestion>\2\3</suggestion> (als Konjunktion im Sinne von <suggestion>\2</suggestion>) zusammengeschrieben werden, sofern es sich hier nicht um einen elliptischen Satz handelt, z.B. '[Der Tag] Seit dem er das tut'.</message>
-                <example correction="Seitdem|Seit"><marker>Seit dem</marker> er gewonnen hat, ist er nicht zu bremsen.</example>
-                <example><marker>Seit dem</marker> Essen bin ich müde.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token postag="SENT_START"/>
-                    <marker>
-                        <token regexp="yes">Nach|In</token>
-                        <token>dem</token>
-                    </marker>
-                    <token postag="PRO:(PER|DEM):NOM:.+" postag_regexp="yes"><exception>selbst</exception><exception>selber</exception></token>
-                </pattern>
-                <message>Möglicherweise muss <suggestion>\2\3</suggestion> (als Konjunktion) zusammengeschrieben werden, sofern es sich hier nicht um einen elliptischen Satz handelt, z.B. '[Das Spiel] In dem er gewonnen hat'.</message>
-                <example correction="Nachdem"><marker>Nach dem</marker> er gewonnen hatte, war er nicht zu bremsen.</example>
-                <example correction="Nachdem"><marker>Nach dem</marker> dieser gewonnen hatte, war er nicht zu bremsen.</example>
-                <example><marker>Nach dem</marker> Essen zwei Tabletten.</example>
-            </rule>
         </rulegroup>
         <rule id="AUS_AN_DEREN" name="'aus an deren (anderen)'">
             <pattern>
@@ -18393,18 +18366,62 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="NACH_DEM_VS_NACHDEM" name="'Nach dem (Nachdem) ...'">
+            <antipattern>
+                <token postag="SENT_START" />
+                <token regexp="yes" case_sensitive="yes">nach|in|seit</token>
+            </antipattern>
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"/>
                     <marker>
                         <token>Nach</token>
-                        <token>dem</token>
+                        <token case_sensitive="yes">dem</token>
                     </marker>
                     <token postag="PRO:PER:NOM:.+|ART:DEF:NOM:.+" postag_regexp="yes"/>
                 </pattern>
                 <message>Meinten Sie <suggestion>\2\3</suggestion>? Die Konjunktion 'nachdem' wird zusammengeschrieben.</message>
                 <short>&getrennt;.</short>
                 <example correction="Nachdem"><marker>Nach dem</marker> er sie gesehen hatte, war er glücklich.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token>Seit</token>
+                        <token case_sensitive="yes">dem</token>
+                    </marker>
+                    <token postag="PRO:PER:NOM:.+" postag_regexp="yes"/>
+                </pattern>
+                <message>Möglicherweise muss <suggestion>\2\3</suggestion> (als Konjunktion im Sinne von <suggestion>\2</suggestion>) zusammengeschrieben werden, sofern es sich hier nicht um einen elliptischen Satz handelt, z.B. '[Der Tag] Seit dem er das tut'.</message>
+                <example correction="Seitdem|Seit"><marker>Seit dem</marker> er gewonnen hat, ist er nicht zu bremsen.</example>
+                <example><marker>Seit dem</marker> Essen bin ich müde.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token regexp="yes">Nach|In</token>
+                        <token case_sensitive="yes">dem</token>
+                    </marker>
+                    <token postag="PRO:(PER|DEM):NOM:.+" postag_regexp="yes"><exception>selbst</exception><exception>selber</exception></token>
+                </pattern>
+                <message>Möglicherweise muss <suggestion>\2\3</suggestion> (als Konjunktion) zusammengeschrieben werden, sofern es sich hier nicht um einen elliptischen Satz handelt, z.B. '[Das Spiel] In dem er gewonnen hat'.</message>
+                <example correction="Nachdem"><marker>Nach dem</marker> er gewonnen hatte, war er nicht zu bremsen.</example>
+                <example correction="Nachdem"><marker>Nach dem</marker> dieser gewonnen hatte, war er nicht zu bremsen.</example>
+                <example><marker>Nach dem</marker> Essen zwei Tabletten.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes" min="0">doch|und</token>
+                    <marker>
+                        <token>nach</token>
+                        <token case_sensitive="yes">dem</token>
+                    </marker>
+                    <token postag="ART.*" postag_regexp="yes" />
+                </pattern>
+                <message>Möglicherweise muss <suggestion>\3\4</suggestion> (als Konjunktion) zusammengeschrieben werden, sofern es sich hier nicht um einen elliptischen Satz handelt, z.B. '[Das Spiel] In dem er gewonnen hat'.</message>
+                <example correction="Nachdem"><marker>Nach dem</marker> der Spieler gewonnen hatte, war er nicht zu bremsen.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SO_BALD_VS_SOBALD" name="'sobald (so bald) wie möglich' etc.">
@@ -27789,7 +27806,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
-        <rulegroup id="KOMMT_MIR_SPANISCH_VOR" name="kommt mir Spanisch (spanisch) vor" default="temp_off">
+        <rulegroup id="KOMMT_MIR_SPANISCH_VOR" name="kommt mir Spanisch (spanisch) vor">
             <url>https://de.wikipedia.org/wiki/Das_kommt_mir_spanisch_vor</url>
             <rule>
                 <pattern>
@@ -49071,6 +49088,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
+        <rulegroup id="ALLES_GUT" name="alles Gut (gut/Gute)" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>alles</token>
+                    <marker>
+                        <token>gut</token>
+                    </marker>
+                    <token regexp="yes">zu[rm]?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Gute</suggestion>?</message>
+                <example correction="Gute">Alles <marker>Gut</marker> zum Geburtstag.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>alles</token>
+                    <token case_sensitive="yes">Gut</token>
+                </pattern>
+                <message>Das Adjektiv "gut" wird kleingeschrieben. Oder meinten Sie die Glückwunsch-Formel "Alles Gute"?</message>
+                <suggestion>\1 gut</suggestion>
+                <suggestion>\1 Gute</suggestion>
+                <example correction="Alles gut|Alles Gute"><marker>Alles Gut</marker>!</example>
+                <example type="triggers_error">1344 wurde alles Gut, Lehen, Gericht, Vogtei, und Wald von Hartneid von Kchranichberg, an den Fürsten Herzog Albrecht II. in Österreich verkauft.</example>
+            </rule>
+        </rulegroup>
         <rule id="ZWEI_GESCHOESSIG" name="3-geschössig -> 3-geschossig">
             <pattern>
                 <token regexp="yes" case_sensitive="yes">(\d+-?)gesch(ö|oe)ssig(e[srnm]?)?</token>
@@ -61806,6 +61847,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Kann man das nicht, sollte man sie als Möglichkeit sehen.</example>
                 <example>Lässt man sie los, erlischt die Lampe.</example>
                 <example>Sollte eine Buchung storniert werden müssen, bitten wir um eine möglichst umgehende schriftliche Benachrichtigung.</example>
+                <example correction="?">Kann das Problem auf Anhieb gelöst werden<marker>.</marker></example>
+                <example correction="?">Kann das Problem auf Anhieb verschwinden<marker>.</marker></example>
+                <example correction="?">Kann das Problem auf Anhieb nicht verschwinden<marker>.</marker></example>
+                <example type="triggers_error">Kann das Problem auf Anhieb nicht finden.</example><!-- Richtig: Ich kann das Problem -->
             </rule>
             <rule><!-- 10 -->
                 <antipattern>

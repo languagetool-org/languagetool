@@ -2446,6 +2446,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "brilliantem": return topMatch("brillantem");
       case "Billiard": return topMatch("Billard");
       case "garnicht": return topMatch("gar nicht");
+      case "garnich": return topMatch("gar nicht");
       case "garnichts": return topMatch("gar nichts");
       case "assozial": return topMatch("asozial");
       case "assoziale": return topMatch("asoziale");
@@ -2552,9 +2553,15 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "raufhaut": return topMatch("draufhaut");
       case "raufhaute": return topMatch("draufhaute");
       case "raufhauten": return topMatch("draufhauten");
+      case "wohlmöglich": return topMatch("womöglich");
       case "Click": return topMatch("Klick");
       case "Clicks": return topMatch("Klicks");
       case "jenachdem": return topMatch("je nachdem");
+      case "bsp": return topMatch("bspw");
+      case "vorallem": return topMatch("vor allem");
+      case "draussen": return topMatch("draußen");
+      case "ürbigens": return topMatch("übrigens");
+      case "Whatsapp": return topMatch("WhatsApp");
     }
     return Collections.emptyList();
   }
