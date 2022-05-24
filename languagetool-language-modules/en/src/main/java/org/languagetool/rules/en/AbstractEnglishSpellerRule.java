@@ -149,6 +149,38 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     this(messages, language, null, Collections.emptyList());
   }
 
+
+  //CS304 Issue link: https://github.com/languagetool-org/languagetool/issues/4704
+  /**
+   * Reorder the suggestions of English word.
+   * The first 3 suggestions would be sorted by frequency.
+   * @param suggestions old suggestions order
+   * @param word target word
+   * @return new suggestions order
+   */
+  @Override
+  protected List<SuggestedReplacement> orderSuggestions(List<SuggestedReplacement> suggestions, String word) {
+    List<SuggestedReplacement> newOrderSuggestions = new ArrayList<>();
+    if (suggestions.size() > 3) {
+      List<SuggestedReplacement> toCompare = suggestions.subList(0, 3);
+      toCompare.sort((o1, o2) -> speller1.getFrequency(o2.getReplacement()) - speller1.getFrequency(o1.getReplacement()));
+      newOrderSuggestions.addAll(toCompare);
+      newOrderSuggestions.addAll(suggestions.subList(3, suggestions.size()));
+    }
+    else if (suggestions.size() == 2) {
+      if (speller1.getFrequency(suggestions.get(0).getReplacement()) <
+        speller1.getFrequency(suggestions.get(1).getReplacement())) {
+        newOrderSuggestions.add(suggestions.get(1));
+        newOrderSuggestions.add(suggestions.get(0));
+      }
+    }
+    else {
+      return suggestions;
+    }
+
+    return newOrderSuggestions;
+  }
+
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     RuleMatch[] matches = super.match(sentence);
