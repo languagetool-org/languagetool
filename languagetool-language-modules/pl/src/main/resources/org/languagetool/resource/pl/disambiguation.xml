@@ -2537,6 +2537,18 @@
              outputform="ale[ale/conj]">Nie wiem, <marker>ale</marker> czemu pytasz?</example>
     </rule>
 
+
+    <rule id="ANI_ANI" name="ani, ani – spójniki">
+        <pattern>
+            <marker>
+            <token skip="-1" postag="conj">ani</token>
+            </marker>
+            <token postag="interp:comma">,</token>
+            <token postag="conj">ani</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
     <rule id="JESLI_TO" name="jeśli/jeżeli, to...">
         <pattern>
             <token skip="-1" regexp="yes">jeśli.*|jeżeli.*<exception scope="next" postag="comp:comma"/></token>
@@ -4032,7 +4044,7 @@
               <marker>
                 <token postag="ppron12:sg:dat:m1.m2.m3.f.n1.n2:sec:nakc"/>
               </marker>
-                <token inflected="yes" regexp="yes">(?:nie)?(?:znany|obojętny|potrzebny|wdzięczny|wierny|obcy|drogi|zbędny|rad|wstrętny|straszny)</token>
+                <token inflected="yes" regexp="yes">(?:nie)?(?:znany|obojętny|potrzebny|wdzięczny|wierny|obcy|drogi|zbędny|rad|wstrętny|straszny|życzliwy)|(?:winny|wiadomy)</token>
           </pattern>
         <disambig postag="ppron12:sg:dat:m1.m2.m3.f.n1.n2:sec:nakc"/>
     </rule>
@@ -9986,26 +9998,30 @@
     <rule id="UNIFY_PROPER_NAMES" name="unifikacja nazwisk">
         <pattern case_sensitive="yes">
             <unify><feature id="case"/><feature id="gender"/><feature id="number"/>
-                <token postag="subst.*" postag_regexp="yes" regexp="yes">\p{Lu}\p{Ll}+</token>
-                <token postag="subst.*" postag_regexp="yes" regexp="yes">\p{Lu}\p{Ll}+</token>
+                <token postag="subst.*" postag_regexp="yes" regexp="yes" inflected="yes">\p{Lu}\p{Ll}+</token>
+                <token postag="subst.*" postag_regexp="yes" regexp="yes" inflected="yes">\p{Lu}\p{Ll}+</token>
             </unify>
         </pattern>
         <disambig action="unify"/>
         <example type="ambiguous" inputform="Aleksander[Aleksander/subst:sg:nom:m1,Aleksandra/subst:pl:gen:f]" outputform="Aleksander[Aleksander/subst:sg:nom:m1]"><marker>Aleksander</marker> Kwaśniewski</example>
+        <example type="untouched">Ani Tomek, ani Maria nie lubią bigosu.</example>
     </rule>
 
     <rule id="ADV_ADJ_SUBST" name="adv + subst/">
         <pattern>
-            <token postag="adv.*" postag_regexp="yes"></token>
+            <token postag="adv.*" postag_regexp="yes"><exception postag="subst.*" postag_regexp="yes"/></token>
             <marker>
                 <and>
-                <token postag="adj.*" postag_regexp="yes"></token>
-                <token postag="subst.*" postag_regexp="yes"/>
+                    <token postag="adj.*" postag_regexp="yes"></token>
+                    <token postag="subst.*" postag_regexp="yes">
+                        <exception inflected="yes">to</exception>
+                    </token>
                 </and>
             </marker>
         </pattern>
         <disambig action="remove" postag="subst.*"/>
         <example type="ambiguous" inputform="prosta[prosta/subst:sg:nom:f,prosta/subst:sg:voc:f,prosty/adj:sg:nom.voc:f:pos]" outputform="prosta[prosty/adj:sg:nom.voc:f:pos]">Szczególnie <marker>prosta</marker> była wymiana.</example>
+        <example type="untouched">Lubię ekstremalne zimno Alaski.</example>
     </rule>
 
     <!-- now not that greedy :) -->
@@ -10481,7 +10497,7 @@
     <rule id="PPRON3_NOM_VERB_ADJ" name="zaimek osobowy 3 osoby / subst + czasownik + adj - unifikacja">
         <pattern>
             <unify><feature id="number"/>
-                <token postag="(?:ppron3|subst):.*nom.*" postag_regexp="yes"/>
+                <token postag="(?:ppron3|subst|num):.*nom.*" postag_regexp="yes"/>
                 <token postag="verb:.*:ter.*" postag_regexp="yes" inflected="yes">być</token>
                 <token postag="(?:adj|ppas).*nom.*" postag_regexp="yes"/>
             </unify>
@@ -11953,6 +11969,14 @@
                 <token postag="subst.*acc.*" postag_regexp="yes" regexp="yes">ochotę|wrażenie|nadzieję|moc|zamiar|pojęcie|gorączkę|rację|przeczucie|pewność|odwagę|zwyczaj|rozkaz|wątpliwości|wątpliwość|polecenie|wadę|słuszność|siedzibę|problem|cechę|zaletę|prawo</token>
                 <token postag="verb.*" postag_regexp="yes" inflected="yes">mieć</token>
             </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+    <rule name="mieć dość" id="miec_dosc">
+        <pattern>
+            <token postag="(verb|pact).*" postag_regexp="yes" inflected="yes">mieć</token>
+            <token postag="qub">dość</token>
         </pattern>
         <disambig action="filterall"/>
     </rule>
