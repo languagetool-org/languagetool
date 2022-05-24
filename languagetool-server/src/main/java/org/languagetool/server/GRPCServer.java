@@ -50,6 +50,7 @@ public class GRPCServer extends ProcessingServerImplBase
         .addAllSentences(sentences.stream().map(GRPCUtils::toGRPC).collect(Collectors.toList()))
         .build();
       responseObserver.onNext(response);
+      responseObserver.onCompleted();
     } catch (Exception e) {
       log.warn("Analyze request failed", e);
       responseObserver.onError(e);
@@ -75,6 +76,7 @@ public class GRPCServer extends ProcessingServerImplBase
         .addAllMatches(results.getRuleMatches().stream().map(GRPCUtils::toGRPC).collect(Collectors.toList()))
         .build();
       responseObserver.onNext(response);
+      responseObserver.onCompleted();
     } catch (Exception e) {
       log.warn("Process request failed", e);
       responseObserver.onError(e);
