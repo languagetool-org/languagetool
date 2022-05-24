@@ -3801,14 +3801,7 @@ Para isso sou todo ouvidos.
 		  <token postag='AQ0MS0' postag_regexp='no'/>
       </antipattern>
 <!-- MARCOAGPINTO 2020-06-20 *END* -->
-<!-- MARCOAGPINTO 2020-06-22 *START* -->
-<!-- "Aos sábados trabalho só pela manhã." -->
-      <antipattern>  
-		  <token regexp='no'>aos</token>
-		  <token postag='NC[CM]P000' postag_regexp='yes'/>
-		  <token postag='V.+|NP[FM]S000' postag_regexp='yes'/>
-      </antipattern>
-<!-- MARCOAGPINTO 2020-06-22 *END* -->
+
 <!-- MARCOAGPINTO 2020-07-02 (2-JUL-2020+) *START* -->
 <!-- "Estes são os monumentos Património da Humanidade." -->
       <antipattern>  		  
@@ -4120,6 +4113,24 @@ Deus nos deu o dom da vida, cabe a nós viver bem.
 	  </antipattern>
 <!-- MARCOAGPINTO 2022-05-24 (24-MAY-2022+) *END* -->
 
+<!-- MARCOAGPINTO 2022-05-24 (Checked/Enhanced) (24-MAY-2022+) *START* -->
+<!--
+Aos sábados trabalho só pela manhã.
+O rei permitiu aos escravos cantar.
+Não é possivel aos humanos viver para sempre.
+A interpretação psicológica dos sonhos deve muito a Freud.
+Eu até aos domingos trabalho.
+Quando pego nas cores pinto tudo.
+-->
+      <antipattern>
+		<token postag='SPS00:[DP][ADIP]..P.+' postag_regexp='yes'/>
+		<token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
+		<token postag='V.+' postag_regexp='yes'>
+            <exception scope="next" postag_regexp='no' postag='CS'/>
+		</token>
+	  </antipattern>
+<!-- MARCOAGPINTO 2022-05-24 (Checked/Enhanced) (24-MAY-2022+) *END* -->
+
       <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
         <marker>
@@ -4210,15 +4221,23 @@ Deus nos deu o dom da vida, cabe a nós viver bem.
 	  <example>Setenta porcento dos britânicos não falam um segundo idioma.</example>
 
 	  <example>Gostei bastante também de tuas colocações e “com que olhos vê o mundo e a Vida”!</example>
-	  
+
 	  <example>Ninguém quis comer.</example>
 	  <example>É por isso que quis falar com vocês.</example>
 	  <example>Quis saber se havia algo de novo.</example>
-	  
+
 	  <example>Tinhas a mesma vontade de os comer?</example>
 	  <example>Esta funcionalidade elimina a necessidade de reencaminhar documentos para um computador para os poder imprimir.</example>
 	  <example>Deus nos deu o dom da vida, cabe a nós viver bem.</example>
+
+	  <example>Aos sábados trabalho só pela manhã.</example>
+	  <example>O rei permitiu aos escravos cantar.</example>
+	  <example>Não é possivel aos humanos viver para sempre.</example>
+	  <example>A interpretação psicológica dos sonhos deve muito a Freud.</example>
+	  <example>Eu até aos domingos trabalho.</example>
+	  <example>Quando pego nas cores pinto tudo.</example>
     </rule>
+
     <rule>
       <antipattern>
           <token postag_regexp='yes' regexp='yes' postag='R.+'>&contracoes_MP;
