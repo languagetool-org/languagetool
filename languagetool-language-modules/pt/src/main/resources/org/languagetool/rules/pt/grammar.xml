@@ -4086,10 +4086,10 @@ Setenta porcento dos britânicos não falam um segundo idioma.
 Gostei bastante também de tuas colocações e “com que olhos vê o mundo e a Vida”!
 -->
       <antipattern>
-		<token postag='NC.+|AQ.+' postag_regexp='yes'/>
+		<token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
 		<token postag='VMIP3S0|VMM02S0' postag_regexp='yes'/>
-		<token postag='D[ADIP]..S.+|SPS00' postag_regexp='yes'/>
-		<token postag='AQ..S.+|NC.S.+' postag_regexp='yes'>
+		<token postag='[DP][ADIP]..S.+|SPS00|CC|CS|RG' postag_regexp='yes'/>
+		<token postag='AQ..S.+|NC.S.+|NP.+' postag_regexp='yes'>
             <exception postag_regexp='yes' postag='V.+'/>
 		</token>
 	  </antipattern>
@@ -4103,6 +4103,19 @@ Quis saber se havia algo de novo.
 -->
       <antipattern>
 		<token postag='V..S.S.+' postag_regexp='yes'/>
+		<token postag='VMN0000' postag_regexp='no'/>
+	  </antipattern>
+<!-- MARCOAGPINTO 2022-05-24 (24-MAY-2022+) *END* -->
+
+<!-- MARCOAGPINTO 2022-05-24 (24-MAY-2022+) *START* -->
+<!--
+Tinhas a mesma vontade de os comer?
+Esta funcionalidade elimina a necessidade de reencaminhar documentos para um computador para os poder imprimir.
+Deus nos deu o dom da vida, cabe a nós viver bem.
+-->
+      <antipattern>
+		<token postag='SPS00|CC|CS|RG' postag_regexp='yes'/>
+		<token postag='[DP][ADIP]..P.+' postag_regexp='yes'/>	
 		<token postag='VMN0000' postag_regexp='no'/>
 	  </antipattern>
 <!-- MARCOAGPINTO 2022-05-24 (24-MAY-2022+) *END* -->
@@ -4201,6 +4214,10 @@ Quis saber se havia algo de novo.
 	  <example>Ninguém quis comer.</example>
 	  <example>É por isso que quis falar com vocês.</example>
 	  <example>Quis saber se havia algo de novo.</example>
+	  
+	  <example>Tinhas a mesma vontade de os comer?</example>
+	  <example>Esta funcionalidade elimina a necessidade de reencaminhar documentos para um computador para os poder imprimir.</example>
+	  <example>Deus nos deu o dom da vida, cabe a nós viver bem.</example>
     </rule>
     <rule>
       <antipattern>
