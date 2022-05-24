@@ -23,11 +23,13 @@ import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.language.LanguageIdentifier;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Evaluate the quality of our language detection. Also see LanguageDetectionMinLengthEval.
@@ -57,17 +59,17 @@ class LanguageDetectionEval {
     if (stream == null) {
       throw new RuntimeException("No eval data found for " + language);
     } else {
-      float errors = 0;
+      float errorRatioSum = 0.0f;
       List<String> list = getLines(stream);
       for (String line : list) {
         try {
-          errors += getWrongDetectionRatio(line, language, MIN_CHARACTERS);
+          errorRatioSum += getWrongDetectionRatio(line, language, MIN_CHARACTERS);
         } catch (DetectionException e) {
-          //System.out.println("FAIL: " + e.getMessage());
+          System.out.println("FAIL: " + e.getMessage());
         }
       }
-      float avgErrors = errors / list.size();
-      return avgErrors;
+      float avgErrorRatio = errorRatioSum / list.size();
+      return avgErrorRatio;
     }
   }
 
@@ -88,8 +90,13 @@ class LanguageDetectionEval {
         errors++;
       }
     }
-    return (float) errors / checks;
+    if (checks == 0) {
+      return 0.0f;
+    } else {
+      return (float) errors / checks;
+    }
   }
+
   private List<String> getLines(InputStream stream) throws IOException {
     List<String> lines = CharStreams.readLines(new InputStreamReader(stream));
     List<String> result = new ArrayList<>();
@@ -108,11 +115,12 @@ class LanguageDetectionEval {
     int languageCount = 0;
     for (Language language : Languages.get()) {
       //if (!(language.getShortCode().equals("de") || language.getShortCode().equals("en"))) { continue; }
+      //if (!language.getShortCode().equals("fr")) { continue; }
       if (language.isVariant()) {
         continue;
       }
       float errors = eval.evaluate(language);
-      System.out.printf("Average Errors: %.2f%%%n", errors * 100f);
+      System.out.printf(Locale.ENGLISH, "Average Errors: %.2f%%%n", errors * 100f);
       errorsTotal += errors;
       languageCount++;
     }
@@ -120,12 +128,12 @@ class LanguageDetectionEval {
     System.out.println();
     long totalTime = endTime - startTime;
     float timePerInput = (float)totalTime / eval.totalInputs;
-    System.out.printf("Time: " + totalTime + "ms = %.2fms per input\n", timePerInput);
+    System.out.printf(Locale.ENGLISH, "Time: " + totalTime + "ms = %.2fms per input\n", timePerInput);
     float avgErrors =  errorsTotal / languageCount;
-    System.out.printf("Total avg. errors: %.2f%%\n", avgErrors * 100f);
+    System.out.printf(Locale.ENGLISH, "Total avg. errors: %.2f%%\n", avgErrors * 100f);
   }
 
-  class DetectionException extends RuntimeException {
+  static class DetectionException extends RuntimeException {
     DetectionException(String s) {
       super(s);
     }

@@ -179,6 +179,8 @@ public class VerbAgreementRuleTest {
     assertGood("Michael Redmond (geb. 1963, USA).");
     assertGood("Würd mich sehr freuen drüber.");
     assertGood("Es würd' ein jeder Doktor sein, wenn's Wissen einging wie der Wein.");
+    assertGood("Bald merkte er, dass er dank seines Talents nichts mehr in der österreichischen Jazzszene lernen konnte.");
+    assertGood("»Alles, was wir dank dieses Projektes sehen werden, wird für uns neu sein«, so der renommierte Bienenforscher.");
     // incorrect sentences:
     assertBad("Als Borcarbid weißt es eine hohe Härte auf.");
     assertBad("Das greift auf Vorläuferinstitutionen bist auf die Zeit von 1234 zurück.");

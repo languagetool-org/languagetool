@@ -2099,6 +2099,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rulegroup id="token_agreement_noun_noun" name="Узгодження: іменник-іменник">
+      <rule>
+      <!--
+        <antipattern>
+          <token postag_regexp="yes" postag="noun:anim:m:v_dav.*prop:fname"/>
+          <token postag_regexp="yes" postag="noun:anim:m:v_dav.*prop:lname"/>
+        </antipattern>
+        -->
+        <pattern>
+          <token postag_regexp="yes" postag="noun.*">
+            <exception postag_regexp="yes" postag="adj.*|.*pron.*|verb.*|.*prop.*"/>
+            <exception inflected="yes" regexp="yes">догода|пам'ятник|рік|інтерв'ю|коментар|допомога</exception>
+            <!--
+            <exception regexp="yes">місті</exception>
+            -->
+          </token>
+          <marker>
+            <token regexp="yes" postag_regexp="yes" postag="noun:inanim:m:v_dav.*">.*[ую]
+              <exception postag_regexp="yes" postag="noun:inanim:.:v_rod.*|adj.*|verb.*|.*(prop|alt|slang|arch).*"/>
+              <exception postag_regexp="yes" postag="noun:anim:m:.*"/>
+              <exception regexp="yes">ставку|плату|курку|дню|дрібку|соску|кулю|бутсу|динаміку|зморшку|тирсу|цукерку|точку|півдню</exception>
+            </token>
+          </marker>
+        </pattern>
+        <message>Можливо, має бути р.в.: <suggestion><match no="2" postag_regexp="yes" postag="(noun:inanim:m:v_)dav(.*)" postag_replace="$1rod$2"/></suggestion>?</message>
+        <example correction="білка">розчин <marker>білку</marker>.</example>
+        <example correction="об'єкта">здавання <marker>об'єкту</marker>.</example>
+        <example>сказати суду</example>
+        <example>кожному клаптику.</example>
+        <example>тягли за собою кару.</example>
+        <example>Андрію Садовому</example>
+        <example>не дати раду</example>
+        <example>сонцю золотому</example>
+        <example>Героя України провіднику</example>
+        <example>за поразку беру</example>
+        <example>пану директору</example>
+        <example>висловив догану Вальтеру</example>
+        <example>за цей злочин кару смертю</example>
+      </rule>
+    </rulegroup>
   </category>
 
   <category id="LOGICAL_ERRORS" name="Логічні помилки">

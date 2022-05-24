@@ -28,7 +28,7 @@ RB => Règles Brutes
     <!ENTITY prefixes "mini|anti|pré|nord|sud|néo|méga|ultra|pro|inter|micro|macro|sous|haut|auto|ré|super|vice|hyper|proto|grand|pseudo|multi|mi">
     <!ENTITY unites_temps "an|année|décade|décennie|heure|jour|lustre|millénaire|minute|mois|quadrimestre|seconde|semaine|semestre|siècle|trimestre">
     <!ENTITY expressions_temps "temps|passé|présent|avenir">
-    <!ENTITY noms_apres_faire "allusion|appel|mine|surface|attention|carrière|confiance|demi-tour|débat|erreur|face|faillite|figure|fortune|fureur|gaffe|gymnastique|horreur|intrusion|irruption|lecture|main|mal|mention|montre|part|partie|peur|place|plaisir|pression|preuve|profil|référence|saillie|semblant|signe|silence|suite|usage|écho|étalage">
+    <!ENTITY noms_apres_faire "allusion|appel|mine|surface|attention|résonn?ance|carrière|confiance|demi-tour|débat|erreur|face|faillite|figure|fortune|fureur|gaffe|gymnastique|horreur|intrusion|irruption|lecture|main|mal|mention|montre|part|partie|peur|place|plaisir|pression|preuve|profil|référence|saillie|semblant|signe|silence|suite|usage|écho|étalage">
     <!ENTITY mois_annee "jan(v?ier)?|f[eé]v(rier)?|mars|avril|mai|juin|jui(llet)?|ao[uû]t|sept?(embre)?|oct(obre)?|nov(embre)?|d[eé]c(embre)?">
 ]>
 <rules lang="fr" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
@@ -2216,7 +2216,8 @@ RB => Règles Brutes
         <token>?</token>
       </antipattern>-->
             <pattern>
-                <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">aimer|pouvoir|vouloir|devoir|faire|oser|désirer|laisser</token>
+                <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">aimer|pouvoir|vouloir|devoir|faire|oser|désirer|laisser
+                    <exception>puis</exception></token>
                 <token postag="R pers obj.*|A" postag_regexp="yes"/>
                 <token postag="V.* inf" postag_regexp="yes"/>
             </pattern>
@@ -5687,7 +5688,7 @@ RB => Règles Brutes
                     <exception scope="previous" regexp="yes">&apostrophe;</exception></token>
                 <marker>
                     <token postag="N [me] .*" postag_regexp="yes">
-                        <exception regexp="yes">est|multiples|si|ayant|nouveau|beau</exception>
+                        <exception regexp="yes">est|multiples|si|ayant|nouveau|doux|beau</exception>
                         <exception case_sensitive="yes">Paris</exception></token>
                 </marker>
             </pattern>

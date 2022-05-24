@@ -22,6 +22,8 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
 <!DOCTYPE rules [
+    <!ENTITY nbsp "&#x00A0;"> <!-- no-break space -->
+    <!ENTITY nnbsp "&#x202F;"> <!-- narrow no-break space -->
     <!ENTITY msg_semicolon_comma "Esta locución se escribe normalmente entre comas. Use un punto y coma para empezar una nueva frase que contrasta con la anterior.">
     <!ENTITY dashes "[–—―‒-]"> 
     <!ENTITY msg_repeated_pattern "Esta expresión ya ha aparecido antes. Puede sustituirla por otra para hacer más variado el texto.">
@@ -139,6 +141,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </phrase>
     </phrases>
     <category id="CASING" name="Mayúsculas y minúsculas" type="typographical">
+        <rule id="DOBLE_ESPACIO" name="doble espacio">
+            <regexp type="exact" mark="1">[A-Za-záéíóúÁÉÍÓÚñÑ\p{P}]([&nbsp; ]{2})[A-Za-záéíóúÁÉÍÓÚñÑ\p{P}]</regexp>
+            <!-- TODO: add "nnbsp" -->
+            <message>Sobra un espacio.</message>
+            <suggestion> </suggestion>
+            <example correction=" ">Esto es una<marker>  </marker>frase con dos espacios.</example>
+            <example correction=" ">Esto es una frase,<marker>  </marker>que tiene dos espacios.</example>
+        </rule>
         <rule id="MAYUSCULAS_INICIO_FRASE" name="mayúsculas a principio de frase">
             <antipattern>
                 <token regexp="yes">\p{Lu}\p{Lu}\p{Lu}?</token>
@@ -9588,6 +9598,68 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="consigo">Estaba satisfecho <marker>con sí</marker> mismo.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="SI_AFIRMACION" name="si -> sí">
+            <!-- Perhaps still too many FPs. Usually, they are incomplete sentences. -->
+            <url>https://www.rae.es/dpd/s%C3%AD</url>
+            <antipattern>
+                <token>si</token>
+                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0" max="2"/>
+                <token skip="-1" postag="V.[SI].*" postag_regexp="yes"/>
+                <token postag="V.[MSI].*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>si</token>
+                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0" max="2"/>
+                <token skip="-1" postag="V.[SI].*" postag_regexp="yes"/>
+                <token skip="-1">,</token>
+                <token regexp="yes">también|mejor</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1" postag="V.[MNGSI].*" postag_regexp="yes"/>
+                <token>si</token>
+                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0" max="2"/>
+                <token postag="V.[SI].*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>si</token>
+                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0" max="2"/>
+                <token skip="-1" postag="V.I.*" postag_regexp="yes"><exception postag="V.S.*" postag_regexp="yes"/></token>
+                <token regexp="yes">!|\?</token>
+            </antipattern>
+            <antipattern>
+                <token>si</token>
+                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0" max="2"/>
+                <token skip="-1" postag="V.I.2.*" postag_regexp="yes"/>
+                <!--<token>.</token>
+                <token>.</token>
+                <token>.</token>
+                <token>…</token>-->
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token>si</token>
+                    </marker>
+                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0" max="2"/>
+                    <token postag="V.I.*" postag_regexp="yes"><exception postag="V.S.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Se escribe con tilde si es una afirmación. Correcto si es una frase condicional.</message>
+                <suggestion>sí</suggestion>
+                <example correction="Sí"><marker>Si</marker> hice el trabajo.</example>
+                <example correction="Sí"><marker>Si</marker> se puede, chicas.</example>
+                <example>Si quieres vivir mucho tiempo, deja de fumar.</example>
+                <example>Si eres feliz, yo también.</example>
+                <example>Si es así, tanto mejor.</example>
+                <example>Si pudiera comprar esa guitarra...</example>
+                <example>Si tuvo todas las oportunidades antes de inmigrar!</example>
+                <example type="triggers_error" reason="ambiguous">Si tuvo todas las oportunidades antes de inmigrar.</example>
+                <example>Si ayer lo aseguraste una y otra vez delante de todos, ¿cómo lo niegas hoy?</example>
+                <example>Si vas a la playa cuenta conmigo.</example>
+                <example>Si deseas saber más de recetas tradicionales...</example>
+                <example>Si buscáis algo de marcha o vida nocturna olvidaos de bajar al sur.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="PASO" name="paso/pasó">
             <rule>
                 <pattern>
@@ -10326,6 +10398,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="anticariógenas">Son <marker>anti cariógenas</marker>.</example>
                 <example correction="antirruso"><marker>anti ruso</marker></example>
                 <example correction="antirrusas"><marker>anti-rusas</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>ciber</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">..+</token>
+                </pattern>
+                <message suppress_misspelled="yes">Probablemente se escribe junto.</message>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="ciber$1"/></suggestion>
+                <example correction="cibercomercio">Es el <marker>ciber comercio</marker>.</example>
+                <example correction="cibercomercio">Es el <marker>ciber-comercio</marker>.</example>
             </rule>
             <rule>
                 <pattern>
@@ -18038,20 +18121,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="conscientes">Acabarán por ser <marker>consciente</marker> de ello.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="AGREEMENT_SER_ADJ_SG" name="concordancia: soy consciente" default="temp_off">
+        <rulegroup id="AGREEMENT_SER_ADJ_SG" name="concordancia: soy consciente">
             <rule>
                 <pattern>
                     <token postag="V.[SIM]..S." postag_regexp="yes" regexp="yes" inflected="yes">ser|estar|parecer</token>
-                    <marker>
-                        <token postag="AQ..P.|V.P..P." postag_regexp="yes"/>
-                    </marker>
+                    <token postag="AQ..P.|V.P..P." postag_regexp="yes"/>
                 </pattern>
                 <message>Posible error de concordancia.</message>
-                <suggestion suppress_misspelled="yes"><match no="2" postag="(AQ..|V.P..)P(.*)" postag_regexp="yes" postag_replace="$1S$2"/></suggestion>
-                <example correction="consciente">Soy <marker>conscientes</marker> de ello.</example>
-                <example correction="consciente">Sé <marker>conscientes</marker> de ello.</example>
+                <suggestion suppress_misspelled="yes">\1 <match no="2" postag="(AQ..|V.P..)P(.*)" postag_regexp="yes" postag_replace="$1S$2"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="(V.[SIM]..)S(.)" postag_regexp="yes" postag_replace="$1P$2" case_conversion="preserve"/> \2</suggestion>
+                <example correction="Soy consciente|Somos conscientes"><marker>Soy conscientes</marker> de ello.</example>
+                <example correction="Sé consciente|Sabemos conscientes|Sed conscientes"><marker>Sé conscientes</marker> de ello.</example>
             </rule>
-            <rule>
+            <rule default="temp_off">
                 <pattern>
                     <token postag="V.[SIM]..S." postag_regexp="yes"/>
                     <token min="0" regexp="yes">a|de|que|en|por</token>
@@ -24997,6 +25079,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>&msg_semicolon_comma;</message>
                 <example correction="embargo,">Sin <marker>embargo</marker> no logró ganar.</example>
                 <example correction="; sin embargo,|, sin embargo,">Me gusta mucho este<marker>, sin embargo</marker> prefiero aquel.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>así</token>
+                    <token>pues</token>
+                </pattern>
+                <filter class="org.languagetool.rules.AddCommasFilter" args="suggestSemicolon:true"/>
+                <message>&msg_semicolon_comma;</message>
+                <example correction="pues,">Así <marker>pues</marker> no logró ganar.</example>
+                <example correction="; así pues,|, así pues,">No me gusta mucho este<marker>, así pues</marker> me quedaré el otro.</example>
             </rule>
             <rule>
                 <pattern>

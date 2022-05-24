@@ -51,15 +51,10 @@ public class CheckResults {
   public List<SentenceRange> getSentenceRanges() {
     return sentenceRanges;
   }
-
-  public void setSentenceRanges(List<String> sentences) {
-    int pos = 0;
-    for (String sentence : sentences) {
-      sentenceRanges.add(new SentenceRange(pos, pos + sentence.length()));
-      pos += sentence.length();
-    }
+  public void addSentenceRanges(List<SentenceRange> sentenceRanges) {
+    this.sentenceRanges.addAll(sentenceRanges);
   }
-
+  
   public void setIgnoredRanges(List<Range> ignoredRanges) {
     this.ignoredRanges = Objects.requireNonNull(ignoredRanges);
   }

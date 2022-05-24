@@ -187,13 +187,13 @@ public class VerbAgreementRule extends TextLevelRule {
       // "Sie fragte, ob er bereit für die zweite Runde ist."
       posRegex("VER.*"),  // z.B. "Bist"
       tokenRegex("er|sie|ich|wir|du|es|ihr"),
-      tokenRegex("gleich|bereit|lange|schnelle?|halt|bitte")  // ist hier kein Verb
+      tokenRegex("gleich|bereit|lange|schnelle?|halt|bitte|dank")  // ist hier kein Verb
     ),
     Arrays.asList(
       // "Dallun sagte nur, dass er gleich kommen wird und legte wieder auf."
       posRegex("ADV.*|KON.*"),
       tokenRegex("er|sie|ich|wir|du|es|ihr"),
-      tokenRegex("gleich|bereit|lange|schnelle?|halt|bitte")  // ist hier kein Verb
+      tokenRegex("gleich|bereit|lange|schnelle?|halt|bitte|dank")  // ist hier kein Verb
     ),
     Arrays.asList(
       // "Woraufhin ich verlegen lächelte"

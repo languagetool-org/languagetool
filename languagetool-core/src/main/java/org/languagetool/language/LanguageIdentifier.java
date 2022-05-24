@@ -51,8 +51,6 @@ public class LanguageIdentifier {
   private static final int SHORT_ALGO_THRESHOLD = 50;
   // texts shorter than this will *only* consider preferred languages (if set):
   private static final int CONSIDER_ONLY_PREFERRED_THRESHOLD = 50;
-  private static final List<String> RARE_LANGUAGES = Arrays.asList(
-    "eo", "ast", "be", "br", "da", "gl", "ga", "km", "fa", "ro", "sk", "sl", "sv", "tl", "ta", "no", "nb");
 
   // ast and gl often prevent the correct detection of Spanish (as they are quite similar
   // to Spanish, I assume) so we disable them for now. See LanguageDetectionEval.java:
@@ -61,10 +59,14 @@ public class LanguageIdentifier {
   // languages that we offer profiles for as they are not yet supported by language-detector:
   private static final List<String> externalLangCodes = Arrays.asList("eo");
   // fall back to checking against list of common words if fasttext probability is lower than this:
-  private static final float THRESHOLD = 0.85f;
-  //private static final float THRESHOLD = 0.95f;   // 7.39
-  //private static final float THRESHOLD = 0.975f;  // 7.228 
-  //private static final float THRESHOLD = 1.0f;    // 7.0
+  private static final float FASTTEXT_CONFIDENCE_THRESHOLD = 0.85f;
+  // Result ('Avg. minimum chars') of LanguageDetectionMinLengthEval with MIN_INPUT_LEN=5 and MAX_INPUT_LEN=100,
+  // lower values = better:
+  //private static final float FASTTEXT_CONFIDENCE_THRESHOLD = 0.7f;    // 8.363
+  //private static final float FASTTEXT_CONFIDENCE_THRESHOLD = 0.85f;   // 8.282
+  //private static final float FASTTEXT_CONFIDENCE_THRESHOLD = 0.90f;   // 8.271
+  //private static final float FASTTEXT_CONFIDENCE_THRESHOLD = 0.95f;   // 8.249
+  //private static final float FASTTEXT_CONFIDENCE_THRESHOLD = 1.0f;    // 8.282
 
   private final LanguageDetector languageDetector;
   private final TextObjectFactory textObjectFactory;
@@ -262,7 +264,7 @@ public class LanguageIdentifier {
         } else {
           System.out.println("FastText above threshold: " + result.getValue().floatValue() + " for " + cleanText.length() + " chars");
         }*/
-        if ((usingFastText && result.getValue().floatValue() < THRESHOLD) || result.getKey().equals("zz")) {
+        if ((usingFastText && result.getValue().floatValue() < FASTTEXT_CONFIDENCE_THRESHOLD) || result.getKey().equals("zz")) {
           //System.out.println(cleanText + " ->" + result.getValue().floatValue() + " " + result.getKey());
           CommonWords commonWords = new CommonWords();
           Map<Language, Integer> lang2Count = commonWords.getKnownWordsPerLanguage(cleanText);
@@ -280,8 +282,8 @@ public class LanguageIdentifier {
             } else {
               scores.put(langCode, Double.valueOf(entry.getValue()));
             }
-            source += "+ngram";
           }
+          source += "+commonwords";
           result = getHighestScoringResult(scores);
         }
         if (preferredLangs.contains("no") && !preferredLangs.contains("da")) {
@@ -296,17 +298,6 @@ public class LanguageIdentifier {
           result = getHighestScoringResult(scores);
           source += "+prefLang";
         }
-        /*if (cleanText.length() >= CONSIDER_ONLY_PREFERRED_THRESHOLD && cleanText.length() < 200 && preferredLangs.size() > 0) {
-          Set<String> old = new HashSet<>(scores.keySet());
-          Map<String, Double> scoresOld = new HashMap<>(scores);
-          scores.keySet().removeIf(k -> !preferredLangs.contains(k) && RARE_LANGUAGES.contains(k));
-          result = getHighestScoringResult(scores);
-          Map.Entry<String, Double> altResult = getHighestScoringResult(scoresOld);
-          if (old.size() != scores.keySet().size()) {
-            boolean change = result.getKey() != null && !result.getKey().equals(altResult.getKey());
-            System.out.println("#clean " + old + " => " + scores.keySet() + " --> " + result + " instead of " + altResult + " (len: " + cleanText.length() + ", pref: " + preferredLangs + ", change: " + change + ")");
-          }
-        }*/
         // Calculate a trivial confidence value because fasttext's confidence is often
         // wrong for short cleanText (e.g. 0.99 for a test that's misclassified). Don't
         // use 1.0 because we can never be totally sure...

@@ -132,6 +132,26 @@
       <disambig action="add"><wd pos="SENT_END"/></disambig>
     </rule>
   </rulegroup-->
+  <rulegroup id="RARE_POS" name="rare POS tags">
+    <rule>
+      <pattern>
+        <token regexp="yes">amante|amantes|cinco|damos|dessa|estilo|feira|feiras|hora|horas|latina|latinas|li|linda|lindas|maluco|maluca|malucas|portuguesa|portuguesas|portugueses|quentes|uma|umas|vento</token>
+      </pattern>
+      <disambig action="remove" postag="V.[SIM].*"></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp="yes">aceit[oa]s?|cãos|durante|falh[oa]s?|festival|festivais</token>
+      </pattern>
+      <disambig action="remove" postag="A.*"></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp="yes">cabes?|chegas?|cheiras?|dizer|durante|eu|fez|for|fores|gera|geras|há|mantém|manténs|mantinha|mantinhas|mas|passarão|tinha|tinhas|mais</token>
+      </pattern>
+      <disambig action="remove" postag="N.*"></disambig>
+    </rule>
+  </rulegroup>
   <rule id="SAIRA" name="saíra">
     <pattern>
       <token><exception postag=".*DA0FS0" postag_regexp="yes"/></token>
@@ -451,7 +471,7 @@
   <rule id="JUNTO_A" name="junto a">
     <pattern>
       <token postag="RG">junto</token>
-      <token postag="SPS00">a|com</token>
+      <token postag="SPS00" regexp="yes">a|com</token>
     </pattern>
     <disambig action="filterall"></disambig>
   </rule>

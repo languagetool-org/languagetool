@@ -892,15 +892,45 @@ Daqui não saio, daqui ninguém me tira.
       <example correction='jan'>1 <marker>Jan</marker> 2002 - As moedas e notas físicas de euro entraram em circulação, tornando-se a moeda de uso corrente entre os membros originais.</example>
     </rule>
 
-      <rulegroup id='AO90_WEEKDAYS_CASING' type='grammar' name='AO90: Capitalização dos Dias da Semana'><!-- TODO Converter mensagens para pt-BR -->
+
+      <rulegroup id='AO90_WEEKDAYS_CASING_PT_BR' type='grammar' name='AO90: Capitalização dos Dias da Semana'><!-- TODO Converter mensagens para pt-BR -->
 	<!-- Created by  Tiago F. Santos , Portuguese rule, 2017-01-26 -->
     <rule>
+
+      <antipattern>
+          <token postag='SENT_START'/>
+          <token regexp='yes'>[“«&quot;]</token>
+          <token>Ter</token>
+      </antipattern>
+
+      <antipattern>
+          <token>Ter</token>
+          <token>Stegen</token>
+      </antipattern>
+
+<!-- MARCOAGPINTO 2022-05-17 (15-MAY-2022+) *START* -->
+<!--
+Os principais cuidados com seu pet Ter um cachorrinho em casa para te fazer companhia é muito bom!
+- Ter cuidado especial ao escolher sua senha, evitando senhas óbvias tais como seu nome, seu e-mail, sobr...
+· Ter desenvolvido e implantado projetos na tecnologia Sharepoint.
+– Ter um momento em família, com todos reunidos, além das refeições.
+Confessava Ter sido sempre bastante orgulhoso dos haveres herdados e sobretudo daquele filho tão perfeito...
+- Dedicação: Ter vontade de servir, ser prestável e estabelecer uma relação de empatia.
+Aprimorar a velocidade do Como Fazer Seu Website De Vendas Online Ter Sucesso - Byte A Byte a alegria do usuário (acesse o meu primeiro desse post), mas isto também poss...
+Vinte e três Plantas Pra Ter Dentro De Apartamento Com Muito Charme!
+-->
+      <antipattern>
+          <token>Ter</token>
+          <token postag='DI.+|VMP00.+|NC.+|AQ.+|RG' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-05-17 (15-MAY-2022+) *END* -->
+
       <pattern case_sensitive='yes'>
         <token><exception postag_regexp='yes' postag='SENT_START|NP.+'/></token>
        <marker>
         <token regexp='yes'>Sábados?|Domingo|(Seg|Ter|Qua|Qui|Sex|S[aá]b|Dom)</token>
        </marker>
-        <token><exception postag_regexp='yes' postag='NP.+'/></token>
+        <token><exception postag_regexp='yes' postag='NP.+|UNKNOWN'/></token>
       </pattern>
       <message>Segundo o Acordo Ortográfico de 90, os dias da semana deixam de ser capitalizados.</message>
       <suggestion><match no='2' case_conversion='alllower'/></suggestion>
@@ -910,7 +940,17 @@ Daqui não saio, daqui ninguém me tira.
       <example correction='ter'>A última temporada estreiou na <marker>Ter</marker>. 27 dez 2016.</example>
       <example>A data coincide com o aniversário do imperador Dom Pedro II.</example>
       <example>Nas eleições de 1946, o general Juan Domingo Perón se apresentou como candidato do Partido Lab...</example>
+
+	  <example>Os principais cuidados com seu pet Ter um cachorrinho em casa para te fazer companhia é muito bom!</example>
+	  <example>- Ter cuidado especial ao escolher sua senha, evitando senhas óbvias tais como seu nome, seu e-mail, sobr...</example>
+	  <example>· Ter desenvolvido e implantado projetos na tecnologia Sharepoint.</example>
+	  <example>– Ter um momento em família, com todos reunidos, além das refeições.</example>
+	  <example>Confessava Ter sido sempre bastante orgulhoso dos haveres herdados e sobretudo daquele filho tão perfeito...</example>
+	  <example>- Dedicação: Ter vontade de servir, ser prestável e estabelecer uma relação de empatia.</example>
+	  <example>Aprimorar a velocidade do Como Fazer Seu Website De Vendas Online Ter Sucesso - Byte A Byte a alegria do usuário (acesse o meu primeiro desse post), mas isto também poss...</example>
+	  <example>Vinte e três Plantas Pra Ter Dentro De Apartamento Com Muito Charme!</example>
     </rule>
+
     <rule>
       <pattern case_sensitive='yes'>
         <token negate_pos='yes' postag='SENT_START'/>
@@ -926,7 +966,9 @@ Daqui não saio, daqui ninguém me tira.
       <example correction='segundas-feiras'>As <marker>Segundas-feiras</marker> são sempre difíceis.</example>
       <example>Segundas-feiras são sempre difíceis.</example>
     </rule>
+
   </rulegroup>
+
 
     <rule id='AO90_CARDINAL_POINTS_CASING' type='grammar' name='AO90: Capitalização de Pontos Cardeais'>
     <!-- Created by Tiago F. Santos , Portuguese rule, 2017-01-26 -->

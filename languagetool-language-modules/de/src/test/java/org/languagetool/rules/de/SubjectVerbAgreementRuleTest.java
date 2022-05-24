@@ -311,7 +311,8 @@ public class SubjectVerbAgreementRuleTest {
         "Das Angeln an Mallorcas Felsküsten ist überaus Erfolg versprechend.",
         "Das bedeutendste Bauwerk und Wahrzeichen der Stadt ist die ehemalige Klosterkirche des Klosters Hofen.",
         "Das saisonale Obst und Gemüse ist köstlich und oft deutlich günstiger als in der Stadt.",
-        "Gründer und Leiter des Zentrums ist der Rabbiner Marvin Hier, sein Stellvertreter ist Rabbi Abraham Cooper."
+        "Gründer und Leiter des Zentrums ist der Rabbiner Marvin Hier, sein Stellvertreter ist Rabbi Abraham Cooper.",
+        "Dank unserer Kunden, Freunde, Partner und unserer Mitarbeiter ist Alpenwahnsinn zur Heimatadresse für schöne Trachtenmode geworden."
     );
     for (String sentence : sentences) {
       assertGood(sentence);

@@ -1937,6 +1937,12 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="filter" postag="A.*"/>
         </rule>
     </rulegroup>
+    <rule id="adj_inusual" name="adj inusual">
+        <pattern>
+            <token postag="N.*" postag_regexp="yes" regexp="yes">playas?</token>
+        </pattern>
+        <disambig action="remove" postag="A.*"/>
+    </rule>
     <rule id="not_adj" name="not adj">
         <pattern>
             <and>
@@ -2664,6 +2670,16 @@ Copyright (C) 2011 Juan Martorell
             </disambig>
         </rule>
     </rulegroup>
+    <rule id="dejar_de" name="dejar de + inf.">
+        <pattern>
+            <marker>
+                <token postag="V.*" postag_regexp="yes" inflected="yes" skip="2">dejar</token>
+            </marker>
+            <token>de</token>
+            <token postag="V.N.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filter" postag="V.*"/>
+    </rule>
     <rulegroup id="llevar_a_cabo" name="llevar a cabo (verb)">
         <rule>
             <pattern>

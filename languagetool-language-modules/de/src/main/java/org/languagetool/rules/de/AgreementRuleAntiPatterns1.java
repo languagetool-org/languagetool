@@ -121,9 +121,9 @@ class AgreementRuleAntiPatterns1 {
       posRegex("ADJ:.*")
     ),
     Arrays.asList(
-      // "Die ersten Drei bekommen einen Preis."
+      // "Die ersten Drei bekommen einen Preis." / "Die geheimen Sechs"
       tokenRegex("den|die"),
-      tokenRegex("ersten|nächsten|vorherigen|letzten"),
+      tokenRegex(".+n"),
       csRegex("Zwei|Drei|Vier|Fünf|Sechs|Sieben|Acht|Neun|Zehn|Elf|Zwölf|Zwanzig|Dreißig|Vierzig|Fünzig|Hundert|Tausend")
     ),
     Arrays.asList(
@@ -1010,6 +1010,16 @@ class AgreementRuleAntiPatterns1 {
       tokenRegex("das|dies"),
       csToken("veranlasste"),
       posRegex("SUB.*")
+    ),
+    Arrays.asList(
+      // …, kann das Infektionen möglicherweise verhindern
+      posRegex("KON.*|PKT|SENT_START"),
+      new PatternTokenBuilder().posRegex("ADV.*").min(0).build(),
+      posRegex("VER:MOD:3:SIN.*"),
+      csToken("das"),
+      posRegex("SUB.*"),
+      new PatternTokenBuilder().posRegex("ADV.*").min(0).max(2).build(),
+      posRegex("VER:INF:.*")
     ),
     // TODO: comment in
     // Arrays.asList(

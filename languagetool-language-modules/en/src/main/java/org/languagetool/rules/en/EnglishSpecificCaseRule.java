@@ -19,6 +19,7 @@
 package org.languagetool.rules.en;
 
 import org.languagetool.rules.*;
+import org.languagetool.tools.Tools;
 
 import java.util.*;
 
@@ -50,6 +51,7 @@ public class EnglishSpecificCaseRule extends AbstractSpecificCaseRule {
 
   public EnglishSpecificCaseRule(ResourceBundle messages) {
     super(messages);
+    setUrl(Tools.getUrl("https://languagetool.org/insights/post/spelling-capital-letters/"));
     addExamplePair(Example.wrong("I really like <marker>Harry potter</marker>."),
                    Example.fixed("I really like <marker>Harry Potter</marker>."));
   }
