@@ -25,7 +25,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.Collections;
-import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -33,7 +32,6 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
-import org.languagetool.language.BritishEnglish;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
@@ -136,5 +134,4 @@ public class MorfologikBritishSpellerRuleTest extends AbstractEnglishSpellerRule
       assertTrue(matches[0].getSuggestedReplacements().contains(expectedSuggestion));
     }
   }
-
 }
