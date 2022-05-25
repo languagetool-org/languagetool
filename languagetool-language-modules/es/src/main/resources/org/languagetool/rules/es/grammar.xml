@@ -5747,7 +5747,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <antipattern>
                     <token>practico</token>
-                    <token postag="[DN].*" postag_regexp="yes"/>
+                    <token postag="[DN].*|UNKNOWN" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
                     <token>que</token>
@@ -25081,6 +25081,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="; sin embargo,|, sin embargo,">Me gusta mucho este<marker>, sin embargo</marker> prefiero aquel.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token postag="V.[IS].*|_GV_" postag_regexp="yes"></token>
+                    <token>así</token>
+                    <token>pues</token>
+                </antipattern>
                 <pattern>
                     <token>así</token>
                     <token>pues</token>
@@ -25089,6 +25094,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>&msg_semicolon_comma;</message>
                 <example correction="pues,">Así <marker>pues</marker> no logró ganar.</example>
                 <example correction="; así pues,|, así pues,">No me gusta mucho este<marker>, así pues</marker> me quedaré el otro.</example>
+                <example>Ya sé que eso no es así pues tienen valores morales.</example>
             </rule>
             <rule>
                 <pattern>
