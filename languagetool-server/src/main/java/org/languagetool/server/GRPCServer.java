@@ -85,6 +85,7 @@ public class GRPCServer extends ProcessingServerImplBase
 
   public static void main(String[] args) throws Exception {
     HTTPServerConfig config = new HTTPServerConfig(args);
+    config.port = 0;
     GRPCServer instance = new GRPCServer(config);
     Executor executor = Executors.newCachedThreadPool();
     Server server = ServerBuilder.forPort(config.getPort())
@@ -92,6 +93,9 @@ public class GRPCServer extends ProcessingServerImplBase
       .executor(executor)
       .build();
     server.start();
+    if (config.getPort() == 0) {
+      System.out.println("port=" + server.getPort());
+    }
     server.awaitTermination();
   }
 }
