@@ -4238,6 +4238,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <example correction="stało.">Tak też się <marker>stało</marker></example>
                         <example>Pożycz mi sto złotych…</example>
                         </rule>
+                        <rule>
+                          <pattern case_sensitive="yes">
+                            <marker>
+                            <token regexp="yes">\p{Ll}+<exception inflected="yes" regexp="yes">książka|tytuł|artykuł</exception></token>
+                            </marker>
+                            <and>
+                              <token regexp="yes">\p{Lu}\p{Ll}+</token>
+                              <token inflected="yes" regexp="yes">czy|kiedy|gdzie|co|który|kto|jaki|którędy|dokąd|skąd|dlaczego|ile</token>
+                            </and>
+                          </pattern>
+                          <message>To zdanie nie kończy się żadnym znakiem interpunkcyjnym. Prawdopodobnie brak kropki lub końca akapitu: <suggestion>\1.</suggestion>.</message>
+                          <short>Zdanie bez kropki</short>
+                          <example>W tym roku konferencja nosi tytuł Czy świat jest matematyczny?</example>
+                          <example correction="śmieje.">Maria się <marker>śmieje</marker> Czy ktoś widział lewą piętę?</example>                        
+                        </rule>
 				</rulegroup>
 		</category>
     <category id="NUMBERS" name="Formatowanie liczb" type="numbers">
