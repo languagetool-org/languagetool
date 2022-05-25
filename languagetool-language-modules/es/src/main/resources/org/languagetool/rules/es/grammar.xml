@@ -24781,6 +24781,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://www.fundeu.es/recomendacion/coma-antes-de-ya-que-pues-o-puesto-que/</url>
             <example correction="profesional, ya que|profesional porque">Busque atención <marker>profesional ya que</marker> pueden deberse a una infección.</example>
         </rule>
+        <rulegroup id="PUES_COMAS" name="pues (comas)" default="temp_off">
+            <antipattern>
+                <token>así</token>
+                <token>pues</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token><exception postag="SENT_START|_PUNCT.*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token>pues</token>
+                    </marker>
+                    <token><exception postag="_PUNCT.*" postag_regexp="yes"/><exception regexp="yes">\p{P}</exception></token>
+                </pattern>
+                <message>Con el sentido de causa (=puesto que) se escribe preferiblement con una coma antes. Con valor conitnuativo (=por tanto), se escribe entre comas.</message>
+                <suggestion>, pues</suggestion>
+                <suggestion>, pues,</suggestion>
+                <example correction=", pues|, pues,">Llámale tú<marker> pues</marker> lo conoces de hace tiempo.</example>
+                <example correction=", pues|, pues,">Insisto<marker> pues</marker> que esto es imprescindible.</example>
+            </rule>
+        </rulegroup>
         <rule id="PUESTO_QUE" name="puesto que (con coma)">
             <!-- a lot of true positives expected -->
             <antipattern>
@@ -25082,7 +25102,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <antipattern>
-                    <token postag="V.[IS].*|_GV_" postag_regexp="yes"></token>
+                    <token postag="V.[IS].*|_GV_" postag_regexp="yes"/>
                     <token>así</token>
                     <token>pues</token>
                 </antipattern>
