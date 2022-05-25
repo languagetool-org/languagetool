@@ -2589,7 +2589,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "kuckten": return topMatch("guckten");
       case "kucke": return topMatch("gucke");
       case "aelter": return topMatch("älter");
+      case "äussern": return topMatch("äußern");
+      case "äusserst": return topMatch("äußerst");
       case "Dnk": return topMatch("Dank");
+      case "schleswig-holstein": return topMatch("Schleswig-Holstein");
+      case "Stahlkraft": return topMatch("Strahlkraft");
     }
     return Collections.emptyList();
   }

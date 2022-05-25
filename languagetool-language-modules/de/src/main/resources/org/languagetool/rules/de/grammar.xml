@@ -256,6 +256,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Mögliche Tippfehler">
+        <rule id="PLUS_BER" name="+ber (über)" default="temp_off">
+            <antipattern>
+                <token regexp="yes">.*[a-z0-9].*</token>
+                <token spacebefore="no">+</token>
+            </antipattern>
+            <pattern>
+                <token>+</token>
+                <token spacebefore="no" case_sensitive="yes">ber</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>über</suggestion>?</message>
+            <short>Möglicher Tippfehler</short>
+            <example correction="über">Wir gehen <marker>+ber</marker> Stock und Stein.</example>
+        </rule>
         <rule id="MIT_ENSETZTEN" name="mit Entsetzten (Entsetzen)">
             <pattern>
                 <token>mit</token>
@@ -18410,10 +18423,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Nachdem"><marker>Nach dem</marker> dieser gewonnen hatte, war er nicht zu bremsen.</example>
                 <example><marker>Nach dem</marker> Essen zwei Tabletten.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token regexp="yes" min="0">doch|und</token>
+                    <token regexp="yes" min="0">doch|und|aber</token>
                     <marker>
                         <token>nach</token>
                         <token case_sensitive="yes">dem</token>
@@ -20516,6 +20529,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">und|oder|&amp;|,</token>
                     <token postag="(ADJ|PA2).*" postag_regexp="yes" />
                     <token postag="SUB.*|UNKNOWN" postag_regexp="yes" />
+                </antipattern>
+                <antipattern>
+                    <token>wider</token>
+                    <token regexp="yes" inflected="yes">werden|haben|sein</token>
                 </antipattern>
                 <pattern case_sensitive="yes">
                     <token><exception>;</exception><exception>:</exception><exception>,</exception></token>
@@ -29978,7 +29995,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token case_sensitive="yes">Extra</token>
                 </marker>
-                <token postag="ZUS|NEG|ADV.*" postag_regexp="yes" min="0" max="2" />
+                <token postag="ZUS|NEG|ADV.*|ADJ:PRD:GRU" postag_regexp="yes" min="0" max="2" />
                 <token postag="VER:.*" postag_regexp="yes" />
             </pattern>
             <message>Das Adverb <suggestion><match no="2" case_conversion="alllower" /></suggestion> wird in der Regel kleingeschrieben.</message>
@@ -37140,32 +37157,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>&prgk;.</short>
             <example correction="Enge">Die haben uns ganz schön in die <marker>enge</marker> getrieben.</example>
         </rule>
-        <rule id="MITTEN_IM_NIRGENDWO" name="'mitten im nirgendwo (Nirgendwo)'">
-            <pattern case_sensitive="yes">
-                <token regexp="yes">[mM]itten</token>
-                <token>im</token>
-                <marker>
-                    <token regexp="yes">nichts|nirgendwo</token>
-                </marker>
-            </pattern>
-            <message>&inwend;'mitten im <match no="3" case_conversion="startupper"/>' wird <suggestion><match no="3" case_conversion="startupper"/></suggestion> in aller Regel großgeschrieben.</message>
-            <short>&prgk;.</short>
-            <example correction="Nichts">Wir saßen mitten im <marker>nichts</marker> fest, ohne Benzin, ohne Proviant, ohne Munition.</example>
-            <example correction="Nirgendwo">Wir hockten ohne Auto mitten im <marker>nirgendwo</marker>.</example>
-        </rule>
-        <rule id="IRGENDWO_IM_NIRGENDWO" name="irgendwo im nirgendwo (Nirgendwo)">
-            <pattern case_sensitive="yes">
-                <token regexp="yes">[iI]rgendwo</token>
-                <token>im</token>
-                <marker>
-                    <token>nirgendwo</token>
-                </marker>
-            </pattern>
-            <message>In dieser Wendung wird <suggestion><match no="3" case_conversion="startupper"/></suggestion> in aller Regel großgeschrieben.</message>
-            <short>&prgk;.</short>
-            <example correction="Nirgendwo">Wir hockten ohne Auto irgendwo im <marker>nirgendwo</marker>.</example>
-            <example correction="Nirgendwo">Wir saßen irgendwo im <marker>nirgendwo</marker> fest.</example>
-        </rule>
+        <rulegroup id="IM_NIRGENDWO" name="'mitten im nirgendwo (Nirgendwo)'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[mM]itten</token>
+                    <token>im</token>
+                    <marker>
+                        <token regexp="yes">nichts|nirgendwo</token>
+                    </marker>
+                </pattern>
+                <message>&inwend;'mitten im <match no="3" case_conversion="startupper"/>' wird <suggestion><match no="3" case_conversion="startupper"/></suggestion> in aller Regel großgeschrieben.</message>
+                <short>&prgk;.</short>
+                <example correction="Nichts">Wir saßen mitten im <marker>nichts</marker> fest, ohne Benzin, ohne Proviant, ohne Munition.</example>
+                <example correction="Nirgendwo">Wir hockten ohne Auto mitten im <marker>nirgendwo</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[Ii]ns|[Ii]m</token>
+                    <marker>
+                        <token>nirgendwo</token>
+                    </marker>
+                </pattern>
+                <message>Das Wort wird hier nominalisiert und sollte daher großgeschrieben werden.</message>
+                <suggestion><match no="2" case_conversion="startupper" /></suggestion>
+                <example correction="Nirgendwo">Wir hockten ohne Auto irgendwo im <marker>nirgendwo</marker>.</example>
+                <example correction="Nirgendwo">Ich befinde mich im <marker>nirgendwo</marker>.</example>
+                <example correction="Nirgendwo">Wir saßen irgendwo im <marker>nirgendwo</marker> fest.</example>
+            </rule>
+        </rulegroup>
         <rule id="DER_LETZTE_SCHREI" name="'der letzte schrei (Schrei)'">
             <pattern case_sensitive="yes">
                 <token regexp="yes">[dD]er</token>
@@ -49088,8 +49107,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
-        <rulegroup id="ALLES_GUT" name="alles Gut (gut/Gute)" default="temp_off">
+        <rulegroup id="ALLES_GUT" name="alles Gut (gut/Gute)">
             <rule>
+                <antipattern>
+                    <token>zu</token>
+                    <token inflected="yes">ein</token>
+                </antipattern>
                 <pattern>
                     <token>alles</token>
                     <marker>
@@ -56143,8 +56166,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>,</token>
                 </pattern>
                 <message>'Nachdem' drückt standardsprachlich Vorzeitigkeit aus und sollte daher nicht mit dem Präteritum verwendet werden. Verwenden Sie das Perfekt (Präsens im Hauptsatz) oder Plusquamperfekt (Präteritum im Hauptsatz) oder 'als' zum Ausdrücken von Gleichzeitigkeit.</message>
-                <suggestion><match no="2" postag="VER:PA2.*" postag_regexp="yes"/> war</suggestion>
-                <suggestion><match no="2" postag="VER:PA2.*" postag_regexp="yes"/> hatte</suggestion>
+                <suggestion suppress_misspelled="yes"><match no="2" postag="VER:PA2.*" postag_regexp="yes"/> war</suggestion>
+                <suggestion suppress_misspelled="yes"><match no="2" postag="VER:PA2.*" postag_regexp="yes"/> hatte</suggestion>
                 <example correction="gekommen war|gekommen hatte">Nachdem der Brief <marker>kam</marker>, ging ich nach Hause.</example>
                 <example>Nachdem sich jedes Teilchen in einem <marker>Zustand</marker>, der nicht gut war, befunden hatte, ging es weiter.</example>
             </rule>
@@ -56157,8 +56180,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>,</token>
                 </pattern>
                 <message>'Nachdem' drückt standardsprachlich Vorzeitigkeit aus und sollte daher nicht mit dem Präteritum verwendet werden. Verwenden Sie das Perfekt (Präsens im Hauptsatz) oder Plusquamperfekt (Präteritum im Hauptsatz) oder 'als' zum Ausdrücken von Gleichzeitigkeit.</message>
-                <suggestion><match no="2" postag="VER:PA2.*" postag_regexp="yes"/> waren</suggestion>
-                <suggestion><match no="2" postag="VER:PA2.*" postag_regexp="yes"/> hatten</suggestion>
+                <suggestion suppress_misspelled="yes"><match no="2" postag="VER:PA2.*" postag_regexp="yes"/> waren</suggestion>
+                <suggestion suppress_misspelled="yes"><match no="2" postag="VER:PA2.*" postag_regexp="yes"/> hatten</suggestion>
                 <example correction="gekommen waren|gekommen hatten">Nachdem die Briefe <marker>kamen</marker>, ging ich nach Hause.</example>
                 <example>Nachdem sich jedes Teilchen in einem <marker>Zustand</marker>, der nicht gut war, befunden hatte, ging es weiter.</example>
             </rule>
@@ -56172,8 +56195,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SENT_END"/>
                 </pattern>
                 <message>'Nachdem' drückt standardsprachlich Vorzeitigkeit aus und sollte daher nicht mit dem Präteritum verwendet werden. Verwenden Sie das Perfekt (Präsens im Hauptsatz) oder Plusquamperfekt (Präteritum im Hauptsatz) oder 'als' zum Ausdrücken von Gleichzeitigkeit.</message>
-                <suggestion><match no="3" postag="VER:PA2.*" postag_regexp="yes"/> war</suggestion>
-                <suggestion><match no="3" postag="VER:PA2.*" postag_regexp="yes"/> hatte</suggestion>
+                <suggestion suppress_misspelled="yes"><match no="3" postag="VER:PA2.*" postag_regexp="yes"/> war</suggestion>
+                <suggestion suppress_misspelled="yes"><match no="3" postag="VER:PA2.*" postag_regexp="yes"/> hatte</suggestion>
                 <example correction="gekommen war|gekommen hatte">Ich ging nach Hause, nachdem der Brief <marker>kam</marker>.</example>
             </rule>
             <rule>
@@ -56186,8 +56209,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SENT_END"/>
                 </pattern>
                 <message>'Nachdem' drückt standardsprachlich Vorzeitigkeit aus und sollte daher nicht mit dem Präteritum verwendet werden. Verwenden Sie das Perfekt (Präsens im Hauptsatz) oder Plusquamperfekt (Präteritum im Hauptsatz) oder 'als' zum Ausdrücken von Gleichzeitigkeit.</message>
-                <suggestion><match no="3" postag="VER:PA2.*" postag_regexp="yes"/> waren</suggestion>
-                <suggestion><match no="3" postag="VER:PA2.*" postag_regexp="yes"/> hatten</suggestion>
+                <suggestion suppress_misspelled="yes"><match no="3" postag="VER:PA2.*" postag_regexp="yes"/> waren</suggestion>
+                <suggestion suppress_misspelled="yes"><match no="3" postag="VER:PA2.*" postag_regexp="yes"/> hatten</suggestion>
                 <example correction="gekommen waren|gekommen hatten">Ich ging nach Hause, nachdem die Briefe <marker>kamen</marker>.</example>
             </rule>
             <rule>

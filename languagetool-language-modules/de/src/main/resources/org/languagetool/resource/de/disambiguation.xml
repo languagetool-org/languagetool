@@ -1940,7 +1940,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <pattern case_sensitive="yes">
             <token>An-</token>
             <token regexp="yes">und|oder</token>
-            <token>Verkauf</token>
+            <token regexp="yes">(Ver|Zu)kauf</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -1949,7 +1949,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <marker>
                 <token>Be-</token>
             </marker>
-            <token regexp="yes">und|oder|&amp;|sowie</token>
+            <token regexp="yes">und|oder|&amp;|\/|sowie|noch</token>
             <token regexp="yes">Ent.+</token>
         </pattern>
         <disambig action="ignore_spelling"/>
@@ -3098,7 +3098,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="In- und Ausland" id="IN_UND_AUSLAND">
         <pattern>
             <token>In-</token>
-            <token regexp='yes' case_sensitive="yes">und|oder|beziehungsweise</token>
+            <token regexp='yes' case_sensitive="yes">und|oder|&amp;|\/|beziehungsweise|sowie|noch</token>
             <token regexp="yes" case_sensitive="yes">Ausland|außerhalb</token>
         </pattern>
         <disambig action="ignore_spelling"/>
@@ -3107,7 +3107,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="in- und ausländisch" id="IN_UND_AUSLAENDISCH">
         <pattern>
             <token>in-</token>
-            <token regexp='yes'>und|oder|beziehungsweise</token>
+            <token regexp='yes'>und|oder|&amp;|\/|beziehungsweise|sowie|noch</token>
             <token regexp='yes'>ausländisch(e[mnrs]?)?</token>
         </pattern>
         <disambig action="ignore_spelling"/>
@@ -5736,7 +5736,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <marker>
                 <token regexp="yes">(Weiter|Fort|Aus)-</token>
             </marker>
-            <token regexp="yes">und|oder|&amp;|\/|sowie</token>
+            <token regexp="yes">und|oder|&amp;|\/|sowie|noch</token>
             <token regexp="yes">(Weiter|Fort|Aus)bildung.*</token>
         </pattern>
         <disambig action="ignore_spelling"/>
@@ -6165,6 +6165,21 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="remove" postag="VER:1.*"/>
     </rule>
 
+    <rule id="SCHNELL_KEIN_VERB" name="'schnell' kein Verb">
+        <antipattern>
+            <token>ich</token>
+            <token>schnell</token>
+        </antipattern>
+        <antipattern>
+            <token>schnell</token>
+            <token>ich</token>
+        </antipattern>
+        <pattern>
+            <token>schnell</token>
+        </pattern>
+        <disambig action="remove" postag="VER.*"/>
+    </rule>
+
     <rule id="BLEU_KEIN_VERB" name="'bleu' kein Verb">
         <pattern>
             <token>Cordon</token>
@@ -6241,4 +6256,29 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <disambig action="remove" postag="VER.*"/>
         </rule>
     </rulegroup> -->
+
+    <rulegroup id="AB_UND_ZUNEHMEN" name="ab- und zunehmen">
+        <rule>
+            <pattern>
+                <marker>
+                    <token case_sensitive="yes" regexp="yes">[Aa]b-</token>
+                </marker>
+                <token regexp="yes">noch|oder|und|&amp;|\/|sowie|\+|beziehungsweise|bzw</token>
+                <token min="0">.</token>
+                <token regexp="yes">zu.+</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token case_sensitive="yes" regexp="yes">[Zz]u-</token>
+                </marker>
+                <token regexp="yes">noch|oder|und|&amp;|\/|sowie|\+|beziehungsweise|bzw</token>
+                <token min="0">.</token>
+                <token regexp="yes">ab.+</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
 </rules>
