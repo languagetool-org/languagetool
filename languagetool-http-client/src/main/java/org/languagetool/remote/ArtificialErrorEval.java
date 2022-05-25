@@ -30,13 +30,7 @@ import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Properties;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -76,7 +70,9 @@ public class ArtificialErrorEval {
       String inputFolder = prop.getProperty("inputFolder");
       String outpuFolder = prop.getProperty("outputFolder");
       String remoteServer = prop.getProperty("remoteServer");
-      runEvaluationOnFolders(inputFolder, outpuFolder, remoteServer);
+      boolean printSummaryDetails = Boolean.parseBoolean(prop.getProperty("printSummaryDetails", "true"));
+      boolean printHeader = Boolean.parseBoolean(prop.getProperty("printHeader", "true"));
+      runEvaluationOnFolders(inputFolder, outpuFolder, remoteServer, printSummaryDetails, printHeader);
       System.exit(0);
     }
     if (args.length < 4 || args.length > 11) {
@@ -107,11 +103,11 @@ public class ArtificialErrorEval {
     langCode = args[0];
     corpusFilePath = args[1];
     lt = new RemoteLanguageTool(Tools.getUrl("http://localhost:8081"));
-    run();
+    run(true);
     // end of parsing from args  
   }
   
-  private static void runEvaluationOnFolders(String inputFolder, String outputFolder, String remoteServer) throws IOException {
+  private static void runEvaluationOnFolders(String inputFolder, String outputFolder, String remoteServer, boolean printSummaryDetails, boolean printHeader) throws IOException {
     
     verboseOutput = true;
     SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd");
@@ -125,8 +121,10 @@ public class ArtificialErrorEval {
     for (File languageDirectory : languageDirectories) {
       langCode = languageDirectory.getName();
       Files.createDirectories(Paths.get(outputPathRoot+"/"+langCode));
-      summaryOutputFilename = outputPathRoot+"/"+langCode+".tsv";
-      appendToFile(summaryOutputFilename, "Category\tRules\tErrors\tPrecision\tRecall\tTP\tFP\tTN\tFN");
+      summaryOutputFilename = outputPathRoot+"/"+langCode+"/"+langCode+".tsv";
+      if (printHeader) {
+        appendToFile(summaryOutputFilename, "Category\tRules\tErrors\tPrecision\tRecall\tTP\tFP\tTN\tFN");
+      }
       File[] categoryDirectories = languageDirectory.listFiles(File::isDirectory);
       for (File categoryDirectory: categoryDirectories) {
         Arrays.fill(accumulateResults, 0);
@@ -145,15 +143,15 @@ public class ArtificialErrorEval {
             undirectional = parts[2].equals("u");
           }
           verboseOutputFilename = outputPathRoot+"/"+langCode+"/"+errorCategory+"/"+myCorpusFile.getName();
-          run();
+          run(printSummaryDetails);
         }
         // total by category
         float precision = accumulateResults[1] / (float) (accumulateResults[1] + accumulateResults[2]);
         float recall = accumulateResults[1] / (float) (accumulateResults[1] + accumulateResults[4]);
         appendToFile (summaryOutputFilename, errorCategory + "\t" + "TOTAL" + "\t" 
             + accumulateResults[0] + "\t" 
-            + String.format("%.4f", precision) + "\t" 
-            + String.format("%.4f", recall) + "\t"
+            + String.format(Locale.ROOT, "%.4f", precision) + "\t" 
+            + String.format(Locale.ROOT, "%.4f", recall) + "\t"
             + accumulateResults[1] + "\t"
             + accumulateResults[2] + "\t"
             + accumulateResults[3] + "\t"
@@ -163,7 +161,7 @@ public class ArtificialErrorEval {
     }
   }
   
-  private static void run() throws IOException {
+  private static void run(boolean printSummaryDetails) throws IOException {
     Arrays.fill(results[0], 0);
     Arrays.fill(results[1], 0);
     fakeRuleIDs[0] = "rules_" + words[0] + "->" + words[1]; // rules in one direction
@@ -231,8 +229,8 @@ public class ArtificialErrorEval {
         resultsString.append(classifyTypes.get(j) + ": " + results[i][j] + "\n");
       }
 
-      resultsString.append("Precision: " + String.format("%.4f", precision) + "\n");
-      resultsString.append("Recall: " + String.format("%.4f", recall) + "\n");
+      resultsString.append("Precision: " + String.format(Locale.ROOT, "%.4f", precision) + "\n");
+      resultsString.append("Recall: " + String.format(Locale.ROOT, "%.4f", recall) + "\n");
       // out.write("TP with expected suggestion: " + String.format("%.4f",
       // expectedSuggestionPercentage)+"\n");
       resultsString.append("Errors: " + String.valueOf(errorsTotal) + "\n");
@@ -257,13 +255,15 @@ public class ArtificialErrorEval {
 //      System.out.println("TP with expected suggestion: " + String.format("%.4f", expectedSuggestionPercentage));
 //      System.out.println("Errors: " + String.valueOf(errorsTotal));
       
+      if (printSummaryDetails) {
+          appendToFile(summaryOutputFilename, errorCategory + "\t" + fakeRuleIDs[i]
+                  + "\t" + errorsTotal + "\t" + String.format(Locale.ROOT, "%.4f", precision) + "\t" + String.format(Locale.ROOT, "%.4f", recall) + "\t"
+                  + results[i][classifyTypes.indexOf("TP")] + "\t"
+                  + results[i][classifyTypes.indexOf("FP")] + "\t"
+                  + results[i][classifyTypes.indexOf("TN")] + "\t"
+                  + results[i][classifyTypes.indexOf("FN")] + "\t");
+      }
       
-      appendToFile (summaryOutputFilename, errorCategory + "\t" + fakeRuleIDs[i] 
-          + "\t" + errorsTotal + "\t" + String.format("%.4f", precision)  + "\t" + String.format("%.4f", recall) + "\t"
-          + results[i][classifyTypes.indexOf("TP")] + "\t"
-          + results[i][classifyTypes.indexOf("FP")] + "\t"
-          + results[i][classifyTypes.indexOf("TN")] + "\t"
-          + results[i][classifyTypes.indexOf("FN")] + "\t");
       accumulateResults[0] += errorsTotal;
       accumulateResults[1] += results[i][classifyTypes.indexOf("TP")];
       accumulateResults[2] += results[i][classifyTypes.indexOf("FP")];
@@ -273,7 +273,7 @@ public class ArtificialErrorEval {
     }
     float time = (float) ((System.currentTimeMillis() - start) / 1000.0);
     System.out.println("-------------------------------------");
-    System.out.println("Total time: " + String.format("%.2f", time) + " seconds");
+    System.out.println("Total time: " + String.format(Locale.ROOT, "%.2f", time) + " seconds");
   }
   
   private static void appendToFile(String FilePath, String text) throws IOException {
@@ -358,7 +358,7 @@ public class ArtificialErrorEval {
         System.out.println(countLine + ". " + classification + ": " + sentence + " –– " + ruleIds);
       } else {
         try (BufferedWriter out = new BufferedWriter(new FileWriter(verboseOutputFilename, true))) {
-          out.write(countLine + ". " + classification + ": " + sentence + " –– " + ruleIds+"\n");
+          out.write(countLine + "\t" + classification + "\t" + sentence + "\t" + ruleIds+"\n");
         }  
       }
       
