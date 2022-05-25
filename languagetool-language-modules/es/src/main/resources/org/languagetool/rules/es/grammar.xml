@@ -24783,22 +24783,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup id="PUES_COMAS" name="pues (comas)" default="temp_off">
             <antipattern>
+                <token postag="SENT_START"/>
+                <token>así</token>
+                <token>pues</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\p{P}</token>
                 <token>así</token>
                 <token>pues</token>
             </antipattern>
             <rule>
                 <pattern>
-                    <token><exception postag="SENT_START|_PUNCT.*" postag_regexp="yes"/></token>
+                    <token><exception postag="SENT_START|_PUNCT.*" postag_regexp="yes"/><exception regexp="yes">\p{P}</exception></token>
                     <marker>
                         <token>pues</token>
                     </marker>
-                    <token><exception postag="_PUNCT.*" postag_regexp="yes"/><exception regexp="yes">\p{P}</exception></token>
+                    <token><exception regexp="yes">\p{P}</exception></token>
                 </pattern>
-                <message>Con el sentido de causa (=puesto que) se escribe preferiblement con una coma antes. Con valor conitnuativo (=por tanto), se escribe entre comas.</message>
+                <message>Con el sentido de causa (=puesto que), "pues" se escribe preferiblement con una coma antes. Con valor continuativo (=por tanto), se escribe entre dos comas.</message>
                 <suggestion>, pues</suggestion>
                 <suggestion>, pues,</suggestion>
                 <example correction=", pues|, pues,">Llámale tú<marker> pues</marker> lo conoces de hace tiempo.</example>
                 <example correction=", pues|, pues,">Insisto<marker> pues</marker> que esto es imprescindible.</example>
+                <example>Así pues esta frase corresponde a otra regla.</example>
             </rule>
         </rulegroup>
         <rule id="PUESTO_QUE" name="puesto que (con coma)">
