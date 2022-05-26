@@ -5747,7 +5747,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <antipattern>
                     <token>practico</token>
-                    <token postag="[DN].*|UNKNOWN" postag_regexp="yes"/>
+                    <token postag="[DN].*" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
                     <token>que</token>
@@ -24781,7 +24781,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://www.fundeu.es/recomendacion/coma-antes-de-ya-que-pues-o-puesto-que/</url>
             <example correction="profesional, ya que|profesional porque">Busque atención <marker>profesional ya que</marker> pueden deberse a una infección.</example>
         </rule>
-        <rulegroup id="PUES_COMAS" name="pues (comas)" default="temp_off">
+        <rulegroup id="PUES_COMAS" name="pues (comas)">
+            <url>https://dle.rae.es/pues</url>
             <antipattern>
                 <token postag="SENT_START"/>
                 <token>así</token>
@@ -24794,13 +24795,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <rule>
                 <pattern>
-                    <token><exception postag="SENT_START|_PUNCT.*" postag_regexp="yes"/><exception regexp="yes">\p{P}</exception></token>
+                    <token><exception postag="SENT_START|_PUNCT.*" postag_regexp="yes"/><exception regexp="yes">\p{P}</exception><exception regexp="yes">y|o</exception></token>
                     <marker>
                         <token>pues</token>
                     </marker>
                     <token><exception regexp="yes">\p{P}</exception></token>
                 </pattern>
-                <message>Con el sentido de causa (=puesto que), "pues" se escribe preferiblement con una coma antes. Con valor continuativo (=por tanto), se escribe entre dos comas.</message>
+                <message>Con el sentido de causa ('puesto que'), "pues" se escribe preferiblement con una coma antes. Con valor continuativo ('por tanto'), se escribe entre dos comas.</message>
+                <!-- Third case:  con valor ilativo. ¿No quieres oír mis consejos?, pues tú lo llorarás algún día. -->
                 <suggestion>, pues</suggestion>
                 <suggestion>, pues,</suggestion>
                 <example correction=", pues|, pues,">Llámale tú<marker> pues</marker> lo conoces de hace tiempo.</example>
