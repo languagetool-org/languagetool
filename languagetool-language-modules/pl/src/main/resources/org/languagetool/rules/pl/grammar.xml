@@ -1994,6 +1994,53 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>Właśnie gdy to mówiłem, Przemysław gadał w telewizorze.</example>
 						</rule>
 				</rulegroup>
+				<rulegroup id="BRAK_PRZECINKA_JAK" name="Brak przecinka przed spójnikami złożonymi zawierającymi „jak”">
+            <rule>
+            <antipattern>
+            <token>,</token>
+            <token regexp="yes">jednak|choć|chociaż|ale</token>
+            <marker><token>w</token></marker>
+            </antipattern>
+            <antipattern>
+              <marker>
+              <token>jak</token>
+              </marker>
+              <token postag="ad.*:sup" postag_regexp="yes"></token>
+            </antipattern>
+              <pattern>
+                  <marker>
+                    <phraseref idref="NIE_INTERPUNKCJA"/>
+                    <token>w</token>                    
+                  </marker>
+										<token>miarę</token>
+										<token>jak</token>
+              </pattern>
+              <message>Brak przecinka przed spójnikiem złożonym: <suggestion>\1, \2</suggestion></message>
+              <short>Błąd interpunkcyjny</short>
+              <example correction="Dorota, w"><marker>Dorota w</marker> miarę jak rosła jej temperatura, czuła się coraz gorzej.</example>
+              <example>Chciałabym wyglądać w miarę jak najlepiej.</example>
+              <example>Słowa przechodzą mu przez gardło z trudem, choć w miarę jak nasza rozmowa postępuje, powoli się rozkręca.</example>
+            </rule>
+            <rule>
+              <antipattern>
+              <token inflected="yes">taki</token>
+              <marker>
+              <token>właśnie</token>
+              <token>jak</token>
+              </marker>
+              </antipattern>
+								<pattern>
+										<token negate="yes" regexp="yes">&interp;<exception postag="SENT_START|conj|comp" postag_regexp="yes"></exception></token>
+										<token regexp="yes">dopiero|właśnie|zwłaszcza|szczególnie</token>
+										<token regexp="yes">jak</token>
+								</pattern>
+								<message>Przecinek stawiamy przed całym spójnikiem złożonym: <suggestion>\1, \2 \3</suggestion>.</message>
+								<short>Błąd interpunkcyjny</short>
+								<example correction="domu, dopiero jak">Przemysław wstąpił do <marker>domu dopiero jak</marker> poczuł brak Przemysławki.</example>
+								<example>Właśnie jak to mówiłem, Przemysław gadał w telewizorze.</example>
+								<example>Takich właśnie jak Paweł i Gaweł</example>
+						</rule>
+				</rulegroup>
 				<rulegroup id="BRAK_PRZECINKA_SPOJNIK_PROSTY" name="Brak przecinka przed spójnikami prostymi (acz, aczkolwiek, choć...)">
 				    <antipattern>
               <token postag="SENT_START"></token>
@@ -17591,6 +17638,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rulegroup>
 		</category>
 		<category id="SPELLING" name="Błędy ortograficzne" type="misspelling">
+		<rule id="PODLUG_PODLOG" name="„do podług” (do podłóg)">
+        <pattern>
+        <token postag="prep:gen.*" postag_regexp="yes"></token>
+        <marker>
+          <token>podług</token>
+        </marker>
+        </pattern>
+        <message>Prawdopodobnie błąd ortograficzny. Czy chodziło o <suggestion>podłóg</suggestion> (dopełniacz od „podłoga”)?</message>
+        <short>Błąd ortograficzny</short>
+        <example correction="podłóg">Polecam też kity do <marker>podług</marker> firmy Soudal.</example>
+		</rule>
     <rule id="nie_mniej_jednak" name="„nie mniej jednak” (niemniej jednak)">
       <pattern>
         <marker>
