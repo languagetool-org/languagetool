@@ -12178,6 +12178,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
 		<category id="STYLE" name="Błędy leksykalne" type="style">
+		<rule id="DO_NA_DZIEN_DZISIEJSZY" name="„do na dzień obecny” (do dziś, nadal)">
+        <pattern>
+          <token>do</token>
+          <token>na</token>
+          <token>dzień</token>
+          <token regexp="yes">dzisiejszy|obecny</token>        
+        </pattern>
+        <message>To wyrażenie jest bardzo niezgrabne. Lepiej: <suggestion>nadal</suggestion>, <suggestion>do dziś</suggestion>.</message>
+        <short>Błąd leksykalny</short>
+        <example correction="nadal|do dziś">Najstarszy kurort w Polsce to Lądek Zdrój, który <marker>do na dzień obecny</marker> cieszy się wielkim powodzeniem.</example>
+		</rule>
         <rule id="W_KONTRASCIE_DO" name="„w kontraście do” (w przeciwieństwie do, w odróżnieniu od)">
          <pattern>
           <token>w</token>
@@ -15437,6 +15448,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token>,</token>
             <marker><token>ze</token></marker>
 				  </antipattern>
+				  <antipattern>
+            <token regexp="yes">(?:po)?mimo|tyle</token>
+            <token min="0">,</token>
+            <marker><token>ze</token></marker>
+				  </antipattern>
 						<rule>
 								<pattern>
 										<token>ze<exception scope="previous" spacebefore="no" regexp="yes">&apost;</exception></token>
@@ -15452,6 +15468,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>To trzydzieści miast, ze Lwowem włącznie.</example>
 								<example correction="z Łodzi">Ludwik ma kochankę <marker>ze Łodzi</marker>.</example>
                 <example>Podniósł się z fotelu i ze czcią zebrał porozdzierane kartki.</example>
+                <!-- inna reguła, ZE_ZE -->
+                <example>Mimo ze to prawda!</example>
 						</rule>
 						<rule>
 								<pattern>
@@ -17638,7 +17656,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rulegroup>
 		</category>
 		<category id="SPELLING" name="Błędy ortograficzne" type="misspelling">
-		<rule id="PODLUG_PODLOG" name="„do podług” (do podłóg)">
+		<rulegroup id="PODLUG_PODLOG" name="„do podług” (do podłóg)">
+		<rule>
         <pattern>
         <token postag="prep:gen.*" postag_regexp="yes"></token>
         <marker>
@@ -17649,6 +17668,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <short>Błąd ortograficzny</short>
         <example correction="podłóg">Polecam też kity do <marker>podług</marker> firmy Soudal.</example>
 		</rule>
+		<rule>
+      <pattern>
+        <marker>
+          <token>podług</token>
+        </marker>
+          <token regexp="yes">drewnianych|sportowych|ceramicznych|egzotycznych</token>
+        </pattern>
+        <message>Prawdopodobnie błąd ortograficzny. Czy chodziło o <suggestion>podłóg</suggestion> (dopełniacz od „podłoga”)?</message>
+        <short>Błąd ortograficzny</short>
+        <example correction="podłóg">Jestem wielbicielem <marker>podług</marker> drewnianych.</example>
+		</rule>
+		</rulegroup>
     <rule id="nie_mniej_jednak" name="„nie mniej jednak” (niemniej jednak)">
       <pattern>
         <marker>
@@ -26271,6 +26302,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example correction="straty">Małysz poniósł wielkie <marker>starty</marker>.</example>
 						</rule>
 				</rulegroup>
+				<rule id="DO_NA" name="„do na” (do lub na)">
+				<antipattern> <!-- inne reguły lub brak błędu-->
+				  <token>na</token>
+				  <token regexp="yes">przykład|prawdę|tyle|wpół|dzień</token>
+				</antipattern>
+          <pattern>
+            <token>do</token>
+            <token>na</token>          
+          </pattern>
+          <message>Prawdopodobna literówka. Czy chodziło o <suggestion>\1</suggestion> czy o <suggestion>\2</suggestion>?</message>
+          <short>Prawdopodobna literówka</short>
+					<example correction="do|na">Tesco wchodząc <marker>do na</marker> nowy rynek zmieniło nazwę na Home Plus.</example>
+					<example>Prowadzi to do na  tyle wysokiego miejscowego wzrostu temperatury że dochodzi do samozapłonu węgla.</example>
+					<example>Stąd bardzo łatwo dostać się do na wpół wygasłego wulkanu Solfatara.</example>
+				</rule>
 				<rule id="W_Z" name="„w z” (w lub z)">
 						<pattern>
 								<token>w</token>
@@ -26311,34 +26357,61 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example correction="że">Premier poinformował, <marker>ze</marker> trzeba siać, siać, siać.</example>
                                 <example correction="że">Potwierdzono, <marker>ze</marker> grupa kontaktowa uległa przekształceniu.</example>
 						</rule>
-                    <rule>
-                        <pattern>
-                            <marker>
-                                <token>ze</token>
-                            </marker>
-                            <token>wtedy</token>
-                        </pattern>
-                        <message>Prawdopodobna literówka. Czy chodziło o <suggestion>że</suggestion>?</message>
-                        <short>Prawdopodobna literówka</short>
-                        <example>Premier poinformował, że chce iść na spacer.</example>
-                        <example correction="że">Premier poinformował wczoraj, <marker>ze</marker> wtedy jadł pierogi.</example>
-                    </rule>
-                    <rule>
-                        <pattern>
-                            <token inflected="yes">być</token>
-                            <token>zdania</token>
-                            <token min="0" max="1">,</token>
-                            <marker>
-                                <token>ze</token>
-                            </marker>
-                        </pattern>
-                        <message>Prawdopodobna literówka. Czy chodziło o <suggestion>że</suggestion>?</message>
-                        <short>Prawdopodobna literówka</short>
-                        <example>Premier był zdania, że to dobra ustawa.</example>
-                        <example correction="że">Premier był zdania, <marker>ze</marker> to dobra ustawa.</example>
-                        <example correction="że">Premier był zdania <marker>ze</marker> to dobra ustawa.</example>
-                    </rule>
-                </rulegroup>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>ze</token>
+                </marker>
+                <token>wtedy</token>
+            </pattern>
+            <message>Prawdopodobna literówka. Czy chodziło o <suggestion>że</suggestion>?</message>
+            <short>Prawdopodobna literówka</short>
+            <example>Premier poinformował, że chce iść na spacer.</example>
+            <example correction="że">Premier poinformował wczoraj, <marker>ze</marker> wtedy jadł pierogi.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes">być</token>
+                <token>zdania</token>
+                <token min="0" max="1">,</token>
+                <marker>
+                    <token>ze</token>
+                </marker>
+            </pattern>
+            <message>Prawdopodobna literówka. Czy chodziło o <suggestion>że</suggestion>?</message>
+            <short>Prawdopodobna literówka</short>
+            <example>Premier był zdania, że to dobra ustawa.</example>
+            <example correction="że">Premier był zdania, <marker>ze</marker> to dobra ustawa.</example>
+            <example correction="że">Premier był zdania <marker>ze</marker> to dobra ustawa.</example>
+        </rule>
+        <rule>
+        <antipattern>
+          <marker>
+          <token>z</token>
+          </marker>    
+          <token>grubsza</token>
+        </antipattern>
+            <pattern>
+            <marker>
+              <token>ze</token>
+            </marker>
+              <token regexp="yes">[uz]|od|do|na</token>        
+            </pattern>
+            <message>Prawdopodobna literówka. Czy chodziło o <suggestion>że</suggestion>?</message>
+            <short>Literówka</short>
+            <example correction="że">Wydaje mi sie <marker>ze</marker> z tą klasą średnią i biedotą to wcale do końca tak nie jest.</example>    
+        </rule>
+        <rule>
+          <pattern>
+            <token regexp="yes">(?:po)?mimo|tyle</token>
+            <token min="0">,</token>
+            <token>ze</token>
+          </pattern>
+          <message>Prawdopodobna literówka. Czy chodziło o <suggestion>\1 że</suggestion>?</message>
+          <short>Literówka</short>
+          <example correction="Mimo że"><marker>Mimo, ze</marker> z dawnym Gamblerem nie możemy się mierzyć, mamy nadzieję, że tu każdy znajdzie coś dla siebie.</example>
+        </rule>
+    </rulegroup>
                 <rule id="NAPRZECIWKA" name="„naprzeciwka” (z naprzeciwka)">
                     <antipattern>
                           <token>na</token>
