@@ -43,11 +43,13 @@ public class GRPCServer extends ProcessingServerImplBase
   public void analyze(org.languagetool.rules.ml.MLServerProto.AnalyzeRequest request,
       io.grpc.stub.StreamObserver<org.languagetool.rules.ml.MLServerProto.AnalyzeResponse> responseObserver) {
     try {
-      PipelineSettings settings = buildSettings(request.getOptions());
-      Pipeline pipeline = pool.getPipeline(settings);
-      List<AnalyzedSentence> sentences = pipeline.analyzeText(request.getText());
+      log.info("Handling analyze request");
+      // TODO: enable this again when fixed
+      // PipelineSettings settings = buildSettings(request.getOptions());
+      // Pipeline pipeline = pool.getPipeline(settings);
+      // List<AnalyzedSentence> sentences = pipeline.analyzeText(request.getText());
       AnalyzeResponse response = AnalyzeResponse.newBuilder()
-        .addAllSentences(sentences.stream().map(GRPCUtils::toGRPC).collect(Collectors.toList()))
+        // .addAllSentences(sentences.stream().map(GRPCUtils::toGRPC).collect(Collectors.toList()))
         .build();
       responseObserver.onNext(response);
       responseObserver.onCompleted();
@@ -62,6 +64,7 @@ public class GRPCServer extends ProcessingServerImplBase
   public void process(org.languagetool.rules.ml.MLServerProto.ProcessRequest request,
       io.grpc.stub.StreamObserver<org.languagetool.rules.ml.MLServerProto.ProcessResponse> responseObserver) {
     try {
+      log.info("Handling process request");
       PipelineSettings settings = buildSettings(request.getOptions());
       Pipeline pipeline = pool.getPipeline(settings);
       List<AnalyzedSentence> sentences = request.getSentencesList().stream()
@@ -69,11 +72,15 @@ public class GRPCServer extends ProcessingServerImplBase
 
       // TODO: rawMatches should have all results, regardless of mode/level/tempOff/...
       List<RuleMatch> rawMatches = new ArrayList<>();
-      CheckResults results = pipeline.checkAnalyzedSentences(sentences, m -> rawMatches.add(m));
+      String text = sentences.stream().map(AnalyzedSentence::getText).collect(Collectors.joining());
+      List<RuleMatch> matches = pipeline.check(text, m -> rawMatches.add(m));
+      // TODO use checkInternal again
+      // CheckResults results = pipeline.checkAnalyzedSentences(sentences, m -> rawMatches.add(m));
 
       ProcessResponse response = ProcessResponse.newBuilder()
         .addAllRawMatches(rawMatches.stream().map(GRPCUtils::toGRPC).collect(Collectors.toList()))
-        .addAllMatches(results.getRuleMatches().stream().map(GRPCUtils::toGRPC).collect(Collectors.toList()))
+        // .addAllMatches(results.getRuleMatches().stream().map(GRPCUtils::toGRPC).collect(Collectors.toList()))
+        .addAllMatches(matches.stream().map(GRPCUtils::toGRPC).collect(Collectors.toList()))
         .build();
       responseObserver.onNext(response);
       responseObserver.onCompleted();
@@ -93,9 +100,7 @@ public class GRPCServer extends ProcessingServerImplBase
       .executor(executor)
       .build();
     server.start();
-    if (config.getPort() == 0) {
-      System.out.println("port=" + server.getPort());
-    }
+    System.out.println("port=" + server.getPort());
     server.awaitTermination();
   }
 }

@@ -211,10 +211,10 @@ class Pipeline extends JLanguageTool {
    * exposed here for GRPCServer
    */
   CheckResults checkAnalyzedSentences(List<AnalyzedSentence> analyzed, RuleMatchListener listener) throws Exception {
+    // TODO use checkInternal again
     List<String> sentences = analyzed.stream().map(AnalyzedSentence::getText).collect(Collectors.toList());
     String text = sentences.stream().collect(Collectors.joining());
     AnnotatedText annotated = new AnnotatedTextBuilder().addText(text).build();
     return checkInternal(annotated, ParagraphHandling.NORMAL, listener, Mode.ALL, Level.DEFAULT, null, sentences, analyzed);
-
   }
 }
