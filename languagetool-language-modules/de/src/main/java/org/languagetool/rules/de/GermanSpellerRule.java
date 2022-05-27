@@ -2594,6 +2594,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Dnk": return topMatch("Dank");
       case "schleswig-holstein": return topMatch("Schleswig-Holstein");
       case "Stahlkraft": return topMatch("Strahlkraft");
+      case "trümmern": return topMatch("Trümmern");
+      case "gradeaus": return topMatch("geradeaus");
     }
     return Collections.emptyList();
   }

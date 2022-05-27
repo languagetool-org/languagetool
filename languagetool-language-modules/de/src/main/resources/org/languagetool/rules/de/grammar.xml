@@ -256,7 +256,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Mögliche Tippfehler">
-        <rule id="PLUS_BER" name="+ber (über)" default="temp_off">
+        <rule id="PLUS_BER" name="+ber (über)">
             <antipattern>
                 <token regexp="yes">.*[a-z0-9].*</token>
                 <token spacebefore="no">+</token>
@@ -13431,6 +13431,64 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rulegroup id="GERADE_AUS" name="gerade aus (geradeaus)" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">ge?rade</token>
+                        <token case_sensitive="yes">aus</token>
+                    </marker>
+                    <token min="0">zu</token>
+                    <token inflected="yes" regexp="yes">(weiter)?(fahren|radeln|gehen|laufen|blicken|schauen|steuern|gucken|werfen|fliegen)</token>
+                </pattern>
+                <message>Das Adverb <suggestion>geradeaus</suggestion> wird zusammengeschrieben.</message>
+                <example correction="geradeaus">Ohne Hand am Lenker wird man nicht immer <marker>gerade aus</marker> fahren.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>jetzt</token>
+                    <token regexp="yes">ge?rade</token>
+                </antipattern>
+                <antipattern>
+                    <token>aus</token>
+                    <token postag="ART.*|PRO.*" postag_regexp="yes" />
+                </antipattern>
+                <pattern>
+                    <token inflected="yes" regexp="yes">(weiter)?(fahren|radeln|gehen|laufen|blicken|schauen|steuern|gucken|werfen|fliegen)</token>
+                    <token postag="ADV.*|PRO:POS.*" postag_regexp="yes" min="0" />
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">ge?rade</token>
+                        <token case_sensitive="yes">aus</token>
+                    </marker>
+                </pattern>
+                <message>Das Adverb <suggestion>geradeaus</suggestion> wird zusammengeschrieben.</message>
+                <example correction="geradeaus">Das Auto fährt <marker>gerade aus</marker>.</example>
+                <example>Ich schaue jetzt gerade aus dem Fenster.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">immer|Augen|Fahrtrichtung</token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">ge?rade</token>
+                        <token case_sensitive="yes">aus</token>
+                    </marker>
+                    <token postag="KON.*|PKT" postag_regexp="yes" />
+                </pattern>
+                <message>Das Adverb <suggestion>geradeaus</suggestion> wird zusammengeschrieben.</message>
+                <example correction="geradeaus">Fahren Sie einfach immer <marker>grade aus</marker>!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">ge?rade</token>
+                        <token case_sensitive="yes">aus</token>
+                    </marker>
+                    <token regexp="yes" case_sensitive="yes">durch|in|a[mn]|zu[mr]?</token>
+                </pattern>
+                <message>Das Adverb <suggestion>geradeaus</suggestion> wird zusammengeschrieben.</message>
+                <example correction="geradeaus">Fahren Sie einfach immer <marker>grade aus</marker> durch den Tunnel!</example>
+            </rule>
+        </rulegroup>
         <rule id="DRAUF_KLICKEN" name="drauf klicken (draufklicken)">
             <antipattern>
                 <token regexp="yes" skip="2">da|dort|hier</token>
@@ -41553,7 +41611,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>beim</token>
-                    <token>besten</token>
+                    <token regexp="yes">(aller)?besten</token>
                     <marker>
                         <token case_sensitive="yes">willen</token>
                     </marker>
@@ -64081,10 +64139,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <exception regexp="yes">SPD|C[SD]U|AFD|FDP|ARD|ZDF|RTL|FBI|CIA|USA|HSV|ETF|NRW</exception>
                 </token>
             </antipattern>
+            <antipattern>
+                <token>(</token>
+                <token>den</token>
+                <token>)</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\d+</token>
+                <token>(</token>
+                <token regexp="yes">\d+</token>
+                <token>)</token>
+            </antipattern>
+            <antipattern>
+                <token skip="3" regexp="yes">[_\{]</token>
+                <token>(</token>
+            </antipattern>
             <pattern>
                 <token regexp="yes">
                     .*[a-z0-9].*
-                    <exception case_sensitive="yes" regexp="yes">.*_.*|.*\$.*|.*[a-z][A-Z][a-z].*|function|int|if|while|for|return|resolve|reject|print|sleep|setTimeout|log|switch|min|max|foreach|each|exp|ever|.*-</exception>
+                    <exception case_sensitive="yes" regexp="yes">.*_.*|.*\$.*|.*[a-z][A-Z][a-z].*|function|plot|varchar|int|if|while|for|return|resolve|reject|print|sleep|setTimeout|log|switch|min|max|foreach|each|exp|ever|.*-</exception>
                     <exception postag="UNKNOWN" regexp="yes">.*[a-zA-Z][0-9].*</exception>
                 </token>
                 <marker>
