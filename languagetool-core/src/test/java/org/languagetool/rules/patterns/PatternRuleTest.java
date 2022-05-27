@@ -329,10 +329,13 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
   protected void testMessages(Language lang, List<AbstractPatternRule> rules) {
     System.out.println("Checking messages for 'TBD' etc of " + rules.size() + " rules for " + lang + "...");
     for (AbstractPatternRule rule : rules) {
+      String msg = rule.getMessage().trim();
+      if (msg.trim().isEmpty()) {
+        fail("Empty message of rule " + rule.getFullId());
+      }
       if (rule.isDefaultTempOff() || rule.isDefaultOff()) {
         continue;
       }
-      String msg = rule.getMessage().trim();
       if (msg.equalsIgnoreCase("tbd") || msg.equalsIgnoreCase("todo") || msg.equalsIgnoreCase("lorem ipsum")) {
         fail("Unfinished message of rule " + rule.getFullId() + ": '" + msg + "'");
       }
