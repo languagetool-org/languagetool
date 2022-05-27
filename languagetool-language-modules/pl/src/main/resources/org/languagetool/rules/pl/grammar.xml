@@ -22157,6 +22157,89 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
     <category id="TYPOS" name="Prawdopodobne literówki" type="misspelling">
+    <rulegroup id="POTRZE_PIOTRZE_POTRZEB_PORZE" name="„potrze” (Piotrze, potrzeb, porze)">
+      <rule>
+          <pattern>
+              <token>panie</token>
+              <token case_sensitive="yes">Potrze</token>          
+          </pattern>
+          <message>Prawdopodobna literówka. Czy chodziło o <suggestion>\1 Piotrze</suggestion>?</message>
+          <short>Literówka</short>
+          <example correction="Panie Piotrze">Dzień dobry, <marker>Panie Potrze</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>o</token>
+          <token>tej</token>
+          <token min="0">samej</token>
+          <marker>
+            <token>potrze</token>
+          </marker>
+        </pattern>
+        <message>Prawdopodobna literówka. Czy chodziło o <suggestion>porze</suggestion>?</message>
+        <short>Literówka</short>
+        <example correction="porze">Za tydzień o tej samej <marker>potrze</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="prep:gen.*|adj:pl:gen:.*f.*" postag_regexp="yes"></token>
+          <marker>
+            <token>potrze</token>
+          </marker>        
+        </pattern>
+        <message>Prawdopodobna literówka. Czy chodziło o <suggestion>potrzeb</suggestion>?</message>
+        <short>Literówka</short>
+        <example correction="potrzeb">Posiadamy szeroka ofertę handlowa dostosowaną do <marker>potrze</marker> każdego, nawet najbardziej wymagającego klienta.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="CZYTA_CZYSTA" name="„czyta woda” (czysta woda)">
+    <rule>
+      <pattern>
+          <marker>
+            <token>czyta</token>
+          </marker>
+            <token regexp="yes">przyjemność|teoria|głupota|fikcja|prawda|poezja|abstrakcja|formalność|demagogia|hipokryzja|matematyka|kpina|radość|spekulacja|forma|propaganda|gra|fantazja|zabawa|strata|rozrywka|manipulacja|polityka|ciekawość|paranoja|komercja|krew|kartka|kalkulacja|chemia|złośliwość|magia|rozkosz|ekonomia|biel|karta|fizyka|loteria|utopia|rzeka|logika|pościel|fantastyka|bzdura|nauka|skóra|frajda|walka|statystyka|moc|świadomość|natura|oszczędność|esencja|biologia|psychologia|improwizacja|herezja|instalacja|wiedza|zazdrość|robota|informacja|nienawiść|rywalizacja|rekreacja|muzyka|fizjologia|akcja|patologia|kasa|ironia|iluzja|wiara|rasa|amatorszczyzna|adrenalina|przyroda|chęć|kosmetyka|woda|wódka|plaża|miłość|łazienka|dusza|klatka|sprawa|energia|droga|ofiara|sztuka</token>
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>czysta</suggestion>?</message>
+      <short>Literówka</short>
+      <example correction="czysta">Była tam <marker>czyta</marker> woda.</example>
+    </rule>    
+  <rule>
+      <pattern>
+          <token regexp="yes">była|woda|wódka|plaża|miłość|łazienka|dusza|klatka|sprawa|energia|droga|ofiara|sztuka</token>
+          <marker>
+            <token>czyta</token>
+          </marker>
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>czysta</suggestion>?</message>
+      <short>Literówka</short>
+      <example correction="czysta">A woda <marker>czyta</marker>.</example>
+    </rule>
+    </rulegroup>
+    <rulegroup id="LITROWKA" name="„litrówka” (literówka)">
+        <rule>
+            <pattern>
+              <unify><feature id="gender"/><feature id="number"/><feature id="case"/>
+              <token inflected="yes">błąd</token>
+              <token inflected="yes">litrowy</token>
+              </unify>            
+            </pattern>
+            <message>Prawdopodobna literówka. Czy chodziło o <suggestion><match no="1"/> <match no="2" regexp_match="^lit" regexp_replace="lite"/></suggestion>?</message>
+            <short>Literówka</short>
+            <example correction="błąd literowy">Popełniłem <marker>błąd litrowy</marker>, tzw. literówkę.</example>
+        </rule>
+        <rule>
+            <pattern>              
+              <token inflected="yes" regexp="yes">popełnić|zrobić</token>
+              <marker>              
+              <token inflected="yes">litrówka</token>
+              </marker>            
+            </pattern>
+            <message>Prawdopodobna literówka. Czy chodziło o <suggestion><match no="2" regexp_match="^lit" regexp_replace="lite"/></suggestion>?</message>
+            <short>Litrówka-literówka :)</short>
+            <example correction="literówkę">Popełniłem <marker>litrówkę</marker>.</example>
+        </rule>
+    </rulegroup>
     <rulegroup id="MNIE_MNIEJ" name="„mnie więcej” (mniej więcej)">
       <rule>
       <pattern>
