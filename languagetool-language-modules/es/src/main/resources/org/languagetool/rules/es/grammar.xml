@@ -5196,6 +5196,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Permaneció al margen, fuera porque ignorase los hechos producidos o por...</example>
                 <example>Peleó porque llegara la luz.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token skip="-1">si</token>
+                    <token skip="-1" postag="V.IP.*" postag_regexp="yes"><exception scope="next" postag="CS|PR.*" postag_regexp="yes"/></token>
+                    <marker>
+                        <and>
+                            <token inflected="yes" regexp="yes">.*ar</token>
+                            <token postag="VMSI(3S|3P|2S)0" postag_regexp="yes" regexp="yes">.+(ara|aran|aras)<exception postag="_possible_NP|VMI.*|[AN].*" postag_regexp="yes"/></token>
+                        </and>
+                    </marker>
+                </pattern>
+                <message>Si es futuro, se escribe con tilde.</message>
+                <suggestion><match no="3" postag="VMSI(3S|3P|2S)0" postag_regexp="yes" postag_replace="VMIF$10"/></suggestion>
+                <example correction="acompañará">Si un día tienes un hijo, te <marker>acompañara</marker>.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="SUBJUNTIVO_PASADO" name="confusión cante/canté">
             <!-- Needs much better disambiguation -->
