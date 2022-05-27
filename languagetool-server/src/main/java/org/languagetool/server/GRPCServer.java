@@ -64,15 +64,15 @@ public class GRPCServer extends ProcessingServerImplBase
   public void process(org.languagetool.rules.ml.MLServerProto.ProcessRequest request,
       io.grpc.stub.StreamObserver<org.languagetool.rules.ml.MLServerProto.ProcessResponse> responseObserver) {
     try {
-      log.info("Handling process request");
+      log.info("Handling process request: {}", request);
       PipelineSettings settings = buildSettings(request.getOptions());
       Pipeline pipeline = pool.getPipeline(settings);
-      List<AnalyzedSentence> sentences = request.getSentencesList().stream()
-        .map(GRPCUtils::fromGRPC).collect(Collectors.toList());
+      // List<AnalyzedSentence> sentences = request.getSentencesList().stream()
+      //   .map(GRPCUtils::fromGRPC).collect(Collectors.toList());
 
       // TODO: rawMatches should have all results, regardless of mode/level/tempOff/...
       List<RuleMatch> rawMatches = new ArrayList<>();
-      String text = sentences.stream().map(AnalyzedSentence::getText).collect(Collectors.joining());
+      String text = request.getSentencesList().stream().map(s -> s.getText()).collect(Collectors.joining());
       List<RuleMatch> matches = pipeline.check(text, m -> rawMatches.add(m));
       // TODO use checkInternal again
       // CheckResults results = pipeline.checkAnalyzedSentences(sentences, m -> rawMatches.add(m));
@@ -83,6 +83,7 @@ public class GRPCServer extends ProcessingServerImplBase
         .addAllMatches(matches.stream().map(GRPCUtils::toGRPC).collect(Collectors.toList()))
         .build();
       responseObserver.onNext(response);
+      log.info("Sending response: {}", response);
       responseObserver.onCompleted();
     } catch (Exception e) {
       log.warn("Process request failed", e);
@@ -92,7 +93,6 @@ public class GRPCServer extends ProcessingServerImplBase
 
   public static void main(String[] args) throws Exception {
     HTTPServerConfig config = new HTTPServerConfig(args);
-    config.port = 0;
     GRPCServer instance = new GRPCServer(config);
     Executor executor = Executors.newCachedThreadPool();
     Server server = ServerBuilder.forPort(config.getPort())
