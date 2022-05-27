@@ -264,14 +264,24 @@ public class TextLevelCheckQueue {
    */
   Language getLanguage(String docId, TextParagraph nStart) {
     SingleDocument document = getSingleDocument(docId);
+    DocumentCache docCache = null;
     if (document != null) {
-      DocumentCache docCache = document.getDocumentCache();
+      docCache = document.getDocumentCache();
       if (docCache != null && nStart.number < docCache.textSize(nStart)) {
         Locale locale = docCache.getTextParagraphLocale(nStart);
         if (locale != null && multiDocHandler.hasLocale(locale)) {
           return multiDocHandler.getLanguage(locale);
         }
         MessageHandler.printToLogFile("TextLevelCheckQueue: getLanguage: return null: locale = " + OfficeTools.localeToString(locale));
+      }
+    }
+    if (debugMode) {
+      if (document == null) {
+        MessageHandler.printToLogFile("TextLevelCheckQueue: getLanguage: document == null: return null");
+      } else if (docCache == null) {
+        MessageHandler.printToLogFile("TextLevelCheckQueue: getLanguage: docCache == null: return null");
+      } else if (nStart.number >= docCache.textSize(nStart)) {
+        MessageHandler.printToLogFile("TextLevelCheckQueue: getLanguage: nStart.number >= docCache.textSize(nStart): return null");
       }
     }
     return null;
@@ -326,7 +336,8 @@ public class TextLevelCheckQueue {
         }
         nPara = cursorPara;
         if (debugMode) {
-          MessageHandler.printToLogFile("TextLevelCheckQueue: getNextQueueEntry: Next Paragraph set to View Cursor: Type = " + nPara.type + ", number = " +nPara.number);
+          MessageHandler.printToLogFile("TextLevelCheckQueue: getNextQueueEntry: Next Paragraph set to View Cursor: Type = " + nPara.type 
+              + ", number = " + nPara.number + ", docId = " + docId);
         }
       }
     }
@@ -485,8 +496,15 @@ public class TextLevelCheckQueue {
       if (testHeapSpace()) {
         SingleDocument document = getSingleDocument(docId);
         if (document != null && !document.isDisposed()) {
+          if (debugMode) {
+            MessageHandler.printToLogFile("TextLevelCheckQueue: runQueueEntry: nstart = " + nStart.number + "; nEnd = "  + nEnd.number 
+                + "; nCache = "  + nCache + "; nCheck = "  + nCheck + "; overrideRunning = "  + overrideRunning);
+          }
           document.runQueueEntry(nStart, nEnd, nCache, nCheck, overrideRunning, lt);
         }
+      } else {
+        MessageHandler.printToLogFile("Warning: Not enough heap space; text level queue stopped!");
+        setStop();
       }
     }
     
@@ -614,6 +632,9 @@ public class TextLevelCheckQueue {
   	            lastCache = queueEntry.nCache;
   	            // entryLanguage == null: language is not supported by LT
   	            // lt is set to null - results in empty entry in result cache
+                if (debugMode && entryLanguage == null) {
+                  MessageHandler.printToLogFile("TextLevelCheckQueue: run: entryLanguage == null: lt set to null"); 
+                }
   	            queueEntry.runQueueEntry(multiDocHandler, entryLanguage == null ? null : lt);
                 queueEntry = null;
               } catch (Throwable e) {

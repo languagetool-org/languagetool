@@ -198,6 +198,22 @@ class SingleCheck {
       }
       
       TextParagraph tPara = docCache.getNumberOfTextParagraph(nFPara);
+      if (tPara.type < 0 || tPara.number < 0) {
+        MessageHandler.printToLogFile("WARNING: doc cache corrupted (at SingleCheck: addParaErrorsToCache) : refresh doc cache!");
+        if (docCursor == null) {
+          docCursor = new DocumentCursorTools(xComponent);
+        }
+        this.docCache.refresh(docCursor, flatPara, 
+            docLanguage != null ? LinguisticServices.getLocale(docLanguage) : null, xComponent, 7);
+        docCache = new DocumentCache(this.docCache);
+        tPara = docCache.getNumberOfTextParagraph(nFPara);
+        if (tPara.type < 0 || tPara.number < 0) {
+          MessageHandler.printToLogFile("Error: doc cache problem: error cache(" + cacheNum 
+              + ") set empty for nFpara = " + nFPara + "!");
+          paragraphsCache.get(cacheNum).put(nFPara, null, new SingleProofreadingError[0]);
+          return;
+        }
+      }
       int cursorType = tPara.type;
       
       String textToCheck = docCache.getDocAsString(tPara, parasToCheck, checkOnlyParagraph, useQueue, hasFootnotes);
@@ -216,6 +232,10 @@ class SingleCheck {
       int endPara = docCache.getEndOfParaCheck(tPara, parasToCheck, checkOnlyParagraph, useQueue, false);
       int startPos = docCache.getStartOfParagraph(startPara, tPara, parasToCheck, checkOnlyParagraph, useQueue, hasFootnotes);
       int endPos;
+      if (debugMode > 1) {
+        MessageHandler.printToLogFile("SingleCheck: addParaErrorsToCache: tPara.type = " + tPara.type + "; tPara.number = " + tPara.number);
+        MessageHandler.printToLogFile("SingleCheck: addParaErrorsToCache: nFPara = " + nFPara + "; startPara = " + startPara + "; endPara = " + endPara);
+      }
       for (int i = startPara; i < endPara; i++) {
         if (isDisposed() || (useQueue && !isDialogRequest && (mDH.getTextLevelCheckQueue() == null || mDH.getTextLevelCheckQueue().isInterrupted()))) {
           MessageHandler.printToLogFile("SingleCheck: addParaErrorsToCache: return: isDisposed = " + isDisposed() + ", useQueue = " + useQueue
