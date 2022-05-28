@@ -22162,6 +22162,51 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
     <category id="TYPOS" name="Prawdopodobne literówki" type="misspelling">
+    <rule id="OGOLE_OGOLNE" name="„ogóle” (ogólne)">
+    <antipattern>
+      <unify>
+        <feature id="case"/><feature id="gender"/><feature id="number"></feature>
+        <token postag="pact.*|adj.*" postag_regexp="yes"/>
+        <marker>
+          <token>ogóle</token>
+        </marker>      
+      </unify>    
+    </antipattern>
+    <antipattern>
+      <token>o</token>
+      <token>ogóle</token>
+      <token postag="subst:sg:gen.*" postag_regexp="yes"></token>
+    </antipattern>
+      <pattern>
+        <marker>
+          <token>ogóle
+            <exception scope="previous">w</exception>
+            </token>
+        </marker>
+          <token postag="subst:pl.*(nom|acc).*(f|n[12])" postag_regexp="yes"/>
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>ogólne</suggestion>?</message>
+      <short>Literówka</short>
+      <example correction="Ogólne"><marker>Ogóle</marker> informacje na temat prawa internetowego</example>
+      <example>Tymczasem w swoim ogóle wina wypadły słabo.</example>
+      <example>Nie sposób mówiąc o ogóle sprawy pominąć pozostałych, mniej ważnych kwestii - bo w końcu diabeł tkwi w szczegółach.</example>
+    </rule>
+    <rule id="JENA_JEDNA" name="„jena” (jedna)">
+      <pattern>
+      <marker>
+        <token>jena
+          <exception scope="previous" regexp="yes" inflected="yes">rynek|kurs|notowanie|japoński|osłabiać|bronić|\d+</exception>
+          <exception scope="previous" postag="prep:gen.*" postag_regexp="yes"/>
+        </token>
+      </marker>
+        <token postag="subst:sg:nom:f"></token>      
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>jedna</suggestion>?</message>
+      <short>Literówka</short>
+      <example>Dolar kosztował po południu 1,77 marki i 131,95 jena w porównaniu z 1,78 marki i 133,2 jena dzień wcześniej.</example>
+      <example>W relacji do jena marka była najdroższa od tygodnia i kosztowała 70,81 JPY.</example>
+      <example correction="jedna">Dla Spinozy tylko <marker>jena</marker> rzecz jest konkretna: wszechświat jako całość.</example>    
+    </rule>
     <rule id="CODZIENNE_CODZIENNIE" name="„codzienne mam” (codziennie mam)">
     <antipattern>
       <unify>
