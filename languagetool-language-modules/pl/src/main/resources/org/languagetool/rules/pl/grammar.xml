@@ -2032,7 +2032,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<pattern>
 										<token negate="yes" regexp="yes">&interp;<exception postag="SENT_START|conj|comp" postag_regexp="yes"></exception></token>
 										<token regexp="yes">dopiero|właśnie|zwłaszcza|szczególnie</token>
-										<token regexp="yes">jak</token>
+										<token>jak</token>
 								</pattern>
 								<message>Przecinek stawiamy przed całym spójnikiem złożonym: <suggestion>\1, \2 \3</suggestion>.</message>
 								<short>Błąd interpunkcyjny</short>
@@ -22162,6 +22162,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
     <category id="TYPOS" name="Prawdopodobne literówki" type="misspelling">
+    <rulegroup id="SKLONY_SKLONNY" name="„skłony (skłonny)">
+        <rule>
+          <pattern>
+            <token postag="verb:.*sg.*" postag_regexp="yes" inflected="yes">być<exception regexp="yes">był[ao].*</exception></token>
+            <token min="0" max="2" postag="qub|adv.*|ppron.*" postag_regexp="yes"/>
+            <marker>
+              <token>skłony</token>
+            </marker>
+          </pattern>
+          <message>Prawdopodobna literówka. Czy chodziło o <suggestion>skłonny</suggestion>?</message>
+          <short>Literówka</short>
+          <example correction="skłonny">Przedstawiciele kibiców próbowali negocjować z delegatem, jednak przedstawiciel PZPN nie był specjalnie <marker>skłony</marker> do dyskusji.</example> 
+        </rule>
+        <rule>
+          <pattern>
+            <marker>
+              <token>skłony</token>
+            </marker>
+            <token postag="verb:.*sg.*"  postag_regexp="yes" inflected="yes">być<exception regexp="yes">był[ao].*</exception></token>
+            </pattern>
+          <message>Prawdopodobna literówka. Czy chodziło o <suggestion>skłonny</suggestion>?</message>
+          <short>Literówka</short>
+          <example correction="skłonny">Przedstawiciele kibiców próbowali negocjować z delegatem, a przedstawiciel PZPN <marker>skłony</marker> był wypić wódeczkę.</example> 
+      </rule>
+    </rulegroup>
     <rule id="OGOLE_OGOLNE" name="„ogóle” (ogólne)">
     <antipattern>
       <unify>
