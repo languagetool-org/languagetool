@@ -6736,12 +6736,29 @@ MARCOAGPINTO 2020-02-18 -->
       <example correction='representem'>Variamos os argumentos caso estes <marker>representam</marker> resultados fracos.</example>
       <example>Variamos os argumentos caso estes representem resultados fracos.</example>
     </rule>
-<!-- MARCOAGPINTO 2020-02-16 *END* -->  	  
+<!-- MARCOAGPINTO 2020-02-16 *END* -->  
+
+
     <rule>
+
+<!-- MARCOAGPINTO 2022-05-28 (24-MAY-2022+) *START* -->
+<!--
+Ontem eu sai de casa.
+-->
+      <antipattern>
+          <token>eu</token>
+		  <token postag='VMIP3S0' postag_regexp='no'>
+			<exception postag='VMM02S0' postag_regexp='no'/>
+		  </token>
+		  <token/>
+      </antipattern>	
+<!-- MARCOAGPINTO 2022-05-28 (24-MAY-2022+) *END* -->	
+
       <antipattern>
           <token regexp='yes' case_sensitive='yes'>e|ou</token>
           <token>eu</token>
       </antipattern>
+
       <pattern>
           <token>eu</token>
           <token min="0" max="3" postag='R.+' postag_regexp='yes'>
@@ -6754,7 +6771,34 @@ MARCOAGPINTO 2020-02-18 -->
       <example correction='Eu passeio'><marker>Eu passeiam</marker> na praia.</example>
       <example>Eu preocupar-me-ia, talvez, com esta manifestação de ignorância.</example>
       <example>Eu é que fiz.</example>
+	  <example>Ontem eu saí de casa.</example>
     </rule>
+
+
+<!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions (based on Tiago Santos rule), Portuguese rule 2022-05-28 (24-MAY-2022+)      -->
+<!--
+Ontem eu sai de casa. → Ontem eu saí de casa.
+-->
+    <rule>
+
+      <antipattern>
+          <token regexp='yes' case_sensitive='yes'>e|ou</token>
+          <token>eu</token>
+      </antipattern>
+	  
+      <pattern>
+          <token>eu</token>
+          <token min="0" max="3" postag='R.+' postag_regexp='yes'>
+            <exception scope='next'>,</exception></token>
+          <token postag='VMIP3S0' postag_regexp='no'>
+            <exception postag='VMM02S0|VMIC1S0|VMSP1S0|VMII1S0' postag_regexp='yes'/></token>
+      </pattern>
+      <message>&MSG_ECV;</message>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='VMIP3S0' postag_replace='VMIS1S0' postag_regexp='yes'/></suggestion>
+      <example correction='eu saí'>Ontem <marker>eu sai</marker> de casa.</example>
+    </rule>
+
+
     <rule>
       <antipattern>
           <token regexp='yes' case_sensitive='yes'>e|ou</token>
