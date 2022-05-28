@@ -5882,6 +5882,21 @@
         <disambig action="filterall"/>
     </rule>
 
+
+    <rule name="będzie + subst/inf -> inf" id="BEDZIE_INF">
+        <pattern>
+            <token postag="verb:bedzie.*" postag_regexp="yes"/>
+            <marker>
+            <and>
+                <token postag="subst:pl:gen.*" postag_regexp="yes"></token>
+                <token postag="verb:inf.*" postag_regexp="yes"></token>
+            </and>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="verb:inf.*"/>
+        <example type="ambiguous" inputform="żyć[życie/subst:pl:gen:n2,żyć/verb:inf:imperf:nonrefl]" outputform="żyć[żyć/verb:inf:imperf:nonrefl]">Przypominając Czechom, że ze swymi sąsiadami będą <marker>żyć</marker> przez stulecia, prezydent zaakcentował konieczność poszukiwania nowych, lepszych form współpracy z nimi. </example>
+    </rule>
+
     <rule name="być z narzędnikiem dla orzecznika" id="BYC_INST">
         <pattern>
             <token inflected="yes" postag="(?:verb|pact).*" postag_regexp="yes" regexp="yes">by(wa)?ć
@@ -5902,11 +5917,15 @@
 
     <rule name="być z narzędnikiem dla orzecznika" id="BYC_INST_2">
         <pattern>
-            <token postag=".*inst.*" postag_regexp="yes"><exception postag="(?:adj|subst|depr|pact|ppas).*" postag_regexp="yes" negate_pos="yes"/></token>
+            <token postag=".*inst.*" postag_regexp="yes">
+                <exception postag="(?:adj|subst|depr|pact|ppas).*" postag_regexp="yes" negate_pos="yes"/>
+                <exception scope="previous" postag="prep.*" postag_regexp="yes"/>
+            </token>
             <token inflected="yes" postag="(?:verb|pact).*" postag_regexp="yes">być</token>
         </pattern>
         <disambig action="filterall"/>
         <example type="untouched">On wart jest stu takich drabów.</example>
+        <example type="untouched">Pieniądze z OFE są ludzi.</example>
         <example type="ambiguous" inputform="eleganckim[elegancki/adj:pl:dat:m1.m2.m3.f.n1.n2.p1.p2.p3:pos,elegancki/adj:sg:inst:m1.m2.m3.n1.n2:pos,elegancki/adj:sg:loc:m1.m2.m3.n1.n2:pos]"
                  outputform="eleganckim[elegancki/adj:sg:inst:m1.m2.m3.n1.n2:pos]">Człowiekiem <marker>eleganckim</marker> był Ludwik.</example>
     </rule>

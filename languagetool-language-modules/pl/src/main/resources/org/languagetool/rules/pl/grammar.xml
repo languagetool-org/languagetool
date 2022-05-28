@@ -9463,6 +9463,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>A "kwintesencją brytyjskiego biznesmena" jest prezes Anglo-American Conglomerate lord Hanson.</example>
                 <example>Jest bogaty, więc może sobie na wszystko pozwolić.</example>
             </rule>
+            <rule id="NIEWLASCIWA_FORMA_PODMIOTU" name="Niepoprawna forma podmiotu zdania z czasownikiem „być”">
+                <pattern>
+                    <token postag="subst:pl:inst.*" postag_regexp="yes"/>
+                    <token regexp="yes">jesteśmy|są|będą|będziecie|będziemy</token>
+                    <token min="0" postag="qub|adv.*" postag_regexp="yes"/>
+                    <marker>
+                      <token postag="subst:pl.*gen.*" postag_regexp="yes">
+                      <exception postag="subst:.*:nom.*|adv.*|adj:pl:nom.*" postag_regexp="yes"/>
+                        </token>                    
+                    </marker>                
+                </pattern>
+                <message>Prawdopodobnie błędny przypadek podmiotu zdania (\4). Powinno być: <suggestion><match no="4" postag="subst:pl:nom.*" postag_regexp="yes"/></suggestion>.</message>
+                <short>Błąd gramatyczny</short>
+                <example>Kibice Vasco są pełni nadziei na uniknięcie degradacji, natomiast torcida Flu już zaczęła szukać winnych i rozliczać zawodników za ich kiepską grę.</example>
+                <example correction="właściciele">Dla Gestora klientami są wyłącznie <marker>właścicieli</marker> lokali.</example>
+                <example correction="organizacje">Odbiorcami będą <marker>organizacji</marker> pozarządowe, przedstawiciele klubów, centrów społecznych, osoby fizyczne zainteresowani tematyką danego projektu.</example>
+            </rule>
             <rule id="NIEPOPRAWNA_FORMA_CZASOWNIKA_PO_BY" name="Niepoprawna forma czasownika po „by”">
                 <pattern>
                     <token inflected='yes'>by</token>
