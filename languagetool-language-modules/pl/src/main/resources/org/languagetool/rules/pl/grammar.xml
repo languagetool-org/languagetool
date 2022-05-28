@@ -7217,6 +7217,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token regexp="yes">\d+</token>
         <marker><token>złotych</token></marker>
       </antipattern>
+      <antipattern> <!-- przymiotniki wymagające dopełniacza -->
+        <token inflected="yes" regexp="yes">bliski|chciwy|chytry|ciekawy|głodny|godny|kierunkowy|łakomy|łapczywy|łasy|niebaczny|niegodny|(?:nie)?pomny|(?:nie)świadomy|pamiętny|pazerny|pewny|(?:nie)?syty|wart|winny|współodpowiedzialny|wygłodniały|zachłanny|zgłodniały|żądny</token>
+        <token postag="subst.*gen.*" postag_regexp="yes"/>
+      </antipattern>
       <pattern>
         <marker>
         <unify negate="yes"><feature id="gender"></feature><feature id="number"/><feature id="case"/>
@@ -7251,6 +7255,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>Wybrali tą zupę dyniową.</example>
       <example>To staje się każdego dnia gorsze.</example>
       <example>Dałem Tomowi środek uspokajający.</example>
+      <example>Ta opowieść jest bliska prawdy historycznej.</example>
 		</rule>
 		  <rulegroup id="DWA_LUB_WIECEJ" name="„dwa lub więcej” (co najmniej dwa)">
       <rule>
