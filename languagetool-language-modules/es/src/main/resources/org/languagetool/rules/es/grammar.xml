@@ -5196,10 +5196,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Permaneció al margen, fuera porque ignorase los hechos producidos o por...</example>
                 <example>Peleó porque llegara la luz.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token skip="-1">si</token>
-                    <token skip="-1" postag="V.IP.*" postag_regexp="yes"><exception scope="next" postag="CS|PR.*" postag_regexp="yes"/></token>
+                    <token skip="-1" postag="V.IP.*" postag_regexp="yes"><exception scope="next" postag="CS|PR.*" postag_regexp="yes"/><exception>uno</exception></token>
                     <marker>
                         <and>
                             <token inflected="yes" regexp="yes">.*ar</token>
@@ -5210,6 +5210,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Si es futuro, se escribe con tilde.</message>
                 <suggestion><match no="3" postag="VMSI(3S|3P|2S)0" postag_regexp="yes" postag_replace="VMIF$10"/></suggestion>
                 <example correction="acompañará">Si un día tienes un hijo, te <marker>acompañara</marker>.</example>
+                <example>Si uno lo contara todo, nunca llegaría al final.</example>
+                <example>Si uno de ellos se desconectara, el resto también caería.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SUBJUNTIVO_PASADO" name="confusión cante/canté">
@@ -9676,7 +9678,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule default="temp_off">
                 <antipattern>
-                    <token regexp="yes">por|excepto|y|pero|como|,|;</token>
+                    <token regexp="yes">por|excepto|y|pero|como|,|;|se|gracias|o|perdón|mismo|apenas|solo|sólo|solamente|únicamente</token>
                     <token>si</token>
                 </antipattern>
                 <antipattern>
