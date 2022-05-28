@@ -22162,16 +22162,73 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
     <category id="TYPOS" name="Prawdopodobne literówki" type="misspelling">
-    <rule id="CORAZ_LEPIE" name="„coraz lepie” (coraz lepiej)">
+    <rule id="CODZIENNE_CODZIENNIE" name="„codzienne mam” (codziennie mam)">
+    <antipattern>
+      <unify>
+        <feature id="case"/><feature id="gender"/><feature id="number"/>
+        <token postag="(?:subst|ger).*" postag_regexp="yes"/>
+        <token>codzienne</token>      
+      </unify>    
+    </antipattern>
+    <antipattern> <!-- odwrócony szyk -->
+      <unify>
+        <feature id="case"/><feature id="gender"/><feature id="number"/>
+        <token>codzienne</token>        
+        <token postag="(?:subst|ger).*" postag_regexp="yes"/>
+      </unify>    
+    </antipattern>
+    <antipattern> <!-- koordynacja -->
+      <unify>
+        <feature id="case"/><feature id="gender"/><feature id="number"/>
+        <token postag="(?:subst|ger|adj|pact).*" postag_regexp="yes"/>
+        <unify-ignore>
+          <token postag="conj"/>        
+        </unify-ignore>
+        <token>codzienne</token>      
+      </unify>    
+    </antipattern>    
+    <antipattern> <!-- koordynacja -->
+      <unify>
+        <feature id="case"/><feature id="gender"/><feature id="number"/>
+        <token postag="(?:subst|ger|adj|pact).*" postag_regexp="yes"/>
+        <unify-ignore>
+          <token>,</token>
+          <token>jak</token>
+          <token>i</token>        
+        </unify-ignore>
+        <token>codzienne</token>      
+      </unify>    
+    </antipattern>    
       <pattern>
-        <token>coraz</token>
+      <marker>
+        <token>codzienne</token>
+      </marker>
+        <token postag="verb.*|pcon.*|pant.*" postag_regexp="yes"/>
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>codziennie</suggestion>?</message>
+      <short>Literówka</short>
+      <example>Aforyzmy codzienne wybrał  i do praktyki rekomendował Hazrat Inayat Khan.</example>
+      <example>Codzienne stanie przed szafą i układanie kolejnego zestawu choć trochę innego od poprzednich z wiecznie tych samych rzeczy już mnie nudzi.</example>
+      <example correction="codziennie">Od kilku lat STS <marker>codzienne</marker> wydaje mieszkańcom jedzenie.</example>    
+    </rule>
+    <rule id="CORAZ_LEPIE" name="„coraz lepie” (coraz lepiej)">
+    <antipattern>
+      <unify><feature id="case"/>
+        <token postag="prep.*" postag_regexp="yes"></token>
+        <token>tym</token>
+        <token>lepie</token>
+      </unify>
+    </antipattern>
+      <pattern>
+        <token regexp="yes">coraz|tym|to|będzie|znacznie|jest|nie|wiele|dużo|może|czy|zdecydowanie|ale|było|być|trochę|tylko|nie[cb]o|by|wie|mi|byłoby|niech|są</token>
         <marker>
           <token>lepie</token>        
         </marker>      
       </pattern>
       <message>Prawdopodobna literówka. Czy chodziło o <suggestion>lepiej</suggestion>?</message>
       <short>Literówka</short>
-      <example correction="lepiej">Interesujemy się językiem i piszemy coraz <marker>lepie</marker>.</example>    
+      <example correction="lepiej">Interesujemy się językiem i piszemy coraz <marker>lepie</marker>.</example>
+      <example>Mucha wisiała na tym lepie.</example>    
     </rule>
     <rulegroup id="POTRZE_PIOTRZE_POTRZEB_PORZE" name="„potrze” (Piotrze, potrzeb, porze)">
       <rule>
