@@ -72,6 +72,13 @@ public class GermanFillerWordsRule extends AbstractStatisticStyleRule {
     if (num == 1 || ",".equals(tokens[num - 1].getToken())) {
       return true;
     }
+    if ("recht".equals(tokens[num].getToken())) {
+      for(int i = 1; i < tokens.length; i++) {
+        if (tokens[i].hasAnyLemma("haben", "geben")) {
+          return true;
+        }
+      }
+    }
     return false;
   }
 
@@ -91,7 +98,7 @@ public class GermanFillerWordsRule extends AbstractStatisticStyleRule {
         || ("auch".equals(first) && "nur".equals(second))
         || ("immer".equals(first) && "wieder".equals(second))
         || ("genau".equals(first) && "so".equals(second))
-        || ("so".equals(first) && ("etwas".equals(second) || "viel".equals(second)))
+        || ("so".equals(first) && ("etwas".equals(second) || "viel".equals(second) || "einfach".equals(second)))
         || ("schon".equals(first) && "fast".equals(second))
         );
   }
