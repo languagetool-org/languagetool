@@ -2099,6 +2099,7 @@ Mordomos-mores do Reino de Portugal.
       <example>«<marker>Garanto-te</marker> que foi mesmo assim.»</example>
       <example>"<marker>Garanto-te</marker> que foi mesmo assim."</example>
     </rule>
+
     <rule>
 <!-- MARCOAGPINTO 2020-06-07 *START* -->
 <!-- "Isso dá-me uma sensação de paz." -->
@@ -2123,13 +2124,6 @@ Mordomos-mores do Reino de Portugal.
 		  <token regexp='yes'>lhe|lhes</token>
 		  <token postag="VMN0000" postag_regexp='no'/>
       </antipattern>
-<!-- "Falta-lhe talento para ser ator." -->
-      <antipattern>
-		  <token postag="NCFS000" postag_regexp='no'/>
-		  <token regexp='yes' spacebefore='no'>&hifen;</token>
-		  <token regexp='yes'>lhe|lhes</token>
-		  <token postag="VMN0000|NC[CFM]S000" postag_regexp='yes'/>
-      </antipattern>	  
 <!-- MARCOAGPINTO 2020-06-07 *END* -->
 <!-- MARCOAGPINTO 2020-10-23 (21-OCT-2020+) *START* --> 
 <!-- "E assim abri-me com ela." -->
@@ -2194,22 +2188,6 @@ A cerâmica oriental interessa-me.
       </antipattern> 
 <!-- MARCOAGPINTO 2021-04-29 + 2021-07-16 (Enhanced) (17-MAR-2021+) *END* -->
 
-<!-- MARCOAGPINTO 2021-07-16 (25-JUN-2021+) *START* -->
-<!--
-Ao pensar em AI, vem-nos à mente os robôs.
-Cabe-nos por tal entender as regras; e não impô-las à natureza.
-Ambrósio responde-lhe por um tratado "Sobre a fé para Graciano Augusto", em cinco livros.
--->
-      <antipattern>
-		<token postag='VMIP3S0|VMM0[23]S0|VMSP[13]S0' postag_regexp='yes'/>
-		<token regexp='yes' spacebefore='no'>&hifen;</token>
-		<token regexp='yes' spacebefore='no'>me|lhes?|nos</token>
-		<token postag='SPS.+' postag_regexp='yes'/>
-		<token postag='NC.+|AQ.+|DI.+' postag_regexp='yes'/>
-	    <token postag='DA.+|NC.+|AQ.+|V.+' postag_regexp='yes'/>	  
-	  </antipattern>
-<!-- MARCOAGPINTO 2021-07-16 (25-JUN-2021+) *END* -->
-
 <!-- MARCOAGPINTO 2022-01-26 (1-JAN-2022+) *START* -->
 <!--
 Dói-me o estômago.
@@ -2220,23 +2198,57 @@ Dói-me aqui.
       <antipattern>
 		  <token postag='VMIP3P0' postag_regexp='no'/>
 		  <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
-		  <token regexp='yes' spacebefore='no'>me|lhes?|nos</token>		  
+		  <token regexp='yes' spacebefore='no'>me|lhes?|nos</token>
       </antipattern>
 <!-- MARCOAGPINTO 2022-01-26 (1-JAN-2022+) *END* -->  
 
-<!-- MARCOAGPINTO 2022-02-24 (1-JAN-2022+) *START* -->
+<!-- MARCOAGPINTO 2022-05-29 (Checked/Enhanced) (24-MAY-2022+) *START* -->
 <!--
 Ela dá-me a chave.
 Ele dá-me a chave.
 Ele pergunta-me onde ela mora.
 Ele trata-me com rigor.
 Ele evita-me.
+Informação pessoal que é dada á Car Detail permite-nos contacta-lo e enviar facturação sempre que seja necessário.
 -->
       <antipattern>
-		  <token regexp='yes'>el[ae]</token>
+		  <token postag='P[ADIP][3N][FMN].+|D[ADIP].+' postag_regexp='yes'/>
 		  <token postag='VMIP3S0' postag_regexp='no'/>
       </antipattern>
-<!-- MARCOAGPINTO 2022-02-24 (1-JAN-2022+) *END* --> 
+<!-- MARCOAGPINTO 2022-05-29 (Checked/Enhanced) (24-MAY-2022+) *END* -->
+
+<!-- MARCOAGPINTO 2022-05-29 (Checked/Enhanced) (24-MAY-2022+) *START* -->
+<!--
+Ao pensar em AI, vem-nos à mente os robôs.
+Cabe-nos por tal entender as regras; e não impô-las à natureza.
+Ambrósio responde-lhe por um tratado "Sobre a fé para Graciano Augusto", em cinco livros.
+Oferteo fornece-lhe com as novas ferramentas, graças ao seu contacto com um cliente e vendas são ainda mais fácil.
+Mais superficialmente, remete-nos para os encontros e desencontros de uma história de amor.
+Ainda não tendes fé?» Nesta tarde, Senhor, a tua Palavra atinge e toca-nos a todos.
+Falta-lhes à vida um pouco de fantasia.
+-->
+      <antipattern>
+		<token postag='VMIP3S0|VMM0[23]S0|VMSP[13]S0' postag_regexp='yes'/>
+		<token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
+		<token regexp='yes' spacebefore='no'>lhes?|nos</token>
+		<token postag='SPS.+|CC|CS' postag_regexp='yes'/>
+		<token postag='NC.+|AQ.+|NP.+|[DP][ADI].+' postag_regexp='yes'/>
+	  </antipattern>
+<!-- MARCOAGPINTO 2022-05-29 (Checked/Enhanced) (24-MAY-2022+) *END* -->
+
+<!-- MARCOAGPINTO 2022-05-29 (Checked/Enhanced) (24-MAY-2022+) *START* -->
+<!--
+Falta-lhe talento para ser ator.
+À Mary, falta-lhe delicadeza.
+Falta-lhe motivação.
+-->
+      <antipattern>
+		  <token postag="AQ..S.+|NC.S.+" postag_regexp='yes'/>
+		  <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
+		  <token regexp='yes'>lhes?</token>
+		  <token postag="VMN0000|AQ..S.+|NC.S.+|CC|CS|RG" postag_regexp='yes'/>
+      </antipattern>	  
+<!-- MARCOAGPINTO 2022-05-29 (Checked/Enhanced) (24-MAY-2022+) *END* -->
 
       <pattern>
           <token min='0' regexp='yes'>tu|vós</token>
@@ -2272,10 +2284,6 @@ Ele evita-me.
 	  <example>Mas uma voz interior diz-me que ainda não é a teoria certa.</example>
 	  <example>A cerâmica oriental interessa-me.</example>
 
-	  <example>Ao pensar em AI, vem-nos à mente os robôs.</example>
-	  <example>Cabe-nos por tal entender as regras; e não impô-las à natureza.</example>
-	  <example>Ambrósio responde-lhe por um tratado "Sobre a fé para Graciano Augusto", em cinco livros.</example>
-
 	  <example>Dói-me o estômago.</example>
 	  <example>Dói-me a barriga.</example>
 	  <example>Dói-me um dente.</example>
@@ -2286,7 +2294,21 @@ Ele evita-me.
 	  <example>Ele pergunta-me onde ela mora.</example>
 	  <example>Ele trata-me com rigor.</example>
 	  <example>Ele evita-me.</example>
+	  <example>Informação pessoal que é dada á Car Detail permite-nos contacta-lo e enviar facturação sempre que seja necessário.</example>
+
+	  <example>Ao pensar em AI, vem-nos à mente os robôs.</example>
+	  <example>Cabe-nos por tal entender as regras; e não impô-las à natureza.</example>
+	  <example>Ambrósio responde-lhe por um tratado "Sobre a fé para Graciano Augusto", em cinco livros.</example>
+	  <example>Oferteo fornece-lhe com as novas ferramentas, graças ao seu contacto com um cliente e vendas são ainda mais fácil.</example>
+	  <example>Mais superficialmente, remete-nos para os encontros e desencontros de uma história de amor.</example>
+	  <example>Ainda não tendes fé?» Nesta tarde, Senhor, a tua Palavra atinge e toca-nos a todos.</example>
+	  <example>Falta-lhes à vida um pouco de fantasia.</example>
+
+	  <example>Falta-lhe talento para ser ator.</example>
+	  <example>À Mary, falta-lhe delicadeza.</example>
+	  <example>Falta-lhe motivação.</example>
     </rule>
+	
     <!--    <rule>
       <antipattern>
           <token postag='SENT_START'/>
