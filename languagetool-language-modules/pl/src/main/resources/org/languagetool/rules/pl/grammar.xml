@@ -22179,6 +22179,55 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
     <category id="TYPOS" name="Prawdopodobne literówki" type="misspelling">
+    <rule id="UKARANIE_UKRAINIE" name="„w Ukaranie” (w Ukrainie)">
+        <pattern>
+          <token regexp="yes">w|na</token>
+        <marker>
+          <token case_sensitive="yes">Ukaranie</token>        
+        </marker>        
+        </pattern>
+        <message>Prawdopodobna literówka. Czy chodziło o <suggestion>Ukrainie</suggestion>?</message>
+        <short>Literówka</short>
+        <example correction="Ukrainie">Stawką jest nie tylko przyszłość kraju, ale i Unii Europejskiej, a także stosunek Unii do Rosji i wojny w <marker>Ukaranie</marker>.</example>    
+    </rule>
+    <rulegroup id="GOWNA_KSIEGOWA" name="„gówna księgowa” (główna księgowa)">
+    <rule>
+    <pattern>
+      <marker>
+        <token>gówna</token>
+      </marker>
+        <token regexp="yes">bohaterka|przyczyna|siedziba|część|nagroda|ulica|rola|postać|droga|zaleta|księgowa|stopa|kwestia|atrakcja|różnica|sprawa|siła|idea|zasada|strona|cecha|linia|wada|baza|działalność|oś|wygrana|para|gwiazda|kwatera|ekonomistka|teza|sala|funkcja|arteria|trasa|grupa|organizatorka|brama|uwaga|partia|oferta|sypialnia|autorka|przeszkoda|broń|zasługa|aleja|tematyka|domena|impreza|odpowiedzialność|uroczystość|scena|nawigacja|treść|świątynia|forma</token>
+      </pattern>
+      <message>Literówka. Czy chodziło o <suggestion><match no="1" regexp_match="ó" regexp_replace="łó"/></suggestion>?</message>
+      <short>Literówka</short>
+      <example correction="Główna">Dyrektor SZP ZOZ Wołomin Mieczysław Romejko i <marker>Gówna</marker> Księgowa Pani Maria Góral zreferowali członkom Zarządu stan realizacji programu restrukturyzacji SZP ZOZ.</example>
+    </rule>
+    <rule>
+    <pattern>
+        <token regexp="yes">płyta|szkoła|restauracja|kwatera|komora|należność|przyczyna|siedziba|część|nagroda|rola|postać|droga|zaleta|stopa|kwestia|atrakcja|różnica|sprawa|siła|idea|zasada|strona|cecha|linia|wada|baza|działalność|oś|wygrana|para|gwiazda|teza|sala|funkcja|arteria|trasa|grupa|organizatorka|brama|uwaga|partia|oferta|sypialnia|autorka|przeszkoda|broń|zasługa|aleja|tematyka|domena|impreza|odpowiedzialność|uroczystość|scena|nawigacja|treść|świątynia|forma</token>
+      <marker>
+        <token>gówna</token>
+      </marker>
+    </pattern>  
+      <message>Literówka. Czy chodziło o <suggestion><match no="2" regexp_match="ó" regexp_replace="łó"/></suggestion>?</message>
+      <short>Literówka</short>
+      <example correction="Główna">Przyznano następujące wyróżnienia: Nagroda <marker>Gówna</marker> i Nagroda Pocieszenia – „rok bez golenia”.</example>
+    </rule>
+    </rulegroup>
+    <rule id="ROWNE_TRATOWANIE" name="„równe tratowanie” (równe traktowanie)">
+        <pattern>
+            <unify>
+              <feature id="gender"/><feature id="case"/><feature id="number"/>
+              <token inflected="yes">równy</token>
+              <marker>
+              <token inflected="yes">tratować</token>
+              </marker>
+            </unify>        
+        </pattern>
+        <message>Prawdopodobna literówka. Czy chodziło o <suggestion><match no="2"  regexp_match="^trat" regexp_replace="trakt"/></suggestion>?</message>
+        <short>Literówka</short>
+        <example correction="traktowania">Obowiązuje zasada równego <marker>tratowania</marker> w zatrudnieniu.</example>    
+    </rule>
     <rulegroup id="SKLONY_SKLONNY" name="„skłony (skłonny)">
         <rule>
           <pattern>
