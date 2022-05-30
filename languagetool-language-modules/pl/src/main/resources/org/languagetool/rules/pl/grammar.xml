@@ -17678,6 +17678,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rulegroup>
 		</category>
 		<category id="SPELLING" name="Błędy ortograficzne" type="misspelling">
+		<rule id="OD_STRESOWAĆ" name="„od stresować” (odstresować)">
+      <pattern>
+        <token>od</token>
+        <token inflected="yes">stresować</token>      
+      </pattern>
+      <message>Błąd ortograficzny. Ten wyraz piszemy łącznie: <suggestion>\1\2</suggestion>.</message>
+      <short>Błąd ortograficzny</short>
+      <example correction="odstresować">Można się <marker>od stresować</marker>.</example>
+		</rule>
 		<rule id="POD_CZAS_PODCZAS" name="„pod czas” (podczas)">
         <pattern>
           <token>pod</token>
@@ -22188,6 +22197,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
     <category id="TYPOS" name="Prawdopodobne literówki" type="misspelling">
+    <rule id="MIMO_ROZNIC" name="„mimo różnić” (mimo różnic)">
+      <pattern>
+        <token>mimo</token>
+        <token min="0" max="2" postag="adj:pl:gen:.*" postag_regexp="yes">
+          <exception inflected="yes" regexp="yes">który|jaki</exception>
+          </token>
+        <marker>
+          <token>różnić</token>        
+        </marker>      
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>różnic</suggestion>?</message>
+      <short>Literówka</short>
+      <example correction="różnic">Ostatecznie sporu nie rozstrzygnięto, ale mimo <marker>różnić</marker> obie frakcje widziały konieczności utrzymania jednolitej organizacji studenckiej.</example>    
+    </rule>
     <rule id="PODCZAS_PRZYGOTOWAC" name="„podczas przygotować” (podczas przygotowań)">
         <pattern>
           <token>podczas</token>
