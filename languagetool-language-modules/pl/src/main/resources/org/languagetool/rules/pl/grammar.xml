@@ -6997,10 +6997,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </antipattern>
         <pattern>
             <token skip="-1" regexp="yes" inflected="yes">(?:że|a)?by
-            <exception scope="next" postag="conj|comp.*|interp:comma|pred|verb:(?:praet.*|bedzie.*|winien.*|imps.*|pot.*|inf.*)|pcon.*" postag_regexp="yes"></exception>            
+            <exception scope="next" postag="conj|comp.*|interp:comma|pred|verb:(?:praet.*|imps.*|pot.*|inf.*)|pcon.*" postag_regexp="yes"></exception>            
             </token>
             <marker>
-            <token skip="-1" postag="verb:(?:fin|impt).*" postag_regexp="yes">
+            <token skip="-1" postag="verb:(?:fin|impt|bedzie.*|winien.*).*" postag_regexp="yes">
             <exception postag="subst.*|adv:com|verb:inf.*" postag_regexp="yes"/>
             <exception regexp="yes">bądź|mial|mniejszej</exception>
             <exception scope="next" postag="conj|comp.*|interp:comma|pred|verb:(?:praet.*|bedzie.*|winien.*|imps.*|pot.*)" postag_regexp="yes"></exception>            
@@ -7008,11 +7008,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </marker>
             <token regexp="yes">&interp_conj;</token>
           </pattern>
-          <message>W tym zdaniu podrzędnym występuje tylko czasownik w błędnej formie: „\2”. Prawdopodobnie to błąd gramatyczny lub literówka.</message>
+          <message>Po spójniku „\1” ten czasownik nie może wystąpić w formie: „\2”. Prawdopodobnie to błąd gramatyczny lub literówka.</message>                 
           <short>Błąd gramatyczny</short>
           <example correction="">Prosił, żebyś <marker>przeczytaj</marker> tę książkę.</example>
           <example correction="">Prosił, żebyś <marker>przeczyta</marker> tę książkę.</example>
           <example>Czy to aby na pewno jest krewetka?</example>
+          <example correction=''>Wykorzystywano kiedyś, właśnie by <marker>rozśmiesza</marker> publiczność.</example>
+          <example correction=''>Wykorzystywano kiedyś, właśnie by <marker>będzie</marker> rozśmieszać publiczność.</example>
+          <example correction=''>Wykorzystywano kiedyś, właśnie by <marker>powinien</marker> rozśmieszać publiczność.</example>
       </rule>
       <rule>
         <pattern>
@@ -9479,19 +9482,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Kibice Vasco są pełni nadziei na uniknięcie degradacji, natomiast torcida Flu już zaczęła szukać winnych i rozliczać zawodników za ich kiepską grę.</example>
                 <example correction="właściciele">Dla Gestora klientami są wyłącznie <marker>właścicieli</marker> lokali.</example>
                 <example correction="organizacje">Odbiorcami będą <marker>organizacji</marker> pozarządowe, przedstawiciele klubów, centrów społecznych, osoby fizyczne zainteresowani tematyką danego projektu.</example>
-            </rule>
-            <rule id="NIEPOPRAWNA_FORMA_CZASOWNIKA_PO_BY" name="Niepoprawna forma czasownika po „by”">
-                <pattern>
-                    <token inflected='yes'>by</token>
-                    <marker>
-                        <token postag='verb:fin.*' postag_regexp='yes'></token>
-                    </marker>
-                </pattern>
-                <message>W tym miejscu nie powinna występować taka forma czasownika. Czy chodziło o <suggestion><match no="2" postag_regexp="yes" postag="verb:.*" postag_replace="verb:inf.*"/></suggestion>?</message>
-                <short>Błąd gramatyczny</short>
-                <example correction='rozśmieszać'>Wykorzystywano kiedyś, właśnie by <marker>rozśmiesza</marker> publiczność</example>
-                <example>Wykorzystywano kiedyś, właśnie by rozśmieszać publiczność.</example>
-                <example>Wolę, abyś je pan przyniósł sam za karę.</example>
             </rule>
             <rule id="NIEZGODNO_RZECZOWNIKW_RODZAJU_ESKIEGO" name="Niezgodność rzeczowników rodzaju żeńskiego">
                 <pattern>
@@ -22197,6 +22187,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
     <category id="TYPOS" name="Prawdopodobne literówki" type="misspelling">
+    <rulegroup id="WYKRYWACZ_WYKRAWACZ" name="Mylenie „wykrawacz” z „wykrywacz”">
+      <rule>
+          <pattern>
+          <marker>
+            <token inflected="yes">wykrywacz</token>
+          </marker>
+          <token>do</token>
+          <token regexp="yes">pierogów|ananasa|skóry|ciastek|ravioli|ciasta|owoców|babeczek|marcepanu|kanapek|lukru|bułek|jabłek</token>
+          </pattern>
+          <message>Prawdopodobna literówka. Czy chodziło <suggestion><match no="1" regexp_match="wykry" regexp_replace="wykra"/></suggestion></message>
+          <short>Literówka</short>
+          <example correction="wykrawacz">Oddam używany <marker>wykrywacz</marker> do ciastek w kształcie dinozaura.</example>      
+      </rule>
+      <rule>
+          <pattern>
+          <marker>
+            <token inflected="yes">wykrywacz</token>
+          </marker>
+          <token regexp="yes">mięsa|wieprzowiny|wołowiny</token>
+          </pattern>
+          <message>Prawdopodobna literówka. Czy chodziło <suggestion><match no="1" regexp_match="wykry" regexp_replace="wykra"/></suggestion></message>
+          <short>Literówka</short>
+          <example correction="wykrawacz">Pracował tam <marker>wykrywacz</marker> wołowiny.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">wykrawacz</token>
+          </marker>
+          <token regexp="yes">metali|kłamstw|podsłuchów|min|nieszczelności|radarów|dymu|kamer|ruchu|gazu|fal|trzęsień|wycieków|promieniowania|burz|instalacji|podsłuchu|urządzeń|tlenku|radaru|czadu|bzdur</token>
+        </pattern>
+        <message>Prawdopodobna literówka. Czy chodziło <suggestion><match no="1" regexp_match="wykra" regexp_replace="wykry"/></suggestion></message>
+          <short>Literówka</short>
+          <example correction="wykrywacza">Nie mam <marker>wykrawacza</marker> metali.</example>
+      </rule>
+    </rulegroup>
     <rule id="MIMO_ROZNIC" name="„mimo różnić” (mimo różnic)">
       <pattern>
         <token>mimo</token>
@@ -22236,6 +22262,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <message>Prawdopodobnie literówka. Czy chodziło o <suggestion>douczyć</suggestion> lub <suggestion>do uczuć</suggestion>?</message>
       <short>Literówka</short>
       <example correction="douczyć|do uczuć">Proponuję Panom Inspektorom się <marker>do uczyć</marker> trochę.</example>
+    </rule>
+    <rule id="DO_PRZYGOTOWAC" name="„do przygotować” (przygotować)">
+      <pattern>
+        <marker>
+        <token>do</token>
+        <token>przygotować</token>
+        </marker>      
+        <token>do</token>      
+      </pattern>
+      <message>Prawdopodobnie literówka. Czy chodziło o <suggestion>\2</suggestion>?</message>
+      <short>Literówka</short>
+      <example correction="przygotować">Rolnicy mogą się <marker>do przygotować</marker> do spisu powszechnego.</example>
     </rule>
     <rule id="DO_ZAJAC" name="„do zająć” (do zajęć)">
       <pattern>
