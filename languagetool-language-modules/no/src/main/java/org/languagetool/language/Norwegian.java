@@ -20,6 +20,8 @@ import org.languagetool.rules.SentenceWhitespaceRule;
 import org.languagetool.rules.UppercaseSentenceStartRule;
 import org.languagetool.rules.WhiteSpaceAtBeginOfParagraph;
 import org.languagetool.rules.WhiteSpaceBeforeParagraphEnd;
+import org.languagetool.rules.no.MorfologikNorwegianSpellerRule;
+import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
@@ -28,6 +30,7 @@ import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.Tokenizer;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -89,8 +92,9 @@ public class Norwegian extends Language {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     return Arrays.asList(
+      new MorfologikNorwegianSpellerRule(messages, this, userConfig),
       new CommaWhitespaceRule(messages,
         Example.wrong("We had coffee<marker> ,</marker> cheese and crackers and grapes."),
         Example.fixed("We had coffee<marker>,</marker> cheese and crackers and grapes.")),
