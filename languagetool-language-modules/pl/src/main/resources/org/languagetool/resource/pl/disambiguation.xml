@@ -9680,6 +9680,18 @@
                      outputform="go[on/ppron3:sg:acc:m1.m2.m3:ter:nakc:npraep]">Brano <marker>go</marker> na spytki.</example>
         </rule>
         <rule> <!-- 19 verb:imps + subst/nom|gen -->
+            <antipattern>
+                <token postag="prep:gen.*" postag_regexp="yes"/>
+                <unify>
+                    <feature id="case"><type id="gen"/></feature>
+                    <feature id="number"></feature>
+                    <feature id="gender"/>
+                    <token postag="(?:ppron[1-3]|subst|adj):.*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="(?:ppron[1-3]|subst|adj):.*" postag_regexp="yes"/>
+                    </marker>
+                </unify>
+            </antipattern>
             <pattern>
                 <marker>
                     <and>

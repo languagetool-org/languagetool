@@ -17678,6 +17678,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rulegroup>
 		</category>
 		<category id="SPELLING" name="Błędy ortograficzne" type="misspelling">
+		<rule id="POD_CZAS_PODCZAS" name="„pod czas” (podczas)">
+        <pattern>
+          <token>pod</token>
+          <token>czas</token>
+        </pattern>
+        <message>Błąd ortograficzny. Ten przyimek piszemy łącznie: <suggestion>\1\2</suggestion>.</message>
+        <short>Błąd ortograficzny</short>
+        <example correction="podczas">Ten eschatologiczny moment jest szczególnie mocno odczuwany <marker>pod czas</marker> katastrof, wojen, rewolucji i kryzysów cywilizacyjnych.</example>		
+		</rule>
 		<rulegroup id="PODLUG_PODLOG" name="„do podług” (do podłóg)">
 		<rule>
         <pattern>
@@ -22179,6 +22188,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
     <category id="TYPOS" name="Prawdopodobne literówki" type="misspelling">
+    <rule id="PODCZAS_PRZYGOTOWAC" name="„podczas przygotować” (podczas przygotowań)">
+        <pattern>
+          <token>podczas</token>
+          <token min="0" max="2" postag="adj:pl:gen:.*" postag_regexp="yes">
+          <exception inflected="yes" regexp="yes">który|jaki</exception>
+          </token>
+          <marker>          
+          <token regexp="yes">przygotować|spotkać</token>
+          </marker>
+        </pattern>
+        <message>Prawdopodobnie literówka. Czy chodziło o <suggestion><match no="3" regexp_match="ć$" regexp_replace="ń"/></suggestion>?</message>
+        <short>Literówka</short>
+        <example correction="przygotowań">Pozwalają zaoszczędzić czas podczas <marker>przygotować</marker>.</example>
+        <example correction="przygotowań">Pozwalają zaoszczędzić czas podczas świątecznych <marker>przygotować</marker>.</example>
+        <example correction="przygotowań">Pozwalają zaoszczędzić czas podczas naszych świątecznych <marker>przygotować</marker>.</example>
+        <example correction="spotkań">Ważnym elementem, na który funkcjonariusze zwracają uwagę podczas <marker>spotkać</marker>, jest problematyka związana z poruszaniem się w drodze do szkoły.</example>    
+    </rule>
+    <rule id="DO_UCZYC" name="„do uczyć” (douczyć, do uczuć)">
+      <pattern>
+        <token>do</token>
+        <token>uczyć</token>      
+      </pattern>
+      <message>Prawdopodobnie literówka. Czy chodziło o <suggestion>douczyć</suggestion> lub <suggestion>do uczuć</suggestion>?</message>
+      <short>Literówka</short>
+      <example correction="douczyć|do uczuć">Proponuję Panom Inspektorom się <marker>do uczyć</marker> trochę.</example>
+    </rule>
+    <rule id="DO_ZAJAC" name="„do zająć” (do zajęć)">
+      <pattern>
+        <token>do</token>
+          <token min="0" max="2" postag="adj:pl:gen:.*" postag_regexp="yes">
+          <exception inflected="yes" regexp="yes">który|jaki</exception>
+          </token>
+        <marker>
+          <token>zająć</token>        
+        </marker>
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>zajęć</suggestion>?</message>
+      <short>Literówka</short>
+      <example correction="zajęć">Kierownictwo pracą aplikanta należy do kierownika właściwego wydziału, który może delegować aplikanta do <marker>zająć</marker> przy innych urzędnikach wydziału.</example>
+    </rule>
     <rule id="UKARANIE_UKRAINIE" name="„w Ukaranie” (w Ukrainie)">
         <pattern>
           <token regexp="yes">w|na</token>
