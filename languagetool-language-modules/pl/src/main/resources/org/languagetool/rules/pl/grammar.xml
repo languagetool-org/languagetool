@@ -22187,6 +22187,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
     <category id="TYPOS" name="Prawdopodobne literówki" type="misspelling">
+    <rule id="STATYSTKI_STATYSTYKI" name="„statystki” (statystyki)">
+        <antipattern>
+          <token inflected="yes">rola</token>
+          <marker><token>statystki</token></marker>        
+        </antipattern>
+        <antipattern>
+          <token regexp="yes" skip="-1">film.*</token>
+          <marker>
+              <token>statystki</token>          
+          </marker>        
+        </antipattern>
+        <pattern>
+          <token>statystki</token>        
+        </pattern>
+        <message>Prawdopodobna literówka. Czy chodziło o <suggestion>statystyki</suggestion>?</message>
+        <short>Literówka</short>
+        <example>Lina podtrzymująca samochód na planie trzeciego filmu Michaela Baya zerwała się, rozcinając czaszkę statystki.</example>
+        <example correction="statystyki">Policyjne <marker>statystki</marker> są szokujące.</example>
+    </rule>
     <rulegroup id="WYKRYWACZ_WYKRAWACZ" name="Mylenie „wykrawacz” z „wykrywacz”">
       <rule>
           <pattern>
