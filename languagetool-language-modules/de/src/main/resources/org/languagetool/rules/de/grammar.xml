@@ -10978,6 +10978,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 	                <token postag="KON:UNT|ADV:INR|PRO:RIN:AKK:NEU" postag_regexp="yes" skip="-1"/>
 	                <token>mir</token>
 	            </antipattern>
+	            <antipattern>
+	                <token postag="VER.*" postag_regexp="yes"/>
+	                <token>mir</token>
+	                <token postag="PRO:RIN:DAT:.*|PRO:PER:DAT:.*|PRO:DEM:DAT:.*|PRO:IND:DAT:.*" postag_regexp="yes" skip="-1"/>
+			        <token inflected="yes" regexp="yes">fangen|hören|beeilen|beginnen|beschäftigen|einigen|essen|fahren|handeln|kommunizieren|rechnen|reden|schimpfen|spielen|sprechen|starten|streiten|telefonieren|treffen|trinken|unterhalten|verabreden|vertragen|vergleichen|verstehen</token>
+	            </antipattern>
 		        <pattern>
             	    <marker>
                 		<token>mir</token>
@@ -10991,6 +10997,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Kann mir bitte jemand helfen?</example>
                 <example>Sie fragte mich, ob mir jemand bei meinen Hausaufgaben geholfen habe.</example>
                 <example>Es ist mir egal, dass sie mir diesen Namen kommuniziert.</example>
+                <example>Es war mir bisschen schwindelig, also trank ich ein Glas Wasser.</example>
             </rule>
 	        <rule><!--2-->
 	            <antipattern>
@@ -11052,7 +11059,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token postag="VER.*" postag_regexp="yes" skip="-1"/>
                     <token>mir</token>
-                    <token min="0" postag_regexp="yes" postag="ADV.*"/>
+                    <token min="0" postag_regexp="yes" postag="ADV.*|ART:.*:AKK.*"/>
                     <token postag="SUB:AKK.*" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
@@ -11072,6 +11079,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ich muss mir erst wieder ins Gedächtnis rufen, wie das geht.</example>
                 <example>Vielleicht macht es mir Spaß und ich fahre hin.</example>
                 <example>Er gibt mir jetzt Aufgaben in dem richtigen Bereich und wir fahren gut damit.</example>
+                <example>Als erstes besorgte ich mir den Rollwagen und fuhr ihn nach Hause.</example>
             </rule>
             <rule><!--4-->
                 <pattern>
@@ -11265,8 +11273,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token>mir</token>
-                    <token inflected="yes">zu</token>
-                    <token regexp="yes">Gebote?|Verfügung</token>
+                    <token postag="PRP.*" postag_regexp="yes"/>
+                    <token postag="ADJ.*" min="0" postag_regexp="yes"/>
+                    <token postag="SUB.*" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
                     <token postag="SUB.*|EIG.*|PRO:IND.*|ADJ.*|UNKNOWN" postag_regexp="yes" skip="-1"/>
@@ -11314,6 +11323,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Tom war derjenige, der mir Mary vorstellte.</example>
                 <example>Der Schreibstil der mir bisher unbekannten Autorin hat mich vollends eingenommen.</example>
                 <example>Ich werde ihr mit allen mir zur Verfügung stehenden Mitteln helfen.</example>
+                <example>Ich will euch von den Menschen erzählen, die mir vor einiger Zeit geholfen haben.</example>
                 <example>Ich will keine Übungen machen, die mir keinen Nutzen bringen.</example>
                 <example>Das mir Bernsteine nicht vor die Füße rollen, war klar.</example> <!--Richtig: "Dass mir"-->
                 <example>Wenn die mir Wochenenden streichen, widerspreche ich.</example>
@@ -11360,7 +11370,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule> <!--14-->
                 <antipattern>
                     <token postag="VER.*|UNKNOWN" postag_regexp="yes"/>
-                    <token postag="PRO:PER.*" postag_regexp="yes" min="0"/>
+                    <token postag="PRO:PER.*|PRO:REF.*" postag_regexp="yes" min="0"/>
                     <token>mir</token>
                     <token>ein</token>
                     <token>paar</token>
@@ -11406,6 +11416,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="mit">Ich verkaufe eine alte Kommode <marker>mir</marker> ein paar Gebrauchsspuren.</example>
                 <example>Erzähle mir ein paar Neuigkeiten!</example>
                 <example>Würdest du mir ein paar Fragen beantworten?</example>
+                <example>Vorab ergeben sich mir ein paar Fragen.</example>
                 <example>Du verstehst, dass ich mir ein paar Freunde erhalten möchte.</example>
                 <example>Ich würde mich freuen, wenn mir jemand ein paar Informationen dazu geben könnte.</example>
                 <example>Ich habe mir ein paar Stichpunkte für unser Gespräch überlegt.</example>
