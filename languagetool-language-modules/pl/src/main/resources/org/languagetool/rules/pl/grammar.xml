@@ -3817,6 +3817,78 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Przestrzegam cię jednak, mój synu, że nadzieja czegoś dobrego warta często więcej, niż lada lichota w ręku.</example>
                 <example>Sam jednak, nie będąc dualistą, uznaje te tezy.</example>
             </rule>
+            <rule id="NADTO_PRZECINEK" name="Zbędny przecinek po „nadto">
+            <antipattern>
+              <token>aż</token>
+              <marker>
+                <token>nadto</token>              
+              </marker>            
+            </antipattern>
+            <antipattern>
+            <marker>
+              <token regexp="yes">(?:po)?nadto</token>
+            </marker>
+                <token>,</token>
+                <unify><feature id="case"><type id="voc"/></feature><feature id="gender"/><feature id="number"/>
+                  <token postag="adj.*" postag_regexp="yes"/>
+                  <token postag="subst.*" postag_regexp="yes"/>
+                </unify>
+                <token>,</token>            
+            </antipattern>
+            <antipattern>
+            <marker>
+              <token regexp="yes">(?:po)?nadto</token>
+            </marker>
+                <token>,</token>
+                <token>wasza</token>
+                <token>wysokość</token>
+                <token>,</token>            
+            </antipattern>
+            <antipattern>
+                <marker>
+                <token>ponadto</token>
+                <token>,</token>                
+                </marker>
+                <token>ponadto</token>
+            </antipattern>
+            <antipattern>
+            <marker>
+            <token>ponadto</token>
+            <token>,</token>            
+            </marker>
+            <token>im</token>
+            <token postag=".*:com" postag_regexp="yes"/>            
+            </antipattern>
+            <antipattern>
+              <marker>
+                <token>ponadto</token>              
+              </marker>
+              <token skip="1">,</token>
+              <token>zdaniem</token>            
+            </antipattern>
+            <antipattern>
+              <marker>
+                <token>ponadto</token>              
+              </marker>       
+              <token>,</token>
+              <token postag="verb.*:(sg|pl):.*" postag_regexp="yes"/>
+              <token>,</token>     
+            </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">(?:po)?nadto</token>
+                        <token>,</token>
+                        <phraseref idref="NIE_SPOJNIK_PRZECINKOWY_OLD"></phraseref>
+                    </marker>
+                </pattern>
+                <message>Prawdopodobnie zbędny przecinek. Poprawnie: <suggestion>\1 \3</suggestion>.</message>
+                <example correction="Ponadto hipoteza"><marker>Ponadto, hipoteza</marker> jest nietrafna.</example>
+                <example>Czasu miałem aż nadto, zaś cierpliwości nabyłem z musu.</example>
+                <example>Ponadto, im głębiej zaglądałem, tym mniej miodu widziałem.</example>
+                <example>Ponadto, moim zdaniem, ten przecinek jest potrzebny.</example>
+                <example>Ponadto, dodajmy, tam, gdzie są koncesje, pojawiają się korupcje.</example>
+                <example>To nadto, wasza wysokość, jestem biedny giermek i nie uniosę tak wielkiego ciężaru grzeczności waszej. </example>
+            </rule>
             <rule id="W_TRAKCIE_PRZECINEK_KTOREGO" name="Zbędny przecinek w wyrażeniu „w trakcie, którego”">
                 <pattern>
                     <token>w</token>
@@ -22187,6 +22259,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
     <category id="TYPOS" name="Prawdopodobne literówki" type="misspelling">
+    <rule id="OPERA_SIE_OPIERA" name="„opera się” (opiera się)">
+        <pattern>
+          <marker>
+            <token>opera</token>
+          </marker>
+          <token>się</token>
+          <token>na</token>        
+        </pattern>
+        <message>Prawdopodobnie literówka. Czy chodziło o <suggestion>opiera</suggestion>?</message>
+        <short>Literówka</short>
+        <example correction="opiera">Rozwiązanie problemu ciemnego pokoju <marker>opera</marker> się na tym fakcie.</example>    
+    </rule>
     <rule id="STATYSTKI_STATYSTYKI" name="„statystki” (statystyki)">
         <antipattern>
           <token inflected="yes">rola</token>
