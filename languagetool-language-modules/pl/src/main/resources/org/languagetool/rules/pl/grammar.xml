@@ -22270,6 +22270,57 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
     <category id="TYPOS" name="Prawdopodobne literówki" type="misspelling">
+    <rule id="PREP_INF" name="Przyimek przed czasownikiem">
+    <antipattern>
+    <marker>
+    <token>być</token>
+    </marker>
+    <token>może</token>
+    </antipattern>
+    <antipattern>
+        <token>na</token>
+        <token>rzec</token>    
+    </antipattern>
+    <antipattern>
+      <token>gdzieś</token>
+      <token>pomiędzy</token>    
+    </antipattern>
+    <antipattern>
+      <token regexp="yes">coś|nic</token>
+      <token>przeciwko</token>
+    </antipattern>
+    <antipattern>
+      <token regexp="yes" inflected="yes">przełożyć|przetłumaczyć|tłumaczyć</token>
+      <marker>
+        <token>jako</token>
+      </marker>
+    </antipattern>
+      <pattern>
+        <token postag="prep.*" postag_regexp="yes">
+          <exception postag="prep:gen.*" postag_regexp="yes"/>
+          <exception regexp="yes">jak|niż|a?niżeli|niczym|ni[źż]li|niby|temu</exception>
+        </token>
+        <token postag="verb:inf.*" postag_regexp="yes"><exception postag=".*(nom|acc|gen|voc|dat|inst|loc).*|adv.*" postag_regexp="yes"/></token>      
+      </pattern>
+      <message>Przypuszczalna literówka. Przyimek nie może stać przed czasownikiem.</message>
+      <short>Literówka</short>
+      <example correction="">Może pan <marker>na liczyć</marker> na mnie.</example>
+      <example>Czy można było trzy lata temu rozpocząć przygotowania do kongresu?</example>    
+    </rule>
+    <rule id="DO_BADAC" name="„do badać” (do badań)">
+        <pattern>
+          <token>do</token>
+              <token min="0" max="2" postag="adj:pl:gen:.*" postag_regexp="yes">
+                <exception inflected="yes" regexp="yes">który|jaki</exception>
+              </token>
+          <marker>          
+            <token>badać</token>
+          </marker>
+        </pattern>
+        <message>Prawdopodobnie literówka. Czy chodziło o <suggestion><match no="3" regexp_match="ć$" regexp_replace="ń"/></suggestion>?</message>
+        <short>Literówka</short>
+      <example correction="badań">ST-2 również miał być przeznaczony do <marker>badać</marker> magnetosfery.</example>
+    </rule>
     <rule id="BEZ_ZAHAMOWAC" name="„bez zahamować” (bez zahamowań)">
         <pattern>
           <token>bez</token>
@@ -22301,11 +22352,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <antipattern>
           <token regexp="yes" skip="-1">film.*</token>
           <marker>
-              <token>statystki</token>          
+              <token inflected="yes">statystka</token>          
           </marker>        
         </antipattern>
         <pattern>
-          <token>statystki</token>        
+          <token inflected="yes">statystka</token>        
         </pattern>
         <message>Prawdopodobna literówka. Czy chodziło o <suggestion>statystyki</suggestion>?</message>
         <short>Literówka</short>
@@ -22387,6 +22438,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <message>Prawdopodobnie literówka. Czy chodziło o <suggestion>douczyć</suggestion> lub <suggestion>do uczuć</suggestion>?</message>
       <short>Literówka</short>
       <example correction="douczyć|do uczuć">Proponuję Panom Inspektorom się <marker>do uczyć</marker> trochę.</example>
+    </rule>
+    <rule id="DO_KUPIC" name="„do kupić” (dokupić)">
+      <pattern>
+        <token>do</token>
+        <token inflected="yes">kupić</token>      
+      </pattern>
+      <message>Prawdopodobnie literówka. Ten czasownik piszemy łącznie. Czy chodziło o <suggestion>\1\2</suggestion>?</message>
+      <short>Literówka</short>
+      <example correction="dokupić">Proponuję Panom Inspektorom <marker>do kupić</marker> bluzę z kapturem.</example>
     </rule>
     <rule id="DO_PRZYGOTOWAC" name="„do przygotować” (przygotować)">
       <pattern>
