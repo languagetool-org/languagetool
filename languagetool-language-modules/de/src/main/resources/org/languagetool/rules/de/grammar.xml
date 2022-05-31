@@ -54136,6 +54136,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example><marker>Wegen jenes</marker> Auto</example>
                 <example>Anstatt die Tochter des Rufinus zur Frau zu nehmen...</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">entlang</token>
+                    <token regexp="yes">de[nm]|[Ii]hre[nm]|[Ddms]?eine[nm]|unse?re[nm]|diese[nm]|jene[nm]|[Ee]ure[nm]</token>
+                    <token postag="(ADJ|PA[12]):DAT:SIN:(NEU|MAS):GRU:IND.*" postag_regexp="yes" min="0"/>
+                    <token postag="SUB:(DAT|NOM|AKK):SIN:(MAS|FEM|NEU)" postag_regexp="yes"/>
+                </pattern>
+                <message>Die Präposition '\1' erfordert standardsprachlich den Genitiv.</message>
+                <suggestion suppress_misspelled="yes">\1 <match no="2" regexp_match="(?i)e[mn]$" regexp_replace="es" /> \3 <match no="4" postag="SUB:GEN:SIN:.+" postag_regexp="yes" /></suggestion>
+                <example correction="entlang des Flusses">Die Straße verläuft <marker>entlang dem Fluss</marker>.</example>
+                <example correction="entlang des Grabens">1893 wurde <marker>entlang dem Graben</marker> eine Mauer hochgezogen.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="MEIN_KLEIN_HAUS" name="Unflektiertes Adjektiv statt flektierter Form (unvollständig!), z.B. 'mein klein (kleines) Haus' ">
             <antipattern>
