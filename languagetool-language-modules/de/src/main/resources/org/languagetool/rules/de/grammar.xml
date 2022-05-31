@@ -54148,6 +54148,48 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="entlang des Flusses">Die Straße verläuft <marker>entlang dem Fluss</marker>.</example>
                 <example correction="entlang des Grabens">1893 wurde <marker>entlang dem Graben</marker> eine Mauer hochgezogen.</example>
             </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token skip="-1">statt</token>
+                    <token>zu</token>
+                    <token>umrunden</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">statt</token>
+                    <token regexp="yes">de[nm]|[Ii]hre[nm]|[Ddms]?eine[nm]|unse?re[nm]|diese[nm]|jene[nm]|[Ee]ure[nm]</token>
+                    <token postag="(ADJ|PA[12]):DAT:SIN:(NEU|MAS):GRU:IND.*" postag_regexp="yes" min="0"/>
+                    <token skip="-1" postag="SUB:(DAT|NOM|AKK):SIN:(MAS|FEM|NEU)" postag_regexp="yes"/>
+                    <token postag="VER:EIZ:.*|UNKOWN" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>an</token>
+                    <token postag="PRO:POS:(DAT|GEN):.*" postag_regexp="yes"/>
+                    <token>statt</token>
+                    <token regexp="yes">de[nm]|[Ii]hre[nm]|[Ddms]?eine[nm]|unse?re[nm]|diese[nm]|jene[nm]|[Ee]ure[nm]</token>
+                    <token postag="(ADJ|PA[12]):DAT:SIN:(NEU|MAS):GRU:IND.*" postag_regexp="yes" min="0"/>
+                    <token postag="SUB:(DAT|NOM|AKK):SIN:(MAS|FEM|NEU)" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">statt</token>
+                    <token regexp="yes">de[nm]|[Ii]hre[nm]|[Ddms]?eine[nm]|unse?re[nm]|diese[nm]|jene[nm]|[Ee]ure[nm]</token>
+                    <token postag="(ADJ|PA[12]):DAT:SIN:(NEU|MAS):GRU:IND.*" postag_regexp="yes" min="0"/>
+                    <token skip="-1" postag="SUB:(DAT|NOM|AKK):SIN:(MAS|FEM|NEU)" postag_regexp="yes"/>
+                    <token>zu</token>
+                    <token postag="VER:INF:.*|UNKOWN" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">statt</token>
+                    <token regexp="yes">de[nm]|[Ii]hre[nm]|[Ddms]?eine[nm]|unse?re[nm]|diese[nm]|jene[nm]|[Ee]ure[nm]</token>
+                    <token postag="(ADJ|PA[12]):DAT:SIN:(NEU|MAS):GRU:IND.*" postag_regexp="yes" min="0"/>
+                    <token postag="SUB:(DAT|NOM|AKK):SIN:(MAS|FEM|NEU)" postag_regexp="yes"/>
+                </pattern>
+                <message>Die Präposition '\1' erfordert standardsprachlich den Genitiv.</message>
+                <suggestion suppress_misspelled="yes">\1 <match no="2" regexp_match="(?i)e[mn]$" regexp_replace="es" /> \3 <match no="4" postag="SUB:GEN:SIN:.+" postag_regexp="yes" /></suggestion>
+                <example correction="Statt des kühlen Wassers"><marker>Statt dem kühlen Wasser</marker> trinke ich heute lieber einen warmen Tee.</example>
+                <example>Ich möchte lieber im Bett liegen bleiben, statt ins Schwimmbad zu gehen.</example>
+                <example>Meine Mutter hat an meiner statt dem alten Mann geholfen.</example>
+                <example>Ich schaue lieber fern, statt meinem Bruder zuzusehen, wie er einen Handstand macht.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="MEIN_KLEIN_HAUS" name="Unflektiertes Adjektiv statt flektierter Form (unvollständig!), z.B. 'mein klein (kleines) Haus' ">
             <antipattern>
