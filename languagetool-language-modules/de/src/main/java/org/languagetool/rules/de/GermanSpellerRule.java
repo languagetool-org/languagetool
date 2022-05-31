@@ -1148,6 +1148,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("bst", w -> Arrays.asList("bist", "ist"));
     put("ds", w -> Arrays.asList("des", "das", "es"));
     put("mn", w -> Arrays.asList("man", "in", "an"));
+    put("hilt", w -> Arrays.asList("gilt", "hilft", "hielt", "hält"));
+    put("nei", w -> Arrays.asList("bei", "nie", "ein", "neu"));
     put("Artal", "Ahrtal");
     put("wuste", "wusste");
     put("Kuden", "Kunden");
@@ -2400,6 +2402,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "daß": return topMatch("dass");
       case "Daß": return topMatch("Dass");
       case "mußt": return topMatch("musst");
+      case "Mußt": return topMatch("Musst");
+      case "müßt": return topMatch("müsst");
+      case "Müßt": return topMatch("Müsst");
       case "mußten": return topMatch("mussten");
       case "mußte": return topMatch("musste");
       case "mußtest": return topMatch("musstest");
@@ -2596,6 +2601,14 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Stahlkraft": return topMatch("Strahlkraft");
       case "trümmern": return topMatch("Trümmern");
       case "gradeaus": return topMatch("geradeaus");
+      case "Anschliessend": return topMatch("Anschließend");
+      case "anschliessend": return topMatch("anschließend");
+      case "Abschliessend": return topMatch("Abschließend");
+      case "abschliessend": return topMatch("abschließend");
+      case "Ruckmeldung": return topMatch("Rückmeldung");
+      case "Gepaeck": return topMatch("Gepäck");
+      case "Grüsse": return topMatch("Grüße");
+      case "Grüssen": return topMatch("Grüßen");
     }
     return Collections.emptyList();
   }
