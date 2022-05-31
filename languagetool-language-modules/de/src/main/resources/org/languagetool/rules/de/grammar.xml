@@ -11475,7 +11475,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">S(a|o)uce|Source|So(ß|ss)e?</token>
                     <token regexp="yes">holl?(a|o|ä)i?nd(a|ä)i?ss?e?</token>
                 </pattern>
-                <message>Meinten Sie die Soße <suggestion>Sauce hollandaise</suggestion> ("hollandaise" wird hier kleingeschrieben)?</message>
+                <message>Meinten Sie die Soße <suggestion>Sauce hollandaise</suggestion>? "hollandaise" wird hier kleingeschrieben.</message>
                 <url>https://de.wikipedia.org/wiki/Holl%C3%A4ndische_Sauce</url>
                 <example correction="Sauce hollandaise">Zu Spargel esse ich am liebsten <marker>Soße Hollaindaise</marker>.</example>
             </rule>
@@ -11488,7 +11488,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">S(a|o)uce|Source|So(ß|ss)e?</token>
                     <token regexp="yes">b[eéèêäaàáâ]a?rnai?ss?e?</token>
                 </pattern>
-                <message>Meinten Sie die Soße <suggestion>Sauce béarnaise</suggestion> ("béarnaise" wird hier kleingeschrieben)?</message>
+                <message>Meinten Sie die Soße <suggestion>Sauce béarnaise</suggestion>? "béarnaise" wird hier kleingeschrieben.</message>
                 <url>https://de.wikipedia.org/wiki/Sauce_b%C3%A9arnaise</url>
                 <example correction="Sauce béarnaise">Zu Spargel esse ich am liebsten <marker>Soße Bernaise</marker>.</example>
             </rule>
@@ -13442,7 +13442,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
-        <rulegroup id="GERADE_AUS" name="gerade aus (geradeaus)" default="temp_off">
+        <rulegroup id="GERADE_AUS" name="gerade aus (geradeaus)">
             <rule>
                 <pattern>
                     <marker>
@@ -27898,6 +27898,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="JEDERMANN" name="'Jedermann' Kleinschreibung" default="temp_off">
+            <antipattern>
+                <token regexp="yes">Herrn?|Frau|Fräulein|im|beim|das|der</token>
+                <token regexp="yes">Jedermanns?</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">.*[a-z,0-9].*</token>
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">Jedermanns?</token>
+                </marker>
+            </pattern>
+            <message>Das Pronomen "jedermann" wird immer kleingeschrieben.</message>
+            <suggestion><match no="2" case_conversion="alllower" /></suggestion>
+            <url>https://www.korrekturen.de/beliebte_fehler/jedermann.shtml</url>
+            <example correction="jedermann">LanguageTool ist eine Textkorrektur für <marker>Jedermann</marker>.</example>
+            <example correction="jedermanns">Der Tod ist <marker>Jedermanns</marker> Schicksal.</example>
+        </rule>
         <rulegroup id="KOMMT_MIR_SPANISCH_VOR" name="kommt mir Spanisch (spanisch) vor">
             <url>https://de.wikipedia.org/wiki/Das_kommt_mir_spanisch_vor</url>
             <rule>
@@ -64391,7 +64408,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="LEERZEICHEN_VOR_AUSRUFEZEICHEN_ETC" name="Falsches Leerzeichen vor Ausrufezeichen etc.">
-            <regexp>(\w+) ([!?:])(?!(-?[()/DO=]|\s\d|(?i)[a-z]{1,20}))</regexp>
+            <regexp>([a-z0-9äöüßàáéè]+) ([!?:])(?!(-?[:(),/DOZ9=]|\s\d|(?i)[a-z]{1,20}))</regexp>
             <message>Vor Satzzeichen steht kein Leerzeichen (dahinter allerdings schon).</message>
             <suggestion>\1\2</suggestion>
             <example correction="erschaffen!">Wir haben den Design-Klassiker der Zukunft <marker>erschaffen !</marker></example>
