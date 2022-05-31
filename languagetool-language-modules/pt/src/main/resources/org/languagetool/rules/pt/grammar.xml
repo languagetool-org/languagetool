@@ -11442,6 +11442,24 @@ Vamos minorar a dor.
           <token regexp='yes'>algu[mn]a?s?</token>
           <token regexp='yes'>d(?:el[ea]|es[st][ea]|outr[ao]|aquel[ea])s?|[nd][oa]s?</token>
       </antipattern>
+
+<!-- MARCOAGPINTO 2022-05-31 (Checked/Enhanced) (24-MAY-2022+) *START* -->
+<!--
+Sua casa física reflete a morada, a sua alma, por isso cuide muito bem dela nessa época.
+Encontrei o gato dela numa sala vazia.
+Vejamos um exemplo disso no próprio evangelho de Marcos.
+Me fez ver que vai ser horrível ser mais uma pessoa dessas no mundo.
+Eu gasto todo o dinheiro dela no carro.
+Desde então fiquei com a estória dela na cabeça e cheia de vontade de ler outra obra dela.
+-->
+      <antipattern>
+          <token postag='NP.+|AQ.+|NC.+' postag_regexp='yes'/>
+		  <token postag='SPS00:P[ADIP].+' postag_regexp='yes'/>
+          <token postag='SPS00:D[ADIP].+' postag_regexp='yes'/>
+		  <token postag='NP.+|AQ.+|NC.+' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-05-31 (Checked/Enhanced) (24-MAY-2022+) *END* --> 
+
       <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
         <marker>
@@ -11459,6 +11477,13 @@ Vamos minorar a dor.
       <example>O guarani é falado por alguns no nordeste, especialmente em Corrientes (onde possu…</example>
       <example>Não há novidade alguma nos meus olhos espantados.</example>
       <example>Alguns deles defendem uma abordagem e rejeitam a outra; outros…</example>
+
+	  <example>Sua casa física reflete a morada, a sua alma, por isso cuide muito bem dela nessa época.</example>
+	  <example>Encontrei o gato dela numa sala vazia.</example>
+	  <example>Vejamos um exemplo disso no próprio evangelho de Marcos.</example>
+	  <example>Me fez ver que vai ser horrível ser mais uma pessoa dessas no mundo.</example>
+	  <example>Eu gasto todo o dinheiro dela no carro.</example>
+	  <example>Desde então fiquei com a estória dela na cabeça e cheia de vontade de ler outra obra dela.</example>
     </rule>
   </rulegroup>
 
