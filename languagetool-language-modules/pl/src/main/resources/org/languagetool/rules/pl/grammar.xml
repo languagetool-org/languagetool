@@ -17740,6 +17740,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rulegroup>
 		</category>
 		<category id="SPELLING" name="Błędy ortograficzne" type="misspelling">
+		<rule id="DO_UHA" name="„do uha” (do ucha)">
+      <pattern>
+        <token postag_regexp="yes" postag="prep:gen.*"/>
+        <marker>
+          <token>uha</token>        
+        </marker>      
+      </pattern>
+      <message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion>ucha</suggestion>?</message>
+      <short>Błąd ortograficzny</short>
+      <example correction="ucha">Krew mu leciała z <marker>uha</marker>.</example>    
+    </rule>
 		<rule id="OD_STRESOWAĆ" name="„od stresować” (odstresować)">
       <pattern>
         <token>od</token>
@@ -22259,6 +22270,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
     <category id="TYPOS" name="Prawdopodobne literówki" type="misspelling">
+    <rule id="BEZ_ZAHAMOWAC" name="„bez zahamować” (bez zahamowań)">
+        <pattern>
+          <token>bez</token>
+          <marker>
+              <token>zahamować</token>          
+          </marker>        
+        </pattern>
+        <message>Prawdopodobna literówka. Czy chodziło o <suggestion>zahamowań</suggestion>?</message>
+        <short>Literówka</short>
+        <example correction="zahamowań">Wzory można zestawiać bez <marker>zahamować</marker>.</example>
+    </rule>
     <rule id="OPERA_SIE_OPIERA" name="„opera się” (opiera się)">
         <pattern>
           <marker>
