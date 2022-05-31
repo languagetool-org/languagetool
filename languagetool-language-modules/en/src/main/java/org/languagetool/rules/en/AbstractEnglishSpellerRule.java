@@ -73,6 +73,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     "hands free",
     "client side",
     "server side",
+    "in house",
     "faggot",
     "faggots",
     "fuckable",
