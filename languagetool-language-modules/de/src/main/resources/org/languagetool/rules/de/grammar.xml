@@ -24580,16 +24580,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rulegroup>
             <rule id="KOMPLETT_STIL" name="komplett (völlig, vollkommen)" default="temp_off" tags="picky">
                 <antipattern>
+                    <token>(</token>
                     <token>komplett</token>
-                    <token>daneben</token>
+                    <token>)</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">völlig|total</token>
+                    <token min="0">und</token>
+                    <token>komplett</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>komplett</token>
+                    <token regexp="yes">&apostrophe;</token>
+                </antipattern>
+                <antipattern>
+                    <token case_sensitive="yes">KOMPLETT</token>
                 </antipattern>
                 <antipattern>
                     <token>komplett</token>
-                    <token>alles</token>
+                    <token regexp="yes">alles|daneben</token>
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token>komplett</token>
+                        <token case_sensitive="yes">komplett</token>
                     </marker>
                 </pattern>
                 <message>Möchten Sie den Ausdruck 'komplett' durch eine formalere Formulierung ersetzen?</message>
@@ -24600,6 +24614,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="vollkommen|gänzlich|vollständig">Die Umgehungsstraße war wegen Bauarbeiten <marker>komplett</marker> gesperrt.</example>
                 <example>Ich habe komplett alles vertstanden.</example>
                 <example>Dein Benehmen ist echt komplett daneben.</example>
+                <example>"KOMPLETT KARIERT" ist der Name einer Firma.</example>
+                <example>Was heißt 'komplett' auf Englisch?</example>
+                <example>Diese Aktion war echt komplett daneben!</example>
+                <example>Diese Aktion war völlig und komplett unnötig!</example>
+                <example>Wir sollen Aufagebe 1 a, b und c (komplett) machen und dann noch AUfgabe 3.</example>
             </rule>
             <rulegroup id="ZUM_STATT_FUERS" name="fürs (zum) Schneiden">
                 <rule>
