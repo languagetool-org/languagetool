@@ -459,8 +459,8 @@ public class German extends Language implements AutoCloseable {
       }
       return -11;
     }
-    if (id.startsWith("AI_DE_KOMMA")) { // TODO: A high priority for our initial testing, afterwards we will give it a smaller priority.
-      return 50;
+    if (id.startsWith("AI_DE_KOMMA")) {
+      return -52; // prefer comma style rules and AI_DE_HYDRA_LEO_MISSING_COMMA
     }
     return super.getPriorityForId(id);
   }
