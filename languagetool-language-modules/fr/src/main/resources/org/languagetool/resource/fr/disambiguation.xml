@@ -4611,6 +4611,18 @@ RB => Règles Brutes
         </pattern>
         <disambig action="remove" postag="N f s"/>
     </rule>
+    <rule id="DIS_JE" name="dis-je">
+        <pattern>
+            <marker>
+                <and>
+                <token postag="V ind pres 1 s"/>
+                <token postag="V imp pres 2 s"/>
+                </and>
+            </marker>
+            <token>-je</token>
+        </pattern>
+        <disambig action="remove" postag="V imp pres 2 s"/>
+    </rule>
     <rule id="PEUX" name="peux">
         <pattern>
             <token>je</token>
@@ -8770,6 +8782,15 @@ RB => Règles Brutes
             <antipattern>
                 <token postag="N.*" postag_regexp="yes"/>
                 <token>excepté</token>
+            </antipattern>
+            <antipattern>
+                <token>en</token>
+                <token>plein</token>
+                <token postag="[JN].*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">toute?s?|tous</token>
+                <token>plein</token>
             </antipattern>
             <pattern>
                 <marker>
