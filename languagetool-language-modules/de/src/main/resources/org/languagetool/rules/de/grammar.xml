@@ -13442,6 +13442,140 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rule id="ARTIKEL_NR" name="Artikel-Nr.">
+            <pattern>
+                <marker>
+                    <token case_sensitive="yes" regexp="yes">Tracking|Artikel|Patienten|Mandanten|Kunden|Lieferanten|Angebots|Rechnungs|Vertrags|eVB|AVH|[GB]estell|Handy|Telefon|Fax</token>
+                    <token>Nr</token>
+                    <token spacebefore="no">.</token>
+                </marker>
+            </pattern>
+            <message>Dieses Nomen sollte mit Bindestrich geschrieben werden.</message>
+            <suggestion>\1-\2.</suggestion>
+            <example correction="Tracking-Nr.">Mit der <marker>Tracking Nr.</marker> kann ich genau sehen, wo mein Paket gerade ist.</example>
+        </rule>
+        <rulegroup id="ZWEIT_KLAESSLER" name="2. Klässler (Zweitklässler)" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">1|erst</token>
+                    <token min="0">.</token>
+                    <token regexp="yes">Klässler[sn]?</token>
+                </pattern>
+                <message>Dieses Nomen wird zusammengeschrieben.</message>
+                <suggestion>Erst<match no="3" case_conversion="alllower" /></suggestion>
+                <example correction="Erstklässler">Die <marker>1. Klässler</marker> lernen fleißig.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">2|zweit</token>
+                    <token min="0">.</token>
+                    <token regexp="yes">Klässler[sn]?</token>
+                </pattern>
+                <message>Dieses Nomen wird zusammengeschrieben.</message>
+                <suggestion>Zweit<match no="3" case_conversion="alllower" /></suggestion>
+                <example correction="Zweitklässler">Die <marker>2. Klässler</marker> lernen fleißig.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">3|dritt</token>
+                    <token min="0">.</token>
+                    <token regexp="yes">Klässler[sn]?</token>
+                </pattern>
+                <message>Dieses Nomen wird zusammengeschrieben.</message>
+                <suggestion>Dritt<match no="3" case_conversion="alllower" /></suggestion>
+                <example correction="Drittklässler">Die <marker>3. Klässler</marker> lernen fleißig.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">4|viert</token>
+                    <token min="0">.</token>
+                    <token regexp="yes">Klässler[sn]?</token>
+                </pattern>
+                <message>Dieses Nomen wird zusammengeschrieben.</message>
+                <suggestion>Viert<match no="3" case_conversion="alllower" /></suggestion>
+                <example correction="Viertklässler">Die <marker>4. Klässler</marker> lernen fleißig.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">5|fünft</token>
+                    <token min="0">.</token>
+                    <token regexp="yes">Klässler[sn]?</token>
+                </pattern>
+                <message>Dieses Nomen wird zusammengeschrieben.</message>
+                <suggestion>Fünft<match no="3" case_conversion="alllower" /></suggestion>
+                <example correction="Fünftklässler">Die <marker>5. Klässler</marker> lernen fleißig.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">6|sechst</token>
+                    <token min="0">.</token>
+                    <token regexp="yes">Klässler[sn]?</token>
+                </pattern>
+                <message>Dieses Nomen wird zusammengeschrieben.</message>
+                <suggestion>Sechst<match no="3" case_conversion="alllower" /></suggestion>
+                <example correction="Sechstklässler">Die <marker>6. Klässler</marker> lernen fleißig.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">7|siebt</token>
+                    <token min="0">.</token>
+                    <token regexp="yes">Klässler[sn]?</token>
+                </pattern>
+                <message>Dieses Nomen wird zusammengeschrieben.</message>
+                <suggestion>Siebt<match no="3" case_conversion="alllower" /></suggestion>
+                <example correction="Siebtklässler">Die <marker>7. Klässler</marker> lernen fleißig.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">8|acht</token>
+                    <token min="0">.</token>
+                    <token regexp="yes">Klässler[sn]?</token>
+                </pattern>
+                <message>Dieses Nomen wird zusammengeschrieben.</message>
+                <suggestion>Acht<match no="3" case_conversion="alllower" /></suggestion>
+                <example correction="Achtklässler">Die <marker>8. Klässler</marker> lernen fleißig.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">9|neunt</token>
+                    <token min="0">.</token>
+                    <token regexp="yes">Klässler[sn]?</token>
+                </pattern>
+                <message>Dieses Nomen wird zusammengeschrieben.</message>
+                <suggestion>Neunt<match no="3" case_conversion="alllower" /></suggestion>
+                <example correction="Neuntklässler">Die <marker>9. Klässler</marker> lernen fleißig.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">10|zehnt</token>
+                    <token min="0">.</token>
+                    <token regexp="yes">Klässler[sn]?</token>
+                </pattern>
+                <message>Dieses Nomen wird zusammengeschrieben.</message>
+                <suggestion>Zehnt<match no="3" case_conversion="alllower" /></suggestion>
+                <example correction="Zehntklässler">Die <marker>10. Klässler</marker> lernen fleißig.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">11|elft</token>
+                    <token min="0">.</token>
+                    <token regexp="yes">Klässler[sn]?</token>
+                </pattern>
+                <message>Dieses Nomen wird zusammengeschrieben.</message>
+                <suggestion>Elft<match no="3" case_conversion="alllower" /></suggestion>
+                <example correction="Elftklässler">Die <marker>11. Klässler</marker> lernen fleißig.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">12|zwölft</token>
+                    <token min="0">.</token>
+                    <token regexp="yes">Klässler[sn]?</token>
+                </pattern>
+                <message>Dieses Nomen wird zusammengeschrieben.</message>
+                <suggestion>Zwölft<match no="3" case_conversion="alllower" /></suggestion>
+                <example correction="Zwölftklässler">Die <marker>12. Klässler</marker> lernen fleißig.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="GERADE_AUS" name="gerade aus (geradeaus)">
             <rule>
                 <pattern>
@@ -18510,6 +18644,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Möglicherweise muss <suggestion>\3\4</suggestion> (als Konjunktion) zusammengeschrieben werden, sofern es sich hier nicht um einen elliptischen Satz handelt, z.B. '[Das Spiel] In dem er gewonnen hat'.</message>
                 <example correction="Nachdem"><marker>Nach dem</marker> der Spieler gewonnen hatte, war er nicht zu bremsen.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="VER.*" postag_regexp="yes" />
+                    <marker>
+                        <token case_sensitive="yes">nach</token>
+                        <token case_sensitive="yes">dem</token>
+                    </marker>
+                    <token postag="PRO:(IND|PER):NOM.*" postag_regexp="yes" />
+                </pattern>
+                <message>Möglicherweise muss <suggestion>\2\3</suggestion> (als Konjunktion) zusammengeschrieben werden, sofern es sich hier nicht um einen elliptischen Satz handelt, z.B. '[Das Spiel] In dem er gewonnen hat'.</message>
+                <example correction="nachdem">Wir haben endlich gewonnen <marker>nach dem</marker> wir uns kontinuierlich verbessert haben.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SO_BALD_VS_SOBALD" name="'sobald (so bald) wie möglich' etc.">
@@ -27958,10 +28104,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
-        <rule id="JEDERMANN" name="'Jedermann' Kleinschreibung" default="temp_off">
+        <rule id="JEDERMANN" name="'Jedermann' Kleinschreibung">
             <antipattern>
                 <token regexp="yes">Herrn?|Frau|Fräulein|im|beim|das|der</token>
                 <token regexp="yes">Jedermanns?</token>
+            </antipattern>
+            <antipattern><!-- Buchtitel -->
+                <token>Joyce</token>
+                <token>für</token>
+                <token>Jedermann</token>
             </antipattern>
             <pattern>
                 <token regexp="yes">.*[a-z,0-9].*</token>
@@ -49265,6 +49416,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>zu</token>
                     <token inflected="yes">ein</token>
                 </antipattern>
+                <antipattern>
+                    <token>zu</token>
+                    <token postag="VER:INF.*|UNKNOWN" postag_regexp="yes" />
+                </antipattern>
                 <pattern>
                     <token>alles</token>
                     <marker>
@@ -49274,6 +49429,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Meinten Sie <suggestion>Gute</suggestion>?</message>
                 <example correction="Gute">Alles <marker>Gut</marker> zum Geburtstag.</example>
+                <example>Es war alles gut zu erreichen.</example>
             </rule>
             <rule>
                 <pattern>
@@ -64298,6 +64454,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token skip="3" regexp="yes">[_\{]</token>
                 <token>(</token>
+            </antipattern>
+            <antipattern><!-- schweben(den) -->
+                <token regexp="yes">.+n</token>
+                <token>(</token>
+                <token>den</token>
+                <token>)</token>
             </antipattern>
             <pattern>
                 <token regexp="yes">

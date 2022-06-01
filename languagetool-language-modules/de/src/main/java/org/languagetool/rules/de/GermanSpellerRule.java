@@ -2609,6 +2609,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Gepaeck": return topMatch("Gepäck");
       case "Grüsse": return topMatch("Grüße");
       case "Grüssen": return topMatch("Grüßen");
+      case "entgültig": return topMatch("endgültig");
+      case "entgültige": return topMatch("endgültige");
+      case "entgültiges": return topMatch("endgültiges");
+      case "entgültiger": return topMatch("endgültiger");
+      case "entgültigen": return topMatch("endgültigen");
     }
     return Collections.emptyList();
   }
