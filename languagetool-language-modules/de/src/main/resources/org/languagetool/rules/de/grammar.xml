@@ -24664,41 +24664,52 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example correction="zum">Man nimmt Mehl <marker>fürs</marker> Backen.</example>
                 </rule>
             </rulegroup>
-            <rule id="DRUM_DARUM" name="drum (darum)" default="temp_off">
-                <antipattern>
-                    <token>Drum</token>
-                    <token>und</token>
-                    <token>Dran</token>
-                </antipattern>
-                <antipattern>
-                    <token>sei</token>
-                    <token>es</token>
-                    <token>drum</token>
-                </antipattern>
-                <antipattern>
-                    <token>sei</token>
-                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
-                    <token spacebefore="no">s</token>
-                    <token>drum</token>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">[Dd]rum</token>
-                    <token regexp="yes">und|and|&amp;</token>
-                    <token regexp="yes">[Bb]ass</token>
-                </antipattern>
-                <pattern>
-                    <token>drum</token>
-                </pattern>
-                <message>In formellen Kontexten ist das standardsprachliche <suggestion>darum</suggestion> eventuell passender.</message>
-                <url>https://www.dwds.de/wb/drum</url>
-                <example correction="darum">Ich werde mich schon <marker>drum</marker> kümmern.</example>
-                <example correction="darum">Es regnet und <marker>drum</marker> gehe ich nicht ins Schwimmbad.</example>
-                <example>Mit allem Drum und Dran kostet es 100€.</example>
-                <example>Sei es drum, ich wollte sowieso nicht in den Urlaub fahren.</example>
-                <example>Sei's drum, der Pullover war soweiso zu klein.</example>
-                <example>Meine Lieblingsmusikrichtung ist eigentlich Drum and Bass.</example>
-                <example>Drum und Bass finde ich super.</example>
-            </rule>
+            <rulegroup id="DRUM_DARUM" name="drum (darum)" default="temp_off">
+                <rule>
+                    <antipattern>
+                        <token skip="-1">wo</token>
+                        <token>drum</token>
+                    </antipattern>
+                    <antipattern>
+                        <token postag="EIG:.*" postag_regexp="yes"/>
+                        <token>Drum</token>
+                    </antipattern>
+                    <antipattern>
+                        <token>sei</token>
+                        <token>es</token>
+                        <token>drum</token>
+                    </antipattern>
+                    <pattern>
+                        <marker>
+                            <token>drum</token>
+                        </marker>
+                        <token postag="VER:.*" postag_regexp="yes"/>
+                    </pattern>
+                    <message>In formellen Kontexten ist das standardsprachliche <suggestion>darum</suggestion> eventuell passender.</message>
+                    <url>https://www.dwds.de/wb/drum</url>
+                    <example correction="darum">Ich werde mich schon <marker>drum</marker> kümmern.</example>
+                    <example correction="darum">Es regnet und <marker>drum</marker> gehe ich nicht ins Schwimmbad.</example>
+                    <example>Meine Name ist Hannah Drum und das ist Marvin Drin.</example>
+                    <example>Wo es drum geht ist, ob wir noch Zeit haben ein Eis zu essen.</example>
+                </rule>
+                <rule>
+                    <antipattern>
+                        <token>sei</token>
+                        <token>drum</token>
+                    </antipattern>
+                    <pattern>
+                        <token postag="VER:.*" postag_regexp="yes"/>
+                        <marker>
+                            <token case_sensitive="yes">drum</token>
+                        </marker>
+                    </pattern>
+                    <message>In formellen Kontexten ist das standardsprachliche <suggestion>darum</suggestion> eventuell passender.</message>
+                    <url>https://www.dwds.de/wb/drum</url>
+                    <example correction="darum">Ich mag keine Filme und gehe <marker>drum</marker> nicht gerne ins Kino.</example>
+                    <example correction="darum">Es regnet und ich gehe <marker>drum</marker> nicht ins Schwimmbad.</example>
+                    <example correction="darum">Ich bitte <marker>drum</marker>, heute noch die Formulare abzugeben.</example>
+                </rule>
+            </rulegroup>
         <rulegroup id="DOPPELPERFEKT" name="Doppeltes Perfekt: 'ich habe es geputzt gehabt' etc.">
             <!-- TODO: Dasselbe mit 'sein' -->
             <url>https://de.wikipedia.org/wiki/Doppeltes_Perfekt</url>
