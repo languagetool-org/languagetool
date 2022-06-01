@@ -11654,7 +11654,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>haya \2 que haya</suggestion>
                 <example correction="haya lo que haya">Creo que me gustará <marker>halla lo que halla</marker>.</example>
             </rule>
-            <rule id="SE_HALLA_SE_HAYA" name="se halla / se haya" default="off">
+            <rule id="SE_HALLA_SE_HAYA" name="se halla / se haya" default="temp_off">
                 <!-- This will cause a lot of false alarms, but it could be a useful warning -->
                 <antipattern>
                     <token>halla</token>
@@ -11707,6 +11707,67 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>haya</suggestion>
                 <example correction="haya">Si no quieren que <marker>halla</marker> más huelga, que se espabilen.</example>
                 <example correction="haya">Si no quieren que <marker>halla</marker> una huelga, que se espabilen.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="SE_HALLA_SE_HAYA_PARTICIPIO" name="se halla / se haya" default="temp_off">
+            <antipattern>
+                <token>halla</token>
+                <token postag="RG"/>
+                <token regexp="yes">cerca|lejos</token>
+            </antipattern>
+            <antipattern>
+                <token>en</token>
+                <token min="0" postag="DA.*" postag_regexp="yes"/>
+                <token regexp="yes" inflected="yes">que|cual</token>
+                <token>se</token>
+                <token>halla</token>
+            </antipattern>
+            <antipattern>
+                <token>,</token>
+                <token>que</token>
+            </antipattern>
+            <antipattern>
+                <token>,</token>
+                <token>el</token>
+                <token>cual</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">que|cuando|cual|cuales</token>
+                    <marker>
+                        <token>se</token>
+                        <token>halla</token>
+                    </marker>
+                    <token postag="V.P..SM" postag_regexp="yes"/>
+                    <token regexp="yes">nada|algo|con|el|la||los|las|un|una|unos|unas</token>
+                </pattern>
+                <message>Correcto si es del v. 'hallarse' (=se encuentra, está). Incorrecto si es del v. 'haber'.</message>
+                <suggestion>se haya</suggestion>
+                <example correction="se haya">No parece que <marker>se halla</marker> comprado nada.</example>
+                <example correction="se haya">Nadie dice que <marker>se halla</marker> casado con ella.</example>
+                <example correction="se haya">No parece que <marker>se halla</marker> roto nada</example>
+                <example>El problema es que se halla demasiado lejos.</example>
+                <example>descubrirá que Rodríguez se halla implicado </example>
+                <example>El calor al que se halla sometido.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
+                    <token postag="DA.*" postag_regexp="yes" min="0"/>
+                    <token regexp="yes">que|cuando|cual|cuales</token>
+                    <marker>
+                        <token>se</token>
+                        <token>halla</token>
+                    </marker>
+                    <token postag="V.P..SM" postag_regexp="yes"/>
+                    <token regexp="yes">nada|algo|con|el|la||los|las|un|una|unos|unas</token>
+                </pattern>
+                <message>Correcto si es del v. 'hallarse' (=se encuentra, está). Incorrecto si es del v. 'haber'.</message>
+                <suggestion>se haya</suggestion>
+                <example correction="se haya">La causa de que <marker>se halla</marker> castellanizado.</example>
+                <example>El problema es que se halla demasiado lejos.</example>
+                <example>descubrirá que Rodríguez se halla implicado </example>
+                <example>El calor al que se halla sometido.</example>
             </rule>
         </rulegroup>
         <rulegroup id="HAYA_HALLA" name="haya/halla">
