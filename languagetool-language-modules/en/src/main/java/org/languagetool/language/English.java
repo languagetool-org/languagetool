@@ -361,6 +361,7 @@ public class English extends Language implements AutoCloseable {
       case "OFF_OF":                    return 1;   // higher prio than ADJECTIVE_ADVERB
       case "SHELL_COMPOUNDS":           return 1;   // higher prio than HELL
       case "HANDS_ON_HYPHEN":           return 1;   // higher prio than A_NNS
+      case "PROFITS_WARNINGS":          return 1;   // higher prio than A_NNS
       case "QUIET_QUITE":               return 1;   // higher prio than A_QUITE_WHILE
       case "A_OK":                      return 1;   // prefer over A_AN
       case "I_A":                       return 1;   // higher prio than I_IF
