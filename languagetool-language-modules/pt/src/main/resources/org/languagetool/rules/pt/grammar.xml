@@ -8845,20 +8845,6 @@ Estou de baixa até haver Junta Médica.
       <example>O chá é muito cultivado na Índia.</example>
     </rule>
     
-    <rule>
-      <pattern>
-          <token regexp='yes' inflected='yes'>ser|estar|ficar|permanecer|parecer
-            <exception>seres</exception></token>
-          <token min="0" max="3" postag_regexp='yes' postag='R.'/>
-          <token regexp='yes'>aceit[ao]s?</token>
-      </pattern>
-      <message>A forma correta deste particípio é <match no='3' regexp_match='(.+)([ao])(s?)' regexp_replace='$1e$3'/>.</message>
-        <suggestion>\1 <match no='2' include_skipped='all'/> <match no='3' regexp_match='(.+)([ao])(s?)' regexp_replace='$1e$3'/></suggestion>
-    <!--suggestion>\1 <match no='2' include_skipped='all'/> <match no='3' regexp_match='(.+)ad([ao]s?)' regexp_replace='$1ue' suppress_misspelled='yes'/></suggestion-->
-      <example correction='foi aceite'>O projeto <marker>foi aceito</marker>.</example>
-      <example correction='foi aceite'>A China <marker>foi aceita</marker> na Organização Mundial do Comércio.</example>
-      <example correction='serem aceites'>Que ser de um certo tamanho e qualidade antes de <marker>serem aceitas</marker> pelos praticantes da MTC e consumidores.</example>
-    </rule>
   </rulegroup>
 
   <rulegroup id='REFLEXIVE_VERB_SE_AGREEMENT' name='Concordância verbal: Verbo -se + Plural'>

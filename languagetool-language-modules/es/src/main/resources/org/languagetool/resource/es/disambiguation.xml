@@ -30,6 +30,7 @@ Copyright (C) 2011 Juan Martorell
     <!ENTITY dias_semana "lunes|martes|miércoles|jueves|viernes|sábado|domingo">
     <!ENTITY partes_dia "madrugada|mañana|mediodía|tarde|atardecer|noche|medianoche">
     <!ENTITY meses_ano "enero|febrero|marzo|abril|mayo|junio|julio|agosto|sep?tiembre|octubre|noviembre|diciembre">
+    <!ENTITY meses_ano_abrv "ene|feb|mar|abrl|may|jun|jul|ago|sep|set|oct|nov|dic">
     <!ENTITY estaciones_ano "primavera|verano|otoño|invierno">
     <!ENTITY unidades_tiempo "segundo|minuto|hora|día|semana|quincena|mes|bimestre|trimestre|cuatrimestre|semestre|año|lustro|década|siglo|centuria|milenio">
     <!ENTITY ordinales_decenas "décimo|vigésimo|trigésimo|cuadragésimo|quincuagésimo|sexagésimo|septuagésimo|nonagésimo">
@@ -6683,6 +6684,27 @@ Copyright (C) 2011 Juan Martorell
                 <wd pos="LOC_ADV"/>
                 <wd pos="LOC_ADV"/>
             </disambig>
+        </rule>
+    </rulegroup>
+    <rulegroup id="IGNORE_SPELLING_MONHTS" name="ignorar meses abreviados">
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">&meses_ano;</token>
+                </marker>
+                <token regexp="yes">\d\d|\d\d\d\d</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">\d+</token>
+                <token regexp="yes" min="0">[\,/\-]</token>
+                <marker>
+                    <token regexp="yes">&meses_ano;</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
     <rulegroup name="Ignore spelling numbers " id="IGNORE_NUMBERS">
