@@ -22270,16 +22270,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
     <category id="TYPOS" name="Prawdopodobne literówki" type="misspelling">
-    <rule id="PREP_INF" name="Przyimek przed czasownikiem">
+    <rulegroup id="PREP_INF" name="Przyimek przed czasownikiem">
     <antipattern>
-    <marker>
-    <token>być</token>
-    </marker>
-    <token>może</token>
-    </antipattern>
-    <antipattern>
-        <token>na</token>
-        <token>rzec</token>    
+      <token regexp="yes" inflected="yes">przełożyć|przetłumaczyć|tłumaczyć</token>
+      <marker>
+        <token>jako</token>
+      </marker>
     </antipattern>
     <antipattern>
       <token>gdzieś</token>
@@ -22290,15 +22286,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <token>przeciwko</token>
     </antipattern>
     <antipattern>
-      <token regexp="yes" inflected="yes">przełożyć|przetłumaczyć|tłumaczyć</token>
-      <marker>
-        <token>jako</token>
-      </marker>
+    <marker>
+      <token case_sensitive="yes">PO</token>
+    </marker>    
+    </antipattern>    
+    <rule>
+    <antipattern>
+    <marker>
+    <token>być</token>
+    </marker>
+    <token>może</token>
+    </antipattern>
+    <antipattern>
+        <token>na</token>
+        <token regexp="yes">rzec|korzyć</token>    
     </antipattern>
       <pattern>
         <token postag="prep.*" postag_regexp="yes">
           <exception postag="prep:gen.*" postag_regexp="yes"/>
-          <exception regexp="yes">jak|niż|a?niżeli|niczym|ni[źż]li|niby|temu</exception>
+          <exception regexp="yes">ze|jak|niż|a?niżeli|niczym|ni[źż]li|niby|temu|[zw]ewnątrz|miast</exception>
         </token>
         <token postag="verb:inf.*" postag_regexp="yes"><exception postag=".*(nom|acc|gen|voc|dat|inst|loc).*|adv.*" postag_regexp="yes"/></token>      
       </pattern>
@@ -22307,6 +22313,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="">Może pan <marker>na liczyć</marker> na mnie.</example>
       <example>Czy można było trzy lata temu rozpocząć przygotowania do kongresu?</example>    
     </rule>
+    <rule>
+      <pattern>
+        <token postag="prep.*" postag_regexp="yes">
+          <exception regexp="yes">ze|jak|niż|a?niżeli|niczym|ni[źż]li|niby|temu|obok|doo?koła|nieopodal|wo?koło|[zw]ewnątrz|wzdłuż|naprzeciw|miast|naokoło</exception>
+        </token>
+        <token postag="pcon.*" postag_regexp="yes"><exception postag=".*(nom|acc|gen|voc|dat|inst|loc).*|adv.*" postag_regexp="yes"/></token>      
+      </pattern>
+      <message>Przypuszczalna literówka. Przyimek nie może stać przed czasownikiem.</message>
+      <short>Literówka</short>
+      <example correction="">Łatwo zmniejszyć jego złożoność <marker>do zauważając</marker>, że suma…</example>
+      <example>Lekka prowokacja - redaktor przytoczył program PO mówiąc, że to program PiS, na co posłanka zareagowała błyskawicznie, punktując niedociągnięcia programu. </example>
+    </rule>    
+    </rulegroup>
     <rule id="DO_BADAC" name="„do badać” (do badań)">
         <pattern>
           <token>do</token>
@@ -25566,6 +25585,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						</rule>
 						<rule>
 								<pattern>
+								    <token>,</token>
+										<marker>
+												<token>rzecz</token>
+										</marker>
+										<token>można</token>
+										<token>,</token>
+								</pattern>
+								<message>Prawdopodobna literówka. Czy chodziło o <suggestion>rzec</suggestion>?</message>
+								<short>Prawdopodobna literówka</short>
+								<example correction="rzec">Był to, <marker>rzecz</marker> można, nestor nauki polskiej.</example>
+								<example>Rzec można, że poznaję strukturę tworzenia przygodówki od drugiej strony, od podszewki.</example>
+						</rule>
+						<rule>
+								<pattern>
 										<token skip="1">można</token>
 										<marker>
 												<token>rzecz</token>
@@ -25597,7 +25630,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				<rulegroup id="RZEC_RZECZ" name="„na rzec” (na rzecz)">
 						<rule>
 								<pattern>
-										<token>na</token>
+										<token regexp="yes">na|jako</token>
 										<marker>
 												<token>rzec</token>
 										</marker>
@@ -25607,7 +25640,44 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example correction="rzecz">Ofiarowałem datek na <marker>rzec</marker> fundacji Putina.</example>
 								<example>Ofiarowałem datek na rzecz fundacji Putina.</example>
 						</rule>
+						<rule>
+								<pattern>
+										<marker>
+												<token>rzec</token>
+										</marker>
+										<token>jasna</token>
+
+								</pattern>
+								<message>Prawdopodobna literówka. Czy chodziło o <suggestion>rzecz</suggestion>?</message>
+								<short>Prawdopodobna literówka</short>
+								<example correction="rzecz">Był on, <marker>rzec</marker> jasna, pomiotłem fundacji Putina.</example>
+						</rule>
+						<rule>
+								<pattern>
+										<marker>
+												<token>rzec</token>
+										</marker>
+										<token>w</token>
+                    <token>tym</token>
+                    <token>,</token>
+                    <token regexp="yes">że|iż</token>
+								</pattern>
+								<message>Prawdopodobna literówka. Czy chodziło o <suggestion>rzecz</suggestion>?</message>
+								<short>Prawdopodobna literówka</short>
+								<example correction="rzecz">Jednak <marker>rzec</marker> w tym, że był on pomiotłem fundacji Putina.</example>
+						</rule>
 				</rulegroup>
+				<rule id="KORZYC_KORZYSC" name="„korzyć” (korzyść">
+								<pattern>
+										<token regexp="yes">na|wymiern[aą]</token>
+										<marker>
+												<token>korzyć</token>
+										</marker>
+								</pattern>
+								<message>Prawdopodobna literówka. Czy chodziło o <suggestion>korzyść</suggestion>?</message>
+								<short>Prawdopodobna literówka</short>
+								<example correction="korzyść">Ofiarowałem datek na <marker>korzyć</marker> fundacji Putina.</example>
+        </rule>
 				<rulegroup id="TUM" name="„tum” (tym)">
 						<rule>
 								<pattern>
@@ -26920,7 +26990,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 										<marker>
 												<token>ze<exception scope="previous" spacebefore="no" regexp="yes">&apost;</exception></token>
 										</marker>
-										<token postag="verb.*" postag_regexp="yes"><exception postag="subst.*|adj.*inst.*" postag_regexp="yes"></exception></token>
+										<token postag="verb.*|pcon.*" postag_regexp="yes"><exception postag="subst.*|adj.*inst.*" postag_regexp="yes"></exception></token>
 								</pattern>
 								<message>Prawdopodobna literówka. Czy chodziło o <suggestion>że</suggestion>?</message>
 								<short>Prawdopodobna literówka</short>
