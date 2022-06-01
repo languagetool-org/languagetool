@@ -43295,7 +43295,7 @@ São regras muito simples e que permitem agir corretamente. → São regras muit
 
 	<!-- E QUE que -->
     <rule id='SIMPLIFICAR_E_QUE_QUE' name="Simplificar: E que → que" type="style">
-    <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-05-27 (24-MAY-2022+)      -->
+    <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-05-27 + 2022-06-01 (24-MAY-2022+)      -->
 	<!--
 São regras muito simples e que permitem agir corretamente. → São regras muito simples que permitem agir corretamente.
 Recebemos um documento escrito em francês e que revelou uma lista de restaurantes. → Recebemos um documento escrito em francês que revelou uma lista de restaurantes.
@@ -43307,7 +43307,10 @@ Recebemos um documento escrito em francês e que revelou uma lista de restaurant
 			<token>e</token>
 			<token>que</token>
 		</marker>
-		<token postag='V.+' postag_regexp='yes'/>
+		<token postag='V.+' postag_regexp='yes'>
+			<exception scope="next" regexp='no'>de</exception>
+            <exception scope="next" postag_regexp='yes' postag='P[ADIP].+'/>
+		</token>
       </pattern>
       <message>Pode omitir a conjunção ‘e’ para tornar o texto mais fluido.</message>
 	  <suggestion>que</suggestion>
