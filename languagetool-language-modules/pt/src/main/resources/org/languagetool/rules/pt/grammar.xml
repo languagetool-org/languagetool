@@ -43319,33 +43319,39 @@ Recebemos um documento escrito em francês e que revelou uma lista de restaurant
 
 
 	<!-- PODE IR AO PC E IDENTIFICAR O UTILIZADOR? Pode ir ao PC identificar o utilizador? -->
-    <rule id='SIMPLIFICAR_IR_E' name="Simplificar: Verbo ir + outros verbos" type="style">
-    <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-05-26 (24-MAY-2022+)      -->
+    <rule id='SIMPLIFICAR_IR_E_PARA' name="Simplificar: Locução com verbo ‘ir’" type="style">
+    <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-05-26 + 2022-06-01 (24-MAY-2022+)      -->
 	<!--
 Pode ir ao PC e identificar o utilizador? → Pode ir ao PC identificar o utilizador?
+Vão-me obrigar a ir lá para marcar a consulta. → Vão-me obrigar a ir lá marcar a consulta.
 	-->
       <pattern>
 		<token inflected='yes'>ir
 			<exception inflected='yes'>ser</exception>
 		</token>
-		<token postag='SPS00:[DP][ADIP].+|CC|SPS00' postag_regexp='yes'/>
-		<token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'>
+		<token postag='SPS00:[DP][ADIP].+|CC|SPS00|RG' postag_regexp='yes'/>
+		<token min="0" max="1" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'>
 			<exception postag_regexp='no' postag='VMN0000'/>
 		</token>
 		<marker>
-			<token>e</token>
+			<token regexp='yes'>e|para</token>
 			<token postag='VMN0000' postag_regexp='no'/>
 		</marker>
       </pattern>
-      <message>Pode omitir a conjunção ‘e’ para tornar o texto mais fluido.</message>
+      <message>Pode omitir a conjunção ‘e’ ou a preposição ‘para’ para tornar o texto mais fluido.</message>
 	  <suggestion>\5</suggestion>
       <example correction="identificar">Pode ir ao PC <marker>e identificar</marker> o utilizador?</example>
+	  <example correction="marcar">Vão-me obrigar a ir lá <marker>para marcar</marker> a consulta.</example>
 	  <example>Ir à praia tomar um banho de mar... ou dois... ou três!</example>
 	  <example>Quero ir à escola estudar de verdade.</example>
 	  <example>Tom pedalou 30 quilômetros para ir à loja comprar morangos para a esposa dele que está grávida.</example>
 	  <example>Gostaria de ir à praia desfrutar de um pouco de sol.</example>
 	  <example>Você poderia por favor ir ao supermercado comprar pão?</example>
-	  <example>Você gostaria de ir à praia ver os pescadores de mariscos ao pôr do sol?</example>  
+	  <example>Você gostaria de ir à praia ver os pescadores de mariscos ao pôr do sol?</example>	  
+	  <example>Vamos até César pedir paz.</example>
+	  <example>Eu vou à cidade passear.</example>
+	  <example>Eu vou ao Rio aproveitar a praia.</example>
+	  <example>Eu gosto de ir ao cinema ver filmes estrangeiros.</example>
     </rule>
 
 
