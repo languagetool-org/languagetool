@@ -54181,7 +54181,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">statt</token>
                     <token regexp="yes">de[nm]|[Ii]hre[nm]|[Ddms]?eine[nm]|unse?re[nm]|diese[nm]|jene[nm]|[Ee]ure[nm]</token>
                     <token postag="(ADJ|PA[12]):DAT:SIN:(NEU|MAS):GRU:IND.*" postag_regexp="yes" min="0"/>
-                    <token postag="SUB:(DAT|NOM|AKK):SIN:(MAS|FEM|NEU)" postag_regexp="yes"/>
+                    <token postag="SUB:(DAT|NOM|AKK):SIN:(MAS|FEM|NEU)" postag_regexp="yes">
+                        <exception>Bluetooth</exception>
+                    </token>
                 </pattern>
                 <message>Die Präposition '\1' erfordert standardsprachlich den Genitiv.</message>
                 <suggestion suppress_misspelled="yes">\1 <match no="2" regexp_match="(?i)e[mn]$" regexp_replace="es" /> \3 <match no="4" postag="SUB:GEN:SIN:.+" postag_regexp="yes" /></suggestion>
@@ -54189,6 +54191,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ich möchte lieber im Bett liegen bleiben, statt ins Schwimmbad zu gehen.</example>
                 <example>Meine Mutter hat an meiner statt dem alten Mann geholfen.</example>
                 <example>Ich schaue lieber fern, statt meinem Bruder zuzusehen, wie er einen Handstand macht.</example>
+                <example>Statt einem Bluetooth Mikrofon für Smartphones gibt es gute Alternativen.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MEIN_KLEIN_HAUS" name="Unflektiertes Adjektiv statt flektierter Form (unvollständig!), z.B. 'mein klein (kleines) Haus' ">
