@@ -59,18 +59,18 @@ class DateFilterHelper {
   @SuppressWarnings({"ControlFlowStatementWithoutBraces", "MagicNumber"})
   protected int getMonth(String monthStr) {
     String mon = monthStr.toLowerCase();
-    if (mon.startsWith("ene")) return 1;
-    if (mon.startsWith("feb")) return 2;
-    if (mon.startsWith("mar")) return 3;
-    if (mon.startsWith("abr")) return 4;
-    if (mon.startsWith("may")) return 5;
-    if (mon.startsWith("jun")) return 6;
-    if (mon.startsWith("jul")) return 7;
-    if (mon.startsWith("ago")) return 8;
-    if (mon.startsWith("set") || mon.startsWith("sep")) return 9;
-    if (mon.startsWith("oct")) return 10;
-    if (mon.startsWith("nov")) return 11;
-    if (mon.startsWith("dic")) return 12;
+    if (mon.startsWith("en")) return 1;
+    if (mon.startsWith("fe")) return 2;
+    if (mon.startsWith("ma") || mon.startsWith("mzo")) return 3;
+    if (mon.startsWith("ab")) return 4;
+    if (mon.startsWith("may") || mon.startsWith("my")) return 5;
+    if (mon.startsWith("jun") || mon.equals("jn")) return 6;
+    if (mon.startsWith("jul") || mon.equals("jl")) return 7;
+    if (mon.startsWith("ag")) return 8;
+    if (mon.startsWith("se") || mon.startsWith("sep")) return 9;
+    if (mon.startsWith("oc")) return 10;
+    if (mon.startsWith("no")) return 11;
+    if (mon.startsWith("di")) return 12;
     throw new RuntimeException("Could not find month '" + monthStr + "'");
   }
 }
