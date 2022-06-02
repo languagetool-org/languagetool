@@ -37479,12 +37479,31 @@ As forças estão organizadas numa hierarquia C2.
     <!--     Typography rules from English grammar.xml      - START-->
     <!-- Localized and improved by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
 
-    <rule id="WORD_CONTAINS_UNDERSCORE" name="Traço baixo em palavra">
+    <rule id="WORD_CONTAINS_UNDERSCORE" name="Traço baixo em palavra" tags="picky">
     <!-- Refer to https://github.com/languagetool-org/languagetool/issues/1204#issuecomment-443842446 -->
       <antipattern><!-- file name: https://github.com/languagetool-org/languagetool/issues/1535 -->
           <token regexp="yes">\p{L}+?(_+\p{L}+)+</token>
           <token spacebefore="no">.</token>
           <token spacebefore="no" regexp="yes">asp|aspx|avi|bak|bat|bmp|cab|cfg|cgi|com|cs[sv]|dat|dbf?|dll|eps|exe|flv|gif|htm|html|ibooks|ico|ini|jar|jpg|js|jsp|lnk|md|mdb|mid|mov|mp3|mp4|mpa|mpg|pdf|php|pl|png|pps|ppt|pptx|ps|psd|py|rss|sh|sql|svg|sys|tar|tif|tiff|tmp|txt|wav|wma|xhtml|xls|xlsx|xsl|xml|zip|zipx</token><!-- For more extensions, refer to https://fileinfo.com -->
+      </antipattern>
+      <antipattern><!-- file name: https://github.com/languagetool-org/languagetool/issues/1535 -->
+          <token regexp="yes">.*_.*</token>
+          <token spacebefore="no">.</token>
+          <token spacebefore="no" regexp="yes">[a-z0-9]{2,7}</token>
+      </antipattern>
+      <antipattern>
+          <token skip="3" regexp="yes">=|\*|\/|\+|\-|%</token>
+          <token regexp="yes">.*_.*</token>
+      </antipattern>
+      <antipattern>
+          <token skip="3" regexp="yes">.*_.*</token>
+          <token regexp="yes">=|\*|\/|\+|\-|%</token>
+      </antipattern>
+      <antipattern><!-- https://www.computerhope.com/jargon/p/publicht.htm -->
+          <token>public_html</token>
+      </antipattern>
+      <antipattern>
+          <token regexp="yes">.*_(id|token|name)</token>
       </antipattern>
       <pattern>
           <token regexp="yes">\p{L}+?(_+\p{L}+)+
