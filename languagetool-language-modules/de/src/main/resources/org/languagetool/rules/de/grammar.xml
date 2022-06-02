@@ -26527,24 +26527,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <antipattern>
                     <token skip="-1">sowohl</token>
-                    <token regexp="yes">als|wie|oder</token>
+                    <token regexp="yes">wie|aber|oder|sowie</token>
+                    <token>auch</token>
+                </antipattern>
+                <antipattern>
+                    <token>sowohl</token>
+                    <token skip="-1">als</token>
+                    <token>als</token>
+                    <token>auch</token>
+                    <token>als</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1">sowohl</token>
+                    <token>als</token>
+                    <token skip="-1">auch</token>
+                    <token>und</token>
                     <token>auch</token>
                 </antipattern>
                 <pattern>
                     <token skip="-1">sowohl</token>
                     <marker>
-                        <token regexp="yes">als|wie|oder|und|&amp;|sowie|alsauch|aber|auch</token>
+                        <token regexp="yes">und</token>
+                        <token min="0">auch</token>
                     </marker>
                 </pattern>
                 <message>Die schriftsprachlich elegantere Form lautet 'sowohl ... als auch'.</message>
                 <suggestion>als auch</suggestion>
-                <example correction="als auch">Ich fahre sowohl Fahrrad <marker>und</marker> Auto.</example>
-                <example correction="als auch">Ich fahre sowohl Fahrrad <marker>sowie</marker> Auto.</example>
-                <example correction="als auch">Ich fahre sowohl Fahrrad <marker>wie</marker> Auto.</example>
-                <example correction="als auch">Sowohl gestern <marker>und</marker> heute hat meine Schwester zu viel Geld ausgegeben.</example>
-                <example>Ich denke, dass sowohl Arbeiten als auch Lernen zum Leben gehören, und das jeden Tag.</example>
-                <example>Sowohl der Präsident als auch der Premierminister spielen eine wichtige Rolle, und zwar in politischen Fragen.</example>
-                <example>Sowohl im Einzel wie auch im Synchron-Wettbewerb habe ich damals verloren und bin ohne Medaille nach Hause gegangen.</example>
+                <example correction="als auch">Ich fahre sowohl Fahrrad <marker>und auch</marker> Auto.</example>
+                <example correction="als auch">Ich möchte sowohl heute <marker>und auch</marker> morgen nicht ins Schwimmbad.</example>
+                <example>Maria fährt jedes Jahr sowohl im März wie auch im September in den Urlaub.</example>
+                <example>Ich möchte mich sowohl als Koch als auch als Kellner bewerben, und auch als Servicekraft.</example>
+                <example>Bitte geben Sie mir die sowohl die rote als auch die blaue Bluse, und auch die grüne Hose.</example>
             </rule>
             <rule>
                 <antipattern>
