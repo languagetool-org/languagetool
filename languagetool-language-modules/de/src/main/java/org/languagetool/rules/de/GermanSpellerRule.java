@@ -326,7 +326,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Opelarena", "Opel Arena");
     put("Toll-Collect", "Toll Collect");
     put("[pP][qQ]-Formel", "p-q-Formel");
-    put("desweitere?[nm]", "des Weiteren");
+    put("desweitere?m", "des Weiteren");
     put("handzuhaben", "zu handhaben");
     put("nachvollzuziehe?n", "nachzuvollziehen");
     put("Porto?folien", "Portfolios");
@@ -2614,6 +2614,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "entgültiges": return topMatch("endgültiges");
       case "entgültiger": return topMatch("endgültiger");
       case "entgültigen": return topMatch("endgültigen");
+      case "desöfteren": return topMatch("des Öfteren");
+      case "desweiteren": return topMatch("des Weiteren");
     }
     return Collections.emptyList();
   }
