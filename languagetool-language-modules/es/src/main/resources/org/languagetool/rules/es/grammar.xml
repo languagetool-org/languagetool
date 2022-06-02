@@ -5064,26 +5064,47 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!--<example>El que matare al Rey será castigado con la pena de muerte</example>-->
             </rule>
         </rulegroup>
-        <rule id="SUNJUNTIVO_INCORRECTO" name="verbo en modo subjuntivo incorrecto" default="temp_off">
+        <rule id="SUBJUNTIVO_INCORRECTO" name="verbo en modo subjuntivo incorrecto" default="temp_off">
             <antipattern>
-                <token postag="V.S.*" postag_regexp="yes"/>
-                <token regexp="yes" min="0">lo|el|la|los|las</token>
-                <token regexp="yes" skip="1">que|quien|cuando|donde|adonde</token>
+                <token postag="V.S.*" skip="4" postag_regexp="yes"/>
+                <token regexp="yes" skip="2">que|quien|cuando|donde|adonde|qué|quién|cuándo|dónde|adónde</token>
                 <token><match no="0"/></token>
             </antipattern>
             <antipattern>
-                <token>no</token>
-                <token postag_regexp="yes" postag="&pronombre_personal_atono_POS;" min="0" max="2"/>
+                <token regexp="yes" skip="1">que|quien|cuando|donde|adonde|qué|quién|cuándo|dónde|adónde</token>
                 <token postag="V.S.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">no|nunca|quizás?|probablemente|posiblemente|apenas</token>
+                <token postag_regexp="yes" postag="P.*" min="0" max="2"/>
+                <token postag="V.S.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>tal</token>
+                <token>vez</token>
+                <token postag_regexp="yes" postag="P.*" min="0" max="2"/>
+                <token postag="V.S.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token skip="4" postag="V.S.*" postag_regexp="yes"/>
+                <token>o</token>
+                <token>no</token>
+            </antipattern>
+            <antipattern>
+                <token case_sensitive="yes">Barbara</token>
             </antipattern>
             <antipattern>
                 <token>des</token>
                 <token>.</token>
             </antipattern>
+            <antipattern>
+                <token skip="3">Dios</token>
+                <token inflected="yes">bendecir</token>
+            </antipattern>
             <pattern>
                 <token postag="SENT_START" skip="-1"><exception scope="next" postag="V.[IM].*|PR.*|CS" postag_regexp="yes"/></token>
                 <marker>
-                    <token postag="V.S.*" postag_regexp="yes"><exception postag="V.[IM].*|[NA].*|_possible_NP|R.*|LOC_.*" postag_regexp="yes"/><exception postag="VMSI.*" postag_regexp="yes" inflected="yes">querer</exception></token>
+                    <token postag="V.S.*" postag_regexp="yes"><exception postag="V.[IM].*|[NA].*|_possible_NP|R.*|LOC_.*|D.*" postag_regexp="yes"/><exception postag="V.SI.*" postag_regexp="yes" inflected="yes" regexp="yes">querer|haber|poder</exception></token>
                 </marker>
             </pattern>
             <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="wordFrom:marker desiredPostag:V.I.*|NC.*|A.*"/>
@@ -5097,6 +5118,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>No lo olvides.</example>
             <example>Que llueva.</example>
             <example>Quisiéramos venir.</example>
+            <example>Hubiera sido bonito.</example>
+            <example>Hubiésemos podido si tan solo hubiésemos querido.</example>
+            <example>Leas el libro que leas.</example>
+            <example>Pudiera usted, por favor, enviar a mi e-mail.</example>
+            <example>Seas lo bueno que seas, siempre habrá gente mejor que tú.</example>
+            <example>Tomes el camino que tomes, tardarás lo mismo.</example>
+            <example>Unas pocas personas tienen dos vehículos.</example>
+            <example>Una vez que adquieras un mal hábito, no puedes dejarlo fácilmente.</example>
+            <example>No sea que se arrepienta el hombre al ver el sol.</example>
+            <example>Nunca los arrojes cuando vayas en coche.</example>
+            <example>Mi Dios te lo bendiga</example>
+            <example>Por mucho que yo camine, nunca la alcanzaré.</example>
+            <example>Nunca cambies.</example>
+            <example>Una vez que le cojas el tranquillo será coser y cantar.</example>
+            <example>Tal vez debiéramos ayudar a Tom.</example>
+            <example>Quizás debieras dirigirte al ministerio de educación.</example>
+            <example>Apenas me entere, te lo digo. </example>
+            <example>Apenas yo me entere, te lo digo. </example> 
         </rule>
         <rulegroup id="SUBJUNTIVO_FUTURO" name="confusión cantara/cantará">
             <rule>
