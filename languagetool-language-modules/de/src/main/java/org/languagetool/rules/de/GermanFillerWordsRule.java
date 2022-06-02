@@ -79,6 +79,12 @@ public class GermanFillerWordsRule extends AbstractStatisticStyleRule {
         }
       }
     }
+    if ("so".equals(tokens[num].getToken()) && tokens[num + 1].hasPosTagStartingWith("ADJ")) {
+      return true;
+    }
+    if(tokens[num].hasPosTagStartingWith("ADJ") && "so".equals(tokens[num - 1].getToken())) {
+      return true;
+    }
     return false;
   }
 
@@ -98,7 +104,7 @@ public class GermanFillerWordsRule extends AbstractStatisticStyleRule {
         || ("auch".equals(first) && "nur".equals(second))
         || ("immer".equals(first) && "wieder".equals(second))
         || ("genau".equals(first) && "so".equals(second))
-        || ("so".equals(first) && ("etwas".equals(second) || "viel".equals(second) || "einfach".equals(second)))
+        || ("so".equals(first) && ("etwas".equals(second) || "viel".equals(second)))
         || ("schon".equals(first) && "fast".equals(second))
         );
   }
