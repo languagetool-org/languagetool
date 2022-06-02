@@ -61,7 +61,7 @@ class DateFilterHelper {
     String mon = monthStr.toLowerCase();
     if (mon.startsWith("en")) return 1;
     if (mon.startsWith("fe")) return 2;
-    if (mon.startsWith("ma") || mon.startsWith("mzo")) return 3;
+    if (mon.startsWith("mar") || mon.startsWith("mzo")) return 3;
     if (mon.startsWith("ab")) return 4;
     if (mon.startsWith("may") || mon.startsWith("my")) return 5;
     if (mon.startsWith("jun") || mon.equals("jn")) return 6;
