@@ -58,7 +58,12 @@ public class WordWithDeterminerFilter extends RuleFilter {
       .asList(new String[] { "bels", "fols", "mols", "nouvels" });
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
-      AnalyzedTokenReadings[] patternTokens) throws IOException {
+      AnalyzedTokenReadings[] patternTokens) throws IOException {  
+    
+//    if (match.getSentence().getText().contains("plein Londres")) {
+//      int ii=0;
+//      ii++;
+//    }
 
     String wordFrom = getRequired("wordFrom", arguments);
     String determinerFrom = getRequired("determinerFrom", arguments);
