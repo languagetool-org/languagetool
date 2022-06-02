@@ -13442,19 +13442,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
-        <rule id="ARTIKEL_NR" name="Artikel-Nr.">
-            <pattern>
-                <marker>
-                    <token case_sensitive="yes" regexp="yes">Tracking|Artikel|Patienten|Mandanten|Kunden|Lieferanten|Angebots|Rechnungs|Vertrags|eVB|AVH|[GB]estell|Handy|Telefon|Fax</token>
-                    <token>Nr</token>
-                    <token spacebefore="no">.</token>
-                </marker>
-            </pattern>
-            <message>Dieses Nomen sollte mit Bindestrich geschrieben werden.</message>
-            <suggestion>\1-\2.</suggestion>
-            <example correction="Tracking-Nr.">Mit der <marker>Tracking Nr.</marker> kann ich genau sehen, wo mein Paket gerade ist.</example>
-        </rule>
-        <rulegroup id="ZWEIT_KLAESSLER" name="2. Klässler (Zweitklässler)" default="temp_off">
+        <rulegroup id="ZWEIT_KLAESSLER" name="2. Klässler (Zweitklässler)">
             <rule>
                 <pattern>
                     <token regexp="yes">1|erst</token>
@@ -14224,18 +14212,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Das Adjektiv <suggestion>mit<match no="2" case_conversion="alllower" /></suggestion> wird als ein Wort geschrieben.</message>
             <example correction="mitverantwortlich">Er ist <marker>mit verantwortlich</marker> für diese Krise.</example>
-        </rule>
-        <rule id="RECHNUNGS_NR" name="Rechnungs-Nr.">
-            <pattern>
-                <marker>
-                    <token regexp="yes">rechnungs|angebots|lieferanten|bestell|tracking|termin|vertrags</token>
-                    <token>nr</token>
-                    <token spacebefore="no">.</token>
-                </marker>
-            </pattern>
-            <message>Dieses Wort wird in der Regel mit Bindestrich geschrieben.</message>
-            <suggestion><match no="1" case_conversion="startupper" />-Nr.</suggestion>
-            <example correction="Lieferanten-Nr.">Welche <marker>Lieferanten Nr.</marker> hat der Kunde?</example>
         </rule>
         <rulegroup id="HEAD_UP_DISPLAY" name="Head-up-Display">
             <url>https://de.wikipedia.org/wiki/Head-up-Display</url>
@@ -18645,7 +18621,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Möglicherweise muss <suggestion>\3\4</suggestion> (als Konjunktion) zusammengeschrieben werden, sofern es sich hier nicht um einen elliptischen Satz handelt, z.B. '[Das Spiel] In dem er gewonnen hat'.</message>
                 <example correction="Nachdem"><marker>Nach dem</marker> der Spieler gewonnen hatte, war er nicht zu bremsen.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="VER.*" postag_regexp="yes" />
                     <token min="0">,</token>
@@ -53383,9 +53359,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="TELEFON_NR" name="Zusammenschreibung 'Telefon-Nr.'">
+            <antipattern>
+                <token regexp="yes">ic[kh]</token>
+                <token regexp="yes" case_sensitive="yes">fax|bestell</token>
+            </antipattern>
             <rule>
                 <pattern>
-                    <token regexp="yes">Telefon|Handy|Fax</token>
+                    <token regexp="yes">Telefon|Handy|Fax|Tracking|Artikel|Patienten|Mandanten|Kunden|Lieferanten|Angebots|Rechnungs|Vertrags|eVB|AVH|[GB]estell|Termin</token>
                     <token>Nr</token>
                     <token spacebefore="no">.</token>
                 </pattern>
@@ -53394,7 +53374,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">Telefon|Handy|Fax</token>
+                    <token regexp="yes">Telefon|Handy|Fax|Tracking|Artikel|Patienten|Mandanten|Kunden|Lieferanten|Angebots|Rechnungs|Vertrags|eVB|AVH|[GB]estell|Termin</token>
                     <token>Nr</token>
                 </pattern>
                 <message>Hier fehlt möglicherweise ein Bindestrich. Meinten Sie <suggestion><match no="1" case_conversion="startupper" />-<match no="2" case_conversion="startupper" />.</suggestion>?</message>
