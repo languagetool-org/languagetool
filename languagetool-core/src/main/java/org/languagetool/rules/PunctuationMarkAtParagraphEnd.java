@@ -113,6 +113,9 @@ public class PunctuationMarkAtParagraphEnd extends TextLevelRule {
           if (n==1 && isNumeric(sentences.get(0).getText())) {
             ignoreSentence = true;
           }
+          if (n > 0 && isNumeric(sentences.get(n - 1).getText())) {
+            ignoreSentence = true;
+          }
           // paragraphs containing less than two sentences (e.g. headlines, listings) are excluded from rule
           if (n - lastPara > 1 && isFirstWord && !ignoreSentence) {
             int lastNWToken = tokens.length - 1;

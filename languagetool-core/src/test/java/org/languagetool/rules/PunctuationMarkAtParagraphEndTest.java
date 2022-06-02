@@ -37,6 +37,12 @@ public class PunctuationMarkAtParagraphEndTest {
   public void testRule() throws IOException {
     JLanguageTool lt = new JLanguageTool(TestTools.getDemoLanguage());
     setUpRule(lt);
+    
+    assertEquals(0, lt.check("A paragraph.\n2. Some headline\n\n(a) A new sentence.").size());
+    assertEquals(0, lt.check("A paragraph.\n\n2. Some headline\n\n(a) A new sentence.").size());
+    assertEquals(0, lt.check("A paragraph.\n2.2.1 Some headline\n\n(a) A new sentence.").size());
+    assertEquals(0, lt.check("A paragraph.\n\n2.2.1 Some headline\n\n(a) A new sentence.").size());
+    assertEquals(0, lt.check("2. This is an item in a list").size());
     assertEquals(0, lt.check("2.2.2. This is an item in a list").size());
     assertEquals(0, lt.check("a) This is an item in a list").size());
     assertEquals(0, lt.check("a.) This is an item in a list").size());
