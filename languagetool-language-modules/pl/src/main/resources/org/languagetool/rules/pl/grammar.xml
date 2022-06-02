@@ -22270,6 +22270,60 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
     <category id="TYPOS" name="Prawdopodobne literówki" type="misspelling">
+    <rule id="W_OD" name="„w od” (w, od)">
+    <antipattern>
+    <marker>
+        <token>od</token>
+    </marker>
+    <token>dawna</token>
+    </antipattern>
+    <antipattern>
+    <marker>
+      <token>od</token>    
+    </marker>
+        <token min="0" postag="adv.*|qub" postag_regexp="yes"/>
+        <token postag="(adj|pact|ppas|num):.*gen.*" postag_regexp="yes"/>
+        <token postag="subst.*gen.*" postag_regexp="yes"/>
+        <token postag=".*loc.*" postag_regexp="yes"/>
+    </antipattern>
+      <pattern>
+        <token>w<exception scope="previous" regexp="yes">((X{0,2})(V?I{0,3}|I[VX]))</exception></token>
+        <token>od</token>      
+      </pattern>
+      <message>Prawdopodobnie literówka. Nietypowy zbieg przyimków. Czy chodziło o <suggestion>od</suggestion>?</message>
+      <short>Literówka</short>
+      <!-- inna reguła -->
+      <example>W XVII w od nowa zdefiniowano pojęcie „sprawiedliwość”.</example>
+      <example correction="od">We wtorek 16 maja <marker>w od</marker> godziny 16 będzie można odebrać koszulkę naszego DS, w kreślarni na 12 piętrze.</example>
+      <example>Po drodze znajduje dowody w od dawna nierozwiązanej sprawie śmierci gwiazdy filmowej .</example>
+      <example>Myśli przelatywały mu w od tak wielu tygodni udręczonym umyśle.</example>    
+    </rule>
+    <rulegroup id="TAK_NAPRAWE" name="„tak naprawę” (tak naprawdę)">
+    <rule>
+      <pattern>
+        <token regexp="yes">tak|jest|to</token>
+        <marker>
+            <token>naprawę</token>
+        </marker>      
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>naprawdę</suggestion>?</message>
+      <short>Literówka</short>
+      <example>Zlecę naprawę.</example>
+      <example correction="naprawdę">Mamy tak <marker>naprawę</marker> do czynienia z początkiem końca pandemii.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+            <token>naprawę</token>
+        </marker>
+        <token regexp="yes">jest|nie|bardzo|warto|dobrze|wiele</token>      
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>naprawdę</suggestion>?</message>
+      <short>Literówka</short>
+      <example>Zlecę naprawę.</example>
+      <example correction="naprawdę">Mamy <marker>naprawę</marker> wiele do czynienia z kretynami.</example>
+    </rule>
+    </rulegroup>
     <rulegroup id="PREP_INF" name="Przyimek przed czasownikiem">
     <antipattern>
       <token regexp="yes" inflected="yes">przełożyć|przetłumaczyć|tłumaczyć</token>
@@ -22461,11 +22515,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rule id="DO_KUPIC" name="„do kupić” (dokupić)">
       <pattern>
         <token>do</token>
-        <token inflected="yes">kupić</token>      
+        <token inflected="yes">kupić<exception postag=".*gen.*" postag_regexp="yes"/></token>      
       </pattern>
       <message>Prawdopodobnie literówka. Ten czasownik piszemy łącznie. Czy chodziło o <suggestion>\1\2</suggestion>?</message>
       <short>Literówka</short>
       <example correction="dokupić">Proponuję Panom Inspektorom <marker>do kupić</marker> bluzę z kapturem.</example>
+      <example>Zapisz sobie, co masz do kupienia.</example>
     </rule>
     <rule id="DO_PRZYGOTOWAC" name="„do przygotować” (przygotować)">
       <pattern>

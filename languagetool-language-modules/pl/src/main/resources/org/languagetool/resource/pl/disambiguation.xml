@@ -3637,6 +3637,16 @@
         <disambig action="filterall"/>
     </rule>
 
+    <rule id="STANOW" name="stanów + przymiotnik > rzeczownik">
+        <pattern>
+            <unify><feature id="gender"/><feature id="case"/><feature id="number"></feature>
+                <token postag="subst:pl:gen:m3">stanów</token>
+                <token postag="adj.*" postag_regexp="yes"/>
+            </unify>
+        </pattern>
+        <disambig action="unify"/>
+    </rule>
+
     <rule id="TRWALA_GODZINE" name="trwała/stała godzinę > czasownik">
         <pattern>
             <marker>
