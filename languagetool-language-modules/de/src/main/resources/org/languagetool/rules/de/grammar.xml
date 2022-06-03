@@ -26508,7 +26508,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="SOWOHL_UND" name="sowohl...und (als auch)" default="temp_off">
-            <rule><!--1-->
+            <rule><!--1 und auch-->
                 <antipattern>
                     <token skip="-1">sowohl</token>
                     <token skip="-1" postag="KON:NEB"/>
@@ -26547,7 +26547,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token min="0">auch</token>
                     </marker>
                 </pattern>
-                <message>Die schriftsprachlich elegantere Form lautet 'sowohl ... als auch'.</message>
+                <message>Die empfohlene Satzverbindung lautet 'sowohl ... als auch'.</message>
                 <suggestion>als auch</suggestion>
                 <example correction="als auch">Ich fahre sowohl Fahrrad <marker>und auch</marker> Auto.</example>
                 <example correction="als auch">Ich möchte sowohl heute <marker>und auch</marker> morgen nicht ins Schwimmbad.</example>
@@ -26583,7 +26583,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ich mag sowohl Tennis, aber auch Fußball und Basketball.</example>
                 <example>Ich mag sowohl Tennis sowie Fußball und Basketball.</example>
             </rule>
-            <rule><!--3-->
+            <rule><!--3 oder auch-->
                 <antipattern>
                     <token skip="-1">sowohl</token>
                     <token>oder</token>
@@ -26605,12 +26605,54 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token min="0">auch</token>
                     </marker>
                 </pattern>
-                <message>Die schriftsprachlich elegantere Form lautet 'sowohl ... als auch'.</message>
+                <message>Die empfohlene Satzverbindung lautet 'sowohl ... als auch'.</message>
                 <suggestion>als auch</suggestion>
                 <example correction="als auch">Ich fahre sowohl Fahrrad <marker>oder auch</marker> Auto.</example>
                 <example correction="als auch">Ich möchte sowohl heute <marker>oder auch</marker> morgen nicht ins Schwimmbad.</example>
                 <example>Wir bieten regionale Küche, deftig oder auch leicht, als auch internationale Küche an.</example>
                 <example>Hier kann man sowohl schwimmen als auch sonnenbaden oder auch einfach Sport treiben.</example>
+            </rule>
+            <rule><!--4 aber auch-->
+                <antipattern>
+                    <token skip="-1">sowohl</token>
+                    <token>aber</token>
+                    <token skip="-1">auch</token>
+                    <token>als</token>
+                    <token>auch</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1">sowohl</token>
+                    <token>als</token>
+                    <token skip="-1">auch</token>
+                    <token>aber</token>
+                    <token min="0">auch</token>
+                </antipattern>
+                <pattern>
+                    <token skip="-1">sowohl</token>
+                    <marker>
+                        <token>aber</token>
+                        <token min="0">auch</token>
+                    </marker>
+                </pattern>
+                <message>Die empfohlene Satzverbindung lautet 'sowohl ... als auch'.</message>
+                <suggestion>als auch</suggestion>
+                <example correction="als auch">Ich fahre sowohl Fahrrad <marker>aber auch</marker> Auto.</example>
+                <example correction="als auch">Ich möchte sowohl heute <marker>aber auch</marker> morgen nicht ins Schwimmbad.</example>
+                <example>Ich mag sowohl kleine Smartphonev von Apple, aber auch ein bisschen größere, als auch die von Samsung.</example>
+                <example>Ich gehe heute sowohl in die Innenstadt als auch an den See, um zu schwimmen; aber auch ins Fitnessstudio.</example>
+            </rule>
+            <rule><!--5 (so)wie auch-->
+                <pattern>
+                    <token skip="-1">sowohl</token>
+                    <marker>
+                        <token regexp="yes">(so)?wie</token>
+                        <token min="0">auch</token>
+                    </marker>
+                </pattern>
+                <message>Die empfohlene Satzverbindung lautet 'sowohl ... als auch'.</message>
+                <suggestion>als auch</suggestion>
+                <example correction="als auch">Ich fahre sowohl Fahrrad <marker>wie auch</marker> Auto.</example>
+                <example correction="als auch">Ich möchte sowohl heute <marker>sowie auch</marker> morgen nicht ins Schwimmbad.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SICH_GEGENSEITIG" name="gegenseitig (einander)" tags="picky">
