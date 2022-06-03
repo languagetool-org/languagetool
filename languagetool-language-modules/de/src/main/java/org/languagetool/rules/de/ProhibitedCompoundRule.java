@@ -148,6 +148,10 @@ public class ProhibitedCompoundRule extends Rule {
     ".+gra(ph|f)its?"   // ...grafit/graphit
   );
   private static final Set<String> blacklist = new HashSet<>(Arrays.asList(
+          "Balkonbereich",  // vs. Balkan
+          "Anlaufleistung",  // vs. Ablauf
+          "Haushaltstuch",  // vs. buch
+          "Arztdiagnose",  // vs. Art
           "Wickelbereich",  // vs. Winkel
           "Trassenkonflikt",  // vs. Rassen
           "Trassenkonflikte",  // vs. Rassen
