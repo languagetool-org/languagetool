@@ -2,6 +2,9 @@
 
 ## 5.8-SNAPSHOT (release planned for 2022-06-28)
 
+#### English
+* updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2022.06.01, v.3.0.9)
+
 #### Polish
 * updated the spelling dictionary to match changes in language (the current version is in sync with sjp.pl as of April 1, 2022)
 * added and improved rules
