@@ -26686,7 +26686,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="EGAL_STIL" name="egal (gleichgültig)" tags="picky" default="temp_off">
-            <rule>
+            <rule><!--1-->
                 <antipattern>
                     <token postag="ART.*DAT.*|PRO.*DAT.*|SUB:DAT.*|EIG.*" postag_regexp="yes"></token>
                     <token skip="-1" postag="VER.*" postag_regexp="yes" inflected="yes">sein</token>
@@ -26717,7 +26717,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ob du heute oder morgen einkaufst, ist mir egal.</example>
                 <example>Ich lerne heute nicht, weil es mir egal ist, ob ich die Prüfung bestehe.</example>
             </rule>
-            <rule>
+            <rule><!--2-->
                 <antipattern>
                     <token skip="-1" postag="ART.*DAT.*|PRO.*DAT.*|SUB:DAT.*|EIG.*" postag_regexp="yes"></token>
                     <token>egal</token>
@@ -26747,7 +26747,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ob du heute oder morgen vorbeikommst, ist mir egal.</example>
                 <example>Egal ist mir unsere Beziehung nicht.</example>
             </rule>
-            <rule>
+            <rule><!--3-->
+                <antipattern>
+                    <token postag="VER.*" postag_regexp="yes" inflected="yes">sein</token>
+                    <token postag="ART.*DAT.*|PRO.*DAT.*|SUB:DAT.*|EIG.*" postag_regexp="yes" skip="-1"/>
+                    <token>egal</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">herzlich|schon|total|ziemlich</token>
+                    <token>egal</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SUB:(NOM|AKK).*|EIG:(NOM|AKK).*" postag_regexp="yes"/>
+                    <token postag="VER.*" postag_regexp="yes" inflected="yes" skip="-1">sein</token>
+                    <token>egal</token>
+                </antipattern>
                 <pattern>
                     <token postag="ART.*DAT.*|PRO.*DAT.*|SUB:DAT.*|EIG.*" postag_regexp="yes"></token>
                     <token postag="VER.*" postag_regexp="yes" inflected="yes" skip="-1">sein</token>
@@ -26758,8 +26772,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Möglicherweise ist es stilistisch besser, eine standardsprachliche Formulierung zu benutzen.</message>
                 <suggestion>gleichgültig</suggestion>
                 <example correction="gleichgültig">Mir ist völlig <marker>egal</marker>, welche Entscheidung ihr trefft.</example>
+                <example>Fehler sind jetzt erst einmal egal.</example>
+                <example>Ob wir heute oder morgen ins Schwimmbad gehen, ist mir völlig egal.</example>
             </rule>
-            <rule>
+            <rule><!--4-->
+                <antipattern>
+                    <token postag="ART.*DAT.*|PRO.*DAT.*|SUB:DAT.*|EIG.*" postag_regexp="yes"></token>
+                    <token postag="VER.*" postag_regexp="yes" inflected="yes" skip="-1">sein</token>
+                    <token>egal</token>
+                </antipattern>
                 <pattern>
                     <token postag="VER.*" postag_regexp="yes" inflected="yes">sein</token>
                     <token postag="ART.*DAT.*|PRO.*DAT.*|SUB:DAT.*|EIG.*" postag_regexp="yes" skip="-1"></token>
@@ -26770,20 +26791,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Möglicherweise ist es stilistisch besser, eine standardsprachliche Formulierung zu benutzen.</message>
                 <suggestion>gleichgültig</suggestion>
                 <example correction="gleichgültig">Welche Entscheidungen getroffen werden, ist mir <marker>egal</marker>.</example>
+                <example>Mir ist völlig egal, ob wir uns heute oder erste morgen treffen.</example>
             </rule>
-            <rule>
+            <rule><!--5-->
+                <antipattern>
+                    <token>mir</token>
+                    <token>soll</token>
+                    <token min="0" regexp="yes" spacebefore="no">&apostrophe;</token>
+                    <token spacebefore="no">s</token>
+                    <token min="0" postag="ADJ:.*|ADV:.*" postag_regexp="yes"/>
+                    <token>egal</token>
+                </antipattern>
                 <pattern>
                     <token skip="-1" postag="ART.*DAT.*|PRO.*DAT.*|SUB:DAT.*|EIG.*" postag_regexp="yes"></token>
                     <marker>
-                        <token>egal</token>
+                        <token case_sensitive="yes">egal</token>
                     </marker>
                     <token postag="VER.*" postag_regexp="yes" inflected="yes">sein</token>
                 </pattern>
                 <message>Möglicherweise ist es stilistisch besser, eine standardsprachliche Formulierung zu benutzen.</message>
                 <suggestion>gleichgültig</suggestion>
                 <example correction="gleichgültig">Ich mache nie Hausaufgaben, weil mir der Unterricht völlig <marker>egal</marker> ist.</example>
+                <example>Mir soll's egal sein.</example>
             </rule>
-            <rule>
+            <rule><!--6-->
                 <pattern>
                     <marker>
                         <token>egal</token>
