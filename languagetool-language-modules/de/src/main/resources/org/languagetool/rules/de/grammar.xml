@@ -26555,7 +26555,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ich möchte mich sowohl als Koch als auch als Kellner bewerben, und auch als Servicekraft.</example>
                 <example>Bitte geben Sie mir die sowohl die rote als auch die blaue Bluse, und auch die grüne Hose.</example>
             </rule>
-            <rule>
+            <rule><!--2-->
                 <antipattern>
                     <token skip="-1">sowohl</token>
                     <token>bis</token>
@@ -26582,6 +26582,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ich spiele sowohl Fußball bis hin zu Tennis.</example>
                 <example>Ich mag sowohl Tennis, aber auch Fußball und Basketball.</example>
                 <example>Ich mag sowohl Tennis sowie Fußball und Basketball.</example>
+            </rule>
+            <rule><!--3-->
+                <antipattern>
+                    <token skip="-1">sowohl</token>
+                    <token>oder</token>
+                    <token skip="-1">auch</token>
+                    <token>als</token>
+                    <token>auch</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1">sowohl</token>
+                    <token>als</token>
+                    <token skip="-1">auch</token>
+                    <token>oder</token>
+                    <token min="0">auch</token>
+                </antipattern>
+                <pattern>
+                    <token skip="-1">sowohl</token>
+                    <marker>
+                        <token>oder</token>
+                        <token min="0">auch</token>
+                    </marker>
+                </pattern>
+                <message>Die schriftsprachlich elegantere Form lautet 'sowohl ... als auch'.</message>
+                <suggestion>als auch</suggestion>
+                <example correction="als auch">Ich fahre sowohl Fahrrad <marker>oder auch</marker> Auto.</example>
+                <example correction="als auch">Ich möchte sowohl heute <marker>oder auch</marker> morgen nicht ins Schwimmbad.</example>
+                <example>Wir bieten regionale Küche, deftig oder auch leicht, als auch internationale Küche an.</example>
+                <example>Hier kann man sowohl schwimmen als auch sonnenbaden oder auch einfach Sport treiben.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SICH_GEGENSEITIG" name="gegenseitig (einander)" tags="picky">
