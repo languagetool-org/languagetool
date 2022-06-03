@@ -24608,6 +24608,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rulegroup id="ERSTE_PERSON_SIN_OHNE_E" name="ich kauf (ich kaufe)" tags="professional objective academic">
                 <rule><!--1-->
                     <antipattern>
+                        <token postag="VER:MOD:1:SIN:.*" postag_regexp="yes"/>
+                        <token>ich</token>
+                        <token>dank</token>
+                        <token postag="PRO:PER:(DAT|GEN):.*" postag_regexp="yes"/>
+                    </antipattern>
+                    <antipattern>
                         <token postag="VER:1:SIN:PRÄ:(SFT|NON)" postag_regexp="yes"/>
                         <token>ich</token>
                         <token>entzwei</token>
@@ -24622,7 +24628,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="VER:MOD:1:SIN:.*" postag_regexp="yes"/>
                         <token>ich</token>
                         <token>dank</token>
-                        <token postag="SUB:(DAT|GEN):.*|PRO:POS:(DAT|GEN):.*|ADJ:(DAT|GEN):.*||PRO:PER:(DAT|GEN):.*" postag_regexp="yes"/>
+                        <token min="0" postag="ART:DEF:(DAT|GEN):SIN:.*|PRO:POS:(DAT|GEN):.*|ADJ:(DAT|GEN):.*" postag_regexp="yes"/>
+                        <token postag="SUB:(DAT|GEN):.*" postag_regexp="yes"/>
                     </antipattern>
                     <antipattern>
                         <token postag="VER:1:SIN:PRÄ:(SFT|NON)" postag_regexp="yes"/>
@@ -24665,6 +24672,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>Ich habe gute Laune, da ich dank meiner herzallerliebsten Arbeitskollegin, die sich freiwillig zum Arbeiten gemeldet hat, frei machen kann.</example>
                     <example>Ich bin froh, dass ich dank Ihnen dazu in der Lage war.</example>
                     <example>Die Vase breche ich entzwei.</example>
+                    <example>Zum Glück durfte ich dank der Empfehlung an der Veranstaltung teilnehmen.</example>
                 </rule>
                 <rule>
                     <antipattern>
