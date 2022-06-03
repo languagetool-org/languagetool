@@ -508,6 +508,10 @@ public class PatternRuleHandler extends XMLRuleHandler {
         if (inCorrectExample) {
           correctExamples.add(new CorrectExample(correctExample.toString()));
         } else if (inIncorrectExample) {
+          if (inAntiPattern) {
+            throw new RuntimeException("<antipattern>s can only contain <example>s without errors (i.e. no 'correction=...'). " +
+              "Rule id: " + id + "[" + subId + "], antipattern no " + antiPatternCounter);
+          }
           IncorrectExample example;
           if (exampleCorrection == null) {
             example = new IncorrectExample(incorrectExample.toString());
