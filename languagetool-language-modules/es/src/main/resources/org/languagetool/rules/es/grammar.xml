@@ -5071,18 +5071,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token><match no="0"/></token>
             </antipattern>
             <antipattern>
-                <token regexp="yes" skip="1">que|quien|cuando|donde|adonde|qué|quién|cuándo|dónde|adónde</token>
+                <token regexp="yes" skip="2">que|quien|cuando|cuanto|donde|adonde|qué|quién|cuándo|dónde|adónde|así</token>
                 <token postag="V.S.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <token regexp="yes">no|nunca|quizás?|probablemente|posiblemente|apenas</token>
-                <token postag_regexp="yes" postag="P.*" min="0" max="2"/>
+                <token regexp="yes">ni|no|nunca|quizás?|probablemente|posiblemente|apenas</token>
+                <token postag_regexp="yes" postag="P.*|RG" min="0" max="4"/>
                 <token postag="V.S.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">ya|bien</token>
+                <token postag_regexp="yes" postag="P.*|RG" min="0" max="4"/>
+                <token skip="-1" postag="V.S.*" postag_regexp="yes"/>
+                <token>o</token>
             </antipattern>
             <antipattern>
                 <token>tal</token>
                 <token>vez</token>
-                <token postag_regexp="yes" postag="P.*" min="0" max="2"/>
+                <token postag_regexp="yes" postag="P.*|RG" min="0" max="4"/>
                 <token postag="V.S.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
@@ -5099,7 +5105,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token skip="3">Dios</token>
-                <token inflected="yes">bendecir</token>
+                <token inflected="yes" regexp="yes">bendecir|permitir|perdonar|salvar</token>
+            </antipattern>
+            <antipattern>
+                <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                <token postag="V.SP.*" postag_regexp="yes" inflected="yes">ser</token>
             </antipattern>
             <pattern>
                 <token postag="SENT_START" skip="-1"><exception scope="next" postag="V.[IM].*|PR.*|CS" postag_regexp="yes"/></token>
@@ -5135,7 +5145,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Tal vez debiéramos ayudar a Tom.</example>
             <example>Quizás debieras dirigirte al ministerio de educación.</example>
             <example>Apenas me entere, te lo digo. </example>
-            <example>Apenas yo me entere, te lo digo. </example> 
+            <example>Apenas yo me entere, te lo digo. </example>
+            <example>Ni lo pienses.</example>
+            <example>Ni siquiera pienses en pedirme dinero prestado.</example>
+            <example>¡Dios lo permita!</example>
+            <example>¡Dios me perdone!</example>
+            <example>No solamente pienses que eres, hay que saber.</example>
+            <example>Nunca más pongas los pies en este lugar.</example>
+            <example>Los desafíos del deporte, ya lo practiquemos individualmente o en equipo, son variados.</example>
+            <example>Tal vez después me pueda explicar mejor.</example>
+            <example>Quizá solo me quede aquí con Tom.</example>
+            <example>No solo te quejes, haz algo.</example>
+            <example>¡Así revientes!</example>
+            <example>Cuanto antes te rindas, tanto mayores serán los beneficios.</example>
+            <example>¡Dios te salve, María!</example>
+            <example>Bendito seas por no haberme hecho mujer. </example>
         </rule>
         <rulegroup id="SUBJUNTIVO_FUTURO" name="confusión cantara/cantará">
             <rule>
