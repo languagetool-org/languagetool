@@ -24628,7 +24628,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="VER:MOD:1:SIN:.*" postag_regexp="yes"/>
                         <token>ich</token>
                         <token>dank</token>
-                        <token min="0" postag="ART:DEF:(DAT|GEN):SIN:.*|PRO:POS:(DAT|GEN):.*|ADJ:(DAT|GEN):.*" postag_regexp="yes"/>
+                        <token min="0" postag="ART:(DEF|IND):(DAT|GEN):SIN:.*|PRO:POS:(DAT|GEN):.*|ADJ:(DAT|GEN):.*" postag_regexp="yes"/>
                         <token postag="SUB:(DAT|GEN):.*" postag_regexp="yes"/>
                     </antipattern>
                     <antipattern>
@@ -26508,7 +26508,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="SOWOHL_UND" name="sowohl...und (als auch)" default="temp_off">
-            <rule>
+            <rule><!--1-->
+                <antipattern>
+                    <token skip="-1">sowohl</token>
+                    <token skip="-1" postag="KON:NEB"/>
+                    <token>und</token>
+                    <token>auch</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1">sowohl</token>
+                    <token skip="-1" regexp="yes">darum|deshalb|deswegen|daher</token>
+                    <token>und</token>
+                    <token>auch</token>
+                </antipattern>
                 <antipattern>
                     <token skip="-1">sowohl</token>
                     <token regexp="yes">wie|aber|oder|sowie</token>
