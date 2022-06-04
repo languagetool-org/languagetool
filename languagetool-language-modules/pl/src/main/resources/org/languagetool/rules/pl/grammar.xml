@@ -25956,13 +25956,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 				<rule id="KILA_GEN" name="„kila czego” (kilka)">
 						<pattern>
-								<token>kila</token>
+								<token>kila<exception scope="previous" regexp="yes">pół|półtora|tora|dwa</exception></token>
 								<token postag="(adj|ppas):pl.*gen.*|subst:pl.*gen.*" postag_regexp="yes"></token>
 						</pattern>
 						<message>Prawdopodobna literówka. Czy chodziło o <suggestion>kilka \2</suggestion>?</message>
 						<short>Prawdopodobna literówka</short>
 						<example correction="kilka problemów">Mam jeszcze tylko <marker>kila problemów</marker> z podsłuchami.</example>
 						<example>Ugięcie kila musi mieścić się w wymiarach...</example>
+						<!-- inna reguła -->
+						<example>Kup pół kila pomarańczy.</example>
 				</rule>
 				<rule id="W_KILU_LOC" name="„w kilu” (w kilku)">
 						<pattern>
