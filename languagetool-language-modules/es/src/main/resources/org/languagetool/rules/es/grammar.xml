@@ -5071,7 +5071,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token><match no="0"/></token>
             </antipattern>
             <antipattern>
-                <token regexp="yes" skip="2">que|quien|cuando|cuanto|donde|adonde|qué|quién|cuándo|dónde|adónde|así</token>
+                <token regexp="yes" skip="4">según|que|quien|cuando|cuanto|donde|adonde|qué|quién|cuándo|dónde|adónde|así</token>
                 <token postag="V.S.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
@@ -5110,6 +5110,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token postag="A.*|V.P.*" postag_regexp="yes"/>
                 <token postag="V.SP.*" postag_regexp="yes" inflected="yes">ser</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1" postag="V.S.*" postag_regexp="yes"><exception postag="PR.*|CS" postag_regexp="yes" scope="next"/></token>
+                <token postag="V.S.*" postag_regexp="yes"/>
             </antipattern>
             <pattern>
                 <token postag="SENT_START" skip="-1"><exception scope="next" postag="V.[IM].*|PR.*|CS" postag_regexp="yes"/></token>
@@ -5163,6 +5167,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Tampoco seas tan estricto.</example>
             <example>Maldita seas entre todas las bestias.</example>
             <example>A continuación, una vez tengas publicado tu anuncio, comenzarás a recibir ofertas.</example>
+            <example>Una vez hayas introducido tu email en esta casilla y pulses el botón "enviar", recibirás en tu buzón un email </example>
+            <example>Gestionar posibles devoluciones una vez hayas realizado una compra y gestionar solicitudes de información sobre la disponibilidad de prendas, reservas de productos a través de la Plataforma, según dichas opciones se encuentren disponibles en cada momento.</example>
         </rule>
         <rulegroup id="SUBJUNTIVO_FUTURO" name="confusión cantara/cantará">
             <rule>
