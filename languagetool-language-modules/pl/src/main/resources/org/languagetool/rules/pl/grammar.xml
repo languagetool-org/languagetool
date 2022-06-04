@@ -15540,7 +15540,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<rule>
 								<pattern>
 										<token>ze<exception scope="previous" spacebefore="no" regexp="yes">&apost;</exception></token>
-										<token negate="yes" regexp="yes">[wszśźż].+|[Sr]z[wftśsrłndpgklzcbmżń].+|trz.+|dw.+|Lwow(?:a|em)|mną|mnie|snu|łzami|łzą|łba|czter.+|czcią|drżeniem|mszy|łbem|ćwierć|lwem<exception regexp="yes">[\&quot;„\*…]|[\p{L}&amp;&amp;[^aeiouyąę]]+</exception><exception postag="UNKNOWN"/><exception postag="verb.*" postag_regexp="yes"/></token>
+										<token negate="yes" regexp="yes">[wszśźż].+|[Sr]z[wftśsrłndpgklzcbmżń].+|trz.+|dw.+|Lwow(?:a|em)|mną|mnie|snu|łzami|łzą|łba|czter.+|czcią|drżeniem|mszy|łbem|ćwierć|lwem<exception regexp="yes">[\&quot;„\*…]|[\p{L}&amp;&amp;[^aeiouyąę]]+</exception>
+										<exception postag="UNKNOWN"/>
+										<exception postag="verb.*" postag_regexp="yes"/>
+                    <exception regexp="yes">[uz]|od|do|[nz]a</exception> <!-- ZE_ZE[5] -->
+										</token>
 								</pattern>
 								<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>z \2</suggestion>.</message>
 								<short>Błąd fonetyczny</short>
@@ -15554,6 +15558,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Podniósł się z fotelu i ze czcią zebrał porozdzierane kartki.</example>
                 <!-- inna reguła, ZE_ZE -->
                 <example>Mimo ze to prawda!</example>
+                <example>Ale i tak cieszę się, ze u nas jest od 18.</example>
 						</rule>
 						<rule>
 								<pattern>
@@ -19095,7 +19100,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example correction="popod">Widzimy parę kozic, pyrgających <marker>po pod</marker> kosówką.</example>
 						<example>Korty byłego posła PO pod lupą radnych</example>
 				</rule>
-				<rule id="PRZEDE_DNIU" name="„przede dniu” (przededniu)">
+				<rulegroup id="PRZEDE_DNIU" name="„przede dniu” (przededniu)">
+				<rule>
 						<pattern>
 								<token>przede</token>
 								<token>dniu</token>
@@ -19105,6 +19111,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example correction="przededniu">Królestwo Polskie w <marker>przede dniu</marker> Powstania Styczniowego 1856-1861.</example>
 						<example>Królestwo Polskie w przededniu Powstania Styczniowego 1856-1861.</example>
 				</rule>
+				<rule>
+						<pattern>
+								<token>przed</token>
+								<token>dzień</token>
+						</pattern>
+						<message>Ten wyraz piszemy razem: <suggestion>\1\2</suggestion>.</message>
+						<short>Błąd ortograficzny</short>
+						<example correction="przeddzień">Lotnictwo Polskie w <marker>przed dzień</marker> zakończenia II wojny światowej.</example>
+        </rule>
+				</rulegroup>
 				<rulegroup id="A_NUZ" name="„a nóż” (a nuż)">
 						<rule>
 								<pattern>
@@ -22270,6 +22286,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
     <category id="TYPOS" name="Prawdopodobne literówki" type="misspelling">
+    <rule id="PRZEDEDNIU" name="„przededniu” (w przededniu)">
+    <antipattern>
+      <token>w</token>
+      <token postag=".*gen.*" postag_regexp="yes"></token>
+      <marker>
+      <token>przededniu</token>
+      </marker>
+    </antipattern>
+      <pattern>
+        <token>przededniu<exception scope="previous">w</exception></token>      
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>w \1</suggestion>?</message>
+      <short>Literówka</short>
+      <example correction="w przededniu">A jaką władzę miał król <marker>przededniu</marker> konstytucji 3 maja?</example>
+      <example>Szukanie całości w dziurze, czyli skonkretyzowane przygotowania do prezentacji w jej przededniu.</example>
+    </rule>
     <rule id="W_OD" name="„w od” (w, od)">
     <antipattern>
     <marker>
@@ -27032,9 +27064,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 					<example>Stąd bardzo łatwo dostać się do na wpół wygasłego wulkanu Solfatara.</example>
 				</rule>
 				<rule id="W_Z" name="„w z” (w lub z)">
+				    <antipattern>
+				      <token>przed</token>
+				      <token>dzień</token>
+				    </antipattern>
 						<pattern>
 								<token>w</token>
-								<token>z</token>
+								<token regexp="yes">z|przy|przed</token>
 						</pattern>
 						<message>Prawdopodobna literówka. Czy chodziło o <suggestion>\1</suggestion> czy o <suggestion>\2</suggestion>?</message>
 						<short>Prawdopodobna literówka</short>
@@ -27109,11 +27145,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <marker>
               <token>ze</token>
             </marker>
-              <token regexp="yes">[uz]|od|do|na</token>        
+              <token regexp="yes">[uz]|od|do|[nz]a</token>        
             </pattern>
             <message>Prawdopodobna literówka. Czy chodziło o <suggestion>że</suggestion>?</message>
             <short>Literówka</short>
-            <example correction="że">Wydaje mi sie <marker>ze</marker> z tą klasą średnią i biedotą to wcale do końca tak nie jest.</example>    
+            <example correction="że">Wydaje mi sie <marker>ze</marker> z tą klasą średnią i biedotą to wcale do końca tak nie jest.</example>
+            <example correction="że">Jaruzelski to człowiek - maska, tyle <marker>ze</marker> za maską nie ma twarzy, tylko druga maska.</example>    
         </rule>
         <rule>
           <pattern>
