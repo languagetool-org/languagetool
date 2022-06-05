@@ -20837,7 +20837,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
-        <rule id="U_NO" name="u no -> uno" default="off">
+        <rule id="ORIGINAL_ORIGINAR" name="original -> originar" default="temp_off">
+            <pattern>
+                <token inflected="yes" regexp="yes">poder|deber|querer</token>
+                <marker>
+                    <token>original</token>
+                </marker>
+            </pattern>
+            <message>Posible confusión. ¿Quería decir <suggestion>originar</suggestion>?</message>
+            <example correction="originar">Podría <marker>original</marker> problemas.</example>
+        </rule>
+        <rule id="U_NO" name="u no -> uno">
             <pattern>
                 <token>u</token>
                 <token>no</token>
