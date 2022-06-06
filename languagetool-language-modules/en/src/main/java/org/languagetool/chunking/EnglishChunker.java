@@ -80,12 +80,16 @@ public class EnglishChunker implements Chunker {
     for (JsonNode spacyToken : spacyTokens) {
       String pos = spacyToken.get("pos").asText();
       AnalyzedTokenReadings atr = getAnalyzedTokenReadingsFor(spacyToken.get("from").asInt(), spacyToken.get("to").asInt(), tokenReadings);
+      //System.out.println("*"+pos);
       if ("AUX".equals(prevPos) && pos.equals("VERB")) {  // e.g. "is needed"
         AnalyzedTokenReadings prevAtr = getAnalyzedTokenReadingsFor(prevSpacyToken.get("from").asInt(), prevSpacyToken.get("to").asInt(), tokenReadings);
         chunkTags.add(new ChunkTaggedToken(prevSpacyToken.get("text").asText(), Collections.singletonList(new ChunkTag("B-VP")), prevAtr));
         chunkTags.add(new ChunkTaggedToken(spacyToken.get("text").asText(), Collections.singletonList(new ChunkTag("I-VP")), atr));
       } else if (pos.equals("VERB")) {
         chunkTags.add(new ChunkTaggedToken(spacyToken.get("text").asText(), Collections.singletonList(new ChunkTag("B-VP")), atr));
+      } else if (pos.equals("PUNCT")) {
+        // simulate OpenNLP chunker:
+        chunkTags.add(new ChunkTaggedToken(spacyToken.get("text").asText(), Collections.singletonList(new ChunkTag("O")), atr));
       }
       // TODO: more cases, see testInteractive()
       prevPos = pos;
