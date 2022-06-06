@@ -15543,7 +15543,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 										<token negate="yes" regexp="yes">[wszśźż].+|[Sr]z[wftśsrłndpgklzcbmżń].+|trz.+|dw.+|Lwow(?:a|em)|mną|mnie|snu|łzami|łzą|łba|czter.+|czcią|drżeniem|mszy|łbem|ćwierć|lwem<exception regexp="yes">[\&quot;„\*…]|[\p{L}&amp;&amp;[^aeiouyąę]]+</exception>
 										<exception postag="UNKNOWN"/>
 										<exception postag="verb.*" postag_regexp="yes"/>
-                    <exception regexp="yes">[uz]|od|[pd]o|[nz]a</exception> <!-- ZE_ZE[5] -->
+                    <exception regexp="yes">[uz]|od|[pd]o|[nz]a|bez</exception> <!-- ZE_ZE[5] -->
 										</token>
 								</pattern>
 								<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>z \2</suggestion>.</message>
@@ -18339,6 +18339,44 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>Czystość wciąż zmieniała się w brud.</example>
 						</rule>
 				</rulegroup>
+        <rulegroup id="BROD_BROD" name="„bród, smród” (brud, smród)">
+        <rule>
+          <pattern>
+          <marker>
+            <token>bród</token>
+          </marker>
+            <token>,</token>
+            <token>smród</token>
+          </pattern>
+          <message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion>brud</suggestion>?</message>
+          <url>https://wsjp.pl/haslo/podglad/30166/brud-smrod-i-ubostwo</url>
+          <short>Błąd ortograficzny</short>
+          <example correction="brud">Mieszkańcy skarżą się na <marker>bród</marker>, smród i hałas.</example>
+        </rule>
+        <rule>
+          <pattern>
+          <marker>
+            <token>bród</token>
+          </marker>
+            <token>pod</token>
+            <token regexp="yes">dywan|dywanem|paznokciami</token>
+          </pattern>
+          <message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion>brud</suggestion>?</message>
+          <short>Błąd ortograficzny</short>
+          <example correction="brud">Mieszkańcy skarżą się na <marker>bród</marker> pod dywanem.</example>
+        </rule>
+        <rule>
+          <pattern>
+              <token regexp="yes">zalegający|wszechobecny|uporczywy|oporny|zaschnięty|lepki|wszędobylski|wszechogarniający|nagromadzony|tłusty|zastarzały|uparty|wżarty|przylegający</token>
+              <marker>
+                <token>bród</token>              
+              </marker>
+          </pattern>       
+          <message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion>brud</suggestion>?</message>
+          <short>Błąd ortograficzny</short>
+          <example correction="brud">Mieszkańcy skarżą się na wszechobecny <marker>bród</marker>.</example>           
+        </rule>
+        </rulegroup>        
 				<rulegroup id="MONOTONNIE_MONOTONIĘ" name="„popaść w monotonnie” (monotonię)">
 						<rule>
 								<pattern>
@@ -27145,7 +27183,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <marker>
               <token>ze</token>
             </marker>
-              <token regexp="yes">[uz]|od|[pd]o|[nz]a</token>        
+              <token regexp="yes">[uz]|od|[pd]o|[nz]a|bez</token>        
             </pattern>
             <message>Prawdopodobna literówka. Czy chodziło o <suggestion>że</suggestion>?</message>
             <short>Literówka</short>
