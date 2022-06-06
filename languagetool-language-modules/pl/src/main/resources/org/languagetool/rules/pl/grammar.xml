@@ -15543,7 +15543,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 										<token negate="yes" regexp="yes">[wszśźż].+|[Sr]z[wftśsrłndpgklzcbmżń].+|trz.+|dw.+|Lwow(?:a|em)|mną|mnie|snu|łzami|łzą|łba|czter.+|czcią|drżeniem|mszy|łbem|ćwierć|lwem<exception regexp="yes">[\&quot;„\*…]|[\p{L}&amp;&amp;[^aeiouyąę]]+</exception>
 										<exception postag="UNKNOWN"/>
 										<exception postag="verb.*" postag_regexp="yes"/>
-                    <exception regexp="yes">[uz]|od|[pd]o|[nz]a|bez</exception> <!-- ZE_ZE[5] -->
+                    <exception regexp="yes">[uz]|od|[pd]o|[nz]a|bez|zamiast</exception> <!-- ZE_ZE[5] -->
 										</token>
 								</pattern>
 								<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>z \2</suggestion>.</message>
@@ -22324,6 +22324,70 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
     <category id="TYPOS" name="Prawdopodobne literówki" type="misspelling">
+    <rulegroup id="PODSTAWIE" name="„podstawie” (na podstawie)">
+      <antipattern>
+        <token>na</token>
+        <token postag="ppron3.*gen.*" postag_regexp="yes"/>
+        <marker>
+          <token>podstawie</token>        
+        </marker>
+      </antipattern>
+      <antipattern>
+        <token>na</token>
+        <token postag=".*gen.*" postag_regexp="yes" inflected="yes" regexp="yes">który|jaki</token>
+        <marker>
+          <token>podstawie</token>        
+        </marker>
+      </antipattern>
+      <antipattern>
+      <token postag="prep:loc.*" postag_regexp="yes"></token>
+      <token postag="adj:sg:loc:f:.*" postag_regexp="yes"/>
+      <token min="0" max="2" postag="qub|adv.*" postag_regexp="yes"></token>
+      <marker>
+      <token>podstawie</token>
+      </marker>      
+      </antipattern>
+      <antipattern> <!-- koordynacja -->
+        <unify>
+        <feature id="case"/>
+        <token postag="subst.*" postag_regexp="yes"/>
+        <unify-ignore>
+          <token postag="conj"/>        
+        </unify-ignore>
+        <token>podstawie</token>
+        </unify>      
+      </antipattern>
+        <rule>
+          <pattern>
+            <token>
+              <exception postag="prep:loc.*|adj:sg:loc:f:.*" postag_regexp="yes"/>
+              <exception regexp="yes">jako|ina</exception>
+              </token>
+            <marker>
+              <token>podstawie</token>            
+            </marker>
+              <token postag=".*gen.*" postag_regexp="yes"/>
+          </pattern>
+          <message>Prawdopodobna literówka. Czy chodziło o <suggestion>na podstawie</suggestion>?</message>
+          <short>Literówka</short>
+          <example correction="na podstawie">Ranking stworzony był <marker>podstawie</marker> informacji otrzymanych od władz miast.</example>
+          <example>Na jakiej jednak podstawie tak twierdzisz?</example>
+          <example>Przyjęta została poprawka Sejmu, na której podstawie jednostki samorządu terytorialnego może zwolnić inną jednostkę takiego samorządu z obowiązku zwrotu mienia likwidowanej instytucji kultury.</example>
+          <example>Skreśla się przepis, na którego podstawie od 1 września 2003 r. obowiązkowy wymiar zajęć wf dla uczniów szkół podstawowych i gimnazjów wynosić miał pięć godzin lekcyjnych.</example>
+          <example>Komitet Ekonomiczny RM omawiał projekt rozporządzenia o wysokości i podstawie wymiaru składek na ubezpieczenie społeczne.</example>
+        </rule> 
+        <rule>
+          <pattern>
+          <marker>
+              <token>ina</token>
+              <token>podstawie</token>            
+            </marker>
+          </pattern>
+          <message>Prawdopodobna literówka. Czy chodziło o <suggestion>i na podstawie</suggestion>?</message>
+          <short>Literówka</short>
+          <example correction="i na podstawie">Ranking stworzony był na bazie <marker>ina podstawie</marker> informacji otrzymanych od władz miast.</example>        
+        </rule>   
+    </rulegroup>
     <rule id="PRZEDEDNIU" name="„przededniu” (w przededniu)">
     <antipattern>
       <token>w</token>
@@ -27137,7 +27201,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 										<marker>
 												<token>ze</token>
 										</marker>
-										<token><exception postag=".*gen[\.:].*|.*inst[\.:].*" postag_regexp="yes"></exception><exception postag="verb.*" postag_regexp="yes"></exception></token>
+										<token><exception postag=".*gen[\.:].*|.*inst\b.*" postag_regexp="yes"></exception><exception postag="verb.*" postag_regexp="yes"></exception></token>
 								</pattern>
 								<message>Prawdopodobna literówka. Czy chodziło o <suggestion>że</suggestion>?</message>
 								<short>Prawdopodobna literówka</short>
@@ -27183,7 +27247,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <marker>
               <token>ze</token>
             </marker>
-              <token regexp="yes">[uz]|od|[pd]o|[nz]a|bez</token>        
+              <token regexp="yes">[uz]|od|[pd]o|[nz]a|bez|zamiast</token>        
             </pattern>
             <message>Prawdopodobna literówka. Czy chodziło o <suggestion>że</suggestion>?</message>
             <short>Literówka</short>
