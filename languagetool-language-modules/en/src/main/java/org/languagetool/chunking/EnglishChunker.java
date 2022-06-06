@@ -20,6 +20,7 @@ package org.languagetool.chunking;
 
 import jep.Jep;
 import jep.SharedInterpreter;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedTokenReadings;
 
@@ -28,9 +29,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * OpenNLP-based chunker. Also uses the OpenNLP tokenizer and POS tagger and
- * maps the result to our own tokens (we have our own tokenizer), as far as trivially possible.
- * @since 2.3
+ * SpaCy-based chunker.
  */
 public class EnglishChunker implements Chunker {
 
@@ -40,9 +39,6 @@ public class EnglishChunker implements Chunker {
     chunkFilter = new EnglishChunkFilter();
   }
 
-  // A short test ....
-  // 01234567
-
   @Override
   public void addChunkTags(List<AnalyzedTokenReadings> tokenReadings) {
     long t1 = System.currentTimeMillis();
@@ -50,45 +46,42 @@ public class EnglishChunker implements Chunker {
     for (AnalyzedTokenReadings tokenReading : tokenReadings) {
       sb.append(tokenReading.getToken());
     }
-    System.out.println(">>"+sb + "<<");
     try (Jep jep = new SharedInterpreter()) {
       jep.runScript("/home/dnaber/lt/git/languagetool/spacy-test.py");  // TODO: call once??
       jep.eval("result = chunking('" + sb + "')");
       String result = (String) jep.getValue("result");
-      System.out.println("-->" + result);
+      //System.out.println("-->" + result);
       String[] parts = result.split(" ");
-      List<ChunkTaggedToken> chunkTags = new ArrayList<>();
-      for (String part : parts) {
-        String[] partsForChunk = part.split(",");
-        int i = 0;
-        for (String s : partsForChunk) {
-          String[] posParts = s.split("-");
-          int startPos = Integer.parseInt(posParts[0]);
-          int endPos = Integer.parseInt(posParts[1]);
-          //TODO
-          AnalyzedTokenReadings atr = getAnalyzedTokenReadingsFor(startPos, endPos, tokenReadings);
-          System.out.println("ATR: " + atr + " <- " + startPos + "-" + endPos);
-          String tag;
-          if (i == 0) {
-            tag = "B-NP";
-          } else {
-            tag = "I-NP";
-          }
-          System.out.println("i=" + i + " -> "+ tag);
-          chunkTags.add(new ChunkTaggedToken("", Collections.singletonList(new ChunkTag(tag)), atr));
-          i++;
-        }
-      }
+      List<ChunkTaggedToken> chunkTags = getChunkTaggedTokens(tokenReadings, parts);
       List<ChunkTaggedToken> filteredChunkTags = chunkFilter.filter(chunkTags);
       assignChunksToReadings(filteredChunkTags);
-      //assignChunksToReadings(chunkTags);
-      for (AnalyzedTokenReadings tokenReading : tokenReadings) {
+      /*for (AnalyzedTokenReadings tokenReading : tokenReadings) {  // TODO: remove
         System.out.println("TR: " + tokenReading.getToken() + " " + tokenReading.getChunkTags());
-      }
-      //assignChunksToReadings(chunkTags);
+      }*/
     }
     long t2 = System.currentTimeMillis();
-    System.out.println("time: " + (t2-t1) + "ms for " + sb.length());
+    System.out.println("time: " + (t2-t1) + "ms for " + sb.length()); // TODO: remove
+  }
+
+  @NotNull
+  private List<ChunkTaggedToken> getChunkTaggedTokens(List<AnalyzedTokenReadings> tokenReadings, String[] parts) {
+    List<ChunkTaggedToken> chunkTags = new ArrayList<>();
+    for (String part : parts) {
+      String[] partsForChunk = part.split(",");
+      int i = 0;
+      for (String s : partsForChunk) {
+        String[] posParts = s.split("-");
+        int startPos = Integer.parseInt(posParts[0]);
+        int endPos = Integer.parseInt(posParts[1]);
+        AnalyzedTokenReadings atr = getAnalyzedTokenReadingsFor(startPos, endPos, tokenReadings);
+        //System.out.println("ATR: " + atr + " <- " + startPos + "-" + endPos);
+        String tag = i == 0 ? "B-NP" : "I-NP";
+        //System.out.println("i=" + i + " -> "+ tag);
+        chunkTags.add(new ChunkTaggedToken("", Collections.singletonList(new ChunkTag(tag)), atr));
+        i++;
+      }
+    }
+    return chunkTags;
   }
 
   private void assignChunksToReadings(List<ChunkTaggedToken> chunkTaggedTokens) {
@@ -108,15 +101,10 @@ public class EnglishChunker implements Chunker {
     int pos = 0;
     for (AnalyzedTokenReadings tokenReading : tokenReadings) {
       String token = tokenReading.getToken();
-      /*if (token.trim().isEmpty() ||
-          (token.length() == 1 && Character.isSpaceChar(token.charAt(0)))) {  // needed for non-breaking space
-        continue;  // the OpenNLP result has no whitespace, so we need to skip it
-      }*/
       int tokenStart = pos;
       int tokenEnd = pos + token.length();
       System.out.println("# " + token + ": " + tokenStart + " =? " + startPos + " && " + tokenEnd + " ?= " + endPos);
       if (tokenStart == startPos && tokenEnd == endPos) {
-        //System.out.println("!!!" + startPos + " " + endPos + "  " + tokenReading);
         return tokenReading;
       }
       pos = tokenEnd;
