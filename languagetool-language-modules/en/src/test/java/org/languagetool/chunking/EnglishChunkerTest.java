@@ -52,9 +52,30 @@ public class EnglishChunkerTest {
     // "the bicycle":
     assertThat(readingsList.get(8).getChunkTags().toString(), is("[B-NP-singular]"));
     assertThat(readingsList.get(10).getChunkTags().toString(), is("[E-NP-singular]"));
-    // "is"
+    // "is needed"
     assertThat(readingsList.get(12).getChunkTags().toString(), is("[B-VP]"));
     assertThat(readingsList.get(14).getChunkTags().toString(), is("[I-VP]"));
+  }
+
+  @Test
+  @Ignore("interactive use only")
+  public void testInteractive() {
+    EnglishChunker chunker = new EnglishChunker();
+    //String sentence = "Yankee batters hit the ball well enough to win their first World Series since 2000.";
+    // VPs                              ^^^                      ^^^^^
+    //String sentence = "Mary saw the man through the window.";
+    // VPs                    ^^^
+    // String sentence = "David gave Mary a book.";
+    // VPs                      ^^^^
+    //String sentence = "John has finished the work.";
+    // VPs                    ^^^^^^^^^^^^
+    String sentence = "They do not want to try that.";
+    // VPs                  ^^^^^^^^^^^^^^^^^
+    List<AnalyzedTokenReadings> readingsList = createReadingsList(sentence);
+    chunker.addChunkTags(readingsList);
+    for (AnalyzedTokenReadings atr : readingsList) {
+      System.out.println(atr.getToken() + " " + atr.getChunkTags());
+    }
   }
 
   @Test
