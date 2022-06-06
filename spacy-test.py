@@ -9,23 +9,22 @@ def chunking(text):
   map = idxToToken(doc)
   result = []
   handledTokens = []
-  # TODO: verb chunks
   for chunk in doc.noun_chunks:
       tmpList = []
       for i in range(doc[chunk.start].idx, doc[chunk.end].idx):
           try:
-              #print(">" + str(map[i]))
               if map[i] in handledTokens:
-                  #print("skip, already handled: ", map[i])
                   None
               else:
                   tmpList.append(str(map[i].idx) + "-" + str(map[i].idx + len(map[i])))
                   handledTokens.append(map[i])
           except KeyError:
               None
-      #result.append(','.join(tmpList))
       result.append(tmpList)
-  return json.dumps({"noun_chunks": result})
+  tokens = []
+  for token in doc:
+      tokens.append({"pos": token.pos_, "from": token.idx, "to": token.idx + len(token.text)})
+  return json.dumps({"noun_chunks": result, "tokens": tokens})
 
 def idxToToken(doc):
     map = {}
@@ -36,8 +35,7 @@ def idxToToken(doc):
     return map
 
 if __name__=='__main__':
-    text = "My red fox jumps over your lazy dog, but."
-    #doc = nlp("My red fox jumps over.")
+    #text = "My red fox jumps over your lazy dog, but."
+    text = "Mary saw the man through the window."
     res = chunking(text)
-    #print(map)
     print(res)

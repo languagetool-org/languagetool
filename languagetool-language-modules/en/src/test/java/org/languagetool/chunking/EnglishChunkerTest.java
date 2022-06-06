@@ -61,8 +61,8 @@ public class EnglishChunkerTest {
   @Ignore("interactive use only")
   public void testInteractive() {
     EnglishChunker chunker = new EnglishChunker();
-    String sentence = "Yankee batters hit the ball well enough to win their first World Series since 2000.";
-    // VPs                            ^^^                      ^^^^^
+    //String sentence = "Yankee batters hit the ball well enough to win their first World Series since 2000.";
+    // VPs                              ^^^                      ^^^^^^
     //String sentence = "Mary saw the man through the window.";
     // VPs                    ^^^
     // String sentence = "David gave Mary a book.";
@@ -71,6 +71,8 @@ public class EnglishChunkerTest {
     // VPs                    ^^^^^^^^^^^^
     //String sentence = "They do not want to try that.";
     // VPs                    ^^^^^^^^^^^^^^^^^
+    String sentence = "A short test of the bicycle is needed";
+    // VPs                                         ^^^^^^^^^
     List<AnalyzedTokenReadings> readingsList = createReadingsList(sentence);
     chunker.addChunkTags(readingsList);
     for (AnalyzedTokenReadings atr : readingsList) {
@@ -79,7 +81,7 @@ public class EnglishChunkerTest {
   }
 
   @Test
-  public void testTEMP() throws Exception {
+  public void testTEMP() {
     EnglishChunker chunker = new EnglishChunker();
     //List<AnalyzedTokenReadings> readingsList = createReadingsList("A short test");
     List<AnalyzedTokenReadings> readingsList = createReadingsList("A short test.");
