@@ -56,13 +56,14 @@ public class EnglishChunker implements Chunker {
       jep.runScript("/home/dnaber/lt/git/languagetool/spacy-test.py");  // TODO: call once??
       jep.eval("result = chunking('" + sb.toString().replace("'", "\\'") + "')");
       String result = (String) jep.getValue("result");
-      //System.out.println("-->" + result);
       try {
         JsonNode jsonNode = mapper.readTree(result);
         JsonNode nounChunksList = jsonNode.get("noun_chunks");
         List<ChunkTaggedToken> chunkTags = getChunkTaggedTokens(tokenReadings, nounChunksList, sb.toString());
         assignVerbPhrases(tokenReadings, jsonNode.get("tokens"), chunkTags);
-        // TODO: assign ADVP
+        //
+        // TODO: assign ADVP (50x), ADJP (48x), PP (81x), SBAR (38x), PRT (11x)
+        //
         Collections.sort(chunkTags);
         List<ChunkTaggedToken> filteredChunkTags = chunkFilter.filter(chunkTags);
         assignChunksToReadings(filteredChunkTags);
@@ -80,7 +81,6 @@ public class EnglishChunker implements Chunker {
     for (JsonNode spacyToken : spacyTokens) {
       String pos = spacyToken.get("pos").asText();
       AnalyzedTokenReadings atr = getAnalyzedTokenReadingsFor(spacyToken.get("from").asInt(), spacyToken.get("to").asInt(), tokenReadings);
-      //System.out.println("*"+pos);
       if ("AUX".equals(prevPos) && pos.equals("VERB")) {  // e.g. "is needed"
         AnalyzedTokenReadings prevAtr = getAnalyzedTokenReadingsFor(prevSpacyToken.get("from").asInt(), prevSpacyToken.get("to").asInt(), tokenReadings);
         chunkTags.add(new ChunkTaggedToken(prevSpacyToken.get("text").asText(), Collections.singletonList(new ChunkTag("B-VP")), prevAtr));
@@ -134,7 +134,6 @@ public class EnglishChunker implements Chunker {
       String token = tokenReading.getToken();
       int tokenStart = pos;
       int tokenEnd = pos + token.length();
-      //System.out.println("# " + token + ": " + tokenStart + " =? " + startPos + " && " + tokenEnd + " ?= " + endPos);
       if (tokenStart == startPos && tokenEnd == endPos) {
         return tokenReading;
       }

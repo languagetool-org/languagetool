@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 import java.util.stream.Collectors;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -89,7 +90,7 @@ public class EnglishChunkerTest {
     // "A short test":
     assertThat(readingsList.get(0).getChunkTags().toString(), is("[B-NP-singular]"));
     assertThat(readingsList.get(2).getChunkTags().toString(), is("[I-NP-singular]"));
-    assertThat(readingsList.get(4).getChunkTags().toString(), is("[E-NP-singular]"));
+    assertThat(readingsList.get(4).getChunkTags().toString(), is("[]"));
   }
 
   @Test
@@ -114,7 +115,7 @@ public class EnglishChunkerTest {
     assertThat(tokens[1].getChunkTags().get(0), is(new ChunkTag("B-NP-singular")));
     assertThat(tokens[2].getChunkTags().get(0), is(new ChunkTag("B-VP"))); 
     assertThat(tokens[4].getChunkTags().get(0), is(new ChunkTag("I-VP"))); 
-    assertThat(tokens[6].getChunkTags().get(0), is(new ChunkTag("I-VP")));
+    assertTrue(tokens[6].getChunkTags().isEmpty());
   }
 
   @Test
