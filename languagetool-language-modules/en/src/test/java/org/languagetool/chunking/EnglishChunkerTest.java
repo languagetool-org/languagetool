@@ -49,10 +49,10 @@ public class EnglishChunkerTest {
     assertThat(readingsList.get(0).getChunkTags().toString(), is("[B-NP-singular]"));
     assertThat(readingsList.get(2).getChunkTags().toString(), is("[I-NP-singular]"));
     assertThat(readingsList.get(4).getChunkTags().toString(), is("[E-NP-singular]"));
-    // "the chunker":
+    // "the bicycle":
     assertThat(readingsList.get(8).getChunkTags().toString(), is("[B-NP-singular]"));
     assertThat(readingsList.get(10).getChunkTags().toString(), is("[E-NP-singular]"));
-    // "is"
+    // "is needed"
     assertThat(readingsList.get(12).getChunkTags().toString(), is("[B-VP]"));
     assertThat(readingsList.get(14).getChunkTags().toString(), is("[I-VP]"));
   }
