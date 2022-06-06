@@ -71,8 +71,6 @@ public class EnglishChunker implements Chunker {
           String tag;
           if (i == 0) {
             tag = "B-NP";
-          } else if (i == partsForChunk.length-1) {
-            tag = "E-NP";
           } else {
             tag = "I-NP";
           }
