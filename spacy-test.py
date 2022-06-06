@@ -1,4 +1,5 @@
 import spacy
+import json
 # see https://dzlab.github.io/ml/2021/08/21/spark-jep/
 
 nlp = spacy.load("en_core_web_sm")
@@ -22,8 +23,9 @@ def chunking(text):
                   handledTokens.append(map[i])
           except KeyError:
               None
-      result.append(','.join(tmpList))
-  return ' '.join(result)
+      #result.append(','.join(tmpList))
+      result.append(tmpList)
+  return json.dumps({"noun_chunks": result})
 
 def idxToToken(doc):
     map = {}

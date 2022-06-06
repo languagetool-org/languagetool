@@ -18,6 +18,10 @@
  */
 package org.languagetool.chunking;
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jep.Jep;
 import jep.SharedInterpreter;
 import org.jetbrains.annotations.NotNull;
@@ -34,9 +38,11 @@ import java.util.List;
 public class EnglishChunker implements Chunker {
 
   private final EnglishChunkFilter chunkFilter;
+  private final ObjectMapper mapper;
 
   public EnglishChunker() {
     chunkFilter = new EnglishChunkFilter();
+    mapper = new ObjectMapper(new JsonFactory());
   }
 
   @Override
@@ -51,32 +57,37 @@ public class EnglishChunker implements Chunker {
       jep.eval("result = chunking('" + sb + "')");
       String result = (String) jep.getValue("result");
       //System.out.println("-->" + result);
-      String[] parts = result.split(" ");
-      List<ChunkTaggedToken> chunkTags = getChunkTaggedTokens(tokenReadings, parts);
-      List<ChunkTaggedToken> filteredChunkTags = chunkFilter.filter(chunkTags);
-      assignChunksToReadings(filteredChunkTags);
-      /*for (AnalyzedTokenReadings tokenReading : tokenReadings) {  // TODO: remove
-        System.out.println("TR: " + tokenReading.getToken() + " " + tokenReading.getChunkTags());
-      }*/
+      try {
+        JsonNode jsonNode = mapper.readTree(result);
+        JsonNode nounChunksList = jsonNode.get("noun_chunks");
+        for (JsonNode nounChunks : nounChunksList) {
+          System.out.println(">>"+nounChunks);
+        }
+        List<ChunkTaggedToken> chunkTags = getChunkTaggedTokens(tokenReadings, nounChunksList);
+        List<ChunkTaggedToken> filteredChunkTags = chunkFilter.filter(chunkTags);
+        assignChunksToReadings(filteredChunkTags);
+        /*for (AnalyzedTokenReadings tokenReading : tokenReadings) {  // TODO: remove
+          System.out.println("TR: " + tokenReading.getToken() + " " + tokenReading.getChunkTags());
+        }*/
+      } catch (JsonProcessingException e) {
+        throw new RuntimeException(e);
+      }
     }
     long t2 = System.currentTimeMillis();
     System.out.println("time: " + (t2-t1) + "ms for " + sb.length()); // TODO: remove
   }
 
   @NotNull
-  private List<ChunkTaggedToken> getChunkTaggedTokens(List<AnalyzedTokenReadings> tokenReadings, String[] parts) {
+  private List<ChunkTaggedToken> getChunkTaggedTokens(List<AnalyzedTokenReadings> tokenReadings, JsonNode parts) {
     List<ChunkTaggedToken> chunkTags = new ArrayList<>();
-    for (String part : parts) {
-      String[] partsForChunk = part.split(",");
+    for (JsonNode partsForChunk : parts) {
       int i = 0;
-      for (String s : partsForChunk) {
-        String[] posParts = s.split("-");
+      for (JsonNode fromTo : partsForChunk) {
+        String[] posParts = fromTo.asText().split("-");
         int startPos = Integer.parseInt(posParts[0]);
         int endPos = Integer.parseInt(posParts[1]);
         AnalyzedTokenReadings atr = getAnalyzedTokenReadingsFor(startPos, endPos, tokenReadings);
-        //System.out.println("ATR: " + atr + " <- " + startPos + "-" + endPos);
         String tag = i == 0 ? "B-NP" : "I-NP";
-        //System.out.println("i=" + i + " -> "+ tag);
         chunkTags.add(new ChunkTaggedToken("", Collections.singletonList(new ChunkTag(tag)), atr));
         i++;
       }
@@ -103,7 +114,7 @@ public class EnglishChunker implements Chunker {
       String token = tokenReading.getToken();
       int tokenStart = pos;
       int tokenEnd = pos + token.length();
-      System.out.println("# " + token + ": " + tokenStart + " =? " + startPos + " && " + tokenEnd + " ?= " + endPos);
+      //System.out.println("# " + token + ": " + tokenStart + " =? " + startPos + " && " + tokenEnd + " ?= " + endPos);
       if (tokenStart == startPos && tokenEnd == endPos) {
         return tokenReading;
       }
