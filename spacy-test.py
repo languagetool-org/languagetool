@@ -28,13 +28,14 @@ def chunking(text):
 def idxToToken(doc):
     map = {}
     for token in doc:
-        print(token.text + ":" + str(token.idx) + " " + str(token.idx + len(token.text) - 1))
+        #print(token.text + ":" + str(token.idx) + " " + str(token.idx + len(token.text) - 1))
         for i in range(token.idx, token.idx + len(token.text)):  ## TODO: whitespace!
             map[i] = token
     return map
 
-text = "My red fox jumps over your lazy dog, but."
-#doc = nlp("My red fox jumps over.")
-res = chunking(text)
-print(map)
-print(res)
+if __name__=='__main__':
+    text = "My red fox jumps over your lazy dog, but."
+    #doc = nlp("My red fox jumps over.")
+    res = chunking(text)
+    #print(map)
+    print(res)
