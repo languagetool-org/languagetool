@@ -54,14 +54,16 @@ public class EnglishChunker implements Chunker {
     }
     try (Jep jep = new SharedInterpreter()) {
       jep.runScript("/home/dnaber/lt/git/languagetool/spacy-test.py");  // TODO: call once??
-      jep.eval("result = chunking('" + sb + "')");
+      jep.eval("result = chunking('" + sb.toString().replace("'", "\\'") + "')");
       String result = (String) jep.getValue("result");
       //System.out.println("-->" + result);
       try {
         JsonNode jsonNode = mapper.readTree(result);
         JsonNode nounChunksList = jsonNode.get("noun_chunks");
-        List<ChunkTaggedToken> chunkTags = getChunkTaggedTokens(tokenReadings, nounChunksList);
+        List<ChunkTaggedToken> chunkTags = getChunkTaggedTokens(tokenReadings, nounChunksList, sb.toString());
         assignVerbPhrases(tokenReadings, jsonNode.get("tokens"), chunkTags);
+        // TODO: assign ADVP
+        Collections.sort(chunkTags);
         List<ChunkTaggedToken> filteredChunkTags = chunkFilter.filter(chunkTags);
         assignChunksToReadings(filteredChunkTags);
       } catch (JsonProcessingException e) {
@@ -80,10 +82,10 @@ public class EnglishChunker implements Chunker {
       AnalyzedTokenReadings atr = getAnalyzedTokenReadingsFor(spacyToken.get("from").asInt(), spacyToken.get("to").asInt(), tokenReadings);
       if ("AUX".equals(prevPos) && pos.equals("VERB")) {  // e.g. "is needed"
         AnalyzedTokenReadings prevAtr = getAnalyzedTokenReadingsFor(prevSpacyToken.get("from").asInt(), prevSpacyToken.get("to").asInt(), tokenReadings);
-        chunkTags.add(new ChunkTaggedToken("", Collections.singletonList(new ChunkTag("B-VP")), prevAtr));
-        chunkTags.add(new ChunkTaggedToken("", Collections.singletonList(new ChunkTag("I-VP")), atr));
+        chunkTags.add(new ChunkTaggedToken(prevSpacyToken.get("text").asText(), Collections.singletonList(new ChunkTag("B-VP")), prevAtr));
+        chunkTags.add(new ChunkTaggedToken(spacyToken.get("text").asText(), Collections.singletonList(new ChunkTag("I-VP")), atr));
       } else if (pos.equals("VERB")) {
-        chunkTags.add(new ChunkTaggedToken("", Collections.singletonList(new ChunkTag("B-VP")), atr));  // TODO: "" ?
+        chunkTags.add(new ChunkTaggedToken(spacyToken.get("text").asText(), Collections.singletonList(new ChunkTag("B-VP")), atr));
       }
       // TODO: more cases, see testInteractive()
       prevPos = pos;
@@ -92,15 +94,17 @@ public class EnglishChunker implements Chunker {
   }
 
   @NotNull
-  private List<ChunkTaggedToken> getChunkTaggedTokens(List<AnalyzedTokenReadings> tokenReadings, JsonNode parts) {
+  private List<ChunkTaggedToken> getChunkTaggedTokens(List<AnalyzedTokenReadings> tokenReadings, JsonNode parts, String text) {
     List<ChunkTaggedToken> chunkTags = new ArrayList<>();
     for (JsonNode partsForChunk : parts) {
       int i = 0;
       for (JsonNode fromTo : partsForChunk) {
         String[] posParts = fromTo.asText().split("-");
-        AnalyzedTokenReadings atr = getAnalyzedTokenReadingsFor(Integer.parseInt(posParts[0]), Integer.parseInt(posParts[1]), tokenReadings);
+        int startPos = Integer.parseInt(posParts[0]);
+        int endPos = Integer.parseInt(posParts[1]);
+        AnalyzedTokenReadings atr = getAnalyzedTokenReadingsFor(startPos, endPos, tokenReadings);
         String tag = i == 0 ? "B-NP" : "I-NP";
-        chunkTags.add(new ChunkTaggedToken(atr.getToken(), Collections.singletonList(new ChunkTag(tag)), atr));
+        chunkTags.add(new ChunkTaggedToken(atr != null ? atr.getToken() : text.substring(startPos, endPos), Collections.singletonList(new ChunkTag(tag)), atr));
         i++;
       }
     }

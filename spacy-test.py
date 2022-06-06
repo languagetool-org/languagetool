@@ -23,7 +23,7 @@ def chunking(text):
       result.append(tmpList)
   tokens = []
   for token in doc:
-      tokens.append({"pos": token.pos_, "from": token.idx, "to": token.idx + len(token.text)})
+      tokens.append({"text": token.text, "pos": token.pos_, "from": token.idx, "to": token.idx + len(token.text)})
   return json.dumps({"noun_chunks": result, "tokens": tokens})
 
 def idxToToken(doc):

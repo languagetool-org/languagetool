@@ -19,6 +19,7 @@
 package org.languagetool.chunking;
 
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedTokenReadings;
 
@@ -28,7 +29,7 @@ import java.util.Objects;
 /**
  * @since 2.9 / 5.0
  */
-public class ChunkTaggedToken {
+public class ChunkTaggedToken implements Comparable<ChunkTaggedToken> {
 
   private final String token;
   private final List<ChunkTag> chunkTags;
@@ -62,5 +63,14 @@ public class ChunkTaggedToken {
   @Override
   public String toString() {
     return token + '/' + StringUtils.join(chunkTags, ",");
+  }
+
+  @Override
+  public int compareTo(@NotNull ChunkTaggedToken o) {
+    if (readings != null && o.readings != null) {
+      return readings.getStartPos() - o.readings.getStartPos();
+    } else {
+      return 0;
+    }
   }
 }
