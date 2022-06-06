@@ -18,18 +18,11 @@
  */
 package org.languagetool.chunking;
 
-import opennlp.tools.chunker.ChunkerME;
-import opennlp.tools.chunker.ChunkerModel;
-import opennlp.tools.postag.POSModel;
-import opennlp.tools.postag.POSTaggerME;
-import opennlp.tools.tokenize.TokenizerME;
-import opennlp.tools.tokenize.TokenizerModel;
-import org.jetbrains.annotations.NotNull;
+import jep.Jep;
+import jep.SharedInterpreter;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.tools.Tools;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -41,105 +34,63 @@ import java.util.List;
  */
 public class EnglishChunker implements Chunker {
 
-  private static final String TOKENIZER_MODEL = "/en-token.bin";
-  private static final String POS_TAGGER_MODEL = "/en-pos-maxent.bin";
-  private static final String CHUNKER_MODEL = "/en-chunker.bin";
-
-  /**
-   * This needs to be static to save memory: as Language.LANGUAGES is static, any language
-   * that is once created there will never be released. As English has several variants,
-   * we'd have as many posModels etc. as we have variants -> huge waste of memory:
-   */
-  private static volatile TokenizerModel tokenModel;
-  private static volatile POSModel posModel;
-  private static volatile ChunkerModel chunkerModel;
-
   private final EnglishChunkFilter chunkFilter;
 
   public EnglishChunker() {
-    try {
-      if (tokenModel == null) {
-        tokenModel = new TokenizerModel(Tools.getStream(TOKENIZER_MODEL));
-      }
-      if (posModel == null) {
-        posModel = new POSModel(Tools.getStream(POS_TAGGER_MODEL));
-      }
-      if (chunkerModel == null) {
-        chunkerModel = new ChunkerModel(Tools.getStream(CHUNKER_MODEL));
-      }
-      chunkFilter = new EnglishChunkFilter();
-    } catch (IOException e) {
-      throw new RuntimeException("Could not initialize English chunker", e);
-    }
+    chunkFilter = new EnglishChunkFilter();
   }
+
+  // A short test ....
+  // 01234567
 
   @Override
   public void addChunkTags(List<AnalyzedTokenReadings> tokenReadings) {
-    List<ChunkTaggedToken> origChunkTags = getChunkTagsForReadings(tokenReadings);
-    List<ChunkTaggedToken> chunkTags = chunkFilter.filter(origChunkTags);
-    assignChunksToReadings(chunkTags);
-  }
-
-  private List<ChunkTaggedToken> getChunkTagsForReadings(List<AnalyzedTokenReadings> tokenReadings) {
-    // these are not thread-safe, so create them here, not as members:
-    String sentence = getSentence(tokenReadings);
-    String[] tokens = cleanZeroWidthWhitespaces(tokenize(sentence)).toArray(new String[0]);
-    String[] posTags = posTag(tokens);
-    String[] chunkTags = chunk(tokens, posTags);
-    if (tokens.length != posTags.length || tokens.length != chunkTags.length) {
-      throw new RuntimeException("Length of results must be the same: " + tokens.length + ", " + posTags.length + ", " + chunkTags.length);
+    long t1 = System.currentTimeMillis();
+    StringBuilder sb = new StringBuilder();
+    for (AnalyzedTokenReadings tokenReading : tokenReadings) {
+      sb.append(tokenReading.getToken());
     }
-    return getTokensWithTokenReadings(tokenReadings, tokens, chunkTags);
-  }
-
-  // workaround for the add-on, which adds ﻿ZERO WIDTH NO-BREAK SPACE, which confuses the chunker: 
-  @NotNull
-  private List<String> cleanZeroWidthWhitespaces(String[] tokens) {
-    List<String> cleanTokens = new ArrayList<>();
-    for (String token : tokens) {
-      String[] splits = token.split("\uFEFF");
-      for (String split : splits) {
-        if (split.length() == 0) {
-          cleanTokens.add("");
-        } else {
-          cleanTokens.add(token);
+    System.out.println(">>"+sb + "<<");
+    try (Jep jep = new SharedInterpreter()) {
+      jep.runScript("/home/dnaber/lt/git/languagetool/spacy-test.py");  // TODO: call once??
+      jep.eval("result = chunking('" + sb + "')");
+      String result = (String) jep.getValue("result");
+      System.out.println("-->" + result);
+      String[] parts = result.split(" ");
+      List<ChunkTaggedToken> chunkTags = new ArrayList<>();
+      for (String part : parts) {
+        String[] partsForChunk = part.split(",");
+        int i = 0;
+        for (String s : partsForChunk) {
+          String[] posParts = s.split("-");
+          int startPos = Integer.parseInt(posParts[0]);
+          int endPos = Integer.parseInt(posParts[1]);
+          //TODO
+          AnalyzedTokenReadings atr = getAnalyzedTokenReadingsFor(startPos, endPos, tokenReadings);
+          System.out.println("ATR: " + atr + " <- " + startPos + "-" + endPos);
+          String tag;
+          if (i == 0) {
+            tag = "B-NP";
+          } else if (i == partsForChunk.length-1) {
+            tag = "E-NP";
+          } else {
+            tag = "I-NP";
+          }
+          System.out.println("i=" + i + " -> "+ tag);
+          chunkTags.add(new ChunkTaggedToken("", Collections.singletonList(new ChunkTag(tag)), atr));
+          i++;
         }
       }
+      List<ChunkTaggedToken> filteredChunkTags = chunkFilter.filter(chunkTags);
+      assignChunksToReadings(filteredChunkTags);
+      //assignChunksToReadings(chunkTags);
+      for (AnalyzedTokenReadings tokenReading : tokenReadings) {
+        System.out.println("TR: " + tokenReading.getToken() + " " + tokenReading.getChunkTags());
+      }
+      //assignChunksToReadings(chunkTags);
     }
-    return cleanTokens;
-  }
-
-  // non-private for test cases
-  String[] tokenize(String sentence) {
-    TokenizerME tokenizer = new TokenizerME(tokenModel);
-    String cleanString = sentence.replace('’', '\'');  // this is the type of apostrophe that OpenNLP expects
-    return tokenizer.tokenize(cleanString);
-  }
-
-  private String[] posTag(String[] tokens) {
-    POSTaggerME posTagger = new POSTaggerME(posModel);
-    return posTagger.tag(tokens);
-  }
-
-  private String[] chunk(String[] tokens, String[] posTags) {
-    ChunkerME chunker = new ChunkerME(chunkerModel);
-    return chunker.chunk(tokens, posTags);
-  }
-
-  private List<ChunkTaggedToken> getTokensWithTokenReadings(List<AnalyzedTokenReadings> tokenReadings, String[] tokens, String[] chunkTags) {
-    List<ChunkTaggedToken> result = new ArrayList<>();
-    int i = 0;
-    int pos = 0;
-    for (String chunkTag : chunkTags) {
-      int startPos = pos;
-      int endPos = startPos + tokens[i].length();
-      //System.out.println("OPEN: " + tokens[i]);
-      AnalyzedTokenReadings readings = getAnalyzedTokenReadingsFor(startPos, endPos, tokenReadings);
-      result.add(new ChunkTaggedToken(tokens[i], Collections.singletonList(new ChunkTag(chunkTag)), readings));
-      pos = endPos;
-      i++;
-    }
-    return result;
+    long t2 = System.currentTimeMillis();
+    System.out.println("time: " + (t2-t1) + "ms for " + sb.length());
   }
 
   private void assignChunksToReadings(List<ChunkTaggedToken> chunkTaggedTokens) {
@@ -151,14 +102,6 @@ public class EnglishChunker implements Chunker {
     }
   }
 
-  private String getSentence(List<AnalyzedTokenReadings> sentenceTokens) {
-    StringBuilder sb = new StringBuilder();
-    for (AnalyzedTokenReadings token : sentenceTokens) {
-      sb.append(token.getToken());
-    }
-    return sb.toString();
-  }
-
   // Get only exact position matches - i.e. this can only be used for a trivial mapping
   // where tokens that are not exactly at the same position will be skipped. For example,
   // the tokens of "I'll" ([I] ['ll] vs [I]['][ll) cannot be mapped with this.
@@ -167,12 +110,13 @@ public class EnglishChunker implements Chunker {
     int pos = 0;
     for (AnalyzedTokenReadings tokenReading : tokenReadings) {
       String token = tokenReading.getToken();
-      if (token.trim().isEmpty() ||
+      /*if (token.trim().isEmpty() ||
           (token.length() == 1 && Character.isSpaceChar(token.charAt(0)))) {  // needed for non-breaking space
         continue;  // the OpenNLP result has no whitespace, so we need to skip it
-      }
+      }*/
       int tokenStart = pos;
       int tokenEnd = pos + token.length();
+      System.out.println("# " + token + ": " + tokenStart + " =? " + startPos + " && " + tokenEnd + " ?= " + endPos);
       if (tokenStart == startPos && tokenEnd == endPos) {
         //System.out.println("!!!" + startPos + " " + endPos + "  " + tokenReading);
         return tokenReading;

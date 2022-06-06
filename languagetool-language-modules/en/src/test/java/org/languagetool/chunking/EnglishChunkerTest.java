@@ -49,12 +49,24 @@ public class EnglishChunkerTest {
     assertThat(readingsList.get(0).getChunkTags().toString(), is("[B-NP-singular]"));
     assertThat(readingsList.get(2).getChunkTags().toString(), is("[I-NP-singular]"));
     assertThat(readingsList.get(4).getChunkTags().toString(), is("[E-NP-singular]"));
-    // "the chunker":
+    // "the bicycle":
     assertThat(readingsList.get(8).getChunkTags().toString(), is("[B-NP-singular]"));
     assertThat(readingsList.get(10).getChunkTags().toString(), is("[E-NP-singular]"));
     // "is"
     assertThat(readingsList.get(12).getChunkTags().toString(), is("[B-VP]"));
     assertThat(readingsList.get(14).getChunkTags().toString(), is("[I-VP]"));
+  }
+
+  @Test
+  public void testTEMP() throws Exception {
+    EnglishChunker chunker = new EnglishChunker();
+    //List<AnalyzedTokenReadings> readingsList = createReadingsList("A short test");
+    List<AnalyzedTokenReadings> readingsList = createReadingsList("A short test.");
+    chunker.addChunkTags(readingsList);
+    // "A short test":
+    assertThat(readingsList.get(0).getChunkTags().toString(), is("[B-NP-singular]"));
+    assertThat(readingsList.get(2).getChunkTags().toString(), is("[I-NP-singular]"));
+    assertThat(readingsList.get(4).getChunkTags().toString(), is("[E-NP-singular]"));
   }
 
   @Test
@@ -80,14 +92,6 @@ public class EnglishChunkerTest {
     assertThat(tokens[2].getChunkTags().get(0), is(new ChunkTag("B-VP"))); 
     assertThat(tokens[4].getChunkTags().get(0), is(new ChunkTag("I-VP"))); 
     assertThat(tokens[6].getChunkTags().get(0), is(new ChunkTag("I-VP")));
-  }
-
-  @Test
-  public void testTokenize() {
-    EnglishChunker chunker = new EnglishChunker();
-    String expected = "[I, 'm, going, to, London]";
-    assertThat(Arrays.toString(chunker.tokenize("I'm going to London")), is(expected));
-    assertThat(Arrays.toString(chunker.tokenize("I’m going to London")), is(expected));  // different apostrophe char
   }
 
   @Test

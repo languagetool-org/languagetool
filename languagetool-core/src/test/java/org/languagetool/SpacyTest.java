@@ -2,11 +2,13 @@ package org.languagetool;
 
 import jep.Jep;
 import jep.SharedInterpreter;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class SpacyTest {
 
   @Test
+  @Ignore("interactive test only")
   public void testSpaceIntegration() {
     try (Jep jep = new SharedInterpreter()) {
       jep.runScript("/home/dnaber/lt/git/languagetool/spacy-test.py");
@@ -15,9 +17,5 @@ public class SpacyTest {
       Object result = jep.getValue("result");
       System.out.println("-->" + result);
     }
-    // Convert the java object returned by Jep and print it out
-    /*println(result.asInstanceOf[ArrayList[Object]].asScala
-      .map(_.asInstanceOf[java.util.List[String]].asScala.mkString(", "))
-      .mkString("|"))*/
   }
 }

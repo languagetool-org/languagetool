@@ -5,17 +5,36 @@ nlp = spacy.load("en_core_web_sm")
 
 def chunking(text):
   doc = nlp(text)
+  map = idxToToken(doc)
   result = []
-  #for token in doc:
-  #  result.append((token.text, token.pos_, token.dep_))
+  handledTokens = []
+  # TODO: verb chunks
   for chunk in doc.noun_chunks:
-      #print(chunk.text, chunk.root.text, chunk.root.dep_,
-      #        chunk.root.head.text)
-      #result.append(chunk.text + " " + chunk.start)
-      #result.append(str(chunk.start)+"-"+str(chunk.end))
-      result.append(str(doc[chunk.start].idx) + "-" + str(doc[chunk.end-1].idx))
-      #print("*"+str(doc[chunk.start].idx))
+      tmpList = []
+      for i in range(doc[chunk.start].idx, doc[chunk.end].idx):
+          try:
+              #print(">" + str(map[i]))
+              if map[i] in handledTokens:
+                  #print("skip, already handled: ", map[i])
+                  None
+              else:
+                  tmpList.append(str(map[i].idx) + "-" + str(map[i].idx + len(map[i])))
+                  handledTokens.append(map[i])
+          except KeyError:
+              None
+      result.append(','.join(tmpList))
   return ' '.join(result)
 
-res = chunking("My red fox jumps over your lazy dog, but.")
+def idxToToken(doc):
+    map = {}
+    for token in doc:
+        print(token.text + ":" + str(token.idx) + " " + str(token.idx + len(token.text) - 1))
+        for i in range(token.idx, token.idx + len(token.text)):  ## TODO: whitespace!
+            map[i] = token
+    return map
+
+text = "My red fox jumps over your lazy dog, but."
+#doc = nlp("My red fox jumps over.")
+res = chunking(text)
+print(map)
 print(res)
