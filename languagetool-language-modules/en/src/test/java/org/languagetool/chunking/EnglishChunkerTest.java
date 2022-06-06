@@ -58,6 +58,27 @@ public class EnglishChunkerTest {
   }
 
   @Test
+  @Ignore("interactive use only")
+  public void testInteractive() {
+    EnglishChunker chunker = new EnglishChunker();
+    //String sentence = "Yankee batters hit the ball well enough to win their first World Series since 2000.";
+    // VPs                              ^^^                      ^^^^^
+    //String sentence = "Mary saw the man through the window.";
+    // VPs                    ^^^
+    // String sentence = "David gave Mary a book.";
+    // VPs                      ^^^^
+    //String sentence = "John has finished the work.";
+    // VPs                    ^^^^^^^^^^^^
+    String sentence = "They do not want to try that.";
+    // VPs                  ^^^^^^^^^^^^^^^^^
+    List<AnalyzedTokenReadings> readingsList = createReadingsList(sentence);
+    chunker.addChunkTags(readingsList);
+    for (AnalyzedTokenReadings atr : readingsList) {
+      System.out.println(atr.getToken() + " " + atr.getChunkTags());
+    }
+  }
+
+  @Test
   public void testAddChunkTagsSingular() throws Exception {
     EnglishChunker chunker = new EnglishChunker();
     JLanguageTool lt = new JLanguageTool(new English());
