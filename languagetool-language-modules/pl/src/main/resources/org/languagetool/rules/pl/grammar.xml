@@ -22324,6 +22324,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
     <category id="TYPOS" name="Prawdopodobne literówki" type="misspelling">
+    <rule id="KILKA_PYTAC" name="„kilka pytać” (kilka pytań)">
+      <pattern>
+        <token regexp="yes">kilka|zadawania|jakichkolwiek|razie|tych|innych|mnóstwo|szereg|parę|do</token>
+        <marker>
+          <token>pytać</token>        
+        </marker>      
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>pytań</suggestion>?</message>
+      <short>Literówka</short>
+      <example correction="pytań">W razie <marker>pytać</marker> zapraszam do kontaktu.</example>
+    </rule>
     <rule id="LAMA_LAMPA" name="„lama sufitowa” (lampa sufitowa)">
       <pattern>
           <unify><feature id="case"/><feature id="number"/><feature id="gender"/>
