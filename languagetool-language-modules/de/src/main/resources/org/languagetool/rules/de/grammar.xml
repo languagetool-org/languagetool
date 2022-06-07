@@ -6546,6 +6546,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Verwechslungen -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
+        <rule id="SONNST_VERB" name="sonnst (sonst)" default="temp_off">
+            <pattern>
+                <marker>
+                    <token>sonnst</token>
+                </marker>
+                <token postag_regexp="yes" postag="VER:.*"></token>
+            </pattern>
+            <message>Meinten Sie <suggestion>sonst</suggestion>? 'Sonnst' ist eine Form des Verbs '(sich) sonnen'.</message>
+            <example correction="sonst">Wir müssen jetzt handeln, <marker>sonnst</marker> ist es zu spät.</example>
+        </rule>
         <rulegroup id="DIENEN_DEINEN" name="dienen vs. deinen">
             <rule>
                 <pattern>
