@@ -28,7 +28,9 @@ import org.apache.ibatis.session.RowBounds;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
+import org.languagetool.language.DefaultLanguageIdentifier;
 import org.languagetool.language.LanguageIdentifier;
+import org.languagetool.language.LanguageIdentifierFactory;
 import org.languagetool.language.identifier.SimpleLangIdentifier;
 import org.languagetool.language.identifier.LanguageDetectionService;
 import org.languagetool.markup.AnnotatedText;
@@ -103,15 +105,14 @@ abstract class TextChecker {
     this.workQueue = workQueue;
     this.reqCounter = reqCounter;
     if (config.isLocalApiMode()) {
+      this.languageIdentifier = LanguageIdentifierFactory.INSTANCE.getLocalLanguageIdentifier(config.preferredLanguages);
       LanguageDetectionService.INSTANCE.setLanguageIdentifier(new SimpleLangIdentifier(config.preferredLanguages));
     } else {
-      this.languageIdentifier = new LanguageIdentifier();
-      if (config.getFasttextBinary() != null && config.getFasttextModel() != null) {
-         this.languageIdentifier.enableFasttext(config.getFasttextBinary(), config.getFasttextModel());
-      }
-      if (config.getNgramLangIdentData() != null) {
-            this.languageIdentifier.enableNgrams(config.getNgramLangIdentData());
-      }
+      this.languageIdentifier = LanguageIdentifierFactory.INSTANCE.getDefaultLanguageIdentifier(
+              null,
+              config.getNgramLangIdentData(),
+              config.getFasttextBinary(),
+              config.getFasttextModel());
     }
     this.executorService = LtThreadPoolFactory.createFixedThreadPoolExecutor(
       LtThreadPoolFactory.TEXT_CHECKER_POOL,
@@ -867,27 +868,17 @@ abstract class TextChecker {
         
     DetectedLanguage detected = null;
     Language lang;
+    
+    String cleanText = languageIdentifier.cleanAndShortenText(text);
+    Optional<DetectedLanguage> detectedLang = languageIdentifier.detectLanguage(cleanText, noopLangs, preferredLangs);
+    if (detectedLang.isPresent()) {
+      detected = detectedLang.get();
+      lang = detectedLang.get().getDetectedLanguage();
+    } else {
+      lang = parseLanguage(fallbackLanguage != null ? fallbackLanguage : "en");
+    }
     //String mode;
     //long t1 = System.nanoTime();
-    if (languageIdentifier != null) {
-      
-      String cleanText = languageIdentifier.cleanAndShortenText(text);
-      detected = languageIdentifier.detectLanguage(cleanText, noopLangs, preferredLangs);
-      if (detected == null) {
-         lang = parseLanguage(fallbackLanguage != null ? fallbackLanguage : "en");
-       } else {
-         lang = detected.getDetectedLanguage();
-       }
-    } else {
-      Optional<DetectedLanguage> detectedLanguage = LanguageDetectionService.INSTANCE.detectLanguage(text, noopLangs, preferredLangs);
-      if (detectedLanguage.isPresent()) {
-        detected = detectedLanguage.get();
-        lang = detectedLanguage.get().getDetectedLanguage();
-      } else {
-        lang = parseLanguage(fallbackLanguage != null ? fallbackLanguage : "en");
-      }
-    }
-    
     //long t2 = System.nanoTime();
     //float runTime = (t2-t1)/1000.0f/1000.0f;
     //System.out.printf(Locale.ENGLISH, "detected " + detected + " using " + mode + " in %.2fms for %d chars\n", runTime, text.length());

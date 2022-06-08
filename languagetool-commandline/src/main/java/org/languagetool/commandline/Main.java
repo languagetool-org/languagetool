@@ -23,8 +23,8 @@ import org.apache.commons.io.input.BOMInputStream;
 import org.languagetool.*;
 import org.languagetool.bitext.TabBitextReader;
 import org.languagetool.language.AmericanEnglish;
+import org.languagetool.language.DefaultLanguageIdentifier;
 import org.languagetool.language.English;
-import org.languagetool.language.LanguageIdentifier;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.bitext.BitextRule;
 import org.languagetool.rules.patterns.AbstractPatternRule;
@@ -479,7 +479,7 @@ class Main {
   }
 
   private Language detectLanguageOfString(String text) {
-    LanguageIdentifier identifier = new LanguageIdentifier();
+    DefaultLanguageIdentifier identifier = new DefaultLanguageIdentifier();
     identifier.enableFasttext(options.getFasttextBinary(), options.getFasttextModel());
     return identifier.detectLanguage(text);
   }

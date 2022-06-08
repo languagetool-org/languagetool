@@ -36,7 +36,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-public class FastTextTest {
+public class FastTextLangIdentifierTest {
 
   private static final File MODEL_PATH = new File("/prg/fastText-0.1.0/data/lid.176.bin");
   private static final File BINARY_PATH = new File("/prg/fastText-0.1.0/fasttext");
@@ -44,7 +44,7 @@ public class FastTextTest {
   @Test
   @Ignore("for interactive use")
   public void testInteractively() throws Exception {
-    FastText ft = new FastText(MODEL_PATH, BINARY_PATH);
+    FastTextLangIdentifier ft = new FastTextLangIdentifier(MODEL_PATH, BINARY_PATH);
     List<String> langCodes = Arrays.asList("en", "de", "fr", "es");
     String s = "PROJECT TAGGING CRITERIA";  // {en=0.0688019}
     //String s = "project tagging criteria";  // {en=0.417927, es=0.0365024}
@@ -57,7 +57,7 @@ public class FastTextTest {
   public void testCaseShouldNotMatter() throws Exception {
     // all-uppercase yields bad results (also see https://github.com/facebookresearch/fastText/issues/1181),
     // so make sure we lowercase input internally
-    FastText ft = new FastText(MODEL_PATH, BINARY_PATH);
+    FastTextLangIdentifier ft = new FastTextLangIdentifier(MODEL_PATH, BINARY_PATH);
     List<String> langCodes = Arrays.asList("en", "de", "fr", "es", "ko");
     String s = "project tagging criteria";
     Map<String, Double> res1 = ft.runFasttext(s, langCodes);
@@ -68,7 +68,7 @@ public class FastTextTest {
   @Test
   @Ignore("for interactive use")
   public void testEverShorterTextWithFastText() throws IOException {
-    FastText ft = new FastText(new File("/prg/fastText-0.9.2/lid.176.bin"), new File("/prg/fastText-0.9.2/fasttext"));
+    FastTextLangIdentifier ft = new FastTextLangIdentifier(new File("/prg/fastText-0.9.2/lid.176.bin"), new File("/prg/fastText-0.9.2/fasttext"));
     //FastText ft = new FastText(new File("/home/languagetool/fasttext/lid.176.bin"), new File("/prg/fastText/fasttext"));
     //FastText ft = new FastText(new File("/home/languagetool/fasttext/lid.176.bin"), new File("/prg/fastText-0.1.0/fasttext"));
     List<String> langs = Arrays.asList("en", "de", "fr", "es", "nl");
@@ -114,7 +114,7 @@ public class FastTextTest {
 
   @Test
   public void testParsing() throws Exception {
-    FastText ft = new FastText();
+    FastTextLangIdentifier ft = new FastTextLangIdentifier();
     List<String> l = Arrays.asList("en", "fy", "de", "es", "nl");
     Map<String, Double> res1 = ft.parseBuffer("__label__nl 0.423696 __label__fy 0.207109\n", l);
     assertThat(res1.size(), is(2));

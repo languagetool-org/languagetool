@@ -18,7 +18,7 @@
  */
 package org.languagetool.dev.eval;
 
-import org.languagetool.language.FastText;
+import org.languagetool.language.FastTextLangIdentifier;
 import org.languagetool.language.NGramLangIdentifier;
 
 import java.io.File;
@@ -43,7 +43,7 @@ class LangIdentExamples {
   private static final String IT = "it";
   private static final String UK = "uk";
 
-  private final FastText ft;
+  private final FastTextLangIdentifier ft;
   private final NGramLangIdentifier ngram;
   private final Map<String,Integer> langTotalCount = new HashMap<>();
   private final Map<String,Integer> langToCorrectCount = new HashMap<>();
@@ -54,7 +54,7 @@ class LangIdentExamples {
       ft = null;
     } else if (MODE.equals("fasttext")) {
       ngram = null;
-      ft = new FastText(MODEL_PATH, BINARY_PATH);
+      ft = new FastTextLangIdentifier(MODEL_PATH, BINARY_PATH);
     } else {
       throw new RuntimeException("MODE not known: " + MODE);
     }

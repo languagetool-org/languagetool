@@ -19,11 +19,10 @@
 package org.languagetool.dev.eval;
 
 import com.google.common.io.CharStreams;
-import org.apache.commons.codec.language.bm.Lang;
 import org.languagetool.DetectedLanguage;
 import org.languagetool.Language;
 import org.languagetool.Languages;
-import org.languagetool.language.LanguageIdentifier;
+import org.languagetool.language.DefaultLanguageIdentifier;
 import org.languagetool.language.identifier.LanguageDetectionService;
 import org.languagetool.language.identifier.SpellcheckLangIdentifier;
 
@@ -40,7 +39,7 @@ import java.util.stream.Collectors;
  */
 class LanguageDetectionMinLengthEval {
 
-  private final LanguageIdentifier languageIdentifier;
+  private final DefaultLanguageIdentifier defaultLanguageIdentifier;
 
   private static final int MIN_INPUT_LEN = 5;
   private static final int MAX_INPUT_LEN = 30;
@@ -53,10 +52,10 @@ class LanguageDetectionMinLengthEval {
     //LanguageDetectionService.INSTANCE.setLanguageIdentifier(new SpellcheckLangIdentifier(Arrays.asList("de-DE", "en-US")));
     //LanguageDetectionService.INSTANCE.setLanguageIdentifier(new SpellcheckLangIdentifier(Arrays.asList()));
 
-    languageIdentifier = new LanguageIdentifier();
-    languageIdentifier.enableNgrams(new File("/home/stefan/Dokumente/languagetool/data/model_ml50_new.zip"));
+    defaultLanguageIdentifier = new DefaultLanguageIdentifier();
+    defaultLanguageIdentifier.enableNgrams(new File("/home/stefan/Dokumente/languagetool/data/model_ml50_new.zip"));
     //languageIdentifier = new CLD2Identifier();
-    languageIdentifier.enableFasttext(new File("/home/stefan/Dokumente/languagetool/data/fasttext/fasttext"), new File("/home/stefan/Dokumente/languagetool/data/fasttext/lid.176.bin"));
+    defaultLanguageIdentifier.enableFasttext(new File("/home/stefan/Dokumente/languagetool/data/fasttext/fasttext"), new File("/home/stefan/Dokumente/languagetool/data/fasttext/lid.176.bin"));
     // Daniel's paths:
     //languageIdentifier.enableFasttext(new File("/home/languagetool/fasttext/fasttext"), new File("/home/languagetool/fasttext/lid.176.bin"));
   }

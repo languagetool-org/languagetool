@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 import java.util.zip.ZipFile;
 
 import static java.lang.StrictMath.*;
-import static org.languagetool.language.LanguageIdentifier.canLanguageBeDetected;
+import static org.languagetool.language.DefaultLanguageIdentifier.canLanguageBeDetected;
 
 public class NGramLangIdentifier {
 

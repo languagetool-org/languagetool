@@ -26,14 +26,14 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-import static org.languagetool.language.LanguageIdentifier.canLanguageBeDetected;
+import static org.languagetool.language.DefaultLanguageIdentifier.canLanguageBeDetected;
 
 /**
  * @since 5.0
  */
-public class FastText {
+public class FastTextLangIdentifier {
 
-  private static final Logger logger = LoggerFactory.getLogger(FastText.class);
+  private static final Logger logger = LoggerFactory.getLogger(FastTextLangIdentifier.class);
   private static final int K_HIGHEST_SCORES = 5;
   private static final int BUFFER_SIZE = 4096;
 
@@ -50,14 +50,14 @@ public class FastText {
     }
 
     /**
-     * Should {@link FastText} be disable after this exception
+     * Should {@link FastTextLangIdentifier} be disable after this exception
     */
     public boolean isDisabled() {
       return disabled;
     }
   }
 
-  public FastText(File modelPath, File binaryPath) throws IOException {
+  public FastTextLangIdentifier(File modelPath, File binaryPath) throws IOException {
     fasttextProcess = new ProcessBuilder(binaryPath.getPath(), "predict-prob", modelPath.getPath(), "-", "" + K_HIGHEST_SCORES).start();
     // avoid buffering, we want to flush/read all data immediately
     // might cause mixup
@@ -66,7 +66,7 @@ public class FastText {
   }
 
   // for tests only
-  FastText() {
+  FastTextLangIdentifier() {
     fasttextProcess = null;
     fasttextIn = null;
     fasttextOut = null;

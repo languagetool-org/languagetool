@@ -23,13 +23,9 @@ package org.languagetool.dev.eval;
 //import org.languagetool.DetectedLanguage;
 //import org.languagetool.Language;
 //import org.languagetool.Languages;
-import org.languagetool.language.LanguageIdentifier;
+import org.languagetool.language.DefaultLanguageIdentifier;
 
-import java.util.List;
-
-import static java.util.stream.Collectors.toList;
-
-public class CLD2Identifier extends LanguageIdentifier {
+public class CLD2IdentifierServer /*extends DefaultLanguageIdentifier*/ {
 
   /*
   public static void main(String[] args) {

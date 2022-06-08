@@ -19,7 +19,7 @@
 package org.languagetool.dev.eval;
 
 import org.languagetool.Language;
-import org.languagetool.language.LanguageIdentifier;
+import org.languagetool.language.DefaultLanguageIdentifier;
 
 /**
  * Manually test the language detector.
@@ -32,8 +32,8 @@ class LanguageDetectionEval2 {
   private final static String text = "Den Vogel kennt man am Gesang, den Topf an dem Klang, den Esel an den Ohren und am Gesang den Toren.";
 
   public static void main(String[] args) {
-    LanguageIdentifier languageIdentifier = new LanguageIdentifier();
-    Language detectedLangObj = languageIdentifier.detectLanguage(text);
+    DefaultLanguageIdentifier defaultLanguageIdentifier = new DefaultLanguageIdentifier();
+    Language detectedLangObj = defaultLanguageIdentifier.detectLanguage(text);
     System.out.println("'" + text + "'");
     System.out.println("=> " + detectedLangObj);
   }

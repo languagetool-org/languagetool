@@ -21,9 +21,8 @@ package org.languagetool.dev.eval;
 import com.google.common.io.CharStreams;
 import org.languagetool.Language;
 import org.languagetool.Languages;
-import org.languagetool.language.LanguageIdentifier;
+import org.languagetool.language.DefaultLanguageIdentifier;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -39,12 +38,12 @@ class LanguageDetectionEval {
 
   private static final int MIN_CHARACTERS = 10;
 
-  private final LanguageIdentifier languageIdentifier;
+  private final DefaultLanguageIdentifier defaultLanguageIdentifier;
 
   private int totalInputs = 0;
 
   private LanguageDetectionEval() {
-    languageIdentifier = new LanguageIdentifier();
+    defaultLanguageIdentifier = new DefaultLanguageIdentifier();
     //languageIdentifier.enableFasttext(new File("/path/to/fasttext/binary"), new File("/path/to/fasttext/model"));
     // Daniel's paths:
     //languageIdentifier.enableFasttext(new File("/home/languagetool/fasttext/fasttext"), new File("/home/languagetool/fasttext/lid.176.bin"));
@@ -78,7 +77,7 @@ class LanguageDetectionEval {
     int checks = 0;
     for (int i = threshold; i < line.length(); i++) {
       String text = line.substring(0, i);
-      Language detectedLangObj = languageIdentifier.detectLanguage(text);
+      Language detectedLangObj = defaultLanguageIdentifier.detectLanguage(text);
       checks++;
       totalInputs++;
       String detectedLang = null;

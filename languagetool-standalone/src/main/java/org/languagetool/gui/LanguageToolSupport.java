@@ -25,7 +25,7 @@ import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.MultiThreadedJLanguageTool;
 import org.languagetool.UserConfig;
-import org.languagetool.language.LanguageIdentifier;
+import org.languagetool.language.DefaultLanguageIdentifier;
 import org.languagetool.rules.*;
 
 import javax.swing.*;
@@ -68,7 +68,7 @@ class LanguageToolSupport {
   private static final int MAX_CATEGORIES_PER_MENU = 12;
 
   private final UndoRedoSupport undo;
-  private final LanguageIdentifier langIdentifier;
+  private final DefaultLanguageIdentifier langIdentifier;
   private final JFrame frame;
   private final JTextComponent textComponent;
   private final EventListenerList listenerList = new EventListenerList();
@@ -105,7 +105,7 @@ class LanguageToolSupport {
     ruleMatches = new ArrayList<>();
     documentSpans = new ArrayList<>();    
     this.undo = support;
-    this.langIdentifier = new LanguageIdentifier();
+    this.langIdentifier = new DefaultLanguageIdentifier();
     init();
   }
 

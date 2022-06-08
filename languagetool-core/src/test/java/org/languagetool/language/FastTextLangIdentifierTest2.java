@@ -38,7 +38,7 @@ import static org.junit.Assert.assertEquals;
  * This is a (failed) attempt at reproducing that.
  * Removing buffering from the communication with fasttext is an attempt at fixing it.
  */
-public class FastTextTest2 {
+public class FastTextLangIdentifierTest2 {
   
   private static final List<String> languages = Arrays.asList("en", "es", "de", "fr");
   private static final List<Entry<String, String>> TESTED_ENTRIES =
@@ -48,11 +48,11 @@ public class FastTextTest2 {
                   );
   private static final int THREAD_COUNT = 11;
 
-  private FastText instance;
+  private FastTextLangIdentifier instance;
 
   @Before
   public void setUp() throws IOException {
-    instance = new FastText(new File("lid.176.bin"),
+    instance = new FastTextLangIdentifier(new File("lid.176.bin"),
                             new File("fasttext"));
   }
 
