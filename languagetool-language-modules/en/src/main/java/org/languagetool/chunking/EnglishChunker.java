@@ -19,23 +19,28 @@
 package org.languagetool.chunking;
 
 import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jep.Jep;
-import jep.SharedInterpreter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.tools.Tools;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 
 /**
  * SpaCy-based chunker.
  */
 public class EnglishChunker implements Chunker {
+
+  private static final java.net.URL SERVER_URL = Tools.getUrl("http://localhost:5000/");
 
   private final EnglishChunkFilter chunkFilter;
   private final ObjectMapper mapper;
@@ -52,27 +57,43 @@ public class EnglishChunker implements Chunker {
     for (AnalyzedTokenReadings tokenReading : tokenReadings) {
       sb.append(tokenReading.getToken());
     }
-    try (Jep jep = new SharedInterpreter()) {
-      jep.runScript("/home/dnaber/lt/git/languagetool/spacy-test.py");  // TODO: call once??
-      jep.eval("result = chunking('" + sb.toString().replace("'", "\\'") + "')");
-      String result = (String) jep.getValue("result");
-      try {
-        JsonNode jsonNode = mapper.readTree(result);
-        JsonNode nounChunksList = jsonNode.get("noun_chunks");
-        List<ChunkTaggedToken> chunkTags = getChunkTaggedTokens(tokenReadings, nounChunksList, sb.toString());
-        assignVerbPhrases(tokenReadings, jsonNode.get("tokens"), chunkTags);
-        //
-        // TODO: assign ADVP (50x), ADJP (48x), PP (81x), SBAR (38x), PRT (11x)
-        //
-        Collections.sort(chunkTags);
-        List<ChunkTaggedToken> filteredChunkTags = chunkFilter.filter(chunkTags);
-        assignChunksToReadings(filteredChunkTags);
-      } catch (JsonProcessingException e) {
-        throw new RuntimeException(e);
-      }
+    try {
+      JsonNode json = getSpacyResultsViaHttp(sb.toString(), SERVER_URL);
+      JsonNode nounChunksList = json.get("noun_chunks");
+      List<ChunkTaggedToken> chunkTags = getChunkTaggedTokens(tokenReadings, nounChunksList, sb.toString());
+      //assignVerbPhrases(tokenReadings, json.get("tokens"), chunkTags);
+      //
+      // TODO: assign ADVP (50x), ADJP (48x), PP (81x), SBAR (38x), PRT (11x)
+      //
+      Collections.sort(chunkTags);
+      List<ChunkTaggedToken> filteredChunkTags = chunkFilter.filter(chunkTags);
+      assignChunksToReadings(filteredChunkTags);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
     long t2 = System.currentTimeMillis();
-    System.out.println("time: " + (t2-t1) + "ms for " + sb.length()); // TODO: remove
+    //System.out.println("time: " + (t2-t1) + "ms for " + sb.length()); // TODO: remove
+  }
+
+  private JsonNode getSpacyResultsViaHttp(String text, URL url) throws IOException {
+    HttpURLConnection huc = (HttpURLConnection) url.openConnection();
+    HttpURLConnection.setFollowRedirects(false);
+    huc.setConnectTimeout(1000);
+    huc.setReadTimeout(3_000);  // TODO: enough for long texts?
+    // longer texts take longer to check, so increase the timeout:
+    huc.setRequestMethod("POST");
+    huc.setDoOutput(true);
+    try {
+      huc.connect();
+      try (DataOutputStream wr = new DataOutputStream(huc.getOutputStream())) {
+        String urlParameters = "text=" + URLEncoder.encode(text, "UTF-8");
+        wr.write(urlParameters.getBytes(StandardCharsets.UTF_8));
+      }
+      InputStream is = huc.getInputStream();
+      return mapper.readTree(is);
+    } finally {
+      huc.disconnect();
+    }
   }
 
   private void assignVerbPhrases(List<AnalyzedTokenReadings> tokenReadings, JsonNode spacyTokens, List<ChunkTaggedToken> chunkTags) {
@@ -139,6 +160,7 @@ public class EnglishChunker implements Chunker {
       }
       pos = tokenEnd;
     }
+    //System.out.println("No ATR found for " + startPos + "-" + endPos + " in " + tokenReadings);
     return null;
   }
 
