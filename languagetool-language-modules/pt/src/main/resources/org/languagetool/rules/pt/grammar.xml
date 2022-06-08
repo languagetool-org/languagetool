@@ -12148,6 +12148,30 @@ As forças estão organizadas numa hierarquia C2.
  <category id='MISC' name="Sem Categoria Definida" type="uncategorized">
 
 
+    <rule id='SUBSTANTIVO_PLURAL_E_CHAVE_BASE' name="Substantivo -chave/-base">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-06-08 (Checked/Enhanced) (5-JUN-2022+)      -->
+      <antipattern>
+          <token postag='NC.P.+' postag_regexp='yes'/>
+		  <token regexp='yes'>[-]</token>
+          <token regexp='yes'>chave|base</token>	  
+      </antipattern>
+      <pattern>
+        <marker>
+          <token postag='NC.P.+' postag_regexp='yes'>
+			<exception postag_regexp='yes' postag='SPS.+|AQ.+'/>
+		  </token>
+		  <token min="0" max="1" regexp='yes'>[-]</token>
+          <token regexp='yes'>chaves?|bases?</token>
+        </marker>
+      </pattern>
+      <message>Empregue a forma composta nesta expressão académica/científica.</message>
+	  <suggestion>\1-<match no='3' postag='NC(.).000' postag_regexp="yes" postag_replace='NC$1S000'/></suggestion>
+      <example correction="conceitos-chave">Na tese temos vários <marker>conceitos chave</marker>.</example>
+	  <example>Jorge Forbes foi um interlocutor inquieto, identificando pontos-chave, provocando, estimulando.</example>
+	  <example>Palavras-chave: Sustentabilidade na Arquitetura, desenvolvimento sustentável, recursos naturais.</example>
+    </rule>
+
+
     <rulegroup id='À_MINHA-TUA-SUA-VOSSA_VERB' name="à + minha/tua/sua/vossa(s) + verb" >
     <!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-09-07 (2-JUL-2020+) -->
 		<rule>
@@ -15279,19 +15303,7 @@ Apesar de não serem capazes de arrasar a cidade. → Apesar de não conseguirem
       <example correction="conseguirem">Apesar de não <marker>serem capazes de</marker> arrasar a cidade.</example>
     </rule>
 
-    <rule id='SUBSTANTIVO_PLURAL_E_CHAVE' name="Substantivo-chave">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-08-23      -->
-      <pattern>
-        <marker>
-          <token postag='NC[CFM]P000' postag_regexp='yes'/>
-          <token>chave</token>
-        </marker>
-      </pattern>
-      <message>Utilize a forma composta.</message>
-	  <suggestion>\1-chave</suggestion>
-      <example correction="conceitos-chave">Na tese temos vários <marker>conceitos chave</marker>.</example>
-    </rule>
-	
+
     <!-- MUITO FRIO -->
 	<!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-02 (2-JUL-2020+)     -->
     <rule id='MUITO_FRIO' name="Muito frio">
