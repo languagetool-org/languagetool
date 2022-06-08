@@ -5149,6 +5149,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="N.*|_GN_.*" postag_regexp="yes" min="1" max="3"></token>
                 <token>o</token>
                 <token postag="N.*|_GN_.*" postag_regexp="yes"></token>
+                <example>De pequeños, hiciera frío o calor, pasábamos todo el tiempo jugando al fútbol.</example>
+            </antipattern>
+            <antipattern>
+                <token postag="V.S.*" postag_regexp="yes" inflected="yes">tratar</token>
+                <token regexp="yes" skip="-1">de|del</token>
+                <token>o</token>
+                <example>Se trate de plásticos, madera, cerámica, vidrio, tela, plásticos bicapa, metales, cartón o acrílicos, ¡pregúntenos!</example>
             </antipattern>
             <antipattern>
                 <token postag="A.*|V.P.*" postag_regexp="yes"/>
@@ -5240,7 +5247,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Quizá a Tom le guste nadar.</example>
             <example>Que se haga la voluntad del Señor.</example>
             <example>Seguramente, muchos hayan borrado estos Epic Fails de sus curriculums.</example>
-            <example>De pequeños, hiciera frío o calor, pasábamos todo el tiempo jugando al fútbol.</example>
             <example>Para recibir informes sobre costos y nuestros diferentes tipos de apoyos financieros haz click en el botón de abajo para llenar el formulario.</example>
             <example>¡Dios me libre! </example>
             <example>Tan pronto como llegues, ella va a hacer algo de comer.</example>
@@ -5252,6 +5258,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Que nadie se meta donde no le llamen.</example>
             <example>Del agua mansa me libre Dios,</example>
             <example>A tal efecto, una vez el pedido haya sido preparado, nos pondremos en contacto con usted.</example>
+            <example>Seguramente se trate de un malentendido.</example>
             <!-- Anyway we don't have a good suggestion for 'haya' -->
             <example>Haya luz.</example>
         </rule>
@@ -11432,17 +11439,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>\1\3</suggestion>
                 <example correction="sobreprotegen">Los padres la <marker>sobre protegen</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>lanza</token>
                     <token min="0">-</token>
-                    <token regexp="yes">misiles|cohetes|</token>
+                    <token regexp="yes">misiles|cohetes</token>
                 </pattern>
                 <message>Como sustantivo se escriben junto</message>
                 <suggestion>\1\3</suggestion>
                 <url>https://www.fundeu.es/recomendacion/lanzamisiles-y-lanzacohetes-sin-separacion/</url>
                 <example correction="lanzamisiles">Un <marker>lanza misiles</marker></example>
                 <example correction="lanzamisiles">Un <marker>lanza-misiles</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>siempre</token>
+                    <token>-</token>
+                    <token regexp="yes">vivas?</token>
+                </pattern>
+                <message>Como sustantivo se escriben junto</message>
+                <suggestion>\1\3</suggestion>
+                <example correction="siemprevivas">Unas flores <marker>siempre-vivas</marker></example>
             </rule>
         </rulegroup>
         <rule id="TIK_TOK" name="TikTok">
