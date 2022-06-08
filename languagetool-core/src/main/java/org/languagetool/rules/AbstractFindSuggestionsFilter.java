@@ -44,7 +44,7 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
     
-//    if (match.getSentence().getText().contains("saperçoit")) {
+//    if (match.getSentence().getText().contains("Faltes que tiene")) {
 //      int ii=0;
 //      ii++;
 //    }
@@ -66,7 +66,8 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
     if (wordFrom != null && desiredPostag != null) {
       int posWord = 0;
       if (wordFrom.equals("marker")) {
-        while (posWord < patternTokens.length && patternTokens[posWord].getStartPos() < match.getFromPos()) {
+        while (posWord < patternTokens.length && (patternTokens[posWord].getStartPos() < match.getFromPos()
+            || patternTokens[posWord].isSentenceStart())) {
           posWord++;
         }
         posWord++;
@@ -146,13 +147,17 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
     boolean replacementsUsed = false;
     if (generateSuggestions) {
       for (String s : match.getSuggestedReplacements()) {
-        if (s.contains("{suggestion}")) {
+        if (s.contains("{suggestion}") || s.contains("{Suggestion}")) {
           replacementsUsed = true;
           for (String s2 : replacements) {
             if (definitiveReplacements.size() >= MAX_SUGGESTIONS) {
               break;
             }
-            definitiveReplacements.add(s.replace("{suggestion}", s2));
+            if (s.contains("{suggestion}")) {
+              definitiveReplacements.add(s.replace("{suggestion}", s2));
+            } else {
+              definitiveReplacements.add(s.replace("{Suggestion}", StringTools.uppercaseFirstChar(s2)));
+            }
           }
         } else {
           definitiveReplacements.add(s);
