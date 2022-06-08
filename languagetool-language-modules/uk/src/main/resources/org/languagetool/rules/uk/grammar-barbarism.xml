@@ -443,16 +443,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </antipattern>
         <pattern>
           <token>на</token>
-          <token postag_regexp="yes" postag="adj:f:v_mis.*"/>
+          <token postag_regexp="yes" postag="(adj|numr):f:v_mis.*"/>
           <token>мові</token>
         </pattern>
-        <message>Правильно: <suggestion><match no="2" postag_regexp="yes" postag="adj:f:v_mis(.*)" postag_replace="adj:f:v_oru$1"/> мовою</suggestion></message>
+        <message>Правильно: <suggestion><match no="2" postag_regexp="yes" postag="(adj|numr):f:v_mis(.*)" postag_replace="$1:f:v_oru.*"/> мовою</suggestion></message>
         <example correction="Китайською мовою"><marker>На китайській мові</marker>.</example>
+        <example correction="одною мовою|однією мовою"><marker>на одній мові</marker>.</example>
         <example>в українській мові</example>
         <example>давати заробляти росіянам на українській мові</example>
         <example>котрий розуміється на їхній мові</example>
         <example>У прийнятті рішення, на якій мові зупинитися</example>
       </rule>
+
       <rule>
         <pattern>
           <token>на</token>
@@ -762,18 +764,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 -->
-
-    <rule id="VYBACHAYUS" name="Вибачаюсь замість пробачте">
-      <pattern>
-        <marker>
-          <token>вибачаюсь</token>
-        </marker>
-        <token regexp="yes">[,:]</token>
-      </pattern>
-      <message>Правильно: <suggestion>вибачте мені</suggestion>, <suggestion>пробачте</suggestion>, <suggestion>даруйте</suggestion>, <suggestion>перепрошую</suggestion></message>
-      <example correction="вибачте мені|пробачте|даруйте|перепрошую">Це <marker>вибачаюсь</marker>, зовсім негарно.</example>
-      <example>Я вибачаюсь і йду</example>
-    </rule>
 
     <rule id="VIDDAVATY_SOBI_ZVIT" name="Віддавати собі звіт">
       <pattern>
@@ -2443,7 +2433,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes" postag_regexp="yes" postag="numr:.:v_naz">один</token>
           <token inflected="yes" postag_regexp="yes" postag="adj.*v_(dav|rod|oru).*">другий</token>
         </pattern>
-        <message>Правильно: <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="(adj:.:v_(dav|rod|oru)).*" postag_replace="$1.*">один</match></suggestion></message>
+        <message>Правильно: <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="adj:(.:v_(dav|rod|oru)).*" postag_replace="numr:$1.*">один</match></suggestion></message>
         <url>http://kurylo.wikidot.com/23-deiaki-khybno-vzhyvani-slova</url>
         <example correction="один одного">Стріляють <marker>один другого</marker>.</example>
         <example correction="один одному"><marker>один другому</marker> допомагають.</example>
@@ -2457,7 +2447,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token postag_regexp="yes" postag="prep.*"/>
           <token inflected="yes">другий</token>
         </pattern>
-        <message>Правильно: <suggestion><match no="1"/> <match no="2"/> <match no="3" postag_regexp="yes" postag="(adj:.:v_...)(.*?):&amp;numr" postag_replace="$1$2:&amp;pron:dem:ind">один</match></suggestion></message>
+        <message>Правильно: <suggestion><match no="1"/> <match no="2"/> <match no="3" postag_regexp="yes" postag="adj:(.:v_...(:r(in)?anim)?).*" postag_replace="numr:$1">один</match></suggestion></message>
         <url>http://kurylo.wikidot.com/23-deiaki-khybno-vzhyvani-slova</url>
         <example correction="один коло одного"><marker>один коло другого</marker></example>
         <example correction="одне коло одного"><marker>одне коло другого</marker></example>
@@ -4531,6 +4521,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rulegroup>
 
     <rulegroup id="PO_VS_CHEREZ" name="По замість через">
+
+      <rule>
+        <pattern>
+          <token>по</token>
+          <token>причині</token>
+        </pattern>
+        <message>Замість «по» тут краще вживати «через», «з»</message>
+        <suggestion>через причину</suggestion>
+        <suggestion>з причини</suggestion>
+        <example correction="через причину|з причини"><marker>по причині</marker> бідності</example>
+      </rule>
+
       <rule>
         <pattern>
           <token>по</token>
@@ -4539,8 +4541,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
               <feature id="gender"/>
               <feature id="case"/>
           -->
-          <token postag_regexp="yes" postag="adj:[fp]:v_(dav|mis).*"/>
-          <token postag_regexp="yes" postag="noun:inanim:[fp]:v_(dav|mis).*" inflected="yes">причина</token>
+          <token postag_regexp="yes" postag="(adj|numr):[fp]:v_(dav|mis).*"/>
+          <token postag_regexp="yes" postag="noun:inanim:[fp]:v_(dav|mis)" inflected="yes">причина</token>
           <!--
               </unify>
           -->
@@ -4551,28 +4553,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             /></suggestion>
             </message>
         -->
-        <message>Правильно: <suggestion>через <match no="2" postag_regexp="yes" postag="(adj:[fp]):(?:v_dav|v_mis)(.*)" postag_replace="$1:v_zna(:rinanim)?$2"/> <match
-          no="3" postag_regexp="yes" postag="(noun:inanim:[fp]):v_...(.*)" postag_replace="$1:v_zna$2"/></suggestion>, <suggestion>з <match
-          no="2" postag_regexp="yes" postag="(adj:[fp]):(?:v_dav|v_mis)(.*)" postag_replace="$1:v_rod$2"/> <match
-          no="3" postag_regexp="yes" postag="(noun:inanim:[fp]):v_...(.*)" postag_replace="$1:v_rod$2"/></suggestion></message>
+        <message>Замість «по» тут краще вживати «через», «з»:
+        <suggestion>через <match 
+          no="2" postag_regexp="yes" postag="((?:adj|numr):[fp]):(?:v_dav|v_mis)(.*)" postag_replace="$1:v_zna(:rinanim)?$2"/> <match
+          no="3" postag_regexp="yes" postag="(noun:inanim:[fp]):v_...(.*)" postag_replace="$1:v_zna$2"/></suggestion></message>
+        <suggestion>з <match
+          no="2" postag_regexp="yes" postag="((?:adj|numr):[fp]):(?:v_dav|v_mis)(.*)" postag_replace="$1:v_rod$2"/> <match
+          no="3" postag_regexp="yes" postag="(noun:inanim:[fp]):v_...(.*)" postag_replace="$1:v_rod$2"/></suggestion>
         <example correction="через технічні причини|з технічних причин"><marker>по технічним причинам</marker></example>
         <example correction="через таку причину|з такої причини"><marker>по такій причині</marker></example>
+        <example correction="через одну причину|з одної причини|з однієї причини"><marker>по одній причині</marker>.</example>
+        <example correction="через два причини|через двох причини|через двоє причини|через дві причини|з двох причин"><marker>по двом причинам</marker>.</example>
+        <example correction="через багато причини|через багатьох причини|з багатьох причин"><marker>по багатьох причинах</marker>.</example>
         <example>через технічні причини</example>
       </rule>
-
+<!--
       <rule>
         <pattern>
           <token>по</token>
-          <token postag_regexp="yes" postag="numr:p:v_(dav|mis).*"/>
+          <token postag_regexp="yes" postag="numr:[fp]:v_(dav|mis).*"/>
           <token postag_regexp="yes" postag="noun:inanim:[fp]:v_(dav|mis).*" inflected="yes">причина</token>
         </pattern>
-        <message>Правильно: <suggestion>через <match no="2" postag_regexp="yes" postag="(numr:p):(?:v_dav|v_mis)(.*)" postag_replace="$1:v_naz?$2"/> <match
-          no="3" postag_regexp="yes" postag="(noun:inanim:p):v_...(.*)" postag_replace="$1:v_rod$2"/></suggestion>, <suggestion>з <match
-          no="2" postag_regexp="yes" postag="(numr:p):(?:v_dav|v_mis)(.*)" postag_replace="$1:v_rod$2"/> <match
-          no="3" postag_regexp="yes" postag="(noun:inanim:p):v_...(.*)" postag_replace="$1:v_rod$2"/></suggestion></message>
+        <message>Правильно: <suggestion>через <match no="2" postag_regexp="yes" postag="(numr:[fp]):(?:v_dav|v_mis)(.*)" postag_replace="$1:v_zna$2"/> <match
+          no="3" postag_regexp="yes" postag="(noun:inanim:[fp]):v_..." postag_replace="$1:v_zna"/></suggestion>, <suggestion>з <match
+          no="2" postag_regexp="yes" postag="(numr:[fp]):(?:v_dav|v_mis)(.*)" postag_replace="$1:v_rod$2"/> <match
+          no="3" postag_regexp="yes" postag="(noun:inanim:[fp]):v_..." postag_replace="$1:v_rod"/></suggestion></message>
         <example correction="через багато причин|з багатьох причин"><marker>по багатьох причинах</marker></example>
+        <example correction="через одну причину|з одної причини|з однієї причини"><marker>по одній причині</marker>.</example>
+        <example correction="через дві причини|з двох причин"><marker>по двом причинам</marker>.</example>
         <example>через технічні причини</example>
       </rule>
+-->
     </rulegroup>
 
     <rulegroup id="PO_VS_OTHER" name="По замість інших">
@@ -5381,11 +5392,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rule id="PERESLIDUVATY_METU" name="Переслідувати мету">
       <pattern>
         <token inflected="yes">переслідувати</token>
-        <token postag_regexp="yes" postag="adj:f:v_zna.*" min="0"/>
+        <token postag_regexp="yes" postag="(adj|numr):f:v_zna.*" min="0"/>
         <token>мету</token>
       </pattern>
       <message>Правильно: <suggestion>мати на меті</suggestion>, <suggestion>ставити собі (мати) за мету</suggestion></message>
       <example correction="мати на меті|ставити собі (мати) за мету">команди <marker>переслідують різну мету</marker> в чемпіонаті</example>
+      <example correction="мати на меті|ставити собі (мати) за мету">команди <marker>переслідують одну мету</marker> в чемпіонаті</example>
     </rule>
 
     <rule id="KORYSNA_META" name="Корисна мета">
@@ -6729,11 +6741,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </antipattern>
         <pattern>
           <marker>
-            <token postag_regexp="yes" postag="adj:m:v_oru.*" min="0"/>
+            <token postag_regexp="yes" postag="(adj|numr):m:v_oru.*" min="0"/>
             <token>вечором</token>
           </marker>
         </pattern>
-        <message>У функції прислівника замість «вечором» треба писати: <suggestion>увечері</suggestion>, <suggestion><match no="1" postag_regexp="yes" postag="adj:m:v_oru(.*)" postag_replace="adj:m:v_rod$1"/> вечора</suggestion></message>
+        <message>У функції прислівника замість «вечором» треба писати: <suggestion>увечері</suggestion></message>
+        <suggestion><match no="1" postag_regexp="yes" postag="(adj|numr):m:v_oru(.*)" postag_replace="$1:m:v_rod$2"/> вечора</suggestion>
         <example correction="увечері|вечора">вчора <marker>вечором</marker>.</example>
         <example correction="увечері|одного вечора"><marker>одним вечором</marker>.</example>
         <example>тікаючи перед вечором</example>

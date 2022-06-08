@@ -795,6 +795,8 @@ public class TokenAgreementAdjNounRuleTest {
     assertEmptyMatch("називає й традиційні корупцію, «відкати», хабарі");
     assertEmptyMatch("державні Ощадбанк, «Укргазбанк»");
     assertEmptyMatch("коринфський з іонійським ордери");
+    assertEmptyMatch("від однієї й другої сторін");
+    assertEmptyMatch("під’їздить один, другий автобуси");
 //    assertEmptyMatch("можуть зробити доступнішими фосфор чи калій");
     assertEmptyMatch("зв'язаних ченця з черницею");
     assertEmptyMatch("на зарубаних матір з двома синами");

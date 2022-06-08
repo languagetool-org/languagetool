@@ -340,7 +340,7 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
     }
   }
 
-  private static final List<String> LIKELY_V_KLY = Arrays.asList("суде", "роде", "заходе");
+  private static final List<String> LIKELY_V_KLY = Arrays.asList("суде", "роде", "заходе", "місяченьку");
   private boolean likelyVklyContext(AnalyzedTokenReadings[] tokens, int i) {
     if( LIKELY_V_KLY.contains(tokens[i].getToken().toLowerCase()) )
       return true;

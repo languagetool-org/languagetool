@@ -119,6 +119,25 @@
     <example type="untouched">дорожному</example>
   </rule>
 
+  <rule name="Паралельні альтернативні форми з малої" id="parallel_alt_forms_small_prop">
+    <pattern>
+      <marker>
+        <and>
+          <token case_sensitive="yes" inflected="yes" regexp="yes">(росія|путін|рф|москва)(-.+)?</token>
+          <token case_sensitive="yes" inflected="yes" regexp="yes">(Росія|Путін|Рф|Москва)(-.+)?</token>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="noun:inanim:.*?prop:geo:alt" />
+    <example type="ambiguous"
+        inputform="Росію[Росія/noun:inanim:f:v_zna:prop:geo,росія/noun:inanim:f:v_zna:prop:geo:alt]"
+        outputform="Росію[Росія/noun:inanim:f:v_zna:prop:geo]">на <marker>Росію</marker>.</example>
+    <example type="ambiguous"
+        inputform="Москву-ріку[Москва-ріка/noun:inanim:f:v_zna:prop:geo,москва-ріка/noun:inanim:f:v_zna:prop:geo:alt]"
+        outputform="Москву-ріку[Москва-ріка/noun:inanim:f:v_zna:prop:geo]">на <marker>Москву-ріку</marker>.</example>
+    <example type="untouched">на росію</example>
+  </rule>
+
 <!--
   <rule name="Точок і точка" id="tochok">
     <pattern>
@@ -2467,6 +2486,26 @@
     <example type="untouched">Він налягав, щоб вона й одяглася відповідно.</example>
   </rule>
 
+  <rule name="Прийменник та частка 'за'" id="PREP_OR_PART_ZA">
+    <antipattern>
+      <token>що</token>
+      <token>за</token>
+      <token postag_regexp="yes" postag="noun.*v_zna.*"/>
+    </antipattern>
+    <pattern>
+      <marker>
+        <token>за</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="prep.*|adv.*|&lt;.*"/>
+    <example type="ambiguous"
+        inputform="за[за/adv:&amp;predic,за/part,за/prep]"
+        outputform="за[за/adv:&amp;predic,за/prep]"
+        >Потрапляти <marker>за</marker> грати.
+      </example>
+    <example type="untouched">що за гриби.</example>
+  </rule>
+
   <rule name="Прийменник та прислівник 'за'" id="PREP_OR_ADV_ZA">
     <pattern>
       <marker>
@@ -2480,7 +2519,7 @@
     </pattern>
     <disambig action="filter" postag="prep.*|&lt;.*"/>
     <example type="ambiguous"
-        inputform="за[за/adv,за/prep]"
+        inputform="за[за/adv:&amp;predic,за/prep]"
         outputform="за[за/prep]"
         >Потрапляти <marker>за</marker> грати.
       </example>

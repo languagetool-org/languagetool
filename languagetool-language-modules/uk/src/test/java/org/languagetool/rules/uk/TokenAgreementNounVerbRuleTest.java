@@ -302,6 +302,7 @@ public class TokenAgreementNounVerbRuleTest {
     assertEmptyMatch("Тато і Юзь Федорків були прикладом");
     assertEmptyMatch("Клочкова ти Лисогор перемагають на своїх дистанціях");
     assertEmptyMatch("він особисто й облдержадміністрація винесли");
+    assertEmptyMatch("тисяча й одна ознака вказують");
     
     assertEmptyMatch("і “більшовики”, і Президент звинуватили опозицію у зриві");
     assertEmptyMatch("І “швидка“, і міліція приїхали майже вчасно");

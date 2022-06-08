@@ -363,7 +363,7 @@ public final class TokenAgreementNounVerbExceptionHelper {
           .limit(7)
           .target(Condition.token(TokenAgreementAdjNounExceptionHelper.CONJ_FOR_PLURAL_PATTERN))
 //          .skip(Condition.postag(Pattern.compile("conj.*|.*pron.*")).negate())
-          .skip(Condition.postag(Pattern.compile("(noun.*?v_naz|adj:.:v_naz|adv|part).*"))) //,
+          .skip(Condition.postag(Pattern.compile("(noun.*?v_naz|(adj|numr):.:v_naz|adv|part).*"))) //,
 //              Condition.token(LemmaHelper.QUOTES_AND_PARENTH_PATTERN))
 //              Condition.postag(Pattern.compile("conj.*")).negate())
           .mBefore(tokens, nounPos-1);
