@@ -2368,6 +2368,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rulegroup id="comma_tomuscho" name="Потрібна кома перед або всередині «тому що»">
+      <rule>
+        <pattern>
+          <token>тому
+            <exception scope="previous">,</exception>
+          </token>
+          <token>що</token>
+        </pattern>
+        <message>Якщо «тому що» можна замінити на «бо», кому ставимо перед «тому що». Якщо ж така заміна неможлива, але можна поставити запитання до слова «тому», кома має стояти після «тому».</message>
+        <suggestion>, \1 \2</suggestion>
+        <suggestion>\1, \2</suggestion>
+        <example correction=", тому що|тому, що">спізнився<marker> тому що</marker> проспав.</example>
+        <example correction=", тому що|тому, що">спізнився не<marker> тому що</marker> проспав, ...</example>
+      </rule>
+    </rulegroup>
+
   <!-- 
       <rule>
         <pattern>
