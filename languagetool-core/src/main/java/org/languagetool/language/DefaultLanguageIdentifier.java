@@ -23,17 +23,20 @@ import com.optimaize.langdetect.LanguageDetectorBuilder;
 import com.optimaize.langdetect.ngram.NgramExtractors;
 import com.optimaize.langdetect.profiles.LanguageProfile;
 import com.optimaize.langdetect.profiles.LanguageProfileReader;
-import com.optimaize.langdetect.text.*;
+import com.optimaize.langdetect.text.RemoveMinorityScriptsTextFilter;
+import com.optimaize.langdetect.text.TextObjectFactory;
+import com.optimaize.langdetect.text.TextObjectFactoryBuilder;
+import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.noop.NoopLanguage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 /**
  * Identify the language of a text. Note that some languages might never be
@@ -70,7 +73,6 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier{
 
   private final LanguageDetector languageDetector;
   private final TextObjectFactory textObjectFactory;
-  private final UnicodeBasedLangIdentifier unicodeIdentifier = new UnicodeBasedLangIdentifier();
 
   private FastTextLangIdentifier fastTextLangIdentifier;
   private NGramLangIdentifier ngram;
@@ -111,7 +113,7 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier{
     }
   }
 
-  public void enableFasttext(File fasttextBinary, File fasttextModel) {
+  void enableFasttext(File fasttextBinary, File fasttextModel) {
     if (fasttextBinary != null && fasttextModel != null) {
       try {
         fastTextLangIdentifier = new FastTextLangIdentifier(fasttextModel, fasttextBinary);
@@ -127,7 +129,7 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier{
     return fastTextLangIdentifier != null;
   }
 
-  public void enableNgrams(File ngramDir) {
+  void enableNgrams(File ngramDir) {
     if (ngramDir != null) {
       try {
         logger.info("Loading ngram data for language identification from " + ngramDir + "...");
@@ -177,9 +179,14 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier{
    * @return language or {@code null} if language could not be identified
    */
   @Nullable
+  @Override
   public Language detectLanguage(String cleanText) {
-    Optional<DetectedLanguage> detectedLanguage = detectLanguage(cleanText, Collections.emptyList(), Collections.emptyList());
-    return detectedLanguage.map(DetectedLanguage::getDetectedLanguage).orElse(null);
+    DetectedLanguage detectedLanguage = detectLanguage(cleanText, Collections.emptyList(), Collections.emptyList());
+    if (detectedLanguage == null) {
+      return null;
+    } else {
+      return detectedLanguage.getDetectedLanguage();
+    }
   }
 
   /**
@@ -189,7 +196,7 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier{
   @Nullable
   @Experimental
   DetectedLanguage detectLanguageWithDetails(String cleanText) {
-    return detectLanguage(cleanText, Collections.emptyList(), Collections.emptyList()).orElse(null);
+    return detectLanguage(cleanText, Collections.emptyList(), Collections.emptyList());
   }
   
   /**
@@ -199,29 +206,16 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier{
    * @since 4.4 (new parameter noopLangs, changed return type to DetectedLanguage)
    */
   @Override
-  public Optional<DetectedLanguage> detectLanguage(String cleanText, List<String> noopLangsTmp, List<String> preferredLangsTmp) {
-    Objects.requireNonNull(noopLangsTmp);
-    Objects.requireNonNull(preferredLangsTmp);
-    // Chrome sends 'nn' (Nynorsk) or 'nb' (Bokmal), but fasttext detects 'no', so we have to map, and 
-    // Bokmal seems to be the standard variant:
-    List<String> additionalLangs = noopLangsTmp.stream().map(k -> k.equals("nb") ? "no" : k).collect(Collectors.toList());
-    List<String> preferredLangs = preferredLangsTmp.stream().map(k -> k.equals("nb") ? "no" : k).collect(Collectors.toCollection(ArrayList::new));
-    if (preferredLangs.stream().anyMatch(k -> k.contains("-"))) {
-      throw new IllegalArgumentException("preferredLanguages may only contain language codes without variants (e.g. 'en', but not 'en-US'): " +
-        preferredLangs + ". Use 'preferredVariants' to specify variants.");
+  public DetectedLanguage detectLanguage(String cleanText, List<String> noopLangsTmp, List<String> preferredLangsTmp) {
+    
+    String text = cleanText;
+    Pair<List<String>, List<String>> langPair = prepareDetectLanguage(text, noopLangsTmp, preferredLangsTmp);
+    if (langPair == null) {
+      return new DetectedLanguage(null, new NoopLanguage());
     }
-    List<String> domLangCodes = unicodeIdentifier.getDominantLangCodes(cleanText);
-    String domLangStr = String.join(",", domLangCodes);
-    if (domLangStr.equals("th") || domLangStr.equals("he") || domLangStr.equals("ko") || domLangStr.equals("hi,mr")) {
-      // more than 50% of characters are ..., so assume we don't support this cleanText:
-      return Optional.of(new DetectedLanguage(null, new NoopLanguage()));
-    }
-    if (!preferredLangs.contains("ru") && !preferredLangs.contains("uk") && !preferredLangs.contains("be") && !preferredLangs.contains("zh") &&
-        !preferredLangs.contains("hi") && !preferredLangs.contains("mr")) {
-      // Cyrillic and Chinese are so different from Latin characters that we try to detect it even with preferredLangs not properly set:
-      preferredLangs.addAll(domLangCodes);
-      additionalLangs.addAll(domLangCodes);
-    }
+    List<String> additionalLangs = langPair.getLeft();
+    List<String> preferredLangs = langPair.getRight();
+
     Map.Entry<String,Double> result = null;
     boolean fasttextFailed = false;
     String source = "";
@@ -229,12 +223,12 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier{
       try {
         Map<String, Double> scores;
         boolean usingFastText = false;
-        if ((cleanText.length() <= SHORT_ALGO_THRESHOLD || fastTextLangIdentifier == null) && ngram != null) {
-          scores = ngram.detectLanguages(cleanText.trim(), additionalLangs);
+        if ((text.length() <= SHORT_ALGO_THRESHOLD || fastTextLangIdentifier == null) && ngram != null) {
+          scores = ngram.detectLanguages(text.trim(), additionalLangs);
           source += "ngram";
         } else {
           usingFastText = true;
-          scores = fastTextLangIdentifier.runFasttext(cleanText, additionalLangs);
+          scores = fastTextLangIdentifier.runFasttext(text, additionalLangs);
           source += "fasttext";
         }
         result = getHighestScoringResult(scores);
@@ -245,8 +239,7 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier{
         }*/
         if ((usingFastText && result.getValue().floatValue() < FASTTEXT_CONFIDENCE_THRESHOLD) || result.getKey().equals("zz")) {
           //System.out.println(cleanText + " ->" + result.getValue().floatValue() + " " + result.getKey());
-          CommonWords commonWords = new CommonWords();
-          Map<Language, Integer> lang2Count = commonWords.getKnownWordsPerLanguage(cleanText);
+          Map<Language, Integer> lang2Count = COMMON_WORDS_LANG_IDENTIFIER.getKnownWordsPerLanguage(text);
           Set<String> baseLangAlreadyHandled = new HashSet<>();
           for (Map.Entry<Language, Integer> entry : lang2Count.entrySet()) {
             String langCode = entry.getKey().getShortCode();
@@ -270,7 +263,7 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier{
           scores.keySet().removeIf(k -> k.equals("da"));
           result = getHighestScoringResult(scores);
         }
-        if (cleanText.length() <= CONSIDER_ONLY_PREFERRED_THRESHOLD && preferredLangs.size() > 0) {
+        if (text.length() <= CONSIDER_ONLY_PREFERRED_THRESHOLD && preferredLangs.size() > 0) {
           //System.out.println("remove? " + preferredLangs + " <-> " + scores);
           scores.keySet().removeIf(k -> !preferredLangs.contains(k));
           //System.out.println("-> " + b + " ==> " + scores);
@@ -280,7 +273,7 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier{
         // Calculate a trivial confidence value because fasttext's confidence is often
         // wrong for short cleanText (e.g. 0.99 for a test that's misclassified). Don't
         // use 1.0 because we can never be totally sure...
-        double newScore = 0.99 / (30.0 / Math.min(cleanText.length(), 30));
+        double newScore = 0.99 / (30.0 / Math.min(text.length(), 30));
         //System.out.println("fasttext  : " + result);
         //System.out.println("newScore  : " + newScore);
         result = new AbstractMap.SimpleImmutableEntry<>(result.getKey(), newScore);
@@ -299,35 +292,19 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier{
       }
     }
     if (fastTextLangIdentifier == null && ngram == null || fasttextFailed) { // no else, value can change in if clause
-      cleanText = textObjectFactory.forText(cleanText).toString();
-      result = detectLanguageCode(cleanText);
+      text = textObjectFactory.forText(text).toString();
+      result = detectLanguageCode(text);
       if (additionalLangs.size() > 0) {
         logger.warn("Cannot consider noopLanguages because not in fastText mode: " + additionalLangs);
       }
     }
     if (result != null && result.getKey() != null && canLanguageBeDetected(result.getKey(), additionalLangs)) {
-        return Optional.of(new DetectedLanguage(null,
+        return new DetectedLanguage(null,
                 Languages.getLanguageForShortCode(result.getKey(), additionalLangs),
-                result.getValue().floatValue(), source));
+                result.getValue().floatValue(), source);
     } else {
-      return Optional.empty();
+      return null;
     }
-  }
-  
-  static boolean canLanguageBeDetected(String langCode, List<String> additionalLanguageCodes) {
-    return Languages.isLanguageSupported(langCode) || additionalLanguageCodes.contains(langCode);
-  }
-
-  private Map.Entry<String, Double> getHighestScoringResult(Map<String, Double> probs) {
-    String result = null;
-    double max = -1;
-    for (Map.Entry<String, Double> entry : probs.entrySet()) {
-      if (entry.getValue() > max) {
-        max = entry.getValue();
-        result = entry.getKey();
-      }
-    }
-    return new AbstractMap.SimpleImmutableEntry<>(result, max);
   }
 
   /**
@@ -346,5 +323,4 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier{
       return null;
     }
   }
-
 }

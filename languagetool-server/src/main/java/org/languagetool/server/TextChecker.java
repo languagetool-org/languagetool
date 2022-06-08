@@ -28,11 +28,8 @@ import org.apache.ibatis.session.RowBounds;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
-import org.languagetool.language.DefaultLanguageIdentifier;
 import org.languagetool.language.LanguageIdentifier;
 import org.languagetool.language.LanguageIdentifierFactory;
-import org.languagetool.language.identifier.SimpleLangIdentifier;
-import org.languagetool.language.identifier.LanguageDetectionService;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.*;
@@ -106,7 +103,6 @@ abstract class TextChecker {
     this.reqCounter = reqCounter;
     if (config.isLocalApiMode()) {
       this.languageIdentifier = LanguageIdentifierFactory.INSTANCE.getLocalLanguageIdentifier(config.preferredLanguages);
-      LanguageDetectionService.INSTANCE.setLanguageIdentifier(new SimpleLangIdentifier(config.preferredLanguages));
     } else {
       this.languageIdentifier = LanguageIdentifierFactory.INSTANCE.getDefaultLanguageIdentifier(
               null,
@@ -189,17 +185,17 @@ abstract class TextChecker {
     // setting + number of pipelines
     // typical addon settings at the moment (2018-11-05)
     Map<PipelineSettings, Integer> prewarmSettings = new HashMap<>();
-        List<Language> prewarmLanguages = new ArrayList<>();
-        if (config.preferredLanguages.isEmpty()) {
-            prewarmLanguages.addAll(Stream.of(
-      "de-DE", "en-US", "en-GB", "pt-BR", "ru-RU", "es", "it", "fr", "pl-PL", "uk-UA")
-      .map(Languages::getLanguageForShortCode)
-                    .collect(Collectors.toList()));
-        } else {
-            config.preferredLanguages.forEach(s -> {
-                prewarmLanguages.add(Languages.getLanguageForShortCode(s));
-            });
-        }
+    List<Language> prewarmLanguages = new ArrayList<>();
+    if (config.preferredLanguages.isEmpty()) {
+      prewarmLanguages.addAll(Stream.of(
+                      "de-DE", "en-US", "en-GB", "pt-BR", "ru-RU", "es", "it", "fr", "pl-PL", "uk-UA")
+              .map(Languages::getLanguageForShortCode)
+              .collect(Collectors.toList()));
+    } else {
+      config.preferredLanguages.forEach(s -> {
+        prewarmLanguages.add(Languages.getLanguageForShortCode(s));
+      });
+    }
 
     List<String> addonDisabledRules = Collections.singletonList("WHITESPACE_RULE");
     List<JLanguageTool.Mode> addonModes = Arrays.asList(JLanguageTool.Mode.TEXTLEVEL_ONLY, JLanguageTool.Mode.ALL_BUT_TEXTLEVEL_ONLY);
@@ -865,17 +861,13 @@ abstract class TextChecker {
 
   DetectedLanguage detectLanguageOfString(String text, String fallbackLanguage, List<String> preferredVariants,
                                           List<String> noopLangs, List<String> preferredLangs, boolean testMode) {
-        
-    DetectedLanguage detected = null;
     Language lang;
-    
     String cleanText = languageIdentifier.cleanAndShortenText(text);
-    Optional<DetectedLanguage> detectedLang = languageIdentifier.detectLanguage(cleanText, noopLangs, preferredLangs);
-    if (detectedLang.isPresent()) {
-      detected = detectedLang.get();
-      lang = detectedLang.get().getDetectedLanguage();
-    } else {
+    DetectedLanguage detected = languageIdentifier.detectLanguage(cleanText, noopLangs, preferredLangs);
+    if (detected == null) {
       lang = parseLanguage(fallbackLanguage != null ? fallbackLanguage : "en");
+    } else {
+      lang = detected.getDetectedLanguage();
     }
     //String mode;
     //long t1 = System.nanoTime();
@@ -883,7 +875,6 @@ abstract class TextChecker {
     //float runTime = (t2-t1)/1000.0f/1000.0f;
     //System.out.printf(Locale.ENGLISH, "detected " + detected + " using " + mode + " in %.2fms for %d chars\n", runTime, text.length());
     
-   
     if (preferredVariants.size() > 0) {
       for (String preferredVariant : preferredVariants) {
         if (!preferredVariant.contains("-")) {

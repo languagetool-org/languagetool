@@ -20,12 +20,9 @@ package org.languagetool.gui;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.Languages;
-import org.languagetool.MultiThreadedJLanguageTool;
-import org.languagetool.UserConfig;
-import org.languagetool.language.DefaultLanguageIdentifier;
+import org.languagetool.*;
+import org.languagetool.language.LanguageIdentifier;
+import org.languagetool.language.LanguageIdentifierFactory;
 import org.languagetool.rules.*;
 
 import javax.swing.*;
@@ -40,8 +37,8 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
@@ -68,7 +65,7 @@ class LanguageToolSupport {
   private static final int MAX_CATEGORIES_PER_MENU = 12;
 
   private final UndoRedoSupport undo;
-  private final DefaultLanguageIdentifier langIdentifier;
+  private final LanguageIdentifier langIdentifier;
   private final JFrame frame;
   private final JTextComponent textComponent;
   private final EventListenerList listenerList = new EventListenerList();
@@ -105,7 +102,7 @@ class LanguageToolSupport {
     ruleMatches = new ArrayList<>();
     documentSpans = new ArrayList<>();    
     this.undo = support;
-    this.langIdentifier = new DefaultLanguageIdentifier();
+    this.langIdentifier = LanguageIdentifierFactory.INSTANCE.getDefaultLanguageIdentifier(null, null, null, null);
     init();
   }
 

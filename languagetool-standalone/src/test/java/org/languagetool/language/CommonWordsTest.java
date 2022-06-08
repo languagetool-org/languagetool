@@ -38,7 +38,7 @@ public class CommonWordsTest {
     Language es = Languages.getLanguageForShortCode("es");
     Language pt = Languages.getLanguageForShortCode("pt");
     Language ca = Languages.getLanguageForShortCode("ca");
-    CommonWords cw = new CommonWords();
+    CommonWordsLangIdentifier cw = new CommonWordsLangIdentifier();
 
     Map<Language, Integer> res1 = cw.getKnownWordsPerLanguage("Das ist bequem");
     assertNull(res1.get(en));

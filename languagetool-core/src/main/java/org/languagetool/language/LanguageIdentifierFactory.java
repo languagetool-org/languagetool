@@ -26,8 +26,12 @@ public enum LanguageIdentifierFactory {
 
     public synchronized LanguageIdentifier getLocalLanguageIdentifier(@Nullable List<String> preferredLangCodes) {
         if (spellcheckBasedIdentifier == null) {
-            LocalLanguageIdentifier spellcheckBasedIdentifier = new LocalLanguageIdentifier();
-            this.spellcheckBasedIdentifier = spellcheckBasedIdentifier;
+            if (preferredLangCodes == null) {
+                this.spellcheckBasedIdentifier = new LocalLanguageIdentifier();
+            } else {
+                this.spellcheckBasedIdentifier = new LocalLanguageIdentifier(preferredLangCodes);
+
+            }
         }
         return this.spellcheckBasedIdentifier;
     }
