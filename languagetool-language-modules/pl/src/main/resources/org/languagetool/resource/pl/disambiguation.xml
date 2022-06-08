@@ -5706,6 +5706,23 @@
             <disambig action="filter" postag=".*gen.*"/>
         </rule>
 
+        <rule>
+            <pattern> <!-- wbrew jego woli -->
+                <unify> <feature id="case"/>
+                    <token postag="prep.*" postag_regexp="yes"><exception postag="prep:gen.*" postag_regexp="yes"></exception><exception postag="qub">co</exception></token>
+                    <unify-ignore>
+                        <token postag="ppron.*gen.*" postag_regexp="yes"/>
+                    </unify-ignore>
+                    <token postag="(?:adj|depr|ger|num|subst|ppron.*|ppas|pact|siebie):.*" postag_regexp="yes"><exception>co</exception><exception postag="qub|adv.*" postag_regexp="yes"/></token>
+                </unify>
+            </pattern>
+            <disambig action="unify"/>
+            <example type="untouched">Tu mamy piękny przykład.</example>
+            <example type="untouched">Łaciny używamy na co dzień.</example>
+            <example type="ambiguous" inputform="woli[wola/subst:pl:gen:f,wola/subst:sg:dat:f,wola/subst:sg:gen:f,wola/subst:sg:loc:f,wole/subst:pl:gen:n2,woleć/verb:fin:sg:ter:imperf:nonrefl,woli/adj:pl:nom.voc:m1.p1:pos,woli/adj:sg:acc:m3:pos,woli/adj:sg:nom.voc:m1.m2.m3:pos]" outputform="woli[wola/subst:sg:dat:f]">To stało się wbrew jego <marker>woli</marker>.</example>
+        </rule>
+
+
     </rulegroup>
 
     <rule id="ZA_POMOCA_M1_M2" name="za pomocą + m1/m2/m3 -> m2/m3">
