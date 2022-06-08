@@ -5163,7 +5163,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token postag="SENT_START" skip="-1"><exception scope="next" postag="V.[IM].*|PR.*|CS|LOC_CS" postag_regexp="yes"/></token>
                 <marker>
-                    <token postag="V.S.*" postag_regexp="yes"><exception postag="V.[IM].*|[NA].*|_possible_NP|R.*|LOC_.*|D.*" postag_regexp="yes"/><exception postag="V.SI.*" postag_regexp="yes" inflected="yes" regexp="yes">querer|haber|poder|deber</exception></token>
+                    <token postag="V.S.*" postag_regexp="yes"><exception postag="V.[IM].*|[NA].*|_possible_NP|R.*|LOC_.*|D.*" postag_regexp="yes"/><exception postag="V.SI.*" postag_regexp="yes" inflected="yes" regexp="yes">querer|haber|poder|deber</exception><exception>haya</exception></token>
                 </marker>
             </pattern>
             <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="wordFrom:marker desiredPostag:V.I.*|NC.*|A.*"/>
@@ -5252,6 +5252,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Que nadie se meta donde no le llamen.</example>
             <example>Del agua mansa me libre Dios,</example>
             <example>A tal efecto, una vez el pedido haya sido preparado, nos pondremos en contacto con usted.</example>
+            <!-- Anyway we don't have a good suggestion for 'haya' -->
+            <example>Haya luz.</example>
         </rule>
         <rulegroup id="SUBJUNTIVO_FUTURO" name="confusión cantara/cantará">
             <rule>
