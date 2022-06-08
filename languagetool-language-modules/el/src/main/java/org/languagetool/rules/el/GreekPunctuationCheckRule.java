@@ -28,9 +28,9 @@ import org.languagetool.rules.AbstractPunctuationCheckRule;
  * 
  * @author 
  */
-public class PunctuationCheckRule extends AbstractPunctuationCheckRule {
+public class GreekPunctuationCheckRule extends AbstractPunctuationCheckRule {
 
-  public PunctuationCheckRule(ResourceBundle messages) {
+  public GreekPunctuationCheckRule(ResourceBundle messages) {
     super(messages);
 
   }
