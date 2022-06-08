@@ -9,18 +9,34 @@ def chunking(text):
   map = idxToToken(doc)
   result = []
   handledTokens = []
-  for chunk in doc.noun_chunks:
-      tmpList = []
-      for i in range(doc[chunk.start].idx, doc[chunk.end].idx):
-          try:
-              if map[i] in handledTokens:
+  print("X: " + text)
+  try:
+      #for chunk in doc.noun_chunks:
+      #  print("NC: ", chunk.start)
+      #  print("NC: ", chunk.end)
+      for chunk in doc.noun_chunks:
+          #print("chunk_end: ", chunk.end)
+          #for d in doc:
+          #  print("doc: ", d)
+          #print("doc: ", len(doc))
+          tmpList = []
+          end = chunk.end
+          if len(doc) <= chunk.end:
+            end = chunk.end-1  # why needed?
+          for i in range(doc[chunk.start].idx, doc[end].idx):
+              try:
+                  if map[i] in handledTokens:
+                      None
+                  else:
+                      tmpList.append(str(map[i].idx) + "-" + str(map[i].idx + len(map[i])))
+                      handledTokens.append(map[i])
+              except KeyError:
                   None
-              else:
-                  tmpList.append(str(map[i].idx) + "-" + str(map[i].idx + len(map[i])))
-                  handledTokens.append(map[i])
-          except KeyError:
-              None
-      result.append(tmpList)
+          result.append(tmpList)
+  except IndexError as e:
+    raise e
+    #raise Exception("Failed on: " + text, e)
+    #pass
   tokens = []
   for token in doc:
       tokens.append({"text": token.text, "pos": token.pos_, "from": token.idx, "to": token.idx + len(token.text)})
@@ -34,8 +50,9 @@ def idxToToken(doc):
             map[i] = token
     return map
 
-if __name__=='__main__':
-    #text = "My red fox jumps over your lazy dog, but."
-    text = "Mary saw the man through the window."
-    res = chunking(text)
-    print(res)
+#if __name__=='__main__':
+#    #text = "My red fox jumps over your lazy dog, but."
+#    text = "Mary saw the man through the window."
+#    #text = "St. Martin's Day"
+#    res = chunking(text)
+#    print(res)
