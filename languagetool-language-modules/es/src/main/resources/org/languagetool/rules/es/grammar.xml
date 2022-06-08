@@ -27332,12 +27332,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>31</token>
                     </marker>
                     <token min="0" regexp="yes">[-/]|de</token>
-                    <token regexp="yes">abril|abr|junio|jun|sep?tiembre|sep|set|noviembre|nov|0?[469]|11</token>
+                    <token regexp="yes">abril|abr|junio|jun|sep?tiembre|sep|set|noviembre|nov|novbre|0?[469]|11</token>
                 </pattern>
                 <message>El mes de \3 solo tiene 30 días.</message>
                 <suggestion>30</suggestion>
                 <example correction="30">Nació el <marker>31</marker> de septiembre.</example>
                 <example correction="30">Nació el <marker>31</marker>/11/1988.</example>
+                <example correction="30">Nació el <marker>31</marker> de novbre.</example>
             </rule>
             <rule>
                 <pattern>
@@ -27395,6 +27396,269 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="28">El <marker>29</marker>-02-1900</example>
                 <example correction="28">El <marker>29</marker>-feb-2005</example>
                 <example>El 29-feb-2004</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token regexp="yes">\d\d</token>
+                    <token>:</token>
+                    <token regexp="yes">\d\d</token>
+                    <token regexp="yes">&meses_ano;|&meses_ano_may;|&meses_ano_abrv;</token>
+                    <example>08:34 oct</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\d\d\d\d</token>
+                    <token min="0" regexp="yes">[-/]|de</token>
+                    <token regexp="yes">&meses_ano;|&meses_ano_may;|&meses_ano_abrv;</token>
+                    <example>2001 enero</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\d+</token>
+                    <token min="0" regexp="yes">[-/]|de</token>
+                    <token regexp="yes">&meses_ano;|&meses_ano_may;|&meses_ano_abrv;</token>
+                    <token regexp="yes">\d+</token>
+                    <example>9 41 OCT 16 2005</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" skip="-1">número|ley|decreto|nº|ordenanza|pag|página|#</token>
+                    <token regexp="yes">3[2-9]|[4-9][0-9]|[1-9][0-9][0-9]+</token>
+                    <token min="0" regexp="yes">[-/]|de|a</token>
+                    <token regexp="yes" min="0">3[2-9]|[4-9][0-9]|[1-9][0-9][0-9]+</token>
+                    <token regexp="yes">&meses_ano;|&meses_ano_may;|&meses_ano_abrv;</token>
+                    <example>número 300 de enero</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" min="0">&meses_ano;|&meses_ano_may;|&meses_ano_abrv;</token>
+                    <token min="0">de</token>
+                    <token regexp="yes">\d+</token>
+                    <token min="0" regexp="yes">\/|o</token>
+                    <token regexp="yes" min="0">\d+</token>
+                    <token>-</token>
+                    <token regexp="yes">&meses_ano;|&meses_ano_may;|&meses_ano_abrv;</token>
+                    <token min="0" regexp="yes">\/|o</token>
+                    <token regexp="yes" min="0">&meses_ano;|&meses_ano_may;|&meses_ano_abrv;</token>
+                    <token min="0">de</token>
+                    <token regexp="yes">\d+</token>
+                    <example>Enero/febrero de 847 - julio/agosto de 869</example>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">3[2-9]|[4-9][0-9]|[1-9][0-9][0-9]+</token>
+                    <token min="0" regexp="yes">[-/]|de</token>
+                    <token regexp="yes">&meses_ano;|&meses_ano_may;|&meses_ano_abrv;</token>
+                </pattern>
+                <message>Verifique que la fecha es correcta. Ningún mes tiene más de 31 días.</message>
+                <example correction="">Nació el <marker>32 de enero</marker>.</example>
+                <example correction="">Nació el <marker>300 de enero</marker>.</example>
+                <example>Nació el <marker>31 de enero</marker>.</example>
+                <example>Nació el <marker>30 de enero</marker>.</example>
+                <example>Nació el <marker>20 de enero</marker>.</example>
+                <example>Nació el <marker>2 de enero</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token regexp="yes">\d+</token>
+                    <token>/</token>
+                    <token regexp="yes">\d\d</token>
+                    <token min="0">-</token>
+                    <token regexp="yes" min="0">\d+</token>
+                    <token min="0">/</token>
+                    <token regexp="yes" min="0">\d\d</token>
+                    <example>2004/05-2005/06</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\d\d</token>
+                    <token>/</token>
+                    <token regexp="yes">\d+</token>
+                    <token>-</token>
+                    <token regexp="yes">\d\d</token>
+                    <token>/</token>
+                    <token regexp="yes">\d+</token>
+                    <example>05/2002-05/2008</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\d\d</token>
+                    <token regexp="yes">\d+</token>
+                    <token>-</token>
+                    <token regexp="yes">\d\d</token>
+                    <token regexp="yes">\d+</token>
+                    <example>2002/05-2008/05</example>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1">ISBN</token>
+                    <token regexp="yes">\d+</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">\d+</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">\d+</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">\d+</token>
+                    <example>ISBN 978-84-01-0174-83</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">número|N°|nº|\+|#</token>
+                    <token regexp="yes">\d+</token>
+                    <token regexp="yes" min="0">\-|\/</token>
+                    <token regexp="yes">\d+</token>
+                    <example>número 50/12</example>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">3[2-9]|[4-9][0-9]|[1-9][0-9][0-9]+</token>
+                        <token min="0" regexp="yes">\-|\/|</token>
+                        <token regexp="yes">0?[1-9]|10|11|12</token>
+                    </marker>
+                    <token min="0" regexp="yes">\-|\/|</token>
+                    <token regexp="yes">\d\d\d\d</token>
+                </pattern>
+                <message>Verifique que la fecha es correcta. Ningún mes tiene más de 31 días.</message>
+                <example correction="">Nació el <marker>32/01</marker>/1985.</example>
+                <example correction="">Nació el <marker>300/1</marker>/1985.</example>
+                <example>Nació el <marker>31/01</marker>/1985.</example>
+                <example>Nació el <marker>30/01</marker>/1985.</example>
+                <example>Nació el <marker>20/01</marker>/1985.</example>
+                <example>Nació el <marker>2/01</marker>/1985.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token regexp="yes">\d+</token>
+                    <token>/</token>
+                    <token regexp="yes">\d\d</token>
+                    <token min="0">-</token>
+                    <token regexp="yes" min="0">\d+</token>
+                    <token min="0">/</token>
+                    <token regexp="yes" min="0">\d\d</token>
+                    <example>2004/05-2005/06</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\d\d</token>
+                    <token>/</token>
+                    <token regexp="yes">\d+</token>
+                    <token>-</token>
+                    <token regexp="yes">\d\d</token>
+                    <token>/</token>
+                    <token regexp="yes">\d+</token>
+                    <example>05/2002-05/2008</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\d\d</token>
+                    <token regexp="yes">\d+</token>
+                    <token>-</token>
+                    <token regexp="yes">\d\d</token>
+                    <token regexp="yes">\d+</token>
+                    <example>2002/05-2008/05</example>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1">ISBN</token>
+                    <token regexp="yes">\d+</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">\d+</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">\d+</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">\d+</token>
+                    <example>ISBN 978-84-01-0174-83</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">número|N°|nº|\+|#</token>
+                    <token regexp="yes">\d+</token>
+                    <token regexp="yes" min="0">\-|\/</token>
+                    <token regexp="yes">\d+</token>
+                    <example>número 50/12</example>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">(3[2-9]|[4-9][0-9]|[1-9][0-9][0-9]+)\.(0?[1-9]|10|11|12)\.\d\d\d\d</token>
+                    </marker>
+                </pattern>
+                <message>Verifique que la fecha es correcta. Ningún mes tiene más de 31 días.</message>
+                <example correction="">Nació el <marker>32.01.1985</marker>.</example>
+                <example correction="">Nació el <marker>300.01.1985</marker>.</example>
+                <example>Nació el <marker>31.01.1985</marker>.</example>
+                <example>Nació el <marker>30.01.1985</marker>.</example>
+                <example>Nació el <marker>20.01.1985</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">\d\d?</token>
+                    <token regexp="yes">\-|\/</token>
+                    <token regexp="yes">1[3-9]|[2-9]\d</token>
+                    <token regexp="yes">\-|\/</token>
+                    <token regexp="yes">\d\d\d\d</token>
+                </pattern>
+                <message>Si se trata de una fecha, el mes no es correcto.</message>
+                <example correction="">Nació el <marker>11/13/2014</marker>.</example>
+                <example correction="">Nació el <marker>11/20/2014</marker>.</example>
+                <example>Nació el <marker>11/12/2014</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token regexp="yes">31\.(11|0?[469])\.\d\d(\d\d)?</token>
+                    </marker>
+                </pattern>
+                <message>Este mes solo tiene 30 días.</message>
+                <example correction="">Nació el <marker>31.11.1989</marker>.</example>
+                <example correction="">Nació el <marker>31.11.89</marker>.</example>
+                <example>Nació el <marker>30.11.89</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token regexp="yes">31\.(11|0?[469])</token>
+                    </marker>
+                </pattern>
+                <message>Este mes solo tiene 30 días.</message>
+                <example correction="">Nació el <marker>31.11</marker>.</example>
+                <example>Nació el <marker>30.11</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token regexp="yes">(30|31)\.(0?2)\.\d\d(\d\d)?</token>
+                    </marker>
+                </pattern>
+                <message>El mes de febrero solo tiene 28 o 29 días.</message>
+                <example correction="">Nació el <marker>30.02.1900</marker>.</example>
+                <example correction="">Nació el <marker>31.02.1900</marker>.</example>
+                <example>Nació el <marker>28.02.1900</marker></example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token regexp="yes">(30|31)\.(0?2)</token>
+                    </marker>
+                </pattern>
+                <message>El mes de febrero solo tiene 28 o 29 días.</message>
+                <example correction="">Nació el <marker>30.02</marker>.</example>
+                <example correction="">Nació el <marker>31.02</marker>.</example>
+                <example>Nació el <marker>28.02</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token regexp="yes">29\.(2|02)\.([13579][26]00|[2468][048]00)</token>
+                    <!-- 2000 is a leap year (divisible by 400) -->
+                    <example>Nació el <marker>29.02.2000</marker>.</example>
+                    <!-- 2004 is a leap year (divisible by 4) -->
+                    <example>Nació el<marker>29.02.2004</marker>.</example>
+                    <!-- 2008 is a leap year (divisible by 4) -->
+                    <example>Nació el<marker>29.02.2008</marker>.</example>
+                    <!-- 2012 is a leap year (divisible by 4) -->
+                    <example>Nació el<marker>29.02.2012</marker>.</example>
+                    <!-- 2016 is a leap year (divisible by 4) -->
+                    <example>Nació el <marker>29.02.2016</marker>.</example>
+                    <!-- 2020 is a leap year (divisible by 4) -->
+                    <example>Nació el <marker>29.02.2020</marker>.</example>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">29\.(2|02)\.\d\d(00|\d[13579]|[02468][26]|[13579][048])</token>
+                    </marker>
+                </pattern>
+                <message>El mes de febrero solo tiene 28 días, porque este año no es bisiesto.</message>
+                <example correction="">Nació el <marker>29.02.1900</marker>.</example>
+                <example>Nació el <marker>28.02.1900</marker>.</example>
+                <!-- 2100 is not a leap year (divisible by 100) -->
+                <example correction="">El <marker>29.02.2100</marker>.</example>
+                <example>Sucederá el <marker>28.02.2100</marker>.</example>
             </rule>
         </rulegroup>
     </category>
