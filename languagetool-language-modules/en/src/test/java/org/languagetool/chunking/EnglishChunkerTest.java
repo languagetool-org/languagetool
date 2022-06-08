@@ -63,7 +63,7 @@ public class EnglishChunkerTest {
   public void testInteractive() {
     EnglishChunker chunker = new EnglishChunker();
     //String sentence = "Yankee batters hit the ball well enough to win their first World Series since 2000.";
-    // VPs                              ^^^                      ^^^^^^
+    // VPs                              ^^^                      ^^^^^
     //String sentence = "Mary saw the man through the window.";
     // VPs                    ^^^
     // String sentence = "David gave Mary a book.";
@@ -72,6 +72,8 @@ public class EnglishChunkerTest {
     // VPs                    ^^^^^^^^^^^^
     //String sentence = "They do not want to try that.";
     // VPs                    ^^^^^^^^^^^^^^^^^
+    //String sentence = "He wants to win.";
+    // VPs                  ^^^^^^^^
     String sentence = "A short test of the bicycle is needed";
     // VPs                                         ^^^^^^^^^
     List<AnalyzedTokenReadings> readingsList = createReadingsList(sentence);
@@ -79,18 +81,6 @@ public class EnglishChunkerTest {
     for (AnalyzedTokenReadings atr : readingsList) {
       System.out.println(atr.getToken() + " " + atr.getChunkTags());
     }
-  }
-
-  @Test
-  public void testTEMP() {
-    EnglishChunker chunker = new EnglishChunker();
-    //List<AnalyzedTokenReadings> readingsList = createReadingsList("A short test");
-    List<AnalyzedTokenReadings> readingsList = createReadingsList("A short test.");
-    chunker.addChunkTags(readingsList);
-    // "A short test":
-    assertThat(readingsList.get(0).getChunkTags().toString(), is("[B-NP-singular]"));
-    assertThat(readingsList.get(2).getChunkTags().toString(), is("[I-NP-singular]"));
-    assertThat(readingsList.get(4).getChunkTags().toString(), is("[]"));
   }
 
   @Test

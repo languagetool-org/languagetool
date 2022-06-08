@@ -4533,7 +4533,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token>de</token>
-                    <token>Chevalier</token>
+                    <token regexp="yes">Chevalier|Weck|Reims|novo|nova</token>
+                    <example>Laura de Weck ist eine Schweizer Schauspielerin</example>
                 </antipattern>
                 <antipattern>
                     <token>Rival</token>
@@ -4555,7 +4556,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token postag="SUB:.*" postag_regexp="yes"/>
                 </pattern>
-                <message>Meinten Sie <suggestion>die</suggestion> oder <suggestion>der</suggestion>?</message>
+                <message>Meinten Sie <suggestion>die</suggestion>, <suggestion>der</suggestion>, <suggestion>dem</suggestion>, <suggestion>den</suggestion> oder <suggestion>des</suggestion>?</message>
                 <example>Und <marker>de</marker> Beukelaer macht in Keksen.</example>
                 <example>Auf example.<marker>de</marker> Fachartikel lesen.</example>
                 <example>Die Gemeinde <marker>De</marker> Panne</example>
@@ -4563,8 +4564,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Hans van <marker>de</marker> Haar</example>
                 <example>Collège Européen <marker>de</marker> Police</example>
                 <example>http://example.com/<marker>de</marker> Beispiele für die Entwicklung</example>
-                <example correction="die|der">Und <marker>de</marker> Programmierung mit Plain Old Java Objects soll einfacher werden.</example>
-                <example correction="die|der">An <marker>de</marker> blauen See waren wir.</example>
+                <example correction="die|der|dem|den|des">Und <marker>de</marker> Programmierung mit Plain Old Java Objects soll einfacher werden.</example>
+                <example correction="die|der|dem|den|des">An <marker>de</marker> blauen See waren wir.</example>
                 <example>Neben der Fontana di Piazza de Ferrari ist der Leuchtturm</example>
             </rule>
             <rule>
@@ -6545,6 +6546,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Verwechslungen -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
+        <rule id="SONNST_VERB" name="sonnst (sonst)" default="temp_off">
+            <pattern>
+                <marker>
+                    <token>sonnst</token>
+                </marker>
+                <token postag_regexp="yes" postag="VER:.*"></token>
+            </pattern>
+            <message>Meinten Sie <suggestion>sonst</suggestion>? 'Sonnst' ist eine Form des Verbs '(sich) sonnen'.</message>
+            <example correction="sonst">Wir müssen jetzt handeln, <marker>sonnst</marker> ist es zu spät.</example>
+        </rule>
         <rulegroup id="DIENEN_DEINEN" name="dienen vs. deinen">
             <rule>
                 <pattern>
@@ -11302,9 +11313,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="PRO:DEM:NOM.*" postag_regexp="yes"/>
                     <token>mir</token>
                     <token postag="SUB:AKK.*" postag_regexp="yes"/>
-                    <token postag="PRP.*" postag_regexp="yes"/>
+                    <token postag="PRP.*" postag_regexp="yes" min="0"/>
                     <token postag="ART:.*:AKK.*|PRO:DEM:AKK.*|PRO:POS:AKK.*|PRO:IND:AKK.*" postag_regexp="yes" min="0"/>
-                    <token postag="SUB:AKK.*" postag_regexp="yes"/>
+                    <token postag="SUB:AKK.*" postag_regexp="yes" min="0"/>
                     <token postag="VER.*" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
@@ -11328,6 +11339,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Das mir Bernsteine nicht vor die Füße rollen, war klar.</example> <!--Richtig: "Dass mir"-->
                 <example>Wenn die mir Wochenenden streichen, widerspreche ich.</example>
                 <example>Die mir Kraft für mein Projekt gibt.</example>
+                <example>Du bist es, der mir Kraft gibt.</example>
             </rule>
 	        <rule> <!--11-->
                 <pattern>
@@ -13442,6 +13454,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rule id="DAZU_VERDIENEN" name="dazu verdienen (dazuverdienen)" default="temp_off">
+            <pattern>
+                <token regexp="yes" skip="3">(irgend)?(et)?was</token>
+                <marker>
+                    <token>dazu</token>
+                    <token inflected="yes">verdienen</token>
+                </marker>
+            </pattern>
+            <message>Das Verb <suggestion>dazu<match no="3" case_conversion="alllower" /></suggestion> wird zusammengeschrieben.</message>
+            <example correction="dazuverdienen">Ich werde mir etwas <marker>dazu verdienen</marker>.</example>
+        </rule>
         <rulegroup id="ZWEIT_KLAESSLER" name="2. Klässler (Zweitklässler)">
             <rule>
                 <pattern>
@@ -13636,6 +13659,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="draufgeklickt">Ich habe auf den Link <marker>drauf geklickt</marker>.</example>
         </rule>
         <rulegroup id="DRAUF_LOS" name="drauf los (drauflos)">
+            <antipattern>
+                <token>los</token>
+                <token>gehts</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token>drauflos</token>
@@ -15024,7 +15051,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token>durch</token>
                 <!-- many verbs missing -->
-                <token inflected="yes" regexp="yes" case_sensitive="yes">schauen|steigen|stehen|se?uchen|graben|atmen|beißen|beissen|bekommen|checken|denken|drehen|fahren|fallen|fegen|feiern|gehen|laufen|halten|impfen|jagen|kauen|kämpfen|kitzeln|klettern|lassen|leben|machen|mischen|nehmen|nummerieren|nässen|pauken|planen|rauschen|rechnen|testen|tasten|vögeln|setzen|fluten|flie(ß|ss)en|bohren|winken|schleudern|sickern</token>
+                <token inflected="yes" regexp="yes" case_sensitive="yes">schauen|steigen|stehen|spielen|se?uchen|graben|atmen|beißen|beissen|bekommen|checken|denken|drehen|fahren|fallen|fegen|feiern|gehen|laufen|halten|impfen|jagen|kauen|kämpfen|kitzeln|klettern|lassen|leben|machen|mischen|nehmen|nummerieren|nässen|pauken|planen|rauschen|rechnen|testen|tasten|vögeln|setzen|fluten|flie(ß|ss)en|bohren|winken|schleudern|sickern</token>
             </pattern>
             <message>Das Verb <suggestion>durch<match no="2" case_conversion="alllower" /></suggestion> wird als ein Wort geschrieben.</message>
             <example correction="durchschaut">Er hat mich <marker>durch schaut</marker>!</example>
@@ -18622,8 +18649,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Nachdem"><marker>Nach dem</marker> der Spieler gewonnen hatte, war er nicht zu bremsen.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token postag="(SUB|PRO).*SIN:(MAS|NEU).*" postag_regexp="yes" skip="5" />
+                    <token>,</token>
+                    <token>nach</token>
+                    <token>dem</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="UNKNOWN" postag_regexp="yes" skip="5" case_sensitive="yes" regexp="yes">[A-ZÄÖÜ].*</token>
+                    <token>,</token>
+                    <token>nach</token>
+                    <token>dem</token>
+                </antipattern>
                 <pattern>
-                    <token postag="VER.*" postag_regexp="yes" />
+                    <token postag="VER.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü].*</token>
                     <token min="0">,</token>
                     <marker>
                         <token case_sensitive="yes">nach</token>
@@ -18633,6 +18672,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Möglicherweise muss <suggestion>\3\4</suggestion> (als Konjunktion) zusammengeschrieben werden, sofern es sich hier nicht um einen elliptischen Satz handelt, z.B. '[Das Spiel] In dem er gewonnen hat'.</message>
                 <example correction="nachdem">Wir haben endlich gewonnen, <marker>nach dem</marker> wir uns kontinuierlich verbessert haben.</example>
+                <example>Ich habe den Schlüssel gefunden, nach dem ich die ganze Zeit gesucht hatte.</example>
+                <example>Ich habe genau das gefunden, nach dem du gesucht hast.</example>
+                <example>Das wird das Buch sein, nach dem er sucht.</example>
+                <example>Es scheint, dass es Toms Absicht gewesen war, Maria den Kredit zu gewähren, nach dem sie gesucht hatte.</example>
+                <example>Ludwig von Köchel, nach dem es benannt ist, erstellte dieses Verzeichnis.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SO_BALD_VS_SOBALD" name="'sobald (so bald) wie möglich' etc.">
@@ -26543,7 +26587,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token skip="-1">sowohl</token>
                     <marker>
-                        <token regexp="yes">und</token>
+                        <token>und</token>
                         <token min="0">auch</token>
                     </marker>
                 </pattern>
@@ -53487,7 +53531,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <rule>
                 <pattern>
-                    <token regexp="yes">Telefon|Handy|Fax|Tracking|Artikel|Patienten|Mandanten|Kunden|Lieferanten|Angebots|Rechnungs|Vertrags|eVB|AVH|[GB]estell|Termin</token>
+                    <token regexp="yes">Telefon|Handy|Fax|Tracking|Artikel|Patienten|Mandanten|Kunden|Lieferanten|Angebots|Rechnungs|Vertrags|eVB|AVH|[GB]estell|Termin|Konto</token>
                     <token>Nr</token>
                     <token spacebefore="no">.</token>
                 </pattern>
@@ -53496,7 +53540,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">Telefon|Handy|Fax|Tracking|Artikel|Patienten|Mandanten|Kunden|Lieferanten|Angebots|Rechnungs|Vertrags|eVB|AVH|[GB]estell|Termin</token>
+                    <token regexp="yes">Telefon|Handy|Fax|Tracking|Artikel|Patienten|Mandanten|Kunden|Lieferanten|Angebots|Rechnungs|Vertrags|eVB|AVH|[GB]estell|Termin|Konto</token>
                     <token>Nr</token>
                 </pattern>
                 <message>Hier fehlt möglicherweise ein Bindestrich. Meinten Sie <suggestion><match no="1" case_conversion="startupper" />-<match no="2" case_conversion="startupper" />.</suggestion>?</message>
@@ -54470,7 +54514,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule default="temp_off">
                 <pattern>
-                    <token regexp="yes">entlang</token>
+                    <token>entlang</token>
                     <token regexp="yes">de[nm]|[Ii]hre[nm]|[Ddms]?eine[nm]|unse?re[nm]|diese[nm]|jene[nm]|[Ee]ure[nm]</token>
                     <token postag="(ADJ|PA[12]):DAT:SIN:(NEU|MAS):GRU:IND.*" postag_regexp="yes" min="0"/>
                     <token postag="SUB:(DAT|NOM|AKK):SIN:(MAS|FEM|NEU)" postag_regexp="yes"/>
@@ -54487,7 +54531,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>umrunden</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">statt</token>
+                    <token>statt</token>
                     <token regexp="yes">de[nm]|[Ii]hre[nm]|[Ddms]?eine[nm]|unse?re[nm]|diese[nm]|jene[nm]|[Ee]ure[nm]</token>
                     <token postag="(ADJ|PA[12]):DAT:SIN:(NEU|MAS):GRU:IND.*" postag_regexp="yes" min="0"/>
                     <token skip="-1" postag="SUB:(DAT|NOM|AKK):SIN:(MAS|FEM|NEU)" postag_regexp="yes"/>
@@ -54502,7 +54546,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SUB:(DAT|NOM|AKK):SIN:(MAS|FEM|NEU)" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">statt</token>
+                    <token>statt</token>
                     <token regexp="yes">de[nm]|[Ii]hre[nm]|[Ddms]?eine[nm]|unse?re[nm]|diese[nm]|jene[nm]|[Ee]ure[nm]</token>
                     <token postag="(ADJ|PA[12]):DAT:SIN:(NEU|MAS):GRU:IND.*" postag_regexp="yes" min="0"/>
                     <token skip="-1" postag="SUB:(DAT|NOM|AKK):SIN:(MAS|FEM|NEU)" postag_regexp="yes"/>
@@ -54510,7 +54554,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="VER:INF:.*|UNKOWN" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">statt</token>
+                    <token>statt</token>
                     <token regexp="yes">de[nm]|[Ii]hre[nm]|[Ddms]?eine[nm]|unse?re[nm]|diese[nm]|jene[nm]|[Ee]ure[nm]</token>
                     <token postag="(ADJ|PA[12]):DAT:SIN:(NEU|MAS):GRU:IND.*" postag_regexp="yes" min="0"/>
                     <token postag="SUB:(DAT|NOM|AKK):SIN:(MAS|FEM|NEU)" postag_regexp="yes">
@@ -62510,6 +62554,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction='oder?'>Er ist schon nach Hause, <marker>oder.</marker></example>
             </rule>
             <rule><!-- 13 -->
+                <antipattern>
+                    <token skip="-1">ob</token>
+                    <token>oder</token>
+                </antipattern>
+                <antipattern>
+                    <token>unabhängig</token>
+                    <token skip="-1">davon</token>
+                    <token>oder</token>
+                </antipattern>
                 <pattern>
                     <token>,</token>
                     <marker>
@@ -62521,6 +62574,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Bitte schließen Sie die Frage mit einem '?' ab.</message>
                 <suggestion>\2 \3?</suggestion>
                 <example correction='oder nicht?'>Er ist schon nach Hause, <marker>oder nicht.</marker></example>
+                <example>Es ist mir egal, ob er kommt, oder nicht.</example>
             </rule>
             <rule><!-- 14 -->
                 <pattern>
@@ -68577,6 +68631,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Die empfohlene Abkürzung für "eventuell" ist <suggestion>evtl.</suggestion>.</message>
                 <example correction="evtl.">Er wollte nichts sagen <marker>evt.</marker> weil er Angst hatte.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="VLT_ABK" name="Schreibweise der Abkürzung 'vlt.'">
+            <url>https://www.duden.de/rechtschreibung/evtl_</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">[Vv]llt</token>
+                    <token spacebefore="no">.</token>
+                </pattern>
+                <message>Die empfohlene Abkürzung für "vielleicht" ist <suggestion>vlt.</suggestion>.</message>
+                <url>https://de.wiktionary.org/wiki/vlt.</url>
+                <example correction="vlt.">Aber <marker>vllt.</marker> hast du recht.</example>
             </rule>
         </rulegroup>
         <rulegroup id="GGF_ABK" name="Schreibweise der Abkürzung 'ggf.'">

@@ -1150,6 +1150,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("mn", w -> Arrays.asList("man", "in", "an"));
     put("hilt", w -> Arrays.asList("gilt", "hilft", "hielt", "hält"));
     put("nei", w -> Arrays.asList("bei", "nie", "ein", "neu"));
+    put("riesen", w -> Arrays.asList("riesigen", "diesen", "Riesen", "reisen"));
     put("Artal", "Ahrtal");
     put("wuste", "wusste");
     put("Kuden", "Kunden");
@@ -2616,6 +2617,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "entgültigen": return topMatch("endgültigen");
       case "desöfteren": return topMatch("des Öfteren");
       case "desweiteren": return topMatch("des Weiteren");
+      case "weitesgehend": return topMatch("weitestgehend");
+      case "Tiktok": return topMatch("TikTok");
+      case "Tiktoks": return topMatch("TikToks");
     }
     return Collections.emptyList();
   }

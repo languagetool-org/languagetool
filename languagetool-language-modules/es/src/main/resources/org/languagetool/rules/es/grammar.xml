@@ -5113,7 +5113,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token skip="-1" postag="V.S.*" postag_regexp="yes"><exception postag="PR.*|CS" postag_regexp="yes" scope="next"/></token>
-                <token postag="V.S.*" postag_regexp="yes"/>
+                <marker>
+                    <token postag="V.S.*" postag_regexp="yes"/>
+                </marker>
             </antipattern>
             <pattern>
                 <token postag="SENT_START" skip="-1"><exception scope="next" postag="V.[IM].*|PR.*|CS" postag_regexp="yes"/></token>
@@ -11346,6 +11348,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Se escribe junto.</message>
                 <suggestion>\1\3</suggestion>
                 <example correction="sobreprotegen">Los padres la <marker>sobre protegen</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>lanza</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">misiles|cohetes|</token>
+                </pattern>
+                <message>Como sustantivo se escriben junto</message>
+                <suggestion>\1\3</suggestion>
+                <url>https://www.fundeu.es/recomendacion/lanzamisiles-y-lanzacohetes-sin-separacion/</url>
+                <example correction="lanzamisiles">Un <marker>lanza misiles</marker></example>
+                <example correction="lanzamisiles">Un <marker>lanza-misiles</marker></example>
             </rule>
         </rulegroup>
         <rule id="TIK_TOK" name="TikTok">
@@ -20837,7 +20851,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
-        <rule id="ORIGINAL_ORIGINAR" name="original -> originar" default="temp_off">
+        <rule id="ORIGINAL_ORIGINAR" name="original -> originar">
             <pattern>
                 <token inflected="yes" regexp="yes">poder|deber|querer</token>
                 <marker>
