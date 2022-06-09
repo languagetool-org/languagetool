@@ -5,6 +5,7 @@ import json
 import time
 import sys
 
+#spacy.require_gpu()
 nlp = spacy.load("en_core_web_sm")
 total_time = 0
 
@@ -38,7 +39,7 @@ def chunking(text):
   for token in doc:
       tokens.append({"text": token.text, "pos": token.pos_, "from": token.idx, "to": token.idx + len(token.text)})
   t2 = time.time()
-  printf("-> %.0fms\n", (t2-t1)*1000)
+  #printf("-> %.0fms\n", (t2-t1)*1000)
   total_time = total_time + (t2-t1)
   return json.dumps({"noun_chunks": result, "tokens": tokens})
 
@@ -53,10 +54,10 @@ def idxToToken(doc):
             map[i] = token
     return map
 
-lines = open("/home/dnaber/lt/en-examples-subset.txt", "r").readlines()
-#lines = open("/home/dnaber/lt/en-examples.txt", "r").readlines()
+#lines = open("/home/dnaber/lt/en-examples-subset.txt", "r").readlines()
+lines = open("/home/dnaber/lt/en-examples.txt", "r").readlines()
 for line in lines:
     res = chunking(line)
-    print(res)
+    #print(res)
 print("Total time s:", total_time)
 print("Avg time per sentence ms:", total_time/len(lines)*1000)
