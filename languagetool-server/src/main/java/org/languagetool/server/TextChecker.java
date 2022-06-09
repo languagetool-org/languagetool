@@ -28,8 +28,8 @@ import org.apache.ibatis.session.RowBounds;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
-import org.languagetool.language.LanguageIdentifier;
-import org.languagetool.language.LanguageIdentifierFactory;
+import org.languagetool.language.identifier.LanguageIdentifier;
+import org.languagetool.language.identifier.LanguageIdentifierService;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.*;
@@ -102,10 +102,10 @@ abstract class TextChecker {
     this.workQueue = workQueue;
     this.reqCounter = reqCounter;
     if (config.isLocalApiMode()) {
-      this.languageIdentifier = LanguageIdentifierFactory.INSTANCE.getLocalLanguageIdentifier(config.preferredLanguages);
+      this.languageIdentifier = LanguageIdentifierService.INSTANCE.getSimpleLanguageIdentifier(config.preferredLanguages);
     } else {
-      this.languageIdentifier = LanguageIdentifierFactory.INSTANCE.getDefaultLanguageIdentifier(
-              null,
+      this.languageIdentifier = LanguageIdentifierService.INSTANCE.getDefaultLanguageIdentifier(
+              0,
               config.getNgramLangIdentData(),
               config.getFasttextBinary(),
               config.getFasttextModel());

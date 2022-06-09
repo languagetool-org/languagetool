@@ -22,8 +22,8 @@ import com.google.common.io.CharStreams;
 import org.languagetool.DetectedLanguage;
 import org.languagetool.Language;
 import org.languagetool.Languages;
-import org.languagetool.language.LanguageIdentifier;
-import org.languagetool.language.LanguageIdentifierFactory;
+import org.languagetool.language.identifier.LanguageIdentifier;
+import org.languagetool.language.identifier.LanguageIdentifierService;
 
 import java.io.File;
 import java.io.IOException;
@@ -54,7 +54,7 @@ class LanguageDetectionMinLengthEval {
 //    Daniel's paths:
 //    File fastTextBin = new File("/home/languagetool/fasttext/fasttext");
 //    File fastTextBin = new File("/home/languagetool/fasttext/lid.176.bin");
-    languageIdentifier = LanguageIdentifierFactory.INSTANCE.getDefaultLanguageIdentifier(null, ngrams, fastTextBin, fastTextModel);
+    languageIdentifier = LanguageIdentifierService.INSTANCE.getDefaultLanguageIdentifier(0, ngrams, fastTextBin, fastTextModel);
 //    languageIdentifier = LanguageIdentifierFactory.INSTANCE.getLocalLanguageIdentifier(Arrays.asList("de-DE", "en-US"));
 //    languageIdentifier = LanguageIdentifierFactory.INSTANCE.getLocalLanguageIdentifier(null);
 

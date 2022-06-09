@@ -1,4 +1,4 @@
-package org.languagetool.language;
+package org.languagetool.language.identifier;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.Pair;
@@ -14,11 +14,12 @@ import java.io.IOException;
 import java.util.*;
 
 @Slf4j
-public class LocalLanguageIdentifier extends LanguageIdentifier {
+public class SimpleLanguageIdentifier extends LanguageIdentifier {
 
     private final Map<String, SpellingCheckRule> spellingCheckRules = new HashMap<>();
 
-    public LocalLanguageIdentifier() {
+    public SimpleLanguageIdentifier() {
+        super(1000);
         List<Language> languages = Languages.get();
         for (Language language : languages) {
             if (language.isVariant() || language.getShortCode().equals("zz")) {
@@ -41,7 +42,8 @@ public class LocalLanguageIdentifier extends LanguageIdentifier {
         }
     }
 
-    public LocalLanguageIdentifier(List<String> preferredLangCodes) {
+    public SimpleLanguageIdentifier(List<String> preferredLangCodes) {
+        super(1000);
         log.info("Init SpellcheckLangIdentifier with {}", preferredLangCodes);
         preferredLangCodes.forEach(langCode -> {
             Language language = Languages.getLanguageForShortCode(langCode);
@@ -128,7 +130,7 @@ public class LocalLanguageIdentifier extends LanguageIdentifier {
             highestScoringResult = getHighestScoringResult(scores);
             detectionSource += "+prefLang";
         }
-        if (highestScoringResult.getKey() != null && canLanguageBeDetected(highestScoringResult.getKey(), additionalLangs)) {
+        if (highestScoringResult.getKey() != null && LanguageIdentifierService.INSTANCE.canLanguageBeDetected(highestScoringResult.getKey(), additionalLangs)) {
             return new DetectedLanguage(null,
                     Languages.getLanguageForShortCode(highestScoringResult.getKey(), additionalLangs),
                     highestScoringResult.getValue().floatValue(), detectionSource);

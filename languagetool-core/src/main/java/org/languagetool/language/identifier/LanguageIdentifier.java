@@ -1,4 +1,4 @@
-package org.languagetool.language;
+package org.languagetool.language.identifier;
 
 import com.optimaize.langdetect.text.TextFilter;
 import org.apache.commons.lang3.tuple.Pair;
@@ -6,6 +6,8 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.DetectedLanguage;
 import org.languagetool.Language;
 import org.languagetool.Languages;
+import org.languagetool.language.identifier.detector.CommonWordsDetector;
+import org.languagetool.language.identifier.detector.UnicodeBasedDetector;
 
 import java.io.IOException;
 import java.util.*;
@@ -26,15 +28,24 @@ public abstract class LanguageIdentifier {
     protected static final TextFilter REMOVE_NON_BREAKING_SPACES_FILTER = text -> text.toString().replace('\u00A0', ' ');
     protected static final TextFilter REMOVE_URL_FILTER = text -> MAIL_REGEX.matcher(URL_REGEX.matcher(text).replaceAll(" ")).replaceAll(" ");
 
-    protected static final UnicodeBasedLangIdentifier UNICODE_BASED_LANG_IDENTIFIER = new UnicodeBasedLangIdentifier();
-    protected static final CommonWordsLangIdentifier COMMON_WORDS_LANG_IDENTIFIER;
+    protected static final UnicodeBasedDetector UNICODE_BASED_LANG_IDENTIFIER = new UnicodeBasedDetector();
+    protected static final CommonWordsDetector COMMON_WORDS_LANG_IDENTIFIER;
 
     static {
         try {
-            COMMON_WORDS_LANG_IDENTIFIER = new CommonWordsLangIdentifier();
+            COMMON_WORDS_LANG_IDENTIFIER = new CommonWordsDetector();
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
+    }
+
+    protected int maxLength;
+
+    public LanguageIdentifier(int maxLength) {
+        if (maxLength < 10) {
+            throw new IllegalArgumentException("maxLength must be >= 10 (but values > 100 are recommended): " + maxLength);
+        }
+        this.maxLength = maxLength;
     }
 
     /**
@@ -46,13 +57,18 @@ public abstract class LanguageIdentifier {
     @Nullable
     public abstract DetectedLanguage detectLanguage(String cleanText, List<String> noopLangsTmp, List<String> preferredLangsTmp);
 
+    /**
+     * @param cleanText    a cleanText as returned by {@link #cleanAndShortenText(String)}
+     * @return language or {@code null} if language could not be identified
+     * @since 4.4 (new parameter noopLangs, changed return type to DetectedLanguage)
+     */
     @Nullable
     public abstract Language detectLanguage(String cleanText);
 
     /**
      * @since 5.8
      */
-    public String cleanAndShortenText(String text, int maxLength) {
+    public String cleanAndShortenText(String text) {
         String shortText = text.length() > maxLength ? text.substring(0, maxLength) : text;
         shortText = shortText.replaceAll("\uFEFF+", " ");  // used by the browser add-on to filter HTML etc. (_ignoreText() in validator.js)
         shortText = REMOVE_URL_FILTER.filter(shortText);
@@ -60,13 +76,6 @@ public abstract class LanguageIdentifier {
         shortText = REMOVE_MENTION_FILTER.filter(shortText);
         shortText = REMOVE_NON_BREAKING_SPACES_FILTER.filter(shortText);
         return shortText;
-    }
-
-    /**
-     * @since 5.4
-     */
-    public String cleanAndShortenText(String text) {
-        return this.cleanAndShortenText(text, 1000);
     }
 
     protected Pair<List<String>, List<String>> prepareDetectLanguage(String text, List<String> noopLangsTmp, List<String> preferredLangsTmp) {
@@ -93,10 +102,6 @@ public abstract class LanguageIdentifier {
             additionalLangs.addAll(domLangCodes);
         }
         return Pair.of(additionalLangs, preferredLangs);
-    }
-
-    protected static boolean canLanguageBeDetected(String langCode, List<String> additionalLanguageCodes) {
-        return Languages.isLanguageSupported(langCode) || additionalLanguageCodes.contains(langCode);
     }
 
     protected Map.Entry<String, Double> getHighestScoringResult(Map<String, Double> probs) {

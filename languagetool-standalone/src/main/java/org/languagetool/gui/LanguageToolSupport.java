@@ -21,8 +21,8 @@ package org.languagetool.gui;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
-import org.languagetool.language.LanguageIdentifier;
-import org.languagetool.language.LanguageIdentifierFactory;
+import org.languagetool.language.identifier.LanguageIdentifier;
+import org.languagetool.language.identifier.LanguageIdentifierService;
 import org.languagetool.rules.*;
 
 import javax.swing.*;
@@ -102,7 +102,7 @@ class LanguageToolSupport {
     ruleMatches = new ArrayList<>();
     documentSpans = new ArrayList<>();    
     this.undo = support;
-    this.langIdentifier = LanguageIdentifierFactory.INSTANCE.getDefaultLanguageIdentifier(null, null, null, null);
+    this.langIdentifier = LanguageIdentifierService.INSTANCE.getDefaultLanguageIdentifier(0, null, null, null);
     init();
   }
 

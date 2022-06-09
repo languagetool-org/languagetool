@@ -16,27 +16,27 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.language;
+package org.languagetool.language.identifier.detector;
 
 import java.util.ArrayList;
 import java.util.List;
 
-class UnicodeBasedLangIdentifier {
+public class UnicodeBasedDetector {
 
   private static final int DEFAULT_MAX_CHECK_LENGTH = 50;
   private static final float THRESHOLD = 0.5f;
 
     private final int maxCheckLength;
 
-  UnicodeBasedLangIdentifier() {
+  public UnicodeBasedDetector() {
     this(DEFAULT_MAX_CHECK_LENGTH);
     }
 
-  UnicodeBasedLangIdentifier(int maxCheckLength) {
+  public UnicodeBasedDetector(int maxCheckLength) {
         this.maxCheckLength = maxCheckLength;
     }
 
-  List<String> getDominantLangCodes(String str) {
+  public List<String> getDominantLangCodes(String str) {
         // For a more complete list of script/language relations,
         // see https://unicode-org.github.io/cldr-staging/charts/37/supplemental/scripts_and_languages.html
         // Another more complete approach might be to use Character.UnicodeScript.of() for each character.

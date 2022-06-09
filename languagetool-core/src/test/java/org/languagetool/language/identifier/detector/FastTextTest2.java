@@ -16,12 +16,14 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.language;
+package org.languagetool.language.identifier.detector;
 
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.After;
 import org.junit.Test;
+import org.languagetool.language.identifier.detector.FastTextDetector;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -38,7 +40,7 @@ import static org.junit.Assert.assertEquals;
  * This is a (failed) attempt at reproducing that.
  * Removing buffering from the communication with fasttext is an attempt at fixing it.
  */
-public class FastTextLangIdentifierTest2 {
+public class FastTextTest2 {
   
   private static final List<String> languages = Arrays.asList("en", "es", "de", "fr");
   private static final List<Entry<String, String>> TESTED_ENTRIES =
@@ -48,11 +50,11 @@ public class FastTextLangIdentifierTest2 {
                   );
   private static final int THREAD_COUNT = 11;
 
-  private FastTextLangIdentifier instance;
+  private FastTextDetector instance;
 
   @Before
   public void setUp() throws IOException {
-    instance = new FastTextLangIdentifier(new File("lid.176.bin"),
+    instance = new FastTextDetector(new File("lid.176.bin"),
                             new File("fasttext"));
   }
 

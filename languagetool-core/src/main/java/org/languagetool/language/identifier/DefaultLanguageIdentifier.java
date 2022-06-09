@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.language;
+package org.languagetool.language.identifier;
 
 import com.optimaize.langdetect.LanguageDetector;
 import com.optimaize.langdetect.LanguageDetectorBuilder;
@@ -29,6 +29,8 @@ import com.optimaize.langdetect.text.TextObjectFactoryBuilder;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
+import org.languagetool.language.identifier.detector.FastTextDetector;
+import org.languagetool.language.identifier.detector.NGramDetector;
 import org.languagetool.noop.NoopLanguage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,8 +76,8 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier{
   private final LanguageDetector languageDetector;
   private final TextObjectFactory textObjectFactory;
 
-  private FastTextLangIdentifier fastTextLangIdentifier;
-  private NGramLangIdentifier ngram;
+  private FastTextDetector fastTextDetector;
+  private NGramDetector ngram;
 
   DefaultLanguageIdentifier() {
     this(1000);
@@ -89,9 +91,7 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier{
    * @since 4.2
    */
   DefaultLanguageIdentifier(int maxLength) {
-    if (maxLength < 10) {
-      throw new IllegalArgumentException("maxLength must be >= 10 (but values > 100 are recommended): " + maxLength);
-    }
+    super(maxLength);
     try {
       List<LanguageProfile> profiles = loadProfiles(getLanguageCodes());
       languageDetector = LanguageDetectorBuilder.create(NgramExtractors.standard())
@@ -116,7 +116,7 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier{
   void enableFasttext(File fasttextBinary, File fasttextModel) {
     if (fasttextBinary != null && fasttextModel != null) {
       try {
-        fastTextLangIdentifier = new FastTextLangIdentifier(fasttextModel, fasttextBinary);
+        fastTextDetector = new FastTextDetector(fasttextModel, fasttextBinary);
         logger.info("Started fasttext process for language identification: Binary " + fasttextBinary + " with model @ " + fasttextModel);
       } catch (IOException e) {
         throw new RuntimeException("Could not start fasttext process for language identification @ " + fasttextBinary + " with model @ " + fasttextModel, e);
@@ -126,14 +126,14 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier{
 
   /** @since 5.2 */
   public boolean isFastTextEnabled() {
-    return fastTextLangIdentifier != null;
+    return fastTextDetector != null;
   }
 
   void enableNgrams(File ngramDir) {
     if (ngramDir != null) {
       try {
         logger.info("Loading ngram data for language identification from " + ngramDir + "...");
-        ngram = new NGramLangIdentifier(ngramDir, 50);
+        ngram = new NGramDetector(ngramDir, 50);
         logger.info("Loaded ngram data for language identification from " + ngramDir);
       } catch (IOException e) {
         throw new RuntimeException("Could not load ngram data language identification from " + ngramDir, e);
@@ -188,16 +188,6 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier{
       return detectedLanguage.getDetectedLanguage();
     }
   }
-
-  /**
-   * @param cleanText a cleanText as returned by {@link #cleanAndShortenText(String)}
-   * @return language or {@code null} if language could not be identified
-   */
-  @Nullable
-  @Experimental
-  DetectedLanguage detectLanguageWithDetails(String cleanText) {
-    return detectLanguage(cleanText, Collections.emptyList(), Collections.emptyList());
-  }
   
   /**
    * @return language or {@code null} if language could not be identified
@@ -219,16 +209,16 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier{
     Map.Entry<String,Double> result = null;
     boolean fasttextFailed = false;
     String source = "";
-    if (fastTextLangIdentifier != null || ngram != null) {
+    if (fastTextDetector != null || ngram != null) {
       try {
         Map<String, Double> scores;
         boolean usingFastText = false;
-        if ((text.length() <= SHORT_ALGO_THRESHOLD || fastTextLangIdentifier == null) && ngram != null) {
+        if ((text.length() <= SHORT_ALGO_THRESHOLD || fastTextDetector == null) && ngram != null) {
           scores = ngram.detectLanguages(text.trim(), additionalLangs);
           source += "ngram";
         } else {
           usingFastText = true;
-          scores = fastTextLangIdentifier.runFasttext(text, additionalLangs);
+          scores = fastTextDetector.runFasttext(text, additionalLangs);
           source += "fasttext";
         }
         result = getHighestScoringResult(scores);
@@ -277,9 +267,9 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier{
         //System.out.println("fasttext  : " + result);
         //System.out.println("newScore  : " + newScore);
         result = new AbstractMap.SimpleImmutableEntry<>(result.getKey(), newScore);
-      } catch(FastTextLangIdentifier.FastTextException e) {
+      } catch(FastTextDetector.FastTextException e) {
         if (e.isDisabled()) {
-          fastTextLangIdentifier = null;
+          fastTextDetector = null;
           logger.error("Fasttext disabled", e);
         } else {
           logger.error("Fasttext failed, fallback used", e);
@@ -287,18 +277,18 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier{
         }
       } catch (Exception e) {
         //fastText.destroy();
-        fastTextLangIdentifier = null;
+        fastTextDetector = null;
         logger.error("Fasttext disabled", e);
       }
     }
-    if (fastTextLangIdentifier == null && ngram == null || fasttextFailed) { // no else, value can change in if clause
+    if (fastTextDetector == null && ngram == null || fasttextFailed) { // no else, value can change in if clause
       text = textObjectFactory.forText(text).toString();
       result = detectLanguageCode(text);
       if (additionalLangs.size() > 0) {
         logger.warn("Cannot consider noopLanguages because not in fastText mode: " + additionalLangs);
       }
     }
-    if (result != null && result.getKey() != null && canLanguageBeDetected(result.getKey(), additionalLangs)) {
+    if (result != null && result.getKey() != null && LanguageIdentifierService.INSTANCE.canLanguageBeDetected(result.getKey(), additionalLangs)) {
         return new DetectedLanguage(null,
                 Languages.getLanguageForShortCode(result.getKey(), additionalLangs),
                 result.getValue().floatValue(), source);

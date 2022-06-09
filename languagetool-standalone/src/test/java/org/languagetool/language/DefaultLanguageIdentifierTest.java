@@ -23,6 +23,9 @@ import com.optimaize.langdetect.text.TextObjectFactoryBuilder;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.DetectedLanguage;
+import org.languagetool.language.identifier.DefaultLanguageIdentifier;
+import org.languagetool.language.identifier.LanguageIdentifier;
+import org.languagetool.language.identifier.LanguageIdentifierService;
 
 import java.io.File;
 import java.util.Arrays;
@@ -41,19 +44,20 @@ public class DefaultLanguageIdentifierTest {
   private final static String ngramData = "/home/languagetool/model_ml50_new.zip";
   private final static String czech = "V současné době je označením Linux míněno nejen jádro operačního systému, " +
           "ale zahrnuje do něj též veškeré programové vybavení";
-
-  private final DefaultLanguageIdentifier identifier = new DefaultLanguageIdentifier();
-
+  
   @Test
   @Ignore("requires ngram data from https://languagetool.org/download/ngram-lang-detect/")
   public void cleanAndShortenText() {
-    DefaultLanguageIdentifier ident = new DefaultLanguageIdentifier(20);
+    LanguageIdentifier ident = LanguageIdentifierService.INSTANCE
+            .clearLanguageIdentifier()
+            .getDefaultLanguageIdentifier(20, null, null, null);
     assertThat(ident.cleanAndShortenText("foo"), is("foo"));
     assertThat(ident.cleanAndShortenText("foo this is so long it will be cut off"), is("foo this is so long "));
     assertThat(ident.cleanAndShortenText("clean\uFEFF\uFEFFme"), is("clean me"));
     assertThat(ident.cleanAndShortenText("a https://x.com blah"), is("a https://x.com blah"));
-    DefaultLanguageIdentifier ident2 = new DefaultLanguageIdentifier(100);
-    ident2.enableNgrams(new File(ngramData));
+    LanguageIdentifier ident2 = LanguageIdentifierService.INSTANCE
+            .clearLanguageIdentifier()
+            .getDefaultLanguageIdentifier(100, new File(ngramData), null, null);
     assertThat(ident2.cleanAndShortenText("foo https://www.example.com blah"), is("foo   blah"));
     assertThat(ident2.cleanAndShortenText("foo https://example.com?foo-bar blah"), is("foo   blah"));
     assertThat(ident2.cleanAndShortenText("foo foo.bla@example.com blah"), is("foo   blah"));
@@ -63,97 +67,117 @@ public class DefaultLanguageIdentifierTest {
   
   @Test
   public void testDetection() {
-    langAssert("de", "Das ist ein deutscher Text");
-    langAssert("en", "This is an English text");
-    langAssert("fr", "Le mont Revard est un sommet du département français ...");
+    LanguageIdentifier identifier = LanguageIdentifierService.INSTANCE
+            .clearLanguageIdentifier()
+            .getDefaultLanguageIdentifier(0, null, null, null);
+    langAssert("de", "Das ist ein deutscher Text", identifier);
+    langAssert("en", "This is an English text" , identifier);
+    langAssert("fr", "Le mont Revard est un sommet du département français ...", identifier);
     // some test sentences from the "Linux" article of Wikipedia:
-    langAssert("be", "Першапачаткова Linux распрацоўваўся і выкарыстоўваўся асобнымі аматарамі на сваіх персанальных камп'ютарах.");
-    langAssert("ca", "Aquest sistema operatiu va créixer gràcies al treball col·laboratiu de programadors de tot el món ...");
-    langAssert("zh", "Linux最初是作为支持英特尔x86架构的个人电脑的一个自由操作系统。目前Linux已经被移植到更多的计算机硬件平台");
-    langAssert("da", "Linux-distributionerne har traditionelt deres største udbredelse på servere, men er hastigt på vej på almindelige pc'er.");
-    langAssert("nl", "Linux is een verzameling van open source Unix-achtige besturingssystemen gebaseerd op de POSIX-standaard.");
-    langAssert("el", "Το Linux μπορεί να εγκατασταθεί και να λειτουργήσει σε μεγάλη ποικιλία υπολογιστικών συστημάτων, από μικρές συσκευές όπως κινητά τηλέφωνα ...");
+    langAssert("be", "Першапачаткова Linux распрацоўваўся і выкарыстоўваўся асобнымі аматарамі на сваіх персанальных камп'ютарах.", identifier);
+    langAssert("ca", "Aquest sistema operatiu va créixer gràcies al treball col·laboratiu de programadors de tot el món ...", identifier);
+    langAssert("zh", "Linux最初是作为支持英特尔x86架构的个人电脑的一个自由操作系统。目前Linux已经被移植到更多的计算机硬件平台", identifier);
+    langAssert("da", "Linux-distributionerne har traditionelt deres største udbredelse på servere, men er hastigt på vej på almindelige pc'er.", identifier);
+    langAssert("nl", "Linux is een verzameling van open source Unix-achtige besturingssystemen gebaseerd op de POSIX-standaard.", identifier);
+    langAssert("el", "Το Linux μπορεί να εγκατασταθεί και να λειτουργήσει σε μεγάλη ποικιλία υπολογιστικών συστημάτων, από μικρές συσκευές όπως κινητά τηλέφωνα ...", identifier);
     //langAssert("is", "Linux er frjáls stýrikerfiskjarni sem Linus Torvalds byrjaði að skrifa árið 1991, ...");
-    langAssert("it", "Grazie alla portabilità del kernel Linux sono stati sviluppati sistemi operativi Linux per un'ampia gamma di dispositivi:");
-    langAssert("ja", "Linuxは、狭義ではLinuxカーネルを意味し、広義ではそれをカーネルとして用いたオペレーティングシステム (OS) を意味する。");
-    langAssert("km", "បច្ចុប្បន្នគ្មានអត្ថបទក្នុងទំព័រនេះទេ។អ្នកអាច ស្វែងរក​ចំណងជើង​នៃទំព័រនេះក្នុងទំព័រដទៃទៀត​​ ឬ ស្វែង​រក​កំណត់​ហេតុ​ដែល​ពាក់ព័ន្ធ ឬ កែប្រែ​ទំព័រនេះ");
+    langAssert("it", "Grazie alla portabilità del kernel Linux sono stati sviluppati sistemi operativi Linux per un'ampia gamma di dispositivi:", identifier);
+    langAssert("ja", "Linuxは、狭義ではLinuxカーネルを意味し、広義ではそれをカーネルとして用いたオペレーティングシステム (OS) を意味する。", identifier);
+    langAssert("km", "បច្ចុប្បន្នគ្មានអត្ថបទក្នុងទំព័រនេះទេ។អ្នកអាច ស្វែងរក​ចំណងជើង​នៃទំព័រនេះក្នុងទំព័រដទៃទៀត​​ ឬ ស្វែង​រក​កំណត់​ហេតុ​ដែល​ពាក់ព័ន្ធ ឬ កែប្រែ​ទំព័រនេះ", identifier);
     //langAssert("lt", "Linux – laisvos (atviro kodo) operacinės sistemos branduolio (kernel) pavadinimas.");
     //langAssert("ml", "വളരെ പ്രശസ്തമായ ഒരു ഓപ്പറേറ്റിംഗ് സിസ്റ്റമാണ് ഗ്നു/ലിനക്സ് (ആംഗലേയം:GNU/Linux).");
-    langAssert("fa", "این صفحه حذف شده\u200Cاست. در زیر سیاههٔ حذف و انتقال این صفحه نمایش داده شده\u200Cاست.");
-    langAssert("pl", "Linux – rodzina uniksopodobnych systemów operacyjnych opartych na jądrze Linux.");
-    langAssert("pt", "Linux é um termo utilizado para se referir a sistemas operativos ou sistemas operacionais que utilizem o núcleo Linux.");
-    langAssert("ro", "Linux este o familie de sisteme de operare de tip Unix care folosesc Nucleul Linux (în engleză kernel).");
-    langAssert("ru", "Linux, также Ли́нукс — общее название Unix-подобных операционных систем, основанных на одноимённом ядре.");
-    langAssert("sk", "Linux je počítačový operačný systém a jeho jadro.");
-    langAssert("sl", "Linux je prost operacijski sistem podoben Unixu s prosto dostopno izvorno kodo ...");
-    langAssert("es", "GNU/Linux es uno de los términos empleados para referirse a la combinación del núcleo o kernel libre ...");
-    langAssert("sv", "Linux eller GNU/Linux är ett Unix-liknande operativsystem som till största delen");
-    langAssert("tl", "Ang Linux ay isang operating system kernel para sa mga operating system na humahalintulad sa Unix.");
-    langAssert("ta", "Linux பற்றி பிற கட்டுரைகளில் தேடிப்பாருங்கள்.");
-    langAssert("uk", "Лі́нукс — загальна назва UNIX-подібних операційних систем на основі однойменного ядра.");
-    langAssert("km", "អ្នក\u200Bអាច\u200Bជួយ\u200Bលើក\u200Bស្ទួយ\u200Bវិគីភីឌាភាសាខ្មែរ\u200Bនេះ\u200Bឱ្យ\u200Bមាន\u200Bលក្ខណៈ");
+    langAssert("fa", "این صفحه حذف شده\u200Cاست. در زیر سیاههٔ حذف و انتقال این صفحه نمایش داده شده\u200Cاست.", identifier);
+    langAssert("pl", "Linux – rodzina uniksopodobnych systemów operacyjnych opartych na jądrze Linux.", identifier);
+    langAssert("pt", "Linux é um termo utilizado para se referir a sistemas operativos ou sistemas operacionais que utilizem o núcleo Linux.", identifier);
+    langAssert("ro", "Linux este o familie de sisteme de operare de tip Unix care folosesc Nucleul Linux (în engleză kernel).", identifier);
+    langAssert("ru", "Linux, также Ли́нукс — общее название Unix-подобных операционных систем, основанных на одноимённом ядре.", identifier);
+    langAssert("sk", "Linux je počítačový operačný systém a jeho jadro.", identifier);
+    langAssert("sl", "Linux je prost operacijski sistem podoben Unixu s prosto dostopno izvorno kodo ...", identifier);
+    langAssert("es", "GNU/Linux es uno de los términos empleados para referirse a la combinación del núcleo o kernel libre ...", identifier);
+    langAssert("sv", "Linux eller GNU/Linux är ett Unix-liknande operativsystem som till största delen", identifier);
+    langAssert("tl", "Ang Linux ay isang operating system kernel para sa mga operating system na humahalintulad sa Unix.", identifier);
+    langAssert("ta", "Linux பற்றி பிற கட்டுரைகளில் தேடிப்பாருங்கள்.", identifier);
+    langAssert("uk", "Лі́нукс — загальна назва UNIX-подібних операційних систем на основі однойменного ядра.", identifier);
+    langAssert("km", "អ្នក\u200Bអាច\u200Bជួយ\u200Bលើក\u200Bស្ទួយ\u200Bវិគីភីឌាភាសាខ្មែរ\u200Bនេះ\u200Bឱ្យ\u200Bមាន\u200Bលក្ខណៈ", identifier);
     // not yet in language-detector 0.5:
-    langAssert("eo", "Imperiestraj pingvenoj manĝas ĉefe krustacojn kaj malgrandajn ...");
+    langAssert("eo", "Imperiestraj pingvenoj manĝas ĉefe krustacojn kaj malgrandajn ...", identifier);
     // detected as not supported by the unicode characters used:
-    langAssert("zz", "ลินุกซ์ (อังกฤษ: Linux)");  // Thai
-    langAssert("zz", "यूएसबी (अंग्रेज़ी: Live ...)");  // Hindi
-    langAssert("zz", "लिनक्स (इंग्लिश: Linux)");  // Marathi
+    langAssert("zz", "ลินุกซ์ (อังกฤษ: Linux)", identifier);  // Thai
+    langAssert("zz", "यूएसबी (अंग्रेज़ी: Live ...)", identifier);  // Hindi
+    langAssert("zz", "लिनक्स (इंग्लिश: Linux)", identifier);  // Marathi
   }
 
   @Test
   @Ignore("disabled minimum length, instead now providing confidence score")
   public void testShortAndLongText() {
-    DefaultLanguageIdentifier id10 = new DefaultLanguageIdentifier(10);
+    LanguageIdentifier id10 = LanguageIdentifierService.INSTANCE
+            .clearLanguageIdentifier()
+            .getDefaultLanguageIdentifier(10, null, null, null);
     langAssert(null, "Das ist so ein Text, mit dem man testen kann", id10);  // too short when max length is applied
     langAssert(null, "012345678", id10);
     langAssert(null, "0123456789", id10);
     langAssert(null, "0123456789A", id10);
     langAssert(null, "0123456789AB", id10);
     langAssert(null, "0123456789ABC", id10);
-
-    DefaultLanguageIdentifier id20 = new DefaultLanguageIdentifier(20);
+    LanguageIdentifier id20 = LanguageIdentifierService.INSTANCE
+            .clearLanguageIdentifier()
+            .getDefaultLanguageIdentifier(20, null, null, null);
     langAssert("de", "Das ist so ein Text, mit dem man testen kann", id20);
   }
   
   @Test
   public void testKnownLimitations() {
+    LanguageIdentifier identifier = LanguageIdentifierService.INSTANCE
+            .clearLanguageIdentifier()
+            .getDefaultLanguageIdentifier(0, null, null, null);
     // wrong, but low probabilities
     //identifier.enableFasttext(new File(fastTextBinary), new File(fastTextModel));
     // fasttext just assumes english, ignore / comment out
-    langAssert(null, "");
-    langAssert("ca", "X");
+    langAssert(null, "", identifier);
+    langAssert("ca", "X", identifier);
 
     // not activated because it impairs detection of Spanish, so ast and gl may be mis-detected:
-    langAssert("es", "L'Iberorrománicu o Iberromance ye un subgrupu de llingües romances que posiblemente ...");  // ast
-    langAssert("es", "Dodro é un concello da provincia da Coruña pertencente á comarca do Sar ...");  // gl
+    langAssert("es", "L'Iberorrománicu o Iberromance ye un subgrupu de llingües romances que posiblemente ...", identifier);  // ast
+    langAssert("es", "Dodro é un concello da provincia da Coruña pertencente á comarca do Sar ...", identifier);  // gl
     // Somali, known by language-detector, but not by LT, so we get back something else:
     langAssert("tl", "Dhammaan garoomada caalamka ayaa loo isticmaalaa. Ururku waxa uu qabtaa ama uu ku shaqaleeyahay " +
             "isusocodka diyaaradaha aduunka ee iskaga gooshaya xuduudaha iyo ka hortagga wixii qalad ah iyo baaritaanka " +
-            "marka ay dhacdo dhibaato la xiriirta dulimaad.");
+            "marka ay dhacdo dhibaato la xiriirta dulimaad.", identifier);
   }
 
   @Test
   public void testIgnoreSignature() {
-    langAssert("de", "Das ist ein deutscher Text\n-- \nBut this is an\nEnglish text in the signature, and it's much longer than the original text.");
-    langAssert("en", "This is an English text.\n-- \nDas ist ein\ndeutscher Text in der Signatur, der länger ist als der Haupttext.");
+    LanguageIdentifier identifier = LanguageIdentifierService.INSTANCE
+            .clearLanguageIdentifier()
+            .getDefaultLanguageIdentifier(0, null, null, null);
+    langAssert("de", "Das ist ein deutscher Text\n-- \nBut this is an\nEnglish text in the signature, and it's much longer than the original text.", identifier);
+    langAssert("en", "This is an English text.\n-- \nDas ist ein\ndeutscher Text in der Signatur, der länger ist als der Haupttext.", identifier);
   }
 
   @Test
   @Ignore("Only works with locally installed fastText")
   public void testAdditionalLanguagesFasttext() {
-    DefaultLanguageIdentifier defaultIdent = new DefaultLanguageIdentifier();
+    LanguageIdentifier defaultIdent = LanguageIdentifierService.INSTANCE
+            .clearLanguageIdentifier()
+            .getDefaultLanguageIdentifier(0, null, null, null);
     langAssert("sk", czech, defaultIdent);  // misdetected, as cz isn't supported by LT
 
-    DefaultLanguageIdentifier csIdent = new DefaultLanguageIdentifier();
-    csIdent.enableFasttext(new File(fastTextBinary), new File(fastTextModel));
+    LanguageIdentifier csIdent = LanguageIdentifierService.INSTANCE
+            .clearLanguageIdentifier()
+            .getDefaultLanguageIdentifier(0, null, new File(fastTextBinary), new File(fastTextModel));
     langAssert("zz", czech, csIdent, Arrays.asList("cs"), Collections.emptyList());   // the no-op language
   }
 
   @Test
   @Ignore("Only works with locally installed fastText, no test - for interactive use")
   public void testInteractively() {
-    DefaultLanguageIdentifier ident = new DefaultLanguageIdentifier();
-    ident.enableFasttext(new File(fastTextBinary), new File(fastTextModel));
+    LanguageIdentifier ident = LanguageIdentifierService.INSTANCE
+            .clearLanguageIdentifier()
+            .getDefaultLanguageIdentifier(
+                    0,
+                    null,
+                    new File(fastTextBinary),
+                    new File(fastTextModel));
     List<String> inputs = Arrays.asList(
             "was meinst du?",          // en, should be de - fasttext confidence used (>0.9) 
             "was meinst?",             // es, should be de - fasttext confidence used (>0.9)
@@ -174,7 +198,8 @@ public class DefaultLanguageIdentifierTest {
     );
     //List<String> inputs = Arrays.asList("Brand in arrivo!");
     for (String input : inputs) {
-      DetectedLanguage lang = ident.detectLanguageWithDetails(input);
+      //DetectedLanguage lang = ident.detectLanguageWithDetails(input);
+      DetectedLanguage lang = ident.detectLanguage(input, Collections.emptyList(), Collections.emptyList());
       System.out.println("Input     : " + input);
       System.out.println("Language  : " + lang.getDetectedLanguage());
       System.out.println("confidence: " + lang.getDetectionConfidence());
@@ -185,8 +210,9 @@ public class DefaultLanguageIdentifierTest {
   @Test
   @Ignore("Only works with locally installed fastText")
   public void testShortTexts() {
-    DefaultLanguageIdentifier defaultIdent = new DefaultLanguageIdentifier();
-    defaultIdent.enableFasttext(new File(fastTextBinary), new File(fastTextModel));
+    LanguageIdentifier defaultIdent = LanguageIdentifierService.INSTANCE
+            .clearLanguageIdentifier()
+            .getDefaultLanguageIdentifier(0, null, new File(fastTextBinary), new File(fastTextModel));
     langAssert("en", "If the", defaultIdent);
     langAssert("en", "if the man", defaultIdent);
     langAssert("en", "Paste text", defaultIdent);
@@ -212,10 +238,11 @@ public class DefaultLanguageIdentifierTest {
   @Test
   @Ignore("Only works with locally installed fastText")
   public void testShortTextsWithPreferredLanguage() {
-    DefaultLanguageIdentifier ident = new DefaultLanguageIdentifier();
+    LanguageIdentifier ident = LanguageIdentifierService.INSTANCE
+            .clearLanguageIdentifier()
+            .getDefaultLanguageIdentifier(0, null, new File(fastTextBinary), new File(fastTextModel));
     List<String> enDePreferred = Arrays.asList("de", "en");
     List<String> noop = Arrays.asList();
-    ident.enableFasttext(new File(fastTextBinary), new File(fastTextModel));
 
     // short, but has a specific character set that helps detection:
     langAssert("uk", "Зараз десь когось нема", ident, noop, enDePreferred);
@@ -259,21 +286,27 @@ public class DefaultLanguageIdentifierTest {
 
   @Test
   public void testAdditionalLanguagesBuiltIn() {
-    DefaultLanguageIdentifier defaultIdent = new DefaultLanguageIdentifier();
+    LanguageIdentifier defaultIdent = LanguageIdentifierService.INSTANCE
+            .clearLanguageIdentifier()
+            .getDefaultLanguageIdentifier(0, null, null, null);
     langAssert("sk", czech, defaultIdent);  // misdetected, as cz isn't supported by LT
-    DefaultLanguageIdentifier csIdent = new DefaultLanguageIdentifier();
+    LanguageIdentifier csIdent = LanguageIdentifierService.INSTANCE
+            .clearLanguageIdentifier()
+            .getDefaultLanguageIdentifier(0, null, null, null);
     langAssert("sk", czech, csIdent, Arrays.asList("cs"), Collections.emptyList());   // no-op language only supported by fastText 
   }
 
+  /*
   private void langAssert(String expectedLangCode, String text) {
     langAssert(expectedLangCode, text, identifier, Collections.emptyList(), Collections.emptyList());
   }
+   */
   
-  private void langAssert(String expectedLangCode, String text, DefaultLanguageIdentifier id) {
+  private void langAssert(String expectedLangCode, String text, LanguageIdentifier id) {
     langAssert(expectedLangCode, text, id, Collections.emptyList(), Collections.emptyList());
   }
   
-  private void langAssert(String expectedLangCode, String text, DefaultLanguageIdentifier id, List<String> noopLangCodes,
+  private void langAssert(String expectedLangCode, String text, LanguageIdentifier id, List<String> noopLangCodes,
                           List<String> preferredLangCodes) {
     DetectedLanguage detectedLang = id.detectLanguage(text, noopLangCodes, preferredLangCodes);
     String detectedLangCode = detectedLang != null ?

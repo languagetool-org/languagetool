@@ -16,11 +16,12 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.language;
+package org.languagetool.language.identifier.detector;
 
 import org.jetbrains.annotations.Nullable;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.languagetool.language.identifier.detector.FastTextDetector;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,7 +37,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-public class FastTextLangIdentifierTest {
+public class FastTextTest {
 
   private static final File MODEL_PATH = new File("/prg/fastText-0.1.0/data/lid.176.bin");
   private static final File BINARY_PATH = new File("/prg/fastText-0.1.0/fasttext");
@@ -44,7 +45,7 @@ public class FastTextLangIdentifierTest {
   @Test
   @Ignore("for interactive use")
   public void testInteractively() throws Exception {
-    FastTextLangIdentifier ft = new FastTextLangIdentifier(MODEL_PATH, BINARY_PATH);
+    FastTextDetector ft = new FastTextDetector(MODEL_PATH, BINARY_PATH);
     List<String> langCodes = Arrays.asList("en", "de", "fr", "es");
     String s = "PROJECT TAGGING CRITERIA";  // {en=0.0688019}
     //String s = "project tagging criteria";  // {en=0.417927, es=0.0365024}
@@ -57,7 +58,7 @@ public class FastTextLangIdentifierTest {
   public void testCaseShouldNotMatter() throws Exception {
     // all-uppercase yields bad results (also see https://github.com/facebookresearch/fastText/issues/1181),
     // so make sure we lowercase input internally
-    FastTextLangIdentifier ft = new FastTextLangIdentifier(MODEL_PATH, BINARY_PATH);
+    FastTextDetector ft = new FastTextDetector(MODEL_PATH, BINARY_PATH);
     List<String> langCodes = Arrays.asList("en", "de", "fr", "es", "ko");
     String s = "project tagging criteria";
     Map<String, Double> res1 = ft.runFasttext(s, langCodes);
@@ -68,7 +69,7 @@ public class FastTextLangIdentifierTest {
   @Test
   @Ignore("for interactive use")
   public void testEverShorterTextWithFastText() throws IOException {
-    FastTextLangIdentifier ft = new FastTextLangIdentifier(new File("/prg/fastText-0.9.2/lid.176.bin"), new File("/prg/fastText-0.9.2/fasttext"));
+    FastTextDetector ft = new FastTextDetector(new File("/prg/fastText-0.9.2/lid.176.bin"), new File("/prg/fastText-0.9.2/fasttext"));
     //FastText ft = new FastText(new File("/home/languagetool/fasttext/lid.176.bin"), new File("/prg/fastText/fasttext"));
     //FastText ft = new FastText(new File("/home/languagetool/fasttext/lid.176.bin"), new File("/prg/fastText-0.1.0/fasttext"));
     List<String> langs = Arrays.asList("en", "de", "fr", "es", "nl");
@@ -114,7 +115,7 @@ public class FastTextLangIdentifierTest {
 
   @Test
   public void testParsing() throws Exception {
-    FastTextLangIdentifier ft = new FastTextLangIdentifier();
+    FastTextDetector ft = new FastTextDetector();
     List<String> l = Arrays.asList("en", "fy", "de", "es", "nl");
     Map<String, Double> res1 = ft.parseBuffer("__label__nl 0.423696 __label__fy 0.207109\n", l);
     assertThat(res1.size(), is(2));

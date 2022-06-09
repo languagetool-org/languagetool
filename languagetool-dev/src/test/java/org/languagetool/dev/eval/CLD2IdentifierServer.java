@@ -23,7 +23,6 @@ package org.languagetool.dev.eval;
 //import org.languagetool.DetectedLanguage;
 //import org.languagetool.Language;
 //import org.languagetool.Languages;
-import org.languagetool.language.DefaultLanguageIdentifier;
 
 public class CLD2IdentifierServer /*extends DefaultLanguageIdentifier*/ {
 
