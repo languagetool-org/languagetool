@@ -13,7 +13,8 @@ public enum LanguageIdentifierService {
 
     INSTANCE;
 
-    private LanguageIdentifier languageIdentifier = null;
+    private LanguageIdentifier defaultIdentifier = null;
+    private LanguageIdentifier simpleIdenfifier = null;
 
     /**
      * @param maxLength          - the maximum of characters that will be considered - can help with performance.
@@ -29,13 +30,13 @@ public enum LanguageIdentifierService {
                                                                         @Nullable File ngramLangIdentData,
                                                                         @Nullable File fasttextBinary,
                                                                         @Nullable File fasttextModel) {
-        if (languageIdentifier == null) {
+        if (defaultIdentifier == null) {
             DefaultLanguageIdentifier defaultIdentifier = maxLength > 0 ? new DefaultLanguageIdentifier(maxLength) : new DefaultLanguageIdentifier();
             defaultIdentifier.enableNgrams(ngramLangIdentData);
             defaultIdentifier.enableFasttext(fasttextBinary, fasttextModel);
-            this.languageIdentifier = defaultIdentifier;
+            this.defaultIdentifier = defaultIdentifier;
         }
-        return this.languageIdentifier;
+        return this.defaultIdentifier;
     }
 
     /**
@@ -45,24 +46,41 @@ public enum LanguageIdentifierService {
      * @since 5.8
      */
     public synchronized LanguageIdentifier getSimpleLanguageIdentifier(@Nullable List<String> preferredLangCodes) {
-        if (languageIdentifier == null) {
+        if (simpleIdenfifier == null) {
             if (preferredLangCodes == null) {
-                this.languageIdentifier = new SimpleLanguageIdentifier();
+                this.simpleIdenfifier = new SimpleLanguageIdentifier();
             } else {
-                this.languageIdentifier = new SimpleLanguageIdentifier(preferredLangCodes);
+                this.simpleIdenfifier = new SimpleLanguageIdentifier(preferredLangCodes);
 
             }
         }
-        return this.languageIdentifier;
+        return this.simpleIdenfifier;
     }
 
     public boolean canLanguageBeDetected(String langCode, List<String> additionalLanguageCodes) {
         return Languages.isLanguageSupported(langCode) || additionalLanguageCodes.contains(langCode);
     }
-    
+
+    /**
+     * @param type - option: "default", "simpel, or both to clear the identifiers
+     * @return {@code LanguageIdentifierService} instance
+     */
     @TestOnly
-    public LanguageIdentifierService clearLanguageIdentifier() {
-        this.languageIdentifier = null;
+    public LanguageIdentifierService clearLanguageIdentifier(String type) {
+        switch (type) {
+            case "default":
+                this.defaultIdentifier = null;
+                break;
+            case "simple":
+                this.simpleIdenfifier = null;
+                break;
+            case "both":
+                this.simpleIdenfifier = null;
+                this.defaultIdentifier = null;
+                break;
+            default:
+                break;
+        }
         return this;
     }
 }

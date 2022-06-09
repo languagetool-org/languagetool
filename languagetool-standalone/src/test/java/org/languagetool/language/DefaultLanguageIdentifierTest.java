@@ -26,6 +26,7 @@ import org.languagetool.DetectedLanguage;
 import org.languagetool.language.identifier.DefaultLanguageIdentifier;
 import org.languagetool.language.identifier.LanguageIdentifier;
 import org.languagetool.language.identifier.LanguageIdentifierService;
+import org.languagetool.language.identifier.SimpleLanguageIdentifier;
 
 import java.io.File;
 import java.util.Arrays;
@@ -34,10 +35,10 @@ import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotEquals;
 
-public class DefaultLanguageIdentifierTest {
+public class DefaultLanguageIdentifierTest extends LanguageIdentifierTest{
 
   private final static String fastTextBinary = "/home/languagetool/fasttext/fasttext";
   private final static String fastTextModel = "/home/languagetool/fasttext/lid.176.bin";
@@ -49,14 +50,14 @@ public class DefaultLanguageIdentifierTest {
   @Ignore("requires ngram data from https://languagetool.org/download/ngram-lang-detect/")
   public void cleanAndShortenText() {
     LanguageIdentifier ident = LanguageIdentifierService.INSTANCE
-            .clearLanguageIdentifier()
+            .clearLanguageIdentifier("default")
             .getDefaultLanguageIdentifier(20, null, null, null);
     assertThat(ident.cleanAndShortenText("foo"), is("foo"));
     assertThat(ident.cleanAndShortenText("foo this is so long it will be cut off"), is("foo this is so long "));
     assertThat(ident.cleanAndShortenText("clean\uFEFF\uFEFFme"), is("clean me"));
     assertThat(ident.cleanAndShortenText("a https://x.com blah"), is("a https://x.com blah"));
     LanguageIdentifier ident2 = LanguageIdentifierService.INSTANCE
-            .clearLanguageIdentifier()
+            .clearLanguageIdentifier("")
             .getDefaultLanguageIdentifier(100, new File(ngramData), null, null);
     assertThat(ident2.cleanAndShortenText("foo https://www.example.com blah"), is("foo   blah"));
     assertThat(ident2.cleanAndShortenText("foo https://example.com?foo-bar blah"), is("foo   blah"));
@@ -68,10 +69,10 @@ public class DefaultLanguageIdentifierTest {
   @Test
   public void testDetection() {
     LanguageIdentifier identifier = LanguageIdentifierService.INSTANCE
-            .clearLanguageIdentifier()
+            .clearLanguageIdentifier("default")
             .getDefaultLanguageIdentifier(0, null, null, null);
     langAssert("de", "Das ist ein deutscher Text", identifier);
-    langAssert("en", "This is an English text" , identifier);
+    langAssert("en", "This is an English text", identifier);
     langAssert("fr", "Le mont Revard est un sommet du département français ...", identifier);
     // some test sentences from the "Linux" article of Wikipedia:
     langAssert("be", "Першапачаткова Linux распрацоўваўся і выкарыстоўваўся асобнымі аматарамі на сваіх персанальных камп'ютарах.", identifier);
@@ -111,7 +112,7 @@ public class DefaultLanguageIdentifierTest {
   @Ignore("disabled minimum length, instead now providing confidence score")
   public void testShortAndLongText() {
     LanguageIdentifier id10 = LanguageIdentifierService.INSTANCE
-            .clearLanguageIdentifier()
+            .clearLanguageIdentifier("default")
             .getDefaultLanguageIdentifier(10, null, null, null);
     langAssert(null, "Das ist so ein Text, mit dem man testen kann", id10);  // too short when max length is applied
     langAssert(null, "012345678", id10);
@@ -120,7 +121,7 @@ public class DefaultLanguageIdentifierTest {
     langAssert(null, "0123456789AB", id10);
     langAssert(null, "0123456789ABC", id10);
     LanguageIdentifier id20 = LanguageIdentifierService.INSTANCE
-            .clearLanguageIdentifier()
+            .clearLanguageIdentifier("default")
             .getDefaultLanguageIdentifier(20, null, null, null);
     langAssert("de", "Das ist so ein Text, mit dem man testen kann", id20);
   }
@@ -128,7 +129,7 @@ public class DefaultLanguageIdentifierTest {
   @Test
   public void testKnownLimitations() {
     LanguageIdentifier identifier = LanguageIdentifierService.INSTANCE
-            .clearLanguageIdentifier()
+            .clearLanguageIdentifier("default")
             .getDefaultLanguageIdentifier(0, null, null, null);
     // wrong, but low probabilities
     //identifier.enableFasttext(new File(fastTextBinary), new File(fastTextModel));
@@ -148,7 +149,7 @@ public class DefaultLanguageIdentifierTest {
   @Test
   public void testIgnoreSignature() {
     LanguageIdentifier identifier = LanguageIdentifierService.INSTANCE
-            .clearLanguageIdentifier()
+            .clearLanguageIdentifier("default")
             .getDefaultLanguageIdentifier(0, null, null, null);
     langAssert("de", "Das ist ein deutscher Text\n-- \nBut this is an\nEnglish text in the signature, and it's much longer than the original text.", identifier);
     langAssert("en", "This is an English text.\n-- \nDas ist ein\ndeutscher Text in der Signatur, der länger ist als der Haupttext.", identifier);
@@ -158,12 +159,12 @@ public class DefaultLanguageIdentifierTest {
   @Ignore("Only works with locally installed fastText")
   public void testAdditionalLanguagesFasttext() {
     LanguageIdentifier defaultIdent = LanguageIdentifierService.INSTANCE
-            .clearLanguageIdentifier()
+            .clearLanguageIdentifier("default")
             .getDefaultLanguageIdentifier(0, null, null, null);
     langAssert("sk", czech, defaultIdent);  // misdetected, as cz isn't supported by LT
 
     LanguageIdentifier csIdent = LanguageIdentifierService.INSTANCE
-            .clearLanguageIdentifier()
+            .clearLanguageIdentifier("default")
             .getDefaultLanguageIdentifier(0, null, new File(fastTextBinary), new File(fastTextModel));
     langAssert("zz", czech, csIdent, Arrays.asList("cs"), Collections.emptyList());   // the no-op language
   }
@@ -172,7 +173,7 @@ public class DefaultLanguageIdentifierTest {
   @Ignore("Only works with locally installed fastText, no test - for interactive use")
   public void testInteractively() {
     LanguageIdentifier ident = LanguageIdentifierService.INSTANCE
-            .clearLanguageIdentifier()
+            .clearLanguageIdentifier("default")
             .getDefaultLanguageIdentifier(
                     0,
                     null,
@@ -211,7 +212,7 @@ public class DefaultLanguageIdentifierTest {
   @Ignore("Only works with locally installed fastText")
   public void testShortTexts() {
     LanguageIdentifier defaultIdent = LanguageIdentifierService.INSTANCE
-            .clearLanguageIdentifier()
+            .clearLanguageIdentifier("default")
             .getDefaultLanguageIdentifier(0, null, new File(fastTextBinary), new File(fastTextModel));
     langAssert("en", "If the", defaultIdent);
     langAssert("en", "if the man", defaultIdent);
@@ -239,7 +240,7 @@ public class DefaultLanguageIdentifierTest {
   @Ignore("Only works with locally installed fastText")
   public void testShortTextsWithPreferredLanguage() {
     LanguageIdentifier ident = LanguageIdentifierService.INSTANCE
-            .clearLanguageIdentifier()
+            .clearLanguageIdentifier("default")
             .getDefaultLanguageIdentifier(0, null, new File(fastTextBinary), new File(fastTextModel));
     List<String> enDePreferred = Arrays.asList("de", "en");
     List<String> noop = Arrays.asList();
@@ -287,44 +288,20 @@ public class DefaultLanguageIdentifierTest {
   @Test
   public void testAdditionalLanguagesBuiltIn() {
     LanguageIdentifier defaultIdent = LanguageIdentifierService.INSTANCE
-            .clearLanguageIdentifier()
+            .clearLanguageIdentifier("default")
             .getDefaultLanguageIdentifier(0, null, null, null);
     langAssert("sk", czech, defaultIdent);  // misdetected, as cz isn't supported by LT
     LanguageIdentifier csIdent = LanguageIdentifierService.INSTANCE
-            .clearLanguageIdentifier()
+            .clearLanguageIdentifier("default")
             .getDefaultLanguageIdentifier(0, null, null, null);
     langAssert("sk", czech, csIdent, Arrays.asList("cs"), Collections.emptyList());   // no-op language only supported by fastText 
   }
-
+ 
   /*
   private void langAssert(String expectedLangCode, String text) {
     langAssert(expectedLangCode, text, identifier, Collections.emptyList(), Collections.emptyList());
   }
    */
-  
-  private void langAssert(String expectedLangCode, String text, LanguageIdentifier id) {
-    langAssert(expectedLangCode, text, id, Collections.emptyList(), Collections.emptyList());
-  }
-  
-  private void langAssert(String expectedLangCode, String text, LanguageIdentifier id, List<String> noopLangCodes,
-                          List<String> preferredLangCodes) {
-    DetectedLanguage detectedLang = id.detectLanguage(text, noopLangCodes, preferredLangCodes);
-    String detectedLangCode = detectedLang != null ?
-      detectedLang.getDetectedLanguage() != null ? detectedLang.getDetectedLanguage().getShortCode() : null
-      : null;
-    if (expectedLangCode == null) {
-      if (detectedLangCode != null) {
-        fail("Got '" + detectedLangCode + "', expected null for '" + text + "'");
-      }
-    } else {
-      if (!expectedLangCode.equals(detectedLangCode)) {
-        if (detectedLang != null) {
-          fail("Got '" + detectedLangCode + "', expected '" + expectedLangCode + "' for '" + text + "'");
-        } else {
-          fail("Got null, expected '" + expectedLangCode + "' for '" + text + "'");
-        }
-      }
-    }
-  }
+   
 
 }
