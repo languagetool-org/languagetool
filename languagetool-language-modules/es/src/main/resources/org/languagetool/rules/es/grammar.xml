@@ -5064,7 +5064,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!--<example>El que matare al Rey será castigado con la pena de muerte</example>-->
             </rule>
         </rulegroup>
-        <rule id="SUBJUNTIVO_INCORRECTO" name="verbo en modo subjuntivo incorrecto" default="temp_off">
+        <rule id="SUBJUNTIVO_INCORRECTO" name="verbo en modo subjuntivo incorrecto">
+            <antipattern>
+                <token regexp="yes" inflected="yes">esperar|desear|rogar|solicitar|agradecer</token>
+                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0"/>
+                <token postag="VMS[IP](3S|3P|2S)0" postag_regexp="yes"/>
+                <example>Deseando se encuentre bien.</example>
+                <example>Esperando se encuentre bien.</example>
+            </antipattern>
             <antipattern>
                 <token postag="V.S.*" skip="4" postag_regexp="yes"/>
                 <token regexp="yes" skip="2">que|quien|cuando|donde|adonde|qué|quién|cuándo|dónde|adónde</token>
@@ -5116,11 +5123,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="V.S.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <token>hasta</token>
-                <token>tanto</token>
+                <!-- usual in Mexico -->
+                <token>entre</token>
+                <token skip="3">más</token>
+                <token postag="V.S.*" postag_regexp="yes"/>
+                <example>Entre más pronto comiences, más pronto terminas.</example>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">hasta|en</token>
+                <token regexp="yes">tanto|caso</token>
                 <token min="0">que</token>
                 <token postag_regexp="yes" postag="P.*|RG" min="0" max="4"/>
                 <token postag="V.S.*" postag_regexp="yes"/>
+                <example>En caso lo requieras, llámame.</example>
             </antipattern>
             <antipattern>
                 <token skip="4" postag="V.S.*" postag_regexp="yes"/>
@@ -5135,20 +5150,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>.</token>
             </antipattern>
             <antipattern>
-                <token skip="3">Dios</token>
+                <token skip="3" regexp="yes">Dios|cielo</token>
                 <!--<token inflected="yes" regexp="yes">bendecir|permitir|perdonar|salvar</token>-->
                 <token postag="V.S.*" postag_regexp="yes"/>
+                <example>El cielo nos asista.</example>
             </antipattern>
             <antipattern>
                 <token postag="P.*" postag_regexp="yes"/>
                 <token postag="V.S.*" postag_regexp="yes"/>
-                <token >Dios</token>
+                <token>Dios</token>
             </antipattern>
             <antipattern>
                 <token postag="V.S.*" postag_regexp="yes" inflected="yes">hacer</token>
-                <token postag="N.*|_GN_.*" postag_regexp="yes" min="1" max="3"></token>
+                <token postag="N.*|_GN_.*" postag_regexp="yes" min="1" max="3"/>
                 <token>o</token>
-                <token postag="N.*|_GN_.*" postag_regexp="yes"></token>
+                <token postag="N.*|_GN_.*" postag_regexp="yes"/>
                 <example>De pequeños, hiciera frío o calor, pasábamos todo el tiempo jugando al fútbol.</example>
             </antipattern>
             <antipattern>
@@ -5167,10 +5183,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="V.S.*" postag_regexp="yes"/>
                 </marker>
             </antipattern>
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token postag="V.S.*" postag_regexp="yes" inflected="yes">haber</token>
+                <token postag="V.P..SM" postag_regexp="yes"/>
+                <example>Hayamos cantado</example>
+            </antipattern>
+            <antipattern>
+                <token postag="V.S.*" postag_regexp="yes"/>
+                <token>/</token>
+                <token postag="V.S.*" postag_regexp="yes"/>
+                <example>catáramos/cantásemos</example>
+            </antipattern>
             <pattern>
-                <token postag="SENT_START" skip="-1"><exception scope="next" postag="V.[IM].*|PR.*|CS|LOC_CS" postag_regexp="yes"/></token>
+                <token postag="SENT_START" skip="-1"><exception scope="next" postag="V.[IM].*|P[TR].*|CS|LOC_CS" postag_regexp="yes"/></token>
                 <marker>
-                    <token postag="V.S.*" postag_regexp="yes"><exception postag="V.[IM].*|[NA].*|_possible_NP|R.*|LOC_.*|D.*" postag_regexp="yes"/><exception postag="V.SI.*" postag_regexp="yes" inflected="yes" regexp="yes">querer|haber|poder|deber</exception><exception>haya</exception></token>
+                    <token postag="V.S.*" postag_regexp="yes"><exception postag="V.[IM].*|[NA].*|_possible_NP|R.*|LOC_.*|D.*|SENT_END" postag_regexp="yes"/><exception postag="V.SI.*" postag_regexp="yes" inflected="yes" regexp="yes">querer|haber|poder|deber|parecer</exception><exception>haya</exception></token>
                 </marker>
             </pattern>
             <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="wordFrom:marker desiredPostag:V.I.*|NC.*|A.*"/>
@@ -5261,6 +5289,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Seguramente se trate de un malentendido.</example>
             <!-- Anyway we don't have a good suggestion for 'haya' -->
             <example>Haya luz.</example>
+            <example>Pareciera que sabes algo que yo no sé.</example>
+            <example>Esto con el objetivo de prevenir accidentes debido a la presencia de los migrantes.</example>
+            <example>Las carcasas aviares (de cualquier especie) que pudieran estar infectadas nunca deben ser suministradas a las aves rapaces, gallinas u otras.</example>
+            <example>Sin importar cuáles elijas.</example>
+            <example>Cómo decidas actuar depende de varios factores.</example>
+            <example>Generar informes de los indicadores.</example>
+            <!-- single word without context -->
+            <example>Cantáramos</example>
         </rule>
         <rulegroup id="SUBJUNTIVO_FUTURO" name="confusión cantara/cantará">
             <rule>
