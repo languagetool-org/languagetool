@@ -40,17 +40,28 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <example correction="">Bitte hilf <marker>mit</marker>, die fehlenden Informationen zu recherchieren und einzufügen</example>
             <example correction="">Schreiben Sie das bitte <marker>mit</marker>.</example>
         </rule>
-        <rule id="AI_DE_HYDRA_LEO_CASE_UPPER" name="">
-            <!-- no upper for mRNA, iPhone etc. -->
-            <pattern>
-                <marker>
-                    <token regexp="yes" case_sensitive="yes">[a-zäöüß][A-ZÄÖÜẞ-].*</token>
-                </marker>
-            </pattern>
-            <example correction="">Das <marker>iPhone</marker> XR ist das günstigste der drei neuen Modelle.</example>
-            <example correction="">An eine <marker>mRNA</marker> können sich aber mehrere Ribosomen zugleich anlagern und jeweils eine Polypeptidkette synthetisieren.</example>
-            <example correction="">Es handelt sich um einen <marker>mRNA-Impfstoff</marker>.</example>
-        </rule>
+        <rulegroup id="AI_DE_HYDRA_LEO_CASE_UPPER" name="">
+            <rule>
+                <!-- no upper for mRNA, iPhone etc. -->
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">[a-zäöüß]+[A-ZÄÖÜẞ-].*</token>
+                </pattern>
+                <example correction="">Das <marker>iPhone</marker> XR ist das günstigste der drei neuen Modelle.</example>
+                <example correction="">An eine <marker>mRNA</marker> können sich aber mehrere Ribosomen zugleich anlagern und jeweils eine Polypeptidkette synthetisieren.</example>
+            </rule>
+            <rule>
+                <!-- no upper for mRNA, iPhone etc. -->
+                <regexp case_sensitive="yes" mark="1">\b([a-zäöüß]+[A-ZÄÖÜ][a-zäöüßA-ZÄÖÜ]+)-</regexp>
+                <example correction="">Eine <marker>mRNA</marker>-Spritze</example>
+                <example correction="">Es handelt sich um einen <marker>mRNA</marker>-Impfstoff.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">n[ao]ch|vor|von|bis|a[mn]|ß|h|zu[mr]?|mit|ohne|eine?</token>
+                </pattern>
+                <example correction="">Ich laufe <marker>nach</marker> vorne.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AI_DE_HYDRA_LEO_CASE_LOWER" name="">
             <rule>
                 <pattern>
@@ -620,6 +631,64 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     </marker>
                 </pattern>
                 <example correction="">Er spielt halt oft die Pässe, die einen Angriff einleiten (was von <marker>Links Außen</marker> schwer ist).</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>Tag</token>
+                        <token regexp="yes">Managers?</token>
+                    </marker>
+                </pattern>
+                <example correction="">Ein <marker>Tag Manager</marker> macht Ihnen Ihr Leben leichter!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>Burg</token>
+                        <token regexp="yes">Wächters?</token>
+                    </marker>
+                </pattern>
+                <example correction=""><marker>Burg Wächter</marker> ist ein Unternehmen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>Brandenburger</token>
+                        <token>Tor</token>
+                    </marker>
+                </pattern>
+                <example correction="">Das ist nur 200 Meter vom <marker>Brandenburger Tor</marker> entfernt.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>Region</token>
+                    <marker>
+                        <token regexp="yes">West|Ost|Süd|Nord</token>
+                        <token />
+                    </marker>
+                </pattern>
+                <example correction="">Ich arbeite in der Region <marker>Nord Niedersachsen</marker>.</example>
+            </rule>
+            <rule><!-- Eigenname -->
+                <pattern>
+                    <marker>
+                        <token>Grün</token>
+                        <token>Stadt</token>
+                    </marker>
+                    <token>Zürich</token>
+                </pattern>
+                <example correction="">Ich arbeite bei der <marker>Grün Stadt</marker> Zürich.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">[A-ZÄÖÜ].+</token>
+                        <token regexp="yes">[A-ZÄÖÜ].+</token>
+                    </marker>
+                    <token regexp="yes" min="0">[A-ZÄÖÜ].+</token>
+                    <token regexp="yes">GmbH|AG|UG|Holding|Gruppe</token>
+                </pattern>
+                <example correction=""><marker>Auto Zentrum</marker> GmbH</example>
             </rule>
         </rulegroup>
         <rulegroup id="AI_DE_HYDRA_LEO_MISSING_PERIOD" name="">

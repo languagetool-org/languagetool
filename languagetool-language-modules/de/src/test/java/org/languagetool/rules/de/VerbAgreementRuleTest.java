@@ -280,6 +280,8 @@ public class VerbAgreementRuleTest {
     assertGood("Ich hab mein Leben, leb du deines!");
     assertGood("Da freut er sich, wenn er schlafen geht und was findet.");
     assertGood("John nimmt weiter an einem Abendkurs über Journalismus teil.");
+    assertGood("Viele nahmen an der Aktion teil und am Ende des rAAd-Events war die Tafel zwar bunt, aber leider überwogen die roten Kärtchen sehr deutlich.");
+    assertGood("Musst also nichts machen.");
     // incorrect sentences:
     assertBad("Auch morgen leben du.");
     assertBad("Du weiß noch, dass du das gestern gesagt hast.");

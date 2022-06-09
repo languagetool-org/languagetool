@@ -288,11 +288,11 @@ public class VerbAgreementRule extends TextLevelRule {
     ),
     Arrays.asList(
       pos(JLanguageTool.SENTENCE_START_TAGNAME),  // "Bin gleich wieder da"
-      tokenRegex("Bin|Kannst")
+      tokenRegex("Bin|Kannst|Musst")
     ),
     Arrays.asList(
       token(","),  // "..., hast aber keine Ahnung!"
-      tokenRegex("bin|hast|kannst")
+      tokenRegex("bin|hast|kannst|musst")
     ),
     Arrays.asList(
       token("er"),  // "egal, was er sagen wird, ..."

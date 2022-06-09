@@ -6307,4 +6307,31 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+
+    <rulegroup id="NEHME_TEIL" name="'teil' kein Verb">
+        <antipattern>
+            <token>teil</token>
+            <token>ich</token>
+        </antipattern>
+        <rule>
+            <pattern>
+                <token inflected="yes" skip="10">nehmen</token>
+                <token regexp="yes" skip="10">an|daran</token>
+                <marker>
+                    <token case_sensitive="yes">teil</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="VER.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token skip="10">an</token>
+                <token inflected="yes" skip="10">nehmen</token>
+                <marker>
+                    <token case_sensitive="yes">teil</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="VER.*"/>
+        </rule>
+    </rulegroup>
 </rules>

@@ -1351,6 +1351,13 @@ class CaseRuleAntiPatterns {
       csToken("]"),
       csRegex("[A-ZÄÖÜ].*")
     ),
+    Arrays.asList( // Teil 1: Die Götter
+      SENT_START,
+      csToken("Teil"),
+      csRegex("\\d+|I{1,3}|V|IV|VI{1,3}|IX|XI{1,3}"),
+      csToken(":"),
+      csRegex("[A-ZÄÖÜ].*")
+    ),
     Arrays.asList( // ... ist das neue Normal.
       csToken("das"),
       csToken("neue"),
