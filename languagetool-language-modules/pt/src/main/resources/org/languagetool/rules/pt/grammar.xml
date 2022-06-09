@@ -6201,8 +6201,25 @@ O plural de cavalo é cavalos.
           <token postag='VMIP3S0|VMM02S0|VMIP2S0' postag_regexp='yes'/>
 		  <token postag='NC.P000|NP.P[0GS]00|AQ0.P0' postag_regexp='yes'/>
 		  <token regexp='yes'>[.,!?]</token>
-      </antipattern>	  
+      </antipattern>
 <!-- MARCOAGPINTO 2020-12-11 (21-OCT-2020+) *END* -->
+
+<!-- MARCOAGPINTO 2022-06-09 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+<!--
+This rule is to activate the rule ID:CONFUSÃO_SOU_SÓ
+-->
+      <antipattern>
+		<token postag='V.+' postag_regexp='yes'>
+			<exception postag_regexp='yes' postag='CS|CC|RG|VMN0000'/>
+		</token>
+		<token>sou</token>
+		<token min="0" max="1"><exception postag='NC.+|AQ.+' postag_regexp='yes'/></token>
+		<token postag='NC.+|AQ.+' postag_regexp='yes'>
+			<exception postag_regexp='yes' postag='CS|CC|RG|V.+'/>
+		</token>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-06-09 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+
       <pattern case_sensitive='yes'>
           <token inflected='yes' postag_regexp='yes' postag='V....S.+' regexp='yes'>&verbos_de_ligacao;
             <exception postag_regexp='yes' postag='V.[NP].+'/>
@@ -26778,7 +26795,37 @@ THIS ANTIPATTERN WAS BASED ON TIAGO SANTO'S RULE WHICH WAS REPLACED BY MY OWN RU
 	</rulegroup>
 
 
-    <!-- 	TANTO tão -->
+    <!-- SOU só -->
+    <rule id='CONFUSÃO_SOU_SÓ' name="Confusão: sou/só" type="style">
+	<!--      Created by Marco A.G.Pinto, Portuguese rule 2022-06-09 (5-JUN-2022+)      -->
+<!--
+Abri o álbum, é sou fotos de carros. → Abri o álbum, é só fotos de carros.
+Abri o álbum, são sou fotos de carros. → Abri o álbum, são só fotos de carros.
+No CD temos sou algumas fotos. → No CD temos só algumas fotos.
+No CD temos sou uma foto. → No CD temos só uma foto.
+-->	
+		<pattern>
+			<token postag='V.+' postag_regexp='yes'>
+				<exception postag_regexp='yes' postag='CS|CC|RG|VMN0000'/>
+			</token>
+			<marker>
+				<token>sou</token>
+			</marker>
+			<token min="0" max="1"><exception postag='NC.+|AQ.+' postag_regexp='yes'/></token>
+			<token postag='NC.+|AQ.+' postag_regexp='yes'>
+				<exception postag_regexp='yes' postag='CS|CC|RG|V.+'/>
+			</token>
+		</pattern>
+		<message>Possível confusão de termos.</message>
+		<suggestion>só</suggestion>
+		<example correction="só">Abri o álbum, é <marker>sou</marker> fotos de carros.</example>
+		<example correction="só">Abri o álbum, são <marker>sou</marker> fotos de carros.</example>
+		<example correction="só">No CD temos <marker>sou</marker> algumas fotos.</example>
+		<example correction="só">No CD temos <marker>sou</marker> uma foto.</example>
+    </rule>
+
+
+    <!-- TANTO tão -->
     <rule id='CONFUSÃO_TANTO_TÃO' name="Confusão: tanto/tão" type="style">
 	<!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-05-04 (1-JAN-2022+)      -->
 <!--
