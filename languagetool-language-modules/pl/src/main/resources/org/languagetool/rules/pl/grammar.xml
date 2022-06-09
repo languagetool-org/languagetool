@@ -10969,6 +10969,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>Morze nieledwie stapiało się w jedno z niebiosami.</example>                         
 						</rule>
 						<rule> <!-- 2 -->
+						  <antipattern> <!-- wbrew jego woli -->
+                <token postag="prep:dat.*" postag_regexp="yes"></token>
+                <marker>
+                <token postag="ppron.*gen.*" postag_regexp="yes"/>
+                </marker>
+                <token postag="(?:subst|ger).*dat.*" postag_regexp="yes"/>
+						  </antipattern>
 								<pattern>
 										<token postag="prep:dat.*" postag_regexp="yes"><exception postag="prep:(?!dat).*" postag_regexp="yes"/></token>
 										<marker>
@@ -10997,6 +11004,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>Pisze się o literaturze jako kolekcji nazwisk.</example>
 								<example>Określenie jej jako publicystyki ideologicznej jest słuszne.</example>
 								<example>Bo luka między teorią społeczną a praktyką jest spora - ta nadzieja okazała się płonna...</example>
+								<example>Tom zrobił to wbrew jego woli.</example>
 						</rule>
 						<rule> <!-- 4 -->
                             <antipattern>
@@ -11005,6 +11013,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                     <token regexp="yes" postag_regexp="yes" postag="subst.*gen.*">\p{Lu}\p{Ll}+</token>
                                 </marker>
                             </antipattern>
+              <antipattern> <!-- po jego przemówieniu -->
+                <token postag="prep:loc.*" postag_regexp="yes"></token>
+                <marker>
+                <token postag="ppron.*gen.*" postag_regexp="yes"/>
+                </marker>
+                <token postag="(?:subst|ger).*loc.*" postag_regexp="yes"/>
+						  </antipattern>
 								<pattern>
 										<token postag="prep:loc.*" postag_regexp="yes"><exception regexp="yes">na|w</exception><exception postag="prep:(?!loc).*" postag_regexp="yes"/></token>
 										<marker>
@@ -11020,7 +11035,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>Byłem przy grobie Mickiewicza.</example>
 								<example correction="">Byłem przy <marker>grobem</marker> Mickiewicza.</example>
 								<example>Ma na myśli na przykład Józia.</example>
-                                <example>Znajdował się w głównym gmachu muzeum przy Marcinkowskiego.</example>
+                <example>Znajdował się w głównym gmachu muzeum przy Marcinkowskiego.</example>
+                <example>Po ich minach można sądzić, że ponieśli porażkę.</example>
 						</rule>
 						<rule> <!-- 5 -->
                                 <antipattern>
@@ -11034,6 +11050,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 <token>temu</token>
                                 </marker>
                                 </antipattern>
+                <antipattern> <!-- za jej cierpliwość -->
+                <token postag="prep:acc.*" postag_regexp="yes"></token>
+                <marker>
+                <token postag="ppron.*gen.*" postag_regexp="yes"/>
+                </marker>
+                <token postag="(?:subst|ger).*acc.*" postag_regexp="yes"/>
+						  </antipattern>
 								<pattern>
 										<token postag="prep:acc.*" postag_regexp="yes"><exception>przezeń</exception><exception>temu</exception><exception postag="prep:(?!acc).*" postag_regexp="yes"/></token>
 										<marker>
@@ -11071,6 +11094,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
               <example>Rycerz nie cieszy się z lada jakich triumfów…</example>
               <example>Z grubo pokrajanych porcji chleba odłamywała małe kąski.</example>
               <example>Odbyli rozmowy z sir Patrickiem Mayhew.</example>
+              <example>Lubię ją tym bardziej za jej wstydliwość.</example>
             </rule>
             <rule> <!-- 7 -->
               <antipattern case_sensitive="yes">
