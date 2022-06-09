@@ -50,7 +50,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   private int fixPos;
   private String token;
   private String cleanToken;
-  private List<ChunkTag> chunkTags = Collections.emptyList();
+  private List<ChunkTag> chunkTags = new ArrayList<>();
   private boolean isSentEnd;
   private boolean isParaEnd;
   private boolean isWhitespaceBefore;
@@ -609,6 +609,13 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    */
   public void setChunkTags(List<ChunkTag> chunkTags) {
     this.chunkTags = Objects.requireNonNull(chunkTags);
+  }
+
+  /**
+   * @since 5.8
+   */
+  public void addChunkTags(List<ChunkTag> chunkTags) {
+    this.chunkTags.addAll(Objects.requireNonNull(chunkTags));
   }
 
   /**

@@ -28,10 +28,10 @@ import java.util.List;
  * or plural noun phrases. We add this information here.
  * @since 2.3
  */
-class EnglishChunkFilter {
+class EnglishSpacyChunkFilter {
 
-  private static final ChunkTag BEGIN_NOUN_PHRASE_TAG = new ChunkTag("B-NP");
-  private static final ChunkTag IN_NOUN_PHRASE_TAG = new ChunkTag("I-NP");
+  private static final ChunkTag BEGIN_NOUN_PHRASE_TAG = new ChunkTag("s:B-NP");
+  private static final ChunkTag IN_NOUN_PHRASE_TAG = new ChunkTag("s:I-NP");
 
   enum ChunkType { SINGULAR, PLURAL }
 
@@ -44,21 +44,21 @@ class EnglishChunkFilter {
       if (isBeginningOfNounPhrase(taggedToken)) {
         ChunkType chunkType = getChunkType(tokens, i);
         if (chunkType == ChunkType.SINGULAR) {
-          chunkTags.add(new ChunkTag("B-NP-singular"));
+          chunkTags.add(new ChunkTag("s:B-NP-singular"));
           newChunkTag = "NP-singular";
         } else if (chunkType == ChunkType.PLURAL) {
-          chunkTags.add(new ChunkTag("B-NP-plural"));
+          chunkTags.add(new ChunkTag("s:B-NP-plural"));
           newChunkTag = "NP-plural";
         } else {
           throw new IllegalStateException("Unknown chunk type: " + chunkType);
         }
       }
       if (newChunkTag != null && isEndOfNounPhrase(tokens, i)) {
-        chunkTags.add(new ChunkTag("E-" + newChunkTag));
+        chunkTags.add(new ChunkTag("s:E-" + newChunkTag));
         newChunkTag = null;
       }
       if (newChunkTag != null && isContinuationOfNounPhrase(taggedToken)) {
-        chunkTags.add(new ChunkTag("I-" + newChunkTag));
+        chunkTags.add(new ChunkTag("s:I-" + newChunkTag));
       }
       if (chunkTags.size() > 0) {
         result.add(new ComparableChunkTaggedToken(taggedToken.getToken(), chunkTags, taggedToken.getReadings(), taggedToken.getStartPos()));
@@ -70,7 +70,7 @@ class EnglishChunkFilter {
     return result;
   }
 
-  private boolean isBeginningOfNounPhrase(ComparableChunkTaggedToken taggedToken) {
+  private boolean isBeginningOfNounPhrase(ChunkTaggedToken taggedToken) {
     return taggedToken.getChunkTags().contains(BEGIN_NOUN_PHRASE_TAG);
   }
 
@@ -84,7 +84,7 @@ class EnglishChunkFilter {
     return false;
   }
 
-  private boolean isContinuationOfNounPhrase(ComparableChunkTaggedToken taggedToken) {
+  private boolean isContinuationOfNounPhrase(ChunkTaggedToken taggedToken) {
     return taggedToken.getChunkTags().contains(IN_NOUN_PHRASE_TAG);
   }
 
@@ -94,7 +94,7 @@ class EnglishChunkFilter {
   private ChunkType getChunkType(List<ComparableChunkTaggedToken> tokens, int chunkStartPos) {
     boolean isPlural = false;
     for (int i = chunkStartPos; i < tokens.size(); i++) {
-      ComparableChunkTaggedToken token = tokens.get(i);
+      ChunkTaggedToken token = tokens.get(i);
       if (!isBeginningOfNounPhrase(token) && !isContinuationOfNounPhrase(token)) {
         break;
       }
@@ -108,7 +108,7 @@ class EnglishChunkFilter {
     return isPlural ? ChunkType.PLURAL : ChunkType.SINGULAR;
   }
 
-  private boolean hasNounWithPluralReading(ComparableChunkTaggedToken token) {
+  private boolean hasNounWithPluralReading(ChunkTaggedToken token) {
     if (token.getReadings() != null) {
       for (AnalyzedToken analyzedToken : token.getReadings().getReadings()) {
         if ("NNS".equals(analyzedToken.getPOSTag())) {

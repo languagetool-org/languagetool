@@ -25,6 +25,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.chunking.Chunker;
+import org.languagetool.chunking.CombiningEnglishChunker;
 import org.languagetool.chunking.EnglishChunker;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
@@ -123,7 +124,7 @@ public class English extends Language implements AutoCloseable {
   @Nullable
   @Override
   public Chunker createDefaultChunker() {
-    return new EnglishChunker();
+    return new CombiningEnglishChunker();
   }
 
   @Nullable
