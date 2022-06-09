@@ -81,7 +81,7 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
    */
   public MultiThreadedJLanguageTool(Language language, Language motherTongue, int threadPoolSize,
       UserConfig userConfig) {
-    this(language, motherTongue, -1,null, userConfig);
+    this(language, motherTongue, threadPoolSize, null, userConfig);
   }
 
   /**
