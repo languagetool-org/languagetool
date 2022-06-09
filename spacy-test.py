@@ -7,6 +7,7 @@ from flask import request
 # see https://dzlab.github.io/ml/2021/08/21/spark-jep/
 # see https://flask.palletsprojects.com/en/2.1.x/quickstart/#a-minimal-application
 # start with:
+#   cd /home/dnaber/lt/git/languagetool/
 #   export FLASK_APP=spacy-test
 #   flask run
 # https://gunicorn.org/

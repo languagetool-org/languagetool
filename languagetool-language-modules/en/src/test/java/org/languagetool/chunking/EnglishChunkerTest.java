@@ -74,8 +74,9 @@ public class EnglishChunkerTest {
     // VPs                    ^^^^^^^^^^^^^^^^^
     //String sentence = "He wants to win.";
     // VPs                  ^^^^^^^^
-    String sentence = "A short test of the bicycle is needed";
+    //String sentence = "A short test of the bicycle is needed";
     // VPs                                         ^^^^^^^^^
+    String sentence = "Depending on who you like more...";
     List<AnalyzedTokenReadings> readingsList = createReadingsList(sentence);
     chunker.addChunkTags(readingsList);
     for (AnalyzedTokenReadings atr : readingsList) {

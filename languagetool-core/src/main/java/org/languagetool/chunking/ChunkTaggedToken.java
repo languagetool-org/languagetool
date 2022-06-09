@@ -29,7 +29,7 @@ import java.util.Objects;
 /**
  * @since 2.9 / 5.0
  */
-public class ChunkTaggedToken implements Comparable<ChunkTaggedToken> {
+public class ChunkTaggedToken {
 
   private final String token;
   private final List<ChunkTag> chunkTags;
@@ -65,12 +65,4 @@ public class ChunkTaggedToken implements Comparable<ChunkTaggedToken> {
     return token + '/' + StringUtils.join(chunkTags, ",");
   }
 
-  @Override
-  public int compareTo(@NotNull ChunkTaggedToken o) {
-    if (readings != null && o.readings != null) {
-      return readings.getStartPos() - o.readings.getStartPos();
-    } else {
-      return 0;
-    }
-  }
 }

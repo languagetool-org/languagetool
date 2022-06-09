@@ -60,13 +60,13 @@ public class EnglishChunker implements Chunker {
     try {
       JsonNode json = getSpacyResultsViaHttp(sb.toString(), SERVER_URL);
       JsonNode nounChunksList = json.get("noun_chunks");
-      List<ChunkTaggedToken> chunkTags = getChunkTaggedTokens(tokenReadings, nounChunksList, sb.toString());
-      //assignVerbPhrases(tokenReadings, json.get("tokens"), chunkTags);
+      List<ComparableChunkTaggedToken> chunkTags = getChunkTaggedTokens(tokenReadings, nounChunksList, sb.toString());
+      assignVerbPhrases(tokenReadings, json.get("tokens"), chunkTags);
       //
       // TODO: assign ADVP (50x), ADJP (48x), PP (81x), SBAR (38x), PRT (11x)
       //
       Collections.sort(chunkTags);
-      List<ChunkTaggedToken> filteredChunkTags = chunkFilter.filter(chunkTags);
+      List<ComparableChunkTaggedToken> filteredChunkTags = chunkFilter.filter(chunkTags);
       assignChunksToReadings(filteredChunkTags);
     } catch (IOException e) {
       throw new RuntimeException(e);
@@ -96,21 +96,21 @@ public class EnglishChunker implements Chunker {
     }
   }
 
-  private void assignVerbPhrases(List<AnalyzedTokenReadings> tokenReadings, JsonNode spacyTokens, List<ChunkTaggedToken> chunkTags) {
+  private void assignVerbPhrases(List<AnalyzedTokenReadings> tokenReadings, JsonNode spacyTokens, List<ComparableChunkTaggedToken> chunkTags) {
     JsonNode prevSpacyToken = null;
     String prevPos = null;
     for (JsonNode spacyToken : spacyTokens) {
       String pos = spacyToken.get("pos").asText();
       AnalyzedTokenReadings atr = getAnalyzedTokenReadingsFor(spacyToken.get("from").asInt(), spacyToken.get("to").asInt(), tokenReadings);
-      if ("AUX".equals(prevPos) && pos.equals("VERB")) {  // e.g. "is needed"
+      if ("AUX".equals(prevPos) && (pos.equals("VERB") || pos.equals("AUX"))) {  // e.g. "is needed", "(I/we)'ll be"
         AnalyzedTokenReadings prevAtr = getAnalyzedTokenReadingsFor(prevSpacyToken.get("from").asInt(), prevSpacyToken.get("to").asInt(), tokenReadings);
-        chunkTags.add(new ChunkTaggedToken(prevSpacyToken.get("text").asText(), Collections.singletonList(new ChunkTag("B-VP")), prevAtr));
-        chunkTags.add(new ChunkTaggedToken(spacyToken.get("text").asText(), Collections.singletonList(new ChunkTag("I-VP")), atr));
+        chunkTags.add(new ComparableChunkTaggedToken(prevSpacyToken.get("text").asText(), Collections.singletonList(new ChunkTag("B-VP")), prevAtr, prevSpacyToken.get("from").asInt()));
+        chunkTags.add(new ComparableChunkTaggedToken(spacyToken.get("text").asText(), Collections.singletonList(new ChunkTag("I-VP")), atr, spacyToken.get("from").asInt()));
       } else if (pos.equals("VERB")) {
-        chunkTags.add(new ChunkTaggedToken(spacyToken.get("text").asText(), Collections.singletonList(new ChunkTag("B-VP")), atr));
+        chunkTags.add(new ComparableChunkTaggedToken(spacyToken.get("text").asText(), Collections.singletonList(new ChunkTag("B-VP")), atr, spacyToken.get("from").asInt()));
       } else if (pos.equals("PUNCT")) {
         // simulate OpenNLP chunker:
-        chunkTags.add(new ChunkTaggedToken(spacyToken.get("text").asText(), Collections.singletonList(new ChunkTag("O")), atr));
+        chunkTags.add(new ComparableChunkTaggedToken(spacyToken.get("text").asText(), Collections.singletonList(new ChunkTag("O")), atr, spacyToken.get("from").asInt()));
       }
       // TODO: more cases, see testInteractive()
       prevPos = pos;
@@ -119,8 +119,8 @@ public class EnglishChunker implements Chunker {
   }
 
   @NotNull
-  private List<ChunkTaggedToken> getChunkTaggedTokens(List<AnalyzedTokenReadings> tokenReadings, JsonNode parts, String text) {
-    List<ChunkTaggedToken> chunkTags = new ArrayList<>();
+  private List<ComparableChunkTaggedToken> getChunkTaggedTokens(List<AnalyzedTokenReadings> tokenReadings, JsonNode parts, String text) {
+    List<ComparableChunkTaggedToken> chunkTags = new ArrayList<>();
     for (JsonNode partsForChunk : parts) {
       int i = 0;
       for (JsonNode fromTo : partsForChunk) {
@@ -129,14 +129,15 @@ public class EnglishChunker implements Chunker {
         int endPos = Integer.parseInt(posParts[1]);
         AnalyzedTokenReadings atr = getAnalyzedTokenReadingsFor(startPos, endPos, tokenReadings);
         String tag = i == 0 ? "B-NP" : "I-NP";
-        chunkTags.add(new ChunkTaggedToken(atr != null ? atr.getToken() : text.substring(startPos, endPos), Collections.singletonList(new ChunkTag(tag)), atr));
+        chunkTags.add(new ComparableChunkTaggedToken(atr != null ? atr.getToken() : text.substring(startPos, endPos),
+          Collections.singletonList(new ChunkTag(tag)), atr, startPos));
         i++;
       }
     }
     return chunkTags;
   }
 
-  private void assignChunksToReadings(List<ChunkTaggedToken> chunkTaggedTokens) {
+  private void assignChunksToReadings(List<ComparableChunkTaggedToken> chunkTaggedTokens) {
     for (ChunkTaggedToken taggedToken : chunkTaggedTokens) {
       AnalyzedTokenReadings readings = taggedToken.getReadings();
       if (readings != null) {

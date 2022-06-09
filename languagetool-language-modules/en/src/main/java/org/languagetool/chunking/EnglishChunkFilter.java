@@ -35,11 +35,11 @@ class EnglishChunkFilter {
 
   enum ChunkType { SINGULAR, PLURAL }
 
-  List<ChunkTaggedToken> filter(List<ChunkTaggedToken> tokens) {
-    List<ChunkTaggedToken> result = new ArrayList<>();
+  List<ComparableChunkTaggedToken> filter(List<ComparableChunkTaggedToken> tokens) {
+    List<ComparableChunkTaggedToken> result = new ArrayList<>();
     String newChunkTag = null;
     int i = 0;
-    for (ChunkTaggedToken taggedToken : tokens) {
+    for (ComparableChunkTaggedToken taggedToken : tokens) {
       List<ChunkTag> chunkTags = new ArrayList<>();
       if (isBeginningOfNounPhrase(taggedToken)) {
         ChunkType chunkType = getChunkType(tokens, i);
@@ -61,7 +61,7 @@ class EnglishChunkFilter {
         chunkTags.add(new ChunkTag("I-" + newChunkTag));
       }
       if (chunkTags.size() > 0) {
-        result.add(new ChunkTaggedToken(taggedToken.getToken(), chunkTags, taggedToken.getReadings()));
+        result.add(new ComparableChunkTaggedToken(taggedToken.getToken(), chunkTags, taggedToken.getReadings(), taggedToken.getStartPos()));
       } else {
         result.add(taggedToken);
       }
@@ -74,7 +74,7 @@ class EnglishChunkFilter {
     return taggedToken.getChunkTags().contains(BEGIN_NOUN_PHRASE_TAG);
   }
 
-  private boolean isEndOfNounPhrase(List<ChunkTaggedToken> tokens, int i) {
+  private boolean isEndOfNounPhrase(List<ComparableChunkTaggedToken> tokens, int i) {
     if (i > tokens.size() - 2) {
       return true;
     }
@@ -91,7 +91,7 @@ class EnglishChunkFilter {
   /**
    * Get the type of the chunk that starts at the given position.
    */
-  private ChunkType getChunkType(List<ChunkTaggedToken> tokens, int chunkStartPos) {
+  private ChunkType getChunkType(List<ComparableChunkTaggedToken> tokens, int chunkStartPos) {
     boolean isPlural = false;
     for (int i = chunkStartPos; i < tokens.size(); i++) {
       ChunkTaggedToken token = tokens.get(i);

@@ -24,7 +24,6 @@ import org.junit.Test;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -49,39 +48,41 @@ public class EnglishChunkFilterTest {
   }
 
   @Test
-  public void testPluralByPluralNoun() throws IOException {
+  public void testPluralByPluralNoun() {
     String input = "I/X have/N-VP ten/B-NP books/I-NP ./.";
-    List<ChunkTaggedToken> tokens = makeTokens(input);
+    List<ComparableChunkTaggedToken> tokens = makeTokens(input);
     tokens.remove(3);  // 'books'
     AnalyzedTokenReadings readings = new AnalyzedTokenReadings(Arrays.asList(
             new AnalyzedToken("books", "NNS", "book"),
             new AnalyzedToken("books", "VBZ", "book")),
             0
     );
-    tokens.add(3, new ChunkTaggedToken("books", Collections.singletonList(new ChunkTag("I-NP")), readings));
+    tokens.add(3, new ComparableChunkTaggedToken("books", Collections.singletonList(new ChunkTag("I-NP")), readings, 11));
     assertChunks(tokens, "I/X have/N-VP ten/B-NP-plural books/E-NP-plural ./.");
   }
 
   private void assertChunks(String input, String expected) {
-    List<ChunkTaggedToken> tokens = makeTokens(input);
+    List<ComparableChunkTaggedToken> tokens = makeTokens(input);
     assertChunks(tokens, expected);
   }
 
-  private void assertChunks(List<ChunkTaggedToken> tokens, String expected) {
+  private void assertChunks(List<ComparableChunkTaggedToken> tokens, String expected) {
     EnglishChunkFilter filter = new EnglishChunkFilter();
-    List<ChunkTaggedToken> result = filter.filter(tokens);
+    List<ComparableChunkTaggedToken> result = filter.filter(tokens);
     assertThat(StringUtils.join(result, " "), is(expected));
   }
 
-  private List<ChunkTaggedToken> makeTokens(String tokensAsString) {
-    List<ChunkTaggedToken> result = new ArrayList<>();
+  private List<ComparableChunkTaggedToken> makeTokens(String tokensAsString) {
+    List<ComparableChunkTaggedToken> result = new ArrayList<>();
+    int charCount = 0;
     for (String token : tokensAsString.split(" ")) {
       String[] parts = token.split("/");
       if (parts.length != 2) {
         throw new RuntimeException("Invalid token, form 'x/y' required: " + token);
       }
       ChunkTag chunkTag = new ChunkTag(parts[1]);
-      result.add(new ChunkTaggedToken(parts[0], Collections.singletonList(chunkTag), null));
+      result.add(new ComparableChunkTaggedToken(parts[0], Collections.singletonList(chunkTag), null, charCount));
+      charCount += token.length() + 1;  // token + following whitespace
     }
     return result;
   }
