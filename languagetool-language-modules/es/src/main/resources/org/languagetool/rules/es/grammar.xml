@@ -27532,7 +27532,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="28">El <marker>29</marker>-feb-2005</example>
                 <example>El 29-feb-2004</example>
             </rule>
-            <rule default="temp_off"> <!--4-->
+            <rule> <!--default="temp_off"--> <!--4-->
                 <antipattern>
                     <token regexp="yes">\d\d</token>
                     <token>:</token>
@@ -27588,7 +27588,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Nació el <marker>20 de enero</marker>.</example>
                 <example>Nació el <marker>2 de enero</marker>.</example>
             </rule>
-            <rule default="temp_off"> <!--5-->
+            <rule> <!--default="temp_off"--> <!--5-->
                 <antipattern>
                     <token skip="-1">ISBN</token>
                     <token regexp="yes">\d+</token>
@@ -27633,7 +27633,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Nació el <marker>20/1</marker>/1985.</example>
                 <example>Nació el <marker>2/1</marker>/1985.</example>
             </rule>
-            <rule default="temp_off"> <!--6-->
+            <rule> <!--default="temp_off"--> <!--6-->
                 <antipattern>
                     <token regexp="yes">\d+</token>
                     <token>/</token>
@@ -27698,7 +27698,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Nació el <marker>30.01.1985</marker>.</example>
                 <example>Nació el <marker>20.01.1985</marker>.</example>
             </rule>
-            <rule default="temp_off"> <!--7-->
+            <rule> <!--default="temp_off"--> <!--7-->
                 <pattern>
                     <marker>
                         <token regexp="yes">(3[2-9]|[4-9][0-9]|[1-9][0-9][0-9]+)\.([1-9]|10|11|12)</token>
@@ -27713,7 +27713,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Nació el <marker>30.1.1985</marker>.</example>
                 <example>Nació el <marker>20.1.1985</marker>.</example>
             </rule>
-            <rule default="temp_off"> <!--8, antes 7-->
+            <rule> <!--default="temp_off"--> <!--8, antes 7-->
                 <antipattern> <!--American date notation: month/day/year-->
                     <token regexp="yes">0?[1-9]|10|11|12</token>
                     <token regexp="yes">-|/</token>
@@ -27726,7 +27726,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token skip="-1">ISBN</token>
                     <token regexp="yes">\d+</token>
-                    <token regexp="yes" min="0">-|/|–</token>
+                    <token regexp="yes" min="0">-|/|–|:</token>
                     <token regexp="yes">\d+</token>
                     <token regexp="yes" min="0">-|/|–</token>
                     <token regexp="yes">\d+</token>
@@ -27734,6 +27734,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">\d+|.</token>
                     <example>ISBN 0-7627-2783-7</example>
                     <example>ISBN 0-7851-0934-X</example>
+                    <example>ISBN-10:84-609-8845-7</example>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">\d\d\d\d</token>
@@ -27758,6 +27759,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes" min="0">\d+</token>
                     <example>nº 02/2009/6771</example>
                     <example>Cel: 15-5622-6798</example>
+                    <example>n381 4327-4263 11-2454-0035</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\d\d?</token>
+                    <token regexp="yes">-|/</token>
+                    <token regexp="yes">\d\d\d\d</token>
+                    <token regexp="yes">-|/</token>
+                    <token regexp="yes">\d\d\d\d</token>
+                    <example>381 4327-4263 11-2454-0035 Lun a Vier: 10 a 20 hs.</example>
+                    <example>15-3554-1705</example>
                 </antipattern>
                 <pattern>
                     <token regexp="yes">\d\d?</token>
@@ -27776,7 +27787,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Nació el <marker>12/31/2014</marker>.</example>
                 <example>Nació el <marker>31/12/2014</marker>.</example>
             </rule>
-            <rule default="temp_off"> <!--9-->
+            <rule> <!--default="temp_off"--> <!--9-->
                 <antipattern>
                     <token regexp="yes">(0?[1-9]|10|11|12)\.(0?[1-9]|1[0-9]|2[0-9]|3[0-1])\.\d\d\d\d</token>
                     <example>Publicado por Javier en 8.21.2015.</example>
@@ -27795,7 +27806,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Nació el <marker>12.31.2014</marker>.</example>
                 <example>Nació el <marker>31.12.2014</marker>.</example>
             </rule>
-            <rule default="temp_off"> <!--10-->
+            <rule> <!--default="temp_off"--> <!--10-->
                 <pattern>
                     <marker>
                         <token regexp="yes">31\.(11|0[469])\.\d\d(\d\d)?</token>
@@ -27806,7 +27817,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Nació el <marker>31.11.89</marker>.</example>
                 <example>Nació el <marker>30.11.89</marker>.</example>
             </rule>
-            <rule default="temp_off"> <!--11-->
+            <rule> <!--default="temp_off"--> <!--11-->
                 <pattern>
                     <marker>
                         <token regexp="yes">31\.(11|0?[469])</token>
@@ -27820,7 +27831,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Nació el <marker>30.4</marker>.</example>
                 <example>Nació el <marker>30.4</marker>.1989.</example>
             </rule>
-            <rule default="temp_off"> <!--12-->
+            <rule> <!--default="temp_off"--> <!--12-->
                 <pattern>
                     <marker>
                         <token regexp="yes">(30|31)\.(02)\.\d\d(\d\d)?</token>
@@ -27831,7 +27842,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Nació el <marker>31.02.1900</marker>.</example>
                 <example>Nació el <marker>28.02.1900</marker></example>
             </rule>
-            <rule default="temp_off"> <!--13-->
+            <rule> <!--default="temp_off"--> <!--13-->
                 <pattern>
                     <marker>
                         <token regexp="yes">(30|31)\.(0?2)</token>
@@ -27848,7 +27859,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Nació el <marker>28.2</marker>.</example>
                 <example>Nació el <marker>28.2</marker>.1900.</example>
             </rule>
-            <rule default="temp_off"> <!--14-->
+            <rule> <!--default="temp_off"--> <!--14-->
                 <antipattern>
                     <token regexp="yes">29\.02\.([13579][26]00|[2468][048]00)</token>
                     <!-- 2000 is a leap year (divisible by 400) -->
@@ -27876,7 +27887,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">El <marker>29.02.2100</marker>.</example>
                 <example>Sucederá el <marker>28.02.2100</marker>.</example>
             </rule>
-            <rule default="temp_off"> <!--15-->
+            <rule> <!--default="temp_off"--> <!--15-->
                 <antipattern>
                     <token>29.2</token>
                     <token>.</token>
