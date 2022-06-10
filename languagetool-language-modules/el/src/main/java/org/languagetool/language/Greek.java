@@ -89,7 +89,8 @@ public class Greek extends Language {
             new ReplaceHomonymsRule(messages, this),
             new GreekSpecificCaseRule(messages),
             new NumeralStressRule(messages),
-            new GreekRedundancyRule(messages, this)
+            new GreekRedundancyRule(messages, this),
+            new GreekPunctuationCheckRule(messages)
     );
   }
 
