@@ -28,6 +28,7 @@ import org.languagetool.rules.el.MorfologikGreekSpellerRule;
 import org.languagetool.rules.el.NumeralStressRule;
 import org.languagetool.rules.el.ReplaceHomonymsRule;
 import org.languagetool.rules.el.GreekSpecificCaseRule;
+import org.languagetool.rules.el.GreekPunctuationCheckRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.el.GreekSynthesizer;
 import org.languagetool.tagging.Tagger;
