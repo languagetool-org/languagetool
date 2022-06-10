@@ -49,6 +49,7 @@ public class ArtificialErrorEval {
   static int maxLines = 1000000; // decrease this number for testing
   static boolean verboseOutput = false;
   static boolean undirectional = false;
+  static boolean inflected = false;
   static Pattern pWordboundaries = Pattern.compile("\\b.+\\b");
   static int countLine = 0;
   static List<String> onlyRules = new ArrayList<String>();
@@ -75,7 +76,7 @@ public class ArtificialErrorEval {
       runEvaluationOnFolders(inputFolder, outpuFolder, remoteServer, printSummaryDetails, printHeader);
       System.exit(0);
     }
-    if (args.length < 4 || args.length > 11) {
+    if (args.length < 4 || args.length > 12) {
       writeHelp();
       System.exit(1);
     }
@@ -96,6 +97,9 @@ public class ArtificialErrorEval {
       }
       if (args[k].contentEquals("-c")) {
         errorCategory = args[k + 1];
+      }
+      if (args[k].contentEquals("--inflected")) {
+        inflected = true;
       }
     }
     words[0] = args[2];
