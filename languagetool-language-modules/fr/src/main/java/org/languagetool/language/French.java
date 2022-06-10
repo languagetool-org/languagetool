@@ -235,6 +235,7 @@ public class French extends Language implements AutoCloseable {
   protected int getPriorityForId(String id) {
     switch (id) { 
       case "FR_COMPOUNDS": return 500; // greater than agreement rules
+      case "FR_SIMPLE_REPLACE": return 150;
       case "AGREEMENT_EXCEPTIONS": return 100; // greater than D_N
       case "EXPRESSIONS_VU": return 100; // greater than A_ACCENT_A
       case "SA_CA_SE": return 100; // greater than D_N
@@ -295,7 +296,6 @@ public class French extends Language implements AutoCloseable {
       //case "AUXILIAIRE_MANQUANT": return 5; // needs higher priority than ACCORD_NOM_VERBE
       case "CONFUSION_PAR_PART": return -5;  // turn off completely when PART_OU_PAR is activated
       case "SON": return -5; // less than ETRE_VPPA_OU_ADJ
-      case "FR_SIMPLE_REPLACE": return -10;
       case "J_N": return -10; // needs lesser priority than D_J
       case "TE_NV": return -20; // less than SE_CE, SE_SA and SE_SES
       case "TE_NV2": return -10; // less than SE_CE, SE_SA and SE_SES
