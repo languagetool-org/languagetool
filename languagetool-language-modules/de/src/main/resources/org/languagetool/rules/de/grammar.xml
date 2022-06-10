@@ -49922,6 +49922,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="FALSCHER_IMPERATIV" name="Machst du (Mach|Mache) die Tür zu." default="temp_off">
             <antipattern>
+                <token>siehst</token>
+                <token>du</token>
+                <token regexp="yes">\.|!</token>
+            </antipattern>
+            <antipattern>
                 <token postag="SENT_START"/>
                 <token postag="VER:2:SIN.*" postag_regexp="yes"/>
                 <token skip="-1">du</token>
@@ -50010,6 +50015,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="ABK.*" postag_regexp="yes"/>
                 <token>.</token>
             </antipattern>
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token postag="VER:2:SIN.*" postag_regexp="yes"/>
+                <token skip="-1">du</token>
+                <token regexp="yes">Mt|vll?t|Hrsg|zzt?|ders|Aufl|Anl</token>
+                <token>.</token>
+            </antipattern>
             <pattern>
                 <token postag="SENT_START"/>
                 <marker>
@@ -50034,6 +50046,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Kennst du doch!</example>
             <example>Kennst du bestimmt nicht.</example>
             <example>Kommst du mit zum 100. Jubiläum der Firma?</example>
+            <example>Siehst du!</example>
+            <example>Hast du schon einmal Mt. Fuji bestiegen?</example>
+            <example>Sind alle Dokumente in Anl. 7?</example>
         </rule>
         <rule id="SATZSTELLUNG_KON_UNT_VERB_AM_ENDE" name="Ich gehe nicht ins Schwimmbad, weil ich will nicht (ich nicht will)." default="temp_off">
             <pattern>
