@@ -147,6 +147,40 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <rulegroup id="AI_DE_HYDRA_LEO_MISSING_COMMA.*" name="">
             <rule>
                 <pattern>
+                    <token postag="VER:(MOD|AUX).*" postag_regexp="yes"/>
+                    <token skip="-1">
+                        <exception scope="next" postag="PKT|VER.*" postag_regexp="yes"/>
+                        <exception postag="PKT|VER.*" postag_regexp="yes"/>
+                    </token>
+                    <marker>
+                        <token postag="SUB.*" postag_regexp="yes"/>
+                    </marker>
+                    <token regexp="yes">besonders|insbesondere</token>
+                    <token skip="-1">
+                        <exception scope="next" postag="PKT"/>
+                        <exception postag="PKT"/>
+                    </token>
+                    <token postag="VER:INF.*" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">Das Virus könnte sich in den <marker>Sommermonaten</marker> besonders auf Massenveranstaltungen verbreiten.</example>
+            </rule>
+             <rule>
+                <pattern>
+                    <token>,</token>
+                    <token regexp="yes">besonders|insbesondere</token>
+                    <token skip="-1">
+                        <exception scope="next" postag="PKT|VER.*" postag_regexp="yes"/>
+                        <exception postag="PKT|VER.*" postag_regexp="yes"/>
+                    </token>
+                    <marker>
+                        <token postag="SUB.*" postag_regexp="yes"/>
+                    </marker>
+                    <token postag="VER:INF.*" postag_regexp="yes"></token>
+                </pattern>
+                <example correction="">Das Virus könnte sich in den Sommermonaten, besonders auf <marker>Massenveranstaltungen</marker> verbreiten.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <marker>
                         <token>zuwider</token>
                     </marker>
