@@ -14484,6 +14484,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>kommen</token>
                 </marker>
                 <token inflected="yes">lassen</token>
+                <token regexp="yes" min="0">wird|werden|würden|könnt?en?</token>
                 <token postag="ADV.*" postag_regexp="yes" min="0" />
                 <token postag="PKT|KON.*" postag_regexp="yes" />
             </pattern>
@@ -15527,7 +15528,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token skip="10">Hilfe</token>
-                    <token regexp="yes" inflected="yes">bekommen|beantragen|erhalten|anfordern</token>
+                    <token regexp="yes" inflected="yes">bekommen|beantragen|erhalten|anfordern|holen|kriegen</token>
                 </antipattern>
                 <antipattern>
                     <token inflected="yes" skip="10">nehmen</token>
@@ -28156,26 +28157,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Liebe Grüße|Lieber Gruß"><marker>LG</marker></example>
         </rule>
         <rule id="SIE_GROSS" name="Möglicherweise fälschlich großgeschriebenes 'Sie'">
-            <antipattern>
-                <token regexp="yes">wer|was</token>
-                <token>hat</token>
-                <token>sie</token>
-                <token postag=".*PA2.*" postag_regexp="yes"/>
-            </antipattern>
-            <pattern case_sensitive='yes'>
+            <pattern>
                 <token postag='SENT_START'/>
-                <token postag='ADV.*' postag_regexp='yes' min="0"/>
-                <token postag='VER:3:SIN:PRÄ:.*' postag_regexp='yes'/>
+                <token postag='ADV.*' postag_regexp='yes' min="0">
+                    <exception>was</exception>
+                </token>
+                <!-- limitiert auf bestimmte Verben um Fehlalarme zu vermeiden (siehe examples) -->
+                <token regexp="yes">wird|denkt|springt|glaubt|trägt|hei(ß|ss)t|wiegt|braucht|gibt|liebt</token>
                 <marker>
-                    <token>Sie</token>
+                    <token case_sensitive='yes'>Sie</token>
                 </marker>
             </pattern>
             <message>Meinten Sie <suggestion><match no="4" case_conversion="alllower"/></suggestion>?</message>
             <url>https://languagetool.org/insights/de/beitrag/duzen-grossgeschrieben/#gro%C3%9Fschreibung-von-pers%C3%B6nlichen-f%C3%BCrw%C3%B6rtern</url>
             <example correction="sie">Aber gibt <marker>Sie</marker> uns das?</example>
             <example correction="sie">Gibt <marker>Sie</marker> uns das?</example>
+            <example correction="sie">Danach wird <marker>Sie</marker> mit der Sonne um die Wette strahlen.</example>
+            <example correction="sie">Glaubt <marker>Sie</marker> das wirklich?</example>
             <example>Der Bus wird <marker>Sie</marker> zum Stadtzentrum bringen.</example>
             <example>Was hat Sie veranlasst, die Polizei zu rufen?</example>
+            <example>Ärgert Sie das?</example>
+            <example>Warum überrascht Sie das?</example>
+            <example>Was führt Sie her?</example>
+            <example>Gerne begleitet Sie der Wirt Hans Widemann Montags, am Ruhetag bei Ihrer Motorradtour.</example>
+            <example>Erinnert Sie das an etwas?</example>
+            <example>Was inspiriert Sie am meisten?</example>
+            <example>Stört Sie mein Koffer nicht zu sehr?</example>
         </rule>
         <rulegroup id="SIE_ANREDE" name="Möglicherweise fälschlich kleingeschriebenes 'sie' markieren" default="off">
             <url>https://languagetool.org/insights/de/beitrag/duzen-grossgeschrieben/#gro%C3%9Fschreibung-von-pers%C3%B6nlichen-f%C3%BCrw%C3%B6rtern</url>
@@ -28287,6 +28294,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="VERGLEICH_SUBST" name="der vergleich (Vergleicht) hinkt" default="temp_off">
+            <pattern>
+                <token postag="(PRO:POS|ART):.*MAS.*" postag_regexp="yes">
+                    <exception>das</exception>
+                </token>
+                <token postag="(ADJ|PA[12]):.*MAS.*" postag_regexp="yes" min="0" regexp="yes" case_sensitive="yes">
+                    [a-zöäü].*
+                    <exception postag="ADV:MOD" />
+                </token>
+                <marker>
+                    <token case_sensitive="yes">vergleich</token>
+                </marker>
+                <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
+                <token postag="VER:.+" postag_regexp="yes" />
+            </pattern>
+            <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
+            <example correction="Vergleich">Der <marker>vergleich</marker> hinkt!</example>
+        </rule>
         <rule id="JEDERMANN" name="'Jedermann' Kleinschreibung">
             <antipattern>
                 <token regexp="yes">Herrn?|Frau|Fräulein|im|beim|das|der</token>
@@ -55247,9 +55272,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SUB:NOM:SIN:MAS"><exception negate_pos="yes" postag="SUB:NOM:SIN:MAS"/></token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes" case_sensitive="yes">D(ies)?er|Jener</token>
+                    <token regexp="yes">d(ies)?er|jener</token>
                     <token/>
-                    <token>und</token>
+                    <token regexp="yes">und|oder|&amp;|sowie|bzw|beziehungsweise|\/|,</token>
+                    <token min="0">.</token>
                     <token postag="ADJ:NOM:SIN:MAS:GRU:DEF"/>
                     <token postag="SUB:NOM:SIN:MAS"/>
                 </antipattern>
@@ -55286,7 +55312,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">der|dieser|jener</token>
                     <token postag="ADJ.*MAS.*" postag_regexp="yes" />
                     <token postag="SUB.*MAS.*" postag_regexp="yes" />
-                    <token regexp="yes">und|oder|&amp;|sowie|bzw</token>
+                    <token regexp="yes">und|oder|&amp;|sowie|bzw|beziehungsweise|\/|,</token>
                     <token min="0">.</token>
                     <token postag="ADJ:NOM:SIN:MAS:GRU:DEF" />
                     <token postag="SUB:NOM:SIN:MAS" />
@@ -55294,7 +55320,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern><!-- Auch in Grossbritannien ist der Eisenbahnbetrieb und öffentliche Nahverkehr durch die fortschreitende ... -->
                     <token regexp="yes">der|dieser|jener</token>
                     <token postag="SUB.*MAS.*" postag_regexp="yes" />
-                    <token regexp="yes">und|oder|&amp;|sowie|bzw</token>
+                    <token regexp="yes">und|oder|&amp;|sowie|bzw|beziehungsweise|\/|,</token>
                     <token min="0">.</token>
                     <token postag="ADJ:NOM:SIN:MAS:GRU:DEF" />
                     <token postag="SUB:NOM:SIN:MAS" />
@@ -55325,6 +55351,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Der Ex-SPD-Chef und ehemalige Präsident des Europaparlaments.</example>
                 <example>Sie hat tonnenweise Sex-Appeal.</example>
                 <example>Ich liebe Schnee.</example>
+                <example>Für viele von uns ist sie her wie der erste, leere Käfig als der lebenswerte, zweite Käfig, wo wir miteinander verbunden sind.</example>
                 <example>Welcher klassische Komponist gefällt dir?</example>
                 <example>Das bayerische Fuß und das englische Fuß waren unterschiedlich.</example>
                 <example>Er erreichte einen größeren Bekanntheitsgrad in der Bevölkerung als jeder andere Kandidat vor ihm.</example>

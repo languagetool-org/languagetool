@@ -6313,6 +6313,10 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <token>teil</token>
             <token>ich</token>
         </antipattern>
+        <antipattern>
+            <token regexp="yes">ich|bitte</token>
+            <token>teil</token>
+        </antipattern>
         <rule>
             <pattern>
                 <token inflected="yes" skip="10">nehmen</token>
@@ -6334,4 +6338,12 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <disambig action="remove" postag="VER.*"/>
         </rule>
     </rulegroup>
+    <rule id="BMW_3ER" name="'3er' ignore spelling">
+        <pattern>
+            <marker>
+                <token regexp="yes">\d+ers?</token>
+            </marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
 </rules>

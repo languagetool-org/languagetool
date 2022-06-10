@@ -143,6 +143,10 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Sie sieht durch seine Aussagen „<marker>Das</marker> Gemeinwohl wieder mehr im Mittelpunkt“ stehend.</example>
             </rule>
+            <rule>
+                <regexp mark="2" case_sensitive="yes">\.(de|at|ch|lu|com|it|dk|nl|net|org|eu|biz|info|es|uk)/([A-Z][a-zäöüß]+)\b</regexp>
+                <example correction="">Wir informieren Sie unter www.deutsche-rentenversicherung.de/<marker>Datenschutzinformationen</marker>.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_DE_HYDRA_LEO_MISSING_COMMA.*" name="">
             <rule><!-- avoid loop MC_2 w/ FEHLERHAFTES_KOMMA_ALLG[1] -->
