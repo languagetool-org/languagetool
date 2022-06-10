@@ -226,25 +226,6 @@
                     </executions>
                 </plugin>
                 <plugin>
-                    <groupId>pl.project13.maven</groupId>
-                    <artifactId>git-commit-id-plugin</artifactId>
-                    <version>${git-commit-id-plugin.version}</version>
-                    <configuration>
-                        <generateGitPropertiesFile>true</generateGitPropertiesFile>
-                        <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties
-                        </generateGitPropertiesFilename>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <id>get-the-git-infos</id>
-                            <goals>
-                                <goal>revision</goal>
-                            </goals>
-                            <phase>initialize</phase>
-                        </execution>
-                    </executions>
-                </plugin>
-                <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>${maven-compiler-plugin.version}</version>
                     <configuration>
@@ -344,6 +325,38 @@
                                     <goal>sign</goal>
                                 </goals>
                                 <phase>verify</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>git-commit-id</id>
+            <activation>
+                <property>
+                    <name>gitCommitId</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>pl.project13.maven</groupId>
+                        <artifactId>git-commit-id-plugin</artifactId>
+                        <version>${git-commit-id-plugin.version}</version>
+                        <configuration>
+                            <generateGitPropertiesFile>true</generateGitPropertiesFile>
+                            <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties
+                            </generateGitPropertiesFilename>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>get-the-git-infos</id>
+                                <goals>
+                                    <goal>revision</goal>
+                                </goals>
+                                <phase>initialize</phase>
                             </execution>
                         </executions>
                     </plugin>
