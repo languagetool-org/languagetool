@@ -28294,6 +28294,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="DIE_REICHEN_UND_SCHOENEN" name="die reichen (Reichen) und schönen (Schönen)" default="temp_off">
+            <antipattern>
+                <token>schönen</token>
+                <token postag="UNKNOWN" regexp="yes">.*[a-z].*</token>
+            </antipattern>
+            <antipattern>
+                <token>schönen</token>
+                <token postag="SUB.*" postag_regexp="yes" />
+            </antipattern>
+            <pattern case_sensitive="yes">
+                <token>reichen</token>
+                <token>und</token>
+                <token>schönen</token>
+            </pattern>
+            <message>In dieser Redewendung werden beide Adjektive nominalisiert und sollten daher großgeschrieben werden.</message>
+            <suggestion>Reichen und Schönen</suggestion>
+            <example correction="Reichen und Schönen">Sylt ist die Insel der <marker>reichen und schönen</marker>.</example>
+            <example>Die reichen und schönen Menschen leben alle in Blankenese.</example>
+        </rule>
         <rule id="VERGLEICH_SUBST" name="der vergleich (Vergleicht) hinkt" default="temp_off">
             <pattern>
                 <token postag="(PRO:POS|ART):.*MAS.*" postag_regexp="yes">
