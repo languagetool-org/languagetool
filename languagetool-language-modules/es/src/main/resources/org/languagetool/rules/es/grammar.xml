@@ -1602,6 +1602,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup id="FALTA_ELEMENTO_ENTRE_VERBOS" name="Falta un elemento entre verbos: hay algo *(que) es claro">
             <antipattern>
+                <token regexp="yes" inflected="yes">esperar|desear|rogar|solicitar|agradecer|acordar|ofrecer</token>
+                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0"/>
+                <token postag="VMS[IP](3S|3P|2S)0" postag_regexp="yes"/>
+                <example>Solicito se tengan como pruebas.</example>
+            </antipattern>
+            <antipattern>
                 <token>ya</token>
                 <token regexp="yes">sea|fuera|fuese</token>
                 <token skip="4"/>
@@ -4406,6 +4412,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>No se lo abras.</example>
                 <example>No se lo dejes al azar.</example>
                 <example>No se lo coma.</example>
+                <!-- TODO: better suggestion: de -->
+                <example correction="sé">cada una <marker>se</marker> las acciones efectuadas</example>
             </rule>
             <rule>
                 <pattern>
@@ -5064,9 +5072,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!--<example>El que matare al Rey será castigado con la pena de muerte</example>-->
             </rule>
         </rulegroup>
-        <rule id="SUBJUNTIVO_INCORRECTO" name="verbo en modo subjuntivo incorrecto">
+        <rulegroup id="SUBJUNTIVO_INCORRECTO" name="verbo en modo subjuntivo incorrecto">
             <antipattern>
-                <token regexp="yes" inflected="yes">esperar|desear|rogar|solicitar|agradecer</token>
+                <token regexp="yes">solícito|solícita</token>
+                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0"/>
+                <token postag="VMS[IP](3S|3P|2S)0" postag_regexp="yes"/>
+                <example>Deseando se encuentre bien.</example>
+                <example>Esperando se encuentre bien.</example>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" inflected="yes">esperar|desear|rogar|solicitar|agradecer|acordar|ofrecer</token>
                 <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0"/>
                 <token postag="VMS[IP](3S|3P|2S)0" postag_regexp="yes"/>
                 <example>Deseando se encuentre bien.</example>
@@ -5150,7 +5165,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>.</token>
             </antipattern>
             <antipattern>
-                <token skip="3" regexp="yes">Dios|cielo</token>
+                <token skip="3" regexp="yes" case_sensitive="yes">Dios|cielo|Señor</token>
                 <!--<token inflected="yes" regexp="yes">bendecir|permitir|perdonar|salvar</token>-->
                 <token postag="V.S.*" postag_regexp="yes"/>
                 <example>El cielo nos asista.</example>
@@ -5195,109 +5210,121 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="V.S.*" postag_regexp="yes"/>
                 <example>catáramos/cantásemos</example>
             </antipattern>
-            <pattern>
-                <token postag="SENT_START" skip="-1"><exception scope="next" postag="V.[IM].*|P[TR].*|CS|LOC_CS" postag_regexp="yes"/></token>
-                <marker>
-                    <token postag="V.S.*" postag_regexp="yes"><exception postag="V.[IM].*|[NA].*|_possible_NP|R.*|LOC_.*|D.*|SENT_END" postag_regexp="yes"/><exception postag="V.SI.*" postag_regexp="yes" inflected="yes" regexp="yes">querer|haber|poder|deber|parecer</exception><exception>haya</exception></token>
-                </marker>
-            </pattern>
-            <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="wordFrom:marker desiredPostag:V.I.*|NC.*|A.*"/>
-            <message>Posible confusión: "<match no="2"/>" es un verbo en modo subjuntivo, improbable en este contexto.</message>
-            <!--<suggestion><match no="2" postag="(V.)S(.*)" postag_regexp="yes" postag_replace="$1I$2"/></suggestion>-->
-            <suggestion>{suggestion}</suggestion>
-            <example correction="faltas|maltés|faltos|falté|falces|faltás|fantes">Las <marker>faltes</marker> que tiene este texto.</example>
-            <example correction="Faltas|Maltés|Faltos|Falté|Falces|Faltás|Fantes"><marker>Faltes</marker> que tiene este texto.</example>
-            <example correction="Notas|Botes|Dotes|Lotes|Nueces|Motes|Jotes|Potes|Nones|Noté"><marker>Notes</marker>, apuntes, garabatos, bocetos.</example>
-            <!--<example correction="bajé|bajo|base|baja|viaje|vale|bajó|bate|vaga|vago">Me <marker>baje</marker> e instale el programa.</example> "base" is an error in this context-->
-            <example correction="busqué|bosque|buque|buqué|vesque">Por las dudas la <marker>busque</marker> en YouTube, pero no tiene acceso libre.</example>
-            <example>Hagas lo que hagas, perderás.</example>
-            <example>Sea quien sea, lo denunciaré.</example>
-            <example>Se diga lo que se diga.</example>
-            <example>No lo olvides.</example>
-            <example>Que llueva.</example>
-            <example>Quisiéramos venir.</example>
-            <example>Hubiera sido bonito.</example>
-            <example>Hubiésemos podido si tan solo hubiésemos querido.</example>
-            <example>Leas el libro que leas.</example>
-            <example>Pudiera usted, por favor, enviar a mi e-mail.</example>
-            <example>Seas lo bueno que seas, siempre habrá gente mejor que tú.</example>
-            <example>Tomes el camino que tomes, tardarás lo mismo.</example>
-            <example>Unas pocas personas tienen dos vehículos.</example>
-            <example>Una vez que adquieras un mal hábito, no puedes dejarlo fácilmente.</example>
-            <example>No sea que se arrepienta el hombre al ver el sol.</example>
-            <example>Nunca los arrojes cuando vayas en coche.</example>
-            <example>Mi Dios te lo bendiga</example>
-            <example>Por mucho que yo camine, nunca la alcanzaré.</example>
-            <example>Nunca cambies.</example>
-            <example>Una vez que le cojas el tranquillo será coser y cantar.</example>
-            <example>Tal vez debiéramos ayudar a Tom.</example>
-            <example>Quizás debieras dirigirte al ministerio de educación.</example>
-            <example>Apenas me entere, te lo digo. </example>
-            <example>Apenas yo me entere, te lo digo. </example>
-            <example>Ni lo pienses.</example>
-            <example>Ni siquiera pienses en pedirme dinero prestado.</example>
-            <example>¡Dios lo permita!</example>
-            <example>¡Dios me perdone!</example>
-            <example>No solamente pienses que eres, hay que saber.</example>
-            <example>Nunca más pongas los pies en este lugar.</example>
-            <example>Los desafíos del deporte, ya lo practiquemos individualmente o en equipo, son variados.</example>
-            <example>Tal vez después me pueda explicar mejor.</example>
-            <example>Quizá solo me quede aquí con Tom.</example>
-            <example>No solo te quejes, haz algo.</example>
-            <example>¡Así revientes!</example>
-            <example>Cuanto antes te rindas, tanto mayores serán los beneficios.</example>
-            <example>¡Dios te salve, María!</example>
-            <example>Bendito seas por no haberme hecho mujer.</example>
-            <example>Tampoco seas tan estricto.</example>
-            <example>Maldita seas entre todas las bestias.</example>
-            <example>A continuación, una vez tengas publicado tu anuncio, comenzarás a recibir ofertas.</example>
-            <example>Una vez hayas introducido tu email en esta casilla y pulses el botón "enviar", recibirás en tu buzón un email </example>
-            <example>Gestionar posibles devoluciones una vez hayas realizado una compra y gestionar solicitudes de información sobre la disponibilidad de prendas, reservas de productos a través de la Plataforma, según dichas opciones se encuentren disponibles en cada momento.</example>
-            <example>Llueva o haga sol, el cartero reparte el correo.</example>
-            <example>Tan pronto acabes, vete de aquí.</example>
-            <example>De ahí que una buena introducción, un correcto aterrizaje en el concepto, se me antoje clave.</example>
-            <example>No sea que, al verse atacado, el pueblo se arrepienta y se vuelva a Egipto.</example>
-            <example>Probablemente estas emociones te asalten en algunos momentos.</example>
-            <example type="triggers_error" reason="missing 'que'">Por favor alguien me ayude o me informe a quien o donde puedo dirigirme.</example>
-            <example>Bajo ningún concepto guardes dinero, pasaportes.</example>
-            <example>Tan pronto como nos los haga llegar y demos conformidad, daremos por finalizada su parte de creación.</example>
-            <example>Hasta tanto se implemente el carácter conjunto, la DNA administra las bases Carlini y Brown</example>
-            <example>Hasta tanto que se implemente el carácter conjunto, la DNA administra las bases Carlini y Brown</example>
-            <example>Dios te proteja y te bendiga.</example>
-            <example>Tan pronto acabes, paga la cuenta.</example>
-            <example>Evitar ambientes con humo.</example>
-            <example>Por nada del mundo le cuentes esto a otra persona.</example>
-            <example>El teléfono celular debiera facilitar el contacto con otras personas.</example>
-            <example>Tan pronto como lo encuentre, te lo traeré.</example>
-            <example>Tan pronto lo encuentre, lo traeré a tu hogar.</example>
-            <example>Acaso encuentres una luz sin noche, perdida en las grietas de los precipicios.</example>
-            <example>De ninguna manera te entrometas en mis problemas.</example>
-            <example>Quizá a Tom le guste nadar.</example>
-            <example>Que se haga la voluntad del Señor.</example>
-            <example>Seguramente, muchos hayan borrado estos Epic Fails de sus curriculums.</example>
-            <example>Para recibir informes sobre costos y nuestros diferentes tipos de apoyos financieros haz click en el botón de abajo para llenar el formulario.</example>
-            <example>¡Dios me libre! </example>
-            <example>Tan pronto como llegues, ella va a hacer algo de comer.</example>
-            <example>¡Dios te oiga!</example>
-            <example>Quizá os parezca mas graciosa la cal viva encima de las personas.</example>
-            <example type="triggers_error" reason="tardes/tarde">Sábados tardes cerrado.</example>
-            <example>¿Acaso tengas un cubo de agua para mí?</example>
-            <example>Nadie se meta donde no le llamen.</example>
-            <example>Que nadie se meta donde no le llamen.</example>
-            <example>Del agua mansa me libre Dios,</example>
-            <example>A tal efecto, una vez el pedido haya sido preparado, nos pondremos en contacto con usted.</example>
-            <example>Seguramente se trate de un malentendido.</example>
-            <!-- Anyway we don't have a good suggestion for 'haya' -->
-            <example>Haya luz.</example>
-            <example>Pareciera que sabes algo que yo no sé.</example>
-            <example>Esto con el objetivo de prevenir accidentes debido a la presencia de los migrantes.</example>
-            <example>Las carcasas aviares (de cualquier especie) que pudieran estar infectadas nunca deben ser suministradas a las aves rapaces, gallinas u otras.</example>
-            <example>Sin importar cuáles elijas.</example>
-            <example>Cómo decidas actuar depende de varios factores.</example>
-            <example>Generar informes de los indicadores.</example>
-            <!-- single word without context -->
-            <example>Cantáramos</example>
-        </rule>
+            <rule>
+                <!-- exceptions to next rule -->
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token>consumase</token>
+                </pattern>
+                <message>Si es un imperativo, se escribe con tilde.</message>
+                <suggestion>Consúmase</suggestion>
+                <example correction="Consúmase"><marker>Consumase</marker> antes de la fecha de caducidad.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" skip="-1"><exception scope="next" postag="V.[IM].*|P[TR].*|CS|LOC_CS" postag_regexp="yes"/></token>
+                    <marker>
+                        <token postag="V.S.*" postag_regexp="yes"><exception postag="V.[IM].*|[NA].*|_possible_NP|R.*|LOC_.*|D.*|SENT_END" postag_regexp="yes"/><exception postag="V.SI.*" postag_regexp="yes" inflected="yes" regexp="yes">querer|haber|poder|deber|parecer</exception><exception>haya</exception></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="wordFrom:marker desiredPostag:V.I.*|NC.*|A.*"/>
+                <message>Posible confusión: "<match no="2"/>" es un verbo en modo subjuntivo, improbable en este contexto.</message>
+                <!--<suggestion><match no="2" postag="(V.)S(.*)" postag_regexp="yes" postag_replace="$1I$2"/></suggestion>-->
+                <suggestion>{suggestion}</suggestion>
+                <example correction="faltas|maltés|faltos|falté|falces|faltás|fantes">Las <marker>faltes</marker> que tiene este texto.</example>
+                <example correction="Faltas|Maltés|Faltos|Falté|Falces|Faltás|Fantes"><marker>Faltes</marker> que tiene este texto.</example>
+                <example correction="Notas|Botes|Dotes|Lotes|Nueces|Motes|Jotes|Potes|Nones|Noté"><marker>Notes</marker>, apuntes, garabatos, bocetos.</example>
+                <!--<example correction="bajé|bajo|base|baja|viaje|vale|bajó|bate|vaga|vago">Me <marker>baje</marker> e instale el programa.</example> "base" is an error in this context-->
+                <example correction="busqué|bosque|buque|buqué|vesque">Por las dudas la <marker>busque</marker> en YouTube, pero no tiene acceso libre.</example>
+                <example>Hagas lo que hagas, perderás.</example>
+                <example>Sea quien sea, lo denunciaré.</example>
+                <example>Se diga lo que se diga.</example>
+                <example>No lo olvides.</example>
+                <example>Que llueva.</example>
+                <example>Quisiéramos venir.</example>
+                <example>Hubiera sido bonito.</example>
+                <example>Hubiésemos podido si tan solo hubiésemos querido.</example>
+                <example>Leas el libro que leas.</example>
+                <example>Pudiera usted, por favor, enviar a mi e-mail.</example>
+                <example>Seas lo bueno que seas, siempre habrá gente mejor que tú.</example>
+                <example>Tomes el camino que tomes, tardarás lo mismo.</example>
+                <example>Unas pocas personas tienen dos vehículos.</example>
+                <example>Una vez que adquieras un mal hábito, no puedes dejarlo fácilmente.</example>
+                <example>No sea que se arrepienta el hombre al ver el sol.</example>
+                <example>Nunca los arrojes cuando vayas en coche.</example>
+                <example>Mi Dios te lo bendiga</example>
+                <example>Por mucho que yo camine, nunca la alcanzaré.</example>
+                <example>Nunca cambies.</example>
+                <example>Una vez que le cojas el tranquillo será coser y cantar.</example>
+                <example>Tal vez debiéramos ayudar a Tom.</example>
+                <example>Quizás debieras dirigirte al ministerio de educación.</example>
+                <example>Apenas me entere, te lo digo. </example>
+                <example>Apenas yo me entere, te lo digo. </example>
+                <example>Ni lo pienses.</example>
+                <example>Ni siquiera pienses en pedirme dinero prestado.</example>
+                <example>¡Dios lo permita!</example>
+                <example>¡Dios me perdone!</example>
+                <example>No solamente pienses que eres, hay que saber.</example>
+                <example>Nunca más pongas los pies en este lugar.</example>
+                <example>Los desafíos del deporte, ya lo practiquemos individualmente o en equipo, son variados.</example>
+                <example>Tal vez después me pueda explicar mejor.</example>
+                <example>Quizá solo me quede aquí con Tom.</example>
+                <example>No solo te quejes, haz algo.</example>
+                <example>¡Así revientes!</example>
+                <example>Cuanto antes te rindas, tanto mayores serán los beneficios.</example>
+                <example>¡Dios te salve, María!</example>
+                <example>Bendito seas por no haberme hecho mujer.</example>
+                <example>Tampoco seas tan estricto.</example>
+                <example>Maldita seas entre todas las bestias.</example>
+                <example>A continuación, una vez tengas publicado tu anuncio, comenzarás a recibir ofertas.</example>
+                <example>Una vez hayas introducido tu email en esta casilla y pulses el botón "enviar", recibirás en tu buzón un email </example>
+                <example>Gestionar posibles devoluciones una vez hayas realizado una compra y gestionar solicitudes de información sobre la disponibilidad de prendas, reservas de productos a través de la Plataforma, según dichas opciones se encuentren disponibles en cada momento.</example>
+                <example>Llueva o haga sol, el cartero reparte el correo.</example>
+                <example>Tan pronto acabes, vete de aquí.</example>
+                <example>De ahí que una buena introducción, un correcto aterrizaje en el concepto, se me antoje clave.</example>
+                <example>No sea que, al verse atacado, el pueblo se arrepienta y se vuelva a Egipto.</example>
+                <example>Probablemente estas emociones te asalten en algunos momentos.</example>
+                <example type="triggers_error" reason="missing 'que'">Por favor alguien me ayude o me informe a quien o donde puedo dirigirme.</example>
+                <example>Bajo ningún concepto guardes dinero, pasaportes.</example>
+                <example>Tan pronto como nos los haga llegar y demos conformidad, daremos por finalizada su parte de creación.</example>
+                <example>Hasta tanto se implemente el carácter conjunto, la DNA administra las bases Carlini y Brown</example>
+                <example>Hasta tanto que se implemente el carácter conjunto, la DNA administra las bases Carlini y Brown</example>
+                <example>Dios te proteja y te bendiga.</example>
+                <example>Tan pronto acabes, paga la cuenta.</example>
+                <example>Evitar ambientes con humo.</example>
+                <example>Por nada del mundo le cuentes esto a otra persona.</example>
+                <example>El teléfono celular debiera facilitar el contacto con otras personas.</example>
+                <example>Tan pronto como lo encuentre, te lo traeré.</example>
+                <example>Tan pronto lo encuentre, lo traeré a tu hogar.</example>
+                <example>Acaso encuentres una luz sin noche, perdida en las grietas de los precipicios.</example>
+                <example>De ninguna manera te entrometas en mis problemas.</example>
+                <example>Quizá a Tom le guste nadar.</example>
+                <example>Que se haga la voluntad del Señor.</example>
+                <example>Seguramente, muchos hayan borrado estos Epic Fails de sus curriculums.</example>
+                <example>Para recibir informes sobre costos y nuestros diferentes tipos de apoyos financieros haz click en el botón de abajo para llenar el formulario.</example>
+                <example>¡Dios me libre! </example>
+                <example>Tan pronto como llegues, ella va a hacer algo de comer.</example>
+                <example>¡Dios te oiga!</example>
+                <example>Quizá os parezca mas graciosa la cal viva encima de las personas.</example>
+                <example type="triggers_error" reason="tardes/tarde">Sábados tardes cerrado.</example>
+                <example>¿Acaso tengas un cubo de agua para mí?</example>
+                <example>Nadie se meta donde no le llamen.</example>
+                <example>Que nadie se meta donde no le llamen.</example>
+                <example>Del agua mansa me libre Dios,</example>
+                <example>A tal efecto, una vez el pedido haya sido preparado, nos pondremos en contacto con usted.</example>
+                <example>Seguramente se trate de un malentendido.</example>
+                <!-- Anyway we don't have a good suggestion for 'haya' -->
+                <example>Haya luz.</example>
+                <example>Pareciera que sabes algo que yo no sé.</example>
+                <example>Esto con el objetivo de prevenir accidentes debido a la presencia de los migrantes.</example>
+                <example>Las carcasas aviares (de cualquier especie) que pudieran estar infectadas nunca deben ser suministradas a las aves rapaces, gallinas u otras.</example>
+                <example>Sin importar cuáles elijas.</example>
+                <example>Cómo decidas actuar depende de varios factores.</example>
+                <example>Generar informes de los indicadores.</example>
+                <!-- single word without context -->
+                <example>Cantáramos</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="SUBJUNTIVO_FUTURO" name="confusión cantara/cantará">
             <rule>
                 <antipattern>
@@ -9494,19 +9521,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="hacía">Entonces él <marker>hacia</marker> lo mismo.</example>
             </rule>-->
         </rulegroup>
-        <rulegroup id="NO_TILDE" name="palabras sin tilde según el contexto">
+        <rulegroup id="SOLICITO_NO_TILDE" name="palabras sin tilde según el contexto">
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
                     <marker>
-                        <token>solícito</token>
+                        <token regexp="yes">solícito|solícita</token>
                     </marker>
                     <token regexp="yes">:|que</token>
                 </pattern>
                 <message>Si es un verbo, se escribe sin tilde.</message>
-                <suggestion>solicito</suggestion>
+                <suggestion><match no="2" regexp_match="(?iu)í" regexp_replace="i" case_conversion="preserve"/></suggestion>
                 <example correction="Solicito"><marker>Solícito</marker>:</example>
                 <example correction="Solicito"><marker>Solícito</marker> que se ejecute la sentncia.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">solícito|solícita</token>
+                    </marker>
+                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0"/>
+                    <token postag="VMS[IP](3S|3P|2S)0" postag_regexp="yes"/>
+                </pattern>
+                <message>Si es un verbo, se escribe sin tilde.</message>
+                <suggestion><match no="1" regexp_match="(?iu)í" regexp_replace="i" case_conversion="preserve"/></suggestion>
+                <example correction="solicita">El demandante <marker>solícita</marker> se presenten los documentos.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MAS" name="mas/más">
@@ -27461,7 +27500,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">\d+</token>
                 <token regexp="yes">28|29|30|31</token>
             </antipattern>
-            <rule> <!--1-->
+            <rule>
+                <!--1-->
                 <pattern>
                     <marker>
                         <token>31</token>
@@ -27475,7 +27515,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="30">Nació el <marker>31</marker>/11/1988.</example>
                 <example correction="30">Nació el <marker>31</marker> de novbre.</example>
             </rule>
-            <rule> <!--2-->
+            <rule>
+                <!--2-->
                 <pattern>
                     <marker>
                         <token regexp="yes">3[01]</token>
@@ -27487,7 +27528,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="28|29">Nació el <marker>31</marker> de febrero.</example>
                 <example correction="28|29">Nació el <marker>30</marker>/2/1988.</example>
             </rule>
-            <rule> <!--3-->
+            <rule>
+                <!--3-->
                 <pattern>
                     <marker>
                         <token>29</token>
@@ -27532,7 +27574,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="28">El <marker>29</marker>-feb-2005</example>
                 <example>El 29-feb-2004</example>
             </rule>
-            <rule> <!--default="temp_off"--> <!--4-->
+            <rule>
+                <!--default="temp_off"-->
+                <!--4-->
                 <antipattern>
                     <token regexp="yes">\d\d</token>
                     <token>:</token>
@@ -27588,7 +27632,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Nació el <marker>20 de enero</marker>.</example>
                 <example>Nació el <marker>2 de enero</marker>.</example>
             </rule>
-            <rule> <!--default="temp_off"--> <!--5-->
+            <rule>
+                <!--default="temp_off"-->
+                <!--5-->
                 <antipattern>
                     <token skip="-1">ISBN</token>
                     <token regexp="yes">\d+</token>
@@ -27633,7 +27679,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Nació el <marker>20/1</marker>/1985.</example>
                 <example>Nació el <marker>2/1</marker>/1985.</example>
             </rule>
-            <rule> <!--default="temp_off"--> <!--6-->
+            <rule>
+                <!--default="temp_off"-->
+                <!--6-->
                 <antipattern>
                     <token regexp="yes">\d+</token>
                     <token>/</token>
@@ -27683,7 +27731,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token>ajp</token>
                     <token>.</token>
-                    <token postag="DN.*" postag_regexp="yes" />
+                    <token postag="DN.*" postag_regexp="yes"/>
                     <example>doi:10.1176/appi.ajp.163.10.1710.</example>
                 </antipattern>
                 <pattern>
@@ -27698,7 +27746,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Nació el <marker>30.01.1985</marker>.</example>
                 <example>Nació el <marker>20.01.1985</marker>.</example>
             </rule>
-            <rule> <!--default="temp_off"--> <!--7-->
+            <rule>
+                <!--default="temp_off"-->
+                <!--7-->
                 <pattern>
                     <marker>
                         <token regexp="yes">(3[2-9]|[4-9][0-9]|[1-9][0-9][0-9]+)\.([1-9]|10|11|12)</token>
@@ -27713,8 +27763,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Nació el <marker>30.1.1985</marker>.</example>
                 <example>Nació el <marker>20.1.1985</marker>.</example>
             </rule>
-            <rule> <!--default="temp_off"--> <!--8, antes 7-->
-                <antipattern> <!--American date notation: month/day/year-->
+            <rule>
+                <!--default="temp_off"-->
+                <!--8, antes 7-->
+                <antipattern>
+                    <!--American date notation: month/day/year-->
                     <token regexp="yes">0?[1-9]|10|11|12</token>
                     <token regexp="yes">-|/</token>
                     <token regexp="yes">0?[1-9]|1[0-9]|2[0-9]|3[0-1]</token>
@@ -27787,7 +27840,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Nació el <marker>12/31/2014</marker>.</example>
                 <example>Nació el <marker>31/12/2014</marker>.</example>
             </rule>
-            <rule> <!--default="temp_off"--> <!--9-->
+            <rule>
+                <!--default="temp_off"-->
+                <!--9-->
                 <antipattern>
                     <token regexp="yes">(0?[1-9]|10|11|12)\.(0?[1-9]|1[0-9]|2[0-9]|3[0-1])\.\d\d\d\d</token>
                     <example>Publicado por Javier en 8.21.2015.</example>
@@ -27806,7 +27861,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Nació el <marker>12.31.2014</marker>.</example>
                 <example>Nació el <marker>31.12.2014</marker>.</example>
             </rule>
-            <rule> <!--default="temp_off"--> <!--10-->
+            <rule>
+                <!--default="temp_off"-->
+                <!--10-->
                 <pattern>
                     <marker>
                         <token regexp="yes">31\.(11|0[469])\.\d\d(\d\d)?</token>
@@ -27817,7 +27874,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Nació el <marker>31.11.89</marker>.</example>
                 <example>Nació el <marker>30.11.89</marker>.</example>
             </rule>
-            <rule> <!--default="temp_off"--> <!--11-->
+            <rule>
+                <!--default="temp_off"-->
+                <!--11-->
                 <pattern>
                     <marker>
                         <token regexp="yes">31\.(11|0?[469])</token>
@@ -27831,7 +27890,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Nació el <marker>30.4</marker>.</example>
                 <example>Nació el <marker>30.4</marker>.1989.</example>
             </rule>
-            <rule> <!--default="temp_off"--> <!--12-->
+            <rule>
+                <!--default="temp_off"-->
+                <!--12-->
                 <pattern>
                     <marker>
                         <token regexp="yes">(30|31)\.(02)\.\d\d(\d\d)?</token>
@@ -27842,7 +27903,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Nació el <marker>31.02.1900</marker>.</example>
                 <example>Nació el <marker>28.02.1900</marker></example>
             </rule>
-            <rule> <!--default="temp_off"--> <!--13-->
+            <rule>
+                <!--default="temp_off"-->
+                <!--13-->
                 <pattern>
                     <marker>
                         <token regexp="yes">(30|31)\.(0?2)</token>
@@ -27859,7 +27922,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Nació el <marker>28.2</marker>.</example>
                 <example>Nació el <marker>28.2</marker>.1900.</example>
             </rule>
-            <rule> <!--default="temp_off"--> <!--14-->
+            <rule>
+                <!--default="temp_off"-->
+                <!--14-->
                 <antipattern>
                     <token regexp="yes">29\.02\.([13579][26]00|[2468][048]00)</token>
                     <!-- 2000 is a leap year (divisible by 400) -->
@@ -27887,9 +27952,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">El <marker>29.02.2100</marker>.</example>
                 <example>Sucederá el <marker>28.02.2100</marker>.</example>
             </rule>
-            <rule> <!--default="temp_off"--> <!--15-->
+            <rule>
+                <!--default="temp_off"-->
+                <!--15-->
                 <antipattern>
-                    <token>29.2</token>
+                    <token regexp="yes">29\.2</token>
                     <token>.</token>
                     <token regexp="yes">([13579][26]00|[2468][048]00)</token>
                     <!-- 2000 is a leap year (divisible by 400) -->
@@ -27907,7 +27974,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token>29.2</token>
+                        <token regexp="yes">29\.2</token>
                         <token>.</token>
                         <token regexp="yes">\d\d(00|\d[13579]|[02468][26]|[13579][048])</token>
                     </marker>

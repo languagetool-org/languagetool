@@ -1824,6 +1824,26 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="filter" postag="N.*"/>
         </rule>
     </rulegroup>
+    <rulegroup id="no_verbo" name="not verb">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="NCFP000" regexp="yes">acciones|redes|cuestiones</token>
+                </marker>
+                <token regexp="yes">de|del</token>
+            </pattern>
+            <disambig action="filter" postag="NCFP000"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="NCFP000" regexp="yes">acciones|redes|cuestiones</token>
+                </marker>
+                <token postag="A..[FC][PN].|V.P..PF" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="NCFP000"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="causa_efecto" name="causa-efecto (noun not verb)">
         <rule>
             <pattern>
