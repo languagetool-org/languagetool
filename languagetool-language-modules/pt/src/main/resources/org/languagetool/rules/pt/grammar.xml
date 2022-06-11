@@ -43718,7 +43718,7 @@ Não tenho médica de família, pois ela está ausente até dezembro. → Não t
 
     <!-- QUE/E TEM/TÊM com -->
     <rule id='SIMPLIFICAR_QUE_E_TEM_TÊM' name="Simplificar: Que/E tem/têm → com">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-21 + 2022-02-24/25/26 + 2022-03-03 (Checked/Enhanced) (1-JAN-2022+)      -->
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-21 + 2022-02-24/25/26 + 2022-03-03 + 2022-06-11 (Checked/Enhanced) (1-JAN-2022+)      -->
 	<!--
 É uma empresa séria, que tem marcas que acompanham a história da família. → É uma empresa séria, com marcas que acompanham a história da família.
 As unhas são uma das partes do corpo que têm mais contacto com tudo. → As unhas são uma das partes do corpo com mais contacto com tudo.
@@ -43736,6 +43736,18 @@ FIXES IN MY THESIS: "Contudo, os simuladores não são perfeitos e têm limitaç
 			<exception regexp='yes'>com|de|disponível|disponíveis|em|lá|nel[ae]s?|para|por|são|sobre</exception>
 		</token>
 		<token postag='_PUNCT|SENT_END' postag_regexp='yes'/>
+	  </antipattern>
+
+<!-- 2022-06-11: Fix for: "Ainda hoje é uma acomodada e pensa que tem sangue azul, imagine-se!" -->
+	  <antipattern>
+		<token postag='SENT_START|CC' postag_regexp='yes'/>
+		<token postag='VMIP3.+|VMM02.+' postag_regexp='yes'/>
+	    <token min="0" max="1" postag='_PUNCT|_QUOT' postag_regexp='yes'/>
+		<token regexp="yes">que|e</token>
+		<token regexp="yes">t[eê]m</token>
+		<example>Ainda hoje é uma acomodada e pensa que tem sangue azul, imagine-se!</example>
+		<example>E olha que tem muitos afilhados para estas vagas de coordenadores!</example>
+		<example>Acha que tem mão da rede globo nisso aí?</example>
 	  </antipattern>
 
       <pattern>
