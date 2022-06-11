@@ -133,8 +133,8 @@ public class LTMessageChecker {
       if (matches.size() > 0) {
         List<RuleMatch> matchesToShow = new ArrayList<>();
         for (RuleMatch match : matches) {
-          // exception for corrections in German
           String ruleId = match.getRule().getId();
+          // exceptions for corrections
           if (isCorrection && ruleExceptions.contains(ruleId)) {
             continue;
           }
