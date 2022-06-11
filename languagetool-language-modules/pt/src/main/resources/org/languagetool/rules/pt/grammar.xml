@@ -894,16 +894,6 @@ Isto é boa. → Isto é bom.
           <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
           <token postag='(?:[NZ].|A..)F[NP].+' postag_regexp='yes'/>
       </antipattern>
-<!-- MARCOAGPINTO 2020-03-27 *START* -->
-<!-- "A colega do supermercado mencionada anteriormente." -->
-      <antipattern>
-		  <token postag='DA0FS0' postag_regexp='no'/>
-		  <token postag='NCCS000' postag_regexp='no'/>
-		  <token regexp='no'>do</token>
-		  <token postag='NCMS000' postag_regexp='no'/>
-		  <token postag='VMP00SF' postag_regexp='no'/>	  		  
-      </antipattern>	
-<!-- MARCOAGPINTO 2020-03-27 *END* -->
 <!-- MARCOAGPINTO 2020-05-22 *START* -->
 <!-- "Edificações erguidas por arquitetos índios centenas de anos antes da conquista europeia." -->
 <!-- "Surgiram no reino centenas de pequenas habitações." -->
@@ -913,16 +903,6 @@ Isto é boa. → Isto é bom.
 		  <token postag='SPS00' postag_regexp='no'/>	  		  
       </antipattern>	
 <!-- MARCOAGPINTO 2020-05-22 *END* -->
-<!-- MARCOAGPINTO 2020-05-30 + 2020-06-20 *START* -->
-<!-- "Ele tinha duas irmãs: Marjorie, cinco anos mais velha, e Avril, cinco anos mais jovem." -->
-<!-- "Ele tinha duas irmãs: Marjorie, cinco anos mais velha, e Avril, vários anos mais jovem." -->
-      <antipattern>
-          <token postag='Z0[MC]P0|DI0MP0|PI0MP000' postag_regexp='yes'/>
-          <token postag='NCMP000' postag_regexp='no'/>
-          <token postag='NCMS000|NCMN000' postag_regexp='yes'/>
-          <token postag='AQ0[CFM]S0' postag_regexp='yes'/>
-      </antipattern>
-<!-- MARCOAGPINTO 2020-05-30 + 2020-06-20 *END* -->
 <!-- MARCOAGPINTO 2020-07-04 (2-JUL-2020+) *START* -->
 <!-- "O Rui aprende e sugere ele próprio mensagens como sendo verdadeiras." -->
 <!-- "O Rui aprende e sugere ele mesmo mensagens como sendo verdadeiras." -->
@@ -937,24 +917,6 @@ Isto é boa. → Isto é bom.
 		  <token postag='NC[CFM]P000' postag_regexp='yes'/>
       </antipattern>  	  
 <!-- MARCOAGPINTO 2020-07-04 (2-JUL-2020+) *END* -->
-<!-- MARCOAGPINTO 2020-07-21 (2-JUL-2020+) *START* -->
-<!-- "Os mapas estão acessíveis a todos tendo como base estudos geográficos." -->
-<!-- "Os mapas estão acessíveis a todos tendo como alicerce classes geográficas." -->
-<!-- "Os mapas estão acessíveis a todos tendo como alicerce classes humanas." -->
-<!-- "Os mapas estão acessíveis a todos tendo um alicerce classes humanas." -->
-      <antipattern>
-		  <token regexp='yes'>em|esta|nesta|nessa|numa|à|que|com|sua|uma|como|por|na</token>
-	      <token postag='NC[CF]S000' postag_regexp='yes'/>
-	      <token postag='NC[CM]P000' postag_regexp='yes'/>
-		  <token postag='NC[CM]P000|AQ0[CM]P0' postag_regexp='yes'/>
-      </antipattern>
-      <antipattern>
-		  <token regexp='yes'>em|este|neste|nesse|num|o|que|com|seu|um|como|por|no</token>
-	      <token postag='NC[CM]S000' postag_regexp='yes'/>
-	      <token postag='NC[CF]P000' postag_regexp='yes'/>
-		  <token postag='NC[CF]P000|AQ0[CF]P0' postag_regexp='yes'/>
-      </antipattern>	  
-<!-- MARCOAGPINTO 2020-07-21 (2-JUL-2020+) *END* -->
 <!-- MARCOAGPINTO 2020-07-30 (2-JUL-2020+) *START* -->
 <!-- "Uma informação o mais simples e o mais rica." -->
       <antipattern>
@@ -964,6 +926,7 @@ Isto é boa. → Isto é bom.
 		  <token negate="yes" regexp='yes'>em|da|do|que</token>
       </antipattern>	
 <!-- MARCOAGPINTO 2020-07-30 (2-JUL-2020+) *END* -->
+
 <!-- MARCOAGPINTO 2020-08-18 (2-JUL-2020+) *START* -->
 <!-- "Uma máquina a motor mais pesada que o ar." -->
 <!-- "Uma máquina a gasolina mais pesada que o ar." -->
@@ -976,25 +939,7 @@ Isto é boa. → Isto é bom.
 		<token postag='NC[CF]S000|AQ0[CF]S0|VMP00SF' postag_regexp='yes'/>
       </antipattern>	  
 <!-- MARCOAGPINTO 2020-08-18 (2-JUL-2020+) *END* -->
-<!-- MARCOAGPINTO 2020-08-26 (2-JUL-2020+) *START* -->
-<!-- "Apenas testemunhos sem fim recebidos de todo o mundo." -->
-<!-- "Apenas testemunhos sem conta recebidos de todo o mundo." -->
-<!-- "Apenas testemunhas sem fim recebidas de todo o mundo." -->
-	  <!-- Male -->
-      <antipattern>
-		<token postag='NC[CM]P000|AQ0[CM]P0' postag_regexp='yes'/>
-		<token regexp='yes'>sem|com|no|na|da|do|a|mais|menos|bem|mal|num|numa</token>
-		<token postag='NC[CFM]S000|AQ0[CFM]S0' postag_regexp='yes'/>
-		<token postag='VMP00PM|AQ0[CM]P0' postag_regexp='yes'/>
-      </antipattern>
-	  <!-- Female -->
-      <antipattern>
-		<token postag='NC[CF]P000|AQ0[CF]P0' postag_regexp='yes'/>
-		<token regexp='yes'>sem|com|no|na|da|do|a|mais|menos|bem|mal|num|numa</token>
-		<token postag='NC[CFM]S000|AQ0[CFM]S0' postag_regexp='yes'/>
-		<token postag='VMP00PF|AQ0[CF]P0' postag_regexp='yes'/>
-      </antipattern>	  	  
-<!-- MARCOAGPINTO 2020-08-26 (2-JUL-2020+) *END* -->
+
 <!-- MARCOAGPINTO 2020-09-14 (2-JUL-2020+) *START* -->
 <!-- "Não devia ser necessário petições para legalizar a profissão." -->
       <antipattern>
@@ -1003,12 +948,13 @@ Isto é boa. → Isto é bom.
 		  <token postag='NC[CF]P000' postag_regexp='yes'/>
 	  </antipattern>	  	  	  
 	  <!-- "Suspeita-se que tenham, em escalas de tempo, levado quantidades significativas de água." -->
-      <antipattern>	  
+      <antipattern>
 		  <token regexp='yes'>[,]|de|e</token>
 	      <token postag='AQ0[CM]S0|NC[CF]S000' postag_regexp='yes'/>
 		  <token postag='NC[CF]P000' postag_regexp='yes'/>
 	  </antipattern>	  	  
 <!-- MARCOAGPINTO 2020-09-14 (2-JUL-2020+) *END* -->
+
 <!-- MARCOAGPINTO 2020-10-27 (21-OCT-2020+) *START* -->
 <!-- "Precisa agora de estar em quarentena 1 dia." -->
 <!-- "Precisa agora de estar em quarentena 14 dias." -->
@@ -1020,33 +966,7 @@ Isto é boa. → Isto é bom.
 		  <token postag='AQ0[CFM][SP]0|NC[CFM][SP]000' postag_regexp='yes'/>
       </antipattern>
 <!-- MARCOAGPINTO 2020-10-27 (21-OCT-2020+) *END* -->
-<!-- MARCOAGPINTO 2020-12-21 (21-OCT-2020+) *START* -->
-<!--
-Bom dia Ana.
--->
-      <antipattern>
-		<token postag='SENT_START' postag_regexp='no'/>
-		<token postag='AQ.+' postag_regexp='yes'>
-			<exception postag_regexp='yes' postag='V.+|NP.+|RG|Z0[FM]P0'/></token>
-		<marker>
-			<token postag='NC.+' postag_regexp='yes'>
-				<exception postag_regexp='yes' postag='V.+|NP.+|AQ.+|RG|Z0[FM]P0'/></token>
-		</marker>
-		<token postag='NC.+|NP.+' postag_regexp='yes'>
-			<exception postag_regexp='yes' postag='V.+|AQ.+|RG|Z0[FM]P0'/>
-			<exception regexp='yes'>das?|dos?</exception>
-			</token>
-      </antipattern>
-<!-- MARCOAGPINTO 2020-12-21 (21-OCT-2020+) *END* -->
-<!-- MARCOAGPINTO 2021-01-13 (1-JAN-2021+) *START* -->
-<!--
-Dez funções da inteligência multifocal.
--->
-      <antipattern>
-		<token postag='Z0CP0' postag_regexp='no'/>
-		<token postag='NC.+|NP.+|AQ0.+' postag_regexp='yes'/>
-      </antipattern>	  	  
-<!-- MARCOAGPINTO 2021-01-13 (1-JAN-2021+) *END* -->
+
 <!-- MARCOAGPINTO 2021-01-16 (1-JAN-2021+) *START* -->
 <!--
 ao princípio Mãe.
@@ -1069,30 +989,7 @@ e princípio Mãe.
 		<token postag='NC.S.+|AQ0.S.+|NP.+' postag_regexp='yes'/>
       </antipattern>
 <!-- MARCOAGPINTO 2021-01-16 (1-JAN-2021+) *END* -->
-<!-- MARCOAGPINTO 2021-01-21 (1-JAN-2021+) *START* -->
-<!--
-O Isaac apanhou um escalda rabos tão grande.
--->
-      <antipattern>
-		  <token postag='V.+' postag_regexp='yes'/>
-          <token regexp='yes'>a?o|pelo|do|um|esse|aquele|àquele|tal|como|no|daquele|e</token>
-		  <token postag='NC[CF]S.+|AQ0[CF]S.+' postag_regexp='yes'/>
-		  <token postag='NC.P.+|AQ0.P.+' postag_regexp='yes'/>
-      </antipattern> 
-<!-- MARCOAGPINTO 2021-01-21 (1-JAN-2021+) *END* -->
-<!-- MARCOAGPINTO 2021-01-21 (1-JAN-2021+) *START* -->
-<!--
-Ele confundiu o rapaz com um borrego, seu tira moncos.
-Ele confundiu o rapaz com um borrego, sua tira moncos.
-Ele confundiu o rapaz com um borrego, teu tira moncos.
--->
-      <antipattern>		  
-          <token min="0" max="1" regexp='yes'>[,]</token>
-		  <token postag='DP.+' postag_regexp='yes'/>
-		  <token postag='NC[CF]S.+|AQ0[CF]S.+' postag_regexp='yes'/>
-		  <token postag='NC.P.+|AQ0.P.+' postag_regexp='yes'/>
-      </antipattern> 
-<!-- MARCOAGPINTO 2021-01-21 (1-JAN-2021+) *END* -->
+
 <!-- MARCOAGPINTO 2021-02-22 (1-JAN-2021+) *START* -->
 <!--
 O que o torna mais perigoso é haver civis inocentes.
@@ -1106,20 +1003,7 @@ O que o torna perigoso é haver civis inocentes.
 		<token postag='AQ0MS0' postag_regexp='no'/>
       </antipattern> 
 <!-- MARCOAGPINTO 2021-02-22 (1-JAN-2021+) *END* -->
-<!-- MARCOAGPINTO 2021-02-25 + 2021-03-24 + 2021-04-22 (Enhanced) (17-MAR-2021+) *START* -->
-<!--
-Com a marca, um exclusivo Auchan.
-Um computador da Dell pode ser integrado com um processador Intel.
-Uma cliente disse querer pagar com o cartão Auchan.
-Os clientes dizem ter cartão Auchan.
-O navio português Santa Catarina foi capturado pela Companhia da Índia holandesa.
--->
-      <antipattern>
-		<token postag='D.0MS.+|V.+' postag_regexp='yes'/>
-		<token min="1" max="2" postag='AQ0MS0|NCMS000' postag_regexp='yes'/>
-		<token postag='NP.+' postag_regexp='yes'/>
-      </antipattern> 
-<!-- MARCOAGPINTO 2021-02-25 + 2021-03-24 + 2021-04-22 (Enhanced) (17-MAR-2021+) *END* -->
+
 <!-- MARCOAGPINTO 2021-04-13 (17-MAR-2021+) *START* -->
 <!--
 No ponto borboleta, as diferentes superfícies são importantes.
@@ -1242,20 +1126,10 @@ Série 9xx Cada série foca um determinado mercado, possuindo os aparelhos vári
 		<token postag='AQ0[CF].+|NC[CF].+' postag_regexp='yes'/>
       </antipattern>	  
 <!-- MARCOAGPINTO 2021-08-17 (25-JUN-2021+) *END* -->
-<!-- MARCOAGPINTO 2021-10-03 (25-JUN-2021+) *START* -->
-<!--
-Coloquei os clientes com cartão Auchan em espera.
--->
-      <antipattern>
-		<token postag='SPS.+' postag_regexp='yes'/>
-		<token postag='AQ.+|NC.+' postag_regexp='yes'/>
-		<token postag='NP.+' postag_regexp='yes'/>
-      </antipattern>
-<!-- MARCOAGPINTO 2021-10-03 (25-JUN-2021+) *END* -->
 
-<!-- MARCOAGPINTO 2022-06-05 (5-JUN-2022+) *START* -->
+<!-- MARCOAGPINTO 2022-06-05/11 (5-JUN-2022+) *START* -->
       <antipattern>
-		<token postag='[DP][ADIP].[CF].+|SPS00:[DP][ADIP].[CF].+' postag_regexp='yes'/>
+		<token postag='[DP][ADIP].[NF].+|SPS00:[DP][ADIP].[NF].+' postag_regexp='yes'/>
 		<token postag='AQ.[CF].+|NC[CF].+' postag_regexp='yes'/>
 		<token postag='SPS.+' postag_regexp='yes'/>
 		<token postag='AQ.+|NC.+' postag_regexp='yes'/>
@@ -1266,7 +1140,21 @@ Coloquei os clientes com cartão Auchan em espera.
 		<example>...ísica abre: Para as compras realizadas nestes dias, as regras de entrega são as mesmas de segunda a sábado descritas acima.</example>
 		<example>Isto tendo em conta as técnicas de engenharia de software mundialmente estabelecidas.</example>
       </antipattern>
-<!-- MARCOAGPINTO 2022-06-05 (5-JUN-2022+) *END* -->
+<!-- MARCOAGPINTO 2022-06-05/11 (5-JUN-2022+) *END* -->
+
+<!-- MARCOAGPINTO 2022-06-11 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+      <antipattern>
+		<token postag='[DP]..[MN].+|V.+|Z0[MN].+|SPS.+|CC|CS|RG' postag_regexp='yes'/>
+		<token min="1" max="2" postag='AQ.[CM].+|NC[CM].+' postag_regexp='yes'/>
+		<token postag='NP.+' postag_regexp='yes'/>
+		<example>Com a marca, um <marker>exclusivo Auchan</marker>.</example>
+		<example>Um computador da Dell pode ser integrado com um processador Intel.</example>
+		<example>Uma cliente disse querer pagar com o cartão Auchan.</example>
+		<example>Os clientes dizem ter cartão Auchan.</example>
+		<example>O navio português Santa Catarina foi capturado pela Companhia da Índia holandesa.</example>
+		<example>Vale lembrar que o guia Europa de Cinema está cheio de dicas interessantíssimas de Londres.</example>
+	  </antipattern>
+<!-- MARCOAGPINTO 2022-06-11 (Checked/Enhanced) (5-JUN-2022+) *END* -->
 
       <antipattern>
         <token>duas</token>
@@ -1318,9 +1206,13 @@ Coloquei os clientes com cartão Auchan em espera.
 	  <example type='correct'>Uma máquina a <marker>motor mais pesada</marker> que o ar.</example>
 	  <example type='correct'>Uma máquina a <marker>gasolina mais pesada</marker> que o ar.</example>
 	  <example type='correct'>A entrar no <marker>Império tão grande quantidade</marker> de escravos africanos.</example>
+<!-- rule damaged - 2022-06-11 *START* -->
+<!--
 	  <example type='correct'>Apenas testemunhos sem <marker>fim recebidos</marker> de todo o mundo.</example>
 	  <example type='correct'>Apenas testemunhos sem <marker>conta recebidos</marker> de todo o mundo.</example>
 	  <example type='correct'>Apenas testemunhas sem <marker>fim recebidas</marker> de todo o mundo.</example> 
+-->
+<!-- rule damaged - 2022-06-11 *END* -->
 	  <example type='correct'>Não devia ser <marker>necessário petições</marker> para legalizar a profissão.</example>
 	  <example type='correct'>Suspeita-se que tenham, em escalas de tempo<marker>, levado quantidades</marker> significativas de água.</example>
 	  <example type='correct'>Precisa agora de estar em <marker>quarentena 1 dia</marker>.</example>
@@ -1352,12 +1244,6 @@ Coloquei os clientes com cartão Auchan em espera.
 	  
 	  <example>O que <marker>o torna</marker> mais perigoso é haver civis inocentes.</example>
 	  <example>O que o torna perigoso é haver civis inocentes.</example>
-	  
-	  <example>Com a marca, um <marker>exclusivo Auchan</marker>.</example>
-	  <example>Um computador da Dell pode ser integrado com um processador Intel.</example>
-	  <example>Uma cliente disse querer pagar com o cartão Auchan.</example>
-	  <example>Os clientes dizem ter cartão Auchan.</example>
-	  <example>O navio português Santa Catarina foi capturado pela Companhia da Índia holandesa.</example>
 	  
 	  <example type='correct'>No <marker>ponto borboleta</marker>, as diferentes superfícies são importantes.</example>
 	  <example>Não traduza inglês para japonês palavra por palavra.</example>
@@ -1404,8 +1290,7 @@ Coloquei os clientes com cartão Auchan em espera.
 	  <example>Em outra publicação sua no mesmo ano, Einstein pôs em dúvida vários princípios do eletromagnetismo clássico.</example>
 	  <example>Como incentivo a este tipo de música, a Câmara Municipal de Braga criou no estádio 1.º de Maio várias salas de ensaio.</example>
 	  <example>Série 9xx Cada série foca um determinado mercado, possuindo os aparelhos várias semelhanças entre si.</example>
-	  
-	  <example>Coloquei os clientes com cartão Auchan em espera.</example>
+
 <!--      <example>A informação conseguida para saber preparações para atos de terror específicos eminentes.</example> -->
     </rule>
     <rule>
