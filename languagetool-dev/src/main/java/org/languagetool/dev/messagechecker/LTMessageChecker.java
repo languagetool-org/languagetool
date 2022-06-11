@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.languagetool.JLanguageTool;
@@ -39,6 +40,7 @@ import org.languagetool.tools.StringTools;
 public class LTMessageChecker {
 
   private static final boolean SPELLCHECK_ONLY = false;
+  private static final List<String> ruleExceptions = Arrays.asList("DE_CASE", "UPPERCASE_SENTENCE_START");
   
   public static void main(String[] args) throws Exception {
     if (args.length != 1) {
@@ -132,10 +134,11 @@ public class LTMessageChecker {
         List<RuleMatch> matchesToShow = new ArrayList<>();
         for (RuleMatch match : matches) {
           // exception for corrections in German
-          if (isCorrection && match.getRule().getId().equals("DE_CASE")) {
+          String ruleId = match.getRule().getId();
+          if (isCorrection && ruleExceptions.contains(ruleId)) {
             continue;
           }
-          if (!match.getRule().getId().equals(r.getId())) {
+          if (!ruleId.equals(r.getId())) {
             matchesToShow.add(match);
           }
         }
