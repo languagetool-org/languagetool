@@ -2636,6 +2636,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "languagetools": return topMatch("LanguageTools");
       case "Languagetool": return topMatch("LanguageTool");
       case "Languagetools": return topMatch("LanguageTools");
+      case "liket": return topMatch("likt");
     }
     return Collections.emptyList();
   }

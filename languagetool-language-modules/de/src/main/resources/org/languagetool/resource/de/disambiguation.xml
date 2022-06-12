@@ -6320,7 +6320,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <rule>
             <pattern>
                 <token inflected="yes" skip="10">nehmen</token>
-                <token regexp="yes" skip="10">an|daran</token>
+                <token regexp="yes" skip="10">a[mn]|daran</token>
                 <marker>
                     <token case_sensitive="yes">teil</token>
                 </marker>
@@ -6329,7 +6329,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </rule>
         <rule>
             <pattern>
-                <token skip="10">an</token>
+                <token skip="10" regexp="yes">a[mn]</token>
                 <token inflected="yes" skip="10">nehmen</token>
                 <marker>
                     <token case_sensitive="yes">teil</token>
@@ -6341,7 +6341,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule id="BMW_3ER" name="'3er' ignore spelling">
         <pattern>
             <marker>
-                <token regexp="yes">\d+ers?</token>
+                <token regexp="yes" case_sensitive="yes">\d+er[ns]?</token>
             </marker>
         </pattern>
         <disambig action="ignore_spelling"/>
@@ -6350,6 +6350,14 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <pattern>
             <marker>
                 <token regexp="yes">\d+(ste|te)(r|n|s|m)?</token>
+            </marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule id="MP_3" name="'mp3' ignore spelling">
+        <pattern>
+            <marker>
+                <token regexp="yes">mp[34]</token>
             </marker>
         </pattern>
         <disambig action="ignore_spelling"/>

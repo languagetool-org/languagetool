@@ -18679,7 +18679,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Es scheint, dass es Toms Absicht gewesen war, Maria den Kredit zu gewähren, nach dem sie gesucht hatte.</example>
                 <example>Ludwig von Köchel, nach dem es benannt ist, erstellte dieses Verzeichnis.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>erst</token>
                     <marker>
@@ -28294,7 +28294,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
-        <rule id="DIE_REICHEN_UND_SCHOENEN" name="die reichen (Reichen) und schönen (Schönen)" default="temp_off">
+        <rule id="DIE_REICHEN_UND_SCHOENEN" name="die reichen (Reichen) und schönen (Schönen)">
             <antipattern>
                 <token>schönen</token>
                 <token postag="UNKNOWN" regexp="yes">.*[a-z].*</token>
@@ -28313,24 +28313,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Reichen und Schönen">Sylt ist die Insel der <marker>reichen und schönen</marker>.</example>
             <example>Die reichen und schönen Menschen leben alle in Blankenese.</example>
         </rule>
-        <rule id="VERGLEICH_SUBST" name="der vergleich (Vergleicht) hinkt" default="temp_off">
-            <pattern>
-                <token postag="(PRO:POS|ART):.*MAS.*" postag_regexp="yes">
-                    <exception>das</exception>
-                </token>
-                <token postag="(ADJ|PA[12]):.*MAS.*" postag_regexp="yes" min="0" regexp="yes" case_sensitive="yes">
-                    [a-zöäü].*
-                    <exception postag="ADV:MOD" />
-                </token>
-                <marker>
-                    <token case_sensitive="yes">vergleich</token>
-                </marker>
-                <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
-                <token postag="VER:.+" postag_regexp="yes" />
-            </pattern>
-            <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
-            <example correction="Vergleich">Der <marker>vergleich</marker> hinkt!</example>
-        </rule>
+        <rulegroup id="VERGLEICH_SUBST" name="der vergleich (Vergleicht) hinkt">
+            <rule>
+                <pattern>
+                    <token postag="(PRO:POS|ART):.*MAS.*" postag_regexp="yes">
+                        <exception>das</exception>
+                    </token>
+                    <token postag="(ADJ|PA[12]):.*MAS.*" postag_regexp="yes" min="0" regexp="yes" case_sensitive="yes">
+                        [a-zöäü].*
+                        <exception postag="ADV:MOD" />
+                    </token>
+                    <marker>
+                        <token case_sensitive="yes">vergleich</token>
+                    </marker>
+                    <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
+                    <token postag="VER:.+" postag_regexp="yes" />
+                </pattern>
+                <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
+                <example correction="Vergleich">Der <marker>vergleich</marker> hinkt!</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">direkte[nr]?</token>
+                    <marker>
+                        <token case_sensitive="yes">vergleich</token>
+                    </marker>
+                </pattern>
+                <message>Das Nomen <suggestion><match no="2" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
+                <example correction="Vergleich">Er scheut den direkten <marker>vergleich</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="JEDERMANN" name="'Jedermann' Kleinschreibung">
             <antipattern>
                 <token regexp="yes">Herrn?|Frau|Fräulein|im|beim|das|der</token>
@@ -49654,7 +49666,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
-        <rule id="ZWECKS_TERMIN" name="zwecks Termin (eines Termins)" default="temp_off">
+        <rule id="ZWECKS_TERMIN" name="zwecks Termin (eines Termins)">
             <antipattern>
                 <token>Termin</token>
                 <token case_sensitive="yes" regexp="yes">[A-Z].*</token>
