@@ -80,7 +80,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY ordinales_unidades "primero|segundo|tercero|cuarto|quinto|sexto|séptimo|octavo|noveno">
     <!ENTITY unusually_noun "piden|aman">
     <!ENTITY pronombre_personal_sujeto "yo|tú|él|ella|usted|nosotros|nosotras|vosotros|vosotras|ellos|ellas|ustedes|vos">
-    <!ENTITY palabras_guion "aleación|antagonismo|asociación|binomio|ciclo|concordancia|conexión|contraposición|corpus|corrección|corrector|debate|diccionario|dualidad|eje|figura|interpretación|mesa|par|paralelo|pareja|ratio|razón|relación|traducción|traductor|equivalente|equivalencia|columna"> 
+    <!ENTITY palabras_guion "aleación|antagonismo|asociación|binomio|ciclo|concordancia|conexión|contraposición|corpus|corrección|corrector|debate|diccionario|dualidad|eje|figura|interpretación|mesa|par|paralelo|pareja|ratio|razón|relación|traducción|traductor|equivalente|equivalencia|columna|reacción"> 
     <!ENTITY exceptions_sujeto_singular "mayoría|número|puñado|porcentaje|cien|mil|millón|millones|billones|enjambre|grupo|parte|docena|mitad|cincuenta|cuarenta|multitud|treinta|veinte|sesenta|resto|diez">
     <!ENTITY exceptions_sujeto_singular2 "grupo|género|totalidad|serie|concentración|infinito|montón|cantidad|tercero|familia|equipo">
     <!ENTITY context_mama "ablación|adiposo|areola|arteria|bulto|calostro|carcinoma|carne|chupar|cirugía|culo|cáncer|célula|desarrollar|desarrollo|diagnóstico|embarazo|epitelio|estrógeno|femenino|ginecológico|ginecólogo|glandular|glándula|herida|hinchazón|hipertrofia|hormona|implante|inervación|infección|infectar|inflamación|lactancia|leche|lobulillo|mamario|mamífero|mastectomía|mastitis|mastología|neonato|parto|patológico|pecho|pectoral|pelvis|pezón|piel|progesterona|ptosis|pubertad|quirúrgico|sangre|sarcoma|seno|sexo|sexual|silicona|tejido|teta|tratamiento|turgencia|turgente|ubre|vena">
@@ -1604,7 +1604,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token regexp="yes" inflected="yes">esperar|desear|rogar|solicitar|agradecer|acordar|ofrecer</token>
                 <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0"/>
-                <token postag="VMS[IP](3S|3P|2S)0" postag_regexp="yes"/>
+                <token postag="V.S[IP](3S|3P|2S)0" postag_regexp="yes"/>
                 <example>Solicito se tengan como pruebas.</example>
             </antipattern>
             <antipattern>
@@ -5074,6 +5074,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="SUBJUNTIVO_INCORRECTO" name="verbo en modo subjuntivo incorrecto">
             <antipattern>
+                <!-- rarely used as verbs -->
+                <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
+                <token regexp="yes">pasaportes|dimensiones|proporciones|reacciones|promociones</token>
+                <example>Promociones VIP</example>
+                <example>Reacciones ácido-base.</example>
+            </antipattern>
+            <antipattern>
+                <token skip="4" postag="V.S.*" postag_regexp="yes"/>
+                <token>más</token>
+                <token>o</token>
+                <token>menos</token>
+                <example>Le gustase más o menos, lo tenía que hacer.</example>
+            </antipattern>
+            <antipattern>
                 <token regexp="yes">solícito|solícita</token>
                 <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0"/>
                 <token postag="VMS[IP](3S|3P|2S)0" postag_regexp="yes"/>
@@ -5093,11 +5107,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token><match no="0"/></token>
             </antipattern>
             <antipattern>
-                <token regexp="yes" skip="4">según|que|quien|cuando|cuanto|donde|adonde|qué|quién|cuándo|dónde|adónde|así</token>
+                <token regexp="yes" skip="4">q|según|que|quien|cuando|cuanto|donde|adonde|qué|quién|cuándo|dónde|adónde|así</token>
                 <token postag="V.S.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <token regexp="yes">tampoco|ni|no|nunca|nadie|quizás?|probablemente|posiblemente|apenas</token>
+                <token regexp="yes">bunas|tampoco|ni|no|nunca|nadie|quizás?|probablemente|posiblemente|apenas</token>
                 <token postag_regexp="yes" postag="P.*|RG" min="0" max="4"/>
                 <token postag="V.S.*" postag_regexp="yes"/>
             </antipattern>
@@ -5214,7 +5228,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- exceptions to next rule -->
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token>consumase</token>
+                    <marker>
+                        <token>consumase</token>
+                    </marker>
                 </pattern>
                 <message>Si es un imperativo, se escribe con tilde.</message>
                 <suggestion>Consúmase</suggestion>
@@ -5224,7 +5240,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="SENT_START" skip="-1"><exception scope="next" postag="V.[IM].*|P[TR].*|CS|LOC_CS" postag_regexp="yes"/></token>
                     <marker>
-                        <token postag="V.S.*" postag_regexp="yes"><exception postag="V.[IM].*|[NA].*|_possible_NP|R.*|LOC_.*|D.*|SENT_END" postag_regexp="yes"/><exception postag="V.SI.*" postag_regexp="yes" inflected="yes" regexp="yes">querer|haber|poder|deber|parecer</exception><exception>haya</exception></token>
+                        <token postag="V.S.*" postag_regexp="yes"><exception postag="V.[IM].*|[NA].*|_possible_NP|R.*|LOC_.*|D.*|SENT_END" postag_regexp="yes"/><exception postag="V.SI.*" postag_regexp="yes" inflected="yes" regexp="yes">querer|haber|poder|deber|parecer</exception><exception regexp="yes">haya|uno|unas?</exception></token>
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="wordFrom:marker desiredPostag:V.I.*|NC.*|A.*"/>
@@ -5323,6 +5339,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Generar informes de los indicadores.</example>
                 <!-- single word without context -->
                 <example>Cantáramos</example>
+                <example>Times New Roman</example>
+                <example>New York Times</example>
+                <example>The New York Times</example>
+                <example>Times Square</example>
             </rule>
         </rulegroup>
         <rulegroup id="SUBJUNTIVO_FUTURO" name="confusión cantara/cantará">
@@ -9541,11 +9561,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">solícito|solícita</token>
                     </marker>
                     <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0"/>
-                    <token postag="VMS[IP](3S|3P|2S)0" postag_regexp="yes"/>
+                    <token postag="V.S[IP](3S|3P|2S)0" postag_regexp="yes"/>
                 </pattern>
                 <message>Si es un verbo, se escribe sin tilde.</message>
                 <suggestion><match no="1" regexp_match="(?iu)í" regexp_replace="i" case_conversion="preserve"/></suggestion>
                 <example correction="solicita">El demandante <marker>solícita</marker> se presenten los documentos.</example>
+                <example correction="Solicito"><marker>Solícito</marker> me sean entregados los documentos.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MAS" name="mas/más">
@@ -13090,6 +13111,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- TODO: <example>en cuanto Franco coge poder desaparece el partido</example>-->
         </rule>
         <rule id="DOS_VERBOS_MODALES" name="dos verbos modales seguidos" default="temp_off">
+            <antipattern>
+                <token regexp="yes" inflected="yes">esperar|desear|rogar|solicitar|agradecer|acordar|ofrecer</token>
+                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0"/>
+                <token postag="V.S[IP](3S|3P|2S)0" postag_regexp="yes"/>
+                <example>Solicito se tengan como pruebas.</example>
+            </antipattern>
             <antipattern>
                 <token inflected="yes" regexp="yes">seguir|continuar|proseguir|estar|ir</token>
                 <token postag="V.G.*" postag_regexp="yes"/>
