@@ -27501,7 +27501,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">28|29|30|31</token>
             </antipattern>
             <rule>
-                <!--1-->
+                <!--NUMBER_DAYS_MONTH[1]-->
                 <pattern>
                     <marker>
                         <token>31</token>
@@ -27516,7 +27516,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="30">Nació el <marker>31</marker> de novbre.</example>
             </rule>
             <rule>
-                <!--2-->
+                <!--NUMBER_DAYS_MONTH[2]-->
+                <antipattern>
+                    <token regexp="yes">\d\d?</token>
+                    <token>:</token>
+                    <token regexp="yes">3[01]</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">0?2</token>
+                    <token>:</token>
+                    <token regexp="yes">\d\d?</token>
+                    <example>01:30 - 02:30</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\d\d?</token>
+                    <token>:</token>
+                    <token regexp="yes">3[01]</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">0?2</token>
+                    <token min="0">de</token>
+                    <token regexp="yes">&meses_ano;|&meses_ano_abrv;|horas|días|años|semanas|meses</token>
+                    <example>07:30 2 feb 2006</example>
+                    <example>20:30 2 may 2006</example>
+                    <example>01:30 - 2 horas</example>
+                    <example>12:30 2 de octubre de 2016</example>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">3[01]</token>
@@ -27529,7 +27552,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="28|29">Nació el <marker>30</marker>/2/1988.</example>
             </rule>
             <rule>
-                <!--3-->
+                <!--NUMBER_DAYS_MONTH[3]-->
                 <pattern>
                     <marker>
                         <token>29</token>
@@ -27575,8 +27598,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>El 29-feb-2004</example>
             </rule>
             <rule>
-                <!--default="temp_off"-->
-                <!--4-->
+                <!--NUMBER_DAYS_MONTH[4]-->
                 <antipattern>
                     <token regexp="yes">\d\d</token>
                     <token>:</token>
@@ -27633,8 +27655,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Nació el <marker>2 de enero</marker>.</example>
             </rule>
             <rule>
-                <!--default="temp_off"-->
-                <!--5-->
+                <!--NUMBER_DAYS_MONTH[5]-->
                 <antipattern>
                     <token skip="-1">ISBN</token>
                     <token regexp="yes">\d+</token>
@@ -27647,7 +27668,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>ISBN 978-84-01-0174-83</example>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">número|N°|nº|n\d+|\+|#</token>
+                    <token regexp="yes">número|N°|nº|n\d+|\+|#|teléfono|expediente</token>
+                    <token min="0">:</token>
                     <token regexp="yes">\d+</token>
                     <token regexp="yes" min="0">-|/</token>
                     <token regexp="yes">\d+</token>
@@ -27655,6 +27677,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes" min="0">\d+</token>
                     <example>número 50/12</example>
                     <example>n381 4327-4263 11-2454-0035</example>
+                    <example>teléfono: 54-11-1234-5678</example>
+                    <example>expediente 52-123-6-2020-5678</example>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -27680,8 +27704,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Nació el <marker>2/1</marker>/1985.</example>
             </rule>
             <rule>
-                <!--default="temp_off"-->
-                <!--6-->
+                <!--NUMBER_DAYS_MONTH[6]-->
                 <antipattern>
                     <token regexp="yes">\d+</token>
                     <token>/</token>
@@ -27747,8 +27770,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Nació el <marker>20.01.1985</marker>.</example>
             </rule>
             <rule>
-                <!--default="temp_off"-->
-                <!--7-->
+                <!--NUMBER_DAYS_MONTH[7]-->
                 <pattern>
                     <marker>
                         <token regexp="yes">(3[2-9]|[4-9][0-9]|[1-9][0-9][0-9]+)\.([1-9]|10|11|12)</token>
@@ -27764,8 +27786,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Nació el <marker>20.1.1985</marker>.</example>
             </rule>
             <rule>
-                <!--default="temp_off"-->
-                <!--8, antes 7-->
+                <!--NUMBER_DAYS_MONTH[8], antes 7-->
                 <antipattern>
                     <!--American date notation: month/day/year-->
                     <token regexp="yes">0?[1-9]|10|11|12</token>
@@ -27777,93 +27798,56 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>02/19/1954.</example>
                 </antipattern>
                 <antipattern>
-                    <token skip="-1">ISBN</token>
-                    <token regexp="yes">\d+</token>
-                    <token regexp="yes" min="0">-|/|–|:</token>
-                    <token regexp="yes">\d+</token>
-                    <token regexp="yes" min="0">-|/|–</token>
-                    <token regexp="yes">\d+</token>
-                    <token regexp="yes" min="0">-|/|–</token>
-                    <token regexp="yes">\d+|.</token>
-                    <example>ISBN 0-7627-2783-7</example>
-                    <example>ISBN 0-7851-0934-X</example>
-                    <example>ISBN-10:84-609-8845-7</example>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">\d\d\d\d</token>
-                    <token regexp="yes">-|/</token>
-                    <token regexp="yes">\d\d</token>
-                    <token regexp="yes">-|/</token>
-                    <token regexp="yes">\d\d\d\d</token>
+                    <token regexp="yes" skip="-1">número?s|nº|Cel|Tel|n\d+|cédula</token>
+                    <token regexp="yes">\d\d?</token>
                     <token regexp="yes" min="0">-|/</token>
-                    <token regexp="yes" min="0">\d\d</token>
-                    <token regexp="yes">-|/</token>
-                    <token regexp="yes">\d\d\d\d</token>
-                    <example>2007-08 / 2009/2012 / 2014</example>
-                    <example>2008/09 - 2009/10 - 2012</example>
-                    <example>2013/14 - 2014 - 2015</example>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes" skip="-1">número?s|nº|Cel|Tel|n\d+</token>
-                    <token regexp="yes">\d+</token>
-                    <token regexp="yes" min="0">-|/</token>
-                    <token regexp="yes">1[3-9]|[2-9]\d+</token>
+                    <token regexp="yes">1[3-9]|[2-9]\d</token>
                     <token regexp="yes" min="0">-|/</token>
                     <token regexp="yes" min="0">\d+</token>
-                    <example>nº 02/2009/6771</example>
-                    <example>Cel: 15-5622-6798</example>
-                    <example>n381 4327-4263 11-2454-0035</example>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">\d\d?</token>
-                    <token regexp="yes">-|/</token>
-                    <token regexp="yes">\d\d\d\d</token>
-                    <token regexp="yes">-|/</token>
-                    <token regexp="yes">\d\d\d\d</token>
-                    <example>381 4327-4263 11-2454-0035 Lun a Vier: 10 a 20 hs.</example>
-                    <example>15-3554-1705</example>
+                    <example>nº 02/29/6771</example>
+                    <example>Cel: 48-22-8733</example>
+                    <example>n381 4327-4263 11-54-0035</example>
+                    <example>Cédula: 6-51-2032</example>
                 </antipattern>
                 <pattern>
                     <token regexp="yes">\d\d?</token>
                     <token regexp="yes">-|/</token>
-                    <token regexp="yes">1[3-9]|[2-9]\d+</token>
+                    <token regexp="yes">1[3-9]|[2-9]\d</token> <!--remove + after d-->
                     <token><match no="1"/></token>
                     <token regexp="yes">\d\d\d\d</token>
                 </pattern>
                 <message>Si se trata de una fecha, el mes no es correcto.</message>
-                <example correction="">Nació el <marker>11/300/2014</marker>.</example>
+                <example correction="">Nació el <marker>11/50/2014</marker>.</example>
                 <example correction="">Nació el <marker>01/32/2014</marker>.</example>
                 <example correction="">Nació el <marker>13/31/2014</marker>.</example>
                 <example correction="">Nació el <marker>31/13/2014</marker>.</example>
-                <example>Nació el <marker>11/30/2014</marker>.</example>
+                <example>Nació el <marker>11/05/2014</marker>.</example>
                 <example>Nació el <marker>01/31/2014</marker>.</example>
                 <example>Nació el <marker>12/31/2014</marker>.</example>
                 <example>Nació el <marker>31/12/2014</marker>.</example>
             </rule>
             <rule>
-                <!--default="temp_off"-->
-                <!--9-->
+                <!--NUMBER_DAYS_MONTH[9]-->
                 <antipattern>
                     <token regexp="yes">(0?[1-9]|10|11|12)\.(0?[1-9]|1[0-9]|2[0-9]|3[0-1])\.\d\d\d\d</token>
                     <example>Publicado por Javier en 8.21.2015.</example>
                     <example>02.19.1954.</example>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">\d\d?\.(1[3-9]|[2-9]\d+)\.\d\d\d\d</token>
+                    <token regexp="yes">\d\d?\.(1[3-9]|[2-9]\d)\.\d\d\d\d</token>
                 </pattern>
                 <message>Si se trata de una fecha, el mes no es correcto.</message>
-                <example correction="">Nació el <marker>11.300.2014</marker>.</example>
+                <example correction="">Nació el <marker>11.50.2014</marker>.</example>
                 <example correction="">Nació el <marker>01.32.2014</marker>.</example>
                 <example correction="">Nació el <marker>13.31.2014</marker>.</example>
                 <example correction="">Nació el <marker>31.13.2014</marker>.</example>
-                <example>Nació el <marker>11.30.2014</marker>.</example>
+                <example>Nació el <marker>11.05.2014</marker>.</example>
                 <example>Nació el <marker>01.31.2014</marker>.</example>
                 <example>Nació el <marker>12.31.2014</marker>.</example>
                 <example>Nació el <marker>31.12.2014</marker>.</example>
             </rule>
             <rule>
-                <!--default="temp_off"-->
-                <!--10-->
+                <!--NUMBER_DAYS_MONTH[10]-->
                 <pattern>
                     <marker>
                         <token regexp="yes">31\.(11|0[469])\.\d\d(\d\d)?</token>
@@ -27875,8 +27859,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Nació el <marker>30.11.89</marker>.</example>
             </rule>
             <rule>
-                <!--default="temp_off"-->
-                <!--11-->
+                <!--NUMBER_DAYS_MONTH[11]-->
                 <pattern>
                     <marker>
                         <token regexp="yes">31\.(11|0?[469])</token>
@@ -27891,8 +27874,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Nació el <marker>30.4</marker>.1989.</example>
             </rule>
             <rule>
-                <!--default="temp_off"-->
-                <!--12-->
+                <!--NUMBER_DAYS_MONTH[12]-->
                 <pattern>
                     <marker>
                         <token regexp="yes">(30|31)\.(02)\.\d\d(\d\d)?</token>
@@ -27904,8 +27886,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Nació el <marker>28.02.1900</marker></example>
             </rule>
             <rule>
-                <!--default="temp_off"-->
-                <!--13-->
+                <!--NUMBER_DAYS_MONTH[13]-->
                 <pattern>
                     <marker>
                         <token regexp="yes">(30|31)\.(0?2)</token>
@@ -27923,8 +27904,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Nació el <marker>28.2</marker>.1900.</example>
             </rule>
             <rule>
-                <!--default="temp_off"-->
-                <!--14-->
+                <!--NUMBER_DAYS_MONTH[14]-->
                 <antipattern>
                     <token regexp="yes">29\.02\.([13579][26]00|[2468][048]00)</token>
                     <!-- 2000 is a leap year (divisible by 400) -->
@@ -27953,8 +27933,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Sucederá el <marker>28.02.2100</marker>.</example>
             </rule>
             <rule>
-                <!--default="temp_off"-->
-                <!--15-->
+                <!--NUMBER_DAYS_MONTH[15]-->
                 <antipattern>
                     <token regexp="yes">29\.2</token>
                     <token>.</token>
