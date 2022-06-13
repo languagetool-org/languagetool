@@ -49978,8 +49978,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="FALSCHER_IMPERATIV" name="Machst du (Mach|Mache) die Tür zu." default="temp_off">
             <antipattern>
-                <token>siehst</token>
+                <token postag="SENT_START"/>
+                <token regexp="yes">siehst|guckst</token>
                 <token>du</token>
+                <token min="0" postag="ADV:LOK"></token>
                 <token regexp="yes">\.|!</token>
             </antipattern>
             <antipattern>
@@ -50087,8 +50089,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Ist dies eine Frage? Falls ja, setzen Sie ein Fragezeichen. Falls es sich um eine Aufforderung handelt, verwenden Sie den Imperativ.</message>
             <suggestion><match no="2" postag_regexp="yes" postag="VER:2:SIN.*" postag_replace="VER:IMP:SIN.*"/></suggestion>
-            <example correction="Mach|Mache"><marker>Machst du</marker> die Tür zu.</example>
-            <example correction="Räum|Räume"><marker>Räumst du</marker> dein Zimmer auf.</example>
+            <suggestion>?</suggestion>
+            <example correction="Mach|Mache|?"><marker>Machst du</marker> die Tür zu.</example>
+            <example correction="Räum|Räume|?"><marker>Räumst du</marker> dein Zimmer auf.</example>
             <example>Mach sofort die Tür zu.</example>
             <example>Hast du kurz Zeit für mich?</example>
             <example>Hättest du mehr Geld gespart, könntest du dir jetzt eine neues Handy kaufen.</example>
@@ -50105,6 +50108,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Siehst du!</example>
             <example>Hast du schon einmal Mt. Fuji bestiegen?</example>
             <example>Sind alle Dokumente in Anl. 7?</example>
+            <example>Guckst du hier!</example>
         </rule>
         <rule id="SATZSTELLUNG_KON_UNT_VERB_AM_ENDE" name="Ich gehe nicht ins Schwimmbad, weil ich will nicht (ich nicht will)." default="temp_off">
             <pattern>
