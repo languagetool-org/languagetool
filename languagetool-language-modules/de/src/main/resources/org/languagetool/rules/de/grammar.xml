@@ -10979,7 +10979,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="CONFUSION_RULE_MIR_MIT_NEU" name="Mögliche Verwechslung von mir und mit">
-	        <rule><!--1-->
+	        <rule><!--CONFUSION_RULE_MIR_MIT_NEU[1]-->
 	            <antipattern>
 	                <token inflected="yes">können</token>
 	                <token skip="-1">mir</token>
@@ -11010,7 +11010,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Es ist mir egal, dass sie mir diesen Namen kommuniziert.</example>
                 <example>Es war mir bisschen schwindelig, also trank ich ein Glas Wasser.</example>
             </rule>
-	        <rule><!--2-->
+	        <rule><!--CONFUSION_RULE_MIR_MIT_NEU[2]-->
 	            <antipattern>
 	                <token inflected="yes">spielen</token>
 	                <token skip="-1">mir</token>
@@ -11027,6 +11027,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 	                <token inflected="yes" regexp="yes">reden|sagen</token>
 	                <token skip="-1">mir</token>
 	                <token>Wahrheit</token>
+	            </antipattern>
+	            <antipattern>
+	                <token postag="SUB:NOM.*" postag_regexp="yes"/>
+	                <token inflected="yes">spielen</token>
+	                <token skip="1">mir</token>
+	                <token regexp="yes">Spa(ß|ss)</token>
+	                <token inflected="yes">machen</token>
+	                <example>Seit das Klavier spielen mir mehr Spaß macht</example>
 	            </antipattern>
 		        <pattern>
 			        <token inflected="yes" regexp="yes">fangen|hören|beeilen|beginnen|beschäftigen|einigen|essen|fahren|handeln|kommunizieren|rechnen|reden|schimpfen|spielen|sprechen|starten|streiten|telefonieren|treffen|trinken|unterhalten|verabreden|vertragen|vergleichen|verstehen</token>
@@ -11045,7 +11053,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 	            <example>Die Aufgabe beginnt mir großen Spaß zu machen.</example>
 	            <example>Bitte sage mir endlich die Wahrheit!</example>
             </rule>
-            <rule> <!--3--><!--ehemals 4-->
+            <rule> <!--CONFUSION_RULE_MIR_MIT_NEU[3]--><!--ehemals 4-->
                 <antipattern>
                     <token inflected="yes" skip="1">bringen</token>
                     <token>mir</token>
@@ -11073,6 +11081,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token min="0" postag_regexp="yes" postag="ADV.*|ART:.*:AKK.*"/>
                     <token postag="SUB:AKK.*" postag_regexp="yes"/>
                 </antipattern>
+                <antipattern>
+                    <token postag="KON:UNT"/>
+                    <token>mir</token>
+                    <token skip="-1" postag="SUB:NOM.*" postag_regexp="yes"/>
+                    <token skip="-1" postag="VER.*" postag_regexp="yes"/>
+                    <token inflected="yes">fahren</token>
+                    <example>Nachdem mir Frau Müller netterweise geholfen hatte, fuhr ich nach Hause.</example>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>mir</token>
@@ -11092,7 +11108,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Er gibt mir jetzt Aufgaben in dem richtigen Bereich und wir fahren gut damit.</example>
                 <example>Als erstes besorgte ich mir den Rollwagen und fuhr ihn nach Hause.</example>
             </rule>
-            <rule><!--4-->
+            <rule><!--CONFUSION_RULE_MIR_MIT_NEU[4]-->
                 <pattern>
                     <marker>
                         <token>mir</token>
@@ -11102,7 +11118,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>'mir' (Dativ) ist hier weniger wahrscheinlich als <suggestion>mit</suggestion>.</message>
                 <example correction="mit">Porto und Verpackung sind nicht <marker>mir</marker> eingerechnet.</example>
             </rule>
-            <rule><!--5-->
+            <rule><!--CONFUSION_RULE_MIR_MIT_NEU[5]-->
                 <antipattern>
                     <token>mir</token>
                     <token postag="PRO:POS.*|PRO:DEM.*|ART.*" postag_regexp="yes" skip="-1"/>
@@ -11138,7 +11154,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ich sah mir dir Aufstellung der Verluste und Gewinne durch.</example> <!--Richtig: "mir die" -->
                 <example>Bitten teilen Sie mir ihr Meinung mit.</example> <!--Richtig: "Ihre Meinung" -->
             </rule>
-            <rule><!--6-->
+            <rule><!--CONFUSION_RULE_MIR_MIT_NEU[6]-->
                 <pattern>
                     <marker>
                         <token>mir</token>
@@ -11150,7 +11166,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>'mir' (Dativ) ist hier weniger wahrscheinlich als <suggestion>mit</suggestion>.</message>
                 <example correction="mit">Es wird <marker>mir</marker> großer Wahrscheinlichkeit regnen.</example>
             </rule>
-            <rule><!--7-->
+            <rule><!--CONFUSION_RULE_MIR_MIT_NEU[7]-->
                 <antipattern>
                     <token inflected="yes" skip="-1">kommen</token>
                     <token>mir</token>
@@ -11194,7 +11210,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ich habe eine Frage und erhoffe mir Hilfe von euch.</example>
                 <example>Sie werden zu mir um Hilfe rufen.</example>
             </rule>
-            <rule><!--8-->
+            <rule><!--CONFUSION_RULE_MIR_MIT_NEU[8]-->
                 <antipattern>
                     <token postag="VER:IMP.*" postag_regexp="yes"/>
                     <token skip="-1">mir</token>
@@ -11258,7 +11274,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Damals hat meine Familie mir den Glauben beigebracht.</example>
                 <example>Ich bitte Sie, den Brief mir zur Verfügung zu stellen.</example> <!--Falsche Satzstellung-->
             </rule>
-            <rule> <!--9-->
+            <rule> <!--CONFUSION_RULE_MIR_MIT_NEU[9]-->
                 <pattern>
                     <token inflected="yes">kommen</token>
                     <marker>
@@ -11272,7 +11288,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>'mir' (Dativ) ist hier weniger wahrscheinlich als <suggestion>mit</suggestion>.</message>
                 <example correction="mit">Er kommt <marker>mir</marker> seiner ganzen Familie gut aus.</example>
             </rule>
-            <rule><!--10-->
+            <rule><!--CONFUSION_RULE_MIR_MIT_NEU[10]-->
                 <antipattern>
                     <token>mir</token>
                     <token postag="EIG:AKK.*" postag_regexp="yes"/>
@@ -11341,7 +11357,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Die mir Kraft für mein Projekt gibt.</example>
                 <example>Du bist es, der mir Kraft gibt.</example>
             </rule>
-	        <rule> <!--11-->
+	        <rule> <!--CONFUSION_RULE_MIR_MIT_NEU[11]-->
                 <pattern>
                     <marker>
                         <token>mir</token>
@@ -11351,7 +11367,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>'mir' (Dativ) ist hier weniger wahrscheinlich als <suggestion>mit</suggestion>.</message>
                 <example correction="mit">Wir arbeiten <marker>mir</marker> Hochdruck an diesem Problem.</example>
             </rule>
-            <rule> <!--12-->
+            <rule> <!--CONFUSION_RULE_MIR_MIT_NEU[12]-->
                 <pattern>
                     <marker>
                         <token>mir</token>
@@ -11364,7 +11380,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>'mir' (Dativ) ist hier weniger wahrscheinlich als <suggestion>mit</suggestion>.</message>
                 <example correction="Mit"><marker>Mir</marker> dem des anderen Teams geht es besser.</example>
             </rule>
-            <rule> <!--13-->
+            <rule> <!--CONFUSION_RULE_MIR_MIT_NEU[13]-->
                 <pattern>
                     <token inflected="yes">decken</token>
                     <token postag="PRO:REF.*" postag_regexp="yes" skip="-1"/>
@@ -11379,7 +11395,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="mit">Das deckt sich <marker>mir</marker> meiner Erfahrung.</example>
                 <example correction="mit">Das deckt sich doch <marker>mir</marker> den meisten Leaks.</example>
             </rule>
-            <rule> <!--14-->
+            <rule> <!--CONFUSION_RULE_MIR_MIT_NEU[14]-->
                 <antipattern>
                     <token postag="VER.*|UNKNOWN" postag_regexp="yes"/>
                     <token postag="PRO:PER.*|PRO:REF.*" postag_regexp="yes" min="0"/>
