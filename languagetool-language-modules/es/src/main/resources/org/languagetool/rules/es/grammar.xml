@@ -5074,6 +5074,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="SUBJUNTIVO_INCORRECTO" name="verbo en modo subjuntivo incorrecto">
             <antipattern>
+                <token postag="SENT_START"/>
+                <token min="0">(</token>
+                <token regexp="yes">[a-z]|\d+</token>
+                <token regexp="yes" skip="10">\p{P}</token>
+                <token postag="V.S[IP](3S|3P|2S)0" postag_regexp="yes"/>
+                <example>1. Se envíe el teléfono.</example>
+                <example>2.) Le sean asignados los números.</example>
+                <example>a) Se incapaciten física o intelectualmente.</example>
+            </antipattern>
+            <antipattern>
                 <!-- rarely used as verbs -->
                 <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
                 <token regexp="yes">pasaportes|dimensiones|proporciones|reacciones|promociones</token>
@@ -5090,7 +5100,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token regexp="yes">solícito|solícita</token>
                 <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0"/>
-                <token postag="VMS[IP](3S|3P|2S)0" postag_regexp="yes"/>
+                <token postag="V.S[IP](3S|3P|2S)0" postag_regexp="yes"/>
                 <example>Deseando se encuentre bien.</example>
                 <example>Esperando se encuentre bien.</example>
             </antipattern>
@@ -5138,6 +5148,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>o</token>
                 <token postag_regexp="yes" postag="P.*" min="0" max="2"/>
                 <token postag="V.S.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token postag_regexp="yes" postag="P.*" min="0" max="2"/>
+                <token postag="V.S.*" postag_regexp="yes"/>
+                <token>,</token>
+                <token postag_regexp="yes" postag="P.*" min="0" max="2"/>
+                <token postag="V.S.*" postag_regexp="yes"/>
+                <token>o</token>
+                <token postag_regexp="yes" postag="P.*" min="0" max="2"/>
+                <token postag="V.S.*" postag_regexp="yes"/>
+                <example>Llueva, truene o relampaguee.</example>
             </antipattern>
             <antipattern>
                 <token regexp="yes">tal|una</token>
@@ -13163,6 +13185,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- allowed missing "que" : que Dios quiere sean llevadas a cabo -->
         </rule>
         <rulegroup id="DOS_VERBOS" name="dos verbos juntos" default="temp_off">
+            <antipattern>
+                <token regexp="yes" inflected="yes">esperar|desear|rogar|solicitar|agradecer|acordar|ofrecer</token>
+                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0"/>
+                <token postag="V.S[IP](3S|3P|2S)0" postag_regexp="yes"/>
+                <example>Agradecería se mantenga en línea.</example>
+            </antipattern>
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
@@ -27839,7 +27867,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">\d\d?</token>
                     <token regexp="yes">-|/</token>
-                    <token regexp="yes">1[3-9]|[2-9]\d</token> <!--remove + after d-->
+                    <token regexp="yes">1[3-9]|[2-9]\d</token>
+                    <!--remove + after d-->
                     <token><match no="1"/></token>
                     <token regexp="yes">\d\d\d\d</token>
                 </pattern>
