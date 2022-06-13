@@ -26,9 +26,11 @@ import com.optimaize.langdetect.profiles.LanguageProfileReader;
 import com.optimaize.langdetect.text.RemoveMinorityScriptsTextFilter;
 import com.optimaize.langdetect.text.TextObjectFactory;
 import com.optimaize.langdetect.text.TextObjectFactoryBuilder;
-import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.*;
+import org.languagetool.DetectedLanguage;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.language.identifier.detector.FastTextDetector;
 import org.languagetool.language.identifier.detector.NGramDetector;
 import org.languagetool.noop.NoopLanguage;
@@ -49,7 +51,7 @@ import java.util.*;
  *
  * @since 2.9
  */
-public class DefaultLanguageIdentifier extends LanguageIdentifier{
+public class DefaultLanguageIdentifier extends LanguageIdentifier {
 
   private static final Logger logger = LoggerFactory.getLogger(DefaultLanguageIdentifier.class);
   private static final double MINIMAL_CONFIDENCE = 0.9;
@@ -95,19 +97,19 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier{
     try {
       List<LanguageProfile> profiles = loadProfiles(getLanguageCodes());
       languageDetector = LanguageDetectorBuilder.create(NgramExtractors.standard())
-        .minimalConfidence(MINIMAL_CONFIDENCE)
-        .shortTextAlgorithm(SHORT_ALGO_THRESHOLD)
-        .withProfiles(profiles)
-        .build();
+              .minimalConfidence(MINIMAL_CONFIDENCE)
+              .shortTextAlgorithm(SHORT_ALGO_THRESHOLD)
+              .withProfiles(profiles)
+              .build();
       textObjectFactory = new TextObjectFactoryBuilder()
-        .maxTextLength(10000)
-        // note: keep these in sync with if(fasttextEnabled) in detectLanguage:
-        .withTextFilter(LanguageIdentifier.REMOVE_URL_FILTER)
-        .withTextFilter(RemoveMinorityScriptsTextFilter.forThreshold(0.3))
-        .withTextFilter(LanguageIdentifier.REMOVE_EMAIL_SIGNATURE_FILTER)
-        .withTextFilter(LanguageIdentifier.REMOVE_MENTION_FILTER)
-        .withTextFilter(LanguageIdentifier.REMOVE_NON_BREAKING_SPACES_FILTER)
-        .build();
+              .maxTextLength(10000)
+              // note: keep these in sync with if(fasttextEnabled) in detectLanguage:
+              .withTextFilter(LanguageIdentifier.REMOVE_URL_FILTER)
+              .withTextFilter(RemoveMinorityScriptsTextFilter.forThreshold(0.3))
+              .withTextFilter(LanguageIdentifier.REMOVE_EMAIL_SIGNATURE_FILTER)
+              .withTextFilter(LanguageIdentifier.REMOVE_MENTION_FILTER)
+              .withTextFilter(LanguageIdentifier.REMOVE_NON_BREAKING_SPACES_FILTER)
+              .build();
     } catch (IOException e) {
       throw new RuntimeException("Could not set up language identifier", e);
     }
@@ -124,7 +126,9 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier{
     }
   }
 
-  /** @since 5.2 */
+  /**
+   * @since 5.2
+   */
   public boolean isFastTextEnabled() {
     return fastTextDetector != null;
   }
@@ -174,6 +178,7 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier{
     }
     return profiles;
   }
+
   /**
    * @param cleanText a cleanText as returned by {@link #cleanAndShortenText(String)}
    * @return language or {@code null} if language could not be identified
@@ -188,25 +193,25 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier{
       return detectedLanguage.getDetectedLanguage();
     }
   }
-  
+
   /**
-   * @return language or {@code null} if language could not be identified
-   * @param cleanText a cleanText as returned by {@link #cleanAndShortenText(String)}
+   * @param cleanText    a cleanText as returned by {@link #cleanAndShortenText(String)}
    * @param noopLangsTmp list of codes that are detected but will lead to the NoopLanguage that has no rules
+   * @return language or {@code null} if language could not be identified
    * @since 4.4 (new parameter noopLangs, changed return type to DetectedLanguage)
    */
   @Override
   public DetectedLanguage detectLanguage(String cleanText, List<String> noopLangsTmp, List<String> preferredLangsTmp) {
-    
+
     String text = cleanText;
-    Pair<List<String>, List<String>> langPair = prepareDetectLanguage(text, noopLangsTmp, preferredLangsTmp);
-    if (langPair == null) {
+    ParsedLanguageLists parsedLanguageLists = prepareDetectLanguage(text, noopLangsTmp, preferredLangsTmp);
+    if (parsedLanguageLists == null) {
       return new DetectedLanguage(null, new NoopLanguage());
     }
-    List<String> additionalLangs = langPair.getLeft();
-    List<String> preferredLangs = langPair.getRight();
+    List<String> additionalLangs = parsedLanguageLists.getAdditionalLangs();
+    List<String> preferredLangs = parsedLanguageLists.getPreferredLangs();
 
-    Map.Entry<String,Double> result = null;
+    Map.Entry<String, Double> result = null;
     boolean fasttextFailed = false;
     String source = "";
     if (fastTextDetector != null || ngram != null) {
@@ -267,7 +272,7 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier{
         //System.out.println("fasttext  : " + result);
         //System.out.println("newScore  : " + newScore);
         result = new AbstractMap.SimpleImmutableEntry<>(result.getKey(), newScore);
-      } catch(FastTextDetector.FastTextException e) {
+      } catch (FastTextDetector.FastTextException e) {
         if (e.isDisabled()) {
           fastTextDetector = null;
           logger.error("Fasttext disabled", e);
@@ -289,9 +294,9 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier{
       }
     }
     if (result != null && result.getKey() != null && LanguageIdentifierService.INSTANCE.canLanguageBeDetected(result.getKey(), additionalLangs)) {
-        return new DetectedLanguage(null,
-                Languages.getLanguageForShortCode(result.getKey(), additionalLangs),
-                result.getValue().floatValue(), source);
+      return new DetectedLanguage(null,
+              Languages.getLanguageForShortCode(result.getKey(), additionalLangs),
+              result.getValue().floatValue(), source);
     } else {
       return null;
     }

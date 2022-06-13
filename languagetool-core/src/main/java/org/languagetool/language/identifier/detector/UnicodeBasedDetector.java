@@ -30,7 +30,7 @@ public class UnicodeBasedDetector {
 
   public UnicodeBasedDetector() {
     this(DEFAULT_MAX_CHECK_LENGTH);
-    }
+  }
 
   public UnicodeBasedDetector(int maxCheckLength) {
         this.maxCheckLength = maxCheckLength;

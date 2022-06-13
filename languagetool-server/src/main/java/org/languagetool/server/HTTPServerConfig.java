@@ -465,7 +465,7 @@ public class HTTPServerConfig {
         motherTongue = getOptionalProperty(props, "motherTongue", "en-US");
         String preferredLanguages = getOptionalProperty(props, "preferredLanguages", "").replace(" ", "");
         if (preferredLanguages != "") {
-            this.preferredLanguages = Arrays.asList(preferredLanguages.split(","));
+          this.preferredLanguages = Arrays.asList(preferredLanguages.split(","));
         }
         globalConfig.setGrammalecteServer(getOptionalProperty(props, "grammalecteServer", null));
         globalConfig.setGrammalecteUser(getOptionalProperty(props, "grammalecteUser", null));
