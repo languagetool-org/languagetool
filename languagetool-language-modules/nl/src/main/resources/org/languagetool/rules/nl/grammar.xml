@@ -11642,6 +11642,7 @@ onwaarschijnlijk
 		<rulegroup id="XXX_DING" name="KLM vliegtuig → KLM-vliegtuig" type="misspelling">
 			<!-- 2014-08-20 TaalTik -->
 			<antipattern><token>.</token><token spacebefore="no">06</token></antipattern>
+			<antipattern><token>#</token><token spacebefore="no" /></antipattern>
 			<antipattern><token postag="WKW:TGW:3EP|WKW:VLT:1EP" postag_regexp="yes"/><token>de</token><token postag_regexp="yes" postag="ZNW.*DE_"/><token postag="ZNW.*HET" postag_regexp="yes"/><token postag="VRZ"/></antipattern>
 			<antipattern><token postag="VRZ"/><token regexp="yes">06|[A-Z]{2,4}|[0-9][A-Z]</token><token postag_regexp="yes" postag="WKW.*"/></antipattern>
 			<antipattern><token>nu</token><token>weg</token></antipattern>
@@ -11649,7 +11650,7 @@ onwaarschijnlijk
 			<antipattern><token/><token regexp="yes">kost|weer|stelt|was|niet|uitvoeren|zo</token></antipattern>
 			<rule>
 				<pattern case_sensitive="yes">
-					<token regexp="yes">06|[A-Z]{2,4}|[0-9][A-Z]<exception regexp="yes">JIJ|ZIJN|ONZE|IK|RVS|GB|MB|MS|BV|GEEN|HBO|VMBO|MBO|VWO|NA|IN|MOET|EK|WK|DE|ALLE|EN|DIE|ELKE|MET|MIJN|[23]D|3M|TMZ</exception></token>
+					<token regexp="yes">06|[A-Z]{2,4}|[0-9][A-Z]<exception regexp="yes">AND|JIJ|ZIJN|ONZE|IK|RVS|GB|MB|MS|BV|GEEN|HBO|VMBO|MBO|VWO|NA|IN|MOET|EK|WK|DE|ALLE|EN|DIE|ELKE|MET|MIJN|[23]D|3M|TMZ</exception></token>
 					<token postag=".*ZNW.*" postag_regexp="yes"><exception postag=".*WKW.*|.*BNW.*|UNKNOWN" postag_regexp="yes"/><exception regexp="yes">sprake|tegen|zit|moet|wel|wil|kan|is|uur|nee|alweer|nu|eenmaal|over|van|twee|achteruit|alles|u|haar|iets|GB|MB|[A-Z0-9].*|bent|heeft|waar|ja|bij|II|III|X|een|zult|\.|hoe|voor|na|wat|weinig|ons|meer|hun|middels|duizenden|.*dag(avond|middag|ochtend)?</exception><exception postag_regexp="yes" postag="GET.*MRV"/></token>
 				</pattern>
 				<message>Als <match no="1"/> en <match no="2"/> samen één (Nederlandstalig) begrip zijn, dan is het: <suggestion><match no="1"/>-<match no="2"/></suggestion>.</message>
