@@ -64794,84 +64794,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion> </suggestion>
             <example correction=" ">Ich bin<marker>  </marker>ein Satz mit zwei Leerzeichen.</example>
         </rule>
-        <rulegroup id="SPACE_AFTER_BEFORE_SLASH" name="Leerzeichen vor und nach Schrägstrich" default="temp_off">
+        <rulegroup id="SCHRÄGSTRICH_DATUM" name="Leerzeichen vor und nach Datumsangaben" default="temp_off">
             <rule>
-                <antipattern>
-                    <token regexp="yes">^https?:\/\/(www\.)?(.*)?\/?(.)*\/$</token>
-                    <token regexp="yes" spacebefore="yes">.*[\wüöäß].*</token>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">.*[\wüöäß].*</token>
-                    <token spacebefore="yes">/</token>
-                    <token regexp="yes" spacebefore="yes">.*[\wüöäß].*</token>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">.*[\wüöäß].*</token>
-                    <token spacebefore="no">/</token>
-                    <token regexp="yes" spacebefore="no">.*[\wüöäß].*</token>
-                </antipattern>
                 <pattern>
-                    <marker>
-                        <token regexp="yes">.*[\wüöäß].*</token>
-                        <token spacebefore="no">/</token>
-                        <token regexp="yes" spacebefore="yes">.*[\wüöäß].*</token>
-                    </marker>
+                    <token regexp="yes">\d\d\d\d</token>
+                    <token spacebefore="yes">/</token>
+                    <token spacebefore="yes" regexp="yes">\d\d</token>
+                    <token spacebefore="yes">/</token>
+                    <token spacebefore="yes" regexp="yes">\d\d</token>
                 </pattern>
-                <message>Vor und nach einem Schrägstrich steht in der Regel kein Leerzeichen. Zur Verbesserung der Leserlichkeit kann beidseitig ein Leerzeichen gesetzt werden.</message>
-                <suggestion>\1/\3</suggestion>
-                <suggestion>\1 / \3</suggestion>
-                <url>https://www.sekretaria.de/bueroorganisation/rechtschreibung/schraegstrich-bis-strich/#:~:text=Sie%20haben%20es%20sicher%20schon,auch%20die%20DIN%205008%20fest.</url>
-                <example correction="010/5456846|010 / 5456846">Ich ruf dich unter der Nummer <marker>010/ 5456846</marker> an.</example>
-                <example>Ich ruf dich unter der Nummer 010/5456846 an.</example>
-                <example>Ich ruf dich unter der Nummer 010 / 5456846 an.</example>
-                <example correction="Hunde/Katzen|Hunde / Katzen">Ich mag <marker>Hunde/ Katzen</marker> nicht.</example>
-                <example>Ich mag Hunde/Katzen nicht.</example>
-                <example>Ich mag Hunde / Katzen nicht.</example>
-                <example>Ich glaube, auf der Webseite www.hausgemacht.de/kuchen/ kann man gute Rezepte finden.</example>
-                <example>Ich glaube, auf der Webseite https://www.hausgemacht.de/kuchen/rezepte/ gibt es gute Rezeptideen.</example>
+                <message>Bei Datumsangaben werden in der Regel zwischen den Schrägstrichen keine Leerzeichen gesetzt.</message>
+                <suggestion>\1\2\3\4\5</suggestion>
+                <example correction="2021/03/12">Das heutige Datum: <marker>2021 / 03 / 12</marker>.</example>
             </rule>
             <rule>
-                <antipattern>
-                    <token regexp="yes">.*[\wüöäß].*</token>
-                    <token spacebefore="yes">/</token>
-                    <token regexp="yes" spacebefore="no">.*[\wüöäß].*</token>
-                    <token spacebefore="no">/</token>
-                </antipattern>
-                <antipattern>
-                    <token postag="SENT_START"/>
-                    <token regexp="yes">.*[\wüöäß].*</token>
-                    <token spacebefore="yes">/</token>
-                    <token regexp="yes" spacebefore="no">.*[\wüöäß].*</token>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">.*[\wüöäß].*</token>
-                    <token spacebefore="yes">/</token>
-                    <token regexp="yes" spacebefore="yes">.*[\wüöäß].*</token>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">.*[\wüöäß].*</token>
-                    <token spacebefore="no">/</token>
-                    <token regexp="yes" spacebefore="no">.*[\wüöäß].*</token>
-                </antipattern>
                 <pattern>
-                    <marker>
-                        <token regexp="yes">.*[\wüöäß].*</token>
-                        <token spacebefore="yes">/</token>
-                        <token regexp="yes" spacebefore="no">.*[\wüöäß].*</token>
-                    </marker>
+                    <token regexp="yes">\d\d</token>
+                    <token spacebefore="yes">/</token>
+                    <token spacebefore="yes" regexp="yes">\d\d</token>
+                    <token spacebefore="yes">/</token>
+                    <token spacebefore="yes" regexp="yes">\d\d\d\d</token>
                 </pattern>
-                <message>Vor und nach einem Schrägstrich steht in der Regel kein Leerzeichen. Zur Verbesserung der Leserlichkeit kann beidseitig ein Leerzeichen gesetzt werden.</message>
-                <suggestion>\1/\3</suggestion>
-                <suggestion>\1 / \3</suggestion>
-                <url>https://www.sekretaria.de/bueroorganisation/rechtschreibung/schraegstrich-bis-strich/#:~:text=Sie%20haben%20es%20sicher%20schon,auch%20die%20DIN%205008%20fest.</url>
-                <example correction="010/5456846|010 / 5456846">Ich ruf dich unter der Nummer <marker>010 /5456846</marker> an.</example>
-                <example>Ich ruf dich unter der Nummer 010/5456846 an.</example>
-                <example>Ich ruf dich unter der Nummer 010 / 5456846 an.</example>
-                <example correction="Hunde/Katzen|Hunde / Katzen">Ich mag <marker>Hunde /Katzen</marker> nicht.</example>
-                <example>Ich mag Hunde/Katzen nicht.</example>
-                <example>Ich mag Hunde / Katzen nicht.</example>
-                <example>Normalerweise wird das /a/ nicht getilgt.</example>
-                <example>ES /9 ist die Seriennummer eines Mopeds.</example>
+                <message>Bei Datumsangaben werden in der Regel zwischen den Schrägstrichen keine Leerzeichen gesetzt.</message>
+                <suggestion>\1\2\3\4\5</suggestion>
+                <example correction="03/12/2021">Das heutige Datum: <marker>03 / 12 / 2021</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="SPACE_BEFORE_OG" name="Im 2.OG (2. OG)">
