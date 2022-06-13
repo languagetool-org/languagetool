@@ -21,6 +21,7 @@ package org.languagetool.rules.el;
 
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
+import org.languagetool.TestTools;
 import org.languagetool.language.Greek;
 import org.languagetool.rules.RuleMatch;
 
@@ -32,7 +33,7 @@ public class GreekPunctuationCheckRuleTest {
 
   @Test
   public void testRule() throws IOException {
-		final GreekPunctuationCheckRule rule = new GreekPunctuationCheckRule();
+		final GreekPunctuationCheckRule rule = new GreekPunctuationCheckRule(TestTools.getEnglishMessages());
 		
 		RuleMatch[] matches;
 		JLanguageTool lt = new JLanguageTool(new Greek());
