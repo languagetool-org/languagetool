@@ -17,24 +17,19 @@
  * USA
  */
 package org.languagetool.rules.el;
-
 import java.util.ResourceBundle;
-
 import org.languagetool.rules.AbstractPunctuationCheckRule;
 
 /**
  * A rule that matches regular expressions regarding 
  * punctuation in the greek language
  * 
- * @author 
  */
 public class GreekPunctuationCheckRule extends AbstractPunctuationCheckRule {
 
   public GreekPunctuationCheckRule(ResourceBundle messages) {
     super(messages);
-
   }
-
 
   /*
    * (non-Javadoc)
@@ -45,8 +40,8 @@ public class GreekPunctuationCheckRule extends AbstractPunctuationCheckRule {
    */
   @Override
   protected final boolean isPunctsJoinOk(String tokens) {
-	String punctCases = "\\,{1} |\\.{1} |:{1} |·{1} | -{1} * -{1} |\\.{3} |!{1} |;{1} "; //punctuation + [ ]
-	punctCases += "|\\,{1}\n|\\.{1}\n|:{1}\n|·{1}\n|\\.{3}\n|!{1}\n|;{1}\n"; //punctuation + [\n]
+	  String punctCases = "\\,{1} |\\.{1} |:{1} |·{1} | -{1} * -{1} |\\.{3} |!{1} |;{1} "; 
+	  punctCases += "|\\,{1}\n|\\.{1}\n|:{1}\n|·{1}\n|\\.{3}\n|!{1}\n|;{1}\n"; 
     return tokens.matches(punctCases);
   }
 
@@ -56,7 +51,6 @@ public class GreekPunctuationCheckRule extends AbstractPunctuationCheckRule {
    * @see
    * org.languagetool.rules.AbstractPunctuationCheckRule#isPunctuation
    * (java.lang.String)
-
    */
   @Override
   protected final boolean isPunctuation(String token) {
