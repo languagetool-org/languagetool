@@ -28179,7 +28179,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <exception>was</exception>
                 </token>
                 <!-- limitiert auf bestimmte Verben um Fehlalarme zu vermeiden (siehe examples) -->
-                <token regexp="yes">wird|denkt|springt|glaubt|trägt|hei(ß|ss)t|wiegt|braucht|gibt|liebt</token>
+                <token regexp="yes">wird|denkt|springt|bietet|(er)?hofft|glaubt|(ver)?traut|heiratet|trägt|hei(ß|ss)t|wiegt|braucht|gibt|liebt</token>
                 <marker>
                     <token case_sensitive='yes'>Sie</token>
                 </marker>
@@ -28196,6 +28196,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Warum überrascht Sie das?</example>
             <example>Was führt Sie her?</example>
             <example>Gerne begleitet Sie der Wirt Hans Widemann Montags, am Ruhetag bei Ihrer Motorradtour.</example>
+            <example>Dort erwartet Sie gegen Abend Ihr Hotel zur Zwischenübernachtung mit gemeinsamem Abendessen.</example>
             <example>Erinnert Sie das an etwas?</example>
             <example>Was inspiriert Sie am meisten?</example>
             <example>Stört Sie mein Koffer nicht zu sehr?</example>
@@ -28310,6 +28311,56 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="PER_DEFAULT" name="per default (Default)" default="temp_off">
+            <pattern>
+                <token>per</token>
+                <marker>
+                    <token case_sensitive="yes">default</token>
+                </marker>
+            </pattern>
+            <message><suggestion>Default</suggestion> ist ein Nomen und sollte auch in der Redewendung "per Default" großgeschrieben werden.</message>
+            <example correction="Default">Das ist per <marker>default</marker> aktiviert.</example>
+        </rule>
+        <rule id="SPERRE_SUBST" name="eine sperre (Sperre) verhängen" default="temp_off">
+            <pattern>
+                <token postag="(PRO:POS|ART):.*FEM.*" postag_regexp="yes">
+                    <exception>das</exception>
+                </token>
+                <token postag="(ADJ|PA[12]):.*FEM.*" postag_regexp="yes" min="0" regexp="yes" case_sensitive="yes">
+                    [a-zöäü].*
+                    <exception postag="ADV:MOD" />
+                </token>
+                <marker>
+                    <token case_sensitive="yes">sperre</token>
+                </marker>
+                <token postag="ZUS|ADV:(MOD|TMP).*" postag_regexp="yes" min="0" />
+                <token postag="VER:.+" postag_regexp="yes">
+                    <exception regexp="yes">m?einen?|recht|halt|mal</exception>
+                </token>
+            </pattern>
+            <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
+            <example correction="Sperre">Wir haben eine <marker>sperre</marker> verhängt.</example>
+        </rule>
+        <rule id="VERTRAG_SUBST" name="einen vertrag (Vertrag) schließen" default="temp_off">
+            <pattern>
+                <token postag="(PRO:POS|ART):.*MAS.*" postag_regexp="yes">
+                    <exception>das</exception>
+                </token>
+                <token postag="(ADJ|PA[12]):.*MAS.*" postag_regexp="yes" min="0" regexp="yes" case_sensitive="yes">
+                    [a-zöäü].*
+                    <exception postag="ADV:MOD" />
+                </token>
+                <marker>
+                    <token case_sensitive="yes">vertrag</token>
+                </marker>
+                <token postag="ZUS|ADV:(MOD|TMP).*" postag_regexp="yes" min="0" />
+                <token postag="VER:.+" postag_regexp="yes">
+                    <exception regexp="yes">m?einen?|recht|halt|mal</exception>
+                </token>
+            </pattern>
+            <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
+            <example correction="Vertrag">Wir haben einen <marker>vertrag</marker> geschlossen!</example>
+        </rule>
         <rule id="DIE_REICHEN_UND_SCHOENEN" name="die reichen (Reichen) und schönen (Schönen)">
             <antipattern>
                 <token>schönen</token>
@@ -28342,13 +28393,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token case_sensitive="yes">vergleich</token>
                     </marker>
-                    <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
-                    <token postag="VER:.+" postag_regexp="yes" />
+                    <token postag="ZUS|ADV:(MOD|TMP).*" postag_regexp="yes" min="0" />
+                    <token postag="VER:.+" postag_regexp="yes">
+                        <exception regexp="yes">m?einen?|recht|halt|mal</exception>
+                    </token>
                 </pattern>
                 <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
                 <example correction="Vergleich">Der <marker>vergleich</marker> hinkt!</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">direkte[nr]?</token>
                     <marker>
@@ -28706,8 +28759,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token case_sensitive="yes">vorschau</token>
                 </marker>
-                <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
-                <token postag="VER:.+" postag_regexp="yes" />
+                <token postag="ZUS|ADV:(MOD|TMP).*" postag_regexp="yes" min="0" />
+                <token postag="VER:.+" postag_regexp="yes">
+                    <exception regexp="yes">m?einen?|recht|halt|mal</exception>
+                </token>
             </pattern>
             <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
             <example correction="Vorschau">Die <marker>vorschau</marker> macht Lust auf mehr!</example>
@@ -28724,8 +28779,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token case_sensitive="yes">gerät</token>
                 </marker>
-                <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
-                <token postag="VER:.+" postag_regexp="yes" />
+                <token postag="ZUS|ADV:(MOD|TMP).*" postag_regexp="yes" min="0" />
+                <token postag="VER:.+" postag_regexp="yes">
+                    <exception regexp="yes">m?einen?|recht|halt|mal</exception>
+                </token>
             </pattern>
             <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
             <example correction="Gerät">Sein altes <marker>gerät</marker> funktioniert noch einwandfrei.</example>
@@ -28865,9 +28922,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token case_sensitive="yes">aufgaben</token>
                 </marker>
-                <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
+                <token postag="ZUS|ADV:(MOD|TMP).*" postag_regexp="yes" min="0" />
                 <token postag="VER:.+" postag_regexp="yes">
-                    <exception regexp="yes">m?einen?|mal|recht</exception>
+                    <exception regexp="yes">m?einen?|mal|recht|halt</exception>
                 </token>
             </pattern>
             <message>Das Nomen <suggestion>Aufgaben</suggestion> wird großgeschrieben.</message>
@@ -28901,7 +28958,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token case_sensitive="yes" regexp="yes">[ck]lick</token>
                     </marker>
-                    <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
+                    <token postag="ZUS|ADV:(MOD|TMP).*" postag_regexp="yes" min="0" />
                     <token postag="VER:.+" postag_regexp="yes">
                         <exception regexp="yes">m?einen?|mal|recht</exception>
                     </token>
@@ -29015,9 +29072,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token case_sensitive="yes" regexp="yes">fall|fällen?</token>
                     </marker>
-                    <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
+                    <token postag="ZUS|ADV:(MOD|TMP).*" postag_regexp="yes" min="0" />
                     <token postag="VER:.+" postag_regexp="yes">
-                        <exception regexp="yes">m?einen?|mal|recht</exception>
+                        <exception regexp="yes">m?einen?|mal|recht|halt</exception>
                     </token>
                 </pattern>
                 <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
@@ -30485,9 +30542,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token case_sensitive="yes" regexp="yes">tat(en)?</token>
                 </marker>
-                <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
+                <token postag="ZUS|ADV:(MOD|TMP).*" postag_regexp="yes" min="0" />
                 <token postag="VER:.+" postag_regexp="yes">
-                    <exception regexp="yes">m?einen?</exception>
+                    <exception regexp="yes">m?einen?|recht|halt|mal</exception>
                 </token>
             </pattern>
             <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
@@ -30656,9 +30713,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token case_sensitive="yes" regexp="yes">striche?</token>
                     </marker>
-                    <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
+                    <token postag="ZUS|ADV:(MOD|TMP).*" postag_regexp="yes" min="0" />
                     <token postag="VER:.+" postag_regexp="yes">
-                        <exception regexp="yes">m?einen?</exception>
+                        <exception regexp="yes">m?einen?|recht|halt|mal</exception>
                     </token>
                 </pattern>
                 <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
@@ -30822,9 +30879,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token case_sensitive="yes" regexp="yes">blicke?</token>
                     </marker>
-                    <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
+                    <token postag="ZUS|ADV:(MOD|TMP).*" postag_regexp="yes" min="0" />
                     <token postag="VER:.+" postag_regexp="yes">
-                        <exception regexp="yes">m?einen?</exception>
+                        <exception regexp="yes">m?einen?|recht|halt|mal</exception>
                     </token>
                 </pattern>
                 <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
@@ -30898,9 +30955,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token case_sensitive="yes">schmerzen</token>
                 </marker>
-                <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
+                <token postag="ZUS|ADV:(MOD|TMP).*" postag_regexp="yes" min="0" />
                 <token postag="VER:.+" postag_regexp="yes">
-                    <exception regexp="yes">m?einen?</exception>
+                    <exception regexp="yes">m?einen?|recht|halt|mal</exception>
                 </token>
             </pattern>
             <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
@@ -30918,9 +30975,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token case_sensitive="yes">gebühren</token>
                 </marker>
-                <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
+                <token postag="ZUS|ADV:(MOD|TMP).*" postag_regexp="yes" min="0" />
                 <token postag="VER:.+" postag_regexp="yes">
-                    <exception regexp="yes">m?einen?</exception>
+                    <exception regexp="yes">m?einen?|recht|halt|mal</exception>
                 </token>
             </pattern>
             <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
@@ -30946,9 +31003,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token case_sensitive="yes" regexp="yes">links?</token>
                     </marker>
-                    <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
+                    <token postag="ZUS|ADV:(MOD|TMP).*" postag_regexp="yes" min="0" />
                     <token postag="VER:.+" postag_regexp="yes">
-                        <exception regexp="yes">m?einen?</exception>
+                        <exception regexp="yes">m?einen?|recht|halt|mal</exception>
                     </token>
                 </pattern>
                 <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
@@ -31124,8 +31181,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token case_sensitive="yes">ruf</token>
                 </marker>
-                <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
-                <token postag="PKT|VER:.+" postag_regexp="yes" />
+                <token postag="ZUS|ADV:(MOD|TMP).*" postag_regexp="yes" min="0" />
+                <token postag="PKT|VER:.+" postag_regexp="yes">
+                    <exception regexp="yes">m?einen?|recht|halt|mal</exception>
+                </token>
             </pattern>
             <message>Das Nomen <suggestion>Ruf</suggestion> wird großgeschrieben.</message>
             <example correction="Ruf">Sein <marker>ruf</marker> eilt ihm voraus.</example>
@@ -31145,8 +31204,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token case_sensitive="yes" regexp="yes">reisen?</token>
                     </marker>
-                    <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
-                    <token postag="VER:.+" postag_regexp="yes" />
+                    <token postag="ZUS|ADV:(MOD|TMP).*" postag_regexp="yes" min="0" />
+                    <token postag="VER:.+" postag_regexp="yes">
+                        <exception regexp="yes">m?einen?|recht|halt|mal</exception>
+                    </token>
                 </pattern>
                 <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
                 <example correction="Reise">Meine <marker>reise</marker> war ein voller Erfolg.</example>
@@ -31175,8 +31236,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token case_sensitive="yes" regexp="yes">wellen?</token>
                 </marker>
-                <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
-                <token postag="VER:.+" postag_regexp="yes" />
+                <token postag="ZUS|ADV:(MOD|TMP).*" postag_regexp="yes" min="0" />
+                <token postag="VER:.+" postag_regexp="yes">
+                    <exception regexp="yes">m?einen?|recht|halt|mal</exception>
+                </token>
             </pattern>
             <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
             <example correction="Wellen">Die <marker>wellen</marker> brechen am Strand.</example>
@@ -31294,8 +31357,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token case_sensitive="yes" regexp="yes">teil(en?)?</token>
                     </marker>
-                    <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
-                    <token postag="VER:.+" postag_regexp="yes" />
+                    <token postag="ZUS|ADV:(MOD|TMP).*" postag_regexp="yes" min="0" />
+                    <token postag="VER:.+" postag_regexp="yes">
+                        <exception regexp="yes">m?einen?|recht|halt|mal</exception>
+                    </token>
                 </pattern>
                 <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
                 <example correction="Teil">Das <marker>teil</marker> sieht gut aus!</example>
@@ -32041,9 +32106,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token case_sensitive="yes" regexp="yes">unterschied(en?)?</token>
                     </marker>
-                    <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
+                    <token postag="ZUS|ADV:(MOD|TMP).*" postag_regexp="yes" min="0" />
                     <token postag="VER:.+" postag_regexp="yes">
-                        <exception regexp="yes">m?einen?</exception>
+                        <exception regexp="yes">m?einen?|recht|halt|mal</exception>
                     </token>
                 </pattern>
                 <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
@@ -36162,9 +36227,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token case_sensitive="yes" regexp="yes">ausnahmen?</token>
                     </marker>
-                    <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
+                    <token postag="ZUS|ADV:(MOD|TMP).*" postag_regexp="yes" min="0" />
                     <token postag="VER:.+" postag_regexp="yes">
-                        <exception regexp="yes">m?einen?</exception>
+                        <exception regexp="yes">m?einen?|recht|halt|mal</exception>
                     </token>
                 </pattern>
                 <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
@@ -36268,8 +36333,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token case_sensitive="yes" regexp="yes">angaben?</token>
                     </marker>
-                    <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
-                    <token postag="VER:.+" postag_regexp="yes" />
+                    <token postag="ZUS|ADV:(MOD|TMP).*" postag_regexp="yes" min="0" />
+                    <token postag="VER:.+" postag_regexp="yes">
+                        <exception regexp="yes">m?einen?|recht|halt|mal</exception>
+                    </token>
                 </pattern>
                 <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
                 <example correction="Angaben">Alle <marker>angaben</marker> sind korrekt.</example>
@@ -38543,8 +38610,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token case_sensitive="yes">haut</token>
                     </marker>
-                    <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
-                    <token postag="VER:.+" postag_regexp="yes" />
+                    <token postag="ZUS|ADV:(MOD|TMP).*" postag_regexp="yes" min="0" />
+                    <token postag="VER:.+" postag_regexp="yes">
+                        <exception regexp="yes">m?einen?|recht|halt|mal</exception>
+                    </token>
                 </pattern>
                 <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
                 <example correction="Haut">Ihre <marker>haut</marker> ist sehr weich.</example>
@@ -39399,9 +39468,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token case_sensitive="yes" regexp="yes">preise?</token>
                     </marker>
-                    <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
+                    <token postag="ZUS|ADV:(MOD|TMP).*" postag_regexp="yes" min="0" />
                     <token postag="VER:.+" postag_regexp="yes">
-                        <exception regexp="yes">m?einen?|mal|recht</exception>
+                        <exception regexp="yes">m?einen?|recht|halt|mal</exception>
                     </token>
                 </pattern>
                 <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
@@ -42773,8 +42842,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token case_sensitive="yes">gründe</token>
                     </marker>
-                    <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
-                    <token postag="VER.*|PKT" postag_regexp="yes" />
+                    <token postag="ZUS|ADV:(MOD|TMP).*" postag_regexp="yes" min="0" />
+                    <token postag="VER:.+|PKT" postag_regexp="yes">
+                        <exception regexp="yes">m?einen?|recht|halt|mal</exception>
+                    </token>
                 </pattern>
                 <message>&subanfang;<suggestion>Gründe</suggestion>&subende;</message>
                 <example correction="Gründe">Keiner der genannten <marker>gründe</marker> trifft zu.</example>
@@ -42795,8 +42866,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token case_sensitive="yes" regexp="yes">gründen?</token>
                     </marker>
-                    <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
-                    <token postag="VER:.+" postag_regexp="yes" />
+                    <token postag="ZUS|ADV:(MOD|TMP).*" postag_regexp="yes" min="0" />
+                    <token postag="VER:.+" postag_regexp="yes">
+                        <exception regexp="yes">m?einen?|recht|halt|mal</exception>
+                    </token>
                 </pattern>
                 <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
                 <example correction="Gründe">Du darfst meine <marker>gründe</marker> gerne hinterfragen.</example>
@@ -43951,9 +44024,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token case_sensitive="yes">ende</token>
                     </marker>
-                    <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
+                    <token postag="ZUS|ADV:(MOD|TMP).*" postag_regexp="yes" min="0" />
                     <token postag="VER:.+" postag_regexp="yes">
                         <exception postag="ADV.*" postag_regexp="yes" />
+                        <exception regexp="yes">m?einen?|recht|halt|mal</exception>
                     </token>
                 </pattern>
                 <message>&subanfang;<suggestion>Ende</suggestion>&subende;</message>
@@ -44049,6 +44123,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>&subanfang;<suggestion>Rede</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Rede">Lange <marker>rede</marker>, kurzer Sinn.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="(PRO:POS|ART):.*FEM.*" postag_regexp="yes">
+                        <exception>das</exception>
+                    </token>
+                    <token postag="(ADJ|PA[12]):.*FEM.*" postag_regexp="yes" min="0" regexp="yes" case_sensitive="yes">
+                        [a-zöäü].*
+                        <exception postag="ADV:MOD" />
+                    </token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">(aus)?rede</token>
+                    </marker>
+                    <token postag="ZUS|ADV:(MOD|TMP).*" postag_regexp="yes" min="0" />
+                    <token postag="VER:.+" postag_regexp="yes">
+                        <exception regexp="yes">m?einen?|recht|halt|mal</exception>
+                    </token>
+                </pattern>
+                <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
+                <example correction="Rede">Ich werde eine <marker>rede</marker> halten!</example>
             </rule>
         </rulegroup>
         <rulegroup id="SCHULD_SEIN" name="'Schuld (schuld) sein'">
@@ -44521,9 +44615,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token case_sensitive="yes">krieg</token>
                     </marker>
-                    <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
+                    <token postag="ZUS|ADV:(MOD|TMP).*" postag_regexp="yes" min="0" />
                     <token postag="VER:.+" postag_regexp="yes">
                         <exception postag="ADV.*" postag_regexp="yes" />
+                        <exception regexp="yes">m?einen?|recht|halt|mal</exception>
                     </token>
                 </pattern>
                 <message>&subanfang;<suggestion>Krieg</suggestion>&subende;</message>
@@ -45697,9 +45792,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token case_sensitive="yes" regexp="yes">versuch(en?)?</token>
                     </marker>
-                    <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
+                    <token postag="ZUS|ADV:(MOD|TMP).*" postag_regexp="yes" min="0" />
                     <token postag="VER:.+" postag_regexp="yes">
-                        <exception regexp="yes">m?einen?|mal|recht</exception>
+                        <exception regexp="yes">m?einen?|recht|halt|mal</exception>
                     </token>
                 </pattern>
                 <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
@@ -46147,8 +46242,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token case_sensitive="yes">kosten</token>
                     </marker>
-                    <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
-                    <token postag="VER:.+" postag_regexp="yes" />
+                    <token postag="ZUS|ADV:(MOD|TMP).*" postag_regexp="yes" min="0" />
+                    <token postag="VER:.+" postag_regexp="yes">
+                        <exception regexp="yes">m?einen?|recht|halt|mal</exception>
+                    </token>
                 </pattern>
                 <message>Das Nomen <suggestion>Kosten</suggestion> wird großgeschrieben.</message>
                 <example correction="Kosten">Das hat keine <marker>kosten</marker> verursacht.</example>
@@ -46343,9 +46440,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token case_sensitive="yes" regexp="yes">zustand|zustände</token>
                     </marker>
-                    <token postag="ZUS|ADV:MOD" postag_regexp="yes" min="0" />
+                    <token postag="ZUS|ADV:(MOD|TMP).*" postag_regexp="yes" min="0" />
                     <token postag="VER:.+" postag_regexp="yes">
-                        <exception regexp="yes">m?einen?|mal|recht</exception>
+                        <exception regexp="yes">m?einen?|recht|halt|mal</exception>
                     </token>
                 </pattern>
                 <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
@@ -53813,6 +53910,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern><!-- das seh ich auch so -->
                     <token postag="VER:1:SIN:PRÄ.*" postag_regexp="yes" />
                     <token>ich</token>
+                </antipattern>
+                <antipattern><!-- kleingeschriebenes Nomen, wird von TEIL_KLEIN gefunden-->
+                    <token postag="ART.*|PRO:POS.*" postag_regexp="yes" />
+                    <token postag="ADJ.*" postag_regexp="yes" min="0" />
+                    <token case_sensitive="yes" regexp="yes">teil|stunde</token>
                 </antipattern>
                 <pattern>
                     <token postag_regexp="yes" postag="VER:(MOD|AUX):[13]:SIN:.*"/>
