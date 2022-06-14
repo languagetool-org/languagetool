@@ -182,6 +182,8 @@ public class VerbAgreementRuleTest {
     assertGood("Bald merkte er, dass er dank seines Talents nichts mehr in der österreichischen Jazzszene lernen konnte.");
     assertGood("»Alles, was wir dank dieses Projektes sehen werden, wird für uns neu sein«, so der renommierte Bienenforscher.");
     assertGood("Und da wir äußerst Laissez-faire sind, kann man das auch machen.");
+    assertGood("Duzen, jemanden mit Du anreden, eine Sitte, die bei allen alten Völkern üblich war.");
+    assertGood("Schreibtischtäter wie Du sind doch eher selten.");
     //assertGood("Ein Mädchen, das genauso wie wir war!");  // known false alarm
     //assertGood("Und bin völlig ohne Idee losgelaufen.");  // known false alarm (could be a picky match maybe)
     // incorrect sentences:

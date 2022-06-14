@@ -259,6 +259,16 @@ public class VerbAgreementRule extends TextLevelRule {
       new PatternTokenBuilder().token("anbieten").matchInflectedForms().build()
     ),
     Arrays.asList(
+      csToken("Du"),  // "jemanden mit Du anreden"
+      new PatternTokenBuilder().tokenRegex("anreden|ansprechen").matchInflectedForms().build()
+    ),
+    Arrays.asList(
+      posRegex("SUB:.*PLU.*"),
+      token("wie"),  // "Schreibtischtäter wie Du sind doch eher selten."
+      token("Du"),
+      posRegex("VER:3:PLU.*")
+    ),
+    Arrays.asList(
       token("würd"),
       tokenRegex("[nm]ich|man|ichs|'")
     ),
