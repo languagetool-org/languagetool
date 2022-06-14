@@ -1550,6 +1550,9 @@ public class MultiDocumentsHandler {
         return true;
       } else {
         resetCheck();
+        if (showMessage) {
+          MessageHandler.showMessage(messages.getString("loNoGrammarCheckWarning"));
+        }
         return false;
       }
     }
