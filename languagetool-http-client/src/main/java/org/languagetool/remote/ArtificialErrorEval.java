@@ -18,6 +18,13 @@
  */
 package org.languagetool.remote;
 
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.Languages;
+import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
 
@@ -41,14 +48,18 @@ import java.util.regex.Pattern;
 public class ArtificialErrorEval {
 
   static String[] words = new String[2];
+  static String[] lemmas = new String[2];
   static String[] fakeRuleIDs = new String[2];
   static List<String> classifyTypes = Arrays.asList("TP", "FP", "TN", "FN", "TPs");
   static int[][] results = new int[2][5]; // word0/word1 ; TP/FP/TN/FN/TP with expected suggestion
   static int[] accumulateResults = new int[5]; // totalErrors/TP/FP/TN/FN
   static RemoteLanguageTool lt;
+  static JLanguageTool localLt;
+  static Synthesizer synth;
   static int maxLines = 1000000; // decrease this number for testing
   static boolean verboseOutput = false;
   static boolean undirectional = false;
+  static boolean inflected = false;
   static Pattern pWordboundaries = Pattern.compile("\\b.+\\b");
   static int countLine = 0;
   static List<String> onlyRules = new ArrayList<String>();
@@ -75,7 +86,7 @@ public class ArtificialErrorEval {
       runEvaluationOnFolders(inputFolder, outpuFolder, remoteServer, printSummaryDetails, printHeader);
       System.exit(0);
     }
-    if (args.length < 4 || args.length > 11) {
+    if (args.length < 4 || args.length > 12) {
       writeHelp();
       System.exit(1);
     }
@@ -97,11 +108,19 @@ public class ArtificialErrorEval {
       if (args[k].contentEquals("-c")) {
         errorCategory = args[k + 1];
       }
+      if (args[k].contentEquals("--inflected")) {
+        inflected = true;
+      }
     }
     words[0] = args[2];
     words[1] = args[3];
+    lemmas[0] = words[0];
+    lemmas[1] = words[1];
     langCode = args[0];
     corpusFilePath = args[1];
+    Language language = Languages.getLanguageForShortCode(langCode);
+    localLt = new JLanguageTool(language);
+    synth = language.getSynthesizer();
     lt = new RemoteLanguageTool(Tools.getUrl("http://localhost:8081"));
     run(true);
     // end of parsing from args  
@@ -172,46 +191,87 @@ public class ArtificialErrorEval {
       .build();
     long start = System.currentTimeMillis();
     List<String> lines = Files.readAllLines(Paths.get(corpusFilePath));
-    final Pattern p0;
-    Matcher mWordBoundaries = pWordboundaries.matcher(words[0]);
-    if (mWordBoundaries.matches()) {
-      p0 = Pattern.compile("\\b" + words[0] + "\\b", Pattern.CASE_INSENSITIVE);
-    } else {
-      p0 = Pattern.compile(words[0], Pattern.CASE_INSENSITIVE);
-    }
-    final Pattern p1;
-    mWordBoundaries = pWordboundaries.matcher(words[1]);
-    if (mWordBoundaries.matches()) {
-      p1 = Pattern.compile("\\b" + words[1] + "\\b", Pattern.CASE_INSENSITIVE);
-    } else {
-      p1 = Pattern.compile(words[1], Pattern.CASE_INSENSITIVE);
-    }
-    countLine = 0;
-    for (String line : lines) {
-      cachedMatches = new HashMap<>();
-      countLine++;
-      if (countLine > maxLines) {
-        break;
+    if (!inflected) {
+      final Pattern p0;
+      Matcher mWordBoundaries = pWordboundaries.matcher(words[0]);
+      if (mWordBoundaries.matches()) {
+        p0 = Pattern.compile("\\b" + words[0] + "\\b", Pattern.CASE_INSENSITIVE);
+      } else {
+        p0 = Pattern.compile(words[0], Pattern.CASE_INSENSITIVE);
       }
-      boolean foundSomething = false;
-      if (words[0].length() > 0) {
-        Matcher m = p0.matcher(line);
-        while (m.find()) {
-          foundSomething = true;
-          analyzeSentence(line, 0, m.start(), config);
+      final Pattern p1;
+      mWordBoundaries = pWordboundaries.matcher(words[1]);
+      if (mWordBoundaries.matches()) {
+        p1 = Pattern.compile("\\b" + words[1] + "\\b", Pattern.CASE_INSENSITIVE);
+      } else {
+        p1 = Pattern.compile(words[1], Pattern.CASE_INSENSITIVE);
+      }
+      countLine = 0;
+      for (String line : lines) {
+        cachedMatches = new HashMap<>();
+        countLine++;
+        if (countLine > maxLines) {
+          break;
+        }
+        boolean foundSomething = false;
+        if (words[0].length() > 0) {
+          Matcher m = p0.matcher(line);
+          while (m.find()) {
+            foundSomething = true;
+            analyzeSentence(line, 0, m.start(), config);
+          }
+        }
+        if (words[1].length() > 0) {
+          Matcher m = p1.matcher(line);
+          while (m.find()) {
+            foundSomething = true;
+            analyzeSentence(line, 1, m.start(), config);
+          }
+        }
+        if (!foundSomething) {
+          // printSentenceOutput("Ignored, no error", line, "");
+        }
+      } 
+    } else {
+      // search lemma
+      countLine = 0;
+      for (String line : lines) {
+        cachedMatches = new HashMap<>();
+        countLine++;
+        if (countLine > maxLines) {
+          break;
+        }
+        List<AnalyzedSentence> analyzedSentences = localLt.analyzeText(line);
+        boolean foundSomething = false;
+        for (AnalyzedSentence analyzedSentence: analyzedSentences) {
+          for (AnalyzedTokenReadings token : analyzedSentence.getTokensWithoutWhitespace()) {
+            if (lemmas[0].length() > 0) {
+              if (token.hasLemma(lemmas[0])) {
+                words[0] = token.getToken();
+                AnalyzedToken atr1 = token.readingWithLemma(lemmas[0]);
+                AnalyzedToken atr2 = new AnalyzedToken(atr1.getToken(), atr1.getPOSTag(), lemmas[1]);
+                String[] syntheziedWords = synth.synthesize(atr2, atr2.getPOSTag());
+                words[1] = syntheziedWords[0];
+                foundSomething = true;
+                analyzeSentence(line, 0, token.getStartPos(), config);
+              }
+            }
+            if (lemmas[1].length() > 0) {
+              if (token.hasLemma(lemmas[1])) {
+                words[1] = token.getToken();
+                AnalyzedToken atr1 = token.readingWithLemma(lemmas[1]);
+                AnalyzedToken atr2 = new AnalyzedToken(atr1.getToken(), atr1.getPOSTag(), lemmas[0]);
+                String[] syntheziedWords = synth.synthesize(atr2, atr2.getPOSTag());
+                words[0] = syntheziedWords[0];
+                foundSomething = true;
+                analyzeSentence(line, 1, token.getStartPos(), config);
+              }
+            }
+          }
         }
       }
-      if (words[1].length() > 0) {
-        Matcher m = p1.matcher(line);
-        while (m.find()) {
-          foundSomething = true;
-          analyzeSentence(line, 1, m.start(), config);
-        }
-      }
-      if (!foundSomething) {
-        // printSentenceOutput("Ignored, no error", line, "");
-      }
     }
+    
     // print results
     int oneOrTwo = (undirectional ? 1 : 2);
     for (int i = 0; i < oneOrTwo; i++) {
@@ -434,10 +494,11 @@ public class ArtificialErrorEval {
     System.out.println("  <string1> is the string to be replaced by <string2>, word boundaries will be "
         + "assumed at the start and the end of the strings");
     System.out.println("  <options>");
-    System.out.println("    -v      verbose, print all false positive or false negative sentences");
-    System.out.println("    -u      unidirectional, analyze only rules for string1 (wrong) -> string2 (correct)");
-    System.out.println("    -r      list of comma-separated rules to be considered");
-    System.out.println("    -s      summary output file");
-    System.out.println("    -c      error category");
+    System.out.println("    -v           verbose, print all false positive or false negative sentences");
+    System.out.println("    -u           unidirectional, analyze only rules for string1 (wrong) -> string2 (correct)");
+    System.out.println("    -r           list of comma-separated rules to be considered");
+    System.out.println("    -s           summary output file");
+    System.out.println("    -c           error category");
+    System.out.println("    --inflected  search lemmas insted of forms");
   }
 }

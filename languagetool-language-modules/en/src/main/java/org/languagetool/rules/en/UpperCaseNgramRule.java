@@ -466,6 +466,13 @@ public class UpperCaseNgramRule extends Rule {
       csRegex("Ca|Wo|Do|Should|[CW]ould|Must|Did|Does|Need"),
       csRegex("n't"),
       csRegex("[A-Z].+")
+    ),
+    Arrays.asList(
+      token("="),
+      csRegex("[A-Z].+")
+    ),
+    Arrays.asList(
+      csRegex("Peters")
     )
   );
 

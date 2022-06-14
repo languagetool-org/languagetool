@@ -27,17 +27,21 @@ import java.util.Map;
 import org.languagetool.Language;
 import org.languagetool.LinguServices;
 
+import com.sun.star.beans.Property;
 import com.sun.star.beans.PropertyValue;
 import com.sun.star.beans.XPropertySet;
+import com.sun.star.beans.XPropertySetInfo;
 import com.sun.star.lang.Locale;
 import com.sun.star.lang.XMultiComponentFactory;
 import com.sun.star.linguistic2.XHyphenator;
 import com.sun.star.linguistic2.XLinguServiceManager;
 import com.sun.star.linguistic2.XMeaning;
 import com.sun.star.linguistic2.XPossibleHyphens;
+import com.sun.star.linguistic2.XSearchableDictionaryList;
 import com.sun.star.linguistic2.XSpellAlternatives;
 import com.sun.star.linguistic2.XSpellChecker;
 import com.sun.star.linguistic2.XThesaurus;
+import com.sun.star.uno.Exception;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
 
@@ -62,6 +66,7 @@ public class LinguisticServices extends LinguServices {
       spellChecker = getSpellChecker(mxLinguSvcMgr);
       hyphenator = getHyphenator(mxLinguSvcMgr);
       synonymsCache = new HashMap<>();
+//      printLinguProperties(xContext);
     }
   }
 
@@ -118,6 +123,43 @@ public class LinguisticServices extends LinguServices {
       MessageHandler.printException(t);
     }
     return null;
+  }
+  
+  /** 
+   * Get XLinguProperties
+   */
+  private static XPropertySet getLinguProperties(XComponentContext xContext) {
+    if (xContext == null) {
+      return null;
+    }
+    XMultiComponentFactory xMCF = UnoRuntime.queryInterface(XMultiComponentFactory.class,
+            xContext.getServiceManager());
+    if (xMCF == null) {
+      return null;
+    }
+    Object linguProperties = null;
+    try {
+      linguProperties = xMCF.createInstanceWithContext("com.sun.star.linguistic2.LinguProperties", xContext);
+    } catch (Exception e) {
+      MessageHandler.printException(e);
+    }
+    if (linguProperties == null) {
+      return null;
+    }
+    return UnoRuntime.queryInterface(XPropertySet.class, linguProperties);
+  }
+  
+  /**
+   * Print LiguProperties to log file (Used for tests only)
+   */
+  
+  public void printLinguProperties(XComponentContext xContext) {
+    XPropertySet propSet = getLinguProperties(xContext);
+    XPropertySetInfo propertySetInfo = propSet.getPropertySetInfo();
+    MessageHandler.printToLogFile("OfficeTools: printPropertySet: PropertySet:");
+    for (Property property : propertySetInfo.getProperties()) {
+      MessageHandler.printToLogFile("Name: " + property.Name + ", Type: " + property.Type.getTypeName());
+    }
   }
   
   /** 

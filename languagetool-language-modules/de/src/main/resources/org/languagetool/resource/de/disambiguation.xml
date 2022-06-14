@@ -6307,4 +6307,59 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+
+    <rulegroup id="NEHME_TEIL" name="'teil' kein Verb">
+        <antipattern>
+            <token>teil</token>
+            <token>ich</token>
+        </antipattern>
+        <antipattern>
+            <token regexp="yes">ich|bitte</token>
+            <token>teil</token>
+        </antipattern>
+        <rule>
+            <pattern>
+                <token inflected="yes" skip="10">nehmen</token>
+                <token regexp="yes" skip="10">a[mn]|daran</token>
+                <marker>
+                    <token case_sensitive="yes">teil</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="VER.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token skip="10" regexp="yes">a[mn]</token>
+                <token inflected="yes" skip="10">nehmen</token>
+                <marker>
+                    <token case_sensitive="yes">teil</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="VER.*"/>
+        </rule>
+    </rulegroup>
+    <rule id="BMW_3ER" name="'3er' ignore spelling">
+        <pattern>
+            <marker>
+                <token regexp="yes" case_sensitive="yes">\d+er[ns]?</token>
+            </marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule id="FÜNFZIG_STE" name="'50ste' ignore spelling">
+        <pattern>
+            <marker>
+                <token regexp="yes">\d+(ste|te)(r|n|s|m)?</token>
+            </marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule id="MP_3" name="'mp3' ignore spelling">
+        <pattern>
+            <marker>
+                <token regexp="yes">mp[34]</token>
+            </marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
 </rules>

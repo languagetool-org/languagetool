@@ -650,6 +650,12 @@ class AgreementRuleAntiPatterns1 {
       token("?")
     ),
     Arrays.asList(
+      csRegex("w[äa]r|ist"),
+      token("das"),
+      csRegex("Zufall|Spa(ß|ss)"),
+      token(".")
+    ),
+    Arrays.asList(
        // "War das Zufall, dass es ging?"
       token("das"),
       csRegex("Zufall|Sinn|Spa(ß|ss)"),

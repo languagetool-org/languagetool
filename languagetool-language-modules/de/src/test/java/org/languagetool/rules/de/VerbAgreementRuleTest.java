@@ -181,6 +181,11 @@ public class VerbAgreementRuleTest {
     assertGood("Es würd' ein jeder Doktor sein, wenn's Wissen einging wie der Wein.");
     assertGood("Bald merkte er, dass er dank seines Talents nichts mehr in der österreichischen Jazzszene lernen konnte.");
     assertGood("»Alles, was wir dank dieses Projektes sehen werden, wird für uns neu sein«, so der renommierte Bienenforscher.");
+    assertGood("Und da wir äußerst Laissez-faire sind, kann man das auch machen.");
+    assertGood("Duzen, jemanden mit Du anreden, eine Sitte, die bei allen alten Völkern üblich war.");
+    assertGood("Schreibtischtäter wie Du sind doch eher selten.");
+    //assertGood("Ein Mädchen, das genauso wie wir war!");  // known false alarm
+    //assertGood("Und bin völlig ohne Idee losgelaufen.");  // known false alarm (could be a picky match maybe)
     // incorrect sentences:
     assertBad("Als Borcarbid weißt es eine hohe Härte auf.");
     assertBad("Das greift auf Vorläuferinstitutionen bist auf die Zeit von 1234 zurück.");
@@ -280,6 +285,8 @@ public class VerbAgreementRuleTest {
     assertGood("Ich hab mein Leben, leb du deines!");
     assertGood("Da freut er sich, wenn er schlafen geht und was findet.");
     assertGood("John nimmt weiter an einem Abendkurs über Journalismus teil.");
+    assertGood("Viele nahmen an der Aktion teil und am Ende des rAAd-Events war die Tafel zwar bunt, aber leider überwogen die roten Kärtchen sehr deutlich.");
+    assertGood("Musst also nichts machen.");
     // incorrect sentences:
     assertBad("Auch morgen leben du.");
     assertBad("Du weiß noch, dass du das gestern gesagt hast.");
