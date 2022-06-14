@@ -151,6 +151,10 @@ public class CommaWhitespaceRule extends Rule {
           fromPos = tokens[i - 2].getStartPos();
         }
         int toPos = tokens[i].getEndPos();
+        String marked = sentence.getText().substring(fromPos, toPos);
+        if (marked.equals(suggestionText) && !twoSuggestions) {
+          continue;
+        }
         RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos, toPos, msg);
         if (twoSuggestions) {
           ruleMatch.addSuggestedReplacement(suggestionText + " ");
