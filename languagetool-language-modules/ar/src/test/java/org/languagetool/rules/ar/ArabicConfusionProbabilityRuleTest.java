@@ -31,6 +31,6 @@ public class ArabicConfusionProbabilityRuleTest {
   public void testConstructor() {
     new ArabicConfusionProbabilityRule(TestTools.getEnglishMessages(), new FakeLanguageModel(), Languages.getLanguageForShortCode("ar"));
   }
-  
+
 }
 

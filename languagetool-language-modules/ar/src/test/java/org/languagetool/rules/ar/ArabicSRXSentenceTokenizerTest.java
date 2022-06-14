@@ -27,7 +27,7 @@ import org.languagetool.tokenizers.SRXSentenceTokenizer;
 public class ArabicSRXSentenceTokenizerTest {
 
   private final SRXSentenceTokenizer stokenizer = new SRXSentenceTokenizer(new Arabic());
-  
+
   @Test
   public void test() {
     testSplit("مشوار التعلم طويل.");

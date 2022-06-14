@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker
- * Copyright (C) 2021 Sohaib Afifi, Taha Zerrouki
+ * Copyright (C) 2022 Sohaib Afifi, Taha Zerrouki
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,32 +16,20 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
+
 package org.languagetool.tools;
 
-import org.junit.Test;
-import org.languagetool.FakeLanguage;
-import org.languagetool.Language;
-import org.languagetool.TestTools;
-
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.Assert.*;
-
-/**
- * @author Taha Zerrouki
- */
-public class ArabicStringToolsTest {
-
-  @Test
-  public void testRemoveTashkeel() {
-    assertEquals("", ArabicStringTools.removeTashkeel(""));
-    assertEquals("a", ArabicStringTools.removeTashkeel("a"));
-    assertEquals("öäü", ArabicStringTools.removeTashkeel("öäü"));
-    assertEquals("كتب", ArabicStringTools.removeTashkeel("كَتَب"));
+public final class ArabicWordMaps {
+  private  static final ArabicConstantsMaps constantMap = new ArabicConstantsMaps();
+  private ArabicWordMaps() {
+    // restrict instantiation
   }
 
+  // generate the attached forms from isolated
+  public static String getAttachedPronoun(String word)
+  {
+    if(word==null)
+      return "";
+    return ArabicConstantsMaps.isolatedToAttachedPronoun.getOrDefault(word, "");
+  }
 }

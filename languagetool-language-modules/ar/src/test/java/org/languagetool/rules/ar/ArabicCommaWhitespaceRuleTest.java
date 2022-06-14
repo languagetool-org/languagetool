@@ -31,7 +31,7 @@ import java.io.IOException;
 import static org.junit.Assert.assertEquals;
 
 public class ArabicCommaWhitespaceRuleTest {
-  
+
   private ArabicCommaWhitespaceRule rule;
   private JLanguageTool lt;
 

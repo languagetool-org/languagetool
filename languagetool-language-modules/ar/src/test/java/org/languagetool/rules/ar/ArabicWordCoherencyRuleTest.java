@@ -20,7 +20,6 @@
 package org.languagetool.rules.ar;
 
 import org.junit.Before;
-import org.junit.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
@@ -44,12 +43,6 @@ public class ArabicWordCoherencyRuleTest {
     TestTools.disableAllRulesExcept(lt, "AR_WORD_COHERENCY");
   }
 
-  @Test
-  public void testRule() throws IOException {
-    // errors:
-    //assertError("أنا أظن أن هذا ممكن لكنني أضن أنني كنت مخطئا");
-  }
-  
   private void assertError(String s) throws IOException {
     ArabicWordCoherencyRule rule = new ArabicWordCoherencyRule(TestTools.getEnglishMessages());
     List<AnalyzedSentence> analyzedSentences = lt.analyzeText(s);

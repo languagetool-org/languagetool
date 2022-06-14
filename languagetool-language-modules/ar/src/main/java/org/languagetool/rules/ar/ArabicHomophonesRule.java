@@ -69,12 +69,12 @@ public class ArabicHomophonesRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getShort() {
-    return "كلمات متشابهة لفظا يرجى التحقق منها";
+    return "كلمات صحيحة متشابهة لفظا يرجى التحقق منها";
   }
 
   @Override
   public String getMessage() {
-    return "قل $suggestions";
+    return "؟ربما تقصد $suggestions";
   }
 
   @Override

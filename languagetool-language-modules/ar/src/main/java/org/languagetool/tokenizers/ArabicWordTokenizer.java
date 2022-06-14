@@ -25,6 +25,6 @@ public class ArabicWordTokenizer extends WordTokenizer {
 
   @Override
   public String getTokenizingCharacters() {
-    return super.getTokenizingCharacters() + "،؟؛";
+    return super.getTokenizingCharacters() + "-،؟؛";
   }
 }

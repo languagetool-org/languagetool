@@ -43,7 +43,7 @@ public class ArabicSimpleReplaceRuleTest {
 
   @Test
   public void testRule() throws IOException {
-    
+
     assertEquals(0, rule.match(lt.getAnalyzedSentence("عبد الله")).length);
 
     // incorrect sentences:

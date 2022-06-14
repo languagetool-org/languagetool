@@ -48,7 +48,8 @@ public class ArabicTaggerTest {
   public void testTagger() throws IOException {
 
     TestTools.myAssert("الخياريتان",
-      "الخياريتان/[خيار]NJ-;F2--;--L",
+//      "الخياريتان/[خيار]NJ-;F2--;--L",
+      "الخياريتان/[خيار]NA-;F3--;--L|الخياريتان/[خيار]NJ-;F2--;--L|الخياريتان/[خيار]NJ-;F3--;--L",
       tokenizer, tagger);
 
     TestTools.myAssert("السماء زرقاء",
@@ -100,7 +101,35 @@ public class ArabicTaggerTest {
         "وبلادهما/[بلاد]NJ-;M1I-;W-H|" +
         "وبلادهما/[بلاد]NJ-;M1U-;W-H",
       tokenizer, tagger);
+    TestTools.myAssert("فاستعملها",
+      "فاستعملها/[اِسْتَعْمَلَ]V61;M1H-pa-;W-H|فاستعملها/[اِسْتَعْمَلَ]V61;M1Y-i--;W-H",
+      tokenizer, tagger);
 
+    // FIXME: improve tag system to handle different pronouns
+    //    TestTools.myAssert("بلادهما",
+//      "بلادهما/[بلاد]NJ-;F3--;--j|" +
+//        "بلادهما/[بلاد]NJ-;F3A-;--j|" +
+//        "بلادهما/[بلاد]NJ-;F3I-;--j|" +
+//        "بلادهما/[بلاد]NJ-;F3U-;--j|" +
+//        "بلادهما/[بلاد]NJ-;M1--;--j|" +
+//        "بلادهما/[بلاد]NJ-;M1A-;--j|" +
+//        "بلادهما/[بلاد]NJ-;M1I-;--j|" +
+//        "بلادهما/[بلاد]NJ-;M1U-;--j",
+//      tokenizer, tagger);
+//    TestTools.myAssert("وبلادهما",
+//      "وبلادهما/[بلاد]NJ-;F3--;W-j|" +
+//        "وبلادهما/[بلاد]NJ-;F3A-;W-j|" +
+//        "وبلادهما/[بلاد]NJ-;F3I-;W-j|" +
+//        "وبلادهما/[بلاد]NJ-;F3U-;W-j|" +
+//        "وبلادهما/[بلاد]NJ-;M1--;W-j|" +
+//        "وبلادهما/[بلاد]NJ-;M1A-;W-j|" +
+//        "وبلادهما/[بلاد]NJ-;M1I-;W-j|" +
+//        "وبلادهما/[بلاد]NJ-;M1U-;W-j",
+//      tokenizer, tagger);
+
+//    TestTools.myAssert("فاستعملها",
+//      "فاستعملها/[اِسْتَعْمَلَ]V61;M1H-pa-;W-i|فاستعملها/[اِسْتَعْمَلَ]V61;M1Y-i--;W-i",
+//      tokenizer, tagger);
     TestTools.myAssert("كبلاد",
       "كبلاد/[بلاد]NJ-;F3--;-K-|" +
         "كبلاد/[بلاد]NJ-;F3I-;-K-|" +
@@ -113,10 +142,6 @@ public class ArabicTaggerTest {
         "وكالبلاد/[بلاد]NJ-;F3I-;WKL|" +
         "وكالبلاد/[بلاد]NJ-;M1--;WKL|" +
         "وكالبلاد/[بلاد]NJ-;M1I-;WKL",
-      tokenizer, tagger);
-
-    TestTools.myAssert("فاستعملها",
-      "فاستعملها/[اِسْتَعْمَلَ]V61;M1H-pa-;W-H|فاستعملها/[اِسْتَعْمَلَ]V61;M1Y-i--;W-H",
       tokenizer, tagger);
 
 
@@ -169,6 +194,7 @@ public class ArabicTaggerTest {
         "ورد/[وَرَدَ]VW1;M1H-pp-;---|" +
         "ورد/[وَرَدَ]VW1;M1Y-i--;W--|" +
         "ورد/[وَرُدَ]VW0;M1H-pa-;---|" +
+        "ورد/[وَرُدَ]VW0;M1H-pp-;---|" +
         "ورد/[وَرَّدَ]VW1;M1H-pa-;---|" +
         "ورد/[وَرَّدَ]VW1;M1H-pp-;---|" +
         "ورد/[وَرَّدَ]VW1;M1Y-i--;---",
@@ -189,7 +215,7 @@ public class ArabicTaggerTest {
         "للاعب/[لَاعَبَ]V41;M1H-pa-;-L-|" +
         "للاعب/[لَاعَبَ]V41;M1Y-i--;-L-",
       tokenizer, tagger);
-    
+
     TestTools.myAssert("ببلاد",
       "ببلاد/[بلاد]NJ-;F3--;-B-|" +
         "ببلاد/[بلاد]NJ-;F3I-;-B-|" +
