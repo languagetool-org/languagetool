@@ -89,6 +89,5 @@ public class Swedish extends Language {
   @Override
   protected SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
     return new HunspellRule(messages, this, null, null);
-
   }
 }

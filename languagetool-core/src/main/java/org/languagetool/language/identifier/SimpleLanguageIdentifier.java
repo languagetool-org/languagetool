@@ -94,7 +94,7 @@ public class SimpleLanguageIdentifier extends LanguageIdentifier {
           try {
             errors += scp.getValue().isMisspelled(word) ? 1 : 0;
           } catch (IOException ex) {
-            throw new RuntimeException(ex.getMessage());
+            throw new RuntimeException(ex);
           }
         }
         double errorRate = errors / (double) words.length;
