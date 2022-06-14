@@ -1476,20 +1476,20 @@ public class HTTPServerConfig {
   public void setRedisKeyPassword(String redisKeyPassword) {
     this.redisKeyPassword = redisKeyPassword;
   }
-  
+
   public String getPasswortLoginAccessListPath() {
-      return passwortLoginAccessListPath;
+    return passwortLoginAccessListPath;
   }
 
   public boolean isLocalApiMode() {
-      return localApiMode;
+    return localApiMode;
   }
 
   public String getMotherTongue() {
-      return motherTongue;
+    return motherTongue;
   }
 
   public List<String> getPreferedLanguages() {
-      return preferredLanguages;
+    return preferredLanguages;
   }
 }
