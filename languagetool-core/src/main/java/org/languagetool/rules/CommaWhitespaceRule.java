@@ -181,7 +181,7 @@ public class CommaWhitespaceRule extends Rule {
   }
 
   private static boolean isWhitespaceToken(AnalyzedTokenReadings token) {
-    return (   token.isWhitespace()
+    return (token.isWhitespace()
         || StringTools.isNonBreakingWhitespace(token.getToken())
         || token.isFieldCode()) && !token.getToken().equals("\u200B");
   }
@@ -189,11 +189,7 @@ public class CommaWhitespaceRule extends Rule {
   private static boolean isQuote(String str) {
     if (str.length() == 1) {
       char c = str.charAt(0);
-      if (c =='\'' || c == '"' || c =='’'
-          || c == '”' || c == '“'
-          || c == '«'|| c == '»') {
-        return true;
-      }
+      return c == '\'' || c == '"' || c == '’' || c == '”' || c == '“' || c == '«' || c == '»';
     }
     return false;
   }
@@ -201,9 +197,7 @@ public class CommaWhitespaceRule extends Rule {
   private static boolean isHyphenOrComma(String str) {
     if (str.length() == 1) {
       char c = str.charAt(0);
-      if (c == '-' || c == ',') {
-        return true;
-      }
+      return c == '-' || c == ',';
     }
     return false;
   }
