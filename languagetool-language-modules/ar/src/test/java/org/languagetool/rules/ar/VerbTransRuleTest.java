@@ -148,22 +148,9 @@ public class VerbTransRuleTest {
           System.out.printf("VerbTransRuleTes: verb : [%s, %s]; preposition [%s %s]\n", verbTag, verbLemma, prepositionTag, prepositionLemma);
         if (tagmanager.isAttached(verbTag)) {
           char pronounFlag = tagmanager.getFlag(verbTag, "PRONOUN");
-          //      // generate new preposition word form
-          //      String newPrepositionTag = tagmanager.setFlag(prepositionTag, "PRONOUN", pronounFlag);
-          //      newPrepositionTag = tagmanager.setFlag(newPrepositionTag, "OPTION", 'D');
-          //      String newVerbTag = tagmanager.setFlag(verbTag, "PRONOUN", '-');
-
-          //      if(debug) System.out.printf("VerbTransRuleTes: Tags verb: %s preposition: %s\n", newVerbTag, newPrepositionTag);
-
-          // Generate new words
-          // generate the new verb
-          //      AnalyzedToken verbAToken = new AnalyzedToken(verb, newVerbTag, verbLemma);
-          //      String newVerb = Arrays.toString(synthesizer.synthesize(verbTokensy.get(0), newVerbTag));
-          // generate the new preposition according to modified postag
 
           String newPreposition = generateAttachedNewForm(preposition, prepositionTag, pronounFlag);
           String newVerb = generateUnattachedNewForm(verbLemma, verbTag);
-          //      if(debug) System.out.printf("VerbTransRuleTes: suggestions verb: %s == %s preposition: %s == %s\n", newVerb, newve, newPreposition, newpre);
           if (debug)
             System.out.printf("VerbTransRuleTes: suggestions verb: %s preposition: %s \n", newVerb, newPreposition);
         }
@@ -175,7 +162,7 @@ public class VerbTransRuleTest {
 
   /* generate a new form according to a specific postag*/
   private String generateNewForm(String word, String posTag, char flag) {
-    //      // generate new from word form
+    // generate new from word form
     String newposTag = tagmanager.setFlag(posTag, "PRONOUN", flag);
     // FIXME: remove the specific flag for option D
     if (flag != '-')

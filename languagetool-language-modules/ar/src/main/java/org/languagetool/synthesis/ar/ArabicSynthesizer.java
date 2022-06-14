@@ -27,17 +27,14 @@ import org.languagetool.synthesis.BaseSynthesizer;
 import org.languagetool.tagging.ar.ArabicTagManager;
 import org.languagetool.tagging.ar.ArabicTagger;
 
-// constants
-import static org.languagetool.tools.ArabicConstants.FATHATAN;
-import static org.languagetool.tools.ArabicConstants.TEH_MARBUTA;
-import static org.languagetool.tools.ArabicConstants.ALEF;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static org.languagetool.tools.ArabicConstants.*;
 
 /**
  * Arabic word form synthesizer.
@@ -276,10 +273,7 @@ public class ArabicSynthesizer extends BaseSynthesizer {
       stem = "(" + word + ")";
       wordlist.add(stem);
     }
-    //debug only
-//    System.out.println("ArabicSynthesizer:setEnclitic(), lemma:" + lemma + " postag:" + newposTag);
-//    String newWord = procletic + stem + suffix;
-//    return newWord;
+
     if (wordlist.isEmpty())
       return defaultWordlist;
     return wordlist;

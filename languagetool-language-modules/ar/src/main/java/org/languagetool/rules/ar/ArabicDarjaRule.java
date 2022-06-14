@@ -31,7 +31,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
- * A rule that matches words which should not be used and suggests correct ones instead. 
+ * A rule that matches words which should not be used and suggests correct ones instead.
  *
  * @author Sohaib AFIFI
  * @since 5.0
@@ -52,7 +52,7 @@ public class ArabicDarjaRule extends AbstractSimpleReplaceRule2 {
     super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
     addExamplePair(Example.wrong("<marker>طرشي</marker>"),
-                   Example.fixed("<marker>فلفل حلو</marker>"));
+      Example.fixed("<marker>فلفل حلو</marker>"));
   }
 
   @Override

@@ -28,7 +28,7 @@ import java.text.Normalizer;
 public class ArabicStringTools {
 
   public static final String HARAKAT_CHARS =
-        "\u064B"    // Fathatan
+    "\u064B"    // Fathatan
       + "\u064C"  // Dammatan
       + "\u064D"  // Kasratan
       + "\u064E"  // Fatha

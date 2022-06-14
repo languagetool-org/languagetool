@@ -25,6 +25,7 @@ import java.util.Map;
 
 /**
  * Date filter that expects a 'date' argument in the format 'dd-mm-yyyy'.
+ *
  * @since 2.7
  */
 public class DMYDateCheckFilter extends DateCheckFilter {

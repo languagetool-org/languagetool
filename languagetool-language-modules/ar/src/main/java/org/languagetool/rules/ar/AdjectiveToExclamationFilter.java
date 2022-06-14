@@ -30,6 +30,7 @@ import java.util.*;
 
 /**
  * Filter that maps suggestion from adverb to adjective.
+ *
  * @since 5.8
  */
 public class AdjectiveToExclamationFilter extends RuleFilter {
@@ -39,14 +40,14 @@ public class AdjectiveToExclamationFilter extends RuleFilter {
   }
 
   private final ArabicTagger tagger = new ArabicTagger();
-  private static final String FILE_NAME ="/ar/arabic_adjective_exclamation.txt";
-  private final Map<String,List<String>> adj2compList;
+  private static final String FILE_NAME = "/ar/arabic_adjective_exclamation.txt";
+  private final Map<String, List<String>> adj2compList;
 
-  private final Map<String,String> adj2comp = new HashMap<String, String>() {{
+  private final Map<String, String> adj2comp = new HashMap<String, String>() {{
     // tri letters verb:
-    put( "رشيد", "أرشد");
-    put("طويل","أطول");
-    put( "بديع","أبدع");
+    put("رشيد", "أرشد");
+    put("طويل", "أطول");
+    put("بديع", "أبدع");
     //
     // TODO: add more Masdar verb
     //put("", "");
@@ -62,9 +63,8 @@ public class AdjectiveToExclamationFilter extends RuleFilter {
     String adj = arguments.get("adj"); // extract adjective
     String noun = arguments.get("noun"); // the second argument
     int adjTokenIndex;
-    try
-    {
-      adjTokenIndex = Integer.valueOf(arguments.get("adj_pos")) -1;
+    try {
+      adjTokenIndex = Integer.valueOf(arguments.get("adj_pos")) - 1;
     } catch (NumberFormatException e) {
       e.printStackTrace();
       adjTokenIndex = 0;
@@ -79,12 +79,12 @@ public class AdjectiveToExclamationFilter extends RuleFilter {
     List<String> compList = new ArrayList<>();
 
     //
-    for(String adjlemma: adjLemmas) {
+    for (String adjlemma : adjLemmas) {
 
-          // get comparative suitable to adjective
-          List<String> comparativeList = adj2compList.get(adjlemma);
-          if (comparativeList != null) {
-            compList.addAll(comparativeList);
+      // get comparative suitable to adjective
+      List<String> comparativeList = adj2compList.get(adjlemma);
+      if (comparativeList != null) {
+        compList.addAll(comparativeList);
       }
     }
 
@@ -97,8 +97,7 @@ public class AdjectiveToExclamationFilter extends RuleFilter {
     RuleMatch newMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(), match.getMessage(), match.getShortMessage());
     // generate suggestion
     List<String> suggestionList = prepareSuggestions(compList, noun);
-    for(String  sug: suggestionList)
-    {
+    for (String sug : suggestionList) {
 
       newMatch.addSuggestedReplacement(sug);
     }
@@ -106,21 +105,18 @@ public class AdjectiveToExclamationFilter extends RuleFilter {
   }
 
   /* prepare suggesiyton for a list of comparative */
-  protected static List<String> prepareSuggestions(List<String> compList, String noun)
-  {
+  protected static List<String> prepareSuggestions(List<String> compList, String noun) {
 
 
     List<String> sugList = new ArrayList<>();
 
-    for(String comp: compList)
-    {
+    for (String comp : compList) {
       sugList.addAll(prepareSuggestions(comp, noun));
     }
     return sugList;
   }
 
-  protected static List<String> prepareSuggestions(String comp, String noun)
-  {
+  protected static List<String> prepareSuggestions(String comp, String noun) {
     /*
     الحالات:
     الاسم ليس ضميرا
@@ -154,56 +150,54 @@ public class AdjectiveToExclamationFilter extends RuleFilter {
 //    suggestion.append(" ");
     suggestion.append(comp);
     if (noun == null || noun.isEmpty()) {
-    }   else if (isPronoun(noun)) {
+    } else if (isPronoun(noun)) {
       // no space adding
       suggestion.append(ArabicWordMaps.getAttachedPronoun(noun));
 //      suggestion.append(getAttachedPronoun(noun));
-    }
-      else
-    {
+    } else {
       //if comparative is of second form don't add a space
-      if(!comp.endsWith(" ب"))
-      suggestion.append(" ");
+      if (!comp.endsWith(" ب"))
+        suggestion.append(" ");
       suggestion.append(noun);
     }
 
     // add suggestions
     sugList.add(suggestion.toString());
 
-  return sugList;
+    return sugList;
   }
 
   /* test if the word is an isolated pronoun */
-  private static boolean isPronoun(String word)
-  {
-    if(word==null)
+  private static boolean isPronoun(String word) {
+    if (word == null)
       return false;
     return (word.equals("هو")
       || word.equals("هي")
       || word.equals("هم")
-      ||word.equals("هما")
-      ||word.equals("أنا")
-      );
+      || word.equals("هما")
+      || word.equals("أنا")
+    );
   }
+
   /* get correspondant attched to unattached pronoun */
-  private static String getAttachedPronoun(String word)
-  {
-    if(word==null) {
+  private static String getAttachedPronoun(String word) {
+    if (word == null) {
       return "";
     }
     Map<String, String> isolatedToAttachedPronoun = new HashMap<>();
-    isolatedToAttachedPronoun.put("هو","ه");
-    isolatedToAttachedPronoun.put("هي","ها");
-    isolatedToAttachedPronoun.put("هم","هم");
-    isolatedToAttachedPronoun.put("هن","هن");
-    isolatedToAttachedPronoun.put("نحن","نا");
+    isolatedToAttachedPronoun.put("هو", "ه");
+    isolatedToAttachedPronoun.put("هي", "ها");
+    isolatedToAttachedPronoun.put("هم", "هم");
+    isolatedToAttachedPronoun.put("هن", "هن");
+    isolatedToAttachedPronoun.put("نحن", "نا");
     return isolatedToAttachedPronoun.getOrDefault(word, "");
   }
 
 
-    protected static Map<String, List<String>> loadFromPath(String path) {
+  protected static Map<String, List<String>> loadFromPath(String path) {
     return new SimpleReplaceDataLoader().loadWords(path);
   }
+
   public static String getDataFilePath() {
     return FILE_NAME;
   }

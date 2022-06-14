@@ -178,8 +178,7 @@ public class ArabicTransVerbRule extends AbstractSimpleReplaceRule2 {
 
       // if postag is attached
       // test if verb is in the verb list
-      if (verbPostag != null)
-      {
+      if (verbPostag != null) {
         // lookup in WrongWords
         SuggestionWithMessage verbLemmaMatch = wrongWords.get(wrongWords.size() - 1).get(verbLemma);
         // The lemma is found in the dictionary file

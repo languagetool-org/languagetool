@@ -26,14 +26,14 @@ public class ArabicConstants {
 
   // Harakat
   public static final char FATHATAN = '\u064b';
-  public static final char  DAMMATAN = '\u064C';
-  public static final char  KASRATAN = '\u064D';
-  public static final char  FATHA = '\u064E';
-  public static final char  DAMMA = '\u064F';
-  public static final char  KASRA = '\u0650';
-  public static final char  SHADDA = '\u0651';
-  public static final char  SUKUN = '\u0652';
-  public static final char  MADDAH_ABOVE = '\u0653';
+  public static final char DAMMATAN = '\u064C';
+  public static final char KASRATAN = '\u064D';
+  public static final char FATHA = '\u064E';
+  public static final char DAMMA = '\u064F';
+  public static final char KASRA = '\u0650';
+  public static final char SHADDA = '\u0651';
+  public static final char SUKUN = '\u0652';
+  public static final char MADDAH_ABOVE = '\u0653';
 
   // letters
   public static final char COMMA = '\u060C';

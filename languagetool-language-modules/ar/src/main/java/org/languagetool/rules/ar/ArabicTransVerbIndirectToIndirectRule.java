@@ -144,28 +144,17 @@ public class ArabicTransVerbIndirectToIndirectRule extends AbstractSimpleReplace
               current_token_reading = tokens[tokReadingPos];
               current_token = current_token_reading.getReadings().get(tokPos);
               skippedString = getSkippedString(tokens, i, tokReadingPos);
-//              System.out.println(" Skipped2:"+skippedString + " skipped:"+ skippedString.toString());
-//              System.out.println(" current token:"+current_token_reading.getToken() + " lemma:"+ current_token.getLemma());
             }
-//            for(AnalyzedToken current_token: token.getReadings()) {
             SuggestionWithMessage prepositionsWithMessage = getSuggestedPreposition(verbTok, current_token);
-//              System.out.println("ArabicIntransIndirectVerbRule.java: verb"+verbTok.getLemma()+" replaced: "+current_token.getToken()+" math:"+Boolean.toString(prepositionsWithMessage != null));
-
             if (prepositionsWithMessage != null) {
 
-//              if (is_candidate_case) {
               prepositions = Arrays.asList(prepositionsWithMessage.getSuggestion().split("\\|"));
               sug_msg = prepositionsWithMessage.getMessage();
               sug_msg = sug_msg != null ? sug_msg : "";
               for (String prep : prepositions) {
                 String inflectPrep = inflectSuggestedPreposition(current_token, prep);
-//                  System.out.println("ArabicIntransIndirectVerbRule.java: verb"+verbTok.getLemma()+" replaced: "+current_token.getToken()+" prep:"+prep +" suggestion:"+inflectPrep);
                 replacement.append("<suggestion>" + prevTokenStr + " " + skippedString + " " + inflectPrep + "</suggestion>");
               }
-//              } // if preposition match
-//            }// if verb
-
-//          } // for verbtok
 
               String msg = "الفعل ' " + prevTokenStr + " ' متعدِ بحرف آخر ،" + sug_msg + ". فهل تقصد؟" + replacement.toString();
               RuleMatch match = new RuleMatch(

@@ -18,16 +18,16 @@
  */
 package org.languagetool.rules.ar;
 
-  import java.util.ArrayList;
-  import java.util.List;
-  import java.util.ResourceBundle;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.rules.*;
+import org.languagetool.tools.StringTools;
 
-  import org.languagetool.rules.*;
-  import org.languagetool.AnalyzedSentence;
-  import org.languagetool.AnalyzedTokenReadings;
-  import org.languagetool.tools.StringTools;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
 
-  import static org.languagetool.tools.StringTools.isEmpty;
+import static org.languagetool.tools.StringTools.isEmpty;
 
 /**
  * A rule that matches periods, commas and closing parenthesis preceded by whitespace and
@@ -41,7 +41,9 @@ public class ArabicPunctuationWhitespaceRule extends Rule {
 
   private boolean quotesWhitespaceCheck;
 
-  /** @since 3.3 */
+  /**
+   * @since 3.3
+   */
   public ArabicPunctuationWhitespaceRule(ResourceBundle messages, IncorrectExample incorrectExample, CorrectExample correctExample) {
     super(messages);
     super.setCategory(Categories.TYPOGRAPHY.getCategory(messages));
@@ -79,6 +81,7 @@ public class ArabicPunctuationWhitespaceRule extends Rule {
   public String getCommaCharacter() {
     return ",";
   }
+
   public String getCommaCharacterArabic() {
     return "،";
   }
@@ -106,7 +109,7 @@ public class ArabicPunctuationWhitespaceRule extends Rule {
       String msg = null;
       String suggestionText = null;
       if (isWhitespace && isLeftBracket(prevToken)) {
-        boolean isException = i + 1 < tokens.length && prevToken.equals("[") && token.equals(" ") && tokens[i+1].getToken().equals("]");  // "- [ ]" syntax e.g. on GitHub
+        boolean isException = i + 1 < tokens.length && prevToken.equals("[") && token.equals(" ") && tokens[i + 1].getToken().equals("]");  // "- [ ]" syntax e.g. on GitHub
         if (!isException) {
           msg = messages.getString("no_space_after");
           suggestionText = prevToken;
@@ -135,19 +138,19 @@ public class ArabicPunctuationWhitespaceRule extends Rule {
           msg = messages.getString("space_after_comma");
           suggestionText = getCommaCharacterArabic();
           // exception for duplicated comma (we already have another rule for that)
-          if (i + 1 < tokens.length && (getCommaCharacter().equals(tokens[i+1].getToken()) || getCommaCharacterArabic().equals(tokens[i+1].getToken()))) {
+          if (i + 1 < tokens.length && (getCommaCharacter().equals(tokens[i + 1].getToken()) || getCommaCharacterArabic().equals(tokens[i + 1].getToken()))) {
             msg = null;
           }
-          if (i + 1 < tokens.length && !tokens[i+1].isWhitespace()) {
+          if (i + 1 < tokens.length && !tokens[i + 1].isWhitespace()) {
             suggestionText = getCommaCharacterArabic() + " ";
           }
-        } else if (token.equals(".") && !isDomain(tokens, i+1) && !isFileExtension(tokens, i+1)) {
+        } else if (token.equals(".") && !isDomain(tokens, i + 1) && !isFileExtension(tokens, i + 1)) {
           msg = messages.getString("no_space_before_dot");
           suggestionText = ".";
           // exception case for figures such as ".5" and ellipsis
-          if (i + 1 < tokens.length && isDigitOrDot(tokens[i+1].getToken())) {
+          if (i + 1 < tokens.length && isDigitOrDot(tokens[i + 1].getToken())) {
             msg = null;
-          } else if (i + 2 < tokens.length && tokens[i+1].getToken().equals("/") && tokens[i+2].getToken().matches("[a-zA-Z]+")) {
+          } else if (i + 2 < tokens.length && tokens[i + 1].getToken().equals("/") && tokens[i + 2].getToken().matches("[a-zA-Z]+")) {
             // commands like "./validate.sh"
             msg = null;
           }
@@ -163,7 +166,7 @@ public class ArabicPunctuationWhitespaceRule extends Rule {
           // exception case
         }
       }
-      if (msg != null && ! isException(tokens, i) ) {
+      if (msg != null && !isException(tokens, i)) {
         int fromPos = tokens[i - 1].getStartPos();
         int toPos = tokens[i].getEndPos();
         RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos, toPos, msg);
@@ -187,7 +190,7 @@ public class ArabicPunctuationWhitespaceRule extends Rule {
   }
 
   private static boolean isWhitespaceToken(AnalyzedTokenReadings token) {
-    return (   token.isWhitespace()
+    return (token.isWhitespace()
       || StringTools.isNonBreakingWhitespace(token.getToken())
       || token.isFieldCode()) && !token.getToken().equals("\u200B");
   }
@@ -195,9 +198,9 @@ public class ArabicPunctuationWhitespaceRule extends Rule {
   private static boolean isQuote(String str) {
     if (str.length() == 1) {
       char c = str.charAt(0);
-      if (c =='\'' || c == '"' || c =='’'
+      if (c == '\'' || c == '"' || c == '’'
         || c == '”' || c == '“'
-        || c == '«'|| c == '»') {
+        || c == '«' || c == '»') {
         return true;
       }
     }

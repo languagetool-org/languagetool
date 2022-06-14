@@ -44,6 +44,7 @@ import java.util.ResourceBundle;
 
 /**
  * Support for Arabic.
+ *
  * @since 4.9
  */
 public class Arabic extends Language implements AutoCloseable {

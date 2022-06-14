@@ -33,30 +33,31 @@ import java.util.*;
 /**
  * Filter that maps suggestion from adverb to adjective.
  * Also see https://www.ef.com/wwen/english-resources/english-grammar/forming-adverbs-adjectives/
+ *
  * @since 4.9
  */
 public class MasdarToVerbFilter extends RuleFilter {
 
   private final ArabicTagger tagger = new ArabicTagger();
-  private static final String FILE_NAME ="/ar/arabic_masdar_verb.txt";
-  private final Map<String,List<String>> masdar2verbList = loadFromPath(FILE_NAME);
+  private static final String FILE_NAME = "/ar/arabic_masdar_verb.txt";
+  private final Map<String, List<String>> masdar2verbList = loadFromPath(FILE_NAME);
   private final ArabicSynthesizer synthesizer = new ArabicSynthesizer(new Arabic());
 
   final List<String> authorizeLemma = new ArrayList() {{
     add("قَامَ");
   }};
 
-  private final Map<String,String> masdar2verb = new HashMap<String, String>() {{
+  private final Map<String, String> masdar2verb = new HashMap<String, String>() {{
     // tri letters verb:
-    put( "عمل", "عَمِلَ");
-    put("إعمال","أَعْمَلَ");
-    put( "تعميل","عَمَّلَ");
-    put( "ضرب","ضَرَبَ");
-    put("أكل","أَكَلَ");
+    put("عمل", "عَمِلَ");
+    put("إعمال", "أَعْمَلَ");
+    put("تعميل", "عَمَّلَ");
+    put("ضرب", "ضَرَبَ");
+    put("أكل", "أَكَلَ");
 //    put("سؤال","سَأَلَ");
 // regular ones:
 // non tri letters verb
-    put("إجابة","أَجَابَ");
+    put("إجابة", "أَجَابَ");
 
     //
     // TODO: add more Masdar verb
@@ -93,10 +94,10 @@ public class MasdarToVerbFilter extends RuleFilter {
 
     // if the auxiliary verb has many lemmas, filter authorized lemma only
     // the first token: auxiliary verb
-    for(AnalyzedToken auxVerbToken : patternTokens[0]) {
+    for (AnalyzedToken auxVerbToken : patternTokens[0]) {
       // if the token has an authorized lemma
-      if(auxVerbLemmas.contains(auxVerbToken.getLemma())) {
-      // for all masdar lemmas
+      if (auxVerbLemmas.contains(auxVerbToken.getLemma())) {
+        // for all masdar lemmas
         for (String lemma : masdarLemmas) {
           // get verb suitable to masdar
           String verb = masdar2verb.get(lemma);
@@ -109,7 +110,7 @@ public class MasdarToVerbFilter extends RuleFilter {
           List<String> verblemmaList = masdar2verbList.get(lemma);
           if (verblemmaList != null) {
             // if verb, inflect verd according to auxialiary verb inlfection
-            for(String vrbLem: verblemmaList) {
+            for (String vrbLem : verblemmaList) {
               List<String> inflectedverbList = synthesizer.inflectLemmaLike(vrbLem, auxVerbToken);
               verbList.addAll(inflectedverbList);
             }
@@ -118,14 +119,6 @@ public class MasdarToVerbFilter extends RuleFilter {
 
       }
     }
-    //
-    // only for debug
-//    System.out.println("Aux verb: "+auxVerb);
-//    System.out.println("Aux verb list: "+auxVerbLemmas.toString());
-//    System.out.println("masdar Lemma: "+ masdarLemmas.toString());
-//    System.out.println("new verb Lemma: "+ verbList.toString());
-//    System.out.println("masdar: "+masdar);
-//    System.out.println("tokens: "+ Arrays.deepToString(patternTokens));
 
     // remove duplicates
     verbList = new ArrayList<>(new HashSet<>(verbList));
@@ -133,8 +126,7 @@ public class MasdarToVerbFilter extends RuleFilter {
 
     RuleMatch newMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(), match.getMessage(), match.getShortMessage());
     // generate suggestion
-    for(String  verb: verbList)
-    {
+    for (String verb : verbList) {
       newMatch.addSuggestedReplacement(verb);
     }
     return newMatch;
@@ -144,17 +136,17 @@ public class MasdarToVerbFilter extends RuleFilter {
 //    return match;
   }
 
-  List<String> filterLemmas(List<String> lemmas)
-  {
+  List<String> filterLemmas(List<String> lemmas) {
     List<String> filtred = new ArrayList<>();
 
-    for(String lem: authorizeLemma) {
+    for (String lem : authorizeLemma) {
       if (lemmas.contains(lem)) {
         filtred.add(lem);
       }
     }
     return filtred;
   }
+
   protected static Map<String, List<String>> loadFromPath(String path) {
     return new SimpleReplaceDataLoader().loadWords(path);
   }

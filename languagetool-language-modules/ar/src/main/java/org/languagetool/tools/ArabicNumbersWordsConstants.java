@@ -27,20 +27,20 @@ import java.util.Map;
 
 public class ArabicNumbersWordsConstants {
 
-    static final List<String> arabicOnes = new ArrayList<>();
-    static final List<String> arabicFeminineOnes = new ArrayList<>();
+  static final List<String> arabicOnes = new ArrayList<>();
+  static final List<String> arabicFeminineOnes = new ArrayList<>();
 
-    static final List<String> arabicTens = new ArrayList<>();
+  static final List<String> arabicTens = new ArrayList<>();
 
-    static final List<String> arabicHundreds = new ArrayList<>();
-    static final List<String> arabicTwos = new ArrayList<>();
-    static final List<String> arabicAppendedTwos = new ArrayList<>();
+  static final List<String> arabicHundreds = new ArrayList<>();
+  static final List<String> arabicTwos = new ArrayList<>();
+  static final List<String> arabicAppendedTwos = new ArrayList<>();
 
-    static final List<String> arabicGroup = new ArrayList<>();
-    static final List<String> arabicAppendedGroup = new ArrayList<>();
-    static final List<String> arabicPluralGroups = new ArrayList<>();
+  static final List<String> arabicGroup = new ArrayList<>();
+  static final List<String> arabicAppendedGroup = new ArrayList<>();
+  static final List<String> arabicPluralGroups = new ArrayList<>();
 
-    // Jar ones
+  // Jar ones
   static final List<String> arabicJarOnes = new ArrayList<>();
   static final List<String> arabicJarFeminineOnes = new ArrayList<>();
   static final List<String> arabicJarTens = new ArrayList<>();
@@ -51,6 +51,7 @@ public class ArabicNumbersWordsConstants {
 
   // Words of numbers
   static final Map<String, Integer> NUMBER_WORDS = new HashMap<>();
+
   static {
     /* Ones */
     arabicOnes.add("");

@@ -69,9 +69,7 @@ public class ArabicVerbToMasdarFilterTest {
       if (!ruleMatch.getSuggestedReplacements().isEmpty())
         suggestion = ruleMatch.getSuggestedReplacements().toString();
       // show only no suggestion cases
-//      if(suggestion.isEmpty() || !suggestion.startsWith("[ي"))
       System.out.println("مثال: " + word + " " + word2 + " " + word3 + " مقترح:" + suggestion);
-//    System.out.println("Example: "+word1+" "+word2+ " Suggestion:"+ruleMatch.getSuggestedReplacements().toString());
     }
   }
 

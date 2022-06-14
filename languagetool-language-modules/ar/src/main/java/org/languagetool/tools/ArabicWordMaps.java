@@ -20,15 +20,15 @@
 package org.languagetool.tools;
 
 public final class ArabicWordMaps {
-  private  static final ArabicConstantsMaps constantMap = new ArabicConstantsMaps();
+  private static final ArabicConstantsMaps constantMap = new ArabicConstantsMaps();
+
   private ArabicWordMaps() {
     // restrict instantiation
   }
 
   // generate the attached forms from isolated
-  public static String getAttachedPronoun(String word)
-  {
-    if(word==null)
+  public static String getAttachedPronoun(String word) {
+    if (word == null)
       return "";
     return ArabicConstantsMaps.isolatedToAttachedPronoun.getOrDefault(word, "");
   }

@@ -134,7 +134,6 @@ public class ArabicWordsToNumberTest {
     Integer[] numbers = new Integer[]{0, 1, 2, 3, 11, 12, 14, 34, 100, 125, 134, 1922, 1245701, 102, 10000};
     for (Integer n : numbers) {
       String phrase = ArabicNumbersWords.numberToWordsWithUnits(n, unit, inflection);
-//      System.out.println("N: "+ Integer.toString(n)+ " phrase:"+phrase);
       System.out.println("phraseMap.put(" + n + ",\"" + phrase + "\");");
     }
   }

@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2022 Sohaib Afifi, Taha Zerrouki
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -26,16 +26,16 @@ import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.ar.ArabicSynthesizer;
 
 /*
- * Synthesize suggestions using the lemma from one token (lemma_from) 
+ * Synthesize suggestions using the lemma from one token (lemma_from)
  * and the POS tag from another one (postag_from).
- * 
- * The lemma_select and postag_select attributes are required 
+ *
+ * The lemma_select and postag_select attributes are required
  * to choose one among several possible readings.
  */
 public class AdvancedSynthesizerFilter extends AbstractAdvancedSynthesizerFilter {
 
   private final ArabicSynthesizer synth = new ArabicSynthesizer(new Arabic());
-  
+
   @Override
   protected Synthesizer getSynthesizer() {
     return synth;
