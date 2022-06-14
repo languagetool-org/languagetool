@@ -2,6 +2,12 @@
 
 ## 5.8-SNAPSHOT (release planned for 2022-06-28)
 
+#### Arabic
+  * added and improved xml rules
+  * add ArabicTransVerbDirectToIndirectRule, ArabicTransVerbIndirectToDirectRule, ArabicTransVerbIndirectToIndirectRule, ArabicInflectedOneWordReplaceRule
+  * add enclitics and proclitics tags
+
+
 #### English
 * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2022.06.01, v.3.0.9)
 
