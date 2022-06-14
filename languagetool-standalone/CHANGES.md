@@ -9,6 +9,11 @@
 * updated the spelling dictionary to match changes in language (the current version is in sync with sjp.pl as of April 1, 2022)
 * added and improved rules
 
+#### Portuguese
+  * added and improved rules
+  * added words and POS data
+  * fixed tons of false positives
+
 ...
 
 
