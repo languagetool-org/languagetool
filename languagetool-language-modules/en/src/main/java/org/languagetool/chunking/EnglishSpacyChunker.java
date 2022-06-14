@@ -45,7 +45,7 @@ import static java.util.Collections.sort;
  */
 public class EnglishSpacyChunker implements Chunker {
 
-  private static final URL SERVER_URL = Tools.getUrl("http://localhost:5000/");
+  private static final URL SERVER_URL = Tools.getUrl("http://localhost:8000/");
 
   private final EnglishSpacyChunkFilter chunkFilter;
   private final ObjectMapper mapper;

@@ -2,26 +2,30 @@ import spacy
 import json
 import time
 import sys
+import urllib.parse
 from flask import Flask
 from flask import request
-# see https://dzlab.github.io/ml/2021/08/21/spark-jep/
-# see https://flask.palletsprojects.com/en/2.1.x/quickstart/#a-minimal-application
 # start with:
 #   cd /home/dnaber/lt/git/languagetool/
-#   export FLASK_APP=spacy-test
-#   flask run
-# https://gunicorn.org/
+#   gunicorn -w 4 spacy-test:app
 
 app = Flask(__name__)
 nlp = spacy.load("en_core_web_sm")
 
 @app.route("/", methods=['GET', 'POST'])
-def chunking():
+def app(environ, start_response):
   t1 = time.time()
-  if request.method == 'POST':
-      text = request.form['text']
-  else:
-      text = request.args.get('text', '')
+  body = ''
+  length = 0
+  try:
+      length = int(environ.get('CONTENT_LENGTH', '0'))
+  except ValueError:
+      length = 0
+  if length != 0:
+      text = environ['wsgi.input'].read(length)
+  text = str(text, 'utf-8')
+  text = urllib.parse.unquote_plus(text)[len('text='):]
+  #print(text)
   doc = nlp(text)
   map = idxToToken(doc)
   result = []
@@ -48,9 +52,14 @@ def chunking():
   tokens = []
   for token in doc:
       tokens.append({"text": token.text, "pos": token.pos_, "from": token.idx, "to": token.idx + len(token.text)})
+  data = bytes(json.dumps({"noun_chunks": result, "tokens": tokens}), 'utf-8')
+  start_response("200 OK", [
+      ("Content-Type", "application/json"),
+      ("Content-Length", str(len(data)))
+  ])
   t2 = time.time()
   printf("-> %.0fms\n", (t2-t1)*1000)
-  return json.dumps({"noun_chunks": result, "tokens": tokens})
+  return iter([data])
 
 def printf(format, *args):
     sys.stdout.write(format % args)
