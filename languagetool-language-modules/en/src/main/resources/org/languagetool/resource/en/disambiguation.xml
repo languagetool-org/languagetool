@@ -16019,4 +16019,15 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+
+    <rule id="FAST_FOOD" name="'fast' no verb in 'fast food'">
+        <pattern>
+            <token postag="DT|PRP\$|JJ.*" postag_regexp="yes" chunk_re=".-NP.*" />
+            <marker>
+                <token>fast</token>
+            </marker>
+            <token>food</token>
+        </pattern>
+        <disambig action="remove" postag="VB.*" />
+    </rule>
 </rules>
