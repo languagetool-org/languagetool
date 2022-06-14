@@ -994,12 +994,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>cm</token>
             </antipattern>
             <antipattern>
-                <token skip="-1" regexp="yes">Drogerie.*|Rossmann|Budni.*|Alnatura</token>
+                <token skip="-1" regexp="yes">.*(Drogerie.*|Rossmann|Budni.*|Alnatura|Filialen?|Märkten?)</token>
                 <token>dm</token>
             </antipattern>
             <antipattern>
                 <token skip="-1">dm</token>
-                <token regexp="yes">Drogerie.*|Rossmann|Budni.*|Alnatura|Filialen?</token>
+                <token regexp="yes">.*(Drogerie.*|Rossmann|Budni.*|Alnatura|Filialen?|Märkten?)</token>
             </antipattern>
             <antipattern>
                 <token>bei</token>
@@ -15111,10 +15111,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token skip="5" />
                 <token postag="VER.*" postag_regexp="yes" />
             </antipattern>
+            <antipattern>
+                <token>durch</token>
+                <token />
+                <token inflected="yes" regexp="yes">lassen|haben|können|werden</token>
+            </antipattern>
             <pattern>
                 <token>durch</token>
                 <!-- many verbs missing -->
-                <token inflected="yes" regexp="yes" case_sensitive="yes">schauen|kreuzen|steigen|stehen|spielen|se?uchen|graben|atmen|beißen|beissen|bekommen|checken|denken|drehen|fahren|fallen|fegen|feiern|gehen|laufen|halten|impfen|jagen|kauen|kämpfen|kitzeln|klettern|lassen|leben|machen|mischen|nehmen|nummerieren|nässen|pauken|planen|rauschen|rechnen|testen|tasten|vögeln|setzen|fluten|flie(ß|ss)en|bohren|winken|schleudern|sickern</token>
+                <token inflected="yes" regexp="yes" case_sensitive="yes">schauen|starten|kreuzen|steigen|stehen|spielen|se?uchen|graben|atmen|beißen|beissen|bekommen|checken|denken|drehen|fahren|fallen|fegen|feiern|gehen|laufen|halten|impfen|jagen|kauen|kämpfen|kitzeln|klettern|lassen|leben|machen|mischen|nehmen|nummerieren|nässen|pauken|planen|rauschen|rechnen|testen|tasten|vögeln|setzen|fluten|flie(ß|ss)en|bohren|winken|schleudern|sickern</token>
             </pattern>
             <message>Das Verb <suggestion>durch<match no="2" case_conversion="alllower" /></suggestion> wird als ein Wort geschrieben.</message>
             <example correction="durchschaut">Er hat mich <marker>durch schaut</marker>!</example>
@@ -28357,7 +28362,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
-        <rule id="PER_DEFAULT" name="per default (Default)" default="temp_off">
+        <rule id="PER_DEFAULT" name="per default (Default)">
             <pattern>
                 <token>per</token>
                 <marker>
@@ -28367,7 +28372,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message><suggestion>Default</suggestion> ist ein Nomen und sollte auch in der Redewendung "per Default" großgeschrieben werden.</message>
             <example correction="Default">Das ist per <marker>default</marker> aktiviert.</example>
         </rule>
-        <rule id="SPERRE_SUBST" name="eine sperre (Sperre) verhängen" default="temp_off">
+        <rule id="SPERRE_SUBST" name="eine sperre (Sperre) verhängen">
             <pattern>
                 <token postag="(PRO:POS|ART):.*FEM.*" postag_regexp="yes">
                     <exception>das</exception>
@@ -28387,7 +28392,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
             <example correction="Sperre">Wir haben eine <marker>sperre</marker> verhängt.</example>
         </rule>
-        <rule id="VERTRAG_SUBST" name="einen vertrag (Vertrag) schließen" default="temp_off">
+        <rule id="VERTRAG_SUBST" name="einen vertrag (Vertrag) schließen">
             <pattern>
                 <token postag="(PRO:POS|ART):.*MAS.*" postag_regexp="yes">
                     <exception>das</exception>
@@ -44170,7 +44175,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>&prgk;.</short>
                 <example correction="Rede">Lange <marker>rede</marker>, kurzer Sinn.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="(PRO:POS|ART):.*FEM.*" postag_regexp="yes">
                         <exception>das</exception>
