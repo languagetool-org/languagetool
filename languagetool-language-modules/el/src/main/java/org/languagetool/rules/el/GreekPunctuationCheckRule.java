@@ -40,8 +40,8 @@ public class GreekPunctuationCheckRule extends AbstractPunctuationCheckRule {
    */
   @Override
   protected final boolean isPunctsJoinOk(String tokens) {
-	  String punctCases = "\\,{1} |\\.{1} |:{1} |·{1} | -{1} * -{1} |\\.{3} |!{1} |;{1} "; 
-	  punctCases += "|\\,{1}\n|\\.{1}\n|:{1}\n|·{1}\n|\\.{3}\n|!{1}\n|;{1}\n"; 
+	  String punctCases = "\\, |\\. |: |· | - .* - |\\.{3} |! |; "; 
+	  punctCases += "|\\,\n|\\.\n|:\n|·\n|\\.{3}\n|!\n|;\n"; 
     return tokens.matches(punctCases);
   }
 
