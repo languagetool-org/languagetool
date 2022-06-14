@@ -13470,6 +13470,52 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rule id="DANKE_SCHOEN" name="dankeschön (danke schön)" default="temp_off">
+            <antipattern>
+                <token regexp="yes">„|“|”|&apostrophe;</token>
+                <token case_sensitive="yes">Dankeschön</token>
+                <token regexp="yes">„|”|“|&apostrophe;</token>
+                <example>Als 'Dankeschön' hier eine Kleinigkeit.</example>
+            </antipattern>
+            <antipattern>
+                <token skip="2" postag="ART:(DEF|IND):.*" postag_regexp="yes"/>
+                <token postag="SUB:.*" postag_regexp="yes"/>
+                <token skip="2" postag="KON:NEB"/>
+                <token case_sensitive="yes">Dankeschön</token>
+                <example>Ein großes Lob und Dankeschön an euch alle!</example>
+            </antipattern>
+            <antipattern>
+                <token min="0">als</token>
+                <token postag="ADJ:.*" postag_regexp="yes"/>
+                <token case_sensitive="yes">Dankeschön</token>
+                <example>Kleines Dankeschön an dich und deine Familie!</example>
+            </antipattern>
+            <antipattern>
+                <token>als</token>
+                <token min="0" postag="ADJ:.*" postag_regexp="yes"/>
+                <token case_sensitive="yes">Dankeschön</token>
+                <example>Als Dankeschön lade ich dich ein.</example>
+            </antipattern>
+            <antipattern>
+                <token postag="ART:(DEF|IND):.*|PRO:POS:.*" postag_regexp="yes"/>
+                <token min="0" postag="ADJ:.*" postag_regexp="yes"/>
+                <token case_sensitive="yes">Dankeschön</token>
+                <example>Ein Dankeschön an euch!</example>
+                <example>Unser Dankeschön geht an alle, die mitgeholfen haben.</example>
+                <example>Ein großes Dankeschön an dich!</example>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">danke(schön|sehr)
+                    <exception regexp="yes" case_sensitive="yes">DANKE(SCHÖN|SEHR)</exception>
+                </token>
+            </pattern>
+            <message>'Danke schön' und 'danke sehr' werden getrennt geschrieben, wenn es keine Nomen sind.</message>
+            <suggestion>danke schön</suggestion>
+            <suggestion>danke sehr</suggestion>
+            <url>https://languagetool.org/insights/de/beitrag/danke/</url>
+            <example correction="danke schön|danke sehr">Nochmals <marker>dankeschön</marker> dafür, dass du mir heute geholfen hast.</example>
+            <example correction="Danke schön|Danke sehr"><marker>Dankesehr</marker> noch einmal für die Einladung.</example>
+        </rule>
         <rule id="DAZU_VERDIENEN" name="dazu verdienen (dazuverdienen)">
             <pattern>
                 <token regexp="yes" skip="3">(irgend)?(et)?was|viel|nichts|nix</token>
