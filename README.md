@@ -100,6 +100,14 @@ Test the result in `languagetool-office-extension/target`, rename the `*.zip` to
 
 Now you can use the bleeding edge development copy of LanguageTool `*.jar` files, be aware that it might contain regressions.
 
+
+### How to run under Mac M1 or M2
+
+1. Install Brew for Rosetta: `arch -x86_64 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"`
+2. Install openjdk for Rosetta: `arch -x86_64 brew install openjdk`
+3. Install Maven for Rosetta: `arch -x86_64 brew install maven`
+4. Now run build scripts
+
 ### License
 
 Unless otherwise noted, this software is distributed under the LGPL, see file [COPYING.txt](https://github.com/languagetool-org/languagetool/blob/master/COPYING.txt).
