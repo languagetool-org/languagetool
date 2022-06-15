@@ -183,7 +183,23 @@ Copyright (C) 2011 Juan Martorell
                 <wd pos="_QM_OPEN"/>
             </disambig>
         </rule>
+        <rule id="QM_OPEN2" name="comillas apertura">
+            <pattern>
+                <token postag="SENT_START"/>
+                <marker>
+                    <token spacebefore="no">"</token>
+                </marker>
+                <token spacebefore="no"/>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_QM_OPEN"/>
+            </disambig>
+        </rule>
         <rule id="QM_CLOSE" name="comillas de cierre">
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token spacebefore="no">"</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token regexp="yes" spacebefore="no">['"’”»]</token>

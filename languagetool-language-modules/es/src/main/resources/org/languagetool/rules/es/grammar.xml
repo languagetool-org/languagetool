@@ -4119,6 +4119,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Total envío:</example>
                 <example>Silencio mientras termino.</example>
             </rule>
+            <rule>
+                <antipattern>
+                    <token>creo</token>
+                    <token>que</token>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token postag="_QM_OPEN"/>
+                    <phraseref idref="_GN_SINGULAR"/>
+                    <token postag="_QM_CLOSE|R.*|LOC_ADV" postag_regexp="yes" min="0" max="4"><exception postag="C.*" postag_regexp="yes"/></token>
+                    <marker>
+                        <and>
+                            <token postag="VMIP1S0" regexp="yes">.+o<exception postag="V...3.*|C.*|SP.*|V.G.*|[ANCR].*|_possible_NP" postag_regexp="yes"/></token>
+                            <token inflected="yes" regexp="yes">.+ar<exception inflected="yes" regexp="yes">.+ir</exception></token>
+                        </and>
+                    </marker>
+                </pattern>
+                <message>Si el verbo está en pasado, falta un acento; o puede que falte una coma.</message>
+                <suggestion><match no="5" postag="VMIP1S0" postag_regexp="yes" postag_replace="VMIS3S0" case_conversion="alllower"/></suggestion>
+                <example correction="llamó">"Time Magazine" <marker>llamo</marker> a su campaña "una comedia".</example>
+            </rule>
         </rulegroup>
         <rule id="PROMEDIO" name="promedio/promedió">
             <pattern>
