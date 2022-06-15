@@ -105,9 +105,9 @@ public class CommaWhitespaceRule extends Rule {
           suggestionText = prevToken;
         }
       } else if (isWhitespace && isQuote(prevToken) && this.quotesWhitespaceCheck && prevPrevToken.equals(" ")) {
-          msg = messages.getString("no_space_around_quotes");
-          suggestionText = prevToken;
-          twoSuggestions = true;
+        msg = messages.getString("no_space_around_quotes");
+        suggestionText = prevToken;
+        twoSuggestions = true;
       } else if (!isWhitespace && prevToken.equals(getCommaCharacter())
           && !isQuote(token)
           && !isHyphenOrComma(token)
@@ -145,7 +145,7 @@ public class CommaWhitespaceRule extends Rule {
           }
         }
       }
-      if (msg != null && ! isException(tokens, i) ) {
+      if (msg != null && !isException(tokens, i)) {
         int fromPos = tokens[i - 1].getStartPos();
         if (twoSuggestions) {
           fromPos = tokens[i - 2].getStartPos();
