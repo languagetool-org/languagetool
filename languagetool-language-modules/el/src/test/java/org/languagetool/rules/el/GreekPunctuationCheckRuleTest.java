@@ -44,36 +44,36 @@ public class GreekPunctuationCheckRuleTest {
 	matches = rule.match(lt.getAnalyzedSentence("Κάνω μία επεξήγηση - η εξήγηση είναι μέσα στις παύλες - και συνεχίζω."));
 	assertEquals(2, matches.length);
 
-	matches = rule.match(lt.getAnalyzedSentence("Μετά από αυτό, ησυχία..."));
+	matches = rule.match(lt.getAnalyzedSentence("Μετά από αυτό, ησυχία... "));
 	assertEquals(0, matches.length);
 
-	matches = rule.match(lt.getAnalyzedSentence("Θα περάσεις από το σπίτι;"));
+	matches = rule.match(lt.getAnalyzedSentence("Θα περάσεις από το σπίτι; "));
 	assertEquals(0, matches.length);
 
-	matches = rule.match(lt.getAnalyzedSentence("Τα φρούτα που μου αρέσουν είναι: μήλα, αχλάδια, πορτοκάλια. Εσένα;")); 
+	matches = rule.match(lt.getAnalyzedSentence("Τα φρούτα που μου αρέσουν είναι: μήλα, αχλάδια, πορτοκάλια. Εσένα; ")); 
 	assertEquals(0, matches.length);
 
-	matches = rule.match(lt.getAnalyzedSentence("Κάνω μία παύση· και συνεχίζω."));  
+	matches = rule.match(lt.getAnalyzedSentence("Κάνω μία παύση· και συνεχίζω. "));  
 	assertEquals(0, matches.length);
 
-	matches = rule.match(lt.getAnalyzedSentence("Μετά από αυτό, ησυχία.."));
+	matches = rule.match(lt.getAnalyzedSentence("Μετά από αυτό, ησυχία.. "));
 	assertEquals(1, matches.length);
 	assertEquals(1, matches[0].getSuggestedReplacements().size());
 	assertEquals(".", matches[0].getSuggestedReplacements().get(0));
 
-	matches = rule.match(lt.getAnalyzedSentence("Μετά από αυτό,, ησυχία..."));
+	matches = rule.match(lt.getAnalyzedSentence("Μετά από αυτό,, ησυχία... "));
 	assertEquals(1, matches.length);
 
-	matches = rule.match(lt.getAnalyzedSentence("Κάνω μία επεξήγηση-η εξήγηση είναι μέσα στις παύλες - και συνεχίζω."));
+	matches = rule.match(lt.getAnalyzedSentence("Κάνω μία επεξήγηση-η εξήγηση είναι μέσα στις παύλες - και συνεχίζω. "));
 	assertEquals(1, matches.length);
 		
-	matches = rule.match(lt.getAnalyzedSentence("Κάνω μία επεξήγηση - η εξήγηση είναι μέσα στις παύλες, και συνεχίζω."));
+	matches = rule.match(lt.getAnalyzedSentence("Κάνω μία επεξήγηση - η εξήγηση είναι μέσα στις παύλες, και συνεχίζω. "));
 	assertEquals(1, matches.length);
 		
-	matches = rule.match(lt.getAnalyzedSentence("Θα περάσεις από το σπίτι;;"));
+	matches = rule.match(lt.getAnalyzedSentence("Θα περάσεις από το σπίτι;; "));
 	assertEquals(1, matches.length);
 		
-	matches = rule.match(lt.getAnalyzedSentence("Κάνω μία παύση·και συνεχίζω."));  
+	matches = rule.match(lt.getAnalyzedSentence("Κάνω μία παύση·και συνεχίζω. "));  
 	assertEquals(1, matches.length);
   }
 }
