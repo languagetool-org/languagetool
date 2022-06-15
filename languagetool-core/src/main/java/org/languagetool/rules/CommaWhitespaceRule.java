@@ -153,6 +153,9 @@ public class CommaWhitespaceRule extends Rule {
         int toPos = tokens[i].getEndPos();
         String marked = sentence.getText().substring(fromPos, toPos);
         if (marked.equals(suggestionText) && !twoSuggestions) {
+          prevPrevToken = prevToken;
+          prevToken = token;
+          prevWhite = isWhitespace && !tokens[i].isFieldCode(); // LO/OO code before comma/dot
           continue;
         }
         RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos, toPos, msg);
