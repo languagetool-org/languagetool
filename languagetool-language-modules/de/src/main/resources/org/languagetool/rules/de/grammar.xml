@@ -13472,9 +13472,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
         <rule id="DANKE_SCHOEN" name="dankeschön (danke schön)" default="temp_off">
             <antipattern>
-                <token regexp="yes">„|“|”|&apostrophe;</token>
+                <token regexp="yes">ein|das</token>
+                <token min="0" postag="ADJ:.*" postag_regexp="yes"/>
                 <token case_sensitive="yes">Dankeschön</token>
-                <token regexp="yes">„|”|“|&apostrophe;</token>
+                <example>Das größte Dankeschön geht an dich.</example>
+            </antipattern>
+            <antipattern>
+                <token skip="-1" inflected="yes">sagen</token>
+                <token case_sensitive="yes">Dankeschön</token>
+                <example>Also, Dankeschön sagen wollte ich jetzt nicht.</example>
+            </antipattern>
+            <antipattern>
+                <token case_sensitive="yes" skip="-1">Dankeschön</token>
+                <token inflected="yes">sagen</token>
+                <example>Ich wollte dir noch schnell Dankeschön sagen.</example>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">.*grosses</token>
+                <token case_sensitive="yes">Dankeschön</token>
+                <example>Ein grosses Dankeschön an dich und deine Familie.</example>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">"|„|“|”|&apostrophe;</token>
+                <token case_sensitive="yes">Dankeschön</token>
+                <token regexp="yes">"|„|”|“|&apostrophe;</token>
                 <example>Als 'Dankeschön' hier eine Kleinigkeit.</example>
             </antipattern>
             <antipattern>
