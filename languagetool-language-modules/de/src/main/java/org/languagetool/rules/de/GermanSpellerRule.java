@@ -1151,6 +1151,17 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("hilt", w -> Arrays.asList("gilt", "hilft", "hielt", "hält"));
     put("nei", w -> Arrays.asList("bei", "nie", "ein", "neu"));
     put("riesen", w -> Arrays.asList("riesigen", "diesen", "Riesen", "reisen"));
+    put("geduld", w -> Arrays.asList("Geduld", "gedulde"));
+    put("bits", w -> Arrays.asList("bist", "bis", "Bits"));
+    put("aheb", w -> Arrays.asList("habe", "aber"));
+    put("versand", w -> Arrays.asList("versandt", "Versand"));
+    put("os", w -> Arrays.asList("so", "es", "OS"));
+    put("Kriese", w -> Arrays.asList("Krise", "Kreise"));
+    put("Kriesen", w -> Arrays.asList("Krisen", "Kreisen"));
+    put("aufteil", w -> Arrays.asList("aufteile", "aufteilt", "auf Teil"));
+    put("fürn", w -> Arrays.asList("für ein", "für", "fürs", "fern"));
+    put("nummer", "Nummer");
+    put("mitgetielt", "mitgeteilt");
     put("Artal", "Ahrtal");
     put("wuste", "wusste");
     put("Kuden", "Kunden");
@@ -2637,6 +2648,17 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Languagetool": return topMatch("LanguageTool");
       case "Languagetools": return topMatch("LanguageTools");
       case "liket": return topMatch("likt");
+      case "nagut": return topMatch("na gut");
+      case "Nagut": return topMatch("Na gut");
+      case "HAllo": return topMatch("Hallo");
+      case "HEy": return topMatch("Hey");
+      case "SEhr": return topMatch("Sehr");
+      case "abhol": return topMatch("abhole");
+      case "amazon": return topMatch("Amazon");
+      case "irgendeins": return topMatch("irgendeines");
+      case "Communities": return topMatch("Communitys");
+      case "Spass": return topMatch("Spaß");
+      case "umgangsprachlich": return topMatch("umgangssprachlich");
     }
     return Collections.emptyList();
   }

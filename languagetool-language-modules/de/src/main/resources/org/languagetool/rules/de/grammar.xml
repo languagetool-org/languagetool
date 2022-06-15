@@ -13734,7 +13734,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>drauf</token>
             </antipattern>
             <pattern>
-                <token>drauf</token>
+                <token case_sensitive="yes" regexp="yes">[Dd]rauf</token>
                 <token min="0">zu</token>
                 <token regexp="yes" inflected="yes">gehen|klicken|knallen|schauen|hauen|schlagen|gucken|stehen|halten|schreiben|kritzeln|malen|packen|schrauben|satteln|legen|springen|hämmern</token>
             </pattern>
@@ -15136,6 +15136,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>durch</token>
                 <token />
                 <token inflected="yes" regexp="yes">lassen|haben|können|werden</token>
+                <token postag="PRO:.*|EIG.*" postag_regexp="yes" />
             </antipattern>
             <pattern>
                 <token>durch</token>
@@ -28383,6 +28384,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="ACH_UND_KRACH" name="mit ach (Ach) und krach (Krach)" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">Ach|ACH</token>
+                <token regexp="yes">und|UND|&amp;</token>
+                <token regexp="yes">Krach|KRACH</token>
+            </antipattern>
+            <pattern>
+                <token>ach</token>
+                <token regexp="yes">und|&amp;</token>
+                <token>krach</token>
+            </pattern>
+            <message>In dieser Redewendung werden <suggestion>Ach \2 Krach</suggestion> großgeschrieben.</message>
+            <url>https://de.wiktionary.org/wiki/mit_Ach_und_Krach</url>
+            <example correction="Ach und Krach">Sie hat ihre Prüfung mit <marker>ach und krach</marker> bestanden.</example>
+        </rule>
         <rule id="PER_DEFAULT" name="per default (Default)">
             <pattern>
                 <token>per</token>
@@ -28392,6 +28408,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message><suggestion>Default</suggestion> ist ein Nomen und sollte auch in der Redewendung "per Default" großgeschrieben werden.</message>
             <example correction="Default">Das ist per <marker>default</marker> aktiviert.</example>
+        </rule>
+        <rule id="BIKE_SUBST" name="ein bike (Bike) radeln" default="temp_off">
+            <pattern>
+                <token postag="(PRO:POS|ART):.*NEU.*" postag_regexp="yes" />
+                <token postag="(ADJ|PA[12]):.*NEU.*" postag_regexp="yes" min="0" regexp="yes" case_sensitive="yes">
+                    [a-zöäü].*
+                    <exception postag="ADV:MOD" />
+                </token>
+                <marker>
+                    <token case_sensitive="yes">bike</token>
+                </marker>
+                <token postag="ZUS|ADV:(MOD|TMP).*" postag_regexp="yes" min="0" />
+                <token postag="VER:.+" postag_regexp="yes">
+                    <exception regexp="yes">m?einen?|recht|halt|mal</exception>
+                </token>
+            </pattern>
+            <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
+            <example correction="Bike">Das <marker>bike</marker> fährt sich gut.</example>
         </rule>
         <rule id="SPERRE_SUBST" name="eine sperre (Sperre) verhängen">
             <pattern>
@@ -28586,7 +28620,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token>weise</token>
-                <token>ich</token>
+                <token postag="ADV.*" postag_regexp="yes" min="0" />
+                <token regexp="yes">ic[kh]</token>
             </antipattern>
             <rule>
                 <pattern>
@@ -58734,6 +58769,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Redewendungen -->
     <!-- ====================================================================== -->
     <category id="IDIOMS" name="Redewendungen">
+        <rulegroup id="IM_SCHACH_HALTEN" name="im (in) Schach halten" default="temp_off">
+            <url>https://de.wiktionary.org/wiki/in_Schach_halten</url>
+            <rule>
+                <pattern>
+                    <token>im</token>
+                    <token>schach</token>
+                    <token min="0">zu</token>
+                    <token inflected="yes">halten</token>
+                </pattern>
+                <message>Meinten Sie die Redewendung <suggestion>in Schach \3 \4</suggestion>?</message>
+                <example correction="in Schach halten">Ich werde die Gruppe <marker>im Schach halten</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="4">
+                        halten
+                        <exception scope="next" regexp="yes">,|:|;|\(|\)</exception>
+                        <exception scope="next" postag="VER.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token>im</token>
+                        <token>schach</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie die Redewendung "in Schach halten"?</message>
+                <suggestion>in Schach</suggestion>
+                <example correction="in Schach">Ich halte sie <marker>im Schach</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AUF_DEM_GEIST" name="auf dem (den) Geist gehen">
             <rule>
                 <pattern>
@@ -66489,6 +66553,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>dr</token>
             </antipattern>
             <antipattern>
+                <token>sh</token>
+                <token>:</token>
+                <token>z</token>
+            </antipattern>
+            <antipattern>
                 <!-- smiley with nose and mouth as one token -->
                 <token regexp="yes">[:;]</token>
                 <token spacebefore="no" regexp="yes">-[dpo]</token>
@@ -66518,8 +66587,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">[0-9].*</token>
             </antipattern>
             <antipattern>
+                <token regexp="yes">[a-z]</token>
                 <token>:</token>
-                <token spacebefore="no" regexp="yes">(in|innen)(-.+)?</token>
+                <token regexp="yes">\d+</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" case_sensitive="yes">[A-ZÄÖÜ]{1,3}</token>
+                <token>:</token>
+                <token regexp="yes">\d+</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" case_sensitive="yes">[A-ZÄÖÜ]{1,5}</token>
+                <token>:</token>
+                <token regexp="yes" case_sensitive="yes">[A-ZÄÖÜ]{1,5}</token>
+            </antipattern>
+            <antipattern>
+                <token>:</token>
+                <token spacebefore="no" regexp="yes">(in|innen)(-.*)?</token>
             </antipattern>
             <antipattern>
                 <token>:</token>
@@ -66531,7 +66615,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token>:</token>
-                <token regexp="yes">[:\{\=]</token>
+                <token regexp="yes">[:\{\=\&lt;\&gt;\[]</token>
             </antipattern>
             <antipattern>
                 <token>der</token>
@@ -67957,7 +68041,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token>Jugend</token>
-                <token>forscht</token>
+                <token regexp="yes">forscht|debattiert</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">äu(ß|ss)erst</token><!-- "äußerst schmackhaft" - not a verb in this context -->
@@ -68965,14 +69049,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <rule>
                 <pattern>
-                    <token case_sensitive="yes" regexp="yes">[Gg]epatched|[Gg]etracked|[Gg]eteased|[Gg]ereviewed|[Gg]eshuffeled|[Gg]eboostered|[Gg]ecrawled|[Gg]efracked|[Gg]espoilered|[Gg]ematched|[Aa]ngeteasered|[Gg]eteasered|[Gg]eskyped|[Gg]ezapped|[Gg]etaped|[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]etagged|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched|[Gg]etuned|[Gg]ecrashed|[Gg]ecat?ched|[Cc]hecked|[Ee]ntertained|[Gg]egoogled|[Gg]ecoached|[Gg]eblogged|[Gg]ebeamed|[Gg]echipped|[Pp]erformed|[Gg]eswiped|[Mm]atched|[Gg]eschocked|[Gg]epitched|[Pp]itched|[Gg]emapped|[Oo]utgesourced</token>
+                    <token case_sensitive="yes" regexp="yes">[Gg]epatched|[Gg]ebiked|[Gg]etracked|[Gg]eteased|[Gg]ereviewed|[Gg]eshuffeled|[Gg]eboostered|[Gg]ecrawled|[Gg]efracked|[Gg]espoilered|[Gg]ematched|[Aa]ngeteasered|[Gg]eteasered|[Gg]eskyped|[Gg]ezapped|[Gg]etaped|[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]etagged|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched|[Gg]etuned|[Gg]ecrashed|[Gg]ecat?ched|[Cc]hecked|[Ee]ntertained|[Gg]egoogled|[Gg]ecoached|[Gg]eblogged|[Gg]ebeamed|[Gg]echipped|[Pp]erformed|[Gg]eswiped|[Mm]atched|[Gg]eschocked|[Gg]epitched|[Pp]itched|[Gg]emapped|[Oo]utgesourced</token>
                 </pattern>
                 <message>Die empfohlene Schreibweise für diesen Anglizismus ist <suggestion><match no="1" regexp_match="ed$" regexp_replace="t" /></suggestion>.</message>
                 <example correction="gefeaturt">Wir wurden auf der Startseite des App Stores <marker>gefeatured</marker>.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token case_sensitive="yes" regexp="yes">[Gg]eouted|[Gg]ekited|[Gg]edated|[Gg]ecasted|[Gg]evested|[Gg]eshorted|[Gg]ehighlighted|[Ss]upported</token>
+                    <token case_sensitive="yes" regexp="yes">[Gg]eouted|[Gg]ekited|[Gg]edated|[Gg]ecasted|[Gg]evested|[Gg]eshorted|[Gg]ehighlighted|[Ss]upported|[Gg]efighted</token>
                 </pattern>
                 <message>Die empfohlene Schreibweise für diesen Anglizismus ist <suggestion><match no="1" regexp_match="ed$" regexp_replace="et" /></suggestion>.</message>
                 <example correction="gedatet">Sie haben sich 2 Wochen lang <marker>gedated</marker>.</example>
