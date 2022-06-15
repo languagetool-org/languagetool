@@ -17,6 +17,7 @@
  * USA
  */
 package org.languagetool.rules.el;
+import org.languagetool.rules.Example;
 import java.util.ResourceBundle;
 import org.languagetool.rules.AbstractPunctuationCheckRule;
 
@@ -29,6 +30,8 @@ public class GreekPunctuationCheckRule extends AbstractPunctuationCheckRule {
 
   public GreekPunctuationCheckRule(ResourceBundle messages) {
     super(messages);
+    addExamplePair(Example.wrong("Κάνω μία παύση<marker>·</marker>και συνεχίζω. "),
+    Example.fixed("Κάνω μία παύση<marker> · </marker>και συνεχίζω. "));
   }
 
   /*
