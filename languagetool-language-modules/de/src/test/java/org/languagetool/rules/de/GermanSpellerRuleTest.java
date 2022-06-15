@@ -86,6 +86,24 @@ public class GermanSpellerRuleTest {
   }
 
   @Test
+  public void testSplitWords() throws IOException {
+    GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    JLanguageTool lt = new JLanguageTool(GERMAN_DE);
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("Das ist ein sher schöner Satz."));
+    assertThat(matches.length, is(1));
+    assertThat(matches[0].getSuggestedReplacements().get(0), is("sehr"));
+    assertThat(matches[0].getFromPos(), is(12));
+    assertThat(matches[0].getToPos(), is(16));
+    matches = rule.match(lt.getAnalyzedSentence("Das sin die Optionen."));
+    assertThat(matches.length, is(1));
+    assertThat(matches[0].getSuggestedReplacements().get(0), is("ein"));
+    assertThat(matches[0].getSuggestedReplacements().get(1), is("sind"));
+    matches = rule.match(lt.getAnalyzedSentence("Gibt es einen grund, dass…"));
+    assertThat(matches.length, is(1));
+    assertThat(matches[0].getSuggestedReplacements().get(0), is("Grund"));
+  }
+
+  @Test
   public void testGetOnlySuggestions() throws IOException {
     GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     assertThat(rule.getOnlySuggestions("autentisch").size(), is(1));
