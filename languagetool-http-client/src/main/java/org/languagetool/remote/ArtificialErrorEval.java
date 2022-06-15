@@ -360,7 +360,12 @@ public class ArtificialErrorEval {
         matchesCorrect = lt.check(correctSentence, config).getMatches();
         cachedMatches.put(correctSentence, matchesCorrect);
       }
-      List<String> ruleIDs = ruleIDsAtPos(matchesCorrect, fromPos, words[1 - j]);
+      String replaceWith = words[1 - j];
+      String originalString = correctSentence.substring(fromPos, fromPos + words[j].length());
+      if (StringTools.isCapitalizedWord(originalString)) {
+        replaceWith = StringTools.uppercaseFirstChar(replaceWith);
+      }
+      List<String> ruleIDs = ruleIDsAtPos(matchesCorrect, fromPos, replaceWith);
       if (ruleIDs.size() > 0) {
         results[j][classifyTypes.indexOf("FP")]++;
         printSentenceOutput("FP", correctSentence, fakeRuleIDs[j] + ":" + String.join(",", ruleIDs));
@@ -395,10 +400,10 @@ public class ArtificialErrorEval {
         cachedMatches.put(wrongSentence, matchesWrong);
       }
       
-      List<String> ruleIDs = ruleIDsAtPos(matchesWrong, fromPos, words[j]);
+      List<String> ruleIDs = ruleIDsAtPos(matchesWrong, fromPos, originalString);
       if (ruleIDs.size() > 0) {
         //results[1 - j][classifyTypes.indexOf("TP")]++;
-        if (isExpectedSuggestionAtPos(matchesWrong, fromPos, words[j], wrongSentence, correctSentence)) {
+        if (isExpectedSuggestionAtPos(matchesWrong, fromPos, originalString, wrongSentence, correctSentence)) {
           //results[1 - j][classifyTypes.indexOf("TPs")]++;
           results[1 - j][classifyTypes.indexOf("TP")]++;
           printSentenceOutput("TP", wrongSentence, fakeRuleIDs[1 - j] + ":" + String.join(",", ruleIDs));
