@@ -6,6 +6,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
+import org.languagetool.Experimental;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.CheckResults;
 import org.languagetool.Language;
@@ -23,6 +24,7 @@ import io.grpc.ServerBuilder;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Experimental
 public class GRPCServer extends ProcessingServerImplBase
 {
   private PipelinePool pool;
