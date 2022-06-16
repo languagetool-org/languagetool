@@ -2515,21 +2515,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Walzer">Der <marker>Walter</marker> in A-Dur ist sehr schön.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="EN_OHNE_PASSANT" name="'en (eng, in)'">
+        <rulegroup id="EN_OHNE_PASSANT" name="'en (den, eng, in, ...)'">
             <rule>
-                <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">.*[ÁáÀàÇçÉéÈèÍíÌìÓóÒòÚúÙù].*</token>
+                <pattern>
+                    <token case_sensitive="yes" negate="yes" regexp="yes">.*[ÁáÀàÇçÉéÈèÍíÌìÓóÒòÚúÙù].*</token>
                     <marker>
-                        <token spacebefore="yes">en</token>
+                        <token case_sensitive="yes">en</token>
                     </marker>
-                    <token negate="yes" regexp="yes">bloc|gros|passant|masse|vogue|suite|.*[ÁáÀàÇçÉéÈèÍíÌìÓóÒòÚúÙù].*</token>
+                    <token negate="yes" regexp="yes">scene|place|bloc|gros|passant|masse|vogue|suite|.*[ÁáÀàÇçÉéÈèÍíÌìÓóÒòÚúÙù].*</token>
                 </pattern>
-                <message>Möglicher Tippfehler: Meinten Sie evtl. <suggestion>eng</suggestion>, <suggestion>ein</suggestion> oder <suggestion>in</suggestion>?</message>
+                <message>Möglicher Tippfehler.</message>
+                <suggestion>den</suggestion>
+                <suggestion>ein</suggestion>
+                <suggestion>in</suggestion>
+                <suggestion>wen</suggestion>
+                <suggestion>eng</suggestion>
                 <short>&typo;</short>
                 <example>Das ist <marker>en</marker> vogue jetzt.</example>
                 <example>Das haben wir <marker>en</marker> passant erledigt.</example>
                 <example>Société et pouvoir <marker>en</marker> Algérie</example>
-                <example correction="eng|ein|in">Das ist zu <marker>en</marker>.</example>
+                <example correction="den|ein|in|wen|eng">Das ist zu <marker>en</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="KOMMA_TLD" name="'example,com (example.com)'">
