@@ -138,6 +138,27 @@
     <example type="untouched">на росію</example>
   </rule>
 
+  <rule name="Знахідний для осіб лише після в/у" id="anim_v_zna_rare">
+    <antipattern>
+      <token regexp="yes">[ву]</token> 
+      <token postag_regexp="yes" postag="adj:p:v_zna:rinanim(?!.*pron).*" min="0" max="2">
+        <exception postag_regexp="yes" postag="noun:anim:p:v_zna.*:rare.*" />
+      </token>
+      <token postag_regexp="yes" postag="noun:anim:p:v_zna.*:rare.*" />
+    </antipattern>
+    <pattern>
+      <marker>
+        <token postag_regexp="yes" postag="noun:anim:p:v_zna.*:rare.*" />
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="noun:anim:p:v_zna.*:rare.*" />
+    <example type="ambiguous"
+        inputform="президенти[президент/noun:anim:p:v_kly,президент/noun:anim:p:v_naz,президент/noun:anim:p:v_zna:rare]"
+        outputform="президенти[президент/noun:anim:p:v_kly,президент/noun:anim:p:v_naz]">Отакі <marker>президенти</marker>.</example>
+    <example type="untouched">Пішов в президенти.</example>
+    <example type="untouched">кандидат в народні депутати.</example>
+  </rule>
+
 <!--
   <rule name="Точок і точка" id="tochok">
     <pattern>
@@ -3935,7 +3956,7 @@
     </pattern>
     <disambig action="remove"><wd lemma="плат"/></disambig>
     <example type="ambiguous"
-        inputform="плат[плат/noun:inanim:m:v_naz:rare,плат/noun:inanim:m:v_zna:rare,плата/noun:inanim:p:v_rod]"
+        inputform="плат[плат/noun:inanim:m:v_naz,плат/noun:inanim:m:v_zna,плата/noun:inanim:p:v_rod]"
         outputform="плат[плата/noun:inanim:p:v_rod]">заробітних <marker>плат</marker>.</example>
     <example type="untouched">широкий плат</example>
   </rule>
@@ -3951,7 +3972,7 @@
     </pattern>
     <disambig action="filter" postag="noun:inanim:p:v_rod.*"/>
     <example type="ambiguous"
-        inputform="плат[плат/noun:inanim:m:v_naz:rare,плат/noun:inanim:m:v_zna:rare,плата/noun:inanim:p:v_rod]"
+        inputform="плат[плат/noun:inanim:m:v_naz,плат/noun:inanim:m:v_zna,плата/noun:inanim:p:v_rod]"
         outputform="плат[плата/noun:inanim:p:v_rod]">різних <marker>плат</marker>.</example>
     <example type="untouched">широкий плат</example>
   </rule>
@@ -3967,7 +3988,7 @@
     </pattern>
     <disambig action="filter" postag="adj.*" />
     <example type="ambiguous"
-        inputform="злісного[злісний/adj:m:v_rod:compb,злісний/adj:m:v_zna:ranim:compb,злісний/adj:n:v_rod:compb,злісний/noun:anim:m:v_rod:rare,злісний/noun:anim:m:v_zna:rare]"
+        inputform="злісного[злісний/adj:m:v_rod:compb,злісний/adj:m:v_zna:ranim:compb,злісний/adj:n:v_rod:compb,злісний/noun:anim:m:v_rod,злісний/noun:anim:m:v_zna]"
         outputform="злісного[злісний/adj:m:v_rod:compb,злісний/adj:m:v_zna:ranim:compb,злісний/adj:n:v_rod:compb]">І <marker>злісного</marker> мотиву.</example>
     <example type="untouched">злісна</example>
   </rule>
@@ -3983,7 +4004,7 @@
     </pattern>
     <disambig action="filter" postag="adj.*" />
     <example type="ambiguous"
-        inputform="квартального[квартальний/adj:m:v_rod,квартальний/adj:m:v_zna:ranim,квартальний/adj:n:v_rod,квартальний/noun:anim:m:v_rod:rare,квартальний/noun:anim:m:v_zna:rare]"
+        inputform="квартального[квартальний/adj:m:v_rod,квартальний/adj:m:v_zna:ranim,квартальний/adj:n:v_rod,квартальний/noun:anim:m:v_rod,квартальний/noun:anim:m:v_zna]"
         outputform="квартального[квартальний/adj:m:v_rod,квартальний/adj:m:v_zna:ranim,квартальний/adj:n:v_rod]">І <marker>квартального</marker> звіту.</example>
     <example type="untouched">ква</example>
   </rule>
@@ -4058,7 +4079,7 @@
     </pattern>
     <disambig action="filter" postag="adj.*" />
     <example type="ambiguous"
-        inputform="лісного[лісний/adj:m:v_rod,лісний/adj:m:v_zna:ranim,лісний/adj:n:v_rod,лісний/noun:anim:m:v_rod:rare,лісний/noun:anim:m:v_zna:rare]"
+        inputform="лісного[лісний/adj:m:v_rod,лісний/adj:m:v_zna:ranim,лісний/adj:n:v_rod,лісний/noun:anim:m:v_rod,лісний/noun:anim:m:v_zna]"
         outputform="лісного[лісний/adj:m:v_rod,лісний/adj:m:v_zna:ranim,лісний/adj:n:v_rod]">І <marker>лісного</marker> масиву.</example>
     <example type="untouched">ква</example>
   </rule>

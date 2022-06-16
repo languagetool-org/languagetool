@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedToken;
 
@@ -137,14 +138,14 @@ public class InflectionHelper {
     return getNounInflections(nounTokenReadings, null);
   }
 
-  public static List<Inflection> getNounInflections(List<AnalyzedToken> nounTokenReadings, String ignoreTag) {
+  public static List<Inflection> getNounInflections(List<AnalyzedToken> nounTokenReadings, Pattern ignoreTag) {
     List<Inflection> slaveInflections = new ArrayList<>();
     for (AnalyzedToken token: nounTokenReadings) {
       String posTag2 = token.getPOSTag();
       if( posTag2 == null )
         continue;
 
-      if( ignoreTag != null && posTag2.contains(ignoreTag) ) {
+      if( ignoreTag != null && ignoreTag.matcher(posTag2).find() ) {
         continue;
       }
 

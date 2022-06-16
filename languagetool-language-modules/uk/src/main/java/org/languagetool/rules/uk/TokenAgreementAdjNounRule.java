@@ -234,7 +234,7 @@ public class TokenAgreementAdjNounRule extends Rule {
 
       List<InflectionHelper.Inflection> masterInflections = InflectionHelper.getAdjInflections(state.adjTokenReadings);
 
-      List<InflectionHelper.Inflection> slaveInflections = InflectionHelper.getNounInflections(nounTokenReadings, "v_zna:var");
+      List<InflectionHelper.Inflection> slaveInflections = InflectionHelper.getNounInflections(nounTokenReadings, Pattern.compile("v_zna:var"));
 
       if( Collections.disjoint(masterInflections, slaveInflections) ) {
 

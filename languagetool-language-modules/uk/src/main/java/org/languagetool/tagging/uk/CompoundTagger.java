@@ -49,7 +49,7 @@ class CompoundTagger {
   private static final String TAG_ANIM = ":anim";
   private static final String TAG_INANIM = ":inanim";
   private static final Pattern EXTRA_TAGS = Pattern.compile(":bad");
-  private static final Pattern EXTRA_TAGS_DROP = Pattern.compile(":(comp.|np|ns|slang|rare|xp[1-9]|&predic|&insert)");
+  private static final Pattern EXTRA_TAGS_DROP = Pattern.compile(":(comp.|np|ns|slang|xp[1-9]|&predic|&insert)");
   private static final Pattern NOUN_SING_V_ROD_REGEX = Pattern.compile("noun.*?:[mfn]:v_rod.*");
 //  private static final Pattern NOUN_V_NAZ_REGEX = Pattern.compile("noun.*?:.:v_naz.*");
   private static final Pattern SING_REGEX_F = Pattern.compile(":[mfn]:");
@@ -115,9 +115,9 @@ class CompoundTagger {
   // http://www.pravopys.net/sections/33/
   static {
     rightPartsWithLeftTagMap.put("бо", Pattern.compile("(verb|.*?pron|noun|adv|intj|part).*"));
-    rightPartsWithLeftTagMap.put("но", Pattern.compile("(verb.*?:(impr|futr|&insert)|intj).*")); 
+    rightPartsWithLeftTagMap.put("но", Pattern.compile("((verb(?!.*bad).*?:(impr|futr|&insert))|intj|adv|part|conj).*")); 
     rightPartsWithLeftTagMap.put("от", Pattern.compile("(.*?pron|adv|part|verb).*"));
-    rightPartsWithLeftTagMap.put("то", Pattern.compile("(.*?pron|verb|noun|adj|conj).*")); // adv|part|conj
+    rightPartsWithLeftTagMap.put("то", Pattern.compile("(.*?pron|verb|noun|adj|adv|conj).*")); // part|conj
     // noun gives false on зразу-таки
     rightPartsWithLeftTagMap.put("таки", Pattern.compile("(verb|adv|adj|.*?pron|part|noninfl:&predic).*")); 
 
@@ -243,13 +243,13 @@ class CompoundTagger {
 
     // стривай-бо, чекай-но, прийшов-таки, такий-от, такий-то
 
-    if( rightPartsWithLeftTagMap.containsKey(rightWord) 
+    if( rightPartsWithLeftTagMap.containsKey(rightWord.toLowerCase()) 
         && ! PosTagHelper.hasPosTagPart2(leftWdList, "abbr") ) {
 
       if( leftWdList.isEmpty() )
         return null;
 
-      Pattern leftTagRegex = rightPartsWithLeftTagMap.get(rightWord);
+      Pattern leftTagRegex = rightPartsWithLeftTagMap.get(rightWord.toLowerCase());
 
       List<AnalyzedToken> leftAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(leftWord, leftWdList);
       List<AnalyzedToken> newAnalyzedTokens = new ArrayList<>(leftAnalyzedTokens.size());
@@ -1011,6 +1011,11 @@ class CompoundTagger {
 
         if( rightPosTag.startsWith("noun:inanim")
             && rightPosTag.contains("v_kly") )
+          continue;
+
+        // країни-агресори - не треба v_zna:rare
+        if( rightPosTag.startsWith("noun:anim:p:v_zna:rare")
+            && leftPosTag.startsWith("noun:inanim") )
           continue;
 
         String extraNvTag = "";

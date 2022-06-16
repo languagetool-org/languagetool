@@ -214,6 +214,8 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
     return foundVmis && foundOther;
   }
 
+  private static final Pattern IGNORE_IN_PRON_POS = Pattern.compile("pron|noun:anim:p:v_zna.*:rare.*");
+  
   private void disambiguatePronPos(AnalyzedSentence input) {
     AnalyzedTokenReadings[] tokens = input.getTokensWithoutWhitespace();
     
@@ -231,11 +233,11 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
         
           List<InflectionHelper.Inflection> nounInflections = new ArrayList<>();
           if( i > 1 ) {
-            List<Inflection> nounInflections_ = InflectionHelper.getNounInflections(tokens[i-1].getReadings(), "pron");
+            List<Inflection> nounInflections_ = InflectionHelper.getNounInflections(tokens[i-1].getReadings(), IGNORE_IN_PRON_POS);
             nounInflections.addAll( nounInflections_ );
           }
           if( i < tokens.length-1 ) {
-            List<Inflection> nounInflections_ = InflectionHelper.getNounInflections(tokens[i+1].getReadings(), "pron");
+            List<Inflection> nounInflections_ = InflectionHelper.getNounInflections(tokens[i+1].getReadings(), IGNORE_IN_PRON_POS);
             nounInflections.addAll( nounInflections_ );
           }
 
