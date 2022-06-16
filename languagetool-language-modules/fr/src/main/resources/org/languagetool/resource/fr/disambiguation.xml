@@ -132,6 +132,16 @@ RB => Règles Brutes
     </rule>
     <!-- END: numerals -->
     <!-- CATEGORY: remove unusual tags -->
+    <rule id="NOM_FEMININ" name="nom féminin">
+        <pattern>
+            <token postag="D f s"/>
+            <marker>
+                    <token postag="N e s"/>
+            </marker>
+            <token postag="J f s"/>
+        </pattern>
+        <disambig action="replace" postag="N f s"/>
+    </rule>
     <rule id="FIN" name="fin">
         <pattern>
             <token><exception>en</exception></token>
@@ -8750,7 +8760,7 @@ RB => Règles Brutes
                 <marker>
                     <token postag="V (ind|sub) pres 3 ." postag_regexp="yes">
                         <exception scope="previous" regexp="yes">&prefixes;</exception>
-                        <exception regexp="yes">politique|adjoint|externe|fait|style</exception>
+                        <exception regexp="yes">politique|dure|adjoint|externe|fait|style</exception>
                         <exception postag="_GN_.*" postag_regexp="yes"/></token>
                 </marker>
                 <token postag="A" min="0"/>
