@@ -27786,52 +27786,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <!--NUMBER_DAYS_MONTH[6]-->
                 <antipattern>
-                    <token regexp="yes">\d+</token>
-                    <token>/</token>
-                    <token regexp="yes">\d\d</token>
-                    <token min="0">-</token>
-                    <token regexp="yes" min="0">\d+</token>
-                    <token min="0">/</token>
-                    <token regexp="yes" min="0">\d\d</token>
-                    <example>2004/05-2005/06</example>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">\d\d</token>
-                    <token>/</token>
-                    <token regexp="yes">\d+</token>
-                    <token>-</token>
-                    <token regexp="yes">\d\d</token>
-                    <token>/</token>
-                    <token regexp="yes">\d+</token>
-                    <example>05/2002-05/2008</example>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">\d\d</token>
-                    <token regexp="yes">\d+</token>
-                    <token>-</token>
-                    <token regexp="yes">\d\d</token>
-                    <token regexp="yes">\d+</token>
-                    <example>2002/05-2008/05</example>
-                </antipattern>
-                <antipattern>
-                    <token skip="-1">ISBN</token>
-                    <token regexp="yes">\d+</token>
-                    <token min="0">-</token>
-                    <token regexp="yes">\d+</token>
-                    <token min="0">-</token>
-                    <token regexp="yes">\d+</token>
-                    <token min="0">-</token>
-                    <token regexp="yes">\d+</token>
-                    <example>ISBN 978-84-01-0174-83</example>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">número|N°|nº|\+|#</token>
-                    <token regexp="yes">\d+</token>
-                    <token regexp="yes" min="0">-|/</token>
-                    <token regexp="yes">\d+</token>
-                    <example>número 50/12</example>
-                </antipattern>
-                <antipattern>
                     <token>ajp</token>
                     <token>.</token>
                     <token postag="DN.*" postag_regexp="yes"/>
@@ -27893,7 +27847,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">\d\d?</token>
                     <token regexp="yes">-|/</token>
                     <token regexp="yes">1[3-9]|[2-9]\d</token>
-                    <!--remove + after d-->
                     <token><match no="1"/></token>
                     <token regexp="yes">\d\d\d\d</token>
                 </pattern>
