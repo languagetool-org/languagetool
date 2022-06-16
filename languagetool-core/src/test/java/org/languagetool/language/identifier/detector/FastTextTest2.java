@@ -16,12 +16,14 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.language;
+package org.languagetool.language.identifier.detector;
 
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.After;
 import org.junit.Test;
+import org.languagetool.language.identifier.detector.FastTextDetector;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -48,11 +50,11 @@ public class FastTextTest2 {
                   );
   private static final int THREAD_COUNT = 11;
 
-  private FastText instance;
+  private FastTextDetector instance;
 
   @Before
   public void setUp() throws IOException {
-    instance = new FastText(new File("lid.176.bin"),
+    instance = new FastTextDetector(new File("lid.176.bin"),
                             new File("fasttext"));
   }
 

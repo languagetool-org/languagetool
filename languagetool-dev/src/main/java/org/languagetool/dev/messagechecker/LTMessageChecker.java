@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.languagetool.JLanguageTool;
@@ -39,7 +40,8 @@ import org.languagetool.tools.StringTools;
 public class LTMessageChecker {
 
   private static final boolean SPELLCHECK_ONLY = false;
-
+  private static final List<String> ruleExceptions = Arrays.asList("DE_CASE", "UPPERCASE_SENTENCE_START");
+  
   public static void main(String[] args) throws Exception {
     if (args.length != 1) {
       System.out.println("Usage: " + LTMessageChecker.class.getSimpleName() + " <langCode> | ALL");
@@ -115,31 +117,41 @@ public class LTMessageChecker {
       // don't require upper case sentence start in description (?)
       // Advanced typography in rule description is not used in production. Here is used to avoid too many positives.
       String ruleDescription = lang.toAdvancedTypography(StringTools.uppercaseFirstChar(r.getDescription()));
-      String textToCheck = message + "\n\n" + shortMessage + "\n\n" + ruleDescription + "\n\n" + corrections;
-      if (!textToCheck.isEmpty()) {
-        List<RuleMatch> matches = lt.check(textToCheck);
-        if (matches.size() > 0) {
-          List<RuleMatch> matchesToShow = new ArrayList<>();
-          for (RuleMatch match : matches) {
-            // if (!match.getRule().getFullId().equals(r.getFullId())) {
-            if (!match.getRule().getId().equals(r.getId())) {
-              matchesToShow.add(match);
-            }
-          }
-          if (matchesToShow.size() > 0) {
-            print("Source: " + r.getFullId());
-            for (RuleMatch match : matchesToShow) {
-              print(lang.toAdvancedTypography(match.getMessage()));
-              print(contextTools.getContext(match.getFromPos(), match.getToPos(), textToCheck));
-              print("");
-            }
-          }
-        }
-      }
+      String textToCheck = message + "\n\n" + shortMessage + "\n\n" + ruleDescription;
+      checkText(textToCheck, lt, lang, r, contextTools, false);
+      checkText(corrections, lt, lang, r, contextTools, true);
     }
     float time = (float) ((System.currentTimeMillis() - start) / 1000.0);
     print("Checked " + lang.getName() + " (" + lang.getShortCodeWithCountryAndVariant() + ") in "
         + String.format("%.2f", time) + " seconds");
+  }
+  
+  void checkText(String textToCheck, JLanguageTool lt, Language lang, Rule r, ContextTools contextTools,
+      boolean isCorrection) throws IOException {
+    if (!textToCheck.isEmpty()) {
+      List<RuleMatch> matches = lt.check(textToCheck);
+      if (matches.size() > 0) {
+        List<RuleMatch> matchesToShow = new ArrayList<>();
+        for (RuleMatch match : matches) {
+          String ruleId = match.getRule().getId();
+          // exceptions for corrections
+          if (isCorrection && ruleExceptions.contains(ruleId)) {
+            continue;
+          }
+          if (!ruleId.equals(r.getId())) {
+            matchesToShow.add(match);
+          }
+        }
+        if (matchesToShow.size() > 0) {
+          print("Source: " + r.getFullId());
+          for (RuleMatch match : matchesToShow) {
+            print(lang.toAdvancedTypography(match.getMessage()));
+            print(contextTools.getContext(match.getFromPos(), match.getToPos(), textToCheck));
+            print("");
+          }
+        }
+      }
+    }
   }
 
 }

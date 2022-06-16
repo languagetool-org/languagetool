@@ -259,6 +259,16 @@ public class VerbAgreementRule extends TextLevelRule {
       new PatternTokenBuilder().token("anbieten").matchInflectedForms().build()
     ),
     Arrays.asList(
+      csToken("Du"),  // "jemanden mit Du anreden"
+      new PatternTokenBuilder().tokenRegex("anreden|ansprechen").matchInflectedForms().build()
+    ),
+    Arrays.asList(
+      posRegex("SUB:.*PLU.*"),
+      token("wie"),  // "Schreibtischtäter wie Du sind doch eher selten."
+      token("Du"),
+      posRegex("VER:3:PLU.*")
+    ),
+    Arrays.asList(
       token("würd"),
       tokenRegex("[nm]ich|man|ichs|'")
     ),
@@ -288,11 +298,11 @@ public class VerbAgreementRule extends TextLevelRule {
     ),
     Arrays.asList(
       pos(JLanguageTool.SENTENCE_START_TAGNAME),  // "Bin gleich wieder da"
-      tokenRegex("Bin|Kannst")
+      tokenRegex("Bin|Kannst|Musst")
     ),
     Arrays.asList(
       token(","),  // "..., hast aber keine Ahnung!"
-      tokenRegex("bin|hast|kannst")
+      tokenRegex("bin|hast|kannst|musst")
     ),
     Arrays.asList(
       token("er"),  // "egal, was er sagen wird, ..."
@@ -674,7 +684,8 @@ public class VerbAgreementRule extends TextLevelRule {
     } else if (posWir > 0 && !isNear(posPossibleVer1Plu, posWir) && !isQuotationMark(tokens[posWir-1])) {
       int plus1 = ((posWir + 1) == tokens.length) ? 0 : +1;
       BooleanAndFiniteVerb check = verbDoesMatchPersonAndNumber(tokens[posWir - 1], tokens[posWir + plus1], "1", "PLU", finiteVerb);
-      if (!check.verbDoesMatchPersonAndNumber && !nextButOneIsModal(tokens, posWir) && !tokens[posWir].isImmunized()) {
+      if (!check.verbDoesMatchPersonAndNumber && !nextButOneIsModal(tokens, posWir) && !tokens[posWir].isImmunized() &&
+          !check.finiteVerb.getToken().equals("äußerst")) {
         ruleMatches.add(ruleMatchWrongVerbSubject(tokens[posWir], check.finiteVerb, "1:PLU", pos, wholeSentence));
       }
     }

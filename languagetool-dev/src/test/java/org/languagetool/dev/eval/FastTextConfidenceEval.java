@@ -20,7 +20,7 @@ package org.languagetool.dev.eval;
 
 import com.google.common.io.CharStreams;
 import org.languagetool.Language;
-import org.languagetool.language.FastText;
+import org.languagetool.language.identifier.detector.FastTextDetector;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,10 +42,10 @@ class FastTextConfidenceEval {
   private static final File MODEL_PATH = new File("/prg/fastText-0.1.0/data/lid.176.bin");
   private static final File BINARY_PATH = new File("/prg/fastText-0.1.0/fasttext");
 
-  private final FastText ft;
+  private final FastTextDetector ft;
 
   private FastTextConfidenceEval() throws IOException {
-    ft = new FastText(MODEL_PATH, BINARY_PATH);
+    ft = new FastTextDetector(MODEL_PATH, BINARY_PATH);
   }
 
   private void evaluate(Language language) throws IOException {

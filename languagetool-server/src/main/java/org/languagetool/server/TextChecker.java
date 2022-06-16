@@ -28,7 +28,8 @@ import org.apache.ibatis.session.RowBounds;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
-import org.languagetool.language.LanguageIdentifier;
+import org.languagetool.language.identifier.LanguageIdentifier;
+import org.languagetool.language.identifier.LanguageIdentifierService;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.*;
@@ -86,8 +87,7 @@ abstract class TextChecker {
   private final Map<String,Integer> languageCheckCounts = new HashMap<>();
   private final Queue<Runnable> workQueue;
   private final RequestCounter reqCounter;
-
-  private final LanguageIdentifier fastTextIdentifier;
+  private LanguageIdentifier languageIdentifier;
   private final ExecutorService executorService;
   private final ResultCache cache;
   private final DatabaseLogger databaseLogger;
@@ -95,18 +95,20 @@ abstract class TextChecker {
   private final Random random = new Random();
   private final Set<DatabasePingLogEntry> pings = new HashSet<>();
   private long pingsCleanDateMillis = System.currentTimeMillis();
-  private LanguageIdentifier ngramIdentifier = null;
   PipelinePool pipelinePool; // mocked in test -> package-private / not final
 
   TextChecker(HTTPServerConfig config, boolean internalServer, Queue<Runnable> workQueue, RequestCounter reqCounter) {
     this.config = config;
     this.workQueue = workQueue;
     this.reqCounter = reqCounter;
-    this.fastTextIdentifier = new LanguageIdentifier();
-    this.fastTextIdentifier.enableFasttext(config.getFasttextBinary(), config.getFasttextModel());
-    if (config.getNgramLangIdentData() != null) {
-      this.ngramIdentifier = new LanguageIdentifier();
-      this.ngramIdentifier.enableNgrams(config.getNgramLangIdentData());
+    if (config.isLocalApiMode()) {
+      this.languageIdentifier = LanguageIdentifierService.INSTANCE.getSimpleLanguageIdentifier(config.preferredLanguages);
+    } else {
+      this.languageIdentifier = LanguageIdentifierService.INSTANCE.getDefaultLanguageIdentifier(
+              0,
+              config.getNgramLangIdentData(),
+              config.getFasttextBinary(),
+              config.getFasttextModel());
     }
     this.executorService = LtThreadPoolFactory.createFixedThreadPoolExecutor(
       LtThreadPoolFactory.TEXT_CHECKER_POOL,
@@ -149,7 +151,7 @@ abstract class TextChecker {
       this.logServerId = null;
     }
 
-    if (cache != null) {
+        if (cache != null && !config.isLocalApiMode()) {
       ServerMetricsCollector.getInstance().monitorCache("languagetool_matches_cache", cache.getMatchesCache());
       ServerMetricsCollector.getInstance().monitorCache("languagetool_remote_matches_cache", cache.getRemoteMatchesCache());
       ServerMetricsCollector.getInstance().monitorCache("languagetool_sentences_cache", cache.getSentenceCache());
@@ -183,10 +185,18 @@ abstract class TextChecker {
     // setting + number of pipelines
     // typical addon settings at the moment (2018-11-05)
     Map<PipelineSettings, Integer> prewarmSettings = new HashMap<>();
-    List<Language> prewarmLanguages = Stream.of(
-      "de-DE", "en-US", "en-GB", "pt-BR", "ru-RU", "es", "it", "fr", "pl-PL", "uk-UA")
-      .map(Languages::getLanguageForShortCode)
-      .collect(Collectors.toList());
+    List<Language> prewarmLanguages = new ArrayList<>();
+    if (config.preferredLanguages.isEmpty()) {
+      prewarmLanguages.addAll(Stream.of(
+                      "de-DE", "en-US", "en-GB", "pt-BR", "ru-RU", "es", "it", "fr", "pl-PL", "uk-UA")
+              .map(Languages::getLanguageForShortCode)
+              .collect(Collectors.toList()));
+    } else {
+      config.preferredLanguages.forEach(s -> {
+        prewarmLanguages.add(Languages.getLanguageForShortCode(s));
+      });
+    }
+
     List<String> addonDisabledRules = Collections.singletonList("WHITESPACE_RULE");
     List<JLanguageTool.Mode> addonModes = Arrays.asList(JLanguageTool.Mode.TEXTLEVEL_ONLY, JLanguageTool.Mode.ALL_BUT_TEXTLEVEL_ONLY);
     UserConfig user = new UserConfig();
@@ -269,6 +279,8 @@ abstract class TextChecker {
               " characters (it's " + length + " characters). Please submit a shorter text.");
     }
     // static because we can't rely on errorRequestLimiter, null when timeoutRequestLimit option not set
+    if (!config.isLocalApiMode()) {
+      
     try {
       RequestLimiter.checkUserLimit(referrer, userAgent, agentId, logServerId, limits);
     } catch(TooManyRequestsException e) {
@@ -296,6 +308,7 @@ abstract class TextChecker {
       }
       log.warn(message);
       return;
+    }
     }
     List<String> dictGroups = null;
     String dictName = "default";
@@ -848,26 +861,20 @@ abstract class TextChecker {
 
   DetectedLanguage detectLanguageOfString(String text, String fallbackLanguage, List<String> preferredVariants,
                                           List<String> noopLangs, List<String> preferredLangs, boolean testMode) {
-    DetectedLanguage detected;
-    //String mode;
-    //long t1 = System.nanoTime();
-    String cleanText = ngramIdentifier != null ? ngramIdentifier.cleanAndShortenText(text) : fastTextIdentifier.cleanAndShortenText(text);
-    if (ngramIdentifier != null && cleanText.length() < NGRAM_THRESHOLD) {
-      detected = ngramIdentifier.detectLanguage(cleanText, noopLangs, preferredLangs);
-      //mode = "ngram";
-    } else {
-      detected = fastTextIdentifier.detectLanguage(cleanText, noopLangs, preferredLangs);
-      //mode = fastTextIdentifier.isFastTextEnabled() ? "fasttext" : "built-in";
-    }
-    //long t2 = System.nanoTime();
-    //float runTime = (t2-t1)/1000.0f/1000.0f;
-    //System.out.printf(Locale.ENGLISH, "detected " + detected + " using " + mode + " in %.2fms for %d chars\n", runTime, text.length());
     Language lang;
+    String cleanText = languageIdentifier.cleanAndShortenText(text);
+    DetectedLanguage detected = languageIdentifier.detectLanguage(cleanText, noopLangs, preferredLangs);
     if (detected == null) {
       lang = parseLanguage(fallbackLanguage != null ? fallbackLanguage : "en");
     } else {
       lang = detected.getDetectedLanguage();
     }
+    //String mode;
+    //long t1 = System.nanoTime();
+    //long t2 = System.nanoTime();
+    //float runTime = (t2-t1)/1000.0f/1000.0f;
+    //System.out.printf(Locale.ENGLISH, "detected " + detected + " using " + mode + " in %.2fms for %d chars\n", runTime, text.length());
+    
     if (preferredVariants.size() > 0) {
       for (String preferredVariant : preferredVariants) {
         if (!preferredVariant.contains("-")) {

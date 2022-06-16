@@ -176,6 +176,11 @@ public class HTTPServerConfig {
   protected int abTestRollout = 100; // percentage [0,100]
   protected File ngramLangIdentData;
 
+    //User Settings for local-api
+  protected boolean localApiMode = false;
+  protected String motherTongue = "en-US";
+  protected List<String> preferredLanguages = new ArrayList<>();
+  
   private static final List<String> KNOWN_OPTION_KEYS = Arrays.asList("abTest", "abTestClients", "abTestRollout",
     "beolingusFile", "blockedReferrers", "cacheSize", "cacheTTLSeconds",
     "dbDriver", "dbPassword", "dbUrl", "dbUsername", "disabledRuleIds", "fasttextBinary", "fasttextModel", "grammalectePassword",
@@ -194,7 +199,7 @@ public class HTTPServerConfig {
     "premiumAlways",
     "redisPassword", "redisHost", "redisCertificate", "redisKey", "redisKeyPassword",
     "redisUseSentinel", "sentinelHost", "sentinelPort", "sentinelPassword", "sentinelMasterId",
-    "dbLogging", "premiumOnly", "nerUrl", "minPort", "maxPort" );
+    "dbLogging", "premiumOnly", "nerUrl", "minPort", "maxPort", "localApiMode", "motherTongue", "preferredLanguages");
 
   /**
    * Create a server configuration for the default port ({@link #DEFAULT_PORT}).
@@ -456,6 +461,12 @@ public class HTTPServerConfig {
         }
         slowRuleLoggingThreshold = Integer.valueOf(getOptionalProperty(props, "slowRuleLoggingThreshold", "-1"));
         disabledRuleIds = Arrays.asList(getOptionalProperty(props, "disabledRuleIds", "").split(",\\s*"));
+        localApiMode = Boolean.parseBoolean(getOptionalProperty(props, "localApiMode", "false"));
+        motherTongue = getOptionalProperty(props, "motherTongue", "en-US");
+        String preferredLanguages = getOptionalProperty(props, "preferredLanguages", "").replace(" ", "");
+        if (preferredLanguages != "") {
+          this.preferredLanguages = Arrays.asList(preferredLanguages.split(","));
+        }
         globalConfig.setGrammalecteServer(getOptionalProperty(props, "grammalecteServer", null));
         globalConfig.setGrammalecteUser(getOptionalProperty(props, "grammalecteUser", null));
         globalConfig.setGrammalectePassword(getOptionalProperty(props, "grammalectePassword", null));
@@ -1465,6 +1476,20 @@ public class HTTPServerConfig {
   public void setRedisKeyPassword(String redisKeyPassword) {
     this.redisKeyPassword = redisKeyPassword;
   }
-  
-  public String getPasswortLoginAccessListPath() { return passwortLoginAccessListPath; }
+
+  public String getPasswortLoginAccessListPath() {
+    return passwortLoginAccessListPath;
+  }
+
+  public boolean isLocalApiMode() {
+    return localApiMode;
+  }
+
+  public String getMotherTongue() {
+    return motherTongue;
+  }
+
+  public List<String> getPreferedLanguages() {
+    return preferredLanguages;
+  }
 }

@@ -19,7 +19,8 @@
 package org.languagetool.dev;
 
 import org.languagetool.DetectedLanguage;
-import org.languagetool.language.LanguageIdentifier;
+import org.languagetool.language.identifier.LanguageIdentifier;
+import org.languagetool.language.identifier.LanguageIdentifierService;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -41,8 +42,7 @@ public class FilterFileByLanguage {
     String expectedLang = args[0];
     File input = new File(args[1]);
     File output = new File(input.getAbsoluteFile() + ".filtered");
-    LanguageIdentifier ident = new LanguageIdentifier();
-    ident.enableFasttext(new File(fastTextBinary), new File(fastTextModel));
+    LanguageIdentifier ident = LanguageIdentifierService.INSTANCE.getDefaultLanguageIdentifier(0, null, new File(fastTextBinary), new File(fastTextModel));
     Scanner sc = new Scanner(input);
     int skipCount = 0;
     try (FileWriter fw = new FileWriter(output)) {

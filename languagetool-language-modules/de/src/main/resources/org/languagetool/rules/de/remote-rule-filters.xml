@@ -40,17 +40,28 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <example correction="">Bitte hilf <marker>mit</marker>, die fehlenden Informationen zu recherchieren und einzufügen</example>
             <example correction="">Schreiben Sie das bitte <marker>mit</marker>.</example>
         </rule>
-        <rule id="AI_DE_HYDRA_LEO_CASE_UPPER" name="">
-            <!-- no upper for mRNA, iPhone etc. -->
-            <pattern>
-                <marker>
-                    <token regexp="yes" case_sensitive="yes">[a-zäöüß][A-ZÄÖÜẞ-].*</token>
-                </marker>
-            </pattern>
-            <example correction="">Das <marker>iPhone</marker> XR ist das günstigste der drei neuen Modelle.</example>
-            <example correction="">An eine <marker>mRNA</marker> können sich aber mehrere Ribosomen zugleich anlagern und jeweils eine Polypeptidkette synthetisieren.</example>
-            <example correction="">Es handelt sich um einen <marker>mRNA-Impfstoff</marker>.</example>
-        </rule>
+        <rulegroup id="AI_DE_HYDRA_LEO_CASE_UPPER" name="">
+            <rule>
+                <!-- no upper for mRNA, iPhone etc. -->
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">[a-zäöüß]+[A-ZÄÖÜẞ-].*</token>
+                </pattern>
+                <example correction="">Das <marker>iPhone</marker> XR ist das günstigste der drei neuen Modelle.</example>
+                <example correction="">An eine <marker>mRNA</marker> können sich aber mehrere Ribosomen zugleich anlagern und jeweils eine Polypeptidkette synthetisieren.</example>
+            </rule>
+            <rule>
+                <!-- no upper for mRNA, iPhone etc. -->
+                <regexp case_sensitive="yes" mark="1">\b([a-zäöüß]+[A-ZÄÖÜ][a-zäöüßA-ZÄÖÜ]+)-</regexp>
+                <example correction="">Eine <marker>mRNA</marker>-Spritze</example>
+                <example correction="">Es handelt sich um einen <marker>mRNA</marker>-Impfstoff.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">n[ao]ch|vor|von|bis|bevor|telefonisch|umfangreichsten|verantwortungsvoll.*|a[mn]|ß|h|zu[mr]?|mit|ohne|eine?|im</token>
+                </pattern>
+                <example correction="">Ich laufe <marker>nach</marker> vorne.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AI_DE_HYDRA_LEO_CASE_LOWER" name="">
             <rule>
                 <pattern>
@@ -132,8 +143,55 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Sie sieht durch seine Aussagen „<marker>Das</marker> Gemeinwohl wieder mehr im Mittelpunkt“ stehend.</example>
             </rule>
+            <rule>
+                <regexp mark="2" case_sensitive="yes">\.(de|at|ch|lu|com|it|dk|nl|net|org|eu|biz|info|es|uk)/([A-Z][a-zäöüß]+)\b</regexp>
+                <example correction="">Wir informieren Sie unter www.deutsche-rentenversicherung.de/<marker>Datenschutzinformationen</marker>.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_DE_HYDRA_LEO_MISSING_COMMA.*" name="">
+            <rule><!-- avoid loop MC_2 w/ FEHLERHAFTES_KOMMA_ALLG[1] -->
+                <pattern>
+                    <token postag="VER:(MOD|AUX).*" postag_regexp="yes"/>
+                    <token skip="-1">
+                        <exception scope="next" postag="PKT|VER.*" postag_regexp="yes"/>
+                        <exception postag="PKT|VER.*" postag_regexp="yes"/>
+                    </token>
+                    <marker>
+                        <token postag="SUB.*" postag_regexp="yes"/>
+                    </marker>
+                    <token regexp="yes">besonders|insbesondere</token>
+                    <token skip="-1">
+                        <exception scope="next" postag="PKT"/>
+                        <exception postag="PKT"/>
+                    </token>
+                    <token postag="VER:INF.*" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">Das Virus könnte sich in den <marker>Sommermonaten</marker> besonders auf Massenveranstaltungen verbreiten.</example>
+            </rule>
+             <rule>
+                <pattern>
+                    <token>,</token>
+                    <token regexp="yes">besonders|insbesondere</token>
+                    <token skip="-1">
+                        <exception scope="next" postag="PKT|VER.*" postag_regexp="yes"/>
+                        <exception postag="PKT|VER.*" postag_regexp="yes"/>
+                    </token>
+                    <marker>
+                        <token postag="SUB.*" postag_regexp="yes"/>
+                    </marker>
+                    <token postag="VER:INF.*" postag_regexp="yes"></token>
+                </pattern>
+                <example correction="">Das Virus könnte sich in den Sommermonaten, besonders auf <marker>Massenveranstaltungen</marker> verbreiten.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>zuwider</token>
+                    </marker>
+                    <token postag="VER.*:[123]:.*" postag_regexp="yes" />
+                </pattern>
+                <example correction="">Der Wahrheit <marker>zuwider</marker> wird dies behauptet.</example>
+            </rule>
             <rule>
                 <pattern>
                     <marker>
@@ -271,6 +329,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Die Stadt hat eine Größe von ungefähr <marker>1000</marker> Quadratkilometern.</example>
                 <example correction="">Mit mehr als <marker>111</marker> Millionen Tagesbesuchern jährlich ist Hamburg eines der attraktivsten Tourismusziele in Deutschland.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="PRP.*" postag_regexp="yes" />
+                    </marker>
+                    <token regexp="yes">\d.*</token>
+                    <token regexp="yes">₿|¢|$|€|₤|₱|₽|₪|₩|¥|bits?|bytes?|cents?|centimetern?|dezilitern?|dezimetern?|dl|dm|.*dollar|euros?|franken|gb|gigabytes?|gramm|[kmg]w|ha|hektar|jahr(e|en)?|jahrzehnt(e|en)?|kilobytes?|kilogramm|kilometern?|km|kr|kronen?|kubikmetern?|litern?|mark|m|mb|megabits|megabytes?|metern?|mg|milligramm|millilitern?|millimetern?|million(en)?|milliard(e|en)?|minuten?|mio|ml|mm|monat(e|en)?|mrd|pesos?|pfund|pikogramm|pg|promille|prozent|quadratkilometern?|quadratmetern?|rappen?|rubel|sekunden?|stunden?|tag(e|en)?|tausend|tonnen?|wochen?|yen|zentimetern?|gw</token>
+                </pattern>
+                <example correction=""><marker>Mit</marker> 111 Millionen Tagesbesuchern jährlich ist Hamburg eines der attraktivsten Tourismusziele in Deutschland.</example>
             </rule>
             <rule><!-- A. Merkel | E. T. A. Hoffmann | S. Band 3 ... -->
                 <pattern>
@@ -611,6 +679,64 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     </marker>
                 </pattern>
                 <example correction="">Er spielt halt oft die Pässe, die einen Angriff einleiten (was von <marker>Links Außen</marker> schwer ist).</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>Tag</token>
+                        <token regexp="yes">Managers?</token>
+                    </marker>
+                </pattern>
+                <example correction="">Ein <marker>Tag Manager</marker> macht Ihnen Ihr Leben leichter!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>Burg</token>
+                        <token regexp="yes">Wächters?</token>
+                    </marker>
+                </pattern>
+                <example correction=""><marker>Burg Wächter</marker> ist ein Unternehmen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>Brandenburger</token>
+                        <token>Tor</token>
+                    </marker>
+                </pattern>
+                <example correction="">Das ist nur 200 Meter vom <marker>Brandenburger Tor</marker> entfernt.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>Region</token>
+                    <marker>
+                        <token regexp="yes">West|Ost|Süd|Nord</token>
+                        <token />
+                    </marker>
+                </pattern>
+                <example correction="">Ich arbeite in der Region <marker>Nord Niedersachsen</marker>.</example>
+            </rule>
+            <rule><!-- Eigenname -->
+                <pattern>
+                    <marker>
+                        <token>Grün</token>
+                        <token>Stadt</token>
+                    </marker>
+                    <token>Zürich</token>
+                </pattern>
+                <example correction="">Ich arbeite bei der <marker>Grün Stadt</marker> Zürich.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">[A-ZÄÖÜ].+</token>
+                        <token regexp="yes">[A-ZÄÖÜ].+</token>
+                    </marker>
+                    <token regexp="yes" min="0">[A-ZÄÖÜ].+</token>
+                    <token regexp="yes">GmbH|AG|UG|Holding|Gruppe</token>
+                </pattern>
+                <example correction=""><marker>Auto Zentrum</marker> GmbH</example>
             </rule>
         </rulegroup>
         <rulegroup id="AI_DE_HYDRA_LEO_MISSING_PERIOD" name="">

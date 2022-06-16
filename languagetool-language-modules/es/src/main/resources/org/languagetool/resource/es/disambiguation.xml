@@ -183,7 +183,23 @@ Copyright (C) 2011 Juan Martorell
                 <wd pos="_QM_OPEN"/>
             </disambig>
         </rule>
+        <rule id="QM_OPEN2" name="comillas apertura">
+            <pattern>
+                <token postag="SENT_START"/>
+                <marker>
+                    <token spacebefore="no">"</token>
+                </marker>
+                <token spacebefore="no"/>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_QM_OPEN"/>
+            </disambig>
+        </rule>
         <rule id="QM_CLOSE" name="comillas de cierre">
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token spacebefore="no">"</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token regexp="yes" spacebefore="no">['"’”»]</token>
@@ -1822,6 +1838,26 @@ Copyright (C) 2011 Juan Martorell
                 </marker>
             </pattern>
             <disambig action="filter" postag="N.*"/>
+        </rule>
+    </rulegroup>
+    <rulegroup id="no_verbo" name="not verb">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="NCFP000" regexp="yes">acciones|redes|cuestiones</token>
+                </marker>
+                <token regexp="yes">de|del</token>
+            </pattern>
+            <disambig action="filter" postag="NCFP000"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="NCFP000" regexp="yes">acciones|redes|cuestiones</token>
+                </marker>
+                <token postag="A..[FC][PN].|V.P..PF" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="NCFP000"/>
         </rule>
     </rulegroup>
     <rulegroup id="causa_efecto" name="causa-efecto (noun not verb)">

@@ -358,10 +358,6 @@
                 <artifactId>maven-surefire-plugin</artifactId>
             </plugin>
             <plugin>
-                <groupId>pl.project13.maven</groupId>
-                <artifactId>git-commit-id-plugin</artifactId>
-            </plugin>
-            <plugin>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>${maven-jar-plugin.version}</version>
                 <configuration>
@@ -422,4 +418,34 @@
             </extension>
         </extensions>
     </build>
+    <profiles>
+        <profile>
+            <id>jdk17</id>
+            <activation>
+                <jdk>[11,)</jdk>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.github.git-commit-id</groupId>
+                        <artifactId>git-commit-id-maven-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>jdk8</id>
+            <activation>
+                <jdk>(,8)</jdk>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>pl.project13.maven</groupId>
+                        <artifactId>git-commit-id-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

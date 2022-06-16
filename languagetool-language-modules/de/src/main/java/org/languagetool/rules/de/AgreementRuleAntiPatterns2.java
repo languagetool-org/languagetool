@@ -566,6 +566,11 @@ class AgreementRuleAntiPatterns2 {
       token("Museum")
     ),
     Arrays.asList(
+      token("Auto"),
+      token("Club"),
+      token("Europa")
+    ),
+    Arrays.asList(
       token("Queen"),
       posRegex("EIG:.*")
     ),

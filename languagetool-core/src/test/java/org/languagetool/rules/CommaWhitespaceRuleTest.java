@@ -60,6 +60,9 @@ public class CommaWhitespaceRuleTest {
     assertMatches("I'd recommend resaving the .DOC as a PDF file.", 0);
     assertMatches("I'd recommend resaving the .mp3 as a WAV file.", 0);
     assertMatches("I'd suggest buying the .org domain.", 0);
+    assertMatches(". This isn't good.", 0);  // strange, but complaining without having a suggestions also doesn't help much...
+    assertMatches("), this isn't good.", 0);  // strange, but complaining without having a suggestions also doesn't help much...
+    assertMatches("Das sind .exe-Dateien", 0);  // German, but the exception might be useful for other languages
     assertMatches("I live in .Los Angeles", 1);
 
     // errors:

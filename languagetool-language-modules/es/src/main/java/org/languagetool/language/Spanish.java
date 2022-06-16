@@ -214,6 +214,7 @@ public class Spanish extends Language implements AutoCloseable {
       case "SE_CREO": return 35; // greater than DIACRITICS --> or less than DIACRITICS_VERB_N_ADJ ????
       case "DIACRITICS": return 30;
       case "POR_CIERTO": return 30;
+      case "DEGREE_CHAR": return 30; // greater than SPACE_UNITIES
       case "LO_LOS": return 30;
       case "ES_SIMPLE_REPLACE": return 30; // greater than typography rules
       case "ETCETERA": return 30; // greater than other typography rules
