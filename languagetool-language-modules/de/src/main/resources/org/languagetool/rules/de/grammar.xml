@@ -13472,6 +13472,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
         <rule id="DANKE_SCHOEN" name="dankeschön (danke schön)" default="temp_off">
             <antipattern>
+                <token regexp="yes">.*gross.*</token>
+                <token case_sensitive="yes">dankeschön</token>
+                <example>Ein megagrosses dankeschon an euch!</example>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">ein|das</token>
+                <token min="0" postag="ADJ:.*" postag_regexp="yes"/>
+                <token case_sensitive="yes">dankeschön</token>
+                <example>Ich möchte euch noch ein kleines dankeschön aussprechen.</example>
+            </antipattern>
+            <antipattern>
                 <token regexp="yes">ein|das</token>
                 <token min="0" postag="ADJ:.*" postag_regexp="yes"/>
                 <token case_sensitive="yes">Dankeschön</token>
