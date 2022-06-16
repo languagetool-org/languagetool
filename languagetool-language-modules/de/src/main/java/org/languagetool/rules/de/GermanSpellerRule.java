@@ -2660,6 +2660,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "irgendeins": return topMatch("irgendeines");
       case "Communities": return topMatch("Communitys");
       case "Spass": return topMatch("Spaß");
+      case "garkein": return topMatch("gar kein");
+      case "garkeine": return topMatch("gar keine");
+      case "garkeinen": return topMatch("gar keinen");
       case "umgangsprachlich": return topMatch("umgangssprachlich");
     }
     return Collections.emptyList();

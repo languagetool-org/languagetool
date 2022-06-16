@@ -13747,7 +13747,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token case_sensitive="yes" regexp="yes">[Dd]rauf</token>
                 <token min="0">zu</token>
-                <token regexp="yes" inflected="yes">gehen|klicken|knallen|schauen|hauen|schlagen|gucken|stehen|halten|schreiben|kritzeln|malen|packen|schrauben|satteln|legen|springen|hämmern</token>
+                <token regexp="yes" inflected="yes">gehen|klicken|knallen|schauen|hauen|schlagen|gucken|stehen|halten|schreiben|kritzeln|malen|packen|schrauben|satteln|legen|springen|hämmern|zahlen</token>
             </pattern>
             <message>Das Verb <suggestion>\1<match no="2" case_conversion="alllower" /><match no="3" case_conversion="alllower" /></suggestion> wird in der Regel zusammengeschrieben.</message>
             <example correction="draufgeklickt">Ich habe auf den Link <marker>drauf geklickt</marker>.</example>
@@ -16019,6 +16019,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Du musst größer schreiben.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token inflected="yes">schreiben</token>
+                    <token regexp="yes">sie|wir|beide|alle|viele</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" skip="-1">schreiben</token>
+                    <token regexp="yes" inflected="yes">Geschichte|Buch|Roman|Lied</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" skip="-1" inflected="yes">Geschichte|Buch|Roman|Lied</token>
+                    <token inflected="yes">schreiben</token>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <token>zusammen<exception scope="previous" postag=".*DAT.*" postag_regexp="yes"/></token>
                     <token inflected="yes">schreiben</token>
@@ -16027,6 +16039,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>\1\2</suggestion>
                 <example correction="zusammengeschrieben">Zusammenschreiben wird <marker>zusammen geschrieben</marker>.</example>
                 <example>Wir haben Oma zusammen geschrieben.</example>
+                <example>Zusammen schreiben wir Geschichte!</example>
+                <example>Tom und ich haben ein Buch zusammen geschrieben.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ALLEINLASSEN" name="allein lassen (alleinlassen)">
@@ -28395,7 +28409,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
-        <rule id="ACH_UND_KRACH" name="mit ach (Ach) und krach (Krach)" default="temp_off">
+        <rule id="ACH_UND_KRACH" name="mit ach (Ach) und krach (Krach)">
             <antipattern case_sensitive="yes">
                 <token regexp="yes">Ach|ACH</token>
                 <token regexp="yes">und|UND|&amp;</token>
@@ -28420,7 +28434,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message><suggestion>Default</suggestion> ist ein Nomen und sollte auch in der Redewendung "per Default" großgeschrieben werden.</message>
             <example correction="Default">Das ist per <marker>default</marker> aktiviert.</example>
         </rule>
-        <rule id="BIKE_SUBST" name="ein bike (Bike) radeln" default="temp_off">
+        <rule id="BIKE_SUBST" name="ein bike (Bike) radeln">
             <pattern>
                 <token postag="(PRO:POS|ART):.*NEU.*" postag_regexp="yes" />
                 <token postag="(ADJ|PA[12]):.*NEU.*" postag_regexp="yes" min="0" regexp="yes" case_sensitive="yes">
@@ -49897,6 +49911,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
+        <rule id="DE_FACTO" name="de Fakto (facto)" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">FACTO|facto</token>
+            </antipattern>
+            <antipattern>
+                <token>de</token>
+                <token case_sensitive="yes">Faktor</token>
+            </antipattern>
+            <pattern>
+                <token>de</token>
+                <token regexp="yes">fa(ck|c|k)tor?</token>
+            </pattern>
+            <message>Die korrekte Schreibweise lautet <suggestion>\1 facto</suggestion>.</message>
+            <url>https://de.wiktionary.org/wiki/de_facto</url>
+            <example correction="de facto"> Der Sieger der Wahl stand <marker>de Fakto</marker> schon vor der Wahl fest.</example>
+        </rule>
         <rule id="ZWECKS_TERMIN" name="zwecks Termin (eines Termins)">
             <antipattern>
                 <token>Termin</token>
@@ -57986,17 +58016,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>jeweilig</token>
                 </pattern>
-                <message>Diese Form des Adjektivs '\1' ist sehr ungebräuchlich. Meinten Sie das Adverb <suggestion>jeweils</suggestion> oder das Adjektiv in der Form <suggestion>\1e</suggestion> oder einer anderen flektierten Form?</message>
-                <example correction="jeweils|jeweilige">Das <marker>jeweilig</marker> Adäquate wird unternommen.</example>
+                <message>Diese Form des Adjektivs '\1' ist sehr ungebräuchlich. Meinten Sie das Adverb <suggestion>jeweils</suggestion>?</message>
+                <example correction="jeweils">Das <marker>jeweilig</marker> Adäquate wird unternommen.</example>
             </rule>
             <rule>
                 <pattern>
                     <token>sofortig</token>
                 </pattern>
-                <message>Diese Form des Adjektivs '\1' ist sehr ungebräuchlich. Meinten Sie das Adverb <suggestion>sofort</suggestion> oder das Adjektiv in der Form <suggestion>\1e</suggestion> oder einer anderen flektierten Form?</message>
+                <message>Diese Form des Adjektivs '\1' ist sehr ungebräuchlich. Meinten Sie das Adverb <suggestion>sofort</suggestion> oder <suggestion>unverzüglich</suggestion>?</message>
                 <example>Die Wirkung tritt <marker>sofort</marker> ein.</example>
                 <example>Das gilt mit <marker>sofortiger</marker> Wirkung.</example>
-                <example correction="sofort|sofortige">Die Wirkung ist <marker>sofortig</marker>.</example>
+                <example correction="sofort|unverzüglich">Die Wirkung ist <marker>sofortig</marker>.</example>
             </rule>
             <rule>
                 <pattern>
@@ -58010,17 +58040,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>einstig</token>
                 </pattern>
-                <message>Diese Form des Adjektivs '\1' ist sehr ungebräuchlich. Meinten Sie das Adverb <suggestion>einst</suggestion>, das Nomen <suggestion>Einstieg</suggestion> oder das Adjektiv in der Form <suggestion>\1e</suggestion> oder einer anderen flektierten Form?</message>
+                <message>Diese Form des Adjektivs '\1' ist sehr ungebräuchlich. Meinten Sie das Adverb <suggestion>einst</suggestion>, das Adverb <suggestion>ehemalig</suggestion> oder das Nomen <suggestion>Einstieg</suggestion>?</message>
                 <example>Die Nachfahren der <marker>einstigen</marker> Bewohner leben in Reservaten.</example>
-                <example correction="einst|Einstieg|einstige">Die Welt war <marker>einstig</marker> von wilden Wesen bevölkert.</example>
+                <example correction="einst|ehemalig|Einstieg">Die Welt war <marker>einstig</marker> von wilden Wesen bevölkert.</example>
             </rule>
             <rule>
                 <pattern>
                     <token>etwaig</token>
                 </pattern>
-                <message>Diese Form des Adjektivs '\1' ist sehr ungebräuchlich. Meinten Sie das Adverb <suggestion>etwa</suggestion> oder das Adjektiv in der Form <suggestion>\1e</suggestion> oder einer anderen flektierten Form?</message>
+                <message>Diese Form des Adjektivs '\1' ist sehr ungebräuchlich. Meinten Sie das Adverb <suggestion>etwa</suggestion> oder das Adverb <suggestion>eventuell</suggestion>?</message>
                 <example>Bei <marker>etwaigen</marker> Verstößen</example>
-                <example correction="etwa|etwaige">Sollte dagegen <marker>etwaig</marker> verstoßen werden</example>
+                <example correction="etwa|eventuell">Sollte dagegen <marker>etwaig</marker> verstoßen werden</example>
             </rule>
         </rulegroup>
         <rulegroup id="VIELZAHL_PLUS_SINGULAR" name="'eine Vielzahl von Möglichkeit (Möglichkeiten)' etc. (falscher Singular)">
@@ -58780,7 +58810,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Redewendungen -->
     <!-- ====================================================================== -->
     <category id="IDIOMS" name="Redewendungen">
-        <rulegroup id="IM_SCHACH_HALTEN" name="im (in) Schach halten" default="temp_off">
+        <rulegroup id="IM_SCHACH_HALTEN" name="im (in) Schach halten">
             <url>https://de.wiktionary.org/wiki/in_Schach_halten</url>
             <rule>
                 <pattern>
@@ -59709,6 +59739,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Zeichensetzung -->
     <!-- ====================================================================== -->
     <category id="PUNCTUATION" name="Zeichensetzung">
+        <rule id="HOFFE_DEIN_TAG_WAR_KOMMA" name="hoffe(,) dein Tag war gut" default="temp_off">
+            <antipattern>
+                <token>glaube</token>
+                <token>selbst</token>
+            </antipattern>
+            <antipattern>
+                <token>glaube</token>
+                <token>ich</token>
+                <token postag="PRO.*|PRP.*|EIG.*|ART.*" postag_regexp="yes" />
+            </antipattern>
+            <pattern>
+                <token postag="PKT|SENT_START" postag_regexp="yes" />
+                <token regexp="yes">hoffe|denke|glaube</token>
+                <marker>
+                    <token postag="ART.*|PRO.*|EIG.*" postag_regexp="yes" skip="3">
+                        <exception scope="next" regexp="yes">[\-–,;:\(\)\]\[\/]|zu|dass|und|oder|&amp;</exception>
+                    </token>
+                </marker>
+                <token postag="VER.*" postag_regexp="yes">
+                    <exception postag="PRO.*|ADV.*|ART.*" postag_regexp="yes" />
+                </token>
+            </pattern>
+            <message>Hier scheint ein Komma zu fehlen.</message>
+            <suggestion>, \3</suggestion>
+            <example correction=", es">Hoffe<marker> es</marker> geht euch gut!</example>
+        </rule>
         <rule id="SOFERN_KOMMA" name="Komma vor 'sofern'">
             <antipattern>
                 <token>in</token>
@@ -67597,6 +67653,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token postag="SENT_START|PKT" postag_regexp="yes" skip="4" />
+                    <token skip="-1" regexp="yes">&fragewoerter;|welche[rs]?
+                        <exception regexp="yes">,|;|:|-|–</exception>
+                    </token>
+                    <token>?</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="KON:NEB" />
+                    <token skip="-1" regexp="yes">&fragewoerter;|welche[rs]?
+                        <exception regexp="yes">,|;|:|-|–</exception>
+                    </token>
+                    <token>?</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">,|;|:|-|–</token>
+                    <token postag="ADV.*" postag_regexp="yes" min="0" />
                     <token skip="-1" regexp="yes">&fragewoerter;|welche[rs]?
                         <exception regexp="yes">,|;|:|-|–</exception>
                     </token>

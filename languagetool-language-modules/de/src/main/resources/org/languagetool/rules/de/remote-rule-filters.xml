@@ -330,6 +330,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Die Stadt hat eine Größe von ungefähr <marker>1000</marker> Quadratkilometern.</example>
                 <example correction="">Mit mehr als <marker>111</marker> Millionen Tagesbesuchern jährlich ist Hamburg eines der attraktivsten Tourismusziele in Deutschland.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="PRP.*" postag_regexp="yes" />
+                    </marker>
+                    <token regexp="yes">\d.*</token>
+                    <token regexp="yes">₿|¢|$|€|₤|₱|₽|₪|₩|¥|bits?|bytes?|cents?|centimetern?|dezilitern?|dezimetern?|dl|dm|.*dollar|euros?|franken|gb|gigabytes?|gramm|[kmg]w|ha|hektar|jahr(e|en)?|jahrzehnt(e|en)?|kilobytes?|kilogramm|kilometern?|km|kr|kronen?|kubikmetern?|litern?|mark|m|mb|megabits|megabytes?|metern?|mg|milligramm|millilitern?|millimetern?|million(en)?|milliard(e|en)?|minuten?|mio|ml|mm|monat(e|en)?|mrd|pesos?|pfund|pikogramm|pg|promille|prozent|quadratkilometern?|quadratmetern?|rappen?|rubel|sekunden?|stunden?|tag(e|en)?|tausend|tonnen?|wochen?|yen|zentimetern?|gw</token>
+                </pattern>
+                <example correction=""><marker>Mit</marker> 111 Millionen Tagesbesuchern jährlich ist Hamburg eines der attraktivsten Tourismusziele in Deutschland.</example>
+            </rule>
             <rule><!-- A. Merkel | E. T. A. Hoffmann | S. Band 3 ... -->
                 <pattern>
                     <token regexp="yes">\p{Lu}</token>
